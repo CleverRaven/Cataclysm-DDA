@@ -67,9 +67,6 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("tshirt", CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP("rag", 5);
 
-  RECIPE("tshirt_fit", CC_NONCRAFT, "tailor", NULL, 0, 500, true);
-  COMP("rag", 5);
-
   RECIPE("tank_top", CC_NONCRAFT, "tailor", NULL, 0, 500, true);
   COMP("rag", 5);
 
@@ -112,12 +109,15 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOL("hatchet", -1);
   TG_KNIVES_CONT
   TOOL("fire", -1);
+  TOOLCONT("toolset", 1);
+  TOOLCONT("hotplate", 4);
   COMP("spear_wood", 1);
   COMP("rag", 1);
   COMPCONT("leather", 1);
   COMPCONT("fur", 1);
   COMP("plant_fibre", 20);
   COMPCONT("sinew", 20);
+  COMPCONT("thread", 20);
 
   RECIPE("spear_knife", CC_WEAPON, "stabbing", NULL, 0, 600, true);
   COMP("stick", 1);
@@ -195,6 +195,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("revolver_shotgun", CC_WEAPON, "gun", "mechanics", 2, 6000, false);
   TOOL("hacksaw", -1);
   TOOLCONT("toolset", -1);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 30);
   TOOLCONT("toolset", 3);
   COMP("shotgun_s", 1);
@@ -1156,7 +1157,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("scrap", 4);
   COMP("cable", 10);
 
-  RECIPE("bio_battery", CC_ELECTRONIC, "electronics", NULL, 6, 50000, true);
+  RECIPE("bio_power_storage", CC_ELECTRONIC, "electronics", NULL, 6, 50000, true);
   TOOL("screwdriver", -1);
   TOOLCONT("toolset", -1);
   TOOL("soldering_iron", 20);
@@ -1192,8 +1193,8 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("sewing_kit",  5);
   COMP("fur", 2);
 
-  RECIPE("boots_fit", CC_ARMOR, "tailor", NULL, 2, 35000, false);
-  TOOL("needle_bone", 5);
+  RECIPE("boots", CC_ARMOR, "tailor", NULL, 2, 35000, false);
+  TOOL("needle_bone", 10);
   TOOLCONT("sewing_kit", 10);
   COMP("leather", 7);
 
@@ -1216,17 +1217,17 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("sewing_kit", 12);
   COMP("rag", 6);
 
-  RECIPE("jeans_fit", CC_ARMOR, "tailor", NULL, 2, 45000, false);
+  RECIPE("jeans", CC_ARMOR, "tailor", NULL, 2, 45000, false);
   TOOL("needle_bone", 10);
   TOOLCONT("sewing_kit", 10);
   COMP("rag", 6);
 
-  RECIPE("pants_cargo_fit", CC_ARMOR, "tailor", NULL, 3, 48000, false);
+  RECIPE("pants_cargo", CC_ARMOR, "tailor", NULL, 3, 48000, false);
   TOOL("needle_bone", 16);
   TOOLCONT("sewing_kit", 16);
   COMP("rag", 8);
 
-  RECIPE("long_underpants_fit", CC_ARMOR, "tailor", "survival", 3, 35000, false);
+  RECIPE("long_underpants", CC_ARMOR, "tailor", "survival", 3, 35000, false);
   TOOL("needle_bone", 15);
   TOOLCONT("sewing_kit", 15);
   COMP("rag", 10);
@@ -1236,27 +1237,27 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("sewing_kit", 10);
   COMP("leather", 10);
 
-  RECIPE("tank_top_fit", CC_ARMOR, "tailor", NULL, 2, 38000, true);
+  RECIPE("tank_top", CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL("needle_bone", 4);
   TOOLCONT("sewing_kit", 4);
   COMP("rag", 4);
 
-  RECIPE("tshirt_fit", CC_ARMOR, "tailor", NULL, 2, 38000, true);
+  RECIPE("tshirt", CC_ARMOR, "tailor", NULL, 2, 38000, true);
   TOOL("needle_bone", 4);
   TOOLCONT("sewing_kit", 4);
   COMP("rag", 5);
 
-  RECIPE("hoodie_fit", CC_ARMOR, "tailor", NULL, 3, 40000, false);
+  RECIPE("hoodie", CC_ARMOR, "tailor", NULL, 3, 40000, false);
   TOOL("needle_bone", 14);
   TOOLCONT("sewing_kit", 14);
   COMP("rag", 12);
 
-  RECIPE("trenchcoat_fit", CC_ARMOR, "tailor", NULL, 3, 42000, false);
+  RECIPE("trenchcoat", CC_ARMOR, "tailor", NULL, 3, 42000, false);
   TOOL("needle_bone", 24);
   TOOLCONT("sewing_kit", 24);
   COMP("rag", 11);
 
-  RECIPE("trenchcoat_leather_fit", CC_ARMOR, "tailor", NULL, 6, 200000, false);
+  RECIPE("trenchcoat_leather", CC_ARMOR, "tailor", NULL, 6, 200000, false);
   TOOL("needle_bone", 45);
   TOOLCONT("sewing_kit", 45);
   COMP("leather", 22);
@@ -1266,13 +1267,13 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("sewing_kit", 20);
   COMP("fur", 10);
 
-  RECIPE("jacket_leather_fit", CC_ARMOR, "tailor", NULL, 5, 150000, false);
+  RECIPE("jacket_leather", CC_ARMOR, "tailor", NULL, 5, 150000, false);
   TOOL("needle_bone", 30);
   TOOLCONT("sewing_kit", 30);
   COMP("leather", 16);
 
 
-  RECIPE("gloves_liner_fit", CC_ARMOR, "tailor", NULL, 1, 10000, false);
+  RECIPE("gloves_liner", CC_ARMOR, "tailor", NULL, 1, 10000, false);
   TOOL("needle_bone", 2);
   TOOLCONT("sewing_kit", 2);
   COMP("rag", 2);
@@ -1480,6 +1481,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("toolset", -1);
   TOOL("hammer", -1);
   TOOLCONT("toolset", -1);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 100);
   TOOLCONT("toolset", 10);
   TOOL("hacksaw", -1);
@@ -1503,6 +1505,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("muffler", CC_MISC, "mechanics", NULL, 1, 10000, true);
   TOOL("hammer", -1);
   TOOLCONT("toolset", -1);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 50);
   TOOLCONT("toolset", 5);
   TOOL("hacksaw", -1);
@@ -1511,6 +1514,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("sheet_metal",1);
 
   RECIPE("seat", CC_MISC, "mechanics", NULL, 1, 10000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 50);
   TOOLCONT("toolset", 5);
   TOOL("sewing_kit", 50);
@@ -1539,6 +1543,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("toolset", -1);
   TOOL("hammer", -1);
   TOOLCONT("toolset", -1);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 50);
   TOOLCONT("toolset", 5);
   TOOL("hacksaw", -1);
@@ -1610,6 +1615,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("ant_egg", 1);
 
   RECIPE("steel_lump", CC_MISC, "mechanics", NULL, 0, 5000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 20);
   TOOLCONT("toolset", 1);
   COMP("steel_chunk", 4);
@@ -1619,21 +1625,25 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("stick", 1);
 
   RECIPE("frame", CC_MISC, "mechanics", NULL, 1, 8000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 50);
   TOOLCONT("toolset", 2);
   COMP("steel_lump", 3);
 
   RECIPE("sheet_metal", CC_MISC, "mechanics", NULL, 2, 4000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 20);
   TOOLCONT("toolset", 1);
   COMP("scrap", 4);
 
   RECIPE("steel_plate", CC_MISC, "mechanics", NULL,4, 12000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 100);
   TOOLCONT("toolset", 4);
   COMP("steel_lump", 8);
 
   RECIPE("spiked_plate", CC_MISC, "mechanics", NULL, 4, 12000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 120);
   TOOLCONT("toolset", 5);
   COMP("steel_lump", 8);
@@ -1641,6 +1651,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("scrap", 8);
 
   RECIPE("hard_plate", CC_MISC, "mechanics", NULL, 4, 12000, true);
+  TOOL("goggles_welding", -1);
   TOOL("welder", 300);
   TOOLCONT("toolset", 12);
   COMP("steel_lump", 24);
@@ -1726,6 +1737,15 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("toolset", -1);
   COMP("sheet_metal",1);
 
+  RECIPE("metal_tank", CC_MISC, "mechanics", NULL, 1, 2000, false);
+  TOOL("hatchet", -1);
+  TOOLCONT("hammer", -1);
+  TOOLCONT("rock", -1);
+  TOOLCONT("toolset", -1);
+  TOOL("goggles_welding", -1);
+  TOOL("welder", 50);
+  TOOLCONT("toolset", 5);
+  COMP("sheet_metal",2);
 
   RECIPE("bandages", CC_MISC, "firstaid", NULL, 1, 500, false);
   COMP("rag", 3);
@@ -2345,8 +2365,6 @@ void game::pick_recipes(std::vector<recipe*> &current,
 {
     inventory crafting_inv = crafting_inventory();
 
-    bool have_tool[5], have_comp[5];
-
     current.clear();
     available.clear();
     for (int i = 0; i < recipes.size(); i++)
@@ -2495,6 +2513,10 @@ void game::complete_craft()
  int iter = 0;
  item newit(itypes[making->result], turn, nextinv);
 
+    if (newit.is_armor() && newit.has_flag(IF_VARSIZE))
+    {
+        newit.item_flags |= mfb(IF_FIT);
+    }
  // for food items
  if (newit.is_food())
   {

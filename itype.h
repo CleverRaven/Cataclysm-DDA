@@ -94,7 +94,7 @@ IF_SHOCK,   // Stuns and damages enemies, powers up shockers.
 IF_UNARMED_WEAPON, // Counts as an unarmed weapon
 IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws
 IF_NO_UNLOAD,  // Cannot be unloaded. For Fusion rifles and other ammo generating weapons.
-IF_SPAWNS_LOADED, // Spawns with ammo, used for non reloadable guns. Like the LAW.
+IF_BACKBLAST,  // Creates a backblast of smoke.
 
 // Weapon mode flags
 IF_MODE_AUX, // A gunmod with a firing mode
@@ -103,7 +103,11 @@ IF_MODE_BURST, // A burst of attacks
 // Food status flags
 IF_HOT,				// hot food
 IF_EATEN_HOT,	// food meant to be eaten hot
-IF_ROTTEN, 		// rotten foox
+IF_ROTTEN, 		// rotten food
+
+// Clothing flags
+IF_VARSIZE,     // comes in variable sizes (item type flag)
+IF_FIT,         // clothing fits player (item specific flag)
 
 NUM_ITEM_FLAGS
 };

@@ -174,6 +174,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  int stuck_penalty = roll_stuck_penalty(z, (stab_dam >= cut_dam));
  if (weapon.is_style())
   stuck_penalty = 0;
+ moves -= stuck_penalty;
 
 // Pick one or more special attacks
  technique_id technique = pick_technique(g, z, NULL, critical_hit, allow_grab);
@@ -301,7 +302,8 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  int stuck_penalty = roll_stuck_penalty(NULL, (stab_dam >= cut_dam));
  if (weapon.is_style())
   stuck_penalty = 0;
-
+ moves -= stuck_penalty;
+ 
 // Pick one or more special attacks
  technique_id technique = pick_technique(g, NULL, &p, critical_hit, allow_grab);
 

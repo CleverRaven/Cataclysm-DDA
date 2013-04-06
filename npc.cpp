@@ -53,7 +53,7 @@ npc::npc()
   sklevel[i] = 0;
 }
 
-npc::npc(const npc &rhs) { *this = rhs; }
+npc::npc(const npc &rhs):player() { *this = rhs; }
 
 npc::~npc() { }
 

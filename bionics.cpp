@@ -197,7 +197,7 @@ void player::activate_bionic(int b, game *g)
     g->m.bash(i, j, 40, junk);	// Multibash effect, so that doors &c will fall
     g->m.bash(i, j, 40, junk);
     if (g->m.is_destructable(i, j) && rng(1, 10) >= 4)
-     g->m.ter(i, j) = t_rubble;
+     g->m.ter_set(i, j, t_rubble);
    }
   }
  } else if (bio.id == "bio_time_freeze"){
@@ -449,7 +449,7 @@ void player::activate_bionic(int b, game *g)
   if (g->m.ter(dirx, diry) == t_door_locked) {
    moves -= 40;
    g->add_msg("You unlock the door.");
-   g->m.ter(dirx, diry) = t_door_c;
+   g->m.ter_set(dirx, diry, t_door_c);
   } else
    g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
  }
@@ -533,11 +533,11 @@ bool player::install_bionics(game *g, it_bionic* type)
  mvwprintz(w, 13, 39, c_white,       "or faulty installation.");
  wrefresh(w);
 
- if (type->id == "bio_battery") {	// No selection list; just confirm
-  mvwprintz(w, 3, 1, h_ltblue, "Battery Level +%d", BATTERY_AMOUNT);
+ if (type->id == "bio_power_storage") {	// No selection list; just confirm
+  mvwprintz(w, 3, 1, h_ltblue, "Power Storage +%d", BATTERY_AMOUNT);
   mvwprintz(w_description, 0, 0, c_ltblue, "\
-Installing this bionic will increase your total battery capacity by %d.\n\
-Batteries are necessary for most bionics to function.  They also require a\n\
+Installing this bionic will increase your total power storage by %d.\n\
+Power is necessary for most bionics to function. You also require a\n\
 charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
 
   InputEvent input;

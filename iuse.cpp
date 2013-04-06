@@ -99,18 +99,39 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(10, 22, (TERMY-10)/2, (TERMX-22)/2);
+        WINDOW* hp_window = newwin(11, 22, (TERMY-10)/2, (TERMX-22)/2);
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
         mvwprintz(hp_window, 1, 1, c_ltred,  "Use Bandage:");
-        mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
-        mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
-        mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
-        mvwprintz(hp_window, 5, 1, c_ltgray, "4: Right Arm");
-        mvwprintz(hp_window, 6, 1, c_ltgray, "5: Left Leg");
-        mvwprintz(hp_window, 7, 1, c_ltgray, "6: Right Leg");
-        mvwprintz(hp_window, 8, 1, c_ltgray, "7: Stop Bleeding");
+        if(p->hp_cur[hp_head] < p->hp_max[hp_head])
+        {
+            mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
+        }
+        if(p->hp_cur[hp_torso] < p->hp_max[hp_torso])
+        {
+            mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
+        }
+        if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l])
+        {
+            mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
+        }
+        if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r])
+        {
+            mvwprintz(hp_window, 5, 1, c_ltgray, "4: Right Arm");
+        }
+        if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l])
+        {
+            mvwprintz(hp_window, 6, 1, c_ltgray, "5: Left Leg");
+        }
+        if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r])
+        {
+            mvwprintz(hp_window, 7, 1, c_ltgray, "6: Right Leg");
+        }
+        if(p->has_disease(DI_BLEED))
+        {
+            mvwprintz(hp_window, 8, 1, c_ltgray, "7: Stop Bleeding");
+        }
         mvwprintz(hp_window, 9, 1, c_ltgray, "8: Exit");
         nc_color color;
         std::string asterisks = "";
@@ -212,9 +233,9 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
                 add_or_drop_item(g, p, it);
                 return;
             } else if (ch == '7') {
-                g->add_msg_if_player(p,"You stopped the bleeding.");
-                p->rem_disease(DI_BLEED);
-                return;
+                    g->add_msg_if_player(p,"You stopped the bleeding.");
+                    p->rem_disease(DI_BLEED);
+                    return;
             }
         } while (ch < '1' || ch > '8');
         werase(hp_window);
@@ -254,17 +275,38 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
             }
         }
     } else { // Player--present a menu
-        WINDOW* hp_window = newwin(10, 22, (TERMY-10)/2, (TERMX-22)/2);
+        WINDOW* hp_window = newwin(11, 22, (TERMY-10)/2, (TERMX-22)/2);
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
         mvwprintz(hp_window, 1, 1, c_ltred,  "Use First Aid:");
-        mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
-        mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
-        mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
-        mvwprintz(hp_window, 5, 1, c_ltgray, "4: Right Arm");
-        mvwprintz(hp_window, 6, 1, c_ltgray, "5: Left Leg");
-        mvwprintz(hp_window, 7, 1, c_ltgray, "6: Right Leg");
-        mvwprintz(hp_window, 8, 1, c_ltgray, "7: Clean Wound");
+        if(p->hp_cur[hp_head] < p->hp_max[hp_head])
+        {
+            mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
+        }
+        if(p->hp_cur[hp_torso] < p->hp_max[hp_torso])
+        {
+            mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
+        }
+        if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l])
+        {
+            mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
+        }
+        if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r])
+        {
+            mvwprintz(hp_window, 5, 1, c_ltgray, "4: Right Arm");
+        }
+        if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l])
+        {
+            mvwprintz(hp_window, 6, 1, c_ltgray, "5: Left Leg");
+        }
+        if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r])
+        {
+            mvwprintz(hp_window, 7, 1, c_ltgray, "6: Right Leg");
+        }
+        if(p->has_disease(DI_BITE))
+        {
+            mvwprintz(hp_window, 8, 1, c_ltgray, "7: Clean Wound");
+        }
         mvwprintz(hp_window, 9, 1, c_ltgray, "8: Exit");
         nc_color color;
         std::string asterisks = "";
@@ -366,9 +408,9 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
                 add_or_drop_item(g, p, it);
                 return;
             } else if (ch == '7') {
-                g->add_msg_if_player(p,"You clean the bite wound.");
-                p->rem_disease(DI_BITE);
-                return;
+                    g->add_msg_if_player(p,"You clean the bite wound.");
+                    p->rem_disease(DI_BITE);
+                    return;
             }
         } while (ch < '1' || ch > '8');
         werase(hp_window);
@@ -820,8 +862,9 @@ void iuse::sew(game *g, player *p, item *it, bool t)
   if (rn <= 4) {
    g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
    fix->damage++;
-  } else if (rn >= 12) {
-   g->add_msg_if_player(p,"You make your %s extra-sturdy.", fix->tname().c_str());
+  } else if (rn >= 12 && p->i_at(ch).has_flag(IF_VARSIZE) && !p->i_at(ch).has_flag(IF_FIT)) {
+   g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
+   (p->i_at(ch).item_flags |= mfb(IF_FIT));
    fix->damage--;
   } else
    g->add_msg_if_player(p,"You practice your sewing.");
@@ -873,89 +916,104 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 
 void iuse::scissors(game *g, player *p, item *it, bool t)
 {
- char ch = g->inv("Chop up what?");
- item* cut = &(p->i_at(ch));
- if (cut->type->id == "null") {
-  g->add_msg_if_player(p,"You do not have that item!");
-  return;
- }
- if (cut->type->id == "rag") {
-  g->add_msg_if_player(p,"There's no point in cutting a rag.");
-  return;
- }
- if (cut->made_of(COTTON)) {
- p->moves -= 25 * cut->volume();
- int count = cut->volume();
- if (p->skillLevel("tailor") == 0)
-  count = rng(0, count);
- else if (p->skillLevel("tailor") == 1 && count >= 2)
-  count -= rng(0, 2);
- if (dice(3, 3) > p->dex_cur)
-  count -= rng(1, 3);
+    char ch = g->inv("Chop up what?");
+    item* cut = &(p->i_at(ch));
+    if (cut->type->id == "null")
+    {
+        g->add_msg_if_player(p,"You do not have that item!");
+        return;
+    }
+    if (cut->type->id == "string_6" || cut->type->id == "string_36" || cut->type->id == "rope_30" || cut->type->id == "rope_6")
+    {
+        g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
+        return;
+    }
+    if (cut->type->id == "rag" || cut->type->id == "rag_bloody")
+    {
+        g->add_msg_if_player(p,"There's no point in cutting a rag.");
+        return;
+    }
+    if (cut->made_of(COTTON))
+    {
+        p->moves -= 25 * cut->volume();
+        int count = cut->volume();
+        if (p->skillLevel("tailor") == 0)
+        count = rng(0, count);
+        else if (p->skillLevel("tailor") == 1 && count >= 2)
+        count -= rng(0, 2);
+        if (dice(3, 3) > p->dex_cur)
+        count -= rng(1, 3);
 
- if (count <= 0) {
-  g->add_msg_if_player(p,"You clumsily cut the %s into useless ribbons.",
-             cut->tname().c_str());
-  p->i_rem(ch);
-  return;
- }
- g->add_msg_if_player(p,"You slice the %s into %d rag%s.", cut->tname().c_str(), count,
-            (count == 1 ? "" : "s"));
- item rag(g->itypes["rag"], int(g->turn), g->nextinv);
- p->i_rem(ch);
- bool drop = false;
- for (int i = 0; i < count; i++) {
-  int iter = 0;
-  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
-   rag.invlet = g->nextinv;
-   g->advance_nextinv();
-   iter++;
-  }
-  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-   drop = true;
-  if (drop)
-   g->m.add_item(p->posx, p->posy, rag);
-  else
-   p->i_add(rag, g);
-  }
-  return;
- }
- if (cut->made_of(LEATHER)) {
- p->moves -= 25 * cut->volume();
- int count = cut->volume();
- if (p->skillLevel("tailor") == 0)
-  count = rng(0, count);
- else if (p->skillLevel("tailor") == 1 && count >= 2)
-  count -= rng(0, 2);
- if (dice(3, 3) > p->dex_cur)
-  count -= rng(1, 3);
+        if (count <= 0)
+        {
+            g->add_msg_if_player(p,"You clumsily cut the %s into useless ribbons.",
+                                cut->tname().c_str());
+            p->i_rem(ch);
+            return;
+        }
+        g->add_msg_if_player(p,"You slice the %s into %d rag%s.", cut->tname().c_str(), count,
+                    (count == 1 ? "" : "s"));
+        item rag(g->itypes["rag"], int(g->turn), g->nextinv);
+        p->i_rem(ch);
+        bool drop = false;
+        for (int i = 0; i < count; i++)
+        {
+            int iter = 0;
+            while (p->has_item(rag.invlet) && iter < inv_chars.size())
+            {
+                rag.invlet = g->nextinv;
+                g->advance_nextinv();
+                iter++;
+            }
+            if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+            drop = true;
+            if (drop)
+            g->m.add_item(p->posx, p->posy, rag);
+            else
+            p->i_add(rag, g);
+        }
+        return;
+    }
+    if (cut->made_of(LEATHER))
+    {
+        p->moves -= 25 * cut->volume();
+        int count = cut->volume();
+        if (p->skillLevel("tailor") == 0)
+        count = rng(0, count);
+        else if (p->skillLevel("tailor") == 1 && count >= 2)
+        count -= rng(0, 2);
+        if (dice(3, 3) > p->dex_cur)
+        count -= rng(1, 3);
 
- if (count <= 0) {
-  g->add_msg_if_player(p,"You clumsily cut the %s into useless scraps.",
-             cut->tname().c_str());
-  p->i_rem(ch);
-  return;
- }
- g->add_msg_if_player(p,"You slice the %s into %d piece%s of leather.", cut->tname().c_str(), count,
-            (count == 1 ? "" : "s"));
- item rag(g->itypes["leather"], int(g->turn), g->nextinv);
- p->i_rem(ch);
- bool drop = false;
- for (int i = 0; i < count; i++) {
-  int iter = 0;
-  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
-   rag.invlet = g->nextinv;
-   g->advance_nextinv();
-   iter++;
-  }
-  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-   drop = true;
-  if (drop)
-   g->m.add_item(p->posx, p->posy, rag);
-  else
-   p->i_add(rag, g);
-  }
- }
+        if (count <= 0)
+        {
+            g->add_msg_if_player(p,"You clumsily cut the %s into useless scraps.",
+                    cut->tname().c_str());
+            p->i_rem(ch);
+        return;
+        }
+        g->add_msg_if_player(p,"You slice the %s into %d piece%s of leather.", cut->tname().c_str(), count,
+                            (count == 1 ? "" : "s"));
+        item rag(g->itypes["leather"], int(g->turn), g->nextinv);
+        p->i_rem(ch);
+        bool drop = false;
+        for (int i = 0; i < count; i++)
+        {
+            int iter = 0;
+            while (p->has_item(rag.invlet) && iter < inv_chars.size())
+            {
+                rag.invlet = g->nextinv;
+                g->advance_nextinv();
+                iter++;
+            }
+            if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+            drop = true;
+            if (drop)
+            g->m.add_item(p->posx, p->posy, rag);
+            else
+            p->i_add(rag, g);
+        }
+    }
 }
 
 void iuse::extinguisher(game *g, player *p, item *it, bool t)
@@ -1009,43 +1067,55 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
 
 void iuse::hammer(game *g, player *p, item *it, bool t)
 {
- g->draw();
- mvprintz(0, 0, c_red, "Pick a direction in which to pry:");
- int dirx, diry;
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction!");
-  return;
- }
- if (dirx == 0 && diry == 0) {
-  g->add_msg_if_player(p, "You try to hit yourself with the hammer.");
-  g->add_msg_if_player(p, "But you can't touch this.");
-  return;
- }
- dirx += p->posx;
- diry += p->posy;
- int nails = 0, boards = 0;
- ter_id newter;
- switch (g->m.ter(dirx, diry)) {
- case t_window_boarded:
-  nails =  8;
-  boards = 3;
-  newter = t_window_empty;
-  break;
- case t_door_boarded:
-  nails = 12;
-  boards = 3;
-  newter = t_door_b;
-  break;
- default:
-  g->add_msg_if_player(p,"Hammers can only remove boards from windows and doors.");
-  g->add_msg_if_player(p,"To board up a window or door, press *");
-  return;
- }
- p->moves -= 500;
- g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
- g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
- g->m.ter(dirx, diry) = newter;
+    g->draw();
+    mvprintz(0, 0, c_red, "Pick a direction in which to pry:");
+    int dirx, diry;
+    get_direction(g, dirx, diry, input());
+    if (dirx == -2)
+    {
+        g->add_msg_if_player(p,"Invalid direction!");
+        return;
+    }
+    if (dirx == 0 && diry == 0)
+    {
+        g->add_msg_if_player(p, "You try to hit yourself with the hammer.");
+        g->add_msg_if_player(p, "But you can't touch this.");
+        return;
+    }
+    dirx += p->posx;
+    diry += p->posy;
+    int nails = 0, boards = 0;
+    ter_id newter;
+    switch (g->m.ter(dirx, diry))
+    {
+        case t_fence_h:
+        case t_fence_v:
+        nails = 6;
+        boards = 3;
+        newter = t_fence_post;
+        break;
+
+        case t_window_boarded:
+        nails =  8;
+        boards = 3;
+        newter = t_window_empty;
+        break;
+
+        case t_door_boarded:
+        nails = 12;
+        boards = 3;
+        newter = t_door_b;
+        break;
+
+        default:
+        g->add_msg_if_player(p,"Hammers can only remove boards from windows, doors and fences.");
+        g->add_msg_if_player(p,"To board up a window or door, press *");
+        return;
+    }
+    p->moves -= 500;
+    g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
+    g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
+    g->m.ter_set(dirx, diry, newter);
 }
 
 void iuse::light_off(game *g, player *p, item *it, bool t)
@@ -1073,15 +1143,19 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
 
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 {
- if (it->charges == 0) {
-  g->add_msg_if_player(p,"You need batteries to cauterize wounds.");
- } else {
-  if (p->is_npc() || query_yn("Cauterize any open wounds?")) {
-   it->charges -= 1;
-   p->cauterize(g);
-  }
- }
+    if (it->charges == 0)
+    g->add_msg_if_player(p,"You need batteries to cauterize wounds.");
+
+    else if (!p->has_disease(DI_BITE) && !p->has_disease(DI_BLEED))
+    g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
+
+    else if (p->is_npc() || query_yn("Cauterize any open wounds?"))
+    {
+        it->charges -= 1;
+        p->cauterize(g);
+    }
 }
+
 
 void iuse::water_purifier(game *g, player *p, item *it, bool t)
 {
@@ -1364,7 +1438,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  if (dice(4, 6) < dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur) - it->damage / 2) {
   p->practice("mechanics", 1);
   g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
-  g->m.ter(dirx, diry) = new_type;
+  g->m.ter_set(dirx, diry, new_type);
  } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics")) +
                          dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
   it->damage++;
@@ -1469,7 +1543,7 @@ if (dirx == 0 && diry == 0) {
   p->moves -= 500;
   g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
   g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
-  g->m.ter(dirx, diry) = newter;
+  g->m.ter_set(dirx, diry, newter);
   return;
  }
 
@@ -1478,7 +1552,7 @@ if (dirx == 0 && diry == 0) {
  if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
   p->practice("mechanics", 1);
   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
-  g->m.ter(dirx, diry) = new_type;
+  g->m.ter_set(dirx, diry, new_type);
   if (noisy)
    g->sound(dirx, diry, 8, "crunch!");
   if ( type == t_door_locked_alarm ) {
@@ -1493,7 +1567,7 @@ if (dirx == 0 && diry == 0) {
    if (dice(4, difficulty) > dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
     g->add_msg_if_player(p,"You break the glass.");
     g->sound(dirx, diry, 16, "glass breaking!");
-    g->m.ter(dirx, diry) = t_window_frame;
+    g->m.ter_set(dirx, diry, t_window_frame);
     return;
    }
   }
@@ -1506,7 +1580,7 @@ void iuse::makemound(game *g, player *p, item *it, bool t)
  if (g->m.has_flag(diggable, p->posx, p->posy)) {
   g->add_msg_if_player(p,"You churn up the earth here.");
   p->moves = -300;
-  g->m.ter(p->posx, p->posy) = t_dirtmound;
+  g->m.ter_set(p->posx, p->posy, t_dirtmound);
  } else
   g->add_msg_if_player(p,"You can't churn up this ground.");
 }
@@ -2682,153 +2756,176 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  it->put_in(blood);
 }
 
- void iuse::knife(game *g, player *p, item *it, bool t)
+void iuse::knife(game *g, player *p, item *it, bool t)
 {
- int ch = menu(
- "Using knife:", "Cut up fabric", "Carve wood", "Cauterize", "Cancel", NULL);
- switch (ch) {
-  if (ch == 4)
-  break;
+    int ch = menu(
+    "Using knife:", "Cut up fabric", "Carve wood", "Cauterize", "Cancel", NULL);
+    switch (ch)
+    {
+        if (ch == 4)
+        break;
+        case 1:
+        {
+            char ch = g->inv("Chop up what?");
+            item* cut = &(p->i_at(ch));
+            if (cut->type->id == "null")
+            {
+                g->add_msg("You do not have that item!");
+                return;
+            }
+            if (cut->type->id == "string_6" || cut->type->id == "string_36" || cut->type->id == "rope_30" || cut->type->id == "rope_6")
+            {
+                g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
+                return;
+            }
+            if (cut->type->id == "rag" || cut->type->id == "rag_bloody")
+            {
+                g->add_msg("There's no point in cutting a rag.");
+                return;
+            }
+            if (!cut->made_of(COTTON) && !cut->made_of(LEATHER))
+            {
+                g->add_msg("You can only slice items made of cotton or leather.");
+                return;
+            }
+            if (cut->made_of(COTTON))
+            {
+                p->moves -= 25 * cut->volume();
+                int count = cut->volume();
+                if (p->skillLevel("tailor") == 0)
+                count = rng(0, count);
+                else if (p->skillLevel("tailor") == 1 && count >= 2)
+                count -= rng(0, 2);
+                if (dice(3, 3) > p->dex_cur)
+                count -= rng(1, 3);
 
- case 1: {
- char ch = g->inv("Chop up what?");
- item* cut = &(p->i_at(ch));
- if (cut->type->id == "null") {
-  g->add_msg("You do not have that item!");
-  return;
- }
- if (cut->type->id == "string_6" || cut->type->id == "string_36" || cut->type->id == "rope_30" || cut->type->id == "rope_6") {
-    g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
-    return;
- }
- if (cut->type->id == "rag") {
-  g->add_msg("There's no point in cutting a rag.");
-  return;
- }
- if (!cut->made_of(COTTON) && !cut->made_of(LEATHER)) {
-  g->add_msg("You can only slice items made of cotton.");
-  return;
- }
-if (cut->made_of(COTTON)) {
- p->moves -= 25 * cut->volume();
- int count = cut->volume();
- if (p->skillLevel("tailor") == 0)
-  count = rng(0, count);
- else if (p->skillLevel("tailor") == 1 && count >= 2)
-  count -= rng(0, 2);
- if (dice(3, 3) > p->dex_cur)
-  count -= rng(1, 3);
+                if (count <= 0)
+                {
+                    g->add_msg("You clumsily cut the %s into useless ribbons.",
+                                cut->tname().c_str());
+                    p->i_rem(ch);
+                    return;
+                }
+                g->add_msg("You slice the %s into %d rag%s.", cut->tname().c_str(), count,
+                    (count == 1 ? "" : "s"));
+                item rag(g->itypes["rag"], int(g->turn), g->nextinv);
+                p->i_rem(ch);
+                bool drop = false;
+                for (int i = 0; i < count; i++)
+                {
+                    int iter = 0;
+                    while (p->has_item(rag.invlet) && iter < inv_chars.size())
+                    {
+                        rag.invlet = g->nextinv;
+                        g->advance_nextinv();
+                        iter++;
+                    }
+                    if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+                    drop = true;
+                    if (drop)
+                    g->m.add_item(p->posx, p->posy, rag);
+                    else
+                    p->i_add(rag);
+                }
+                break;
+            }
+            if (cut->made_of(LEATHER))
+            {
+            p->moves -= 25 * cut->volume();
+            int count = cut->volume();
+            if (p->skillLevel("tailor") == 0)
+                count = rng(0, count);
+            else if (p->skillLevel("tailor") == 1 && count >= 2)
+                count -= rng(0, 2);
+            if (dice(3, 3) > p->dex_cur)
+                count -= rng(1, 3);
 
- if (count <= 0) {
-  g->add_msg("You clumsily cut the %s into useless ribbons.",
-             cut->tname().c_str());
-  p->i_rem(ch);
-  return;
- }
- g->add_msg("You slice the %s into %d rag%s.", cut->tname().c_str(), count,
-            (count == 1 ? "" : "s"));
- item rag(g->itypes["rag"], int(g->turn), g->nextinv);
- p->i_rem(ch);
- bool drop = false;
- for (int i = 0; i < count; i++) {
-  int iter = 0;
-  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
-   rag.invlet = g->nextinv;
-   g->advance_nextinv();
-   iter++;
-  }
-  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-   drop = true;
-  if (drop)
-   g->m.add_item(p->posx, p->posy, rag);
-  else
-   p->i_add(rag);
-  }
-  break;
- }
- if (cut->made_of(LEATHER)) {
- p->moves -= 25 * cut->volume();
- int count = cut->volume();
- if (p->skillLevel("tailor") == 0)
-  count = rng(0, count);
- else if (p->skillLevel("tailor") == 1 && count >= 2)
-  count -= rng(0, 2);
- if (dice(3, 3) > p->dex_cur)
-  count -= rng(1, 3);
+            if (count <= 0)
+            {
+                g->add_msg_if_player(p,"You clumsily cut the %s into useless scraps.",
+                            cut->tname().c_str());
+                p->i_rem(ch);
+                return;
+            }
+            g->add_msg_if_player(p,"You slice the %s into %d piece%s of leather.", cut->tname().c_str(), count,
+                                (count == 1 ? "" : "s"));
+            item rag(g->itypes["leather"], int(g->turn), g->nextinv);
+            p->i_rem(ch);
+            bool drop = false;
+            for (int i = 0; i < count; i++)
+            {
+                int iter = 0;
+                while (p->has_item(rag.invlet) && iter < inv_chars.size())
+                {
+                    rag.invlet = g->nextinv;
+                    g->advance_nextinv();
+                    iter++;
+                }
+                if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+                drop = true;
+                if (drop)
+                    g->m.add_item(p->posx, p->posy, rag);
+                else
+                    p->i_add(rag, g);
+                }
+                break;
+            }
+        }
+        break;
+        case 2:
+        {
+            char ch = g->inv("Chop up what?");
+            item* cut = &(p->i_at(ch));
+            if (cut->type->id == "null")
+            {
+                g->add_msg("You do not have that item!");
+                return;
+            }
+            if (cut->type->id == "stick" || cut->type->id == "2x4")
+            {
+                g->add_msg("You carve several skewers from the %s.", cut->tname().c_str());
+                int count = 12;
+                item skewer(g->itypes["skewer"], int(g->turn), g->nextinv);
+                p->i_rem(ch);
+                bool drop = false;
+                for (int i = 0; i < count; i++)
+                {
+                    int iter = 0;
+                    while (p->has_item(skewer.invlet) && iter < inv_chars.size())
+                    {
+                        skewer.invlet = g->nextinv;
+                        g->advance_nextinv();
+                        iter++;
+                    }
+                    if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+                    drop = true;
+                    if (drop)
+                    g->m.add_item(p->posx, p->posy, skewer);
+                    else
+                    p->i_add(skewer);
+                }
+            }
+            else
+            {
+                g->add_msg("You can't carve that up!");
+            }
+        }
+        break;
+        case 3:
+        {
+            if (!p->has_charges("lighter", 4))
+            g->add_msg_if_player(p,"You need a lighter with 4 charges before you can cauterize yourself.");
 
- if (count <= 0) {
-  g->add_msg_if_player(p,"You clumsily cut the %s into useless scraps.",
-             cut->tname().c_str());
-  p->i_rem(ch);
-  return;
- }
- g->add_msg_if_player(p,"You slice the %s into %d piece%s of leather.", cut->tname().c_str(), count,
-            (count == 1 ? "" : "s"));
- item rag(g->itypes["leather"], int(g->turn), g->nextinv);
- p->i_rem(ch);
- bool drop = false;
- for (int i = 0; i < count; i++) {
-  int iter = 0;
-  while (p->has_item(rag.invlet) && iter < inv_chars.size()) {
-   rag.invlet = g->nextinv;
-   g->advance_nextinv();
-   iter++;
-  }
-  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-   drop = true;
-  if (drop)
-   g->m.add_item(p->posx, p->posy, rag);
-  else
-   p->i_add(rag, g);
-  }
-break;
- }
-}
-
-break;
-case 2:{
-char ch = g->inv("Chop up what?");
- item* cut = &(p->i_at(ch));
- if (cut->type->id == "null") {
-  g->add_msg("You do not have that item!");
-  return;
- }
- if (cut->type->id == "stick" || cut->type->id == "2x4") {
- g->add_msg("You carve several skewers from the wood.", cut->tname().c_str());
- int count = 8;
- g->m.spawn_item(p->posx, p->posy, g->itypes["splinter"], 0);
- item skewer(g->itypes["skewer"], int(g->turn), g->nextinv);
- p->i_rem(ch);
- bool drop = false;
- for (int i = 0; i < count; i++) {
-  int iter = 0;
-  while (p->has_item(skewer.invlet) && iter < inv_chars.size()) {
-   skewer.invlet = g->nextinv;
-   g->advance_nextinv();
-   iter++;
-  }
-  if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-   drop = true;
-  if (drop)
-   g->m.add_item(p->posx, p->posy, skewer);
-  else
-   p->i_add(skewer);
-  }
-} else { g->add_msg("You can't carve that up!");
-  }
- }
-break;
-
-case 3:{
- if (!p->has_charges("lighter", 1))
-  g->add_msg_if_player(p,"You need a lighter before you can cauterize yourself.");
- else {
-  p->use_charges("lighter", 1);
-  p->cauterize(g);
- }
-break;
- }
- }
+            if (!p->has_disease(DI_BITE) && !p->has_disease(DI_BLEED))
+            g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
+            else
+            {
+                p->use_charges("lighter", 4);
+                p->cauterize(g);
+            }
+            break;
+        }
+    }
 }
 
 void iuse::lumber(game *g, player *p, item *it, bool t)
@@ -2905,24 +3002,25 @@ if (dirx == 0 && diry == 0) {
  diry += p->posy;
  if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h) {
   p->moves -= 500;
-  g->m.ter(dirx, diry) = t_pavement;
+  g->m.ter_set(dirx, diry, t_pavement);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(dirx, diry, g->itypes["pipe"], 0, 6);
   g->m.spawn_item(dirx, diry, g->itypes["wire"], 0, 20);
  } else if (g->m.ter(dirx, diry) == t_rack) {
   p->moves -= 500;
-  g->m.ter(dirx, diry) = t_floor;
+  g->m.ter_set(dirx, diry, t_floor);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, rng(1, 3));
   g->m.spawn_item(p->posx, p->posy, g->itypes["steel_chunk"], 0);
- } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(dirx + 1, diry) == t_sewage ||
-                                              g->m.ter(dirx, diry + 1) == t_sewage) {
-  g->m.ter(dirx, diry) = t_sewage;
+ } else if (g->m.ter(dirx, diry) == t_bars &&
+            (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
+             g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage)) {
+  g->m.ter_set(dirx, diry, t_sewage);
   p->moves -= 1000;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, 3);
  } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy)) {
-  g->m.ter(dirx, diry) = t_floor;
+  g->m.ter_set(dirx, diry, t_floor);
   p->moves -= 500;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, 3);
@@ -2953,9 +3051,9 @@ void iuse::tent(game *g, player *p, item *it, bool t)
    }
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-    g->m.ter(posx + i, posy + j) = t_canvas_wall;
- g->m.ter(posx, posy) = t_groundsheet;
- g->m.ter(posx - dirx, posy - diry) = t_canvas_door;
+    g->m.ter_set(posx + i, posy + j, t_canvas_wall);
+ g->m.ter_set(posx, posy, t_groundsheet);
+ g->m.ter_set(posx - dirx, posy - diry, t_canvas_door);
  it->invlet = 0;
 }
 
@@ -2981,9 +3079,9 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
    }
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-    g->m.ter(posx + i, posy + j) = t_skin_wall;
- g->m.ter(posx, posy) = t_skin_groundsheet;
- g->m.ter(posx - dirx, posy - diry) = t_skin_door;
+    g->m.ter_set(posx + i, posy + j, t_skin_wall);
+ g->m.ter_set(posx, posy, t_skin_groundsheet);
+ g->m.ter_set(posx - dirx, posy - diry, t_skin_door);
  it->invlet = 0;
 }
 
@@ -3312,12 +3410,12 @@ if (dirx == 0 && diry == 0) {
 
  if (g->m.ter(dirx, diry) == t_chaingate_l) {
   p->moves -= 100;
-  g->m.ter(dirx, diry) = t_chaingate_c;
+  g->m.ter_set(dirx, diry, t_chaingate_c);
   g->sound(dirx, diry, 5, "Gachunk!");
   g->m.spawn_item(p->posx, p->posy, g->itypes["scrap"], 0, 3);
  } else if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h) {
   p->moves -= 500;
-  g->m.ter(dirx, diry) = t_chainfence_posts;
+  g->m.ter_set(dirx, diry, t_chainfence_posts);
   g->sound(dirx, diry, 5,"Snick, snick, gachunk!");
   g->m.spawn_item(dirx, diry, g->itypes["wire"], 0, 20);
  } else {
@@ -3577,7 +3675,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
      g->m.bash(x, y, 40, junk);  // Multibash effect, so that doors &c will fall
      g->m.bash(x, y, 40, junk);
      if (g->m.is_destructable(x, y) && rng(1, 10) >= 3)
-      g->m.ter(x, y) = t_rubble;
+      g->m.ter_set(x, y, t_rubble);
     }
    }
    break;

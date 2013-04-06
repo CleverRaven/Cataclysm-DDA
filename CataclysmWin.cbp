@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="bin/Release/Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -140,6 +140,8 @@
 		<Unit filename="pldata.h" />
 		<Unit filename="posix_time.cpp" />
 		<Unit filename="posix_time.h" />
+		<Unit filename="profession.cpp" />
+		<Unit filename="profession.h" />
 		<Unit filename="ranged.cpp" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />

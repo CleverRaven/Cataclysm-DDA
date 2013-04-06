@@ -467,14 +467,14 @@ void computer::activate_function(game *g, computer_action action)
    for (int i = 0; i < names.size(); i++)
     print_line(names[i].c_str());
    if (more > 0)
-    print_line("%d OTHERS FOUND...");
+    print_line("%d OTHERS FOUND...", more);
   } break;
 
   case COMPACT_ELEVATOR_ON:
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_elevator_control_off)
-      g->m.ter(x, y) = t_elevator_control;
+      g->m.ter_set(x, y, t_elevator_control);
     }
    }
    print_line("Elevator activated.");
@@ -674,7 +674,7 @@ void computer::activate_failure(game *g, computer_failure fail)
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.has_flag(console, x, y))
-      g->m.ter(x, y) = t_console_broken;
+      g->m.ter_set(x, y, t_console_broken);
     }
    }
    break;
@@ -731,7 +731,7 @@ void computer::activate_failure(game *g, computer_failure fail)
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_sewage_pump) {
-      g->m.ter(x, y) = t_rubble;
+      g->m.ter_set(x, y, t_rubble);
       g->explosion(x, y, 10, 0, false);
      }
     }
@@ -760,7 +760,7 @@ void computer::activate_failure(game *g, computer_failure fail)
         i = leak_size;
        else {
         p = next_move[rng(0, next_move.size() - 1)];
-        g->m.ter(p.x, p.y) = t_sewage;
+        g->m.ter_set(p.x, p.y, t_sewage);
        }
       }
      }
