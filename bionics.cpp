@@ -280,7 +280,7 @@ void player::activate_bionic(int b, game *g)
   rem_disease(DI_ADRENALINE);
  } else if(bio.id == "bio_evap"){
   if (query_yn("Drink directly? Otherwise you will need a container.")) {
-   tmp_item = item(g->itypes["water"], 0);
+   tmp_item = item(g->itypes["water_clean"], 0);
    thirst -= 50;
    if (has_trait(PF_GOURMAND) && thirst < -60) {
      g->add_msg("You can't finish it all!");
@@ -307,7 +307,7 @@ void player::activate_bionic(int b, game *g)
      power_level += bionics["bio_evap"]->power_cost;
     } else {
      g->add_msg("You pour water into your %s.", i_at(t).tname().c_str());
-     i_at(t).put_in(item(g->itypes["water"], 0));
+     i_at(t).put_in(item(g->itypes["water_clean"], 0));
     }
    }
   }
