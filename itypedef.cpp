@@ -3519,6 +3519,23 @@ mfb(IF_LIGHT_8),
 "This flashlight is turned on, and continually draining its batteries. It\n\
 provides light during the night or while underground. Use it to turn it off.");
 
+TOOL("lightstrip_dead", "lightstrip (dead)", 0, 200, ';', c_white, PLASTIC, IRON,
+    1,  1,  1,  0,  2,  0,  0,  0,  0, AT_NULL, "null", &iuse::none, 0,"\
+A burnt-out lightstrip. You could disassemble this to recover the amplifier\n\
+circuit.");
+
+TOOL("lightstrip_inactive", "lightstrip (inactive)", 0, 200, ';', c_white, PLASTIC, IRON,
+    1,  1,  1,  0,  2,  12000, 12000, 0, 0, AT_NULL, "null", &iuse::lightstrip, 0,"\
+A light-emitting circuit wired directly to some batteries. Once activated, provides\n\
+25 hours of light per 3 (battery) charges. When the batteries die, you'll need to\n\
+scrap it to recover the components that are reusable.");
+
+TOOL("lightstrip", "lightstrip (active)", 0, 200, ';', c_green, PLASTIC, IRON,
+    1,  1,  1,  0,  2,  12000, 12000, 0, 150, AT_NULL, "lightstrip_dead", &iuse::none, 0,"\
+A light-emitting circuit wired directly to some batteries. Provides a weak light,\n\
+lasting 25 hours per 3 (battery) charges. When the batteries die, you'll need to\n\
+scrap it to recover the components that are reusable.");
+
 TOOL("hotplate", "hotplate",	10, 250,';', c_green,	IRON,	PLASTIC,
     5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, "null", &iuse::cauterize_elec,0,"\
 A small heating element. Indispensable for cooking and chemistry. Try not to\n\

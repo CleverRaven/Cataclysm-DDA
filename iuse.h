@@ -56,6 +56,7 @@ class iuse
   void hammer		(game *g, player *p, item *it, bool t);
   void light_off	(game *g, player *p, item *it, bool t);
   void light_on		(game *g, player *p, item *it, bool t);
+  void lightstrip		(game *g, player *p, item *it, bool t);
   void cauterize_elec	(game *g, player *p, item *it, bool t);
   void water_purifier	(game *g, player *p, item *it, bool t);
   void two_way_radio	(game *g, player *p, item *it, bool t);

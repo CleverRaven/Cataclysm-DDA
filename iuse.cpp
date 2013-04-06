@@ -1141,6 +1141,15 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
  }
 }
 
+// this function only exists because we need to set it->active = true
+// otherwise crafting would just give you the active version directly
+void iuse::lightstrip(game *g, player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,"You irreversibly activate the lightstrip.");
+    it->make(g->itypes["lightstrip"]);
+    it->active = true;
+}
+
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)

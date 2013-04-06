@@ -81,6 +81,11 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("rope_30", CC_NONCRAFT, "tailor", NULL, 0, 5000, true);
   TG_KNIVES
   COMP("rope_6", 5);
+
+  RECIPE("lightstrip_dead", CC_NONCRAFT, "electronics", NULL, 0, 1000, true);
+  TG_KNIVES
+  TOOLCONT("screwdriver", -1);
+  COMP("amplifier", 1);
   // CRAFTABLE
 
   // WEAPONS
@@ -1004,6 +1009,12 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("toolset", 7);
   COMP("receiver", 3);
   COMP("cable", 5);
+
+  // disassembly is done on the dead version of the lightstrip
+  RECIPE("lightstrip_inactive", CC_ELECTRONIC, "electronics", NULL, 0, 10000, false);
+  COMP("amplifier", 1);
+  COMP("cable", 5);
+  COMP("battery", 15);
 
   RECIPE("flashlight", CC_ELECTRONIC, "electronics", NULL, 1, 10000, true);
   COMP("amplifier", 1);
