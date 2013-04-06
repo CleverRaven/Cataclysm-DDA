@@ -330,7 +330,7 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
  if (xp_frequency < 1)
   xp_frequency = 1;
  if (int(g->turn) % xp_frequency == 0) {
-  int gain_rate = xp_gain_percentage();
+  int gain_rate = xp_gain_percentage(int_cur);
   while (gain_rate > 0) {
    if (gain_rate >= 100 || rng(0, 100) < gain_rate) {
     xp_pool++;
@@ -343,21 +343,21 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
   xp_pool = 800;
 }
 
-int player::xp_gain_percentage()
+int player::xp_gain_percentage(int intelligence)
 {
-    if (int_cur == 0)
+    if (intelligence == 0)
     {
         return 0;
     }
 
     int xp_percentage;
 
-    if (int_cur <= 8) {
-        xp_percentage = int_cur * 10;
+    if (intelligence <= 8) {
+        xp_percentage = intelligence * 10;
     }
     else
     {
-        xp_percentage = 80 + (int_cur - 8) * 8;
+        xp_percentage = 80 + (intelligence - 8) * 8;
     }
 
     if (has_trait(PF_FASTLEARNER))

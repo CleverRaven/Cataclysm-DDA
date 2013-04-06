@@ -142,7 +142,7 @@ public:
  int throw_dex_mod	(bool real_life = true);
 
 // Mental skills and stats
- int xp_gain_percentage(); // Gives a multiplier for XP gain
+ int xp_gain_percentage(int intelligence); // Gives a multiplier for XP gain
  int read_speed		(bool real_life = true);
  int talk_skill(); // Skill at convincing NPCs of stuff
  int intimidation(); // Physical intimidation
