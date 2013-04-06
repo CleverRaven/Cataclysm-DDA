@@ -2345,23 +2345,6 @@ int player::throw_dex_mod(bool real_life)
  return (real_life ? rng(0, deviation) : deviation);
 }
 
-int player::comprehension_percent(skill s, bool real_life)
-{
- double intel = (double)(real_life ? int_cur : int_max);
- if (intel == 0.)
-  intel = 1.;
- double percent = 80.; // double temporarily, since we divide a lot
- int learned = (real_life ? sklevel[s] : 4);
- if (learned > intel / 2)
-  percent /= 1 + ((learned - intel / 2) / (intel / 3));
- else if (!real_life && intel > 8)
-  percent += 125 - 1000 / intel;
-
- if (has_trait(PF_FASTLEARNER))
-  percent += 50.;
- return (int)(percent);
-}
-
 int player::read_speed(bool real_life)
 {
  int intel = (real_life ? int_cur : int_max);
@@ -5657,7 +5640,7 @@ void player::practice (Skill *s, int amount) {
 
   while (level.isTraining() && amount > 0 && xp_pool >= (1 + level)) {
     amount -= level + 1;
-    if ((!isSavant || s == savantSkill || one_in(2)) && rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER))) {
+    if (!isSavant || s == savantSkill || one_in(2)) {
       xp_pool -= (1 + level);
 
       skillLevel(s).train(newLevel);

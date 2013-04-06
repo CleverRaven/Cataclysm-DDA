@@ -62,7 +62,6 @@ public:
  void disp_status(WINDOW* w, game *g = NULL);// On-screen data
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
- int  xp_gain_percentage(); // Gives a multiplier for XP gain
  void update_morale();	// Ticks down morale counters and removes them
  void update_bodytemp(game *g);  // Maintains body temperature
  int  current_speed(game *g = NULL); // Number of movement points we get a turn
@@ -143,7 +142,7 @@ public:
  int throw_dex_mod	(bool real_life = true);
 
 // Mental skills and stats
- int comprehension_percent(skill s, bool real_life = true);
+ int xp_gain_percentage(); // Gives a multiplier for XP gain
  int read_speed		(bool real_life = true);
  int talk_skill(); // Skill at convincing NPCs of stuff
  int intimidation(); // Physical intimidation

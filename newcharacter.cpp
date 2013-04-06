@@ -395,7 +395,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
    mvwprintz(w, 9,  2, c_ltgray,     "Perception:   %d  ", u->per_max);
 
    mvwprintz(w, 6, 33, COL_STAT_ACT, "Skill comprehension: %d%%%%                     ",
-             u->skillLevel("melee").comprehension(u->int_max));
+             u->xp_gain_percentage());
    mvwprintz(w, 7, 33, COL_STAT_ACT, "Read times: %d%%%%                              ",
              u->read_speed(false));
    mvwprintz(w, 8, 33, COL_STAT_ACT, "                                            ");

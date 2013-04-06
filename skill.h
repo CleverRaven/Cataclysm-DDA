@@ -73,8 +73,6 @@ class SkillLevel {
 
   int exercise() const { return _exercise; }
 
-  int comprehension(int intellect, bool fastLearner = false);
-
   int train(int &level);
   int rust(int &level);
 
