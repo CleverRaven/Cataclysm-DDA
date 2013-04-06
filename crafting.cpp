@@ -1157,7 +1157,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("scrap", 4);
   COMP("cable", 10);
 
-  RECIPE("bio_battery", CC_ELECTRONIC, "electronics", NULL, 6, 50000, true);
+  RECIPE("bio_power_storage", CC_ELECTRONIC, "electronics", NULL, 6, 50000, true);
   TOOL("screwdriver", -1);
   TOOLCONT("toolset", -1);
   TOOL("soldering_iron", 20);
