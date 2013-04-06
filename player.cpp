@@ -3493,11 +3493,9 @@ void player::process_active_items(game *g)
   if (weapon.has_flag(IF_CHARGE)) { // We're chargin it up!
    if (weapon.charges == 8) {
     bool maintain = false;
-    if (has_charges("UPS_on", 4)) {
-     use_charges("UPS_on", 4);
+    if (use_charges_if_avail("UPS_on", 4)) {
      maintain = true;
-    } else if (has_charges("UPS_off", 4)) {
-     use_charges("UPS_off", 4);
+    } else if (use_charges_if_avail("UPS_off", 4)) {
      maintain = true;
     }
     if (maintain) {
@@ -3510,11 +3508,9 @@ void player::process_active_items(game *g)
       g->add_msg("Your %s beeps alarmingly.", weapon.tname().c_str());
     }
    } else {
-    if (has_charges("UPS_on", 1 + weapon.charges)) {
-     use_charges("UPS_on", 1 + weapon.charges);
+    if (use_charges_if_avail("UPS_on", 1 + weapon.charges)) {
      weapon.poison++;
-    } else if (has_charges("UPS_off", 1 + weapon.charges)) {
-     use_charges("UPS_off", 1 + weapon.charges);
+    } else if (use_charges_if_avail("UPS_off", 1 + weapon.charges)) {
      weapon.poison++;
     } else {
      g->add_msg("Your %s spins down.", weapon.tname().c_str());
@@ -3792,6 +3788,16 @@ void player::use_amount(itype_id it, int quantity, bool use_container)
  }
 
  inv.use_amount(it, quantity, use_container);
+}
+
+bool player::use_charges_if_avail(itype_id it, int quantity) 
+{
+    if (has_charges(it, quantity))
+    {
+        use_charges(it, quantity);
+        return true;
+    }
+    return false;
 }
 
 void player::use_charges(itype_id it, int quantity)

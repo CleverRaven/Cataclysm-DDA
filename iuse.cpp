@@ -566,32 +566,40 @@ void iuse::coke(game *g, player *p, item *it, bool t)
 
 void iuse::crack(game *g, player *p, item *it, bool t)
 {
+  if (!p->use_charges_if_avail("lighter", 1))
+  {
+    g->add_msg_if_player(p, "You need a lighter!");
+    return;
+  }
   g->add_msg_if_player(p,"You smoke some rocks.");
- p->use_charges("lighter", 1);
- int duration = 10;
- if (p->has_trait(PF_LIGHTWEIGHT))
-  duration += 10;
- p->hunger -= 8;
- p->add_disease(DI_HIGH, duration, g);
+  int duration = 10;
+  if (p->has_trait(PF_LIGHTWEIGHT))
+    duration += 10;
+  p->hunger -= 8;
+  p->add_disease(DI_HIGH, duration, g);
 }
 
 void iuse::grack(game *g, player *p, item *it, bool t)
 {
+  if (!p->use_charges_if_avail("lighter", 1))
+  {
+    g->add_msg_if_player(p, "You need a lighter!");
+    return;
+  }
   g->add_msg_if_player(p,"You smoke some Grack Cocaine, time seems to stop.");
- p->use_charges("lighter", 1);
- int duration = 1000;
- if (p->has_trait(PF_LIGHTWEIGHT))
-  duration += 10;
- p->hunger -= 8;
- p->add_disease(DI_GRACK, duration, g);
+  int duration = 1000;
+  if (p->has_trait(PF_LIGHTWEIGHT))
+    duration += 10;
+  p->hunger -= 8;
+  p->add_disease(DI_GRACK, duration, g);
 }
 
 
 void iuse::meth(game *g, player *p, item *it, bool t)
 {
  int duration = 10 * (40 - p->str_cur);
- if (p->has_amount("apparatus", 1)) {
-  p->use_charges("lighter", 1);
+ if (p->has_amount("apparatus", 1) &&
+     p->use_charges_if_avail("lighter", 1)) {
   g->add_msg_if_player(p,"You smoke some crystals.");
   duration *= 1.5;
  } else
@@ -2046,11 +2054,10 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
 
 void iuse::pipebomb(game *g, player *p, item *it, bool t)
 {
- if (!p->has_charges("lighter", 1)) {
+ if (!p->use_charges_if_avail("lighter", 1)) {
   g->add_msg_if_player(p,"You need a lighter!");
   return;
  }
- p->use_charges("lighter", 1);
  g->add_msg_if_player(p,"You light the fuse on the pipe bomb.");
  it->make(g->itypes["pipebomb_act"]);
  it->charges = 3;
@@ -2267,11 +2274,10 @@ void iuse::acidbomb_act(game *g, player *p, item *it, bool t)
 
 void iuse::molotov(game *g, player *p, item *it, bool t)
 {
- if (!p->has_charges("lighter", 1)) {
+ if (!p->use_charges_if_avail("lighter", 1)) {
   g->add_msg_if_player(p,"You need a lighter!");
   return;
  }
- p->use_charges("lighter", 1);
  g->add_msg_if_player(p,"You light the molotov cocktail.");
  p->moves -= 150;
  it->make(g->itypes["molotov_lit"]);
@@ -2299,11 +2305,10 @@ void iuse::molotov_lit(game *g, player *p, item *it, bool t)
 
 void iuse::dynamite(game *g, player *p, item *it, bool t)
 {
- if (!p->has_charges("lighter", 1)) {
+ if (!p->use_charges_if_avail("lighter", 1)) {
   g->add_msg_if_player(p,"You need a lighter!");
   return;
  }
- p->use_charges("lighter", 1);
  g->add_msg_if_player(p,"You light the dynamite.");
  it->make(g->itypes["dynamite_act"]);
  it->charges = 20;
@@ -2422,11 +2427,10 @@ void iuse::firecracker_pack_act(game *g, player *p, item *it, bool t)
 
 void iuse::firecracker(game *g, player *p, item *it, bool t)
 {
- if (!p->has_charges("lighter", 1)) {
+ if (!p->use_charges_if_avail("lighter", 1)) {
   g->add_msg_if_player(p,"You need a lighter!");
   return;
  }
- p->use_charges("lighter", 1);
  g->add_msg_if_player(p,"You light the firecracker.");
  it->make(g->itypes["firecracker_act"]);
  it->charges = 2;
@@ -2952,16 +2956,12 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         break;
         case 3:
         {
-            if (!p->has_charges("lighter", 4))
-            g->add_msg_if_player(p,"You need a lighter with 4 charges before you can cauterize yourself.");
-
             if (!p->has_disease(DI_BITE) && !p->has_disease(DI_BLEED))
-            g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
+                g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
+            else if (!p->use_charges_if_avail("lighter", 4))
+                g->add_msg_if_player(p,"You need a lighter with 4 charges before you can cauterize yourself.");
             else
-            {
-                p->use_charges("lighter", 4);
                 p->cauterize(g);
-            }
             break;
         }
     }
@@ -3126,14 +3126,14 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
 
 void iuse::torch(game *g, player *p, item *it, bool t)
 {
-  if (!p->has_charges("lighter", 1))
-  g->add_msg_if_player(p,"You need a lighter or fire to light this.");
-else {
- p->use_charges("lighter", 1);
-  g->add_msg_if_player(p,"You light the torch.");
-  it->make(g->itypes["torch_lit"]);
-  it->active = true;
- }
+    if (!p->use_charges_if_avail("lighter", 1))
+        g->add_msg_if_player(p,"You need a lighter or fire to light this.");
+    else
+    {
+        g->add_msg_if_player(p,"You light the torch.");
+        it->make(g->itypes["torch_lit"]);
+        it->active = true;
+    }
 }
 
 
@@ -3152,14 +3152,14 @@ void iuse::torch_lit(game *g, player *p, item *it, bool t)
 
 void iuse::candle(game *g, player *p, item *it, bool t)
 {
-  if (!p->has_charges("lighter", 1))
-  g->add_msg_if_player(p,"You need a lighter to light this.");
-else {
-  p->use_charges("lighter", 1);
-  g->add_msg_if_player(p,"You light the candle.");
-  it->make(g->itypes["candle_lit"]);
-  it->active = true;
- }
+    if (!p->use_charges_if_avail("lighter", 1))
+        g->add_msg_if_player(p, "You need a lighter to light this.");
+    else
+    {
+        g->add_msg_if_player(p, "You light the candle.");
+        it->make(g->itypes["candle_lit"]);
+        it->active = true;
+    }
 }
 
 void iuse::candle_lit(game *g, player *p, item *it, bool t)
