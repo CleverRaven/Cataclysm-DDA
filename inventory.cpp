@@ -4,7 +4,7 @@
 #include "keypress.h"
 #include "mapdata.h"
 
-const std::string inv_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}~";
+const std::string inv_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
 
 item& inventory::operator[] (int i)
 {
