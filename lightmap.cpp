@@ -57,9 +57,15 @@ void map::generate_lightmap(game* g)
      }
     }
 
+// TODO: make this bit use item flags
+// may need to make item::has_flag const first
     if (items.size() == 1 &&
         items[0].type->id == "flashlight_on")
      apply_light_source(sx, sy, 20);
+
+   if (items.size() == 1 &&
+       items[0].type->id == "lightstrip")
+    apply_light_source(sx, sy, 1);
 
    if(terrain == t_lava)
     apply_light_source(sx, sy, 50);

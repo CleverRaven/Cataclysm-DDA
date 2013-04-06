@@ -81,6 +81,11 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("rope_30", CC_NONCRAFT, "tailor", NULL, 0, 5000, true);
   TG_KNIVES
   COMP("rope_6", 5);
+
+  RECIPE("lightstrip_dead", CC_NONCRAFT, "electronics", NULL, 0, 1000, true);
+  TG_KNIVES
+  TOOLCONT("screwdriver", -1);
+  COMP("amplifier", 1);
   // CRAFTABLE
 
   // WEAPONS
@@ -1005,6 +1010,12 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("receiver", 3);
   COMP("cable", 5);
 
+  // disassembly is done on the dead version of the lightstrip
+  RECIPE("lightstrip_inactive", CC_ELECTRONIC, "electronics", NULL, 0, 10000, false);
+  COMP("amplifier", 1);
+  COMP("cable", 5);
+  COMP("battery", 15);
+
   RECIPE("flashlight", CC_ELECTRONIC, "electronics", NULL, 1, 10000, true);
   COMP("amplifier", 1);
   COMP("scrap", 4);
@@ -1046,6 +1057,24 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("amplifier", 1);
   COMP("scrap", 6);
   COMP("cable", 20);
+
+  RECIPE("noise_emitter", CC_ELECTRONIC, "electronics", NULL, 1, 15000, false);
+  TOOL("screwdriver", -1);
+  TOOLCONT("toolset", -1);
+  TOOL("soldering_iron", 5);
+  TOOLCONT("toolset", 5);
+  COMP("radio", 1);
+  COMP("amplifier", 2);
+  
+  RECIPE("noise_emitter", CC_ELECTRONIC, "electronics", NULL, 2, 30000, true);
+  TOOL("screwdriver", -1);
+  TOOLCONT("toolset", -1);
+  TOOL("soldering_iron", 10);
+  TOOLCONT("toolset", 10);
+  COMP("amplifier", 2);
+  COMP("antenna", 1);
+  COMP("scrap", 5);
+  COMP("cable", 7);
 
   RECIPE("radio", CC_ELECTRONIC, "electronics", NULL, 2, 25000, true);
   TOOL("screwdriver", -1);
