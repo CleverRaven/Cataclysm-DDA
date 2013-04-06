@@ -4242,7 +4242,7 @@ color, STEEL, PLASTIC, 10, 18, 8, 0, 0, 0, difficulty)
            word_rewrap(bionics[id]->description, 50)) \
 
 //  Name                     RAR PRICE    COLOR   DIFFICULTY
-BIO("bio_battery", "CBM: Internal Battery",	24, 3800,	c_green,	 1, "\
+BIO("bio_power_storage", "CBM: Power Storage",	24, 3800,	c_green,	 1, "\
 Compact Bionics Module that upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\
 also need a power supply, found in another CBM."); // This is a special case, which increases power capacity by 4
