@@ -329,11 +329,43 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
  int xp_frequency = 10 - int(mor / 20);
  if (xp_frequency < 1)
   xp_frequency = 1;
- if (int(g->turn) % xp_frequency == 0)
-  xp_pool++;
+ if (int(g->turn) % xp_frequency == 0) {
+  int gain_rate = xp_gain_percentage();
+  while (gain_rate > 0) {
+   if (gain_rate >= 100 || rng(0, 100) < gain_rate) {
+    xp_pool++;
+   }
+   gain_rate -= 100;
+  }
+ }
 
  if (xp_pool > 800)
   xp_pool = 800;
+}
+
+int player::xp_gain_percentage()
+{
+    if (int_cur == 0)
+    {
+        return 0;
+    }
+
+    int xp_percentage;
+
+    if (int_cur <= 8) {
+        xp_percentage = int_cur * 10;
+    }
+    else
+    {
+        xp_percentage = 80 + (int_cur - 8) * 8;
+    }
+
+    if (has_trait(PF_FASTLEARNER))
+    {
+        xp_percentage = xp_percentage / 2 * 3;
+    }
+
+    return xp_percentage;
 }
 
 void player::update_morale()
