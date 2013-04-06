@@ -1654,7 +1654,7 @@ ARMOR("fire_gauntlets", "fire gauntlets",	 5,  95,C_GLOVES,	LEATHER,	MNULL,
     3,  5, -2,  2,  6,  1,  2,  5,  40,  0,	mfb(bp_hands), "\
 A heavy pair of leather gloves, used by firefighters for heat protection.", 0);
 
-ARMOR("gauntlets_chitin", "chitinous gauntlets", 1, 380,C_HAT,		FLESH,		MNULL,
+ARMOR("gauntlets_chitin", "chitinous gauntlets", 1, 380,C_GLOVES,		FLESH,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    4,   1,  2, -2,  1,  5, 7,   4,  20,  0,	mfb(bp_hands), "\
 Gauntlets made from the exoskeletons of insects. Very light and durable.", 0);
