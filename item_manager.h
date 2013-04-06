@@ -40,6 +40,9 @@ private:
     char char_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
     int int_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
     nc_color color_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
+    material* materials_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
+    material material_from_tag(item_tag new_id, item_tag index);
+
 };
 
 extern Item_manager* item_controller;

@@ -1,5 +1,6 @@
 #include "item_manager.h"
 #include "rng.h"
+#include "enums.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -113,6 +114,7 @@ const item_tag Item_manager::random_id(const item_tag group_tag){
 
 void Item_manager::load_item_templates(){
     load_item_templates_from("data/raw/items/instruments.json");
+    load_item_templates_from("data/raw/items/melee.json");
 }
 
 // Load values from this data file into m_templates
@@ -169,9 +171,12 @@ void Item_manager::load_item_templates_from(const std::string file_name){
                     new_item_template->sym = char_from_json(new_id, "symbol", entry_body); 
                     new_item_template->color = color_from_json(new_id, "color", entry_body); 
                     new_item_template->description = string_from_json(new_id, "description", entry_body); 
+                    new_item_template->m1 = materials_from_json(new_id, "material", entry_body)[0];
+                    new_item_template->m2 = materials_from_json(new_id, "material", entry_body)[1];
                     new_item_template->volume = int_from_json(new_id, "volume", entry_body); 
                     new_item_template->weight = int_from_json(new_id, "weight", entry_body); 
                     new_item_template->melee_dam = int_from_json(new_id, "damage", entry_body); 
+                    new_item_template->melee_cut = int_from_json(new_id, "cutting", entry_body); 
                     new_item_template->m_to_hit = int_from_json(new_id, "to_hit", entry_body); 
                 }
             }
@@ -189,6 +194,9 @@ item_tag Item_manager::string_from_json(item_tag new_id, item_tag index, picojso
             std::cerr << "Item "<< new_id << " attribute " << index << "was skipped, not a string." << std::endl;
             return "Error: Unknown Value";
         }
+    } else {
+        //If string is not found, just return an empty string
+        return "";
     }
 }
 
@@ -212,6 +220,9 @@ int Item_manager::int_from_json(item_tag new_id, item_tag index, picojson::value
             std::cerr << "Item "<< new_id << " attribute name was skipped, not a number." << std::endl;
             return 0;
         }
+    } else {
+        //If the value isn't found, just return a 0
+        return 0;
     }
 }
 
@@ -225,7 +236,87 @@ nc_color Item_manager::color_from_json(item_tag new_id, item_tag index, picojson
     } else if("green"==new_color){
         return c_green;
     } else {
-        std::cerr << "Item "<< new_id << " attribute name was skipped, not a number." << std::endl;
+        std::cerr << "Item "<< new_id << " attribute name was skipped, not a color. Color is required." << std::endl;
         return c_white;
+    }
+}
+
+material* Item_manager::materials_from_json(item_tag new_id, item_tag index, picojson::value::object value_map){
+    //If the value isn't found, just return a group of null materials
+    material material_list[2] = {MNULL, MNULL};
+
+    picojson::value::object::const_iterator value_pair = value_map.find(index);
+    if(value_pair != value_map.end()){
+        bool invalid_materials = true;
+        if(value_pair->second.is<std::string>()){
+            material_list[0] = material_from_tag(new_id, value_pair->second.get<std::string>());
+            invalid_materials = false;
+        } else if (value_pair->second.is<picojson::array>()) {
+            int material_count = 0;
+            const picojson::array& materials_json = value_pair->second.get<picojson::array>();
+            for (picojson::array::const_iterator iter = materials_json.begin(); iter != materials_json.end(); ++iter) {
+                if((*iter).is<std::string>()){
+                    material_list[material_count] = material_from_tag(new_id, (*iter).get<std::string>());
+                } else {
+                    std::cerr << "Item "<< new_id << " has a non-string material listed." << std::endl;
+                }
+
+                ++material_count;
+                if(material_count > 2){
+                    std::cerr << "Item "<< new_id << " has too many materials listed." << std::endl;
+                }
+            }
+        } else {
+            std::cerr << "Item "<< new_id << " material was skipped, not a string or array of strings." << std::endl;
+        }
+    } 
+    return material_list;
+}
+
+material Item_manager::material_from_tag(item_tag new_id, item_tag name){
+    // Map the valid input tags to a valid material
+
+    // This should clearly be some sort of map, stored somewhere
+    // ...unless it can get replaced entirely, which would be nice.
+    // For now, though, that isn't the problem I'm solving.
+    if(name == "LIQUID"){
+        return LIQUID; 
+    } else if(name == "VEGGY"){
+        return VEGGY;
+    } else if(name == "FLESH"){
+        return FLESH;
+    } else if(name == "POWDER"){
+        return POWDER;
+    } else if(name == "HFLESH"){
+        return HFLESH;
+    } else if(name == "COTTON"){
+        return COTTON;
+    } else if(name == "WOOL"){
+        return WOOL;
+    } else if(name == "LEATHER"){
+        return LEATHER;
+    } else if(name == "KEVLAR"){
+        return KEVLAR;
+    } else if(name == "FUR"){
+        return FUR;
+    } else if(name == "STONE"){
+        return STONE;
+    } else if(name == "PAPER"){
+        return PAPER;
+    } else if(name == "WOOD"){
+        return WOOD;
+    } else if(name == "PLASTIC"){
+        return PLASTIC;
+    } else if(name == "GLASS"){
+        return GLASS;
+    } else if(name == "IRON"){
+        return IRON;
+    } else if(name == "STEEL"){
+        return STEEL;
+    } else if(name == "SILVER"){
+        return SILVER;
+    } else {
+        std::cerr << "Item "<< new_id << " material was skipped, not a string or array of strings." << std::endl;
+        return MNULL;
     }
 }
