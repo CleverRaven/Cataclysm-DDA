@@ -1143,6 +1143,15 @@ void iuse::light_on(game *g, player *p, item *it, bool t)
  }
 }
 
+// this function only exists because we need to set it->active = true
+// otherwise crafting would just give you the active version directly
+void iuse::lightstrip(game *g, player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,"You irreversibly activate the lightstrip.");
+    it->make(g->itypes["lightstrip"]);
+    it->active = true;
+}
+
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)
@@ -1319,6 +1328,36 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
   it->active = false;
  }
 }
+
+void iuse::noise_emitter_off(game *g, player *p, item *it, bool t)
+{
+    if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,"It's dead.");
+    }
+    else
+    {
+        g->add_msg_if_player(p,"You turn the noise emitter on.");
+        it->make(g->itypes["noise_emitter_on"]);
+        it->active = true;
+    }
+}
+
+void iuse::noise_emitter_on(game *g, player *p, item *it, bool t)
+{
+    if (t) // Normal use
+    {
+        point pos = g->find_item(it);
+        g->sound(pos.x, pos.y, 30, "KXSHHHHRRCRKLKKK!");
+    }
+    else // Turning it off
+    {
+        g->add_msg_if_player(p,"The infernal racket dies as you turn off the noise emitter.");
+        it->make(g->itypes["noise_emitter"]);
+        it->active = false;
+    }
+}
+
 
 void iuse::roadmap(game *g, player *p, item *it, bool t)
 {

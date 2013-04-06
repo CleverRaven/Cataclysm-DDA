@@ -35,6 +35,8 @@
 #define HIGH_STAT 14 // The point after which stats cost double
 #define MAX_TRAIT_POINTS 12 // How many points from traits
 
+#define NEWCHAR_TAB_MAX 4 // The ID of the rightmost tab
+
 void draw_tabs(WINDOW* w, std::string sTab);
 
 int set_stats(WINDOW* w, game* g, player *u, int &points);
@@ -152,7 +154,7 @@ bool player::create(game *g, character_type type, std::string tempname)
     points = 0;
    } break;
   }
-  tab = 3;
+  tab = NEWCHAR_TAB_MAX;
  } else
   points = OPTIONS[OPT_INITIAL_POINTS];
 
@@ -166,7 +168,7 @@ bool player::create(game *g, character_type type, std::string tempname)
    case 3: tab += set_skills     (w, g, this, points); break;
    case 4: tab += set_description(w, g, this, points); break;
   }
- } while (tab >= 0 && tab < 5);
+ } while (tab >= 0 && tab <= NEWCHAR_TAB_MAX);
  delwin(w);
 
  if (tab < 0)

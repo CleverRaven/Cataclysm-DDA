@@ -558,7 +558,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_bionics_common],
-	"bio_battery",
+	"bio_power_storage",
    "bio_tools",      "bio_storage",  "bio_flashlight",
    "bio_lighter",      "bio_magnet",   "bio_alarm",
    "bio_solar", "bio_batteries", "bio_metabolics",
@@ -606,7 +606,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_bionics_mil],
-	"bio_battery", "bio_solar",
+	"bio_power_storage", "bio_solar",
    "bio_solar", "bio_batteries", "bio_metabolics",
    "bio_ethanol", "bio_furnace",
    "bio_ears", "bio_eye_enhancer", "bio_night_vision",
@@ -718,7 +718,7 @@ void game::init_mapitems()
 	"savage_111f", "sks", "ak47", "m4a1", "steyr_aug", "v29",
 	"nx17", "flamethrower", "flashlight", "radio", "geiger_off",
 	"teleporter", "canister_goo", "dynamite", "mininuke",
-	"bot_manhack", "UPS_off", "bio_battery",
+	"bot_manhack", "UPS_off", "bio_power_storage",
    "bio_flashlight", "bio_lighter",
 	"arrow_cf", "spray_can", "bio_blaster", NULL);
 

@@ -5158,7 +5158,7 @@ void game::pickup(int posx, int posy, int min)
    iter++;
    advance_nextinv();
   }
-  if (iter == 53) {
+  if (iter > inv_chars.size()) {
    add_msg("You're carrying too many items!");
    return;
   } else if (u.weight_carried() + newit.weight() > u.weight_capacity()) {
@@ -6203,7 +6203,7 @@ void game::complete_butcher(int index)
    add_msg("You discover a CBM in the %s!", corpse->name.c_str());
    //To see if it spawns a battery
    if(rng(0,1) == 1){ //The battery works
-    m.spawn_item(u.posx, u.posy, itypes["bio_batteries"], age);
+    m.spawn_item(u.posx, u.posy, itypes["bio_power_storage"], age);
    }else{//There is a burnt out CBM
     m.spawn_item(u.posx, u.posy, itypes["burnt_out_bionic"], age);
    }
