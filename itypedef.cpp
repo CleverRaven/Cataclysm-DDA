@@ -3519,6 +3519,23 @@ mfb(IF_LIGHT_8),
 "This flashlight is turned on, and continually draining its batteries. It\n\
 provides light during the night or while underground. Use it to turn it off.");
 
+TOOL("lightstrip_dead", "lightstrip (dead)", 0, 200, ';', c_white, PLASTIC, IRON,
+    1,  1,  1,  0,  2,  0,  0,  0,  0, AT_NULL, "null", &iuse::none, 0,"\
+A burnt-out lightstrip. You could disassemble this to recover the amplifier\n\
+circuit.");
+
+TOOL("lightstrip_inactive", "lightstrip (inactive)", 0, 200, ';', c_white, PLASTIC, IRON,
+    1,  1,  1,  0,  2,  12000, 12000, 0, 0, AT_NULL, "null", &iuse::lightstrip, 0,"\
+A light-emitting circuit wired directly to some batteries. Once activated, provides\n\
+25 hours of light per 3 (battery) charges. When the batteries die, you'll need to\n\
+scrap it to recover the components that are reusable.");
+
+TOOL("lightstrip", "lightstrip (active)", 0, 200, ';', c_green, PLASTIC, IRON,
+    1,  1,  1,  0,  2,  12000, 12000, 0, 150, AT_NULL, "lightstrip_dead", &iuse::none, 0,"\
+A light-emitting circuit wired directly to some batteries. Provides a weak light,\n\
+lasting 25 hours per 3 (battery) charges. When the batteries die, you'll need to\n\
+scrap it to recover the components that are reusable.");
+
 TOOL("hotplate", "hotplate",	10, 250,';', c_green,	IRON,	PLASTIC,
     5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, "null", &iuse::cauterize_elec,0,"\
 A small heating element. Indispensable for cooking and chemistry. Try not to\n\
@@ -3553,6 +3570,17 @@ TOOL("radio_on", "radio (on)",	 0, 420,';', c_yellow,	PLASTIC, IRON,
     4,  2,  4,  0, -1, 100,100, 0,  8, AT_BATT, "radio",&iuse::radio_on, 0,"\
 This radio is turned on, and continually draining its batteries. It is\n\
 playing the broadcast being sent from any nearby radio towers.");
+
+TOOL("noise_emitter", "noise emitter (off)", 0, 600, ';', c_yellow, PLASTIC, IRON,
+    4,  3,  6,  0, -1, 100,100, 0,  0, AT_BATT, "null", &iuse::noise_emitter_off, 0,"\
+This device was constructed by 'enhancing' a radio with some amplifier\n\
+circuits. It's completely lost its ability to pick up a station, but it's\n\
+nice and loud now. Could be useful to distract zombies.");
+
+TOOL("noise_emitter_on", "noise emitter (on)", 0, 600, ';', c_yellow, PLASTIC, IRON,
+    4,  3,  6,  0, -1, 100,100, 0,  1, AT_BATT, "noise_emitter",&iuse::noise_emitter_on, 0,"\
+This device has been turned on and is emitting horrible sounds of radio\n\
+static. Quick, get away from it before it draws zombies to you!");
 
 TOOL("roadmap", "road map", 40, 10, ';', c_yellow, MNULL, MNULL,
      1, 0, 0, 0, -1, 1, 1, 0, 0, AT_NULL, "null", &iuse::roadmap, 0, "\
