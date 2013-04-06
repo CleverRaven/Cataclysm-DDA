@@ -6,6 +6,7 @@
 #include <map>
 #include "game.h"
 #include "itype.h"
+#include "item.h"
 #include "color.h"
 #include "picojson.h"
 
@@ -13,21 +14,33 @@ typedef itype item_template;
 typedef std::string item_tag;
 typedef std::map<item_tag, itype*> item_template_container;
 typedef std::set<item_tag> tag_list;
+typedef std::vector<item*> item_list;
 
 
 class Item_manager
 {
 public:
+    //Setup
     Item_manager();
     void init();
     void init(game* main_game);
 
+    //Intermediary Methods - Will be removed at final stage
     const item_template_container* templates();
     item_template* find_template(item_tag id);
     item_template* random_template();
-    item_template* random_template(item_tag group_tag);
+    item_template* template_from(item_tag group_tag);
     const item_tag random_id();
-    const item_tag random_id(item_tag group_tag);
+    const item_tag id_from(item_tag group_tag);
+
+    //Production methods
+    item* create(item_tag id);
+    item_list create(item_tag id, int quantity);
+    item* create_from(item_tag group);
+    item_list create_from(item_tag group, int quantity);
+    item* create_random();
+    item_list create_random(int quantity);
+
 private:
     item_template_container  m_templates;
     itype*  m_missing_item;

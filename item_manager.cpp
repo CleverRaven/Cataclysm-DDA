@@ -63,11 +63,6 @@ void Item_manager::init(game* main_game){
     init();
 }
 
-//Returns the full template container
-const item_template_container* Item_manager::templates(){
-    return &m_templates;
-}
-
 //Returns the template with the given identification tag
 item_template* Item_manager::find_template(const item_tag id){
     item_template_container::iterator found = m_templates.find(id);
@@ -81,21 +76,21 @@ item_template* Item_manager::find_template(const item_tag id){
 
 //Returns a random template from the list of all templates.
 item_template* Item_manager::random_template(){
-    return random_template("ALL");
+    return template_from("ALL");
 }
 
 //Returns a random template from those with the given group tag
-item_template* Item_manager::random_template(const item_tag group_tag){ 
-    return find_template( random_id(group_tag) );
+item_template* Item_manager::template_from(const item_tag group_tag){ 
+    return find_template( id_from(group_tag) );
 }
 
 //Returns a random template name from the list of all templates.
 const item_tag Item_manager::random_id(){
-    return random_id("ALL");
+    return id_from("ALL");
 }
 
 //Returns a random template name from the list of all templates.
-const item_tag Item_manager::random_id(const item_tag group_tag){
+const item_tag Item_manager::id_from(const item_tag group_tag){
     std::map<item_tag, tag_list>::iterator group_iter = m_template_groups.find(group_tag);
     if(group_iter != m_template_groups.end() && group_iter->second.begin() != group_iter->second.end()){
         tag_list group = group_iter->second;
@@ -106,6 +101,36 @@ const item_tag Item_manager::random_id(const item_tag group_tag){
     } else {
         return "MISSING_ITEM";
     }
+}
+
+
+item* Item_manager::create(item_tag id){
+    return new item(find_template(id),0);
+}
+item_list Item_manager::create(item_tag id, int quantity){
+    item_list new_items;
+    item* new_item_base = create(id);
+    for(int ii=0;ii<quantity;++ii){
+        new_items.push_back(new_item_base->clone());
+    }
+    return new_items;
+}
+item* Item_manager::create_from(item_tag group){
+    return create(id_from(group));
+}
+item_list Item_manager::create_from(item_tag group, int quantity){
+    return create(id_from(group),0);
+}
+item* Item_manager::create_random(){
+    return create(random_id());
+}
+item_list Item_manager::create_random(int quantity){
+    item_list new_items;
+    item* new_item_base = create(random_id());
+    for(int ii=0;ii<quantity;++ii){
+        new_items.push_back(new_item_base->clone());
+    }
+    return new_items;
 }
 
 ///////////////////////
@@ -247,10 +272,8 @@ material* Item_manager::materials_from_json(item_tag new_id, item_tag index, pic
 
     picojson::value::object::const_iterator value_pair = value_map.find(index);
     if(value_pair != value_map.end()){
-        bool invalid_materials = true;
         if(value_pair->second.is<std::string>()){
             material_list[0] = material_from_tag(new_id, value_pair->second.get<std::string>());
-            invalid_materials = false;
         } else if (value_pair->second.is<picojson::array>()) {
             int material_count = 0;
             const picojson::array& materials_json = value_pair->second.get<picojson::array>();

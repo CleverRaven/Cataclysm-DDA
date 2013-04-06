@@ -1866,3 +1866,7 @@ itype_id item::typeId()
         return "null";
     return type->id;
 }
+
+item* item::clone(){
+    return new item(type, bday);
+}

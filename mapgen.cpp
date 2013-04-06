@@ -7133,7 +7133,7 @@ break;
    if (one_in(2))
     spawn_item(x, y, (*itypes)["hat_hard"], 0);
    while (!one_in(3)){
-    spawn_item(x, y, item_controller->random_template("CAN"), 0);
+    spawn_item(x, y, item_controller->template_from("CAN"), 0);
    }
   }
   break;
