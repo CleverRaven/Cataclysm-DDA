@@ -3532,7 +3532,7 @@ void map::build_map_cache(game *g)
    int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
    if(INBOUNDS(px, py)) {
     if (vehs[v].v->is_inside(*part)) {
-     outside_cache[px][py] = true;
+     outside_cache[px][py] = false;
     }
     if (vehs[v].v->part_flag(*part, vpf_opaque) && vehs[v].v->parts[*part].hp > 0) {
      int dpart = vehs[v].v->part_with_feature(*part , vpf_openable);
