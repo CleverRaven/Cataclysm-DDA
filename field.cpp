@@ -91,11 +91,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
      if (it->is_ammo() && it->ammo_type() != AT_BATT &&
          it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
          it->ammo_type() != AT_BOLT && it->ammo_type() != AT_ARROW && it->ammo_type() != AT_NULL) {
-      cur->age /= 2;
-      cur->age -= 600;
       destroyed = true;
-      smoke += 6;
-      consumed++;
+      // cook off ammo instead of just burning it.
+      for(int i = 0; i < (it->charges / 10) + 1; i++)
+      {
+          g->explosion(x, y, (dynamic_cast<it_ammo*>(it->type))->damage / 2, true, false);
+      }
 
      } else if (it->made_of(PAPER)) {
       destroyed = it->burn(cur->density * 3);
