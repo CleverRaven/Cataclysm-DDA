@@ -181,7 +181,7 @@ struct mtype {
  std::string name;
  std::string description;
  monster_species species;
- char sym;	// Symbol on the map
+ long sym;	// Symbol on the map
  nc_color color;// Color of symbol (see color.h)
 
  m_size size;

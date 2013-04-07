@@ -18,6 +18,7 @@ class iuse
   void firstaid		(game *g, player *p, item *it, bool t);
   void caff		(game *g, player *p, item *it, bool t);
   void alcohol		(game *g, player *p, item *it, bool t);
+  void alcohol_weak (game *g, player *p, item *it, bool t);
   void pkill_1		(game *g, player *p, item *it, bool t);
   void pkill_2		(game *g, player *p, item *it, bool t);
   void pkill_3		(game *g, player *p, item *it, bool t);
@@ -55,12 +56,17 @@ class iuse
   void hammer		(game *g, player *p, item *it, bool t);
   void light_off	(game *g, player *p, item *it, bool t);
   void light_on		(game *g, player *p, item *it, bool t);
+  void lightstrip		(game *g, player *p, item *it, bool t);
+  void cauterize_elec	(game *g, player *p, item *it, bool t);
   void water_purifier	(game *g, player *p, item *it, bool t);
   void two_way_radio	(game *g, player *p, item *it, bool t);
   void radio_off	(game *g, player *p, item *it, bool t);
   void radio_on		(game *g, player *p, item *it, bool t);
+  void noise_emitter_off(game *g, player *p, item *it, bool t);
+  void noise_emitter_on (game *g, player *p, item *it, bool t);
   void roadmap (game *g, player *p, item *it, bool t);
   void roadmap_a_target (game *g, player *p, item *it, bool t, int target);
+  void roadmap_targets(game *g, player *p, item *it, bool t, int target, int target_range, int distance, int reveal_distance);
   void picklock         (game *g, player *p, item *it, bool t);
   void crowbar		(game *g, player *p, item *it, bool t);
   void makemound	(game *g, player *p, item *it, bool t);
@@ -118,6 +124,7 @@ class iuse
   void lumber    	(game *g, player *p, item *it, bool t);
   void hacksaw          (game *g, player *p, item *it, bool t);
   void tent             (game *g, player *p, item *it, bool t);
+  void shelter          (game *g, player *p, item *it, bool t);
   void torch            (game *g, player *p, item *it, bool t);
   void torch_lit        (game *g, player *p, item *it, bool t);
   void candle           (game *g, player *p, item *it, bool t);
@@ -131,6 +138,9 @@ class iuse
   void rag              (game *g, player *p, item *it, bool t);
   void pda              (game *g, player *p, item *it, bool t);
   void pda_flashlight   (game *g, player *p, item *it, bool t);
+  void LAW              (game *g, player *p, item *it, bool t);
+  void heatpack			(game *g, player *p, item *it, bool t);
+
 
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);

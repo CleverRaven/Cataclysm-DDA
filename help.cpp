@@ -401,8 +401,9 @@ but you will absorb the excess.\n\
 Swarms of monsters may call for firearms. If you find one, wield it first,\n\
 then reload by pressing 'r'. If you wish to change ammo, you must unload the\n\
 weapon by pressing 'U', then reload again. To fire, press 'f', move the\n\
-cursor to the relevant space, then hit '.' or 'f'. Some guns have automatic\n\
-fire; to shoot a burst, press 'F'. This will severely reduce accuracy.\n\
+cursor to the relevant space, then hit '.' or 'f'. Some guns have alternate\n\
+firing modes, such as burst fire; to cycle modes, press 'F'.  Firing\n\
+continuously, especially in bursts, will severely reduce accuracy.\n\
 \n\
 Unlike most roguelikes, fleeing will often be your best option, especially\n\
 when overwhelmed by a swarm of zombies. Try to avoid getting cornered inside\n\

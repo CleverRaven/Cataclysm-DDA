@@ -17,6 +17,7 @@
 #include "npc.h"
 #include "vehicle.h"
 #include "graffiti.h"
+#include "lightmap.h"
 
 #define MAPSIZE 11
 #define CAMPSIZE 1
@@ -43,7 +44,7 @@ class map
 
 // Constructors & Initialization
  map();
- map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
+ map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
      std::vector<trap*> *trptr);
  ~map();
 
@@ -51,7 +52,7 @@ class map
  void draw(game *g, WINDOW* w, const point center);
  void debug();
  void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
-             const int cx = -1, const int cy = -1,
+             const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
 
 // File I/O
@@ -65,12 +66,12 @@ class map
 // Movement and LOS
  int move_cost(const int x, const int y); // Cost to move through; 0 = impassible
  int move_cost_ter_only(const int x, const int y); // same as above, but don't take vehicles into account
- bool trans(const int x, const int y, char * trans_buf = NULL); // Transparent?
+ bool trans(const int x, const int y); // Transparent?
  // (Fx, Fy) sees (Tx, Ty), within a range of (range)?
  // tc indicates the Bresenham line used to connect the two points, and may
  //  subsequently be used to form a path between them
  bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
-           const int range, int &tc, char * trans_buf = NULL);
+           const int range, int &tc);
 // clear_path is the same idea, but uses cost_min <= move_cost <= cost_max
  bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                  const int range, const int cost_min, const int cost_max, int &tc);
@@ -105,7 +106,8 @@ class map
  bool displace_water (const int x, const int y);
 
 // Terrain
- ter_id& ter(const int x, const int y); // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ ter_id ter(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ void ter_set(const int x, const int y, const ter_id new_terrain);
  bool is_indoor(const int x, const int y); // Check if current ter is indoors
  std::string tername(const int x, const int y); // Name of terrain at (x, y)
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
@@ -139,7 +141,7 @@ class map
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
- void add_item(const int x, const int y, itype* type, int birthday, int quantity = 0);
+ void spawn_item(const int x, const int y, itype* type, int birthday, int quantity = 0, int charges = 0);
  void add_item(const int x, const int y, item new_item);
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);
@@ -191,8 +193,13 @@ class map
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir);
  computer* add_computer(const int x, const int y, std::string name, const int security);
+ float light_transparency(const int x, const int y) const;
+ void build_map_cache(game *g);
+ lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
+ float ambient_light_at(int dx, int dy); // Raw values for tilesets
+ bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
 
- std::vector <itype*> *itypes;
+ std::map<std::string, itype*>* itypes;
  std::set<vehicle*> vehicle_list;
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
@@ -209,6 +216,10 @@ protected:
  void add_extra(map_extra type, game *g);
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
+ void build_transparency_cache();
+ void build_outside_cache(const game *g);
+ void generate_lightmap(game *g);
+ void build_seen_cache(game *g);
 
  bool inbounds(const int x, const int y);
  int my_MAPSIZE;
@@ -227,6 +238,18 @@ protected:
  bool veh_in_active_range;
 
 private:
+ long determine_wall_corner(const int x, const int y, const long orig_sym);
+ void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
+ void apply_light_source(int x, int y, float luminance);
+ void apply_light_arc(int x, int y, int angle, float luminance);
+ void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                      int sx, int sy, int ex, int ey, float luminance);
+
+ float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
 };
 
@@ -234,7 +257,7 @@ class tinymap : public map
 {
 public:
  tinymap();
- tinymap(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
+ tinymap(std::map<std::string, itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
      std::vector<trap*> *trptr);
  ~tinymap();
 

@@ -8,14 +8,14 @@
 
 void weather_effect::glare(game *g)
 {
- if (g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing(itm_sunglasses))
+ if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses"))
   g->u.infect(DI_GLARE, bp_eyes, 1, 2, g);
 }
 
 void weather_effect::wet(game *g)
 {
- if (!g->u.is_wearing(itm_coat_rain) && !g->u.has_trait(PF_FEATHERS) &&
-     !g->u.warmth(bp_torso) >= 35 && PLAYER_OUTSIDE && one_in(2))
+ if (!g->u.is_wearing("coat_rain") && !g->u.has_trait(PF_FEATHERS) &&
+     g->u.warmth(bp_torso) < 20 && PLAYER_OUTSIDE && one_in(2))
   g->u.add_morale(MORALE_WET, -1, -30);
 // Put out fires and reduce scent
  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
@@ -33,8 +33,8 @@ void weather_effect::wet(game *g)
 
 void weather_effect::very_wet(game *g)
 {
- if (!g->u.is_wearing(itm_coat_rain) && !g->u.has_trait(PF_FEATHERS) &&
-     PLAYER_OUTSIDE)
+ if (!g->u.is_wearing("coat_rain") && !g->u.has_trait(PF_FEATHERS) &&
+     g->u.warmth(bp_torso) < 50 && PLAYER_OUTSIDE)
   g->u.add_morale(MORALE_WET, -1, -60);
 // Put out fires and reduce scent
  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
@@ -63,24 +63,9 @@ void weather_effect::thunder(game *g)
 
 void weather_effect::lightning(game *g)
 {
-/* thunder(g);
- if (one_in(LIGHTNING_CHANCE)) {
-  std::vector<point> strike;
-  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-   for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
-    if (g->m.move_cost(x, y) == 0 && g->m.is_outside(x, y))
-     strike.push_back(point(x, y));
-   }
-  }
-  point hit;
-  if (strike.size() > 0) {
-   hit = strike[rng(0, strike.size() - 1)];
-   g->add_msg("Lightning strikes nearby!");
-   g->explosion(hit.x, hit.y, 10, 0, one_in(4));
-  }
- }
-*/
+thunder(g);
 }
+
 void weather_effect::light_acid(game *g)
 {
  wet(g);

@@ -8,6 +8,23 @@ long input(long ch)
   ch = getch();
  }
 
+ // Needs a totally seperate implementation for windows
+#if !(defined _WIN32 || defined WINDOWS)
+ int newch;
+
+ // Clear the buffer of characters that match the one we're going to act on.
+ timeout(0);
+ do {
+  newch = getch();
+ } while( newch != ERR && newch == ch );
+ timeout(-1);
+
+ // If we read a different character than the one we're going to act on, re-queue it.
+ if (newch != ERR && newch != ch) {
+  ungetch(newch);
+ }
+#endif
+
  switch (ch) {
   case KEY_UP:    return 'k';
   case KEY_LEFT:  return 'h';

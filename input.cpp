@@ -60,7 +60,12 @@ InputEvent get_input(int ch)
 		case ',':
 		case 'g':
 			return Pickup;
-
+        case 'f':
+        case 'F':
+            return Filter;
+        case 'r':
+        case 'R':
+            return Reset;
 		default:
 			return Undefined;
 	}

@@ -180,7 +180,7 @@ class game
   void nuke(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
   int& scent(int x, int y);
-  float natural_light_level();
+  float natural_light_level() const;
   unsigned char light_level();
   void reset_light_level();
   int assign_npc_id();
@@ -222,7 +222,7 @@ class game
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
 
-  std::vector <itype*> itypes;
+  std::map<std::string, itype*> itypes;
   std::vector <mtype*> mtypes;
   std::vector <vehicle*> vtypes;
   std::vector <trap*> traps;
@@ -241,7 +241,6 @@ class game
   char nextinv;	// Determines which letter the next inv item will have
   overmap cur_om;
   map m;
-  light_map lm;
   int levx, levy, levz;	// Placement inside the overmap
   player u;
   std::vector<monster> z;
@@ -255,7 +254,8 @@ class game
   std::vector<item> items_dragged;
   int weight_dragged; // Computed once, when you start dragging
   bool debugmon;
-  bool no_npc;
+  bool starting_npc;
+  bool random_npc;
 
   std::map<int, std::map<int, bool> > mapRain;
 
@@ -269,6 +269,10 @@ class game
   WINDOW *w_void; //space unter status if viewport Y > 12
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
+ bool handle_liquid(item &liquid, bool from_ground, bool infinite);
+
+ void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -281,6 +285,7 @@ class game
 
 // Data Initialization
   void init_itypes();       // Initializes item types
+  void init_bionics();      // Initializes bionics... for now.
   void init_mapitems();     // Initializes item placement
   void init_mtypes();       // Initializes monster types
   void init_mongroups();    // Initualizes monster groups
@@ -293,7 +298,10 @@ class game
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
 
+  std::string default_npc_txt(); //load the default settings for the npc.txt file
   void load_keyboard_settings(); // Load keybindings from disk
+  void load_npc_settings(); //load npc settings from disk
+
   void save_keymap();		// Save keybindings to disk
   std::vector<char> keys_bound_to(action_id act); // All keys bound to act
   void clear_bindings(action_id act); // Deletes all keys bound to act
@@ -312,18 +320,21 @@ class game
   void open();	// Open a door			'o'
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
-  void craft();                    // See crafting.cpp
-  void recraft();                  // See crafting.cpp
-  void try_and_make(recipe *r);
-  bool can_make(recipe *r);
-  void make_craft(recipe *making); // See crafting.cpp
-  void complete_craft();           // See crafting.cpp
+  void craft();                        // See crafting.cpp
+  void recraft();                      // See crafting.cpp
+  void long_craft();                   // See crafting.cpp
+  bool crafting_allowed();             // See crafting.cpp
+  recipe* select_crafting_recipe();    // See crafting.cpp
+  bool making_would_work(recipe *r);   // See crafting.cpp
+  bool can_make(recipe *r);            // See crafting.cpp
+  void make_craft(recipe *making);     // See crafting.cpp
+  void make_all_craft(recipe *making); // See crafting.cpp
+  void complete_craft();               // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
-                    std::vector<bool> &available, craft_cat tab);// crafting.cpp
-  void disassemble();              // See crafting.cpp
-  void disassemble_item(recipe *dis);              // See crafting.cpp
-  void complete_disassemble();              // See crafting.cpp
-  void construction_menu();                   // See construction.cpp
+                    std::vector<bool> &available, craft_cat tab,std::string filter);// crafting.cpp
+  void disassemble(char ch = 0);       // See crafting.cpp
+  void complete_disassemble();         // See crafting.cpp
+  void construction_menu();            // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
                         const int level = -1, bool cont = false,
 			bool exact_level=false);
@@ -337,7 +348,7 @@ class game
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
-  bool handle_liquid(item &liquid, bool from_ground, bool infinite);
+
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'
   void drop(char chInput = '.');	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'

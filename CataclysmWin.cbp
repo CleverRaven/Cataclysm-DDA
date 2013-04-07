@@ -7,15 +7,14 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="bin/Release/Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-Os" />
 				</Compiler>
 				<Linker>
-					<Add option="-s" />
 					<Add option="-Wl,-stack,12000000,-subsystem,windows" />
 					<Add option="-static -lgdi32" />
 				</Linker>
@@ -66,6 +65,8 @@
 		<Unit filename="graffiti.cpp" />
 		<Unit filename="graffiti.h" />
 		<Unit filename="help.cpp" />
+		<Unit filename="iexamine.cpp" />
+		<Unit filename="iexamine.h" />
 		<Unit filename="input.cpp" />
 		<Unit filename="input.h" />
 		<Unit filename="inventory.cpp" />
@@ -139,6 +140,8 @@
 		<Unit filename="pldata.h" />
 		<Unit filename="posix_time.cpp" />
 		<Unit filename="posix_time.h" />
+		<Unit filename="profession.cpp" />
+		<Unit filename="profession.h" />
 		<Unit filename="ranged.cpp" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />

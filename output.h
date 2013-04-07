@@ -68,7 +68,7 @@ nc_color invert_color(nc_color c);
 nc_color red_background(nc_color c);
 nc_color rand_color();
 char rand_char();
-long special_symbol (char sym);
+long special_symbol (long sym);
 
 // utility: moves \n's around to fit string breaks within a certain width.
 std::string word_rewrap (const std::string &in, int width);

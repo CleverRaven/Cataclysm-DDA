@@ -261,7 +261,7 @@ void monster::move(game *g)
    hit_player(g, g->u);
   else if (mondex != -1 && g->z[mondex].type->species == species_hallu)
    g->kill_mon(mondex);
-  else if (mondex != -1 && type->melee_dice > 0 &&
+  else if (mondex != -1 && type->melee_dice > 0 && this != &(g->z[mondex]) &&
            (g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)))
    hit_monster(g, mondex);
   else if (npcdex != -1 && type->melee_dice > 0)
@@ -361,8 +361,10 @@ point monster::scent_move(game *g)
  std::vector<point> smoves;
 
  int maxsmell = 2; // Squares with smell 0 are not eligable targets
- if (has_flag(MF_KEENNOSE)) {
- int maxsmell = 1; }
+ if (has_flag(MF_KEENNOSE))
+ {
+     maxsmell = 1;
+ }
  int minsmell = 9999;
  point pbuff, next(-1, -1);
  unsigned int smell;
@@ -494,11 +496,11 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     g->add_msg("You stop reloading.");
    else if (g->u.activity.type == ACT_READ)
     g->add_msg("You stop reading.");
-   else if (g->u.activity.type == ACT_CRAFT)
+   else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
     g->add_msg("You stop crafting.");
    g->u.activity.type = ACT_NULL;
   }
-  if (p.has_active_bionic(bio_ods)) {
+  if (p.has_active_bionic("bio_ods")) {
    if (u_see)
     g->add_msg("%s offensive defense system shocks it!", Your.c_str());
    hurt(rng(10, 40));
@@ -610,7 +612,7 @@ void monster::move_to(game *g, int x, int y)
   }
 // Diggers turn the dirt into dirtmound
   if (has_flag(MF_DIGS))
-   g->m.ter(posx, posy) = t_dirtmound;
+   g->m.ter_set(posx, posy, t_dirtmound);
 // Acid trail monsters leave... a trail of acid
   if (has_flag(MF_ACIDTRAIL))
    g->m.add_field(g, posx, posy, fd_acid, 1);
@@ -628,12 +630,10 @@ void monster::move_to(game *g, int x, int y)
 void monster::stumble(game *g, bool moved)
 {
  // don't stumble every turn. every 3rd turn, or 8th when walking.
- if(moved)
-  if(!one_in(8))
-   return;
- else
-  if(!one_in(3))
-   return;
+ if((moved && !one_in(8)) || !one_in(3))
+ {
+     return;
+ }
 
  std::vector <point> valid_stumbles;
  for (int i = -1; i <= 1; i++) {
@@ -647,7 +647,9 @@ void monster::stumble(game *g, bool moved)
   }
  }
  if (valid_stumbles.size() == 0) //nowhere to stumble?
-  return;
+ {
+     return;
+ }
 
  int choice = rng(0, valid_stumbles.size() - 1);
  posx = valid_stumbles[choice].x;

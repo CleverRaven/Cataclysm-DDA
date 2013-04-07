@@ -260,12 +260,12 @@ void computer::activate_function(game *g, computer_action action)
          for (int i = 0; i < g->m.i_at(x1, y1).size(); i++) {
           item *it = &(g->m.i_at(x1, y1)[i]);
           if (it->is_container() && it->contents.empty()) {
-           it->put_in( item(g->itypes[itm_sewage], g->turn) );
+           it->put_in( item(g->itypes["sewage"], g->turn) );
            found_item = true;
           }
          }
          if (!found_item) {
-          item sewage(g->itypes[itm_sewage], g->turn);
+          item sewage(g->itypes["sewage"], g->turn);
           g->m.add_item(x1, y1, sewage);
          }
         }
@@ -467,14 +467,14 @@ void computer::activate_function(game *g, computer_action action)
    for (int i = 0; i < names.size(); i++)
     print_line(names[i].c_str());
    if (more > 0)
-    print_line("%d OTHERS FOUND...");
+    print_line("%d OTHERS FOUND...", more);
   } break;
 
   case COMPACT_ELEVATOR_ON:
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_elevator_control_off)
-      g->m.ter(x, y) = t_elevator_control;
+      g->m.ter_set(x, y, t_elevator_control);
     }
    }
    print_line("Elevator activated.");
@@ -579,7 +579,7 @@ of pureed bone & LSD.");
    break;
 
   case COMPACT_DOWNLOAD_SOFTWARE:
-   if (!g->u.has_amount(itm_usb_drive, 1))
+   if (!g->u.has_amount("usb_drive", 1))
     print_error("USB drive required!");
    else {
     mission *miss = g->find_mission(mission_id);
@@ -604,11 +604,11 @@ of pureed bone & LSD.");
        print_error("ERROR: Please place sample in centrifuge.");
       else if (g->m.i_at(x, y).size() > 1)
        print_error("ERROR: Please remove all but one sample from centrifuge.");
-      else if (g->m.i_at(x, y)[0].type->id != itm_vacutainer)
+      else if (g->m.i_at(x, y)[0].type->id != "vacutainer")
        print_error("ERROR: Please use vacutainer-contained samples.");
       else if (g->m.i_at(x, y)[0].contents.empty())
        print_error("ERROR: Vacutainer empty.");
-      else if (g->m.i_at(x, y)[0].contents[0].type->id != itm_blood)
+      else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood")
        print_error("ERROR: Please only use blood samples.");
       else { // Success!
        item *blood = &(g->m.i_at(x, y)[0].contents[0]);
@@ -618,10 +618,10 @@ of pureed bone & LSD.");
         print_line("Result:  Human blood.  Unknown pathogen found.");
         print_line("Pathogen bonded to erythrocytes and leukocytes.");
         if (query_bool("Download data?")) {
-         if (!g->u.has_amount(itm_usb_drive, 1))
+         if (!g->u.has_amount("usb_drive", 1))
           print_error("USB drive required!");
          else {
-          item software(g->itypes[itm_software_blood_data], 0);
+          item software(g->itypes["software_blood_data"], 0);
           int index = g->u.pick_usb();
           g->u.inv[index].contents.clear();
           g->u.inv[index].put_in(software);
@@ -674,7 +674,7 @@ void computer::activate_failure(game *g, computer_failure fail)
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.has_flag(console, x, y))
-      g->m.ter(x, y) = t_console_broken;
+      g->m.ter_set(x, y, t_console_broken);
     }
    }
    break;
@@ -731,7 +731,7 @@ void computer::activate_failure(game *g, computer_failure fail)
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_sewage_pump) {
-      g->m.ter(x, y) = t_rubble;
+      g->m.ter_set(x, y, t_rubble);
       g->explosion(x, y, 10, 0, false);
      }
     }
@@ -760,7 +760,7 @@ void computer::activate_failure(game *g, computer_failure fail)
         i = leak_size;
        else {
         p = next_move[rng(0, next_move.size() - 1)];
-        g->m.ter(p.x, p.y) = t_sewage;
+        g->m.ter_set(p.x, p.y, t_sewage);
        }
       }
      }
@@ -785,11 +785,11 @@ void computer::activate_failure(game *g, computer_failure fail)
         print_error("ERROR: Please place sample in centrifuge.");
        else if (g->m.i_at(x, y).size() > 1)
         print_error("ERROR: Please remove all but one sample from centrifuge.");
-       else if (g->m.i_at(x, y)[0].type->id != itm_vacutainer)
+       else if (g->m.i_at(x, y)[0].type->id != "vacutainer")
         print_error("ERROR: Please use vacutainer-contained samples.");
        else if (g->m.i_at(x, y)[0].contents.empty())
         print_error("ERROR: Vacutainer empty.");
-       else if (g->m.i_at(x, y)[0].contents[0].type->id != itm_blood)
+       else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood")
         print_error("ERROR: Please only use blood samples.");
        else {
         print_error("ERROR: Blood sample destroyed.");

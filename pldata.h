@@ -28,16 +28,16 @@ enum dis_type {
  DI_GLARE, DI_WET,
 // Temperature, the order is important (dependant on bodypart.h)
  DI_COLD,
- DI_COLD_TORSO, DI_COLD_HEAD, DI_COLD_EYES, DI_COLD_MOUTH, 
+ DI_COLD_TORSO, DI_COLD_HEAD, DI_COLD_EYES, DI_COLD_MOUTH,
  DI_COLD_ARMS, DI_COLD_HANDS, DI_COLD_LEGS, DI_COLD_FEET,
  DI_FROSTBITE,
  DI_FROSTBITE_TORSO, DI_FROSTBITE_HEAD, DI_FROSTBITE_EYES, DI_FROSTBITE_MOUTH,
  DI_FROSTBITE_ARMS, DI_FROSTBITE_HANDS, DI_FROSTBITE_LEGS, DI_FROSTBITE_FEET,
  DI_HOT,
- DI_HOT_TORSO, DI_HOT_HEAD, DI_HOT_EYES, DI_HOT_MOUTH, 
+ DI_HOT_TORSO, DI_HOT_HEAD, DI_HOT_EYES, DI_HOT_MOUTH,
  DI_HOT_ARMS, DI_HOT_HANDS, DI_HOT_LEGS, DI_HOT_FEET,
  DI_BLISTERS,
- DI_BLISTERS_TORSO, DI_BLISTERS_HEAD, DI_BLISTERS_EYES, DI_BLISTERS_MOUTH, 
+ DI_BLISTERS_TORSO, DI_BLISTERS_HEAD, DI_BLISTERS_EYES, DI_BLISTERS_MOUTH,
  DI_BLISTERS_ARMS, DI_BLISTERS_HANDS, DI_BLISTERS_LEGS, DI_BLISTERS_FEET,
 // Diseases
  DI_INFECTION,
@@ -96,8 +96,8 @@ struct addiction
 
 enum activity_type {
  ACT_NULL = 0,
- ACT_RELOAD, ACT_READ, ACT_WAIT, ACT_CRAFT, ACT_DISASSEMBLE, ACT_BUTCHER, ACT_FORAGE, ACT_BUILD,
- ACT_VEHICLE, ACT_REFILL_VEHICLE,
+ ACT_RELOAD, ACT_READ, ACT_WAIT, ACT_CRAFT, ACT_LONGCRAFT,
+ ACT_DISASSEMBLE, ACT_BUTCHER, ACT_FORAGE, ACT_BUILD, ACT_VEHICLE, ACT_REFILL_VEHICLE,
  ACT_TRAIN,
  NUM_ACTIVITIES
 };
@@ -191,6 +191,7 @@ enum pl_flag {
  PF_SPLIT,	// Null trait, splits between bad & good
 
  PF_MYOPIC,	// Smaller sight radius UNLESS wearing glasses
+ PF_HYPEROPIC, // With no reading glasses, can't read and takes melee penalty
  PF_HEAVYSLEEPER, // Sleeps in, won't wake up to sounds as easily
  PF_ASTHMA,	// Occasionally needs medicine or suffers effects
  PF_BADBACK,	// Carries less
@@ -454,6 +455,10 @@ with your choice of karate, judo, aikido, tai chi, or taekwondo."},
 Without your glasses, your seeing radius is severely reduced!  However, while\n\
 wearing glasses this trait has no effect, and you are guaranteed to start\n\
 with a pair."},
+{"Far-Sighted", -2, 0, 0, "\
+Without reading glasses, you are unable to read anything, and take penalities\n\
+on melee accuracy and electronics/tailoring crafting. However, you are\n\
+guaranteed to start with a pair of reading glasses."},
 {"Heavy Sleeper", -1, 0, 0, "\
 You're quite the heavy sleeper.  Noises are unlikely to wake you up."},
 {"Asthmatic", -4, 0, 0, "\

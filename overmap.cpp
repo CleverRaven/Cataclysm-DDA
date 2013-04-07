@@ -157,6 +157,30 @@ overmap::overmap(game *g, int x, int y)
  open(g);
 }
 
+overmap::overmap(overmap const& o)
+    : zg(o.zg)
+    , radios(o.radios)
+    , npcs(o.npcs)
+    , cities(o.cities)
+    , roads_out(o.roads_out)
+    , towns(o.towns)
+    , loc(o.loc)
+    , prefix(o.prefix)
+    , name(o.name)
+    , layer(NULL)
+{
+    layer = new map_layer[OVERMAP_LAYERS];
+    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
+        for(int i = 0; i < OMAPX; ++i) {
+            for(int j = 0; j < OMAPY; ++j) {
+                layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
+                layer[z].visible[i][j] = o.layer[z].visible[i][j];
+            }
+        }
+        layer[z].notes = o.layer[z].notes;
+    }
+}
+
 overmap::~overmap()
 {
 	if (layer) {
@@ -167,28 +191,33 @@ overmap::~overmap()
 
 overmap& overmap::operator=(overmap const& o)
 {
-	loc = o.loc;
-	prefix = o.prefix;
-	name = o.name;
-	cities = o.cities;
-	roads_out = o.roads_out;
-	towns = o.towns;
-	zg = o.zg;
-	radios = o.radios;
-	npcs = o.npcs;
+    zg = o.zg;
+    radios = o.radios;
+    npcs = o.npcs;
+    cities = o.cities;
+    roads_out = o.roads_out;
+    towns = o.towns;
+    loc = o.loc;
+    prefix = o.prefix;
+    name = o.name;
 
- layer = new map_layer[OVERMAP_LAYERS];
-	for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-		for(int i = 0; i < OMAPX; ++i) {
-			for(int j = 0; j < OMAPY; ++j) {
-				layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
-				layer[z].visible[i][j] = o.layer[z].visible[i][j];
-			}
-		}
-		layer[z].notes = o.layer[z].notes;
-	}
+    if (layer) {
+        delete [] layer;
+        layer = NULL;
+    }
 
-	return *this;
+    layer = new map_layer[OVERMAP_LAYERS];
+    for(int z = 0; z < OVERMAP_LAYERS; ++z) {
+        for(int i = 0; i < OMAPX; ++i) {
+            for(int j = 0; j < OMAPY; ++j) {
+                layer[z].terrain[i][j] = o.layer[z].terrain[i][j];
+                layer[z].visible[i][j] = o.layer[z].visible[i][j];
+            }
+        }
+        layer[z].notes = o.layer[z].notes;
+    }
+
+    return *this;
 }
 
 void overmap::init_layers()
@@ -846,6 +875,23 @@ point overmap::find_closest(point origin, oter_id type, int type_range,
  }
  dist=-1;
  return point(-1, -1);
+}
+
+std::vector<point> overmap::find_all(tripoint origin, oter_id type, int type_range,
+                                     int &dist, bool must_be_seen)
+{
+ std::vector<point> res;
+ int max = (dist == 0 ? OMAPX / 2 : dist);
+ for (dist = 0; dist <= max; dist++) {
+  for (int x = origin.x - dist; x <= origin.x + dist; x++) {
+   for (int y = origin.y - dist; y <= origin.y + dist; y++) {
+     if (ter(x, y, origin.z) >= type && ter(x, y, origin.z) < type + type_range &&
+         (!must_be_seen || seen(x, y, origin.z)))
+     res.push_back(point(x, y));
+   }
+  }
+ }
+ return res;
 }
 
 std::vector<point> overmap::find_terrain(std::string term, int cursx, int cursy, int zlevel)
@@ -1698,20 +1744,28 @@ void overmap::build_tunnel(int x, int y, int z, int s, int dir)
 
 bool overmap::build_slimepit(int x, int y, int z, int s)
 {
-	bool requires_sub = false;
- for (int n = 1; n <= s; n++) {
-  for (int i = x - n; i <= x + n; i++) {
-   for (int j = y - n; j <= y + n; j++) {
-    if (rng(1, s * 2) >= n)
-    	if (one_in(8)) {
-    		ter(i, j, z) = ot_slimepit_down;
-    		requires_sub = true;
-    	} else
-      ter(i, j, z) = ot_slimepit;
+    bool requires_sub = false;
+    for (int n = 1; n <= s; n++)
+    {
+        for (int i = x - n; i <= x + n; i++)
+        {
+            for (int j = y - n; j <= y + n; j++)
+            {
+                if (rng(1, s * 2) >= n)
+                {
+                    if (one_in(8))
+                    {
+                        ter(i, j, z) = ot_slimepit_down;
+                        requires_sub = true;
+                    } else {
+                        ter(i, j, z) = ot_slimepit;
+                    }
+                }
+            }
+        }
     }
-   }
- }
- return requires_sub;
+
+    return requires_sub;
 }
 
 void overmap::build_mine(int x, int y, int z, int s)
@@ -2215,7 +2269,7 @@ void overmap::place_specials()
     point pt(p.x, p.y);
     // Skip non-classic specials if we're in classic mode
     if (OPTIONS[OPT_CLASSIC_ZOMBIES] && !(special.flags & mfb(OMS_FLAG_CLASSIC))) continue;
-    if ((placed[i] < special.max_appearances || special.max_appearances <= 0) &&
+    if ((placed[ omspec_id(i) ] < special.max_appearances || special.max_appearances <= 0) &&
         (min == -1 || dist_from_city(pt) >= min) &&
         (max == -1 || dist_from_city(pt) <= max) &&
         (place.*special.able)(this, p))
@@ -2228,7 +2282,7 @@ void overmap::place_specials()
 // Place the MUST HAVE ones first, to try and guarantee that they appear
    std::vector<omspec_id> must_place;
    for (int i = 0; i < valid.size(); i++) {
-    if (placed[i] < overmap_specials[ valid[i] ].min_appearances)
+    if (placed[ valid[i] ] < overmap_specials[ valid[i] ].min_appearances)
      must_place.push_back(valid[i]);
    }
    if (must_place.empty()) {
@@ -2342,7 +2396,7 @@ void overmap::place_special(overmap_special special, tripoint p)
     distance = dist;
    }
   }
-  make_hiway(p.x, p.y, 0, cities[closest].x, cities[closest].y, ot_road_null);
+  make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
 
  if (special.flags & mfb(OMS_FLAG_PARKING_LOT)) {
@@ -2355,7 +2409,7 @@ void overmap::place_special(overmap_special special, tripoint p)
    }
   }
   ter(p.x, p.y - 1, p.z) = ot_s_lot;
-  make_hiway(p.x, p.y - 1, 0, cities[closest].x, cities[closest].y, ot_road_null);
+  make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
  if (special.flags & mfb(OMS_FLAG_DIRT_LOT)) {
   int closest = -1, distance = 999;
@@ -2367,7 +2421,7 @@ void overmap::place_special(overmap_special special, tripoint p)
    }
   }
   ter(p.x, p.y - 1, p.z) = ot_dirtlot;
-  make_hiway(p.x, p.y - 1, 0, cities[closest].x, cities[closest].y, ot_road_null);
+  make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
 
 // Finally, place monsters if applicable
@@ -2469,7 +2523,7 @@ void overmap::place_radios()
     break;
    case ot_fema_entrance:
     snprintf( message, sizeof(message), "This is FEMA camp %d%d.\
-  Supplies are limited, please bring supplimental food, water, and bedding.\
+  Supplies are limited, please bring supplemental food, water, and bedding.\
   This is FEMA camp %d%d.  A desginated long-term emergency shelter.", i, j, i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
      break;
@@ -2540,7 +2594,7 @@ void overmap::open(game *g)
  std::string const terfilename = terrain_filename(loc.x, loc.y);
  std::ifstream fin;
  char datatype;
- int ct, cx, cy, cz, cs, cp, cd;
+ int cx, cy, cz, cs, cp, cd;
  std::string cstr;
  city tmp;
  std::vector<item> npc_inventory;

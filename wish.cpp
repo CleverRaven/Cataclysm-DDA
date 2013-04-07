@@ -11,7 +11,8 @@ void game::wish()
  WINDOW* w_info = newwin(25, 50, 0, 30);
  int a = 0, shift = 0, result_selected = 0;
  int ch = '.';
- bool search = false, found = false;
+ bool search = false;
+ bool incontainer = false;
  std::string pattern;
  std::string info;
  std::vector<int> search_results;
@@ -22,10 +23,8 @@ void game::wish()
   werase(w_list);
   mvwprintw(w_list, 0, 0, "Wish for a: ");
   if (search) {
-   found = false;
    if (ch == '\n') {
     search = false;
-    found = true;
     ch = '.';
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
@@ -38,9 +37,9 @@ void game::wish()
       result_selected = 0;
      shift = search_results[result_selected];
      a = 0;
-     if (shift + 23 > itypes.size()) {
-      a = shift + 23 - itypes.size();
-      shift = itypes.size() - 23;
+     if (shift + 23 > standard_itype_ids.size()) {
+      a = shift + 23 - standard_itype_ids.size();
+      shift = standard_itype_ids.size() - 23;
      }
     }
    } else if (ch == '<') {
@@ -51,9 +50,9 @@ void game::wish()
       result_selected = search_results.size() - 1;
      shift = search_results[result_selected];
      a = 0;
-     if (shift + 23 > itypes.size()) {
-      a = shift + 23 - itypes.size();
-      shift = itypes.size() - 23;
+     if (shift + 23 > standard_itype_ids.size()) {
+      a = shift + 23 - standard_itype_ids.size();
+      shift = standard_itype_ids.size() - 23;
      }
     }
    } else {
@@ -62,16 +61,15 @@ void game::wish()
    }
 
    if (search) {
-    for (int i = 0; i < itypes.size(); i++) {
-     if (itypes[i]->name.find(pattern) != std::string::npos) {
+    for (int i = 0; i < standard_itype_ids.size(); i++) {
+     if (itypes[standard_itype_ids[i]]->name.find(pattern) != std::string::npos) {
       shift = i;
       a = 0;
       result_selected = 0;
-      if (shift + 23 > itypes.size()) {
-       a = shift + 23 - itypes.size();
-       shift = itypes.size() - 23;
+      if (shift + 23 > standard_itype_ids.size()) {
+       a = shift + 23 - standard_itype_ids.size();
+       shift = standard_itype_ids.size() - 23;
       }
-      found = true;
       search_results.push_back(i);
      }
     }
@@ -87,18 +85,18 @@ void game::wish()
    if (ch == '/') {
     search = true;
     pattern =  "";
-    found = false;
     search_results.clear();
    }
+   if (ch == 'f') incontainer = !incontainer;
    if (ch == '>' && !search_results.empty()) {
     result_selected++;
     if (result_selected > search_results.size())
      result_selected = 0;
     shift = search_results[result_selected];
     a = 0;
-    if (shift + 23 > itypes.size()) {
-     a = shift + 23 - itypes.size();
-     shift = itypes.size() - 23;
+    if (shift + 23 > standard_itype_ids.size()) {
+     a = shift + 23 - standard_itype_ids.size();
+     shift = standard_itype_ids.size() - 23;
     }
    } else if (ch == '<' && !search_results.empty()) {
     result_selected--;
@@ -106,9 +104,9 @@ void game::wish()
      result_selected = search_results.size() - 1;
     shift = search_results[result_selected];
     a = 0;
-    if (shift + 23 > itypes.size()) {
-     a = shift + 23 - itypes.size();
-     shift = itypes.size() - 23;
+    if (shift + 23 > standard_itype_ids.size()) {
+     a = shift + 23 - standard_itype_ids.size();
+     shift = standard_itype_ids.size() - 23;
     }
    }
   }
@@ -116,6 +114,8 @@ void game::wish()
    mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
   else if (pattern.length() > 0)
    mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
+  if (incontainer)
+   mvwprintz(w_list, 1, 20, c_ltblue, "contained");
   if (a < 0) {
    a = 0;
    shift--;
@@ -124,16 +124,16 @@ void game::wish()
   if (a > 22) {
    a = 22;
    shift++;
-   if (shift + 23 > itypes.size()) shift = itypes.size() - 23;
+   if (shift + 23 > standard_itype_ids.size()) shift = standard_itype_ids.size() - 23;
   }
-  for (int i = 1; i < 24 && i-1+shift < itypes.size(); i++) {
+  for (int i = 1; i < 24 && i-1+shift < standard_itype_ids.size(); i++) {
    nc_color col = c_white;
    if (i == a + 1)
     col = h_white;
-   mvwprintz(w_list, i, 0, col, itypes[i-1+shift]->name.c_str());
-   wprintz(w_list, itypes[i-1+shift]->color, "%c%", itypes[i-1+shift]->sym);
+   mvwprintz(w_list, i, 0, col, itypes[standard_itype_ids[i-1+shift]]->name.c_str());
+   wprintz(w_list, itypes[standard_itype_ids[i-1+shift]]->color, "%c%", itypes[standard_itype_ids[i-1+shift]]->sym);
   }
-  tmp.make(itypes[a + shift]);
+  tmp.make(itypes[standard_itype_ids[a + shift]]);
   tmp.bday = turn;
   if (tmp.is_tool())
    tmp.charges = dynamic_cast<it_tool*>(tmp.type)->max_charges;
@@ -142,7 +142,7 @@ void game::wish()
   else if (tmp.is_gun())
    tmp.charges = 0;
   else if (tmp.is_gunmod() && (tmp.has_flag(IF_MODE_AUX) ||
-			       tmp.typeId() == itm_spare_mag))
+			       tmp.typeId() == "spare_mag"))
    tmp.charges = 0;
   else
    tmp.charges = -1;
@@ -156,9 +156,12 @@ void game::wish()
    ch = input();
  } while (ch != '\n');
  clear();
- mvprintw(0, 0, "\nWish granted - %d (%d).", tmp.type->id, itm_antibiotics);
+ mvprintw(0, 0, "\nWish granted - %d (%d).", tmp.type->id.c_str(), "antibiotics");
  tmp.invlet = nextinv;
- u.i_add(tmp);
+ if (!incontainer)
+  u.i_add(tmp);
+ else
+  u.i_add(tmp.in_its_container(&itypes));
  advance_nextinv();
  getch();
  delwin(w_info);
@@ -171,7 +174,7 @@ void game::monster_wish()
  WINDOW* w_info = newwin(25, 50, 0, 30);
  int a = 0, shift = 1, result_selected = 0;
  int ch = '.';
- bool search = false, found = false, friendly = false;
+ bool search = false, friendly = false;
  std::string pattern;
  std::string info;
  std::vector<int> search_results;
@@ -181,10 +184,8 @@ void game::monster_wish()
   werase(w_list);
   mvwprintw(w_list, 0, 0, "Spawn a: ");
   if (search) {
-   found = false;
    if (ch == '\n') {
     search = false;
-    found = true;
     ch = '.';
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
@@ -230,7 +231,6 @@ void game::monster_wish()
        a = shift + 23 - mtypes.size();
        shift = mtypes.size() - 23;
       }
-      found = true;
       search_results.push_back(i);
      }
     }
@@ -243,7 +243,6 @@ void game::monster_wish()
    if (ch == '/') {
     search = true;
     pattern =  "";
-    found = false;
     search_results.clear();
    }
    if (ch == '>' && !search_results.empty()) {
@@ -318,7 +317,7 @@ void game::mutation_wish()
  WINDOW* w_info = newwin(25, 50, 0, 30);
  int a = 0, shift = 0, result_selected = 0;
  int ch = '.';
- bool search = false, found = false;
+ bool search = false;
  std::string pattern;
  std::string info;
  std::vector<int> search_results;
@@ -327,10 +326,8 @@ void game::mutation_wish()
   werase(w_list);
   mvwprintw(w_list, 0, 0, "Mutate: ");
   if (search) {
-   found = false;
    if (ch == '\n') {
     search = false;
-    found = true;
     ch = '.';
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
@@ -376,7 +373,6 @@ void game::mutation_wish()
        a = shift + 23 - PF_MAX2;
        shift = PF_MAX2 - 23;
       }
-      found = true;
       search_results.push_back(i);
      }
     }
@@ -392,7 +388,6 @@ void game::mutation_wish()
    if (ch == '/') {
     search = true;
     pattern =  "";
-    found = false;
     search_results.clear();
    }
    if (ch == '>' && !search_results.empty()) {

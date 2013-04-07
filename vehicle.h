@@ -14,8 +14,8 @@ class map;
 class player;
 class game;
 
-const int num_fuel_types = 4;
-const int fuel_types[num_fuel_types] = { AT_GAS, AT_BATT, AT_PLUT, AT_PLASMA };
+const int num_fuel_types = 5;
+const int fuel_types[num_fuel_types] = { AT_GAS, AT_BATT, AT_PLUT, AT_PLASMA, AT_WATER };
 const int k_mvel = 200;
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
@@ -49,7 +49,7 @@ struct veh_collision {
 struct vehicle_part
 {
     vehicle_part() : id(vp_null), mount_dx(0), mount_dy(0), hp(0),
-    blood(0), inside(false), flags(0), passenger_id(0), bigness(0)
+      blood(0), bigness(0), inside(false), flags(0), passenger_id(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
@@ -246,6 +246,10 @@ public:
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
     int refill (int ftype, int amount);
+
+    // drains a fuel type (e.g. for the kitchen unit)
+    // returns amount actually drained, does not engage reactor
+    int drain (int ftype, int amount);
 
 // vehicle's fuel type name
     std::string fuel_name(int ftype);

@@ -54,6 +54,7 @@ class overmap
 {
  public:
   overmap();
+  overmap(overmap const&);
   overmap(game *g, int x, int y);
   ~overmap();
 
@@ -78,6 +79,8 @@ class overmap
   // TODO: make this 3d
   point find_closest(point origin, oter_id type, int type_range,
                      int &dist, bool must_be_seen);
+  std::vector<point> find_all(tripoint origin, oter_id type, int type_range,
+                              int &dist, bool must_be_seen);
   std::vector<point> find_terrain(std::string term, int cursx, int cursy, int zlevel);
   int closest_city(point p);
   point random_house_in_city(int city_id);
@@ -118,9 +121,6 @@ class overmap
   oter_id nullret;
   bool nullbool;
   std::string nullstr;
-
-  // no copy constructor
-  overmap(overmap const&);
 
   // Initialise
   void init_layers();

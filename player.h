@@ -20,6 +20,7 @@ class monster;
 class game;
 class trap;
 class mission;
+class profession;
 
 struct special_attack
 {
@@ -182,6 +183,7 @@ public:
  bool has_addiction(add_type type);
  int  addiction_level(add_type type);
 
+ void cauterize(game *g);
  void suffer(game *g);
  void vomit(game *g);
 
@@ -198,6 +200,16 @@ public:
  void read(game *g, char let);	// Read a book
  void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN
+
+ // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
+ hint_rating rate_action_use(item *it); //rates usability lower for non-tools (books, etc.)
+ hint_rating rate_action_wear(item *it);
+ hint_rating rate_action_eat(item *it);
+ hint_rating rate_action_read(item *it, game *g);
+ hint_rating rate_action_takeoff(item *it);
+ hint_rating rate_action_reload(item *it);
+ hint_rating rate_action_unload(item *it);
+ hint_rating rate_action_disassemble(item *it, game *g);
 
  int warmth(body_part bp);	// Warmth provided by armor &c
  int encumb(body_part bp);	// Encumberance from armor &c
@@ -244,6 +256,7 @@ public:
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
  void use_amount(itype_id it, int quantity, bool use_container = false);
+ bool use_charges_if_avail(itype_id it, int quantity);// Uses up charges
  void use_charges(itype_id it, int quantity);// Uses up charges
  bool has_amount(itype_id it, int quantity);
  bool has_charges(itype_id it, int quantity);
@@ -251,7 +264,7 @@ public:
  int  charges_of(itype_id it);
 
  bool has_watertight_container();
- bool has_matching_liquid(int it);
+ bool has_matching_liquid(itype_id it);
  bool has_weapon_or_armor(char let);	// Has an item with invlet let
  bool has_item(char let);		// Has an item with invlet let
  bool has_item(item *it);		// Has a specific item
@@ -273,6 +286,7 @@ public:
 
  std::string name;
  bool male;
+ profession* prof;
  bool my_traits[PF_MAX2];
  bool my_mutations[PF_MAX2];
  int mutation_category_level[NUM_MUTATION_CATEGORIES];
@@ -293,7 +307,7 @@ public:
  int cash;
  int moves;
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
- signed int temp_cur[num_bp], frostbite_timer[num_bp];
+ signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
 
  std::vector<morale_point> morale;

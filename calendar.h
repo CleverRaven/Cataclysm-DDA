@@ -70,12 +70,12 @@ class calendar
   void standardize(); // Ensure minutes <= 59, hour <= 23, etc.
 
 // Sunlight and day/night calcuations
-  int minutes_past_midnight(); // Useful for sunrise/set calculations
-  moon_phase moon();  // Find phase of moon
-  calendar sunrise(); // Current time of sunrise
-  calendar sunset();  // Current time of sunset
-  bool is_night();    // After sunset + TWILIGHT_MINUTES, before sunrise
-  int sunlight();     // Current amount of sun/moonlight; uses preceding funcs
+  int minutes_past_midnight() const; // Useful for sunrise/set calculations
+  moon_phase moon() const;  // Find phase of moon
+  calendar sunrise() const; // Current time of sunrise
+  calendar sunset() const;  // Current time of sunset
+  bool is_night() const;    // After sunset + TWILIGHT_MINUTES, before sunrise
+  int sunlight() const;     // Current amount of sun/moonlight; uses preceding funcs
 
 // Print-friendly stuff
   std::string print_time(bool twentyfour = false);
