@@ -195,6 +195,7 @@ class map
  computer* add_computer(const int x, const int y, std::string name, const int security);
  float light_transparency(const int x, const int y) const;
  void build_map_cache(game *g);
+ void build_outside_cache(const game *g);
  lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
  float ambient_light_at(int dx, int dy); // Raw values for tilesets
  bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
@@ -217,7 +218,6 @@ protected:
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
  void build_transparency_cache();
- void build_outside_cache(const game *g);
  void generate_lightmap(game *g);
  void build_seen_cache(game *g);
 
