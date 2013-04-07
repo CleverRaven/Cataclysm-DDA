@@ -103,6 +103,7 @@ public:
  style_move style_data(technique_id tech);
  bool is_two_handed(player *u);
  bool made_of(material mat);
+ bool made_of(phase_id phase);
  bool conductive(); // Electricity
  bool destroyed_at_zero_charges();
 // Most of the is_whatever() functions call the same function in our itype

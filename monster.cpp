@@ -263,6 +263,13 @@ bool monster::made_of(material m)
  return false;
 }
 
+bool monster::made_of(phase_id p)
+{
+ if (type->phase == p)
+  return true;
+ return false;
+}
+
 void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
 {
  std::stringstream dump;

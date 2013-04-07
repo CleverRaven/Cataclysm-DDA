@@ -34,26 +34,26 @@ void game::init_itypes ()
 {
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes["null"]=
-  new itype("null", 0, 0, "none", "", '#', c_white, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+  new itype("null", 0, 0, "none", "", '#', c_white, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 // Corpse - a special item
  itypes["corpse"]=
-  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, 0, 0,
+  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, PNULL, 0, 0,
             0, 0, 1, 0);
 // Fire - only appears in crafting recipes
  itypes["fire"]=
   new itype("fire", 0, 0, "nearby fire",
             "Some fire - if you are reading this it's a bug!",
-            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 // Integrated toolset - ditto
  itypes["toolset"]=
   new itype("toolset", 0, 0, "integrated toolset",
             "A fake item. If you are reading this it's a bug!",
-            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 // For smoking crack or meth
  itypes["apparatus"]=
   new itype("apparatus", 0, 0, "something to smoke that from, and a lighter",
             "A fake item. If you are reading this it's a bug!",
-            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 
 // Drinks
 // Stim should be -8 to 8.
@@ -65,7 +65,7 @@ void game::init_itypes ()
 #define DRINK(id, name,rarity,price,color,container,quench,nutr,spoils,stim,\
 healthy,addict,charges,fun,use_func,addict_func,des, item_flags) \
 	itypes[id] = new it_comest(id,rarity,price,name,des,'~',\
-color,LIQUID,2,1,0,0,0,item_flags,quench,nutr,spoils,stim,healthy,addict,charges,\
+color,MNULL,LIQUID,2,1,0,0,0,item_flags,quench,nutr,spoils,stim,healthy,addict,charges,\
 fun,container,"null",use_func,addict_func,"DRINK");
 
 //     NAME		RAR PRC	COLOR     CONTAINER
@@ -131,6 +131,7 @@ A nutritious and delicious hearty vegetable soup.", mfb(IF_EATEN_HOT));
 DRINK("soup_meat","meat soup",		15, 60, c_red,    "can_food",
 	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
 A nutritious and delicious hearty meat soup.", mfb(IF_EATEN_HOT));
+itypes["soup_meat"]->m1 = FLESH;
 
 DRINK("whiskey","whiskey",	16, 85,	c_brown,  "bottle_glass",
 	-12, 4,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
@@ -204,7 +205,7 @@ Blood, possibly that of a human. Disgusting!", 0);
 #define FOOD(id, name, rarity,price,color,mat1,container,volume,weight,quench,\
 nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des, item_flags) \
 itypes[id]=new it_comest(id,rarity,price,name,des,'%',\
-color,mat1,volume,weight,0,0,0,item_flags, quench,nutr,spoils,stim,healthy,addict,charges,\
+color,mat1,SOLID,volume,weight,0,0,0,item_flags, quench,nutr,spoils,stim,healthy,addict,charges,\
 fun,container,"null",use_func,addict_func,"FOOD");
 // FOOD
 
@@ -537,7 +538,7 @@ Delicious sponge cake with buttercream icing, it says happy birthday on it.", 0)
 #define MED(id, name,rarity,price,color,tool,mat,stim,healthy,addict,\
 charges,fun,use_func,addict_func,des) \
 itypes[id]=new it_comest(id,rarity,price,name,des,'!',\
-color,mat,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
+color,mat,SOLID,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
 fun,"null",tool,use_func,addict_func,"MED");
 
 //  NAME		RAR PRC	COLOR		TOOL
@@ -687,7 +688,7 @@ gracken");
 #define MELEE(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, des)\
 itypes[id]=new itype(id,rarity,price,name,des,sym,\
-color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags)
+color,mat1,mat2,SOLID,volume,wgt,dam,cut,to_hit,flags);
 
 //    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
 MELEE("wrapper", "paper wrapper",	50,  1, ',', c_ltgray,	PAPER,	MNULL,
@@ -1918,13 +1919,13 @@ A heavy duty hauling frame designed to interface with power armor.");
 // AP is a reduction in the armor of the target.
 // Accuracy is in quarter-degrees, and measures the maximum this ammo will
 //   contribute to the angle of difference.  HIGH ACC IS BAD.
-// Recoil is cumulitive between shots.  4 recoil = 1 accuracy.
+// Recoil is cumulative between shots.  4 recoil = 1 accuracy.
 // IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
 //   at the end of this file.
 #define AMMO(id, name,rarity,price,ammo_type,color,mat,volume,wgt,dmg,AP,range,\
 accuracy,recoil,count,des,effects) \
 itypes[id]=new it_ammo(id,rarity,price,name,des,'=',\
-color,mat,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count)
+color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("battery", "batteries",	50, 120,AT_BATT,	c_magenta,	IRON,
@@ -2428,7 +2429,7 @@ ammunition.",
 #define FUEL(id, name,rarity,price,ammo_type,color,dmg,AP,range,accuracy,recoil,\
              count,des,effects) \
 itypes[id]=new it_ammo(id,rarity,price,name,des,'~',\
-color,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count)
+color,MNULL,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count)
 FUEL("gasoline","gasoline",	0,  50,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
 	 5,  5,  4,  0,  0,  200, "\
@@ -2518,7 +2519,7 @@ itypes[id]=new it_container(id,rarity,price,name,des,\
 melee_cut,to_hit,max_charge,def_charge,charge_per_use,charge_per_sec,fuel,\
 revert,func,flags,des) \
 itypes[id]=new it_tool(id,rarity,price,name,des,sym,\
-color,mat1,mat2,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
+color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
 
 //  NAME		RAR PRC COLOR		MAT1	MAT2

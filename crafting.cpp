@@ -1065,7 +1065,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("toolset", 5);
   COMP("radio", 1);
   COMP("amplifier", 2);
-  
+
   RECIPE("noise_emitter", CC_ELECTRONIC, "electronics", NULL, 2, 30000, true);
   TOOL("screwdriver", -1);
   TOOLCONT("toolset", -1);
@@ -1871,7 +1871,7 @@ bool game::making_would_work(recipe *making)
 
     if(can_make(making))
     {
-        if (itypes[(making->result)]->m1 == LIQUID)
+        if (itypes[(making->result)]->phase == LIQUID)
         {
             if (u.has_watertight_container() || u.has_matching_liquid(itypes[making->result]->id))
             {
@@ -2293,7 +2293,7 @@ recipe* game::select_crafting_recipe()
                 }
                 else
                 {// is player making a liquid? Then need to check for valid container
-                    if (itypes[current[line]->result]->m1 == LIQUID)
+                    if (itypes[current[line]->result]->phase == LIQUID)
                     {
                         if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id))
                         {

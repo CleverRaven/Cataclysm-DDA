@@ -489,7 +489,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
  } else if (is_armor()) {
   it_armor* armor = dynamic_cast<it_armor*>(type);
-  
+
   temp1.str("");
   temp1 << " Covers: ";
   if (armor->covers & mfb(bp_head))
@@ -567,7 +567,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This piece of clothing fits you perfectly."));
-    }  
+    }
   if (contents.size() > 0) {
    if (is_gun()) {
     for (int i = 0; i < contents.size(); i++)
@@ -1107,6 +1107,14 @@ bool item::made_of(material mat)
  return (type->m1 == mat || type->m2 == mat);
 }
 
+bool item::made_of(phase_id phase)
+{
+    if( is_null() )
+        return false;
+
+    return (type->phase = phase);
+}
+
 bool item::conductive()
 {
  if( is_null() )
@@ -1230,7 +1238,7 @@ bool item::is_drink()
  if( is_null() )
   return false;
 
- return type->is_food() && type->m1 == LIQUID;
+ return type->is_food() && type->phase == LIQUID;
 }
 
 bool item::is_weap()
