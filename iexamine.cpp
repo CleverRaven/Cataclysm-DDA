@@ -176,7 +176,7 @@ void iexamine::chainfence(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::tent(game *g, player *p, map *m, int examx, int examy) {
- if (!query_yn("Take down %s?",m->tername(examx, examy).c_str())) {
+ if (!query_yn("Take down your tent?")) {
   none(g, p, m, examx, examy);
   return;
  }
