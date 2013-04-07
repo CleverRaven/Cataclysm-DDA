@@ -7446,7 +7446,10 @@ void game::update_map(int &x, int &y)
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEY * MAPSIZE; j++)
    scent(i, j) = newscent[i][j];
+  
  }
+ // Make sure map cache is consistent since it may have shifted.
+ m.build_map_cache(this);
 // Update what parts of the world map we can see
  update_overmap_seen();
  draw_minimap();
