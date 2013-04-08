@@ -4913,6 +4913,27 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
     return string_input_popup("Filter:", 55, sFilter);
 }
 
+void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
+{
+    //Remove previous trail, if any
+    for (int i = 0; i < vPoint.size(); i++)
+    {
+        m.drawsq(w_terrain, u, vPoint[i].x, vPoint[i].y, false, true);
+    }
+
+    //Draw new trail
+    vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
+    for (int i = 1; i < vPoint.size(); i++)
+    {
+        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
+    }
+
+    mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
+                        vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
+
+    wrefresh(w_terrain);
+}
+
 void game::list_items()
 {
     int iInfoHeight = 12;
@@ -5139,23 +5160,7 @@ void game::list_items()
                     iLastActiveX = iActiveX;
                     iLastActiveY = iActiveY;
 
-                    //Remove previous trail
-                    for (int i = 0; i < vPoint.size(); i++)
-                    {
-                        m.drawsq(w_terrain, u, vPoint[i].x, vPoint[i].y, false, true);
-                    }
-
-                    //Draw new trail
-                    vPoint = line_to(u.posx, u.posy, u.posx + iActiveX, u.posy + iActiveY, 0);
-                    for (int i = 1; i < vPoint.size(); i++)
-                    {
-                        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
-                    }
-
-                    mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
-                                        vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
-
-                    wrefresh(w_terrain);
+                    draw_trail_to_square(vPoint, iActiveX, iActiveY);
                 }
 
                 wrefresh(w_items);
