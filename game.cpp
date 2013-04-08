@@ -5053,6 +5053,11 @@ void game::list_items()
 
                 oThisItem.info(true, &vThisItem);
                 compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
+                
+                getch(); // wait until the user presses a key to wipe the screen
+                iLastActiveX = -1;
+                iLastActiveY = -1;
+                reset = true;
             }
 
             if (reset)
