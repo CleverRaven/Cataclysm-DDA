@@ -4925,7 +4925,9 @@ void game::list_items()
     //this stores the items found, along with the coordinates
     std::vector<map_item_stack> ground_items = find_nearby_items(iSearchX, iSearchY);
     //this stores only those items that match our filter
-    std::vector<map_item_stack> filtered_items = ground_items;
+    std::vector<map_item_stack> filtered_items = (sFilter != "" ?
+                                                  filter_item_stacks(ground_items, sFilter) :
+                                                  ground_items);
 
     const int iItemNum = ground_items.size();
 
