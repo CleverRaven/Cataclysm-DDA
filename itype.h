@@ -267,6 +267,7 @@ struct itype
   color       = pcolor;
   m1          = pm1;
   m2          = pm2;
+  phase       = pphase;
   volume      = pvolume;
   weight      = pweight;
   melee_dam   = pmelee_dam;
