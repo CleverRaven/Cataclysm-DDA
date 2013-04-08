@@ -775,10 +775,7 @@ ter_id map::ter(const int x, const int y) const
  if (!INBOUNDS(x, y)) {
   return t_null;
  }
-/*
- int nonant;
- cast_to_nonant(x, y, nonant);
-*/
+
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  const int lx = x % SEEX;
