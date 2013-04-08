@@ -423,14 +423,12 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   int blister_count = 0; // If the counter is high, your skin starts to burn
   for (int j = -6 ; j <= 6 ; j++){
    for (int k = -6 ; k <= 6 ; k++){
-    // Bizarre workaround for g->u_see() and friends not taking const arguments.
-    int l = std::max(j, k);
     int heat_intensity = 0;
     if(g->m.field_at(posx + j, posy + k).type == fd_fire)
      heat_intensity = g->m.field_at(posx + j, posy + k).density;
     else if (g->m.tr_at(posx + j, posy + k) == tr_lava )
       heat_intensity = 3;
-    if (heat_intensity > 0 && g->u_see(posx + j, posy + k, l)) {
+    if (heat_intensity > 0 && g->u_see(posx + j, posy + k)) {
      // Ensure fire_dist >=1 to avoid divide-by-zero errors.
      int fire_dist = std::max(1, std::max(j, k));
      if (frostbite_timer[i] > 0) frostbite_timer[i] -= heat_intensity - fire_dist / 2;
@@ -2668,8 +2666,7 @@ void player::knock_back_from(game *g, int x, int y)
  if (y > posy)
   to.y--;
 
- int t = 0;
- bool u_see = (!is_npc() || g->u_see(to.x, to.y, t));
+ bool u_see = (!is_npc() || g->u_see(to.x, to.y));
 
  std::string You = (is_npc() ? name : "You");
  std::string s = (is_npc() ? "s" : "");
@@ -3800,6 +3797,46 @@ bool player::use_charges_if_avail(itype_id it, int quantity)
     return false;
 }
 
+bool player::use_fire_tool_if_avail(int quantity)
+{
+//Ok, so checks for nearby fires first,
+//then held lit torch or candle, bio tool/lighter/laser
+//tries to use 1 charge of lighters, matches, flame throwers
+// (home made, military), hotplate, welder in that order.
+// bio_lighter, bio_laser, bio_tools, has_bionic("bio_tools"
+
+    if (has_charges("torch_lit", 1)) {
+        return true;
+    } else if (has_charges("candle_lit", 1)) {
+        return true;
+    } else if (has_bionic("bio_tools")) {
+        return true;
+    } else if (has_bionic("bio_lighter")) {
+        return true;
+    } else if (has_bionic("bio_laser")) {
+        return true;
+    } else if (has_charges("matches", quantity)) {
+     use_charges("matches", quantity);
+     return true;
+    } else if (has_charges("lighter", quantity)) {
+     use_charges("lighter", quantity);
+     return true;
+    } else if (has_charges("flamethrower", quantity)) {
+     use_charges("flamethrower", quantity);
+     return true;
+    } else if (has_charges("flamethrower_simple", quantity)) {
+     use_charges("flamethrower_simple", quantity);
+     return true;
+    } else if (has_charges("hotplate", quantity)) {
+     use_charges("welder", quantity);
+     return true;
+    } else if (has_charges("welder", quantity)) {
+     use_charges("welder", quantity);
+     return true;
+    }
+    return false;
+}
+
 void player::use_charges(itype_id it, int quantity)
 {
  if (it == "toolset") {
@@ -4152,7 +4189,6 @@ bool player::eat(game *g, int index)
     it_comest *comest = NULL;
     item *eaten = NULL;
     int which = -3; // Helps us know how to delete the item which got eaten
-    int linet;
     if (index == -2)
     {
         g->add_msg("You do not have that item.");
@@ -4244,9 +4280,10 @@ bool player::eat(game *g, int index)
         if (comest->tool != "null")
         {
             bool has = has_amount(comest->tool, 1);
-            if (g->itypes[comest->tool]->count_by_charges())
-                has = has_charges(comest->tool, 1);
-            if (!has)
+//   if (g->itypes[comest->tool]->count_by_charges())
+//    has = has_charges(comest->tool, 1);
+   if (!use_fire_tool_if_avail(1)) {
+//   if (!has) {
             {
                 if (!is_npc())
                     g->add_msg("You need a %s to consume that!",
@@ -4327,7 +4364,7 @@ bool player::eat(game *g, int index)
             else if (comest->nutr >= 5)
                 g->add_msg("You eat your %s.", eaten->tname(g).c_str());
         }
-        else if (g->u_see(posx, posy, linet))
+  } else if (g->u_see(posx, posy))
             g->add_msg("%s eats a %s.", name.c_str(), eaten->tname(g).c_str());
 
         if (g->itypes[comest->tool]->is_tool())
@@ -5554,10 +5591,9 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
        rng(0, tmp->dmg_resist * 2) < dam && !one_in(dam))
     worn[i].damage++;
    if (worn[i].damage >= 5) {
-    int linet;
     if (!is_npc())
      g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
-    else if (g->u_see(posx, posy, linet))
+    else if (g->u_see(posx, posy))
      g->add_msg("%s's %s is destroyed!", name.c_str(),
                 worn[i].tname(g).c_str());
     worn.erase(worn.begin() + i);

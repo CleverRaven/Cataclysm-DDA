@@ -471,8 +471,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
  if (has_flag(MF_HIT_AND_RUN))
   add_effect(ME_RUN, 4);
  bool is_npc = p.is_npc();
- int  junk;
- bool u_see = (!is_npc || g->u_see(p.posx, p.posy, junk));
+ bool u_see = (!is_npc || g->u_see(p.posx, p.posy));
  std::string you  = (is_npc ? p.name : "you");
  std::string You  = (is_npc ? p.name : "You");
  std::string your = (is_npc ? p.name + "'s" : "your");
@@ -684,8 +683,7 @@ void monster::knock_back_from(game *g, int x, int y)
  if (y > posy)
   to.y--;
 
- int t = 0;
- bool u_see = g->u_see(to.x, to.y, t);
+ bool u_see = g->u_see(to.x, to.y);
 
 // First, see if we hit another monster
  int mondex = g->mon_at(to.x, to.y);

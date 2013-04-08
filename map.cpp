@@ -775,10 +775,7 @@ ter_id map::ter(const int x, const int y) const
  if (!INBOUNDS(x, y)) {
   return t_null;
  }
-/*
- int nonant;
- cast_to_nonant(x, y, nonant);
-*/
+
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
  const int lx = x % SEEX;
@@ -799,7 +796,7 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain)
  grid[nonant]->ter[lx][ly] = new_terrain;
 }
 
-bool map::is_indoor(const int x, const int y)
+bool map::is_indoor(const int x, const int y) const
 {
  if (!INBOUNDS(x, y))
   return false;
@@ -820,7 +817,7 @@ bool map::is_indoor(const int x, const int y)
  return false;
 }
 
-std::string map::tername(const int x, const int y)
+std::string map::tername(const int x, const int y) const
 {
  return terlist[ter(x, y)].name;
 }
@@ -908,7 +905,7 @@ bool map::has_flag(const t_flag flag, const int x, const int y)
  return terlist[ter(x, y)].flags & mfb(flag);
 }
 
-bool map::has_flag_ter_only(const t_flag flag, const int x, const int y)
+bool map::has_flag_ter_only(const t_flag flag, const int x, const int y) const
 {
  return terlist[ter(x, y)].flags & mfb(flag);
 }

@@ -625,13 +625,13 @@ MED("prozac", "Prozac",		10,650,	c_cyan,		"null",
 	PLASTIC, -4,  0,  0, 15,  0,&iuse::prozac,	ADD_NULL, "\
 A strong anti-depressant. Useful if your morale level is very low.");
 
-MED("cig", "cigarettes",	90,120,	c_dkgray,	"lighter",
+MED("cig", "cigarettes",	90,120,	c_dkgray,	"null",
 	VEGGY,    1, -1, 40, 10,  5,&iuse::cig,		ADD_CIG, "\
 These will boost your dexterity, intelligence, and perception for a short\n\
 time. They are quite addictive.");
 
 //  NAME		RAR PRC	COLOR
-MED("weed", "marijuana",	20,250,	c_green,	"lighter",
+MED("weed", "marijuana",	20,250,	c_green,	"null",
 //	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	VEGGY,   -8,  0,  0,  5, 18,&iuse::weed,	ADD_NULL, "\
 Really useful only for relaxing. Will reduce your attributes and reflexes.");
@@ -652,7 +652,7 @@ MED("heroin", "heroin",		 1,1000,c_brown,	"syringe",
 A very strong illegal opiate. Unless you have an opiate tolerance, avoid\n\
 heroin, as it will be too strong for you.");
 
-MED("cigar", "cigars",		 5,120,	c_dkgray,	"lighter",
+MED("cigar", "cigars",		 5,120,	c_dkgray,	"null",
 	VEGGY,    1, -1, 40, 10, 15,&iuse::cig,		ADD_CIG, "\
 A gentleman's vice. Cigars are what separates a gentleman from a savage.");
 
