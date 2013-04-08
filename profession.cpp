@@ -83,6 +83,7 @@ profession* profession::prof(std::string ident)
     else
     {
         debugmsg("Tried to get invalid profession: %s", ident.c_str());
+        return NULL;
     }
 }
 
