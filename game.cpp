@@ -4934,6 +4934,48 @@ void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
     wrefresh(w_terrain);
 }
 
+//helper method so we can keep list_items shorter
+void game::reset_item_list_state(WINDOW* window, int height)
+{
+    for (int i = 1; i < TERMX; i++)
+    {
+        if (i < 55)
+        {
+            mvwputch(window, 0, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
+        }
+
+        if (i < TERMY-height-VIEW_OFFSET_Y*2)
+        {
+            mvwputch(window, i, 0, c_ltgray, LINE_XOXO); // |
+            mvwputch(window, i, 54, c_ltgray, LINE_XOXO); // |
+        }
+    }
+
+    mvwputch(window, 0,  0, c_ltgray, LINE_OXXO); // |^
+    mvwputch(window, 0, 54, c_ltgray, LINE_OOXX); // ^|
+
+    mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2,  0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, 54, c_ltgray, LINE_XOXX); // -|
+
+    int iTempStart = 19;
+    if (sFilter != "")
+    {
+        iTempStart = 15;
+        mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2,
+                  iTempStart + 19, c_ltgreen, " %s", "R");
+        wprintz(window, c_white, "%s", "eset ");
+    }
+
+    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart, c_ltgreen, " %s", "C");
+    wprintz(window, c_white, "%s", "ompare ");
+
+    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 10, c_ltgreen, " %s", "F");
+    wprintz(window, c_white, "%s", "ilter ");
+
+    refresh_all();
+}
+
 void game::list_items()
 {
     int iInfoHeight = 12;
@@ -5005,43 +5047,7 @@ void game::list_items()
             // hmm... yeah, it's a state reset. '.' seems to be a poor choice.
             if (ch == '.')
             {
-                for (int i = 1; i < TERMX; i++)
-                {
-                    if (i < 55)
-                    {
-                        mvwputch(w_items, 0, i, c_ltgray, LINE_OXOX); // -
-                        mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
-                    }
-
-                    if (i < TERMY-iInfoHeight-VIEW_OFFSET_Y*2)
-                    {
-                        mvwputch(w_items, i, 0, c_ltgray, LINE_XOXO); // |
-                        mvwputch(w_items, i, 54, c_ltgray, LINE_XOXO); // |
-                    }
-                }
-
-                mvwputch(w_items, 0,  0, c_ltgray, LINE_OXXO); // |^
-                mvwputch(w_items, 0, 54, c_ltgray, LINE_OOXX); // ^|
-
-                mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2,  0, c_ltgray, LINE_XXXO); // |-
-                mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 54, c_ltgray, LINE_XOXX); // -|
-
-                int iTempStart = 19;
-                if (sFilter != "")
-                {
-                    iTempStart = 15;
-                    mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2,
-                              iTempStart + 19, c_ltgreen, " %s", "R");
-                    wprintz(w_items, c_white, "%s", "eset ");
-                }
-
-                mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart, c_ltgreen, " %s", "C");
-                wprintz(w_items, c_white, "%s", "ompare ");
-
-                mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart + 10, c_ltgreen, " %s", "F");
-                wprintz(w_items, c_white, "%s", "ilter ");
-
-                refresh_all();
+                reset_item_list_state(w_items, iInfoHeight);
             }
 
             bStopDrawing = false;
