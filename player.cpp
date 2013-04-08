@@ -500,7 +500,7 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   int rounding_error = 0;
   if (temp_difference < 0 && temp_difference > -600 ) rounding_error = 1; // If temp_diff is small, the player cannot warm up due to rounding errors. This fixes that.
   if (temp_cur[i] != temp_conv[i]) {
-   if      ((g->m.ter(posx, posy) == t_water_sh || g->m.ter(posx, posy) == t_sewage) 
+   if      ((g->m.ter(posx, posy) == t_water_sh || g->m.ter(posx, posy) == t_sewage)
               && (i == bp_feet || i == bp_legs)) temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
    else if (g->m.ter(posx, posy) == t_water_dp)  temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
    else if (i == bp_torso || i == bp_head)       temp_cur[i] = temp_difference*exp(-0.003) + temp_conv[i] + rounding_error;
@@ -733,7 +733,7 @@ void player::load_info(game *g, std::string data)
          inveh >> scent >> moves >> underwater >> dodges_left >> blocks_left >>
          oxygen >> active_mission >> xp_pool >> male >> prof_ident >> health >>
          styletmp;
- 
+
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
  } else {
@@ -3544,7 +3544,7 @@ void player::process_active_items(game *g)
 			}
 		}
 		return;
-	}	
+	}
   if (!weapon.is_tool()) {
    debugmsg("%s is active, but it is not a tool.", weapon.tname().c_str());
    return;
@@ -3566,10 +3566,10 @@ void player::process_active_items(game *g)
    item *tmp_it = &(inv.stack_at(i)[j]);
    if (tmp_it->is_artifact() && tmp_it->is_tool())
       g->process_artifact(tmp_it, this);
-      if (tmp_it->active || 
+      if (tmp_it->active ||
       (tmp_it->is_container() && tmp_it->contents.size() > 0 && tmp_it->contents[0].active)) {
         if (tmp_it->is_food()) {
-          if (tmp_it->has_flag(IF_HOT)) {	
+          if (tmp_it->has_flag(IF_HOT)) {
             tmp_it->item_counter--;
             if (tmp_it->item_counter == 0) {
               tmp_it->item_flags ^= mfb(IF_HOT);
@@ -3787,12 +3787,52 @@ void player::use_amount(itype_id it, int quantity, bool use_container)
  inv.use_amount(it, quantity, use_container);
 }
 
-bool player::use_charges_if_avail(itype_id it, int quantity) 
+bool player::use_charges_if_avail(itype_id it, int quantity)
 {
     if (has_charges(it, quantity))
     {
         use_charges(it, quantity);
         return true;
+    }
+    return false;
+}
+
+bool player::use_fire_tool_if_avail(int quantity)
+{
+//Ok, so checks for nearby fires first,
+//then held lit torch or candle, bio tool/lighter/laser
+//tries to use 1 charge of lighters, matches, flame throwers
+// (home made, military), hotplate, welder in that order.
+// bio_lighter, bio_laser, bio_tools, has_bionic("bio_tools"
+
+    if (has_charges("torch_lit", 1)) {
+        return true;
+    } else if (has_charges("candle_lit", 1)) {
+        return true;
+    } else if (has_bionic("bio_tools")) {
+        return true;
+    } else if (has_bionic("bio_lighter")) {
+        return true;
+    } else if (has_bionic("bio_laser")) {
+        return true;
+    } else if (has_charges("matches", quantity)) {
+     use_charges("matches", quantity);
+     return true;
+    } else if (has_charges("lighter", quantity)) {
+     use_charges("lighter", quantity);
+     return true;
+    } else if (has_charges("flamethrower", quantity)) {
+     use_charges("flamethrower", quantity);
+     return true;
+    } else if (has_charges("flamethrower_simple", quantity)) {
+     use_charges("flamethrower_simple", quantity);
+     return true;
+    } else if (has_charges("hotplate", quantity)) {
+     use_charges("welder", quantity);
+     return true;
+    } else if (has_charges("welder", quantity)) {
+     use_charges("welder", quantity);
+     return true;
     }
     return false;
 }
@@ -4217,9 +4257,10 @@ bool player::eat(game *g, int index)
   }
   if (comest->tool != "null") {
    bool has = has_amount(comest->tool, 1);
-   if (g->itypes[comest->tool]->count_by_charges())
-    has = has_charges(comest->tool, 1);
-   if (!has) {
+//   if (g->itypes[comest->tool]->count_by_charges())
+//    has = has_charges(comest->tool, 1);
+   if (!use_fire_tool_if_avail(1)) {
+//   if (!has) {
     if (!is_npc())
      g->add_msg("You need a %s to consume that!",
                 g->itypes[comest->tool]->name.c_str());
@@ -5307,21 +5348,21 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
 {
     int ret = 0;
     it_armor* armor;
-    for (int i = 0; i < worn.size(); i++) 
+    for (int i = 0; i < worn.size(); i++)
     {
         if (!worn[i].is_armor())
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
             i, worn[i].tname().c_str());
         armor = dynamic_cast<it_armor*>(worn[i].type);
 
-        if (armor->covers & mfb(bp)) 
+        if (armor->covers & mfb(bp))
         {
             if (armor->is_power_armor() && has_active_item("UPS_on"))
             {
                 armorenc += armor->encumber - 4;
                 warmth   += armor->warmth - 20;
-            } 
-            else 
+            }
+            else
             {
                 armorenc += armor->encumber;
                 warmth += armor->warmth;
