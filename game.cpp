@@ -4958,19 +4958,22 @@ void game::reset_item_list_state(WINDOW* window, int height)
     mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, 54, c_ltgray, LINE_XOXX); // -|
 
-    int iTempStart = 19;
+    int iTempStart = 14;
     if (sFilter != "")
     {
-        iTempStart = 15;
+        iTempStart = 10;
         mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2,
-                  iTempStart + 19, c_ltgreen, " %s", "R");
+                  iTempStart + 29, c_ltgreen, " %s", "R");
         wprintz(window, c_white, "%s", "eset ");
     }
 
-    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart, c_ltgreen, " %s", "C");
+    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart, c_ltgreen, " %s", "E");
+    wprintz(window, c_white, "%s", "xamine ");
+
+    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 10, c_ltgreen, " %s", "C");
     wprintz(window, c_white, "%s", "ompare ");
 
-    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 10, c_ltgreen, " %s", "F");
+    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 20, c_ltgreen, " %s", "F");
     wprintz(window, c_white, "%s", "ilter ");
 
     refresh_all();
@@ -5042,6 +5045,14 @@ void game::list_items()
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 reset = true;
+            }
+            else if (ch == 'e' || ch == 'E')
+            {
+                item oThisItem = filtered_items[iActive].example;
+                std::vector<iteminfo> vThisItem, vDummy;
+
+                oThisItem.info(true, &vThisItem);
+                compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
             }
 
             if (reset)
