@@ -4832,7 +4832,9 @@ void game::list_items()
  WINDOW* w_item_info = newwin(iInfoHeight-1, 53, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
  WINDOW* w_item_info_border = newwin(iInfoHeight, 55, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
 
+ //temporary item list, reset per-tile
  std::vector <item> here;
+ //seems to be the master list?
  std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
  std::map<std::string, item> iteminfo;
 
@@ -4841,6 +4843,7 @@ void game::list_items()
  const int iSearchY = 12 + ((VIEWY > 12) ? ((VIEWY-12)/2) : 0);
  int iItemNum = 0;
 
+ // Go through each nearby square one-by-one and make note of the items
  for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
   for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
     if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
@@ -4862,7 +4865,7 @@ void game::list_items()
  const int iStoreViewOffsetX = u.view_offset_x;
  const int iStoreViewOffsetY = u.view_offset_y;
 
- int iActive = 0;
+ int iActive = 0; // Item index that we're looking at
  const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
  int iStartPos = 0;
  int iActiveX = 0;
@@ -4871,7 +4874,7 @@ void game::list_items()
  int iLastActiveY = -1;
  std::vector<point> vPoint;
  InputEvent input = Undefined;
- long ch = '.';
+ long ch = '.'; //WHY IS THIS A LONG??? It's storing a char!
  int iFilter = 0;
  bool bStopDrawing = false;
 
@@ -4910,6 +4913,8 @@ void game::list_items()
     ch = '.';
    }
 
+   // wtf is this bit doing? Seems to be a state reset? But why is it bound to '.'?
+   // hmm... yeah, it's a state reset. '.' seems to be a poor choice.
    if (ch == '.') {
     for (int i = 1; i < TERMX; i++) {
      if (i < 55) {
@@ -4947,6 +4952,7 @@ void game::list_items()
 
    bStopDrawing = false;
 
+   //didn't we have some if-else clauses up above that handled input?
    switch(input) {
     case DirectionN:
      iActive--;
