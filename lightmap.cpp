@@ -74,6 +74,10 @@ void map::generate_lightmap(game* g)
     apply_light_source(sx, sy, 3);
 
    if (items.size() == 1 &&
+       items[0].type->id == "torch_lit")
+    apply_light_source(sx, sy, 20);
+
+   if (items.size() == 1 &&
        items[0].type->id == "candle_lit")
     apply_light_source(sx, sy, 4);
 
