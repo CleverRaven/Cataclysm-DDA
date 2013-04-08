@@ -166,6 +166,32 @@ private:
 std::ostream & operator<<(std::ostream &, const item &);
 std::ostream & operator<<(std::ostream &, const item *);
 
+struct map_item_stack
+{
+public:
+    item example; //an example item for showing stats, etc.
+    int x;
+    int y;
+    int count;
+
+    //only expected to be used for things like lists and vectors
+    map_item_stack()
+    {
+        example = item();
+        x = 0;
+        y = 0;
+        count = 0;
+    }
+
+    map_item_stack(item it, int arg_x, int arg_y)
+    {
+        example = it;
+        x = arg_x;
+        y = arg_y;
+        count = 1;
+    }
+};
+
 //the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
 //it would be better long-term to rewrite stuff so that we don't need that hack
 enum hint_rating {

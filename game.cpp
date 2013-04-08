@@ -4825,6 +4825,73 @@ bool game::list_items_match(std::string sText, std::string sPattern)
  return false;
 }
 
+std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
+{
+    std::vector<item> here;
+    std::map<std::string, map_item_stack> temp_items;
+    std::vector<map_item_stack> ret;
+
+    // Go through each nearby square one-by-one and make note of the items
+    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++)
+    {
+        for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++)
+        {
+            if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
+                u_see(u.posx + iCol, u.posy + iRow))
+            {
+                temp_items.clear();
+                here.clear();
+                here = m.i_at(u.posx + iCol, u.posy + iRow);
+
+                for (int i = 0; i < here.size(); i++)
+                {
+                    const std::string name = here[i].tname(this);
+                    if (temp_items.find(name) == temp_items.end())
+                    {
+                        temp_items[name] = map_item_stack(here[i], iCol, iRow);
+                    }
+                    else
+                    {
+                        temp_items[name].count++;
+                    }
+                }
+                for (std::map<std::string, map_item_stack>::iterator iter = temp_items.begin();
+                     iter != temp_items.end();
+                     ++iter)
+                {
+                    ret.push_back(iter->second);
+                }
+            }
+        }
+    }
+    return ret;
+}
+
+
+std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack> stack, std::string filter)
+{
+    std::vector<map_item_stack> ret;
+    
+    std::string sFilterPre = "";
+    std::string sFilterTemp = filter;
+    if (sFilterTemp != "" && filter.substr(0, 1) == "-")
+    {
+        sFilterPre = "-";
+        sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
+    }
+    
+    for (std::vector<map_item_stack>::iterator iter = stack.begin(); iter != stack.end(); ++iter)
+    {
+        std::string name = iter->example.tname(this);
+        if (sFilterTemp == "" || ((sFilterPre != "-" && list_items_match(name, sFilterTemp)) ||
+                                  (sFilterPre == "-" && !list_items_match(name, sFilterTemp))))
+        {
+            ret.push_back(*iter);
+        }
+    }
+    return ret;
+}
+
 void game::list_items()
 {
  int iInfoHeight = 12;
@@ -4832,35 +4899,16 @@ void game::list_items()
  WINDOW* w_item_info = newwin(iInfoHeight-1, 53, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
  WINDOW* w_item_info_border = newwin(iInfoHeight, 55, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
 
- //temporary item list, reset per-tile
- std::vector <item> here;
- //seems to be the master list?
- std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
- std::map<std::string, item> iteminfo;
-
  //Area to search +- of players position. TODO: Use Perception
  const int iSearchX = 12 + ((VIEWX > 12) ? ((VIEWX-12)/2) : 0);
  const int iSearchY = 12 + ((VIEWY > 12) ? ((VIEWY-12)/2) : 0);
- int iItemNum = 0;
 
- // Go through each nearby square one-by-one and make note of the items
- for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
-  for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
-    if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
-       u_see(u.posx + iCol, u.posy + iRow)) {
-    here.clear();
-    here = m.i_at(u.posx + iCol, u.posy + iRow);
-
-    for (int i = 0; i < here.size(); i++) {
-     grounditems[iCol][iRow][here[i].tname(this)]++;
-     if (grounditems[iCol][iRow][here[i].tname(this)] == 1) {
-      iteminfo[here[i].tname(this)] = here[i];
-      iItemNum++;
-     }
-    }
-   }
-  }
- }
+ //this stores the items found, along with the coordinates
+ std::vector<map_item_stack> ground_items = find_nearby_items(iSearchX, iSearchY);
+ //this stores only those items that match our filter
+ std::vector<map_item_stack> filtered_items = ground_items;
+ 
+ const int iItemNum = ground_items.size();
 
  const int iStoreViewOffsetX = u.view_offset_x;
  const int iStoreViewOffsetY = u.view_offset_y;
@@ -4879,7 +4927,7 @@ void game::list_items()
  bool bStopDrawing = false;
 
  do {
-  if (iItemNum > 0) {
+  if (ground_items.size() > 0) {
    u.view_offset_x = 0;
    u.view_offset_y = 0;
 
@@ -4901,6 +4949,7 @@ void game::list_items()
     wrefresh(w_item_info);
 
     sFilter = string_input_popup("Filter:", 55, sFilter);
+    filtered_items = filter_item_stacks(ground_items, sFilter);
     iActive = 0;
     iLastActiveX = -1;
     iLastActiveY = -1;
@@ -4908,6 +4957,7 @@ void game::list_items()
 
    } else if (ch == 'r' || ch == 'R') {
     sFilter = "";
+    filtered_items = ground_items;
     iLastActiveX = -1;
     iLastActiveY = -1;
     ch = '.';
@@ -4985,54 +5035,44 @@ void game::list_items()
 
     //TODO: Speed this up, first attemp to do so failed
     int iNum = 0;
-    iFilter = 0;
+    iFilter = ground_items.size() - filtered_items.size();
     iActiveX = 0;
     iActiveY = 0;
     std::string sActiveItemName;
+    item activeItem;
     std::stringstream sText;
-    std::string sFilterPre = "";
-    std::string sFilterTemp = sFilter;
-    if (sFilterTemp != "" && sFilter.substr(0, 1) == "-") {
-     sFilterPre = "-";
-     sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
-    }
-
-    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
-     for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
-      for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
-       if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && list_items_match(iter->first, sFilterTemp)) ||
-                                                       (sFilterPre == "-" && !list_items_match(iter->first, sFilterTemp))))) {
-        if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
-         if (iNum == iActive) {
-          iActiveX = iCol;
-          iActiveY = iRow;
-          sActiveItemName = iter->first;
-         }
-         sText.str("");
-         sText << iter->first;
-         if (iter->second > 1)
-          sText << " " << "[" << iter->second << "]";
-         mvwprintz(w_items, 1 + iNum - iStartPos, 2, ((iNum == iActive) ? c_ltgreen : c_white), "%s", (sText.str()).c_str());
-         mvwprintz(w_items, 1 + iNum - iStartPos, 48, ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                   ((iItemNum > 9) ? 2 : 1),
-                   trig_dist(0, 0, iCol, iRow),
-                   direction_name_short(direction_from(0, 0, iCol, iRow)).c_str()
-                  );
-        }
-
-        iNum++;
-       } else {
-        iFilter++;
-       }
+    
+    for (std::vector<map_item_stack>::iterator iter = filtered_items.begin();
+         iter != filtered_items.end();
+         ++iter)
+    {
+     if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
+      if (iNum == iActive) {
+       iActiveX = iter->x;
+       iActiveY = iter->y;
+       sActiveItemName = iter->example.tname(this);
+       activeItem = iter->example;
       }
-     }
+      sText.str("");
+      sText << iter->example.tname(this);
+      if (iter->count > 1) {
+       sText << " " << "[" << iter->count << "]";
+      }
+      mvwprintz(w_items, 1 + iNum - iStartPos, 2, ((iNum == iActive) ? c_ltgreen : c_white), "%s", (sText.str()).c_str());
+      mvwprintz(w_items, 1 + iNum - iStartPos, 48, ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                ((iItemNum > 9) ? 2 : 1),
+                trig_dist(0, 0, iter->x, iter->y),
+                direction_name_short(direction_from(0, 0, iter->x, iter->y)).c_str()
+               );
+      }
+      iNum++;
     }
 
     mvwprintz(w_items, 0, 23 + ((iItemNum - iFilter > 9) ? 0 : 1), c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
     wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
 
     werase(w_item_info);
-    mvwprintz(w_item_info, 0, 0, c_white, "%s", iteminfo[sActiveItemName].info().c_str());
+    mvwprintz(w_item_info, 0, 0, c_white, "%s", activeItem.info().c_str());
 
     for (int j=0; j < iInfoHeight-1; j++)
      mvwputch(w_item_info_border, j, 0, c_ltgray, LINE_XOXO);
