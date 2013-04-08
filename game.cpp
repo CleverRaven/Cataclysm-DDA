@@ -4966,7 +4966,7 @@ void game::list_items()
     int iLastActiveY = -1;
     std::vector<point> vPoint;
     InputEvent input = Undefined;
-    long ch = '.'; //WHY IS THIS A LONG??? It's storing a char!
+    long ch = '.'; //this is a long because getch returns a long
     int iFilter = 0;
     bool bStopDrawing = false;
 
@@ -5046,7 +5046,7 @@ void game::list_items()
 
             bStopDrawing = false;
 
-            //didn't we have some if-else clauses up above that handled input?
+            // we're switching on input here, whereas above it was if/else clauses on a char
             switch(input)
             {
                 case DirectionN:
@@ -5089,7 +5089,6 @@ void game::list_items()
                                                      ");
                 }
 
-                //TODO: Speed this up, first attemp to do so failed
                 int iNum = 0;
                 iFilter = ground_items.size() - filtered_items.size();
                 iActiveX = 0;
