@@ -566,7 +566,7 @@ void iuse::coke(game *g, player *p, item *it, bool t)
 
 void iuse::crack(game *g, player *p, item *it, bool t)
 {
-  if (!p->use_charges_if_avail("lighter", 1))
+  if (!p->use_fire_tool_if_avail(1))
   {
     g->add_msg_if_player(p, "You need a lighter!");
     return;
@@ -581,7 +581,7 @@ void iuse::crack(game *g, player *p, item *it, bool t)
 
 void iuse::grack(game *g, player *p, item *it, bool t)
 {
-  if (!p->use_charges_if_avail("lighter", 1))
+  if (!p->use_fire_tool_if_avail(1))
   {
     g->add_msg_if_player(p, "You need a lighter!");
     return;
@@ -599,7 +599,7 @@ void iuse::meth(game *g, player *p, item *it, bool t)
 {
  int duration = 10 * (40 - p->str_cur);
  if (p->has_amount("apparatus", 1) &&
-     p->use_charges_if_avail("lighter", 1)) {
+     p->use_fire_tool_if_avail(1)) {
   g->add_msg_if_player(p,"You smoke some crystals.");
   duration *= 1.5;
  } else
@@ -2056,7 +2056,7 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
 
 void iuse::pipebomb(game *g, player *p, item *it, bool t)
 {
- if (!p->use_charges_if_avail("lighter", 1)) {
+    if (!p->use_fire_tool_if_avail(1)) {
   g->add_msg_if_player(p,"You need a lighter!");
   return;
  }
@@ -2276,7 +2276,7 @@ void iuse::acidbomb_act(game *g, player *p, item *it, bool t)
 
 void iuse::molotov(game *g, player *p, item *it, bool t)
 {
- if (!p->use_charges_if_avail("lighter", 1)) {
+    if (!p->use_fire_tool_if_avail(1)) {
   g->add_msg_if_player(p,"You need a lighter!");
   return;
  }
@@ -2307,7 +2307,7 @@ void iuse::molotov_lit(game *g, player *p, item *it, bool t)
 
 void iuse::dynamite(game *g, player *p, item *it, bool t)
 {
- if (!p->use_charges_if_avail("lighter", 1)) {
+    if (!p->use_fire_tool_if_avail(1)) {
   g->add_msg_if_player(p,"You need a lighter!");
   return;
  }
@@ -2330,7 +2330,7 @@ void iuse::dynamite_act(game *g, player *p, item *it, bool t)
 
 void iuse::firecracker_pack(game *g, player *p, item *it, bool t)
 {
- if (!p->has_charges("lighter", 1)) {
+    if (!p->use_fire_tool_if_avail(1)) {
   g->add_msg_if_player(p,"You need a lighter!");
   return;
  }
@@ -2368,7 +2368,7 @@ void iuse::firecracker_pack(game *g, player *p, item *it, bool t)
    mvwprintz(w, 2, mid_x, c_white, "%d ", charges); //Trailing space clears the second digit when decreasing from 10 to 9
    wrefresh(w);
   } else if(ch == 'A') {
-   p->use_charges("lighter", 1);
+   p->use_fire_tool_if_avail(1);
    if(charges == it->charges) {
     g->add_msg_if_player(p,"You light the pack of firecrackers.");
     it->make(g->itypes["firecracker_pack_act"]);
@@ -2429,7 +2429,7 @@ void iuse::firecracker_pack_act(game *g, player *p, item *it, bool t)
 
 void iuse::firecracker(game *g, player *p, item *it, bool t)
 {
- if (!p->use_charges_if_avail("lighter", 1)) {
+    if (!p->use_fire_tool_if_avail(1)) {
   g->add_msg_if_player(p,"You need a lighter!");
   return;
  }
@@ -2960,7 +2960,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         {
             if (!p->has_disease(DI_BITE) && !p->has_disease(DI_BLEED))
                 g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
-            else if (!p->use_charges_if_avail("lighter", 4))
+            else if (!p->use_fire_tool_if_avail(4))
                 g->add_msg_if_player(p,"You need a lighter with 4 charges before you can cauterize yourself.");
             else
                 p->cauterize(g);
@@ -3128,7 +3128,7 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
 
 void iuse::torch(game *g, player *p, item *it, bool t)
 {
-    if (!p->use_charges_if_avail("lighter", 1))
+    if (!p->use_fire_tool_if_avail(1))
         g->add_msg_if_player(p,"You need a lighter or fire to light this.");
     else
     {
@@ -3154,7 +3154,7 @@ void iuse::torch_lit(game *g, player *p, item *it, bool t)
 
 void iuse::candle(game *g, player *p, item *it, bool t)
 {
-    if (!p->use_charges_if_avail("lighter", 1))
+    if (!p->use_fire_tool_if_avail(1))
         g->add_msg_if_player(p, "You need a lighter to light this.");
     else
     {
