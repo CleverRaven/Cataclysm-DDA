@@ -2599,7 +2599,6 @@ void game::draw_ter(int posx, int posy)
   posx = u.posx + u.view_offset_x;
  if (posy == -999)
   posy = u.posy + u.view_offset_y;
- int t = 0;
  m.build_map_cache(this);
  m.draw(this, w_terrain, point(posx, posy));
 
@@ -2608,7 +2607,7 @@ void game::draw_ter(int posx, int posy)
  for (int i = 0; i < z.size(); i++) {
   disty = abs(z[i].posy - posy);
   distx = abs(z[i].posx - posx);
-  if (distx <= VIEWX && disty <= VIEWY && u_see(&(z[i]), t)) {
+  if (distx <= VIEWX && disty <= VIEWY && u_see(&(z[i]))) {
    z[i].draw(w_terrain, posx, posy, false);
    mapRain[VIEWY + z[i].posy - posy][VIEWX + z[i].posx - posx] = false;
   } else if (z[i].has_flag(MF_WARM) && distx <= VIEWX && disty <= VIEWY &&
@@ -2621,7 +2620,7 @@ void game::draw_ter(int posx, int posy)
   disty = abs(active_npc[i].posy - posy);
   distx = abs(active_npc[i].posx - posx);
   if (distx <= VIEWX && disty <= VIEWY &&
-      u_see(active_npc[i].posx, active_npc[i].posy, t))
+      u_see(active_npc[i].posx, active_npc[i].posy))
    active_npc[i].draw(w_terrain, posx, posy, false);
  }
  if (u.has_active_bionic("bio_scent_vision")) {
@@ -3015,7 +3014,7 @@ bool game::sees_u(int x, int y, int &t)
          m.sees(x, y, u.posx, u.posy, range, t));
 }
 
-bool game::u_see(int x, int y, int &t)
+bool game::u_see(int x, int y)
 {
  int wanted_range = rl_dist(u.posx, u.posy, x, y);
 
@@ -3025,12 +3024,12 @@ bool game::u_see(int x, int y, int &t)
  else if (wanted_range <= u.sight_range(light_level()) ||
           (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
             m.light_at(x, y) >= LL_LOW))
-  can_see = m.sees(u.posx, u.posy, x, y, wanted_range, t);
+     can_see = m.pl_sees(u.posx, u.posy, x, y, wanted_range);
 
  return can_see;
 }
 
-bool game::u_see(monster *mon, int &t)
+bool game::u_see(monster *mon)
 {
  int dist = rl_dist(u.posx, u.posy, mon->posx, mon->posy);
  if (u.has_trait(PF_ANTENNAE) && dist <= 3)
@@ -3039,7 +3038,7 @@ bool game::u_see(monster *mon, int &t)
      dist > 1)
   return false;	// Can't see digging monsters until we're right next to them
 
- return u_see(mon->posx, mon->posy, t);
+ return u_see(mon->posx, mon->posy);
 }
 
 bool game::pl_sees(player *p, monster *mon, int &t)
@@ -3142,7 +3141,7 @@ void game::mon_info()
 
  direction dir_to_mon, dir_to_npc;
  for (int i = 0; i < z.size(); i++) {
-  if (u_see(&(z[i]), buff)) {
+  if (u_see(&(z[i]))) {
    bool mon_dangerous = false;
    int j;
    if (z[i].attitude(&u) == MATT_ATTACK || z[i].attitude(&u) == MATT_FOLLOW) {
@@ -3166,7 +3165,7 @@ void game::mon_info()
   }
  }
  for (int i = 0; i < active_npc.size(); i++) {
-  if (u_see(active_npc[i].posx, active_npc[i].posy, buff)) { // TODO: NPC invis
+  if (u_see(active_npc[i].posx, active_npc[i].posy)) { // TODO: NPC invis
    if (active_npc[i].attitude == NPCATT_KILL)
     if (rl_dist(u.posx, u.posy, active_npc[i].posx, active_npc[i].posy) <= iProxyDist)
      newseen++;
@@ -3543,10 +3542,9 @@ void game::sound(int x, int y, int vol, std::string description)
 // characters hearing and how close they are
 void game::add_footstep(int x, int y, int volume, int distance)
 {
- int t = 0;
  if (x == u.posx && y == u.posy)
   return;
- else if (u_see(x, y, t))
+ else if (u_see(x, y))
   return;
  int err_offset;
  if (volume / distance < 2)
@@ -3566,7 +3564,7 @@ void game::add_footstep(int x, int y, int volume, int distance)
    tries++;
    x = origx + rng(-err_offset, err_offset);
    y = origy + rng(-err_offset, err_offset);
-  } while (tries < 10 && (u_see(x, y, t) || (x == u.posx && y == u.posy)));
+  } while (tries < 10 && (u_see(x, y) || (x == u.posx && y == u.posy)));
  }
  if (tries < 10)
   footsteps.push_back(point(x, y));
@@ -3682,7 +3680,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
 // The rest of the function is shrapnel
  if (shrapnel <= 0)
   return;
- int sx, sy, t, ijunk, tx, ty;
+ int sx, sy, t, tx, ty;
  std::vector<point> traj;
  ts.tv_sec = 0;
  ts.tv_nsec = BULLET_SPEED;	// Reset for animation of bullets
@@ -3695,9 +3693,9 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    traj = line_to(x, y, sx, sy, 0);
   dam = rng(20, 60);
   for (int j = 0; j < traj.size(); j++) {
-   if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y, ijunk))
+   if (j > 0 && u_see(traj[j - 1].x, traj[j - 1].y))
     m.drawsq(w_terrain, u, traj[j - 1].x, traj[j - 1].y, false, true);
-   if (u_see(traj[j].x, traj[j].y, ijunk)) {
+   if (u_see(traj[j].x, traj[j].y)) {
     mvwputch(w_terrain, traj[j].y + VIEWY - u.posy - u.view_offset_y,
                         traj[j].x + VIEWX - u.posx - u.view_offset_x, c_red, '`');
     wrefresh(w_terrain);
@@ -4678,7 +4676,7 @@ point game::look_around()
 {
  draw_ter();
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
- int mx, my, junk;
+ int mx, my;
  InputEvent input;
  WINDOW* w_look = newwin(13, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -4690,7 +4688,7 @@ point game::look_around()
  do {
  DebugLog() << __FUNCTION__ << "calling get_input() \n";
   input = get_input();
-  if (!u_see(lx, ly, junk))
+  if (!u_see(lx, ly))
    mvwputch(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_black, ' ');
   get_direction(mx, my, input);
   if (mx != -2 && my != -2) {	// Directional key pressed
@@ -4706,10 +4704,10 @@ point game::look_around()
 
   // Debug helper
   //mvwprintw(w_look, 6, 1, "Items: %d", m.i_at(lx, ly).size() );
-
+  int junk;
   int veh_part = 0;
   vehicle *veh = m.veh_at(lx, ly, veh_part);
-  if (u_see(lx, ly, junk)) {
+  if (u_see(lx, ly)) {
    if (m.move_cost(lx, ly) == 0)
     mvwprintw(w_look, 1, 1, "%s; Impassable", m.tername(lx, ly).c_str());
    else
@@ -4726,7 +4724,7 @@ point game::look_around()
               traps[m.tr_at(lx, ly)]->name.c_str());
 
    int dex = mon_at(lx, ly);
-   if (dex != -1 && u_see(&(z[dex]), junk))
+   if (dex != -1 && u_see(&(z[dex])))
    {
        z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
        z[mon_at(lx, ly)].print_info(this, w_look);
@@ -4843,11 +4841,10 @@ void game::list_items()
  const int iSearchY = 12 + ((VIEWY > 12) ? ((VIEWY-12)/2) : 0);
  int iItemNum = 0;
 
- int iTile;
  for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
   for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
     if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
-       u_see(u.posx + iCol, u.posy + iRow, iTile)) {
+       u_see(u.posx + iCol, u.posy + iRow)) {
     here.clear();
     here = m.i_at(u.posx + iCol, u.posy + iRow);
 
@@ -5898,11 +5895,10 @@ void game::plthrow(char chInput)
  int y0 = y - range;
  int x1 = x + range;
  int y1 = y + range;
- int junk;
 
  for (int j = u.posx - VIEWX; j <= u.posx + VIEWX; j++) {
   for (int k = u.posy - VIEWY; k <= u.posy + VIEWY; k++) {
-   if (u_see(j, k, junk)) {
+   if (u_see(j, k)) {
     if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
      m.drawsq(w_terrain, u, j, k, false, true);
     else
@@ -5916,8 +5912,8 @@ void game::plthrow(char chInput)
  std::vector <int> targetindices;
  int passtarget = -1;
  for (int i = 0; i < z.size(); i++) {
-  if (u_see(&(z[i]), junk) && z[i].posx >= x0 && z[i].posx <= x1 &&
-                              z[i].posy >= y0 && z[i].posy <= y1) {
+  if (u_see(&(z[i])) && z[i].posx >= x0 && z[i].posx <= x1 &&
+                        z[i].posy >= y0 && z[i].posy <= y1) {
    mon_targets.push_back(z[i]);
    targetindices.push_back(i);
    if (i == last_target)
@@ -5995,7 +5991,6 @@ void game::plfire(bool burst)
   return;
  }
 
- int junk;
  int range = u.weapon.range(&u);
  // TODO: [lightmap] This appears to redraw the screen for fireing,
  //                  check were lightmap needs to be shown
@@ -6009,7 +6004,7 @@ void game::plfire(bool burst)
  int y1 = y + range;
  for (int j = x - VIEWX; j <= x + VIEWX; j++) {
   for (int k = y - VIEWY; k <= y + VIEWY; k++) {
-   if (u_see(j, k, junk)) {
+   if (u_see(j, k)) {
     if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
      m.drawsq(w_terrain, u, j, k, false, true);
     else
@@ -6024,7 +6019,7 @@ void game::plfire(bool burst)
  for (int i = 0; i < z.size(); i++) {
   if (z[i].posx >= x0 && z[i].posx <= x1 &&
       z[i].posy >= y0 && z[i].posy <= y1 &&
-      z[i].friendly == 0 && u_see(&(z[i]), junk)) {
+      z[i].friendly == 0 && u_see(&(z[i]))) {
    mon_targets.push_back(z[i]);
    targetindices.push_back(i);
    if (i == last_target)
@@ -6617,9 +6612,8 @@ void game::chat()
   return;
  }
  std::vector<npc*> available;
- int junk;
  for (int i = 0; i < active_npc.size(); i++) {
-  if (u_see(active_npc[i].posx, active_npc[i].posy, junk) &&
+  if (u_see(active_npc[i].posx, active_npc[i].posy) &&
       rl_dist(u.posx, u.posy, active_npc[i].posx, active_npc[i].posy) <= 24)
    available.push_back(&active_npc[i]);
  }
@@ -7593,8 +7587,7 @@ void game::update_stair_monsters()
        coming_to_stairs[i].mon.posx = sx;
        coming_to_stairs[i].mon.posy = sy;
        z.push_back( coming_to_stairs[i].mon );
-       int t;
-       if (u_see(sx, sy, t))
+       if (u_see(sx, sy))
         add_msg("A %s comes %s the %s!", coming_to_stairs[i].mon.name().c_str(),
                 (m.has_flag(goes_up, sx, sy) ? "down" : "up"),
                 m.tername(sx, sy).c_str());
@@ -7951,7 +7944,7 @@ void game::teleport(player *p)
 {
  if (p == NULL)
   p = &u;
- int newx, newy, t, tries = 0;
+ int newx, newy, tries = 0;
  bool is_u = (p == &u);
 
  p->add_disease(DI_TELEGLOW, 300, this);
@@ -7960,7 +7953,7 @@ void game::teleport(player *p)
   newy = p->posy + rng(0, SEEY * 2) - SEEY;
   tries++;
  } while (tries < 15 && !is_empty(newx, newy));
- bool can_see = (is_u || u_see(newx, newy, t));
+ bool can_see = (is_u || u_see(newx, newy));
  std::string You = (is_u ? "You" : p->name);
  if (p->in_vehicle)
    m.unboard_vehicle (this, p->posx, p->posy);

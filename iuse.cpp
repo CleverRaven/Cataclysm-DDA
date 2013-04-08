@@ -1049,12 +1049,11 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
  }
  int mondex = g->mon_at(x, y);
  if (mondex != -1) {
-  int linet;
   g->z[mondex].moves -= 150;
-  if (g->u_see(&(g->z[mondex]), linet))
+  if (g->u_see(&(g->z[mondex])))
    g->add_msg_if_player(p,"The %s is sprayed!", g->z[mondex].name().c_str());
   if (g->z[mondex].made_of(LIQUID)) {
-   if (g->u_see(&(g->z[mondex]), linet))
+   if (g->u_see(&(g->z[mondex])))
     g->add_msg_if_player(p,"The %s is frozen!", g->z[mondex].name().c_str());
    if (g->z[mondex].hurt(rng(20, 60)))
     g->kill_mon(mondex, (p == &(g->u)));
@@ -2012,7 +2011,7 @@ void iuse::teleport(game *g, player *p, item *it, bool t)
 void iuse::can_goo(game *g, player *p, item *it, bool t)
 {
  it->make(g->itypes["canister_empty"]);
- int tries = 0, goox, gooy, junk;
+ int tries = 0, goox, gooy;
  do {
   goox = p->posx + rng(-2, 2);
   gooy = p->posy + rng(-2, 2);
@@ -2022,14 +2021,14 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
   return;
  int mondex = g->mon_at(goox, gooy);
  if (mondex != -1) {
-  if (g->u_see(goox, gooy, junk))
+  if (g->u_see(goox, gooy))
    g->add_msg("Black goo emerges from the canister and envelopes a %s!",
               g->z[mondex].name().c_str());
   g->z[mondex].poly(g->mtypes[mon_blob]);
   g->z[mondex].speed -= rng(5, 25);
   g->z[mondex].hp = g->z[mondex].speed;
  } else {
-  if (g->u_see(goox, gooy, junk))
+  if (g->u_see(goox, gooy))
    g->add_msg("Living black goo emerges from the canister!");
   monster goo(g->mtypes[mon_blob]);
   goo.friendly = -1;
@@ -2046,7 +2045,7 @@ void iuse::can_goo(game *g, player *p, item *it, bool t)
   } while (g->m.move_cost(goox, gooy) == 0 &&
            g->m.tr_at(goox, gooy) == tr_null && tries < 10);
   if (tries < 10) {
-   if (g->u_see(goox, gooy, junk))
+   if (g->u_see(goox, gooy))
     g->add_msg("A nearby splatter of goo forms into a goo pit.");
    g->m.tr_at(goox, gooy) = tr_goo;
   }
@@ -2068,14 +2067,13 @@ void iuse::pipebomb(game *g, player *p, item *it, bool t)
 
 void iuse::pipebomb_act(game *g, player *p, item *it, bool t)
 {
- int linet;
  point pos = g->find_item(it);
  if (pos.x == -999 || pos.y == -999)
   return;
  if (t) // Simple timer effects
   g->sound(pos.x, pos.y, 0, "Ssssss");	// Vol 0 = only heard if you hold it
  else {	// The timer has run down
-  if (one_in(10) && g->u_see(pos.x, pos.y, linet))
+  if (one_in(10) && g->u_see(pos.x, pos.y))
    g->add_msg("The pipe bomb fizzles out.");
   else
    g->explosion(pos.x, pos.y, rng(6, 14), rng(0, 4), false);
@@ -2483,8 +2481,7 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
 {
  point pos(p->posx, p->posy);
 
- int junk;
- bool is_u = !p->is_npc(), can_see = (is_u || g->u_see(p->posx, p->posy, junk));
+ bool is_u = !p->is_npc(), can_see = (is_u || g->u_see(p->posx, p->posy));
  if (pos.x == -999 || pos.y == -999)
   return;
 
@@ -2756,8 +2753,7 @@ void iuse::dog_whistle(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,"You blow your dog whistle.");
  for (int i = 0; i < g->z.size(); i++) {
   if (g->z[i].friendly != 0 && g->z[i].type->id == mon_dog) {
-   int linet;
-   bool u_see = g->u_see(&(g->z[i]), linet);
+   bool u_see = g->u_see(&(g->z[i]));
    if (g->z[i].has_effect(ME_DOCILE)) {
     if (u_see)
      g->add_msg_if_player(p,"Your %s looks ready to attack.", g->z[i].name().c_str());
@@ -3670,11 +3666,10 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
   case AEA_BLOOD: {
    bool blood = false;
-   int j;
    for (int x = p->posx - 4; x <= p->posx + 4; x++) {
     for (int y = p->posy - 4; y <= p->posy + 4; y++) {
      if (!one_in(4) && g->m.add_field(g, x, y, fd_blood, 3) &&
-         (blood || g->u_see(x, y, j)))
+         (blood || g->u_see(x, y)))
       blood = true;
     }
    }

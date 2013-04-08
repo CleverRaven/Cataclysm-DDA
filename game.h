@@ -187,8 +187,8 @@ class game
   int assign_faction_id();
   faction* faction_by_id(int it);
   bool sees_u(int x, int y, int &t);
-  bool u_see (int x, int y, int &t);
-  bool u_see (monster *mon, int &t);
+  bool u_see (int x, int y);
+  bool u_see (monster *mon);
   bool pl_sees(player *p, monster *mon, int &t);
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
