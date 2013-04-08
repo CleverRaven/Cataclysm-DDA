@@ -757,80 +757,80 @@ automatically dampened before they can damage your hearing.");
 
     bionics["bio_eye_enhancer"] = new bionic_data("Diamond Cornea", false, false, 0, 0, "\
 Your vision is greatly enhanced, giving you a +2 bonus to perception.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_eye_enhancer");
     bionics["bio_membrane"] = new bionic_data("Nictating Membrane", false, false, 0, 0, "\
 Your eyes have a thin membrane that closes over your eyes while underwater,\n\
 negating any vision penalties.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_membrane");
     bionics["bio_targeting"] = new bionic_data("Targeting System", false, false, 0, 0, "\
 Your eyes are equipped with range finders, and their movement is synced with\n\
 that of your arms, to a degree.  Shots you fire will be much more accurate,\n\
 particularly at long range.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_targeting");
     bionics["bio_gills"] = new bionic_data("Membrane Oxygenator", false, false, 1, 0, "\
 An oxygen interchange system automatically switches on while underwater,\n\
 slowly draining your energy reserves but providing oxygen.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_gills");
     bionics["bio_purifier"] = new bionic_data("Air Filtration System", false, false, 1, 0, "\
 Implanted in your trachea is an advanced filtration system.  If toxins find\n\
 their way into your windpipe, the filter will attempt to remove them.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_purifier");
     bionics["bio_climate"] = new bionic_data("Internal Climate Control", false, true, 1, 30, "\
 Throughout your body lies a network of thermal piping which eases the effects\n\
 of high and low ambient temperatures.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_climate");
 
     bionics["bio_storage"] = new bionic_data("Internal Storage", false, false, 0, 0, "\
 Space inside your chest cavity has been converted into a storage area.  You\n\
 may carry an extra 8 units of volume.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_storage");
     bionics["bio_recycler"] = new bionic_data("Recycler Unit", false, false, 0, 0, "\
 Your digestive system has been outfitted with a series of filters and\n\
 processors, allowing you to reclaim waste liquid and, to a lesser degree,\n\
 nutrients.  The net effect is a greatly reduced need to eat and drink.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_recycler");
     bionics["bio_digestion"] = new bionic_data("Expanded Digestive System", false, false, 0, 0, "\
 You have been outfitted with three synthetic stomachs and industrial-grade\n\
 intestines.  Not only can you extract much more nutrition from food, but you\n\
 are highly resistant to foodborne illness, and can sometimes eat rotten food.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_digestion");
     bionics["bio_tools"] = new bionic_data("Integrated Toolset", false, false, 0, 0, "\
 Implanted in your hands and fingers is a complete tool set - screwdriver,\n\
 hammer, wrench, and heating elements.  You can use this in place of many\n\
 tools when crafting.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_tools");
     bionics["bio_shock"] = new bionic_data("Electroshock Unit", false, false, 1, 0, "\
 While fighting unarmed, or with a weapon that conducts electricity, there is\n\
 a chance that a successful hit will shock your opponent, inflicting extra\n\
 damage and disabling them temporarily at the cost of some energy.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_shock");
     bionics["bio_heat_absorb"] = new bionic_data("Heat Drain", false, false, 1, 0, "\
 While fighting unarmed against a warm-blooded opponent, there is a chance\n\
 that a successful hit will drain body heat, inflicting a small amount of\n\
 extra damage, and increasing your power reserves slightly.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_heat_absorb");
     bionics["bio_carbon"] = new bionic_data("Subdermal Carbon Filament", false, false, 0, 0, "\
 Lying just beneath your skin is a thin armor made of carbon nanotubes. This\n\
 reduces bashing damage by 2 and cutting damage by 4, but also reduces your\n\
 dexterity by 2.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_carbon");
     bionics["bio_armor_head"] = new bionic_data("Alloy Plating - Head", false, false, 0, 0, "\
 The flesh on your head has been replaced by a strong armor, protecting both\n\
 your head and jaw regions, but increasing encumberance by 2 and decreasing\n\
 perception by 1.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_armor_head");
     bionics["bio_armor_torso"] = new bionic_data("Alloy Plating - Torso", false, false, 0, 0, "\
 The flesh on your torso has been replaced by a strong armor, protecting you\n\
 greatly, but increasing your encumberance by 2.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_armor_torso");
     bionics["bio_armor_arms"] = new bionic_data("Alloy Plating - Arms", false, false, 0, 0, "\
 The flesh on your arms has been replaced by a strong armor, protecting you\n\
 greatly, but decreasing your dexterity by 1.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_armor_arms");
     bionics["bio_armor_legs"] = new bionic_data("Alloy Plating - Legs", false, false, 0, 0, "\
 The flesh on your legs has been replaced by a strong armor, protecting you\n\
 greatly, but decreasing your speed by 15.");
-    unpowered_bionics.push_back("bio_ears");
+    unpowered_bionics.push_back("bio_armor_legs");
 
     bionics["bio_flashlight"] = new bionic_data("Cranial Flashlight", false, true, 1, 30, "\
 Mounted between your eyes is a small but powerful LED flashlight.");
