@@ -4892,6 +4892,25 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
     return ret;
 }
 
+std::string game::ask_item_filter(WINDOW* window, int rows)
+{
+    for (int i = 0; i < rows-1; i++)
+    {
+        mvwprintz(window, i, 1, c_black, "%s", "\
+                                                     ");
+    }
+
+    mvwprintz(window, 2, 2, c_white, "%s", "How to use the filter:");
+    mvwprintz(window, 3, 2, c_white, "%s", "Example: pi  will match any itemname with pi in it.");
+    mvwprintz(window, 5, 2, c_white, "%s", "Seperate multiple items with ,");
+    mvwprintz(window, 6, 2, c_white, "%s", "Example: back,flash,aid, ,band");
+    mvwprintz(window, 8, 2, c_white, "%s", "To exclude certain items, place a - in front");
+    mvwprintz(window, 9, 2, c_white, "%s", "Example: -pipe,chunk,steel");
+    wrefresh(window);
+    
+    return string_input_popup("Filter:", 55, sFilter);
+}
+
 void game::list_items()
 {
     int iInfoHeight = 12;
@@ -4941,27 +4960,7 @@ void game::list_items()
             }
             else if (ch == 'f' || ch == 'F')
             {
-                for (int i = 0; i < iInfoHeight-1; i++)
-                {
-                    mvwprintz(w_item_info, i, 1, c_black, "%s", "\
-                                                     ");
-                }
-
-                mvwprintz(w_item_info, 2, 2, c_white, "%s",
-                          "How to use the filter:");
-                mvwprintz(w_item_info, 3, 2, c_white, "%s",
-                          "Example: pi  will match any itemname with pi in it.");
-                mvwprintz(w_item_info, 5, 2, c_white, "%s",
-                          "Seperate multiple items with ,");
-                mvwprintz(w_item_info, 6, 2, c_white, "%s",
-                          "Example: back,flash,aid, ,band");
-                mvwprintz(w_item_info, 8, 2, c_white, "%s",
-                          "To exclude certain items, place a - in front");
-                mvwprintz(w_item_info, 9, 2, c_white, "%s",
-                          "Example: -pipe,chunk,steel");
-                wrefresh(w_item_info);
-
-                sFilter = string_input_popup("Filter:", 55, sFilter);
+                sFilter = ask_item_filter(w_item_info, iInfoHeight);
                 filtered_items = filter_item_stacks(ground_items, sFilter);
                 iActive = 0;
                 iLastActiveX = -1;

@@ -209,7 +209,8 @@ class game
   bool list_items_match(std::string sText, std::string sPattern);
   std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack, std::string filter);
   std::vector<map_item_stack> find_nearby_items(int search_x, int search_y);
-  std::string sFilter;
+  std::string ask_item_filter(WINDOW* window, int rows);
+  std::string sFilter; // this is a member so that it's remembered over time
   char inv(std::string title = "Inventory:");
   char inv_type(std::string title = "Inventory:", int inv_item_type = 0);
   std::vector<item> multidrop();
