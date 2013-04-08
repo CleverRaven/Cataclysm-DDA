@@ -545,7 +545,7 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
   wrefresh(w);
   do
    input = get_input();
-  while (input != Confirm && input != Close);
+  while (input != Confirm && input != Cancel);
   if (input == Confirm) {
    practice("electronics", (100 - chance_of_success) * 1.5);
    practice("firstaid", (100 - chance_of_success) * 1.0);
