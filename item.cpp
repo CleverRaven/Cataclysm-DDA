@@ -1112,7 +1112,7 @@ bool item::made_of(phase_id phase)
     if( is_null() )
         return false;
 
-    return (type->phase = phase);
+    return (type->phase == phase);
 }
 
 bool item::conductive()
