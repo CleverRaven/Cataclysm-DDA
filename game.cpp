@@ -5008,7 +5008,8 @@ void game::list_items()
     int iLastActiveY = -1;
     std::vector<point> vPoint;
     InputEvent input = Undefined;
-    long ch = '.'; //this is a long because getch returns a long
+    long ch = 0; //this is a long because getch returns a long
+    bool reset = true;
     int iFilter = 0;
     bool bStopDrawing = false;
 
@@ -5022,7 +5023,7 @@ void game::list_items()
             if (ch == 'I' || ch == 'c' || ch == 'C')
             {
                 compare(iActiveX, iActiveY);
-                ch = '.';
+                reset = true;
                 refresh_all();
             }
             else if (ch == 'f' || ch == 'F')
@@ -5032,7 +5033,7 @@ void game::list_items()
                 iActive = 0;
                 iLastActiveX = -1;
                 iLastActiveY = -1;
-                ch = '.';
+                reset = true;
             }
             else if (ch == 'r' || ch == 'R')
             {
@@ -5040,14 +5041,13 @@ void game::list_items()
                 filtered_items = ground_items;
                 iLastActiveX = -1;
                 iLastActiveY = -1;
-                ch = '.';
+                reset = true;
             }
 
-            // wtf is this bit doing? Seems to be a state reset? But why is it bound to '.'?
-            // hmm... yeah, it's a state reset. '.' seems to be a poor choice.
-            if (ch == '.')
+            if (reset)
             {
                 reset_item_list_state(w_items, iInfoHeight);
+                reset = false;
             }
 
             bStopDrawing = false;
