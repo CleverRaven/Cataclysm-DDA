@@ -4904,6 +4904,8 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
     mvwprintz(window, 3, 2, c_white, "%s", "Example: pi  will match any itemname with pi in it.");
     mvwprintz(window, 5, 2, c_white, "%s", "Seperate multiple items with ,");
     mvwprintz(window, 6, 2, c_white, "%s", "Example: back,flash,aid, ,band");
+    //TODO: fix up the filter code so that "-" applies to each comma-separated bit
+    //or, failing that, make the description sound more like what the current behavior does
     mvwprintz(window, 8, 2, c_white, "%s", "To exclude certain items, place a - in front");
     mvwprintz(window, 9, 2, c_white, "%s", "Example: -pipe,chunk,steel");
     wrefresh(window);
