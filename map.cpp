@@ -2645,7 +2645,8 @@ void map::draw(game *g, WINDOW* w, const point center)
    if (dist > real_max_sight_range ||
        (dist > light_sight_range &&
          (lit == LL_DARK ||
-         (u_sight_impaired && lit != LL_BRIGHT)))) {
+         (u_sight_impaired && lit != LL_BRIGHT) ||
+	  !can_see))) {
     if (u_is_boomered)
    	 mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_magenta, '#');
     else
