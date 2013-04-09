@@ -2035,14 +2035,14 @@ void player::disp_status(WINDOW *w, game *g)
  }
 }
 
-bool player::has_trait(int flag)
+bool player::has_trait(int flag) const
 {
  if (flag == PF_NULL)
   return true;
  return my_traits[flag];
 }
 
-bool player::has_mutation(int flag)
+bool player::has_mutation(int flag) const
 {
  if (flag == PF_NULL)
   return true;
@@ -2055,7 +2055,7 @@ void player::toggle_trait(int flag)
  my_mutations[flag] = !my_mutations[flag];
 }
 
-bool player::has_bionic(bionic_id b)
+bool player::has_bionic(bionic_id b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
@@ -2064,7 +2064,7 @@ bool player::has_bionic(bionic_id b)
  return false;
 }
 
-bool player::has_active_bionic(bionic_id b)
+bool player::has_active_bionic(bionic_id b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
@@ -2178,7 +2178,7 @@ bool player::sight_impaired()
                         && !is_wearing("glasses_monocle"));
 }
 
-bool player::has_two_arms()
+bool player::has_two_arms() const
 {
  if (has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10)
   return false;
@@ -2804,7 +2804,7 @@ void player::rem_disease(dis_type type)
  }
 }
 
-bool player::has_disease(dis_type type)
+bool player::has_disease(dis_type type) const
 {
  for (int i = 0; i < illness.size(); i++) {
   if (illness[i].type == type)
@@ -2860,7 +2860,7 @@ void player::add_addiction(add_type type, int strength)
  }
 }
 
-bool player::has_addiction(add_type type)
+bool player::has_addiction(add_type type) const
 {
  for (int i = 0; i < addictions.size(); i++) {
   if (addictions[i].type == type &&
@@ -4112,7 +4112,7 @@ bool player::has_matching_liquid(itype_id it)
  return false;
 }
 
-bool player::has_weapon_or_armor(char let)
+bool player::has_weapon_or_armor(char let) const
 {
  if (weapon.invlet == let)
   return true;
