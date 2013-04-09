@@ -47,6 +47,7 @@ class inventory
   void form_from_map(game *g, point origin, int distance);
 
   std::vector<item> remove_stack(int index);
+  std::vector<item> remove_stack(int index,int amount);
   item  remove_item(int index);
   item  remove_item(int stack, int index);
   item  remove_item_by_letter(char ch);

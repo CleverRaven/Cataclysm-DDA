@@ -32,7 +32,7 @@
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
+#define MAX_ITEM_IN_SQUARE 64
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
 
@@ -1227,6 +1227,10 @@ bool game::handle_action()
 
   case ACTION_EXAMINE:
    examine();
+   break;
+
+  case ACTION_ADVANCEDINV:
+   advanced_inv();
    break;
 
   case ACTION_PICKUP:
@@ -4648,7 +4652,310 @@ void game::examine()
 
   (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 }
+bool getsquare(char c , int &off_x, int &off_y, int &area, std::string &areastring)
+{
+    switch(c)
+    {
+        case '1':
+            off_x = -1;
+            off_y = -1;
+            area = 1;
+            areastring = "North West";
+            return true;
+        case '2':
+            off_x = 0;
+            off_y = -1;
+            area = 2;
+            areastring = "North";
+            return true;
+        case '3':
+            off_x = 1;
+            off_y = -1;
+            area = 3;
+            areastring = "North East";
+            return true;
+        case '4':
+            off_x = -1;
+            off_y = 0;
+            area = 4;
+            areastring = "West";
+            return true;
+        case '5':
+            off_x = 0;
+            off_y = 0;
+            area = 5;
+            areastring = "Directly below";
+            return true;
+        case '6':
+            off_x = 1;
+            off_y = 0;
+            area = 6;
+            areastring = "East";
+            return true;
+        case '7':
+            off_x = -1;
+            off_y = 1;
+            area = 7;
+            areastring = "South West";
+            return true;
+        case '8':
+            off_x = 0;
+            off_y = 1;
+            area = 8;
+            areastring = "South";
+            return true;
+        case '9':
+            off_x = 1;
+            off_y = 1;
+            area = 9;
+            areastring = "South East";
+            return true;
+        default :
+            return false;
+    }
 
+
+}
+
+void game::advanced_inv()
+{
+    int w_width = 120;
+    int w_height = 40;
+    if (u.in_vehicle)
+    {
+        add_msg("Exit vehicle first");
+        return;
+    }
+    int headstart = (TERMY>w_height)?(TERMY-w_height)/2:0;
+    int colstart = (TERMX > w_width) ? (TERMX - w_width)/2 : 0;
+    WINDOW *head = newwin(7,w_width, headstart ,colstart);
+    WINDOW *inventory = newwin(33,w_width/2, headstart+7,colstart);
+    WINDOW *environment = newwin(33,w_width/2, headstart+7,colstart+w_width/2);
+    bool exit = false;
+    bool redraw = true;
+    int off_x = 0; // offset relative to the character
+    int off_y = 0;
+    int player_page = 0;
+    int max_player_page = u.inv.size() > 20 ? 20 : u.inv.size();
+    int player_index = 0;
+    int ground_page = 0;
+    int ground_index = 0;
+    int max_ground_page = 20;
+    int screen = 0 ; // 0 for player , 1 for square
+    int area = 5; // default area is 5.
+    std::string areastring = "Directly below";
+    while(!exit)
+    {
+        if(redraw)
+        {
+            std::vector<item> grounditem = m.i_at(u.posx+off_x,u.posy+off_y);
+            // calculate page size 
+            
+            max_player_page = (player_page == -1 + (int)ceil(u.inv.size()/20.0)) ? u.inv.size() % 20 : 20;
+            max_ground_page = (ground_page == -1 + (int)ceil(grounditem.size()/20.0)) ? grounditem.size() % 20 : 20;
+            werase(head);
+            werase(inventory);
+            werase(environment);
+            { 
+            // print the header.
+                wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+                mvwprintz(head,1,3, c_white, "hjkl to move cursor");
+                mvwprintz(head,2,3, c_white, "1-9 to select square");
+                
+                mvwprintz(head,1,30, area == 1 ? c_yellow : c_white , "[1]");
+                mvwprintz(head,1,33, area == 2 ? c_yellow : c_white , "[2]");
+                mvwprintz(head,1,36, area == 3 ? c_yellow : c_white , "[3]");
+                mvwprintz(head,2,30, area == 4 ? c_yellow : c_white , "[4]");
+                mvwprintz(head,2,33, area == 5 ? c_yellow : c_white , "[5]");
+                mvwprintz(head,2,36, area == 6 ? c_yellow : c_white , "[6]");
+                mvwprintz(head,3,30, area == 7 ? c_yellow : c_white , "[7]");
+                mvwprintz(head,3,33, area == 8 ? c_yellow : c_white , "[8]");
+                mvwprintz(head,3,36, area == 9 ? c_yellow : c_white , "[9]");
+
+                mvwprintz(head,1,60, c_white, "[m]ove item between screen.");
+                mvwprintz(head,2,60, c_white, "mov[e] to a selected square.");
+                mvwprintz(head,3,60, c_white, "[q]uit/exit this screen");
+            }
+            mvwprintz(inventory,1,2,screen == 0 ? c_blue : c_white,"Inventory");
+            mvwprintz(environment,1,2,screen == 1 ? c_blue : c_white,"%s",areastring.c_str());
+            for(int i = player_page * 20 , x = 0 ; i < u.inv.size() && x < 20 ; i++ ,x++)
+            {
+                if(screen == 0 && player_index == x)
+                {
+                    mvwprintz(inventory,2+x,2,c_yellow,">>");
+                    mvwprintz(inventory,2+x,6,c_yellow,"%s",u.inv[i].tname(this).c_str());
+                }
+                else
+                {
+                    mvwprintz(inventory,2+x,6,c_white,"%s",u.inv[i].tname(this).c_str());
+                }
+                if(u.inv.stack_at(i).size() > 1)
+                {
+                    wprintw(inventory," [%d]", u.inv.stack_at(i).size());
+                }
+                if(u.inv[i].charges > 0)
+                {
+                    wprintw(inventory," (%d)",u.inv[i].charges);
+                }
+                else if(u.inv[i].contents.size() == 1 && 
+                        u.inv[i].contents[0].charges > 0)
+                {
+                    wprintw(inventory," (%d)",u.inv[i].contents[0].charges);
+                }
+            }
+            for(int i = ground_page * 20 , x = 0 ; i < grounditem.size() && x < 20 ; i++,x++)
+            {
+                if(screen == 1 && ground_index == x)
+                {
+                    mvwprintz(environment,2+x,2,c_yellow,">>");
+                    mvwprintz(environment,2+x,6,c_yellow,"%s",grounditem[i].tname(this).c_str());
+                }
+                else
+                {
+                    mvwprintz(environment,2+x,6,c_white,"%s",grounditem[i].tname(this).c_str());
+                }
+                if(grounditem[i].charges > 0)
+                {
+                    wprintw(environment," (%d)",grounditem[i].charges);
+                }
+            }
+            redraw = false;
+        }
+        wborder(inventory,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+        wborder(environment,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+        wrefresh(head);
+        wrefresh(inventory);
+        wrefresh(environment);
+        char c = getch();
+        bool changeSquare = getsquare(c,off_x,off_y,area,areastring);
+        if(changeSquare)
+        {
+            redraw = true;
+        }
+        else if('m' == c)
+        {
+            if(screen == 0) // moving item from inventory to square
+            {
+                int item_pos = player_index + (player_page * 20);
+                if((m.i_at(u.posx+off_x,u.posy+off_y)).size() >= MAX_ITEM_IN_SQUARE)
+                {
+                    popup("Destination area is full. Remove some item first");    
+                }
+                else
+                {
+                    //if target item has stack
+                    int max = (MAX_ITEM_IN_SQUARE - m.i_at(u.posx+off_x,u.posy+off_y).size());
+                    if(u.inv.stack_at(item_pos).size() > 1) // if the item stack
+                    {
+                        int amount = atoi(string_input_popup("How many do you want to move ? (0 to cancel)",20,"0").c_str());
+                        if(amount != 0)
+                        {
+                            amount = u.inv.stack_at(item_pos).size() < amount ? u.inv.stack_at(item_pos).size() : amount;
+                            bool still_move = true;
+                            if(amount > max)
+                            {
+                                still_move = query_yn("Not enough space in destination. Move as many as possible ? ");
+                            }
+                            if(still_move)
+                            {
+                                amount = amount > max ? max : amount;
+                                std::vector<item> moving_items = u.inv.remove_stack(item_pos,amount);
+                                for(int i = 0 ; i < moving_items.size() ; i++)
+                                {
+                                    m.add_item(u.posx+off_x,u.posy+off_y,moving_items[i]);
+                                }
+                                u.moves -= 100;
+                            }
+                        }
+                    }
+                    else if(u.inv[item_pos].count_by_charges()) // if the item count by charges the prompt for amount
+                    {
+                        int amount = atoi(string_input_popup("How many do you want to move ? (0 to cancel)",20,"0").c_str());
+                        amount = amount > u.inv[item_pos].charges ? u.inv[item_pos].charges : amount;
+                        if(amount != 0)
+                        {
+                            item moving_item = u.inv.remove_item_by_quantity(item_pos,amount);
+                            m.add_item(u.posx+off_x,u.posy+off_y,moving_item);
+                            u.moves -= 100;
+                        }
+                    }
+                    else // no stack / no charge just move it :D
+                    {
+                        item moving_item = u.inv.remove_item(item_pos);
+                        m.add_item(u.posx+off_x,u.posy+off_y,moving_item);
+                        u.moves -= 100;
+                    }
+                }
+            }
+            else // moving item from square to inventory
+            {
+                
+            }
+            redraw = true;
+        }
+        else if('e' == c)
+        {
+        }
+        else if('q' == c)
+        {
+            exit = true;
+        }
+        else 
+        {
+            int changex = 0;
+            int changey = 0;
+            bool donothing = false;
+            switch(c)
+            {
+                case 'j':
+                    changey = 1;
+                    break;
+                case 'k':
+                    changey = -1;
+                    break;
+                case 'h':
+                    changex = -1;
+                    break;
+                case 'l':
+                    changex = 1;
+                    break;
+                default :
+                    donothing = true;
+                    break;
+            }
+            if(!donothing)
+            {
+                if(screen == 0)
+                {
+                    player_index += changey;
+                    player_index = player_index < 0 ? 0 : player_index;
+                    player_index = player_index >= max_player_page ? max_player_page-1 : player_index;
+                    if(1 == changex)
+                    {
+                        screen = 1;
+                    }
+                }
+                else
+                {
+                    ground_index += changey;
+                    ground_index = ground_index < 0 ? 0 : ground_index;
+                    ground_index = ground_index >= max_ground_page ? max_ground_page-1 : ground_index;
+                    if(-1 == changex)
+                    {
+                        screen = 0;
+                    }
+                }
+                redraw = true;
+            }
+        }
+    }
+    werase(head);
+    werase(inventory);
+    werase(environment);
+    delwin(head);
+    delwin(inventory);
+    delwin(environment);
+}
 
 //Shift player by one tile, look_around(), then restore previous position.
 //represents carfully peeking around a corner, hence the large move cost.
