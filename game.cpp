@@ -4882,6 +4882,10 @@ void game::advanced_inv()
         }
         else if('m' == c)
         {
+            if( (screen == 0 && u.inv.size() ==0) || (screen==1 && m.i_at(u.posx+off_x,u.posy+off_y).size() ==0) )
+            {
+                continue;
+            }
             if(screen == 0) // moving item from inventory to square
             {
                 int item_pos = player_index + (player_page * 20);
@@ -4976,6 +4980,10 @@ void game::advanced_inv()
         }
         else if('e' == c)
         {
+            if( (screen == 0 && u.inv.size() ==0) || (screen==1 && m.i_at(u.posx+off_x,u.posy+off_y).size() ==0) )
+            {
+                continue;
+            }
             int squaretomove = query_int("Move to which square ? ");
             if((screen == 1 && area == squaretomove) || squaretomove == 0)
             {
