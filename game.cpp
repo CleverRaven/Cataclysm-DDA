@@ -4871,7 +4871,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
 std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack> stack, std::string filter)
 {
     std::vector<map_item_stack> ret;
-    
+
     std::string sFilterPre = "";
     std::string sFilterTemp = filter;
     if (sFilterTemp != "" && filter.substr(0, 1) == "-")
@@ -4879,7 +4879,7 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
         sFilterPre = "-";
         sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
     }
-    
+
     for (std::vector<map_item_stack>::iterator iter = stack.begin(); iter != stack.end(); ++iter)
     {
         std::string name = iter->example.tname(this);
@@ -4909,7 +4909,7 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
     mvwprintz(window, 8, 2, c_white, "%s", "To exclude certain items, place a - in front");
     mvwprintz(window, 9, 2, c_white, "%s", "Example: -pipe,chunk,steel");
     wrefresh(window);
-    
+
     return string_input_popup("Filter:", 55, sFilter);
 }
 
@@ -5053,7 +5053,7 @@ void game::list_items()
 
                 oThisItem.info(true, &vThisItem);
                 compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
-                
+
                 getch(); // wait until the user presses a key to wipe the screen
                 iLastActiveX = -1;
                 iLastActiveY = -1;
