@@ -4652,7 +4652,7 @@ void game::examine()
 
   (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 }
-bool getsquare(char c , int &off_x, int &off_y, int &area, std::string &areastring)
+int getsquare(char c , int &off_x, int &off_y, int &area, std::string &areastring)
 {
     switch(c)
     {
@@ -4661,57 +4661,57 @@ bool getsquare(char c , int &off_x, int &off_y, int &area, std::string &areastri
             off_y = -1;
             area = 1;
             areastring = "North West";
-            return true;
+            return 1;
         case '2':
             off_x = 0;
             off_y = -1;
             area = 2;
             areastring = "North";
-            return true;
+            return 2;
         case '3':
             off_x = 1;
             off_y = -1;
             area = 3;
             areastring = "North East";
-            return true;
+            return 3;
         case '4':
             off_x = -1;
             off_y = 0;
             area = 4;
             areastring = "West";
-            return true;
+            return 4;
         case '5':
             off_x = 0;
             off_y = 0;
             area = 5;
             areastring = "Directly below";
-            return true;
+            return 5;
         case '6':
             off_x = 1;
             off_y = 0;
             area = 6;
             areastring = "East";
-            return true;
+            return 6;
         case '7':
             off_x = -1;
             off_y = 1;
             area = 7;
             areastring = "South West";
-            return true;
+            return 7;
         case '8':
             off_x = 0;
             off_y = 1;
             area = 8;
             areastring = "South";
-            return true;
+            return 8;
         case '9':
             off_x = 1;
             off_y = 1;
             area = 9;
             areastring = "South East";
-            return true;
+            return 9;
         default :
-            return false;
+            return -1;
     }
 
 
@@ -4731,6 +4731,16 @@ void game::advanced_inv()
     WINDOW *head = newwin(7,w_width, headstart ,colstart);
     WINDOW *inventory = newwin(33,w_width/2, headstart+7,colstart);
     WINDOW *environment = newwin(33,w_width/2, headstart+7,colstart+w_width/2);
+    std::vector<bool> canputitems;
+    canputitems.push_back( (m.move_cost(u.posx-1,u.posy-1) != 0));
+    canputitems.push_back( (m.move_cost(u.posx+0,u.posy-1) != 0));
+    canputitems.push_back( (m.move_cost(u.posx+1,u.posy-1) != 0));
+    canputitems.push_back( (m.move_cost(u.posx-1,u.posy+0) != 0));
+    canputitems.push_back( (m.move_cost(u.posx+0,u.posy+0) != 0));
+    canputitems.push_back( (m.move_cost(u.posx+1,u.posy+0) != 0));
+    canputitems.push_back( (m.move_cost(u.posx-1,u.posy+1) != 0));
+    canputitems.push_back( (m.move_cost(u.posx+0,u.posy+1) != 0));
+    canputitems.push_back( (m.move_cost(u.posx+1,u.posy+1) != 0));
     bool exit = false;
     bool redraw = true;
     int off_x = 0; // offset relative to the character
@@ -4762,18 +4772,18 @@ void game::advanced_inv()
                 mvwprintz(head,1,3, c_white, "hjkl to move cursor");
                 mvwprintz(head,2,3, c_white, "1-9 to select square");
                 
-                mvwprintz(head,1,30, area == 1 ? c_yellow : c_white , "[1]");
-                mvwprintz(head,1,33, area == 2 ? c_yellow : c_white , "[2]");
-                mvwprintz(head,1,36, area == 3 ? c_yellow : c_white , "[3]");
-                mvwprintz(head,2,30, area == 4 ? c_yellow : c_white , "[4]");
-                mvwprintz(head,2,33, area == 5 ? c_yellow : c_white , "[5]");
-                mvwprintz(head,2,36, area == 6 ? c_yellow : c_white , "[6]");
-                mvwprintz(head,3,30, area == 7 ? c_yellow : c_white , "[7]");
-                mvwprintz(head,3,33, area == 8 ? c_yellow : c_white , "[8]");
-                mvwprintz(head,3,36, area == 9 ? c_yellow : c_white , "[9]");
+                mvwprintz(head,1,30, canputitems[0] ? (area == 1 ? c_yellow : c_white) : c_red , "[1]");
+                mvwprintz(head,1,33, canputitems[1] ? (area == 2 ? c_yellow : c_white) : c_red , "[2]");
+                mvwprintz(head,1,36, canputitems[2] ? (area == 3 ? c_yellow : c_white) : c_red , "[3]");
+                mvwprintz(head,2,30, canputitems[3] ? (area == 4 ? c_yellow : c_white) : c_red , "[4]");
+                mvwprintz(head,2,33, canputitems[4] ? (area == 5 ? c_yellow : c_white) : c_red , "[5]");
+                mvwprintz(head,2,36, canputitems[5] ? (area == 6 ? c_yellow : c_white) : c_red , "[6]");
+                mvwprintz(head,3,30, canputitems[6] ? (area == 7 ? c_yellow : c_white) : c_red , "[7]");
+                mvwprintz(head,3,33, canputitems[7] ? (area == 8 ? c_yellow : c_white) : c_red , "[8]");
+                mvwprintz(head,3,36, canputitems[8] ? (area == 9 ? c_yellow : c_white) : c_red , "[9]");
 
                 mvwprintz(head,1,60, c_white, "[m]ove item between screen.");
-                mvwprintz(head,2,60, c_white, "mov[e] to a selected square.");
+                //mvwprintz(head,2,60, c_white, "mov[e] to a selected square.");
                 mvwprintz(head,3,60, c_white, "[q]uit/exit this screen");
             }
             mvwprintz(inventory,1,2,screen == 0 ? c_blue : c_white,"Inventory");
@@ -4827,10 +4837,17 @@ void game::advanced_inv()
         wrefresh(inventory);
         wrefresh(environment);
         char c = getch();
-        bool changeSquare = getsquare(c,off_x,off_y,area,areastring);
-        if(changeSquare)
+        int changeSquare = getsquare(c,off_x,off_y,area,areastring);
+        if(changeSquare != -1)
         {
-            redraw = true;
+            if(canputitems[changeSquare-1])
+            {
+                redraw = true;
+            }
+            else
+            {
+                popup("You can't put item there");
+            }
         }
         else if('m' == c)
         {
@@ -4874,8 +4891,16 @@ void game::advanced_inv()
                         amount = amount > u.inv[item_pos].charges ? u.inv[item_pos].charges : amount;
                         if(amount != 0)
                         {
-                            item moving_item = u.inv.remove_item_by_quantity(item_pos,amount);
-                            m.add_item(u.posx+off_x,u.posy+off_y,moving_item);
+                            if(amount >= u.inv[item_pos].charges) // full stack moved
+                            {
+                                item moving_item = u.inv.remove_stack(item_pos)[0];
+                                m.add_item(u.posx+off_x,u.posy+off_y,moving_item);
+                            }
+                            else //partial stack moved
+                            {
+                                item moving_item = u.inv.remove_item_by_quantity(item_pos,amount);
+                                m.add_item(u.posx+off_x,u.posy+off_y,moving_item);
+                            }
                             u.moves -= 100;
                         }
                     }
@@ -4889,7 +4914,32 @@ void game::advanced_inv()
             }
             else // moving item from square to inventory
             {
-                
+                int item_pos = ground_index + (ground_page * 20);
+                std::vector<item> ground_items =  m.i_at(u.posx+off_x,u.posy+off_y);
+                if(ground_items[item_pos].made_of(LIQUID))
+                {
+                    popup("You can't pick up liquid.");
+                }
+                else
+                {
+                    if(!u.can_pickVolume(ground_items[item_pos].volume()))
+                    {
+                        popup("There's no room in your inventory.");
+                    }
+                    else if(!u.can_pickWeight(ground_items[item_pos].weight()))
+                    {
+                        popup("This is too heavy!");
+                    }
+                    else
+                    {
+                        item new_item = ground_items[item_pos];
+                        new_item.invlet = nextinv;
+                        advance_nextinv();
+                        m.i_rem(u.posx+off_x,u.posy+off_y,item_pos);
+                        u.i_add(new_item,this);
+                        u.moves -= 100;
+                    }
+                }
             }
             redraw = true;
         }
