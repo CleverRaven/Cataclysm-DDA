@@ -4280,10 +4280,8 @@ bool player::eat(game *g, int index)
         if (comest->tool != "null")
         {
             bool has = has_amount(comest->tool, 1);
-//   if (g->itypes[comest->tool]->count_by_charges())
-//    has = has_charges(comest->tool, 1);
-   if (!use_fire_tool_if_avail(1)) {
-//   if (!has) {
+
+            if (!use_fire_tool_if_avail(1))
             {
                 if (!is_npc())
                     g->add_msg("You need a %s to consume that!",
@@ -4364,7 +4362,7 @@ bool player::eat(game *g, int index)
             else if (comest->nutr >= 5)
                 g->add_msg("You eat your %s.", eaten->tname(g).c_str());
         }
-  } else if (g->u_see(posx, posy))
+        else if (g->u_see(posx, posy))
             g->add_msg("%s eats a %s.", name.c_str(), eaten->tname(g).c_str());
 
         if (g->itypes[comest->tool]->is_tool())
