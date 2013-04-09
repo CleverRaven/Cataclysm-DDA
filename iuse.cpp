@@ -3962,3 +3962,13 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
   { g->add_msg("You can't heat that up!");
  } return;
 }
+
+void iuse::dejar(game *g, player *p, item *it, bool t)
+{
+	g->add_msg_if_player(p,"You open the jar, exposing it to the atmosphere.");
+	itype_id ujfood = (it->type->id).substr(4,-1);  // assumes "jar_" is at front of itype_id and removes it
+	item ujitem(g->itypes[ujfood],0);  // temp create item to discover container
+	itype_id ujcont = (dynamic_cast<it_comest*>(ujitem.type))->container;  //discovering container
+	it->make(g->itypes[ujcont]);  //turning "sealed jar of xxx" into container for "xxx"
+    it->contents.push_back(item(g->itypes[ujfood],0));  //shoving the "xxx" into the container
+}
