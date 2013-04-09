@@ -14,6 +14,7 @@
 #include "bodypart.h"
 #include "map.h"
 #include "output.h"
+#include "helper.h"
 
 #include <map>
 #include <algorithm>
@@ -4656,60 +4657,60 @@ int getsquare(int c , int &off_x, int &off_y, int &area, std::string &areastring
 {
     switch(c)
     {
-        case 1:
+        case 7:
             off_x = -1;
             off_y = -1;
-            area = 1;
+            area = 7;
             areastring = "North West";
-            return 1;
-        case 2:
+            return area;
+        case 8:
             off_x = 0;
             off_y = -1;
-            area = 2;
+            area = 8;
             areastring = "North";
-            return 2;
-        case 3:
+            return area;
+        case 9:
             off_x = 1;
             off_y = -1;
-            area = 3;
+            area = 9;
             areastring = "North East";
-            return 3;
+            return area;
         case 4:
             off_x = -1;
             off_y = 0;
             area = 4;
             areastring = "West";
-            return 4;
+            return area;
         case 5:
             off_x = 0;
             off_y = 0;
             area = 5;
             areastring = "Directly below";
-            return 5;
+            return area;
         case 6:
             off_x = 1;
             off_y = 0;
             area = 6;
             areastring = "East";
-            return 6;
-        case 7:
+            return area;
+        case 1:
             off_x = -1;
             off_y = 1;
-            area = 7;
+            area = 1;
             areastring = "South West";
-            return 7;
-        case 8:
+            return area;
+        case 2:
             off_x = 0;
             off_y = 1;
-            area = 8;
+            area = 2;
             areastring = "South";
-            return 8;
-        case 9:
+            return area;
+        case 3:
             off_x = 1;
             off_y = 1;
-            area = 9;
+            area = 3;
             areastring = "South East";
-            return 9;
+            return area;
         default :
             return -1;
     }
@@ -4719,22 +4720,31 @@ int getsquare(char c , int &off_x, int &off_y, int &area, std::string &areastrin
     switch(c)
     {
         case '1':
+        case 'B':
             return getsquare(1,off_x,off_y,area,areastring);
         case '2':
+        case 'J':
             return getsquare(2,off_x,off_y,area,areastring);
         case '3':
+        case 'N':
             return getsquare(3,off_x,off_y,area,areastring);
         case '4':
+        case 'H':
             return getsquare(4,off_x,off_y,area,areastring);
         case '5':
+        case 'G':
             return getsquare(5,off_x,off_y,area,areastring);
         case '6':
+        case 'L':
             return getsquare(6,off_x,off_y,area,areastring);
         case '7':
+        case 'Y':
             return getsquare(7,off_x,off_y,area,areastring);
         case '8':
+        case 'K':
             return getsquare(8,off_x,off_y,area,areastring);
         case '9':
+        case 'U':
             return getsquare(9,off_x,off_y,area,areastring);
         default :
             return -1;
@@ -4792,7 +4802,12 @@ void game::advanced_inv()
             max_player_page = (int)ceil(u.inv.size()/20.0);
             max_player_index = player_page == (-1 + max_player_page) ? ((u.inv.size() % 20)==0?20:u.inv.size() % 20) : 20;
             max_ground_page = (int)ceil(grounditem.size()/20.0);
-            max_ground_index = ground_page == (-1 + max_ground_page) ? ((grounditem.size() % 20)==0?20:grounditem.size()) : 20;
+            max_ground_index = ground_page == (-1 + max_ground_page) ? ((grounditem.size() % 20)==0?20:grounditem.size() % 20) : 20;
+            // check if things are out of bound
+            player_index = (player_index >= max_player_index) ? max_player_index - 1 : player_index;
+            player_page = max_player_page == 0 ? 0 : ( player_page >= max_player_page ? max_player_page - 1 : player_page);
+            ground_index = (ground_index >= max_ground_index) ? max_ground_index - 1 : ground_index;
+            ground_page = max_ground_page == 0 ? 0 : ( ground_page >= max_ground_page ? max_ground_page - 1 : ground_page);
             werase(head);
             werase(inventory);
             werase(environment);
@@ -4800,17 +4815,17 @@ void game::advanced_inv()
             // print the header.
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
                 mvwprintz(head,1,3, c_white, "hjkl to move cursor");
-                mvwprintz(head,2,3, c_white, "1-9 to select square");
+                mvwprintz(head,2,3, c_white, "1-9 to select square or GHJKLYUBN");
                 
-                mvwprintz(head,1,30, canputitems[0] ? (area == 1 ? c_yellow : c_white) : c_red , "[1]");
-                mvwprintz(head,1,33, canputitems[1] ? (area == 2 ? c_yellow : c_white) : c_red , "[2]");
-                mvwprintz(head,1,36, canputitems[2] ? (area == 3 ? c_yellow : c_white) : c_red , "[3]");
+                mvwprintz(head,1,30, canputitems[6] ? (area == 7 ? c_yellow : c_white) : c_red , "[7]");
+                mvwprintz(head,1,33, canputitems[7] ? (area == 8 ? c_yellow : c_white) : c_red , "[8]");
+                mvwprintz(head,1,36, canputitems[8] ? (area == 9 ? c_yellow : c_white) : c_red , "[9]");
                 mvwprintz(head,2,30, canputitems[3] ? (area == 4 ? c_yellow : c_white) : c_red , "[4]");
                 mvwprintz(head,2,33, canputitems[4] ? (area == 5 ? c_yellow : c_white) : c_red , "[5]");
                 mvwprintz(head,2,36, canputitems[5] ? (area == 6 ? c_yellow : c_white) : c_red , "[6]");
-                mvwprintz(head,3,30, canputitems[6] ? (area == 7 ? c_yellow : c_white) : c_red , "[7]");
-                mvwprintz(head,3,33, canputitems[7] ? (area == 8 ? c_yellow : c_white) : c_red , "[8]");
-                mvwprintz(head,3,36, canputitems[8] ? (area == 9 ? c_yellow : c_white) : c_red , "[9]");
+                mvwprintz(head,3,30, canputitems[0] ? (area == 1 ? c_yellow : c_white) : c_red , "[1]");
+                mvwprintz(head,3,33, canputitems[1] ? (area == 2 ? c_yellow : c_white) : c_red , "[2]");
+                mvwprintz(head,3,36, canputitems[2] ? (area == 3 ? c_yellow : c_white) : c_red , "[3]");
 
                 mvwprintz(head,1,60, c_white, "[m]ove item between screen.");
                 mvwprintz(head,2,60, c_white, "mov[e] to a selected square.");
@@ -4899,7 +4914,7 @@ void game::advanced_inv()
                     int max = (MAX_ITEM_IN_SQUARE - m.i_at(u.posx+off_x,u.posy+off_y).size());
                     if(u.inv.stack_at(item_pos).size() > 1) // if the item stack
                     {
-                        int amount = atoi(string_input_popup("How many do you want to move ? (0 to cancel)",20,"0").c_str());
+                        int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(u.inv.stack_at(item_pos).size())));
                         if(amount != 0)
                         {
                             amount = u.inv.stack_at(item_pos).size() < amount ? u.inv.stack_at(item_pos).size() : amount;
@@ -4922,7 +4937,7 @@ void game::advanced_inv()
                     }
                     else if(u.inv[item_pos].count_by_charges()) // if the item count by charges the prompt for amount
                     {
-                        int amount = atoi(string_input_popup("How many do you want to move ? (0 to cancel)",20,"0").c_str());
+                        int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(u.inv[item_pos].charges)));
                         amount = amount > u.inv[item_pos].charges ? u.inv[item_pos].charges : amount;
                         if(amount != 0)
                         {
@@ -4984,7 +4999,7 @@ void game::advanced_inv()
             {
                 continue;
             }
-            int squaretomove = query_int("Move to which square ? ");
+            int squaretomove = popup_getkey("Move to which square ? ");
             if((screen == 1 && area == squaretomove) || squaretomove == 0)
             {
                 // same square , do nothing
@@ -5010,7 +5025,7 @@ void game::advanced_inv()
                         int max = (MAX_ITEM_IN_SQUARE - m.i_at(u.posx+target_x,u.posy+target_y).size());
                         if(u.inv.stack_at(item_pos).size() > 1) // if the item stack
                         {
-                            int amount = atoi(string_input_popup("How many do you want to move ? (0 to cancel)",20,"0").c_str());
+                            int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(u.inv.stack_at(item_pos).size())));
                             if(amount != 0)
                             {
                                 amount = u.inv.stack_at(item_pos).size() < amount ? u.inv.stack_at(item_pos).size() : amount;
@@ -5033,7 +5048,7 @@ void game::advanced_inv()
                         }
                         else if(u.inv[item_pos].count_by_charges())
                         {
-                            int amount = atoi(string_input_popup("How many do you wawnt to move ? (0 to cancel)",20,"0").c_str());
+                            int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(u.inv[item_pos].charges)));
                             amount = amount > u.inv[item_pos].charges ? u.inv[item_pos].charges : amount ;
                             if(amount != 0)
                             {
