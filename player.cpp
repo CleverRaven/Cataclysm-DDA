@@ -5575,13 +5575,25 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         worn[i].made_of(COTTON) || worn[i].made_of(GLASS)   ||
         worn[i].made_of(WOOD)   || worn[i].made_of(KEVLAR)) &&
        rng(0, tmp->cut_resist * 2) < cut && !one_in(cut))
+   {
+    if (!is_npc())
+    {
+     g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
+    }
     worn[i].damage++;
+   }
 // Kevlar, plastic, iron, steel, and silver may be damaged by BASHING damage
    if ((worn[i].made_of(PLASTIC) || worn[i].made_of(IRON)   ||
         worn[i].made_of(STEEL)   || worn[i].made_of(SILVER) ||
         worn[i].made_of(STONE))  &&
        rng(0, tmp->dmg_resist * 2) < dam && !one_in(dam))
+   {
+    if (!is_npc())
+    {
+     g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
+    }
     worn[i].damage++;
+   }
    if (worn[i].damage >= 5) {
     if (!is_npc())
      g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
