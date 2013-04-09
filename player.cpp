@@ -2035,14 +2035,14 @@ void player::disp_status(WINDOW *w, game *g)
  }
 }
 
-bool player::has_trait(int flag)
+bool player::has_trait(int flag) const
 {
  if (flag == PF_NULL)
   return true;
  return my_traits[flag];
 }
 
-bool player::has_mutation(int flag)
+bool player::has_mutation(int flag) const
 {
  if (flag == PF_NULL)
   return true;
@@ -2055,7 +2055,7 @@ void player::toggle_trait(int flag)
  my_mutations[flag] = !my_mutations[flag];
 }
 
-bool player::has_bionic(bionic_id b)
+bool player::has_bionic(bionic_id b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
@@ -2064,7 +2064,7 @@ bool player::has_bionic(bionic_id b)
  return false;
 }
 
-bool player::has_active_bionic(bionic_id b)
+bool player::has_active_bionic(bionic_id b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
@@ -2178,7 +2178,7 @@ bool player::sight_impaired()
                         && !is_wearing("glasses_monocle"));
 }
 
-bool player::has_two_arms()
+bool player::has_two_arms() const
 {
  if (has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10)
   return false;
@@ -2804,7 +2804,7 @@ void player::rem_disease(dis_type type)
  }
 }
 
-bool player::has_disease(dis_type type)
+bool player::has_disease(dis_type type) const
 {
  for (int i = 0; i < illness.size(); i++) {
   if (illness[i].type == type)
@@ -2860,7 +2860,7 @@ void player::add_addiction(add_type type, int strength)
  }
 }
 
-bool player::has_addiction(add_type type)
+bool player::has_addiction(add_type type) const
 {
  for (int i = 0; i < addictions.size(); i++) {
   if (addictions[i].type == type &&
@@ -3797,13 +3797,9 @@ bool player::use_charges_if_avail(itype_id it, int quantity)
     return false;
 }
 
-bool player::use_fire_tool_if_avail(int quantity)
+bool player::has_fire(const int quantity)
 {
-//Ok, so checks for nearby fires first,
-//then held lit torch or candle, bio tool/lighter/laser
-//tries to use 1 charge of lighters, matches, flame throwers
-// (home made, military), hotplate, welder in that order.
-// bio_lighter, bio_laser, bio_tools, has_bionic("bio_tools"
+// TODO: Replace this with a "tool produces fire" flag.
 
     if (has_charges("torch_lit", 1)) {
         return true;
@@ -3816,25 +3812,58 @@ bool player::use_fire_tool_if_avail(int quantity)
     } else if (has_bionic("bio_laser")) {
         return true;
     } else if (has_charges("matches", quantity)) {
-     use_charges("matches", quantity);
-     return true;
+        return true;
     } else if (has_charges("lighter", quantity)) {
-     use_charges("lighter", quantity);
-     return true;
+        return true;
     } else if (has_charges("flamethrower", quantity)) {
-     use_charges("flamethrower", quantity);
-     return true;
+        return true;
     } else if (has_charges("flamethrower_simple", quantity)) {
-     use_charges("flamethrower_simple", quantity);
-     return true;
+        return true;
     } else if (has_charges("hotplate", quantity)) {
-     use_charges("welder", quantity);
-     return true;
+        return true;
     } else if (has_charges("welder", quantity)) {
-     use_charges("welder", quantity);
-     return true;
+        return true;
     }
     return false;
+}
+
+void player::use_fire(const int quantity)
+{
+//Ok, so checks for nearby fires first,
+//then held lit torch or candle, bio tool/lighter/laser
+//tries to use 1 charge of lighters, matches, flame throwers
+// (home made, military), hotplate, welder in that order.
+// bio_lighter, bio_laser, bio_tools, has_bionic("bio_tools"
+
+    if (has_charges("torch_lit", 1)) {
+        return;
+    } else if (has_charges("candle_lit", 1)) {
+        return;
+    } else if (has_bionic("bio_tools")) {
+        return;
+    } else if (has_bionic("bio_lighter")) {
+        return;
+    } else if (has_bionic("bio_laser")) {
+        return;
+    } else if (has_charges("matches", quantity)) {
+        use_charges("matches", quantity);
+        return;
+    } else if (has_charges("lighter", quantity)) {
+        use_charges("lighter", quantity);
+        return;
+    } else if (has_charges("flamethrower", quantity)) {
+        use_charges("flamethrower", quantity);
+        return;
+    } else if (has_charges("flamethrower_simple", quantity)) {
+        use_charges("flamethrower_simple", quantity);
+        return;
+    } else if (has_charges("hotplate", quantity)) {
+        use_charges("welder", quantity);
+        return;
+    } else if (has_charges("welder", quantity)) {
+        use_charges("welder", quantity);
+        return;
+    }
 }
 
 void player::use_charges(itype_id it, int quantity)
@@ -3845,6 +3874,11 @@ void player::use_charges(itype_id it, int quantity)
    power_level = 0;
   return;
  }
+ if (it == "fire")
+ {
+     return use_fire(quantity);
+ }
+
 // Start by checking weapon contents
  for (int i = 0; i < weapon.contents.size(); i++) {
   if (weapon.contents[i].type->id == it) {
@@ -3995,8 +4029,7 @@ int player::amount_of(itype_id it)
     }
     if (it == "apparatus")
     {
-        if ((has_amount("crackpipe", 1) && has_amount("lighter", 1)) ||
-            (has_amount("can_drink", 1) && has_amount("lighter", 1)))
+        if (has_amount("crackpipe", 1) || has_amount("can_drink", 1) )
         {
             return 1;
         }
@@ -4020,6 +4053,10 @@ int player::amount_of(itype_id it)
 
 bool player::has_charges(itype_id it, int quantity)
 {
+    if (it == "fire" || it == "apparatus")
+    {
+        return has_fire(quantity);
+    }
     return (charges_of(it) >= quantity);
 }
 
@@ -4112,7 +4149,7 @@ bool player::has_matching_liquid(itype_id it)
  return false;
 }
 
-bool player::has_weapon_or_armor(char let)
+bool player::has_weapon_or_armor(char let) const
 {
  if (weapon.invlet == let)
   return true;
@@ -4280,9 +4317,9 @@ bool player::eat(game *g, int index)
         if (comest->tool != "null")
         {
             bool has = has_amount(comest->tool, 1);
-
-            if (!use_fire_tool_if_avail(1))
-            {
+   if (g->itypes[comest->tool]->count_by_charges())
+    has = has_charges(comest->tool, 1);
+   if (!has) {
                 if (!is_npc())
                     g->add_msg("You need a %s to consume that!",
                                g->itypes[comest->tool]->name.c_str());
@@ -5581,13 +5618,25 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         worn[i].made_of(COTTON) || worn[i].made_of(GLASS)   ||
         worn[i].made_of(WOOD)   || worn[i].made_of(KEVLAR)) &&
        rng(0, tmp->cut_resist * 2) < cut && !one_in(cut))
+   {
+    if (!is_npc())
+    {
+     g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
+    }
     worn[i].damage++;
+   }
 // Kevlar, plastic, iron, steel, and silver may be damaged by BASHING damage
    if ((worn[i].made_of(PLASTIC) || worn[i].made_of(IRON)   ||
         worn[i].made_of(STEEL)   || worn[i].made_of(SILVER) ||
         worn[i].made_of(STONE))  &&
        rng(0, tmp->dmg_resist * 2) < dam && !one_in(dam))
+   {
+    if (!is_npc())
+    {
+     g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
+    }
     worn[i].damage++;
+   }
    if (worn[i].damage >= 5) {
     if (!is_npc())
      g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());

@@ -640,7 +640,7 @@ MED("coke", "cocaine",		 8,420,	c_white,	"null",
 	POWDER,  20, -2, 30,  8, 25,&iuse::coke,	ADD_COKE, "\
 A strong, illegal stimulant. Highly addictive.");
 
-MED("meth", "methamphetamine",	 2,800, c_ltcyan,	"apparatus",
+MED("meth", "methamphetamine",	 2,800, c_ltcyan,	"null",
 	POWDER,  10, -4, 50,  6, 30,&iuse::meth,	ADD_SPEED, "\
 A very strong illegal stimulant. Extremely addictive and bad for you, but\n\
 also extremely effective in boosting your alertness.");
@@ -3516,7 +3516,7 @@ underground.");
 
 TOOL("flashlight_on", "flashlight (on)",  0, 380,';', c_blue,	PLASTIC, IRON,
     3,  2,  1,  0,  2, 100,100, 0, 15, AT_BATT,"flashlight",&iuse::light_on,
-mfb(IF_LIGHT_8),
+mfb(IF_LIGHT_20),
 "This flashlight is turned on, and continually draining its batteries. It\n\
 provides light during the night or while underground. Use it to turn it off.");
 
@@ -3532,7 +3532,7 @@ A light-emitting circuit wired directly to some batteries. Once activated, provi
 scrap it to recover the components that are reusable.");
 
 TOOL("lightstrip", "lightstrip (active)", 0, 200, ';', c_green, PLASTIC, IRON,
-    1,  1,  1,  0,  2,  12000, 12000, 0, 150, AT_NULL, "lightstrip_dead", &iuse::none, 0,"\
+    1,  1,  1,  0,  2,  12000, 12000, 0, 150, AT_NULL, "lightstrip_dead", &iuse::none, mfb(IF_LIGHT_1),"\
 A light-emitting circuit wired directly to some batteries. Provides a weak light,\n\
 lasting 25 hours per 3 (battery) charges. When the batteries die, you'll need to\n\
 scrap it to recover the components that are reusable.");
@@ -4111,7 +4111,7 @@ quite a long time.");
 //    NAME              RAR PRC SYM COLOR       MAT1    MAT2
 TOOL("candle_lit", "candle (lit)",           40,  0, ',', c_white,  VEGGY,  MNULL,
     1,  1,  0,  0, -2, 100, 100, 1, 50, AT_NULL, "null", &iuse::candle_lit,
-0, "\
+mfb(IF_LIGHT_4), "\
 A thick candle, doesn't provide very much light, but it can burn for\n\
 quite a long time. This candle is lit.");
 

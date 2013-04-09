@@ -934,11 +934,20 @@ bool map::flammable_items_at(const int x, const int y)
 {
  for (int i = 0; i < i_at(x, y).size(); i++) {
   item *it = &(i_at(x, y)[i]);
-  if (it->made_of(PAPER) || it->made_of(WOOD) || it->made_of(COTTON) ||
-      it->made_of(POWDER) || it->made_of(VEGGY) || it->is_ammo() ||
+  int vol = it->volume();
+  if (it->made_of(PAPER) || it->made_of(POWDER) ||
       it->type->id == "whiskey" || it->type->id == "vodka" ||
       it->type->id == "rum" || it->type->id == "tequila")
-   return true;
+    return true;
+  if ((it->made_of(WOOD) || it->made_of(VEGGY)) && (it->burnt < 1 || vol <= 10))
+    return true;
+  if (it->made_of(COTTON) && (vol <= 5 || it->burnt < 1))
+    return true;
+  if (it->is_ammo() && it->ammo_type() != AT_BATT &&
+      it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
+      it->ammo_type() != AT_BOLT && it->ammo_type() != AT_ARROW &&
+      it->ammo_type() != AT_NULL)
+    return true;
  }
  return false;
 }
@@ -2636,7 +2645,8 @@ void map::draw(game *g, WINDOW* w, const point center)
    if (dist > real_max_sight_range ||
        (dist > light_sight_range &&
          (lit == LL_DARK ||
-         (u_sight_impaired && lit != LL_BRIGHT)))) {
+         (u_sight_impaired && lit != LL_BRIGHT) ||
+	  !can_see))) {
     if (u_is_boomered)
    	 mvwputch(w, realy+getmaxy(w)/2 - center.y, realx+getmaxx(w)/2 - center.x, c_magenta, '#');
     else

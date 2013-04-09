@@ -181,7 +181,7 @@ void item::make(itype* it)
  contents.clear();
 }
 
-bool item::is_null()
+bool item::is_null() const
 {
  return (type == NULL || type->id == "null");
 }
@@ -906,7 +906,7 @@ int item::damage_cut()
  return type->melee_cut;
 }
 
-bool item::has_flag(item_flag f)
+bool item::has_flag(item_flag f) const
 {
  bool ret = false;
 
@@ -914,7 +914,7 @@ bool item::has_flag(item_flag f)
 // gun flags
  if (is_gun()) {
   if (mode == IF_MODE_AUX) {
-   item* gunmod = active_gunmod();
+   item const* gunmod = inspect_active_gunmod();
    if( gunmod != NULL )
 	ret = gunmod->has_flag(f);
 	if (ret) return ret;
@@ -1135,7 +1135,7 @@ bool item::destroyed_at_zero_charges()
  return (is_ammo() || is_food());
 }
 
-bool item::is_var_veh_part()
+bool item::is_var_veh_part() const
 {
  if( is_null() )
   return false;
@@ -1143,7 +1143,7 @@ bool item::is_var_veh_part()
  return type->is_var_veh_part();
 }
 
-bool item::is_gun()
+bool item::is_gun() const
 {
  if( is_null() )
   return false;
@@ -1151,7 +1151,7 @@ bool item::is_gun()
  return type->is_gun();
 }
 
-bool item::is_silent()
+bool item::is_silent() const
 {
  if ( is_null() )
   return false;
@@ -1164,7 +1164,7 @@ bool item::is_silent()
  );
 }
 
-bool item::is_gunmod()
+bool item::is_gunmod() const
 {
  if( is_null() )
   return false;
@@ -1172,7 +1172,7 @@ bool item::is_gunmod()
  return type->is_gunmod();
 }
 
-bool item::is_bionic()
+bool item::is_bionic() const
 {
  if( is_null() )
   return false;
@@ -1180,7 +1180,7 @@ bool item::is_bionic()
  return type->is_bionic();
 }
 
-bool item::is_ammo()
+bool item::is_ammo() const
 {
  if( is_null() )
   return false;
@@ -1188,7 +1188,7 @@ bool item::is_ammo()
  return type->is_ammo();
 }
 
-bool item::is_food(player *u)
+bool item::is_food(player *u) const
 {
  if (!u)
   return is_food();
@@ -1208,12 +1208,12 @@ bool item::is_food(player *u)
  return false;
 }
 
-bool item::is_food_container(player *u)
+bool item::is_food_container(player *u) const
 {
  return (contents.size() >= 1 && contents[0].is_food(u));
 }
 
-bool item::is_food()
+bool item::is_food() const
 {
  if( is_null() )
   return false;
@@ -1223,17 +1223,17 @@ bool item::is_food()
  return false;
 }
 
-bool item::is_food_container()
+bool item::is_food_container() const
 {
  return (contents.size() >= 1 && contents[0].is_food());
 }
 
-bool item::is_ammo_container()
+bool item::is_ammo_container() const
 {
  return (contents.size() >= 1 && contents[0].is_ammo());
 }
 
-bool item::is_drink()
+bool item::is_drink() const
 {
  if( is_null() )
   return false;
@@ -1241,7 +1241,7 @@ bool item::is_drink()
  return type->is_food() && type->phase == LIQUID;
 }
 
-bool item::is_weap()
+bool item::is_weap() const
 {
  if( is_null() )
   return false;
@@ -1252,7 +1252,7 @@ bool item::is_weap()
  return (type->melee_dam > 7 || type->melee_cut > 5);
 }
 
-bool item::is_bashing_weapon()
+bool item::is_bashing_weapon() const
 {
  if( is_null() )
   return false;
@@ -1260,7 +1260,7 @@ bool item::is_bashing_weapon()
  return (type->melee_dam >= 8);
 }
 
-bool item::is_cutting_weapon()
+bool item::is_cutting_weapon() const
 {
  if( is_null() )
   return false;
@@ -1268,7 +1268,7 @@ bool item::is_cutting_weapon()
  return (type->melee_cut >= 8 && !has_flag(IF_SPEAR));
 }
 
-bool item::is_armor()
+bool item::is_armor() const
 {
  if( is_null() )
   return false;
@@ -1276,7 +1276,7 @@ bool item::is_armor()
  return type->is_armor();
 }
 
-bool item::is_book()
+bool item::is_book() const
 {
  if( is_null() )
   return false;
@@ -1284,7 +1284,7 @@ bool item::is_book()
  return type->is_book();
 }
 
-bool item::is_container()
+bool item::is_container() const
 {
  if( is_null() )
   return false;
@@ -1292,7 +1292,7 @@ bool item::is_container()
  return type->is_container();
 }
 
-bool item::is_tool()
+bool item::is_tool() const
 {
  if( is_null() )
   return false;
@@ -1300,7 +1300,7 @@ bool item::is_tool()
  return type->is_tool();
 }
 
-bool item::is_software()
+bool item::is_software() const
 {
  if( is_null() )
   return false;
@@ -1308,7 +1308,7 @@ bool item::is_software()
  return type->is_software();
 }
 
-bool item::is_macguffin()
+bool item::is_macguffin() const
 {
  if( is_null() )
   return false;
@@ -1316,7 +1316,7 @@ bool item::is_macguffin()
  return type->is_macguffin();
 }
 
-bool item::is_style()
+bool item::is_style() const
 {
  if( is_null() )
   return false;
@@ -1324,7 +1324,7 @@ bool item::is_style()
  return type->is_style();
 }
 
-bool item::is_other()
+bool item::is_other() const
 {
  if( is_null() )
   return false;
@@ -1334,7 +1334,7 @@ bool item::is_other()
          !is_book() && !is_weap());
 }
 
-bool item::is_artifact()
+bool item::is_artifact() const
 {
  if( is_null() )
   return false;
@@ -1376,6 +1376,21 @@ item* item::active_gunmod()
    if (contents[i].is_gunmod() && contents[i].mode == IF_MODE_AUX)
     return &contents[i];
  return NULL;
+}
+
+item const* item::inspect_active_gunmod() const
+{
+    if (mode == IF_MODE_AUX)
+    {
+        for (int i = 0; i < contents.size(); ++i)
+        {
+            if (contents[i].is_gunmod() && contents[i].mode == IF_MODE_AUX)
+            {
+                return &contents[i];
+            }
+        }
+    }
+    return NULL;
 }
 
 void item::next_mode()
@@ -1483,13 +1498,13 @@ int item::gun_damage(bool with_ammo)
  return ret;
 }
 
-int item::noise()
+int item::noise() const
 {
  if (!is_gun())
   return 0;
  int ret = 0;
  if(mode == IF_MODE_AUX) {
-  item* gunmod = active_gunmod();
+  item const* gunmod = inspect_active_gunmod();
   if (gunmod && gunmod->curammo)
    ret = gunmod->curammo->damage;
  } else if (curammo)
@@ -1868,7 +1883,7 @@ std::ostream & operator<<(std::ostream & out, const item & it)
 }
 
 
-itype_id item::typeId()
+itype_id item::typeId() const
 {
     if (!type)
         return "null";
