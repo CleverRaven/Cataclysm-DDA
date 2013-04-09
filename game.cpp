@@ -4815,7 +4815,8 @@ void game::advanced_inv()
             // print the header.
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
                 mvwprintz(head,1,3, c_white, "hjkl to move cursor");
-                mvwprintz(head,2,3, c_white, "1-9 to select square or GHJKLYUBN");
+                mvwprintz(head,2,3, c_white, "1-9 to select square");
+                mvwprintz(head,3,3, c_white, "(or GHJKLYUBN)");
                 
                 mvwprintz(head,1,30, canputitems[6] ? (area == 7 ? c_yellow : c_white) : c_red , "[7]");
                 mvwprintz(head,1,33, canputitems[7] ? (area == 8 ? c_yellow : c_white) : c_red , "[8]");
