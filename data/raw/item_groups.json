@@ -1,0 +1,13 @@
+[
+  { "id":"TEST",
+    "items":[
+      ["GUITAR", 400]
+      ["DRUM", 300]
+      ["HATCHET", 200]
+    ]
+  }
+  { "id":"NOTHING",
+    "default_item": "MISSING_ITEM"
+  }
+
+]

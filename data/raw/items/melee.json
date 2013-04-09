@@ -10,6 +10,10 @@
     "volume": 6,
     "damage": 12,
     "cutting": 12,
-    "to_hit": 1
+    "to_hit": 1,
+    "tool": [
+        ["EDGE", 2],
+        ["HAMMER", 2]
+    ]
   }
 ]

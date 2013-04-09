@@ -49,6 +49,8 @@ private:
     //json data handlers
     void load_item_templates();
     void load_item_templates_from(const std::string file_name);
+    void load_item_groups_from(const std::string file_name);
+
     item_tag string_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
     char char_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
     int int_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);

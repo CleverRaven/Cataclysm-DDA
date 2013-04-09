@@ -140,6 +140,7 @@ item_list Item_manager::create_random(int quantity){
 void Item_manager::load_item_templates(){
     load_item_templates_from("data/raw/items/instruments.json");
     load_item_templates_from("data/raw/items/melee.json");
+    load_item_groups_from("data/raw/item_groups/general.json");
 }
 
 // Load values from this data file into m_templates
@@ -205,6 +206,41 @@ void Item_manager::load_item_templates_from(const std::string file_name){
                     new_item_template->m_to_hit = int_from_json(new_id, "to_hit", entry_body); 
                 }
             }
+        }
+    }
+}
+
+// Load values from this data file into m_templates
+// TODO: Consider appropriate location for this code. Is this really where it belongs?
+//       At the very least, it seems the json blah_from methods could be used elsewhere
+void Item_manager::load_item_groups_from(const std::string file_name){
+    std::ifstream data_file;
+    picojson::value input_value;
+    
+    data_file.open(file_name.c_str());
+    data_file >> input_value;
+    data_file.close();
+
+    //Handle any obvious errors on file load
+    std::string err = picojson::get_last_error();
+    if (! err.empty()) {
+        std::cerr << "In JSON file \"" << file_name << "\"" << data_file << ":" << err << std::endl;
+        exit(1);
+    }
+    if (! input_value.is<picojson::array>()) {
+        std::cerr << file_name << " is not an array of item groups"<< std::endl;
+        exit(2);
+    }
+    
+    //Crawl through and extract the items
+    const picojson::array& all_items = input_value.get<picojson::array>();
+    for (picojson::array::const_iterator entry = all_items.begin(); entry != all_items.end(); ++entry) {
+        bool load_success=false;
+        if( !(entry->is<picojson::object>()) ){
+            std::cerr << "Invalid item definition, entry not a JSON object" << std::endl;
+        }
+        else{
+          //TODO: ACTUALLY READ IN STUFF. THEN AMEND LAST COMMIT.
         }
     }
 }
