@@ -4825,263 +4825,388 @@ bool game::list_items_match(std::string sText, std::string sPattern)
  return false;
 }
 
-void game::list_items()
+std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
 {
- int iInfoHeight = 12;
- WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, 55, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
- WINDOW* w_item_info = newwin(iInfoHeight-1, 53, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
- WINDOW* w_item_info_border = newwin(iInfoHeight, 55, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
+    std::vector<item> here;
+    std::map<std::string, map_item_stack> temp_items;
+    std::vector<map_item_stack> ret;
 
- std::vector <item> here;
- std::map<int, std::map<int, std::map<std::string, int> > > grounditems;
- std::map<std::string, item> iteminfo;
+    // Go through each nearby square one-by-one and make note of the items
+    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++)
+    {
+        for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++)
+        {
+            if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
+                u_see(u.posx + iCol, u.posy + iRow))
+            {
+                temp_items.clear();
+                here.clear();
+                here = m.i_at(u.posx + iCol, u.posy + iRow);
 
- //Area to search +- of players position. TODO: Use Perception
- const int iSearchX = 12 + ((VIEWX > 12) ? ((VIEWX-12)/2) : 0);
- const int iSearchY = 12 + ((VIEWY > 12) ? ((VIEWY-12)/2) : 0);
- int iItemNum = 0;
-
- for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
-  for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
-    if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
-       u_see(u.posx + iCol, u.posy + iRow)) {
-    here.clear();
-    here = m.i_at(u.posx + iCol, u.posy + iRow);
-
-    for (int i = 0; i < here.size(); i++) {
-     grounditems[iCol][iRow][here[i].tname(this)]++;
-     if (grounditems[iCol][iRow][here[i].tname(this)] == 1) {
-      iteminfo[here[i].tname(this)] = here[i];
-      iItemNum++;
-     }
+                for (int i = 0; i < here.size(); i++)
+                {
+                    const std::string name = here[i].tname(this);
+                    if (temp_items.find(name) == temp_items.end())
+                    {
+                        temp_items[name] = map_item_stack(here[i], iCol, iRow);
+                    }
+                    else
+                    {
+                        temp_items[name].count++;
+                    }
+                }
+                for (std::map<std::string, map_item_stack>::iterator iter = temp_items.begin();
+                     iter != temp_items.end();
+                     ++iter)
+                {
+                    ret.push_back(iter->second);
+                }
+            }
+        }
     }
-   }
-  }
- }
+    return ret;
+}
 
- const int iStoreViewOffsetX = u.view_offset_x;
- const int iStoreViewOffsetY = u.view_offset_y;
 
- int iActive = 0;
- const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
- int iStartPos = 0;
- int iActiveX = 0;
- int iActiveY = 0;
- int iLastActiveX = -1;
- int iLastActiveY = -1;
- std::vector<point> vPoint;
- InputEvent input = Undefined;
- long ch = '.';
- int iFilter = 0;
- bool bStopDrawing = false;
-
- do {
-  if (iItemNum > 0) {
-   u.view_offset_x = 0;
-   u.view_offset_y = 0;
-
-   if (ch == 'I' || ch == 'c' || ch == 'C') {
-    compare(iActiveX, iActiveY);
-    ch = '.';
-    refresh_all();
-
-   } else if (ch == 'f' || ch == 'F') {
-    for (int i = 0; i < iInfoHeight-1; i++)
-     mvwprintz(w_item_info, i, 1, c_black, "%s", "                                                     ");
-
-    mvwprintz(w_item_info, 2, 2, c_white, "%s", "How to use the filter:");
-    mvwprintz(w_item_info, 3, 2, c_white, "%s", "Example: pi  will match any itemname with pi in it.");
-    mvwprintz(w_item_info, 5, 2, c_white, "%s", "Seperate multiple items with ,");
-    mvwprintz(w_item_info, 6, 2, c_white, "%s", "Example: back,flash,aid, ,band");
-    mvwprintz(w_item_info, 8, 2, c_white, "%s", "To exclude certain items, place a - in front");
-    mvwprintz(w_item_info, 9, 2, c_white, "%s", "Example: -pipe,chunk,steel");
-    wrefresh(w_item_info);
-
-    sFilter = string_input_popup("Filter:", 55, sFilter);
-    iActive = 0;
-    iLastActiveX = -1;
-    iLastActiveY = -1;
-    ch = '.';
-
-   } else if (ch == 'r' || ch == 'R') {
-    sFilter = "";
-    iLastActiveX = -1;
-    iLastActiveY = -1;
-    ch = '.';
-   }
-
-   if (ch == '.') {
-    for (int i = 1; i < TERMX; i++) {
-     if (i < 55) {
-      mvwputch(w_items, 0, i, c_ltgray, LINE_OXOX); // -
-      mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
-     }
-
-     if (i < TERMY-iInfoHeight-VIEW_OFFSET_Y*2) {
-      mvwputch(w_items, i, 0, c_ltgray, LINE_XOXO); // |
-      mvwputch(w_items, i, 54, c_ltgray, LINE_XOXO); // |
-     }
-    }
-
-    mvwputch(w_items, 0,  0, c_ltgray, LINE_OXXO); // |^
-    mvwputch(w_items, 0, 54, c_ltgray, LINE_OOXX); // ^|
-
-    mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2,  0, c_ltgray, LINE_XXXO); // |-
-    mvwputch(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, 54, c_ltgray, LINE_XOXX); // -|
-
-    int iTempStart = 19;
-    if (sFilter != "") {
-     iTempStart = 15;
-     mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart + 19, c_ltgreen, " %s", "R");
-     wprintz(w_items, c_white, "%s", "eset ");
-    }
-
-    mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart, c_ltgreen, " %s", "C");
-    wprintz(w_items, c_white, "%s", "ompare ");
-
-    mvwprintz(w_items, TERMY-iInfoHeight-1-VIEW_OFFSET_Y*2, iTempStart + 10, c_ltgreen, " %s", "F");
-    wprintz(w_items, c_white, "%s", "ilter ");
-
-    refresh_all();
-   }
-
-   bStopDrawing = false;
-
-   switch(input) {
-    case DirectionN:
-     iActive--;
-     if (iActive < 0) {
-      iActive = 0;
-      bStopDrawing = true;
-     }
-     break;
-    case DirectionS:
-     iActive++;
-     if (iActive >= iItemNum - iFilter) {
-      iActive = iItemNum - iFilter-1;
-      bStopDrawing = true;
-     }
-     break;
-   }
-
-   if (!bStopDrawing) {
-    if (iItemNum - iFilter > iMaxRows) {
-     iStartPos = iActive - (iMaxRows - 1) / 2;
-
-     if (iStartPos < 0)
-      iStartPos = 0;
-     else if (iStartPos + iMaxRows > iItemNum - iFilter)
-      iStartPos = iItemNum - iFilter - iMaxRows;
-    }
-
-    for (int i = 0; i < iMaxRows; i++)
-     mvwprintz(w_items, 1 + i, 1, c_black, "%s", "                                                     ");
-
-    //TODO: Speed this up, first attemp to do so failed
-    int iNum = 0;
-    iFilter = 0;
-    iActiveX = 0;
-    iActiveY = 0;
-    std::string sActiveItemName;
-    std::stringstream sText;
+std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack> stack, std::string filter)
+{
+    std::vector<map_item_stack> ret;
+    
     std::string sFilterPre = "";
-    std::string sFilterTemp = sFilter;
-    if (sFilterTemp != "" && sFilter.substr(0, 1) == "-") {
-     sFilterPre = "-";
-     sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
+    std::string sFilterTemp = filter;
+    if (sFilterTemp != "" && filter.substr(0, 1) == "-")
+    {
+        sFilterPre = "-";
+        sFilterTemp = sFilterTemp.substr(1, sFilterTemp.size()-1);
+    }
+    
+    for (std::vector<map_item_stack>::iterator iter = stack.begin(); iter != stack.end(); ++iter)
+    {
+        std::string name = iter->example.tname(this);
+        if (sFilterTemp == "" || ((sFilterPre != "-" && list_items_match(name, sFilterTemp)) ||
+                                  (sFilterPre == "-" && !list_items_match(name, sFilterTemp))))
+        {
+            ret.push_back(*iter);
+        }
+    }
+    return ret;
+}
+
+std::string game::ask_item_filter(WINDOW* window, int rows)
+{
+    for (int i = 0; i < rows-1; i++)
+    {
+        mvwprintz(window, i, 1, c_black, "%s", "\
+                                                     ");
     }
 
-    for (int iRow = (iSearchY * -1); iRow <= iSearchY; iRow++) {
-     for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++) {
-      for (std::map< std::string, int>::iterator iter=grounditems[iCol][iRow].begin(); iter!=grounditems[iCol][iRow].end(); ++iter) {
-       if (sFilterTemp == "" || (sFilterTemp != "" && ((sFilterPre != "-" && list_items_match(iter->first, sFilterTemp)) ||
-                                                       (sFilterPre == "-" && !list_items_match(iter->first, sFilterTemp))))) {
-        if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) ) {
-         if (iNum == iActive) {
-          iActiveX = iCol;
-          iActiveY = iRow;
-          sActiveItemName = iter->first;
-         }
-         sText.str("");
-         sText << iter->first;
-         if (iter->second > 1)
-          sText << " " << "[" << iter->second << "]";
-         mvwprintz(w_items, 1 + iNum - iStartPos, 2, ((iNum == iActive) ? c_ltgreen : c_white), "%s", (sText.str()).c_str());
-         mvwprintz(w_items, 1 + iNum - iStartPos, 48, ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
-                   ((iItemNum > 9) ? 2 : 1),
-                   trig_dist(0, 0, iCol, iRow),
-                   direction_name_short(direction_from(0, 0, iCol, iRow)).c_str()
-                  );
+    mvwprintz(window, 2, 2, c_white, "%s", "How to use the filter:");
+    mvwprintz(window, 3, 2, c_white, "%s", "Example: pi  will match any itemname with pi in it.");
+    mvwprintz(window, 5, 2, c_white, "%s", "Seperate multiple items with ,");
+    mvwprintz(window, 6, 2, c_white, "%s", "Example: back,flash,aid, ,band");
+    //TODO: fix up the filter code so that "-" applies to each comma-separated bit
+    //or, failing that, make the description sound more like what the current behavior does
+    mvwprintz(window, 8, 2, c_white, "%s", "To exclude certain items, place a - in front");
+    mvwprintz(window, 9, 2, c_white, "%s", "Example: -pipe,chunk,steel");
+    wrefresh(window);
+    
+    return string_input_popup("Filter:", 55, sFilter);
+}
+
+void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
+{
+    //Remove previous trail, if any
+    for (int i = 0; i < vPoint.size(); i++)
+    {
+        m.drawsq(w_terrain, u, vPoint[i].x, vPoint[i].y, false, true);
+    }
+
+    //Draw new trail
+    vPoint = line_to(u.posx, u.posy, u.posx + x, u.posy + y, 0);
+    for (int i = 1; i < vPoint.size(); i++)
+    {
+        m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
+    }
+
+    mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
+                        vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
+
+    wrefresh(w_terrain);
+}
+
+//helper method so we can keep list_items shorter
+void game::reset_item_list_state(WINDOW* window, int height)
+{
+    for (int i = 1; i < TERMX; i++)
+    {
+        if (i < 55)
+        {
+            mvwputch(window, 0, i, c_ltgray, LINE_OXOX); // -
+            mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, i, c_ltgray, LINE_OXOX); // -
         }
 
-        iNum++;
-       } else {
-        iFilter++;
-       }
-      }
-     }
+        if (i < TERMY-height-VIEW_OFFSET_Y*2)
+        {
+            mvwputch(window, i, 0, c_ltgray, LINE_XOXO); // |
+            mvwputch(window, i, 54, c_ltgray, LINE_XOXO); // |
+        }
     }
 
-    mvwprintz(w_items, 0, 23 + ((iItemNum - iFilter > 9) ? 0 : 1), c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
-    wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
+    mvwputch(window, 0,  0, c_ltgray, LINE_OXXO); // |^
+    mvwputch(window, 0, 54, c_ltgray, LINE_OOXX); // ^|
 
-    werase(w_item_info);
-    mvwprintz(w_item_info, 0, 0, c_white, "%s", iteminfo[sActiveItemName].info().c_str());
+    mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2,  0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, 54, c_ltgray, LINE_XOXX); // -|
 
-    for (int j=0; j < iInfoHeight-1; j++)
-     mvwputch(w_item_info_border, j, 0, c_ltgray, LINE_XOXO);
-
-    for (int j=0; j < iInfoHeight-1; j++)
-     mvwputch(w_item_info_border, j, 54, c_ltgray, LINE_XOXO);
-
-    for (int j=0; j < 54; j++)
-     mvwputch(w_item_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
-
-    mvwputch(w_item_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
-    mvwputch(w_item_info_border, iInfoHeight-1, 54, c_ltgray, LINE_XOOX);
-
-    //Only redraw trail/terrain if x/y position changed
-    if (iActiveX != iLastActiveX || iActiveY != iLastActiveY) {
-     iLastActiveX = iActiveX;
-     iLastActiveY = iActiveY;
-
-     //Remove previous trail
-     for (int i = 0; i < vPoint.size(); i++) {
-      m.drawsq(w_terrain, u, vPoint[i].x, vPoint[i].y, false, true);
-     }
-
-     //Draw new trail
-     vPoint = line_to(u.posx, u.posy, u.posx + iActiveX, u.posy + iActiveY, 0);
-     for (int i = 1; i < vPoint.size(); i++) {
-       m.drawsq(w_terrain, u, vPoint[i-1].x, vPoint[i-1].y, true, true);
-     }
-
-     mvwputch(w_terrain, vPoint[vPoint.size()-1].y + VIEWY - u.posy - u.view_offset_y,
-                         vPoint[vPoint.size()-1].x + VIEWX - u.posx - u.view_offset_x, c_white, 'X');
-
-     wrefresh(w_terrain);
+    int iTempStart = 14;
+    if (sFilter != "")
+    {
+        iTempStart = 10;
+        mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2,
+                  iTempStart + 29, c_ltgreen, " %s", "R");
+        wprintz(window, c_white, "%s", "eset ");
     }
 
-    wrefresh(w_items);
-    wrefresh(w_item_info_border);
-    wrefresh(w_item_info);
-   }
+    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart, c_ltgreen, " %s", "E");
+    wprintz(window, c_white, "%s", "xamine ");
 
-   refresh();
-   ch = getch();
-   input = get_input(ch);
-  } else {
-   add_msg("You dont see any items around you!");
-   ch = ' ';
-   input = Close;
-  }
- } while (input != Close && input != Cancel);
+    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 10, c_ltgreen, " %s", "C");
+    wprintz(window, c_white, "%s", "ompare ");
 
- u.view_offset_x = iStoreViewOffsetX;
- u.view_offset_y = iStoreViewOffsetY;
+    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 20, c_ltgreen, " %s", "F");
+    wprintz(window, c_white, "%s", "ilter ");
 
- erase();
- refresh_all();
+    refresh_all();
+}
+
+void game::list_items()
+{
+    int iInfoHeight = 12;
+    WINDOW* w_items = newwin(TERMY-iInfoHeight-VIEW_OFFSET_Y*2, 55, VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + VIEW_OFFSET_X);
+    WINDOW* w_item_info = newwin(iInfoHeight-1, 53, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+1+VIEW_OFFSET_X);
+    WINDOW* w_item_info_border = newwin(iInfoHeight, 55, TERMY-iInfoHeight-VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH+VIEW_OFFSET_X);
+
+    //Area to search +- of players position. TODO: Use Perception
+    const int iSearchX = 12 + ((VIEWX > 12) ? ((VIEWX-12)/2) : 0);
+    const int iSearchY = 12 + ((VIEWY > 12) ? ((VIEWY-12)/2) : 0);
+
+    //this stores the items found, along with the coordinates
+    std::vector<map_item_stack> ground_items = find_nearby_items(iSearchX, iSearchY);
+    //this stores only those items that match our filter
+    std::vector<map_item_stack> filtered_items = (sFilter != "" ?
+                                                  filter_item_stacks(ground_items, sFilter) :
+                                                  ground_items);
+
+    const int iItemNum = ground_items.size();
+
+    const int iStoreViewOffsetX = u.view_offset_x;
+    const int iStoreViewOffsetY = u.view_offset_y;
+
+    int iActive = 0; // Item index that we're looking at
+    const int iMaxRows = TERMY-iInfoHeight-2-VIEW_OFFSET_Y*2;
+    int iStartPos = 0;
+    int iActiveX = 0;
+    int iActiveY = 0;
+    int iLastActiveX = -1;
+    int iLastActiveY = -1;
+    std::vector<point> vPoint;
+    InputEvent input = Undefined;
+    long ch = 0; //this is a long because getch returns a long
+    bool reset = true;
+    int iFilter = 0;
+    bool bStopDrawing = false;
+
+    do
+    {
+        if (ground_items.size() > 0)
+        {
+            u.view_offset_x = 0;
+            u.view_offset_y = 0;
+
+            if (ch == 'I' || ch == 'c' || ch == 'C')
+            {
+                compare(iActiveX, iActiveY);
+                reset = true;
+                refresh_all();
+            }
+            else if (ch == 'f' || ch == 'F')
+            {
+                sFilter = ask_item_filter(w_item_info, iInfoHeight);
+                filtered_items = filter_item_stacks(ground_items, sFilter);
+                iActive = 0;
+                iLastActiveX = -1;
+                iLastActiveY = -1;
+                reset = true;
+            }
+            else if (ch == 'r' || ch == 'R')
+            {
+                sFilter = "";
+                filtered_items = ground_items;
+                iLastActiveX = -1;
+                iLastActiveY = -1;
+                reset = true;
+            }
+            else if (ch == 'e' || ch == 'E')
+            {
+                item oThisItem = filtered_items[iActive].example;
+                std::vector<iteminfo> vThisItem, vDummy;
+
+                oThisItem.info(true, &vThisItem);
+                compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
+                
+                getch(); // wait until the user presses a key to wipe the screen
+                iLastActiveX = -1;
+                iLastActiveY = -1;
+                reset = true;
+            }
+
+            if (reset)
+            {
+                reset_item_list_state(w_items, iInfoHeight);
+                reset = false;
+            }
+
+            bStopDrawing = false;
+
+            // we're switching on input here, whereas above it was if/else clauses on a char
+            switch(input)
+            {
+                case DirectionN:
+                    iActive--;
+                    if (iActive < 0)
+                    {
+                        iActive = 0;
+                        bStopDrawing = true;
+                    }
+                    break;
+                case DirectionS:
+                    iActive++;
+                    if (iActive >= iItemNum - iFilter)
+                    {
+                        iActive = iItemNum - iFilter-1;
+                        bStopDrawing = true;
+                    }
+                    break;
+            }
+
+            if (!bStopDrawing)
+            {
+                if (iItemNum - iFilter > iMaxRows)
+                {
+                    iStartPos = iActive - (iMaxRows - 1) / 2;
+
+                    if (iStartPos < 0)
+                    {
+                        iStartPos = 0;
+                    }
+                    else if (iStartPos + iMaxRows > iItemNum - iFilter)
+                    {
+                        iStartPos = iItemNum - iFilter - iMaxRows;
+                    }
+                }
+
+                for (int i = 0; i < iMaxRows; i++)
+                {
+                    mvwprintz(w_items, 1 + i, 1, c_black, "%s", "\
+                                                     ");
+                }
+
+                int iNum = 0;
+                iFilter = ground_items.size() - filtered_items.size();
+                iActiveX = 0;
+                iActiveY = 0;
+                std::string sActiveItemName;
+                item activeItem;
+                std::stringstream sText;
+
+                for (std::vector<map_item_stack>::iterator iter = filtered_items.begin();
+                     iter != filtered_items.end();
+                     ++iter)
+                {
+                    if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) )
+                    {
+                        if (iNum == iActive)
+                        {
+                            iActiveX = iter->x;
+                            iActiveY = iter->y;
+                            sActiveItemName = iter->example.tname(this);
+                            activeItem = iter->example;
+                        }
+                        sText.str("");
+                        sText << iter->example.tname(this);
+                        if (iter->count > 1)
+                        {
+                            sText << " " << "[" << iter->count << "]";
+                        }
+                        mvwprintz(w_items, 1 + iNum - iStartPos, 2,
+                                  ((iNum == iActive) ? c_ltgreen : c_white),
+                                  "%s", (sText.str()).c_str());
+                        mvwprintz(w_items, 1 + iNum - iStartPos, 48,
+                                  ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
+                                  ((iItemNum > 9) ? 2 : 1), trig_dist(0, 0, iter->x, iter->y),
+                                  direction_name_short(direction_from(0, 0, iter->x, iter->y)).c_str()
+                                 );
+                     }
+                     iNum++;
+                }
+
+                mvwprintz(w_items, 0, 23 + ((iItemNum - iFilter > 9) ? 0 : 1),
+                          c_ltgreen, " %*d", ((iItemNum - iFilter > 9) ? 2 : 1), iActive+1);
+                wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
+
+                werase(w_item_info);
+                mvwprintz(w_item_info, 0, 0, c_white, "%s", activeItem.info().c_str());
+
+                for (int j=0; j < iInfoHeight-1; j++)
+                {
+                    mvwputch(w_item_info_border, j, 0, c_ltgray, LINE_XOXO);
+                }
+
+                for (int j=0; j < iInfoHeight-1; j++)
+                {
+                    mvwputch(w_item_info_border, j, 54, c_ltgray, LINE_XOXO);
+                }
+
+                for (int j=0; j < 54; j++)
+                {
+                    mvwputch(w_item_info_border, iInfoHeight-1, j, c_ltgray, LINE_OXOX);
+                }
+
+                mvwputch(w_item_info_border, iInfoHeight-1, 0, c_ltgray, LINE_XXOO);
+                mvwputch(w_item_info_border, iInfoHeight-1, 54, c_ltgray, LINE_XOOX);
+
+                //Only redraw trail/terrain if x/y position changed
+                if (iActiveX != iLastActiveX || iActiveY != iLastActiveY)
+                {
+                    iLastActiveX = iActiveX;
+                    iLastActiveY = iActiveY;
+
+                    draw_trail_to_square(vPoint, iActiveX, iActiveY);
+                }
+
+                wrefresh(w_items);
+                wrefresh(w_item_info_border);
+                wrefresh(w_item_info);
+            }
+
+            refresh();
+            ch = getch();
+            input = get_input(ch);
+        }
+        else
+        {
+            add_msg("You dont see any items around you!");
+            ch = ' ';
+            input = Close;
+        }
+    }
+    while (input != Close && input != Cancel);
+
+    u.view_offset_x = iStoreViewOffsetX;
+    u.view_offset_y = iStoreViewOffsetY;
+
+    erase();
+    refresh_all();
 }
 
 // Pick up items at (posx, posy).
