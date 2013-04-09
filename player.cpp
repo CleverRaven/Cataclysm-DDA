@@ -3314,6 +3314,7 @@ int player::volume_capacity()
 
 int player::morale_level()
 {
+ std::stringstream morale_text;
  int ret = 0;
  for (int i = 0; i < morale.size(); i++)
   ret += morale[i].bonus;
@@ -3328,7 +3329,7 @@ int player::morale_level()
    pen = int(pen / 7);
   else if (has_disease(DI_TOOK_PROZAC))
    pen = int(pen / 2);
-  ret -= pen;
+  add_morale(MORALE_PERM_HOARDER, -pen, -pen);
  }
 
  if (has_trait(PF_MASOCHIST)) {
@@ -3337,16 +3338,11 @@ int player::morale_level()
    bonus = 25;
   if (has_disease(DI_TOOK_PROZAC))
    bonus = int(bonus / 3);
-  ret += bonus;
+  add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
  }
-
+ // Optimist gives a straight +20 to morale.
  if (has_trait(PF_OPTIMISTIC)) {
-  if (ret < 0) {	// Up to -30 is canceled out
-   ret += 30;
-   if (ret > 0)
-    ret = 0;
-  } else		// Otherwise, we're just extra-happy
-   ret += 20;
+  add_morale(MORALE_PERM_OPTIMIST, 20, 20);
  }
 
  if (has_disease(DI_TOOK_PROZAC) && ret < 0)
