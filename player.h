@@ -257,7 +257,6 @@ public:
 // has_charges works ONLY for charges.
  void use_amount(itype_id it, int quantity, bool use_container = false);
  bool use_charges_if_avail(itype_id it, int quantity);// Uses up charges
- bool use_fire_tool_if_avail(int quantity);// Uses something lighter related
  void use_charges(itype_id it, int quantity);// Uses up charges
  bool has_amount(itype_id it, int quantity);
  bool has_charges(itype_id it, int quantity);
@@ -337,6 +336,9 @@ public:
  std::vector <addiction> addictions;
 
  recipe* lastrecipe;
+private:
+ bool has_fire(const int quantity);
+ void use_fire(const int quantity);
 };
 
 #endif

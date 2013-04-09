@@ -3797,13 +3797,9 @@ bool player::use_charges_if_avail(itype_id it, int quantity)
     return false;
 }
 
-bool player::use_fire_tool_if_avail(int quantity)
+bool player::has_fire(const int quantity)
 {
-//Ok, so checks for nearby fires first,
-//then held lit torch or candle, bio tool/lighter/laser
-//tries to use 1 charge of lighters, matches, flame throwers
-// (home made, military), hotplate, welder in that order.
-// bio_lighter, bio_laser, bio_tools, has_bionic("bio_tools"
+// TODO: Replace this with a "tool produces fire" flag.
 
     if (has_charges("torch_lit", 1)) {
         return true;
@@ -3816,25 +3812,58 @@ bool player::use_fire_tool_if_avail(int quantity)
     } else if (has_bionic("bio_laser")) {
         return true;
     } else if (has_charges("matches", quantity)) {
-     use_charges("matches", quantity);
-     return true;
+        return true;
     } else if (has_charges("lighter", quantity)) {
-     use_charges("lighter", quantity);
-     return true;
+        return true;
     } else if (has_charges("flamethrower", quantity)) {
-     use_charges("flamethrower", quantity);
-     return true;
+        return true;
     } else if (has_charges("flamethrower_simple", quantity)) {
-     use_charges("flamethrower_simple", quantity);
-     return true;
+        return true;
     } else if (has_charges("hotplate", quantity)) {
-     use_charges("welder", quantity);
-     return true;
+        return true;
     } else if (has_charges("welder", quantity)) {
-     use_charges("welder", quantity);
-     return true;
+        return true;
     }
     return false;
+}
+
+void player::use_fire(const int quantity)
+{
+//Ok, so checks for nearby fires first,
+//then held lit torch or candle, bio tool/lighter/laser
+//tries to use 1 charge of lighters, matches, flame throwers
+// (home made, military), hotplate, welder in that order.
+// bio_lighter, bio_laser, bio_tools, has_bionic("bio_tools"
+
+    if (has_charges("torch_lit", 1)) {
+        return;
+    } else if (has_charges("candle_lit", 1)) {
+        return;
+    } else if (has_bionic("bio_tools")) {
+        return;
+    } else if (has_bionic("bio_lighter")) {
+        return;
+    } else if (has_bionic("bio_laser")) {
+        return;
+    } else if (has_charges("matches", quantity)) {
+        use_charges("matches", quantity);
+        return;
+    } else if (has_charges("lighter", quantity)) {
+        use_charges("lighter", quantity);
+        return;
+    } else if (has_charges("flamethrower", quantity)) {
+        use_charges("flamethrower", quantity);
+        return;
+    } else if (has_charges("flamethrower_simple", quantity)) {
+        use_charges("flamethrower_simple", quantity);
+        return;
+    } else if (has_charges("hotplate", quantity)) {
+        use_charges("welder", quantity);
+        return;
+    } else if (has_charges("welder", quantity)) {
+        use_charges("welder", quantity);
+        return;
+    }
 }
 
 void player::use_charges(itype_id it, int quantity)
@@ -3845,6 +3874,11 @@ void player::use_charges(itype_id it, int quantity)
    power_level = 0;
   return;
  }
+ if (it == "fire")
+ {
+     return use_fire(quantity);
+ }
+
 // Start by checking weapon contents
  for (int i = 0; i < weapon.contents.size(); i++) {
   if (weapon.contents[i].type->id == it) {
@@ -3995,8 +4029,7 @@ int player::amount_of(itype_id it)
     }
     if (it == "apparatus")
     {
-        if ((has_amount("crackpipe", 1) && has_amount("lighter", 1)) ||
-            (has_amount("can_drink", 1) && has_amount("lighter", 1)))
+        if (has_amount("crackpipe", 1) || has_amount("can_drink", 1) )
         {
             return 1;
         }
@@ -4020,6 +4053,10 @@ int player::amount_of(itype_id it)
 
 bool player::has_charges(itype_id it, int quantity)
 {
+    if (it == "fire" || it == "apparatus")
+    {
+        return has_fire(quantity);
+    }
     return (charges_of(it) >= quantity);
 }
 
@@ -4257,10 +4294,9 @@ bool player::eat(game *g, int index)
   }
   if (comest->tool != "null") {
    bool has = has_amount(comest->tool, 1);
-//   if (g->itypes[comest->tool]->count_by_charges())
-//    has = has_charges(comest->tool, 1);
-   if (!use_fire_tool_if_avail(1)) {
-//   if (!has) {
+   if (g->itypes[comest->tool]->count_by_charges())
+    has = has_charges(comest->tool, 1);
+   if (!has) {
     if (!is_npc())
      g->add_msg("You need a %s to consume that!",
                 g->itypes[comest->tool]->name.c_str());

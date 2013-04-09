@@ -639,7 +639,7 @@ MED("coke", "cocaine",		 8,420,	c_white,	"null",
 	POWDER,  20, -2, 30,  8, 25,&iuse::coke,	ADD_COKE, "\
 A strong, illegal stimulant. Highly addictive.");
 
-MED("meth", "methamphetamine",	 2,800, c_ltcyan,	"apparatus",
+MED("meth", "methamphetamine",	 2,800, c_ltcyan,	"null",
 	POWDER,  10, -4, 50,  6, 30,&iuse::meth,	ADD_SPEED, "\
 A very strong illegal stimulant. Extremely addictive and bad for you, but\n\
 also extremely effective in boosting your alertness.");
