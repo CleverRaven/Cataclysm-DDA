@@ -35,7 +35,6 @@ struct component
 struct recipe {
   int id;
   itype_id result;
-  craft_cat category;
   Skill *sk_primary;
   Skill *sk_secondary;
   int difficulty;
@@ -48,7 +47,6 @@ struct recipe {
   recipe() {
     id = 0;
     result = "null";
-    category = CC_NULL;
     sk_primary = NULL;
     sk_secondary = NULL;
     difficulty = 0;
@@ -56,9 +54,9 @@ struct recipe {
     reversible = false;
   }
 
-recipe(int pid, itype_id pres, craft_cat cat, const char *p1, const char *p2,
+recipe(int pid, itype_id pres, const char *p1, const char *p2,
        int pdiff, int ptime, bool preversible) :
-  id (pid), result (pres), category (cat),  difficulty (pdiff), time (ptime), reversible (preversible)
+  id (pid), result (pres), difficulty (pdiff), time (ptime), reversible (preversible)
   {
     sk_primary = p1?Skill::skill(p1):NULL;
     sk_secondary = p2?Skill::skill(p2):NULL;
