@@ -89,39 +89,6 @@ SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExerc
   _isTraining = isTraining;
 }
 
-int SkillLevel::comprehension(int intellect, bool fastLearner) {
-  if (intellect == 0)
-    return 0;
-
-  int base_comprehension;
-
-  if (intellect <= 8) {
-    base_comprehension = intellect * 10;
-  } else {
-    base_comprehension = 80 + (intellect - 8) * 8;
-  }
-
-  if (fastLearner) {
-    base_comprehension = base_comprehension / 2 * 3;
-  }
-
-  int skill_penalty;
-
-  if (_level <= intellect / 2) {
-    skill_penalty = 0;
-  } else if (_level <= intellect) {
-    skill_penalty = _level;
-  } else {
-    skill_penalty = _level * 2;
-  }
-
-  if (skill_penalty >= base_comprehension) {
-    return 1;
-  } else {
-    return base_comprehension - skill_penalty;
-  }
-}
-
 int SkillLevel::train(int &level) {
   ++_exercise;
 

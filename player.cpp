@@ -329,11 +329,43 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
  int xp_frequency = 10 - int(mor / 20);
  if (xp_frequency < 1)
   xp_frequency = 1;
- if (int(g->turn) % xp_frequency == 0)
-  xp_pool++;
+ if (int(g->turn) % xp_frequency == 0) {
+  int gain_rate = xp_gain_percentage(int_cur);
+  while (gain_rate > 0) {
+   if (gain_rate >= 100 || rng(0, 100) < gain_rate) {
+    xp_pool++;
+   }
+   gain_rate -= 100;
+  }
+ }
 
  if (xp_pool > 800)
   xp_pool = 800;
+}
+
+int player::xp_gain_percentage(int intelligence)
+{
+    if (intelligence == 0)
+    {
+        return 0;
+    }
+
+    int xp_percentage;
+
+    if (intelligence <= 8) {
+        xp_percentage = intelligence * 10;
+    }
+    else
+    {
+        xp_percentage = 80 + (intelligence - 8) * 8;
+    }
+
+    if (has_trait(PF_FASTLEARNER))
+    {
+        xp_percentage = xp_percentage / 2 * 3;
+    }
+
+    return xp_percentage;
 }
 
 void player::update_morale()
@@ -2309,23 +2341,6 @@ int player::throw_dex_mod(bool real_life)
   deviation = 2 * (8 - dex);
 
  return (real_life ? rng(0, deviation) : deviation);
-}
-
-int player::comprehension_percent(skill s, bool real_life)
-{
- double intel = (double)(real_life ? int_cur : int_max);
- if (intel == 0.)
-  intel = 1.;
- double percent = 80.; // double temporarily, since we divide a lot
- int learned = (real_life ? sklevel[s] : 4);
- if (learned > intel / 2)
-  percent /= 1 + ((learned - intel / 2) / (intel / 3));
- else if (!real_life && intel > 8)
-  percent += 125 - 1000 / intel;
-
- if (has_trait(PF_FASTLEARNER))
-  percent += 50.;
- return (int)(percent);
 }
 
 int player::read_speed(bool real_life)
@@ -5712,7 +5727,7 @@ void player::practice (Skill *s, int amount) {
 
   while (level.isTraining() && amount > 0 && xp_pool >= (1 + level)) {
     amount -= level + 1;
-    if ((!isSavant || s == savantSkill || one_in(2)) && rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER))) {
+    if (!isSavant || s == savantSkill || one_in(2)) {
       xp_pool -= (1 + level);
 
       skillLevel(s).train(newLevel);
