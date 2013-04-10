@@ -140,6 +140,7 @@ class iuse
   void pda_flashlight   (game *g, player *p, item *it, bool t);
   void LAW              (game *g, player *p, item *it, bool t);
   void heatpack			(game *g, player *p, item *it, bool t);
+  void dejar            (game *g, player *p, item *it, bool t);
 
 
 // MACGUFFINS
