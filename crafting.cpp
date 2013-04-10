@@ -1066,7 +1066,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   TOOLCONT("toolset", 5);
   COMP("radio", 1);
   COMP("amplifier", 2);
-  
+
   RECIPE("noise_emitter", CC_ELECTRONIC, "electronics", NULL, 2, 30000, true);
   TOOL("screwdriver", -1);
   TOOLCONT("toolset", -1);
@@ -1837,6 +1837,58 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   //  COMP("battery", 500);
   COMPCONT("plut_cell", 1);
   //  COMP("scrap", 30);
+
+  RECIPE("jar_meat_pickled", CC_FOOD, "cooking", "mechanics", 3, 30000, false);
+  TG_KNIVES
+  TOOLCONT("hatchet", -1);
+  TOOL("hammer", -1);
+  TOOLCONT("primitive_hammer",-1);
+  TOOLCONT("rock", -1);
+  TOOL("hotplate", 10);
+  TOOLCONT("toolset", 1);
+  TOOLCONT("fire", -1);
+  TOOL("pot", -1);
+  TOOLCONT("rock_pot", -1);
+  COMP("water", 1);
+  COMPCONT("water_clean", 1);
+  COMP("bottle_glass", 1);
+  COMP("sheet_metal", 1);
+  COMP("meat", 1);
+
+  RECIPE("jar_veggy_pickled", CC_FOOD, "cooking", "mechanics", 3, 30000, false);
+  TG_KNIVES
+  TOOLCONT("hatchet", -1);
+  TOOL("hammer", -1);
+  TOOLCONT("primitive_hammer",-1);
+  TOOLCONT("rock", -1);
+  TOOL("hotplate", 10);
+  TOOLCONT("toolset", 1);
+  TOOLCONT("fire", -1);
+  TOOL("pot", -1);
+  TOOLCONT("rock_pot", -1);
+  COMP("water", 1);
+  COMPCONT("water_clean", 1);
+  COMP("bottle_glass", 1);
+  COMP("sheet_metal", 1);
+  COMP("veggy", 1);
+  COMPCONT("veggy_wild", 1);
+
+  RECIPE("jar_apple_pickled", CC_FOOD, "cooking", "mechanics", 3, 30000, false);
+  TG_KNIVES
+  TOOLCONT("hatchet", -1);
+  TOOL("hammer", -1);
+  TOOLCONT("primitive_hammer",-1);
+  TOOLCONT("rock", -1);
+  TOOL("hotplate", 10);
+  TOOLCONT("toolset", 1);
+  TOOLCONT("fire", -1);
+  TOOL("pot", -1);
+  TOOLCONT("rock_pot", -1);
+  COMP("water", 1);
+  COMPCONT("water_clean", 1);
+  COMP("bottle_glass", 1);
+  COMP("sheet_metal", 1);
+  COMP("apple", 1);
 }
 
 bool game::crafting_allowed()
