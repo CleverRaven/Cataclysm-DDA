@@ -5430,6 +5430,10 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
         ret += 3;
     }
 
+    // Fix for negative hand encumbrance
+    if ((bp == bp_hands) && (ret < 0))
+     ret =0;
+
     // Bionics and mutation
     if ((bp == bp_head  && has_bionic("bio_armor_head"))  ||
      (bp == bp_torso && has_bionic("bio_armor_torso")) ||
