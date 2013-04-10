@@ -4653,104 +4653,183 @@ void game::examine()
 
   (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 }
-int getsquare(int c , int &off_x, int &off_y, int &area, std::string &areastring)
+int getsquare(int c , int &off_x, int &off_y, std::string &areastring)
 {
     switch(c)
     {
         case 7:
             off_x = -1;
             off_y = -1;
-            area = 7;
             areastring = "North West";
-            return area;
+            return 7;
         case 8:
             off_x = 0;
             off_y = -1;
-            area = 8;
             areastring = "North";
-            return area;
+            return 8;
         case 9:
             off_x = 1;
             off_y = -1;
-            area = 9;
             areastring = "North East";
-            return area;
+            return 9;
         case 4:
             off_x = -1;
             off_y = 0;
-            area = 4;
             areastring = "West";
-            return area;
+            return 4;
         case 5:
             off_x = 0;
             off_y = 0;
-            area = 5;
-            areastring = "Directly below";
-            return area;
+            areastring = "Directly below you";
+            return 5;
         case 6:
             off_x = 1;
             off_y = 0;
-            area = 6;
             areastring = "East";
-            return area;
+            return 6;
         case 1:
             off_x = -1;
             off_y = 1;
-            area = 1;
             areastring = "South West";
-            return area;
+            return 1;
         case 2:
             off_x = 0;
             off_y = 1;
-            area = 2;
             areastring = "South";
-            return area;
+            return 2;
         case 3:
             off_x = 1;
             off_y = 1;
-            area = 3;
             areastring = "South East";
-            return area;
+            return 3;
+        case 0:
+            off_x = 0;
+            off_y = 0;
+            areastring = "Inventory";
+            return 0;
         default :
             return -1;
     }
 }
-int getsquare(char c , int &off_x, int &off_y, int &area, std::string &areastring)
+int getsquare(char c , int &off_x, int &off_y, std::string &areastring)
 {
     switch(c)
     {
+        case '0':
+        case 'I':
+            return getsquare(0,off_x,off_y,areastring);
         case '1':
         case 'B':
-            return getsquare(1,off_x,off_y,area,areastring);
+            return getsquare(1,off_x,off_y,areastring);
         case '2':
         case 'J':
-            return getsquare(2,off_x,off_y,area,areastring);
+            return getsquare(2,off_x,off_y,areastring);
         case '3':
         case 'N':
-            return getsquare(3,off_x,off_y,area,areastring);
+            return getsquare(3,off_x,off_y,areastring);
         case '4':
         case 'H':
-            return getsquare(4,off_x,off_y,area,areastring);
+            return getsquare(4,off_x,off_y,areastring);
         case '5':
         case 'G':
-            return getsquare(5,off_x,off_y,area,areastring);
+            return getsquare(5,off_x,off_y,areastring);
         case '6':
         case 'L':
-            return getsquare(6,off_x,off_y,area,areastring);
+            return getsquare(6,off_x,off_y,areastring);
         case '7':
         case 'Y':
-            return getsquare(7,off_x,off_y,area,areastring);
+            return getsquare(7,off_x,off_y,areastring);
         case '8':
         case 'K':
-            return getsquare(8,off_x,off_y,area,areastring);
+            return getsquare(8,off_x,off_y,areastring);
         case '9':
         case 'U':
-            return getsquare(9,off_x,off_y,area,areastring);
+            return getsquare(9,off_x,off_y,areastring);
         default :
             return -1;
     }
 
 
+}
+
+// for printing items in environment 
+void printItems(std::vector<item> &items, WINDOW* window, int page , int selected_index , bool active, game* g)
+{
+    nc_color norm = active ? c_white : c_dkgray;
+    for(int i = page * 20 , x = 0 ; i < items.size() && x < 20 ; i++ ,x++)
+    {
+        if(active && selected_index == x)
+        {
+            mvwprintz(window,6+x,2,c_yellow, ">>");
+            mvwprintz(window,6+x,6,c_yellow, "%s", items[i].tname(g).c_str());
+        }
+        else
+        {
+            mvwprintz(window,6+x,6,norm,"%s",items[i].tname(g).c_str());
+        }
+        if(items[i].charges > 0)
+        {
+            wprintw(window," (%d)",items[i].charges);
+        }
+        else if(items[i].contents.size() == 1 && 
+                items[i].contents[0].charges > 0)
+        {
+            wprintw(window," (%d)",items[i].contents[0].charges);
+        }
+    }
+    if(active)
+    {
+        mvwprintz(window,6+22,5,c_ltblue,"[<] previous page       [>] next page");
+    }
+}
+
+void printItems(player &u,WINDOW* window,int page, int selected_index, bool active, game* g)
+{
+    nc_color norm = active ? c_white : c_dkgray;
+    for(int i = page * 20 , x = 0 ; i < u.inv.size() && x < 20 ; i++ ,x++)
+    {
+        nc_color thiscolor = norm;
+        if(active && selected_index == x)
+        {
+            thiscolor = c_yellow;
+            mvwprintz(window,6+x,2,thiscolor,">>");
+        }
+        else
+        {
+        }
+        mvwprintz(window,6+x,6,thiscolor,"%s",u.inv[i].tname(g).c_str());
+        if(u.inv.stack_at(i).size() > 1)
+        {
+            wprintz(window,thiscolor," [%d]", u.inv.stack_at(i).size());
+        }
+        if(u.inv[i].charges > 0)
+        {
+            wprintz(window,thiscolor," (%d)",u.inv[i].charges);
+        }
+        else if(u.inv[i].contents.size() == 1 && 
+                u.inv[i].contents[0].charges > 0)
+        {
+            wprintz(window,thiscolor," (%d)",u.inv[i].contents[0].charges);
+        }
+    }
+    if(active)
+    {
+        mvwprintz(window,6+22,5,c_ltblue,"[<] previous page       [>] next page");
+    }
+}
+
+void printHeader(std::vector<bool> &canputitems, WINDOW* window,int area)
+{
+    mvwprintz(window,1,30, canputitems[7] ? (area == 7 ? c_yellow : c_white) : c_red , "[7]");
+    mvwprintz(window,1,33, canputitems[8] ? (area == 8 ? c_yellow : c_white) : c_red , "[8]");
+    mvwprintz(window,1,36, canputitems[9] ? (area == 9 ? c_yellow : c_white) : c_red , "[9]");
+    mvwprintz(window,2,30, canputitems[4] ? (area == 4 ? c_yellow : c_white) : c_red , "[4]");
+    mvwprintz(window,2,33, canputitems[5] ? (area == 5 ? c_yellow : c_white) : c_red , "[5]");
+    mvwprintz(window,2,36, canputitems[6] ? (area == 6 ? c_yellow : c_white) : c_red , "[6]");
+    mvwprintz(window,3,30, canputitems[1] ? (area == 1 ? c_yellow : c_white) : c_red , "[1]");
+    mvwprintz(window,3,33, canputitems[2] ? (area == 2 ? c_yellow : c_white) : c_red , "[2]");
+    mvwprintz(window,3,36, canputitems[3] ? (area == 3 ? c_yellow : c_white) : c_red , "[3]");
+    mvwprintz(window,2,25, canputitems[0] ? (area == 0 ? c_yellow : c_white) : c_red , "[I]");
 }
 
 void game::advanced_inv()
@@ -4765,9 +4844,10 @@ void game::advanced_inv()
     int headstart = (TERMY>w_height)?(TERMY-w_height)/2:0;
     int colstart = (TERMX > w_width) ? (TERMX - w_width)/2 : 0;
     WINDOW *head = newwin(7,w_width, headstart ,colstart);
-    WINDOW *inventory = newwin(33,w_width/2, headstart+7,colstart);
-    WINDOW *environment = newwin(33,w_width/2, headstart+7,colstart+w_width/2);
+    WINDOW *left_window = newwin(33,w_width/2, headstart+7,colstart);
+    WINDOW *right_window = newwin(33,w_width/2, headstart+7,colstart+w_width/2);
     std::vector<bool> canputitems;
+    canputitems.push_back(true);
     canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+1) ));
     canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+1) ));
     canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+1) ));
@@ -4779,116 +4859,110 @@ void game::advanced_inv()
     canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1) ));
     bool exit = false;
     bool redraw = true;
-    int off_x = 0; // offset relative to the character
-    int off_y = 0;
-    int player_page = 0;
-    int max_player_page = 1;
-    int max_player_index = u.inv.size() > 20 ? 20 : u.inv.size();
-    int player_index = 0;
-    int ground_page = 0;
-    int ground_index = 0;
-    int max_ground_page = 1;
-    int max_ground_index = 20;
-    int screen = 0 ; // 0 for player , 1 for square
-    int area = 5; // default area is 5.
-    std::string areastring = "Directly below";
+
+    // page : the current page, index : the current selected index on the page , size : the total number of item in that tab
+    int left_page = 0; int left_index = 0; int left_size = 0; 
+    int right_page = 0; int right_index = 0; int right_size =0;
+    
+    int max_left_page = 0; int max_left_index = 0; 
+    int max_right_page = 0; int max_right_index = 0;
+
+    int left_offx = 0; int left_offy = 0;
+    int right_offx = 0; int right_offy = 0;
+
+    int left_area = 0; // the left screen is default to 0 , which is the player inventory.
+    int right_area = 5; // the right screen is default to 5 , which is where the player is standing.
+    std::string left_area_string = "Inventory";
+    std::string right_area_string = "Directly below you";
+
+    int screen = 0; // the active screen , 0 for left , 1 for right.
     while(!exit)
     {
         if(redraw)
         {
-            std::vector<item> grounditem = m.i_at(u.posx+off_x,u.posy+off_y);
+            // calculate the offset.
+            getsquare(left_area, left_offx,left_offy,left_area_string);
+            getsquare(right_area, right_offx,right_offy,right_area_string);
             // calculate page size 
-            
-            max_player_page = (int)ceil(u.inv.size()/20.0);
-            max_player_index = player_page == (-1 + max_player_page) ? ((u.inv.size() % 20)==0?20:u.inv.size() % 20) : 20;
-            max_ground_page = (int)ceil(grounditem.size()/20.0);
-            max_ground_index = ground_page == (-1 + max_ground_page) ? ((grounditem.size() % 20)==0?20:grounditem.size() % 20) : 20;
+            left_size = left_area == 0 ? u.inv.size() : m.i_at(u.posx+left_offx,u.posy+left_offy).size();
+            right_size = right_area == 0 ? u.inv.size() : m.i_at(u.posx+right_offx,u.posy+right_offy).size();
+
+            max_left_page = (int)ceil(left_size/20.0);
+            max_left_index = left_page == (-1 + max_left_page) ? ((left_size % 20)==0?20:left_size % 20) : 20;
+            max_right_page = (int)ceil(right_size/20.0);
+            max_right_index = right_page == (-1 + max_right_page) ? ((right_size % 20)==0?20:right_size % 20) : 20;
             // check if things are out of bound
-            player_index = (player_index >= max_player_index) ? max_player_index - 1 : player_index;
-            player_page = max_player_page == 0 ? 0 : ( player_page >= max_player_page ? max_player_page - 1 : player_page);
-            ground_index = (ground_index >= max_ground_index) ? max_ground_index - 1 : ground_index;
-            ground_page = max_ground_page == 0 ? 0 : ( ground_page >= max_ground_page ? max_ground_page - 1 : ground_page);
+            left_index = (left_index >= max_left_index) ? max_left_index - 1 : left_index;
+            left_page = max_left_page == 0 ? 0 : ( left_page >= max_left_page ? max_left_page - 1 : left_page);
+            right_index = (right_index >= max_right_index) ? max_right_index - 1 : right_index;
+            right_page = max_right_page == 0 ? 0 : ( right_page >= max_right_page ? max_right_page - 1 : right_page);
             werase(head);
-            werase(inventory);
-            werase(environment);
+            werase(left_window);
+            werase(right_window);
+            mvwprintz(left_window,1,2,screen == 0 ? c_blue : c_white, "%s",left_area_string.c_str());
+            mvwprintz(right_window,1,2,screen == 1 ? c_blue : c_white,"%s",right_area_string.c_str());
             { 
             // print the header.
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
                 mvwprintz(head,1,3, c_white, "hjkl to move cursor");
-                mvwprintz(head,2,3, c_white, "1-9 to select square");
-                mvwprintz(head,3,3, c_white, "(or GHJKLYUBN)");
-                
-                mvwprintz(head,1,30, canputitems[6] ? (area == 7 ? c_yellow : c_white) : c_red , "[7]");
-                mvwprintz(head,1,33, canputitems[7] ? (area == 8 ? c_yellow : c_white) : c_red , "[8]");
-                mvwprintz(head,1,36, canputitems[8] ? (area == 9 ? c_yellow : c_white) : c_red , "[9]");
-                mvwprintz(head,2,30, canputitems[3] ? (area == 4 ? c_yellow : c_white) : c_red , "[4]");
-                mvwprintz(head,2,33, canputitems[4] ? (area == 5 ? c_yellow : c_white) : c_red , "[5]");
-                mvwprintz(head,2,36, canputitems[5] ? (area == 6 ? c_yellow : c_white) : c_red , "[6]");
-                mvwprintz(head,3,30, canputitems[0] ? (area == 1 ? c_yellow : c_white) : c_red , "[1]");
-                mvwprintz(head,3,33, canputitems[1] ? (area == 2 ? c_yellow : c_white) : c_red , "[2]");
-                mvwprintz(head,3,36, canputitems[2] ? (area == 3 ? c_yellow : c_white) : c_red , "[3]");
-
+                mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
+                mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)");
                 mvwprintz(head,1,60, c_white, "[m]ove item between screen.");
-                mvwprintz(head,2,60, c_white, "mov[e] to a selected square.");
+                //mvwprintz(head,2,60, c_white, "mov[e] to a selected square.");
                 mvwprintz(head,3,60, c_white, "[q]uit/exit this screen");
             }
-            mvwprintz(inventory,1,2,screen == 0 ? c_blue : c_white,"Inventory");
-            mvwprintz(environment,1,2,screen == 1 ? c_blue : c_white,"%s",areastring.c_str());
-            mvwprintz(screen==0?inventory:environment,2+25,5,c_white,"[<] previous page,[>] next page");
-            for(int i = player_page * 20 , x = 0 ; i < u.inv.size() && x < 20 ; i++ ,x++)
+            if(left_area == 0)
             {
-                if(screen == 0 && player_index == x)
-                {
-                    mvwprintz(inventory,2+x,2,c_yellow,">>");
-                    mvwprintz(inventory,2+x,6,c_yellow,"%s",u.inv[i].tname(this).c_str());
-                }
-                else
-                {
-                    mvwprintz(inventory,2+x,6,c_white,"%s",u.inv[i].tname(this).c_str());
-                }
-                if(u.inv.stack_at(i).size() > 1)
-                {
-                    wprintw(inventory," [%d]", u.inv.stack_at(i).size());
-                }
-                if(u.inv[i].charges > 0)
-                {
-                    wprintw(inventory," (%d)",u.inv[i].charges);
-                }
-                else if(u.inv[i].contents.size() == 1 && 
-                        u.inv[i].contents[0].charges > 0)
-                {
-                    wprintw(inventory," (%d)",u.inv[i].contents[0].charges);
-                }
+                printItems(u,left_window,left_page,left_index,(screen == 0), this);
             }
-            for(int i = ground_page * 20 , x = 0 ; i < grounditem.size() && x < 20 ; i++,x++)
+            else
             {
-                if(screen == 1 && ground_index == x)
-                {
-                    mvwprintz(environment,2+x,2,c_yellow,">>");
-                    mvwprintz(environment,2+x,6,c_yellow,"%s",grounditem[i].tname(this).c_str());
-                }
-                else
-                {
-                    mvwprintz(environment,2+x,6,c_white,"%s",grounditem[i].tname(this).c_str());
-                }
-                if(grounditem[i].charges > 0)
-                {
-                    wprintw(environment," (%d)",grounditem[i].charges);
-                }
+                printItems(m.i_at(u.posx+left_offx,u.posy+left_offy),left_window,left_page,left_index,(screen == 0) , this);
             }
+            if(right_area == 0)
+            {
+                printItems(u,right_window,right_page,right_index,(screen == 1),this);
+            }
+            else
+            {
+                printItems(m.i_at(u.posx+right_offx,u.posy+right_offy),right_window,right_page,right_index,(screen == 1), this);
+            }
+            printHeader(canputitems,left_window,left_area);
+            printHeader(canputitems,right_window,right_area);
             redraw = false;
         }
-        wborder(inventory,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
-        wborder(environment,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+        wborder(left_window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+        wborder(right_window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
         wrefresh(head);
-        wrefresh(inventory);
-        wrefresh(environment);
+        wrefresh(left_window);
+        wrefresh(right_window);
         char c = getch();
-        int changeSquare = getsquare(c,off_x,off_y,area,areastring);
+        int changeSquare;
+        if(screen == 0)
+        {
+            changeSquare = getsquare(c,left_offx,left_offy,left_area_string);
+        }
+        else
+        {
+            changeSquare = getsquare(c,right_offx,right_offy,right_area_string);
+        }
         if(changeSquare != -1)
         {
-            if(canputitems[changeSquare-1])
+            if(left_area == changeSquare || right_area == changeSquare) // do nthing
             {
+                popup("same square!");
+            }
+            else if(canputitems[changeSquare])
+            {
+                
+                if(screen == 0)
+                {
+                    left_area = changeSquare;
+                }
+                else
+                {
+                    right_area = changeSquare;
+                }
                 redraw = true;
             }
             else
@@ -4898,21 +4972,31 @@ void game::advanced_inv()
         }
         else if('m' == c)
         {
-            if( (screen == 0 && u.inv.size() ==0) || (screen==1 && m.i_at(u.posx+off_x,u.posy+off_y).size() ==0) )
+            if(screen == 0 && left_size == 0 || screen == 1 && right_size == 0) // if the active screen has no item.
             {
                 continue;
             }
-            if(screen == 0) // moving item from inventory to square
+            int src_offx  = screen == 0 ? left_offx  : right_offx;
+            int src_offy  = screen == 0 ? left_offy  : right_offy;
+            int src_index = screen == 0 ? left_index : right_index;
+            int src_page  = screen == 0 ? left_page  : right_page;
+            int src_size  = screen == 0 ? left_size  : right_size;
+            int src_area  = screen == 0 ? left_area  : right_area;
+            int dest_area = screen == 0 ? right_area : left_area;
+            int dest_offx = screen == 0 ? right_offx : left_offx;
+            int dest_offy = screen == 0 ? right_offy : left_offy;
+            int dest_size = screen == 0 ? right_size : left_size;
+            int item_pos = src_index + (src_page * 20);
+            if(src_area == 0) // if the active screen is inventory.
             {
-                int item_pos = player_index + (player_page * 20);
-                if((m.i_at(u.posx+off_x,u.posy+off_y)).size() >= MAX_ITEM_IN_SQUARE)
+                if(dest_size >= MAX_ITEM_IN_SQUARE)
                 {
                     popup("Destination area is full. Remove some item first");    
                 }
                 else
                 {
                     //if target item has stack
-                    int max = (MAX_ITEM_IN_SQUARE - m.i_at(u.posx+off_x,u.posy+off_y).size());
+                    int max = (MAX_ITEM_IN_SQUARE - dest_size);
                     if(u.inv.stack_at(item_pos).size() > 1) // if the item stack
                     {
                         int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(u.inv.stack_at(item_pos).size())));
@@ -4930,7 +5014,7 @@ void game::advanced_inv()
                                 std::vector<item> moving_items = u.inv.remove_stack(item_pos,amount);
                                 for(int i = 0 ; i < moving_items.size() ; i++)
                                 {
-                                    m.add_item(u.posx+off_x,u.posy+off_y,moving_items[i]);
+                                    m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_items[i]);
                                 }
                                 u.moves -= 100;
                             }
@@ -4945,12 +5029,12 @@ void game::advanced_inv()
                             if(amount >= u.inv[item_pos].charges) // full stack moved
                             {
                                 item moving_item = u.inv.remove_stack(item_pos)[0];
-                                m.add_item(u.posx+off_x,u.posy+off_y,moving_item);
+                                m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             else //partial stack moved
                             {
                                 item moving_item = u.inv.remove_item_by_quantity(item_pos,amount);
-                                m.add_item(u.posx+off_x,u.posy+off_y,moving_item);
+                                m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             u.moves -= 100;
                         }
@@ -4958,141 +5042,66 @@ void game::advanced_inv()
                     else // no stack / no charge just move it :D
                     {
                         item moving_item = u.inv.remove_item(item_pos);
-                        m.add_item(u.posx+off_x,u.posy+off_y,moving_item);
+                        m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                         u.moves -= 100;
                     }
                 }
             }
             else // moving item from square to inventory
             {
-                int item_pos = ground_index + (ground_page * 20);
-                std::vector<item> ground_items =  m.i_at(u.posx+off_x,u.posy+off_y);
-                if(ground_items[item_pos].made_of(LIQUID))
+                std::vector<item> src_items = m.i_at(u.posx+src_offx , u.posy+src_offy);
+                if(src_items[item_pos].made_of(LIQUID))
                 {
                     popup("You can't pick up liquid.");
+                    continue;
                 }
                 else
                 {
-                    if(!u.can_pickVolume(ground_items[item_pos].volume()))
+                    if(dest_area == 0) // if destination is inventory
                     {
-                        popup("There's no room in your inventory.");
+                        if(!u.can_pickVolume(src_items[item_pos].volume()))
+                        {
+                            popup("There's no room in your inventory.");
+                            continue;
+                        }
+                        else if(!u.can_pickWeight(src_items[item_pos].weight()))
+                        {
+                            popup("This is too heavy!");
+                            continue;
+                        }
+                        else if(src_size >= inv_chars.size())
+                        {
+                            popup("Too many itens");
+                            continue;
+                        }
                     }
-                    else if(!u.can_pickWeight(ground_items[item_pos].weight()))
+                    else //destination is also a square
                     {
-                        popup("This is too heavy!");
+                        if(dest_size >= MAX_ITEM_IN_SQUARE)
+                        {
+                            popup("Destination area is full. Remove some item first");
+                            continue;
+                        }
                     }
-                    else
+                    item new_item = src_items[item_pos];
+                    if(dest_area == 0)
                     {
-                        item new_item = ground_items[item_pos];
                         new_item.invlet = nextinv;
                         advance_nextinv();
-                        m.i_rem(u.posx+off_x,u.posy+off_y,item_pos);
                         u.i_add(new_item,this);
                         u.moves -= 100;
                     }
+                    else
+                    {
+                        m.add_item(u.posx+dest_offx,u.posy+dest_offy,new_item);
+                    }
+                    m.i_rem(u.posx+src_offx,u.posy+src_offy,item_pos);
                 }
             }
             redraw = true;
         }
         else if('e' == c)
         {
-            if( (screen == 0 && u.inv.size() ==0) || (screen==1 && m.i_at(u.posx+off_x,u.posy+off_y).size() ==0) )
-            {
-                continue;
-            }
-            char input = popup_getkey("Move to which square ?(0 to cancel)");
-            int target_x;
-            int target_y;
-            int target_area;
-            std::string target_areastring;
-            int sq = getsquare(input,target_x,target_y,target_area,target_areastring);
-            if((screen == 1 && area == target_area) || sq == -1)
-            {
-                // same square , do nothing
-            }
-            else
-            {
-                // moving from inventory, then do the same as the code above,
-                // TODO: refactor them into a function ? 
-                int item_pos = player_index + (player_page * 20);
-                if(m.i_at(u.posx+target_x,u.posy+target_y).size() >= MAX_ITEM_IN_SQUARE)
-                {
-                    popup("Destination area is full. Remove some item first");
-                }
-                else
-                {
-                    if(screen == 0) 
-                    {
-                        int max = (MAX_ITEM_IN_SQUARE - m.i_at(u.posx+target_x,u.posy+target_y).size());
-                        if(u.inv.stack_at(item_pos).size() > 1) // if the item stack
-                        {
-                            int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(u.inv.stack_at(item_pos).size())));
-                            if(amount != 0)
-                            {
-                                amount = u.inv.stack_at(item_pos).size() < amount ? u.inv.stack_at(item_pos).size() : amount;
-                                bool still_move = true;
-                                if(amount > max)
-                                {
-                                    still_move = query_yn("Not enough space in destination. Move as many as possible ? ");
-                                }
-                                if(still_move)
-                                {
-                                    amount = amount > max ? max : amount;
-                                    std::vector<item> moving_items = u.inv.remove_stack(item_pos,amount);
-                                    for(int i = 0 ; i < moving_items.size() ; i++)
-                                    {
-                                        m.add_item(u.posx+target_x,u.posy+target_y,moving_items[i]);
-                                    }
-                                    u.moves -= 100;
-                                }
-                            }
-                        }
-                        else if(u.inv[item_pos].count_by_charges())
-                        {
-                            int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(u.inv[item_pos].charges)));
-                            amount = amount > u.inv[item_pos].charges ? u.inv[item_pos].charges : amount ;
-                            if(amount != 0)
-                            {
-                                if(amount >= u.inv[item_pos].charges) // full stack moved
-                                {
-                                    item moving_item = u.inv.remove_stack(item_pos)[0];
-                                    m.add_item(u.posx+target_x,u.posy+target_y,moving_item);
-                                }
-                                else //partial stack moved
-                                {
-                                    item moving_item = u.inv.remove_item_by_quantity(item_pos,amount);
-                                    m.add_item(u.posx+target_x,u.posy+target_y,moving_item);
-                                }
-                                u.moves -= 100;
-                            }
-                        }
-                        else
-                        {
-                            item moving_item = u.inv.remove_item(item_pos);
-                            m.add_item(u.posx+target_x,u.posy+target_y,moving_item);
-                            u.moves -= 100;
-                        }
-                    }
-                    else // moving from square to square
-                    {
-                        int item_pos = ground_index + (ground_page * 20);
-                        std::vector<item> ground_items = m.i_at(u.posx+off_x,u.posy+off_y);
-                        if(ground_items[item_pos].made_of(LIQUID))
-                        {
-                            popup("You can't move liquid");
-                        }
-                        else
-                        {
-                            item new_item = ground_items[item_pos];
-                            m.i_rem(u.posx+off_x,u.posy+off_y,item_pos);
-                            m.add_item(u.posx+target_x,u.posy+target_y,new_item);
-                            u.moves -= 100;
-                        }
-                        
-                    }
-                }
-                redraw = true;
-            }
         }
         else if('q' == c)
         {
@@ -5102,18 +5111,18 @@ void game::advanced_inv()
         {
             if(screen == 0)
             {
-                player_page++; 
-                if(player_page >= max_player_page)
+                left_page++; 
+                if(left_page >= max_left_page)
                 {
-                    player_page = 0;
+                    left_page = 0;
                 }
             }
             else 
             {
-                ground_page++;
-                if(ground_page >= max_ground_page)
+                right_page++;
+                if(right_page >= max_right_page)
                 {
-                    ground_page = 0;
+                    right_page = 0;
                 }
             }
             redraw = true;
@@ -5122,18 +5131,18 @@ void game::advanced_inv()
         {
             if(screen == 0)
             {
-                player_page--; 
-                if(player_page < 0)
+                left_page--; 
+                if(left_page < 0)
                 {
-                    player_page = max_player_page - 1;
+                    left_page = max_left_page - 1;
                 }
             }
             else 
             {
-                ground_page--;
-                if(ground_page < 0)
+                right_page--;
+                if(right_page < 0)
                 {
-                    ground_page = max_ground_page - 1;
+                    right_page = max_right_page - 1;
                 }
             }
             redraw = true;
@@ -5165,9 +5174,9 @@ void game::advanced_inv()
             {
                 if(screen == 0)
                 {
-                    player_index += changey;
-                    player_index = player_index < 0 ? 0 : player_index;
-                    player_index = player_index >= max_player_index ? max_player_index-1 : player_index;
+                    left_index += changey;
+                    left_index = left_index < 0 ? 0 : left_index;
+                    left_index = left_index >= max_left_index ? max_left_index-1 : left_index;
                     if(1 == changex)
                     {
                         screen = 1;
@@ -5175,9 +5184,9 @@ void game::advanced_inv()
                 }
                 else
                 {
-                    ground_index += changey;
-                    ground_index = ground_index < 0 ? 0 : ground_index;
-                    ground_index = ground_index >= max_ground_index ? max_ground_index-1 : ground_index;
+                    right_index += changey;
+                    right_index = right_index < 0 ? 0 : right_index;
+                    right_index = right_index >= max_right_index ? max_right_index-1 : right_index;
                     if(-1 == changex)
                     {
                         screen = 0;
@@ -5188,11 +5197,11 @@ void game::advanced_inv()
         }
     }
     werase(head);
-    werase(inventory);
-    werase(environment);
+    werase(left_window);
+    werase(right_window);
     delwin(head);
-    delwin(inventory);
-    delwin(environment);
+    delwin(left_window);
+    delwin(right_window);
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
