@@ -4768,15 +4768,15 @@ void game::advanced_inv()
     WINDOW *inventory = newwin(33,w_width/2, headstart+7,colstart);
     WINDOW *environment = newwin(33,w_width/2, headstart+7,colstart+w_width/2);
     std::vector<bool> canputitems;
-    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy-1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy-1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+0) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+0) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+0) ));
     canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+1) ));
     canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+1) ));
     canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy-1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy-1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1) ));
     bool exit = false;
     bool redraw = true;
     int off_x = 0; // offset relative to the character
