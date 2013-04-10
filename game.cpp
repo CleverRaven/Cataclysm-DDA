@@ -4768,15 +4768,15 @@ void game::advanced_inv()
     WINDOW *inventory = newwin(33,w_width/2, headstart+7,colstart);
     WINDOW *environment = newwin(33,w_width/2, headstart+7,colstart+w_width/2);
     std::vector<bool> canputitems;
-    canputitems.push_back( (m.move_cost(u.posx-1,u.posy-1) != 0));
-    canputitems.push_back( (m.move_cost(u.posx+0,u.posy-1) != 0));
-    canputitems.push_back( (m.move_cost(u.posx+1,u.posy-1) != 0));
-    canputitems.push_back( (m.move_cost(u.posx-1,u.posy+0) != 0));
-    canputitems.push_back( (m.move_cost(u.posx+0,u.posy+0) != 0));
-    canputitems.push_back( (m.move_cost(u.posx+1,u.posy+0) != 0));
-    canputitems.push_back( (m.move_cost(u.posx-1,u.posy+1) != 0));
-    canputitems.push_back( (m.move_cost(u.posx+0,u.posy+1) != 0));
-    canputitems.push_back( (m.move_cost(u.posx+1,u.posy+1) != 0));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy-1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy-1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+1) ));
     bool exit = false;
     bool redraw = true;
     int off_x = 0; // offset relative to the character
@@ -5000,8 +5000,13 @@ void game::advanced_inv()
             {
                 continue;
             }
-            int squaretomove = popup_getkey("Move to which square ? ");
-            if((screen == 1 && area == squaretomove) || squaretomove == 0)
+            char input = popup_getkey("Move to which square ?(0 to cancel)");
+            int target_x;
+            int target_y;
+            int target_area;
+            std::string target_areastring;
+            int sq = getsquare(input,target_x,target_y,target_area,target_areastring);
+            if((screen == 1 && area == target_area) || sq == -1)
             {
                 // same square , do nothing
             }
@@ -5009,11 +5014,6 @@ void game::advanced_inv()
             {
                 // moving from inventory, then do the same as the code above,
                 // TODO: refactor them into a function ? 
-                int target_x;
-                int target_y;
-                int target_area;
-                std::string target_areastring;
-                getsquare(squaretomove,target_x,target_y,target_area,target_areastring);
                 int item_pos = player_index + (player_page * 20);
                 if(m.i_at(u.posx+target_x,u.posy+target_y).size() >= MAX_ITEM_IN_SQUARE)
                 {
