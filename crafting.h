@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include "itype.h"
 #include "skill.h"
 #include "rng.h"
@@ -64,5 +65,8 @@ recipe(int pid, itype_id pres, craft_cat cat, const char *p1, const char *p2,
   }
 };
 
+
+typedef std::vector<recipe*> recipe_list;
+typedef std::map<craft_cat, recipe_list> recipe_map;
 
 #endif

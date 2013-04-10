@@ -14,15 +14,18 @@ void game::init_recipes()
 {
  int id = -1;
  int tl, cl;
+ recipe* last_rec = NULL;
 
  #define RECIPE(result, category, skill1, skill2, difficulty, time, reversible) \
 tl = -1; cl = -1; id++;\
-recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
-                              time, reversible) )
- #define TOOL(item, amount)  ++tl; recipes[id]->tools[tl].push_back(component(item,amount))
- #define TOOLCONT(item, amount) recipes[id]->tools[tl].push_back(component(item,amount))
- #define COMP(item, amount)  ++cl; recipes[id]->components[cl].push_back(component(item,amount))
- #define COMPCONT(item, amount) recipes[id]->components[cl].push_back(component(item,amount))
+last_rec = new recipe(id, result, category, skill1, skill2, difficulty,\
+                      time, reversible);\
+recipes[category].push_back(last_rec)
+
+ #define TOOL(item, amount)  ++tl; last_rec->tools[tl].push_back(component(item,amount))
+ #define TOOLCONT(item, amount) last_rec->tools[tl].push_back(component(item,amount))
+ #define COMP(item, amount)  ++cl; last_rec->components[cl].push_back(component(item,amount))
+ #define COMPCONT(item, amount) last_rec->components[cl].push_back(component(item,amount))
 
 /**
  * Macro Tool Groups
@@ -2449,46 +2452,47 @@ void game::pick_recipes(std::vector<recipe*> &current,
 
     current.clear();
     available.clear();
-    for (int i = 0; i < recipes.size(); i++)
+    
+    if (filter == "")
     {
-        if(filter == "")
+        add_known_recipes(current, recipes[tab]);
+    }
+    else
+    {
+        for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter)
         {
-            // Check if the category matches the tab, and we have the requisite skills
-            if (recipes[i]->category == tab &&
-                    (recipes[i]->sk_primary == NULL ||
-                    u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
-                    (recipes[i]->sk_secondary == NULL ||
-                    u.skillLevel(recipes[i]->sk_secondary) > 0))
-            {
-                if (recipes[i]->difficulty >= 0 )
-                {
-                    current.push_back(recipes[i]);
-                }
-            }
-            available.push_back(false);
-        }
-        else
-        {
-            // if filter is on , put everything here
-            if ((recipes[i]->sk_primary == NULL ||
-                    u.skillLevel(recipes[i]->sk_primary) >= recipes[i]->difficulty) &&
-                    (recipes[i]->sk_secondary == NULL ||
-                    u.skillLevel(recipes[i]->sk_secondary) > 0))
-            {
-                if (recipes[i]->difficulty >= 0 && itypes[recipes[i]->result]->name.find(filter) != std::string::npos)
-                {
-                    current.push_back(recipes[i]);
-                }
-            }
-            available.push_back(false);
+            add_known_recipes(current, iter->second);
         }
     }
+    
     for (int i = 0; i < current.size() && i < 51; i++)
     {
         //Check if we have the requisite tools and components
         if(can_make(current[i]))
         {
-            available[i] = true;
+            available.push_back(true);
+        }
+        else
+        {
+            available.push_back(false);
+        }
+    }
+}
+
+void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source)
+{
+    for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
+    {
+        // Check if we have the requisite skills
+        if (((*iter)->sk_primary == NULL ||
+             u.skillLevel((*iter)->sk_primary) >= (*iter)->difficulty) &&
+             ((*iter)->sk_secondary == NULL ||
+             u.skillLevel((*iter)->sk_secondary) > 0))
+        {
+            if ((*iter)->difficulty >= 0 )
+            {
+                current.push_back(*iter);
+            }
         }
     }
 }
@@ -2510,7 +2514,7 @@ void game::make_all_craft(recipe *making)
 
 void game::complete_craft()
 {
- recipe* making = recipes[u.activity.index]; // Which recipe is it?
+ recipe* making = recipe_by_index(u.activity.index); // Which recipe is it?
 
 // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
  int skill_dice = u.skillLevel(making->sk_primary) * 3;
@@ -2815,103 +2819,123 @@ void game::consume_tools(std::vector<component> tools)
 
 void game::disassemble(char ch)
 {
-  if (!ch) {
-    ch = inv("Disassemble item:");
-  }
-  if (ch == 27) {
-    add_msg("Never mind.");
-    return;
-  }
-  if (!u.has_item(ch)) {
-    add_msg("You don't have item '%c'!", ch);
-    return;
-  }
-
-  item* dis_item = &u.i_at(ch);
-
-  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
-    return;
-
-  for (int i = 0; i < recipes.size(); i++) {
-    if (dis_item->type == itypes[recipes[i]->result] && recipes[i]->reversible)
-    // ok, a valid recipe exists for the item, and it is reversible
-    // assign the activity
+    if (!ch)
     {
-      // check tools are available
-      // loop over the tools and see what's required...again
-      inventory crafting_inv = crafting_inventory();
-      bool have_tool[5];
-      for (int j = 0; j < 5; j++)
-      {
-        have_tool[j] = false;
-        if (recipes[i]->tools[j].size() == 0) // no tools required, may change this
-          have_tool[j] = true;
-        else
-        {
-          for (int k = 0; k < recipes[i]->tools[j].size(); k++)
-          {
-            itype_id type = recipes[i]->tools[j][k].type;
-            int req = recipes[i]->tools[j][k].count;	// -1 => 1
-
-            if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
-              (req >  0 && crafting_inv.has_charges(type, req)))
-            {
-              have_tool[j] = true;
-              k = recipes[i]->tools[j].size();
-            }
-            // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
-            if (type == "welder")
-            {
-              if (crafting_inv.has_amount("hacksaw", 1) ||
-                  crafting_inv.has_amount("toolset", 1))
-                have_tool[j] = true;
-              else
-                have_tool[j] = false;
-            }
-          }
-
-          if (!have_tool[j])
-          {
-            int req = recipes[i]->tools[j][0].count;
-            if (recipes[i]->tools[j][0].type == "welder")
-                add_msg("You need a hack saw to disassemble this.");
-            else
-            {
-              if (req <= 0)
-              {
-                add_msg("You need a %s to disassemble this.",
-                itypes[recipes[i]->tools[j][0].type]->name.c_str());
-              }
-              else
-              {
-                add_msg("You need a %s with %d charges to disassemble this.",
-                itypes[recipes[i]->tools[j][0].type]->name.c_str(), req);
-              }
-            }
-          }
-        }
-      }
-      // all tools present, so assign the activity
-      if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
-      have_tool[4])
-      {
-        u.assign_activity(this, ACT_DISASSEMBLE, recipes[i]->time, recipes[i]->id);
-        u.moves = 0;
-        std::vector<int> dis_items;
-        dis_items.push_back(ch);
-        u.activity.values = dis_items;
-      }
-      return; // recipe exists, but no tools, so do not start disassembly
+        ch = inv("Disassemble item:");
     }
-  }
-  // no recipe exists, or the item cannot be disassembled
-  add_msg("This item cannot be disassembled!");
+    if (ch == 27)
+    {
+        add_msg("Never mind.");
+        return;
+    }
+    if (!u.has_item(ch))
+    {
+        add_msg("You don't have item '%c'!", ch);
+        return;
+    }
+
+    item* dis_item = &u.i_at(ch);
+
+    if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
+    {
+        return;
+    }
+
+    for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
+    {
+        for (recipe_list::iterator list_iter = cat_iter->second.begin();
+             list_iter != cat_iter->second.end();
+             ++list_iter)
+        {
+            recipe* cur_recipe = *list_iter;
+            if (dis_item->type == itypes[cur_recipe->result] && cur_recipe->reversible)
+            // ok, a valid recipe exists for the item, and it is reversible
+            // assign the activity
+            {
+                // check tools are available
+                // loop over the tools and see what's required...again
+                inventory crafting_inv = crafting_inventory();
+                bool have_tool[5];
+                for (int j = 0; j < 5; j++)
+                {
+                    have_tool[j] = false;
+                    if (cur_recipe->tools[j].size() == 0) // no tools required, may change this
+                    {
+                        have_tool[j] = true;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < cur_recipe->tools[j].size(); k++)
+                        {
+                            itype_id type = cur_recipe->tools[j][k].type;
+                            int req = cur_recipe->tools[j][k].count;	// -1 => 1
+
+                            if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                                (req >  0 && crafting_inv.has_charges(type, req)))
+                            {
+                                have_tool[j] = true;
+                                k = cur_recipe->tools[j].size();
+                            }
+                            // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
+                            if (type == "welder")
+                            {
+                                if (crafting_inv.has_amount("hacksaw", 1) ||
+                                    crafting_inv.has_amount("toolset", 1))
+                                {
+                                    have_tool[j] = true;
+                                }
+                                else
+                                {
+                                    have_tool[j] = false;
+                                }
+                            }
+                        }
+
+                        if (!have_tool[j])
+                        {
+                            int req = cur_recipe->tools[j][0].count;
+                            if (cur_recipe->tools[j][0].type == "welder")
+                            {
+                                add_msg("You need a hack saw to disassemble this.");
+                            }
+                            else
+                            {
+                                if (req <= 0)
+                                {
+                                    add_msg("You need a %s to disassemble this.",
+                                    itypes[cur_recipe->tools[j][0].type]->name.c_str());
+                                }
+                                else
+                                {
+                                    add_msg("You need a %s with %d charges to disassemble this.",
+                                    itypes[cur_recipe->tools[j][0].type]->name.c_str(), req);
+                                }
+                            }
+                        }
+                    }
+                }
+                // all tools present, so assign the activity
+                if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
+                    have_tool[4])
+                {
+                    u.assign_activity(this, ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
+                    u.moves = 0;
+                    std::vector<int> dis_items;
+                    dis_items.push_back(ch);
+                    u.activity.values = dis_items;
+                }
+                return; // recipe exists, but no tools, so do not start disassembly
+            }
+        }
+    }
+    // no recipe exists, or the item cannot be disassembled
+    add_msg("This item cannot be disassembled!");
 }
 
 void game::complete_disassemble()
 {
   // which recipe was it?
-  recipe* dis = recipes[u.activity.index]; // Which recipe is it?
+  recipe* dis = recipe_by_index(u.activity.index); // Which recipe is it?
   item* dis_item = &u.i_at(u.activity.values[0]);
 
   add_msg("You disassemble the item into its components.");
@@ -3000,4 +3024,19 @@ void game::complete_disassemble()
       } while (compcount > 0);
     }
   }
+}
+
+recipe* game::recipe_by_index(int index)
+{
+    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
+    {
+        for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
+        {
+            if ((*list_iter)->id == index)
+            {
+                return *list_iter;
+            }
+        }
+    }
+    return NULL;
 }
