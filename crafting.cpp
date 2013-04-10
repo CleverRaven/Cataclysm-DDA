@@ -18,8 +18,7 @@ void game::init_recipes()
 
  #define RECIPE(result, category, skill1, skill2, difficulty, time, reversible) \
 tl = -1; cl = -1; id++;\
-last_rec = new recipe(id, result, skill1, skill2, difficulty,\
-                      time, reversible);\
+last_rec = new recipe(id, result, skill1, skill2, difficulty, time, reversible);\
 recipes[category].push_back(last_rec)
 
  #define TOOL(item, amount)  ++tl; last_rec->tools[tl].push_back(component(item,amount))
@@ -2448,8 +2447,6 @@ inventory game::crafting_inventory(){
 void game::pick_recipes(std::vector<recipe*> &current,
                         std::vector<bool> &available, craft_cat tab,std::string filter)
 {
-    inventory crafting_inv = crafting_inventory();
-
     current.clear();
     available.clear();
     
