@@ -1838,7 +1838,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("plut_cell", 1);
   //  COMP("scrap", 30);
 
-  RECIPE("jar_meat_pickled", CC_FOOD, "cooking", "mechanics", 3, 30000, false);
+  RECIPE("jar_meat_canned", CC_FOOD, "cooking", "mechanics", 3, 30000, false);
   TG_KNIVES
   TOOLCONT("hatchet", -1);
   TOOL("hammer", -1);
@@ -1855,7 +1855,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("sheet_metal", 1);
   COMP("meat", 1);
 
-  RECIPE("jar_veggy_pickled", CC_FOOD, "cooking", "mechanics", 3, 30000, false);
+  RECIPE("jar_veggy_canned", CC_FOOD, "cooking", "mechanics", 3, 30000, false);
   TG_KNIVES
   TOOLCONT("hatchet", -1);
   TOOL("hammer", -1);
@@ -1873,7 +1873,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMP("veggy", 1);
   COMPCONT("veggy_wild", 1);
 
-  RECIPE("jar_apple_pickled", CC_FOOD, "cooking", "mechanics", 3, 30000, false);
+  RECIPE("jar_apple_canned", CC_FOOD, "cooking", "mechanics", 3, 30000, false);
   TG_KNIVES
   TOOLCONT("hatchet", -1);
   TOOL("hammer", -1);

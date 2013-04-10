@@ -533,17 +533,17 @@ FOOD("jihelucake", "cake",            0, 0, c_white, VEGGY, "null",
     2,  1,   0, 25, 0,  0,  0,  0,  1,  20, &iuse::none, ADD_NULL, "\
 Delicious sponge cake with buttercream icing, it says happy birthday on it.", 0);
 
-FOOD("meat_pickled", "pickled meat",	 0, 25, c_red,		FLESH,	"bottle_glass",
+FOOD("meat_canned", "canned meat",	 0, 25, c_red,		FLESH,	"bottle_glass",
     1,  2,  0, 50, 40,  0,  0,  0,  1,  2,	&iuse::none,	ADD_NULL, "\
-Low-sodium preserved meat.  It was boiled and pickled.\n\
+Low-sodium preserved meat.  It was boiled and canned.\n\
 Contains all of the nutrition, but little of the savor of cooked meat.\n",0 );
 
-FOOD("veggy_pickled", "pickled veggy",	 0, 150, c_green,		VEGGY,	"bottle_glass",
+FOOD("veggy_canned", "canned veggy",	 0, 150, c_green,		VEGGY,	"bottle_glass",
     1,  2,  0, 40, 60,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
-This mushy pile of vegetable matter was boiled and pickled in an earlier life.\n\
+This mushy pile of vegetable matter was boiled and canned in an earlier life.\n\
 Better eat it before it oozes through your fingers.", 0);
 
-FOOD("apple_pickled", "pickled apple slices",	 0, 32, c_red,		VEGGY,	"bottle_glass",
+FOOD("apple_canned", "canned apple slices",	 0, 32, c_red,		VEGGY,	"bottle_glass",
     1,  1,  3, 16, 180,  0,  2,  0,  1,  1,	&iuse::none,	ADD_NULL, "\
 Sealed glass jar containing preserved apples.  Bland, mushy and losing color.", 0);
 
@@ -4271,15 +4271,15 @@ TOOL("LAW_Packed", "Packed M72 LAW", 30, 500, ')', c_red, STEEL, MNULL,
 An M72 LAW, packed in its storage form. (a)ctivate it to pop it out\n\
 and make it ready to fire. Once activated, it cannot be repacked.");
 
-TOOL("jar_meat_pickled", "sealed jar of pickled meat",	50,	75,'%', c_red,		GLASS,	FLESH,
+TOOL("jar_meat_canned", "sealed jar of canned meat",	50,	75,'%', c_red,		GLASS,	FLESH,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
 Sealed glass jar containing meat.  Activate to open and enjoy.");
 
-TOOL("jar_veggy_pickled", "sealed jar of pickled veggy",	50,	65, '%', c_green,		GLASS,	VEGGY,
+TOOL("jar_veggy_canned", "sealed jar of canned veggy",	50,	65, '%', c_green,		GLASS,	VEGGY,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
 Sealed glass jar containing veggy.  Activate to open and enjoy.");
 
-TOOL("jar_apple_pickled", "sealed jar of pickled apple",	50,	50, '%', c_red,		GLASS,	VEGGY,
+TOOL("jar_apple_canned", "sealed jar of canned apple",	50,	50, '%', c_red,		GLASS,	VEGGY,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
 Sealed glass jar containing a sliced apple.  Activate to open and enjoy.");
 
