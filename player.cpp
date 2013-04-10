@@ -3338,7 +3338,8 @@ int player::morale_level()
    bonus = 25;
   if (has_disease(DI_TOOK_PROZAC))
    bonus = int(bonus / 3);
-  add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
+  if (bonus != 0)
+   add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
  }
  // Optimist gives a straight +20 to morale.
  if (has_trait(PF_OPTIMISTIC)) {
