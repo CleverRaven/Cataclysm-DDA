@@ -7,6 +7,9 @@
 #include "line.h"
 #include "debug.h"
 #include "options.h"
+#include "mapgenformat.h"
+
+#include <cassert>
 
 #ifndef sgn
 #define sgn(x) (((x) < 0) ? -1 : 1)
@@ -79,7 +82,10 @@ void build_mansion_room(map *m, room_type type, int x1, int y1, int x2, int y2);
 void mansion_room(map *m, int x1, int y1, int x2, int y2); // pick & build
 
 void line(map *m, ter_id type, int x1, int y1, int x2, int y2);
+void fill_background(map *m, ter_id type);
+void fill_background(map *m, ter_id (*f)());
 void square(map *m, ter_id type, int x1, int y1, int x2, int y2);
+void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void add_corpse(game *g, map *m, int x, int y);
 
@@ -854,14 +860,14 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     }
    }
    if (one_in(10)) {	// Small trees in center
-    ter_set(SEEX - 1, SEEY - 2, t_tree_young);
-    ter_set(SEEX    , SEEY - 2, t_tree_young);
-    ter_set(SEEX - 1, SEEY + 2, t_tree_young);
-    ter_set(SEEX    , SEEY + 2, t_tree_young);
-    ter_set(SEEX - 2, SEEY - 1, t_tree_young);
-    ter_set(SEEX - 2, SEEY    , t_tree_young);
-    ter_set(SEEX + 2, SEEY - 1, t_tree_young);
-    ter_set(SEEX + 2, SEEY    , t_tree_young);
+    mapf::formatted_set_terrain(this, SEEX-2, SEEY-2,
+"\
+ t t\n\
+t   t\n\
+\n\
+t   t\n\
+ t t\n\
+", mapf::basic_bind("t", t_tree_young), mapf::end());
    }
    if (one_in(14)) {	// Rows of small trees
     int gap = rng(2, 4);
@@ -925,10 +931,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   break;
 
  case ot_river_center:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, t_water_dp);
-  }
+  fill_background(this, t_water_dp);
   break;
 
  case ot_river_c_not_ne:
@@ -1368,66 +1371,57 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
  case ot_park: {
   if (one_in(3)) { // Playground
-   for (int i = 0; i < SEEX * 2; i++) {
-    for (int j = 0; j < SEEY * 2; j++)
-     ter_set(i, j, t_grass);
-   }
-   square(this, t_sandbox,     16,  4, 17,  5);
-   square(this, t_monkey_bars,  4,  7,  6,  9);
-   line(this, t_slide, 11,  8, 11, 11);
-   line(this, t_bench,  6, 14,  6, 15);
-   ter_set( 3,  9, t_tree);
-   ter_set( 5, 15, t_tree);
-   ter_set( 6,  4, t_tree);
-   ter_set( 9, 17, t_tree);
-   ter_set(13,  3, t_tree);
-   ter_set(15, 16, t_tree);
-   ter_set(19, 14, t_tree);
-   ter_set(20,  8, t_tree);
+   fill_background(this, t_grass);
+   mapf::formatted_set_terrain(this, 0, 0,
+"\n\n\n\
+             t          \n\
+      t         ##      \n\
+                ##      \n\
+                        \n\
+    mmm                 \n\
+    mmm    s        t   \n\
+   tmmm    s            \n\
+           s            \n\
+           s            \n\
+                        \n\
+                        \n\
+      -            t    \n\
+     t-                 \n\
+               t        \n\
+         t              \n\
+",
+mapf::basic_bind( "# m s - t", t_sandbox, t_monkey_bars, t_slide, t_bench, t_tree ),
+   mapf::end() );
    rotate(rng(0, 3));
+
   } else { // Basketball court
-   for (int i = 0; i < SEEX * 2; i++) {
-    for (int j = 0; j < SEEY * 2; j++)
-     ter_set(i, j, t_pavement);
-   }
-   line(this, t_pavement_y,  1, 11, 22, 11);
-   line(this, t_pavement_y,  6,  2,  6,  8);
-   line(this, t_pavement_y, 16,  2, 16,  8);
-   line(this, t_pavement_y,  6, 14,  6, 20);
-   line(this, t_pavement_y, 16, 14, 16, 20);
-
-   square(this, t_pavement_y,  9,  2, 13,  4);
-   square(this, t_pavement_y,  9, 18, 13, 20);
-   square(this, t_pavement,   10,  2, 12,  3);
-   square(this, t_pavement,   10, 19, 12, 20);
-   ter_set( 7,  9, t_pavement_y);
-   ter_set( 8, 10, t_pavement_y);
-   ter_set(15,  9, t_pavement_y);
-   ter_set(14, 10, t_pavement_y);
-   ter_set( 8, 12, t_pavement_y);
-   ter_set( 7, 13, t_pavement_y);
-   ter_set(14, 12, t_pavement_y);
-   ter_set(15, 13, t_pavement_y);
-
-   line(this, t_bench,  1,  4,  1, 10);
-   line(this, t_bench,  1, 12,  1, 18);
-   line(this, t_bench, 22,  4, 22, 10);
-   line(this, t_bench, 22, 12, 22, 18);
-
-   ter_set(11,  2, t_backboard);
-   ter_set(11, 20, t_backboard);
-
-   line(this, t_chainfence_v,  0,  1,  0, 21);
-   line(this, t_chainfence_v, 23,  1, 23, 21);
-   line(this, t_chainfence_h,  1,  1, 22,  1);
-   line(this, t_chainfence_h,  1, 21, 22, 21);
-
-   ter_set( 2,  1, t_chaingate_l);
-   ter_set(21,  1, t_chaingate_l);
-   ter_set( 2, 21, t_chaingate_l);
-   ter_set(21, 21, t_chaingate_l);
-
-   rotate(rng(0, 3));
+   fill_background(this, t_pavement);
+   mapf::formatted_set_terrain(this, 0, 0,
+"\n\
+|-+------------------+-|\n\
+|     .  . 7 .  .      |\n\
+|     .  .   .  .      |\n\
+|#    .  .....  .     #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#     .       .      #|\n\
+|#      .     .       #|\n\
+|......................|\n\
+|#      .     .       #|\n\
+|#     .       .      #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#    .         .     #|\n\
+|#    .  .....  .     #|\n\
+|     .  .   .  .      |\n\
+|     .  . 7 .  .      |\n\
+|-+------------------+-|\n\
+\n\n",
+ mapf::basic_bind(". 7 # | - +", t_pavement_y, t_backboard, t_bench, t_chainfence_v, t_chainfence_h, t_chaingate_l),
+ mapf::end() );
   }
   add_spawn(mon_zombie_child, rng(2, 8), SEEX, SEEY);
  } break;
@@ -1767,7 +1761,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  case ot_s_electronics_east:
  case ot_s_electronics_south:
  case ot_s_electronics_west:
-  square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
+  fill_background(this, &grass_or_dirt);
   square(this, t_floor, 4, 4, SEEX * 2 - 4, SEEY * 2 - 4);
   line(this, t_wall_v, 3, 4, 3, SEEY * 2 - 4);
   line(this, t_wall_v, SEEX * 2 - 3, 4, SEEX * 2 - 3, SEEY * 2 - 4);
@@ -1883,39 +1877,27 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  case ot_s_liquor_east:
  case ot_s_liquor_south:
  case ot_s_liquor_west:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (j == 2 && (i == 5 || i == 18))
-     ter_set(i, j, t_window);
-    else if (((j == 2 || j == 12) && i > 2 && i < SEEX * 2 - 3) ||
-             (j == 9 && i > 3 && i < 8))
-     ter_set(i, j, t_wall_h);
-    else if (((i == 3 || i == SEEX * 2 - 4) && j > 2 && j < 12) ||
-             (i == 7 && j > 9 && j < 12))
-     ter_set(i, j, t_wall_v);
-    else if ((i == 19 && j > 6 && j < 12) || (j == 11 && i > 16 && i < 19))
-     ter_set(i, j, t_glass_fridge);
-    else if (((i == 4 || i == 7 || i == 8) && j > 2 && j < 8) ||
-             (j == 3 && i > 8 && i < 12) ||
-             (i > 10 && i < 13 && j > 4 && j < 7) ||
-             (i > 10 && i < 16 && j > 7 && j < 10))
-     ter_set(i, j, t_rack);
-    else if ((i == 16 && j > 2 && j < 6) || (j == 5 && i > 16 && i < 19))
-     ter_set(i, j, t_counter);
-    else if ((i > 4 && i < 8 && j > 12 && j < 15) ||
-             (i > 17 && i < 20 && j > 14 && j < 18))
-     ter_set(i, j, t_dumpster);
-    else if (i > 2 && i < SEEX * 2 - 3) {
-     if (j > 2 && j < 12)
-      ter_set(i, j, t_floor);
-     else if (j > 12 && j < SEEY * 2 - 1)
-      ter_set(i, j, t_pavement);
-     else
-      ter_set(i, j, grass_or_dirt());
-    } else
-     ter_set(i, j, grass_or_dirt());
-   }
-  }
+  fill_background(this, &grass_or_dirt);
+  square(this, t_pavement, 3, 13, SEEX*2-4, SEEY*2-1);
+  square(this, t_floor, 3, 2, SEEX*2-4, 12);
+  mapf::formatted_set_terrain(this, 3, 2,
+"\
+--:------------:--\n\
+|#  #####    c   |\n\
+|#  ##       c   |\n\
+|#  ##  ##   ccc |\n\
+|#  ##  ##       |\n\
+|#  ##          &|\n\
+|       #####   &|\n\
+|----   #####   &|\n\
+|   |           &|\n\
+|   |         &&&|\n\
+------------------\
+", mapf::basic_bind("- | : # c &", t_wall_h, t_wall_v, t_window, t_rack, t_counter, t_glass_fridge),
+  mapf::end());
+  square(this, t_dumpster, 5, 13, 7, 14);
+  square(this, t_dumpster, SEEX*2-6, 15, SEEX*2-5, 17);
+
   ter_set(rng(13, 15), 2, t_door_c);
   ter_set(rng(4, 6), 9, t_door_c);
   ter_set(rng(9, 16), 12, t_door_c);
@@ -2144,10 +2126,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  case ot_s_restaurant_south:
  case ot_s_restaurant_west: {
 // Init to grass/dirt
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, grass_or_dirt());
-  }
+  fill_background(this, &grass_or_dirt);
   ter_id doortype = (one_in(4) ? t_door_c : t_door_glass_c);
   lw = rng(0, 4);
   rw = rng(19, 23);
@@ -2269,47 +2248,34 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 //....
 case ot_shelter: {
 // Init to grass & dirt;
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, grass_or_dirt());
-  }
-  //square(this, t_floor_l, 5, 5, SEEX * 2 - 6, SEEY * 2 - 6);
-        square(this, t_floor, 5, 5, SEEX * 2 - 6, SEEY * 2 - 6);
-        /*ter_set(6,6, t_counter);
-        ter_set(6,7, t_console_broken);*/
+  fill_background(this, &grass_or_dirt);
+  square(this, t_floor, 5, 5, SEEX * 2 - 6, SEEY * 2 - 6);
+   mapf::formatted_set_terrain(this, 4, 4,
+"\
+|----:-++-:----|\n\
+|llll      c  6|\n\
+| b b b    c   |\n\
+| b b b    c   |\n\
+| b b b    c   |\n\
+: b b b        :\n\
+|              |\n\
++      >>      +\n\
++      >>      +\n\
+|              |\n\
+: b b b        :\n\
+| b b b    c   |\n\
+| b b b    c   |\n\
+| b b b    c   |\n\
+|          c  x|\n\
+|----:-++-:----|\
+",
+   mapf::basic_bind("- | + : b c 6 x > l",
+         t_wall_h, t_wall_v, t_door_c, t_window_domestic, t_bench, t_counter, t_console, t_console_broken, t_stairs_down, t_locker),
+   mapf::end() );
 
-
-  square(this, t_stairs_down, SEEX - 1, SEEY - 1, SEEX, SEEY);
-  line(this, t_wall_h, 4, 4, SEEX * 2 - 5, 4);
-  line(this, t_door_c, SEEX - 1, 4, SEEX, 4);
-  line(this, t_locker, SEEX - 7, 5, SEEX, 5);
-  line(this, t_floor,  SEEX - 3, 5, SEEX, 5);
-  line(this, t_wall_h, 4, SEEY * 2 - 5, SEEX * 2 - 5, SEEY * 2 - 5);
-  line(this, t_door_c, SEEX - 1, SEEY * 2 - 5, SEEX, SEEY * 2 - 5);
-  line(this, t_wall_v, 4, 5, 4, SEEY * 2 - 6);
-  line(this, t_door_c, 4, SEEY - 1, 4, SEEY);
-  line(this, t_wall_v, SEEX * 2 - 5, 5, SEEX * 2 - 5, SEEY * 2 - 6);
-  line(this, t_door_c, SEEX * 2 - 5, SEEY - 1, SEEX * 2 - 5, SEEY);
-        ter_set(SEEX*2-5, SEEY-3, t_window_domestic);
-        ter_set(SEEX*2-5, SEEY+2, t_window_domestic);
-        ter_set(4, SEEY-3, t_window_domestic);
-        ter_set(4, SEEY+2, t_window_domestic);
-        ter_set(SEEX-3, 4, t_window_domestic);
-        ter_set(SEEX+2, 4, t_window_domestic);
-        line(this, t_counter, SEEX+3, 5, SEEX+3, SEEY-4);
-        ter_set(SEEX+6, 5, t_console);
-        tmpcomp = add_computer(SEEX+6, 5, "Evac shelter computer", 0);
+  tmpcomp = add_computer(SEEX+6, 5, "Evac shelter computer", 0);
  	tmpcomp->add_option("Emergency Message", COMPACT_EMERG_MESS, 0);
-        line(this, t_counter, SEEX+3, SEEY+3, SEEX+3, SEEY*2-6);
-        ter_set(SEEX+6, SEEY*2-6, t_console_broken);
-            line(this, t_bench, 6,6, 6,SEEY-3);
-            line(this, t_bench, 8,6, 8,SEEY-3);
-            line(this, t_bench, 10,6, 10,SEEY-3);
-
-            line(this, t_bench, 6,SEEY+2, 6,SEEY*2-7);
-            line(this, t_bench, 8,SEEY+2, 8,SEEY*2-7);
-            line(this, t_bench, 10,SEEY+2, 10,SEEY*2-7);
-        }
+ }
 
   break;
 //....
@@ -2324,10 +2290,7 @@ case ot_shelter: {
   //....
 case ot_lmoe: {
 // Init to grass & dirt;
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, grass_or_dirt());
-  }
+  fill_background(this, &grass_or_dirt);
 	square(this, t_shrub, 7, 6, 16, 12);
 	square(this, t_rock, 10, 9, 13, 12);
 	square(this, t_rock_floor, 11, 10, 12, 11);
@@ -2359,7 +2322,7 @@ case ot_lmoe: {
 //....
 
  case ot_lmoe_under:
-  square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+  fill_background(this, t_rock);
   square(this, t_rock_floor, 3, 3, 20, 20);
   line(this, t_stairs_up, 11, 20, 12, 20);
   line(this, t_wall_metal_h, 3, 12, 20, 12);
@@ -2868,10 +2831,7 @@ case ot_lmoe: {
 
  case ot_bunker:
   if (t_above == ot_null) {	// We're on ground level
-   for (int i = 0; i < SEEX * 2; i++) {
-    for (int j = 0; j < SEEY * 2; j++)
-     ter_set(i, j, grass_or_dirt());
-   }
+   fill_background(this, &grass_or_dirt);
    line(this, t_wall_metal_h,  7,  7, 16,  7);
    line(this, t_wall_metal_h,  8,  8, 15,  8);
    line(this, t_wall_metal_h,  8, 15, 15, 15);
@@ -2894,7 +2854,7 @@ case ot_lmoe: {
 
   } else { // Below ground!
 
-   square(this, t_rock,  0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+   fill_background(this, t_rock);
    square(this, t_floor, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2);
    line(this, t_wall_metal_h,  2,  8,  8,  8);
    line(this, t_wall_metal_h, 15,  8, 21,  8);
@@ -2943,10 +2903,8 @@ case ot_lmoe: {
   break;
 
  case ot_outpost: {
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, grass_or_dirt());
-  }
+  fill_background(this, &grass_or_dirt);
+
   square(this, t_dirt, 3, 3, 20, 20);
   line(this, t_chainfence_h,  2,  2, 10,  2);
   line(this, t_chainfence_h, 13,  2, 21,  2);
@@ -3190,7 +3148,7 @@ case ot_lmoe: {
  case ot_temple_stairs:
   if (t_above == ot_null) { // Ground floor
 // TODO: More varieties?
-   square(this, t_dirt, 0, 0, 23, 23);
+   fill_background(this, t_dirt);
    square(this, t_grate, SEEX - 1, SEEY - 1, SEEX, SEEX);
    ter_set(SEEX + 1, SEEY + 1, t_pedestal_temple);
   } else { // Underground!  Shit's about to get interesting!
@@ -3385,7 +3343,7 @@ case ot_lmoe: {
   break;
 
  case ot_temple_finale:
-  square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1);
+  fill_background(this, t_rock);
   square(this, t_rock_floor, SEEX - 1, 1, SEEX + 2, 4);
   square(this, t_rock_floor, SEEX, 5, SEEX + 1, SEEY * 2 - 1);
   line(this, t_stairs_up, SEEX, SEEY * 2 - 1, SEEX + 1, SEEY * 2 - 1);
@@ -3394,7 +3352,7 @@ case ot_lmoe: {
   return;
 
  case ot_sewage_treatment:
-  square(this, t_floor, 0,  0, 23, 23); // Set all to floor
+  fill_background(this, t_floor); // Set all to floor
   line(this, t_wall_h,  0,  0, 23,  0); // Top wall
   line(this, t_window,  1,  0,  6,  0); // Its windows
   line(this, t_wall_h,  0, 23, 23, 23); // Bottom wall
@@ -3453,7 +3411,7 @@ case ot_lmoe: {
   break;
 
  case ot_sewage_treatment_hub: // Stairs up, center of 3x3 of treatment_below
-  square(this, t_rock_floor, 0,  0, 23, 23);
+  fill_background(this, t_rock_floor);
 // Top & left walls; right & bottom are handled by adjacent terrain
   line(this, t_wall_h,  0,  0, 23,  0);
   line(this, t_wall_v,  0,  1,  0, 23);
@@ -3612,7 +3570,7 @@ case ot_lmoe: {
   break;
 
  case ot_sewage_treatment_under:
-  square(this, t_floor, 0,  0, 23, 23);
+  fill_background(this, t_floor);
 
   if (t_north == ot_sewage_treatment_under || t_north == ot_sewage_treatment_hub ||
       (t_north >= ot_sewer_ns && t_north <= ot_sewer_nesw &&
@@ -3657,10 +3615,7 @@ case ot_lmoe: {
   break;
 
  case ot_mine_entrance: {
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, grass_or_dirt());
-  }
+  fill_background(this, &grass_or_dirt);
   int tries = 0;
   bool build_shaft = true;
   do {
@@ -3695,7 +3650,7 @@ case ot_lmoe: {
  } break;
 
  case ot_mine_shaft: // Not intended to actually be inhabited!
-  square(this, t_rock, 0, 0, 23, 23);
+  fill_background(this, t_rock);
   square(this, t_hole, SEEX - 3, SEEY - 3, SEEX + 2, SEEY + 2);
   line(this, t_grate, SEEX - 3, SEEY - 4, SEEX + 2, SEEY - 4);
   ter_set(SEEX - 3, SEEY - 5, t_ladder_up);
@@ -4067,10 +4022,7 @@ case ot_lmoe: {
   } break;
 
  case ot_spiral_hub:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, t_rock_floor);
-  }
+  fill_background(this, t_rock_floor);
   line(this, t_rock, 23,  0, 23, 23);
   line(this, t_rock,  2, 23, 23, 23);
   line(this, t_rock,  2,  4,  2, 23);
@@ -4091,10 +4043,7 @@ case ot_lmoe: {
   break;
 
  case ot_spiral: {
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, t_rock_floor);
-  }
+  fill_background(this, t_rock_floor);
   int num_spiral = rng(1, 4);
   for (int i = 0; i < num_spiral; i++) {
    int orx = rng(SEEX - 4, SEEX), ory = rng(SEEY - 4, SEEY);
@@ -4110,10 +4059,7 @@ case ot_lmoe: {
  } break;
 
  case ot_radio_tower:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, grass_or_dirt());
-  }
+  fill_background(this, &grass_or_dirt);
   lw = rng(1, SEEX * 2 - 2);
   tw = rng(1, SEEY * 2 - 2);
   for (int i = lw; i < lw + 4; i++) {
@@ -4154,7 +4100,7 @@ case ot_lmoe: {
   break;
 
  case ot_toxic_dump: {
-  square(this, t_dirt, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+  fill_background(this, t_dirt);
   for (int n = 0; n < 6; n++) {
    int poolx = rng(4, SEEX * 2 - 5), pooly = rng(4, SEEY * 2 - 5);
    for (int i = poolx - 3; i <= poolx + 3; i++) {
@@ -4245,7 +4191,7 @@ case ot_lmoe: {
   break;
 
  case ot_cave_rat:
-  square(this, t_rock, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+  fill_background(this, t_rock);
 
   if (t_above == ot_cave_rat) { // Finale
    rough_circle(this, t_rock_floor, SEEX, SEEY, 8);
@@ -4335,7 +4281,7 @@ case ot_s_garage_north:
   case ot_s_garage_south:
   case ot_s_garage_west:
   {
-        square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
+        fill_background(this, &grass_or_dirt);
         int yard_wdth = 5;
         square(this, t_floor, 0, yard_wdth, SEEX * 2 - 4, SEEY * 2 - 4);
         line(this, t_wall_v, 0, yard_wdth, 0, SEEY*2-4);
@@ -4409,7 +4355,7 @@ case ot_s_garage_north:
 
  case ot_cabin:
 	{
-	square(this, t_grass, 0, 0, 23, 23);
+	fill_background(this, t_grass);
 
 	//Cabin design 1 Quad
 	if(one_in(2)){
@@ -4538,7 +4484,7 @@ break;
 
  case ot_farm:
 		{
-		square(this, t_grass, 0, 0, 23, 23); //basic lot
+		fill_background(this, t_grass); //basic lot
 		square(this, t_floor, 0, 0, 14, 9);  //house floor #1
 		square(this, t_wall_wood, 16, 0, 23, 9); //Barn exterior #2
 
@@ -4616,7 +4562,7 @@ break;
 		if(t_east == ot_farm)
 		{
 
-		square(this, grass_or_dirt(), 0, 0, SEEX * 2, SEEY * 2);
+		fill_background(this, &grass_or_dirt);
 		square(this, t_wall_wood, 3, 3, 20, 20);
 		square(this, t_dirtfloor, 4, 4, 19, 19);
 		line(this, t_door_metal_locked, 8, 20, 15, 20);
@@ -4666,7 +4612,7 @@ break;
 		}
 		else
 		{
-		square(this, t_grass, 0, 0, 23, 23); // basic lot
+		fill_background(this, t_grass); // basic lot
 		square(this, t_fence_barbed, 1, 1, 22, 22);
 		square(this, t_dirt, 2, 2, 21, 21);
 		ter_set(1, 1, t_fence_post);
@@ -4803,10 +4749,8 @@ break;
  case ot_bank_east:
  case ot_bank_south:
  case ot_bank_west: {
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, grass_or_dirt());
-  }
+  fill_background(this, &grass_or_dirt);
+
   square(this, t_floor, 1,  1, 22, 22);
   line(this, t_wall_h,  1,  1, 22,  1);
   line(this, t_wall_h,  2,  6, 19,  6);
@@ -4895,73 +4839,53 @@ break;
  case ot_bar_east:
  case ot_bar_south:
  case ot_bar_west: {
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, t_pavement);
-  }
-
+  fill_background(this, t_pavement);
   square(this, t_floor, 2, 2, 21, 15);
   square(this, t_floor, 18, 17, 21, 18);
-  // Main walls
-  line(this, t_wall_h, 2, 1, 21, 1);
-  line(this, t_wall_h, 2, 16, 21, 16);
-  line(this, t_wall_h, 18, 19, 21, 19);
-  line(this, t_wall_v, 1, 1, 1, 16);
-  line(this, t_wall_v, 22, 1, 22, 19);
-  line(this, t_wall_v, 17, 18, 17, 19);
-  // Main bar counter
-  line(this, t_counter, 19, 3, 19, 10);
-  line(this, t_counter, 20, 3, 21, 3);
-  ter_set(20,10, t_counter);
-   // Back room counter
-  line(this, t_counter, 18, 18, 21, 18);
-  // Tables
-  square(this, t_table, 4, 3, 5, 4);
-  square(this, t_table, 9, 3, 10, 4);
-  square(this, t_table, 14, 3, 15, 4);
-  square(this, t_table, 4, 8, 5, 9);
-  square(this, t_table, 9, 8, 10, 9);
-  square(this, t_table, 14, 8, 15, 9);
-  // Pool tables
-  square(this, t_pool_table,      4, 13,  8, 14);
+
+  mapf::formatted_set_terrain(this, 1, 1,
+"\
+|---------++---------|\n\
+|                    |\n\
+|  ##   ##   ##   ccc|\n\
+|  ##   ##   ##   c &|\n\
+|                 c B|\n\
+|                 c B|\n\
+|                 c B|\n\
+|  ##   ##   ##   c B|\n\
+|  ##   ##   ##   c  |\n\
+|                 cc |\n\
+|                    |\n\
+|                    |\n\
+|  xxxxx    xxxxx    |\n\
+|  xxxxx    xxxxx    |\n\
+|                    |\n\
+|------------------D-|\n\
+                D   &|\n\
+                |cccc|\n\
+                |----|\
+", mapf::basic_bind("- | + D # c x & B", t_wall_h, t_wall_v, t_door_c, t_door_locked, t_table, t_counter, t_pool_table, t_fridge, t_rack),
+  mapf::end());
+
+  // Pool table items
   place_items(mi_pool_table, 50,  4, 13,  8, 14, false, 0);
-  square(this, t_pool_table,     13, 13, 17, 14);
   place_items(mi_pool_table, 50, 13, 13, 17, 14, false, 0);
+
   // 1 in 4 chance to have glass walls in front
   if (one_in(4)) {
-   line(this, t_wall_glass_h, 3, 1, 5, 1);
-   line(this, t_wall_glass_h, 7, 1, 9, 1);
-   line(this, t_wall_glass_h, 14, 1, 16, 1);
-   line(this, t_wall_glass_h, 18, 1, 20, 1);
-   line(this, t_wall_glass_v, 1, 3, 1, 5);
-   line(this, t_wall_glass_v, 1, 7, 1, 9);
-   line(this, t_wall_glass_v, 1, 11, 1, 13);
+   mapf::formatted_set_terrain(this, 1, 1, "  === ===    === ===  ", mapf::basic_bind("=", t_wall_glass_h), mapf::end() );
+   mapf::formatted_set_terrain(this, 1, 1, "\n\n=\n=\n=\n\n=\n=\n=\n\n=\n=\n=\n\n", mapf::basic_bind("=", t_wall_glass_v), mapf::end());
   } else {
-   ter_set(3,1, t_window);
-   ter_set(5,1, t_window);
-   ter_set(7,1, t_window);
-   ter_set(16,1, t_window);
-   ter_set(18,1, t_window);
-   ter_set(20,1, t_window);
-   ter_set(1,6, t_window);
-   ter_set(1,11, t_window);
+   mapf::formatted_set_terrain(this, 1, 1, "  : : :        : : :  ", mapf::basic_bind(":", t_window), mapf::end() );
+   mapf::formatted_set_terrain(this, 1, 1, "\n\n\n\n\n:\n\n\n\n\n:\n\n\n\n", mapf::basic_bind(":", t_window), mapf::end());
   }
-  // Fridges and closets
-  ter_set(21,4, t_fridge);
-  line(this, t_rack, 21, 5, 21, 8);
-  ter_set(21,17, t_fridge); // Back room fridge
-  // Door placement
-  ter_set(11,1, t_door_c);
-  ter_set(12,1, t_door_c);
-  ter_set(20, 16, t_door_locked);
-  ter_set(17, 17, t_door_locked);
 
   // Item placement
-  place_items(mi_snacks, 30, 19, 3, 19, 10, false, 0);
+  place_items(mi_snacks, 30, 19, 3, 19, 10, false, 0); //counter
   place_items(mi_snacks, 50, 18, 18, 21, 18, false, 0);
-  place_items(mi_fridgesnacks, 60, 21, 4, 21, 4, false, 0);
+  place_items(mi_fridgesnacks, 60, 21, 4, 21, 4, false, 0); // fridge
   place_items(mi_fridgesnacks, 60, 21, 17, 21, 17, false, 0);
-  place_items(mi_alcohol, 70, 21, 5, 21, 8, false, 0);
+  place_items(mi_alcohol, 70, 21, 5, 21, 8, false, 0); // rack
   place_items(mi_trash, 15, 2, 17, 16, 19, true, 0);
 
   if (terrain_type == ot_bar_east)
@@ -4977,10 +4901,7 @@ break;
  case ot_pawn_south:
  case ot_pawn_west:
 // Init to plain grass/dirt
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, grass_or_dirt());
-  }
+  fill_background(this, &grass_or_dirt);
 
   tw = rng(0, 10);
   bw = SEEY * 2 - rng(1, 2) - rng(0, 1) * rng(0, 1);
@@ -5081,10 +5002,7 @@ break;
  case ot_mil_surplus_south:
  case ot_mil_surplus_west:
 // Init to plain grass/dirt
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, grass_or_dirt());
-  }
+  fill_background(this, &grass_or_dirt);
   lw = rng(0, 2);
   rw = SEEX * 2 - rng(1, 3);
   tw = rng(0, 4);
@@ -5133,7 +5051,7 @@ break;
   break;
 
  case ot_megastore_entrance: {
-  square(this, t_floor, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
+  fill_background(this, t_floor);
 // Construct facing north; below, we'll rotate to face road
   line(this, t_wall_glass_h, 0, 0, SEEX * 2 - 1, 0);
   ter_set(SEEX, 0, t_door_glass_c);
@@ -5361,7 +5279,7 @@ break;
   break;
 
  case ot_hospital:
-  square(this, t_floor, 0, 0, 23, 23);
+  fill_background(this, t_floor);
 // We always have walls on the left and bottom
   line(this, t_wall_v, 0,  0,  0, 22);
   line(this, t_wall_h, 0, 23, 23, 23);
@@ -5906,7 +5824,7 @@ break;
   break;
 
    case ot_fema_entrance: {
-  square(this, t_dirt, 0, 0, 23, 23);
+  fill_background(this, t_dirt);
 // Left wall
   line(this, t_chainfence_v,  0,  0,  0, SEEY * 2 - 2);
   line(this, t_fence_barbed, 1, 4, 9, 12);
@@ -5937,7 +5855,7 @@ break;
  } break;
 
  case ot_fema: {
-  square(this, t_dirt, 0, 0, 23, 23);
+  fill_background(this, t_dirt);
   line(this, t_chainfence_v, 0, 0, 0, 23);
   line(this, t_chainfence_h, 0, 23, 23, 23);
   if (t_north != ot_fema_entrance && t_north != ot_fema) {
@@ -6364,7 +6282,7 @@ break;
   break;
 
  case ot_triffid_grove:
-  square(this, t_dirt, 0, 0, 23, 23);
+  fill_background(this, t_dirt);
   for (int rad = 5; rad < SEEX - 2; rad += rng(2, 3)) {
    square(this, t_tree, rad, rad, 23 - rad, 23 - rad);
    square(this, t_dirt, rad + 1, rad + 1, 22 - rad, 22 - rad);
@@ -6384,7 +6302,7 @@ break;
   break;
 
  case ot_triffid_roots: {
-  square(this, t_root_wall, 0, 0, 23, 23);
+  fill_background(this, t_root_wall);
   int node = 0;
   int step = 0;
   bool node_built[16];
@@ -6457,7 +6375,7 @@ break;
  } break;
 
  case ot_triffid_finale: {
-  square(this, t_root_wall, 0, 0, 23, 23);
+  fill_background(this, t_root_wall);
   square(this, t_dirt, 1, 1, 4, 4);
   square(this, t_dirt, 19, 19, 22, 22);
 // Drunken walk until we reach the heart (lower right, [19, 19])
@@ -6815,10 +6733,7 @@ break;
  case ot_ants_ns:
  case ot_ants_ew:
   x = SEEX;
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, t_rock);
-  }
+  fill_background(this, t_rock);
   for (int j = 0; j < SEEY * 2; j++) {
    for (int i = x - 2; i <= x + 3; i++) {
     if (i >= 1 && i < SEEX * 2 - 1)
@@ -6842,10 +6757,7 @@ break;
   y = 1;
   rn = 0;
 // First, set it all to rock
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, t_rock);
-  }
+  fill_background(this, t_rock);
 
   for (int i = SEEX - 2; i <= SEEX + 3; i++) {
    ter_set(i, 0, t_rock_floor);
@@ -6894,10 +6806,7 @@ break;
  case ot_ants_new:
  case ot_ants_nsw:
  case ot_ants_esw:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, t_rock);
-  }
+  fill_background(this, t_rock);
   x = SEEX;
   for (int j = 0; j < SEEY * 2; j++) {
    for (int i = x - 2; i <= x + 3; i++) {
@@ -6931,10 +6840,7 @@ break;
   break;
 
  case ot_ants_nesw:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, t_rock);
-  }
+  fill_background(this, t_rock);
   x = SEEX;
   for (int j = 0; j < SEEY * 2; j++) {
    for (int i = x - 2; i <= x + 3; i++) {
@@ -7143,10 +7049,7 @@ break;
  default:
   debugmsg("Error: tried to generate map for omtype %d, \"%s\"", terrain_type,
            oterlist[terrain_type].name.c_str());
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++)
-    ter_set(i, j, t_floor);
-  }
+  fill_background(this, t_floor);
   break;
  }
 
@@ -8088,27 +7991,21 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
   case room_bionics:
    if (rotate % 2 == 0) {
     int biox = x1 + 2, bioy = int((y1 + y2) / 2);
-    m->ter_set(biox    , bioy - 1, t_wall_h);
-    m->ter_set(biox + 1, bioy - 1, t_wall_h);
-    m->ter_set(biox - 1, bioy - 1, t_wall_h);
-    m->ter_set(biox    , bioy + 1, t_wall_h);
-    m->ter_set(biox + 1, bioy + 1, t_wall_h);
-    m->ter_set(biox - 1, bioy + 1, t_wall_h);
-    m->ter_set(biox    , bioy    , t_counter);
-    m->ter_set(biox + 1, bioy    , t_reinforced_glass_v);
-    m->ter_set(biox - 1, bioy    , t_wall_v);
+    mapf::formatted_set_terrain(m, biox-1, bioy-1,
+"\
+---\n\
+|c=\n\
+---\n\
+", mapf::basic_bind("c - | =", t_counter, t_wall_h, t_wall_v, t_reinforced_glass_v), mapf::end());
     m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     biox = x2 - 2;
-    m->ter_set(biox    , bioy - 1, t_wall_h);
-    m->ter_set(biox - 1, bioy - 1, t_wall_h);
-    m->ter_set(biox + 1, bioy - 1, t_wall_h);
-    m->ter_set(biox    , bioy + 1, t_wall_h);
-    m->ter_set(biox - 1, bioy + 1, t_wall_h);
-    m->ter_set(biox + 1, bioy + 1, t_wall_h);
-    m->ter_set(biox    , bioy    , t_counter);
-    m->ter_set(biox - 1, bioy    , t_reinforced_glass_v);
-    m->ter_set(biox + 1, bioy    , t_wall_v);
+    mapf::formatted_set_terrain(m, biox-1, bioy-1,
+"\
+---\n\
+=c|\n\
+---\n\
+", mapf::basic_bind("c - | =", t_counter, t_wall_h, t_wall_v, t_reinforced_glass_v), mapf::end());
     m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
@@ -8120,27 +8017,21 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int rotate)
     tmpcomp->add_failure(COMPFAIL_SECUBOTS);
    } else {
     int bioy = y1 + 2, biox = int((x1 + x2) / 2);
-    m->ter_set(biox - 1, bioy    , t_wall_v);
-    m->ter_set(biox - 1, bioy + 1, t_wall_v);
-    m->ter_set(biox - 1, bioy - 1, t_wall_v);
-    m->ter_set(biox + 1, bioy    , t_wall_v);
-    m->ter_set(biox + 1, bioy + 1, t_wall_v);
-    m->ter_set(biox + 1, bioy - 1, t_wall_v);
-    m->ter_set(biox    , bioy    , t_counter);
-    m->ter_set(biox    , bioy + 1, t_reinforced_glass_h);
-    m->ter_set(biox    , bioy - 1, t_wall_h);
+    mapf::formatted_set_terrain(m, biox-1, bioy-1,
+"\
+|-|\n\
+|c|\n\
+|=|\n\
+", mapf::basic_bind("c - | =", t_counter, t_wall_h, t_wall_v, t_reinforced_glass_h), mapf::end());
     m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     bioy = y2 - 2;
-    m->ter_set(biox - 1, bioy    , t_wall_v);
-    m->ter_set(biox - 1, bioy - 1, t_wall_v);
-    m->ter_set(biox - 1, bioy + 1, t_wall_v);
-    m->ter_set(biox + 1, bioy    , t_wall_v);
-    m->ter_set(biox + 1, bioy - 1, t_wall_v);
-    m->ter_set(biox + 1, bioy + 1, t_wall_v);
-    m->ter_set(biox    , bioy    , t_counter);
-    m->ter_set(biox    , bioy - 1, t_reinforced_glass_h);
-    m->ter_set(biox    , bioy + 1, t_wall_h);
+    mapf::formatted_set_terrain(m, biox-1, bioy-1,
+"\
+|=|\n\
+|c|\n\
+|-|\n\
+", mapf::basic_bind("c - | =", t_counter, t_wall_h, t_wall_v, t_reinforced_glass_h), mapf::end());
     m->place_items(mi_bionics_common, 70, biox, bioy, biox, bioy, false, 0);
 
     int compx = int((x1 + x2) / 2), compy = int((y1 + y2) / 2);
@@ -8621,10 +8512,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
  switch (type) {
 
  case room_mansion_courtyard:
-  for (int x = x1; x <= x2; x++) {
-   for (int y = y1; y <= y2; y++)
-    m->ter_set(x, y, grass_or_dirt());
-  }
+  square(m, &grass_or_dirt, x1, y1, x2, y2);
   if (one_in(4)) { // Tree grid
    for (int x = 1; x <= dx / 2; x += 4) {
     for (int y = 1; y <= dx / 2; y += 4) {
@@ -9352,12 +9240,28 @@ void line(map *m, ter_id type, int x1, int y1, int x2, int y2)
  m->ter_set(x1, y1, type);
 }
 
+void fill_background(map *m, ter_id type)
+{
+ square(m, type, 0, 0, SEEX*2-1, SEEY*2-1);
+}
+
+void fill_background(map *m, ter_id (*f)())
+{
+ square(m, f, 0, 0, SEEX*2-1, SEEY*2-1);
+}
+
 void square(map *m, ter_id type, int x1, int y1, int x2, int y2)
 {
- for (int x = x1; x <= x2; x++) {
+ for (int x = x1; x <= x2; x++)
   for (int y = y1; y <= y2; y++)
    m->ter_set(x, y, type);
- }
+}
+
+void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2)
+{
+ for (int x = x1; x <= x2; x++)
+  for (int y = y1; y <= y2; y++)
+   m->ter_set(x, y, f());
 }
 
 void rough_circle(map *m, ter_id type, int x, int y, int rad)
