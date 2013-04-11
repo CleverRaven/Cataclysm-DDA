@@ -349,6 +349,7 @@ class game
   bool vehicle_near ();
   void handbrake ();
   void examine();// Examine nearby terrain	'e'
+  void advanced_inv();
   // open vehicle interaction screen
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
