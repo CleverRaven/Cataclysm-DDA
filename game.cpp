@@ -4971,7 +4971,9 @@ void game::advanced_inv()
         }
         else if('m' == c)
         {
-            if(screen == 0 && left_size == 0 || screen == 1 && right_size == 0) // if the active screen has no item.
+            // If the active screen has no item.
+            if((screen == 0 && left_size == 0) ||
+               (screen == 1 && right_size == 0))
             {
                 continue;
             }
