@@ -431,33 +431,25 @@ bool game::do_turn()
  return false;
 }
 
-void game::rustCheck() {
-  if (OPTIONS[OPT_SKILL_RUST] == 2)
-    return;
+void game::rustCheck()
+{
+    bool forgetful = u.has_trait(PF_FORGETFUL);
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+         aSkill != Skill::skills.end(); ++aSkill) {
+        bool charged_bio_mem = u.has_bionic("bio_memory") && u.power_level > 0;
+        int oldSkillLevel = u.skillLevel(*aSkill);
 
-  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
-       aSkill != Skill::skills.end(); ++aSkill) {
-    int skillLevel = u.skillLevel(*aSkill);
-    int forgetCap = skillLevel > 7 ? 7 : skillLevel;
-
-    if (skillLevel > 0 && turn % (8192 / int(pow(2, double(forgetCap - 1)))) == 0) {
-      if (rng(1,12) % (u.has_trait(PF_FORGETFUL) ? 3 : 4)) {
-        if (u.has_bionic("bio_memory") && u.power_level > 0) {
-          if (one_in(5))
+        if (u.skillLevel(*aSkill).rust(turn, forgetful, charged_bio_mem))
+        {
             u.power_level--;
-        } else {
-          if (OPTIONS[OPT_SKILL_RUST] == 0 || u.skillLevel(*aSkill).exercise() > 0) {
-            int newLevel;
-            u.skillLevel(*aSkill).rust(newLevel);
-
-            if (newLevel < skillLevel) {
-              add_msg("Your skill in %s has reduced to %d!", (*aSkill)->name().c_str(), newLevel);
-            }
-          }
         }
-      }
+        int newSkill =u.skillLevel(*aSkill);
+        if (newSkill < oldSkillLevel)
+        {
+            add_msg("Your skill in %s has reduced to %d!",
+                    (*aSkill)->name().c_str(), newSkill);
+        }
     }
-  }
 }
 
 void game::process_events()

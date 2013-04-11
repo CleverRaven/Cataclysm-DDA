@@ -7,6 +7,8 @@
 
 #include "picojson.h"
 
+#include "options.h"
+
 Skill::Skill() {
   _ident = std::string("null");
 
@@ -138,17 +140,29 @@ int SkillLevel::train(int &level) {
   return _exercise;
 }
 
-int SkillLevel::rust(int &level) {
-  --_exercise;
+bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem)
+{
+    if (OPTIONS[OPT_SKILL_RUST] == 2) return false;
 
-  if (_exercise == 100) {
-    _exercise = 0;
-    --_level;
-  }
+    int forgetCap = _level > 7 ? 7 : _level;
+    if (_level > 0 && turn % (8192 / int(pow(2, double(forgetCap - 1)))) == 0)
+    {
+        if (rng(1,12) % forgetful ? 3 : 4)
+        {
+            if (charged_bio_mem) return one_in(5);
+            if (OPTIONS[OPT_SKILL_RUST] == 0 || _exercise > 0)
+            {
+                --_exercise;
 
-  level = _level;
-
-  return _exercise;
+                if (_exercise == 100)
+                {
+                    _exercise = 0;
+                    --_level;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 void SkillLevel::practice(const calendar& turn)
