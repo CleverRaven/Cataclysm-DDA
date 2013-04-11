@@ -434,7 +434,7 @@ bool game::do_turn()
 void game::rustCheck()
 {
     bool forgetful = u.has_trait(PF_FORGETFUL);
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+    for (std::vector<Skill*>::iterator aSkill = ++Skill::skills.begin();
          aSkill != Skill::skills.end(); ++aSkill) {
         bool charged_bio_mem = u.has_bionic("bio_memory") && u.power_level > 0;
         int oldSkillLevel = u.skillLevel(*aSkill);

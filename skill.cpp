@@ -130,7 +130,7 @@ int SkillLevel::comprehension(int intellect, bool fastLearner) {
 int SkillLevel::train(int &level) {
   ++_exercise;
 
-  if (_exercise == 100) {
+  if (_exercise >= 100) {
     _exercise = 0;
     ++_level;
   }
@@ -154,9 +154,9 @@ bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem
             {
                 --_exercise;
 
-                if (_exercise == 100)
+                if (_exercise <= 0)
                 {
-                    _exercise = 0;
+                    _exercise = 99;
                     --_level;
                 }
             }
