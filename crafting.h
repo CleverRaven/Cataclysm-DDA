@@ -10,19 +10,7 @@
 
 #define MAX_DISPLAYED_RECIPES 18
 
-enum craft_cat {
-CC_NULL = 0,
-CC_WEAPON,
-CC_AMMO,
-CC_FOOD,
-CC_DRINK,
-CC_CHEM,
-CC_ELECTRONIC,
-CC_ARMOR,
-CC_MISC,
-CC_NONCRAFT,
-NUM_CC
-};
+typedef std::string craft_cat;
 
 struct component
 {

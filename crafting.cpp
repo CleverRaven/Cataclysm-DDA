@@ -1,5 +1,8 @@
 #include <string>
+#include <iostream>
+#include <fstream>
 #include <sstream>
+#include "picojson.h"
 #include "input.h"
 #include "game.h"
 #include "options.h"
@@ -7,1890 +10,320 @@
 #include "crafting.h"
 #include "inventory.h"
 
+//apparently we can't declare this in crafting.h? Complained about multiple definition.
+std::vector<craft_cat> craft_cat_list;
+
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 
 // This function just defines the recipes used throughout the game.
 void game::init_recipes()
 {
- int id = -1;
- int tl, cl;
- recipe* last_rec = NULL;
-
- #define RECIPE(result, category, skill1, skill2, difficulty, time, reversible, autolearned) \
-tl = -1; cl = -1; id++;\
-last_rec = new recipe(id, result, skill1, skill2, difficulty, time, reversible, autolearned);\
-recipes[category].push_back(last_rec)
-
- #define TOOL(item, amount)  ++tl; last_rec->tools[tl].push_back(component(item,amount))
- #define TOOLCONT(item, amount) last_rec->tools[tl].push_back(component(item,amount))
- #define COMP(item, amount)  ++cl; last_rec->components[cl].push_back(component(item,amount))
- #define COMPCONT(item, amount) last_rec->components[cl].push_back(component(item,amount))
-
-/**
- * Macro Tool Groups
- * Placeholder for imminent better system, this is already ridiculous
- * Usage:
- * TOOL(TG_KNIVES,NULL);
- */
-
-#define TG_KNIVES \
- TOOL("knife_steak", -1); TOOLCONT("knife_combat", -1); \
- TOOLCONT("knife_butcher", -1); TOOLCONT("pockknife", -1); \
- TOOLCONT("scalpel", -1); TOOLCONT("machete", -1); \
- TOOLCONT("broadsword", -1); TOOLCONT("toolset", -1);
-#define TG_KNIVES_CONT \
- TOOLCONT("knife_steak", -1); TOOLCONT("knife_combat", -1); \
- TOOLCONT("knife_butcher", -1); TOOLCONT("pockknife", -1); \
- TOOLCONT("scalpel", -1); TOOLCONT("machete", -1); \
- TOOLCONT("broadsword", -1); TOOLCONT("toolset", -1);
-
-
-/* A recipe will not appear in your menu until your level in the primary skill
- * is at least equal to the difficulty.  At that point, your chance of success
- * is still not great; a good 25% improvement over the difficulty is important
- */
-
-// NON-CRAFTABLE BUT CAN BE DISASSEMBLED (set category to CC_NONCRAFT)
-  RECIPE("knife_steak", CC_NONCRAFT, NULL, NULL, 0, 2000, true, false);
-  COMP("spike", 1);
-
-  RECIPE("lawnmower", CC_NONCRAFT, NULL, NULL, 0, 1000, true, false);
-  TOOL("wrench", -1);
-  TOOLCONT("toolset", -1);
-  COMP("scrap", 8);
-  COMP("spring", 2);
-  COMP("blade", 2);
-  COMP("1cyl_combustion", 1);
-  COMP("pipe", 3);
-
-  RECIPE("lighter", CC_NONCRAFT, NULL, NULL, 0, 100, true, false);
-  COMP("pilot_light", 1);
-
-  RECIPE("tshirt", CC_NONCRAFT, "tailor", NULL, 0, 500, true, false);
-  COMP("rag", 5);
-
-  RECIPE("tank_top", CC_NONCRAFT, "tailor", NULL, 0, 500, true, false);
-  COMP("rag", 5);
-
-  RECIPE("string_36", CC_NONCRAFT, NULL, NULL, 0, 5000, true, false);
-  TG_KNIVES
-  COMP("string_6", 6);
-
-  RECIPE("rope_6", CC_NONCRAFT, "tailor", NULL, 0, 5000, true, false);
-  TG_KNIVES
-  COMP("string_36", 6);
-
-  RECIPE("rope_30", CC_NONCRAFT, "tailor", NULL, 0, 5000, true, false);
-  TG_KNIVES
-  COMP("rope_6", 5);
-
-  RECIPE("lightstrip_dead", CC_NONCRAFT, "electronics", NULL, 0, 1000, true, false);
-  TG_KNIVES
-  TOOLCONT("screwdriver", -1);
-  COMP("amplifier", 1);
-  // CRAFTABLE
-
-  // WEAPONS
-
-  RECIPE("makeshift_machete", CC_WEAPON, NULL, NULL, 0, 5000, true, true);
-  COMP("duct_tape", 50);
-  COMP("blade", 1);
-
-  RECIPE("makeshift_halberd", CC_WEAPON, NULL, NULL, 0, 5000, true, true);
-  COMP("duct_tape", 100);
-  COMP("blade", 1);
-  COMP("stick", 1);
-  COMPCONT("mop", 1);
-  COMPCONT("broom", 1);
-
-  RECIPE("spear_wood", CC_WEAPON, NULL, NULL, 0, 800, false, true);
-  TOOL("hatchet", -1);
-  TG_KNIVES_CONT
-  COMP("stick", 1);
-  COMPCONT("broom", 1);
-  COMPCONT("mop", 1);
-  COMPCONT("2x4", 1);
-  COMPCONT("pool_cue", 1);
-
-  RECIPE("javelin", CC_WEAPON, "survival", NULL, 1, 5000, false, true);
-  TOOL("hatchet", -1);
-  TG_KNIVES_CONT
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  COMP("spear_wood", 1);
-  COMP("rag", 1);
-  COMPCONT("leather", 1);
-  COMPCONT("fur", 1);
-  COMP("plant_fibre", 20);
-  COMPCONT("sinew", 20);
-  COMPCONT("thread", 20);
-
-  RECIPE("spear_knife", CC_WEAPON, "stabbing", NULL, 0, 600, true, true);
-  COMP("stick", 1);
-  COMPCONT("broom", 1);
-  COMPCONT("mop", 1);
-  COMP("spike", 1);
-  COMP("string_6", 6);
-  COMPCONT("string_36", 1);
-
-  RECIPE("longbow", CC_WEAPON, "archery", "survival", 2, 15000, true, true);
-  TOOL("hatchet", -1);
-  TG_KNIVES_CONT
-  COMP("stick", 1);
-  COMP("string_36", 2);
-  COMPCONT("sinew", 200);
-  COMPCONT("plant_fibre", 200);
-
-  RECIPE("arrow_wood", CC_WEAPON, "archery", "survival", 1, 5000, false, true);
-  TOOL("hatchet", -1);
-  TG_KNIVES_CONT
-  COMP("stick", 1);
-  COMPCONT("broom", 1);
-  COMPCONT("mop", 1);
-  COMPCONT("2x4", 1);
-  COMPCONT("bee_sting", 1);
-
-  RECIPE("nailboard", CC_WEAPON, NULL, NULL, 0, 1000, true, true);
-  TOOL("hatchet", -1);
-  TOOLCONT("hammer", -1);
-  TOOLCONT("rock", -1);
-  TOOLCONT("toolset", -1);
-  COMP("2x4", 1);
-  COMPCONT("stick", 1);
-  COMP("nail", 6);
-
-  RECIPE("nailbat", CC_WEAPON, NULL, NULL, 0, 1000, true, true);
-  TOOL("hatchet", -1);
-  TOOLCONT("hammer", -1);
-  TOOLCONT("rock", -1);
-  TOOLCONT("toolset", -1);
-  COMP("bat", 1);
-  COMP("nail", 6);
-
-  // molotovs use 750ml of flammable liquids
-  RECIPE("molotov", CC_WEAPON, NULL, NULL, 0, 500, false, true);
-  COMP("rag", 1);
-  COMP("bottle_glass", 1);
-  COMPCONT("flask_glass", 1);
-  COMP("whiskey", 14);
-  COMPCONT("vodka", 14);
-  COMPCONT("rum", 14);
-  COMPCONT("tequila", 14);
-  COMPCONT("gin", 14);
-  COMPCONT("triple_sec", 14);
-  COMPCONT("gasoline", 600);
-
-  RECIPE("pipebomb", CC_WEAPON, "mechanics", NULL, 1, 750, false, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pipe", 1);
-  COMP("gasoline", 200);
-  COMPCONT("shot_bird", 6);
-  COMPCONT("shot_00", 2);
-  COMPCONT("shot_slug", 2);
-  COMP("string_36", 1);
-  COMPCONT("string_6", 1);
-
-  RECIPE("shotgun_sawn", CC_WEAPON, "gun", NULL, 0, 2000, false, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  COMP("shotgun_d", 1);
-  COMPCONT("remington_870", 1);
-  COMPCONT("mossberg_500", 1);
-
-  RECIPE("revolver_shotgun", CC_WEAPON, "gun", "mechanics", 2, 6000, false, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 30);
-  TOOLCONT("toolset", 3);
-  COMP("shotgun_s", 1);
-
-  RECIPE("saiga_sawn", CC_WEAPON, "gun", NULL, 0, 2000, false, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  COMP("saiga_12", 1);
-
-  RECIPE("bolt_wood", CC_WEAPON, "mechanics", "archery", 1, 5000, false, true);
-  TOOL("hatchet", -1);
-  TG_KNIVES_CONT
-  COMP("stick", 1);
-  COMPCONT("broom", 1);
-  COMPCONT("mop", 1);
-  COMPCONT("2x4", 1);
-  COMPCONT("bee_sting", 1);
-
-  RECIPE("crossbow", CC_WEAPON, "mechanics", "archery", 3, 15000, true, true);
-  TOOL("wrench", -1);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("2x4", 1);
-  COMPCONT("stick", 4);
-  COMP("hose", 1);
-
-  RECIPE("rifle_22", CC_WEAPON, "mechanics", "gun", 3, 12000, true, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pipe", 1);
-  COMP("2x4", 1);
-
-  RECIPE("rifle_9mm", CC_WEAPON, "mechanics", "gun", 3, 14000, true, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pipe", 1);
-  COMP("2x4", 1);
-
-  RECIPE("smg_9mm", CC_WEAPON, "mechanics", "gun", 5, 18000, true, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("hammer", -1);
-  TOOLCONT("rock", -1);
-  TOOLCONT("hatchet", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pipe", 1);
-  COMP("2x4", 2);
-  COMP("nail", 4);
-
-  RECIPE("smg_45", CC_WEAPON, "mechanics", "gun", 5, 20000, true, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("hammer", -1);
-  TOOLCONT("rock", -1);
-  TOOLCONT("hatchet", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pipe", 1);
-  COMP("2x4", 2);
-  COMP("nail", 4);
-
-  RECIPE("flamethrower_simple", CC_WEAPON, "mechanics", "gun", 6, 12000, true, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pilot_light", 2);
-  COMP("pipe", 1);
-  COMP("hose", 2);
-  COMP("bottle_glass", 4);
-  COMPCONT("bottle_plastic", 6);
-
-  RECIPE("launcher_simple", CC_WEAPON, "mechanics", "launcher", 6, 6000, true, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pipe", 1);
-  COMP("2x4", 1);
-  COMP("nail", 1);
-
-  RECIPE("shot_he", CC_WEAPON, "mechanics", "gun", 4, 2000, false, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("superglue", 1);
-  COMP("shot_slug", 4);
-  COMP("gasoline", 200);
-
-  RECIPE("acidbomb", CC_WEAPON, "cooking", NULL, 1, 10000, false, true);
-  TOOL("hotplate", 5);
-  TOOLCONT("toolset", 1);
-  COMP("bottle_glass", 1);
-  COMPCONT("flask_glass", 1);
-  COMP("battery", 500);
-
-  RECIPE("grenade", CC_WEAPON, "mechanics", NULL, 2, 5000, false, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pilot_light", 1);
-  COMP("superglue", 1);
-  COMPCONT("string_36", 1);
-  COMP("can_food", 1);
-  COMPCONT("can_drink", 1);
-  COMPCONT("canister_empty", 1);
-  COMP("nail", 30);
-  COMPCONT("bb", 100);
-  COMP("shot_bird", 6);
-  COMPCONT("shot_00", 3);
-  COMPCONT("shot_slug", 2);
-  COMPCONT("gasoline", 200);
-  COMPCONT("gunpowder", 72);
-
-  RECIPE("chainsaw_off", CC_WEAPON, "mechanics", NULL, 4, 20000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("hammer", -1);
-  TOOLCONT("hatchet", -1);
-  TOOL("wrench", -1);
-  TOOLCONT("toolset", -1);
-  COMP("motor", 1);
-  COMP("chain", 1);
-
-  RECIPE("smokebomb", CC_WEAPON, "cooking", "mechanics", 3, 7500, false, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("wrench", -1);
-  TOOLCONT("toolset", -1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-  COMPCONT("salt_water", 1);
-  COMP("candy", 1);
-  COMPCONT("cola", 1);
-  COMP("vitamins", 10);
-  COMPCONT("aspirin", 8);
-  COMP("canister_empty", 1);
-  COMPCONT("can_food", 1);
-  COMPCONT("can_drink",1);
-  COMP("superglue", 1);
-
-
-  RECIPE("gasbomb", CC_WEAPON, "cooking", "mechanics", 4, 8000, false, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("wrench", -1);
-  TOOLCONT("toolset", -1);
-  COMP("bleach", 2);
-  COMP("ammonia", 2);
-  COMP("canister_empty", 1);
-  COMPCONT("can_food", 1);
-  COMPCONT("can_drink",1);
-  COMP("superglue", 1);
-
-  RECIPE("nx17", CC_WEAPON, "electronics", "mechanics", 8, 40000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 6);
-  TOOLCONT("toolset", 6);
-  COMP("vacutainer", 1);
-  COMP("power_supply", 8);
-  COMP("amplifier", 8);
-
-  RECIPE("mininuke", CC_WEAPON, "mechanics", "electronics", 10, 40000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("wrench", -1);
-  TOOLCONT("toolset", -1);
-  COMP("can_food", 2);
-  COMPCONT("steel_chunk", 2);
-  COMPCONT("canister_empty", 1);
-  COMPCONT("can_drink", 2);
-  COMP("grenade", 1);
-  COMPCONT("40mm_frag", 2);
-  COMPCONT("40mm_concussive", 2);
-  COMP("plut_cell", 6);
-  COMP("battery", 2);
-  COMP("power_supply", 1);
-
-  RECIPE("9mm", CC_AMMO, "gun", "mechanics", 2, 25000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("9mm_casing", 50);
-  COMP("smpistol_primer", 50);
-  COMP("gunpowder", 200);
-  COMP("lead", 200);
-
-  RECIPE("9mmP", CC_AMMO, "gun", "mechanics", 4, 12500, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("9mm_casing", 25);
-  COMP("smpistol_primer", 25);
-  COMP("gunpowder", 125);
-  COMP("lead", 100);
-
-  RECIPE("9mmP2", CC_AMMO, "gun", "mechanics", 6, 5000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("9mm_casing", 10);
-  COMP("smpistol_primer", 10);
-  COMP("gunpowder", 60);
-  COMP("lead", 40);
-
-  RECIPE("38_special", CC_AMMO, "gun", "mechanics", 2, 25000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("38_casing", 50);
-  COMP("smpistol_primer", 50);
-  COMP("gunpowder", 250);
-  COMP("lead", 250);
-
-  RECIPE("38_super", CC_AMMO, "gun", "mechanics", 4, 12500, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("38_casing", 25);
-  COMP("smpistol_primer", 25);
-  COMP("gunpowder", 175);
-  COMP("lead", 125);
-
-  RECIPE("40sw", CC_AMMO, "gun", "mechanics", 3, 30000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("40_casing", 50);
-  COMP("smpistol_primer", 50);
-  COMP("gunpowder", 300);
-  COMP("lead", 300);
-
-  RECIPE("10mm", CC_AMMO, "gun", "mechanics", 5, 25000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("40_casing", 50);
-  COMP("lgpistol_primer", 50);
-  COMP("gunpowder", 400);
-  COMP("lead", 400);
-
-  RECIPE("44magnum", CC_AMMO, "gun", "mechanics", 4, 25000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("44_casing", 50);
-  COMP("lgpistol_primer", 50);
-  COMP("gunpowder", 500);
-  COMP("lead", 500);
-
-  RECIPE("45_acp", CC_AMMO, "gun", "mechanics", 3, 25000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("45_casing", 50);
-  COMP("lgpistol_primer", 50);
-  COMP("gunpowder", 500);
-  COMP("lead", 400);
-
-  RECIPE("45_super", CC_AMMO, "gun", "mechanics", 6, 5000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("45_casing", 10);
-  COMP("lgpistol_primer", 10);
-  COMP("gunpowder", 120);
-  COMP("lead", 100);
-
-  RECIPE("57mm", CC_AMMO, "gun", "mechanics", 4, 50000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("57mm_casing", 100);
-  COMP("smrifle_primer", 100);
-  COMP("gunpowder", 400);
-  COMP("lead", 200);
-
-  RECIPE("46mm", CC_AMMO, "gun", "mechanics", 4, 50000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("46mm_casing", 100);
-  COMP("smpistol_primer", 100);
-  COMP("gunpowder", 400);
-  COMP("lead", 200);
-
-  RECIPE("762_m43", CC_AMMO, "gun", "mechanics", 3, 40000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("762_casing", 80);
-  COMP("lgrifle_primer", 80);
-  COMP("gunpowder", 560);
-  COMP("lead", 400);
-
-  RECIPE("762_m87", CC_AMMO, "gun", "mechanics", 5, 40000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("762_casing", 80);
-  COMP("lgrifle_primer", 80);
-  COMP("gunpowder", 640);
-  COMP("lead", 400);
-
-  RECIPE("223", CC_AMMO, "gun", "mechanics", 3, 20000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("223_casing", 40);
-  COMP("smrifle_primer", 40);
-  COMP("gunpowder", 160);
-  COMP("lead", 80);
-
-  RECIPE("556", CC_AMMO, "gun", "mechanics", 5, 20000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("223_casing", 40);
-  COMP("smrifle_primer", 40);
-  COMP("gunpowder", 240);
-  COMP("lead", 80);
-
-  RECIPE("556_incendiary", CC_AMMO, "gun", "mechanics", 6, 15000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("223_casing", 30);
-  COMP("smrifle_primer", 30);
-  COMP("gunpowder", 180);
-  COMP("incendiary", 60);
-
-  RECIPE("270", CC_AMMO, "gun", "mechanics", 3, 10000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("3006_casing", 20);
-  COMP("lgrifle_primer", 20);
-  COMP("gunpowder", 200);
-  COMP("lead", 100);
-
-  RECIPE("3006", CC_AMMO, "gun", "mechanics", 5, 5000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("3006_casing", 10);
-  COMP("lgrifle_primer", 10);
-  COMP("gunpowder", 120);
-  COMP("lead", 80);
-
-  RECIPE("3006_incendiary", CC_AMMO, "gun", "mechanics", 7, 2500, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("3006_casing", 5);
-  COMP("lgrifle_primer", 5);
-  COMP("gunpowder", 60);
-  COMP("incendiary", 40);
-
-  RECIPE("308", CC_AMMO, "gun", "mechanics", 3, 10000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("308_casing", 20);
-  COMP("lgrifle_primer", 20);
-  COMP("gunpowder", 160);
-  COMP("lead", 120);
-
-  RECIPE("762_51", CC_AMMO, "gun", "mechanics", 5, 10000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("308_casing", 20);
-  COMP("lgrifle_primer", 20);
-  COMP("gunpowder", 200);
-  COMP("lead", 120);
-
-  RECIPE("762_51_incendiary", CC_AMMO, "gun", "mechanics", 6, 5000, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("308_casing", 10);
-  COMP("lgrifle_primer", 10);
-  COMP("gunpowder", 100);
-  COMP("incendiary", 60);
-
-  RECIPE("shot_bird", CC_AMMO, "gun", "mechanics", 2, 12500, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("shot_hull", 25);
-  COMP("shotgun_primer", 25);
-  COMP("gunpowder", 300);
-  COMP("lead", 400);
-
-  RECIPE("shot_00", CC_AMMO, "gun", "mechanics", 3, 12500, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("shot_hull", 25);
-  COMP("shotgun_primer", 25);
-  COMP("gunpowder", 600);
-  COMP("lead", 400);
-
-  RECIPE("shot_slug", CC_AMMO, "gun", "mechanics", 3, 12500, false, true);
-  TOOL("press", -1);
-  TOOL("fire", -1);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("hotplate", 4);
-  TOOLCONT("press", 2);
-  COMP("shot_hull", 25);
-  COMP("shotgun_primer", 25);
-  COMP("gunpowder", 600);
-  COMP("lead", 400);
-  /* We need a some Chemicals which arn't implemented to realistically craft this!
-  RECIPE("c4", CC_WEAPON, "mechanics", "electronics", 4, 8000);
-  TOOL("screwdriver", -1);
-  COMP("can_food", 1);
-  COMPCONT("steel_chunk", 1);
-  COMPCONT("canister_empty", 1);
-  COMP("battery", 1);
-  COMP("superglue",1);
-
-  COMP("soldering_iron",1);
-
-  COMP("power_supply", 1);
-  */
-
-  // FOOD
-
-  RECIPE("water_clean", CC_DRINK, "cooking", NULL, 0, 1000, false, true);
-  TOOL("hotplate", 3);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pan", -1);
-  TOOLCONT("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("water", 1);
-
-  RECIPE("meat_cooked", CC_FOOD, "cooking", NULL, 0, 5000, false, true);
-  TOOL("hotplate", 7);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pan", -1);
-  TOOLCONT("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  TOOLCONT("spear_wood", -1);
-  COMP("meat", 1);
-
-  RECIPE("dogfood", CC_FOOD, "cooking", NULL, 4, 10000, false, true);
-  TOOL("hotplate", 6);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("meat", 1);
-  COMP("veggy",1);
-  COMPCONT("veggy_wild", 1);
-  COMP("water",1);
-  COMPCONT("water_clean", 1);
-
-  RECIPE("veggy_cooked", CC_FOOD, "cooking", NULL, 0, 4000, false, true);
-  TOOL("hotplate", 5);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pan", -1);
-  TOOLCONT("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  TOOLCONT("spear_wood", -1);
-  COMP("veggy", 1);
-
-  RECIPE("veggy_wild_cooked", CC_FOOD, "cooking", NULL, 0, 4000, false, true);
-  TOOL("hotplate", 5);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pan", -1);
-  TOOLCONT("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("veggy_wild", 1);
-
-  RECIPE("spaghetti_cooked", CC_FOOD, "cooking", NULL, 0, 10000, false, true);
-  TOOL("hotplate", 4);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("spaghetti_raw", 1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-
-  RECIPE("cooked_dinner", CC_FOOD, "cooking", NULL, 0, 5000, false, true);
-  TOOL("hotplate", 3);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  COMP("frozen_dinner", 1);
-
-  RECIPE("macaroni_cooked", CC_FOOD, "cooking", NULL, 1, 10000, false, true);
-  TOOL("hotplate", 4);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("macaroni_raw", 1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-
-  RECIPE("potato_baked", CC_FOOD, "cooking", NULL, 1, 15000, false, true);
-  TOOL("hotplate", 3);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pan", -1);
-  TOOLCONT("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("potato_raw", 1);
-
-  RECIPE("tea", CC_DRINK, "cooking", NULL, 0, 4000, false, true);
-  TOOL("hotplate", 2);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("tea_raw", 1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-
-  RECIPE("coffee", CC_DRINK, "cooking", NULL, 0, 4000, false, true);
-  TOOL("hotplate", 2);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("coffee_raw", 1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-
-  RECIPE("oj", CC_DRINK, "cooking", NULL, 1, 5000, false, true);
-  TOOL("rock", -1);
-  TOOLCONT("toolset", -1);
-  COMP("orange", 2);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-
-  RECIPE("apple_cider", CC_DRINK, "cooking", NULL, 2, 7000, false, true);
-  TOOL("rock", -1);
-  TOOLCONT("toolset", 1);
-  COMP("apple", 3);
-
-  RECIPE("long_island", CC_DRINK, "cooking", NULL, 1, 7000, false, true);
-  COMP("cola", 1);
-  COMP("vodka", 1);
-  COMP("gin", 1);
-  COMP("rum", 1);
-  COMP("tequila", 1);
-  COMP("triple_sec", 1);
-
-  RECIPE("jerky", CC_FOOD, "cooking", NULL, 3, 30000, false, true);
-  TOOL("hotplate", 10);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  COMP("salt_water", 1);
-  COMPCONT("salt", 4);
-  COMP("meat", 1);
-
-  RECIPE("V8", CC_FOOD, "cooking", NULL, 2, 5000, false, true);
-  COMP("tomato", 1);
-  COMP("broccoli", 1);
-  COMP("zucchini", 1);
-
-  RECIPE("broth", CC_FOOD, "cooking", NULL, 2, 10000, false, true);
-  TOOL("hotplate", 5);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-  COMP("broccoli", 1);
-  COMPCONT("tomato",1);
-  COMPCONT("zucchini", 1);
-  COMPCONT("veggy", 1);
-  COMPCONT("veggy_wild", 1);
-
-  RECIPE("soup_veggy", CC_FOOD, "cooking", NULL, 2, 10000, false, true);
-  TOOL("hotplate", 5);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("broth", 2);
-  COMP("macaroni_raw", 1);
-  COMPCONT("potato_raw", 1);
-  COMP("tomato", 2);
-  COMPCONT("broccoli", 2);
-  COMPCONT("zucchini", 2);
-  COMPCONT("veggy", 2);
-  COMPCONT("veggy_wild", 2);
-
-  RECIPE("soup_meat", CC_FOOD, "cooking", NULL, 2, 10000, false, true);
-  TOOL("hotplate", 5);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("broth", 2);
-  COMP("macaroni_raw", 1);
-  COMPCONT("potato_raw", 1);
-  COMP("meat", 2);
-
-  RECIPE("bread", CC_FOOD, "cooking", NULL, 4, 20000, false, true);
-  TOOL("hotplate", 8);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("flour", 3);
-  COMP("water", 2);
-  COMPCONT("water_clean", 2);
-
-  RECIPE("pie", CC_FOOD, "cooking", NULL, 3, 25000, false, true);
-  TOOL("hotplate", 6);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pan", -1);
-  COMP("flour", 2);
-  COMP("strawberries", 2);
-  COMPCONT("apple", 2);
-  COMPCONT("blueberries", 2);
-  COMP("sugar", 2);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-
-  RECIPE("pizza", CC_FOOD, "cooking", NULL, 3, 20000, false, true);
-  TOOL("hotplate", 8);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pan", -1);
-  COMP("flour", 2);
-  COMP("veggy", 1);
-  COMPCONT("veggy_wild", 2);
-  COMPCONT("tomato", 2);
-  COMPCONT("broccoli", 1);
-  COMP("sauce_pesto", 1);
-  COMPCONT("sauce_red", 1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-
-  RECIPE("meth", CC_CHEM, "cooking", NULL, 5, 20000, false, true);
-  TOOL("hotplate", 15);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("bottle_glass", -1);
-  TOOLCONT("hose", -1);
-  COMP("dayquil", 2);
-  COMPCONT("royal_jelly", 1);
-  COMP("aspirin", 40);
-  COMP("caffeine", 20);
-  COMPCONT("adderall", 5);
-  COMPCONT("energy_drink", 2);
-
-  RECIPE("crack",        CC_CHEM, "cooking", NULL,     4, 30000,false, true);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  TOOL("fire", -1);
-  TOOLCONT("hotplate", 8);
-  TOOLCONT("toolset", 1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-  COMP("coke", 12);
-  COMP("ammonia", 1);
-
-  RECIPE("poppy_sleep",  CC_CHEM, "cooking", "survival", 2, 5000, false, true);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  TOOL("fire", -1);
-  TOOLCONT("hotplate", 2);
-  COMP("poppy_bud", 2);
-  COMP("poppy_flower", 1);
-
-  RECIPE("poppy_pain",  CC_CHEM, "cooking", "survival", 2, 5000, false, true);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  TOOL("fire", -1);
-  TOOLCONT("hotplate", 2);
-  COMP("poppy_bud", 2);
-  COMP("poppy_flower", 2);
-
-  RECIPE("royal_jelly", CC_CHEM, "cooking", NULL, 5, 5000, false, true);
-  COMP("honeycomb", 1);
-  COMP("bleach", 2);
-  COMPCONT("purifier", 1);
-
-  RECIPE("heroin", CC_CHEM, "cooking", NULL, 6, 2000, false, true);
-  TOOL("hotplate", 3);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pan", -1);
-  TOOLCONT("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("salt_water", 1);
-  COMPCONT("salt", 4);
-  COMP("oxycodone", 40);
-
-  RECIPE("mutagen", CC_CHEM, "cooking", "firstaid", 8, 10000, false, true);
-  TOOL("hotplate", 25);
-  TOOLCONT("toolset", 2);
-  TOOLCONT("fire", -1);
-  COMP("meat_tainted", 3);
-  COMPCONT("veggy_tainted", 5);
-  COMPCONT("fetus", 1);
-  COMPCONT("arm", 2);
-  COMPCONT("leg", 2);
-  COMP("bleach", 2);
-  COMP("ammonia", 1);
-
-  RECIPE("purifier", CC_CHEM, "cooking", "firstaid", 9, 10000, false, true);
-  TOOL("hotplate", 25);
-  TOOLCONT("toolset", 2);
-  TOOLCONT("fire", -1);
-  COMP("royal_jelly", 4);
-  COMPCONT("mutagen", 2);
-  COMP("bleach", 3);
-  COMP("ammonia", 2);
-
-  // ELECTRONICS
-
-  RECIPE("antenna", CC_ELECTRONIC, NULL, NULL, 0, 3000, false, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  COMP("knife_butter", 2);
-
-  RECIPE("amplifier", CC_ELECTRONIC, "electronics", NULL, 1, 4000, false, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("transponder", 2);
-
-  RECIPE("power_supply", CC_ELECTRONIC, "electronics", NULL, 1, 6500, false, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 3);
-  TOOLCONT("toolset", 3);
-  COMP("amplifier", 2);
-  COMP("cable", 20);
-
-  RECIPE("receiver", CC_ELECTRONIC, "electronics", NULL, 2, 12000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 4);
-  TOOLCONT("toolset", 4);
-  COMP("amplifier", 2);
-  COMP("cable", 10);
-
-  RECIPE("transponder", CC_ELECTRONIC, "electronics", NULL, 2, 14000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 7);
-  TOOLCONT("toolset", 7);
-  COMP("receiver", 3);
-  COMP("cable", 5);
-
-  // disassembly is done on the dead version of the lightstrip
-  RECIPE("lightstrip_inactive", CC_ELECTRONIC, "electronics", NULL, 0, 10000, false, true);
-  COMP("amplifier", 1);
-  COMP("cable", 5);
-  COMP("battery", 15);
-
-  RECIPE("flashlight", CC_ELECTRONIC, "electronics", NULL, 1, 10000, true, true);
-  COMP("amplifier", 1);
-  COMP("scrap", 4);
-  COMPCONT("can_drink", 1);
-  COMPCONT("can_food", 1);
-  COMPCONT("bottle_glass", 1);
-  COMPCONT("bottle_plastic", 1);
-  COMP("cable", 10);
-
-  RECIPE("soldering_iron", CC_ELECTRONIC, "electronics", NULL, 1, 20000, true, true);
-  COMP("antenna", 1);
-  COMPCONT("screwdriver", 1);
-  COMPCONT("xacto", 1);
-  COMPCONT("knife_butter", 1);
-  COMP("power_supply", 1);
-  COMP("element", 1);
-  COMP("scrap", 2);
-
-  RECIPE("battery", CC_ELECTRONIC, "electronics", "mechanics", 2, 5000, false, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("ammonia", 1);
-  COMPCONT("lemon", 1);
-  COMP("steel_chunk", 1);
-  COMPCONT("knife_butter", 1);
-  COMPCONT("knife_steak", 1);
-  COMPCONT("bolt_steel", 1);
-  COMPCONT("scrap", 1);
-  COMP("can_drink", 1);
-  COMPCONT("can_food", 1);
-  COMPCONT("canister_empty",1);
-
-  RECIPE("coilgun", CC_WEAPON, "electronics", NULL, 3, 25000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 10);
-  TOOLCONT("toolset", 10);
-  COMP("pipe", 1);
-  COMP("power_supply", 1);
-  COMP("amplifier", 1);
-  COMP("scrap", 6);
-  COMP("cable", 20);
-
-  RECIPE("noise_emitter", CC_ELECTRONIC, "electronics", NULL, 1, 15000, false, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 5);
-  TOOLCONT("toolset", 5);
-  COMP("radio", 1);
-  COMP("amplifier", 2);
-
-  RECIPE("noise_emitter", CC_ELECTRONIC, "electronics", NULL, 2, 30000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 10);
-  TOOLCONT("toolset", 10);
-  COMP("amplifier", 2);
-  COMP("antenna", 1);
-  COMP("scrap", 5);
-  COMP("cable", 7);
-
-  RECIPE("radio", CC_ELECTRONIC, "electronics", NULL, 2, 25000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 10);
-  TOOLCONT("toolset", 10);
-  COMP("receiver", 1);
-  COMP("antenna", 1);
-  COMP("scrap", 5);
-  COMP("cable", 7);
-
-  RECIPE("water_purifier", CC_ELECTRONIC, "mechanics","electronics",3,25000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("element", 8);
-  COMP("bottle_glass", 2);
-  COMPCONT("bottle_plastic", 5);
-  COMP("hose", 1);
-  COMP("scrap", 3);
-  COMP("cable", 5);
-
-  RECIPE("hotplate", CC_ELECTRONIC, "electronics", NULL, 3, 30000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("element", 4);
-  COMP("amplifier", 1);
-  COMP("scrap", 2);
-  COMPCONT("pan", 1);
-  COMPCONT("pot", 1);
-  COMPCONT("knife_butcher", 2);
-  COMPCONT("knife_steak", 6);
-  COMPCONT("knife_butter", 6);
-  COMPCONT("muffler", 1);
-  COMP("cable", 10);
-
-  RECIPE("tazer", CC_ELECTRONIC, "electronics", NULL, 3, 25000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 10);
-  TOOLCONT("toolset", 10);
-  COMP("amplifier", 1);
-  COMP("power_supply", 1);
-  COMP("scrap", 2);
-
-  RECIPE("two_way_radio", CC_ELECTRONIC, "electronics", NULL, 4, 30000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 14);
-  TOOLCONT("toolset", 14);
-  COMP("amplifier", 1);
-  COMP("transponder", 1);
-  COMP("receiver", 1);
-  COMP("antenna", 1);
-  COMP("scrap", 5);
-  COMP("cable", 10);
-
-  RECIPE("electrohack", CC_ELECTRONIC, "electronics", "computer", 4, 35000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 10);
-  TOOLCONT("toolset", 10);
-  COMP("processor", 1);
-  COMP("RAM", 1);
-  COMP("scrap", 4);
-  COMP("cable", 10);
-
-  RECIPE("EMPbomb", CC_ELECTRONIC, "electronics", NULL, 4, 32000, false, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 6);
-  TOOLCONT("toolset", 6);
-  COMP("superglue", 1);
-  COMPCONT("string_36", 1);
-  COMP("scrap", 3);
-  COMPCONT("can_food", 1);
-  COMPCONT("can_drink", 1);
-  COMPCONT("canister_empty", 1);
-  COMP("power_supply", 1);
-  COMPCONT("amplifier", 1);
-  COMP("cable", 5);
-
-  RECIPE("mp3", CC_ELECTRONIC, "electronics", "computer", 5, 40000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 5);
-  TOOLCONT("toolset", 5);
-  COMP("superglue", 1);
-  COMP("antenna", 1);
-  COMP("amplifier", 1);
-  COMP("cable", 2);
-
-  RECIPE("geiger_off", CC_ELECTRONIC, "electronics", NULL, 5, 35000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 14);
-  TOOLCONT("toolset", 14);
-  COMP("power_supply", 1);
-  COMP("amplifier", 2);
-  COMP("scrap", 6);
-  COMP("cable", 10);
-
-  RECIPE("UPS_off", CC_ELECTRONIC, "electronics", NULL, 5, 45000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 24);
-  TOOLCONT("toolset", 24);
-  COMP("power_supply", 4);
-  COMP("amplifier", 3);
-  COMP("scrap", 4);
-  COMP("cable", 10);
-
-  RECIPE("bio_power_storage", CC_ELECTRONIC, "electronics", NULL, 6, 50000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 20);
-  TOOLCONT("toolset", 20);
-  COMP("power_supply", 6);
-  COMPCONT("UPS_off", 1);
-  COMP("amplifier", 4);
-  COMP("plut_cell", 1);
-
-  RECIPE("teleporter", CC_ELECTRONIC, "electronics", NULL, 8, 50000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("wrench", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 16);
-  TOOLCONT("toolset", 16);
-  COMP("power_supply", 3);
-  COMPCONT("plut_cell", 5);
-  COMP("amplifier", 3);
-  COMP("transponder", 3);
-  COMP("scrap", 10);
-  COMP("cable", 20);
-
-// ARMOR
-// Feet
-  RECIPE("socks", CC_ARMOR, "tailor", NULL, 0, 10000, false, true);
-  TOOL("needle_bone", 4);
-  TOOLCONT("sewing_kit",  4);
-  COMP("rag", 2);
-
-  RECIPE("mocassins", CC_ARMOR, "tailor", NULL, 1, 30000, false, true);
-  TOOL("needle_bone", 5);
-  TOOLCONT("sewing_kit",  5);
-  COMP("fur", 2);
-
-  RECIPE("boots", CC_ARMOR, "tailor", NULL, 2, 35000, false, true);
-  TOOL("needle_bone", 10);
-  TOOLCONT("sewing_kit", 10);
-  COMP("leather", 7);
-
-  RECIPE("boots_chitin", CC_ARMOR, "tailor", NULL, 3,  30000, false, true);
-  COMP("string_36", 1);
-  COMPCONT("string_6", 4);
-  COMP("chitin_piece", 4);
-  COMP("leather", 2);
-  COMPCONT("fur", 2);
-  COMPCONT("rag", 2);
-
-// Legs
-  RECIPE("shorts", CC_ARMOR, "tailor", NULL, 1, 25000, false, true);
-  TOOL("needle_bone", 10);
-  TOOLCONT("sewing_kit", 10);
-  COMP("rag", 5);
-
-  RECIPE("shorts_cargo", CC_ARMOR, "tailor", NULL, 2, 30000, false, true);
-  TOOL("needle_bone", 12);
-  TOOLCONT("sewing_kit", 12);
-  COMP("rag", 6);
-
-  RECIPE("jeans", CC_ARMOR, "tailor", NULL, 2, 45000, false, true);
-  TOOL("needle_bone", 10);
-  TOOLCONT("sewing_kit", 10);
-  COMP("rag", 6);
-
-  RECIPE("pants_cargo", CC_ARMOR, "tailor", NULL, 3, 48000, false, true);
-  TOOL("needle_bone", 16);
-  TOOLCONT("sewing_kit", 16);
-  COMP("rag", 8);
-
-  RECIPE("long_underpants", CC_ARMOR, "tailor", "survival", 3, 35000, false, true);
-  TOOL("needle_bone", 15);
-  TOOLCONT("sewing_kit", 15);
-  COMP("rag", 10);
-
-  RECIPE("pants_leather", CC_ARMOR, "tailor", NULL, 4, 50000, false, true);
-  TOOL("needle_bone", 10);
-  TOOLCONT("sewing_kit", 10);
-  COMP("leather", 10);
-
-  RECIPE("tank_top", CC_ARMOR, "tailor", NULL, 2, 38000, true, true);
-  TOOL("needle_bone", 4);
-  TOOLCONT("sewing_kit", 4);
-  COMP("rag", 4);
-
-  RECIPE("tshirt", CC_ARMOR, "tailor", NULL, 2, 38000, true, true);
-  TOOL("needle_bone", 4);
-  TOOLCONT("sewing_kit", 4);
-  COMP("rag", 5);
-
-  RECIPE("hoodie", CC_ARMOR, "tailor", NULL, 3, 40000, false, true);
-  TOOL("needle_bone", 14);
-  TOOLCONT("sewing_kit", 14);
-  COMP("rag", 12);
-
-  RECIPE("trenchcoat", CC_ARMOR, "tailor", NULL, 3, 42000, false, true);
-  TOOL("needle_bone", 24);
-  TOOLCONT("sewing_kit", 24);
-  COMP("rag", 11);
-
-  RECIPE("trenchcoat_leather", CC_ARMOR, "tailor", NULL, 6, 200000, false, true);
-  TOOL("needle_bone", 45);
-  TOOLCONT("sewing_kit", 45);
-  COMP("leather", 22);
-
-  RECIPE("coat_fur", CC_ARMOR, "tailor", NULL, 4, 100000, false, true);
-  TOOL("needle_bone", 20);
-  TOOLCONT("sewing_kit", 20);
-  COMP("fur", 10);
-
-  RECIPE("jacket_leather", CC_ARMOR, "tailor", NULL, 5, 150000, false, true);
-  TOOL("needle_bone", 30);
-  TOOLCONT("sewing_kit", 30);
-  COMP("leather", 16);
-
-
-  RECIPE("gloves_liner", CC_ARMOR, "tailor", NULL, 1, 10000, false, true);
-  TOOL("needle_bone", 2);
-  TOOLCONT("sewing_kit", 2);
-  COMP("rag", 2);
-
-  RECIPE("gloves_light", CC_ARMOR, "tailor", NULL, 1, 10000, false, true);
-  TOOL("needle_bone", 4);
-  TOOLCONT("sewing_kit", 4);
-  COMP("rag", 1);
-
-  RECIPE("gloves_fingerless", CC_ARMOR, "tailor", NULL, 0, 16000, false, true);
-  TOOL("scissors", -1);
-  TG_KNIVES_CONT
-  COMP("gloves_leather", 1);
-
-  RECIPE("gloves_leather", CC_ARMOR, "tailor", NULL, 2, 16000, false, true);
-  TOOL("needle_bone", 6);
-  TOOLCONT("sewing_kit", 6);
-  COMP("leather", 2);
-
-  RECIPE("armguard_metal", CC_ARMOR, "tailor", NULL, 4,  30000, false, true);
-  TOOL("hammer", -1);
-  TOOLCONT("toolset", -1);
-  COMP("string_36", 1);
-  COMPCONT("string_6", 4);
-  COMP("steel_chunk", 2);
-
-  RECIPE("gauntlets_chitin", CC_ARMOR, "tailor", NULL, 3,  30000, false, true);
-  COMP("string_36", 1);
-  COMPCONT("string_6", 4);
-  COMP("chitin_piece", 4);
-
-  // Face
-  RECIPE("mask_filter", CC_ARMOR, "mechanics", "tailor", 1, 5000, true, true);
-  COMP("bag_plastic", 2);
-  COMPCONT("bottle_plastic", 1);
-  COMP("rag", 2);
-  COMPCONT("muffler", 1);
-  COMPCONT("bandana", 2);
-  COMPCONT("wrapper", 4);
-
-  RECIPE("glasses_safety", CC_ARMOR, "tailor", NULL, 1, 8000, false, true);
-  TOOL("scissors", -1);
-  TG_KNIVES
-  COMP("string_36", 1);
-  COMPCONT("string_6", 2);
-  COMP("bottle_plastic", 1);
-
-
-  RECIPE("mask_gas", CC_ARMOR, "tailor", NULL, 3, 20000, true, true);
-  TOOL("wrench", -1);
-  TOOLCONT("toolset", -1);
-  COMP("goggles_ski", 1);
-  COMPCONT("goggles_swim", 2);
-  COMP("mask_filter", 3);
-  COMPCONT("muffler", 1);
-  COMP("hose", 1);
-
-  RECIPE("goggles_nv", CC_ARMOR, "electronics", "tailor", 5, 40000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("goggles_ski", 1);
-  COMPCONT("goggles_welding", 1);
-  COMPCONT("mask_gas", 1);
-  COMP("power_supply", 1);
-  COMP("amplifier", 3);
-  COMP("scrap", 5);
-
-  //head
-  RECIPE("hat_fur", CC_ARMOR, "tailor", NULL, 2, 40000, false, true);
-  TOOL("needle_bone", 8);
-  TOOLCONT("sewing_kit", 8);
-  COMP("fur", 3);
-
-  RECIPE("helmet_chitin", CC_ARMOR, "tailor", NULL, 6,  60000, false, true);
-  COMP("string_36", 1);
-  COMPCONT("string_6", 5);
-  COMP("chitin_piece", 5);
-
-  RECIPE("armor_chitin", CC_ARMOR, "tailor", NULL,  7, 100000, false, true);
-  COMP("string_36", 2);
-  COMPCONT("string_6", 12);
-  COMP("chitin_piece", 15);
-
-  //Storage
-  RECIPE("backpack", CC_ARMOR, "tailor", NULL, 3, 50000, false, true);
-  TOOL("needle_bone", 20);
-  TOOLCONT("sewing_kit", 20);
-  COMP("rag", 20);
-  COMPCONT("fur", 16);
-  COMPCONT("leather", 12);
-
-
-  // SURVIVAL
-
-  RECIPE("primitive_hammer", CC_MISC, "survival", "construction", 0, 5000, false, true);
-  TOOL("rock", -1);
-  TOOLCONT("hammer", -1);
-  TOOLCONT("toolset", -1);
-  COMP("stick", 1);
-  COMP("rock", 1);
-  COMP("string_6", 2);
-  COMPCONT("sinew", 40);
-  COMPCONT("plant_fibre", 40);
-
-  RECIPE("needle_bone", CC_MISC, "survival", NULL, 3, 20000, false, true);
-  TG_KNIVES
-  COMP("bone", 1);
-
-  RECIPE("digging_stick", CC_MISC, "survival", NULL, 1, 20000, false, true);
-  TG_KNIVES
-  TOOLCONT("hatchet", -1);
-  COMP("stick", 1);
-
-  RECIPE("ragpouch", CC_ARMOR, "tailor",  NULL, 0, 10000, false, true);
-  TOOL("needle_bone", 20);
-  TOOLCONT("sewing_kit", 20);
-  COMP("rag", 6);
-  COMP("string_36", 1);
-  COMPCONT("string_6", 6);
-  COMPCONT("sinew", 20);
-  COMPCONT("plant_fibre", 20);
-
-  RECIPE("leather_pouch", CC_ARMOR, "tailor",  "survival", 2, 10000, false, true);
-  TOOL("needle_bone", 20);
-  TOOLCONT("sewing_kit", 20);
-  COMP("leather", 6);
-  COMP("string_36", 1);
-  COMPCONT("string_6", 6);
-  COMPCONT("sinew", 20);
-  COMPCONT("plant_fibre", 20);
-
-  RECIPE("rock_pot", CC_MISC, "survival", "cooking", 2, 20000, false, true);
-  TOOL("hammer", -1);
-  TOOLCONT("primitive_hammer", -1);
-  TOOLCONT("toolset", -1);
-  COMP("rock", 3);
-  COMP("sinew", 80);
-  COMPCONT("plant_fibre", 80);
-  COMPCONT("string_36", 1);
-
-  RECIPE("primitive_shovel", CC_MISC, "survival", "construction", 2, 60000, false, true);
-  TOOL("primitive_hammer", -1);
-  TOOLCONT("hammer", -1);
-  TOOLCONT("toolset", -1);
-  COMP("stick", 1);
-  COMP("rock", 1);
-  COMP("string_6", 2);
-  COMPCONT("sinew", 40);
-  COMPCONT("plant_fibre", 40);
-
-  RECIPE("primitive_axe", CC_MISC, "survival", "construction", 3, 60000, false, true);
-  TOOL("primitive_hammer", -1);
-  TOOLCONT("hammer", -1);
-  TOOLCONT("toolset", -1);
-  COMP("stick", 1);
-  COMP("rock", 1);
-  COMP("string_6", 2);
-  COMPCONT("sinew", 40);
-  COMPCONT("plant_fibre", 40);
-
-  RECIPE("waterskin", CC_MISC, "tailor", "survival", 2, 30000, false, true);
-  TOOL("sewing_kit", 60);
-  TOOLCONT("needle_bone", 60);
-  COMP("sinew", 40);
-  COMPCONT("plant_fibre", 40);
-  COMPCONT("string_36", 1);
-  COMP("leather", 6);
-  COMPCONT("fur", 6);
-
-
-  RECIPE("shelter_kit", CC_MISC, "survival", "construction", 2, 50000, false, true);
-  TOOL("sewing_kit", 200);
-  TOOLCONT("needle_bone", 200);
-  COMP("stick", 10);
-  COMP("leather", 20);
-  COMP("string_6", 10);
-  COMPCONT("sinew", 500);
-  COMPCONT("plant_fibre", 500);
-
-  RECIPE("shelter_kit", CC_MISC, "survival", "tailoring", 0, 20000, false, true);
-  TOOL("sewing_kit", 50);
-  TOOLCONT("needle_bone", 50);
-  COMP("stick", 3);
-  COMP("leather", 4);
-  COMP("sinew", 60);
-  COMPCONT("plant_fibre", 60);
-  COMPCONT("string_6", 1);
-  COMP("damaged_shelter_kit", 1);
-
-  RECIPE("snare_trigger", CC_MISC, "survival", NULL, 1, 2000, false, true);
-  TG_KNIVES
-  COMP("stick", 1);
-
-  RECIPE("light_snare_kit", CC_MISC, "survival", "traps", 1, 5000, true, true);
-  COMP("snare_trigger", 1);
-  COMP("string_36", 1);
-
-  RECIPE("heavy_snare_kit", CC_MISC, "survival", "traps", 3, 8000, true, true);
-  COMP("snare_trigger", 1);
-  COMP("rope_6", 1);
-
-  // MISC
-  RECIPE("kitchen_unit", CC_MISC, "mechanics", NULL, 4, 60000, true, true);
-  TOOL("wrench", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("hammer", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 100);
-  TOOLCONT("toolset", 10);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pipe", 2);
-  COMP("steel_chunk", 16);
-  COMPCONT("steel_plate", 2);
-  COMP("hotplate", 1);
-  COMP("pot", 1);
-  COMP("pan", 1);
-
-  RECIPE("foot_crank", CC_MISC, "mechanics", NULL, 1, 10000, true, true);
-  TOOL("wrench", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("hammer", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pipe", 1);
-  COMP("steel_chunk", 2);
-  COMP("chain", 1);
-
-  RECIPE("muffler", CC_MISC, "mechanics", NULL, 1, 10000, true, true);
-  TOOL("hammer", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 50);
-  TOOLCONT("toolset", 5);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pipe", 2);
-  COMP("sheet_metal",1);
-
-  RECIPE("seat", CC_MISC, "mechanics", NULL, 1, 10000, true, true);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 50);
-  TOOLCONT("toolset", 5);
-  TOOL("sewing_kit", 50);
-  TOOLCONT("needle_bone", 50);
-  COMP("pipe", 4);
-  COMP("spring", 2);
-  COMP("leather", 12);
-  COMPCONT("fur", 12);
-  COMPCONT("rag", 20);
-  COMPCONT("sheet", 1);
-
-  RECIPE("rag", CC_MISC, NULL, NULL, 0, 3000, false, true);
-  TOOL("fire", -1);
-  TOOLCONT("hotplate", 3);
-  TOOLCONT("toolset", 1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-  COMP("rag_bloody", 1);
-
-  RECIPE("sheet", CC_MISC, NULL, NULL, 0, 10000, false, true);
-  TOOL("sewing_kit", 50);
-  COMP("rag", 20);
-
-  RECIPE("vehicle_controls", CC_MISC, "mechanics", NULL, 3, 30000, true, true);
-  TOOL("wrench", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("hammer", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 50);
-  TOOLCONT("toolset", 5);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pipe", 10);
-  COMP("steel_chunk", 12);
-  COMP("wire", 3);
-
-
-  RECIPE("thread", CC_MISC, "tailor", NULL, 1, 3000, false, true);
-  COMP("string_6", 1);
-
-  RECIPE("string_6", CC_MISC, NULL, NULL, 0, 5000, true, true);
-  COMP("thread", 50);
-
-  RECIPE("string_36", CC_MISC, NULL, NULL, 0, 5000, true, true);
-  COMP("string_6", 6);
-
-  RECIPE("rope_6", CC_MISC, "tailor", NULL, 0, 5000, true, true);
-  COMP("string_36", 6);
-
-  RECIPE("rope_30", CC_MISC, "tailor", NULL, 0, 5000, true, true);
-  COMP("rope_6", 5);
-
-  RECIPE("torch",        CC_MISC, NULL,    NULL,     0, 2000, false, true);
-  COMP("stick", 1);
-  COMPCONT("2x4", 1);
-  COMPCONT("splinter", 1);
-  COMPCONT("pool_cue", 1);
-  COMPCONT("torch_done", 1);
-  COMP("gasoline", 200);
-  COMPCONT("vodka", 7);
-  COMPCONT("rum", 7);
-  COMPCONT("whiskey", 7);
-  COMPCONT("tequila", 7);
-  COMPCONT("gin", 7);
-  COMPCONT("triple_sec", 7);
-  COMP("rag", 1);
-
-  RECIPE("candle",       CC_MISC, NULL,    NULL,     0, 5000, false, true);
-  TOOL("lighter", 5);
-  TOOLCONT("fire", -1);
-  TOOLCONT("toolset", 1);
-  COMP("can_food", -1);
-  COMP("wax", 2);
-  COMP("string_6", 1);
-
-  RECIPE("spike",     CC_MISC, NULL, NULL, 0, 3000, false, true);
-  TOOL("hammer", -1);
-  TOOLCONT("toolset", -1);
-  COMP("knife_combat", 1);
-  COMPCONT("steel_chunk", 3);
-  COMPCONT("scrap", 9);
-
-  RECIPE("blade",     CC_MISC, NULL, NULL, 0, 3000, false, true);
-  TOOL("hammer", -1);
-  TOOLCONT("toolset", -1);
-  COMP("broadsword", 1);
-  COMPCONT("machete", 1);
-  COMPCONT("pike", 1);
-
-  RECIPE("superglue", CC_MISC, "cooking", NULL, 2, 12000, false, true);
-  TOOL("hotplate", 5);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-  COMP("bleach", 1);
-  COMPCONT("ant_egg", 1);
-
-  RECIPE("steel_lump", CC_MISC, "mechanics", NULL, 0, 5000, true, true);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 20);
-  TOOLCONT("toolset", 1);
-  COMP("steel_chunk", 4);
-
-  RECIPE("2x4", CC_MISC, NULL, NULL, 0, 8000, false, true);
-  TOOL("saw", -1);
-  COMP("stick", 1);
-
-  RECIPE("frame", CC_MISC, "mechanics", NULL, 1, 8000, true, true);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 50);
-  TOOLCONT("toolset", 2);
-  COMP("steel_lump", 3);
-
-  RECIPE("sheet_metal", CC_MISC, "mechanics", NULL, 2, 4000, true, true);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 20);
-  TOOLCONT("toolset", 1);
-  COMP("scrap", 4);
-
-  RECIPE("steel_plate", CC_MISC, "mechanics", NULL,4, 12000, true, true);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 100);
-  TOOLCONT("toolset", 4);
-  COMP("steel_lump", 8);
-
-  RECIPE("spiked_plate", CC_MISC, "mechanics", NULL, 4, 12000, true, true);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 120);
-  TOOLCONT("toolset", 5);
-  COMP("steel_lump", 8);
-  COMP("steel_chunk", 4);
-  COMPCONT("scrap", 8);
-
-  RECIPE("hard_plate", CC_MISC, "mechanics", NULL, 4, 12000, true, true);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 300);
-  TOOLCONT("toolset", 12);
-  COMP("steel_lump", 24);
-
-  RECIPE("crowbar", CC_MISC, "mechanics", NULL, 1, 1000, false, true);
-  TOOL("hatchet", -1);
-  TOOLCONT("hammer", -1);
-  TOOLCONT("rock", -1);
-  TOOLCONT("toolset", -1);
-  COMP("pipe", 1);
-
-  RECIPE("bayonet", CC_MISC, "gun", NULL, 1, 500, true, true);
-  COMP("spike", 1);
-  COMP("string_36", 1);
-
-  RECIPE("tripwire", CC_MISC, "traps", NULL, 1, 500, false, true);
-  COMP("string_36", 1);
-  COMP("superglue", 1);
-
-  RECIPE("board_trap", CC_MISC, "traps", NULL, 2, 2500, true, true);
-  TOOL("hatchet", -1);
-  TOOLCONT("hammer", -1);
-  TOOLCONT("rock", -1);
-  TOOLCONT("toolset", -1);
-  COMP("2x4", 3);
-  COMP("nail", 20);
-
-  RECIPE("beartrap", CC_MISC, "mechanics", "traps", 2, 3000, true, true);
-  TOOL("wrench", -1);
-  TOOLCONT("toolset", -1);
-  COMP("scrap", 3);
-  COMP("spring", 1);
-
-  RECIPE("crossbow_trap", CC_MISC, "mechanics", "traps", 3, 4500, true, true);
-  COMP("crossbow", 1);
-  COMP("bolt_steel", 1);
-  COMPCONT("bolt_wood", 4);
-  COMP("string_6", 2);
-  COMPCONT("string_36", 1);
-
-  RECIPE("shotgun_trap", CC_MISC, "mechanics", "traps", 3, 5000, true, true);
-  COMP("shotgun_sawn", 1);
-  COMP("shot_00", 2);
-  COMP("string_36", 1);
-  COMPCONT("string_6", 2);
-
-  RECIPE("blade_trap", CC_MISC, "mechanics", "traps", 4, 8000, true, true);
-  TOOL("wrench", -1);
-  TOOLCONT("toolset", -1);
-  COMP("motor", 1);
-  COMP("blade", 1);
-  COMP("string_36", 1);
-
-  RECIPE("boobytrap", CC_MISC, "mechanics", "traps",3,5000, false, true);
-  COMP("grenade",1);
-
-  COMP("string_6",1);
-
-  COMP("can_food",1);
-
-
-  RECIPE("landmine", CC_MISC, "traps", "mechanics", 5, 10000, false, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("superglue", 1);
-  COMP("can_food", 1);
-  COMPCONT("steel_chunk", 1);
-  COMPCONT("canister_empty", 1);
-  COMPCONT("scrap", 4);
-  COMP("nail", 100);
-  COMPCONT("bb", 200);
-  COMP("shot_bird", 30);
-  COMPCONT("shot_00", 15);
-  COMPCONT("shot_slug", 12);
-  COMPCONT("gasoline", 600);
-  COMPCONT("grenade", 1);
-  COMPCONT("gunpowder", 72);
-
-  RECIPE("brazier", CC_MISC, "mechanics", NULL, 1, 2000, false, true);
-  TOOL("hatchet", -1);
-  TOOLCONT("hammer", -1);
-  TOOLCONT("rock", -1);
-  TOOLCONT("toolset", -1);
-  COMP("sheet_metal",1);
-
-  RECIPE("metal_tank", CC_MISC, "mechanics", NULL, 1, 2000, false, true);
-  TOOL("hatchet", -1);
-  TOOLCONT("hammer", -1);
-  TOOLCONT("rock", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("goggles_welding", -1);
-  TOOL("welder", 50);
-  TOOLCONT("toolset", 5);
-  COMP("sheet_metal",2);
-
-  RECIPE("bandages", CC_MISC, "firstaid", NULL, 1, 500, false, true);
-  COMP("rag", 3);
-  COMP("superglue", 1);
-  COMPCONT("duct_tape", 5);
-  COMP("vodka", 7);
-  COMPCONT("rum", 7);
-  COMPCONT("whiskey", 7);
-  COMPCONT("tequila", 7);
-  COMPCONT("gin", 7);
-  COMPCONT("triple_sec", 7);
-
-  RECIPE("suppressor", CC_MISC, "mechanics", NULL, 1, 650, false, true);
-  TOOL("hacksaw", -1);
-  TOOLCONT("toolset", -1);
-  COMP("muffler", 1);
-  COMPCONT("rag", 4);
-  COMP("pipe", 1);
-
-  RECIPE("pheromone", CC_MISC, "cooking", NULL, 3, 1200, false, true);
-  TOOL("hotplate", 18);
-  TOOLCONT("toolset", 9);
-  TOOLCONT("fire", -1);
-  COMP("meat_tainted", 1);
-  COMP("ammonia", 1);
-
-  RECIPE("laser_pack", CC_MISC, "electronics", NULL, 5, 10000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  COMP("superglue", 1);
-  COMP("plut_cell", 1);
-
-  RECIPE("bot_manhack", CC_MISC, "electronics", "computer", 6, 8000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 10);
-  TOOLCONT("toolset", 10);
-  COMP("spike", 2);
-  COMP("processor", 1);
-  COMP("RAM", 1);
-  COMP("power_supply", 1);
-  //  COMP("battery", 400);
-  COMPCONT("plut_cell", 1);
-  //  COMP("scrap", 15);
-
-  RECIPE("bot_turret", CC_MISC, "electronics", "computer", 7, 9000, true, true);
-  TOOL("screwdriver", -1);
-  TOOLCONT("toolset", -1);
-  TOOL("soldering_iron", 14);
-  TOOLCONT("toolset", 14);
-  COMP("smg_9mm", 1);
-  COMPCONT("uzi", 1);
-  COMPCONT("tec9", 1);
-  COMPCONT("calico", 1);
-  COMPCONT("hk_mp5", 1);
-  COMP("processor", 2);
-  COMP("RAM", 2);
-  COMP("power_supply", 1);
-  //  COMP("battery", 500);
-  COMPCONT("plut_cell", 1);
-  //  COMP("scrap", 30);
-
-  RECIPE("jar_meat_canned", CC_FOOD, "cooking", "mechanics", 3, 30000, false, true);
-  TG_KNIVES
-  TOOLCONT("hatchet", -1);
-  TOOL("hammer", -1);
-  TOOLCONT("primitive_hammer",-1);
-  TOOLCONT("rock", -1);
-  TOOL("hotplate", 10);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-  COMP("bottle_glass", 1);
-  COMP("sheet_metal", 1);
-  COMP("meat", 1);
-
-  RECIPE("jar_veggy_canned", CC_FOOD, "cooking", "mechanics", 3, 30000, false, true);
-  TG_KNIVES
-  TOOLCONT("hatchet", -1);
-  TOOL("hammer", -1);
-  TOOLCONT("primitive_hammer",-1);
-  TOOLCONT("rock", -1);
-  TOOL("hotplate", 10);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-  COMP("bottle_glass", 1);
-  COMP("sheet_metal", 1);
-  COMP("veggy", 1);
-  COMPCONT("veggy_wild", 1);
-
-  RECIPE("jar_apple_canned", CC_FOOD, "cooking", "mechanics", 3, 30000, false, true);
-  TG_KNIVES
-  TOOLCONT("hatchet", -1);
-  TOOL("hammer", -1);
-  TOOLCONT("primitive_hammer",-1);
-  TOOLCONT("rock", -1);
-  TOOL("hotplate", 10);
-  TOOLCONT("toolset", 1);
-  TOOLCONT("fire", -1);
-  TOOL("pot", -1);
-  TOOLCONT("rock_pot", -1);
-  COMP("water", 1);
-  COMPCONT("water_clean", 1);
-  COMP("bottle_glass", 1);
-  COMP("sheet_metal", 1);
-  COMP("apple", 1);
+    int id = -1;
+    int tl, cl;
+    recipe* last_rec = NULL;
+
+    picojson::value recipeRaw;
+    std::ifstream recipeFile;
+
+    recipeFile.open("data/raw/recipes.json");
+
+    recipeFile >> recipeRaw;
+    
+    recipeFile.close();
+
+    // Soron says: picojson can't be the easiest solution >_>
+    // I would consider writing a wrapper, but... dunno if we want a wrapper,
+    // or a better alternative
+    if (recipeRaw.is<picojson::object>())
+    {
+        picojson::value craftCats = recipeRaw.get("categories");
+        if (craftCats.is<picojson::array>())
+        {
+            const picojson::array& craftCatList = craftCats.get<picojson::array>();
+            
+            for (picojson::array::const_iterator iter = craftCatList.begin(); iter != craftCatList.end(); ++iter)
+            {
+                if (iter->is<std::string>())
+                {
+                    craft_cat_list.push_back(iter->get<std::string>());
+                }
+                else
+                {
+                    debugmsg("Invalid craft category");
+                }
+            }
+        }
+        else
+        {
+            debugmsg("Bad recipe file: craft categories is not an array");
+            exit(1);
+        }
+        
+        picojson::value recipeJSON = recipeRaw.get("recipes");
+        if (recipeJSON.is<picojson::array>())
+        {
+            picojson::array& recipeList = recipeJSON.get<picojson::array>();
+            
+            for (picojson::array::const_iterator iter = recipeList.begin(); iter != recipeList.end(); ++iter)
+            {
+                if (iter->is<picojson::object>())
+                {
+                    std::string result;
+                    std::string category;
+                    const char *skill1 = NULL;
+                    const char *skill2 = NULL;
+                    int difficulty, time;
+                    bool reversible = false;
+                    bool autolearn;
+                    
+                    bool has_tools = false;
+                    
+                    //first we'll check the required stuff
+                    if (iter->contains("result"))
+                    {
+                        if (iter->get("result").is<std::string>())
+                        {
+                            result = iter->get("result").get<std::string>();
+                        }
+                        else
+                        {
+                            debugmsg("Invalid recipe: non-string result");
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        debugmsg("Invalid recipe: no result");
+                        continue;
+                    }
+                    
+                    if (iter->contains("category"))
+                    {
+                        if (iter->get("category").is<std::string>())
+                        {
+                            category = iter->get("category").get<std::string>();
+                        }
+                        else
+                        {
+                            debugmsg("Invalid recipe: non-string category");
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        debugmsg("Invalid recipe: no category");
+                        continue;
+                    }
+                    
+                    if (iter->contains("difficulty"))
+                    {
+                        if (iter->get("difficulty").is<double>())
+                        {
+                            difficulty = static_cast<int>(iter->get("difficulty").get<double>());
+                        }
+                        else
+                        {
+                            debugmsg("Invalid recipe: non-numeric difficulty");
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        debugmsg("Invalid recipe: no difficulty");
+                        continue;
+                    }
+                    
+                    if (iter->contains("time"))
+                    {
+                        if (iter->get("time").is<double>())
+                        {
+                            time = static_cast<int>(iter->get("time").get<double>());
+                        }
+                        else
+                        {
+                            debugmsg("Invalid recipe: non-numeric time");
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        debugmsg("Invalid recipe: no time");
+                        continue;
+                    }
+                    
+                    if (iter->contains("autolearn"))
+                    {
+                        autolearn = iter->get("autolearn").evaluate_as_boolean();
+                    }
+                    else
+                    {
+                        debugmsg("Invalid recipe: no autolearn");
+                        continue;
+                    }
+                    
+                    if (iter->contains("components"))
+                    {
+                        if (!iter->get("components").is<picojson::array>())
+                        {
+                            debugmsg("Invalid recipe: components are not an array");
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        debugmsg("Invalid recipe: no components");
+                        continue;
+                    }
+                    
+                    //now we'll check the optional stuff
+                    if (iter->contains("skill_pri"))
+                    {
+                        if (iter->get("skill_pri").is<std::string>())
+                        {
+                            skill1 = iter->get("skill_pri").get<std::string>().c_str();
+                        }
+                        else
+                        {
+                            debugmsg("Bad recipe primary skill: non-string");
+                            continue;
+                        }
+                    }
+                    
+                    if (iter->contains("skill_sec"))
+                    {
+                        if (iter->get("skill_sec").is<std::string>())
+                        {
+                            skill2 = iter->get("skill_sec").get<std::string>().c_str();
+                        }
+                        else
+                        {
+                            debugmsg("Bad recipe secondary skill: non-string");
+                            continue;
+                        }
+                    }
+                    
+                    if (iter->contains("reversible"))
+                    {
+                        reversible = iter->get("reversible").evaluate_as_boolean();
+                    }
+                    
+                    if (iter->contains("tools"))
+                    {
+                        if (!iter->get("tools").is<picojson::array>())
+                        {
+                            debugmsg("Invalid recipe: tools are not an array");
+                            continue;
+                        }
+                        has_tools = true;
+                    }
+                    
+                    tl = -1;
+                    cl = -1;
+                    ++id;
+                    
+                    last_rec = new recipe(id, result, skill1, skill2, difficulty, time, reversible, autolearn);
+                    
+                    for (picojson::array::const_iterator comp_iter = iter->get("components").get<picojson::array>().begin();
+                         comp_iter != iter->get("components").get<picojson::array>().end();
+                         ++comp_iter)
+                    {
+                        if (comp_iter->is<picojson::array>())
+                        {
+                            ++cl;
+                            for (picojson::array::const_iterator inner_iter = comp_iter->get<picojson::array>().begin();
+                                 inner_iter != comp_iter->get<picojson::array>().end();
+                                 ++inner_iter)
+                            {
+                                if (inner_iter->is<picojson::array>())
+                                {
+                                    if(inner_iter->get(0).is<std::string>() && inner_iter->get(1).is<double>())
+                                    {
+                                    std::string name = inner_iter->get(0).get<std::string>();
+                                        int quant = static_cast<int>(inner_iter->get(1).get<double>());
+                                        last_rec->components[cl].push_back(component(name, quant));
+                                    }
+                                    else
+                                    {
+                                        debugmsg("Invalid component for recipe: bad comp def");
+                                        --cl;
+                                        continue;
+                                    }
+                                }
+                                else
+                                {
+                                    debugmsg("Invalid component for recipe: not a pair");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            debugmsg("Invalid component for recipe: not an array");
+                            continue;
+                        }
+                    }
+                    
+                    if (has_tools)
+                    {
+                        for (picojson::array::const_iterator tool_iter = iter->get("tools").get<picojson::array>().begin();
+                             tool_iter != iter->get("tools").get<picojson::array>().end();
+                             ++tool_iter)
+                        {
+                            if (tool_iter->is<picojson::array>())
+                            {
+                                ++tl;
+                                for (picojson::array::const_iterator inner_iter = tool_iter->get<picojson::array>().begin();
+                                     inner_iter != tool_iter->get<picojson::array>().end();
+                                     ++inner_iter)
+                                {
+                                    if (inner_iter->is<picojson::array>())
+                                    {
+                                        if(inner_iter->get(0).is<std::string>() && inner_iter->get(1).is<double>())
+                                        {
+                                            std::string name = inner_iter->get(0).get<std::string>();
+                                            int quant = static_cast<int>(inner_iter->get(1).get<double>());
+                                            last_rec->tools[tl].push_back(component(name, quant));
+                                        }
+                                        else
+                                        {
+                                            debugmsg("Invalid tool for recipe: bad tool def");
+                                            --tl;
+                                            continue;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        debugmsg("Invalid tool for recipe: not a pair");
+                                        continue;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                debugmsg("Invalid tool for recipe: not an array");
+                                continue;
+                            }
+                        }
+                    }
+                    
+                    recipes[category].push_back(last_rec);
+                }
+                else
+                {
+                    debugmsg("Bad recipe: not an object");
+                }
+            }
+        }
+        else
+        {
+            debugmsg("Bad recipe file: recipes are not an array");
+            exit(1);
+        }
+    }
+    else
+    {
+        debugmsg("Bad recipe file: unknown problem");
+        exit(1);
+    }
 }
 
 bool game::crafting_allowed()
@@ -2044,11 +477,39 @@ void game::long_craft()
     }
 }
 
+craft_cat game::next_craft_cat(craft_cat cat)
+{
+    for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
+         iter != craft_cat_list.end();
+         ++iter)
+    {
+        if ((*iter) == cat)
+        {
+            return *(++iter);
+        }
+    }
+    return NULL;
+}
+
+craft_cat game::prev_craft_cat(craft_cat cat)
+{
+    for (std::vector<craft_cat>::iterator iter = craft_cat_list.begin();
+         iter != craft_cat_list.end();
+         ++iter)
+    {
+        if ((*iter) == cat)
+        {
+            return *(--iter);
+        }
+    }
+    return NULL;
+}
+
 recipe* game::select_crafting_recipe()
 {
 	WINDOW *w_head = newwin( 3, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
     WINDOW *w_data = newwin(22, 80, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), (TERMX  > 80) ? (TERMX -80)/2 : 0);
-    craft_cat tab = CC_WEAPON;
+    craft_cat tab = "CC_WEAPON";
     std::vector<recipe*> current;
     std::vector<bool> available;
     item tmp;
@@ -2313,25 +774,25 @@ recipe* game::select_crafting_recipe()
         {
             case DirectionW:
             case DirectionUp:
-                if (tab == CC_WEAPON)
+                if (tab == "CC_WEAPON")
                 {
-                    tab = CC_MISC;
+                    tab = "CC_MISC";
                 }
                 else
                 {
-                    tab = craft_cat(int(tab) - 1);
+                    tab = prev_craft_cat(tab);
                 }
                 redraw = true;
                 break;
             case DirectionE:
             case DirectionDown:
-                if (tab == CC_MISC)
+                if (tab == "CC_MISC")
                 {
-                    tab = CC_WEAPON;
+                    tab = "CC_WEAPON";
                 }
                 else
                 {
-                    tab = craft_cat(int(tab) + 1);
+                    tab = next_craft_cat(tab);
                 }
                 redraw = true;
                 break;
@@ -2414,14 +875,14 @@ void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
     mvwputch(w, 2, 79, c_ltgray, LINE_OOXX); // ^|
     if(!filtered)
     {
-        draw_tab(w,  2, "WEAPONS", (tab == CC_WEAPON) ? true : false);
-        draw_tab(w, 13, "AMMO",    (tab == CC_AMMO)   ? true : false);
-        draw_tab(w, 21, "FOOD",    (tab == CC_FOOD)   ? true : false);
-        draw_tab(w, 29, "DRINKS",  (tab == CC_DRINK)  ? true : false);
-        draw_tab(w, 39, "CHEMS",   (tab == CC_CHEM)   ? true : false);
-        draw_tab(w, 48, "ELECTRONICS", (tab == CC_ELECTRONIC) ? true : false);
-        draw_tab(w, 63, "ARMOR",   (tab == CC_ARMOR)  ? true : false);
-        draw_tab(w, 72, "MISC",    (tab == CC_MISC)   ? true : false);
+        draw_tab(w,  2, "WEAPONS", (tab == "CC_WEAPON") ? true : false);
+        draw_tab(w, 13, "AMMO",    (tab == "CC_AMMO")   ? true : false);
+        draw_tab(w, 21, "FOOD",    (tab == "CC_FOOD")   ? true : false);
+        draw_tab(w, 29, "DRINKS",  (tab == "CC_DRINK")  ? true : false);
+        draw_tab(w, 39, "CHEMS",   (tab == "CC_CHEM")   ? true : false);
+        draw_tab(w, 48, "ELECTRONICS", (tab == "CC_ELECTRONIC") ? true : false);
+        draw_tab(w, 63, "ARMOR",   (tab == "CC_ARMOR")  ? true : false);
+        draw_tab(w, 72, "MISC",    (tab == "CC_MISC")   ? true : false);
     }
     else
     {
