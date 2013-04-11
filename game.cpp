@@ -4752,7 +4752,7 @@ int getsquare(char c , int &off_x, int &off_y, std::string &areastring)
 
 }
 
-// for printing items in environment 
+// for printing items in environment
 void printItems(std::vector<item> &items, WINDOW* window, int page , int selected_index , bool active, game* g)
 {
     nc_color norm = active ? c_white : c_dkgray;
@@ -4771,7 +4771,7 @@ void printItems(std::vector<item> &items, WINDOW* window, int page , int selecte
         {
             wprintw(window," (%d)",items[i].charges);
         }
-        else if(items[i].contents.size() == 1 && 
+        else if(items[i].contents.size() == 1 &&
                 items[i].contents[0].charges > 0)
         {
             wprintw(window," (%d)",items[i].contents[0].charges);
@@ -4806,7 +4806,7 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         {
             wprintz(window,thiscolor," (%d)",u.inv[i].charges);
         }
-        else if(u.inv[i].contents.size() == 1 && 
+        else if(u.inv[i].contents.size() == 1 &&
                 u.inv[i].contents[0].charges > 0)
         {
             wprintz(window,thiscolor," (%d)",u.inv[i].contents[0].charges);
@@ -4861,10 +4861,10 @@ void game::advanced_inv()
     bool redraw = true;
 
     // page : the current page, index : the current selected index on the page , size : the total number of item in that tab
-    int left_page = 0; int left_index = 0; int left_size = 0; 
+    int left_page = 0; int left_index = 0; int left_size = 0;
     int right_page = 0; int right_index = 0; int right_size =0;
-    
-    int max_left_page = 0; int max_left_index = 0; 
+
+    int max_left_page = 0; int max_left_index = 0;
     int max_right_page = 0; int max_right_index = 0;
 
     int left_offx = 0; int left_offy = 0;
@@ -4883,7 +4883,7 @@ void game::advanced_inv()
             // calculate the offset.
             getsquare(left_area, left_offx,left_offy,left_area_string);
             getsquare(right_area, right_offx,right_offy,right_area_string);
-            // calculate page size 
+            // calculate page size
             left_size = left_area == 0 ? u.inv.size() : m.i_at(u.posx+left_offx,u.posy+left_offy).size();
             right_size = right_area == 0 ? u.inv.size() : m.i_at(u.posx+right_offx,u.posy+right_offy).size();
 
@@ -4901,7 +4901,7 @@ void game::advanced_inv()
             werase(right_window);
             mvwprintz(left_window,1,2,screen == 0 ? c_blue : c_white, "%s",left_area_string.c_str());
             mvwprintz(right_window,1,2,screen == 1 ? c_blue : c_white,"%s",right_area_string.c_str());
-            { 
+            {
             // print the header.
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
                 mvwprintz(head,1,3, c_white, "hjkl to move cursor");
@@ -4954,7 +4954,6 @@ void game::advanced_inv()
             }
             else if(canputitems[changeSquare])
             {
-                
                 if(screen == 0)
                 {
                     left_area = changeSquare;
@@ -4991,7 +4990,7 @@ void game::advanced_inv()
             {
                 if(dest_size >= MAX_ITEM_IN_SQUARE)
                 {
-                    popup("Destination area is full. Remove some item first");    
+                    popup("Destination area is full. Remove some item first");
                 }
                 else
                 {
@@ -5111,13 +5110,13 @@ void game::advanced_inv()
         {
             if(screen == 0)
             {
-                left_page++; 
+                left_page++;
                 if(left_page >= max_left_page)
                 {
                     left_page = 0;
                 }
             }
-            else 
+            else
             {
                 right_page++;
                 if(right_page >= max_right_page)
@@ -5131,13 +5130,13 @@ void game::advanced_inv()
         {
             if(screen == 0)
             {
-                left_page--; 
+                left_page--;
                 if(left_page < 0)
                 {
                     left_page = max_left_page - 1;
                 }
             }
-            else 
+            else
             {
                 right_page--;
                 if(right_page < 0)
@@ -5147,7 +5146,7 @@ void game::advanced_inv()
             }
             redraw = true;
         }
-        else 
+        else
         {
             int changex = 0;
             int changey = 0;
