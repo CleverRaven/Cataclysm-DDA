@@ -481,7 +481,7 @@ void game::init_mapitems()
         "wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
         "1cyl_combustion", "v2_combustion", "i4_combustion", "v6_combustion",
         "vehicle_controls", "v8_combustion", "hacksaw", "welder", "motor",
-        "kitchen_unit", "goggles_welding",
+        "goggles_welding",
         "motor_large", "storage_battery", "solar_panel", "jerrycan", "jerrycan_big", "metal_tank", NULL);
 
  setvector(
@@ -824,8 +824,8 @@ void game::init_mapitems()
 	"suppressor", "clip", "lighter", "flashlight", "two_way_radio",
 	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
 	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
-	"binoculars", "u_shotgun", "beltrig", "power_armor_basic", 
-    "power_armor_helmet_basic", "power_armor_frame", "spare_mag", 
+	"binoculars", "u_shotgun", "beltrig", "power_armor_basic",
+    "power_armor_helmet_basic", "power_armor_frame", "spare_mag",
     "canteen", "jerrycan", "rucksack", "heatpack", "LAW_Packed", NULL);
 
  setvector(
