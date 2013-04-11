@@ -40,6 +40,7 @@ struct recipe {
   int difficulty;
   int time;
   bool reversible; // can the item be disassembled?
+  bool autolearn; // do we learn it just by leveling skills?
 
   std::vector<component> tools[20];
   std::vector<component> components[20];
@@ -52,11 +53,12 @@ struct recipe {
     difficulty = 0;
     time = 0;
     reversible = false;
+    autolearn = false;
   }
 
 recipe(int pid, itype_id pres, const char *p1, const char *p2,
-       int pdiff, int ptime, bool preversible) :
-  id (pid), result (pres), difficulty (pdiff), time (ptime), reversible (preversible)
+       int pdiff, int ptime, bool preversible, bool pautolearn) :
+  id (pid), result (pres), difficulty (pdiff), time (ptime), reversible (preversible), autolearn (pautolearn)
   {
     sk_primary = p1?Skill::skill(p1):NULL;
     sk_secondary = p2?Skill::skill(p2):NULL;
