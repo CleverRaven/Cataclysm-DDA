@@ -151,17 +151,26 @@ int SkillLevel::rust(int &level) {
   return _exercise;
 }
 
-int SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel) {
+void SkillLevel::practice(const calendar& turn)
+{
+    _lastPracticed = turn;
+}
+
+int SkillLevel::readBook(int minimumGain, int maximumGain, const calendar& turn,
+                         int maximumLevel)
+{
   int gain = rng(minimumGain, maximumGain);
 
   int level;
 
   for (int i = 0; i < gain; ++i) {
-    train(level);
+      train(level);
 
     if (level >= maximumLevel)
       break;
   }
+
+  practice(turn);
 
   return _exercise;
 }

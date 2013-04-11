@@ -81,8 +81,9 @@ class SkillLevel {
 
   int train(int &level);
   int rust(int &level);
+  void practice(const calendar& turn);
 
-  int readBook(int minimumGain, int maximumGain, int maximumLevel = 0xFFFFFFFF);
+  int readBook(int minimumGain, int maximumGain, const calendar& turn, int maximumLevel = 0xFFFFFFFF);
 
   bool operator==(const SkillLevel& b) const { return this->_level == b._level && this->_exercise == b._exercise; }
   bool operator< (const SkillLevel& b) const { return this->_level <  b._level || (this->_level == b._level && this->_exercise < b._exercise); }

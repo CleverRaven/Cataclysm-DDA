@@ -91,7 +91,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
                            query_yn("Use fingerhack on the reader?"));
   if (using_electrohack || using_fingerhack) {
    p->moves -= 500;
-   p->practice("computer", 20);
+   p->practice(g->turn, "computer", 20);
    int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
    success += rng(-3, 3);
    if (using_fingerhack)

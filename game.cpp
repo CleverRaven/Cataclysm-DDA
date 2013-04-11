@@ -552,9 +552,10 @@ void game::process_activity()
       max_ex = 10;
 
      int originalSkillLevel = u.skillLevel(reading->type);
-     u.skillLevel(reading->type).readBook(min_ex, max_ex, reading->level);
+     u.skillLevel(reading->type).readBook(min_ex, max_ex, turn, reading->level);
 
-     add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(), u.skillLevel(reading->type).exercise());
+     add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(),
+             u.skillLevel(reading->type).exercise());
 
      if (u.skillLevel(reading->type) > originalSkillLevel)
       add_msg("You increase %s to level %d.",
@@ -4192,7 +4193,7 @@ void game::smash()
   sound(u.posx, u.posy, 18, bashsound);
   u.moves -= 80;
   if (u.skillLevel("melee") == 0)
-   u.practice("melee", rng(0, 1) * rng(0, 1));
+   u.practice(turn, "melee", rng(0, 1) * rng(0, 1));
   if (u.weapon.made_of(GLASS) &&
       rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
    add_msg("Your %s shatters!", u.weapon.tname(this).c_str());
@@ -6612,7 +6613,7 @@ void game::plthrow(char chInput)
 
  u.i_rem(ch);
  u.moves -= 125;
- u.practice("throw", 10);
+ u.practice(turn, "throw", 10);
 
  throw_item(u, x, y, thrown, trajectory);
 }
@@ -6741,10 +6742,10 @@ void game::plfire(bool burst)
    num_shots = u.weapon.num_charges();
  if (u.skillLevel(firing->skill_used) == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
-  u.practice(firing->skill_used, 4 + (num_shots / 2));
+     u.practice(turn, firing->skill_used, 4 + (num_shots / 2));
  if (u.skillLevel("gun") == 0 ||
      (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
-   u.practice("gun", 5);
+     u.practice(turn, "gun", 5);
 
  fire(u, x, y, trajectory, burst);
 }
@@ -6823,7 +6824,7 @@ void game::complete_butcher(int index)
  int practice = 4 + pieces;
  if (practice > 20)
   practice = 20;
- u.practice("survival", practice);
+ u.practice(turn, "survival", practice);
 
  pieces += int(skill_shift);
  if (skill_shift < 5)  {	// Lose some pelts and bones
@@ -6924,7 +6925,7 @@ void game::forage()
   if (veggy_chance < u.skillLevel("survival"))
   {
     add_msg("You found some wild veggies!");
-    u.practice("survival", 10);
+    u.practice(turn, "survival", 10);
     m.spawn_item(u.activity.placement.x, u.activity.placement.y, this->itypes["veggy_wild"], turn, 0);
     m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
@@ -7362,7 +7363,7 @@ void game::pldrive(int x, int y) {
 
  u.moves = 0;
  if (x != 0 && veh->velocity != 0 && one_in(4))
-   u.practice("driving", 1);
+     u.practice(turn, "driving", 1);
 }
 
 void game::plmove(int x, int y)
@@ -7686,7 +7687,7 @@ void game::plswim(int x, int y)
   u.rem_disease(DI_ONFIRE);
  }
  int movecost = u.swim_speed();
- u.practice("swimming", 1);
+ u.practice(turn, "swimming", 1);
  if (movecost >= 500) {
   if (!u.underwater) {
    add_msg("You sink%s!", (movecost >= 400 ? " like a rock" : ""));

@@ -456,11 +456,11 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
    if (goodhit < .1 && !z[mon_at(tx, ty)].has_flag(MF_NOHEAD)) {
     message = "Headshot!";
     dam = rng(dam, dam * 3);
-    p.practice("throw", 5);
+    p.practice(turn, "throw", 5);
    } else if (goodhit < .2) {
     message = "Critical!";
     dam = rng(dam, dam * 2);
-    p.practice("throw", 2);
+    p.practice(turn, "throw", 2);
    } else if (goodhit < .4)
     dam = rng(int(dam / 2), int(dam * 1.5));
    else if (goodhit < .5) {
@@ -889,14 +889,14 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
   if (goodhit < .1 && !mon.has_flag(MF_NOHEAD)) {
    message = "Headshot!";
    dam = rng(5 * dam, 8 * dam);
-   p.practice(firing->skill_used, 5);
+   p.practice(g->turn, firing->skill_used, 5);
   } else if (goodhit < .2) {
    message = "Critical!";
    dam = rng(dam * 2, dam * 3);
-   p.practice(firing->skill_used, 2);
+   p.practice(g->turn, firing->skill_used, 2);
   } else if (goodhit < .4) {
    dam = rng(int(dam * .9), int(dam * 1.5));
-   p.practice(firing->skill_used, rng(0, 2));
+   p.practice(g->turn, firing->skill_used, rng(0, 2));
   } else if (goodhit <= .7) {
    message = "Grazing hit.";
    dam = rng(0, dam);
@@ -935,7 +935,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
  if (goodhit < .003) {
   hit = bp_eyes;
   dam = rng(3 * dam, 5 * dam);
-  p.practice(firing->skill_used, 5);
+  p.practice(g->turn, firing->skill_used, 5);
  } else if (goodhit < .066) {
   if (one_in(25))
    hit = bp_eyes;
@@ -944,11 +944,11 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
   else
    hit = bp_head;
   dam = rng(2 * dam, 5 * dam);
-  p.practice(firing->skill_used, 5);
+  p.practice(g->turn, firing->skill_used, 5);
  } else if (goodhit < .2) {
   hit = bp_torso;
   dam = rng(dam, 2 * dam);
-  p.practice(firing->skill_used, 2);
+  p.practice(g->turn, firing->skill_used, 2);
  } else if (goodhit < .4) {
   if (one_in(3))
    hit = bp_torso;
@@ -957,7 +957,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
   else
    hit = bp_legs;
   dam = rng(int(dam * .9), int(dam * 1.5));
-  p.practice(firing->skill_used, rng(0, 1));
+  p.practice(g->turn, firing->skill_used, rng(0, 1));
  } else if (goodhit < .5) {
   if (one_in(2))
    hit = bp_arms;

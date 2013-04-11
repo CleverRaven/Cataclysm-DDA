@@ -260,7 +260,7 @@ void iuse::bandage(game *g, player *p, item *it, bool t)
         refresh();
     }
 
-    p->practice("firstaid", 8);
+    p->practice(g->turn, "firstaid", 8);
     int dam = 0;
     if (healed == hp_head){
         dam = 1 + bonus * .8;
@@ -435,7 +435,7 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
         refresh();
     }
 
-    p->practice("firstaid", 8);
+    p->practice(g->turn, "firstaid", 8);
     int dam = 0;
     if (healed == hp_head){
         dam = 10 + bonus * .8;
@@ -872,7 +872,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
   return;
  } else if (fix->damage == 0) {
   p->moves -= 500;
-  p->practice("tailor", 10);
+  p->practice(g->turn, "tailor", 10);
   int rn = dice(4, 2 + p->skillLevel("tailor"));
   if (p->dex_cur < 8 && one_in(p->dex_cur))
    rn -= rng(2, 6);
@@ -893,7 +893,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
    g->add_msg_if_player(p,"You practice your sewing.");
  } else {
   p->moves -= 500;
-  p->practice("tailor", 8);
+  p->practice(g->turn, "tailor", 8);
   int rn = dice(4, 2 + p->skillLevel("tailor"));
   rn -= rng(fix->damage, fix->damage * 2);
   if (p->dex_cur < 8 && one_in(p->dex_cur))
@@ -1494,10 +1494,10 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   return;
  }
 
- p->practice("mechanics", 1);
+ p->practice(g->turn, "mechanics", 1);
  p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics")) * 5;
  if (dice(4, 6) < dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur) - it->damage / 2) {
-  p->practice("mechanics", 1);
+  p->practice(g->turn, "mechanics", 1);
   g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
   g->m.ter_set(dirx, diry, new_type);
  } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics")) +
@@ -1600,7 +1600,7 @@ if (dirx == 0 && diry == 0) {
    return;
   }
   if(p->skillLevel("carpentry") < 1)
-   p->practice("carpentry", 1);
+   p->practice(g->turn, "carpentry", 1);
   p->moves -= 500;
   g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
   g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
@@ -1608,10 +1608,10 @@ if (dirx == 0 && diry == 0) {
   return;
  }
 
- p->practice("mechanics", 1);
+ p->practice(g->turn, "mechanics", 1);
  p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics")) * 5);
  if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
-  p->practice("mechanics", 1);
+  p->practice(g->turn, "mechanics", 1);
   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
   g->m.ter_set(dirx, diry, new_type);
   if (noisy)
@@ -1663,7 +1663,7 @@ void iuse::dig(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You dig a pit.");
   g->m.ter     (p->posx + dirx, p->posy + diry) = t_pit;
   g->m.add_trap(p->posx + dirx, p->posy + diry, tr_pit);
-  p->practice("traps", 1);
+  p->practice(g->turn, "traps", 1);
  } else
   g->add_msg_if_player(p,"You can't dig through %s!",
              g->m.tername(p->posx + dirx, p->posy + diry).c_str());
@@ -1950,7 +1950,7 @@ That trap needs a 3x3 space to be clear, centered two tiles from you.");
  }
 
  g->add_msg_if_player(p,message.str().c_str());
- p->practice("traps", practice);
+ p->practice(g->turn, "traps", practice);
  g->m.add_trap(posx, posy, type);
  p->moves -= 100 + practice * 25;
  if (type == tr_engine) {
