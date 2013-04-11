@@ -77,16 +77,19 @@ size_t Skill::skill_count() {
 }
 
 
-SkillLevel::SkillLevel(int level, int exercise, bool isTraining) {
+SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPracticed) {
   _level = level;
   _exercise = exercise;
   _isTraining = isTraining;
+  _lastPracticed = lastPracticed;
 }
 
-SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining) {
+SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise,
+                       bool isTraining, int lastPracticed) {
   _level = rng(minLevel, maxLevel);
   _exercise = rng(minExercise, maxExercise);
   _isTraining = isTraining;
+  _lastPracticed = lastPracticed;
 }
 
 int SkillLevel::comprehension(int intellect, bool fastLearner) {
@@ -165,21 +168,34 @@ int SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel) {
 
 
 std::istream& operator>>(std::istream& is, SkillLevel& obj) {
-  int level; int exercise; bool isTraining;
+  int level; int exercise; bool isTraining; int lastPracticed;
 
-  is >> level >> exercise >> isTraining;
+  is >> level >> exercise >> isTraining >> lastPracticed;
 
-  obj = SkillLevel(level, exercise, isTraining);
+  obj = SkillLevel(level, exercise, isTraining, lastPracticed);
 
   return is;
 }
 
 std::ostream& operator<<(std::ostream& os, const SkillLevel& obj) {
-  os << obj.level() << " " << obj.exercise() << " " << obj.isTraining() << " ";
+  os << obj.level() << " " << obj.exercise() << " "
+     << obj.isTraining() << " " << obj.lastPracticed() << " ";
 
   return os;
 }
 
+SkillLevel& SkillLevel::operator= (const SkillLevel &rhs)
+{
+ if (this == &rhs)
+  return *this; // No self-assignment
+
+  _level = rhs._level;
+  _exercise = rhs._exercise;
+  _isTraining = rhs._isTraining;
+  _lastPracticed = rhs._lastPracticed;
+
+ return *this;
+}
 
 std::string skill_name(int sk) {
   return Skill::skill(sk)->name();
