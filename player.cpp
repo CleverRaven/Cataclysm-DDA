@@ -3312,6 +3312,14 @@ int player::volume_capacity()
  return ret;
 }
 
+bool player::can_pickVolume(int volume)
+{
+    return (volume_carried() + volume <= volume_capacity());
+}
+bool player::can_pickWeight(int weight)
+{
+    return (weight_carried() + weight <= weight_capacity());
+}
 int player::morale_level()
 {
  std::stringstream morale_text;
