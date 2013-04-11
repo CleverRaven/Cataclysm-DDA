@@ -2458,7 +2458,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
     {
         for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter)
         {
-            add_automatic_recipes(current, iter->second);
+            add_automatic_recipes(current, iter->second, filter);
         }
     }
     
@@ -2476,7 +2476,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
     }
 }
 
-void game::add_automatic_recipes(std::vector<recipe*> &current, recipe_list source)
+void game::add_automatic_recipes(std::vector<recipe*> &current, recipe_list source, std::string filter)
 {
     for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
     {
@@ -2491,7 +2491,10 @@ void game::add_automatic_recipes(std::vector<recipe*> &current, recipe_list sour
             {
                 if ((*iter)->difficulty >= 0 )
                 {
-                    current.push_back(*iter);
+                    if (filter == "" || itypes[(*iter)->result]->name.find(filter) != std::string::npos)
+                    {
+                        current.push_back(*iter);
+                    }
                 }
             }
         }
