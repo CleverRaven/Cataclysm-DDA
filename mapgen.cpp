@@ -1420,8 +1420,10 @@ mapf::basic_bind( "# m s - t", t_sandbox, t_monkey_bars, t_slide, t_bench, t_tre
 |     .  . 7 .  .      |\n\
 |-+------------------+-|\n\
 \n\n",
- mapf::basic_bind(". 7 # | - +", t_pavement_y, t_backboard, t_bench, t_chainfence_v, t_chainfence_h, t_chaingate_l),
- mapf::end() );
+  mapf::basic_bind(". 7 # | - +", t_pavement_y, t_backboard, t_bench, t_chainfence_v, t_chainfence_h, t_chaingate_l),
+  mapf::end() );
+
+  rotate(rng(0, 3));
   }
   add_spawn(mon_zombie_child, rng(2, 8), SEEX, SEEY);
  } break;
