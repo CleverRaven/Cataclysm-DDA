@@ -1031,7 +1031,6 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   COMPCONT("xacto", 1);
   COMPCONT("knife_butter", 1);
   COMP("power_supply", 1);
-  COMP("element", 1);
   COMP("scrap", 2);
 
   RECIPE("battery", CC_ELECTRONIC, "electronics", "mechanics", 2, 5000, false);
@@ -1090,7 +1089,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("water_purifier", CC_ELECTRONIC, "mechanics","electronics",3,25000, true);
   TOOL("screwdriver", -1);
   TOOLCONT("toolset", -1);
-  COMP("element", 8);
+  COMP("element", 2);
   COMP("bottle_glass", 2);
   COMPCONT("bottle_plastic", 5);
   COMP("hose", 1);
@@ -1100,7 +1099,7 @@ recipes.push_back( new recipe(id, result, category, skill1, skill2, difficulty,\
   RECIPE("hotplate", CC_ELECTRONIC, "electronics", NULL, 3, 30000, true);
   TOOL("screwdriver", -1);
   TOOLCONT("toolset", -1);
-  COMP("element", 4);
+  COMP("element", 1);
   COMP("amplifier", 1);
   COMP("scrap", 2);
   COMPCONT("pan", 1);

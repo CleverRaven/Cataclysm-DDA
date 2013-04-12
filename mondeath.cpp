@@ -7,7 +7,8 @@
 
 void mdeath::normal(game *g, monster *z)
 {
- if (g->u_see(z))
+ int junk;
+ if (g->u_see(z, junk))
   g->add_msg("It dies!");
  if (z->made_of(FLESH) && z->has_flag(MF_WARM)) {
   if (g->m.field_at(z->posx, z->posy).type == fd_blood &&
@@ -28,7 +29,8 @@ void mdeath::normal(game *g, monster *z)
 
 void mdeath::acid(game *g, monster *z)
 {
- if (g->u_see(z))
+ int tmp;
+ if (g->u_see(z, tmp))
   g->add_msg("The %s's corpse melts into a pool of acid.", z->name().c_str());
  g->m.add_field(g, z->posx, z->posy, fd_acid, 3);
 }
@@ -130,7 +132,7 @@ void mdeath::fungus(game *g, monster *z)
    sporey = z->posy + j;
    if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
     if (g->mon_at(sporex, sporey) >= 0) {	// Spores hit a monster
-     if (g->u_see(sporex, sporey))
+     if (g->u_see(sporex, sporey, j))
       g->add_msg("The %s is covered in tiny spores!",
                  g->z[g->mon_at(sporex, sporey)].name().c_str());
      if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
@@ -155,13 +157,15 @@ void mdeath::fungusawake(game *g, monster *z)
 
 void mdeath::disintegrate(game *g, monster *z)
 {
- if (g->u_see(z))
+ int junk;
+ if (g->u_see(z, junk))
   g->add_msg("It disintegrates!");
 }
 
 void mdeath::worm(game *g, monster *z)
 {
- if (g->u_see(z))
+ int j;
+ if (g->u_see(z, j))
   g->add_msg("The %s splits in two!", z->name().c_str());
 
  std::vector <point> wormspots;
@@ -215,16 +219,17 @@ void mdeath::guilt(game *g, monster *z)
 }
 void mdeath::blobsplit(game *g, monster *z)
 {
+ int j;
  int speed = z->speed - rng(30, 50);
  if (speed <= 0) {
-  if (g->u_see(z))
+  if (g->u_see(z, j))
    g->add_msg("The %s splatters into tiny, dead pieces.", z->name().c_str());
   return;
  }
  monster blob(g->mtypes[(speed < 50 ? mon_blob_small : mon_blob)]);
  blob.speed = speed;
  blob.friendly = z->friendly; // If we're tame, our kids are too
- if (g->u_see(z))
+ if (g->u_see(z, j))
   g->add_msg("The %s splits!", z->name().c_str());
  blob.hp = blob.speed;
  std::vector <point> valid;
@@ -249,7 +254,8 @@ void mdeath::blobsplit(game *g, monster *z)
 
 void mdeath::melt(game *g, monster *z)
 {
- if (g->u_see(z))
+ int j;
+ if (g->u_see(z, j))
   g->add_msg("The %s melts away!", z->name().c_str());
 }
 

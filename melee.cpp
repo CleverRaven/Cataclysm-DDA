@@ -777,7 +777,8 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
  std::string s = (is_npc() ? "s" : "");
  int tarx = (mon ? z->posx : p->posx), tary = (mon ? z->posy : p->posy);
 
- bool u_see = (!is_npc() || g->u_see(posx, posy));
+ int junk;
+ bool u_see = (!is_npc() || g->u_see(posx, posy, junk));
 
  if (technique == TEC_RAPID) {
   moves += int( attack_speed(*this, false) / 2);
@@ -951,11 +952,12 @@ void player::perform_defensive_technique(
   body_part &bp_hit, int &side, int &bash_dam, int &cut_dam, int &stab_dam)
 
 {
+ int junk;
  bool mon = (z != NULL);
  std::string You = (is_npc() ? name : "You");
  std::string your = (is_npc() ? (male ? "his" : "her") : "your");
  std::string target = (mon ? "the " + z->name() : p->name);
- bool u_see = (!is_npc() || g->u_see(posx, posy));
+ bool u_see = (!is_npc() || g->u_see(posx, posy, junk));
 
  switch (technique) {
   case TEC_BLOCK:
@@ -1086,8 +1088,9 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  if (z == NULL && p == NULL)
   return;
  bool mon = (z != NULL);
+ int junk;
  bool is_u = (!is_npc());
- bool can_see = (is_u || g->u_see(posx, posy));
+ bool can_see = (is_u || g->u_see(posx, posy, junk));
  std::string You = (is_u ? "You" : name);
  std::string Your = (is_u ? "Your" : name + "'s");
  std::string your = (is_u ? "your" : name + "'s");

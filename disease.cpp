@@ -99,6 +99,7 @@ void dis_msg(game *g, dis_type type)
 void dis_effect(game *g, player &p, disease &dis)
 {
  int bonus;
+ int junk;
  switch (dis.type) {
  case DI_GLARE:
   p.per_cur -= 1;
@@ -446,7 +447,7 @@ void dis_effect(game *g, player &p, disease &dis)
        one_in(2000 + bonus * 10)) {
     if (!p.is_npc())
      g->add_msg("You vomit a thick, gray goop.");
-    else if (g->u_see(p.posx, p.posy))
+    else if (g->u_see(p.posx, p.posy, junk))
      g->add_msg("%s vomits a thick, gray goop.", p.name.c_str());
     p.moves = -200;
     p.hunger += 50;
@@ -456,7 +457,7 @@ void dis_effect(game *g, player &p, disease &dis)
    if (one_in(1000 + bonus * 8)) {
     if (!p.is_npc())
      g->add_msg("You double over, spewing live spores from your mouth!");
-    else if (g->u_see(p.posx, p.posy))
+    else if (g->u_see(p.posx, p.posy, junk))
      g->add_msg("%s coughs up a stream of live spores!", p.name.c_str());
     p.moves = -500;
     int sporex, sporey;
@@ -467,7 +468,7 @@ void dis_effect(game *g, player &p, disease &dis)
       sporey = p.posy + j;
       if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
        if (g->mon_at(sporex, sporey) >= 0) {	// Spores hit a monster
-        if (g->u_see(sporex, sporey))
+        if (g->u_see(sporex, sporey, junk))
          g->add_msg("The %s is covered in tiny spores!",
                     g->z[g->mon_at(sporex, sporey)].name().c_str());
         if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
@@ -482,7 +483,7 @@ void dis_effect(game *g, player &p, disease &dis)
    } else if (one_in(6000 + bonus * 20)) {
     if (!p.is_npc())
      g->add_msg("Fungus stalks burst through your hands!");
-    else if (g->u_see(p.posx, p.posy))
+    else if (g->u_see(p.posx, p.posy, junk))
      g->add_msg("Fungus stalks burst through %s's hands!", p.name.c_str());
     p.hurt(g, bp_arms, 0, 60);
     p.hurt(g, bp_arms, 1, 60);
@@ -726,10 +727,11 @@ void dis_effect(game *g, player &p, disease &dis)
     }
    }
    if (valid_spawns.size() >= 1) {
+    int t;
     p.rem_disease(DI_DERMATIK); // No more infection!  yay.
     if (!p.is_npc())
      g->add_msg("Insects erupt from your skin!");
-    else if (g->u_see(p.posx, p.posy))
+    else if (g->u_see(p.posx, p.posy, t))
      g->add_msg("Insects erupt from %s's skin!", p.name.c_str());
     p.moves -= 600;
     monster grub(g->mtypes[mon_dermatik_larva]);
@@ -778,10 +780,11 @@ void dis_effect(game *g, player &p, disease &dis)
   p.int_cur -= 2;
   p.str_cur -= 1;
   if (one_in(10 + 40 * p.int_cur)) {
+   int t;
    if (!p.is_npc()) {
     g->add_msg("You start scratching yourself all over!");
     g->cancel_activity();
-   } else if (g->u_see(p.posx, p.posy))
+   } else if (g->u_see(p.posx, p.posy, t))
     g->add_msg("%s starts scratching %s all over!", p.name.c_str(),
                (p.male ? "himself" : "herself"));
    p.moves -= 150;
@@ -918,7 +921,7 @@ void dis_effect(game *g, player &p, disease &dis)
       g->m.ter_set(x, y, t_rubble);
      beast.spawn(x, y);
      g->z.push_back(beast);
-     if (g->u_see(x, y)) {
+     if (g->u_see(x, y, junk)) {
       g->cancel_activity_query("A monster appears nearby!");
       g->add_msg("A portal opens nearby, and a monster crawls through!");
      }
@@ -968,7 +971,7 @@ void dis_effect(game *g, player &p, disease &dis)
       one_in(250)) {
    mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
    monster beast(g->mtypes[type]);
-   int x, y, tries = 0;
+   int x, y, tries = 0, junk;
    do {
     x = p.posx + rng(-4, 4);
     y = p.posy + rng(-4, 4);
@@ -980,7 +983,7 @@ void dis_effect(game *g, player &p, disease &dis)
      g->m.ter_set(x, y, t_rubble);
     beast.spawn(x, y);
     g->z.push_back(beast);
-    if (g->u_see(x, y)) {
+    if (g->u_see(x, y, junk)) {
      g->cancel_activity_query("A monster appears nearby!");
      g->add_msg("A portal opens nearby, and a monster crawls through!");
     }

@@ -55,7 +55,8 @@ void trapfunc::board(game *g, int x, int y)
 
 void trapfuncm::board(game *g, monster *z, int x, int y)
 {
- if (g->u_see(z))
+ int t;
+ if (g->u_see(z, t))
   g->add_msg("The %s steps on a spiked board!", z->name().c_str());
  if (z->hurt(rng(6, 10)))
   g->kill_mon(g->mon_at(x, y));
@@ -85,7 +86,8 @@ void trapfunc::tripwire(game *g, int x, int y)
 
 void trapfuncm::tripwire(game *g, monster *z, int x, int y)
 {
- if (g->u_see(z))
+ int t;
+ if (g->u_see(z, t))
   g->add_msg("The %s trips over a tripwire!", z->name().c_str());
  z->stumble(g, false);
  if (rng(0, 10) > z->type->sk_dodge && z->hurt(rng(1, 4)))
@@ -125,8 +127,9 @@ void trapfunc::crossbow(game *g, int x, int y)
 
 void trapfuncm::crossbow(game *g, monster *z, int x, int y)
 {
+ int t;
  bool add_bolt = true;
- bool seen = g->u_see(z);
+ bool seen = g->u_see(z, t);
  if (!one_in(4)) {
   if (seen)
    g->add_msg("A bolt shoots out and hits the %s!", z->name().c_str());
@@ -177,7 +180,8 @@ void trapfunc::shotgun(game *g, int x, int y)
 
 void trapfuncm::shotgun(game *g, monster *z, int x, int y)
 {
- bool seen = g->u_see(z);
+ int t;
+ bool seen = g->u_see(z, t);
  int chance;
  switch (z->type->size) {
   case MS_TINY:   chance = 100; break;
@@ -212,7 +216,8 @@ void trapfunc::blade(game *g, int x, int y)
 
 void trapfuncm::blade(game *g, monster *z, int x, int y)
 {
- if (g->u_see(z))
+ int t;
+ if (g->u_see(z, t))
   g->add_msg("A blade swings out and hacks the %s!", z->name().c_str());
  int cutdam = 30 - z->armor_cut();
  int bashdam = 12 - z->armor_bash();
@@ -236,7 +241,8 @@ void trapfunc::snare_light(game *g, int x, int y)
 
 void trapfuncm::snare_light(game *g, monster *z, int x, int y)
 {
- bool seen = g->u_see(z);
+ int t;
+ bool seen = g->u_see(z, t);
  g->sound(x, y, 2, "Snap!");
  switch (z->type->size) {
   case MS_TINY:
@@ -294,7 +300,8 @@ void trapfunc::snare_heavy(game *g, int x, int y)
 
 void trapfuncm::snare_heavy(game *g, monster *z, int x, int y)
 {
- bool seen = g->u_see(z);
+ int t;
+ bool seen = g->u_see(z, t);
  g->sound(x, y, 4, "Snap!");
  switch (z->type->size) {
   case MS_TINY:
@@ -357,7 +364,8 @@ void trapfunc::landmine(game *g, int x, int y)
 
 void trapfuncm::landmine(game *g, monster *z, int x, int y)
 {
- if (g->u_see(x, y))
+ int t;
+ if (g->u_see(x, y, t))
   g->add_msg("The %s steps on a landmine!", z->name().c_str());
  g->explosion(x, y, 10, 8, false);
  g->m.tr_at(x, y) = tr_null;
@@ -372,7 +380,8 @@ void trapfunc::boobytrap(game *g, int x, int y)
 
 void trapfuncm::boobytrap(game *g, monster *z, int x, int y)
 {
- if (g->u_see(x, y))
+ int t;
+ if (g->u_see(x, y, t))
   g->add_msg("The %s triggers a boobytrap!", z->name().c_str());
  g->explosion(x, y, 18, 12, false);
  g->m.tr_at(x, y) = tr_null;
@@ -388,7 +397,8 @@ void trapfunc::telepad(game *g, int x, int y)
 void trapfuncm::telepad(game *g, monster *z, int x, int y)
 {
  g->sound(x, y, 6, "vvrrrRRMM*POP!*");
- if (g->u_see(z))
+ int j;
+ if (g->u_see(z, j))
   g->add_msg("The air shimmers around the %s...", z->name().c_str());
 
  int tries = 0;
@@ -402,9 +412,9 @@ void trapfuncm::telepad(game *g, monster *z, int x, int y)
  if (tries == 10)
   g->explode_mon(g->mon_at(z->posx, z->posy));
  else {
-  int mon_hit = g->mon_at(newposx, newposy);
+  int mon_hit = g->mon_at(newposx, newposy), t;
   if (mon_hit != -1) {
-   if (g->u_see(z))
+   if (g->u_see(z, t))
     g->add_msg("The %s teleports into a %s, killing them both!",
                z->name().c_str(), g->z[mon_hit].name().c_str());
    g->explode_mon(mon_hit);
@@ -484,7 +494,8 @@ void trapfunc::pit(game *g, int x, int y)
 
 void trapfuncm::pit(game *g, monster *z, int x, int y)
 {
- if (g->u_see(x, y))
+ int junk;
+ if (g->u_see(x, y, junk))
   g->add_msg("The %s falls in a pit!", z->name().c_str());
  if (z->hurt(rng(10, 20)))
   g->kill_mon(g->mon_at(x, y));
@@ -534,7 +545,8 @@ void trapfunc::pit_spikes(game *g, int x, int y)
 
 void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)
 {
- bool sees = g->u_see(z);
+ int junk;
+ bool sees = g->u_see(z, junk);
  if (sees)
   g->add_msg("The %s falls in a spiked pit!", z->name().c_str());
  if (z->hurt(rng(20, 50)))
@@ -565,7 +577,8 @@ void trapfunc::lava(game *g, int x, int y)
 
 void trapfuncm::lava(game *g, monster *z, int x, int y)
 {
- bool sees = g->u_see(z);
+ int junk;
+ bool sees = g->u_see(z, junk);
  if (sees)
   g->add_msg("The %s burns the %s!", g->m.tername(x, y).c_str(),
                                      z->name().c_str());

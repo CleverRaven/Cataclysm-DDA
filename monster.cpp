@@ -526,6 +526,7 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
 
 void monster::hit_monster(game *g, int i)
 {
+ int junk;
  monster* target = &(g->z[i]);
 
  if (this == target) {
@@ -543,11 +544,11 @@ void monster::hit_monster(game *g, int i)
  }
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
-  if (g->u_see(this))
+  if (g->u_see(this, junk))
    g->add_msg("The %s misses the %s!", name().c_str(), target->name().c_str());
   return;
  }
- if (g->u_see(this))
+ if (g->u_see(this, junk))
   g->add_msg("The %s hits the %s!", name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  if (target->hurt(damage))

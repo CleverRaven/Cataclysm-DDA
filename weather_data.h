@@ -14,7 +14,7 @@ std::string season_name[4] = {
  *  patterns have "stay the same" as a highly likely transition; see below
  * Note light modifier assumes baseline of DAYLIGHT_LEVEL at 60
  */
-weather_datum weather_data[] = {
+weather_datum weather_data[NUM_WEATHER_TYPES] = {
 {"NULL Weather - BUG", c_magenta,
  {0, 0, 0, 0}, 0, 0, 0, 0, false,
  &weather_effect::none},

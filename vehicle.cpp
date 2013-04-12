@@ -1556,7 +1556,8 @@ void vehicle::handle_trap (int x, int y, int part)
             msg.clear();
         default:;
     }
-    if (msg.size() > 0 && g->u_see(x, y))
+    int dummy;
+    if (msg.size() > 0 && g->u_see(x, y, dummy))
         g->add_msg (msg.c_str(), name.c_str(), part_info(part).name, g->traps[t]->name.c_str());
     if (noise > 0)
         g->sound (x, y, noise, snd);
@@ -1957,7 +1958,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     for (int i = 0; i < traj.size(); i++)
         if (traj[i].x == g->u.posx && traj[i].y == g->u.posy)
             return false; // won't shoot at player
-    if (g->u_see(x, y))
+    if (g->u_see(x, y, t))
         g->add_msg("The %s fires its %s!", name.c_str(), part_info(p).name);
     player tmp;
     tmp.name = std::string("The ") + part_info(p).name;

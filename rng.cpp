@@ -1,9 +1,17 @@
 #include "output.h"
 #include "rng.h"
 
+std::default_random_engine gen;
+
 long rng(long low, long high)
 {
- return low + long((high - low + 1) * double(rand() / double(RAND_MAX + 1.0)));
+    if (low <= high)
+    {
+        std::uniform_int_distribution<> dist(low, high);
+        return dist(gen);
+    }
+    else //Because not sure if the 0 ~ -1 at startup is intentional or not.
+    return low + long((high - low + 1) * double(rand() / double(RAND_MAX + 1.0)));
 }
 
 bool one_in(int chance)
@@ -14,7 +22,8 @@ bool one_in(int chance)
 }
 bool x_in_y(double x, double y)
 {
- if( ((double)rand() / RAND_MAX) <= ((double)x/y) )
+    std::uniform_real_distribution<> dist(0, 1.0f);
+ if( dist(gen) <= ((double)x/y) )
   return true;
  return false;
 }

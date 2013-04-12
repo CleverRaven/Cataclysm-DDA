@@ -220,7 +220,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"walkway",          '#', c_yellow,  2, tr_null,
 	mfb(transparent), &iexamine::none},
 {"canvas wall",      '#', c_blue,   0, tr_null,
-        mfb(l_flammable)|mfb(bashable)|mfb(noitem)|mfb(tentable), &iexamine::none},
+        mfb(l_flammable)|mfb(bashable)|mfb(noitem)|mfb(tentable), &iexamine::tent},
 {"canvas flap",      '+', c_blue,   0, tr_null,
         mfb(l_flammable)|mfb(bashable)|mfb(noitem)|mfb(tentable), &iexamine::none},
 {"open canvas flap", '.', c_blue,   2, tr_null,
