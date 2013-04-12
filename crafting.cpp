@@ -1053,9 +1053,9 @@ void game::complete_craft()
  int diff_roll  = dice(diff_dice,  diff_sides);
 
  if (making->sk_primary)
-  u.practice(making->sk_primary, making->difficulty * 5 + 20);
+  u.practice(turn, making->sk_primary, making->difficulty * 5 + 20);
  if (making->sk_secondary)
-  u.practice(making->sk_secondary, 5);
+  u.practice(turn, making->sk_secondary, 5);
 
 // Messed up badly; waste some components.
  if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
@@ -1483,9 +1483,9 @@ void game::complete_disassemble()
 
    // disassembly only nets a bit of practice
    if (dis->sk_primary)
-    u.practice(dis->sk_primary, (dis->difficulty) * 2);
+    u.practice(turn, dis->sk_primary, (dis->difficulty) * 2);
    if (dis->sk_secondary)
-    u.practice(dis->sk_secondary, 2);
+    u.practice(turn, dis->sk_secondary, 2);
 
   for (int j = 0; j < 5; j++)
   {

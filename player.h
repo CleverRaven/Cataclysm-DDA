@@ -219,8 +219,8 @@ public:
  int resist(body_part bp);	// Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
 
- void practice(Skill *s, int amount);
- void practice(std::string s, int amount);
+ void practice(const calendar& turn, Skill *s, int amount);
+ void practice(const calendar& turn, std::string s, int amount);
 
  void assign_activity(game* g, activity_type type, int moves, int index = -1);
  void cancel_activity();
@@ -229,6 +229,8 @@ public:
  int volume_carried();
  int weight_capacity(bool real_life = true);
  int volume_capacity();
+ bool can_pickVolume(int volume);
+ bool can_pickWeight(int weight);
  int morale_level();	// Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
                  itype* item_type = NULL);

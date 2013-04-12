@@ -93,7 +93,7 @@ void computer::use(game *g)
 
   case 'y':
   case 'Y':
-   if (!hack_attempt(&(g->u))) {
+   if (!hack_attempt(g, &(g->u))) {
     if (failures.size() == 0) {
      print_line("Maximum login attempts exceeded. Press any key...");
      getch();
@@ -140,7 +140,7 @@ void computer::use(game *g)
    if (current.security > 0) {
     print_error("Password required.");
     if (query_bool("Hack into system?")) {
-     if (!hack_attempt(&(g->u), current.security)) {
+     if (!hack_attempt(g, &(g->u), current.security)) {
       activate_random_failure(g);
       shutdown_terminal();
       return;
@@ -157,12 +157,12 @@ void computer::use(game *g)
  shutdown_terminal(); // This should have been done by now, but just in case.
 }
 
-bool computer::hack_attempt(player *p, int Security)
+bool computer::hack_attempt(game *g, player *p, int Security)
 {
  if (Security == -1)
   Security = security; // Set to main system security if no value passed
 
- p->practice("computer", 5 + Security * 2);
+ p->practice(g->turn, "computer", 5 + Security * 2);
  int player_roll = p->skillLevel("computer");
  if (p->int_cur < 8 && one_in(2))
   player_roll -= rng(0, 8 - p->int_cur);

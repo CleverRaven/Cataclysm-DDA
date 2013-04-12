@@ -69,30 +69,21 @@ thunder(g);
 void weather_effect::light_acid(game *g)
 {
  wet(g);
- if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE)
-  g->add_msg("The acid rain stings, but is harmless for now...");
+ if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE) {
+  if (!g->u.is_wearing("coat_rain")) {
+   g->add_msg("The acid rain stings, but is harmless for now...");
+  } else if (one_in(3)) {
+   g->add_msg("Your raincoat protects you from the acid rain.");
+  }
+ }
 }
 
 void weather_effect::acid(game *g)
 {
  if (PLAYER_OUTSIDE) {
   g->add_msg("The acid rain burns!");
-  if (one_in(6))
-   g->u.hit(g, bp_head, 0, 0, 1);
-  if (one_in(10)) {
-   g->u.hit(g, bp_legs, 0, 0, 1);
-   g->u.hit(g, bp_legs, 1, 0, 1);
-  }
-  if (one_in(8)) {
-   g->u.hit(g, bp_feet, 0, 0, 1);
-   g->u.hit(g, bp_feet, 1, 0, 1);
-  }
-  if (one_in(6))
-   g->u.hit(g, bp_torso, 0, 0, 1);
-  if (one_in(8)) {
-   g->u.hit(g, bp_arms, 0, 0, 1);
-   g->u.hit(g, bp_arms, 1, 0, 1);
-  }
+  if (one_in(8)&&(g->u.pain < 100))
+   g->u.pain += 3 * rng(1, 3);
  }
  if (g->levz >= 0) {
   for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {

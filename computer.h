@@ -77,7 +77,7 @@ public:
 // Basic usage
  void shutdown_terminal(); // Shutdown (free w_terminal, etc)
  void use(game *g);
- bool hack_attempt(player *p, int Security = -1);// -1 defaults to main security
+ bool hack_attempt(game *g, player *p, int Security = -1);// -1 defaults to main security
 // Save/load
  std::string save_data();
  void load_data(std::string data);

@@ -243,15 +243,42 @@ void inventory::form_from_map(game *g, point origin, int range)
 
 std::vector<item> inventory::remove_stack(int index)
 {
- if (index < 0 || index >= items.size()) {
-  debugmsg("Tried to remove_stack(%d) from an inventory (size %d)",
-           index, items.size());
-  std::vector<item> nullvector;
-  return nullvector;
- }
- std::vector<item> ret = stack_at(index);
- items.erase(items.begin() + index);
- return ret;
+    if (index < 0 || index >= items.size()) 
+    {
+        debugmsg("Tried to remove_stack(%d) from an inventory (size %d)",
+               index, items.size());
+        std::vector<item> nullvector;
+        return nullvector;
+    }
+    std::vector<item> ret = stack_at(index);
+    items.erase(items.begin() + index);
+    return ret;
+}
+
+std::vector<item> inventory::remove_stack(int index,int amount)
+{
+    if (index < 0 || index >= items.size()) 
+    {
+        debugmsg("Tried to remove_stack(%d) from an inventory (size %d)",
+               index, items.size());
+        std::vector<item> nullvector;
+        return nullvector;
+    }
+    if(amount > stack_at(index).size())
+    {
+        std::vector<item> ret = stack_at(index);
+        items.erase(items.begin() + index);
+        return ret;
+    }
+    else
+    {
+        std::vector<item> ret;
+        for(int i = 0 ; i < amount ; i++)
+        {
+            ret.push_back(remove_item(index));
+        }
+        return ret;
+    }
 }
 
 item inventory::remove_item(int index)
@@ -303,19 +330,23 @@ item inventory::remove_item_by_letter(char ch)
 
 item inventory::remove_item_by_quantity(int index, int quantity)
 {
-// using this assumes the item has charges
+    // using this assumes the item has charges
+    if (index < 0 || index >= items.size()) {
+        debugmsg("Quantity: Tried to remove_item(%d) from an inventory (size %d)",
+               index, items.size());
+        return nullitem;
+    }
 
- if (index < 0 || index >= items.size()) {
-  debugmsg("Quantity: Tried to remove_item(%d) from an inventory (size %d)",
-           index, items.size());
-  return nullitem;
- }
-
- item ret = items[index][0];
- ret.charges = quantity;
-
- return ret;
-
+    item ret = items[index][0];
+    if(quantity > items[index][0].charges)
+    {
+        debugmsg("Charges: Tried to remove charges that does not exist, \
+                removing maximum available charges instead");
+        quantity = items[index][0].charges;
+    }
+    ret.charges = quantity;
+    items[index][0].charges -= quantity;
+    return ret;
 }
 
 item& inventory::item_by_letter(char ch)

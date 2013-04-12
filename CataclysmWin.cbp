@@ -65,6 +65,8 @@
 		<Unit filename="graffiti.cpp" />
 		<Unit filename="graffiti.h" />
 		<Unit filename="help.cpp" />
+		<Unit filename="helper.cpp" />
+		<Unit filename="helper.h" />
 		<Unit filename="iexamine.cpp" />
 		<Unit filename="iexamine.h" />
 		<Unit filename="input.cpp" />

@@ -3312,6 +3312,14 @@ int player::volume_capacity()
  return ret;
 }
 
+bool player::can_pickVolume(int volume)
+{
+    return (volume_carried() + volume <= volume_capacity());
+}
+bool player::can_pickWeight(int weight)
+{
+    return (weight_carried() + weight <= weight_capacity());
+}
 int player::morale_level()
 {
  std::stringstream morale_text;
@@ -5446,6 +5454,10 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
         ret += 3;
     }
 
+    // Fix for negative hand encumbrance
+    if ((bp == bp_hands) && (ret < 0))
+     ret =0;
+
     // Bionics and mutation
     if ((bp == bp_head  && has_bionic("bio_armor_head"))  ||
      (bp == bp_torso && has_bionic("bio_armor_torso")) ||
@@ -5700,45 +5712,57 @@ bool player::wearing_something_on(body_part bp)
  return false;
 }
 
-void player::practice (Skill *s, int amount) {
-  SkillLevel& level = skillLevel(s);
-  if (level.exercise() < 0) {
-    if (amount >= -level.exercise()) {
-      amount -= level.exercise();
-    } else {
-      amount += amount;
+void player::practice (const calendar& turn, Skill *s, int amount)
+{
+    SkillLevel& level = skillLevel(s);
+    // Double amount, but only if level.exercise isn't a amall negative number?
+    if (level.exercise() < 0)
+    {
+        if (amount >= -level.exercise())
+        {
+            amount -= level.exercise();
+        } else {
+            amount += amount;
+        }
     }
-  }
 
-  bool isSavant = has_trait(PF_SAVANT);
+    bool isSavant = has_trait(PF_SAVANT);
 
-  Skill *savantSkill = NULL;
-  SkillLevel savantSkillLevel = SkillLevel();
+    Skill *savantSkill = NULL;
+    SkillLevel savantSkillLevel = SkillLevel();
 
-  if (isSavant) {
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
-      if (skillLevel(*aSkill) > savantSkillLevel) {
-        savantSkill = *aSkill;
-        savantSkillLevel = skillLevel(*aSkill);
-      }
+    if (isSavant)
+    {
+        for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+             aSkill != Skill::skills.end(); ++aSkill)
+        {
+            if (skillLevel(*aSkill) > savantSkillLevel)
+            {
+                savantSkill = *aSkill;
+                savantSkillLevel = skillLevel(*aSkill);
+            }
+        }
     }
-  }
 
-  int newLevel;
+    int newLevel;
 
-  while (level.isTraining() && amount > 0 && xp_pool >= (1 + level)) {
-    amount -= level + 1;
-    if ((!isSavant || s == savantSkill || one_in(2)) && rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER))) {
-      xp_pool -= (1 + level);
-
-      skillLevel(s).train(newLevel);
+    while (level.isTraining() && amount > 0 && xp_pool >= (1 + level))
+    {
+        amount -= level + 1;
+        if ((!isSavant || s == savantSkill || one_in(2)) &&
+            rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER)))
+        {
+            xp_pool -= (1 + level);
+            skillLevel(s).train(newLevel);
+        }
     }
-  }
+    skillLevel(s).practice(turn);
 }
 
-void player::practice (std::string s, int amount) {
-  Skill *aSkill = Skill::skill(s);
-  practice(aSkill, amount);
+void player::practice (const calendar& turn, std::string s, int amount)
+{
+    Skill *aSkill = Skill::skill(s);
+    practice(turn, aSkill, amount);
 }
 
 void player::assign_activity(game* g, activity_type type, int moves, int index)

@@ -229,7 +229,7 @@ map m :\n\
 missions M\n\
 factions #\n\
 kills )\n\
-morale %\n\
+morale v\n\
 messages P\n\
 help ?\n\
 \n\

@@ -3596,7 +3596,7 @@ TOOL("noise_emitter_on", "noise emitter (on)", 0, 600, ';', c_yellow, PLASTIC, I
 This device has been turned on and is emitting horrible sounds of radio\n\
 static. Quick, get away from it before it draws zombies to you!");
 
-TOOL("roadmap", "road map", 40, 10, ';', c_yellow, MNULL, MNULL,
+TOOL("roadmap", "road map", 40, 10, ';', c_yellow, PAPER, MNULL,
      1, 0, 0, 0, -1, 1, 1, 0, 0, AT_NULL, "null", &iuse::roadmap, 0, "\
 A road map. Use it to read points of interest, including, but not\n\
 limited to, location(s) of hospital(s) nearby.");
@@ -3992,7 +3992,7 @@ TOOL("cot", "cot",      40,1000,';', c_green, IRON, COTTON,
 A military style fold up cot, not quite as comfortable as a bed\n\
 but much better than slumming it on the ground.");
 
-TOOL("rollmat", "rollmat",  40,400,';', c_blue, MNULL, MNULL,
+TOOL("rollmat", "rollmat",  40,400,';', c_blue, PLASTIC, MNULL,
      4, 3,  0, 0, -1, 0, 0, 0, 0, AT_NULL, "null", &iuse::set_trap,
 0, "\
 A sheet of foam, which can be rolled tightly for storage\n\

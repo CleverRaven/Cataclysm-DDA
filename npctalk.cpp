@@ -1691,7 +1691,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  if (chosen.trial == TALK_TRIAL_NONE ||
      rng(0, 99) < trial_chance(chosen, alpha, beta)) {
   if (chosen.trial != TALK_TRIAL_NONE)
-    alpha->practice("speech", (100 - trial_chance(chosen, alpha, beta)) / 10);
+    alpha->practice(g->turn, "speech", (100 - trial_chance(chosen, alpha, beta)) / 10);
   (effect.*chosen.effect_success)(g, beta);
   beta->op_of_u += chosen.opinion_success;
   if (beta->turned_hostile()) {
@@ -1700,7 +1700,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   }
   return chosen.success;
  } else {
-   alpha->practice("speech", (100 - trial_chance(chosen, alpha, beta)) / 7);
+   alpha->practice(g->turn, "speech", (100 - trial_chance(chosen, alpha, beta)) / 7);
   (effect.*chosen.effect_failure)(g, beta);
   beta->op_of_u += chosen.opinion_failure;
   if (beta->turned_hostile()) {
@@ -1948,7 +1948,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    } else
     newinv.push_back(tmp);
   }
-  g->u.practice("barter", practice / 2);
+  g->u.practice(g->turn, "barter", practice / 2);
   p->inv = newinv;
   g->u.cash += cash;
   p->cash   -= cash;
