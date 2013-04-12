@@ -329,7 +329,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"open glass door", '\'', c_ltcyan,  2, tr_null,
 	mfb(transparent)|mfb(supports_roof), &iexamine::none},
 {"bulletin board",   '6', c_blue,    0, tr_null,
-	mfb(flammable)|mfb(noitem), &iexamine::none},
+	mfb(bashable)|mfb(flammable)|mfb(noitem)|mfb(deconstruct), &iexamine::none},
 {"makeshift portcullis", '&', c_cyan, 0, tr_null,
 	mfb(noitem), &iexamine::none},
 {"steel compactor",      '&', c_green, 0, tr_null,

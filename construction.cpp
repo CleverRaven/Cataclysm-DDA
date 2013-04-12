@@ -1003,6 +1003,7 @@ void construct::done_deconstruct(game *g, point p)
     break;
 
     case t_backboard:
+    case t_bulletin:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_pavement);
