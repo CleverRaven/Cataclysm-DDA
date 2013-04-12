@@ -83,6 +83,7 @@ struct game_message
  std::string message;
  game_message() { turn = 0; count = 1; message = ""; };
  game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; };
+ game_message& operator=(const game_message& leftv) {turn = leftv.turn; count = leftv.count; message = leftv.message; return *this;}
 };
 
 struct mtype;
@@ -187,8 +188,8 @@ class game
   int assign_faction_id();
   faction* faction_by_id(int it);
   bool sees_u(int x, int y, int &t);
-  bool u_see (int x, int y);
-  bool u_see (monster *mon);
+  bool u_see (int x, int y, int &t);
+  bool u_see (monster *mon, int &t);
   bool pl_sees(player *p, monster *mon, int &t);
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
@@ -207,12 +208,7 @@ class game
   point look_around();// Look at nearby terrain	';'
   void list_items(); //List all items around the player
   bool list_items_match(std::string sText, std::string sPattern);
-  std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack, std::string filter);
-  std::vector<map_item_stack> find_nearby_items(int search_x, int search_y);
-  std::string ask_item_filter(WINDOW* window, int rows);
-  void draw_trail_to_square(std::vector<point>& vPoint, int x, int y);
-  void reset_item_list_state(WINDOW* window, int height);
-  std::string sFilter; // this is a member so that it's remembered over time
+  std::string sFilter;
   char inv(std::string title = "Inventory:");
   char inv_type(std::string title = "Inventory:", int inv_item_type = 0);
   std::vector<item> multidrop();
