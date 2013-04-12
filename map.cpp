@@ -1416,6 +1416,7 @@ case t_wall_log:
  case t_bookcase:
  case t_pool_table:
  case t_counter:
+ case t_bulletin:
  case t_table:
   result = rng(0, 45);
   if (res) *res = result;
@@ -2151,13 +2152,13 @@ void map::add_item(const int x, const int y, item new_item)
   return;
  if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
-  
+
     // clothing with variable size flag may sometimes be generated fitted
     if (new_item.is_armor() && new_item.has_flag(IF_VARSIZE) & one_in(3))
     {
         new_item.item_flags |= mfb(IF_FIT);
     }
-    
+
  if (has_flag(noitem, x, y) || i_at(x, y).size() >= 64) {// Too many items there
   std::vector<point> okay;
   for (int i = x - 1; i <= x + 1; i++) {
