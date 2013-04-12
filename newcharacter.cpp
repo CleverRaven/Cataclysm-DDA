@@ -54,7 +54,7 @@ void save_template(player *u);
 bool player::create(game *g, character_type type, std::string tempname)
 {
  weapon = item(g->itypes["null"], 0);
- 
+
  g->u.prof = profession::generic();
 
  WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
@@ -179,7 +179,12 @@ bool player::create(game *g, character_type type, std::string tempname)
   hp_max[i] = calc_HP(str_max, has_trait(PF_TOUGH));
   hp_cur[i] = hp_max[i];
  }
- if (has_trait(PF_GLASSJAW)) {
+ if (has_trait(PF_HARDCORE)) {
+  for (int i = 0; i < num_hp_parts; i++) {
+   hp_max[i] = int(hp_max[i] -60);
+   hp_cur[i] = hp_max[i];
+  }
+ } if (has_trait(PF_GLASSJAW)) {
   hp_max[hp_head] = int(hp_max[hp_head] * .85);
   hp_cur[hp_head] = hp_max[hp_head];
  }
@@ -239,7 +244,7 @@ End of cheatery */
   weapon = item(g->itypes[ styles[0] ], 0, ':');
  else
   weapon   = item(g->itypes["null"], 0);
- 
+
  item tmp; //gets used several times
 
  std::vector<std::string> prof_items = g->u.prof->items();
@@ -247,7 +252,7 @@ End of cheatery */
   item tmp = item(g->itypes.at(*iter), 0, 'a' + worn.size());
   if (tmp.is_armor()) {
    if (tmp.has_flag(IF_VARSIZE))
-    tmp.item_flags |= mfb(IF_FIT);      
+    tmp.item_flags |= mfb(IF_FIT);
    worn.push_back(tmp);
   } else {
    inv.push_back(tmp);
@@ -960,7 +965,7 @@ To save this character as a template, press !.");
    mvwprintz(w, 6, 8, c_ltgray, "______________________________");
    noname = false;
   }
-  
+
   if (ch == '>') {
    if (points > 0 && !query_yn("Remaining points will be discarded, are you sure you want to proceed?")) {
     continue;
