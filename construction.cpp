@@ -160,7 +160,7 @@ void game::init_construction()
    COMP("rope_30", 1);
    COMPCONT("rope_6", 5);
 
- CONSTRUCT("Build Rope and Pulley System", 2, &construct::able_empty, &construct::done_nothing);
+ CONSTRUCT("Build Rope & Pulley System", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_palisade_pulley, 0);
    COMP("rope_30", 1);
    COMP("stick", 8);

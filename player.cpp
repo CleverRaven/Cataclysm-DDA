@@ -642,11 +642,13 @@ int player::run_cost(int base_cost)
  }
  if (hp_cur[hp_leg_l] == 0)
   movecost += 50;
- else if (hp_cur[hp_leg_l] < 40)
+ else if ((has_trait(PF_HARDCORE)&&(hp_cur[hp_leg_l]< 10))||
+          (!has_trait(PF_HARDCORE)&&(hp_cur[hp_leg_l]< 40)))
   movecost += 25;
  if (hp_cur[hp_leg_r] == 0)
   movecost += 50;
- else if (hp_cur[hp_leg_r] < 40)
+ else if ((has_trait(PF_HARDCORE)&&(hp_cur[hp_leg_r]< 10))||
+          (!has_trait(PF_HARDCORE)&&(hp_cur[hp_leg_r]< 40)))
   movecost += 25;
 
  if (has_trait(PF_FLEET) && base_cost == 100)
@@ -883,7 +885,7 @@ std::string player::save_info()
  {
   dump << iter->first << " ";
  }
- 
+
  dump << styles.size() << " ";
  for (int i = 0; i < styles.size(); i++)
   dump << styles[i] << " ";
