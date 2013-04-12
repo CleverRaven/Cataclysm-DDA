@@ -69,11 +69,13 @@ thunder(g);
 void weather_effect::light_acid(game *g)
 {
  wet(g);
- if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE)
+ if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE) {
   if (!g->u.is_wearing("coat_rain")) {
    g->add_msg("The acid rain stings, but is harmless for now...");
-  } else if (one_in(3))
+  } else if (one_in(3)) {
    g->add_msg("Your raincoat protects you from the acid rain.");
+  }
+ }
 }
 
 void weather_effect::acid(game *g)
