@@ -28,7 +28,7 @@ void game::init_recipes()
     recipeFile.open("data/raw/recipes.json");
 
     recipeFile >> recipeRaw;
-    
+
     recipeFile.close();
 
     // Soron says: picojson can't be the easiest solution >_>
@@ -40,7 +40,7 @@ void game::init_recipes()
         if (craftCats.is<picojson::array>())
         {
             const picojson::array& craftCatList = craftCats.get<picojson::array>();
-            
+
             for (picojson::array::const_iterator iter = craftCatList.begin(); iter != craftCatList.end(); ++iter)
             {
                 if (iter->is<std::string>())
@@ -58,14 +58,14 @@ void game::init_recipes()
             debugmsg("Bad recipe file: craft categories is not an array");
             exit(1);
         }
-        
+
         picojson::value recipeJSON = recipeRaw.get("recipes");
         if (recipeJSON.is<picojson::array>())
         {
             picojson::array& recipeList = recipeJSON.get<picojson::array>();
-            
+
             std::vector<std::string> recipeNames;
-            
+
             for (picojson::array::const_iterator iter = recipeList.begin(); iter != recipeList.end(); ++iter)
             {
                 if (iter->is<picojson::object>())
@@ -79,9 +79,9 @@ void game::init_recipes()
                     bool reversible = false;
                     bool autolearn;
                     int learn_by_disassembly = -1;
-                    
+
                     bool has_tools = false;
-                    
+
                     //first we'll check the required stuff
                     if (iter->contains("result"))
                     {
@@ -100,7 +100,7 @@ void game::init_recipes()
                         debugmsg("Invalid recipe: no result");
                         continue;
                     }
-                    
+
                     if (iter->contains("category"))
                     {
                         if (iter->get("category").is<std::string>())
@@ -118,7 +118,7 @@ void game::init_recipes()
                         debugmsg("Invalid recipe: no category");
                         continue;
                     }
-                    
+
                     if (iter->contains("difficulty"))
                     {
                         if (iter->get("difficulty").is<double>())
@@ -136,7 +136,7 @@ void game::init_recipes()
                         debugmsg("Invalid recipe: no difficulty");
                         continue;
                     }
-                    
+
                     if (iter->contains("time"))
                     {
                         if (iter->get("time").is<double>())
@@ -154,7 +154,7 @@ void game::init_recipes()
                         debugmsg("Invalid recipe: no time");
                         continue;
                     }
-                    
+
                     if (iter->contains("autolearn"))
                     {
                         autolearn = iter->get("autolearn").evaluate_as_boolean();
@@ -164,7 +164,7 @@ void game::init_recipes()
                         debugmsg("Invalid recipe: no autolearn");
                         continue;
                     }
-                    
+
                     if (iter->contains("components"))
                     {
                         if (!iter->get("components").is<picojson::array>())
@@ -178,7 +178,7 @@ void game::init_recipes()
                         debugmsg("Invalid recipe: no components");
                         continue;
                     }
-                    
+
                     //now we'll check the optional stuff
                     if (iter->contains("skill_pri"))
                     {
@@ -192,7 +192,7 @@ void game::init_recipes()
                             continue;
                         }
                     }
-                    
+
                     if (iter->contains("skill_sec"))
                     {
                         if (iter->get("skill_sec").is<std::string>())
@@ -205,12 +205,12 @@ void game::init_recipes()
                             continue;
                         }
                     }
-                    
+
                     if (iter->contains("reversible"))
                     {
                         reversible = iter->get("reversible").evaluate_as_boolean();
                     }
-                    
+
                     if (iter->contains("tools"))
                     {
                         if (!iter->get("tools").is<picojson::array>())
@@ -220,7 +220,7 @@ void game::init_recipes()
                         }
                         has_tools = true;
                     }
-                    
+
                     if (iter->contains("id_suffix"))
                     {
                         if(iter->get("id_suffix").is<std::string>())
@@ -233,7 +233,7 @@ void game::init_recipes()
                             continue;
                         }
                     }
-                    
+
                     if (iter->contains("decomp_learn"))
                     {
                         if (iter->get("decomp_learn").is<double>())
@@ -246,17 +246,17 @@ void game::init_recipes()
                             continue;
                         }
                     }
-                    
+
                     tl = -1;
                     cl = -1;
                     ++id;
-                    
+
                     std::string rec_name = result + id_suffix;
-                    
+
                     last_rec = new recipe(rec_name, id, result, category, skill1, skill2,
                                           difficulty, time, reversible, autolearn,
                                           learn_by_disassembly);
-                    
+
                     for (std::vector<std::string>::iterator name_iter = recipeNames.begin();
                          name_iter != recipeNames.end();
                          ++name_iter)
@@ -266,9 +266,9 @@ void game::init_recipes()
                             debugmsg("Recipe name collision: %s", rec_name.c_str());
                         }
                     }
-                    
+
                     recipeNames.push_back(rec_name);
-                    
+
                     for (picojson::array::const_iterator comp_iter = iter->get("components").get<picojson::array>().begin();
                          comp_iter != iter->get("components").get<picojson::array>().end();
                          ++comp_iter)
@@ -307,7 +307,7 @@ void game::init_recipes()
                             continue;
                         }
                     }
-                    
+
                     if (has_tools)
                     {
                         for (picojson::array::const_iterator tool_iter = iter->get("tools").get<picojson::array>().begin();
@@ -350,7 +350,7 @@ void game::init_recipes()
                             }
                         }
                     }
-                    
+
                     recipes[category].push_back(last_rec);
                 }
                 else
@@ -956,7 +956,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
 {
     current.clear();
     available.clear();
-    
+
     if (filter == "")
     {
         add_known_recipes(current, recipes[tab]);
@@ -968,7 +968,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
             add_known_recipes(current, iter->second, filter);
         }
     }
-    
+
     for (int i = 0; i < current.size() && i < 51; i++)
     {
         //Check if we have the requisite tools and components
@@ -1527,7 +1527,7 @@ void game::complete_disassemble()
       } while (compcount > 0);
     }
   }
-  
+
   if (dis->learn_by_disassembly >= 0 && !u.knows_recipe(dis))
   {
     if (dis->sk_primary == NULL || dis->learn_by_disassembly <= u.skillLevel(dis->sk_primary))
