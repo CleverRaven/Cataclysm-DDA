@@ -21,6 +21,7 @@ struct component
 };
 
 struct recipe {
+  std::string ident;
   int id;
   itype_id result;
   Skill *sk_primary;
@@ -44,9 +45,10 @@ struct recipe {
     autolearn = false;
   }
 
-recipe(int pid, itype_id pres, const char *p1, const char *p2,
+recipe(std::string pident, int pid, itype_id pres, const char *p1, const char *p2,
        int pdiff, int ptime, bool preversible, bool pautolearn) :
-  id (pid), result (pres), difficulty (pdiff), time (ptime), reversible (preversible), autolearn (pautolearn)
+  ident (pident), id (pid), result (pres), difficulty (pdiff), time (ptime), reversible (preversible),
+  autolearn (pautolearn)
   {
     sk_primary = p1?Skill::skill(p1):NULL;
     sk_secondary = p2?Skill::skill(p2):NULL;

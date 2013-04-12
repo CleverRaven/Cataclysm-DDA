@@ -64,11 +64,14 @@ void game::init_recipes()
         {
             picojson::array& recipeList = recipeJSON.get<picojson::array>();
             
+            std::vector<std::string> recipeNames;
+            
             for (picojson::array::const_iterator iter = recipeList.begin(); iter != recipeList.end(); ++iter)
             {
                 if (iter->is<picojson::object>())
                 {
                     std::string result;
+                    std::string id_suffix = "";
                     std::string category;
                     const char *skill1 = NULL;
                     const char *skill2 = NULL;
@@ -217,11 +220,39 @@ void game::init_recipes()
                         has_tools = true;
                     }
                     
+                    if (iter->contains("id_suffix"))
+                    {
+                        if(iter->get("id_suffix").is<std::string>())
+                        {
+                            id_suffix = "_" + iter->get("id_suffix").get<std::string>();
+                        }
+                        else
+                        {
+                            debugmsg("Invalid recipe: id_suffix is not a string");
+                            continue;
+                        }
+                    }
+                    
                     tl = -1;
                     cl = -1;
                     ++id;
                     
-                    last_rec = new recipe(id, result, skill1, skill2, difficulty, time, reversible, autolearn);
+                    std::string rec_name = result + id_suffix;
+                    
+                    last_rec = new recipe(rec_name, id, result, skill1, skill2,
+                                          difficulty, time, reversible, autolearn);
+                    
+                    for (std::vector<std::string>::iterator iter = recipeNames.begin();
+                         iter != recipeNames.end();
+                         ++iter)
+                    {
+                        if ((*iter) == rec_name)
+                        {
+                            debugmsg("Recipe name collision: %s", rec_name.c_str());
+                        }
+                    }
+                    
+                    recipeNames.push_back(rec_name);
                     
                     for (picojson::array::const_iterator comp_iter = iter->get("components").get<picojson::array>().begin();
                          comp_iter != iter->get("components").get<picojson::array>().end();
@@ -238,7 +269,7 @@ void game::init_recipes()
                                 {
                                     if(inner_iter->get(0).is<std::string>() && inner_iter->get(1).is<double>())
                                     {
-                                    std::string name = inner_iter->get(0).get<std::string>();
+                                        std::string name = inner_iter->get(0).get<std::string>();
                                         int quant = static_cast<int>(inner_iter->get(1).get<double>());
                                         last_rec->components[cl].push_back(component(name, quant));
                                     }

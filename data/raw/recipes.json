@@ -17,6 +17,7 @@
     [
         {
             "result": "knife_steak",
+            "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
             "difficulty": 0,
             "time": 2000,
@@ -32,6 +33,7 @@
 
         {
             "result": "lawnmower",
+            "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
             "difficulty": 0,
             "time": 1000,
@@ -65,6 +67,7 @@
 
         {
             "result": "lighter",
+            "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
             "difficulty": 0,
             "time": 100,
@@ -80,6 +83,7 @@
 
         {
             "result": "tshirt",
+            "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
             "skill_pri": "tailor",
             "difficulty": 0,
@@ -96,6 +100,7 @@
 
         {
             "result": "tank_top",
+            "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
             "skill_pri": "tailor",
             "difficulty": 0,
@@ -112,6 +117,7 @@
 
         {
             "result": "string_36",
+            "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
             "difficulty": 0,
             "time": 5000,
@@ -139,6 +145,7 @@
 
         {
             "result": "rope_6",
+            "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
             "skill_pri": "tailor",
             "difficulty": 0,
@@ -167,6 +174,7 @@
 
         {
             "result": "rope_30",
+            "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
             "skill_pri": "tailor",
             "difficulty": 0,
@@ -195,6 +203,7 @@
 
         {
             "result": "lightstrip_dead",
+            "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
             "skill_pri": "electronics",
             "difficulty": 0,
@@ -3336,6 +3345,7 @@
 
         {
             "result": "noise_emitter",
+            "id_suffix": "radio-mod",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
             "difficulty": 1,
@@ -3365,6 +3375,7 @@
 
         {
             "result": "noise_emitter",
+            "id_suffix": "from-scratch",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
             "difficulty": 2,
@@ -4864,6 +4875,7 @@
 
         {
             "result": "shelter_kit",
+            "id_suffix": "repair",
             "category": "CC_MISC",
             "skill_pri": "survival",
             "skill_sec": "tailoring",
