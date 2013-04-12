@@ -4938,55 +4938,71 @@ hint_rating player::rate_action_unload(item *it) {
  return HINT_GOOD;
 }
 
+//TODO refactor stuff so we don't need to have this code mirroring game::disassemble
 hint_rating player::rate_action_disassemble(item *it, game *g) {
- for (int i = 0; i < g->recipes.size(); i++) {
-  if (it->type == g->itypes[g->recipes[i]->result] && g->recipes[i]->reversible)
-  // ok, a valid recipe exists for the item, and it is reversible
-  {
-   // check tools are available
-   // loop over the tools and see what's required...again
-   inventory crafting_inv = g->crafting_inventory();
-   bool have_tool[5];
-   for (int j = 0; j < 5; j++)
-   {
-    have_tool[j] = false;
-    if (g->recipes[i]->tools[j].size() == 0) // no tools required, may change this
-     have_tool[j] = true;
-    else
+ for (recipe_map::iterator cat_iter = g->recipes.begin(); cat_iter != g->recipes.end(); ++cat_iter)
     {
-     for (int k = 0; k < g->recipes[i]->tools[j].size(); k++)
-     {
-      itype_id type = g->recipes[i]->tools[j][k].type;
-      int req = g->recipes[i]->tools[j][k].count;	// -1 => 1
+        for (recipe_list::iterator list_iter = cat_iter->second.begin();
+             list_iter != cat_iter->second.end();
+             ++list_iter)
+        {
+            recipe* cur_recipe = *list_iter;
+            if (it->type == g->itypes[cur_recipe->result] && cur_recipe->reversible)
+            // ok, a valid recipe exists for the item, and it is reversible
+            // assign the activity
+            {
+                // check tools are available
+                // loop over the tools and see what's required...again
+                inventory crafting_inv = g->crafting_inventory();
+                bool have_tool[5];
+                for (int j = 0; j < 5; j++)
+                {
+                    have_tool[j] = false;
+                    if (cur_recipe->tools[j].size() == 0) // no tools required, may change this
+                    {
+                        have_tool[j] = true;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < cur_recipe->tools[j].size(); k++)
+                        {
+                            itype_id type = cur_recipe->tools[j][k].type;
+                            int req = cur_recipe->tools[j][k].count;	// -1 => 1
 
-      if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
-        (req >  0 && crafting_inv.has_charges(type, req)))
-      {
-       have_tool[j] = true;
-       k = g->recipes[i]->tools[j].size();
-      }
-      // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
-      if (type == "welder")
-      {
-       if (crafting_inv.has_amount("hacksaw", 1) ||
-           crafting_inv.has_amount("toolset", 1))
-        have_tool[j] = true;
-       else
-        have_tool[j] = false;
-      }
-     }
+                            if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                                (req >  0 && crafting_inv.has_charges(type, req)))
+                            {
+                                have_tool[j] = true;
+                                k = cur_recipe->tools[j].size();
+                            }
+                            // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
+                            if (type == "welder")
+                            {
+                                if (crafting_inv.has_amount("hacksaw", 1) ||
+                                    crafting_inv.has_amount("toolset", 1))
+                                {
+                                    have_tool[j] = true;
+                                }
+                                else
+                                {
+                                    have_tool[j] = false;
+                                }
+                            }
+                        }
 
-     if (!have_tool[j])
-     {
-      return HINT_IFFY;
-     }
+                        if (!have_tool[j])
+                        {
+                           return HINT_IFFY;
+                        }
+                    }
+                }
+                // all tools present
+                return HINT_GOOD;
+            }
+        }
     }
-   }
-   return HINT_GOOD;
-  }
- }
-
- return HINT_CANT;
+    // no recipe exists, or the item cannot be disassembled
+    return HINT_CANT;
 }
 
 hint_rating player::rate_action_use(item *it)

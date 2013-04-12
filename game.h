@@ -231,7 +231,7 @@ class game
   std::vector <mtype*> mtypes;
   std::vector <vehicle*> vtypes;
   std::vector <trap*> traps;
-  std::vector<recipe*> recipes;	// The list of valid recipes
+  recipe_map recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions
 
   std::vector <itype_id> mapitems[num_itloc]; // Items at various map types
@@ -337,8 +337,13 @@ class game
   void complete_craft();               // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab,std::string filter);// crafting.cpp
+  void add_automatic_recipes(std::vector<recipe*> &current, recipe_list source,
+                             std::string filter = ""); //crafting.cpp
+  craft_cat next_craft_cat(craft_cat cat); // crafting.cpp
+  craft_cat prev_craft_cat(craft_cat cat); // crafting.cpp
   void disassemble(char ch = 0);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
+  recipe* recipe_by_index(int index);  // See crafting.cpp
   void construction_menu();            // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
                         const int level = -1, bool cont = false,
