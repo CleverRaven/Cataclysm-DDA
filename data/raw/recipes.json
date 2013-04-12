@@ -5470,7 +5470,8 @@
                      ],
             "components": [
                               [
-                                  ["stick", 1]
+                                  ["stick", 1],
+                                  ["log", 1]
                               ]
                           ]
         },
