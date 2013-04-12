@@ -873,7 +873,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
 // Armor blocks BEFORE any critical effects.
   int zarm = mon.armor_cut();
   zarm -= weapon->curammo->pierce;
-  if (weapon->curammo->m1 == LIQUID)
+  if (weapon->curammo->phase == LIQUID)
    zarm = 0;
   else if (weapon->curammo->accuracy < 4) // Shot doesn't penetrate armor well
    zarm *= rng(2, 4);

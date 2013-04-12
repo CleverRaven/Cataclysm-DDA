@@ -405,7 +405,7 @@ bool game::making_would_work(recipe *making)
 
     if(can_make(making))
     {
-        if (itypes[(making->result)]->m1 == LIQUID)
+        if (itypes[(making->result)]->phase == LIQUID)
         {
             if (u.has_watertight_container() || u.has_matching_liquid(itypes[making->result]->id))
             {
@@ -855,7 +855,7 @@ recipe* game::select_crafting_recipe()
                 }
                 else
                 {// is player making a liquid? Then need to check for valid container
-                    if (itypes[current[line]->result]->m1 == LIQUID)
+                    if (itypes[current[line]->result]->phase == LIQUID)
                     {
                         if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id))
                         {
