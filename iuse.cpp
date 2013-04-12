@@ -915,7 +915,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
               fix->tname().c_str());
    int waste = rng(1, 8);
    if (waste > it->charges)
-    it->charges = 0;
+    it->charges = 1;
    else
     it->charges -= waste;
   } else if (rn <= 8) {
@@ -924,7 +924,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
    fix->damage--;
    int waste = rng(1, 8);
    if (waste > it->charges)
-    it->charges = 0;
+    it->charges = 1;
    else
     it->charges -= waste;
   } else if (rn <= 16) {
@@ -935,6 +935,9 @@ void iuse::sew(game *g, player *p, item *it, bool t)
    fix->damage = 0;
   }
  }
+ //iuse::sew uses up 1 charge when called, if less than 1, set to 1, and use that one up.
+ if (it->charges < 1)
+  it->charges = 1;
 }
 
 void iuse::scissors(game *g, player *p, item *it, bool t)
