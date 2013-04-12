@@ -1,14 +1,31 @@
 #include "output.h"
 #include "rng.h"
 
-std::default_random_engine gen;
+
+
+namespace RNG_functions
+{
+    std::default_random_engine gen;
+
+    double normal()
+    {
+        std::normal_distribution<> dist(0, 1);
+        return dist(gen);
+    }
+
+    double normal(const double& mean, const double& stdev)
+    {
+        std::normal_distribution<> dist(mean, stdev);
+        return dist(gen);
+    }
+}
 
 long rng(long low, long high)
 {
     if (low <= high)
     {
         std::uniform_int_distribution<> dist(low, high);
-        return dist(gen);
+        return dist(RNG_functions::gen);
     }
     else //Because not sure if the 0 ~ -1 at startup is intentional or not.
     return low + long((high - low + 1) * double(rand() / double(RAND_MAX + 1.0)));
@@ -23,7 +40,7 @@ bool one_in(int chance)
 bool x_in_y(double x, double y)
 {
     std::uniform_real_distribution<> dist(0, 1.0f);
- if( dist(gen) <= ((double)x/y) )
+ if( dist(RNG_functions::gen) <= ((double)x/y) )
   return true;
  return false;
 }
