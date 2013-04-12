@@ -272,6 +272,9 @@ public:
  bool has_item(item *it);		// Has a specific item
  bool has_mission_item(int mission_id);	// Has item with mission_id
  std::vector<int> has_ammo(ammotype at);// Returns a list of indices of the ammo
+ 
+ bool knows_recipe(recipe *rec);
+ void learn_recipe(recipe *rec);
 
 // ---------------VALUES-----------------
  int id;	// A unique ID number, assigned by the game class
@@ -323,6 +326,8 @@ public:
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
  SkillLevel& skillLevel(size_t id);
+ 
+ std::map<std::string, recipe*> learned_recipes;
 
  bool inv_sorted;
  //std::vector <item> inv;

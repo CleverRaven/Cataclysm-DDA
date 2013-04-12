@@ -44,5 +44,6 @@ ADDITIONS
     are "result", "category", "difficulty", "time", "autolearn", "components".
     Optional fields are "reversible" (defaults to false), "tools" (defaults to
     none), "skill_pri" (primary skill, defaults to none), "skill_sec" (defaults
-    to none), and "id_suffix" (disambiguates recipes with the same result,
-    must be unique among the set of such recipes).
+    to none), "id_suffix" (disambiguates recipes with the same result, must be
+    unique among the set of such recipes), "decomp_learn" (the level (if any)
+    when you can learn it from disassembly).

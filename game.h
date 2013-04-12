@@ -278,6 +278,8 @@ class game
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
 
+ recipe* recipe_by_name(std::string name); // See crafting.cpp
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -337,7 +339,7 @@ class game
   void complete_craft();               // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab,std::string filter);// crafting.cpp
-  void add_automatic_recipes(std::vector<recipe*> &current, recipe_list source,
+  void add_known_recipes(std::vector<recipe*> &current, recipe_list source,
                              std::string filter = ""); //crafting.cpp
   craft_cat next_craft_cat(craft_cat cat); // crafting.cpp
   craft_cat prev_craft_cat(craft_cat cat); // crafting.cpp

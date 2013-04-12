@@ -765,6 +765,15 @@ void player::load_info(game *g, std::string data)
    dump >> skillLevel(*aSkill);
  }
 
+ int num_recipes;
+ std::string rec_name;
+ dump >> num_recipes;
+ for (int i = 0; i < num_recipes; ++i)
+ {
+  dump >> rec_name;
+  learned_recipes[rec_name] = g->recipe_by_name(rec_name);
+ }
+
  int numstyles;
  itype_id styletype;
  dump >> numstyles;
@@ -867,6 +876,14 @@ std::string player::save_info()
    dump << level;
  }
 
+ dump << learned_recipes.size() << " ";
+ for (std::map<std::string, recipe*>::iterator iter = learned_recipes.begin();
+      iter != learned_recipes.end();
+      ++iter)
+ {
+  dump << iter->first << " ";
+ }
+ 
  dump << styles.size() << " ";
  for (int i = 0; i < styles.size(); i++)
   dump << styles[i] << " ";
@@ -5763,6 +5780,32 @@ void player::practice (const calendar& turn, std::string s, int amount)
 {
     Skill *aSkill = Skill::skill(s);
     practice(turn, aSkill, amount);
+}
+
+bool player::knows_recipe(recipe *rec)
+{
+    // do we know the recipe by virtue of it being autolearned?
+    if (rec->autolearn)
+    {
+        if( (rec->sk_primary == NULL ||
+             skillLevel(rec->sk_primary) >= rec->difficulty) &&
+            (rec->sk_secondary == NULL || skillLevel(rec->sk_secondary) > 0) )
+        {
+            return true;
+        }
+    }
+
+    if (learned_recipes.find(rec->ident) != learned_recipes.end())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+void player::learn_recipe(recipe *rec)
+{
+    learned_recipes[rec->ident] = rec;
 }
 
 void player::assign_activity(game* g, activity_type type, int moves, int index)

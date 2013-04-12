@@ -3223,7 +3223,8 @@
             "difficulty": 1,
             "time": 10000,
             "reversible": true,
-            "autolearn": true,
+            "decomp_learn": 0,
+            "autolearn": false,
             "components": [
                               [
                                   ["amplifier", 1]
