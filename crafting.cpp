@@ -64,17 +64,21 @@ void game::init_recipes()
         {
             picojson::array& recipeList = recipeJSON.get<picojson::array>();
             
+            std::vector<std::string> recipeNames;
+            
             for (picojson::array::const_iterator iter = recipeList.begin(); iter != recipeList.end(); ++iter)
             {
                 if (iter->is<picojson::object>())
                 {
                     std::string result;
+                    std::string id_suffix = "";
                     std::string category;
                     const char *skill1 = NULL;
                     const char *skill2 = NULL;
                     int difficulty, time;
                     bool reversible = false;
                     bool autolearn;
+                    int learn_by_disassembly = -1;
                     
                     bool has_tools = false;
                     
@@ -217,11 +221,53 @@ void game::init_recipes()
                         has_tools = true;
                     }
                     
+                    if (iter->contains("id_suffix"))
+                    {
+                        if(iter->get("id_suffix").is<std::string>())
+                        {
+                            id_suffix = "_" + iter->get("id_suffix").get<std::string>();
+                        }
+                        else
+                        {
+                            debugmsg("Invalid recipe: id_suffix is not a string");
+                            continue;
+                        }
+                    }
+                    
+                    if (iter->contains("decomp_learn"))
+                    {
+                        if (iter->get("decomp_learn").is<double>())
+                        {
+                            learn_by_disassembly = static_cast<int>(iter->get("decomp_learn").get<double>());
+                        }
+                        else
+                        {
+                            debugmsg("Invalid recipe: disassembly learning level is non-numeric");
+                            continue;
+                        }
+                    }
+                    
                     tl = -1;
                     cl = -1;
                     ++id;
                     
-                    last_rec = new recipe(id, result, skill1, skill2, difficulty, time, reversible, autolearn);
+                    std::string rec_name = result + id_suffix;
+                    
+                    last_rec = new recipe(rec_name, id, result, category, skill1, skill2,
+                                          difficulty, time, reversible, autolearn,
+                                          learn_by_disassembly);
+                    
+                    for (std::vector<std::string>::iterator name_iter = recipeNames.begin();
+                         name_iter != recipeNames.end();
+                         ++name_iter)
+                    {
+                        if ((*name_iter) == rec_name)
+                        {
+                            debugmsg("Recipe name collision: %s", rec_name.c_str());
+                        }
+                    }
+                    
+                    recipeNames.push_back(rec_name);
                     
                     for (picojson::array::const_iterator comp_iter = iter->get("components").get<picojson::array>().begin();
                          comp_iter != iter->get("components").get<picojson::array>().end();
@@ -238,7 +284,7 @@ void game::init_recipes()
                                 {
                                     if(inner_iter->get(0).is<std::string>() && inner_iter->get(1).is<double>())
                                     {
-                                    std::string name = inner_iter->get(0).get<std::string>();
+                                        std::string name = inner_iter->get(0).get<std::string>();
                                         int quant = static_cast<int>(inner_iter->get(1).get<double>());
                                         last_rec->components[cl].push_back(component(name, quant));
                                     }
@@ -385,7 +431,7 @@ bool game::making_would_work(recipe *making)
 bool game::can_make(recipe *r)
 {
     inventory crafting_inv = crafting_inventory();
-    if((r->sk_primary != NULL && u.skillLevel(r->sk_primary) < r->difficulty) || (r->sk_secondary != NULL && u.skillLevel(r->sk_secondary) <= 0))
+    if(!u.knows_recipe(r))
     {
         return false;
     }
@@ -913,13 +959,13 @@ void game::pick_recipes(std::vector<recipe*> &current,
     
     if (filter == "")
     {
-        add_automatic_recipes(current, recipes[tab]);
+        add_known_recipes(current, recipes[tab]);
     }
     else
     {
         for (recipe_map::iterator iter = recipes.begin(); iter != recipes.end(); ++iter)
         {
-            add_automatic_recipes(current, iter->second, filter);
+            add_known_recipes(current, iter->second, filter);
         }
     }
     
@@ -937,25 +983,17 @@ void game::pick_recipes(std::vector<recipe*> &current,
     }
 }
 
-void game::add_automatic_recipes(std::vector<recipe*> &current, recipe_list source, std::string filter)
+void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, std::string filter)
 {
     for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
     {
-        // Only pull recipes from the master list if they're autolearned
-        if ((*iter)->autolearn)
+        if (u.knows_recipe(*iter))
         {
-            // Check if we have the requisite skills
-            if (((*iter)->sk_primary == NULL ||
-                 u.skillLevel((*iter)->sk_primary) >= (*iter)->difficulty) &&
-                 ((*iter)->sk_secondary == NULL ||
-                 u.skillLevel((*iter)->sk_secondary) > 0))
+            if ((*iter)->difficulty >= 0 )
             {
-                if ((*iter)->difficulty >= 0 )
+                if (filter == "" || itypes[(*iter)->result]->name.find(filter) != std::string::npos)
                 {
-                    if (filter == "" || itypes[(*iter)->result]->name.find(filter) != std::string::npos)
-                    {
-                        current.push_back(*iter);
-                    }
+                    current.push_back(*iter);
                 }
             }
         }
@@ -1489,6 +1527,26 @@ void game::complete_disassemble()
       } while (compcount > 0);
     }
   }
+  
+  if (dis->learn_by_disassembly >= 0 && !u.knows_recipe(dis))
+  {
+    if (dis->sk_primary == NULL || dis->learn_by_disassembly <= u.skillLevel(dis->sk_primary))
+    {
+      if (rng(0,3) == 0)
+      {
+        u.learn_recipe(dis);
+        add_msg("You learned a recipe from this disassembly!");
+      }
+      else
+      {
+        add_msg("You think you could learn a recipe from this item. Maybe you'll try again.");
+      }
+    }
+    else
+    {
+      add_msg("With some more skill, you might learn a recipe from this.");
+    }
+  }
 }
 
 recipe* game::recipe_by_index(int index)
@@ -1498,6 +1556,21 @@ recipe* game::recipe_by_index(int index)
         for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
         {
             if ((*list_iter)->id == index)
+            {
+                return *list_iter;
+            }
+        }
+    }
+    return NULL;
+}
+
+recipe* game::recipe_by_name(std::string name)
+{
+    for (recipe_map::iterator map_iter = recipes.begin(); map_iter != recipes.end(); ++map_iter)
+    {
+        for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
+        {
+            if ((*list_iter)->ident == name)
             {
                 return *list_iter;
             }
