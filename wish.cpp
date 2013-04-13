@@ -1,7 +1,7 @@
 #include "game.h"
 #include "output.h"
 #include "keypress.h"
-#include "item_manager.h"
+#include "item_factory.h"
 #include <sstream>
 
 #define LESS(a, b) ((a)<(b)?(a):(b))

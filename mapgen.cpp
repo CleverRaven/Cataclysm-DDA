@@ -7,7 +7,7 @@
 #include "line.h"
 #include "debug.h"
 #include "options.h"
-#include "item_manager.h"
+#include "item_factory.h"
 #include "mapgenformat.h"
 
 #include <cassert>

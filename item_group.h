@@ -3,7 +3,7 @@
 
 #include <vector>
 
-typedef std::string item_tag;
+typedef std::string Item_tag;
 
 class Item_group_entry;
 class Item_group_group;
@@ -11,14 +11,14 @@ class Item_group_group;
 class Item_group
 {
 public:
-    Item_group(item_tag id);
+    Item_group(Item_tag id);
     
-    const item_tag get_id();
-    const item_tag get_id(std::vector<item_tag> recursion_list);
-    void add_entry(const item_tag item_id, int chance);
+    const Item_tag get_id();
+    const Item_tag get_id(std::vector<Item_tag> recursion_list);
+    void add_entry(const Item_tag item_id, int chance);
     void add_group(Item_group*, int chance);
 private:
-    const item_tag m_id;
+    const Item_tag m_id;
     int m_max_odds;
     std::vector<Item_group_group*> m_groups;
     std::vector<Item_group_entry*> m_entries;
@@ -30,12 +30,12 @@ private:
 class Item_group_entry
 {
 public:
-    Item_group_entry(const item_tag id, int upper_bound);
+    Item_group_entry(const Item_tag id, int upper_bound);
 
     bool check(int value) const;
-    const item_tag get() const;
+    const Item_tag get() const;
 private:
-    const item_tag m_id;
+    const Item_tag m_id;
     int m_upper_bound;
 };
 
@@ -45,7 +45,7 @@ public:
     Item_group_group(Item_group* group, int upper_bound);
 
     bool check(int value) const;
-    const item_tag get(std::vector<item_tag> recursion_list);
+    const Item_tag get(std::vector<Item_tag> recursion_list);
 private:
     Item_group* m_group;
     int m_upper_bound;

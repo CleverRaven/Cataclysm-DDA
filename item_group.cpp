@@ -1,27 +1,27 @@
-#include "item_manager.h"
+#include "item_factory.h"
 #include "item_group.h"
 #include "rng.h"
 #include <map>
 #include <algorithm>
 
-Item_group::Item_group(const item_tag id) : m_id(id), m_max_odds(0){
+Item_group::Item_group(const Item_tag id) : m_id(id), m_max_odds(0){
 }
 
 // When selecting an id from this group, the value returned is determined based on the odds
 // given when inserted into the group.
-const item_tag Item_group::get_id(){   
+const Item_tag Item_group::get_id(){   
     //Create a list of visited groups - in case of recursion, this will be needed to throw an error.
-    std::vector<item_tag> recursion_list;
+    std::vector<Item_tag> recursion_list;
     return get_id(recursion_list);
 }
 
-const item_tag Item_group::get_id(std::vector<item_tag> recursion_list){
+const Item_tag Item_group::get_id(std::vector<Item_tag> recursion_list){
     int rolled_value = rng(1,m_max_odds)-1;
     
     //Insure we haven't already visited this group
     if(std::find(recursion_list.begin(), recursion_list.end(), m_id) != recursion_list.end()){
         std::string error_message = "Recursion loop occured in retrieval from item group "+m_id+". Recursion backtrace follows:\n";
-        for(std::vector<item_tag>::iterator iter = recursion_list.begin(); iter != recursion_list.end(); ++iter){
+        for(std::vector<Item_tag>::iterator iter = recursion_list.begin(); iter != recursion_list.end(); ++iter){
             error_message+=*iter;
         }
         debugmsg(error_message.c_str());
@@ -50,7 +50,7 @@ const item_tag Item_group::get_id(std::vector<item_tag> recursion_list){
 }
 
 
-void Item_group::add_entry(const item_tag id, int chance){
+void Item_group::add_entry(const Item_tag id, int chance){
     m_max_odds = m_max_odds+chance;
     Item_group_entry* new_entry = new Item_group_entry(id, m_max_odds);
     m_entries.push_back(new_entry);
@@ -64,14 +64,14 @@ void Item_group::add_group(Item_group* group, int chance){
 
 
 //Item_group_entry definition
-Item_group_entry::Item_group_entry(const item_tag id, int upper_bound): m_id(id), m_upper_bound(upper_bound){
+Item_group_entry::Item_group_entry(const Item_tag id, int upper_bound): m_id(id), m_upper_bound(upper_bound){
 }
 
 bool Item_group_entry::check(int value) const{
     return (value < m_upper_bound);
 }
 
-const item_tag Item_group_entry::get() const{
+const Item_tag Item_group_entry::get() const{
     return m_id;
 }
 
@@ -83,7 +83,7 @@ bool Item_group_group::check(int value) const{
     return (value < m_upper_bound);
 }
 
-const item_tag Item_group_group::get(std::vector<item_tag> recursion_list){
+const Item_tag Item_group_group::get(std::vector<Item_tag> recursion_list){
     return m_group->get_id(recursion_list);
 }
 

@@ -14,7 +14,7 @@
 #include "bodypart.h"
 #include "map.h"
 #include "output.h"
-#include "item_manager.h"
+#include "item_factory.h"
 #include "helper.h"
 
 #include <map>

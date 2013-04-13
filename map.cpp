@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include "debug.h"
-#include "item_manager.h"
+#include "item_factory.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define INBOUNDS(x, y) \
@@ -2148,7 +2148,7 @@ void map::spawn_item(const int x, const int y, itype* type, const int birthday, 
 }
 
 //New spawn_item method, using item factory
-void map::spawn_item(const int x, const int y, item_tag type_id, const int birthday, const int quantity, const int charges)
+void map::spawn_item(const int x, const int y, std::string type_id, const int birthday, const int quantity, const int charges)
 {
  item tmp = *(item_controller->create(type_id, birthday));
  if (quantity)

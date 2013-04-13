@@ -1,4 +1,4 @@
-#include "item_manager.h"
+#include "item_factory.h"
 #include "rng.h"
 #include "enums.h"
 #include <algorithm>
@@ -7,30 +7,30 @@
 #include <fstream>
 #include <stdio.h>
 
-Item_manager* item_controller = new Item_manager();
+Item_factory* item_controller = new Item_factory();
 
 //Every item manager comes with a missing item
-Item_manager::Item_manager(){
-    m_missing_item = new item_template();
+Item_factory::Item_factory(){
+    m_missing_item = new itype();
     m_missing_item->name = "Error: Item Missing";
     m_missing_item->description = "Error: No item template of this type.";
     m_templates["MISSING_ITEM"]=m_missing_item;
     load_item_templates();
 }
 
-void Item_manager::init(){
+void Item_factory::init(){
 }
 
 //Will eventually be deprecated - Loads existing item format into the item manager
-void Item_manager::init(game* main_game){
+void Item_factory::init(game* main_game){
     //Copy over the template pointers
     m_templates.insert(main_game->itypes.begin(), main_game->itypes.end()); 
     init();
 }
 
 //Returns the template with the given identification tag
-item_template* Item_manager::find_template(const item_tag id){
-    item_template_container::iterator found = m_templates.find(id);
+itype* Item_factory::find_template(const Item_tag id){
+    std::map<Item_tag, itype*>::iterator found = m_templates.find(id);
     if(found != m_templates.end()){
         return found->second;
     }
@@ -40,23 +40,23 @@ item_template* Item_manager::find_template(const item_tag id){
 }
 
 //Returns a random template from the list of all templates.
-item_template* Item_manager::random_template(){
+itype* Item_factory::random_template(){
     return template_from("ALL");
 }
 
 //Returns a random template from those with the given group tag
-item_template* Item_manager::template_from(const item_tag group_tag){ 
+itype* Item_factory::template_from(const Item_tag group_tag){ 
     return find_template( id_from(group_tag) );
 }
 
 //Returns a random template name from the list of all templates.
-const item_tag Item_manager::random_id(){
+const Item_tag Item_factory::random_id(){
     return id_from("ALL");
 }
 
 //Returns a random template name from the list of all templates.
-const item_tag Item_manager::id_from(const item_tag group_tag){
-    std::map<item_tag, Item_group*>::iterator group_iter = m_template_groups.find(group_tag);
+const Item_tag Item_factory::id_from(const Item_tag group_tag){
+    std::map<Item_tag, Item_group*>::iterator group_iter = m_template_groups.find(group_tag);
     //If the tag isn't found, just return a reference to missing item.
     if(group_iter != m_template_groups.end()){
         return group_iter->second->get_id();
@@ -66,28 +66,28 @@ const item_tag Item_manager::id_from(const item_tag group_tag){
 }
 
 
-item* Item_manager::create(item_tag id, int created_at){
+item* Item_factory::create(Item_tag id, int created_at){
     return new item(find_template(id),0);
 }
-item_list Item_manager::create(item_tag id, int created_at, int quantity){
-    item_list new_items;
+Item_list Item_factory::create(Item_tag id, int created_at, int quantity){
+    Item_list new_items;
     item* new_item_base = create(id, created_at);
     for(int ii=0;ii<quantity;++ii){
         new_items.push_back(new_item_base->clone());
     }
     return new_items;
 }
-item* Item_manager::create_from(item_tag group, int created_at){
+item* Item_factory::create_from(Item_tag group, int created_at){
     return create(id_from(group), created_at);
 }
-item_list Item_manager::create_from(item_tag group, int created_at, int quantity){
+Item_list Item_factory::create_from(Item_tag group, int created_at, int quantity){
     return create(id_from(group), created_at, quantity);
 }
-item* Item_manager::create_random(int created_at){
+item* Item_factory::create_random(int created_at){
     return create(random_id(), created_at);
 }
-item_list Item_manager::create_random(int created_at, int quantity){
-    item_list new_items;
+Item_list Item_factory::create_random(int created_at, int quantity){
+    Item_list new_items;
     item* new_item_base = create(random_id(), created_at);
     for(int ii=0;ii<quantity;++ii){
         new_items.push_back(new_item_base->clone());
@@ -99,7 +99,7 @@ item_list Item_manager::create_random(int created_at, int quantity){
 // DATA FILE READING //
 ///////////////////////
 
-void Item_manager::load_item_templates(){
+void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/instruments.json");
     load_item_templates_from("data/raw/items/melee.json");
     load_item_groups_from("data/raw/item_groups.json");
@@ -108,7 +108,7 @@ void Item_manager::load_item_templates(){
 // Load values from this data file into m_templates
 // TODO: Consider appropriate location for this code. Is this really where it belongs?
 //       At the very least, it seems the json blah_from methods could be used elsewhere
-void Item_manager::load_item_templates_from(const std::string file_name){
+void Item_factory::load_item_templates_from(const std::string file_name){
     std::ifstream data_file;
     picojson::value input_value;
     
@@ -141,14 +141,14 @@ void Item_manager::load_item_templates_from(const std::string file_name){
             if( key_pair == entry_body.end() || !(key_pair->second.is<std::string>()) ){
                 std::cerr << "Item definition skipped, no id found or id was malformed." << std::endl;
             } else {
-                item_tag new_id = key_pair->second.get<std::string>();
+                Item_tag new_id = key_pair->second.get<std::string>();
 
                 // If everything works out, add the item to the group list... 
                 // unless a similar item is already there
                 if(m_templates.find(new_id) != m_templates.end()){
                     std::cerr << "Item definition skipped, id " << new_id << " already exists." << std::endl;
                 } else {
-                    item_template* new_item_template =  new itype();
+                    itype* new_item_template =  new itype();
                     new_item_template->id = new_id;
                     m_templates[new_id] = new_item_template;
 
@@ -172,7 +172,7 @@ void Item_manager::load_item_templates_from(const std::string file_name){
 }
 
 // Load values from this data file into m_template_groups
-void Item_manager::load_item_groups_from(const std::string file_name){
+void Item_factory::load_item_groups_from(const std::string file_name){
     std::ifstream data_file;
     picojson::value input_value;
     
@@ -205,7 +205,7 @@ void Item_manager::load_item_groups_from(const std::string file_name){
             if( key_pair == entry_body.end() || !(key_pair->second.is<std::string>()) ){
                 std::cerr << "Group definition skipped, no id found or id was malformed." << std::endl;
             } else {
-                item_tag group_id = key_pair->second.get<std::string>();
+                Item_tag group_id = key_pair->second.get<std::string>();
                 m_template_groups[group_id] = new Item_group(group_id);
             }
         }
@@ -214,7 +214,7 @@ void Item_manager::load_item_groups_from(const std::string file_name){
     for (picojson::array::const_iterator entry = all_items.begin(); entry != all_items.end(); ++entry) {
         const picojson::value::object& entry_body = entry->get<picojson::object>();
 
-        item_tag group_id = entry_body.find("id")->second.get<std::string>();
+        Item_tag group_id = entry_body.find("id")->second.get<std::string>();
         Item_group current_group = *m_template_groups.find(group_id)->second;
         
         //Add items
@@ -275,7 +275,7 @@ void Item_manager::load_item_groups_from(const std::string file_name){
 }
 
 //Grab string, with appropriate error handling
-item_tag Item_manager::string_from_json(item_tag new_id, item_tag index, picojson::value::object value_map){
+Item_tag Item_factory::string_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
     picojson::value::object::const_iterator value_pair = value_map.find(index);
     if(value_pair != value_map.end()){
         if(value_pair->second.is<std::string>()){
@@ -291,7 +291,7 @@ item_tag Item_manager::string_from_json(item_tag new_id, item_tag index, picojso
 }
 
 //Grab character, with appropriate error handling
-char Item_manager::char_from_json(item_tag new_id, item_tag index, picojson::value::object value_map){
+char Item_factory::char_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
     std::string symbol = string_from_json(new_id, index, value_map);
     if(symbol == ""){
         std::cerr << "Item "<< new_id << " attribute  " << "was skipped, empty string not allowed." << std::endl;
@@ -301,7 +301,7 @@ char Item_manager::char_from_json(item_tag new_id, item_tag index, picojson::val
 }
 
 //Grab int, with appropriate error handling
-int Item_manager::int_from_json(item_tag new_id, item_tag index, picojson::value::object value_map){
+int Item_factory::int_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
     picojson::value::object::const_iterator value_pair = value_map.find(index);
     if(value_pair != value_map.end()){
         if(value_pair->second.is<double>()){
@@ -317,7 +317,7 @@ int Item_manager::int_from_json(item_tag new_id, item_tag index, picojson::value
 }
 
 //Grab color, with appropriate error handling
-nc_color Item_manager::color_from_json(item_tag new_id, item_tag index, picojson::value::object value_map){
+nc_color Item_factory::color_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
     std::string new_color = string_from_json(new_id, index, value_map);
     if("red"==new_color){
         return c_red;
@@ -331,7 +331,7 @@ nc_color Item_manager::color_from_json(item_tag new_id, item_tag index, picojson
     }
 }
 
-material Item_manager::material_from_json(item_tag new_id, item_tag index, picojson::value::object value_map, int to_return){
+material Item_factory::material_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map, int to_return){
     //If the value isn't found, just return a group of null materials
     material material_list[2] = {MNULL, MNULL};
 
@@ -361,7 +361,7 @@ material Item_manager::material_from_json(item_tag new_id, item_tag index, picoj
     return material_list[to_return];
 }
 
-material Item_manager::material_from_tag(item_tag new_id, item_tag name){
+material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
     // Map the valid input tags to a valid material
 
     // This should clearly be some sort of map, stored somewhere
