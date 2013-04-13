@@ -91,7 +91,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
                            query_yn("Use fingerhack on the reader?"));
   if (using_electrohack || using_fingerhack) {
    p->moves -= 500;
-   p->practice("computer", 20);
+   p->practice(g->turn, "computer", 20);
    int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
    success += rng(-3, 3);
    if (using_fingerhack)
@@ -176,7 +176,7 @@ void iexamine::chainfence(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::tent(game *g, player *p, map *m, int examx, int examy) {
- if (!query_yn("Take down %s?",m->tername(examx, examy).c_str())) {
+ if (!query_yn("Take down your tent?")) {
   none(g, p, m, examx, examy);
   return;
  }

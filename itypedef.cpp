@@ -34,26 +34,26 @@ void game::init_itypes ()
 {
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes["null"]=
-  new itype("null", 0, 0, "none", "", '#', c_white, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+  new itype("null", 0, 0, "none", "", '#', c_white, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 // Corpse - a special item
  itypes["corpse"]=
-  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, 0, 0,
+  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, PNULL, 0, 0,
             0, 0, 1, 0);
 // Fire - only appears in crafting recipes
  itypes["fire"]=
   new itype("fire", 0, 0, "nearby fire",
             "Some fire - if you are reading this it's a bug!",
-            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 // Integrated toolset - ditto
  itypes["toolset"]=
   new itype("toolset", 0, 0, "integrated toolset",
             "A fake item. If you are reading this it's a bug!",
-            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 // For smoking crack or meth
  itypes["apparatus"]=
   new itype("apparatus", 0, 0, "something to smoke that from, and a lighter",
             "A fake item. If you are reading this it's a bug!",
-            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 
 // Drinks
 // Stim should be -8 to 8.
@@ -65,7 +65,7 @@ void game::init_itypes ()
 #define DRINK(id, name,rarity,price,color,container,quench,nutr,spoils,stim,\
 healthy,addict,charges,fun,use_func,addict_func,des, item_flags) \
 	itypes[id] = new it_comest(id,rarity,price,name,des,'~',\
-color,LIQUID,2,1,0,0,0,item_flags,quench,nutr,spoils,stim,healthy,addict,charges,\
+color,MNULL,LIQUID,2,1,0,0,0,item_flags,quench,nutr,spoils,stim,healthy,addict,charges,\
 fun,container,"null",use_func,addict_func,"DRINK");
 
 //     NAME		RAR PRC	COLOR     CONTAINER
@@ -131,6 +131,7 @@ A nutritious and delicious hearty vegetable soup.", mfb(IF_EATEN_HOT));
 DRINK("soup_meat","meat soup",		15, 60, c_red,    "can_food",
 	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
 A nutritious and delicious hearty meat soup.", mfb(IF_EATEN_HOT));
+itypes["soup_meat"]->m1 = FLESH;
 
 DRINK("whiskey","whiskey",	16, 85,	c_brown,  "bottle_glass",
 	-12, 4,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
@@ -204,7 +205,7 @@ Blood, possibly that of a human. Disgusting!", 0);
 #define FOOD(id, name, rarity,price,color,mat1,container,volume,weight,quench,\
 nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des, item_flags) \
 itypes[id]=new it_comest(id,rarity,price,name,des,'%',\
-color,mat1,volume,weight,0,0,0,item_flags, quench,nutr,spoils,stim,healthy,addict,charges,\
+color,mat1,SOLID,volume,weight,0,0,0,item_flags, quench,nutr,spoils,stim,healthy,addict,charges,\
 fun,container,"null",use_func,addict_func,"FOOD");
 // FOOD
 
@@ -533,11 +534,25 @@ FOOD("jihelucake", "cake",            0, 0, c_white, VEGGY, "null",
     2,  1,   0, 25, 0,  0,  0,  0,  1,  20, &iuse::none, ADD_NULL, "\
 Delicious sponge cake with buttercream icing, it says happy birthday on it.", 0);
 
+FOOD("meat_canned", "canned meat",	 0, 25, c_red,		FLESH,	"bottle_glass",
+    1,  2,  0, 50, 40,  0,  0,  0,  1,  2,	&iuse::none,	ADD_NULL, "\
+Low-sodium preserved meat.  It was boiled and canned.\n\
+Contains all of the nutrition, but little of the savor of cooked meat.\n",0 );
+
+FOOD("veggy_canned", "canned veggy",	 0, 150, c_green,		VEGGY,	"bottle_glass",
+    1,  2,  0, 40, 60,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
+This mushy pile of vegetable matter was boiled and canned in an earlier life.\n\
+Better eat it before it oozes through your fingers.", 0);
+
+FOOD("apple_canned", "canned apple slices",	 0, 32, c_red,		VEGGY,	"bottle_glass",
+    1,  1,  3, 16, 180,  0,  2,  0,  1,  1,	&iuse::none,	ADD_NULL, "\
+Sealed glass jar containing preserved apples.  Bland, mushy and losing color.", 0);
+
 // MEDS
 #define MED(id, name,rarity,price,color,tool,mat,stim,healthy,addict,\
 charges,fun,use_func,addict_func,des) \
 itypes[id]=new it_comest(id,rarity,price,name,des,'!',\
-color,mat,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
+color,mat,SOLID,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
 fun,"null",tool,use_func,addict_func,"MED");
 
 //  NAME		RAR PRC	COLOR		TOOL
@@ -624,13 +639,13 @@ MED("prozac", "Prozac",		10,650,	c_cyan,		"null",
 	PLASTIC, -4,  0,  0, 15,  0,&iuse::prozac,	ADD_NULL, "\
 A strong anti-depressant. Useful if your morale level is very low.");
 
-MED("cig", "cigarettes",	90,120,	c_dkgray,	"lighter",
+MED("cig", "cigarettes",	90,120,	c_dkgray,	"null",
 	VEGGY,    1, -1, 40, 10,  5,&iuse::cig,		ADD_CIG, "\
 These will boost your dexterity, intelligence, and perception for a short\n\
 time. They are quite addictive.");
 
 //  NAME		RAR PRC	COLOR
-MED("weed", "marijuana",	20,250,	c_green,	"lighter",
+MED("weed", "marijuana",	20,250,	c_green,	"null",
 //	MATERIAL STM HTH ADD CHG FUN use_func		addiction type
 	VEGGY,   -8,  0,  0,  5, 18,&iuse::weed,	ADD_NULL, "\
 Really useful only for relaxing. Will reduce your attributes and reflexes.");
@@ -639,7 +654,7 @@ MED("coke", "cocaine",		 8,420,	c_white,	"null",
 	POWDER,  20, -2, 30,  8, 25,&iuse::coke,	ADD_COKE, "\
 A strong, illegal stimulant. Highly addictive.");
 
-MED("meth", "methamphetamine",	 2,800, c_ltcyan,	"apparatus",
+MED("meth", "methamphetamine",	 2,800, c_ltcyan,	"null",
 	POWDER,  10, -4, 50,  6, 30,&iuse::meth,	ADD_SPEED, "\
 A very strong illegal stimulant. Extremely addictive and bad for you, but\n\
 also extremely effective in boosting your alertness.");
@@ -651,7 +666,7 @@ MED("heroin", "heroin",		 1,1000,c_brown,	"syringe",
 A very strong illegal opiate. Unless you have an opiate tolerance, avoid\n\
 heroin, as it will be too strong for you.");
 
-MED("cigar", "cigars",		 5,120,	c_dkgray,	"lighter",
+MED("cigar", "cigars",		 5,120,	c_dkgray,	"null",
 	VEGGY,    1, -1, 40, 10, 15,&iuse::cig,		ADD_CIG, "\
 A gentleman's vice. Cigars are what separates a gentleman from a savage.");
 
@@ -687,7 +702,7 @@ gracken");
 #define MELEE(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, des)\
 itypes[id]=new itype(id,rarity,price,name,des,sym,\
-color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags)
+color,mat1,mat2,SOLID,volume,wgt,dam,cut,to_hit,flags);
 
 //    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
 MELEE("wrapper", "paper wrapper",	50,  1, ',', c_ltgray,	PAPER,	MNULL,
@@ -1654,7 +1669,7 @@ ARMOR("fire_gauntlets", "fire gauntlets",	 5,  95,C_GLOVES,	LEATHER,	MNULL,
     3,  5, -2,  2,  6,  1,  2,  5,  40,  0,	mfb(bp_hands), "\
 A heavy pair of leather gloves, used by firefighters for heat protection.", 0);
 
-ARMOR("gauntlets_chitin", "chitinous gauntlets", 1, 380,C_HAT,		FLESH,		MNULL,
+ARMOR("gauntlets_chitin", "chitinous gauntlets", 1, 380,C_GLOVES,		FLESH,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    4,   1,  2, -2,  1,  5, 7,   4,  20,  0,	mfb(bp_hands), "\
 Gauntlets made from the exoskeletons of insects. Very light and durable.", 0);
@@ -1918,13 +1933,13 @@ A heavy duty hauling frame designed to interface with power armor.");
 // AP is a reduction in the armor of the target.
 // Accuracy is in quarter-degrees, and measures the maximum this ammo will
 //   contribute to the angle of difference.  HIGH ACC IS BAD.
-// Recoil is cumulitive between shots.  4 recoil = 1 accuracy.
+// Recoil is cumulative between shots.  4 recoil = 1 accuracy.
 // IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
 //   at the end of this file.
 #define AMMO(id, name,rarity,price,ammo_type,color,mat,volume,wgt,dmg,AP,range,\
 accuracy,recoil,count,des,effects) \
 itypes[id]=new it_ammo(id,rarity,price,name,des,'=',\
-color,mat,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count)
+color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("battery", "batteries",	50, 120,AT_BATT,	c_magenta,	IRON,
@@ -2428,7 +2443,7 @@ ammunition.",
 #define FUEL(id, name,rarity,price,ammo_type,color,dmg,AP,range,accuracy,recoil,\
              count,des,effects) \
 itypes[id]=new it_ammo(id,rarity,price,name,des,'~',\
-color,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count)
+color,MNULL,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count)
 FUEL("gasoline","gasoline",	0,  50,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
 	 5,  5,  4,  0,  0,  200, "\
@@ -2518,7 +2533,7 @@ itypes[id]=new it_container(id,rarity,price,name,des,\
 melee_cut,to_hit,max_charge,def_charge,charge_per_use,charge_per_sec,fuel,\
 revert,func,flags,des) \
 itypes[id]=new it_tool(id,rarity,price,name,des,sym,\
-color,mat1,mat2,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
+color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
 
 //  NAME		RAR PRC COLOR		MAT1	MAT2
@@ -3515,9 +3530,26 @@ underground.");
 
 TOOL("flashlight_on", "flashlight (on)",  0, 380,';', c_blue,	PLASTIC, IRON,
     3,  2,  1,  0,  2, 100,100, 0, 15, AT_BATT,"flashlight",&iuse::light_on,
-mfb(IF_LIGHT_8),
+mfb(IF_LIGHT_20),
 "This flashlight is turned on, and continually draining its batteries. It\n\
 provides light during the night or while underground. Use it to turn it off.");
+
+TOOL("lightstrip_dead", "lightstrip (dead)", 0, 200, ';', c_white, PLASTIC, IRON,
+    1,  1,  1,  0,  2,  0,  0,  0,  0, AT_NULL, "null", &iuse::none, 0,"\
+A burnt-out lightstrip. You could disassemble this to recover the amplifier\n\
+circuit.");
+
+TOOL("lightstrip_inactive", "lightstrip (inactive)", 0, 200, ';', c_white, PLASTIC, IRON,
+    1,  1,  1,  0,  2,  12000, 12000, 0, 0, AT_NULL, "null", &iuse::lightstrip, 0,"\
+A light-emitting circuit wired directly to some batteries. Once activated, provides\n\
+25 hours of light per 3 (battery) charges. When the batteries die, you'll need to\n\
+scrap it to recover the components that are reusable.");
+
+TOOL("lightstrip", "lightstrip (active)", 0, 200, ';', c_green, PLASTIC, IRON,
+    1,  1,  1,  0,  2,  12000, 12000, 0, 150, AT_NULL, "lightstrip_dead", &iuse::none, mfb(IF_LIGHT_1),"\
+A light-emitting circuit wired directly to some batteries. Provides a weak light,\n\
+lasting 25 hours per 3 (battery) charges. When the batteries die, you'll need to\n\
+scrap it to recover the components that are reusable.");
 
 TOOL("hotplate", "hotplate",	10, 250,';', c_green,	IRON,	PLASTIC,
     5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, "null", &iuse::cauterize_elec,0,"\
@@ -3554,7 +3586,18 @@ TOOL("radio_on", "radio (on)",	 0, 420,';', c_yellow,	PLASTIC, IRON,
 This radio is turned on, and continually draining its batteries. It is\n\
 playing the broadcast being sent from any nearby radio towers.");
 
-TOOL("roadmap", "road map", 40, 10, ';', c_yellow, MNULL, MNULL,
+TOOL("noise_emitter", "noise emitter (off)", 0, 600, ';', c_yellow, PLASTIC, IRON,
+    4,  3,  6,  0, -1, 100,100, 0,  0, AT_BATT, "null", &iuse::noise_emitter_off, 0,"\
+This device was constructed by 'enhancing' a radio with some amplifier\n\
+circuits. It's completely lost its ability to pick up a station, but it's\n\
+nice and loud now. Could be useful to distract zombies.");
+
+TOOL("noise_emitter_on", "noise emitter (on)", 0, 600, ';', c_yellow, PLASTIC, IRON,
+    4,  3,  6,  0, -1, 100,100, 0,  1, AT_BATT, "noise_emitter",&iuse::noise_emitter_on, 0,"\
+This device has been turned on and is emitting horrible sounds of radio\n\
+static. Quick, get away from it before it draws zombies to you!");
+
+TOOL("roadmap", "road map", 40, 10, ';', c_yellow, PAPER, MNULL,
      1, 0, 0, 0, -1, 1, 1, 0, 0, AT_NULL, "null", &iuse::roadmap, 0, "\
 A road map. Use it to read points of interest, including, but not\n\
 limited to, location(s) of hospital(s) nearby.");
@@ -3950,7 +3993,7 @@ TOOL("cot", "cot",      40,1000,';', c_green, IRON, COTTON,
 A military style fold up cot, not quite as comfortable as a bed\n\
 but much better than slumming it on the ground.");
 
-TOOL("rollmat", "rollmat",  40,400,';', c_blue, MNULL, MNULL,
+TOOL("rollmat", "rollmat",  40,400,';', c_blue, PLASTIC, MNULL,
      4, 3,  0, 0, -1, 0, 0, 0, 0, AT_NULL, "null", &iuse::set_trap,
 0, "\
 A sheet of foam, which can be rolled tightly for storage\n\
@@ -4082,7 +4125,7 @@ quite a long time.");
 //    NAME              RAR PRC SYM COLOR       MAT1    MAT2
 TOOL("candle_lit", "candle (lit)",           40,  0, ',', c_white,  VEGGY,  MNULL,
     1,  1,  0,  0, -2, 100, 100, 1, 50, AT_NULL, "null", &iuse::candle_lit,
-0, "\
+mfb(IF_LIGHT_4), "\
 A thick candle, doesn't provide very much light, but it can burn for\n\
 quite a long time. This candle is lit.");
 
@@ -4228,6 +4271,18 @@ TOOL("LAW_Packed", "Packed M72 LAW", 30, 500, ')', c_red, STEEL, MNULL,
 0, "\
 An M72 LAW, packed in its storage form. (a)ctivate it to pop it out\n\
 and make it ready to fire. Once activated, it cannot be repacked.");
+
+TOOL("jar_meat_canned", "sealed jar of canned meat",	50,	75,'%', c_red,		GLASS,	FLESH,
+    2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
+Sealed glass jar containing meat.  Activate to open and enjoy.");
+
+TOOL("jar_veggy_canned", "sealed jar of canned veggy",	50,	65, '%', c_green,		GLASS,	VEGGY,
+    2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
+Sealed glass jar containing veggy.  Activate to open and enjoy.");
+
+TOOL("jar_apple_canned", "sealed jar of canned apple",	50,	50, '%', c_red,		GLASS,	VEGGY,
+    2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
+Sealed glass jar containing a sliced apple.  Activate to open and enjoy.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

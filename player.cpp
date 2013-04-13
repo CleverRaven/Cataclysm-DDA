@@ -423,14 +423,12 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   int blister_count = 0; // If the counter is high, your skin starts to burn
   for (int j = -6 ; j <= 6 ; j++){
    for (int k = -6 ; k <= 6 ; k++){
-    // Bizarre workaround for g->u_see() and friends not taking const arguments.
-    int l = std::max(j, k);
     int heat_intensity = 0;
     if(g->m.field_at(posx + j, posy + k).type == fd_fire)
      heat_intensity = g->m.field_at(posx + j, posy + k).density;
     else if (g->m.tr_at(posx + j, posy + k) == tr_lava )
       heat_intensity = 3;
-    if (heat_intensity > 0 && g->u_see(posx + j, posy + k, l)) {
+    if (heat_intensity > 0 && g->u_see(posx + j, posy + k)) {
      // Ensure fire_dist >=1 to avoid divide-by-zero errors.
      int fire_dist = std::max(1, std::max(j, k));
      if (frostbite_timer[i] > 0) frostbite_timer[i] -= heat_intensity - fire_dist / 2;
@@ -502,7 +500,7 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   int rounding_error = 0;
   if (temp_difference < 0 && temp_difference > -600 ) rounding_error = 1; // If temp_diff is small, the player cannot warm up due to rounding errors. This fixes that.
   if (temp_cur[i] != temp_conv[i]) {
-   if      ((g->m.ter(posx, posy) == t_water_sh || g->m.ter(posx, posy) == t_sewage) 
+   if      ((g->m.ter(posx, posy) == t_water_sh || g->m.ter(posx, posy) == t_sewage)
               && (i == bp_feet || i == bp_legs)) temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
    else if (g->m.ter(posx, posy) == t_water_dp)  temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
    else if (i == bp_torso || i == bp_head)       temp_cur[i] = temp_difference*exp(-0.003) + temp_conv[i] + rounding_error;
@@ -644,11 +642,11 @@ int player::run_cost(int base_cost)
  }
  if (hp_cur[hp_leg_l] == 0)
   movecost += 50;
- else if (hp_cur[hp_leg_l] < 40)
+ else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40)
   movecost += 25;
  if (hp_cur[hp_leg_r] == 0)
   movecost += 50;
- else if (hp_cur[hp_leg_r] < 40)
+ else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40)
   movecost += 25;
 
  if (has_trait(PF_FLEET) && base_cost == 100)
@@ -735,7 +733,7 @@ void player::load_info(game *g, std::string data)
          inveh >> scent >> moves >> underwater >> dodges_left >> blocks_left >>
          oxygen >> active_mission >> xp_pool >> male >> prof_ident >> health >>
          styletmp;
- 
+
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
  } else {
@@ -765,6 +763,15 @@ void player::load_info(game *g, std::string data)
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    dump >> skillLevel(*aSkill);
+ }
+
+ int num_recipes;
+ std::string rec_name;
+ dump >> num_recipes;
+ for (int i = 0; i < num_recipes; ++i)
+ {
+  dump >> rec_name;
+  learned_recipes[rec_name] = g->recipe_by_name(rec_name);
  }
 
  int numstyles;
@@ -867,6 +874,14 @@ std::string player::save_info()
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    SkillLevel level = skillLevel(*aSkill);
    dump << level;
+ }
+
+ dump << learned_recipes.size() << " ";
+ for (std::map<std::string, recipe*>::iterator iter = learned_recipes.begin();
+      iter != learned_recipes.end();
+      ++iter)
+ {
+  dump << iter->first << " ";
  }
 
  dump << styles.size() << " ";
@@ -2037,14 +2052,14 @@ void player::disp_status(WINDOW *w, game *g)
  }
 }
 
-bool player::has_trait(int flag)
+bool player::has_trait(int flag) const
 {
  if (flag == PF_NULL)
   return true;
  return my_traits[flag];
 }
 
-bool player::has_mutation(int flag)
+bool player::has_mutation(int flag) const
 {
  if (flag == PF_NULL)
   return true;
@@ -2057,7 +2072,7 @@ void player::toggle_trait(int flag)
  my_mutations[flag] = !my_mutations[flag];
 }
 
-bool player::has_bionic(bionic_id b)
+bool player::has_bionic(bionic_id b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
@@ -2066,7 +2081,7 @@ bool player::has_bionic(bionic_id b)
  return false;
 }
 
-bool player::has_active_bionic(bionic_id b)
+bool player::has_active_bionic(bionic_id b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
@@ -2180,7 +2195,7 @@ bool player::sight_impaired()
                         && !is_wearing("glasses_monocle"));
 }
 
-bool player::has_two_arms()
+bool player::has_two_arms() const
 {
  if (has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10)
   return false;
@@ -2668,8 +2683,7 @@ void player::knock_back_from(game *g, int x, int y)
  if (y > posy)
   to.y--;
 
- int t = 0;
- bool u_see = (!is_npc() || g->u_see(to.x, to.y, t));
+ bool u_see = (!is_npc() || g->u_see(to.x, to.y));
 
  std::string You = (is_npc() ? name : "You");
  std::string s = (is_npc() ? "s" : "");
@@ -2807,7 +2821,7 @@ void player::rem_disease(dis_type type)
  }
 }
 
-bool player::has_disease(dis_type type)
+bool player::has_disease(dis_type type) const
 {
  for (int i = 0; i < illness.size(); i++) {
   if (illness[i].type == type)
@@ -2863,7 +2877,7 @@ void player::add_addiction(add_type type, int strength)
  }
 }
 
-bool player::has_addiction(add_type type)
+bool player::has_addiction(add_type type) const
 {
  for (int i = 0; i < addictions.size(); i++) {
   if (addictions[i].type == type &&
@@ -3315,8 +3329,17 @@ int player::volume_capacity()
  return ret;
 }
 
+bool player::can_pickVolume(int volume)
+{
+    return (volume_carried() + volume <= volume_capacity());
+}
+bool player::can_pickWeight(int weight)
+{
+    return (weight_carried() + weight <= weight_capacity());
+}
 int player::morale_level()
 {
+ std::stringstream morale_text;
  int ret = 0;
  for (int i = 0; i < morale.size(); i++)
   ret += morale[i].bonus;
@@ -3331,7 +3354,7 @@ int player::morale_level()
    pen = int(pen / 7);
   else if (has_disease(DI_TOOK_PROZAC))
    pen = int(pen / 2);
-  ret -= pen;
+  add_morale(MORALE_PERM_HOARDER, -pen, -pen);
  }
 
  if (has_trait(PF_MASOCHIST)) {
@@ -3340,16 +3363,12 @@ int player::morale_level()
    bonus = 25;
   if (has_disease(DI_TOOK_PROZAC))
    bonus = int(bonus / 3);
-  ret += bonus;
+  if (bonus != 0)
+   add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
  }
-
+ // Optimist gives a straight +20 to morale.
  if (has_trait(PF_OPTIMISTIC)) {
-  if (ret < 0) {	// Up to -30 is canceled out
-   ret += 30;
-   if (ret > 0)
-    ret = 0;
-  } else		// Otherwise, we're just extra-happy
-   ret += 20;
+  add_morale(MORALE_PERM_OPTIMIST, 20, 20);
  }
 
  if (has_disease(DI_TOOK_PROZAC) && ret < 0)
@@ -3493,11 +3512,9 @@ void player::process_active_items(game *g)
   if (weapon.has_flag(IF_CHARGE)) { // We're chargin it up!
    if (weapon.charges == 8) {
     bool maintain = false;
-    if (has_charges("UPS_on", 4)) {
-     use_charges("UPS_on", 4);
+    if (use_charges_if_avail("UPS_on", 4)) {
      maintain = true;
-    } else if (has_charges("UPS_off", 4)) {
-     use_charges("UPS_off", 4);
+    } else if (use_charges_if_avail("UPS_off", 4)) {
      maintain = true;
     }
     if (maintain) {
@@ -3510,11 +3527,9 @@ void player::process_active_items(game *g)
       g->add_msg("Your %s beeps alarmingly.", weapon.tname().c_str());
     }
    } else {
-    if (has_charges("UPS_on", 1 + weapon.charges)) {
-     use_charges("UPS_on", 1 + weapon.charges);
+    if (use_charges_if_avail("UPS_on", 1 + weapon.charges)) {
      weapon.poison++;
-    } else if (has_charges("UPS_off", 1 + weapon.charges)) {
-     use_charges("UPS_off", 1 + weapon.charges);
+    } else if (use_charges_if_avail("UPS_off", 1 + weapon.charges)) {
      weapon.poison++;
     } else {
      g->add_msg("Your %s spins down.", weapon.tname().c_str());
@@ -3551,7 +3566,7 @@ void player::process_active_items(game *g)
 			}
 		}
 		return;
-	}	
+	}
   if (!weapon.is_tool()) {
    debugmsg("%s is active, but it is not a tool.", weapon.tname().c_str());
    return;
@@ -3573,10 +3588,10 @@ void player::process_active_items(game *g)
    item *tmp_it = &(inv.stack_at(i)[j]);
    if (tmp_it->is_artifact() && tmp_it->is_tool())
       g->process_artifact(tmp_it, this);
-      if (tmp_it->active || 
+      if (tmp_it->active ||
       (tmp_it->is_container() && tmp_it->contents.size() > 0 && tmp_it->contents[0].active)) {
         if (tmp_it->is_food()) {
-          if (tmp_it->has_flag(IF_HOT)) {	
+          if (tmp_it->has_flag(IF_HOT)) {
             tmp_it->item_counter--;
             if (tmp_it->item_counter == 0) {
               tmp_it->item_flags ^= mfb(IF_HOT);
@@ -3794,6 +3809,85 @@ void player::use_amount(itype_id it, int quantity, bool use_container)
  inv.use_amount(it, quantity, use_container);
 }
 
+bool player::use_charges_if_avail(itype_id it, int quantity)
+{
+    if (has_charges(it, quantity))
+    {
+        use_charges(it, quantity);
+        return true;
+    }
+    return false;
+}
+
+bool player::has_fire(const int quantity)
+{
+// TODO: Replace this with a "tool produces fire" flag.
+
+    if (has_charges("torch_lit", 1)) {
+        return true;
+    } else if (has_charges("candle_lit", 1)) {
+        return true;
+    } else if (has_bionic("bio_tools")) {
+        return true;
+    } else if (has_bionic("bio_lighter")) {
+        return true;
+    } else if (has_bionic("bio_laser")) {
+        return true;
+    } else if (has_charges("matches", quantity)) {
+        return true;
+    } else if (has_charges("lighter", quantity)) {
+        return true;
+    } else if (has_charges("flamethrower", quantity)) {
+        return true;
+    } else if (has_charges("flamethrower_simple", quantity)) {
+        return true;
+    } else if (has_charges("hotplate", quantity)) {
+        return true;
+    } else if (has_charges("welder", quantity)) {
+        return true;
+    }
+    return false;
+}
+
+void player::use_fire(const int quantity)
+{
+//Ok, so checks for nearby fires first,
+//then held lit torch or candle, bio tool/lighter/laser
+//tries to use 1 charge of lighters, matches, flame throwers
+// (home made, military), hotplate, welder in that order.
+// bio_lighter, bio_laser, bio_tools, has_bionic("bio_tools"
+
+    if (has_charges("torch_lit", 1)) {
+        return;
+    } else if (has_charges("candle_lit", 1)) {
+        return;
+    } else if (has_bionic("bio_tools")) {
+        return;
+    } else if (has_bionic("bio_lighter")) {
+        return;
+    } else if (has_bionic("bio_laser")) {
+        return;
+    } else if (has_charges("matches", quantity)) {
+        use_charges("matches", quantity);
+        return;
+    } else if (has_charges("lighter", quantity)) {
+        use_charges("lighter", quantity);
+        return;
+    } else if (has_charges("flamethrower", quantity)) {
+        use_charges("flamethrower", quantity);
+        return;
+    } else if (has_charges("flamethrower_simple", quantity)) {
+        use_charges("flamethrower_simple", quantity);
+        return;
+    } else if (has_charges("hotplate", quantity)) {
+        use_charges("welder", quantity);
+        return;
+    } else if (has_charges("welder", quantity)) {
+        use_charges("welder", quantity);
+        return;
+    }
+}
+
 void player::use_charges(itype_id it, int quantity)
 {
  if (it == "toolset") {
@@ -3802,6 +3896,11 @@ void player::use_charges(itype_id it, int quantity)
    power_level = 0;
   return;
  }
+ if (it == "fire")
+ {
+     return use_fire(quantity);
+ }
+
 // Start by checking weapon contents
  for (int i = 0; i < weapon.contents.size(); i++) {
   if (weapon.contents[i].type->id == it) {
@@ -3952,8 +4051,7 @@ int player::amount_of(itype_id it)
     }
     if (it == "apparatus")
     {
-        if ((has_amount("crackpipe", 1) && has_amount("lighter", 1)) ||
-            (has_amount("can_drink", 1) && has_amount("lighter", 1)))
+        if (has_amount("crackpipe", 1) || has_amount("can_drink", 1) )
         {
             return 1;
         }
@@ -3977,6 +4075,10 @@ int player::amount_of(itype_id it)
 
 bool player::has_charges(itype_id it, int quantity)
 {
+    if (it == "fire" || it == "apparatus")
+    {
+        return has_fire(quantity);
+    }
     return (charges_of(it) >= quantity);
 }
 
@@ -4069,7 +4171,7 @@ bool player::has_matching_liquid(itype_id it)
  return false;
 }
 
-bool player::has_weapon_or_armor(char let)
+bool player::has_weapon_or_armor(char let) const
 {
  if (weapon.invlet == let)
   return true;
@@ -4143,271 +4245,313 @@ hint_rating player::rate_action_eat(item *it)
 
 bool player::eat(game *g, int index)
 {
- it_comest *comest = NULL;
- item *eaten = NULL;
- int which = -3; // Helps us know how to delete the item which got eaten
- int linet;
- if (index == -2) {
-  g->add_msg("You do not have that item.");
-  return false;
- } else if (index == -1) {
-  if (weapon.is_food_container(this)) {
-   eaten = &weapon.contents[0];
-   which = -2;
-   if (weapon.contents[0].is_food())
-    comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
-  } else if (weapon.is_food(this)) {
-   eaten = &weapon;
-   which = -1;
-   if (weapon.is_food())
-    comest = dynamic_cast<it_comest*>(weapon.type);
-  } else {
-   if (!is_npc())
-    g->add_msg("You can't eat your %s.", weapon.tname(g).c_str());
-   else
-    debugmsg("%s tried to eat a %s", name.c_str(), weapon.tname(g).c_str());
-   return false;
-  }
- } else {
-  if (inv[index].is_food_container(this)) {
-   eaten = &(inv[index].contents[0]);
-   which = index + inv.size();
-   if (inv[index].contents[0].is_food())
-    comest = dynamic_cast<it_comest*>(inv[index].contents[0].type);
-  } else if (inv[index].is_food(this)) {
-   eaten = &inv[index];
-   which = index;
-   if (inv[index].is_food())
-    comest = dynamic_cast<it_comest*>(inv[index].type);
-  } else {
-   if (!is_npc())
-    g->add_msg("You can't eat your %s.", inv[index].tname(g).c_str());
-   else
-    debugmsg("%s tried to eat a %s", name.c_str(), inv[index].tname(g).c_str());
-   return false;
-  }
- }
- if (eaten == NULL)
-  return false;
+    it_comest *comest = NULL;
+    item *eaten = NULL;
+    int which = -3; // Helps us know how to delete the item which got eaten
+    if (index == -2)
+    {
+        g->add_msg("You do not have that item.");
+        return false;
+    }
+    else if (index == -1)
+    {
+        if (weapon.is_food_container(this))
+        {
+            eaten = &weapon.contents[0];
+            which = -2;
+            if (weapon.contents[0].is_food())
+                comest = dynamic_cast<it_comest*>(weapon.contents[0].type);
+        }
+        else if (weapon.is_food(this))
+        {
+            eaten = &weapon;
+            which = -1;
+            if (weapon.is_food())
+                comest = dynamic_cast<it_comest*>(weapon.type);
+        }
+        else
+        {
+            if (!is_npc())
+                g->add_msg("You can't eat your %s.", weapon.tname(g).c_str());
+            else
+                debugmsg("%s tried to eat a %s", name.c_str(), weapon.tname(g).c_str());
+            return false;
+        }
+    }
+    else
+    {
+        if (inv[index].is_food_container(this))
+        {
+            eaten = &(inv[index].contents[0]);
+            which = index + inv.size();
+            if (inv[index].contents[0].is_food())
+                comest = dynamic_cast<it_comest*>(inv[index].contents[0].type);
+        }
+        else if (inv[index].is_food(this))
+        {
+            eaten = &inv[index];
+            which = index;
+            if (inv[index].is_food())
+                comest = dynamic_cast<it_comest*>(inv[index].type);
+        }
+        else
+        {
+            if (!is_npc())
+                g->add_msg("You can't eat your %s.", inv[index].tname(g).c_str());
+            else
+                debugmsg("%s tried to eat a %s", name.c_str(), inv[index].tname(g).c_str());
+            return false;
+        }
+    }
+    if (eaten == NULL)
+        return false;
 
- if (eaten->is_ammo()) { // For when bionics let you eat fuel
-  const int factor = 20;
-  int max_change = max_power_level - power_level;
-  if (max_change == 0 && !is_npc()) {
-   g->add_msg("Your internal power storage is fully powered.");
-  }
-  charge_power(eaten->charges / factor);
-  eaten->charges -= max_change * factor; //negative charges seem to be okay
-  eaten->charges++; //there's a flat subtraction later
- } else if (!eaten->type->is_food() && !eaten->is_food_container(this)) {
-// For when bionics let you burn organic materials
-  int charge = (eaten->volume() + eaten->weight()) / 2;
-  if (eaten->type->m1 == LEATHER || eaten->type->m2 == LEATHER)
-   charge /= 4;
-  if (eaten->type->m1 == WOOD    || eaten->type->m2 == WOOD)
-   charge /= 2;
-  charge_power(charge);
- } else { // It's real food!  i.e. an it_comest
-// Remember, comest points to the it_comest data
-  if (comest == NULL) {
-   debugmsg("player::eat(%s); comest is NULL!", eaten->tname(g).c_str());
-   return false;
-  }
-  if (comest->tool != "null") {
-   bool has = has_amount(comest->tool, 1);
+    if (eaten->is_ammo())   // For when bionics let you eat fuel
+    {
+        const int factor = 20;
+        int max_change = max_power_level - power_level;
+        if (max_change == 0 && !is_npc())
+        {
+            g->add_msg("Your internal power storage is fully powered.");
+        }
+        charge_power(eaten->charges / factor);
+        eaten->charges -= max_change * factor; //negative charges seem to be okay
+        eaten->charges++; //there's a flat subtraction later
+    }
+    else if (!eaten->type->is_food() && !eaten->is_food_container(this))
+    {
+        // For when bionics let you burn organic materials
+        int charge = (eaten->volume() + eaten->weight()) / 2;
+        if (eaten->type->m1 == LEATHER || eaten->type->m2 == LEATHER)
+            charge /= 4;
+        if (eaten->type->m1 == WOOD    || eaten->type->m2 == WOOD)
+            charge /= 2;
+        charge_power(charge);
+    }
+    else     // It's real food!  i.e. an it_comest
+    {
+        // Remember, comest points to the it_comest data
+        if (comest == NULL)
+        {
+            debugmsg("player::eat(%s); comest is NULL!", eaten->tname(g).c_str());
+            return false;
+        }
+        if (comest->tool != "null")
+        {
+            bool has = has_amount(comest->tool, 1);
    if (g->itypes[comest->tool]->count_by_charges())
     has = has_charges(comest->tool, 1);
    if (!has) {
-    if (!is_npc())
-     g->add_msg("You need a %s to consume that!",
-                g->itypes[comest->tool]->name.c_str());
-    return false;
-   }
-  }
-  bool overeating = (!has_trait(PF_GOURMAND) && hunger < 0 &&
-                     comest->nutr >= 5);
-  bool spoiled = eaten->rotten(g);
-
-  last_item = itype_id(eaten->type->id);
-
-  if (overeating && !is_npc() &&
-      !query_yn("You're full.  Force yourself to eat?"))
-   return false;
-
-  if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY) && comest->nutr > 0) {
-   if (!is_npc())
-    g->add_msg("You can only eat meat!");
-   else
-    g->add_msg("Carnivore %s tried to eat meat!", name.c_str());
-   return false;
-  }
-  if (!has_trait(PF_CANNIBAL) && eaten->made_of(HFLESH)&& !is_npc() &&
-      !query_yn("The thought of eating that makes you feel sick. Really do it?"))
-   return false;
-
-  if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH) && !is_npc() &&
-      !query_yn("Really eat that meat? Your stomach won't be happy."))
-   return false;
-
-  if (spoiled) {
-   if (is_npc())
-    return false;
-   if (!has_trait(PF_SAPROVORE) &&
-       !query_yn("This %s smells awful!  Eat it?", eaten->tname(g).c_str()))
-    return false;
-   g->add_msg("Ick, this %s doesn't taste so good...",eaten->tname(g).c_str());
-   if (!has_trait(PF_SAPROVORE) && (!has_bionic("bio_digestion") || one_in(3)))
-    add_disease(DI_FOODPOISON, rng(60, (comest->nutr + 1) * 60), g);
-   hunger -= rng(0, comest->nutr);
-   thirst -= comest->quench;
-   if (!has_trait(PF_SAPROVORE) && !has_bionic("bio_digestion"))
-    health -= 3;
-  } else {
-   hunger -= comest->nutr;
-   thirst -= comest->quench;
-   if (has_bionic("bio_digestion"))
-    hunger -= rng(0, comest->nutr);
-   else if (!has_trait(PF_GOURMAND)) {
-    if ((overeating && rng(-200, 0) > hunger))
-     vomit(g);
-   }
-   health += comest->healthy;
-  }
-// At this point, we've definitely eaten the item, so use up some turns.
-  if (has_trait(PF_GOURMAND))
-   moves -= 150;
-  else
-   moves -= 250;
-// If it's poisonous... poison us.  TODO: More several poison effects
-  if (eaten->poison >= rng(2, 4))
-   add_disease(DI_POISON, eaten->poison * 100, g);
-  if (eaten->poison > 0)
-   add_disease(DI_FOODPOISON, eaten->poison * 300, g);
-
-// Descriptive text
-  if (!is_npc()) {
-   if (eaten->made_of(LIQUID))
-    g->add_msg("You drink your %s.", eaten->tname(g).c_str());
-   else if (comest->nutr >= 5)
-    g->add_msg("You eat your %s.", eaten->tname(g).c_str());
-  } else if (g->u_see(posx, posy, linet))
-   g->add_msg("%s eats a %s.", name.c_str(), eaten->tname(g).c_str());
-
-  if (g->itypes[comest->tool]->is_tool())
-   use_charges(comest->tool, 1); // Tools like lighters get used
-  if (comest->stim > 0) {
-   if (comest->stim < 10 && stim < comest->stim) {
-    stim += comest->stim;
-    if (stim > comest->stim)
-     stim = comest->stim;
-   } else if (comest->stim >= 10 && stim < comest->stim * 3)
-    stim += comest->stim;
-  }
-
-  iuse use;
-  (use.*comest->use)(g, this, eaten, false);
-  add_addiction(comest->add, comest->addict);
-  if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol)
-   charge_power(rng(2, 8));
-
-  if (!has_trait(PF_CANNIBAL)  && eaten->made_of(HFLESH)) {
-   if (!is_npc())
-    g->add_msg("You feel horrible for eating a person..");
-   add_morale(MORALE_CANNIBAL, -150, -1000);
-  }
-  if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH)) {
-   if (!is_npc())
-    g->add_msg("Almost instantly you feel a familiar pain in your stomach");
-   add_morale(MORALE_VEGETARIAN, -75, -400);
-  }
-  if ((has_trait(PF_HERBIVORE) || has_trait(PF_RUMINANT)) &&
-      eaten->made_of(FLESH)) {
-   if (!one_in(3))
-    vomit(g);
-   if (comest->quench >= 2)
-    thirst += int(comest->quench / 2);
-   if (comest->nutr >= 2)
-    hunger += int(comest->nutr * .75);
-  }
-	if (eaten->has_flag(IF_HOT) && eaten->has_flag(IF_EATEN_HOT))
-		add_morale(MORALE_FOOD_HOT, 5, 10);
-  if (has_trait(PF_GOURMAND)) {
-   if (comest->fun < -2)
-    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, comest);
-   else if (comest->fun > 0)
-    add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, comest);
-   if (!is_npc() && (hunger < -60 || thirst < -60))
-    g->add_msg("You can't finish it all!");
-   if (hunger < -60)
-    hunger = -60;
-   if (thirst < -60)
-    thirst = -60;
-  } else {
-   if (comest->fun < 0)
-    add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, comest);
-   else if (comest->fun > 0)
-    add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, comest);
-   if (!is_npc() && (hunger < -20 || thirst < -20))
-    g->add_msg("You can't finish it all!");
-   if (hunger < -20)
-    hunger = -20;
-   if (thirst < -20)
-    thirst = -20;
-  }
- }
-
- eaten->charges--;
- if (eaten->charges <= 0) {
-  if (which == -1)
-   weapon = ret_null;
-  else if (which == -2) {
-   weapon.contents.erase(weapon.contents.begin());
-   if (!is_npc())
-    g->add_msg("You are now wielding an empty %s.", weapon.tname(g).c_str());
-  } else if (which >= 0 && which < inv.size())
-   inv.remove_item(which);
-  else if (which >= inv.size()) {
-   which -= inv.size();
-   inv[which].contents.erase(inv[which].contents.begin());
-   if (!is_npc())
-   {
-    switch ((int)OPTIONS[OPT_DROP_EMPTY])
-    {
-      case 0:
-        g->add_msg("%c - an empty %s", inv[which].invlet,
-                                     inv[which].tname(g).c_str());
-        break;
-      case 1:
-        if (inv[which].is_container())
-        {
-           it_container* cont = dynamic_cast<it_container*>(inv[which].type);
-           if (!(cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals)))
-           {
-              g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
-              g->m.add_item(posx, posy, inv.remove_item(which));
-           }
-           else
-              g->add_msg("%c - an empty %s", inv[which].invlet,
-                                          inv[which].tname(g).c_str());
+                if (!is_npc())
+                    g->add_msg("You need a %s to consume that!",
+                               g->itypes[comest->tool]->name.c_str());
+                return false;
+            }
         }
-        else if (inv[which].type->id == "wrapper") // hack because wrappers aren't containers
+        bool overeating = (!has_trait(PF_GOURMAND) && hunger < 0 &&
+                           comest->nutr >= 5);
+        bool spoiled = eaten->rotten(g);
+
+        last_item = itype_id(eaten->type->id);
+
+        if (overeating && !is_npc() &&
+                !query_yn("You're full.  Force yourself to eat?"))
+            return false;
+
+        if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY) && comest->nutr > 0)
         {
-            g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
-            g->m.add_item(posx, posy, inv.remove_item(which));
+            if (!is_npc())
+                g->add_msg("You can only eat meat!");
+            else
+                g->add_msg("Carnivore %s tried to eat meat!", name.c_str());
+            return false;
         }
-      break;
-      case 2:
-        g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
-        g->m.add_item(posx, posy, inv.remove_item(which));
-      break;
+        if (!has_trait(PF_CANNIBAL) && eaten->made_of(HFLESH)&& !is_npc() &&
+                !query_yn("The thought of eating that makes you feel sick. Really do it?"))
+            return false;
+
+        if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH) && !is_npc() &&
+                !query_yn("Really eat that meat? Your stomach won't be happy."))
+            return false;
+
+        if (spoiled)
+        {
+            if (is_npc())
+                return false;
+            if (!has_trait(PF_SAPROVORE) &&
+                    !query_yn("This %s smells awful!  Eat it?", eaten->tname(g).c_str()))
+                return false;
+            g->add_msg("Ick, this %s doesn't taste so good...",eaten->tname(g).c_str());
+            if (!has_trait(PF_SAPROVORE) && (!has_bionic("bio_digestion") || one_in(3)))
+                add_disease(DI_FOODPOISON, rng(60, (comest->nutr + 1) * 60), g);
+            hunger -= rng(0, comest->nutr);
+            thirst -= comest->quench;
+            if (!has_trait(PF_SAPROVORE) && !has_bionic("bio_digestion"))
+                health -= 3;
+        }
+        else
+        {
+            hunger -= comest->nutr;
+            thirst -= comest->quench;
+            if (has_bionic("bio_digestion"))
+                hunger -= rng(0, comest->nutr);
+            else if (!has_trait(PF_GOURMAND))
+            {
+                if ((overeating && rng(-200, 0) > hunger))
+                    vomit(g);
+            }
+            health += comest->healthy;
+        }
+        // At this point, we've definitely eaten the item, so use up some turns.
+        if (has_trait(PF_GOURMAND))
+            moves -= 150;
+        else
+            moves -= 250;
+        // If it's poisonous... poison us.  TODO: More several poison effects
+        if (eaten->poison >= rng(2, 4))
+            add_disease(DI_POISON, eaten->poison * 100, g);
+        if (eaten->poison > 0)
+            add_disease(DI_FOODPOISON, eaten->poison * 300, g);
+
+        // Descriptive text
+        if (!is_npc())
+        {
+            if (eaten->made_of(LIQUID))
+                g->add_msg("You drink your %s.", eaten->tname(g).c_str());
+            else if (comest->nutr >= 5)
+                g->add_msg("You eat your %s.", eaten->tname(g).c_str());
+        }
+        else if (g->u_see(posx, posy))
+            g->add_msg("%s eats a %s.", name.c_str(), eaten->tname(g).c_str());
+
+        if (g->itypes[comest->tool]->is_tool())
+            use_charges(comest->tool, 1); // Tools like lighters get used
+        if (comest->stim > 0)
+        {
+            if (comest->stim < 10 && stim < comest->stim)
+            {
+                stim += comest->stim;
+                if (stim > comest->stim)
+                    stim = comest->stim;
+            }
+            else if (comest->stim >= 10 && stim < comest->stim * 3)
+                stim += comest->stim;
+        }
+
+        iuse use;
+        (use.*comest->use)(g, this, eaten, false);
+        add_addiction(comest->add, comest->addict);
+        if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol)
+            charge_power(rng(2, 8));
+
+        if (!has_trait(PF_CANNIBAL)  && eaten->made_of(HFLESH))
+        {
+            if (!is_npc())
+                g->add_msg("You feel horrible for eating a person..");
+            add_morale(MORALE_CANNIBAL, -150, -1000);
+        }
+        if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH))
+        {
+            if (!is_npc())
+                g->add_msg("Almost instantly you feel a familiar pain in your stomach");
+            add_morale(MORALE_VEGETARIAN, -75, -400);
+        }
+        if ((has_trait(PF_HERBIVORE) || has_trait(PF_RUMINANT)) &&
+                eaten->made_of(FLESH))
+        {
+            if (!one_in(3))
+                vomit(g);
+            if (comest->quench >= 2)
+                thirst += int(comest->quench / 2);
+            if (comest->nutr >= 2)
+                hunger += int(comest->nutr * .75);
+        }
+        if (eaten->has_flag(IF_HOT) && eaten->has_flag(IF_EATEN_HOT))
+            add_morale(MORALE_FOOD_HOT, 5, 10);
+        if (has_trait(PF_GOURMAND))
+        {
+            if (comest->fun < -2)
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, comest);
+            else if (comest->fun > 0)
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, comest);
+            if (!is_npc() && (hunger < -60 || thirst < -60))
+                g->add_msg("You can't finish it all!");
+            if (hunger < -60)
+                hunger = -60;
+            if (thirst < -60)
+                thirst = -60;
+        }
+        else
+        {
+            if (comest->fun < 0)
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, comest);
+            else if (comest->fun > 0)
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, comest);
+            if (!is_npc() && (hunger < -20 || thirst < -20))
+                g->add_msg("You can't finish it all!");
+            if (hunger < -20)
+                hunger = -20;
+            if (thirst < -20)
+                thirst = -20;
+        }
     }
-   }
-   if (inv.stack_at(which).size() > 0)
-    inv.restack(this);
-   inv_sorted = false;
-  }
- }
- return true;
+
+    eaten->charges--;
+    if (eaten->charges <= 0)
+    {
+        if (which == -1)
+            weapon = ret_null;
+        else if (which == -2)
+        {
+            weapon.contents.erase(weapon.contents.begin());
+            if (!is_npc())
+                g->add_msg("You are now wielding an empty %s.", weapon.tname(g).c_str());
+        }
+        else if (which >= 0 && which < inv.size())
+            inv.remove_item(which);
+        else if (which >= inv.size())
+        {
+            which -= inv.size();
+            inv[which].contents.erase(inv[which].contents.begin());
+            if (!is_npc())
+            {
+                switch ((int)OPTIONS[OPT_DROP_EMPTY])
+                {
+                case 0:
+                    g->add_msg("%c - an empty %s", inv[which].invlet,
+                               inv[which].tname(g).c_str());
+                    break;
+                case 1:
+                    if (inv[which].is_container())
+                    {
+                        it_container* cont = dynamic_cast<it_container*>(inv[which].type);
+                        if (!(cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals)))
+                        {
+                            g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
+                            g->m.add_item(posx, posy, inv.remove_item(which));
+                        }
+                        else
+                            g->add_msg("%c - an empty %s", inv[which].invlet,
+                                       inv[which].tname(g).c_str());
+                    }
+                    else if (inv[which].type->id == "wrapper") // hack because wrappers aren't containers
+                    {
+                        g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
+                        g->m.add_item(posx, posy, inv.remove_item(which));
+                    }
+                    break;
+                case 2:
+                    g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
+                    g->m.add_item(posx, posy, inv.remove_item(which));
+                    break;
+                }
+            }
+            if (inv.stack_at(which).size() > 0)
+                inv.restack(this);
+            inv_sorted = false;
+        }
+    }
+    return true;
 }
 
 bool player::wield(game *g, int index)
@@ -4854,55 +4998,71 @@ hint_rating player::rate_action_unload(item *it) {
  return HINT_GOOD;
 }
 
+//TODO refactor stuff so we don't need to have this code mirroring game::disassemble
 hint_rating player::rate_action_disassemble(item *it, game *g) {
- for (int i = 0; i < g->recipes.size(); i++) {
-  if (it->type == g->itypes[g->recipes[i]->result] && g->recipes[i]->reversible)
-  // ok, a valid recipe exists for the item, and it is reversible
-  {
-   // check tools are available
-   // loop over the tools and see what's required...again
-   inventory crafting_inv = g->crafting_inventory();
-   bool have_tool[5];
-   for (int j = 0; j < 5; j++)
-   {
-    have_tool[j] = false;
-    if (g->recipes[i]->tools[j].size() == 0) // no tools required, may change this
-     have_tool[j] = true;
-    else
+ for (recipe_map::iterator cat_iter = g->recipes.begin(); cat_iter != g->recipes.end(); ++cat_iter)
     {
-     for (int k = 0; k < g->recipes[i]->tools[j].size(); k++)
-     {
-      itype_id type = g->recipes[i]->tools[j][k].type;
-      int req = g->recipes[i]->tools[j][k].count;	// -1 => 1
+        for (recipe_list::iterator list_iter = cat_iter->second.begin();
+             list_iter != cat_iter->second.end();
+             ++list_iter)
+        {
+            recipe* cur_recipe = *list_iter;
+            if (it->type == g->itypes[cur_recipe->result] && cur_recipe->reversible)
+            // ok, a valid recipe exists for the item, and it is reversible
+            // assign the activity
+            {
+                // check tools are available
+                // loop over the tools and see what's required...again
+                inventory crafting_inv = g->crafting_inventory();
+                bool have_tool[5];
+                for (int j = 0; j < 5; j++)
+                {
+                    have_tool[j] = false;
+                    if (cur_recipe->tools[j].size() == 0) // no tools required, may change this
+                    {
+                        have_tool[j] = true;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < cur_recipe->tools[j].size(); k++)
+                        {
+                            itype_id type = cur_recipe->tools[j][k].type;
+                            int req = cur_recipe->tools[j][k].count;	// -1 => 1
 
-      if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
-        (req >  0 && crafting_inv.has_charges(type, req)))
-      {
-       have_tool[j] = true;
-       k = g->recipes[i]->tools[j].size();
-      }
-      // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
-      if (type == "welder")
-      {
-       if (crafting_inv.has_amount("hacksaw", 1) ||
-           crafting_inv.has_amount("toolset", 1))
-        have_tool[j] = true;
-       else
-        have_tool[j] = false;
-      }
-     }
+                            if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                                (req >  0 && crafting_inv.has_charges(type, req)))
+                            {
+                                have_tool[j] = true;
+                                k = cur_recipe->tools[j].size();
+                            }
+                            // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
+                            if (type == "welder")
+                            {
+                                if (crafting_inv.has_amount("hacksaw", 1) ||
+                                    crafting_inv.has_amount("toolset", 1))
+                                {
+                                    have_tool[j] = true;
+                                }
+                                else
+                                {
+                                    have_tool[j] = false;
+                                }
+                            }
+                        }
 
-     if (!have_tool[j])
-     {
-      return HINT_IFFY;
-     }
+                        if (!have_tool[j])
+                        {
+                           return HINT_IFFY;
+                        }
+                    }
+                }
+                // all tools present
+                return HINT_GOOD;
+            }
+        }
     }
-   }
-   return HINT_GOOD;
-  }
- }
-
- return HINT_CANT;
+    // no recipe exists, or the item cannot be disassembled
+    return HINT_CANT;
 }
 
 hint_rating player::rate_action_use(item *it)
@@ -5305,21 +5465,21 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
 {
     int ret = 0;
     it_armor* armor;
-    for (int i = 0; i < worn.size(); i++) 
+    for (int i = 0; i < worn.size(); i++)
     {
         if (!worn[i].is_armor())
             debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
             i, worn[i].tname().c_str());
         armor = dynamic_cast<it_armor*>(worn[i].type);
 
-        if (armor->covers & mfb(bp)) 
+        if (armor->covers & mfb(bp))
         {
             if (armor->is_power_armor() && has_active_item("UPS_on"))
             {
                 armorenc += armor->encumber - 4;
                 warmth   += armor->warmth - 20;
-            } 
-            else 
+            }
+            else
             {
                 armorenc += armor->encumber;
                 warmth += armor->warmth;
@@ -5353,6 +5513,10 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
     {
         ret += 3;
     }
+
+    // Fix for negative hand encumbrance
+    if ((bp == bp_hands) && (ret < 0))
+     ret =0;
 
     // Bionics and mutation
     if ((bp == bp_head  && has_bionic("bio_armor_head"))  ||
@@ -5496,18 +5660,29 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         worn[i].made_of(COTTON) || worn[i].made_of(GLASS)   ||
         worn[i].made_of(WOOD)   || worn[i].made_of(KEVLAR)) &&
        rng(0, tmp->cut_resist * 2) < cut && !one_in(cut))
+   {
+    if (!is_npc())
+    {
+     g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
+    }
     worn[i].damage++;
+   }
 // Kevlar, plastic, iron, steel, and silver may be damaged by BASHING damage
    if ((worn[i].made_of(PLASTIC) || worn[i].made_of(IRON)   ||
         worn[i].made_of(STEEL)   || worn[i].made_of(SILVER) ||
         worn[i].made_of(STONE))  &&
        rng(0, tmp->dmg_resist * 2) < dam && !one_in(dam))
+   {
+    if (!is_npc())
+    {
+     g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
+    }
     worn[i].damage++;
+   }
    if (worn[i].damage >= 5) {
-    int linet;
     if (!is_npc())
      g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
-    else if (g->u_see(posx, posy, linet))
+    else if (g->u_see(posx, posy))
      g->add_msg("%s's %s is destroyed!", name.c_str(),
                 worn[i].tname(g).c_str());
     worn.erase(worn.begin() + i);
@@ -5597,45 +5772,83 @@ bool player::wearing_something_on(body_part bp)
  return false;
 }
 
-void player::practice (Skill *s, int amount) {
-  SkillLevel& level = skillLevel(s);
-  if (level.exercise() < 0) {
-    if (amount >= -level.exercise()) {
-      amount -= level.exercise();
-    } else {
-      amount += amount;
+void player::practice (const calendar& turn, Skill *s, int amount)
+{
+    SkillLevel& level = skillLevel(s);
+    // Double amount, but only if level.exercise isn't a amall negative number?
+    if (level.exercise() < 0)
+    {
+        if (amount >= -level.exercise())
+        {
+            amount -= level.exercise();
+        } else {
+            amount += amount;
+        }
     }
-  }
 
-  bool isSavant = has_trait(PF_SAVANT);
+    bool isSavant = has_trait(PF_SAVANT);
 
-  Skill *savantSkill = NULL;
-  SkillLevel savantSkillLevel = SkillLevel();
+    Skill *savantSkill = NULL;
+    SkillLevel savantSkillLevel = SkillLevel();
 
-  if (isSavant) {
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
-      if (skillLevel(*aSkill) > savantSkillLevel) {
-        savantSkill = *aSkill;
-        savantSkillLevel = skillLevel(*aSkill);
-      }
+    if (isSavant)
+    {
+        for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+             aSkill != Skill::skills.end(); ++aSkill)
+        {
+            if (skillLevel(*aSkill) > savantSkillLevel)
+            {
+                savantSkill = *aSkill;
+                savantSkillLevel = skillLevel(*aSkill);
+            }
+        }
     }
-  }
 
-  int newLevel;
+    int newLevel;
 
-  while (level.isTraining() && amount > 0 && xp_pool >= (1 + level)) {
-    amount -= level + 1;
-    if ((!isSavant || s == savantSkill || one_in(2)) && rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER))) {
-      xp_pool -= (1 + level);
-
-      skillLevel(s).train(newLevel);
+    while (level.isTraining() && amount > 0 && xp_pool >= (1 + level))
+    {
+        amount -= level + 1;
+        if ((!isSavant || s == savantSkill || one_in(2)) &&
+            rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER)))
+        {
+            xp_pool -= (1 + level);
+            skillLevel(s).train(newLevel);
+        }
     }
-  }
+    skillLevel(s).practice(turn);
 }
 
-void player::practice (std::string s, int amount) {
-  Skill *aSkill = Skill::skill(s);
-  practice(aSkill, amount);
+void player::practice (const calendar& turn, std::string s, int amount)
+{
+    Skill *aSkill = Skill::skill(s);
+    practice(turn, aSkill, amount);
+}
+
+bool player::knows_recipe(recipe *rec)
+{
+    // do we know the recipe by virtue of it being autolearned?
+    if (rec->autolearn)
+    {
+        if( (rec->sk_primary == NULL ||
+             skillLevel(rec->sk_primary) >= rec->difficulty) &&
+            (rec->sk_secondary == NULL || skillLevel(rec->sk_secondary) > 0) )
+        {
+            return true;
+        }
+    }
+
+    if (learned_recipes.find(rec->ident) != learned_recipes.end())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+void player::learn_recipe(recipe *rec)
+{
+    learned_recipes[rec->ident] = rec;
 }
 
 void player::assign_activity(game* g, activity_type type, int moves, int index)

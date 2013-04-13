@@ -1,3 +1,6 @@
+#ifndef _CALENDAR_H_
+#define _CALENDAR_H_
+
 #include <string>
 #include "weather.h"
 
@@ -81,3 +84,4 @@ class calendar
   std::string print_time(bool twentyfour = false);
   std::string textify_period(); // "1 second" "2 hours" "two days"
 };
+#endif // _CALENDAR_H_

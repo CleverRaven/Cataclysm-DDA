@@ -173,7 +173,7 @@ void npc::execute_action(game *g, npc_action action, int target)
   if (!weapon.reload(*this, ammo_index))
    debugmsg("NPC reload failed.");
   recoil = 6;
-  if (g->u_see(posx, posy, linet))
+  if (g->u_see(posx, posy))
    g->add_msg("%s reloads %s %s.", name.c_str(), (male ? "his" : "her"),
               weapon.tname().c_str());
   } break;
@@ -183,7 +183,7 @@ void npc::execute_action(game *g, npc_action action, int target)
  * we get some sleep, how long watch shifts should be, etc.
  */
   //add_disease(DI_LYING_DOWN, 300, g);
-  if (is_friend() && g->u_see(posx, posy, linet))
+  if (is_friend() && g->u_see(posx, posy))
    say(g, "I'm going to sleep.");
   break;
 
@@ -1255,8 +1255,7 @@ void npc::pick_up_item(game *g)
  }
 */
 // Describe the pickup to the player
- int t;
- bool u_see_me = g->u_see(posx, posy, t), u_see_items = g->u_see(itx, ity, t);
+ bool u_see_me = g->u_see(posx, posy), u_see_items = g->u_see(itx, ity);
  if (u_see_me) {
   if (pickup.size() == 1) {
    if (u_see_items)
@@ -1385,9 +1384,8 @@ void npc::drop_items(game *g, int weight, int volume)
   g->m.add_item(posx, posy, dropped);
  }
 // Finally, describe the action if u can see it
- int linet;
  std::string item_name_str = item_name.str();
- if (g->u_see(posx, posy, linet)) {
+ if (g->u_see(posx, posy)) {
   if (num_items_dropped >= 3)
    g->add_msg("%s drops %d items.", name.c_str(), num_items_dropped);
   else
@@ -1537,7 +1535,7 @@ void npc::alt_attack(game *g, int target)
    else
     trajectory = line_to(posx, posy, tarx, tary, 0);
    moves -= 125;
-   if (g->u_see(posx, posy, linet))
+   if (g->u_see(posx, posy))
     g->add_msg("%s throws a %s.", name.c_str(), used->tname().c_str());
    g->throw_item(*this, tarx, tary, *used, trajectory);
    i_remn(index);
@@ -1589,7 +1587,7 @@ void npc::alt_attack(game *g, int target)
     else
      trajectory = line_to(posx, posy, tarx, tary, 0);
     moves -= 125;
-    if (g->u_see(posx, posy, linet))
+    if (g->u_see(posx, posy))
      g->add_msg("%s throws a %s.", name.c_str(), used->tname().c_str());
     g->throw_item(*this, tarx, tary, *used, trajectory);
     i_remn(index);
@@ -1649,9 +1647,8 @@ void npc::heal_player(game *g, player &patient)
    }
   }
 
-  int t;
-  bool u_see_me      = g->u_see(posx, posy, t),
-       u_see_patient = g->u_see(patient.posx, patient.posy, t);
+  bool u_see_me      = g->u_see(posx, posy),
+       u_see_patient = g->u_see(patient.posx, patient.posy);
   if (patient.is_npc()) {
    if (u_see_me) {
     if (u_see_patient)
@@ -1734,8 +1731,7 @@ void npc::heal_self(game *g)
   debugmsg("NPC tried to heal self, but has no bandages / first aid");
   move_pause();
  }
- int t;
- if (g->u_see(posx, posy, t))
+ if (g->u_see(posx, posy))
   g->add_msg("%s heals %sself.", name.c_str(), (male ? "him" : "her"));
  heal(worst, amount_healed);
  moves -= 250;
@@ -1818,9 +1814,8 @@ void npc::mug_player(game *g, player &mark)
   update_path(g, mark.posx, mark.posy);
   move_to_next(g);
  } else {
-  int t;
-  bool u_see_me   = g->u_see(posx, posy, t),
-       u_see_mark = g->u_see(mark.posx, mark.posy, t);
+  bool u_see_me   = g->u_see(posx, posy),
+       u_see_mark = g->u_see(mark.posx, mark.posy);
   if (mark.cash > 0) {
    cash += mark.cash;
    mark.cash = 0;
@@ -1865,9 +1860,8 @@ void npc::mug_player(game *g, player &mark)
      say(g, "<done_mugging>");
     moves -= 100;
    } else {
-    int t;
-    bool u_see_me   = g->u_see(posx, posy, t),
-         u_see_mark = g->u_see(mark.posx, mark.posy, t);
+    bool u_see_me   = g->u_see(posx, posy),
+         u_see_mark = g->u_see(mark.posx, mark.posy);
     item stolen = mark.i_remn(index);
     if (mark.is_npc()) {
      if (u_see_me) {

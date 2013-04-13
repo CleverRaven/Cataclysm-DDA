@@ -68,12 +68,12 @@ public:
  int  run_cost(int base_cost); // Adjust base_cost
  int  swim_speed();	// Our speed when swimming
 
- bool has_trait(int flag);
- bool has_mutation(int flag);
+ bool has_trait(int flag) const;
+ bool has_mutation(int flag) const;
  void toggle_trait(int flag);
 
- bool has_bionic(bionic_id b);
- bool has_active_bionic(bionic_id b);
+ bool has_bionic(bionic_id b) const;
+ bool has_active_bionic(bionic_id b) const;
  void add_bionic(bionic_id b);
  void charge_power(int amount);
  void power_bionics(game *g);
@@ -91,7 +91,7 @@ public:
  int  overmap_sight_range(int light_level);
  int  clairvoyance(); // Sight through walls &c
  bool sight_impaired(); // vision impaired between sight_range and max_range
- bool has_two_arms();
+ bool has_two_arms() const;
  bool can_wear_boots();
  bool is_armed();	// True if we're wielding something; true for bionics
  bool unarmed_attack(); // False if we're wielding something; true for bionics
@@ -174,13 +174,13 @@ public:
  void add_disease(dis_type type, int duration, game *g, int intensity = 0,
                   int max_intensity = -1);
  void rem_disease(dis_type type);
- bool has_disease(dis_type type);
+ bool has_disease(dis_type type) const;
  int  disease_level(dis_type type);
  int  disease_intensity(dis_type type);
 
  void add_addiction(add_type type, int strength);
  void rem_addiction(add_type type);
- bool has_addiction(add_type type);
+ bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
  void cauterize(game *g);
@@ -219,8 +219,8 @@ public:
  int resist(body_part bp);	// Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
 
- void practice(Skill *s, int amount);
- void practice(std::string s, int amount);
+ void practice(const calendar& turn, Skill *s, int amount);
+ void practice(const calendar& turn, std::string s, int amount);
 
  void assign_activity(game* g, activity_type type, int moves, int index = -1);
  void cancel_activity();
@@ -229,6 +229,8 @@ public:
  int volume_carried();
  int weight_capacity(bool real_life = true);
  int volume_capacity();
+ bool can_pickVolume(int volume);
+ bool can_pickWeight(int weight);
  int morale_level();	// Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
                  itype* item_type = NULL);
@@ -256,6 +258,7 @@ public:
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
  void use_amount(itype_id it, int quantity, bool use_container = false);
+ bool use_charges_if_avail(itype_id it, int quantity);// Uses up charges
  void use_charges(itype_id it, int quantity);// Uses up charges
  bool has_amount(itype_id it, int quantity);
  bool has_charges(itype_id it, int quantity);
@@ -264,11 +267,14 @@ public:
 
  bool has_watertight_container();
  bool has_matching_liquid(itype_id it);
- bool has_weapon_or_armor(char let);	// Has an item with invlet let
+ bool has_weapon_or_armor(char let) const;	// Has an item with invlet let
  bool has_item(char let);		// Has an item with invlet let
  bool has_item(item *it);		// Has a specific item
  bool has_mission_item(int mission_id);	// Has item with mission_id
  std::vector<int> has_ammo(ammotype at);// Returns a list of indices of the ammo
+ 
+ bool knows_recipe(recipe *rec);
+ void learn_recipe(recipe *rec);
 
 // ---------------VALUES-----------------
  int id;	// A unique ID number, assigned by the game class
@@ -320,6 +326,8 @@ public:
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
  SkillLevel& skillLevel(size_t id);
+ 
+ std::map<std::string, recipe*> learned_recipes;
 
  bool inv_sorted;
  //std::vector <item> inv;
@@ -335,6 +343,9 @@ public:
  std::vector <addiction> addictions;
 
  recipe* lastrecipe;
+private:
+ bool has_fire(const int quantity);
+ void use_fire(const int quantity);
 };
 
 #endif

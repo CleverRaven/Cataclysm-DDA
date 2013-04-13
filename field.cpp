@@ -91,11 +91,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
      if (it->is_ammo() && it->ammo_type() != AT_BATT &&
          it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
          it->ammo_type() != AT_BOLT && it->ammo_type() != AT_ARROW && it->ammo_type() != AT_NULL) {
-      cur->age /= 2;
-      cur->age -= 600;
       destroyed = true;
-      smoke += 6;
-      consumed++;
+      // cook off ammo instead of just burning it.
+      for(int i = 0; i < (it->charges / 10) + 1; i++)
+      {
+          g->explosion(x, y, (dynamic_cast<it_ammo*>(it->type))->damage / 2, true, false);
+      }
 
      } else if (it->made_of(PAPER)) {
       destroyed = it->burn(cur->density * 3);
@@ -562,18 +563,16 @@ bool map::process_fields_in_submap(game *g, int gridn)
            mondex = g->mon_at(newp.x, newp.y);
 
        if (npcdex != -1) {
-        int junk;
         npc *p = &(g->active_npc[npcdex]);
         p->hit(g, random_body_part(), rng(0, 1), 6, 0);
-        if (g->u_see(newp.x, newp.y, junk))
+        if (g->u_see(newp.x, newp.y))
          g->add_msg("A %s hits %s!", tmp.tname().c_str(), p->name.c_str());
        }
 
        if (mondex != -1) {
-        int junk;
         monster *mon = &(g->z[mondex]);
         mon->hurt(6 - mon->armor_bash());
-        if (g->u_see(newp.x, newp.y, junk))
+        if (g->u_see(newp.x, newp.y))
          g->add_msg("A %s hits the %s!", tmp.tname().c_str(),
                                          mon->name().c_str());
        }
@@ -980,9 +979,9 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     if (tries == 10)
      g->explode_mon(g->mon_at(z->posx, z->posy));
     else {
-     int mon_hit = g->mon_at(newposx, newposy), t;
+     int mon_hit = g->mon_at(newposx, newposy);
      if (mon_hit != -1) {
-      if (g->u_see(z, t))
+      if (g->u_see(z))
        g->add_msg("The %s teleports into a %s, killing them both!",
                   z->name().c_str(), g->z[mon_hit].name().c_str());
       g->explode_mon(mon_hit);

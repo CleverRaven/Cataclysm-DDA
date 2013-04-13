@@ -1131,8 +1131,7 @@ bool npc::wield(game *g, int index)
    g->m.add_item(posx, posy, remove_weapon());
   moves -= 15;
   weapon.make( g->itypes[styles[index]] );
-  int linet;
-  if (g->u_see(posx, posy, linet))
+  if (g->u_see(posx, posy))
    g->add_msg("%s assumes a %s stance.", name.c_str(), weapon.tname().c_str());
   return true;
  }
@@ -1149,8 +1148,7 @@ bool npc::wield(game *g, int index)
  moves -= 15;
  weapon = inv[index];
  i_remn(index);
- int linet;
- if (g->u_see(posx, posy, linet))
+ if (g->u_see(posx, posy))
   g->add_msg("%s wields a %s.", name.c_str(), weapon.tname().c_str());
  return true;
 }
@@ -1515,9 +1513,8 @@ void npc::say(game *g, std::string line, ...)
  vsprintf(buff, line.c_str(), ap);
  va_end(ap);
  line = buff;
- int junk;
  parse_tags(line, &(g->u), this);
- if (g->u_see(posx, posy, junk)) {
+ if (g->u_see(posx, posy)) {
   g->add_msg("%s says, \"%s\"", name.c_str(), line.c_str());
   g->sound(posx, posy, 16, "");
  } else {
@@ -2005,8 +2002,7 @@ void npc::die(game *g, bool your_fault)
  if (dead)
   return;
  dead = true;
- int j;
- if (g->u_see(posx, posy, j))
+ if (g->u_see(posx, posy))
   g->add_msg("%s dies!", name.c_str());
  if (your_fault && !g->u.has_trait(PF_CANNIBAL)) {
   if (is_friend())

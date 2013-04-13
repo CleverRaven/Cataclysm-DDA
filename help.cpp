@@ -508,7 +508,7 @@ extremities from frostbite and to keep your distance from large fires.");
     }
 // Clear the lines
     for (int i = 0; i < 23; i++)
-     mvwprintz(w_help, i, 0, c_black, "                                        ");
+     mvwprintz(w_help, i, 0, c_black, "                                                ");
 
     for (int i = 0; i < 23 && offset + i < NUM_ACTIONS; i++) {
      std::vector<char> keys = keys_bound_to( action_id(offset + i) );

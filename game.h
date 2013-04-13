@@ -187,8 +187,8 @@ class game
   int assign_faction_id();
   faction* faction_by_id(int it);
   bool sees_u(int x, int y, int &t);
-  bool u_see (int x, int y, int &t);
-  bool u_see (monster *mon, int &t);
+  bool u_see (int x, int y);
+  bool u_see (monster *mon);
   bool pl_sees(player *p, monster *mon, int &t);
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
@@ -207,7 +207,12 @@ class game
   point look_around();// Look at nearby terrain	';'
   void list_items(); //List all items around the player
   bool list_items_match(std::string sText, std::string sPattern);
-  std::string sFilter;
+  std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack, std::string filter);
+  std::vector<map_item_stack> find_nearby_items(int search_x, int search_y);
+  std::string ask_item_filter(WINDOW* window, int rows);
+  void draw_trail_to_square(std::vector<point>& vPoint, int x, int y);
+  void reset_item_list_state(WINDOW* window, int height);
+  std::string sFilter; // this is a member so that it's remembered over time
   char inv(std::string title = "Inventory:");
   char inv_type(std::string title = "Inventory:", int inv_item_type = 0);
   std::vector<item> multidrop();
@@ -226,7 +231,7 @@ class game
   std::vector <mtype*> mtypes;
   std::vector <vehicle*> vtypes;
   std::vector <trap*> traps;
-  std::vector<recipe*> recipes;	// The list of valid recipes
+  recipe_map recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions
 
   std::vector <itype_id> mapitems[num_itloc]; // Items at various map types
@@ -272,6 +277,8 @@ class game
  bool handle_liquid(item &liquid, bool from_ground, bool infinite);
 
  void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
+
+ recipe* recipe_by_name(std::string name); // See crafting.cpp
 
  private:
 // Game-start procedures
@@ -332,8 +339,13 @@ class game
   void complete_craft();               // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
                     std::vector<bool> &available, craft_cat tab,std::string filter);// crafting.cpp
+  void add_known_recipes(std::vector<recipe*> &current, recipe_list source,
+                             std::string filter = ""); //crafting.cpp
+  craft_cat next_craft_cat(craft_cat cat); // crafting.cpp
+  craft_cat prev_craft_cat(craft_cat cat); // crafting.cpp
   void disassemble(char ch = 0);       // See crafting.cpp
   void complete_disassemble();         // See crafting.cpp
+  recipe* recipe_by_index(int index);  // See crafting.cpp
   void construction_menu();            // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
                         const int level = -1, bool cont = false,
@@ -344,6 +356,7 @@ class game
   bool vehicle_near ();
   void handbrake ();
   void examine();// Examine nearby terrain	'e'
+  void advanced_inv();
   // open vehicle interaction screen
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()

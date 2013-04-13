@@ -215,6 +215,7 @@ enum pl_flag {
  PF_WOOLALLERGY,// Can't wear wool
  PF_TRUTHTELLER, // Worse at telling lies
  PF_UGLY, // +1 grotesqueness
+ PF_HARDCORE,	// Bodyhp is 75% lower
 
  PF_MAX,
 // Below this point is mutations and other mid-game perks.
@@ -526,6 +527,9 @@ Telling lies and otherwise bluffing will be much more difficult for you."},
 {"Ugly", -1, 0, 2, "\
 You're not much to look at.  NPCs who care about such things will react\n\
 poorly to you."},
+{"Hardcore", -6, 0, 0, "\
+Your whole body can't take much abuse.  Its maximum HP is 75%% points lower\n\
+than usual. Stacks with Glass Jaw. Not for casuals."},
 
 {"Bug - PF_MAX", 0, 0, 0, "\
 This shouldn't be here!  You have the trait PF_MAX toggled.  Weird."},

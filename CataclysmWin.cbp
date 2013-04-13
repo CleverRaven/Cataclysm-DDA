@@ -65,6 +65,8 @@
 		<Unit filename="graffiti.cpp" />
 		<Unit filename="graffiti.h" />
 		<Unit filename="help.cpp" />
+		<Unit filename="helper.cpp" />
+		<Unit filename="helper.h" />
 		<Unit filename="iexamine.cpp" />
 		<Unit filename="iexamine.h" />
 		<Unit filename="input.cpp" />
@@ -93,6 +95,8 @@
 		<Unit filename="mapdata.cpp" />
 		<Unit filename="mapdata.h" />
 		<Unit filename="mapgen.cpp" />
+		<Unit filename="mapgenformat.cpp" />
+		<Unit filename="mapgenformat.h" />
 		<Unit filename="mapitems.h" />
 		<Unit filename="mapitemsdef.cpp" />
 		<Unit filename="melee.cpp" />

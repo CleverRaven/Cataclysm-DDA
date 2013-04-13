@@ -160,7 +160,7 @@ void game::init_construction()
    COMP("rope_30", 1);
    COMPCONT("rope_6", 5);
 
- CONSTRUCT("Build Rope and Pulley System", 2, &construct::able_empty, &construct::done_nothing);
+ CONSTRUCT("Build Rope & Pulley System", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_palisade_pulley, 0);
    COMP("rope_30", 1);
    COMP("stick", 8);
@@ -716,9 +716,9 @@ void game::complete_construction()
  std::vector<component> player_use;
  std::vector<component> map_use;
 
- u.practice("carpentry", built->difficulty * 10);
+ u.practice(turn, "carpentry", built->difficulty * 10);
  if (built->difficulty == 0)
-   u.practice("carpentry", 10);
+   u.practice(turn, "carpentry", 10);
  for (int i = 0; i < 3; i++) {
   if (!stage.components[i].empty())
    consume_items(stage.components[i]);
@@ -1003,6 +1003,7 @@ void construct::done_deconstruct(game *g, point p)
     break;
 
     case t_backboard:
+    case t_bulletin:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_pavement);
