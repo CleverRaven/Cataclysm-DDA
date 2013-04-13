@@ -19,7 +19,7 @@ void formatted_set_terrain(map* m, const int startx, const int starty, const cha
  va_list vl;
  va_start(vl,cstr);
  internal::format_effect* temp;
- while(temp = va_arg(vl,internal::format_effect*))
+ while((temp = va_arg(vl,internal::format_effect*)))
  {
   temp->execute(fdata);
   delete temp;
