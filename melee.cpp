@@ -1530,27 +1530,111 @@ void hit_message(game *g, std::string subject, std::string verb,
 void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
                     bool bashing, bool cutting, bool stabbing)
 {
- if (!hit) {
-   u.practice(turn, "melee", rng(2, 5));
-  if (unarmed)
-    u.practice(turn, "unarmed", 2);
-  if (bashing)
-    u.practice(turn, "bashing", 2);
-  if (cutting)
-    u.practice(turn, "cutting", 2);
-  if (stabbing)
-    u.practice(turn, "stabbing", 2);
- } else {
-   u.practice(turn, "melee", rng(5, 10));
-  if (unarmed)
-    u.practice(turn, "unarmed", rng(5, 10));
-  if (bashing)
-    u.practice(turn, "bashing", rng(5, 10));
-  if (cutting)
-    u.practice(turn, "cutting", rng(5, 10));
-  if (stabbing)
-    u.practice(turn, "stabbing", rng(5, 10));
- }
+    if (!hit) 
+    {
+        u.practice(turn, "melee", rng(2, 5));
+        if (unarmed)
+            u.practice(turn, "unarmed", 2);
+        // type of weapon used determines order of practice
+        if (u.weapon.has_flag(IF_SPEAR))
+        {
+            if (stabbing)
+                u.practice(turn, "stabbing", 2);
+            if (bashing)
+                u.practice(turn, "bashing", 2);
+            if (cutting)    // probably not necessary as spears cannot do cutting damage
+                u.practice(turn, "cutting", 2);
+        } 
+        else if (u.weapon.has_flag(IF_STAB))
+        {
+            if (one_in(2))  // stabbity weapons have a 50-50 chance of raising either stabbing or cutting first
+            {
+                if (stabbing)
+                    u.practice(turn, "stabbing", 2);
+                if (cutting)    
+                    u.practice(turn, "cutting", 2);
+                if (bashing)
+                    u.practice(turn, "bashing", 2);
+            } else
+            {
+                if (cutting)    
+                    u.practice(turn, "cutting", 2);
+                if (stabbing)
+                    u.practice(turn, "stabbing", 2);
+                if (bashing)
+                    u.practice(turn, "bashing", 2);
+            }
+        }
+        else if (u.weapon.is_cutting_weapon()) // cutting weapon
+        {
+                if (cutting)    
+                    u.practice(turn, "cutting", 2);
+                if (bashing)
+                    u.practice(turn, "bashing", 2); 
+                if (stabbing)
+                    u.practice(turn, "stabbing", 2);          
+        } 
+        else // bashing weapon
+        {
+                if (bashing)
+                    u.practice(turn, "bashing", 2); 
+                if (cutting)    
+                    u.practice(turn, "cutting", 2);
+                if (stabbing)
+                    u.practice(turn, "stabbing", 2); 
+        }
+    } 
+    else 
+    {
+        u.practice(turn, "melee", rng(5, 10));
+        if (u.weapon.has_flag(IF_SPEAR))
+        {
+            if (stabbing)
+                u.practice(turn, "stabbing", rng(5,10));
+            if (bashing)
+                u.practice(turn, "bashing", rng(5,10));
+            if (cutting)    // probably not necessary as spears cannot do cutting damage
+                u.practice(turn, "cutting", rng(5,10));
+        } 
+        else if (u.weapon.has_flag(IF_STAB))
+        {
+            if (one_in(2))  // stabbity weapons have a 50-50 chance of raising either stabbing or cutting first
+            {
+                if (stabbing)
+                    u.practice(turn, "stabbing", rng(5,10));
+                if (cutting)    
+                    u.practice(turn, "cutting", rng(5,10));
+                if (bashing)
+                    u.practice(turn, "bashing", rng(5,10));
+            } else
+            {
+                if (cutting)    
+                    u.practice(turn, "cutting", rng(5,10));
+                if (stabbing)
+                    u.practice(turn, "stabbing", rng(5,10));
+                if (bashing)
+                    u.practice(turn, "bashing", rng(5,10));
+            }
+        }
+        else if (u.weapon.is_cutting_weapon()) // cutting weapon
+        {
+                if (cutting)    
+                    u.practice(turn, "cutting", rng(5,10));
+                if (bashing)
+                    u.practice(turn, "bashing", rng(5,10)); 
+                if (stabbing)
+                    u.practice(turn, "stabbing", rng(5,10));          
+        } 
+        else // bashing weapon
+        {
+                if (bashing)
+                    u.practice(turn, "bashing", rng(5,10)); 
+                if (cutting)    
+                    u.practice(turn, "cutting", rng(5,10));
+                if (stabbing)
+                    u.practice(turn, "stabbing", rng(5,10)); 
+        }
+    }       
 }
 
 int attack_speed(player &u, bool missed)
