@@ -374,7 +374,9 @@ void game::construction_menu()
 
  bool update_info = true;
  int select = 0;
+ int choosen = 0;
  long ch;
+ bool exit = false;
 
  inventory total_inv = crafting_inventory();
 
@@ -528,26 +530,28 @@ void game::construction_menu()
     break;
    case ' ':
    case KEY_ESCAPE:
-    ch = 'q';
+   case 'q':
+   case 'Q':
+    exit = true;
     break;
    case '\n':
    default:
     if (ch > 64 && ch < 91) //A-Z
-     ch = ch - 65 + 26;
+     choosen = ch - 65 + 26;
 
     else if (ch > 96 && ch < 123) //a-z
-     ch = ch - 97;
+     choosen = ch - 97;
 
     else if (ch == '\n')
-     ch = select;
+     choosen = select;
 
-    if (ch < constructions.size()) {
-     if (player_can_build(u, total_inv, constructions[ch])) {
-      place_construction(constructions[ch]);
+    if (choosen < constructions.size()) {
+     if (player_can_build(u, total_inv, constructions[choosen])) {
+      place_construction(constructions[choosen]);
       ch = 'q';
      } else {
       popup("You can't build that!");
-      select = ch;
+      select = choosen;
       for (int i = 1; i < iMaxY-1; i++)
        mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
       update_info = true;
@@ -555,7 +559,7 @@ void game::construction_menu()
     }
     break;
   }
- } while (ch != 'q' && ch != 'Q');
+ } while (!exit);
 
  for (int i = iMaxY-25; i < iMaxY+1; i++) {
   for (int j = TERRAIN_WINDOW_WIDTH; j < 81; j++)
