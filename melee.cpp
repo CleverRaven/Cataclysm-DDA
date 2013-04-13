@@ -186,14 +186,14 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 // Mutation-based attacks
  perform_special_attacks(g, z, NULL, bash_dam, cut_dam, stab_dam);
 
+    verb = melee_verb(technique, your, *this, bash_dam, cut_dam, stab_dam);
+
 // Handles speed penalties to monster & us, etc
  melee_special_effects(g, z, NULL, critical_hit, bash_dam, cut_dam, stab_dam);
 
 // Make a rather quiet sound, to alert any nearby monsters
  if (weapon.typeId() != "style_ninjutsu") // Ninjutsu is silent!
   g->sound(posx, posy, 8, "");
-
- verb = melee_verb(technique, your, *this, bash_dam, cut_dam, stab_dam);
 
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
@@ -1479,33 +1479,38 @@ std::string melee_verb(technique_id tech, std::string your, player &p,
    ret << "use" << s << " " << your << " " << p.weapon.tname() << " to toss";
    break;
 
-  default: // No tech, so check our damage levels
-   if (bash_dam >= cut_dam && bash_dam >= stab_dam) {
-    if (bash_dam >= 30)
-     return "clobber" + s;
-    if (bash_dam >= 20)
-     return "batter" + s;
-    if (bash_dam >= 10)
-     return "whack" + s;
-    return "hit" + s;
-   }
-   if (cut_dam >= stab_dam) {
-    if (cut_dam >= 30)
-     return "hack" + s;
-    if (cut_dam >= 20)
-     return "slice" + s;
-    if (cut_dam >= 10)
-     return "cut" + s;
-    return "nick" + s;
-   }
-// Only stab damage is left
-   if (stab_dam >= 30)
-    return "impale" + s;
-   if (stab_dam >= 20)
-    return "pierce" + s;
-   if (stab_dam >= 10)
-    return "stab" + s;
-   return "poke" + s;
+    default: // No tech, so check our damage levels
+        // verb should be based on how the weapon is used, and the total damage inflicted
+    
+        // if it's a stabbing weapon or a spear
+        if (p.weapon.has_flag(IF_SPEAR) || (p.weapon.has_flag(IF_STAB) && stab_dam > cut_dam))
+        {
+            if (bash_dam + stab_dam + cut_dam >= 30)
+                return "impale" + s;
+            if (bash_dam + stab_dam + cut_dam >= 20)
+                return "pierce" + s;
+            if (bash_dam + stab_dam + cut_dam >= 10)
+                return "stab" + s;
+            return "poke" + s;
+        } else if (p.weapon.is_cutting_weapon())    // if it's a cutting weapon
+        {
+            if (bash_dam + stab_dam + cut_dam >= 30)
+                return "hack" + s;
+            if (bash_dam + stab_dam + cut_dam >= 20)
+                return "slice" + s;
+            if (bash_dam + stab_dam + cut_dam >= 10)
+                return "cut" + s;
+            return "nick" + s;
+        } else                                      // it must be a bashing weapon
+        {
+            if (bash_dam + stab_dam + cut_dam >= 30)
+                return "clobber" + s;
+            if (bash_dam + stab_dam + cut_dam >= 20)
+                return "batter" + s;
+            if (bash_dam + stab_dam + cut_dam >= 10)
+                return "whack" + s;
+            return "hit" + s;
+        }
  } // switch (tech)
 
  return ret.str();
