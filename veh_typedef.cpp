@@ -621,11 +621,11 @@ void game::init_vehicles()
 	PART (0, 1, vp_roof);
 	PART (0, 1, vp_fuel_tank_batt);
 
-	PART (1, 0, vp_wheel);
-	PART (1, 1, vp_wheel);
+	PART (1, 0, vp_wheel_small);
+	PART (1, 1, vp_wheel_small);
 
-	PART (-1, 0, vp_wheel);
-	PART (-1, 1, vp_wheel);
+	PART (-1, 0, vp_wheel_small);
+	PART (-1, 1, vp_wheel_small);
 
 	VEHICLE ("Scooter");
 	// Vespa scooter
