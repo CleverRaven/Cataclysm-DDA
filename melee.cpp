@@ -200,8 +200,8 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  hit_message(g, You.c_str(), verb.c_str(), target.c_str(), dam, critical_hit);
 
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
- bool cutting = (cut_dam >= 10 && cut_dam >= stab_dam);
- bool stabbing = (stab_dam >= 10 && stab_dam >= cut_dam);
+ bool cutting = (cut_dam >= 10);
+ bool stabbing = (stab_dam >= 5);
  melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
 
  if (allow_grab && technique == TEC_GRAB) {
