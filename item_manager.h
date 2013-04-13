@@ -26,7 +26,7 @@ public:
     void init();
     void init(game* main_game);
 
-    //Intermediary Methods - Will be removed at final stage
+    //Intermediary Methods - Will probably be removed at final stage
     item_template* find_template(item_tag id);
     item_template* random_template();
     item_template* template_from(item_tag group_tag);
@@ -34,12 +34,12 @@ public:
     const item_tag id_from(item_tag group_tag);
 
     //Production methods
-    item* create(item_tag id);
-    item_list create(item_tag id, int quantity);
-    item* create_from(item_tag group);
-    item_list create_from(item_tag group, int quantity);
-    item* create_random();
-    item_list create_random(int quantity);
+    item* create(item_tag id, int created_at);
+    item_list create(item_tag id, int created_at, int quantity);
+    item* create_from(item_tag group, int created_at);
+    item_list create_from(item_tag group, int created_at, int quantity);
+    item* create_random(int created_at);
+    item_list create_random(int created_at, int quantity);
 
 private:
     item_template_container m_templates;

@@ -24,6 +24,7 @@ void Item_manager::init(){
 //Will eventually be deprecated - Loads existing item format into the item manager
 void Item_manager::init(game* main_game){
     //Copy over the template pointers
+    m_templates.insert(main_game->itypes.begin(), main_game->itypes.end()); 
     init();
 }
 
@@ -65,29 +66,29 @@ const item_tag Item_manager::id_from(const item_tag group_tag){
 }
 
 
-item* Item_manager::create(item_tag id){
+item* Item_manager::create(item_tag id, int created_at){
     return new item(find_template(id),0);
 }
-item_list Item_manager::create(item_tag id, int quantity){
+item_list Item_manager::create(item_tag id, int created_at, int quantity){
     item_list new_items;
-    item* new_item_base = create(id);
+    item* new_item_base = create(id, created_at);
     for(int ii=0;ii<quantity;++ii){
         new_items.push_back(new_item_base->clone());
     }
     return new_items;
 }
-item* Item_manager::create_from(item_tag group){
-    return create(id_from(group));
+item* Item_manager::create_from(item_tag group, int created_at){
+    return create(id_from(group), created_at);
 }
-item_list Item_manager::create_from(item_tag group, int quantity){
-    return create(id_from(group),0);
+item_list Item_manager::create_from(item_tag group, int created_at, int quantity){
+    return create(id_from(group), created_at, quantity);
 }
-item* Item_manager::create_random(){
-    return create(random_id());
+item* Item_manager::create_random(int created_at){
+    return create(random_id(), created_at);
 }
-item_list Item_manager::create_random(int quantity){
+item_list Item_manager::create_random(int created_at, int quantity){
     item_list new_items;
-    item* new_item_base = create(random_id());
+    item* new_item_base = create(random_id(), created_at);
     for(int ii=0;ii<quantity;++ii){
         new_items.push_back(new_item_base->clone());
     }

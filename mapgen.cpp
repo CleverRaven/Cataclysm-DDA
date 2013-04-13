@@ -7281,13 +7281,13 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
             (!ongrass && (ter(px, py) == t_dirt || ter(px, py) == t_grass))) &&
            tries < 20);
   if (tries < 20) {
-   spawn_item(px, py, (*itypes)[eligible[selection]], turn);
+   spawn_item(px, py, eligible[selection], turn);
 // Guns in the home and behind counters are generated with their ammo
 // TODO: Make this less of a hack
    if ((*itypes)[eligible[selection]]->is_gun() &&
        (loc == mi_homeguns || loc == mi_behindcounter)) {
     it_gun* tmpgun = dynamic_cast<it_gun*> ((*itypes)[eligible[selection]]);
-    spawn_item(px, py, (*itypes)[default_ammo(tmpgun->ammo)], turn);
+    spawn_item(px, py, default_ammo(tmpgun->ammo), turn);
    }
   }
  }

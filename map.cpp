@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include "debug.h"
+#include "item_manager.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define INBOUNDS(x, y) \
@@ -2128,6 +2129,8 @@ point map::find_item(const item *it)
  return ret;
 }
 
+//Old spawn_item method
+//TODO: Deprecate
 void map::spawn_item(const int x, const int y, itype* type, const int birthday, const int quantity, const int charges)
 {
  if (type->is_style())
@@ -2136,6 +2139,21 @@ void map::spawn_item(const int x, const int y, itype* type, const int birthday, 
  if (quantity)
   for(int i = 0; i < quantity; i++)
    spawn_item(x, y, type, birthday, 0, charges);
+ if (charges && tmp.charges > 0) //let's fail silently if we specify charges for an item that doesn't support it
+  tmp.charges = charges;
+ tmp = tmp.in_its_container(itypes);
+ if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
+  return;
+ add_item(x, y, tmp);
+}
+
+//New spawn_item method, using item factory
+void map::spawn_item(const int x, const int y, item_tag type_id, const int birthday, const int quantity, const int charges)
+{
+ item tmp = *(item_controller->create(type_id, birthday));
+ if (quantity)
+  for(int i = 0; i < quantity; i++)
+   spawn_item(x, y, type_id, birthday, 0, charges);
  if (charges && tmp.charges > 0) //let's fail silently if we specify charges for an item that doesn't support it
   tmp.charges = charges;
  tmp = tmp.in_its_container(itypes);
