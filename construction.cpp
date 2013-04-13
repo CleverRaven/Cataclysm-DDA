@@ -374,7 +374,7 @@ void game::construction_menu()
 
  bool update_info = true;
  int select = 0;
- int choosen = 0;
+ int chosen = 0;
  long ch;
  bool exit = false;
 
@@ -537,21 +537,21 @@ void game::construction_menu()
    case '\n':
    default:
     if (ch > 64 && ch < 91) //A-Z
-     choosen = ch - 65 + 26;
+     chosen = ch - 65 + 26;
 
     else if (ch > 96 && ch < 123) //a-z
-     choosen = ch - 97;
+     chosen = ch - 97;
 
     else if (ch == '\n')
-     choosen = select;
+     chosen = select;
 
-    if (choosen < constructions.size()) {
-     if (player_can_build(u, total_inv, constructions[choosen])) {
-      place_construction(constructions[choosen]);
+    if (chosen < constructions.size()) {
+     if (player_can_build(u, total_inv, constructions[chosen])) {
+      place_construction(constructions[chosen]);
       ch = 'q';
      } else {
       popup("You can't build that!");
-      select = choosen;
+      select = chosen;
       for (int i = 1; i < iMaxY-1; i++)
        mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
       update_info = true;
