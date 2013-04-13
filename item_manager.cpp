@@ -24,43 +24,6 @@ void Item_manager::init(){
 //Will eventually be deprecated - Loads existing item format into the item manager
 void Item_manager::init(game* main_game){
     //Copy over the template pointers
-    m_templates.insert(main_game->itypes.begin(), main_game->itypes.end());
-    //Load up the group lists with the default 'all' label
-    for(item_template_container::iterator iter = m_templates.begin(); iter != m_templates.end(); ++iter){
-        item_tag id = iter->first;
-        /*
-        bool standard=true;
-        m_template_groups["ALL"].insert(id);
-        if(std::find(unreal_itype_ids.begin(),unreal_itype_ids.end(), id) != unreal_itype_ids.end()){
-            m_template_groups["UNREAL"].insert(id);
-            standard=false;
-        }
-        if(std::find(martial_arts_itype_ids.begin(),martial_arts_itype_ids.end(),id) != martial_arts_itype_ids.end()){
-            m_template_groups["STYLE"].insert(id);
-            standard=false;
-        }
-        if(std::find(artifact_itype_ids.begin(),artifact_itype_ids.end(),id) != artifact_itype_ids.end()){
-            m_template_groups["ARTIFACT"].insert(id);
-            standard=false;
-        }
-        if(std::find(unreal_itype_ids.begin(),unreal_itype_ids.end(),id) != unreal_itype_ids.end()){
-            m_template_groups["PSEUDO"].insert(id);
-            standard=false;
-        }
-        if(standard){
-            m_template_groups["STANDARD"].insert(id);
-        }
-        // This is temporary, and only for testing the tag access algorithms work.
-        // It replaces a similar list located in the mapgen file
-        // Once reading from files are implemented, this will just check for a "CAN" tag, obviously.
-        tag_list can_list;
-        can_list.insert("can_beans"); can_list.insert("can_corn"); can_list.insert("can_spam"); 
-        can_list.insert("can_pineapple"); can_list.insert("can_coconut"); can_list.insert("can_sardine");
-        can_list.insert("can_tuna");
-        if(can_list.find(id)!=can_list.end()){
-          m_template_groups["CAN"].insert(id);
-        } */
-    }
     init();
 }
 
@@ -92,18 +55,13 @@ const item_tag Item_manager::random_id(){
 
 //Returns a random template name from the list of all templates.
 const item_tag Item_manager::id_from(const item_tag group_tag){
-/*
-    std::map<item_tag, tag_list>::iterator group_iter = m_template_groups.find(group_tag);
-    if(group_iter != m_template_groups.end() && group_iter->second.begin() != group_iter->second.end()){
-        tag_list group = group_iter->second;
-        tag_list::iterator random_element = group.begin();
-        std::advance(random_element, rng(0,group.size()-1));
-        item_tag item_id = *random_element;
-        return item_id;
+    std::map<item_tag, Item_group*>::iterator group_iter = m_template_groups.find(group_tag);
+    //If the tag isn't found, just return a reference to missing item.
+    if(group_iter != m_template_groups.end()){
+        return group_iter->second->get_id();
     } else {
-*/
         return "MISSING_ITEM";
-//    }
+    }
 }
 
 
@@ -199,8 +157,8 @@ void Item_manager::load_item_templates_from(const std::string file_name){
                     new_item_template->sym = char_from_json(new_id, "symbol", entry_body); 
                     new_item_template->color = color_from_json(new_id, "color", entry_body); 
                     new_item_template->description = string_from_json(new_id, "description", entry_body); 
-                    new_item_template->m1 = materials_from_json(new_id, "material", entry_body)[0];
-                    new_item_template->m2 = materials_from_json(new_id, "material", entry_body)[1];
+                    new_item_template->m1 = material_from_json(new_id, "material", entry_body, 0);
+                    new_item_template->m2 = material_from_json(new_id, "material", entry_body, 1);
                     new_item_template->volume = int_from_json(new_id, "volume", entry_body); 
                     new_item_template->weight = int_from_json(new_id, "weight", entry_body); 
                     new_item_template->melee_dam = int_from_json(new_id, "damage", entry_body); 
@@ -372,7 +330,7 @@ nc_color Item_manager::color_from_json(item_tag new_id, item_tag index, picojson
     }
 }
 
-material* Item_manager::materials_from_json(item_tag new_id, item_tag index, picojson::value::object value_map){
+material Item_manager::material_from_json(item_tag new_id, item_tag index, picojson::value::object value_map, int to_return){
     //If the value isn't found, just return a group of null materials
     material material_list[2] = {MNULL, MNULL};
 
@@ -399,7 +357,7 @@ material* Item_manager::materials_from_json(item_tag new_id, item_tag index, pic
             std::cerr << "Item "<< new_id << " material was skipped, not a string or array of strings." << std::endl;
         }
     } 
-    return material_list;
+    return material_list[to_return];
 }
 
 material Item_manager::material_from_tag(item_tag new_id, item_tag name){
@@ -408,9 +366,7 @@ material Item_manager::material_from_tag(item_tag new_id, item_tag name){
     // This should clearly be some sort of map, stored somewhere
     // ...unless it can get replaced entirely, which would be nice.
     // For now, though, that isn't the problem I'm solving.
-    if(name == "LIQUID"){
-        return LIQUID; 
-    } else if(name == "VEGGY"){
+    if(name == "VEGGY"){
         return VEGGY;
     } else if(name == "FLESH"){
         return FLESH;

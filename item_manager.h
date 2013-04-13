@@ -27,7 +27,6 @@ public:
     void init(game* main_game);
 
     //Intermediary Methods - Will be removed at final stage
-    const item_template_container* templates();
     item_template* find_template(item_tag id);
     item_template* random_template();
     item_template* template_from(item_tag group_tag);
@@ -56,7 +55,7 @@ private:
     char char_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
     int int_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
     nc_color color_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
-    material* materials_from_json(item_tag new_id, item_tag index, picojson::value::object value_map);
+    material material_from_json(item_tag new_id, item_tag index, picojson::value::object value_map, int to_return);
     material material_from_tag(item_tag new_id, item_tag index);
 
 };
