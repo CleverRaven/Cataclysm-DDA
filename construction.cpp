@@ -555,7 +555,7 @@ void game::construction_menu()
     }
     break;
   }
- } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+ } while (ch != 'q' && ch != 'Q');
 
  for (int i = iMaxY-25; i < iMaxY+1; i++) {
   for (int j = TERRAIN_WINDOW_WIDTH; j < 81; j++)
