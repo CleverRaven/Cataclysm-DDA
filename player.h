@@ -68,12 +68,12 @@ public:
  int  run_cost(int base_cost); // Adjust base_cost
  int  swim_speed();	// Our speed when swimming
 
- bool has_trait(int flag);
- bool has_mutation(int flag);
+ bool has_trait(int flag) const;
+ bool has_mutation(int flag) const;
  void toggle_trait(int flag);
 
- bool has_bionic(bionic_id b);
- bool has_active_bionic(bionic_id b);
+ bool has_bionic(bionic_id b) const;
+ bool has_active_bionic(bionic_id b) const;
  void add_bionic(bionic_id b);
  void charge_power(int amount);
  void power_bionics(game *g);
@@ -91,7 +91,7 @@ public:
  int  overmap_sight_range(int light_level);
  int  clairvoyance(); // Sight through walls &c
  bool sight_impaired(); // vision impaired between sight_range and max_range
- bool has_two_arms();
+ bool has_two_arms() const;
  bool can_wear_boots();
  bool is_armed();	// True if we're wielding something; true for bionics
  bool unarmed_attack(); // False if we're wielding something; true for bionics
@@ -174,13 +174,13 @@ public:
  void add_disease(dis_type type, int duration, game *g, int intensity = 0,
                   int max_intensity = -1);
  void rem_disease(dis_type type);
- bool has_disease(dis_type type);
+ bool has_disease(dis_type type) const;
  int  disease_level(dis_type type);
  int  disease_intensity(dis_type type);
 
  void add_addiction(add_type type, int strength);
  void rem_addiction(add_type type);
- bool has_addiction(add_type type);
+ bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
  void cauterize(game *g);
@@ -265,7 +265,7 @@ public:
 
  bool has_watertight_container();
  bool has_matching_liquid(itype_id it);
- bool has_weapon_or_armor(char let);	// Has an item with invlet let
+ bool has_weapon_or_armor(char let) const;	// Has an item with invlet let
  bool has_item(char let);		// Has an item with invlet let
  bool has_item(item *it);		// Has a specific item
  bool has_mission_item(int mission_id);	// Has item with mission_id
@@ -336,6 +336,9 @@ public:
  std::vector <addiction> addictions;
 
  recipe* lastrecipe;
+private:
+ bool has_fire(const int quantity);
+ void use_fire(const int quantity);
 };
 
 #endif

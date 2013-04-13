@@ -29,6 +29,13 @@ Mouth (face) now has appropriate cold and hot diseases.
 The ability to cauterize wounds to heal bites and stop bleeding. (a)ctivate a knife, requires a lighter.
 The ability to craft an item as many times as is possible. Defaults to the + key. (Linux and Mac users will need to assign a key)
 Added M72-LAW. Makes a large explosion and penetrates armour well. One shot only.
+Clothing can be made fitted by (a)pplying a sewing kit.
+Some foods can be heated, hot food grants a larger morale bonus than cold food.
+Ammunition explodes rather than burning.
+Lightstrips, function as weak light providers. Craftable.
+Bandages and First Aid kits no longer show uninjured bodyparts in the menu.
+Some basic professions, more to be added later.
+
 
 0.3
 Many menus stretch with an enlarged viewport.

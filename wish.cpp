@@ -12,6 +12,7 @@ void game::wish()
  int a = 0, shift = 0, result_selected = 0;
  int ch = '.';
  bool search = false;
+ bool incontainer = false;
  std::string pattern;
  std::string info;
  std::vector<int> search_results;
@@ -86,6 +87,7 @@ void game::wish()
     pattern =  "";
     search_results.clear();
    }
+   if (ch == 'f') incontainer = !incontainer;
    if (ch == '>' && !search_results.empty()) {
     result_selected++;
     if (result_selected > search_results.size())
@@ -112,6 +114,8 @@ void game::wish()
    mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
   else if (pattern.length() > 0)
    mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
+  if (incontainer)
+   mvwprintz(w_list, 1, 20, c_ltblue, "contained");
   if (a < 0) {
    a = 0;
    shift--;
@@ -154,7 +158,10 @@ void game::wish()
  clear();
  mvprintw(0, 0, "\nWish granted - %d (%d).", tmp.type->id.c_str(), "antibiotics");
  tmp.invlet = nextinv;
- u.i_add(tmp);
+ if (!incontainer)
+  u.i_add(tmp);
+ else
+  u.i_add(tmp.in_its_container(&itypes));
  advance_nextinv();
  getch();
  delwin(w_info);

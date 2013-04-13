@@ -108,11 +108,11 @@ class map
 // Terrain
  ter_id ter(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  void ter_set(const int x, const int y, const ter_id new_terrain);
- bool is_indoor(const int x, const int y); // Check if current ter is indoors
- std::string tername(const int x, const int y); // Name of terrain at (x, y)
+ bool is_indoor(const int x, const int y) const; // Check if current ter is indoors
+ std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(const t_flag flag, const int x, const int y);  // checks terrain and vehicles
- bool has_flag_ter_only(const t_flag flag, const int x, const int y); // only checks terrain
+ bool has_flag_ter_only(const t_flag flag, const int x, const int y) const; // only checks terrain
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_only(const int x, const int y);       // only checks terrain
  bool is_outside(const int x, const int y);
