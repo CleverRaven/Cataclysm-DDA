@@ -1061,7 +1061,8 @@
                               ],
                               [
                                   ["canister_empty", 1],
-                                  ["can_food", 1]
+                                  ["can_food", 1],
+                                  ["can_drink", 1]
                               ],
                               [
                                   ["superglue", 1]
@@ -1095,7 +1096,8 @@
                               ],
                               [
                                   ["canister_empty", 1],
-                                  ["can_food", 1]
+                                  ["can_food", 1],
+                                  ["can_drink", 1]
                               ],
                               [
                                   ["superglue", 1]
@@ -2123,9 +2125,6 @@
                              ["toolset", 1],
                              ["hotplate", 4],
                              ["press", 2]
-                         ],
-                         [
-                             ["screwdriver", -1]
                          ]
                      ],
             "components": [
@@ -2140,17 +2139,6 @@
                               ],
                               [
                                   ["lead", 400]
-                              ],
-                              [
-                                  ["can_food", 1],
-                                  ["steel_chunk", 1],
-                                  ["canister_empty", 1]
-                              ],
-                              [
-                                  ["battery", 1]
-                              ],
-                              [
-                                  ["power_supply", 1]
                               ]
                           ]
         },
@@ -2234,8 +2222,14 @@
                      ],
             "components": [
                               [
-                                  ["meat", 1],
-                                  ["veggy_wild", 1],
+                                  ["meat", 1]
+                              ],
+                              [
+                                  ["veggy", 1],
+                                  ["veggy_wild", 1]
+                              ],
+                              [
+                                  ["water", 1],
                                   ["water_clean", 1]
                               ]
                           ]
@@ -2628,6 +2622,7 @@
                               ],
                               [
                                   ["broccoli", 1],
+                                  ["tomato", 1],
                                   ["zucchini", 1],
                                   ["veggy", 1],
                                   ["veggy_wild", 1]
@@ -3300,7 +3295,8 @@
                               ],
                               [
                                   ["can_drink", 1],
-                                  ["can_food", 1]
+                                  ["can_food", 1],
+                                  ["canister_empty", 1]
                               ]
                           ]
         },
@@ -3860,7 +3856,8 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["needle_bone", 4]
+                             ["needle_bone", 4],
+                             ["sewing_kit", 4]
                          ]
                      ],
             "components": [
@@ -3881,7 +3878,8 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["needle_bone", 5]
+                             ["needle_bone", 5],
+                             ["sewing_kit", 5]
                          ]
                      ],
             "components": [
@@ -5088,6 +5086,9 @@
             "components": [
                               [
                                   ["pipe", 2]
+                              ],
+                              [
+                                  ["sheet_metal", 1]
                               ]
                           ]
         },
@@ -5808,7 +5809,15 @@
             "reversible": false,
             "autolearn": true,
             "components": [
-
+                              [
+                                  ["grenade", 1]
+                              ],
+                              [
+                                  ["string_6", 1]
+                              ],
+                              [
+                                  ["can_food", 1]
+                              ]
                           ]
         },
 
@@ -5871,7 +5880,9 @@
                          ]
                      ],
             "components": [
-
+                              [
+                                  ["sheet_metal", 1]
+                              ]
                           ]
         },
 
@@ -5900,7 +5911,9 @@
                          ]
                      ],
             "components": [
-
+                              [
+                                  ["sheet_metal", 2]
+                              ]
                           ]
         },
 
@@ -6111,6 +6124,7 @@
                          ],
                          [
                              ["hammer", -1],
+                             ["primitive_hammer", -1],
                              ["rock", -1]
                          ],
                          [
@@ -6164,6 +6178,7 @@
                          ],
                          [
                              ["hammer", -1],
+                             ["primitive_hammer", -1],
                              ["rock", -1]
                          ],
                          [
@@ -6218,6 +6233,7 @@
                          ],
                          [
                              ["hammer", -1],
+                             ["primitive_hammer", -1],
                              ["rock", -1]
                          ],
                          [
