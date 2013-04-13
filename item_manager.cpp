@@ -28,6 +28,7 @@ void Item_manager::init(game* main_game){
     //Load up the group lists with the default 'all' label
     for(item_template_container::iterator iter = m_templates.begin(); iter != m_templates.end(); ++iter){
         item_tag id = iter->first;
+        /*
         bool standard=true;
         m_template_groups["ALL"].insert(id);
         if(std::find(unreal_itype_ids.begin(),unreal_itype_ids.end(), id) != unreal_itype_ids.end()){
@@ -58,7 +59,7 @@ void Item_manager::init(game* main_game){
         can_list.insert("can_tuna");
         if(can_list.find(id)!=can_list.end()){
           m_template_groups["CAN"].insert(id);
-        }
+        } */
     }
     init();
 }
@@ -91,6 +92,7 @@ const item_tag Item_manager::random_id(){
 
 //Returns a random template name from the list of all templates.
 const item_tag Item_manager::id_from(const item_tag group_tag){
+/*
     std::map<item_tag, tag_list>::iterator group_iter = m_template_groups.find(group_tag);
     if(group_iter != m_template_groups.end() && group_iter->second.begin() != group_iter->second.end()){
         tag_list group = group_iter->second;
@@ -99,8 +101,9 @@ const item_tag Item_manager::id_from(const item_tag group_tag){
         item_tag item_id = *random_element;
         return item_id;
     } else {
+*/
         return "MISSING_ITEM";
-    }
+//    }
 }
 
 
@@ -140,7 +143,7 @@ item_list Item_manager::create_random(int quantity){
 void Item_manager::load_item_templates(){
     load_item_templates_from("data/raw/items/instruments.json");
     load_item_templates_from("data/raw/items/melee.json");
-    load_item_groups_from("data/raw/item_groups/general.json");
+    load_item_groups_from("data/raw/item_groups.json");
 }
 
 // Load values from this data file into m_templates
@@ -168,7 +171,6 @@ void Item_manager::load_item_templates_from(const std::string file_name){
     //Crawl through and extract the items
     const picojson::array& all_items = input_value.get<picojson::array>();
     for (picojson::array::const_iterator entry = all_items.begin(); entry != all_items.end(); ++entry) {
-        bool load_success=false;
         if( !(entry->is<picojson::object>()) ){
             std::cerr << "Invalid item definition, entry not a JSON object" << std::endl;
         }
@@ -182,7 +184,7 @@ void Item_manager::load_item_templates_from(const std::string file_name){
             } else {
                 item_tag new_id = key_pair->second.get<std::string>();
 
-                // If everything works out, add the item to the template list... 
+                // If everything works out, add the item to the group list... 
                 // unless a similar item is already there
                 if(m_templates.find(new_id) != m_templates.end()){
                     std::cerr << "Item definition skipped, id " << new_id << " already exists." << std::endl;
@@ -210,9 +212,7 @@ void Item_manager::load_item_templates_from(const std::string file_name){
     }
 }
 
-// Load values from this data file into m_templates
-// TODO: Consider appropriate location for this code. Is this really where it belongs?
-//       At the very least, it seems the json blah_from methods could be used elsewhere
+// Load values from this data file into m_template_groups
 void Item_manager::load_item_groups_from(const std::string file_name){
     std::ifstream data_file;
     picojson::value input_value;
@@ -232,15 +232,85 @@ void Item_manager::load_item_groups_from(const std::string file_name){
         exit(2);
     }
     
-    //Crawl through and extract the items
+    //Crawl through once and create an entry for every definition
     const picojson::array& all_items = input_value.get<picojson::array>();
     for (picojson::array::const_iterator entry = all_items.begin(); entry != all_items.end(); ++entry) {
-        bool load_success=false;
         if( !(entry->is<picojson::object>()) ){
-            std::cerr << "Invalid item definition, entry not a JSON object" << std::endl;
+            std::cerr << "Invalid group definition, entry not a JSON object" << std::endl;
         }
         else{
-          //TODO: ACTUALLY READ IN STUFF. THEN AMEND LAST COMMIT.
+            const picojson::value::object& entry_body = entry->get<picojson::object>();
+
+            // The one element we absolutely require for an item definition is an id
+            picojson::value::object::const_iterator key_pair = entry_body.find("id");
+            if( key_pair == entry_body.end() || !(key_pair->second.is<std::string>()) ){
+                std::cerr << "Group definition skipped, no id found or id was malformed." << std::endl;
+            } else {
+                item_tag group_id = key_pair->second.get<std::string>();
+                m_template_groups[group_id] = new Item_group(group_id);
+            }
+        }
+    }
+    //Once all the group definitions are set, fill them out
+    for (picojson::array::const_iterator entry = all_items.begin(); entry != all_items.end(); ++entry) {
+        const picojson::value::object& entry_body = entry->get<picojson::object>();
+
+        item_tag group_id = entry_body.find("id")->second.get<std::string>();
+        Item_group current_group = *m_template_groups.find(group_id)->second;
+        
+        //Add items
+        picojson::value::object::const_iterator key_pair = entry_body.find("items");
+        if( key_pair != entry_body.end() ){
+            if( !(key_pair->second.is<picojson::array>()) ){
+                std::cerr << "Invalid item list for group definition '"+group_id+"', list of items not an array." << std::endl;
+            } else {
+                //We have confirmed that we have a list of SOMETHING, now let's add them one at a time.
+                const picojson::array& items_to_add = key_pair->second.get<picojson::array>();
+                for (picojson::array::const_iterator item_pair = items_to_add.begin(); item_pair != items_to_add.end(); ++item_pair) {
+                    //Before adding, make sure this element is in the right format, namely ["TAG_NAME", frequency number]
+                    if(!(item_pair->is<picojson::array>())){
+                        std::cerr << "Invalid item list for group definition '"+group_id+"', element is not an array." << std::endl;
+                    } else if(item_pair->get<picojson::array>().size()!=2){
+                        std::cerr << "Invalid item list for group definition '"+group_id+"', element does not have 2 values." << std::endl;
+                    } else {
+                        picojson::array item_frequency_array = item_pair->get<picojson::array>();
+                        //Finally, insure that the first value is a string, and the second is a number
+                        if(!item_frequency_array[0].is<std::string>() || !item_frequency_array[1].is<double>() ){
+                            std::cerr << "Invalid item list for group definition '"+group_id+"', element is not a valid tag/frequency pair." << std::endl;
+                        } else {
+                            current_group.add_entry(item_frequency_array[0].get<std::string>(), (int)item_frequency_array[1].get<double>());
+                        }
+                    }
+                }
+            }
+        }
+
+        //Add groups
+        key_pair = entry_body.find("groups");
+        if(key_pair != entry_body.end()){
+            if( !(key_pair->second.is<picojson::array>()) ){
+                std::cerr << "Invalid group list for group definition '"+group_id+"', list of items not an array." << std::endl;
+            } else {
+                //We have confirmed that we have a list of SOMETHING, now let's add them one at a time.
+                const picojson::array& items_to_add = key_pair->second.get<picojson::array>();
+                for (picojson::array::const_iterator item_pair = items_to_add.begin(); item_pair != items_to_add.end(); ++item_pair) {
+                    //Before adding, make sure this element is in the right format, namely ["TAG_NAME", frequency number]
+                    if(!(item_pair->is<picojson::array>())){
+                        std::cerr << "Invalid group list for group definition '"+group_id+"', element is not an array." << std::endl;
+                    } else if(item_pair->get<picojson::array>().size()!=2){
+                        std::cerr << "Invalid group list for group definition '"+group_id+"', element does not have 2 values." << std::endl;
+                    } else {
+                        picojson::array item_frequency_array = item_pair->get<picojson::array>();
+                        //Finally, insure that the first value is a string, and the second is a number
+                        if(!item_frequency_array[0].is<std::string>() || !item_frequency_array[1].is<double>() ){
+                            std::cerr << "Invalid group list for group definition '"+group_id+"', element is not a valid tag/frequency pair." << std::endl;
+                        } else {
+                            Item_group* subgroup = m_template_groups.find(item_frequency_array[0].get<std::string>())->second;
+                            current_group.add_group(subgroup, (int)item_frequency_array[1].get<double>());
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -9,6 +9,7 @@
 #include "item.h"
 #include "color.h"
 #include "picojson.h"
+#include "item_group.h"
 
 typedef itype item_template;
 typedef std::string item_tag;
@@ -42,9 +43,9 @@ public:
     item_list create_random(int quantity);
 
 private:
-    item_template_container  m_templates;
+    item_template_container m_templates;
     itype*  m_missing_item;
-    std::map<item_tag, tag_list> m_template_groups;
+    std::map<item_tag, Item_group*> m_template_groups;
 
     //json data handlers
     void load_item_templates();

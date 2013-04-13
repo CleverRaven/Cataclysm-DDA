@@ -1,8 +1,9 @@
 #ifndef _ITEM_GROUP_H_
 #define _ITEM_GROUP_H_
 
-#include "item_manager.h"
 #include <vector>
+
+typedef std::string item_tag;
 
 class Item_group_entry;
 class Item_group_group;
