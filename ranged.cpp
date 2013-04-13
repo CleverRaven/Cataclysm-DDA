@@ -173,6 +173,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   switch(curammo->type) {
   case AT_SHOT: casing_type = "shot_hull"; break;
   case AT_9MM: casing_type = "9mm_casing"; break;
+  case AT_22: casing_type = "22_casing"; break;
   case AT_38: casing_type = "38_casing"; break;
   case AT_40: casing_type = "40_casing"; break;
   case AT_44: casing_type = "44_casing"; break;

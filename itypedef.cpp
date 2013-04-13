@@ -2339,6 +2339,11 @@ AMMO("9mm_casing", "9mm casing",		 10, 30,AT_NULL,		c_ltblue,	STEEL,
 An empty casing from a 9mm round.",
 0);
 
+AMMO("22_casing", ".22 casing",	 10, 40,AT_NULL,		c_ltblue,	STEEL,
+	 0, 0, 0,  0, 0, 0, 0, 200, "\
+An empty casing from a .22 round.",
+0);
+
 AMMO("38_casing", ".38 casing",	 10, 40,AT_NULL,		c_ltblue,	STEEL,
 	 0, 0, 0,  0, 0, 0, 0, 200, "\
 An empty casing from a .38 round.",
