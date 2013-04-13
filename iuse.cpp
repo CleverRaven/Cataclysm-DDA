@@ -3235,15 +3235,15 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  lead.charges = 16*multiply;
  }
  else if (pull->type->id == "22_lr" || pull->type->id == "22_ratshot") {
- casing.make(g->itypes["null"]);
- primer.make(g->itypes["null"]);
+ casing.make(g->itypes["22_casing"]);
+ primer.make(g->itypes["smrifle_primer"]);
  gunpowder.make(g->itypes["gunpowder"]);
  gunpowder.charges = 2*multiply;
  lead.charges = 2*multiply;
  }
  else if (pull->type->id == "22_cb") {
- casing.make(g->itypes["null"]);
- primer.make(g->itypes["null"]);
+ casing.make(g->itypes["22_casing"]);
+ primer.make(g->itypes["smrifle_primer"]);
  gunpowder.make(g->itypes["gunpowder"]);
  gunpowder.charges = 1*multiply;
  lead.charges = 2*multiply;
