@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
   setupDebug();
 #endif
  int seed = time(NULL);
- RNG_functions::gen.seed(time(0));
+ gen.seed(time(0));
 
 //args: world seeding only.
  argc--; argv++;
