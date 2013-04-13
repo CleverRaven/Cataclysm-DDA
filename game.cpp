@@ -326,6 +326,50 @@ bool game::do_turn()
   add_msg("Your breathing stops completely.");
   u.hp_cur[hp_torso] = 0;
  }
+// Check if we're starving or have starved
+    if (u.hunger > 2999) {
+     switch (u.hunger) {
+         case 3000: if (turn % 10 == 0)
+          add_msg("You haven't eaten in over a week!"); break;
+         case 4000: if (turn % 10 == 0)
+          add_msg("You are STARVING!"); break;
+         case 5000: if (turn % 10 == 0)
+          add_msg("Food..."); break;
+         case 6000:
+          add_msg("You have starved to death.");
+          u.hp_cur[hp_torso] = 0;
+          break;
+     }
+    }
+// Check if we're dying of thirst
+    if (u.thirst > 599) {
+     switch (u.thirst) {
+         case  600: if (turn % 10 == 0)
+          add_msg("You haven't had anything to drink in 2 days!"); break;
+         case  800: if (turn % 10 == 0)
+          add_msg("You are THIRSTY!"); break;
+         case 1000: if (turn % 10 == 0)
+          add_msg("4 days... no water.."); break;
+         case 1200:
+          add_msg("You have died of dehydration.");
+          u.hp_cur[hp_torso] = 0;
+          break;
+     }
+    }
+// Check if we're falling asleep
+    if (u.fatigue > 599) {
+     switch (u.fatigue) {
+         case  600: if (turn % 10 == 0)
+          add_msg("You haven't slept in 2 days!"); break;
+         case  800: if (turn % 10 == 0)
+          add_msg("Anywhere would be a good place to sleep..."); break;
+         case 1000:
+          add_msg("Surivor sleep now.");
+          u.fatigue -= 10;
+          u.try_to_sleep(this);
+          break;
+     }
+    }
 
  if (turn % 50 == 0) {	// Hunger, thirst, & fatigue up every 5 minutes
   if ((!u.has_trait(PF_LIGHTEATER) || !one_in(3)) &&
@@ -7109,7 +7153,7 @@ void game::unload(char chInput)
 
 void game::unload()
 {
-    if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 && 
+    if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
         (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL || u.weapon.has_flag(IF_NO_UNLOAD)))
     {
         add_msg("You can't unload a %s!", u.weapon.tname(this).c_str());
@@ -8113,7 +8157,7 @@ void game::update_map(int &x, int &y)
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEY * MAPSIZE; j++)
    scent(i, j) = newscent[i][j];
-  
+
  }
  // Make sure map cache is consistent since it may have shifted.
  m.build_map_cache(this);
