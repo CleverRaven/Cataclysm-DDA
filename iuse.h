@@ -56,11 +56,14 @@ class iuse
   void hammer		(game *g, player *p, item *it, bool t);
   void light_off	(game *g, player *p, item *it, bool t);
   void light_on		(game *g, player *p, item *it, bool t);
+  void lightstrip		(game *g, player *p, item *it, bool t);
   void cauterize_elec	(game *g, player *p, item *it, bool t);
   void water_purifier	(game *g, player *p, item *it, bool t);
   void two_way_radio	(game *g, player *p, item *it, bool t);
   void radio_off	(game *g, player *p, item *it, bool t);
   void radio_on		(game *g, player *p, item *it, bool t);
+  void noise_emitter_off(game *g, player *p, item *it, bool t);
+  void noise_emitter_on (game *g, player *p, item *it, bool t);
   void roadmap (game *g, player *p, item *it, bool t);
   void roadmap_a_target (game *g, player *p, item *it, bool t, int target);
   void roadmap_targets(game *g, player *p, item *it, bool t, int target, int target_range, int distance, int reveal_distance);
@@ -135,7 +138,10 @@ class iuse
   void rag              (game *g, player *p, item *it, bool t);
   void pda              (game *g, player *p, item *it, bool t);
   void pda_flashlight   (game *g, player *p, item *it, bool t);
+  void LAW              (game *g, player *p, item *it, bool t);
   void heatpack			(game *g, player *p, item *it, bool t);
+  void dejar            (game *g, player *p, item *it, bool t);
+
 
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);

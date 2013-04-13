@@ -1,4 +1,5 @@
 #include "player.h"
+#include "profession.h"
 #include "bionics.h"
 #include "mission.h"
 #include "game.h"
@@ -52,6 +53,7 @@ player::player()
  health = 0;
  name = "";
  male = true;
+ prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  inv_sorted = true;
  moves = 100;
  oxygen = 0;
@@ -111,6 +113,7 @@ player& player::operator= (const player & rhs)
 
  name = rhs.name;
  male = rhs.male;
+ prof = rhs.prof;
 
  for (int i = 0; i < PF_MAX2; i++)
   my_traits[i] = rhs.my_traits[i];
@@ -212,6 +215,8 @@ void player::normalize(game *g)
    hp_max[i] = int(hp_max[i] * 1.2);
   hp_cur[i] = hp_max[i];
  }
+ for (int i = 0 ; i < num_bp; i++)
+  temp_conv[i] = BODYTEMP_NORM;
 }
 
 void player::pick_name() {
@@ -418,14 +423,12 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   int blister_count = 0; // If the counter is high, your skin starts to burn
   for (int j = -6 ; j <= 6 ; j++){
    for (int k = -6 ; k <= 6 ; k++){
-    // Bizarre workaround for g->u_see() and friends not taking const arguments.
-    int l = std::max(j, k);
     int heat_intensity = 0;
     if(g->m.field_at(posx + j, posy + k).type == fd_fire)
      heat_intensity = g->m.field_at(posx + j, posy + k).density;
     else if (g->m.tr_at(posx + j, posy + k) == tr_lava )
       heat_intensity = 3;
-    if (heat_intensity > 0 && g->u_see(posx + j, posy + k, l)) {
+    if (heat_intensity > 0 && g->u_see(posx + j, posy + k)) {
      // Ensure fire_dist >=1 to avoid divide-by-zero errors.
      int fire_dist = std::max(1, std::max(j, k));
      if (frostbite_timer[i] > 0) frostbite_timer[i] -= heat_intensity - fire_dist / 2;
@@ -462,11 +465,11 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
    add_disease(dis_type(blister_pen), 1, g);
   // BLOOD LOSS : Loss of blood results in loss of body heat
   int blood_loss = 0;
-  if      (i == bp_legs)  blood_loss = (1 - (hp_cur[hp_leg_l] + hp_cur[hp_leg_r]) / (hp_max[hp_leg_l] + hp_max[hp_leg_r]));
-  else if (i == bp_arms)  blood_loss = (1 - (hp_cur[hp_arm_l] + hp_cur[hp_arm_r]) / (hp_max[hp_arm_l] + hp_max[hp_arm_r]));
-  else if (i == bp_torso) blood_loss = (1 -  hp_cur[hp_torso] / hp_max[hp_torso]);
-  else if (i == bp_head)  blood_loss = (1 -  hp_cur[hp_head] / hp_max[hp_head]);
-  temp_conv[i] -= blood_loss*temp_conv[i]/2; // 1% bodyheat lost per 2% hp lost
+  if      (i == bp_legs)  blood_loss = (100 - 100*(hp_cur[hp_leg_l] + hp_cur[hp_leg_r]) / (hp_max[hp_leg_l] + hp_max[hp_leg_r]));
+  else if (i == bp_arms)  blood_loss = (100 - 100*(hp_cur[hp_arm_l] + hp_cur[hp_arm_r]) / (hp_max[hp_arm_l] + hp_max[hp_arm_r]));
+  else if (i == bp_torso) blood_loss = (100 - 100* hp_cur[hp_torso] / hp_max[hp_torso]);
+  else if (i == bp_head)  blood_loss = (100 - 100* hp_cur[hp_head] / hp_max[hp_head]);
+  temp_conv[i] -= blood_loss*temp_conv[i]/200; // 1% bodyheat lost per 2% hp lost
   // EQUALIZATION
   switch (i){
   case bp_torso :
@@ -497,7 +500,7 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   int rounding_error = 0;
   if (temp_difference < 0 && temp_difference > -600 ) rounding_error = 1; // If temp_diff is small, the player cannot warm up due to rounding errors. This fixes that.
   if (temp_cur[i] != temp_conv[i]) {
-   if      ((g->m.ter(posx, posy) == t_water_sh || g->m.ter(posx, posy) == t_sewage) 
+   if      ((g->m.ter(posx, posy) == t_water_sh || g->m.ter(posx, posy) == t_sewage)
               && (i == bp_feet || i == bp_legs)) temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
    else if (g->m.ter(posx, posy) == t_water_dp)  temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
    else if (i == bp_torso || i == bp_head)       temp_cur[i] = temp_difference*exp(-0.003) + temp_conv[i] + rounding_error;
@@ -551,7 +554,7 @@ void player::temp_equalizer(body_part bp1, body_part bp2)
  // Body heat is moved around.
  // When bp1 gives 15%, bp2 will return 15% of the _new_ difference
  int diff = (temp_conv[bp2] - temp_conv[bp1])*0.15; // If bp1 is warmer, it will lose heat
- // temp_conv[bp1] += diff;
+ temp_conv[bp1] += diff;
 }
 
 int player::current_speed(game *g)
@@ -721,12 +724,22 @@ void player::load_info(game *g, std::string data)
  dump << data;
  int inveh;
  itype_id styletmp;
+ std::string prof_ident;
+
  dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
          inveh >> scent >> moves >> underwater >> dodges_left >> blocks_left >>
-         oxygen >> active_mission >> xp_pool >> male >> health >> styletmp;
+         oxygen >> active_mission >> xp_pool >> male >> prof_ident >> health >>
+         styletmp;
+
+ if (profession::exists(prof_ident)) {
+  prof = profession::prof(prof_ident);
+ } else {
+  prof = profession::generic();
+  debugmsg("Tried to use non-existant profession '%s'", prof_ident.c_str());
+ }
 
  activity.load_info(dump);
  backlog.load_info(dump);
@@ -750,6 +763,15 @@ void player::load_info(game *g, std::string data)
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    dump >> skillLevel(*aSkill);
+ }
+
+ int num_recipes;
+ std::string rec_name;
+ dump >> num_recipes;
+ for (int i = 0; i < num_recipes; ++i)
+ {
+  dump >> rec_name;
+  learned_recipes[rec_name] = g->recipe_by_name(rec_name);
  }
 
  int numstyles;
@@ -835,8 +857,8 @@ std::string player::save_info()
          (in_vehicle? 1 : 0) << " " << scent << " " << moves << " " <<
          underwater << " " << dodges_left << " " << blocks_left << " " <<
          oxygen << " " << active_mission << " " << xp_pool << " " << male <<
-         " " << health << " " << style_selected << " " << activity.save_info() <<
-     " " << backlog.save_info() << " ";
+         " " << prof->ident() << " " << health << " " << style_selected <<
+         " " << activity.save_info() << " " << backlog.save_info() << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
@@ -854,6 +876,14 @@ std::string player::save_info()
    dump << level;
  }
 
+ dump << learned_recipes.size() << " ";
+ for (std::map<std::string, recipe*>::iterator iter = learned_recipes.begin();
+      iter != learned_recipes.end();
+      ++iter)
+ {
+  dump << iter->first << " ";
+ }
+ 
  dump << styles.size() << " ";
  for (int i = 0; i < styles.size(); i++)
   dump << styles[i] << " ";
@@ -1220,7 +1250,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arms, bp_hands, bp_legs, bp_feet};
  int iEnc, iLayers, iArmorEnc, iWarmth;
 
- mvwprintz(w_encumb, 0, 7, c_ltgray, "ENCUMBERANCE");
+ mvwprintz(w_encumb, 0, 1, c_ltgray, "ENCUMBERANCE AND WARMTH");
  for (int i=0; i < 8; i++) {
   iEnc = iLayers = iArmorEnc = iWarmth = 0;
   iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc, iWarmth);
@@ -1228,7 +1258,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   mvwprintz(w_encumb, i+1, 8, c_ltgray, "(%d)", iLayers);
   mvwprintz(w_encumb, i+1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2), " ", iArmorEnc, "+", iEnc-iArmorEnc);
   wprintz(w_encumb, encumb_color(iEnc), "%s%d", (iEnc < 0 || iEnc > 9 ? "" : " ") , iEnc);
-  wprintz(w_encumb, (temp_conv[i] < BODYTEMP_COLD || temp_conv[i] > BODYTEMP_HOT ? c_red : c_green), "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
+  // Color the warmth value to let the player know what is sufficient
+  nc_color color = c_ltgray;
+  if (i == bp_eyes) continue; // Eyes don't count towards warmth
+  else if (temp_conv[i] >  BODYTEMP_SCORCHING) color = c_red;
+  else if (temp_conv[i] >  BODYTEMP_VERY_HOT)  color = c_ltred;
+  else if (temp_conv[i] >  BODYTEMP_HOT)       color = c_yellow;
+  else if (temp_conv[i] >  BODYTEMP_COLD)      color = c_green; // More than cold is comfortable
+  else if (temp_conv[i] >  BODYTEMP_VERY_COLD) color = c_ltblue;
+  else if (temp_conv[i] >  BODYTEMP_FREEZING)  color = c_cyan;
+  else if (temp_conv[i] <= BODYTEMP_FREEZING)  color = c_blue;
+  wprintz(w_encumb, color, "%*s(%d)", (iWarmth > 9 ? ((iWarmth > 99) ? 1: 2) : 3), " ", iWarmth);
  }
  wrefresh(w_encumb);
 
@@ -1447,28 +1487,28 @@ detecting traps and other things of interest.");
    wrefresh(w_stats);
    break;
   case 2:	// Encumberment tab
-   mvwprintz(w_encumb, 0, 0, h_ltgray, "       ENCUMBERANCE       ");
+   mvwprintz(w_encumb, 0, 0, h_ltgray, " ENCUMBERANCE AND WARMTH  ");
    if (line == 0) {
-    mvwprintz(w_encumb, 1, 1, h_ltgray, "Head");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
-Head encumberance has no effect; it simply limits how much you can put on.");
-   } else if (line == 1) {
-    mvwprintz(w_encumb, 2, 1, h_ltgray, "Eyes");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
-Perception -%d when checking traps or firing ranged weapons;\n\
-Perception -%.1f when throwing items", encumb(bp_eyes),
-double(double(encumb(bp_eyes)) / 2));
-   } else if (line == 2) {
-    mvwprintz(w_encumb, 3, 1, h_ltgray, "Mouth");
-    mvwprintz(w_info, 0, 0, c_magenta, "\
-Running costs +%d movement points", encumb(bp_mouth) * 5);
-   } else if (line == 3) {
-    mvwprintz(w_encumb, 4, 1, h_ltgray, "Torso");
+    mvwprintz(w_encumb, 1, 1, h_ltgray, "Torso");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Melee skill -%d;      Dodge skill -%d;\n\
 Swimming costs +%d movement points;\n\
 Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
               encumb(bp_torso) * (80 - skillLevel("swimming") * 3), encumb(bp_torso) * 20);
+   } else if (line == 1) {
+    mvwprintz(w_encumb, 2, 1, h_ltgray, "Head");
+    mvwprintz(w_info, 0, 0, c_magenta, "\
+Head encumberance has no effect; it simply limits how much you can put on.");
+   } else if (line == 2) {
+    mvwprintz(w_encumb, 3, 1, h_ltgray, "Eyes");
+    mvwprintz(w_info, 0, 0, c_magenta, "\
+Perception -%d when checking traps or firing ranged weapons;\n\
+Perception -%.1f when throwing items", encumb(bp_eyes),
+double(double(encumb(bp_eyes)) / 2));
+   } else if (line == 3) {
+    mvwprintz(w_encumb, 4, 1, h_ltgray, "Mouth");
+    mvwprintz(w_info, 0, 0, c_magenta, "\
+Running costs +%d movement points", encumb(bp_mouth) * 5);
    } else if (line == 4)
   {
     mvwprintz(w_encumb, 5, 1, h_ltgray, "Arms");
@@ -1509,7 +1549,7 @@ encumb(bp_feet) * 5);
       line = 7;
      break;
     case '\t':
-     mvwprintz(w_encumb, 0, 0, c_ltgray, "       ENCUMBERANCE       ");
+     mvwprintz(w_encumb, 0, 0, c_ltgray, " ENCUMBERANCE AND WARMTH  ");
      wrefresh(w_encumb);
      line = 0;
      curtab++;
@@ -1518,10 +1558,10 @@ encumb(bp_feet) * 5);
     case KEY_ESCAPE:
      done = true;
    }
-   mvwprintz(w_encumb, 1, 1, c_ltgray, "Head");
-   mvwprintz(w_encumb, 2, 1, c_ltgray, "Eyes");
-   mvwprintz(w_encumb, 3, 1, c_ltgray, "Mouth");
-   mvwprintz(w_encumb, 4, 1, c_ltgray, "Torso");
+   mvwprintz(w_encumb, 1, 1, c_ltgray, "Torso");
+   mvwprintz(w_encumb, 2, 1, c_ltgray, "Head");
+   mvwprintz(w_encumb, 3, 1, c_ltgray, "Eyes");
+   mvwprintz(w_encumb, 4, 1, c_ltgray, "Mouth");
    mvwprintz(w_encumb, 5, 1, c_ltgray, "Arms");
    mvwprintz(w_encumb, 6, 1, c_ltgray, "Hands");
    mvwprintz(w_encumb, 7, 1, c_ltgray, "Legs");
@@ -1848,21 +1888,30 @@ void player::disp_status(WINDOW *w, game *g)
  else if (hunger < 0)
   mvwprintz(w, 2, 0, c_green,  "Full");
 
-
-if (temp_cur[bp_torso] > BODYTEMP_SCORCHING)
-  mvwprintz(w, 1, 9, c_red,    "Scorching!");
- else if (temp_cur[bp_torso] > BODYTEMP_VERY_HOT)
-  mvwprintz(w, 1, 9, c_ltred,  "Very Hot");
- else if (temp_cur[bp_torso] > BODYTEMP_HOT)
-  mvwprintz(w, 1, 9, c_yellow,  "Hot");
- else if (temp_cur[bp_torso] > BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
+ int min = 0, max = 0;
+ for (int i = 0; i < num_bp ; i++ ){
+  if      (temp_cur[i] > BODYTEMP_HOT  && temp_cur[i] > temp_cur[max]) max = i;
+  else if (temp_cur[i] < BODYTEMP_COLD && temp_cur[i] < temp_cur[min]) min = i;
+ }
+ // Compare which is most extreme
+ int print;
+ if (temp_cur[max] - BODYTEMP_NORM > BODYTEMP_NORM + temp_cur[min]) print = max;
+ else print = min;
+ // Print a bodypart that is cold or hot
+ if      (temp_cur[print] >  BODYTEMP_SCORCHING)
+  mvwprintz(w, 1, 9, c_red,   "Scorching!");
+ else if (temp_cur[print] >  BODYTEMP_VERY_HOT)
+  mvwprintz(w, 1, 9, c_ltred, "Very hot!");
+ else if (temp_cur[print] >  BODYTEMP_HOT)
+  mvwprintz(w, 1, 9, c_yellow,"Hot");
+ else if (temp_cur[print] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
   mvwprintz(w, 1, 9, c_green, "Comfortable");
- else if (temp_cur[bp_torso] > BODYTEMP_VERY_COLD)
-  mvwprintz(w, 1, 9, c_ltblue, "Cold");
- else if (temp_cur[bp_torso] > BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_cyan,  "Very Cold");
- else if (temp_cur[bp_torso] <= BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_blue,  "Freezing");
+ else if (temp_cur[print] >  BODYTEMP_VERY_COLD)
+  mvwprintz(w, 1, 9, c_ltblue,"Cold");
+ else if (temp_cur[print] >  BODYTEMP_FREEZING)
+  mvwprintz(w, 1, 9, c_cyan,  "Very cold!");
+ else if (temp_cur[print] <= BODYTEMP_FREEZING)
+  mvwprintz(w, 1, 9, c_blue,  "Freezing!");
 
       if (thirst > 520)
   mvwprintz(w, 2, 15, c_ltred,  "Parched");
@@ -2003,14 +2052,14 @@ if (temp_cur[bp_torso] > BODYTEMP_SCORCHING)
  }
 }
 
-bool player::has_trait(int flag)
+bool player::has_trait(int flag) const
 {
  if (flag == PF_NULL)
   return true;
  return my_traits[flag];
 }
 
-bool player::has_mutation(int flag)
+bool player::has_mutation(int flag) const
 {
  if (flag == PF_NULL)
   return true;
@@ -2023,7 +2072,7 @@ void player::toggle_trait(int flag)
  my_mutations[flag] = !my_mutations[flag];
 }
 
-bool player::has_bionic(bionic_id b)
+bool player::has_bionic(bionic_id b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
@@ -2032,7 +2081,7 @@ bool player::has_bionic(bionic_id b)
  return false;
 }
 
-bool player::has_active_bionic(bionic_id b)
+bool player::has_active_bionic(bionic_id b) const
 {
  for (int i = 0; i < my_bionics.size(); i++) {
   if (my_bionics[i].id == b)
@@ -2146,7 +2195,7 @@ bool player::sight_impaired()
                         && !is_wearing("glasses_monocle"));
 }
 
-bool player::has_two_arms()
+bool player::has_two_arms() const
 {
  if (has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10)
   return false;
@@ -2634,8 +2683,7 @@ void player::knock_back_from(game *g, int x, int y)
  if (y > posy)
   to.y--;
 
- int t = 0;
- bool u_see = (!is_npc() || g->u_see(to.x, to.y, t));
+ bool u_see = (!is_npc() || g->u_see(to.x, to.y));
 
  std::string You = (is_npc() ? name : "You");
  std::string s = (is_npc() ? "s" : "");
@@ -2773,7 +2821,7 @@ void player::rem_disease(dis_type type)
  }
 }
 
-bool player::has_disease(dis_type type)
+bool player::has_disease(dis_type type) const
 {
  for (int i = 0; i < illness.size(); i++) {
   if (illness[i].type == type)
@@ -2829,7 +2877,7 @@ void player::add_addiction(add_type type, int strength)
  }
 }
 
-bool player::has_addiction(add_type type)
+bool player::has_addiction(add_type type) const
 {
  for (int i = 0; i < addictions.size(); i++) {
   if (addictions[i].type == type &&
@@ -3281,8 +3329,17 @@ int player::volume_capacity()
  return ret;
 }
 
+bool player::can_pickVolume(int volume)
+{
+    return (volume_carried() + volume <= volume_capacity());
+}
+bool player::can_pickWeight(int weight)
+{
+    return (weight_carried() + weight <= weight_capacity());
+}
 int player::morale_level()
 {
+ std::stringstream morale_text;
  int ret = 0;
  for (int i = 0; i < morale.size(); i++)
   ret += morale[i].bonus;
@@ -3297,7 +3354,7 @@ int player::morale_level()
    pen = int(pen / 7);
   else if (has_disease(DI_TOOK_PROZAC))
    pen = int(pen / 2);
-  ret -= pen;
+  add_morale(MORALE_PERM_HOARDER, -pen, -pen);
  }
 
  if (has_trait(PF_MASOCHIST)) {
@@ -3306,16 +3363,12 @@ int player::morale_level()
    bonus = 25;
   if (has_disease(DI_TOOK_PROZAC))
    bonus = int(bonus / 3);
-  ret += bonus;
+  if (bonus != 0)
+   add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
  }
-
+ // Optimist gives a straight +20 to morale.
  if (has_trait(PF_OPTIMISTIC)) {
-  if (ret < 0) {	// Up to -30 is canceled out
-   ret += 30;
-   if (ret > 0)
-    ret = 0;
-  } else		// Otherwise, we're just extra-happy
-   ret += 20;
+  add_morale(MORALE_PERM_OPTIMIST, 20, 20);
  }
 
  if (has_disease(DI_TOOK_PROZAC) && ret < 0)
@@ -3459,11 +3512,9 @@ void player::process_active_items(game *g)
   if (weapon.has_flag(IF_CHARGE)) { // We're chargin it up!
    if (weapon.charges == 8) {
     bool maintain = false;
-    if (has_charges("UPS_on", 4)) {
-     use_charges("UPS_on", 4);
+    if (use_charges_if_avail("UPS_on", 4)) {
      maintain = true;
-    } else if (has_charges("UPS_off", 4)) {
-     use_charges("UPS_off", 4);
+    } else if (use_charges_if_avail("UPS_off", 4)) {
      maintain = true;
     }
     if (maintain) {
@@ -3476,11 +3527,9 @@ void player::process_active_items(game *g)
       g->add_msg("Your %s beeps alarmingly.", weapon.tname().c_str());
     }
    } else {
-    if (has_charges("UPS_on", 1 + weapon.charges)) {
-     use_charges("UPS_on", 1 + weapon.charges);
+    if (use_charges_if_avail("UPS_on", 1 + weapon.charges)) {
      weapon.poison++;
-    } else if (has_charges("UPS_off", 1 + weapon.charges)) {
-     use_charges("UPS_off", 1 + weapon.charges);
+    } else if (use_charges_if_avail("UPS_off", 1 + weapon.charges)) {
      weapon.poison++;
     } else {
      g->add_msg("Your %s spins down.", weapon.tname().c_str());
@@ -3517,7 +3566,7 @@ void player::process_active_items(game *g)
 			}
 		}
 		return;
-	}	
+	}
   if (!weapon.is_tool()) {
    debugmsg("%s is active, but it is not a tool.", weapon.tname().c_str());
    return;
@@ -3539,7 +3588,8 @@ void player::process_active_items(game *g)
    item *tmp_it = &(inv.stack_at(i)[j]);
    if (tmp_it->is_artifact() && tmp_it->is_tool())
       g->process_artifact(tmp_it, this);
-      if (tmp_it->active) {
+      if (tmp_it->active ||
+      (tmp_it->is_container() && tmp_it->contents.size() > 0 && tmp_it->contents[0].active)) {
         if (tmp_it->is_food()) {
           if (tmp_it->has_flag(IF_HOT)) {
             tmp_it->item_counter--;
@@ -3550,6 +3600,7 @@ void player::process_active_items(game *g)
           }
         } else if (tmp_it->is_food_container()) {
           if (tmp_it->contents[0].has_flag(IF_HOT)) {
+
             tmp_it->contents[0].item_counter--;
             if (tmp_it->contents[0].item_counter == 0) {
               tmp_it->contents[0].item_flags ^= mfb(IF_HOT);
@@ -3580,7 +3631,7 @@ void player::process_active_items(game *g)
       }
     }
   }
-// worn items	
+// worn items
   for (int i = 0; i < worn.size(); i++) {
     if (worn[i].is_artifact())
     g->process_artifact(&(worn[i]), this);
@@ -3758,6 +3809,85 @@ void player::use_amount(itype_id it, int quantity, bool use_container)
  inv.use_amount(it, quantity, use_container);
 }
 
+bool player::use_charges_if_avail(itype_id it, int quantity)
+{
+    if (has_charges(it, quantity))
+    {
+        use_charges(it, quantity);
+        return true;
+    }
+    return false;
+}
+
+bool player::has_fire(const int quantity)
+{
+// TODO: Replace this with a "tool produces fire" flag.
+
+    if (has_charges("torch_lit", 1)) {
+        return true;
+    } else if (has_charges("candle_lit", 1)) {
+        return true;
+    } else if (has_bionic("bio_tools")) {
+        return true;
+    } else if (has_bionic("bio_lighter")) {
+        return true;
+    } else if (has_bionic("bio_laser")) {
+        return true;
+    } else if (has_charges("matches", quantity)) {
+        return true;
+    } else if (has_charges("lighter", quantity)) {
+        return true;
+    } else if (has_charges("flamethrower", quantity)) {
+        return true;
+    } else if (has_charges("flamethrower_simple", quantity)) {
+        return true;
+    } else if (has_charges("hotplate", quantity)) {
+        return true;
+    } else if (has_charges("welder", quantity)) {
+        return true;
+    }
+    return false;
+}
+
+void player::use_fire(const int quantity)
+{
+//Ok, so checks for nearby fires first,
+//then held lit torch or candle, bio tool/lighter/laser
+//tries to use 1 charge of lighters, matches, flame throwers
+// (home made, military), hotplate, welder in that order.
+// bio_lighter, bio_laser, bio_tools, has_bionic("bio_tools"
+
+    if (has_charges("torch_lit", 1)) {
+        return;
+    } else if (has_charges("candle_lit", 1)) {
+        return;
+    } else if (has_bionic("bio_tools")) {
+        return;
+    } else if (has_bionic("bio_lighter")) {
+        return;
+    } else if (has_bionic("bio_laser")) {
+        return;
+    } else if (has_charges("matches", quantity)) {
+        use_charges("matches", quantity);
+        return;
+    } else if (has_charges("lighter", quantity)) {
+        use_charges("lighter", quantity);
+        return;
+    } else if (has_charges("flamethrower", quantity)) {
+        use_charges("flamethrower", quantity);
+        return;
+    } else if (has_charges("flamethrower_simple", quantity)) {
+        use_charges("flamethrower_simple", quantity);
+        return;
+    } else if (has_charges("hotplate", quantity)) {
+        use_charges("welder", quantity);
+        return;
+    } else if (has_charges("welder", quantity)) {
+        use_charges("welder", quantity);
+        return;
+    }
+}
+
 void player::use_charges(itype_id it, int quantity)
 {
  if (it == "toolset") {
@@ -3766,6 +3896,11 @@ void player::use_charges(itype_id it, int quantity)
    power_level = 0;
   return;
  }
+ if (it == "fire")
+ {
+     return use_fire(quantity);
+ }
+
 // Start by checking weapon contents
  for (int i = 0; i < weapon.contents.size(); i++) {
   if (weapon.contents[i].type->id == it) {
@@ -3901,34 +4036,50 @@ bool player::has_artifact_with(art_effect_passive effect)
 
 bool player::has_amount(itype_id it, int quantity)
 {
- if (it == "toolset")
-  return has_bionic("bio_tools");
- return (amount_of(it) >= quantity);
+    if (it == "toolset")
+    {
+        return has_bionic("bio_tools");
+    }
+    return (amount_of(it) >= quantity);
 }
 
 int player::amount_of(itype_id it)
 {
- if (it == "toolset" && has_bionic("bio_tools"))
-  return 1;
- if (it == "apparatus") {
- if (has_amount("crackpipe", 1) && has_amount("lighter", 1) ||
-    (has_amount("can_drink", 1) && has_amount("lighter", 1)))
-  return 1;
-}
- int quantity = 0;
- if (weapon.type->id == it)
-  quantity++;
- for (int i = 0; i < weapon.contents.size(); i++) {
-  if (weapon.contents[i].type->id == it)
-   quantity++;
- }
- quantity += inv.amount_of(it);
- return quantity;
+    if (it == "toolset" && has_bionic("bio_tools"))
+    {
+        return 1;
+    }
+    if (it == "apparatus")
+    {
+        if (has_amount("crackpipe", 1) || has_amount("can_drink", 1) )
+        {
+            return 1;
+        }
+    }
+    int quantity = 0;
+    if (weapon.type->id == it)
+    {
+        quantity++;
+    }
+
+    for (int i = 0; i < weapon.contents.size(); i++)
+    {
+        if (weapon.contents[i].type->id == it)
+        {
+            quantity++;
+        }
+    }
+    quantity += inv.amount_of(it);
+    return quantity;
 }
 
 bool player::has_charges(itype_id it, int quantity)
 {
- return (charges_of(it) >= quantity);
+    if (it == "fire" || it == "apparatus")
+    {
+        return has_fire(quantity);
+    }
+    return (charges_of(it) >= quantity);
 }
 
 int player::charges_of(itype_id it)
@@ -4020,7 +4171,7 @@ bool player::has_matching_liquid(itype_id it)
  return false;
 }
 
-bool player::has_weapon_or_armor(char let)
+bool player::has_weapon_or_armor(char let) const
 {
  if (weapon.invlet == let)
   return true;
@@ -4097,7 +4248,6 @@ bool player::eat(game *g, int index)
  it_comest *comest = NULL;
  item *eaten = NULL;
  int which = -3; // Helps us know how to delete the item which got eaten
- int linet;
  if (index == -2) {
   g->add_msg("You do not have that item.");
   return false;
@@ -4241,7 +4391,7 @@ bool player::eat(game *g, int index)
     g->add_msg("You drink your %s.", eaten->tname(g).c_str());
    else if (comest->nutr >= 5)
     g->add_msg("You eat your %s.", eaten->tname(g).c_str());
-  } else if (g->u_see(posx, posy, linet))
+  } else if (g->u_see(posx, posy))
    g->add_msg("%s eats a %s.", name.c_str(), eaten->tname(g).c_str());
 
   if (g->itypes[comest->tool]->is_tool())
@@ -4587,19 +4737,24 @@ bool player::wear_item(game *g, item *to_wear)
  }
 
  // are we trying to put on power armor? If so, make sure we don't have any other gear on.
- if (armor->is_power_armor() && worn.size()) {
-   if (armor->covers & mfb(bp_torso)) {
+ if (armor->is_power_armor()) {
+   if (worn.size() && armor->covers & mfb(bp_torso)) {
      g->add_msg("You can't wear power armor over other gear!");
      return false;
-   } else if (armor->covers & mfb(bp_head) && !((it_armor *)worn[0].type)->is_power_armor()) {
-     g->add_msg("You can only wear power armor helmets with power armor!");
+   } else if (!(armor->covers & mfb(bp_torso)) && (!worn.size() || !((it_armor *)worn[0].type)->is_power_armor())) {
+     g->add_msg("You can only wear power armor components with power armor!");
      return false;
    }
- }
 
- // are we trying to wear something over power armor? We can't have that, unless it's a backpack, or similar.
- if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
-   if (!(armor->covers & mfb(bp_torso) && armor->color == c_green)) {
+   for (int i = 0; i < worn.size(); i++) {
+     if (((it_armor *)worn[i].type)->is_power_armor() && worn[i].type == armor) {
+       g->add_msg("You cannot wear more than one %s!", to_wear->tname().c_str());
+       return false;
+     }
+   }
+ } else {
+   // Only helmets can be worn with power armor, except other power armor components
+   if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
      g->add_msg("You can't wear %s with power armor!", to_wear->tname().c_str());
      return false;
    }
@@ -4748,31 +4903,26 @@ hint_rating player::rate_action_reload(item *it) {
   }
   if (it->charges == it->clip_size()) {
    int alternate_magazine = -1;
-   for (int i = 0; i < it->contents.size(); i++) {
-     if (it->contents[i].is_gunmod() &&
-         (it->contents[i].typeId() == "spare_mag" &&
-          it->contents[i].charges < (dynamic_cast<it_gun*>(it->type))->clip) ||
-         (it->contents[i].has_flag(IF_MODE_AUX) &&
-          it->contents[i].charges < it->contents[i].clip_size()))
-      alternate_magazine = i;
+   for (int i = 0; i < it->contents.size(); i++)
+   {
+       if ((it->contents[i].is_gunmod() &&
+            (it->contents[i].typeId() == "spare_mag" &&
+             it->contents[i].charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
+           (it->contents[i].has_flag(IF_MODE_AUX) &&
+            it->contents[i].charges < it->contents[i].clip_size()))
+       {
+           alternate_magazine = i;
+       }
    }
    if(alternate_magazine == -1) {
     return HINT_IFFY;
    }
-  }
-  int index = it->pick_reload_ammo(*this, true);
-  if (index == -1) {
-   return HINT_IFFY;
   }
   return HINT_GOOD;
  } else if (it->is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(it->type);
   if (tool->ammo == AT_NULL) {
    return HINT_CANT;
-  }
-  int index = it->pick_reload_ammo(*this, true);
-  if (index == -1) {
-   return HINT_IFFY;
   }
   return HINT_GOOD;
  }
@@ -4792,10 +4942,11 @@ hint_rating player::rate_action_unload(item *it) {
   has_m203 = it->has_gunmod ("m203");
   has_shotgun = it->has_gunmod ("u_shotgun");
  }
- if (it->is_container() || it->charges == 0 &&
-     (spare_mag == -1 || it->contents[spare_mag].charges <= 0) &&
-     (has_m203 == -1 || it->contents[has_m203].charges <= 0) &&
-     (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0)) {
+ if (it->is_container() ||
+     (it->charges == 0 &&
+      (spare_mag == -1 || it->contents[spare_mag].charges <= 0) &&
+      (has_m203 == -1 || it->contents[has_m203].charges <= 0) &&
+      (has_shotgun == -1 || it->contents[has_shotgun].charges <= 0))) {
   if (it->contents.size() == 0) {
    return HINT_IFFY;
   }
@@ -4804,55 +4955,71 @@ hint_rating player::rate_action_unload(item *it) {
  return HINT_GOOD;
 }
 
+//TODO refactor stuff so we don't need to have this code mirroring game::disassemble
 hint_rating player::rate_action_disassemble(item *it, game *g) {
- for (int i = 0; i < g->recipes.size(); i++) {
-  if (it->type == g->itypes[g->recipes[i]->result] && g->recipes[i]->reversible)
-  // ok, a valid recipe exists for the item, and it is reversible
-  {
-   // check tools are available
-   // loop over the tools and see what's required...again
-   inventory crafting_inv = g->crafting_inventory();
-   bool have_tool[5];
-   for (int j = 0; j < 5; j++)
-   {
-    have_tool[j] = false;
-    if (g->recipes[i]->tools[j].size() == 0) // no tools required, may change this
-     have_tool[j] = true;
-    else
+ for (recipe_map::iterator cat_iter = g->recipes.begin(); cat_iter != g->recipes.end(); ++cat_iter)
     {
-     for (int k = 0; k < g->recipes[i]->tools[j].size(); k++)
-     {
-      itype_id type = g->recipes[i]->tools[j][k].type;
-      int req = g->recipes[i]->tools[j][k].count;	// -1 => 1
+        for (recipe_list::iterator list_iter = cat_iter->second.begin();
+             list_iter != cat_iter->second.end();
+             ++list_iter)
+        {
+            recipe* cur_recipe = *list_iter;
+            if (it->type == g->itypes[cur_recipe->result] && cur_recipe->reversible)
+            // ok, a valid recipe exists for the item, and it is reversible
+            // assign the activity
+            {
+                // check tools are available
+                // loop over the tools and see what's required...again
+                inventory crafting_inv = g->crafting_inventory();
+                bool have_tool[5];
+                for (int j = 0; j < 5; j++)
+                {
+                    have_tool[j] = false;
+                    if (cur_recipe->tools[j].size() == 0) // no tools required, may change this
+                    {
+                        have_tool[j] = true;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < cur_recipe->tools[j].size(); k++)
+                        {
+                            itype_id type = cur_recipe->tools[j][k].type;
+                            int req = cur_recipe->tools[j][k].count;	// -1 => 1
 
-      if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
-        (req >  0 && crafting_inv.has_charges(type, req)))
-      {
-       have_tool[j] = true;
-       k = g->recipes[i]->tools[j].size();
-      }
-      // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
-      if (type == "welder")
-      {
-       if (crafting_inv.has_amount("hacksaw", 1) ||
-           crafting_inv.has_amount("toolset", 1))
-        have_tool[j] = true;
-       else
-        have_tool[j] = false;
-      }
-     }
+                            if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
+                                (req >  0 && crafting_inv.has_charges(type, req)))
+                            {
+                                have_tool[j] = true;
+                                k = cur_recipe->tools[j].size();
+                            }
+                            // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
+                            if (type == "welder")
+                            {
+                                if (crafting_inv.has_amount("hacksaw", 1) ||
+                                    crafting_inv.has_amount("toolset", 1))
+                                {
+                                    have_tool[j] = true;
+                                }
+                                else
+                                {
+                                    have_tool[j] = false;
+                                }
+                            }
+                        }
 
-     if (!have_tool[j])
-     {
-      return HINT_IFFY;
-     }
+                        if (!have_tool[j])
+                        {
+                           return HINT_IFFY;
+                        }
+                    }
+                }
+                // all tools present
+                return HINT_GOOD;
+            }
+        }
     }
-   }
-   return HINT_GOOD;
-  }
- }
-
- return HINT_CANT;
+    // no recipe exists, or the item cannot be disassembled
+    return HINT_CANT;
 }
 
 hint_rating player::rate_action_use(item *it)
@@ -5089,6 +5256,8 @@ hint_rating player::rate_action_read(item *it, game *g)
   return HINT_IFFY; //won't read non-fun books when sad
  } else if (book->intel > 0 && has_trait(PF_ILLITERATE)) {
   return HINT_IFFY;
+ } else if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) {
+  return HINT_IFFY;
  }
 
  return HINT_GOOD;
@@ -5104,6 +5273,11 @@ void player::read(game *g, char ch)
 // Check if reading is okay
  if (g->light_level() < 8 && LL_LIT > g->m.light_at(posx, posy)) {
   g->add_msg("It's too dark to read!");
+  return;
+ }
+
+ if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) {
+  g->add_msg("Your eyes won't focus without reading glasses.");
   return;
  }
 
@@ -5161,14 +5335,14 @@ int time; //Declare this here so that we can change the time depending on whats 
   g->add_msg("The %s-related jargon flies over your head!",
              tmp->type->name().c_str());
   return;
+ } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) {	// See morale.h
+  g->add_msg("What's the point of reading?  (Your morale is too low!)");
+  return;
  } else if (tmp->intel > int_cur) {
   g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
   time = tmp->time * (read_speed() + ((tmp->intel - int_cur) * 100)); // Lower int characters can read, at a speed penalty
   activity = player_activity(ACT_READ, time, index);
   moves = 0;
-  return;
- } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) {	// See morale.h
-  g->add_msg("What's the point of reading?  (Your morale is too low!)");
   return;
  } else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
             !query_yn("Your %s skill won't be improved.  Read anyway?",
@@ -5187,8 +5361,8 @@ void player::try_to_sleep(game *g)
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
  if (g->m.ter(posx, posy) == t_bed || g->m.ter(posx, posy) == t_makeshift_bed ||
      g->m.tr_at(posx, posy) == tr_cot || g->m.tr_at(posx, posy) == tr_rollmat ||
-     veh && veh->part_with_feature (vpart, vpf_seat) >= 0 ||
-     veh && veh->part_with_feature (vpart, vpf_bed) >= 0)
+     (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
+      (veh && veh->part_with_feature (vpart, vpf_bed) >= 0))
   g->add_msg("This is a comfortable place to sleep.");
  else if (g->m.ter(posx, posy) != t_floor)
   g->add_msg("It's %shard to get to sleep on this %s.",
@@ -5207,7 +5381,7 @@ bool player::can_sleep(game *g)
 
  int vpart = -1;
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
- if (veh && veh->part_with_feature (vpart, vpf_seat) >= 0 ||
+ if ((veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
      g->m.ter(posx, posy) == t_makeshift_bed || g->m.tr_at(posx, posy) == tr_cot)
   sleepy += 4;
  else if (g->m.tr_at(posx, posy) == tr_rollmat)
@@ -5246,57 +5420,85 @@ int player::encumb(body_part bp) {
 
 int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
 {
- int ret = 0;
- it_armor* armor;
- for (int i = 0; i < worn.size(); i++) {
-  if (!worn[i].is_armor())
-   debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
+    int ret = 0;
+    it_armor* armor;
+    for (int i = 0; i < worn.size(); i++)
+    {
+        if (!worn[i].is_armor())
+            debugmsg("%s::encumb hit a non-armor item at worn[%d] (%s)", name.c_str(),
             i, worn[i].tname().c_str());
-  armor = dynamic_cast<it_armor*>(worn[i].type);
+        armor = dynamic_cast<it_armor*>(worn[i].type);
 
-  if (armor->covers & mfb(bp)) {
-    if (armor->is_power_armor() && has_active_item("UPS_on")) {
-      armorenc += armor->encumber - 4;
-      warmth   += armor->warmth - 20;
-    } else {
-   armorenc += armor->encumber;
-   warmth += armor->warmth;
+        if (armor->covers & mfb(bp))
+        {
+            if (armor->is_power_armor() && has_active_item("UPS_on"))
+            {
+                armorenc += armor->encumber - 4;
+                warmth   += armor->warmth - 20;
+            }
+            else
+            {
+                armorenc += armor->encumber;
+                warmth += armor->warmth;
+                if (worn[i].has_flag(IF_FIT))
+                {
+                    armorenc--;
+                }
+            }
+            if (armor->encumber >= 0 || bp != bp_torso)
+            {
+                layers++;
+            }
+        }
     }
-   if (armor->encumber >= 0 || bp != bp_torso)
-    layers++;
-  }
- }
 
- ret += armorenc;
+    ret += armorenc;
 
- // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
- switch (bp){
-  case bp_feet  : if (!(is_wearing("socks") || is_wearing("socks_wool"))) break; else layers--;
-  case bp_legs  : if (!is_wearing("long_underpants")) break; else layers--;
-  case bp_hands : if (!is_wearing("gloves_liner")) break; else layers--;
-  case bp_torso : if (!is_wearing("under_armor")) break; else layers--;
- }
- if (layers > 1)
-  ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso
- if (volume_carried() > volume_capacity() - 2 && bp != bp_head)
-  ret += 3;
+    // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
+    switch (bp)
+    {
+        case bp_feet  : if (!(is_wearing("socks") || is_wearing("socks_wool"))) break; else layers--;
+        case bp_legs  : if (!is_wearing("long_underpants")) break; else layers--;
+        case bp_hands : if (!is_wearing("gloves_liner")) break; else layers--;
+        case bp_torso : if (!is_wearing("under_armor")) break; else layers--;
+    }
+    if (layers > 1)
+    {
+        ret += (layers - 1) * (bp == bp_torso ? .5 : 2);// Easier to layer on torso
+    }
+    if (volume_carried() > volume_capacity() - 2 && bp != bp_head)
+    {
+        ret += 3;
+    }
 
-// Bionics and mutation
- if ((bp == bp_head  && has_bionic("bio_armor_head"))  ||
+    // Fix for negative hand encumbrance
+    if ((bp == bp_hands) && (ret < 0))
+     ret =0;
+
+    // Bionics and mutation
+    if ((bp == bp_head  && has_bionic("bio_armor_head"))  ||
      (bp == bp_torso && has_bionic("bio_armor_torso")) ||
      (bp == bp_legs  && has_bionic("bio_armor_legs")))
-  ret += 2;
- if (has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth)
-  ret += 1;
- if (has_trait(PF_CHITIN3) && bp != bp_eyes && bp != bp_mouth)
-  ret += 1;
- if (has_trait(PF_SLIT_NOSTRILS) && bp == bp_mouth)
-  ret += 1;
- if (bp == bp_hands &&
+        ret += 2;
+    if (has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth)
+    {
+        ret += 1;
+    }
+    if (has_trait(PF_CHITIN3) && bp != bp_eyes && bp != bp_mouth)
+    {
+        ret += 1;
+    }
+    if (has_trait(PF_SLIT_NOSTRILS) && bp == bp_mouth)
+    {
+        ret += 1;
+    }
+    if (bp == bp_hands &&
      (has_trait(PF_ARM_TENTACLES) || has_trait(PF_ARM_TENTACLES_4) ||
-      has_trait(PF_ARM_TENTACLES_8)))
-  ret += 3;
- return ret;
+     has_trait(PF_ARM_TENTACLES_8)))
+    {
+        ret += 3;
+    }
+    return ret;
 }
 
 int player::armor_bash(body_part bp)
@@ -5415,18 +5617,29 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         worn[i].made_of(COTTON) || worn[i].made_of(GLASS)   ||
         worn[i].made_of(WOOD)   || worn[i].made_of(KEVLAR)) &&
        rng(0, tmp->cut_resist * 2) < cut && !one_in(cut))
+   {
+    if (!is_npc())
+    {
+     g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
+    }
     worn[i].damage++;
+   }
 // Kevlar, plastic, iron, steel, and silver may be damaged by BASHING damage
    if ((worn[i].made_of(PLASTIC) || worn[i].made_of(IRON)   ||
         worn[i].made_of(STEEL)   || worn[i].made_of(SILVER) ||
         worn[i].made_of(STONE))  &&
        rng(0, tmp->dmg_resist * 2) < dam && !one_in(dam))
+   {
+    if (!is_npc())
+    {
+     g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
+    }
     worn[i].damage++;
+   }
    if (worn[i].damage >= 5) {
-    int linet;
     if (!is_npc())
      g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
-    else if (g->u_see(posx, posy, linet))
+    else if (g->u_see(posx, posy))
      g->add_msg("%s's %s is destroyed!", name.c_str(),
                 worn[i].tname(g).c_str());
     worn.erase(worn.begin() + i);
@@ -5516,45 +5729,83 @@ bool player::wearing_something_on(body_part bp)
  return false;
 }
 
-void player::practice (Skill *s, int amount) {
-  SkillLevel& level = skillLevel(s);
-  if (level.exercise() < 0) {
-    if (amount >= -level.exercise()) {
-      amount -= level.exercise();
-    } else {
-      amount += amount;
+void player::practice (const calendar& turn, Skill *s, int amount)
+{
+    SkillLevel& level = skillLevel(s);
+    // Double amount, but only if level.exercise isn't a amall negative number?
+    if (level.exercise() < 0)
+    {
+        if (amount >= -level.exercise())
+        {
+            amount -= level.exercise();
+        } else {
+            amount += amount;
+        }
     }
-  }
 
-  bool isSavant = has_trait(PF_SAVANT);
+    bool isSavant = has_trait(PF_SAVANT);
 
-  Skill *savantSkill = NULL;
-  SkillLevel savantSkillLevel = SkillLevel();
+    Skill *savantSkill = NULL;
+    SkillLevel savantSkillLevel = SkillLevel();
 
-  if (isSavant) {
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
-      if (skillLevel(*aSkill) > savantSkillLevel) {
-        savantSkill = *aSkill;
-        savantSkillLevel = skillLevel(*aSkill);
-      }
+    if (isSavant)
+    {
+        for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+             aSkill != Skill::skills.end(); ++aSkill)
+        {
+            if (skillLevel(*aSkill) > savantSkillLevel)
+            {
+                savantSkill = *aSkill;
+                savantSkillLevel = skillLevel(*aSkill);
+            }
+        }
     }
-  }
 
-  int newLevel;
+    int newLevel;
 
-  while (level.isTraining() && amount > 0 && xp_pool >= (1 + level)) {
-    amount -= level + 1;
-    if ((!isSavant || s == savantSkill || one_in(2)) && rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER))) {
-      xp_pool -= (1 + level);
-
-      skillLevel(s).train(newLevel);
+    while (level.isTraining() && amount > 0 && xp_pool >= (1 + level))
+    {
+        amount -= level + 1;
+        if ((!isSavant || s == savantSkill || one_in(2)) &&
+            rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER)))
+        {
+            xp_pool -= (1 + level);
+            skillLevel(s).train(newLevel);
+        }
     }
-  }
+    skillLevel(s).practice(turn);
 }
 
-void player::practice (std::string s, int amount) {
-  Skill *aSkill = Skill::skill(s);
-  practice(aSkill, amount);
+void player::practice (const calendar& turn, std::string s, int amount)
+{
+    Skill *aSkill = Skill::skill(s);
+    practice(turn, aSkill, amount);
+}
+
+bool player::knows_recipe(recipe *rec)
+{
+    // do we know the recipe by virtue of it being autolearned?
+    if (rec->autolearn)
+    {
+        if( (rec->sk_primary == NULL ||
+             skillLevel(rec->sk_primary) >= rec->difficulty) &&
+            (rec->sk_secondary == NULL || skillLevel(rec->sk_secondary) > 0) )
+        {
+            return true;
+        }
+    }
+
+    if (learned_recipes.find(rec->ident) != learned_recipes.end())
+    {
+        return true;
+    }
+
+    return false;
+}
+
+void player::learn_recipe(recipe *rec)
+{
+    learned_recipes[rec->ident] = rec;
 }
 
 void player::assign_activity(game* g, activity_type type, int moves, int index)

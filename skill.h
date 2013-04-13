@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <stdint.h>
-
+#include "calendar.h"
 
 enum skill {
  sk_null = 0,
@@ -60,10 +60,12 @@ class SkillLevel {
   int _level;
   int _exercise;
   bool _isTraining;
+  calendar _lastPracticed;
 
  public:
-  SkillLevel(int level = 0, int exercise = 0, bool isTraining = true);
-  SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining = true);
+  SkillLevel(int level = 0, int exercise = 0, bool isTraining = true, int lastPracticed = 0);
+  SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise,
+             bool isTraining = true, int lastPracticed = 0);
 
   bool isTraining() const { return _isTraining; }
   bool toggleTraining() { _isTraining = !_isTraining; return _isTraining; }
@@ -73,12 +75,15 @@ class SkillLevel {
 
   int exercise() const { return _exercise; }
 
+  int lastPracticed() const { return _lastPracticed; }
+
   int comprehension(int intellect, bool fastLearner = false);
 
   int train(int &level);
-  int rust(int &level);
+  bool rust(const calendar& turn, bool forgetful, bool charged_bio_mem);
+  void practice(const calendar& turn);
 
-  int readBook(int minimumGain, int maximumGain, int maximumLevel = 0xFFFFFFFF);
+  int readBook(int minimumGain, int maximumGain, const calendar& turn, int maximumLevel = 0xFFFFFFFF);
 
   bool operator==(const SkillLevel& b) const { return this->_level == b._level && this->_exercise == b._exercise; }
   bool operator< (const SkillLevel& b) const { return this->_level <  b._level || (this->_level == b._level && this->_exercise < b._exercise); }
@@ -95,6 +100,8 @@ class SkillLevel {
   bool operator!=(const int& b) const { return !(*this == b); }
   bool operator<=(const int& b) const { return !(*this >  b); }
   bool operator>=(const int& b) const { return !(*this <  b); }
+
+   SkillLevel& operator= (const SkillLevel &rhs);
 
   // Make skillLevel act like a raw level by default.
   operator int() const { return _level; }

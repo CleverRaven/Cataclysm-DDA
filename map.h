@@ -54,7 +54,6 @@ class map
  void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
              const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
- long determine_wall_corner(int x, int y, long);
 
 // File I/O
  virtual void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
@@ -67,12 +66,12 @@ class map
 // Movement and LOS
  int move_cost(const int x, const int y); // Cost to move through; 0 = impassible
  int move_cost_ter_only(const int x, const int y); // same as above, but don't take vehicles into account
- bool trans(const int x, const int y, char * trans_buf = NULL); // Transparent?
+ bool trans(const int x, const int y); // Transparent?
  // (Fx, Fy) sees (Tx, Ty), within a range of (range)?
  // tc indicates the Bresenham line used to connect the two points, and may
  //  subsequently be used to form a path between them
  bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
-           const int range, int &tc, char * trans_buf = NULL);
+           const int range, int &tc);
 // clear_path is the same idea, but uses cost_min <= move_cost <= cost_max
  bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                  const int range, const int cost_min, const int cost_max, int &tc);
@@ -107,12 +106,13 @@ class map
  bool displace_water (const int x, const int y);
 
 // Terrain
- ter_id& ter(const int x, const int y); // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- bool is_indoor(const int x, const int y); // Check if current ter is indoors
- std::string tername(const int x, const int y); // Name of terrain at (x, y)
+ ter_id ter(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ void ter_set(const int x, const int y, const ter_id new_terrain);
+ bool is_indoor(const int x, const int y) const; // Check if current ter is indoors
+ std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(const t_flag flag, const int x, const int y);  // checks terrain and vehicles
- bool has_flag_ter_only(const t_flag flag, const int x, const int y); // only checks terrain
+ bool has_flag_ter_only(const t_flag flag, const int x, const int y) const; // only checks terrain
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_only(const int x, const int y);       // only checks terrain
  bool is_outside(const int x, const int y);
@@ -193,7 +193,7 @@ class map
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
  vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir);
  computer* add_computer(const int x, const int y, std::string name, const int security);
- const float light_transparency(const int x, const int y) const;
+ float light_transparency(const int x, const int y) const;
  void build_map_cache(game *g);
  lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
  float ambient_light_at(int dx, int dy); // Raw values for tilesets
@@ -217,8 +217,8 @@ protected:
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
  void build_transparency_cache();
- void build_outside_cache();
- void generate_lightmap(game* g);
+ void build_outside_cache(const game *g);
+ void generate_lightmap(game *g);
  void build_seen_cache(game *g);
 
  bool inbounds(const int x, const int y);
@@ -238,6 +238,7 @@ protected:
  bool veh_in_active_range;
 
 private:
+ long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
  void apply_light_source(int x, int y, float luminance);
  void apply_light_arc(int x, int y, int angle, float luminance);

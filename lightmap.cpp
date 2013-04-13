@@ -58,8 +58,12 @@ void map::generate_lightmap(game* g)
     }
 
     if (items.size() == 1 &&
-        items[0].type->id == "flashlight_on")
+        items[0].has_flag(IF_LIGHT_20))
      apply_light_source(sx, sy, 20);
+
+   if (items.size() == 1 &&
+       items[0].has_flag(IF_LIGHT_1))
+    apply_light_source(sx, sy, 1);
 
    if(terrain == t_lava)
     apply_light_source(sx, sy, 50);
@@ -68,7 +72,7 @@ void map::generate_lightmap(game* g)
     apply_light_source(sx, sy, 3);
 
    if (items.size() == 1 &&
-       items[0].type->id == "candle_lit")
+       items[0].has_flag(IF_LIGHT_4))
     apply_light_source(sx, sy, 4);
 
    if(terrain == t_emergency_light)

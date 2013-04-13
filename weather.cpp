@@ -8,14 +8,14 @@
 
 void weather_effect::glare(game *g)
 {
- if (g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses"))
+ if (PLAYER_OUTSIDE && g->is_in_sunlight(g->u.posx, g->u.posy) && !g->u.is_wearing("sunglasses"))
   g->u.infect(DI_GLARE, bp_eyes, 1, 2, g);
 }
 
 void weather_effect::wet(game *g)
 {
  if (!g->u.is_wearing("coat_rain") && !g->u.has_trait(PF_FEATHERS) &&
-     !g->u.warmth(bp_torso) >= 20 && PLAYER_OUTSIDE && one_in(2))
+     g->u.warmth(bp_torso) < 20 && PLAYER_OUTSIDE && one_in(2))
   g->u.add_morale(MORALE_WET, -1, -30);
 // Put out fires and reduce scent
  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
@@ -34,7 +34,7 @@ void weather_effect::wet(game *g)
 void weather_effect::very_wet(game *g)
 {
  if (!g->u.is_wearing("coat_rain") && !g->u.has_trait(PF_FEATHERS) &&
-     !g->u.warmth(bp_torso) >= 50 && PLAYER_OUTSIDE)
+     g->u.warmth(bp_torso) < 50 && PLAYER_OUTSIDE)
   g->u.add_morale(MORALE_WET, -1, -60);
 // Put out fires and reduce scent
  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
@@ -63,51 +63,27 @@ void weather_effect::thunder(game *g)
 
 void weather_effect::lightning(game *g)
 {
-/* thunder(g);
- if (one_in(LIGHTNING_CHANCE)) {
-  std::vector<point> strike;
-  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
-   for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
-    if (g->m.move_cost(x, y) == 0 && g->m.is_outside(x, y))
-     strike.push_back(point(x, y));
-   }
-  }
-  point hit;
-  if (strike.size() > 0) {
-   hit = strike[rng(0, strike.size() - 1)];
-   g->add_msg("Lightning strikes nearby!");
-   g->explosion(hit.x, hit.y, 10, 0, one_in(4));
-  }
- }
-*/
+thunder(g);
 }
+
 void weather_effect::light_acid(game *g)
 {
  wet(g);
- if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE)
-  g->add_msg("The acid rain stings, but is harmless for now...");
+ if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE) {
+  if (!g->u.is_wearing("coat_rain")) {
+   g->add_msg("The acid rain stings, but is harmless for now...");
+  } else if (one_in(3)) {
+   g->add_msg("Your raincoat protects you from the acid rain.");
+  }
+ }
 }
 
 void weather_effect::acid(game *g)
 {
  if (PLAYER_OUTSIDE) {
   g->add_msg("The acid rain burns!");
-  if (one_in(6))
-   g->u.hit(g, bp_head, 0, 0, 1);
-  if (one_in(10)) {
-   g->u.hit(g, bp_legs, 0, 0, 1);
-   g->u.hit(g, bp_legs, 1, 0, 1);
-  }
-  if (one_in(8)) {
-   g->u.hit(g, bp_feet, 0, 0, 1);
-   g->u.hit(g, bp_feet, 1, 0, 1);
-  }
-  if (one_in(6))
-   g->u.hit(g, bp_torso, 0, 0, 1);
-  if (one_in(8)) {
-   g->u.hit(g, bp_arms, 0, 0, 1);
-   g->u.hit(g, bp_arms, 1, 0, 1);
-  }
+  if (one_in(8)&&(g->u.pain < 100))
+   g->u.pain += 3 * rng(1, 3);
  }
  if (g->levz >= 0) {
   for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {

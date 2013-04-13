@@ -49,6 +49,7 @@ AT_22, AT_9MM, AT_762x25, AT_38, AT_40, AT_44, AT_45,
 AT_57, AT_46,
 AT_762, AT_223, AT_3006, AT_308,
 AT_40MM,
+AT_66MM,
 AT_GAS,
 AT_FUSION,
 AT_MUSCLE,
@@ -71,8 +72,9 @@ NUM_SOFTWARE_TYPES
 enum item_flag {
 IF_NULL,
 
+IF_LIGHT_1, // Provides 1 tile of light
 IF_LIGHT_4,	// Provides 4 tiles of light
-IF_LIGHT_8,	// Provides 8 tiles of light
+IF_LIGHT_20,	// Provides 20 tiles of light
 
 IF_FIRE,        // Chance to set fire to tiles/enemies
 IF_SPEAR,	// Cutting damage is actually a piercing attack
@@ -92,6 +94,8 @@ IF_SHOCK,   // Stuns and damages enemies, powers up shockers.
 
 IF_UNARMED_WEAPON, // Counts as an unarmed weapon
 IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws
+IF_NO_UNLOAD,  // Cannot be unloaded. For Fusion rifles and other ammo generating weapons.
+IF_BACKBLAST,  // Creates a backblast of smoke.
 
 // Weapon mode flags
 IF_MODE_AUX, // A gunmod with a firing mode
@@ -100,7 +104,11 @@ IF_MODE_BURST, // A burst of attacks
 // Food status flags
 IF_HOT,				// hot food
 IF_EATEN_HOT,	// food meant to be eaten hot
-IF_ROTTEN, 		// rotten foox
+IF_ROTTEN, 		// rotten food
+
+// Clothing flags
+IF_VARSIZE,     // comes in variable sizes (item type flag)
+IF_FIT,         // clothing fits player (item specific flag)
 
 NUM_ITEM_FLAGS
 };

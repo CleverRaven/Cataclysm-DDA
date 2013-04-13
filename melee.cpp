@@ -9,8 +9,8 @@
 
 void hit_message(game *g, std::string subject, std::string verb,
                  std::string target, int dam, bool crit);
-void melee_practice(player &u, bool hit, bool unarmed, bool bashing,
-                               bool cutting, bool stabbing);
+void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
+                    bool bashing, bool cutting, bool stabbing);
 int  attack_speed(player &u, bool missed);
 int  stumble(player &u);
 std::string melee_verb(technique_id tech, std::string your, player &p,
@@ -106,6 +106,11 @@ int player::hit_roll()
    numdice += int(disease_level(DI_DRUNK) / 400);
  }
 
+// Farsightedness makes us hit worse
+ if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) {
+  numdice -= 2;
+ }
+
  if (numdice < 1) {
   numdice = 1;
   sides = 8 - encumb(bp_torso);
@@ -146,7 +151,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
    else
     g->add_msg("You miss.");
   }
-  melee_practice(*this, false, unarmed_attack(),
+  melee_practice(g->turn, *this, false, unarmed_attack(),
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                  (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)));
   move_cost += stumble_pen;
@@ -169,6 +174,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  int stuck_penalty = roll_stuck_penalty(z, (stab_dam >= cut_dam));
  if (weapon.is_style())
   stuck_penalty = 0;
+ moves -= stuck_penalty;
 
 // Pick one or more special attacks
  technique_id technique = pick_technique(g, z, NULL, critical_hit, allow_grab);
@@ -196,7 +202,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
  bool cutting = (cut_dam >= 10 && cut_dam >= stab_dam);
  bool stabbing = (stab_dam >= 10 && stab_dam >= cut_dam);
- melee_practice(*this, true, unarmed_attack(), bashing, cutting, stabbing);
+ melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
 
  if (allow_grab && technique == TEC_GRAB) {
 // Move our weapon to a temp slot, if it's not unarmed
@@ -246,7 +252,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
    else
     g->add_msg("You miss.");
   }
-  melee_practice(*this, false, unarmed_attack(),
+  melee_practice(g->turn, *this, false, unarmed_attack(),
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
                  (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)));
   move_cost += stumble_pen;
@@ -296,7 +302,8 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  int stuck_penalty = roll_stuck_penalty(NULL, (stab_dam >= cut_dam));
  if (weapon.is_style())
   stuck_penalty = 0;
-
+ moves -= stuck_penalty;
+ 
 // Pick one or more special attacks
  technique_id technique = pick_technique(g, NULL, &p, critical_hit, allow_grab);
 
@@ -323,7 +330,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
  bool cutting = (cut_dam >= 10 && cut_dam >= stab_dam);
  bool stabbing = (stab_dam >= 10 && stab_dam >= cut_dam);
- melee_practice(*this, true, unarmed_attack(), bashing, cutting, stabbing);
+ melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
 
  if (dam >= 5 && has_artifact_with(AEP_SAP_LIFE))
   healall( rng(dam / 10, dam / 5) );
@@ -770,8 +777,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
  std::string s = (is_npc() ? "s" : "");
  int tarx = (mon ? z->posx : p->posx), tary = (mon ? z->posy : p->posy);
 
- int junk;
- bool u_see = (!is_npc() || g->u_see(posx, posy, junk));
+ bool u_see = (!is_npc() || g->u_see(posx, posy));
 
  if (technique == TEC_RAPID) {
   moves += int( attack_speed(*this, false) / 2);
@@ -945,12 +951,11 @@ void player::perform_defensive_technique(
   body_part &bp_hit, int &side, int &bash_dam, int &cut_dam, int &stab_dam)
 
 {
- int junk;
  bool mon = (z != NULL);
  std::string You = (is_npc() ? name : "You");
  std::string your = (is_npc() ? (male ? "his" : "her") : "your");
  std::string target = (mon ? "the " + z->name() : p->name);
- bool u_see = (!is_npc() || g->u_see(posx, posy, junk));
+ bool u_see = (!is_npc() || g->u_see(posx, posy));
 
  switch (technique) {
   case TEC_BLOCK:
@@ -1081,9 +1086,8 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  if (z == NULL && p == NULL)
   return;
  bool mon = (z != NULL);
- int junk;
  bool is_u = (!is_npc());
- bool can_see = (is_u || g->u_see(posx, posy, junk));
+ bool can_see = (is_u || g->u_see(posx, posy));
  std::string You = (is_u ? "You" : name);
  std::string Your = (is_u ? "Your" : name + "'s");
  std::string your = (is_u ? "your" : name + "'s");
@@ -1518,29 +1522,29 @@ void hit_message(game *g, std::string subject, std::string verb,
              subject.c_str(), verb.c_str(), target.c_str(), dam);
 }
 
-void melee_practice(player &u, bool hit, bool unarmed, bool bashing,
-                               bool cutting, bool stabbing)
+void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
+                    bool bashing, bool cutting, bool stabbing)
 {
  if (!hit) {
-   u.practice("melee", rng(2, 5));
+   u.practice(turn, "melee", rng(2, 5));
   if (unarmed)
-    u.practice("unarmed", 2);
+    u.practice(turn, "unarmed", 2);
   if (bashing)
-    u.practice("bashing", 2);
+    u.practice(turn, "bashing", 2);
   if (cutting)
-    u.practice("cutting", 2);
+    u.practice(turn, "cutting", 2);
   if (stabbing)
-    u.practice("stabbing", 2);
+    u.practice(turn, "stabbing", 2);
  } else {
-   u.practice("melee", rng(5, 10));
+   u.practice(turn, "melee", rng(5, 10));
   if (unarmed)
-    u.practice("unarmed", rng(5, 10));
+    u.practice(turn, "unarmed", rng(5, 10));
   if (bashing)
-    u.practice("bashing", rng(5, 10));
+    u.practice(turn, "bashing", rng(5, 10));
   if (cutting)
-    u.practice("cutting", rng(5, 10));
+    u.practice(turn, "cutting", rng(5, 10));
   if (stabbing)
-    u.practice("stabbing", rng(5, 10));
+    u.practice(turn, "stabbing", rng(5, 10));
  }
 }
 

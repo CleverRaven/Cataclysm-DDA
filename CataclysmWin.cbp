@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="bin/Release/Cataclysm" prefix_auto="1" extension_auto="1" />
+				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -65,6 +65,8 @@
 		<Unit filename="graffiti.cpp" />
 		<Unit filename="graffiti.h" />
 		<Unit filename="help.cpp" />
+		<Unit filename="helper.cpp" />
+		<Unit filename="helper.h" />
 		<Unit filename="iexamine.cpp" />
 		<Unit filename="iexamine.h" />
 		<Unit filename="input.cpp" />
@@ -93,6 +95,8 @@
 		<Unit filename="mapdata.cpp" />
 		<Unit filename="mapdata.h" />
 		<Unit filename="mapgen.cpp" />
+		<Unit filename="mapgenformat.cpp" />
+		<Unit filename="mapgenformat.h" />
 		<Unit filename="mapitems.h" />
 		<Unit filename="mapitemsdef.cpp" />
 		<Unit filename="melee.cpp" />
@@ -140,6 +144,8 @@
 		<Unit filename="pldata.h" />
 		<Unit filename="posix_time.cpp" />
 		<Unit filename="posix_time.h" />
+		<Unit filename="profession.cpp" />
+		<Unit filename="profession.h" />
 		<Unit filename="ranged.cpp" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
