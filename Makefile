@@ -64,7 +64,7 @@ ifdef RELEASE
   DEBUG =
 endif
 
-CXXFLAGS = -std=c++0x $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
+CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
 BINDIST_EXTRAS = README data cataclysm-launcher
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
