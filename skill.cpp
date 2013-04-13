@@ -145,7 +145,8 @@ bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem
     if (OPTIONS[OPT_SKILL_RUST] == 2) return false;
 
     int forgetCap = _level > 7 ? 7 : _level;
-    if (_level > 0 && turn > _lastPracticed && (turn - _lastPracticed) % (16384 / int(pow(2, double(forgetCap - 1)))) == 0)
+    if (_level > 0 && turn > _lastPracticed &&
+        (turn - _lastPracticed) % (16384 / int(pow(2, double(forgetCap - 1)))) == 0)
     {
         if (rng(1,12) % forgetful ? 3 : 4)
         {
@@ -167,7 +168,7 @@ bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem
 
 void SkillLevel::practice(const calendar& turn)
 {
-    _lastPracticed = turn + 1;
+    _lastPracticed = turn;
 }
 
 int SkillLevel::readBook(int minimumGain, int maximumGain, const calendar& turn,
