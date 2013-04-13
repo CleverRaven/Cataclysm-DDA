@@ -65,7 +65,7 @@ void game::init_vehicles()
     PART (0, 0,     vp_seat);
     PART (1, 0,     vp_frame_handle);
     PART (1, 0,     vp_fuel_tank_gas);
-    PART (-1, 0,    vp_wheel);
+    PART (-1, 0,    vp_wheel_motorbike);
     //        name
     VEHICLE ("Motorcycle");
     //    o
@@ -81,8 +81,8 @@ void game::init_vehicles()
     PART (1, 0,     vp_frame_handle);
     PART (1, 0,     vp_head_light);
     PART (1, 0,     vp_fuel_tank_gas);
-    PART (2, 0,     vp_wheel);
-    PART (-1, 0,    vp_wheel);
+    PART (2, 0,     vp_wheel_motorbike);
+    PART (-1, 0,    vp_wheel_motorbike);
     PART (-1, 0,    vp_cargo_box);
 
     //        name
