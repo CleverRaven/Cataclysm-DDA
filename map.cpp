@@ -3447,10 +3447,7 @@ void map::build_outside_cache(const game *g)
     {
         for(int y = 0; y < SEEY * my_MAPSIZE; y++)
         {
-            const ter_id terrain = ter(x, y);
-
-            if( terrain == t_floor || terrain == t_rock_floor || terrain == t_floor_wax ||
-                terrain == t_fema_groundsheet || terrain == t_dirtfloor)
+            if( terlist[ter(x, y)].flags & mfb(indoors) )
             {
                 for( int dx = -1; dx <= 1; dx++ )
                 {
@@ -3462,10 +3459,6 @@ void map::build_outside_cache(const game *g)
                         }
                     }
                 }
-            }
-            else if(terrain == t_bed || terrain == t_groundsheet || terrain == t_makeshift_bed)
-            {
-                outside_cache[x][y] = false;
             }
         }
     }
