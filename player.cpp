@@ -626,8 +626,8 @@ int player::current_speed(game *g)
  if (has_artifact_with(AEP_SPEED_DOWN))
   newmoves -= 20;
 
- if (newmoves < 1)
-  newmoves = 1;
+ if (newmoves < 25)
+  newmoves = 25;
 
  return newmoves;
 }
