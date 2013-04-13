@@ -71,13 +71,13 @@ fun,container,"null",use_func,addict_func,"DRINK");
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("water","water",		90, 50,	c_ltcyan, "bottle_plastic",
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
-	25,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
+	40,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Water, the stuff of life, the best thirst-quencher available.", 0);
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("water_clean","clean water",	90, 50,	c_ltcyan, "bottle_plastic",
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
-	25,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
+	50,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Fresh, clean water. Truly the best thing to quench your thirst.", 0);
 
 DRINK("sewage","sewage sample",	 5,  5, c_ltgreen, "bottle_plastic",
