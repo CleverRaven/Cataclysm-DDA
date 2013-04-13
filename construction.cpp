@@ -535,10 +535,10 @@ void game::construction_menu()
     if (ch > 64 && ch < 91) //A-Z
      ch = ch - 65 + 26;
 
-    if (ch > 96 && ch < 123) //a-z
+    else if (ch > 96 && ch < 123) //a-z
      ch = ch - 97;
 
-    if (ch == '\n')
+    else if (ch == '\n')
      ch = select;
 
     if (ch < constructions.size()) {
@@ -547,8 +547,7 @@ void game::construction_menu()
       ch = 'q';
      } else {
       popup("You can't build that!");
-      if (ch != '\n')
-       select = ch;
+      select = ch;
       for (int i = 1; i < iMaxY-1; i++)
        mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
       update_info = true;
