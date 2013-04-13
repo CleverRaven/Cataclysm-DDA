@@ -528,7 +528,7 @@ Telling lies and otherwise bluffing will be much more difficult for you."},
 You're not much to look at.  NPCs who care about such things will react\n\
 poorly to you."},
 {"Hardcore", -6, 0, 0, "\
-Your whole body can't take much abuse.  Its maximum HP is 60 points lower\n\
+Your whole body can't take much abuse.  Its maximum HP is 75%% points lower\n\
 than usual. Stacks with Glass Jaw. Not for casuals."},
 
 {"Bug - PF_MAX", 0, 0, 0, "\
