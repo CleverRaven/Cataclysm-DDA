@@ -2,6 +2,7 @@
 #define _PLDATA_H_
 
 #include <sstream>
+#include "enums.h"
 
 enum character_type {
  PLTYPE_CUSTOM,
