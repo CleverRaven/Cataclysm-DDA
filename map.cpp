@@ -2418,7 +2418,7 @@ void map::disarm_trap(game *g, const int x, const int y)
   std::vector<itype_id> comp = g->traps[tr_at(x, y)]->components;
   for (int i = 0; i < comp.size(); i++) {
    if (comp[i] != "null")
-    spawn_item(x, y, g->itypes[comp[i]], 0);
+    spawn_item(x, y, g->itypes[comp[i]], 0, 0, 1);
   }
   tr_at(x, y) = tr_null;
   if(diff > 1.25 * skillLevel) // failure might have set off trap
