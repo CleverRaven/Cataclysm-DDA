@@ -87,17 +87,33 @@ bool map::process_fields_in_submap(game *g, int gridn)
      destroyed = false;
      vol = i_at(x, y)[i].volume();
      item *it = &(i_at(x, y)[i]);
+     it_ammo *ammo_type = NULL;
 
-     if (it->is_ammo() && it->ammo_type() != AT_BATT &&
-         it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
-         it->ammo_type() != AT_BOLT && it->ammo_type() != AT_ARROW && it->ammo_type() != AT_NULL) {
-      destroyed = true;
-      // cook off ammo instead of just burning it.
-      for(int i = 0; i < (it->charges / 10) + 1; i++)
-      {
-          g->explosion(x, y, (dynamic_cast<it_ammo*>(it->type))->damage / 2, true, false);
-      }
-
+     if (it->is_ammo())
+     {
+         ammo_type = dynamic_cast<it_ammo*>(it->type);
+     }
+     if(ammo_type != NULL &&
+        (ammo_type->ammo_effects & mfb(AMMO_FLAME) ||
+         ammo_type->ammo_effects & mfb(AMMO_INCENDIARY) ||
+         ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE) ||
+         ammo_type->ammo_effects & mfb(AMMO_FRAG) ||
+         ammo_type->ammo_effects & mfb(AMMO_NAPALM) ||
+         ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE_BIG) ||
+         ammo_type->ammo_effects & mfb(AMMO_TEARGAS) ||
+         ammo_type->ammo_effects & mfb(AMMO_SMOKE) ||
+         ammo_type->ammo_effects & mfb(AMMO_FLASHBANG) ||
+         ammo_type->ammo_effects & mfb(AMMO_COOKOFF)))
+     {
+         const int rounds_exploded = rng(1, it->charges);
+         // TODO: Vary the effect based on the ammo flag instead of just exploding them all.
+         // cook off ammo instead of just burning it.
+         for(int i = 0; i < (rounds_exploded / 10) + 1; i++)
+         {
+             g->explosion(x, y, (dynamic_cast<it_ammo*>(it->type))->damage / 2, true, false);
+         }
+         it->charges -= rounds_exploded;
+         if(it->charges == 0) destroyed = true;
      } else if (it->made_of(PAPER)) {
       destroyed = it->burn(cur->density * 3);
       consumed++;
