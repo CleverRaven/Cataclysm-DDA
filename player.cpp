@@ -1524,13 +1524,13 @@ Head encumberance has no effect; it simply limits how much you can put on.");
    } else if (line == 2) {
     mvwprintz(w_encumb, 3, 1, h_ltgray, "Eyes");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Perception -%d when checking traps or firing ranged weapons;\n\
-Perception -%.1f when throwing items", encumb(bp_eyes),
-double(double(encumb(bp_eyes)) / 2));
+Perception %+d when checking traps or firing ranged weapons;\n\
+Perception %+.1f when throwing items", -encumb(bp_eyes),
+double(double(-encumb(bp_eyes)) / 2));
    } else if (line == 3) {
     mvwprintz(w_encumb, 4, 1, h_ltgray, "Mouth");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Running costs +%d movement points", encumb(bp_mouth) * 5);
+Running costs %+d movement points", encumb(bp_mouth) * 5);
    } else if (line == 4)
   {
     mvwprintz(w_encumb, 5, 1, h_ltgray, "Arms");
@@ -1540,22 +1540,19 @@ Arm encumbrance affects your accuracy with ranged weapons.");
    {
     mvwprintz(w_encumb, 6, 1, h_ltgray, "Hands");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Reloading costs +%d movement points;\n\
-Dexterity -%d when throwing items", encumb(bp_hands) * 30, encumb(bp_hands));
+Reloading costs %+d movement points;\n\
+Dexterity %+d when throwing items", encumb(bp_hands) * 30, -encumb(bp_hands));
    } else if (line == 6) {
     mvwprintz(w_encumb, 7, 1, h_ltgray, "Legs");
-    std::string sign = (encumb(bp_legs) >= 0 ? "+" : "");
-    std::string osign = (encumb(bp_legs) < 0 ? "+" : "-");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Running costs %s%d movement points;  Swimming costs %s%d movement points;\n\
-Dodge skill %s%.1f", sign.c_str(), encumb(bp_legs) * 3,
-              sign.c_str(), encumb(bp_legs) *(50 - skillLevel("swimming")),
-                     osign.c_str(), double(double(encumb(bp_legs)) / 2));
+Running costs %+d movement points;  Swimming costs %+d movement points;\n\
+Dodge skill %+.1f", encumb(bp_legs) * 3,
+              encumb(bp_legs) *(50 - skillLevel("swimming")),
+                     double(double(-encumb(bp_legs)) / 2));
    } else if (line == 7) {
     mvwprintz(w_encumb, 8, 1, h_ltgray, "Feet");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Running costs %s%d movement points", (encumb(bp_feet) >= 0 ? "+" : ""),
-encumb(bp_feet) * 5);
+Running costs %+d movement points", encumb(bp_feet) * 5);
    }
    wrefresh(w_encumb);
    wrefresh(w_info);
