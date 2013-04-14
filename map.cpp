@@ -2133,9 +2133,8 @@ void map::spawn_item(const int x, const int y, itype* type, const int birthday, 
  if (type->is_style())
   return;
  item tmp(type, birthday);
- if (quantity)
-  for(int i = 0; i < quantity; i++)
-   spawn_item(x, y, type, birthday, 0, charges);
+ for(int i = 0; i < quantity; i++)
+  spawn_item(x, y, type, birthday, 0, charges);
  if (charges && tmp.charges > 0) //let's fail silently if we specify charges for an item that doesn't support it
   tmp.charges = charges;
  tmp = tmp.in_its_container(itypes);
