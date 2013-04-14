@@ -51,6 +51,7 @@ class iuse
 // TOOLS
   void lighter		(game *g, player *p, item *it, bool t);
   void sew		(game *g, player *p, item *it, bool t);
+  void extra_battery(game *g, player *p, item *it, bool t);
   void scissors		(game *g, player *p, item *it, bool t);
   void extinguisher	(game *g, player *p, item *it, bool t);
   void hammer		(game *g, player *p, item *it, bool t);
