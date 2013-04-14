@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <algorithm>
 #include "weather.h"
+#include "item.h"
 
 #include "name.h"
 #include "cursesdef.h"
@@ -5381,21 +5382,83 @@ int time; //Declare this here so that we can change the time depending on whats 
  } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) {	// See morale.h
   g->add_msg("What's the point of reading?  (Your morale is too low!)");
   return;
- } else if (tmp->intel > int_cur) {
+ } else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 && !can_study_recipe(tmp) &&
+            !query_yn("Your %s skill won't be improved.  Read anyway?",
+                      tmp->type->name().c_str())) {
+  return;
+ }
+
+ if (tmp->recipes.size() > 0)
+ {
+  if (can_study_recipe(tmp)) {
+   g->add_msg("This book has more recipes for you to learn.");
+  } else if (studied_all_recipes(tmp)) {
+   g->add_msg("You know all the recipes this book has to offer.");
+  } else {
+   g->add_msg("This book has more recipes, but you don't have the skill to learn them yet.");
+  }
+ }
+
+ if (tmp->intel > int_cur) {
   g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
   time = tmp->time * (read_speed() + ((tmp->intel - int_cur) * 100)); // Lower int characters can read, at a speed penalty
   activity = player_activity(ACT_READ, time, index);
   moves = 0;
   return;
- } else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 &&
-            !query_yn("Your %s skill won't be improved.  Read anyway?",
-                      tmp->type->name().c_str()))
-  return;
+ }
 
 // Base read_speed() is 1000 move points (1 minute per tmp->time)
  time = tmp->time * read_speed();
  activity = player_activity(ACT_READ, time, index);
  moves = 0;
+}
+
+bool player::can_study_recipe(it_book* book)
+{
+    for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
+    {
+        if (!knows_recipe(iter->first) &&
+            (iter->first->sk_primary == NULL || skillLevel(iter->first->sk_primary) >= iter->second))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool player::studied_all_recipes(it_book* book)
+{
+    for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
+    {
+        if (!knows_recipe(iter->first))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void player::try_study_recipe(game *g, it_book *book)
+{
+    for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
+    {
+        if (!knows_recipe(iter->first) &&
+            (iter->first->sk_primary == NULL || skillLevel(iter->first->sk_primary) >= iter->second))
+        {
+            if (iter->first->sk_primary == NULL || rng(0, 4) <= skillLevel(iter->first->sk_primary) - iter->second)
+            {
+                learn_recipe(iter->first);
+                g->add_msg("Learned a recipe for %s from the %s.",
+                           g->itypes[iter->first->result]->name.c_str(), book->name.c_str());
+            }
+            else
+            {
+                g->add_msg("Failed to learn a recipe from the %s.", book->name.c_str());
+            }
+            // we only try to learn one recipe at a time
+            return;
+        }
+    }
 }
 
 void player::try_to_sleep(game *g)

@@ -351,6 +351,51 @@ void game::init_recipes()
                         }
                     }
 
+                    if (iter->contains("book_learn"))
+                    {
+                        if (iter->get("book_learn").is<picojson::array>())
+                        {
+                            for (picojson::array::const_iterator book_iter = iter->get("book_learn").get<picojson::array>().begin();
+                                 book_iter != iter->get("book_learn").get<picojson::array>().end();
+                                 ++book_iter)
+                            {
+                                if (book_iter->is<picojson::array>())
+                                {
+                                    if (book_iter->get(0).is<std::string>() && book_iter->get(1).is<double>())
+                                    {
+                                        std::string book_name = book_iter->get(0).get<std::string>();
+                                        int book_level = static_cast<int>(book_iter->get(1).get<double>());
+
+                                        if (itypes[book_name]->is_book())
+                                        {
+                                            it_book *book = dynamic_cast<it_book*>(itypes[book_name]);
+                                            book->recipes[last_rec] = book_level;
+                                        }
+                                        else
+                                        {
+                                            debugmsg("Bad book name for recipe");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        debugmsg("Invalid recipe: malformed book entry");
+                                        continue;
+                                    }
+                                }
+                                else
+                                {
+                                    debugmsg("Invalid recipe: non-array book entry");
+                                    continue;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            debugmsg("Invalid recipe: book list is not an array");
+                            continue;
+                        }
+                    }
+
                     recipes[category].push_back(last_rec);
                 }
                 else

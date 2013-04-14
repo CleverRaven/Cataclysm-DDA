@@ -546,6 +546,8 @@ struct it_armor : public itype
  }
 };
 
+struct recipe;
+
 struct it_book : public itype
 {
  Skill *type;		// Which skill it upgrades
@@ -555,6 +557,7 @@ struct it_book : public itype
  unsigned char intel;	// Intelligence required to read, at all
  unsigned char time;	// How long, in 10-turns (aka minutes), it takes to read
 			// "To read" means getting 1 skill point, not all of em
+ std::map<recipe*, int> recipes; //what recipes can be learned from this book
  virtual bool is_book() { return true; }
  it_book(std::string pid, unsigned char prarity, unsigned int pprice,
          std::string pname, std::string pdes,
