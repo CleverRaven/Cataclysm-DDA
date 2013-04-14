@@ -80,6 +80,7 @@ class SkillLevel {
   int comprehension(int intellect, bool fastLearner = false);
 
   int train(int &level);
+  bool isRusting(const calendar& turn) const;
   bool rust(const calendar& turn, bool forgetful, bool charged_bio_mem);
   void practice(const calendar& turn);
 

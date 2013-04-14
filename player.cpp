@@ -76,7 +76,8 @@ player::player()
  for (int i = 1; i < NUM_MUTATION_CATEGORIES; i++)
   mutation_category_level[i] = 0;
 
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+      aSkill != Skill::skills.end(); ++aSkill) {
    skillLevel(*aSkill).level(0);
  }
 
@@ -1295,18 +1296,38 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  line = 1;
  std::vector <skill> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+      aSkill != Skill::skills.end(); ++aSkill)
+ {
   int i = (*aSkill)->id();
 
   SkillLevel level = skillLevel(*aSkill);
 
   if ( i != 0 && sklevel[i] >= 0) {
    skillslist.push_back(skill(i));
-   if (line < skill_win_size_y+1) {
-     mvwprintz(w_skills, line, 1, skillLevel(*aSkill).isTraining() ? c_ltblue : c_blue, "%s",
-               ((*aSkill)->name() + ":").c_str());
-     mvwprintz(w_skills, line, 19, skillLevel(*aSkill).isTraining() ? c_ltblue : c_blue, "%-2d(%2d%%%%)", (int)level,
-              (level.exercise() <  0 ? 0 : level.exercise()));
+   // Default to not training and not rusting
+   nc_color text_color = c_blue;
+   bool training = skillLevel(*aSkill).isTraining();
+   bool rusting = skillLevel(*aSkill).isRusting(g->turn);
+
+   if(training && rusting)
+   {
+       text_color = c_ltred;
+   }
+   else if (training)
+   {
+       text_color = c_ltblue;
+   }
+   else if (rusting)
+   {
+       text_color = c_red;
+   }
+
+   if (line < skill_win_size_y + 1)
+   {
+     mvwprintz(w_skills, line, 1, text_color, "%s", ((*aSkill)->name() + ":").c_str());
+     mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%%%)", (int)level,
+               (level.exercise() <  0 ? 0 : level.exercise()));
      line++;
     }
   }

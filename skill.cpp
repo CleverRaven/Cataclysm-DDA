@@ -163,6 +163,11 @@ static int rustRate(int level)
     return 16384 / int(pow(2.0, double(forgetCap - 1)));
 }
 
+bool SkillLevel::isRusting(const calendar& turn) const
+{
+    return (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
+}
+
 bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem)
 {
     if (OPTIONS[OPT_SKILL_RUST] == 2) return false;
