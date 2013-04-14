@@ -3357,6 +3357,40 @@
                           ]
         },
 
+        {
+            "result": "battery_compartment",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "skill_sec": "mechanics",
+            "difficulty": 3,
+            "time": 15000,
+            "reversible": true,
+            "autolearn": false,
+            "decomp_learn": 3,
+            "book_learn": [
+                              ["manual_electronics", 3],
+                              ["textbook_electronics", 3]
+                          ],
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 5],
+                             ["toolset", 5]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 4]
+                              ],
+                              [
+                                  ["cable", 5]
+                              ]
+                          ]
+        },
+
 
         {
             "result": "coilgun",

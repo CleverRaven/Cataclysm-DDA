@@ -110,6 +110,12 @@ IF_ROTTEN, 		// rotten food
 IF_VARSIZE,     // comes in variable sizes (item type flag)
 IF_FIT,         // clothing fits player (item specific flag)
 
+// Item mod flags
+
+// has double the normal ammo capacity (item specific flag), only works with tools at the moment
+// need to tweak a few things to make it work with guns as well
+IF_DOUBLE_AMMO,
+
 NUM_ITEM_FLAGS
 };
 
@@ -547,6 +553,8 @@ struct it_armor : public itype
  }
 };
 
+struct recipe;
+
 struct it_book : public itype
 {
  Skill *type;		// Which skill it upgrades
@@ -556,6 +564,7 @@ struct it_book : public itype
  unsigned char intel;	// Intelligence required to read, at all
  unsigned char time;	// How long, in 10-turns (aka minutes), it takes to read
 			// "To read" means getting 1 skill point, not all of em
+ std::map<recipe*, int> recipes; //what recipes can be learned from this book
  virtual bool is_book() { return true; }
  it_book(std::string pid, unsigned char prarity, unsigned int pprice,
          std::string pname, std::string pdes,

@@ -276,6 +276,10 @@ public:
  bool knows_recipe(recipe *rec);
  void learn_recipe(recipe *rec);
 
+ bool can_study_recipe(it_book *book);
+ bool studied_all_recipes(it_book *book);
+ void try_study_recipe(game *g, it_book *book);
+
 // ---------------VALUES-----------------
  int id;	// A unique ID number, assigned by the game class
  int posx, posy;
