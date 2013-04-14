@@ -5491,7 +5491,6 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
         mvwprintz(window, i, 1, c_black, "%s", "\
                                                      ");
     }
-
     mvwprintz(window, 2, 2, c_white, "%s", "How to use the filter:");
     mvwprintz(window, 3, 2, c_white, "%s", "Example: pi  will match any itemname with pi in it.");
     mvwprintz(window, 5, 2, c_white, "%s", "Seperate multiple items with ,");
@@ -5501,9 +5500,9 @@ std::string game::ask_item_filter(WINDOW* window, int rows)
     mvwprintz(window, 8, 2, c_white, "%s", "To exclude certain items, place a - in front");
     mvwprintz(window, 9, 2, c_white, "%s", "Example: -pipe,chunk,steel");
     wrefresh(window);
-
     return string_input_popup("Filter:", 55, sFilter);
 }
+
 
 void game::draw_trail_to_square(std::vector<point>& vPoint, int x, int y)
 {
@@ -5550,7 +5549,7 @@ void game::reset_item_list_state(WINDOW* window, int height)
     mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, 54, c_ltgray, LINE_XOXX); // -|
 
-    int iTempStart = 14;
+    int iTempStart = 2;
     if (sFilter != "")
     {
         iTempStart = 10;
@@ -5567,8 +5566,55 @@ void game::reset_item_list_state(WINDOW* window, int height)
 
     mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 20, c_ltgreen, " %s", "F");
     wprintz(window, c_white, "%s", "ilter ");
+    
+    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 30, c_ltgreen, " %s", "+/-");
+    wprintz(window, c_white, "%s", ":Priority ");
 
     refresh_all();
+}
+
+//returns the first non prority items.
+int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities)
+{
+    //TODO:optimize if necessary
+    std::vector<map_item_stack> tempstack; // temp
+    for(int i = 0 ; i < stack.size() ; i++)
+    {
+        std::string name = stack[i].example.tname(this);
+        if(prorities == "" || !list_items_match(name,prorities))
+        {
+            tempstack.push_back(stack[i]);
+            stack.erase(stack.begin()+i);
+            i--;
+        }
+    }
+    int id = stack.size();
+    for(int i = 0 ; i < tempstack.size() ; i++)
+    {
+        stack.push_back(tempstack[i]);
+    }
+    return id;
+}
+int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start,std::string prorities)
+{
+    //TODO:optimize if necessary
+    std::vector<map_item_stack> tempstack; // temp
+    for(int i = start ; i < stack.size() ; i++)
+    {
+        std::string name = stack[i].example.tname(this);
+        if(prorities != "" && list_items_match(name,prorities))
+        {
+            tempstack.push_back(stack[i]);
+            stack.erase(stack.begin()+i);
+            i--;
+        }
+    }
+    int id = stack.size();
+    for(int i = 0 ; i < tempstack.size() ; i++)
+    {
+        stack.push_back(tempstack[i]);
+    }
+    return id;
 }
 
 void game::list_items()
@@ -5588,7 +5634,8 @@ void game::list_items()
     std::vector<map_item_stack> filtered_items = (sFilter != "" ?
                                                   filter_item_stacks(ground_items, sFilter) :
                                                   ground_items);
-
+    int highPEnd = list_filter_high_priority(filtered_items,list_item_upvote);
+    int lowPStart = list_filter_low_priority(filtered_items,highPEnd,list_item_downvote);
     const int iItemNum = ground_items.size();
 
     const int iStoreViewOffsetX = u.view_offset_x;
@@ -5605,9 +5652,9 @@ void game::list_items()
     InputEvent input = Undefined;
     long ch = 0; //this is a long because getch returns a long
     bool reset = true;
+    bool refilter = true;
     int iFilter = 0;
     bool bStopDrawing = false;
-
     do
     {
         if (ground_items.size() > 0)
@@ -5624,11 +5671,8 @@ void game::list_items()
             else if (ch == 'f' || ch == 'F')
             {
                 sFilter = ask_item_filter(w_item_info, iInfoHeight);
-                filtered_items = filter_item_stacks(ground_items, sFilter);
-                iActive = 0;
-                iLastActiveX = -1;
-                iLastActiveY = -1;
                 reset = true;
+                refilter = true;
             }
             else if (ch == 'r' || ch == 'R')
             {
@@ -5651,7 +5695,26 @@ void game::list_items()
                 iLastActiveY = -1;
                 reset = true;
             }
-
+            else if(ch == '+')
+            {
+                list_item_upvote = string_input_popup("High Priority : ",55,list_item_upvote);
+                refilter = true;
+            }
+            else if(ch == '-') 
+            {
+                list_item_downvote = string_input_popup("Low Priority : ",55,list_item_downvote);
+                refilter = true;
+            }
+            if (refilter)
+            {
+                filtered_items = filter_item_stacks(ground_items, sFilter);
+                highPEnd = list_filter_high_priority(filtered_items,list_item_upvote);
+                lowPStart = list_filter_low_priority(filtered_items,highPEnd,list_item_downvote);
+                iActive = 0;
+                iLastActiveX = -1;
+                iLastActiveY = -1;
+                refilter = false;
+            }
             if (reset)
             {
                 reset_item_list_state(w_items, iInfoHeight);
@@ -5710,11 +5773,21 @@ void game::list_items()
                 std::string sActiveItemName;
                 item activeItem;
                 std::stringstream sText;
-
-                for (std::vector<map_item_stack>::iterator iter = filtered_items.begin();
+                bool high = true;
+                bool low = false;
+                int index = 0;
+                for (std::vector<map_item_stack>::iterator iter = filtered_items.begin() ;
                      iter != filtered_items.end();
-                     ++iter)
+                     ++iter,++index)
                 {
+                    if(index == highPEnd)
+                    {
+                        high = false;
+                    }
+                    if(index == lowPStart)
+                    {
+                        low = true;
+                    }
                     if (iNum >= iStartPos && iNum < iStartPos + ((iMaxRows > iItemNum) ? iItemNum : iMaxRows) )
                     {
                         if (iNum == iActive)
@@ -5731,7 +5804,7 @@ void game::list_items()
                             sText << " " << "[" << iter->count << "]";
                         }
                         mvwprintz(w_items, 1 + iNum - iStartPos, 2,
-                                  ((iNum == iActive) ? c_ltgreen : c_white),
+                                  ((iNum == iActive) ? c_ltgreen : (high ? c_yellow : (low ? c_red : c_white))),
                                   "%s", (sText.str()).c_str());
                         mvwprintz(w_items, 1 + iNum - iStartPos, 48,
                                   ((iNum == iActive) ? c_ltgreen : c_ltgray), "%*d %s",
