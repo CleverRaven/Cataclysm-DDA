@@ -61,14 +61,19 @@ profmap profession::load_professions()
                 newProfession.add_item(anItem->get<std::string>());
             }
 
-            const picojson::array& addictions = object.at("addictions").get<picojson::array>();
-            for (picojson::array::const_iterator addiction = addictions.begin(); addiction != addictions.end(); ++addiction)
+            // Addictions are optional
+            if (aProf->contains("addictions"))
             {
-                const picojson::object& addiction_obj = addiction->get<picojson::object>();
-                std::string type_str = addiction_obj.at("type").get<std::string>();
-                add_type type = addiction_type(type_str);
-                int intensity = static_cast<int>(addiction_obj.at("intensity").get<double>());
-                newProfession.add_addiction(type,intensity);
+                const picojson::array& addictions = object.at("addictions").get<picojson::array>();
+                for (picojson::array::const_iterator addiction = addictions.begin();
+                     addiction != addictions.end(); ++addiction)
+                {
+                    const picojson::object& addiction_obj = addiction->get<picojson::object>();
+                    std::string type_str = addiction_obj.at("type").get<std::string>();
+                    add_type type = addiction_type(type_str);
+                    int intensity = static_cast<int>(addiction_obj.at("intensity").get<double>());
+                    newProfession.add_addiction(type,intensity);
+                }
             }
 
             allProfs[ident] = newProfession;
