@@ -548,7 +548,7 @@ void game::construction_menu()
     if (chosen < constructions.size()) {
      if (player_can_build(u, total_inv, constructions[chosen])) {
       place_construction(constructions[chosen]);
-      ch = 'q';
+      exit = true;
      } else {
       popup("You can't build that!");
       select = chosen;
