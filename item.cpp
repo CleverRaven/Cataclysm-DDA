@@ -545,12 +545,21 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
    dump->push_back(iteminfo("BOOK", " Reading this book affects your morale by ", (book->fun > 0 ? "+" : ""), int(book->fun)));
 
   dump->push_back(iteminfo("BOOK", " This book takes ", "", int(book->time), " minutes to read.", true, true));
+  
+  if (book->recipes.size() > 0) {
+   dump->push_back(iteminfo("BOOK", " This book contains ", "", book->recipes.size(), " crafting recipes.", true, true));
+  }
 
  } else if (is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(type);
 
-  if ((tool->max_charges)!=0)
-   dump->push_back(iteminfo("TOOL", " Maximum ", "", int(tool->max_charges), " charges" + ((tool->ammo == AT_NULL) ? "" : (" of " + ammo_name(tool->ammo))) + "."));
+  if ((tool->max_charges)!=0) {
+   if (has_flag(IF_DOUBLE_AMMO)) {
+    dump->push_back(iteminfo("TOOL", " Maximum ", "", int(tool->max_charges*2), " charges (doubled)" + ((tool->ammo == AT_NULL) ? "" : (" of " + ammo_name(tool->ammo))) + "."));
+   } else {
+    dump->push_back(iteminfo("TOOL", " Maximum ", "", int(tool->max_charges), " charges" + ((tool->ammo == AT_NULL) ? "" : (" of " + ammo_name(tool->ammo))) + "."));
+   }
+  }
 
  } else if (is_style()) {
   it_style* style = dynamic_cast<it_style*>(type);
@@ -567,6 +576,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This piece of clothing fits you perfectly."));
+    }
+    if (is_tool() && has_flag(IF_DOUBLE_AMMO))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "This tool has double the normal maximum charges."));
     }
   if (contents.size() > 0) {
    if (is_gun()) {
@@ -1778,6 +1792,10 @@ bool item::reload(player &u, int index)
   max_load = tool->max_charges;
  } else
   return false;
+
+ if (has_flag(IF_DOUBLE_AMMO)) {
+  max_load *= 2;
+ }
 
  if (index > -1) {
   // If the gun is currently loaded with a different type of ammo, reloading fails

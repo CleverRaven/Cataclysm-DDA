@@ -3532,6 +3532,10 @@ TOOL("extinguisher", "fire extinguisher",20,700,';', c_red,	IRON,	MNULL,
    16, 20, 26,  0, -1,  80, 80, 1,  0, AT_NULL, "null", &iuse::extinguisher,0,
 "Use a fire extinguisher to put out adjacent fires.");
 
+TOOL("battery_compartment", "extra battery mod", 0, 500, ';', c_white, PLASTIC, IRON,
+    1,  1,  0,  0,  -2, 0,  0,  0,  0, AT_NULL, "null", &iuse::extra_battery, 0,
+"With enough electronics skill, you could attach this to your devices to increase their battery capacity.");
+
 TOOL("flashlight", "flashlight (off)",40, 380,';', c_blue,	PLASTIC, IRON,
     3,  2,  1,  0,  2, 100,100, 0,  0, AT_BATT, "null", &iuse::light_off,0,"\
 Using this flashlight will turn it on, assuming it is charged with batteries.\n\

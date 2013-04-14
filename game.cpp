@@ -511,6 +511,7 @@ void game::process_events()
 void game::process_activity()
 {
  it_book* reading;
+ bool no_recipes;
  if (u.activity.type != ACT_NULL) {
   if (int(turn) % 150 == 0)
    draw();
@@ -577,6 +578,14 @@ void game::process_activity()
      u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, reading);
     }
 
+    no_recipes = true;
+    if (reading->recipes.size() > 0) {
+     u.try_study_recipe(this, reading);
+     if (!u.studied_all_recipes(reading)) {
+      no_recipes = false;
+     }
+    }
+
     if (u.skillLevel(reading->type) < reading->level) {
      int min_ex = reading->time / 10 + u.int_cur / 4,
        max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type);
@@ -598,8 +607,13 @@ void game::process_activity()
               reading->type->name().c_str(),
               (int)u.skillLevel(reading->type));
 
-     if (u.skillLevel(reading->type) == reading->level)
-      add_msg("You can no longer learn from this %s.", reading->name.c_str());
+     if (u.skillLevel(reading->type) == reading->level) {
+      if (no_recipes) {
+       add_msg("You can no longer learn from this %s.", reading->name.c_str());
+      } else {
+       add_msg("Your skill level won't improve, but this %s has more recipes for you.", reading->name.c_str());
+      }
+     }
     }
     break;
 

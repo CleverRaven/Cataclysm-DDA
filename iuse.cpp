@@ -940,6 +940,40 @@ void iuse::sew(game *g, player *p, item *it, bool t)
   it->charges = 1;
 }
 
+void iuse::extra_battery(game *g, player *p, item *it, bool t)
+{
+    char ch = g->inv_type("Modify what?", IC_TOOL);
+    item* modded = &(p->i_at(ch));
+    
+    if (modded == NULL || modded->is_null())
+    {
+        g->add_msg_if_player(p,"You do not have that item!");
+        return;
+    }
+    if (!modded->is_tool())
+    {
+        g->add_msg_if_player(p,"You can only mod tools with this battery mod.");
+        return;
+    }
+
+    it_tool *tool = dynamic_cast<it_tool*>(modded->type);
+    if (tool->ammo != AT_BATT)
+    {
+        g->add_msg_if_player(p,"That item does not use batteries!");
+        return;
+    }
+
+    if (modded->has_flag(IF_DOUBLE_AMMO))
+    {
+        g->add_msg_if_player(p,"That item has already had its battery capacity doubled.");
+        return;
+    }
+
+    modded->item_flags |= mfb(IF_DOUBLE_AMMO);
+    g->add_msg_if_player(p,"You double the battery capacity of your %s!", tool->name.c_str());
+    it->invlet = 0;
+}
+
 void iuse::scissors(game *g, player *p, item *it, bool t)
 {
     char ch = g->inv("Chop up what?");
