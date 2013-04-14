@@ -750,23 +750,26 @@ std::string item::tname(game *g)
  else
   ret << type->name;
 
- it_comest* food = NULL;
+ item* food = NULL;
+ it_comest* food_type = NULL;
  if (is_food())
-  food = dynamic_cast<it_comest*>(type);
- else if (is_food_container())
-  food = dynamic_cast<it_comest*>(contents[0].type);
- if (food != NULL && g != NULL && food->spoils != 0 &&
-   int(g->turn) < (int)bday + 100)
-  ret << " (fresh)";
- if (food != NULL && g != NULL && has_flag(IF_HOT))
-  ret << " (hot)";
- if (food != NULL && g != NULL && is_food_container()) {
-	if (contents[0].has_flag(IF_HOT))
-		ret << " (hot)";
+ {
+  food = this;
+  food_type = dynamic_cast<it_comest*>(type);
  }
- if (food != NULL && g != NULL && food->spoils != 0 &&
-   int(g->turn) - (int)bday > food->spoils * 600)
-  ret << " (rotten)";
+ else if (is_food_container())
+ {
+  food = &contents[0];
+  food_type = dynamic_cast<it_comest*>(contents[0].type);
+ }
+ if (food != NULL && g != NULL && food_type->spoils != 0 &&
+   int(g->turn) < (int)(food->bday + 100))
+  ret << " (fresh)";
+ if (food != NULL && g != NULL && food->has_flag(IF_HOT))
+  ret << " (hot)";
+ if (food != NULL && g != NULL && food_type->spoils != 0 &&
+   int(g->turn) - (int)(food->bday) > food_type->spoils * 600)
+   ret << " (rotten)";
 
  if (owned > 0)
   ret << " (owned)";
