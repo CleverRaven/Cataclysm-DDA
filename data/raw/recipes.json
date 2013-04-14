@@ -345,7 +345,8 @@
                               [
                                   ["plant_fibre", 20],
                                   ["sinew", 20],
-                                  ["thread", 20]
+                                  ["thread", 20],
+                                  ["duct_tape", 20]
                               ]
                           ]
         },
@@ -390,7 +391,8 @@
                               [
                                   ["plant_fibre", 20],
                                   ["sinew", 20],
-                                  ["thread", 20]
+                                  ["thread", 20],
+                                  ["duct_tape", 20]
                               ]
                           ]
         },
@@ -420,7 +422,8 @@
                               ],
                               [
                                   ["string_6", 6],
-                                  ["string_36", 1]
+                                  ["string_36", 1],
+                                  ["duct_tape", 50]
                               ]
                           ]
         },
