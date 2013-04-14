@@ -80,19 +80,35 @@ size_t Skill::skill_count() {
 }
 
 
-SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPracticed) {
-  _level = level;
-  _exercise = exercise;
-  _isTraining = isTraining;
-  _lastPracticed = lastPracticed;
+SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPracticed)
+{
+    _level = level;
+    _exercise = exercise;
+    _isTraining = isTraining;
+    if(lastPracticed == 0)
+    {
+        _lastPracticed = HOURS(OPTIONS[OPT_INITIAL_TIME]);
+    }
+    else
+    {
+        _lastPracticed = lastPracticed;
+    }
 }
 
 SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise,
-                       bool isTraining, int lastPracticed) {
-  _level = rng(minLevel, maxLevel);
-  _exercise = rng(minExercise, maxExercise);
-  _isTraining = isTraining;
-  _lastPracticed = lastPracticed;
+                       bool isTraining, int lastPracticed)
+{
+    _level = rng(minLevel, maxLevel);
+    _exercise = rng(minExercise, maxExercise);
+    _isTraining = isTraining;
+    if(lastPracticed == 0)
+    {
+        _lastPracticed = HOURS(OPTIONS[OPT_INITIAL_TIME]);
+    }
+    else
+    {
+        _lastPracticed = lastPracticed;
+    }
 }
 
 int SkillLevel::comprehension(int intellect, bool fastLearner) {
