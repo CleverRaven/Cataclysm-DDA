@@ -22,6 +22,7 @@
 		</Build>
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
+		<Unit filename="addiction.cpp" />
 		<Unit filename="addiction.h" />
 		<Unit filename="artifact.cpp" />
 		<Unit filename="artifact.h" />
