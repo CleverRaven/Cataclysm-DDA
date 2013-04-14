@@ -434,9 +434,10 @@ void game::construction_menu()
     bool has_tool[3] = {stage.tools[0].empty(),
                         stage.tools[1].empty(),
                         stage.tools[2].empty()};
+    posy++;
+    posx = 33;
     for (int i = 0; i < 3 && !has_tool[i]; i++) {
-     posy++;
-     posx = 33;
+     mvwprintz(w_con, posy, posx-2, c_white, ">");
      for (int j = 0; j < stage.tools[i].size(); j++) {
       itype_id tool = stage.tools[i][j].type;
       nc_color col = c_red;
@@ -460,17 +461,18 @@ void game::construction_menu()
        posx += 3;
       }
      }
+     posy += 2;
+     posx = 33;
     }
 // Print components
-    posy++;
     posx = 33;
     bool has_component[3] = {stage.components[0].empty(),
                              stage.components[1].empty(),
                              stage.components[2].empty()};
     for (int i = 0; i < 3; i++) {
-     posx = 33;
-     while (has_component[i])
-      i++;
+     if (has_component[i])
+       continue;
+     mvwprintz(w_con, posy, posx-2, c_white, ">");
      for (int j = 0; j < stage.components[i].size() && i < 3; j++) {
       nc_color col = c_red;
       component comp = stage.components[i][j];
@@ -506,7 +508,8 @@ void game::construction_menu()
        posx += 3;
       }
      }
-     posy++;
+     posx = 33;
+     posy += 2;
     }
    }
    wrefresh(w_con);
