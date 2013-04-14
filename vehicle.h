@@ -150,14 +150,14 @@ private:
     game *g;
 
 public:
-    vehicle (game *ag=0, vhtype_id type_id = veh_null);
+    vehicle (game *ag=0, vhtype_id type_id = veh_null, int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
 
 // check if given player controls this vehicle
     bool player_in_control (player *p);
 
 // init parts state for randomly generated vehicle
-    void init_state(game* g);
+    void init_state(game* g, int veh_init_fuel, int veh_init_status);
 
 // load and init vehicle data from stream. This implies valid save data!
     void load (std::ifstream &stin);
@@ -388,6 +388,8 @@ public:
     // temp values
     int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
     bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
+    int init_veh_fuel;
+    int init_veh_status;
 
     // save values
     int posx, posy;
