@@ -252,6 +252,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  int y = 0;
  int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
  computer *tmpcomp = NULL;
+ int veh_spawn_heading;
 
  switch (terrain_type) {
 
@@ -747,19 +748,24 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    }
   }
 
+  if (terrain_type == ot_road_ew)
+   veh_spawn_heading = (one_in(2)? 0 : 180);
+  else
+   veh_spawn_heading = (one_in(2)? 270 : 90);
+
   // spawn regular road out of fuel vehicles
   if (rn == 0) {
-   if (one_in(20)) {
+   if (one_in(40)) {
     vhtype_id vt = veh_null;
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
+    int vx = rng (8, 16);
+    int vy = rng (8, 16);
     int rc = rng(1, 10);
 	if (rc <= 5)
-     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+     add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
     else if (rc <= 9)
-     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+     add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, 0, -1);
     else
-     add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+     add_vehicle (g, veh_semi, vx, vy, veh_spawn_heading, 0, -1);
    }
   }
 
@@ -817,10 +823,10 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   }
   // spawn regular road out of fuel vehicles
   if (rn == 0) {
-   if (one_in(20)) {
+   if (one_in(40)) {
     vhtype_id vt = veh_null;
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
     int rc = rng(1, 10);
 	if (rc <= 5)
      add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
@@ -892,8 +898,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   if (rn == 0) {
    if (one_in(20)) {
     vhtype_id vt = veh_null;
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
     int rc = rng(1, 10);
 	if (rc <= 5)
      add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
@@ -1031,10 +1037,10 @@ t   t\n\
    }
   }
    // spawn regular road out of fuel vehicles
-   if (one_in(20)) {
+   if (one_in(2)) {
     vhtype_id vt = veh_null;
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
     int rc = rng(1, 10);
 	if (rc <= 5)
      add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
@@ -1070,10 +1076,10 @@ t   t\n\
   place_items(mi_road, 8, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 
   // spawn regular road out of fuel vehicles
-   if (one_in(20)) {
+   if (one_in(2)) {
     vhtype_id vt = veh_null;
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
     int rc = rng(1, 10);
 	if (rc <= 5)
      add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);

@@ -284,7 +284,8 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
  int dsty = y2;
 
  if (!inbounds(srcx, srcy)){
-  debugmsg ("map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
+  if (g->debugmon)
+   debugmsg ("map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
             srcx, srcy, dstx, dsty);
   return false;
  }
@@ -310,7 +311,8 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
   }
  }
  if (our_i < 0) {
-  debugmsg ("displace_vehicle our_i=%d", our_i);
+  if (g->debugmon)
+   debugmsg ("displace_vehicle our_i=%d", our_i);
   return false;
  }
  // move the vehicle
@@ -318,7 +320,8 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
  // don't let it go off grid
  if (!inbounds(x2, y2)){
   veh->stop();
-  debugmsg ("stopping vehicle, displaced dx=%d, dy=%d", dx,dy);
+  if (g->debugmon)
+   debugmsg ("stopping vehicle, displaced dx=%d, dy=%d", dx,dy);
   return false;
  }
 
@@ -438,7 +441,8 @@ bool map::vehproceed(game* g){
       return false;
 
    if (!inbounds(x, y)){
-      debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)",x,y);
+    if (g->debugmon)
+     debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)",x,y);
       veh->stop();
       veh->of_turn = 0;
       return true;
