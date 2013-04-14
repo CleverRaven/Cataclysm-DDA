@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>    // std::min
 
 #include "skill.h"
 #include "rng.h"
@@ -140,13 +141,18 @@ int SkillLevel::train(int &level) {
   return _exercise;
 }
 
+static int rustRate(int level)
+{
+    int forgetCap = std::min(level, 7);
+    return 16384 / int(pow(2.0, double(forgetCap - 1)));
+}
+
 bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem)
 {
     if (OPTIONS[OPT_SKILL_RUST] == 2) return false;
 
-    int forgetCap = _level > 7 ? 7 : _level;
     if (_level > 0 && turn > _lastPracticed &&
-        (turn - _lastPracticed) % (16384 / int(pow(2, double(forgetCap - 1)))) == 0)
+        (turn - _lastPracticed) % rustRate(_level) == 0)
     {
         if (rng(1,12) % forgetful ? 3 : 4)
         {
