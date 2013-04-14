@@ -641,9 +641,9 @@ void game::init_vehicles()
 	PART (0, 0, vp_fuel_tank_gas);
 	PART (0, 0, vp_controls);
 
-	PART (1, 0, vp_wheel_motorbike);
+	PART (1, 0, vp_wheel_small);
 
-	PART (-1, 0, vp_wheel_motorbike);
+	PART (-1, 0, vp_wheel_small);
 
 	VEHICLE ("Military Cargo Truck");
 	// Army M35A2 2.5 ton cargo truck
