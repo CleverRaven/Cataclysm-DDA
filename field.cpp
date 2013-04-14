@@ -105,13 +105,15 @@ bool map::process_fields_in_submap(game *g, int gridn)
          ammo_type->ammo_effects & mfb(AMMO_FLASHBANG) ||
          ammo_type->ammo_effects & mfb(AMMO_COOKOFF)))
      {
+         const int rounds_exploded = rng(1, it->charges);
          // TODO: Vary the effect based on the ammo flag instead of just exploding them all.
-         destroyed = true;
          // cook off ammo instead of just burning it.
-         for(int i = 0; i < (it->charges / 10) + 1; i++)
+         for(int i = 0; i < (rounds_exploded / 10) + 1; i++)
          {
              g->explosion(x, y, (dynamic_cast<it_ammo*>(it->type))->damage / 2, true, false);
          }
+         it->charges -= rounds_exploded;
+         if(it->charges == 0) destroyed = true;
      } else if (it->made_of(PAPER)) {
       destroyed = it->burn(cur->density * 3);
       consumed++;
