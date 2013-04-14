@@ -257,15 +257,12 @@ End of cheatery */
   } else {
    inv.push_back(tmp);
   }
+ }
 
-  // if we start with drugs, need to start strongly addicted, too
-  if (tmp.is_food()) {
-   it_comest *comest = dynamic_cast<it_comest*>(tmp.type);
-   if (comest->add != ADD_NULL) {
-    addiction add(comest->add, 10);
-    g->u.addictions.push_back(add);
-   }
-  }
+ std::vector<addiction> prof_addictions = g->u.prof->addictions();
+ for (std::vector<addiction>::const_iterator iter = prof_addictions.begin(); iter != prof_addictions.end(); ++iter)
+ {
+     g->u.addictions.push_back(*iter);
  }
 
 // The near-sighted get to start with glasses.
