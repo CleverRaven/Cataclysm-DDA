@@ -252,6 +252,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  int y = 0;
  int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
  computer *tmpcomp = NULL;
+ int veh_spawn_heading;
 
  switch (terrain_type) {
 
@@ -320,7 +321,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   }
     if (one_in(4))
   {
-      add_vehicle (g, veh_truck, 12, 12, 90);
+      add_vehicle (g, veh_truck, 12, 12, 90, -1, -1);
 	  }
   break;
  case ot_forest:
@@ -720,13 +721,54 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
  case ot_road_ns:
  case ot_road_ew:
-  if ((t_west  >= ot_house_north && t_west  <= ot_sub_station_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_sub_station_west) ||
-      (t_north >= ot_house_north && t_north <= ot_sub_station_west) ||
-      (t_south >= ot_house_north && t_south <= ot_sub_station_west)   )
+  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
+      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
+      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
+      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
    rn = 1;	// rn = 1 if this road has sidewalks
   else
    rn = 0;
+
+  // spawn city car wrecks
+  if (rn > 0) {
+   vhtype_id vt = veh_null;
+   int maxwrecks = rng (1,3);
+   for (int nv = 0; nv < maxwrecks; nv++) {
+    int vx = rng (0, 3) * 4 + 5;
+    int vy = rng (0, 3) * 4 + 5;
+    int rc = rng(1, 100);
+	if (rc <= 50)
+     add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 70)
+     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 90)
+     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else
+     add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, 1);
+   }
+  }
+
+  if (terrain_type == ot_road_ew)
+   veh_spawn_heading = (one_in(2)? 0 : 180);
+  else
+   veh_spawn_heading = (one_in(2)? 270 : 90);
+
+  // spawn regular road out of fuel vehicles
+  if (rn == 0) {
+   if (one_in(40)) {
+    vhtype_id vt = veh_null;
+    int vx = rng (8, 16);
+    int vy = rng (8, 16);
+    int rc = rng(1, 10);
+	if (rc <= 5)
+     add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
+    else if (rc <= 9)
+     add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, 0, -1);
+    else
+     add_vehicle (g, veh_semi, vx, vy, veh_spawn_heading, 0, -1);
+   }
+  }
+
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if (i < 4 || i >= SEEX * 2 - 4) {
@@ -753,13 +795,48 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  case ot_road_es:
  case ot_road_sw:
  case ot_road_wn:
-  if ((t_west  >= ot_house_north && t_west  <= ot_sub_station_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_sub_station_west) ||
-      (t_north >= ot_house_north && t_north <= ot_sub_station_west) ||
-      (t_south >= ot_house_north && t_south <= ot_sub_station_west)   )
+  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
+      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
+      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
+      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
    rn = 1;	// rn = 1 if this road has sidewalks
   else
    rn = 0;
+
+  // spawn city car wrecks
+  if (rn > 0) {
+   vhtype_id vt = veh_null;
+   int maxwrecks = rng (1,3);
+   for (int nv = 0; nv < maxwrecks; nv++) {
+    int vx = rng (0, 3) * 4 + 5;
+    int vy = rng (0, 3) * 4 + 5;
+    int rc = rng(1, 100);
+	if (rc <= 50)
+     add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 70)
+     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 90)
+     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else
+     add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, 1);
+   }
+  }
+  // spawn regular road out of fuel vehicles
+  if (rn == 0) {
+   if (one_in(40)) {
+    vhtype_id vt = veh_null;
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
+    int rc = rng(1, 10);
+	if (rc <= 5)
+     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else if (rc <= 9)
+     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else
+     add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+   }
+  }
+
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
@@ -791,13 +868,48 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  case ot_road_new:
  case ot_road_nsw:
  case ot_road_esw:
-  if ((t_west  >= ot_house_north && t_west  <= ot_sub_station_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_sub_station_west) ||
-      (t_north >= ot_house_north && t_north <= ot_sub_station_west) ||
-      (t_south >= ot_house_north && t_south <= ot_sub_station_west)   )
+  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
+      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
+      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
+      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
    rn = 1;	// rn = 1 if this road has sidewalks
   else
    rn = 0;
+
+  // spawn city car wrecks
+  if (rn > 0) {
+   vhtype_id vt = veh_null;
+   int maxwrecks = rng (1,3);
+   for (int nv = 0; nv < maxwrecks; nv++) {
+    int vx = rng (0, 3) * 4 + 5;
+    int vy = rng (0, 3) * 4 + 5;
+    int rc = rng(1, 100);
+	if (rc <= 50)
+     add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 70)
+     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 90)
+     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else
+     add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, 1);
+   }
+  }
+  // spawn regular road out of fuel vehicles
+  if (rn == 0) {
+   if (one_in(20)) {
+    vhtype_id vt = veh_null;
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
+    int rc = rng(1, 10);
+	if (rc <= 5)
+     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else if (rc <= 9)
+     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else
+     add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+   }
+  }
+
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if (i < 4 || (i >= SEEX * 2 - 4 && (j < 4 || j >= SEEY * 2 - 4))) {
@@ -834,6 +946,26 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    rn = 2;	// rn = 2 if this is actually a plaza
   else
    rn = 1;	// rn = 1 if this road has sidewalks
+
+  // spawn city car wrecks
+  if (rn > 0) {
+   vhtype_id vt = veh_null;
+   int maxwrecks = rng (1,3);
+   for (int nv = 0; nv < maxwrecks; nv++) {
+    int vx = rng (0, 3) * 4 + 5;
+    int vy = rng (0, 3) * 4 + 5;
+	int rc = rng(1, 100);
+	if (rc <= 50)
+     add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, -1);
+    else if (rc <= 70)
+     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, -1);
+    else if (rc <= 90)
+     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, -1);
+    else
+     add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, -1);
+   }
+  }
+
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if (rn == 2)
@@ -904,6 +1036,20 @@ t   t\n\
     }
    }
   }
+   // spawn regular road out of fuel vehicles
+   if (one_in(2)) {
+    vhtype_id vt = veh_null;
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
+    int rc = rng(1, 10);
+	if (rc <= 5)
+     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else if (rc <= 9)
+     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else
+     add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+   }
+
   if (terrain_type == ot_bridge_ew)
    rotate(1);
   place_items(mi_road, 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
@@ -928,6 +1074,20 @@ t   t\n\
   if (terrain_type == ot_hiway_ew)
    rotate(1);
   place_items(mi_road, 8, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+
+  // spawn regular road out of fuel vehicles
+   if (one_in(2)) {
+    vhtype_id vt = veh_null;
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
+    int rc = rng(1, 10);
+	if (rc <= 5)
+     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else if (rc <= 9)
+     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else
+     add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+   }
   break;
 
  case ot_river_center:
@@ -1358,7 +1518,7 @@ t   t\n\
 					vt = veh_motorcycle;
 			}
 
-      add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270);
+      add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270, -1, -1);
   }
   place_items(mi_road, 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
   if (t_east  >= ot_road_null && t_east  <= ot_road_nesw_manhole)
@@ -4350,7 +4510,7 @@ case ot_s_garage_north:
             vt = one_in(2) ? veh_sandbike : veh_sandbike_chassis;
           else
             vt = one_in(2) ? veh_motorcycle : veh_motorcycle_chassis;
-          add_vehicle (g, vt, vx, vy, theta);
+          add_vehicle (g, vt, vx, vy, theta, -1, -1);
         }
   }
   break;
@@ -7357,7 +7517,7 @@ void map::add_spawn(monster *mon)
            mon->faction_id, mon->mission_id, spawnname);
 }
 
-vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
+vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir, int veh_fuel, int veh_status)
 {
  if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
   debugmsg("Bad add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
@@ -7371,7 +7531,7 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
  x %= SEEX;
  y %= SEEY;
 // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
- vehicle * veh = new vehicle(g, type);
+ vehicle * veh = new vehicle(g, type, veh_fuel, veh_status);
  veh->posx = x;
  veh->posy = y;
  veh->smx = smx;
@@ -7379,6 +7539,8 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
  veh->face.init(dir);
  veh->turn_dir = dir;
  veh->precalc_mounts (0, dir);
+// veh->init_veh_fuel = 50;
+// veh->init_veh_status = 0;
 
  grid[nonant]->vehicles.push_back(veh);
 
