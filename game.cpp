@@ -5695,6 +5695,7 @@ void game::list_items()
                 iLastActiveX = -1;
                 iLastActiveY = -1;
                 reset = true;
+                refilter = true;
             }
             else if (ch == 'e' || ch == 'E')
             {
@@ -5711,13 +5712,21 @@ void game::list_items()
             }
             else if(ch == '+')
             {
-                list_item_upvote = string_input_popup("High Priority : ",55,list_item_upvote);
-                refilter = true;
+                std::string temp = string_input_popup("High Priority : ",55,list_item_upvote);
+                if(temp != "")
+                {
+                    list_item_upvote = temp;
+                    refilter = true;
+                }
             }
             else if(ch == '-') 
             {
-                list_item_downvote = string_input_popup("Low Priority : ",55,list_item_downvote);
-                refilter = true;
+                std::string temp = string_input_popup("Low Priority : ",55,list_item_downvote);
+                if(temp != "")
+                {
+                    list_item_downvote = temp;
+                    refilter = true;
+                }
             }
             if (refilter)
             {
