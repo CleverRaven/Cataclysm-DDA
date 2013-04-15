@@ -1456,7 +1456,7 @@ case t_wall_log:
   if (str >= result) {
    sound += "crak";
    ter_set(x, y, t_dirt);
-   spawn_item(x, y, (*itypes)["spear_wood"], 0, 1);
+   spawn_item(x, y, (*itypes)["pointy_stick"], 0, 1);
    return true;
   } else {
    sound += "whump.";
