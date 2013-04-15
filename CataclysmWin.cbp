@@ -37,6 +37,8 @@
 		<Unit filename="calendar.h" />
 		<Unit filename="catacurse.cpp" />
 		<Unit filename="catacurse.h" />
+		<Unit filename="catajson.cpp" />
+		<Unit filename="catajson.h" />
 		<Unit filename="color.cpp" />
 		<Unit filename="color.h" />
 		<Unit filename="computer.cpp" />
