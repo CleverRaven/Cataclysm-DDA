@@ -2246,7 +2246,8 @@
                              ["pan", -1],
                              ["pot", -1],
                              ["rock_pot", -1],
-                             ["spear_wood", -1]
+                             ["spear_wood", -1],
+                             ["pointy_stick", -1]
                          ]
                      ],
             "components": [
@@ -2310,7 +2311,8 @@
                              ["pan", -1],
                              ["pot", -1],
                              ["rock_pot", -1],
-                             ["spear_wood", -1]
+                             ["spear_wood", -1],
+                             ["pointy_stick", -1]
                          ]
                      ],
             "components": [
