@@ -3410,12 +3410,6 @@ void game::monmove()
 {
  cleanup_dead();
  for (int i = 0; i < z.size(); i++) {
-  if (i < 0 || i > z.size())
-  {
-   dbg(D_ERROR) << "game:monmove: Moving out of bounds monster! i "
-                << i << ", z.size() " << z.size();
-   debugmsg("Moving out of bounds monster! i %d, z.size() %d", i, z.size());
-  }
   while (!z[i].dead && !z[i].can_move_to(m, z[i].posx, z[i].posy)) {
 // If we can't move to our current position, assign us to a new one
    if (debugmon)
