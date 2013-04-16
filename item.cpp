@@ -545,7 +545,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
    dump->push_back(iteminfo("BOOK", " Reading this book affects your morale by ", (book->fun > 0 ? "+" : ""), int(book->fun)));
 
   dump->push_back(iteminfo("BOOK", " This book takes ", "", int(book->time), " minutes to read.", true, true));
-  
+
   if (book->recipes.size() > 0) {
    dump->push_back(iteminfo("BOOK", " This book contains ", "", book->recipes.size(), " crafting recipes.", true, true));
   }

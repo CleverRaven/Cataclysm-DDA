@@ -245,7 +245,7 @@ std::string action_ident(action_id act)
 
 action_id look_up_action(std::string ident)
 {
-    for (int i = 0; i < NUM_ACTIONS; i++) 
+    for (int i = 0; i < NUM_ACTIONS; i++)
     {
         if (action_ident( action_id(i) ) == ident)
         {
@@ -257,7 +257,7 @@ action_id look_up_action(std::string ident)
 
 std::string action_name(action_id act)
 {
-    switch (act) 
+    switch (act)
     {
         case ACTION_PAUSE:
             return "Pause";

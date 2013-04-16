@@ -24,7 +24,7 @@ void Item_factory::init(){
 //Will eventually be deprecated - Loads existing item format into the item factory
 void Item_factory::init(game* main_game){
     //Copy over the template pointers
-    m_templates.insert(main_game->itypes.begin(), main_game->itypes.end()); 
+    m_templates.insert(main_game->itypes.begin(), main_game->itypes.end());
     init();
 }
 
@@ -35,7 +35,7 @@ itype* Item_factory::find_template(const Item_tag id){
         return found->second;
     }
     else{
-        return m_missing_item; 
+        return m_missing_item;
     }
 }
 
@@ -45,7 +45,7 @@ itype* Item_factory::random_template(){
 }
 
 //Returns a random template from those with the given group tag
-itype* Item_factory::template_from(const Item_tag group_tag){ 
+itype* Item_factory::template_from(const Item_tag group_tag){
     return find_template( id_from(group_tag) );
 }
 
@@ -111,7 +111,7 @@ void Item_factory::load_item_templates(){
 void Item_factory::load_item_templates_from(const std::string file_name){
     std::ifstream data_file;
     picojson::value input_value;
-    
+
     data_file.open(file_name.c_str());
     data_file >> input_value;
     data_file.close();
@@ -126,7 +126,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
         std::cerr << file_name << " is not an array of item_templates" << std::endl;
         exit(2);
     }
-    
+
     //Crawl through and extract the items
     const picojson::array& all_items = input_value.get<picojson::array>();
     for (picojson::array::const_iterator entry = all_items.begin(); entry != all_items.end(); ++entry) {
@@ -143,7 +143,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
             } else {
                 Item_tag new_id = key_pair->second.get<std::string>();
 
-                // If everything works out, add the item to the group list... 
+                // If everything works out, add the item to the group list...
                 // unless a similar item is already there
                 if(m_templates.find(new_id) != m_templates.end()){
                     std::cerr << "Item definition skipped, id " << new_id << " already exists." << std::endl;
@@ -153,18 +153,18 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     m_templates[new_id] = new_item_template;
 
                     // And then proceed to assign the correct field
-                    new_item_template->rarity = int_from_json(new_id, "rarity", entry_body); 
-                    new_item_template->name = string_from_json(new_id, "name", entry_body); 
-                    new_item_template->sym = char_from_json(new_id, "symbol", entry_body); 
-                    new_item_template->color = color_from_json(new_id, "color", entry_body); 
-                    new_item_template->description = string_from_json(new_id, "description", entry_body); 
+                    new_item_template->rarity = int_from_json(new_id, "rarity", entry_body);
+                    new_item_template->name = string_from_json(new_id, "name", entry_body);
+                    new_item_template->sym = char_from_json(new_id, "symbol", entry_body);
+                    new_item_template->color = color_from_json(new_id, "color", entry_body);
+                    new_item_template->description = string_from_json(new_id, "description", entry_body);
                     new_item_template->m1 = material_from_json(new_id, "material", entry_body, 0);
                     new_item_template->m2 = material_from_json(new_id, "material", entry_body, 1);
-                    new_item_template->volume = int_from_json(new_id, "volume", entry_body); 
-                    new_item_template->weight = int_from_json(new_id, "weight", entry_body); 
-                    new_item_template->melee_dam = int_from_json(new_id, "damage", entry_body); 
-                    new_item_template->melee_cut = int_from_json(new_id, "cutting", entry_body); 
-                    new_item_template->m_to_hit = int_from_json(new_id, "to_hit", entry_body); 
+                    new_item_template->volume = int_from_json(new_id, "volume", entry_body);
+                    new_item_template->weight = int_from_json(new_id, "weight", entry_body);
+                    new_item_template->melee_dam = int_from_json(new_id, "damage", entry_body);
+                    new_item_template->melee_cut = int_from_json(new_id, "cutting", entry_body);
+                    new_item_template->m_to_hit = int_from_json(new_id, "to_hit", entry_body);
                 }
             }
         }
@@ -175,7 +175,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
 void Item_factory::load_item_groups_from(const std::string file_name){
     std::ifstream data_file;
     picojson::value input_value;
-    
+
     data_file.open(file_name.c_str());
     data_file >> input_value;
     data_file.close();
@@ -190,7 +190,7 @@ void Item_factory::load_item_groups_from(const std::string file_name){
         std::cerr << file_name << " is not an array of item groups"<< std::endl;
         exit(2);
     }
-    
+
     //Crawl through once and create an entry for every definition
     const picojson::array& all_items = input_value.get<picojson::array>();
     for (picojson::array::const_iterator entry = all_items.begin(); entry != all_items.end(); ++entry) {
@@ -216,7 +216,7 @@ void Item_factory::load_item_groups_from(const std::string file_name){
 
         Item_tag group_id = entry_body.find("id")->second.get<std::string>();
         Item_group current_group = *m_template_groups.find(group_id)->second;
-        
+
         //Add items
         picojson::value::object::const_iterator key_pair = entry_body.find("items");
         if( key_pair != entry_body.end() ){
@@ -357,7 +357,7 @@ material Item_factory::material_from_json(Item_tag new_id, Item_tag index, picoj
         } else {
             std::cerr << "Item "<< new_id << " material was skipped, not a string or array of strings." << std::endl;
         }
-    } 
+    }
     return material_list[to_return];
 }
 

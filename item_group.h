@@ -12,7 +12,7 @@ class Item_group
 {
 public:
     Item_group(Item_tag id);
-    
+
     const Item_tag get_id();
     const Item_tag get_id(std::vector<Item_tag> recursion_list);
     void add_entry(const Item_tag item_id, int chance);

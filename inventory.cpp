@@ -243,7 +243,7 @@ void inventory::form_from_map(game *g, point origin, int range)
 
 std::vector<item> inventory::remove_stack(int index)
 {
-    if (index < 0 || index >= items.size()) 
+    if (index < 0 || index >= items.size())
     {
         debugmsg("Tried to remove_stack(%d) from an inventory (size %d)",
                index, items.size());
@@ -257,7 +257,7 @@ std::vector<item> inventory::remove_stack(int index)
 
 std::vector<item> inventory::remove_stack(int index,int amount)
 {
-    if (index < 0 || index >= items.size()) 
+    if (index < 0 || index >= items.size())
     {
         debugmsg("Tried to remove_stack(%d) from an inventory (size %d)",
                index, items.size());

@@ -21,7 +21,7 @@ void game::init_recipes()
     int id = -1;
     int tl, cl;
     recipe* last_rec = NULL;
-    
+
     catajson recipeRaw("data/raw/recipes.json");
 
     catajson craftCats = recipeRaw.get("categories");
@@ -83,7 +83,7 @@ void game::init_recipes()
                 last_rec->components[cl].push_back(component(name, quant));
             }
         }
-        
+
         if (curr.has("tools"))
         {
             catajson toolList = curr.get("tools");

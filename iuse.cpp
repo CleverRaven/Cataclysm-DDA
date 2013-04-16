@@ -944,7 +944,7 @@ void iuse::extra_battery(game *g, player *p, item *it, bool t)
 {
     char ch = g->inv_type("Modify what?", IC_TOOL);
     item* modded = &(p->i_at(ch));
-    
+
     if (modded == NULL || modded->is_null())
     {
         g->add_msg_if_player(p,"You do not have that item!");

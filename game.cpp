@@ -5610,7 +5610,7 @@ void game::reset_item_list_state(WINDOW* window, int height)
 
     mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 20, c_ltgreen, " %s", "F");
     wprintz(window, c_white, "%s", "ilter ");
-    
+
     mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 30, c_ltgreen, " %s", "+/-");
     wprintz(window, c_white, "%s", ":Priority ");
 
@@ -5749,7 +5749,7 @@ void game::list_items()
                     refilter = true;
                 }
             }
-            else if(ch == '-') 
+            else if(ch == '-')
             {
                 std::string temp = string_input_popup("Low Priority : ",55,list_item_downvote);
                 if(temp != "")

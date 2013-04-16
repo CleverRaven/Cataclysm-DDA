@@ -303,7 +303,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  if (weapon.is_style())
   stuck_penalty = 0;
  moves -= stuck_penalty;
- 
+
 // Pick one or more special attacks
  technique_id technique = pick_technique(g, NULL, &p, critical_hit, allow_grab);
 
@@ -1481,7 +1481,7 @@ std::string melee_verb(technique_id tech, std::string your, player &p,
 
     default: // No tech, so check our damage levels
         // verb should be based on how the weapon is used, and the total damage inflicted
-    
+
         // if it's a stabbing weapon or a spear
         if (p.weapon.has_flag(IF_SPEAR) || (p.weapon.has_flag(IF_STAB) && stab_dam > cut_dam))
         {

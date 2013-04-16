@@ -9,7 +9,7 @@ Item_group::Item_group(const Item_tag id) : m_id(id), m_max_odds(0){
 
 // When selecting an id from this group, the value returned is determined based on the odds
 // given when inserted into the group.
-const Item_tag Item_group::get_id(){   
+const Item_tag Item_group::get_id(){
     //Create a list of visited groups - in case of recursion, this will be needed to throw an error.
     std::vector<Item_tag> recursion_list;
     return get_id(recursion_list);
@@ -17,7 +17,7 @@ const Item_tag Item_group::get_id(){
 
 const Item_tag Item_group::get_id(std::vector<Item_tag> recursion_list){
     int rolled_value = rng(1,m_max_odds)-1;
-    
+
     //Insure we haven't already visited this group
     if(std::find(recursion_list.begin(), recursion_list.end(), m_id) != recursion_list.end()){
         std::string error_message = "Recursion loop occured in retrieval from item group "+m_id+". Recursion backtrace follows:\n";
