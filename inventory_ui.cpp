@@ -12,6 +12,7 @@ std::string CATEGORIES[iCategorieNum] =
  {"GROUND:", "FIREARMS:", "AMMUNITION:", "CLOTHING:", "FOOD/DRINKS:",
   "TOOLS:", "BOOKS:", "WEAPONS:", "MODS/BIONICS", "MEDICINE/DRUGS", "OTHER:"};
 
+//TODO: make this function not have issues with items that are classed as multiple things
 std::vector<int> find_firsts(inventory &inv)
 {
     std::vector<int> firsts;
