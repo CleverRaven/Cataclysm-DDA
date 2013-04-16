@@ -1,5 +1,5 @@
-#ifndef _ITEM_MANAGER_H_
-#define _ITEM_MANAGER_H_
+#ifndef _ITEM_FACTORY_H_
+#define _ITEM_FACTORY_H_
 
 #include <string>
 #include <vector>

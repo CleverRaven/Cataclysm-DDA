@@ -9,7 +9,7 @@
 
 Item_factory* item_controller = new Item_factory();
 
-//Every item manager comes with a missing item
+//Every item factory comes with a missing item
 Item_factory::Item_factory(){
     m_missing_item = new itype();
     m_missing_item->name = "Error: Item Missing";
@@ -21,7 +21,7 @@ Item_factory::Item_factory(){
 void Item_factory::init(){
 }
 
-//Will eventually be deprecated - Loads existing item format into the item manager
+//Will eventually be deprecated - Loads existing item format into the item factory
 void Item_factory::init(game* main_game){
     //Copy over the template pointers
     m_templates.insert(main_game->itypes.begin(), main_game->itypes.end()); 
