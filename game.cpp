@@ -4117,7 +4117,10 @@ void game::explode_mon(int index)
   }
  }
 
- z.erase(z.begin()+index);
+ // there WAS an erasure of the monster here, but it caused issues with loops
+ // we should structure things so that z.erase is only called in specified cleanup
+ // functions
+
  if (last_target == index)
   last_target = -1;
  else if (last_target > index)
