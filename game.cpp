@@ -2814,9 +2814,17 @@ void game::draw_minimap()
    int omy = cursy + j;
    bool seen = false;
    oter_id cur_ter;
+   long note_sym = 0;
+   bool note = false;
    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {
     cur_ter = cur_om.ter(omx, omy, levz);
     seen    = cur_om.seen(omx, omy, levz);
+    if (cur_om.has_note(omx,omy,levz))
+    {
+	if (cur_om.note(omx,omy,levz)[1] == ':')
+	    note_sym = cur_om.note(omx,omy,levz)[0];
+	note = true;
+    }
    } else if ((omx < 0 || omx >= OMAPX) && (omy < 0 || omy >= OMAPY)) {
     if (omx < 0) omx += OMAPX;
     else         omx -= OMAPX;
@@ -2824,16 +2832,34 @@ void game::draw_minimap()
     else         omy -= OMAPY;
     cur_ter = om_diag->ter(omx, omy, levz);
     seen    = om_diag->seen(omx, omy, levz);
+    if (om_diag->has_note(omx,omy,levz))
+    {
+	if (om_diag->note(omx,omy,levz)[1] == ':')
+	    note_sym = om_diag->note(omx,omy,levz)[0];
+	note = true;
+    }
    } else if (omx < 0 || omx >= OMAPX) {
     if (omx < 0) omx += OMAPX;
     else         omx -= OMAPX;
     cur_ter = om_hori->ter(omx, omy, levz);
     seen    = om_hori->seen(omx, omy, levz);
+    if (om_hori->has_note(omx,omy,levz))
+    {
+	if (om_hori->note(omx,omy,levz)[1] == ':')
+	    note_sym = om_hori->note(omx,omy,levz)[0];
+	note = true;
+    }
    } else if (omy < 0 || omy >= OMAPY) {
     if (omy < 0) omy += OMAPY;
     else         omy -= OMAPY;
     cur_ter = om_vert->ter(omx, omy, levz);
     seen    = om_vert->seen(omx, omy, levz);
+    if (om_vert->has_note(omx,omy,levz))
+    {
+	if (om_vert->note(omx,omy,levz)[1] == ':')
+	    note_sym = om_vert->note(omx,omy,levz)[0];
+	note = true;
+    }
    } else {
     dbg(D_ERROR) << "game:draw_minimap: No data loaded! omx: "
                  << omx << " omy: " << omy;
@@ -2841,6 +2867,11 @@ void game::draw_minimap()
    }
    nc_color ter_color = oterlist[cur_ter].color;
    long ter_sym = oterlist[cur_ter].sym;
+   if (note)
+   {
+       ter_sym = note_sym ? note_sym : 'N';
+       ter_color = c_yellow;
+   }
    if (seen) {
     if (!drew_mission && target.x == omx && target.y == omy) {
      drew_mission = true;
