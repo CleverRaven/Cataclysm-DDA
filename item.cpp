@@ -1264,7 +1264,7 @@ bool item::is_weap() const
   return false;
 
  if (is_gun() || is_food() || is_ammo() || is_food_container() || is_armor() ||
-     is_book() || is_tool())
+     is_book() || is_tool() || is_bionic() || is_gunmod())
   return false;
  return (type->melee_dam > 7 || type->melee_cut > 5);
 }
