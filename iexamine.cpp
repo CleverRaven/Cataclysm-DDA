@@ -382,7 +382,9 @@ void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) 
  if (camp && camp->board_x() == examx && camp->board_y() == examy) {
   std::vector<std::string> options;
   options.push_back("Cancel");
-  int choice = menu_vec(camp->board_name().c_str(), options) - 1;
+  // Causes a warning due to being unused, but don't want to delete since
+  // it's clearly what's intened for future functionality.
+  //int choice = menu_vec(camp->board_name().c_str(), options) - 1;
  }
  else {
   bool create_camp = m->allow_camp(examx, examy);

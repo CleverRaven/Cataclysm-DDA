@@ -340,7 +340,8 @@ void game::init_construction()
    TOOLCONT("hatchet");
    TOOLCONT("ax");
    TOOLCONT("primitive_axe");
-   COMP("spear_wood", 2);
+   COMP("pointy_stick", 2);
+   COMPCONT("spear_wood", 2);
 
  CONSTRUCT("Build Wood Stove", 0, &construct::able_empty,
  		                                   &construct::done_nothing);

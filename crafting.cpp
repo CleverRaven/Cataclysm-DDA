@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "picojson.h"
+#include "catajson.h"
 #include "input.h"
 #include "game.h"
 #include "options.h"
@@ -21,399 +21,104 @@ void game::init_recipes()
     int id = -1;
     int tl, cl;
     recipe* last_rec = NULL;
+    
+    catajson recipeRaw("data/raw/recipes.json");
 
-    picojson::value recipeRaw;
-    std::ifstream recipeFile;
-
-    recipeFile.open("data/raw/recipes.json");
-
-    recipeFile >> recipeRaw;
-
-    recipeFile.close();
-
-    // Soron says: picojson can't be the easiest solution >_>
-    // I would consider writing a wrapper, but... dunno if we want a wrapper,
-    // or a better alternative
-    if (recipeRaw.is<picojson::object>())
+    catajson craftCats = recipeRaw.get("categories");
+    for (craftCats.set_begin(); craftCats.has_curr(); craftCats.next())
     {
-        picojson::value craftCats = recipeRaw.get("categories");
-        if (craftCats.is<picojson::array>())
-        {
-            const picojson::array& craftCatList = craftCats.get<picojson::array>();
-
-            for (picojson::array::const_iterator iter = craftCatList.begin(); iter != craftCatList.end(); ++iter)
-            {
-                if (iter->is<std::string>())
-                {
-                    craft_cat_list.push_back(iter->get<std::string>());
-                }
-                else
-                {
-                    debugmsg("Invalid craft category");
-                }
-            }
-        }
-        else
-        {
-            debugmsg("Bad recipe file: craft categories is not an array");
-            exit(1);
-        }
-
-        picojson::value recipeJSON = recipeRaw.get("recipes");
-        if (recipeJSON.is<picojson::array>())
-        {
-            picojson::array& recipeList = recipeJSON.get<picojson::array>();
-
-            std::vector<std::string> recipeNames;
-
-            for (picojson::array::const_iterator iter = recipeList.begin(); iter != recipeList.end(); ++iter)
-            {
-                if (iter->is<picojson::object>())
-                {
-                    std::string result;
-                    std::string id_suffix = "";
-                    std::string category;
-                    const char *skill1 = NULL;
-                    const char *skill2 = NULL;
-                    int difficulty, time;
-                    bool reversible = false;
-                    bool autolearn;
-                    int learn_by_disassembly = -1;
-
-                    bool has_tools = false;
-
-                    //first we'll check the required stuff
-                    if (iter->contains("result"))
-                    {
-                        if (iter->get("result").is<std::string>())
-                        {
-                            result = iter->get("result").get<std::string>();
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: non-string result");
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no result");
-                        continue;
-                    }
-
-                    if (iter->contains("category"))
-                    {
-                        if (iter->get("category").is<std::string>())
-                        {
-                            category = iter->get("category").get<std::string>();
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: non-string category");
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no category");
-                        continue;
-                    }
-
-                    if (iter->contains("difficulty"))
-                    {
-                        if (iter->get("difficulty").is<double>())
-                        {
-                            difficulty = static_cast<int>(iter->get("difficulty").get<double>());
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: non-numeric difficulty");
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no difficulty");
-                        continue;
-                    }
-
-                    if (iter->contains("time"))
-                    {
-                        if (iter->get("time").is<double>())
-                        {
-                            time = static_cast<int>(iter->get("time").get<double>());
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: non-numeric time");
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no time");
-                        continue;
-                    }
-
-                    if (iter->contains("autolearn"))
-                    {
-                        autolearn = iter->get("autolearn").evaluate_as_boolean();
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no autolearn");
-                        continue;
-                    }
-
-                    if (iter->contains("components"))
-                    {
-                        if (!iter->get("components").is<picojson::array>())
-                        {
-                            debugmsg("Invalid recipe: components are not an array");
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no components");
-                        continue;
-                    }
-
-                    //now we'll check the optional stuff
-                    if (iter->contains("skill_pri"))
-                    {
-                        if (iter->get("skill_pri").is<std::string>())
-                        {
-                            skill1 = iter->get("skill_pri").get<std::string>().c_str();
-                        }
-                        else
-                        {
-                            debugmsg("Bad recipe primary skill: non-string");
-                            continue;
-                        }
-                    }
-
-                    if (iter->contains("skill_sec"))
-                    {
-                        if (iter->get("skill_sec").is<std::string>())
-                        {
-                            skill2 = iter->get("skill_sec").get<std::string>().c_str();
-                        }
-                        else
-                        {
-                            debugmsg("Bad recipe secondary skill: non-string");
-                            continue;
-                        }
-                    }
-
-                    if (iter->contains("reversible"))
-                    {
-                        reversible = iter->get("reversible").evaluate_as_boolean();
-                    }
-
-                    if (iter->contains("tools"))
-                    {
-                        if (!iter->get("tools").is<picojson::array>())
-                        {
-                            debugmsg("Invalid recipe: tools are not an array");
-                            continue;
-                        }
-                        has_tools = true;
-                    }
-
-                    if (iter->contains("id_suffix"))
-                    {
-                        if(iter->get("id_suffix").is<std::string>())
-                        {
-                            id_suffix = "_" + iter->get("id_suffix").get<std::string>();
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: id_suffix is not a string");
-                            continue;
-                        }
-                    }
-
-                    if (iter->contains("decomp_learn"))
-                    {
-                        if (iter->get("decomp_learn").is<double>())
-                        {
-                            learn_by_disassembly = static_cast<int>(iter->get("decomp_learn").get<double>());
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: disassembly learning level is non-numeric");
-                            continue;
-                        }
-                    }
-
-                    tl = -1;
-                    cl = -1;
-                    ++id;
-
-                    std::string rec_name = result + id_suffix;
-
-                    last_rec = new recipe(rec_name, id, result, category, skill1, skill2,
-                                          difficulty, time, reversible, autolearn,
-                                          learn_by_disassembly);
-
-                    for (std::vector<std::string>::iterator name_iter = recipeNames.begin();
-                         name_iter != recipeNames.end();
-                         ++name_iter)
-                    {
-                        if ((*name_iter) == rec_name)
-                        {
-                            debugmsg("Recipe name collision: %s", rec_name.c_str());
-                        }
-                    }
-
-                    recipeNames.push_back(rec_name);
-
-                    for (picojson::array::const_iterator comp_iter = iter->get("components").get<picojson::array>().begin();
-                         comp_iter != iter->get("components").get<picojson::array>().end();
-                         ++comp_iter)
-                    {
-                        if (comp_iter->is<picojson::array>())
-                        {
-                            ++cl;
-                            for (picojson::array::const_iterator inner_iter = comp_iter->get<picojson::array>().begin();
-                                 inner_iter != comp_iter->get<picojson::array>().end();
-                                 ++inner_iter)
-                            {
-                                if (inner_iter->is<picojson::array>())
-                                {
-                                    if(inner_iter->get(0).is<std::string>() && inner_iter->get(1).is<double>())
-                                    {
-                                        std::string name = inner_iter->get(0).get<std::string>();
-                                        int quant = static_cast<int>(inner_iter->get(1).get<double>());
-                                        last_rec->components[cl].push_back(component(name, quant));
-                                    }
-                                    else
-                                    {
-                                        debugmsg("Invalid component for recipe: bad comp def");
-                                        --cl;
-                                        continue;
-                                    }
-                                }
-                                else
-                                {
-                                    debugmsg("Invalid component for recipe: not a pair");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            debugmsg("Invalid component for recipe: not an array");
-                            continue;
-                        }
-                    }
-
-                    if (has_tools)
-                    {
-                        for (picojson::array::const_iterator tool_iter = iter->get("tools").get<picojson::array>().begin();
-                             tool_iter != iter->get("tools").get<picojson::array>().end();
-                             ++tool_iter)
-                        {
-                            if (tool_iter->is<picojson::array>())
-                            {
-                                ++tl;
-                                for (picojson::array::const_iterator inner_iter = tool_iter->get<picojson::array>().begin();
-                                     inner_iter != tool_iter->get<picojson::array>().end();
-                                     ++inner_iter)
-                                {
-                                    if (inner_iter->is<picojson::array>())
-                                    {
-                                        if(inner_iter->get(0).is<std::string>() && inner_iter->get(1).is<double>())
-                                        {
-                                            std::string name = inner_iter->get(0).get<std::string>();
-                                            int quant = static_cast<int>(inner_iter->get(1).get<double>());
-                                            last_rec->tools[tl].push_back(component(name, quant));
-                                        }
-                                        else
-                                        {
-                                            debugmsg("Invalid tool for recipe: bad tool def");
-                                            --tl;
-                                            continue;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        debugmsg("Invalid tool for recipe: not a pair");
-                                        continue;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                debugmsg("Invalid tool for recipe: not an array");
-                                continue;
-                            }
-                        }
-                    }
-
-                    if (iter->contains("book_learn"))
-                    {
-                        if (iter->get("book_learn").is<picojson::array>())
-                        {
-                            for (picojson::array::const_iterator book_iter = iter->get("book_learn").get<picojson::array>().begin();
-                                 book_iter != iter->get("book_learn").get<picojson::array>().end();
-                                 ++book_iter)
-                            {
-                                if (book_iter->is<picojson::array>())
-                                {
-                                    if (book_iter->get(0).is<std::string>() && book_iter->get(1).is<double>())
-                                    {
-                                        std::string book_name = book_iter->get(0).get<std::string>();
-                                        int book_level = static_cast<int>(book_iter->get(1).get<double>());
-
-                                        if (itypes[book_name]->is_book())
-                                        {
-                                            it_book *book = dynamic_cast<it_book*>(itypes[book_name]);
-                                            book->recipes[last_rec] = book_level;
-                                        }
-                                        else
-                                        {
-                                            debugmsg("Bad book name for recipe");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        debugmsg("Invalid recipe: malformed book entry");
-                                        continue;
-                                    }
-                                }
-                                else
-                                {
-                                    debugmsg("Invalid recipe: non-array book entry");
-                                    continue;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: book list is not an array");
-                            continue;
-                        }
-                    }
-
-                    recipes[category].push_back(last_rec);
-                }
-                else
-                {
-                    debugmsg("Bad recipe: not an object");
-                }
-            }
-        }
-        else
-        {
-            debugmsg("Bad recipe file: recipes are not an array");
-            exit(1);
-        }
+        craft_cat_list.push_back(craftCats.curr().as_string());
     }
-    else
+
+    catajson recipeList = recipeRaw.get("recipes");
+    std::vector<std::string> recipeNames;
+    for (recipeList.set_begin(); recipeList.has_curr(); recipeList.next())
     {
-        debugmsg("Bad recipe file: unknown problem");
-        exit(1);
+        catajson curr = recipeList.curr();
+        // required fields
+        std::string result = curr.get("result").as_string();
+        std::string category = curr.get("category").as_string();
+        int difficulty = curr.get("difficulty").as_int();
+        int time = curr.get("time").as_int();
+        bool autolearn = curr.get("autolearn").as_bool();
+        // optional fields
+        bool reversible = curr.has("reversible") ? curr.get("reversible").as_bool() : false;
+        const char *skill1 = curr.has("skill_pri") ? curr.get("skill_pri").as_string().c_str() : NULL;
+        const char *skill2 = curr.has("skill_sec") ? curr.get("skill_sec").as_string().c_str() : NULL;
+        std::string id_suffix = curr.has("id_suffix") ? curr.get("id_suffix").as_string() : "";
+        int learn_by_disassembly = curr.has("decomp_learn") ? curr.get("decomp_learn").as_int() : -1;
+
+        tl = -1;
+        cl = -1;
+        ++id;
+
+        std::string rec_name = result + id_suffix;
+
+        last_rec = new recipe(rec_name, id, result, category, skill1, skill2,
+                              difficulty, time, reversible, autolearn,
+                              learn_by_disassembly);
+
+        for (std::vector<std::string>::iterator name_iter = recipeNames.begin();
+             name_iter != recipeNames.end();
+             ++name_iter)
+        {
+            if ((*name_iter) == rec_name)
+            {
+                debugmsg("Recipe name collision: %s", rec_name.c_str());
+            }
+        }
+
+        recipeNames.push_back(rec_name);
+
+        catajson compList = curr.get("components");
+        for (compList.set_begin(); compList.has_curr(); compList.next())
+        {
+            ++cl;
+            catajson comp = compList.curr();
+            // interchangable components
+            for (comp.set_begin(); comp.has_curr(); comp.next())
+            {
+                std::string name = comp.curr().get(0).as_string();
+                int quant = comp.curr().get(1).as_int();
+                last_rec->components[cl].push_back(component(name, quant));
+            }
+        }
+        
+        if (curr.has("tools"))
+        {
+            catajson toolList = curr.get("tools");
+            for (toolList.set_begin(); toolList.has_curr(); toolList.next())
+            {
+                ++tl;
+                catajson tool = toolList.curr();
+                // interchangable tools
+                for (tool.set_begin(); tool.has_curr(); tool.next())
+                {
+                    std::string name = tool.curr().get(0).as_string();
+                    int quant = tool.curr().get(1).as_int();
+                    last_rec->tools[tl].push_back(component(name, quant));
+                }
+            }
+        }
+
+        if (curr.has("book_learn"))
+        {
+            catajson book_list = curr.get("book_learn");
+            for (book_list.set_begin(); book_list.has_curr(); book_list.next())
+            {
+                catajson book = book_list.curr();
+                std::string book_name = book.get(0).as_string();
+                int book_level = book.get(1).as_int();
+
+                if (itypes[book_name]->is_book())
+                {
+                    it_book *book = dynamic_cast<it_book*>(itypes[book_name]);
+                    book->recipes[last_rec] = book_level;
+                }
+            }
+        }
+
+        recipes[category].push_back(last_rec);
     }
 }
 

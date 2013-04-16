@@ -116,92 +116,6 @@
 
 
         {
-            "result": "string_36",
-            "id_suffix": "uncraft",
-            "category": "CC_NONCRAFT",
-            "difficulty": 0,
-            "time": 5000,
-            "reversible": true,
-            "autolearn": false,
-            "tools": [
-                         [
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["string_6", 6]
-                              ]
-                          ]
-        },
-
-
-        {
-            "result": "rope_6",
-            "id_suffix": "uncraft",
-            "category": "CC_NONCRAFT",
-            "skill_pri": "tailor",
-            "difficulty": 0,
-            "time": 5000,
-            "reversible": true,
-            "autolearn": false,
-            "tools": [
-                         [
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["string_36", 6]
-                              ]
-                          ]
-        },
-
-
-        {
-            "result": "rope_30",
-            "id_suffix": "uncraft",
-            "category": "CC_NONCRAFT",
-            "skill_pri": "tailor",
-            "difficulty": 0,
-            "time": 5000,
-            "reversible": true,
-            "autolearn": false,
-            "tools": [
-                         [
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["rope_6", 5]
-                              ]
-                          ]
-        },
-
-
-        {
             "result": "lightstrip_dead",
             "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
@@ -308,8 +222,8 @@
             "result": "spear_wood",
             "category": "CC_WEAPON",
             "skill_pri": "survival",
-            "difficulty": 3,
-            "time": 800,
+            "difficulty": 2,
+            "time": 2000,
             "reversible": false,
             "autolearn": true,
             "tools": [
@@ -356,7 +270,7 @@
             "result": "javelin",
             "category": "CC_WEAPON",
             "skill_pri": "survival",
-            "difficulty": 1,
+            "difficulty": 3,
             "time": 5000,
             "reversible": false,
             "autolearn": true,
@@ -2246,7 +2160,8 @@
                              ["pan", -1],
                              ["pot", -1],
                              ["rock_pot", -1],
-                             ["spear_wood", -1]
+                             ["spear_wood", -1],
+                             ["pointy_stick", -1]
                          ]
                      ],
             "components": [
@@ -2310,7 +2225,8 @@
                              ["pan", -1],
                              ["pot", -1],
                              ["rock_pot", -1],
-                             ["spear_wood", -1]
+                             ["spear_wood", -1],
+                             ["pointy_stick", -1]
                          ]
                      ],
             "components": [
@@ -5306,22 +5222,6 @@
                               ],
                               [
                                   ["wire", 3]
-                              ]
-                          ]
-        },
-
-
-        {
-            "result": "thread",
-            "category": "CC_MISC",
-            "skill_pri": "tailor",
-            "difficulty": 1,
-            "time": 3000,
-            "reversible": false,
-            "autolearn": true,
-            "components": [
-                              [
-                                  ["string_6", 1]
                               ]
                           ]
         },
