@@ -1910,3 +1910,7 @@ itype_id item::typeId() const
         return "null";
     return type->id;
 }
+
+item* item::clone(){
+    return new item(type, bday);
+}

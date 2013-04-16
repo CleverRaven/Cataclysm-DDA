@@ -14,6 +14,7 @@
 #include "bodypart.h"
 #include "map.h"
 #include "output.h"
+#include "item_factory.h"
 #include "helper.h"
 
 #include <map>
@@ -55,6 +56,7 @@ game::game() :
 // Gee, it sure is init-y around here!
  init_bionics();      // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	      // Set up item types                (SEE itypedef.cpp)
+ item_controller->init(this); //Item manager
  init_mtypes();	      // Set up monster types             (SEE mtypedef.cpp)
  init_monitems();     // Set up the items monsters carry  (SEE monitemsdef.cpp)
  init_traps();	      // Set up the trap types            (SEE trapdef.cpp)
