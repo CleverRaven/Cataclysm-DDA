@@ -554,6 +554,7 @@ void game::init_mapitems()
    "bio_resonator", "bio_hydraulics",
    "bio_time_freeze", "bio_teleport",
    "bio_blaster", "bio_laser", "bio_emp",
+   "bio_power_armor_interface",
 	NULL);
 
  setvector(
@@ -620,6 +621,7 @@ void game::init_mapitems()
    "bio_ads", "bio_ods",
    "bio_blaster", "bio_laser", "bio_emp",
    "bio_time_freeze", "bio_teleport",
+   "bio_power_armor_interface",
 	NULL);
 
  setvector(
