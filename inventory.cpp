@@ -14,37 +14,59 @@ item& inventory::operator[] (int i)
   return nullitem;
  }
 
- return items[i][0];
+ return *stack_at(i).begin();
 }
 
-std::vector<item>& inventory::stack_at(int i)
+// TODO: remove horrible bad hack that was the result of a std::vector -> std::list swap
+std::list<item>& inventory::stack_at(int i)
 {
- if (i < 0 || i > items.size()) {
-  debugmsg("Attempted to access stack %d in an inventory (size %d)",
-           i, items.size());
-  return nullstack;
- }
- return items[i];
+    if (i < 0 || i > items.size())
+    {
+        debugmsg("Attempted to access stack %d in an inventory (size %d)",
+                 i, items.size());
+        return nullstack;
+    }
+
+    invstack::iterator iter = items.begin();
+    for (int j = 0; j < i; ++j)
+    {
+        ++iter;
+    }
+
+    return *iter;
 }
 
-std::vector<item> inventory::const_stack(int i) const
+std::list<item> inventory::const_stack(int i) const
 {
- if (i < 0 || i > items.size()) {
-  debugmsg("Attempted to access stack %d in an inventory (size %d)",
-           i, items.size());
-  return nullstack;
- }
- return items[i];
+    if (i < 0 || i > items.size())
+    {
+        debugmsg("Attempted to access stack %d in an inventory (size %d)",
+                 i, items.size());
+        return nullstack;
+    }
+
+    invstack::const_iterator iter = items.begin();
+    for (int j = 0; j < i; ++j)
+    {
+        ++iter;
+    }
+
+    return *iter;
 }
 
 std::vector<item> inventory::as_vector()
 {
- std::vector<item> ret;
- for (int i = 0; i < size(); i++) {
-  for (int j = 0; j < stack_at(i).size(); j++)
-   ret.push_back(items[i][j]);
- }
- return ret;
+    std::vector<item> ret;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::iterator stack_iter = iter->begin();
+             stack_iter != iter->end();
+             ++stack_iter)
+        {
+            ret.push_back(*stack_iter);
+        }
+    }
+    return ret;
 }
 
 int inventory::size() const
@@ -54,11 +76,13 @@ int inventory::size() const
 
 int inventory::num_items() const
 {
- int ret = 0;
- for (int i = 0; i < items.size(); i++)
-  ret += items[i].size();
+    int ret = 0;
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        ret += iter->size();
+    }
 
- return ret;
+    return ret;
 }
 
 inventory& inventory::operator= (inventory &rhs)
@@ -90,11 +114,13 @@ inventory& inventory::operator+= (const inventory &rhs)
  return *this;
 }
 
-inventory& inventory::operator+= (const std::vector<item> &rhs)
+inventory& inventory::operator+= (const std::list<item> &rhs)
 {
- for (int i = 0; i < rhs.size(); i++)
-  add_item(rhs[i]);
- return *this;
+    for (std::list<item>::const_iterator iter = rhs.begin(); iter != rhs.end(); ++iter)
+    {
+        add_item(*iter);
+    }
+    return *this;
 }
 
 inventory& inventory::operator+= (const item &rhs)
@@ -108,7 +134,7 @@ inventory inventory::operator+ (const inventory &rhs)
  return inventory(*this) += rhs;
 }
 
-inventory inventory::operator+ (const std::vector<item> &rhs)
+inventory inventory::operator+ (const std::list<item> &rhs)
 {
  return inventory(*this) += rhs;
 }
@@ -123,43 +149,58 @@ void inventory::clear()
  items.clear();
 }
 
-void inventory::add_stack(const std::vector<item> newits)
+void inventory::add_stack(const std::list<item> newits)
 {
- for (int i = 0; i < newits.size(); i++)
-  add_item(newits[i], true);
+    for (std::list<item>::const_iterator iter = newits.begin(); iter != newits.end(); ++iter)
+    {
+        add_item(*iter, true);
+    }
 }
 
-void inventory::push_back(std::vector<item> newits)
+void inventory::push_back(std::list<item> newits)
 {
  add_stack(newits);
 }
 
 void inventory::add_item(item newit, bool keep_invlet)
 {
- if (keep_invlet && !newit.invlet_is_okay())
-  assign_empty_invlet(newit); // Keep invlet is true, but invlet is invalid!
+    if (keep_invlet && !newit.invlet_is_okay())
+    {
+        assign_empty_invlet(newit); // Keep invlet is true, but invlet is invalid!
+    }
 
- if (newit.is_style())
-  return; // Styles never belong in our inventory.
- for (int i = 0; i < items.size(); i++) {
-  if (items[i][0].stacks_with(newit)) {
-		if (items[i][0].is_food() && items[i][0].has_flag(IF_HOT)) {
-			int tmpcounter = (items[i][0].item_counter + newit.item_counter) / 2;
-			items[i][0].item_counter = tmpcounter;
-			newit.item_counter = tmpcounter;
-		}
-    newit.invlet = items[i][0].invlet;
-   items[i].push_back(newit);
-   return;
-  } else if (keep_invlet && items[i][0].invlet == newit.invlet)
-   assign_empty_invlet(items[i][0]);
- }
- if (!newit.invlet_is_okay() || index_by_letter(newit.invlet) != -1)
-  assign_empty_invlet(newit);
+    if (newit.is_style())
+    {
+        return; // Styles never belong in our inventory.
+    }
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        std::list<item>::iterator it_ref = iter->begin();
+        if (it_ref->stacks_with(newit))
+        {
+		    if (it_ref->is_food() && it_ref->has_flag(IF_HOT))
+		    {
+			    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
+			    it_ref->item_counter = tmpcounter;
+			    newit.item_counter = tmpcounter;
+		    }
+            newit.invlet = it_ref->invlet;
+            iter->push_back(newit);
+            return;
+        }
+        else if (keep_invlet && it_ref->invlet == newit.invlet)
+        {
+            assign_empty_invlet(*it_ref);
+        }
+    }
+    if (!newit.invlet_is_okay() || index_by_letter(newit.invlet) != -1)
+    {
+        assign_empty_invlet(newit);
+    }
 
- std::vector<item> newstack;
- newstack.push_back(newit);
- items.push_back(newstack);
+    std::list<item> newstack;
+    newstack.push_back(newit);
+    items.push_back(newstack);
 }
 
 void inventory::add_item_keep_invlet(item newit)
@@ -172,26 +213,40 @@ void inventory::push_back(item newit)
  add_item(newit);
 }
 
+// TODO: fix reference mangling due to copies
 void inventory::restack(player *p)
 {
- inventory tmp;
- for (int i = 0; i < size(); i++) {
-  for (int j = 0; j < items[i].size(); j++)
-   tmp.add_item(items[i][j]);
- }
- clear();
- if (p) {
-  for (int i = 0; i < tmp.size(); i++) {
-   if (!tmp[i].invlet_is_okay() || p->has_weapon_or_armor(tmp[i].invlet)) {
-    //debugmsg("Restacking item %d (invlet %c)", i, tmp[i].invlet);
-    tmp.assign_empty_invlet(tmp[i], p);
-    for (int j = 1; j < tmp.stack_at(i).size(); j++)
-     tmp.stack_at(i)[j].invlet = tmp[i].invlet;
-   }
-  }
- }
- for (int i = 0; i < tmp.size(); i++)
-  items.push_back(tmp.stack_at(i));
+    inventory tmp;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::iterator stack_iter = iter->begin();
+             stack_iter != iter->end();
+             ++stack_iter)
+        {
+            tmp.add_item(*stack_iter);
+        }
+    }
+    clear(); // should we REALLY be clearing this *before* checking if we have a player?
+    if (p)
+    {
+        for (int i = 0; i < tmp.size(); i++)
+        {
+            if (!tmp[i].invlet_is_okay() || p->has_weapon_or_armor(tmp[i].invlet))
+            {
+                //debugmsg("Restacking item %d (invlet %c)", i, tmp[i].invlet);
+                tmp.assign_empty_invlet(tmp[i], p);
+                std::list<item>::iterator stack_iter = tmp.stack_at(i).begin();
+                for (++stack_iter; stack_iter != tmp.stack_at(i).end(); ++stack_iter)
+                {
+                    stack_iter->invlet = tmp[i].invlet;
+                }
+            }
+        }
+    }
+    for (int i = 0; i < tmp.size(); i++)
+    {
+        items.push_back(tmp.stack_at(i));
+    }
 }
 
 void inventory::form_from_map(game *g, point origin, int range)
@@ -241,38 +296,48 @@ void inventory::form_from_map(game *g, point origin, int range)
  }
 }
 
-std::vector<item> inventory::remove_stack(int index)
+std::list<item> inventory::remove_stack(int index)
 {
     if (index < 0 || index >= items.size())
     {
         debugmsg("Tried to remove_stack(%d) from an inventory (size %d)",
-               index, items.size());
-        std::vector<item> nullvector;
+                 index, items.size());
+        std::list<item> nullvector;
         return nullvector;
     }
-    std::vector<item> ret = stack_at(index);
-    items.erase(items.begin() + index);
+    std::list<item> ret = stack_at(index);
+    invstack::iterator iter = items.begin();
+    for (int i = 0; i < index; ++i)
+    {
+        ++iter;
+    }
+    items.erase(iter);
     return ret;
 }
 
-std::vector<item> inventory::remove_stack(int index,int amount)
+std::list<item> inventory::remove_stack(int index,int amount)
 {
     if (index < 0 || index >= items.size())
     {
         debugmsg("Tried to remove_stack(%d) from an inventory (size %d)",
                index, items.size());
-        std::vector<item> nullvector;
+        std::list<item> nullvector;
         return nullvector;
     }
     if(amount > stack_at(index).size())
     {
-        std::vector<item> ret = stack_at(index);
-        items.erase(items.begin() + index);
+        std::list<item> ret = stack_at(index);
+        invstack::iterator iter = items.begin();
+        for (int i = 0; i < index; ++i)
+        {
+            ++iter;
+        }
+        items.erase(iter);
         return ret;
     }
     else
     {
-        std::vector<item> ret;
+        std::list<item> ret;
         for(int i = 0 ; i < amount ; i++)
         {
             ret.push_back(remove_item(index));
@@ -283,49 +348,80 @@ std::vector<item> inventory::remove_stack(int index,int amount)
 
 item inventory::remove_item(int index)
 {
- if (index < 0 || index >= items.size()) {
-  debugmsg("Tried to remove_item(%d) from an inventory (size %d)",
-           index, items.size());
-  return nullitem;
- }
- item ret = items[index][0];
- items[index].erase(items[index].begin());
- if (items[index].empty())
-  items.erase(items.begin() + index);
- return ret;
+    if (index < 0 || index >= items.size())
+    {
+       debugmsg("Tried to remove_item(%d) from an inventory (size %d)",
+                index, items.size());
+       return nullitem;
+    }
+    std::list<item>& stack = stack_at(index);
+    item ret = *stack.begin();
+    stack.erase(stack.begin());
+    if (stack.empty())
+    {
+        remove_stack(index);
+    }
+    return ret;
+}
+
+item inventory::remove_item(invstack::iterator iter)
+{
+    item ret = iter->front();
+    iter->erase(iter->begin());
+    if (iter->empty())
+    {
+        items.erase(iter);
+    }
+    return ret;
 }
 
 item inventory::remove_item(int stack, int index)
 {
- if (stack < 0 || stack >= items.size()) {
-  debugmsg("Tried to remove_item(%d, %d) from an inventory (size %d)",
-           stack, index, items.size());
-  return nullitem;
- } else if (index < 0 || index >= items[stack].size()) {
-  debugmsg("Tried to remove_item(%d, %d) from an inventory (stack is size %d)",
-           stack, index, items[stack].size());
-  return nullitem;
- }
+    if (stack < 0 || stack >= items.size())
+    {
+        debugmsg("Tried to remove_item(%d, %d) from an inventory (size %d)",
+                 stack, index, items.size());
+        return nullitem;
+    } else if (index < 0 || index >= stack_at(stack).size())
+    {
+        debugmsg("Tried to remove_item(%d, %d) from an inventory (stack is size %d)",
+                 stack, index, stack_at(stack).size());
+        return nullitem;
+    }
 
- item ret = items[stack][index];
- items[stack].erase(items[stack].begin() + index);
- if (items[stack].empty())
-  items.erase(items.begin() + stack);
+    std::list<item>& stack_ref = stack_at(stack);
+    std::list<item>::iterator it_iter = stack_ref.begin();
+    for (int i = 0; i < index; ++i)
+    {
+        ++it_iter;
+    }
+    item ret = *it_iter;
+    stack_ref.erase(it_iter);
+    if (stack_ref.empty())
+    {
+        remove_stack(stack);
+    }
 
- return ret;
+    return ret;
 }
 
 item inventory::remove_item_by_letter(char ch)
 {
- for (int i = 0; i < items.size(); i++) {
-  if (items[i][0].invlet == ch) {
-   if (items[i].size() > 1)
-    items[i][1].invlet = ch;
-   return remove_item(i);
-  }
- }
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        if (iter->begin()->invlet == ch)
+        {
+            if (iter->size() > 1)
+            {
+                std::list<item>::iterator stack_member = iter->begin();
+                ++stack_member;
+                stack_member->invlet = ch;
+            }
+            return remove_item(iter);
+        }
+    }
 
- return nullitem;
+    return nullitem;
 }
 
 item inventory::remove_item_by_quantity(int index, int quantity)
@@ -337,163 +433,236 @@ item inventory::remove_item_by_quantity(int index, int quantity)
         return nullitem;
     }
 
-    item ret = items[index][0];
-    if(quantity > items[index][0].charges)
+    std::list<item>& stack = stack_at(index);
+    item ret = *(stack.begin());
+    if(quantity > stack.begin()->charges)
     {
         debugmsg("Charges: Tried to remove charges that does not exist, \
                 removing maximum available charges instead");
-        quantity = items[index][0].charges;
+        quantity = stack.begin()->charges;
     }
     ret.charges = quantity;
-    items[index][0].charges -= quantity;
+    stack.begin()->charges -= quantity;
     return ret;
 }
 
 item& inventory::item_by_letter(char ch)
 {
- for (int i = 0; i < items.size(); i++) {
-  if (items[i][0].invlet == ch)
-   return items[i][0];
- }
- return nullitem;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        if (iter->begin()->invlet == ch)
+        {
+            return *iter->begin();
+        }
+    }
+    return nullitem;
 }
 
+// TODO: remove this function
 int inventory::index_by_letter(char ch)
 {
- if (ch == KEY_ESCAPE)
-  return -1;
- for (int i = 0; i < items.size(); i++) {
-  if (items[i][0].invlet == ch)
-   return i;
- }
- return -1;
+     if (ch == KEY_ESCAPE)
+     {
+         return -1;
+     }
+     int i = 0;
+     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+     {
+         if (iter->begin()->invlet == ch)
+         {
+             return i;
+         }
+         ++i;
+     }
+     return -1;
 }
 
 int inventory::amount_of(itype_id it)
 {
- int count = 0;
- for (int i = 0; i < items.size(); i++) {
-  for (int j = 0; j < items[i].size(); j++) {
-   if (items[i][j].type->id == it)
-   {
-    // check if it's a container, if so, it should be empty
-    if (items[i][j].type->is_container())
+    int count = 0;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-      if (items[i][j].contents.empty())
-        count++;
-    } else count++;
-  }
-   for (int k = 0; k < items[i][j].contents.size(); k++) {
-    if (items[i][j].contents[k].type->id == it)
-     count++;
-   }
-  }
- }
- return count;
+        for (std::list<item>::iterator stack_iter = iter->begin();
+             stack_iter != iter->end();
+             ++stack_iter)
+        {
+            if (stack_iter->type->id == it)
+            {
+                // check if it's a container, if so, it should be empty
+                if (stack_iter->type->is_container())
+                {
+                    if (stack_iter->contents.empty())
+                    {
+                        count++;
+                    }
+                } 
+                else
+                {
+                    count++;
+                }
+            }
+            for (int k = 0; k < stack_iter->contents.size(); k++)
+            {
+                if (stack_iter->contents[k].type->id == it)
+                {
+                    count++;
+                }
+            }
+        }
+    }
+    return count;
 }
 
 int inventory::charges_of(itype_id it)
 {
- int count = 0;
- for (int i = 0; i < items.size(); i++) {
-  for (int j = 0; j < items[i].size(); j++) {
-   if (items[i][j].type->id == it) {
-    if (items[i][j].charges < 0)
-     count++;
-    else
-     count += items[i][j].charges;
-   }
-   for (int k = 0; k < items[i][j].contents.size(); k++) {
-    if (items[i][j].contents[k].type->id == it) {
-     if (items[i][j].contents[k].charges < 0)
-      count++;
-     else
-      count += items[i][j].contents[k].charges;
+    int count = 0;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::iterator stack_iter = iter->begin();
+             stack_iter != iter->end();
+             ++stack_iter)
+        {
+            if (stack_iter->type->id == it)
+            {
+                if (stack_iter->charges < 0)
+                {
+                    count++;
+                }
+                else
+                {
+                    count += stack_iter->charges;
+                }
+            }
+            for (int k = 0; k < stack_iter->contents.size(); k++)
+            {
+                if (stack_iter->contents[k].type->id == it)
+                {
+                    if (stack_iter->contents[k].charges < 0)
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        count += stack_iter->contents[k].charges;
+                    }
+                }
+            }
+        }
     }
-   }
-  }
- }
- return count;
+    return count;
 }
 
 void inventory::use_amount(itype_id it, int quantity, bool use_container)
 {
- for (int i = 0; i < items.size() && quantity > 0; i++) {
-  for (int j = 0; j < items[i].size() && quantity > 0; j++) {
-// First, check contents
-   bool used_item_contents = false;
-   for (int k = 0; k < items[i][j].contents.size() && quantity > 0; k++) {
-    if (items[i][j].contents[k].type->id == it) {
-     quantity--;
-     items[i][j].contents.erase(items[i][j].contents.begin() + k);
-     k--;
-     used_item_contents = true;
+    for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter)
+    {
+        for (std::list<item>::iterator stack_iter = iter->begin();
+             stack_iter != iter->end() && quantity > 0;
+             ++stack_iter)
+        {
+            // First, check contents
+            bool used_item_contents = false;
+            for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++)
+            {
+                if (stack_iter->contents[k].type->id == it)
+                {
+                    quantity--;
+                    stack_iter->contents.erase(stack_iter->contents.begin() + k);
+                    k--;
+                    used_item_contents = true;
+                }
+            }
+            // Now check the item itself
+            if (use_container && used_item_contents)
+            {
+                stack_iter = iter->erase(stack_iter);
+                --stack_iter;
+                if (iter->empty())
+                {
+                    iter = items.erase(iter);
+                    --iter;
+                    stack_iter = iter->begin();
+                }
+            }
+            else if (stack_iter->type->id == it && quantity > 0)
+            {
+                quantity--;
+                stack_iter = iter->erase(stack_iter);
+                --stack_iter;
+                if (iter->empty())
+                {
+                    iter = items.erase(iter);
+                    --iter;
+                }
+            }
+        }
     }
-   }
-// Now check the item itself
-   if (use_container && used_item_contents) {
-    items[i].erase(items[i].begin() + j);
-    j--;
-    if (items[i].empty()) {
-     items.erase(items.begin() + i);
-     i--;
-     j = 0;
-    }
-   } else if (items[i][j].type->id == it && quantity > 0) {
-    quantity--;
-    items[i].erase(items[i].begin() + j);
-    j--;
-    if (items[i].empty()) {
-     items.erase(items.begin() + i);
-     i--;
-     j = 0;
-    }
-   }
-  }
- }
 }
 
 void inventory::use_charges(itype_id it, int quantity)
 {
- for (int i = 0; i < items.size() && quantity > 0; i++) {
-  for (int j = 0; j < items[i].size() && quantity > 0; j++) {
-// First, check contents
-   for (int k = 0; k < items[i][j].contents.size() && quantity > 0; k++) {
-    if (items[i][j].contents[k].type->id == it) {
-     if (items[i][j].contents[k].charges <= quantity) {
-      quantity -= items[i][j].contents[k].charges;
-      if (items[i][j].contents[k].destroyed_at_zero_charges()) {
-       items[i][j].contents.erase(items[i][j].contents.begin() + k);
-       k--;
-      } else
-       items[i][j].contents[k].charges = 0;
-     } else {
-      items[i][j].contents[k].charges -= quantity;
-      return;
-     }
+    for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter)
+    {
+        for (std::list<item>::iterator stack_iter = iter->begin();
+             stack_iter != iter->end() && quantity > 0;
+             ++stack_iter)
+        {
+            // First, check contents
+            for (int k = 0; k < stack_iter->contents.size() && quantity > 0; k++)
+            {
+                if (stack_iter->contents[k].type->id == it)
+                {
+                    if (stack_iter->contents[k].charges <= quantity)
+                    {
+                        quantity -= stack_iter->contents[k].charges;
+                        if (stack_iter->contents[k].destroyed_at_zero_charges())
+                        {
+                            stack_iter->contents.erase(stack_iter->contents.begin() + k);
+                            k--;
+                        }
+                        else
+                        {
+                            stack_iter->contents[k].charges = 0;
+                        }
+                    }
+                    else
+                    {
+                        stack_iter->contents[k].charges -= quantity;
+                        return;
+                    }
+                }
+            }
+
+            // Now check the item itself
+            if (stack_iter->type->id == it)
+            {
+                if (stack_iter->charges <= quantity)
+                {
+                    quantity -= stack_iter->charges;
+                    if (stack_iter->destroyed_at_zero_charges())
+                    {
+                        stack_iter = iter->erase(stack_iter);
+                        --stack_iter;
+                        if (iter->empty())
+                        {
+                            iter = items.erase(iter);
+                            --iter;
+                            stack_iter = iter->begin();
+                        }
+                    }
+                    else
+                    {
+                        stack_iter->charges = 0;
+                    }
+                }
+                else
+                {
+                    stack_iter->charges -= quantity;
+                    return;
+                }
+            }
+        }
     }
-   }
-// Now check the item itself
-   if (items[i][j].type->id == it) {
-    if (items[i][j].charges <= quantity) {
-     quantity -= items[i][j].charges;
-     if (items[i][j].destroyed_at_zero_charges()) {
-      items[i].erase(items[i].begin() + j);
-      j--;
-      if (items[i].empty()) {
-       items.erase(items.begin() + i);
-       i--;
-       j = 0;
-      }
-     } else
-      items[i][j].charges = 0;
-    } else {
-     items[i][j].charges -= quantity;
-     return;
-    }
-   }
-  }
- }
 }
 
 bool inventory::has_amount(itype_id it, int quantity)
@@ -508,17 +677,24 @@ bool inventory::has_charges(itype_id it, int quantity)
 
 bool inventory::has_item(item *it)
 {
- for (int i = 0; i < items.size(); i++) {
-  for (int j = 0; j < items[i].size(); j++) {
-   if (it == &(items[i][j]))
-    return true;
-   for (int k = 0; k < items[i][j].contents.size(); k++) {
-    if (it == &(items[i][j].contents[k]))
-     return true;
-   }
-  }
- }
- return false;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter)
+        {
+            if (it == &(*stack_iter))
+            {
+                return true;
+            }
+            for (int k = 0; k < stack_iter->contents.size(); k++)
+            {
+                if (it == &(stack_iter->contents[k]))
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 void inventory::assign_empty_invlet(item &it, player *p)

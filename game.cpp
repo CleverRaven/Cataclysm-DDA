@@ -1781,7 +1781,7 @@ bool game::load_master()
   tmp.load_info(this, data);
 // We need to load up all their items too
   fin >> num_items;
-  std::vector<item> tmpinv;
+  std::list<item> tmpinv;
   for (int j = 0; j < num_items; j++) {
    std::string itemdata;
    char item_place;
@@ -1791,7 +1791,7 @@ bool game::load_master()
     if (item_place == 'I')
      tmpinv.push_back(item(itemdata, this));
     else if (item_place == 'C' && !tmpinv.empty()) {
-     tmpinv[tmpinv.size() - 1].contents.push_back(item(itemdata, this));
+     tmpinv.end()->contents.push_back(item(itemdata, this));
      j--;
     } else if (item_place == 'W')
      tmp.worn.push_back(item(itemdata, this));
@@ -1884,7 +1884,7 @@ void game::load(std::string name)
 // We need a temporary vector of items.  Otherwise, when we encounter an item
 // which is contained in another item, the auto-sort/stacking behavior of the
 // player's inventory may cause the contained item to be misplaced.
- std::vector<item> tmpinv;
+ std::list<item> tmpinv;
  while (!fin.eof()) {
   fin >> item_place;
   if (!fin.eof()) {
@@ -1892,7 +1892,7 @@ void game::load(std::string name)
    if (item_place == 'I')
     tmpinv.push_back(item(itemdata, this));
    else if (item_place == 'C')
-    tmpinv[tmpinv.size() - 1].contents.push_back(item(itemdata, this));
+    tmpinv.end()->contents.push_back(item(itemdata, this));
    else if (item_place == 'W')
     u.worn.push_back(item(itemdata, this));
    else if (item_place == 'w')
@@ -5093,10 +5093,12 @@ void game::advanced_inv()
                             if(still_move)
                             {
                                 amount = amount > max ? max : amount;
-                                std::vector<item> moving_items = u.inv.remove_stack(item_pos,amount);
-                                for(int i = 0 ; i < moving_items.size() ; i++)
+                                std::list<item> moving_items = u.inv.remove_stack(item_pos,amount);
+                                for(std::list<item>::iterator iter = moving_items.begin();
+                                    iter != moving_items.end();
+                                    ++iter)
                                 {
-                                    m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_items[i]);
+                                    m.add_item(u.posx+dest_offx,u.posy+dest_offy,*iter);
                                 }
                                 u.moves -= 100;
                             }
@@ -5110,7 +5112,7 @@ void game::advanced_inv()
                         {
                             if(amount >= u.inv[item_pos].charges) // full stack moved
                             {
-                                item moving_item = u.inv.remove_stack(item_pos)[0];
+                                item moving_item = *(u.inv.remove_stack(item_pos).begin());
                                 m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             else //partial stack moved

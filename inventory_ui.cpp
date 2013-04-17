@@ -410,7 +410,7 @@ std::vector<item> game::multidrop()
     }
    } else {
     if (count == 0) {
-    if (u.inv.stack_at(index)[0].count_by_charges())
+    if (u.inv.stack_at(index).begin()->count_by_charges())
       {
        if (dropping[index] == 0)
         dropping[index] = -1;
@@ -426,7 +426,7 @@ std::vector<item> game::multidrop()
       }
     }
 
-    else if (count >= u.inv.stack_at(index).size() && !u.inv.stack_at(index)[0].count_by_charges())
+    else if (count >= u.inv.stack_at(index).size() && !u.inv.stack_at(index).begin()->count_by_charges())
        dropping[index] = u.inv.stack_at(index).size();
     else
       dropping[index] = count;
@@ -455,10 +455,10 @@ std::vector<item> game::multidrop()
   }
 
   for (int j = 0; j < dropping[i]; j++) {
-   if (u.inv.stack_at(current_stack)[0].count_by_charges()) {      // dropping parts of stacks
+   if (u.inv.stack_at(current_stack).begin()->count_by_charges()) {      // dropping parts of stacks
     int tmpcount = dropping[i];
 
-    if (tmpcount >= u.inv.stack_at(current_stack)[0].charges) {
+    if (tmpcount >= u.inv.stack_at(current_stack).begin()->charges) {
       ret.push_back(u.inv.remove_item(current_stack));
       current_stack--;
     } else {

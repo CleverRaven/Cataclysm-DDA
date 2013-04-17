@@ -11,7 +11,7 @@
 #include "line.h"
 
 std::vector<item> starting_clothes(npc_class type, bool male, game *g);
-std::vector<item> starting_inv(npc *me, npc_class type, game *g);
+std::list<item> starting_inv(npc *me, npc_class type, game *g);
 
 npc::npc()
 {
@@ -193,10 +193,11 @@ std::string npc::save_info()
 // Inventory size, plus armor size, plus 1 for the weapon
  dump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
  for (int i = 0; i < inv.size(); i++) {
-  for (int j = 0; j < inv.stack_at(i).size(); j++) {
-   dump << "I " << inv.stack_at(i)[j].save_info() << std::endl;
-   for (int k = 0; k < inv.stack_at(i)[j].contents.size(); k++)
-    dump << "C " << inv.stack_at(i)[j].contents[k].save_info() << std::endl;
+  std::list<item> stack = inv.stack_at(i);
+  for (std::list<item>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
+   dump << "I " << iter->save_info() << std::endl;
+   for (int k = 0; k < iter->contents.size(); k++)
+    dump << "C " << iter->contents[k].save_info() << std::endl;
   }
  }
  dump << "w " << weapon.save_info() << std::endl;
@@ -878,10 +879,10 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
  return ret;
 }
 
-std::vector<item> starting_inv(npc *me, npc_class type, game *g)
+std::list<item> starting_inv(npc *me, npc_class type, game *g)
 {
  int total_space = me->volume_capacity() - 2;
- std::vector<item> ret;
+ std::list<item> ret;
  ret.push_back( item(g->itypes["lighter"], 0) );
  itype_id tmp;
 
@@ -891,12 +892,12 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
   tmp = default_ammo(gun->ammo);
   if (total_space >= g->itypes[tmp]->volume) {
    ret.push_back(item(g->itypes[tmp], 0));
-   total_space -= ret[ret.size() - 1].volume();
+   total_space -= ret.back().volume();
   }
   while ((type == NC_COWBOY || type == NC_BOUNTY_HUNTER || !one_in(3)) &&
          !one_in(4) && total_space >= g->itypes[tmp]->volume) {
    ret.push_back(item(g->itypes[tmp], 0));
-   total_space -= ret[ret.size() - 1].volume();
+   total_space -= ret.back().volume();
   }
  }
  if (type == NC_TRADER) {	// Traders just have tons of random junk
@@ -904,8 +905,8 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
    tmp = standard_itype_ids[rng(0,standard_itype_ids.size()-1)];
    if (total_space >= g->itypes[tmp]->volume) {
     ret.push_back(item(g->itypes[tmp], 0));
-    ret[ret.size() - 1] = ret[ret.size() - 1].in_its_container(&g->itypes);
-    total_space -= ret[ret.size() - 1].volume();
+    ret.back() = ret.back().in_its_container(&g->itypes);
+    total_space -= ret.back().volume();
    }
   }
  }
@@ -946,16 +947,16 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
   tmp = standard_itype_ids[rng(0, standard_itype_ids.size())];
   if (total_space >= g->itypes[tmp]->volume) {
    ret.push_back(item(g->itypes[tmp], 0));
-   ret[ret.size() - 1] = ret[ret.size() - 1].in_its_container(&g->itypes);
-   total_space -= ret[ret.size() - 1].volume();
+   ret.back() = ret.back().in_its_container(&g->itypes);
+   total_space -= ret.back().volume();
   }
  }
 
- for (int i = 0; i < ret.size(); i++) {
+ for (std::list<item>::iterator iter = ret.begin(); iter != ret.end(); ++iter) {
   for (int j = 0; j < g->mapitems[mi_trader_avoid].size(); j++) {
-   if (ret[i].type->id == g->mapitems[mi_trader_avoid][j]) {
-    ret.erase(ret.begin() + i);
-    i--;
+   if (iter->type->id == g->mapitems[mi_trader_avoid][j]) {
+    iter = ret.erase(iter);
+    --iter;
     j = 0;
    }
   }
