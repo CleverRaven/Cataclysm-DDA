@@ -146,11 +146,13 @@ void game::init_construction()
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("stick", 3);
+   COMPCONT("2x4", 6);
   STAGE(t_wall_log, 20);
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("stick", 3);
+   COMPCONT("2x4", 6);
 
  CONSTRUCT("Build Palisade Wall", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_palisade, 20);
@@ -255,6 +257,20 @@ void game::init_construction()
    COMP("2x4", 8);
    COMP("nail", 40);
 
+ CONSTRUCT("Build Log & Sod Roof", 3, &construct::able_between_walls,
+                            &construct::done_nothing);
+  STAGE(t_floor, 80);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   COMP("log", 2);
+   COMP("stick", 4);
+   COMPCONT("2x4", 8);
+
+
 // Base stuff
  CONSTRUCT("Build Bulletin Board", 0, &construct::able_empty,
  		                                   &construct::done_nothing);
@@ -349,6 +365,15 @@ void game::init_construction()
    TOOL("hacksaw");
    COMP("metal_tank", 1);
    COMP("pipe", 1);
+
+ CONSTRUCT("Build Stone Fireplace", 0, &construct::able_empty,
+ 		                                   &construct::done_nothing);
+  STAGE(t_fireplace, 40);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("shovel");
+   TOOLCONT("primitive_shovel");
+   COMP("rock", 40);
 }
 
 void game::construction_menu()

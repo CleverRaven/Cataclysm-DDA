@@ -132,7 +132,7 @@ t_lava,
 // Embellishments
 t_bed, t_toilet, t_makeshift_bed,
 // More embellishments than you can shake a stick at.
-t_sink, t_oven, t_woodstove, t_bathtub, t_chair, t_armchair, t_sofa, t_cupboard, t_trashcan, t_desk,
+t_sink, t_oven, t_woodstove, t_fireplace, t_bathtub, t_chair, t_armchair, t_sofa, t_cupboard, t_trashcan, t_desk,
 t_sandbox, t_slide, t_monkey_bars, t_backboard,
 t_bench, t_table, t_pool_table,
 t_gas_pump, t_gas_pump_smashed, t_gas_pump_empty,
@@ -453,6 +453,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
     mfb(transparent)|mfb(bashable)|mfb(l_flammable)|mfb(collapses)|mfb(container)|
     mfb(place_item)|mfb(indoors), &iexamine::none},
 {"wood stove",             '#', i_red,   4, tr_null,
+    mfb(transparent)|mfb(container)|mfb(fire_container)|mfb(suppress_smoke)|mfb(place_item)|
+    mfb(indoors), &iexamine::none},
+{"fireplace",             '#', i_white,   4, tr_null,
     mfb(transparent)|mfb(container)|mfb(fire_container)|mfb(suppress_smoke)|mfb(place_item)|
     mfb(indoors), &iexamine::none},
 {"bathtub",          '~', c_white,   4, tr_null,
