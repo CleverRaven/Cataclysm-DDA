@@ -1433,7 +1433,7 @@ bool game::handle_action()
    break;
 
   case ACTION_UNLOAD:
-   unload();
+   unload(u.weapon);
    break;
 
   case ACTION_THROW:
@@ -6879,7 +6879,7 @@ void game::plfire(bool burst)
  draw_ter(); // Recenter our view
  if (trajectory.size() == 0) {
   if(u.weapon.has_flag(IF_RELOAD_AND_SHOOT))
-   unload();
+   unload(u.weapon);
   return;
  }
  if (passtarget != -1) { // We picked a real live target
@@ -7252,74 +7252,55 @@ single action.", u.weapon.tname().c_str());
 // If it's a gun, some gunmods can also be loaded
 void game::unload(char chInput)
 {
- //Quick and dirty hack
- //Save old weapon in temp variable
- //Wield item that should be unloaded
- //Unload weapon
- //Put unloaded item back into inventory
- //Wield old weapon
- bool bSwitch = false;
- item oTempWeapon;
- int iItemIndex = u.inv.index_by_letter(chInput);
+    item& it = (u.inv.item_by_letter(chInput));
 
- if (u.weapon.invlet != chInput && iItemIndex != -1) {
-  oTempWeapon = u.weapon;
-  u.weapon = u.inv[iItemIndex];
-  u.inv.remove_item(iItemIndex);
-  bSwitch = true;
- }
-
- if (bSwitch || u.weapon.invlet == chInput) {
-  unload();
- }
-
- if (bSwitch) {
-  u.inv.push_back(u.weapon);
-  u.weapon = oTempWeapon;
- }
+    if (!it.is_null())
+    {
+        unload(it);
+    }
 }
 
-void game::unload()
+void game::unload(item& it)
 {
-    if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
-        (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL || u.weapon.has_flag(IF_NO_UNLOAD)))
+    if (!it.is_gun() && it.contents.size() == 0 &&
+        (!it.is_tool() || it.ammo_type() == AT_NULL || it.has_flag(IF_NO_UNLOAD)))
     {
-        add_msg("You can't unload a %s!", u.weapon.tname(this).c_str());
+        add_msg("You can't unload a %s!", it.tname(this).c_str());
         return;
     }
     int spare_mag = -1;
     int has_m203 = -1;
     int has_shotgun = -1;
-    if (u.weapon.is_gun()) {
-        spare_mag = u.weapon.has_gunmod ("spare_mag");
-        has_m203 = u.weapon.has_gunmod ("m203");
-        has_shotgun = u.weapon.has_gunmod ("u_shotgun");
+    if (it.is_gun()) {
+        spare_mag = it.has_gunmod ("spare_mag");
+        has_m203 = it.has_gunmod ("m203");
+        has_shotgun = it.has_gunmod ("u_shotgun");
     }
-    if (u.weapon.is_container() ||
-        (u.weapon.charges == 0 &&
-         (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0) &&
-         (has_m203 == -1 || u.weapon.contents[has_m203].charges <= 0) &&
-         (has_shotgun == -1 || u.weapon.contents[has_shotgun].charges <= 0)))
+    if (it.is_container() ||
+        (it.charges == 0 &&
+         (spare_mag == -1 || it.contents[spare_mag].charges <= 0) &&
+         (has_m203 == -1 || it.contents[has_m203].charges <= 0) &&
+         (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0)))
     {
-        if (u.weapon.contents.size() == 0)
+        if (it.contents.size() == 0)
         {
-            if (u.weapon.is_gun())
+            if (it.is_gun())
             {
                 add_msg("Your %s isn't loaded, and is not modified.",
-                        u.weapon.tname(this).c_str());
+                        it.tname(this).c_str());
             }
             else
             {
-                add_msg("Your %s isn't charged." , u.weapon.tname(this).c_str());
+                add_msg("Your %s isn't charged." , it.tname(this).c_str());
             }
             return;
         }
         // Unloading a container!
-        u.moves -= 40 * u.weapon.contents.size();
+        u.moves -= 40 * it.contents.size();
         std::vector<item> new_contents;	// In case we put stuff back
-        while (u.weapon.contents.size() > 0)
+        while (it.contents.size() > 0)
         {
-            item content = u.weapon.contents[0];
+            item content = it.contents[0];
             int iter = 0;
 // Pick an inventory item for the contents
             while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < inv_chars.size())
@@ -7346,15 +7327,15 @@ void game::unload()
                     m.add_item(u.posx, u.posy, content);
                 }
             }
-            u.weapon.contents.erase(u.weapon.contents.begin());
+            it.contents.erase(it.contents.begin());
         }
-        u.weapon.contents = new_contents;
+        it.contents = new_contents;
         return;
     }
 // Unloading a gun or tool!
- u.moves -= int(u.weapon.reload_time(u) / 2);
+ u.moves -= int(it.reload_time(u) / 2);
  // Default to unloading the gun, but then try other alternatives.
- item* weapon = &u.weapon;
+ item* weapon = &it;
  it_ammo* tmpammo;
  if (weapon->is_gun()) {	// Gun ammo is combined with existing items
   // If there's an active gunmod, unload it first.
