@@ -234,39 +234,66 @@ void inventory::push_back(item newit)
  add_item(newit);
 }
 
-// TODO: fix reference mangling due to copies
+
 void inventory::restack(player *p)
 {
-    inventory tmp;
+    // tasks that the old restack seemed to do:
+    // 1. reassign inventory letters
+    // 2. remove items from non-matching stacks
+    // 3. combine matching stacks
+
+    if (!p)
+    {
+        return;
+    }
+    
+    std::list<item> to_restack;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        for (std::list<item>::iterator stack_iter = iter->begin();
-             stack_iter != iter->end();
-             ++stack_iter)
+        if (!iter->front().invlet_is_okay() || p->has_weapon_or_armor(iter->front().invlet))
         {
-            tmp.add_item(*stack_iter);
+            assign_empty_invlet(iter->front(), p);
+            for (std::list<item>::iterator stack_iter = iter->begin();
+                 stack_iter != iter->end();
+                 ++stack_iter)
+            {
+                stack_iter->invlet = iter->front().invlet;
+            }
+        }
+
+        // remove non-matching items
+        while (iter->size() > 0 && !iter->front().stacks_with(iter->back()))
+        {
+            to_restack.splice(to_restack.begin(), *iter, iter->begin());
+        }
+        if (iter->size() <= 0)
+        {
+            iter = items.erase(iter);
+            --iter;
+            continue;
         }
     }
-    clear(); // should we REALLY be clearing this *before* checking if we have a player?
-    if (p)
+
+    // combine matching stacks
+    // separate loop to ensure that ALL stacks are homogeneous
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        for (int i = 0; i < tmp.size(); i++)
+        for (invstack::iterator other = iter; other != items.end(); ++other)
         {
-            if (!tmp[i].invlet_is_okay() || p->has_weapon_or_armor(tmp[i].invlet))
+            if (iter != other && iter->front().stacks_with(other->front()))
             {
-                //debugmsg("Restacking item %d (invlet %c)", i, tmp[i].invlet);
-                tmp.assign_empty_invlet(tmp[i], p);
-                std::list<item>::iterator stack_iter = tmp.stack_at(i).begin();
-                for (++stack_iter; stack_iter != tmp.stack_at(i).end(); ++stack_iter)
-                {
-                    stack_iter->invlet = tmp[i].invlet;
-                }
+                iter->splice(iter->begin(), *other);
+                other = items.erase(other);
+                --other;
+                continue;
             }
         }
     }
-    for (int i = 0; i < tmp.size(); i++)
+
+    //re-add non-matching items
+    for (std::list<item>::iterator iter = to_restack.begin(); iter != to_restack.end(); ++iter)
     {
-        items.push_back(tmp.stack_at(i));
+        add_item(*iter);
     }
 }
 
