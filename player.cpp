@@ -3704,7 +3704,7 @@ item player::i_rem(char let)
    return tmp;
   }
  }
- if (inv.index_by_letter(let) != -1)
+ if (!inv.item_by_letter(let).is_null())
   return inv.remove_item_by_letter(let);
  return ret_null;
 }
@@ -3731,10 +3731,7 @@ item& player::i_at(char let)
   if (worn[i].invlet == let)
    return worn[i];
  }
- int index = inv.index_by_letter(let);
- if (index == -1)
-  return ret_null;
- return inv[index];
+ return inv.item_by_letter(let);
 }
 
 item& player::i_of_type(itype_id type)
@@ -4174,7 +4171,7 @@ bool player::has_weapon_or_armor(char let) const
 
 bool player::has_item(char let)
 {
- return (has_weapon_or_armor(let) || inv.index_by_letter(let) != -1);
+ return (has_weapon_or_armor(let) || !inv.item_by_letter(let).is_null());
 }
 
 bool player::has_item(item *it)
@@ -5085,7 +5082,7 @@ void player::use(game *g, char let)
  item* used = &i_at(let);
  item copy;
  bool replace_item = false;
- if (inv.index_by_letter(let) != -1) {
+ if (!inv.item_by_letter(let).is_null()) {
   copy = inv.remove_item_by_letter(let);
   copy.invlet = let;
   used = &copy;

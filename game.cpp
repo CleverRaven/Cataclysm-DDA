@@ -6536,12 +6536,10 @@ void game::drop(char chInput)
  if (chInput == '.')
   dropped = multidrop();
  else {
-  int index = u.inv.index_by_letter(chInput);
-
-  if (index == -1) {
+  if (u.inv.item_by_letter(chInput).is_null()) {
    dropped.push_back(u.i_rem(chInput));
   } else {
-   dropped.push_back(u.inv.remove_item(index));
+   dropped.push_back(u.inv.remove_item_by_letter(chInput));
   }
  }
 
@@ -7168,12 +7166,12 @@ void game::reload(char chInput)
  //Wield old weapon
  bool bSwitch = false;
  item oTempWeapon;
- int iItemIndex = u.inv.index_by_letter(chInput);
+ item inv_it = u.inv.item_by_letter(chInput);
 
- if (u.weapon.invlet != chInput && iItemIndex != -1) {
+ if (u.weapon.invlet != chInput && !inv_it.is_null()) {
   oTempWeapon = u.weapon;
-  u.weapon = u.inv[iItemIndex];
-  u.inv.remove_item(iItemIndex);
+  u.weapon = inv_it;
+  u.inv.remove_item_by_letter(chInput);
   bSwitch = true;
  }
 
