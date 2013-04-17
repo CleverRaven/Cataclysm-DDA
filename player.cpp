@@ -5558,7 +5558,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
 
         if (armor->covers & mfb(bp))
         {
-            if (armor->is_power_armor() && has_active_item("UPS_on"))
+            if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
             {
                 armorenc += armor->encumber - 4;
                 warmth   += armor->warmth - 20;

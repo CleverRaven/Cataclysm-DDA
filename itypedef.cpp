@@ -4316,7 +4316,6 @@ Compact Bionics Module that upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\
 also need a power supply, found in another CBM."); // This is a special case, which increases power capacity by 4
 
-
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \
 itypes[id]=new it_software(id, 0, price, name, description,\
@@ -4404,6 +4403,8 @@ BIO_SINGLE("bio_teleport", 1, 7000, c_white, 7);
 BIO_SINGLE("bio_blaster", 13, 2200, c_red, 3);
 BIO_SINGLE("bio_laser", 2, 7200, c_red, 5);
 BIO_SINGLE("bio_emp", 2, 7200, c_red, 5);
+// power armor
+BIO_SINGLE("bio_power_armor_interface", 20, 1200, c_yellow, 1);
 
 SOFTWARE("software_useless", "misc software", 300, SW_USELESS, 0, "\
 A miscellaneous piece of hobby software. Probably useless.");
