@@ -1730,6 +1730,25 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   break;
 
+  case t_palisade:
+  case t_palisade_gate:
+      g->sound(x, y, 16, "CRUNCH!!");
+      for (int i = x - 1; i <= x + 1; i++)
+      {
+          for (int j = y - 1; j <= y + 1; j++)
+          {
+              if(move_cost(i, j) == 0) continue;
+              if (one_in(3)) spawn_item(i, j, g->itypes["rope_6"], 0);
+              if (one_in(2)) spawn_item(i, j, g->itypes["splinter"], 0);
+              if (one_in(3)) spawn_item(i, j, g->itypes["stick"], 0);
+              if (one_in(6)) spawn_item(i, j, g->itypes["2x4"], 0);
+              if (one_in(9)) spawn_item(i, j, g->itypes["log"], 0);
+          }
+      }
+      ter_set(x, y, t_dirt);
+      add_trap(x, y, tr_pit);
+      break;
+
  default:
   if (makesound && has_flag(explodes, x, y) && one_in(2))
    g->explosion(x, y, 40, 0, true);
