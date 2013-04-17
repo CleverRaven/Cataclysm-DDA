@@ -182,7 +182,7 @@ bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem
                 if (charged_bio_mem) return one_in(5);
                 --_exercise;
 
-                if (_exercise <= 0)
+                if (_exercise < 0)
                 {
                     _exercise = 99;
                     --_level;
