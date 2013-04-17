@@ -20,7 +20,6 @@ class inventory
   std::list<item>& stack_at(int i);
   std::list<item>& stack_by_letter(char ch);
   std::list<item> const_stack(int i) const;
-  std::vector<item> as_vector();
   int size() const;
   int num_items() const;
   bool is_sorted() const;

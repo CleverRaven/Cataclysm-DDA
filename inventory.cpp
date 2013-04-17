@@ -66,21 +66,6 @@ std::list<item> inventory::const_stack(int i) const
     return *iter;
 }
 
-std::vector<item> inventory::as_vector()
-{
-    std::vector<item> ret;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-    {
-        for (std::list<item>::iterator stack_iter = iter->begin();
-             stack_iter != iter->end();
-             ++stack_iter)
-        {
-            ret.push_back(*stack_iter);
-        }
-    }
-    return ret;
-}
-
 int inventory::size() const
 {
  return items.size();
