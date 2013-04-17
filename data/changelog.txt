@@ -13,6 +13,7 @@ Acid rain causes pain not injury
 Changed default viewmorale key to v
 Learn crafting recipes from item disassembly or books.
 New Hardcore trait
+Other new traits: Skilled Liar, Pretty, Beautiful, Very Beautiful, Glorius (cancels truth-teller, ugly mutations)
 Set minimum move to 25
 Death by starvation or thirst
 New profession: tailor

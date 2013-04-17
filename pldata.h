@@ -188,6 +188,8 @@ enum pl_flag {
  PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
  PF_CANNIBAL, // No penalty for eating human meat
  PF_MARTIAL_ARTS, // Start with a martial art
+ PF_LIAR, // Better at telling lies
+ PF_PRETTY, // -1 grotesqueness
 
  PF_SPLIT,	// Null trait, splits between bad & good
 
@@ -314,6 +316,9 @@ enum pl_flag {
  PF_DEFORMED,
  PF_DEFORMED2,
  PF_DEFORMED3,
+ PF_BEAUTIFUL,
+ PF_BEAUTIFUL2,
+ PF_BEAUTIFUL3,
  PF_HOLLOW_BONES,//
  PF_NAUSEA,//
  PF_VOMITOUS,//
@@ -450,6 +455,12 @@ tell you you can't eat people."},
 {"Martial Arts Training", 3, 0, 0, "\
 You have received some martial arts training at a local dojo.  You will start\n\
 with your choice of karate, judo, aikido, tai chi, or taekwondo."},
+{"Skilled Liar", 2, 0, 0, "\
+You have no qualms about bending the truth, and have practically no tells.\n\
+Telling lies and otherwise bluffing will be much easier for you."},
+{"Pretty", 1, 0, -2, "\
+You are a sight to behold. NPCs who care about such thing will react more\n\
+kindly to you."},
 
 {"NULL", 0, 0, 0, " -------------------------------------------------- "},
 
@@ -815,6 +826,15 @@ to your appearance."},
 {"Grotesque", -7, 10, 10, "\
 Your visage is disgusting and liable to induce vomiting.  People will not\n\
 want to interact with you unless they have a very good reason to."},
+{"Beautiful", 2, -4, -4, "\
+You're a real head-turner. Some people will react well to your appearance,\n\
+and most people have an easier time trusting you."},
+{"Very Beautiful", 4, -7, -7, "\
+You are a vision of beauty. Some people will react very well to your looks,\n\
+and most people will trust you immediately."},
+{"Glorious", 7, -10, -10, "\
+You are inredibly beautiful. People cannot help themselves for your charms,\n\
+and will do whatever they can to please you."},
 {"Hollow Bones", -6, 0, 0, "\
 You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is\n\
 very light as a result, enabling you to run and attack 20%% faster, but\n\
