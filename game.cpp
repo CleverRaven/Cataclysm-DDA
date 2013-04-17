@@ -4530,8 +4530,8 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   door_type   = t_palisade_gate;
   floor_type  = t_dirt;
   pull_message = "You pull the rope...";
-  open_message = "The gate!";
-  close_message = "The barn doors closed!";
+  open_message = "The palisade gate swings open!";
+  close_message = "The palisade gate swings closed with a crash!";
   break;
 
   default: return; // No matching gate type
