@@ -982,7 +982,7 @@ By drawing the moisture from the air, and synthesizing water from in-air\n\
 elements, you can create a massive puddle around you.  The effects are more\n\
 powerful when used near a body of water.");
 
-    bionics["bio_power_armor_interface"] = new bionic_data("Power Armor Interface", false, true, 1, 45, "\
+    bionics["bio_power_armor_interface"] = new bionic_data("Power Armor Interface", false, true, 1, 10, "\
 Interfaces your power system with the internal charging port on suits of power armor.");
 
     //Fault Bionics from here on out.
