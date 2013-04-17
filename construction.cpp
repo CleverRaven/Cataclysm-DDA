@@ -257,6 +257,20 @@ void game::init_construction()
    COMP("2x4", 8);
    COMP("nail", 40);
 
+ CONSTRUCT("Build Log & Sod Roof", 3, &construct::able_between_walls,
+                            &construct::done_nothing);
+  STAGE(t_floor, 80);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOLCONT("nailgun");
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   COMP("log", 2);
+   COMP("stick", 4);
+   COMPCONT("2x4", 4);
+
+
 // Base stuff
  CONSTRUCT("Build Bulletin Board", 0, &construct::able_empty,
  		                                   &construct::done_nothing);
