@@ -85,6 +85,11 @@ int inventory::num_items() const
     return ret;
 }
 
+bool inventory::is_sorted() const
+{
+    return sorted;
+}
+
 inventory& inventory::operator= (inventory &rhs)
 {
  if (this == &rhs)
@@ -142,6 +147,22 @@ inventory inventory::operator+ (const std::list<item> &rhs)
 inventory inventory::operator+ (const item &rhs)
 {
  return inventory(*this) += rhs;
+}
+
+void inventory::unsort()
+{
+    sorted = false;
+}
+
+bool stack_compare(const std::list<item>& lhs, const std::list<item>& rhs)
+{
+    return lhs.front() < rhs.front();
+}
+
+void inventory::sort()
+{
+    items.sort(stack_compare);
+    sorted = true;
 }
 
 void inventory::clear()

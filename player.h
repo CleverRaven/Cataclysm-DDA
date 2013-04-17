@@ -235,7 +235,6 @@ public:
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
                  itype* item_type = NULL);
 
- void sort_inv();	// Sort inventory by type
  std::string weapname(bool charges = true);
 
  void i_add(item it, game *g = NULL);
@@ -333,8 +332,6 @@ public:
 
  std::map<std::string, recipe*> learned_recipes;
 
- bool inv_sorted;
- //std::vector <item> inv;
  inventory inv;
  itype_id last_item;
  std::vector <item> worn;

@@ -1359,6 +1359,104 @@ bool item::is_artifact() const
  return type->is_artifact();
 }
 
+bool item::operator<(const item& other) const
+{
+    // guns ammo weaps armor food med tools books other
+    
+    // wrote this for readability over compactness
+    // can we optimize this?
+    // hmm... is_weap calls most of the other conditions...
+    // maybe we should introduce a function that gives the item's ordinality?
+    // TODO: optimize
+    if (is_gun())
+    {
+        return true;
+    }
+    else if (other.is_gun())
+    {
+        return false;
+    }
+    else if (is_ammo())
+    {
+        return true;
+    }
+    else if (other.is_ammo())
+    {
+        return false;
+    }
+    else if (is_weap())
+    {
+        return true;
+    }
+    else if (other.is_weap())
+    {
+        return false;
+    }
+    else if (is_tool())
+    {
+        return true;
+    }
+    else if (other.is_tool())
+    {
+        return false;
+    }
+    else if (is_armor())
+    {
+        return true;
+    }
+    else if (other.is_armor())
+    {
+        return false;
+    }
+    else if (is_food_container())
+    {
+        return true;
+    }
+    else if (other.is_food_container())
+    {
+        return false;
+    }
+    else if (is_food() || other.is_food())
+    {
+        if (!other.is_food())
+        {
+            return true;
+        }
+        else if (is_food())
+        {
+            it_comest* comest = dynamic_cast<it_comest*>(type);
+            if (comest->comesttype != "MED")
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return false;        
+        }
+    }
+    else if (is_book())
+    {
+        return true;
+    }
+    else if (other.is_book())
+    {
+        return false;
+    }
+    else if (is_gunmod() || is_bionic())
+    {
+        return true;
+    }
+    else if (other.is_gunmod() || other.is_bionic())
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
 int item::reload_time(player &u)
 {
  int ret = 0;

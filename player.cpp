@@ -55,7 +55,6 @@ player::player()
  name = "";
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
- inv_sorted = true;
  moves = 100;
  oxygen = 0;
  active_mission = -1;
@@ -185,8 +184,6 @@ player& player::operator= (const player & rhs)
  }
 
  _skills = rhs._skills;
-
- inv_sorted = rhs.inv_sorted;
 
  inv.clear();
  for (int i = 0; i < rhs.inv.size(); i++)
@@ -3425,49 +3422,6 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
  }
 }
 
-void player::sort_inv()
-{
-    // guns ammo weaps armor food med tools books other
-    std::vector< std::list<item> > types[10];
-    std::list<item> tmp;
-    for (int i = 0; i < inv.size(); i++) {
-        tmp = inv.stack_at(i);
-        if (tmp.front().is_gun()) {
-            types[0].push_back(tmp);
-        } else if (tmp.front().is_ammo()) {
-            types[1].push_back(tmp);
-        } else if (tmp.front().is_weap()) {
-            types[2].push_back(tmp);
-        } else if (tmp.front().is_tool()) {
-            types[3].push_back(tmp);
-        } else if (tmp.front().is_armor()) {
-            types[4].push_back(tmp);
-        } else if (tmp.front().is_food_container())  {
-            types[5].push_back(tmp);
-        } else if (tmp.front().is_food()) {
-            it_comest* comest = dynamic_cast<it_comest*>(tmp.front().type);
-            if (comest->comesttype != "MED") {
-                types[5].push_back(tmp);
-            } else {
-                types[6].push_back(tmp);
-            }
-        } else if (tmp.front().is_book()) {
-            types[7].push_back(tmp);
-        } else if (tmp.front().is_gunmod() || tmp.front().is_bionic()) {
-            types[8].push_back(tmp);
-        } else {
-            types[9].push_back(tmp);
-        }
-    }
-    inv.clear();
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < types[i].size(); j++) {
-            inv.push_back(types[i][j]);
-        }
-    }
-    inv_sorted = true;
-}
-
 void player::i_add(item it, game *g)
 {
  itype_id item_type_id = "null";
@@ -3477,7 +3431,7 @@ void player::i_add(item it, game *g)
 
  if (it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
      it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
-  inv_sorted = false;
+  inv.unsort();
 
  if (it.count_by_charges()) {
   for (int i = 0; i < inv.size(); i++) {
@@ -4585,7 +4539,7 @@ bool player::eat(game *g, int index)
             }
             if (inv.stack_at(which).size() > 0)
                 inv.restack(this);
-            inv_sorted = false;
+            inv.unsort();
         }
     }
     return true;
@@ -4609,7 +4563,7 @@ bool player::wield(game *g, int index)
    }
   } else if (volume_carried() + weapon.volume() < volume_capacity()) {
    inv.push_back(remove_weapon());
-   inv_sorted = false;
+   inv.unsort();
    moves -= 20;
    recoil = 0;
    if (!pickstyle)
@@ -4656,7 +4610,7 @@ bool player::wield(game *g, int index)
   item tmpweap = remove_weapon();
   weapon = inv.remove_item(index);
   inv.push_back(tmpweap);
-  inv_sorted = false;
+  inv.unsort();
   moves -= 45;
   if (weapon.is_artifact() && weapon.is_tool()) {
    it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
@@ -4669,7 +4623,7 @@ bool player::wield(game *g, int index)
   g->m.add_item(posx, posy, remove_weapon());
   weapon = inv[index];
   inv.remove_item(index);
-  inv_sorted = false;
+  inv.unsort();
   moves -= 30;
   if (weapon.is_artifact() && weapon.is_tool()) {
    it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
@@ -4956,7 +4910,7 @@ bool player::takeoff(game *g, char let)
         volume_carried() + worn[i].type->volume) {
      inv.push_back(worn[i]);
      worn.erase(worn.begin() + i);
-     inv_sorted = false;
+     inv.unsort();
      return true;
     } else if (query_yn("No room in inventory for your %s.  Drop it?",
                         worn[i].tname(g).c_str())) {

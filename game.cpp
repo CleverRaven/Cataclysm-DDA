@@ -6513,7 +6513,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
         {
           add_msg("You fill your %s with some of the %s.", cont->tname(this).c_str(),
                                                     liquid.tname(this).c_str());
-          u.inv_sorted = false;
+          u.inv.unsort();
           int oldcharges = liquid.charges - container->contains * default_charges;
           liquid.charges = container->contains * default_charges;
           cont->put_in(liquid);

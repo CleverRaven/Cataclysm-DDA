@@ -24,6 +24,7 @@ class inventory
   item& back();
   int size() const;
   int num_items() const;
+  bool is_sorted() const;
 
   inventory& operator=  (inventory &rhs);
   inventory& operator=  (const inventory &rhs);
@@ -34,6 +35,8 @@ class inventory
   inventory  operator+  (const item &rhs);
   inventory  operator+  (const std::list<item> &rhs);
 
+  void unsort(); // flags the inventory as unsorted
+  void sort();
   void clear();
   void add_stack(std::list<item> newits);
   void push_back(std::list<item> newits);
@@ -81,6 +84,7 @@ class inventory
   item remove_item(invstack::iterator iter);
   void assign_empty_invlet(item &it, player *p = NULL);
   invstack items;
+  bool sorted;
 };
 
 #endif

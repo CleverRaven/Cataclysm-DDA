@@ -133,6 +133,8 @@ public:
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
+ 
+ bool operator<(const item& other) const;
 
  itype_id typeId() const;
  itype* type;

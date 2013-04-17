@@ -129,7 +129,7 @@ char game::inv(std::string title)
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  char ch = '.';
  int start = 0, cur_it;
- u.sort_inv();
+ u.inv.sort();
  u.inv.restack(&u);
  std::vector<char> null_vector;
  print_inv_statics(this, w_inv, title, null_vector);
@@ -199,7 +199,7 @@ char game::inv_type(std::string title, int inv_item_type)
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  char ch = '.';
  int start = 0, cur_it;
- u.sort_inv();
+ u.inv.sort();
  u.inv.restack(&u);
  std::vector<char> null_vector;
  print_inv_statics(this, w_inv, title, null_vector);
@@ -314,7 +314,7 @@ char game::inv_type(std::string title, int inv_item_type)
 
 std::vector<item> game::multidrop()
 {
- u.sort_inv();
+ u.inv.sort();
  u.inv.restack(&u);
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
@@ -524,7 +524,7 @@ void game::compare(int iCompareX, int iCompareY)
  }
  //Only the first 10 Items due to numbering 0-9
  const int groundsize = (grounditems.size() > 10 ? 10 : grounditems.size());
- u.sort_inv();
+ u.inv.sort();
  u.inv.restack(&u);
 
  WINDOW* w_inv = newwin(TERMY-VIEW_OFFSET_Y*2, TERMX-VIEW_OFFSET_X*2, VIEW_OFFSET_Y, VIEW_OFFSET_X);
