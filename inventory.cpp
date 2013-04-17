@@ -36,6 +36,18 @@ std::list<item>& inventory::stack_at(int i)
     return *iter;
 }
 
+std::list<item>& inventory::stack_by_letter(char ch)
+{
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        if (iter->begin()->invlet == ch)
+        {
+            return *iter;
+        }
+    }
+    return nullstack;
+}
+
 std::list<item> inventory::const_stack(int i) const
 {
     if (i < 0 || i > items.size())
@@ -214,7 +226,7 @@ void inventory::add_item(item newit, bool keep_invlet)
             assign_empty_invlet(*it_ref);
         }
     }
-    if (!newit.invlet_is_okay() || index_by_letter(newit.invlet) != -1)
+    if (!newit.invlet_is_okay() || !item_by_letter(newit.invlet).is_null())
     {
         assign_empty_invlet(newit);
     }
@@ -469,6 +481,29 @@ item inventory::remove_item_by_letter(char ch)
         }
     }
 
+    return nullitem;
+}
+
+item inventory::remove_item_by_letter_and_quantity(char ch, int quantity)
+{
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        if (iter->begin()->invlet == ch)
+        {
+            item ret = iter->front();
+            if (quantity > iter->front().charges)
+            {
+                debugmsg("Charges: Tried to remove charges that does not exist, \
+                          removing maximum available charges instead");
+                quantity = iter->front().charges;
+            }
+            ret.charges = quantity;
+            iter->front().charges -= quantity;
+            return ret;
+        }
+    }
+
+    debugmsg("Tried to remove item with invlet %c by quantity, no such item", ch);
     return nullitem;
 }
 
@@ -750,7 +785,7 @@ void inventory::assign_empty_invlet(item &it, player *p)
   for (std::string::const_iterator newinvlet = inv_chars.begin();
        newinvlet != inv_chars.end();
        newinvlet++) {
-   if (index_by_letter(*newinvlet) == -1 && (!p || !p->has_weapon_or_armor(*newinvlet))) {
+   if (item_by_letter(*newinvlet).is_null() && (!p || !p->has_weapon_or_armor(*newinvlet))) {
     it.invlet = *newinvlet;
     return;
    }

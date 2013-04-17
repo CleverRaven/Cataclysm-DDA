@@ -18,6 +18,7 @@ class inventory
  public:
   item& operator[] (int i);
   std::list<item>& stack_at(int i);
+  std::list<item>& stack_by_letter(char ch);
   std::list<item> const_stack(int i) const;
   std::vector<item> as_vector();
   int size() const;
@@ -55,6 +56,7 @@ class inventory
   item  remove_item(int index);
   item  remove_item(int stack, int index);
   item  remove_item_by_letter(char ch);
+  item  remove_item_by_letter_and_quantity(char ch, int quantity);
   item  remove_item_by_quantity(int index, int quantity);
   item& item_by_letter(char ch);
   int   index_by_letter(char ch);
