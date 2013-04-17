@@ -1359,102 +1359,61 @@ bool item::is_artifact() const
  return type->is_artifact();
 }
 
-bool item::operator<(const item& other) const
+int item::sort_rank() const
 {
-    // guns ammo weaps armor food med tools books other
-    
-    // wrote this for readability over compactness
-    // can we optimize this?
-    // hmm... is_weap calls most of the other conditions...
-    // maybe we should introduce a function that gives the item's ordinality?
-    // TODO: optimize
+    // guns ammo weaps tools armor food med books mods other
     if (is_gun())
     {
-        return true;
-    }
-    else if (other.is_gun())
-    {
-        return false;
+        return 0;
     }
     else if (is_ammo())
     {
-        return true;
+        return 1;
     }
-    else if (other.is_ammo())
+    else if (is_weap()) // is_weap calls a lot of other stuff, so possible optimization candidate
     {
-        return false;
-    }
-    else if (is_weap())
-    {
-        return true;
-    }
-    else if (other.is_weap())
-    {
-        return false;
+        return 2;
     }
     else if (is_tool())
     {
-        return true;
-    }
-    else if (other.is_tool())
-    {
-        return false;
+        return 3;
     }
     else if (is_armor())
     {
-        return true;
-    }
-    else if (other.is_armor())
-    {
-        return false;
+        return 4;
     }
     else if (is_food_container())
     {
-        return true;
+        return 5;
     }
-    else if (other.is_food_container())
+    else if (is_food())
     {
-        return false;
-    }
-    else if (is_food() || other.is_food())
-    {
-        if (!other.is_food())
+        it_comest* comest = dynamic_cast<it_comest*>(type);
+        if (comest->comesttype != "MED")
         {
-            return true;
-        }
-        else if (is_food())
-        {
-            it_comest* comest = dynamic_cast<it_comest*>(type);
-            if (comest->comesttype != "MED")
-            {
-                return true;
-            }
+            return 5;
         }
         else
         {
-            return false;        
+            return 6;
         }
     }
     else if (is_book())
     {
-        return true;
-    }
-    else if (other.is_book())
-    {
-        return false;
+        return 7;
     }
     else if (is_gunmod() || is_bionic())
     {
-        return true;
+        return 8;
     }
-    else if (other.is_gunmod() || other.is_bionic())
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
+    
+    // "other" case
+    return 9;
+}
+
+bool item::operator<(const item& other) const
+{
+    return sort_rank() < other.sort_rank();
 }
 
 int item::reload_time(player &u)

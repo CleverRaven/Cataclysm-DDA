@@ -165,6 +165,7 @@ public:
 
  item clone();
 private:
+ int sort_rank() const;
  static itype * nullitem_m;
 };
 
