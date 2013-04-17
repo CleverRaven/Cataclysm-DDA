@@ -77,6 +77,10 @@
 		<Unit filename="inventory.cpp" />
 		<Unit filename="inventory.h" />
 		<Unit filename="inventory_ui.cpp" />
+		<Unit filename="item_factory.cpp" />
+		<Unit filename="item_factory.h" />
+		<Unit filename="item_group.cpp" />
+		<Unit filename="item_group.h" />
 		<Unit filename="item.cpp" />
 		<Unit filename="item.h" />
 		<Unit filename="itype.h" />
