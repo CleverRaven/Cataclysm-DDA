@@ -66,31 +66,31 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag){
 }
 
 
-item* Item_factory::create(Item_tag id, int created_at){
-    return new item(find_template(id),0);
+item Item_factory::create(Item_tag id, int created_at){
+    return item(find_template(id),0);
 }
 Item_list Item_factory::create(Item_tag id, int created_at, int quantity){
     Item_list new_items;
-    item* new_item_base = create(id, created_at);
+    item new_item_base = create(id, created_at);
     for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base->clone());
+        new_items.push_back(new_item_base.clone());
     }
     return new_items;
 }
-item* Item_factory::create_from(Item_tag group, int created_at){
+item Item_factory::create_from(Item_tag group, int created_at){
     return create(id_from(group), created_at);
 }
 Item_list Item_factory::create_from(Item_tag group, int created_at, int quantity){
     return create(id_from(group), created_at, quantity);
 }
-item* Item_factory::create_random(int created_at){
+item Item_factory::create_random(int created_at){
     return create(random_id(), created_at);
 }
 Item_list Item_factory::create_random(int created_at, int quantity){
     Item_list new_items;
-    item* new_item_base = create(random_id(), created_at);
+    item new_item_base = create(random_id(), created_at);
     for(int ii=0;ii<quantity;++ii){
-        new_items.push_back(new_item_base->clone());
+        new_items.push_back(new_item_base.clone());
     }
     return new_items;
 }

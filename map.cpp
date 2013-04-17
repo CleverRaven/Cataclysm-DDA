@@ -2171,7 +2171,7 @@ void map::spawn_item(const int x, const int y, itype* type, const int birthday, 
 //New spawn_item method, using item factory
 void map::spawn_item(const int x, const int y, std::string type_id, const int birthday, const int quantity, const int charges)
 {
- item tmp = *(item_controller->create(type_id, birthday));
+ item tmp = item_controller->create(type_id, birthday);
  if (quantity)
   for(int i = 0; i < quantity; i++)
    spawn_item(x, y, type_id, birthday, 0, charges);

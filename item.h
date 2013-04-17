@@ -161,7 +161,7 @@ public:
 
  static itype * nullitem();
 
- item* clone();
+ item clone();
 private:
  static itype * nullitem_m;
 };

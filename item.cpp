@@ -1911,6 +1911,6 @@ itype_id item::typeId() const
     return type->id;
 }
 
-item* item::clone(){
-    return new item(type, bday);
+item item::clone(){
+    return item(type, bday);
 }

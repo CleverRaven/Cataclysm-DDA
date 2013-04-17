@@ -12,7 +12,7 @@
 #include "item_group.h"
 
 typedef std::string Item_tag;
-typedef std::vector<item*> Item_list;
+typedef std::vector<item> Item_list;
 
 class Item_factory
 {
@@ -30,11 +30,11 @@ public:
     const Item_tag id_from(Item_tag group_tag);
 
     //Production methods
-    item* create(Item_tag id, int created_at);
+    item create(Item_tag id, int created_at);
     Item_list create(Item_tag id, int created_at, int quantity);
-    item* create_from(Item_tag group, int created_at);
+    item create_from(Item_tag group, int created_at);
     Item_list create_from(Item_tag group, int created_at, int quantity);
-    item* create_random(int created_at);
+    item create_random(int created_at);
     Item_list create_random(int created_at, int quantity);
 
 private:
