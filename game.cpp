@@ -2823,9 +2823,9 @@ void game::draw_minimap()
     seen    = cur_om.seen(omx, omy, levz);
     if (cur_om.has_note(omx,omy,levz))
     {
-	if (cur_om.note(omx,omy,levz)[1] == ':')
-	    note_sym = cur_om.note(omx,omy,levz)[0];
-	note = true;
+        if (cur_om.note(omx,omy,levz)[1] == ':')
+            note_sym = cur_om.note(omx,omy,levz)[0];
+        note = true;
     }
    } else if ((omx < 0 || omx >= OMAPX) && (omy < 0 || omy >= OMAPY)) {
     if (omx < 0) omx += OMAPX;
@@ -2836,9 +2836,9 @@ void game::draw_minimap()
     seen    = om_diag->seen(omx, omy, levz);
     if (om_diag->has_note(omx,omy,levz))
     {
-	if (om_diag->note(omx,omy,levz)[1] == ':')
-	    note_sym = om_diag->note(omx,omy,levz)[0];
-	note = true;
+        if (om_diag->note(omx,omy,levz)[1] == ':')
+            note_sym = om_diag->note(omx,omy,levz)[0];
+        note = true;
     }
    } else if (omx < 0 || omx >= OMAPX) {
     if (omx < 0) omx += OMAPX;
@@ -2847,9 +2847,9 @@ void game::draw_minimap()
     seen    = om_hori->seen(omx, omy, levz);
     if (om_hori->has_note(omx,omy,levz))
     {
-	if (om_hori->note(omx,omy,levz)[1] == ':')
-	    note_sym = om_hori->note(omx,omy,levz)[0];
-	note = true;
+        if (om_hori->note(omx,omy,levz)[1] == ':')
+            note_sym = om_hori->note(omx,omy,levz)[0];
+        note = true;
     }
    } else if (omy < 0 || omy >= OMAPY) {
     if (omy < 0) omy += OMAPY;
@@ -2858,9 +2858,9 @@ void game::draw_minimap()
     seen    = om_vert->seen(omx, omy, levz);
     if (om_vert->has_note(omx,omy,levz))
     {
-	if (om_vert->note(omx,omy,levz)[1] == ':')
-	    note_sym = om_vert->note(omx,omy,levz)[0];
-	note = true;
+        if (om_vert->note(omx,omy,levz)[1] == ':')
+            note_sym = om_vert->note(omx,omy,levz)[0];
+        note = true;
     }
    } else {
     dbg(D_ERROR) << "game:draw_minimap: No data loaded! omx: "
