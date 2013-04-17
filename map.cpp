@@ -1622,10 +1622,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   else {
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
-     if (move_cost(i, j) > 0 && one_in(3))
-      spawn_item(i, j, g->itypes["gasoline"], 0);
-     if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes["steel_chunk"], 0);
+       if(move_cost(i, j) == 0) continue;
+       if (one_in(3)) spawn_item(i, j, g->itypes["gasoline"], 0);
+       if (one_in(6)) spawn_item(i, j, g->itypes["steel_chunk"], 0, 0, 3);
     }
    }
   }
@@ -1639,10 +1638,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   ter_set(x, y, t_door_frame);
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
-    if (move_cost(i, j) > 0 && one_in(6))
-     spawn_item(i, j, g->itypes["2x4"], 0);
-    if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
+       if(move_cost(i, j) == 0) continue;
+       if (one_in(6)) spawn_item(i, j, g->itypes["2x4"], 0);
+       if (one_in(6)) spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
    }
   }
   break;
@@ -1663,10 +1661,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
  g->sound(x, y, 20, "SMASH!!");
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
-    if (move_cost(i, j) > 0 && one_in(5))
-     spawn_item(i, j, g->itypes["splinter"], 0);
-    if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
+       if(move_cost(i, j) == 0) continue;
+       if (one_in(5)) spawn_item(i, j, g->itypes["splinter"], 0);
+       if (one_in(6)) spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
    }
   }
   ter_set(x, y, t_rubble);
@@ -1696,14 +1693,11 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
  g->sound(x, y, 20, "SMASH!!");
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
-    if (move_cost(i, j) > 0 && one_in(5))
-     spawn_item(i, j, g->itypes["rock"], 0);
-    if (move_cost(i, j) > 0 && one_in(4))
-     spawn_item(i, j, g->itypes["splinter"], 0);
-    if (move_cost(i, j) > 0 && one_in(3))
-     spawn_item(i, j, g->itypes["rebar"], 0);
-    if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
+       if(move_cost(i, j) == 0) continue;
+       if (one_in(5)) spawn_item(i, j, g->itypes["rock"], 0);
+       if (one_in(4)) spawn_item(i, j, g->itypes["splinter"], 0);
+       if (one_in(3)) spawn_item(i, j, g->itypes["rebar"], 0);
+       if (one_in(6)) spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
    }
   }
   ter_set(x, y, t_rubble);
