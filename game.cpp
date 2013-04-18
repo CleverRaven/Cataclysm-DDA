@@ -4870,6 +4870,7 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
     for(int i = page * 20 , x = 0 ; i < u.inv.size() && x < 20 ; i++ ,x++)
     {
         nc_color thiscolor = norm;
+        item& it = u.inv[i];
         if(active && selected_index == x)
         {
             thiscolor = c_yellow;
@@ -4878,19 +4879,20 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         else
         {
         }
-        mvwprintz(window,6+x,6,thiscolor,"%s",u.inv[i].tname(g).c_str());
-        if(u.inv.stack_at(i).size() > 1)
+        mvwprintz(window,6+x,6,thiscolor,"%s",it.tname(g).c_str());
+        int size = u.inv.stack_by_letter(it.invlet).size();
+        if(size > 1)
         {
-            wprintz(window,thiscolor," [%d]", u.inv.stack_at(i).size());
+            wprintz(window,thiscolor," [%d]", size);
         }
-        if(u.inv[i].charges > 0)
+        if(it.charges > 0)
         {
-            wprintz(window,thiscolor," (%d)",u.inv[i].charges);
+            wprintz(window,thiscolor," (%d)",it.charges);
         }
-        else if(u.inv[i].contents.size() == 1 &&
-                u.inv[i].contents[0].charges > 0)
+        else if(it.contents.size() == 1 &&
+                it.contents[0].charges > 0)
         {
-            wprintz(window,thiscolor," (%d)",u.inv[i].contents[0].charges);
+            wprintz(window,thiscolor," (%d)",it.contents[0].charges);
         }
     }
     if(active)
@@ -5079,12 +5081,14 @@ void game::advanced_inv()
                 {
                     //if target item has stack
                     int max = (MAX_ITEM_IN_SQUARE - dest_size);
-                    if(u.inv.stack_at(item_pos).size() > 1) // if the item stack
+                    item& it = u.inv[item_pos];
+                    std::list<item>& stack = u.inv.stack_by_letter(it.invlet);
+                    if(stack.size() > 1) // if the item stack
                     {
-                        int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(u.inv.stack_at(item_pos).size())));
+                        int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(stack.size())));
                         if(amount != 0)
                         {
-                            amount = u.inv.stack_at(item_pos).size() < amount ? u.inv.stack_at(item_pos).size() : amount;
+                            amount = stack.size() < amount ? stack.size() : amount;
                             bool still_move = true;
                             if(amount > max)
                             {

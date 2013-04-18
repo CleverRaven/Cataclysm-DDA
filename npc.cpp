@@ -192,14 +192,7 @@ std::string npc::save_info()
 
 // Inventory size, plus armor size, plus 1 for the weapon
  dump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
- for (int i = 0; i < inv.size(); i++) {
-  std::list<item> stack = inv.stack_at(i);
-  for (std::list<item>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
-   dump << "I " << iter->save_info() << std::endl;
-   for (int k = 0; k < iter->contents.size(); k++)
-    dump << "C " << iter->contents[k].save_info() << std::endl;
-  }
- }
+ dump << inv.save_str_no_quant();
  dump << "w " << weapon.save_info() << std::endl;
  for (int i = 0; i < worn.size(); i++)
   dump << "W " << worn[i].save_info() << std::endl;

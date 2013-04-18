@@ -256,7 +256,7 @@ void item::put_in(item payload)
  contents.push_back(payload);
 }
 
-std::string item::save_info()
+std::string item::save_info() const
 {
  if (type == NULL){
   debugmsg("Tried to save an item with NULL type!");
@@ -290,11 +290,12 @@ std::string item::save_info()
   dump << " -1";
  dump << " " << mission_id << " " << player_id;
  size_t pos = name.find_first_of("\n");
+ std::string temp_name = name;
  while (pos != std::string::npos)  {
-  name.replace(pos, 1, "@@");
-  pos = name.find_first_of("\n");
+  temp_name.replace(pos, 1, "@@");
+  pos = temp_name.find_first_of("\n");
  }
- dump << " '" << name << "'";
+ dump << " '" << temp_name << "'";
  return dump.str();
 }
 
@@ -810,7 +811,7 @@ int item::price()
  return ret;
 }
 
-int item::weight()
+int item::weight() const
 {
  if (typeId() == "corpse") {
   int ret;
@@ -860,7 +861,7 @@ int item::weight()
  return ret;
 }
 
-int item::volume()
+int item::volume() const
 {
  if (typeId() == "corpse") {
   switch (corpse->size) {
@@ -910,7 +911,7 @@ int item::damage_bash()
  return type->melee_dam;
 }
 
-int item::damage_cut()
+int item::damage_cut() const
 {
  if (is_gun()) {
   for (int i = 0; i < contents.size(); i++) {
@@ -1005,7 +1006,7 @@ bool item::goes_bad()
  return (food->spoils != 0);
 }
 
-bool item::count_by_charges()
+bool item::count_by_charges() const
 {
  if (is_ammo())
   return true;
@@ -1113,7 +1114,7 @@ bool item::is_two_handed(player *u)
   return (weight() > u->str_cur * 4);
 }
 
-bool item::made_of(material mat)
+bool item::made_of(material mat) const
 {
  if( is_null() )
   return false;
@@ -1124,7 +1125,7 @@ bool item::made_of(material mat)
  return (type->m1 == mat || type->m2 == mat);
 }
 
-bool item::made_of(phase_id phase)
+bool item::made_of(phase_id phase) const
 {
     if( is_null() )
         return false;

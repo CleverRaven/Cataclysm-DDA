@@ -131,6 +131,7 @@ char game::inv(std::string title)
  int start = 0, cur_it;
  u.inv.sort();
  u.inv.restack(&u);
+ invslice slice = u.inv.slice(0, u.inv.size());
  std::vector<char> null_vector;
  print_inv_statics(this, w_inv, title, null_vector);
 // Gun, ammo, weapon, armor, food, tool, book, other
@@ -166,8 +167,8 @@ char game::inv(std::string title)
     mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
     mvwprintz(w_inv, cur_line, 1, u.inv[cur_it].color_in_inventory(&u), " %s",
               u.inv[cur_it].tname(this).c_str());
-    if (u.inv.stack_at(cur_it).size() > 1)
-     wprintw(w_inv, " [%d]", u.inv.stack_at(cur_it).size());
+    if (slice[cur_it]->size() > 1)
+     wprintw(w_inv, " [%d]", slice[cur_it]->size());
     if (u.inv[cur_it].charges > 0)
      wprintw(w_inv, " (%d)", u.inv[cur_it].charges);
     else if (u.inv[cur_it].contents.size() == 1 &&
@@ -254,6 +255,7 @@ char game::inv_type(std::string title, int inv_item_type)
   }
 
  std::vector<int> firsts = find_firsts(reduced_inv);
+ invslice slice = reduced_inv.slice(0, reduced_inv.size());
 
  do {
   if (ch == '<' && start > 0) { // Clear lines and shift
@@ -287,8 +289,8 @@ char game::inv_type(std::string title, int inv_item_type)
     mvwputch (w_inv, cur_line, 0, c_white, reduced_inv[cur_it].invlet);
     mvwprintz(w_inv, cur_line, 1, reduced_inv[cur_it].color_in_inventory(&u), " %s",
               reduced_inv[cur_it].tname(this).c_str());
-    if (reduced_inv.stack_at(cur_it).size() > 1)
-     wprintw(w_inv, " [%d]", reduced_inv.stack_at(cur_it).size());
+    if (slice[cur_it]->size() > 1)
+     wprintw(w_inv, " [%d]", slice[cur_it]->size());
     if (reduced_inv[cur_it].charges > 0)
      wprintw(w_inv, " (%d)", reduced_inv[cur_it].charges);
     else if (reduced_inv[cur_it].contents.size() == 1 &&
@@ -330,6 +332,8 @@ std::vector<item> game::multidrop()
 
  char ch = '.';
  int start = 0, cur_it;
+ // TODO: make this slice smarter
+ invslice stacks = u.inv.slice(0, u.inv.size());
  do {
   if (ch == '<' && start > 0) {
    for (int i = 1; i < maxitems+4; i++)
@@ -359,15 +363,15 @@ std::vector<item> game::multidrop()
    if (cur_it < u.inv.size()) {
     mvwputch (w_inv, cur_line, 0, c_white, u.inv[cur_it].invlet);
     char icon = '-';
-    if (dropping[cur_it] >= u.inv.stack_at(cur_it).size())
+    if (dropping[cur_it] >= stacks[cur_it]->size())
      icon = '+';
     else if (dropping[cur_it] > 0)
      icon = '#';
     nc_color col = (dropping[cur_it] == 0 ? c_ltgray : c_white);
     mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
               u.inv[cur_it].tname(this).c_str());
-    if (u.inv.stack_at(cur_it).size() > 1)
-     wprintz(w_inv, col, " [%d]", u.inv.stack_at(cur_it).size());
+    if (stacks[cur_it]->size() > 1)
+     wprintz(w_inv, col, " [%d]", stacks[cur_it]->size());
     if (u.inv[cur_it].charges > 0)
      wprintz(w_inv, col, " (%d)", u.inv[cur_it].charges);
     else if (u.inv[cur_it].contents.size() == 1 &&
@@ -410,7 +414,7 @@ std::vector<item> game::multidrop()
     }
    } else {
     if (count == 0) {
-    if (u.inv.stack_at(index).begin()->count_by_charges())
+    if (stacks[index]->begin()->count_by_charges())
       {
        if (dropping[index] == 0)
         dropping[index] = -1;
@@ -420,14 +424,14 @@ std::vector<item> game::multidrop()
     else
       {
        if (dropping[index] == 0)
-        dropping[index] = u.inv.stack_at(index).size();
+        dropping[index] = stacks[index]->size();
        else
         dropping[index] = 0;
       }
     }
 
-    else if (count >= u.inv.stack_at(index).size() && !u.inv.stack_at(index).begin()->count_by_charges())
-       dropping[index] = u.inv.stack_at(index).size();
+    else if (count >= stacks[index]->size() && !stacks[index]->begin()->count_by_charges())
+       dropping[index] = stacks[index]->size();
     else
       dropping[index] = count;
 
@@ -455,10 +459,10 @@ std::vector<item> game::multidrop()
   }
 
   for (int j = 0; j < dropping[i]; j++) {
-   if (u.inv.stack_at(current_stack).begin()->count_by_charges()) {      // dropping parts of stacks
+   if (stacks[current_stack]->begin()->count_by_charges()) {      // dropping parts of stacks
     int tmpcount = dropping[i];
 
-    if (tmpcount >= u.inv.stack_at(current_stack).begin()->charges) {
+    if (tmpcount >= stacks[current_stack]->begin()->charges) {
       ret.push_back(u.inv.remove_item(current_stack));
       current_stack--;
     } else {
@@ -469,7 +473,7 @@ std::vector<item> game::multidrop()
     j = dropping[i];
    } else {
     if (current_stack >= 0) {
-    if (u.inv.stack_at(current_stack).size() == 1) {
+    if (stacks[current_stack]->size() == 1) {
      ret.push_back(u.inv.remove_item(current_stack));
      current_stack--;
     } else
@@ -526,6 +530,8 @@ void game::compare(int iCompareX, int iCompareY)
  const int groundsize = (grounditems.size() > 10 ? 10 : grounditems.size());
  u.inv.sort();
  u.inv.restack(&u);
+ 
+ invslice stacks = u.inv.slice(0, u.inv.size());
 
  WINDOW* w_inv = newwin(TERMY-VIEW_OFFSET_Y*2, TERMX-VIEW_OFFSET_X*2, VIEW_OFFSET_Y, VIEW_OFFSET_X);
  int maxitems = TERMY-5-VIEW_OFFSET_Y*2;    // Number of items to show at one time.
@@ -590,8 +596,8 @@ void game::compare(int iCompareX, int iCompareY)
      nc_color col = (compare[cur_it] == 0 ? c_ltgray : c_white);
      mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
                u.inv[cur_it-groundsize].tname(this).c_str());
-     if (u.inv.stack_at(cur_it-groundsize).size() > 1)
-      wprintz(w_inv, col, " [%d]", u.inv.stack_at(cur_it-groundsize).size());
+     if (stacks[cur_it-groundsize]->size() > 1)
+      wprintz(w_inv, col, " [%d]", stacks[cur_it-groundsize]->size());
      if (u.inv[cur_it-groundsize].charges > 0)
       wprintz(w_inv, col, " (%d)", u.inv[cur_it-groundsize].charges);
      else if (u.inv[cur_it-groundsize].contents.size() == 1 &&

@@ -12,12 +12,14 @@ class map;
 const extern std::string inv_chars;
 
 typedef std::list< std::list<item> > invstack;
+typedef std::vector< std::list<item>* > invslice;
 
 class inventory
 {
  public:
   item& operator[] (int i);
-  std::list<item>& stack_at(int i);
+  invslice slice(int start, int length);
+  invslice slice(const std::list<item>* stack, int length);
   std::list<item>& stack_by_letter(char ch);
   std::list<item> const_stack(int i) const;
   int size() const;
@@ -53,10 +55,12 @@ class inventory
   std::list<item> remove_stack(int index);
   std::list<item> remove_stack(int index,int amount);
   item  remove_item(int index);
+  item  remove_item(item *it);
   item  remove_item(int stack, int index);
   item  remove_item_by_letter(char ch);
   item  remove_item_by_letter_and_quantity(char ch, int quantity);
   item  remove_item_by_quantity(int index, int quantity);
+  std::vector<item>  remove_mission_items(int mission_id);
   item& item_by_letter(char ch);
   int   index_by_letter(char ch);
 
@@ -71,6 +75,21 @@ class inventory
   bool has_amount (itype_id it, int quantity);
   bool has_charges(itype_id it, int quantity);
   bool has_item(item *it); // Looks for a specific item
+
+  bool has_mission_item(int mission_id) const;
+  int butcher_factor() const;
+
+  int weight() const;
+  int volume() const;
+  int max_active_item_charges(itype_id id) const;
+
+  void dump(std::vector<item>& dest); // dumps contents into dest (does not delete contents)
+
+  // vector rather than list because it's NOT an item stack
+  std::vector<item*> active_items();
+
+  // hack to account for players saving inventory data (including weapon, etc.)
+  std::string save_str_no_quant() const;
 
 /* TODO: This stuff, I guess?
   std::string save();

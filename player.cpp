@@ -925,14 +925,8 @@ std::string player::save_info()
 
  dump << std::endl;
 
- for (int i = 0; i < inv.size(); i++) {
-  std::list<item> stack = inv.stack_at(i);
-  for (std::list<item>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
-   dump << "I " << iter->save_info() << std::endl;
-   for (int k = 0; k <iter->contents.size(); k++)
-    dump << "C " << iter->contents[k].save_info() << std::endl;
-  }
- }
+ dump << inv.save_str_no_quant();
+ 
  for (int i = 0; i < worn.size(); i++)
   dump << "W " << worn[i].save_info() << std::endl;
  if (!weapon.is_null())
@@ -3296,29 +3290,19 @@ void player::vomit(game *g)
 
 int player::weight_carried()
 {
- int ret = 0;
- ret += weapon.weight();
- for (int i = 0; i < worn.size(); i++)
-  ret += worn[i].weight();
- for (int i = 0; i < inv.size(); i++) {
-  std::list<item> stack = inv.stack_at(i);
-  for (std::list<item>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
-   ret += iter->weight();
-  }
- }
- return ret;
+    int ret = 0;
+    ret += weapon.weight();
+    for (int i = 0; i < worn.size(); i++)
+    {
+        ret += worn[i].weight();
+    }
+    ret += inv.weight();
+    return ret;
 }
 
 int player::volume_carried()
 {
- int ret = 0;
- for (int i = 0; i < inv.size(); i++) {
-  std::list<item> stack = inv.stack_at(i);
-  for (std::list<item>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
-   ret += iter->volume();
-  }
- }
- return ret;
+    return inv.volume();
 }
 
 int player::weight_capacity(bool real_life)
@@ -3470,18 +3454,18 @@ bool player::has_active_item(itype_id id)
 
 int player::active_item_charges(itype_id id)
 {
- int max = 0;
- if (weapon.type->id == id && weapon.active)
-  max = weapon.charges;
- for (int i = 0; i < inv.size(); i++) {
-  std::list<item> stack = inv.stack_at(i);
-  for (std::list<item>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
-   if (iter->type->id == id && iter->active &&
-       iter->charges > max)
-    max = iter->charges;
-  }
- }
- return max;
+    int max = 0;
+    if (weapon.type->id == id && weapon.active)
+    {
+        max = weapon.charges;
+    }
+    
+    int inv_max = inv.max_active_item_charges(id);
+    if (inv_max > max)
+    {
+        max = inv_max;
+    }
+    return max;
 }
 
 void player::process_active_items(game *g)
@@ -3565,55 +3549,66 @@ void player::process_active_items(game *g)
     weapon.type = g->itypes[tmp->revert_to];
   }
  }
- for (int i = 0; i < inv.size(); i++) {
-  std::list<item> stack = inv.stack_at(i);
-  for (std::list<item>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
-   item *tmp_it = &(*iter);
-   if (tmp_it->is_artifact() && tmp_it->is_tool())
-      g->process_artifact(tmp_it, this);
-      if (tmp_it->active ||
-      (tmp_it->is_container() && tmp_it->contents.size() > 0 && tmp_it->contents[0].active)) {
-        if (tmp_it->is_food()) {
-          if (tmp_it->has_flag(IF_HOT)) {
-            tmp_it->item_counter--;
-            if (tmp_it->item_counter == 0) {
-              tmp_it->item_flags ^= mfb(IF_HOT);
-              tmp_it->active = false;
-            }
-          }
-        } else if (tmp_it->is_food_container()) {
-          if (tmp_it->contents[0].has_flag(IF_HOT)) {
 
-            tmp_it->contents[0].item_counter--;
-            if (tmp_it->contents[0].item_counter == 0) {
-              tmp_it->contents[0].item_flags ^= mfb(IF_HOT);
-              tmp_it->contents[0].active = false;
+    std::vector<item*> inv_active = inv.active_items();
+    for (std::vector<item*>::iterator iter = inv_active.begin(); iter != inv_active.end(); ++iter)
+    {
+        item *tmp_it = *iter;
+        if (tmp_it->is_artifact() && tmp_it->is_tool())
+        {
+            g->process_artifact(tmp_it, this);
+        }
+        if (tmp_it->active ||
+            (tmp_it->is_container() && tmp_it->contents.size() > 0 && tmp_it->contents[0].active))
+        {
+            if (tmp_it->is_food())
+            {
+                if (tmp_it->has_flag(IF_HOT))
+                {
+                    tmp_it->item_counter--;
+                    if (tmp_it->item_counter == 0)
+                    {
+                        tmp_it->item_flags ^= mfb(IF_HOT);
+                        tmp_it->active = false;
+                    }
+                }
             }
-          }
+            else if (tmp_it->is_food_container())
+            {
+                if (tmp_it->contents[0].has_flag(IF_HOT))
+                {
+                    tmp_it->contents[0].item_counter--;
+                    if (tmp_it->contents[0].item_counter == 0)
+                    {
+                        tmp_it->contents[0].item_flags ^= mfb(IF_HOT);
+                        tmp_it->contents[0].active = false;
+                    }
+                }
+            }
+            else
+            {
+                tmp = dynamic_cast<it_tool*>(tmp_it->type);
+                (use.*tmp->use)(g, this, tmp_it, true);
+                if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
+                {
+                    tmp_it->charges--;
+                }
+                if (tmp_it->charges <= 0)
+                {
+                    (use.*tmp->use)(g, this, tmp_it, false);
+                    if (tmp->revert_to == "null")
+                    {
+                        inv.remove_item(tmp_it);
+                    }
+                    else
+                    {
+                        tmp_it->type = g->itypes[tmp->revert_to];
+                    }
+                }
+            }
         }
-        else {
-          tmp = dynamic_cast<it_tool*>(tmp_it->type);
-          (use.*tmp->use)(g, this, tmp_it, true);
-          if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
-            tmp_it->charges--;
-          if (tmp_it->charges <= 0) {
-            (use.*tmp->use)(g, this, tmp_it, false);
-            if (tmp->revert_to == "null") {
-              if (inv.stack_at(i).size() == 1) {
-                inv.remove_stack(i);
-                i--;
-                iter = inv.stack_at(i).begin();
-              } else {
-                iter = inv.stack_at(i).erase(iter);
-                --iter;
-              }
-            } else
-            tmp_it->type = g->itypes[tmp->revert_to];
-          }
-        }
-      }
     }
-  }
+
 // worn items
   for (int i = 0; i < worn.size(); i++) {
     if (worn[i].is_artifact())
@@ -3651,39 +3646,7 @@ void player::remove_mission_items(int mission_id)
     remove_weapon();
   }
  }
- for (int i = 0; i < inv.size(); i++) {
-  std::list<item> stack = inv.stack_at(i);
-  std::list<item>::iterator iter = stack.begin();
-  for (int j = 0; j < inv.stack_at(i).size() && j > 0; j++) {
-   ++iter;
-   if (iter->mission_id == mission_id) {
-    if (inv.stack_at(i).size() == 1) {
-     inv.remove_item(i, j);
-     i--;
-     j = -999;
-    } else {
-     inv.remove_item(i, j);
-     j--;
-     --iter;
-    }
-   } else {
-    bool rem = false;
-    for (int k = 0; !rem && k < iter->contents.size(); k++) {
-     if (iter->contents[k].mission_id == mission_id) {
-      if (inv.stack_at(i).size() == 1) {
-       inv.remove_item(i, j);
-       i--;
-       j = 0;
-      } else {
-       inv.remove_item(i, j);
-       j--;
-      }
-      rem = true;
-     }
-    }
-   }
-  }
- }
+ inv.remove_mission_items(mission_id);
 }
 
 item player::i_rem(char let)
@@ -3757,12 +3720,7 @@ std::vector<item> player::inv_dump()
  }
  for (int i = 0; i < worn.size(); i++)
   ret.push_back(worn[i]);
- for(int i = 0; i < inv.size(); i++) {
-  std::list<item> stack = inv.stack_at(i);
-  for (std::list<item>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
-   ret.push_back(*iter);
-  }
- }
+ inv.dump(ret);
  return ret;
 }
 
@@ -3930,19 +3888,9 @@ int player::butcher_factor()
  int lowest_factor = 999;
  if (has_bionic("bio_tools"))
  	lowest_factor=100;
- for (int i = 0; i < inv.size(); i++) {
-  std::list<item> stack = inv.stack_at(i);
-  for (std::list<item>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
-   item *cur_item = &(*iter);
-   if (cur_item->damage_cut() >= 10 && !cur_item->has_flag(IF_SPEAR)) {
-    int factor = cur_item->volume() * 5 - cur_item->weight() * 1.5 -
-                 cur_item->damage_cut();
-    if (cur_item->damage_cut() <= 20)
-     factor *= 2;
-    if (factor < lowest_factor)
-     lowest_factor = factor;
-   }
-  }
+ int inv_factor = inv.butcher_factor();
+ if (inv_factor < lowest_factor) {
+  lowest_factor = inv_factor;
  }
  if (weapon.damage_cut() >= 10 && !weapon.has_flag(IF_SPEAR)) {
   int factor = weapon.volume() * 5 - weapon.weight() * 1.5 -
@@ -4187,26 +4135,24 @@ bool player::has_item(item *it)
 
 bool player::has_mission_item(int mission_id)
 {
- if (mission_id == -1)
-  return false;
- if (weapon.mission_id == mission_id)
-  return true;
- for (int i = 0; i < weapon.contents.size(); i++) {
-  if (weapon.contents[i].mission_id == mission_id)
-   return true;
- }
- for (int i = 0; i < inv.size(); i++) {
-  std::list<item> stack = inv.stack_at(i);
-  for (std::list<item>::iterator iter = stack.begin(); iter != stack.end(); ++iter) {
-   if (iter->mission_id == mission_id)
-    return true;
-   for (int k = 0; k < iter->contents.size(); k++) {
-    if (iter->contents[k].mission_id == mission_id)
-     return true;
-   }
-  }
- }
- return false;
+    if (mission_id == -1)
+    {
+        return false;
+    }
+    if (weapon.mission_id == mission_id)
+    {
+        return true;
+    }
+    for (int i = 0; i < weapon.contents.size(); i++)
+    {
+        if (weapon.contents[i].mission_id == mission_id)
+        return true;
+    }
+    if (inv.has_mission_item(mission_id))
+    {
+        return true;
+    }
+    return false;
 }
 
 int player::lookup_item(char let)
@@ -4534,7 +4480,7 @@ bool player::eat(game *g, int index)
                     break;
                 }
             }
-            if (inv.stack_at(which).size() > 0)
+            if (inv.stack_by_letter(inv[which].invlet).size() > 0)
                 inv.restack(this);
             inv.unsort();
         }
