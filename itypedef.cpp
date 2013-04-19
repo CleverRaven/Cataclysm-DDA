@@ -1986,13 +1986,13 @@ ARMOR("cloak", "cloak",	5, 225,C_TORSO,	COTTON,		MNULL,
    mfb(bp_torso)|mfb(bp_head)|mfb(bp_arms)|mfb(bp_legs), "\
 A heavy cloak that is thrown over your body.", mfb(IF_VARSIZE));
 
-ARMOR("cloak_fur", "cloak",	5, 225,C_TORSO,	COTTON,		MNULL,
+ARMOR("cloak_fur", "fur cloak",	5, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    10,  15, -5, -1,  1,  2,  6,  3,  70, 0,
    mfb(bp_torso)|mfb(bp_head)|mfb(bp_arms)|mfb(bp_legs), "\
 A heavy fur cloak that is thrown over your body.", mfb(IF_VARSIZE));
 
-ARMOR("cloak_leather", "cloak",	5, 225,C_TORSO,	COTTON,		MNULL,
+ARMOR("cloak_leather", "leather cloak",	5, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    10,  25, -5, -1,  1,  2,  12,  3,  40, 0,
    mfb(bp_torso)|mfb(bp_head)|mfb(bp_arms)|mfb(bp_legs), "\
