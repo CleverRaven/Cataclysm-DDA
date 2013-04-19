@@ -4127,6 +4127,30 @@
 
 
         {
+            "result": "boots_fur",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "skill_sec": "survival",
+            "difficulty": 2,
+            "time": 40000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 13],
+                             ["sewing_kit", 13]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["leather", 7]
+                                  ["fur", 7]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "boots_chitin",
             "category": "CC_ARMOR",
             "skill_pri": "tailor",
@@ -4218,6 +4242,28 @@
 
 
         {
+            "result": "long_underpants",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 35000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 15],
+                             ["sewing_kit", 15]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 10]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "pants_cargo",
             "category": "CC_ARMOR",
             "skill_pri": "tailor",
@@ -4240,29 +4286,6 @@
 
 
         {
-            "result": "long_underpants",
-            "category": "CC_ARMOR",
-            "skill_pri": "tailor",
-            "skill_sec": "survival",
-            "difficulty": 3,
-            "time": 35000,
-            "reversible": false,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["needle_bone", 15],
-                             ["sewing_kit", 15]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["rag", 10]
-                              ]
-                          ]
-        },
-
-
-        {
             "result": "pants_leather",
             "category": "CC_ARMOR",
             "skill_pri": "tailor",
@@ -4279,6 +4302,30 @@
             "components": [
                               [
                                   ["leather", 10]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "pants_fur",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "skill_sec": "survival",
+            "difficulty": 4,
+            "time": 40000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 18],
+                             ["sewing_kit", 18]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 10]
+                                  ["fur", 6]
                               ]
                           ]
         },
@@ -4394,6 +4441,29 @@
         },
 
         {
+            "result": "trenchcoat_fur",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "skill_sec": "survival",
+            "difficulty": 3,
+            "time": 200000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 45],
+                             ["sewing_kit", 45]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["fur", 11]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "trenchcoat_leather",
             "category": "CC_ARMOR",
             "skill_pri": "tailor",
@@ -4419,6 +4489,7 @@
             "result": "coat_fur",
             "category": "CC_ARMOR",
             "skill_pri": "tailor",
+            "skill_sec": "survival",
             "difficulty": 4,
             "time": 100000,
             "reversible": false,
@@ -4497,7 +4568,7 @@
                      ],
             "components": [
                               [
-                                  ["rag", 1]
+                                  ["rag", 4]
                               ]
                           ]
         },
@@ -4555,6 +4626,29 @@
 
 
         {
+            "result": "gloves_fur",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "skill_sec": "survival",
+            "difficulty": 2,
+            "time": 16000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 6],
+                             ["sewing_kit", 6]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["fur", 4]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "armguard_metal",
             "category": "CC_ARMOR",
             "skill_pri": "tailor",
@@ -4595,6 +4689,50 @@
                               ],
                               [
                                   ["chitin_piece", 4]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bandana",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 0,
+            "time": 5000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 2],
+                             ["sewing_kit", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "scarf_fur",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 1,
+            "time": 5000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 3],
+                             ["sewing_kit", 3]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["fur", 4]
                               ]
                           ]
         },
@@ -4727,6 +4865,7 @@
             "result": "hat_fur",
             "category": "CC_ARMOR",
             "skill_pri": "tailor",
+            "skill_sec": "survival",
             "difficulty": 2,
             "time": 40000,
             "reversible": false,
@@ -4804,6 +4943,171 @@
                                   ["rag", 20],
                                   ["fur", 16],
                                   ["leather", 12]
+                              ]
+                          ]
+        },
+
+
+
+        {
+            "result": "blanket",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 0,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 10],
+                             ["sewing_kit", 10]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 20],
+                              ]
+                          ]
+        },
+
+
+
+        {
+            "result": "fur_blanket",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "skill_sec": "survival",
+            "difficulty": 1,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 12],
+                             ["sewing_kit", 12]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 10],
+                                  ["fur", 10],
+                              ]
+                          ]
+        },
+
+
+
+        {
+            "result": "house_coat",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 1,
+            "time": 20000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 15],
+                             ["sewing_kit", 15]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 15],
+                              ]
+                          ]
+        },
+
+
+
+        {
+            "result": "cloak",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 2,
+            "time": 25000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 18],
+                             ["sewing_kit", 18]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 20],
+                              ]
+                          ]
+        },
+
+
+
+        {
+            "result": "cloak_fur",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "skill_sec": "survival",
+            "difficulty": 2,
+            "time": 25000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 18],
+                             ["sewing_kit", 18]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["fur", 15],
+                              ]
+                          ]
+        },
+
+
+
+        {
+            "result": "cloak_leather",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 3,
+            "time": 25000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 18],
+                             ["sewing_kit", 18]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["leather", 20],
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "sleeping_bag_fur",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "skill_sec": "survival",
+            "difficulty": 5,
+            "time": 75000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 30],
+                             ["sewing_kit", 30]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 20],
+                                  ["fur", 10],
                               ]
                           ]
         },
