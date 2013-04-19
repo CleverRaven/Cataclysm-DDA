@@ -15,6 +15,9 @@ Most values can be changed with no impact on calculations. Because of caluclatio
 maximum heat cannot pass 15000u, otherwise the player will vomit to death.
 */
 
+// How far into the future we should generate weather, in hours.
+#define MAX_FUTURE_WEATHER 24
+
 #include "color.h"
 #include <string>
 #include "calendar.h"
@@ -52,6 +55,15 @@ struct weather_effect
  void snow		(game *) {};
  void snowstorm		(game *) {};
 };
+
+// All the weather conditions at some time
+struct weather_segment
+{
+    signed char temperature;
+    weather_type weather;
+    calendar deadline;
+};
+
 
 struct weather_datum
 {
