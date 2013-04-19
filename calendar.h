@@ -2,7 +2,6 @@
 #define _CALENDAR_H_
 
 #include <string>
-#include "weather.h"
 
 // How many minutes exist when the game starts - 8:00 AM
 #define STARTING_MINUTES 480
@@ -30,6 +29,14 @@
 #define MOONLIGHT_LEVEL 4
 // How much light is provided in full daylight
 #define DAYLIGHT_LEVEL 60
+
+enum season_type {
+ SPRING = 0,
+ SUMMER = 1,
+ AUTUMN = 2,
+ WINTER = 3
+#define FALL AUTUMN
+};
 
 enum moon_phase {
 MOON_NEW = 0,

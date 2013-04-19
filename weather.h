@@ -17,16 +17,9 @@ maximum heat cannot pass 15000u, otherwise the player will vomit to death.
 
 #include "color.h"
 #include <string>
+#include "calendar.h"
 
 class game;
-
-enum season_type {
- SPRING = 0,
- SUMMER = 1,
- AUTUMN = 2,
- WINTER = 3
-#define FALL AUTUMN
-};
 
 enum weather_type {
  WEATHER_NULL,		// For data and stuff
