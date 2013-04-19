@@ -3948,14 +3948,8 @@ bool player::has_artifact_with(art_effect_passive effect)
     return true;
   }
  }
- for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].is_artifact() && inv[i].is_tool()) {
-   it_artifact_tool *tool = dynamic_cast<it_artifact_tool*>(inv[i].type);
-   for (int i = 0; i < tool->effects_carried.size(); i++) {
-    if (tool->effects_carried[i] == effect)
-     return true;
-   }
-  }
+ if (inv.has_artifact_with(effect)) {
+  return true;
  }
  for (int i = 0; i < worn.size(); i++) {
   if (worn[i].is_artifact()) {

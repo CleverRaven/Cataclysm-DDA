@@ -78,6 +78,7 @@ class inventory
 
   bool has_mission_item(int mission_id) const;
   int butcher_factor() const;
+  bool has_artifact_with(art_effect_passive effect) const;
 
   int weight() const;
   int volume() const;
