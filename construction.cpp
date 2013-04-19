@@ -1054,7 +1054,6 @@ void construct::done_deconstruct(game *g, point p)
     break;
 
     case t_backboard:
-    case t_bulletin:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_pavement);
@@ -1072,19 +1071,29 @@ void construct::done_deconstruct(game *g, point p)
     case t_chair:
     case t_cupboard:
     case t_desk:
+    case t_bulletin:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_slide:
-    case t_locker:
-      g->m.spawn_item(p.x, p.y, g->itypes["sheet_metal"], 0, 2);
+      g->m.spawn_item(p.x, p.y, g->itypes["sheet_metal"], 0);
       g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(4,8));
       g->m.ter_set(p.x, p.y, t_grass);
     break;
 
+    case t_locker:
+      g->m.spawn_item(p.x, p.y, g->itypes["sheet_metal"], 0);
+      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(4,8));
+      g->m.ter_set(p.x, p.y, t_floor);
+    break;
+
     case t_rack:
+      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(6,12));
+      g->m.ter_set(p.x, p.y, t_floor);
+    break;
+
     case t_monkey_bars:
       g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(6,12));
       g->m.ter_set(p.x, p.y, t_grass);
