@@ -753,7 +753,6 @@ char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string 
   } else if (vItemDisplay[i].sType == "DESCRIPTION") {
    std::string sText = vItemDisplay[i].sName;
    std::replace(sText.begin(), sText.end(), '\n', ' ');
-   int iPos;
    while (1) {
      line_num++;
      if (sText.size() > iWidth-4) {

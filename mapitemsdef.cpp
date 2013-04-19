@@ -44,8 +44,7 @@ void game::init_mapitems()
 	"gloves_fingerless", "bandana", "scarf", "hat_cotton",
 	"hat_knit", "hat_fur", "helmet_bike", "helmet_motor",
 	"mag_tv", "mag_news", "lighter", "matches", "extinguisher", "mp3",
-	"usb_drive", "sneakers_fit", "boots_fit", "boots_steel_fit",
-        "boots_winter_fit", "dress_shoes_fit", "heels_fit", NULL);
+	"usb_drive", NULL);
 
  setvector(
    mapitems[mi_kitchen],
@@ -86,8 +85,7 @@ void game::init_mapitems()
 	"manual_speech", "manual_business", "manual_computers",
 	"lighter", "matches", "sewing_kit", "thread", "scissors", "soldering_iron",
 	"radio", "syringe", "mp3", "usb_drive", "firecracker_pack", "firecracker",
-        "sneakers_fit", "boots_fit", "boots_steel_fit", "boots_winter_fit",
-        "dress_shoes_fit", "heels_fit", "chips", "cola", "picklocks", NULL);
+    "chips", "cola", "picklocks", NULL);
 
  setvector(
    mapitems[mi_homeguns],
@@ -112,11 +110,7 @@ void game::init_mapitems()
 	"trenchcoat", "peacoat", "vest", "mag_porn", "lighter",
 	"sewing_kit", "thread", "flashlight", "suit", "tophat",
 	"glasses_monocle", "duct_tape", "firecracker_pack", "firecracker",
-        "jeans_fit", "pants_fit", "pants_cargo_fit",
-        "polo_shirt_fit", "sweatshirt_fit", "sweater_fit",
-        "jacket_light_fit", "tshirt_fit", "trenchcoat_fit",
-        "tank_top_fit", "dress_fit", "dress_shirt_fit",
-        NULL);
+    NULL);
 
  setvector(
    mapitems[mi_dining],
@@ -218,9 +212,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_sports],
 	"bandages", "aspirin", "bat", "bat_metal", "sneakers", "socks", "tshirt",
-	"tank_top", "gloves_fingerless", "glasses_safety", "tshirt_fit",
-  "tank_top_fit",
-	"armguard_soft", "armguard_hard",
+	"tank_top", "gloves_fingerless", "glasses_safety", "armguard_soft", "armguard_hard",
 	"goggles_swim", "goggles_ski", "hat_ball", "helmet_bike",
 	"helmet_ball", "manual_brawl", "foot_crank", NULL);
 
@@ -239,7 +231,6 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_allsporting],
 	"aspirin", "bat", "bat_metal", "sneakers", "socks", "tshirt", "tank_top",
-  "tank_top_fit",
 	"gloves_fingerless", "glasses_safety", "goggles_swim",
 	"armguard_soft", "armguard_hard",
 	"goggles_ski", "hat_ball", "helmet_bike", "helmet_ball",
@@ -250,7 +241,7 @@ void game::init_mapitems()
 	"sewing_kit", "thread", "hammer", "flashlight", "water_purifier",
 	"radio", "beartrap", "extinguisher", "string_36", "longbow",
 	"compbow", "arrow_wood", "arrow_cf", "rollmat", "tent_kit",
- "tshirt_fit", "foot_crank", "mag_archery", "heatpack", NULL);
+    "foot_crank", "mag_archery", "heatpack", NULL);
 
  setvector(
    mapitems[mi_alcohol],
@@ -332,35 +323,28 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_shoes],
 	"sneakers", "socks", "boots", "flip_flops", "dress_shoes", "heels",
-        "sneakers_fit", "boots_fit", "boots_winter_fit",
-        "dress_shoes_fit", "heels_fit", NULL);
+    NULL);
 
  setvector(
    mapitems[mi_pants],
 	"jeans", "shorts", "pants", "pants_leather", "pants_cargo", "shorts_cargo", "skirt",
-	"dress",
-  "dress_fit",
-        "jeans_fit", "pants_fit", "pants_cargo_fit", NULL);
+	"dress", NULL);
 
  setvector(
    mapitems[mi_shirts],
 	"tshirt", "polo_shirt", "dress_shirt", "tank_top",
-  "tank_top_fit", "under_armor_fit", "dress_shirt_fit",
 	"sweatshirt", "sweater", "hoodie", "under_armor",
-        "polo_shirt_fit", "sweatshirt_fit", "sweater_fit",
-        "tshirt_fit", NULL);
+    NULL);
 
  setvector(
    mapitems[mi_jackets],
 	"jacket_light", "jacket_jean", "blazer", "jacket_leather",
-	"coat_rain", "trenchcoat", "trenchcoat_fit", "jacket_light_fit",
-        "jacket_leather_fit", NULL);
+	"coat_rain", "trenchcoat", NULL);
 
  setvector(
    mapitems[mi_winter],
 	"coat_winter", "peacoat", "gloves_light", "mittens",
 	"gloves_wool", "gloves_winter", "gloves_liner", "gloves_leather", "scarf",
-  "gloves_liner_fit", "long_underpants_fit",
 	"hat_cotton", "hat_knit", "hat_fur", "pants_ski", "long_underpants",
     "balclava", NULL);
 
@@ -377,13 +361,8 @@ void game::init_mapitems()
 	"blazer", "jacket_leather", "coat_winter", "peacoat",
 	"gloves_light", "mittens", "gloves_wool", "gloves_winter", "gloves_liner",
 	"gloves_leather", "scarf", "hat_cotton", "hat_knit",
-	"hat_fur", "UPS_off", "jeans_fit", "pants_fit",
-    "under_armor", "balclava", "pants_ski", "long_underpants",
-        "pants_cargo_fit", "polo_shirt_fit", "sweatshirt_fit",
-        "sweater_fit",
-        "jacket_light_fit", "tshirt_fit", "trenchcoat_fit",
-        "under_armor_fit", "long_underpants_fit", "tank_top_fit", "suit_fit", "dress_shirt_fit",
-        "trenchcoat_leather", "trenchcoat_leather_fit", NULL);
+	"hat_fur", "UPS_off", "under_armor", "balclava", "pants_ski", "long_underpants",
+        "trenchcoat_leather", NULL);
 
  setvector(
    mapitems[mi_novels],
@@ -464,7 +443,6 @@ void game::init_mapitems()
 	"bat", "petrified_eye", "binoculars", "boots", "mocassins",
 	"dress_shoes", "heels", "pants", "pants_army", "skirt",
 	"jumpsuit", "dress", "dress_shirt", "sweater", "blazer",
-  "jumpsuit_fit", "dress_fit", "dress_shirt_fit",
 	"jacket_leather", "coat_fur", "peacoat", "coat_lab",
 	"helmet_army", "hat_fur", "holster", "bootstrap",
 	"remington_870", "browning_blr", "remington_700", "sks",
@@ -472,10 +450,7 @@ void game::init_mapitems()
 	"SICP", "textbook_robots", "extinguisher", "radio",
 	"chainsaw_off", "jackhammer", "jacqueshammer", "ring", "necklace", "usb_drive",
 	"broadsword", "morningstar", "helmet_plate", "cot", "rollmat", "tent_kit",
-	"boots_fit", "boots_steel_fit", "boots_winter_fit",
-    "dress_shoes_fit", "bat_metal", "jeans_fit", "pants_army_fit",
-    "polo_shirt_fit", "sweatshirt_fit", "sweater_fit",
-    "jacket_light_fit", "tshirt_fit", "trenchcoat_fit", "lawnmower",
+    "bat_metal",  "lawnmower",
     "makeshift_machete", "picklocks", "rucksack", "puller", "press", NULL);
 
  setvector(
@@ -506,7 +481,7 @@ void game::init_mapitems()
         "wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
         "1cyl_combustion", "v2_combustion", "i4_combustion", "v6_combustion",
         "vehicle_controls", "v8_combustion", "hacksaw", "welder", "motor",
-        "kitchen_unit",
+        "goggles_welding",
         "motor_large", "storage_battery", "solar_panel", "jerrycan", "jerrycan_big", "metal_tank", NULL);
 
  setvector(
@@ -519,14 +494,12 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_teleport],
 	"screwdriver", "wrench", "jumpsuit", "mask_dust",
-  "jumpsuit_fit",
 	"glasses_safety", "goggles_welding", "teleporter", "usb_drive",
 	NULL);
 
  setvector(
    mapitems[mi_goo],
 	"jumpsuit", "gloves_rubber", "mask_filter", "glasses_safety",
-  "jumpsuit_fit",
 	"helmet_riot", "lighter", "canister_goo", NULL);
 
  setvector(
@@ -581,11 +554,12 @@ void game::init_mapitems()
    "bio_resonator", "bio_hydraulics",
    "bio_time_freeze", "bio_teleport",
    "bio_blaster", "bio_laser", "bio_emp",
+   "bio_power_armor_interface",
 	NULL);
 
  setvector(
    mapitems[mi_bionics_common],
-	"bio_battery",
+	"bio_power_storage",
    "bio_tools",      "bio_storage",  "bio_flashlight",
    "bio_lighter",      "bio_magnet",   "bio_alarm",
    "bio_solar", "bio_batteries", "bio_metabolics",
@@ -618,9 +592,7 @@ void game::init_mapitems()
    mapitems[mi_mil_armor],
 	"pants_army", "kevlar", "vest", "mask_gas", "goggles_nv",
 	"helmet_army", "backpack", "UPS_off", "beltrig", "under_armor",
-  "under_armor_fit",
-        "boots", "boots_fit", "pants_army_fit", "armguard_hard",
- "power_armor_basic", "power_armor_frame",
+    "boots", "armguard_hard", "power_armor_basic", "power_armor_frame",
 	"helmet_army", "backpack", "UPS_off", "beltrig", NULL);
 
  setvector(
@@ -635,7 +607,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_bionics_mil],
-	"bio_battery", "bio_solar",
+	"bio_power_storage", "bio_solar",
    "bio_solar", "bio_batteries", "bio_metabolics",
    "bio_ethanol", "bio_furnace",
    "bio_ears", "bio_eye_enhancer", "bio_night_vision",
@@ -649,6 +621,7 @@ void game::init_mapitems()
    "bio_ads", "bio_ods",
    "bio_blaster", "bio_laser", "bio_emp",
    "bio_time_freeze", "bio_teleport",
+   "bio_power_armor_interface",
 	NULL);
 
  setvector(
@@ -662,11 +635,9 @@ void game::init_mapitems()
 	"boots_steel", "pants_cargo", "shorts_cargo", "pants_army", "jumpsuit",
 	"jacket_leather", "kevlar", "vest", "gloves_fingerless",
 	"mask_filter", "mask_gas", "goggles_ski", "helmet_skid",
-  "armguard_hard", "under_armor", "long_underpants",
-  "jumpsuit_fit", "under_armor_fit", "long_underpants_fit",
+    "armguard_hard", "under_armor", "long_underpants",
 	"helmet_ball", "helmet_riot", "helmet_motor", "holster",
-	"bootstrap", "UPS_off", "beltrig",
-        "pants_cargo_fit", "pants_army_fit", "rucksack", NULL);
+	"bootstrap", "UPS_off", "beltrig", "rucksack", NULL);
 
  setvector(
    mapitems[mi_survival_tools],
@@ -681,7 +652,6 @@ void game::init_mapitems()
    mapitems[mi_sewage_plant],
 	"1st_aid", "motor", "hose", "screwdriver", "wrench", "pipe",
 	"boots", "jumpsuit", "coat_lab", "gloves_rubber",
-  "jumpsuit_fit",
 	"mask_filter", "glasses_safety", "hat_hard", "extinguisher",
 	"flashlight", "water_purifier", "two_way_radio",
    "bio_tools",      "bio_storage",  "bio_flashlight",
@@ -696,7 +666,6 @@ void game::init_mapitems()
    mapitems[mi_mine_equipment],
 	"water_clean", "1st_aid", "rope_30", "chain", "boots_steel",
 	"jumpsuit", "gloves_leather", "mask_filter", "mask_gas",
-  "jumpsuit_fit",
 	"glasses_safety", "goggles_welding", "goggles_nv", "hat_hard",
 	"backpack", "battery", "flashlight", "two_way_radio",
 	"jackhammer", "jacqueshammer", "dynamite", "UPS_off",
@@ -751,7 +720,7 @@ void game::init_mapitems()
 	"savage_111f", "sks", "ak47", "m4a1", "steyr_aug", "v29",
 	"nx17", "flamethrower", "flashlight", "radio", "geiger_off",
 	"teleporter", "canister_goo", "dynamite", "mininuke",
-	"bot_manhack", "UPS_off", "bio_battery",
+	"bot_manhack", "UPS_off", "bio_power_storage",
    "bio_flashlight", "bio_lighter",
 	"arrow_cf", "spray_can", "bio_blaster", NULL);
 
@@ -836,10 +805,9 @@ void game::init_mapitems()
 	"steel_lump", "frame", "steel_plate", "spiked_plate",
 	"hard_plate", "motor", "motor_large", "hose", "pants_army",
 	"jumpsuit", "kevlar", "mask_gas", "helmet_army", "battery",
-  "jumpsuit_fit",
 	"plut_cell", "m249", "v8_combustion", "extinguisher",
 	"two_way_radio", "radio", "UPS_off", "beltrig",
-        "pants_army_fit", "boots_fit", "rucksack", "LAW_Packed", NULL);
+    "rucksack", "LAW_Packed", NULL);
 
 // TODO: Replace kevlar with the ceramic plate armor
  setvector(
@@ -858,9 +826,9 @@ void game::init_mapitems()
 	"suppressor", "clip", "lighter", "flashlight", "two_way_radio",
 	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
 	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
-	"binoculars", "u_shotgun", "beltrig", "pants_army_fit",
- "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
- "spare_mag", "canteen", "jerrycan", "rucksack", "heatpack", "LAW_Packed", NULL);
+	"binoculars", "u_shotgun", "beltrig", "power_armor_basic",
+    "power_armor_helmet_basic", "power_armor_frame", "spare_mag",
+    "canteen", "jerrycan", "rucksack", "heatpack", "LAW_Packed", NULL);
 
  setvector(
    mapitems[mi_science],
@@ -917,7 +885,7 @@ void game::init_mapitems()
 	"shot_00", "9mm", "45_acp", "glock_19", "shotgun_sawn",
 	"uzi", "tec9", "mac_10", "suppressor", "clip2", "autofire",
 	"mag_porn", "lighter", "matches", "crowbar", "pipebomb", "grenade",
-	"mininuke", "crack", "crackpipe", "pants_cargo_fit", "spare_mag", "bio_blaster", NULL);
+	"mininuke", "crack", "crackpipe", "spare_mag", "bio_blaster", NULL);
 
  setvector(
    mapitems[mi_wreckage],

@@ -19,7 +19,7 @@ void game::init_mtypes ()
 // Null monster named "None".
  mtypes.push_back(new mtype);
 
-#define mon(name, species, sym, color, size, mat, \
+#define mon(name, species, sym, color, size, mat,\
             diff, agro, morale, speed, melee_skill, melee_dice,\
             melee_sides, melee_cut, dodge, arm_bash, arm_cut, item_chance, HP,\
             sp_freq, death, sp_att, desc) \
@@ -613,7 +613,7 @@ alarming rate."
 FLAGS(MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_IMMOBILE);
 
 // BLOBS & SLIMES &c
-mon("blob",	species_nether, 'O',	c_dkgray,	MS_MEDIUM,	LIQUID,
+mon("blob",	species_nether, 'O',	c_dkgray,	MS_MEDIUM,	MNULL,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 19,100,100, 85,  9,  2,  4,  0,  0,  6,  0,  0, 85, 30,
 	&mdeath::blobsplit,	&mattack::formblob, "\
@@ -622,8 +622,9 @@ across the ground like a mass of living\n\
 oil."
 );
 FLAGS(MF_SMELLS, MF_HEARS, MF_GOODHEARING, MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_ACIDPROOF);
+mtypes[mon_blob]->phase = LIQUID;
 
-mon("small blob",species_nether, 'o',	c_dkgray,	MS_SMALL,	LIQUID,
+mon("small blob",species_nether, 'o',	c_dkgray,	MS_SMALL,	MNULL,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  2,100,100, 50,  6,  1,  4,  0,  0,  2,  0,  0, 50, 0,
 	&mdeath::blobsplit,	&mattack::none, "\
@@ -632,6 +633,7 @@ across the ground like a mass of living\n\
 oil."
 );
 FLAGS(MF_SMELLS, MF_HEARS, MF_GOODHEARING, MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_ACIDPROOF);
+mtypes[mon_blob_small]->phase = LIQUID;
 
 // CHUDS & SUBWAY DWELLERS
 mon("C.H.U.D.",	species_none, 'S',	c_ltgray,	MS_MEDIUM,	FLESH,
@@ -958,7 +960,7 @@ pink mouth, lined with rows of fangs."
 FLAGS(MF_SEES, MF_SMELLS, MF_HEARS, MF_BASHES, MF_DESTROYS, MF_POISON, MF_VENOM, MF_NO_BREATHE,
       MF_DIGS, MF_VIS40);
 
-mon("gelatinous blob",species_nether, 'O',c_ltgray,	MS_LARGE,	LIQUID,
+mon("gelatinous blob",species_nether, 'O',c_ltgray,	MS_LARGE,	MNULL,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 20,  0,100, 40,  8,  2,  3,  0,  0, 10,  0,  0,200, 4,
 	&mdeath::melt,		&mattack::formblob, "\
@@ -967,6 +969,7 @@ oozes slowly across the ground, small\n\
 chunks falling off of its sides."
 );
 FLAGS(MF_SMELLS, MF_HEARS, MF_PLASTIC, MF_NO_BREATHE, MF_NOHEAD);
+mtypes[mon_gelatin]->phase = LIQUID;
 
 mon("flaming eye",species_nether, 'E',	c_red,		MS_MEDIUM,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -1106,7 +1109,7 @@ heavily armored."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_BASHES, MF_ATTACKMON, MF_ELECTRONIC, MF_NO_BREATHE, MF_VIS50);
 
-mon("copbot",	species_robot, 'R',	c_dkgray,	MS_MEDIUM,	STEEL,
+mon("copbot",	species_robot, 'R',	c_ltblue,	MS_MEDIUM,	STEEL,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 12,100, 40,100,  4,  3,  2,  0,  8, 12,  8, 80, 80, 3,
 	&mdeath::normal,	&mattack::copbot, "\

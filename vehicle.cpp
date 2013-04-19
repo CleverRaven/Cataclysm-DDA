@@ -1326,7 +1326,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
             switch (collision_type) // destroy obstacle
             {
             case veh_coll_thin_obstacle:
-                g->m.ter (x, y) = t_dirt;
+                g->m.ter_set(x, y, t_dirt);
                 break;
             case veh_coll_destructable:
                 g->m.destroy(g, x, y, false);
@@ -1556,8 +1556,7 @@ void vehicle::handle_trap (int x, int y, int part)
             msg.clear();
         default:;
     }
-    int dummy;
-    if (msg.size() > 0 && g->u_see(x, y, dummy))
+    if (msg.size() > 0 && g->u_see(x, y))
         g->add_msg (msg.c_str(), name.c_str(), part_info(part).name, g->traps[t]->name.c_str());
     if (noise > 0)
         g->sound (x, y, noise, snd);
@@ -1958,7 +1957,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     for (int i = 0; i < traj.size(); i++)
         if (traj[i].x == g->u.posx && traj[i].y == g->u.posy)
             return false; // won't shoot at player
-    if (g->u_see(x, y, t))
+    if (g->u_see(x, y))
         g->add_msg("The %s fires its %s!", name.c_str(), part_info(p).name);
     player tmp;
     tmp.name = std::string("The ") + part_info(p).name;

@@ -56,7 +56,7 @@ public:
  int clip_size();
  int accuracy();
  int gun_damage(bool with_ammo = true);
- int noise();
+ int noise() const;
  int burst_size();
  int recoil(bool with_ammo = true);
  int range(player *p = NULL);
@@ -84,10 +84,11 @@ public:
  int attack_time();
  int damage_bash();
  int damage_cut();
- bool has_flag(item_flag f);
+ bool has_flag(item_flag f) const;
  bool has_technique(technique_id t, player *p = NULL);
  int has_gunmod(itype_id type);
  item* active_gunmod();
+ item const* inspect_active_gunmod() const;
  std::vector<technique_id> techniques();
  bool goes_bad();
  bool count_by_charges();
@@ -103,36 +104,37 @@ public:
  style_move style_data(technique_id tech);
  bool is_two_handed(player *u);
  bool made_of(material mat);
+ bool made_of(phase_id phase);
  bool conductive(); // Electricity
  bool destroyed_at_zero_charges();
 // Most of the is_whatever() functions call the same function in our itype
- bool is_null(); // True if type is NULL, or points to the null item (id == 0)
- bool is_food(player *u);// Some non-food items are food to certain players
- bool is_food_container(player *u);  // Ditto
- bool is_food();                // Ignoring the ability to eat batteries, etc.
- bool is_food_container();      // Ignoring the ability to eat batteries, etc.
- bool is_ammo_container();
- bool is_drink();
- bool is_weap();
- bool is_bashing_weapon();
- bool is_cutting_weapon();
- bool is_gun();
- bool is_silent();
- bool is_gunmod();
- bool is_bionic();
- bool is_ammo();
- bool is_armor();
- bool is_book();
- bool is_container();
- bool is_tool();
- bool is_software();
- bool is_macguffin();
- bool is_style();
- bool is_other(); // Doesn't belong in other categories
- bool is_var_veh_part();
- bool is_artifact();
+ bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
+ bool is_food(player *u) const;// Some non-food items are food to certain players
+ bool is_food_container(player *u) const;  // Ditto
+ bool is_food() const;                // Ignoring the ability to eat batteries, etc.
+ bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
+ bool is_ammo_container() const;
+ bool is_drink() const;
+ bool is_weap() const;
+ bool is_bashing_weapon() const;
+ bool is_cutting_weapon() const;
+ bool is_gun() const;
+ bool is_silent() const;
+ bool is_gunmod() const;
+ bool is_bionic() const;
+ bool is_ammo() const;
+ bool is_armor() const;
+ bool is_book() const;
+ bool is_container() const;
+ bool is_tool() const;
+ bool is_software() const;
+ bool is_macguffin() const;
+ bool is_style() const;
+ bool is_other() const; // Doesn't belong in other categories
+ bool is_var_veh_part() const;
+ bool is_artifact() const;
 
- itype_id typeId();
+ itype_id typeId() const;
  itype* type;
  mtype*   corpse;
  it_ammo* curammo;
@@ -159,12 +161,39 @@ public:
 
  static itype * nullitem();
 
+ item clone();
 private:
  static itype * nullitem_m;
 };
 
 std::ostream & operator<<(std::ostream &, const item &);
 std::ostream & operator<<(std::ostream &, const item *);
+
+struct map_item_stack
+{
+public:
+    item example; //an example item for showing stats, etc.
+    int x;
+    int y;
+    int count;
+
+    //only expected to be used for things like lists and vectors
+    map_item_stack()
+    {
+        example = item();
+        x = 0;
+        y = 0;
+        count = 0;
+    }
+
+    map_item_stack(item it, int arg_x, int arg_y)
+    {
+        example = it;
+        x = arg_x;
+        y = arg_y;
+        count = 1;
+    }
+};
 
 //the assigned numbers are a result of legacy stuff in compare_split_screen_popup(),
 //it would be better long-term to rewrite stuff so that we don't need that hack

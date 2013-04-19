@@ -34,7 +34,7 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
  }
  if (one_in(50)) {
   g->add_msg("With a clang and a shudder, the gas pump goes silent.");
-  m->ter(examx, examy) = t_gas_pump_empty;
+  m->ter_set(examx, examy, t_gas_pump_empty);
  }
 }
 
@@ -71,7 +71,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
   for (int i = -3; i <= 3; i++) {
    for (int j = -3; j <= 3; j++) {
     if (m->ter(examx + i, examy + j) == t_door_metal_locked)
-     m->ter(examx + i, examy + j) = t_floor;
+     m->ter_set(examx + i, examy + j, t_floor);
      }
   }
   for (int i = 0; i < g->z.size(); i++) {
@@ -91,7 +91,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
                            query_yn("Use fingerhack on the reader?"));
   if (using_electrohack || using_fingerhack) {
    p->moves -= 500;
-   p->practice("computer", 20);
+   p->practice(g->turn, "computer", 20);
    int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
    success += rng(-3, 3);
    if (using_fingerhack)
@@ -111,17 +111,17 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
         p->charge_power(0 - rng(0, p->power_level));
        }
       }
-      m->ter(examx, examy) = t_card_reader_broken;
+      m->ter_set(examx, examy, t_card_reader_broken);
      } else if (success < 6)
       g->add_msg("Nothing happens.");
       else {
        g->add_msg("You activate the panel!");
        g->add_msg("The nearby doors slide into the floor.");
-       m->ter(examx, examy) = t_card_reader_broken;
+       m->ter_set(examx, examy, t_card_reader_broken);
        for (int i = -3; i <= 3; i++) {
         for (int j = -3; j <= 3; j++) {
          if (m->ter(examx + i, examy + j) == t_door_metal_locked)
-          m->ter(examx + i, examy + j) = t_floor;
+          m->ter_set(examx + i, examy + j, t_floor);
           }
        }
       }
@@ -150,9 +150,9 @@ void iexamine::rubble(game *g, player *p, map *m, int examx, int examy) {
 
    // "Refloor"
   if (g->levz < 0) {
-   m->ter(examx, examy) = t_rock_floor;
+   m->ter_set(examx, examy, t_rock_floor);
   } else {
-   m->ter(examx, examy) = t_dirt;
+   m->ter_set(examx, examy, t_dirt);
   }
 
    // "Remind"
@@ -176,14 +176,14 @@ void iexamine::chainfence(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::tent(game *g, player *p, map *m, int examx, int examy) {
- if (!query_yn("Take down %s?",m->tername(examx, examy).c_str())) {
+ if (!query_yn("Take down your tent?")) {
   none(g, p, m, examx, examy);
   return;
  }
  p->moves -= 200;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   m->ter(examx + i, examy + j) = t_dirt;
+   m->ter_set(examx + i, examy + j, t_dirt);
  g->add_msg("You take down the tent");
  item tent(g->itypes["tent_kit"], g->turn);
  m->add_item(examx, examy, tent);
@@ -197,7 +197,7 @@ void iexamine::shelter(game *g, player *p, map *m, int examx, int examy) {
  p->moves -= 200;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   m->ter(examx + i, examy + j) = t_dirt;
+   m->ter_set(examx + i, examy + j, t_dirt);
  g->add_msg("You take down the shelter");
  item tent(g->itypes["shelter_kit"], g->turn);
  m->add_item(examx, examy, tent);
@@ -211,7 +211,7 @@ void iexamine::wreckage(game *g, player *p, map *m, int examx, int examy) {
 
  if (query_yn("Clear up that wreckage?")) {
   p->moves -= 200;
-  m->ter(examx, examy) = t_dirt;
+  m->ter_set(examx, examy, t_dirt);
   item chunk(g->itypes["steel_chunk"], g->turn);
   item scrap(g->itypes["scrap"], g->turn);
   item pipe(g->itypes["pipe"], g->turn);
@@ -232,7 +232,7 @@ void iexamine::pit(game *g, player *p, map *m, int examx, int examy) {
  }
  if (query_yn("Place a plank over the pit?")) {
   p->use_amount("2x4", 1);
-  m->ter(examx, examy) = t_pit_covered;
+  m->ter_set(examx, examy, t_pit_covered);
   g->add_msg("You place a plank of wood over the pit");
  } else {
   g->add_msg("You need a plank of wood to do that");
@@ -246,7 +246,7 @@ void iexamine::pit_spiked(game *g, player *p, map *m, int examx, int examy) {
  }
  if (query_yn("Place a plank over the pit?")) {
   p->use_amount("2x4", 1);
-  m->ter(examx, examy) = t_pit_spiked_covered;
+  m->ter_set(examx, examy, t_pit_spiked_covered);
   g->add_msg("You place a plank of wood over the pit");
  } else {
   g->add_msg("You need a plank of wood to do that");
@@ -261,7 +261,7 @@ void iexamine::pit_covered(game *g, player *p, map *m, int examx, int examy) {
  item plank(g->itypes["2x4"], g->turn);
  g->add_msg("You remove the plank.");
  m->add_item(p->posx, p->posy, plank);
- m->ter(examx, examy) = t_pit;
+ m->ter_set(examx, examy, t_pit);
 }
 
 void iexamine::pit_spiked_covered(game *g, player *p, map *m, int examx, int examy) {
@@ -273,7 +273,7 @@ void iexamine::pit_spiked_covered(game *g, player *p, map *m, int examx, int exa
  item plank(g->itypes["2x4"], g->turn);
  g->add_msg("You remove the plank.");
  m->add_item(p->posx, p->posy, plank);
- m->ter(examx, examy) = t_pit_spiked;
+ m->ter_set(examx, examy, t_pit_spiked);
 }
 
 void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
@@ -284,7 +284,7 @@ void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
   case 1:{
    if (p->has_amount("rope_6", 2)) {
     p->use_amount("rope_6", 2);
-    m->ter(examx, examy) = t_fence_rope;
+    m->ter_set(examx, examy, t_fence_rope);
     p->moves -= 200;
    } else
     g->add_msg("You need 2 six-foot lengths of rope to do that");
@@ -293,7 +293,7 @@ void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
   case 2:{
    if (p->has_amount("wire", 2)) {
     p->use_amount("wire", 2);
-    m->ter(examx, examy) = t_fence_wire;
+    m->ter_set(examx, examy, t_fence_wire);
     p->moves -= 200;
    } else
     g->add_msg("You need 2 lengths of wire to do that!");
@@ -302,7 +302,7 @@ void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
   case 3:{
    if (p->has_amount("wire_barbed", 2)) {
     p->use_amount("wire_barbed", 2);
-    m->ter(examx, examy) = t_fence_barbed;
+    m->ter_set(examx, examy, t_fence_barbed);
     p->moves -= 200;
    } else
     g->add_msg("You need 2 lengths of barbed wire to do that!");
@@ -322,7 +322,7 @@ void iexamine::remove_fence_rope(game *g, player *p, map *m, int examx, int exam
  item rope(g->itypes["rope_6"], g->turn);
  m->add_item(p->posx, p->posy, rope);
  m->add_item(p->posx, p->posy, rope);
- m->ter(examx, examy) = t_fence_post;
+ m->ter_set(examx, examy, t_fence_post);
  p->moves -= 200;
 
 }
@@ -336,7 +336,7 @@ void iexamine::remove_fence_wire(game *g, player *p, map *m, int examx, int exam
  item rope(g->itypes["wire"], g->turn);
  m->add_item(p->posx, p->posy, rope);
  m->add_item(p->posx, p->posy, rope);
- m->ter(examx, examy) = t_fence_post;
+ m->ter_set(examx, examy, t_fence_post);
  p->moves -= 200;
 }
 
@@ -349,7 +349,7 @@ void iexamine::remove_fence_barbed(game *g, player *p, map *m, int examx, int ex
  item rope(g->itypes["wire_barbed"], g->turn);
  m->add_item(p->posx, p->posy, rope);
  m->add_item(p->posx, p->posy, rope);
- m->ter(examx, examy) = t_fence_post;
+ m->ter_set(examx, examy, t_fence_post);
  p->moves -= 200;
 }
 
@@ -382,7 +382,9 @@ void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) 
  if (camp && camp->board_x() == examx && camp->board_y() == examy) {
   std::vector<std::string> options;
   options.push_back("Cancel");
-  int choice = menu_vec(camp->board_name().c_str(), options) - 1;
+  // Causes a warning due to being unused, but don't want to delete since
+  // it's clearly what's intened for future functionality.
+  //int choice = menu_vec(camp->board_name().c_str(), options) - 1;
  }
  else {
   bool create_camp = m->allow_camp(examx, examy);
@@ -414,7 +416,7 @@ void iexamine::pedestal_wyrm(game *g, player *p, map *m, int examx, int examy) {
   return;
  }
  g->add_msg("The pedestal sinks into the ground...");
- m->ter(examx, examy) = t_rock_floor;
+ m->ter_set(examx, examy, t_rock_floor);
  g->add_event(EVENT_SPAWN_WYRMS, int(g->turn) + rng(5, 10));
 }
 
@@ -423,14 +425,14 @@ void iexamine::pedestal_temple(game *g, player *p, map *m, int examx, int examy)
  if (m->i_at(examx, examy).size() == 1 &&
      m->i_at(examx, examy)[0].type->id == "petrified_eye") {
   g->add_msg("The pedestal sinks into the ground...");
-  m->ter(examx, examy) = t_dirt;
+  m->ter_set(examx, examy, t_dirt);
   m->i_at(examx, examy).clear();
   g->add_event(EVENT_TEMPLE_OPEN, int(g->turn) + 4);
  } else if (p->has_amount("petrified_eye", 1) &&
             query_yn("Place your petrified eye on the pedestal?")) {
   p->use_amount("petrified_eye", 1);
   g->add_msg("The pedestal sinks into the ground...");
-  m->ter(examx, examy) = t_dirt;
+  m->ter_set(examx, examy, t_dirt);
   g->add_event(EVENT_TEMPLE_OPEN, int(g->turn) + 4);
  } else
   g->add_msg("This pedestal is engraved in eye-shaped diagrams, and has a large\
@@ -449,48 +451,48 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
     switch (m->ter(examx, examy)) {
      case t_switch_rg:
       if (m->ter(x, y) == t_rock_red)
-       m->ter(x, y) = t_floor_red;
+       m->ter_set(x, y, t_floor_red);
        else if (m->ter(x, y) == t_floor_red)
-        m->ter(x, y) = t_rock_red;
+        m->ter_set(x, y, t_rock_red);
         else if (m->ter(x, y) == t_rock_green)
-         m->ter(x, y) = t_floor_green;
+         m->ter_set(x, y, t_floor_green);
          else if (m->ter(x, y) == t_floor_green)
-          m->ter(x, y) = t_rock_green;
+          m->ter_set(x, y, t_rock_green);
           break;
      case t_switch_gb:
       if (m->ter(x, y) == t_rock_blue)
-       m->ter(x, y) = t_floor_blue;
+       m->ter_set(x, y, t_floor_blue);
        else if (m->ter(x, y) == t_floor_blue)
-        m->ter(x, y) = t_rock_blue;
+        m->ter_set(x, y, t_rock_blue);
         else if (m->ter(x, y) == t_rock_green)
-         m->ter(x, y) = t_floor_green;
+         m->ter_set(x, y, t_floor_green);
          else if (m->ter(x, y) == t_floor_green)
-          m->ter(x, y) = t_rock_green;
+          m->ter_set(x, y, t_rock_green);
           break;
      case t_switch_rb:
       if (m->ter(x, y) == t_rock_blue)
-       m->ter(x, y) = t_floor_blue;
+       m->ter_set(x, y, t_floor_blue);
        else if (m->ter(x, y) == t_floor_blue)
-        m->ter(x, y) = t_rock_blue;
+        m->ter_set(x, y, t_rock_blue);
         else if (m->ter(x, y) == t_rock_red)
-         m->ter(x, y) = t_floor_red;
+         m->ter_set(x, y, t_floor_red);
          else if (m->ter(x, y) == t_floor_red)
-          m->ter(x, y) = t_rock_red;
+          m->ter_set(x, y, t_rock_red);
           break;
      case t_switch_even:
       if ((y - examy) % 2 == 1) {
        if (m->ter(x, y) == t_rock_red)
-        m->ter(x, y) = t_floor_red;
+        m->ter_set(x, y, t_floor_red);
         else if (m->ter(x, y) == t_floor_red)
-         m->ter(x, y) = t_rock_red;
+         m->ter_set(x, y, t_rock_red);
          else if (m->ter(x, y) == t_rock_green)
-          m->ter(x, y) = t_floor_green;
+          m->ter_set(x, y, t_floor_green);
           else if (m->ter(x, y) == t_floor_green)
-           m->ter(x, y) = t_rock_green;
+           m->ter_set(x, y, t_rock_green);
            else if (m->ter(x, y) == t_rock_blue)
-            m->ter(x, y) = t_floor_blue;
+            m->ter_set(x, y, t_floor_blue);
             else if (m->ter(x, y) == t_floor_blue)
-             m->ter(x, y) = t_rock_blue;
+             m->ter_set(x, y, t_rock_blue);
              }
       break;
     }
@@ -515,7 +517,7 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
   p->hurt(g,bp_legs, 0, 4);
   p->moves-=50;
  }
- m->ter(examx, examy) = t_dirt;
+ m->ter_set(examx, examy, t_dirt);
  m->spawn_item(examx, examy, g->itypes["poppy_flower"],0);
  m->spawn_item(examx, examy, g->itypes["poppy_bud"],0);
 }
@@ -529,7 +531,7 @@ void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {
  for (int i = 0; i < num_apples; i++)
   m->spawn_item(examx, examy, g->itypes["apple"], g->turn, 0);
 
- m->ter(examx, examy) = t_tree;
+ m->ter_set(examx, examy, t_tree);
 
 }
 
@@ -546,7 +548,7 @@ void iexamine::shrub_blueberry(game *g, player *p, map *m, int examx, int examy)
  for (int i = 0; i < num_blueberries; i++)
   m->spawn_item(examx, examy, g->itypes["blueberries"], g->turn, 0);
 
- m->ter(examx, examy) = t_shrub;
+ m->ter_set(examx, examy, t_shrub);
 }
 
 void iexamine::shrub_wildveggies(game *g, player *p, map *m, int examx, int examy) {

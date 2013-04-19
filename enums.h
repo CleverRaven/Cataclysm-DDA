@@ -8,11 +8,15 @@
 enum material {
 MNULL = 0,
 //Food Materials
-LIQUID, VEGGY, FLESH, POWDER, HFLESH, //Human Flesh.
+VEGGY, FLESH, POWDER, HFLESH, //Human Flesh.
 //Clothing
 COTTON, WOOL, LEATHER, KEVLAR, FUR,
 //Other
 STONE, PAPER, WOOD, PLASTIC, GLASS, IRON, STEEL, SILVER
+};
+
+enum phase_id {
+PNULL, SOLID, LIQUID, GAS, PLASMA
 };
 
 struct point {

@@ -73,6 +73,7 @@ keys.clear();
 id++;
 keys.push_back("string_36");
 keys.push_back("crossbow");
+keys.push_back("bolt_steel");
 traps.push_back(new trap(id, "CROSSBOW_TRAP", "crossbow trap", c_green, '^',  5, 4,
     5, &trapfunc::crossbow, &trapfuncm::crossbow, keys));;
 
