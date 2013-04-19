@@ -59,6 +59,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
      item *melting = &(i_at(x, y)[i]);
      if (melting->made_of(LIQUID) || melting->made_of(VEGGY)   ||
          melting->made_of(FLESH)  || melting->made_of(POWDER)  ||
+         melting->made_of(HFLESH) ||
          melting->made_of(COTTON) || melting->made_of(WOOL)    ||
          melting->made_of(PAPER)  || melting->made_of(PLASTIC) ||
          (melting->made_of(GLASS) && !one_in(3)) || one_in(4)) {
@@ -144,7 +145,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
        smoke++;
       }
 
-     } else if (it->made_of(FLESH)) {
+     } else if ((it->made_of(FLESH))||(it->made_of(HFLESH))) {
       if (vol <= cur->density * 5 || (cur->density == 3 && one_in(vol / 20))) {
        cur->age--;
        destroyed = it->burn(cur->density);
@@ -875,7 +876,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_fire:
-   if (z->made_of(FLESH))
+   if ( z->made_of(FLESH) || z->made_of(HFLESH) )
     dam = 3;
    if (z->made_of(VEGGY))
     dam = 12;
@@ -918,7 +919,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_tear_gas:
-   if ((z->made_of(FLESH) || z->made_of(VEGGY)) && !z->has_flag(MF_NO_BREATHE)) {
+   if (z->made_of(FLESH) || (z->made_of(HFLESH) || z->made_of(VEGGY)) && !z->has_flag(MF_NO_BREATHE)) {
     z->add_effect(ME_BLIND, cur->density * 8);
     if (cur->density == 3) {
      z->add_effect(ME_STUNNED, rng(10, 20));
@@ -962,7 +963,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_flame_burst:
-   if (z->made_of(FLESH))
+   if (z->made_of(FLESH) || z->made_of(HFLESH))
     dam = 3;
    if (z->made_of(VEGGY))
     dam = 12;
