@@ -347,7 +347,7 @@ void game::init_mapitems()
 	"coat_winter", "peacoat", "gloves_light", "mittens",
 	"gloves_wool", "gloves_winter", "gloves_liner", "gloves_leather", "scarf",
 	"hat_cotton", "hat_knit", "hat_fur", "pants_ski", "long_underpants",
-    "balclava", NULL);
+    "balaclava", "mask_ski", NULL);
 
  setvector(
    mapitems[mi_bags],
@@ -361,8 +361,8 @@ void game::init_mapitems()
 	"sweater", "hoodie", "jacket_light", "jacket_jean",
 	"blazer", "jacket_leather", "coat_winter", "peacoat",
 	"gloves_light", "mittens", "gloves_wool", "gloves_winter", "gloves_liner",
-	"gloves_leather", "scarf", "hat_cotton", "hat_knit",
-	"hat_fur", "UPS_off", "under_armor", "balclava", "pants_ski", "long_underpants",
+	"gloves_leather", "scarf", "hat_cotton", "hat_knit", "mask_ski",
+	"hat_fur", "UPS_off", "under_armor", "balaclava", "pants_ski", "long_underpants",
     "trenchcoat_leather", "cloak", "house_coat", "jedi_cloak", NULL);
 
  setvector(

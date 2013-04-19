@@ -1704,9 +1704,13 @@ A simple piece of cotton that straps over the mouth. Provides a small amount\n\
 of protection from air-borne illness and dust.", 0);
 
 ARMOR("bandana", "bandana",	35,  28,C_MOUTH,	COTTON, 	MNULL,
-    1,  0, -4, -1,  0,  0,  0,  1,  30,  0,	mfb(bp_mouth), "\
+    1,  0, -4, -1,  1,  0,  0,  1,  20,  0,	mfb(bp_mouth), "\
 A cotton bandana, worn over the mouth for warmth and minor protection from\n\
 dust and other contaminants.", 0);
+
+ARMOR("mask_ski", "ski mask",	35,  28,C_MOUTH,	COTTON, 	MNULL,
+    1,  0, -4, -1,  0,  0,  0,  1,  30,  0,	mfb(bp_mouth)|mfb(bp_head), "\
+A full face mask with holes for your eyes and mouth.", 0);
 
 ARMOR("scarf", "scarf",		45,  40,C_MOUTH,	WOOL,   	MNULL,
     2,  3, -5, -3,  1,  1,  0,  2,  60,  0,	mfb(bp_mouth), "\
@@ -1808,7 +1812,7 @@ ARMOR("hat_fur", "fur hat",	15, 120,C_HAT,		FUR,		LEATHER,
     4,  2, -5,  0,  1,  2,  2,  0,  80,  0,	mfb(bp_head), "\
 A hat made from the pelts of animals. Extremely warm.", 0);
 
-ARMOR("balclava", "balaclava",	15, 100,C_HAT,		COTTON,		MNULL,
+ARMOR("balaclava", "balaclava",	15, 100,C_HAT,		COTTON,		MNULL,
     4,  2, -5,  0,  0,  0,  0,  0,  30,  0,	mfb(bp_head)|mfb(bp_mouth), "\
 A warm covering that protects the head and face from cold.", 0);
 

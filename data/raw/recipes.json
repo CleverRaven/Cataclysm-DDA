@@ -4521,6 +4521,28 @@
 
 
         {
+            "result": "mask_ski",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 1,
+            "time": 9000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 4],
+                             ["sewing_kit", 4]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 4]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "scarf_fur",
             "category": "CC_ARMOR",
             "skill_pri": "tailor",
