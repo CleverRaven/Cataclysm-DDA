@@ -668,6 +668,7 @@ std::string item::tname(game *g)
   std::string damtext;
   switch (type->m1) {
    case VEGGY:
+   case HFLESH:
    case FLESH:
     damtext = "partially eaten ";
     break;
