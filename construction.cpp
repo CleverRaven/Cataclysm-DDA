@@ -323,7 +323,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("nail", 8);
    COMP("2x4", 10);
-   COMP("sheet", 1);
+   COMP("blanket", 1);
 
  CONSTRUCT("Tape up window", 0, &construct::able_window,
                                 &construct::done_tape);
