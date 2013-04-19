@@ -1893,6 +1893,7 @@ void player::disp_status(WINDOW *w, game *g)
  else if (hunger < 0)
   mvwprintz(w, 2, 0, c_green,  "Full");
 
+ // Find hottest/coldest bodypart
  int min = 0, max = 0;
  for (int i = 0; i < num_bp ; i++ ){
   if      (temp_cur[i] > BODYTEMP_HOT  && temp_cur[i] > temp_cur[max]) max = i;
@@ -1902,21 +1903,49 @@ void player::disp_status(WINDOW *w, game *g)
  int print;
  if (temp_cur[max] - BODYTEMP_NORM > BODYTEMP_NORM + temp_cur[min]) print = max;
  else print = min;
- // Print a bodypart that is cold or hot
+ // Assign zones to temp_cur and temp_conv for comparison
+ int cur_zone = 0;
+ if      (temp_cur[print] >  BODYTEMP_SCORCHING) cur_zone = 7;
+ else if (temp_cur[print] >  BODYTEMP_VERY_HOT)  cur_zone = 6;
+ else if (temp_cur[print] >  BODYTEMP_HOT)       cur_zone = 5;
+ else if (temp_cur[print] >  BODYTEMP_COLD)      cur_zone = 4;
+ else if (temp_cur[print] >  BODYTEMP_VERY_COLD) cur_zone = 3;
+ else if (temp_cur[print] >  BODYTEMP_FREEZING)  cur_zone = 2;
+ else if (temp_cur[print] <= BODYTEMP_FREEZING)  cur_zone = 1;
+ int conv_zone = 0;
+ if      (temp_conv[print] >  BODYTEMP_SCORCHING) conv_zone = 7;
+ else if (temp_conv[print] >  BODYTEMP_VERY_HOT)  conv_zone = 6;
+ else if (temp_conv[print] >  BODYTEMP_HOT)       conv_zone = 5;
+ else if (temp_conv[print] >  BODYTEMP_COLD)      conv_zone = 4;
+ else if (temp_conv[print] >  BODYTEMP_VERY_COLD) conv_zone = 3;
+ else if (temp_conv[print] >  BODYTEMP_FREEZING)  conv_zone = 2;
+ else if (temp_conv[print] <= BODYTEMP_FREEZING)  conv_zone = 1;
+ // delta will be positive if temp_cur is rising
+ int delta = conv_zone - cur_zone;
+ // Decide if temp_cur is rising or falling
+ const char *temp_message = "Error";
+ if      (delta >   2) temp_message = " (Rising!!)";
+ else if (delta ==  2) temp_message = " (Rising!)";
+ else if (delta ==  1) temp_message = " (Rising)";
+ else if (delta ==  0) temp_message = "";
+ else if (delta == -1) temp_message = " (Falling)";
+ else if (delta == -2) temp_message = " (Falling!)";
+ else if (delta <  -2) temp_message = " (Falling!!)";
+ // Print the hottest/coldest bodypart, and if it is rising or falling in temperature
  if      (temp_cur[print] >  BODYTEMP_SCORCHING)
-  mvwprintz(w, 1, 9, c_red,   "Scorching!");
+  mvwprintz(w, 1, 9, c_red,   "Scorching!%s", temp_message);
  else if (temp_cur[print] >  BODYTEMP_VERY_HOT)
-  mvwprintz(w, 1, 9, c_ltred, "Very hot!");
+  mvwprintz(w, 1, 9, c_ltred, "Very hot!%s", temp_message);
  else if (temp_cur[print] >  BODYTEMP_HOT)
-  mvwprintz(w, 1, 9, c_yellow,"Hot");
+  mvwprintz(w, 1, 9, c_yellow,"Hot%s", temp_message);
  else if (temp_cur[print] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
-  mvwprintz(w, 1, 9, c_green, "Comfortable");
+  mvwprintz(w, 1, 9, c_green, "Comfortable%s", temp_message);
  else if (temp_cur[print] >  BODYTEMP_VERY_COLD)
-  mvwprintz(w, 1, 9, c_ltblue,"Cold");
+  mvwprintz(w, 1, 9, c_ltblue,"Cold%s", temp_message);
  else if (temp_cur[print] >  BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_cyan,  "Very cold!");
+  mvwprintz(w, 1, 9, c_cyan,  "Very cold!%s", temp_message);
  else if (temp_cur[print] <= BODYTEMP_FREEZING)
-  mvwprintz(w, 1, 9, c_blue,  "Freezing!");
+  mvwprintz(w, 1, 9, c_blue,  "Freezing!%s", temp_message);
 
       if (thirst > 520)
   mvwprintz(w, 2, 15, c_ltred,  "Parched");
