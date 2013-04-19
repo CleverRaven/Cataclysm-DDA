@@ -33,13 +33,21 @@ struct om_note {
          x (X), y (Y), num (N), text (T) {}
 };
 
+enum radio_type {
+    MESSAGE_BROADCAST,
+    WEATHER_RADIO
+};
+
+
 struct radio_tower {
  int x;
  int y;
  int strength;
+ radio_type type;
  std::string message;
- radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "") :
-             x (X), y (Y), strength (S), message (M) {}
+radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
+            radio_type T = MESSAGE_BROADCAST) :
+    x (X), y (Y), strength (S), type (T), message (M) {}
 };
 
 struct map_layer {

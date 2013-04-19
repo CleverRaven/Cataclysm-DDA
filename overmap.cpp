@@ -2595,15 +2595,24 @@ void overmap::place_radios()
    switch(ter(i, j, 0))
    {
    case ot_radio_tower:
-    if(one_in(2))
-    {
-     snprintf( message, sizeof(message), "This is emergency broadcast station %d%d.\
+   {
+       int choice = rng(0, 2);
+       switch(choice)
+       {
+       case 0:
+           snprintf( message, sizeof(message), "This is emergency broadcast station %d%d.\
   Please proceed quickly and calmly to your designated evacuation point.", i, j);
-     radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
-    } else {
-     radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
-				  "Head West.  All survivors, head West.  Help is waiting."));
-    }
+           radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
+           break;
+       case 1:
+           radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
+               "Head West.  All survivors, head West.  Help is waiting."));
+           break;
+       case 2:
+           radios.push_back(radio_tower(i*2, j*2, rng(80, 200), "", WEATHER_RADIO));
+           break;
+       }
+   }
     break;
    case ot_lmoe:
     snprintf( message, sizeof(message), "This is automated emergency shelter beacon %d%d.\
@@ -2668,7 +2677,7 @@ void overmap::save()
   fout << "R " << roads_out[i].x << " " << roads_out[i].y << std::endl;
  for (int i = 0; i < radios.size(); i++)
   fout << "T " << radios[i].x << " " << radios[i].y << " " <<
-          radios[i].strength << " " << std::endl << radios[i].message <<
+      radios[i].strength << " " << radios[i].type << " " << std::endl << radios[i].message <<
           std::endl;
 
  //saving the npcs
@@ -2728,7 +2737,9 @@ void overmap::open(game *g)
     roads_out.push_back(tmp);
    } else if (datatype == 'T') {	// Radio tower
     radio_tower tmp;
-    fin >> tmp.x >> tmp.y >> tmp.strength;
+    int tmp_type;
+    fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
+    tmp.type = (radio_type)tmp_type;
     getline(fin, tmp.message);	// Chomp endl
     getline(fin, tmp.message);
     radios.push_back(tmp);
