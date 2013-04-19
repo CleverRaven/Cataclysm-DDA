@@ -304,6 +304,25 @@ void game::init_construction()
    COMP("nail", 16);
    COMP("2x4", 12);
 
+ CONSTRUCT("Build Locker", 1, &construct::able_indoors,
+                                &construct::done_nothing);
+  STAGE(t_locker, 20);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOL("wrench");
+   COMP("sheet_metal", 2);
+   COMP("pipe", 8);
+
+ CONSTRUCT("Build Metal Rack", 1, &construct::able_indoors,
+                                &construct::done_nothing);
+  STAGE(t_rack, 20);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOL("wrench");
+   COMP("pipe", 12);
+
  CONSTRUCT("Build Counter", 0, &construct::able_indoors,
                                 &construct::done_nothing);
   STAGE(t_counter, 20);
@@ -1059,7 +1078,8 @@ void construct::done_deconstruct(game *g, point p)
     break;
 
     case t_slide:
-      g->m.spawn_item(p.x, p.y, g->itypes["steel_plate"], 0);
+    case t_locker:
+      g->m.spawn_item(p.x, p.y, g->itypes["sheet_metal"], 0, 2);
       g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(4,8));
       g->m.ter_set(p.x, p.y, t_grass);
     break;
