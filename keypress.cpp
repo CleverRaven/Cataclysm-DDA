@@ -213,7 +213,7 @@ drop_adj D\n\
 bionics p\n\
 \n\
 # LONG TERM & SPECIAL ACTIONS\n\
-wait ^\n\
+wait _\n\
 craft &\n\
 recraft -\n\
 construct *\n\
