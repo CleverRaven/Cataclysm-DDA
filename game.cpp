@@ -2726,19 +2726,37 @@ void game::draw_HP()
         current_hp = u.hp_cur[i];
         if (current_hp == u.hp_max[i]){
           color = c_green;
-          asterisks = " **** ";
+          asterisks = " |||||";
+        } else if (current_hp > u.hp_max[i] * .9) {
+          color = c_green;
+          asterisks = " ||||\\";
         } else if (current_hp > u.hp_max[i] * .8) {
           color = c_ltgreen;
-          asterisks = " **** ";
+          asterisks = " |||| ";
+        } else if (current_hp > u.hp_max[i] * .7) {
+          color = c_ltgreen;
+          asterisks = " |||\\";
+        } else if (current_hp > u.hp_max[i] * .6) {
+          color = c_yellow;
+          asterisks = " |||  ";
         } else if (current_hp > u.hp_max[i] * .5) {
           color = c_yellow;
-          asterisks = " ***  ";
+          asterisks = " ||\\  ";
+        } else if (current_hp > u.hp_max[i] * .4) {
+          color = c_ltred;
+          asterisks = " ||   ";
         } else if (current_hp > u.hp_max[i] * .3) {
           color = c_ltred;
-          asterisks = " **   ";
+          asterisks = " |\\  ";
+        } else if (current_hp > u.hp_max[i] * .2) {
+          color = c_red;
+          asterisks = " |   ";
+        } else if (current_hp > u.hp_max[i] * .1) {
+          color = c_red;
+          asterisks = " \\   ";
         } else {
           color = c_red;
-          asterisks = " *    ";
+          asterisks = " .   ";
         }
         if (u.has_trait(PF_SELFAWARE)) {
             if (current_hp >= 100){
