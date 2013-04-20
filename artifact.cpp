@@ -426,23 +426,23 @@ void game::process_artifact(item *it, player *p, bool wielded)
   if (it->charges < tool->max_charges) {
    switch (tool->charge_type) {
     case ARTC_TIME:
-     if (turn.second == 0 && turn.minute == 0) // Once per hour
+     if (turn.seconds() == 0 && turn.minutes() == 0) // Once per hour
       it->charges++;
      break;
     case ARTC_SOLAR:
-     if (turn.second == 0 && turn.minute % 10 == 0 &&
+     if (turn.seconds() == 0 && turn.minutes() % 10 == 0 &&
          is_in_sunlight(p->posx, p->posy))
       it->charges++;
      break;
     case ARTC_PAIN:
-     if (turn.second == 0) {
+     if (turn.seconds() == 0) {
       add_msg("You suddenly feel sharp pain for no reason.");
       p->pain += 3 * rng(1, 3);
       it->charges++;
      }
      break;
     case ARTC_HP:
-     if (turn.second == 0) {
+     if (turn.seconds() == 0) {
       add_msg("You feel your body decaying.");
       p->hurtall(1);
       it->charges++;

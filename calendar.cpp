@@ -47,7 +47,7 @@ calendar::calendar(int turn)
  year = seasons / 4;
 }
 
-int calendar::get_turn()
+int calendar::get_turn() const
 {
  int ret = second / 6;
  ret += minute * 10;
@@ -149,11 +149,11 @@ calendar& calendar::operator +=(int rhs)
  return *this;
 }
 
-bool calendar::operator ==(int rhs)
+bool calendar::operator ==(int rhs) const
 {
  return int(*this) == rhs;
 }
-bool calendar::operator ==(calendar &rhs)
+bool calendar::operator ==(calendar &rhs) const
 {
  return (second == rhs.second &&
          minute == rhs.minute &&
@@ -346,7 +346,9 @@ int calendar::sunlight() const
   return DAYLIGHT_LEVEL;
 }
 
-std::string calendar::print_time(bool twentyfour)
+
+
+std::string calendar::print_time(bool twentyfour) const
 {
  std::stringstream ret;
  if (twentyfour) {

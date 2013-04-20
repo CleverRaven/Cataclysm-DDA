@@ -195,7 +195,7 @@ void game::setup()
  messages.clear();
  events.clear();
 
- turn.season = SUMMER;    // ... with winter conveniently a long ways off
+ turn.set_season(SUMMER);    // ... with winter conveniently a long ways off
 
  for (int i = 0; i < num_monsters; i++)	// Reset kill counts to 0
   kills[i] = 0;
@@ -404,7 +404,7 @@ bool game::do_turn()
  turn.increment();
  process_events();
  process_missions();
- if (turn.hour == 0 && turn.minute == 0 && turn.second == 0) // Midnight!
+ if (turn.hours() == 0 && turn.minutes() == 0 && turn.seconds() == 0) // Midnight!
   cur_om.process_mongroups();
 
 // Check if we've overdosed... in any deadly way.
@@ -879,7 +879,7 @@ void game::update_weather()
         // Pick a new weather type (most likely the same one)
         int chances[NUM_WEATHER_TYPES];
         int total = 0;
-        season = prev_weather.deadline.season;
+        season = prev_weather.deadline.get_season();
         for (int i = 0; i < NUM_WEATHER_TYPES; i++) {
             // Reduce the chance for freezing-temp-only weather to 0 if it's above freezing
             // and vice versa.
@@ -2776,7 +2776,7 @@ void game::draw()
  wrefresh(w_location);
 
  mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
-           season_name[turn.season].c_str(), turn.day + 1);
+           season_name[turn.get_season()].c_str(), turn.days() + 1);
  if (run_mode != 0 || autosafemode != 0) {
   int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
   mvwprintz(w_status, 2, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
