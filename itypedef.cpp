@@ -848,13 +848,6 @@ MELEE("manhole_cover", "manhole cover",	 1, 20, ']', c_dkgray,	IRON,	MNULL,
 A heavy iron disc that typically covers a ladder into the sewers. Lifting\n\
 it from the manhole is impossible without a crowbar.");
 
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("rock", "rock",		40,  0, '*', c_ltgray,	STONE,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  3, 12,  0, -2, 0, "\
-A rock the size of a baseball. Makes a decent melee weapon, and is also good\n\
-for throwing at enemies.");
-
 MELEE("stick", "heavy stick",	95,  0, '/', c_brown,	WOOD,	MNULL,
 	 6, 10, 12,  0,  3, 0, "\
 A sturdy, heavy stick. Makes a decent melee weapon, and can be cut into two\n\

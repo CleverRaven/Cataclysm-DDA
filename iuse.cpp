@@ -49,6 +49,11 @@ static bool use_fire(game *g, player *p, item *it)
     return true;
 }
 
+void iuse::none(game *g, player *p, item *it, bool t)
+{
+  g->add_msg("You can't do anything interesting with your %s.",
+             it->tname(g).c_str());
+}
 /* To mark an item as "removed from inventory", set its invlet to 0
    This is useful for traps (placed on ground), inactive bots, etc
  */
