@@ -4008,7 +4008,7 @@ int player::pick_usb()
  for (int i = 0; i < drives.size() && i < 9; i++)
   selections.push_back( inv[drives[i]].tname() );
 
- int select = menu_vec("Choose drive:", selections);
+ int select = menu_vec(false, "Choose drive:", selections);
 
  return drives[ select - 1 ];
 }
@@ -4674,7 +4674,7 @@ void player::pick_style(game *g) // Style selection menu
  options.push_back("No style");
  for (int i = 0; i < styles.size(); i++)
   options.push_back( g->itypes[styles[i]]->name );
- int selection = menu_vec("Select a style", options);
+ int selection = menu_vec(false, "Select a style", options);
  if (selection >= 2)
   style_selected = styles[selection - 2];
  else

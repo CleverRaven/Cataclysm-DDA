@@ -2078,7 +2078,8 @@ bool game::event_queued(event_type type)
 
 void game::debug()
 {
- int action = menu("Debug Functions - Using these is CHEATING!",
+ int action = menu(true, // cancelable
+                   "Debug Functions - Using these is CHEATING!",
                    "Wish for an item",       // 1
                    "Teleport - Short Range", // 2
                    "Teleport - Long Range",  // 3
@@ -2182,7 +2183,7 @@ z.size(), events.size());
     for (int i = 2; i < vtypes.size(); i++)
      opts.push_back (vtypes[i]->name);
     opts.push_back (std::string("Cancel"));
-    veh_num = menu_vec ("Choose vehicle to spawn", opts) + 1;
+    veh_num = menu_vec (false, "Choose vehicle to spawn", opts) + 1;
     if (veh_num > 1 && veh_num < num_vehicles)
      m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90);
    }
@@ -8632,7 +8633,7 @@ int game::valid_group(mon_id type, int x, int y, int z)
 
 void game::wait()
 {
- char ch = menu("Wait for how long?", "5 Minutes", "30 Minutes", "1 hour",
+ char ch = menu(true, "Wait for how long?", "5 Minutes", "30 Minutes", "1 hour",
                 "2 hours", "3 hours", "6 hours", "Exit", NULL);
  int time;
  if (ch == 7)

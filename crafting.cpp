@@ -970,7 +970,7 @@ void game::consume_items(std::vector<component> components)
    return;                 // and the fire goes out.
 
 // Get the selection via a menu popup
-  int selection = menu_vec("Use which component?", options) - 1;
+  int selection = menu_vec(false, "Use which component?", options) - 1;
   if (selection < map_has.size())
    map_use.push_back(map_has[selection]);
   else if (selection < map_has.size() + player_has.size()) {
@@ -1059,7 +1059,7 @@ void game::consume_tools(std::vector<component> tools)
    return;                 // and the fire goes out.
 
 // Get selection via a popup menu
-  int selection = menu_vec("Use which tool?", options) - 1;
+  int selection = menu_vec(false, "Use which tool?", options) - 1;
   if (selection < map_has.size())
    m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
                     map_has[selection].type, map_has[selection].count);

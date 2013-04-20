@@ -2035,7 +2035,7 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
  }
  std::string toggle_text = "Turn continuous scan ";
  toggle_text += (is_on ? "off" : "on");
- int ch = menu("Geiger counter:", "Scan yourself", "Scan the ground",
+ int ch = menu(true, "Geiger counter:", "Scan yourself", "Scan the ground",
                toggle_text.c_str(), "Cancel", NULL);
  switch (ch) {
   case 1: g->add_msg_if_player(p,"Your radiation level: %d", p->radiation); break;
@@ -2853,7 +2853,7 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
-    int ch = menu(
+    int ch = menu(true,
     "Using knife:", "Cut up fabric", "Carve wood", "Cauterize", "Cancel", NULL);
     switch (ch)
     {
