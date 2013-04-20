@@ -10,9 +10,15 @@
 #include "color.h"
 #include "picojson.h"
 #include "item_group.h"
+#include "iuse.h" 
 
 typedef std::string Item_tag;
 typedef std::vector<item> Item_list;
+typedef void (iuse::*Use_function)(game*,player*,item*,bool);
+
+//For the iuse arguments
+class game;
+class player;
 
 class Item_factory
 {
@@ -51,9 +57,12 @@ private:
     char char_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
     int int_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
     nc_color color_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
+    Use_function use_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
     material material_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map, int to_return);
     material material_from_tag(Item_tag new_id, Item_tag index);
 
+    //iuse stuff
+    std::map<Item_tag, Use_function> iuse_function_list;
 };
 
 extern Item_factory* item_controller;

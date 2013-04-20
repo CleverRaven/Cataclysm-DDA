@@ -243,6 +243,8 @@ struct itype
  virtual bool count_by_charges() { return false; }
  virtual std::string save_data() { return std::string(); }
 
+ void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
+
  itype() {
   id = "null";
   rarity = 0;
@@ -258,6 +260,7 @@ struct itype
   m_to_hit = 0;
   item_flags = 0;
   techniques = 0;
+  use = &iuse::none;
  }
 
  itype(std::string pid, unsigned char prarity, unsigned int pprice,
@@ -283,6 +286,7 @@ struct itype
   m_to_hit    = pm_to_hit;
   item_flags  = pitem_flags;
   techniques  = ptechniques;
+  use         = &iuse::none;
  }
 };
 
@@ -315,7 +319,6 @@ struct it_comest : public itype
         }
     }
 
-    void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
     add_type add;				// Effects of addiction
 
     it_comest(std::string pid, unsigned char prarity, unsigned int pprice,
@@ -621,7 +624,6 @@ struct it_tool : public itype
  unsigned char charges_per_use;
  unsigned char turns_per_charge;
  itype_id revert_to;
- void (iuse::*use)(game *, player *, item *, bool);
 
  virtual bool is_tool()          { return true; }
  virtual bool is_artifact()      { return false; }
@@ -686,7 +688,6 @@ struct it_bionic : public itype
 struct it_macguffin : public itype
 {
  bool readable; // If true, activated with 'R'
- void (iuse::*use)(game *, player *, item *, bool);
 
  virtual bool is_macguffin() { return true; }
 
