@@ -2756,7 +2756,7 @@ void game::draw_HP()
           health_bar = "\\";
         } else if (current_hp > 0) {
           color = c_red;
-          health_bar = ".";
+          health_bar = ":";
         } else {
           color = c_ltgray;
           health_bar = "-----";
