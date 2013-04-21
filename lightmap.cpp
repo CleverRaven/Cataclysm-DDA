@@ -199,7 +199,7 @@ void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
    const int dy = (fy < ty) ? 1 : -1;
    int x = fx;
    int y = fy;
-   int seen = true;
+   bool seen = true;
 
    // TODO: [lightmap] Pull out the common code here rather than duplication
    if (ax > ay)

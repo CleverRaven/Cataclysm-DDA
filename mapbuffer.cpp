@@ -84,7 +84,7 @@ void mapbuffer::save_if_dirty()
 
 void mapbuffer::save()
 {
- std::map<tripoint, submap*>::iterator it;
+ std::map<tripoint, submap*, pointcomp>::iterator it;
  std::ofstream fout;
  fout.open("save/maps.txt");
 
