@@ -532,10 +532,11 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
     mfb(transparent)|mfb(container)|mfb(flammable)|mfb(collapses)|
     mfb(bashable)|mfb(deconstruct)|mfb(place_item)|mfb(indoors), &iexamine::none},
 {"locker",           '{', c_ltgray,  0, tr_null,
-    mfb(container)|mfb(collapses)|mfb(bashable)|mfb(place_item)|mfb(indoors), &iexamine::none},
+    mfb(container)|mfb(collapses)|mfb(bashable)|mfb(place_item)|mfb(indoors)|mfb(deconstruct),
+    &iexamine::none},
 {"display rack",     '{', c_ltgray,  0, tr_null,
     mfb(transparent)|mfb(l_flammable)|mfb(collapses)|mfb(bashable)|
-    mfb(deconstruct)|mfb(place_item)|mfb(indoors), &iexamine::none},
+    mfb(deconstruct)|mfb(place_item)|mfb(indoors)|mfb(deconstruct), &iexamine::none},
 {"book case",        '{', c_brown,   0, tr_null,
     mfb(flammable)|mfb(collapses)|mfb(bashable)|mfb(deconstruct)|mfb(place_item)|mfb(indoors),
     &iexamine::none},
