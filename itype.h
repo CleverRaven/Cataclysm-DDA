@@ -15,7 +15,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1ULL << (n))
+#define mfb(n) (unsigned long long)(1ULL << (n))
 #endif
 
 // for use in category specific inventory lists
@@ -100,9 +100,6 @@ IF_BACKBLAST,  // Creates a backblast of smoke.
 // Weapon mode flags
 IF_MODE_AUX, // A gunmod with a firing mode
 IF_MODE_BURST, // A burst of attacks
-IF_BASH,  // using weapon in bash
-IF_CUT,
-IF_PIERCE,
 
 // Food status flags
 IF_HOT,				// hot food
@@ -224,7 +221,7 @@ struct itype
  signed char m_to_hit;	// To-hit bonus for melee combat; -5 to 5 is reasonable
 
 // unsigned item_flags : NUM_ITEM_FLAGS;
- unsigned int item_flags;
+ unsigned long long item_flags;
  unsigned techniques : NUM_TECHNIQUES;
 
  virtual bool is_food()          { return false; }
@@ -269,7 +266,7 @@ struct itype
        char psym, nc_color pcolor, material pm1, material pm2, phase_id pphase,
        unsigned short pvolume, unsigned short pweight,
        signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-       unsigned pitem_flags, unsigned ptechniques = 0) {
+       unsigned long long pitem_flags, unsigned ptechniques = 0) {
   id          = pid;
   rarity      = prarity;
   price       = pprice;
@@ -327,7 +324,7 @@ struct it_comest : public itype
     char psym, nc_color pcolor, material pm1, phase_id pphase,
     unsigned short pvolume, unsigned short pweight,
     signed char pmelee_dam, signed char pmelee_cut,
-    signed char pm_to_hit, unsigned pitem_flags,
+    signed char pm_to_hit, unsigned long long pitem_flags,
 
     signed char pquench, unsigned char pnutr, signed char pspoils,
     signed char pstim, signed char phealthy, unsigned char paddict,
@@ -445,7 +442,7 @@ struct it_gun : public itype
         char psym, nc_color pcolor, material pm1, material pm2,
         unsigned short pvolume, unsigned short pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-        unsigned pitem_flags,
+        unsigned long long pitem_flags,
 
 	const char *pskill_used, ammotype pammo, signed char pdmg_bonus,
 	signed char paccuracy, signed char precoil, unsigned char pdurability,
@@ -481,7 +478,7 @@ struct it_gunmod : public itype
            char psym, nc_color pcolor, material pm1, material pm2,
            unsigned short pvolume, unsigned short pweight,
            signed char pmelee_dam, signed char pmelee_cut,
-           signed char pm_to_hit, unsigned pitem_flags,
+           signed char pm_to_hit, unsigned long long pitem_flags,
 
            signed char paccuracy, signed char pdamage, signed char ploudness,
            signed char pclip, signed char precoil, signed char pburst,
@@ -538,7 +535,7 @@ struct it_armor : public itype
           char psym, nc_color pcolor, material pm1, material pm2,
           unsigned short pvolume, unsigned short pweight,
           signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-          unsigned pitem_flags,
+          unsigned long long pitem_flags,
 
           unsigned char pcovers, signed char pencumber,
           unsigned char pdmg_resist, unsigned char pcut_resist,
@@ -575,7 +572,7 @@ struct it_book : public itype
          char psym, nc_color pcolor, material pm1, material pm2,
          unsigned short pvolume, unsigned short pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-         unsigned pitem_flags,
+         unsigned long long pitem_flags,
 
 	 const char *ptype, unsigned char plevel, unsigned char preq,
 	 signed char pfun, unsigned char pintel, unsigned char ptime)
@@ -607,7 +604,7 @@ struct it_container : public itype
               char psym, nc_color pcolor, material pm1, material pm2,
               unsigned short pvolume, unsigned short pweight,
               signed char pmelee_dam, signed char pmelee_cut,
-              signed char pm_to_hit, unsigned pitem_flags,
+              signed char pm_to_hit, unsigned long long pitem_flags,
 
               unsigned char pcontains, unsigned pflags)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
@@ -647,7 +644,7 @@ struct it_tool : public itype
          char psym, nc_color pcolor, material pm1, material pm2, phase_id phase,
          unsigned short pvolume, unsigned short pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-         unsigned pitem_flags,
+         unsigned long long pitem_flags,
 
          unsigned int pmax_charges, unsigned int pdef_charges,
          unsigned char pcharges_per_use, unsigned char pturns_per_charge,
@@ -677,7 +674,7 @@ struct it_bionic : public itype
            char psym, nc_color pcolor, material pm1, material pm2,
            unsigned short pvolume, unsigned short pweight,
            signed char pmelee_dam, signed char pmelee_cut,
-           signed char pm_to_hit, unsigned pitem_flags,
+           signed char pm_to_hit, unsigned long long pitem_flags,
 
            int pdifficulty)
  :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
@@ -699,7 +696,7 @@ struct it_macguffin : public itype
               char psym, nc_color pcolor, material pm1, material pm2,
               unsigned short pvolume, unsigned short pweight,
               signed char pmelee_dam, signed char pmelee_cut,
-              signed char pm_to_hit, unsigned pitem_flags,
+              signed char pm_to_hit, unsigned long long pitem_flags,
 
               bool preadable,
               void (iuse::*puse)(game *, player *, item *, bool))
@@ -722,7 +719,7 @@ struct it_software : public itype
              char psym, nc_color pcolor, material pm1, material pm2,
              unsigned short pvolume, unsigned short pweight,
              signed char pmelee_dam, signed char pmelee_cut,
-             signed char pm_to_hit, unsigned pitem_flags,
+             signed char pm_to_hit, unsigned long long pitem_flags,
 
              software_type pswtype, int ppower)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
@@ -743,7 +740,7 @@ struct it_style : public itype
           char psym, nc_color pcolor, material pm1, material pm2,
           unsigned char pvolume, unsigned char pweight,
           signed char pmelee_dam, signed char pmelee_cut,
-          signed char pm_to_hit, unsigned pitem_flags)
+          signed char pm_to_hit, unsigned long long pitem_flags)
 
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) { }
@@ -803,7 +800,7 @@ struct it_artifact_tool : public it_tool
                   std::string pdes, char psym, nc_color pcolor, material pm1,
                   material pm2, unsigned short pvolume, unsigned short pweight,
                   signed char pmelee_dam, signed char pmelee_cut,
-                  signed char pm_to_hit, unsigned pitem_flags)
+                  signed char pm_to_hit, unsigned long long pitem_flags)
 
 :it_tool(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
          pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
@@ -852,7 +849,7 @@ struct it_artifact_armor : public it_armor
                    std::string pdes, char psym, nc_color pcolor, material pm1,
                    material pm2, unsigned short pvolume, unsigned short pweight,
                    signed char pmelee_dam, signed char pmelee_cut,
-                   signed char pm_to_hit, unsigned pitem_flags,
+                   signed char pm_to_hit, unsigned long long pitem_flags,
 
                    unsigned char pcovers, signed char pencumber,
                    unsigned char pdmg_resist, unsigned char pcut_resist,

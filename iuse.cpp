@@ -12,7 +12,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1ULL << (n))
+#define mfb(n) (unsigned long long)(1ULL << (n))
 #endif
 
 static void add_or_drop_item(game *g, player *p, item *it)
