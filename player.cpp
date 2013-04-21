@@ -4459,6 +4459,8 @@ bool player::eat(game *g, int index)
         add_addiction(comest->add, comest->addict);
         if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol)
             charge_power(rng(2, 8));
+        if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak)
+            charge_power(rng(1, 4));
 
         if (!has_trait(PF_CANNIBAL)  && eaten->made_of(HFLESH))
         {
