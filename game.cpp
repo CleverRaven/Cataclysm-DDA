@@ -4711,7 +4711,20 @@ void game::examine()
    add_msg ("You can't do that on moving vehicle.");
   else
    exam_vehicle (*veh, examx, examy);
- } else if (m.has_flag(sealed, examx, examy)) {
+ }
+ 
+ if (m.has_flag(console, examx, examy)) {
+  use_computer(examx, examy);
+  return;
+ }
+ const ter_t *xter_t = &terlist[m.ter(examx,examy)];
+ iexamine xmine;
+
+ if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
+
+  (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
+ 
+ if (m.has_flag(sealed, examx, examy)) {
   if (m.trans(examx, examy)) {
    std::string buff;
    if (m.i_at(examx, examy).size() <= 3 && m.i_at(examx, examy).size() != 0) {
@@ -4734,21 +4747,11 @@ void game::examine()
   }
  } else {
   if (m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) &&
-      !(m.has_flag(swimmable, examx, examy) || m.ter(examx, examy) == t_toilet))
+      !(m.has_flag(swimmable, examx, examy) || m.ter(examx, examy) == t_toilet) && xter_t->examine == &iexamine::none)
    add_msg("It is empty.");
   else
    pickup(examx, examy, 0);
  }
- if (m.has_flag(console, examx, examy)) {
-  use_computer(examx, examy);
-  return;
- }
- const ter_t *xter_t = &terlist[m.ter(examx,examy)];
- iexamine xmine;
-
- if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
-
-  (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 }
 int getsquare(int c , int &off_x, int &off_y, std::string &areastring)
 {
