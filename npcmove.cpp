@@ -739,8 +739,8 @@ void npc::use_escape_item(game *g, int index, int target)
   iuse use;
   (use.*tool->use)(g, this, used, false);
   used->charges -= tool->charges_per_use;
-  if (used->invlet == 0)
-   inv.remove_item(index);
+  if (used->invlet == 0) // is that ever going to happen?
+   inv.remove_item(used);
   return;
  }
 

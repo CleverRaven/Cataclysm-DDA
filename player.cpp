@@ -3674,14 +3674,12 @@ item player::i_rem(char let)
 
 item player::i_rem(itype_id type)
 {
- item ret;
- if (weapon.type->id == type)
-  return remove_weapon();
- for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].type->id == type)
-   return inv.remove_item(i);
- }
- return ret_null;
+    item ret;
+    if (weapon.type->id == type)
+    {
+        return remove_weapon();
+    }
+    return inv.remove_item_by_type(type);
 }
 
 item& player::i_at(char let)
@@ -3728,7 +3726,7 @@ item player::i_remn(int index)
 {
  if (index > inv.size() || index < 0)
   return ret_null;
- return inv.remove_item(index);
+ return inv.remove_item_by_letter(inv[index].invlet);
 }
 
 void player::use_amount(itype_id it, int quantity, bool use_container)
@@ -4436,7 +4434,7 @@ bool player::eat(game *g, int index)
                 g->add_msg("You are now wielding an empty %s.", weapon.tname(g).c_str());
         }
         else if (which >= 0 && which < inv.size())
-            inv.remove_item(which);
+            inv.remove_item_by_letter(inv[which].invlet);
         else if (which >= inv.size())
         {
             which -= inv.size();
@@ -4456,7 +4454,7 @@ bool player::eat(game *g, int index)
                         if (!(cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals)))
                         {
                             g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
-                            g->m.add_item(posx, posy, inv.remove_item(which));
+                            g->m.add_item(posx, posy, inv.remove_item_by_letter(inv[which].invlet));
                         }
                         else
                             g->add_msg("%c - an empty %s", inv[which].invlet,
@@ -4465,12 +4463,12 @@ bool player::eat(game *g, int index)
                     else if (inv[which].type->id == "wrapper") // hack because wrappers aren't containers
                     {
                         g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
-                        g->m.add_item(posx, posy, inv.remove_item(which));
+                        g->m.add_item(posx, posy, inv.remove_item_by_letter(inv[which].invlet));
                     }
                     break;
                 case 2:
                     g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
-                    g->m.add_item(posx, posy, inv.remove_item(which));
+                    g->m.add_item(posx, posy, inv.remove_item_by_letter(inv[which].invlet));
                     break;
                 }
             }
@@ -4534,7 +4532,7 @@ bool player::wield(game *g, int index)
   return false;
  }
  if (!is_armed()) {
-  weapon = inv.remove_item(index);
+  weapon = inv.remove_item_by_letter(inv[index].invlet);
   if (weapon.is_artifact() && weapon.is_tool()) {
    it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
    g->add_artifact_messages(art->effects_wielded);
@@ -4545,7 +4543,7 @@ bool player::wield(game *g, int index)
  } else if (volume_carried() + weapon.volume() - inv[index].volume() <
             volume_capacity()) {
   item tmpweap = remove_weapon();
-  weapon = inv.remove_item(index);
+  weapon = inv.remove_item_by_letter(inv[index].invlet);
   inv.push_back(tmpweap);
   inv.unsort();
   moves -= 45;
@@ -4559,7 +4557,7 @@ bool player::wield(game *g, int index)
                      weapon.tname(g).c_str())) {
   g->m.add_item(posx, posy, remove_weapon());
   weapon = inv[index];
-  inv.remove_item(index);
+  inv.remove_item(&weapon);
   inv.unsort();
   moves -= 30;
   if (weapon.is_artifact() && weapon.is_tool()) {
@@ -4692,7 +4690,7 @@ bool player::wear(game *g, char let)
  if (index == -2)
   weapon = ret_null;
  else
-  inv.remove_item(index);
+  inv.remove_item(to_wear);
 
  return true;
 }

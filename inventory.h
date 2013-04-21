@@ -54,9 +54,9 @@ class inventory
 
   std::list<item> remove_stack(int index);
   std::list<item> remove_stack(int index,int amount);
-  item  remove_item(int index);
   item  remove_item(item *it);
   item  remove_item(int stack, int index);
+  item  remove_item_by_type(itype_id type);
   item  remove_item_by_letter(char ch);
   item  remove_item_by_letter_and_quantity(char ch, int quantity);
   item  remove_item_by_quantity(int index, int quantity);

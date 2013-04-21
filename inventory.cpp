@@ -420,26 +420,10 @@ std::list<item> inventory::remove_stack(int index,int amount)
     {
         for(int i = 0 ; i < amount ; i++)
         {
-            ret.push_back(remove_item(index));
+            ret.push_back(remove_item(&iter->front()));
         }
     }
     return ret;
-}
-
-item inventory::remove_item(int index)
-{
-    if (index < 0 || index >= items.size())
-    {
-       debugmsg("Tried to remove_item(%d) from an inventory (size %d)",
-                index, items.size());
-       return nullitem;
-    }
-    invstack::iterator iter = items.begin();
-    for (int i = 0; i < index; ++i)
-    {
-        ++iter;
-    }
-    return remove_item(iter);
 }
 
 item inventory::remove_item(item* it)
@@ -511,6 +495,18 @@ item inventory::remove_item(int stack, int index)
     }
 
     return ret;
+}
+
+item inventory::remove_item_by_type(itype_id type)
+{
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        if (iter->front().type->id == type)
+        {
+            return remove_item(iter);
+        }
+    }
+    return nullitem;
 }
 
 item inventory::remove_item_by_letter(char ch)

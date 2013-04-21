@@ -4429,7 +4429,7 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
             if (i_cont)
                 u.inv[i_itm].contents.erase (u.inv[i_itm].contents.begin());
             else
-                u.inv.remove_item (i_itm);
+                u.inv.remove_item_by_letter(u.inv[i_itm].invlet);
         }
     }
     return true;
@@ -5129,7 +5129,7 @@ void game::advanced_inv()
                     }
                     else // no stack / no charge just move it :D
                     {
-                        item moving_item = u.inv.remove_item(item_pos);
+                        item moving_item = u.inv.remove_item_by_letter(u.inv[item_pos].invlet);
                         m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                         u.moves -= 100;
                     }
