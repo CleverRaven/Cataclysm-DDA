@@ -165,8 +165,12 @@ void Item_factory::init(){
 
 //Will eventually be deprecated - Loads existing item format into the item factory
 void Item_factory::init(game* main_game){
-    //Copy over the template pointers
+    // Make a copy of our items loaded from JSON
+    std::map<Item_tag, itype*> new_templates = m_templates;
+    //Copy the hardcoded template pointers to the factory list
     m_templates.insert(main_game->itypes.begin(), main_game->itypes.end());
+    //Copy the JSON-derived items to the legacy list
+    main_game->itypes.insert(new_templates.begin(), new_templates.end());
     init();
 }
 
