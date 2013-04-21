@@ -10,7 +10,8 @@ typedef enum {
   nameIsFemaleName = 2,
   nameIsUnisexName = 3,
   nameIsGivenName = 4,
-  nameIsFamilyName = 8
+  nameIsFamilyName = 8,
+  nameIsTownName = 16
 } nameFlags;
 
 class NameGenerator;
