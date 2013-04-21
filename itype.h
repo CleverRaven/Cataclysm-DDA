@@ -15,7 +15,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) long(1ULL << (n))
 #endif
 
 // for use in category specific inventory lists
@@ -70,7 +70,7 @@ NUM_SOFTWARE_TYPES
 };
 
 enum item_flag {
-IF_NULL,
+IF_NULL = 0,
 
 IF_LIGHT_1, // Provides 1 tile of light
 IF_LIGHT_4,	// Provides 4 tiles of light
@@ -100,6 +100,9 @@ IF_BACKBLAST,  // Creates a backblast of smoke.
 // Weapon mode flags
 IF_MODE_AUX, // A gunmod with a firing mode
 IF_MODE_BURST, // A burst of attacks
+IF_BASH,  // using weapon in bash
+IF_CUT,
+IF_PIERCE,
 
 // Food status flags
 IF_HOT,				// hot food
@@ -220,7 +223,8 @@ struct itype
  signed char melee_cut;	// Cutting damage in melee
  signed char m_to_hit;	// To-hit bonus for melee combat; -5 to 5 is reasonable
 
- unsigned item_flags : NUM_ITEM_FLAGS;
+// unsigned item_flags : NUM_ITEM_FLAGS;
+ unsigned int item_flags;
  unsigned techniques : NUM_TECHNIQUES;
 
  virtual bool is_food()          { return false; }

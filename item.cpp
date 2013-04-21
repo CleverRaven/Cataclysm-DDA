@@ -9,7 +9,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) long(1ULL << (n))
 #endif
 
 bool is_flammable(material m);
@@ -590,6 +590,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
     dump->push_back(iteminfo("DESCRIPTION", contents[0].type->description));
   }
  }
+
+    dump->push_back(iteminfo("DESCRIPTION", item_flags));
+
 
  temp1.str("");
  std::vector<iteminfo>& vecData = *dump; // vector is not copied here
