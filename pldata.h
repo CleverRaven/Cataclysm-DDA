@@ -108,11 +108,12 @@ struct player_activity
  activity_type type;
  int moves_left;
  int index;
+ bool continuous;
  std::vector<int> values;
  point placement;
 
  player_activity() { type = ACT_NULL; moves_left = 0; index = -1;
-                     placement = point(-1, -1); }
+  placement = point(-1, -1); continuous = false;}
 
  player_activity(activity_type t, int turns, int Index)
  {
@@ -120,6 +121,7 @@ struct player_activity
   moves_left = turns;
   index = Index;
   placement = point(-1, -1);
+  continuous = false;
  }
 
  player_activity(const player_activity &copy)
@@ -128,6 +130,7 @@ struct player_activity
   moves_left = copy.moves_left;
   index = copy.index;
   placement = copy.placement;
+  continuous = copy.continuous;
   values.clear();
   for (int i = 0; i < copy.values.size(); i++)
    values.push_back(copy.values[i]);
