@@ -5001,7 +5001,7 @@ void game::advanced_inv()
             {
             // print the header.
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
-                mvwprintz(head,1,3, c_white, "hjkl to move cursor");
+                mvwprintz(head,1,3, c_white, "hjkl or arrow keys to move cursor");
                 mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
                 mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)");
                 mvwprintz(head,1,60, c_white, "[m]ove item between screen.");
@@ -5033,7 +5033,7 @@ void game::advanced_inv()
         wrefresh(head);
         wrefresh(left_window);
         wrefresh(right_window);
-        char c = getch();
+        int c = getch();
         int changeSquare;
         if(screen == 0)
         {
@@ -5201,7 +5201,7 @@ void game::advanced_inv()
         else if('e' == c)
         {
         }
-        else if('q' == c)
+        else if('q' == c || KEY_ESCAPE == c)
         {
             exit = true;
         }
@@ -5253,15 +5253,19 @@ void game::advanced_inv()
             switch(c)
             {
                 case 'j':
+                case KEY_DOWN:
                     changey = 1;
                     break;
                 case 'k':
+                case KEY_UP:
                     changey = -1;
                     break;
                 case 'h':
+                case KEY_LEFT:
                     changex = -1;
                     break;
                 case 'l':
+                case KEY_RIGHT:
                     changex = 1;
                     break;
                 default :
