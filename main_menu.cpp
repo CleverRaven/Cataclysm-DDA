@@ -152,6 +152,8 @@ bool game::opening_screen()
         while (!motd_file.eof()) {
             std::string tmp;
             getline(motd_file, tmp);
+            if (!tmp.length())
+                continue;
             if (tmp[0] != '#')
                 motd.push_back(tmp);
         }
@@ -167,6 +169,8 @@ bool game::opening_screen()
         while (!credits_file.eof()) {
             std::string tmp;
             getline(credits_file, tmp);
+            if (!tmp.length())
+                continue;
             if (tmp[0] != '#')
                 credits.push_back(tmp);
         }
