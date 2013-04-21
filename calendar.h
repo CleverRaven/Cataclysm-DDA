@@ -100,7 +100,7 @@ public:
 
 
 // Print-friendly stuff
-  std::string print_time(bool twentyfour = false) const;
+  std::string print_time(bool just_hour = false) const;
   std::string textify_period(); // "1 second" "2 hours" "two days"
 };
 #endif // _CALENDAR_H_

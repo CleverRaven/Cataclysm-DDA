@@ -348,41 +348,56 @@ int calendar::sunlight() const
 
 
 
-std::string calendar::print_time(bool twentyfour) const
+std::string calendar::print_time(bool just_hour) const
 {
- std::stringstream ret;
- if (twentyfour) {
-  ret << hour << ":";
-  if (minute < 10)
-   ret << "0";
-  ret << minute;
- } else {
-  if (OPTIONS[OPT_24_HOUR] == 1) {
-   int hours = hour % 24;
-   if (hours < 10)
-    ret << "0";
-   ret << hours;
-  } else if (OPTIONS[OPT_24_HOUR] == 2) {
-   int hours = hour % 24;
-   ret << hours << ":";
-  }else {
-   int hours = hour % 12;
-   if (hours == 0)
-    hours = 12;
-   ret << hours << ":";
-  }
-  if (minute < 10)
-   ret << "0";
-  ret << minute;
-  if (OPTIONS[OPT_24_HOUR] == 0) {
-   if (hour < 12)
-    ret << " AM";
-   else
-    ret << " PM";
-  }
- }
+    std::stringstream time_string;
 
- return ret.str();
+    if (OPTIONS[OPT_24_HOUR] == 1)
+    {
+        int hours = hour % 24;
+        if (hours < 10)
+        {
+            time_string << "0";
+        }
+        time_string << hours;
+    }
+    else if (OPTIONS[OPT_24_HOUR] == 2)
+    {
+        int hours = hour % 24;
+        time_string << hours;
+        if (!just_hour) time_string << ":";
+    }
+    else
+    {
+        int hours = hour % 12;
+        if (hours == 0)
+        {
+            hours = 12;
+        }
+        time_string << hours;
+        if (!just_hour) time_string << ":";
+    }
+    if(!just_hour)
+    {
+        if (minute < 10)
+        {
+            time_string << "0";
+        }
+        time_string << minute;
+    }
+    if (OPTIONS[OPT_24_HOUR] == 0)
+    {
+        if (hour < 12)
+        {
+            time_string << " AM";
+        }
+        else
+        {
+            time_string << " PM";
+        }
+    }
+
+    return time_string.str();
 }
 
 std::string calendar::textify_period()
