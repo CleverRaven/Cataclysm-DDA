@@ -8,7 +8,9 @@
 #include "output.h"
 #include <vector>
 #include <iosfwd>
+#include <string>
 #include "cursesdef.h"
+#include "name.h"
 
 class npc;
 struct settlement;
@@ -21,7 +23,11 @@ struct city {
  int x;
  int y;
  int s;
- city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S) {}
+ std::string name;
+ city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S)
+ {
+     name = Name::get(nameIsTownName);
+ }
 };
 
 struct om_note {
