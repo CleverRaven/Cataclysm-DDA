@@ -78,4 +78,8 @@ struct weather_datum
  void (weather_effect::*effect)(game *);
 };
 
+extern std::string season_name[4];
+extern weather_datum weather_data[];
+extern int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES];
+
 #endif // _WEATHER_H_

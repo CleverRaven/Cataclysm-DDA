@@ -6,7 +6,6 @@
 #include "skill.h"
 #include "line.h"
 #include "computer.h"
-#include "weather_data.h"
 #include "veh_interact.h"
 #include "options.h"
 #include "mapbuffer.h"

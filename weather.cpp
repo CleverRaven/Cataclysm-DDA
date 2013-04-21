@@ -1,6 +1,7 @@
-#include "weather.h"
-#include "game.h"
 #include <vector>
+#include "options.h"
+#include "game.h"
+#include "weather.h"
 
 #define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx, g->u.posy) && g->levz >= 0)
 #define THUNDER_CHANCE 50
