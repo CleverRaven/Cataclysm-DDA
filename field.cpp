@@ -919,7 +919,8 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_tear_gas:
-   if (z->made_of(FLESH) || (z->made_of(HFLESH) || z->made_of(VEGGY)) && !z->has_flag(MF_NO_BREATHE)) {
+      if ((z->made_of(FLESH) || z->made_of(HFLESH) || z->made_of(VEGGY)) &&
+          !z->has_flag(MF_NO_BREATHE)) {
     z->add_effect(ME_BLIND, cur->density * 8);
     if (cur->density == 3) {
      z->add_effect(ME_STUNNED, rng(10, 20));
