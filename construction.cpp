@@ -950,7 +950,7 @@ void construct::done_furniture(game *g, point p)
    return;
   x += p.x;
   y += p.y;
-  if(!g->m.ter(x, y) == t_floor || !g->is_empty(x, y)) {
+  if(!(g->m.ter(x, y) == t_floor) || !g->is_empty(x, y)) {
    mvprintz(0, 0, c_red, "Can't move furniture there! Choose a direction with open floor.");
    continue;
   }
