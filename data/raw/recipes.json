@@ -2518,6 +2518,41 @@
                           ]
         },
 
+        {
+            "result": "drink_screwdriver",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 1,
+            "time": 7000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [
+                              [
+                                  ["oj", 1]
+                              ],
+                              [
+                                  ["vodka", 1]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "drink_wild_apple",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 1,
+            "time": 7000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [
+                              [
+                                  ["apple_cider", 1]
+                              ],
+                              [
+                                  ["vodka", 1]
+                              ]
+                          ]
+        },
 
         {
             "result": "jerky",

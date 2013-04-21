@@ -164,8 +164,16 @@ DRINK("long_island","long island iced tea",	8, 100,	c_brown,  "bottle_glass",
 A blend of incredibly strong-flavored liquors that somehow tastes\n\
 like none of them.", 0);
 
+DRINK("drink_screwdriver","Screwdriver", 8, 100, c_yellow, "bottle_glass",
+   25, 6, 0, -12, 1, 4, 1, 20, &iuse::alcohol, ADD_ALCOHOL, "\
+The surreptitious drunkard mechanic's drink of choice.", 0);
+
+DRINK("drink_wild_apple","Wild Apple", 8, 100, c_brown, "bottle_glass",
+   25, 6, 0, -12, 1, 4, 1, 20, &iuse::alcohol, ADD_ALCOHOL, "\
+Like apple cider, only with vodka.", 0);
+
 DRINK("beer","beer",           60, 35, c_brown,  "can_drink",
-         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol,   ADD_ALCOHOL, "\
+         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol_weak,   ADD_ALCOHOL, "\
 Best served cold, in a glass, and with a lime - but you're not that lucky.", 0);
 
 DRINK("bleach","bleach",		20, 18,	c_white,  "jug_plastic",
