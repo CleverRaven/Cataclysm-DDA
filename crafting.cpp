@@ -1089,10 +1089,6 @@ void game::disassemble(char ch)
 
     item* dis_item = &u.i_at(ch);
 
-    if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
-    {
-        return;
-    }
 
     for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
     {
@@ -1171,6 +1167,11 @@ void game::disassemble(char ch)
                 if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
                     have_tool[4])
                 {
+                 
+                  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
+                  {
+                   return;
+                  }
                     u.assign_activity(this, ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
                     u.moves = 0;
                     std::vector<int> dis_items;
