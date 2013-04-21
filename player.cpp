@@ -244,12 +244,6 @@ void player::reset(game *g)
   str_cur += 20;
  if (has_bionic("bio_eye_enhancer"))
   per_cur += 2;
- if (has_bionic("bio_carbon"))
-  dex_cur -= 2;
- if (has_bionic("bio_armor_head"))
-  per_cur--;
- if (has_bionic("bio_armor_arms"))
-  dex_cur--;
 if (has_bionic("bio_metabolics") && power_level < max_power_level &&
      hunger < 100 && (int(g->turn) % 5 == 0)) {
   hunger += 2;
@@ -5603,10 +5597,6 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
      ret =0;
 
     // Bionics and mutation
-    if ((bp == bp_head  && has_bionic("bio_armor_head"))  ||
-     (bp == bp_torso && has_bionic("bio_armor_torso")) ||
-     (bp == bp_legs  && has_bionic("bio_armor_legs")))
-        ret += 2;
     if (has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth)
     {
         ret += 1;

@@ -811,25 +811,23 @@ extra damage, and increasing your power reserves slightly.");
     unpowered_bionics.push_back("bio_heat_absorb");
     bionics["bio_carbon"] = new bionic_data("Subdermal Carbon Filament", false, false, 0, 0, "\
 Lying just beneath your skin is a thin armor made of carbon nanotubes. This\n\
-reduces bashing damage by 2 and cutting damage by 4, but also reduces your\n\
-dexterity by 2.");
+reduces bashing damage by 2 and cutting damage by 4.");
     unpowered_bionics.push_back("bio_carbon");
     bionics["bio_armor_head"] = new bionic_data("Alloy Plating - Head", false, false, 0, 0, "\
 The flesh on your head has been replaced by a strong armor, protecting both\n\
-your head and jaw regions, but increasing encumberance by 2 and decreasing\n\
-perception by 1.");
+your head and jaw regions.");
     unpowered_bionics.push_back("bio_armor_head");
     bionics["bio_armor_torso"] = new bionic_data("Alloy Plating - Torso", false, false, 0, 0, "\
 The flesh on your torso has been replaced by a strong armor, protecting you\n\
-greatly, but increasing your encumberance by 2.");
+greatly.");
     unpowered_bionics.push_back("bio_armor_torso");
     bionics["bio_armor_arms"] = new bionic_data("Alloy Plating - Arms", false, false, 0, 0, "\
 The flesh on your arms has been replaced by a strong armor, protecting you\n\
-greatly, but decreasing your dexterity by 1.");
+greatly.");
     unpowered_bionics.push_back("bio_armor_arms");
     bionics["bio_armor_legs"] = new bionic_data("Alloy Plating - Legs", false, false, 0, 0, "\
 The flesh on your legs has been replaced by a strong armor, protecting you\n\
-greatly, but decreasing your speed by 15.");
+greatly.");
     unpowered_bionics.push_back("bio_armor_legs");
 
     bionics["bio_flashlight"] = new bionic_data("Cranial Flashlight", false, true, 1, 30, "\
