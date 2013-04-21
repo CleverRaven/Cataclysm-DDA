@@ -229,7 +229,7 @@ std::string vehicle::use_controls()
  options_choice.push_back(control_cancel);
  options_message.push_back("Exit");
 
- int select = menu_vec("Vehicle controls", options_message);
+ int select = menu_vec(true, "Vehicle controls", options_message);
 
  std::string message;
  switch(options_choice[select - 1]) {

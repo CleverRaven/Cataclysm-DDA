@@ -278,7 +278,7 @@ void iexamine::pit_spiked_covered(game *g, player *p, map *m, int examx, int exa
 
 void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
 
- int ch = menu("Fence Construction:", "Rope Fence", "Wire Fence",
+ int ch = menu(true, "Fence Construction:", "Rope Fence", "Wire Fence",
                "Barbed Wire Fence", "Cancel", NULL);
  switch (ch){
   case 1:{
@@ -384,7 +384,7 @@ void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) 
   options.push_back("Cancel");
   // Causes a warning due to being unused, but don't want to delete since
   // it's clearly what's intened for future functionality.
-  //int choice = menu_vec(camp->board_name().c_str(), options) - 1;
+  //int choice = menu_vec(true, camp->board_name().c_str(), options) - 1;
  }
  else {
   bool create_camp = m->allow_camp(examx, examy);
@@ -393,7 +393,7 @@ void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) 
    options.push_back("Create camp");
   options.push_back("Cancel");
  		// TODO: Other Bulletin Boards
-  int choice = menu_vec("Bulletin Board", options) - 1;
+  int choice = menu_vec(true, "Bulletin Board", options) - 1;
   if (choice >= 0 && choice < options.size()) {
    if (options[choice] == "Create camp") {
   			// TODO: Allow text entry for name
