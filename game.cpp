@@ -603,6 +603,21 @@ void game::process_activity()
 
      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(),
              u.skillLevel(reading->type).exercise());
+     
+     if (u.skillLevel(reading->type) == originalSkillLevel && (u.activity.continuous || query_yn("Study %s?", reading->type->name().c_str()))) {
+      u.cancel_activity();
+      if (u.activity.index == -2) {
+       u.read(this,u.weapon.invlet);
+      } else {
+       u.read(this,u.inv[u.activity.index].invlet);
+      }
+      if (u.activity.type != ACT_NULL) {
+       u.activity.continuous = true;
+       return;
+      }
+     }
+     
+     u.activity.continuous = false;
 
      if (u.skillLevel(reading->type) > originalSkillLevel)
       add_msg("You increase %s to level %d.",
