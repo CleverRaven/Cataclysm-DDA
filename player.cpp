@@ -4461,7 +4461,10 @@ bool player::eat(game *g, int index)
         }
 
         iuse use;
-        (use.*comest->use)(g, this, eaten, false);
+        if (comest->use != &iuse::none)
+        {
+            (use.*comest->use)(g, this, eaten, false);
+        }
         add_addiction(comest->add, comest->addict);
         if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol)
             charge_power(rng(2, 8));
