@@ -3813,7 +3813,7 @@
             "result": "bio_solar",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
-            "difficulty": 6,
+            "difficulty": 7,
             "time": 50000,
             "reversible": true,
             "autolearn": true,
