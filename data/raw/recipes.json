@@ -3843,6 +3843,41 @@
 
 
         {
+            "result": "solar_panel",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 8,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 35],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 2]
+                              ],
+                              [
+                                  ["amplifier", 2]
+                              ],
+                              [
+                                  ["solar_cell", 12]
+                              ],
+                              [
+                                  ["cable", 20]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "teleporter",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
