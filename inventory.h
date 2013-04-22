@@ -60,7 +60,6 @@ class inventory
   item  remove_item_by_letter_and_quantity(char ch, int quantity); // charged items, not stacks
   std::vector<item>  remove_mission_items(int mission_id);
   item& item_by_letter(char ch);
-  int   index_by_letter(char ch);
 
 // Below, "amount" refers to quantity
 //        "charges" refers to charges

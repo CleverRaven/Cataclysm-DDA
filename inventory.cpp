@@ -553,25 +553,6 @@ item& inventory::item_by_letter(char ch)
     return nullitem;
 }
 
-// TODO: remove this function
-int inventory::index_by_letter(char ch)
-{
-     if (ch == KEY_ESCAPE)
-     {
-         return -1;
-     }
-     int i = 0;
-     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
-     {
-         if (iter->begin()->invlet == ch)
-         {
-             return i;
-         }
-         ++i;
-     }
-     return -1;
-}
-
 int inventory::amount_of(itype_id it)
 {
     int count = 0;

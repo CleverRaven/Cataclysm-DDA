@@ -117,7 +117,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
  // Print items carried
  for (std::string::const_iterator invlet = inv_chars.begin();
       invlet != inv_chars.end(); invlet++) {
-   n_items += ((g->u.inv.index_by_letter(*invlet) == -1) ? 0 : 1);
+   n_items += ((g->u.inv.item_by_letter(*invlet).is_null()) ? 0 : 1);
  }
  mvwprintw(w_inv, 1, 62, "Items:  %d/%d ", n_items, inv_chars.size());
 }
@@ -391,8 +391,8 @@ std::vector<item> game::multidrop()
    count *= 10;
    count += ch;
   } else if (u.has_item(ch)) {
-   int index = u.inv.index_by_letter(ch);
-   if (index == -1) { // Not from inventory
+   item& it = u.inv.item_by_letter(ch);
+   if (it.is_null()) { // Not from inventory
     int found = false;
     for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
      if (weapon_and_armor[i] == ch) {
@@ -413,8 +413,18 @@ std::vector<item> game::multidrop()
      }
     }
    } else {
+    int index = -1;
+    for (int i = 0; i < stacks.size(); ++i) {
+     if (stacks[i]->front().invlet == it.invlet) {
+      index = i;
+      break;
+     }
+    }
+    if (index == -1) {
+     debugmsg("Inventory got out of sync with inventory slice?");
+    }
     if (count == 0) {
-    if (stacks[index]->begin()->count_by_charges())
+    if (it.count_by_charges())
       {
        if (dropping[index] == 0)
         dropping[index] = -1;
@@ -430,7 +440,7 @@ std::vector<item> game::multidrop()
       }
     }
 
-    else if (count >= stacks[index]->size() && !stacks[index]->begin()->count_by_charges())
+    else if (count >= stacks[index]->size() && !it.count_by_charges())
        dropping[index] = stacks[index]->size();
     else
       dropping[index] = count;
@@ -611,8 +621,8 @@ void game::compare(int iCompareX, int iCompareY)
   wrefresh(w_inv);
   ch = getch();
   if (u.has_item(ch)) {
-   int index = u.inv.index_by_letter(ch);
-   if (index == -1) { // Not from inventory
+   item& it = u.inv.item_by_letter(ch);
+   if (it.is_null()) { // Not from inventory
     bool found = false;
     for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
      if (weapon_and_armor[i] == ch) {
@@ -640,6 +650,16 @@ void game::compare(int iCompareX, int iCompareY)
      }
     }
    } else {
+    int index = -1;
+    for (int i = 0; i < stacks.size(); ++i) {
+     if (stacks[i]->front().invlet == it.invlet) {
+      index = i;
+      break;
+     }
+    }
+    if (index == -1) {
+     debugmsg("Inventory got out of sync with inventory slice?");
+    }
     if (compare[index+groundsize] == 1)
     {
      compare[index+groundsize] = 0;
