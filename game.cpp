@@ -5097,7 +5097,7 @@ void game::advanced_inv()
                             if(still_move)
                             {
                                 amount = amount > max ? max : amount;
-                                std::list<item> moving_items = u.inv.remove_stack(item_pos,amount);
+                                std::list<item> moving_items = u.inv.remove_partial_stack(u.inv[item_pos].invlet,amount);
                                 for(std::list<item>::iterator iter = moving_items.begin();
                                     iter != moving_items.end();
                                     ++iter)

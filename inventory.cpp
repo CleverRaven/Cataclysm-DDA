@@ -396,31 +396,26 @@ std::list<item> inventory::remove_stack(int index)
     return ret;
 }
 
-std::list<item> inventory::remove_stack(int index,int amount)
+std::list<item> inventory::remove_partial_stack(char ch, int amount)
 {
-    if (index < 0 || index >= items.size())
-    {
-        debugmsg("Tried to remove_stack(%d) from an inventory (size %d)",
-               index, items.size());
-        std::list<item> nullvector;
-        return nullvector;
-    }
-    invstack::iterator iter = items.begin();
-    for (int i = 0; i < index; ++i)
-    {
-        ++iter;
-    }
     std::list<item> ret;
-    if(amount > iter->size())
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        std::list<item> ret = *iter;
-        items.erase(iter);
-    }
-    else
-    {
-        for(int i = 0 ; i < amount ; i++)
+        if (iter->front().invlet == ch)
         {
-            ret.push_back(remove_item(&iter->front()));
+            if(amount >= iter->size())
+            {
+                std::list<item> ret = *iter;
+                items.erase(iter);
+            }
+            else
+            {
+                for(int i = 0 ; i < amount ; i++)
+                {
+                    ret.push_back(remove_item(&iter->front()));
+                }
+            }
+            break;
         }
     }
     return ret;
