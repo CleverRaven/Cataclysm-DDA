@@ -5040,11 +5040,11 @@ void game::advanced_inv()
         int changeSquare;
         if(screen == 0)
         {
-            changeSquare = getsquare(c,left_offx,left_offy,left_area_string);
+            changeSquare = getsquare((char)c,left_offx,left_offy,left_area_string);
         }
         else
         {
-            changeSquare = getsquare(c,right_offx,right_offy,right_area_string);
+            changeSquare = getsquare((char)c,right_offx,right_offy,right_area_string);
         }
         if(changeSquare != -1)
         {
