@@ -377,23 +377,9 @@ void inventory::form_from_map(game *g, point origin, int range)
  }
 }
 
-std::list<item> inventory::remove_stack(int index)
+std::list<item> inventory::remove_stack_by_letter(char ch)
 {
-    if (index < 0 || index >= items.size())
-    {
-        debugmsg("Tried to remove_stack(%d) from an inventory (size %d)",
-                 index, items.size());
-        std::list<item> nullvector;
-        return nullvector;
-    }
-    invstack::iterator iter = items.begin();
-    for (int i = 0; i < index; ++i)
-    {
-        ++iter;
-    }
-    std::list<item> ret = *iter;
-    items.erase(iter);
-    return ret;
+    return remove_partial_stack(ch, -1);
 }
 
 std::list<item> inventory::remove_partial_stack(char ch, int amount)
@@ -403,7 +389,7 @@ std::list<item> inventory::remove_partial_stack(char ch, int amount)
     {
         if (iter->front().invlet == ch)
         {
-            if(amount >= iter->size())
+            if(amount >= iter->size() || amount < 0)
             {
                 std::list<item> ret = *iter;
                 items.erase(iter);

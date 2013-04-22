@@ -5116,7 +5116,7 @@ void game::advanced_inv()
                         {
                             if(amount >= u.inv[item_pos].charges) // full stack moved
                             {
-                                item moving_item = *(u.inv.remove_stack(item_pos).begin());
+                                item moving_item = *(u.inv.remove_stack_by_letter(u.inv[item_pos].invlet).begin());
                                 m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             else //partial stack moved
