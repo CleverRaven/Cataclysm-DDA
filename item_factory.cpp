@@ -19,12 +19,158 @@ Item_factory::Item_factory(){
 }
 
 void Item_factory::init(){
+  //Populate the iuse functions
+  iuse_function_list["NONE"] = &iuse::none;
+  iuse_function_list["SEWAGE"] = &iuse::sewage;
+
+  iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;
+  iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
+  iuse_function_list["BANDAGE"] = &iuse::bandage;
+  iuse_function_list["FIRSTAID"] = &iuse::firstaid;
+  iuse_function_list["CAFF"] = &iuse::caff;
+  iuse_function_list["ALCOHOL"] = &iuse::alcohol;
+  iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
+  iuse_function_list["PKILL_1"] = &iuse::pkill_1;
+  iuse_function_list["PKILL_2"] = &iuse::pkill_2;
+  iuse_function_list["PKILL_3"] = &iuse::pkill_3;
+  iuse_function_list["PKILL_4"] = &iuse::pkill_4;
+  iuse_function_list["PKILL_L"] = &iuse::pkill_l;
+  iuse_function_list["XANAX"] = &iuse::xanax;
+  iuse_function_list["CIG"] = &iuse::cig;
+  iuse_function_list["ANTIBIOTIC"] = &iuse::antibiotic;
+  iuse_function_list["WEED"] = &iuse::weed;
+  iuse_function_list["COKE"] = &iuse::coke;
+  iuse_function_list["CRACK"] = &iuse::crack;
+  iuse_function_list["GRACK"] = &iuse::grack;
+  iuse_function_list["METH"] = &iuse::meth;
+  iuse_function_list["POISON"] = &iuse::poison;
+  iuse_function_list["HALLU"] = &iuse::hallu;
+  iuse_function_list["THORAZINE"] = &iuse::thorazine;
+  iuse_function_list["PROZAC"] = &iuse::prozac;
+  iuse_function_list["SLEEP"] = &iuse::sleep;
+  iuse_function_list["IODINE"] = &iuse::iodine;
+  iuse_function_list["FLUMED"] = &iuse::flumed;
+  iuse_function_list["FLUSLEEP"] = &iuse::flusleep;
+  iuse_function_list["INHALER"] = &iuse::inhaler;
+  iuse_function_list["BLECH"] = &iuse::blech;
+  iuse_function_list["MUTAGEN"] = &iuse::mutagen;
+  iuse_function_list["MUTAGEN_3"] = &iuse::mutagen_3;
+  iuse_function_list["PURIFIER"] = &iuse::purifier;
+  iuse_function_list["MARLOSS"] = &iuse::marloss;
+  iuse_function_list["DOGFOOD"] = &iuse::dogfood;
+
+// TOOLS
+  iuse_function_list["LIGHTER"] = &iuse::lighter;
+  iuse_function_list["SEW"] = &iuse::sew;
+  iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
+  iuse_function_list["SCISSORS"] = &iuse::scissors;
+  iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
+  iuse_function_list["HAMMER"] = &iuse::hammer;
+  iuse_function_list["LIGHT_OFF"] = &iuse::light_off;
+  iuse_function_list["LIGHT_ON"] = &iuse::light_on;
+  iuse_function_list["LIGHTSTRIP"] = &iuse::lightstrip;
+  iuse_function_list["CAUTERIZE_ELEC"] = &iuse::cauterize_elec;
+  iuse_function_list["WATER_PURIFIER"] = &iuse::water_purifier;
+  iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
+  iuse_function_list["RADIO_OFF"] = &iuse::radio_off;
+  iuse_function_list["RADIO_ON"] = &iuse::radio_on;
+  iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
+  iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
+  iuse_function_list["ROADMAP"] = &iuse::roadmap;
+  //// These have special arguments and won't work here
+  //iuse_function_list["ROADMAP_A_TARGET"] = &iuse::roadmap_a_target;
+  //iuse_function_list["ROADMAP_TARGETS"] = &iuse::roadmap_targets;
+  iuse_function_list["PICKLOCK"] = &iuse::picklock;
+  iuse_function_list["CROWBAR"] = &iuse::crowbar;
+  iuse_function_list["MAKEMOUND"] = &iuse::makemound;
+  iuse_function_list["DIG"] = &iuse::dig;
+  iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
+  iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
+  iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
+  iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
+  iuse_function_list["PICKAXE"] = &iuse::pickaxe;
+  iuse_function_list["SET_TRAP"] = &iuse::set_trap;
+  iuse_function_list["GEIGER"] = &iuse::geiger;
+  iuse_function_list["TELEPORT"] = &iuse::teleport;
+  iuse_function_list["CAN_GOO"] = &iuse::can_goo;
+  iuse_function_list["PIPEBOMB"] = &iuse::pipebomb;
+  iuse_function_list["PIPEBOMB_ACT"] = &iuse::pipebomb_act;
+  iuse_function_list["GRENADE"] = &iuse::grenade;
+  iuse_function_list["GRENADE_ACT"] = &iuse::grenade_act;
+  iuse_function_list["FLASHBANG"] = &iuse::flashbang;
+  iuse_function_list["FLASHBANG_ACT"] = &iuse::flashbang_act;
+  iuse_function_list["C4"] = &iuse::c4;
+  iuse_function_list["C4ARMED"] = &iuse::c4armed;
+  iuse_function_list["EMPBOMB"] = &iuse::EMPbomb;
+  iuse_function_list["EMPBOMB_ACT"] = &iuse::EMPbomb_act;
+  iuse_function_list["SCRAMBLER"] = &iuse::scrambler;
+  iuse_function_list["SCRAMBLER_ACT"] = &iuse::scrambler_act;
+  iuse_function_list["GASBOMB"] = &iuse::gasbomb;
+  iuse_function_list["GASBOMB_ACT"] = &iuse::gasbomb_act;
+  iuse_function_list["SMOKEBOMB"] = &iuse::smokebomb;
+  iuse_function_list["SMOKEBOMB_ACT"] = &iuse::smokebomb_act;
+  iuse_function_list["ACIDBOMB"] = &iuse::acidbomb;
+  iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
+  iuse_function_list["MOLOTOV"] = &iuse::molotov;
+  iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
+  iuse_function_list["DYNAMITE"] = &iuse::dynamite;
+  iuse_function_list["DYNAMITE_ACT"] = &iuse::dynamite_act;
+  iuse_function_list["FIRECRACKER_PACK"] = &iuse::firecracker_pack;
+  iuse_function_list["FIRECRACKER_PACK_ACT"] = &iuse::firecracker_pack_act;
+  iuse_function_list["FIRECRACKER"] = &iuse::firecracker;
+  iuse_function_list["FIRECRACKER_ACT"] = &iuse::firecracker_act;
+  iuse_function_list["MININUKE"] = &iuse::mininuke;
+  iuse_function_list["MININUKE_ACT"] = &iuse::mininuke_act;
+  iuse_function_list["PHEROMONE"] = &iuse::pheromone;
+  iuse_function_list["PORTAL"] = &iuse::portal;
+  iuse_function_list["MANHACK"] = &iuse::manhack;
+  iuse_function_list["TURRET"] = &iuse::turret;
+  iuse_function_list["UPS_OFF"] = &iuse::UPS_off;
+  iuse_function_list["UPS_ON"] = &iuse::UPS_on;
+  iuse_function_list["TAZER"] = &iuse::tazer;
+  iuse_function_list["MP3"] = &iuse::mp3;
+  iuse_function_list["MP3_ON"] = &iuse::mp3_on;
+  iuse_function_list["VORTEX"] = &iuse::vortex;
+  iuse_function_list["DOG_WHISTLE"] = &iuse::dog_whistle;
+  iuse_function_list["VACUTAINER"] = &iuse::vacutainer;
+  iuse_function_list["KNIFE"] = &iuse::knife;
+  iuse_function_list["LUMBER"] = &iuse::lumber;
+  iuse_function_list["HACKSAW"] = &iuse::hacksaw;
+  iuse_function_list["TENT"] = &iuse::tent;
+  iuse_function_list["SHELTER"] = &iuse::shelter;
+  iuse_function_list["TORCH"] = &iuse::torch;
+  iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
+  iuse_function_list["CANDLE"] = &iuse::candle;
+  iuse_function_list["CANDLE_LIT"] = &iuse::candle_lit;
+  iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
+  iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
+  iuse_function_list["MOP"] = &iuse::mop;
+  iuse_function_list["SPRAY_CAN"] = &iuse::spray_can;
+  iuse_function_list["RAG"] = &iuse::rag;
+  iuse_function_list["PDA"] = &iuse::pda;
+  iuse_function_list["PDA_FLASHLIGHT"] = &iuse::pda_flashlight;
+  iuse_function_list["LAW"] = &iuse::LAW;
+  iuse_function_list["HEATPACK"] = &iuse::heatpack;
+  iuse_function_list["DEJAR"] = &iuse::dejar;
+
+
+// MACGUFFINS
+  iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
+// ARTIFACTS
+// This function is used when an artifact is activated
+// It examines the item's artifact-specific properties
+// See artifact.h for a list
+  iuse_function_list["ARTIFACT"] = &iuse::artifact;
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory
 void Item_factory::init(game* main_game){
-    //Copy over the template pointers
+    // Make a copy of our items loaded from JSON
+    std::map<Item_tag, itype*> new_templates = m_templates;
+    //Copy the hardcoded template pointers to the factory list
     m_templates.insert(main_game->itypes.begin(), main_game->itypes.end());
+    //Copy the JSON-derived items to the legacy list
+    main_game->itypes.insert(new_templates.begin(), new_templates.end());
     init();
 }
 
@@ -165,6 +311,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     new_item_template->melee_dam = int_from_json(new_id, "damage", entry_body);
                     new_item_template->melee_cut = int_from_json(new_id, "cutting", entry_body);
                     new_item_template->m_to_hit = int_from_json(new_id, "to_hit", entry_body);
+                    new_item_template->use = use_from_json(new_id, "use_action", entry_body);
                 }
             }
         }
@@ -325,9 +472,33 @@ nc_color Item_factory::color_from_json(Item_tag new_id, Item_tag index, picojson
         return c_blue;
     } else if("green"==new_color){
         return c_green;
+    } else if("light_gray"==new_color){
+        return c_ltgray;
     } else {
-        std::cerr << "Item "<< new_id << " attribute name was skipped, not a color. Color is required." << std::endl;
+        std::cerr << "Item "<< new_id << " attribute color was skipped, not a color. Color is required." << std::endl;
         return c_white;
+    }
+}
+
+Use_function Item_factory::use_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
+    picojson::value::object::const_iterator value_pair = value_map.find(index);
+
+    //If none is found, just use the standard none action
+    Item_tag function_name = "NONE";
+    //Otherwise, grab the right label to look for
+    if(value_pair != value_map.end()){
+        function_name = string_from_json(new_id, index, value_map);
+    }
+
+    std::map<Item_tag, Use_function>::iterator found_function = iuse_function_list.find(function_name);
+
+    //Before returning, make sure sure the function actually exists
+    if(found_function != iuse_function_list.end()){
+        return found_function->second;
+    } else {
+        //Otherwise, return a hardcoded function we know exists (hopefully)
+        std::cerr << "Item "<< new_id << " attribute '"<< index <<"' was skipped, no iuse function defined for the tag '" << function_name << "." << std::endl;
+        return &iuse::none;
     }
 }
 

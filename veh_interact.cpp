@@ -686,7 +686,7 @@ item consume_vpart_item (game *g, vpart_id vpid){
              options.push_back(candidates[i].vpart_item.tname() + " (nearby)");
           }
        }
-       selection = menu_vec("Use which gizmo?", options);
+       selection = menu_vec(false, "Use which gizmo?", options);
        selection -= 1;
     }
     //remove item from inventory. or map.

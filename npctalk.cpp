@@ -1160,6 +1160,8 @@ int trial_chance(talk_response response, player *u, npc *p)
    chance += u->talk_skill() - p->talk_skill() + p->op_of_u.trust * 3;
    if (u->has_trait(PF_TRUTHTELLER))
     chance -= 40;
+   else if (u->has_trait(PF_LIAR))
+    chance += 40;
    break;
 
   case TALK_TRIAL_PERSUADE:

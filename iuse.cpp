@@ -49,6 +49,11 @@ static bool use_fire(game *g, player *p, item *it)
     return true;
 }
 
+void iuse::none(game *g, player *p, item *it, bool t)
+{
+  g->add_msg("You can't do anything interesting with your %s.",
+             it->tname(g).c_str());
+}
 /* To mark an item as "removed from inventory", set its invlet to 0
    This is useful for traps (placed on ground), inactive bots, etc
  */
@@ -2035,7 +2040,7 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
  }
  std::string toggle_text = "Turn continuous scan ";
  toggle_text += (is_on ? "off" : "on");
- int ch = menu("Geiger counter:", "Scan yourself", "Scan the ground",
+ int ch = menu(true, "Geiger counter:", "Scan yourself", "Scan the ground",
                toggle_text.c_str(), "Cancel", NULL);
  switch (ch) {
   case 1: g->add_msg_if_player(p,"Your radiation level: %d", p->radiation); break;
@@ -2853,7 +2858,7 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
-    int ch = menu(
+    int ch = menu(true,
     "Using knife:", "Cut up fabric", "Carve wood", "Cauterize", "Cancel", NULL);
     switch (ch)
     {

@@ -5,11 +5,13 @@ class game;
 class item;
 class player;
 
+
+
 class iuse
 {
  public:
-  void none		(game *g, player *p, item *it, bool t) { };
-
+  void none		(game *g, player *p, item *it, bool t);
+  
 // FOOD AND DRUGS (ADMINISTRATION)
   void sewage		(game *g, player *p, item *it, bool t);
   void honeycomb        (game *g, player *p, item *it, bool t);
@@ -131,8 +133,6 @@ class iuse
   void candle           (game *g, player *p, item *it, bool t);
   void candle_lit       (game *g, player *p, item *it, bool t);
   void bullet_puller	(game *g, player *p, item *it, bool t);
-  void screwdriver      (game *g, player *p, item *it, bool t);
-  void wrench           (game *g, player *p, item *it, bool t);
   void boltcutters      (game *g, player *p, item *it, bool t);
   void mop              (game *g, player *p, item *it, bool t);
   void spray_can        (game *g, player *p, item *it, bool t);
@@ -151,12 +151,6 @@ class iuse
 // It examines the item's artifact-specific properties
 // See artifact.h for a list
   void artifact		(game *g, player *p, item *it, bool t);
-  void heal		(game *g, player *p, item *it, bool t);
-  void twist_space	(game *g, player *p, item *it, bool t);
-  void mass_vampire	(game *g, player *p, item *it, bool t);
-  void growth		(game *g, player *p, item *it, bool t);
-  void water		(game *g, player *p, item *it, bool t);
-  void lava		(game *g, player *p, item *it, bool t);
 
 };
 

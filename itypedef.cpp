@@ -848,13 +848,6 @@ MELEE("manhole_cover", "manhole cover",	 1, 20, ']', c_dkgray,	IRON,	MNULL,
 A heavy iron disc that typically covers a ladder into the sewers. Lifting\n\
 it from the manhole is impossible without a crowbar.");
 
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("rock", "rock",		40,  0, '*', c_ltgray,	STONE,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  3, 12,  0, -2, 0, "\
-A rock the size of a baseball. Makes a decent melee weapon, and is also good\n\
-for throwing at enemies.");
-
 MELEE("stick", "heavy stick",	95,  0, '/', c_brown,	WOOD,	MNULL,
 	 6, 10, 12,  0,  3, 0, "\
 A sturdy, heavy stick. Makes a decent melee weapon, and can be cut into two\n\
@@ -1918,11 +1911,11 @@ itypes[id] = new it_armor(id,rarity,price,name,des,'[',\
 
 POWER_ARMOR("power_armor_basic", "basic power armor", 5, 1000, C_BODY, STEEL, MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   40, 80, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+   40, 80, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
 A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.");
 
 POWER_ARMOR("power_armor_helmet_basic", "basic power armor helmet", 6, 500, C_HAT, STEEL, MNULL,
-   10, 24, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
+   10, 24, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
 A basic helmet, designed for use with power armor. Offers excellent protection from both attacks and environmental hazards.");
 
 POWER_ARMOR("power_armor_frame", "power armor hauling frame", 4, 1000, C_STORE, STEEL, MNULL,
@@ -4316,7 +4309,6 @@ Compact Bionics Module that upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\
 also need a power supply, found in another CBM."); // This is a special case, which increases power capacity by 4
 
-
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \
 itypes[id]=new it_software(id, 0, price, name, description,\
@@ -4404,6 +4396,8 @@ BIO_SINGLE("bio_teleport", 1, 7000, c_white, 7);
 BIO_SINGLE("bio_blaster", 13, 2200, c_red, 3);
 BIO_SINGLE("bio_laser", 2, 7200, c_red, 5);
 BIO_SINGLE("bio_emp", 2, 7200, c_red, 5);
+// power armor
+BIO_SINGLE("bio_power_armor_interface", 20, 1200, c_yellow, 1);
 
 SOFTWARE("software_useless", "misc software", 300, SW_USELESS, 0, "\
 A miscellaneous piece of hobby software. Probably useless.");

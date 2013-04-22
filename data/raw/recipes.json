@@ -3810,6 +3810,39 @@
 
 
         {
+            "result": "bio_power_armor_interface",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 6,
+            "time": 50000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 20]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 2]
+                              ],
+                              [
+                                  ["amplifier", 2]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "teleporter",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",

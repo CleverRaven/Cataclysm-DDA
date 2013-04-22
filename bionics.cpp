@@ -26,6 +26,11 @@ bionic_data::bionic_data(std::string new_name, bool new_power_source, bool new_a
    description = new_description;
 }
 
+// helper function for power_bionics
+void show_power_level_in_titlebar(WINDOW* window, player* p)
+{
+    mvwprintz(window, 1, 62, c_white, "Power: %d/%d", p->power_level, p->max_power_level);
+}
 
 void player::power_bionics(game *g)
 {
@@ -40,6 +45,7 @@ void player::power_bionics(game *g)
  std::vector <bionic> active;
  mvwprintz(wBio, 1,  1, c_blue, "BIONICS -");
  mvwprintz(wBio, 1, 11, c_white, "Activating.  Press '!' to examine your implants.");
+ show_power_level_in_titlebar(wBio, this);
 
  for (int i = 1; i < 79; i++) {
   mvwputch(wBio,  2, i, c_ltgray, LINE_OXOX);
@@ -112,6 +118,7 @@ void player::power_bionics(game *g)
    if (ch == KEY_ESCAPE) {
     if (activating) {
      if (bionics[tmp->id]->activated) {
+      show_power_level_in_titlebar(wBio, this);
       itype_id weapon_id = weapon.type->id;
       if (tmp->powered) {
        tmp->powered = false;
@@ -981,6 +988,9 @@ down walls, and churn the earth.");
 By drawing the moisture from the air, and synthesizing water from in-air\n\
 elements, you can create a massive puddle around you.  The effects are more\n\
 powerful when used near a body of water.");
+
+    bionics["bio_power_armor_interface"] = new bionic_data("Power Armor Interface", false, true, 1, 10, "\
+Interfaces your power system with the internal charging port on suits of power armor.");
 
     //Fault Bionics from here on out.
     bionics["bio_dis_shock"] = new bionic_data("Electrical Discharge", false, false, 0, 0, "\

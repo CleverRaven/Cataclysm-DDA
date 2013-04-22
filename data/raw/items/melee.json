@@ -15,5 +15,21 @@
         ["EDGE", 2],
         ["HAMMER", 2]
     ]
+  },
+  { "id":"rock",
+    "symbol": "*",
+    "color": "light_gray",
+    "name":"rock",
+    "description":"A rock the size of a baseball. Makes a decent melee weapon, and is also good for throwing at enemies.",
+    "rarity": 40,
+    "material": "STONE",
+    "weight": 3,
+    "volume": 1,
+    "damage": 12,
+    "cutting": 0,
+    "to_hit": -2,
+    "tool": [
+        ["HAMMER", 1]
+    ]
   }
 ]
