@@ -3395,6 +3395,10 @@ BOOK("cookbook", "Cooking on a Budget",	35, 160,c_green,	PAPER,	MNULL,
     4,  1, -2,  0,	"cooking",	 3,  0,  0,  4, 10, "\
 A nice cook book that goes beyond recipes and into the chemistry of food.");
 
+BOOK("cookbook_human", "To Serve Man", 1, 400, c_green, PAPER, MNULL,
+    4, 1, -2, 0, "cooking", 4, 2, -5, 4, 10, "\
+It's... it's a cookbook!");
+
 BOOK("manual_electronics", "What's a Transistor?",	20, 200,c_green,	PAPER,	MNULL,
     3,  1, -3,  0,	"electronics",	 3,  0,  0,  7, 20, "\
 A basic manual of electronics and circuit design.");
