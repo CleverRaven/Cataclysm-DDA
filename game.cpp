@@ -31,7 +31,6 @@
 #include <tchar.h>
 #endif
 
-#define MAX_MONSTERS_MOVING 40 // Efficiency!
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 void intro();
@@ -220,6 +219,7 @@ void game::start_game()
  if (!load_master())	// Master data record contains factions.
   create_factions();
  cur_om = overmap(this, 0, 0);	// We start in the (0,0,0) overmap.
+
 // Find a random house on the map, and set us there.
  cur_om.first_house(levx, levy);
  levx -= int(int(MAPSIZE / 2) / 2);
@@ -246,12 +246,14 @@ void game::start_game()
  nextspawn = int(turn);
  temperature = 65; // Springtime-appropriate?
 
+ //Load NPCs - There might be some old npc still around. Try to set these on the map
+ load_npcs();
  //Reset old NPCs.
 // reset_npcs();
  //Put some NPCs in there!
  create_starting_npcs();
 
- MAPBUFFER.set_dirty();
+  MAPBUFFER.set_dirty();
 }
 
 void game::create_factions()
@@ -270,44 +272,87 @@ void game::create_factions()
  }
 }
 
+//Make any nearby overmap npcs active, and put them in the right location.
+void game::load_npcs()
+{
+    for (int i = 0; i < cur_om.npcs.size(); i++)
+    {
+        if (rl_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
+              cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy) <=
+              int(MAPSIZE / 2) + 1 && !cur_om.npcs[i]->is_active(this))
+        {
+            int dx = cur_om.npcs[i]->mapx - levx, dy = cur_om.npcs[i]->mapy - levy;
+            if (debugmon)debugmsg("game::load_npcs: Spawning static NPC, %d:%d (%d:%d)", levx, levy, cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy);
+
+            npc * temp = cur_om.npcs[i];
+
+            if (temp->posx == -1 || temp->posy == -1)
+            {
+                dbg(D_ERROR) << "game::load_npcs: Static NPC with no fine location "
+                    "data (" << temp->posx << ":" << temp->posy << ").";
+                debugmsg("game::load_npcs Static NPC with no fine location data (%d:%d) New loc data (%d:%d).",
+                         temp->posx, temp->posy, SEEX * 2 * (temp->mapx - levx) + rng(0 - SEEX, SEEX),
+                         SEEY * 2 * (temp->mapy - levy) + rng(0 - SEEY, SEEY));
+                temp->posx = SEEX * 2 * (temp->mapx - levx) + rng(0 - SEEX, SEEX);
+                temp->posy = SEEY * 2 * (temp->mapy - levy) + rng(0 - SEEY, SEEY);
+            } else {
+                if (debugmon) debugmsg("game::load_npcs Static NPC fine location %d:%d (%d:%d)", temp->posx, temp->posy, temp->posx + dx * SEEX, temp->posy + dy * SEEY);
+                temp->posx += dx * SEEX;
+                temp->posy += dy * SEEY;
+            }
+
+        //check if the loaded position doesn't already contain an object, monster or npc.
+        //If it isn't free, spiralsearch for a free spot.
+
+        //In the rare case the npc was marked for death while it was on the overmap. Kill it.
+        if (temp->marked_for_death)
+            temp->die(this, false);
+        else
+            active_npc.push_back(temp);
+        }
+    }
+}
+
+
 //Reset all the NPCs missions and attitudes for a new character.
 //This function should only be called at the start of a new game.
 //If there are any npcs left on the world map, their missions and
 //attitudes should be reset.
+//TODO remove this. As you can have multiple characters at the same time, this method is flawed.
 void game::reset_npcs()
 {
-	npc tmp;
-	for (int i = 0; i < active_npc.size(); i++) //TODO, this is the wrong list. Need all map NPC's.
+	for (int i = 0; i < active_npc.size(); i++) //TODO, Loop over all the npcs in all the omaps. this is the wrong list. Need all map NPC's.
 	{
-  tmp = active_npc[i];
-  tmp.form_opinion(&u); //This is not ideal. All old NPC now form a new opinion, on new character creation.
-  if(tmp.mission == NPC_MISSION_SHELTER) {
-  	tmp.chatbin.first_topic = TALK_SHELTER;
-  	tmp.attitude = NPCATT_NULL;
-		} else {
-			tmp.chatbin.first_topic = TALK_NONE;
-			tmp.attitude = NPCATT_TALK;
-		}
-	 tmp.chatbin.mission_selected = -1;
-	 tmp.chatbin.tempvalue = -1;
- }
+        active_npc[i]->form_opinion(&u); //This is not ideal. All old NPC now form a new opinion, on new character creation.
+        if(active_npc[i]->mission == NPC_MISSION_SHELTER)
+        {
+            active_npc[i]->chatbin.first_topic = TALK_SHELTER;
+            active_npc[i]->attitude = NPCATT_NULL;
+        } else
+        {
+            active_npc[i]->chatbin.first_topic = TALK_NONE;
+            active_npc[i]->attitude = NPCATT_TALK;
+        }
+        active_npc[i]->chatbin.mission_selected = -1;
+        active_npc[i]->chatbin.tempvalue = -1;
+    }
 }
 
 void game::create_starting_npcs()
 {
  if(!starting_npc)
  	return; //Do not generate a starting npc.
- npc tmp;
- tmp.normalize(this);
- tmp.randomize(this, (one_in(2) ? NC_DOCTOR : NC_NONE));
- tmp.spawn_at(&cur_om, levx, levy); //spawn the npc in the overmap.
- tmp.place_near(this, SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
- tmp.form_opinion(&u);
- tmp.attitude = NPCATT_NULL;
- tmp.mission = NPC_MISSION_SHELTER; //This sets the npc mission. This NPC remains in the shelter.
- tmp.chatbin.first_topic = TALK_SHELTER;
- tmp.chatbin.missions.push_back(
-     reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp.id) ); //one random shelter mission/
+ npc * tmp = new npc();
+ tmp->normalize(this);
+ tmp->randomize(this, (one_in(2) ? NC_DOCTOR : NC_NONE));
+ tmp->spawn_at(&cur_om, levx, levy); //spawn the npc in the overmap.
+ tmp->place_near(this, SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
+ tmp->form_opinion(&u);
+ tmp->attitude = NPCATT_NULL;
+ tmp->mission = NPC_MISSION_SHELTER; //This sets the npc mission. This NPC remains in the shelter.
+ tmp->chatbin.first_topic = TALK_SHELTER;
+ tmp->chatbin.missions.push_back(
+     reserve_random_mission(ORIGIN_OPENER_NPC, om_location(), tmp->getID()) ); //one random shelter mission/
 
  active_npc.push_back(tmp);
 }
@@ -317,11 +362,11 @@ void game::cleanup_at_end(){
  if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) //|| QUIT_SAVED)
 	{
 		// Save the NPC's, missions and NPC's
-		//offload all the active npcs into omap npcs.
+		// Npcs are saved in the overmap.
 		for(int i = 0; i < active_npc.size(); i++)
 		{
-				cur_om.npcs.push_back(active_npc[i]);
-				active_npc[i].dead = true;
+            if (active_npc[i]->posx == -1 || active_npc[i]->posy == -1)
+                debugmsg("game::cleanup_at_end Static NPC with no fine location data (%d:%d).", active_npc[i]->posx, active_npc[i]->posy);
 		}
 		save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
 
@@ -329,7 +374,7 @@ void game::cleanup_at_end(){
 		save_artifacts();
 
 		// and the overmap, and the local map.
-		save_maps(); //Omap also contains a few inactive npcs who need to be saved.
+		save_maps(); //Omap also contains the npcs who need to be saved.
 	}
 
  // Save the monsters before we die!
@@ -871,15 +916,13 @@ int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
 
 npc* game::find_npc(int id)
 {
- for (int i = 0; i < active_npc.size(); i++) {
-  if (active_npc[i].id == id)
-   return &(active_npc[i]);
- }
- for (int i = 0; i < cur_om.npcs.size(); i++) {
-  if (cur_om.npcs[i].id == id)
-   return &(cur_om.npcs[i]);
- }
- return NULL;
+    //All the active NPCS are listed in the overmap.
+    for (int i = 0; i < cur_om.npcs.size(); i++)
+    {
+        if (cur_om.npcs[i]->getID() == id)
+            return (cur_om.npcs[i]);
+    }
+    return NULL;
 }
 
 mission* game::find_mission(int id)
@@ -1002,8 +1045,8 @@ void game::mission_step_complete(int id, int step)
   case MGOAL_KILL_MONSTER: {
    bool npc_found = false;
    for (int i = 0; i < cur_om.npcs.size(); i++) {
-    if (cur_om.npcs[i].id == miss->npc_id) {
-     miss->target = point(cur_om.npcs[i].mapx, cur_om.npcs[i].mapy);
+    if (cur_om.npcs[i]->getID() == miss->npc_id) {
+     miss->target = point(cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy);
      npc_found = true;
     }
    }
@@ -1756,44 +1799,6 @@ bool game::load_master()
   tmp.load_info(data);
   factions.push_back(tmp);
  }
-// NPCs come next
- fin >> num_npc;
- if (fin.peek() == '\n')
-  fin.get(junk); // Chomp that pesky endline
- for (int i = 0; i < num_npc; i++) {
-  getline(fin, data);
-  npc tmp;
-  tmp.load_info(this, data);
-// We need to load up all their items too
-  fin >> num_items;
-  std::vector<item> tmpinv;
-  for (int j = 0; j < num_items; j++) {
-   std::string itemdata;
-   char item_place;
-   fin >> item_place;
-   if (!fin.eof()) {
-    getline(fin, itemdata);
-    if (item_place == 'I')
-     tmpinv.push_back(item(itemdata, this));
-    else if (item_place == 'C' && !tmpinv.empty()) {
-     tmpinv[tmpinv.size() - 1].contents.push_back(item(itemdata, this));
-     j--;
-    } else if (item_place == 'W')
-     tmp.worn.push_back(item(itemdata, this));
-    else if (item_place == 'w')
-     tmp.weapon = item(itemdata, this);
-    else if (item_place == 'c') {
-     tmp.weapon.contents.push_back(item(itemdata, this));
-     j--;
-    }
-   }
-  }
-  tmp.inv.add_stack(tmpinv);
-  active_npc.push_back(tmp);
-  if (fin.peek() == '\n')
-   fin.get(junk); // Chomp that pesky endline
- }
-
  fin.close();
  return true;
 }
@@ -1903,27 +1908,36 @@ void game::save_factions_missions_npcs ()
 {
 	std::stringstream masterfile;
 	std::ofstream fout;
- masterfile << "save/master.gsav";
+    masterfile << "save/master.gsav";
 
- fout.open(masterfile.str().c_str());
+    fout.open(masterfile.str().c_str());
 
- fout << next_mission_id << " " << next_faction_id << " " << next_npc_id <<
-         " " << active_missions.size() << " ";
- for (int i = 0; i < active_missions.size(); i++)
-  fout << active_missions[i].save_info() << " ";
+    fout << next_mission_id << " " << next_faction_id << " " << next_npc_id <<
+        " " << active_missions.size() << " ";
+    for (int i = 0; i < active_missions.size(); i++)
+        fout << active_missions[i].save_info() << " ";
 
- fout << factions.size() << std::endl;
- for (int i = 0; i < factions.size(); i++)
-  fout << factions[i].save_info() << std::endl;
+    fout << factions.size() << std::endl;
+    for (int i = 0; i < factions.size(); i++)
+        fout << factions[i].save_info() << std::endl;
 
- fout << active_npc.size() << std::endl;
+/* fout << active_npc.size() << std::endl;
  for (int i = 0; i < active_npc.size(); i++) {
   active_npc[i].mapx = levx;
   active_npc[i].mapy = levy;
   fout << active_npc[i].save_info() << std::endl;
- }
-
- fout.close();
+ }*/
+ //Saving the npcs here causes problems. As a different save would load them.
+ //Currently all npcs are also saved in the omap. Just cleaning out the
+ //current active npc list should be enough.
+    for (int i = 0; i < active_npc.size(); i++)
+    {
+        active_npc[i]->omx = cur_om.pos().x;
+        active_npc[i]->omy = cur_om.pos().y;
+        active_npc[i]->mapx = levx;
+        active_npc[i]->mapy = levy;
+    }
+    fout.close();
 }
 
 void game::save_artifacts()
@@ -1942,8 +1956,8 @@ void game::save_artifacts()
 void game::save_maps()
 {
 	cur_om.save();
- m.save(&cur_om, turn, levx, levy, levz);
- MAPBUFFER.save();
+    m.save(&cur_om, turn, levx, levy, levz);
+    MAPBUFFER.save();
 }
 
 
@@ -2117,7 +2131,7 @@ void game::debug()
    break;
 
   case 3: {
-   point tmp = cur_om.choose_point(this, levz);
+   point tmp = cur_om.draw_overmap(this, levz);
    if (tmp.x != -1) {
     z.clear();
     levx = tmp.x * 2 - int(MAPSIZE / 2);
@@ -2136,19 +2150,19 @@ void game::debug()
    break;
 
   case 5: {
-   npc temp;
-   temp.normalize(this);
-   temp.randomize(this);
+   npc * temp = new npc();
+   temp->normalize(this);
+   temp->randomize(this);
    //temp.attitude = NPCATT_TALK; //not needed
-   temp.spawn_at(&cur_om, levx + (1 * rng(-2, 2)), levy + (1 * rng(-2, 2)));
-   temp.place_near(this, u.posx - 4, u.posy - 4);
-   temp.form_opinion(&u);
+   temp->spawn_at(&cur_om, levx, levy);
+   temp->place_near(this, u.posx - 4, u.posy - 4);
+   temp->form_opinion(&u);
    //temp.attitude = NPCATT_TALK;//The newly spawned npc always wants to talk. Disabled as form opinion sets the attitude.
-   temp.mission = NPC_MISSION_NULL;
+   temp->mission = NPC_MISSION_NULL;
    int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
-                                              om_location(), temp.id);
+                                              om_location(), temp->getID());
    if (mission_index != -1)
-   temp.chatbin.missions.push_back(mission_index);
+   temp->chatbin.missions.push_back(mission_index);
    active_npc.push_back(temp);
   } break;
 
@@ -2170,18 +2184,18 @@ z.size(), active_npc.size(), events.size());
 
 		 if (!active_npc.empty())
 			{
-    for (int i = 0; i < active_npc.size(); i++) {
-						add_msg("%s: %d:%d", active_npc[i].name.c_str(),
-              active_npc[i].posx, active_npc[i].posy);
-    }
-			 add_msg("(you: %d:%d)", u.posx, u.posy);
+                for (int i = 0; i < active_npc.size(); i++) {
+                    add_msg("%s: map (%d:%d) pos (%d:%d)", active_npc[i]->name.c_str(), active_npc[i]->mapx, active_npc[i]->mapy,
+                        active_npc[i]->posx, active_npc[i]->posy);
+                }
+                add_msg("(you: %d:%d)", u.posx, u.posy);
 			}
    break;
 
   case 8:
    for (int i = 0; i < active_npc.size(); i++) {
-    add_msg("%s's head implodes!", active_npc[i].name.c_str());
-    active_npc[i].hp_cur[bp_head] = 0;
+    add_msg("%s's head implodes!", active_npc[i]->name.c_str());
+    active_npc[i]->hp_cur[bp_head] = 0;
    }
    break;
 
@@ -2223,7 +2237,7 @@ z.size(), active_npc.size(), events.size());
     popup("No NPC there.");
    else {
     std::stringstream data;
-    npc *p = &(active_npc[npcdex]);
+    npc *p = active_npc[npcdex];
     data << p->name << " " << (p->male ? "Male" : "Female") << std::endl;
     data << npc_class_name(p->myclass) << "; " <<
             npc_attitude_name(p->attitude) << std::endl;
@@ -2294,7 +2308,7 @@ void game::groupdebug()
 
 void game::draw_overmap()
 {
- cur_om.choose_point(this, levz);
+ cur_om.draw_overmap(this, levz);
 }
 
 void game::disp_kills()
@@ -2368,16 +2382,16 @@ void game::disp_NPCs()
 
  mvwprintz(w, 0, 0, c_white, "Your position: %d:%d", levx, levy);
  std::vector<npc*> closest;
- closest.push_back(&cur_om.npcs[0]);
+ closest.push_back(cur_om.npcs[0]);
  for (int i = 1; i < cur_om.npcs.size(); i++) {
   if (closest.size() < 20)
-   closest.push_back(&cur_om.npcs[i]);
-  else if (rl_dist(levx, levy, cur_om.npcs[i].mapx, cur_om.npcs[i].mapy) <
+   closest.push_back(cur_om.npcs[i]);
+  else if (rl_dist(levx, levy, cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy) <
            rl_dist(levx, levy, closest[19]->mapx, closest[19]->mapy)) {
    for (int j = 0; j < 20; j++) {
     if (rl_dist(levx, levy, closest[j]->mapx, closest[j]->mapy) >
-        rl_dist(levx, levy, cur_om.npcs[i].mapx, cur_om.npcs[i].mapy)) {
-     closest.insert(closest.begin() + j, &cur_om.npcs[i]);
+        rl_dist(levx, levy, cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy)) {
+     closest.insert(closest.begin() + j, cur_om.npcs[i]);
      closest.erase(closest.end() - 1);
      j = 20;
     }
@@ -2692,11 +2706,11 @@ void game::draw_ter(int posx, int posy)
  }
  // Draw NPCs
  for (int i = 0; i < active_npc.size(); i++) {
-  disty = abs(active_npc[i].posy - posy);
-  distx = abs(active_npc[i].posx - posx);
+  disty = abs(active_npc[i]->posy - posy);
+  distx = abs(active_npc[i]->posx - posx);
   if (distx <= VIEWX && disty <= VIEWY &&
-      u_see(active_npc[i].posx, active_npc[i].posy, t))
-   active_npc[i].draw(w_terrain, posx, posy, false);
+      u_see(active_npc[i]->posx, active_npc[i]->posy, t))
+   active_npc[i]->draw(w_terrain, posx, posy, false);
  }
  if (u.has_active_bionic("bio_scent_vision")) {
   for (int realx = posx - VIEWX; realx <= posx + VIEWX; realx++) {
@@ -2992,6 +3006,7 @@ void game::reset_light_level()
  latest_lightlevel_turn = 0;
 }
 
+//Gets the next free ID, also used for player ID's.
 int game::assign_npc_id()
 {
  int ret = next_npc_id;
@@ -3133,9 +3148,9 @@ point game::find_item(item *it)
  if (ret.x != -1 && ret.y != -1)
   return ret;
  for (int i = 0; i < active_npc.size(); i++) {
-  for (int j = 0; j < active_npc[i].inv.size(); j++) {
-   if (it == &(active_npc[i].inv[j]))
-    return point(active_npc[i].posx, active_npc[i].posy);
+  for (int j = 0; j < active_npc[i]->inv.size(); j++) {
+   if (it == &(active_npc[i]->inv[j]))
+    return point(active_npc[i]->posx, active_npc[i]->posy);
   }
  }
  return point(-999, -999);
@@ -3170,19 +3185,19 @@ void game::remove_item(item *it)
   }
  }
  for (int i = 0; i < active_npc.size(); i++) {
-  if (it == &active_npc[i].weapon) {
-   active_npc[i].remove_weapon();
+  if (it == &active_npc[i]->weapon) {
+   active_npc[i]->remove_weapon();
    return;
   }
-  for (int j = 0; j < active_npc[i].inv.size(); j++) {
-   if (it == &active_npc[i].inv[j]) {
-    active_npc[i].i_remn(j);
+  for (int j = 0; j < active_npc[i]->inv.size(); j++) {
+   if (it == &active_npc[i]->inv[j]) {
+    active_npc[i]->i_remn(j);
     return;
    }
   }
-  for (int j = 0; j < active_npc[i].worn.size(); j++) {
-   if (it == &active_npc[i].worn[j]) {
-    active_npc[i].worn.erase(active_npc[i].worn.begin() + j);
+  for (int j = 0; j < active_npc[i]->worn.size(); j++) {
+   if (it == &active_npc[i]->worn[j]) {
+    active_npc[i]->worn.erase(active_npc[i]->worn.begin() + j);
     return;
    }
   }
@@ -3239,12 +3254,12 @@ void game::mon_info()
   }
  }
  for (int i = 0; i < active_npc.size(); i++) {
-  if (u_see(active_npc[i].posx, active_npc[i].posy, buff)) { // TODO: NPC invis
-   if (active_npc[i].attitude == NPCATT_KILL)
-    if (rl_dist(u.posx, u.posy, active_npc[i].posx, active_npc[i].posy) <= iProxyDist)
+  if (u_see(active_npc[i]->posx, active_npc[i]->posy, buff)) { // TODO: NPC invis
+   if (active_npc[i]->attitude == NPCATT_KILL)
+    if (rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= iProxyDist)
      newseen++;
 
-   point npcp(active_npc[i].posx, active_npc[i].posy);
+   point npcp(active_npc[i]->posx, active_npc[i]->posy);
    dir_to_npc = direction_from ( u.posx + u.view_offset_x, u.posy + u.view_offset_y,
                                  npcp.x, npcp.y );
    int index = (abs(u.posx + u.view_offset_x - npcp.x) <= VIEWX &&
@@ -3312,7 +3327,7 @@ void game::mon_info()
    buff = unique_types[i][j];
 
    if (buff < 0) { // It's an NPC!
-    switch (active_npc[(buff + 1) * -1].attitude) {
+    switch (active_npc[(buff + 1) * -1]->attitude) {
      case NPCATT_KILL:   tmpcol = c_red;     break;
      case NPCATT_FOLLOW: tmpcol = c_ltgreen; break;
      case NPCATT_DEFEND: tmpcol = c_green;   break;
@@ -3416,12 +3431,19 @@ void game::cleanup_dead()
     last_target--;
  }
 
- for (int i = 0; i < active_npc.size(); i++) {
-  if (active_npc[i].dead) {
-   active_npc.erase( active_npc.begin() + i );
-   i--;
-  }
- }
+    //Cleanup any dead npcs.
+    //This will remove the npc object, it is assumed that they have been transformed into
+    //dead bodies before this.
+    for (int i = 0; i < active_npc.size(); i++)
+    {
+        if (active_npc[i]->dead)
+        {
+            int npc_id = active_npc[i]->getID();
+            active_npc.erase( active_npc.begin() + i );
+            cur_om.remove_npc(npc_id);
+            i--;
+        }
+    }
 }
 
 void game::monmove()
@@ -3520,19 +3542,19 @@ void game::monmove()
 // Now, do active NPCs.
  for (int i = 0; i < active_npc.size(); i++) {
   int turns = 0;
-  if(active_npc[i].hp_cur[hp_head] <= 0 || active_npc[i].hp_cur[hp_torso] <= 0)
-   active_npc[i].die(this);
+  if(active_npc[i]->hp_cur[hp_head] <= 0 || active_npc[i]->hp_cur[hp_torso] <= 0)
+   active_npc[i]->die(this);
   else {
-   active_npc[i].reset(this);
-   active_npc[i].suffer(this);
-   while (!active_npc[i].dead && active_npc[i].moves > 0 && turns < 10) {
+   active_npc[i]->reset(this);
+   active_npc[i]->suffer(this);
+   while (!active_npc[i]->dead && active_npc[i]->moves > 0 && turns < 10) {
     turns++;
-    active_npc[i].move(this);
+    active_npc[i]->move(this);
     //build_monmap();
    }
    if (turns == 10) {
-    add_msg("%s's brain explodes!", active_npc[i].name.c_str());
-    active_npc[i].die(this);
+    add_msg("%s's brain explodes!", active_npc[i]->name.c_str());
+    active_npc[i]->die(this);
    }
   }
  }
@@ -3700,16 +3722,15 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    }
 
    if (npc_hit != -1) {
-    active_npc[npc_hit].hit(this, bp_torso, 0, rng(dam / 2, dam * 1.5), 0);
-    active_npc[npc_hit].hit(this, bp_head,  0, rng(dam / 3, dam),       0);
-    active_npc[npc_hit].hit(this, bp_legs,  0, rng(dam / 3, dam),       0);
-    active_npc[npc_hit].hit(this, bp_legs,  1, rng(dam / 3, dam),       0);
-    active_npc[npc_hit].hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
-    active_npc[npc_hit].hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
-    if (active_npc[npc_hit].hp_cur[hp_head]  <= 0 ||
-        active_npc[npc_hit].hp_cur[hp_torso] <= 0   ) {
-     active_npc[npc_hit].die(this, true);
-     //active_npc.erase(active_npc.begin() + npc_hit);
+    active_npc[npc_hit]->hit(this, bp_torso, 0, rng(dam / 2, dam * 1.5), 0);
+    active_npc[npc_hit]->hit(this, bp_head,  0, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, bp_legs,  0, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, bp_legs,  1, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
+    active_npc[npc_hit]->hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
+    if (active_npc[npc_hit]->hp_cur[hp_head]  <= 0 ||
+        active_npc[npc_hit]->hp_cur[hp_torso] <= 0   ) {
+     active_npc[npc_hit]->die(this, true);
     }
    }
    if (u.posx == i && u.posy == j) {
@@ -3789,11 +3810,10 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
     else if (hit == bp_torso)
      dam = rng(1.5 * dam, 3 * dam);
     int npcdex = npc_at(tx, ty);
-    active_npc[npcdex].hit(this, hit, rng(0, 1), 0, dam);
-    if (active_npc[npcdex].hp_cur[hp_head] <= 0 ||
-        active_npc[npcdex].hp_cur[hp_torso] <= 0) {
-     active_npc[npcdex].die(this);
-     //active_npc.erase(active_npc.begin() + npcdex);
+    active_npc[npcdex]->hit(this, hit, rng(0, 1), 0, dam);
+    if (active_npc[npcdex]->hp_cur[hp_head] <= 0 ||
+        active_npc[npcdex]->hp_cur[hp_torso] <= 0) {
+     active_npc[npcdex]->die(this);
     }
    } else if (tx == u.posx && ty == u.posy) {
     body_part hit = random_body_part();
@@ -3997,7 +4017,7 @@ void game::emp_blast(int x, int y)
 int game::npc_at(int x, int y)
 {
  for (int i = 0; i < active_npc.size(); i++) {
-  if (active_npc[i].posx == x && active_npc[i].posy == y && !active_npc[i].dead)
+  if (active_npc[i]->posx == x && active_npc[i]->posy == y && !active_npc[i]->dead)
    return i;
  }
  return -1;
@@ -4006,7 +4026,7 @@ int game::npc_at(int x, int y)
 int game::npc_by_id(int id)
 {
  for (int i = 0; i < active_npc.size(); i++) {
-  if (active_npc[i].id == id)
+  if (active_npc[i]->getID() == id)
    return i;
  }
  return -1;
@@ -4809,8 +4829,8 @@ point game::look_around()
      else if (m.i_at(lx, ly).size() == 1)
       mvwprintw(w_look, 3, 1, "There is an item there.");
    } else if (npc_at(lx, ly) != -1) {
-    active_npc[npc_at(lx, ly)].draw(w_terrain, lx, ly, true);
-    active_npc[npc_at(lx, ly)].print_info(w_look);
+    active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
+    active_npc[npc_at(lx, ly)]->print_info(w_look);
     if (!m.has_flag(container, lx, ly))
      if (m.i_at(lx, ly).size() > 1)
       mvwprintw(w_look, 3, 1, "There are several items there.");
@@ -6653,9 +6673,9 @@ void game::chat()
  std::vector<npc*> available;
  int junk;
  for (int i = 0; i < active_npc.size(); i++) {
-  if (u_see(active_npc[i].posx, active_npc[i].posy, junk) &&
-      rl_dist(u.posx, u.posy, active_npc[i].posx, active_npc[i].posy) <= 24)
-   available.push_back(&active_npc[i]);
+  if (u_see(active_npc[i]->posx, active_npc[i]->posy, junk) &&
+      rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
+   available.push_back(active_npc[i]);
  }
  if (available.size() == 0) {
   add_msg("There's no-one close enough to talk to.");
@@ -6764,21 +6784,20 @@ void game::plmove(int x, int y)
 // If not a monster, maybe there's an NPC there
  int npcdex = npc_at(x, y);
  if (npcdex != -1) {
-  if (!active_npc[npcdex].is_enemy() &&
-      !query_yn("Really attack %s?", active_npc[npcdex].name.c_str())) {
-   if (active_npc[npcdex].is_friend()) {
-    add_msg("%s moves out of the way.", active_npc[npcdex].name.c_str());
-    active_npc[npcdex].move_away_from(this, u.posx, u.posy);
+  if (!active_npc[npcdex]->is_enemy() &&
+      !query_yn("Really attack %s?", active_npc[npcdex]->name.c_str())) {
+   if (active_npc[npcdex]->is_friend()) {
+    add_msg("%s moves out of the way.", active_npc[npcdex]->name.c_str());
+    active_npc[npcdex]->move_away_from(this, u.posx, u.posy);
    }
 
    return;	// Cancel the attack
   }
-  u.hit_player(this, active_npc[npcdex]);
-  active_npc[npcdex].make_angry();
-  if (active_npc[npcdex].hp_cur[hp_head]  <= 0 ||
-      active_npc[npcdex].hp_cur[hp_torso] <= 0   ) {
-   active_npc[npcdex].die(this, true);
-   //active_npc.erase(active_npc.begin() + npcdex);
+  u.hit_player(this, *active_npc[npcdex]);
+  active_npc[npcdex]->make_angry();
+  if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
+      active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
+   active_npc[npcdex]->die(this, true);
   }
   return;
  }
@@ -7388,7 +7407,7 @@ void game::update_map(int &x, int &y)
   olevy = 1;
  }
  if (olevx != 0 || olevy != 0) {
-  cur_om.save();
+  cur_om.save();//Todo, fix the saving of active npcs. Or the shifting of them.
   cur_om = overmap(this, cur_om.pos().x + olevx, cur_om.pos().y + olevy);
  }
  set_adjacent_overmaps();
@@ -7399,64 +7418,64 @@ void game::update_map(int &x, int &y)
 
  // Shift NPCs
  for (int i = 0; i < active_npc.size(); i++) {
-  active_npc[i].shift(shiftx, shifty);
-  if (active_npc[i].posx < 0 - SEEX * 2 ||
-      active_npc[i].posy < 0 - SEEX * 2 ||
-      active_npc[i].posx >     SEEX * (MAPSIZE + 2) ||
-      active_npc[i].posy >     SEEY * (MAPSIZE + 2)   ) {
-   active_npc[i].mapx = levx + (active_npc[i].posx / SEEX);
-   active_npc[i].mapy = levy + (active_npc[i].posy / SEEY);
-   active_npc[i].posx %= SEEX;
-   active_npc[i].posy %= SEEY;
-   cur_om.npcs.push_back(active_npc[i]);
-   active_npc[i].dead = true; //dead in this case doesn't mean really dead, but just moved to the overmap, not
+  active_npc[i]->shift(shiftx, shifty);
+  if (active_npc[i]->posx < 0 - SEEX * 2 ||
+      active_npc[i]->posy < 0 - SEEX * 2 ||
+      active_npc[i]->posx >     SEEX * (MAPSIZE + 2) ||
+      active_npc[i]->posy >     SEEY * (MAPSIZE + 2)   ) {
+   active_npc[i]->mapx = levx + (active_npc[i]->posx / SEEX);
+   active_npc[i]->mapy = levy + (active_npc[i]->posy / SEEY);
+   active_npc[i]->posx %= SEEX;
+   active_npc[i]->posy %= SEEY;
+   //cur_om.npcs.push_back(active_npc[i]); //don't remove them from the list.
+   active_npc.erase(active_npc.begin() + i); //Remove the npc from the active list. It remains in the overmap list.
+/*   active_npc[i].dead = true; //dead in this case doesn't mean really dead, but just moved to the overmap, not
                               // active, and the active npc needs cleaning.
-   //active_npc.erase(active_npc.begin() + i);
+   active_npc.erase(active_npc.begin() + i);*/
    i--;
   }
  }
-// Spawn static NPCs?
+// Check for overmap saved npcs that should now come into view.
+// Put those in the active list.
  for (int i = 0; i < cur_om.npcs.size(); i++) {
 
   if (rl_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
-              cur_om.npcs[i].mapx, cur_om.npcs[i].mapy) <=
-              int(MAPSIZE / 2) + 1) {
+              cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy) <=
+              int(MAPSIZE / 2) + 1 && !cur_om.npcs[i]->is_active(this)) {
 
-   int dx = cur_om.npcs[i].mapx - levx, dy = cur_om.npcs[i].mapy - levy;
+   int dx = cur_om.npcs[i]->mapx - levx, dy = cur_om.npcs[i]->mapy - levy;
 
    if (debugmon)
-    debugmsg("Spawning static NPC, %d:%d (%d:%d)", levx, levy,
-             cur_om.npcs[i].mapx, cur_om.npcs[i].mapy);
+    debugmsg("game::update_map: Spawning static NPC, %d:%d (%d:%d)", levx, levy,
+             cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy);
 
-   npc & temp = cur_om.npcs[i];
+   npc * temp = cur_om.npcs[i];
 
-   if (temp.posx == -1 || temp.posy == -1) {
-
-    dbg(D_ERROR) << "game:update_map: Static NPC with no fine location "
-                    "data (" << temp.posx << ":" << temp.posy << ").";
-
-    debugmsg("Static NPC with no fine location data (%d:%d).",
-             temp.posx, temp.posy);
-
-    temp.posx = SEEX * 2 * (temp.mapx - levx) + rng(0 - SEEX, SEEX);
-    temp.posy = SEEY * 2 * (temp.mapy - levy) + rng(0 - SEEY, SEEY);
-
+   if (temp->posx == -1 || temp->posy == -1) {
+    dbg(D_ERROR) << "game::update_map: Static NPC with no fine location "
+                    "data (" << temp->posx << ":" << temp->posy << ").";
+    debugmsg("game::update_map: Static NPC with no fine location data (%d:%d) New loc data (%d:%d).",
+            temp->posx, temp->posy, SEEX * 2 * (temp->mapx - levx) + rng(0 - SEEX, SEEX),
+            SEEY * 2 * (temp->mapy - levy) + rng(0 - SEEY, SEEY));
+    temp->posx = SEEX * 2 * (temp->mapx - levx) + rng(0 - SEEX, SEEX);
+    temp->posy = SEEY * 2 * (temp->mapy - levy) + rng(0 - SEEY, SEEY);
    } else {
     if (debugmon)
-     debugmsg("Static NPC fine location %d:%d (%d:%d)", temp.posx, temp.posy,
-              temp.posx + dx * SEEX, temp.posy + dy * SEEY);
-    temp.posx += dx * SEEX;
-    temp.posy += dy * SEEY;
+     debugmsg("game::update_map: Static NPC fine location %d:%d (%d:%d)", temp->posx, temp->posy,
+              temp->posx + dx * SEEX, temp->posy + dy * SEEY);
+    temp->posx += dx * SEEX;
+    temp->posy += dy * SEEY;
    }
 
-   if (temp.marked_for_death)
-    temp.die(this, false);
+   //check if the loaded position doesn't already contain an object, monster or npc.
+   //If it isn't free, spiralsearch for a free spot.
+   temp->place_near(this, temp->posx, temp->posy);
+
+    //In the rare case the npc was marked for death while it was on the overmap. Kill it.
+   if (temp->marked_for_death)
+    temp->die(this, false);
    else
     active_npc.push_back(temp);
-
-   // Remove current and step back one to properly get next.
-   cur_om.npcs.erase(cur_om.npcs.begin() + i);
-   i--;
 
   }
  }
@@ -7697,19 +7716,19 @@ void game::spawn_mon(int shiftx, int shifty)
  int t;
  // Create a new NPC?
  if (random_npc && one_in(100 + 15 * cur_om.npcs.size())) {
-  npc tmp;
-  tmp.normalize(this);
-  tmp.randomize(this);
-  //tmp.stock_missions(this);
-  tmp.spawn_at(&cur_om, levx + (1 * rng(-5, 5)), levy + (1 * rng(-5, 5)));
-  tmp.place_near(this, SEEX * 2 * (tmp.mapx - levx) + rng(0 - SEEX, SEEX), SEEY * 2 * (tmp.mapy - levy) + rng(0 - SEEY, SEEY));
-  tmp.form_opinion(&u);
-  //tmp.attitude = NPCATT_TALK; //Form opinion seems to set the attitude.
-  tmp.mission = NPC_MISSION_NULL;
+  npc * tmp = new npc();
+  tmp->normalize(this);
+  tmp->randomize(this);
+  //tmp->stock_missions(this);
+  tmp->spawn_at(&cur_om, levx, levy);
+  tmp->place_near(this, SEEX * 2 * (tmp->mapx - levx) + rng(0 - SEEX, SEEX), SEEY * 2 * (tmp->mapy - levy) + rng(0 - SEEY, SEEY));
+  tmp->form_opinion(&u);
+  //tmp->attitude = NPCATT_TALK; //Form opinion seems to set the attitude.
+  tmp->mission = NPC_MISSION_NULL;
   int mission_index = reserve_random_mission(ORIGIN_ANY_NPC,
-                                             om_location(), tmp.id);
+                                             om_location(), tmp->getID());
   if (mission_index != -1)
-  tmp.chatbin.missions.push_back(mission_index);
+  tmp->chatbin.missions.push_back(mission_index);
   active_npc.push_back(tmp);
  }
 
@@ -8027,6 +8046,10 @@ void game::nuke(int x, int y)
  }
  tmpmap.save(&cur_om, turn, mapx, mapy, 0);
  cur_om.ter(x, y, 0) = ot_crater;
+    //Kill any npcs on that omap location.
+    for(int i = 0; i < cur_om.npcs.size();i++)
+        if(cur_om.npcs[i]->omx == x && cur_om.npcs[i]->omx)
+            cur_om.npcs[i]->marked_for_death = true;
 }
 
 std::vector<faction *> game::factions_at(int x, int y)

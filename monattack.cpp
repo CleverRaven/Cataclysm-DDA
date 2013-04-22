@@ -374,9 +374,9 @@ void mattack::growplants(game *g, monster *z)
         hit = bp_feet;
        if (g->u_see(z->posx + i, z->posy + j, junk))
         g->add_msg("A tree bursts forth from the earth and pierces %s's %s!",
-                   g->active_npc[npcdex].name.c_str(),
+                   g->active_npc[npcdex]->name.c_str(),
                    body_part_name(hit, side).c_str());
-       g->active_npc[npcdex].hit(g, hit, side, 0, rng(10, 30));
+       g->active_npc[npcdex]->hit(g, hit, side, 0, rng(10, 30));
       }
      }
      g->m.ter(z->posx + i, z->posy + j) = t_tree_young;
@@ -426,9 +426,9 @@ void mattack::growplants(game *g, monster *z)
          hit = bp_feet;
         if (g->u_see(z->posx + i, z->posy + j, junk))
          g->add_msg("Underbrush grows into a tree, and it pierces %s's %s!",
-                    g->active_npc[npcdex].name.c_str(),
+                    g->active_npc[npcdex]->name.c_str(),
                     body_part_name(hit, side).c_str());
-        g->active_npc[npcdex].hit(g, hit, side, 0, rng(10, 30));
+        g->active_npc[npcdex]->hit(g, hit, side, 0, rng(10, 30));
        }
       }
      }

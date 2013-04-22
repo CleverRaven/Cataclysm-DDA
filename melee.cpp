@@ -743,7 +743,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
      }
      int npcdex = g->npc_at(x, y);
      if (npcdex != -1) {
-      if (g->active_npc[npcdex].attitude == NPCATT_KILL)
+      if (g->active_npc[npcdex]->attitude == NPCATT_KILL)
        enemy_count++;
       else
        enemy_count -= 2;
@@ -847,14 +847,14 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
      }
      int npcdex = g->npc_at(x, y);
      if (npcdex != -1 &&
-         hit_roll() >= rng(0, 5) + g->active_npc[npcdex].dodge_roll(g)) {
+         hit_roll() >= rng(0, 5) + g->active_npc[npcdex]->dodge_roll(g)) {
       count_hit++;
       int dam = roll_bash_damage(NULL, false);
       int cut = roll_cut_damage (NULL, false);
-      g->active_npc[npcdex].hit(g, bp_legs, 3, dam, cut);
+      g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
       if (u_see)
        g->add_msg("%s hit%s %s for %d damage!", You.c_str(), s.c_str(),
-                  g->active_npc[npcdex].name.c_str(), dam + cut);
+                  g->active_npc[npcdex]->name.c_str(), dam + cut);
      }
     }
    }

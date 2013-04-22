@@ -560,7 +560,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
        if (npcdex != -1) {
         int junk;
-        npc *p = &(g->active_npc[npcdex]);
+        npc *p = g->active_npc[npcdex];
         p->hit(g, random_body_part(), rng(0, 1), 6, 0);
         if (g->u_see(newp.x, newp.y, junk))
          g->add_msg("A %s hits %s!", tmp.tname().c_str(), p->name.c_str());

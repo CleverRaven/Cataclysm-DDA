@@ -2641,7 +2641,7 @@ void player::knock_back_from(game *g, int x, int y)
 
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
-  npc *p = &(g->active_npc[npcdex]);
+  npc *p = g->active_npc[npcdex];
   hit(g, bp_torso, 0, 3, 0);
   add_disease(DI_STUNNED, 1, g);
   p->hit(g, bp_torso, 0, 3, 0);
@@ -3494,7 +3494,7 @@ void player::process_active_items(game *g)
 			}
 		}
 		return;
-	}	
+	}
   if (!weapon.is_tool()) {
    debugmsg("%s is active, but it is not a tool.", weapon.tname().c_str());
    return;
@@ -3557,7 +3557,7 @@ void player::process_active_items(game *g)
       }
     }
   }
-// worn items	
+// worn items
   for (int i = 0; i < worn.size(); i++) {
     if (worn[i].is_artifact())
     g->process_artifact(&(worn[i]), this);
@@ -5721,4 +5721,14 @@ SkillLevel& player::skillLevel(size_t id) {
 
 SkillLevel& player::skillLevel(Skill *_skill) {
   return _skills[_skill];
+}
+
+void player::setID (int i)
+{
+    this->id = i;
+}
+
+int player::getID ()
+{
+    return this->id;
 }

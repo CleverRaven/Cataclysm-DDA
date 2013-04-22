@@ -246,7 +246,7 @@ class game
   std::vector<monster> z;
   std::vector<monster_and_count> coming_to_stairs;
   int monstairx, monstairy, monstairz;
-  std::vector<npc> active_npc;
+  std::vector<npc *> active_npc;
   std::vector<faction> factions;
   std::vector<mission> active_missions; // Missions which may be assigned
 // NEW: Dragging a piece of furniture, with a list of items contained
@@ -312,6 +312,7 @@ class game
   void clear_bindings(action_id act); // Deletes all keys bound to act
 
   void create_factions();   // Creates new factions (for a new game world)
+  void load_npcs(); //Make any nearby NPCs from the overmap active.
   void reset_npcs(); //Reset all the NPCs missions and attitudes for a new character.
   void create_starting_npcs(); // Creates NPCs that start near you
 

@@ -270,7 +270,6 @@ public:
  std::vector<int> has_ammo(ammotype at);// Returns a list of indices of the ammo
 
 // ---------------VALUES-----------------
- int id;	// A unique ID number, assigned by the game class
  int posx, posy;
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
@@ -333,6 +332,14 @@ public:
  std::vector <addiction> addictions;
 
  recipe* lastrecipe;
+
+ int getID ();
+
+protected:
+    void setID (int i);
+private:
+    int id;	// A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
+    //NPCs also use this ID value. Values should never be reused.
 };
 
 #endif

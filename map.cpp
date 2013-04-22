@@ -219,7 +219,7 @@ void map::board_vehicle(game *g, int x, int y, player *p)
   return;
  }
  veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
- veh->parts[seat_part].passenger_id = p->id; // Player is 0
+ veh->parts[seat_part].passenger_id = p->getID();
 
  p->posx = x;
  p->posy = y;

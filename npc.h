@@ -416,11 +416,9 @@ public:
  skill best_skill();
  void starting_weapon(game *g);
 
-
 // Save & load
  virtual void load_info(game *g, std::string data);// Overloaded from player
  virtual std::string save_info();
-
 
 // Display
  void draw(WINDOW* w, int plx, int ply, bool inv);
@@ -489,6 +487,7 @@ public:
  int  average_damage_dealt(); // Our guess at how much damage we can deal
  bool bravery_check(int diff);
  bool emergency(int danger);
+ bool is_active(game *g);
  void say(game *g, std::string line, ...);
  void decide_needs();
  void die(game *g, bool your_fault = false);
@@ -593,6 +592,8 @@ public:
  bool dead;		// If true, we need to be cleaned up
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;
+private:
+    void setID (int id);
 };
 
 #endif

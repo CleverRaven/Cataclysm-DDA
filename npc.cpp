@@ -15,10 +15,9 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g);
 
 npc::npc()
 {
- id = -1;
  omx = 0;
  omy = 0;
- mapx = 0;
+ mapx = 0; //If these values are used for omap comparisons, add one and /2.
  mapy = 0;
  posx = -1;
  posy = -1;
@@ -49,8 +48,9 @@ npc::npc()
  mission = NPC_MISSION_NULL;
  myclass = NC_NONE;
  patience = 0;
- for (int i = 0; i < num_skill_types; i++)
-  sklevel[i] = 0;
+    for (int i = 0; i < num_skill_types; i++)
+        sklevel[i] = 0;
+    setID(-1);
 }
 
 npc::npc(const npc &rhs) { *this = rhs; }
@@ -140,7 +140,7 @@ std::string npc::save_info()
 {
  std::stringstream dump;
 // The " || " is what tells npc::load_info() that it's down reading the name
- dump << id << " " << name << " || " << posx << " " << posy << " " << str_cur <<
+ dump << getID() << " " << name << " || " << posx << " " << posy << " " << str_cur <<
          " " << str_max << " " << dex_cur << " " << dex_max << " " << int_cur <<
          " " << int_max << " " << per_cur << " " << per_max << " " << hunger <<
          " " << thirst << " " << fatigue << " " << stim << " " << pain << " " <<
@@ -212,9 +212,10 @@ void npc::load_info(game *g, std::string data)
 {
  std::stringstream dump;
  std::string tmpname;
- int deathtmp, deadtmp, classtmp;
+ int deathtmp, deadtmp, classtmp, npc_id;
  dump << data;
- dump >> id;
+ dump >> npc_id;
+ setID(npc_id);
 // Standard player stuff
  do {
   dump >> tmpname;
@@ -302,7 +303,7 @@ void npc::load_info(game *g, std::string data)
 
 void npc::randomize(game *g, npc_class type)
 {
- id = g->assign_npc_id();
+ this->setID(g->assign_npc_id());
  str_max = dice(4, 3);
  dex_max = dice(4, 3);
  int_max = dice(4, 3);
@@ -981,28 +982,28 @@ void npc::spawn_at(overmap *o, int x, int y)
   if (y == -1)
    mapy = rng(y - s, y + s);
  }
+ o->npcs.push_back(this);
 }
 
 void npc::place_near(game *g, int potentialX, int potentialY)
 {
 	//places the npc at the nearest empty spot near (potentialX, potentialY). Searches in a spiral pattern for a suitable location.
- int x = 0;
- int y = 0;
- int dx = 0;
- int dy = -1;
- int temp;
- while(!g->is_empty(potentialX + x, potentialY + y)) {
-	 if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y))) {//change direction
-			temp = dx;
-	  dx = -dy;
-		 dy = temp;
-	 }
-		x += dx;
-		y += dy;
-	}//end search, potentialX + x , potentialY + y contains a free spot.
- //place the npc at the free spot.
- posx = potentialX + x;
- posy = potentialY + y;
+    int x = 0, y = 0, dx = 0, dy = -1;
+    int temp;
+    while(!g->is_empty(potentialX + x, potentialY + y))
+    {
+        if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
+        {//change direction
+            temp = dx;
+            dx = -dy;
+            dy = temp;
+        }
+        x += dx;
+        y += dy;
+    }//end search, potentialX + x , potentialY + y contains a free spot.
+    //place the npc at the free spot.
+    posx = potentialX + x;
+    posy = potentialY + y;
 }
 
 skill npc::best_skill()
@@ -1778,6 +1779,18 @@ bool npc::emergency(int danger)
  return (danger > (personality.bravery * 3 * hp_percentage()) / 100);
 }
 
+//Check if this npc is currently in the list of active npcs.
+//Active npcs are the npcs near the player that are actively simulated.
+bool npc::is_active(game *g)
+{
+    int npcnr = this->getID();
+    for(int i = 0; i < g->active_npc.size(); i++){
+        if(g->active_npc[i]->getID() == npcnr)
+            return true;
+    }
+    return false;
+}
+
 void npc::told_to_help(game *g)
 {
  if (!is_following() && personality.altruism < 0) {
@@ -2027,9 +2040,11 @@ void npc::die(game *g, bool your_fault)
   g->m.add_item(posx, posy, weapon);
 
  for (int i = 0; i < g->active_missions.size(); i++) {
-  if (g->active_missions[i].npc_id == id)
+  if (g->active_missions[i].npc_id == getID())
    g->fail_mission( g->active_missions[i].uid );
  }
+
+ g->cur_om.remove_npc(getID());
 }
 
 std::string npc_attitude_name(npc_attitude att)
@@ -2097,4 +2112,9 @@ std::string npc_class_name(npc_class classtype)
   return "Bounty Hunter";
  }
  return "Unknown class";
+}
+
+void npc::setID (int i)
+{
+    this->player::setID(i);
 }

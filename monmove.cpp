@@ -110,7 +110,7 @@ void monster::plan(game *g)
   stc = tc;
  }
  for (int i = 0; i < g->active_npc.size(); i++) {
-  npc *me = &(g->active_npc[i]);
+  npc *me = (g->active_npc[i]);
   int medist = rl_dist(posx, posy, me->posx, me->posy);
   if ((medist < dist || (!fleeing && is_fleeing(*me))) &&
       (can_see() &&
@@ -154,7 +154,7 @@ void monster::plan(game *g)
   else if (closest <= -3)
    set_dest(g->z[-3 - closest].posx, g->z[-3 - closest].posy, stc);
   else if (closest >= 0)
-   set_dest(g->active_npc[closest].posx, g->active_npc[closest].posy, stc);
+   set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, stc);
  }
 }
 
@@ -214,9 +214,9 @@ void monster::move(game *g)
    current_attitude = attitude(&(g->u));
   else {
    for (int i = 0; i < g->active_npc.size(); i++) {
-    if (plans.back().x == g->active_npc[i].posx &&
-        plans.back().y == g->active_npc[i].posy)
-     current_attitude = attitude(&(g->active_npc[i]));
+    if (plans.back().x == g->active_npc[i]->posx &&
+        plans.back().y == g->active_npc[i]->posy)
+     current_attitude = attitude((g->active_npc[i]));
    }
   }
  }
@@ -265,7 +265,7 @@ void monster::move(game *g)
            (g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)))
    hit_monster(g, mondex);
   else if (npcdex != -1 && type->melee_dice > 0)
-   hit_player(g, g->active_npc[npcdex]);
+   hit_player(g, *g->active_npc[npcdex]);
   else if ((!can_move_to(g->m, next.x, next.y) || one_in(3)) &&
              g->m.has_flag(bashable, next.x, next.y) && has_flag(MF_BASHES)) {
    std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
@@ -339,7 +339,7 @@ void monster::friendly_move(game *g)
   if (mondex != -1 && g->z[mondex].friendly == 0 && type->melee_dice > 0)
    hit_monster(g, mondex);
   else if (npcdex != -1 && type->melee_dice > 0)
-   hit_player(g, g->active_npc[g->npc_at(next.x, next.y)]);
+   hit_player(g, *g->active_npc[g->npc_at(next.x, next.y)]);
   else if (mondex == -1 && npcdex == -1 && can_move_to(g->m, next.x, next.y))
    move_to(g, next.x, next.y);
   else if ((!can_move_to(g->m, next.x, next.y) || one_in(3)) &&
@@ -708,7 +708,7 @@ void monster::knock_back_from(game *g, int x, int y)
 
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
-  npc *p = &(g->active_npc[npcdex]);
+  npc *p = g->active_npc[npcdex];
   hurt(3);
   add_effect(ME_STUNNED, 1);
   p->hit(g, bp_torso, 0, type->size, 0);

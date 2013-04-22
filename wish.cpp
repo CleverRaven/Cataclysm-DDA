@@ -20,7 +20,7 @@ void game::wish()
  do {
   werase(w_info);
   werase(w_list);
-  mvwprintw(w_list, 0, 0, "Wish for a (press '/' to search): ");
+  mvwprintw(w_list, 0, 0, "Wish for a ('/'searches): ");
   if (search) {
    found = false;
    if (ch == '\n') {
@@ -113,7 +113,7 @@ void game::wish()
    }
   }
   if (!search_results.empty())
-   mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
+   mvwprintz(w_list, 0, 25, c_green, "%s               ", pattern.c_str());
   else if (pattern.length() > 0)
    mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
   if (a < 0) {

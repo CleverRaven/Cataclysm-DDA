@@ -342,10 +342,28 @@ point overmap::find_note(int const x, int const y, int const z, std::string cons
  return ret;
 }
 
+//This removes a npc from the overmap. The NPC is supposed to be already dead.
+//This function also assumes the npc is not in the list of active npcs anymore.
+void overmap::remove_npc(int npc_id)
+{
+    for(int i = 0; i < npcs.size(); i++)
+    {
+        if(npcs[i]->getID() == npc_id)
+        {
+            //Remove this npc from the list of overmap npcs.
+            if(!npcs[i]->dead) debugmsg("overmap::remove_npc: NPC (%d) is not dead.",npc_id);
+            npc * tmp = npcs[i];
+            npcs.erase(npcs.begin() + i);
+            delete tmp;
+            return;
+        }
+    }
+}
+
 point overmap::display_notes(game* g, int const z) const
 {
  if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
-  debugmsg("Attempting to display notes on overmap for blank layer %d", z);
+  debugmsg("overmap::display_notes: Attempting to display notes on overmap for blank layer %d", z);
   return point(-1, -1);
  }
 
@@ -406,6 +424,48 @@ point overmap::display_notes(game* g, int const z) const
  } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
  delwin(w_notes);
  return point(-1,-1);
+}
+
+bool overmap::has_npc(int const x, int const y, int const z) const
+{
+    //Check if the target overmap square has an npc in it.
+    for (int n = 0; n < npcs.size(); n++) {
+        if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2== y)
+            return true;
+    }
+    return false;
+}
+
+// int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
+//     cursy = (g->levy + int(MAPSIZE / 2)) / 2;
+
+//Helper function for the overmap::draw function.
+void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z)
+{
+    int i = 0, maxnamelength = 0;
+    //Check the max namelength of the npcs in the target
+    for (int n = 0; n < npcs.size(); n++)
+    {
+        if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y) {
+            if (npcs[n]->name.length() > maxnamelength)
+                maxnamelength = npcs[n]->name.length();
+        }
+    }
+    //Check if the target has an npc in it.
+    for (int n = 0; n < npcs.size(); n++)
+    {
+        if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y) {
+            mvwprintz(w, i, 0, c_yellow, npcs[n]->name.c_str());
+            for (int j = npcs[n]->name.length(); j < maxnamelength; j++)
+                mvwputch(w, i, j, c_black, LINE_XXXX);
+            i++;
+        }
+    }
+    for (int j = 0; j < i; j++)
+        mvwputch(w, j, maxnamelength, c_white, LINE_XOXO);
+    for (int j = 0; j < maxnamelength; j++)
+        mvwputch(w, i, j, c_white, LINE_OXOX);
+    mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
 }
 
 void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
@@ -960,7 +1020,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
                    int &origx, int &origy, char &ch, bool blink)
 {
  bool legend = true, note_here = false, npc_here = false;
- std::string note_text, npc_name;
+ std::string note_text;
  int om_map_width = TERMX-28;
  int om_map_height = TERMY;
 
@@ -1011,16 +1071,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      note_here = has_note(omx, omy, z);
      if (note_here)
       note_text = note(omx, omy, z);
-     for (int n = 0; n < npcs.size(); n++) {
-      if ((npcs[n].mapx + 1) / 2 == omx && (npcs[n].mapy + 1) / 2 == omy) {
-       npc_here = true;
-       npc_name = npcs[n].name;
-       n = npcs.size();
-      } else {
-       npc_here = false;
-       npc_name = "";
-      }
-     }
+        //Check if there is an npc.
+        npc_here = has_npc(omx,omy,z);
 // <Out of bounds placement>
     } else if (omx < 0) {
      omx += OMAPX;
@@ -1126,6 +1178,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
     case NORTHWEST:  mvwputch(w,  0,  0, c_red, LINE_OXXO); break;
    }
   }
+
   if (has_note(cursx, cursy, z)) {
    note_text = note(cursx, cursy, z);
    if (note_text[1] == ':')
@@ -1135,13 +1188,10 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwputch(w, 1, note_text.length(), c_white, LINE_XOOX);
    mvwputch(w, 0, note_text.length(), c_white, LINE_XOXO);
    mvwprintz(w, 0, 0, c_yellow, note_text.c_str());
-  } else if (npc_here) {
-   for (int i = 0; i < npc_name.length(); i++)
-    mvwputch(w, 1, i, c_white, LINE_OXOX);
-   mvwputch(w, 1, npc_name.length(), c_white, LINE_XOOX);
-   mvwputch(w, 0, npc_name.length(), c_white, LINE_XOXO);
-   mvwprintz(w, 0, 0, c_yellow, npc_name.c_str());
-  }
+  } else if (has_npc(cursx, cursy, z))
+    {
+        print_npcs(w, cursx, cursy, z);
+    }
   if (legend) {
    cur_ter = ter(cursx, cursy, z);
 // Draw the vertical line
@@ -1177,7 +1227,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   wrefresh(w);
 }
 
-point overmap::choose_point(game *g, int const zlevel)
+//Start drawing the overmap on the screen using the (m)ap command.
+point overmap::draw_overmap(game *g, int const zlevel)
 {
  WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
  WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
@@ -2516,7 +2567,7 @@ void overmap::place_radios()
    case ot_fema_entrance:
     snprintf( message, sizeof(message), "This is FEMA camp %d%d.\
   Supplies are limited, please bring supplemental food, water, and bedding.\
-  This is FEMA camp %d%d.  A desginated long-term emergency shelter.", i, j, i, j);
+  This is FEMA camp %d%d.  A designated long-term emergency shelter.", i, j, i, j);
     radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
      break;
    }
@@ -2576,7 +2627,7 @@ void overmap::save()
 
  //saving the npcs
  for (int i = 0; i < npcs.size(); i++)
-  fout << "n " << npcs[i].save_info() << std::endl;
+  fout << "n " << npcs[i]->save_info() << std::endl;
 
  fout.close();
 }
@@ -2640,13 +2691,13 @@ void overmap::open(game *g)
    assignment to an NPC.
  */
     if (!npc_inventory.empty() && !npcs.empty()) {
-     npcs.back().inv.add_stack(npc_inventory);
+     npcs.back()->inv.add_stack(npc_inventory);
      npc_inventory.clear();
     }
     std::string npcdata;
     getline(fin, npcdata);
-    npc tmp;
-    tmp.load_info(g, npcdata);
+    npc * tmp = new npc();
+    tmp->load_info(g, npcdata);
     npcs.push_back(tmp);
    } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
               datatype == 'w' || datatype == 'c') {
@@ -2658,7 +2709,7 @@ void overmap::open(game *g)
      debugmsg(itemdata.c_str());
     } else {
      item tmp(itemdata, g);
-     npc* last = &(npcs.back());
+     npc* last = npcs.back();
      switch (datatype) {
       case 'I': npc_inventory.push_back(tmp);                 break;
       case 'C': npc_inventory.back().contents.push_back(tmp); break;
@@ -2671,7 +2722,7 @@ void overmap::open(game *g)
   }
 // If we accrued an npc_inventory, assign it now
   if (!npc_inventory.empty() && !npcs.empty())
-   npcs.back().inv.add_stack(npc_inventory);
+   npcs.back()->inv.add_stack(npc_inventory);
 
   fin.close();
 

@@ -542,7 +542,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
     SUCCESS(TALK_NONE);
     FAILURE(TALK_MISSION_FAILURE);
      FAILURE_OPINION(-3, 0, -1, 2, 0);
-  } else if (!g->mission_complete(id, p->id)) {
+  } else if (!g->mission_complete(id, p->getID())) {
    mission_type *type = g->find_mission_type(id);
    RESPONSE("Not yet.");
     SUCCESS(TALK_NONE);
@@ -1253,7 +1253,7 @@ void talk_function::assign_mission(game *g, npc *p)
  }
  mission *miss = g->find_mission( p->chatbin.missions[selected] );
  g->assign_mission(p->chatbin.missions[selected]);
- miss->npc_id = p->id;
+ miss->npc_id = p->getID();
  g->u.active_mission = g->u.active_missions.size() - 1;
  p->chatbin.missions_assigned.push_back( p->chatbin.missions[selected] );
  p->chatbin.missions.erase(p->chatbin.missions.begin() + selected);
@@ -1300,7 +1300,7 @@ void talk_function::clear_mission(game *g, npc *p)
  p->chatbin.missions_assigned.erase( p->chatbin.missions_assigned.begin() +
                                      selected);
  if (miss->follow_up != MISSION_NULL)
-  p->chatbin.missions.push_back( g->reserve_mission(miss->follow_up, p->id) );
+  p->chatbin.missions.push_back( g->reserve_mission(miss->follow_up, p->getID()) );
 }
 
 void talk_function::mission_reward(game *g, npc *p)
