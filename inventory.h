@@ -58,8 +58,7 @@ class inventory
   item  remove_item(int stack, int index);
   item  remove_item_by_type(itype_id type);
   item  remove_item_by_letter(char ch);
-  item  remove_item_by_letter_and_quantity(char ch, int quantity);
-  item  remove_item_by_quantity(int index, int quantity);
+  item  remove_item_by_letter_and_quantity(char ch, int quantity); // charged items, not stacks
   std::vector<item>  remove_mission_items(int mission_id);
   item& item_by_letter(char ch);
   int   index_by_letter(char ch);

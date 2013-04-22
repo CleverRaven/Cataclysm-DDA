@@ -5121,7 +5121,7 @@ void game::advanced_inv()
                             }
                             else //partial stack moved
                             {
-                                item moving_item = u.inv.remove_item_by_quantity(item_pos,amount);
+                                item moving_item = u.inv.remove_item_by_letter_and_quantity(u.inv[item_pos].invlet,amount);
                                 m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             u.moves -= 100;

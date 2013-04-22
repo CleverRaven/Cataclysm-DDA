@@ -528,6 +528,7 @@ item inventory::remove_item_by_letter(char ch)
     return nullitem;
 }
 
+// using this assumes the item has charges
 item inventory::remove_item_by_letter_and_quantity(char ch, int quantity)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
@@ -549,33 +550,6 @@ item inventory::remove_item_by_letter_and_quantity(char ch, int quantity)
 
     debugmsg("Tried to remove item with invlet %c by quantity, no such item", ch);
     return nullitem;
-}
-
-item inventory::remove_item_by_quantity(int index, int quantity)
-{
-    // using this assumes the item has charges
-    if (index < 0 || index >= items.size()) {
-        debugmsg("Quantity: Tried to remove_item(%d) from an inventory (size %d)",
-               index, items.size());
-        return nullitem;
-    }
-
-    invstack::iterator iter = items.begin();
-    for (int i = 0; i < index; ++i)
-    {
-        ++iter;
-    }
-    std::list<item>& stack = *iter;
-    item ret = *(stack.begin());
-    if(quantity > stack.begin()->charges)
-    {
-        debugmsg("Charges: Tried to remove charges that does not exist, \
-                removing maximum available charges instead");
-        quantity = stack.begin()->charges;
-    }
-    ret.charges = quantity;
-    stack.begin()->charges -= quantity;
-    return ret;
 }
 
 std::vector<item> inventory::remove_mission_items(int mission_id)
