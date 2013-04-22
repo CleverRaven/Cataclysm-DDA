@@ -263,6 +263,13 @@ bool monster::made_of(material m)
  return false;
 }
 
+bool monster::made_of(phase_id p)
+{
+ if (type->phase == p)
+  return true;
+ return false;
+}
+
 void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
 {
  std::stringstream dump;
@@ -474,10 +481,10 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
  int numdice = type->melee_skill;
  if (dice(numdice, 10) <= dice(p.dodge(g), 10) && !one_in(20)) {
   if (p.skillLevel("dodge") < numdice)
-   p.practice("dodge", 10);
+   p.practice(g->turn, "dodge", 10);
   return 0;	// We missed!
  }
- p.practice("dodge", 5);
+ p.practice(g->turn, "dodge", 5);
  int ret = 0;
  int highest_hit;
  switch (type->size) {
@@ -526,7 +533,6 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
 
 void monster::hit_monster(game *g, int i)
 {
- int junk;
  monster* target = &(g->z[i]);
 
  if (this == target) {
@@ -544,11 +550,11 @@ void monster::hit_monster(game *g, int i)
  }
 
  if (dice(numdice, 10) <= dice(dodgedice, 10)) {
-  if (g->u_see(this, junk))
+  if (g->u_see(this))
    g->add_msg("The %s misses the %s!", name().c_str(), target->name().c_str());
   return;
  }
- if (g->u_see(this, junk))
+ if (g->u_see(this))
   g->add_msg("The %s hits the %s!", name().c_str(), target->name().c_str());
  int damage = dice(type->melee_dice, type->melee_sides);
  if (target->hurt(damage))

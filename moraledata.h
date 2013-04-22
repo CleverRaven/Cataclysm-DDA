@@ -32,8 +32,12 @@ std::string morale_data[NUM_MORALE_TYPES] = {
 "Guilty about Killing",
 
 "Moodswing",
-"Read %i",
-"Heard Disturbing Scream"
+"Read Difficult Book",
+"Heard Disturbing Scream",
+
+"Masochism",
+"Hoarder",
+"Optimist"
 };
 
 #endif

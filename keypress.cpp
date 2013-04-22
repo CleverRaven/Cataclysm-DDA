@@ -182,6 +182,7 @@ open  o\n\
 close c\n\
 smash s\n\
 examine e\n\
+advinv /\n\
 pickup , g\n\
 butcher B\n\
 chat C\n\
@@ -212,8 +213,9 @@ drop_adj D\n\
 bionics p\n\
 \n\
 # LONG TERM & SPECIAL ACTIONS\n\
-wait ^\n\
+wait |\n\
 craft &\n\
+recraft -\n\
 construct *\n\
 disassemble (\n\
 sleep $\n\
@@ -229,7 +231,7 @@ map m :\n\
 missions M\n\
 factions #\n\
 kills )\n\
-morale %\n\
+morale v\n\
 messages P\n\
 help ?\n\
 \n\

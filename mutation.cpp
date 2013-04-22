@@ -221,7 +221,7 @@ void player::remove_child_flag(game *g, pl_flag flag)
 void mutation_effect(game *g, player &p, pl_flag mut)
 {
  bool is_u = (&p == &(g->u));
- bool destroy = false, skip_cloth = false;
+ bool destroy = false;
  std::vector<body_part> bps;
 
  switch (mut) {
@@ -262,7 +262,6 @@ void mutation_effect(game *g, player &p, pl_flag mut)
   case PF_HORNS_POINTED:
   case PF_ANTENNAE:
   case PF_ANTLERS:
-   skip_cloth = true;
    bps.push_back(bp_head);
    break;
 

@@ -39,6 +39,7 @@ struct construct // Construction functions.
  bool able_empty (game *, point); // Able if tile is empty
 
  bool able_window(game *, point); // Any window tile
+ bool able_make_window(game *, point); // Any window tile or empty
  bool able_empty_window(game *, point); // Empty window tiles
  bool able_window_pane(game *, point); // Only intact windows
  bool able_broken_window(game *, point); // Able if tile is broken window

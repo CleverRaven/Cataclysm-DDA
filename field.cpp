@@ -59,6 +59,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
      item *melting = &(i_at(x, y)[i]);
      if (melting->made_of(LIQUID) || melting->made_of(VEGGY)   ||
          melting->made_of(FLESH)  || melting->made_of(POWDER)  ||
+         melting->made_of(HFLESH) ||
          melting->made_of(COTTON) || melting->made_of(WOOL)    ||
          melting->made_of(PAPER)  || melting->made_of(PLASTIC) ||
          (melting->made_of(GLASS) && !one_in(3)) || one_in(4)) {
@@ -87,16 +88,33 @@ bool map::process_fields_in_submap(game *g, int gridn)
      destroyed = false;
      vol = i_at(x, y)[i].volume();
      item *it = &(i_at(x, y)[i]);
+     it_ammo *ammo_type = NULL;
 
-     if (it->is_ammo() && it->ammo_type() != AT_BATT &&
-         it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
-         it->ammo_type() != AT_BOLT && it->ammo_type() != AT_ARROW && it->ammo_type() != AT_NULL) {
-      cur->age /= 2;
-      cur->age -= 600;
-      destroyed = true;
-      smoke += 6;
-      consumed++;
-
+     if (it->is_ammo())
+     {
+         ammo_type = dynamic_cast<it_ammo*>(it->type);
+     }
+     if(ammo_type != NULL &&
+        (ammo_type->ammo_effects & mfb(AMMO_FLAME) ||
+         ammo_type->ammo_effects & mfb(AMMO_INCENDIARY) ||
+         ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE) ||
+         ammo_type->ammo_effects & mfb(AMMO_FRAG) ||
+         ammo_type->ammo_effects & mfb(AMMO_NAPALM) ||
+         ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE_BIG) ||
+         ammo_type->ammo_effects & mfb(AMMO_TEARGAS) ||
+         ammo_type->ammo_effects & mfb(AMMO_SMOKE) ||
+         ammo_type->ammo_effects & mfb(AMMO_FLASHBANG) ||
+         ammo_type->ammo_effects & mfb(AMMO_COOKOFF)))
+     {
+         const int rounds_exploded = rng(1, it->charges);
+         // TODO: Vary the effect based on the ammo flag instead of just exploding them all.
+         // cook off ammo instead of just burning it.
+         for(int i = 0; i < (rounds_exploded / 10) + 1; i++)
+         {
+             g->explosion(x, y, (dynamic_cast<it_ammo*>(it->type))->damage / 2, true, false);
+         }
+         it->charges -= rounds_exploded;
+         if(it->charges == 0) destroyed = true;
      } else if (it->made_of(PAPER)) {
       destroyed = it->burn(cur->density * 3);
       consumed++;
@@ -127,7 +145,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
        smoke++;
       }
 
-     } else if (it->made_of(FLESH)) {
+     } else if ((it->made_of(FLESH))||(it->made_of(HFLESH))) {
       if (vol <= cur->density * 5 || (cur->density == 3 && one_in(vol / 20))) {
        cur->age--;
        destroyed = it->burn(cur->density);
@@ -175,10 +193,10 @@ bool map::process_fields_in_submap(game *g, int gridn)
     if (veh)
      veh->damage (part, cur->density * 10, false);
     // If the flames are in a brazier, they're fully contained, so skip consuming terrain
-    if(tr_brazier != tr_at(x, y)) {
+    if((tr_brazier != tr_at(x, y))&&(has_flag(fire_container, x, y) != TRUE )) {
      // Consume the terrain we're on
      if (has_flag(explodes, x, y)) {
-      ter(x, y) = ter_id(int(ter(x, y)) + 1);
+      ter_set(x, y, ter_id(int(ter(x, y)) + 1));
       cur->age = 0;
       cur->density = 3;
       g->explosion(x, y, 40, 0, true);
@@ -193,7 +211,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
       cur->age -= cur->density * cur->density * 40;
       smoke += 15;
       if (cur->density == 3)
-       ter(x, y) = t_ash;
+       ter_set(x, y, t_ash);
 
      } else if (has_flag(l_flammable, x, y) && one_in(62 - cur->density * 10)) {
       cur->age -= cur->density * cur->density * 30;
@@ -214,7 +232,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
 // If the flames are in a pit, it can't spread to non-pit
     bool in_pit = (ter(x, y) == t_pit);
 // If the flames are REALLY big, they contribute to adjacent flames
-    if (cur->density == 3 && cur->age < 0 && tr_brazier != tr_at(x, y)) {
+    if (cur->density == 3 && cur->age < 0 && tr_brazier != tr_at(x, y)
+        && (has_flag(fire_container, x, y) != TRUE  ) ){
 // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
      int starti = rng(0, 2);
      int startj = rng(0, 2);
@@ -242,11 +261,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
        if (field_at(fx, fy).type == fd_web)
         spread_chance = 50 + spread_chance / 2;
        if (has_flag(explodes, fx, fy) && one_in(8 - cur->density) &&
-	   tr_brazier != tr_at(x, y)) {
-        ter(fx, fy) = ter_id(int(ter(fx, fy)) + 1);
+	   tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != TRUE ) ) {
+        ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
         g->explosion(fx, fy, 40, 0, true);
        } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
                   tr_brazier != tr_at(x, y) &&
+                  (has_flag(fire_container, x, y) != TRUE )&&
                   (in_pit == (ter(fx, fy) == t_pit)) &&
                   ((cur->density == 3 &&
                     (has_flag(flammable, fx, fy) || one_in(20))) ||
@@ -273,7 +293,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
 // If we're not spreading, maybe we'll stick out some smoke, huh?
         if (move_cost(fx, fy) > 0 &&
             (!one_in(smoke) || (nosmoke && one_in(40))) &&
-            rng(3, 35) < cur->density * 10 && cur->age < 1000) {
+            rng(3, 35) < cur->density * 10 && cur->age < 1000 &&
+            (has_flag(suppress_smoke, x, y) != TRUE )) {
          smoke--;
          add_field(g, fx, fy, fd_smoke, rng(1, cur->density));
         }
@@ -559,18 +580,16 @@ bool map::process_fields_in_submap(game *g, int gridn)
            mondex = g->mon_at(newp.x, newp.y);
 
        if (npcdex != -1) {
-        int junk;
         npc *p = g->active_npc[npcdex];
         p->hit(g, random_body_part(), rng(0, 1), 6, 0);
-        if (g->u_see(newp.x, newp.y, junk))
+        if (g->u_see(newp.x, newp.y))
          g->add_msg("A %s hits %s!", tmp.tname().c_str(), p->name.c_str());
        }
 
        if (mondex != -1) {
-        int junk;
         monster *mon = &(g->z[mondex]);
         mon->hurt(6 - mon->armor_bash());
-        if (g->u_see(newp.x, newp.y, junk))
+        if (g->u_see(newp.x, newp.y))
          g->add_msg("A %s hits the %s!", tmp.tname().c_str(),
                                          mon->name().c_str());
        }
@@ -707,10 +726,16 @@ void map::step_in_field(int x, int y, game *g)
   case fd_fire:
    adjusted_intensity = cur->density;
    if( g->u.in_vehicle )
-     if( inside )
-       adjusted_intensity -= 2;
-     else
-       adjusted_intensity -= 1;
+   {
+       if( inside )
+       {
+           adjusted_intensity -= 2;
+       }
+       else
+       {
+           adjusted_intensity -= 1;
+       }
+   }
    if (!g->u.has_active_bionic("bio_heatsink")) {
     if (adjusted_intensity == 1) {
      g->add_msg("You burn your legs and feet!");
@@ -738,23 +763,33 @@ void map::step_in_field(int x, int y, game *g)
    break;
 
   case fd_smoke:
-   if (cur->density == 3 && !inside)
-    g->u.infect(DI_SMOKE, bp_mouth, 4, 15, g);
-   break;
+      if (cur->density == 3 && !inside)
+      {
+          g->u.infect(DI_SMOKE, bp_mouth, 4, 15, g);
+      }
+      break;
 
   case fd_tear_gas:
-   if ((cur->density > 1 || !one_in(3)) && !inside || inside && one_in(3))
-    g->u.infect(DI_TEARGAS, bp_mouth, 5, 20, g);
-   if (cur->density > 1 && !inside || inside && one_in(3))
-    g->u.infect(DI_BLIND, bp_eyes, cur->density * 2, 10, g);
-   break;
+      if ((cur->density > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
+      {
+          g->u.infect(DI_TEARGAS, bp_mouth, 5, 20, g);
+      }
+      if (cur->density > 1 && (!inside || (inside && one_in(3))))
+      {
+          g->u.infect(DI_BLIND, bp_eyes, cur->density * 2, 10, g);
+      }
+      break;
 
   case fd_toxic_gas:
-   if (cur->density == 2 && !inside || cur->density == 3 && inside )
-    g->u.infect(DI_POISON, bp_mouth, 5, 30, g);
-   else if (cur->density == 3 && !inside)
-    g->u.infect(DI_BADPOISON, bp_mouth, 5, 30, g);
-   break;
+      if (cur->density == 2 && (!inside || (cur->density == 3 && inside)))
+      {
+          g->u.infect(DI_POISON, bp_mouth, 5, 30, g);
+      }
+      else if (cur->density == 3 && !inside)
+      {
+          g->u.infect(DI_BADPOISON, bp_mouth, 5, 30, g);
+      }
+      break;
 
   case fd_nuke_gas:
    g->u.radiation += rng(0, cur->density * (cur->density + 1));
@@ -841,7 +876,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_fire:
-   if (z->made_of(FLESH))
+   if ( z->made_of(FLESH) || z->made_of(HFLESH) )
     dam = 3;
    if (z->made_of(VEGGY))
     dam = 12;
@@ -884,7 +919,8 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_tear_gas:
-   if ((z->made_of(FLESH) || z->made_of(VEGGY)) && !z->has_flag(MF_NO_BREATHE)) {
+      if ((z->made_of(FLESH) || z->made_of(HFLESH) || z->made_of(VEGGY)) &&
+          !z->has_flag(MF_NO_BREATHE)) {
     z->add_effect(ME_BLIND, cur->density * 8);
     if (cur->density == 3) {
      z->add_effect(ME_STUNNED, rng(10, 20));
@@ -928,7 +964,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_flame_burst:
-   if (z->made_of(FLESH))
+   if (z->made_of(FLESH) || z->made_of(HFLESH))
     dam = 3;
    if (z->made_of(VEGGY))
     dam = 12;
@@ -961,9 +997,9 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     if (tries == 10)
      g->explode_mon(g->mon_at(z->posx, z->posy));
     else {
-     int mon_hit = g->mon_at(newposx, newposy), t;
+     int mon_hit = g->mon_at(newposx, newposy);
      if (mon_hit != -1) {
-      if (g->u_see(z, t))
+      if (g->u_see(z))
        g->add_msg("The %s teleports into a %s, killing them both!",
                   z->name().c_str(), g->z[mon_hit].name().c_str());
       g->explode_mon(mon_hit);

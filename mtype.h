@@ -186,6 +186,7 @@ struct mtype {
 
  m_size size;
  material mat;	// See enums.h for material list.  Generally, flesh; veggy?
+ phase_id phase;
  std::vector<m_flag> flags;
  std::vector<m_category> categories;
  std::vector<monster_trigger> anger;   // What angers us?
@@ -222,6 +223,7 @@ struct mtype {
   color = c_white;
   size = MS_MEDIUM;
   mat = FLESH;
+  phase = SOLID;
   difficulty = 0;
   agro = 0;
   morale = 0;

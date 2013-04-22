@@ -5,11 +5,13 @@ class game;
 class item;
 class player;
 
+
+
 class iuse
 {
  public:
-  void none		(game *g, player *p, item *it, bool t) { };
-
+  void none		(game *g, player *p, item *it, bool t);
+  
 // FOOD AND DRUGS (ADMINISTRATION)
   void sewage		(game *g, player *p, item *it, bool t);
   void honeycomb        (game *g, player *p, item *it, bool t);
@@ -51,16 +53,20 @@ class iuse
 // TOOLS
   void lighter		(game *g, player *p, item *it, bool t);
   void sew		(game *g, player *p, item *it, bool t);
+  void extra_battery(game *g, player *p, item *it, bool t);
   void scissors		(game *g, player *p, item *it, bool t);
   void extinguisher	(game *g, player *p, item *it, bool t);
   void hammer		(game *g, player *p, item *it, bool t);
   void light_off	(game *g, player *p, item *it, bool t);
   void light_on		(game *g, player *p, item *it, bool t);
+  void lightstrip		(game *g, player *p, item *it, bool t);
   void cauterize_elec	(game *g, player *p, item *it, bool t);
   void water_purifier	(game *g, player *p, item *it, bool t);
   void two_way_radio	(game *g, player *p, item *it, bool t);
   void radio_off	(game *g, player *p, item *it, bool t);
   void radio_on		(game *g, player *p, item *it, bool t);
+  void noise_emitter_off(game *g, player *p, item *it, bool t);
+  void noise_emitter_on (game *g, player *p, item *it, bool t);
   void roadmap (game *g, player *p, item *it, bool t);
   void roadmap_a_target (game *g, player *p, item *it, bool t, int target);
   void roadmap_targets(game *g, player *p, item *it, bool t, int target, int target_range, int distance, int reveal_distance);
@@ -127,15 +133,16 @@ class iuse
   void candle           (game *g, player *p, item *it, bool t);
   void candle_lit       (game *g, player *p, item *it, bool t);
   void bullet_puller	(game *g, player *p, item *it, bool t);
-  void screwdriver      (game *g, player *p, item *it, bool t);
-  void wrench           (game *g, player *p, item *it, bool t);
   void boltcutters      (game *g, player *p, item *it, bool t);
   void mop              (game *g, player *p, item *it, bool t);
   void spray_can        (game *g, player *p, item *it, bool t);
   void rag              (game *g, player *p, item *it, bool t);
   void pda              (game *g, player *p, item *it, bool t);
   void pda_flashlight   (game *g, player *p, item *it, bool t);
+  void LAW              (game *g, player *p, item *it, bool t);
   void heatpack			(game *g, player *p, item *it, bool t);
+  void dejar            (game *g, player *p, item *it, bool t);
+
 
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
@@ -144,12 +151,6 @@ class iuse
 // It examines the item's artifact-specific properties
 // See artifact.h for a list
   void artifact		(game *g, player *p, item *it, bool t);
-  void heal		(game *g, player *p, item *it, bool t);
-  void twist_space	(game *g, player *p, item *it, bool t);
-  void mass_vampire	(game *g, player *p, item *it, bool t);
-  void growth		(game *g, player *p, item *it, bool t);
-  void water		(game *g, player *p, item *it, bool t);
-  void lava		(game *g, player *p, item *it, bool t);
 
 };
 

@@ -681,7 +681,7 @@ item consume_vpart_item (game *g, vpart_id vpid){
              options.push_back(candidates[i].vpart_item.tname() + " (nearby)");
           }
        }
-       selection = menu_vec("Use which gizmo?", options);
+       selection = menu_vec(false, "Use which gizmo?", options);
        selection -= 1;
     }
     //remove item from inventory. or map.
@@ -740,7 +740,7 @@ void complete_vehicle (game *g)
         g->consume_tools(tools);
         g->add_msg ("You install a %s into the %s.",
                    vpart_list[part].name, veh->name.c_str());
-        g->u.practice ("mechanics", vpart_list[part].difficulty * 5 + 20);
+        g->u.practice (g->turn, "mechanics", vpart_list[part].difficulty * 5 + 20);
         break;
     case 'r':
         if (veh->parts[part].hp <= 0)
@@ -758,7 +758,7 @@ void complete_vehicle (game *g)
         veh->parts[part].hp = veh->part_info(part).durability;
         g->add_msg ("You repair the %s's %s.",
                     veh->name.c_str(), veh->part_info(part).name);
-        g->u.practice ("mechanics", (vpart_list[part].difficulty + dd) * 5 + 20);
+        g->u.practice (g->turn, "mechanics", (vpart_list[part].difficulty + dd) * 5 + 20);
         break;
     case 'f':
         if (!g->pl_refill_vehicle(*veh, part, true))
@@ -784,7 +784,7 @@ void complete_vehicle (game *g)
             //else {
             //   g->m.add_item (g->u.posx, g->u.posy, g->itypes[itm], g->turn);
             //}
-            g->u.practice ("mechanics", 2 * 5 + 20);
+            g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
         }
         if (veh->parts.size() < 2)
         {

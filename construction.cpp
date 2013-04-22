@@ -132,7 +132,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 10);
    COMP("nail", 20);
-     STAGE(t_wall_wood, 10);
+  STAGE(t_wall_wood, 10);
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
    TOOLCONT("hatchet");
@@ -146,11 +146,13 @@ void game::init_construction()
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("stick", 3);
-     STAGE(t_wall_log, 20);
+   COMPCONT("2x4", 6);
+  STAGE(t_wall_log, 20);
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("stick", 3);
+   COMPCONT("2x4", 6);
 
  CONSTRUCT("Build Palisade Wall", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_palisade, 20);
@@ -160,10 +162,10 @@ void game::init_construction()
    COMP("rope_30", 1);
    COMPCONT("rope_6", 5);
 
- CONSTRUCT("Build Rope and Pulley System", 2, &construct::able_empty, &construct::done_nothing);
+ CONSTRUCT("Build Rope & Pulley System", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_palisade_pulley, 0);
-  COMP("rope_30", 1);
-     COMP("stick", 8);
+   COMP("rope_30", 1);
+   COMP("stick", 8);
    COMPCONT("2x4", 8);
 
  CONSTRUCT("Build Palisade Gate", 2, &construct::able_pit, &construct::done_nothing);
@@ -175,7 +177,7 @@ void game::init_construction()
    COMP("rope_30", 1);
    COMPCONT("rope_6", 5);
 
- CONSTRUCT("Build Window", 2, &construct::able_empty,
+ CONSTRUCT("Build Window", 2, &construct::able_make_window,
                               &construct::done_nothing);
   STAGE(t_window_empty, 10);
    TOOL("hammer");
@@ -184,10 +186,10 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 15);
    COMPCONT("log", 2);
-      COMP("nail", 30);
-     STAGE(t_window, 5);
+   COMP("nail", 30);
+  STAGE(t_window, 5);
    COMP("glass_sheet", 1);
-     STAGE(t_window_domestic, 5);
+  STAGE(t_window_domestic, 5);
    TOOL("saw");
    COMP("nail", 4);
    COMP("sheet", 2);
@@ -202,7 +204,7 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 12);
    COMP("nail", 24);
-     STAGE(t_door_c, 15);
+  STAGE(t_door_c, 15);
    TOOL("hammer");
    TOOLCONT("primitive_hammer");
    TOOLCONT("hatchet");
@@ -219,7 +221,7 @@ void game::init_construction()
    TOOLCONT("rock");
    COMP("pipe", 6);
    COMP("scrap", 8);
-     STAGE(t_chainfence_v, 20);
+  STAGE(t_chainfence_v, 20);
    COMP("wire", 15);
 
  CONSTRUCT("Realign Fence",   0, &construct::able_chainlink,
@@ -233,7 +235,7 @@ void game::init_construction()
    COMP("wire", 20);
    COMP("steel_chunk", 3);
    COMPCONT("scrap", 12);
-      COMP("pipe", 6);
+   COMP("pipe", 6);
 
 /*  Removed until we have some way of auto-aligning fences!
  CONSTRUCT("Build Fence", 1, 15, &construct::able_empty);
@@ -254,6 +256,19 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 8);
    COMP("nail", 40);
+
+ CONSTRUCT("Build Log & Sod Roof", 3, &construct::able_between_walls,
+                            &construct::done_nothing);
+  STAGE(t_floor, 80);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   COMP("log", 2);
+   COMP("stick", 4);
+   COMPCONT("2x4", 8);
+
 
 // Base stuff
  CONSTRUCT("Build Bulletin Board", 0, &construct::able_empty,
@@ -288,6 +303,25 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("nail", 16);
    COMP("2x4", 12);
+
+ CONSTRUCT("Build Locker", 1, &construct::able_indoors,
+                                &construct::done_nothing);
+  STAGE(t_locker, 20);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOL("wrench");
+   COMP("sheet_metal", 2);
+   COMP("pipe", 8);
+
+ CONSTRUCT("Build Metal Rack", 1, &construct::able_indoors,
+                                &construct::done_nothing);
+  STAGE(t_rack, 20);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOL("wrench");
+   COMP("pipe", 12);
 
  CONSTRUCT("Build Counter", 0, &construct::able_indoors,
                                 &construct::done_nothing);
@@ -332,7 +366,7 @@ void game::init_construction()
  CONSTRUCT("Fence Posts", 0, &construct::able_dig,
                              &construct::done_nothing);
   STAGE(t_fence_post, 5);
-  TOOL("hammer");
+   TOOL("hammer");
    TOOLCONT("primitive_hammer");
    TOOLCONT("shovel");
    TOOLCONT("primitive_shovel");
@@ -340,7 +374,24 @@ void game::init_construction()
    TOOLCONT("hatchet");
    TOOLCONT("ax");
    TOOLCONT("primitive_axe");
-  COMP("spear_wood", 2);
+   COMP("pointy_stick", 2);
+   COMPCONT("spear_wood", 2);
+
+ CONSTRUCT("Build Wood Stove", 0, &construct::able_empty,
+ 		                                   &construct::done_nothing);
+  STAGE(t_woodstove, 10);
+   TOOL("hacksaw");
+   COMP("metal_tank", 1);
+   COMP("pipe", 1);
+
+ CONSTRUCT("Build Stone Fireplace", 0, &construct::able_empty,
+ 		                                   &construct::done_nothing);
+  STAGE(t_fireplace, 40);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("shovel");
+   TOOLCONT("primitive_shovel");
+   COMP("rock", 40);
 }
 
 void game::construction_menu()
@@ -367,7 +418,9 @@ void game::construction_menu()
 
  bool update_info = true;
  int select = 0;
+ int chosen = 0;
  long ch;
+ bool exit = false;
 
  inventory total_inv = crafting_inventory();
 
@@ -425,9 +478,10 @@ void game::construction_menu()
     bool has_tool[3] = {stage.tools[0].empty(),
                         stage.tools[1].empty(),
                         stage.tools[2].empty()};
+    posy++;
+    posx = 33;
     for (int i = 0; i < 3 && !has_tool[i]; i++) {
-     posy++;
-     posx = 33;
+     mvwprintz(w_con, posy, posx-2, c_white, ">");
      for (int j = 0; j < stage.tools[i].size(); j++) {
       itype_id tool = stage.tools[i][j].type;
       nc_color col = c_red;
@@ -451,17 +505,18 @@ void game::construction_menu()
        posx += 3;
       }
      }
+     posy += 2;
+     posx = 33;
     }
 // Print components
-    posy++;
     posx = 33;
     bool has_component[3] = {stage.components[0].empty(),
                              stage.components[1].empty(),
                              stage.components[2].empty()};
     for (int i = 0; i < 3; i++) {
-     posx = 33;
-     while (has_component[i])
-      i++;
+     if (has_component[i])
+       continue;
+     mvwprintz(w_con, posy, posx-2, c_white, ">");
      for (int j = 0; j < stage.components[i].size() && i < 3; j++) {
       nc_color col = c_red;
       component comp = stage.components[i][j];
@@ -497,7 +552,8 @@ void game::construction_menu()
        posx += 3;
       }
      }
-     posy++;
+     posx = 33;
+     posy += 2;
     }
    }
    wrefresh(w_con);
@@ -521,27 +577,28 @@ void game::construction_menu()
     break;
    case ' ':
    case KEY_ESCAPE:
-    ch = 'q';
+   case 'q':
+   case 'Q':
+    exit = true;
     break;
    case '\n':
    default:
     if (ch > 64 && ch < 91) //A-Z
-     ch = ch - 65 + 26;
+     chosen = ch - 65 + 26;
 
-    if (ch > 96 && ch < 123) //a-z
-     ch = ch - 97;
+    else if (ch > 96 && ch < 123) //a-z
+     chosen = ch - 97;
 
-    if (ch == '\n')
-     ch = select;
+    else if (ch == '\n')
+     chosen = select;
 
-    if (ch < constructions.size()) {
-     if (player_can_build(u, total_inv, constructions[ch])) {
-      place_construction(constructions[ch]);
-      ch = 'q';
+    if (chosen < constructions.size()) {
+     if (player_can_build(u, total_inv, constructions[chosen])) {
+      place_construction(constructions[chosen]);
+      exit = true;
      } else {
       popup("You can't build that!");
-      if (ch != '\n')
-       select = ch;
+      select = chosen;
       for (int i = 1; i < iMaxY-1; i++)
        mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
       update_info = true;
@@ -549,7 +606,7 @@ void game::construction_menu()
     }
     break;
   }
- } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+ } while (!exit);
 
  for (int i = iMaxY-25; i < iMaxY+1; i++) {
   for (int j = TERRAIN_WINDOW_WIDTH; j < 81; j++)
@@ -709,9 +766,9 @@ void game::complete_construction()
  std::vector<component> player_use;
  std::vector<component> map_use;
 
- u.practice("carpentry", built->difficulty * 10);
+ u.practice(turn, "carpentry", built->difficulty * 10);
  if (built->difficulty == 0)
-   u.practice("carpentry", 10);
+   u.practice(turn, "carpentry", 10);
  for (int i = 0; i < 3; i++) {
   if (!stage.components[i].empty())
    consume_items(stage.components[i]);
@@ -720,7 +777,7 @@ void game::complete_construction()
 // Make the terrain change
  int terx = u.activity.placement.x, tery = u.activity.placement.y;
  if (stage.terrain != t_null)
-  m.ter(terx, tery) = stage.terrain;
+    m.ter_set(terx, tery, stage.terrain);
 
 // Strip off the first stage in our list...
  u.activity.values.erase(u.activity.values.begin());
@@ -774,6 +831,7 @@ bool construct::able_furniture(game *g, point p)
   case t_armchair:
   case t_bench:
   case t_cupboard:
+  case t_desk:
    required_str = 8;
    break;
   default:
@@ -796,6 +854,10 @@ bool construct::able_window(game *g, point p)
          g->m.ter(p.x, p.y) == t_window);
 }
 
+bool construct::able_make_window(game *g, point p)
+{
+    return able_window(g, p) || able_empty(g, p);
+}
 bool construct::able_empty_window(game *g, point p)
 {
  return (g->m.ter(p.x, p.y) == t_window_empty);
@@ -857,12 +919,12 @@ bool construct::able_pit(game *g, point p)
 
 bool construct::able_between_walls(game *g, point p)
 {
- return (g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x +1, p.y) ||
-         g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x, p.y +1) ||
-         g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x, p.y -1) ||
-         g->m.has_flag(supports_roof, p.x +1, p.y) && g->m.has_flag(supports_roof, p.x, p.y +1) ||
-         g->m.has_flag(supports_roof, p.x +1, p.y) && g->m.has_flag(supports_roof, p.x, p.y -1) ||
-         g->m.has_flag(supports_roof, p.x, p.y -1) && g->m.has_flag(supports_roof, p.x, p.y +1));
+    return ((g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x +1, p.y)) ||
+            (g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x, p.y +1)) ||
+            (g->m.has_flag(supports_roof, p.x -1, p.y) && g->m.has_flag(supports_roof, p.x, p.y -1)) ||
+            (g->m.has_flag(supports_roof, p.x +1, p.y) && g->m.has_flag(supports_roof, p.x, p.y +1)) ||
+            (g->m.has_flag(supports_roof, p.x +1, p.y) && g->m.has_flag(supports_roof, p.x, p.y -1)) ||
+            (g->m.has_flag(supports_roof, p.x, p.y -1) && g->m.has_flag(supports_roof, p.x, p.y +1)));
 }
 
 bool construct::able_deconstruct(game *g, point p)
@@ -895,8 +957,8 @@ void construct::done_furniture(game *g, point p)
   break;
  }
 
- g->m.ter(x, y) = g->m.ter(p.x, p.y);
- g->m.ter(p.x, p.y) = t_floor;
+ g->m.ter_set(x, y, g->m.ter(p.x, p.y));
+ g->m.ter_set(p.x, p.y, t_floor);
 
  //Move all Items within a container
  std::vector <item> vItemMove = g->m.i_at(p.x, p.y);
@@ -918,7 +980,7 @@ void construct::done_tree(game *g, point p)
  std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
  for (int i = 0; i < tree.size(); i++) {
   g->m.destroy(g, tree[i].x, tree[i].y, true);
-  g->m.ter(tree[i].x, tree[i].y) = t_log;
+  g->m.ter_set(tree[i].x, tree[i].y, t_log);
  }
 }
 
@@ -947,13 +1009,13 @@ void construct::done_tape(game *g, point p)
   switch (g->m.ter(p.x, p.y))
   {
     case t_window_alarm:
-      g->m.ter(p.x, p.y) = t_window_alarm_taped;
+      g->m.ter_set(p.x, p.y, t_window_alarm_taped);
 
     case t_window_domestic:
-      g->m.ter(p.x, p.y) = t_window_domestic_taped;
+      g->m.ter_set(p.x, p.y, t_window_domestic_taped);
 
     case t_window:
-      g->m.ter(p.x, p.y) = t_window_taped;
+      g->m.ter_set(p.x, p.y, t_window_taped);
   }
 
 }
@@ -969,32 +1031,32 @@ void construct::done_deconstruct(game *g, point p)
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 9);
       g->m.spawn_item(p.x, p.y, g->itypes["rag"], 0, 9);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,8));
-      g->m.ter(p.x, p.y) = t_floor;
+      g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_door_c:
     case t_door_o:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 3);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,12));
-      g->m.ter(p.x, p.y) = t_door_frame;
+      g->m.ter_set(p.x, p.y, t_door_frame);
     break;
     case t_window_domestic:
       g->m.spawn_item(p.x, p.y, g->itypes["stick"], 0);
       g->m.spawn_item(p.x, p.y, g->itypes["sheet"], 0, 1);
       g->m.spawn_item(p.x, p.y, g->itypes["glass_sheet"], 0);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, 3);
-      g->m.ter(p.x, p.y) = t_window_empty;
+      g->m.ter_set(p.x, p.y, t_window_empty);
     break;
 
     case t_window:
       g->m.spawn_item(p.x, p.y, g->itypes["glass_sheet"], 0);
-      g->m.ter(p.x, p.y) = t_window_empty;
+      g->m.ter_set(p.x, p.y, t_window_empty);
     break;
 
     case t_backboard:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
-      g->m.ter(p.x, p.y) = t_pavement;
+      g->m.ter_set(p.x, p.y, t_pavement);
     break;
 
     case t_sandbox:
@@ -1003,33 +1065,44 @@ void construct::done_deconstruct(game *g, point p)
     case t_crate_c:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
-      g->m.ter(p.x, p.y) = t_floor;
+      g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_chair:
     case t_cupboard:
     case t_desk:
+    case t_bulletin:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
-      g->m.ter(p.x, p.y) = t_floor;
+      g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_slide:
-      g->m.spawn_item(p.x, p.y, g->itypes["steel_plate"], 0);
+      g->m.spawn_item(p.x, p.y, g->itypes["sheet_metal"], 0);
       g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(4,8));
-      g->m.ter(p.x, p.y) = t_grass;
+      g->m.ter_set(p.x, p.y, t_grass);
+    break;
+
+    case t_locker:
+      g->m.spawn_item(p.x, p.y, g->itypes["sheet_metal"], 0);
+      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(4,8));
+      g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_rack:
+      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(6,12));
+      g->m.ter_set(p.x, p.y, t_floor);
+    break;
+
     case t_monkey_bars:
       g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(6,12));
-      g->m.ter(p.x, p.y) = t_grass;
+      g->m.ter_set(p.x, p.y, t_grass);
     break;
 
     case t_fridge:
       g->m.spawn_item(p.x, p.y, g->itypes["scrap"], 0, rng(2,6));
       g->m.spawn_item(p.x, p.y, g->itypes["steel_chunk"], 0, rng(2,3));
-      g->m.ter(p.x, p.y) = t_floor;
+      g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_counter:
@@ -1037,20 +1110,20 @@ void construct::done_deconstruct(game *g, point p)
     case t_table:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 6);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,8));
-      g->m.ter(p.x, p.y) = t_floor;
+      g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_pool_table:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes["rag"], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
-      g->m.ter(p.x, p.y) = t_floor;
+      g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_bookcase:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 12);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(12,16));
-      g->m.ter(p.x, p.y) = t_floor;
+      g->m.ter_set(p.x, p.y, t_floor);
     break;
   }
 

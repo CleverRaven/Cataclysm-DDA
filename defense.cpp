@@ -186,9 +186,13 @@ void defense_game::init_constructions(game *g)
 
 void defense_game::init_recipes(game *g)
 {
- for (int i = 0; i < g->recipes.size(); i++) {
-  g->recipes[i]->time /= 10; // Things take turns, not minutes
- }
+    for (recipe_map::iterator map_iter = g->recipes.begin(); map_iter != g->recipes.end(); ++map_iter)
+    {
+        for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
+        {
+            (*list_iter)->time /= 10; // Things take turns, not minutes
+        }
+    }
 }
 
 void defense_game::init_map(game *g)
