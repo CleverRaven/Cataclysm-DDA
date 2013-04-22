@@ -17,7 +17,7 @@ void trapfuncm::bubble(game *g, monster *z, int x, int y)
 
 void trapfuncm::cot(game *g, monster *z, int x, int y)
 {
- g->add_msg("The zombie stumbles over the cot");
+ g->add_msg("The %s stumbles over the cot", z->name().c_str());
  z->moves -= 100;
 }
 

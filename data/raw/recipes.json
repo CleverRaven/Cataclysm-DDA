@@ -287,9 +287,7 @@
                              ["toolset", -1]
                          ],
                          [
-                             ["fire", -1],
-                             ["toolset", 1],
-                             ["hotplate", 4]
+                             ["fire", -1]
                          ]
                      ],
             "components": [
@@ -373,40 +371,6 @@
                                   ["string_36", 2],
                                   ["sinew", 200],
                                   ["plant_fibre", 200]
-                              ]
-                          ]
-        },
-
-
-        {
-            "result": "arrow_wood",
-            "category": "CC_WEAPON",
-            "skill_pri": "archery",
-            "skill_sec": "survival",
-            "difficulty": 1,
-            "time": 5000,
-            "reversible": false,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["hatchet", -1],
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["stick", 1],
-                                  ["broom", 1],
-                                  ["mop", 1],
-                                  ["2x4", 1],
-                                  ["bee_sting", 1]
                               ]
                           ]
         },
@@ -1152,7 +1116,41 @@
                           ]
         },
 
+		
+        {
+            "result": "arrow_wood",
+            "category": "CC_AMMO",
+            "skill_pri": "archery",
+            "skill_sec": "survival",
+            "difficulty": 1,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["stick", 1],
+                                  ["broom", 1],
+                                  ["mop", 1],
+                                  ["2x4", 1],
+                                  ["bee_sting", 1]
+                              ]
+                          ]
+        },
 
+		
         {
             "result": "9mm",
             "category": "CC_AMMO",
@@ -1169,7 +1167,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1206,7 +1203,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1243,7 +1239,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1280,7 +1275,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1317,7 +1311,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1354,7 +1347,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1391,7 +1383,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1428,7 +1419,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1465,7 +1455,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1502,7 +1491,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1539,7 +1527,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1576,7 +1563,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1612,7 +1598,7 @@
                          ],
                          [
                              ["fire", -1],
-                             ["hotplate", 4],
+                             ["toolset", 1],
                              ["press", 2]
                          ]
                      ],
@@ -1649,7 +1635,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1686,7 +1671,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1723,7 +1707,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1760,7 +1743,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1797,7 +1779,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1834,7 +1815,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1871,7 +1851,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1908,7 +1887,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1945,7 +1923,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -1982,7 +1959,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -2019,7 +1995,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -2056,7 +2031,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -2093,7 +2067,6 @@
                          [
                              ["fire", -1],
                              ["toolset", 1],
-                             ["hotplate", 4],
                              ["press", 2]
                          ]
                      ],
@@ -2870,6 +2843,7 @@
                          ],
                          [
                              ["fire", -1],
+                             ["toolset", 1],
                              ["hotplate", 2]
                          ]
                      ],
@@ -2900,6 +2874,7 @@
                          ],
                          [
                              ["fire", -1],
+                             ["toolset", 1],
                              ["hotplate", 2]
                          ]
                      ],

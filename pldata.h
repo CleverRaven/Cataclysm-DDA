@@ -493,7 +493,7 @@ You have a hard time falling asleep, even under the best circumstances!"},
 You have problems with eating meat, it's possible for you to eat it but\n\
 you will suffer morale penalties due to nausea."},
 {"Glass Jaw", -3, 0, 0, "\
-Your head can't take much abuse.  Its maximum HP is 15%% lower than usual."},
+Your head can't take much abuse.  Its maximum HP is 20%% lower than usual."},
 {"Forgetful", -3, 0, 0, "\
 You have a hard time remembering things.  Your skills will erode slightly\n\
 faster than usual."},
