@@ -609,7 +609,7 @@ void game::process_activity()
       if (u.activity.index == -2) {
        u.read(this,u.weapon.invlet);
       } else {
-       u.read(this,u.inv[u.activity.index].invlet);
+       u.read(this,u.activity.invlet);
       }
       if (u.activity.type != ACT_NULL) {
        u.activity.continuous = true;
