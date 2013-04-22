@@ -23,8 +23,10 @@
 #include <fstream>
 #include <sstream>
 #include <math.h>
+#ifndef _MSC_VER
 #include <unistd.h>
 #include <dirent.h>
+#endif
 #include <sys/stat.h>
 #include "debug.h"
 
