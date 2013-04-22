@@ -460,43 +460,6 @@ item inventory::remove_item(invstack::iterator iter)
     return ret;
 }
 
-item inventory::remove_item(int stack, int index)
-{
-    if (stack < 0 || stack >= items.size())
-    {
-        debugmsg("Tried to remove_item(%d, %d) from an inventory (size %d)",
-                 stack, index, items.size());
-        return nullitem;
-    }
-
-    invstack::iterator iter = items.begin();
-    for (int i = 0; i < stack; ++i)
-    {
-        ++iter;
-    }
-    if (index < 0 || index >= iter->size())
-    {
-        debugmsg("Tried to remove_item(%d, %d) from an inventory (stack is size %d)",
-                 stack, index, iter->size());
-        return nullitem;
-    }
-
-    std::list<item>& stack_ref = *iter;
-    std::list<item>::iterator it_iter = stack_ref.begin();
-    for (int i = 0; i < index; ++i)
-    {
-        ++it_iter;
-    }
-    item ret = *it_iter;
-    stack_ref.erase(it_iter);
-    if (stack_ref.empty())
-    {
-        remove_stack(stack);
-    }
-
-    return ret;
-}
-
 item inventory::remove_item_by_type(itype_id type)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
