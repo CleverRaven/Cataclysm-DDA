@@ -5198,7 +5198,7 @@ void player::read(game *g, char ch)
   it = &inv.item_by_letter(ch);
  }
 
- if (it == NULL) {
+ if (it == NULL || it->is_null()) {
   g->add_msg("You do not have that item.");
   return;
  }
