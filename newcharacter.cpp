@@ -185,7 +185,7 @@ bool player::create(game *g, character_type type, std::string tempname)
    hp_cur[i] = hp_max[i];
   }
  } if (has_trait(PF_GLASSJAW)) {
-  hp_max[hp_head] = int(hp_max[hp_head] * .85);
+  hp_max[hp_head] = int(hp_max[hp_head] * .80);
   hp_cur[hp_head] = hp_max[hp_head];
  }
  if (has_trait(PF_SMELLY))
