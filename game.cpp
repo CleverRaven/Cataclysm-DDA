@@ -249,7 +249,7 @@ void game::start_game()
  nextspawn = int(turn);
  temperature = 65; // Springtime-appropriate?
 
- //Load NPCs - There might be some old npc still around. Try to set these on the map
+ //Load NPCs. Set nearby npcs to active.
  load_npcs();
  //Reset old NPCs.
 // reset_npcs();
@@ -364,13 +364,8 @@ void game::cleanup_at_end(){
  write_msg();
  if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) //|| QUIT_SAVED)
 	{
-		// Save the NPC's, missions and NPC's
+		// Save the factions's, missions and set the NPC's overmap coords
 		// Npcs are saved in the overmap.
-		for(int i = 0; i < active_npc.size(); i++)
-		{
-            if (active_npc[i]->posx == -1 || active_npc[i]->posy == -1)
-                debugmsg("game::cleanup_at_end Static NPC with no fine location data (%d:%d).", active_npc[i]->posx, active_npc[i]->posy);
-		}
 		save_factions_missions_npcs(); //missions need to be saved as they are global for all saves.
 
 		// save artifacts.
@@ -1994,15 +1989,8 @@ void game::save_factions_missions_npcs ()
     for (int i = 0; i < factions.size(); i++)
         fout << factions[i].save_info() << std::endl;
 
-/* fout << active_npc.size() << std::endl;
- for (int i = 0; i < active_npc.size(); i++) {
-  active_npc[i].mapx = levx;
-  active_npc[i].mapy = levy;
-  fout << active_npc[i].save_info() << std::endl;
- }*/
- //Saving the npcs here causes problems. As a different save would load them.
- //Currently all npcs are also saved in the omap. Just cleaning out the
- //current active npc list should be enough.
+    //Currently all npcs are also saved in the omap. Just cleaning out the
+    //current active npc list should be enough.
     for (int i = 0; i < active_npc.size(); i++)
     {
         active_npc[i]->omx = cur_om.pos().x;
@@ -2205,16 +2193,26 @@ void game::debug()
    break;
 
   case 3: {
-   point tmp = cur_om.draw_overmap(this, levz);
-   if (tmp.x != -1) {
-    z.clear();
-    levx = tmp.x * 2 - int(MAPSIZE / 2);
-    levy = tmp.y * 2 - int(MAPSIZE / 2);
-    set_adjacent_overmaps(true);
-    m.load(this, levx, levy, levz);
-   }
-  } break;
-
+        point tmp = cur_om.draw_overmap(this, levz);
+        if (tmp.x != -1)
+        {
+            //First offload the active npcs.
+            for (int i = 0; i < active_npc.size(); i++)
+            {
+                active_npc[i]->omx = cur_om.pos().x;
+                active_npc[i]->omy = cur_om.pos().y;
+                active_npc[i]->mapx = levx;
+                active_npc[i]->mapy = levy;
+            }
+            active_npc.clear();
+            z.clear();
+            levx = tmp.x * 2 - int(MAPSIZE / 2);
+            levy = tmp.y * 2 - int(MAPSIZE / 2);
+            set_adjacent_overmaps(true);
+            m.load(this, levx, levy, levz);
+            load_npcs();
+        }
+    } break;
   case 4:
    debugmsg("%d radio towers", cur_om.radios.size());
    for (int i = 0; i < OMAPX; i++) {
