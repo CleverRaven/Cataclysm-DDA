@@ -3829,7 +3829,7 @@
                      ],
             "components": [
                               [
-                                  ["power_supply", 4],
+                                  ["power_supply", 4]
                               ],
                               [
                                   ["amplifier", 2]
