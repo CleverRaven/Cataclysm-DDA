@@ -379,40 +379,6 @@
 
 
         {
-            "result": "arrow_wood",
-            "category": "CC_WEAPON",
-            "skill_pri": "archery",
-            "skill_sec": "survival",
-            "difficulty": 1,
-            "time": 5000,
-            "reversible": false,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["hatchet", -1],
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["stick", 1],
-                                  ["broom", 1],
-                                  ["mop", 1],
-                                  ["2x4", 1],
-                                  ["bee_sting", 1]
-                              ]
-                          ]
-        },
-
-
-        {
             "result": "nailboard",
             "category": "CC_WEAPON",
             "difficulty": 0,
@@ -1152,7 +1118,41 @@
                           ]
         },
 
+		
+        {
+            "result": "arrow_wood",
+            "category": "CC_AMMO",
+            "skill_pri": "archery",
+            "skill_sec": "survival",
+            "difficulty": 1,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["stick", 1],
+                                  ["broom", 1],
+                                  ["mop", 1],
+                                  ["2x4", 1],
+                                  ["bee_sting", 1]
+                              ]
+                          ]
+        },
 
+		
         {
             "result": "9mm",
             "category": "CC_AMMO",
