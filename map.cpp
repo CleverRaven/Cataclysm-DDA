@@ -2110,17 +2110,17 @@ std::vector<item>& map::i_at(const int x, const int y)
 
 item map::water_from(const int x, const int y)
 {
- item ret((*itypes)["water"], 0);
- if (ter(x, y) == t_water_sh && one_in(3))
-  ret.poison = rng(1, 4);
- else if (ter(x, y) == t_water_dp && one_in(4))
-  ret.poison = rng(1, 4);
- else if (ter(x, y) == t_sewage)
-  ret.poison = rng(1, 7);
- else if (ter(x, y) == t_toilet && !one_in(3))
-  ret.poison = rng(1, 3);
+    item ret(item_controller->find_template("water"), 0);
+    if (ter(x, y) == t_water_sh && one_in(3))
+        ret.poison = rng(1, 4);
+    else if (ter(x, y) == t_water_dp && one_in(4))
+        ret.poison = rng(1, 4);
+    else if (ter(x, y) == t_sewage)
+        ret.poison = rng(1, 7);
+    else if (ter(x, y) == t_toilet && !one_in(3))
+        ret.poison = rng(1, 3);
 
- return ret;
+    return ret;
 }
 
 void map::i_rem(const int x, const int y, const int index)
