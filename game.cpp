@@ -14,6 +14,7 @@
 #include "bodypart.h"
 #include "map.h"
 #include "output.h"
+#include "item_factory.h"
 #include "helper.h"
 
 #include <map>
@@ -55,6 +56,7 @@ game::game() :
 // Gee, it sure is init-y around here!
  init_bionics();      // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	      // Set up item types                (SEE itypedef.cpp)
+ item_controller->init(this); //Item manager
  init_mtypes();	      // Set up monster types             (SEE mtypedef.cpp)
  init_monitems();     // Set up the items monsters carry  (SEE monitemsdef.cpp)
  init_traps();	      // Set up the trap types            (SEE trapdef.cpp)
@@ -601,6 +603,21 @@ void game::process_activity()
 
      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(),
              u.skillLevel(reading->type).exercise());
+     
+     if (u.skillLevel(reading->type) == originalSkillLevel && (u.activity.continuous || query_yn("Study %s?", reading->type->name().c_str()))) {
+      u.cancel_activity();
+      if (u.activity.index == -2) {
+       u.read(this,u.weapon.invlet);
+      } else {
+       u.read(this,u.inv[u.activity.index].invlet);
+      }
+      if (u.activity.type != ACT_NULL) {
+       u.activity.continuous = true;
+       return;
+      }
+     }
+     
+     u.activity.continuous = false;
 
      if (u.skillLevel(reading->type) > originalSkillLevel)
       add_msg("You increase %s to level %d.",
@@ -2076,7 +2093,8 @@ bool game::event_queued(event_type type)
 
 void game::debug()
 {
- int action = menu("Debug Functions - Using these is CHEATING!",
+ int action = menu(true, // cancelable
+                   "Debug Functions - Using these is CHEATING!",
                    "Wish for an item",       // 1
                    "Teleport - Short Range", // 2
                    "Teleport - Long Range",  // 3
@@ -2180,7 +2198,7 @@ z.size(), events.size());
     for (int i = 2; i < vtypes.size(); i++)
      opts.push_back (vtypes[i]->name);
     opts.push_back (std::string("Cancel"));
-    veh_num = menu_vec ("Choose vehicle to spawn", opts) + 1;
+    veh_num = menu_vec (false, "Choose vehicle to spawn", opts) + 1;
     if (veh_num > 1 && veh_num < num_vehicles)
      m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90);
    }
@@ -2814,9 +2832,17 @@ void game::draw_minimap()
    int omy = cursy + j;
    bool seen = false;
    oter_id cur_ter;
+   long note_sym = 0;
+   bool note = false;
    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {
     cur_ter = cur_om.ter(omx, omy, levz);
     seen    = cur_om.seen(omx, omy, levz);
+    if (cur_om.has_note(omx,omy,levz))
+    {
+        if (cur_om.note(omx,omy,levz)[1] == ':')
+            note_sym = cur_om.note(omx,omy,levz)[0];
+        note = true;
+    }
    } else if ((omx < 0 || omx >= OMAPX) && (omy < 0 || omy >= OMAPY)) {
     if (omx < 0) omx += OMAPX;
     else         omx -= OMAPX;
@@ -2824,16 +2850,34 @@ void game::draw_minimap()
     else         omy -= OMAPY;
     cur_ter = om_diag->ter(omx, omy, levz);
     seen    = om_diag->seen(omx, omy, levz);
+    if (om_diag->has_note(omx,omy,levz))
+    {
+        if (om_diag->note(omx,omy,levz)[1] == ':')
+            note_sym = om_diag->note(omx,omy,levz)[0];
+        note = true;
+    }
    } else if (omx < 0 || omx >= OMAPX) {
     if (omx < 0) omx += OMAPX;
     else         omx -= OMAPX;
     cur_ter = om_hori->ter(omx, omy, levz);
     seen    = om_hori->seen(omx, omy, levz);
+    if (om_hori->has_note(omx,omy,levz))
+    {
+        if (om_hori->note(omx,omy,levz)[1] == ':')
+            note_sym = om_hori->note(omx,omy,levz)[0];
+        note = true;
+    }
    } else if (omy < 0 || omy >= OMAPY) {
     if (omy < 0) omy += OMAPY;
     else         omy -= OMAPY;
     cur_ter = om_vert->ter(omx, omy, levz);
     seen    = om_vert->seen(omx, omy, levz);
+    if (om_vert->has_note(omx,omy,levz))
+    {
+        if (om_vert->note(omx,omy,levz)[1] == ':')
+            note_sym = om_vert->note(omx,omy,levz)[0];
+        note = true;
+    }
    } else {
     dbg(D_ERROR) << "game:draw_minimap: No data loaded! omx: "
                  << omx << " omy: " << omy;
@@ -2841,6 +2885,11 @@ void game::draw_minimap()
    }
    nc_color ter_color = oterlist[cur_ter].color;
    long ter_sym = oterlist[cur_ter].sym;
+   if (note)
+   {
+       ter_sym = note_sym ? note_sym : 'N';
+       ter_color = c_yellow;
+   }
    if (seen) {
     if (!drew_mission && target.x == omx && target.y == omy) {
      drew_mission = true;
@@ -3410,12 +3459,6 @@ void game::monmove()
 {
  cleanup_dead();
  for (int i = 0; i < z.size(); i++) {
-  if (i < 0 || i > z.size())
-  {
-   dbg(D_ERROR) << "game:monmove: Moving out of bounds monster! i "
-                << i << ", z.size() " << z.size();
-   debugmsg("Moving out of bounds monster! i %d, z.size() %d", i, z.size());
-  }
   while (!z[i].dead && !z[i].can_move_to(m, z[i].posx, z[i].posy)) {
 // If we can't move to our current position, assign us to a new one
    if (debugmon)
@@ -4117,7 +4160,10 @@ void game::explode_mon(int index)
   }
  }
 
- z.erase(z.begin()+index);
+ // there WAS an erasure of the monster here, but it caused issues with loops
+ // we should structure things so that z.erase is only called in specified cleanup
+ // functions
+
  if (last_target == index)
   last_target = -1;
  else if (last_target > index)
@@ -4500,8 +4546,8 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   door_type   = t_palisade_gate;
   floor_type  = t_dirt;
   pull_message = "You pull the rope...";
-  open_message = "The gate!";
-  close_message = "The barn doors closed!";
+  open_message = "The palisade gate swings open!";
+  close_message = "The palisade gate swings closed with a crash!";
   break;
 
   default: return; // No matching gate type
@@ -4665,7 +4711,20 @@ void game::examine()
    add_msg ("You can't do that on moving vehicle.");
   else
    exam_vehicle (*veh, examx, examy);
- } else if (m.has_flag(sealed, examx, examy)) {
+ }
+ 
+ if (m.has_flag(console, examx, examy)) {
+  use_computer(examx, examy);
+  return;
+ }
+ const ter_t *xter_t = &terlist[m.ter(examx,examy)];
+ iexamine xmine;
+
+ if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
+
+  (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
+ 
+ if (m.has_flag(sealed, examx, examy)) {
   if (m.trans(examx, examy)) {
    std::string buff;
    if (m.i_at(examx, examy).size() <= 3 && m.i_at(examx, examy).size() != 0) {
@@ -4688,21 +4747,11 @@ void game::examine()
   }
  } else {
   if (m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) &&
-      !(m.has_flag(swimmable, examx, examy) || m.ter(examx, examy) == t_toilet))
+      !(m.has_flag(swimmable, examx, examy) || m.ter(examx, examy) == t_toilet) && xter_t->examine == &iexamine::none)
    add_msg("It is empty.");
   else
    pickup(examx, examy, 0);
  }
- if (m.has_flag(console, examx, examy)) {
-  use_computer(examx, examy);
-  return;
- }
- const ter_t *xter_t = &terlist[m.ter(examx,examy)];
- iexamine xmine;
-
- if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
-
-  (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 }
 int getsquare(int c , int &off_x, int &off_y, std::string &areastring)
 {
@@ -4955,7 +5004,7 @@ void game::advanced_inv()
             {
             // print the header.
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
-                mvwprintz(head,1,3, c_white, "hjkl to move cursor");
+                mvwprintz(head,1,3, c_white, "hjkl or arrow keys to move cursor");
                 mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
                 mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)");
                 mvwprintz(head,1,60, c_white, "[m]ove item between screen.");
@@ -4987,7 +5036,7 @@ void game::advanced_inv()
         wrefresh(head);
         wrefresh(left_window);
         wrefresh(right_window);
-        char c = getch();
+        int c = getch();
         int changeSquare;
         if(screen == 0)
         {
@@ -5155,7 +5204,7 @@ void game::advanced_inv()
         else if('e' == c)
         {
         }
-        else if('q' == c)
+        else if('q' == c || KEY_ESCAPE == c)
         {
             exit = true;
         }
@@ -5207,15 +5256,19 @@ void game::advanced_inv()
             switch(c)
             {
                 case 'j':
+                case KEY_DOWN:
                     changey = 1;
                     break;
                 case 'k':
+                case KEY_UP:
                     changey = -1;
                     break;
                 case 'h':
+                case KEY_LEFT:
                     changex = -1;
                     break;
                 case 'l':
+                case KEY_RIGHT:
                     changex = 1;
                     break;
                 default :
@@ -5580,7 +5633,7 @@ void game::reset_item_list_state(WINDOW* window, int height)
 
     mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 20, c_ltgreen, " %s", "F");
     wprintz(window, c_white, "%s", "ilter ");
-    
+
     mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 30, c_ltgreen, " %s", "+/-");
     wprintz(window, c_white, "%s", ":Priority ");
 
@@ -5719,7 +5772,7 @@ void game::list_items()
                     refilter = true;
                 }
             }
-            else if(ch == '-') 
+            else if(ch == '-')
             {
                 std::string temp = string_input_popup("Low Priority : ",55,list_item_downvote);
                 if(temp != "")
@@ -8602,7 +8655,7 @@ int game::valid_group(mon_id type, int x, int y, int z)
 
 void game::wait()
 {
- char ch = menu("Wait for how long?", "5 Minutes", "30 Minutes", "1 hour",
+ char ch = menu(true, "Wait for how long?", "5 Minutes", "30 Minutes", "1 hour",
                 "2 hours", "3 hours", "6 hours", "Exit", NULL);
  int time;
  if (ch == 7)

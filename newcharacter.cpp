@@ -222,7 +222,7 @@ End of cheatery */
  if (has_trait(PF_MARTIAL_ARTS)) {
   itype_id ma_type;
   do {
-   int choice = menu("Pick your style:",
+   int choice = menu(false, "Pick your style:",
                      "Karate", "Judo", "Aikido", "Tai Chi", "Taekwondo", NULL);
    if (choice == 1)
     ma_type = "style_karate";

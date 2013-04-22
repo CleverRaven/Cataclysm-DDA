@@ -13,11 +13,14 @@ Acid rain causes pain not injury
 Changed default viewmorale key to v
 Learn crafting recipes from item disassembly or books.
 New Hardcore trait
+Other new traits: Skilled Liar, Pretty, Beautiful, Very Beautiful, Glorius (cancels truth-teller, ugly mutations)
 Set minimum move to 25
 Death by starvation or thirst
-New profession: tailor
+New professions: tailor, scoundrel
 Adjusted conditions for cutting and stabbing skill practice (should be able to practice piercing now)
 Code compiles with no warnings.  No user-visible change, but important stability milestone.
+Added a craftable power armor power interface CBM.
+Continuous reading.
 
 0.4
 Make the battery system bionic only consume as many batteries as necessary to fully power yourself

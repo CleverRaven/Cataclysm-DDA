@@ -4008,7 +4008,7 @@ int player::pick_usb()
  for (int i = 0; i < drives.size() && i < 9; i++)
   selections.push_back( inv[drives[i]].tname() );
 
- int select = menu_vec("Choose drive:", selections);
+ int select = menu_vec(false, "Choose drive:", selections);
 
  return drives[ select - 1 ];
 }
@@ -4674,7 +4674,7 @@ void player::pick_style(game *g) // Style selection menu
  options.push_back("No style");
  for (int i = 0; i < styles.size(); i++)
   options.push_back( g->itypes[styles[i]]->name );
- int selection = menu_vec("Select a style", options);
+ int selection = menu_vec(false, "Select a style", options);
  if (selection >= 2)
   style_selected = styles[selection - 2];
  else
@@ -4819,7 +4819,7 @@ bool player::wear_item(game *g, item *to_wear)
    }
  } else {
    // Only helmets can be worn with power armor, except other power armor components
-   if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & mfb(bp_head))) {
+   if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor() && !(armor->covers & (mfb(bp_head) | mfb(bp_eyes)))) {
      g->add_msg("You can't wear %s with power armor!", to_wear->tname().c_str());
      return false;
    }
@@ -5558,10 +5558,10 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
 
         if (armor->covers & mfb(bp))
         {
-            if (armor->is_power_armor() && has_active_item("UPS_on"))
+            if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
             {
                 armorenc += armor->encumber - 4;
-                warmth   += armor->warmth - 20;
+                warmth   += armor->warmth - 40;
             }
             else
             {
@@ -5718,7 +5718,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
 //  their T shirt, for example.  TODO: don't assume! ASS out of U & ME, etc.
  for (int i = worn.size() - 1; i >= 0; i--) {
   tmp = dynamic_cast<it_armor*>(worn[i].type);
-  if ((tmp->covers & mfb(bp)) && tmp->storage < 20 && dam > 0) {
+  if ((tmp->covers & mfb(bp)) && tmp->storage < 20) {
    arm_bash = tmp->dmg_resist;
    arm_cut  = tmp->cut_resist;
    switch (worn[i].damage) {
@@ -5739,6 +5739,15 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     arm_cut  *= .1;
     break;
    }
+   if (((it_armor *)worn[i].type)->is_power_armor()) {
+     // Power armor can only be damaged by EXTREME damage
+     if (cut > arm_cut * 2 || dam > arm_bash * 2) {
+       if (!is_npc())
+         g->add_msg("Your %s is damaged!", worn[i].tname(g).c_str());
+
+       worn[i].damage++;
+     }
+   } else {
 // Wool, leather, and cotton clothing may be damaged by CUTTING damage
    if ((worn[i].made_of(WOOL)   || worn[i].made_of(LEATHER) ||
         worn[i].made_of(COTTON) || worn[i].made_of(GLASS)   ||
@@ -5762,6 +5771,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
      g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
     }
     worn[i].damage++;
+   }
    }
    if (worn[i].damage >= 5) {
     if (!is_npc())

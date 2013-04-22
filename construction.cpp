@@ -146,11 +146,13 @@ void game::init_construction()
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("stick", 3);
+   COMPCONT("2x4", 6);
   STAGE(t_wall_log, 20);
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("stick", 3);
+   COMPCONT("2x4", 6);
 
  CONSTRUCT("Build Palisade Wall", 2, &construct::able_pit, &construct::done_nothing);
   STAGE(t_palisade, 20);
@@ -255,6 +257,19 @@ void game::init_construction()
    COMP("2x4", 8);
    COMP("nail", 40);
 
+ CONSTRUCT("Build Log & Sod Roof", 3, &construct::able_between_walls,
+                            &construct::done_nothing);
+  STAGE(t_floor, 80);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   COMP("log", 2);
+   COMP("stick", 4);
+   COMPCONT("2x4", 8);
+
+
 // Base stuff
  CONSTRUCT("Build Bulletin Board", 0, &construct::able_empty,
  		                                   &construct::done_nothing);
@@ -288,6 +303,25 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("nail", 16);
    COMP("2x4", 12);
+
+ CONSTRUCT("Build Locker", 1, &construct::able_indoors,
+                                &construct::done_nothing);
+  STAGE(t_locker, 20);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOL("wrench");
+   COMP("sheet_metal", 2);
+   COMP("pipe", 8);
+
+ CONSTRUCT("Build Metal Rack", 1, &construct::able_indoors,
+                                &construct::done_nothing);
+  STAGE(t_rack, 20);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("hatchet");
+   TOOL("wrench");
+   COMP("pipe", 12);
 
  CONSTRUCT("Build Counter", 0, &construct::able_indoors,
                                 &construct::done_nothing);
@@ -349,6 +383,15 @@ void game::init_construction()
    TOOL("hacksaw");
    COMP("metal_tank", 1);
    COMP("pipe", 1);
+
+ CONSTRUCT("Build Stone Fireplace", 0, &construct::able_empty,
+ 		                                   &construct::done_nothing);
+  STAGE(t_fireplace, 40);
+   TOOL("hammer");
+   TOOLCONT("primitive_hammer");
+   TOOLCONT("shovel");
+   TOOLCONT("primitive_shovel");
+   COMP("rock", 40);
 }
 
 void game::construction_menu()
@@ -788,6 +831,7 @@ bool construct::able_furniture(game *g, point p)
   case t_armchair:
   case t_bench:
   case t_cupboard:
+  case t_desk:
    required_str = 8;
    break;
   default:
@@ -1010,7 +1054,6 @@ void construct::done_deconstruct(game *g, point p)
     break;
 
     case t_backboard:
-    case t_bulletin:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_pavement);
@@ -1028,18 +1071,29 @@ void construct::done_deconstruct(game *g, point p)
     case t_chair:
     case t_cupboard:
     case t_desk:
+    case t_bulletin:
       g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
       g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_slide:
-      g->m.spawn_item(p.x, p.y, g->itypes["steel_plate"], 0);
+      g->m.spawn_item(p.x, p.y, g->itypes["sheet_metal"], 0);
       g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(4,8));
       g->m.ter_set(p.x, p.y, t_grass);
     break;
 
+    case t_locker:
+      g->m.spawn_item(p.x, p.y, g->itypes["sheet_metal"], 0);
+      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(4,8));
+      g->m.ter_set(p.x, p.y, t_floor);
+    break;
+
     case t_rack:
+      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(6,12));
+      g->m.ter_set(p.x, p.y, t_floor);
+    break;
+
     case t_monkey_bars:
       g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(6,12));
       g->m.ter_set(p.x, p.y, t_grass);

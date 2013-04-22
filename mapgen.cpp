@@ -7,6 +7,7 @@
 #include "line.h"
 #include "debug.h"
 #include "options.h"
+#include "item_factory.h"
 #include "mapgenformat.h"
 
 #include <cassert>
@@ -388,7 +389,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
       if (one_in(250))
       {
         ter_set(i, j, t_tree_apple);
-        spawn_item(i, j, (*itypes)["apple"], turn);
+        spawn_item(i, j, item_controller->find_template("apple"), turn);
       }
       else
       ter_set(i, j, t_tree);
@@ -707,7 +708,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
      ter_set(i, j, t_tree_fungal);
     else if (one_in(300)) {
      ter_set(i, j, t_marloss);
-     spawn_item(i, j, (*itypes)["marloss_berry"], turn);
+     spawn_item(i, j, item_controller->find_template("marloss_berry"), turn);
     } else if (one_in(3))
      ter_set(i, j, t_dirt);
     else
@@ -2742,18 +2743,18 @@ case ot_lmoe: {
    if (!one_in(3)) {
     rn = dice(4, 3);
     for (int i = 0; i < rn; i++) {
-     spawn_item(SEEX - 1, SEEY - 1, (*itypes)["laser_pack"], 0);
-     spawn_item(SEEX + 1, SEEY - 1, (*itypes)["laser_pack"], 0);
+     spawn_item(SEEX - 1, SEEY - 1, item_controller->find_template("laser_pack"), 0);
+     spawn_item(SEEX + 1, SEEY - 1, item_controller->find_template("laser_pack"), 0);
     }
-    spawn_item(SEEX - 1, SEEY    , (*itypes)["v29"], 0);
-    spawn_item(SEEX + 1, SEEY    , (*itypes)["ftk93"], 0);
+    spawn_item(SEEX - 1, SEEY    , item_controller->find_template("v29"), 0);
+    spawn_item(SEEX + 1, SEEY    , item_controller->find_template("ftk93"), 0);
    } else if (!one_in(3)) {
     rn = dice(3, 6);
     for (int i = 0; i < rn; i++) {
-     spawn_item(SEEX - 1, SEEY - 1, (*itypes)["mininuke"], 0);
-     spawn_item(SEEX    , SEEY - 1, (*itypes)["mininuke"], 0);
-     spawn_item(SEEX - 1, SEEY    , (*itypes)["mininuke"], 0);
-     spawn_item(SEEX    , SEEY    , (*itypes)["mininuke"], 0);
+     spawn_item(SEEX - 1, SEEY - 1, item_controller->find_template("mininuke"), 0);
+     spawn_item(SEEX    , SEEY - 1, item_controller->find_template("mininuke"), 0);
+     spawn_item(SEEX - 1, SEEY    , item_controller->find_template("mininuke"), 0);
+     spawn_item(SEEX    , SEEY    , item_controller->find_template("mininuke"), 0);
     }
    } else {
     ter_set(SEEX - 2, SEEY - 1, t_rack);
@@ -3046,7 +3047,7 @@ case ot_lmoe: {
      place_items(mi_mil_rifles, 30, rnx, rny, rnx, rny, true, 0);
      place_items(mi_mil_armor,  70, rnx, rny, rnx, rny, true, 0);
      place_items(mi_mil_food,   40, rnx, rny, rnx, rny, true, 0);
-     spawn_item(rnx, rny, (*itypes)["id_military"], 0);
+     spawn_item(rnx, rny, item_controller->find_template("id_military"), 0);
     } else if (one_in(20))
      rough_circle(this, t_rubble, rnx, rny, rng(3, 6));
    }
@@ -3959,7 +3960,7 @@ case ot_lmoe: {
    case 1: { // Wyrms
     int x = rng(SEEX, SEEX + 1), y = rng(SEEY, SEEY + 1);
     ter_set(x, y, t_pedestal_wyrm);
-    spawn_item(x, y, (*itypes)["petrified_eye"], 0);
+    spawn_item(x, y, item_controller->find_template("petrified_eye"), 0);
    } break; // That's it!  game::examine handles the pedestal/wyrm spawns
 
    case 2: { // The Thing dog
@@ -6516,7 +6517,7 @@ break;
      int num_weed = rng(0, 3) * rng(0, 1);
      for (int n = 0; n < num_weed; n++) {
       int x = rng(i, i + 2), y = rng(j, j + 2);
-      spawn_item(x, y, (*itypes)["weed"], 0);
+      spawn_item(x, y, item_controller->find_template("weed"), 0);
      }
     }
    }
@@ -6956,19 +6957,19 @@ break;
    ter_set(3, 2, t_water_sh);
    ter_set(3, 3, t_water_sh);
   } else {
-   spawn_item(           5, SEEY + 1, (*itypes)["helmet_bike"], 0);
-   spawn_item(           4, SEEY + 1, (*itypes)["backpack"], 0);
-   spawn_item(           3, SEEY + 1, (*itypes)["pants_cargo"], 0);
-   spawn_item(           7, SEEY * 2 - 4, (*itypes)["machete"], 0);
-   spawn_item(           7, SEEY * 2 - 4, (*itypes)["9mm"], 0);
-   spawn_item(           7, SEEY * 2 - 4, (*itypes)["9mmP"], 0);
-   spawn_item(           7, SEEY * 2 - 4, (*itypes)["uzi"], 0);
-   spawn_item(SEEX * 2 - 2, SEEY + 5, (*itypes)["bubblewrap"], 0);
-   spawn_item(SEEX * 2 - 2, SEEY + 6, (*itypes)["grenade"], 0);
-   spawn_item(SEEX * 2 - 3, SEEY + 6, (*itypes)["flashlight"], 0);
-   spawn_item(SEEX * 2 - 2, SEEY + 7, (*itypes)["cig"], 0);
-   spawn_item(SEEX * 2 - 2, SEEY + 7, (*itypes)["codeine"], 0);
-   spawn_item(SEEX * 2 - 3, SEEY + 7, (*itypes)["water"], 0);
+   spawn_item(           5, SEEY + 1, item_controller->find_template("helmet_bike"), 0);
+   spawn_item(           4, SEEY + 1, item_controller->find_template("backpack"), 0);
+   spawn_item(           3, SEEY + 1, item_controller->find_template("pants_cargo"), 0);
+   spawn_item(           7, SEEY * 2 - 4, item_controller->find_template("machete"), 0);
+   spawn_item(           7, SEEY * 2 - 4, item_controller->find_template("9mm"), 0);
+   spawn_item(           7, SEEY * 2 - 4, item_controller->find_template("9mmP"), 0);
+   spawn_item(           7, SEEY * 2 - 4, item_controller->find_template("uzi"), 0);
+   spawn_item(SEEX * 2 - 2, SEEY + 5, item_controller->find_template("bubblewrap"), 0);
+   spawn_item(SEEX * 2 - 2, SEEY + 6, item_controller->find_template("grenade"), 0);
+   spawn_item(SEEX * 2 - 3, SEEY + 6, item_controller->find_template("flashlight"), 0);
+   spawn_item(SEEX * 2 - 2, SEEY + 7, item_controller->find_template("cig"), 0);
+   spawn_item(SEEX * 2 - 2, SEEY + 7, item_controller->find_template("codeine"), 0);
+   spawn_item(SEEX * 2 - 3, SEEY + 7, item_controller->find_template("water"), 0);
    ter_set(SEEX - 2, SEEY + 2, t_stairs_down);
   }
   break;
@@ -7034,16 +7035,13 @@ break;
     y = rng(0, SEEY * 2 - 1);
    } while (move_cost(x, y) == 0);
    if (!one_in(3))
-    spawn_item(x, y, (*itypes)["jackhammer"], 0);
+    spawn_item(x, y, item_controller->find_template("jackhammer"), 0);
    if (one_in(3))
-    spawn_item(x, y, (*itypes)["mask_dust"], 0);
+    spawn_item(x, y, item_controller->find_template("mask_dust"), 0);
    if (one_in(2))
-    spawn_item(x, y, (*itypes)["hat_hard"], 0);
+    spawn_item(x, y, item_controller->find_template("hat_hard"), 0);
    while (!one_in(3)){
-    std::string can_list[]={"can_beans", "can_corn", "can_spam","can_pineapple",
-                            "can_coconut", "can_sardine", "can_tuna"};
-    std::string can_to_spawn = can_list[rng(0,6)];
-    spawn_item(x, y, (*itypes)[can_to_spawn], 0);
+    spawn_item(x, y, item_controller->template_from("CAN"), 0);
    }
   }
   break;
@@ -7259,7 +7257,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
 
  int item_chance = 0;	// # of items
  for (int i = 0; i < eligible.size(); i++)
-  item_chance += (*itypes)[eligible[i]]->rarity;
+  item_chance += item_controller->find_template(eligible[i])->rarity;
  int selection, randnum;
  int px, py;
  while (rng(0, 99) < chance) {
@@ -7270,7 +7268,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
    if (selection >= eligible.size())
     debugmsg("OOB selection (%d of %d); randnum is %d, item_chance %d",
              selection, eligible.size(), randnum, item_chance);
-   randnum -= (*itypes)[eligible[selection]]->rarity;
+   randnum -= item_controller->find_template(eligible[selection])->rarity;
   }
   int tries = 0;
   do {
@@ -7283,13 +7281,13 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
             (!ongrass && (ter(px, py) == t_dirt || ter(px, py) == t_grass))) &&
            tries < 20);
   if (tries < 20) {
-   spawn_item(px, py, (*itypes)[eligible[selection]], turn);
+   spawn_item(px, py, eligible[selection], turn);
 // Guns in the home and behind counters are generated with their ammo
 // TODO: Make this less of a hack
-   if ((*itypes)[eligible[selection]]->is_gun() &&
+   if (item_controller->find_template(eligible[selection])->is_gun() &&
        (loc == mi_homeguns || loc == mi_behindcounter)) {
-    it_gun* tmpgun = dynamic_cast<it_gun*> ((*itypes)[eligible[selection]]);
-    spawn_item(px, py, (*itypes)[default_ammo(tmpgun->ammo)], turn);
+    it_gun* tmpgun = dynamic_cast<it_gun*> (item_controller->find_template(eligible[selection]));
+    spawn_item(px, py, default_ammo(tmpgun->ammo), turn);
    }
   }
  }
@@ -7300,8 +7298,7 @@ void map::put_items_from(items_location loc, int num, int x, int y, int turn)
  std::vector<itype_id> eligible = (*mapitems)[loc];
  int item_chance = 0;	// # of items
  for (int i = 0; i < eligible.size(); i++)
-  item_chance += (*itypes)[eligible[i]]->rarity;
-
+  item_chance += item_controller->find_template(eligible[i])->rarity;
  for (int i = 0; i < num; i++) {
   int selection, randnum;
   randnum = rng(1, item_chance);
@@ -7311,9 +7308,9 @@ void map::put_items_from(items_location loc, int num, int x, int y, int turn)
    if (selection >= eligible.size())
     debugmsg("OOB selection (%d of %d); randnum is %d, item_chance %d",
              selection, eligible.size(), randnum, item_chance);
-   randnum -= (*itypes)[eligible[selection]]->rarity;
+   randnum -= item_controller->find_template(eligible[selection])->rarity;
   }
-  spawn_item(x, y, (*itypes)[eligible[selection]], turn);
+  spawn_item(x, y, item_controller->find_template(eligible[selection]), turn);
  }
 }
 
@@ -8805,7 +8802,7 @@ void map::add_extra(map_extra type, game *g)
     add_item(x, y, body);
     place_items(mi_military, 86, x, y, x, y, true, 0);
     if (one_in(8))
-     spawn_item(x, y, (*itypes)["id_military"], 0);
+     spawn_item(x, y, item_controller->find_template("id_military"), 0);
    }
   }
   place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);//0.1 = 1-5
@@ -8826,7 +8823,7 @@ void map::add_extra(map_extra type, game *g)
 
    if (tries < 10) {	// We found a valid spot!
     add_item(x, y, body);
-    spawn_item(x, y, (*itypes)["id_science"], 0);
+    spawn_item(x, y, item_controller->find_template("id_science"), 0);
     place_items(mi_science, 84, x, y, x, y, true, 0);
    }
   }
@@ -8889,25 +8886,25 @@ void map::add_extra(map_extra type, game *g)
   switch (rng(1, 10)) {
    case 1: // Weed
     num_drugs = rng(20, 30);
-    drugtype = (*itypes)["weed"];
+    drugtype = item_controller->find_template("weed");
     break;
    case 2:
    case 3:
    case 4:
    case 5: // Cocaine
     num_drugs = rng(10, 20);
-    drugtype = (*itypes)["coke"];
+    drugtype = item_controller->find_template("coke");
     break;
    case 6:
    case 7:
    case 8: // Meth
     num_drugs = rng(8, 14);
-    drugtype = (*itypes)["meth"];
+    drugtype = item_controller->find_template("meth");
     break;
    case 9:
    case 10: // Heroin
     num_drugs = rng(6, 12);
-    drugtype = (*itypes)["heroin"];
+    drugtype = item_controller->find_template("heroin");
     break;
   }
   int num_bodies_a = dice(3, 3);
@@ -9095,7 +9092,7 @@ void map::add_extra(map_extra type, game *g)
     if (rng(0, 9) > trig_dist(x, y, i, j)) {
      marlossify(i, j);
      if (ter(i, j) == t_marloss)
-      spawn_item(x, y, (*itypes)["marloss_berry"], g->turn);
+      spawn_item(x, y, item_controller->find_template("marloss_berry"), g->turn);
      if (one_in(15)) {
       monster creature(g->mtypes[mon_id(rng(mon_gelatin, mon_blank))]);
       creature.spawn(i, j);
@@ -9129,7 +9126,7 @@ void map::create_anomaly(int cx, int cy, artifact_natural_property prop)
      if (ter(i, j) == t_rubble) {
       add_field(NULL, i, j, fd_push_items, 1);
       if (one_in(3))
-       spawn_item(i, j, (*itypes)["rock"], 0);
+       spawn_item(i, j, item_controller->find_template("rock"), 0);
      }
     }
    }

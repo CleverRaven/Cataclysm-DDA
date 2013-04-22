@@ -545,7 +545,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
    dump->push_back(iteminfo("BOOK", " Reading this book affects your morale by ", (book->fun > 0 ? "+" : ""), int(book->fun)));
 
   dump->push_back(iteminfo("BOOK", " This book takes ", "", int(book->time), " minutes to read.", true, true));
-  
+
   if (book->recipes.size() > 0) {
    dump->push_back(iteminfo("BOOK", " This book contains ", "", book->recipes.size(), " crafting recipes.", true, true));
   }
@@ -668,6 +668,7 @@ std::string item::tname(game *g)
   std::string damtext;
   switch (type->m1) {
    case VEGGY:
+   case HFLESH:
    case FLESH:
     damtext = "partially eaten ";
     break;
@@ -1264,7 +1265,7 @@ bool item::is_weap() const
   return false;
 
  if (is_gun() || is_food() || is_ammo() || is_food_container() || is_armor() ||
-     is_book() || is_tool())
+     is_book() || is_tool() || is_bionic() || is_gunmod())
   return false;
  return (type->melee_dam > 7 || type->melee_cut > 5);
 }
@@ -1909,4 +1910,8 @@ itype_id item::typeId() const
     if (!type)
         return "null";
     return type->id;
+}
+
+item item::clone(){
+    return item(type, bday);
 }

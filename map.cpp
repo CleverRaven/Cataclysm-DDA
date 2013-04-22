@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include "debug.h"
+#include "item_factory.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define INBOUNDS(x, y) \
@@ -1621,10 +1622,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   else {
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
-     if (move_cost(i, j) > 0 && one_in(3))
-      spawn_item(i, j, g->itypes["gasoline"], 0);
-     if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes["steel_chunk"], 0);
+       if(move_cost(i, j) == 0) continue;
+       if (one_in(3)) spawn_item(i, j, g->itypes["gasoline"], 0);
+       if (one_in(6)) spawn_item(i, j, g->itypes["steel_chunk"], 0, 0, 3);
     }
    }
   }
@@ -1638,10 +1638,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   ter_set(x, y, t_door_frame);
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
-    if (move_cost(i, j) > 0 && one_in(6))
-     spawn_item(i, j, g->itypes["2x4"], 0);
-    if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
+       if(move_cost(i, j) == 0) continue;
+       if (one_in(6)) spawn_item(i, j, g->itypes["2x4"], 0);
+       if (one_in(6)) spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
    }
   }
   break;
@@ -1662,10 +1661,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
  g->sound(x, y, 20, "SMASH!!");
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
-    if (move_cost(i, j) > 0 && one_in(5))
-     spawn_item(i, j, g->itypes["splinter"], 0);
-    if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
+       if(move_cost(i, j) == 0) continue;
+       if (one_in(5)) spawn_item(i, j, g->itypes["splinter"], 0);
+       if (one_in(6)) spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
    }
   }
   ter_set(x, y, t_rubble);
@@ -1695,14 +1693,11 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
  g->sound(x, y, 20, "SMASH!!");
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
-    if (move_cost(i, j) > 0 && one_in(5))
-     spawn_item(i, j, g->itypes["rock"], 0);
-    if (move_cost(i, j) > 0 && one_in(4))
-     spawn_item(i, j, g->itypes["splinter"], 0);
-    if (move_cost(i, j) > 0 && one_in(3))
-     spawn_item(i, j, g->itypes["rebar"], 0);
-    if (move_cost(i, j) > 0 && one_in(6))
-      spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
+       if(move_cost(i, j) == 0) continue;
+       if (one_in(5)) spawn_item(i, j, g->itypes["rock"], 0);
+       if (one_in(4)) spawn_item(i, j, g->itypes["splinter"], 0);
+       if (one_in(3)) spawn_item(i, j, g->itypes["rebar"], 0);
+       if (one_in(6)) spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
    }
   }
   ter_set(x, y, t_rubble);
@@ -1728,6 +1723,25 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
       destroy (g, i, j, false);
    }
   break;
+
+  case t_palisade:
+  case t_palisade_gate:
+      g->sound(x, y, 16, "CRUNCH!!");
+      for (int i = x - 1; i <= x + 1; i++)
+      {
+          for (int j = y - 1; j <= y + 1; j++)
+          {
+              if(move_cost(i, j) == 0) continue;
+              if (one_in(3)) spawn_item(i, j, g->itypes["rope_6"], 0);
+              if (one_in(2)) spawn_item(i, j, g->itypes["splinter"], 0);
+              if (one_in(3)) spawn_item(i, j, g->itypes["stick"], 0);
+              if (one_in(6)) spawn_item(i, j, g->itypes["2x4"], 0);
+              if (one_in(9)) spawn_item(i, j, g->itypes["log"], 0);
+          }
+      }
+      ter_set(x, y, t_dirt);
+      add_trap(x, y, tr_pit);
+      break;
 
  default:
   if (makesound && has_flag(explodes, x, y) && one_in(2))
@@ -2137,6 +2151,8 @@ point map::find_item(const item *it)
  return ret;
 }
 
+//Old spawn_item method
+//TODO: Deprecate
 void map::spawn_item(const int x, const int y, itype* type, const int birthday, const int quantity, const int charges)
 {
  if (type->is_style())
@@ -2144,6 +2160,21 @@ void map::spawn_item(const int x, const int y, itype* type, const int birthday, 
  item tmp(type, birthday);
  for(int i = 0; i < quantity; i++)
   spawn_item(x, y, type, birthday, 0, charges);
+ if (charges && tmp.charges > 0) //let's fail silently if we specify charges for an item that doesn't support it
+  tmp.charges = charges;
+ tmp = tmp.in_its_container(itypes);
+ if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
+  return;
+ add_item(x, y, tmp);
+}
+
+//New spawn_item method, using item factory
+void map::spawn_item(const int x, const int y, std::string type_id, const int birthday, const int quantity, const int charges)
+{
+ item tmp = item_controller->create(type_id, birthday);
+ if (quantity)
+  for(int i = 0; i < quantity; i++)
+   spawn_item(x, y, type_id, birthday, 0, charges);
  if (charges && tmp.charges > 0) //let's fail silently if we specify charges for an item that doesn't support it
   tmp.charges = charges;
  tmp = tmp.in_its_container(itypes);
