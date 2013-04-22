@@ -3,26 +3,9 @@
 #include "game.h"
 #include "keypress.h"
 #include "mapdata.h"
+#include "item_factory.h"
 
 const std::string inv_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
-
-item& inventory::operator[] (int i)
-{
-    if (i < 0 || i > items.size())
-    {
-        debugmsg("Attempted to access item %d in an inventory (size %d)",
-                 i, items.size());
-        return nullitem;
-    }
-
-    invstack::iterator iter = items.begin();
-    for (int j = 0; j < i; ++j)
-    {
-        ++iter;
-    }
-
-    return iter->front();
-}
 
 // TODO: make the two slice methods complain (debugmsg?) if length == size()
 // after all, if we're asking for the *entire* inventory,
@@ -182,6 +165,67 @@ inventory inventory::operator+ (const item &rhs)
  return inventory(*this) += rhs;
 }
 
+
+inventory inventory::filter_by_category(item_cat cat, const player& u) const
+{
+    inventory reduced_inv;
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        const item& it = iter->front();
+        switch (cat)
+        {
+        case IC_COMESTIBLE: // food
+            if (it.is_food(&u) || it.is_food_container(&u))
+            {
+                reduced_inv += *iter;
+            }
+            break;
+        case IC_AMMO: // ammo
+            if (it.is_ammo() || it.is_ammo_container())
+            {
+                reduced_inv += *iter;
+            }
+            break;
+        case IC_ARMOR: // armour
+            if (it.is_armor())
+            {
+                reduced_inv += *iter;
+            }
+            break;
+        case IC_BOOK: // books
+            if (it.is_book())
+            {
+                reduced_inv += *iter;
+            }
+            break;
+        case IC_TOOL: // tools
+            if (it.is_tool())
+            {
+                reduced_inv += *iter;
+            }
+            break;
+        case IC_CONTAINER: // containers for liquid handling
+            if (it.is_tool() || it.is_gun())
+            {
+                if (it.ammo_type() == AT_GAS)
+                {
+                    reduced_inv += *iter;
+                }
+            }
+            else
+            {
+                if (it.is_container())
+                {
+                    reduced_inv += *iter;
+                }
+            }
+            break;
+        }
+    }
+    return reduced_inv;
+}
+
+
 void inventory::unsort()
 {
     sorted = false;
@@ -255,6 +299,16 @@ void inventory::add_item(item newit, bool keep_invlet)
     std::list<item> newstack;
     newstack.push_back(newit);
     items.push_back(newstack);
+}
+
+void inventory::add_item_by_type(itype_id type, int count)
+{
+    // TODO add proper birthday
+    while (count > 0)
+    {
+        add_item(item_controller->create(type, 0));
+        count--;
+    }
 }
 
 void inventory::add_item_keep_invlet(item newit)
@@ -529,11 +583,11 @@ std::vector<item> inventory::remove_mission_items(int mission_id)
     return ret;
 }
 
-void inventory::dump(std::vector<item>& dest)
+void inventory::dump(std::vector<item>& dest) const
 {
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        for (std::list<item>::iterator stack_iter = iter->begin();
+        for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end(); ++stack_iter)
         {
             dest.push_back(*stack_iter);
@@ -553,12 +607,93 @@ item& inventory::item_by_letter(char ch)
     return nullitem;
 }
 
-int inventory::amount_of(itype_id it)
+item& inventory::item_by_type(itype_id type)
 {
-    int count = 0;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        if (iter->front().type->id == type)
+        {
+            return iter->front();
+        }
+    }
+    return nullitem;
+}
+
+item& inventory::item_or_container(itype_id type)
+{
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         for (std::list<item>::iterator stack_iter = iter->begin();
+             stack_iter != iter->end(); ++stack_iter)
+        {
+            if (stack_iter->type->id == type)
+            {
+                return *stack_iter;
+            }
+            else if (stack_iter->is_container() && stack_iter->contents.size() > 0)
+            {
+                if (stack_iter->contents[0].type->id == type)
+                {
+                    return *stack_iter;
+                }
+            }
+        }
+    }
+    
+    return nullitem;
+}
+
+std::vector<item*> inventory::all_items_by_type(itype_id type)
+{
+    std::vector<item*> ret;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::iterator stack_iter = iter->begin();
+             stack_iter != iter->end();
+             ++stack_iter)
+        {
+            if (stack_iter->type->id == type)
+            {
+                ret.push_back(&*stack_iter);
+            }
+        }
+    }
+    return ret;
+}
+
+std::vector<item*> inventory::all_ammo(ammotype type)
+{
+    std::vector<item*> ret;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::iterator stack_iter = iter->begin();
+             stack_iter != iter->end();
+             ++stack_iter)
+        {
+            if (stack_iter->is_ammo() && dynamic_cast<it_ammo*>(stack_iter->type)->type == type)
+            {
+                ret.push_back(&*stack_iter);
+            
+            }
+            // Handle gasoline nested in containers
+            else if (type == AT_GAS && stack_iter->is_container() &&
+	                 !stack_iter->contents.empty() && stack_iter->contents[0].is_ammo() &&
+	                 dynamic_cast<it_ammo*>(stack_iter->contents[0].type)->type == type)
+	        {
+                ret.push_back(&*stack_iter);
+                return ret;
+            }
+        }
+    }
+    return ret;
+}
+
+int inventory::amount_of(itype_id it) const
+{
+    int count = 0;
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end();
              ++stack_iter)
         {
@@ -589,12 +724,12 @@ int inventory::amount_of(itype_id it)
     return count;
 }
 
-int inventory::charges_of(itype_id it)
+int inventory::charges_of(itype_id it) const
 {
     int count = 0;
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        for (std::list<item>::iterator stack_iter = iter->begin();
+        for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end();
              ++stack_iter)
         {
@@ -741,21 +876,21 @@ void inventory::use_charges(itype_id it, int quantity)
     }
 }
 
-bool inventory::has_amount(itype_id it, int quantity)
+bool inventory::has_amount(itype_id it, int quantity) const
 {
  return (amount_of(it) >= quantity);
 }
 
-bool inventory::has_charges(itype_id it, int quantity)
+bool inventory::has_charges(itype_id it, int quantity) const
 {
  return (charges_of(it) >= quantity);
 }
 
-bool inventory::has_item(item *it)
+bool inventory::has_item(item *it) const
 {
-    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        for (std::list<item>::iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter)
+        for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter)
         {
             if (it == &(*stack_iter))
             {
@@ -767,6 +902,36 @@ bool inventory::has_item(item *it)
                 {
                     return true;
                 }
+            }
+        }
+    }
+    return false;
+}
+
+bool inventory::has_gun_for_ammo(ammotype type) const
+{
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter)
+        {
+            if (stack_iter->is_gun() && stack_iter->ammo_type() == type)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool inventory::has_active_item(itype_id type) const
+{
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter)
+        {
+            if (stack_iter->type->id == type && stack_iter->active)
+            {
+                return true;
             }
         }
     }
@@ -841,6 +1006,184 @@ bool inventory::has_artifact_with(art_effect_passive effect) const
         }
     }
     return false;
+}
+
+bool inventory::has_liquid(itype_id type) const
+{
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        const item& it = iter->front();
+        if (it.is_container() && !it.contents.empty())
+        {
+            if (it.contents[0].type->id == type)
+            {
+                // liquid matches
+                it_container* container = dynamic_cast<it_container*>(it.type);
+                int holding_container_charges;
+
+                if (it.contents[0].type->is_food())
+                {
+                    it_comest* tmp_comest = dynamic_cast<it_comest*>(it.contents[0].type);
+
+                    if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
+                    {
+                        holding_container_charges = container->contains * 20;
+                    }
+                    else
+                    {
+                        holding_container_charges = container->contains;
+                    }
+                }
+                else if (it.contents[0].type->is_ammo())
+                {
+                    // gasoline?
+                    holding_container_charges = container->contains * 200;
+                }
+                else
+                {
+                    holding_container_charges = container->contains;
+                }
+
+                if (it.contents[0].charges < holding_container_charges)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+item& inventory::watertight_container()
+{
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        item& it = iter->front();
+        if (it.is_container() && it.contents.empty())
+        {
+            it_container* cont = dynamic_cast<it_container*>(it.type);
+            if (cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals))
+            {
+                return it;
+            }
+        }
+    }
+    return nullitem;
+}
+
+int inventory::worst_item_value(npc* p) const
+{
+    int worst = 99999;
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        const item& it = iter->front();
+        int val = p->value(it);
+        if (val < worst)
+        {
+            worst = val;
+        }
+    }
+    return worst;
+}
+
+bool inventory::has_enough_painkiller(int pain) const
+{
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        const item& it = iter->front();
+        if ( (pain <= 35 && it.type->id == "aspirin") ||
+             (pain >= 50 && it.type->id == "oxycodone") ||
+             it.type->id == "tramadol" || it.type->id == "codeine")
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+item& inventory::most_appropriate_painkiller(int pain)
+{
+    int difference = 9999;
+    item& ret = nullitem;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        int diff = 9999;
+        itype_id type = iter->front().type->id;
+        if (type == "aspirin")
+        {
+            diff = abs(pain - 15);
+        }
+        else if (type == "codeine")
+        {
+            diff = abs(pain - 30);
+        }
+        else if (type == "oxycodone")
+        {
+            diff = abs(pain - 60);
+        }
+        else if (type == "heroin")
+        {
+            diff = abs(pain - 100);
+        }
+        else if (type == "tramadol")
+        {
+            diff = abs(pain - 40) / 2; // Bonus since it's long-acting
+        }
+
+        if (diff < difference)
+        {
+            difference = diff;
+            ret = iter->front();
+        }
+    }
+    return ret;
+}
+
+item& inventory::best_for_melee(int skills[num_skill_types])
+{
+    item& ret = nullitem;
+    int best = 0;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        int score = iter->front().melee_value(skills);
+        if (score > best)
+        {
+            best = score;
+            ret = iter->front();
+        }
+    }
+    return ret;
+}
+
+item& inventory::most_loaded_gun()
+{
+    item& ret = nullitem;
+    int max = 0;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        if (iter->front().is_gun() && iter->front().charges > max)
+        {
+            ret = iter->front();
+            max = ret.charges;
+        }
+    }
+    return ret;
+}
+
+void inventory::rust_iron_items()
+{
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        for (std::list<item>::iterator stack_iter = iter->begin();
+             stack_iter != iter->end();
+             ++stack_iter)
+        {
+            if (stack_iter->type->m1 == IRON && stack_iter->damage < 5 && one_in(8))
+            {
+                stack_iter->damage++;
+            }
+        }
+    }
 }
 
 int inventory::weight() const

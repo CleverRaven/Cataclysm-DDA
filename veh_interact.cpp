@@ -652,8 +652,9 @@ item consume_vpart_item (game *g, vpart_id vpid){
                 candidates.push_back (candidate_vpart(x,y,i,*ith_item));
           }
 
-    for (int i=0; i<g->u.inv.size(); i++){
-       item* ith_item = &(g->u.inv[i]);
+    std::vector<item*> cand_from_inv = g->u.inv.all_items_by_type(itid);
+    for (int i=0; i < cand_from_inv.size(); i++){
+       item* ith_item = cand_from_inv[i];
        if (ith_item->type->id  == itid)
           candidates.push_back (candidate_vpart(ith_item->invlet,*ith_item));
     }

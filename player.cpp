@@ -2255,15 +2255,15 @@ void player::pause(game *g)
  }
 }
 
-int player::throw_range(int index)
+int player::throw_range(char ch)
 {
  item tmp;
- if (index == -1)
+ if (ch == -1)
   tmp = weapon;
- else if (index == -2)
+ else if (ch == -2)
   return -1;
  else
-  tmp = inv[index];
+  tmp = inv.item_by_letter(ch);
 
  if (tmp.weight() > int(str_cur * 15))
   return 0;
@@ -3417,23 +3417,6 @@ void player::i_add(item it, game *g)
      it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
   inv.unsort();
 
- if (it.count_by_charges()) {
-  for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].type->id == item_type_id) {
-
-     // does it stack?
-    if (inv[i].charges > 0) {
-     inv[i].charges += it.charges;
-      it.charges = 0;
-      return;
-    }
-   }
-  }
-
-  inv.push_back(it);
-  return;
- }
-
  if (g != NULL && it.is_artifact() && it.is_tool()) {
   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it.type);
   g->add_artifact_messages(art->effects_carried);
@@ -3443,13 +3426,11 @@ void player::i_add(item it, game *g)
 
 bool player::has_active_item(itype_id id)
 {
- if (weapon.type->id == id && weapon.active)
-  return true;
- for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].type->id == id && inv[i].active)
-   return true;
- }
- return false;
+    if (weapon.type->id == id && weapon.active)
+    {
+        return true;
+    }
+    return inv.has_active_item(id);
 }
 
 int player::active_item_charges(itype_id id)
@@ -3703,10 +3684,7 @@ item& player::i_of_type(itype_id type)
   if (worn[i].type->id == type)
    return worn[i];
  }
- for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].type->id == type)
-   return inv[i];
- }
+ return inv.item_by_type(type);
  return ret_null;
 }
 
@@ -3722,11 +3700,9 @@ std::vector<item> player::inv_dump()
  return ret;
 }
 
-item player::i_remn(int index)
+item player::i_remn(char invlet)
 {
- if (index > inv.size() || index < 0)
-  return ret_null;
- return inv.remove_item_by_letter(inv[index].invlet);
+ return inv.remove_item_by_letter(invlet);
 }
 
 void player::use_amount(itype_id it, int quantity, bool use_container)
@@ -3901,23 +3877,16 @@ int player::butcher_factor()
  return lowest_factor;
 }
 
-int player::pick_usb()
+item* player::pick_usb()
 {
- std::vector<int> drives;
- for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].type->id == "usb_drive") {
-   if (inv[i].contents.empty())
-    return i; // No need to pick, use an empty one by default!
-   drives.push_back(i);
-  }
- }
+ std::vector<item*> drives = inv.all_items_by_type("usb_drive");
 
  if (drives.empty())
-  return -1; // None available!
+  return NULL; // None available!
 
  std::vector<std::string> selections;
  for (int i = 0; i < drives.size() && i < 9; i++)
-  selections.push_back( inv[drives[i]].tname() );
+  selections.push_back( drives[i]->tname() );
 
  int select = menu_vec("Choose drive:", selections);
 
@@ -4030,12 +3999,8 @@ int player::charges_of(itype_id it)
 
 bool player::has_watertight_container()
 {
- for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].is_container() && inv[i].contents.empty()) {
-   it_container* cont = dynamic_cast<it_container*>(inv[i].type);
-   if (cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals))
-    return true;
-  }
+ if (!inv.watertight_container().is_null()) {
+  return true;
  }
  if (weapon.is_container() && weapon.contents.empty()) {
    it_container* cont = dynamic_cast<it_container*>(weapon.type);
@@ -4048,29 +4013,8 @@ bool player::has_watertight_container()
 
 bool player::has_matching_liquid(itype_id it)
 {
- for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].is_container() && !inv[i].contents.empty()) {
-    if (inv[i].contents[0].type->id == it) { // liquid matches
-      it_container* container = dynamic_cast<it_container*>(inv[i].type);
-      int holding_container_charges;
-
-      if (inv[i].contents[0].type->is_food()) {
-        it_comest* tmp_comest = dynamic_cast<it_comest*>(inv[i].contents[0].type);
-
-        if (tmp_comest->add == ADD_ALCOHOL) // 1 contains = 20 alcohol charges
-          holding_container_charges = container->contains * 20;
-        else
-          holding_container_charges = container->contains;
-      }
-      else if (inv[i].contents[0].type->is_ammo())
-        holding_container_charges = container->contains * 200;
-      else
-        holding_container_charges = container->contains;
-
-    if (inv[i].contents[0].charges < holding_container_charges)
-      return true;
-    }
-  }
+ if (inv.has_liquid(it)) {
+  return true;
  }
  if (weapon.is_container() && !weapon.contents.empty()) {
   if (weapon.contents[0].type->id == it) { // liquid matches
@@ -4147,17 +4091,15 @@ bool player::has_mission_item(int mission_id)
     return false;
 }
 
-int player::lookup_item(char let)
+char player::lookup_item(char let)
 {
  if (weapon.invlet == let)
   return -1;
 
- for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].invlet == let)
-   return i;
- }
-
- return -2; // -2 is for "item not found"
+ if (inv.item_by_letter(let).is_null())
+  return -2; // -2 is for "item not found"
+ 
+ return let;
 }
 
 hint_rating player::rate_action_eat(item *it)
@@ -4169,17 +4111,17 @@ hint_rating player::rate_action_eat(item *it)
  return HINT_CANT;
 }
 
-bool player::eat(game *g, int index)
+bool player::eat(game *g, char ch)
 {
     it_comest *comest = NULL;
     item *eaten = NULL;
     int which = -3; // Helps us know how to delete the item which got eaten
-    if (index == -2)
+    if (ch == -2)
     {
         g->add_msg("You do not have that item.");
         return false;
     }
-    else if (index == -1)
+    else if (ch == -1)
     {
         if (weapon.is_food_container(this))
         {
@@ -4206,26 +4148,27 @@ bool player::eat(game *g, int index)
     }
     else
     {
-        if (inv[index].is_food_container(this))
+        item& it = inv.item_by_letter(ch);
+        if (it.is_food_container(this))
         {
-            eaten = &(inv[index].contents[0]);
-            which = index + inv.size();
-            if (inv[index].contents[0].is_food())
-                comest = dynamic_cast<it_comest*>(inv[index].contents[0].type);
+            eaten = &(it.contents[0]);
+            which = 1;
+            if (it.contents[0].is_food())
+                comest = dynamic_cast<it_comest*>(it.contents[0].type);
         }
-        else if (inv[index].is_food(this))
+        else if (it.is_food(this))
         {
-            eaten = &inv[index];
-            which = index;
-            if (inv[index].is_food())
-                comest = dynamic_cast<it_comest*>(inv[index].type);
+            eaten = &it;
+            which = 0;
+            if (it.is_food())
+                comest = dynamic_cast<it_comest*>(it.type);
         }
         else
         {
             if (!is_npc())
-                g->add_msg("You can't eat your %s.", inv[index].tname(g).c_str());
+                g->add_msg("You can't eat your %s.", it.tname(g).c_str());
             else
-                debugmsg("%s tried to eat a %s", name.c_str(), inv[index].tname(g).c_str());
+                debugmsg("%s tried to eat a %s", name.c_str(), it.tname(g).c_str());
             return false;
         }
     }
@@ -4433,46 +4376,46 @@ bool player::eat(game *g, int index)
             if (!is_npc())
                 g->add_msg("You are now wielding an empty %s.", weapon.tname(g).c_str());
         }
-        else if (which >= 0 && which < inv.size())
-            inv.remove_item_by_letter(inv[which].invlet);
-        else if (which >= inv.size())
+        else if (which == 0)
+            inv.remove_item_by_letter(ch);
+        else if (which >= 0)
         {
-            which -= inv.size();
-            inv[which].contents.erase(inv[which].contents.begin());
+            item& it = inv.item_by_letter(ch);
+            it.contents.erase(it.contents.begin());
             if (!is_npc())
             {
                 switch ((int)OPTIONS[OPT_DROP_EMPTY])
                 {
                 case 0:
-                    g->add_msg("%c - an empty %s", inv[which].invlet,
-                               inv[which].tname(g).c_str());
+                    g->add_msg("%c - an empty %s", it.invlet,
+                               it.tname(g).c_str());
                     break;
                 case 1:
-                    if (inv[which].is_container())
+                    if (it.is_container())
                     {
-                        it_container* cont = dynamic_cast<it_container*>(inv[which].type);
+                        it_container* cont = dynamic_cast<it_container*>(it.type);
                         if (!(cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals)))
                         {
-                            g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
-                            g->m.add_item(posx, posy, inv.remove_item_by_letter(inv[which].invlet));
+                            g->add_msg("You drop the empty %s.", it.tname(g).c_str());
+                            g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
                         }
                         else
-                            g->add_msg("%c - an empty %s", inv[which].invlet,
-                                       inv[which].tname(g).c_str());
+                            g->add_msg("%c - an empty %s", it.invlet,
+                                       it.tname(g).c_str());
                     }
-                    else if (inv[which].type->id == "wrapper") // hack because wrappers aren't containers
+                    else if (it.type->id == "wrapper") // hack because wrappers aren't containers
                     {
-                        g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
-                        g->m.add_item(posx, posy, inv.remove_item_by_letter(inv[which].invlet));
+                        g->add_msg("You drop the empty %s.", it.tname(g).c_str());
+                        g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
                     }
                     break;
                 case 2:
-                    g->add_msg("You drop the empty %s.", inv[which].tname(g).c_str());
-                    g->m.add_item(posx, posy, inv.remove_item_by_letter(inv[which].invlet));
+                    g->add_msg("You drop the empty %s.", it.tname(g).c_str());
+                    g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
                     break;
                 }
             }
-            if (inv.stack_by_letter(inv[which].invlet).size() > 0)
+            if (inv.stack_by_letter(it.invlet).size() > 0)
                 inv.restack(this);
             inv.unsort();
         }
@@ -4480,14 +4423,14 @@ bool player::eat(game *g, int index)
     return true;
 }
 
-bool player::wield(game *g, int index)
+bool player::wield(game *g, char ch)
 {
  if (weapon.has_flag(IF_NO_UNWIELD)) {
   g->add_msg("You cannot unwield your %s!  Withdraw them with 'p'.",
              weapon.tname().c_str());
   return false;
  }
- if (index == -3) {
+ if (ch == -3) {
   bool pickstyle = (!styles.empty());
   if (weapon.is_style())
    remove_weapon();
@@ -4518,21 +4461,22 @@ bool player::wield(game *g, int index)
    return true;
   }
  }
- if (index == -1) {
+ if (ch == 0) {
   g->add_msg("You're already wielding that!");
   return false;
- } else if (index == -2) {
+ } else if (ch == -2) {
   g->add_msg("You don't have that item.");
   return false;
  }
 
- if (inv[index].is_two_handed(this) && !has_two_arms()) {
+ item& it = inv.item_by_letter(ch);
+ if (it.is_two_handed(this) && !has_two_arms()) {
   g->add_msg("You cannot wield a %s with only one arm.",
-             inv[index].tname(g).c_str());
+             it.tname(g).c_str());
   return false;
  }
  if (!is_armed()) {
-  weapon = inv.remove_item_by_letter(inv[index].invlet);
+  weapon = inv.remove_item_by_letter(ch);
   if (weapon.is_artifact() && weapon.is_tool()) {
    it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(weapon.type);
    g->add_artifact_messages(art->effects_wielded);
@@ -4540,10 +4484,10 @@ bool player::wield(game *g, int index)
   moves -= 30;
   last_item = itype_id(weapon.type->id);
   return true;
- } else if (volume_carried() + weapon.volume() - inv[index].volume() <
+ } else if (volume_carried() + weapon.volume() - it.volume() <
             volume_capacity()) {
   item tmpweap = remove_weapon();
-  weapon = inv.remove_item_by_letter(inv[index].invlet);
+  weapon = inv.remove_item_by_letter(ch);
   inv.push_back(tmpweap);
   inv.unsort();
   moves -= 45;
@@ -4556,7 +4500,7 @@ bool player::wield(game *g, int index)
  } else if (query_yn("No space in inventory for your %s.  Drop it?",
                      weapon.tname(g).c_str())) {
   g->m.add_item(posx, posy, remove_weapon());
-  weapon = inv[index];
+  weapon = it;
   inv.remove_item(&weapon);
   inv.unsort();
   moves -= 30;
@@ -4670,13 +4614,7 @@ bool player::wear(game *g, char let)
   to_wear = &weapon;
   index = -2;
  } else {
-  for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].invlet == let) {
-    to_wear = &(inv[i]);
-    index = i;
-    i = inv.size();
-   }
-  }
+  to_wear = &inv.item_by_letter(let);
  }
 
  if (to_wear == NULL) {
@@ -5252,49 +5190,36 @@ void player::read(game *g, char ch)
 
 // Find the object
  int index = -1;
- if (weapon.invlet == ch)
+ item* it = NULL;
+ if (weapon.invlet == ch) {
   index = -2;
- else {
-  for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].invlet == ch) {
-    index = i;
-    i = inv.size();
-   }
-  }
+  it = &weapon;
+ } else {
+  it = &inv.item_by_letter(ch);
  }
 
- if (index == -1) {
+ if (it == NULL) {
   g->add_msg("You do not have that item.");
   return;
  }
 
 // Some macguffins can be read, but they aren't treated like books.
  it_macguffin* mac = NULL;
- item *used;
- if (index == -2 && weapon.is_macguffin()) {
-  mac = dynamic_cast<it_macguffin*>(weapon.type);
-  used = &weapon;
- } else if (index >= 0 && inv[index].is_macguffin()) {
-  mac = dynamic_cast<it_macguffin*>(inv[index].type);
-  used = &(inv[index]);
+ if (it->is_macguffin()) {
+  mac = dynamic_cast<it_macguffin*>(it->type);
  }
  if (mac != NULL) {
   iuse use;
-  (use.*mac->use)(g, this, used, false);
+  (use.*mac->use)(g, this, it, false);
   return;
  }
 
- if ((index >=  0 && !inv[index].is_book()) ||
-            (index == -2 && !weapon.is_book())) {
+ if (it->is_book()) {
   g->add_msg("Your %s is not good reading material.",
-           (index == -2 ? weapon.tname(g).c_str() : inv[index].tname(g).c_str()));
+           it->tname(g).c_str());
   return;
  }
- it_book* tmp;
- if (index == -2)
-  tmp = dynamic_cast<it_book*>(weapon.type);
- else
-  tmp = dynamic_cast<it_book*>(inv[index].type);
+ it_book* tmp = dynamic_cast<it_book*>(it->type);
 int time; //Declare this here so that we can change the time depending on whats needed
  if (tmp->intel > 0 && has_trait(PF_ILLITERATE)) {
   g->add_msg("You're illiterate!");
@@ -5327,14 +5252,14 @@ int time; //Declare this here so that we can change the time depending on whats 
  if (tmp->intel > int_cur) {
   g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
   time = tmp->time * (read_speed() + ((tmp->intel - int_cur) * 100)); // Lower int characters can read, at a speed penalty
-  activity = player_activity(ACT_READ, time, index);
+  activity = player_activity(ACT_READ, time, index, ch);
   moves = 0;
   return;
  }
 
 // Base read_speed() is 1000 move points (1 minute per tmp->time)
  time = tmp->time * read_speed();
- activity = player_activity(ACT_READ, time, index);
+ activity = player_activity(ACT_READ, time, index, ch);
  moves = 0;
 }
 
@@ -5839,14 +5764,14 @@ void player::learn_recipe(recipe *rec)
     learned_recipes[rec->ident] = rec;
 }
 
-void player::assign_activity(game* g, activity_type type, int moves, int index)
+void player::assign_activity(game* g, activity_type type, int moves, int index, char invlet)
 {
- if (backlog.type == type && backlog.index == index &&
+ if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
      query_yn("Resume task?")) {
   activity = backlog;
   backlog = player_activity();
  } else
-  activity = player_activity(type, moves, index);
+  activity = player_activity(type, moves, index, invlet);
 }
 
 void player::cancel_activity()
@@ -5856,35 +5781,9 @@ void player::cancel_activity()
  activity.type = ACT_NULL;
 }
 
-std::vector<int> player::has_ammo(ammotype at)
+std::vector<item*> player::has_ammo(ammotype at)
 {
- std::vector<int> ret;
- it_ammo* tmp;
- bool newtype = true;
- for (int a = 0; a < inv.size(); a++) {
-  if (inv[a].is_ammo() && dynamic_cast<it_ammo*>(inv[a].type)->type == at) {
-   newtype = true;
-   tmp = dynamic_cast<it_ammo*>(inv[a].type);
-   for (int i = 0; i < ret.size(); i++) {
-    if (tmp->id == inv[ret[i]].type->id &&
-        inv[a].charges == inv[ret[i]].charges) {
-// They're effectively the same; don't add it to the list
-// TODO: Bullets may become rusted, etc., so this if statement may change
-     newtype = false;
-     i = ret.size();
-    }
-   }
-   if (newtype)
-    ret.push_back(a);
-  // Handle gasoline nested in containers
-  } else if (at == AT_GAS && inv[a].is_container() &&
-	     !inv[a].contents.empty() && inv[a].contents[0].is_ammo() &&
-	     dynamic_cast<it_ammo*>(inv[a].contents[0].type)->type == at) {
-   ret.push_back(a);
-   return ret;
-  }
- }
- return ret;
+    return inv.all_ammo(at);
 }
 
 std::string player::weapname(bool charges)

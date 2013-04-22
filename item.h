@@ -60,9 +60,9 @@ public:
  int burst_size();
  int recoil(bool with_ammo = true);
  int range(player *p = NULL);
- ammotype ammo_type();
- int pick_reload_ammo(player &u, bool interactive);
- bool reload(player &u, int index);
+ ammotype ammo_type() const;
+ char pick_reload_ammo(player &u, bool interactive);
+ bool reload(player &u, char invlet);
  void next_mode();
 
  std::string save_info() const;	// Formatted for save files
@@ -72,7 +72,7 @@ public:
  std::string info(bool showtext, std::vector<iteminfo> *dump);
  char symbol();
  nc_color color();
- int price();
+ int price() const;
 
  bool invlet_is_okay();
  bool stacks_with(item rhs);
@@ -97,7 +97,7 @@ public:
  bool rotten(game *g);
 
 // Our value as a weapon, given particular skills
- int  weapon_value(int skills[num_skill_types]);
+ int  weapon_value(int skills[num_skill_types]) const;
 // As above, but discounts its use as a ranged weapon
  int  melee_value (int skills[num_skill_types]);
 // Returns the data associated with tech, if we are an it_style
@@ -109,8 +109,8 @@ public:
  bool destroyed_at_zero_charges();
 // Most of the is_whatever() functions call the same function in our itype
  bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
- bool is_food(player *u) const;// Some non-food items are food to certain players
- bool is_food_container(player *u) const;  // Ditto
+ bool is_food(player const*u) const;// Some non-food items are food to certain players
+ bool is_food_container(player const*u) const;  // Ditto
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const;

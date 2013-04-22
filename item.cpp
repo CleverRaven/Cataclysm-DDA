@@ -633,11 +633,8 @@ nc_color item::color(player *u)
   if (u->weapon.is_gun() && u->weapon.ammo_type() == amtype)
    ret = c_green;
   else {
-   for (int i = 0; i < u->inv.size(); i++) {
-    if (u->inv[i].is_gun() && u->inv[i].ammo_type() == amtype) {
-     i = u->inv.size();
-     ret = c_green;
-    }
+   if (u->inv.has_gun_for_ammo(amtype)) {
+    ret = c_green;
    }
   }
  } else if (is_book()) {
@@ -800,7 +797,7 @@ nc_color item::color()
  return type->color;
 }
 
-int item::price()
+int item::price() const
 {
  if( is_null() )
   return 0;
@@ -1043,7 +1040,7 @@ int item::num_charges()
  return 0;
 }
 
-int item::weapon_value(int skills[num_skill_types])
+int item::weapon_value(int skills[num_skill_types]) const
 {
  if( is_null() )
   return 0;
@@ -1206,7 +1203,7 @@ bool item::is_ammo() const
  return type->is_ammo();
 }
 
-bool item::is_food(player *u) const
+bool item::is_food(player const*u) const
 {
  if (!u)
   return is_food();
@@ -1226,7 +1223,7 @@ bool item::is_food(player *u) const
  return false;
 }
 
-bool item::is_food_container(player *u) const
+bool item::is_food_container(player const*u) const
 {
  return (contents.size() >= 1 && contents[0].is_food(u));
 }
@@ -1668,7 +1665,7 @@ int item::range(player *p)
 }
 
 
-ammotype item::ammo_type()
+ammotype item::ammo_type() const
 {
  if (is_gun()) {
   it_gun* gun = dynamic_cast<it_gun*>(type);
@@ -1694,7 +1691,7 @@ ammotype item::ammo_type()
  return AT_NULL;
 }
 
-int item::pick_reload_ammo(player &u, bool interactive)
+char item::pick_reload_ammo(player &u, bool interactive)
 {
  if( is_null() )
   return false;
@@ -1705,7 +1702,7 @@ int item::pick_reload_ammo(player &u, bool interactive)
  }
  int has_spare_mag = has_gunmod ("spare_mag");
 
- std::vector<int> am;	// List of indicies of valid ammo
+ std::vector<item*> am;	// List of valid ammo
 
  if (type->is_gun()) {
   if(charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0) {
@@ -1720,9 +1717,9 @@ int item::pick_reload_ammo(player &u, bool interactive)
   // or the spare mag is loaded and we're doing a tactical reload.
   if (charges < clip_size() ||
       (has_spare_mag != -1 && contents[has_spare_mag].charges < tmp->clip)) {
-   std::vector<int> tmpammo = u.has_ammo(ammo_type());
+   std::vector<item*> tmpammo = u.has_ammo(ammo_type());
    for (int i = 0; i < tmpammo.size(); i++)
-    if (charges <= 0 || u.inv[tmpammo[i]].typeId() == curammo->id)
+    if (charges <= 0 || tmpammo[i]->typeId() == curammo->id)
       am.push_back(tmpammo[i]);
   }
 
@@ -1731,17 +1728,17 @@ int item::pick_reload_ammo(player &u, bool interactive)
   for (int i = 0; i < contents.size(); i++)
    if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX) &&
        contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip) {
-    std::vector<int> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
+    std::vector<item*> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
     for(int j = 0; j < tmpammo.size(); j++)
      if (contents[i].charges <= 0 ||
-         u.inv[tmpammo[j]].typeId() == contents[i].curammo->id)
+         tmpammo[j]->typeId() == contents[i].curammo->id)
       am.push_back(tmpammo[j]);
    }
  } else { //non-gun.
   am = u.has_ammo(ammo_type());
  }
 
- int index = -1;
+ char invlet = 0;
 
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
    WINDOW* w_ammo = newwin(am.size() + 1, 80, VIEW_OFFSET_Y, VIEW_OFFSET_X);
@@ -1751,10 +1748,10 @@ int item::pick_reload_ammo(player &u, bool interactive)
    mvwprintw(w_ammo, 0, 0, "\
 Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
    for (int i = 0; i < am.size(); i++) {
-    ammo_type = dynamic_cast<it_ammo*>(u.inv[am[i]].type);
+    ammo_type = dynamic_cast<it_ammo*>(am[i]->type);
     mvwaddch(w_ammo, i + 1, 1, i + 'a');
-    mvwprintw(w_ammo, i + 1, 3, "%s (%d)", u.inv[am[i]].tname().c_str(),
-                                           u.inv[am[i]].charges);
+    mvwprintw(w_ammo, i + 1, 3, "%s (%d)", am[i]->tname().c_str(),
+                                           am[i]->charges);
     mvwprintw(w_ammo, i + 1, 27, "%d", ammo_type->damage);
     mvwprintw(w_ammo, i + 1, 38, "%d", ammo_type->pierce);
     mvwprintw(w_ammo, i + 1, 55, "%d", ammo_type->range);
@@ -1769,23 +1766,23 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
    delwin(w_ammo);
    erase();
    if (ch == ' ' || ch == 27)
-    index = -1;
+    invlet = 0;
    else
-    index = am[ch - 'a'];
+    invlet = am[ch - 'a']->invlet;
  }
  // Either only one valid choice or chosing for a NPC, just return the first.
  else if (am.size() > 0){
-  index = am[0];
+  invlet = am[0]->invlet;
  }
- return index;
+ return invlet;
 }
 
-bool item::reload(player &u, int index)
+bool item::reload(player &u, char invlet)
 {
  bool single_load = false;
  int max_load = 1;
  item *reload_target = NULL;
- item *ammo_to_use = index != -2 ? &u.inv[index] : NULL;
+ item *ammo_to_use = invlet != 0 ? &u.inv.item_by_letter(invlet) : NULL;
 
  // Handle ammo in containers, currently only gasoline
  if(ammo_to_use && ammo_to_use->is_container())
@@ -1858,7 +1855,7 @@ bool item::reload(player &u, int index)
   max_load *= 2;
  }
 
- if (index > -1) {
+ if (invlet > 0) {
   // If the gun is currently loaded with a different type of ammo, reloading fails
   if ((reload_target->is_gun() || reload_target->is_gunmod()) &&
       reload_target->charges > 0 &&
@@ -1886,13 +1883,13 @@ bool item::reload(player &u, int index)
   }
   if (ammo_to_use->charges == 0)
   {
-      if (u.inv[index].is_container())
+      if (ammo_to_use->is_container())
       {
-          u.inv[index].contents.erase(u.inv[index].contents.begin());
+          ammo_to_use->contents.erase(ammo_to_use->contents.begin());
       }
       else
       {
-          u.i_remn(index);
+          u.i_remn(invlet);
       }
   }
   return true;
