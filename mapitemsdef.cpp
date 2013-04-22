@@ -71,6 +71,7 @@ void game::init_mapitems()
 	"superglue", "string_6", "string_36", "screwdriver", "wrench",
 	"hacksaw", "xacto", "gloves_leather", "mask_dust",
 	"glasses_safety", "battery", "nail", "nailgun",
+  "solar_cell",
 	"manual_mechanics", "hammer", "flashlight", "soldering_iron",
 	"bubblewrap", "binoculars", "duct_tape", "lawnmower", "foot_crank",
         "boltcutters", "spray_can", NULL);
@@ -204,7 +205,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_consumer_electronics],
-	"amplifier", "antenna", "battery", "soldering_iron",
+  "amplifier", "antenna", "battery", "soldering_iron", "solar_cell",
 	"screwdriver", "processor", "RAM", "mp3", "flashlight",
 	"radio", "hotplate", "receiver", "transponder", "tazer",
 	"two_way_radio", "usb_drive", "manual_electronics", "cable", NULL);
@@ -481,7 +482,7 @@ void game::init_mapitems()
         "wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
         "1cyl_combustion", "v2_combustion", "i4_combustion", "v6_combustion",
         "vehicle_controls", "v8_combustion", "hacksaw", "welder", "motor",
-        "goggles_welding",
+        "goggles_welding", "solar_cell",
         "motor_large", "storage_battery", "solar_panel", "jerrycan", "jerrycan_big", "metal_tank", NULL);
 
  setvector(
@@ -521,7 +522,7 @@ void game::init_mapitems()
    mapitems[mi_electronics],
 	"superglue", "electrohack", "processor", "RAM",
 	"power_supply", "amplifier", "transponder", "receiver",
-	"antenna",
+  "antenna", "solar_cell",
 	"screwdriver", "mask_dust", "glasses_safety", "goggles_welding",
 	"battery", "plut_cell", "manual_electronics",
 	"textbook_electronics", "soldering_iron", "hotplate", "UPS_off",
@@ -684,6 +685,7 @@ void game::init_mapitems()
 	"transponder", "receiver", "antenna", "screwdriver",
 	"battery", "mag_porn", "mag_tv", "manual_electronics",
 	"lighter", "flashlight", "two_way_radio", "radio", "mp3",
+  "solar_cell",
 	"usb_drive", NULL);
 
  setvector(
@@ -754,7 +756,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_robots],
-	"processor", "RAM", "power_supply", "amplifier",
+  "processor", "RAM", "power_supply", "amplifier", "solar_cell",
 	"transponder", "receiver", "antenna", "steel_chunk", "spring",
 	"steel_lump", "motor", "battery", "plut_cell", NULL);
 
@@ -895,6 +897,7 @@ void game::init_mapitems()
    mapitems[mi_npc_hacker],
 	"energy_drink", "adderall", "electrohack", "usb_drive",
 	"battery", "manual_computers", "textbook_computers",
+  "solar_cell",
 	"SICP", "soldering_iron", NULL);
 
 // This one kind of an inverted list; what an NPC will NOT carry
