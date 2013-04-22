@@ -587,7 +587,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   }
 // Draw the NPCs
   for (int i = 0; i < active_npc.size(); i++) {
-   if (u_see(active_npc[i]->posx, active_npc[i]->posy, tart))
+   if (u_see(active_npc[i]->posx, active_npc[i]->posy))
     active_npc[i]->draw(w_terrain, center.x, center.y, false);
   }
   if (x != u.posx || y != u.posy) {

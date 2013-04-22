@@ -691,7 +691,7 @@ void game::process_activity()
 
      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(),
              u.skillLevel(reading->type).exercise());
-     
+
      if (u.skillLevel(reading->type) == originalSkillLevel && (u.activity.continuous || query_yn("Study %s?", reading->type->name().c_str()))) {
       u.cancel_activity();
       if (u.activity.index == -2) {
@@ -704,7 +704,7 @@ void game::process_activity()
        return;
       }
      }
-     
+
      u.activity.continuous = false;
 
      if (u.skillLevel(reading->type) > originalSkillLevel)
@@ -2782,7 +2782,7 @@ void game::draw_ter(int posx, int posy)
   disty = abs(active_npc[i]->posy - posy);
   distx = abs(active_npc[i]->posx - posx);
   if (distx <= VIEWX && disty <= VIEWY &&
-      u_see(active_npc[i]->posx, active_npc[i]->posy, t))
+      u_see(active_npc[i]->posx, active_npc[i]->posy))
    active_npc[i]->draw(w_terrain, posx, posy, false);
  }
  if (u.has_active_bionic("bio_scent_vision")) {
@@ -3359,7 +3359,7 @@ void game::mon_info()
   }
  }
  for (int i = 0; i < active_npc.size(); i++) {
-  if (u_see(active_npc[i]->posx, active_npc[i]->posy, buff)) { // TODO: NPC invis
+  if (u_see(active_npc[i]->posx, active_npc[i]->posy)) { // TODO: NPC invis
    if (active_npc[i]->attitude == NPCATT_KILL)
     if (rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= iProxyDist)
      newseen++;
@@ -4806,7 +4806,7 @@ void game::examine()
   else
    exam_vehicle (*veh, examx, examy);
  }
- 
+
  if (m.has_flag(console, examx, examy)) {
   use_computer(examx, examy);
   return;
@@ -4817,7 +4817,7 @@ void game::examine()
  if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
 
   (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
- 
+
  if (m.has_flag(sealed, examx, examy)) {
   if (m.trans(examx, examy)) {
    std::string buff;
@@ -5495,8 +5495,8 @@ point game::look_around()
    }
    else if (npc_at(lx, ly) != -1)
    {
-       active_npc[npc_at(lx, ly)].draw(w_terrain, lx, ly, true);
-       active_npc[npc_at(lx, ly)].print_info(w_look);
+       active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
+       active_npc[npc_at(lx, ly)]->print_info(w_look);
        if (!m.has_flag(container, lx, ly))
        {
            if (m.i_at(lx, ly).size() > 1)
@@ -7573,7 +7573,7 @@ void game::chat()
  }
  std::vector<npc*> available;
  for (int i = 0; i < active_npc.size(); i++) {
-  if (u_see(active_npc[i]->posx, active_npc[i]->posy, junk) &&
+  if (u_see(active_npc[i]->posx, active_npc[i]->posy) &&
       rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
    available.push_back(active_npc[i]);
  }
