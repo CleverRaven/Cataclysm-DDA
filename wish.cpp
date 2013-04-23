@@ -30,7 +30,7 @@ void game::wish()
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
      pattern.erase(pattern.end() - 1);
-   } else if (ch == '>') {
+   } else if (ch == '>' || ch == KEY_NPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected++;
@@ -43,7 +43,7 @@ void game::wish()
       shift = standard_itype_ids.size() - 23;
      }
     }
-   } else if (ch == '<') {
+   } else if (ch == '<' || ch == KEY_PPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected--;
@@ -89,7 +89,7 @@ void game::wish()
     search_results.clear();
    }
    if (ch == 'f') incontainer = !incontainer;
-   if (ch == '>' && !search_results.empty()) {
+   if (( ch == '>' || ch == KEY_NPAGE ) && !search_results.empty()) {
     result_selected++;
     if (result_selected > search_results.size())
      result_selected = 0;
@@ -99,7 +99,7 @@ void game::wish()
      a = shift + 23 - standard_itype_ids.size();
      shift = standard_itype_ids.size() - 23;
     }
-   } else if (ch == '<' && !search_results.empty()) {
+   } else if (( ch == '<' || ch == KEY_PPAGE ) && !search_results.empty()) {
     result_selected--;
     if (result_selected < 0)
      result_selected = search_results.size() - 1;
@@ -191,7 +191,7 @@ void game::monster_wish()
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
      pattern.erase(pattern.end() - 1);
-   } else if (ch == '>') {
+   } else if (ch == '>' || ch == KEY_NPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected++;
@@ -204,7 +204,7 @@ void game::monster_wish()
       shift = mtypes.size() - 23;
      }
     }
-   } else if (ch == '<') {
+   } else if (ch == '<' || ch == KEY_PPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected--;
@@ -246,7 +246,7 @@ void game::monster_wish()
     pattern =  "";
     search_results.clear();
    }
-   if (ch == '>' && !search_results.empty()) {
+   if (( ch == '>' || ch == KEY_NPAGE ) && !search_results.empty()) {
     result_selected++;
     if (result_selected > search_results.size())
      result_selected = 0;
@@ -256,7 +256,7 @@ void game::monster_wish()
      a = shift + 23 - mtypes.size();
      shift = mtypes.size() - 23;
     }
-   } else if (ch == '<' && !search_results.empty()) {
+   } else if (( ch == '<' || ch == KEY_PPAGE ) && !search_results.empty()) {
     result_selected--;
     if (result_selected < 0)
      result_selected = search_results.size() - 1;
@@ -333,7 +333,7 @@ void game::mutation_wish()
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
      pattern.erase(pattern.end() - 1);
-   } else if (ch == '>') {
+   } else if (ch == '>' || ch == KEY_NPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected++;
@@ -346,7 +346,7 @@ void game::mutation_wish()
       shift = PF_MAX2 - 23;
      }
     }
-   } else if (ch == '<') {
+   } else if (ch == '<' || ch == KEY_PPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected--;
@@ -391,7 +391,7 @@ void game::mutation_wish()
     pattern =  "";
     search_results.clear();
    }
-   if (ch == '>' && !search_results.empty()) {
+   if (( ch == '>' || ch == KEY_NPAGE ) && !search_results.empty()) {
     result_selected++;
     if (result_selected > search_results.size())
      result_selected = 0;
@@ -401,7 +401,7 @@ void game::mutation_wish()
      a = shift + 23 - PF_MAX2;
      shift = PF_MAX2 - 23;
     }
-   } else if (ch == '<' && !search_results.empty()) {
+   } else if (( ch == '<' || ch == KEY_PPAGE ) && !search_results.empty()) {
     result_selected--;
     if (result_selected < 0)
      result_selected = search_results.size() - 1;

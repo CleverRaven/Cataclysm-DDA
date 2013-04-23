@@ -190,7 +190,7 @@ char game::inv(std::string title)
  delwin(w_inv);
  erase();
  refresh_all();
- return ch;
+ return (char)ch;
 }
 
 char game::inv_type(std::string title, item_cat inv_item_type)
@@ -200,7 +200,7 @@ char game::inv_type(std::string title, item_cat inv_item_type)
 
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
- char ch = '.';
+ int ch = (int)'.';
  int start = 0, cur_it;
  u.inv.sort();
  u.inv.restack(&u);
@@ -215,7 +215,7 @@ char game::inv_type(std::string title, item_cat inv_item_type)
  std::vector<int> firsts = find_firsts(slice);
 
  do {
-  if (ch == '<' && start > 0) { // Clear lines and shift
+  if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) { // Clear lines and shift
    for (int i = 1; i < maxitems+4; i++)
     mvwprintz(w_inv, i, 0, c_black, "                                             ");
    start -= maxitems;
@@ -223,7 +223,7 @@ char game::inv_type(std::string title, item_cat inv_item_type)
     start = 0;
    mvwprintw(w_inv, maxitems + 4, 0, "         ");
   }
-  if (ch == '>' && cur_it < reduced_inv.size()) { // Clear lines and shift
+  if (( ch == '>' || ch == KEY_NPAGE ) && cur_it < reduced_inv.size()) { // Clear lines and shift
    start = cur_it;
    mvwprintw(w_inv, maxitems + 4, 12, "            ");
    for (int i = 1; i < maxitems+4; i++)
@@ -264,12 +264,12 @@ char game::inv_type(std::string title, item_cat inv_item_type)
    mvwprintw(w_inv, maxitems + 4, 12, "> More items");
   wrefresh(w_inv);
   ch = getch();
- } while (ch == '<' || ch == '>');
+ } while (ch == '<' || ch == '>' || ch == KEY_NPAGE || ch == KEY_PPAGE );
  werase(w_inv);
  delwin(w_inv);
  erase();
  refresh_all();
- return ch;
+ return (char)ch;
 }
 
 std::vector<item> game::multidrop()
@@ -286,12 +286,12 @@ std::vector<item> game::multidrop()
  bool warned_about_bionic = false; // Printed add_msg re: dropping bionics
  print_inv_statics(this, w_inv, "Multidrop:", weapon_and_armor);
 
- char ch = '.';
+ int ch = (int)'.';
  int start = 0, cur_it;
  invslice stacks = u.inv.slice(0, u.inv.size());
  std::vector<int> firsts = find_firsts(stacks);
  do {
-  if (ch == '<' && start > 0) {
+  if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) {
    for (int i = 1; i < maxitems+4; i++)
     mvwprintz(w_inv, i, 0, c_black, "                                             ");
    start -= maxitems;
@@ -299,7 +299,7 @@ std::vector<item> game::multidrop()
     start = 0;
    mvwprintw(w_inv, maxitems + 4, 0, "         ");
   }
-  if (ch == '>' && cur_it < u.inv.size()) {
+  if (( ch == '>' || ch == KEY_NPAGE ) && cur_it < u.inv.size()) {
    start = cur_it;
    mvwprintw(w_inv, maxitems + 4, 12, "            ");
    for (int i = 1; i < maxitems+4; i++)
@@ -457,7 +457,7 @@ std::vector<item> game::multidrop()
 void game::compare(int iCompareX, int iCompareY)
 {
  int examx, examy;
- char ch = '.';
+ int ch = (int)'.';
 
  if (iCompareX != -999 && iCompareX != -999) {
   examx = iCompareX;
@@ -519,7 +519,7 @@ void game::compare(int iCompareX, int iCompareY)
  ch = '.';
  int start = 0, cur_it;
  do {
-  if (ch == '<' && start > 0) {
+  if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) {
    for (int i = 1; i < maxitems+4; i++)
     mvwprintz(w_inv, i, 0, c_black, "                                             ");
    start -= maxitems;
@@ -527,7 +527,7 @@ void game::compare(int iCompareX, int iCompareY)
     start = 0;
    mvwprintw(w_inv, maxitems + 4, 0, "         ");
   }
-  if (ch == '>' && cur_it < u.inv.size() + groundsize) {
+  if (( ch == '>' || ch == KEY_NPAGE ) && cur_it < u.inv.size() + groundsize) {
    start = cur_it;
    mvwprintw(w_inv, maxitems + 4, 12, "            ");
    for (int i = 1; i < maxitems+4; i++)
