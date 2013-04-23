@@ -607,13 +607,13 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
     switch(ch)
     {
         case 1: // 1 steel lump = weight 80
-            num_lumps = steel_weight / 80;
-            steel_weight -= num_lumps * 80;
-            num_sheets = steel_weight / 20;
-            steel_weight -= num_sheets * 20;
-            num_chunks = steel_weight / 6;
-            steel_weight -= num_chunks * 6;
-            num_scraps = steel_weight;
+            num_lumps = steel_weight / (item_controller->find_template("steel_lump")->weight);
+            steel_weight -= num_lumps * (item_controller->find_template("steel_lump")->weight);
+            num_sheets = steel_weight / (item_controller->find_template("sheet_metal")->weight);
+            steel_weight -= num_sheets * (item_controller->find_template("sheet_metal")->weight);
+            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
+            steel_weight -= num_chunks * (item_controller->find_template("steel_chunk")->weight);
+            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
             if (num_lumps == 0)
             {
                 g->add_msg("The recycler beeps: \"Insufficient steel!\"");
@@ -622,11 +622,11 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             break;
 
         case 2: // 1 metal sheet = weight 20
-            num_sheets = steel_weight / 20;
-            steel_weight -= num_sheets * 20;
-            num_chunks = steel_weight / 6;
-            steel_weight -= num_chunks * 6;
-            num_scraps = steel_weight;
+            num_sheets = steel_weight / (item_controller->find_template("sheet_metal")->weight);
+            steel_weight -= num_sheets * (item_controller->find_template("sheet_metal")->weight);
+            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
+            steel_weight -= num_chunks * (item_controller->find_template("sheet_chunk")->weight);
+            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
             if (num_sheets == 0)
             {
                 g->add_msg("The recycler beeps: \"Insufficient steel!\"");
@@ -635,9 +635,9 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             break;
 
         case 3: // 1 steel chunk = weight 6
-            num_chunks = steel_weight / 6;
-            steel_weight -= num_chunks * 6;
-            num_scraps = steel_weight;
+            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
+            steel_weight -= num_chunks * (item_controller->find_template("steel_chunk")->weight);
+            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
             if (num_chunks == 0)
             {
                 g->add_msg("The recycler beeps: \"Insufficient steel!\"");
@@ -646,7 +646,7 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             break;
 
         case 4: // 1 metal scrap = weight 1
-            num_scraps = steel_weight;
+            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
             break;
     }
 
