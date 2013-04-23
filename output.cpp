@@ -228,7 +228,7 @@ void printz(nc_color FG, const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  attron(FG);
- printw(buff);
+ printw("%s", buff); 
  attroff(FG);
 }
 
@@ -240,7 +240,7 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  wattron(w, FG);
- wprintw(w, buff);
+ wprintw(w, "%s", buff);
  wattroff(w, FG);
 }
 
