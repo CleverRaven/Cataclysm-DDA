@@ -603,7 +603,7 @@ void game::process_activity()
 
      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(),
              u.skillLevel(reading->type).exercise());
-     
+
      if (u.skillLevel(reading->type) == originalSkillLevel && (u.activity.continuous || query_yn("Study %s?", reading->type->name().c_str()))) {
       u.cancel_activity();
       if (u.activity.index == -2) {
@@ -616,7 +616,7 @@ void game::process_activity()
        return;
       }
      }
-     
+
      u.activity.continuous = false;
 
      if (u.skillLevel(reading->type) > originalSkillLevel)
@@ -626,9 +626,9 @@ void game::process_activity()
 
      if (u.skillLevel(reading->type) == reading->level) {
       if (no_recipes) {
-       add_msg("You can no longer learn from this %s.", reading->name.c_str());
+       add_msg("You can no longer learn from %s.", reading->name.c_str());
       } else {
-       add_msg("Your skill level won't improve, but this %s has more recipes for you.", reading->name.c_str());
+       add_msg("Your skill level won't improve, but %s has more recipes for you.", reading->name.c_str());
       }
      }
     }
@@ -4699,7 +4699,7 @@ void game::examine()
   else
    exam_vehicle (*veh, examx, examy);
  }
- 
+
  if (m.has_flag(console, examx, examy)) {
   use_computer(examx, examy);
   return;
@@ -4708,7 +4708,7 @@ void game::examine()
  iexamine xmine;
 
  (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
- 
+
  if (m.has_flag(sealed, examx, examy)) {
   if (m.trans(examx, examy)) {
    std::string buff;
@@ -4740,7 +4740,7 @@ void game::examine()
  }
   //check for disarming traps last to avoid disarming query black box issue.
  if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
- 
+
 }
 int getsquare(int c , int &off_x, int &off_y, std::string &areastring)
 {
