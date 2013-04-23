@@ -4033,7 +4033,7 @@ but much better than slumming it on the ground.");
 TOOL("rollmat", "rollmat",  40,400,';', c_blue, PLASTIC, MNULL,
      4, 3,  0, 0, -1, 0, 0, 0, 0, AT_NULL, "null", &iuse::set_trap,
 0, "\
-A sheet of foam, which can be rolled tightly for storage\n\
+A sheet of foam which can be rolled tightly for storage.\n\
 Insulates you from the floor, making it easier to sleep");
 
 TOOL("xacto", "X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
