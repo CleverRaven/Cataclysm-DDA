@@ -12,7 +12,7 @@
         "CC_MISC",
         "CC_NONCRAFT"
     ],
- 
+
     "recipes":
     [
         {
@@ -4171,6 +4171,27 @@
                           ]
         },
 
+        {
+            "result": "coat_rain",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 1,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [],
+            "components": [
+                              [
+                                  ["duct_tape", 50]
+                              ],
+                              [
+                                  ["bag_plastic", 10]
+                              ]
+                              [
+                                  ["rag", 10]
+                              ]
+                          ]
+        },
 
         {
             "result": "trenchcoat_leather",
