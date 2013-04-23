@@ -7353,7 +7353,7 @@ void game::unload(item& it)
   // Then try an underslung shotgun
   else if (has_shotgun != -1 && weapon->contents[has_shotgun].charges > 0)
    weapon = &weapon->contents[has_shotgun];
-  u.inv.add_item_by_type(weapon->curammo->id, weapon->charges);
+  u.inv.add_item_by_type(weapon->curammo->id, 1, weapon->charges);
   weapon->charges = 0;
  }
  item newam;
