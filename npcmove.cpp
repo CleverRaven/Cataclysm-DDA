@@ -201,28 +201,24 @@ void npc::execute_action(game *g, npc_action action, int target)
 
  case npc_wield_loaded_gun:
  {
-  int index = -1, max = 0;
-  for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].is_gun() && inv[i].charges > max) {
-    max = inv[i].charges;
-    index = i;
-   }
-  }
-  if (index == -1) {
+  item& it = inv.most_loaded_gun();
+  if (it.is_null()) {
    debugmsg("NPC tried to wield a loaded gun, but has none!");
    move_pause();
   } else
-   wield(g, index);
+   wield(g, it.invlet);
  } break;
 
  case npc_wield_empty_gun:
  {
   bool ammo_found = false;
   int index = -1;
-  for (int i = 0; i < inv.size(); i++) {
-   bool am = (inv[i].is_gun() &&
-             has_ammo( (dynamic_cast<it_gun*>(inv[i].type))->ammo ).size() > 0);
-   if (inv[i].is_gun() && (!ammo_found || am)) {
+  invslice slice = inv.slice(0, inv.size());
+  for (int i = 0; i < slice.size(); i++) {
+   item& it = slice[i]->front();
+   bool am = (it.is_gun() &&
+             has_ammo( (dynamic_cast<it_gun*>(it.type))->ammo ).size() > 0);
+   if (it.is_gun() && (!ammo_found || am)) {
     index = i;
     ammo_found = (ammo_found || am);
    }
@@ -231,7 +227,7 @@ void npc::execute_action(game *g, npc_action action, int target)
    debugmsg("NPC tried to wield a gun, but has none!");
    move_pause();
   } else
-   wield(g, index);
+   wield(g, slice[index]->front().invlet);
  } break;
 
  case npc_heal:
@@ -536,23 +532,26 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
 
 // Check if there's something better to wield
  bool has_empty_gun = false, has_better_melee = false;
- std::vector<int> empty_guns;
- for (int i = 0; i < inv.size(); i++) {
-  bool allowed = can_use_gun && inv[i].is_gun() && (!use_silent || weapon.is_silent());
-  if (allowed && inv[i].charges > 0)
+ std::vector<item*> empty_guns;
+ invslice slice = inv.slice(0, inv.size());
+ for (int i = 0; i < slice.size(); i++) {
+  item& it = slice[i]->front();
+  bool allowed = can_use_gun && it.is_gun() && (!use_silent || weapon.is_silent());
+  if (allowed && it.charges > 0)
    return npc_wield_loaded_gun;
-  else if (allowed && enough_time_to_reload(g, target, inv[i])) {
+  else if (allowed && enough_time_to_reload(g, target, it)) {
    has_empty_gun = true;
-   empty_guns.push_back(i);
-  } else if (inv[i].melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
+   empty_guns.push_back(&it);
+  } else if (it.melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
    has_better_melee = true;
  }
 
  bool has_ammo_for_empty_gun = false;
  for (int i = 0; i < empty_guns.size(); i++) {
-  for (int j = 0; j < inv.size(); j++) {
-   if (inv[j].is_ammo() &&
-       inv[j].ammo_type() == inv[ empty_guns[i] ].ammo_type())
+  for (int j = 0; j < slice.size(); j++) {
+   item& it = slice[j]->front();
+   if (it.is_ammo() &&
+       it.ammo_type() == empty_guns[i]->ammo_type())
     has_ammo_for_empty_gun = true;
   }
  }
@@ -692,32 +691,33 @@ bool npc::alt_attack_available(game *g)
  return false;
 }
 
-int npc::choose_escape_item()
+char npc::choose_escape_item()
 {
  int best = -1, ret = -1;
- for (int i = 0; i < inv.size(); i++) {
+ invslice slice = inv.slice(0, inv.size());
+ for (int i = 0; i < slice.size(); i++) {
+  item& it = slice[i]->front();
   for (int j = 0; j < NUM_ESCAPE_ITEMS; j++) {
    it_comest* food = NULL;
-   if (inv[i].is_food())
-    food = dynamic_cast<it_comest*>(inv[i].type);
-   if (inv[i].type->id == ESCAPE_ITEMS[j] &&
+   if (it.is_food())
+    food = dynamic_cast<it_comest*>(it.type);
+   if (it.type->id == ESCAPE_ITEMS[j] &&
        (food == NULL || stim < food->stim ||            // Avoid guzzling down
         (food->stim >= 10 && stim < food->stim * 2)) && //  Adderall etc.
-       (j > best || (j == best && inv[i].charges < inv[ret].charges))) {
+       (j > best || (j == best && it.charges < slice[ret]->front().charges))) {
     ret = i;
     best = j;
     j = NUM_ESCAPE_ITEMS;
    }
   }
  }
- return ret;
+ return slice[ret]->front().invlet;
 }
 
-void npc::use_escape_item(game *g, int index, int target)
+void npc::use_escape_item(game *g, char invlet, int target)
 {
- if (index < 0 || index >= inv.size()) {
-  debugmsg("%s tried to use item %d (%d in inv)", name.c_str(), index,
-           inv.size());
+ if (invlet == 0) {
+  debugmsg("%s tried to use item with null invlet", name.c_str());
   move_pause();
   return;
  }
@@ -727,10 +727,10 @@ void npc::use_escape_item(game *g, int index, int target)
  * ESCAPE_ITEMS, defined in npc.h
  */
 
- item* used = &(inv[index]);
+ item* used = &(inv.item_by_letter(invlet));
 
  if (used->is_food() || used->is_food_container()) {
-  eat(g, index);
+  eat(g, invlet);
   return;
  }
 
@@ -739,26 +739,26 @@ void npc::use_escape_item(game *g, int index, int target)
   iuse use;
   (use.*tool->use)(g, this, used, false);
   used->charges -= tool->charges_per_use;
-  if (used->invlet == 0)
-   inv.remove_item(index);
+  if (used->invlet == 0) // is that ever going to happen?
+   inv.remove_item(used);
   return;
  }
 
- debugmsg("NPC tried to use %s (%d) but it has no use?", used->tname().c_str(),
-          index);
+ debugmsg("NPC tried to use %s (%c) but it has no use?", used->tname().c_str(),
+          invlet);
  move_pause();
 }
 
-// Index defaults to -1, i.e., wielded weapon
-int npc::confident_range(int index)
+// Index defaults to 0, i.e., wielded weapon
+int npc::confident_range(char invlet)
 {
 
- if (index == -1 && (!weapon.is_gun() || weapon.charges <= 0))
+ if (invlet == 0 && (!weapon.is_gun() || weapon.charges <= 0))
   return 1;
 
  double deviation = 0;
  int max = 0;
- if (index == -1) {
+ if (invlet == 0) {
   it_gun* firing = dynamic_cast<it_gun*>(weapon.type);
 // We want at least 50% confidence that missed_by will be < .5.
 // missed_by = .00325 * deviation * range <= .5; deviation * range <= 156
@@ -799,8 +799,8 @@ int npc::confident_range(int index)
 
  } else { // We aren't firing a gun, we're throwing something!
 
-  item *thrown = &(inv[index]);
-  max = throw_range(index); // The max distance we can throw
+  item *thrown = &(inv.item_by_letter(invlet));
+  max = throw_range(invlet); // The max distance we can throw
   int deviation = 0;
   if (sklevel[sk_throw] < 8)
    deviation += rng(0, 8 - sklevel[sk_throw]);
@@ -831,10 +831,10 @@ int npc::confident_range(int index)
 }
 
 // Index defaults to -1, i.e., wielded weapon
-bool npc::wont_hit_friend(game *g, int tarx, int tary, int index)
+bool npc::wont_hit_friend(game *g, int tarx, int tary, char invlet)
 {
  int linet = 0, dist = sight_range(g->light_level());
- int confident = confident_range(index);
+ int confident = confident_range(invlet);
  if (rl_dist(posx, posy, tarx, tary) == 1)
   return true; // If we're *really* sure that our aim is dead-on
 
@@ -1302,27 +1302,22 @@ void npc::drop_items(game *g, int weight, int volume)
   debugmsg("%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
            name.c_str(), weight, volume, inv.size(), weight_carried(),
            weight_capacity() / 4, volume_carried(), volume_capacity());
-  int wgtTotal = 0, volTotal = 0;
-  for (int i = 0; i < inv.size(); i++) {
-   wgtTotal += inv[i].volume();
-   volTotal += inv[i].weight();
-   debugmsg("%s (%d of %d): %d/%d, total %d/%d", inv[i].tname().c_str(), i,
-            inv.size(), inv[i].weight(), inv[i].volume(), wgtTotal, volTotal);
-  }
  }
 
  int weight_dropped = 0, volume_dropped = 0;
  std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
 // First fill our ratio vectors, so we know which things to drop first
- for (int i = 0; i < inv.size(); i++) {
+ invslice slice = inv.slice(0, inv.size());
+ for (int i = 0; i < slice.size(); i++) {
+  item& it = slice[i]->front();
   double wgt_ratio, vol_ratio;
-  if (value(inv[i]) == 0) {
+  if (value(it) == 0) {
    wgt_ratio = 99999;
    vol_ratio = 99999;
   } else {
-   wgt_ratio = inv[i].weight() / value(inv[i]);
-   vol_ratio = inv[i].volume() / value(inv[i]);
+   wgt_ratio = it.weight() / value(it);
+   vol_ratio = it.volume() / value(it);
   }
   bool added_wgt = false, added_vol = false;
   for (int j = 0; j < rWgt.size() && !added_wgt; j++) {
@@ -1373,9 +1368,9 @@ void npc::drop_items(game *g, int weight, int volume)
      rVol[i].index--;
    }
   }
-  weight_dropped += inv[index].weight();
-  volume_dropped += inv[index].volume();
-  item dropped = i_remn(index);
+  weight_dropped += slice[index]->front().weight();
+  volume_dropped += slice[index]->front().volume();
+  item dropped = i_remn(slice[index]->front().invlet);
   num_items_dropped++;
   if (num_items_dropped == 1)
    item_name << dropped.tname();
@@ -1398,26 +1393,29 @@ npc_action npc::scan_new_items(game *g, int target)
 {
  bool can_use_gun = (!is_following() || combat_rules.use_guns);
  bool use_silent = (is_following() && combat_rules.use_silent);
+ invslice slice = inv.slice(0, inv.size());
 
 // Check if there's something better to wield
  bool has_empty_gun = false, has_better_melee = false;
- std::vector<int> empty_guns;
- for (int i = 0; i < inv.size(); i++) {
-  bool allowed = can_use_gun && inv[i].is_gun() && (!use_silent || inv[i].is_silent());
-  if (allowed && inv[i].charges > 0)
+ std::vector<item*> empty_guns;
+ for (int i = 0; i < slice.size(); i++) {
+  item& it = slice[i]->front();
+  bool allowed = can_use_gun && it.is_gun() && (!use_silent || it.is_silent());
+  if (allowed && it.charges > 0)
    return npc_wield_loaded_gun;
-  else if (allowed && enough_time_to_reload(g, target, inv[i])) {
+  else if (allowed && enough_time_to_reload(g, target, it)) {
    has_empty_gun = true;
-   empty_guns.push_back(i);
-  } else if (inv[i].melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
+   empty_guns.push_back(&it);
+  } else if (it.melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
    has_better_melee = true;
  }
 
  bool has_ammo_for_empty_gun = false;
  for (int i = 0; i < empty_guns.size(); i++) {
-  for (int j = 0; j < inv.size(); j++) {
-   if (inv[j].is_ammo() &&
-       inv[j].ammo_type() == inv[ empty_guns[i] ].ammo_type())
+  for (int j = 0; j < slice.size(); j++) {
+   item& it = slice[j]->front();
+   if (it.is_ammo() &&
+       it.ammo_type() == empty_guns[i]->ammo_type())
     has_ammo_for_empty_gun = true;
   }
  }
@@ -1445,26 +1443,20 @@ void npc::melee_player(game *g, player &foe)
 
 void npc::wield_best_melee(game *g)
 {
- int best_score = 0, index = -999;
- for (int i = 0; i < inv.size(); i++) {
-  int score = inv[i].melee_value(sklevel);
-  if (score > best_score) {
-   best_score = score;
-   index = i;
-  }
- }
+ item& it = inv.best_for_melee(sklevel);
+ int best_score = it.melee_value(sklevel);
  if (!styles.empty() && // Wield a style if our skills warrant it
       best_score < 15 * sklevel[sk_unarmed] + 8 * sklevel[sk_melee]) {
 // TODO: More intelligent style choosing
   wield(g, 0 - rng(1, styles.size()));
   return;
  }
- if (index == -999) {
+ if (it.is_null()) {
   debugmsg("npc::wield_best_melee failed to find a melee weapon.");
   move_pause();
   return;
  }
- wield(g, index);
+ wield(g, it.invlet);
 }
 
 void npc::alt_attack(game *g, int target)
@@ -1506,29 +1498,30 @@ void npc::alt_attack(game *g, int target)
    move_to(g, tarx, tary);
  }
 
- int index;
+ char invlet;
  item *used;
  if (weapon.type->id == which) {
   used = &weapon;
-  index = -1;
+  invlet = 0;
  } else {
+  invslice slice = inv.slice(0, inv.size());
   for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].type->id == which) {
-    used = &(inv[i]);
-    index = i;
+   if (slice[i]->front().type->id == which) {
+    used = &(slice[i]->front());
+    invlet = used->invlet;
    }
   }
  }
 
 // Are we going to throw this item?
  if (!thrown_item(used))
-  activate_item(g, index);
+  activate_item(g, invlet);
  else { // We are throwing it!
 
   std::vector<point> trajectory;
   int linet, light = g->light_level();
 
-  if (dist <= confident_range(index) && wont_hit_friend(g, tarx, tary, index)) {
+  if (dist <= confident_range(invlet) && wont_hit_friend(g, tarx, tary, invlet)) {
 
    if (g->m.sees(posx, posy, tarx, tary, light, linet))
     trajectory = line_to(posx, posy, tarx, tary, linet);
@@ -1538,14 +1531,14 @@ void npc::alt_attack(game *g, int target)
    if (g->u_see(posx, posy))
     g->add_msg("%s throws a %s.", name.c_str(), used->tname().c_str());
    g->throw_item(*this, tarx, tary, *used, trajectory);
-   i_remn(index);
+   i_remn(invlet);
 
-  } else if (!wont_hit_friend(g, tarx, tary, index)) {// Danger of friendly fire
+  } else if (!wont_hit_friend(g, tarx, tary, invlet)) {// Danger of friendly fire
 
    if (!used->active || used->charges > 2) // Safe to hold on to, for now
     avoid_friendly_fire(g, target); // Maneuver around player
    else { // We need to throw this live (grenade, etc) NOW! Pick another target?
-    int conf = confident_range(index);
+    int conf = confident_range(invlet);
     for (int dist = 2; dist <= conf; dist++) {
      for (int x = posx - dist; x <= posx + dist; x++) {
       for (int y = posy - dist; y <= posy + dist; y++) {
@@ -1554,7 +1547,7 @@ void npc::alt_attack(game *g, int target)
 // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
 // Molotovs are safe at 2 tiles, grenades at 4, mininukes at 8ish
        if (newdist <= conf && newdist >= 2 && newtarget != -1 &&
-           wont_hit_friend(g, x, y, index)) { // Friendlyfire-safe!
+           wont_hit_friend(g, x, y, invlet)) { // Friendlyfire-safe!
         alt_attack(g, newtarget);
         return;
        }
@@ -1570,7 +1563,7 @@ void npc::alt_attack(game *g, int target)
      for (int x = posx - dist; x <= posx + dist; x++) {
       for (int y = posy - dist; y <= posy + dist; y++) {
        int new_dist = rl_dist(posx, posy, x, y);
-       if (new_dist > best_dist && wont_hit_friend(g, x, y, index)) {
+       if (new_dist > best_dist && wont_hit_friend(g, x, y, invlet)) {
         best_dist = new_dist;
         tarx = x;
         tary = y;
@@ -1590,7 +1583,7 @@ void npc::alt_attack(game *g, int target)
     if (g->u_see(posx, posy))
      g->add_msg("%s throws a %s.", name.c_str(), used->tname().c_str());
     g->throw_item(*this, tarx, tary, *used, trajectory);
-    i_remn(index);
+    i_remn(invlet);
    }
 
   } else { // Within this block, our chosen target is outside of our range
@@ -1600,9 +1593,9 @@ void npc::alt_attack(game *g, int target)
  } // Done with throwing-item block
 }
 
-void npc::activate_item(game *g, int index)
+void npc::activate_item(game *g, char invlet)
 {
- item *it = &(inv[index]);
+ item *it = &(inv.item_by_letter(invlet));
  iuse use;
  if (it->is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(it->type);
@@ -1740,31 +1733,13 @@ void npc::heal_self(game *g)
 void npc::use_painkiller(game *g)
 {
 // First, find the best painkiller for our pain level
- int difference = 9999, index = -1;
- for (int i = 0; i < inv.size(); i++) {
-  int diff = 9999;
-  if (inv[i].type->id == "aspirin")
-   diff = abs(pain - 15);
-  else if (inv[i].type->id == "codeine")
-   diff = abs(pain - 30);
-  else if (inv[i].type->id == "oxycodone")
-   diff = abs(pain - 60);
-  else if (inv[i].type->id == "heroin")
-   diff = abs(pain - 100);
-  else if (inv[i].type->id == "tramadol")
-   diff = abs(pain - 40) / 2; // Bonus since it's long-acting
+ item& it = inv.most_appropriate_painkiller(pain);
 
-  if (diff < difference) {
-   difference = diff;
-   index = i;
-  }
- }
-
- if (index == -1) {
+ if (it.is_null()) {
   debugmsg("NPC tried to use painkillers, but has none!");
   move_pause();
  } else {
-  eat(g, index);
+  eat(g, it.invlet);
   moves = 0;
  }
 }
@@ -1773,13 +1748,15 @@ void npc::pick_and_eat(game *g)
 {
  int best_hunger = 999, best_thirst = 999, index = -1;
  bool thirst_more_important = (thirst > hunger * 1.5);
- for (int i = 0; i < inv.size(); i++) {
+ invslice slice = inv.slice(0, inv.size());
+ for (int i = 0; i < slice.size(); i++) {
   int eaten_hunger = -1, eaten_thirst = -1;
   it_comest* food = NULL;
-  if (inv[i].is_food())
-   food = dynamic_cast<it_comest*>(inv[i].type);
-  else if (inv[i].is_food_container())
-   food = dynamic_cast<it_comest*>(inv[i].contents[0].type);
+  item& it = slice[i]->front();
+  if (it.is_food())
+   food = dynamic_cast<it_comest*>(it.type);
+  else if (it.is_food_container())
+   food = dynamic_cast<it_comest*>(it.contents[0].type);
   if (food != NULL) {
    eaten_hunger = hunger - food->nutr;
    eaten_thirst = thirst - food->quench;
@@ -1845,16 +1822,18 @@ void npc::mug_player(game *g, player &mark)
     value_mod += double(op_of_u.fear * .08);
     value_mod -= double((8 - op_of_u.value) * .07);
    }
-   int best_value = minimum_item_value() * value_mod, index = -1;
-   for (int i = 0; i < mark.inv.size(); i++) {
-    if (value(mark.inv[i]) >= best_value &&
-        volume_carried() + mark.inv[i].volume() <= volume_capacity() &&
-        weight_carried() + mark.inv[i].weight() <= weight_capacity()   ) {
-     best_value = value(mark.inv[i]);
-     index = i;
+   int best_value = minimum_item_value() * value_mod;
+   char invlet = 0;
+   invslice slice = mark.inv.slice(0, mark.inv.size());
+   for (int i = 0; i < slice.size(); i++) {
+    if (value(slice[i]->front()) >= best_value &&
+        volume_carried() + slice[i]->front().volume() <= volume_capacity() &&
+        weight_carried() + slice[i]->front().weight() <= weight_capacity()   ) {
+     best_value = value(slice[i]->front());
+     invlet = slice[i]->front().invlet;
     }
    }
-   if (index == -1) { // Didn't find anything worthwhile!
+   if (invlet == 0) { // Didn't find anything worthwhile!
     attitude = NPCATT_FLEE;
     if (!one_in(3))
      say(g, "<done_mugging>");
@@ -1862,7 +1841,7 @@ void npc::mug_player(game *g, player &mark)
    } else {
     bool u_see_me   = g->u_see(posx, posy),
          u_see_mark = g->u_see(mark.posx, mark.posy);
-    item stolen = mark.i_remn(index);
+    item stolen = mark.i_remn(invlet);
     if (mark.is_npc()) {
      if (u_see_me) {
       if (u_see_mark)

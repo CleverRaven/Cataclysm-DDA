@@ -466,23 +466,23 @@ public:
 // Bartering - select items we're willing to buy/sell and set prices
 // Prices are later modified by g->u's barter skill; see dialogue.cpp
 // init_buying() fills <indices> with the indices of items in <you>
- void init_buying(inventory you, std::vector<int> &indices,
+ void init_buying(inventory you, std::vector<item*> &items,
                   std::vector<int> &prices);
 // init_selling() fills <indices> with the indices of items in our inventory
- void init_selling(std::vector<int> &indices, std::vector<int> &prices);
+ void init_selling(std::vector<item*> &items, std::vector<int> &prices);
 
 
 // Use and assessment of items
  int  minimum_item_value(); // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
- int  value(item &it);
+ int  value(const item &it);
  bool wear_if_wanted(item it);
- virtual bool wield(game *g, int index);
+ virtual bool wield(game *g, char invlet);
  bool has_healing_item();
  bool has_painkiller();
  bool took_painkiller();
  void use_painkiller(game *g);
- void activate_item(game *g, int index);
+ void activate_item(game *g, char invlet);
 
 // Interaction and assessment of the world around us
  int  danger_assessment(game *g);
@@ -512,11 +512,11 @@ public:
  npc_action address_player	(game *g);
  npc_action long_term_goal_action(game *g);
  bool alt_attack_available(game *g);	// Do we have grenades, molotov, etc?
- int  choose_escape_item(); // Returns index of our best escape aid
+ char  choose_escape_item(); // Returns index of our best escape aid
 
 // Helper functions for ranged combat
- int  confident_range(int index = -1); // >= 50% chance to hit
- bool wont_hit_friend(game *g, int tarx, int tary, int index = -1);
+ int  confident_range(char invlet = 0); // >= 50% chance to hit
+ bool wont_hit_friend(game *g, int tarx, int tary, char invlet = 0);
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
  bool enough_time_to_reload(game *g, int target, item &gun);
@@ -541,7 +541,7 @@ public:
  void melee_player	(game *g, player &foe);
  void wield_best_melee	(game *g);
  void alt_attack	(game *g, int target);
- void use_escape_item	(game *g, int index, int target);
+ void use_escape_item	(game *g, char invlet, int target);
  void heal_player	(game *g, player &patient);
  void heal_self		(game *g);
  void take_painkiller	(game *g);

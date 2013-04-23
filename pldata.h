@@ -108,18 +108,20 @@ struct player_activity
  activity_type type;
  int moves_left;
  int index;
+ char invlet;
  bool continuous;
  std::vector<int> values;
  point placement;
 
- player_activity() { type = ACT_NULL; moves_left = 0; index = -1;
-  placement = point(-1, -1); continuous = false;}
+ player_activity() { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
+                     placement = point(-1, -1); continuous = false; }
 
- player_activity(activity_type t, int turns, int Index)
+ player_activity(activity_type t, int turns, int Index, char ch)
  {
   type = t;
   moves_left = turns;
   index = Index;
+  invlet = ch;
   placement = point(-1, -1);
   continuous = false;
  }
@@ -129,6 +131,7 @@ struct player_activity
   type = copy.type;
   moves_left = copy.moves_left;
   index = copy.index;
+  invlet = copy.invlet;
   placement = copy.placement;
   continuous = copy.continuous;
   values.clear();
@@ -139,7 +142,7 @@ struct player_activity
  std::string save_info()
  {
   std::stringstream ret;
-  ret << type << " " << moves_left << " " << index << " " << placement.x <<
+  ret << type << " " << moves_left << " " << index << " " << invlet << " " << placement.x <<
          " " << placement.y << " " << values.size();
   for (int i = 0; i < values.size(); i++)
    ret << " " << values[i];
@@ -150,7 +153,7 @@ struct player_activity
  void load_info(std::stringstream &dump)
  {
   int tmp, tmptype;
-  dump >> tmptype >> moves_left >> index >> placement.x >> placement.y >> tmp;
+  dump >> tmptype >> moves_left >> index >> invlet >> placement.x >> placement.y >> tmp;
   type = activity_type(tmptype);
   for (int i = 0; i < tmp; i++) {
    int tmp2;

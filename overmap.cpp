@@ -2597,7 +2597,7 @@ void overmap::open(game *g)
  int cx, cy, cz, cs, cp, cd;
  std::string cstr;
  city tmp;
- std::vector<item> npc_inventory;
+ std::list<item> npc_inventory;
 
 // Set position IDs
  fin.open(terfilename.c_str());

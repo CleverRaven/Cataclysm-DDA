@@ -625,12 +625,16 @@ struct candidate_vpart {
    bool in_inventory;
    int mapx;
    int mapy;
-   int index;
+   union
+   {
+       char invlet;
+       int index;
+   };
    item vpart_item;
    candidate_vpart(int x, int y, int i, item vpitem):
       in_inventory(false),mapx(x),mapy(y),index(i) { vpart_item = vpitem; }
-   candidate_vpart(int i, item vpitem):
-      in_inventory(true),mapx(-1),mapy(-1),index(i) { vpart_item = vpitem; }
+   candidate_vpart(char ch, item vpitem):
+      in_inventory(true),mapx(-1),mapy(-1),invlet(ch) { vpart_item = vpitem; }
 };
 
 // given vpart type, give a choice from inventory items & nearby items.
@@ -648,10 +652,11 @@ item consume_vpart_item (game *g, vpart_id vpid){
                 candidates.push_back (candidate_vpart(x,y,i,*ith_item));
           }
 
-    for (int i=0; i<g->u.inv.size(); i++){
-       item* ith_item = &(g->u.inv[i]);
+    std::vector<item*> cand_from_inv = g->u.inv.all_items_by_type(itid);
+    for (int i=0; i < cand_from_inv.size(); i++){
+       item* ith_item = cand_from_inv[i];
        if (ith_item->type->id  == itid)
-          candidates.push_back (candidate_vpart(i,*ith_item));
+          candidates.push_back (candidate_vpart(ith_item->invlet,*ith_item));
     }
     if (g->u.weapon.type->id == itid) {
        candidates.push_back (candidate_vpart(-1,g->u.weapon));
@@ -672,7 +677,7 @@ item consume_vpart_item (game *g, vpart_id vpid){
        std::vector<std::string> options;
        for(int i=0;i<candidates.size(); i++){
           if(candidates[i].in_inventory){
-             if (candidates[i].index == -1)
+             if (candidates[i].invlet == -1)
                 options.push_back(candidates[i].vpart_item.tname() + " (wielded)");
              else
                 options.push_back(candidates[i].vpart_item.tname());
@@ -686,10 +691,10 @@ item consume_vpart_item (game *g, vpart_id vpid){
     }
     //remove item from inventory. or map.
     if(candidates[selection].in_inventory){
-       if(candidates[selection].index == -1) //weapon
+       if(candidates[selection].invlet == -1) //weapon
           g->u.remove_weapon();
        else //non-weapon inventory
-          g->u.inv.remove_item (candidates[selection].index);
+          g->u.inv.remove_item_by_letter(candidates[selection].invlet);
     } else { //map.
        int x = candidates[selection].mapx;
        int y = candidates[selection].mapy;
