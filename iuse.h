@@ -61,6 +61,8 @@ class iuse
   void light_on		(game *g, player *p, item *it, bool t);
   void lightstrip		(game *g, player *p, item *it, bool t);
   void lightstrip_active(game *g, player *p, item *it, bool t);
+  void glowstick		(game *g, player *p, item *it, bool t);
+  void glowstick_active(game *g, player *p, item *it, bool t);
   void cauterize_elec	(game *g, player *p, item *it, bool t);
   void water_purifier	(game *g, player *p, item *it, bool t);
   void two_way_radio	(game *g, player *p, item *it, bool t);

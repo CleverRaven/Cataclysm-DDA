@@ -3594,6 +3594,19 @@ A light-emitting circuit wired directly to some batteries. Provides a weak light
 lasting 25 hours per 3 (battery) charges. When the batteries die, you'll need to\n\
 scrap it to recover the components that are reusable.");
 
+TOOL("glowstick", "glowstick", 60, 300, ';', c_ltblue, PLASTIC, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  0,  0,  0, -1, 1200, 1200, 0, 0, AT_NULL, "null", &iuse::glowstick,0,"\
+A small blue light glowstick, bend it to break the glass cylinder inside and\n\
+start the reaction to produce light. It will provide a decent amount of light\n\
+for a few hours.");
+
+TOOL("glowstick_lit", "active glowstick", 0, 300, ';', c_ltblue, PLASTIC, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  0,  0,  0, -1, 1200, 1200, 0, 2, AT_NULL, "null", &iuse::glowstick_active,mfb(IF_LIGHT_4),"\
+This glowstick is active and producing light. It will last for a few hours\n\
+before burning out.");
+
 TOOL("hotplate", "hotplate",	10, 250,';', c_green,	IRON,	PLASTIC,
     5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, "null", &iuse::cauterize_elec,0,"\
 A small heating element. Indispensable for cooking and chemistry. Try not to\n\
