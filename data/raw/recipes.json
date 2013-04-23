@@ -2146,6 +2146,37 @@
 
 
         {
+            "result": "human_cooked",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 0,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": false,
+            "book_learn": [ ["cookbook_human", 3] ],
+            "tools": [
+                         [
+                             ["hotplate", 7],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pan", -1],
+                             ["pot", -1],
+                             ["rock_pot", -1],
+                             ["spear_wood", -1],
+                             ["pointy_stick", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["human_flesh", 1]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "dogfood",
             "category": "CC_FOOD",
             "skill_pri": "cooking",
@@ -2520,6 +2551,34 @@
 
 
         {
+            "result": "jerky_human",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": false,
+            "book_learn": [ ["cookbook_human", 3] ],
+            "tools": [
+                         [
+                             ["hotplate", 10],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["salt_water", 1],
+                                  ["salt", 4]
+                              ],
+                              [
+                                  ["human_flesh", 1]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "V8",
             "category": "CC_FOOD",
             "skill_pri": "cooking",
@@ -2643,6 +2702,41 @@
                               ],
                               [
                                   ["meat", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "soup_human",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 2,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": false,
+            "book_learn": [ ["cookbook_human", 2] ],
+            "tools": [
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["broth", 2]
+                              ],
+                              [
+                                  ["macaroni_raw", 1],
+                                  ["potato_raw", 1]
+                              ],
+                              [
+                                  ["human_flesh", 2]
                               ]
                           ]
         },
@@ -6148,6 +6242,61 @@
                               ],
                               [
                                   ["meat", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "jar_human_canned",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "skill_sec": "mechanics",
+            "difficulty": 3,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": false,
+            "book_learn": [ ["cookbook_human", 2] ],
+            "tools": [
+                         [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1],
+                             ["hatchet", -1]
+                         ],
+                         [
+                             ["hammer", -1],
+                             ["primitive_hammer", -1],
+                             ["rock", -1]
+                         ],
+                         [
+                             ["hotplate", 10],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["water", 1],
+                                  ["water_clean", 1]
+                              ],
+                              [
+                                  ["bottle_glass", 1]
+                              ],
+                              [
+                                  ["sheet_metal", 1]
+                              ],
+                              [
+                                  ["human_flesh", 1]
                               ]
                           ]
         },
