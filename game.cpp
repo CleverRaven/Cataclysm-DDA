@@ -6100,7 +6100,7 @@ void game::pickup(int posx, int posy, int min)
  bool getitem[here.size()];
  for (int i = 0; i < here.size(); i++)
   getitem[i] = false;
- char ch = ' ';
+ int ch = (int)' ';
  int start = 0, cur_it, iter;
  int new_weight = u.weight_carried(), new_volume = u.volume_carried();
  bool update = true;
@@ -6112,11 +6112,11 @@ void game::pickup(int posx, int posy, int min)
    for (int j = 0; j < 48; j++)
     mvwaddch(w_pickup, i, j, ' ');
   }
-  if (ch == '<' && start > 0) {
+  if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
    start -= maxitems;
    mvwprintw(w_pickup, maxitems + 2, 0, "         ");
   }
-  if (ch == '>' && start + maxitems < here.size()) {
+  if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
    start += maxitems;
    mvwprintw(w_pickup, maxitems + 2, 12, "            ");
   }
