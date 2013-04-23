@@ -847,9 +847,7 @@ bool construct::able_furniture(game *g, point p)
 
 bool construct::able_window(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_window_frame ||
-         g->m.ter(p.x, p.y) == t_window_empty ||
-         g->m.ter(p.x, p.y) == t_window_domestic ||
+ return (g->m.ter(p.x, p.y) == t_window_domestic ||
          g->m.ter(p.x, p.y) == t_window);
 }
 
