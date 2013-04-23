@@ -430,13 +430,16 @@ bool overmap::has_npc(game *g, int const x, int const y, int const z) const
 {
     //Check if the target overmap square has an npc in it.
     for (int n = 0; n < npcs.size(); n++) {
-        if (npcs[n]->is_active(g))
-        { //Active npcs have different coords. Because Cata hates you!
-            if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
-                (g->levy + (npcs[n]->posy / SEEY))/2 == y)
+        if(npcs[n]->omz == z)
+        {
+            if (npcs[n]->is_active(g))
+            { //Active npcs have different coords. Because Cata hates you!
+                if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
+                    (g->levy + (npcs[n]->posy / SEEY))/2 == y)
+                    return true;
+            } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2== y)
                 return true;
-        } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2== y)
-            return true;
+        }
     }
     return false;
 }
@@ -451,15 +454,19 @@ void overmap::print_npcs(game *g, WINDOW *w, int const x, int const y, int const
     //Check the max namelength of the npcs in the target
     for (int n = 0; n < npcs.size(); n++)
     {
-        if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y) {
-            if (npcs[n]->name.length() > maxnamelength)
-                maxnamelength = npcs[n]->name.length();
+        if(npcs[n]->omz == z)
+        {
+            if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y) {
+                if (npcs[n]->name.length() > maxnamelength)
+                    maxnamelength = npcs[n]->name.length();
+            }
         }
     }
     //Check if the target has an npc in it.
     for (int n = 0; n < npcs.size(); n++)
     {
-        if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y) {
+        if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y && npcs[n]->omz == z)
+        {
             mvwprintz(w, i, 0, c_yellow, npcs[n]->name.c_str());
             for (int j = npcs[n]->name.length(); j < maxnamelength; j++)
                 mvwputch(w, i, j, c_black, LINE_XXXX);
@@ -2654,7 +2661,7 @@ void overmap::open(game *g)
  int cx, cy, cz, cs, cp, cd;
  std::string cstr;
  city tmp;
- std::vector<item> npc_inventory;
+ std::list<item> npc_inventory;
 
 // Set position IDs
  fin.open(terfilename.c_str());

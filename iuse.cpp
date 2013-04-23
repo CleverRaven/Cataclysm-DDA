@@ -4012,4 +4012,5 @@ void iuse::dejar(game *g, player *p, item *it, bool t)
 	itype_id ujcont = (dynamic_cast<it_comest*>(ujitem.type))->container;  //discovering container
 	it->make(g->itypes[ujcont]);  //turning "sealed jar of xxx" into container for "xxx"
     it->contents.push_back(item(g->itypes[ujfood],0));  //shoving the "xxx" into the container
+    it->contents[0].bday = g->turn + 3600 - (g->turn % 3600);
 }

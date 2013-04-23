@@ -611,9 +611,9 @@ of pureed bone & LSD.");
     }
     item software(g->itypes[miss->item_id], 0);
     software.mission_id = mission_id;
-    int index = g->u.pick_usb();
-    g->u.inv[index].contents.clear();
-    g->u.inv[index].put_in(software);
+    item* usb = g->u.pick_usb();
+    usb->contents.clear();
+    usb->put_in(software);
     print_line("Software downloaded.");
    }
    break;
@@ -644,9 +644,9 @@ of pureed bone & LSD.");
           print_error("USB drive required!");
          else {
           item software(g->itypes["software_blood_data"], 0);
-          int index = g->u.pick_usb();
-          g->u.inv[index].contents.clear();
-          g->u.inv[index].put_in(software);
+          item* usb = g->u.pick_usb();
+          usb->contents.clear();
+          usb->put_in(software);
           print_line("Software downloaded.");
          }
         }

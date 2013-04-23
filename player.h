@@ -18,8 +18,8 @@
 
 class monster;
 class game;
-class trap;
-class mission;
+struct trap;
+struct mission;
 class profession;
 
 struct special_attack
@@ -136,7 +136,7 @@ public:
  int  dodge_roll(game *g);// For comparison to hit_roll()
 
 // ranged.cpp
- int throw_range(int index); // Range of throwing item; -1:ERR 0:Can't throw
+ int throw_range(char invlet); // Range of throwing item; -1:ERR 0:Can't throw
  int ranged_dex_mod	(bool real_life = true);
  int ranged_per_mod	(bool real_life = true);
  int throw_dex_mod	(bool real_life = true);
@@ -187,9 +187,9 @@ public:
  void suffer(game *g);
  void vomit(game *g);
 
- int  lookup_item(char let);
- bool eat(game *g, int index);	// Eat item; returns false on fail
- virtual bool wield(game *g, int index);// Wield item; returns false on fail
+ char lookup_item(char let);
+ bool eat(game *g, char invlet);	// Eat item; returns false on fail
+ virtual bool wield(game *g, char invlet);// Wield item; returns false on fail
  void pick_style(game *g); // Pick a style
  bool wear(game *g, char let);	// Wear item; returns false on fail
  bool wear_item(game *g, item *to_wear);
@@ -222,7 +222,7 @@ public:
  void practice(const calendar& turn, Skill *s, int amount);
  void practice(const calendar& turn, std::string s, int amount);
 
- void assign_activity(game* g, activity_type type, int moves, int index = -1);
+ void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0);
  void cancel_activity();
 
  int weight_carried();
@@ -235,7 +235,6 @@ public:
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
                  itype* item_type = NULL);
 
- void sort_inv();	// Sort inventory by type
  std::string weapname(bool charges = true);
 
  void i_add(item it, game *g = NULL);
@@ -246,12 +245,12 @@ public:
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
  void remove_mission_items(int mission_id);
- item i_remn(int index);// Remove item from inventory; returns ret_null on fail
+ item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let);	// Returns the item with inventory letter let
  item &i_of_type(itype_id type); // Returns the first item with this type
  std::vector<item> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor();	// Automatically picks our best butchering tool
- int  pick_usb(); // Pick a usb drive, interactively if it matters
+ item*  pick_usb(); // Pick a usb drive, interactively if it matters
  bool is_wearing(itype_id it);	// Are we wearing a specific itype?
  bool has_artifact_with(art_effect_passive effect);
 
@@ -271,7 +270,7 @@ public:
  bool has_item(char let);		// Has an item with invlet let
  bool has_item(item *it);		// Has a specific item
  bool has_mission_item(int mission_id);	// Has item with mission_id
- std::vector<int> has_ammo(ammotype at);// Returns a list of indices of the ammo
+ std::vector<item*> has_ammo(ammotype at);// Returns a list of the ammo
 
  bool knows_recipe(recipe *rec);
  void learn_recipe(recipe *rec);
@@ -332,8 +331,6 @@ public:
 
  std::map<std::string, recipe*> learned_recipes;
 
- bool inv_sorted;
- //std::vector <item> inv;
  inventory inv;
  itype_id last_item;
  std::vector <item> worn;

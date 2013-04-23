@@ -218,7 +218,7 @@ class game
   std::string list_item_upvote;
   std::string list_item_downvote;
   char inv(std::string title = "Inventory:");
-  char inv_type(std::string title = "Inventory:", int inv_item_type = 0);
+  char inv_type(std::string title = "Inventory:", item_cat inv_item_type = IC_NULL);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
@@ -387,7 +387,7 @@ class game
   void takeoff(char chInput = '.'); // Remove armor		'T'
   void reload();  // Reload a wielded gun/tool	'r'
   void reload(char chInput);
-  void unload();  // Unload a wielded gun/tool	'U'
+  void unload(item& it);  // Unload a gun/tool	'U'
   void unload(char chInput);
   void wield(char chInput = '.');   // Wield a weapon		'w'
   void read();    // Read a book		'R' (or 'a')
