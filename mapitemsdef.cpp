@@ -85,7 +85,7 @@ void game::init_mapitems()
 	"manual_speech", "manual_business", "manual_computers",
 	"lighter", "matches", "sewing_kit", "thread", "scissors", "soldering_iron",
 	"radio", "syringe", "mp3", "usb_drive", "firecracker_pack", "firecracker",
-    "chips", "cola", "picklocks", NULL);
+    "chips", "cola", "picklocks", "wolfsuit", NULL);
 
  setvector(
    mapitems[mi_homeguns],
@@ -109,7 +109,7 @@ void game::init_mapitems()
 	"jacket_jean", "blazer", "jacket_leather", "poncho",
 	"trenchcoat", "peacoat", "vest", "mag_porn", "lighter",
 	"sewing_kit", "thread", "flashlight", "suit", "tophat",
-	"glasses_monocle", "duct_tape", "firecracker_pack", "firecracker",
+	"glasses_monocle", "duct_tape", "firecracker_pack", "firecracker", "wolfsuit",
     NULL);
 
  setvector(
