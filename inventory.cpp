@@ -372,12 +372,22 @@ void inventory::restack(player *p)
     {
         for (invstack::iterator other = iter; other != items.end(); ++other)
         {
-            if (iter != other && iter->front().stacks_with(other->front()))
+            if (iter != other && iter->front().type->id == other->front().type->id)
             {
-                iter->splice(iter->begin(), *other);
+                if (other->front().charges != -1 && (other->front().is_food() || other->front().is_ammo()))
+                {
+                    iter->front().charges += other->front().charges;
+                }
+                else if (iter->front().stacks_with(other->front()))
+                {
+                    iter->splice(iter->begin(), *other);
+                }
+                else
+                {
+                    continue;
+                }
                 other = items.erase(other);
                 --other;
-                continue;
             }
         }
     }
