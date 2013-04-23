@@ -23,6 +23,11 @@ Added a craftable power armor power interface CBM.
 Continuous reading.
 New mixed drinks
 A new book; "To Serve Man"
+Glowsticks, found in sporting goods stores and bedrooms.
+Broken and Empty windows can no longer be taped up, alarmed windows can.
+Palisade walls changed to require 2 6foot ropes rather than one thirty foot one.
+Domestic Windows drop strings now (Those are the kind that can be opened)
+String can be made from sinew and plant fibre.
 
 0.4
 Make the battery system bionic only consume as many batteries as necessary to fully power yourself
