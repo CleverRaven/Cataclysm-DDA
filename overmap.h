@@ -168,8 +168,8 @@ class overmap
   std::string player_filename(int const x, int const y) const;
 
   // Map helper function.
-  bool has_npc(int const x, int const y, int const z) const;
-  void print_npcs(WINDOW *w, int const x, int const y, int const z);
+  bool has_npc(game *g, int const x, int const y, int const z) const;
+  void print_npcs(game *g, WINDOW *w, int const x, int const y, int const z);
 };
 
 // TODO: readd the stream operators

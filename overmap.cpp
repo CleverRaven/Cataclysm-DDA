@@ -426,11 +426,16 @@ point overmap::display_notes(game* g, int const z) const
  return point(-1,-1);
 }
 
-bool overmap::has_npc(int const x, int const y, int const z) const
+bool overmap::has_npc(game *g, int const x, int const y, int const z) const
 {
     //Check if the target overmap square has an npc in it.
     for (int n = 0; n < npcs.size(); n++) {
-        if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2== y)
+        if (npcs[n]->is_active(g))
+        { //Active npcs have different coords. Because Cata hates you!
+            if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
+                (g->levy + (npcs[n]->posy / SEEY))/2 == y)
+                return true;
+        } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2== y)
             return true;
     }
     return false;
@@ -440,7 +445,7 @@ bool overmap::has_npc(int const x, int const y, int const z) const
 //     cursy = (g->levy + int(MAPSIZE / 2)) / 2;
 
 //Helper function for the overmap::draw function.
-void overmap::print_npcs(WINDOW *w, int const x, int const y, int const z)
+void overmap::print_npcs(game *g, WINDOW *w, int const x, int const y, int const z)
 {
     int i = 0, maxnamelength = 0;
     //Check the max namelength of the npcs in the target
@@ -1072,7 +1077,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      if (note_here)
       note_text = note(omx, omy, z);
         //Check if there is an npc.
-        npc_here = has_npc(omx,omy,z);
+        npc_here = has_npc(g,omx,omy,z);
 // <Out of bounds placement>
     } else if (omx < 0) {
      omx += OMAPX;
@@ -1188,9 +1193,9 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwputch(w, 1, note_text.length(), c_white, LINE_XOOX);
    mvwputch(w, 0, note_text.length(), c_white, LINE_XOXO);
    mvwprintz(w, 0, 0, c_yellow, note_text.c_str());
-  } else if (has_npc(cursx, cursy, z))
+  } else if (has_npc(g, cursx, cursy, z))
     {
-        print_npcs(w, cursx, cursy, z);
+        print_npcs(g, w, cursx, cursy, z);
     }
   if (legend) {
    cur_ter = ter(cursx, cursy, z);

@@ -1995,8 +1995,10 @@ void game::save_factions_missions_npcs ()
     {
         active_npc[i]->omx = cur_om.pos().x;
         active_npc[i]->omy = cur_om.pos().y;
-        active_npc[i]->mapx = levx;
-        active_npc[i]->mapy = levy;
+        active_npc[i]->mapx = levx + (active_npc[i]->posx / SEEX);
+        active_npc[i]->mapy = levy + (active_npc[i]->posy / SEEY);
+        active_npc[i]->posx %= SEEX;
+        active_npc[i]->posy %= SEEY;
     }
     fout.close();
 }
@@ -2201,8 +2203,10 @@ void game::debug()
             {
                 active_npc[i]->omx = cur_om.pos().x;
                 active_npc[i]->omy = cur_om.pos().y;
-                active_npc[i]->mapx = levx;
-                active_npc[i]->mapy = levy;
+                active_npc[i]->mapx = levx + (active_npc[i]->posx / SEEX);
+                active_npc[i]->mapy = levy + (active_npc[i]->posy / SEEY);
+                active_npc[i]->posx %= SEEX;
+                active_npc[i]->posy %= SEEY;
             }
             active_npc.clear();
             z.clear();
