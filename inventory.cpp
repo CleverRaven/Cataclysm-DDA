@@ -276,6 +276,11 @@ void inventory::add_item(item newit, bool keep_invlet)
         std::list<item>::iterator it_ref = iter->begin();
         if (it_ref->stacks_with(newit))
         {
+          if (newit.charges != -1 && (newit.is_food() || newit.is_ammo())) {
+            it_ref->charges += newit.charges;
+            return;
+          }
+
 		    if (it_ref->is_food() && it_ref->has_flag(IF_HOT))
 		    {
 			    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
