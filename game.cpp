@@ -4707,9 +4707,7 @@ void game::examine()
  const ter_t *xter_t = &terlist[m.ter(examx,examy)];
  iexamine xmine;
 
- if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
-
-  (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
+ (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
  
  if (m.has_flag(sealed, examx, examy)) {
   if (m.trans(examx, examy)) {
@@ -4733,12 +4731,16 @@ void game::examine()
  %s is firmly sealed.", m.tername(examx, examy).c_str());
   }
  } else {
-  if (m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) &&
-      !(m.has_flag(swimmable, examx, examy) || m.ter(examx, examy) == t_toilet) && xter_t->examine == &iexamine::none)
+   //examx,examy has no traps, is a container and doesn't have a special examination function
+  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) &&
+       xter_t->examine == &iexamine::none)
    add_msg("It is empty.");
   else
    pickup(examx, examy, 0);
  }
+  //check for disarming traps last to avoid disarming query black box issue.
+ if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
+ 
 }
 int getsquare(int c , int &off_x, int &off_y, std::string &areastring)
 {
