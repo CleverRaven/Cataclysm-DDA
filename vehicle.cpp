@@ -1443,7 +1443,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
         }
 
         int turn_roll = rng (0, 100);
-        int turn_amount = rng (1, 3) * sqrt (imp2);
+        int turn_amount = rng (1, 3) * sqrt ((double)imp2);
         turn_amount /= 15;
         if (turn_amount < 1)
             turn_amount = 1;

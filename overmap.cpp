@@ -18,6 +18,11 @@
 #include "options.h"
 #include "options.h"
 
+#ifdef _MSC_VER
+// MSVC prefers ISO C++ conformant names over POSIX names, but it's missing a redirect for snprintf
+#define snprintf _snprintf
+#endif
+
 #define STREETCHANCE 2
 #define NUM_FOREST 250
 #define TOP_HIWAY_DIST 999
