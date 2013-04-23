@@ -1214,6 +1214,16 @@ void iuse::lightstrip(game *g, player *p, item *it, bool t)
     it->active = true;
 }
 
+void iuse::lightstrip_active(game *g, player *p, item *it, bool t)
+{
+ if (t) {	// Normal use
+// Do nothing... player::active_light and the lightmap::generate deal with this
+ } else {	// Turning it off
+  g->add_msg_if_player(p,"The lightstrip dies.");
+  it->make(g->itypes["lightstrip_dead"]);
+  it->active = false;
+ }
+}
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)

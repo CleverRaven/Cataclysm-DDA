@@ -3583,7 +3583,7 @@ A light-emitting circuit wired directly to some batteries. Once activated, provi
 scrap it to recover the components that are reusable.");
 
 TOOL("lightstrip", "lightstrip (active)", 0, 200, ';', c_green, PLASTIC, IRON,
-    1,  1,  1,  0,  2,  12000, 12000, 0, 150, AT_NULL, "lightstrip_dead", &iuse::none, mfb(IF_LIGHT_1),"\
+    1,  1,  1,  0,  2,  12000, 12000, 0, 150, AT_NULL, "lightstrip_dead", &iuse::lightstrip_active, mfb(IF_LIGHT_1),"\
 A light-emitting circuit wired directly to some batteries. Provides a weak light,\n\
 lasting 25 hours per 3 (battery) charges. When the batteries die, you'll need to\n\
 scrap it to recover the components that are reusable.");
