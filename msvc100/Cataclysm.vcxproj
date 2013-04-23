@@ -96,7 +96,9 @@
     <ClCompile Include="..\item.cpp" />
     <ClCompile Include="..\item_factory.cpp" />
     <ClCompile Include="..\item_group.cpp" />
-    <ClCompile Include="..\itypedef.cpp" />
+    <ClCompile Include="..\itypedef.cpp">
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
     <ClCompile Include="..\iuse.cpp" />
     <ClCompile Include="..\keypress.cpp" />
     <ClCompile Include="..\lightmap.cpp" />
