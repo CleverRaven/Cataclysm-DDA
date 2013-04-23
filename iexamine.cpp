@@ -615,7 +615,8 @@ void iexamine::water_source(game *g, player *p, map *m, const int examx, const i
     else if (query_yn("Drink from your hands?"))
     {
         p->inv.push_back(water);
-        p->eat(g, p->inv.size() - 1);
+        water = p->inv.item_by_type(water.typeId());
+        p->eat(g, water.invlet);
         p->moves -= 350;
     }
 }
