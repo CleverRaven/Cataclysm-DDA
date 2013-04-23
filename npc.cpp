@@ -11,7 +11,7 @@
 #include "line.h"
 
 std::vector<item> starting_clothes(npc_class type, bool male, game *g);
-std::vector<item> starting_inv(npc *me, npc_class type, game *g);
+std::list<item> starting_inv(npc *me, npc_class type, game *g);
 
 npc::npc()
 {
@@ -192,13 +192,7 @@ std::string npc::save_info()
 
 // Inventory size, plus armor size, plus 1 for the weapon
  dump << std::endl << inv.num_items() + worn.size() + 1 << std::endl;
- for (int i = 0; i < inv.size(); i++) {
-  for (int j = 0; j < inv.stack_at(i).size(); j++) {
-   dump << "I " << inv.stack_at(i)[j].save_info() << std::endl;
-   for (int k = 0; k < inv.stack_at(i)[j].contents.size(); k++)
-    dump << "C " << inv.stack_at(i)[j].contents[k].save_info() << std::endl;
-  }
- }
+ dump << inv.save_str_no_quant();
  dump << "w " << weapon.save_info() << std::endl;
  for (int i = 0; i < worn.size(); i++)
   dump << "W " << worn[i].save_info() << std::endl;
@@ -878,10 +872,10 @@ std::vector<item> starting_clothes(npc_class type, bool male, game *g)
  return ret;
 }
 
-std::vector<item> starting_inv(npc *me, npc_class type, game *g)
+std::list<item> starting_inv(npc *me, npc_class type, game *g)
 {
  int total_space = me->volume_capacity() - 2;
- std::vector<item> ret;
+ std::list<item> ret;
  ret.push_back( item(g->itypes["lighter"], 0) );
  itype_id tmp;
 
@@ -891,12 +885,12 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
   tmp = default_ammo(gun->ammo);
   if (total_space >= g->itypes[tmp]->volume) {
    ret.push_back(item(g->itypes[tmp], 0));
-   total_space -= ret[ret.size() - 1].volume();
+   total_space -= ret.back().volume();
   }
   while ((type == NC_COWBOY || type == NC_BOUNTY_HUNTER || !one_in(3)) &&
          !one_in(4) && total_space >= g->itypes[tmp]->volume) {
    ret.push_back(item(g->itypes[tmp], 0));
-   total_space -= ret[ret.size() - 1].volume();
+   total_space -= ret.back().volume();
   }
  }
  if (type == NC_TRADER) {	// Traders just have tons of random junk
@@ -904,8 +898,8 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
    tmp = standard_itype_ids[rng(0,standard_itype_ids.size()-1)];
    if (total_space >= g->itypes[tmp]->volume) {
     ret.push_back(item(g->itypes[tmp], 0));
-    ret[ret.size() - 1] = ret[ret.size() - 1].in_its_container(&g->itypes);
-    total_space -= ret[ret.size() - 1].volume();
+    ret.back() = ret.back().in_its_container(&g->itypes);
+    total_space -= ret.back().volume();
    }
   }
  }
@@ -946,16 +940,16 @@ std::vector<item> starting_inv(npc *me, npc_class type, game *g)
   tmp = standard_itype_ids[rng(0, standard_itype_ids.size())];
   if (total_space >= g->itypes[tmp]->volume) {
    ret.push_back(item(g->itypes[tmp], 0));
-   ret[ret.size() - 1] = ret[ret.size() - 1].in_its_container(&g->itypes);
-   total_space -= ret[ret.size() - 1].volume();
+   ret.back() = ret.back().in_its_container(&g->itypes);
+   total_space -= ret.back().volume();
   }
  }
 
- for (int i = 0; i < ret.size(); i++) {
+ for (std::list<item>::iterator iter = ret.begin(); iter != ret.end(); ++iter) {
   for (int j = 0; j < g->mapitems[mi_trader_avoid].size(); j++) {
-   if (ret[i].type->id == g->mapitems[mi_trader_avoid][j]) {
-    ret.erase(ret.begin() + i);
-    i--;
+   if (iter->type->id == g->mapitems[mi_trader_avoid][j]) {
+    iter = ret.erase(iter);
+    --iter;
     j = 0;
    }
   }
@@ -1116,10 +1110,10 @@ bool npc::wear_if_wanted(item it)
  return false;
 }
 
-bool npc::wield(game *g, int index)
+bool npc::wield(game *g, char invlet)
 {
- if (index < 0) { // Wielding a style
-  index = 0 - index - 1;
+ if (invlet < 0) { // Wielding a style
+  int index = 0 - invlet - 1;
   if (index >= styles.size()) {
    debugmsg("npc::wield(%d) [styles.size() = %d]", index, styles.size());
    return false;
@@ -1136,18 +1130,14 @@ bool npc::wield(game *g, int index)
   return true;
  }
 
- if (index >= inv.size()) {
-  debugmsg("npc::wield(%d) [inv.size() = %d]", index, inv.size());
-  return false;
- }
  if (volume_carried() + weapon.volume() <= volume_capacity()) {
   i_add(remove_weapon());
   moves -= 15;
  } else // No room for weapon, so we drop it
   g->m.add_item(posx, posy, remove_weapon());
  moves -= 15;
- weapon = inv[index];
- i_remn(index);
+ weapon = inv.item_by_letter(invlet);
+ i_remn(invlet);
  if (g->u_see(posx, posy))
   g->add_msg("%s wields a %s.", name.c_str(), weapon.tname().c_str());
  return true;
@@ -1469,12 +1459,13 @@ void npc::decide_needs()
                        sklevel[sk_gun] * 2 + 5;
  needrank[need_food] = 15 - hunger;
  needrank[need_drink] = 15 - thirst;
- for (int i = 0; i < inv.size(); i++) {
+ invslice slice = inv.slice(0, inv.size());
+ for (int i = 0; i < slice.size(); i++) {
   it_comest* food = NULL;
-  if (inv[i].is_food())
-   food = dynamic_cast<it_comest*>(inv[i].type);
-  else if (inv[i].is_food_container())
-   food = dynamic_cast<it_comest*>(inv[i].contents[0].type);
+  if (slice[i]->front().is_food())
+   food = dynamic_cast<it_comest*>(slice[i]->front().type);
+  else if (slice[i]->front().is_food_container())
+   food = dynamic_cast<it_comest*>(slice[i]->front().contents[0].type);
   if (food != NULL) {
    needrank[need_food] += food->nutr / 4;
    needrank[need_drink] += food->quench / 4;
@@ -1523,33 +1514,35 @@ void npc::say(game *g, std::string line, ...)
  }
 }
 
-void npc::init_selling(std::vector<int> &indices, std::vector<int> &prices)
+void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
 {
  int val, price;
  bool found_lighter = false;
- for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].type->id == "lighter" && !found_lighter)
+ invslice slice = inv.slice(0, inv.size());
+ for (int i = 0; i < slice.size(); i++) {
+  if (slice[i]->front().type->id == "lighter" && !found_lighter)
    found_lighter = true;
   else {
-   val = value(inv[i]) - (inv[i].price() / 50);
+   val = value(slice[i]->front()) - (slice[i]->front().price() / 50);
    if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP) {
-    indices.push_back(i);
-    price = inv[i].price() / (price_adjustment(sklevel[sk_barter]));
+    items.push_back(&slice[i]->front());
+    price = slice[i]->front().price() / (price_adjustment(sklevel[sk_barter]));
     prices.push_back(price);
    }
   }
  }
 }
 
-void npc::init_buying(inventory you, std::vector<int> &indices,
+void npc::init_buying(inventory you, std::vector<item*> &items,
                       std::vector<int> &prices)
 {
  int val, price;
- for (int i = 0; i < you.size(); i++) {
-  val = value(you[i]);
+ invslice slice = you.slice(0, you.size());
+ for (int i = 0; i < slice.size(); i++) {
+  val = value(slice[i]->front());
   if (val >= NPC_HI_VALUE) {
-   indices.push_back(i);
-   price = you[i].price();
+   items.push_back(&slice[i]->front());
+   price = slice[i]->front().price();
    if (val >= NPC_VERY_HI_VALUE)
     price *= 2;
    price *= price_adjustment(sklevel[sk_barter]);
@@ -1567,15 +1560,15 @@ int npc::minimum_item_value()
 
 void npc::update_worst_item_value()
 {
- worst_item_value = 99999;
- for (int i = 0; i < inv.size(); i++) {
-  int itval = value(inv[i]);
-  if (itval < worst_item_value)
-   worst_item_value = itval;
- }
+    worst_item_value = 99999;
+    int inv_val = inv.worst_item_value(this);
+    if (inv_val < worst_item_value)
+    {
+        worst_item_value = inv_val;
+    }
 }
 
-int npc::value(item &it)
+int npc::value(const item &it)
 {
  int ret = it.price() / 50;
  skill best = best_skill();
@@ -1603,12 +1596,9 @@ int npc::value(item &it)
    if (ammo->type == gun->ammo)
     ret += 14;
   }
-  for (int i = 0; i < inv.size(); i++) {
-   if (inv[i].is_gun()) {
-    gun = dynamic_cast<it_gun*>(inv[i].type);
-    if (ammo->type == gun->ammo)
-     ret += 14;
-   }
+  if (inv.has_gun_for_ammo(ammo->type)) {
+   // TODO consider making this cumulative (once was)
+   ret += 14;
   }
  }
 
@@ -1645,22 +1635,12 @@ int npc::value(item &it)
 
 bool npc::has_healing_item()
 {
- for (int i = 0; i < inv.size(); i++) {
-  if (inv[i].type->id == "bandages" || inv[i].type->id == "1st_aid")
-   return true;
- }
- return false;
+    return inv.has_amount("bandages", 1) || inv.has_amount("1st_aid", 1);
 }
 
 bool npc::has_painkiller()
 {
- for (int i = 0; i < inv.size(); i++) {
-  if ((pain <= 35 && inv[i].type->id == "aspirin") ||
-      (pain >= 50 && inv[i].type->id == "oxycodone") ||
-      inv[i].type->id == "tramadol" || inv[i].type->id == "codeine")
-   return true;
- }
- return false;
+    return inv.has_enough_painkiller(pain);
 }
 
 bool npc::took_painkiller()
@@ -2015,8 +1995,10 @@ void npc::die(game *g, bool your_fault)
  my_body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
  my_body.name = name;
  g->m.add_item(posx, posy, my_body);
- for (int i = 0; i < inv.size(); i++)
-  g->m.add_item(posx, posy, inv[i]);
+ std::vector<item> dump;
+ inv.dump(dump);
+ for (int i = 0; i < dump.size(); i++)
+  g->m.add_item(posx, posy, dump[i]);
  for (int i = 0; i < worn.size(); i++)
   g->m.add_item(posx, posy, worn[i]);
  if (weapon.type->id != "null")

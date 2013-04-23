@@ -553,7 +553,7 @@ void game::process_activity()
    switch (u.activity.type) {
 
    case ACT_RELOAD:
-    if (u.weapon.reload(u, u.activity.index))
+    if (u.weapon.reload(u, u.activity.invlet))
      if (u.weapon.is_gun() && u.weapon.has_flag(IF_RELOAD_ONE)) {
       add_msg("You insert a cartridge into your %s.",
               u.weapon.tname(this).c_str());
@@ -573,7 +573,7 @@ void game::process_activity()
     if (u.activity.index == -2)
      reading = dynamic_cast<it_book*>(u.weapon.type);
     else
-     reading = dynamic_cast<it_book*>(u.inv[u.activity.index].type);
+     reading = dynamic_cast<it_book*>(u.inv.item_by_letter(u.activity.invlet).type);
 
     if (reading->fun != 0) {
      std::stringstream morale_text;
@@ -609,7 +609,7 @@ void game::process_activity()
       if (u.activity.index == -2) {
        u.read(this,u.weapon.invlet);
       } else {
-       u.read(this,u.inv[u.activity.index].invlet);
+       u.read(this,u.activity.invlet);
       }
       if (u.activity.type != ACT_NULL) {
        u.activity.continuous = true;
@@ -1448,7 +1448,7 @@ bool game::handle_action()
    break;
 
   case ACTION_UNLOAD:
-   unload();
+   unload(u.weapon);
    break;
 
   case ACTION_THROW:
@@ -1796,7 +1796,7 @@ bool game::load_master()
   tmp.load_info(this, data);
 // We need to load up all their items too
   fin >> num_items;
-  std::vector<item> tmpinv;
+  std::list<item> tmpinv;
   for (int j = 0; j < num_items; j++) {
    std::string itemdata;
    char item_place;
@@ -1806,7 +1806,7 @@ bool game::load_master()
     if (item_place == 'I')
      tmpinv.push_back(item(itemdata, this));
     else if (item_place == 'C' && !tmpinv.empty()) {
-     tmpinv[tmpinv.size() - 1].contents.push_back(item(itemdata, this));
+     tmpinv.end()->contents.push_back(item(itemdata, this));
      j--;
     } else if (item_place == 'W')
      tmp.worn.push_back(item(itemdata, this));
@@ -1899,7 +1899,7 @@ void game::load(std::string name)
 // We need a temporary vector of items.  Otherwise, when we encounter an item
 // which is contained in another item, the auto-sort/stacking behavior of the
 // player's inventory may cause the contained item to be misplaced.
- std::vector<item> tmpinv;
+ std::list<item> tmpinv;
  while (!fin.eof()) {
   fin >> item_place;
   if (!fin.eof()) {
@@ -1907,7 +1907,7 @@ void game::load(std::string name)
    if (item_place == 'I')
     tmpinv.push_back(item(itemdata, this));
    else if (item_place == 'C')
-    tmpinv[tmpinv.size() - 1].contents.push_back(item(itemdata, this));
+    tmpinv.end()->contents.push_back(item(itemdata, this));
    else if (item_place == 'W')
     u.worn.push_back(item(itemdata, this));
    else if (item_place == 'w')
@@ -3164,9 +3164,8 @@ point game::find_item(item *it)
  if (ret.x != -1 && ret.y != -1)
   return ret;
  for (int i = 0; i < active_npc.size(); i++) {
-  for (int j = 0; j < active_npc[i].inv.size(); j++) {
-   if (it == &(active_npc[i].inv[j]))
-    return point(active_npc[i].posx, active_npc[i].posy);
+  if (active_npc[i].inv.has_item(it)) {
+   return point(active_npc[i].posx, active_npc[i].posy);
   }
  }
  return point(-999, -999);
@@ -3179,11 +3178,8 @@ void game::remove_item(item *it)
   u.remove_weapon();
   return;
  }
- for (int i = 0; i < u.inv.size(); i++) {
-  if (it == &u.inv[i]) {
-   u.i_remn(i);
-   return;
-  }
+ if (!u.inv.remove_item(it).is_null()) {
+  return;
  }
  for (int i = 0; i < u.worn.size(); i++) {
   if (it == &u.worn[i]) {
@@ -3205,11 +3201,8 @@ void game::remove_item(item *it)
    active_npc[i].remove_weapon();
    return;
   }
-  for (int j = 0; j < active_npc[i].inv.size(); j++) {
-   if (it == &active_npc[i].inv[j]) {
-    active_npc[i].i_remn(j);
-    return;
-   }
+  if (!active_npc[i].inv.remove_item(it).is_null()) {
+   return;
   }
   for (int j = 0; j < active_npc[i].worn.size(); j++) {
    if (it == &active_npc[i].worn[j]) {
@@ -4358,8 +4351,8 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
 {
     if (!veh.part_flag(part, vpf_fuel_tank))
         return false;
-    int i_itm = -1;
-    item *p_itm = 0;
+    item* it = NULL;
+    item *p_itm = NULL;
     int min_charges = -1;
     bool i_cont = false;
 
@@ -4367,42 +4360,38 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
     itype_id itid = default_ammo((ammotype)ftype);
     if (u.weapon.is_container() && u.weapon.contents.size() > 0 && u.weapon.contents[0].type->id == itid)
     {
-        i_itm = -2;
+        it = &u.weapon;
         p_itm = &u.weapon.contents[0];
         min_charges = u.weapon.contents[0].charges;
         i_cont = true;
     }
-    else
-    if (u.weapon.type->id == itid)
+    else if (u.weapon.type->id == itid)
     {
-        i_itm = -2;
-        p_itm = &u.weapon;
+        it = &u.weapon;
+        p_itm = it;
         min_charges = u.weapon.charges;
     }
     else
-    for (int i = 0; i < u.inv.size(); i++)
     {
-        item *itm = &u.inv[i];
-        bool cont = false;
-        if (itm->is_container() && itm->contents.size() > 0)
+        it = &u.inv.item_or_container(itid);
+        if (!it->is_null())
         {
-            cont = true;
-            itm = &(itm->contents[0]);
-        }
-        if (itm->type->id != itid)
-            continue;
-        if (i_itm < 0 || min_charges > itm->charges)
-        {
-            i_itm = i;
-            p_itm = itm;
-            i_cont = cont;
-            min_charges = itm->charges;
+            if (it->type->id == itid)
+            {
+                p_itm = it;
+            }
+            else
+            {
+                //ah, must be a container of the thing
+                p_itm = &(it->contents[0]);
+                i_cont = true;
+            }
+            min_charges = p_itm->charges;
         }
     }
-    if (i_itm == -1)
+    if (it->is_null())
         return false;
-    else
-    if (test)
+    else if (test)
         return true;
 
     int fuel_per_charge = 1;
@@ -4433,19 +4422,17 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
     p_itm->charges -= used_charges;
     if (rem_itm)
     {
-        if (i_itm == -2)
+        if (i_cont)
         {
-            if (i_cont)
-                u.weapon.contents.erase (u.weapon.contents.begin());
-            else
-                u.remove_weapon ();
+            it->contents.erase(it->contents.begin());
+        }
+        else if (&u.weapon == it)
+        {
+            u.remove_weapon();
         }
         else
         {
-            if (i_cont)
-                u.inv[i_itm].contents.erase (u.inv[i_itm].contents.begin());
-            else
-                u.inv.remove_item (i_itm);
+            u.inv.remove_item_by_letter(it->invlet);
         }
     }
     return true;
@@ -4483,7 +4470,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     {                                                        // TODO: different activity times
         u.activity = player_activity(ACT_VEHICLE,
                                      vehint.sel_cmd == 'f'? 200 : 20000,
-                                     (int) vehint.sel_cmd);
+                                     (int) vehint.sel_cmd, 0);
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
         u.activity.values.push_back (vehint.cx);   // values[2]
@@ -4886,30 +4873,33 @@ void printItems(std::vector<item> &items, WINDOW* window, int page , int selecte
 void printItems(player &u,WINDOW* window,int page, int selected_index, bool active, game* g)
 {
     nc_color norm = active ? c_white : c_dkgray;
-    for(int i = page * 20 , x = 0 ; i < u.inv.size() && x < 20 ; i++ ,x++)
+    invslice stacks = u.inv.slice(page * 20, 20);
+    for(int i = 0; i < stacks.size() && i < 20; ++i)
     {
         nc_color thiscolor = norm;
-        if(active && selected_index == x)
+        item& it = stacks[i]->front();
+        if(active && selected_index == i)
         {
             thiscolor = c_yellow;
-            mvwprintz(window,6+x,2,thiscolor,">>");
+            mvwprintz(window,6+i,2,thiscolor,">>");
         }
         else
         {
         }
-        mvwprintz(window,6+x,6,thiscolor,"%s",u.inv[i].tname(g).c_str());
-        if(u.inv.stack_at(i).size() > 1)
+        mvwprintz(window,6+i,6,thiscolor,"%s",it.tname(g).c_str());
+        int size = u.inv.stack_by_letter(it.invlet).size();
+        if(size > 1)
         {
-            wprintz(window,thiscolor," [%d]", u.inv.stack_at(i).size());
+            wprintz(window,thiscolor," [%d]", size);
         }
-        if(u.inv[i].charges > 0)
+        if(it.charges > 0)
         {
-            wprintz(window,thiscolor," (%d)",u.inv[i].charges);
+            wprintz(window,thiscolor," (%d)",it.charges);
         }
-        else if(u.inv[i].contents.size() == 1 &&
-                u.inv[i].contents[0].charges > 0)
+        else if(it.contents.size() == 1 &&
+                it.contents[0].charges > 0)
         {
-            wprintz(window,thiscolor," (%d)",u.inv[i].contents[0].charges);
+            wprintz(window,thiscolor," (%d)",it.contents[0].charges);
         }
     }
     if(active)
@@ -5098,12 +5088,15 @@ void game::advanced_inv()
                 {
                     //if target item has stack
                     int max = (MAX_ITEM_IN_SQUARE - dest_size);
-                    if(u.inv.stack_at(item_pos).size() > 1) // if the item stack
+                    // TODO figure out a better way to get the item
+                    item* it = &u.inv.slice(item_pos, 1).front()->front();
+                    std::list<item>& stack = u.inv.stack_by_letter(it->invlet);
+                    if(stack.size() > 1) // if the item stack
                     {
-                        int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(u.inv.stack_at(item_pos).size())));
+                        int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(stack.size())));
                         if(amount != 0)
                         {
-                            amount = u.inv.stack_at(item_pos).size() < amount ? u.inv.stack_at(item_pos).size() : amount;
+                            amount = stack.size() < amount ? stack.size() : amount;
                             bool still_move = true;
                             if(amount > max)
                             {
@@ -5112,29 +5105,31 @@ void game::advanced_inv()
                             if(still_move)
                             {
                                 amount = amount > max ? max : amount;
-                                std::vector<item> moving_items = u.inv.remove_stack(item_pos,amount);
-                                for(int i = 0 ; i < moving_items.size() ; i++)
+                                std::list<item> moving_items = u.inv.remove_partial_stack(it->invlet,amount);
+                                for(std::list<item>::iterator iter = moving_items.begin();
+                                    iter != moving_items.end();
+                                    ++iter)
                                 {
-                                    m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_items[i]);
+                                    m.add_item(u.posx+dest_offx,u.posy+dest_offy,*iter);
                                 }
                                 u.moves -= 100;
                             }
                         }
                     }
-                    else if(u.inv[item_pos].count_by_charges()) // if the item count by charges the prompt for amount
+                    else if(it->count_by_charges()) // if the item count by charges the prompt for amount
                     {
-                        int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(u.inv[item_pos].charges)));
-                        amount = amount > u.inv[item_pos].charges ? u.inv[item_pos].charges : amount;
+                        int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(it->charges)));
+                        amount = amount > it->charges ? it->charges : amount;
                         if(amount != 0)
                         {
-                            if(amount >= u.inv[item_pos].charges) // full stack moved
+                            if(amount >= it->charges) // full stack moved
                             {
-                                item moving_item = u.inv.remove_stack(item_pos)[0];
+                                item moving_item = *(u.inv.remove_stack_by_letter(it->invlet).begin());
                                 m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             else //partial stack moved
                             {
-                                item moving_item = u.inv.remove_item_by_quantity(item_pos,amount);
+                                item moving_item = u.inv.remove_item_by_letter_and_quantity(it->invlet,amount);
                                 m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             u.moves -= 100;
@@ -5142,7 +5137,7 @@ void game::advanced_inv()
                     }
                     else // no stack / no charge just move it :D
                     {
-                        item moving_item = u.inv.remove_item(item_pos);
+                        item moving_item = u.inv.remove_item_by_letter(it->invlet);
                         m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                         u.moves -= 100;
                     }
@@ -6523,7 +6518,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
         {
           add_msg("You fill your %s with some of the %s.", cont->tname(this).c_str(),
                                                     liquid.tname(this).c_str());
-          u.inv_sorted = false;
+          u.inv.unsort();
           int oldcharges = liquid.charges - container->contains * default_charges;
           liquid.charges = container->contains * default_charges;
           cont->put_in(liquid);
@@ -6546,12 +6541,10 @@ void game::drop(char chInput)
  if (chInput == '.')
   dropped = multidrop();
  else {
-  int index = u.inv.index_by_letter(chInput);
-
-  if (index == -1) {
+  if (u.inv.item_by_letter(chInput).is_null()) {
    dropped.push_back(u.i_rem(chInput));
   } else {
-   dropped.push_back(u.inv.remove_item(index));
+   dropped.push_back(u.inv.remove_item_by_letter(chInput));
   }
  }
 
@@ -6794,7 +6787,7 @@ void game::plthrow(char chInput)
 
 void game::plfire(bool burst)
 {
- int reload_index = -1;
+ char reload_invlet = 0;
  if (!u.weapon.is_gun())
   return;
  vehicle *veh = m.veh_at(u.posx, u.posy);
@@ -6815,13 +6808,13 @@ void game::plfire(bool burst)
   }
  }
  if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
-  reload_index = u.weapon.pick_reload_ammo(u, true);
-  if (reload_index == -1) {
+  reload_invlet = u.weapon.pick_reload_ammo(u, true);
+  if (reload_invlet == 0) {
    add_msg("Out of ammo!");
    return;
   }
 
-  u.weapon.reload(u, reload_index);
+  u.weapon.reload(u, reload_invlet);
   u.moves -= u.weapon.reload_time(u);
   refresh_all();
  }
@@ -6889,7 +6882,7 @@ void game::plfire(bool burst)
  draw_ter(); // Recenter our view
  if (trajectory.size() == 0) {
   if(u.weapon.has_flag(IF_RELOAD_AND_SHOOT))
-   unload();
+   unload(u.weapon);
   return;
  }
  if (passtarget != -1) { // We picked a real live target
@@ -7178,12 +7171,12 @@ void game::reload(char chInput)
  //Wield old weapon
  bool bSwitch = false;
  item oTempWeapon;
- int iItemIndex = u.inv.index_by_letter(chInput);
+ item inv_it = u.inv.item_by_letter(chInput);
 
- if (u.weapon.invlet != chInput && iItemIndex != -1) {
+ if (u.weapon.invlet != chInput && !inv_it.is_null()) {
   oTempWeapon = u.weapon;
-  u.weapon = u.inv[iItemIndex];
-  u.inv.remove_item(iItemIndex);
+  u.weapon = inv_it;
+  u.inv.remove_item_by_letter(chInput);
   bSwitch = true;
  }
 
@@ -7230,12 +7223,12 @@ single action.", u.weapon.tname().c_str());
           return;
       }
   }
-  int index = u.weapon.pick_reload_ammo(u, true);
-  if (index == -1) {
+  char invlet = u.weapon.pick_reload_ammo(u, true);
+  if (invlet == 0) {
    add_msg("Out of ammo!");
    return;
   }
-  u.assign_activity(this, ACT_RELOAD, u.weapon.reload_time(u), index);
+  u.assign_activity(this, ACT_RELOAD, u.weapon.reload_time(u), -1, invlet);
   u.moves = 0;
  } else if (u.weapon.is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(u.weapon.type);
@@ -7243,13 +7236,13 @@ single action.", u.weapon.tname().c_str());
    add_msg("You can't reload a %s!", u.weapon.tname(this).c_str());
    return;
   }
-  int index = u.weapon.pick_reload_ammo(u, true);
-  if (index == -1) {
+  char invlet = u.weapon.pick_reload_ammo(u, true);
+  if (invlet == 0) {
 // Reload failed
    add_msg("Out of %s!", ammo_name(tool->ammo).c_str());
    return;
   }
-  u.assign_activity(this, ACT_RELOAD, u.weapon.reload_time(u), index);
+  u.assign_activity(this, ACT_RELOAD, u.weapon.reload_time(u), -1, invlet);
   u.moves = 0;
  } else if (!u.is_armed())
   add_msg("You're not wielding anything.");
@@ -7262,74 +7255,55 @@ single action.", u.weapon.tname().c_str());
 // If it's a gun, some gunmods can also be loaded
 void game::unload(char chInput)
 {
- //Quick and dirty hack
- //Save old weapon in temp variable
- //Wield item that should be unloaded
- //Unload weapon
- //Put unloaded item back into inventory
- //Wield old weapon
- bool bSwitch = false;
- item oTempWeapon;
- int iItemIndex = u.inv.index_by_letter(chInput);
+    item& it = (u.inv.item_by_letter(chInput));
 
- if (u.weapon.invlet != chInput && iItemIndex != -1) {
-  oTempWeapon = u.weapon;
-  u.weapon = u.inv[iItemIndex];
-  u.inv.remove_item(iItemIndex);
-  bSwitch = true;
- }
-
- if (bSwitch || u.weapon.invlet == chInput) {
-  unload();
- }
-
- if (bSwitch) {
-  u.inv.push_back(u.weapon);
-  u.weapon = oTempWeapon;
- }
+    if (!it.is_null())
+    {
+        unload(it);
+    }
 }
 
-void game::unload()
+void game::unload(item& it)
 {
-    if (!u.weapon.is_gun() && u.weapon.contents.size() == 0 &&
-        (!u.weapon.is_tool() || u.weapon.ammo_type() == AT_NULL || u.weapon.has_flag(IF_NO_UNLOAD)))
+    if (!it.is_gun() && it.contents.size() == 0 &&
+        (!it.is_tool() || it.ammo_type() == AT_NULL || it.has_flag(IF_NO_UNLOAD)))
     {
-        add_msg("You can't unload a %s!", u.weapon.tname(this).c_str());
+        add_msg("You can't unload a %s!", it.tname(this).c_str());
         return;
     }
     int spare_mag = -1;
     int has_m203 = -1;
     int has_shotgun = -1;
-    if (u.weapon.is_gun()) {
-        spare_mag = u.weapon.has_gunmod ("spare_mag");
-        has_m203 = u.weapon.has_gunmod ("m203");
-        has_shotgun = u.weapon.has_gunmod ("u_shotgun");
+    if (it.is_gun()) {
+        spare_mag = it.has_gunmod ("spare_mag");
+        has_m203 = it.has_gunmod ("m203");
+        has_shotgun = it.has_gunmod ("u_shotgun");
     }
-    if (u.weapon.is_container() ||
-        (u.weapon.charges == 0 &&
-         (spare_mag == -1 || u.weapon.contents[spare_mag].charges <= 0) &&
-         (has_m203 == -1 || u.weapon.contents[has_m203].charges <= 0) &&
-         (has_shotgun == -1 || u.weapon.contents[has_shotgun].charges <= 0)))
+    if (it.is_container() ||
+        (it.charges == 0 &&
+         (spare_mag == -1 || it.contents[spare_mag].charges <= 0) &&
+         (has_m203 == -1 || it.contents[has_m203].charges <= 0) &&
+         (has_shotgun == -1 || it.contents[has_shotgun].charges <= 0)))
     {
-        if (u.weapon.contents.size() == 0)
+        if (it.contents.size() == 0)
         {
-            if (u.weapon.is_gun())
+            if (it.is_gun())
             {
                 add_msg("Your %s isn't loaded, and is not modified.",
-                        u.weapon.tname(this).c_str());
+                        it.tname(this).c_str());
             }
             else
             {
-                add_msg("Your %s isn't charged." , u.weapon.tname(this).c_str());
+                add_msg("Your %s isn't charged." , it.tname(this).c_str());
             }
             return;
         }
         // Unloading a container!
-        u.moves -= 40 * u.weapon.contents.size();
+        u.moves -= 40 * it.contents.size();
         std::vector<item> new_contents;	// In case we put stuff back
-        while (u.weapon.contents.size() > 0)
+        while (it.contents.size() > 0)
         {
-            item content = u.weapon.contents[0];
+            item content = it.contents[0];
             int iter = 0;
 // Pick an inventory item for the contents
             while ((content.invlet == 0 || u.has_item(content.invlet)) && iter < inv_chars.size())
@@ -7356,16 +7330,15 @@ void game::unload()
                     m.add_item(u.posx, u.posy, content);
                 }
             }
-            u.weapon.contents.erase(u.weapon.contents.begin());
+            it.contents.erase(it.contents.begin());
         }
-        u.weapon.contents = new_contents;
+        it.contents = new_contents;
         return;
     }
 // Unloading a gun or tool!
- u.moves -= int(u.weapon.reload_time(u) / 2);
+ u.moves -= int(it.reload_time(u) / 2);
  // Default to unloading the gun, but then try other alternatives.
- item* weapon = &u.weapon;
- it_ammo* tmpammo;
+ item* weapon = &it;
  if (weapon->is_gun()) {	// Gun ammo is combined with existing items
   // If there's an active gunmod, unload it first.
   item* active_gunmod = weapon->active_gunmod();
@@ -7380,20 +7353,8 @@ void game::unload()
   // Then try an underslung shotgun
   else if (has_shotgun != -1 && weapon->contents[has_shotgun].charges > 0)
    weapon = &weapon->contents[has_shotgun];
-  for (int i = 0; i < u.inv.size() && weapon->charges > 0; i++) {
-   if (u.inv[i].is_ammo()) {
-    tmpammo = dynamic_cast<it_ammo*>(u.inv[i].type);
-    if (tmpammo->id == weapon->curammo->id &&
-        u.inv[i].charges < tmpammo->count) {
-     weapon->charges -= (tmpammo->count - u.inv[i].charges);
-     u.inv[i].charges = tmpammo->count;
-     if (weapon->charges < 0) {
-      u.inv[i].charges += weapon->charges;
-      weapon->charges = 0;
-     }
-    }
-   }
-  }
+  u.inv.add_item_by_type(weapon->curammo->id, weapon->charges);
+  weapon->charges = 0;
  }
  item newam;
 
@@ -7876,10 +7837,7 @@ void game::plswim(int x, int y)
    popup("You need to breathe but you can't swim!  Get to dry land, quick!");
  }
  u.moves -= (movecost > 200 ? 200 : movecost);
- for (int i = 0; i < u.inv.size(); i++) {
-  if (u.inv[i].type->m1 == IRON && u.inv[i].damage < 5 && one_in(8))
-   u.inv[i].damage++;
- }
+ u.inv.rust_iron_items();
 }
 
 void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
