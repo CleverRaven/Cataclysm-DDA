@@ -595,6 +595,9 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
         i--;
     }
 
+    double recover_factor = rng(6, 9) / 10.0;
+    steel_weight = (int)(steel_weight * recover_factor);
+
     if (steel_weight == 0)
     {
         g->add_msg("The recycler chews up all the items in its hopper.");
