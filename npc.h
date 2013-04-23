@@ -411,7 +411,7 @@ public:
 // Generating our stats, etc.
  void randomize(game *g, npc_class type = NC_NONE);
  void randomize_from_faction(game *g, faction *fac);
- void spawn_at(overmap *o, int posx, int posy);
+ void spawn_at(overmap *o, int posx, int posy, int omz);
  void place_near(game *g, int potentialX, int potentialY);
  skill best_skill();
  void starting_weapon(game *g);

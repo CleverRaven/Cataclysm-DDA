@@ -17,6 +17,7 @@ npc::npc()
 {
  omx = 0;
  omy = 0;
+ omz = 0;
  mapx = 0; //If these values are used for omap comparisons, add one and /2.
  mapy = 0;
  posx = -1;
@@ -959,11 +960,12 @@ std::list<item> starting_inv(npc *me, npc_class type, game *g)
  return ret;
 }
 
-void npc::spawn_at(overmap *o, int x, int y)
+void npc::spawn_at(overmap *o, int x, int y, int z)
 {
 // First, specify that we are in this overmap!
  omx = o->pos().x;
  omy = o->pos().y;
+ omz = z;
  mapx = x;
  mapy = y;
  if (x == -1 || y == -1) { //<soy> not sure what this is supposed to do. If you do, please update this comment.

@@ -423,7 +423,10 @@ void computer::activate_function(game *g, computer_action action)
             return;
         }
         if(query_yn("Confirm nuclear missile launch."))
-           	g->add_msg("Nuclear missile launched!");
+        {
+            g->add_msg("Nuclear missile launched!");
+            options.clear();//Remove the option to fire another missle.
+        }
         else
         {
             g->add_msg("Nuclear missile launched aborted.");
@@ -431,7 +434,7 @@ void computer::activate_function(game *g, computer_action action)
         }
         g->refresh_all();
 
-        //Put some radiation and explosions at the nuke location.
+        //Put some smoke gas and explosions at the nuke location.
         for(int i= g->u.posx +8; i < g->u.posx +15; i++)
         {
             for(int j= g->u.posy +3; j < g->u.posy +12; j++)
@@ -439,7 +442,7 @@ void computer::activate_function(game *g, computer_action action)
                 if(one_in(4))
                     g->explosion(i+rng(-1,1), j+rng(-1,1), rng(4,10), 0, true);
                 else
-                      g->m.add_field(NULL, i+rng(-2,2), j+rng(-2,2), fd_nuke_gas, rng(1,9));
+                    g->m.add_field(NULL, i+rng(-2,2), j+rng(-2,2), fd_smoke, rng(1,9));
             }
         }
 
@@ -468,7 +471,18 @@ void computer::activate_function(game *g, computer_action action)
   } break;
 
 
-  case COMPACT_MISS_DISARM: // TODO: This!
+  case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
+        if(query_yn("Disarm missile."))
+        {
+            g->add_msg("Nuclear missile disarmed!");
+            options.clear();//disable missile.
+            activate_failure(g, COMPFAIL_SHUTDOWN);
+        }
+        else
+        {
+            g->add_msg("Nuclear missile remains active.");
+            return;
+        }
    break;
 
   case COMPACT_LIST_BIONICS: {
@@ -662,17 +676,17 @@ of pureed bone & LSD.");
 
   case COMPACT_EMERG_MESS:
   print_line("\
-  GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
-  EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
-  SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
-  \n\
-  1. DO NOT PANIC. \n\
-  2. REMAIN INSIDE THE BUILDING. \n\
-  3. SEEK SHELTER IN THE BASEMENT. \n\
-  4. USE PROVIDED GAS MASKS. \n\
-  5. AWAIT FURTHER INSTRUCTIONS \n\
-  \n\
-  Press any key to continue...");
+GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
+EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
+SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
+\n\
+1. DO NOT PANIC. \n\
+2. REMAIN INSIDE THE BUILDING. \n\
+3. SEEK SHELTER IN THE BASEMENT. \n\
+4. USE PROVIDED GAS MASKS. \n\
+5. AWAIT FURTHER INSTRUCTIONS \n\
+\n\
+Press any key to continue...");
   break;
 
  } // switch (action)

@@ -251,6 +251,8 @@ void game::start_game()
 
  //Load NPCs. Set nearby npcs to active.
  load_npcs();
+ //spawn the monsters
+ m.spawn_monsters(this);	// Static monsters
  //Reset old NPCs.
 // reset_npcs();
  //Put some NPCs in there!
@@ -348,7 +350,7 @@ void game::create_starting_npcs()
  npc * tmp = new npc();
  tmp->normalize(this);
  tmp->randomize(this, (one_in(2) ? NC_DOCTOR : NC_NONE));
- tmp->spawn_at(&cur_om, levx, levy); //spawn the npc in the overmap.
+ tmp->spawn_at(&cur_om, levx, levy, levz); //spawn the npc in the overmap.
  tmp->place_near(this, SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
  tmp->form_opinion(&u);
  tmp->attitude = NPCATT_NULL;
@@ -2215,6 +2217,7 @@ void game::debug()
             set_adjacent_overmaps(true);
             m.load(this, levx, levy, levz);
             load_npcs();
+            m.spawn_monsters(this);	// Static monsters
         }
     } break;
   case 4:
@@ -2223,6 +2226,7 @@ void game::debug()
     for (int j = 0; j < OMAPY; j++)
      cur_om.seen(i, j, levz) = true;
    }
+   add_msg("Current overmap revealed.");
    break;
 
   case 5: {
@@ -2230,7 +2234,7 @@ void game::debug()
    temp->normalize(this);
    temp->randomize(this);
    //temp.attitude = NPCATT_TALK; //not needed
-   temp->spawn_at(&cur_om, levx, levy);
+   temp->spawn_at(&cur_om, levx, levy, levz);
    temp->place_near(this, u.posx - 4, u.posy - 4);
    temp->form_opinion(&u);
    //temp.attitude = NPCATT_TALK;//The newly spawned npc always wants to talk. Disabled as form opinion sets the attitude.
@@ -2297,6 +2301,7 @@ z.size(), active_npc.size(), events.size());
   case 11:
     for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill)
       u.skillLevel(*aSkill).level(u.skillLevel(*aSkill) + 3);
+    add_msg("Skils increased.");
    break;
 
   case 12:
@@ -2304,6 +2309,7 @@ z.size(), active_npc.size(), events.size());
           it != martial_arts_itype_ids.end(); ++it){
         u.styles.push_back(*it);
     }
+    add_msg("Martial arts gained.");
    break;
 
   case 13: {
@@ -8583,7 +8589,7 @@ void game::spawn_mon(int shiftx, int shifty)
   tmp->normalize(this);
   tmp->randomize(this);
   //tmp->stock_missions(this);
-  tmp->spawn_at(&cur_om, levx, levy);
+  tmp->spawn_at(&cur_om, levx, levy, levz);
   tmp->place_near(this, SEEX * 2 * (tmp->mapx - levx) + rng(0 - SEEX, SEEX), SEEY * 2 * (tmp->mapy - levy) + rng(0 - SEEY, SEEY));
   tmp->form_opinion(&u);
   //tmp->attitude = NPCATT_TALK; //Form opinion seems to set the attitude.
@@ -8893,25 +8899,27 @@ void game::teleport(player *p)
 void game::nuke(int x, int y)
 {
 	// TODO: nukes hit above surface, not z = 0
- if (x < 0 || y < 0 || x >= OMAPX || y >= OMAPY)
-  return;
- int mapx = x * 2, mapy = y * 2;
- map tmpmap(&itypes, &mapitems, &traps);
- tmpmap.load(this, mapx, mapy, 0, false);
- for (int i = 0; i < SEEX * 2; i++) {
-  for (int j = 0; j < SEEY * 2; j++) {
-   if (!one_in(10))
-    tmpmap.ter_set(i, j, t_rubble);
-   if (one_in(3))
-    tmpmap.add_field(NULL, i, j, fd_nuke_gas, 3);
-   tmpmap.radiation(i, j) += rng(20, 80);
-  }
- }
- tmpmap.save(&cur_om, turn, mapx, mapy, 0);
- cur_om.ter(x, y, 0) = ot_crater;
+    if (x < 0 || y < 0 || x >= OMAPX || y >= OMAPY)
+        return;
+    int mapx = x * 2, mapy = y * 2;
+    map tmpmap(&itypes, &mapitems, &traps);
+    tmpmap.load(this, mapx, mapy, 0, false);
+    for (int i = 0; i < SEEX * 2; i++)
+    {
+        for (int j = 0; j < SEEY * 2; j++)
+        {
+            if (!one_in(10))
+                tmpmap.ter_set(i, j, t_rubble);
+            if (one_in(3))
+                tmpmap.add_field(NULL, i, j, fd_nuke_gas, 3);
+            tmpmap.radiation(i, j) += rng(20, 80);
+        }
+    }
+    tmpmap.save(&cur_om, turn, mapx, mapy, 0);
+    cur_om.ter(x, y, 0) = ot_crater;
     //Kill any npcs on that omap location.
     for(int i = 0; i < cur_om.npcs.size();i++)
-        if(cur_om.npcs[i]->omx == x && cur_om.npcs[i]->omx)
+        if(cur_om.npcs[i]->mapx/2== x && cur_om.npcs[i]->mapy/2 == y && cur_om.npcs[i]->omz == 0)
             cur_om.npcs[i]->marked_for_death = true;
 }
 
