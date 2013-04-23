@@ -5987,23 +5987,7 @@ void game::pickup(int posx, int posy, int min)
     }
   }
  }
-// Picking up water?
- if ((!from_veh) && m.i_at(posx, posy).size() == 0) {
-  if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet || m.ter(posx, posy) == t_water_sh) {
-   item water = m.water_from(posx, posy);
-    // Try to handle first (bottling) drink after.
-    // changed boolean, large sources should be infinite
-   if (handle_liquid(water, true, true)) {
-    u.moves -= 100;
-   } else if (query_yn("Drink from your hands?")) {
-    u.inv.push_back(water);
-    u.eat(this, u.inv.size() - 1);
-    u.moves -= 350;
-   }
-  }
-  return;
-// Few item here, just get it
- } else if ((from_veh ? veh->parts[veh_part].items.size() :
+  if ((from_veh ? veh->parts[veh_part].items.size() :
                         m.i_at(posx, posy).size()          ) <= min) {
   int iter = 0;
   item newit = from_veh ? veh->parts[veh_part].items[0] : m.i_at(posx, posy)[0];

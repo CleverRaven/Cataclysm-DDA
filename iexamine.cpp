@@ -602,3 +602,20 @@ void iexamine::trap(game *g, player *p, map *m, int examx, int examy) {
       m->disarm_trap(g, examx, examy);
   }
 }
+
+void iexamine::water_source(game *g, player *p, map *m, const int examx, const int examy)
+{
+    item water = m->water_from(examx, examy);
+    // Try to handle first (bottling) drink after.
+    // changed boolean, large sources should be infinite
+    if (g->handle_liquid(water, true, true))
+    {
+        p->moves -= 100;
+    }
+    else if (query_yn("Drink from your hands?"))
+    {
+        p->inv.push_back(water);
+        p->eat(g, p->inv.size() - 1);
+        p->moves -= 350;
+    }
+}
