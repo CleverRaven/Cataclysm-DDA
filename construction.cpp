@@ -159,8 +159,7 @@ void game::init_construction()
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
    COMP("log", 3);
-   COMP("rope_30", 1);
-   COMPCONT("rope_6", 5);
+   COMP("rope_6", 2);
 
  CONSTRUCT("Build Rope & Pulley System", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_palisade_pulley, 0);
@@ -174,8 +173,7 @@ void game::init_construction()
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("2x4", 3);
-   COMP("rope_30", 1);
-   COMPCONT("rope_6", 5);
+   COMP("rope_6", 2);
 
  CONSTRUCT("Build Window", 2, &construct::able_make_window,
                               &construct::done_nothing);
