@@ -22,6 +22,7 @@ Code compiles with no warnings.  No user-visible change, but important stability
 Added a craftable power armor power interface CBM.
 Continuous reading.
 New mixed drinks
+A new book; "To Serve Man"
 
 0.4
 Make the battery system bionic only consume as many batteries as necessary to fully power yourself
