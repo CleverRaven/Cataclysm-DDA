@@ -42,7 +42,7 @@ class inventory
   void add_stack(std::list<item> newits);
   void push_back(std::list<item> newits);
   void add_item (item newit, bool keep_invlet = false);
-  void add_item_by_type(itype_id type, int count = -1);
+  void add_item_by_type(itype_id type, int count = 1, int charges = -1);
   void add_item_keep_invlet(item newit);
   void push_back(item newit);
 

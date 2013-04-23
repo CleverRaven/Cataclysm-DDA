@@ -301,12 +301,17 @@ void inventory::add_item(item newit, bool keep_invlet)
     items.push_back(newstack);
 }
 
-void inventory::add_item_by_type(itype_id type, int count)
+void inventory::add_item_by_type(itype_id type, int count, int charges)
 {
     // TODO add proper birthday
     while (count > 0)
     {
-        add_item(item_controller->create(type, 0));
+        item tmp = item_controller->create(type, 0);
+        if (charges != -1)
+        {
+            tmp.charges = charges;
+        }
+        add_item(tmp);
         count--;
     }
 }
