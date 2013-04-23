@@ -85,7 +85,7 @@ void game::init_mapitems()
 	"manual_speech", "manual_business", "manual_computers",
 	"lighter", "matches", "sewing_kit", "thread", "scissors", "soldering_iron",
 	"radio", "syringe", "mp3", "usb_drive", "firecracker_pack", "firecracker",
-    "chips", "cola", "picklocks", "wolfsuit", NULL);
+    "chips", "cola", "picklocks", "wolfsuit", "glowstick", NULL);
 
  setvector(
    mapitems[mi_homeguns],
@@ -214,7 +214,7 @@ void game::init_mapitems()
 	"bandages", "aspirin", "bat", "bat_metal", "sneakers", "socks", "tshirt",
 	"tank_top", "gloves_fingerless", "glasses_safety", "armguard_soft", "armguard_hard",
 	"goggles_swim", "goggles_ski", "hat_ball", "helmet_bike",
-	"helmet_ball", "manual_brawl", "foot_crank", NULL);
+	"helmet_ball", "manual_brawl", "foot_crank", "glowstick", NULL);
 
  setvector(
    mapitems[mi_camping],
@@ -225,7 +225,7 @@ void game::init_mapitems()
 	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
  "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
  "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
- "heatpack", NULL);
+ "heatpack", "glowstick", NULL);
 
 
  setvector(
@@ -241,7 +241,7 @@ void game::init_mapitems()
 	"sewing_kit", "thread", "hammer", "flashlight", "water_purifier",
 	"radio", "beartrap", "extinguisher", "string_36", "longbow",
 	"compbow", "arrow_wood", "arrow_cf", "rollmat", "tent_kit",
-    "foot_crank", "mag_archery", "heatpack", NULL);
+    "foot_crank", "mag_archery", "heatpack", "glowstick", NULL);
 
  setvector(
    mapitems[mi_alcohol],
@@ -647,7 +647,7 @@ void game::init_mapitems()
 	"bottle_plastic", "lighter", "matches", "sewing_kit", "thread", "extinguisher",
 	"flashlight", "crowbar", "chainsaw_off", "beartrap",
 	"grenade", "EMPbomb", "hotplate", "UPS_off", "canteen", "spray_can",
- "bio_tools", "bio_ethanol", "heatpack", NULL);
+ "bio_tools", "bio_ethanol", "heatpack", "glowstick", NULL);
 
  setvector(
    mapitems[mi_sewage_plant],

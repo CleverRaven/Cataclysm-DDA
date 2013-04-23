@@ -74,6 +74,7 @@ IF_NULL,
 
 IF_LIGHT_1, // Provides 1 tile of light
 IF_LIGHT_4,	// Provides 4 tiles of light
+IF_LIGHT_8, // Provides 8 tiles of light
 IF_LIGHT_20,	// Provides 20 tiles of light
 
 IF_FIRE,        // Chance to set fire to tiles/enemies

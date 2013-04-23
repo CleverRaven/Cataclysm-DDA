@@ -30,6 +30,8 @@ long input(long ch)
   case KEY_LEFT:  return 'h';
   case KEY_RIGHT: return 'l';
   case KEY_DOWN:  return 'j';
+  case KEY_NPAGE: return '>';
+  case KEY_PPAGE: return '<';
   case 459: return '\n';
   default:  return ch;
  }

@@ -64,7 +64,7 @@ ifdef RELEASE
   DEBUG =
 endif
 
-CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
+CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
 BINDIST_EXTRAS = README data cataclysm-launcher
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
@@ -77,7 +77,7 @@ W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
 #ifeq ($(OS), Msys)
 #  LDFLAGS = -static -lpdcurses
 #else
-  LDFLAGS = -lncurses
+  LDFLAGS += -lncurses
 #endif
 
 # Linux 64-bit

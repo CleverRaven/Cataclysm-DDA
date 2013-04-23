@@ -1215,13 +1215,36 @@ void iuse::lightstrip(game *g, player *p, item *it, bool t)
 
 void iuse::lightstrip_active(game *g, player *p, item *it, bool t)
 {
- if (t) {	// Normal use
-// Do nothing... player::active_light and the lightmap::generate deal with this
- } else {	// Turning it off
-  g->add_msg_if_player(p,"The lightstrip dies.");
-  it->make(g->itypes["lightstrip_dead"]);
-  it->active = false;
- }
+    if (t)
+    {	// Normal use
+        // Do nothing... player::active_light and the lightmap::generate deal with this
+    }
+    else
+    {	// Turning it off
+        g->add_msg_if_player(p,"The lightstrip dies.");
+        it->make(g->itypes["lightstrip_dead"]);
+        it->active = false;
+    }
+}
+
+void iuse::glowstick(game *g, player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,"You activate the glowstick.");
+    it->make(g->itypes["glowstick_lit"]);
+    it->active = true;
+}
+
+void iuse::glowstick_active(game *g, player *p, item *it, bool t)
+{
+    if (t)
+    {	// Normal use
+        // Do nothing... player::active_light and the lightmap::generate deal with this
+    }
+    else
+    {	// Turning it off
+        g->add_msg_if_player(p,"The glowstick dies.");
+        it->active = false;
+    }
 }
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 {

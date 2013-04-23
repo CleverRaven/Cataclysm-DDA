@@ -1505,7 +1505,7 @@ worn by prisoners. Provides decent storage and is\n\
 not very encumbering.", mfb(IF_VARSIZE));
 
 ARMOR("wolfsuit", "wolf suit", 4, 200, C_BODY,  COTTON,     MNULL,
-    0,  19, -3, -3, 1,  3,  7,  2,  50,  4,
+    18,  19, -3, -3, 1,  3,  7,  2,  50,  4,
     mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_head)|mfb(bp_feet)|mfb(bp_mouth)|mfb(bp_eyes), "\
 A full body fursuit in the form of an anthropomorphic wolf. It is quite encumbering\n\
 and has little storage but is very warm.", 0);
@@ -3593,6 +3593,18 @@ TOOL("lightstrip", "lightstrip (active)", 0, 200, ';', c_green, PLASTIC, IRON,
 A light-emitting circuit wired directly to some batteries. Provides a weak light,\n\
 lasting 25 hours per 3 (battery) charges. When the batteries die, you'll need to\n\
 scrap it to recover the components that are reusable.");
+
+TOOL("glowstick", "glowstick", 60, 300, ';', c_ltblue, PLASTIC, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  0,  0,  0, -1, 1200, 1200, 0, 0, AT_NULL, "null", &iuse::glowstick,0,"\
+A small blue light glowstick, bend it to break the glass cylinder inside and\n\
+start the reaction to produce a very small amount of light.");
+
+TOOL("glowstick_lit", "active glowstick", 0, 300, ';', c_ltblue, PLASTIC, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  0,  0,  0, -1, 1200, 1200, 0, 2, AT_NULL, "null", &iuse::glowstick_active,mfb(IF_LIGHT_1),"\
+This glowstick is active and producing light. It will last for a few hours\n\
+before burning out.");
 
 TOOL("hotplate", "hotplate",	10, 250,';', c_green,	IRON,	PLASTIC,
     5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, "null", &iuse::cauterize_elec,0,"\
