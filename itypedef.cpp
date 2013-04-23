@@ -1505,7 +1505,7 @@ worn by prisoners. Provides decent storage and is\n\
 not very encumbering.", mfb(IF_VARSIZE));
 
 ARMOR("wolfsuit", "wolf suit", 4, 200, C_BODY,  COTTON,     MNULL,
-    0,  19, -3, -3, 1,  3,  7,  2,  80,  4,
+    0,  19, -3, -3, 1,  3,  7,  2,  50,  4,
     mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_head)|mfb(bp_feet)|mfb(bp_mouth)|mfb(bp_eyes), "\
 A full body fursuit in the form of an anthropomorphic wolf. It is quite encumbering\n\
 and has little storage but is very warm.", 0);
