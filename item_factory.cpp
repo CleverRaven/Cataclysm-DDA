@@ -11,6 +11,7 @@ Item_factory* item_controller = new Item_factory();
 
 //Every item factory comes with a missing item
 Item_factory::Item_factory(){
+    init();
     m_missing_item = new itype();
     m_missing_item->name = "Error: Item Missing";
     m_missing_item->description = "Error: No item template of this type.";
@@ -171,7 +172,6 @@ void Item_factory::init(game* main_game){
     m_templates.insert(main_game->itypes.begin(), main_game->itypes.end());
     //Copy the JSON-derived items to the legacy list
     main_game->itypes.insert(new_templates.begin(), new_templates.end());
-    init();
 }
 
 //Returns the template with the given identification tag
