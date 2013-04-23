@@ -7,7 +7,7 @@
 #include "mapdata.h"
 #include "skill.h"
 #include "crafting.h" // For the use_comps use_tools functions
-
+#include "item_factory.h"
 
 bool will_flood_stop(map *m, bool (&fill)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                      int x, int y);
@@ -489,12 +489,12 @@ void game::construction_menu()
        has_tool[i] = true;
        col = c_green;
       }
-      int length = itypes[tool]->name.length();
+      int length = item_controller->find_template(tool)->name.length();
       if (posx + length > 79) {
        posy++;
        posx = 33;
       }
-      mvwprintz(w_con, posy, posx, col, itypes[tool]->name.c_str());
+      mvwprintz(w_con, posy, posx, col, item_controller->find_template(tool)->name.c_str());
       posx += length + 1; // + 1 for an empty space
       if (j < stage.tools[i].size() - 1) { // "OR" if there's more
        if (posx > 77) {
@@ -520,20 +520,20 @@ void game::construction_menu()
      for (int j = 0; j < stage.components[i].size() && i < 3; j++) {
       nc_color col = c_red;
       component comp = stage.components[i][j];
-      if (( itypes[comp.type]->is_ammo() &&
+      if (( item_controller->find_template(comp.type)->is_ammo() &&
            total_inv.has_charges(comp.type, comp.count)) ||
-          (!itypes[comp.type]->is_ammo() &&
+          (!item_controller->find_template(comp.type)->is_ammo() &&
            total_inv.has_amount(comp.type, comp.count))) {
        has_component[i] = true;
        col = c_green;
       }
-      int length = itypes[comp.type]->name.length();
+      int length = item_controller->find_template(comp.type)->name.length();
       if (posx + length > 79) {
        posy++;
        posx = 33;
       }
       mvwprintz(w_con, posy, posx, col, "%s x%d",
-                itypes[comp.type]->name.c_str(), comp.count);
+                item_controller->find_template(comp.type)->name.c_str(), comp.count);
       posx += length + 3; // + 2 for " x", + 1 for an empty space
 // Add more space for the length of the count
       if (comp.count < 10)
@@ -657,10 +657,10 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
     components_required = true;
     has_component = false;
     for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
-     if (( itypes[stage.components[j][k].type]->is_ammo() &&
+     if (( item_controller->find_template(stage.components[j][k].type)->is_ammo() &&
 	   inv.has_charges(stage.components[j][k].type,
 			   stage.components[j][k].count)    ) ||
-         (!itypes[stage.components[j][k].type]->is_ammo() &&
+         (!item_controller->find_template(stage.components[j][k].type)->is_ammo() &&
           inv.has_amount (stage.components[j][k].type,
                           stage.components[j][k].count)    ))
       has_component = true;
@@ -934,7 +934,7 @@ bool construct::able_deconstruct(game *g, point p)
 
 void construct::done_window_pane(game *g, point p)
 {
- g->m.spawn_item(g->u.posx, g->u.posy, g->itypes["glass_sheet"], 0);
+ g->m.spawn_item(g->u.posx, g->u.posy, item_controller->find_template("glass_sheet"), 0);
 }
 
 void construct::done_furniture(game *g, point p)
@@ -950,7 +950,7 @@ void construct::done_furniture(game *g, point p)
    return;
   x += p.x;
   y += p.y;
-  if(!g->m.ter(x, y) == t_floor || !g->is_empty(x, y)) {
+  if(g->m.ter(x, y) != t_floor || !g->is_empty(x, y)) {
    mvprintz(0, 0, c_red, "Can't move furniture there! Choose a direction with open floor.");
    continue;
   }
@@ -986,7 +986,7 @@ void construct::done_tree(game *g, point p)
 
 void construct::done_log(game *g, point p)
 {
- g->m.spawn_item(p.x, p.y, g->itypes["log"], int(g->turn), rng(5, 15));
+ g->m.spawn_item(p.x, p.y, item_controller->find_template("log"), int(g->turn), rng(5, 15));
 }
 
 
@@ -1028,34 +1028,34 @@ void construct::done_deconstruct(game *g, point p)
     case t_makeshift_bed:
     case t_bed:
     case t_armchair:
-      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 9);
-      g->m.spawn_item(p.x, p.y, g->itypes["rag"], 0, 9);
-      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,8));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 9);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("rag"), 0, 9);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,8));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_door_c:
     case t_door_o:
-      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 3);
-      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,12));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 3);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,12));
       g->m.ter_set(p.x, p.y, t_door_frame);
     break;
     case t_window_domestic:
-      g->m.spawn_item(p.x, p.y, g->itypes["stick"], 0);
-      g->m.spawn_item(p.x, p.y, g->itypes["sheet"], 0, 1);
-      g->m.spawn_item(p.x, p.y, g->itypes["glass_sheet"], 0);
-      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, 3);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("stick"), 0);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("sheet"), 0, 1);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("glass_sheet"), 0);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, 3);
       g->m.ter_set(p.x, p.y, t_window_empty);
     break;
 
     case t_window:
-      g->m.spawn_item(p.x, p.y, g->itypes["glass_sheet"], 0);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("glass_sheet"), 0);
       g->m.ter_set(p.x, p.y, t_window_empty);
     break;
 
     case t_backboard:
-      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 4);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_pavement);
     break;
 
@@ -1063,8 +1063,8 @@ void construct::done_deconstruct(game *g, point p)
     case t_bench:
     case t_crate_o:
     case t_crate_c:
-      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 4);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
@@ -1072,57 +1072,57 @@ void construct::done_deconstruct(game *g, point p)
     case t_cupboard:
     case t_desk:
     case t_bulletin:
-      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 4);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_slide:
-      g->m.spawn_item(p.x, p.y, g->itypes["sheet_metal"], 0);
-      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(4,8));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("sheet_metal"), 0);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("pipe"), 0, rng(4,8));
       g->m.ter_set(p.x, p.y, t_grass);
     break;
 
     case t_locker:
-      g->m.spawn_item(p.x, p.y, g->itypes["sheet_metal"], 0);
-      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(4,8));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("sheet_metal"), 0);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("pipe"), 0, rng(4,8));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_rack:
-      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(6,12));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("pipe"), 0, rng(6,12));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_monkey_bars:
-      g->m.spawn_item(p.x, p.y, g->itypes["pipe"], 0, rng(6,12));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("pipe"), 0, rng(6,12));
       g->m.ter_set(p.x, p.y, t_grass);
     break;
 
     case t_fridge:
-      g->m.spawn_item(p.x, p.y, g->itypes["scrap"], 0, rng(2,6));
-      g->m.spawn_item(p.x, p.y, g->itypes["steel_chunk"], 0, rng(2,3));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("scrap"), 0, rng(2,6));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("steel_chunk"), 0, rng(2,3));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_counter:
     case t_dresser:
     case t_table:
-      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 6);
-      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,8));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 6);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,8));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_pool_table:
-      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes["rag"], 0, 4);
-      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 4);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("rag"), 0, 4);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_bookcase:
-      g->m.spawn_item(p.x, p.y, g->itypes["2x4"], 0, 12);
-      g->m.spawn_item(p.x, p.y, g->itypes["nail"], 0, 0, rng(12,16));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 12);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(12,16));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
   }

@@ -60,30 +60,30 @@ public:
  int burst_size();
  int recoil(bool with_ammo = true);
  int range(player *p = NULL);
- ammotype ammo_type();
- int pick_reload_ammo(player &u, bool interactive);
- bool reload(player &u, int index);
+ ammotype ammo_type() const;
+ char pick_reload_ammo(player &u, bool interactive);
+ bool reload(player &u, char invlet);
  void next_mode();
 
- std::string save_info();	// Formatted for save files
+ std::string save_info() const;	// Formatted for save files
  void load_info(std::string data, game *g);
  //std::string info(bool showtext = false);	// Formatted for human viewing
  std::string info(bool showtext = false);
  std::string info(bool showtext, std::vector<iteminfo> *dump);
  char symbol();
  nc_color color();
- int price();
+ int price() const;
 
  bool invlet_is_okay();
  bool stacks_with(item rhs);
  void put_in(item payload);
 
- int weight();
- int volume();
+ int weight() const;
+ int volume() const;
  int volume_contained();
  int attack_time();
  int damage_bash();
- int damage_cut();
+ int damage_cut() const;
  bool has_flag(item_flag f) const;
  bool has_technique(technique_id t, player *p = NULL);
  int has_gunmod(itype_id type);
@@ -91,26 +91,26 @@ public:
  item const* inspect_active_gunmod() const;
  std::vector<technique_id> techniques();
  bool goes_bad();
- bool count_by_charges();
+ bool count_by_charges() const;
  bool craft_has_charges();
  int num_charges();
  bool rotten(game *g);
 
 // Our value as a weapon, given particular skills
- int  weapon_value(int skills[num_skill_types]);
+ int  weapon_value(int skills[num_skill_types]) const;
 // As above, but discounts its use as a ranged weapon
  int  melee_value (int skills[num_skill_types]);
 // Returns the data associated with tech, if we are an it_style
  style_move style_data(technique_id tech);
  bool is_two_handed(player *u);
- bool made_of(material mat);
- bool made_of(phase_id phase);
+ bool made_of(material mat) const;
+ bool made_of(phase_id phase) const;
  bool conductive(); // Electricity
  bool destroyed_at_zero_charges();
 // Most of the is_whatever() functions call the same function in our itype
  bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
- bool is_food(player *u) const;// Some non-food items are food to certain players
- bool is_food_container(player *u) const;  // Ditto
+ bool is_food(player const*u) const;// Some non-food items are food to certain players
+ bool is_food_container(player const*u) const;  // Ditto
  bool is_food() const;                // Ignoring the ability to eat batteries, etc.
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const;
@@ -133,6 +133,8 @@ public:
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
+ 
+ bool operator<(const item& other) const;
 
  itype_id typeId() const;
  itype* type;
@@ -163,6 +165,7 @@ public:
 
  item clone();
 private:
+ int sort_rank() const;
  static itype * nullitem_m;
 };
 

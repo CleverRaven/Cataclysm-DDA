@@ -367,6 +367,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_novels],
 	"novel_romance", "novel_spy", "novel_scifi", "novel_drama",
+  "cookbok_human",
 	NULL);
 
  setvector(

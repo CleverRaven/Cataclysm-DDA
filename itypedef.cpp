@@ -133,6 +133,11 @@ DRINK("soup_meat","meat soup",		15, 60, c_red,    "can_food",
 A nutritious and delicious hearty meat soup.", mfb(IF_EATEN_HOT));
 itypes["soup_meat"]->m1 = FLESH;
 
+DRINK("soup_human","sap soup",		15, 60, c_red,    "can_food",
+	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
+A soup made from someone who is a far better meal than person.", mfb(IF_EATEN_HOT));
+itypes["soup_human"]->m1 = HFLESH;
+
 DRINK("whiskey","whiskey",	16, 85,	c_brown,  "bottle_glass",
 	-12, 4,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
 Made from, by, and for real Southern colonels!", 0);
@@ -164,8 +169,16 @@ DRINK("long_island","long island iced tea",	8, 100,	c_brown,  "bottle_glass",
 A blend of incredibly strong-flavored liquors that somehow tastes\n\
 like none of them.", 0);
 
+DRINK("drink_screwdriver","Screwdriver", 8, 100, c_yellow, "bottle_glass",
+   25, 6, 0, -12, 1, 4, 1, 20, &iuse::alcohol, ADD_ALCOHOL, "\
+The surreptitious drunkard mechanic's drink of choice.", 0);
+
+DRINK("drink_wild_apple","Wild Apple", 8, 100, c_brown, "bottle_glass",
+   25, 6, 0, -12, 1, 4, 1, 20, &iuse::alcohol, ADD_ALCOHOL, "\
+Like apple cider, only with vodka.", 0);
+
 DRINK("beer","beer",           60, 35, c_brown,  "can_drink",
-         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol,   ADD_ALCOHOL, "\
+         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol_weak,   ADD_ALCOHOL, "\
 Best served cold, in a glass, and with a lime - but you're not that lucky.", 0);
 
 DRINK("bleach","bleach",		20, 18,	c_white,  "jug_plastic",
@@ -252,6 +265,10 @@ FOOD("meat_cooked", "cooked meat",	 0, 75, c_red,		FLESH,	"null",
     1,  2,  0, 50, 24,  0,  0,  0,  1,  8,	&iuse::none,	ADD_NULL, "\
 Freshly cooked meat. Very nutritious.", mfb(IF_EATEN_HOT));
 
+FOOD("human_cooked", "cooked creep",	 0, 75, c_red,		HFLESH,	"null",
+    1,  2,  0, 50, 24,  0,  0,  0,  1,  8,	&iuse::none,	ADD_NULL, "\
+A freshly cooked slice of some unpleasant person. Tastes great.", mfb(IF_EATEN_HOT));
+
 FOOD("veggy_cooked", "cooked plant marrow",	 0, 70, c_green,	VEGGY,	"null",
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
 A freshly cooked chunk of plant matter, tasty and nutritious.", mfb(IF_EATEN_HOT));
@@ -298,6 +315,10 @@ Chocolate isn't very healthy, but it does make a delicious treat.", 0);
 FOOD("jerky", "beef jerky",	55, 24,	c_red,		FLESH,  "bag_plastic",
     1,  1, -3, 12,  0,  0, -1,  0,  3,  4,	&iuse::none, ADD_NULL, "\
 Salty dried meat that never goes bad, but will make you thirsty.", 0);
+
+FOOD("jerky_human", "jerk jerky", 55, 24, c_red, HFLESH, "null",
+    1,  1, -3, 12,  0,  0, -1,  0,  3,  4, &iuse::none, ADD_NULL, "\
+Salty dried human flesh that never goes bad, but will make you thirsty.", 0);
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("sandwich_t", "meat sandwich", 30, 60,	c_ltgray,	FLESH,	"wrapper",
@@ -547,6 +568,11 @@ Better eat it before it oozes through your fingers.", 0);
 FOOD("apple_canned", "canned apple slices",	 0, 32, c_red,		VEGGY,	"bottle_glass",
     1,  1,  3, 16, 180,  0,  2,  0,  1,  1,	&iuse::none,	ADD_NULL, "\
 Sealed glass jar containing preserved apples.  Bland, mushy and losing color.", 0);
+
+FOOD("human_canned", "canned cad",	 0, 25, c_red,		HFLESH,	"bottle_glass",
+    1,  2,  0, 50, 40,  0,  0,  0,  1,  2,	&iuse::none,	ADD_NULL, "\
+Low-sodium preserved human meat.  It was boiled and canned.\n\
+Contains all of the nutrition, but little of the savor of cooked meat.\n",0 );
 
 // MEDS
 #define MED(id, name,rarity,price,color,tool,mat,stim,healthy,addict,\
@@ -1911,11 +1937,11 @@ itypes[id] = new it_armor(id,rarity,price,name,des,'[',\
 
 POWER_ARMOR("power_armor_basic", "basic power armor", 5, 1000, C_BODY, STEEL, MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   40, 80, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+   40, 60, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
 A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.");
 
 POWER_ARMOR("power_armor_helmet_basic", "basic power armor helmet", 6, 500, C_HAT, STEEL, MNULL,
-   10, 24, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
+   10, 18, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
 A basic helmet, designed for use with power armor. Offers excellent protection from both attacks and environmental hazards.");
 
 POWER_ARMOR("power_armor_frame", "power armor hauling frame", 4, 1000, C_STORE, STEEL, MNULL,
@@ -3377,6 +3403,10 @@ BOOK("cookbook", "Cooking on a Budget",	35, 160,c_green,	PAPER,	MNULL,
     4,  1, -2,  0,	"cooking",	 3,  0,  0,  4, 10, "\
 A nice cook book that goes beyond recipes and into the chemistry of food.");
 
+BOOK("cookbook_human", "To Serve Man", 1, 400, c_green, PAPER, MNULL,
+    4, 1, -2, 0, "cooking", 4, 2, -5, 4, 10, "\
+It's... it's a cookbook!");
+
 BOOK("manual_electronics", "What's a Transistor?",	20, 200,c_green,	PAPER,	MNULL,
     3,  1, -3,  0,	"electronics",	 3,  0,  0,  7, 20, "\
 A basic manual of electronics and circuit design.");
@@ -4003,7 +4033,7 @@ but much better than slumming it on the ground.");
 TOOL("rollmat", "rollmat",  40,400,';', c_blue, PLASTIC, MNULL,
      4, 3,  0, 0, -1, 0, 0, 0, 0, AT_NULL, "null", &iuse::set_trap,
 0, "\
-A sheet of foam, which can be rolled tightly for storage\n\
+A sheet of foam which can be rolled tightly for storage.\n\
 Insulates you from the floor, making it easier to sleep");
 
 TOOL("xacto", "X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
@@ -4282,6 +4312,10 @@ and make it ready to fire. Once activated, it cannot be repacked.");
 TOOL("jar_meat_canned", "sealed jar of canned meat",	50,	75,'%', c_red,		GLASS,	FLESH,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
 Sealed glass jar containing meat.  Activate to open and enjoy.");
+
+TOOL("jar_human_canned", "sealed jar of canned cad",	50,	75,'%', c_red,		GLASS,	FLESH,
+    2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
+Sealed glass jar containing human meat.  Activate to open and enjoy.");
 
 TOOL("jar_veggy_canned", "sealed jar of canned veggy",	50,	65, '%', c_green,		GLASS,	VEGGY,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\

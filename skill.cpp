@@ -175,7 +175,7 @@ bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem
     if (_level > 0 && turn > _lastPracticed &&
         (turn - _lastPracticed) % rustRate(_level) == 0)
     {
-        if (rng(1,12) % forgetful ? 3 : 4)
+        if (rng(1,12) % (forgetful ? 3 : 4))
         {
             if (OPTIONS[OPT_SKILL_RUST] == 0 || _exercise > 0)
             {

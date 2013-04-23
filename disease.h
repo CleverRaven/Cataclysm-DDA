@@ -8,7 +8,7 @@
 
 #define MIN_DISEASE_AGE (-43200) // Permanent disease capped @ 3 days
 
-struct game;
+class game;
 
 void dis_msg(game *g, dis_type type);
 
