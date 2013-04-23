@@ -274,17 +274,25 @@ void inventory::add_item(item newit, bool keep_invlet)
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         std::list<item>::iterator it_ref = iter->begin();
-        if (it_ref->stacks_with(newit))
+        if (it_ref->type->id == newit.type->id)
         {
-		    if (it_ref->is_food() && it_ref->has_flag(IF_HOT))
-		    {
-			    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
-			    it_ref->item_counter = tmpcounter;
-			    newit.item_counter = tmpcounter;
-		    }
-            newit.invlet = it_ref->invlet;
-            iter->push_back(newit);
-            return;
+            if (newit.charges != -1 && (newit.is_food() || newit.is_ammo()))
+            {
+                it_ref->charges += newit.charges;
+                return;
+            }
+            else if (it_ref->stacks_with(newit))
+            {
+                if (it_ref->is_food() && it_ref->has_flag(IF_HOT))
+                {
+                    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
+                    it_ref->item_counter = tmpcounter;
+                    newit.item_counter = tmpcounter;
+		        }
+                newit.invlet = it_ref->invlet;
+                iter->push_back(newit);
+                return;
+            }
         }
         else if (keep_invlet && it_ref->invlet == newit.invlet)
         {
