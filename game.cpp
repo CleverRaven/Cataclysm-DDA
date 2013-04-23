@@ -5208,7 +5208,7 @@ void game::advanced_inv()
         {
             exit = true;
         }
-        else if('>' == c)
+        else if('>' == c || KEY_NPAGE == c)
         {
             if(screen == 0)
             {
@@ -5228,7 +5228,7 @@ void game::advanced_inv()
             }
             redraw = true;
         }
-        else if('<' == c)
+        else if('<' == c || KEY_PPAGE == c)
         {
             if(screen == 0)
             {
