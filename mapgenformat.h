@@ -67,11 +67,13 @@ namespace internal
 
  class determine_terrain_with_simple_method : public determine_terrain
  {
+  public:
+   typedef ter_id (*ter_id_func)();
   private:
-   ter_id (*f)();
+   ter_id_func f;
   public:
    determine_terrain_with_simple_method():f(NULL) {}
-   determine_terrain_with_simple_method(ter_id (*f)()):f(f) {}
+   determine_terrain_with_simple_method(ter_id_func f):f(f) {}
    virtual ~determine_terrain_with_simple_method() {}
    virtual ter_id operator ()(map* m, const int x, const int y){return f();}
  };
