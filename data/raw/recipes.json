@@ -4315,7 +4315,7 @@
                               ],
                               [
                                   ["bag_plastic", 10]
-                              ]
+                              ],
                               [
                                   ["rag", 10]
                               ]
@@ -5394,7 +5394,9 @@
             "autolearn": true,
             "components": [
                               [
-                                  ["thread", 50]
+                                  ["thread", 50],
+								  ["sinew", 50],
+								  ["plant_fibre", 50]
                               ]
                           ]
         },

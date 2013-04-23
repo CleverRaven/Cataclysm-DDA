@@ -1504,6 +1504,12 @@ A thin, short-sleeved jumpsuit; similar to those\n\
 worn by prisoners. Provides decent storage and is\n\
 not very encumbering.", mfb(IF_VARSIZE));
 
+ARMOR("wolfsuit", "wolf suit", 4, 200, C_BODY,  COTTON,     MNULL,
+    0,  19, -3, -3, 1,  3,  7,  2,  50,  4,
+    mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_head)|mfb(bp_feet)|mfb(bp_mouth)|mfb(bp_eyes), "\
+A full body fursuit in the form of an anthropomorphic wolf. It is quite encumbering\n\
+and has little storage but is very warm.", 0);
+
 ARMOR("dress", "dress",		70, 180,C_BODY,		COTTON,		MNULL,
     8,  6, -5, -5,  3,  0,  1,  0,  20,  0,	mfb(bp_legs)|mfb(bp_torso), "\
 A long cotton dress. Difficult to move in and lacks any storage space.", mfb(IF_VARSIZE));
@@ -3583,7 +3589,7 @@ A light-emitting circuit wired directly to some batteries. Once activated, provi
 scrap it to recover the components that are reusable.");
 
 TOOL("lightstrip", "lightstrip (active)", 0, 200, ';', c_green, PLASTIC, IRON,
-    1,  1,  1,  0,  2,  12000, 12000, 0, 150, AT_NULL, "lightstrip_dead", &iuse::none, mfb(IF_LIGHT_1),"\
+    1,  1,  1,  0,  2,  12000, 12000, 0, 150, AT_NULL, "lightstrip_dead", &iuse::lightstrip_active, mfb(IF_LIGHT_1),"\
 A light-emitting circuit wired directly to some batteries. Provides a weak light,\n\
 lasting 25 hours per 3 (battery) charges. When the batteries die, you'll need to\n\
 scrap it to recover the components that are reusable.");

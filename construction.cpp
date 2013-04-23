@@ -159,8 +159,7 @@ void game::init_construction()
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
    COMP("log", 3);
-   COMP("rope_30", 1);
-   COMPCONT("rope_6", 5);
+   COMP("rope_6", 2);
 
  CONSTRUCT("Build Rope & Pulley System", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_palisade_pulley, 0);
@@ -174,8 +173,7 @@ void game::init_construction()
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("2x4", 3);
-   COMP("rope_30", 1);
-   COMPCONT("rope_6", 5);
+   COMP("rope_6", 2);
 
  CONSTRUCT("Build Window", 2, &construct::able_make_window,
                               &construct::done_nothing);
@@ -194,6 +192,7 @@ void game::init_construction()
    COMP("nail", 4);
    COMP("sheet", 2);
    COMP("stick", 1);
+   COMP("string_36", 1);
 
  CONSTRUCT("Build Door", 2, &construct::able_empty,
                               &construct::done_nothing);
@@ -848,10 +847,9 @@ bool construct::able_furniture(game *g, point p)
 
 bool construct::able_window(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_window_frame ||
-         g->m.ter(p.x, p.y) == t_window_empty ||
-         g->m.ter(p.x, p.y) == t_window_domestic ||
-         g->m.ter(p.x, p.y) == t_window);
+ return (g->m.ter(p.x, p.y) == t_window_domestic ||
+         g->m.ter(p.x, p.y) == t_window ||
+         g->m.ter(p.x, p.y) == t_window_alarm);
 }
 
 bool construct::able_make_window(game *g, point p)
@@ -1045,6 +1043,7 @@ void construct::done_deconstruct(game *g, point p)
       g->m.spawn_item(p.x, p.y, item_controller->find_template("sheet"), 0, 1);
       g->m.spawn_item(p.x, p.y, item_controller->find_template("glass_sheet"), 0);
       g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, 3);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("string_36"), 0, 0, 1);
       g->m.ter_set(p.x, p.y, t_window_empty);
     break;
 

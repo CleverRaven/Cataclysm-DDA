@@ -711,9 +711,9 @@ void game::process_activity()
 
      if (u.skillLevel(reading->type) == reading->level) {
       if (no_recipes) {
-       add_msg("You can no longer learn from this %s.", reading->name.c_str());
+       add_msg("You can no longer learn from %s.", reading->name.c_str());
       } else {
-       add_msg("Your skill level won't improve, but this %s has more recipes for you.", reading->name.c_str());
+       add_msg("Your skill level won't improve, but %s has more recipes for you.", reading->name.c_str());
       }
      }
     }
@@ -4813,9 +4813,7 @@ void game::examine()
  const ter_t *xter_t = &terlist[m.ter(examx,examy)];
  iexamine xmine;
 
- if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
-
-  (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
+ (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 
  if (m.has_flag(sealed, examx, examy)) {
   if (m.trans(examx, examy)) {
@@ -4839,12 +4837,16 @@ void game::examine()
  %s is firmly sealed.", m.tername(examx, examy).c_str());
   }
  } else {
-  if (m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) &&
-      !(m.has_flag(swimmable, examx, examy) || m.ter(examx, examy) == t_toilet) && xter_t->examine == &iexamine::none)
+   //examx,examy has no traps, is a container and doesn't have a special examination function
+  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) &&
+       xter_t->examine == &iexamine::none)
    add_msg("It is empty.");
   else
    pickup(examx, examy, 0);
  }
+  //check for disarming traps last to avoid disarming query black box issue.
+ if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
+
 }
 int getsquare(int c , int &off_x, int &off_y, std::string &areastring)
 {
@@ -7459,7 +7461,7 @@ void game::unload(item& it)
   // Then try an underslung shotgun
   else if (has_shotgun != -1 && weapon->contents[has_shotgun].charges > 0)
    weapon = &weapon->contents[has_shotgun];
-  u.inv.add_item_by_type(weapon->curammo->id, weapon->charges);
+  u.inv.add_item_by_type(weapon->curammo->id, 1, weapon->charges);
   weapon->charges = 0;
  }
  item newam;

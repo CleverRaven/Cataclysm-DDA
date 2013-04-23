@@ -5213,7 +5213,7 @@ void player::read(game *g, char ch)
   return;
  }
 
- if (it->is_book()) {
+ if (!it->is_book()) {
   g->add_msg("Your %s is not good reading material.",
            it->tname(g).c_str());
   return;
