@@ -8,8 +8,8 @@ struct construction_stage
 {
  ter_id terrain;
  int time; // In minutes, i.e. 10 turns
- std::vector<component> tools[3];
- std::vector<component> components[3];
+ std::vector<component> tools[10];
+ std::vector<component> components[10];
 
  construction_stage(ter_id Terrain, int Time) :
     terrain (Terrain), time (Time) { };
