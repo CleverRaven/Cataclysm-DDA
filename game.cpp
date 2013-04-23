@@ -5987,8 +5987,13 @@ void game::pickup(int posx, int posy, int min)
     }
   }
  }
-  if ((from_veh ? veh->parts[veh_part].items.size() :
-                        m.i_at(posx, posy).size()          ) <= min) {
+ if ((!from_veh) && m.i_at(posx, posy).size() == 0)
+ {
+     return;
+ }
+ // Not many items, just grab them
+ if ((from_veh ? veh->parts[veh_part].items.size() : m.i_at(posx, posy).size() ) <= min)
+ {
   int iter = 0;
   item newit = from_veh ? veh->parts[veh_part].items[0] : m.i_at(posx, posy)[0];
   if (newit.made_of(LIQUID)) {
