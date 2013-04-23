@@ -55,6 +55,12 @@ bool input_wait(char & ret_ch, int delay_ms)
    case KEY_DOWN:
     ret_ch = 'j';
     break;
+   case KEY_NPAGE:
+    ret_ch = '>';
+    break;
+   case KEY_PPAGE:
+    ret_ch = '<';
+    break;
    case 459:
     ret_ch = '\n';
     break;
