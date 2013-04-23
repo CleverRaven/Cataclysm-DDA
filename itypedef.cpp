@@ -164,8 +164,16 @@ DRINK("long_island","long island iced tea",	8, 100,	c_brown,  "bottle_glass",
 A blend of incredibly strong-flavored liquors that somehow tastes\n\
 like none of them.", 0);
 
+DRINK("drink_screwdriver","Screwdriver", 8, 100, c_yellow, "bottle_glass",
+   25, 6, 0, -12, 1, 4, 1, 20, &iuse::alcohol, ADD_ALCOHOL, "\
+The surreptitious drunkard mechanic's drink of choice.", 0);
+
+DRINK("drink_wild_apple","Wild Apple", 8, 100, c_brown, "bottle_glass",
+   25, 6, 0, -12, 1, 4, 1, 20, &iuse::alcohol, ADD_ALCOHOL, "\
+Like apple cider, only with vodka.", 0);
+
 DRINK("beer","beer",           60, 35, c_brown,  "can_drink",
-         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol,   ADD_ALCOHOL, "\
+         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol_weak,   ADD_ALCOHOL, "\
 Best served cold, in a glass, and with a lime - but you're not that lucky.", 0);
 
 DRINK("bleach","bleach",		20, 18,	c_white,  "jug_plastic",
@@ -1911,11 +1919,11 @@ itypes[id] = new it_armor(id,rarity,price,name,des,'[',\
 
 POWER_ARMOR("power_armor_basic", "basic power armor", 5, 1000, C_BODY, STEEL, MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   40, 80, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+   40, 60, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
 A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.");
 
 POWER_ARMOR("power_armor_helmet_basic", "basic power armor helmet", 6, 500, C_HAT, STEEL, MNULL,
-   10, 24, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
+   10, 18, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
 A basic helmet, designed for use with power armor. Offers excellent protection from both attacks and environmental hazards.");
 
 POWER_ARMOR("power_armor_frame", "power armor hauling frame", 4, 1000, C_STORE, STEEL, MNULL,

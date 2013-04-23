@@ -1056,7 +1056,7 @@
                          ],
                          [
                              ["soldering_iron", 6],
-                             ["toolset", 6]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -2491,6 +2491,41 @@
                           ]
         },
 
+        {
+            "result": "drink_screwdriver",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 1,
+            "time": 7000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [
+                              [
+                                  ["oj", 1]
+                              ],
+                              [
+                                  ["vodka", 1]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "drink_wild_apple",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 1,
+            "time": 7000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [
+                              [
+                                  ["apple_cider", 1]
+                              ],
+                              [
+                                  ["vodka", 1]
+                              ]
+                          ]
+        },
 
         {
             "result": "jerky",
@@ -3064,7 +3099,7 @@
                          ],
                          [
                              ["soldering_iron", 3],
-                             ["toolset", 3]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3093,7 +3128,7 @@
                          ],
                          [
                              ["soldering_iron", 4],
-                             ["toolset", 4]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3122,7 +3157,7 @@
                          ],
                          [
                              ["soldering_iron", 7],
-                             ["toolset", 7]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3269,7 +3304,7 @@
                          ],
                          [
                              ["soldering_iron", 5],
-                             ["toolset", 5]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3298,7 +3333,7 @@
                          ],
                          [
                              ["soldering_iron", 10],
-                             ["toolset", 10]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3337,7 +3372,7 @@
                          ],
                          [
                              ["soldering_iron", 5],
-                             ["toolset", 5]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3367,7 +3402,7 @@
                          ],
                          [
                              ["soldering_iron", 10],
-                             ["toolset", 10]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3402,7 +3437,7 @@
                          ],
                          [
                              ["soldering_iron", 10],
-                             ["toolset", 10]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3510,7 +3545,7 @@
                          ],
                          [
                              ["soldering_iron", 10],
-                             ["toolset", 10]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3542,7 +3577,7 @@
                          ],
                          [
                              ["soldering_iron", 14],
-                             ["toolset", 14]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3584,7 +3619,7 @@
                          ],
                          [
                              ["soldering_iron", 10],
-                             ["toolset", 10]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3619,7 +3654,7 @@
                          ],
                          [
                              ["soldering_iron", 6],
-                             ["toolset", 6]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3660,7 +3695,7 @@
                          ],
                          [
                              ["soldering_iron", 5],
-                             ["toolset", 5]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3695,7 +3730,7 @@
                          ],
                          [
                              ["soldering_iron", 14],
-                             ["toolset", 14]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -3731,7 +3766,7 @@
                          ],
                          [
                              ["soldering_iron", 24],
-                             ["toolset", 24]
+                             ["toolset", 2]
                          ]
                      ],
             "components": [
@@ -3766,7 +3801,7 @@
                          ],
                          [
                              ["soldering_iron", 20],
-                             ["toolset", 20]
+                             ["toolset", 2]
                          ]
                      ],
             "components": [
@@ -3836,7 +3871,7 @@
                          ],
                          [
                              ["soldering_iron", 16],
-                             ["toolset", 16]
+                             ["toolset", 2]
                          ]
                      ],
             "components": [
@@ -5012,7 +5047,7 @@
                          ],
                          [
                              ["welder", 100],
-                             ["toolset", 10]
+                             ["toolset", 5]
                          ],
                          [
                              ["hacksaw", -1],
@@ -5090,7 +5125,7 @@
                          ],
                          [
                              ["welder", 50],
-                             ["toolset", 5]
+                             ["toolset", 2]
                          ],
                          [
                              ["hacksaw", -1],
@@ -5122,7 +5157,7 @@
                          ],
                          [
                              ["welder", 50],
-                             ["toolset", 5]
+                             ["toolset", 2]
                          ],
                          [
                              ["sewing_kit", 50],
@@ -5214,7 +5249,7 @@
                          ],
                          [
                              ["welder", 50],
-                             ["toolset", 5]
+                             ["toolset", 2]
                          ],
                          [
                              ["hacksaw", -1],
@@ -5539,7 +5574,7 @@
                          ],
                          [
                              ["welder", 100],
-                             ["toolset", 4]
+                             ["toolset", 5]
                          ]
                      ],
             "components": [
@@ -5564,7 +5599,7 @@
                          ],
                          [
                              ["welder", 120],
-                             ["toolset", 5]
+                             ["toolset", 6]
                          ]
                      ],
             "components": [
@@ -5593,7 +5628,7 @@
                          ],
                          [
                              ["welder", 300],
-                             ["toolset", 12]
+                             ["toolset", 15]
                          ]
                      ],
             "components": [
@@ -5905,7 +5940,7 @@
                          ],
                          [
                              ["welder", 50],
-                             ["toolset", 5]
+                             ["toolset", 2]
                          ]
                      ],
             "components": [
@@ -5981,7 +6016,7 @@
             "tools": [
                          [
                              ["hotplate", 18],
-                             ["toolset", 9],
+                             ["toolset", 1],
                              ["fire", -1]
                          ]
                      ],
@@ -6037,7 +6072,7 @@
                          ],
                          [
                              ["soldering_iron", 10],
-                             ["toolset", 10]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [
@@ -6074,7 +6109,7 @@
                          ],
                          [
                              ["soldering_iron", 14],
-                             ["toolset", 14]
+                             ["toolset", 1]
                          ]
                      ],
             "components": [

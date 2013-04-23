@@ -244,12 +244,6 @@ void player::reset(game *g)
   str_cur += 20;
  if (has_bionic("bio_eye_enhancer"))
   per_cur += 2;
- if (has_bionic("bio_carbon"))
-  dex_cur -= 2;
- if (has_bionic("bio_armor_head"))
-  per_cur--;
- if (has_bionic("bio_armor_arms"))
-  dex_cur--;
 if (has_bionic("bio_metabolics") && power_level < max_power_level &&
      hunger < 100 && (int(g->turn) % 5 == 0)) {
   hunger += 2;
@@ -4468,6 +4462,8 @@ bool player::eat(game *g, int index)
         add_addiction(comest->add, comest->addict);
         if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol)
             charge_power(rng(2, 8));
+        if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak)
+            charge_power(rng(1, 4));
 
         if (!has_trait(PF_CANNIBAL)  && eaten->made_of(HFLESH))
         {
@@ -5606,10 +5602,6 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
      ret =0;
 
     // Bionics and mutation
-    if ((bp == bp_head  && has_bionic("bio_armor_head"))  ||
-     (bp == bp_torso && has_bionic("bio_armor_torso")) ||
-     (bp == bp_legs  && has_bionic("bio_armor_legs")))
-        ret += 2;
     if (has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth)
     {
         ret += 1;
@@ -5721,7 +5713,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
 //  their T shirt, for example.  TODO: don't assume! ASS out of U & ME, etc.
  for (int i = worn.size() - 1; i >= 0; i--) {
   tmp = dynamic_cast<it_armor*>(worn[i].type);
-  if ((tmp->covers & mfb(bp)) && tmp->storage < 20) {
+  if ((tmp->covers & mfb(bp)) && tmp->storage <= 24) {
    arm_bash = tmp->dmg_resist;
    arm_cut  = tmp->cut_resist;
    switch (worn[i].damage) {
