@@ -1244,6 +1244,7 @@ case t_wall_log:
    ter_set(x, y, t_window_frame);
   spawn_item(x, y, (*itypes)["sheet"], 0, 1);
   spawn_item(x, y, (*itypes)["stick"], 0);
+  spawn_item(x, y, (*itypes)["string_36"], 0);
    return true;
   } else {
    sound += "whack!";

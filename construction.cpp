@@ -192,6 +192,7 @@ void game::init_construction()
    COMP("nail", 4);
    COMP("sheet", 2);
    COMP("stick", 1);
+   COMP("string_36", 1);
 
  CONSTRUCT("Build Door", 2, &construct::able_empty,
                               &construct::done_nothing);
@@ -1043,6 +1044,7 @@ void construct::done_deconstruct(game *g, point p)
       g->m.spawn_item(p.x, p.y, item_controller->find_template("sheet"), 0, 1);
       g->m.spawn_item(p.x, p.y, item_controller->find_template("glass_sheet"), 0);
       g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, 3);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("string_36"), 0, 0, 1);
       g->m.ter_set(p.x, p.y, t_window_empty);
     break;
 
