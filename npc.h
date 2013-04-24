@@ -403,7 +403,7 @@ public:
  npc();
  //npc(npc& rhs);
  npc(const npc &rhs);
- ~npc();
+ virtual ~npc();
  virtual bool is_npc() { return true; }
 
  npc& operator= (const npc &rhs);
