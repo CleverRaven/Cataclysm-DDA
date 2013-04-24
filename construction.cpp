@@ -159,8 +159,7 @@ void game::init_construction()
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
    COMP("log", 3);
-   COMP("rope_30", 1);
-   COMPCONT("rope_6", 5);
+   COMP("rope_6", 2);
 
  CONSTRUCT("Build Rope & Pulley System", 2, &construct::able_empty, &construct::done_nothing);
   STAGE(t_palisade_pulley, 0);
@@ -174,8 +173,7 @@ void game::init_construction()
    TOOLCONT("primitive_shovel");
    COMP("log", 2);
    COMP("2x4", 3);
-   COMP("rope_30", 1);
-   COMPCONT("rope_6", 5);
+   COMP("rope_6", 2);
 
  CONSTRUCT("Build Window", 2, &construct::able_make_window,
                               &construct::done_nothing);
@@ -194,6 +192,7 @@ void game::init_construction()
    COMP("nail", 4);
    COMP("sheet", 2);
    COMP("stick", 1);
+   COMP("string_36", 1);
 
  CONSTRUCT("Build Door", 2, &construct::able_empty,
                               &construct::done_nothing);
@@ -475,12 +474,19 @@ void game::construction_menu()
     posy++;
 // Print tools
     construction_stage stage = current_con->stages[n];
-    bool has_tool[3] = {stage.tools[0].empty(),
-                        stage.tools[1].empty(),
-                        stage.tools[2].empty()};
+    bool has_tool[10] = {stage.tools[0].empty(),
+                         stage.tools[1].empty(),
+                         stage.tools[2].empty(),
+                         stage.tools[3].empty(),
+                         stage.tools[4].empty(),
+                         stage.tools[5].empty(),
+                         stage.tools[6].empty(),
+                         stage.tools[7].empty(),
+                         stage.tools[8].empty(),
+                         stage.tools[9].empty()};
     posy++;
     posx = 33;
-    for (int i = 0; i < 3 && !has_tool[i]; i++) {
+    for (int i = 0; i < 9 && !has_tool[i]; i++) {
      mvwprintz(w_con, posy, posx-2, c_white, ">");
      for (int j = 0; j < stage.tools[i].size(); j++) {
       itype_id tool = stage.tools[i][j].type;
@@ -510,14 +516,21 @@ void game::construction_menu()
     }
 // Print components
     posx = 33;
-    bool has_component[3] = {stage.components[0].empty(),
-                             stage.components[1].empty(),
-                             stage.components[2].empty()};
-    for (int i = 0; i < 3; i++) {
+    bool has_component[10] = {stage.components[0].empty(),
+                              stage.components[1].empty(),
+                              stage.components[2].empty(),
+                              stage.components[3].empty(),
+                              stage.components[4].empty(),
+                              stage.components[5].empty(),
+                              stage.components[6].empty(),
+                              stage.components[7].empty(),
+                              stage.components[8].empty(),
+                              stage.components[9].empty()};
+    for (int i = 0; i < 10; i++) {
      if (has_component[i])
        continue;
      mvwprintz(w_con, posy, posx-2, c_white, ">");
-     for (int j = 0; j < stage.components[i].size() && i < 3; j++) {
+     for (int j = 0; j < stage.components[i].size() && i < 10; j++) {
       nc_color col = c_red;
       component comp = stage.components[i][j];
       if (( item_controller->find_template(comp.type)->is_ammo() &&
@@ -642,7 +655,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
   bool tools_required = false;
   bool components_required = false;
 
-  for (int j = 0; j < 3; j++) {
+  for (int j = 0; j < 10; j++) {
    if (stage.tools[j].size() > 0) {
     tools_required = true;
     has_tool = false;
@@ -769,7 +782,7 @@ void game::complete_construction()
  u.practice(turn, "carpentry", built->difficulty * 10);
  if (built->difficulty == 0)
    u.practice(turn, "carpentry", 10);
- for (int i = 0; i < 3; i++) {
+ for (int i = 0; i < 10; i++) {
   if (!stage.components[i].empty())
    consume_items(stage.components[i]);
  }
@@ -848,10 +861,9 @@ bool construct::able_furniture(game *g, point p)
 
 bool construct::able_window(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_window_frame ||
-         g->m.ter(p.x, p.y) == t_window_empty ||
-         g->m.ter(p.x, p.y) == t_window_domestic ||
-         g->m.ter(p.x, p.y) == t_window);
+ return (g->m.ter(p.x, p.y) == t_window_domestic ||
+         g->m.ter(p.x, p.y) == t_window ||
+         g->m.ter(p.x, p.y) == t_window_alarm);
 }
 
 bool construct::able_make_window(game *g, point p)
@@ -1045,6 +1057,7 @@ void construct::done_deconstruct(game *g, point p)
       g->m.spawn_item(p.x, p.y, item_controller->find_template("sheet"), 0, 1);
       g->m.spawn_item(p.x, p.y, item_controller->find_template("glass_sheet"), 0);
       g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, 3);
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("string_36"), 0, 0, 1);
       g->m.ter_set(p.x, p.y, t_window_empty);
     break;
 

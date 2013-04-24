@@ -75,6 +75,10 @@ void map::generate_lightmap(game* g)
        items[0].has_flag(IF_LIGHT_4))
     apply_light_source(sx, sy, 4);
 
+   if (items.size() == 1 &&
+       items[0].has_flag(IF_LIGHT_8))
+    apply_light_source(sx, sy, 8);
+
    if(terrain == t_emergency_light)
     apply_light_source(sx, sy, 3);
 

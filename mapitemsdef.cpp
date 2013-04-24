@@ -71,6 +71,7 @@ void game::init_mapitems()
 	"superglue", "string_6", "string_36", "screwdriver", "wrench",
 	"hacksaw", "xacto", "gloves_leather", "mask_dust",
 	"glasses_safety", "battery", "nail", "nailgun",
+  "solar_cell",
 	"manual_mechanics", "hammer", "flashlight", "soldering_iron",
 	"bubblewrap", "binoculars", "duct_tape", "lawnmower", "foot_crank",
         "boltcutters", "spray_can", NULL);
@@ -85,7 +86,7 @@ void game::init_mapitems()
 	"manual_speech", "manual_business", "manual_computers",
 	"lighter", "matches", "sewing_kit", "thread", "scissors", "soldering_iron",
 	"radio", "syringe", "mp3", "usb_drive", "firecracker_pack", "firecracker",
-    "chips", "cola", "picklocks", NULL);
+    "chips", "cola", "picklocks", "wolfsuit", "glowstick", NULL);
 
  setvector(
    mapitems[mi_homeguns],
@@ -109,7 +110,7 @@ void game::init_mapitems()
 	"jacket_jean", "blazer", "jacket_leather", "poncho",
 	"trenchcoat", "peacoat", "vest", "mag_porn", "lighter",
 	"sewing_kit", "thread", "flashlight", "suit", "tophat",
-	"glasses_monocle", "duct_tape", "firecracker_pack", "firecracker",
+	"glasses_monocle", "duct_tape", "firecracker_pack", "firecracker", "wolfsuit",
     NULL);
 
  setvector(
@@ -204,7 +205,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_consumer_electronics],
-	"amplifier", "antenna", "battery", "soldering_iron",
+  "amplifier", "antenna", "battery", "soldering_iron", "solar_cell",
 	"screwdriver", "processor", "RAM", "mp3", "flashlight",
 	"radio", "hotplate", "receiver", "transponder", "tazer",
 	"two_way_radio", "usb_drive", "manual_electronics", "cable", NULL);
@@ -214,7 +215,7 @@ void game::init_mapitems()
 	"bandages", "aspirin", "bat", "bat_metal", "sneakers", "socks", "tshirt",
 	"tank_top", "gloves_fingerless", "glasses_safety", "armguard_soft", "armguard_hard",
 	"goggles_swim", "goggles_ski", "hat_ball", "helmet_bike",
-	"helmet_ball", "manual_brawl", "foot_crank", NULL);
+	"helmet_ball", "manual_brawl", "foot_crank", "glowstick", NULL);
 
  setvector(
    mapitems[mi_camping],
@@ -225,7 +226,7 @@ void game::init_mapitems()
 	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
  "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
  "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
- "heatpack", NULL);
+ "heatpack", "glowstick", NULL);
 
 
  setvector(
@@ -241,7 +242,7 @@ void game::init_mapitems()
 	"sewing_kit", "thread", "hammer", "flashlight", "water_purifier",
 	"radio", "beartrap", "extinguisher", "string_36", "longbow",
 	"compbow", "arrow_wood", "arrow_cf", "rollmat", "tent_kit",
-    "foot_crank", "mag_archery", "heatpack", NULL);
+    "foot_crank", "mag_archery", "heatpack", "glowstick", NULL);
 
  setvector(
    mapitems[mi_alcohol],
@@ -482,7 +483,7 @@ void game::init_mapitems()
         "wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
         "1cyl_combustion", "v2_combustion", "i4_combustion", "v6_combustion",
         "vehicle_controls", "v8_combustion", "hacksaw", "welder", "motor",
-        "goggles_welding",
+        "goggles_welding", "solar_cell",
         "motor_large", "storage_battery", "solar_panel", "jerrycan", "jerrycan_big", "metal_tank", NULL);
 
  setvector(
@@ -522,7 +523,7 @@ void game::init_mapitems()
    mapitems[mi_electronics],
 	"superglue", "electrohack", "processor", "RAM",
 	"power_supply", "amplifier", "transponder", "receiver",
-	"antenna",
+  "antenna", "solar_cell",
 	"screwdriver", "mask_dust", "glasses_safety", "goggles_welding",
 	"battery", "plut_cell", "manual_electronics",
 	"textbook_electronics", "soldering_iron", "hotplate", "UPS_off",
@@ -647,7 +648,7 @@ void game::init_mapitems()
 	"bottle_plastic", "lighter", "matches", "sewing_kit", "thread", "extinguisher",
 	"flashlight", "crowbar", "chainsaw_off", "beartrap",
 	"grenade", "EMPbomb", "hotplate", "UPS_off", "canteen", "spray_can",
- "bio_tools", "bio_ethanol", "heatpack", NULL);
+ "bio_tools", "bio_ethanol", "heatpack", "glowstick", NULL);
 
  setvector(
    mapitems[mi_sewage_plant],
@@ -685,6 +686,7 @@ void game::init_mapitems()
 	"transponder", "receiver", "antenna", "screwdriver",
 	"battery", "mag_porn", "mag_tv", "manual_electronics",
 	"lighter", "flashlight", "two_way_radio", "radio", "mp3",
+  "solar_cell",
 	"usb_drive", NULL);
 
  setvector(
@@ -755,7 +757,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_robots],
-	"processor", "RAM", "power_supply", "amplifier",
+  "processor", "RAM", "power_supply", "amplifier", "solar_cell",
 	"transponder", "receiver", "antenna", "steel_chunk", "spring",
 	"steel_lump", "motor", "battery", "plut_cell", NULL);
 
@@ -896,6 +898,7 @@ void game::init_mapitems()
    mapitems[mi_npc_hacker],
 	"energy_drink", "adderall", "electrohack", "usb_drive",
 	"battery", "manual_computers", "textbook_computers",
+  "solar_cell",
 	"SICP", "soldering_iron", NULL);
 
 // This one kind of an inverted list; what an NPC will NOT carry

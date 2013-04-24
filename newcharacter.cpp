@@ -5,7 +5,9 @@
 #include "keypress.h"
 #include "game.h"
 #include "options.h"
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #include <fstream>
 #include <sstream>
 

@@ -8,7 +8,7 @@
 void mdeath::normal(game *g, monster *z)
 {
  if (g->u_see(z))
-  g->add_msg("It dies!");
+  g->add_msg("%s dies!", z->name().c_str());
  if (z->made_of(FLESH) && z->has_flag(MF_WARM)) {
   if (g->m.field_at(z->posx, z->posy).type == fd_blood &&
       g->m.field_at(z->posx, z->posy).density < 3)
@@ -36,7 +36,7 @@ void mdeath::acid(game *g, monster *z)
 void mdeath::boomer(game *g, monster *z)
 {
  std::string tmp;
- g->sound(z->posx, z->posy, 24, "a boomer explode!");
+ g->sound(z->posx, z->posy, 24, "a boomer explodes!");
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
    g->m.bash(z->posx + i, z->posy + j, 10, tmp);

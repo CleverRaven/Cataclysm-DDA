@@ -274,17 +274,25 @@ void inventory::add_item(item newit, bool keep_invlet)
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         std::list<item>::iterator it_ref = iter->begin();
-        if (it_ref->stacks_with(newit))
+        if (it_ref->type->id == newit.type->id)
         {
-		    if (it_ref->is_food() && it_ref->has_flag(IF_HOT))
-		    {
-			    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
-			    it_ref->item_counter = tmpcounter;
-			    newit.item_counter = tmpcounter;
-		    }
-            newit.invlet = it_ref->invlet;
-            iter->push_back(newit);
-            return;
+            if (newit.charges != -1 && (newit.is_food() || newit.is_ammo()))
+            {
+                it_ref->charges += newit.charges;
+                return;
+            }
+            else if (it_ref->stacks_with(newit))
+            {
+                if (it_ref->is_food() && it_ref->has_flag(IF_HOT))
+                {
+                    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
+                    it_ref->item_counter = tmpcounter;
+                    newit.item_counter = tmpcounter;
+		        }
+                newit.invlet = it_ref->invlet;
+                iter->push_back(newit);
+                return;
+            }
         }
         else if (keep_invlet && it_ref->invlet == newit.invlet)
         {
@@ -301,12 +309,17 @@ void inventory::add_item(item newit, bool keep_invlet)
     items.push_back(newstack);
 }
 
-void inventory::add_item_by_type(itype_id type, int count)
+void inventory::add_item_by_type(itype_id type, int count, int charges)
 {
     // TODO add proper birthday
     while (count > 0)
     {
-        add_item(item_controller->create(type, 0));
+        item tmp = item_controller->create(type, 0);
+        if (charges != -1)
+        {
+            tmp.charges = charges;
+        }
+        add_item(tmp);
         count--;
     }
 }
@@ -367,12 +380,22 @@ void inventory::restack(player *p)
     {
         for (invstack::iterator other = iter; other != items.end(); ++other)
         {
-            if (iter != other && iter->front().stacks_with(other->front()))
+            if (iter != other && iter->front().type->id == other->front().type->id)
             {
-                iter->splice(iter->begin(), *other);
+                if (other->front().charges != -1 && (other->front().is_food() || other->front().is_ammo()))
+                {
+                    iter->front().charges += other->front().charges;
+                }
+                else if (iter->front().stacks_with(other->front()))
+                {
+                    iter->splice(iter->begin(), *other);
+                }
+                else
+                {
+                    continue;
+                }
                 other = items.erase(other);
                 --other;
-                continue;
             }
         }
     }
