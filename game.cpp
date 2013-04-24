@@ -1248,6 +1248,10 @@ bool game::handle_action()
  vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
  bool veh_ctrl = veh && veh->player_in_control (&u);
 
+ int soffset = OPTIONS[MOVE_VIEW_OFFSET];
+ int soffsetr = 0 - shiftoffset;
+
+
  switch (act) {
 
   case ACTION_PAUSE:
@@ -1329,39 +1333,39 @@ bool game::handle_action()
    break;
 
   case ACTION_SHIFT_N:
-   u.view_offset_y += -1;
+   u.view_offset_y += soffsetr;
    break;
 
   case ACTION_SHIFT_NE:
-   u.view_offset_x += 1;
-   u.view_offset_y += -1;
+   u.view_offset_x += soffset;
+   u.view_offset_y += soffsetr;
    break;
 
   case ACTION_SHIFT_E:
-   u.view_offset_x += 1;
+   u.view_offset_x += soffset;
    break;
 
   case ACTION_SHIFT_SE:
-   u.view_offset_x += 1;
-   u.view_offset_y += 1;
+   u.view_offset_x += soffset;
+   u.view_offset_y += soffset;
    break;
 
   case ACTION_SHIFT_S:
-   u.view_offset_y += 1;
+   u.view_offset_y += soffset;
    break;
 
   case ACTION_SHIFT_SW:
-   u.view_offset_x += -1;
-   u.view_offset_y += 1;
+   u.view_offset_x += soffsetr;
+   u.view_offset_y += soffset;
    break;
 
   case ACTION_SHIFT_W:
-   u.view_offset_x += -1;
+   u.view_offset_x += soffsetr;
    break;
 
   case ACTION_SHIFT_NW:
-   u.view_offset_x += -1;
-   u.view_offset_y += -1;
+   u.view_offset_x += soffsetr;
+   u.view_offset_y += soffsetr;
    break;
 
   case ACTION_OPEN:

@@ -224,6 +224,8 @@ option_key lookup_option_key(std::string id)
   return OPT_VIEWPORT_X;
  if (id == "viewport_y")
   return OPT_VIEWPORT_Y;
+ if (id == "move_view_offset")
+  return OPT_MOVE_VIEW_OFFSET;
  if (id == "static_spawn")
   return OPT_STATIC_SPAWN;
  if (id == "classic_zombies")
@@ -255,6 +257,7 @@ std::string option_string(option_key key)
   case OPT_INITIAL_TIME: return "initial_time";
   case OPT_VIEWPORT_X: return "viewport_x";
   case OPT_VIEWPORT_Y: return "viewport_y";
+  case OPT_MOVE_VIEW_OFFSET: return "move_view_offset";
   case OPT_STATIC_SPAWN: return "static_spawn";
   case OPT_CLASSIC_ZOMBIES: return "classic_zombies";
   default:			return "unknown_option";
@@ -286,6 +289,7 @@ std::string option_desc(option_key key)
   case OPT_INITIAL_TIME: return "Initial starting time of day on character\ngeneration.  Default is 8:00";
   case OPT_VIEWPORT_X: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
   case OPT_VIEWPORT_Y: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
+  case OPT_MOVE_VIEW_OFFSET: return "Move view by how many squares per keypress\nDefault is 1";
   case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is F";
   case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Probably requires a reset of\nsave folder to take effect. Default is F";
   default:			return " ";
@@ -317,6 +321,7 @@ std::string option_name(option_key key)
   case OPT_INITIAL_TIME: return "Initial time";
   case OPT_VIEWPORT_X: return "Viewport width";
   case OPT_VIEWPORT_Y: return "Viewport height";
+  case OPT_MOVE_VIEW_OFFSET: return "Move view offset";
   case OPT_STATIC_SPAWN: return "Static spawn";
   case OPT_CLASSIC_ZOMBIES: return "Classic zombies";
   default:			return "Unknown Option (BUG)";
@@ -337,6 +342,7 @@ bool option_is_bool(option_key id)
   case OPT_INITIAL_TIME:
   case OPT_VIEWPORT_X:
   case OPT_VIEWPORT_Y:
+  case OPT_MOVE_VIEW_OFFSET:
    return false;
     break;
   default:
@@ -376,6 +382,9 @@ char option_max_options(option_key id)
       case OPT_VIEWPORT_X:
       case OPT_VIEWPORT_Y:
         ret = 93; // TODO Set up min/max values so weird numbers don't have to be used.
+        break;
+      case OPT_MOVE_VIEW_OFFSET:
+        ret = 50; // TODO calculate max for screen size
         break;
       default:
         ret = 2;
@@ -437,6 +446,8 @@ initial_time 8\n\
 viewport_x 12\n\
 # The height of the terrain window, which is also the height of the main window, in characters.\n\
 viewport_y 12\n\
+# How many squares to shift the view when using move view keys (HJKLYUBN).\n\
+move_view_offset 1\n\
 # Spawn zombies at game start instead of during the game.  You must create a new world after changing\n\
 static_spawn T\n\
 # Only spawn classic zombies and natural wildlife.  You must create a new world after changing\n\
