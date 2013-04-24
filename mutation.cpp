@@ -142,11 +142,11 @@ void player::mutate_towards(game *g, pl_flag mut)
 
  toggle_trait(mut);
  if (replacing != PF_NULL) {
-  g->add_msg("Your %s turns into %s!", traits[replacing].name.c_str(),
+  g->add_msg("Your %s mutation turns into %s!", traits[replacing].name.c_str(),
              traits[mut].name.c_str());
   toggle_trait(replacing);
  } else
-  g->add_msg("You gain %s!", traits[mut].name.c_str());
+  g->add_msg("You gain a mutation called %s!", traits[mut].name.c_str());
  mutation_effect(g, *this, mut);
 
 // Weight us towards any categories that include this mutation
@@ -182,13 +182,13 @@ void player::remove_mutation(game *g, pl_flag mut)
 
  toggle_trait(mut);
  if (replacing != PF_NULL) {
-  g->add_msg("Your %s turns into %s.", traits[mut].name.c_str(),
+  g->add_msg("Your %s mutation turns into %s.", traits[mut].name.c_str(),
              traits[replacing].name.c_str());
   toggle_trait(replacing);
   mutation_loss_effect(g, *this, mut);
   mutation_effect(g, *this, replacing);
  } else {
-  g->add_msg("You lose your %s.", traits[mut].name.c_str());
+  g->add_msg("You lose your %s mutation.", traits[mut].name.c_str());
   mutation_loss_effect(g, *this, mut);
  }
 

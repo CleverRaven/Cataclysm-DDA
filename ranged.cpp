@@ -327,7 +327,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     if (u.posx == tx && u.posy == ty)
      h = &u;
     else
-     h = &(active_npc[npc_at(tx, ty)]);
+     h = active_npc[npc_at(tx, ty)];
 
     std::vector<point> blood_traj = trajectory;
     blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
@@ -587,8 +587,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   }
 // Draw the NPCs
   for (int i = 0; i < active_npc.size(); i++) {
-   if (u_see(active_npc[i].posx, active_npc[i].posy))
-    active_npc[i].draw(w_terrain, center.x, center.y, false);
+   if (u_see(active_npc[i]->posx, active_npc[i]->posy))
+    active_npc[i]->draw(w_terrain, center.x, center.y, false);
   }
   if (x != u.posx || y != u.posy) {
 // Calculate the return vector (and draw it too)
@@ -613,7 +613,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
       if (mondex != -1 && u_see(&(z[mondex])))
        z[mondex].draw(w_terrain, center.x, center.y, true);
       else if (npcdex != -1)
-       active_npc[npcdex].draw(w_terrain, center.x, center.y, true);
+       active_npc[npcdex]->draw(w_terrain, center.x, center.y, true);
       else
        m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center.x, center.y);
      }
@@ -647,7 +647,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (mondex != -1 && u_see(&(z[mondex])))
     z[mondex].draw(w_terrain, center.x, center.y, false);
    else if (npcdex != -1)
-    active_npc[npcdex].draw(w_terrain, center.x, center.y, false);
+    active_npc[npcdex]->draw(w_terrain, center.x, center.y, false);
    else if (m.sees(u.posx, u.posy, x, y, -1, junk))
     m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
    else
@@ -977,7 +977,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
    if (&p == &(g->u)) {
     g->add_msg("You shoot %s's %s.", h->name.c_str(),
                body_part_name(hit, side).c_str());
-                g->active_npc[npcdex].make_angry();
+                g->active_npc[npcdex]->make_angry();
  } else if (g->u_see(h->posx, h->posy))
     g->add_msg("%s shoots %s's %s.",
                (g->u_see(p.posx, p.posy) ? p.name.c_str() : "Someone"),
