@@ -1849,7 +1849,7 @@ bool game::load_master()
 
 // First, get the next ID numbers for each of these
  fin >> next_mission_id >> next_faction_id >> next_npc_id;
- int num_missions, num_npc, num_factions, num_items;
+ int num_missions, num_factions;
 
  fin >> num_missions;
  if (fin.peek() == '\n')
