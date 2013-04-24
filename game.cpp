@@ -1248,8 +1248,8 @@ bool game::handle_action()
  vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
  bool veh_ctrl = veh && veh->player_in_control (&u);
 
- int soffset = OPTIONS[MOVE_VIEW_OFFSET];
- int soffsetr = 0 - shiftoffset;
+ int soffset = OPTIONS[OPT_MOVE_VIEW_OFFSET];
+ int soffsetr = 0 - soffset;
 
 
  switch (act) {
