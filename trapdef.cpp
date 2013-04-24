@@ -32,6 +32,12 @@ traps.push_back(new trap(id, "BRAZIER", "brazier", c_red, '#',  0, 0,
 
 keys.clear();
 id++;
+keys.push_back("funnel");
+traps.push_back(new trap(id, "FUNNEL", "funnel", c_yellow, 'V',  0, 0,
+    0, &trapfunc::none, &trapfuncm::none, keys));;
+
+keys.clear();
+id++;
 keys.push_back("rollmat");
 traps.push_back(new trap(id, "ROLLMAT", "roll mat", c_blue, '#',  0, 0,
     0, &trapfunc::none, &trapfuncm::none, keys));;
@@ -238,5 +244,4 @@ keys.push_back("null");
 // Snake spawn / hisssss
 traps.push_back(new trap(id, "", "", c_white, '^',  99, 99,
     99, &trapfunc::snake, &trapfuncm::snake, keys));;
-
 }

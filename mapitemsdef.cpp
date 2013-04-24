@@ -51,7 +51,7 @@ void game::init_mapitems()
 	"chips", "pot", "pan", "knife_butter", "knife_steak", "knife_butcher",
 	"cookbook", "rag", "hotplate", "flashlight", "extinguisher",
 	"whiskey", "bleach", "ammonia", "flour", "sugar", "salt",
-	"tea_raw", "coffee_raw",
+	"tea_raw", "coffee_raw", "funnel",
 	NULL);
 
  setvector(
@@ -179,7 +179,7 @@ void game::init_mapitems()
 	"superglue", "chain", "rope_6", "rope_30", "glass_sheet",
 	"pipe", "nail", "hose", "string_36", "frame", "metal_tank",
 	"wire", "wire_barbed", "duct_tape", "jerrycan", "lawnmower",
-  "foot_crank", "spray_can", "ax", "jerrycan_big",
+  "foot_crank", "spray_can", "ax", "jerrycan_big", "funnel",
 	NULL);
 
  setvector(
@@ -489,7 +489,7 @@ void game::init_mapitems()
 	"iodine", "water_clean", "salt_water", "bleach", "ammonia",
 	"mutagen", "purifier", "royal_jelly", "superglue",
 	"bottle_glass", "syringe", "extinguisher", "hotplate",
-	"software_medical", NULL);
+	"software_medical", "funnel", NULL);
 
  setvector(
    mapitems[mi_teleport],

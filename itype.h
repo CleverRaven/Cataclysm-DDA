@@ -135,7 +135,6 @@ AMMO_COOKOFF,  // Explodes when burned instead of just burning
 NUM_AMMO_EFFECTS
 };
 
-
 enum technique_id {
 TEC_NULL,
 // Offensive Techniques

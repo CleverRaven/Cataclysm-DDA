@@ -1898,6 +1898,10 @@ if(it->type->id == "cot"){
              ", nails facing up.";
   type = tr_nailboard;
   practice = 2;
+  } else if(it->type->id == "funnel"){
+  message << "You place the funnel, waiting to collect rain.";
+  type = tr_funnel;
+  practice = 0;
  } else if(it->type->id == "tripwire"){
 // Must have a connection between solid squares.
   if ((g->m.move_cost(posx    , posy - 1) != 2 &&

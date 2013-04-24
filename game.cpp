@@ -603,7 +603,7 @@ void game::process_activity()
 
      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(),
              u.skillLevel(reading->type).exercise());
-     
+
      if (u.skillLevel(reading->type) == originalSkillLevel && (u.activity.continuous || query_yn("Study %s?", reading->type->name().c_str()))) {
       u.cancel_activity();
       if (u.activity.index == -2) {
@@ -616,7 +616,7 @@ void game::process_activity()
        return;
       }
      }
-     
+
      u.activity.continuous = false;
 
      if (u.skillLevel(reading->type) > originalSkillLevel)
@@ -4712,7 +4712,7 @@ void game::examine()
   else
    exam_vehicle (*veh, examx, examy);
  }
- 
+
  if (m.has_flag(console, examx, examy)) {
   use_computer(examx, examy);
   return;
@@ -4723,7 +4723,7 @@ void game::examine()
  if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
 
   (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
- 
+
  if (m.has_flag(sealed, examx, examy)) {
   if (m.trans(examx, examy)) {
    std::string buff;
@@ -5989,7 +5989,7 @@ void game::pickup(int posx, int posy, int min)
  }
 // Picking up water?
  if ((!from_veh) && m.i_at(posx, posy).size() == 0) {
-  if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet || m.ter(posx, posy) == t_water_sh) {
+  if (m.has_flag(swimmable, posx, posy) || m.ter(posx, posy) == t_toilet || m.ter(posx, posy) == t_water_sh || ((m.tr_at(posx, posy) == tr_funnel) && (m.is_outside(posx, posy)) && (weather == WEATHER_DRIZZLE || weather == WEATHER_RAINY || weather == WEATHER_THUNDER || weather == WEATHER_LIGHTNING))){
    item water = m.water_from(posx, posy);
     // Try to handle first (bottling) drink after.
     // changed boolean, large sources should be infinite

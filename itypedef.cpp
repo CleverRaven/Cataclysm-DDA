@@ -4144,6 +4144,14 @@ TOOL("brazier", "brazier",  50,900,';', c_ltred,  IRON,MNULL,
 A large stand with slots in the side. (a)ctivate it and place it somewhere\n\
 then set fires in it with no risk of spreading.");
 
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
+TOOL("funnel", "funnel",  50,900,';', c_yellow,  PLASTIC,MNULL,
+// VOL WGT DAM CUT HIT   MAX DEF  USE SEC   FUEL    REVERT    FUNCTION
+     6, 5,  11,  0, 1,    0,  0,  0,  0, AT_NULL, "null", &iuse::set_trap,
+0, "\
+A funnel used to collect rainwater. (a)ctivate it and place it outside\n\
+then collect water from it when it rains.");
+
 TOOL("puller", "kinetic bullet puller",		5, 100, ';', c_blue,	STEEL,	PLASTIC,
     2,  4, 10,  0,  0,   0,  0, 0,  0, AT_NULL, "null", &iuse::bullet_puller, 0, "\
 A tool used for disassembling firearm ammunition.");
@@ -4434,7 +4442,6 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
         standard_itype_ids.push_back(iter->first);
     }
 }
-
 
 //    NAME		RARE SYM COLOR		MAT1	MAT2
 MELEE("bio_claws_weapon", "adamantite claws",0,0,'{', c_pink,	STEEL,	MNULL,
