@@ -1342,7 +1342,7 @@ int npc::vehicle_danger(game *g, int radius)
    int last_part = vehicles[i].v->external_parts.back();
    int size = std::max(vehicles[i].v->parts[last_part].mount_dx, vehicles[i].v->parts[last_part].mount_dy);
 
-   float normal = sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay));
+   float normal = sqrt((float)((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
    int closest = abs((posx - ax) * (by - ay) - (posy - ay) * (bx - ax)) / normal;
 
    if (size > closest)
@@ -1609,7 +1609,7 @@ int npc::value(const item &it)
   it_book* book = dynamic_cast<it_book*>(it.type);
   if (book->intel <= int_cur) {
    ret += book->fun;
-   if (skillLevel(book->type) < book->level && skillLevel(book->type) >= book->req)
+   if (skillLevel(book->type) < (int)book->level && skillLevel(book->type) >= (int)book->req)
     ret += book->level * 3;
   }
  }

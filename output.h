@@ -48,7 +48,7 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 #define STRING(x) STRING2(x)
 
 // classy
-#define debugmsg(format...) realDebugmsg(__FILE__, STRING(__LINE__), format)
+#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __VA_ARGS__)
 
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);
 bool query_yn(const char *mes, ...);

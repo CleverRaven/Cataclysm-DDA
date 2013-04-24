@@ -509,7 +509,7 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   // MORALE : a negative morale_pen means the player is cold
   // Intensity multiplier is negative for cold, positive for hot
   int intensity_mult = -disease_intensity(dis_type(cold_pen)) + disease_intensity(dis_type(hot_pen));
-  if (has_disease(dis_type(cold_pen)) > 0 || has_disease(dis_type(hot_pen)) > 0) {
+  if (has_disease(dis_type(cold_pen)) || has_disease(dis_type(hot_pen))) {
    switch (i) {
     case bp_head :
     case bp_torso :
@@ -920,7 +920,7 @@ std::string player::save_info()
  dump << std::endl;
 
  dump << inv.save_str_no_quant();
- 
+
  for (int i = 0; i < worn.size(); i++)
   dump << "W " << worn[i].save_info() << std::endl;
  if (!weapon.is_null())
@@ -3434,7 +3434,7 @@ int player::active_item_charges(itype_id id)
     {
         max = weapon.charges;
     }
-    
+
     int inv_max = inv.max_active_item_charges(id);
     if (inv_max > max)
     {
@@ -4092,7 +4092,7 @@ char player::lookup_item(char let)
 
  if (inv.item_by_letter(let).is_null())
   return -2; // -2 is for "item not found"
- 
+
  return let;
 }
 
@@ -5177,7 +5177,7 @@ void player::read(game *g, char ch)
   return;
  }
 // Check if reading is okay
- if (g->light_level() < 8 && LL_LIT > g->m.light_at(posx, posy)) {
+ if (g->light_level() < 8 && LL_LIT > g->m.light_at(posx, posy) && !g->u.has_active_item("glowstick_lit") && !g->u.has_active_item("lightstrip")) {
   g->add_msg("It's too dark to read!");
   return;
  }
@@ -5224,14 +5224,14 @@ int time; //Declare this here so that we can change the time depending on whats 
   g->add_msg("You're illiterate!");
   return;
  }
- else if (skillLevel(tmp->type) < tmp->req) {
+ else if (skillLevel(tmp->type) < (int)tmp->req) {
   g->add_msg("The %s-related jargon flies over your head!",
              tmp->type->name().c_str());
   return;
  } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) {	// See morale.h
   g->add_msg("What's the point of reading?  (Your morale is too low!)");
   return;
- } else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 && !can_study_recipe(tmp) &&
+ } else if (skillLevel(tmp->type) >= (int)tmp->level && tmp->fun <= 0 && !can_study_recipe(tmp) &&
             !query_yn("Your %s skill won't be improved.  Read anyway?",
                       tmp->type->name().c_str())) {
   return;

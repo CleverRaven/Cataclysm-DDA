@@ -641,8 +641,8 @@ nc_color item::color(player *u)
   it_book* tmp = dynamic_cast<it_book*>(type);
   if (tmp->type && tmp->intel <= u->int_cur + u->skillLevel(tmp->type) &&
       (tmp->intel == 0 || !u->has_trait(PF_ILLITERATE)) &&
-      (u->skillLevel(tmp->type) >= tmp->req) &&
-      (u->skillLevel(tmp->type) < tmp->level))
+      (u->skillLevel(tmp->type) >= (int)tmp->req) &&
+      (u->skillLevel(tmp->type) < (int)tmp->level))
    ret = c_ltblue;
  }
  return ret;
