@@ -14,5 +14,5 @@
 # WARNING: NPC's are currently broken. When used expect bugs and crashes.
 # You have been warned.
 # None of these settings prevent you from spawning npcs using the debug menu.
-starting_npc n
+starting_npc y
 random_npc n

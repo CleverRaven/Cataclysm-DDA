@@ -2720,7 +2720,7 @@ void player::knock_back_from(game *g, int x, int y)
 
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
-  npc *p = &(g->active_npc[npcdex]);
+  npc *p = g->active_npc[npcdex];
   hit(g, bp_torso, 0, 3, 0);
   add_disease(DI_STUNNED, 1, g);
   p->hit(g, bp_torso, 0, 3, 0);
@@ -5918,4 +5918,14 @@ SkillLevel& player::skillLevel(size_t id) {
 
 SkillLevel& player::skillLevel(Skill *_skill) {
   return _skills[_skill];
+}
+
+void player::setID (int i)
+{
+    this->id = i;
+}
+
+int player::getID ()
+{
+    return this->id;
 }

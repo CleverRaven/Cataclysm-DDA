@@ -80,3 +80,6 @@ An overmap encapsulates the large-scale structure of a map
    There are an arbitrary number of overmaps
    Additional overmaps are generated as the player enters new areas.
 
+ FAQ
+Q: what is the relation of NPCS/Monsters vs maps. How are they stored, where are they stored? Are they stored?
+A: <Soyweiser> Not entirely sure, but npcs in your local view are stored in game.active_npcs. And when you move out of line of sight of them they get passed to the cur_om.npcs vector.

@@ -427,7 +427,7 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
    if (rl_dist(posx, posy, g->u.posx, g->u.posy) <= 5)
     ret += 5;
    for (int i = 0; i < g->active_npc.size(); i++) {
-    if (rl_dist(posx, posy, g->active_npc[i].posx, g->active_npc[i].posy) <= 5)
+    if (rl_dist(posx, posy, g->active_npc[i]->posx, g->active_npc[i]->posy) <= 5)
      ret += 5;
    }
    break;

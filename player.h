@@ -280,7 +280,6 @@ public:
  void try_study_recipe(game *g, it_book *book);
 
 // ---------------VALUES-----------------
- int id;	// A unique ID number, assigned by the game class
  int posx, posy;
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
@@ -344,9 +343,15 @@ public:
  std::vector <addiction> addictions;
 
  recipe* lastrecipe;
+ int getID ();
+protected:
+    void setID (int i);
 private:
  bool has_fire(const int quantity);
  void use_fire(const int quantity);
+
+    int id;	// A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
+    //NPCs also use this ID value. Values should never be reused.
 };
 
 #endif

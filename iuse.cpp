@@ -907,7 +907,6 @@ void iuse::sew(game *g, player *p, item *it, bool t)
    rn += rng(2, 6);
   if (p->dex_cur > 16)
    rn += rng(0, p->dex_cur - 16);
-
   if (rn <= 4) {
    g->add_msg_if_player(p,"You damage your %s further!", fix->tname().c_str());
    fix->damage++;
@@ -1346,10 +1345,10 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
   p->moves -= 150;
   std::vector<npc*> in_range;
   for (int i = 0; i < g->cur_om.npcs.size(); i++) {
-   if (g->cur_om.npcs[i].op_of_u.value >= 4 &&
-       rl_dist(g->levx, g->levy, g->cur_om.npcs[i].mapx,
-                                   g->cur_om.npcs[i].mapy) <= 30)
-    in_range.push_back(&(g->cur_om.npcs[i]));
+   if (g->cur_om.npcs[i]->op_of_u.value >= 4 &&
+       rl_dist(g->levx, g->levy, g->cur_om.npcs[i]->mapx,
+                                   g->cur_om.npcs[i]->mapy) <= 30)
+    in_range.push_back((g->cur_om.npcs[i]));
   }
   if (in_range.size() > 0) {
    npc* coming = in_range[rng(0, in_range.size() - 1)];
@@ -2746,7 +2745,7 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
  }
 
  if (npcdex != -1) {
-  npc *foe = dynamic_cast<npc*>(&g->active_npc[npcdex]);
+  npc *foe = dynamic_cast<npc*>(g->active_npc[npcdex]);
   if (foe->attitude != NPCATT_FLEE)
    foe->attitude = NPCATT_KILL;
   if (foe->str_max >= 17)

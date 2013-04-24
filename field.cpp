@@ -580,7 +580,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
            mondex = g->mon_at(newp.x, newp.y);
 
        if (npcdex != -1) {
-        npc *p = &(g->active_npc[npcdex]);
+        npc *p = g->active_npc[npcdex];
         p->hit(g, random_body_part(), rng(0, 1), 6, 0);
         if (g->u_see(newp.x, newp.y))
          g->add_msg("A %s hits %s!", tmp.tname().c_str(), p->name.c_str());
