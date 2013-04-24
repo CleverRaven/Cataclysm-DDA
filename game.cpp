@@ -6078,8 +6078,7 @@ void game::pickup(int posx, int posy, int min)
         veh->drain(AT_WATER, 1);
 
         item water(itypes["water_clean"], 0);
-        u.inv.push_back(water);
-        u.eat(this, u.inv.size() - 1);
+        u.eat(this, u.inv.add_item(water).invlet);
         u.moves -= 250;
       }
     } else {
@@ -6134,8 +6133,7 @@ void game::pickup(int posx, int posy, int min)
       else
        m.i_clear(posx, posy);
       m.add_item(posx, posy, u.remove_weapon());
-      u.i_add(newit, this);
-      u.wield(this, u.inv.size() - 1);
+      u.wield(this, u.i_add(newit, this).invlet);
       u.moves -= 100;
       add_msg("Wielding %c - %s", newit.invlet, newit.tname(this).c_str());
      } else
@@ -6146,8 +6144,7 @@ void game::pickup(int posx, int posy, int min)
      decrease_nextinv();
     }
    } else {
-    u.i_add(newit, this);
-    u.wield(this, u.inv.size() - 1);
+    u.wield(this, u.i_add(newit, this).invlet);
     if (from_veh)
      veh->remove_item (veh_part, 0);
     else
@@ -6340,8 +6337,7 @@ void game::pickup(int posx, int posy, int min)
        else
         m.i_rem(posx, posy, curmit);
        m.add_item(posx, posy, u.remove_weapon());
-       u.i_add(here[i], this);
-       u.wield(this, u.inv.size() - 1);
+       u.wield(this, u.i_add(here[i], this).invlet);
        curmit--;
        u.moves -= 100;
        add_msg("Wielding %c - %s", u.weapon.invlet, u.weapon.tname(this).c_str());
@@ -6353,8 +6349,7 @@ void game::pickup(int posx, int posy, int min)
       decrease_nextinv();
      }
     } else {
-     u.i_add(here[i], this);
-     u.wield(this, u.inv.size() - 1);
+     u.wield(this, u.i_add(here[i], this).invlet);
      if (from_veh)
       veh->remove_item (veh_part, curmit);
      else
