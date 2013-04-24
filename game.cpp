@@ -3261,10 +3261,8 @@ point game::find_item(item *it)
  if (ret.x != -1 && ret.y != -1)
   return ret;
  for (int i = 0; i < active_npc.size(); i++) {
-  for (int j = 0; j < active_npc[i]->inv.size(); j++) {
-   if (active_npc[i]->inv.has_item(it))
-    return point(active_npc[i]->posx, active_npc[i]->posy);
-  }
+  if (active_npc[i]->inv.has_item(it))
+   return point(active_npc[i]->posx, active_npc[i]->posy);
  }
  return point(-999, -999);
 }
@@ -3299,11 +3297,8 @@ void game::remove_item(item *it)
    active_npc[i]->remove_weapon();
    return;
   }
-  for (int j = 0; j < active_npc[i]->inv.size(); j++) {
-   if (active_npc[i]->inv.has_item(it)) {
-    active_npc[i]->i_remn(j);
-    return;
-   }
+  if (!active_npc[i]->inv.remove_item(it).is_null()) {
+   return;
   }
   for (int j = 0; j < active_npc[i]->worn.size(); j++) {
    if (it == &active_npc[i]->worn[j]) {
