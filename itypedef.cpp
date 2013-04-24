@@ -1427,12 +1427,16 @@ ARMOR("boots", "boots",		70, 120,C_SHOES,	LEATHER,	MNULL,
     7,  6,  1, -1,  1,  1,  4,  2,  50,  0,	mfb(bp_feet), "\
 Tough leather boots. Very durable.", mfb(IF_VARSIZE));
 
+ARMOR("boots_fur", "fur boots",		70, 120,C_SHOES,	LEATHER,	FUR,
+    7,  6,  1, -1,  1,  1,  4,  2,  70,  0,	mfb(bp_feet), "\
+Boots lined with fur for warmth.", mfb(IF_VARSIZE));
+
 ARMOR("boots_steel", "steeltoed boots",50, 135,C_SHOES,	LEATHER,	STEEL,
     7,  9,  4, -1,  1,  4,  4,  3,  50,  0,	mfb(bp_feet), "\
 Leather boots with a steel toe. Extremely durable.", mfb(IF_VARSIZE));
 
 ARMOR("boots_winter", "winter boots",	60, 140,C_SHOES,	WOOL,	PLASTIC,
-    8,  7,  0, -1,  2,  0,  2,  1,  80,  0,	mfb(bp_feet), "\
+    8,  7,  0, -1,  2,  0,  2,  1,  90,  0,	mfb(bp_feet), "\
 Cumbersome boots designed for warmth.", mfb(IF_VARSIZE));
 
 ARMOR("mocassins", "mocassins",	 5,  80,C_SHOES,	FUR,	LEATHER,
@@ -1491,6 +1495,10 @@ A tough pair of pants lined with pockets. Favored by the military.", mfb(IF_VARS
 ARMOR("pants_ski", "ski pants",	60, 300,C_PANTS,	COTTON,		MNULL,
     10,  6, -3,  0,  2,  2,  0,  3,  80, 4,	mfb(bp_legs), "\
 A pair of pants meant for alpine skiing.", mfb(IF_VARSIZE));
+
+ARMOR("pants_fur", "fur pants",	60, 300,C_PANTS,	COTTON,		FUR,
+    10,  6, -3,  1,  2,  2,  0,  3,  80, 4,	mfb(bp_legs), "\
+A hefty pair of fur-lined pants.", mfb(IF_VARSIZE));
 
 ARMOR("long_underpants", "long underwear",	40, 200,C_PANTS,	COTTON,		MNULL,
     4,  2, -3,  0,  0,  0,  0,  0,  30,  0,	mfb(bp_legs), "\
@@ -1616,6 +1624,11 @@ ARMOR("trenchcoat_leather", "leather trenchcoat",	25, 225,C_TORSO,	LEATHER,		MNU
    16,  10, -5, -1,  2,  1,  9,  1,  50, 24,	mfb(bp_torso)|mfb(bp_arms), "\
 A thick leather trenchcoat, lined with pockets. Great for storage.", mfb(IF_VARSIZE));
 
+ARMOR("trenchcoat_fur", "fur trenchcoat",	25, 225,C_TORSO,	FUR,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   16,  10, -5, -1,  2,  1,  9,  1,  50, 24,	mfb(bp_torso)|mfb(bp_arms), "\
+A thick fur trenchcoat, lined with pockets. Great for storage.", mfb(IF_VARSIZE));
+
 ARMOR("coat_winter", "winter coat",	50, 160,C_TORSO,	COTTON,		MNULL,
    12,  6, -5, -2,  3,  3,  1,  1,  70, 12,	mfb(bp_torso)|mfb(bp_arms), "\
 A padded coat with deep pockets. Very warm.", mfb(IF_VARSIZE));
@@ -1674,6 +1687,10 @@ ARMOR("mittens", "mittens",	30,  40,C_GLOVES,	WOOL,		MNULL,
     2,  0, -5,  1,  8,  0,  1,  0,  90,  0,	mfb(bp_hands), "\
 A pair of warm mittens. They are extremely cumbersome.", 0);
 
+ARMOR("gloves_fur", "fur gloves",	30,  40,C_GLOVES,	FUR,		MNULL,
+    2,  0, -5,  1,  3,  0,  1,  0,  70,  0,	mfb(bp_hands), "\
+A pair of warm fur gloves. They are somewhat cumbersome.", 0);
+
 ARMOR("gloves_wool", "wool gloves",	33,  50,C_GLOVES,	WOOL,		MNULL,
     1,  0, -5,  1,  3,  0,  1,  0,  60,  0,	mfb(bp_hands), "\
 A thick pair of wool gloves. Cumbersome but warm.", 0);
@@ -1717,11 +1734,19 @@ A simple piece of cotton that straps over the mouth. Provides a small amount\n\
 of protection from air-borne illness and dust.", 0);
 
 ARMOR("bandana", "bandana",	35,  28,C_MOUTH,	COTTON, 	MNULL,
-    1,  0, -4, -1,  0,  0,  0,  1,  30,  0,	mfb(bp_mouth), "\
+    1,  0, -4, -1,  1,  0,  0,  1,  20,  0,	mfb(bp_mouth), "\
 A cotton bandana, worn over the mouth for warmth and minor protection from\n\
 dust and other contaminants.", 0);
 
+ARMOR("mask_ski", "ski mask",	35,  28,C_MOUTH,	COTTON, 	MNULL,
+    1,  0, -4, -1,  0,  0,  0,  1,  30,  0,	mfb(bp_mouth)|mfb(bp_head), "\
+A full face mask with holes for your eyes and mouth.", 0);
+
 ARMOR("scarf", "scarf",		45,  40,C_MOUTH,	WOOL,   	MNULL,
+    2,  3, -5, -3,  1,  1,  0,  2,  60,  0,	mfb(bp_mouth), "\
+A long wool scarf, worn over the mouth for warmth.", 0);
+
+ARMOR("scarf_fur", "scarf",		45,  40,C_MOUTH,	FUR,   	MNULL,
     2,  3, -5, -3,  1,  1,  0,  2,  60,  0,	mfb(bp_mouth), "\
 A long wool scarf, worn over the mouth for warmth.", 0);
 
@@ -1817,7 +1842,7 @@ ARMOR("hat_fur", "fur hat",	15, 120,C_HAT,		FUR,		LEATHER,
     4,  2, -5,  0,  1,  2,  2,  0,  80,  0,	mfb(bp_head), "\
 A hat made from the pelts of animals. Extremely warm.", 0);
 
-ARMOR("balclava", "balaclava",	15, 100,C_HAT,		COTTON,		MNULL,
+ARMOR("balaclava", "balaclava",	15, 100,C_HAT,		COTTON,		MNULL,
     4,  2, -5,  0,  0,  0,  0,  0,  30,  0,	mfb(bp_head)|mfb(bp_mouth), "\
 A warm covering that protects the head and face from cold.", 0);
 
@@ -1939,6 +1964,75 @@ ARMOR("necklace", "silver necklace",14, 500,C_DECOR,	SILVER,		MNULL,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,	0,	"\
 A nice silver necklace. You can wear it if you like, but it won't provide\n\
 any effects.", 0);
+
+// Over the body clothing
+
+//     NAME		RARE	COLOR		MAT1		MAT2
+ARMOR("blanket", "blanket",	20, 225,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  3, -5, -1,  5,  0,  1,  1,  60, 0,
+   mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+Hiding under here will not protect you from the monsters.", mfb(IF_VARSIZE));
+
+ARMOR("fur_blanket", "fur blanket",	20, 225,C_TORSO,	COTTON,		FUR,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  10, -5, -1,  5,  0,  1,  1,  80, 0,
+   mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+A heavy fur blanket that covers most of your body.", mfb(IF_VARSIZE));
+
+ARMOR("emer_blanket", "emergency blanket",	20, 225,C_TORSO,	WOOL,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   4,  2, -5, -1,  5,  0,  1,  1,  50, 0,
+   mfb(bp_torso)|mfb(bp_arms)|mfb(bp_legs), "\
+A compact wool blanket that covers your most important body parts.", mfb(IF_VARSIZE));
+
+ARMOR("sleeping_bag", "sleeping bag",	10, 225,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  5, -5, -1,  5,  0,  1,  1,  80, 0,
+   mfb(bp_torso)|mfb(bp_head)|mfb(bp_mouth)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+A large sleeping bag that covers you head to toe.", mfb(IF_VARSIZE));
+
+ARMOR("sleeping_bag_fur", "fur sleeping bag",	10, 225,C_TORSO,	COTTON,		FUR,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  5, -5, -1,  5,  0,  1,  1,  100, 0,
+   mfb(bp_torso)|mfb(bp_head)|mfb(bp_mouth)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+A large sleeping bag lined with fur. Who needs a tent?", mfb(IF_VARSIZE));
+
+ARMOR("house_coat", "house coat",	25, 225,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  6, -5, -1,  1,  0,  1,  1,  40, 6,
+   mfb(bp_torso)|mfb(bp_arms)|mfb(bp_legs), "\
+Makes you wish you had running water to take a shower.", mfb(IF_VARSIZE));
+
+ARMOR("snuggie", "snuggie",	5, 225,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  6, -5, -1,  2,  0,  1,  1,  50, 0,
+   mfb(bp_torso)|mfb(bp_arms)|mfb(bp_legs), "\
+Perfect for reading all those books you stole.", mfb(IF_VARSIZE));
+
+ARMOR("cloak", "cloak",	5, 225,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  15, -5, -1,  1,  2,  6,  3,  40, 0,
+   mfb(bp_torso)|mfb(bp_head)|mfb(bp_arms)|mfb(bp_legs), "\
+A heavy cloak that is thrown over your body.", mfb(IF_VARSIZE));
+
+ARMOR("cloak_fur", "fur cloak",	5, 225,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  15, -5, -1,  1,  2,  6,  3,  70, 0,
+   mfb(bp_torso)|mfb(bp_head)|mfb(bp_arms)|mfb(bp_legs), "\
+A heavy fur cloak that is thrown over your body.", mfb(IF_VARSIZE));
+
+ARMOR("cloak_leather", "leather cloak",	5, 225,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  25, -5, -1,  1,  2,  12,  3,  40, 0,
+   mfb(bp_torso)|mfb(bp_head)|mfb(bp_arms)|mfb(bp_legs), "\
+A heavy leather cloak that is thrown over your body. Provides decent protection", mfb(IF_VARSIZE));
+
+ARMOR("jedi_cloak", "jedi cloak",	1, 225,C_TORSO,	COTTON,		MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+   10,  14, -5, -1,  0,  5,  10,  5,  50, 0,
+   mfb(bp_torso)|mfb(bp_head)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs), "\
+Stylish cloak.", mfb(IF_VARSIZE));
 
 #define POWER_ARMOR(id, name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
 encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des)\

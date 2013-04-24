@@ -86,7 +86,7 @@ void game::init_mapitems()
 	"manual_speech", "manual_business", "manual_computers",
 	"lighter", "matches", "sewing_kit", "thread", "scissors", "soldering_iron",
 	"radio", "syringe", "mp3", "usb_drive", "firecracker_pack", "firecracker",
-    "chips", "cola", "picklocks", "wolfsuit", "glowstick", NULL);
+    "chips", "cola", "picklocks", "blanket", "house_coat", "wolfsuit", "glowstick", NULL);
 
  setvector(
    mapitems[mi_homeguns],
@@ -110,8 +110,8 @@ void game::init_mapitems()
 	"jacket_jean", "blazer", "jacket_leather", "poncho",
 	"trenchcoat", "peacoat", "vest", "mag_porn", "lighter",
 	"sewing_kit", "thread", "flashlight", "suit", "tophat",
-	"glasses_monocle", "duct_tape", "firecracker_pack", "firecracker", "wolfsuit",
-    NULL);
+	"glasses_monocle", "duct_tape", "firecracker_pack", "firecracker",
+    "snuggie", "wolfsuit", NULL);
 
  setvector(
    mapitems[mi_dining],
@@ -224,10 +224,9 @@ void game::init_mapitems()
 	"bb", "bolt_steel", "bbgun", "crossbow", "manual_knives","manual_survival",
 	"manual_first_aid", "manual_traps", "lighter", "matches", "sewing_kit", "thread",
 	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
- "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
- "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
- "heatpack", "glowstick", NULL);
-
+    "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
+    "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
+    "heatpack", "glowstick", "emer_blanket", "cloak", "sleeping_bag", NULL);
 
  setvector(
    mapitems[mi_allsporting],
@@ -347,7 +346,7 @@ void game::init_mapitems()
 	"coat_winter", "peacoat", "gloves_light", "mittens",
 	"gloves_wool", "gloves_winter", "gloves_liner", "gloves_leather", "scarf",
 	"hat_cotton", "hat_knit", "hat_fur", "pants_ski", "long_underpants",
-    "balclava", NULL);
+    "balaclava", "mask_ski", NULL);
 
  setvector(
    mapitems[mi_bags],
@@ -361,9 +360,9 @@ void game::init_mapitems()
 	"sweater", "hoodie", "jacket_light", "jacket_jean",
 	"blazer", "jacket_leather", "coat_winter", "peacoat",
 	"gloves_light", "mittens", "gloves_wool", "gloves_winter", "gloves_liner",
-	"gloves_leather", "scarf", "hat_cotton", "hat_knit",
-	"hat_fur", "UPS_off", "under_armor", "balclava", "pants_ski", "long_underpants",
-        "trenchcoat_leather", NULL);
+	"gloves_leather", "scarf", "hat_cotton", "hat_knit", "mask_ski",
+	"hat_fur", "UPS_off", "under_armor", "balaclava", "pants_ski", "long_underpants",
+    "trenchcoat_leather", "cloak", "house_coat", "jedi_cloak", NULL);
 
  setvector(
    mapitems[mi_novels],
@@ -462,7 +461,7 @@ void game::init_mapitems()
 	"manual_mechanics", "manual_first_aid", "manual_traps",
 	"flashlight", "water_purifier", "two_way_radio", "radio",
  "geiger_off", "usb_drive", "canteen", "jerrycan", "rucksack",
- "heatpack", NULL);
+ "heatpack", "sleeping_bag", "emer_blanket", NULL);
 
  setvector(
    mapitems[mi_shelter],
@@ -475,7 +474,7 @@ void game::init_mapitems()
 	"manual_first_aid", "manual_tailor", "manual_carpentry",
 	"lighter", "matches", "sewing_kit", "thread", "hammer", "extinguisher",
 	"flashlight", "hotplate", "water_purifier", "radio", "rollmat",
- "tent_kit", "canteen", "spray_can", "ax", "heatpack", NULL);
+ "tent_kit", "canteen", "spray_can", "ax", "heatpack", "blanket", "emer_blanket", NULL);
 
  setvector(
    mapitems[mi_mechanics],
@@ -639,7 +638,8 @@ void game::init_mapitems()
 	"mask_filter", "mask_gas", "goggles_ski", "helmet_skid",
     "armguard_hard", "under_armor", "long_underpants",
 	"helmet_ball", "helmet_riot", "helmet_motor", "holster",
-	"bootstrap", "UPS_off", "beltrig", "rucksack", NULL);
+	"bootstrap", "UPS_off", "beltrig", "rucksack",
+    "emer_blanket", "cloak", NULL);
 
  setvector(
    mapitems[mi_survival_tools],
