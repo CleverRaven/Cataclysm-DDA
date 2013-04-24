@@ -739,7 +739,7 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
             mvwprintz(w, 4 + i, 2, c_ltgray, "\
                                              ");	// Clear the line
             int id = i;
-            if (cur_id < 7)
+            if ((cur_id < 7) || (profession::count() < 16))
             {
                 //do nothing
             }

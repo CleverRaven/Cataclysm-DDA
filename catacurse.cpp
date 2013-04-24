@@ -123,6 +123,12 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
                 case VK_DOWN:
                     lastchar = KEY_DOWN;
                     break;
+                case VK_NEXT:
+                    lastchar = KEY_NPAGE;
+                    break;
+                case VK_PRIOR:
+                    lastchar = KEY_PPAGE;
+                    break;
                 default:
                     break;
             };

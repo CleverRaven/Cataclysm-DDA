@@ -1954,7 +1954,7 @@ void game::load(std::string name)
    if (item_place == 'I')
     tmpinv.push_back(item(itemdata, this));
    else if (item_place == 'C')
-    tmpinv.end()->contents.push_back(item(itemdata, this));
+    tmpinv.back().contents.push_back(item(itemdata, this));
    else if (item_place == 'W')
     u.worn.push_back(item(itemdata, this));
    else if (item_place == 'w')
@@ -5229,7 +5229,15 @@ void game::advanced_inv()
                         {
                             if(amount >= it->charges) // full stack moved
                             {
-                                item moving_item = *(u.inv.remove_stack_by_letter(it->invlet).begin());
+				item moving_item = u.inv.remove_item_by_letter_and_quantity(it->invlet,amount);
+
+//                                item moving_item = *(u.inv.remove_stack_by_letter(it->invlet).begin()); // Hi, I crash printItems afterwards. Hehe.
+/*
+#0  0xb7f21575 in std::basic_ostream<char, std::char_traits<char> >& std::operator<< <char, std::char_traits<char>, std::allocator<char> >(std::basic_ostream<char, std::char_traits<char> >&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) () from /usr/lib/libstdc++.so.6
+#1  0x0836fa4e in item::tname (this=0xdef4520, g=0xb7cb0008) at item.cpp:764
+#2  0x0826fa0f in printItems (items=..., window=0xdeedf28, page=0, selected_index=0, active=false, g=0xb7cb0008) at game.cpp:4960
+#3  0x08270f08 in game::advanced_inv (this=0xb7cb0008) at game.cpp:5123
+*/
                                 m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             else //partial stack moved
@@ -6078,8 +6086,7 @@ void game::pickup(int posx, int posy, int min)
         veh->drain(AT_WATER, 1);
 
         item water(itypes["water_clean"], 0);
-        u.inv.push_back(water);
-        u.eat(this, u.inv.size() - 1);
+        u.eat(this, u.inv.add_item(water).invlet);
         u.moves -= 250;
       }
     } else {
@@ -6134,8 +6141,7 @@ void game::pickup(int posx, int posy, int min)
       else
        m.i_clear(posx, posy);
       m.add_item(posx, posy, u.remove_weapon());
-      u.i_add(newit, this);
-      u.wield(this, u.inv.size() - 1);
+      u.wield(this, u.i_add(newit, this).invlet);
       u.moves -= 100;
       add_msg("Wielding %c - %s", newit.invlet, newit.tname(this).c_str());
      } else
@@ -6146,8 +6152,7 @@ void game::pickup(int posx, int posy, int min)
      decrease_nextinv();
     }
    } else {
-    u.i_add(newit, this);
-    u.wield(this, u.inv.size() - 1);
+    u.wield(this, u.i_add(newit, this).invlet);
     if (from_veh)
      veh->remove_item (veh_part, 0);
     else
@@ -6340,8 +6345,7 @@ void game::pickup(int posx, int posy, int min)
        else
         m.i_rem(posx, posy, curmit);
        m.add_item(posx, posy, u.remove_weapon());
-       u.i_add(here[i], this);
-       u.wield(this, u.inv.size() - 1);
+       u.wield(this, u.i_add(here[i], this).invlet);
        curmit--;
        u.moves -= 100;
        add_msg("Wielding %c - %s", u.weapon.invlet, u.weapon.tname(this).c_str());
@@ -6353,8 +6357,7 @@ void game::pickup(int posx, int posy, int min)
       decrease_nextinv();
      }
     } else {
-     u.i_add(here[i], this);
-     u.wield(this, u.inv.size() - 1);
+     u.wield(this, u.i_add(here[i], this).invlet);
      if (from_veh)
       veh->remove_item (veh_part, curmit);
      else
@@ -8965,8 +8968,10 @@ void game::init_autosave()
 {
  moves_since_last_save = 0;
  item_exchanges_since_save = 0;
+ last_save_timestamp = time(NULL);
 }
 
+// Currently unused.
 int game::autosave_timeout()
 {
  if (!OPTIONS[OPT_AUTOSAVE])
@@ -8995,7 +9000,10 @@ int game::autosave_timeout()
 
 void game::autosave()
 {
-    if (u.in_vehicle || (!moves_since_last_save && !item_exchanges_since_save))
+    time_t now = time(NULL);
+    // Don't autosave while driving, if the player's done nothing, or if it's been less than 5 real minutes.
+    if (u.in_vehicle || (!moves_since_last_save && !item_exchanges_since_save) ||
+        now < last_save_timestamp + 300)
     {
         return;
     }
@@ -9004,6 +9012,7 @@ void game::autosave()
 
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;
+    last_save_timestamp = now;
 }
 
 void game::load_npc_settings()
