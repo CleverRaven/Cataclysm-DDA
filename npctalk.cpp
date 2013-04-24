@@ -1759,7 +1759,9 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
  std::vector<int> their_price, your_price;
  p->init_selling(theirs, their_price);
  p->init_buying(g->u.inv, yours, your_price);
- bool getting_theirs[theirs.size()], getting_yours[yours.size()];
+ std::vector<bool> getting_theirs, getting_yours;
+ getting_theirs.resize(theirs.size());
+ getting_yours.resize(yours.size());
 
 // Adjust the prices based on your barter skill.
  for (int i = 0; i < their_price.size(); i++) {

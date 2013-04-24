@@ -23,8 +23,10 @@
 #include <fstream>
 #include <sstream>
 #include <math.h>
+#ifndef _MSC_VER
 #include <unistd.h>
 #include <dirent.h>
+#endif
 #include <sys/stat.h>
 #include "debug.h"
 
@@ -673,7 +675,7 @@ void game::process_activity()
      }
     }
 
-    if (u.skillLevel(reading->type) < reading->level) {
+    if (u.skillLevel(reading->type) < (int)reading->level) {
      int min_ex = reading->time / 10 + u.int_cur / 4,
        max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type);
      if (min_ex < 1)
@@ -709,7 +711,7 @@ void game::process_activity()
               reading->type->name().c_str(),
               (int)u.skillLevel(reading->type));
 
-     if (u.skillLevel(reading->type) == reading->level) {
+     if (u.skillLevel(reading->type) == (int)reading->level) {
       if (no_recipes) {
        add_msg("You can no longer learn from %s.", reading->name.c_str());
       } else {
@@ -1137,49 +1139,49 @@ bool game::handle_action()
 
     char cGlyph = ',';
     nc_color colGlyph = c_ltblue;
-    float fFactor = 0.01;
+    float fFactor = 0.01f;
 
     bool bWeatherEffect = true;
     switch(weather) {
         case WEATHER_ACID_DRIZZLE:
             cGlyph = '.';
             colGlyph = c_ltgreen;
-            fFactor = 0.01;
+            fFactor = 0.01f;
             break;
         case WEATHER_ACID_RAIN:
             cGlyph = ',';
             colGlyph = c_ltgreen;
-            fFactor = 0.02;
+            fFactor = 0.02f;
             break;
         case WEATHER_DRIZZLE:
             cGlyph = '.';
             colGlyph = c_ltblue;
-            fFactor = 0.01;
+            fFactor = 0.01f;
             break;
         case WEATHER_RAINY:
             cGlyph = ',';
             colGlyph = c_ltblue;
-            fFactor = 0.02;
+            fFactor = 0.02f;
             break;
         case WEATHER_THUNDER:
             cGlyph = '.';
             colGlyph = c_ltblue;
-            fFactor = 0.02;
+            fFactor = 0.02f;
             break;
         case WEATHER_LIGHTNING:
             cGlyph = ',';
             colGlyph = c_ltblue;
-            fFactor = 0.04;
+            fFactor = 0.04f;
             break;
         case WEATHER_SNOW:
             cGlyph = '*';
             colGlyph = c_white;
-            fFactor = 0.02;
+            fFactor = 0.02f;
             break;
         case WEATHER_SNOWSTORM:
             cGlyph = '*';
             colGlyph = c_white;
-            fFactor = 0.04;
+            fFactor = 0.04f;
             break;
         default:
             bWeatherEffect = false;
@@ -6189,10 +6191,9 @@ void game::pickup(int posx, int posy, int min)
  WINDOW* w_item_info = newwin(12, 48, 12 + VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
  int maxitems = 9;	 // Number of items to show at one time.
  std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
- bool getitem[here.size()];
- for (int i = 0; i < here.size(); i++)
-  getitem[i] = false;
- int ch = (int)' ';
+ std::vector<bool> getitem;
+ getitem.resize(here.size(), false);
+ char ch = ' ';
  int start = 0, cur_it, iter;
  int new_weight = u.weight_carried(), new_volume = u.volume_carried();
  bool update = true;

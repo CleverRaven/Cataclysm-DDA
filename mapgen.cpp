@@ -8782,7 +8782,7 @@ void map::add_extra(map_extra type, game *g)
    case 3: extra_items = mi_allguns;	break;
    case 4: extra_items = mi_bionics;	break;
   }
-  place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);//0.1 = 1-5
+  place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
   place_items(extra_items, 70, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
  }
  break;
@@ -8805,7 +8805,7 @@ void map::add_extra(map_extra type, game *g)
      spawn_item(x, y, item_controller->find_template("id_military"), 0);
    }
   }
-  place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);//0.1 = 1-5
+  place_spawns(g, "GROUP_MAYBE_MIL", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1f);//0.1 = 1-5
   place_items(mi_rare, 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
  }
  break;
