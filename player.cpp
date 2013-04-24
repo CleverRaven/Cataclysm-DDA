@@ -3400,7 +3400,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
  }
 }
 
-void player::i_add(item it, game *g)
+item& player::i_add(item it, game *g)
 {
  itype_id item_type_id = "null";
  if( it.type ) item_type_id = it.type->id;
@@ -3415,7 +3415,7 @@ void player::i_add(item it, game *g)
   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it.type);
   g->add_artifact_messages(art->effects_carried);
  }
- inv.push_back(it);
+ return inv.add_item(it);
 }
 
 bool player::has_active_item(itype_id id)

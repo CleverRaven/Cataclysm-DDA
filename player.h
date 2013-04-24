@@ -237,7 +237,7 @@ public:
 
  std::string weapname(bool charges = true);
 
- void i_add(item it, game *g = NULL);
+ item& i_add(item it, game *g = NULL);
  bool has_active_item(itype_id id);
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);

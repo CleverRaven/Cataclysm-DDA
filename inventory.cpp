@@ -260,7 +260,7 @@ void inventory::push_back(std::list<item> newits)
  add_stack(newits);
 }
 
-void inventory::add_item(item newit, bool keep_invlet)
+item& inventory::add_item(item newit, bool keep_invlet)
 {
     if (keep_invlet && !newit.invlet_is_okay())
     {
@@ -269,7 +269,7 @@ void inventory::add_item(item newit, bool keep_invlet)
 
     if (newit.is_style())
     {
-        return; // Styles never belong in our inventory.
+        return nullitem; // Styles never belong in our inventory.
     }
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
@@ -279,7 +279,7 @@ void inventory::add_item(item newit, bool keep_invlet)
             if (newit.charges != -1 && (newit.is_food() || newit.is_ammo()))
             {
                 it_ref->charges += newit.charges;
-                return;
+                return *it_ref;
             }
             else if (it_ref->stacks_with(newit))
             {
@@ -291,7 +291,7 @@ void inventory::add_item(item newit, bool keep_invlet)
 		        }
                 newit.invlet = it_ref->invlet;
                 iter->push_back(newit);
-                return;
+                return iter->back();
             }
         }
         else if (keep_invlet && it_ref->invlet == newit.invlet)
@@ -307,6 +307,7 @@ void inventory::add_item(item newit, bool keep_invlet)
     std::list<item> newstack;
     newstack.push_back(newit);
     items.push_back(newstack);
+    return items.back().back();
 }
 
 void inventory::add_item_by_type(itype_id type, int count, int charges)
