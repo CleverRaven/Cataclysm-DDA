@@ -8965,8 +8965,10 @@ void game::init_autosave()
 {
  moves_since_last_save = 0;
  item_exchanges_since_save = 0;
+ last_save_timestamp = time(NULL);
 }
 
+// Currently unused.
 int game::autosave_timeout()
 {
  if (!OPTIONS[OPT_AUTOSAVE])
@@ -8995,7 +8997,10 @@ int game::autosave_timeout()
 
 void game::autosave()
 {
-    if (u.in_vehicle || (!moves_since_last_save && !item_exchanges_since_save))
+    time_t now = time(NULL);
+    // Don't autosave while driving, if the player's done nothing, or if it's been less than 5 real minutes.
+    if (u.in_vehicle || (!moves_since_last_save && !item_exchanges_since_save) ||
+        now < last_save_timestamp + 300)
     {
         return;
     }
@@ -9004,6 +9009,7 @@ void game::autosave()
 
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;
+    last_save_timestamp = now;
 }
 
 void game::load_npc_settings()
