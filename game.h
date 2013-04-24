@@ -471,6 +471,7 @@ class game
 
   int moves_since_last_save;
   int item_exchanges_since_save;
+  time_t last_save_timestamp;
   unsigned char latest_lightlevel;
   calendar latest_lightlevel_turn;
 
