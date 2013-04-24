@@ -66,11 +66,32 @@ A large buck, fast-moving and strong."
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BONES);
 CATEGORIES(MC_WILDLIFE);
 
-mon("wolf",	species_mammal, 'w',	c_dkgray,	MS_MEDIUM,	FLESH,
+mon("moose",	species_mammal, 'M',	c_brown,	MS_LARGE,	FLESH,
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  1,-50, -5,200,  10,  3,  4,  0,  1,  3,  1,  0, 100, 0,
+	&mdeath::normal,	&mattack::none, "\
+A buck of the largest deer species."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BONES);
+CATEGORIES(MC_WILDLIFE);
+
+mon("wolf",	species_mammal, 'w',	c_ltgray,	MS_MEDIUM,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 12,  0, 20,165, 14,  2,  3,  4,  4,  1,  0,  0, 28,  0,
 	&mdeath::normal,	&mattack::none, "\
-A vicious and fast pack hunter."
+A grey wolf. A vicious and fast pack hunter."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED, MF_ATTACKMON, MF_BONES, MF_VIS50);
+ANGER(MTRIG_PLAYER_CLOSE, MTRIG_FRIEND_ATTACKED, MTRIG_PLAYER_WEAK, MTRIG_HURT);
+PLACATE(MTRIG_MEAT);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
+CATEGORIES(MC_WILDLIFE);
+
+mon("coyote",	species_mammal, 'w',	c_brown,	MS_MEDIUM,	FLESH,
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	 10,  0, 20,155, 12,  2,  3,  2,  3,  1,  0,  0, 22,  0,
+	&mdeath::normal,	&mattack::none, "\
+An eastern coyote, also called tweed wolf. It is an hybrid of grey wolves and the smaller western coyotes."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED, MF_ATTACKMON, MF_BONES, MF_VIS50);
 ANGER(MTRIG_PLAYER_CLOSE, MTRIG_FRIEND_ATTACKED, MTRIG_PLAYER_WEAK, MTRIG_HURT);
@@ -82,7 +103,7 @@ mon("bear",	species_mammal, 'B',	c_dkgray,	MS_LARGE,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 10,-10, 40,140, 10,  3,  4,  6,  3,  2,  0,  0, 90, 0,
 	&mdeath::normal,	&mattack::none, "\
-Remember, only YOU can prevent forest fires."
+An american black bear. Remember, only YOU can prevent forest fires."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BLEED, MF_VIS40, MF_BONES);
 ANGER(MTRIG_PLAYER_CLOSE, MTRIG_HURT);
@@ -90,7 +111,7 @@ PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE);
 CATEGORIES(MC_WILDLIFE);
 
-mon("cougar",	species_mammal, 'C',	c_dkgray,	MS_MEDIUM,	FLESH,
+mon("cougar",	species_mammal, 'C',	c_brown,	MS_MEDIUM,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 12,  0, 20,180, 14,  2,  3,  4,  4,  1,  0,  0, 15,  5,
 	&mdeath::normal,	&mattack::leap, "\
@@ -126,7 +147,7 @@ CATEGORIES(MC_WILDLIFE);
 
 mon("cat",	species_mammal, 'c',	c_white,	MS_TINY,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  0,  -40, 15,150, 12,  1,  3,  2,  0,  0,  0,  0, 10,  0,
+	  0,  -40, 15,150, 12,  1,  3,  2,  4,  0,  0,  0, 10,  0,
 	&mdeath::normal,	&mattack::none, "\
 A small domesticated cat, gone feral."
 );

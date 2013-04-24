@@ -5,12 +5,15 @@
     "monsters" : [
       { "monster" : "mon_rabbit", "freq" : 150 },
       { "monster" : "mon_deer", "freq" : 30 },
+      { "monster" : "mon_moose", "freq" : 10 },
       { "monster" : "mon_wolf", "freq" : 30 },
+      { "monster" : "mon_coyote", "freq" : 30 },
       { "monster" : "mon_bear", "freq" : 20 },
       { "monster" : "mon_cougar", "freq" : 20 },
       { "monster" : "mon_spider_wolf", "freq" : 30 },
       { "monster" : "mon_spider_jumping", "freq" : 30 },
       { "monster" : "mon_dog", "freq" : 10 },
+      { "monster" : "mon_cat", "freq" : 10 },
       { "monster" : "mon_crow", "freq" : 30 }
     ]
   },
