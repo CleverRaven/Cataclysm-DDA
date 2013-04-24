@@ -6193,7 +6193,7 @@ void game::pickup(int posx, int posy, int min)
  std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
  std::vector<bool> getitem;
  getitem.resize(here.size(), false);
- char ch = ' ';
+ int ch = ' ';
  int start = 0, cur_it, iter;
  int new_weight = u.weight_carried(), new_volume = u.volume_carried();
  bool update = true;
