@@ -102,5 +102,6 @@ public:
 // Print-friendly stuff
   std::string print_time(bool just_hour = false) const;
   std::string textify_period(); // "1 second" "2 hours" "two days"
+  std::string day_of_week() const;
 };
 #endif // _CALENDAR_H_
