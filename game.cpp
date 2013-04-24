@@ -5229,7 +5229,15 @@ void game::advanced_inv()
                         {
                             if(amount >= it->charges) // full stack moved
                             {
-                                item moving_item = *(u.inv.remove_stack_by_letter(it->invlet).begin());
+				item moving_item = u.inv.remove_item_by_letter_and_quantity(it->invlet,amount);
+
+//                                item moving_item = *(u.inv.remove_stack_by_letter(it->invlet).begin()); // Hi, I crash printItems afterwards. Hehe.
+/*
+#0  0xb7f21575 in std::basic_ostream<char, std::char_traits<char> >& std::operator<< <char, std::char_traits<char>, std::allocator<char> >(std::basic_ostream<char, std::char_traits<char> >&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) () from /usr/lib/libstdc++.so.6
+#1  0x0836fa4e in item::tname (this=0xdef4520, g=0xb7cb0008) at item.cpp:764
+#2  0x0826fa0f in printItems (items=..., window=0xdeedf28, page=0, selected_index=0, active=false, g=0xb7cb0008) at game.cpp:4960
+#3  0x08270f08 in game::advanced_inv (this=0xb7cb0008) at game.cpp:5123
+*/
                                 m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             else //partial stack moved
