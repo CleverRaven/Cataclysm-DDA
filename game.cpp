@@ -943,17 +943,20 @@ void game::update_weather()
         future_weather.push_back(new_weather);
     }
 
-    weather_type old_weather = weather;
-    weather = future_weather.front().weather;
-    temperature = future_weather.front().temperature;
-    nextweather = future_weather.front().deadline;
-    future_weather.pop_front();
-    if (weather != old_weather && weather_data[weather].dangerous &&
-        levz >= 0 && m.is_outside(u.posx, u.posy))
+    if( turn >= nextweather )
     {
-        std::stringstream weather_text;
-        weather_text << "The weather changed to " << weather_data[weather].name << "!";
-        cancel_activity_query(weather_text.str().c_str());
+        weather_type old_weather = weather;
+        weather = future_weather.front().weather;
+        temperature = future_weather.front().temperature;
+        nextweather = future_weather.front().deadline;
+        future_weather.pop_front();
+        if (weather != old_weather && weather_data[weather].dangerous &&
+            levz >= 0 && m.is_outside(u.posx, u.posy))
+        {
+            std::stringstream weather_text;
+            weather_text << "The weather changed to " << weather_data[weather].name << "!";
+            cancel_activity_query(weather_text.str().c_str());
+        }
     }
 }
 
@@ -1941,6 +1944,7 @@ void game::load(std::string name)
  last_target = tmptar;
  weather = weather_type(tmpweather);
  temperature = tmptemp;
+ update_weather();
 // Next, the scent map.
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEY * MAPSIZE; j++)
