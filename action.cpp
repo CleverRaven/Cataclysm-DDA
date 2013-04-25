@@ -163,12 +163,16 @@ std::string action_ident(action_id act)
             return "apply_wielded";
         case ACTION_WEAR:
             return "wear";
+        case ACTION_TAKE_OFF:
+            return "take_off";
         case ACTION_EAT:
             return "eat";
         case ACTION_READ:
             return "read";
         case ACTION_WIELD:
             return "wield";
+        case ACTION_PICK_STYLE:
+            return "pick_style";
         case ACTION_RELOAD:
             return "reload";
         case ACTION_UNLOAD:
@@ -189,10 +193,16 @@ std::string action_ident(action_id act)
             return "bionics";
         case ACTION_WAIT:
             return "wait";
-        case ACTION_CREATE:
-            return "create";
+        case ACTION_CRAFT:
+            return "craft";
         case ACTION_RECRAFT:
             return "recraft";
+        case ACTION_LONGCRAFT:
+            return "long_craft";
+        case ACTION_CONSTRUCT:
+            return "construct";
+        case ACTION_DISASSEMBLE:
+            return "disassemble";
         case ACTION_SLEEP:
             return "sleep";
         case ACTION_TOGGLE_SAFEMODE:
@@ -322,13 +332,17 @@ std::string action_name(action_id act)
         case ACTION_USE_WIELDED:
             return "Apply or Use Wielded Item";
         case ACTION_WEAR:
-            return "Wear or Take Off Item";
+            return "Wear Item";
+        case ACTION_TAKE_OFF:
+            return "Take Off Worn Item";
         case ACTION_EAT:
             return "Eat";
         case ACTION_READ:
             return "Read";
         case ACTION_WIELD:
             return "Wield";
+        case ACTION_PICK_STYLE:
+            return "Select Unarmed Style";
         case ACTION_RELOAD:
             return "Reload Wielded Item";
         case ACTION_UNLOAD:
@@ -349,10 +363,16 @@ std::string action_name(action_id act)
             return "View/Activate Bionics";
         case ACTION_WAIT:
             return "Wait for Several Minutes";
-        case ACTION_CREATE:
-            return "Craft, Disassemble, and Construct";
+        case ACTION_CRAFT:
+            return "Craft Items";
         case ACTION_RECRAFT:
             return "Recraft last recipe";
+        case ACTION_LONGCRAFT:
+            return "Craft as long as possible";
+        case ACTION_CONSTRUCT:
+            return "Construct Terrain";
+        case ACTION_DISASSEMBLE:
+            return "Disassemble items";
         case ACTION_SLEEP:
             return "Sleep";
         case ACTION_TOGGLE_SAFEMODE:

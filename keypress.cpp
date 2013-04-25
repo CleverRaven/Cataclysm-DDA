@@ -30,6 +30,8 @@ long input(long ch)
   case KEY_LEFT:  return 'h';
   case KEY_RIGHT: return 'l';
   case KEY_DOWN:  return 'j';
+  case KEY_NPAGE: return '>';
+  case KEY_PPAGE: return '<';
   case 459: return '\n';
   default:  return ch;
  }
@@ -54,6 +56,12 @@ bool input_wait(char & ret_ch, int delay_ms)
     break;
    case KEY_DOWN:
     ret_ch = 'j';
+    break;
+   case KEY_NPAGE:
+    ret_ch = '>';
+    break;
+   case KEY_PPAGE:
+    ret_ch = '<';
     break;
    case 459:
     ret_ch = '\n';
@@ -197,9 +205,11 @@ organize =\n\
 apply a\n\
 apply_wielded A\n\
 wear W\n\
+take_off T\n\
 eat E\n\
 read R\n\
 wield w\n\
+pick_style _\n\
 reload r\n\
 unload U\n\
 throw t\n\
@@ -211,9 +221,11 @@ drop_adj D\n\
 bionics p\n\
 \n\
 # LONG TERM & SPECIAL ACTIONS\n\
-wait ^\n\
-create &\n\
+wait |\n\
+craft &\n\
 recraft -\n\
+construct *\n\
+disassemble (\n\
 sleep $\n\
 safemode !\n\
 autosafe \"\n\
