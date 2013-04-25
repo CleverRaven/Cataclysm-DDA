@@ -8309,7 +8309,7 @@ void game::update_map(int &x, int &y)
   olevy = 1;
  }
  if (olevx != 0 || olevy != 0) {
-  cur_om.save();//Todo, fix the saving of active npcs. Or the shifting of them.
+  cur_om.save();
   cur_om = overmap(this, cur_om.pos().x + olevx, cur_om.pos().y + olevy);
  }
  set_adjacent_overmaps();
@@ -8329,16 +8329,13 @@ void game::update_map(int &x, int &y)
    active_npc[i]->mapy = levy + (active_npc[i]->posy / SEEY);
    active_npc[i]->posx %= SEEX;
    active_npc[i]->posy %= SEEY;
-   //cur_om.npcs.push_back(active_npc[i]); //don't remove them from the list.
+    //don't remove them from the overmap list.
    active_npc.erase(active_npc.begin() + i); //Remove the npc from the active list. It remains in the overmap list.
-/*   active_npc[i].dead = true; //dead in this case doesn't mean really dead, but just moved to the overmap, not
-                              // active, and the active npc needs cleaning.
-   active_npc.erase(active_npc.begin() + i);*/
    i--;
   }
  }
-// Check for overmap saved npcs that should now come into view.
-// Put those in the active list.
+    // Check for overmap saved npcs that should now come into view.
+    // Put those in the active list.
     load_npcs();
  // Spawn monsters if appropriate
  m.spawn_monsters(this);	// Static monsters
