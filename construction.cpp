@@ -343,7 +343,7 @@ void game::init_construction()
    COMP("2x4", 10);
    COMP("sheet", 1);
 
- CONSTRUCT("Tape up window", 0, &construct::able_window,
+ CONSTRUCT("Tape up window", 0, &construct::able_window_pane,
                                 &construct::done_tape);
   STAGE(t_null, 2);
   COMP("duct_tape", 50);
@@ -861,7 +861,9 @@ bool construct::able_furniture(game *g, point p)
 
 bool construct::able_window(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_window_domestic ||
+ return (g->m.ter(p.x, p.y) == t_window_frame ||
+         g->m.ter(p.x, p.y) == t_window_empty ||
+         g->m.ter(p.x, p.y) == t_window_domestic ||
          g->m.ter(p.x, p.y) == t_window ||
          g->m.ter(p.x, p.y) == t_window_alarm);
 }
