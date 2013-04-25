@@ -6953,7 +6953,14 @@ void game::plfire(bool burst)
    return;
   }
  }
- if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
+
+ if ((u.weapon.has_flag(IF_STR8_DRAW)  && u.str_cur <  4) ||
+     (u.weapon.has_flag(IF_STR10_DRAW) && u.str_cur <  5)   ) {
+  add_msg("You're not strong enough to draw the bow!");
+  return;
+ }
+
+ if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT) && u.weapon.charges == 0) {
   reload_invlet = u.weapon.pick_reload_ammo(u, true);
   if (reload_invlet == 0) {
    add_msg("Out of ammo!");
@@ -6976,12 +6983,6 @@ void game::plfire(bool burst)
  if (u.weapon.has_flag(IF_USE_UPS) && !u.has_charges("UPS_off", 5) &&
      !u.has_charges("UPS_on", 5)) {
   add_msg("You need a UPS with at least 5 charges to fire that!");
-  return;
- }
-
- if ((u.weapon.has_flag(IF_STR8_DRAW)  && u.str_cur <  4) ||
-     (u.weapon.has_flag(IF_STR10_DRAW) && u.str_cur <  5)   ) {
-  add_msg("You're not strong enough to draw the bow!");
   return;
  }
 
