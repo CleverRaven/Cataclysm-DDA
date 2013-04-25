@@ -32,7 +32,7 @@ void parse_tags(std::string &phrase, player *u, npc *me);
 
 // Attitude is how we feel about the player, what we do around them
 enum npc_attitude {
- NPCATT_NULL = 0,	// Don't care/ignoring player
+ NPCATT_NULL = 0,	// Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
  NPCATT_TALK,		// Move to and talk to player
  NPCATT_TRADE,		// Move to and trade with player
  NPCATT_FOLLOW,		// Follow the player
@@ -63,7 +63,7 @@ enum npc_mission {
  NPC_MISSION_MISSING,	// Special; following player to finish mission
  NPC_MISSION_KIDNAPPED,	// Special; was kidnapped, to be rescued by player
 
- NPC_MISSION_BASE, // Base Mission: unassigned
+ NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
 
  NUM_NPC_MISSIONS
 };
@@ -355,7 +355,7 @@ struct npc_chatbin
  std::vector<int> missions;
  std::vector<int> missions_assigned;
  int mission_selected;
- int tempvalue;
+ int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
  talk_topic first_topic;
 
  npc_chatbin()
@@ -403,7 +403,7 @@ public:
  npc();
  //npc(npc& rhs);
  npc(const npc &rhs);
- ~npc();
+ virtual ~npc();
  virtual bool is_npc() { return true; }
 
  npc& operator= (const npc &rhs);
@@ -411,16 +411,14 @@ public:
 // Generating our stats, etc.
  void randomize(game *g, npc_class type = NC_NONE);
  void randomize_from_faction(game *g, faction *fac);
- void spawn_at(overmap *o, int posx, int posy);
+ void spawn_at(overmap *o, int posx, int posy, int omz);
  void place_near(game *g, int potentialX, int potentialY);
  skill best_skill();
  void starting_weapon(game *g);
 
-
 // Save & load
  virtual void load_info(game *g, std::string data);// Overloaded from player
  virtual std::string save_info();
-
 
 // Display
  void draw(WINDOW* w, int plx, int ply, bool inv);
@@ -466,29 +464,30 @@ public:
 // Bartering - select items we're willing to buy/sell and set prices
 // Prices are later modified by g->u's barter skill; see dialogue.cpp
 // init_buying() fills <indices> with the indices of items in <you>
- void init_buying(inventory you, std::vector<int> &indices,
+ void init_buying(inventory you, std::vector<item*> &items,
                   std::vector<int> &prices);
 // init_selling() fills <indices> with the indices of items in our inventory
- void init_selling(std::vector<int> &indices, std::vector<int> &prices);
+ void init_selling(std::vector<item*> &items, std::vector<int> &prices);
 
 
 // Use and assessment of items
  int  minimum_item_value(); // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
- int  value(item &it);
+ int  value(const item &it);
  bool wear_if_wanted(item it);
- virtual bool wield(game *g, int index);
+ virtual bool wield(game *g, char invlet);
  bool has_healing_item();
  bool has_painkiller();
  bool took_painkiller();
  void use_painkiller(game *g);
- void activate_item(game *g, int index);
+ void activate_item(game *g, char invlet);
 
 // Interaction and assessment of the world around us
  int  danger_assessment(game *g);
  int  average_damage_dealt(); // Our guess at how much damage we can deal
  bool bravery_check(int diff);
  bool emergency(int danger);
+ bool is_active(game *g);
  void say(game *g, std::string line, ...);
  void decide_needs();
  void die(game *g, bool your_fault = false);
@@ -512,11 +511,11 @@ public:
  npc_action address_player	(game *g);
  npc_action long_term_goal_action(game *g);
  bool alt_attack_available(game *g);	// Do we have grenades, molotov, etc?
- int  choose_escape_item(); // Returns index of our best escape aid
+ char  choose_escape_item(); // Returns index of our best escape aid
 
 // Helper functions for ranged combat
- int  confident_range(int index = -1); // >= 50% chance to hit
- bool wont_hit_friend(game *g, int tarx, int tary, int index = -1);
+ int  confident_range(char invlet = 0); // >= 50% chance to hit
+ bool wont_hit_friend(game *g, int tarx, int tary, char invlet = 0);
  bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
  bool enough_time_to_reload(game *g, int target, item &gun);
@@ -541,7 +540,7 @@ public:
  void melee_player	(game *g, player &foe);
  void wield_best_melee	(game *g);
  void alt_attack	(game *g, int target);
- void use_escape_item	(game *g, int index, int target);
+ void use_escape_item	(game *g, char invlet, int target);
  void heal_player	(game *g, player &patient);
  void heal_self		(game *g);
  void take_painkiller	(game *g);
@@ -593,6 +592,8 @@ public:
  bool dead;		// If true, we need to be cleaned up
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;
+private:
+    void setID (int id);
 };
 
 #endif

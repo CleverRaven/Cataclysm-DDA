@@ -1,5 +1,34 @@
 Changelog will be a little light for the early entries due to me being really bad at documenting things.
 
+0.5
+Matches usable anywhere lighters could be used previously.
+Draw lit areas outside of LOS and normal sight radius the same as unlit areas
+Tell the player when their gear is damaged in combat
+Display player feat morale boosts
+Pickling/canning
+Only rust skill if X turns have passed since practice, not every x turns.
+Halve rate of skill rust across the board.
+Push crafting recipes out to JSON
+Acid rain causes pain not injury
+Changed default viewmorale key to v
+Learn crafting recipes from item disassembly or books.
+New Hardcore trait
+Other new traits: Skilled Liar, Pretty, Beautiful, Very Beautiful, Glorius (cancels truth-teller, ugly mutations)
+Set minimum move to 25
+Death by starvation or thirst
+New professions: tailor, scoundrel
+Adjusted conditions for cutting and stabbing skill practice (should be able to practice piercing now)
+Code compiles with no warnings.  No user-visible change, but important stability milestone.
+Added a craftable power armor power interface CBM, solar panels.
+Continuous reading.
+New mixed drinks
+A new book; "To Serve Man"
+Glowsticks, found in sporting goods stores and bedrooms.
+Broken and Empty windows can no longer be taped up, alarmed windows can.
+Palisade walls changed to require 2 6foot ropes rather than one thirty foot one.
+Domestic Windows drop strings now (Those are the kind that can be opened)
+String can be made from sinew and plant fibre.
+
 0.4
 Make the battery system bionic only consume as many batteries as necessary to fully power yourself
 Knives can also cauterize wounds now. Requires a lighter.

@@ -454,6 +454,9 @@ int refresh(void)
 //but jday helped to figure most of it out
 int getch(void)
 {
+ // standards note: getch is sometimes required to call refresh
+ // see, e.g., http://linux.die.net/man/3/getch
+ // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
  refresh();
  InvalidateRect(WindowHandle,NULL,true);
  lastchar=ERR;//ERR=-1

@@ -34,26 +34,26 @@ void game::init_itypes ()
 {
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes["null"]=
-  new itype("null", 0, 0, "none", "", '#', c_white, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+  new itype("null", 0, 0, "none", "", '#', c_white, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 // Corpse - a special item
  itypes["corpse"]=
-  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, 0, 0,
+  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, PNULL, 0, 0,
             0, 0, 1, 0);
 // Fire - only appears in crafting recipes
  itypes["fire"]=
   new itype("fire", 0, 0, "nearby fire",
             "Some fire - if you are reading this it's a bug!",
-            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 // Integrated toolset - ditto
  itypes["toolset"]=
   new itype("toolset", 0, 0, "integrated toolset",
             "A fake item. If you are reading this it's a bug!",
-            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 // For smoking crack or meth
  itypes["apparatus"]=
   new itype("apparatus", 0, 0, "something to smoke that from, and a lighter",
             "A fake item. If you are reading this it's a bug!",
-            '$', c_red, MNULL, MNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 
 // Drinks
 // Stim should be -8 to 8.
@@ -65,19 +65,19 @@ void game::init_itypes ()
 #define DRINK(id, name,rarity,price,color,container,quench,nutr,spoils,stim,\
 healthy,addict,charges,fun,use_func,addict_func,des, item_flags) \
 	itypes[id] = new it_comest(id,rarity,price,name,des,'~',\
-color,LIQUID,2,1,0,0,0,item_flags,quench,nutr,spoils,stim,healthy,addict,charges,\
+color,MNULL,LIQUID,2,1,0,0,0,item_flags,quench,nutr,spoils,stim,healthy,addict,charges,\
 fun,container,"null",use_func,addict_func,"DRINK");
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("water","water",		90, 50,	c_ltcyan, "bottle_plastic",
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
-	25,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
+	40,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Water, the stuff of life, the best thirst-quencher available.", 0);
 
 //     NAME		RAR PRC	COLOR     CONTAINER
 DRINK("water_clean","clean water",	90, 50,	c_ltcyan, "bottle_plastic",
 //	QUE NUT SPO STM HTH ADD CHG FUN use_func	addiction type
-	25,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
+	50,  0,  0,  0,  0,  0,  1,  0,&iuse::none,	ADD_NULL, "\
 Fresh, clean water. Truly the best thing to quench your thirst.", 0);
 
 DRINK("sewage","sewage sample",	 5,  5, c_ltgreen, "bottle_plastic",
@@ -131,6 +131,12 @@ A nutritious and delicious hearty vegetable soup.", mfb(IF_EATEN_HOT));
 DRINK("soup_meat","meat soup",		15, 60, c_red,    "can_food",
 	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
 A nutritious and delicious hearty meat soup.", mfb(IF_EATEN_HOT));
+itypes["soup_meat"]->m1 = FLESH;
+
+DRINK("soup_human","sap soup",		15, 60, c_red,    "can_food",
+	10, 60,120,  0,  2,  0,  1,  2,&iuse::none,	ADD_NULL, "\
+A soup made from someone who is a far better meal than person.", mfb(IF_EATEN_HOT));
+itypes["soup_human"]->m1 = HFLESH;
 
 DRINK("whiskey","whiskey",	16, 85,	c_brown,  "bottle_glass",
 	-12, 4,  0,-12, -2,  5, 7, 15,&iuse::alcohol,	ADD_ALCOHOL, "\
@@ -163,8 +169,16 @@ DRINK("long_island","long island iced tea",	8, 100,	c_brown,  "bottle_glass",
 A blend of incredibly strong-flavored liquors that somehow tastes\n\
 like none of them.", 0);
 
+DRINK("drink_screwdriver","Screwdriver", 8, 100, c_yellow, "bottle_glass",
+   25, 6, 0, -12, 1, 4, 1, 20, &iuse::alcohol, ADD_ALCOHOL, "\
+The surreptitious drunkard mechanic's drink of choice.", 0);
+
+DRINK("drink_wild_apple","Wild Apple", 8, 100, c_brown, "bottle_glass",
+   25, 6, 0, -12, 1, 4, 1, 20, &iuse::alcohol, ADD_ALCOHOL, "\
+Like apple cider, only with vodka.", 0);
+
 DRINK("beer","beer",           60, 35, c_brown,  "can_drink",
-         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol,   ADD_ALCOHOL, "\
+         16, 4,  0, -4, -1,  2,  1, 10, &iuse::alcohol_weak,   ADD_ALCOHOL, "\
 Best served cold, in a glass, and with a lime - but you're not that lucky.", 0);
 
 DRINK("bleach","bleach",		20, 18,	c_white,  "jug_plastic",
@@ -204,7 +218,7 @@ Blood, possibly that of a human. Disgusting!", 0);
 #define FOOD(id, name, rarity,price,color,mat1,container,volume,weight,quench,\
 nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des, item_flags) \
 itypes[id]=new it_comest(id,rarity,price,name,des,'%',\
-color,mat1,volume,weight,0,0,0,item_flags, quench,nutr,spoils,stim,healthy,addict,charges,\
+color,mat1,SOLID,volume,weight,0,0,0,item_flags, quench,nutr,spoils,stim,healthy,addict,charges,\
 fun,container,"null",use_func,addict_func,"FOOD");
 // FOOD
 
@@ -250,6 +264,10 @@ Vegetable that looks poisonous. You could eat it, but it will poison you.", 0);
 FOOD("meat_cooked", "cooked meat",	 0, 75, c_red,		FLESH,	"null",
     1,  2,  0, 50, 24,  0,  0,  0,  1,  8,	&iuse::none,	ADD_NULL, "\
 Freshly cooked meat. Very nutritious.", mfb(IF_EATEN_HOT));
+
+FOOD("human_cooked", "cooked creep",	 0, 75, c_red,		HFLESH,	"null",
+    1,  2,  0, 50, 24,  0,  0,  0,  1,  8,	&iuse::none,	ADD_NULL, "\
+A freshly cooked slice of some unpleasant person. Tastes great.", mfb(IF_EATEN_HOT));
 
 FOOD("veggy_cooked", "cooked plant marrow",	 0, 70, c_green,	VEGGY,	"null",
     1,  2,  0, 40, 50,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
@@ -297,6 +315,10 @@ Chocolate isn't very healthy, but it does make a delicious treat.", 0);
 FOOD("jerky", "beef jerky",	55, 24,	c_red,		FLESH,  "bag_plastic",
     1,  1, -3, 12,  0,  0, -1,  0,  3,  4,	&iuse::none, ADD_NULL, "\
 Salty dried meat that never goes bad, but will make you thirsty.", 0);
+
+FOOD("jerky_human", "jerk jerky", 55, 24, c_red, HFLESH, "null",
+    1,  1, -3, 12,  0,  0, -1,  0,  3,  4, &iuse::none, ADD_NULL, "\
+Salty dried human flesh that never goes bad, but will make you thirsty.", 0);
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("sandwich_t", "meat sandwich", 30, 60,	c_ltgray,	FLESH,	"wrapper",
@@ -547,11 +569,16 @@ FOOD("apple_canned", "canned apple slices",	 0, 32, c_red,		VEGGY,	"bottle_glass
     1,  1,  3, 16, 180,  0,  2,  0,  1,  1,	&iuse::none,	ADD_NULL, "\
 Sealed glass jar containing preserved apples.  Bland, mushy and losing color.", 0);
 
+FOOD("human_canned", "canned cad",	 0, 25, c_red,		HFLESH,	"bottle_glass",
+    1,  2,  0, 50, 40,  0,  0,  0,  1,  2,	&iuse::none,	ADD_NULL, "\
+Low-sodium preserved human meat.  It was boiled and canned.\n\
+Contains all of the nutrition, but little of the savor of cooked meat.\n",0 );
+
 // MEDS
 #define MED(id, name,rarity,price,color,tool,mat,stim,healthy,addict,\
 charges,fun,use_func,addict_func,des) \
 itypes[id]=new it_comest(id,rarity,price,name,des,'!',\
-color,mat,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
+color,mat,SOLID,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
 fun,"null",tool,use_func,addict_func,"MED");
 
 //  NAME		RAR PRC	COLOR		TOOL
@@ -701,7 +728,7 @@ gracken");
 #define MELEE(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, des)\
 itypes[id]=new itype(id,rarity,price,name,des,sym,\
-color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags)
+color,mat1,mat2,SOLID,volume,wgt,dam,cut,to_hit,flags);
 
 //    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
 MELEE("wrapper", "paper wrapper",	50,  1, ',', c_ltgray,	PAPER,	MNULL,
@@ -847,13 +874,6 @@ MELEE("manhole_cover", "manhole cover",	 1, 20, ']', c_dkgray,	IRON,	MNULL,
 A heavy iron disc that typically covers a ladder into the sewers. Lifting\n\
 it from the manhole is impossible without a crowbar.");
 
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("rock", "rock",		40,  0, '*', c_ltgray,	STONE,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  3, 12,  0, -2, 0, "\
-A rock the size of a baseball. Makes a decent melee weapon, and is also good\n\
-for throwing at enemies.");
-
 MELEE("stick", "heavy stick",	95,  0, '/', c_brown,	WOOD,	MNULL,
 	 6, 10, 12,  0,  3, 0, "\
 A sturdy, heavy stick. Makes a decent melee weapon, and can be cut into two\n\
@@ -928,9 +948,14 @@ An aluminium baseball bat, smaller and lighter than a wooden bat\n\
 and a little less damaging as a result.");
 TECH("bat_metal", mfb(TEC_WBLOCK_1) );
 
+MELEE("pointy_stick", "pointy stick",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
+	 5,  3,  4, 10,  1, mfb(IF_SPEAR), "\
+A simple wood pole with one end sharpened.");
+TECH("pointy_stick", mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
+
 MELEE("spear_wood", "wood spear",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
 	 5,  3,  4, 18,  1, mfb(IF_SPEAR), "\
-A simple wood pole with one end sharpened.");
+A stout pole with an improvised grip and a fire-hardened point.");
 TECH("spear_wood", mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
 
 MELEE("baton", "expandable baton",8, 175,'/', c_blue,	STEEL,	MNULL,
@@ -1337,6 +1362,11 @@ MELEE("solar_panel", "solar panel",  3, 900, ']', c_yellow,  GLASS,   MNULL,
 Electronic device that can convert solar radiation into electric\n\
 power. Useful for crafting.");
 
+MELEE("solar_cell", "solar cell", 5, 50, ';', c_yellow, GLASS, MNULL,
+      1, 0,  1,  0,  -4, 0, "\
+A small electronic device that can convert solar radiation into\n\
+electric power. Useful for crafting.");
+
 MELEE("sheet_metal", "sheet metal",  30, 60, ']', c_ltcyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
     4,  20,  5,  0,  -2, 0, "\
@@ -1478,6 +1508,12 @@ ARMOR("jumpsuit", "jumpsuit",	20, 200,C_BODY,		COTTON,		PLASTIC,
 A thin, short-sleeved jumpsuit; similar to those\n\
 worn by prisoners. Provides decent storage and is\n\
 not very encumbering.", mfb(IF_VARSIZE));
+
+ARMOR("wolfsuit", "wolf suit", 4, 200, C_BODY,  COTTON,     MNULL,
+    18,  19, -3, -3, 1,  3,  7,  2,  50,  4,
+    mfb(bp_legs)|mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_head)|mfb(bp_feet)|mfb(bp_mouth)|mfb(bp_eyes), "\
+A full body fursuit in the form of an anthropomorphic wolf. It is quite encumbering\n\
+and has little storage but is very warm.", 0);
 
 ARMOR("dress", "dress",		70, 180,C_BODY,		COTTON,		MNULL,
     8,  6, -5, -5,  3,  0,  1,  0,  20,  0,	mfb(bp_legs)|mfb(bp_torso), "\
@@ -1912,11 +1948,11 @@ itypes[id] = new it_armor(id,rarity,price,name,des,'[',\
 
 POWER_ARMOR("power_armor_basic", "basic power armor", 5, 1000, C_BODY, STEEL, MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-   40, 80, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
+   40, 60, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
 A heavy suit of basic power armor, offering very good protection against attacks, but hard to move in.");
 
 POWER_ARMOR("power_armor_helmet_basic", "basic power armor helmet", 6, 500, C_HAT, STEEL, MNULL,
-   10, 24, 1, 1, 5, 32, 50, 10, 70, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
+   10, 18, 1, 1, 5, 32, 50, 10, 90, 0, mfb(bp_head)|mfb(bp_eyes)|mfb(bp_mouth), "\
 A basic helmet, designed for use with power armor. Offers excellent protection from both attacks and environmental hazards.");
 
 POWER_ARMOR("power_armor_frame", "power armor hauling frame", 4, 1000, C_STORE, STEEL, MNULL,
@@ -1932,13 +1968,13 @@ A heavy duty hauling frame designed to interface with power armor.");
 // AP is a reduction in the armor of the target.
 // Accuracy is in quarter-degrees, and measures the maximum this ammo will
 //   contribute to the angle of difference.  HIGH ACC IS BAD.
-// Recoil is cumulitive between shots.  4 recoil = 1 accuracy.
+// Recoil is cumulative between shots.  4 recoil = 1 accuracy.
 // IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
 //   at the end of this file.
 #define AMMO(id, name,rarity,price,ammo_type,color,mat,volume,wgt,dmg,AP,range,\
 accuracy,recoil,count,des,effects) \
 itypes[id]=new it_ammo(id,rarity,price,name,des,'=',\
-color,mat,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count)
+color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count);
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("battery", "batteries",	50, 120,AT_BATT,	c_magenta,	IRON,
@@ -2024,13 +2060,13 @@ AMMO("shot_bird", "birdshot",	 8, 500,AT_SHOT,	c_red,		PLASTIC,
 	 2, 25, 18,  0,  5,  2, 18,  25, "\
 Weak shotgun ammunition. Designed for hunting birds and other small game, its\n\
 applications in combat are very limited.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("shot_00", "00 shot",		 8, 800,AT_SHOT,	c_red,		PLASTIC,
 	 2, 28, 50,  0,  6,  1, 26,  25, "\
 A shell filled with iron pellets. Extremely damaging, plus the spread makes\n\
 it very accurate at short range. Favored by SWAT forces.",
-0);
+mfb(AMMO_COOKOFF));
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("shot_slug", "shotgun slug",	 6, 900,AT_SHOT,	c_red,		PLASTIC,
@@ -2039,7 +2075,7 @@ AMMO("shot_slug", "shotgun slug",	 6, 900,AT_SHOT,	c_red,		PLASTIC,
 A heavy metal slug used with shotguns to give them the range capabilities of\n\
 a rifle. Extremely damaging but rather innaccurate. Works best in a shotgun\n\
 with a rifled barrel.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("shot_he", "explosive slug",   0,1200,AT_SHOT,	c_red,		PLASTIC,
 	 2, 30, 10,  0, 12, 12, 20,   5, "\
@@ -2054,21 +2090,21 @@ AMMO("22_lr", ".22 LR",		 9, 250,AT_22,		c_ltblue,	STEEL,
 One of the smallest calibers available, the .22 Long Rifle cartridge has\n\
 maintained popularity for nearly two centuries. Its minimal recoil, low cost\n\
 and low noise are offset by its paltry damage.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("22_cb", ".22 CB",		 8, 180,AT_22,		c_ltblue,	STEEL,
 	 2,  2,  5,  0, 10, 16,  4, 100, "\
 Conical Ball .22 is a variety of .22 ammunition with a very small propellant\n\
 charge, generally with no gunpowder, resulting in a subsonic round. It is\n\
 nearly silent, but is so weak as to be nearly useless.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("22_ratshot", ".22 rat-shot",	 2, 230,AT_22,		c_ltblue,	STEEL,
 	 2,  2,  4,  0,  3,  2,  4, 100, "\
 Rat-shot is extremely weak ammunition, designed for killing rats, snakes, or\n\
 other small vermin while being unable to damage walls. It has an extremely\n\
 short range and is unable to injure all but the smallest creatures.",
-0);
+mfb(AMMO_COOKOFF));
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("9mm", "9mm",		 8, 300,AT_9MM,		c_ltblue,	STEEL,
@@ -2077,13 +2113,13 @@ AMMO("9mm", "9mm",		 8, 300,AT_9MM,		c_ltblue,	STEEL,
 9 millimeter parabellum is generally regarded as the most popular handgun\n\
 cartridge, used by the majority of US police forces. It is also a very\n\
 popular round in sub-machine guns.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("9mmP", "9mm +P",		 8, 380,AT_9MM,		c_ltblue,	STEEL,
 	 1,  7, 20,  4, 14, 15, 14,  25, "\
 Attempts to improve the ballistics of 9mm ammunition lead to high-pressure\n\
 rounds. Increased velocity resullts in superior accuracy and damage.",
-0);
+mfb(AMMO_COOKOFF));
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("9mmP2", "9mm +P+",		 8, 440,AT_9MM,		c_ltblue,	STEEL,
@@ -2091,7 +2127,7 @@ AMMO("9mmP2", "9mm +P+",		 8, 440,AT_9MM,		c_ltblue,	STEEL,
 	 1,  7, 22, 12, 16, 14, 15,  10, "\
 A step beyond the high-pressure 9mm +P round, the +P+ has an even higher\n\
 internal pressure that offers a degree of armor-penetrating ability.",
-0);
+mfb(AMMO_COOKOFF));
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("762_25", "7.62mm Type P",8, 300, AT_762x25,	c_ltblue,	STEEL,
@@ -2099,27 +2135,27 @@ AMMO("762_25", "7.62mm Type P",8, 300, AT_762x25,	c_ltblue,	STEEL,
 	 2,  7, 15,  4,  12, 14, 10,  200, "\
 This small caliber pistol round offers quite good armor penetration at the\n\
 cost of slightly less damage. It is rarely used outside of the Chinese army.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("38_special", ".38 Special",	 7, 400,AT_38,		c_ltblue,	STEEL,
 	 2, 10, 20,  0, 14, 16, 12,  50, "\
 The .38 Smith & Wesson Special enjoyed popularity among US police forces\n\
 throughout the 20th century. It is most commonly used in revolvers.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("38_super", ".38 Super",	 7, 450,AT_38,		c_ltblue,	STEEL,
 	 1,  9, 25,  4, 16, 14, 14,  25, "\
 The .38 Super is a high-pressure load of the .38 Special caliber. It is a\n\
 popular choice in pistol competions for its high accuracy, while its stopping\n\
 power keeps it popular for self-defense.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("10mm", "10mm Auto",	 4, 420,AT_40,		c_blue,		STEEL,
 	 2,  9, 26, 10, 14, 18, 20,  50, "\
 Originally used by the FBI, the organization eventually abandoned the round\n\
 due to its high recoil. Although respected for its versatility and power, it\n\
 has largely been supplanted by the downgraded .40 S&W.",
-0);
+mfb(AMMO_COOKOFF));
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("40sw", ".40 S&W",		 7, 450,AT_40,		c_blue,		STEEL,
@@ -2128,28 +2164,28 @@ AMMO("40sw", ".40 S&W",		 7, 450,AT_40,		c_blue,		STEEL,
 The .40 Smith & Wesson round was developed as an alternative to 10mm Auto for\n\
 the FBI after they complained of high recoil. It is as accurate as 9mm, but\n\
 has greater stopping power, leading to widespread use in law enforcement.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("44magnum", ".44 Magnum",	 7, 580,AT_44,		c_blue,		STEEL,
 	 2, 15, 36,  2, 16, 16, 22,  50, "\
 Described (in 1971) by Dirty Harry as \"the most powerful handgun in the\n\
 world,\" the .44 Magnum gained widespead popularity due to its depictions in\n\
 the media. In reality, its intense recoil makes it unsuitable in most cases.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("45_acp", ".45 ACP",		 7, 470,AT_45,		c_blue,		STEEL,
 	 2, 10, 32,  2, 16, 18, 18,  50, "\
 The .45 round was one of the most popular and powerful handgun rounds through\n\
 the 20th century. It features very good accuracy and stopping power, but\n\
 suffers from moderate recoil and poor armor penetration.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("45_jhp", ".45 FMJ",		 4, 480,AT_45,		c_blue,		STEEL,
 	 1, 13, 26, 20, 16, 18, 18,  25, "\
 Full Metal Jacket .45 rounds are designed to overcome the poor armor\n\
 penetration of the standard ACP round. However, they are less likely to\n\
 expand upon impact, resulting in reduced damage overall.",
-0);
+mfb(AMMO_COOKOFF));
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("45_super", ".45 Super",	 5, 520,AT_45,		c_blue,		STEEL,
@@ -2158,21 +2194,21 @@ AMMO("45_super", ".45 Super",	 5, 520,AT_45,		c_blue,		STEEL,
 The .45 Super round is an updated variant of .45 ACP. It is overloaded,\n\
 resulting in a great increase in muzzle velocity. This translates to higher\n\
 accuracy and range, a minor armor piercing capability, and greater recoil.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("57mm", "5.7x28mm",	 3, 500,AT_57,		c_dkgray,	STEEL,
 	 3,  2, 14, 30, 14, 12,  6, 100, "\
 The 5.7x28mm round is a proprietary round developed by FN Hestal for use in\n\
 their P90 SMG. While it is a very small round, comparable in power to .22,\n\
 it features incredible armor-piercing capabilities and very low recoil.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("46mm", "4.6x30mm",	 2, 520,AT_46,		c_dkgray,	STEEL,
 	 3,  1, 13, 35, 14, 12,  6, 100, "\
 Designed by Heckler & Koch to compete with the 5.7x28mm round, 4.6x30mm is,\n\
 like the 5.7, designed to minimize weight and recoil while increasing\n\
 penetration of body armor. Its low recoil makes it ideal for automatic fire.",
-0);
+mfb(AMMO_COOKOFF));
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("762_m43", "7.62x39mm M43",	 6, 500,AT_762,		c_dkgray,	STEEL,
@@ -2182,14 +2218,14 @@ Designed during World War II by the Soviet Union, the popularity of the AK-47\n\
 and the SKS contributed to the widespread adaption of the 7.62x39mm rifle\n\
 round. However, due to its lack of yaw, this round deals less damage than most."
 ,
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("762_m87", "7.62x39mm M67",	 7, 650,AT_762,		c_dkgray,	STEEL,
 	 3,  8, 28, 10, 30, 17, 25,  80, "\
 The M67 variant of the popular 7.62x39mm rifle round was designed to improve\n\
 yaw. This causes the round to tumble inside a target, causing significantly\n\
 more damage. It is still outdone by shattering rounds.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("223", ".223 Remington",	 8, 620,AT_223,		c_dkgray,	STEEL,
 	 2,  2, 36,  2, 36, 13, 30,  40, "\
@@ -2197,7 +2233,7 @@ The .223 rifle round is a civilian variant of the 5.56 NATO round. It is\n\
 designed to tumble or fragment inside a target, dealing devastating damage.\n\
 The lower pressure of the .223 compared to the 5.56 results in lower accuracy."
 ,
-0);
+mfb(AMMO_COOKOFF));
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("556", "5.56 NATO",	 6, 650,AT_223,		c_dkgray,	STEEL,
@@ -2206,7 +2242,7 @@ AMMO("556", "5.56 NATO",	 6, 650,AT_223,		c_dkgray,	STEEL,
 This rifle round has enjoyed widespread use in NATO countries, thanks to its\n\
 very light weight and high damage. It is designed to shatter inside a\n\
 target, inflicting massive damage.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("556_incendiary", "5.56 incendiary",	 2, 840,AT_223,		c_dkgray,	STEEL,
 	 2,  4, 28, 18, 36, 11, 32, 30, "\
@@ -2219,7 +2255,7 @@ AMMO("270", ".270 Winchester",	 8, 600,AT_3006,	c_dkgray,	STEEL,
 Based off the military .30-03 round, the .270 rifle round is compatible with\n\
 most guns that fire .30-06 rounds. However, it is designed for hunting, and\n\
 is less powerful than the military rounds, with nearly no armor penetration.",
-0);
+mfb(AMMO_COOKOFF));
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("3006", ".30-06 AP",	 4, 650,AT_3006,	c_dkgray,	STEEL,
@@ -2228,7 +2264,7 @@ AMMO("3006", ".30-06 AP",	 4, 650,AT_3006,	c_dkgray,	STEEL,
 The .30-06 is a very powerful rifle round designed for long-range use. Its\n\
 stupendous accuracy and armor piercing capabilities make it one of the most\n\
 deadly rounds available, offset only by its drastic recoil and noise.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("3006_incendiary", ".30-06 incendiary", 1, 780,AT_3006,	c_dkgray,	STEEL,
 	  1, 12, 35, 50, 90,  8, 35,  5, "\
@@ -2241,14 +2277,14 @@ AMMO("308", ".308 Winchester",	 7, 620,AT_308,		c_dkgray,	STEEL,
 The .308 Winchester is a rifle round, the commercial equivalent of the\n\
 military 7.62x51mm round. Its high accuracy and phenominal damage have made\n\
 it the most poplar hunting round in the world.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("762_51", "7.62x51mm",	 6, 680,AT_308,		c_dkgray,	STEEL,
 	 1,  9, 44,  8, 75,  6, 34,  20, "\
 The 7.62x51mm largely replaced the .30-06 round as the standard military\n\
 rifle round. It is lighter, but offers similar velocities, resulting in\n\
 greater accuracy and reduced recoil.",
-0);
+mfb(AMMO_COOKOFF));
 
 //  NAME		   RAR PRC TYPE		COLOR		MAT
 AMMO("762_51_incendiary", "7.62x51mm incendiary",6, 740,AT_308,	c_dkgray,	STEEL,
@@ -2312,7 +2348,7 @@ AMMO("12mm", "H&K 12mm",	 2, 500,AT_12MM,		c_red,	STEEL,
 	 1,  10, 25, 12, 70,  9, 7,  20, "\
 The Heckler & Koch 12mm projectiles are used in H&K railguns. It's made of a\n\
 ferromagnetic metal, probably cobalt.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("plasma", "hydrogen",	 8, 800,AT_PLASMA,	c_green,	STEEL,
 	 10,  25, 35, 14,12,  4,  0,  25, "\
@@ -2336,6 +2372,11 @@ AMMO("9mm_casing", "9mm casing",		 10, 30,AT_NULL,		c_ltblue,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
 	 0,  0,  0,  0, 0,  0,  0,  100, "\
 An empty casing from a 9mm round.",
+0);
+
+AMMO("22_casing", ".22 casing",	 10, 40,AT_NULL,		c_ltblue,	STEEL,
+	 0, 0, 0,  0, 0, 0, 0, 200, "\
+An empty casing from a .22 round.",
 0);
 
 AMMO("38_casing", ".38 casing",	 10, 40,AT_NULL,		c_ltblue,	STEEL,
@@ -2398,32 +2439,32 @@ A large canister from a spent 40mm grenade.",
 AMMO("gunpowder", "gunpowder",	 10, 30,AT_NULL,		c_dkgray,	POWDER,
 	 0,  0, 0,  0,  0, 0, 0, 200, "\
 Firearm quality gunpowder.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("shotgun_primer", "shotgun primer",	 10, 30,AT_NULL,		c_dkgray,	STEEL,
 	 0,  0, 0, 0,  0, 0, 0, 200, "\
 Primer from a shotgun round.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("smpistol_primer", "small pistol primer",	 15, 40,AT_NULL,		c_dkgray,	STEEL,
 	 0,  0, 0, 0,  0, 0, 0, 200, "\
 Primer from a small caliber  round.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("lgpistol_primer", "large pistol primer",	 15, 60,AT_NULL,		c_dkgray,	STEEL,
 	 0,  0, 0,  0,  0, 0, 0, 200, "\
 Primer from a large caliber pistol round.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("smrifle_primer", "small rifle primer",	 10, 60,AT_NULL,		c_dkgray,	STEEL,
 	 0,  0,  0, 0,  0, 0, 0, 200, "\
 Primer from a small caliber rifle round.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("lgrifle_primer", "large rifle primer",	 10, 80,AT_NULL,		c_dkgray,	STEEL,
 	 0,  0,  0, 0,  0, 0, 0, 200, "\
 Primer from a large caliber rifle round.",
-0);
+mfb(AMMO_COOKOFF));
 
 AMMO("lead", "lead",	 10, 50,AT_NULL,		c_dkgray,	STEEL,
 	 0,  0,  0, 0,  0, 0, 0, 200, "\
@@ -2434,7 +2475,7 @@ AMMO("incendiary", "incendiary",	 0, 100,AT_NULL,		c_dkgray,	STEEL,
 	 0,  0,  0, 0,  0, 0, 0, 200, "\
 Material from an incendiary round, useful in constructing incendiary\n\
 ammunition.",
-0);
+mfb(AMMO_COOKOFF));
 
 
 // FUEL
@@ -2442,7 +2483,7 @@ ammunition.",
 #define FUEL(id, name,rarity,price,ammo_type,color,dmg,AP,range,accuracy,recoil,\
              count,des,effects) \
 itypes[id]=new it_ammo(id,rarity,price,name,des,'~',\
-color,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count)
+color,MNULL,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count)
 FUEL("gasoline","gasoline",	0,  50,   AT_GAS,	c_ltred,
 //	DMG  AP RNG ACC REC COUNT
 	 5,  5,  4,  0,  0,  200, "\
@@ -2532,7 +2573,7 @@ itypes[id]=new it_container(id,rarity,price,name,des,\
 melee_cut,to_hit,max_charge,def_charge,charge_per_use,charge_per_sec,fuel,\
 revert,func,flags,des) \
 itypes[id]=new it_tool(id,rarity,price,name,des,sym,\
-color,mat1,mat2,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
+color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
 
 //  NAME		RAR PRC COLOR		MAT1	MAT2
@@ -3373,6 +3414,10 @@ BOOK("cookbook", "Cooking on a Budget",	35, 160,c_green,	PAPER,	MNULL,
     4,  1, -2,  0,	"cooking",	 3,  0,  0,  4, 10, "\
 A nice cook book that goes beyond recipes and into the chemistry of food.");
 
+BOOK("cookbook_human", "To Serve Man", 1, 400, c_green, PAPER, MNULL,
+    4, 1, -2, 0, "cooking", 4, 2, -5, 4, 10, "\
+It's... it's a cookbook!");
+
 BOOK("manual_electronics", "What's a Transistor?",	20, 200,c_green,	PAPER,	MNULL,
     3,  1, -3,  0,	"electronics",	 3,  0,  0,  7, 20, "\
 A basic manual of electronics and circuit design.");
@@ -3521,6 +3566,10 @@ TOOL("extinguisher", "fire extinguisher",20,700,';', c_red,	IRON,	MNULL,
    16, 20, 26,  0, -1,  80, 80, 1,  0, AT_NULL, "null", &iuse::extinguisher,0,
 "Use a fire extinguisher to put out adjacent fires.");
 
+TOOL("battery_compartment", "extra battery mod", 0, 500, ';', c_white, PLASTIC, IRON,
+    1,  1,  0,  0,  -2, 0,  0,  0,  0, AT_NULL, "null", &iuse::extra_battery, 0,
+"With enough electronics skill, you could attach this to your devices to increase their battery capacity.");
+
 TOOL("flashlight", "flashlight (off)",40, 380,';', c_blue,	PLASTIC, IRON,
     3,  2,  1,  0,  2, 100,100, 0,  0, AT_BATT, "null", &iuse::light_off,0,"\
 Using this flashlight will turn it on, assuming it is charged with batteries.\n\
@@ -3545,10 +3594,22 @@ A light-emitting circuit wired directly to some batteries. Once activated, provi
 scrap it to recover the components that are reusable.");
 
 TOOL("lightstrip", "lightstrip (active)", 0, 200, ';', c_green, PLASTIC, IRON,
-    1,  1,  1,  0,  2,  12000, 12000, 0, 150, AT_NULL, "lightstrip_dead", &iuse::none, mfb(IF_LIGHT_1),"\
+    1,  1,  1,  0,  2,  12000, 12000, 0, 150, AT_NULL, "lightstrip_dead", &iuse::lightstrip_active, mfb(IF_LIGHT_1),"\
 A light-emitting circuit wired directly to some batteries. Provides a weak light,\n\
 lasting 25 hours per 3 (battery) charges. When the batteries die, you'll need to\n\
 scrap it to recover the components that are reusable.");
+
+TOOL("glowstick", "glowstick", 60, 300, ';', c_ltblue, PLASTIC, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  0,  0,  0, -1, 1200, 1200, 0, 0, AT_NULL, "null", &iuse::glowstick,0,"\
+A small blue light glowstick, bend it to break the glass cylinder inside and\n\
+start the reaction to produce a very small amount of light.");
+
+TOOL("glowstick_lit", "active glowstick", 0, 300, ';', c_ltblue, PLASTIC, MNULL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    1,  0,  0,  0, -1, 1200, 1200, 0, 2, AT_NULL, "null", &iuse::glowstick_active,mfb(IF_LIGHT_1),"\
+This glowstick is active and producing light. It will last for a few hours\n\
+before burning out.");
 
 TOOL("hotplate", "hotplate",	10, 250,';', c_green,	IRON,	PLASTIC,
     5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, "null", &iuse::cauterize_elec,0,"\
@@ -3995,7 +4056,7 @@ but much better than slumming it on the ground.");
 TOOL("rollmat", "rollmat",  40,400,';', c_blue, PLASTIC, MNULL,
      4, 3,  0, 0, -1, 0, 0, 0, 0, AT_NULL, "null", &iuse::set_trap,
 0, "\
-A sheet of foam, which can be rolled tightly for storage\n\
+A sheet of foam which can be rolled tightly for storage.\n\
 Insulates you from the floor, making it easier to sleep");
 
 TOOL("xacto", "X-Acto knife",	10,  40,';', c_dkgray,	IRON,	PLASTIC,
@@ -4275,6 +4336,10 @@ TOOL("jar_meat_canned", "sealed jar of canned meat",	50,	75,'%', c_red,		GLASS,	
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
 Sealed glass jar containing meat.  Activate to open and enjoy.");
 
+TOOL("jar_human_canned", "sealed jar of canned cad",	50,	75,'%', c_red,		GLASS,	FLESH,
+    2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
+Sealed glass jar containing human meat.  Activate to open and enjoy.");
+
 TOOL("jar_veggy_canned", "sealed jar of canned veggy",	50,	65, '%', c_green,		GLASS,	VEGGY,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
 Sealed glass jar containing veggy.  Activate to open and enjoy.");
@@ -4300,7 +4365,6 @@ BIO("bio_power_storage", "CBM: Power Storage",	24, 3800,	c_green,	 1, "\
 Compact Bionics Module that upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\
 also need a power supply, found in another CBM."); // This is a special case, which increases power capacity by 4
-
 
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \
@@ -4389,6 +4453,8 @@ BIO_SINGLE("bio_teleport", 1, 7000, c_white, 7);
 BIO_SINGLE("bio_blaster", 13, 2200, c_red, 3);
 BIO_SINGLE("bio_laser", 2, 7200, c_red, 5);
 BIO_SINGLE("bio_emp", 2, 7200, c_red, 5);
+// power armor
+BIO_SINGLE("bio_power_armor_interface", 20, 1200, c_yellow, 1);
 
 SOFTWARE("software_useless", "misc software", 300, SW_USELESS, 0, "\
 A miscellaneous piece of hobby software. Probably useless.");

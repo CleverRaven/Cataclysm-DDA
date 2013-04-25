@@ -207,14 +207,18 @@ class game
   point look_around();// Look at nearby terrain	';'
   void list_items(); //List all items around the player
   bool list_items_match(std::string sText, std::string sPattern);
+  int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
+  int list_filter_low_priority(std::vector<map_item_stack> &stack,int start, std::string prorities);
   std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack, std::string filter);
   std::vector<map_item_stack> find_nearby_items(int search_x, int search_y);
   std::string ask_item_filter(WINDOW* window, int rows);
   void draw_trail_to_square(std::vector<point>& vPoint, int x, int y);
   void reset_item_list_state(WINDOW* window, int height);
   std::string sFilter; // this is a member so that it's remembered over time
+  std::string list_item_upvote;
+  std::string list_item_downvote;
   char inv(std::string title = "Inventory:");
-  char inv_type(std::string title = "Inventory:", int inv_item_type = 0);
+  char inv_type(std::string title = "Inventory:", item_cat inv_item_type = IC_NULL);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
@@ -251,7 +255,7 @@ class game
   std::vector<monster> z;
   std::vector<monster_and_count> coming_to_stairs;
   int monstairx, monstairy, monstairz;
-  std::vector<npc> active_npc;
+  std::vector<npc *> active_npc;
   std::vector<faction> factions;
   std::vector<mission> active_missions; // Missions which may be assigned
 // NEW: Dragging a piece of furniture, with a list of items contained
@@ -290,6 +294,11 @@ class game
   void start_game();	// Starts a new game
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
+  //private save functions.
+		void save_factions_missions_npcs();
+  void save_artifacts();
+	 void save_maps();
+
 // Data Initialization
   void init_itypes();       // Initializes item types
   void init_bionics();      // Initializes bionics... for now.
@@ -314,6 +323,8 @@ class game
   void clear_bindings(action_id act); // Deletes all keys bound to act
 
   void create_factions();   // Creates new factions (for a new game world)
+  void load_npcs(); //Make any nearby NPCs from the overmap active.
+  void reset_npcs(); //Reset all the NPCs missions and attitudes for a new character.
   void create_starting_npcs(); // Creates NPCs that start near you
 
 // Player actions
@@ -376,7 +387,7 @@ class game
   void takeoff(char chInput = '.'); // Remove armor		'T'
   void reload();  // Reload a wielded gun/tool	'r'
   void reload(char chInput);
-  void unload();  // Unload a wielded gun/tool	'U'
+  void unload(item& it);  // Unload a gun/tool	'U'
   void unload(char chInput);
   void wield(char chInput = '.');   // Wield a weapon		'w'
   void read();    // Read a book		'R' (or 'a')

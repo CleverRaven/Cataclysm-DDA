@@ -19,7 +19,7 @@ void formatted_set_terrain(map* m, const int startx, const int starty, const cha
  va_list vl;
  va_start(vl,cstr);
  internal::format_effect* temp;
- while(temp = va_arg(vl,internal::format_effect*))
+ while((temp = va_arg(vl,internal::format_effect*)))
  {
   temp->execute(fdata);
   delete temp;
@@ -86,7 +86,7 @@ internal::format_effect* simple_method_bind(std::string characters, ...)
  va_list vl;
  va_start(vl,characters);
  for(int i = 0; i < characters.size(); i++)
-  determiners.push_back( new internal::determine_terrain_with_simple_method( va_arg(vl, ter_id (*)() ) ));
+  determiners.push_back( new internal::determine_terrain_with_simple_method( va_arg(vl, internal::determine_terrain_with_simple_method::ter_id_func ) ));
  va_end(vl);
  return new internal::format_effect(characters, determiners);
 }

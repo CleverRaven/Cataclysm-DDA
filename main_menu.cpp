@@ -6,7 +6,12 @@
 #include "cursesdef.h"
 
 #include <sys/stat.h>
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
+#else
 #include <dirent.h>
+#endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -152,7 +157,7 @@ bool game::opening_screen()
         while (!motd_file.eof()) {
             std::string tmp;
             getline(motd_file, tmp);
-            if (tmp[0] != '#')
+            if (!tmp.length() || tmp[0] != '#')
                 motd.push_back(tmp);
         }
     }
@@ -167,7 +172,7 @@ bool game::opening_screen()
         while (!credits_file.eof()) {
             std::string tmp;
             getline(credits_file, tmp);
-            if (tmp[0] != '#')
+            if (!tmp.length() || tmp[0] != '#')
                 credits.push_back(tmp);
         }
     }

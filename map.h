@@ -19,6 +19,7 @@
 #include "graffiti.h"
 #include "lightmap.h"
 
+//TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
 #define CAMPSIZE 1
 #define CAMPCHECK 3
@@ -142,6 +143,7 @@ class map
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
  void spawn_item(const int x, const int y, itype* type, int birthday, int quantity = 0, int charges = 0);
+ void spawn_item(const int x, const int y, std::string itype_id, int birthday, int quantity = 0, int charges = 0);
  void add_item(const int x, const int y, item new_item);
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);

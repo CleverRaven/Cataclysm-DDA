@@ -5,10 +5,12 @@ class game;
 class item;
 class player;
 
+
+
 class iuse
 {
  public:
-  void none		(game *g, player *p, item *it, bool t) { };
+  void none		(game *g, player *p, item *it, bool t);
 
 // FOOD AND DRUGS (ADMINISTRATION)
   void sewage		(game *g, player *p, item *it, bool t);
@@ -51,12 +53,16 @@ class iuse
 // TOOLS
   void lighter		(game *g, player *p, item *it, bool t);
   void sew		(game *g, player *p, item *it, bool t);
+  void extra_battery(game *g, player *p, item *it, bool t);
   void scissors		(game *g, player *p, item *it, bool t);
   void extinguisher	(game *g, player *p, item *it, bool t);
   void hammer		(game *g, player *p, item *it, bool t);
   void light_off	(game *g, player *p, item *it, bool t);
   void light_on		(game *g, player *p, item *it, bool t);
   void lightstrip		(game *g, player *p, item *it, bool t);
+  void lightstrip_active(game *g, player *p, item *it, bool t);
+  void glowstick		(game *g, player *p, item *it, bool t);
+  void glowstick_active(game *g, player *p, item *it, bool t);
   void cauterize_elec	(game *g, player *p, item *it, bool t);
   void water_purifier	(game *g, player *p, item *it, bool t);
   void two_way_radio	(game *g, player *p, item *it, bool t);
@@ -130,8 +136,6 @@ class iuse
   void candle           (game *g, player *p, item *it, bool t);
   void candle_lit       (game *g, player *p, item *it, bool t);
   void bullet_puller	(game *g, player *p, item *it, bool t);
-  void screwdriver      (game *g, player *p, item *it, bool t);
-  void wrench           (game *g, player *p, item *it, bool t);
   void boltcutters      (game *g, player *p, item *it, bool t);
   void mop              (game *g, player *p, item *it, bool t);
   void spray_can        (game *g, player *p, item *it, bool t);
@@ -150,12 +154,6 @@ class iuse
 // It examines the item's artifact-specific properties
 // See artifact.h for a list
   void artifact		(game *g, player *p, item *it, bool t);
-  void heal		(game *g, player *p, item *it, bool t);
-  void twist_space	(game *g, player *p, item *it, bool t);
-  void mass_vampire	(game *g, player *p, item *it, bool t);
-  void growth		(game *g, player *p, item *it, bool t);
-  void water		(game *g, player *p, item *it, bool t);
-  void lava		(game *g, player *p, item *it, bool t);
 
 };
 

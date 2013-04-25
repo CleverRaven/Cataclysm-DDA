@@ -30,6 +30,8 @@ long input(long ch)
   case KEY_LEFT:  return 'h';
   case KEY_RIGHT: return 'l';
   case KEY_DOWN:  return 'j';
+  case KEY_NPAGE: return '>';
+  case KEY_PPAGE: return '<';
   case 459: return '\n';
   default:  return ch;
  }
@@ -54,6 +56,12 @@ bool input_wait(char & ret_ch, int delay_ms)
     break;
    case KEY_DOWN:
     ret_ch = 'j';
+    break;
+   case KEY_NPAGE:
+    ret_ch = '>';
+    break;
+   case KEY_PPAGE:
+    ret_ch = '<';
     break;
    case 459:
     ret_ch = '\n';
@@ -213,7 +221,7 @@ drop_adj D\n\
 bionics p\n\
 \n\
 # LONG TERM & SPECIAL ACTIONS\n\
-wait ^\n\
+wait |\n\
 craft &\n\
 recraft -\n\
 construct *\n\

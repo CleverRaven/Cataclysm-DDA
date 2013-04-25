@@ -49,6 +49,11 @@ static bool use_fire(game *g, player *p, item *it)
     return true;
 }
 
+void iuse::none(game *g, player *p, item *it, bool t)
+{
+  g->add_msg("You can't do anything interesting with your %s.",
+             it->tname(g).c_str());
+}
 /* To mark an item as "removed from inventory", set its invlet to 0
    This is useful for traps (placed on ground), inactive bots, etc
  */
@@ -902,7 +907,6 @@ void iuse::sew(game *g, player *p, item *it, bool t)
    rn += rng(2, 6);
   if (p->dex_cur > 16)
    rn += rng(0, p->dex_cur - 16);
-
   if (rn <= 4) {
    g->add_msg_if_player(p,"You damage your %s further!", fix->tname().c_str());
    fix->damage++;
@@ -938,6 +942,40 @@ void iuse::sew(game *g, player *p, item *it, bool t)
  //iuse::sew uses up 1 charge when called, if less than 1, set to 1, and use that one up.
  if (it->charges < 1)
   it->charges = 1;
+}
+
+void iuse::extra_battery(game *g, player *p, item *it, bool t)
+{
+    char ch = g->inv_type("Modify what?", IC_TOOL);
+    item* modded = &(p->i_at(ch));
+
+    if (modded == NULL || modded->is_null())
+    {
+        g->add_msg_if_player(p,"You do not have that item!");
+        return;
+    }
+    if (!modded->is_tool())
+    {
+        g->add_msg_if_player(p,"You can only mod tools with this battery mod.");
+        return;
+    }
+
+    it_tool *tool = dynamic_cast<it_tool*>(modded->type);
+    if (tool->ammo != AT_BATT)
+    {
+        g->add_msg_if_player(p,"That item does not use batteries!");
+        return;
+    }
+
+    if (modded->has_flag(IF_DOUBLE_AMMO))
+    {
+        g->add_msg_if_player(p,"That item has already had its battery capacity doubled.");
+        return;
+    }
+
+    modded->item_flags |= mfb(IF_DOUBLE_AMMO);
+    g->add_msg_if_player(p,"You double the battery capacity of your %s!", tool->name.c_str());
+    it->invlet = 0;
 }
 
 void iuse::scissors(game *g, player *p, item *it, bool t)
@@ -1175,6 +1213,39 @@ void iuse::lightstrip(game *g, player *p, item *it, bool t)
     it->active = true;
 }
 
+void iuse::lightstrip_active(game *g, player *p, item *it, bool t)
+{
+    if (t)
+    {	// Normal use
+        // Do nothing... player::active_light and the lightmap::generate deal with this
+    }
+    else
+    {	// Turning it off
+        g->add_msg_if_player(p,"The lightstrip dies.");
+        it->make(g->itypes["lightstrip_dead"]);
+        it->active = false;
+    }
+}
+
+void iuse::glowstick(game *g, player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,"You activate the glowstick.");
+    it->make(g->itypes["glowstick_lit"]);
+    it->active = true;
+}
+
+void iuse::glowstick_active(game *g, player *p, item *it, bool t)
+{
+    if (t)
+    {	// Normal use
+        // Do nothing... player::active_light and the lightmap::generate deal with this
+    }
+    else
+    {	// Turning it off
+        g->add_msg_if_player(p,"The glowstick dies.");
+        it->active = false;
+    }
+}
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)
@@ -1274,10 +1345,10 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
   p->moves -= 150;
   std::vector<npc*> in_range;
   for (int i = 0; i < g->cur_om.npcs.size(); i++) {
-   if (g->cur_om.npcs[i].op_of_u.value >= 4 &&
-       rl_dist(g->levx, g->levy, g->cur_om.npcs[i].mapx,
-                                   g->cur_om.npcs[i].mapy) <= 30)
-    in_range.push_back(&(g->cur_om.npcs[i]));
+   if (g->cur_om.npcs[i]->op_of_u.value >= 4 &&
+       rl_dist(g->levx, g->levy, g->cur_om.npcs[i]->mapx,
+                                   g->cur_om.npcs[i]->mapy) <= 30)
+    in_range.push_back((g->cur_om.npcs[i]));
   }
   if (in_range.size() > 0) {
    npc* coming = in_range[rng(0, in_range.size() - 1)];
@@ -2001,7 +2072,7 @@ void iuse::geiger(game *g, player *p, item *it, bool t)
  }
  std::string toggle_text = "Turn continuous scan ";
  toggle_text += (is_on ? "off" : "on");
- int ch = menu("Geiger counter:", "Scan yourself", "Scan the ground",
+ int ch = menu(true, "Geiger counter:", "Scan yourself", "Scan the ground",
                toggle_text.c_str(), "Cancel", NULL);
  switch (ch) {
   case 1: g->add_msg_if_player(p,"Your radiation level: %d", p->radiation); break;
@@ -2674,7 +2745,7 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
  }
 
  if (npcdex != -1) {
-  npc *foe = dynamic_cast<npc*>(&g->active_npc[npcdex]);
+  npc *foe = dynamic_cast<npc*>(g->active_npc[npcdex]);
   if (foe->attitude != NPCATT_FLEE)
    foe->attitude = NPCATT_KILL;
   if (foe->str_max >= 17)
@@ -2819,7 +2890,7 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
-    int ch = menu(
+    int ch = menu(true,
     "Using knife:", "Cut up fabric", "Carve wood", "Cauterize", "Cancel", NULL);
     switch (ch)
     {
@@ -3235,15 +3306,15 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  lead.charges = 16*multiply;
  }
  else if (pull->type->id == "22_lr" || pull->type->id == "22_ratshot") {
- casing.make(g->itypes["null"]);
- primer.make(g->itypes["null"]);
+ casing.make(g->itypes["22_casing"]);
+ primer.make(g->itypes["smrifle_primer"]);
  gunpowder.make(g->itypes["gunpowder"]);
  gunpowder.charges = 2*multiply;
  lead.charges = 2*multiply;
  }
  else if (pull->type->id == "22_cb") {
- casing.make(g->itypes["null"]);
- primer.make(g->itypes["null"]);
+ casing.make(g->itypes["22_casing"]);
+ primer.make(g->itypes["smrifle_primer"]);
  gunpowder.make(g->itypes["gunpowder"]);
  gunpowder.charges = 1*multiply;
  lead.charges = 2*multiply;
@@ -3974,4 +4045,5 @@ void iuse::dejar(game *g, player *p, item *it, bool t)
 	itype_id ujcont = (dynamic_cast<it_comest*>(ujitem.type))->container;  //discovering container
 	it->make(g->itypes[ujcont]);  //turning "sealed jar of xxx" into container for "xxx"
     it->contents.push_back(item(g->itypes[ujfood],0));  //shoving the "xxx" into the container
+    it->contents[0].bday = g->turn + 3600 - (g->turn % 3600);
 }

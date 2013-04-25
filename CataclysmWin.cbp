@@ -9,7 +9,7 @@
 			<Target title="Release">
 				<Option output="Cataclysm" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
-				<Option type="1" />
+				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Os" />
@@ -22,6 +22,7 @@
 		</Build>
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
+		<Unit filename="addiction.cpp" />
 		<Unit filename="addiction.h" />
 		<Unit filename="artifact.cpp" />
 		<Unit filename="artifact.h" />
@@ -36,6 +37,8 @@
 		<Unit filename="calendar.h" />
 		<Unit filename="catacurse.cpp" />
 		<Unit filename="catacurse.h" />
+		<Unit filename="catajson.cpp" />
+		<Unit filename="catajson.h" />
 		<Unit filename="color.cpp" />
 		<Unit filename="color.h" />
 		<Unit filename="computer.cpp" />
@@ -76,6 +79,10 @@
 		<Unit filename="inventory_ui.cpp" />
 		<Unit filename="item.cpp" />
 		<Unit filename="item.h" />
+		<Unit filename="item_factory.cpp" />
+		<Unit filename="item_factory.h" />
+		<Unit filename="item_group.cpp" />
+		<Unit filename="item_group.h" />
 		<Unit filename="itype.h" />
 		<Unit filename="itypedef.cpp" />
 		<Unit filename="iuse.cpp" />

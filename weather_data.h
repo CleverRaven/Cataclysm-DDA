@@ -16,7 +16,7 @@ std::string season_name[4] = {
  */
 weather_datum weather_data[] = {
 {"NULL Weather - BUG", c_magenta,
- {0, 0, 0, 0}, 0, 0, 0, 0, false,
+ {0, 0, 0, 0}, 0, 0, 0, 0, 0, false,
  &weather_effect::none},
 {"Clear", c_cyan,
  {55, 85, 60, 30}, 0, 0, 0, 30, 120, false,

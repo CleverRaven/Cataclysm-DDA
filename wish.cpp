@@ -1,6 +1,7 @@
 #include "game.h"
 #include "output.h"
 #include "keypress.h"
+#include "item_factory.h"
 #include <sstream>
 
 #define LESS(a, b) ((a)<(b)?(a):(b))
@@ -21,7 +22,7 @@ void game::wish()
  do {
   werase(w_info);
   werase(w_list);
-  mvwprintw(w_list, 0, 0, "Wish for a: ");
+  mvwprintw(w_list, 0, 0, "Wish for a ('/'searches): ");
   if (search) {
    if (ch == '\n') {
     search = false;
@@ -29,7 +30,7 @@ void game::wish()
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
      pattern.erase(pattern.end() - 1);
-   } else if (ch == '>') {
+   } else if (ch == '>' || ch == KEY_NPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected++;
@@ -42,7 +43,7 @@ void game::wish()
       shift = standard_itype_ids.size() - 23;
      }
     }
-   } else if (ch == '<') {
+   } else if (ch == '<' || ch == KEY_PPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected--;
@@ -62,7 +63,7 @@ void game::wish()
 
    if (search) {
     for (int i = 0; i < standard_itype_ids.size(); i++) {
-     if (itypes[standard_itype_ids[i]]->name.find(pattern) != std::string::npos) {
+     if (item_controller->find_template(standard_itype_ids[i])->name.find(pattern) != std::string::npos) {
       shift = i;
       a = 0;
       result_selected = 0;
@@ -88,7 +89,7 @@ void game::wish()
     search_results.clear();
    }
    if (ch == 'f') incontainer = !incontainer;
-   if (ch == '>' && !search_results.empty()) {
+   if (( ch == '>' || ch == KEY_NPAGE ) && !search_results.empty()) {
     result_selected++;
     if (result_selected > search_results.size())
      result_selected = 0;
@@ -98,7 +99,7 @@ void game::wish()
      a = shift + 23 - standard_itype_ids.size();
      shift = standard_itype_ids.size() - 23;
     }
-   } else if (ch == '<' && !search_results.empty()) {
+   } else if (( ch == '<' || ch == KEY_PPAGE ) && !search_results.empty()) {
     result_selected--;
     if (result_selected < 0)
      result_selected = search_results.size() - 1;
@@ -111,7 +112,7 @@ void game::wish()
    }
   }
   if (!search_results.empty())
-   mvwprintz(w_list, 0, 11, c_green, "%s               ", pattern.c_str());
+   mvwprintz(w_list, 0, 25, c_green, "%s               ", pattern.c_str());
   else if (pattern.length() > 0)
    mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
   if (incontainer)
@@ -130,10 +131,10 @@ void game::wish()
    nc_color col = c_white;
    if (i == a + 1)
     col = h_white;
-   mvwprintz(w_list, i, 0, col, itypes[standard_itype_ids[i-1+shift]]->name.c_str());
-   wprintz(w_list, itypes[standard_itype_ids[i-1+shift]]->color, "%c%", itypes[standard_itype_ids[i-1+shift]]->sym);
+   mvwprintz(w_list, i, 0, col, item_controller->find_template(standard_itype_ids[i-1+shift])->name.c_str());
+   wprintz(w_list, item_controller->find_template(standard_itype_ids[i-1+shift])->color, "%c%", item_controller->find_template(standard_itype_ids[i-1+shift])->sym);
   }
-  tmp.make(itypes[standard_itype_ids[a + shift]]);
+  tmp.make(item_controller->find_template(standard_itype_ids[a + shift]));
   tmp.bday = turn;
   if (tmp.is_tool())
    tmp.charges = dynamic_cast<it_tool*>(tmp.type)->max_charges;
@@ -190,7 +191,7 @@ void game::monster_wish()
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
      pattern.erase(pattern.end() - 1);
-   } else if (ch == '>') {
+   } else if (ch == '>' || ch == KEY_NPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected++;
@@ -203,7 +204,7 @@ void game::monster_wish()
       shift = mtypes.size() - 23;
      }
     }
-   } else if (ch == '<') {
+   } else if (ch == '<' || ch == KEY_PPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected--;
@@ -245,7 +246,7 @@ void game::monster_wish()
     pattern =  "";
     search_results.clear();
    }
-   if (ch == '>' && !search_results.empty()) {
+   if (( ch == '>' || ch == KEY_NPAGE ) && !search_results.empty()) {
     result_selected++;
     if (result_selected > search_results.size())
      result_selected = 0;
@@ -255,7 +256,7 @@ void game::monster_wish()
      a = shift + 23 - mtypes.size();
      shift = mtypes.size() - 23;
     }
-   } else if (ch == '<' && !search_results.empty()) {
+   } else if (( ch == '<' || ch == KEY_PPAGE ) && !search_results.empty()) {
     result_selected--;
     if (result_selected < 0)
      result_selected = search_results.size() - 1;
@@ -332,7 +333,7 @@ void game::mutation_wish()
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
      pattern.erase(pattern.end() - 1);
-   } else if (ch == '>') {
+   } else if (ch == '>' || ch == KEY_NPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected++;
@@ -345,7 +346,7 @@ void game::mutation_wish()
       shift = PF_MAX2 - 23;
      }
     }
-   } else if (ch == '<') {
+   } else if (ch == '<' || ch == KEY_PPAGE) {
     search = false;
     if (!search_results.empty()) {
      result_selected--;
@@ -390,7 +391,7 @@ void game::mutation_wish()
     pattern =  "";
     search_results.clear();
    }
-   if (ch == '>' && !search_results.empty()) {
+   if (( ch == '>' || ch == KEY_NPAGE ) && !search_results.empty()) {
     result_selected++;
     if (result_selected > search_results.size())
      result_selected = 0;
@@ -400,7 +401,7 @@ void game::mutation_wish()
      a = shift + 23 - PF_MAX2;
      shift = PF_MAX2 - 23;
     }
-   } else if (ch == '<' && !search_results.empty()) {
+   } else if (( ch == '<' || ch == KEY_PPAGE ) && !search_results.empty()) {
     result_selected--;
     if (result_selected < 0)
      result_selected = search_results.size() - 1;

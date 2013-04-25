@@ -17,7 +17,7 @@ void trapfuncm::bubble(game *g, monster *z, int x, int y)
 
 void trapfuncm::cot(game *g, monster *z, int x, int y)
 {
- g->add_msg("The zombie stumbles over the cot");
+ g->add_msg("The %s stumbles over the cot", z->name().c_str());
  z->moves -= 100;
 }
 
@@ -120,7 +120,7 @@ void trapfunc::crossbow(game *g, int x, int y)
  g->m.spawn_item(x, y, g->itypes["crossbow"], 0);
  g->m.spawn_item(x, y, g->itypes["string_6"], 0);
  if (add_bolt)
-  g->m.spawn_item(x, y, g->itypes["bolt_steel"], 0);
+  g->m.spawn_item(x, y, g->itypes["bolt_steel"], 0, 0, 1);
 }
 
 void trapfuncm::crossbow(game *g, monster *z, int x, int y)

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>    // std::min
 
 #include "skill.h"
 #include "rng.h"
@@ -79,19 +80,35 @@ size_t Skill::skill_count() {
 }
 
 
-SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPracticed) {
-  _level = level;
-  _exercise = exercise;
-  _isTraining = isTraining;
-  _lastPracticed = lastPracticed;
+SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPracticed)
+{
+    _level = level;
+    _exercise = exercise;
+    _isTraining = isTraining;
+    if(lastPracticed == 0)
+    {
+        _lastPracticed = HOURS(OPTIONS[OPT_INITIAL_TIME]);
+    }
+    else
+    {
+        _lastPracticed = lastPracticed;
+    }
 }
 
 SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise,
-                       bool isTraining, int lastPracticed) {
-  _level = rng(minLevel, maxLevel);
-  _exercise = rng(minExercise, maxExercise);
-  _isTraining = isTraining;
-  _lastPracticed = lastPracticed;
+                       bool isTraining, int lastPracticed)
+{
+    _level = rng(minLevel, maxLevel);
+    _exercise = rng(minExercise, maxExercise);
+    _isTraining = isTraining;
+    if(lastPracticed == 0)
+    {
+        _lastPracticed = HOURS(OPTIONS[OPT_INITIAL_TIME]);
+    }
+    else
+    {
+        _lastPracticed = lastPracticed;
+    }
 }
 
 int SkillLevel::comprehension(int intellect, bool fastLearner) {
@@ -140,21 +157,32 @@ int SkillLevel::train(int &level) {
   return _exercise;
 }
 
+static int rustRate(int level)
+{
+    int forgetCap = std::min(level, 7);
+    return 16384 / int(pow(2.0, double(forgetCap - 1)));
+}
+
+bool SkillLevel::isRusting(const calendar& turn) const
+{
+    return OPTIONS[OPT_SKILL_RUST] != 2 && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
+}
+
 bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem)
 {
     if (OPTIONS[OPT_SKILL_RUST] == 2) return false;
 
-    int forgetCap = _level > 7 ? 7 : _level;
-    if (_level > 0 && (turn - _lastPracticed) % (16384 / int(pow(2, double(forgetCap - 1)))) == 0)
+    if (_level > 0 && turn > _lastPracticed &&
+        (turn - _lastPracticed) % rustRate(_level) == 0)
     {
-        if (rng(1,12) % forgetful ? 3 : 4)
+        if (rng(1,12) % (forgetful ? 3 : 4))
         {
             if (OPTIONS[OPT_SKILL_RUST] == 0 || _exercise > 0)
             {
                 if (charged_bio_mem) return one_in(5);
                 --_exercise;
 
-                if (_exercise <= 0)
+                if (_exercise < 0)
                 {
                     _exercise = 99;
                     --_level;
@@ -167,7 +195,7 @@ bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem
 
 void SkillLevel::practice(const calendar& turn)
 {
-    _lastPracticed = turn + 1;
+    _lastPracticed = turn;
 }
 
 int SkillLevel::readBook(int minimumGain, int maximumGain, const calendar& turn,

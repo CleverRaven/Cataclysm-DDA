@@ -86,7 +86,7 @@ class overmap
   point random_house_in_city(int city_id);
   int dist_from_city(point p);
 // Interactive point choosing; used as the map screen
-  point choose_point(game *g, int const z);
+  point draw_overmap(game *g, int const z);
 
   bool ter_in_type_range(int x, int y, int z, oter_id type, int type_range);
   oter_id& ter(int x, int y, int z);
@@ -101,11 +101,12 @@ class overmap
   point display_notes(game* g, int const z) const;
 
   point find_note(int const x, int const y, int const z, std::string const& text) const;
+  void remove_npc(int npc_id);
 
   // TODO: make private
   std::vector<mongroup> zg;
   std::vector<radio_tower> radios;
-  std::vector<npc> npcs;
+  std::vector<npc *> npcs;
   std::vector<city> cities;
   std::vector<city> roads_out;
   std::vector<settlement> towns;
@@ -165,6 +166,10 @@ class overmap
 
   std::string terrain_filename(int const x, int const y) const;
   std::string player_filename(int const x, int const y) const;
+
+  // Map helper function.
+  bool has_npc(game *g, int const x, int const y, int const z) const;
+  void print_npcs(game *g, WINDOW *w, int const x, int const y, int const z);
 };
 
 // TODO: readd the stream operators

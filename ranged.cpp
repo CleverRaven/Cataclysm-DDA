@@ -173,6 +173,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   switch(curammo->type) {
   case AT_SHOT: casing_type = "shot_hull"; break;
   case AT_9MM: casing_type = "9mm_casing"; break;
+  case AT_22: casing_type = "22_casing"; break;
   case AT_38: casing_type = "38_casing"; break;
   case AT_40: casing_type = "40_casing"; break;
   case AT_44: casing_type = "44_casing"; break;
@@ -326,7 +327,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     if (u.posx == tx && u.posy == ty)
      h = &u;
     else
-     h = &(active_npc[npc_at(tx, ty)]);
+     h = active_npc[npc_at(tx, ty)];
 
     std::vector<point> blood_traj = trajectory;
     blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
@@ -586,8 +587,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   }
 // Draw the NPCs
   for (int i = 0; i < active_npc.size(); i++) {
-   if (u_see(active_npc[i].posx, active_npc[i].posy))
-    active_npc[i].draw(w_terrain, center.x, center.y, false);
+   if (u_see(active_npc[i]->posx, active_npc[i]->posy))
+    active_npc[i]->draw(w_terrain, center.x, center.y, false);
   }
   if (x != u.posx || y != u.posy) {
 // Calculate the return vector (and draw it too)
@@ -612,7 +613,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
       if (mondex != -1 && u_see(&(z[mondex])))
        z[mondex].draw(w_terrain, center.x, center.y, true);
       else if (npcdex != -1)
-       active_npc[npcdex].draw(w_terrain, center.x, center.y, true);
+       active_npc[npcdex]->draw(w_terrain, center.x, center.y, true);
       else
        m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center.x, center.y);
      }
@@ -646,7 +647,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (mondex != -1 && u_see(&(z[mondex])))
     z[mondex].draw(w_terrain, center.x, center.y, false);
    else if (npcdex != -1)
-    active_npc[npcdex].draw(w_terrain, center.x, center.y, false);
+    active_npc[npcdex]->draw(w_terrain, center.x, center.y, false);
    else if (m.sees(u.posx, u.posy, x, y, -1, junk))
     m.drawsq(w_terrain, u, x, y, false, true, center.x, center.y);
    else
@@ -863,7 +864,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
  std::string message;
  bool u_see_mon = g->u_see(&(mon));
  if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(4) &&
-     !weapon->curammo->m1 == LIQUID &&
+     weapon->curammo->phase != LIQUID &&
      weapon->curammo->accuracy >= 4) { // Buckshot hits anyway
   if (u_see_mon)
    g->add_msg("The shot passes through the %s without hitting.",
@@ -873,7 +874,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
 // Armor blocks BEFORE any critical effects.
   int zarm = mon.armor_cut();
   zarm -= weapon->curammo->pierce;
-  if (weapon->curammo->m1 == LIQUID)
+  if (weapon->curammo->phase == LIQUID)
    zarm = 0;
   else if (weapon->curammo->accuracy < 4) // Shot doesn't penetrate armor well
    zarm *= rng(2, 4);
@@ -976,7 +977,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
    if (&p == &(g->u)) {
     g->add_msg("You shoot %s's %s.", h->name.c_str(),
                body_part_name(hit, side).c_str());
-                g->active_npc[npcdex].make_angry();
+                g->active_npc[npcdex]->make_angry();
  } else if (g->u_see(h->posx, h->posy))
     g->add_msg("%s shoots %s's %s.",
                (g->u_see(p.posx, p.posy) ? p.name.c_str() : "Someone"),

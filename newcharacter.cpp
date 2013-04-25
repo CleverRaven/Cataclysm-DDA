@@ -5,7 +5,9 @@
 #include "keypress.h"
 #include "game.h"
 #include "options.h"
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #include <fstream>
 #include <sstream>
 
@@ -54,7 +56,7 @@ void save_template(player *u);
 bool player::create(game *g, character_type type, std::string tempname)
 {
  weapon = item(g->itypes["null"], 0);
- 
+
  g->u.prof = profession::generic();
 
  WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
@@ -179,8 +181,13 @@ bool player::create(game *g, character_type type, std::string tempname)
   hp_max[i] = calc_HP(str_max, has_trait(PF_TOUGH));
   hp_cur[i] = hp_max[i];
  }
- if (has_trait(PF_GLASSJAW)) {
-  hp_max[hp_head] = int(hp_max[hp_head] * .85);
+ if (has_trait(PF_HARDCORE)) {
+  for (int i = 0; i < num_hp_parts; i++) {
+   hp_max[i] = int(hp_max[i] * .25);
+   hp_cur[i] = hp_max[i];
+  }
+ } if (has_trait(PF_GLASSJAW)) {
+  hp_max[hp_head] = int(hp_max[hp_head] * .80);
   hp_cur[hp_head] = hp_max[hp_head];
  }
  if (has_trait(PF_SMELLY))
@@ -217,7 +224,7 @@ End of cheatery */
  if (has_trait(PF_MARTIAL_ARTS)) {
   itype_id ma_type;
   do {
-   int choice = menu("Pick your style:",
+   int choice = menu(false, "Pick your style:",
                      "Karate", "Judo", "Aikido", "Tai Chi", "Taekwondo", NULL);
    if (choice == 1)
     ma_type = "style_karate";
@@ -239,7 +246,7 @@ End of cheatery */
   weapon = item(g->itypes[ styles[0] ], 0, ':');
  else
   weapon   = item(g->itypes["null"], 0);
- 
+
  item tmp; //gets used several times
 
  std::vector<std::string> prof_items = g->u.prof->items();
@@ -247,20 +254,17 @@ End of cheatery */
   item tmp = item(g->itypes.at(*iter), 0, 'a' + worn.size());
   if (tmp.is_armor()) {
    if (tmp.has_flag(IF_VARSIZE))
-    tmp.item_flags |= mfb(IF_FIT);      
+    tmp.item_flags |= mfb(IF_FIT);
    worn.push_back(tmp);
   } else {
    inv.push_back(tmp);
   }
+ }
 
-  // if we start with drugs, need to start strongly addicted, too
-  if (tmp.is_food()) {
-   it_comest *comest = dynamic_cast<it_comest*>(tmp.type);
-   if (comest->add != ADD_NULL) {
-    addiction add(comest->add, 10);
-    g->u.addictions.push_back(add);
-   }
-  }
+ std::vector<addiction> prof_addictions = g->u.prof->addictions();
+ for (std::vector<addiction>::const_iterator iter = prof_addictions.begin(); iter != prof_addictions.end(); ++iter)
+ {
+     g->u.addictions.push_back(*iter);
  }
 
 // The near-sighted get to start with glasses.
@@ -960,7 +964,7 @@ To save this character as a template, press !.");
    mvwprintz(w, 6, 8, c_ltgray, "______________________________");
    noname = false;
   }
-  
+
   if (ch == '>') {
    if (points > 0 && !query_yn("Remaining points will be discarded, are you sure you want to proceed?")) {
     continue;

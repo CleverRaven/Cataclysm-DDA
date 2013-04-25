@@ -79,6 +79,7 @@ void dis_msg(game *g, dis_type type)
  case DI_STEMCELL_TREATMENT:
   g->add_msg("You receive a pureed bone & enamel injection into your eyeball.");
   g->add_msg("It is excruciating.");
+  break;
  case DI_BITE:
   g->add_msg("The bite wound feels really deep...");
   break;

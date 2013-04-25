@@ -413,40 +413,76 @@ void computer::activate_function(game *g, computer_action action)
   } break;
 
 
-  case COMPACT_MISS_LAUNCH: {
-// Target Acquisition.
-   point target = g->cur_om.choose_point(g, 0);
-   if (target.x == -1) {
-    print_line("Launch canceled.");
-    return;
-   }
-// Figure out where the glass wall is...
-   int wall_spot = 0;
-   for (int i = g->u.posx; i < g->u.posx + SEEX * 2 && wall_spot == 0; i++) {
-    if (g->m.ter(i, 10) == t_wall_glass_v)
-     wall_spot = i;
-   }
-// ...and put radioactive to the right of it
-   for (int i = wall_spot + 1; i < SEEX * 2 - 1; i++) {
-    for (int j = 1; j < SEEY * 2 - 1; j++) {
-     if (one_in(3))
-      g->m.add_field(NULL, i, j, fd_nuke_gas, 3);
-    }
-   }
-// For each level between here and the surface, remove the missile
-   for (int level = g->levz; level < 0; level++) {
-    tinymap tmpmap(&g->itypes, &g->mapitems, &g->traps);
-    tmpmap.load(g, g->levx, g->levy, level, false);
-    tmpmap.translate(t_missile, t_hole);
-    tmpmap.save(&g->cur_om, g->turn, g->levx, level, g->levz);
-   }
-   for (int x = target.x - 2; x <= target.x + 2; x++) {
-    for (int y = target.y -  2; y <= target.y + 2; y++)
-     g->nuke(x, y);
-   }
+  case COMPACT_MISS_LAUNCH:
+    {
+        // Target Acquisition.
+        point target = g->cur_om.draw_overmap(g, 0);
+        if (target.x == -1)
+        {
+            g->add_msg("Target Acquisition canceled");
+            return;
+        }
+        if(query_yn("Confirm nuclear missile launch."))
+        {
+            g->add_msg("Nuclear missile launched!");
+            options.clear();//Remove the option to fire another missle.
+        }
+        else
+        {
+            g->add_msg("Nuclear missile launched aborted.");
+            return;
+        }
+        g->refresh_all();
+
+        //Put some smoke gas and explosions at the nuke location.
+        for(int i= g->u.posx +8; i < g->u.posx +15; i++)
+        {
+            for(int j= g->u.posy +3; j < g->u.posy +12; j++)
+            {
+                if(one_in(4))
+                    g->explosion(i+rng(-1,1), j+rng(-1,1), rng(4,10), 0, true);
+                else
+                    g->m.add_field(NULL, i+rng(-2,2), j+rng(-2,2), fd_smoke, rng(1,9));
+            }
+        }
+
+        //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
+        // For each level between here and the surface, remove the missile
+        for (int level = g->levz; level <= 0; level++)
+        {
+            map tmpmap(&g->itypes, &g->mapitems, &g->traps);
+            tmpmap.load(g, g->levx, g->levy, level, false);
+
+            if(level < 0)
+                tmpmap.translate(t_missile, t_hole);
+            else if(level == 0)
+                tmpmap.translate(t_metal_floor, t_hole);
+            tmpmap.save(&g->cur_om, g->turn, g->levx, g->levy, level);
+        }
+
+
+        for(int x = target.x - 2; x <= target.x + 2; x++)
+        {
+            for(int y = target.y -  2; y <= target.y + 2; y++)
+                g->nuke(x, y);
+        }
+
+        activate_failure(g, COMPFAIL_SHUTDOWN);
   } break;
 
-  case COMPACT_MISS_DISARM: // TODO: This!
+
+  case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
+        if(query_yn("Disarm missile."))
+        {
+            g->add_msg("Nuclear missile disarmed!");
+            options.clear();//disable missile.
+            activate_failure(g, COMPFAIL_SHUTDOWN);
+        }
+        else
+        {
+            g->add_msg("Nuclear missile remains active.");
+            return;
+        }
    break;
 
   case COMPACT_LIST_BIONICS: {
@@ -589,9 +625,9 @@ of pureed bone & LSD.");
     }
     item software(g->itypes[miss->item_id], 0);
     software.mission_id = mission_id;
-    int index = g->u.pick_usb();
-    g->u.inv[index].contents.clear();
-    g->u.inv[index].put_in(software);
+    item* usb = g->u.pick_usb();
+    usb->contents.clear();
+    usb->put_in(software);
     print_line("Software downloaded.");
    }
    break;
@@ -622,9 +658,9 @@ of pureed bone & LSD.");
           print_error("USB drive required!");
          else {
           item software(g->itypes["software_blood_data"], 0);
-          int index = g->u.pick_usb();
-          g->u.inv[index].contents.clear();
-          g->u.inv[index].put_in(software);
+          item* usb = g->u.pick_usb();
+          usb->contents.clear();
+          usb->put_in(software);
           print_line("Software downloaded.");
          }
         }
@@ -640,17 +676,17 @@ of pureed bone & LSD.");
 
   case COMPACT_EMERG_MESS:
   print_line("\
-  GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
-  EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
-  SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
-  \n\
-  1. DO NOT PANIC. \n\
-  2. REMAIN INSIDE THE BUILDING. \n\
-  3. SEEK SHELTER IN THE BASEMENT. \n\
-  4. USE PROVIDED GAS MASKS. \n\
-  5. AWAIT FURTHER INSTRUCTIONS \n\
-  \n\
-  Press any key to continue...");
+GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
+EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
+SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
+\n\
+1. DO NOT PANIC. \n\
+2. REMAIN INSIDE THE BUILDING. \n\
+3. SEEK SHELTER IN THE BASEMENT. \n\
+4. USE PROVIDED GAS MASKS. \n\
+5. AWAIT FURTHER INSTRUCTIONS \n\
+\n\
+Press any key to continue...");
   break;
 
  } // switch (action)

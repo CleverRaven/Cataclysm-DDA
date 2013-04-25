@@ -60,7 +60,7 @@ void npc::talk_to_u(game *g)
  if (attitude == NPCATT_TALK)
   attitude = NPCATT_NULL;
  else if (attitude == NPCATT_FLEE) {
-  g->add_msg("%s is fleeing you!", name.c_str());
+  g->add_msg("%s is fleeing from you!", name.c_str());
   return;
  } else if (attitude == NPCATT_KILL) {
   g->add_msg("%s is hostile!", name.c_str());
@@ -184,7 +184,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
     if (p->chatbin.missions_assigned.empty())
      return "I just have one job for you.  Want to hear about it?";
     else
-     return "I have other one job for you.  Want to hear about it?";
+     return "I have another job for you.  Want to hear about it?";
   } else if (p->chatbin.missions_assigned.empty())
     return "I have several jobs for you.  Which should I describe?";
   else
@@ -542,7 +542,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
     SUCCESS(TALK_NONE);
     FAILURE(TALK_MISSION_FAILURE);
      FAILURE_OPINION(-3, 0, -1, 2, 0);
-  } else if (!g->mission_complete(id, p->id)) {
+  } else if (!g->mission_complete(id, p->getID())) {
    mission_type *type = g->find_mission_type(id);
    RESPONSE("Not yet.");
     SUCCESS(TALK_NONE);
@@ -1160,6 +1160,8 @@ int trial_chance(talk_response response, player *u, npc *p)
    chance += u->talk_skill() - p->talk_skill() + p->op_of_u.trust * 3;
    if (u->has_trait(PF_TRUTHTELLER))
     chance -= 40;
+   else if (u->has_trait(PF_LIAR))
+    chance += 40;
    break;
 
   case TALK_TRIAL_PERSUADE:
@@ -1253,7 +1255,7 @@ void talk_function::assign_mission(game *g, npc *p)
  }
  mission *miss = g->find_mission( p->chatbin.missions[selected] );
  g->assign_mission(p->chatbin.missions[selected]);
- miss->npc_id = p->id;
+ miss->npc_id = p->getID();
  g->u.active_mission = g->u.active_missions.size() - 1;
  p->chatbin.missions_assigned.push_back( p->chatbin.missions[selected] );
  p->chatbin.missions.erase(p->chatbin.missions.begin() + selected);
@@ -1300,7 +1302,7 @@ void talk_function::clear_mission(game *g, npc *p)
  p->chatbin.missions_assigned.erase( p->chatbin.missions_assigned.begin() +
                                      selected);
  if (miss->follow_up != MISSION_NULL)
-  p->chatbin.missions.push_back( g->reserve_mission(miss->follow_up, p->id) );
+  p->chatbin.missions.push_back( g->reserve_mission(miss->follow_up, p->getID()) );
 }
 
 void talk_function::mission_reward(game *g, npc *p)
@@ -1333,14 +1335,15 @@ void talk_function::assign_base(game *g, npc *p)
 
 void talk_function::give_equipment(game *g, npc *p)
 {
- std::vector<int> giving;
+ std::vector<item*> giving;
  std::vector<int> prices;
  p->init_selling(giving, prices);
  int chosen = -1;
  if (giving.empty()) {
-  for (int i = 0; i < p->inv.size(); i++) {
-   giving.push_back(i);
-   prices.push_back(p->inv[i].price());
+  invslice slice = p->inv.slice(0, p->inv.size());
+  for (int i = 0; i < slice.size(); i++) {
+   giving.push_back(&slice[i]->front());
+   prices.push_back(slice[i]->front().price());
   }
  }
  while (chosen == -1 && giving.size() > 1) {
@@ -1356,10 +1359,10 @@ void talk_function::give_equipment(game *g, npc *p)
  }
  if (chosen == -1)
   chosen = 0;
- int item_index = giving[chosen];
+ item* it = giving[chosen];
  popup("%s gives you a %s.", p->name.c_str(),
-       p->inv[item_index].tname().c_str());
- g->u.i_add( p->i_remn(item_index) );
+       it->tname().c_str());
+ g->u.i_add( p->i_remn(it->invlet) );
  p->op_of_u.owed -= prices[chosen];
  p->add_disease(DI_ASKED_FOR_ITEM, 1800, g);
 }
@@ -1752,10 +1755,13 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
 
 // Populate the list of what the NPC is willing to buy, and the prices they pay
 // Note that the NPC's barter skill is factored into these prices.
- std::vector<int> theirs, their_price, yours, your_price;
+ std::vector<item*> theirs, yours;
+ std::vector<int> their_price, your_price;
  p->init_selling(theirs, their_price);
  p->init_buying(g->u.inv, yours, your_price);
- bool getting_theirs[theirs.size()], getting_yours[yours.size()];
+ std::vector<bool> getting_theirs, getting_yours;
+ getting_theirs.resize(theirs.size());
+ getting_yours.resize(yours.size());
 
 // Adjust the prices based on your barter skill.
  for (int i = 0; i < their_price.size(); i++) {
@@ -1808,7 +1814,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     mvwprintz(w_them, i - them_off + 1, 1,
               (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s - $%d",
               char(i + 'a'), (getting_theirs[i] ? '+' : '-'),
-              p->inv[theirs[i + them_off]].tname().substr( 0,25).c_str(),
+              theirs[i + them_off]->tname().substr( 0,25).c_str(),
               their_price[i + them_off]);
    if (them_off > 0)
     mvwprintw(w_them, 19, 1, "< Back");
@@ -1819,7 +1825,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     mvwprintz(w_you, i - you_off + 1, 1,
               (getting_yours[i] ? c_white : c_ltgray), "%c %c %s - $%d",
               char(i + 'a'), (getting_yours[i] ? '+' : '-'),
-              g->u.inv[yours[i + you_off]].tname().substr( 0,25).c_str(),
+              yours[i + you_off]->tname().substr( 0,25).c_str(),
               your_price[i + you_off]);
    if (you_off > 0)
     mvwprintw(w_you, 19, 1, "< Back");
@@ -1875,10 +1881,10 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    wrefresh(w_head);
    if (focus_them) {
     if (help >= 0 && help < theirs.size())
-     popup(p->inv[theirs[help]].info().c_str());
+     popup(theirs[help]->info().c_str());
    } else {
     if (help >= 0 && help < yours.size())
-     popup(g->u.inv[theirs[help]].info().c_str());
+     popup(theirs[help]->info().c_str());
    }
    break;
   case '\n':	// Check if we have enough cash...
@@ -1922,9 +1928,9 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
   std::vector<char> removing;
   for (int i = 0; i < yours.size(); i++) {
    if (getting_yours[i]) {
-    newinv.push_back(g->u.inv[yours[i]]);
+    newinv.push_back(*yours[i]);
     practice++;
-    removing.push_back(g->u.inv[yours[i]].invlet);
+    removing.push_back(yours[i]->invlet);
    }
   }
 // Do it in two passes, so removing items doesn't corrupt yours[]
@@ -1932,7 +1938,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    g->u.i_rem(removing[i]);
 
   for (int i = 0; i < theirs.size(); i++) {
-   item tmp = p->inv[theirs[i]];
+   item tmp = *theirs[i];
    if (getting_theirs[i]) {
     practice += 2;
     tmp.invlet = 'a';

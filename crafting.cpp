@@ -2,13 +2,14 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "picojson.h"
+#include "catajson.h"
 #include "input.h"
 #include "game.h"
 #include "options.h"
 #include "output.h"
 #include "crafting.h"
 #include "inventory.h"
+#include "item_factory.h"
 
 //apparently we can't declare this in crafting.h? Complained about multiple definition.
 std::vector<craft_cat> craft_cat_list;
@@ -22,353 +23,103 @@ void game::init_recipes()
     int tl, cl;
     recipe* last_rec = NULL;
 
-    picojson::value recipeRaw;
-    std::ifstream recipeFile;
+    catajson recipeRaw("data/raw/recipes.json");
 
-    recipeFile.open("data/raw/recipes.json");
-
-    recipeFile >> recipeRaw;
-    
-    recipeFile.close();
-
-    // Soron says: picojson can't be the easiest solution >_>
-    // I would consider writing a wrapper, but... dunno if we want a wrapper,
-    // or a better alternative
-    if (recipeRaw.is<picojson::object>())
+    catajson craftCats = recipeRaw.get("categories");
+    for (craftCats.set_begin(); craftCats.has_curr(); craftCats.next())
     {
-        picojson::value craftCats = recipeRaw.get("categories");
-        if (craftCats.is<picojson::array>())
-        {
-            const picojson::array& craftCatList = craftCats.get<picojson::array>();
-            
-            for (picojson::array::const_iterator iter = craftCatList.begin(); iter != craftCatList.end(); ++iter)
-            {
-                if (iter->is<std::string>())
-                {
-                    craft_cat_list.push_back(iter->get<std::string>());
-                }
-                else
-                {
-                    debugmsg("Invalid craft category");
-                }
-            }
-        }
-        else
-        {
-            debugmsg("Bad recipe file: craft categories is not an array");
-            exit(1);
-        }
-        
-        picojson::value recipeJSON = recipeRaw.get("recipes");
-        if (recipeJSON.is<picojson::array>())
-        {
-            picojson::array& recipeList = recipeJSON.get<picojson::array>();
-            
-            std::vector<std::string> recipeNames;
-            
-            for (picojson::array::const_iterator iter = recipeList.begin(); iter != recipeList.end(); ++iter)
-            {
-                if (iter->is<picojson::object>())
-                {
-                    std::string result;
-                    std::string id_suffix = "";
-                    std::string category;
-                    const char *skill1 = NULL;
-                    const char *skill2 = NULL;
-                    int difficulty, time;
-                    bool reversible = false;
-                    bool autolearn;
-                    int learn_by_disassembly = -1;
-                    
-                    bool has_tools = false;
-                    
-                    //first we'll check the required stuff
-                    if (iter->contains("result"))
-                    {
-                        if (iter->get("result").is<std::string>())
-                        {
-                            result = iter->get("result").get<std::string>();
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: non-string result");
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no result");
-                        continue;
-                    }
-                    
-                    if (iter->contains("category"))
-                    {
-                        if (iter->get("category").is<std::string>())
-                        {
-                            category = iter->get("category").get<std::string>();
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: non-string category");
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no category");
-                        continue;
-                    }
-                    
-                    if (iter->contains("difficulty"))
-                    {
-                        if (iter->get("difficulty").is<double>())
-                        {
-                            difficulty = static_cast<int>(iter->get("difficulty").get<double>());
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: non-numeric difficulty");
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no difficulty");
-                        continue;
-                    }
-                    
-                    if (iter->contains("time"))
-                    {
-                        if (iter->get("time").is<double>())
-                        {
-                            time = static_cast<int>(iter->get("time").get<double>());
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: non-numeric time");
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no time");
-                        continue;
-                    }
-                    
-                    if (iter->contains("autolearn"))
-                    {
-                        autolearn = iter->get("autolearn").evaluate_as_boolean();
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no autolearn");
-                        continue;
-                    }
-                    
-                    if (iter->contains("components"))
-                    {
-                        if (!iter->get("components").is<picojson::array>())
-                        {
-                            debugmsg("Invalid recipe: components are not an array");
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        debugmsg("Invalid recipe: no components");
-                        continue;
-                    }
-                    
-                    //now we'll check the optional stuff
-                    if (iter->contains("skill_pri"))
-                    {
-                        if (iter->get("skill_pri").is<std::string>())
-                        {
-                            skill1 = iter->get("skill_pri").get<std::string>().c_str();
-                        }
-                        else
-                        {
-                            debugmsg("Bad recipe primary skill: non-string");
-                            continue;
-                        }
-                    }
-                    
-                    if (iter->contains("skill_sec"))
-                    {
-                        if (iter->get("skill_sec").is<std::string>())
-                        {
-                            skill2 = iter->get("skill_sec").get<std::string>().c_str();
-                        }
-                        else
-                        {
-                            debugmsg("Bad recipe secondary skill: non-string");
-                            continue;
-                        }
-                    }
-                    
-                    if (iter->contains("reversible"))
-                    {
-                        reversible = iter->get("reversible").evaluate_as_boolean();
-                    }
-                    
-                    if (iter->contains("tools"))
-                    {
-                        if (!iter->get("tools").is<picojson::array>())
-                        {
-                            debugmsg("Invalid recipe: tools are not an array");
-                            continue;
-                        }
-                        has_tools = true;
-                    }
-                    
-                    if (iter->contains("id_suffix"))
-                    {
-                        if(iter->get("id_suffix").is<std::string>())
-                        {
-                            id_suffix = "_" + iter->get("id_suffix").get<std::string>();
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: id_suffix is not a string");
-                            continue;
-                        }
-                    }
-                    
-                    if (iter->contains("decomp_learn"))
-                    {
-                        if (iter->get("decomp_learn").is<double>())
-                        {
-                            learn_by_disassembly = static_cast<int>(iter->get("decomp_learn").get<double>());
-                        }
-                        else
-                        {
-                            debugmsg("Invalid recipe: disassembly learning level is non-numeric");
-                            continue;
-                        }
-                    }
-                    
-                    tl = -1;
-                    cl = -1;
-                    ++id;
-                    
-                    std::string rec_name = result + id_suffix;
-                    
-                    last_rec = new recipe(rec_name, id, result, category, skill1, skill2,
-                                          difficulty, time, reversible, autolearn,
-                                          learn_by_disassembly);
-                    
-                    for (std::vector<std::string>::iterator name_iter = recipeNames.begin();
-                         name_iter != recipeNames.end();
-                         ++name_iter)
-                    {
-                        if ((*name_iter) == rec_name)
-                        {
-                            debugmsg("Recipe name collision: %s", rec_name.c_str());
-                        }
-                    }
-                    
-                    recipeNames.push_back(rec_name);
-                    
-                    for (picojson::array::const_iterator comp_iter = iter->get("components").get<picojson::array>().begin();
-                         comp_iter != iter->get("components").get<picojson::array>().end();
-                         ++comp_iter)
-                    {
-                        if (comp_iter->is<picojson::array>())
-                        {
-                            ++cl;
-                            for (picojson::array::const_iterator inner_iter = comp_iter->get<picojson::array>().begin();
-                                 inner_iter != comp_iter->get<picojson::array>().end();
-                                 ++inner_iter)
-                            {
-                                if (inner_iter->is<picojson::array>())
-                                {
-                                    if(inner_iter->get(0).is<std::string>() && inner_iter->get(1).is<double>())
-                                    {
-                                        std::string name = inner_iter->get(0).get<std::string>();
-                                        int quant = static_cast<int>(inner_iter->get(1).get<double>());
-                                        last_rec->components[cl].push_back(component(name, quant));
-                                    }
-                                    else
-                                    {
-                                        debugmsg("Invalid component for recipe: bad comp def");
-                                        --cl;
-                                        continue;
-                                    }
-                                }
-                                else
-                                {
-                                    debugmsg("Invalid component for recipe: not a pair");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            debugmsg("Invalid component for recipe: not an array");
-                            continue;
-                        }
-                    }
-                    
-                    if (has_tools)
-                    {
-                        for (picojson::array::const_iterator tool_iter = iter->get("tools").get<picojson::array>().begin();
-                             tool_iter != iter->get("tools").get<picojson::array>().end();
-                             ++tool_iter)
-                        {
-                            if (tool_iter->is<picojson::array>())
-                            {
-                                ++tl;
-                                for (picojson::array::const_iterator inner_iter = tool_iter->get<picojson::array>().begin();
-                                     inner_iter != tool_iter->get<picojson::array>().end();
-                                     ++inner_iter)
-                                {
-                                    if (inner_iter->is<picojson::array>())
-                                    {
-                                        if(inner_iter->get(0).is<std::string>() && inner_iter->get(1).is<double>())
-                                        {
-                                            std::string name = inner_iter->get(0).get<std::string>();
-                                            int quant = static_cast<int>(inner_iter->get(1).get<double>());
-                                            last_rec->tools[tl].push_back(component(name, quant));
-                                        }
-                                        else
-                                        {
-                                            debugmsg("Invalid tool for recipe: bad tool def");
-                                            --tl;
-                                            continue;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        debugmsg("Invalid tool for recipe: not a pair");
-                                        continue;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                debugmsg("Invalid tool for recipe: not an array");
-                                continue;
-                            }
-                        }
-                    }
-                    
-                    recipes[category].push_back(last_rec);
-                }
-                else
-                {
-                    debugmsg("Bad recipe: not an object");
-                }
-            }
-        }
-        else
-        {
-            debugmsg("Bad recipe file: recipes are not an array");
-            exit(1);
-        }
+        craft_cat_list.push_back(craftCats.curr().as_string());
     }
-    else
+
+    catajson recipeList = recipeRaw.get("recipes");
+    std::vector<std::string> recipeNames;
+    for (recipeList.set_begin(); recipeList.has_curr(); recipeList.next())
     {
-        debugmsg("Bad recipe file: unknown problem");
-        exit(1);
+        catajson curr = recipeList.curr();
+        // required fields
+        std::string result = curr.get("result").as_string();
+        std::string category = curr.get("category").as_string();
+        int difficulty = curr.get("difficulty").as_int();
+        int time = curr.get("time").as_int();
+        bool autolearn = curr.get("autolearn").as_bool();
+        // optional fields
+        bool reversible = curr.has("reversible") ? curr.get("reversible").as_bool() : false;
+        const char *skill1 = curr.has("skill_pri") ? curr.get("skill_pri").as_string().c_str() : NULL;
+        const char *skill2 = curr.has("skill_sec") ? curr.get("skill_sec").as_string().c_str() : NULL;
+        std::string id_suffix = curr.has("id_suffix") ? curr.get("id_suffix").as_string() : "";
+        int learn_by_disassembly = curr.has("decomp_learn") ? curr.get("decomp_learn").as_int() : -1;
+
+        tl = -1;
+        cl = -1;
+        ++id;
+
+        std::string rec_name = result + id_suffix;
+
+        last_rec = new recipe(rec_name, id, result, category, skill1, skill2,
+                              difficulty, time, reversible, autolearn,
+                              learn_by_disassembly);
+
+        for (std::vector<std::string>::iterator name_iter = recipeNames.begin();
+             name_iter != recipeNames.end();
+             ++name_iter)
+        {
+            if ((*name_iter) == rec_name)
+            {
+                debugmsg("Recipe name collision: %s", rec_name.c_str());
+            }
+        }
+
+        recipeNames.push_back(rec_name);
+
+        catajson compList = curr.get("components");
+        for (compList.set_begin(); compList.has_curr(); compList.next())
+        {
+            ++cl;
+            catajson comp = compList.curr();
+            // interchangable components
+            for (comp.set_begin(); comp.has_curr(); comp.next())
+            {
+                std::string name = comp.curr().get(0).as_string();
+                int quant = comp.curr().get(1).as_int();
+                last_rec->components[cl].push_back(component(name, quant));
+            }
+        }
+
+        if (curr.has("tools"))
+        {
+            catajson toolList = curr.get("tools");
+            for (toolList.set_begin(); toolList.has_curr(); toolList.next())
+            {
+                ++tl;
+                catajson tool = toolList.curr();
+                // interchangable tools
+                for (tool.set_begin(); tool.has_curr(); tool.next())
+                {
+                    std::string name = tool.curr().get(0).as_string();
+                    int quant = tool.curr().get(1).as_int();
+                    last_rec->tools[tl].push_back(component(name, quant));
+                }
+            }
+        }
+
+        if (curr.has("book_learn"))
+        {
+            catajson book_list = curr.get("book_learn");
+            for (book_list.set_begin(); book_list.has_curr(); book_list.next())
+            {
+                catajson book = book_list.curr();
+                std::string book_name = book.get(0).as_string();
+                int book_level = book.get(1).as_int();
+
+                if (item_controller->find_template(book_name)->is_book())
+                {
+                    it_book *book = dynamic_cast<it_book*>(item_controller->find_template(book_name));
+                    book->recipes[last_rec] = book_level;
+                }
+            }
+        }
+
+        recipes[category].push_back(last_rec);
     }
 }
 
@@ -405,9 +156,9 @@ bool game::making_would_work(recipe *making)
 
     if(can_make(making))
     {
-        if (itypes[(making->result)]->m1 == LIQUID)
+        if (item_controller->find_template((making->result))->phase == LIQUID)
         {
-            if (u.has_watertight_container() || u.has_matching_liquid(itypes[making->result]->id))
+            if (u.has_watertight_container() || u.has_matching_liquid(item_controller->find_template(making->result)->id))
             {
                 return true;
             }
@@ -473,7 +224,7 @@ bool game::can_make(recipe *r)
         {
             itype_id type = r->components[i][j].type;
             int req = r->components[i][j].count;
-            if (itypes[type]->count_by_charges() && req > 0)
+            if (item_controller->find_template(type)->count_by_charges() && req > 0)
             {
                 if (crafting_inv.has_charges(type, req))
                 {
@@ -615,12 +366,12 @@ recipe* game::select_crafting_recipe()
                     if (i == line)
                     {
                         mvwprintz(w_data, i - recmin, 2, (available[i] ? h_white : h_dkgray),
-                        itypes[current[i]->result]->name.c_str());
+                        item_controller->find_template(current[i]->result)->name.c_str());
                     }
                     else
                     {
                         mvwprintz(w_data, i - recmin, 2, (available[i] ? c_white : c_dkgray),
-                        itypes[current[i]->result]->name.c_str());
+                        item_controller->find_template(current[i]->result)->name.c_str());
                     }
                 }
             }
@@ -632,12 +383,12 @@ recipe* game::select_crafting_recipe()
                     if (i == line)
                     {
                         mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? h_white : h_dkgray),
-                        itypes[current[i]->result]->name.c_str());
+                        item_controller->find_template(current[i]->result)->name.c_str());
                     }
                     else
                     {
                         mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? c_white : c_dkgray),
-                        itypes[current[i]->result]->name.c_str());
+                        item_controller->find_template(current[i]->result)->name.c_str());
                     }
                 }
             }
@@ -649,12 +400,12 @@ recipe* game::select_crafting_recipe()
                     if (i == line)
                     {
                         mvwprintz(w_data, 9 + i - line, 2, (available[i] ? h_white : h_dkgray),
-                        itypes[current[i]->result]->name.c_str());
+                        item_controller->find_template(current[i]->result)->name.c_str());
                     }
                     else
                     {
                         mvwprintz(w_data, 9 + i - line, 2, (available[i] ? c_white : c_dkgray),
-                        itypes[current[i]->result]->name.c_str());
+                        item_controller->find_template(current[i]->result)->name.c_str());
                     }
                 }
             }
@@ -666,12 +417,12 @@ recipe* game::select_crafting_recipe()
                 if (i == line)
                 {
                     mvwprintz(w_data, i, 2, (available[i] ? h_white : h_dkgray),
-                    itypes[current[i]->result]->name.c_str());
+                    item_controller->find_template(current[i]->result)->name.c_str());
                 }
                 else
                 {
                     mvwprintz(w_data, i, 2, (available[i] ? c_white : c_dkgray),
-                    itypes[current[i]->result]->name.c_str());
+                    item_controller->find_template(current[i]->result)->name.c_str());
                 }
             }
         }
@@ -737,7 +488,7 @@ recipe* game::select_crafting_recipe()
                         }
 
                             std::stringstream toolinfo;
-                            toolinfo << itypes[type]->name + " ";
+                            toolinfo << item_controller->find_template(type)->name + " ";
                         if (charges > 0)
                         {
                             toolinfo << "(" << charges << " charges) ";
@@ -779,7 +530,7 @@ recipe* game::select_crafting_recipe()
                     int count = current[line]->components[i][j].count;
                     itype_id type = current[line]->components[i][j].type;
                     nc_color compcol = c_red;
-                    if (itypes[type]->count_by_charges() && count > 0)
+                    if (item_controller->find_template(type)->count_by_charges() && count > 0)
                     {
                         if (crafting_inv.has_charges(type, count))
                         {
@@ -791,7 +542,7 @@ recipe* game::select_crafting_recipe()
                         compcol = c_green;
                     }
                     std::stringstream dump;
-                    dump << abs(count) << "x " << itypes[type]->name << " ";
+                    dump << abs(count) << "x " << item_controller->find_template(type)->name << " ";
                     std::string compname = dump.str();
                     if (xpos + compname.length() >= 80)
                     {
@@ -855,9 +606,9 @@ recipe* game::select_crafting_recipe()
                 }
                 else
                 {// is player making a liquid? Then need to check for valid container
-                    if (itypes[current[line]->result]->m1 == LIQUID)
+                    if (item_controller->find_template(current[line]->result)->phase == LIQUID)
                     {
-                        if (u.has_watertight_container() || u.has_matching_liquid(itypes[current[line]->result]->id))
+                        if (u.has_watertight_container() || u.has_matching_liquid(item_controller->find_template(current[line]->result)->id))
                         {
                             chosen = current[line];
                             done = true;
@@ -876,7 +627,7 @@ recipe* game::select_crafting_recipe()
                 }
                 break;
             case Help:
-                tmp = item(itypes[current[line]->result], 0);
+                tmp = item(item_controller->find_template(current[line]->result), 0);
                 full_screen_popup(tmp.info(true).c_str());
                 redraw = true;
                 break;
@@ -944,7 +695,7 @@ inventory game::crafting_inventory(){
  crafting_inv += u.inv;
  crafting_inv += u.weapon;
  if (u.has_bionic("bio_tools")) {
-  item tools(itypes["toolset"], turn);
+  item tools(item_controller->find_template("toolset"), turn);
   tools.charges = u.power_level;
   crafting_inv += tools;
  }
@@ -956,7 +707,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
 {
     current.clear();
     available.clear();
-    
+
     if (filter == "")
     {
         add_known_recipes(current, recipes[tab]);
@@ -968,7 +719,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
             add_known_recipes(current, iter->second, filter);
         }
     }
-    
+
     for (int i = 0; i < current.size() && i < 51; i++)
     {
         //Check if we have the requisite tools and components
@@ -991,7 +742,7 @@ void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, 
         {
             if ((*iter)->difficulty >= 0 )
             {
-                if (filter == "" || itypes[(*iter)->result]->name.find(filter) != std::string::npos)
+                if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
                 {
                     current.push_back(*iter);
                 }
@@ -1067,7 +818,7 @@ void game::complete_craft()
 // Messed up badly; waste some components.
  if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
   add_msg("You fail to make the %s, and waste some materials.",
-          itypes[making->result]->name.c_str());
+          item_controller->find_template(making->result)->name.c_str());
   for (int i = 0; i < 5; i++) {
    if (making->components[i].size() > 0) {
     std::vector<component> copy = making->components[i];
@@ -1083,7 +834,7 @@ void game::complete_craft()
   // Messed up slightly; no components wasted.
  } else if (diff_roll > skill_roll) {
   add_msg("You fail to make the %s, but don't waste any materials.",
-          itypes[making->result]->name.c_str());
+          item_controller->find_template(making->result)->name.c_str());
   //this method would only have been called from a place that nulls u.activity.type,
   //so it appears that it's safe to NOT null that variable here.
   //rationale: this allows certain contexts (e.g. ACT_LONGCRAFT) to distinguish major and minor failures
@@ -1100,7 +851,7 @@ void game::complete_craft()
 
   // Set up the new item, and pick an inventory letter
  int iter = 0;
- item newit(itypes[making->result], turn, nextinv);
+ item newit(item_controller->find_template(making->result), turn, nextinv);
 
     if (newit.is_armor() && newit.has_flag(IF_VARSIZE))
     {
@@ -1164,7 +915,7 @@ void game::consume_items(std::vector<component> components)
   bool pl = false, mp = false;
 
 
-  if (itypes[type]->count_by_charges() && count > 0)
+  if (item_controller->find_template(type)->count_by_charges() && count > 0)
   {
    if (u.has_charges(type, count)) {
     player_has.push_back(components[i]);
@@ -1206,13 +957,13 @@ void game::consume_items(std::vector<component> components)
   std::vector<std::string> options; // List for the menu_vec below
 // Populate options with the names of the items
   for (int i = 0; i < map_has.size(); i++) {
-   std::string tmpStr = itypes[map_has[i].type]->name + " (nearby)";
+   std::string tmpStr = item_controller->find_template(map_has[i].type)->name + " (nearby)";
    options.push_back(tmpStr);
   }
   for (int i = 0; i < player_has.size(); i++)
-   options.push_back(itypes[player_has[i].type]->name);
+   options.push_back(item_controller->find_template(player_has[i].type)->name);
   for (int i = 0; i < mixed.size(); i++) {
-   std::string tmpStr = itypes[mixed[i].type]->name +" (on person & nearby)";
+   std::string tmpStr = item_controller->find_template(mixed[i].type)->name +" (on person & nearby)";
    options.push_back(tmpStr);
   }
 
@@ -1220,7 +971,7 @@ void game::consume_items(std::vector<component> components)
    return;                 // and the fire goes out.
 
 // Get the selection via a menu popup
-  int selection = menu_vec("Use which component?", options) - 1;
+  int selection = menu_vec(false, "Use which component?", options) - 1;
   if (selection < map_has.size())
    map_use.push_back(map_has[selection]);
   else if (selection < map_has.size() + player_has.size()) {
@@ -1233,7 +984,7 @@ void game::consume_items(std::vector<component> components)
  }
 
  for (int i = 0; i < player_use.size(); i++) {
-  if (itypes[player_use[i].type]->count_by_charges() &&
+  if (item_controller->find_template(player_use[i].type)->count_by_charges() &&
       player_use[i].count > 0)
    u.use_charges(player_use[i].type, player_use[i].count);
   else
@@ -1241,7 +992,7 @@ void game::consume_items(std::vector<component> components)
                    (player_use[i].count < 0));
  }
  for (int i = 0; i < map_use.size(); i++) {
-  if (itypes[map_use[i].type]->count_by_charges() &&
+  if (item_controller->find_template(map_use[i].type)->count_by_charges() &&
       map_use[i].count > 0)
    m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
                     map_use[i].type, map_use[i].count);
@@ -1251,7 +1002,7 @@ void game::consume_items(std::vector<component> components)
                    (map_use[i].count < 0));
  }
  for (int i = 0; i < mixed_use.size(); i++) {
-  if (itypes[mixed_use[i].type]->count_by_charges() &&
+  if (item_controller->find_template(mixed_use[i].type)->count_by_charges() &&
       mixed_use[i].count > 0) {
    int from_map = mixed_use[i].count - u.charges_of(mixed_use[i].type);
    u.use_charges(mixed_use[i].type, u.charges_of(mixed_use[i].type));
@@ -1299,17 +1050,17 @@ void game::consume_tools(std::vector<component> tools)
 // Populate the list
   std::vector<std::string> options;
   for (int i = 0; i < map_has.size(); i++) {
-   std::string tmpStr = itypes[map_has[i].type]->name + " (nearby)";
+   std::string tmpStr = item_controller->find_template(map_has[i].type)->name + " (nearby)";
    options.push_back(tmpStr);
   }
   for (int i = 0; i < player_has.size(); i++)
-   options.push_back(itypes[player_has[i].type]->name);
+   options.push_back(item_controller->find_template(player_has[i].type)->name);
 
   if (options.size() == 0) // This SHOULD only happen if cooking with a fire,
    return;                 // and the fire goes out.
 
 // Get selection via a popup menu
-  int selection = menu_vec("Use which tool?", options) - 1;
+  int selection = menu_vec(false, "Use which tool?", options) - 1;
   if (selection < map_has.size())
    m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
                     map_has[selection].type, map_has[selection].count);
@@ -1339,10 +1090,6 @@ void game::disassemble(char ch)
 
     item* dis_item = &u.i_at(ch);
 
-    if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
-    {
-        return;
-    }
 
     for (recipe_map::iterator cat_iter = recipes.begin(); cat_iter != recipes.end(); ++cat_iter)
     {
@@ -1351,7 +1098,7 @@ void game::disassemble(char ch)
              ++list_iter)
         {
             recipe* cur_recipe = *list_iter;
-            if (dis_item->type == itypes[cur_recipe->result] && cur_recipe->reversible)
+            if (dis_item->type == item_controller->find_template(cur_recipe->result) && cur_recipe->reversible)
             // ok, a valid recipe exists for the item, and it is reversible
             // assign the activity
             {
@@ -1406,12 +1153,12 @@ void game::disassemble(char ch)
                                 if (req <= 0)
                                 {
                                     add_msg("You need a %s to disassemble this.",
-                                    itypes[cur_recipe->tools[j][0].type]->name.c_str());
+                                    item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str());
                                 }
                                 else
                                 {
                                     add_msg("You need a %s with %d charges to disassemble this.",
-                                    itypes[cur_recipe->tools[j][0].type]->name.c_str(), req);
+                                    item_controller->find_template(cur_recipe->tools[j][0].type)->name.c_str(), req);
                                 }
                             }
                         }
@@ -1421,6 +1168,11 @@ void game::disassemble(char ch)
                 if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
                     have_tool[4])
                 {
+                 
+                  if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
+                  {
+                   return;
+                  }
                     u.assign_activity(this, ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
                     u.moves = 0;
                     std::vector<int> dis_items;
@@ -1456,7 +1208,7 @@ void game::complete_disassemble()
     if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != AT_NULL)
     {
       item ammodrop;
-      ammodrop = item(itypes[default_ammo(dis_item->ammo_type())], turn);
+      ammodrop = item(item_controller->find_template(default_ammo(dis_item->ammo_type())), turn);
       ammodrop.charges = dis_item->charges;
       if (ammodrop.made_of(LIQUID))
         handle_liquid(ammodrop, false, false);
@@ -1502,7 +1254,7 @@ void game::complete_disassemble()
       bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
       do
       {
-        item newit(itypes[dis->components[j][0].type], turn);
+        item newit(item_controller->find_template(dis->components[j][0].type), turn);
         // skip item addition if component is a consumable like superglue
         if (dis->components[j][0].type == "superglue" || dis->components[j][0].type == "duct_tape")
           compcount--;
@@ -1511,7 +1263,7 @@ void game::complete_disassemble()
           if (newit.count_by_charges())
           {
             if (dis->difficulty == 0 || comp_success)
-              m.spawn_item(u.posx, u.posy, itypes[dis->components[j][0].type], 0, 0, compcount);
+              m.spawn_item(u.posx, u.posy, item_controller->find_template(dis->components[j][0].type), 0, 0, compcount);
             else
               add_msg("You fail to recover a component.");
             compcount = 0;
@@ -1527,7 +1279,7 @@ void game::complete_disassemble()
       } while (compcount > 0);
     }
   }
-  
+
   if (dis->learn_by_disassembly >= 0 && !u.knows_recipe(dis))
   {
     if (dis->sk_primary == NULL || dis->learn_by_disassembly <= u.skillLevel(dis->sk_primary))

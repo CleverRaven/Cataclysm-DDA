@@ -5,6 +5,7 @@
 //  Livingstone
 //
 
+#include "item_factory.h"
 #include "iuse.h"
 #include "game.h"
 #include "mapdata.h"
@@ -278,7 +279,7 @@ void iexamine::pit_spiked_covered(game *g, player *p, map *m, int examx, int exa
 
 void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
 
- int ch = menu("Fence Construction:", "Rope Fence", "Wire Fence",
+ int ch = menu(true, "Fence Construction:", "Rope Fence", "Wire Fence",
                "Barbed Wire Fence", "Cancel", NULL);
  switch (ch){
   case 1:{
@@ -382,7 +383,9 @@ void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) 
  if (camp && camp->board_x() == examx && camp->board_y() == examy) {
   std::vector<std::string> options;
   options.push_back("Cancel");
-  int choice = menu_vec(camp->board_name().c_str(), options) - 1;
+  // Causes a warning due to being unused, but don't want to delete since
+  // it's clearly what's intened for future functionality.
+  //int choice = menu_vec(true, camp->board_name().c_str(), options) - 1;
  }
  else {
   bool create_camp = m->allow_camp(examx, examy);
@@ -391,7 +394,7 @@ void iexamine::bulletin_board(game *g, player *p, map *m, int examx, int examy) 
    options.push_back("Create camp");
   options.push_back("Cancel");
  		// TODO: Other Bulletin Boards
-  int choice = menu_vec("Bulletin Board", options) - 1;
+  int choice = menu_vec(true, "Bulletin Board", options) - 1;
   if (choice >= 0 && choice < options.size()) {
    if (options[choice] == "Create camp") {
   			// TODO: Allow text entry for name
@@ -558,38 +561,117 @@ void iexamine::shrub_wildveggies(game *g, player *p, map *m, int examx, int exam
 }
 
 void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Use the %s?",m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
-  return;
- }
+    int ch = menu(true,
+    "Recycle metal into?:", "Lumps", "Sheets", "Chunks", "Scraps", "Cancel", NULL);
 
- if (m->i_at(examx, examy).size() > 0)
- {
-  g->sound(examx, examy, 80, "Ka-klunk!");
-  int num_metal = 0;
-  for (int i = 0; i < m->i_at(examx, examy).size(); i++)
-  {
-   item *it = &(m->i_at(examx, examy)[i]);
-   if (it->made_of(STEEL))
-    num_metal++;
-   m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
-   i--;
-  }
-  if (num_metal > 0)
-  {
-   while (num_metal > 9)
-   {
-    m->spawn_item(p->posx, p->posy, g->itypes["steel_lump"], 0);
-    num_metal -= 10;
-   }
-   do
-   {
-    m->spawn_item(p->posx, p->posy, g->itypes["steel_chunk"], 0);
-    num_metal -= 3;
-   } while (num_metal > 2);
-  }
- }
- else g->add_msg("The recycler is empty.");
+    // check for how much steel, by weight, is in the recycler
+    // only items made of STEEL are checked
+    // IRON and other metals cannot be turned into STEEL for now
+
+    int steel_weight = 0;
+    int num_lumps = 0;
+    int num_sheets = 0;
+    int num_chunks = 0;
+    int num_scraps = 0;
+
+    if (m->i_at(examx, examy).size() == 0)
+    {
+        g->add_msg("The recycler is currently empty.  Drop some metal items onto it and examine it again.");
+        return;
+    }
+
+    if (ch == 5)
+    {
+        g->add_msg("Never mind.");
+        return;
+    }
+
+    for (int i = 0; i < m->i_at(examx, examy).size(); i++)
+    {
+        item *it = &(m->i_at(examx, examy)[i]);
+        if (it->made_of(STEEL))
+            steel_weight += it->weight();
+        m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+        i--;
+    }
+
+    double recover_factor = rng(6, 9) / 10.0;
+    steel_weight = (int)(steel_weight * recover_factor);
+
+    if (steel_weight == 0)
+    {
+        g->add_msg("The recycler chews up all the items in its hopper.");
+        g->add_msg("The recycler beeps: \"No steel to process!\"");
+        return;
+    }
+
+    g->sound(examx, examy, 80, "Ka-klunk!");
+
+    switch(ch)
+    {
+        case 1: // 1 steel lump = weight 80
+            num_lumps = steel_weight / (item_controller->find_template("steel_lump")->weight);
+            steel_weight -= num_lumps * (item_controller->find_template("steel_lump")->weight);
+            num_sheets = steel_weight / (item_controller->find_template("sheet_metal")->weight);
+            steel_weight -= num_sheets * (item_controller->find_template("sheet_metal")->weight);
+            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
+            steel_weight -= num_chunks * (item_controller->find_template("steel_chunk")->weight);
+            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            if (num_lumps == 0)
+            {
+                g->add_msg("The recycler beeps: \"Insufficient steel!\"");
+                g->add_msg("It spits out an assortment of smaller pieces instead.");
+            }
+            break;
+
+        case 2: // 1 metal sheet = weight 20
+            num_sheets = steel_weight / (item_controller->find_template("sheet_metal")->weight);
+            steel_weight -= num_sheets * (item_controller->find_template("sheet_metal")->weight);
+            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
+            steel_weight -= num_chunks * (item_controller->find_template("sheet_chunk")->weight);
+            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            if (num_sheets == 0)
+            {
+                g->add_msg("The recycler beeps: \"Insufficient steel!\"");
+                g->add_msg("It spits out an assortment of smaller pieces instead.");
+            }
+            break;
+
+        case 3: // 1 steel chunk = weight 6
+            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
+            steel_weight -= num_chunks * (item_controller->find_template("steel_chunk")->weight);
+            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            if (num_chunks == 0)
+            {
+                g->add_msg("The recycler beeps: \"Insufficient steel!\"");
+                g->add_msg("It spits out an assortment of smaller pieces instead.");
+            }
+            break;
+
+        case 4: // 1 metal scrap = weight 1
+            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            break;
+    }
+
+    for (int i = 0; i < num_lumps; i++)
+    {
+        m->spawn_item(p->posx, p->posy, item_controller->find_template("steel_lump"), 0);
+    }
+
+    for (int i = 0; i < num_sheets; i++)
+    {
+        m->spawn_item(p->posx, p->posy, item_controller->find_template("sheet_metal"), 0);
+    }
+
+    for (int i = 0; i < num_chunks; i++)
+    {
+        m->spawn_item(p->posx, p->posy, item_controller->find_template("steel_chunk"), 0);
+    }
+
+    for (int i = 0; i < num_scraps; i++)
+    {
+        m->spawn_item(p->posx, p->posy, item_controller->find_template("scrap"), 0);
+    }
 }
 
 void iexamine::trap(game *g, player *p, map *m, int examx, int examy) {
@@ -599,4 +681,22 @@ void iexamine::trap(game *g, player *p, map *m, int examx, int examy) {
               g->traps[m->tr_at(examx, examy)]->name.c_str())) {
       m->disarm_trap(g, examx, examy);
   }
+}
+
+void iexamine::water_source(game *g, player *p, map *m, const int examx, const int examy)
+{
+    item water = m->water_from(examx, examy);
+    // Try to handle first (bottling) drink after.
+    // changed boolean, large sources should be infinite
+    if (g->handle_liquid(water, true, true))
+    {
+        p->moves -= 100;
+    }
+    else if (query_yn("Drink from your hands?"))
+    {
+        p->inv.push_back(water);
+        water = p->inv.item_by_type(water.typeId());
+        p->eat(g, water.invlet);
+        p->moves -= 350;
+    }
 }

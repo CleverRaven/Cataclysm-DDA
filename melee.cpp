@@ -186,6 +186,8 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 // Mutation-based attacks
  perform_special_attacks(g, z, NULL, bash_dam, cut_dam, stab_dam);
 
+    verb = melee_verb(technique, your, *this, bash_dam, cut_dam, stab_dam);
+
 // Handles speed penalties to monster & us, etc
  melee_special_effects(g, z, NULL, critical_hit, bash_dam, cut_dam, stab_dam);
 
@@ -193,15 +195,13 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  if (weapon.typeId() != "style_ninjutsu") // Ninjutsu is silent!
   g->sound(posx, posy, 8, "");
 
- verb = melee_verb(technique, your, *this, bash_dam, cut_dam, stab_dam);
-
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
  hit_message(g, You.c_str(), verb.c_str(), target.c_str(), dam, critical_hit);
 
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
- bool cutting = (cut_dam >= 10 && cut_dam >= stab_dam);
- bool stabbing = (stab_dam >= 10 && stab_dam >= cut_dam);
+ bool cutting = (cut_dam >= 10);
+ bool stabbing = (stab_dam >= 5);
  melee_practice(g->turn, *this, true, unarmed_attack(), bashing, cutting, stabbing);
 
  if (allow_grab && technique == TEC_GRAB) {
@@ -303,7 +303,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  if (weapon.is_style())
   stuck_penalty = 0;
  moves -= stuck_penalty;
- 
+
 // Pick one or more special attacks
  technique_id technique = pick_technique(g, NULL, &p, critical_hit, allow_grab);
 
@@ -745,7 +745,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
      }
      int npcdex = g->npc_at(x, y);
      if (npcdex != -1) {
-      if (g->active_npc[npcdex].attitude == NPCATT_KILL)
+      if (g->active_npc[npcdex]->attitude == NPCATT_KILL)
        enemy_count++;
       else
        enemy_count -= 2;
@@ -848,14 +848,14 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
      }
      int npcdex = g->npc_at(x, y);
      if (npcdex != -1 &&
-         hit_roll() >= rng(0, 5) + g->active_npc[npcdex].dodge_roll(g)) {
+         hit_roll() >= rng(0, 5) + g->active_npc[npcdex]->dodge_roll(g)) {
       count_hit++;
       int dam = roll_bash_damage(NULL, false);
       int cut = roll_cut_damage (NULL, false);
-      g->active_npc[npcdex].hit(g, bp_legs, 3, dam, cut);
+      g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
       if (u_see)
        g->add_msg("%s hit%s %s for %d damage!", You.c_str(), s.c_str(),
-                  g->active_npc[npcdex].name.c_str(), dam + cut);
+                  g->active_npc[npcdex]->name.c_str(), dam + cut);
      }
     }
    }
@@ -1479,33 +1479,38 @@ std::string melee_verb(technique_id tech, std::string your, player &p,
    ret << "use" << s << " " << your << " " << p.weapon.tname() << " to toss";
    break;
 
-  default: // No tech, so check our damage levels
-   if (bash_dam >= cut_dam && bash_dam >= stab_dam) {
-    if (bash_dam >= 30)
-     return "clobber" + s;
-    if (bash_dam >= 20)
-     return "batter" + s;
-    if (bash_dam >= 10)
-     return "whack" + s;
-    return "hit" + s;
-   }
-   if (cut_dam >= stab_dam) {
-    if (cut_dam >= 30)
-     return "hack" + s;
-    if (cut_dam >= 20)
-     return "slice" + s;
-    if (cut_dam >= 10)
-     return "cut" + s;
-    return "nick" + s;
-   }
-// Only stab damage is left
-   if (stab_dam >= 30)
-    return "impale" + s;
-   if (stab_dam >= 20)
-    return "pierce" + s;
-   if (stab_dam >= 10)
-    return "stab" + s;
-   return "poke" + s;
+    default: // No tech, so check our damage levels
+        // verb should be based on how the weapon is used, and the total damage inflicted
+
+        // if it's a stabbing weapon or a spear
+        if (p.weapon.has_flag(IF_SPEAR) || (p.weapon.has_flag(IF_STAB) && stab_dam > cut_dam))
+        {
+            if (bash_dam + stab_dam + cut_dam >= 30)
+                return "impale" + s;
+            if (bash_dam + stab_dam + cut_dam >= 20)
+                return "pierce" + s;
+            if (bash_dam + stab_dam + cut_dam >= 10)
+                return "stab" + s;
+            return "poke" + s;
+        } else if (p.weapon.is_cutting_weapon())    // if it's a cutting weapon
+        {
+            if (bash_dam + stab_dam + cut_dam >= 30)
+                return "hack" + s;
+            if (bash_dam + stab_dam + cut_dam >= 20)
+                return "slice" + s;
+            if (bash_dam + stab_dam + cut_dam >= 10)
+                return "cut" + s;
+            return "nick" + s;
+        } else                                      // it must be a bashing weapon
+        {
+            if (bash_dam + stab_dam + cut_dam >= 30)
+                return "clobber" + s;
+            if (bash_dam + stab_dam + cut_dam >= 20)
+                return "batter" + s;
+            if (bash_dam + stab_dam + cut_dam >= 10)
+                return "whack" + s;
+            return "hit" + s;
+        }
  } // switch (tech)
 
  return ret.str();
@@ -1525,27 +1530,60 @@ void hit_message(game *g, std::string subject, std::string verb,
 void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
                     bool bashing, bool cutting, bool stabbing)
 {
- if (!hit) {
-   u.practice(turn, "melee", rng(2, 5));
-  if (unarmed)
-    u.practice(turn, "unarmed", 2);
-  if (bashing)
-    u.practice(turn, "bashing", 2);
-  if (cutting)
-    u.practice(turn, "cutting", 2);
-  if (stabbing)
-    u.practice(turn, "stabbing", 2);
- } else {
-   u.practice(turn, "melee", rng(5, 10));
-  if (unarmed)
-    u.practice(turn, "unarmed", rng(5, 10));
-  if (bashing)
-    u.practice(turn, "bashing", rng(5, 10));
-  if (cutting)
-    u.practice(turn, "cutting", rng(5, 10));
-  if (stabbing)
-    u.practice(turn, "stabbing", rng(5, 10));
- }
+    int min = 2;
+    int max = 2;
+    std::string first = "";
+    std::string second = "";
+    std::string third = "";
+
+    if (hit)
+    {
+        min = 5;
+        max = 10;
+        u.practice(turn, "melee", rng(5, 10));
+    } else {
+        u.practice(turn, "melee", rng(2, 5));
+    }
+
+    // type of weapon used determines order of practice
+    if (u.weapon.has_flag(IF_SPEAR))
+    {
+        if (stabbing) first  = "stabbing";
+        if (bashing)  second = "bashing";
+        if (cutting)  third  = "cutting";
+    }
+    else if (u.weapon.has_flag(IF_STAB))
+    {
+        // stabbity weapons have a 50-50 chance of raising either stabbing or cutting first
+        if (one_in(2))
+        {
+            if (stabbing) first  = "stabbing";
+            if (cutting)  second = "cutting";
+            if (bashing)  third  = "bashing";
+        } else
+        {
+            if (cutting)  first  = "cutting";
+            if (stabbing) second = "stabbing";
+            if (bashing)  third  = "bashing";
+        }
+    }
+    else if (u.weapon.is_cutting_weapon()) // cutting weapon
+    {
+        if (cutting)  first  = "cutting";
+        if (bashing)  second = "bashing";
+        if (stabbing) third  = "stabbing";
+    }
+    else // bashing weapon
+    {
+        if (bashing)  first  = "bashing";
+        if (cutting)  second = "cutting";
+        if (stabbing) third  = "stabbing";
+    }
+
+    if (unarmed) u.practice(turn, "unarmed", rng(min, max));
+    if (!first.empty())  u.practice(turn, first, rng(min, max));
+    if (!second.empty()) u.practice(turn, second, rng(min, max));
+    if (!third.empty())  u.practice(turn, third, rng(min, max));
 }
 
 int attack_speed(player &u, bool missed)
