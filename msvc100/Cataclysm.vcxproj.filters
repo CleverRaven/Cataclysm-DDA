@@ -270,6 +270,9 @@
     <ClCompile Include="..\weather.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\weather_data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\wish.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
