@@ -62,7 +62,7 @@ inventory inventory::subset(std::map<char, int> chosen) const
     {
         // don't need to worry about auto-creation of entries, as long as default == 0
         int count = chosen[iter->front().invlet];
-        if (count > 0)
+        if (count != 0)
         {
             if (iter->front().count_by_charges())
             {
