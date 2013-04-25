@@ -759,9 +759,9 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    std::stringstream skilltext;
    skill trained = trainable[i];
 
-   skilltext << skill_name(trained) << ": " << g->u.sklevel[trained] <<
-                " -> " << g->u.sklevel[trained] + 1 << "(cost " <<
-                200 * (g->u.sklevel[trained] + 1) << ")";
+   skilltext << skill_name(trained) << ": " << static_cast<int>(g->u.skillLevel(trained)) <<
+                " -> " << g->u.skillLevel(trained) + 1 << " (cost " <<
+                200 * (g->u.skillLevel(trained) + 1) << ")";
    SELECT_TEMP( skilltext.str(), trainable[i] );
     SUCCESS(TALK_TRAIN_START);
   }
@@ -1765,12 +1765,12 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
 
 // Adjust the prices based on your barter skill.
  for (int i = 0; i < their_price.size(); i++) {
-  their_price[i] *= (price_adjustment(g->u.sklevel[sk_barter]) +
+  their_price[i] *= (price_adjustment(g->u.skillLevel(sk_barter)) +
                      (p->int_cur - g->u.int_cur) / 15);
   getting_theirs[i] = false;
  }
  for (int i = 0; i < your_price.size(); i++) {
-  your_price[i] /= (price_adjustment(g->u.sklevel[sk_barter]) +
+  your_price[i] /= (price_adjustment(g->u.skillLevel(sk_barter)) +
                     (p->int_cur - g->u.int_cur) / 15);
   getting_yours[i] = false;
  }
