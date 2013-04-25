@@ -55,6 +55,41 @@ invslice inventory::slice(const std::list<item>* start, int length)
     return stacks;
 }
 
+inventory inventory::subset(std::map<char, int> chosen) const
+{
+    inventory ret;
+    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        // don't need to worry about auto-creation of entries, as long as default == 0
+        int count = chosen[iter->front().invlet];
+        if (count > 0)
+        {
+            if (iter->front().count_by_charges())
+            {
+                item tmp = iter->front();
+                if (count <= tmp.charges)
+                {
+                    tmp.charges = count;
+                }
+                ret.add_item(tmp);
+            }
+            else
+            {
+                for (std::list<item>::const_iterator stack_iter = iter->begin(); stack_iter != iter->end(); ++stack_iter)
+                {
+                    ret.add_item(*stack_iter);
+                    --count;
+                    if (count <= 0)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return ret;
+}
+
 std::list<item>& inventory::stack_by_letter(char ch)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)

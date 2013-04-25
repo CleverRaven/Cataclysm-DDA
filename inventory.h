@@ -19,6 +19,9 @@ class inventory
  public:
   invslice slice(int start, int length);
   invslice slice(const std::list<item>* stack, int length);
+  // returns an inventory instance containing only the chosen items
+  // chosen is an invlet-count mapping
+  inventory subset(std::map<char, int> chosen) const;
   std::list<item>& stack_by_letter(char ch);
   std::list<item> const_stack(int i) const;
   int size() const;
