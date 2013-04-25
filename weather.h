@@ -16,11 +16,13 @@ maximum heat cannot pass 15000u, otherwise the player will vomit to death.
 */
 
 // How far into the future we should generate weather, in hours.
-#define MAX_FUTURE_WEATHER 24
+// 168 hours in a week.
+#define MAX_FUTURE_WEATHER 168
 
 #include "color.h"
 #include <string>
 #include "calendar.h"
+#include "overmap.h"
 
 class game;
 
@@ -64,7 +66,6 @@ struct weather_segment
     calendar deadline;
 };
 
-
 struct weather_datum
 {
  std::string name;
@@ -81,5 +82,7 @@ struct weather_datum
 extern std::string season_name[4];
 extern weather_datum weather_data[];
 extern int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES];
+
+std::string weather_forecast(game *g, radio_tower tower);
 
 #endif // _WEATHER_H_
