@@ -228,6 +228,10 @@ option_key lookup_option_key(std::string id)
   return OPT_STATIC_SPAWN;
  if (id == "classic_zombies")
   return OPT_CLASSIC_ZOMBIES;
+ if (id == "static_npc")
+  return OPT_STATIC_NPC;
+ if (id == "random_npc")
+  return OPT_RANDOM_NPC;
  return OPT_NULL;
 }
 
@@ -257,6 +261,8 @@ std::string option_string(option_key key)
   case OPT_VIEWPORT_Y: return "viewport_y";
   case OPT_STATIC_SPAWN: return "static_spawn";
   case OPT_CLASSIC_ZOMBIES: return "classic_zombies";
+  case OPT_STATIC_NPC: return "static_npc";
+  case OPT_RANDOM_NPC: return "random_npc";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -281,13 +287,15 @@ std::string option_desc(option_key key)
   case OPT_QUERY_DISASSEMBLE: return "If true, will query before disassembling\nitems";
   case OPT_DROP_EMPTY: return "Set to drop empty containers after use\n0 - don't drop any\n1 - all except watertight containers\n2 - all containers";
   case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
-  case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no\n1 - yes\n2 - query";
+  case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no (default)\n1 - yes\n2 - query";
   case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.  Default is 6";
   case OPT_INITIAL_TIME: return "Initial starting time of day on character\ngeneration.  Default is 8:00";
   case OPT_VIEWPORT_X: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
   case OPT_VIEWPORT_Y: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
-  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is F";
-  case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Probably requires a reset of\nsave folder to take effect. Default is F";
+  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is false";
+  case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Probably requires a reset of\nsave folder to take effect.\nDefault is false";
+  case OPT_STATIC_NPC: return "If true, the game will spawn static\n\NPC at the start of the game, requires reset\n\Default false";
+  case OPT_RANDOM_NPC: return "If true, the game will randomly spawn\n\NPC during gameplay.\n\Default false";
   default:			return " ";
  }
  return "Big ol Bug";
@@ -319,6 +327,8 @@ std::string option_name(option_key key)
   case OPT_VIEWPORT_Y: return "Viewport height";
   case OPT_STATIC_SPAWN: return "Static spawn";
   case OPT_CLASSIC_ZOMBIES: return "Classic zombies";
+  case OPT_STATIC_NPC: return "Static npcs";
+  case OPT_RANDOM_NPC: return "Random npcs";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
@@ -441,6 +451,10 @@ viewport_y 12\n\
 static_spawn T\n\
 # Only spawn classic zombies and natural wildlife.  You must create a new world after changing\n\
 classic_zombies F\n\
+# Spawn static NPCs at start. Requires reset after changing.\n\
+static_npc F\n\
+# Spawn random NPCs during gameplay.\n\
+random_npc F\n\
 ";
  fout.close();
 }

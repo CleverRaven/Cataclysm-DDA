@@ -419,7 +419,7 @@ void computer::activate_function(game *g, computer_action action)
         point target = g->cur_om.draw_overmap(g, 0);
         if (target.x == -1)
         {
-            g->add_msg("Target Acquisition canceled");
+            g->add_msg("Target acquisition canceled");
             return;
         }
         if(query_yn("Confirm nuclear missile launch."))
@@ -429,7 +429,7 @@ void computer::activate_function(game *g, computer_action action)
         }
         else
         {
-            g->add_msg("Nuclear missile launched aborted.");
+            g->add_msg("Nuclear missile launch aborted.");
             return;
         }
         g->refresh_all();
@@ -438,13 +438,11 @@ void computer::activate_function(game *g, computer_action action)
         for(int i= g->u.posx +8; i < g->u.posx +15; i++)
         {
             for(int j= g->u.posy +3; j < g->u.posy +12; j++)
-            {
-                if(one_in(4))
-                    g->explosion(i+rng(-1,1), j+rng(-1,1), rng(4,10), 0, true);
-                else
+                if(!one_in(4))
                     g->m.add_field(NULL, i+rng(-2,2), j+rng(-2,2), fd_smoke, rng(1,9));
-            }
         }
+
+        g->explosion(g->u.posx +10, g->u.posx +21, 200, 0, true); //Only explode once. But make it large.
 
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
