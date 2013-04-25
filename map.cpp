@@ -1050,12 +1050,14 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
  case t_chainfence_v:
  case t_chainfence_h:
+ case t_chaingate_c:
+ case t_chaingate_l:
   result = rng(0, 50);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 50)) {
    sound += "clang!";
    ter_set(x, y, t_chainfence_posts);
-   spawn_item(x, y, (*itypes)["wire"], 0, rng(4, 10));
+   spawn_item(x, y, (*itypes)["wire"], 0, rng(8, 20));
    return true;
   } else {
    sound += "clang!";

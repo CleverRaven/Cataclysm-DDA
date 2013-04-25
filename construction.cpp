@@ -221,7 +221,7 @@ void game::init_construction()
    COMP("pipe", 6);
    COMP("scrap", 8);
   STAGE(t_chainfence_v, 20);
-   COMP("wire", 15);
+   COMP("wire", 20);
 
  CONSTRUCT("Realign Fence",   0, &construct::able_chainlink,
                                  &construct::done_nothing);
