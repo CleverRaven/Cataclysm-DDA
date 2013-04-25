@@ -4193,7 +4193,7 @@ void game::kill_mon(int index, bool u_did_it)
  if (index < 0 || index >= z.size()) {
   dbg(D_ERROR) << "game:kill_mon: Tried to kill monster " << index
                << "! (" << z.size() << " in play)";
-  debugmsg("Tried to kill monster %d! (%d in play)", index, z.size());
+  if (debugmon)  debugmsg("Tried to kill monster %d! (%d in play)", index, z.size());
   return;
  }
  if (!z[index].dead) {
