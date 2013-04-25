@@ -53,27 +53,40 @@ std::vector<int> find_firsts(invslice &slice)
     return firsts;
 }
 
+void print_inv_weight_vol(game *g, WINDOW* w_inv, int weight_carried, int vol_carried)
+{
+    // Print weight
+    mvwprintw(w_inv, 0, 43, "Weight: ");
+    if (weight_carried >= g->u.weight_capacity() * .25)
+    {
+        wprintz(w_inv, c_red, "%4d", weight_carried);
+    }
+    else
+    {
+        wprintz(w_inv, c_ltgray, "%4d", weight_carried);
+    }
+    wprintz(w_inv, c_ltgray, "/%-4d", int(g->u.weight_capacity() * .25));//, g->u.weight_capacity());
+
+    // Print volume
+    mvwprintw(w_inv, 0, 61, "Volume: ");
+    if (vol_carried > g->u.volume_capacity() - 2)
+    {
+        wprintz(w_inv, c_red, "%3d", vol_carried);
+    }
+    else
+    {
+        wprintz(w_inv, c_ltgray, "%3d", vol_carried);
+    }
+    wprintw(w_inv, "/%-3d", g->u.volume_capacity() - 2);
+}
+
 void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
                        std::vector<char> dropped_items)
 {
 // Print our header
  mvwprintw(w_inv, 0, 0, title.c_str());
 
-// Print weight
- mvwprintw(w_inv, 0, 45, "Weight: ");
- if (g->u.weight_carried() >= g->u.weight_capacity() * .25)
-  wprintz(w_inv, c_red, "%d", g->u.weight_carried());
- else
-  wprintz(w_inv, c_ltgray, "%d", g->u.weight_carried());
- wprintz(w_inv, c_ltgray, "/%d", int(g->u.weight_capacity() * .25));//, g->u.weight_capacity());
-
-// Print volume
- mvwprintw(w_inv, 0, 62, "Volume: ");
- if (g->u.volume_carried() > g->u.volume_capacity() - 2)
-  wprintz(w_inv, c_red, "%d", g->u.volume_carried());
- else
-  wprintz(w_inv, c_ltgray, "%d", g->u.volume_carried());
- wprintw(w_inv, "/%d", g->u.volume_capacity() - 2);
+ print_inv_weight_vol(g, w_inv, g->u.weight_carried(), g->u.volume_carried());
 
 // Print our weapon
  int n_items = 0;
@@ -278,18 +291,26 @@ std::vector<item> game::multidrop()
  u.inv.restack(&u);
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
- std::vector<int> dropping; // Count of how many we'll drop from each stack
- dropping.resize(u.inv.size(), 0);
+ std::map<char, int> dropping; // Count of how many we'll drop from each stack
  int count = 0; // The current count
  std::vector<char> weapon_and_armor; // Always single, not counted
  bool warned_about_bionic = false; // Printed add_msg re: dropping bionics
  print_inv_statics(this, w_inv, "Multidrop:", weapon_and_armor);
+ int base_weight = u.weight_carried();
+ int base_volume = u.volume_carried();
 
  int ch = (int)'.';
  int start = 0, cur_it;
  invslice stacks = u.inv.slice(0, u.inv.size());
  std::vector<int> firsts = find_firsts(stacks);
  do {
+  inventory drop_subset = u.inv.subset(dropping);
+  int new_weight = base_weight - drop_subset.weight();
+  int new_volume = base_volume - drop_subset.volume();
+  for (int i = 0; i < weapon_and_armor.size(); ++i) {
+   new_weight -= u.i_at(weapon_and_armor[i]).weight();
+  }
+  print_inv_weight_vol(this, w_inv, new_weight, new_volume);
   if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) {
    for (int i = 1; i < maxitems+4; i++)
     mvwprintz(w_inv, i, 0, c_black, "                                             ");
@@ -319,11 +340,11 @@ std::vector<item> game::multidrop()
     item& it = stacks[cur_it]->front();
     mvwputch (w_inv, cur_line, 0, c_white, it.invlet);
     char icon = '-';
-    if (dropping[cur_it] >= stacks[cur_it]->size())
+    if (dropping[it.invlet] >= stacks[cur_it]->size())
      icon = '+';
-    else if (dropping[cur_it] > 0)
+    else if (dropping[it.invlet] > 0)
      icon = '#';
-    nc_color col = (dropping[cur_it] == 0 ? c_ltgray : c_white);
+    nc_color col = (dropping[it.invlet] == 0 ? c_ltgray : c_white);
     mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
               it.tname(this).c_str());
     if (stacks[cur_it]->size() > 1)
@@ -382,24 +403,24 @@ std::vector<item> game::multidrop()
     if (count == 0) {
     if (it.count_by_charges())
       {
-       if (dropping[index] == 0)
-        dropping[index] = -1;
+       if (dropping[it.invlet] == 0)
+        dropping[it.invlet] = -1;
        else
-        dropping[index] = 0;
+        dropping[it.invlet] = 0;
       }
     else
       {
-       if (dropping[index] == 0)
-        dropping[index] = stacks[index]->size();
+       if (dropping[it.invlet] == 0)
+        dropping[it.invlet] = stacks[index]->size();
        else
-        dropping[index] = 0;
+        dropping[it.invlet] = 0;
       }
     }
 
     else if (count >= stacks[index]->size() && !it.count_by_charges())
-       dropping[index] = stacks[index]->size();
+       dropping[it.invlet] = stacks[index]->size();
     else
-      dropping[index] = count;
+      dropping[it.invlet] = count;
 
    count = 0;
   }
@@ -418,14 +439,14 @@ std::vector<item> game::multidrop()
  int current_stack = 0;
  int max_size = u.inv.size();
  for (int i = 0; i < max_size; i++) {
-
-  if (dropping[i] == -1) {  // drop whole stack of charges
+  item& it = stacks[i]->front();
+  if (dropping[it.invlet] == -1) {  // drop whole stack of charges
    ret.push_back(u.inv.remove_item_by_letter(stacks[current_stack]->front().invlet));
   }
 
-  for (int j = 0; j < dropping[i]; j++) {
+  for (int j = 0; j < dropping[it.invlet]; j++) {
    if (stacks[current_stack]->begin()->count_by_charges()) {      // dropping parts of stacks
-    int tmpcount = dropping[i];
+    int tmpcount = dropping[it.invlet];
 
     if (tmpcount >= stacks[current_stack]->begin()->charges) {
       ret.push_back(u.inv.remove_item_by_letter(stacks[current_stack]->front().invlet));
@@ -434,7 +455,7 @@ std::vector<item> game::multidrop()
       // (ZwodahS : I move this code into inventory.cpp instead)
       ret.push_back(u.inv.remove_item_by_charges(stacks[current_stack]->front().invlet, tmpcount));
     }
-    j = dropping[i];
+    j = dropping[it.invlet];
    } else {
     if (current_stack >= 0) {
     if (stacks[current_stack]->size() == 1) {
