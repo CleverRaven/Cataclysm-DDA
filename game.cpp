@@ -70,7 +70,6 @@ game::game() :
  init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();     // Set up autosave
  load_keyboard_settings();
- load_npc_settings();
 
  gamemode = new special_game;	// Nothing, basically.
 }
@@ -309,6 +308,7 @@ void game::load_npcs()
 
         //check if the loaded position doesn't already contain an object, monster or npc.
         //If it isn't free, spiralsearch for a free spot.
+        temp->place_near(this, temp->posx, temp->posy);
 
         //In the rare case the npc was marked for death while it was on the overmap. Kill it.
         if (temp->marked_for_death)
@@ -318,7 +318,6 @@ void game::load_npcs()
         }
     }
 }
-
 
 //Reset all the NPCs missions and attitudes for a new character.
 //This function should only be called at the start of a new game.
@@ -346,7 +345,7 @@ void game::reset_npcs()
 
 void game::create_starting_npcs()
 {
- if(!starting_npc)
+ if(!OPTIONS[OPT_STATIC_NPC])
  	return; //Do not generate a starting npc.
  npc * tmp = new npc();
  tmp->normalize(this);
@@ -365,7 +364,7 @@ void game::create_starting_npcs()
 
 void game::cleanup_at_end(){
  write_msg();
- if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) //|| QUIT_SAVED)
+ if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE || QUIT_SAVED)
 	{
 		// Save the factions's, missions and set the NPC's overmap coords
 		// Npcs are saved in the overmap.
@@ -2096,15 +2095,7 @@ void game::save()
  fout << u.save_info() << std::endl;
  fout << std::endl;
  fout.close();
-
- // Now write things that aren't player-specific: factions and NPCs
- save_factions_missions_npcs();
-
- // Finally, save artifacts.
- save_artifacts();
-
- // and the overmap, and the local map.
- save_maps();
+ //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
 }
 
 void game::delete_save()
@@ -2300,7 +2291,7 @@ NPCs are %s spawn.\n\
 %d currently active NPC's.\n\
 %d events planned.", u.posx, u.posy, levx, levy,
 oterlist[cur_om.ter(levx / 2, levy / 2, levz)].name.c_str(),
-int(turn), int(nextspawn), (!random_npc ? "NOT going to" : "going to"),
+int(turn), int(nextspawn), (!OPTIONS[OPT_RANDOM_NPC] ? "NOT going to" : "going to"),
 z.size(), active_npc.size(), events.size());
 
 		 if (!active_npc.empty())
@@ -8315,7 +8306,7 @@ void game::update_map(int &x, int &y)
   olevy = 1;
  }
  if (olevx != 0 || olevy != 0) {
-  cur_om.save();//Todo, fix the saving of active npcs. Or the shifting of them.
+  cur_om.save();
   cur_om = overmap(this, cur_om.pos().x + olevx, cur_om.pos().y + olevy);
  }
  set_adjacent_overmaps();
@@ -8335,59 +8326,15 @@ void game::update_map(int &x, int &y)
    active_npc[i]->mapy = levy + (active_npc[i]->posy / SEEY);
    active_npc[i]->posx %= SEEX;
    active_npc[i]->posy %= SEEY;
-   //cur_om.npcs.push_back(active_npc[i]); //don't remove them from the list.
+    //don't remove them from the overmap list.
    active_npc.erase(active_npc.begin() + i); //Remove the npc from the active list. It remains in the overmap list.
-/*   active_npc[i].dead = true; //dead in this case doesn't mean really dead, but just moved to the overmap, not
-                              // active, and the active npc needs cleaning.
-   active_npc.erase(active_npc.begin() + i);*/
    i--;
   }
  }
-// Check for overmap saved npcs that should now come into view.
-// Put those in the active list.
- for (int i = 0; i < cur_om.npcs.size(); i++) {
-
-  if (rl_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
-              cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy) <=
-              int(MAPSIZE / 2) + 1 && !cur_om.npcs[i]->is_active(this)) {
-
-   int dx = cur_om.npcs[i]->mapx - levx, dy = cur_om.npcs[i]->mapy - levy;
-
-   if (debugmon)
-    debugmsg("game::update_map: Spawning static NPC, %d:%d (%d:%d)", levx, levy,
-             cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy);
-
-   npc * temp = cur_om.npcs[i];
-
-   if (temp->posx == -1 || temp->posy == -1) {
-    dbg(D_ERROR) << "game::update_map: Static NPC with no fine location "
-                    "data (" << temp->posx << ":" << temp->posy << ").";
-    debugmsg("game::update_map: Static NPC with no fine location data (%d:%d) New loc data (%d:%d).",
-            temp->posx, temp->posy, SEEX * 2 * (temp->mapx - levx) + rng(0 - SEEX, SEEX),
-            SEEY * 2 * (temp->mapy - levy) + rng(0 - SEEY, SEEY));
-    temp->posx = SEEX * 2 * (temp->mapx - levx) + rng(0 - SEEX, SEEX);
-    temp->posy = SEEY * 2 * (temp->mapy - levy) + rng(0 - SEEY, SEEY);
-   } else {
-    if (debugmon)
-     debugmsg("game::update_map: Static NPC fine location %d:%d (%d:%d)", temp->posx, temp->posy,
-              temp->posx + dx * SEEX, temp->posy + dy * SEEY);
-    temp->posx += dx * SEEX;
-    temp->posy += dy * SEEY;
-   }
-
-   //check if the loaded position doesn't already contain an object, monster or npc.
-   //If it isn't free, spiralsearch for a free spot.
-   temp->place_near(this, temp->posx, temp->posy);
-
-    //In the rare case the npc was marked for death while it was on the overmap. Kill it.
-   if (temp->marked_for_death)
-    temp->die(this, false);
-   else
-    active_npc.push_back(temp);
-
-  }
- }
-// Spawn monsters if appropriate
+    // Check for overmap saved npcs that should now come into view.
+    // Put those in the active list.
+    load_npcs();
+ // Spawn monsters if appropriate
  m.spawn_monsters(this);	// Static monsters
  if (turn >= nextspawn)
   spawn_mon(shiftx, shifty);
@@ -8625,7 +8572,7 @@ void game::spawn_mon(int shiftx, int shifty)
  int iter;
  int t;
  // Create a new NPC?
- if (random_npc && one_in(100 + 15 * cur_om.npcs.size())) {
+ if (OPTIONS[OPT_RANDOM_NPC] && one_in(100 + 15 * cur_om.npcs.size())) {
   npc * tmp = new npc();
   tmp->normalize(this);
   tmp->randomize(this);
@@ -9053,91 +9000,6 @@ void game::autosave()
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;
     last_save_timestamp = now;
-}
-
-void game::load_npc_settings()
-{
- starting_npc = false; // We're suppressing the starting NPC spawn
- random_npc = false; //We're suppressing random NPC spawns
-
- std::ifstream fin;
- fin.open("data/npc.txt");
- if (!fin) { // It doesn't exist
-  std::ofstream fout;
-  fout.open("data/npc.txt");
-  fout << game::default_npc_txt();
-  fout.close();
-  fin.open("data/npc.txt");
- }
- if (!fin) { // Still can't open it--probably bad permissions
-  debugmsg("Can't open data/npc.txt.  This may be a permissions issue.");
-  return;
- }
- while (!fin.eof()) {
-  std::string id;
-
-  fin >> id;
-  if (id == "")
-   getline(fin, id); // Empty line, chomp it
-  else if (id[0] != '#') {
-   if (strcmp (id.c_str(), "starting_npc") != 0 && strcmp (id.c_str(), "random_npc") != 0)
-    debugmsg("\
-Warning!  data/npc.txt contains an unknown option, \"%s\"\n\
-Fix data/npc.txt at your next chance!", id.c_str());
-   else {
-    while (fin.peek() != '\n' && !fin.eof()) {
-     char ch;
-     fin >> ch;
-     if (ch != 'n' && ch != 'N' && ch != 'y' && ch != 'Y')
-      debugmsg("\
-Warning!  Invalid value '%c' in the npc file\n\
-%s setting ignored.\n\
-Valid values 'n', 'N', 'y', 'Y'.\n\
-Fix data/npc.txt at your next chance!", ch, id.c_str());
-     else if (strcmp ("starting_npc", id.c_str()) == 0)
-     {
-         if(ch == 'Y' || ch == 'y')
-         {
-             starting_npc = true;
-         }
-     }
-     else //random_npc
-     {
-         if(ch == 'Y' || ch == 'y')
-         {
-             random_npc = true;
-         }
-     }
-    }
-   }
-  } else {
-   getline(fin, id); // Clear the whole line
-  }
- }
-}
-
-std::string game::default_npc_txt()
-{
- return "\
-# This is the npc file for Cataclysm.\n\
-# You can start a line with # to make it a comment--it will be ignored.\n\
-# Blank lines are ignored too.\n\
-# Extra whitespace, including tab, is ignored, so format things how you like.\n\
-# If you wish to restore defaults, simply remove this file.\n\
-\n\
-# This file currently has two options, disabling starting npcs and \n\
-# disabling randomly spawning npcs spawned by the dynamic spawn system\n\
- \n\
-# Turning on the starting_npc setting only has effect on new character\n\
-# creation. None of these settings get rid of already spawned npcs. Use\n\
-# the debug menu for that.\n\
-	\n\
-# WARNING: NPC's are currently broken. When used expect bugs and crashes.\n\
-# You have been warned.\n\
-# None of these settings prevent you from spawning npcs using the debug menu.\n\
-starting_npc n\n\
-random_npc n\n\
-";
 }
 
 void intro()

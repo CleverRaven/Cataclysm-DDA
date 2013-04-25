@@ -2753,7 +2753,7 @@ void iuse::tazer(game *g, player *p, item *it, bool t)
  }
 
  if (npcdex != -1) {
-  npc *foe = dynamic_cast<npc*>(g->active_npc[npcdex]);
+  npc *foe = g->active_npc[npcdex];
   if (foe->attitude != NPCATT_FLEE)
    foe->attitude = NPCATT_KILL;
   if (foe->str_max >= 17)

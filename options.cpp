@@ -245,6 +245,10 @@ option_key lookup_option_key(std::string id)
   return OPT_CLASSIC_ZOMBIES;
  if (id == "season_length")
   return OPT_SEASON_LENGTH;
+ if (id == "static_npc")
+  return OPT_STATIC_NPC;
+ if (id == "random_npc")
+  return OPT_RANDOM_NPC;
  return OPT_NULL;
 }
 
@@ -276,6 +280,8 @@ std::string option_string(option_key key)
   case OPT_STATIC_SPAWN: return "static_spawn";
   case OPT_CLASSIC_ZOMBIES: return "classic_zombies";
   case OPT_SEASON_LENGTH: return "season_length";
+  case OPT_STATIC_NPC: return "static_npc";
+  case OPT_RANDOM_NPC: return "random_npc";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -300,15 +306,17 @@ std::string option_desc(option_key key)
   case OPT_QUERY_DISASSEMBLE: return "If true, will query before disassembling\nitems";
   case OPT_DROP_EMPTY: return "Set to drop empty containers after use\n0 - don't drop any\n1 - all except watertight containers\n2 - all containers";
   case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
-  case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no\n1 - yes\n2 - query";
+  case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no (default)\n1 - yes\n2 - query";
   case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.  Default is 6";
   case OPT_INITIAL_TIME: return "Initial starting time of day on character\ngeneration.  Default is 8:00";
   case OPT_VIEWPORT_X: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
   case OPT_VIEWPORT_Y: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
   case OPT_MOVE_VIEW_OFFSET: return "Move view by how many squares per keypress\nDefault is 1";
-  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is F";
-  case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Probably requires a reset of\nsave folder to take effect. Default is F";
   case OPT_SEASON_LENGTH: return "Season length, in days.\nDefault is 14";
+  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is false";
+  case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Probably requires a reset of\nsave folder to take effect.\nDefault is false";
+  case OPT_STATIC_NPC: return "If true, the game will spawn static\nNPC at the start of the game, requires reset\nDefault false";
+  case OPT_RANDOM_NPC: return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault false";
   default:			return " ";
  }
  return "Big ol Bug";
@@ -342,6 +350,8 @@ std::string option_name(option_key key)
   case OPT_STATIC_SPAWN: return "Static spawn";
   case OPT_CLASSIC_ZOMBIES: return "Classic zombies";
   case OPT_SEASON_LENGTH: return "Season length";
+  case OPT_STATIC_NPC: return "Static npcs";
+  case OPT_RANDOM_NPC: return "Random npcs";
   default:			return "Unknown Option (BUG)";
  }
  return "Big ol Bug";
@@ -475,6 +485,10 @@ static_spawn T\n\
 classic_zombies F\n\
 # Season length in days\n\
 season_length 14\n\
+# Spawn static NPCs at start. Requires reset after changing.\n\
+static_npc F\n\
+# Spawn random NPCs during gameplay.\n\
+random_npc F\n\
 ";
  fout.close();
 }

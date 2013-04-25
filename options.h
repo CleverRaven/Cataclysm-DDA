@@ -30,6 +30,8 @@ OPT_MOVE_VIEW_OFFSET, // Sensitivity of shift+(movement)
 OPT_STATIC_SPAWN, // Makes zombies spawn using the new static system
 OPT_CLASSIC_ZOMBIES, // Only spawn the more classic zombies
 OPT_SEASON_LENGTH, // Season length, in days
+OPT_STATIC_NPC, //Spawn static npcs
+OPT_RANDOM_NPC, //Spawn random npcs
 NUM_OPTION_KEYS
 };
 
