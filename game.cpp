@@ -364,7 +364,7 @@ void game::create_starting_npcs()
 
 void game::cleanup_at_end(){
  write_msg();
- if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) //|| QUIT_SAVED)
+ if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE || QUIT_SAVED)
 	{
 		// Save the factions's, missions and set the NPC's overmap coords
 		// Npcs are saved in the overmap.
@@ -2091,15 +2091,7 @@ void game::save()
  fout << u.save_info() << std::endl;
  fout << std::endl;
  fout.close();
-
- // Now write things that aren't player-specific: factions and NPCs
- save_factions_missions_npcs();
-
- // Finally, save artifacts.
- save_artifacts();
-
- // and the overmap, and the local map.
- save_maps();
+ //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
 }
 
 void game::delete_save()
