@@ -611,7 +611,7 @@ int player::roll_cut_damage(monster *z, bool crit)
   ret *= double( 0.92 + 0.04 * skillLevel("cutting") );
 
  if (crit)
-  ret *= double( 1.0 + double(skillLevel("cutting") / 12) );
+  ret *= double( 1.0 + skillLevel("cutting") / 12.0 );
 
  return ret;
 }
@@ -652,7 +652,7 @@ int player::roll_stab_damage(monster *z, bool crit)
   return 0; // No negative stabbing!
 
  if (crit) {
-  int multiplier = double( 1.0 + double(skillLevel("stabbing") / 5) );
+  int multiplier = double( 1.0 + skillLevel("stabbing") / 5.0 );
   if (multiplier > 2.5)
    multiplier = 2.5;
   ret *= multiplier;

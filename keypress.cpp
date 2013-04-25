@@ -205,11 +205,9 @@ organize =\n\
 apply a\n\
 apply_wielded A\n\
 wear W\n\
-take_off T\n\
 eat E\n\
 read R\n\
 wield w\n\
-pick_style _\n\
 reload r\n\
 unload U\n\
 throw t\n\
@@ -222,10 +220,8 @@ bionics p\n\
 \n\
 # LONG TERM & SPECIAL ACTIONS\n\
 wait |\n\
-craft &\n\
+create &\n\
 recraft -\n\
-construct *\n\
-disassemble (\n\
 sleep $\n\
 safemode !\n\
 autosafe \"\n\

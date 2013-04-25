@@ -1534,11 +1534,19 @@ bool game::handle_action()
    break;
 
   case ACTION_WEAR:
-   wear();
-   break;
+   switch (dpad_menu(NULL, "Wear", "Take Off", NULL))
+   {
+    case 0:
+     wear();
+     break;
 
-  case ACTION_TAKE_OFF:
-   takeoff();
+    case 1:
+     takeoff();
+     break;
+
+    default:
+     break;
+   }
    break;
 
   case ACTION_EAT:
@@ -1550,16 +1558,23 @@ bool game::handle_action()
    break;
 
   case ACTION_WIELD:
-   wield();
-   break;
+   switch (dpad_menu(NULL, "Wield Item", "Select Unarmed Style", NULL))
+   {
+    case 0:
+     wield();
+     break;
 
-  case ACTION_PICK_STYLE:
-   u.pick_style(this);
-   if (u.weapon.type->id == "null" || u.weapon.is_style()) {
-    u.weapon = item(itypes[u.style_selected], 0);
-    u.weapon.invlet = ':';
+    case 1:
+     u.pick_style(this);
+     if (u.weapon.type->id == "null" || u.weapon.is_style()) {
+      u.weapon = item(itypes[u.style_selected], 0);
+      u.weapon.invlet = ':';
+     }
+     refresh_all();
+     break;
+
+    default: break;
    }
-   refresh_all();
    break;
 
   case ACTION_RELOAD:
@@ -1608,30 +1623,38 @@ bool game::handle_action()
    }
    break;
 
-  case ACTION_CRAFT:
-   craft();
+  case ACTION_CREATE:
+   switch(dpad_menu(NULL, "Craft", "Disassemble", "Craft as long as possible", "Construct", NULL))
+   {
+    case 0:
+     craft();
+     break;
+
+    case 1:
+     if (u.in_vehicle)
+      add_msg("You can't disassemble items while in vehicle.");
+     else
+      disassemble();
+     break;
+
+    case 2:
+     long_craft();
+     break;
+
+    case 3:
+     if (u.in_vehicle)
+      add_msg("You can't construct while in vehicle.");
+     else
+      construction_menu();
+     break;
+
+    default:
+     break;
+   }
    break;
 
   case ACTION_RECRAFT:
    recraft();
-   break;
-
-  case ACTION_LONGCRAFT:
-   long_craft();
-   break;
-
-  case ACTION_DISASSEMBLE:
-   if (u.in_vehicle)
-    add_msg("You can't disassemble items while in vehicle.");
-   else
-    disassemble();
-   break;
-
-  case ACTION_CONSTRUCT:
-   if (u.in_vehicle)
-    add_msg("You can't construct while in vehicle.");
-   else
-    construction_menu();
    break;
 
   case ACTION_SLEEP:
