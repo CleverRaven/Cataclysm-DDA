@@ -33,8 +33,8 @@ struct recipe {
   bool autolearn; // do we learn it just by leveling skills?
   int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
 
-  std::vector<component> tools[20];
-  std::vector<component> components[20];
+  std::vector<std::vector<component> > tools;
+  std::vector<std::vector<component> > components;
 
   recipe() {
     id = 0;

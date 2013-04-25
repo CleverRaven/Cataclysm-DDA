@@ -4877,13 +4877,12 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
                 // check tools are available
                 // loop over the tools and see what's required...again
                 inventory crafting_inv = g->crafting_inventory();
-                bool have_tool[5];
-                for (int j = 0; j < 5; j++)
+                for (int j = 0; j < cur_recipe->tools.size(); j++)
                 {
-                    have_tool[j] = false;
+                    bool have_tool = false;
                     if (cur_recipe->tools[j].size() == 0) // no tools required, may change this
                     {
-                        have_tool[j] = true;
+                        have_tool = true;
                     }
                     else
                     {
@@ -4895,7 +4894,7 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
                             if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
                                 (req >  0 && crafting_inv.has_charges(type, req)))
                             {
-                                have_tool[j] = true;
+                                have_tool = true;
                                 k = cur_recipe->tools[j].size();
                             }
                             // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
@@ -4904,16 +4903,16 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
                                 if (crafting_inv.has_amount("hacksaw", 1) ||
                                     crafting_inv.has_amount("toolset", 1))
                                 {
-                                    have_tool[j] = true;
+                                    have_tool = true;
                                 }
                                 else
                                 {
-                                    have_tool[j] = false;
+                                    have_tool = false;
                                 }
                             }
                         }
 
-                        if (!have_tool[j])
+                        if (!have_tool)
                         {
                            return HINT_IFFY;
                         }
