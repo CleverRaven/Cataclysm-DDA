@@ -6575,6 +6575,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
           cont->contents[0].charges = holding_container_charges;
           add_msg("You pour %s into your %s.", liquid.tname(this).c_str(),
                                         cont->tname(this).c_str());
+          return true;
         }
         else // Container is finite, not empty and not full, add liquid to it
         {
