@@ -509,7 +509,7 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   // MORALE : a negative morale_pen means the player is cold
   // Intensity multiplier is negative for cold, positive for hot
   int intensity_mult = -disease_intensity(dis_type(cold_pen)) + disease_intensity(dis_type(hot_pen));
-  if (has_disease(dis_type(cold_pen)) > 0 || has_disease(dis_type(hot_pen)) > 0) {
+  if (has_disease(dis_type(cold_pen)) || has_disease(dis_type(hot_pen))) {
    switch (i) {
     case bp_head :
     case bp_torso :
@@ -2720,7 +2720,7 @@ void player::knock_back_from(game *g, int x, int y)
 
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
-  npc *p = &(g->active_npc[npcdex]);
+  npc *p = g->active_npc[npcdex];
   hit(g, bp_torso, 0, 3, 0);
   add_disease(DI_STUNNED, 1, g);
   p->hit(g, bp_torso, 0, 3, 0);
@@ -3400,7 +3400,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
  }
 }
 
-void player::i_add(item it, game *g)
+item& player::i_add(item it, game *g)
 {
  itype_id item_type_id = "null";
  if( it.type ) item_type_id = it.type->id;
@@ -3415,7 +3415,7 @@ void player::i_add(item it, game *g)
   it_artifact_tool *art = dynamic_cast<it_artifact_tool*>(it.type);
   g->add_artifact_messages(art->effects_carried);
  }
- inv.push_back(it);
+ return inv.add_item(it);
 }
 
 bool player::has_active_item(itype_id id)
@@ -5224,14 +5224,14 @@ int time; //Declare this here so that we can change the time depending on whats 
   g->add_msg("You're illiterate!");
   return;
  }
- else if (skillLevel(tmp->type) < tmp->req) {
+ else if (skillLevel(tmp->type) < (int)tmp->req) {
   g->add_msg("The %s-related jargon flies over your head!",
              tmp->type->name().c_str());
   return;
  } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) {	// See morale.h
   g->add_msg("What's the point of reading?  (Your morale is too low!)");
   return;
- } else if (skillLevel(tmp->type) >= tmp->level && tmp->fun <= 0 && !can_study_recipe(tmp) &&
+ } else if (skillLevel(tmp->type) >= (int)tmp->level && tmp->fun <= 0 && !can_study_recipe(tmp) &&
             !query_yn("Your %s skill won't be improved.  Read anyway?",
                       tmp->type->name().c_str())) {
   return;
@@ -5918,4 +5918,14 @@ SkillLevel& player::skillLevel(size_t id) {
 
 SkillLevel& player::skillLevel(Skill *_skill) {
   return _skills[_skill];
+}
+
+void player::setID (int i)
+{
+    this->id = i;
+}
+
+int player::getID ()
+{
+    return this->id;
 }

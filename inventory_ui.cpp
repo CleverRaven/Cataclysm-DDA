@@ -278,9 +278,8 @@ std::vector<item> game::multidrop()
  u.inv.restack(&u);
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
- int dropping[u.inv.size()]; // Count of how many we'll drop from each stack
- for (int i = 0; i < u.inv.size(); i++)
-  dropping[i] = 0;
+ std::vector<int> dropping; // Count of how many we'll drop from each stack
+ dropping.resize(u.inv.size(), 0);
  int count = 0; // The current count
  std::vector<char> weapon_and_armor; // Always single, not counted
  bool warned_about_bionic = false; // Printed add_msg re: dropping bionics
@@ -499,12 +498,11 @@ void game::compare(int iCompareX, int iCompareY)
 
  WINDOW* w_inv = newwin(TERMY-VIEW_OFFSET_Y*2, TERMX-VIEW_OFFSET_X*2, VIEW_OFFSET_Y, VIEW_OFFSET_X);
  int maxitems = TERMY-5-VIEW_OFFSET_Y*2;    // Number of items to show at one time.
- int compare[u.inv.size() + groundsize]; // Count of how many we'll drop from each stack
+ std::vector<int> compare; // Count of how many we'll drop from each stack
  bool bFirst = false; // First Item selected
  bool bShowCompare = false;
  char cLastCh;
- for (int i = 0; i < u.inv.size() + groundsize; i++)
-  compare[i] = 0;
+ compare.resize(u.inv.size() + groundsize, 0);
  std::vector<char> weapon_and_armor; // Always single, not counted
  print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
 // Gun, ammo, weapon, armor, food, tool, book, other

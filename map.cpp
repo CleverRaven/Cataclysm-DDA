@@ -220,7 +220,7 @@ void map::board_vehicle(game *g, int x, int y, player *p)
   return;
  }
  veh->parts[seat_part].set_flag(vehicle_part::passenger_flag);
- veh->parts[seat_part].passenger_id = p->id; // Player is 0
+ veh->parts[seat_part].passenger_id = p->getID();
 
  p->posx = x;
  p->posy = y;
@@ -462,7 +462,7 @@ bool map::vehproceed(game* g){
       veh->stop();
 
    if(veh->velocity == 0) {
-      veh->of_turn -= .321;
+      veh->of_turn -= .321f;
       return true;
    }
 
@@ -592,8 +592,8 @@ bool map::vehproceed(game* g){
 
       // finally, changes in veh velocity
       // 30% is absorbed as bashing damage??
-      rl_vec2d delta1 = imp2 * .7 / m1;
-      rl_vec2d delta2 = imp1 * .7 / m2;
+      rl_vec2d delta1 = imp2 * .7f / m1;
+      rl_vec2d delta2 = imp1 * .7f / m2;
 
       rl_vec2d final1 = velo_veh1 + delta1;
       veh->move.init (final1.x, final1.y);
@@ -611,8 +611,8 @@ bool map::vehproceed(game* g){
 
       //give veh2 the initiative to proceed next before veh1
       float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
-      if(avg_of_turn < .1)
-         avg_of_turn = .1;
+      if(avg_of_turn < .1f)
+         avg_of_turn = .1f;
       veh->of_turn = avg_of_turn * .9;
       veh2->of_turn = avg_of_turn * 1.1;
       return true;
@@ -660,7 +660,7 @@ bool map::vehproceed(game* g){
                if (psgname.length())
                   g->add_msg ("%s lose%s control of the %s.", psgname.c_str(),
                         (psg == &g->u ? "" : "s"), veh->name.c_str());
-               int turn_amount = (rng (1, 3) * sqrt (vel2) / 2) / 15;
+               int turn_amount = (rng (1, 3) * sqrt((double)vel2) / 2) / 15;
                if (turn_amount < 1)
                   turn_amount = 1;
                turn_amount *= 15;
@@ -2122,7 +2122,8 @@ item map::water_from(const int x, const int y)
         ret.poison = rng(1, 7);
     else if (ter(x, y) == t_toilet && !one_in(3))
         ret.poison = rng(1, 3);
-
+    else if (tr_at(x, y) == tr_funnel)
+        ret.poison = (one_in(10) > 1) ? 0 : 1;
     return ret;
 }
 

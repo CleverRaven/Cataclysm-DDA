@@ -182,7 +182,7 @@
 		<Unit filename="vehicle.h" />
 		<Unit filename="weather.cpp" />
 		<Unit filename="weather.h" />
-		<Unit filename="weather_data.h" />
+		<Unit filename="weather_data.cpp" />
 		<Unit filename="wish.cpp" />
 		<Extensions>
 			<code_completion />

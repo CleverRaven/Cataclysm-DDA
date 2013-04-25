@@ -28,7 +28,7 @@ void tileray::init (int adx, int ady)
     if (!adx && !ady)
         direction = 0;
     else{
-        direction = (int) (atan2 (deltay, deltax) * 180.0 / M_PI);
+        direction = (int) (atan2 ((double)deltay, (double)deltax) * 180.0 / M_PI);
         if (direction <0)
             direction += 360;
     }

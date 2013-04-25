@@ -25,7 +25,7 @@ void event::actualize(game *g)
     tmp.attitude = NPCATT_DEFEND;
     tmp.posx = g->u.posx - SEEX * 2 + rng(-5, 5);
     tmp.posy = g->u.posy - SEEY * 2 + rng(-5, 5);
-    g->active_npc.push_back(tmp);
+    g->active_npc.push_back(&tmp);
    }
   } break;
 

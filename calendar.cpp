@@ -47,7 +47,7 @@ calendar::calendar(int turn)
  year = seasons / 4;
 }
 
-int calendar::get_turn()
+int calendar::get_turn() const
 {
  int ret = second / 6;
  ret += minute * 10;
@@ -149,11 +149,11 @@ calendar& calendar::operator +=(int rhs)
  return *this;
 }
 
-bool calendar::operator ==(int rhs)
+bool calendar::operator ==(int rhs) const
 {
  return int(*this) == rhs;
 }
-bool calendar::operator ==(calendar &rhs)
+bool calendar::operator ==(calendar &rhs) const
 {
  return (second == rhs.second &&
          minute == rhs.minute &&
@@ -346,41 +346,58 @@ int calendar::sunlight() const
   return DAYLIGHT_LEVEL;
 }
 
-std::string calendar::print_time(bool twentyfour)
-{
- std::stringstream ret;
- if (twentyfour) {
-  ret << hour << ":";
-  if (minute < 10)
-   ret << "0";
-  ret << minute;
- } else {
-  if (OPTIONS[OPT_24_HOUR] == 1) {
-   int hours = hour % 24;
-   if (hours < 10)
-    ret << "0";
-   ret << hours;
-  } else if (OPTIONS[OPT_24_HOUR] == 2) {
-   int hours = hour % 24;
-   ret << hours << ":";
-  }else {
-   int hours = hour % 12;
-   if (hours == 0)
-    hours = 12;
-   ret << hours << ":";
-  }
-  if (minute < 10)
-   ret << "0";
-  ret << minute;
-  if (OPTIONS[OPT_24_HOUR] == 0) {
-   if (hour < 12)
-    ret << " AM";
-   else
-    ret << " PM";
-  }
- }
 
- return ret.str();
+
+std::string calendar::print_time(bool just_hour) const
+{
+    std::stringstream time_string;
+
+    if (OPTIONS[OPT_24_HOUR] == 1)
+    {
+        int hours = hour % 24;
+        if (hours < 10)
+        {
+            time_string << "0";
+        }
+        time_string << hours;
+    }
+    else if (OPTIONS[OPT_24_HOUR] == 2)
+    {
+        int hours = hour % 24;
+        time_string << hours;
+        if (!just_hour) time_string << ":";
+    }
+    else
+    {
+        int hours = hour % 12;
+        if (hours == 0)
+        {
+            hours = 12;
+        }
+        time_string << hours;
+        if (!just_hour) time_string << ":";
+    }
+    if(!just_hour)
+    {
+        if (minute < 10)
+        {
+            time_string << "0";
+        }
+        time_string << minute;
+    }
+    if (OPTIONS[OPT_24_HOUR] == 0)
+    {
+        if (hour < 12)
+        {
+            time_string << " AM";
+        }
+        else
+        {
+            time_string << " PM";
+        }
+    }
+
+    return time_string.str();
 }
 
 std::string calendar::textify_period()
@@ -413,4 +430,72 @@ std::string calendar::textify_period()
  ret << am << " " << tx << (am > 1 ? "s" : "");
 
  return ret.str();
+}
+
+std::string calendar::day_of_week() const
+{
+    // Design rationale
+    // <kevingranade> here's a question
+    // <kevingranade> what day of the week is day 0?
+    // <wito> Sunday
+    // <GlyphGryph> Why does it matter?
+    // <GlyphGryph> For like where people are and stuff?
+    // <wito> 7 is also Sunday
+    // <kevingranade> NOAA weather forecasts include day of week
+    // <GlyphGryph> Also by day0 do you mean the day people start day 0
+    // <GlyphGryph> Or actual day 0
+    // <kevingranade> good point, turn 0
+    // <GlyphGryph> So day 5
+    // <wito> Oh, I thought we were talking about week day numbering in general.
+    // <wito> Day 5 is a thursday, I think.
+    // <wito> Nah, Day 5 feels like a thursday. :P
+    // <wito> Which would put the apocalpyse on a saturday?
+    // <Starfyre> must be a thursday.  I was never able to get the hang of those.
+    // <ZChris13> wito: seems about right to me
+    // <wito> kevingranade: add four for thursday. ;)
+    // <kevingranade> sounds like consensus to me
+    // <kevingranade> Thursday it is
+
+    enum weekday
+    {
+        THURSDAY = 0,
+        FRIDAY = 1,
+        SATURDAY = 2,
+        SUNDAY = 3,
+        MONDAY = 4,
+        TUESDAY = 5,
+        WEDNESDAY = 6
+    };
+
+    // calendar::day gets mangled by season transitions, so reclaculate days since start.
+    int current_day = day % 7;
+
+    std::string day_string;
+
+    switch (current_day)
+    {
+    case SUNDAY:
+        day_string = "Sunday";
+        break;
+    case MONDAY:
+        day_string = "Monday";
+        break;
+    case TUESDAY:
+        day_string = "Tuesday";
+        break;
+    case WEDNESDAY:
+        day_string = "Wendsday";
+        break;
+    case THURSDAY:
+        day_string = "Thursday";
+        break;
+    case FRIDAY:
+        day_string = "Friday";
+        break;
+    case SATURDAY:
+        day_string = "Saturday";
+        break;
+    }
+
+    return day_string;
 }

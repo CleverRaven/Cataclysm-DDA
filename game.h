@@ -25,6 +25,7 @@
 #include "action.h"
 #include <vector>
 #include <map>
+#include <list>
 #include <stdarg.h>
 
 // Fixed window sizes
@@ -247,6 +248,9 @@ class game
   calendar turn;
   signed char temperature;              // The air temperature
   weather_type weather;			// Weather pattern--SEE weather.h
+
+  std::list<weather_segment> future_weather;
+
   char nextinv;	// Determines which letter the next inv item will have
   overmap cur_om;
   map m;
@@ -255,7 +259,7 @@ class game
   std::vector<monster> z;
   std::vector<monster_and_count> coming_to_stairs;
   int monstairx, monstairy, monstairz;
-  std::vector<npc> active_npc;
+  std::vector<npc *> active_npc;
   std::vector<faction> factions;
   std::vector<mission> active_missions; // Missions which may be assigned
 // NEW: Dragging a piece of furniture, with a list of items contained
@@ -294,6 +298,11 @@ class game
   void start_game();	// Starts a new game
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
+  //private save functions.
+		void save_factions_missions_npcs();
+  void save_artifacts();
+	 void save_maps();
+
 // Data Initialization
   void init_itypes();       // Initializes item types
   void init_bionics();      // Initializes bionics... for now.
@@ -318,6 +327,8 @@ class game
   void clear_bindings(action_id act); // Deletes all keys bound to act
 
   void create_factions();   // Creates new factions (for a new game world)
+  void load_npcs(); //Make any nearby NPCs from the overmap active.
+  void reset_npcs(); //Reset all the NPCs missions and attitudes for a new character.
   void create_starting_npcs(); // Creates NPCs that start near you
 
 // Player actions
@@ -464,6 +475,7 @@ class game
 
   int moves_since_last_save;
   int item_exchanges_since_save;
+  time_t last_save_timestamp;
   unsigned char latest_lightlevel;
   calendar latest_lightlevel_turn;
 

@@ -260,7 +260,7 @@ void inventory::push_back(std::list<item> newits)
  add_stack(newits);
 }
 
-void inventory::add_item(item newit, bool keep_invlet)
+item& inventory::add_item(item newit, bool keep_invlet)
 {
     if (keep_invlet && !newit.invlet_is_okay())
     {
@@ -269,22 +269,30 @@ void inventory::add_item(item newit, bool keep_invlet)
 
     if (newit.is_style())
     {
-        return; // Styles never belong in our inventory.
+        return nullitem; // Styles never belong in our inventory.
     }
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         std::list<item>::iterator it_ref = iter->begin();
-        if (it_ref->stacks_with(newit))
+        if (it_ref->type->id == newit.type->id)
         {
-		    if (it_ref->is_food() && it_ref->has_flag(IF_HOT))
-		    {
-			    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
-			    it_ref->item_counter = tmpcounter;
-			    newit.item_counter = tmpcounter;
-		    }
-            newit.invlet = it_ref->invlet;
-            iter->push_back(newit);
-            return;
+            if (newit.charges != -1 && (newit.is_food() || newit.is_ammo()))
+            {
+                it_ref->charges += newit.charges;
+                return *it_ref;
+            }
+            else if (it_ref->stacks_with(newit))
+            {
+                if (it_ref->is_food() && it_ref->has_flag(IF_HOT))
+                {
+                    int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
+                    it_ref->item_counter = tmpcounter;
+                    newit.item_counter = tmpcounter;
+		        }
+                newit.invlet = it_ref->invlet;
+                iter->push_back(newit);
+                return iter->back();
+            }
         }
         else if (keep_invlet && it_ref->invlet == newit.invlet)
         {
@@ -299,6 +307,7 @@ void inventory::add_item(item newit, bool keep_invlet)
     std::list<item> newstack;
     newstack.push_back(newit);
     items.push_back(newstack);
+    return items.back().back();
 }
 
 void inventory::add_item_by_type(itype_id type, int count, int charges)
@@ -372,12 +381,22 @@ void inventory::restack(player *p)
     {
         for (invstack::iterator other = iter; other != items.end(); ++other)
         {
-            if (iter != other && iter->front().stacks_with(other->front()))
+            if (iter != other && iter->front().type->id == other->front().type->id)
             {
-                iter->splice(iter->begin(), *other);
+                if (other->front().charges != -1 && (other->front().is_food() || other->front().is_ammo()))
+                {
+                    iter->front().charges += other->front().charges;
+                }
+                else if (iter->front().stacks_with(other->front()))
+                {
+                    iter->splice(iter->begin(), *other);
+                }
+                else
+                {
+                    continue;
+                }
                 other = items.erase(other);
                 --other;
-                continue;
             }
         }
     }
