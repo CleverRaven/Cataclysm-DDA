@@ -1536,7 +1536,7 @@ void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
  }
 }
 
-void npc::init_buying(inventory you, std::vector<item*> &items,
+void npc::init_buying(inventory& you, std::vector<item*> &items,
                       std::vector<int> &prices)
 {
  int val, price;
