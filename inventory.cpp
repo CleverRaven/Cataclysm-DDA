@@ -551,12 +551,16 @@ item inventory::remove_item_by_letter(char ch)
 }
 
 // using this assumes the item has charges
-item inventory::remove_item_by_letter_and_quantity(char ch, int quantity)
+item inventory::remove_item_by_charges(char ch, int quantity)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         if (iter->begin()->invlet == ch)
         {
+            if (!iter->front().count_by_charges())
+            {
+                debugmsg("Tried to remove %s by charges, but item is not counted by charges", iter->front().type->name.c_str());
+            }
             item ret = iter->front();
             if (quantity > iter->front().charges)
             {
@@ -566,6 +570,10 @@ item inventory::remove_item_by_letter_and_quantity(char ch, int quantity)
             }
             ret.charges = quantity;
             iter->front().charges -= quantity;
+            if (iter->front().charges <= 0)
+            {
+                items.erase(iter);
+            }
             return ret;
         }
     }
