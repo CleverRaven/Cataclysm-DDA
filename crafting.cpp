@@ -75,14 +75,16 @@ void game::init_recipes()
         for (compList.set_begin(); compList.has_curr(); compList.next())
         {
             ++cl;
+            std::vector<component> component_choices;
             catajson comp = compList.curr();
             // interchangable components
             for (comp.set_begin(); comp.has_curr(); comp.next())
             {
                 std::string name = comp.curr().get(0).as_string();
                 int quant = comp.curr().get(1).as_int();
-                last_rec->components[cl].push_back(component(name, quant));
+                component_choices.push_back(component(name, quant));
             }
+            last_rec->components.push_back(component_choices);
         }
 
         if (curr.has("tools"))
@@ -91,14 +93,16 @@ void game::init_recipes()
             for (toolList.set_begin(); toolList.has_curr(); toolList.next())
             {
                 ++tl;
+                std::vector<component> tool_choices;
                 catajson tool = toolList.curr();
                 // interchangable tools
                 for (tool.set_begin(); tool.has_curr(); tool.next())
                 {
                     std::string name = tool.curr().get(0).as_string();
                     int quant = tool.curr().get(1).as_int();
-                    last_rec->tools[tl].push_back(component(name, quant));
+                    tool_choices.push_back(component(name, quant));
                 }
+                last_rec->tools.push_back(tool_choices);
             }
         }
 
@@ -457,7 +461,7 @@ recipe* game::select_crafting_recipe()
                 int(current[line]->time / 100));
             }
             mvwprintz(w_data, 5, 30, col, "Tools required:");
-            if (current[line]->tools[0].size() == 0)
+            if (current[line]->tools.size() == 0)
             {
                 mvwputch(w_data, 6, 30, col, '>');
                 mvwprintz(w_data, 6, 32, c_green, "NONE");
@@ -467,7 +471,7 @@ recipe* game::select_crafting_recipe()
             {
                 ypos = 5;
                 // Loop to print the required tools
-                for (int i = 0; i < 5 && current[line]->tools[i].size() > 0; i++)
+                for (int i = 0; i < current[line]->tools.size() && current[line]->tools[i].size() > 0; i++)
                 {
                     ypos++;
                     xpos = 32;
@@ -517,7 +521,7 @@ recipe* game::select_crafting_recipe()
         // Loop to print the required components
             ypos++;
             mvwprintz(w_data, ypos, 30, col, "Components required:");
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < current[line]->components.size(); i++)
             {
                 if (current[line]->components[i].size() > 0)
                 {
@@ -819,13 +823,15 @@ void game::complete_craft()
  if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
   add_msg("You fail to make the %s, and waste some materials.",
           item_controller->find_template(making->result)->name.c_str());
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < making->components.size(); i++) {
    if (making->components[i].size() > 0) {
     std::vector<component> copy = making->components[i];
     for (int j = 0; j < copy.size(); j++)
      copy[j].count = rng(0, copy[j].count);
     consume_items(copy);
    }
+  }
+  for (int i = 0; i < making->tools.size(); i++) {
    if (making->tools[i].size() > 0)
     consume_tools(making->tools[i]);
   }
@@ -842,9 +848,11 @@ void game::complete_craft()
  }
 // If we're here, the craft was a success!
 // Use up the components and tools
- for (int i = 0; i < 5; i++) {
+ for (int i = 0; i < making->components.size(); i++) {
   if (making->components[i].size() > 0)
    consume_items(making->components[i]);
+ }
+ for (int i = 0; i < making->tools.size(); i++) {
   if (making->tools[i].size() > 0)
    consume_tools(making->tools[i]);
  }
@@ -1105,13 +1113,13 @@ void game::disassemble(char ch)
                 // check tools are available
                 // loop over the tools and see what's required...again
                 inventory crafting_inv = crafting_inventory();
-                bool have_tool[5];
-                for (int j = 0; j < 5; j++)
+                bool have_all_tools = true;
+                for (int j = 0; j < cur_recipe->tools.size(); j++)
                 {
-                    have_tool[j] = false;
+                    bool have_this_tool = false;
                     if (cur_recipe->tools[j].size() == 0) // no tools required, may change this
                     {
-                        have_tool[j] = true;
+                        have_this_tool = true;
                     }
                     else
                     {
@@ -1123,7 +1131,7 @@ void game::disassemble(char ch)
                             if ((req <= 0 && crafting_inv.has_amount (type, 1)) ||
                                 (req >  0 && crafting_inv.has_charges(type, req)))
                             {
-                                have_tool[j] = true;
+                                have_this_tool = true;
                                 k = cur_recipe->tools[j].size();
                             }
                             // if crafting recipe required a welder, disassembly requires a hacksaw or super toolkit
@@ -1132,17 +1140,18 @@ void game::disassemble(char ch)
                                 if (crafting_inv.has_amount("hacksaw", 1) ||
                                     crafting_inv.has_amount("toolset", 1))
                                 {
-                                    have_tool[j] = true;
+                                    have_this_tool = true;
                                 }
                                 else
                                 {
-                                    have_tool[j] = false;
+                                    have_this_tool = false;
                                 }
                             }
                         }
 
-                        if (!have_tool[j])
+                        if (!have_this_tool)
                         {
+                            have_all_tools = false;
                             int req = cur_recipe->tools[j][0].count;
                             if (cur_recipe->tools[j][0].type == "welder")
                             {
@@ -1165,8 +1174,7 @@ void game::disassemble(char ch)
                     }
                 }
                 // all tools present, so assign the activity
-                if (have_tool[0] && have_tool[1] && have_tool[2] && have_tool[3] &&
-                    have_tool[4])
+                if (have_all_tools)
                 {
                  
                   if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
@@ -1218,7 +1226,7 @@ void game::complete_disassemble()
     u.i_rem(u.activity.values[0]);  // remove the item
 
   // consume tool charges
-  for (int j = 0; j < 5; j++)
+  for (int j = 0; j < dis->tools.size(); j++)
   {
     if (dis->tools[j].size() > 0)
     consume_tools(dis->tools[j]);
@@ -1246,7 +1254,7 @@ void game::complete_disassemble()
    if (dis->sk_secondary)
     u.practice(turn, dis->sk_secondary, 2);
 
-  for (int j = 0; j < 5; j++)
+  for (int j = 0; j < dis->components.size(); j++)
   {
     if (dis->components[j].size() != 0)
     {
