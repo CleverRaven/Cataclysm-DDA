@@ -6301,6 +6301,7 @@ void game::pickup(int posx, int posy, int min)
 // At this point we've selected our items, now we add them to our inventory
  int curmit = 0;
  bool got_water = false;	// Did we try to pick up water?
+ bool offered_swap = false;
  for (int i = 0; i < here.size(); i++) {
   iter = 0;
 // This while loop guarantees the inventory letter won't be a repeat. If it
@@ -6338,17 +6339,20 @@ void game::pickup(int posx, int posy, int min)
          m.i_rem(posx, posy, curmit);
         curmit--;
        }
-      } else if (query_yn("Drop your %s and pick up %s?",
+      } else if (!offered_swap) {
+       if (query_yn("Drop your %s and pick up %s?",
                 u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
-       if (from_veh)
-        veh->remove_item (veh_part, curmit);
-       else
-        m.i_rem(posx, posy, curmit);
-       m.add_item(posx, posy, u.remove_weapon());
-       u.wield(this, u.i_add(here[i], this).invlet);
-       curmit--;
-       u.moves -= 100;
-       add_msg("Wielding %c - %s", u.weapon.invlet, u.weapon.tname(this).c_str());
+        if (from_veh)
+         veh->remove_item (veh_part, curmit);
+        else
+         m.i_rem(posx, posy, curmit);
+        m.add_item(posx, posy, u.remove_weapon());
+        u.wield(this, u.i_add(here[i], this).invlet);
+        curmit--;
+        u.moves -= 100;
+        add_msg("Wielding %c - %s", u.weapon.invlet, u.weapon.tname(this).c_str());
+       }
+       offered_swap = true;
       } else
        decrease_nextinv();
      } else {
