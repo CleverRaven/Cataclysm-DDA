@@ -189,7 +189,7 @@ bool game::can_make(recipe *r)
     // under the assumption that all comp and tool's array contains all the required stuffs at the start of the array
 
     // check all tools
-    for(int i = 0 ; i < 20 ; i++)
+    for(int i = 0 ; i < r->tools.size() ; i++)
     {
         // if current tool is null(size 0), assume that there is no more after it.
         if(r->tools[i].size()==0)
@@ -213,7 +213,7 @@ bool game::can_make(recipe *r)
         }
     }
     // check all components
-    for(int i = 0 ; i < 20 ; i++)
+    for(int i = 0 ; i < r->components.size() ; i++)
     {
         if(r->components[i].size() == 0)
         {
