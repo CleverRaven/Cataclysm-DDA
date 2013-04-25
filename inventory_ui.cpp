@@ -432,7 +432,7 @@ std::vector<item> game::multidrop()
     } else {
       // u.inv.stack_at(current_stack)[0].charges -= tmpcount;
       // (ZwodahS : I move this code into inventory.cpp instead)
-      ret.push_back(u.inv.remove_item_by_letter_and_quantity(stacks[current_stack]->front().invlet, tmpcount));
+      ret.push_back(u.inv.remove_item_by_charges(stacks[current_stack]->front().invlet, tmpcount));
     }
     j = dropping[i];
    } else {

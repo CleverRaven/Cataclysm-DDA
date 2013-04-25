@@ -2139,16 +2139,16 @@ void game::delete_save()
 
 void game::advance_nextinv()
 {
-  if (nextinv == *inv_chars.end())
-    nextinv = *inv_chars.begin();
+  if (nextinv == inv_chars.end()[-1])
+    nextinv = inv_chars.begin()[0];
   else
     nextinv = inv_chars[inv_chars.find(nextinv) + 1];
 }
 
 void game::decrease_nextinv()
 {
-  if (nextinv == *inv_chars.begin())
-    nextinv = *inv_chars.end();
+  if (nextinv == inv_chars.begin()[0])
+    nextinv = inv_chars.end()[-1];
   else
     nextinv = inv_chars[inv_chars.find(nextinv) - 1];
 }
@@ -5268,20 +5268,12 @@ void game::advanced_inv()
                         {
                             if(amount >= it->charges) // full stack moved
                             {
-				item moving_item = u.inv.remove_item_by_letter_and_quantity(it->invlet,amount);
-
-//                                item moving_item = *(u.inv.remove_stack_by_letter(it->invlet).begin()); // Hi, I crash printItems afterwards. Hehe.
-/*
-#0  0xb7f21575 in std::basic_ostream<char, std::char_traits<char> >& std::operator<< <char, std::char_traits<char>, std::allocator<char> >(std::basic_ostream<char, std::char_traits<char> >&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) () from /usr/lib/libstdc++.so.6
-#1  0x0836fa4e in item::tname (this=0xdef4520, g=0xb7cb0008) at item.cpp:764
-#2  0x0826fa0f in printItems (items=..., window=0xdeedf28, page=0, selected_index=0, active=false, g=0xb7cb0008) at game.cpp:4960
-#3  0x08270f08 in game::advanced_inv (this=0xb7cb0008) at game.cpp:5123
-*/
+                                item moving_item = u.inv.remove_item_by_charges(it->invlet,amount);
                                 m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             else //partial stack moved
                             {
-                                item moving_item = u.inv.remove_item_by_letter_and_quantity(it->invlet,amount);
+                                item moving_item = u.inv.remove_item_by_charges(it->invlet,amount);
                                 m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             u.moves -= 100;
@@ -6340,6 +6332,7 @@ void game::pickup(int posx, int posy, int min)
 // At this point we've selected our items, now we add them to our inventory
  int curmit = 0;
  bool got_water = false;	// Did we try to pick up water?
+ bool offered_swap = false;
  for (int i = 0; i < here.size(); i++) {
   iter = 0;
 // This while loop guarantees the inventory letter won't be a repeat. If it
@@ -6377,17 +6370,20 @@ void game::pickup(int posx, int posy, int min)
          m.i_rem(posx, posy, curmit);
         curmit--;
        }
-      } else if (query_yn("Drop your %s and pick up %s?",
+      } else if (!offered_swap) {
+       if (query_yn("Drop your %s and pick up %s?",
                 u.weapon.tname(this).c_str(), here[i].tname(this).c_str())) {
-       if (from_veh)
-        veh->remove_item (veh_part, curmit);
-       else
-        m.i_rem(posx, posy, curmit);
-       m.add_item(posx, posy, u.remove_weapon());
-       u.wield(this, u.i_add(here[i], this).invlet);
-       curmit--;
-       u.moves -= 100;
-       add_msg("Wielding %c - %s", u.weapon.invlet, u.weapon.tname(this).c_str());
+        if (from_veh)
+         veh->remove_item (veh_part, curmit);
+        else
+         m.i_rem(posx, posy, curmit);
+        m.add_item(posx, posy, u.remove_weapon());
+        u.wield(this, u.i_add(here[i], this).invlet);
+        curmit--;
+        u.moves -= 100;
+        add_msg("Wielding %c - %s", u.weapon.invlet, u.weapon.tname(this).c_str());
+       }
+       offered_swap = true;
       } else
        decrease_nextinv();
      } else {
@@ -6954,7 +6950,14 @@ void game::plfire(bool burst)
    return;
   }
  }
- if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
+
+ if ((u.weapon.has_flag(IF_STR8_DRAW)  && u.str_cur <  4) ||
+     (u.weapon.has_flag(IF_STR10_DRAW) && u.str_cur <  5)   ) {
+  add_msg("You're not strong enough to draw the bow!");
+  return;
+ }
+
+ if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT) && u.weapon.charges == 0) {
   reload_invlet = u.weapon.pick_reload_ammo(u, true);
   if (reload_invlet == 0) {
    add_msg("Out of ammo!");
@@ -6977,12 +6980,6 @@ void game::plfire(bool burst)
  if (u.weapon.has_flag(IF_USE_UPS) && !u.has_charges("UPS_off", 5) &&
      !u.has_charges("UPS_on", 5)) {
   add_msg("You need a UPS with at least 5 charges to fire that!");
-  return;
- }
-
- if ((u.weapon.has_flag(IF_STR8_DRAW)  && u.str_cur <  4) ||
-     (u.weapon.has_flag(IF_STR10_DRAW) && u.str_cur <  5)   ) {
-  add_msg("You're not strong enough to draw the bow!");
   return;
  }
 
