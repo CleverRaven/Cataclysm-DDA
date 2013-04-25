@@ -28,6 +28,12 @@ Broken and Empty windows can no longer be taped up, alarmed windows can.
 Palisade walls changed to require 2 6foot ropes rather than one thirty foot one.
 Domestic Windows drop strings now (Those are the kind that can be opened)
 String can be made from sinew and plant fibre.
+Added a craftable power armor power interface CBM.
+Added blankets, fur blankets (craft only), emergency blankets, sleeping bags, fur sleeping bags (craft only).
+Added house coat, snuggie, cloak, fur cloak (craft only), leather cloak (craft only), ski mask.
+Added fur scarf, fur gloves, fur trenchcoat, fur pants, fur boots (all craft only).
+All tailoring items that use fur require survival as secondary skill.
+Added crafting recipes for bandana, blanket, house coat, cloak, ski mask.
 
 0.4
 Make the battery system bionic only consume as many batteries as necessary to fully power yourself
@@ -103,7 +109,7 @@ Crash bug caused by the screen being larger than the loaded overmap has
 been fixed.
 Crash bug when going down stairs near cities has been fixed.
 Hunger now affects body temperature.
-Added new crafting recipes: shorts, cargo shorts, balclava, long underwear,
+Added new crafting recipes: shorts, cargo shorts, balaclava, long underwear,
 glove liners, socks.
 Added a digging stick. Can be used to dig shallow pits, and level construction enough to enable crafting of stone shovels.
 
