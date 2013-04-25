@@ -5410,6 +5410,9 @@ void game::advanced_inv()
                 case KEY_RIGHT:
                     changex = 1;
                     break;
+                case '\t':
+                    changex = (screen == 0 ? 1 : -1); // toggle
+                    break;
                 default :
                     donothing = true;
                     break;
