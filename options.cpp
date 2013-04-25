@@ -90,20 +90,24 @@ void game::show_options()
 // move up and down
   case 'j':
    line++;
+   if (line > MAX_LINE/2 && offset + 1 < NUM_OPTION_KEYS - MAX_LINE) {
+    ++offset;
+    --line;
+   }
    if (line > MAX_LINE) {
-    line = MAX_LINE;
-    if (offset + 1 < NUM_OPTION_KEYS - MAX_LINE) {
-     ++offset;
-    }
+    line = 0;
+    offset = 1;
    }
    break;
   case 'k':
    line--;
+   if (line < MAX_LINE/2 && offset > 1) {
+    --offset;
+    ++line;
+   }
    if (line < 0) {
-    line = 0;
-    if (offset > 1) {
-     --offset;
-    }
+    line = MAX_LINE;
+    offset = NUM_OPTION_KEYS - MAX_LINE - 1;
    }
    break;
 // toggle options with left/right keys
