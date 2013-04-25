@@ -319,7 +319,10 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
  // don't let it go off grid
  if (!inbounds(x2, y2)){
   veh->stop();
-  debugmsg ("stopping vehicle, displaced dx=%d, dy=%d", dx,dy);
+   // Silent debug
+  dbg(D_ERROR) << "map:displace_vehicle: Stopping vehicle, displaced dx=" << dx << ", dy=" << dy;
+   // debugmon'd on screen
+  if (g->debugmon) debugmsg ("stopping vehicle, displaced dx=%d, dy=%d", dx,dy);
   return false;
  }
 
