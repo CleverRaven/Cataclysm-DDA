@@ -419,7 +419,7 @@ void computer::activate_function(game *g, computer_action action)
         point target = g->cur_om.draw_overmap(g, 0);
         if (target.x == -1)
         {
-            g->add_msg("Target Acquisition canceled");
+            g->add_msg("Target acquisition canceled");
             return;
         }
         if(query_yn("Confirm nuclear missile launch."))
@@ -429,7 +429,7 @@ void computer::activate_function(game *g, computer_action action)
         }
         else
         {
-            g->add_msg("Nuclear missile launched aborted.");
+            g->add_msg("Nuclear missile launch aborted.");
             return;
         }
         g->refresh_all();

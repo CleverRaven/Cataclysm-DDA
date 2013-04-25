@@ -729,7 +729,7 @@ void bionics_install_failure(game *g, player *u, int success)
 
 void game::init_bionics(){
     bionics["bio_null"] = new bionic_data("NULL bionics", false, false, 0, 0, "\
-    If you're seeing this, it's a bug.");
+If you're seeing this, it's a bug.");
     // NAME          ,PW_SRC, ACT ,COST, TIME,
     bionics["bio_batteries"] = new bionic_data("Battery System", true, false, 0, 0, "\
 You have a battery draining attachment, and thus can make use of the energy\n\

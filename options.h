@@ -28,6 +28,8 @@ OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
 OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
 OPT_STATIC_SPAWN, // Makes zombies spawn using the new static system
 OPT_CLASSIC_ZOMBIES, // Only spawn the more classic zombies
+OPT_STATIC_NPC, //Spawn static npcs
+OPT_RANDOM_NPC, //Spawn random npcs
 NUM_OPTION_KEYS
 };
 
