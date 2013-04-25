@@ -1050,7 +1050,6 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
  case t_chainfence_v:
  case t_chainfence_h:
- case t_chaingate_c:
  case t_chaingate_l:
   result = rng(0, 50);
   if (res) *res = result;

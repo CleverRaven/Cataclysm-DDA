@@ -3169,6 +3169,7 @@ if (dirx == 0 && diry == 0) {
   g->add_msg("You can't cut that.");
  }
 }
+}
 
 void iuse::tent(game *g, player *p, item *it, bool t)
 {
