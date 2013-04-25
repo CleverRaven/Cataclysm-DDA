@@ -720,7 +720,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
         }
     }
 
-    for (int i = 0; i < current.size() && i < 51; i++)
+    for (int i = 0; i < current.size(); i++)
     {
         //Check if we have the requisite tools and components
         if(can_make(current[i]))
