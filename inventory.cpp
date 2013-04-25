@@ -551,7 +551,7 @@ item inventory::remove_item_by_letter(char ch)
 }
 
 // using this assumes the item has charges
-item inventory::remove_item_by_letter_and_quantity(char ch, int quantity)
+item inventory::remove_item_by_charges(char ch, int quantity)
 {
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
