@@ -20,6 +20,7 @@ void game::show_options()
  WINDOW* w_options = newwin(23, 78, 1 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 1 + ((TERMX > 80) ? (TERMX-80)/2 : 0));
 
  int offset = 1;
+ const int MAX_LINE = 22;
  int line = 0;
  char ch = ' ';
  bool changed_options = false;
@@ -89,13 +90,25 @@ void game::show_options()
 // move up and down
   case 'j':
    line++;
-   if (line == NUM_OPTION_KEYS - 1)
+   if (line > MAX_LINE/2 && offset + 1 < NUM_OPTION_KEYS - MAX_LINE) {
+    ++offset;
+    --line;
+   }
+   if (line > MAX_LINE) {
     line = 0;
+    offset = 1;
+   }
    break;
   case 'k':
    line--;
-   if (line < 0)
-    line = NUM_OPTION_KEYS - 2;
+   if (line < MAX_LINE/2 && offset > 1) {
+    --offset;
+    ++line;
+   }
+   if (line < 0) {
+    line = MAX_LINE;
+    offset = NUM_OPTION_KEYS - MAX_LINE - 1;
+   }
    break;
 // toggle options with left/right keys
   case 'h':
