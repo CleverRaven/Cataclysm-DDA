@@ -13,6 +13,7 @@
 #include "keypress.h"
 #include "options.h"
 #include "cursesdef.h"
+#include "input.h"
 
 #define LINE_XOXO 4194424
 #define LINE_OXOX 4194417
@@ -228,7 +229,7 @@ void printz(nc_color FG, const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  attron(FG);
- printw("%s", buff); 
+ printw(buff);
  attroff(FG);
 }
 
@@ -240,7 +241,7 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  wattron(w, FG);
- wprintw(w, "%s", buff);
+ wprintw(w, buff);
  wattroff(w, FG);
 }
 
@@ -481,7 +482,7 @@ char popup_getkey(const char *mes, ...)
  return ch;
 }
 
-int menu_vec(bool cancelable, const char *mes, std::vector<std::string> options)
+int menu_vec(const char *mes, std::vector<std::string> options)
 {
  if (options.size() == 0) {
   debugmsg("0-length menu (\"%s\")", mes);
@@ -508,9 +509,6 @@ int menu_vec(bool cancelable, const char *mes, std::vector<std::string> options)
  do
  {
   ch = getch();
-  if (cancelable && ch == KEY_ESCAPE)
-   res = options.size();
-  else
   if (ch >= '1' && ch <= '9')
    res = ch - '1' + 1;
   else
@@ -531,7 +529,176 @@ int menu_vec(bool cancelable, const char *mes, std::vector<std::string> options)
  return (res);
 }
 
-int menu(bool cancelable, const char *mes, ...)
+int dpad_menu(const char *mes, ...)
+{
+ if (mes == NULL)
+  mes = "DPad Menu";
+ const bool ALLOW_ESC = true;
+
+ // Used to make the dpad graphics more square
+ const int vertical_line_length = 2;
+ const int horizontal_line_length = 3;
+
+ va_list ap;
+ va_start(ap, mes);
+ char* tmp;
+ std::vector<std::string> options;
+ bool done = false;
+ while (!done) {
+  tmp = va_arg(ap, char*);
+  if (tmp != NULL) {
+   std::string strtmp = tmp;
+   options.push_back(strtmp);
+  } else
+   done = true;
+ }
+
+ if (options.size() > 4)
+ {
+  debugmsg("Too many dpad_menu options. Num options = %i", int(options.size()) );
+  while(options.size() > 4)
+   options.pop_back();
+ }
+ else if (options.size() == 0)
+ {
+  debugmsg("Too few dpad_menu options. Num options = %i", int(options.size()) );
+  if (ALLOW_ESC)
+   return -1;
+  else
+  {
+   debugmsg("Also, the function calling this does not allow escape.", int(options.size()) );
+   return 0;
+  }
+ }
+ else if (options.size() == 1)
+  return 0; // Only one option, skip the menu
+ int initial_direction = 0;
+ int directions[] = {-1, -1, -1, -1}; // NESW. What string does each direction point to?
+ switch (options.size())
+ {
+  case 2:
+   initial_direction = 3;
+   directions[3] = 0;
+   directions[1] = 1;
+   break;
+  case 3:
+   initial_direction = 0;
+   directions[3] = 0;
+   directions[0] = 1;
+   directions[1] = 2;
+   break;
+  case 4:
+   initial_direction = 0;
+   directions[3] = 0;
+   directions[0] = 1;
+   directions[1] = 2;
+   directions[2] = 3;
+   break;
+  default:
+   break;
+ }
+
+ int sideWidth = 0;
+ int sideHeight = 0;
+ for (int i = 1; i < 4; i+=2)
+  if (directions[i] != -1)
+  {
+   sideWidth = std::max(int( options[directions[i]].length()+horizontal_line_length+2 ), sideWidth);
+   sideHeight = std::max(1, sideHeight);
+  }
+ for (int i = 0; i < 4; i+=2)
+  if (directions[i] != -1)
+  {
+   sideWidth = std::max(int( (options[directions[i]].length()-1)/2+1 ), sideWidth);
+   sideHeight = std::max(vertical_line_length + 2, sideHeight);
+  }
+
+ int width = sideWidth*2 + 1 + 2;
+ width = std::max(width, 2 + int( strlen(mes) ) );
+ int height = sideHeight*2 + 1 + 2;
+ WINDOW *w = newwin(height, width, (TERMY-height)/2, (TERMX-width)/2);
+ wattron(w, c_white);
+ wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+ mvwprintz(w, 0, 1, c_white, mes);
+
+ InputEvent input = Nothing;
+ int pointing = initial_direction;
+ while (input != Confirm)
+ {
+  if (directions[0] != -1)
+  {
+   nc_color color = (pointing == 0 ? c_red : c_dkgray);
+   for (int i = 0; i < vertical_line_length; i++)
+    mvwputch(w, height/2 - vertical_line_length + i, width/2, color, LINE_XOXO);
+   std::string& str = options[directions[0]];
+   mvwprintz(w, height/2 - vertical_line_length - 2, width/2 - str.length()/2, c_white, str.c_str());
+  }
+  if (directions[1] != -1)
+  {
+   nc_color color = (pointing == 1 ? c_red : c_dkgray);
+   for (int i = 0; i < horizontal_line_length; i++)
+    mvwputch(w, height/2, width/2 + horizontal_line_length - i, color, LINE_OXOX);
+   std::string& str = options[directions[1]];
+   mvwprintz(w, height/2, width/2 + horizontal_line_length + 2, c_white, str.c_str());
+  }
+  if (directions[2] != -1)
+  {
+   nc_color color = (pointing == 2 ? c_red : c_dkgray);
+   for (int i = 0; i < vertical_line_length; i++)
+    mvwputch(w, height/2 + vertical_line_length - i, width/2, color, LINE_XOXO);
+   std::string& str = options[directions[2]];
+   mvwprintz(w, height/2 + vertical_line_length + 2, width/2 - str.length()/2, c_white, str.c_str());
+  }
+  if (directions[3] != -1)
+  {
+   nc_color color = (pointing == 3 ? c_red : c_dkgray);
+   for (int i = 0; i < horizontal_line_length; i++)
+    mvwputch(w, height/2, width/2 - horizontal_line_length + i, color, LINE_OXOX);
+   std::string& str = options[directions[3]];
+   mvwprintz(w, height/2, width/2 - horizontal_line_length - str.length() - 1, c_white, str.c_str());
+  }
+
+  wrefresh(w);
+  input = get_input();
+  if(ALLOW_ESC && input == Cancel)
+  {
+   pointing = -1;
+   break;
+  }
+  switch (input)
+  {
+  case DirectionN:
+   if (directions[0] != -1)
+    pointing = 0;
+   break;
+  case DirectionE:
+   if (directions[1] != -1)
+    pointing = 1;
+   break;
+  case DirectionS:
+   if (directions[2] != -1)
+    pointing = 2;
+   break;
+  case DirectionW:
+   if (directions[3] != -1)
+    pointing = 3;
+   break;
+  default:
+   break;
+  }
+ }
+
+ werase(w);
+ wrefresh(w);
+ delwin(w);
+
+ if (pointing == -1)
+  return -1;
+ return directions[pointing];
+}
+
+int menu(const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
@@ -546,7 +713,7 @@ int menu(bool cancelable, const char *mes, ...)
   } else
    done = true;
  }
- return (menu_vec(cancelable, mes, options));
+ return (menu_vec(mes, options));
 }
 
 void popup_top(const char *mes, ...)
