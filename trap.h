@@ -11,6 +11,7 @@ enum trap_id {
  tr_bubblewrap,
  tr_cot,
  tr_brazier,
+ tr_funnel,
  tr_rollmat,
  tr_beartrap,
  tr_beartrap_buried,

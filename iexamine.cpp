@@ -679,8 +679,14 @@ void iexamine::trap(game *g, player *p, map *m, int examx, int examy) {
      p->per_cur-p->encumb(bp_eyes) >= g->traps[m->tr_at(examx, examy)]->visibility &&
      query_yn("There is a %s there.  Disarm?",
               g->traps[m->tr_at(examx, examy)]->name.c_str())) {
-      m->disarm_trap(g, examx, examy);
-  }
+     m->disarm_trap(g, examx, examy);
+ }
+ else if (m->tr_at(examx, examy) == tr_funnel && m->is_outside(examx, examy) &&
+          (g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_RAINY ||
+           g->weather == WEATHER_THUNDER || g->weather == WEATHER_LIGHTNING))
+ {
+     water_source(g, p, m, examx, examy);
+ }
 }
 
 void iexamine::water_source(game *g, player *p, map *m, const int examx, const int examy)
