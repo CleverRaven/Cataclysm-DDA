@@ -67,7 +67,7 @@ inventory inventory::subset(std::map<char, int> chosen) const
             if (iter->front().count_by_charges())
             {
                 item tmp = iter->front();
-                if (count <= tmp.charges)
+                if (count <= tmp.charges && count >= 0) // -1 is used to mean "all" sometimes
                 {
                     tmp.charges = count;
                 }
