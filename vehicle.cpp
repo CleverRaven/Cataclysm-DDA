@@ -1590,8 +1590,14 @@ void vehicle::remove_item (int part, int itemdex)
 void vehicle::gain_moves (int mp)
 {
     if (velocity)
+    {
         of_turn = 1 + of_turn_carry;
-    of_turn_carry = 0;;
+    }
+    else
+    {
+        of_turn = 0;
+    }
+    of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
     if (player_in_control(&g->u))
