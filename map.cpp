@@ -1050,8 +1050,6 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
  case t_chainfence_v:
  case t_chainfence_h:
- case t_chaingate_c:
- case t_chaingate_l:
   result = rng(0, 50);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 50)) {
@@ -1175,6 +1173,7 @@ case t_wall_log:
 
 
  case t_chaingate_c:
+ case t_chaingate_l:
   result = rng(0, has_adjacent_furniture(x, y) ? 80 : 100);
   if (res) *res = result;
   if (str >= result && str >= rng(0, 80)) {
