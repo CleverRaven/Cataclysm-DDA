@@ -3136,12 +3136,17 @@ if (dirx == 0 && diry == 0) {
  }
  dirx += p->posx;
  diry += p->posy;
- if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h) {
+ if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h || g->m.ter(dirx, diry) == t_chaingate_c) {
   p->moves -= 500;
-  g->m.ter_set(dirx, diry, t_pavement);
+  g->m.ter_set(dirx, diry, t_dirt);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(dirx, diry, g->itypes["pipe"], 0, 6);
   g->m.spawn_item(dirx, diry, g->itypes["wire"], 0, 20);
+ if (g->m.ter(dirx, diry) == t_chainfence_posts) {
+  p->moves -= 500;
+  g->m.ter_set(dirx, diry, t_dirt);
+  g->sound(dirx, diry, 15,"grnd grnd grnd");
+  g->m.spawn_item(dirx, diry, g->itypes["pipe"], 0, 6);
  } else if (g->m.ter(dirx, diry) == t_rack) {
   p->moves -= 500;
   g->m.ter_set(dirx, diry, t_floor);
@@ -3163,6 +3168,7 @@ if (dirx == 0 && diry == 0) {
  } else {
   g->add_msg("You can't cut that.");
  }
+}
 }
 
 void iuse::tent(game *g, player *p, item *it, bool t)
