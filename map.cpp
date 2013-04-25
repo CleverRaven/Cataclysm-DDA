@@ -2120,7 +2120,8 @@ item map::water_from(const int x, const int y)
         ret.poison = rng(1, 7);
     else if (ter(x, y) == t_toilet && !one_in(3))
         ret.poison = rng(1, 3);
-
+    else if (tr_at(x, y) == tr_funnel)
+        ret.poison = (one_in(10) > 1) ? 0 : 1;
     return ret;
 }
 

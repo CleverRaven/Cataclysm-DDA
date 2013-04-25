@@ -15,18 +15,16 @@ Most values can be changed with no impact on calculations. Because of caluclatio
 maximum heat cannot pass 15000u, otherwise the player will vomit to death.
 */
 
+// How far into the future we should generate weather, in hours.
+// 168 hours in a week.
+#define MAX_FUTURE_WEATHER 168
+
 #include "color.h"
 #include <string>
+#include "calendar.h"
+#include "overmap.h"
 
 class game;
-
-enum season_type {
- SPRING = 0,
- SUMMER = 1,
- AUTUMN = 2,
- WINTER = 3
-#define FALL AUTUMN
-};
 
 enum weather_type {
  WEATHER_NULL,		// For data and stuff
@@ -60,6 +58,14 @@ struct weather_effect
  void snowstorm		(game *) {};
 };
 
+// All the weather conditions at some time
+struct weather_segment
+{
+    signed char temperature;
+    weather_type weather;
+    calendar deadline;
+};
+
 struct weather_datum
 {
  std::string name;
@@ -72,5 +78,11 @@ struct weather_datum
  bool dangerous; // If true, our activity gets interrupted
  void (weather_effect::*effect)(game *);
 };
+
+extern std::string season_name[4];
+extern weather_datum weather_data[];
+extern int weather_shift[4][NUM_WEATHER_TYPES][NUM_WEATHER_TYPES];
+
+std::string weather_forecast(game *g, radio_tower tower);
 
 #endif // _WEATHER_H_

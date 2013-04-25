@@ -6,7 +6,6 @@
 #include "skill.h"
 #include "line.h"
 #include "computer.h"
-#include "weather_data.h"
 #include "veh_interact.h"
 #include "options.h"
 #include "mapbuffer.h"
@@ -194,7 +193,7 @@ void game::setup()
  messages.clear();
  events.clear();
 
- turn.season = SUMMER;    // ... with winter conveniently a long ways off
+ turn.set_season(SUMMER);    // ... with winter conveniently a long ways off
 
  for (int i = 0; i < num_monsters; i++)	// Reset kill counts to 0
   kills[i] = 0;
@@ -403,7 +402,7 @@ bool game::do_turn()
  turn.increment();
  process_events();
  process_missions();
- if (turn.hour == 0 && turn.minute == 0 && turn.second == 0) // Midnight!
+ if (turn.hours() == 0 && turn.minutes() == 0 && turn.seconds() == 0) // Midnight!
   cur_om.process_mongroups();
 
 // Check if we've overdosed... in any deadly way.
@@ -864,65 +863,100 @@ void game::cancel_activity_query(const char* message, ...)
 
 void game::update_weather()
 {
- season_type season = turn.season;
-// Pick a new weather type (most likely the same one)
- int chances[NUM_WEATHER_TYPES];
- int total = 0;
- for (int i = 0; i < NUM_WEATHER_TYPES; i++) {
-// Reduce the chance for freezing-temp-only weather to 0 if it's above freezing
-// and vice versa.
-  if ((weather_data[i].avg_temperature[season] < 32 && temperature > 32) ||
-      (weather_data[i].avg_temperature[season] > 32 && temperature < 32)   )
-   chances[i] = 0;
-  else {
-   chances[i] = weather_shift[season][weather][i];
-   if (weather_data[i].dangerous && u.has_artifact_with(AEP_BAD_WEATHER))
-    chances[i] = chances[i] * 4 + 10;
-   total += chances[i];
-  }
- }
- int choice = rng(0, total - 1);
- weather_type old_weather = weather;
- weather_type new_weather = WEATHER_CLEAR;
+    season_type season;
+    // Default to current weather, and update to the furthest future weather if any.
+    weather_segment prev_weather = {temperature, weather, nextweather};
+    if( !future_weather.empty() )
+    {
+        prev_weather = future_weather.back();
+    }
 
- if (total > 0) {
-  while (choice >= chances[new_weather]) {
-   choice -= chances[new_weather];
-   new_weather = weather_type(int(new_weather) + 1);
-  }
- } else {
-  new_weather = weather_type(int(new_weather) + 1);
- }
-// Advance the weather timer
- int minutes = rng(weather_data[new_weather].mintime,
-                   weather_data[new_weather].maxtime);
- nextweather = turn + MINUTES(minutes);
- weather = new_weather;
- if (weather == WEATHER_SUNNY && turn.is_night())
-  weather = WEATHER_CLEAR;
+    while( prev_weather.deadline < turn + HOURS(MAX_FUTURE_WEATHER) )
+    {
+        weather_segment new_weather;
+        // Pick a new weather type (most likely the same one)
+        int chances[NUM_WEATHER_TYPES];
+        int total = 0;
+        season = prev_weather.deadline.get_season();
+        for (int i = 0; i < NUM_WEATHER_TYPES; i++) {
+            // Reduce the chance for freezing-temp-only weather to 0 if it's above freezing
+            // and vice versa.
+            if ((weather_data[i].avg_temperature[season] < 32 && temperature > 32) ||
+                (weather_data[i].avg_temperature[season] > 32 && temperature < 32)   )
+            {
+                chances[i] = 0;
+            } else {
+                chances[i] = weather_shift[season][prev_weather.weather][i];
+                if (weather_data[i].dangerous && u.has_artifact_with(AEP_BAD_WEATHER))
+                {
+                    chances[i] = chances[i] * 4 + 10;
+                }
+                total += chances[i];
+            }
+        }
+        int choice = rng(0, total - 1);
+        new_weather.weather = WEATHER_CLEAR;
 
- if (weather != old_weather && weather_data[weather].dangerous &&
-     levz >= 0 && m.is_outside(u.posx, u.posy)) {
-  std::stringstream weather_text;
-  weather_text << "The weather changed to " << weather_data[weather].name <<
-                  "!";
-  cancel_activity_query(weather_text.str().c_str());
- }
+        if (total > 0)
+        {
+            while (choice >= chances[new_weather.weather])
+            {
+                choice -= chances[new_weather.weather];
+                new_weather.weather = weather_type(int(new_weather.weather) + 1);
+            }
+        } else {
+            new_weather.weather = weather_type(int(new_weather.weather) + 1);
+        }
+        // Advance the weather timer
+        int minutes = rng(weather_data[new_weather.weather].mintime,
+                          weather_data[new_weather.weather].maxtime);
+        new_weather.deadline = prev_weather.deadline + MINUTES(minutes);
+        if (new_weather.weather == WEATHER_SUNNY && new_weather.deadline.is_night())
+        {
+            new_weather.weather = WEATHER_CLEAR;
+        }
 
-// Now update temperature
- if (!one_in(4)) { // 3 in 4 chance of respecting avg temp for the weather
-  int average = weather_data[weather].avg_temperature[season];
-  if (temperature < average)
-   temperature++;
-  else if (temperature > average)
-   temperature--;
- } else // 1 in 4 chance of random walk
-  temperature += rng(-1, 1);
+        // Now update temperature
+        if (!one_in(4))
+        { // 3 in 4 chance of respecting avg temp for the weather
+            int average = weather_data[weather].avg_temperature[season];
+            if (prev_weather.temperature < average)
+            {
+                new_weather.temperature = prev_weather.temperature + 1;
+            } else if (prev_weather.temperature > average) {
+                new_weather.temperature = prev_weather.temperature - 1;
+            } else {
+                new_weather.temperature = prev_weather.temperature;
+            }
+        } else {// 1 in 4 chance of random walk
+            new_weather.temperature = prev_weather.temperature + rng(-1, 1);
+        }
 
- if (turn.is_night())
-  temperature += rng(-2, 1);
- else
-  temperature += rng(-1, 2);
+        if (turn.is_night())
+        {
+            new_weather.temperature += rng(-2, 1);
+        } else {
+            new_weather.temperature += rng(-1, 2);
+        }
+        prev_weather = new_weather;
+        future_weather.push_back(new_weather);
+    }
+
+    if( turn >= nextweather )
+    {
+        weather_type old_weather = weather;
+        weather = future_weather.front().weather;
+        temperature = future_weather.front().temperature;
+        nextweather = future_weather.front().deadline;
+        future_weather.pop_front();
+        if (weather != old_weather && weather_data[weather].dangerous &&
+            levz >= 0 && m.is_outside(u.posx, u.posy))
+        {
+            std::stringstream weather_text;
+            weather_text << "The weather changed to " << weather_data[weather].name << "!";
+            cancel_activity_query(weather_text.str().c_str());
+        }
+    }
 }
 
 int game::assign_mission_id()
@@ -1909,6 +1943,7 @@ void game::load(std::string name)
  last_target = tmptar;
  weather = weather_type(tmpweather);
  temperature = tmptemp;
+ update_weather();
 // Next, the scent map.
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEY * MAPSIZE; j++)
@@ -1953,7 +1988,7 @@ void game::load(std::string name)
    if (item_place == 'I')
     tmpinv.push_back(item(itemdata, this));
    else if (item_place == 'C')
-    tmpinv.end()->contents.push_back(item(itemdata, this));
+    tmpinv.back().contents.push_back(item(itemdata, this));
    else if (item_place == 'W')
     u.worn.push_back(item(itemdata, this));
    else if (item_place == 'w')
@@ -2743,7 +2778,7 @@ void game::draw()
  wrefresh(w_location);
 
  mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
-           season_name[turn.season].c_str(), turn.day + 1);
+           season_name[turn.get_season()].c_str(), turn.days() + 1);
  if (run_mode != 0 || autosafemode != 0) {
   int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
   mvwprintz(w_status, 2, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
@@ -5228,7 +5263,15 @@ void game::advanced_inv()
                         {
                             if(amount >= it->charges) // full stack moved
                             {
-                                item moving_item = *(u.inv.remove_stack_by_letter(it->invlet).begin());
+				item moving_item = u.inv.remove_item_by_letter_and_quantity(it->invlet,amount);
+
+//                                item moving_item = *(u.inv.remove_stack_by_letter(it->invlet).begin()); // Hi, I crash printItems afterwards. Hehe.
+/*
+#0  0xb7f21575 in std::basic_ostream<char, std::char_traits<char> >& std::operator<< <char, std::char_traits<char>, std::allocator<char> >(std::basic_ostream<char, std::char_traits<char> >&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) () from /usr/lib/libstdc++.so.6
+#1  0x0836fa4e in item::tname (this=0xdef4520, g=0xb7cb0008) at item.cpp:764
+#2  0x0826fa0f in printItems (items=..., window=0xdeedf28, page=0, selected_index=0, active=false, g=0xb7cb0008) at game.cpp:4960
+#3  0x08270f08 in game::advanced_inv (this=0xb7cb0008) at game.cpp:5123
+*/
                                 m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             else //partial stack moved
@@ -6077,8 +6120,7 @@ void game::pickup(int posx, int posy, int min)
         veh->drain(AT_WATER, 1);
 
         item water(itypes["water_clean"], 0);
-        u.inv.push_back(water);
-        u.eat(this, u.inv.size() - 1);
+        u.eat(this, u.inv.add_item(water).invlet);
         u.moves -= 250;
       }
     } else {
@@ -6133,8 +6175,7 @@ void game::pickup(int posx, int posy, int min)
       else
        m.i_clear(posx, posy);
       m.add_item(posx, posy, u.remove_weapon());
-      u.i_add(newit, this);
-      u.wield(this, u.inv.size() - 1);
+      u.wield(this, u.i_add(newit, this).invlet);
       u.moves -= 100;
       add_msg("Wielding %c - %s", newit.invlet, newit.tname(this).c_str());
      } else
@@ -6145,8 +6186,7 @@ void game::pickup(int posx, int posy, int min)
      decrease_nextinv();
     }
    } else {
-    u.i_add(newit, this);
-    u.wield(this, u.inv.size() - 1);
+    u.wield(this, u.i_add(newit, this).invlet);
     if (from_veh)
      veh->remove_item (veh_part, 0);
     else
@@ -6339,8 +6379,7 @@ void game::pickup(int posx, int posy, int min)
        else
         m.i_rem(posx, posy, curmit);
        m.add_item(posx, posy, u.remove_weapon());
-       u.i_add(here[i], this);
-       u.wield(this, u.inv.size() - 1);
+       u.wield(this, u.i_add(here[i], this).invlet);
        curmit--;
        u.moves -= 100;
        add_msg("Wielding %c - %s", u.weapon.invlet, u.weapon.tname(this).c_str());
@@ -6352,8 +6391,7 @@ void game::pickup(int posx, int posy, int min)
       decrease_nextinv();
      }
     } else {
-     u.i_add(here[i], this);
-     u.wield(this, u.inv.size() - 1);
+     u.wield(this, u.i_add(here[i], this).invlet);
      if (from_veh)
       veh->remove_item (veh_part, curmit);
      else
@@ -8923,8 +8961,10 @@ void game::init_autosave()
 {
  moves_since_last_save = 0;
  item_exchanges_since_save = 0;
+ last_save_timestamp = time(NULL);
 }
 
+// Currently unused.
 int game::autosave_timeout()
 {
  if (!OPTIONS[OPT_AUTOSAVE])
@@ -8953,7 +8993,10 @@ int game::autosave_timeout()
 
 void game::autosave()
 {
-    if (u.in_vehicle || (!moves_since_last_save && !item_exchanges_since_save))
+    time_t now = time(NULL);
+    // Don't autosave while driving, if the player's done nothing, or if it's been less than 5 real minutes.
+    if (u.in_vehicle || (!moves_since_last_save && !item_exchanges_since_save) ||
+        now < last_save_timestamp + 300)
     {
         return;
     }
@@ -8962,6 +9005,7 @@ void game::autosave()
 
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;
+    last_save_timestamp = now;
 }
 
 void intro()

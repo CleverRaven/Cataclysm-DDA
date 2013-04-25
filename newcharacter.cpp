@@ -197,13 +197,13 @@ bool player::create(game *g, character_type type, std::string tempname)
   std::advance(random_bionic,rng(0,bionics.size()-1));
   add_bionic(random_bionic->first);// Other
   if (bionics[my_bionics[0].id]->power_cost > 0) {
-   add_bionic(bionic_id(power_source_bionics[rng(0,power_source_bionics.size())]));	// Power Source
+   add_bionic(bionic_id(power_source_bionics[rng(0,power_source_bionics.size()-1)]));	// Power Source
    max_power_level = 10;
    power_level = 10;
   } else {
    bionic_id tmpbio;
    do
-   tmpbio = bionic_id(unpowered_bionics[rng(0, unpowered_bionics.size())]);
+   tmpbio = bionic_id(unpowered_bionics[rng(0, unpowered_bionics.size()-1)]);
    while (bionics[tmpbio]->power_cost > 0);
    add_bionic(tmpbio);
    max_power_level = 0;
@@ -739,7 +739,7 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
             mvwprintz(w, 4 + i, 2, c_ltgray, "\
                                              ");	// Clear the line
             int id = i;
-            if (cur_id < 7)
+            if ((cur_id < 7) || (profession::count() < 16))
             {
                 //do nothing
             }

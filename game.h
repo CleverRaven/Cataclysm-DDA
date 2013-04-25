@@ -25,6 +25,7 @@
 #include "action.h"
 #include <vector>
 #include <map>
+#include <list>
 #include <stdarg.h>
 
 // Fixed window sizes
@@ -247,6 +248,9 @@ class game
   calendar turn;
   signed char temperature;              // The air temperature
   weather_type weather;			// Weather pattern--SEE weather.h
+
+  std::list<weather_segment> future_weather;
+
   char nextinv;	// Determines which letter the next inv item will have
   overmap cur_om;
   map m;
@@ -467,6 +471,7 @@ class game
 
   int moves_since_last_save;
   int item_exchanges_since_save;
+  time_t last_save_timestamp;
   unsigned char latest_lightlevel;
   calendar latest_lightlevel_turn;
 

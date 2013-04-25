@@ -487,8 +487,9 @@ recipe* game::select_crafting_recipe()
                             toolcol = c_green;
                         }
 
-                            std::stringstream toolinfo;
-                            toolinfo << item_controller->find_template(type)->name + " ";
+                        std::stringstream toolinfo;
+                        toolinfo << item_controller->find_template(type)->name << " ";
+
                         if (charges > 0)
                         {
                             toolinfo << "(" << charges << " charges) ";

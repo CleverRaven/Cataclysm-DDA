@@ -1387,7 +1387,11 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
                           g->levx, g->levy);
    if (signal > best_signal) {
     best_signal = signal;
-    message = g->cur_om.radios[k].message;
+    if( g->cur_om.radios[k].type == MESSAGE_BROADCAST ) {
+     message = g->cur_om.radios[k].message;
+    } else if (g->cur_om.radios[k].type == WEATHER_RADIO) {
+     message = weather_forecast(g, g->cur_om.radios[k]);
+    }
    }
   }
   if (best_signal > 0) {
@@ -1930,6 +1934,10 @@ if(it->type->id == "cot"){
              ", nails facing up.";
   type = tr_nailboard;
   practice = 2;
+  } else if(it->type->id == "funnel"){
+  message << "You place the funnel, waiting to collect rain.";
+  type = tr_funnel;
+  practice = 0;
  } else if(it->type->id == "tripwire"){
 // Must have a connection between solid squares.
   if ((g->m.move_cost(posx    , posy - 1) != 2 &&
