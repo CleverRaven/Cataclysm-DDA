@@ -913,5 +913,6 @@ void game::init_mapitems()
 	"EMPbomb_act", "gasbomb_act", "smokebomb_act", "molotov_lit",
 	"dynamite_act", "firecracker_pack_act", "firecracker_act",
 	"mininuke_act", "UPS_on", "mp3_on", "c4armed", "apparatus",
-	"brazier", "rag_bloody", NULL);
+	"brazier", "rag_bloody", "candle_lit", "torch_lit",
+	"acidbomb_act", NULL);
 }
