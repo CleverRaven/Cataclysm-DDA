@@ -2139,16 +2139,16 @@ void game::delete_save()
 
 void game::advance_nextinv()
 {
-  if (nextinv == *inv_chars.end())
-    nextinv = *inv_chars.begin();
+  if (nextinv == inv_chars.end()[-1])
+    nextinv = inv_chars.begin()[0];
   else
     nextinv = inv_chars[inv_chars.find(nextinv) + 1];
 }
 
 void game::decrease_nextinv()
 {
-  if (nextinv == *inv_chars.begin())
-    nextinv = *inv_chars.end();
+  if (nextinv == inv_chars.begin()[0])
+    nextinv = inv_chars.end()[-1];
   else
     nextinv = inv_chars[inv_chars.find(nextinv) - 1];
 }
