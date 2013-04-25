@@ -56,28 +56,28 @@ std::vector<int> find_firsts(invslice &slice)
 void print_inv_weight_vol(game *g, WINDOW* w_inv, int weight_carried, int vol_carried)
 {
     // Print weight
-    mvwprintw(w_inv, 0, 45, "Weight: ");
+    mvwprintw(w_inv, 0, 43, "Weight: ");
     if (weight_carried >= g->u.weight_capacity() * .25)
     {
-        wprintz(w_inv, c_red, "%d", weight_carried);
+        wprintz(w_inv, c_red, "%4d", weight_carried);
     }
     else
     {
-        wprintz(w_inv, c_ltgray, "%d", weight_carried);
+        wprintz(w_inv, c_ltgray, "%4d", weight_carried);
     }
-    wprintz(w_inv, c_ltgray, "/%d", int(g->u.weight_capacity() * .25));//, g->u.weight_capacity());
+    wprintz(w_inv, c_ltgray, "/%-4d", int(g->u.weight_capacity() * .25));//, g->u.weight_capacity());
 
     // Print volume
-    mvwprintw(w_inv, 0, 62, "Volume: ");
+    mvwprintw(w_inv, 0, 61, "Volume: ");
     if (vol_carried > g->u.volume_capacity() - 2)
     {
-        wprintz(w_inv, c_red, "%d", vol_carried);
+        wprintz(w_inv, c_red, "%3d", vol_carried);
     }
     else
     {
-        wprintz(w_inv, c_ltgray, "%d", vol_carried);
+        wprintz(w_inv, c_ltgray, "%3d", vol_carried);
     }
-    wprintw(w_inv, "/%d", g->u.volume_capacity() - 2);
+    wprintw(w_inv, "/%-3d", g->u.volume_capacity() - 2);
 }
 
 void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
