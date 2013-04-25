@@ -403,7 +403,7 @@ char option_max_options(option_key id)
         ret = 93; // TODO Set up min/max values so weird numbers don't have to be used.
         break;
       case OPT_SEASON_LENGTH:
-        ret = 666;
+        ret = 127;
       case OPT_MOVE_VIEW_OFFSET:
         ret = 50; // TODO calculate max for screen size
         break;
