@@ -23,6 +23,16 @@ enum InputEvent {
     Reset,
 	Pickup,
 	Nothing,
+	
+	DirectionN_shift,
+	DirectionS_shift,
+	DirectionE_shift,
+	DirectionW_shift,
+	DirectionNW_shift,
+	DirectionNE_shift,
+	DirectionSW_shift,
+	DirectionSE_shift,
+
 	Undefined
 };
 
