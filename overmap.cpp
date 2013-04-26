@@ -366,6 +366,19 @@ void overmap::remove_npc(int npc_id)
     }
 }
 
+std::vector<point> overmap::find_notes(int const x, int const y, int const z, std::string const& text) const
+{
+  std::vector<point> found;
+  int zlevel = z + OVERMAP_DEPTH;
+
+  for (int i = 0; i < layer[zlevel].notes.size(); i++) {
+    if (layer[zlevel].notes[i].text.find(text) != std::string::npos)
+      found.push_back( point( layer[zlevel].notes[i].x, layer[zlevel].notes[i].y));
+  }
+
+  return found;
+}
+
 point overmap::display_notes(game* g, int const z) const
 {
  if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
@@ -1255,11 +1268,11 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    }
    mvwprintz(w, 17, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
    mvwprintz(w, 18, om_map_width + 1, c_magenta, "0 - Center map on character");
-   mvwprintz(w, 19, om_map_width + 1, c_magenta, "t - Toggle legend          ");
+   mvwprintz(w, 19, om_map_width + 1, c_magenta, "T - Toggle notes           ");
    mvwprintz(w, 20, om_map_width + 1, c_magenta, "/ - Search                 ");
    mvwprintz(w, 21, om_map_width + 1, c_magenta, "N - Add/Edit a note        ");
    mvwprintz(w, 22, om_map_width + 1, c_magenta, "D - Delete a note          ");
-   mvwprintz(w, 23, om_map_width + 1, c_magenta, "L - List notes             ");
+   mvwprintz(w, 23, om_map_width + 1, c_magenta, ": - List notes             ");
    mvwprintz(w, 24, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
   }
 // Done with all drawing!
@@ -1283,8 +1296,6 @@ point overmap::draw_overmap(game *g, int const zlevel)
   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink);
   ch = input();
   int dirx, diry;
-  if (ch != ERR)
-   blink = true;	// If any input is detected, make the blinkies on
   get_direction(g, dirx, diry, ch);
   if (dirx != -2 && diry != -2) {
    cursx += dirx;
@@ -1308,7 +1319,7 @@ point overmap::draw_overmap(game *g, int const zlevel)
      delete_note(cursx, cursy, zlevel);
    }
    timeout(BLINK_SPEED);
-  } else if (ch == 'L'){
+  } else if (ch == 'L' || ch == ':'){
    timeout(-1);
    point p = display_notes(g, zlevel);
    if (p.x != -1){
@@ -1323,10 +1334,10 @@ point overmap::draw_overmap(game *g, int const zlevel)
    std::string term = string_input_popup("Search term:");
    timeout(BLINK_SPEED);
    draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink);
-   point found = find_note(cursx, cursy, zlevel, term);
-   if (found.x == -1) {	// Didn't find a note
-    std::vector<point> terlist;
-    terlist = find_terrain(term, origx, origy, zlevel);
+   
+    std::vector<point> terlist = find_notes(cursx, cursy, zlevel, term);
+    if (terlist.size() == 0)
+     terlist = find_terrain(term, origx, origy, zlevel);
     if (terlist.size() != 0){
      int i = 0;
      //Navigate through results
@@ -1339,10 +1350,11 @@ point overmap::draw_overmap(game *g, int const zlevel)
       mvwprintz(w_search, 2, 1, c_ltblue, "%s", term.c_str());
       mvwprintz(w_search, 4, 1, c_white,
        "'<' '>' Cycle targets.");
+      mvwprintz(w_search, 5, 1, c_ltgray, " %d / %d ", i+1, terlist.size());
       mvwprintz(w_search, 10, 1, c_white, "Enter/Spacebar to select.");
       mvwprintz(w_search, 11, 1, c_white, "q to return.");
       ch = input();
-      if (ch == ERR)
+      if (ch == ERR || ch == 'T')
        blink = !blink;
       else if (ch == '<') {
        i++;
@@ -1357,7 +1369,6 @@ point overmap::draw_overmap(game *g, int const zlevel)
       cursy = terlist[i].y;
       draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink);
       wrefresh(w_search);
-      timeout(BLINK_SPEED);
      } while(ch != '\n' && ch != ' ' && ch != 'q');
      //If q is hit, return to the last position
      if(ch == 'q'){
@@ -1366,14 +1377,11 @@ point overmap::draw_overmap(game *g, int const zlevel)
      }
      ch = '.';
     }
-   }
-   if (found.x != -1) {
-    cursx = found.x;
-    cursy = found.y;
-   }
   }/* else if (ch == 't')  *** Legend always on for now! ***
    legend = !legend;
 */
+  else if (ch == 'T')
+    blink = !blink;
   else if (ch == ERR)	// Hit timeout on input, so make characters blink
    blink = !blink;
  } while (ch != KEY_ESCAPE && ch != 'q' && ch != 'Q' && ch != ' ' &&
