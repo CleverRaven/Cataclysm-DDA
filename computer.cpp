@@ -686,7 +686,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 \n\
 Press any key to continue...");
   break;
-  
+
   case COMPACT_TOWER_UNRESPONSIVE:
   print_line("\
   WARNING, RADIO TOWER IS UNRESPONSIVE. \n\
@@ -697,8 +697,6 @@ Press any key to continue...");
   \n\
   Press any key to continue...");
   break;
-
- } // switch (action)  
 
  } // switch (action)
 }
