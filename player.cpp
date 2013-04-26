@@ -388,7 +388,20 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   }
  // Current temperature and converging temperature calculations
  for (int i = 0 ; i < num_bp ; i++){
-  if (i == bp_eyes) continue; // Skip eyes
+  // CONDITIONS TO SKIP OVER BODY TEMPERATURE CALCULATION
+  // Eyes
+  if (i == bp_eyes) temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;
+  // Mutations
+  if (i == bp_hands && (has_trait(PF_TALONS) || has_trait(PF_WEBBED)))
+   {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
+  if (i == bp_mouth && has_trait(PF_BEAK))
+   {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
+  if (i == bp_feet && has_trait(PF_HOOVES))
+   {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
+  if (i == bp_torso && has_trait(PF_SHELL))
+   {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
+  if (i == bp_head && has_trait(PF_HORNS_CURLED))
+   {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
   // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
   float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 40.0 : 60.0);
   int clothing_warmth_adjustement = homeostasis_adjustement * (float)warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
