@@ -1818,7 +1818,7 @@ ARMOR("hat_ball", "baseball cap",	30,  35,C_HAT,		COTTON,		MNULL,
     2,  1, -5,  0,  0,  0,  0,  2,  10,  0,	mfb(bp_head), "\
 A Red Sox cap. It provides a little bit of warmth.", 0);
 
-ARMOR("hat_boonie", "boonie hat",	10,  55,C_HAT,		PLASTIC,	MNULL,
+ARMOR("hat_boonie", "boonie hat",	10,  55,C_HAT,		COTTON,	MNULL,
     2,  1, -5,  0,  0,  0,  1,  2,  20,  0,	mfb(bp_head), "\
 Also called a \"bucket hat.\" Often used in the military.", 0);
 
@@ -1925,7 +1925,7 @@ ARMOR("mbag", "messenger bag",	20, 110,C_STORE,	COTTON,	PLASTIC,
     8,  2,  1,  1,  0,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
 Light and easy to wear, but doesn't offer much storage.", 0);
 
-ARMOR("fanny", "fanny pack", 	10, 100,C_STORE,	PLASTIC,	MNULL,
+ARMOR("fanny", "fanny pack", 	10, 100,C_STORE,	COTTON,	PLASTIC,
     3,  1,  1,  2,  0,  0,  0,  0,  0,  6,	0, "\
 Provides a bit of extra storage without encumbering you at all.", 0);
 
