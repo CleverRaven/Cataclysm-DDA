@@ -72,6 +72,16 @@ W32BINDIST = cataclysmdda-$(VERSION).zip
 BINDIST_CMD    = tar -czvf $(BINDIST) $(BINDIST_DIR)
 W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
 
+# Linux 'make install' variables - most likely requires sudo at defaults!
+# If LINUX_INSTALL is changed make sure to also change the path in cataclysm.sh!
+LINUX_INSTALL = /usr/share/cataclysm-dda/
+LINUX_EXTRAS = README data
+# Linux launcher used to circumvent pathig trouble with 'data' folder
+LINUX_LAUNCHER = cataclysm.sh
+# Launcher name and placement in $PATH - change at will
+LINUX_INSTALL_BIN_FILE = cataclysm-dda
+LINUX_INSTALL_BIN_PATH = /usr/bin/
+
 # is this section even being used anymore?
 # SOMEBODY PLEASE CHECK
 #ifeq ($(OS), Msys)
@@ -132,6 +142,15 @@ clean:
 	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(ODIR)/*.d $(W32ODIR)/*.o $(W32BINDIST) \
 	$(BINDIST)
 	rm -rf $(BINDIST_DIR)
+
+install:
+	mkdir -p $(LINUX_INSTALL)
+	cp -r $(LINUX_EXTRAS) $(LINUX_INSTALL)
+	cp $(TARGET) $(LINUX_INSTALL)
+	cp $(LINUX_LAUNCHER) $(LINUX_INSTALL_BIN_PATH)$(LINUX_INSTALL_BIN_FILE)
+	chmod +x $(LINUX_INSTALL_BIN_PATH)$(LINUX_INSTALL_BIN_FILE)
+
+	echo -e "\nDo '$(LINUX_INSTALL_BIN_FILE)' to run.\n"
 
 bindist: $(BINDIST)
 
