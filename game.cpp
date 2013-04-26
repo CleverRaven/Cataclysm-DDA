@@ -506,9 +506,8 @@ bool game::do_turn()
   if (OPTIONS[OPT_AUTOSAVE])
     autosave();
  }
-// Update the weather, if it's time.
- if (turn >= nextweather)
-  update_weather();
+
+ update_weather();
 
 // The following happens when we stay still; 10/40 minutes overdue for spawn
  if ((!u.has_trait(PF_INCONSPICUOUS) && turn > nextspawn +  100) ||
@@ -1912,6 +1911,29 @@ bool game::load_master()
  return true;
 }
 
+void game::load_weather(std::ifstream &fin)
+{
+    int tmpnextweather, tmpweather, tmptemp, num_segments;
+    weather_segment new_segment;
+
+    fin >> num_segments >> tmpnextweather >> tmpweather >> tmptemp;
+
+    weather = weather_type(tmpweather);
+    temperature = tmptemp;
+    nextweather = tmpnextweather;
+
+    for( int i = 0; i < num_segments - 1; ++i)
+    {
+        fin >> tmpnextweather >> tmpweather >> tmptemp;
+        new_segment.weather = weather_type(tmpweather);
+        new_segment.temperature = tmptemp;
+        new_segment.deadline = tmpnextweather;
+        future_weather.push_back(new_segment);
+    }
+}
+
+
+
 void game::load(std::string name)
 {
  std::ifstream fin;
@@ -1928,14 +1950,16 @@ void game::load(std::string name)
  u.name = name;
  u.ret_null = item(itypes["null"], 0);
  u.weapon = item(itypes["null"], 0);
- int tmpturn, tmpspawn, tmpnextweather, tmprun, tmptar, tmpweather, tmptemp,
-     comx, comy;
+ int tmpturn, tmpspawn, tmprun, tmptar, comx, comy;
  fin >> tmpturn >> tmptar >> tmprun >> mostseen >> nextinv >> next_npc_id >>
-        next_faction_id >> next_mission_id >> tmpspawn >> tmpnextweather >>
-        tmpweather >> tmptemp >> levx >> levy >> levz >> comx >> comy;
+     next_faction_id >> next_mission_id >> tmpspawn;
+
+ load_weather(fin);
+
+ fin >> levx >> levy >> levz >> comx >> comy;
+
  turn = tmpturn;
  nextspawn = tmpspawn;
- nextweather = tmpnextweather;
 
  cur_om = overmap(this, comx, comy);
  m.load(this, levx, levy, levz);
@@ -1945,9 +1969,7 @@ void game::load(std::string name)
   run_mode = 1;
  autosafemode = OPTIONS[OPT_AUTOSAFEMODE];
  last_target = tmptar;
- weather = weather_type(tmpweather);
- temperature = tmptemp;
- update_weather();
+
 // Next, the scent map.
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEY * MAPSIZE; j++)
@@ -2065,6 +2087,20 @@ void game::save_maps()
     MAPBUFFER.save();
 }
 
+std::string game::save_weather() const
+{
+    std::stringstream weather_string;
+    weather_string << future_weather.size() + 1 << " ";
+    weather_string << int(nextweather) << " " << weather << " " << int(temperature) << " ";
+    for( std::list<weather_segment>::const_iterator current_weather = future_weather.begin();
+         current_weather != future_weather.end(); ++current_weather )
+    {
+        weather_string << int(current_weather->deadline) << " ";
+        weather_string << current_weather->weather << " ";
+        weather_string << int(current_weather->temperature) << " ";
+    }
+    return weather_string.str();
+}
 
 void game::save()
 {
@@ -2076,9 +2112,11 @@ void game::save()
  // First, write out basic game state information.
  fout << int(turn) << " " << int(last_target) << " " << int(run_mode) << " " <<
          mostseen << " " << nextinv << " " << next_npc_id << " " <<
-         next_faction_id << " " << next_mission_id << " " << int(nextspawn) <<
-         " " << int(nextweather) << " " << weather << " " << int(temperature) <<
-         " " << levx << " " << levy << " " << levz << " " << cur_om.pos().x <<
+     next_faction_id << " " << next_mission_id << " " << int(nextspawn) << " ";
+
+ fout << save_weather();
+
+ fout << levx << " " << levy << " " << levz << " " << cur_om.pos().x <<
          " " << cur_om.pos().y << " " << std::endl;
  // Next, the scent map.
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
