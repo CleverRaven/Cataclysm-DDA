@@ -534,12 +534,19 @@ void dis_effect(game *g, player &p, disease &dis)
    g->add_msg("The light wakes you up.");
    dis.duration = 1;
   }
-  // Cold may wake you up.
-  // Player gets desperate for sleep
-  if (p.temp_cur[bp_torso] < BODYTEMP_VERY_COLD - p.fatigue/2 ||
-  (one_in(p.temp_cur[bp_torso]) && p.temp_cur[bp_torso] < BODYTEMP_NORM - p.fatigue/2)){
-   g->add_msg("The cold wakes you up.");
-   dis.duration = 1;
+  // Cold or heat may wake you up.
+  // Player will sleep through cold or heat if fatigued enough
+  for (int i = 0 ; i < num_bp ; i++){
+   if (p.temp_cur[i] < BODYTEMP_VERY_COLD - p.fatigue/2 ||
+   (one_in(p.temp_cur[i] + 1000) && p.temp_cur[i] < BODYTEMP_COLD - p.fatigue/2)){
+    g->add_msg("The cold wakes you up.");
+    dis.duration = 1;
+   }
+   if (p.temp_cur[i] > BODYTEMP_VERY_HOT + p.fatigue/2 ||
+   (one_in(11000 - p.temp_cur[i]) && p.temp_cur[i] > BODYTEMP_HOT + p.fatigue/2)){
+    g->add_msg("The heat wakes you up.");
+    dis.duration = 1;
+   }
   }
 
   break;
