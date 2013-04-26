@@ -3635,6 +3635,12 @@ Matches must be carried to use various drugs, like cigarettes, or to light\n\
 things like molotov cocktails.  You can also use matches to light nearby\n\
 items on fire.");
 
+TOOL("fire_drill", "fire drill",    20,  5, ',', c_blue,   WOOD, MNULL,
+    1,  1,  0,  0,  0,  20, 20, 1,  0, AT_NULL, "null", &iuse::primitive_fire, 0, "\
+A fire drill is a simple item for firestarting, made from two pieces of wood\n\
+and some string. Although it is constructed out of simple materials, it's\n\
+slow and rather difficult to get a fire started with this tool.");
+
 TOOL("sewing_kit", "sewing kit",	30,120, ',', c_red,	PLASTIC,IRON,
     2,  0, -3,  0, -1,  200, 50, 1,  0, AT_THREAD, "null", &iuse::sew, 0, "\
 Use a sewing kit on an article of clothing to attempt to repair or reinforce\n\

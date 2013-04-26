@@ -5351,6 +5351,23 @@
                           ]
         },
 
+        {
+            "result": "fire_drill",
+            "category": "CC_MISC",
+            "skill_pri": "survival",
+            "difficulty": 2,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [
+                              [
+                                  ["skewer", 2]
+                              ],
+                              [
+                                  ["string_6", 1]
+                              ]
+                          ]
+        },
 
         {
             "result": "waterskin",

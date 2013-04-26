@@ -8,7 +8,7 @@ Display player feat morale boosts
 Pickling/canning
 Only rust skill if X turns have passed since practice, not every x turns.
 Halve rate of skill rust across the board.
-Push crafting recipes out to JSON
+Push crafting recipes out to JSON - now moddable without recompiling!
 Acid rain causes pain not injury
 Changed default viewmorale key to v
 Learn crafting recipes from item disassembly or books.
@@ -35,6 +35,17 @@ Added fur scarf, fur gloves, fur trenchcoat, fur pants, fur boots (all craft onl
 All tailoring items that use fur require survival as secondary skill.
 Added crafting recipes for bandana, blanket, house coat, cloak.
 Weather radio
+New item that doubles battery capacity of tools, recipe learn from certain electronics books.
+Bugfix: reduced chance of "Tried to kill monster" debug spam.
+Bugfix: reduced chance of "Stopping out-of-map vehicle" spam.
+Bugfix: can unload liquids into items wielded in hands (e.g., steel jerrycans).
+Bionics screen shows current and maximum power.
+Escape key usable to exit out of more menus.
+Multidrop screen continually updates to show new potential weight/volume.
+Bugfix: longbow should not end up loaded while in inventory, and can be fired if it does.
+Backpacks, messenger bags, etc. can be repaired via sewing kits.
+Add fire drill as a survivalcraft firestarter (trickier and slower than lighter/matches).
+
 
 0.4
 Make the battery system bionic only consume as many batteries as necessary to fully power yourself
