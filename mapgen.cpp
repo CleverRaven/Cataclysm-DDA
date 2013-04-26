@@ -4101,6 +4101,60 @@ case ot_lmoe: {
   } else	// No control room... simple controls near the tower
    ter_set(rng(lw, lw + 3), tw + 4, t_radio_controls);
   break;
+  
+ case ot_station_radio_north:
+ case ot_station_radio_east:
+ case ot_station_radio_south:
+ case ot_station_radio_west: {
+// Init to grass & dirt;
+  fill_background(this, &grass_or_dirt);
+//Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.
+   mapf::formatted_set_terrain(this, 0, 0,
+"\n\
+        FffffffffffffF  \n\
+        F____________F  \n\
+   |----|______&&&&__F  \n\
+   |....=______&&&&__F  \n\
+   |x.ll|______&&&&__F  \n\
+   |----|______&&&&__F  \n\
+        F____________F  \n\
+ |--------|__________G  \n\
+ |tS|eSc.r|__________F  \n\
+ w..+.....=__________F  \n\
+ |-----|..|----------|  \n\
+ |..doo|..|..dW..h...|  \n\
+ w..h..|..D.hxW.c6c..|  \n\
+ |a....|..|...+......|  \n\
+ |--+--|..|-----WWW--|  \n\
+ |.+.................|  \n\
+ |l|..............ch.|  \n\
+ |-|+--|--+--|....c..|  \n\
+ |o....|....o|--==-w-|  \n\
+ |o.d..|..d.o|  ss      \n\
+ |o.h..|..h..|  ss      \n\
+ |-www-|-www-|  ss      \n\
+                ss      \n",
+   mapf::basic_bind(". - | 6 a r + = D W w t S e o h c d x l F f _ & G s",
+         t_floor, t_wall_h, t_wall_v, t_console, t_armchair, t_trashcan, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_window_alarm, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_console_broken, t_locker, t_chainfence_v, t_chainfence_h, t_pavement, t_radio_tower, t_chaingate_l, t_sidewalk),
+   mapf::end() );
+   tmpcomp = add_computer(17, 13, "Broadcasting Control", 0);
+   tmpcomp->add_option("ERROR:  SIGNAL DISCONNECT", COMPACT_TOWER_UNRESPONSIVE, 0);
+   place_items(mi_novels,	70,  5,  12, 6,  12, false, 0);
+   place_items(mi_novels,	70,  2,  21, 2,  19, false, 0);
+   place_items(mi_novels,	70,  12,  19, 12,  20, false, 0);
+   place_items(mi_fridge,	70,  5,  9, 7,  9, false, 0);
+   place_items(mi_fridge,	20,  5,  9, 7,  9, false, 0);
+   place_items(mi_fridge,	10,  5,  9, 7,  9, false, 0);
+   place_items(mi_cleaning,	70,  2,  16, 2,  17, false, 0);
+   place_items(mi_electronics,	80,  6,  5, 7,  5, false, 0);
+  if (terrain_type == ot_station_radio_east)
+   rotate(3);
+  if (terrain_type == ot_station_radio_north)
+   rotate(2);
+  if (terrain_type == ot_station_radio_west)
+   rotate(1);
+
+ } break;
 
  case ot_toxic_dump: {
   fill_background(this, t_dirt);
