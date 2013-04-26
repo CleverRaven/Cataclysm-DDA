@@ -465,7 +465,7 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
    }
   // Bionic "Thermal Dissapation" says it prevents fire damage up to 2000F. 500 is picked at random...
   if (has_bionic("bio_heatsink") && blister_count < 500)
-   blister_count = 0;
+   blister_count = (has_trait(PF_BARK) ? -100 : 0);
   // BLISTERS : Skin gets blisters from intense heat exposure.
   if (blister_count - 10*resist(body_part(i)) > 20)
    add_disease(dis_type(blister_pen), 1, g);
@@ -500,6 +500,7 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   case bp_feet  : temp_equalizer(bp_feet, bp_legs); break;
   }
   // MUTATIONS
+  // Bark : lowers blister count to -100; harder to get blisters
   // Lightly furred
   if (has_trait(PF_LIGHTFUR) temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
   // Furry
