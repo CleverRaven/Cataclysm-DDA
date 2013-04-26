@@ -686,6 +686,19 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 \n\
 Press any key to continue...");
   break;
+  
+  case COMPACT_TOWER_UNRESPONSIVE:
+  print_line("\
+  WARNING, RADIO TOWER IS UNRESPONSIVE. \n\
+  \n\
+  BACKUP POWER INSUFFICIENT TO MEET BROADCASTING REQUIREMENTS. \n\
+  IN THE EVENT OF AN EMERGENCY, CONTACT LOCAL NATIONAL GUARD \n\
+  UNITS TO RECEIVE PRIORITY WHEN GENERATORS ARE BEING DEPLOYED. \n\
+  \n\
+  Press any key to continue...");
+  break;
+
+ } // switch (action)  
 
  } // switch (action)
 }
