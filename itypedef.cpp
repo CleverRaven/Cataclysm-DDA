@@ -1901,12 +1901,12 @@ A medieval helmet that provides excellent protection to the entire head, at\n\
 the cost of great encumbrance.", 0);
 TECH("helmet_plate", mfb(TEC_WBLOCK_1) );
 
-ARMOR("tophat", "top hat",	10,  55,C_HAT,		PLASTIC,	MNULL,
+ARMOR("tophat", "top hat",	10,  55,C_HAT,		COTTON,	MNULL,
     2,  1, -5,  0,  0,  0,  1,  1,  10,  0,	mfb(bp_head), "\
 The only hat for a gentleman. Look exquisite while laughing in the face\n\
 of danger!", 0);
 
-ARMOR("backpack", "backpack",	38, 210,C_STORE,	PLASTIC,	MNULL,
+ARMOR("backpack", "backpack",	38, 210,C_STORE,	COTTON,	PLASTIC,
    10,  2, -4,  0,  1,  0,  0,  0,  0, 40,	mfb(bp_torso), "\
 A small backpack, good storage for a little encumbrance.", 0);
 
@@ -1920,7 +1920,7 @@ ARMOR("purse", "purse",		40,  75,C_STORE,	LEATHER,	MNULL,
    10,  3,  2,  2,  1,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
 A bit cumbersome to wear, but provides some storage", 0);
 
-ARMOR("mbag", "messenger bag",	20, 110,C_STORE,	PLASTIC,	MNULL,
+ARMOR("mbag", "messenger bag",	20, 110,C_STORE,	COTTON,	PLASTIC,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
     8,  2,  1,  1,  0,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
 Light and easy to wear, but doesn't offer much storage.", 0);
