@@ -823,33 +823,83 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
 
 // TOOLS below this point!
 
+bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
+{
+    g->draw();
+    mvprintw(0, 0, "Light where?");
+    get_direction(g, posx, posy, input());
+    if (posx == -2)
+    {
+        g->add_msg_if_player(p,"Invalid direction.");
+        it->charges++;
+        return false;
+    }
+    if (posx == 0 && posy == 0)
+    {
+        g->add_msg_if_player(p, "You would set yourself on fire.");
+        g->add_msg_if_player(p, "But you're already smokin' hot.");
+        it->charges++;
+        return false;
+    }
+    posx += p->posx;
+    posy += p->posy;
+    if (!g->m.flammable_items_at(posx, posy))
+    {
+       g->add_msg_if_player(p,"There's nothing to light there.");
+       it->charges++;
+       return false;
+    }
+    return true;
+}
+
+void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
+{
+    // this should have already been checked, but double-check to make sure
+    if (g->m.flammable_items_at(posx, posy))
+    {
+        if (g->m.add_field(g, posx, posy, fd_fire, 1))
+        {
+            g->m.field_at(posx, posy).age = 30;
+            g->add_msg_if_player(p, "You successfully light a fire.");
+        }
+    }
+    else
+    {
+        debugmsg("Flammable items disappeared while lighting a fire!");
+    }
+}
+
 void iuse::lighter(game *g, player *p, item *it, bool t)
 {
- int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Light where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
-  it->charges++;
-  return;
- }
- if (dirx == 0 && diry == 0) {
-  g->add_msg_if_player(p, "You would set yourself on fire.");
-  g->add_msg_if_player(p, "But you're already smokin' hot.");
-  it->charges++;
-  return;
- }
- p->moves -= 15;
- dirx += p->posx;
- diry += p->posy;
- if (g->m.flammable_items_at(dirx, diry)) {
-  if (g->m.add_field(g, dirx, diry, fd_fire, 1))
-   g->m.field_at(dirx, diry).age = 30;
- } else {
-  g->add_msg_if_player(p,"There's nothing to light there.");
-  it->charges++;
- }
+    int dirx, diry;
+    if (prep_firestarter_use(g, p, it, dirx, diry))
+    {
+        p->moves -= 15;
+        resolve_firestarter_use(g, p, it, dirx, diry);
+    }
+}
+
+void iuse::primitive_fire(game *g, player *p, item *it, bool t)
+{
+    int posx, posy;
+    if (prep_firestarter_use(g, p, it, posx, posy))
+    {
+        p->moves -= 500;
+        const int skillLevel = p->skillLevel("survival");
+        const int sides = 10;
+        const int base_dice = 3;
+        // aiming for ~50% success at skill level 3, and possible but unheard of at level 0
+        const int difficulty = (base_dice + 3) * sides / 2;
+        if (dice(skillLevel+base_dice, 10) >= difficulty)
+        {
+            resolve_firestarter_use(g, p, it, posx, posy);
+        }
+        else
+        {
+            g->add_msg_if_player(p, "You try to light a fire, but fail.");
+        }
+        p->practice(g->turn, "survival", 10);
+    }
 }
 
 void iuse::sew(game *g, player *p, item *it, bool t)
