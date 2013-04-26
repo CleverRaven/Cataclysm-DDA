@@ -731,7 +731,7 @@ void player::load_info(game *g, std::string data)
   prof = profession::prof(prof_ident);
  } else {
   prof = profession::generic();
-  debugmsg("Tried to use non-existant profession '%s'", prof_ident.c_str());
+  debugmsg("Tried to use non-existent profession '%s'", prof_ident.c_str());
  }
 
  activity.load_info(dump);
