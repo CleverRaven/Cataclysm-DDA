@@ -111,55 +111,49 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_COLD_HEAD:
   switch (dis.intensity) {
-   case 3 : p.int_cur -= 3; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your thoughts are unclear.");
+   case 3 : p.int_cur -= 3; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your thoughts are unclear.");
    case 2 : p.int_cur--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
   }
   break;
 
   case DI_COLD_MOUTH:
   switch (dis.intensity) {
-   case 3 : p.per_cur -= 3; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your face is stiff from the cold.");
+   case 3 : p.per_cur -= 3; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your face is stiff from the cold.");
    case 2 : p.per_cur--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
   }
   break;
 
  case DI_COLD_TORSO:
   switch (dis.intensity) {
-   case 3 : p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your torso is burning up. You should remove some layers.");
+   case 3 : p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your torso is burning up. You should remove some layers.");
    // Speed -20
    case 2 :	p.dex_cur -= 1;
    // Speed -5
-   case 1 : p.dex_cur -= 1; if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
-   // Speed -2
+   // case1 : Speed -2
   }
   break;
 
  case DI_COLD_ARMS:
   switch (dis.intensity) {
    case 3 : p.dex_cur -= 2;
-   case 2 :	p.dex_cur--; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your arms are shivering.");
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("Your arms have goosebumps.");
+   case 2 :	p.dex_cur--; if (!p.has_disease(DI_SLEEP) && one_in(800)) g->add_msg("Your arms are shivering.");
   }
   break;
 
  case DI_COLD_HANDS:
   switch (dis.intensity) {
    case 3 :	p.dex_cur -= 2;
-   case 2 :	p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your hands are shivering.");
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
+   case 2 :	p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(800)) g->add_msg("Your hands are shivering.");
   }
   break;
 
  case DI_COLD_LEGS:
   switch (dis.intensity) {
-   case 3 :	p.str_cur--; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your legs are seizing from the incredible cold.");
+   case 3 :	p.str_cur--; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your legs are seizing from the incredible cold.");
    // Speed -20
    case 2 :	p.str_cur--;
    // Speed -5
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("Your legs feel sluggish from the cold.");
-   // Speed -2
+   // case 1 : Speed -2
   }
   break;
 
@@ -167,7 +161,6 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.str_cur--;
    case 2 : p.str_cur--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
   }
   break;
 
@@ -176,7 +169,7 @@ void dis_effect(game *g, player &p, disease &dis)
    case 2 : p.dex_cur -= 3;
    case 1 :
     if (p.temp_cur[bp_hands] > BODYTEMP_COLD && p.pain < 40) p.pain++;
-    if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your hands feel numb.");
+    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your hands feel numb.");
   }
  break;
 
@@ -185,7 +178,7 @@ void dis_effect(game *g, player &p, disease &dis)
    case 2 : // -4 speed
    case 1 :
     if (p.temp_cur[bp_feet] > BODYTEMP_COLD && p.pain < 40) p.pain++;
-	if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your feet feel numb.");
+	if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your feet feel numb.");
   }
  break;
 
@@ -194,7 +187,7 @@ void dis_effect(game *g, player &p, disease &dis)
    case 2 : p.per_cur -= 3;
    case 1 :
     if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
-	if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your face feels numb.");
+	if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your face feels numb.");
   }
  break;
 
@@ -231,9 +224,7 @@ void dis_effect(game *g, player &p, disease &dis)
 	if (p.pain < 20) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("The heat is making you see things.");
     // Speed -5
-   case 1 :
-    if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
-    // Speed -2
+    // case 1 : Speed -2
   }
   break;
 
@@ -242,7 +233,6 @@ void dis_effect(game *g, player &p, disease &dis)
    case 3 : p.thirst--;
     if (p.pain < 50) p.pain++;
    case 2 : p.thirst--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
   }
   break;
 
@@ -251,15 +241,13 @@ void dis_effect(game *g, player &p, disease &dis)
    case 3 :
     p.thirst--;
     p.str_cur--;
-    if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("You are sweating profusely.");
+    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("You are sweating profusely.");
     // Speed -20
    case 2 :
     p.thirst--;
 	p.str_cur--;
     // Speed -5
-   case 1 :
-    if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
-    // Speed -2
+    // case 1 : Speed -2
   }
   break;
 
@@ -268,7 +256,6 @@ void dis_effect(game *g, player &p, disease &dis)
    case 3 : p.thirst--;
     if (p.pain < 50) p.pain++;
    case 2 : p.thirst--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
   }
   break;
 
@@ -276,7 +263,6 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.dex_cur--;
    case 2 : p.dex_cur--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
   }
   break;
 
@@ -284,9 +270,8 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.thirst--;
     if (p.pain < 50) p.pain++;
-    if (one_in(200)) g->add_msg("Your legs are cramping up.");
+    if (one_in(400)) g->add_msg("Your legs are cramping up.");
    case 2 : p.thirst--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
   }
   break;
 
@@ -295,8 +280,7 @@ void dis_effect(game *g, player &p, disease &dis)
    case 3 : if (p.pain < 50) p.pain++;
    case 2 :
     if (p.pain < 30) p.pain++;
-    if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your feet are swelling in the heat.");
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
+    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your feet are swelling in the heat.");
   }
   break;
 
