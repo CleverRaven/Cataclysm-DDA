@@ -34,6 +34,7 @@ Added house coat, snuggie, cloak, fur cloak (craft only), leather cloak (craft o
 Added fur scarf, fur gloves, fur trenchcoat, fur pants, fur boots (all craft only).
 All tailoring items that use fur require survival as secondary skill.
 Added crafting recipes for bandana, blanket, house coat, cloak.
+Weather radio
 
 0.4
 Make the battery system bionic only consume as many batteries as necessary to fully power yourself
