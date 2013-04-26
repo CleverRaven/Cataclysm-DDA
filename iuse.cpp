@@ -872,9 +872,34 @@ void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
 void iuse::lighter(game *g, player *p, item *it, bool t)
 {
     int dirx, diry;
-    prep_firestarter_use(g, p, it, dirx, diry);
-    p->moves -= 15;
-    resolve_firestarter_use(g, p, it, dirx, diry);
+    if (prep_firestarter_use(g, p, it, dirx, diry))
+    {
+        p->moves -= 15;
+        resolve_firestarter_use(g, p, it, dirx, diry);
+    }
+}
+
+void iuse::primitive_fire(game *g, player *p, item *it, bool t)
+{
+    int posx, posy;
+    if (prep_firestarter_use(g, p, it, posx, posy))
+    {
+        p->moves -= 500;
+        const int skillLevel = p->skillLevel("survival");
+        const int sides = 10;
+        const int base_dice = 3;
+        // aiming for ~50% success at skill level 3, and possible but unheard of at level 0
+        const int difficulty = (base_dice + 3) * sides / 2;
+        if (dice(skillLevel+base_dice, 10) >= difficulty)
+        {
+            resolve_firestarter_use(g, p, it, posx, posy);
+        }
+        else
+        {
+            g->add_msg_if_player(p, "You try to light a fire, but fail.");
+        }
+        p->practice(g->turn, "survival", 10);
+    }
 }
 
 void iuse::sew(game *g, player *p, item *it, bool t)
