@@ -499,6 +499,11 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   case bp_hands : temp_equalizer(bp_hands, bp_arms); break;
   case bp_feet  : temp_equalizer(bp_feet, bp_legs); break;
   }
+  // MUTATIONS
+  // Lightly furred
+  if (has_trait(PF_LIGHTFUR) temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
+  // Furry
+  if (has_trait(PF_FUR) temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
   // FINAL CALCULATION : Increments current body temperature towards convergant.
   int temp_before = temp_cur[i];
   int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
