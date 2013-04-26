@@ -80,6 +80,7 @@ public:
  void activate_bionic(int b, game *g);
  float active_light();
 
+ bool mutation_ok(game *g, pl_flag mutation, bool force_good, bool force_bad);
  void mutate(game *g);
  void mutate_towards(game *g, pl_flag mut);
  void remove_mutation(game *g, pl_flag mut);

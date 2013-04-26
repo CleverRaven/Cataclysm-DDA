@@ -7,90 +7,170 @@ void mutation_effect(game *g, player &p, pl_flag mut);
 // mutation_loss_effect handles what happens when you lose a mutation
 void mutation_loss_effect(game *g, player &p, pl_flag mut);
 
+bool player::mutation_ok(game *g, pl_flag mutation, bool force_good, bool force_bad)
+{
+    if (has_trait(mutation) || has_child_flag(g, mutation))
+    {
+        // We already have this mutation or something that replaces it.
+        return false;
+    }
+
+    if (force_bad && traits[mutation].points > 0)
+    {
+        // This is a good mutation, and we're due for a bad one.
+        return false;
+    }
+
+    if (force_good && traits[mutation].points < 0)
+    {
+        // This is a bad mutation, and we're due for a good one.
+        return false;
+    }
+
+    return true;
+}
+
 void player::mutate(game *g)
 {
- bool force_bad = one_in(3); // 33% chance!
- if (has_trait(PF_ROBUST) && force_bad && one_in(3))
-  force_bad = false; // 11% chance!
+    bool force_bad = one_in(3);
+    bool force_good = false;
+    if (has_trait(PF_ROBUST) && force_bad)
+    {
+        // Robust Genetics gives you a 33% chance for a good mutation,
+        // instead of the 33% chance of a bad one.
+        force_bad = false;
+        force_good = true;
+    }
 
-// First, see if we should ugrade/extend an existing mutation
- std::vector<pl_flag> upgrades;
- for (int i = 1; i < PF_MAX2; i++) {
-  if (has_trait(i)) {
-   for (int j = 0; j < g->mutation_data[i].replacements.size(); j++) {
-    pl_flag tmp = g->mutation_data[i].replacements[j];
-    if (!has_trait(tmp) && !has_child_flag(g, tmp) &&
-        (!force_bad || traits[tmp].points <= 0))
-     upgrades.push_back(tmp);
-   }
-   for (int j = 0; j < g->mutation_data[i].additions.size(); j++) {
-    pl_flag tmp = g->mutation_data[i].additions[j];
-    if (!has_trait(tmp) && !has_child_flag(g, tmp) &&
-        (!force_bad || traits[tmp].points <= 0))
-     upgrades.push_back(tmp);
-   }
-  }
- }
+    // First, see if we should ugrade/extend an existing mutation
+    std::vector<pl_flag> upgrades;
+    // For each mutation...
+    for (int base_mutation_index = 1; base_mutation_index < PF_MAX2; base_mutation_index++)
+    {
+        pl_flag base_mutation = (pl_flag) base_mutation_index;
 
- if (upgrades.size() > 0 && rng(0, upgrades.size() + 4) < upgrades.size()) {
-  mutate_towards(g, upgrades[ rng(0, upgrades.size() - 1) ]);
-  return;
- }
+        // ...that we have...
+        if (has_trait(base_mutation))
+        {
+            // ...consider the mutations that replace it.
+            for (int i = 0; i < g->mutation_data[base_mutation].replacements.size(); i++)
+            {
+                pl_flag mutation = g->mutation_data[base_mutation].replacements[i];
 
-// Next, see if we should mutate within a given category
- mutation_category cat = MUTCAT_NULL;
+                if (mutation_ok(g, mutation, force_good, force_bad))
+                {
+                    upgrades.push_back(mutation);
+                }
+            }
 
- int total = 0, highest = 0;
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
-  total += mutation_category_level[i];
-  if (mutation_category_level[i] > highest) {
-   cat = mutation_category(i);
-   highest = mutation_category_level[i];
-  }
- }
+            // ...consider the mutations that add to it.
+            for (int i = 0; i < g->mutation_data[base_mutation].additions.size(); i++)
+            {
+                pl_flag mutation = g->mutation_data[base_mutation].additions[i];
 
- if (rng(0, total) > highest)
-  cat = MUTCAT_NULL; // Not a strong enough pull, just mutate something random!
+                if (mutation_ok(g, mutation, force_good, force_bad))
+                {
+                    upgrades.push_back(mutation);
+                }
+            }
+        }
+    }
 
- std::vector<pl_flag> valid; // Valid mutations
- bool first_pass = (cat != MUTCAT_NULL);
+    // If we have upgrades, we prefer them.
+    if (upgrades.size() > 0)
+    {
+        // (upgrade count) chances to pick an upgrade, 4 chances to pick something else.
+        int roll = rng(0, upgrades.size() + 4);
+        if (roll < upgrades.size())
+        {
+            // We got a valid upgrade index, so use it and return.
+            mutate_towards(g, upgrades[roll]);
+            return;
+        }
+    }
 
- do {
-// If we tried once with a non-NULL category, and couldn't find anything valid
-// there, try again with MUTCAT_NULL
-  if (cat != MUTCAT_NULL && !first_pass)
-   cat = MUTCAT_NULL;
+    // Next, see if we should mutate within a given category
+    mutation_category cat = MUTCAT_NULL;
 
-  if (cat == MUTCAT_NULL) { // Pull the full list
-   for (int i = 1; i < PF_MAX2; i++) {
-    if (g->mutation_data[i].valid)
-     valid.push_back( pl_flag(i) );
-   }
-  } else // Pull the category's list
-   valid = mutations_from_category(cat);
+    // Count up the number of mutations in categories and find
+    // the category with the highest single count.
+    int total = 0, highest = 0;
+    for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
+    {
+        total += mutation_category_level[i];
+        if (mutation_category_level[i] > highest)
+        {
+            cat = mutation_category(i);
+            highest = mutation_category_level[i];
+        }
+    }
 
-// Remove anything we already have, or that we have a child of, or that's
-// positive and we're forcing bad
-  for (int i = 0; i < valid.size(); i++) {
-   if (has_trait(valid[i]) || has_child_flag(g, valid[i]) ||
-       (force_bad && traits[ valid[i] ].points > 0)) {
-    valid.erase(valid.begin() + i);
-    i--;
-   }
-  }
+    // Pick one of the mutations out of a hat.  If it's in the highest-count
+    // category, we pick from that category.  If not, we mutate randomly.
+    if (rng(0, total) > highest)
+    {
+        cat = MUTCAT_NULL;
+    }
 
-  if (valid.empty())
-   first_pass = false; // So we won't repeat endlessly
+    std::vector<pl_flag> valid; // Valid mutations
+    bool first_pass = true;
 
- } while (valid.empty() && cat != MUTCAT_NULL);
+    do
+    {
+        // If we tried once with a non-NULL category, and couldn't find anything valid
+        // there, try again with MUTCAT_NULL
+        if (!first_pass)
+        {
+            cat = MUTCAT_NULL;
+        }
+
+        if (cat == MUTCAT_NULL)
+        {
+            // Pull the full list
+            for (int i = 1; i < PF_MAX2; i++)
+            {
+                if (g->mutation_data[i].valid)
+                {
+                    valid.push_back( pl_flag(i) );
+                }
+            }
+        }
+        else
+        {
+            // Pull the category's list
+            valid = mutations_from_category(cat);
+        }
+
+        // Remove anything we already have, that we have a child of, or that
+        // goes against our intention of a good/bad mutation
+        for (int i = 0; i < valid.size(); i++)
+        {
+            if (!mutation_ok(g, valid[i], force_good, force_bad))
+            {
+                valid.erase(valid.begin() + i);
+                i--;
+            }
+        }
+
+        if (valid.empty())
+        {
+            // So we won't repeat endlessly
+            first_pass = false;
+        }
+
+    }
+    while (valid.empty() && cat != MUTCAT_NULL);
 
 
- if (valid.empty())
-  return; // Couldn't find anything at all!
+    if (valid.empty())
+    {
+        // Couldn't find anything at all!
+        return;
+    }
 
- pl_flag selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
+    pl_flag selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
 
- mutate_towards(g, selection);
+    mutate_towards(g, selection);
 }
 
 void player::mutate_towards(game *g, pl_flag mut)
