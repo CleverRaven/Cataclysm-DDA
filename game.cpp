@@ -253,12 +253,10 @@ void game::start_game()
  load_npcs();
  //spawn the monsters
  m.spawn_monsters(this);	// Static monsters
- //Reset old NPCs.
-// reset_npcs();
  //Put some NPCs in there!
  create_starting_npcs();
 
-  MAPBUFFER.set_dirty();
+ MAPBUFFER.set_dirty();
 }
 
 void game::create_factions()
@@ -319,30 +317,6 @@ void game::load_npcs()
     }
 }
 
-//Reset all the NPCs missions and attitudes for a new character.
-//This function should only be called at the start of a new game.
-//If there are any npcs left on the world map, their missions and
-//attitudes should be reset.
-//TODO remove this. As you can have multiple characters at the same time, this method is flawed.
-void game::reset_npcs()
-{
-	for (int i = 0; i < active_npc.size(); i++) //TODO, Loop over all the npcs in all the omaps. this is the wrong list. Need all map NPC's.
-	{
-        active_npc[i]->form_opinion(&u); //This is not ideal. All old NPC now form a new opinion, on new character creation.
-        if(active_npc[i]->mission == NPC_MISSION_SHELTER)
-        {
-            active_npc[i]->chatbin.first_topic = TALK_SHELTER;
-            active_npc[i]->attitude = NPCATT_NULL;
-        } else
-        {
-            active_npc[i]->chatbin.first_topic = TALK_NONE;
-            active_npc[i]->attitude = NPCATT_TALK;
-        }
-        active_npc[i]->chatbin.mission_selected = -1;
-        active_npc[i]->chatbin.tempvalue = -1;
-    }
-}
-
 void game::create_starting_npcs()
 {
  if(!OPTIONS[OPT_STATIC_NPC])
@@ -364,7 +338,7 @@ void game::create_starting_npcs()
 
 void game::cleanup_at_end(){
  write_msg();
- if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE || QUIT_SAVED)
+ if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE || uquit == QUIT_SAVED)
 	{
 		// Save the factions's, missions and set the NPC's overmap coords
 		// Npcs are saved in the overmap.
@@ -1031,6 +1005,8 @@ mission* game::find_mission(int id)
   if (active_missions[i].uid == id)
    return &(active_missions[i]);
  }
+ dbg(D_ERROR) << "game:find_mission: " << id << " - it's NULL!";
+ debugmsg("game::find_mission(%d) - it's NULL!", id);
  return NULL;
 }
 
@@ -1045,12 +1021,8 @@ mission_type* game::find_mission_type(int id)
 
 bool game::mission_complete(int id, int npc_id)
 {
- mission* miss = find_mission(id);
- if (miss == NULL) {
-  dbg(D_ERROR) << "game:mission_complete: " << id << " - it's NULL!";
-  debugmsg("game::mission_complete(%d) - it's NULL!", id);
-  return false;
- }
+ mission *miss = find_mission(id);
+ if (miss == NULL) { return false; }
  mission_type* type = miss->type;
  switch (type->goal) {
   case MGOAL_GO_TO: {
@@ -1094,13 +1066,15 @@ bool game::mission_complete(int id, int npc_id)
 
 bool game::mission_failed(int id)
 {
- mission *miss = find_mission(id);
- return (miss->failed);
+    mission *miss = find_mission(id);
+    if (miss == NULL) { return true;} //If the mission is null it is failed.
+    return (miss->failed);
 }
 
 void game::wrap_up_mission(int id)
 {
  mission *miss = find_mission(id);
+ if (miss == NULL) { return; }
  u.completed_missions.push_back( id );
  for (int i = 0; i < u.active_missions.size(); i++) {
   if (u.active_missions[i] == id) {
@@ -1123,6 +1097,7 @@ void game::wrap_up_mission(int id)
 void game::fail_mission(int id)
 {
  mission *miss = find_mission(id);
+ if (miss == NULL) { return; }
  miss->failed = true;
  u.failed_missions.push_back( id );
  for (int i = 0; i < u.active_missions.size(); i++) {
@@ -1138,6 +1113,7 @@ void game::fail_mission(int id)
 void game::mission_step_complete(int id, int step)
 {
  mission *miss = find_mission(id);
+ if (miss == NULL) { return; }
  miss->step = step;
  switch (miss->type->goal) {
   case MGOAL_FIND_ITEM:
@@ -1931,8 +1907,6 @@ void game::load_weather(std::ifstream &fin)
         future_weather.push_back(new_segment);
     }
 }
-
-
 
 void game::load(std::string name)
 {
