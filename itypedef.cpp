@@ -1818,7 +1818,7 @@ ARMOR("hat_ball", "baseball cap",	30,  35,C_HAT,		COTTON,		MNULL,
     2,  1, -5,  0,  0,  0,  0,  2,  10,  0,	mfb(bp_head), "\
 A Red Sox cap. It provides a little bit of warmth.", 0);
 
-ARMOR("hat_boonie", "boonie hat",	10,  55,C_HAT,		PLASTIC,	MNULL,
+ARMOR("hat_boonie", "boonie hat",	10,  55,C_HAT,		COTTON,	MNULL,
     2,  1, -5,  0,  0,  0,  1,  2,  20,  0,	mfb(bp_head), "\
 Also called a \"bucket hat.\" Often used in the military.", 0);
 
@@ -1901,12 +1901,12 @@ A medieval helmet that provides excellent protection to the entire head, at\n\
 the cost of great encumbrance.", 0);
 TECH("helmet_plate", mfb(TEC_WBLOCK_1) );
 
-ARMOR("tophat", "top hat",	10,  55,C_HAT,		PLASTIC,	MNULL,
+ARMOR("tophat", "top hat",	10,  55,C_HAT,		COTTON,	MNULL,
     2,  1, -5,  0,  0,  0,  1,  1,  10,  0,	mfb(bp_head), "\
 The only hat for a gentleman. Look exquisite while laughing in the face\n\
 of danger!", 0);
 
-ARMOR("backpack", "backpack",	38, 210,C_STORE,	PLASTIC,	MNULL,
+ARMOR("backpack", "backpack",	38, 210,C_STORE,	COTTON,	PLASTIC,
    10,  2, -4,  0,  1,  0,  0,  0,  0, 40,	mfb(bp_torso), "\
 A small backpack, good storage for a little encumbrance.", 0);
 
@@ -1920,12 +1920,12 @@ ARMOR("purse", "purse",		40,  75,C_STORE,	LEATHER,	MNULL,
    10,  3,  2,  2,  1,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
 A bit cumbersome to wear, but provides some storage", 0);
 
-ARMOR("mbag", "messenger bag",	20, 110,C_STORE,	PLASTIC,	MNULL,
+ARMOR("mbag", "messenger bag",	20, 110,C_STORE,	COTTON,	PLASTIC,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
     8,  2,  1,  1,  0,  0,  0,  0,  0, 20,	mfb(bp_torso), "\
 Light and easy to wear, but doesn't offer much storage.", 0);
 
-ARMOR("fanny", "fanny pack", 	10, 100,C_STORE,	PLASTIC,	MNULL,
+ARMOR("fanny", "fanny pack", 	10, 100,C_STORE,	COTTON,	PLASTIC,
     3,  1,  1,  2,  0,  0,  0,  0,  0,  6,	0, "\
 Provides a bit of extra storage without encumbering you at all.", 0);
 
