@@ -326,7 +326,6 @@ class game
 
   void create_factions();   // Creates new factions (for a new game world)
   void load_npcs(); //Make any nearby NPCs from the overmap active.
-  void reset_npcs(); //Reset all the NPCs missions and attitudes for a new character.
   void create_starting_npcs(); // Creates NPCs that start near you
 
 // Player actions

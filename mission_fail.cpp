@@ -8,9 +8,8 @@ void mission_fail::kill_npc(game *g, mission *miss)
         if (g->active_npc[i]->getID() == miss->npc_id)
         {
             npc * tmp = g->active_npc[i];
-            g->active_npc.erase(g->active_npc.begin() + i);
-            tmp->die(g, false);
-            i = g->active_npc.size();
+            g->active_npc.erase(g->active_npc.begin() + i); //Do not call 'die' here. This deletes the npc object.
+            i = g->active_npc.size(); //ends the loop.
         }
     }
     for(int i = 0; i < g->cur_om.npcs.size(); i++) //now remove the npc from the overmap list.

@@ -27,6 +27,7 @@ npc::npc()
  wandf = 0;
  plx = 999;
  ply = 999;
+ plt = 999;
  itx = -1;
  ity = -1;
  goalx = 999;
