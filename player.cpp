@@ -4529,7 +4529,7 @@ bool player::wield(game *g, char ch)
                      weapon.tname(g).c_str())) {
   g->m.add_item(posx, posy, remove_weapon());
   weapon = it;
-  inv.remove_item(&weapon);
+  inv.remove_item_by_letter(weapon.invlet);
   inv.unsort();
   moves -= 30;
   if (weapon.is_artifact() && weapon.is_tool()) {
