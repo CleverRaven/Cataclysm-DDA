@@ -4156,6 +4156,74 @@ case ot_lmoe: {
 
  } break;
 
+ case ot_office_doctor_north:
+ case ot_office_doctor_east:
+ case ot_office_doctor_south:
+ case ot_office_doctor_west: {
+// Init to grass & dirt;
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+   "\n\
+   |---|----|--------|  \n\
+   |..l|.T.S|..eccScc|  \n\
+   |...+....+........D  \n\
+   |--------|.......6|r \n\
+   |o.......|..|--X--|r \n\
+   |d.hd.h..+..|l...6|  \n\
+   |o.......|..|l...l|  \n\
+   |--------|..|l...l|  \n\
+   |l....ccS|..|lllll|  \n\
+   |l..t....+..|-----|  \n\
+   |l.......|..|....l|  \n\
+   |--|-----|..|.t..l|  \n\
+   |T.|d.......+....l|  \n\
+   |S.|d.h..|..|Scc..|  \n\
+   |-+|-ccc-|++|-----|  \n\
+   |.................|  \n\
+   w....####....####.w  \n\
+   w.................w  \n\
+   |....####....####.|  \n\
+   |.................|  \n\
+   |-++--wwww-wwww---|  \n\
+     ss                 \n\
+     ss                 \n",
+   mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s",
+         t_floor, t_wall_h, t_wall_v, t_console, t_door_metal_locked, t_bench, t_trashcan, t_table, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+   mapf::end() );
+
+   tmpcomp = add_computer(20, 4, "Medical Supply Access", 2);
+   tmpcomp->add_option("Lock Door", COMPACT_LOCK, 2);
+   tmpcomp->add_option("Unlock Door", COMPACT_UNLOCK, 2);
+   tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
+   tmpcomp->add_failure(COMPFAIL_ALARM);
+
+   tmpcomp = add_computer(20, 6, "Medical Supply Access", 2);
+   tmpcomp->add_option("Unlock Door", COMPACT_UNLOCK, 2);
+   tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
+   tmpcomp->add_failure(COMPFAIL_ALARM);
+
+   place_items(mi_dissection,	60,  4,  9, 4,  11, false, 0);
+   place_items(mi_dissection,	60,  9,  9, 10,  9, false, 0);
+   place_items(mi_dissection,	60,  20,  11, 20,  13, false, 0);
+   place_items(mi_dissection,	60,  17,  14, 18,  14, false, 0);
+   place_items(mi_fridge,	50,  15,  2, 15,  2, false, 0);
+   place_items(mi_surgery,	30,  4,  9, 11,  11, false, 0);
+   place_items(mi_surgery,	30,  16,  11, 20, 4, false, 0);
+   place_items(mi_harddrugs,	60,  16,  6, 16, 9, false, 0);
+   place_items(mi_harddrugs,	60,  17,  9, 19, 9, false, 0);
+   place_items(mi_softdrugs,	60,  20,  9, 20, 7, false, 0);
+   place_items(mi_cleaning,	50,  4,  2, 6,  3, false, 0);
+
+  if (terrain_type == ot_office_doctor_east)
+   rotate(3);
+  if (terrain_type == ot_office_doctor_north)
+   rotate(2);
+  if (terrain_type == ot_office_doctor_west)
+   rotate(1);
+
+ } break;
+
+
  case ot_toxic_dump: {
   fill_background(this, t_dirt);
   for (int n = 0; n < 6; n++) {
