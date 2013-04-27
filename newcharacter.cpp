@@ -1,5 +1,6 @@
 #include "player.h"
 #include "profession.h"
+#include "item_factory.h"
 #include "output.h"
 #include "rng.h"
 #include "keypress.h"
@@ -251,7 +252,7 @@ End of cheatery */
 
  std::vector<std::string> prof_items = g->u.prof->items();
  for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter) {
-  item tmp = item(g->itypes.at(*iter), 0, 'a' + worn.size());
+  item tmp = item(item_controller->find_template(*iter), 0, 'a' + worn.size());
   if (tmp.is_armor()) {
    if (tmp.has_flag(IF_VARSIZE))
     tmp.item_flags |= mfb(IF_FIT);
