@@ -540,12 +540,18 @@ bool player::install_bionics(game *g, it_bionic* type)
  mvwprintz(w, 13, 39, c_white,       "or faulty installation.");
  wrefresh(w);
 
- if (type->id == "bio_power_storage") {	// No selection list; just confirm
-  mvwprintz(w, 3, 1, h_ltblue, "Power Storage +%d", BATTERY_AMOUNT);
+ if (type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII") { // No selection list; just confirm
+   int pow_up = BATTERY_AMOUNT;
+
+   if (type->id == "bio_power_storage_mkII") {
+     pow_up = 10;
+   }
+
+  mvwprintz(w, 3, 1, h_ltblue, "Power Storage +%d", pow_up);
   mvwprintz(w_description, 0, 0, c_ltblue, "\
 Installing this bionic will increase your total power storage by %d.\n\
 Power is necessary for most bionics to function. You also require a\n\
-charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
+charge mechanism, which must be installed from another CBM.", pow_up);
 
   InputEvent input;
   wrefresh(w_description);
@@ -560,7 +566,7 @@ charge mechanism, which must be installed from another CBM.", BATTERY_AMOUNT);
    int success = chance_of_success - rng(1, 100);
    if (success > 0) {
     g->add_msg("Successfully installed batteries.");
-    max_power_level += BATTERY_AMOUNT;
+    max_power_level += pow_up;
    } else
     bionics_install_failure(g, this, success);
    werase(w);

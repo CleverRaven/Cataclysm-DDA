@@ -3908,6 +3908,47 @@
                               ],
                               [
                                   ["plut_cell", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_power_storage_mkII",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 12,
+            "time": 70000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 32],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 10],
+                                  ["UPS_off", 2]
+                              ],
+                              [
+                                  ["amplifier", 6]
+                              ],
+                              [
+                                  ["plut_cell", 2]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
                               ]
                           ]
         },

@@ -2047,6 +2047,26 @@ void map::translate(const ter_id from, const ter_id to)
  }
 }
 
+//This function performs the translate function within a given radius of the player.
+void map::translate_radius(const ter_id from, const ter_id to, float radi, int uX, int uY)
+{
+ if (from == to) {
+  debugmsg("map::translate %s => %s", terlist[from].name.c_str(),
+                                      terlist[from].name.c_str());
+  return;
+ }
+ for (int x = 0; x < SEEX * my_MAPSIZE; x++) {
+  for (int y = 0; y < SEEY * my_MAPSIZE; y++) {
+   if (ter(x, y) == from){
+    //float radiX = 0.0;
+    float radiX = sqrt((uX-x)*(uX-x) + (uY-y)*(uY-y));
+    if (radiX <= radi){
+      ter_set(x, y, to);}
+    }
+   }
+  }
+ }
+
 bool map::close_door(const int x, const int y, const bool inside)
 {
  if (ter(x, y) == t_door_o) {
