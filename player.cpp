@@ -3642,9 +3642,9 @@ void player::remove_mission_items(int mission_id)
 {
  if (mission_id == -1)
   return;
- if (weapon.mission_id == mission_id)
+ if (weapon.mission_id == mission_id) {
   remove_weapon();
- else {
+ } else {
   for (int i = 0; i < weapon.contents.size(); i++) {
    if (weapon.contents[i].mission_id == mission_id)
     remove_weapon();

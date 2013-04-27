@@ -274,7 +274,7 @@ std::ifstream fin;
 fin.open("data\\FONTDATA");
  if (!fin.is_open()){
      MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.",
-                NULL, NULL);
+                NULL, 0);
      fontheight=16;
      fontwidth=8;
  } else {
@@ -285,7 +285,7 @@ fin.open("data\\FONTDATA");
      fin >> fontheight;
      if ((fontwidth <= 4) || (fontheight <=4)){
          MessageBox(WindowHandle, "Invalid font size specified!",
-                    NULL, NULL);
+                    NULL, 0);
         fontheight=16;
         fontwidth=8;
      }
@@ -321,7 +321,7 @@ fin.open("data\\FONTDATA");
 
   } else {
       MessageBox(WindowHandle, "Failed to load default font, using FixedSys.",
-                NULL, NULL);
+                NULL, 0);
        font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                       ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
                       PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
