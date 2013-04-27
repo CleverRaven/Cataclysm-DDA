@@ -925,7 +925,7 @@ void inventory::use_charges(itype_id it, int quantity)
                         {
                             iter = items.erase(iter);
                             --iter;
-                            stack_iter = iter->begin();
+                            break;
                         }
                     }
                     else
