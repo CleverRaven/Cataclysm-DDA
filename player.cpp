@@ -577,15 +577,13 @@ void player::update_bodytemp(game *g)
    add_disease(dis_type(frost_pen), 1, g, 2, 2);
    // Warning message for the player
    if      (disease_intensity(dis_type(frost_pen)) < 2
-           &&  i == bp_mouth)
-            g->add_msg("Your %s hardens from the frostbite!",
-            body_part_name(body_part(i), -1).c_str());
-   else if (disease_intensity(dis_type(frost_pen)) < 2
-           && (i == bp_hands || i == bp_feet))
-            g->add_msg("Your %s harden from the frostbite!",
-            body_part_name(body_part(i), -1).c_str());}
+           &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
+            g->add_msg("Your %s %s from the frostbite!",
+            body_part_name(body_part(i), -1).c_str()),
+            i == bp_mouth ? "hardens"  : "harden";
   else if (frostbite_timer[i] >= 120 && g->temperature < 32) {
    add_disease(dis_type(frost_pen), 1, g, 1, 2);
+   // Warning message for the player
    if (!has_disease(dis_type(frost_pen))) 
     g->add_msg("You lose sensation in your %s.",
     body_part_name(body_part(i), -1).c_str());}
