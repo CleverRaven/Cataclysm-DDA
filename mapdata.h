@@ -118,7 +118,7 @@ t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_b
 t_rock, t_fault,
 t_paper,
 // Tree
-t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_shrub_blueberry, t_log,
+t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_indoor_plant, t_shrub_blueberry, t_log,
 t_root_wall,
 t_wax, t_floor_wax,
 t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -389,6 +389,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"shrub",            '#', c_green,   8, tr_null,
     mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable2)|
     mfb(thin_obstacle)|mfb(place_item), &iexamine::none},
+{"indoor plant",            '^', c_green,   4,   tr_null,
+	   mfb(container)|mfb(collapses)|mfb(bashable)|mfb(place_item)|mfb(indoors), &iexamine::none},
 {"blueberry bush",   '#', c_ltgreen,   8, tr_null,
     mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable2)|mfb(thin_obstacle),
     &iexamine::shrub_blueberry},
