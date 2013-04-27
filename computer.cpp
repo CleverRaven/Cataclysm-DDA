@@ -248,6 +248,24 @@ void computer::activate_function(game *g, computer_action action)
    g->m.translate(t_door_metal_locked, t_floor);
    print_line("Doors opened.");
    break;
+   
+  //LOCK AND UNLOCK are used to build more complex buildings that can have multiple doors that can be locked and 
+  //unlocked by different computers.  Simply uses translate_radius which take a given radius and player position
+  //to determine which terrain tiles to edit.
+  case COMPACT_LOCK:
+   g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx, g->u.posy);
+   print_line("Lock enabled.");
+   break;
+
+  case COMPACT_UNLOCK:
+   g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.posx, g->u.posy);
+   print_line("Lock disabled.");
+   break;
+
+  //Toll is required for the church computer/mechanism to function
+  case COMPACT_TOLL:
+   g->sound(g->u.posx, g->u.posy, 120, "Bohm... Bohm... Bohm...");
+   break;  
 
   case COMPACT_SAMPLE:
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
