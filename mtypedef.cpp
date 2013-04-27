@@ -1243,6 +1243,16 @@ mon("your mother",species_hallu, '@',	c_white,	MS_MEDIUM,	FLESH,
 Mom?"
 );
 FLAGS(MF_SEES, MF_HEARS, MF_NO_BREATHE, MF_SMELLS, MF_GUILT);
+ 
+mon("practice target", species_hallu, '#',	c_white,	MS_LARGE,	WOOD,
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+     0,  -10,  0,100,  0,  0,  0,  0,  0, 10, 10,  0,100, 0,
+     &mdeath::normal,	&mattack::none, "\
+This large wooden target resembles a bear.\n\
+Shoot at it, throw at it,\n\
+poke with a stick."
+     );
+FLAGS(MF_NOHEAD, MF_ACIDPROOF, MF_IMMOBILE);
 
 mon("generator", species_none, 'G',	c_white,	MS_LARGE,	STEEL,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
