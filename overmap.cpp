@@ -73,7 +73,7 @@ oter_id shop(int dir)
  oter_id ret = ot_s_lot;
  int type = rng(0, 19);
  if (one_in(20))
-  type = 19;
+  type = 20;
  switch (type) {
   case  0: ret = ot_s_lot;	         break;
   case  1: ret = ot_s_gas_north;         break;
