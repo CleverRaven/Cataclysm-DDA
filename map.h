@@ -122,6 +122,7 @@ class map
  point random_outdoor_tile();
 
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
+ void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY); 
  bool close_door(const int x, const int y, const bool inside);
  bool open_door(const int x, const int y, const bool inside);
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
