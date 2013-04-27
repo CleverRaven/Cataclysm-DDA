@@ -10,17 +10,18 @@ TEST_OBJS = $(TEST_SOURCES:%.cpp=$(ODIR)/%.o)
 TESTS = $(TEST_SOURCES:.cpp=)
 
 # Brute force solution, relative paths to EVERY .o file
-#SOURCE_OBJS = $(patsubst %,../$(ODIR)/%,$(filter-out main.o,$(_OBJS)))
-SOURCE_OBJS = ../obj/line.o
+SOURCE_OBJS = $(patsubst %,../$(ODIR)/%,$(filter-out main.o,$(_OBJS)))
 
 LDFLAGS += -L. -ltap -lpthread
 
 CXXFLAGS += -I..
 
+LD := $(CROSS)g++
+
 tests: $(TESTS)
 
 %_test: $(ODIR) $(DDIR) $(SOURCE_OBJS) $(TEST_OBJS)
-	$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(ODIR)/$@.o $(SOURCE_OBJS) $(LDFLAGS)
+	$(LD) $(W32FLAGS) -o $@ $(DEFINES) $(ODIR)/$@.o $(SOURCE_OBJS) $(CXXFLAGS) $(LDFLAGS)
 
 check: $(TESTS)
 	LD_LIBRARY_PATH=/usr/local/lib ./$?
