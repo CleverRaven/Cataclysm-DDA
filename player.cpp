@@ -590,30 +590,30 @@ void player::update_bodytemp(game *g)
     g->add_msg("You lose sensation in your %s.",
     body_part_name(body_part(i), -1).c_str());}
   // Warn the player if condition worsens
-  if      (temp_before > BODYTEMP_FREEZING
-         && temp_after < BODYTEMP_FREEZING)
-          g->add_msg("You feel your %s beginning to go numb from the cold!",
-          body_part_name(body_part(i), -1).c_str());
-  else if (temp_before > BODYTEMP_VERY_COLD
-         && temp_after < BODYTEMP_VERY_COLD)
-          g->add_msg("You feel your %s getting very cold.",
-          body_part_name(body_part(i), -1).c_str());
-  else if (temp_before > BODYTEMP_COLD
-         && temp_after < BODYTEMP_COLD)
-          g->add_msg("You feel your %s getting cold.",
-          body_part_name(body_part(i), -1).c_str());
-  else if (temp_before < BODYTEMP_SCORCHING
-         && temp_after > BODYTEMP_SCORCHING)
-          g->add_msg("You feel your %s getting red hot from the heat!",
-          body_part_name(body_part(i), -1).c_str());
-  else if (temp_before < BODYTEMP_VERY_HOT
-         && temp_after > BODYTEMP_VERY_HOT)
-          g->add_msg("You feel your %s getting very hot.",
-          body_part_name(body_part(i), -1).c_str());
-  else if (temp_before < BODYTEMP_HOT
-         && temp_after > BODYTEMP_HOT)
-          g->add_msg("You feel your %s getting hot.",
-          body_part_name(body_part(i), -1).c_str());
+  if      ( temp_before > BODYTEMP_FREEZING
+          && temp_after < BODYTEMP_FREEZING)
+           g->add_msg("You feel your %s beginning to go numb from the cold!",
+           body_part_name(body_part(i), -1).c_str());
+  else if ( temp_before > BODYTEMP_VERY_COLD
+          && temp_after < BODYTEMP_VERY_COLD)
+           g->add_msg("You feel your %s getting very cold.",
+           body_part_name(body_part(i), -1).c_str());
+  else if ( temp_before > BODYTEMP_COLD
+          && temp_after < BODYTEMP_COLD)
+           g->add_msg("You feel your %s getting cold.",
+           body_part_name(body_part(i), -1).c_str());
+  else if ( temp_before < BODYTEMP_SCORCHING
+          && temp_after > BODYTEMP_SCORCHING)
+           g->add_msg("You feel your %s getting red hot from the heat!",
+           body_part_name(body_part(i), -1).c_str());
+  else if ( temp_before < BODYTEMP_VERY_HOT
+          && temp_after > BODYTEMP_VERY_HOT)
+           g->add_msg("You feel your %s getting very hot.",
+           body_part_name(body_part(i), -1).c_str());
+  else if ( temp_before < BODYTEMP_HOT
+          && temp_after > BODYTEMP_HOT)
+           g->add_msg("You feel your %s getting hot.",
+           body_part_name(body_part(i), -1).c_str());
   }
  // Morale penalties, updated at the same rate morale is
  if (morale_pen < 0 && int(g->turn) % 10 == 0) add_morale(MORALE_COLD, -2, -abs(morale_pen));
