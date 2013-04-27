@@ -4470,6 +4470,11 @@ Compact Bionics Module that upgrades your power capacity by 4 units. Having\n\
 at least one of these is a prerequisite to using powered bionics. You will\n\
 also need a power supply, found in another CBM."); // This is a special case, which increases power capacity by 4
 
+ BIO("bio_power_storage_mkII", "CBM: Power Storage Mk. II", 8, 10000, c_green, 1, "\
+Compact Bionics Module developed at DoubleTech Industries as a replacement\n\
+for the highly sucessful CBM: Power Storage. Increases you power capacity\n\
+by 10 units."); // This is another special case, increases power capacity by 10 units
+
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \
 itypes[id]=new it_software(id, 0, price, name, description,\
