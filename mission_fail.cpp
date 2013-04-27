@@ -7,7 +7,6 @@ void mission_fail::kill_npc(game *g, mission *miss)
     {
         if (g->active_npc[i]->getID() == miss->npc_id)
         {
-            npc * tmp = g->active_npc[i];
             g->active_npc.erase(g->active_npc.begin() + i); //Do not call 'die' here. This deletes the npc object.
             i = g->active_npc.size(); //ends the loop.
         }
