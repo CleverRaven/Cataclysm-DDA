@@ -2656,7 +2656,7 @@ void overmap::save()
   fout << "L " << z << std::endl;
   for (int j = 0; j < OMAPY; j++) {
    for (int i = 0; i < OMAPX; i++) {
-    fout << int(layer[z].terrain[i][j]) + 32;
+    fout << int(layer[z].terrain[i][j]) << " ";
    }
    fout << std::endl;
   }
@@ -2704,19 +2704,20 @@ void overmap::open(game *g)
    if (datatype == 'L') { 	// Load layer data, and switch to layer
     fin >> z;
 
-    std::string dataline;
-    getline(fin, dataline);	// Chomp endl
+    int tmp_ter;
 
-    for (int j = 0; j < OMAPY; j++) {
-     getline(fin, dataline);
-     if (z >= 0 && z < OVERMAP_LAYERS) {
+    if (z >= 0 && z < OVERMAP_LAYERS) {
+     for (int j = 0; j < OMAPY; j++) {
       for (int i = 0; i < OMAPX; i++) {
-       layer[z].terrain[i][j] = oter_id(dataline[i] - 32);
+       fin >> tmp_ter;
+       layer[z].terrain[i][j] = oter_id(tmp_ter);
        layer[z].visible[i][j] = false;
        if (layer[z].terrain[i][j] < 0 || layer[z].terrain[i][j] > num_ter_types)
         debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), layer[z].terrain[i][j]);
       }
      }
+    } else {
+     debugmsg("Loaded z level out of range (z: %d)", z);
     }
    } else if (datatype == 'Z') {	// Monster group
     fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd;
