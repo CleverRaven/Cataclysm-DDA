@@ -66,6 +66,22 @@ InputEvent get_input(int ch)
         case 'r':
         case 'R':
             return Reset;
+    	case 'Y':
+    		return DirectionNW_shift;
+    	case 'U':
+    		return DirectionNE_shift;
+    	case 'K':
+    		return DirectionN_shift;
+    	case 'H':
+    		return DirectionW_shift;
+    	case 'L':
+    		return DirectionE_shift;
+    	case 'B':
+    		return DirectionSW_shift;
+    	case 'J':
+    		return DirectionS_shift;
+    	case 'N':
+    		return DirectionSE_shift;
 		default:
 			return Undefined;
 	}
@@ -108,6 +124,34 @@ void get_direction(int &x, int &y, InputEvent &input)
 			break;
 		case DirectionNone:
 		case Pickup:
+			break;
+		case DirectionN_shift:
+			y -=10;
+			break;
+		case DirectionS_shift:
+			y += 10;
+			break;
+		case DirectionE_shift:
+			x += 10;
+			break;
+		case DirectionW_shift:
+			x -= 10;
+			break;
+		case DirectionNW_shift:
+			x -= 10;
+			y -= 10;
+			break;
+		case DirectionNE_shift:
+			x += 10;
+			y -= 10;
+			break;
+		case DirectionSW_shift:
+			x -= 10;
+			y += 10;
+			break;
+		case DirectionSE_shift:
+			x += 10;
+			y += 10;
 			break;
 		default:
 			x = -2;

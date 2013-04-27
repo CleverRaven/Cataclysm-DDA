@@ -120,6 +120,34 @@ void get_direction(game *g, int &x, int &y, char ch)
   x = 1;
   y = 1;
   return;
+ case ACTION_SHIFT_N:
+  y = -10;
+  return;
+ case ACTION_SHIFT_S:
+  y = 10;
+  return;
+ case ACTION_SHIFT_E:
+  x = 10;
+  return;
+ case ACTION_SHIFT_W:
+  x = -10;
+  return;
+ case ACTION_SHIFT_NW:
+  x = -10;
+  y = -10;
+  return;
+ case ACTION_SHIFT_NE:
+  x = 10;
+  y = -10;
+  return;
+ case ACTION_SHIFT_SW:
+  x = -10;
+  y = 10;
+  return;
+ case ACTION_SHIFT_SE:
+  x = 10;
+  y = 10;
+  return;
  case ACTION_PAUSE:
  case ACTION_PICKUP:
   x = 0;

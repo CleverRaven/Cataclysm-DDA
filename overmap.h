@@ -115,6 +115,7 @@ class overmap
   point display_notes(game* g, int const z) const;
 
   point find_note(int const x, int const y, int const z, std::string const& text) const;
+  std::vector<point> find_notes(int const x, int const y, int const z, std::string const& text) const;
   void remove_npc(int npc_id);
 
   // TODO: make private
