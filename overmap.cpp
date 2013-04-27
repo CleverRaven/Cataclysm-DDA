@@ -134,8 +134,6 @@ overmap::overmap()
  , nullstr("")
 {
 // debugmsg("Warning - null overmap!");
- if (num_ter_types > 256 - 32)
-  debugmsg("More than 256 - 32 oterid!  Saving won't work!");
 }
 
 overmap::overmap(game *g, int x, int y)
@@ -149,10 +147,6 @@ overmap::overmap(game *g, int x, int y)
 {
  if (name.empty()) {
   debugmsg("Attempting to load overmap for unknown player!  Saving won't work!");
- }
-
- if (num_ter_types > 256 - 32) {
-  debugmsg("More than 256 - 32 oterid!  Saving won't work!");
  }
 
  if (g->has_gametype()) {
@@ -2661,7 +2655,7 @@ void overmap::save()
   fout << "L " << z << std::endl;
   for (int j = 0; j < OMAPY; j++) {
    for (int i = 0; i < OMAPX; i++) {
-    fout << char(int(layer[z].terrain[i][j]) + 32);
+    fout << int(layer[z].terrain[i][j]) + 32;
    }
    fout << std::endl;
   }
@@ -2716,7 +2710,7 @@ void overmap::open(game *g)
      getline(fin, dataline);
      if (z >= 0 && z < OVERMAP_LAYERS) {
       for (int i = 0; i < OMAPX; i++) {
-       layer[z].terrain[i][j] = oter_id((unsigned char)dataline[i] - 32);
+       layer[z].terrain[i][j] = oter_id(dataline[i] - 32);
        layer[z].visible[i][j] = false;
        if (layer[z].terrain[i][j] < 0 || layer[z].terrain[i][j] > num_ter_types)
         debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), layer[z].terrain[i][j]);
