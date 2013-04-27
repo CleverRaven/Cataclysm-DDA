@@ -7,7 +7,7 @@
 void game::init_mapitems()
 {
  setvector(mapitems[mi_child_items],
-  "chocolate", "candy", "crack", "bat", "backpack", "pockknife", NULL);
+  "chocolate", "candy", "crack", "bat", "backpack", "pockknife", "mag_comic", NULL);
 
  setvector(
    mapitems[mi_field],
@@ -81,12 +81,12 @@ void game::init_mapitems()
 	"inhaler", "cig", "cigar", "weed", "coke", "meth",
 	"heroin", "sneakers", "socks", "mocassins", "bandana", "glasses_eye", "sunglasses",
 	"glasses_reading", "hat_ball", "backpack", "purse", "mbag",
-	"fanny", "battery", "bb", "bbgun", "mag_porn", "mag_tv",
-	"mag_news", "novel_romance", "novel_drama", "manual_mechanics",
+	"fanny", "battery", "bb", "bbgun", "mag_porn", "mag_tv", "mag_gaming",
+	"mag_news", "novel_romance", "novel_drama", "novel_mystery", "manual_mechanics",
 	"manual_speech", "manual_business", "manual_computers",
 	"lighter", "matches", "sewing_kit", "thread", "scissors", "soldering_iron",
-	"radio", "syringe", "mp3", "usb_drive", "firecracker_pack", "firecracker",
-    "chips", "cola", "picklocks", "wolfsuit", "glowstick", "blanket", "house_coat", NULL);
+	"radio", "syringe", "mp3", "usb_drive", "firecracker_pack", "firecracker", 
+	"chips", "cola", "picklocks", "wolfsuit", "glowstick", "blanket", "house_coat", NULL);
 
  setvector(
    mapitems[mi_homeguns],
@@ -138,8 +138,10 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_magazines],
 	"mag_tv", "mag_news", "mag_cars", "mag_cooking",
-	"novel_romance", "novel_spy", "mag_carpentry",
-	"mag_guns", "mag_archery", NULL);
+	"novel_romance", "novel_spy", "mag_carpentry", "mag_comic",
+	"mag_guns", "mag_archery", "novel_horror", "novel_mystery", "novel_fantasy",
+	"mag_dodge","mag_comic","mag_throwing", "novel_firstaid",
+	"mag_gaming", "Mag_swimming", NULL);
 
  setvector(
    mapitems[mi_softdrugs],
@@ -233,7 +235,7 @@ void game::init_mapitems()
    mapitems[mi_allsporting],
 	"aspirin", "bat", "bat_metal", "sneakers", "socks", "tshirt", "tank_top",
 	"gloves_fingerless", "glasses_safety", "goggles_swim",
-	"armguard_soft", "armguard_hard",
+	"armguard_soft", "armguard_hard", "mag_firstaid", "mag_throwing", "mag_swimming",
 	"goggles_ski", "hat_ball", "helmet_bike", "helmet_ball",
 	"manual_brawl", "rope_30", "hatchet", "pot", "pan",
 	"binoculars", "hotplate", "knife_combat", "machete", "vest",
@@ -368,7 +370,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_novels],
 	"novel_romance", "novel_spy", "novel_scifi", "novel_drama",
-  "cookbok_human",
+	"cookbok_human", "novel_mystery", "novel_fantasy", "novel_horror",
 	NULL);
 
  setvector(
@@ -471,7 +473,7 @@ void game::init_mapitems()
 	"vitamins", "iodine", "dayquil", "screwdriver", "boots",
 	"boots_winter", "socks_wool", "jeans", "shorts", "tshirt", "sweatshirt", "sweater",
 	"coat_winter", "gloves_wool", "gloves_winter", "gloves_liner", "hat_knit",
-	"backpack", "battery", "novel_scifi", "novel_drama",
+	"backpack", "battery", "novel_scifi", "novel_drama", "mag_dodge",
 	"manual_first_aid", "manual_tailor", "manual_carpentry",
 	"lighter", "matches", "sewing_kit", "thread", "hammer", "extinguisher",
 	"flashlight", "hotplate", "water_purifier", "radio", "rollmat",
