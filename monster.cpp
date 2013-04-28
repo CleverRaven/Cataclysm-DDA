@@ -413,8 +413,8 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
  for (int i = 0; i < triggers->size(); i++) {
 
   switch ((*triggers)[i]) {
-  case MTRIG_TIME:
-   if (one_in(20))
+  case MTRIG_STALK:
+   if (anger > 0 && one_in(20))
     ret++;
    break;
 

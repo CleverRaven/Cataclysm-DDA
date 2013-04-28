@@ -95,7 +95,7 @@ MS_HUGE		// TAAAANK
 // They are handled in monster::check_triggers(), in monster.cpp
 enum monster_trigger {
 MTRIG_NULL = 0,
-MTRIG_TIME,		// Random over time.
+MTRIG_STALK,		// Increases when following the player
 MTRIG_MEAT,		// Meat or a corpse nearby
 MTRIG_PLAYER_WEAK,	// The player is hurt
 MTRIG_PLAYER_CLOSE,	// The player gets within a few tiles
