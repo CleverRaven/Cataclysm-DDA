@@ -4343,7 +4343,7 @@ bool player::eat(game *g, char ch)
 
         if (eaten->made_of(HFLESH)) {
           if (has_trait(PF_CANNIBAL)) {
-            add_morale(MORALE_CANNIBAL, 15, 100);
+            add_morale(MORALE_CANNIBAL, 60, 400);
           } else {
             if (!is_npc())
               g->add_msg("You feel horrible for eating a person..");
