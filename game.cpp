@@ -5152,7 +5152,7 @@ void game::advanced_inv()
                 mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
                 mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)");
 
-                mvwprintz(head,1,(w_width/2), c_white, "[m]ove item between screen. %d %d (%d %d) ",itemsPerPage,w_height,max_left_page,max_left_index);
+                mvwprintz(head,1,(w_width/2), c_white, "[m]ove item between screen.");
                 //mvwprintz(head,2,60, c_white, "mov[e] to a selected square.");
                 mvwprintz(head,3,(w_width/2), c_white, "[q]uit/exit this screen");
             }
