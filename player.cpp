@@ -502,9 +502,9 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   // MUTATIONS
   // Bark : lowers blister count to -100; harder to get blisters
   // Lightly furred
-  if (has_trait(PF_LIGHTFUR) temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
+  if (has_trait(PF_LIGHTFUR)) temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
   // Furry
-  if (has_trait(PF_FUR) temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
+  if (has_trait(PF_FUR)) temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
   // FINAL CALCULATION : Increments current body temperature towards convergant.
   int temp_before = temp_cur[i];
   int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
