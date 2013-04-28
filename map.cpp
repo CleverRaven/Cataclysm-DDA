@@ -988,8 +988,8 @@ bool map::has_adjacent_furniture(const int x, const int y)
    for (int j = 0; j <= 1; j++)
    {
        // Apply the adjustment to x first, then y
-       const int adj_x = x + !j?i:0;
-       const int adj_y = y + j?i:0;
+       const int adj_x = x + (!j?i:0);
+       const int adj_y = y + ( j?i:0);
 
        switch( ter(adj_x, adj_y) )
        {
