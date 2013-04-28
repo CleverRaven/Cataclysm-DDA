@@ -567,7 +567,7 @@ Better eat it before it oozes through your fingers.", 0);
 
 FOOD("apple_canned", "canned apple slices",	 0, 32, c_red,		VEGGY,	"bottle_glass",
     1,  1,  3, 16, 180,  0,  2,  0,  1,  1,	&iuse::none,	ADD_NULL, "\
-Sealed glass jar containing preserved apples.  Bland, mushy and losing color.", 0);
+A mushy goop that used to be apples, better eat it before it congeals.", 0);
 
 FOOD("human_canned", "canned cad",	 0, 25, c_red,		HFLESH,	"bottle_glass",
     1,  2,  0, 50, 40,  0,  0,  0,  1,  2,	&iuse::none,	ADD_NULL, "\
@@ -1234,10 +1234,27 @@ A large stone, roughly hollowed out into a pot.");
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("frame", "steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
-    60,  240,  20,  0,  -5, 0, "\
+    60, 240, 20, 0, -5,  0, "\
 A large frame made of steel. Useful for crafting.");
 TECH("frame", mfb(TEC_DEF_DISARM) );
 
+//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+MELEE(".22_rifle_barrel", ".22 rifle barrel", 10, 100, '/', c_cyan, STEEL, MNULL,
+//  VOL WGT DAM CUT HIT FLAGS
+     4,  6,  8,  0,  1,  0, "\
+A .22 rifle barrel.");
+
+//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+MELEE(".22_pistol_barrel", ".22 pistol barrel", 10, 100, '/', c_cyan, STEEL, MNULL,
+//  VOL WGT DAM CUT HIT FLAGS
+     2,  3,  4,  0,  0,  0, "\
+A .22 pistol barrel.");
+
+//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+MELEE("shotgunbarrel", "shotgun barrel", 10, 100, '/', c_cyan, STEEL, MNULL,
+//  VOL WGT DAM CUT HIT FLAGS
+     8,  6,  8,  0,  1,  0, "\
+A smooth bore shotgun barrel.");
 #define VAR_VEH_PART(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, bigmin, bigmax, bigaspect, des)\
 itypes[id]=new it_var_veh_part(id,rarity,price,name,des,sym,\
@@ -4438,19 +4455,26 @@ and make it ready to fire. Once activated, it cannot be repacked.");
 
 TOOL("jar_meat_canned", "sealed jar of canned meat",	50,	75,'%', c_red,		GLASS,	FLESH,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
-Sealed glass jar containing meat.  Activate to open and enjoy.");
+A sealed glass jar containing some meat.  Activate to open and enjoy.");
 
 TOOL("jar_human_canned", "sealed jar of canned cad",	50,	75,'%', c_red,		GLASS,	FLESH,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
-Sealed glass jar containing human meat.  Activate to open and enjoy.");
+A sealed glass jar containing human meat.  Activate to open and enjoy.");
 
 TOOL("jar_veggy_canned", "sealed jar of canned veggy",	50,	65, '%', c_green,		GLASS,	VEGGY,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
-Sealed glass jar containing veggy.  Activate to open and enjoy.");
+A sealed glass jar containing veggy.  Activate to open and enjoy.");
 
 TOOL("jar_apple_canned", "sealed jar of canned apple",	50,	50, '%', c_red,		GLASS,	VEGGY,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
-Sealed glass jar containing a sliced apple.  Activate to open and enjoy.");
+A sealed glass jar containing a sliced apple.  Activate to open and enjoy.");
+
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
+TOOL("cordless_drill", "cordless drill", 70, 200, ';', c_ltgray, PLASTIC, STEEL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    5, 4,   3,  0, -1, 300,300, 0,  0, AT_BATT, "null", &iuse::none, mfb(IF_NO_UNLOAD),"\
+A cordless drill with a selection of drill bits. The charger base contains\n\
+a battery draining attachment so the drill can be charged in lieu of mains power.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
