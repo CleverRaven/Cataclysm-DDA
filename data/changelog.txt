@@ -45,6 +45,7 @@ Multidrop screen continually updates to show new potential weight/volume.
 Bugfix: longbow should not end up loaded while in inventory, and can be fired if it does.
 Backpacks, messenger bags, etc. can be repaired via sewing kits.
 Add fire drill as a survivalcraft firestarter (trickier and slower than lighter/matches).
+Practice targets
 
 
 0.4

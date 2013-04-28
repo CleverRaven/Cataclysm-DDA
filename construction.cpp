@@ -279,6 +279,14 @@ void game::init_construction()
    TOOLCONT("nailgun");
    COMP("2x4", 4);
    COMP("nail", 8);
+ 
+ CONSTRUCT("Build Practice Target", 0, &construct::able_empty,
+           &construct::done_practice_target);
+ STAGE(t_dirt, 10)
+ TOOL("hammer");
+ TOOLCONT("hatchet");
+ COMP("2x4", 4);
+ COMP("nail", 8);
 
 // Household stuff
  CONSTRUCT("Build Dresser", 1, &construct::able_indoors,
@@ -949,6 +957,13 @@ bool construct::able_deconstruct(game *g, point p)
 void construct::done_window_pane(game *g, point p)
 {
  g->m.spawn_item(g->u.posx, g->u.posy, item_controller->find_template("glass_sheet"), 0);
+}
+
+void construct::done_practice_target(game *g, point p) 
+{
+ monster pt = monster(g->mtypes[mon_ptarget]);
+ pt.spawn(p.x, p.y);
+ g->z.push_back(pt);
 }
 
 void construct::done_furniture(game *g, point p)

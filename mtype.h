@@ -79,6 +79,7 @@ mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_copbot, mon_molebot,
 // Hallucinations
 mon_hallu_zom, mon_hallu_bee, mon_hallu_ant, mon_hallu_mom,
 // Special monsters
+mon_ptarget,
 mon_generator,
 num_monsters
 };
