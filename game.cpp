@@ -5153,7 +5153,7 @@ void game::advanced_inv()
                 mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)");
 
                 mvwprintz(head,1,(w_width/2), c_white, "[m]ove item between screen.");
-                //mvwprintz(head,2,60, c_white, "mov[e] to a selected square.");
+                mvwprintz(head,2,(w_width/2), c_white, "[e]amine item.");
                 mvwprintz(head,3,(w_width/2), c_white, "[q]uit/exit this screen");
             }
             if(left_area == 0)
@@ -5355,6 +5355,25 @@ void game::advanced_inv()
         }
         else if('e' == c)
         {
+            if((screen == 0 && left_size == 0) || (screen == 1 && right_size == 0))
+                continue;
+            int src_offx  = screen == 0 ? left_offx  : right_offx;
+            int src_offy  = screen == 0 ? left_offy  : right_offy;
+            int src_index = screen == 0 ? left_index : right_index;
+            int src_page  = screen == 0 ? left_page  : right_page;
+            int src_area  = screen == 0 ? left_area  : right_area;
+            int item_pos = src_index + (src_page * itemsPerPage);
+            item it;
+            if(src_area == 0) {
+		it = u.inv.slice(item_pos, 1)[0]->front();
+            } else {
+                std::vector<item> src_items = m.i_at(u.posx+src_offx , u.posy+src_offy);
+                it = src_items[item_pos];
+            }
+            std::vector<iteminfo> vThisItem, vDummy, vMenu;
+            it.info(true, &vThisItem);
+            compare_split_screen_popup(1+colstart+(screen==0 ? w_width/2 : 0),(w_width/2)-2,0, it.tname(this), vThisItem, vDummy);
+            redraw = true;
         }
         else if('q' == c || KEY_ESCAPE == c)
         {
