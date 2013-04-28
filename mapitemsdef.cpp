@@ -35,7 +35,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_livingroom],
-	"rootbeer", "pizza", "cola", "cig", "cigar", "weed",
+	"rootbeer", "pizza_veggy", "pizza_meat", "cola", "cig", "cigar", "weed",
 	"coke", "meth", "sneakers", "socks", "boots", "boots_winter", "socks_wool",
 	"flip_flops", "dress_shoes", "heels", "coat_rain", "poncho",
 	"gloves_light", "mittens", "gloves_light", "mittens",
@@ -52,6 +52,7 @@ void game::init_mapitems()
 	"cookbook", "rag", "hotplate", "flashlight", "extinguisher",
 	"whiskey", "bleach", "ammonia", "flour", "sugar", "salt",
 	"tea_raw", "coffee_raw", "funnel", "vac_sealer",
+	"seasoning_italian", "cookbook_italian",
 	NULL);
 
  setvector(
@@ -127,16 +128,16 @@ void game::init_mapitems()
    mapitems[mi_fridgesnacks],
 	"water_clean", "oj", "apple_cider", "energy_drink", "cola",
 	"rootbeer", "milk", "V8", "sandwich_t", "frozen_dinner",
-	"pizza", "pie", NULL);
+	"pizza_veggy", "pizza_meat", "pie", NULL);
 
  setvector(
    mapitems[mi_fast_food],
-	"water_clean", "cola", "rootbeer", "sandwich_t", "sandwich_t", "sandwich_t", "pizza",
+	"water_clean", "cola", "rootbeer", "sandwich_t", "sandwich_t", "sandwich_t", "pizza_veggy", "pizza_meat",
 	"pie", "chips", "candy", NULL);
 
  setvector(
    mapitems[mi_coffee_shop],
-	"water_clean", "cola", "rootbeer", "sandwich_t", "pizza", "pretzels", "chocolate", "jerky", "candy",
+	"water_clean", "cola", "rootbeer", "sandwich_t", "pizza_veggy", "pizza_meat", "pretzels", "chocolate", "jerky", "candy",
 	"tea_raw", "pie", "chips", "candy", "coffee_raw", "coffee_raw", "coffee_raw", "coffee_raw", NULL);
 
  setvector(
@@ -173,7 +174,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_pasta],
 	"spaghetti_raw", "macaroni_raw", "ravioli", "sauce_red",
-	"sauce_pesto", "bread", NULL);
+	"sauce_pesto", "bread", "seasoning_italian", NULL);
 
  setvector(
    mapitems[mi_produce],
@@ -389,7 +390,7 @@ void game::init_mapitems()
    mapitems[mi_manuals],
 	"manual_brawl", "manual_knives", "manual_mechanics",
 	"manual_speech", "manual_business", "manual_first_aid",
-	"manual_computers", "cookbook", "manual_electronics",
+	"manual_computers", "cookbook", "cookbook_italian", "manual_electronics",
 	"manual_tailor", "manual_traps", "manual_carpentry",
         "manual_survival", NULL);
 

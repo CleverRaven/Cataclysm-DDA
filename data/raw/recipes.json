@@ -2327,7 +2327,7 @@
             "result": "macaroni_cooked",
             "category": "CC_FOOD",
             "skill_pri": "cooking",
-            "difficulty": 1,
+            "difficulty": 0,
             "time": 10000,
             "reversible": false,
             "autolearn": true,
@@ -2781,7 +2781,7 @@
             "result": "bread",
             "category": "CC_FOOD",
             "skill_pri": "cooking",
-            "difficulty": 4,
+            "difficulty": 2,
             "time": 20000,
             "reversible": false,
             "autolearn": true,
@@ -2848,13 +2848,14 @@
 
 
         {
-            "result": "pizza",
+            "result": "pizza_veggy",
             "category": "CC_FOOD",
             "skill_pri": "cooking",
             "difficulty": 3,
             "time": 20000,
             "reversible": false,
-            "autolearn": true,
+            "autolearn": false,
+            "book_learn": [ ["cookbook_italian", 2] ],
             "tools": [
                          [
                              ["hotplate", 8],
@@ -2877,11 +2878,148 @@
                               ],
                               [
                                   ["sauce_pesto", 1],
-                                  ["sauce_red", 1]
+                                  ["sauce_red", 1],
+                                  ["seasoning_italian", 5]
                               ],
                               [
                                   ["water", 1],
                                   ["water_clean", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "pizza_meat",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": false,
+            "book_learn": [ ["cookbook_italian", 2] ],
+            "tools": [
+                         [
+                             ["hotplate", 8],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pan", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["flour", 2]
+                              ],
+                              [
+                                  ["meat", 2],
+                                  ["meat_canned", 1]
+                              ],
+                              [
+                                  ["sauce_red", 1],
+                                  ["seasoning_italian", 5]
+                              ],
+                              [
+                                  ["water", 1],
+                                  ["water_clean", 1]
+                              ]
+                          ]
+        },
+        
+        
+        {
+            "result": "spaghetti_bolognese",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 4,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": false,
+            "book_learn": [ ["cookbook_italian", 3] ],
+            "tools": [
+                         [
+                             ["hotplate", 6],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["scissors", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["spaghetti_raw", 1]
+                              ],
+                              [
+                                  ["water", 1],
+                                  ["water_clean", 1]
+                              ],
+                              [
+                                  ["seasoning_italian", 5],
+                                  ["sauce_red", 1],
+                                  ["tomato", 2]
+                              ],
+                              [
+                                  ["meat", 1],
+                                  ["canned_meat", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "spaghetti_pesto",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 4,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": false,
+            "book_learn": [ ["cookbook_italian", 3] ],
+            "tools": [
+                         [
+                             ["hotplate", 4],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1],
+                             ["rock", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["spaghetti_raw", 1]
+                              ],
+                              [
+                                  ["water", 1],
+                                  ["water_clean", 1]
+                              ],
+                              [
+                                  ["seasoning_italian", 5],
+                                  ["sauce_pesto", 1]
+                              ],
+                              [
+                                  ["veggy", 2],
+                                  ["veggy_wild", 2]
                               ]
                           ]
         },
