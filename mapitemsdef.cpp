@@ -439,7 +439,12 @@ void game::init_mapitems()
 	"purse", "mbag", "battery", "mag_news", "manual_business",
 	"textbook_business", "manual_computers", "textbook_computers", "lighter", "matches", "extinguisher", "flashlight",
 	"radio", "bubblewrap", "coffee_raw", "usb_drive","rootbeer", "cig", "coat_rain", "poncho",
-	"mag_tv", "mag_news", "lighter", "matches", "extinguisher", "mp3", NULL);	
+	"mag_tv", "mag_news", "lighter", "matches", "extinguisher", "mp3", NULL);
+
+ setvector(
+   mapitems[mi_church],
+    "glasses_eye", "sunglasses", "glasses_reading", "lighter", "matches", "coat_rain", "cane", "candlestick",
+    "candlestick", "candlestick", "candlestick", NULL);
 
  setvector(
    mapitems[mi_vault],
