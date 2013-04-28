@@ -3660,6 +3660,10 @@ CONT("keg", "aluminum keg", 20, 6000, c_ltcyan, STEEL, MNULL,
 A reusable aluminum keg, used for shipping beer.\n\
 It has a capcity of 50 liters.");
 
+CONT("jar_glass", "glass jar",	50,  2500,	c_ltcyan,	GLASS,MNULL,
+    1,  1, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A half-litre glass jar with a metal screw top lid, used for canning.");
+
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("lighter", "cheap lighter",		60,  35,',', c_blue,	PLASTIC,IRON,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
@@ -4490,6 +4494,10 @@ Sealed glass jar containing veggy.  Activate to open and enjoy.");
 TOOL("jar_apple_canned", "sealed jar of canned apple",	50,	50, '%', c_red,		GLASS,	VEGGY,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
 Sealed glass jar containing a sliced apple.  Activate to open and enjoy.");
+
+TOOL("vac_sealer", "vacuum sealer",	10, 250,';', c_green,	IRON,	PLASTIC,
+    5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, "null", &iuse::none,0,"\
+A portable heat sealer unit with an air pump, for vacuum packing of food.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
