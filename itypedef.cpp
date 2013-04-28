@@ -555,21 +555,21 @@ FOOD("jihelucake", "cake",            0, 0, c_white, VEGGY, "null",
     2,  1,   0, 25, 0,  0,  0,  0,  1,  20, &iuse::none, ADD_NULL, "\
 Delicious sponge cake with buttercream icing, it says happy birthday on it.", 0);
 
-FOOD("meat_canned", "canned meat",	 0, 25, c_red,		FLESH,	"bottle_glass",
+FOOD("meat_canned", "canned meat",	 0, 25, c_red,		FLESH,	"jar_glass",
     1,  2,  0, 50, 40,  0,  0,  0,  1,  2,	&iuse::none,	ADD_NULL, "\
 Low-sodium preserved meat.  It was boiled and canned.\n\
 Contains all of the nutrition, but little of the savor of cooked meat.\n",0 );
 
-FOOD("veggy_canned", "canned veggy",	 0, 150, c_green,		VEGGY,	"bottle_glass",
+FOOD("veggy_canned", "canned veggy",	 0, 150, c_green,		VEGGY,	"jar_glass",
     1,  2,  0, 40, 60,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
 This mushy pile of vegetable matter was boiled and canned in an earlier life.\n\
 Better eat it before it oozes through your fingers.", 0);
 
-FOOD("apple_canned", "canned apple slices",	 0, 32, c_red,		VEGGY,	"bottle_glass",
-    1,  1,  3, 16, 180,  0,  2,  0,  1,  1,	&iuse::none,	ADD_NULL, "\
+FOOD("apple_canned", "canned apple slices",	 0, 32, c_red,		VEGGY,	"jar_glass",
+    1,  1,  3, 48, 180,  0,  2,  0,  1,  1,	&iuse::none,	ADD_NULL, "\
 Sealed glass jar containing preserved apples.  Bland, mushy and losing color.", 0);
 
-FOOD("human_canned", "canned cad",	 0, 25, c_red,		HFLESH,	"bottle_glass",
+FOOD("human_canned", "canned cad",	 0, 25, c_red,		HFLESH,	"jar_glass",
     1,  2,  0, 50, 40,  0,  0,  0,  1,  2,	&iuse::none,	ADD_NULL, "\
 Low-sodium preserved human meat.  It was boiled and canned.\n\
 Contains all of the nutrition, but little of the savor of cooked meat.\n",0 );
