@@ -5172,8 +5172,8 @@ void game::advanced_inv()
             {
                 printItems(m.i_at(u.posx+right_offx,u.posy+right_offy),right_window,right_page,right_index,(screen == 1), this);
             }
-            if(screen == 0 && max_left_page > 1) mvwprintz(left_window,5,7,c_ltblue,"[<] previous page       [>] next page"); // fixme
-            if(screen == 1  && max_right_page > 1) mvwprintz(right_window,5,7,c_ltblue,"[<] previous page       [>] next page"); // fixme
+            if(screen == 0 && max_left_page > 1) mvwprintz(left_window,4,2,c_ltblue,"[<] page %d of %d [>]",left_page+1,max_left_page);
+            if(screen == 1  && max_right_page > 1) mvwprintz(right_window,4,2,c_ltblue,"[<] page %d of %d [>]",right_page+1,max_right_page);
             printHeader(canputitems,left_window,left_area);
             printHeader(canputitems,right_window,right_area);
             redraw = false;
