@@ -567,7 +567,7 @@ Better eat it before it oozes through your fingers.", 0);
 
 FOOD("apple_canned", "canned apple slices",	 0, 32, c_red,		VEGGY,	"bottle_glass",
     1,  1,  3, 16, 180,  0,  2,  0,  1,  1,	&iuse::none,	ADD_NULL, "\
-Sealed glass jar containing preserved apples.  Bland, mushy and losing color.", 0);
+A mushy goop that used to be apples, better eat it before it congeals.", 0);
 
 FOOD("human_canned", "canned cad",	 0, 25, c_red,		HFLESH,	"bottle_glass",
     1,  2,  0, 50, 40,  0,  0,  0,  1,  2,	&iuse::none,	ADD_NULL, "\
@@ -1234,10 +1234,27 @@ A large stone, roughly hollowed out into a pot.");
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("frame", "steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS
-    60,  240,  20,  0,  -5, 0, "\
+    60, 240, 20, 0, -5,  0, "\
 A large frame made of steel. Useful for crafting.");
 TECH("frame", mfb(TEC_DEF_DISARM) );
 
+//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+MELEE(".22_rifle_barrel", ".22 rifle barrel", 10, 100, '/', c_cyan, STEEL, MNULL,
+//  VOL WGT DAM CUT HIT FLAGS
+     4,  6,  8,  0,  1,  0, "\
+A .22 rifle barrel.");
+
+//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+MELEE(".22_pistol_barrel", ".22 pistol barrel", 10, 100, '/', c_cyan, STEEL, MNULL,
+//  VOL WGT DAM CUT HIT FLAGS
+     2,  3,  4,  0,  0,  0, "\
+A .22 pistol barrel.");
+
+//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
+MELEE("shotgunbarrel", "shotgun barrel", 10, 100, '/', c_cyan, STEEL, MNULL,
+//  VOL WGT DAM CUT HIT FLAGS
+     8,  6,  8,  0,  1,  0, "\
+A smooth bore shotgun barrel.");
 #define VAR_VEH_PART(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, bigmin, bigmax, bigaspect, des)\
 itypes[id]=new it_var_veh_part(id,rarity,price,name,des,sym,\
@@ -3444,6 +3461,33 @@ Will you be able to place the arrow right into bull's eye?\n\
 It is not that easy, but once you know how it's done,\n\
 you will have a lot of fun with archery.");
 
+BOOK("mag_gaming", "Computer Gaming",			20,  30,c_pink,		PAPER,	MNULL,
+// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
+    1,  1, -3,  1,	NULL,	 0,  0,  2,  7,  8, "\
+Reviews of recently released computer games and previews\n\
+of upcoming titles.");
+
+BOOK("mag_comic", "comic book",			20,  30,c_pink,		PAPER,	MNULL,
+// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
+    1,  1, -3,  1,	NULL,	 0,  0,  2,  0,  7, "\
+A super-hero comic.");
+
+BOOK("mag_firstaid", "Paramedics",		15,  48, c_pink,		PAPER,	MNULL,
+    1,  1, -3,  1,	"firstaid",		 1,  0,  1,  1,  8, "\
+An educational magazine for EMTs.");
+
+BOOK("mag_dodge", "Dance Dance Dance!",		20,  48,c_pink,		PAPER,	MNULL,
+    1,  1, -3,  1,	"dodge",		 1,  0,  1,  2,  8, "\
+Learn the moves of the trendiest dances right now.");
+
+BOOK("mag_throwing", "Diskobolus",		20,  48,c_pink,		PAPER,	MNULL,
+    1,  1, -3,  1,	"throw",		 1,  0,  1,  1,  8, "\
+A biannual magazine devoted to discus throw.");
+
+BOOK("mag_swimming", "Swim Planet",		20,  48,c_pink,		PAPER,	MNULL,
+    1,  1, -3,  1,	"swimming",		 1,  0,  1,  1,  8, "\
+The world's leading resource about aquatic sports.");
+
 BOOK("novel_romance", "romance novel",		30,  55,c_ltblue,	PAPER,	MNULL,
     4,  1, -2,  0,	NULL,	 0,  0,  2,  4, 15, "\
 Drama and mild smut.");
@@ -3461,6 +3505,18 @@ Aliens, ray guns, and space ships.");
 BOOK("novel_drama", "drama novel",		40,  55,c_ltblue,	PAPER,	MNULL,
     4,  1, -2,  0,	NULL,	 0,  0,  4,  7, 25, "\
 A real book for real adults.");
+
+BOOK("novel_fantasy", "fantasy novel",		20,  55,c_ltblue,	PAPER,	MNULL,
+    4,  1, -2,  0,	NULL,	 0,  0,  4,  7, 20, "\
+Basic Sword & Sorcery.");
+
+BOOK("novel_mystery", "mystery novel",		25,  55,c_ltblue,	PAPER,	MNULL,
+    4,  1, -2,  0,	NULL,	 0,  0,  4,  7, 18, "\
+A detective investigates an unusual murder in a secluded location.");
+
+BOOK("novel_horror", "horror novel",		18,  55,c_ltblue,	PAPER,	MNULL,
+    4,  1, -2,  0,	NULL,	 0,  0,  1,  7, 18, "\
+Maybe not the best reading material considering the situation.");
 
 BOOK("manual_brawl", "101 Wrestling Moves",	30, 180,c_green,	PAPER,	MNULL,
     2,  1, -4,  0, 	"unarmed",	 3,  0,  0,  3, 15, "\
@@ -4438,19 +4494,26 @@ and make it ready to fire. Once activated, it cannot be repacked.");
 
 TOOL("jar_meat_canned", "sealed jar of canned meat",	50,	75,'%', c_red,		GLASS,	FLESH,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
-Sealed glass jar containing meat.  Activate to open and enjoy.");
+A sealed glass jar containing some meat.  Activate to open and enjoy.");
 
 TOOL("jar_human_canned", "sealed jar of canned cad",	50,	75,'%', c_red,		GLASS,	FLESH,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
-Sealed glass jar containing human meat.  Activate to open and enjoy.");
+A sealed glass jar containing human meat.  Activate to open and enjoy.");
 
 TOOL("jar_veggy_canned", "sealed jar of canned veggy",	50,	65, '%', c_green,		GLASS,	VEGGY,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
-Sealed glass jar containing veggy.  Activate to open and enjoy.");
+A sealed glass jar containing veggy.  Activate to open and enjoy.");
 
 TOOL("jar_apple_canned", "sealed jar of canned apple",	50,	50, '%', c_red,		GLASS,	VEGGY,
     2,  3,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::dejar, 0,"\
-Sealed glass jar containing a sliced apple.  Activate to open and enjoy.");
+A sealed glass jar containing a sliced apple.  Activate to open and enjoy.");
+
+//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
+TOOL("cordless_drill", "cordless drill", 70, 200, ';', c_ltgray, PLASTIC, STEEL,
+// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
+    5, 4,   3,  0, -1, 300,300, 0,  0, AT_BATT, "null", &iuse::none, mfb(IF_NO_UNLOAD),"\
+A cordless drill with a selection of drill bits. The charger base contains\n\
+a battery draining attachment so the drill can be charged in lieu of mains power.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
