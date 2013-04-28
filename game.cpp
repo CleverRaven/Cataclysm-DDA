@@ -2877,24 +2877,45 @@ void game::draw_HP()
     werase(w_HP);
     int current_hp;
     nc_color color;
-    std::string asterisks = "";
+    std::string health_bar = "";
     for (int i = 0; i < num_hp_parts; i++) {
         current_hp = u.hp_cur[i];
         if (current_hp == u.hp_max[i]){
           color = c_green;
-          asterisks = " **** ";
+          health_bar = "|||||";
+        } else if (current_hp > u.hp_max[i] * .9) {
+          color = c_green;
+          health_bar = "||||\\";
         } else if (current_hp > u.hp_max[i] * .8) {
           color = c_ltgreen;
-          asterisks = " **** ";
+          health_bar = "||||";
+        } else if (current_hp > u.hp_max[i] * .7) {
+          color = c_ltgreen;
+          health_bar = "|||\\";
+        } else if (current_hp > u.hp_max[i] * .6) {
+          color = c_yellow;
+          health_bar = "|||";
         } else if (current_hp > u.hp_max[i] * .5) {
           color = c_yellow;
-          asterisks = " ***  ";
+          health_bar = "||\\";
+        } else if (current_hp > u.hp_max[i] * .4) {
+          color = c_ltred;
+          health_bar = "||";
         } else if (current_hp > u.hp_max[i] * .3) {
           color = c_ltred;
-          asterisks = " **   ";
-        } else {
+          health_bar = "|\\";
+        } else if (current_hp > u.hp_max[i] * .2) {
           color = c_red;
-          asterisks = " *    ";
+          health_bar = "|";
+        } else if (current_hp > u.hp_max[i] * .1) {
+          color = c_red;
+          health_bar = "\\";
+        } else if (current_hp > 0) {
+          color = c_red;
+          health_bar = ":";
+        } else {
+          color = c_ltgray;
+          health_bar = "-----";
         }
         if (u.has_trait(PF_SELFAWARE)) {
             if (current_hp >= 100){
@@ -2905,7 +2926,14 @@ void game::draw_HP()
                 mvwprintz(w_HP, i * 2 + 1, 0, color, "  %d    ", current_hp);
             }
         } else {
-            mvwprintz(w_HP, i * 2 + 1, 0, color, asterisks.c_str());
+            mvwprintz(w_HP, i * 2 + 1, 0, color, health_bar.c_str());
+            
+            //Add the trailing symbols for a not-quite-full health bar
+            int bar_remainder = 5;
+            while(bar_remainder > health_bar.size()){
+                --bar_remainder;
+                mvwprintz(w_HP, i * 2 + 1, bar_remainder, c_white, ".");
+            }
         }
     }
     mvwprintz(w_HP,  0, 0, c_ltgray, "HEAD:  ");
