@@ -17,13 +17,25 @@ std::vector<bionic_id> unpowered_bionics;
 void bionics_install_failure(game *g, player *u, int success);
 
 bionic_data::bionic_data(std::string new_name, bool new_power_source, bool new_activated,
-                          int new_power_cost, int new_charge_time, std::string new_description){
+                          int new_power_cost, int new_charge_time, std::string new_description, bool new_faulty){
    name = new_name;
    power_source = new_power_source;
    activated = new_activated;
    power_cost = new_power_cost;
    charge_time = new_charge_time;
    description = new_description;
+   faulty = new_faulty;
+}
+
+bionic_id game::random_good_bionic() const
+{
+    std::map<std::string,bionic_data*>::const_iterator random_bionic;
+    do
+    {
+        random_bionic = bionics.begin();
+        std::advance(random_bionic,rng(0,bionics.size()-1));
+    } while (random_bionic->first == "bio_null" || random_bionic->second->faulty);
+    return random_bionic->first;
 }
 
 // helper function for power_bionics

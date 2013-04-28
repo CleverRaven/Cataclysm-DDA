@@ -194,9 +194,8 @@ bool player::create(game *g, character_type type, std::string tempname)
  if (has_trait(PF_SMELLY))
   scent = 800;
  if (has_trait(PF_ANDROID)) {
-  std::map<std::string,bionic_data*>::iterator random_bionic = bionics.begin();
-  std::advance(random_bionic,rng(0,bionics.size()-1));
-  add_bionic(random_bionic->first);// Other
+  bionic_id first_bio = g->random_good_bionic();
+  add_bionic(first_bio);
   if (bionics[my_bionics[0].id]->power_cost > 0) {
    add_bionic(bionic_id(power_source_bionics[rng(0,power_source_bionics.size()-1)]));	// Power Source
    max_power_level = 10;
