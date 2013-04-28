@@ -1569,6 +1569,113 @@ mapf::basic_bind( "# m s - t", t_sandbox, t_monkey_bars, t_slide, t_bench, t_tre
   place_spawns(g, "GROUP_PHARM", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
 
+case ot_office_cubical_north:
+case ot_office_cubical_east:
+case ot_office_cubical_south:
+case ot_office_cubical_west: {
+// Init to grass & dirt;
+  fill_background(this, &grass_or_dirt);
+   mapf::formatted_set_terrain(this, 0, 0,
+"      sss               \n\
+     ^sss^              \n\
+ |---|-D|------|--|---| \n\
+ |cdx|..|xdccxl|.^|cxc| \n\
+ |.h....|.h..h......hd| \n\
+ |---|..|------|..|---| \n\
+ |xdl|....h..hd|..|xdc| \n\
+ |ch....|dxcccx|....h.| \n\
+ |---|..|------|..|---| \n\
+ |xcc|...^cclc....|cdx| \n\
+ |dh................hc| \n\
+ |-------......|------| \n\
+ |e.....+......|..xdc.| \n\
+ |S.....|----..|h.ch..| \n\
+ |-+|-+-|......+.....^| \n\
+ |..|..S|..hc..|------| \n\
+ |l.|..T|cccc..|......| \n\
+ |--|---|......|.htth.| \n\
+ |^hhh..+......+.htth.| \n\
+ |o.....|......|.htth.| \n\
+ |o.dx..|--++--|.htth.| \n\
+ |o.h...|$$ss$$|......| \n\
+ |-wwww-|  ss  |-wwww-| \n\
+           ss           \n",
+   mapf::basic_bind("x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+   mapf::end() );
+   place_items(mi_fridge,	50,  2,  12, 2,  13, false, 0);
+   place_items(mi_cleaning,	50,  2,  15, 3,  16, false, 0);
+   place_items(mi_office,	80, 11,  7, 13,  7, false, 0);
+   place_items(mi_office,	80,  10,  3, 12,  3, false, 0);
+   place_items(mi_cubical_office,	60,  2,  3, 3,  3, false, 0);
+   place_items(mi_cubical_office,	60,  3,  6, 4,  6, false, 0);
+   place_items(mi_cubical_office,	60,  3,  9, 4,  9, false, 0);
+   place_items(mi_cubical_office,	60,  21,  3, 21,  4, false, 0);
+   place_items(mi_cubical_office,	60,  20,  6, 21,  6, false, 0);
+   place_items(mi_cubical_office,	60,  19,  9, 20,  9, false, 0);
+   place_items(mi_cubical_office,	60,  18,  17, 19,  20, false, 0);
+   place_items(mi_novels,	70,  2,  19, 2,  21, false, 0);
+   if (terrain_type == ot_office_cubical_east)
+    rotate(3);
+   if (terrain_type == ot_office_cubical_north)
+    rotate(2);
+   if (terrain_type == ot_office_cubical_west)
+    rotate(1);
+ } break;
+
+case ot_church_north:
+case ot_church_east:
+case ot_church_south:
+case ot_church_west:{
+// Init to grass & dirt;
+  fill_background(this, &grass_or_dirt);
+   mapf::formatted_set_terrain(this, 0, 0,
+"         ^^^^^^         \n\
+     |---|--------|     \n\
+    ||dh.|.6ooo.ll||    \n\
+    |l...+.........Dsss \n\
+  ^^|--+-|------+--|^^s \n\
+  ^||..............||^s \n\
+   w.......tt.......w s \n\
+   |................| s \n\
+  ^w................w^s \n\
+  ^|.######..######.|^s \n\
+  ^w................w^s \n\
+  ^|.######..######.|^s \n\
+   w................w s \n\
+   |.######..######.| s \n\
+  ^w................w^s \n\
+  ^|.######..######.|^s \n\
+  ^|................|^s \n\
+   |-w|----..----|w-| s \n\
+    ^^|ll|....|ST|^^  s \n\
+     ^|.......+..|^   s \n\
+      |----++-|--|    s \n\
+         O ss O       s \n\
+     ^^    ss    ^^   s \n\
+     ^^    ss    ^^   s \n",
+   mapf::basic_bind("O 6 ^ . - | # t + = D w T S e o h c d l s",
+         t_column, t_console, t_shrub, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+   mapf::end() );
+   spawn_item(9, 6, (*itypes)["brazier"], 0);
+   spawn_item(14, 6, (*itypes)["brazier"], 0);
+   place_items(mi_church,	40,  5,  5, 8,  16, false, 0);
+   place_items(mi_church,	40,  5,  5, 8,  16, false, 0);
+   place_items(mi_church,	85,  12,  2, 14,  2, false, 0);
+   place_items(mi_office,	60,  6,  2, 8,  3, false, 0);
+   place_items(mi_jackets,	85,  7,  18, 8,  18, false, 0);
+   tmpcomp = add_computer(11, 2, "Church Bells 1.2", 0);
+   tmpcomp->add_option("Gathering Toll", COMPACT_TOLL, 0);
+   tmpcomp->add_option("Wedding Toll", COMPACT_TOLL, 0);
+   tmpcomp->add_option("Funeral Toll", COMPACT_TOLL, 0);
+   if (terrain_type == ot_church_east)
+    rotate(3);
+   if (terrain_type == ot_church_north)
+    rotate(2);
+   if (terrain_type == ot_church_west)
+    rotate(1);
+ } break;
+
  case ot_s_grocery_north:
  case ot_s_grocery_east:
  case ot_s_grocery_south:
@@ -2247,6 +2354,98 @@ mapf::basic_bind( "# m s - t", t_sandbox, t_monkey_bars, t_slide, t_bench, t_tre
   }
   place_spawns(g, "GROUP_GROCERY", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
   break;
+
+case ot_s_restaurant_fast_north:
+case ot_s_restaurant_fast_east:
+case ot_s_restaurant_fast_south:
+case ot_s_restaurant_fast_west:{
+// Init to grass & dirt;
+  fill_background(this, &grass_or_dirt);
+   mapf::formatted_set_terrain(this, 0, 0,
+"   dd                   \n\
+  ,,,,,,,,,,,,,,,,,,,,  \n\
+ ,_______,____________, \n\
+,________,_____________,\n\
+,________,_____________,\n\
+,________,_____________,\n\
+,_____#|----w-|-|#_____,\n\
+,_____||erle.x|T||_____,\n\
+,_____|O.....S|.S|_____,\n\
+,_____|e.ccl.c|+-|_____,\n\
+,_____w.......+..|_____,\n\
+,_____|ccccxcc|..%_____,\n\
+,,,,,,|..........+_____,\n\
+,_____|..........%_____,\n\
+,_____%.hh....hh.|_____,\n\
+,_____%.tt....tt.%_____,\n\
+,_____%.tt....tt.%_____,\n\
+,_____|.hh....hh.%_____,\n\
+,__,__|-555++555-|__,__,\n\
+,__,__#ssssssssss#_,,,_,\n\
+,__,__#hthsssshth#__,__,\n\
+,_,,,_#ssssssssss#__,__,\n\
+,__,__#### ss ####__,__,\n\
+,_____ssssssssssss_____,\n",
+     mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s",
+            t_dumpster, t_wall_glass_h, t_wall_glass_v, t_oven, t_pavement_y ,t_pavement, t_rack,  t_console, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_shrub, t_table, t_door_glass_c, t_door_locked_alarm, t_door_locked, t_window_domestic, t_toilet, t_sink, t_fridge, t_chair, t_counter, t_locker, t_sidewalk),
+     mapf::end() );
+
+   place_items(mi_fast_food,	80,  8,  7, 8,  7, false, 0);
+   place_items(mi_fast_food,	70,  7,  9, 7,  9, false, 0);
+   place_items(mi_fast_food,	60,  11,  7, 11,  7, false, 0);
+  if (terrain_type == ot_s_restaurant_fast_east)
+   rotate(3);
+  if (terrain_type == ot_s_restaurant_fast_north)
+   rotate(2);
+  if (terrain_type == ot_s_restaurant_fast_west)
+   rotate(1);
+  }break;
+
+case ot_s_restaurant_coffee_north:
+case ot_s_restaurant_coffee_east:
+case ot_s_restaurant_coffee_south:
+case ot_s_restaurant_coffee_west:{
+// Init to grass & dirt;
+  fill_background(this, &grass_or_dirt);
+   mapf::formatted_set_terrain(this, 0, 0,
+"|--------=------|--|--| \n\
+|ltSrrrrr..eOSll|T.|.T| \n\
+|...............|S.|.S| \n\
+|cccxccxccc..ccc|-D|D-| \n\
+|.....................| \n\
+|.....................| \n\
+|hh.......hth.hth.hth.| \n\
+|tt....|--555-555-555-| \n\
+|tt....%ssssssssssssssss\n\
+|hh....+ss______________\n\
+|......+ss______________\n\
+|......%ss______________\n\
+|.htth.|ss______________\n\
+|-5555-|ss,,,,,,,_______\n\
+#ssssss#ss______________\n\
+#shtths#ss______________\n\
+#sssssssss______________\n\
+#shsshssss______________\n\
+#stsstssss,,,,,,,_______\n\
+#shsshssss______________\n\
+#sssssssss______________\n\
+#shtthssss______________\n\
+#ssssss#ss______________\n\
+########ss,,,,,,,_______\n",
+     mapf::basic_bind("d 5 % O , _ r 6 x $ ^ . - | # t + = D w T S e h c l s",
+            t_dumpster, t_wall_glass_h, t_wall_glass_v, t_oven, t_pavement_y ,t_pavement, t_rack,  t_console, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_shrub, t_table, t_door_glass_c, t_door_locked_alarm, t_door_c, t_window_domestic, t_toilet, t_sink, t_fridge, t_chair, t_counter, t_locker, t_sidewalk),
+     mapf::end() );
+
+   place_items(mi_coffee_shop,	85,  4,  1, 8,  1, false, 0);
+   place_items(mi_coffee_shop,	85,  11,  1, 11,  1, false, 0);
+   place_items(mi_cleaning,	60,  14,  1, 15,  1, false, 0);
+  if (terrain_type == ot_s_restaurant_coffee_east)
+   rotate(3);
+  if (terrain_type == ot_s_restaurant_coffee_north)
+   rotate(2);
+  if (terrain_type == ot_s_restaurant_coffee_west)
+   rotate(1);
+  }break;
 
 //....
 case ot_shelter: {
@@ -4155,6 +4354,74 @@ case ot_lmoe: {
    rotate(1);
 
  } break;
+
+ case ot_office_doctor_north:
+ case ot_office_doctor_east:
+ case ot_office_doctor_south:
+ case ot_office_doctor_west: {
+// Init to grass & dirt;
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+   "\n\
+   |---|----|--------|  \n\
+   |..l|.T.S|..eccScc|  \n\
+   |...+....+........D  \n\
+   |--------|.......6|r \n\
+   |o.......|..|--X--|r \n\
+   |d.hd.h..+..|l...6|  \n\
+   |o.......|..|l...l|  \n\
+   |--------|..|l...l|  \n\
+   |l....ccS|..|lllll|  \n\
+   |l..t....+..|-----|  \n\
+   |l.......|..|....l|  \n\
+   |--|-----|..|.t..l|  \n\
+   |T.|d.......+....l|  \n\
+   |S.|d.h..|..|Scc..|  \n\
+   |-+|-ccc-|++|-----|  \n\
+   |.................|  \n\
+   w....####....####.w  \n\
+   w.................w  \n\
+   |....####....####.|  \n\
+   |.................|  \n\
+   |-++--wwww-wwww---|  \n\
+     ss                 \n\
+     ss                 \n",
+   mapf::basic_bind(". - | 6 X # r t + = D w T S e o h c d l s",
+         t_floor, t_wall_h, t_wall_v, t_console, t_door_metal_locked, t_bench, t_trashcan, t_table, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+   mapf::end() );
+
+   tmpcomp = add_computer(20, 4, "Medical Supply Access", 2);
+   tmpcomp->add_option("Lock Door", COMPACT_LOCK, 2);
+   tmpcomp->add_option("Unlock Door", COMPACT_UNLOCK, 2);
+   tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
+   tmpcomp->add_failure(COMPFAIL_ALARM);
+
+   tmpcomp = add_computer(20, 6, "Medical Supply Access", 2);
+   tmpcomp->add_option("Unlock Door", COMPACT_UNLOCK, 2);
+   tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
+   tmpcomp->add_failure(COMPFAIL_ALARM);
+
+   place_items(mi_dissection,	60,  4,  9, 4,  11, false, 0);
+   place_items(mi_dissection,	60,  9,  9, 10,  9, false, 0);
+   place_items(mi_dissection,	60,  20,  11, 20,  13, false, 0);
+   place_items(mi_dissection,	60,  17,  14, 18,  14, false, 0);
+   place_items(mi_fridge,	50,  15,  2, 15,  2, false, 0);
+   place_items(mi_surgery,	30,  4,  9, 11,  11, false, 0);
+   place_items(mi_surgery,	30,  16,  11, 20, 4, false, 0);
+   place_items(mi_harddrugs,	60,  16,  6, 16, 9, false, 0);
+   place_items(mi_harddrugs,	60,  17,  9, 19, 9, false, 0);
+   place_items(mi_softdrugs,	60,  20,  9, 20, 7, false, 0);
+   place_items(mi_cleaning,	50,  4,  2, 6,  3, false, 0);
+
+  if (terrain_type == ot_office_doctor_east)
+   rotate(3);
+  if (terrain_type == ot_office_doctor_north)
+   rotate(2);
+  if (terrain_type == ot_office_doctor_west)
+   rotate(1);
+
+ } break;
+
 
  case ot_toxic_dump: {
   fill_background(this, t_dirt);

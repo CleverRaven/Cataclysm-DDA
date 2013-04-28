@@ -3642,9 +3642,9 @@ void player::remove_mission_items(int mission_id)
 {
  if (mission_id == -1)
   return;
- if (weapon.mission_id == mission_id)
+ if (weapon.mission_id == mission_id) {
   remove_weapon();
- else {
+ } else {
   for (int i = 0; i < weapon.contents.size(); i++) {
    if (weapon.contents[i].mission_id == mission_id)
     remove_weapon();
@@ -4529,7 +4529,7 @@ bool player::wield(game *g, char ch)
                      weapon.tname(g).c_str())) {
   g->m.add_item(posx, posy, remove_weapon());
   weapon = it;
-  inv.remove_item(&weapon);
+  inv.remove_item_by_letter(weapon.invlet);
   inv.unsort();
   moves -= 30;
   if (weapon.is_artifact() && weapon.is_tool()) {

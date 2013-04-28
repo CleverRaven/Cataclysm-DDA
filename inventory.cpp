@@ -27,7 +27,7 @@ invslice inventory::slice(int start, int length)
         }
         --start;
     }
-    
+
     return stacks;
 }
 
@@ -51,7 +51,7 @@ invslice inventory::slice(const std::list<item>* start, int length)
             break;
         }
     }
-    
+
     return stacks;
 }
 
@@ -382,7 +382,7 @@ void inventory::restack(player *p)
     {
         return;
     }
-    
+
     std::list<item> to_restack;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
@@ -538,7 +538,7 @@ item inventory::remove_item(item* it)
             }
         }
     }
-    
+
     debugmsg("Tried to remove a item not in inventory (name: %s)", it->type->name.c_str());
     return nullitem;
 }
@@ -632,7 +632,7 @@ std::vector<item> inventory::remove_mission_items(int mission_id)
             }
             else
             {
-                for (int k = 0; k < stack_iter->contents.size(); ++k)
+                for (int k = 0; k < stack_iter->contents.size() && stack_iter != iter->end(); ++k)
                 {
                     if (stack_iter->contents[k].mission_id == mission_id)
                     {
@@ -706,7 +706,7 @@ item& inventory::item_or_container(itype_id type)
             }
         }
     }
-    
+
     return nullitem;
 }
 
@@ -740,7 +740,7 @@ std::vector<item*> inventory::all_ammo(ammotype type)
             if (stack_iter->is_ammo() && dynamic_cast<it_ammo*>(stack_iter->type)->type == type)
             {
                 ret.push_back(&*stack_iter);
-            
+
             }
             // Handle gasoline nested in containers
             else if (type == AT_GAS && stack_iter->is_container() &&
@@ -773,7 +773,7 @@ int inventory::amount_of(itype_id it) const
                     {
                         count++;
                     }
-                } 
+                }
                 else
                 {
                     count++;
@@ -925,7 +925,7 @@ void inventory::use_charges(itype_id it, int quantity)
                         {
                             iter = items.erase(iter);
                             --iter;
-                            stack_iter = iter->begin();
+                            break;
                         }
                     }
                     else

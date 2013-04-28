@@ -71,9 +71,9 @@ bool is_wall_material(oter_id ter)
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- int type = rng(0, 18);
+ int type = rng(0, 23);
  if (one_in(20))
-  type = 19;
+  type = 24;
  switch (type) {
   case  0: ret = ot_s_lot;	         break;
   case  1: ret = ot_s_gas_north;         break;
@@ -94,7 +94,12 @@ oter_id shop(int dir)
   case 16: ret = ot_mil_surplus_north;   break;
   case 17: ret = ot_s_garage_north;      break;
   case 18: ret = ot_station_radio_north; break;
-  case 19: ret = ot_police_north;        break;
+  case 19: ret = ot_office_doctor_north; break;
+  case 20: ret = ot_s_restaurant_fast_north;  break;
+  case 21: ret = ot_s_restaurant_coffee_north;  break;
+  case 22: ret = ot_church_north;        break;
+  case 23: ret = ot_office_cubical_north;        break;
+  case 24: ret = ot_police_north;        break;
  }
  if (ret == ot_s_lot)
   return ret;
@@ -134,8 +139,6 @@ overmap::overmap()
  , nullstr("")
 {
 // debugmsg("Warning - null overmap!");
- if (num_ter_types > 256 - 32)
-  debugmsg("More than 256 - 32 oterid!  Saving won't work!");
 }
 
 overmap::overmap(game *g, int x, int y)
@@ -149,10 +152,6 @@ overmap::overmap(game *g, int x, int y)
 {
  if (name.empty()) {
   debugmsg("Attempting to load overmap for unknown player!  Saving won't work!");
- }
-
- if (num_ter_types > 256 - 32) {
-  debugmsg("More than 256 - 32 oterid!  Saving won't work!");
  }
 
  if (g->has_gametype()) {
@@ -2661,7 +2660,7 @@ void overmap::save()
   fout << "L " << z << std::endl;
   for (int j = 0; j < OMAPY; j++) {
    for (int i = 0; i < OMAPX; i++) {
-    fout << char(int(layer[z].terrain[i][j]) + 32);
+    fout << int(layer[z].terrain[i][j]) << " ";
    }
    fout << std::endl;
   }
@@ -2709,19 +2708,20 @@ void overmap::open(game *g)
    if (datatype == 'L') { 	// Load layer data, and switch to layer
     fin >> z;
 
-    std::string dataline;
-    getline(fin, dataline);	// Chomp endl
+    int tmp_ter;
 
-    for (int j = 0; j < OMAPY; j++) {
-     getline(fin, dataline);
-     if (z >= 0 && z < OVERMAP_LAYERS) {
+    if (z >= 0 && z < OVERMAP_LAYERS) {
+     for (int j = 0; j < OMAPY; j++) {
       for (int i = 0; i < OMAPX; i++) {
-       layer[z].terrain[i][j] = oter_id((unsigned char)dataline[i] - 32);
+       fin >> tmp_ter;
+       layer[z].terrain[i][j] = oter_id(tmp_ter);
        layer[z].visible[i][j] = false;
        if (layer[z].terrain[i][j] < 0 || layer[z].terrain[i][j] > num_ter_types)
         debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), layer[z].terrain[i][j]);
       }
      }
+    } else {
+     debugmsg("Loaded z level out of range (z: %d)", z);
     }
    } else if (datatype == 'Z') {	// Monster group
     fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd;
