@@ -2304,7 +2304,7 @@ case ot_s_restaurant_coffee_west:{
 "|--------=------|--|--| \n\
 |ltSrrrrr..eOSll|T.|.T| \n\
 |...............|S.|.S| \n\
-|cccccccccc..ccc|-D|D-| \n\
+|cccxccxccc..ccc|-D|D-| \n\
 |.....................| \n\
 |.....................| \n\
 |hh.......hth.hth.hth.| \n\
