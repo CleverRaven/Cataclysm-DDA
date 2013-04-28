@@ -652,7 +652,7 @@ int player::roll_stab_damage(monster *z, bool crit)
   return 0; // No negative stabbing!
 
  if (crit) {
-  int multiplier = double( 1.0 + double(skillLevel("stabbing") / 5) );
+  double multiplier = double( 1.0 + double(skillLevel("stabbing") / 5) );
   if (multiplier > 2.5)
    multiplier = 2.5;
   ret *= multiplier;
