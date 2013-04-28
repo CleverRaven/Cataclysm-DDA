@@ -4212,7 +4212,12 @@ bool player::eat(game *g, char ch)
     }
     else if (!eaten->type->is_food() && !eaten->is_food_container(this))
     {
-        // For when bionics let you burn organic materials
+            // For when bionics let you burn organic materials
+        if (eaten->type->is_book()) {
+            it_book* book = dynamic_cast<it_book*>(eaten->type);
+            if (book->type != NULL && !query_yn("Really eat %s?", book->name.c_str())) 
+                return false;
+        }
         int charge = (eaten->volume() + eaten->weight()) / 2;
         if (eaten->type->m1 == LEATHER || eaten->type->m2 == LEATHER)
             charge /= 4;
