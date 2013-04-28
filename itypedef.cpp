@@ -387,8 +387,8 @@ FOOD("spaghetti_raw", "raw spaghetti",	40, 12,	c_yellow,	VEGGY,	"box_small",
 It could be eaten raw if you're desperate, but is much better cooked.", 0);
 
 FOOD("spaghetti_cooked", "cooked spaghetti", 0, 28,	c_yellow,	VEGGY,	"box_small",
-   10,  3,  0, 60, 20,  0,  0,  0,  1,  2,	&iuse::none, ADD_NULL, "\
-Fresh wet noodles. Very tasty.", mfb(IF_EATEN_HOT));
+   10,  3,  0, 60, 20,  0,  0,  0,  1,  0,	&iuse::none, ADD_NULL, "\
+Fresh wet noodles. Fairly bland, but fills you up.", mfb(IF_EATEN_HOT));
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
 FOOD("macaroni_raw", "raw macaroni",	40, 15,	c_yellow,	VEGGY,	"box_small",
@@ -505,6 +505,10 @@ FOOD("salt", "salt",		20, 18, c_white,	POWDER, "box_small",
 Yuck, you surely wouldn't want to eat this. It's good for preserving meat\n\
 and cooking with, though.", 0);
 
+FOOD("seasoning_italian", "Italian seasoning",		25, 40, c_brown,	POWDER, "null",
+    0,  0,  0,  0,  0,  0,  0,  0,  100, 0,	&iuse::none,	ADD_NULL, "\
+A fragrant mix of dried oregano, basil, thyme and other spices.", 0);
+
 FOOD("potato_raw", "raw potato",	10, 10, c_brown,	VEGGY,  "null",
     1,  1,  0,  8,240,  0, -2,  0,  1, -3,	&iuse::none,	ADD_NULL, "\
 Mildly toxic and not very tasty raw. When cooked, it is delicious.", 0);
@@ -524,11 +528,18 @@ FOOD("pie", "fruit pie",	20, 80, c_yellow,	VEGGY,  "box_small",
 A delicious baked pie with a sweet fruit filling.", mfb(IF_EATEN_HOT));
 
 //   NAME		RAR PRC	COLOR		MAT1	CONTAINER
-FOOD("pizza", "pizza",		 8, 80, c_ltred,	VEGGY,	"box_small",
+FOOD("pizza_veggy", "vegetable pizza",		 8, 80, c_ltred,	VEGGY,	"box_small",
 // VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
-    8,  4,  0, 18, 48,  0,  0,  0,  8,  6,	&iuse::none,	ADD_NULL, "\
+    8,  4,  0, 40, 48,  0,  0,  0,  4,  10,	&iuse::none,	ADD_NULL, "\
 A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its\n\
 smell brings back great memories.", mfb(IF_EATEN_HOT));
+
+//   NAME		RAR PRC	COLOR		MAT1	CONTAINER
+FOOD("pizza_meat", "meat pizza",		 8, 80, c_ltred,	FLESH,	"box_small",
+// VOL WGT QUE NUT SPO STM HTH ADD CHG FUN	 use_func       addiction type
+    8,  4,  0, 50, 48,  0,  0,  0,  4,  10,	&iuse::none,	ADD_NULL, "\
+A meat pizza, for all the carnivores out there.  Chock full of minced\n\
+meat and heavily seasoned.", mfb(IF_EATEN_HOT));
 
 FOOD("mre_beef", "MRE - beef",		50,100, c_green,	FLESH,	"null",
     2,  1,  0, 50,  0,  0,  1,  0,  1, -4,	&iuse::none,	ADD_NULL, "\
@@ -555,24 +566,45 @@ FOOD("jihelucake", "cake",            0, 0, c_white, VEGGY, "null",
     2,  1,   0, 25, 0,  0,  0,  0,  1,  20, &iuse::none, ADD_NULL, "\
 Delicious sponge cake with buttercream icing, it says happy birthday on it.", 0);
 
-FOOD("meat_canned", "canned meat",	 0, 25, c_red,		FLESH,	"bottle_glass",
+FOOD("meat_canned", "canned meat",	 0, 25, c_red,		FLESH,	"jar_glass",
     1,  2,  0, 50, 40,  0,  0,  0,  1,  2,	&iuse::none,	ADD_NULL, "\
 Low-sodium preserved meat.  It was boiled and canned.\n\
 Contains all of the nutrition, but little of the savor of cooked meat.\n",0 );
 
-FOOD("veggy_canned", "canned veggy",	 0, 150, c_green,		VEGGY,	"bottle_glass",
+FOOD("veggy_canned", "canned veggy",	 0, 150, c_green,		VEGGY,	"jar_glass",
     1,  2,  0, 40, 60,  0,  1,  0,  1,  0,	&iuse::none,	ADD_NULL, "\
 This mushy pile of vegetable matter was boiled and canned in an earlier life.\n\
 Better eat it before it oozes through your fingers.", 0);
 
-FOOD("apple_canned", "canned apple slices",	 0, 32, c_red,		VEGGY,	"bottle_glass",
+FOOD("apple_canned", "canned apple slices",	 0, 32, c_red,		VEGGY,	"jar_glass",
     1,  1,  3, 16, 180,  0,  2,  0,  1,  1,	&iuse::none,	ADD_NULL, "\
-A mushy goop that used to be apples, better eat it before it congeals.", 0);
+Sealed glass jar containing preserved apples.  Bland, mushy and losing color.", 0);
 
-FOOD("human_canned", "canned cad",	 0, 25, c_red,		HFLESH,	"bottle_glass",
+FOOD("human_canned", "canned cad",	 0, 25, c_red,		HFLESH,	"jar_glass",
     1,  2,  0, 50, 40,  0,  0,  0,  1,  2,	&iuse::none,	ADD_NULL, "\
 Low-sodium preserved human meat.  It was boiled and canned.\n\
 Contains all of the nutrition, but little of the savor of cooked meat.\n",0 );
+
+FOOD("meat_vac", "salted meat slices",	 0, 50, c_red,		FLESH,	"bag_plastic",
+    1,  2,  -5, 25, 48,  0,  0,  0,  2,  2,	&iuse::none,	ADD_NULL, "\
+Meat slices cured in brine and vacuum-packed.  Salty but tasty in a pinch.\n", 0);
+
+FOOD("veggy_vac", "salted veggy chunks",	 0, 50, c_green,		VEGGY,	"bag_plastic",
+    1,  2,  -5, 20, 72,  0,  1,  0,  2,  0,	&iuse::none,	ADD_NULL, "\
+Vegetable chunks pickled in a salt bath.  Goes well with burgers, if only\n\
+you can find one.", 0);
+
+FOOD("apple_vac", "apple slices",	 0, 50, c_red,		VEGGY,	"bag_plastic",
+    1,  2,  3, 16, 180,  0,  2,  0,  4,  3,	&iuse::none,	ADD_NULL, "\
+Apple slices soaked in a sugar syrup, to preserve freshness and appearance", 0);
+
+FOOD("spaghetti_bolognese", "spaghetti bolognese",	 0, 100, c_red,		FLESH,	"null",
+    2,  2,  0, 50, 48,  0,  0,  0,  2,  15,	&iuse::none,	ADD_NULL, "\
+Spaghetti covered with a thick meat sauce.  Yum!\n", mfb(IF_EATEN_HOT));
+
+FOOD("spaghetti_pesto", "spaghetti al pesto",	 0, 100, c_red,		VEGGY,	"null",
+    2,  2,  0, 40, 48,  0,  0,  0,  2,  15,	&iuse::none,	ADD_NULL, "\
+Spaghetti, with a generous helping of pesto on top.  Yum!\n", mfb(IF_EATEN_HOT));
 
 // MEDS
 #define MED(id, name,rarity,price,color,tool,mat,stim,healthy,addict,\
@@ -3547,6 +3579,11 @@ BOOK("cookbook_human", "To Serve Man", 1, 400, c_green, PAPER, MNULL,
     4, 1, -2, 0, "cooking", 4, 2, -5, 4, 10, "\
 It's... it's a cookbook!");
 
+BOOK("cookbook_italian", "Cucina Italiana", 25, 200, c_green, PAPER, MNULL,
+    4, 1, -2, 0, "cooking", 4, 3, 0, 6, 10, "\
+This cookbook is written in Italian, but handily illustrated with\n\
+step by step photo instructions.");
+
 BOOK("manual_electronics", "What's a Transistor?",	20, 200,c_green,	PAPER,	MNULL,
     3,  1, -3,  0,	"electronics",	 3,  0,  0,  7, 20, "\
 A basic manual of electronics and circuit design.");
@@ -3659,6 +3696,10 @@ CONT("keg", "aluminum keg", 20, 6000, c_ltcyan, STEEL, MNULL,
     200, 12, -4, -4, 200, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A reusable aluminum keg, used for shipping beer.\n\
 It has a capcity of 50 liters.");
+
+CONT("jar_glass", "glass jar",	50,  2500,	c_ltcyan,	GLASS,MNULL,
+    1,  1, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+A half-litre glass jar with a metal screw top lid, used for canning.");
 
 //	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
 TOOL("lighter", "cheap lighter",		60,  35,',', c_blue,	PLASTIC,IRON,
@@ -4497,6 +4538,22 @@ TOOL("cordless_drill", "cordless drill", 70, 200, ';', c_ltgray, PLASTIC, STEEL,
     5, 4,   3,  0, -1, 300,300, 0,  0, AT_BATT, "null", &iuse::none, mfb(IF_NO_UNLOAD),"\
 A cordless drill with a selection of drill bits. The charger base contains\n\
 a battery draining attachment so the drill can be charged in lieu of mains power.");
+
+TOOL("vac_sealer", "vacuum sealer",	10, 250,';', c_green,	IRON,	PLASTIC,
+    5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, "null", &iuse::none,0,"\
+A portable heat sealer unit with an air pump, for vacuum packing of food.");
+
+TOOL("bag_meat_vac", "vacuum-packed meat slices",	50,	75,'%', c_red,		PLASTIC,	FLESH,
+    1,  2,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::devac, 0,"\
+Vacuum packed meat slices in plastic packaging.  Activate to open and enjoy.");
+
+TOOL("bag_veggy_vac", "vacuum-packed veggy chunks",	50,	65, '%', c_green,		PLASTIC,	VEGGY,
+    1,  2,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::devac, 0,"\
+Vacuum packed veggy chunks in plastic packaging.  Activate to open and enjoy.");
+
+TOOL("bag_apple_vac", "vacuum-packed apple slices",	50,	50, '%', c_red,		PLASTIC,	VEGGY,
+    1,  2,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::devac, 0,"\
+Vacuum packed apple slices in plastic packaging..  Activate to open and enjoy.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're
