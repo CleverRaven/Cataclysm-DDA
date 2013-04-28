@@ -1629,6 +1629,8 @@ case ot_church_south:
 case ot_church_west:{
 // Init to grass & dirt;
   fill_background(this, &grass_or_dirt);
+  if (one_in(2)){
+  //New England or Country style, single centered steeple low clear windows
    mapf::formatted_set_terrain(this, 0, 0,
 "         ^^^^^^         \n\
      |---|--------|     \n\
@@ -1668,13 +1670,57 @@ case ot_church_west:{
    tmpcomp->add_option("Gathering Toll", COMPACT_TOLL, 0);
    tmpcomp->add_option("Wedding Toll", COMPACT_TOLL, 0);
    tmpcomp->add_option("Funeral Toll", COMPACT_TOLL, 0);
-   if (terrain_type == ot_church_east)
-    rotate(3);
-   if (terrain_type == ot_church_north)
-    rotate(2);
-   if (terrain_type == ot_church_west)
-    rotate(1);
+  }
+  else {
+  	//Gothic Style, unreachable high stained glass windows, stone construction
+       mapf::formatted_set_terrain(this, 0, 0,
+" $$    W        W    $$ \n\
+ $$  WWWWGVBBVGWWWW  $$ \n\
+     W..h.cccc.h..W     \n\
+ WWVWWR..........RWWBWW \n\
+WW#.#.R....cc....R.#.#WW\n\
+ G#.#.R..........R.#.#V \n\
+ V#.#.Rrrrr..rrrrR.#.#B \n\
+WW#..................#WW\n\
+ WW+WW#####..#####WW+WW \n\
+ssss V............B ssss\n\
+s   WW#####..#####WW   s\n\
+s $ WW............WW $ s\n\
+s $  G#####..#####V  $ s\n\
+s $  B............G  $ s\n\
+s $ WW#####..#####WW $ s\n\
+s $ WW............WW $ s\n\
+s    V####....####B    s\n\
+s WWWW--|--gg-----WWWW s\n\
+s WllWTS|.....lll.W..W s\n\
+s W..+..+.........+..W s\n\
+s W..WWWWWW++WWWWWW6.W s\n\
+s W.CWW$$WWssWW$$WW..W s\n\
+s WWWWW    ss    WWWWW s\n\
+ssssssssssssssssssssssss\n",
+ mapf::basic_bind("C V G B W R r 6 $ . - | # t + g T S h c l s",
+         t_crate_c, t_window_stained_red, t_window_stained_green, t_window_stained_blue ,t_rock, t_railing_v, t_railing_h, t_console, t_shrub, t_rock_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c, t_door_glass_c, t_toilet, t_sink, t_chair, t_counter, t_locker, t_sidewalk),
+   mapf::end() );
+   spawn_item(8, 4, (*itypes)["brazier"], 0);
+   spawn_item(15, 4, (*itypes)["brazier"], 0);
+   place_items(mi_church,	70,  6,  7, 17,  16, false, 0);
+   place_items(mi_church,	70,  6,  7, 17,  16, false, 0);
+   place_items(mi_church,	60,  6,  7, 17,  16, false, 0);
+   place_items(mi_cleaning,	60,  3,  18, 4,  21, false, 0);
+   place_items(mi_jackets,	85,  14,  18, 16,  18, false, 0);
+   tmpcomp = add_computer(19, 20, "Church Bells 1.2", 0);
+   tmpcomp->add_option("Gathering Toll", COMPACT_TOLL, 0);
+   tmpcomp->add_option("Wedding Toll", COMPACT_TOLL, 0);
+   tmpcomp->add_option("Funeral Toll", COMPACT_TOLL, 0);
+  }
+  if (terrain_type == ot_church_east)
+   rotate(3);
+  if (terrain_type == ot_church_north)
+   rotate(2);
+  if (terrain_type == ot_church_west)
+   rotate(1);
  } break;
+
 
  case ot_s_grocery_north:
  case ot_s_grocery_east:
