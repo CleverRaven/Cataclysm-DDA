@@ -1719,7 +1719,6 @@ ssssssssssssssssssssssss\n",
    rotate(2);
   if (terrain_type == ot_church_west)
    rotate(1);
-
  } break;
 
 
