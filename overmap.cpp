@@ -71,9 +71,9 @@ bool is_wall_material(oter_id ter)
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- int type = rng(0, 21);
+ int type = rng(0, 23);
  if (one_in(20))
-  type = 22;
+  type = 24;
  switch (type) {
   case  0: ret = ot_s_lot;	         break;
   case  1: ret = ot_s_gas_north;         break;
@@ -96,8 +96,10 @@ oter_id shop(int dir)
   case 18: ret = ot_station_radio_north; break;
   case 19: ret = ot_office_doctor_north; break;
   case 20: ret = ot_s_restaurant_fast_north;  break;
-  case 21: ret = ot_s_restaurant_coffee_north;  break;  
-  case 22: ret = ot_police_north;        break;
+  case 21: ret = ot_s_restaurant_coffee_north;  break;
+  case 22: ret = ot_church_north;        break;
+  case 23: ret = ot_office_cubical_north;        break;
+  case 24: ret = ot_police_north;        break;
  }
  if (ret == ot_s_lot)
   return ret;
