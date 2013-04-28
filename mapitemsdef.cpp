@@ -130,6 +130,16 @@ void game::init_mapitems()
 	"pizza", "pie", NULL);
 
  setvector(
+   mapitems[mi_fast_food],
+	"water_clean", "cola", "rootbeer", "sandwich_t", "sandwich_t", "sandwich_t", "pizza",
+	"pie", "chips", "candy", NULL);
+
+ setvector(
+   mapitems[mi_coffee_shop],
+	"water_clean", "cola", "rootbeer", "sandwich_t", "pizza", "pretzels", "chocolate", "jerky", "candy",
+	"tea_raw", "pie", "chips", "candy", "coffee_raw", "coffee_raw", "coffee_raw", "coffee_raw", NULL);
+
+ setvector(
    mapitems[mi_behindcounter],
 	"aspirin", "caffeine", "cig", "cigar", "battery",
 	"shotgun_sawn", "mag_porn", "lighter", "matches", "flashlight",
@@ -427,7 +437,12 @@ void game::init_mapitems()
 	"purse", "mbag", "battery", "mag_news", "manual_business",
 	"textbook_business", "manual_computers", "textbook_computers", "lighter", "matches", "extinguisher", "flashlight",
 	"radio", "bubblewrap", "coffee_raw", "usb_drive","rootbeer", "cig", "coat_rain", "poncho",
-	"mag_tv", "mag_news", "lighter", "matches", "extinguisher", "mp3", NULL);	
+	"mag_tv", "mag_news", "lighter", "matches", "extinguisher", "mp3", NULL);
+
+ setvector(
+   mapitems[mi_church],
+    "glasses_eye", "sunglasses", "glasses_reading", "lighter", "matches", "coat_rain", "cane", "candlestick",
+    "candlestick", "candlestick", "candlestick", NULL);
 
  setvector(
    mapitems[mi_vault],
