@@ -1,4 +1,4 @@
-#include "map.h"
+﻿#include "map.h"
 #include "lightmap.h"
 #include "output.h"
 #include "rng.h"
@@ -2059,7 +2059,7 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, int u
   for (int y = 0; y < SEEY * my_MAPSIZE; y++) {
    if (ter(x, y) == from){
     //float radiX = 0.0;
-    float radiX = sqrt((uX-x)*(uX-x) + (uY-y)*(uY-y));
+    float radiX = sqrt(float((uX-x)*(uX-x) + (uY-y)*(uY-y)));
     if (radiX <= radi){
       ter_set(x, y, to);}
     }
