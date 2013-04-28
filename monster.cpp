@@ -368,7 +368,7 @@ monster_attitude monster::attitude(player *u)
   return MATT_FLEE;
  }
 
- if (effective_anger < 0)
+ if (effective_anger <= 0)
   return MATT_IGNORE;
 
  if (effective_anger < 10)
