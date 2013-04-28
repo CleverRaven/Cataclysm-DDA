@@ -286,6 +286,8 @@ class game
 
  recipe* recipe_by_name(std::string name); // See crafting.cpp
 
+ bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu

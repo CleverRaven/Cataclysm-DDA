@@ -17,13 +17,25 @@ std::vector<bionic_id> unpowered_bionics;
 void bionics_install_failure(game *g, player *u, int success);
 
 bionic_data::bionic_data(std::string new_name, bool new_power_source, bool new_activated,
-                          int new_power_cost, int new_charge_time, std::string new_description){
+                          int new_power_cost, int new_charge_time, std::string new_description, bool new_faulty){
    name = new_name;
    power_source = new_power_source;
    activated = new_activated;
    power_cost = new_power_cost;
    charge_time = new_charge_time;
    description = new_description;
+   faulty = new_faulty;
+}
+
+bionic_id game::random_good_bionic() const
+{
+    std::map<std::string,bionic_data*>::const_iterator random_bionic;
+    do
+    {
+        random_bionic = bionics.begin();
+        std::advance(random_bionic,rng(0,bionics.size()-1));
+    } while (random_bionic->first == "bio_null" || random_bionic->second->faulty);
+    return random_bionic->first;
 }
 
 // helper function for power_bionics
@@ -955,43 +967,6 @@ any skill required on the part of the user.");
     bionics["bio_ground_sonar"] = new bionic_data("Terranian Sonar", false, true, 1, 5, "\
 Your feet are equipped with precision sonar equipment, allowing you to detect\n\
 the movements of creatures below the ground.");
-
-    bionics["bio_banish"] = new bionic_data("Banishment", false, true, 40, 0, "\
-You can briefly open a one-way gate to the nether realm, banishing a single\n\
-target there permanently.  This is not without its dangers, however, as the\n\
-inhabitants of the nether world may take notice.");
-    bionics["bio_gate_out"] = new bionic_data("Gate Out", false, true, 55, 0, "\
-You can temporarily open a two-way gate to the nether realm, accessible only\n\
-by you.  This will remove you from immediate danger, but may attract the\n\
-attention of the nether world's inhabitants...");
-    bionics["bio_gate_in"] = new bionic_data("Gate In", false, true, 35, 0, "\
-You can temporarily open a one-way gate from the nether realm.  This will\n\
-attract the attention of its horrifying inhabitants, who may begin to pour\n\
-into reality.");
-    bionics["bio_nightfall"] = new bionic_data("Artificial Night", false, true, 5, 1, "\
-Photon absorbtion panels will attract and obliterate photons within a 100'\n\
-radius, casting an area around you into pitch darkness.");
-    bionics["bio_drilldown"] = new bionic_data("Borehole Drill", false, true, 30, 0, "\
-Your legs can transform into a powerful drill which will bury you 50 feet\n\
-into the earth.  Be careful to only drill down when you know you will be able\n\
-to get out, or you'll simply dig your own tomb.");
-
-    bionics["bio_heatwave"] = new bionic_data("Heatwave", false, true, 45, 0, "\
-At the cost of immense power, you can cause dramatic spikes in the ambient\n\
-temperature around you.  These spikes are very short-lived, but last long\n\
-enough to ignite wood, paper, gunpowder, and other substances.");
-    bionics["bio_lightning"] = new bionic_data("Chain Lightning", false, true, 48, 0, "\
-Powerful capacitors unleash an electrical storm at your command, sending a\n\
-chain of highly-damaging lightning through the air.  It has the power to\n\
-injure several opponents before grounding itself.");
-    bionics["bio_tremor"] = new bionic_data("Tremor Pads", false, true, 40, 0, "\
-Using tremor pads in your feet, you can cause a miniature earthquake.  The\n\
-shockwave will damage enemies (particularly those digging underground), tear\n\
-down walls, and churn the earth.");
-    bionics["bio_flashflood"] = new bionic_data("Flashflood", false, true, 35, 0, "\
-By drawing the moisture from the air, and synthesizing water from in-air\n\
-elements, you can create a massive puddle around you.  The effects are more\n\
-powerful when used near a body of water.");
 
     bionics["bio_power_armor_interface"] = new bionic_data("Power Armor Interface", false, true, 1, 10, "\
 Interfaces your power system with the internal charging port on suits of power armor.");
