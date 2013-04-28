@@ -585,6 +585,19 @@ FOOD("human_canned", "canned cad",	 0, 25, c_red,		HFLESH,	"jar_glass",
 Low-sodium preserved human meat.  It was boiled and canned.\n\
 Contains all of the nutrition, but little of the savor of cooked meat.\n",0 );
 
+FOOD("meat_vac", "salted meat slices",	 0, 50, c_red,		FLESH,	"bag_plastic",
+    1,  2,  -5, 25, 48,  0,  0,  0,  2,  2,	&iuse::none,	ADD_NULL, "\
+Meat slices cured in brine and vacuum-packed.  Salty but tasty in a pinch.\n", 0);
+
+FOOD("veggy_vac", "salted veggy chunks",	 0, 50, c_green,		VEGGY,	"bag_plastic",
+    1,  2,  -5, 20, 72,  0,  1,  0,  2,  0,	&iuse::none,	ADD_NULL, "\
+Vegetable chunks pickled in a salt bath.  Goes well with burgers, if only\n\
+you can find one.", 0);
+
+FOOD("apple_vac", "apple slices",	 0, 50, c_red,		VEGGY,	"bag_plastic",
+    1,  2,  3, 16, 180,  0,  2,  0,  4,  3,	&iuse::none,	ADD_NULL, "\
+Apple slices soaked in a sugar syrup, to preserve freshness and appearance", 0);
+
 FOOD("spaghetti_bolognese", "spaghetti bolognese",	 0, 100, c_red,		FLESH,	"null",
     2,  2,  0, 50, 48,  0,  0,  0,  2,  15,	&iuse::none,	ADD_NULL, "\
 Spaghetti covered with a thick meat sauce.  Yum!\n", mfb(IF_EATEN_HOT));
@@ -4522,6 +4535,18 @@ Sealed glass jar containing a sliced apple.  Activate to open and enjoy.");
 TOOL("vac_sealer", "vacuum sealer",	10, 250,';', c_green,	IRON,	PLASTIC,
     5,  6,  8,  0, -1, 200, 100,  0,  0, AT_BATT, "null", &iuse::none,0,"\
 A portable heat sealer unit with an air pump, for vacuum packing of food.");
+
+TOOL("bag_meat_vac", "vacuum-packed meat slices",	50,	75,'%', c_red,		PLASTIC,	FLESH,
+    1,  2,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::devac, 0,"\
+Vacuum packed meat slices in plastic packaging.  Activate to open and enjoy.");
+
+TOOL("bag_veggy_vac", "vacuum-packed veggy chunks",	50,	65, '%', c_green,		PLASTIC,	VEGGY,
+    1,  2,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::devac, 0,"\
+Vacuum packed veggy chunks in plastic packaging.  Activate to open and enjoy.");
+
+TOOL("bag_apple_vac", "vacuum-packed apple slices",	50,	50, '%', c_red,		PLASTIC,	VEGGY,
+    1,  2,  8,  1,	 3,	1, 1, 1, 0, AT_NULL, "null", &iuse::devac, 0,"\
+Vacuum packed apple slices in plastic packaging..  Activate to open and enjoy.");
 
 // BIONICS
 // These are the modules used to install new bionics in the player.  They're

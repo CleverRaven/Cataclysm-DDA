@@ -2834,7 +2834,8 @@
                                   ["strawberries", 2],
                                   ["apple", 2],
                                   ["blueberries", 2],
-                                  ["apple_canned", 1]
+                                  ["apple_canned", 1],
+                                  ["apple_vac", 1]
                               ],
                               [
                                   ["sugar", 2]
@@ -2871,8 +2872,9 @@
                                   ["flour", 2]
                               ],
                               [
-                                  ["veggy", 1],
+                                  ["veggy", 2],
                                   ["veggy_wild", 2],
+                                  ["veggy_vac", 2],
                                   ["tomato", 2],
                                   ["broccoli", 1]
                               ],
@@ -2914,7 +2916,8 @@
                               ],
                               [
                                   ["meat", 2],
-                                  ["meat_canned", 1]
+                                  ["meat_canned", 1],
+                                  ["meat_vac", 2]
                               ],
                               [
                                   ["sauce_red", 1],
@@ -2973,8 +2976,8 @@
                                   ["tomato", 2]
                               ],
                               [
-                                  ["meat", 1],
-                                  ["canned_meat", 1]
+                                  ["meat", 2],
+                                  ["meat_canned", 1]
                               ]
                           ]
         },
@@ -7006,6 +7009,151 @@
                                   ["apple", 3]
                               ]
                           ]
+        },
+        
+        
+        {
+            "result": "bag_meat_vac",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "skill_sec": "mechanics",
+            "difficulty": 4,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1],
+                             ["hatchet", -1]
+                         ],
+                         [
+                             ["vac_sealer", 10]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["water", 1],
+                                  ["water_clean", 1]
+                              ],
+                              [
+                                  ["bag_plastic", 1]
+                              ],
+                              [
+                                  ["meat", 2]
+                              ],
+                              [
+                                  ["salt_water", 1],
+                                  ["salt", 4]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bag_veggy_vac",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "skill_sec": "mechanics",
+            "difficulty": 4,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1],
+                             ["hatchet", -1]
+                         ],
+                         [
+                             ["vac_sealer", 10]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["water", 1],
+                                  ["water_clean", 1]
+                              ],
+                              [
+                                  ["bag_plastic", 1]
+                              ],
+                              [
+                                  ["veggy", 2],
+                                  ["veggy_wild", 2]
+                              ],
+                              [
+                                  ["salt_water", 1],
+                                  ["salt", 4]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bag_apple_vac",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "skill_sec": "mechanics",
+            "difficulty": 4,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1],
+                             ["hatchet", -1]
+                         ],
+                         [
+                             ["vac_sealer", 10]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["water", 1],
+                                  ["water_clean", 1]
+                              ],
+                              [
+                                  ["bag_plastic", 1]
+                              ],
+                              [
+                                  ["apple", 3]
+                              ],
+                              [
+                                  ["sugar", 4]
+                              ]
+                          ]
         }
+        
     ]
 }
