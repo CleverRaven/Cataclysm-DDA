@@ -212,16 +212,6 @@ bool player::create(game *g, character_type type, std::string tempname)
    max_power_level = 0;
    power_level = 0;
   }
-
-/* CHEATER'S STUFF
-
-  add_bionic(bionic_id(rng(0, "bio_ethanol")));	// Power Source
-  for (int i = 0; i < 5; i++)
-   add_bionic(bionic_id(rng("bio_memory", max_"bio_start" - 1)));// Other
-  max_power_level = 80;
-  power_level = 80;
-
-End of cheatery */
  }
 
  if (has_trait(PF_MARTIAL_ARTS)) {
