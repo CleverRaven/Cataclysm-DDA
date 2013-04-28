@@ -23,7 +23,7 @@ enum items_location {
  mi_novels, mi_manuals, mi_textbooks,
  mi_cop_weapons, mi_cop_evidence,
  mi_hospital_lab, mi_hospital_samples, mi_surgery,
- mi_office, mi_cubical_office, mi_vault,
+ mi_office, mi_cubical_office, mi_church, mi_vault,
  mi_art, mi_pawn, mi_mil_surplus,
  mi_shelter, mi_mechanics,
  mi_chemistry, mi_teleport, mi_goo, mi_cloning_vat, mi_dissection,
