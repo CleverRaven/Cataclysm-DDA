@@ -435,7 +435,7 @@ void game::init_mapitems()
 	"textbook_business", "lighter", "matches", "extinguisher", "flashlight",
 	"radio", "bubblewrap", "coffee_raw", "usb_drive",
 	"software_useless", NULL);
-	
+
  setvector(
    mapitems[mi_cubical_office],
     "cola", "aspirin", "cigar", "glasses_eye", "sunglasses", "glasses_reading",
@@ -739,7 +739,7 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_cavern],
-	"rock", "jackhammer", "jacqueshammer", "flashlight", "dynamite", NULL);
+	"rock", "jackhammer", "jacqueshammer", "flashlight", "dynamite", "matches", NULL);
 
  setvector(
    mapitems[mi_spider],
