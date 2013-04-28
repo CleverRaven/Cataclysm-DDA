@@ -4985,12 +4985,14 @@ int getsquare(char c , int &off_x, int &off_y, std::string &areastring)
 
 
 }
-
+#define ADVINVOFS 7
 // for printing items in environment
 void printItems(std::vector<item> &items, WINDOW* window, int page , int selected_index , bool active, game* g)
 {
+    int itemsPerPage;
+    itemsPerPage=getmaxy(window)-ADVINVOFS; // fixme
     nc_color norm = active ? c_white : c_dkgray;
-    for(int i = page * 20 , x = 0 ; i < items.size() && x < 20 ; i++ ,x++)
+    for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++)
     {
         if(active && selected_index == x)
         {
@@ -5011,17 +5013,15 @@ void printItems(std::vector<item> &items, WINDOW* window, int page , int selecte
             wprintw(window," (%d)",items[i].contents[0].charges);
         }
     }
-    if(active)
-    {
-        mvwprintz(window,6+22,5,c_ltblue,"[<] previous page       [>] next page");
-    }
 }
 
 void printItems(player &u,WINDOW* window,int page, int selected_index, bool active, game* g)
 {
+    int itemsPerPage;
+    itemsPerPage=getmaxy(window)-ADVINVOFS; // fixme
     nc_color norm = active ? c_white : c_dkgray;
-    invslice stacks = u.inv.slice(page * 20, 20);
-    for(int i = 0; i < stacks.size() && i < 20; ++i)
+    invslice stacks = u.inv.slice(page * itemsPerPage, itemsPerPage);
+    for(int i = 0; i < stacks.size() && i < itemsPerPage; ++i)
     {
         nc_color thiscolor = norm;
         item& it = stacks[i]->front();
@@ -5049,10 +5049,6 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
             wprintz(window,thiscolor," (%d)",it.contents[0].charges);
         }
     }
-    if(active)
-    {
-        mvwprintz(window,6+22,5,c_ltblue,"[<] previous page       [>] next page");
-    }
 }
 
 void printHeader(std::vector<bool> &canputitems, WINDOW* window,int area)
@@ -5071,18 +5067,29 @@ void printHeader(std::vector<bool> &canputitems, WINDOW* window,int area)
 
 void game::advanced_inv()
 {
-    int w_width = 120;
-    int w_height = 40;
+    const int head_height=5;	// 7 is wasteful
+    const int min_w_height=10;
+    //80x25 
+    const int min_w_width=80;
+    const int max_w_width=120;
+    
+    int itemsPerPage=10;
+    int w_height = (TERMY<min_w_height+head_height) ? min_w_height : TERMY-head_height;
+    int w_width = (TERMX<min_w_width) ? min_w_width : (TERMX>max_w_width) ? max_w_width : (int)TERMX;
+//maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4; 
     if (u.in_vehicle)
     {
         add_msg("Exit vehicle first");
         return;
     }
-    int headstart = (TERMY>w_height)?(TERMY-w_height)/2:0;
+    int headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
     int colstart = (TERMX > w_width) ? (TERMX - w_width)/2 : 0;
-    WINDOW *head = newwin(7,w_width, headstart ,colstart);
-    WINDOW *left_window = newwin(33,w_width/2, headstart+7,colstart);
-    WINDOW *right_window = newwin(33,w_width/2, headstart+7,colstart+w_width/2);
+    WINDOW *head = newwin(head_height,w_width, headstart ,colstart);
+    WINDOW *left_window = newwin(w_height,w_width/2, headstart+head_height,colstart);
+    WINDOW *right_window = newwin(w_height,w_width/2, headstart+head_height,colstart+w_width/2);
+
+    itemsPerPage=getmaxy(left_window)-ADVINVOFS; // fixme
+
     std::vector<bool> canputitems;
     canputitems.push_back(true);
     canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+1) ));
@@ -5124,10 +5131,10 @@ void game::advanced_inv()
             left_size = left_area == 0 ? u.inv.size() : m.i_at(u.posx+left_offx,u.posy+left_offy).size();
             right_size = right_area == 0 ? u.inv.size() : m.i_at(u.posx+right_offx,u.posy+right_offy).size();
 
-            max_left_page = (int)ceil(left_size/20.0);
-            max_left_index = left_page == (-1 + max_left_page) ? ((left_size % 20)==0?20:left_size % 20) : 20;
-            max_right_page = (int)ceil(right_size/20.0);
-            max_right_index = right_page == (-1 + max_right_page) ? ((right_size % 20)==0?20:right_size % 20) : 20;
+            max_left_page = (int)ceil(left_size/(itemsPerPage+0.0)); //(int)ceil(left_size/20.0);
+            max_left_index = left_page == (-1 + max_left_page) ? ((left_size % itemsPerPage)==0?itemsPerPage:left_size % itemsPerPage) : itemsPerPage;
+            max_right_page = (int)ceil(right_size/(itemsPerPage+0.0));
+            max_right_index = right_page == (-1 + max_right_page) ? ((right_size % itemsPerPage)==0?itemsPerPage:right_size % itemsPerPage) : itemsPerPage;
             // check if things are out of bound
             left_index = (left_index >= max_left_index) ? max_left_index - 1 : left_index;
             left_page = max_left_page == 0 ? 0 : ( left_page >= max_left_page ? max_left_page - 1 : left_page);
@@ -5144,9 +5151,10 @@ void game::advanced_inv()
                 mvwprintz(head,1,3, c_white, "hjkl or arrow keys to move cursor");
                 mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
                 mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)");
-                mvwprintz(head,1,60, c_white, "[m]ove item between screen.");
+
+                mvwprintz(head,1,(w_width/2), c_white, "[m]ove item between screen. %d %d (%d %d) ",itemsPerPage,w_height,max_left_page,max_left_index);
                 //mvwprintz(head,2,60, c_white, "mov[e] to a selected square.");
-                mvwprintz(head,3,60, c_white, "[q]uit/exit this screen");
+                mvwprintz(head,3,(w_width/2), c_white, "[q]uit/exit this screen");
             }
             if(left_area == 0)
             {
@@ -5164,6 +5172,8 @@ void game::advanced_inv()
             {
                 printItems(m.i_at(u.posx+right_offx,u.posy+right_offy),right_window,right_page,right_index,(screen == 1), this);
             }
+            if(screen == 0 && max_left_page > 1) mvwprintz(left_window,5,7,c_ltblue,"[<] previous page       [>] next page"); // fixme
+            if(screen == 1  && max_right_page > 1) mvwprintz(right_window,5,7,c_ltblue,"[<] previous page       [>] next page"); // fixme
             printHeader(canputitems,left_window,left_area);
             printHeader(canputitems,right_window,right_area);
             redraw = false;
@@ -5224,7 +5234,7 @@ void game::advanced_inv()
             int dest_offx = screen == 0 ? right_offx : left_offx;
             int dest_offy = screen == 0 ? right_offy : left_offy;
             int dest_size = screen == 0 ? right_size : left_size;
-            int item_pos = src_index + (src_page * 20);
+            int item_pos = src_index + (src_page * itemsPerPage);
             if(src_area == 0) // if the active screen is inventory.
             {
                 if(dest_size >= MAX_ITEM_IN_SQUARE)
