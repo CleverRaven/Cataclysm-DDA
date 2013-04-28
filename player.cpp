@@ -4341,13 +4341,16 @@ bool player::eat(game *g, char ch)
         if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak)
             charge_power(rng(1, 4));
 
-        if (!has_trait(PF_CANNIBAL)  && eaten->made_of(HFLESH))
-        {
-            if (!is_npc())
-                g->add_msg("You feel horrible for eating a person..");
-            add_morale(MORALE_CANNIBAL, -150, -1000);
+        if (eaten->made_of(HFLESH)) {
+          if (has_trait(PF_CANNIBAL)) {
+              g->add_msg_if_player(this, "You feast upon the human flesh.");
+              add_morale(MORALE_CANNIBAL, 60, 400);
+          } else {
+              g->add_msg_if_player(this, "You feel horrible for eating a person..");
+              add_morale(MORALE_CANNIBAL, -15, -100);
+          }
         }
-        if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH))
+        if (has_trait(PF_VEGETARIAN) && (eaten->made_of(FLESH) || eaten->made_of(HFLESH)))
         {
             if (!is_npc())
                 g->add_msg("Almost instantly you feel a familiar pain in your stomach");

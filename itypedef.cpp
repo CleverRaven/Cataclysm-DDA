@@ -1238,23 +1238,6 @@ MELEE("frame", "steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
 A large frame made of steel. Useful for crafting.");
 TECH("frame", mfb(TEC_DEF_DISARM) );
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE(".22_rifle_barrel", ".22 rifle barrel", 10, 100, '/', c_cyan, STEEL, MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-     4,  6,  8,  0,  1,  0, "\
-A .22 rifle barrel.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE(".22_pistol_barrel", ".22 pistol barrel", 10, 100, '/', c_cyan, STEEL, MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-     2,  3,  4,  0,  0,  0, "\
-A .22 pistol barrel.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("shotgunbarrel", "shotgun barrel", 10, 100, '/', c_cyan, STEEL, MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-     8,  6,  8,  0,  1,  0, "\
-A smooth bore shotgun barrel.");
 #define VAR_VEH_PART(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, bigmin, bigmax, bigaspect, des)\
 itypes[id]=new it_var_veh_part(id,rarity,price,name,des,sym,\
@@ -4322,7 +4305,7 @@ a fair amount of light");
 
 TOOL("torch_lit", "torch (lit)",    95,  0, '/', c_brown,   WOOD,   MNULL,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL     REVERT    FUNCTION
-    6, 10, 12,  0,  3, 25, 25,  1, 15, AT_NULL, "torch_done", &iuse::torch_lit,
+    6, 10, 12,  0,  3, 75, 75,  1, 20, AT_NULL, "torch_done", &iuse::torch_lit,
 mfb(IF_FIRE),"\
 A large stick, wrapped in gasoline soaked rags. This is burning,\n\
 producing plenty of light");
