@@ -4101,7 +4101,7 @@ case ot_lmoe: {
   } else	// No control room... simple controls near the tower
    ter_set(rng(lw, lw + 3), tw + 4, t_radio_controls);
   break;
-  
+
  case ot_station_radio_north:
  case ot_station_radio_east:
  case ot_station_radio_south:
