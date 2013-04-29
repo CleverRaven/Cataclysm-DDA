@@ -145,17 +145,17 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
    return "Used TALK_MISSION_END - not meant to be used!";
 
   if (p->chatbin.mission_selected == -1)
-   return "mission_selected = -1; BUG!";
+   return "mission_selected = -1; BUG! (npctalk.cpp:dynamic_line)";
   int id = -1;
   if (topic == TALK_MISSION_INQUIRE || topic == TALK_MISSION_ACCEPTED ||
       topic == TALK_MISSION_SUCCESS || topic == TALK_MISSION_ADVICE ||
       topic == TALK_MISSION_FAILURE || topic == TALK_MISSION_SUCCESS_LIE) {
    if (p->chatbin.mission_selected >= p->chatbin.missions_assigned.size())
-    return "mission_selected is too high; BUG!";
+    return "mission_selected is too high; BUG! (npctalk.cpp:dynamic_line)";
    id = p->chatbin.missions_assigned[ p->chatbin.mission_selected ];
   } else {
    if (p->chatbin.mission_selected >= p->chatbin.missions.size())
-    return "mission_selected is too high; BUG!";
+    return "mission_selected is too high; BUG! (npctalk.cpp:dynamic_line (2))";
    id = p->chatbin.missions[ p->chatbin.mission_selected ];
   }
 
@@ -440,7 +440,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
 
  }
 
- return "I don't know what to say. (BUG)";
+ return "I don't know what to say. (BUG (npctalk.cpp:dynamic_line))";
 }
 
 std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
