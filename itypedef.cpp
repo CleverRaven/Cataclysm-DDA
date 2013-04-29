@@ -42,17 +42,17 @@ void game::init_itypes ()
 // Fire - only appears in crafting recipes
  itypes["fire"]=
   new itype("fire", 0, 0, "nearby fire",
-            "Some fire - if you are reading this it's a bug!",
+            "Some fire - if you are reading this it's a bug! (itypdef:fire)",
             '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 // Integrated toolset - ditto
  itypes["toolset"]=
   new itype("toolset", 0, 0, "integrated toolset",
-            "A fake item. If you are reading this it's a bug!",
+            "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
             '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 // For smoking crack or meth
  itypes["apparatus"]=
   new itype("apparatus", 0, 0, "something to smoke that from, and a lighter",
-            "A fake item. If you are reading this it's a bug!",
+            "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
             '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 
 // Drinks
