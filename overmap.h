@@ -44,6 +44,8 @@ enum radio_type {
     WEATHER_RADIO
 };
 
+#define RADIO_MIN_STRENGTH 80
+#define RADIO_MAX_STRENGTH 200
 
 struct radio_tower {
  int x;
@@ -51,9 +53,10 @@ struct radio_tower {
  int strength;
  radio_type type;
  std::string message;
+ int frequency;
 radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
             radio_type T = MESSAGE_BROADCAST) :
-    x (X), y (Y), strength (S), type (T), message (M) {}
+    x (X), y (Y), strength (S), type (T), message (M) {frequency = rand();}
 };
 
 struct map_layer {

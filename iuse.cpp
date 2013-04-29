@@ -1430,55 +1430,124 @@ void iuse::radio_off(game *g, player *p, item *it, bool t)
  }
 }
 
+static radio_tower *find_radio_station( game *g, int frequency )
+{
+    radio_tower *tower = NULL;
+    for (int k = 0; k < g->cur_om.radios.size(); k++)
+    {
+        tower = &g->cur_om.radios[k];
+        if( 0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
+            tower->frequency == frequency )
+        {
+            return tower;
+        }
+    }
+    return NULL;
+}
+
 void iuse::radio_on(game *g, player *p, item *it, bool t)
 {
- if (t) {	// Normal use
-  int best_signal = 0;
-  std::string message = "Radio: Kssssssssssssh.";
-  for (int k = 0; k < g->cur_om.radios.size(); k++) {
-   int signal = g->cur_om.radios[k].strength -
-                rl_dist(g->cur_om.radios[k].x, g->cur_om.radios[k].y,
-                          g->levx, g->levy);
-   if (signal > best_signal) {
-    best_signal = signal;
-    if( g->cur_om.radios[k].type == MESSAGE_BROADCAST ) {
-     message = g->cur_om.radios[k].message;
-    } else if (g->cur_om.radios[k].type == WEATHER_RADIO) {
-     message = weather_forecast(g, g->cur_om.radios[k]);
-    }
-   }
-  }
-  if (best_signal > 0) {
-   for (int j = 0; j < message.length(); j++) {
-    if (dice(10, 100) > dice(10, best_signal * 3)) {
-     if (!one_in(10))
-      message[j] = '#';
-     else
-      message[j] = char(rng('a', 'z'));
-    }
-   }
+    if (t)
+    {	// Normal use
+        std::string message = "Radio: Kssssssssssssh.";
+        radio_tower *selected_tower = find_radio_station( g, it->mode );
+        if( selected_tower != NULL )
+        {
+            if( selected_tower->type == MESSAGE_BROADCAST )
+            {
+                message = selected_tower->message;
+            }
+            else if (selected_tower->type == WEATHER_RADIO)
+            {
+                message = weather_forecast(g, *selected_tower);
+            }
 
-   std::vector<std::string> segments;
-   while (message.length() > RADIO_PER_TURN) {
-    int spot = message.find_last_of(' ', RADIO_PER_TURN);
-    if (spot == std::string::npos)
-     spot = RADIO_PER_TURN;
-    segments.push_back( message.substr(0, spot) );
-    message = message.substr(spot + 1);
-   }
-   segments.push_back(message);
-   int index = g->turn % (segments.size());
-   std::stringstream messtream;
-   messtream << "radio: " << segments[index];
-   message = messtream.str();
-  }
-  point p = g->find_item(it);
-  g->sound(p.x, p.y, 6, message.c_str());
- } else {	// Turning it off
-  g->add_msg_if_player(p,"The radio dies.");
-  it->make(g->itypes["radio"]);
-  it->active = false;
- }
+            int signal_strength = selected_tower->strength -
+                rl_dist(selected_tower->x, selected_tower->y, g->levx, g->levy);
+
+            for (int j = 0; j < message.length(); j++)
+            {
+                if (dice(10, 100) > dice(10, signal_strength * 3))
+                {
+                    if (!one_in(10))
+                    {
+                        message[j] = '#';
+                    }
+                    else
+                    {
+                        message[j] = char(rng('a', 'z'));
+                    }
+                }
+            }
+
+            std::vector<std::string> segments;
+            while (message.length() > RADIO_PER_TURN)
+            {
+                int spot = message.find_last_of(' ', RADIO_PER_TURN);
+                if (spot == std::string::npos)
+                {
+                    spot = RADIO_PER_TURN;
+                }
+                segments.push_back( message.substr(0, spot) );
+                message = message.substr(spot + 1);
+            }
+            segments.push_back(message);
+            int index = g->turn % (segments.size());
+            std::stringstream messtream;
+            messtream << "radio: " << segments[index];
+            message = messtream.str();
+        }
+        point p = g->find_item(it);
+        g->sound(p.x, p.y, 6, message.c_str());
+    } else {	// Activated
+        int ch = menu( true, "Radio:", "Scan", "Turn off", NULL );
+        switch (ch)
+        {
+        case 1:
+        {
+            int old_frequency = it->mode;
+            radio_tower *tower = NULL;
+            radio_tower *lowest_tower = NULL;
+            radio_tower *lowest_larger_tower = NULL;
+
+            for (int k = 0; k < g->cur_om.radios.size(); k++)
+            {
+                tower = &g->cur_om.radios[k];
+
+                if( 0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
+                    tower->frequency != old_frequency )
+                {
+                    if( tower->frequency > old_frequency &&
+                        (lowest_larger_tower == NULL ||
+                         tower->frequency < lowest_larger_tower->frequency) )
+                    {
+                        lowest_larger_tower = tower;
+                    }
+                    else if( lowest_tower == NULL ||
+                             tower->frequency < lowest_tower->frequency )
+                    {
+                        lowest_tower = tower;
+                    }
+                }
+            }
+            if( lowest_larger_tower != NULL )
+            {
+                it->mode = lowest_larger_tower->frequency;
+            }
+            else if( lowest_tower != NULL )
+            {
+                it->mode = lowest_tower->frequency;
+            }
+        }
+        break;
+        case 2:
+            g->add_msg_if_player(p,"The radio dies.");
+            it->make(g->itypes["radio"]);
+            it->active = false;
+            break;
+        case 3: break;
+        }
+    }
 }
 
 void iuse::noise_emitter_off(game *g, player *p, item *it, bool t)
