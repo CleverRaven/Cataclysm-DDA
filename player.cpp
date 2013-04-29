@@ -2395,13 +2395,24 @@ int player::read_speed(bool real_life)
 
 int player::talk_skill()
 {
-  int ret = int_cur + per_cur + skillLevel("speech") * 3;
- if (has_trait(PF_DEFORMED))
-  ret -= 4;
- else if (has_trait(PF_DEFORMED2))
-  ret -= 6;
-
- return ret;
+    int ret = int_cur + per_cur + skillLevel("speech") * 3;
+    if (has_trait(PF_UGLY))
+        ret -= 3;
+    else if (has_trait(PF_DEFORMED))
+        ret -= 6;
+    else if (has_trait(PF_DEFORMED2))
+        ret -= 12;
+    else if (has_trait(PF_DEFORMED3))
+        ret -= 18;
+    else if (has_trait(PF_PRETTY))
+        ret += 1;
+    else if (has_trait(PF_BEAUTIFUL))
+        ret += 2;
+    else if (has_trait(PF_BEAUTIFUL2))
+        ret += 4;
+    else if (has_trait(PF_BEAUTIFUL3))
+        ret += 6;
+    return ret;
 }
 
 int player::intimidation()
@@ -2413,6 +2424,12 @@ int player::intimidation()
   ret += 5;
  if (has_trait(PF_DEFORMED2))
   ret += 3;
+ else if (has_trait(PF_DEFORMED3))
+  ret += 6;
+ else if (has_trait(PF_PRETTY))
+  ret -= 1;
+ else if (has_trait(PF_BEAUTIFUL) || has_trait(PF_BEAUTIFUL2) || has_trait(PF_BEAUTIFUL3))
+  ret -= 4;
  if (stim > 20)
   ret += 2;
  if (has_disease(DI_DRUNK))
@@ -4215,7 +4232,7 @@ bool player::eat(game *g, char ch)
             // For when bionics let you burn organic materials
         if (eaten->type->is_book()) {
             it_book* book = dynamic_cast<it_book*>(eaten->type);
-            if (book->type != NULL && !query_yn("Really eat %s?", book->name.c_str())) 
+            if (book->type != NULL && !query_yn("Really eat %s?", book->name.c_str()))
                 return false;
         }
         int charge = (eaten->volume() + eaten->weight()) / 2;
