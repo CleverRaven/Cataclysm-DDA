@@ -388,7 +388,20 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   }
  // Current temperature and converging temperature calculations
  for (int i = 0 ; i < num_bp ; i++){
-  if (i == bp_eyes) continue; // Skip eyes
+  // CONDITIONS TO SKIP OVER BODY TEMPERATURE CALCULATION
+  // Eyes
+  if (i == bp_eyes) temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;
+  // Mutations
+  if (i == bp_hands && (has_trait(PF_TALONS) || has_trait(PF_WEBBED)))
+   {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
+  if (i == bp_mouth && has_trait(PF_BEAK))
+   {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
+  if (i == bp_feet && has_trait(PF_HOOVES))
+   {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
+  if (i == bp_torso && has_trait(PF_SHELL))
+   {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
+  if (i == bp_head && has_trait(PF_HORNS_CURLED))
+   {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
   // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
   float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 40.0 : 60.0);
   int clothing_warmth_adjustement = homeostasis_adjustement * (float)warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
@@ -452,7 +465,7 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
    }
   // Bionic "Thermal Dissapation" says it prevents fire damage up to 2000F. 500 is picked at random...
   if (has_bionic("bio_heatsink") && blister_count < 500)
-   blister_count = 0;
+   blister_count = (has_trait(PF_BARK) ? -100 : 0);
   // BLISTERS : Skin gets blisters from intense heat exposure.
   if (blister_count - 10*resist(body_part(i)) > 20)
    add_disease(dis_type(blister_pen), 1, g);
@@ -486,6 +499,12 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
   case bp_hands : temp_equalizer(bp_hands, bp_arms); break;
   case bp_feet  : temp_equalizer(bp_feet, bp_legs); break;
   }
+  // MUTATIONS
+  // Bark : lowers blister count to -100; harder to get blisters
+  // Lightly furred
+  if (has_trait(PF_LIGHTFUR)) temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
+  // Furry
+  if (has_trait(PF_FUR)) temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
   // FINAL CALCULATION : Increments current body temperature towards convergant.
   int temp_before = temp_cur[i];
   int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
