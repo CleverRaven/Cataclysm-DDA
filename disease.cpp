@@ -1326,7 +1326,7 @@ std::string dis_name(disease dis)
   switch (dis.intensity) {
    case 1: return "Snakebite Unlocked!";
    case 2: return "Viper Strike Unlocked!";
-   default: return "VIPER BUG!!!!";
+   default: return "Viper combo bug. (in disease.cpp:dis_name)";
   }
   case DI_BITE:
   if (dis.duration > 3000) return "Bite Wound";
@@ -1669,7 +1669,7 @@ You have an infected wound.";
  You are recovering from an infection.";
 
  default:
-  return "Who knows?  This is probably a bug.";
+  return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
  }
 }
 

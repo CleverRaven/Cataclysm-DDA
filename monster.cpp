@@ -162,7 +162,7 @@ void monster::print_info(game *g, WINDOW* w)
    wprintz(w, c_red, "Hostile! ");
    break;
   default:
-   wprintz(w, h_red, "BUG: Behavior unnamed ");
+   wprintz(w, h_red, "BUG: Behavior unnamed. (monster.cpp:print_info)");
    break;
  }
  if (has_effect(ME_DOWNED))

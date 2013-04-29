@@ -378,7 +378,7 @@ struct trait {
 
 const trait traits[] = {
 {"NULL trait!", 0, 0, 0, "\
-This is a bug.  Weird."},
+This is a bug.  Weird. (pldata.h:traits)"},
 {"Fleet-Footed", 3, 0, 0, "\
 You can run more quickly than most, resulting in a 15%% speed bonus on sure\n\
 footing."},
