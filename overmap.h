@@ -44,6 +44,8 @@ enum radio_type {
     WEATHER_RADIO
 };
 
+#define RADIO_MIN_STRENGTH 80
+#define RADIO_MAX_STRENGTH 200
 
 struct radio_tower {
  int x;

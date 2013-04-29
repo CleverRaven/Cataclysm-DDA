@@ -2602,14 +2602,14 @@ void overmap::place_radios()
        case 0:
            snprintf( message, sizeof(message), "This is emergency broadcast station %d%d.\
   Please proceed quickly and calmly to your designated evacuation point.", i, j);
-           radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
+           radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), message));
            break;
        case 1:
-           radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
+           radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH),
                "Head West.  All survivors, head West.  Help is waiting."));
            break;
        case 2:
-           radios.push_back(radio_tower(i*2, j*2, rng(80, 200), "", WEATHER_RADIO));
+           radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), "", WEATHER_RADIO));
            break;
        }
    }
@@ -2617,13 +2617,13 @@ void overmap::place_radios()
    case ot_lmoe:
     snprintf( message, sizeof(message), "This is automated emergency shelter beacon %d%d.\
   Supplies, amenities and shelter are stocked.", i, j);
-    radios.push_back(radio_tower(i*2, j*2, rng(40, 100), message));
+    radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH) / 2, message));
     break;
    case ot_fema_entrance:
     snprintf( message, sizeof(message), "This is FEMA camp %d%d.\
   Supplies are limited, please bring supplemental food, water, and bedding.\
   This is FEMA camp %d%d.  A designated long-term emergency shelter.", i, j, i, j);
-    radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
+    radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), message));
      break;
    }
   }
