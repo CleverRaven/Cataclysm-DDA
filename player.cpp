@@ -390,7 +390,8 @@ void player::update_bodytemp(game *g) // TODO bionics, diseases and humidity (no
  for (int i = 0 ; i < num_bp ; i++){
   // CONDITIONS TO SKIP OVER BODY TEMPERATURE CALCULATION
   // Eyes
-  if (i == bp_eyes) temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;
+  if (i == bp_eyes)
+   { temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue; }
   // Mutations
   if (i == bp_hands && (has_trait(PF_TALONS) || has_trait(PF_WEBBED)))
    {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
