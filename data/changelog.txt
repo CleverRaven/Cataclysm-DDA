@@ -35,6 +35,7 @@ Added fur scarf, fur gloves, fur trenchcoat, fur pants, fur boots (all craft onl
 All tailoring items that use fur require survival as secondary skill.
 Added crafting recipes for bandana, blanket, house coat, cloak.
 Weather radio
+Radios are tuneable, so you can receive from more than one station without moving.
 New item that doubles battery capacity of tools, recipe learn from certain electronics books.
 Bugfix: reduced chance of "Tried to kill monster" debug spam.
 Bugfix: reduced chance of "Stopping out-of-map vehicle" spam.
