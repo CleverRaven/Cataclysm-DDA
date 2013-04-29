@@ -82,7 +82,9 @@ player::player()
  }
 
  for (int i = 0; i < num_bp; i++) {
-  temp_cur[i] = BODYTEMP_NORM; frostbite_timer[i] = 0;
+  temp_cur[i] = BODYTEMP_NORM;
+  frostbite_timer[i] = 0;
+  temp_conv[i] = BODYTEMP_NORM;
  }
 }
 
@@ -169,6 +171,9 @@ player& player::operator= (const player & rhs)
 
  for (int i = 0; i < num_bp; i++)
   temp_cur[i] = rhs.temp_cur[i];
+
+ for (int i = 0 ; i < num_bp; i++)
+  temp_conv[i] = BODYTEMP_NORM;
 
  for (int i = 0; i < num_bp; i++)
   frostbite_timer[i] = rhs.frostbite_timer[i];
