@@ -160,6 +160,41 @@ You can not activate %s!  To read a description of \
  erase();
 }
 
+// TODO: clean up liquid handling
+void pour_water_from_bionics(game *g, player *p, int power_cost)
+{
+    char invlet = g->inv("Choose a container:");
+    if (p->i_at(invlet).type == 0)
+    {
+        g->add_msg("You don't have that item!");
+        p->power_level += power_cost;
+    }
+    else if (!p->i_at(invlet).is_container())
+    {
+        g->add_msg("That %s isn't a container!", p->i_at(invlet).tname().c_str());
+        p->power_level += power_cost;
+    }
+    else
+    {
+        it_container *cont = dynamic_cast<it_container*>(p->i_at(invlet).type);
+        if (p->i_at(invlet).volume_contained() + 1 > cont->contains)
+        {
+            g->add_msg("There's no space left in your %s.", p->i_at(invlet).tname().c_str());
+            p->power_level += power_cost;
+        }
+        else if (!(cont->flags & con_wtight))
+        {
+            g->add_msg("Your %s isn't watertight!", p->i_at(invlet).tname().c_str());
+            p->power_level += power_cost;
+        }
+        else
+        {
+            g->add_msg("You pour water into your %s.", p->i_at(invlet).tname().c_str());
+            p->i_at(invlet).put_in(item(g->itypes["water_clean"], 0));
+        }
+    }
+}
+
 void bio_activate_painkiller(player *p)
 {
     p->pkill += 6;
@@ -336,36 +371,7 @@ void bio_activate_evaporator(game *g, player *p)
     }
     else
     {
-        char invlet = g->inv("Choose a container:");
-        if (p->i_at(invlet).type == 0)
-        {
-            g->add_msg("You don't have that item!");
-            p->power_level += bionics["bio_evap"]->power_cost;
-        }
-        else if (!p->i_at(invlet).is_container())
-        {
-            g->add_msg("That %s isn't a container!", p->i_at(invlet).tname().c_str());
-            p->power_level += bionics["bio_evap"]->power_cost;
-        }
-        else
-        {
-            it_container *cont = dynamic_cast<it_container*>(p->i_at(invlet).type);
-            if (p->i_at(invlet).volume_contained() + 1 > cont->contains)
-            {
-                g->add_msg("There's no space left in your %s.", p->i_at(invlet).tname().c_str());
-                p->power_level += bionics["bio_evap"]->power_cost;
-            }
-            else if (!(cont->flags & con_wtight))
-            {
-                g->add_msg("Your %s isn't watertight!", p->i_at(invlet).tname().c_str());
-                p->power_level += bionics["bio_evap"]->power_cost;
-            }
-            else
-            {
-                g->add_msg("You pour water into your %s.", p->i_at(invlet).tname().c_str());
-                p->i_at(invlet).put_in(item(g->itypes["water_clean"], 0));
-            }
-        }
+        pour_water_from_bionics(g, p, bionics["bio_evap"]->power_cost);
     }
 }
 
@@ -452,31 +458,7 @@ void bio_activate_water_extractor(game *g, player *p)
                                                   tmp.tname().c_str()))
         {
             i = g->m.i_at(p->posx, p->posy).size() + 1;	// Loop is finished
-            char invlet = g->inv("Choose a container:");
-            if (p->i_at(invlet).type == 0)
-            {
-                g->add_msg("You don't have that item!");
-                p->power_level += bionics["bio_water_extractor"]->power_cost;
-            }
-            else if (!p->i_at(invlet).is_container())
-            {
-                g->add_msg("That %s isn't a container!", p->i_at(invlet).tname().c_str());
-                p->power_level += bionics["bio_water_extractor"]->power_cost;
-            }
-            else
-            {
-                it_container *cont = dynamic_cast<it_container*>(p->i_at(invlet).type);
-                if (p->i_at(invlet).volume_contained() + 1 > cont->contains)
-                {
-                    g->add_msg("There's no space left in your %s.", p->i_at(invlet).tname().c_str());
-                    p->power_level += bionics["bio_water_extractor"]->power_cost;
-                }
-                else
-                {
-                    g->add_msg("You pour water into your %s.", p->i_at(invlet).tname().c_str());
-                    p->i_at(invlet).put_in(item(g->itypes["water"], 0));
-                }
-            }
+            pour_water_from_bionics(g, p, bionics["bio_water_extractor"]->power_cost);
         }
         if (i == g->m.i_at(p->posx, p->posy).size() - 1)	// We never chose a corpse
         {
