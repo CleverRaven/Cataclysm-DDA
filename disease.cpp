@@ -201,20 +201,20 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_BLISTERS_HANDS:
   p.dex_cur--;
   if (p.pain < 35) p.pain++;
-  if (one_in(2)) p.hp_max[hp_arm_r]--;
-  else p.hp_max[hp_arm_l]--;
+  if (one_in(2)) p.hp_cur[hp_arm_r]--;
+  else p.hp_cur[hp_arm_l]--;
   break;
 
  case DI_BLISTERS_FEET:
   p.str_cur--;
   if (p.pain < 35) p.pain++;
-  if (one_in(2)) p.hp_max[hp_leg_r]--;
-  else p.hp_max[hp_leg_l]--;
+  if (one_in(2)) p.hp_cur[hp_leg_r]--;
+  else p.hp_cur[hp_leg_l]--;
   break;
 
  case DI_BLISTERS_MOUTH:
   p.per_cur--;
-  p.hp_max[hp_head]--;
+  p.hp_cur[hp_head]--;
   if (p.pain < 35) p.pain++;
   break;
 

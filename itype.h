@@ -111,6 +111,10 @@ IF_ROTTEN, 		// rotten food
 IF_VARSIZE,     // comes in variable sizes (item type flag)
 IF_FIT,         // clothing fits player (item specific flag)
 
+//Book Flags
+/*IF_READ_SKILLBOOK,
+IF_READ_FUNBOOK,
+*/
 // Item mod flags
 
 // has double the normal ammo capacity (item specific flag), only works with tools at the moment

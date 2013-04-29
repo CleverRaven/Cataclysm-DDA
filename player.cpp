@@ -4212,7 +4212,12 @@ bool player::eat(game *g, char ch)
     }
     else if (!eaten->type->is_food() && !eaten->is_food_container(this))
     {
-        // For when bionics let you burn organic materials
+            // For when bionics let you burn organic materials
+        if (eaten->type->is_book()) {
+            it_book* book = dynamic_cast<it_book*>(eaten->type);
+            if (book->type != NULL && !query_yn("Really eat %s?", book->name.c_str())) 
+                return false;
+        }
         int charge = (eaten->volume() + eaten->weight()) / 2;
         if (eaten->type->m1 == LEATHER || eaten->type->m2 == LEATHER)
             charge /= 4;
@@ -4341,13 +4346,16 @@ bool player::eat(game *g, char ch)
         if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak)
             charge_power(rng(1, 4));
 
-        if (!has_trait(PF_CANNIBAL)  && eaten->made_of(HFLESH))
-        {
-            if (!is_npc())
-                g->add_msg("You feel horrible for eating a person..");
-            add_morale(MORALE_CANNIBAL, -150, -1000);
+        if (eaten->made_of(HFLESH)) {
+          if (has_trait(PF_CANNIBAL)) {
+              g->add_msg_if_player(this, "You feast upon the human flesh.");
+              add_morale(MORALE_CANNIBAL, 15, 100);
+          } else {
+              g->add_msg_if_player(this, "You feel horrible for eating a person..");
+              add_morale(MORALE_CANNIBAL, -60, -400);
+          }
         }
-        if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH))
+        if (has_trait(PF_VEGETARIAN) && (eaten->made_of(FLESH) || eaten->made_of(HFLESH)))
         {
             if (!is_npc())
                 g->add_msg("Almost instantly you feel a familiar pain in your stomach");
