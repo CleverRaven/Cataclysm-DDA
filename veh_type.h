@@ -261,7 +261,7 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
     { "minireactor",                'O', c_ltgreen,  '#', c_red,    80, 700, 10000, AT_PLUT, "minireactor", 7,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
-    { "hydrogene tank",             'O', c_ltblue,  '#', c_red,     80, 150, 3000, AT_PLASMA, "metal_tank", 1,
+    { "hydrogen tank",             'O', c_ltblue,  '#', c_red,     80, 150, 3000, AT_PLASMA, "metal_tank", 1,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
     { "water tank",                 'O', c_ltcyan,  '#', c_red,     80, 150, 400, AT_WATER, "metal_tank", 1,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
