@@ -33,7 +33,7 @@ struct mutation_branch
  std::vector<pl_flag> replacements; // Mutations that replace this one
  std::vector<pl_flag> additions; // Mutations that add to this one
 
- mutation_branch() { valid = false; };
+ mutation_branch() { valid = false; }
 
 };
 

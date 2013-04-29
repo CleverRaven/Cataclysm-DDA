@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include <stdint.h>
+#include <limits.h>
 #include "calendar.h"
 
 enum skill {
@@ -84,7 +85,7 @@ class SkillLevel {
   bool rust(const calendar& turn, bool forgetful, bool charged_bio_mem);
   void practice(const calendar& turn);
 
-  int readBook(int minimumGain, int maximumGain, const calendar& turn, int maximumLevel = 0xFFFFFFFF);
+  int readBook(int minimumGain, int maximumGain, const calendar& turn, int maximumLevel = INT_MAX);
 
   bool operator==(const SkillLevel& b) const { return this->_level == b._level && this->_exercise == b._exercise; }
   bool operator< (const SkillLevel& b) const { return this->_level <  b._level || (this->_level == b._level && this->_exercise < b._exercise); }

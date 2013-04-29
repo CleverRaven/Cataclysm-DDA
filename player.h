@@ -29,7 +29,7 @@ struct special_attack
  int cut;
  int stab;
 
- special_attack() { bash = 0; cut = 0; stab = 0; };
+ special_attack() { bash = 0; cut = 0; stab = 0; }
 };
 
 class player {

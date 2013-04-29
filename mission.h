@@ -10,7 +10,6 @@
 
 struct mission;
 class game;
-enum talk_topic;
 
 enum mission_id {
  MISSION_NULL,
@@ -70,12 +69,12 @@ struct mission_start {
 };
 
 struct mission_end {	// These functions are run when a mission ends
- void standard		(game *, mission *){}; // Nothing special happens
+ void standard		(game *, mission *){} // Nothing special happens
  void heal_infection	(game *, mission *);
 };
 
 struct mission_fail {
- void standard		(game *, mission *){}; // Nothing special happens
+ void standard		(game *, mission *){} // Nothing special happens
  void kill_npc		(game *, mission *); // Kill the NPC who assigned it!
 };
 
@@ -111,7 +110,7 @@ struct mission_type {
    deadline_high = 0;
    item_id = "null";
    follow_up = MISSION_NULL;
-  };
+  }
 
  mission create(game *g, int npc_id = -1); // Create a mission
 };

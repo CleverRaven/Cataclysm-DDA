@@ -47,7 +47,7 @@ class map
  map();
  map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
      std::vector<trap*> *trptr);
- ~map();
+ virtual ~map();
 
 // Visual Output
  void draw(game *g, WINDOW* w, const point center);
@@ -226,7 +226,7 @@ protected:
 
  bool inbounds(const int x, const int y);
  int my_MAPSIZE;
- virtual bool is_tiny() { return false; };
+ virtual bool is_tiny() { return false; }
 
  std::vector<item> nulitems; // Returned when &i_at() is asked for an OOB value
  ter_id nulter;	// Returned when &ter() is asked for an OOB value
@@ -265,7 +265,7 @@ public:
  ~tinymap();
 
 protected:
- virtual bool is_tiny() { return true; };
+ virtual bool is_tiny() { return true; }
 
 private:
  submap* grid[4];

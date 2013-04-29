@@ -40,7 +40,7 @@ struct bionic {
   invlet = pinvlet;
   powered = false;
   charge = 0;
- };
+ }
 };
 
 extern std::map<bionic_id, bionic_data*> bionics;

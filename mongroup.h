@@ -56,7 +56,7 @@ struct mongroup {
   dying = false;
   diffuse = false;
  }
- bool is_safe() { return (type == "GROUP_NULL" || type == "GROUP_FOREST"); };
+ bool is_safe() { return (type == "GROUP_NULL" || type == "GROUP_FOREST"); }
 };
 
 class MonsterGroupManager

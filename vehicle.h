@@ -41,7 +41,7 @@ struct veh_collision {
  void* target;  //vehicle
  int target_part; //veh partnum
  std::string target_name;
- veh_collision(){};
+ veh_collision(){}
 };
 
 

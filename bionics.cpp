@@ -107,8 +107,8 @@ void player::power_bionics(game *g)
  wrefresh(wBio);
  char ch;
  bool activating = true;
- bionic *tmp;
- int b;
+ bionic *tmp = NULL;
+ int b = -1;
  do {
   ch = getch();
   if (ch == '!') {
@@ -127,7 +127,7 @@ void player::power_bionics(game *g)
      ch = KEY_ESCAPE;
     }
    }
-   if (ch == KEY_ESCAPE) {
+   if (ch == KEY_ESCAPE && tmp != NULL) {
     if (activating) {
      if (bionics[tmp->id]->activated) {
       show_power_level_in_titlebar(wBio, this);
@@ -135,8 +135,8 @@ void player::power_bionics(game *g)
       if (tmp->powered) {
        tmp->powered = false;
        g->add_msg("%s powered off.", bionics[tmp->id]->name.c_str());
-      } else if (power_level >= bionics[tmp->id]->power_cost ||
-                 (weapon_id == "bio_claws_weapon" && tmp->id == "bio_claws_weapon"))
+      } else if (b >= 0 && (power_level >= bionics[tmp->id]->power_cost ||
+                 (weapon_id == "bio_claws_weapon" && tmp->id == "bio_claws_weapon")))
        activate_bionic(b, g);
      } else
       mvwprintz(wBio, 21, 1, c_ltred, "\
@@ -197,7 +197,7 @@ void player::activate_bionic(int b, game *g)
  std::vector<std::string> good;
  std::vector<std::string> bad;
  WINDOW* w;
- int dirx, diry, t, l, index;
+ int dirx, diry, t;
  InputEvent input;
  item tmp_item;
 
@@ -309,24 +309,24 @@ void player::activate_bionic(int b, game *g)
      thirst = -20;
    }
   } else {
-   t = g->inv("Choose a container:");
-   if (i_at(t).type == 0) {
+   char invlet = g->inv("Choose a container:");
+   if (i_at(invlet).type == 0) {
     g->add_msg("You don't have that item!");
     power_level += bionics["bio_evap"]->power_cost;
-   } else if (!i_at(t).is_container()) {
-    g->add_msg("That %s isn't a container!", i_at(t).tname().c_str());
+   } else if (!i_at(invlet).is_container()) {
+    g->add_msg("That %s isn't a container!", i_at(invlet).tname().c_str());
     power_level += bionics["bio_evap"]->power_cost;
    } else {
-    it_container *cont = dynamic_cast<it_container*>(i_at(t).type);
-    if (i_at(t).volume_contained() + 1 > cont->contains) {
-     g->add_msg("There's no space left in your %s.", i_at(t).tname().c_str());
+    it_container *cont = dynamic_cast<it_container*>(i_at(invlet).type);
+    if (i_at(invlet).volume_contained() + 1 > cont->contains) {
+     g->add_msg("There's no space left in your %s.", i_at(invlet).tname().c_str());
      power_level += bionics["bio_evap"]->power_cost;
     } else if (!(cont->flags & con_wtight)) {
-     g->add_msg("Your %s isn't watertight!", i_at(t).tname().c_str());
+     g->add_msg("Your %s isn't watertight!", i_at(invlet).tname().c_str());
      power_level += bionics["bio_evap"]->power_cost;
     } else {
-     g->add_msg("You pour water into your %s.", i_at(t).tname().c_str());
-     i_at(t).put_in(item(g->itypes["water_clean"], 0));
+     g->add_msg("You pour water into your %s.", i_at(invlet).tname().c_str());
+     i_at(invlet).put_in(item(g->itypes["water_clean"], 0));
     }
    }
   }
@@ -396,21 +396,21 @@ void player::activate_bionic(int b, game *g)
    if (tmp.type->id == "corpse" && query_yn("Extract water from the %s",
                                               tmp.tname().c_str())) {
     i = g->m.i_at(posx, posy).size() + 1;	// Loop is finished
-    t = g->inv("Choose a container:");
-    if (i_at(t).type == 0) {
+    char invlet = g->inv("Choose a container:");
+    if (i_at(invlet).type == 0) {
      g->add_msg("You don't have that item!");
      power_level += bionics["bio_water_extractor"]->power_cost;
-    } else if (!i_at(t).is_container()) {
-     g->add_msg("That %s isn't a container!", i_at(t).tname().c_str());
+    } else if (!i_at(invlet).is_container()) {
+     g->add_msg("That %s isn't a container!", i_at(invlet).tname().c_str());
      power_level += bionics["bio_water_extractor"]->power_cost;
     } else {
-     it_container *cont = dynamic_cast<it_container*>(i_at(t).type);
-     if (i_at(t).volume_contained() + 1 > cont->contains) {
-      g->add_msg("There's no space left in your %s.", i_at(t).tname().c_str());
+     it_container *cont = dynamic_cast<it_container*>(i_at(invlet).type);
+     if (i_at(invlet).volume_contained() + 1 > cont->contains) {
+      g->add_msg("There's no space left in your %s.", i_at(invlet).tname().c_str());
       power_level += bionics["bio_water_extractor"]->power_cost;
      } else {
-      g->add_msg("You pour water into your %s.", i_at(t).tname().c_str());
-      i_at(t).put_in(item(g->itypes["water"], 0));
+      g->add_msg("You pour water into your %s.", i_at(invlet).tname().c_str());
+      i_at(invlet).put_in(item(g->itypes["water"], 0));
      }
     }
    }
@@ -431,8 +431,9 @@ void player::activate_bionic(int b, game *g)
      if (g->m.i_at(i, j)[k].made_of(IRON) || g->m.i_at(i, j)[k].made_of(STEEL)){
       tmp_item = g->m.i_at(i, j)[k];
       g->m.i_rem(i, j, k);
+      int l;
       for (l = 0; l < traj.size(); l++) {
-       index = g->mon_at(traj[l].x, traj[l].y);
+       int index = g->mon_at(traj[l].x, traj[l].y);
        if (index != -1) {
         if (g->z[index].hurt(tmp_item.weight() * 2))
          g->kill_mon(index, true);
@@ -515,9 +516,9 @@ bool player::install_bionics(game *g, it_bionic* type)
 
 // Init the list of bionics
  for (int i = 1; i < type->options.size(); i++) {
-  bionic_id id = type->options[i];
-  mvwprintz(w, i + 3, 1, (has_bionic(id) ? c_ltred : c_ltblue),
-            bionics[id]->name.c_str());
+  bionic_id bio_id = type->options[i];
+  mvwprintz(w, i + 3, 1, (has_bionic(bio_id) ? c_ltred : c_ltblue),
+            bionics[bio_id]->name.c_str());
  }
 // Helper text
  mvwprintz(w, 3, 39, c_white,        "Difficulty of this module: %d",
@@ -597,14 +598,14 @@ charge mechanism, which must be installed from another CBM.", pow_up);
 
  do {
 
-  bionic_id id = type->options[selection];
-  mvwprintz(w, 3 + selection, 1, (has_bionic(id) ? h_ltred : h_ltblue),
-            bionics[id]->name.c_str());
+  bionic_id bio_id = type->options[selection];
+  mvwprintz(w, 3 + selection, 1, (has_bionic(bio_id) ? h_ltred : h_ltblue),
+            bionics[bio_id]->name.c_str());
 
 // Clear the bottom three lines...
   werase(w_description);
 // ...and then fill them with the description of the selected bionic
-  mvwprintz(w_description, 0, 0, c_ltblue, bionics[id]->description.c_str());
+  mvwprintz(w_description, 0, 0, c_ltblue, bionics[bio_id]->description.c_str());
 
   wrefresh(w_description);
   wrefresh(w);
@@ -612,8 +613,8 @@ charge mechanism, which must be installed from another CBM.", pow_up);
   switch (input) {
 
   case DirectionS:
-   mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
-             bionics[id]->name.c_str());
+   mvwprintz(w, 2 + selection, 0, (has_bionic(bio_id) ? c_ltred : c_ltblue),
+             bionics[bio_id]->name.c_str());
    if (selection == type->options.size() - 1)
     selection = 0;
    else
@@ -621,8 +622,8 @@ charge mechanism, which must be installed from another CBM.", pow_up);
    break;
 
   case DirectionN:
-   mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
-             bionics[id]->name.c_str());
+   mvwprintz(w, 2 + selection, 0, (has_bionic(bio_id) ? c_ltred : c_ltblue),
+             bionics[bio_id]->name.c_str());
    if (selection == 0)
     selection = type->options.size() - 1;
    else
@@ -630,8 +631,8 @@ charge mechanism, which must be installed from another CBM.", pow_up);
    break;
 
   }
-  if (input == Confirm && has_bionic(id)) {
-   popup("You already have a %s!", bionics[id]->name.c_str());
+  if (input == Confirm && has_bionic(bio_id)) {
+   popup("You already have a %s!", bionics[bio_id]->name.c_str());
    input = Nothing;
   }
  } while (input != Cancel && input != Confirm);
@@ -640,11 +641,11 @@ charge mechanism, which must be installed from another CBM.", pow_up);
    practice(g->turn, "electronics", (100 - chance_of_success) * 1.5);
    practice(g->turn, "firstaid", (100 - chance_of_success) * 1.0);
    practice(g->turn, "mechanics", (100 - chance_of_success) * 0.5);
-  bionic_id id = type->options[selection];
+  bionic_id bio_id = type->options[selection];
   int success = chance_of_success - rng(1, 100);
   if (success > 0) {
-   g->add_msg("Successfully installed %s.", bionics[id]->name.c_str());
-   add_bionic(id);
+   g->add_msg("Successfully installed %s.", bionics[bio_id]->name.c_str());
+   add_bionic(bio_id);
   } else
    bionics_install_failure(g, this, success);
   werase(w);
@@ -716,7 +717,7 @@ void bionics_install_failure(game *g, player *u, int success)
    failure_level -= rng(1, failure_level + 2);
   }
   return;	// So the failure text doesn't show up twice
-  break;
+  // no need for a break, because we've returned already
 
  case 5:
  {
@@ -741,6 +742,7 @@ void bionics_install_failure(game *g, player *u, int success)
   break;
  }
 
+ // not required in the case of mutation, because we emitted the message already
  g->add_msg(fail_text.c_str());
 
 }

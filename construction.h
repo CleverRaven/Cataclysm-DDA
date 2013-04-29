@@ -12,7 +12,7 @@ struct construction_stage
  std::vector<component> components[10];
 
  construction_stage(ter_id Terrain, int Time) :
-    terrain (Terrain), time (Time) { };
+    terrain (Terrain), time (Time) { }
 };
 
 struct constructable
@@ -27,7 +27,7 @@ struct constructable
  constructable(int Id, std::string Name, int Diff,
                bool (construct::*Able) (game *, point),
                void (construct::*Done) (game *, point)) :
-  id (Id), name (Name), difficulty (Diff), able (Able), done (Done) {};
+  id (Id), name (Name), difficulty (Diff), able (Able), done (Done) {}
 };
 
 struct construct // Construction functions.

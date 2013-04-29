@@ -791,10 +791,10 @@ const field_t fieldlist[] = {
 
 struct field {
  field_id type;
- signed char density;
- int age;
- field() { type = fd_null; density = 1; age = 0; };
- field(field_id t, unsigned char d, unsigned int a) {
+ unsigned char density;
+ signed int age; // needs to be signed, sometimes we check age < 0
+ field() { type = fd_null; density = 1; age = 0; }
+ field(field_id t, unsigned char d, signed int a) {
   type = t;
   density = d;
   age = a;

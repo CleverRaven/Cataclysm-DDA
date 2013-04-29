@@ -74,7 +74,7 @@ struct monster_and_count
 {
  monster mon;
  int count;
- monster_and_count(monster M, int C) : mon (M), count (C) {};
+ monster_and_count(monster M, int C) : mon (M), count (C) {}
 };
 
 struct game_message
@@ -82,8 +82,8 @@ struct game_message
  calendar turn;
  int count;
  std::string message;
- game_message() { turn = 0; count = 1; message = ""; };
- game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; };
+ game_message() { turn = 0; count = 1; message = ""; }
+ game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; }
 };
 
 struct mtype;
