@@ -24,8 +24,8 @@
 WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
 
 ifeq ($(CXX), clang++)
-	WARNINGS += -Weverything -Wno-global-constructors -Wno-exit-time-destructors -Wno-variadic-macros -Wno-padded -Wno-weak-vtables -Wno-switch-enum -Wno-missing-prototypes -Wno-error=long-long -Wno-error=float-equal -Wno-error=unreachable-code -Wno-format-nonliteral
-# FIX: padded, weak-vtables
+	WARNINGS += -Wno-global-constructors -Wno-exit-time-destructors -Wno-variadic-macros -Wno-padded -Wno-weak-vtables -Wno-switch-enum -Wno-missing-prototypes -Wno-error=long-long -Wno-error=float-equal -Wno-error=unreachable-code -Wno-format-nonliteral
+# FIX: padded, weak-vtables, unreachable code
 endif
 
 # Uncomment below to disable warnings
