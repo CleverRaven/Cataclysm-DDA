@@ -353,6 +353,9 @@ void game::cleanup_at_end(){
 
  // Save the monsters before we die!
  despawn_monsters();
+ // Clear the future weather for future projects
+ future_weather.clear();
+
  if (uquit == QUIT_DIED)
   popup_top("Game over! Press spacebar...");
  if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
@@ -5481,6 +5484,7 @@ void game::advanced_inv()
     delwin(head);
     delwin(left_window);
     delwin(right_window);
+    refresh_all();
 }
 
 //Shift player by one tile, look_around(), then restore previous position.

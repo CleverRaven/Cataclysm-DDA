@@ -4346,7 +4346,7 @@ case ot_lmoe: {
   } else	// No control room... simple controls near the tower
    ter_set(rng(lw, lw + 3), tw + 4, t_radio_controls);
   break;
-  
+
  case ot_station_radio_north:
  case ot_station_radio_east:
  case ot_station_radio_south:
@@ -7408,7 +7408,7 @@ break;
    if (one_in(2))
     spawn_item(x, y, item_controller->find_template("hat_hard"), 0);
    while (!one_in(3)){
-    spawn_item(x, y, item_controller->template_from("CAN"), 0);
+    put_items_from(mi_cannedfood, 3, x,y, 0);
    }
   }
   break;
