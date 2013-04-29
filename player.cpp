@@ -5473,10 +5473,10 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
     // Following items undo their layering. Once. Bodypart has to be taken into account, hence the switch.
     switch (bp)
     {
-        case bp_feet  : if (!(is_wearing("socks") || is_wearing("socks_wool"))) break; else layers--;
-        case bp_legs  : if (!is_wearing("long_underpants")) break; else layers--;
-        case bp_hands : if (!is_wearing("gloves_liner")) break; else layers--;
-        case bp_torso : if (!is_wearing("under_armor")) break; else layers--;
+        case bp_feet  : if (is_wearing("socks") || is_wearing("socks_wool")) layers--; break;
+        case bp_legs  : if (is_wearing("long_underpants")) layers--; break;
+        case bp_hands : if (is_wearing("gloves_liner")) layers--; break;
+        case bp_torso : if (is_wearing("under_armor")) layers--; break;
     }
     if (layers > 1)
     {
