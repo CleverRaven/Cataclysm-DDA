@@ -44,7 +44,9 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
+
 VERSION = 0.3
+
 
 TARGET = cataclysm
 W32TARGET = cataclysm.exe
@@ -112,12 +114,20 @@ HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
-all: $(TARGET)
+all: version $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
           $(OBJS) $(LDFLAGS)
+
+.PHONY: version
+version:
+	@( VERSION_STRING=$(VERSION) ; \
+            [ -e ".git" ] && GITVERSION=$$( git describe --always --dirty ) &&  VERSION_STRING=$(VERSION)-$$GITVERSION ; \
+            [ -e "version.h" ] && OLDVERSION=$$(grep VERSION version.h|cut -d '"' -f2) ; \
+            if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee version.h ; fi \
+         )
 
 $(ODIR):
 	mkdir $(ODIR)
