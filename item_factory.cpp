@@ -474,6 +474,30 @@ nc_color Item_factory::color_from_json(Item_tag new_id, Item_tag index, picojson
         return c_green;
     } else if("light_gray"==new_color){
         return c_ltgray;
+    } else if("light_cyan"==new_color){
+        return c_ltcyan;
+    } else if("brown"==new_color){
+        return c_brown;
+    } else if("light_red"==new_color){
+        return c_red;
+    } else if("white"==new_color){
+        return white;
+    } else if("light_blue"==new_color){
+        return c_ltblue;
+    } else if("yellow"==new_color){
+        return c_yellow;
+    } else if("magenta"==new_color){
+        return c_magenta;
+    } else if("cyan"==new_color){
+        return c_cyan;
+    } else if("light_gray"==new_color){
+        return c_ltgray;
+    } else if("dark_gray"==new_color){
+        return c_dkgray;
+    } else if("light_green"==new_color){
+        return c_ltgreen;
+    } else if("pink"==new_color){
+        return c_pink;
     } else {
         std::cerr << "Item "<< new_id << " attribute color was skipped, not a color. Color is required." << std::endl;
         return c_white;
