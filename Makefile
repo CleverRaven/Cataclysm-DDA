@@ -45,7 +45,7 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_GAME
 
 
-VERSION = 0.3
+VERSION = 0.4
 
 
 TARGET = cataclysm
@@ -124,7 +124,7 @@ $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 .PHONY: version
 version:
 	@( VERSION_STRING=$(VERSION) ; \
-            [ -e ".git" ] && GITVERSION=$$( git describe --always --dirty ) &&  VERSION_STRING=$(VERSION)-$$GITVERSION ; \
+            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty ) && VERSION_STRING=$$GITVERSION ; \
             [ -e "version.h" ] && OLDVERSION=$$(grep VERSION version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee version.h ; fi \
          )
