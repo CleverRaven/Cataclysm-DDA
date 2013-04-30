@@ -1629,8 +1629,11 @@ case ot_church_south:
 case ot_church_west:{
 // Init to grass & dirt;
   fill_background(this, &grass_or_dirt);
+<<<<<<< HEAD
+=======
   if (one_in(2)){
   //New England or Country style, single centered steeple low clear windows
+>>>>>>> upstream/master
    mapf::formatted_set_terrain(this, 0, 0,
 "         ^^^^^^         \n\
      |---|--------|     \n\
@@ -1670,6 +1673,16 @@ case ot_church_west:{
    tmpcomp->add_option("Gathering Toll", COMPACT_TOLL, 0);
    tmpcomp->add_option("Wedding Toll", COMPACT_TOLL, 0);
    tmpcomp->add_option("Funeral Toll", COMPACT_TOLL, 0);
+<<<<<<< HEAD
+   if (terrain_type == ot_church_east)
+    rotate(3);
+   if (terrain_type == ot_church_north)
+    rotate(2);
+   if (terrain_type == ot_church_west)
+    rotate(1);
+ } break;
+
+=======
   }
   else {
   	//Gothic Style, unreachable high stained glass windows, stone construction
@@ -1722,6 +1735,7 @@ ssssssssssssssssssssssss\n",
  } break;
 
 
+>>>>>>> upstream/master
  case ot_s_grocery_north:
  case ot_s_grocery_east:
  case ot_s_grocery_south:

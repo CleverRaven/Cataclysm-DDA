@@ -141,6 +141,16 @@ void game::init_mapitems()
 	"tea_raw", "pie", "chips", "candy", "coffee_raw", "coffee_raw", "coffee_raw", "coffee_raw", NULL);
 
  setvector(
+   mapitems[mi_fast_food],
+	"water_clean", "cola", "rootbeer", "sandwich_t", "sandwich_t", "sandwich_t", "pizza",
+	"pie", "chips", "candy", NULL);
+
+ setvector(
+   mapitems[mi_coffee_shop],
+	"water_clean", "cola", "rootbeer", "sandwich_t", "pizza", "pretzels", "chocolate", "jerky", "candy",
+	"tea_raw", "pie", "chips", "candy", "coffee_raw", "coffee_raw", "coffee_raw", "coffee_raw", NULL);
+
+ setvector(
    mapitems[mi_behindcounter],
 	"aspirin", "caffeine", "cig", "cigar", "battery",
 	"shotgun_sawn", "mag_porn", "lighter", "matches", "flashlight",

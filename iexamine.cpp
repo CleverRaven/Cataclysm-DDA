@@ -33,7 +33,7 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
   p->moves -= 300;
   g->handle_liquid(gas, false, true);
  }
- if (one_in(50)) {
+ if (one_in(10)) {
   g->add_msg("With a clang and a shudder, the gas pump goes silent.");
   m->ter_set(examx, examy, t_gas_pump_empty);
  }
