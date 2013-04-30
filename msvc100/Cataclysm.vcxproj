@@ -152,6 +152,7 @@
     <ClCompile Include="..\vehicle.cpp" />
     <ClCompile Include="..\veh_interact.cpp" />
     <ClCompile Include="..\veh_typedef.cpp" />
+    <ClCompile Include="..\version.cpp" />
     <ClCompile Include="..\weather.cpp" />
     <ClCompile Include="..\weather_data.cpp" />
     <ClCompile Include="..\wish.cpp" />
