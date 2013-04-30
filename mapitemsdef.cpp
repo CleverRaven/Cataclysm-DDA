@@ -535,7 +535,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_bionics],
    "bio_solar", "bio_batteries", "bio_metabolics",
-   "bio_ethanol", "bio_furnace",
+   "bio_ethanol", "bio_furnace", "bio_torsionratchet",
    "bio_tools",      "bio_storage",  "bio_flashlight",
    "bio_lighter",      "bio_magnet",
    "bio_memory",  "bio_painkiller", "bio_alarm",
@@ -563,7 +563,7 @@ void game::init_mapitems()
    "bio_tools",      "bio_storage",  "bio_flashlight",
    "bio_lighter",      "bio_magnet",   "bio_alarm",
    "bio_solar", "bio_batteries", "bio_metabolics",
-   "bio_ethanol", "bio_furnace", NULL);
+   "bio_ethanol", "bio_furnace", "bio_torsionratchet", NULL);
 
  setvector(
    mapitems[mi_bots],
@@ -607,9 +607,9 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_bionics_mil],
-	"bio_power_storage", "bio_solar",
+	"bio_power_storage",
    "bio_solar", "bio_batteries", "bio_metabolics",
-   "bio_ethanol", "bio_furnace",
+   "bio_ethanol", "bio_furnace", "bio_torsionratchet",
    "bio_ears", "bio_eye_enhancer", "bio_night_vision",
    "bio_infrared", "bio_scent_vision",
    "bio_recycler", "bio_digestion", "bio_evap", "bio_water_extractor",
