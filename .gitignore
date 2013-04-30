@@ -8,3 +8,4 @@ bindist/
 cataclysmdda-*
 objwin/
 cataclysm.exe
+version.h

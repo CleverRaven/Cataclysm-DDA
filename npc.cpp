@@ -1202,10 +1202,24 @@ void npc::form_opinion(player *u)
    op_of_u.fear++;
  }
 
- if (u->has_trait(PF_DEFORMED2))
+ if (u->has_trait(PF_PRETTY))
   op_of_u.fear += 1;
- if (u->has_trait(PF_TERRIFYING))
+ else if (u->has_trait(PF_BEAUTIFUL))
   op_of_u.fear += 2;
+ else if (u->has_trait(PF_BEAUTIFUL2))
+  op_of_u.fear += 3;
+ else if (u->has_trait(PF_BEAUTIFUL3))
+  op_of_u.fear += 4;
+ else if (u->has_trait(PF_UGLY))
+  op_of_u.fear -= 1;
+ else if (u->has_trait(PF_DEFORMED))
+  op_of_u.fear += 3;
+ else if (u->has_trait(PF_DEFORMED2))
+  op_of_u.fear += 6;
+ else if (u->has_trait(PF_DEFORMED3))
+  op_of_u.fear += 9;
+ if (u->has_trait(PF_TERRIFYING))
+  op_of_u.fear += 6;
 
  if (u->stim > 20)
   op_of_u.fear++;
@@ -1233,10 +1247,22 @@ void npc::form_opinion(player *u)
  if (u->pkill > 30)
   op_of_u.trust -= 1;
 
- if (u->has_trait(PF_DEFORMED))
+ if (u->has_trait(PF_PRETTY))
+  op_of_u.trust += 1;
+ else if (u->has_trait(PF_BEAUTIFUL))
+  op_of_u.trust += 3;
+ else if (u->has_trait(PF_BEAUTIFUL2))
+  op_of_u.trust += 5;
+ else if (u->has_trait(PF_BEAUTIFUL3))
+  op_of_u.trust += 7;
+ else if (u->has_trait(PF_UGLY))
   op_of_u.trust -= 1;
- if (u->has_trait(PF_DEFORMED2))
+ else if (u->has_trait(PF_DEFORMED))
   op_of_u.trust -= 3;
+ else if (u->has_trait(PF_DEFORMED2))
+  op_of_u.trust -= 6;
+ else if (u->has_trait(PF_DEFORMED3))
+  op_of_u.trust -= 9;
 
 // VALUE
  op_of_u.value = 0;

@@ -15,6 +15,8 @@
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+const char* getVersionString();
+
 void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA)
 {
     //Clear Lines
@@ -57,6 +59,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
+        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "Version: %s",getVersionString());
     }
 
     std::vector<std::string> vMenuItems;
