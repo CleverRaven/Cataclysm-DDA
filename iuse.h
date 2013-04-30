@@ -67,6 +67,7 @@ class iuse
   void cauterize_elec	(game *g, player *p, item *it, bool t);
   void water_purifier	(game *g, player *p, item *it, bool t);
   void two_way_radio	(game *g, player *p, item *it, bool t);
+  void directional_antenna	(game *g, player *p, item *it, bool t);
   void radio_off	(game *g, player *p, item *it, bool t);
   void radio_on		(game *g, player *p, item *it, bool t);
   void noise_emitter_off(game *g, player *p, item *it, bool t);

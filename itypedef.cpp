@@ -3822,6 +3822,10 @@ TOOL("radio_on", "radio (on)",	 0, 420,';', c_yellow,	PLASTIC, IRON,
 This radio is turned on, and continually draining its batteries. It is\n\
 playing the broadcast being sent from any nearby radio towers.");
 
+TOOL("directional_antenna", "directional antenna",	18, 80, ',', c_ltcyan,	STEEL,	MNULL,
+     8,  4, -3,  0,  1, 0, 0, 0, 0, AT_NULL, "null", &iuse::directional_antenna, 0,"\
+An antenna designed to pick up signals better when pointed at the source.");
+
 TOOL("noise_emitter", "noise emitter (off)", 0, 600, ';', c_yellow, PLASTIC, IRON,
     4,  3,  6,  0, -1, 100,100, 0,  0, AT_BATT, "null", &iuse::noise_emitter_off, 0,"\
 This device was constructed by 'enhancing' a radio with some amplifier\n\
