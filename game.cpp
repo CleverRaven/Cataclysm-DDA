@@ -588,7 +588,7 @@ void game::process_activity()
     return;
    }
    veh->refill (AT_GAS, 200);
-   if(one_in(10)) {
+   if(one_in(800)) {
      // Scan for the gas pump we're refuelling from and deactivate it.
     for(int i = -1; i <= 1; i++)
      for(int j = -1; j <= 1; j++)
