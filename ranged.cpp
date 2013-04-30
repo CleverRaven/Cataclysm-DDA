@@ -544,21 +544,26 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  WINDOW* w_target = newwin(13, 48, 12 + VIEW_OFFSET_Y, TERRAIN_WINDOW_WIDTH + 7 + VIEW_OFFSET_X);
  wborder(w_target, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- if (!relevent) // currently targetting vehicle to refill with fuel
-  mvwprintz(w_target, 1, 1, c_red, "Select a vehicle");
- else
- if (relevent == &u.weapon && relevent->is_gun())
-  mvwprintz(w_target, 1, 1, c_red, "Firing %s (%d)", // - %s (%d)",
+ mvwprintz(w_target, 0, 2, c_white, "< ");
+ if (!relevent) { // currently targetting vehicle to refill with fuel
+   wprintz(w_target, c_red, "Select a vehicle");
+ } else {
+   if (relevent == &u.weapon && relevent->is_gun()) {
+     wprintz(w_target, c_red, "Firing %s (%d)", // - %s (%d)",
             u.weapon.tname().c_str(),// u.weapon.curammo->name.c_str(),
             u.weapon.charges);
- else
-  mvwprintz(w_target, 1, 1, c_red, "Throwing %s", relevent->tname().c_str());
- mvwprintz(w_target, 2, 1, c_white,
+   } else {
+     wprintz(w_target, c_red, "Throwing %s", relevent->tname().c_str());
+   }
+ } 
+ wprintz(w_target, c_white, " >");
+/* Annoying clutter @ 2 3 4. */
+ mvwprintz(w_target, 9, 1, c_white,
            "Move cursor to target with directional keys.");
  if (relevent) {
-  mvwprintz(w_target, 3, 1, c_white,
+  mvwprintz(w_target, 10, 1, c_white,
             "'<' '>' Cycle targets; 'f' or '.' to fire.");
-  mvwprintz(w_target, 4, 1, c_white,
+  mvwprintz(w_target, 11, 1, c_white,
             "'0' target self; '*' toggle snap-to-target");
  }
 
@@ -573,7 +578,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   else
    center = point(u.posx, u.posy);
 // Clear the target window.
-  for (int i = 5; i < 12; i++) {
+//  for (int i = 5; i < 12; i++) {
+  for (int i = 1; i < 8; i++) {
    for (int j = 1; j < 46; j++)
     mvwputch(w_target, i, j, c_white, ' ');
   }
@@ -623,18 +629,20 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (!relevent) { // currently targetting vehicle to refill with fuel
     vehicle *veh = m.veh_at(x, y);
     if (veh)
-     mvwprintw(w_target, 5, 1, "There is a %s", veh->name.c_str());
+     mvwprintw(w_target, 1, 1, "There is a %s", veh->name.c_str());
    } else
-    mvwprintw(w_target, 5, 1, "Range: %d", rl_dist(u.posx, u.posy, x, y));
+    mvwprintw(w_target, 1, 1, "Range: %d", rl_dist(u.posx, u.posy, x, y));
 
    if (mon_at(x, y) == -1) {
-    mvwprintw(w_status, 0, 9, "                             ");
+// what?    mvwprintw(w_status, 0, 9, "                             ");
     if (snap_to_target)
      mvwputch(w_terrain, VIEWY, VIEWX, c_red, '*');
     else
      mvwputch(w_terrain, y + VIEWY - u.posy, x + VIEWX - u.posx, c_red, '*');
-   } else if (u_see(&(z[mon_at(x, y)])))
-    z[mon_at(x, y)].print_info(this, w_target);
+   } else if (u_see(&(z[mon_at(x, y)]))) {
+//    mvwprintw(w_target, 0, 1, "< %s >", z[mon_at(x, y)].name().c_str() );
+    z[mon_at(x, y)].print_info(this, w_target,2);
+   }
   }
   wrefresh(w_target);
   wrefresh(w_terrain);
