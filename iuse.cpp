@@ -904,6 +904,10 @@ void iuse::primitive_fire(game *g, player *p, item *it, bool t)
 
 void iuse::sew(game *g, player *p, item *it, bool t)
 {
+ if(g->light_level() < 8 && LL_LIT > g->m.light_at(p->posx, p->posy) && !g->u.has_active_item("glowstick_lit") && !g->u.has_active_item("lightstrip")){
+   g->add_msg("It's too dark to sew!");
+   return;
+ }
  char ch = g->inv_type("Repair what?", IC_ARMOR);
  item* fix = &(p->i_at(ch));
  if (fix == NULL || fix->is_null()) {
@@ -920,10 +924,6 @@ void iuse::sew(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"Your %s is not made of cotton or wool.", fix->tname().c_str());
   it->charges++;
   return;
- }
- if(g->light_level() < 8 && LL_LIT > g->m.light_at(p->posx, p->posy) && !g->u.has_active_item("glowstick_lit") && !g->u.has_active_item("lightstrip")){
-   g->add_msg("It's too dark to sew!");
-   return;
  }
  if (fix->damage < 0) {
   g->add_msg_if_player(p,"Your %s is already enhanced.", fix->tname().c_str());
