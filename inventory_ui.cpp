@@ -435,45 +435,12 @@ std::vector<item> game::multidrop()
 
  if (ch != '\n')
   return ret; // Canceled!
-/*
- int current_stack = 0;
- int max_size = u.inv.size();
- for (int i = 0; i < max_size; i++) {
-  item& it = stacks[i]->front();
-  if (dropping[it.invlet] == -1) {  // drop whole stack of charges
-   ret.push_back(u.inv.remove_item_by_letter(stacks[current_stack]->front().invlet));
-  }
-
-  for (int j = 0; j < dropping[it.invlet]; j++) {
-   if (stacks[current_stack]->begin()->count_by_charges()) {      // dropping parts of stacks
-    int tmpcount = dropping[it.invlet];
-
-    if (tmpcount >= stacks[current_stack]->begin()->charges) {
-      ret.push_back(u.inv.remove_item_by_letter(stacks[current_stack]->front().invlet));
-    } else {
-      // u.inv.stack_at(current_stack)[0].charges -= tmpcount;
-      // (ZwodahS : I move this code into inventory.cpp instead)
-      ret.push_back(u.inv.remove_item_by_charges(stacks[current_stack]->front().invlet, tmpcount));
-    }
-    j = dropping[it.invlet];
-   } else {
-    if (current_stack >= 0) {
-    if (stacks[current_stack]->size() == 1) {
-     ret.push_back(u.inv.remove_item_by_letter(stacks[current_stack]->front().invlet));
-    } else
-     ret.push_back(u.inv.remove_item_by_letter(stacks[current_stack]->front().invlet));
-    }
-   }
-  }
-  current_stack++;
- }
-*/
  for (int i = 0; i < u.inv.size(); i++) {
   item *it = &*stacks[i]->begin();
   if (dropping[ it->invlet ] == -1)
    ret.push_back( u.inv.remove_item_by_letter( it->invlet));
-  else if ( dropping[it->invlet] && it->count_by_charges()) 
-   ret.push_back( u.inv.remove_item_by_charges( it->invlet, 
+  else if ( dropping[it->invlet] && it->count_by_charges())
+   ret.push_back( u.inv.remove_item_by_charges( it->invlet,
                        dropping[ it->invlet] > it->charges ? it->charges : dropping[it->invlet]));
   else if (dropping[it->invlet]) {
    int j = dropping[it->invlet] > stacks[i]->size() ? stacks[i]->size() : dropping[it->invlet];
