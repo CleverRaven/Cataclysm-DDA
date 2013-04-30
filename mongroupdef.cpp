@@ -122,6 +122,7 @@ MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
     for (picojson::array::const_iterator it_mons = jsonarray.begin(); it_mons != jsonarray.end(); ++it_mons)
     {
         jsonmonster = it_mons->get<picojson::object>();
+// todo: Bannination
         g.monsters[monStr2monId[GetString("monster",&jsonmonster)]] = GetInt("freq",&jsonmonster);
     }
 
