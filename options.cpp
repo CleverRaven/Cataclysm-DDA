@@ -165,7 +165,7 @@ void load_options()
   else {
    option_key key = lookup_option_key(id);
    if (key == OPT_NULL) {
-    debugmsg("Bad option: %s", id.c_str());
+//    debugmsg("Bad option: %s", id.c_str());
     getline(fin, id);
    } else if (option_is_bool(key)) {
     std::string val;
