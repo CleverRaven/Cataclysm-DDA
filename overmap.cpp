@@ -2632,8 +2632,10 @@ void overmap::place_radios()
 
 void overmap::save()
 {
- if (layer == NULL)
+ if (layer == NULL) {
+  debugmsg("Tried to save a null overmap");
   return;
+ }
 
  std::ofstream fout;
  std::string const plrfilename = player_filename(loc.x, loc.y);
