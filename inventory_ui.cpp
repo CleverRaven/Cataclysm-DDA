@@ -340,7 +340,7 @@ std::vector<item> game::multidrop()
     item& it = stacks[cur_it]->front();
     mvwputch (w_inv, cur_line, 0, c_white, it.invlet);
     char icon = '-';
-    if (dropping[it.invlet] >= stacks[cur_it]->size())
+    if (dropping[it.invlet] >= (it.count_by_charges() ? it.charges : stacks[cur_it]->size()))
      icon = '+';
     else if (dropping[it.invlet] > 0)
      icon = '#';
@@ -435,7 +435,7 @@ std::vector<item> game::multidrop()
 
  if (ch != '\n')
   return ret; // Canceled!
-
+/*
  int current_stack = 0;
  int max_size = u.inv.size();
  for (int i = 0; i < max_size; i++) {
@@ -467,6 +467,21 @@ std::vector<item> game::multidrop()
   }
   current_stack++;
  }
+*/
+ for (int i = 0; i < u.inv.size(); i++) {
+  item *it = &*stacks[i]->begin();
+  if (dropping[ it->invlet ] == -1)
+   ret.push_back( u.inv.remove_item_by_letter( it->invlet));
+  else if ( dropping[it->invlet] && it->count_by_charges()) 
+   ret.push_back( u.inv.remove_item_by_charges( it->invlet, 
+                       dropping[ it->invlet] > it->charges ? it->charges : dropping[it->invlet]));
+  else if (dropping[it->invlet]) {
+   int j = dropping[it->invlet] > stacks[i]->size() ? stacks[i]->size() : dropping[it->invlet];
+   while (j-- > 0)
+    ret.push_back( u.inv.remove_item_by_letter( stacks[i]->front().invlet));
+  }
+ }
+
 
  for (int i = 0; i < weapon_and_armor.size(); i++)
   ret.push_back(u.i_rem(weapon_and_armor[i]));
