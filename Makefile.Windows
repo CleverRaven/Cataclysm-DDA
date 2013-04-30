@@ -35,7 +35,7 @@ all: $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(CXX) $(LINKERFLAGS) -o $(TARGET) $(CFLAGS) $(OBJS) $(LDFLAGS)
+	$(CXX) $(LINKERFLAGS) -o $(TARGET) $(CFLAGS) $(OBJS) $(LDFLAGS) -DMINGW
 
 $(ODIR):
 	mkdir $(ODIR)
