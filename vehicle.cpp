@@ -787,7 +787,7 @@ std::string vehicle::fuel_name(int ftype)
     case AT_WATER:
         return std::string("clean water");
     default:
-        return std::string("INVALID FUEL (BUG)");
+        return std::string("INVALID FUEL (BUG in vehicle::fuel_name)");
     }
 }
 

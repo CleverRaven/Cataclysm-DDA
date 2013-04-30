@@ -1405,7 +1405,7 @@ int item::sort_rank() const
     {
         return 8;
     }
-    
+
     // "other" case
     return 9;
 }
@@ -1936,9 +1936,9 @@ std::string default_technique_name(technique_id tech)
   case TEC_DISARM: return "Disarm";
   case TEC_DEF_THROW: return "Defensive throw";
   case TEC_DEF_DISARM: return "Defense disarm";
-  default: return "A BUG!";
+  default: return "A BUG! (item.cpp:default_technique_name (default))";
  }
- return "A BUG!";
+ return "A BUG! (item.cpp:default_technique_name)";
 }
 
 std::ostream & operator<<(std::ostream & out, const item * it)

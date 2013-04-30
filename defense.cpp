@@ -717,7 +717,7 @@ std::string defense_style_name(defense_style style)
   case DEFENSE_TRIFFIDS:	return "Day of the Triffids";
   case DEFENSE_SKYNET:		return "Skynet";
   case DEFENSE_LOVECRAFT:	return "The Call of Cthulhu";
-  default:			return "Bug!  Report this!";
+  default:			return "Bug! (bug in defense.cpp:defense_style_name)";
  }
 }
 
@@ -746,19 +746,19 @@ std::string defense_style_description(defense_style style)
   case DEFENSE_LOVECRAFT:
    return "Ward off legions of eldritch horrors.";
   default:
-   return "What the heck is this I don't even know. A bug!";
+   return "What the heck is this I don't even know. (defense.cpp:defense_style_description)";
  }
 }
 
 std::string defense_location_name(defense_location location)
 {
  switch (location) {
- case DEFLOC_NULL:	return "Nowhere?!  A bug!";
+ case DEFLOC_NULL:	return "Nowhere?! (bug in defense.cpp:defense_location_name)";
  case DEFLOC_HOSPITAL:	return "Hospital";
  case DEFLOC_MALL:	return "Megastore";
  case DEFLOC_BAR:	return "Bar";
  case DEFLOC_MANSION:	return "Mansion";
- default:		return "a ghost's house (bug)";
+ default:		return "a ghost's house (bug in defense.cpp:defense_location_name)";
  }
 }
 
@@ -766,7 +766,7 @@ std::string defense_location_description(defense_location location)
 {
  switch (location) {
  case DEFLOC_NULL:
-  return "NULL Bug.";
+  return "NULL Bug. (defense.cpp:defense_location_description)";
  case DEFLOC_HOSPITAL:
   return                 "One entrance and many rooms.  Some medical supplies.";
  case DEFLOC_MALL:
@@ -776,7 +776,7 @@ std::string defense_location_description(defense_location location)
  case DEFLOC_MANSION:
   return                 "A large house with many rooms and.";
  default:
-  return "Unknown data bug.";
+  return "Unknown data bug. (defense.cpp:defense_location_description)";
  }
 }
 
@@ -1025,7 +1025,7 @@ std::string caravan_category_name(caravan_category cat)
   case CARAVAN_CLOTHES:		return "Clothing & Armor";
   case CARAVAN_TOOLS:		return "Tools, Traps & Grenades";
  }
- return "BUG";
+ return "BUG (defense.cpp:caravan_category_name)";
 }
 
 std::vector<itype_id> caravan_items(caravan_category cat)

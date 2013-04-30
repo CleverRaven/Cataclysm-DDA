@@ -290,36 +290,36 @@ std::string option_string(option_key key)
 std::string option_desc(option_key key)
 {
  switch (key) {
-  case OPT_USE_CELSIUS:		return "If true, use C not F";
-  case OPT_USE_METRIC_SYS:	return "If true, use Km/h not mph";
-  case OPT_FORCE_YN:		return "If true, y/n prompts are case-sensitive\nand y and n are not accepted";
-  case OPT_NO_CBLINK:		return "If true, bright backgrounds are not\nused--some consoles are not compatible";
-  case OPT_24_HOUR:		return "12h/24h Time:\n0 - AM/PM\n1 - 24h military\n2 - 24h normal";
-  case OPT_SNAP_TO_TARGET:	return "If true, automatically follow the\ncrosshair when firing/throwing";
-  case OPT_SAFEMODE:		return "If true, safemode will be on after\nstarting a new game or loading";
-  case OPT_SAFEMODEPROXIMITY: return "If safemode is enabled,\ndistance to hostiles when safemode\nshould show a warning (0=Viewdistance)";
-  case OPT_AUTOSAFEMODE:	return "If true, auto-safemode will be on\nafter starting a new game or loading";
-  case OPT_AUTOSAFEMODETURNS: return "Number of turns after safemode\nis reenabled if no hostiles are\nin safemodeproximity distance";
-  case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map";
-  case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\n(should only make a difference @night)";
-  case OPT_RAIN_ANIMATION: return "If true, will display weather animations";
-  case OPT_QUERY_DISASSEMBLE: return "If true, will query before disassembling\nitems";
-  case OPT_DROP_EMPTY: return "Set to drop empty containers after use\n0 - don't drop any\n1 - all except watertight containers\n2 - all containers";
-  case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
-  case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no (default)\n1 - yes\n2 - query";
-  case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.  Default is 6";
-  case OPT_INITIAL_TIME: return "Initial starting time of day on character\ngeneration.  Default is 8:00";
-  case OPT_VIEWPORT_X: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
-  case OPT_VIEWPORT_Y: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
-  case OPT_MOVE_VIEW_OFFSET: return "Move view by how many squares per keypress\nDefault is 1";
+  case OPT_USE_CELSIUS:		return "If true, use Celcius not Fahrenheit.\nDefault is fahrenheit";
+  case OPT_USE_METRIC_SYS:	return "If true, use Km/h not mph.\nDefault is mph";
+  case OPT_FORCE_YN:		return "If true, y/n prompts are case-\nsensitive and y and n\nare not accepted.\nDefault is true";
+  case OPT_NO_CBLINK:		return "If true, bright backgrounds are not\nused--some consoles are not\ncompatible.\nDefault is false";
+  case OPT_24_HOUR:		return "12h/24h Time:\n0 - AM/PM (default)\n1 - 24h military\n2 - 24h normal";
+  case OPT_SNAP_TO_TARGET:	return "If true, automatically follow the\ncrosshair when firing/throwing.\nDefault is false";
+  case OPT_SAFEMODE:		return "If true, safemode will be on after\nstarting a new game or loading.\nDefault is true";
+  case OPT_SAFEMODEPROXIMITY: return "If safemode is enabled,\ndistance to hostiles when safemode\nshould show a warning.\n0=Viewdistance, and the default";
+  case OPT_AUTOSAFEMODE:	return "If true, auto-safemode will be on\nafter starting a new game or loading.\nDefault is false";
+  case OPT_AUTOSAFEMODETURNS: return "Number of turns after safemode\nis reenabled if no hostiles are\nin safemodeproximity distance.\nDefault is 50";
+  case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map\nDefault is false";
+  case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\nshould only make a difference\nduring the night.\nDefault is false";
+  case OPT_RAIN_ANIMATION: return "If true, will display weather\nanimations.\nDefault is true";
+  case OPT_QUERY_DISASSEMBLE: return "If true, will query before\ndisassembling items.\nDefault is true";
+  case OPT_DROP_EMPTY: return "Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers";
+  case OPT_SKILL_RUST: return "Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - none at all";
+  case OPT_DELETE_WORLD: return "Delete saves upon player death.\n0 - no (default)\n1 - yes\n2 - query";
+  case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.\nDefault is 6";
+  case OPT_INITIAL_TIME: return "Initial starting time of day on\ncharacter generation.\nDefault is 8:00";
+  case OPT_VIEWPORT_X: return "WINDOWS ONLY: Set the expansion of the\nviewport along the X axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
+  case OPT_VIEWPORT_Y: return "WINDOWS ONLY: Set the expansion of the\nviewport along the Y axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
+  case OPT_MOVE_VIEW_OFFSET: return "Move view by how many squares per\nkeypress.\nDefault is 1";
   case OPT_SEASON_LENGTH: return "Season length, in days.\nDefault is 14";
-  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is false";
-  case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Probably requires a reset of\nsave folder to take effect.\nDefault is false";
-  case OPT_STATIC_NPC: return "If true, the game will spawn static\nNPC at the start of the game, requires reset\nDefault false";
-  case OPT_RANDOM_NPC: return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault false";
+  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is false";
+  case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false";
+  case OPT_STATIC_NPC: return "If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false";
+  case OPT_RANDOM_NPC: return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false";
   default:			return " ";
  }
- return "Big ol Bug";
+ return "Big ol Bug (options.cpp:option_desc)";
 }
 
 std::string option_name(option_key key)
@@ -352,9 +352,9 @@ std::string option_name(option_key key)
   case OPT_SEASON_LENGTH: return "Season length";
   case OPT_STATIC_NPC: return "Static npcs";
   case OPT_RANDOM_NPC: return "Random npcs";
-  default:			return "Unknown Option (BUG)";
+  default:			return "Unknown Option (options.cpp:option_name)";
  }
- return "Big ol Bug";
+ return "Big ol Bug (options.cpp:option_name)";
 }
 
 bool option_is_bool(option_key id)

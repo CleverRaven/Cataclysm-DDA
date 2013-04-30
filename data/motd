@@ -1,10 +1,9 @@
 # This message may be 16 lines long at maximum.
 # Max length of a line is 68 characters; the following line is for reference
 ####################################################################
-New features v0.3:
-Reduced sight range of monsters. Monster bites and infections.
-A bunch of new survival craft.
-Fixes, fixes and more fixes.
+New features v0.5:
+* Todo
+* Fixes, fixes and more fixes.
 
 For latest discussions and news on Cataclysm DDA, please visit:
 
@@ -14,5 +13,6 @@ Wiki: http://wiki.cataclysmdda.com/
 
 The game now has new configurable options:
 Customizeable Viewport, Spawntype: Classic/Static, Starting time
+Static NPCs, Randomly spawning NPCs, Seasons
 
 Ingame you can access the options via the help menu (?2).
