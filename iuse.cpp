@@ -904,7 +904,7 @@ void iuse::primitive_fire(game *g, player *p, item *it, bool t)
 
 void iuse::sew(game *g, player *p, item *it, bool t)
 {
- if(g->light_level() < 8 && LL_LIT > g->m.light_at(p->posx, p->posy) && !g->u.has_active_item("glowstick_lit") && !g->u.has_active_item("lightstrip")){
+ if(!p->can_see_fine_detail(g)){
    g->add_msg("It's too dark to sew!");
    return;
  }
