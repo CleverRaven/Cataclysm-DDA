@@ -3299,6 +3299,26 @@
 
 
         {
+            "result": "directional_antenna",
+            "category": "CC_ELECTRONIC",
+            "difficulty": 4,
+            "time": 5000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                       [["hacksaw", -1], ["toolset", -1]],
+                       [["hammer", -1], ["toolset", -1], ["rock", -1]]
+                     ],
+            "components": [
+                            [["amplifier", 1]],
+                            [["wire",6]],
+                            [["2x4", 2]],
+                            [["nail", 12]]
+                          ]
+        },
+
+
+        {
             "result": "amplifier",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
