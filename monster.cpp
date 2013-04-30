@@ -138,13 +138,15 @@ std::string monster::name_with_armor()
  return ret;
 }
 
-void monster::print_info(game *g, WINDOW* w)
+void monster::print_info(game *g, WINDOW* w, int vStart) 
 {
 // First line of w is the border; the next two are terrain info, and after that
 // is a blank line. w is 13 characters tall, and we can't use the last one
 // because it's a border as well; so we have lines 4 through 11.
 // w is also 48 characters wide - 2 characters for border = 46 characters for us
- mvwprintz(w, 6, 1, c_white, "%s ", type->name.c_str());
+// vStart added because 'help' text in targeting win makes helpful info hard to find
+// at a glance.
+ mvwprintz(w, vStart, 1, c_white, "%s ", type->name.c_str());
  switch (attitude(&(g->u))) {
   case MATT_FRIEND:
    wprintz(w, h_white, "Friendly! ");
@@ -192,19 +194,19 @@ void monster::print_info(game *g, WINDOW* w)
   damage_info = "it is nearly dead";
   col = c_red;
  }
- mvwprintz(w, 7, 1, col, damage_info.c_str());
+ mvwprintz(w, vStart+1, 1, col, damage_info.c_str());
 
  std::string tmp = type->description;
  std::string out;
  size_t pos;
- int line = 8;
+ int line = vStart+2;
  do {
   pos = tmp.find_first_of('\n');
   out = tmp.substr(0, pos);
   mvwprintz(w, line, 1, c_white, out.c_str());
   tmp = tmp.substr(pos + 1);
   line++;
- } while (pos != std::string::npos && line < 12);
+ } while (pos != std::string::npos && line < vStart+6);
 }
 
 char monster::symbol()
