@@ -180,6 +180,8 @@
 		<Unit filename="veh_typedef.cpp" />
 		<Unit filename="vehicle.cpp" />
 		<Unit filename="vehicle.h" />
+		<Unit filename="version.cpp" />
+		<Unit filename="version.h" />
 		<Unit filename="weather.cpp" />
 		<Unit filename="weather.h" />
 		<Unit filename="weather_data.cpp" />
