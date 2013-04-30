@@ -6827,6 +6827,7 @@ void game::plfire(bool burst)
  }
  if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
   reload_index = u.weapon.pick_reload_ammo(u, true);
+
   if (reload_index == -1) {
    add_msg("Out of ammo!");
    return;
@@ -6914,7 +6915,6 @@ void game::plfire(bool burst)
   else if (u.has_charges("UPS_on", 5))
    u.use_charges("UPS_on", 5);
  }
-
  if (u.weapon.mode == IF_MODE_BURST)
   burst = true;
 

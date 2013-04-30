@@ -739,12 +739,19 @@ int time_to_fire(player &p, it_gun* firing)
      time = 20;
    else
      time = (220 - 25 * p.skillLevel("archery"));
+ } else if (firing->skill_used == Skill::skill("throw")) {
+   if (p.skillLevel("throw") > 3){
+     time = 50;
+   }else{
+     time = (220 - 25 * p.skillLevel("throw"));
+   }
  } else if (firing->skill_used == Skill::skill("launcher")) {
    if (p.skillLevel("launcher") > 8)
      time = 30;
    else
      time = (200 - 20 * p.skillLevel("launcher"));
- } else {
+ }
+  else {
    debugmsg("Why is shooting %s using %s skill?", (firing->name).c_str(), firing->skill_used->name().c_str());
    time =  0;
  }
@@ -786,7 +793,8 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
  else if (weapon->curammo->type == AT_GAS || weapon->curammo->type == AT_66MM)
   g->sound(p.posx, p.posy, 4, "Fwoosh!");
  else if (weapon->curammo->type != AT_BOLT &&
-          weapon->curammo->type != AT_ARROW)
+          weapon->curammo->type != AT_ARROW &&
+          weapon->curammo->type != AT_PEBBLE)
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 

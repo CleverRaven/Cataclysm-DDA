@@ -43,7 +43,7 @@ extern std::vector<std::string> pseudo_itype_ids;
 enum ammotype {
 AT_NULL, AT_THREAD,
 AT_BATT, AT_PLUT,
-AT_NAIL, AT_BB, AT_BOLT, AT_ARROW,
+AT_NAIL, AT_BB, AT_BOLT, AT_ARROW, AT_POINTY_STICK,
 AT_SHOT,
 AT_22, AT_9MM, AT_762x25, AT_38, AT_40, AT_44, AT_45,
 AT_57, AT_46,
@@ -56,6 +56,7 @@ AT_MUSCLE,
 AT_12MM,
 AT_PLASMA,
 AT_WATER,
+AT_PEBBLE,
 NUM_AMMO_TYPES
 };
 
