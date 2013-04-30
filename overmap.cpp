@@ -2632,6 +2632,9 @@ void overmap::place_radios()
 
 void overmap::save()
 {
+ if (layer == NULL)
+  return;
+
  std::ofstream fout;
  std::string const plrfilename = player_filename(loc.x, loc.y);
  std::string const terfilename = terrain_filename(loc.x, loc.y);
