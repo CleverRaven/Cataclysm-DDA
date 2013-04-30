@@ -1995,13 +1995,6 @@ AMMO("bb",  "BB",   8,  50, AT_BB,  c_pink, STEEL,
 	 1,  6,  2,  0, 12, 20,  0, 200, "\
 A box of small steel balls. They deal virtually no damage.",
 0);
-/*
-MELEE("pointy_stick", "pointy stick",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 5,  3,  4, 10,  1, mfb(IF_SPEAR), "\
-A simple wood pole with one end sharpened.");
-TECH("pointy_stick", mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
-*/
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("arrow_wood", "wood arrow",       7,100,AT_ARROW,        c_green,        WOOD,
