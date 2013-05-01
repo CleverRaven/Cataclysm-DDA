@@ -5328,7 +5328,7 @@ int time; //Declare this here so that we can change the time depending on whats 
   return;
  }
 
- if (tmp->recipes.size() > 0)
+ if (tmp->recipes.size() > 0 && !(activity.continuous))
  {
   if (can_study_recipe(tmp)) {
    g->add_msg("This book has more recipes for you to learn.");
