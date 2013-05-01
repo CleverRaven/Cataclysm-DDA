@@ -5,7 +5,6 @@
 #include <string>
 #include <sstream>
 #include "itype.h"
-#include "texthash.h"
 #include "npc.h"
 
 struct mission;
@@ -131,7 +130,6 @@ struct mission {
  int good_fac_id, bad_fac_id;	// IDs of the protagonist/antagonist factions
  int step;		// How much have we completed?
  mission_id follow_up;	// What mission do we get after this succeeds?
- text_hash text;
 
  std::string name();
  std::string save_info();
