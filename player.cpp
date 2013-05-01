@@ -190,6 +190,8 @@ player& player::operator= (const player & rhs)
 
  _skills = rhs._skills;
 
+ learned_recipes = rhs.learned_recipes;
+
  inv.clear();
  for (int i = 0; i < rhs.inv.size(); i++)
   inv.add_stack(rhs.inv.const_stack(i));
