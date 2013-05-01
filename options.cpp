@@ -1,6 +1,7 @@
 #include "game.h"
 #include "options.h"
 #include "output.h"
+#include "debug.h"
 #include "keypress.h"
 
 #include <stdlib.h>
@@ -150,7 +151,7 @@ void load_options()
   create_default_options();
   fin.open("data/options.txt");
   if (!fin.is_open()) {
-   debugmsg("Could neither read nor create ./data/options.txt");
+   DebugLog() << "Could neither read nor create ./data/options.txt\n";
    return;
   }
  }
@@ -165,7 +166,7 @@ void load_options()
   else {
    option_key key = lookup_option_key(id);
    if (key == OPT_NULL) {
-    debugmsg("Bad option: %s", id.c_str());
+    DebugLog() << "Bad option: " << id << "\n";
     getline(fin, id);
    } else if (option_is_bool(key)) {
     std::string val;

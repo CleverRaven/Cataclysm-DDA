@@ -5255,7 +5255,7 @@ void player::read(game *g, char ch)
   return;
  }
 // Check if reading is okay
- if (g->light_level() < 8 && LL_LIT > g->m.light_at(posx, posy) && !g->u.has_active_item("glowstick_lit") && !g->u.has_active_item("lightstrip")) {
+ if (!can_see_fine_detail(g)) {
   g->add_msg("It's too dark to read!");
   return;
  }
@@ -5434,6 +5434,20 @@ bool player::can_sleep(game *g)
  if (sleepy > 0)
   return true;
  return false;
+}
+
+bool player::can_see_fine_detail(game *g)
+{
+    // flashlight is *hopefully* handled by the light level check below
+    if (g->u.has_active_item("glowstick_lit") || g->u.has_active_item("lightstrip"))
+    {
+        return true;
+    }
+    if (LL_LIT > g->m.light_at(posx, posy))
+    {
+        return false;
+    }
+    return true;
 }
 
 int player::warmth(body_part bp)
