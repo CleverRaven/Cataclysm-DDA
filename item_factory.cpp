@@ -7,6 +7,11 @@
 #include <fstream>
 #include <stdio.h>
 
+// mfb(n) converts a flag to its appropriate position in covers's bitfield
+#ifndef mfb
+#define mfb(n) long(1 << (n))
+#endif
+
 Item_factory* item_controller = new Item_factory();
 
 //Every item factory comes with a missing item
@@ -153,18 +158,50 @@ void Item_factory::init(){
   iuse_function_list["LAW"] = &iuse::LAW;
   iuse_function_list["HEATPACK"] = &iuse::heatpack;
   iuse_function_list["DEJAR"] = &iuse::dejar;
-
-
-// MACGUFFINS
+  // MACGUFFINS
   iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
-// ARTIFACTS
-// This function is used when an artifact is activated
-// It examines the item's artifact-specific properties
-// See artifact.h for a list
+  // ARTIFACTS
+  // This function is used when an artifact is activated
+  // It examines the item's artifact-specific properties
+  // See artifact.h for a list
   iuse_function_list["ARTIFACT"] = &iuse::artifact;
+
+  // ITEM FLAGS
+  item_flags_list["LIGHT_1"] = mfb(IF_LIGHT_1);
+  item_flags_list["LIGHT_4"] = mfb(IF_LIGHT_4);
+  item_flags_list["LIGHT_8"] = mfb(IF_LIGHT_8);
+  item_flags_list["LIGHT_20"] = mfb(IF_LIGHT_20);
+  item_flags_list["FIRE"] = mfb(IF_FIRE);
+  item_flags_list["SPEAR"] = mfb(IF_SPEAR);
+  item_flags_list["STAB"] = mfb(IF_STAB);
+  item_flags_list["WRAP"] = mfb(IF_WRAP);
+  item_flags_list["MESSY"] = mfb(IF_MESSY);
+  item_flags_list["RELOAD_ONE"] = mfb(IF_RELOAD_ONE);
+  item_flags_list["STR_RELOAD"] = mfb(IF_STR_RELOAD);
+  item_flags_list["STR8_DRAW"] = mfb(IF_STR8_DRAW);
+  item_flags_list["STR10_DRAW"] = mfb(IF_STR10_DRAW);
+  item_flags_list["USE_UPS"] = mfb(IF_USE_UPS);
+  item_flags_list["RELOAD_AND_SHOOT"] = mfb(IF_RELOAD_AND_SHOOT);
+  item_flags_list["FIRE_100"] = mfb(IF_FIRE_100);
+  item_flags_list["GRENADE"] = mfb(IF_GRENADE);
+  item_flags_list["CHARGE"] = mfb(IF_CHARGE);
+  item_flags_list["SHOCK"] = mfb(IF_SHOCK);
+  item_flags_list["UNARMED_WEAPON"] = mfb(IF_UNARMED_WEAPON);
+  item_flags_list["NO_UNWIELD"] = mfb(IF_NO_UNWIELD);
+  item_flags_list["NO_UNLOAD"] = mfb(IF_NO_UNLOAD);
+  item_flags_list["BACKBLAST"] = mfb(IF_BACKBLAST);
+  item_flags_list["MODE_AUX"] = mfb(IF_MODE_AUX);
+  item_flags_list["MODE_BURST"] = mfb(IF_MODE_BURST);
+  item_flags_list["HOT"] = mfb(IF_HOT);
+  item_flags_list["EATEN_HOT"] = mfb(IF_EATEN_HOT);
+  item_flags_list["ROTTEN"] = mfb(IF_ROTTEN);
+  item_flags_list["VARSIZE"] = mfb(IF_VARSIZE);
+  item_flags_list["FIT"] = mfb(IF_FIT);
+  item_flags_list["DOUBLE_AMMO"] = mfb(IF_DOUBLE_AMMO);
+
 }
 
-//Will eventually be deprecated - Loads existing item format into the item factory
+//Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
 void Item_factory::init(game* main_game){
     // Make a copy of our items loaded from JSON
     std::map<Item_tag, itype*> new_templates = m_templates;
@@ -172,6 +209,10 @@ void Item_factory::init(game* main_game){
     m_templates.insert(main_game->itypes.begin(), main_game->itypes.end());
     //Copy the JSON-derived items to the legacy list
     main_game->itypes.insert(new_templates.begin(), new_templates.end());
+    //And add them to the various item lists, as needed.
+    for(std::map<Item_tag, itype*>::iterator iter = new_templates.begin(); iter != new_templates.end(); ++iter) {
+      standard_itype_ids.push_back(iter->first);
+    }
 }
 
 //Returns the template with the given identification tag
@@ -300,6 +341,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
 
                     // And then proceed to assign the correct field
                     new_item_template->rarity = int_from_json(new_id, "rarity", entry_body);
+                    new_item_template->price = int_from_json(new_id, "price", entry_body);
                     new_item_template->name = string_from_json(new_id, "name", entry_body);
                     new_item_template->sym = char_from_json(new_id, "symbol", entry_body);
                     new_item_template->color = color_from_json(new_id, "color", entry_body);
@@ -312,6 +354,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     new_item_template->melee_cut = int_from_json(new_id, "cutting", entry_body);
                     new_item_template->m_to_hit = int_from_json(new_id, "to_hit", entry_body);
                     new_item_template->use = use_from_json(new_id, "use_action", entry_body);
+                    new_item_template->item_flags = flags_from_json(new_id, "flags", entry_body);
                 }
             }
         }
@@ -524,6 +567,40 @@ Use_function Item_factory::use_from_json(Item_tag new_id, Item_tag index, picojs
         std::cerr << "Item "<< new_id << " attribute '"<< index <<"' was skipped, no iuse function defined for the tag '" << function_name << "." << std::endl;
         return &iuse::none;
     }
+}
+
+unsigned Item_factory::flags_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
+    //If none is found, just use the standard none action
+    unsigned flag = 0;
+    //Otherwise, grab the right label to look for
+    picojson::value::object::const_iterator value_pair = value_map.find(index);
+    if(value_pair != value_map.end()){
+        if(value_pair->second.is<std::string>()){
+            std::map<Item_tag, unsigned>::const_iterator found_flag_iter = item_flags_list.find(value_pair->second.get<std::string>());
+            if(found_flag_iter != item_flags_list.end()){
+              flag = flag | found_flag_iter->second;
+            } else {
+              std::cerr << "Item " << new_id << " has an invalid flag."; 
+            }
+        } else if (value_pair->second.is<picojson::array>()) {
+            const picojson::array& materials_json = value_pair->second.get<picojson::array>();
+            for (picojson::array::const_iterator iter = materials_json.begin(); iter != materials_json.end(); ++iter) {
+                if((*iter).is<std::string>()){
+                    std::map<Item_tag, unsigned>::const_iterator found_flag_iter = item_flags_list.find((*iter).get<std::string>());
+                    if(found_flag_iter != item_flags_list.end()){
+                      flag = flag | found_flag_iter->second;
+                    } else {
+                      std::cerr << "Item " << new_id << " has an invalid flag."; 
+                    }                
+                } else {
+                    std::cerr << "Item "<< new_id << " has a non-string flag listed." << std::endl;
+                }
+            }
+        } else {
+            std::cerr << "Item "<< new_id << " flag was skipped, not a string or array of strings." << std::endl;
+        }
+    }
+    return flag;
 }
 
 material Item_factory::material_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map, int to_return){
