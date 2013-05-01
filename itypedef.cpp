@@ -1991,6 +1991,13 @@ AMMO("pebble",  "pebbles",   1,  1,  AT_PEBBLE,   c_ltgray,   STONE,
 A handful of pebbles, useful as ammunition for slings.",
 0);
 
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("bearing",  "bearings",   1,  1,  AT_PEBBLE,   c_ltgray,   STONE,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1,  2,  6,  1, 30, 20,  0, 50, "\
+A box of ball bearings, useful as ammunition for slings.",
+0);
+
 AMMO("bb",  "BB",   8,  50, AT_BB,  c_pink, STEEL,
 	 1,  6,  2,  0, 12, 20,  0, 200, "\
 A box of small steel balls. They deal virtually no damage.",
@@ -2571,7 +2578,7 @@ mfb(IF_RELOAD_AND_SHOOT));
 //  NAME		RAR PRC COLOR		MAT1	MAT2
 GUN("slingshot", "slingshot", 5, 50, c_yellow, WOOD, MNULL,
 //	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-    "archery", AT_PEBBLE, 1, 1, 0, 2, 0, 15, 0, 6, 0, 1, 100, "\
+    "archery", AT_PEBBLE, 1, 1, 0, 2, 2, 15, 0, 6, 0, 1, 100, "\
 A wooden slingshot, it is easy to use and accurate, but pebbles do little damage.\n\
 Pebbles are used as ammunition.",
 mfb(IF_RELOAD_AND_SHOOT));

@@ -740,7 +740,7 @@ int time_to_fire(player &p, it_gun* firing)
    else
      time = (220 - 25 * p.skillLevel("archery"));
  } else if (firing->skill_used == Skill::skill("throw")) {
-   if (p.skillLevel("throw") > 3){
+   if (p.skillLevel("throw") > 6){
      time = 50;
    }else{
      time = (220 - 25 * p.skillLevel("throw"));
