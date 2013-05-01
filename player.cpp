@@ -5357,7 +5357,7 @@ void player::read(game *g, char ch)
         return;
     }
 
-    if (tmp->recipes.size() > 0)
+    if (tmp->recipes.size() > 0 && !(activity.continuous))
     {
         if (can_study_recipe(tmp)) 
         {
