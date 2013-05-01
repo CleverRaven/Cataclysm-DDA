@@ -2906,8 +2906,12 @@ bool omspec_place::by_highway(overmap *om, tripoint p)
  oter_id north = om->ter(p.x, p.y - 1, p.z), east = om->ter(p.x + 1, p.y, p.z),
          south = om->ter(p.x, p.y + 1, p.z), west = om->ter(p.x - 1, p.y, p.z);
 
- return ((north == ot_hiway_ew || north == ot_road_ew) ||
+ /*return ((north == ot_hiway_ew || north == ot_road_ew) ||
          (east  == ot_hiway_ns || east  == ot_road_ns) ||
          (south == ot_hiway_ew || south == ot_road_ew) ||
-         (west  == ot_hiway_ns || west  == ot_road_ns)   );
+         (west  == ot_hiway_ns || west  == ot_road_ns)   );*/
+   return ((north>=ot_hiway_ew && north<=ot_road_nesw_manhole)||
+           (east>=ot_hiway_ew && north<=ot_road_nesw_manhole) ||
+           (west>=ot_hiway_ew && west<=ot_road_nesw_manhole) ||
+           (south>=ot_hiway_ew && south<=ot_road_nesw_manhole) );
 }
