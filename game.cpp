@@ -5083,7 +5083,7 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         {
             wprintz(window,thiscolor," (%d)",it.contents[0].charges);
         }
-        mvwprintz(window,6+i,rightcol,thiscolor,"%3d %-3d",it.weight(),it.volume());
+        mvwprintz(window,6+i,rightcol,thiscolor,"%3d %3d",it.weight(),it.volume());
     }
 }
 
