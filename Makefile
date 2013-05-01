@@ -9,6 +9,8 @@
 #   make CROSS=i686-pc-mingw32-
 # Win32
 #   Run: make NATIVE=win32
+# OS X
+#   Run: make NATIVE=osx
 
 # Build types:
 # Debug (no optimizations)
@@ -90,6 +92,10 @@ else
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
   endif
+endif
+# OSX
+ifeq ($(NATIVE), osx)
+  CXXFLAGS += -mmacosx-version-min=10.6
 endif
 # Win32 (mingw32?)
 ifeq ($(NATIVE), win32)
