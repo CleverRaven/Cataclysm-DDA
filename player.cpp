@@ -5434,6 +5434,7 @@ bool player::try_study_recipe(game *g, it_book *book)
             }
         }
     }
+    return true; // "false" seems to mean "attempted and failed"
 }
 
 void player::try_to_sleep(game *g)
