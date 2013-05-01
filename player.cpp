@@ -1842,14 +1842,24 @@ void player::disp_morale(game* g)
  WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+ int name_column_width = 18;
+ for (int i = 0; i < morale.size(); i++) {
+  int length = morale[i].name(morale_data).length();
+  if ( length > name_column_width)
+   name_column_width = length;
+ }
+ if (name_column_width > 72)
+  name_column_width = 72;
+ 
  mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
  mvwprintz(w, 2,  1, c_ltgray, "Name");
- mvwprintz(w, 2, 20, c_ltgray, "Value");
+ mvwprintz(w, 2, name_column_width+2, c_ltgray, "Value");
 
  for (int i = 0; i < morale.size(); i++) {
   int b = morale[i].bonus;
 
-  int bpos = 24;
+  int bpos = name_column_width+6;
   if (abs(b) >= 10)
    bpos--;
   if (abs(b) >= 100)
@@ -1857,13 +1867,16 @@ void player::disp_morale(game* g)
   if (b < 0)
    bpos--;
 
+  std::string name = morale[i].name(morale_data);
+  if (name.length() > name_column_width)
+   name = name.erase(name_column_width-3, std::string::npos) + "...";
   mvwprintz(w, i + 3,  1, (b < 0 ? c_red : c_green),
-            morale[i].name(morale_data).c_str());
+            name.c_str());
   mvwprintz(w, i + 3, bpos, (b < 0 ? c_red : c_green), "%d", b);
  }
 
  int mor = morale_level();
- int bpos = 24;
+ int bpos = name_column_width+6;
   if (abs(mor) >= 10)
    bpos--;
   if (abs(mor) >= 100)
