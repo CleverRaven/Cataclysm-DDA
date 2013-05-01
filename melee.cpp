@@ -489,7 +489,7 @@ int player::dodge(game *g)
 
 int player::dodge_roll(game *g)
 {
- return dice(dodge(g), 6);
+ return dice(dodge(g), 10);
 }
 
 int player::base_damage(bool real_life, int stat)

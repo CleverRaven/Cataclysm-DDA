@@ -484,6 +484,8 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                                dam, cut, stab);
  if (dam == 0 && u_see)
   g->add_msg("The %s misses %s.", name().c_str(), you.c_str());
+ else if (dice(type->melee_skill, 10) < dice(p.dodge(g), 10) && !one_in(p.dodge(g)))
+  g->add_msg("%s dodge the %s.", you.c_str(), name().c_str());
  else if (dam > 0) {
   if (u_see && tech != TEC_BLOCK)
    g->add_msg("The %s hits %s %s.", name().c_str(), your.c_str(),
