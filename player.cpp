@@ -5249,95 +5249,128 @@ hint_rating player::rate_action_read(item *it, game *g)
 
 void player::read(game *g, char ch)
 {
- vehicle *veh = g->m.veh_at (posx, posy);
- if (veh && veh->player_in_control (this)) {
-  g->add_msg("It's bad idea to read while driving.");
-  return;
- }
-// Check if reading is okay
- if (!can_see_fine_detail(g)) {
-  g->add_msg("It's too dark to read!");
-  return;
- }
+    vehicle *veh = g->m.veh_at (posx, posy);
+    if (veh && veh->player_in_control (this)) 
+    {
+        g->add_msg("It's bad idea to read while driving.");
+        return;
+    }
+    
+    // Check if reading is okay
+    // check for light level
+    if (!can_see_fine_detail(g)) 
+    {
+        g->add_msg("It's too dark to read!");
+        return;
+    }
 
- if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) {
-  g->add_msg("Your eyes won't focus without reading glasses.");
-  return;
- }
+    // check for traits
+    if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) 
+    {
+        g->add_msg("Your eyes won't focus without reading glasses.");
+        return;
+    }
 
-// Find the object
- int index = -1;
- item* it = NULL;
- if (weapon.invlet == ch) {
-  index = -2;
-  it = &weapon;
- } else {
-  it = &inv.item_by_letter(ch);
- }
+    // Find the object
+    int index = -1;
+    item* it = NULL;
+    if (weapon.invlet == ch) 
+    {
+        index = -2;
+        it = &weapon;
+    } 
+    else 
+    {
+        it = &inv.item_by_letter(ch);
+    }
 
- if (it == NULL || it->is_null()) {
-  g->add_msg("You do not have that item.");
-  return;
- }
+    if (it == NULL || it->is_null()) 
+    {
+        g->add_msg("You do not have that item.");
+        return;
+    }
 
 // Some macguffins can be read, but they aren't treated like books.
- it_macguffin* mac = NULL;
- if (it->is_macguffin()) {
-  mac = dynamic_cast<it_macguffin*>(it->type);
- }
- if (mac != NULL) {
-  iuse use;
-  (use.*mac->use)(g, this, it, false);
-  return;
- }
+    it_macguffin* mac = NULL;
+    if (it->is_macguffin()) 
+    {
+        mac = dynamic_cast<it_macguffin*>(it->type);
+    }
+    if (mac != NULL) 
+    {
+        iuse use;
+        (use.*mac->use)(g, this, it, false);
+        return;
+    }
 
- if (!it->is_book()) {
-  g->add_msg("Your %s is not good reading material.",
-           it->tname(g).c_str());
-  return;
- }
- it_book* tmp = dynamic_cast<it_book*>(it->type);
-int time; //Declare this here so that we can change the time depending on whats needed
- if (tmp->intel > 0 && has_trait(PF_ILLITERATE)) {
-  g->add_msg("You're illiterate!");
-  return;
- }
- else if (skillLevel(tmp->type) < (int)tmp->req) {
-  g->add_msg("The %s-related jargon flies over your head!",
-             tmp->type->name().c_str());
-  return;
- } else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) {	// See morale.h
-  g->add_msg("What's the point of reading?  (Your morale is too low!)");
-  return;
- } else if (skillLevel(tmp->type) >= (int)tmp->level && tmp->fun <= 0 && !can_study_recipe(tmp) &&
+    if (!it->is_book()) 
+    {
+        g->add_msg("Your %s is not good reading material.",
+        it->tname(g).c_str());
+    return;
+    }
+ 
+    it_book* tmp = dynamic_cast<it_book*>(it->type);
+    int time; //Declare this here so that we can change the time depending on whats needed
+    if (tmp->intel > 0 && has_trait(PF_ILLITERATE)) 
+    {
+        g->add_msg("You're illiterate!");
+        return;
+    }
+    else if (skillLevel(tmp->type) < (int)tmp->req) 
+    {
+        g->add_msg("The %s-related jargon flies over your head!",
+         tmp->type->name().c_str());
+        if (tmp->recipes.size() == 0)
+        {    
+            return;
+        }
+        else
+        {
+            g->add_msg("But you might be able to learn a recipe or two.");
+        }
+    } 
+    else if (morale_level() < MIN_MORALE_READ &&  tmp->fun <= 0) // See morale.h
+    {	
+        g->add_msg("What's the point of reading?  (Your morale is too low!)");
+        return;
+    } 
+    else if (skillLevel(tmp->type) >= (int)tmp->level && tmp->fun <= 0 && !can_study_recipe(tmp) &&
             !query_yn("Your %s skill won't be improved.  Read anyway?",
-                      tmp->type->name().c_str())) {
-  return;
- }
+                      tmp->type->name().c_str())) 
+    {
+        return;
+    }
 
- if (tmp->recipes.size() > 0)
- {
-  if (can_study_recipe(tmp)) {
-   g->add_msg("This book has more recipes for you to learn.");
-  } else if (studied_all_recipes(tmp)) {
-   g->add_msg("You know all the recipes this book has to offer.");
-  } else {
-   g->add_msg("This book has more recipes, but you don't have the skill to learn them yet.");
-  }
- }
+    if (tmp->recipes.size() > 0)
+    {
+        if (can_study_recipe(tmp)) 
+        {
+            g->add_msg("This book has more recipes for you to learn.");
+        } 
+        else if (studied_all_recipes(tmp)) 
+        {
+            g->add_msg("You know all the recipes this book has to offer.");
+        } 
+        else 
+        {
+            g->add_msg("This book has more recipes, but you don't have the skill to learn them yet.");
+        }
+    }
 
- if (tmp->intel > int_cur) {
-  g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
-  time = tmp->time * (read_speed() + ((tmp->intel - int_cur) * 100)); // Lower int characters can read, at a speed penalty
-  activity = player_activity(ACT_READ, time, index, ch);
-  moves = 0;
-  return;
- }
+    if (tmp->intel > int_cur) 
+    {
+        g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
+        time = tmp->time * (read_speed() + ((tmp->intel - int_cur) * 100)); // Lower int characters can read, at a speed penalty
+        activity = player_activity(ACT_READ, time, index, ch);
+        moves = 0;
+        return;
+    }
 
-// Base read_speed() is 1000 move points (1 minute per tmp->time)
- time = tmp->time * read_speed();
- activity = player_activity(ACT_READ, time, index, ch);
- moves = 0;
+    // Base read_speed() is 1000 move points (1 minute per tmp->time)
+    time = tmp->time * read_speed();
+    activity = player_activity(ACT_READ, time, index, ch);
+    moves = 0;
 }
 
 bool player::can_study_recipe(it_book* book)
@@ -5365,7 +5398,7 @@ bool player::studied_all_recipes(it_book* book)
     return true;
 }
 
-void player::try_study_recipe(game *g, it_book *book)
+bool player::try_study_recipe(game *g, it_book *book)
 {
     for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
     {
@@ -5377,13 +5410,13 @@ void player::try_study_recipe(game *g, it_book *book)
                 learn_recipe(iter->first);
                 g->add_msg("Learned a recipe for %s from the %s.",
                            g->itypes[iter->first->result]->name.c_str(), book->name.c_str());
+                return true;
             }
             else
             {
                 g->add_msg("Failed to learn a recipe from the %s.", book->name.c_str());
+                return false;
             }
-            // we only try to learn one recipe at a time
-            return;
         }
     }
 }

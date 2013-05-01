@@ -279,7 +279,7 @@ public:
 
  bool can_study_recipe(it_book *book);
  bool studied_all_recipes(it_book *book);
- void try_study_recipe(game *g, it_book *book);
+ bool try_study_recipe(game *g, it_book *book);
 
 // ---------------VALUES-----------------
  int posx, posy;
