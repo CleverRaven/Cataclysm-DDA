@@ -21,7 +21,6 @@ Item_factory::Item_factory(){
     m_missing_item->name = "Error: Item Missing";
     m_missing_item->description = "Error: No item template of this type.";
     m_templates["MISSING_ITEM"]=m_missing_item;
-    load_item_templates();
 }
 
 void Item_factory::init(){
@@ -202,7 +201,8 @@ void Item_factory::init(){
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
-void Item_factory::init(game* main_game){
+void Item_factory::init(game* main_game){	
+    load_item_templates(); // this one HAS to be called after game is created
     // Make a copy of our items loaded from JSON
     std::map<Item_tag, itype*> new_templates = m_templates;
     //Copy the hardcoded template pointers to the factory list
@@ -641,6 +641,8 @@ ammotype Item_factory::ammo_from_json(Item_tag new_id, Item_tag index, picojson:
         return AT_PLASMA;
     } else if ("water" == new_ammo) {
         return AT_WATER;
+    } else if ("none" == new_ammo) {
+        return AT_NULL; // NX17 and other special weapons
     } else {
         std::cerr << "Item "<< new_id << " attribute ammo was skipped, not recognized. Ammo is required for this item." << std::endl;
         return AT_NULL;
