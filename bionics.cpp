@@ -949,7 +949,7 @@ and robots.");
 While activated, the muscles in your arms will be greatly enchanced,\n\
 increasing your strength by 20.");
     bionics["bio_water_extractor"] = new bionic_data("Water Extraction Unit", false, true, 2, 0, "\
-Nanotubs embedded in the palm of your hand will pump any available fluid out\n\
+Nanotubes embedded in the palm of your hand will pump any available fluid out\n\
 of a dead body, cleanse it of impurities and convert it into drinkable water.\n\
 You must, however, have a container to store the water in.");
     bionics["bio_magnet"] = new bionic_data("Electromagnetic Unit", false, true, 2, 0, "\
