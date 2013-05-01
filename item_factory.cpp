@@ -289,6 +289,7 @@ Item_list Item_factory::create_random(int created_at, int quantity){
 void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/instruments.json");
     load_item_templates_from("data/raw/items/melee.json");
+    load_item_templates_from("data/raw/items/ranged.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
@@ -336,7 +337,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     std::cerr << "Item definition skipped, id " << new_id << " already exists." << std::endl;
                 } else {
                     itype* new_item_template;
-                    if (!entry_body.has("type"))
+                    if (entry_body.find("type") == entry_body.end())
                     {
                         new_item_template = new itype();
                     }

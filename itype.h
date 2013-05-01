@@ -465,6 +465,8 @@ struct it_gun : public itype
   clip = pclip;
   reload_time = preload_time;
  }
+
+ it_gun() { };
 };
 
 struct it_gunmod : public itype
