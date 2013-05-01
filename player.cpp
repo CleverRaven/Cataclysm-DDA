@@ -5443,7 +5443,7 @@ bool player::can_see_fine_detail(game *g)
     {
         return true;
     }
-    if (g->light_level() < 8 && LL_LIT > g->m.light_at(posx, posy))
+    if (LL_LIT > g->m.light_at(posx, posy))
     {
         return false;
     }
