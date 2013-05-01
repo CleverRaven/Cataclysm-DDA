@@ -565,8 +565,6 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_toxic_dump,	   0,  5, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
 
-/*{ot_s_gas_north,   10, 100,  20, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD) | mfb(OMS_FLAG_CLASSIC)}*/
 {ot_s_gas_north,   10,  500,  10, 200, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_CLASSIC)}
 
