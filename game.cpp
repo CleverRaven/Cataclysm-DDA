@@ -642,11 +642,24 @@ void game::process_activity()
     }
 
     no_recipes = true;
-    if (reading->recipes.size() > 0) {
-     u.try_study_recipe(this, reading);
-     if (!u.studied_all_recipes(reading)) {
-      no_recipes = false;
-     }
+    if (reading->recipes.size() > 0) 
+    {
+        bool recipe_learned = false;
+        
+        recipe_learned = u.try_study_recipe(this, reading);
+        if (!u.studied_all_recipes(reading)) 
+        {
+            no_recipes = false;
+        }
+        
+        // for books that the player cannot yet read due to skill level, but contain
+        // lower level recipes, break out once recipe has been studied  
+        if ((u.skillLevel(reading->type) < (int)reading->req))
+        {
+            if (recipe_learned)
+                add_msg("The rest of the book is currently still beyond your understanding.");
+            break;
+        }
     }
 
     if (u.skillLevel(reading->type) < (int)reading->level) {
