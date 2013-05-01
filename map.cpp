@@ -847,7 +847,7 @@ int map::move_cost(const int x, const int y)
   if (dpart >= 0 && (!veh->part_flag(dpart, vpf_openable) || !veh->parts[dpart].open)) {
    return 0;
   } else {
-    const int ipart = veh->part_with_feature(vpart, vpf_isle);
+    const int ipart = veh->part_with_feature(vpart, vpf_aisle);
 
     if (ipart >= 0)
       return 2;
@@ -2151,13 +2151,13 @@ void map::add_item(const int x, const int y, item new_item)
   return;
  if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
-  
+
     // clothing with variable size flag may sometimes be generated fitted
     if (new_item.is_armor() && new_item.has_flag(IF_VARSIZE) & one_in(3))
     {
         new_item.item_flags |= mfb(IF_FIT);
     }
-    
+
  if (has_flag(noitem, x, y) || i_at(x, y).size() >= 64) {// Too many items there
   std::vector<point> okay;
   for (int i = x - 1; i <= x + 1; i++) {
