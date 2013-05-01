@@ -294,7 +294,40 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 if(m_templates.find(new_id) != m_templates.end()){
                     std::cerr << "Item definition skipped, id " << new_id << " already exists." << std::endl;
                 } else {
-                    itype* new_item_template =  new itype();
+                    itype* new_item_template;
+                    if (!entry_body.has("type"))
+                    {
+                        new_item_template = new itype();
+                    }
+                    else
+                    {
+                        std::string type_label = string_from_json(new_id, "type", entry_body);
+                        if (type_label == "MELEE")
+                        {
+                            new_item_template = new itype();
+                        }
+                        else if (type_label == "GUN")
+                        {
+                            it_gun* gun_template = new it_gun();
+                            gun_template->ammo = ammo_from_json(new_id, "ammo", entry_body);
+                            gun_template->skill_used = Skill::skill(string_from_json(new_id, "skill", entry_body));
+                            gun_template->dmg_bonus = int_from_json(new_id, "ranged_damage", entry_body);
+                            gun_template->accuracy = int_from_json(new_id, "accuracy", entry_body);
+                            gun_template->recoil = int_from_json(new_id, "recoil", entry_body);
+                            gun_template->durability = int_from_json(new_id, "durability", entry_body);
+                            gun_template->burst = int_from_json(new_id, "burst", entry_body);
+                            gun_template->clip = int_from_json(new_id, "clip_size", entry_body);
+                            gun_template->reload_time = int_from_json(new_id, "reload_time", entry_body);
+
+                            new_item_template = gun_template;
+                        }
+                        else
+                        {
+                            std::cerr << "Item definition for " << new_id << " skipped, unrecognized type: " <<
+                                      type_label << std::endl;
+                            break;
+                        }
+                    }
                     new_item_template->id = new_id;
                     m_templates[new_id] = new_item_template;
 
@@ -501,6 +534,72 @@ nc_color Item_factory::color_from_json(Item_tag new_id, Item_tag index, picojson
     } else {
         std::cerr << "Item "<< new_id << " attribute color was skipped, not a color. Color is required." << std::endl;
         return c_white;
+    }
+}
+
+ammotype Item_factory::ammo_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
+    std::string new_ammo = string_from_json(new_id, index, value_map);
+    if("nail"==new_ammo){
+        return AT_NAIL;
+    } else if ("BB" == new_ammo) {
+        return AT_BB;
+    } else if ("bolt" == new_ammo) {
+        return AT_BOLT;
+    } else if ("arrow" == new_ammo) {
+        return AT_ARROW;
+    } else if ("shot" == new_ammo) {
+        return AT_SHOT;
+    } else if (".22" == new_ammo) {
+        return AT_22;
+    } else if ("9mm" == new_ammo) {
+        return AT_9MM;
+    } else if ("7.62x25mm" == new_ammo) {
+        return AT_762x25;
+    } else if (".38" == new_ammo) {
+        return AT_38;
+    } else if (".40" == new_ammo) {
+        return AT_40;
+    } else if (".44" == new_ammo) {
+        return AT_44;
+    } else if (".45" == new_ammo) {
+        return AT_45;
+    } else if ("5.7mm" == new_ammo) {
+        return AT_57;
+    } else if ("4.6mm" == new_ammo) {
+        return AT_46;
+    } else if ("7.62x39mm" == new_ammo) {
+        return AT_762;
+    } else if (".223" == new_ammo) {
+        return AT_223;
+    } else if (".30-06" == new_ammo) {
+        return AT_3006;
+    } else if (".308" == new_ammo) {
+        return AT_308;
+    } else if ("40mm" == new_ammo) {
+        return AT_40MM;
+    } else if ("66mm" == new_ammo) {
+        return AT_66MM;
+    } else if ("gasoline" == new_ammo) {
+        return AT_GAS;
+    } else if ("thread" == new_ammo) {
+        return AT_THREAD;
+    } else if ("battery" == new_ammo) {
+        return AT_BATT;
+    } else if ("plutonium" == new_ammo) {
+        return AT_PLUT;
+    } else if ("muscle" == new_ammo) {
+        return AT_MUSCLE;
+    } else if ("fusion" == new_ammo) {
+        return AT_FUSION;
+    } else if ("12mm" == new_ammo) {
+        return AT_12MM;
+    } else if ("plasma" == new_ammo) {
+        return AT_PLASMA;
+    } else if ("water" == new_ammo) {
+        return AT_WATER;
+    } else {
+        std::cerr << "Item "<< new_id << " attribute ammo was skipped, not recognized. Ammo is required for this item." << std::endl;
+        return AT_NULL;
     }
 }
 
