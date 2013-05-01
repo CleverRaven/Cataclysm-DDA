@@ -5050,8 +5050,12 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
 {
     int itemsPerPage;
     itemsPerPage=getmaxy(window)-ADVINVOFS; // fixme
+    int columns=getmaxx(window);
+    int rightcol=columns-8;
     nc_color norm = active ? c_white : c_dkgray;
     invslice stacks = u.inv.slice(page * itemsPerPage, itemsPerPage);
+    mvwprintz(window,5,4,c_ltgray,"Name [servings (number)");
+    mvwprintz(window,5,rightcol-3,c_ltgray,"weight vol");
     for(int i = 0; i < stacks.size() && i < itemsPerPage; ++i)
     {
         nc_color thiscolor = norm;
@@ -5059,12 +5063,12 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         if(active && selected_index == i)
         {
             thiscolor = c_yellow;
-            mvwprintz(window,6+i,2,thiscolor,">>");
+            mvwprintz(window,6+i,1,thiscolor,">>");
         }
         else
         {
         }
-        mvwprintz(window,6+i,6,thiscolor,"%s",it.tname(g).c_str());
+        mvwprintz(window,6+i,4,thiscolor,"%s",it.tname(g).c_str());
         int size = u.inv.stack_by_letter(it.invlet).size();
         if(size > 1)
         {
@@ -5079,6 +5083,7 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         {
             wprintz(window,thiscolor," (%d)",it.contents[0].charges);
         }
+        mvwprintz(window,6+i,rightcol,thiscolor,"%3d %-3d",it.weight(),it.volume());
     }
 }
 
