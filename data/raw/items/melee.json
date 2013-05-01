@@ -16,6 +16,1117 @@
         ["HAMMER", 2]
     ]
   },
+
+  {
+    "id": "wrapper",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "paper wrapper",
+    "description": "Just a piece of butcher's paper. Good for starting fires.",
+    "rarity": 50,
+    "material": "PAPER",
+    "weight": 0,
+    "volume": 1,
+    "damage": -8,
+    "cutting": 0,
+    "to_hit": -2
+  },
+
+  {
+    "id": "withered",
+    "symbol": "t",
+    "color": "light_gray",
+    "name": "withered plant",
+    "description": "A dead plant. Good for starting fires.",
+    "rarity": 70,
+    "material": "PAPER",
+    "weight": 0,
+    "volume": 1,
+    "damage": -8,
+    "cutting": 0,
+    "to_hit": -2
+  },
+
+  {
+    "id": "fur",
+    "symbol": ",",
+    "color": "brown",
+    "name": "fur pelt",
+    "description": "A small bolt of fur from an animal. Can be made into warm clothing.",
+    "rarity": 0,
+    "material": ["FUR", "LEATHER"],
+    "weight": 1,
+    "volume": 1,
+    "damage": -8,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "leather",
+    "symbol": ",",
+    "color": "red",
+    "name": "leather patch",
+    "description": "A smallish patch of leather, could be used to make tough clothing.",
+    "rarity": 0,
+    "material": ["LEATHER", "FLESH"],
+    "weight": 1,
+    "volume": 2,
+    "damage": -2,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "superglue",
+    "symbol": ",",
+    "color": "white",
+    "name": "superglue",
+    "description": "A tube of strong glue. Used in many crafting recipes.",
+    "rarity": 30,
+    "material": "PLASTIC",
+    "weight": 0,
+    "volume": 1,
+    "damage": -2,
+    "cutting": 0,
+    "to_hit": -2
+  },
+
+  {
+    "id": "id_science",
+    "symbol": ",",
+    "color": "pink",
+    "name": "science ID card",
+    "description": "This ID card once belonged to a scientist of some sort. It has a magneticstripe on the back; perhaps it can be used on a control panel.",
+    "rarity": 2,
+    "material": "PLASTIC",
+    "weight": 0,
+    "volume": 0,
+    "damage": -8,
+    "cutting": 1,
+    "to_hit": -3
+  },
+
+  {
+    "id": "id_military",
+    "symbol": ",",
+    "color": "pink",
+    "name": "military ID card",
+    "description": "This ID card once belonged to a military officer with high-level clearance.It has a magnetic stripe on the back; perhaps it can be used on a controlpanel.",
+    "rarity": 3,
+    "material": "PLASTIC",
+    "weight": 0,
+    "volume": 0,
+    "damage": -8,
+    "cutting": 1,
+    "to_hit": -3
+  },
+
+  {
+    "id": "electrohack",
+    "symbol": ",",
+    "color": "green",
+    "name": "electrohack",
+    "description": "This device has many ports attached, allowing to to connect to almost anycontrol panel or other electronic machine (but not computers). With a littleskill, it can be used to crack passwords and more.",
+    "rarity": 3,
+    "material": ["PLASTIC", "STEEL"],
+    "weight": 2,
+    "volume": 2,
+    "damage": 5,
+    "cutting": 0,
+    "to_hit": 1
+  },
+
+  {
+    "id": "string_6",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "string - 6 in",
+    "description": "A small piece of cotton string.",
+    "rarity": 2,
+    "material": "COTTON",
+    "weight": 0,
+    "volume": 0,
+    "damage": -20,
+    "cutting": 0,
+    "to_hit": 1
+  },
+
+  {
+    "id": "string_36",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "string - 3 ft",
+    "description": "A long piece of cotton string. Use scissors on it to cut it into smallerpieces.",
+    "rarity": 40,
+    "material": "COTTON",
+    "weight": 0,
+    "volume": 1,
+    "damage": -5,
+    "cutting": 0,
+    "to_hit": 1
+  },
+
+  {
+    "id": "rope_30",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "rope - 30 ft",
+    "description": "A long nylon rope. Useful for keeping yourself safe from falls.",
+    "rarity": 35,
+    "material": "WOOD",
+    "weight": 20,
+    "volume": 10,
+    "damage": 1,
+    "cutting": 0,
+    "to_hit": -10
+  },
+
+  {
+    "id": "processor",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "processor board",
+    "description": "A central processor unit, useful in advanced electronics crafting.",
+    "rarity": 15,
+    "material": ["IRON", "PLASTIC"],
+    "weight": 0,
+    "volume": 1,
+    "damage": -3,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "RAM",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "RAM",
+    "description": "A stick of memory. Useful in advanced electronics crafting.",
+    "rarity": 22,
+    "material": ["IRON", "PLASTIC"],
+    "weight": 0,
+    "volume": 1,
+    "damage": -5,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "power_supply",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "power converter",
+    "description": "A power supply unit. Useful in lots of electronics recipes.",
+    "rarity": 16,
+    "material": ["IRON", "PLASTIC"],
+    "weight": 2,
+    "volume": 4,
+    "damage": 5,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "amplifier",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "amplifier circuit",
+    "description": "A circuit designed to amplify the strength of a signal. Useful in lots ofelectronics recipes.",
+    "rarity": 8,
+    "material": ["IRON", "PLASTIC"],
+    "weight": 0,
+    "volume": 1,
+    "damage": -5,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "transponder",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "transponder circuit",
+    "description": "A circuit designed to repeat a signal. Useful for crafting communicationsequipment.",
+    "rarity": 5,
+    "material": ["IRON", "PLASTIC"],
+    "weight": 0,
+    "volume": 1,
+    "damage": -5,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "receiver",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "signal receiver",
+    "description": "A module designed to receive many forms of signals. Useful for craftingcommunications equipment.",
+    "rarity": 10,
+    "material": ["IRON", "PLASTIC"],
+    "weight": 0,
+    "volume": 1,
+    "damage": -4,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "burnt_out_bionic",
+    "symbol": ",",
+    "color": "light_red",
+    "name": "burnt out bionic",
+    "description": "Once a valuable bionic implants, it's not held up well under repeateduse. This object has been destroyed by excessive electric current andis now useless.",
+    "rarity": 10,
+    "material": ["STEEL", "PLASTIC"],
+    "weight": 0,
+    "volume": 1,
+    "damage": -4,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "antenna",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "antenna",
+    "description": "A simple thin aluminum shaft. Useful in lots of electronics recipes.",
+    "rarity": 18,
+    "material": "STEEL",
+    "weight": 0,
+    "volume": 1,
+    "damage": -6,
+    "cutting": 0,
+    "to_hit": 2
+  },
+
+  {
+    "id": "steel_chunk",
+    "symbol": ",",
+    "color": "light_blue",
+    "name": "chunk of steel",
+    "description": "A misshapen chunk of steel. Makes a decent weapon in a pinch, and is alsouseful for some crafting recipes.",
+    "rarity": 30,
+    "material": "STEEL",
+    "weight": 6,
+    "volume": 2,
+    "damage": 12,
+    "cutting": 0,
+    "to_hit": -2
+  },
+
+  {
+    "id": "steel_lump",
+    "symbol": ",",
+    "color": "light_blue",
+    "name": "lump of steel",
+    "description": "A misshapen heavy piece of steel. Useful for some crafting recipes.",
+    "rarity": 30,
+    "material": "STEEL",
+    "weight": 80,
+    "volume": 2,
+    "damage": 18,
+    "cutting": 0,
+    "to_hit": -4
+  },
+
+  {
+    "id": "scrap",
+    "symbol": ",",
+    "color": "light_blue",
+    "name": "scrap metal",
+    "description": "An assortment of small bits of metal and scrapuseful in all kinds of crafting",
+    "rarity": 30,
+    "material": "STEEL",
+    "weight": 1,
+    "volume": 1,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": -2
+  },
+
+  {
+    "id": "glass_sheet",
+    "symbol": "]",
+    "color": "light_cyan",
+    "name": "sheet of glass",
+    "description": "A large sheet of glass. Easily shattered. Useful for re-paning windows.",
+    "rarity": 5,
+    "material": "GLASS",
+    "weight": 20,
+    "volume": 50,
+    "damage": 16,
+    "cutting": 0,
+    "to_hit": -5
+  },
+
+  {
+    "id": "manhole_cover",
+    "symbol": "]",
+    "color": "dark_gray",
+    "name": "manhole cover",
+    "description": "A heavy iron disc that typically covers a ladder into the sewers. Liftingit from the manhole is impossible without a crowbar.",
+    "rarity": 1,
+    "material": "IRON",
+    "weight": 250,
+    "volume": 45,
+    "damage": 20,
+    "cutting": 0,
+    "to_hit": -10
+  },
+
+  {
+    "id": "stick",
+    "symbol": "/",
+    "color": "brown",
+    "name": "heavy stick",
+    "description": "A sturdy, heavy stick. Makes a decent melee weapon, and can be cut into twoby fours for crafting.",
+    "rarity": 95,
+    "material": "WOOD",
+    "weight": 10,
+    "volume": 6,
+    "damage": 12,
+    "cutting": 0,
+    "to_hit": 3
+  },
+
+  {
+    "id": "hatchet",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "hatchet",
+    "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both forcutting wood, and for use as a hammer.",
+    "rarity": 10,
+    "material": ["IRON", "WOOD"],
+    "weight": 7,
+    "volume": 6,
+    "damage": 12,
+    "cutting": 12,
+    "to_hit": 1
+  },
+
+  {
+    "id": "pot",
+    "symbol": ")",
+    "color": "light_gray",
+    "name": "pot",
+    "description": "Useful for boiling water when cooking spaghetti and more.",
+    "rarity": 25,
+    "material": "IRON",
+    "weight": 6,
+    "volume": 8,
+    "damage": 9,
+    "cutting": 0,
+    "to_hit": 1
+  },
+
+  {
+    "id": "pan",
+    "symbol": ")",
+    "color": "light_gray",
+    "name": "frying pan",
+    "description": "A cast-iron pan. Makes a decent melee weapon, and is used for cooking.",
+    "rarity": 25,
+    "material": "IRON",
+    "weight": 6,
+    "volume": 6,
+    "damage": 14,
+    "cutting": 0,
+    "to_hit": 2
+  },
+
+  {
+    "id": "knife_butter",
+    "symbol": ";",
+    "color": "light_cyan",
+    "name": "butter knife",
+    "description": "A dull knife, absolutely worthless in combat.",
+    "rarity": 90,
+    "material": "STEEL",
+    "weight": 2,
+    "volume": 1,
+    "damage": 2,
+    "cutting": 1,
+    "to_hit": -2
+  },
+
+  {
+    "id": "chitin_piece",
+    "symbol": ",",
+    "color": "red",
+    "name": "chunk of chitin",
+    "description": "A piece of an insect's exoskeleton. It is light and very durable.",
+    "rarity": 10,
+    "material": "FLESH",
+    "weight": 0,
+    "volume": 1,
+    "damage": 1,
+    "cutting": 0,
+    "to_hit": -2
+  },
+
+  {
+    "id": "biollante_bud",
+    "symbol": ",",
+    "color": "magenta",
+    "name": "biollante bud",
+    "description": "An unopened biollante flower, brilliant purple in color. It may still haveits sap-producing organ intact.",
+    "rarity": 1,
+    "material": "VEGGY",
+    "weight": 0,
+    "volume": 1,
+    "damage": -8,
+    "cutting": 0,
+    "to_hit": -3
+  },
+
+  {
+    "id": "canister_empty",
+    "symbol": "*",
+    "color": "light_gray",
+    "name": "empty canister",
+    "description": "An empty canister, which may have once held tear gas or other substances.",
+    "rarity": 5,
+    "material": "STEEL",
+    "weight": 1,
+    "volume": 1,
+    "damage": 2,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "gold",
+    "symbol": "/",
+    "color": "yellow",
+    "name": "gold bar",
+    "description": "A large bar of gold. Before the apocalypse, this would've been worth a smallfortune; now its value is greatly diminished.",
+    "rarity": 10,
+    "material": "STEEL",
+    "weight": 60,
+    "volume": 2,
+    "damage": 14,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "coal",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": "coal pallet",
+    "description": "A large block of semi-processed coal.",
+    "rarity": 20,
+    "material": "STONE",
+    "weight": 100,
+    "volume": 72,
+    "damage": 8,
+    "cutting": 0,
+    "to_hit": -5
+  },
+
+  {
+    "id": "petrified_eye",
+    "symbol": "*",
+    "color": "dark_gray",
+    "name": "petrified eye",
+    "description": "A fist-sized eyeball with a cross-shaped pupil. It seems to be made ofstone, but doesn't look like it was carved.",
+    "rarity": 1,
+    "material": "STONE",
+    "weight": 8,
+    "volume": 2,
+    "damage": 10,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "spiral_stone",
+    "symbol": "*",
+    "color": "pink",
+    "name": "spiral stone",
+    "description": "A rock the size of your fist. It is covered with intricate spirals; it isimpossible to tell whether they are carved, naturally formed, or some kind offossil.",
+    "rarity": 20,
+    "material": "STONE",
+    "weight": 3,
+    "volume": 1,
+    "damage": 14,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "binoculars",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "binoculars",
+    "description": "A tool useful for seeing long distances. Simply carrying this item in yourinventory will double the distance that is mapped around you during yourtravels.",
+    "rarity": 20,
+    "material": ["PLASTIC", "GLASS"],
+    "weight": 3,
+    "volume": 2,
+    "damage": 6,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "usb_drive",
+    "symbol": ",",
+    "color": "white",
+    "name": "USB drive",
+    "description": "A USB thumb drive. Useful for holding software.",
+    "rarity": 5,
+    "material": "PLASTIC",
+    "weight": 0,
+    "volume": 0,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "pool_ball",
+    "symbol": "*",
+    "color": "blue",
+    "name": "pool ball",
+    "description": "A colorful, hard ball. Essentially a rock.",
+    "rarity": 40,
+    "material": "STONE",
+    "weight": 3,
+    "volume": 1,
+    "damage": 12,
+    "cutting": 0,
+    "to_hit": -3
+  },
+
+  {
+    "id": "candlestick",
+    "symbol": "/",
+    "color": "yellow",
+    "name": "candlestick",
+    "description": "A gold candlestick.",
+    "rarity": 20,
+    "material": "SILVER",
+    "weight": 5,
+    "volume": 1,
+    "damage": 12,
+    "cutting": 0,
+    "to_hit": 1
+  },
+
+  {
+    "id": "blade",
+    "symbol": "/",
+    "color": "blue",
+    "name": "blade",
+    "description": "A large, relatively sharp blade. Could be used to makebladed weaponry, or attached to a car.",
+    "rarity": 5,
+    "material": "IRON",
+    "weight": 10,
+    "volume": 8,
+    "damage": 6,
+    "cutting": 10,
+    "to_hit": -2
+  },
+
+  {
+    "id": "wire",
+    "symbol": ";",
+    "color": "blue",
+    "name": "wire",
+    "description": "A length of thin, relatively stiff, steel wire. Like thethe sort you find in wire fences.",
+    "rarity": 50,
+    "material": "STEEL",
+    "weight": 2,
+    "volume": 4,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": -2
+  },
+
+  {
+    "id": "wire_barbed",
+    "symbol": ";",
+    "color": "blue",
+    "name": "barbed wire",
+    "description": "A length of stiff wire, covered in sharp barbs.",
+    "rarity": 20,
+    "material": "STEEL",
+    "weight": 2,
+    "volume": 4,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": -2
+  },
+
+  {
+    "id": "rebar",
+    "symbol": "/",
+    "color": "light_red",
+    "name": "rebar",
+    "description": "A length of rebar, makes a nice melee weapon, and could behandy in constructing tougher walls and such.",
+    "rarity": 20,
+    "material": "IRON",
+    "weight": 10,
+    "volume": 6,
+    "damage": 13,
+    "cutting": 0,
+    "to_hit": 2
+  },
+
+  {
+    "id": "log",
+    "symbol": "/",
+    "color": "brown",
+    "name": "log",
+    "description": "A large log, cut from a tree. (a)ctivate a wood ax or woodsaw to cut it into planks",
+    "rarity": 20,
+    "material": "WOOD",
+    "weight": 20,
+    "volume": 40,
+    "damage": 10,
+    "cutting": 0,
+    "to_hit": -10
+  },
+
+  {
+    "id": "splinter",
+    "symbol": "/",
+    "color": "light_red",
+    "name": "splintered wood",
+    "description": "A splintered piece of wood, useless as anything but kindling",
+    "rarity": 60,
+    "material": "WOOD",
+    "weight": 6,
+    "volume": 6,
+    "damage": 9,
+    "cutting": 0,
+    "to_hit": 1
+  },
+
+  {
+    "id": "skewer",
+    "symbol": ",",
+    "color": "brown",
+    "name": "skewer",
+    "description": "A thin wooden skewer. Squirrel on a stick, anyone?",
+    "rarity": 10,
+    "material": "WOOD",
+    "weight": 0,
+    "volume": 0,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": -10
+  },
+
+  {
+    "id": "crackpipe",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "crack pipe",
+    "description": "A fine glass pipe, with a bulb on the end, used for partaking ofcertain illicit substances.",
+    "rarity": 37,
+    "material": "GLASS",
+    "weight": 1,
+    "volume": 1,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": -10
+  },
+
+  {
+    "id": "torch_done",
+    "symbol": "/",
+    "color": "brown",
+    "name": "burnt out torch",
+    "description": "A torch that has consumed all its fuel; it can be recraftedinto another torch",
+    "rarity": 95,
+    "material": "WOOD",
+    "weight": 10,
+    "volume": 6,
+    "damage": 12,
+    "cutting": 0,
+    "to_hit": 3
+  },
+
+  {
+    "id": "spring",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "spring",
+    "description": "A large, heavy-duty spring. Expands with significant forcewhen compressed.",
+    "rarity": 50,
+    "material": "STEEL",
+    "weight": 0,
+    "volume": 3,
+    "damage": -1,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "lawnmower",
+    "symbol": ";",
+    "color": "red",
+    "name": "lawnmower",
+    "description": "A motorized pushmower that seems to be broken. You couldtake it apart if you had a wrench.",
+    "rarity": 25,
+    "material": ["STEEL", "IRON"],
+    "weight": 40,
+    "volume": 25,
+    "damage": -3,
+    "cutting": 10,
+    "to_hit": 0
+  },
+
+  {
+    "id": "sheet",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "sheet",
+    "description": "A large fabric sheet, could be used as a curtain or bedsheets;or cut up for a bunch of rags.",
+    "rarity": 0,
+    "material": "COTTON",
+    "weight": 2,
+    "volume": 20,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
+  {
+    "id": "broketent",
+    "symbol": ";",
+    "color": "green",
+    "name": "damaged tent",
+    "description": "A small tent, just big enough to fit a person comfortably.This tent is broken and cannot be deployed",
+    "rarity": 17,
+    "material": "IRON",
+    "weight": 20,
+    "volume": 10,
+    "damage": 4,
+    "cutting": 0,
+    "to_hit": -3
+  },
+
+  {
+    "id": "element",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "heating element",
+    "description": "A heating element, like the ones used in hotplates or kettles.",
+    "rarity": 20,
+    "material": "IRON",
+    "weight": 1,
+    "volume": 0,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "television",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "television",
+    "description": "A large cathode ray tube television, full of deliciouselectronics.",
+    "rarity": 40,
+    "material": ["PLASTIC", "GLASS"],
+    "weight": 12,
+    "volume": 10,
+    "damage": 5,
+    "cutting": 0,
+    "to_hit": -5
+  },
+
+  {
+    "id": "pilot_light",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "pilot light",
+    "description": "A pilot light from a gas-burning device, this particular oneis a simple piezo electric igniter.",
+    "rarity": 20,
+    "material": ["IRON", "PLASTIC"],
+    "weight": 1,
+    "volume": 0,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "toaster",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "toaster",
+    "description": "A small two slice toaster, not much use as anything but spare parts",
+    "rarity": 50,
+    "material": ["IRON", "PLASTIC"],
+    "weight": 1,
+    "volume": 2,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "microwave",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "microwave",
+    "description": "A home microwave, has probably seen its share of baked beans.Good for scrap parts.",
+    "rarity": 50,
+    "material": ["IRON", "PLASTIC"],
+    "weight": 5,
+    "volume": 8,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "laptop",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "laptop computer",
+    "description": "A broken laptop, basically a paperweight now",
+    "rarity": 50,
+    "material": ["IRON", "PLASTIC"],
+    "weight": 2,
+    "volume": 3,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "fan",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "desk fan",
+    "description": "A small fan, used to propel air around a room.",
+    "rarity": 50,
+    "material": ["IRON", "PLASTIC"],
+    "weight": 1,
+    "volume": 4,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "ceramic_plate",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "ceramic plate",
+    "description": "A ceramic dinner plate, you could probably play frisbee with it",
+    "rarity": 50,
+    "material": "GLASS",
+    "weight": 1,
+    "volume": 1,
+    "damage": 1,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "ceramic_bowl",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "ceramic bowl",
+    "description": "A shallow dessert bowl, not a lot of use for it really.",
+    "rarity": 50,
+    "material": "GLASS",
+    "weight": 1,
+    "volume": 1,
+    "damage": 1,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "ceramic_cup",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "ceramic cup",
+    "description": "A ceramic teacup, pinky out!",
+    "rarity": 50,
+    "material": "GLASS",
+    "weight": 1,
+    "volume": 1,
+    "damage": 1,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "glass_plate",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "glass plate",
+    "description": "A glass dinner plate, you could probably play frisbee with it",
+    "rarity": 50,
+    "material": "GLASS",
+    "weight": 1,
+    "volume": 1,
+    "damage": 1,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "glass_bowl",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "glass bowl",
+    "description": "A glass dessert bowl, not a lot of use for it really.",
+    "rarity": 50,
+    "material": "GLASS",
+    "weight": 1,
+    "volume": 1,
+    "damage": 1,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "glass",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "glass",
+    "description": "A tall glass, just begging for a frosty one!",
+    "rarity": 50,
+    "material": "GLASS",
+    "weight": 1,
+    "volume": 1,
+    "damage": 1,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "tin_plate",
+    "symbol": ",",
+    "color": "cyan",
+    "name": "tin plate",
+    "description": "A tin dinner plate, you could probably play frisbee with it",
+    "rarity": 50,
+    "material": "STEEL",
+    "weight": 0,
+    "volume": 1,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "fork",
+    "symbol": ";",
+    "color": "light_cyan",
+    "name": "fork",
+    "description": "A fork, if you stab something with it you eat it right awayWait.. nevermind.",
+    "rarity": 90,
+    "material": "STEEL",
+    "weight": 2,
+    "volume": 1,
+    "damage": 2,
+    "cutting": 1,
+    "to_hit": -2
+  },
+
+  {
+    "id": "spork",
+    "symbol": ";",
+    "color": "light_cyan",
+    "name": "spork",
+    "description": "Foons are for scrubs, real men use sporks.",
+    "rarity": 90,
+    "material": "STEEL",
+    "weight": 2,
+    "volume": 1,
+    "damage": 2,
+    "cutting": 1,
+    "to_hit": -2
+  },
+
+  {
+    "id": "foon",
+    "symbol": ";",
+    "color": "light_cyan",
+    "name": "foon",
+    "description": "Clearly the superior instrument. Sporks are just imitators.",
+    "rarity": 90,
+    "material": "STEEL",
+    "weight": 2,
+    "volume": 1,
+    "damage": 2,
+    "cutting": 1,
+    "to_hit": -2
+  },
+
+  {
+    "id": "rag_bloody",
+    "symbol": ",",
+    "color": "red",
+    "name": "blood soaked rag",
+    "description": "A large rag, drenched in blood. It could be cleaned withboiling water.",
+    "rarity": 1,
+    "material": "COTTON",
+    "weight": 0,
+    "volume": 0,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "clock",
+    "symbol": ";",
+    "color": "light_cyan",
+    "name": "clock",
+    "description": "A small mechanical clock, it's stopped at 10:10.",
+    "rarity": 60,
+    "material": ["PLASTIC", "IRON"],
+    "weight": 2,
+    "volume": 1,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "clockworks",
+    "symbol": ";",
+    "color": "light_cyan",
+    "name": "clockworks",
+    "description": "A small assortment of gears and other clockwork gubbins.",
+    "rarity": 30,
+    "material": "IRON",
+    "weight": 1,
+    "volume": 1,
+    "damage": 0,
+    "cutting": 0,
+    "to_hit": 0
+  },
+
+  {
+    "id": "rock_pot",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "stone pot",
+    "description": "A large stone, roughly hollowed out into a pot.",
+    "rarity": 0,
+    "material": "STONE",
+    "weight": 3,
+    "volume": 9,
+    "damage": 4,
+    "cutting": 0,
+    "to_hit": -1
+  },
+
   { "id":"rock",
     "symbol": "*",
     "color": "light_gray",
