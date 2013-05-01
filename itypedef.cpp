@@ -774,10 +774,6 @@ MELEE("withered", "withered plant",	70,  1, 't', c_ltgray,	PAPER,	MNULL,
 	 1,  0, -8,  0, -2, 0, "\
 A dead plant. Good for starting fires.");
 
-MELEE("syringe", "syringe",	 8, 25, ',', c_ltcyan,	PLASTIC,MNULL,
-	 1,  0, -4,  6, -2, mfb(IF_SPEAR), "\
-A medical syringe. Used for administering heroin and other drugs.");
-
 MELEE("fur", "fur pelt",	 0, 10, ',', c_brown,	FUR,	LEATHER,
 	 1,  1, -8,  0,  0, 0, "\
 A small bolt of fur from an animal. Can be made into warm clothing.");

@@ -31,5 +31,20 @@
     "tool": [
         ["HAMMER", 1]
     ]
+  },
+  { "id":"syringe",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "syringe",
+    "description": "A medical syringe. Used for administering heroin and other drugs.",
+    "material": "PLASTIC",
+    "rarity": 8,
+    "price": 25,
+    "volume": 1,
+    "weight": 0,
+    "damage": -4,
+    "cutting": 6,
+    "to_hit": -2,
+    "flags": "SPEAR"
   }
 ]
