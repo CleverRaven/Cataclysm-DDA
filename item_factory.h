@@ -59,6 +59,7 @@ private:
     nc_color color_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
     Use_function use_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
     unsigned flags_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
+    unsigned techniques_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
     material material_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map, int to_return);
     material material_from_tag(Item_tag new_id, Item_tag index);
     ammotype ammo_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
@@ -67,6 +68,8 @@ private:
     std::map<Item_tag, Use_function> iuse_function_list;
     //flags stuff
     std::map<Item_tag, unsigned> item_flags_list;
+    //techniques stuff
+    std::map<Item_tag, unsigned> techniques_list;
 };
 
 extern Item_factory* item_controller;

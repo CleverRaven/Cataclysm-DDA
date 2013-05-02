@@ -1143,7 +1143,7 @@
         ["HAMMER", 1]
     ]
   },
-  { "id":"syringe",
+  { "id": "syringe",
     "symbol": ",",
     "color": "light_cyan",
     "name": "syringe",
@@ -1157,5 +1157,20 @@
     "cutting": 6,
     "to_hit": -2,
     "flags": "SPEAR"
+  },
+  { "id": "pointy_stick",
+    "symbol" : "/",
+    "color": "light_red",
+    "name": "pointy stick",
+    "description": "A simple wood pole with one end sharpened.",
+    "rarity": 5,
+    "price": 0,
+    "volume": 5,
+    "weight": 3,
+    "damage": 4,
+    "cutting": 10,
+    "to_hit": 1,
+    "flags": "SPEAR",
+    "techniques": ["WBLOCK_1"]
   }
 ]
