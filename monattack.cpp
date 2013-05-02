@@ -869,7 +869,7 @@ void mattack::tentacle(game *g, monster *z)
   g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, 0);
  }
 
- if (z->type->melee_skill * 10 > g->u.dodge(g) || one_in(g->u.dodge(g))) {
+ if (z->type->melee_skill * 10 > g->u.dodge_roll(g) || one_in(g->u.dodge(g))) {
   body_part hit = random_body_part();
   int dam = rng(10, 20), side = rng(0, 1);
   g->add_msg("Your %s is hit for %d damage!", body_part_name(hit, side).c_str(),
@@ -1380,7 +1380,7 @@ void mattack::bite(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;	// Reset timer
  g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
  z->moves -= 100;
- if (z->type->melee_skill * 10 > g->u.dodge(g) || one_in(g->u.dodge(g))) {
+ if (z->type->melee_skill * 10 > g->u.dodge_roll(g) || one_in(g->u.dodge(g))) {
   body_part hit = random_body_part();
   int dam = rng(5, 10), side = rng(0, 1);
   g->add_msg("Your %s is bitten for %d damage!", body_part_name(hit, side).c_str(),

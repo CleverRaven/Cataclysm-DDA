@@ -484,15 +484,15 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                                dam, cut, stab);
 
 //They missed 
- if (dam == 0 && u_see)
+ if (dam == 0 && u_see) {
   g->add_msg("The %s misses %s.", name().c_str(), you.c_str());
   p.practice(g->turn, "dodge", 1);
-
+  }
 //We dodged
- else if (type->melee_skill * 10 < p.dodge_roll(g) && !one_in(p.dodge(g)))
-  g->add_msg("%s dodge the %s.", you.c_str(), name().c_str());
+ else if (type->melee_skill * 10 < p.dodge_roll(g) && !one_in(p.dodge(g))) {
+  g->add_msg("%s dodge the %s.", You.c_str(), name().c_str());
   p.practice(g->turn, "dodge", 10);
-  
+  }
 //Successful hit with damage
  else if (dam > 0) {
   p.practice(g->turn, "dodge", 5);
