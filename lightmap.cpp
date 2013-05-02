@@ -27,6 +27,8 @@ void map::generate_lightmap(game* g)
     // In bright light indoor light exists to some degree
     if (!g->m.is_outside(sx, sy))
      lm[sx][sy] = LIGHT_AMBIENT_LOW;
+	else
+	 lm[sx][sy] = natural_light;
    }
   }
  }

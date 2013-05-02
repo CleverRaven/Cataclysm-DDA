@@ -216,8 +216,70 @@
                               ]
                           ]
         },
-
-
+		
+		
+		{
+            "result": "sling",
+			"category": "CC_WEAPON",
+            "difficulty": 0,
+            "time": 1000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["leather", 1],
+                                  ["fur", 1]
+                              ],
+                              [
+                                  ["plant_fibre", 20],
+                                  ["sinew", 20],
+                                  ["thread", 20]
+                              ]
+                          ]
+        },
+		
+		
+		{
+            "result": "slingshot",
+			"category": "CC_WEAPON",
+            "difficulty": 0,
+            "time": 3000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+								  ["stick", 1]
+                              ],
+                              [
+                                  ["hose", 1]
+                              ]
+                          ]
+        },
+		
+		
         {
             "result": "spear_wood",
             "category": "CC_WEAPON",
@@ -1112,6 +1174,29 @@
                               ],
                               [
                                   ["power_supply", 1]
+                              ]
+                          ]
+        },
+
+		
+		{
+            "result": "pebble",
+            "category": "CC_AMMO",
+            "difficulty": 0,
+            "time": 1000,
+            "reversible": false,
+            "autolearn": true,
+			"tools": [
+                         [
+                             ["rock", -1],
+							 ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rock", 1]
                               ]
                           ]
         },

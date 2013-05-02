@@ -282,7 +282,7 @@ void mattack::science(game *g, monster *z)	// I said SCIENCE again!
   g->add_msg("The %s opens it's mouth and a beam shoots towards you!",
              z->name().c_str());
   z->moves -= 400;
-  if (g->u.dodge(g) > rng(1, 16))
+  if (g->u.dodge(g) > rng(0, 16) && !one_in(g->u.dodge(g)))
    g->add_msg("You dodge the beam!");
   else if (one_in(6))
    g->u.mutate(g);
@@ -870,14 +870,14 @@ void mattack::tentacle(game *g, monster *z)
  }
 
  if (rng(0, 20) > g->u.dodge(g) || one_in(g->u.dodge(g))) {
-  g->add_msg("You dodge it!");
+  body_part hit = random_body_part();
+  int dam = rng(10, 20), side = rng(0, 1);
+  g->add_msg("Your %s is hit for %d damage!", body_part_name(hit, side).c_str(),
+            dam);
+  g->u.hit(g, hit, side, dam, 0);
   return;
  }
- body_part hit = random_body_part();
- int dam = rng(10, 20), side = rng(0, 1);
- g->add_msg("Your %s is hit for %d damage!", body_part_name(hit, side).c_str(),
-            dam);
- g->u.hit(g, hit, side, dam, 0);
+ g->add_msg("You dodge it!");
 }
 
 void mattack::vortex(game *g, monster *z)
@@ -1381,16 +1381,16 @@ void mattack::bite(game *g, monster *z)
  g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
  z->moves -= 100;
  if (rng(0, 20) > g->u.dodge(g) || one_in(g->u.dodge(g))) {
-  g->add_msg("You dodge it!");
+  body_part hit = random_body_part();
+  int dam = rng(5, 10), side = rng(0, 1);
+  g->add_msg("Your %s is bitten for %d damage!", body_part_name(hit, side).c_str(),
+             dam);
+  g->u.hit(g, hit, side, dam, 0);
+  if(one_in(10)){
+   g->u.add_disease(DI_BITE, 3600, g);
+  }
   return;
  }
- body_part hit = random_body_part();
- int dam = rng(5, 10), side = rng(0, 1);
- g->add_msg("Your %s is bitten for %d damage!", body_part_name(hit, side).c_str(),
-            dam);
- g->u.hit(g, hit, side, dam, 0);
- if(one_in(10)){
- g->u.add_disease(DI_BITE, 3600, g);
- }
+  g->add_msg("You dodge it!");
 }
 
