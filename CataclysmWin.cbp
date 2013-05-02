@@ -165,8 +165,6 @@
 		<Unit filename="setvector.h" />
 		<Unit filename="skill.cpp" />
 		<Unit filename="skill.h" />
-		<Unit filename="texthash.cpp" />
-		<Unit filename="texthash.h" />
 		<Unit filename="tileray.cpp" />
 		<Unit filename="tileray.h" />
 		<Unit filename="trap.h" />

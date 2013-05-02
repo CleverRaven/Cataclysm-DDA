@@ -144,7 +144,6 @@
     <ClCompile Include="..\settlement.cpp" />
     <ClCompile Include="..\setvector.cpp" />
     <ClCompile Include="..\skill.cpp" />
-    <ClCompile Include="..\texthash.cpp" />
     <ClCompile Include="..\tileray.cpp" />
     <ClCompile Include="..\trapdef.cpp" />
     <ClCompile Include="..\trapfunc.cpp" />
@@ -224,7 +223,6 @@
     <ClInclude Include="..\settlement.h" />
     <ClInclude Include="..\setvector.h" />
     <ClInclude Include="..\skill.h" />
-    <ClInclude Include="..\texthash.h" />
     <ClInclude Include="..\tileray.h" />
     <ClInclude Include="..\trap.h" />
     <ClInclude Include="..\tutorial.h" />
