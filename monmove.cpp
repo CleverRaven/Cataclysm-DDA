@@ -484,7 +484,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                                dam, cut, stab);
 
 //We dodged
- else if (type->melee_skill * 10 < p.dodge_roll(g) && !one_in(p.dodge(g))) {
+ if (type->melee_skill * 10 < p.dodge_roll(g) && !one_in(p.dodge(g))) {
   g->add_msg("%s dodge the %s.", You.c_str(), name().c_str());
   p.practice(g->turn, "dodge", 10);
   }
