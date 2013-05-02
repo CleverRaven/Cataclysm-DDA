@@ -277,7 +277,7 @@
     "symbol": ",",
     "color": "light_red",
     "name": "burnt out bionic",
-    "description": "Once a valuable bionic implants, it's not held up well under repeated use. This object has been destroyed by excessive electric current andis now useless.",
+    "description": "Once a valuable bionic implant, it's not held up well under repeated use. This object has been destroyed by excessive electric current andis now useless.",
     "rarity": 10,
     "material": ["STEEL", "PLASTIC"],
     "weight": 0,
