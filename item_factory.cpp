@@ -199,6 +199,26 @@ void Item_factory::init(){
   item_flags_list["FIT"] = mfb(IF_FIT);
   item_flags_list["DOUBLE_AMMO"] = mfb(IF_DOUBLE_AMMO);
 
+// Offensive Techniques
+  techniques_list["SWEEP"] = mfb(TEC_SWEEP);
+  techniques_list["PRECISE"] = mfb(TEC_PRECISE);
+  techniques_list["BRUTAL"] = mfb(TEC_BRUTAL);
+  techniques_list["GRAB"] = mfb(TEC_GRAB);
+  techniques_list["WIDE"] = mfb(TEC_WIDE);
+  techniques_list["RAPID"] = mfb(TEC_RAPID);
+  techniques_list["FEINT"] = mfb(TEC_FEINT);
+  techniques_list["THROW"] = mfb(TEC_THROW);
+  techniques_list["DISARM"] = mfb(TEC_DISARM);
+// Defensive Techniques
+  techniques_list["BLOCK"] = mfb(TEC_BLOCK);
+  techniques_list["BLOCK_LEGS"] = mfb(TEC_BLOCK_LEGS);
+  techniques_list["WBLOCK_1"] = mfb(TEC_WBLOCK_1);
+  techniques_list["WBLOCK_2"] = mfb(TEC_WBLOCK_2);
+  techniques_list["WBLOCK_3"] = mfb(TEC_WBLOCK_3);
+  techniques_list["COUNTER"] = mfb(TEC_COUNTER);
+  techniques_list["BREAK"] = mfb(TEC_BREAK);
+  techniques_list["DEF_THROW"] = mfb(TEC_DEF_THROW);
+  techniques_list["DEF_DISARM"] = mfb(TEC_DEF_DISARM);
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
@@ -355,6 +375,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     new_item_template->m_to_hit = int_from_json(new_id, "to_hit", entry_body);
                     new_item_template->use = use_from_json(new_id, "use_action", entry_body);
                     new_item_template->item_flags = flags_from_json(new_id, "flags", entry_body);
+                    new_item_template->techniques = techniques_from_json(new_id, "techniques", entry_body);
                 }
             }
         }
@@ -588,6 +609,40 @@ unsigned Item_factory::flags_from_json(Item_tag new_id, Item_tag index, picojson
                 if((*iter).is<std::string>()){
                     std::map<Item_tag, unsigned>::const_iterator found_flag_iter = item_flags_list.find((*iter).get<std::string>());
                     if(found_flag_iter != item_flags_list.end()){
+                      flag = flag | found_flag_iter->second;
+                    } else {
+                      std::cerr << "Item " << new_id << " has an invalid flag."; 
+                    }                
+                } else {
+                    std::cerr << "Item "<< new_id << " has a non-string flag listed." << std::endl;
+                }
+            }
+        } else {
+            std::cerr << "Item "<< new_id << " flag was skipped, not a string or array of strings." << std::endl;
+        }
+    }
+    return flag;
+}
+
+unsigned Item_factory::techniques_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
+    //If none is found, just use the standard none action
+    unsigned flag = 0;
+    //Otherwise, grab the right label to look for
+    picojson::value::object::const_iterator value_pair = value_map.find(index);
+    if(value_pair != value_map.end()){
+        if(value_pair->second.is<std::string>()){
+            std::map<Item_tag, unsigned>::const_iterator found_flag_iter = techniques_list.find(value_pair->second.get<std::string>());
+            if(found_flag_iter != techniques_list.end()){
+              flag = flag | found_flag_iter->second;
+            } else {
+              std::cerr << "Item " << new_id << " has an invalid flag."; 
+            }
+        } else if (value_pair->second.is<picojson::array>()) {
+            const picojson::array& materials_json = value_pair->second.get<picojson::array>();
+            for (picojson::array::const_iterator iter = materials_json.begin(); iter != materials_json.end(); ++iter) {
+                if((*iter).is<std::string>()){
+                    std::map<Item_tag, unsigned>::const_iterator found_flag_iter = techniques_list.find((*iter).get<std::string>());
+                    if(found_flag_iter != techniques_list.end()){
                       flag = flag | found_flag_iter->second;
                     } else {
                       std::cerr << "Item " << new_id << " has an invalid flag."; 

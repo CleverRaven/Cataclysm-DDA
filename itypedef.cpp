@@ -976,11 +976,6 @@ An aluminium baseball bat, smaller and lighter than a wooden bat\n\
 and a little less damaging as a result.");
 TECH("bat_metal", mfb(TEC_WBLOCK_1) );
 
-MELEE("pointy_stick", "pointy stick",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
-	 5,  3,  4, 10,  1, mfb(IF_SPEAR), "\
-A simple wood pole with one end sharpened.");
-TECH("pointy_stick", mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
-
 MELEE("spear_wood", "wood spear",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
 	 5,  3,  4, 18,  1, mfb(IF_SPEAR), "\
 A stout pole with an improvised grip and a fire-hardened point.");
