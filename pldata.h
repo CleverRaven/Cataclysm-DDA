@@ -417,9 +417,9 @@ not to skill gain from other sources like books."},
 While you're not any better at melee combat, you are better at recovering\n\
 from a miss, and will be able to attempt another strike faster."},
 {"Drunken Master", 2, 0, 0, "\
-The martial art technique of Zui Quan, or Drunken Fist, comes naturally to\n\
-you.  While under the influence of alcohol, your melee skill will rise\n\
-considerably, especially unarmed combat."},
+The ancient arts of drunken brawling come naturally to you! While under the\n\
+influence of alcohol, your melee skill will rise considerably, especially\n\
+unarmed combat."},
 {"Gourmand", 2, 0, 0, "\
 You eat faster, and can eat and drink more, than anyone else!  You also enjoy\n\
 food more; delicious food is better for your morale, and you don't mind some\n\
