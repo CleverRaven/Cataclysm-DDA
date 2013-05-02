@@ -2264,9 +2264,9 @@ mfb(AMMO_FLAME)|mfb(AMMO_STREAM));
 // clip is how many shots we get before reloading.
 
 #define GUN(id,name,rarity,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
-to_hit,dmg,accuracy,recoil,durability,burst,clip,reload_time,des,flags) \
+to_hit,dmg,range,accuracy,recoil,durability,burst,clip,reload_time,des,flags) \
 itypes[id]=new it_gun(id,rarity,price,name,des,'(',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,flags,skill,ammo,dmg,accuracy,\
+color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,flags,skill,ammo,dmg,range,accuracy,\
 recoil,durability,burst,clip,reload_time)
 
 // GUN MODS
@@ -3824,8 +3824,8 @@ AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
 
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
-//	SKILL		AMMO	   VOL WGT MDG HIT DMG ACC REC DUR BST CLIP REL
-	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
+//	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
+	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "",0);
 
 
