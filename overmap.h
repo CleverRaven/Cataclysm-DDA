@@ -9,6 +9,7 @@
 #include <vector>
 #include <iosfwd>
 #include <string>
+#include <stdlib.h>
 #include "cursesdef.h"
 #include "name.h"
 
