@@ -483,11 +483,6 @@ void monster::hit_player(game *g, player &p, bool can_grab)
  p.perform_defensive_technique(tech, g, this, NULL, bphit, side,
                                dam, cut, stab);
 
-//They missed 
- if (dam == 0 && u_see) {
-  g->add_msg("The %s misses %s.", name().c_str(), you.c_str());
-  p.practice(g->turn, "dodge", 1);
-  }
 //We dodged
  else if (type->melee_skill * 10 < p.dodge_roll(g) && !one_in(p.dodge(g))) {
   g->add_msg("%s dodge the %s.", You.c_str(), name().c_str());
