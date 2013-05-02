@@ -851,7 +851,7 @@ int map::move_cost(const int x, const int y)
   if (dpart >= 0 && (!veh->part_flag(dpart, vpf_openable) || !veh->parts[dpart].open)) {
    return 0;
   } else {
-    const int ipart = veh->part_with_feature(vpart, vpf_isle);
+    const int ipart = veh->part_with_feature(vpart, vpf_aisle);
 
     if (ipart >= 0)
       return 2;
