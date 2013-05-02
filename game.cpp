@@ -3902,7 +3902,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
    int mon_hit = mon_at(i, j), npc_hit = npc_at(i, j);
    if (mon_hit != -1 && !z[mon_hit].dead &&
        z[mon_hit].hurt(rng(dam / 2, dam * 1.5))) {
-    if (z[mon_hit].hp < 0 - 1.5 * z[mon_hit].type->hp)
+    if (z[mon_hit].hp < 0 - (z[mon_hit].type->size >= 2? 1.5:3) * z[mon_hit].type->hp)
      explode_mon(mon_hit); // Explode them if it was big overkill
     else
      kill_mon(mon_hit); // TODO: player's fault?
