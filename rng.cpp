@@ -30,7 +30,7 @@ int dice(int number, int sides)
 
 // http://www.cse.yorku.ca/~oz/hash.html
 // for world seeding.
-int djb2_hash(unsigned char *str){
+int djb2_hash(const unsigned char *str){
  unsigned long hash = 5381;
  unsigned char c = *str++;
  while (c != '\0'){
