@@ -167,6 +167,8 @@
 		<Unit filename="skill.h" />
 		<Unit filename="texthash.cpp" />
 		<Unit filename="texthash.h" />
+		<Unit filename="text_snippets.cpp" />
+		<Unit filename="text_snippets.h" />
 		<Unit filename="tileray.cpp" />
 		<Unit filename="tileray.h" />
 		<Unit filename="trap.h" />
