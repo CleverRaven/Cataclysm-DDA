@@ -537,7 +537,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
    p.add_disease(DI_BLEED, 60, g);
   }
   if (can_grab && has_flag(MF_GRABS) &&
-      type->melee_dice * 10 > p.dodge_roll(g)) {
+      type->melee_skill * 10 > p.dodge_roll(g)) {
    if (!is_npc)
     g->add_msg("The %s grabs you!", name().c_str());
    if (p.weapon.has_technique(TEC_BREAK, &p) &&
