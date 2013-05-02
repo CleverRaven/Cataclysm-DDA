@@ -553,7 +553,7 @@ filling and will not spoil.", mfb(IF_EATEN_HOT));
 
 FOOD("tea_raw", "tea leaves",	10, 13,	c_green,	VEGGY,	"bag_plastic",
     2,  1, 0,  2,  0,  0,  0,  0,  5, -1,	&iuse::none, ADD_NULL, "\
-Dried leaves of a tropical plant. You cam boil them into tea, or you\n\
+Dried leaves of a tropical plant. You can boil them into tea, or you\n\
 can just eat them raw. They aren't too filling though.", 0);
 
 FOOD("coffee_raw", "coffee powder",	15, 13,	c_brown,	VEGGY,	"bag_plastic",
@@ -2272,7 +2272,7 @@ recoil,durability,burst,clip,reload_time)
 // GUN MODS
 // Accuracy is inverted from guns; high values are a bonus, low values a penalty
 // The clip modification is a percentage of the original clip size.
-// The final variable is a bitfield of acceptible ammo types.  Using 0 means
+// The final variable is a bitfield of acceptable ammo types.  Using 0 means
 //   that any ammo type is acceptable (so long as the mod works on the class of
 //   gun)
 #define GUNMOD(id, name, rare, value, color, mat1, mat2, volume, weight, meleedam,\
@@ -3383,7 +3383,7 @@ are unparalled.");
 
 TOOL("broadsword", "broadsword",	30,1200,'/',c_cyan,	IRON,	MNULL,
 	 7, 11,  8, 35,  2,  0, 0, 0, 0, AT_NULL, "null", &iuse::knife, mfb(IF_STAB), "\
-An early modern sword seeing use in the 16th, 17th ane 18th centuries.\n\
+An early modern sword seeing use in the 16th, 17th and 18th centuries.\n\
 Called 'broad' to contrast with the slimmer rapiers.");
 TECH("broadsword",  mfb(TEC_WBLOCK_1) );
 
@@ -3578,7 +3578,7 @@ TOOL("primitive_axe", "stone axe",	 8, 105,'/', c_ltgray,	WOOD,	STONE,
 // VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
 	17, 19, 15, 18,  0, 0, 0, 0, 0, AT_NULL, "null", &iuse::lumber,
 0, "\
-A sharpened stone affixed to a stick, works passably well as ane axe\n\
+A sharpened stone affixed to a stick, works passably well as an axe\n\
 but really can't compare to a proper axe..");
 
 TOOL("primitive_shovel", "stone shovel",		40, 100,'/', c_brown,	STONE,	WOOD,
