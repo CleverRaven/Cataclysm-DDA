@@ -9,7 +9,7 @@
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) (unsigned long long)(1ULL << (n))
 #endif
 
 bool is_flammable(material m);

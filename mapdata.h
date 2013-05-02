@@ -29,7 +29,7 @@ class monster;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
-#define mfb(n) long(1 << (n))
+#define mfb(n) (unsigned long long)(1ULL << (n))
 #endif
 
 enum t_flag {
