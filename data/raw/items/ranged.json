@@ -1937,7 +1937,7 @@
     "cutting": 0,
     "to_hit": -1,
     "ranged_damage": 8,
-    "range": 0,
+    "range": 6,
     "accuracy": 10,
     "recoil": 0,
     "durability": 5,
