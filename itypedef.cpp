@@ -762,67 +762,11 @@ gracken");
 itypes[id]=new itype(id,rarity,price,name,des,sym,\
 color,mat1,mat2,SOLID,volume,wgt,dam,cut,to_hit,flags);
 
-//    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
-MELEE("wrapper", "paper wrapper",	50,  1, ',', c_ltgray,	PAPER,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  0, -8,  0, -2, 0, "\
-Just a piece of butcher's paper. Good for starting fires.");
-
-//    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
-MELEE("withered", "withered plant",	70,  1, 't', c_ltgray,	PAPER,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  0, -8,  0, -2, 0, "\
-A dead plant. Good for starting fires.");
-
-MELEE("fur", "fur pelt",	 0, 10, ',', c_brown,	FUR,	LEATHER,
-	 1,  1, -8,  0,  0, 0, "\
-A small bolt of fur from an animal. Can be made into warm clothing.");
-
-MELEE("leather", "leather patch",	 0, 20, ',', c_red,	LEATHER, FLESH,
-	 2,  1, -2,  0, -1, 0, "\
-A smallish patch of leather, could be used to make tough clothing.");
-
-//    NAME		RAR PRC SYM  COLOR	MAT1	MAT2
-MELEE("superglue", "superglue",	30, 18, ',', c_white,	PLASTIC,MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  0, -2,  0, -2, 0, "\
-A tube of strong glue. Used in many crafting recipes.");
-
-MELEE("id_science", "science ID card", 2,600, ',', c_pink,	PLASTIC,MNULL,
-	 0,  0, -8,  1, -3, 0, "\
-This ID card once belonged to a scientist of some sort. It has a magnetic\n\
-stripe on the back; perhaps it can be used on a control panel.");
-
-MELEE("id_military", "military ID card",3,1200,',', c_pink,	PLASTIC,MNULL,
-	 0,  0, -8,  1, -3, 0, "\
-This ID card once belonged to a military officer with high-level clearance.\n\
-It has a magnetic stripe on the back; perhaps it can be used on a control\n\
-panel.");
-
-MELEE("electrohack", "electrohack",	 3,400, ',', c_green,	PLASTIC,STEEL,
-	 2,  2,  5,  0,  1, 0, "\
-This device has many ports attached, allowing to to connect to almost any\n\
-control panel or other electronic machine (but not computers). With a little\n\
-skill, it can be used to crack passwords and more.");
-
-MELEE("string_6", "string - 6 in",	 2,  5, ',', c_ltgray,	COTTON,	MNULL,
-	 0,  0,-20,  0,  1, 0, "\
-A small piece of cotton string.");
-
-MELEE("string_36", "string - 3 ft",	40, 30, ',', c_ltgray,	COTTON,	MNULL,
-	 1,  0, -5,  0,  1, 0, "\
-A long piece of cotton string. Use scissors on it to cut it into smaller\n\
-pieces.");
-
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("rope_6", "rope - 6 ft",	 4, 45, ',', c_yellow,	WOOD,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
 	 2,  4,  1,  0,  1, mfb(IF_WRAP), "\
 A short piece of nylon rope. Too small to be of much use.");
-
-MELEE("rope_30", "rope - 30 ft",	35,100, ',', c_yellow,	WOOD,	MNULL,
-	10, 20,  1,  0, -10, 0, "\
-A long nylon rope. Useful for keeping yourself safe from falls.");
 
 MELEE("chain", "steel chain",	20, 80, '/', c_cyan,	STEEL,	MNULL,
 	 4,  8, 12,  0,  2, mfb(IF_WRAP), "\
@@ -830,82 +774,9 @@ A heavy steel chain. Useful as a weapon, or for crafting. It has a chance\n\
 to wrap around your target, allowing for a bonus unarmed attack.");
 TECH("chain", mfb(TEC_GRAB) );
 
-MELEE("processor", "processor board",15,120, ',', c_ltcyan,	IRON,	PLASTIC,
-	 1,  0, -3,  0, -1, 0, "\
-A central processor unit, useful in advanced electronics crafting.");
-
-MELEE("RAM", "RAM",		22, 90, ',', c_ltcyan,	IRON,	PLASTIC,
-	 1,  0, -5,  0, -1, 0, "\
-A stick of memory. Useful in advanced electronics crafting.");
-
-MELEE("power_supply", "power converter",16,170, ',', c_ltcyan,	IRON,	PLASTIC,
-	 4,  2,  5,  0, -1, 0, "\
-A power supply unit. Useful in lots of electronics recipes.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("amplifier", "amplifier circuit",8,200,',', c_ltcyan,	IRON,	PLASTIC,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  0, -5,  0, -1, 0, "\
-A circuit designed to amplify the strength of a signal. Useful in lots of\n\
-electronics recipes.");
-
-MELEE("transponder", "transponder circuit",5,240,',',c_ltcyan,	IRON,	PLASTIC,
-	 1,  0, -5,  0, -1, 0, "\
-A circuit designed to repeat a signal. Useful for crafting communications\n\
-equipment.");
-
-MELEE("receiver", "signal receiver",10,135, ',', c_ltcyan,	IRON,	PLASTIC,
-	 1,  0, -4,  0, -1, 0, "\
-A module designed to receive many forms of signals. Useful for crafting\n\
-communications equipment.");
-
-MELEE("burnt_out_bionic", "burnt out bionic",10,135, ',', c_ltred,	STEEL,	PLASTIC,
-	 1,  0, -4,  0, -1, 0, "\
-Once a valuable bionic implants, it's not held up well under repeated\n\
-use. This object has been destroyed by excessive electric current and\n\
-is now useless.");
-
-MELEE("antenna", "antenna",	18, 80, ',', c_ltcyan,	STEEL,	MNULL,
-	 1,  0, -6,  0,  2, 0, "\
-A simple thin aluminum shaft. Useful in lots of electronics recipes.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("steel_chunk", "chunk of steel", 30, 10, ',', c_ltblue,	STEEL,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 2,  6, 12,  0, -2, 0, "\
-A misshapen chunk of steel. Makes a decent weapon in a pinch, and is also\n\
-useful for some crafting recipes.");
-
-//    NAME      RAR PRC SYM COLOR   MAT1    MAT2
-MELEE("steel_lump", "lump of steel", 30, 20, ',', c_ltblue,  STEEL,  MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-     2,  80, 18,  0, -4, 0, "\
-A misshapen heavy piece of steel. Useful for some crafting recipes.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("scrap", "scrap metal", 30, 10, ',', c_ltblue,	STEEL,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  1,  0,  0, -2, 0, "\
-An assortment of small bits of metal and scrap\n\
-useful in all kinds of crafting");
-
 MELEE("hose", "rubber hose",	15, 80, ',', c_green,	PLASTIC,MNULL,
 	 3,  2,  4,  0,  3, mfb(IF_WRAP), "\
 A flexible rubber hose. Useful for crafting.");
-
-MELEE("glass_sheet", "sheet of glass",	 5,135, ']', c_ltcyan,	GLASS,	MNULL,
-	50, 20, 16,  0, -5, 0, "\
-A large sheet of glass. Easily shattered. Useful for re-paning windows.");
-
-MELEE("manhole_cover", "manhole cover",	 1, 20, ']', c_dkgray,	IRON,	MNULL,
-	45,250, 20,  0,-10, 0, "\
-A heavy iron disc that typically covers a ladder into the sewers. Lifting\n\
-it from the manhole is impossible without a crowbar.");
-
-MELEE("stick", "heavy stick",	95,  0, '/', c_brown,	WOOD,	MNULL,
-	 6, 10, 12,  0,  3, 0, "\
-A sturdy, heavy stick. Makes a decent melee weapon, and can be cut into two\n\
-by fours for crafting.");
 
 MELEE("broom", "broom",		30, 24, '/', c_blue,	PLASTIC,MNULL,
 	10,  8,  6,  0,  1, 0, "\
@@ -918,11 +789,6 @@ A large, heavy hammer. Makes a good melee weapon for the very strong, but is\n\
 nearly useless in the hands of the weak.");
 TECH("hammer_sledge", mfb(TEC_BRUTAL)|mfb(TEC_WIDE) );
 
-MELEE("hatchet", "hatchet",	10,  95,';', c_ltgray,	IRON,	WOOD,
-	 6,  7, 12, 12,  1, 0, "\
-A one-handed hatchet. Makes a great melee weapon, and is useful both for\n\
-cutting wood, and for use as a hammer.");
-
 MELEE("nailboard", "nail board",	 5,  80,'/', c_ltred,	WOOD,	MNULL,
 	 6,  6, 16,  6,  1, mfb(IF_STAB), "\
 A long piece of wood with several nails through one end; essentially a simple\n\
@@ -933,20 +799,6 @@ MELEE("nailbat", "nail bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
 	12, 10, 28,  6,  3, mfb(IF_STAB), "\
 A baseball bat with several nails driven through it, an excellent melee weapon.");
 TECH("nailbat", mfb(TEC_WBLOCK_1) );
-
-MELEE("pot", "pot",		25,  45,')', c_ltgray,	IRON,	MNULL,
-	 8,  6,  9,  0,  1, 0, "\
-Useful for boiling water when cooking spaghetti and more.");
-
-MELEE("pan", "frying pan",	25,  50,')', c_ltgray,	IRON,	MNULL,
-	 6,  6, 14,  0,  2, 0, "\
-A cast-iron pan. Makes a decent melee weapon, and is used for cooking.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("knife_butter", "butter knife",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  2,  2,  1, -2, 0, "\
-A dull knife, absolutely worthless in combat.");
 
 MELEE("2x4", "two by four", 	60,  80,'/', c_ltred,	WOOD,	MNULL,
 	 6,  6, 14,  0,  1, 0, "\
@@ -1003,59 +855,12 @@ A six-inch stinger from a giant wasp. Makes a good melee weapon.");
 TECH("wasp_sting", mfb(TEC_PRECISE) );
 
 //    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("chitin_piece", "chunk of chitin",10,  15,',', c_red,	FLESH,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  0,  1,  0, -2, 0, "\
-A piece of an insect's exoskeleton. It is light and very durable.");
-
-MELEE("biollante_bud", "biollante bud",   1, 400,',', c_magenta,	VEGGY,	MNULL,
-	 1,  0, -8,  0, -3, 0, "\
-An unopened biollante flower, brilliant purple in color. It may still have\n\
-its sap-producing organ intact.");
-
-MELEE("canister_empty", "empty canister",  5,  20,'*', c_ltgray,	STEEL,	MNULL,
-	 1,  1,  2,  0, -1, 0, "\
-An empty canister, which may have once held tear gas or other substances.");
-
-MELEE("gold", "gold bar",	10,3000,'/', c_yellow,	STEEL,	MNULL,
-	 2, 60, 14,  0, -1, 0, "\
-A large bar of gold. Before the apocalypse, this would've been worth a small\n\
-fortune; now its value is greatly diminished.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("coal", "coal pallet",	20, 600,'/', c_dkgray,	STONE,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 72,100, 8,  0, -5, 0, "\
-A large block of semi-processed coal.");
-
-MELEE("petrified_eye", "petrified eye",   1,2000,'*', c_dkgray,	STONE,	MNULL,
-	 2,  8, 10,  0, -1, 0, "\
-A fist-sized eyeball with a cross-shaped pupil. It seems to be made of\n\
-stone, but doesn't look like it was carved.");
-
-MELEE("spiral_stone", "spiral stone",   20, 200,'*', c_pink,	STONE,	MNULL,
-	 1,  3, 14,  0, -1, 0, "\
-A rock the size of your fist. It is covered with intricate spirals; it is\n\
-impossible to tell whether they are carved, naturally formed, or some kind of\n\
-fossil.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
 MELEE("cane", "walking cane",   10, 160,'/', c_ltred,	WOOD,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
 	  8,  7, 10,  0,  2, 0, "\
 Handicapped or not, you always walk in style. Consisting of a metal\n\
 headpiece and a wooden body, this makes a great bashing weapon in a pinch.");
 TECH("cane", mfb(TEC_WBLOCK_1) );
-
-MELEE("binoculars", "binoculars",	20, 300,';', c_ltgray,	PLASTIC,GLASS,
-	  2,  3,  6,  0, -1, 0, "\
-A tool useful for seeing long distances. Simply carrying this item in your\n\
-inventory will double the distance that is mapped around you during your\n\
-travels.");
-
-MELEE("usb_drive", "USB drive",	 5, 100,',', c_white,	PLASTIC,MNULL,
-	  0,  0,  0,  0,  0, 0, "\
-A USB thumb drive. Useful for holding software.");
 
 MELEE("mace", "mace",		20,1000,'/',c_dkgray,	IRON,	WOOD,
 	10, 18, 36,  0,  1, 0, "\
@@ -1078,174 +883,10 @@ A hard-wood stick designed for hitting colorful balls around a felt\n\
 table. Truly, the coolest of sports.");
 TECH("pool_cue", mfb(TEC_WBLOCK_1) );
 
-MELEE("pool_ball", "pool ball",	40, 30,'*', c_blue,	STONE,	MNULL,
-	 1,  3, 12,  0, -3, 0, "\
-A colorful, hard ball. Essentially a rock.");
-
-MELEE("candlestick", "candlestick",	20,100,'/', c_yellow,	SILVER,	MNULL,
-	 1,  5, 12,  0,  1,  0, "\
-A gold candlestick.");
-
 MELEE("spike", "spike",           0, 0,';',  c_cyan,     STEEL,  MNULL,
 	 2,  2,  2, 10, -2, mfb(IF_STAB),"\
 A large and slightly misshapen spike, could do some damage\n\
 mounted on a vehicle.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("blade", "blade",	 5, 280,'/', c_blue,	IRON,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 8, 10,  6, 10, -2, 0, "\
-A large, relatively sharp blade. Could be used to make\n\
-bladed weaponry, or attached to a car.");
-
-MELEE("wire", "wire",   50, 200,';', c_blue,    STEEL,  MNULL,
-         4,  2,  0,  0, -2, 0, "\
-A length of thin, relatively stiff, steel wire. Like the\n\
-the sort you find in wire fences.");
-
-MELEE("wire_barbed", "barbed wire",   20, 200,';', c_blue,    STEEL,  MNULL,
-         4,  2,  0,  0, -2, 0, "\
-A length of stiff wire, covered in sharp barbs.");
-
-MELEE("rebar", "rebar",		20,  75,'/', c_ltred,	IRON,	MNULL,
-	 6, 10, 13,  0,  2, 0, "\
-A length of rebar, makes a nice melee weapon, and could be\n\
-handy in constructing tougher walls and such.");
-
-MELEE("log", "log",                    20,  100,'/', c_brown,  WOOD,   MNULL,
-         40, 20, 10, 0, -10, 0, "\
-A large log, cut from a tree. (a)ctivate a wood ax or wood\n\
-saw to cut it into planks");
-
-MELEE("splinter", "splintered wood", 	60,  80,'/', c_ltred,	WOOD,	MNULL,
-	 6,  6, 9,  0,  1, 0, "\
-A splintered piece of wood, useless as anything but kindling");
-
-MELEE("skewer", "skewer",                 10,  10,',', c_brown,   WOOD,   MNULL,
-         0,  0, 0,  0,  -10, 0, "\
-A thin wooden skewer. Squirrel on a stick, anyone?");
-
-MELEE("crackpipe", "crack pipe",             37,  35, ',',c_ltcyan,  GLASS,  MNULL,
-         1,  1, 0,  0,  -10, 0, "\
-A fine glass pipe, with a bulb on the end, used for partaking of\n\
-certain illicit substances.");
-
-MELEE("torch_done", "burnt out torch",	95,  0, '/', c_brown,	WOOD,	MNULL,
-	 6, 10, 12,  0,  3, 0, "\
-A torch that has consumed all its fuel; it can be recrafted\n\
-into another torch");
-
-MELEE("spring", "spring", 50, 10, ',', c_ltgray,  STEEL,  MNULL,
-         3,  0, -1,  0,  0, 0, "\
-A large, heavy-duty spring. Expands with significant force\n\
-when compressed.");
-
-MELEE("lawnmower", "lawnmower", 25, 100, ';', c_red, STEEL,  IRON,
-         25, 40, -3, 10, 0, 0, "\
-A motorized pushmower that seems to be broken. You could\n\
-take it apart if you had a wrench.");
-
-MELEE("sheet", "sheet",           0, 100, ';', c_dkgray, COTTON, MNULL,
-         20, 2, 0, 0,    -1, 0, "\
-A large fabric sheet, could be used as a curtain or bedsheets;\n\
-or cut up for a bunch of rags.");
-
-//  NAME        RAR PRC SYM  COLOR  MAT1    MAT
-MELEE("broketent", "damaged tent",17, 65, ';', c_green,	IRON,	MNULL,
-	 10,  20,  4,  0, -3, 0, "\
-A small tent, just big enough to fit a person comfortably.\n\
-This tent is broken and cannot be deployed");
-
-MELEE("element", "heating element", 20, 10, ',', c_cyan,   IRON,   MNULL,
-         0,   1,   0,  0,  0, 0, "\
-A heating element, like the ones used in hotplates or kettles.");
-
-MELEE("television", "television",      40, 0,  ';', c_dkgray,   PLASTIC, GLASS,
-        10,  12,  5, 0, -5, 0, "\
-A large cathode ray tube television, full of delicious\n\
-electronics.");
-
-MELEE("pilot_light", "pilot light", 20, 10, ',', c_cyan,   IRON,   PLASTIC,
-         0,   1,   0,  0,  0, 0, "\
-A pilot light from a gas-burning device, this particular one\n\
-is a simple piezo electric igniter.");
-
-MELEE("toaster", "toaster", 50, 10, ',', c_cyan, IRON, PLASTIC,
-         2,   1,   0,  0,  0, 0, "\
-A small two slice toaster, not much use as anything but spare parts");
-
-MELEE("microwave", "microwave", 50, 10, ',', c_cyan, IRON, PLASTIC,
-         8,   5,   0,  0,  0, 0, "\
-A home microwave, has probably seen its share of baked beans.\n\
-Good for scrap parts.");
-
-MELEE("laptop", "laptop computer", 50, 10, ',', c_cyan, IRON, PLASTIC,
-         3,   2,   0,  0,  0, 0, "\
-A broken laptop, basically a paperweight now");
-
-MELEE("fan", "desk fan", 50, 10, ',', c_cyan, IRON, PLASTIC,
-         4,   1,   0,  0,  0, 0, "\
-A small fan, used to propel air around a room.");
-
-MELEE("ceramic_plate", "ceramic plate", 50, 10, ',', c_cyan, GLASS, MNULL,
-         1,   1,   1,  0,  0, 0, "\
-A ceramic dinner plate, you could probably play frisbee with it");
-
-MELEE("ceramic_bowl", "ceramic bowl", 50, 10, ',', c_cyan, GLASS, MNULL,
-         1,   1,   1,  0,  0, 0, "\
-A shallow dessert bowl, not a lot of use for it really.");
-
-MELEE("ceramic_cup", "ceramic cup", 50, 10, ',', c_cyan, GLASS, MNULL,
-         1,   1,   1,  0,  0, 0, "\
-A ceramic teacup, pinky out!");
-
-MELEE("glass_plate", "glass plate", 50, 10, ',', c_cyan, GLASS, MNULL,
-         1,   1,   1,  0,  0, 0, "\
-A glass dinner plate, you could probably play frisbee with it");
-
-MELEE("glass_bowl", "glass bowl", 50, 10, ',', c_cyan, GLASS, MNULL,
-         1,   1,   1,  0,  0, 0, "\
-A glass dessert bowl, not a lot of use for it really.");
-
-MELEE("glass", "glass", 50, 10, ',', c_cyan, GLASS, MNULL,
-         1,   1,   1,  0,  0, 0, "\
-A tall glass, just begging for a frosty one!");
-
-MELEE("tin_plate", "tin plate", 50, 10, ',', c_cyan, STEEL, MNULL,
-         1,   0,   0,  0,  0, 0, "\
-A tin dinner plate, you could probably play frisbee with it");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("fork", "fork",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  2,  2,  1, -2, 0, "\
-A fork, if you stab something with it you eat it right away\n\
-Wait.. nevermind.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("spork", "spork",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  2,  2,  1, -2, 0, "\
-Foons are for scrubs, real men use sporks.");
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("foon", "foon",	90,  15,';', c_ltcyan,	STEEL, 	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 1,  2,  2,  1, -2, 0, "\
-Clearly the superior instrument. Sporks are just imitators.");
-
-MELEE("rag_bloody", "blood soaked rag",    1, 0,  ',', c_red, COTTON,   MNULL,
-         0, 0, 0, 0, 0, 0, "\
-A large rag, drenched in blood. It could be cleaned with\n\
-boiling water.");
-
-MELEE("clock", "clock",               60, 0, ';', c_ltcyan, PLASTIC, IRON,
-         1, 2, 0, 0, 0, 0, "\
-A small mechanical clock, it's stopped at 10:10.");
-
-MELEE("clockworks", "clockworks",          30, 0, ';', c_ltcyan, IRON, MNULL,
-         1, 1, 0, 0, 0, 0, "\
-A small assortment of gears and other clockwork gubbins.");
 
 MELEE("javelin", "wooden javelin",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
@@ -1254,10 +895,6 @@ A wooden spear, honed to a sharper point and fire hardened\n\
 for toughness. The grip area has also be carved and covered\n\
 for better grip.");
 TECH("javelin", mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
-
-MELEE("rock_pot", "stone pot", 0, 0, ';', c_dkgray, STONE, MNULL,
-     9, 3,  4, 0, -1, 0, "\
-A large stone, roughly hollowed out into a pot.");
 
 //      NAME           RAR PRC SYM COLOR        MAT1    MAT2
 MELEE("frame", "steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
