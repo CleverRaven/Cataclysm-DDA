@@ -184,6 +184,7 @@ void mattack::boomer(game *g, monster *z)
   g->u.infect(DI_BOOMERED, bp_eyes, 3, 12, g);
  else if (u_see)
   g->add_msg("You dodge it!");
+  g->u.practice(g->turn, "dodge", 10);
 }
 
 void mattack::resurrect(game *g, monster *z)
@@ -726,6 +727,7 @@ void mattack::dermatik(game *g, monster *z)
  if (player_dodge > attack_roll) {
   g->add_msg("The %s tries to land on you, but you dodge.", z->name().c_str());
   z->stumble(g, false);
+  g->u.practice(g->turn, "dodge", 10);
   return;
  }
 
@@ -878,6 +880,7 @@ void mattack::tentacle(game *g, monster *z)
   return;
  }
  g->add_msg("You dodge it!");
+  g->u.practice(g->turn, "dodge", 10);
 }
 
 void mattack::vortex(game *g, monster *z)
@@ -1392,5 +1395,6 @@ void mattack::bite(game *g, monster *z)
   return;
  }
   g->add_msg("You dodge it!");
+  g->u.practice(g->turn, "dodge", 10);
 }
 
