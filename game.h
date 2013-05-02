@@ -480,6 +480,8 @@ class game
   calendar latest_lightlevel_turn;
 
   special_game *gamemode;
+
+  int moveCount; //Times the player has moved (not pause, sleep, etc)
 };
 
 #endif

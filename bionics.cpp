@@ -761,6 +761,10 @@ energy instead increases your hunger.");
 You have a few solar panels installed.  While in direct sunlight, your power\n\
 level will slowly recharge.");
     power_source_bionics.push_back("bio_solar");
+    bionics["bio_torsionratchet"] = new bionic_data("Joint Torsion Ratchet", true, false, 0, 0, "\
+Your joints have been equipped with torsion ratchets that generate power slowly\n\
+when you move.");
+    power_source_bionics.push_back("bio_torsionratchet");
     bionics["bio_furnace"] = new bionic_data("Internal Furnace", true, false, 0, 0, "\
 You can burn nearly any organic material as fuel (use 'E'), recharging your\n\
 power level.  Some materials will burn better than others.");
