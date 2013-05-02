@@ -359,7 +359,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                             gun_template->durability = int_from_json(new_id, "durability", entry_body);
                             gun_template->burst = int_from_json(new_id, "burst", entry_body);
                             gun_template->clip = int_from_json(new_id, "clip_size", entry_body);
-                            gun_template->reload_time = int_from_json(new_id, "reload_time", entry_body);
+                            gun_template->reload_time = int_from_json(new_id, "reload", entry_body);
 
                             new_item_template = gun_template;
                         }
