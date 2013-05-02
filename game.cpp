@@ -467,6 +467,10 @@ bool game::do_turn()
   if (u.has_bionic("bio_solar") && is_in_sunlight(u.posx, u.posy))
    u.charge_power(1);
  }
+ if (turn % 60 == 0) {
+  if (u.has_bionic("bio_torsionratchet"))
+   u.charge_power(1);
+ }
  if (turn % 300 == 0) {	// Pain up/down every 30 minutes
   if (u.pain > 0)
    u.pain -= 1 + int(u.pain / 10);
