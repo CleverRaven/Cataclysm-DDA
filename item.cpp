@@ -1176,7 +1176,8 @@ bool item::is_silent() const
  return type->is_gun() && (
    noise() < 5 ||              // almost silent
    curammo->type == AT_BOLT || // crossbows
-   curammo->type == AT_ARROW   // bows
+   curammo->type == AT_ARROW ||// bows
+   curammo->type == AT_PEBBLE  // sling[shot]
  );
 }
 

@@ -75,7 +75,7 @@ void game::init_mapitems()
   "solar_cell",
 	"manual_mechanics", "hammer", "flashlight", "soldering_iron",
 	"bubblewrap", "binoculars", "duct_tape", "lawnmower", "foot_crank",
-        "boltcutters", "spray_can", "jar_glass", NULL);
+        "boltcutters", "spray_can", "jar_glass", "bearings", NULL);
 
  setvector(
    mapitems[mi_bedroom],
@@ -193,7 +193,7 @@ void game::init_mapitems()
 	"superglue", "chain", "rope_6", "rope_30", "glass_sheet",
 	"pipe", "nail", "hose", "string_36", "frame", "metal_tank",
 	"wire", "wire_barbed", "duct_tape", "jerrycan", "lawnmower",
-  "foot_crank", "spray_can", "ax", "jerrycan_big", "funnel",
+  "foot_crank", "spray_can", "ax", "jerrycan_big", "funnel", "bearings",
 	NULL);
 
  setvector(
@@ -512,7 +512,7 @@ void game::init_mapitems()
         "wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
         "1cyl_combustion", "v2_combustion", "i4_combustion", "v6_combustion",
         "vehicle_controls", "v8_combustion", "hacksaw", "welder", "motor",
-        "goggles_welding", "solar_cell",
+        "goggles_welding", "solar_cell", "bearings",
         "motor_large", "storage_battery", "solar_panel", "jerrycan", "jerrycan_big", "metal_tank", NULL);
 
  setvector(

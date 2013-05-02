@@ -7125,7 +7125,6 @@ void game::plfire(bool burst)
   else if (u.has_charges("UPS_on", 5))
    u.use_charges("UPS_on", 5);
  }
-
  if (u.weapon.mode == IF_MODE_BURST)
   burst = true;
 

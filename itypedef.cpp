@@ -2134,12 +2134,26 @@ AMMO("plut_cell", "plutonium cell",	10,1500,AT_PLUT,	c_ltgreen,	STEEL,
 A nuclear-powered battery. Used to charge advanced and rare electronics.",
 0);
 
-AMMO("nail", "nails",		35,  60,AT_NAIL,	c_cyan,		IRON,
+AMMO("nail",    "nails",   35, 60, AT_NAIL,    c_cyan, IRON,
          1,  8,  4,  3,  3, 40,  4, 100, "\
 A box of nails, mainly useful with a hammer.",
 0);
 
-AMMO("bb", "BB",		 8,  50,AT_BB,		c_pink,		STEEL,
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("pebble",  "pebbles",   1,  1,  AT_PEBBLE,   c_ltgray,   STONE,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1,  1,  2,  0, 30, 20,  0, 10, "\
+A handful of pebbles, useful as ammunition for slings.",
+0);
+
+//  NAME		RAR PRC TYPE		COLOR		MAT
+AMMO("bearing",  "bearings",   1,  1,  AT_PEBBLE,   c_ltgray,   STONE,
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 1,  2,  6,  1, 30, 20,  0, 50, "\
+A box of ball bearings, useful as ammunition for slings.",
+0);
+
+AMMO("bb",  "BB",   8,  50, AT_BB,  c_pink, STEEL,
 	 1,  6,  2,  0, 12, 20,  0, 200, "\
 A box of small steel balls. They deal virtually no damage.",
 0);
@@ -2707,6 +2721,22 @@ GUN("bbgun", "BB gun",		10, 100,c_ltblue,	IRON,	WOOD,
 Popular among children. It's fairly accurate, but BBs deal nearly no damage.\n\
 It could be used to practice your rifle skill up to level 1.",
 0);
+
+//  NAME		RAR PRC COLOR		MAT1	MAT2
+GUN("sling", "sling", 5, 50, c_red, LEATHER, MNULL,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
+    "throw", AT_PEBBLE, 1, 1, 0, 0, 2, 15, 0, 6, 0, 1, 100, "\
+A leather sling, it is easy to use and accurate, but pebbles do little damage.\n\
+Pebbles are used as ammunition.",
+mfb(IF_RELOAD_AND_SHOOT));
+
+//  NAME		RAR PRC COLOR		MAT1	MAT2
+GUN("slingshot", "slingshot", 5, 50, c_yellow, WOOD, MNULL,
+//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
+    "archery", AT_PEBBLE, 1, 1, 0, 2, 2, 15, 0, 6, 0, 1, 100, "\
+A wooden slingshot, it is easy to use and accurate, but pebbles do little damage.\n\
+Pebbles are used as ammunition.",
+mfb(IF_RELOAD_AND_SHOOT));
 
 GUN("crossbow", "crossbow",		 2,1000,c_green,	IRON,	WOOD,
 	"archery",	AT_BOLT, 6,  9, 11,  1,  0, 18,  0,  6,  0,  1, 800, "\
@@ -5118,6 +5148,7 @@ std::string ammo_name(ammotype t)
   case AT_BB:	  return "BBs";
   case AT_BOLT:	  return "bolts";
   case AT_ARROW:  return "arrows";
+  case AT_PEBBLE: return "pebbles";
   case AT_SHOT:	  return "shot";
   case AT_22:	  return ".22";
   case AT_9MM:	  return "9mm";
@@ -5154,6 +5185,7 @@ itype_id default_ammo(ammotype guntype)
  case AT_BB:	return "bb";
  case AT_BOLT:	return "bolt_wood";
  case AT_ARROW: return "arrow_wood";
+ case AT_PEBBLE:return "pebble";
  case AT_SHOT:	return "shot_00";
  case AT_22:	return "22_lr";
  case AT_9MM:	return "9mm";
