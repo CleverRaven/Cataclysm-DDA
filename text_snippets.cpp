@@ -31,7 +31,7 @@ int snippet_library::assign( const std::string category ) const
     {
         return 0;
     }
-    const int selected_text = rng(0, categories.count(category));
+    const int selected_text = rng( 0, categories.count(category) - 1 );
     std::multimap<std::string,int>::const_iterator it = category_start;
     for( int index = 0; index < selected_text; ++index )
     {
