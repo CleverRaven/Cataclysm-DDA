@@ -25,7 +25,7 @@ Skill::Skill(size_t id, std::string ident, std::string name, std::string descrip
   _description = description;
 }
 
-std::vector<Skill*> Skill::skills(Skill::loadSkills());
+std::vector<Skill*> Skill::skills;
 
 std::vector<Skill*> Skill::loadSkills() {
   std::vector<Skill*> allSkills;

@@ -55,6 +55,7 @@ game::game() :
 {
  dout() << "Game initialized.";
 // Gee, it sure is init-y around here!
+ init_skills();
  init_bionics();      // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	      // Set up item types                (SEE itypedef.cpp)
  item_controller->init(this); //Item manager
@@ -87,6 +88,11 @@ game::~game()
  delwin(w_messages);
  delwin(w_location);
  delwin(w_status);
+}
+
+void game::init_skills()
+{
+    Skill::skills = Skill::loadSkills();
 }
 
 void game::init_ui(){
