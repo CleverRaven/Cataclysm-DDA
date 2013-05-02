@@ -587,6 +587,8 @@ ammotype Item_factory::ammo_from_json(Item_tag new_id, Item_tag index, picojson:
         return AT_NAIL;
     } else if ("BB" == new_ammo) {
         return AT_BB;
+    } else if ("pebble" == new_ammo) {
+        return AT_PEBBLE;
     } else if ("bolt" == new_ammo) {
         return AT_BOLT;
     } else if ("arrow" == new_ammo) {

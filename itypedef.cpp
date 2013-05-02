@@ -2708,21 +2708,6 @@ itypes[id]=new it_tool(id,rarity,price,name,des,sym,\
 color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
 
-//  NAME		RAR PRC COLOR		MAT1	MAT2
-GUN("sling", "sling", 5, 50, c_red, LEATHER, MNULL,
-//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-    "throw", AT_PEBBLE, 1, 1, 0, 0, 2, 15, 0, 6, 0, 1, 100, "\
-A leather sling, it is easy to use and accurate, but pebbles do little damage.\n\
-Pebbles are used as ammunition.",
-mfb(IF_RELOAD_AND_SHOOT));
-
-//  NAME		RAR PRC COLOR		MAT1	MAT2
-GUN("slingshot", "slingshot", 5, 50, c_yellow, WOOD, MNULL,
-//	SKILL		AMMO	VOL WGT MDG HIT DMG ACC REC DUR BST CLIP RELOAD
-    "archery", AT_PEBBLE, 1, 1, 0, 2, 2, 15, 0, 6, 0, 1, 100, "\
-A wooden slingshot, it is easy to use and accurate, but pebbles do little damage.\n\
-Pebbles are used as ammunition.",
-mfb(IF_RELOAD_AND_SHOOT));
 
 //	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
 GUNMOD("suppressor", "suppressor",	 15,  480, c_dkgray, STEEL, PLASTIC,  2,  1,  3,  0,  2,
