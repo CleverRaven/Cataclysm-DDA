@@ -1633,31 +1633,31 @@ ARMOR("blanket", "blanket",	20, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    10,  3, -5, -1,  5,  0,  1,  1,  60, 0,
    mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
-Hiding under here will not protect you from the monsters.");
+Hiding under here will not protect you from the monsters.", 0);
 
 ARMOR("fur_blanket", "fur blanket",	20, 225,C_TORSO,	COTTON,		FUR,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    10,  10, -5, -1,  5,  0,  1,  1,  80, 0,
    mfb(bp_torso)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
-A heavy fur blanket that covers most of your body.");
+A heavy fur blanket that covers most of your body.", 0);
 
 ARMOR("emer_blanket", "emergency blanket",	20, 225,C_TORSO,	WOOL,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    4,  2, -5, -1,  5,  0,  1,  1,  50, 0,
    mfb(bp_torso)|mfb(bp_arms)|mfb(bp_legs), "\
-A compact wool blanket that covers your most important body parts.");
+A compact wool blanket that covers your most important body parts.", 0);
 
 ARMOR("sleeping_bag", "sleeping bag",	10, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    10,  5, -5, -1,  5,  0,  1,  1,  80, 0,
    mfb(bp_torso)|mfb(bp_head)|mfb(bp_mouth)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
-A large sleeping bag that covers you head to toe.");
+A large sleeping bag that covers you head to toe.", 0);
 
 ARMOR("sleeping_bag_fur", "fur sleeping bag",	10, 225,C_TORSO,	COTTON,		FUR,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
    10,  5, -5, -1,  5,  0,  1,  1,  100, 0,
    mfb(bp_torso)|mfb(bp_head)|mfb(bp_mouth)|mfb(bp_arms)|mfb(bp_hands)|mfb(bp_legs)|mfb(bp_feet), "\
-A large sleeping bag lined with fur. Who needs a tent?");
+A large sleeping bag lined with fur. Who needs a tent?", 0);
 
 ARMOR("house_coat", "house coat",	25, 225,C_TORSO,	COTTON,		MNULL,
 // VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
