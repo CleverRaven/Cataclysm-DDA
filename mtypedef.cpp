@@ -1132,7 +1132,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_BASHES, MF_ATTACKMON, MF_ELECTRONIC, MF_NO_BREATHE, 
 
 mon("hazmatbot",	species_robot, 'R',	c_ltgray,	MS_MEDIUM,	STEEL,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 12,100, 40, 70,  4,  3,  2,  0,  8, 12,  8, 80, 80, 3,
+	 12,100, 40, 70,  8,  3,  2,  8,  3, 12,  10, 0, 120, 3,
 	&mdeath::explode,	&mattack::none, "\
 A utility robot designed for hazardous\n\
 conditions.  Its only means to stop intruders\n\
