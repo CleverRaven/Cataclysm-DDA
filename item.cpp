@@ -6,6 +6,7 @@
 #include <sstream>
 #include <algorithm>
 #include "cursesdef.h"
+#include "text_snippets.h"
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -85,6 +86,11 @@ item::item(itype* it, unsigned int turn)
   it_var_veh_part* varcarpart = dynamic_cast<it_var_veh_part*>(it);
   bigness= rng( varcarpart->min_bigness, varcarpart->max_bigness);
  }
+ // Should be a flag, but we're out at the moment
+ if( it->is_stationary() )
+ {
+     mode = SNIPPET.assign( (dynamic_cast<it_stationary*>(it))->category );
+ }
 }
 
 item::item(itype *it, unsigned int turn, char let)
@@ -134,6 +140,11 @@ item::item(itype *it, unsigned int turn, char let)
  invlet = let;
  mission_id = -1;
  player_id = -1;
+ // Should be a flag, but we're out at the moment
+ if( it->is_stationary() )
+ {
+     mode = SNIPPET.assign( (dynamic_cast<it_stationary*>(it))->category );
+ }
 }
 
 void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
@@ -1338,6 +1349,14 @@ bool item::is_style() const
   return false;
 
  return type->is_style();
+}
+
+bool item::is_stationary() const
+{
+ if( is_null() )
+  return false;
+
+ return type->is_stationary();
 }
 
 bool item::is_other() const

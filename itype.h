@@ -241,6 +241,7 @@ struct itype
  virtual bool is_software()      { return false; }
  virtual bool is_macguffin()     { return false; }
  virtual bool is_style()         { return false; }
+ virtual bool is_stationary()    { return false; }
  virtual bool is_artifact()      { return false; }
  virtual bool is_var_veh_part()  { return false; }
  virtual bool is_engine()         { return false; }
@@ -749,6 +750,27 @@ struct it_style : public itype
 
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) { }
+};
+
+struct it_stationary : public itype
+{
+ virtual bool is_stationary()         { return true; }
+
+ std::string category;
+
+ it_stationary(std::string pid, unsigned char prarity, unsigned int pprice,
+          std::string pname, std::string pdes,
+          char psym, nc_color pcolor, material pm1, material pm2,
+          unsigned char pvolume, unsigned char pweight,
+          signed char pmelee_dam, signed char pmelee_cut,
+          signed char pm_to_hit, unsigned pitem_flags,
+          std::string pcategory)
+
+:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+ {
+     category = pcategory;
+ }
 };
 
 struct it_artifact_tool : public it_tool

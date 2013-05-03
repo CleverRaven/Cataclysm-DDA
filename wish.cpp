@@ -3,6 +3,7 @@
 #include "keypress.h"
 #include "item_factory.h"
 #include <sstream>
+#include "text_snippets.h"
 
 #define LESS(a, b) ((a)<(b)?(a):(b))
 
@@ -147,6 +148,11 @@ void game::wish()
    tmp.charges = 0;
   else
    tmp.charges = -1;
+  // Should be a flag, but we're out at the moment
+  if( tmp.is_stationary() )
+  {
+    tmp.mode = SNIPPET.assign( (dynamic_cast<it_stationary*>(tmp.type))->category );
+  }
   info = tmp.info(true);
   mvwprintw(w_info, 1, 0, info.c_str());
   wrefresh(w_info);
