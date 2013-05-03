@@ -2487,6 +2487,31 @@ void overmap::place_special(overmap_special special, tripoint p)
   }
   make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
+ 
+ //Buildings should be designed with the entrance at the southwest corner and open to the street on the south.
+ if (special.flags & mfb(OMS_FLAG_2X2_SECOND)) {
+  int startx = p.x-3, starty = p.y-3; // Acts as an error message, way offset from ideal
+  if (is_road(p.x, p.y - 1, p.z)) { // Road to north
+   startx = p.x - 1;
+   starty = p.y;
+  } else if (is_road(p.x + 1, p.y, p.z)) { // Road to east
+   startx = p.x - 1;
+   starty = p.y-1;
+  } else if (is_road(p.x, p.y + 1, p.z)) { // Road to south
+   startx = p.x;
+   starty = p.y - 1;
+  } else if (is_road(p.x - 1, p.y, p.z)) { // Road to west
+   startx = p.x;
+   starty = p.y;
+  }
+  if (startx != -1) {
+   for (int x = startx; x <= startx+1; x++) {
+    for (int y = starty; y <= starty+1; y++)
+     ter(x, y, p.z) = oter_id(special.ter+1);
+   }
+   ter(p.x, p.y, p.z) = oter_id(special.ter);
+  }
+ }
 
  if (special.flags & mfb(OMS_FLAG_PARKING_LOT)) {
   int closest = -1, distance = 999;

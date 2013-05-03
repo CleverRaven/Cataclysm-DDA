@@ -692,6 +692,12 @@ void game::init_mapitems()
  "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
 
  setvector(
+   mapitems[mi_construction_worker],
+	"boots", "boots_steel", "jumpsuit", "gloves_rubber","gloves_leather",
+	"mask_filter", "glasses_safety", "hat_hard", "battery",
+	"flashlight", "two_way_radio", NULL);
+
+ setvector(
    mapitems[mi_mine_storage],
 	"rock", "coal", NULL);
 

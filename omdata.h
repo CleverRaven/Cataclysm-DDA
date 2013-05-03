@@ -92,6 +92,7 @@ enum oter_id {
   ot_mil_surplus_west,
  ot_megastore_entrance, ot_megastore,
  ot_hospital_entrance, ot_hospital,
+ ot_public_works_entrance, ot_public_works,
  ot_mansion_entrance, ot_mansion, ot_fema_entrance, ot_fema,
  ot_station_radio_north, ot_station_radio_east, ot_station_radio_south, ot_station_radio_west,
 // Goodies/dungeons
@@ -289,6 +290,8 @@ const oter_t oterlist[num_ter_types] = {
 {"megastore",		'M',	c_blue,		5, build_extras, false, false},
 {"hospital",		'H',	c_ltred,	5, build_extras, false, false},
 {"hospital",		'H',	c_red,		5, build_extras, false, false},
+{"public works", 'W',	c_ltgray,		5, no_extras, false, false},
+{"public works",	'w',	c_ltgray,		5, no_extras, false, false},
 {"mansion",		'M',	c_ltgreen,	5, build_extras, false, false},
 {"mansion",		'M',	c_green,	5, build_extras, false, false},
 {"fema camp",		'+',	c_blue,	5, build_extras, false, false},
@@ -455,6 +458,7 @@ enum omspec_id
  OMSPEC_MANSION_WILD,
  OMSPEC_MEGASTORE,
  OMSPEC_HOSPITAL,
+ OMSPEC_PUBLIC_WORKS,
  OMSPEC_SEWAGE,
  OMSPEC_MINE,
  OMSPEC_ANTHILL,
@@ -529,6 +533,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_hospital_entrance, 1, 5, 3, 15, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
+
+{ot_public_works_entrance,    1, 3,  2, 10, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
 
 {ot_sewage_treatment, 1,  5, 10, 20, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT) | mfb(OMS_FLAG_CLASSIC)},
