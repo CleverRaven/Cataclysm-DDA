@@ -825,8 +825,8 @@ int npc::confident_range(char invlet)
 
 // Using 180 for now for extra-confident NPCs.
  int ret = (max > int(180 / deviation) ? max : int(180 / deviation));
- if (weapon.curammo && ret > weapon.curammo->range)
-  return weapon.curammo->range;
+ if (weapon.curammo && ret > weapon.range(this))
+  return weapon.range(this);
  return ret;
 }
 

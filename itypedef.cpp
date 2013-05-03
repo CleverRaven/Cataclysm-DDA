@@ -1792,21 +1792,21 @@ A box of small steel balls. They deal virtually no damage.",
 
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("arrow_wood", "wood arrow",       7,100,AT_ARROW,        c_green,        WOOD,
-//	VOL WGT DMG  AP RNG ACC REC COUNT
-         2, 60,  8,  1, 10, 18,  0,  10, "\
+//	    VOL WGT DMG  AP RNG ACC REC COUNT
+         2, 60,  8,  1,  0, 18,  0,  10, "\
 A sharpened arrow carved from wood. It's light-weight, does little damage,\n\
 and is so-so on accuracy. Stands a good chance of remaining intact once\n\
 fired.",
 0);
 
 AMMO("arrow_cf", "carbon fiber arrow",5,300,AT_ARROW,       c_green,        PLASTIC,
-         2, 30, 12,  2, 15, 14,  0,   8, "\
+         2, 30, 12,  2,  5, 14,  0,   8, "\
 High-tech carbon fiber shafts and 100 grain broadheads. Very light weight,\n\
 fast, and notoriously fragile.",
 0);
 
 AMMO("bolt_wood", "wood crossbow bolt",8,100,AT_BOLT,	c_green,	WOOD,
-	 1, 40, 10,  1, 10, 16,  0,  15, "\
+	 1, 40, 10,  1,  0, 16,  0,  15, "\
 A sharpened bolt carved from wood. It's lighter than a steel bolt, but does\n\
 less damage and is less accurate. Stands a good chance of remaining intact\n\
 once fired.",
@@ -1815,7 +1815,7 @@ once fired.",
 //  NAME		RAR PRC TYPE		COLOR		MAT
 AMMO("bolt_steel", "steel crossbow bolt",7,400,AT_BOLT,	c_green,	STEEL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
-	 1, 90, 20,  3, 14, 12,  0,  10, "\
+	 1, 90, 20,  3,  4, 12,  0,  10, "\
 A sharp bolt made from steel. Deadly in skilled hands. Stands an excellent\n\
 chance of remaining intact once fired.",
 0);
@@ -2264,9 +2264,9 @@ mfb(AMMO_FLAME)|mfb(AMMO_STREAM));
 // clip is how many shots we get before reloading.
 
 #define GUN(id,name,rarity,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
-to_hit,dmg,accuracy,recoil,durability,burst,clip,reload_time,des,flags) \
+to_hit,dmg,range,accuracy,recoil,durability,burst,clip,reload_time,des,flags) \
 itypes[id]=new it_gun(id,rarity,price,name,des,'(',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,flags,skill,ammo,dmg,accuracy,\
+color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,flags,skill,ammo,dmg,range,accuracy,\
 recoil,durability,burst,clip,reload_time)
 
 // GUN MODS
@@ -3824,8 +3824,8 @@ AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
 
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
-//	SKILL		AMMO	   VOL WGT MDG HIT DMG ACC REC DUR BST CLIP REL
-	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
+//	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
+	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "",0);
 
 
