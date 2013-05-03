@@ -650,18 +650,18 @@ void game::process_activity()
     }
 
     no_recipes = true;
-    if (reading->recipes.size() > 0) 
+    if (reading->recipes.size() > 0)
     {
         bool recipe_learned = false;
-        
+
         recipe_learned = u.try_study_recipe(this, reading);
-        if (!u.studied_all_recipes(reading)) 
+        if (!u.studied_all_recipes(reading))
         {
             no_recipes = false;
         }
-        
+
         // for books that the player cannot yet read due to skill level, but contain
-        // lower level recipes, break out once recipe has been studied  
+        // lower level recipes, break out once recipe has been studied
         if ((u.skillLevel(reading->type) < (int)reading->req))
         {
             if (recipe_learned)
@@ -1294,6 +1294,8 @@ bool game::handle_action()
    break;
 
   case ACTION_MOVE_N:
+   moveCount++;
+
    if (u.in_vehicle)
     pldrive(0, -1);
    else
@@ -1301,6 +1303,8 @@ bool game::handle_action()
    break;
 
   case ACTION_MOVE_NE:
+   moveCount++;
+
    if (u.in_vehicle)
     pldrive(1, -1);
    else
@@ -1308,6 +1312,8 @@ bool game::handle_action()
    break;
 
   case ACTION_MOVE_E:
+   moveCount++;
+
    if (u.in_vehicle)
     pldrive(1, 0);
    else
@@ -1315,6 +1321,8 @@ bool game::handle_action()
    break;
 
   case ACTION_MOVE_SE:
+   moveCount++;
+
    if (u.in_vehicle)
     pldrive(1, 1);
    else
@@ -1322,6 +1330,8 @@ bool game::handle_action()
    break;
 
   case ACTION_MOVE_S:
+   moveCount++;
+
    if (u.in_vehicle)
     pldrive(0, 1);
    else
@@ -1329,6 +1339,8 @@ bool game::handle_action()
    break;
 
   case ACTION_MOVE_SW:
+   moveCount++;
+
    if (u.in_vehicle)
     pldrive(-1, 1);
    else
@@ -1336,6 +1348,8 @@ bool game::handle_action()
    break;
 
   case ACTION_MOVE_W:
+   moveCount++;
+
    if (u.in_vehicle)
     pldrive(-1, 0);
    else
@@ -1343,6 +1357,8 @@ bool game::handle_action()
    break;
 
   case ACTION_MOVE_NW:
+   moveCount++;
+
    if (u.in_vehicle)
     pldrive(-1, -1);
    else
@@ -2951,7 +2967,7 @@ void game::draw_HP()
             }
         } else {
             mvwprintz(w_HP, i * 2 + 1, 0, color, health_bar.c_str());
-            
+
             //Add the trailing symbols for a not-quite-full health bar
             int bar_remainder = 5;
             while(bar_remainder > health_bar.size()){
@@ -5126,14 +5142,14 @@ void game::advanced_inv()
 {
     const int head_height=5;	// 7 is wasteful
     const int min_w_height=10;
-    //80x25 
+    //80x25
     const int min_w_width=80;
     const int max_w_width=120;
-    
+
     int itemsPerPage=10;
     int w_height = (TERMY<min_w_height+head_height) ? min_w_height : TERMY-head_height;
     int w_width = (TERMX<min_w_width) ? min_w_width : (TERMX>max_w_width) ? max_w_width : (int)TERMX;
-//maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4; 
+//maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;
     if (u.in_vehicle)
     {
         add_msg("Exit vehicle first");
@@ -7750,6 +7766,12 @@ void game::plmove(int x, int y)
  } else {
   x += u.posx;
   y += u.posy;
+
+  if (moveCount % 60 == 0) {
+   if (u.has_bionic("bio_torsionratchet")) {
+    u.charge_power(1);
+   }
+  }
  }
 
  dbg(D_PEDANTIC_INFO) << "game:plmove: From ("<<u.posx<<","<<u.posy<<") to ("<<x<<","<<y<<")";
