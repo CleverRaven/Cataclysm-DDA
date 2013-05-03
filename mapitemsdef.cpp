@@ -31,7 +31,7 @@ void game::init_mapitems()
 	"muffler", "pipe", "motor", "seat",
    "wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
    "1cyl_combustion", "v2_combustion", "i4_combustion", "v6_combustion",
-   "v8_combustion", "foot_crank", NULL);
+   "v8_combustion", "foot_crank", "flyer", NULL);
 
  setvector(
    mapitems[mi_livingroom],
@@ -111,7 +111,8 @@ void game::init_mapitems()
 	"jacket_jean", "blazer", "jacket_leather", "poncho",
 	"trenchcoat", "peacoat", "vest", "mag_porn", "lighter",
 	"sewing_kit", "thread", "flashlight", "suit", "tophat",
-	"glasses_monocle", "duct_tape", "firecracker_pack", "firecracker", "wolfsuit", "snuggie",
+	"glasses_monocle", "duct_tape", "firecracker_pack", "firecracker",
+ "wolfsuit", "snuggie", "flyer",
     NULL);
 
  setvector(
@@ -152,7 +153,7 @@ void game::init_mapitems()
 	"novel_romance", "novel_spy", "mag_carpentry", "mag_comic",
 	"mag_guns", "mag_archery", "novel_horror", "novel_mystery", "novel_fantasy",
 	"mag_dodge","mag_comic","mag_throwing", "novel_firstaid",
-	"mag_gaming", "Mag_swimming", NULL);
+ "mag_gaming", "Mag_swimming", "flyer", NULL);
 
  setvector(
    mapitems[mi_softdrugs],
@@ -273,7 +274,7 @@ void game::init_mapitems()
 	"bottle_plastic", "bottle_glass", "can_drink", "can_food",
 	"box_small", "bubblewrap", "lighter", "matches", "syringe", "rag",
 	"software_hacking", "jug_plastic", "spray_can", "keg",
-    "jar_glass", NULL);
+ "jar_glass", "flyer", NULL);
 
  setvector(
    mapitems[mi_ammo],
@@ -491,7 +492,7 @@ void game::init_mapitems()
 	"manual_mechanics", "manual_first_aid", "manual_traps",
 	"flashlight", "water_purifier", "two_way_radio", "radio",
  "geiger_off", "usb_drive", "canteen", "jerrycan", "rucksack",
- "heatpack", "sleeping_bag", "emer_blanket", NULL);
+ "heatpack", "sleeping_bag", "emer_blanket", "flyer", NULL);
 
  setvector(
    mapitems[mi_shelter],
@@ -504,7 +505,7 @@ void game::init_mapitems()
 	"manual_first_aid", "manual_tailor", "manual_carpentry",
 	"lighter", "matches", "sewing_kit", "thread", "hammer", "extinguisher",
 	"flashlight", "hotplate", "water_purifier", "radio", "rollmat",
- "tent_kit", "canteen", "spray_can", "ax", "heatpack", "blanket", "emer_blanket", NULL);
+ "tent_kit", "canteen", "spray_can", "ax", "heatpack", "blanket", "emer_blanket", "flyer", NULL);
 
  setvector(
    mapitems[mi_mechanics],
@@ -686,9 +687,9 @@ void game::init_mapitems()
 	"boots", "jumpsuit", "coat_lab", "gloves_rubber",
 	"mask_filter", "glasses_safety", "hat_hard", "extinguisher",
 	"flashlight", "water_purifier", "two_way_radio",
-   "bio_tools",      "bio_storage",  "bio_flashlight",
-   "bio_lighter",      "bio_magnet",
-   "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
+ "bio_tools", "bio_storage",  "bio_flashlight",
+ "bio_lighter", "bio_magnet", "flyer",
+ "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
 
  setvector(
    mapitems[mi_mine_storage],
@@ -716,26 +717,25 @@ void game::init_mapitems()
 	"transponder", "receiver", "antenna", "screwdriver",
 	"battery", "mag_porn", "mag_tv", "manual_electronics",
 	"lighter", "flashlight", "two_way_radio", "radio", "mp3",
-  "solar_cell",
-	"usb_drive", NULL);
+ "solar_cell", "flyer",	"usb_drive", NULL);
 
  setvector(
    mapitems[mi_toxic_dump_equipment],
 	"1st_aid", "iodine", "canister_empty", "boots_steel",
 	"hazmat_suit", "mask_gas", "hat_hard", "textbook_carpentry",
-	"extinguisher", "radio", "geiger_off", "UPS_off",
-   "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
+ "extinguisher", "radio", "geiger_off", "UPS_off", "flyer",
+ "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
 
  setvector(
    mapitems[mi_subway],
 	"wrapper", "string_6", "chain", "rock", "pipe",
 	"mag_porn", "bottle_plastic", "bottle_glass", "can_drink",
 	"can_food", "lighter", "matches", "flashlight", "rag", "crowbar",
-    "spray_can", "jar_glass", NULL);
+ "spray_can", "jar_glass", "flyer", NULL);
 
  setvector(
    mapitems[mi_sewer],
-	"mutagen", "fetus", "weed", "mag_porn", "rag", NULL);
+   "mutagen", "fetus", "weed", "mag_porn", "rag", "flyer", NULL);
 
  setvector(
    mapitems[mi_cavern],
