@@ -582,7 +582,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
  }
 
  if ( showtext && !is_null() ) {
-  dump->push_back(iteminfo("DESCRIPTION", type->description));
+    if (is_stationary()) {
+       // Just use the dynamic description
+        dump->push_back( iteminfo("DESCRIPTION", SNIPPET.get(mode)) );
+    } else {
+       dump->push_back(iteminfo("DESCRIPTION", type->description));
+    }
+
     if (is_armor() && has_flag(IF_FIT))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
