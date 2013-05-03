@@ -15,6 +15,7 @@
 #include "output.h"
 #include "item_factory.h"
 #include "helper.h"
+#include "text_snippets.h"
 
 #include <map>
 #include <algorithm>
@@ -57,6 +58,7 @@ game::game() :
 // Gee, it sure is init-y around here!
  init_bionics();      // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	      // Set up item types                (SEE itypedef.cpp)
+ SNIPPET.load();
  item_controller->init(this); //Item manager
  init_mtypes();	      // Set up monster types             (SEE mtypedef.cpp)
  init_monitems();     // Set up the items monsters carry  (SEE monitemsdef.cpp)

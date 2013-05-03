@@ -22,4 +22,6 @@ private:
     std::multimap<std::string, int> categories;
 };
 
+extern snippet_library SNIPPET;
+
 #endif // _TEXT_SNIPPET_H_
