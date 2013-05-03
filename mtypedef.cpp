@@ -1130,6 +1130,17 @@ heavily armored."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_BASHES, MF_ATTACKMON, MF_ELECTRONIC, MF_NO_BREATHE, MF_VIS50);
 
+mon("hazmatbot",	species_robot, 'R',	c_ltgray,	MS_MEDIUM,	STEEL,
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	 12,100, 40, 70,  4,  3,  2,  0,  8, 12,  8, 80, 80, 3,
+	&mdeath::explode,	&mattack::none, "\
+A utility robot designed for hazardous\n\
+conditions.  Its only means to stop intruders\n\
+appears to involve thrashing around one of its\n\
+multiple legs."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_BASHES, MF_ATTACKMON, MF_ELECTRONIC, MF_NO_BREATHE, MF_VIS50);
+
 mon("copbot",	species_robot, 'R',	c_ltblue,	MS_MEDIUM,	STEEL,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 12,100, 40,100,  4,  3,  2,  0,  8, 12,  8, 80, 80, 3,
