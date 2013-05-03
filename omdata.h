@@ -107,6 +107,7 @@ enum oter_id {
  ot_spiral_hub, ot_spiral,
  ot_radio_tower,
  ot_toxic_dump,
+ ot_haz_sar_entrance, ot_haz_sar,
  ot_cave, ot_cave_rat,
 // Underground terrain
  ot_spider_pit_under,
@@ -330,6 +331,8 @@ const oter_t oterlist[num_ter_types] = {
 {"spiral cavern",	'@',	c_pink,		2, no_extras, false, false},
 {"radio tower",         'X',    c_ltgray,       2, no_extras, false, false},
 {"toxic waste dump",	'D',	c_pink,		2, no_extras, false, false},
+{"hazardous waste sarcophagus", 'X',	c_ltred,		5, no_extras, false, false},
+{"hazardous waste sarcophagus",	'X',	c_pink,		5, no_extras, false, false},
 {"cave",		'C',	c_brown,	2, field_extras, false, false},
 {"rat cave",		'C',	c_dkgray,	2, no_extras, true, false},
 {"cavern",		'0',	c_ltgray,	2, no_extras, false, false},
@@ -470,6 +473,7 @@ enum omspec_id
  OMSPEC_SHELTER,
  OMSPEC_CAVE,
  OMSPEC_TOXIC_DUMP,
+ OMSPEC_HAZARDOUS_SAR,
  NUM_OMSPECS
 };
 
@@ -569,8 +573,10 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::wilderness, 0},
 
 {ot_toxic_dump,	   0,  5, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)}
+ &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
 
+{ot_haz_sar_entrance,     1,  2, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)}
 };
 
 // Overmap "Zones"
