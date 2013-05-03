@@ -74,7 +74,7 @@ void dis_msg(game *g, dis_type type)
   g->add_msg("You're knocked to the floor!");
   break;
  case DI_AMIGARA:
-  g->add_msg("You can't look away from the fautline...");
+  g->add_msg("You can't look away from the faultline...");
   break;
  case DI_STEMCELL_TREATMENT:
   g->add_msg("You receive a pureed bone & enamel injection into your eyeball.");
@@ -1377,25 +1377,25 @@ std::string dis_description(disease dis)
   switch (dis.intensity) {
    case 1: return "Your arms are exposed to the cold.";
    case 2: return "Your arms are very exposed to the cold. Your arms are shivering.";
-   case 3: return "Your arms is dangerously cold. Your arms are shivering uncontrollably";}
+   case 3: return "Your arms are dangerously cold. Your arms are shivering uncontrollably";}
 
  case DI_COLD_HANDS:
   switch (dis.intensity) {
    case 1: return "Your hands are exposed to the cold.";
    case 2: return "Your hands are very exposed to the cold. Your hands are shivering.";
-   case 3: return "Your hands is dangerously cold. Your hands are shivering uncontrollably";}
+   case 3: return "Your hands are dangerously cold. Your hands are shivering uncontrollably";}
 
  case DI_COLD_LEGS:
   switch (dis.intensity) {
    case 1: return "Your legs are exposed to the cold.";
    case 2: return "Your legs are very exposed to the cold. Your strength is sapped.";
-   case 3: return "Your legs is dangerously cold. Your strength is sapped.";}
+   case 3: return "Your legs are dangerously cold. Your strength is sapped.";}
 
  case DI_COLD_FEET:
   switch (dis.intensity) {
    case 1: return "Your feet are exposed to the cold.";
    case 2: return "Your feet are very exposed to the cold. Your strength is sapped.";
-   case 3: return "Your feet is dangerously cold. Your strength is sapped.";}
+   case 3: return "Your feet are dangerously cold. Your strength is sapped.";}
 
  case DI_FROSTBITE_HANDS:
   switch (dis.intensity) {
