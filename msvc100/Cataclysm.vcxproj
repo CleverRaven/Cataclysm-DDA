@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -144,6 +144,7 @@
     <ClCompile Include="..\settlement.cpp" />
     <ClCompile Include="..\setvector.cpp" />
     <ClCompile Include="..\skill.cpp" />
+    <ClCompile Include="..\text_snippets.cpp" />
     <ClCompile Include="..\tileray.cpp" />
     <ClCompile Include="..\trapdef.cpp" />
     <ClCompile Include="..\trapfunc.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="..\settlement.h" />
     <ClInclude Include="..\setvector.h" />
     <ClInclude Include="..\skill.h" />
+    <ClInclude Include="..\text_snippets.h" />
     <ClInclude Include="..\tileray.h" />
     <ClInclude Include="..\trap.h" />
     <ClInclude Include="..\tutorial.h" />

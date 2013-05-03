@@ -3801,6 +3801,12 @@ MELEE("poppy_bud", "a poppy bud",   1, 400,',', c_magenta,	VEGGY,	MNULL,
 	 1,  0, -8,  0, -3, 0, "\
 Contains some substances commonly produced by mutated poppy flower");
 
+#define STATIONARY(id, name, rarity, price, category, description) \
+itypes[id] = new it_stationary(id, rarity, price, name, description,\
+',', c_white, PAPER, MNULL, 0, 0, 0, 0, 0, 0, category)
+
+STATIONARY("flyer", "flyer", 5, 1, "flier", "A scrap of paper.");
+
 // Finally, add all the keys from the map to a vector of all possible items
 for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes.end(); ++iter){
     if(iter->first == "null" || iter->first == "corpse" || iter->first == "toolset" || iter->first == "fire" || iter->first == "apparatus"){

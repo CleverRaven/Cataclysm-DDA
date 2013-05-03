@@ -165,6 +165,8 @@
 		<Unit filename="setvector.h" />
 		<Unit filename="skill.cpp" />
 		<Unit filename="skill.h" />
+		<Unit filename="text_snippets.cpp" />
+		<Unit filename="text_snippets.h" />
 		<Unit filename="tileray.cpp" />
 		<Unit filename="tileray.h" />
 		<Unit filename="trap.h" />
