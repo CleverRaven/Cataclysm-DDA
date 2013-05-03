@@ -8056,7 +8056,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
     case 3:
       pos_x1=x1+2;
       pos_y1=y2-1;
-      m->ter_set(x1-2, y2-1, t_desk);
+      m->ter_set(x1+2, y2-1, t_desk);
       while (pos_x1<x2) {
       pos_x1+=1;
         if ((m->ter(pos_x1,pos_y1)==t_wall_h)||(m->ter(pos_x1,pos_y1)==t_wall_v)) break;
