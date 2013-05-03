@@ -4707,6 +4707,228 @@ __________           f  \n",
   rotate(rng(0, 3));
  } break;
 
+case ot_haz_sar_entrance:{
+// Init to grass & dirt;
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+" f    |_________%..S| |.\n\
+ f    |_________|..r| |.\n\
+ f    |_________|..r| |.\n\
+ f    |l________=..r| |c\n\
+ f    |l________|..S| |w\n\
+ f    |l________%..r|sss\n\
+ f    |_________%..r|sss\n\
+ f    |_________%..r|ss_\n\
+ f    |_________|x..|ss_\n\
+ f    |-XXXXXXX-|-D-|ss_\n\
+ f     s_______ssssssss_\n\
+ f     s_______ssssssss_\n\
+ f     s________________\n\
+ f     s________________\n\
+ f     s________________\n\
+ f  ssss________________\n\
+ f  ssss_______ssssssss_\n\
+ fF|-D-|XXXXXXX-      s_\n\
+   wxh.D_______f      s_\n\
+   wcdcw_______f      ss\n\
+   |www|_______fFFFFFFFF\n\
+        _______         \n\
+        _______         \n\
+        _______         \n",
+     mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+            t_sewage_pipe, t_sewage_pump, t_vat, t_crate_c, t_grate, t_wall_glass_h, t_wall_glass_v,
+            t_sewage, t_elevator, t_pavement_y ,t_pavement, t_rack, t_door_metal_locked, t_chainfence_v,
+            t_chainfence_h, t_console, t_console_broken, t_shrub, t_indoor_plant,
+            t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c, t_door_metal_c, t_door_locked, t_window,
+            t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+     mapf::end() );
+  spawn_item(19, 3, g->itypes["hazmat_suit"], 0);
+  place_items(mi_office,	80,  4, 19, 6, 19, false, 0);
+  place_items(mi_cleaning,	90,  7,  3, 7,  5, false, 0);
+  place_items(mi_toxic_dump_equipment,	85,  19,  1, 19,  3, false, 0);
+  place_items(mi_toxic_dump_equipment,	85,  19,  5, 19,  7, false, 0);
+  if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 10, 5);}
+//lazy radiation mapping
+  for (int x = 0; x <= 23; x++) {
+    for (int y = 0; y <= 23; y++)
+      radiation(x, y) += rng(10, 70);
+    }
+  if (t_north == ot_haz_sar && t_west == ot_haz_sar)
+   rotate(3);
+  else if (t_north == ot_haz_sar && t_east == ot_haz_sar)
+   rotate(0);
+  else if (t_south == ot_haz_sar && t_east == ot_haz_sar)
+   rotate(1);
+  else if (t_west == ot_haz_sar && t_south == ot_haz_sar)
+   rotate(2);
+}break;
+
+case ot_haz_sar:{
+  fill_background(this, &grass_or_dirt);
+  if ((t_south == ot_haz_sar_entrance && t_east == ot_haz_sar) || (t_north == ot_haz_sar && t_east == ot_haz_sar_entrance) || (t_west == ot_haz_sar && t_north == ot_haz_sar_entrance) ||
+    (t_south == ot_haz_sar && t_west == ot_haz_sar_entrance)){
+     mapf::formatted_set_terrain(this, 0, 0,
+  "\n\
+ fFFFFFFFFFFFFFFFFFFFFFF\n\
+ f                      \n\
+ f                      \n\
+ f     #################\n\
+ f    ##################\n\
+ f   ##...llrr..........\n\
+ f  ##.._________.......\n\
+ f  ##.._________&&&1111\n\
+ f  ##..________x&&&....\n\
+ f  ##..____________....\n\
+ f  ##r.____________....\n\
+ f  ##r.____________....\n\
+ f  ##r.____________....\n\
+ f  ##r.____________..CC\n\
+ f  ##..___________...CC\n\
+ f  ##..__________....C.\n\
+ f  ##.._________.......\n\
+ f  ##..________........\n\
+ f  ###._______x##.#####\n\
+ f  ####XXXXXXX###+#####\n\
+ f   ##________x|x.r|   \n\
+ f    |_________%..r| |-\n\
+ f    |_________%..r| |^\n",
+     mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+            t_sewage_pipe, t_sewage_pump, t_vat, t_crate_c, t_grate, t_wall_glass_h, t_wall_glass_v,
+            t_sewage, t_elevator, t_pavement_y ,t_pavement, t_rack, t_door_metal_locked, t_chainfence_v,
+            t_chainfence_h, t_console, t_console_broken, t_shrub,
+            t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_metal_c, t_door_locked_alarm,
+            t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk,
+            t_locker, t_sidewalk),
+     mapf::end() );
+     spawn_item(19, 22, g->itypes["hazmat_suit"], 0);
+     place_items(mi_cleaning,	85,  6,  11, 6,  14, false, 0);
+     place_items(mi_tools,	85,  10,  6, 13,  6, false, 0);
+     place_items(mi_toxic_dump_equipment,	85,  22,  14, 23,  15, false, 0);
+     if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 22, 12);}
+     if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 23, 18);}
+     //lazy radiation mapping
+     for (int x = 0; x <= 23; x++) {
+       for (int y = 0; y <= 23; y++)
+        radiation(x, y) += rng(10, 70);
+     }
+     if (t_west == ot_haz_sar_entrance){
+            rotate(1);
+            if (x_in_y(1,4)){add_vehicle (g, veh_armytruck, 10, 11, 0);}}
+     else if (t_north == ot_haz_sar_entrance){
+            rotate(2);
+            if (x_in_y(1,4)){add_vehicle (g, veh_armytruck, 12, 10, 90);}
+            }
+     else if (t_east == ot_haz_sar_entrance){
+            rotate(3);
+            if (x_in_y(1,4)){add_vehicle (g, veh_armytruck, 13, 12, 180);}
+            }
+     else if (x_in_y(1,4)){add_vehicle (g, veh_armytruck, 11, 13, 270);}
+
+  }
+
+  else if ((t_west == ot_haz_sar_entrance && t_north == ot_haz_sar) || (t_north == ot_haz_sar_entrance && t_east == ot_haz_sar) || (t_west == ot_haz_sar && t_south == ot_haz_sar_entrance) ||
+           (t_south == ot_haz_sar && t_east == ot_haz_sar_entrance)) {
+     mapf::formatted_set_terrain(this, 0, 0,
+  "......|-+-|-+|...h..w f \n\
+.c....|.............w f \n\
+hd....+....ch.....hdw f \n\
+cc....|....cdd...ddd| f \n\
+ww-www|w+w-www--www-| f \n\
+ssssssssssssssssssss  f \n\
+ssssssssssssssssssss  f \n\
+___,____,____,____ss  f \n\
+___,____,____,____ss  f \n\
+___,____,____,____ss  f \n\
+___,____,____,____ss  f \n\
+___,____,____,____ss  f \n\
+__________________ss  f \n\
+__________________ss  f \n\
+__________________ss  f \n\
+__________________ss  f \n\
+________,_________ss  f \n\
+________,_________ss  f \n\
+________,_________ss  f \n\
+ssssssssssssssssssss  f \n\
+FFFFFFFFFFFFFFFFFFFFFFf \n\
+\n\
+\n\
+\n",
+     mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F V H 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+            t_sewage_pipe, t_sewage_pump, t_vat, t_crate_c, t_grate, t_wall_glass_h, t_wall_glass_v, t_sewage, t_elevator, t_pavement_y ,t_pavement, t_rack, t_door_metal_locked, t_chainfence_v, t_chainfence_h, t_wall_glass_v,t_wall_glass_h, t_console, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+     mapf::end() );
+     spawn_item(1, 2, g->itypes["id_military"], 0);
+     place_items(mi_office,	85,  1,  1, 1,  3, false, 0);
+     place_items(mi_office,	85,  11,  3, 13,  3, false, 0);
+     place_items(mi_office,	85,  17,  3, 19,  3, false, 0);
+     //lazy radiation mapping
+     for (int x = 0; x <= 23; x++) {
+       for (int y = 0; y <= 23; y++)
+        radiation(x, y) += rng(10, 70);
+     }
+     if (t_north == ot_haz_sar_entrance)
+            rotate(1);
+     if (t_east == ot_haz_sar_entrance)
+            rotate(2);
+     if (t_south == ot_haz_sar_entrance)
+            rotate(3);
+  }
+
+  else {
+     mapf::formatted_set_terrain(this, 0, 0,
+  "\n\
+FFFFFFFFFFFFFFFFFFFFFFf \n\
+                      f \n\
+                      f \n\
+################      f \n\
+#################     f \n\
+.V.V.V..........##    f \n\
+.......|G|.......##   f \n\
+11111111111111...##   f \n\
+.......|G|.%515%.##   f \n\
+...........%QQQ%.##   f \n\
+..CC......x%QQQ%.##   f \n\
+.CCC.......%QQQ%.##   f \n\
+...........%QQQ%.##   f \n\
+.....|.x|..%515%.##   f \n\
+......EE|....1...##   f \n\
+......EE|....&...##   f \n\
+.....---|.......##    f \n\
+...............##     f \n\
+################      f \n\
+###############       f \n\
+                      f \n\
+------|---|--|---www| f \n\
+.x6x..|S.T|l.|^.ddd.| f \n",
+     mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+            t_sewage_pipe, t_sewage_pump, t_vat, t_crate_c, t_grate, t_wall_glass_h, t_wall_glass_v,
+            t_sewage, t_elevator, t_pavement_y ,t_pavement, t_rack, t_door_metal_locked, t_chainfence_v,
+            t_chainfence_h, t_console, t_console_broken, t_shrub, t_indoor_plant,
+            t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
+            t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+     mapf::end() );
+     place_items(mi_office,	85,  16,  23, 18,  23, false, 0);
+     place_items(mi_cleaning,	85,  11,  23, 12,  23, false, 0);
+     place_items(mi_robots,	90,  2,  11, 3,  11, false, 0);
+     if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 7, 10);}
+     if (x_in_y(1,2)){add_spawn(mon_hazmatbot, 1, 11, 16);}
+     //lazy radiation mapping
+     for (int x = 0; x <= 23; x++) {
+       for (int y = 0; y <= 23; y++)
+         radiation(x, y) += rng(10, 70);
+     }
+     tmpcomp = add_computer(2, 23, "SRCF Security Terminal ", 0);
+ 	    tmpcomp->add_option("Security Reminder [1055]", COMPACT_SR1_MESS, 0);
+ 	    tmpcomp->add_option("Security Reminder [1056]", COMPACT_SR2_MESS, 0);
+        tmpcomp->add_option("Security Reminder [1057]", COMPACT_SR3_MESS, 0);
+        tmpcomp->add_option("Security Reminder [1058]", COMPACT_SR4_MESS, 0);
+     if (t_west == ot_haz_sar && t_north == ot_haz_sar)
+            rotate(1);
+     if (t_east == ot_haz_sar && t_north == ot_haz_sar)
+            rotate(2);
+     if (t_east == ot_haz_sar && t_south == ot_haz_sar)
+            rotate(3);
+  }
+}break;
 
  case ot_cave:
   if (t_above == ot_cave) { // We're underground!
