@@ -4437,14 +4437,14 @@ case ot_public_works_entrance:{
   place_items(mi_bigtools,	80,  18, 7, 21,  7, false, 0);
   place_items(mi_office,	80,  18,  11, 20,  11, false, 0);
   place_items(mi_office,	60,  18,  13, 18,  13, false, 0);
-  if (t_south >= ot_road_null && t_south <= ot_bridge_ew)
-   rotate(0);
-  else if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
-   rotate(1);
-  else if (t_north >= ot_road_null && t_north <= ot_bridge_ew)
-   rotate(2);
-  else if (t_east >= ot_road_null && t_east <= ot_bridge_ew)
+  if (t_north == ot_public_works && t_west == ot_public_works)
    rotate(3);
+  else if (t_north == ot_public_works && t_east == ot_public_works)
+   rotate(0);
+  else if (t_south == ot_public_works && t_east == ot_public_works)
+   rotate(1);
+  else if (t_west == ot_public_works && t_south == ot_public_works)
+   rotate(2);
 }break;
 
 case ot_public_works:{
