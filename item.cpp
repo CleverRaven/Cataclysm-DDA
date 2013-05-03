@@ -279,7 +279,7 @@ std::string item::save_info() const
  std::stringstream dump;
  dump << " " << int(invlet) << " " << typeId() << " " <<  int(charges) <<
          " " << int(damage) << " " << int(item_flags) << " " << int(burnt) <<
-         " " << poison << " " << ammotmp << " " << owned << " " << int(bday);
+     " " << poison << " " << ammotmp << " " << owned << " " << int(bday) << " " << mode;
  if (active)
   dump << " 1";
  else
@@ -306,7 +306,7 @@ void item::load_info(std::string data, game *g)
  std::string idtmp, ammotmp;
  int lettmp, damtmp, burntmp, acttmp, corp, item_flagstmp;
  dump >> lettmp >> idtmp >> charges >> damtmp >> item_flagstmp >>
-		 burntmp >> poison >> ammotmp >> owned >> bday >> acttmp >>
+     burntmp >> poison >> ammotmp >> owned >> bday >> mode >> acttmp >>
 		 corp >> mission_id >> player_id;
  if (corp != -1)
   corpse = g->mtypes[corp];
@@ -329,7 +329,6 @@ void item::load_info(std::string data, game *g)
  burnt = burntmp;
  item_flags = item_flagstmp;
  active = false;
- mode = IF_NULL;
  if (acttmp == 1)
   active = true;
  if (ammotmp != "null")
