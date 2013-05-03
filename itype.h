@@ -436,6 +436,7 @@ struct it_gun : public itype
  ammotype ammo;
  Skill *skill_used;
  signed char dmg_bonus;
+ signed char range;
  signed char accuracy;
  signed char recoil;
  signed char durability;
@@ -452,7 +453,7 @@ struct it_gun : public itype
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
         unsigned pitem_flags,
 
-	const char *pskill_used, ammotype pammo, signed char pdmg_bonus,
+	const char *pskill_used, ammotype pammo, signed char pdmg_bonus, signed char prange,
 	signed char paccuracy, signed char precoil, unsigned char pdurability,
         unsigned char pburst, int pclip, int preload_time)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
@@ -460,6 +461,7 @@ struct it_gun : public itype
   skill_used = pskill_used?Skill::skill(pskill_used):NULL;
   ammo = pammo;
   dmg_bonus = pdmg_bonus;
+  range = prange;
   accuracy = paccuracy;
   recoil = precoil;
   durability = pdurability;

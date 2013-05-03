@@ -414,10 +414,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
  } else if (is_gun()) {
   it_gun* gun = dynamic_cast<it_gun*>(type);
-  int ammo_dam = 0, ammo_recoil = 0;
+  int ammo_dam = 0, ammo_range = 0, ammo_recoil = 0;
   bool has_ammo = (curammo != NULL && charges > 0);
   if (has_ammo) {
    ammo_dam = curammo->damage;
+   ammo_range = curammo->range;
    ammo_recoil = curammo->recoil;
   }
 
@@ -435,7 +436,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
    temp2 << " = " << gun_damage();
 
   dump->push_back(iteminfo("GUN", " Damage: ", temp1.str(), int(gun_damage(false)), temp2.str()));
+
+  temp1.str("");
+  if (has_ammo) {
+   temp1 << ammo_range;
+  }
+  temp1 << (range(NULL) >= 0 ? "+" : "");
+
+  temp2.str("");
+  if (has_ammo) {
+   temp2 << " = " << range(NULL);
+  }
+
+  dump->push_back(iteminfo("GUN", " Range: ", temp1.str(), int(gun->range), temp2.str()));
+
   dump->push_back(iteminfo("GUN", " Accuracy: ", "", int(100 - accuracy())));
+
 
   temp1.str("");
   if (has_ammo)
@@ -1665,6 +1681,7 @@ int item::range(player *p)
  if (!is_gun())
   return 0;
  // Just use the raw ammo range for now.
+ // we do NOT want to use the parent gun's range.
  if(mode == IF_MODE_AUX) {
   item* gunmod = active_gunmod();
   if(gunmod && gunmod->curammo)
@@ -1673,7 +1690,7 @@ int item::range(player *p)
    return 0;
  }
 
- int ret = (curammo?curammo->range:0);
+ int ret = (curammo ? dynamic_cast<it_gun*>(type)->range + curammo->range : 0);
 
  if (has_flag(IF_STR8_DRAW) && p) {
   if (p->str_cur < 4)

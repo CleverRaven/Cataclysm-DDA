@@ -374,6 +374,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                             gun_template->ammo = ammo_from_json(new_id, "ammo", entry_body);
                             gun_template->skill_used = Skill::skill(string_from_json(new_id, "skill", entry_body));
                             gun_template->dmg_bonus = int_from_json(new_id, "ranged_damage", entry_body);
+                            gun_template->range = int_from_json(new_id, "range", entry_body);
                             gun_template->accuracy = int_from_json(new_id, "accuracy", entry_body);
                             gun_template->recoil = int_from_json(new_id, "recoil", entry_body);
                             gun_template->durability = int_from_json(new_id, "durability", entry_body);
