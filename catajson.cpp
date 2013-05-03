@@ -21,7 +21,7 @@ catajson::catajson(std::string path)
 
     std::string err = picojson::get_last_error();
     if (! err.empty()) {
-        debugmsg("Parse error in %s: %s", path, err);
+        debugmsg("Parse error in %s.\n\nERROR: %s\n", path.c_str(), err.c_str());
     }
 }
 
