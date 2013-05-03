@@ -32,6 +32,7 @@ enum items_location {
   mi_mil_food_nodrugs, mi_bionics_mil,
  mi_weapons, mi_survival_armor, mi_survival_tools,
  mi_sewage_plant,
+ mi_construction_worker,
  mi_mine_storage, mi_mine_equipment,
  mi_spiral,
  mi_radio,
