@@ -5220,6 +5220,8 @@ void game::advanced_inv()
     canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1) ));
     bool exit = false;
     bool redraw = true;
+    vehicle *left_veh=false; vehicle *right_veh=false;
+    int left_vstor=-1; int right_vstor=-1;
 
     // page : the current page, index : the current selected index on the page , size : the total number of item in that tab
     int left_page = 0; int left_index = 0; int left_size = 0;
@@ -5244,9 +5246,26 @@ void game::advanced_inv()
             // calculate the offset.
             getsquare(left_area, left_offx,left_offy,left_area_string);
             getsquare(right_area, right_offx,right_offy,right_area_string);
-            // calculate page size
-            left_size = left_area == 0 ? u.inv.size() : m.i_at(u.posx+left_offx,u.posy+left_offy).size();
-            right_size = right_area == 0 ? u.inv.size() : m.i_at(u.posx+right_offx,u.posy+right_offy).size();
+
+            // calculate page size and vehicle || floor || inventory target
+            left_veh=false;left_vstor=-1;
+            if ( left_area == 0 )  {
+              left_size=u.inv.size();
+            } else {
+              int vp=0;
+              left_veh=m.veh_at(u.posx+left_offx,u.posy+left_offy,vp);
+              if (left_veh) left_vstor=left_veh->part_with_feature(vp, vpf_cargo, false);
+              left_size=(left_vstor >= 0 ? left_veh->parts[left_vstor].items.size() : m.i_at(u.posx+left_offx,u.posy+left_offy).size());
+            }
+            right_veh=false;right_vstor=-1;
+            if ( right_area == 0 )  {
+              right_size=u.inv.size();
+            } else {
+              int vp=0;
+              right_veh=m.veh_at(u.posx+right_offx,u.posy+right_offy,vp);
+              if (right_veh) right_vstor=right_veh->part_with_feature(vp, vpf_cargo, false);
+              right_size=(right_vstor >= 0 ? right_veh->parts[right_vstor].items.size() : m.i_at(u.posx+right_offx,u.posy+right_offy).size());
+            }
 
             max_left_page = (int)ceil(left_size/(itemsPerPage+0.0)); //(int)ceil(left_size/20.0);
             max_left_index = left_page == (-1 + max_left_page) ? ((left_size % itemsPerPage)==0?itemsPerPage:left_size % itemsPerPage) : itemsPerPage;
@@ -5268,7 +5287,6 @@ void game::advanced_inv()
                 mvwprintz(head,1,3, c_white, "hjkl or arrow keys to move cursor");
                 mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
                 mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)");
-
                 mvwprintz(head,1,(w_width/2), c_white, "[m]ove item between screen.");
                 mvwprintz(head,2,(w_width/2), c_white, "[e]amine item.");
                 mvwprintz(head,3,(w_width/2), c_white, "[q]uit/exit this screen");
@@ -5279,7 +5297,9 @@ void game::advanced_inv()
             }
             else
             {
-                printItems(m.i_at(u.posx+left_offx,u.posy+left_offy),left_window,left_page,left_index,(screen == 0) , this);
+                printItems(
+                   left_vstor >= 0 ? left_veh->parts[left_vstor].items : m.i_at(u.posx+left_offx,u.posy+left_offy),
+                   left_window,left_page,left_index,(screen == 0) , this);
             }
             if(right_area == 0)
             {
@@ -5287,7 +5307,9 @@ void game::advanced_inv()
             }
             else
             {
-                printItems(m.i_at(u.posx+right_offx,u.posy+right_offy),right_window,right_page,right_index,(screen == 1), this);
+                printItems(
+                   right_vstor >= 0 ? right_veh->parts[right_vstor].items : m.i_at(u.posx+right_offx,u.posy+right_offy),
+                   right_window,right_page,right_index,(screen == 1), this);
             }
             if(screen == 0 && max_left_page > 1) mvwprintz(left_window,4,2,c_ltblue,"[<] page %d of %d [>]",left_page+1,max_left_page);
             if(screen == 1  && max_right_page > 1) mvwprintz(right_window,4,2,c_ltblue,"[<] page %d of %d [>]",right_page+1,max_right_page);
@@ -5295,6 +5317,23 @@ void game::advanced_inv()
             printHeader(canputitems,right_window,right_area);
             redraw = false;
         }
+        // todo: struct screen_vars  (for the love of god)
+        int src_offx  = screen == 0 ? left_offx  : right_offx;
+        int src_offy  = screen == 0 ? left_offy  : right_offy;
+        int src_index = screen == 0 ? left_index : right_index;
+        int src_page  = screen == 0 ? left_page  : right_page;
+        int src_size  = screen == 0 ? left_size  : right_size;
+        int src_area  = screen == 0 ? left_area  : right_area;
+        int dest_area = screen == 0 ? right_area : left_area;
+        int dest_offx = screen == 0 ? right_offx : left_offx;
+        int dest_offy = screen == 0 ? right_offy : left_offy;
+        int dest_size = screen == 0 ? right_size : left_size;
+        int src_vstor = screen == 0 ? left_vstor  : right_vstor;
+        int dest_vstor = screen == 1 ? left_vstor  : right_vstor;
+        vehicle *src_veh = screen == 0 ? left_veh  : right_veh;
+        vehicle *dest_veh = screen == 1 ? left_veh  : right_veh;
+
+        int item_pos = src_index + (src_page * itemsPerPage);
         wborder(left_window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
         wborder(right_window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
         wrefresh(head);
@@ -5341,17 +5380,6 @@ void game::advanced_inv()
             {
                 continue;
             }
-            int src_offx  = screen == 0 ? left_offx  : right_offx;
-            int src_offy  = screen == 0 ? left_offy  : right_offy;
-            int src_index = screen == 0 ? left_index : right_index;
-            int src_page  = screen == 0 ? left_page  : right_page;
-            int src_size  = screen == 0 ? left_size  : right_size;
-            int src_area  = screen == 0 ? left_area  : right_area;
-            int dest_area = screen == 0 ? right_area : left_area;
-            int dest_offx = screen == 0 ? right_offx : left_offx;
-            int dest_offy = screen == 0 ? right_offy : left_offy;
-            int dest_size = screen == 0 ? right_size : left_size;
-            int item_pos = src_index + (src_page * itemsPerPage);
             if(src_area == 0) // if the active screen is inventory.
             {
                 if(dest_size >= MAX_ITEM_IN_SQUARE)
@@ -5361,7 +5389,7 @@ void game::advanced_inv()
                 else
                 {
                     //if target item has stack
-                    int max = (MAX_ITEM_IN_SQUARE - dest_size);
+                    int max = (MAX_ITEM_IN_SQUARE - dest_size); // vehicle fixme (?)
                     // TODO figure out a better way to get the item
                     item* it = &u.inv.slice(item_pos, 1).front()->front();
                     std::list<item>& stack = u.inv.stack_by_letter(it->invlet);
@@ -5384,7 +5412,14 @@ void game::advanced_inv()
                                     iter != moving_items.end();
                                     ++iter)
                                 {
-                                    m.add_item(u.posx+dest_offx,u.posy+dest_offy,*iter);
+                                    if(dest_vstor >= 0) {
+                                        if(dest_veh->add_item(dest_vstor,*iter) == false) {
+                                          popup("Destination full. Please report a bug if items have vanished.");
+                                          continue;
+                                        }
+                                    } else {
+                                        m.add_item(u.posx+dest_offx,u.posy+dest_offy,*iter);
+                                    }
                                 }
                                 u.moves -= 100;
                             }
@@ -5396,15 +5431,16 @@ void game::advanced_inv()
                         amount = amount > it->charges ? it->charges : amount;
                         if(amount != 0)
                         {
-                            if(amount >= it->charges) // full stack moved
-                            {
-                                item moving_item = u.inv.remove_item_by_charges(it->invlet,amount);
-                                m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
-                            }
-                            else //partial stack moved
-                            {
-                                item moving_item = u.inv.remove_item_by_charges(it->invlet,amount);
-                                m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
+
+                            item moving_item = u.inv.remove_item_by_charges(it->invlet,amount);
+                            if(dest_vstor>=0) {
+                                if(dest_veh->add_item(dest_vstor,moving_item) == false) {
+                                   // fixme add item back (test)
+                                   popup("Destination full. Please report a bug if items have vanished.");
+                                   continue;
+                                }
+                            } else {
+                              m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                             }
                             u.moves -= 100;
                         }
@@ -5412,14 +5448,23 @@ void game::advanced_inv()
                     else // no stack / no charge just move it :D
                     {
                         item moving_item = u.inv.remove_item_by_letter(it->invlet);
-                        m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
+                            if(dest_vstor>=0) {
+                                if(dest_veh->add_item(dest_vstor,moving_item) == false) {
+                                   // fixme add item back (test)
+                                   popup("Destination full. Please report a bug if items have vanished.");
+                                   continue;
+                                }
+                            } else {
+                                m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
+                            }
                         u.moves -= 100;
                     }
                 }
             }
             else // moving item from square to inventory
             {
-                std::vector<item> src_items = m.i_at(u.posx+src_offx , u.posy+src_offy);
+                std::vector<item> src_items = src_vstor >= 0 ? 
+                  src_veh->parts[src_vstor].items : m.i_at(u.posx+src_offx,u.posy+src_offy);
                 if(src_items[item_pos].made_of(LIQUID))
                 {
                     popup("You can't pick up liquid.");
@@ -5461,11 +5506,22 @@ void game::advanced_inv()
                         u.i_add(new_item,this);
                         u.moves -= 100;
                     }
+                    else if (dest_vstor >= 0)
+                    {
+                       if(dest_veh->add_item(dest_vstor,new_item) == false) {
+                         popup("Destination area is full. Remove some item first");
+                         continue;
+                       }
+                    }
                     else
                     {
-                        m.add_item(u.posx+dest_offx,u.posy+dest_offy,new_item);
+                        m.add_item(u.posx+dest_offx,u.posy+dest_offy,new_item);//vfixme
                     }
-                    m.i_rem(u.posx+src_offx,u.posy+src_offy,item_pos);
+                    if(src_vstor>=0) {
+                      src_veh->remove_item (src_vstor, item_pos);
+                    } else {
+                      m.i_rem(u.posx+src_offx,u.posy+src_offy,item_pos);//vfixme
+                    }
                 }
             }
             redraw = true;
@@ -5474,17 +5530,12 @@ void game::advanced_inv()
         {
             if((screen == 0 && left_size == 0) || (screen == 1 && right_size == 0))
                 continue;
-            int src_offx  = screen == 0 ? left_offx  : right_offx;
-            int src_offy  = screen == 0 ? left_offy  : right_offy;
-            int src_index = screen == 0 ? left_index : right_index;
-            int src_page  = screen == 0 ? left_page  : right_page;
-            int src_area  = screen == 0 ? left_area  : right_area;
-            int item_pos = src_index + (src_page * itemsPerPage);
             item it;
             if(src_area == 0) {
 		it = u.inv.slice(item_pos, 1)[0]->front();
             } else {
-                std::vector<item> src_items = m.i_at(u.posx+src_offx , u.posy+src_offy);
+                std::vector<item> src_items = src_vstor>=0 ?
+                  src_veh->parts[src_vstor].items : m.i_at(u.posx+src_offx , u.posy+src_offy);
                 it = src_items[item_pos];
             }
             std::vector<iteminfo> vThisItem, vDummy, vMenu;
