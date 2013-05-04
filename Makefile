@@ -120,15 +120,15 @@ HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
-all: $(TARGET)
+all: version $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
           $(OBJS) $(LDFLAGS)
 
-.PHONY: version.h
-version.h:
+.PHONY: version
+version:
 	@( VERSION_STRING=$(VERSION) ; \
             [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty ) && VERSION_STRING=$$GITVERSION ; \
             [ -e "version.h" ] && OLDVERSION=$$(grep VERSION version.h|cut -d '"' -f2) ; \
@@ -143,6 +143,8 @@ $(DDIR):
 
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+
+version.h: version
 
 clean: clean-tests
 	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(ODIR)/*.d $(W32ODIR)/*.o $(W32BINDIST) \
