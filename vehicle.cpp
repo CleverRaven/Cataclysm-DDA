@@ -434,6 +434,10 @@ void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
     itype* itemtype = g->itypes[pitmid];
     if(itemtype->is_var_veh_part())
        i.bigness = parts[partnum].bigness;
+       
+    // remove charges if part is made of a tool
+    if(itemtype->is_tool())
+        i.charges = 0;       
 
     // translate part damage to item damage.
     // max damage is 4, min damage 0.
