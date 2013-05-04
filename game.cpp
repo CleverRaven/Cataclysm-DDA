@@ -366,12 +366,22 @@ void game::cleanup_at_end(){
 
  if (uquit == QUIT_DIED)
   popup_top("Game over! Press spacebar...");
- if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
-  death_screen();
- if(gamemode){
-  delete gamemode;
-  gamemode = new special_game;	// null gamemode or something..
- }
+    if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
+    {
+        death_screen();
+        if (OPTIONS[OPT_DELETE_WORLD] == 1 
+         || (OPTIONS[OPT_DELETE_WORLD] == 2 && query_yn("Delete saved world?")))
+        {
+            delete_save();
+            MAPBUFFER.reset();
+            MAPBUFFER.make_volatile();
+        }
+        if(gamemode)
+        {
+            delete gamemode;
+            gamemode = new special_game;	// null gamemode or something..
+        }
+    }
 }
 
 // MAIN GAME LOOP
