@@ -804,7 +804,12 @@ bool map::is_indoor(const int x, const int y) const
 {
  if (!INBOUNDS(x, y))
   return false;
+ return (
+   terlist[ter(x, y)].flags & mfb(indoors) // furniture & t_*floor are flagged indoors
+   || terlist[ter(x, y)].flags & mfb(supports_roof)
+ );
 
+/*
  int iNumFloor = 0;
  for (int iRow = -1; iRow <= 1; iRow++) {
   for (int iCol = -1; iCol <= 1; iCol++) {
@@ -817,7 +822,7 @@ bool map::is_indoor(const int x, const int y) const
 
  if (iNumFloor > 0)
   return true;
-
+*/
  return false;
 }
 
