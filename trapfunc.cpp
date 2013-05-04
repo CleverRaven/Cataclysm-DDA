@@ -11,6 +11,10 @@ void trapfunc::bubble(game *g, int x, int y)
 
 void trapfuncm::bubble(game *g, monster *z, int x, int y)
 {
+    // tiny animals don't trigger bubblewrap
+    if (z->type->size == MS_TINY)
+        return;
+        
  g->sound(x, y, 18, "Pop!");
  g->m.tr_at(x, y) = tr_null;
 }
@@ -33,6 +37,10 @@ void trapfunc::beartrap(game *g, int x, int y)
 
 void trapfuncm::beartrap(game *g, monster *z, int x, int y)
 {
+    // tiny animals don't trigger bear traps
+    if (z->type->size == MS_TINY)
+        return;
+            
  g->sound(x, y, 8, "SNAP!");
  if (z->hurt(35)) {
   g->kill_mon(g->mon_at(x, y));
@@ -55,6 +63,10 @@ void trapfunc::board(game *g, int x, int y)
 
 void trapfuncm::board(game *g, monster *z, int x, int y)
 {
+    // tiny animals don't trigger spiked boards, they can squeeze between the nails
+    if (z->type->size == MS_TINY)
+        return;
+    
  if (g->u_see(z))
   g->add_msg("The %s steps on a spiked board!", z->name().c_str());
  if (z->hurt(rng(6, 10)))
@@ -85,6 +97,10 @@ void trapfunc::tripwire(game *g, int x, int y)
 
 void trapfuncm::tripwire(game *g, monster *z, int x, int y)
 {
+    // tiny animals don't trigger tripwires, they just squeeze under it
+    if (z->type->size == MS_TINY)
+        return;
+            
  if (g->u_see(z))
   g->add_msg("The %s trips over a tripwire!", z->name().c_str());
  z->stumble(g, false);
@@ -484,6 +500,10 @@ void trapfunc::pit(game *g, int x, int y)
 
 void trapfuncm::pit(game *g, monster *z, int x, int y)
 {
+    // tiny animals aren't hurt by falling into pits
+    if (z->type->size == MS_TINY)
+        return;
+    
  if (g->u_see(x, y))
   g->add_msg("The %s falls in a pit!", z->name().c_str());
  if (z->hurt(rng(10, 20)))
@@ -534,6 +554,10 @@ void trapfunc::pit_spikes(game *g, int x, int y)
 
 void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)
 {
+    // tiny animals aren't hurt by falling into spiked pits
+    if (z->type->size == MS_TINY)
+        return;
+    
  bool sees = g->u_see(z);
  if (sees)
   g->add_msg("The %s falls in a spiked pit!", z->name().c_str());

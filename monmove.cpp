@@ -40,6 +40,26 @@ bool monster::can_move_to(game *g, int x, int y)
   return false;
  if (has_flag(MF_AQUATIC) && !g->m.has_flag(swimmable, x, y))
   return false;
+
+    // various animal behaviours 
+    if (has_flag(MF_ANIMAL))
+    {
+        // don't enter sharp terrain unless attacking or fleeing
+        if (g->m.has_flag(sharp, x, y) && !(attitude(&(g->u)) == MATT_FLEE || attitude(&(g->u)) == MATT_ATTACK))
+            return false;
+
+        // don't enter open pits ever unless tiny or can fly
+        if (!(type->size == MS_TINY || has_flag(MF_FLIES)) && (g->m.ter(x, y) == t_pit || g->m.ter(x, y) == t_pit_spiked))
+            return false;     
+
+        // don't enter lava ever
+        if (g->m.ter(x, y) == t_lava)
+            return false;
+        
+        // don't enter fire or electricity ever
+        if (g->m.field_at(x, y).type == fd_fire || g->m.field_at(x, y).type == fd_electricity) 
+            return false;        
+    }
  return true;
 }
 
