@@ -6830,6 +6830,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
             // Why not try to find another container here?
             return false;
           }
+          u.inv.restack(&u);
           return true;
         }
       }
