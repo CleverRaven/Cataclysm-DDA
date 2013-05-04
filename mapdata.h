@@ -241,7 +241,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"open animalskin flap", '.', c_white,   2, tr_null,
     mfb(transparent), &iexamine::none},
 {"animalskin floor",      ';', c_brown,   2, tr_null,
-    mfb(transparent)|mfb(tentable), &iexamine::shelter},
+    mfb(transparent)|mfb(indoors), &iexamine::shelter},
 {"floor",	     '.', c_white,    2, tr_null, // Skylight
     mfb(transparent)|mfb(l_flammable)|mfb(supports_roof)|mfb(collapses), &iexamine::none},
 {"floor",	     '.', c_white,    2, tr_null,
@@ -377,7 +377,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"high stained glass window",'"', c_ltred,   0, tr_null,
     mfb(noitem)|mfb(supports_roof), &iexamine::none},
 {"high stained glass window",'"', c_ltblue,   0, tr_null,
-    mfb(noitem)|mfb(supports_roof), &iexamine::none},    
+    mfb(noitem)|mfb(supports_roof), &iexamine::none},
 {"solid rock",       '#', c_white,   0, tr_null,
     mfb(noitem)|mfb(supports_roof), &iexamine::none},
 {"odd fault",        '#', c_magenta, 0, tr_null,
