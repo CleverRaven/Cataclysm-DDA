@@ -244,4 +244,8 @@ keys.push_back("null");
 // Snake spawn / hisssss
 traps.push_back(new trap(id, "", "", c_white, '^',  99, 99,
     99, &trapfunc::snake, &trapfuncm::snake, keys));;
+    
+TRAP("airhole",    		'.',	c_ltcyan, 0, 99, 99,
+	&trapfunc::airhole,	&trapfuncm::airhole,
+	itm_null, NULL);
 }
