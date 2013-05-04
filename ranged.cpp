@@ -338,9 +338,14 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, effects);
   } // Done with the trajectory!
 
-  int lastx = trajectory[trajectory.size() - 1].x;
-  int lasty = trajectory[trajectory.size() - 1].y;
-  ammo_effects(this, lastx, lasty, effects);
+    int lastx = trajectory[trajectory.size() - 1].x;
+    int lasty = trajectory[trajectory.size() - 1].y;
+    
+    // if damage is zero, ammo field effects should not take hold
+    // to prevent flamethrowers igniting the target, even if the flame
+    // does not hit the target
+    if (dam != 0)
+        ammo_effects(this, lastx, lasty, effects);
 
   if (m.move_cost(lastx, lasty) == 0) {
    lastx = trajectory[trajectory.size() - 2].x;

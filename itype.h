@@ -138,6 +138,7 @@ AMMO_TRAIL,		// Leaves a trail of smoke
 AMMO_FLASHBANG,		// Disorients and blinds
 AMMO_STREAM,		// Doesn't stop once it hits a monster
 AMMO_COOKOFF,  // Explodes when burned instead of just burning
+AMMO_LASER,      // laser effects
 NUM_AMMO_EFFECTS
 };
 
