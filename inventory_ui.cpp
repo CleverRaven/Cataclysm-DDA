@@ -435,7 +435,8 @@ std::vector<item> game::multidrop()
 
  if (ch != '\n')
   return ret; // Canceled!
- for (int i = 0; i < u.inv.size(); i++) {
+ int inv_size = u.inv.size();
+ for (int i = 0; i < inv_size; i++) {
   item *it = &*stacks[i]->begin();
   if (dropping[ it->invlet ] == -1)
    ret.push_back( u.inv.remove_item_by_letter( it->invlet));
