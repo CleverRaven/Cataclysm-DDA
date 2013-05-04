@@ -1046,9 +1046,9 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
         g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
         return;
     }
-    if (cut->type->id == "rag" || cut->type->id == "rag_bloody")
+    if (cut->type->id == "rag" || cut->type->id == "rag_bloody" || cut->type->id == "leather")
     {
-        g->add_msg_if_player(p,"There's no point in cutting a rag.");
+        g->add_msg_if_player(p, "There's no point in cutting a %s.", cut->type->name.c_str());
         return;
     }
     if (cut->made_of(COTTON))
@@ -3063,9 +3063,9 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
                 return;
             }
-            if (cut->type->id == "rag" || cut->type->id == "rag_bloody")
+            if (cut->type->id == "rag" || cut->type->id == "rag_bloody" || cut->type->id == "leather")
             {
-                g->add_msg("There's no point in cutting a rag.");
+                g->add_msg("There's no point in cutting a %s.", cut->type->name.c_str());
                 return;
             }
             if (!cut->made_of(COTTON) && !cut->made_of(LEATHER))
