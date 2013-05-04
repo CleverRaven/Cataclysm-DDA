@@ -913,7 +913,7 @@ bool construct::able_wall_wood(game *g, point p)
 
 bool construct::able_indoors(game *g, point p)
 {
- return (!g->m.is_outside(p.x, p.y));
+    return g->m.has_flag(indoors, p.x, p.y) && able_empty(g, p);
 }
 
 bool construct::able_dig(game *g, point p)
