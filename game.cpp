@@ -3667,7 +3667,7 @@ void game::monmove()
 {
  cleanup_dead();
  for (int i = 0; i < z.size(); i++) {
-  while (!z[i].dead && !z[i].can_move_to(m, z[i].posx, z[i].posy)) {
+  while (!z[i].dead && !z[i].can_move_to(this, z[i].posx, z[i].posy)) {
 // If we can't move to our current position, assign us to a new one
    if (debugmon)
    {
@@ -3684,7 +3684,7 @@ void game::monmove()
    int starty = z[i].posy - 3 * ydir, endy = z[i].posy + 3 * ydir;
    for (int x = startx; x != endx && !okay; x += xdir) {
     for (int y = starty; y != endy && !okay; y += ydir){
-     if (z[i].can_move_to(m, x, y)) {
+     if (z[i].can_move_to(this, x, y)) {
       z[i].posx = x;
       z[i].posy = y;
       okay = true;
@@ -8765,7 +8765,7 @@ void game::spawn_mon(int shiftx, int shifty)
       mony += rng(-5, 5);
       iter++;
 
-     } while ((!zom.can_move_to(m, monx, mony) || !is_empty(monx, mony) ||
+     } while ((!zom.can_move_to(this, monx, mony) || !is_empty(monx, mony) ||
                 m.sees(u.posx, u.posy, monx, mony, SEEX, t) ||
                 rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
      if (iter < 50) {
