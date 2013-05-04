@@ -2750,6 +2750,8 @@ void overmap::open(game *g)
         debugmsg("Loaded bad ter! %s; ter %d", terfilename.c_str(), layer[z].terrain[i][j]);
       }
      }
+    } else {
+     debugmsg("Loaded z level out of range (z: %d)", z);
     }
    } else if (datatype == 'Z') {	// Monster group
     fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd;
