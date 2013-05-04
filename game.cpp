@@ -4949,7 +4949,7 @@ void game::examine()
        xter_t->examine == &iexamine::none)
    add_msg("It is empty.");
   else
-   pickup(examx, examy, 0);
+   if (!veh)pickup(examx, examy, 0);
  }
   //check for disarming traps last to avoid disarming query black box issue.
  if(m.tr_at(examx, examy) != tr_null) xmine.trap(this,&u,&m,examx,examy);
