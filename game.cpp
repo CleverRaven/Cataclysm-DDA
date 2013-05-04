@@ -5321,6 +5321,7 @@ void game::advanced_inv()
                     // TODO figure out a better way to get the item
                     item* it = &u.inv.slice(item_pos, 1).front()->front();
                     std::list<item>& stack = u.inv.stack_by_letter(it->invlet);
+                    bool leftover=false;
                     if(stack.size() > 1) // if the item stack
                     {
                         int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(stack.size())));
@@ -5335,14 +5336,25 @@ void game::advanced_inv()
                             if(still_move)
                             {
                                 amount = amount > max ? max : amount;
-                                std::list<item> moving_items = u.inv.remove_partial_stack(it->invlet,amount);
-                                for(std::list<item>::iterator iter = moving_items.begin();
-                                    iter != moving_items.end();
-                                    ++iter)
-                                {
-                                    m.add_item(u.posx+dest_offx,u.posy+dest_offy,*iter);
+                                leftover=true;
+                                if(amount>1) amount--; // Cheese? Yes, but remove_partial_stack is flakey when removing stacks
+                                if(amount>1) {
+                                    std::list<item> moving_items = u.inv.remove_partial_stack(it->invlet,amount);
+                                    for(std::list<item>::iterator iter = moving_items.begin();
+                                        iter != moving_items.end();
+                                        ++iter)
+                                    {
+                                        if(dest_vstor >= 0) {
+                                            if(dest_veh->add_item(dest_vstor,*iter) == false) {
+                                              popup("Destination full. Please report a bug if items have vanished.");
+                                              continue;
+                                            }
+                                        } else {
+                                            m.add_item(u.posx+dest_offx,u.posy+dest_offy,*iter);
+                                        }
+                                    }
                                 }
-                                u.moves -= 100;
+                                //u.moves -= 100;
                             }
                         }
                     }
@@ -5367,6 +5379,9 @@ void game::advanced_inv()
                     }
                     else // no stack / no charge just move it :D
                     {
+                        leftover=true;
+                    }
+                    if(leftover) { 
                         item moving_item = u.inv.remove_item_by_letter(it->invlet);
                         m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
                         u.moves -= 100;
