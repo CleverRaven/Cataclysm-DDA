@@ -31,15 +31,15 @@ bool monster::wander()
 
 bool monster::can_move_to(game *g, int x, int y)
 {
- if (g->m.move_cost(x, y) == 0 &&
+    if (g->m.move_cost(x, y) == 0 &&
      (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y)) &&
      ((!has_flag(MF_AQUATIC) && !has_flag(MF_SWIMS)) ||
       !g->m.has_flag(swimmable, x, y)))
-  return false;
- if (has_flag(MF_DIGS) && !g->m.has_flag(diggable, x, y))
-  return false;
- if (has_flag(MF_AQUATIC) && !g->m.has_flag(swimmable, x, y))
-  return false;
+        return false;
+    if (has_flag(MF_DIGS) && !g->m.has_flag(diggable, x, y))
+        return false;
+    if (has_flag(MF_AQUATIC) && !g->m.has_flag(swimmable, x, y))
+    return false;
 
     // various animal behaviours 
     if (has_flag(MF_ANIMAL))
@@ -60,7 +60,7 @@ bool monster::can_move_to(game *g, int x, int y)
         if (g->m.field_at(x, y).type == fd_fire || g->m.field_at(x, y).type == fd_electricity) 
             return false;        
     }
- return true;
+    return true;
 }
 
 // Resets plans (list of squares to visit) and builds it as a straight line
