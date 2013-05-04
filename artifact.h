@@ -17,6 +17,7 @@ enum art_effect_passive {
  AEP_SNAKES, // Summons friendly snakes when you're hit
  AEP_INVISIBLE, // Makes you invisible
  AEP_CLAIRVOYANCE, // See through walls
+ AEP_SUPER_CLAIRVOYANCE, // See through walls to a great distance
  AEP_STEALTH, // Your steps are quieted
  AEP_EXTINGUISH, // May extinguish nearby flames
  AEP_GLOW, // Four-tile light source

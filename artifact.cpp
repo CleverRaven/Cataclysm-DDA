@@ -22,6 +22,7 @@ int passive_effect_cost[NUM_AEPS] = {
 4,	// AEP_SNAKES
 7,	// AEP_INVISIBLE
 5,	// AEP_CLAIRVOYANCE
+50,	// AEP_SUPER_CLAIRVOYANCE
 2,	// AEP_STEALTH
 2,	// AEP_EXTINGUISH
 1,	// AEP_GLOW
@@ -938,6 +939,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
    case AEP_CLAIRVOYANCE:
     add_msg("You can see through walls!");
+    break;
+
+   case AEP_SUPER_CLAIRVOYANCE:
+    add_msg("You can see through everything!");
     break;
 
    case AEP_STEALTH:
