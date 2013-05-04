@@ -800,27 +800,6 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain)
  grid[nonant]->ter[lx][ly] = new_terrain;
 }
 
-bool map::is_indoor(const int x, const int y) const
-{
- if (!INBOUNDS(x, y))
-  return false;
-
- int iNumFloor = 0;
- for (int iRow = -1; iRow <= 1; iRow++) {
-  for (int iCol = -1; iCol <= 1; iCol++) {
-   if (terlist[ter(iRow+x, iCol+y)].name == "floor" &&
-       terlist[ter(iRow+x, iCol+y)].flags & mfb(supports_roof)) {
-    iNumFloor++;
-   }
-  }
- }
-
- if (iNumFloor > 0)
-  return true;
-
- return false;
-}
-
 std::string map::tername(const int x, const int y) const
 {
  return terlist[ter(x, y)].name;
