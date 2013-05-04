@@ -913,7 +913,11 @@ bool construct::able_wall_wood(game *g, point p)
 
 bool construct::able_indoors(game *g, point p)
 {
- return (g->m.is_indoor(p.x, p.y));
+ return ( (terlist[g->m.ter(p.x, p.y)].name == "floor" ||
+            terlist[g->m.ter(p.x, p.y)].name == "rock floor" ) &&
+            terlist[g->m.ter(p.x, p.y)].flags & mfb(supports_roof)) &&
+            construct::able_empty(g,p);
+ return (g->m.is_indoor(p.x, p.y)) && (g->m.move_cost(p.x, p.y) == 2);
 }
 
 bool construct::able_dig(game *g, point p)
