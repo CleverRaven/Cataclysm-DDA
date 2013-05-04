@@ -403,6 +403,8 @@ OMS_FLAG_ROTATE_RANDOM, // Rotate randomly--assumes 3 following rotations
 OMS_FLAG_3X3,		// 3x3 square, e.g. bee hive
 OMS_FLAG_BLOB,		// Randomly shaped blob
 OMS_FLAG_3X3_SECOND,	// 3x3 square, made of the tile AFTER the main one
+OMS_FLAG_2X2,
+OMS_FLAG_2X2_SECOND,
 OMS_FLAG_BIG,		// As big as possible
 OMS_FLAG_ROAD,		// Add a road_point here; connect to towns etc.
 OMS_FLAG_PARKING_LOT,	// Add a road_point to the north of here
