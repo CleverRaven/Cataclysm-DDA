@@ -373,6 +373,10 @@ void trapfunc::landmine(game *g, int x, int y)
 
 void trapfuncm::landmine(game *g, monster *z, int x, int y)
 {
+    // tiny animals are too light to trigger landmines
+    if (z->type->size == MS_TINY)
+        return;
+            
  if (g->u_see(x, y))
   g->add_msg("The %s steps on a landmine!", z->name().c_str());
  g->explosion(x, y, 10, 8, false);
