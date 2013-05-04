@@ -16,7 +16,7 @@ class npc;
 struct settlement;
 
 #define OVERMAP_DEPTH 10
-#define OVERMAP_HEIGHT 0
+#define OVERMAP_HEIGHT 5
 #define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
 
 struct city {
