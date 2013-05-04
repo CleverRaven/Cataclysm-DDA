@@ -828,6 +828,18 @@ void trapfuncm::snake(game *g, monster *z, int x, int y)
   g->m.tr_at(x, y) = tr_null;
 }
 
+void trapfunc::airhole(game *g, int x, int y)
+{
+ g->add_msg("You fall down a level!");
+ g->vertical_move(-1, true);
+}
+
+void trapfuncm::airhole(game *g, monster *z, int x, int y)
+{
+ g->add_msg("The %s falls down a level!", z->name().c_str());
+ g->kill_mon(g->mon_at(x, y));
+}
+
 bool trap::is_benign()
 {
   if (id == tr_rollmat || id == tr_cot || id == tr_brazier || id == tr_funnel)
