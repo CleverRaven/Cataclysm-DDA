@@ -1979,6 +1979,20 @@ bool map::hit_with_acid(game *g, const int x, const int y)
  return true;
 }
 
+// returns true if terrain stops fire
+bool map::hit_with_fire(game *g, const int x, const int y)
+{
+    if (move_cost(x, y) != 0)
+        return false; // Didn't hit the tile!
+
+    // non passable but flammable terrain, set it on fire
+    if (has_flag(flammable, x, y) || has_flag(flammable2, x, y))
+    {
+        add_field(g, x, y, fd_fire, 3);
+    }
+    return true;
+}
+
 void map::marlossify(const int x, const int y)
 {
  const int type = rng(1, 9);
