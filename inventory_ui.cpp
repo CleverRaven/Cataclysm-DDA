@@ -362,7 +362,7 @@ std::vector<item> game::multidrop()
   if (cur_it < u.inv.size())
    mvwprintw(w_inv, maxitems + 4, 12, "> More items");
   wrefresh(w_inv);
-  ch = getch();
+  ch = input();
   if (ch >= '0' && ch <= '9') {
    ch -= '0';
    count *= 10;
