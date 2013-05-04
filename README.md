@@ -61,5 +61,5 @@ Contributing to C:DDA is easy - *simply fork the repository here on GitHub, make
 
 2. Pull the changes from the `upstream/master` branch.
 
-        git pull upstream master
+        git pull --ff-only upstream master
         # pulls changes from the "upstream" remote for the matching branch, in this case "master"
