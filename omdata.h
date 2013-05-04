@@ -128,6 +128,7 @@ enum oter_id {
  ot_ants_nes, ot_ants_new, ot_ants_nsw, ot_ants_esw, ot_ants_nesw,
  ot_ants_food, ot_ants_larvae, ot_ants_queen,
  ot_cavern,
+ ot_sky, ot_shelter_over, ot_shelter_over2,
 
  ot_tutorial,
  num_ter_types
@@ -302,7 +303,7 @@ const oter_t oterlist[num_ter_types] = {
 {"radio station",  'X',    i_ltgray,		5, build_extras, false, false},
 {"radio station",  'X',    i_ltgray,		5, build_extras, false, false},
 {"evac shelter",	'+',	c_white,	2, no_extras, true, false},
-{"evac shelter",	'+',	c_white,	2, no_extras, false, true},
+{"evac shelter",	'+',	c_white,	2, no_extras, true, true},
 {"LMOE shelter",	'+',	c_red,	2, no_extras, true, false},
 {"LMOE shelter",	'+',	c_red,	2, no_extras, false, true},
 {"science lab",		'L',	c_ltblue,	5, no_extras, false, false},
@@ -384,6 +385,9 @@ const oter_t oterlist[num_ter_types] = {
 {"ant larva chamber",	'O',	c_white,	5, no_extras, false, false},
 {"ant queen chamber",	'O',	c_red,		5, no_extras, false, false},
 {"cavern",		'0',	c_ltgray,	5, no_extras, false, false},
+{"sky", '8',	c_ltcyan,	2, no_extras, false, false}, 
+{"evac shelter",	'+',	c_white,	2, no_extras, true, true}, //shelter z= 1
+{"evac shelter",	'+',	c_white,	2, no_extras, true, false}, //shelte z= 2
 {"tutorial room",	'O',	c_cyan,		5, no_extras, false, false}
 };
 
