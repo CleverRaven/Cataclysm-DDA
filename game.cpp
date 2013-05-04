@@ -29,6 +29,7 @@
 #endif
 #include <sys/stat.h>
 #include "debug.h"
+#include "artifactdata.h"
 
 #if (defined _WIN32 || defined __WIN32__)
 #include <windows.h>
@@ -2277,7 +2278,8 @@ void game::debug()
                    "Learn all melee styles", // 12
                    "Check NPC",              // 13
                    "Spawn Artifact",         // 14
-                   "Cancel",                 // 15
+                   "Spawn Clarivoyance Artifact", //15
+                   "Cancel",                 // 16
                    NULL);
  int veh_num;
  std::vector<std::string> opts;
@@ -2439,12 +2441,44 @@ z.size(), active_npc.size(), events.size());
   } break;
 
   case 14:
+  {
    point center = look_around();
    artifact_natural_property prop =
     artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
    m.create_anomaly(center.x, center.y, prop);
    m.spawn_item(center.x, center.y, new_natural_artifact(prop), 0);
-   break;
+  }
+  break;
+
+  case 15:
+  {
+      std::string artifact_name(std::string type);
+
+      it_artifact_tool *art = new it_artifact_tool();
+      artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
+      art->name = artifact_name(info->name);
+      art->color = info->color;
+      art->sym = info->sym;
+      art->m1 = info->m1;
+      art->m2 = info->m2;
+      art->volume = rng(info->volume_min, info->volume_max);
+      art->weight = rng(info->weight_min, info->weight_max);
+      // Set up the basic weapon type
+      artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
+      art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
+      art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
+      art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
+      art->item_flags = weapon->flags;
+      // Add an extra weapon perhaps?
+      art->description = "The architect's cube.";
+      art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
+      art->id = itypes.size();
+      itypes[art->name] = art;
+
+      item artifact( art, 0);
+      u.i_add(artifact);
+  }
+  break;
  }
  erase();
  refresh_all();
