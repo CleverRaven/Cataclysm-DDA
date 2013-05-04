@@ -173,7 +173,7 @@ void veh_interact::do_install(int reason)
         return;
     default:;
     }
-    mvwprintz(w_mode, 0, 1, c_ltgray, "Choose new part to install here:");
+    mvwprintz(w_mode, 0, 1, c_ltgray, "Choose new part to install here:      ");
     wrefresh (w_mode);
     int pos = 0;
     int engines = 0;
