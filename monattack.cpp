@@ -665,51 +665,67 @@ void mattack::fungus_sprout(game *g, monster *z)
 
 void mattack::leap(game *g, monster *z)
 {
- int linet;
- if (!g->sees_u(z->posx, z->posy, linet))
-  return;	// Only leap if we can see you!
+    int linet;
+    if (!g->sees_u(z->posx, z->posy, linet))
+        return;	// Only leap if we can see you!
 
- std::vector<point> options;
- int best = 0;
- bool fleeing = z->is_fleeing(g->u);
+    std::vector<point> options;
+    int best = 0;
+    bool fleeing = z->is_fleeing(g->u);
 
- for (int x = z->posx - 3; x <= z->posx + 3; x++) {
-  for (int y = z->posy - 3; y <= z->posy + 3; y++) {
-/* If we're fleeing, we want to pick those tiles with the greatest distance
- * from the player; otherwise, those tiles with the least distance from the
- * player.
- */
-   if (g->is_empty(x, y) &&
-       g->m.sees(z->posx, z->posy, x, y, g->light_level(), linet) &&
-       (( fleeing && rl_dist(g->u.posx, g->u.posy, x, y) >= best) ||
-        (!fleeing && rl_dist(g->u.posx, g->u.posy, x, y) <= best)   )) {
-    options.push_back( point(x, y) );
-    best = rl_dist(g->u.posx, g->u.posy, x, y);
-   }
-  }
- }
+    for (int x = z->posx - 3; x <= z->posx + 3; x++) 
+    {
+        for (int y = z->posy - 3; y <= z->posy + 3; y++) 
+        {
+            bool blocked_path = false;
+            // check if monster has a clear path to the proposed point
+            std::vector<point> line = line_to(z->posx, z->posy, x, y, linet);
+            for (int i = 0; i < line.size(); i++) 
+            {
+                if (g->m.move_cost(line[i].x, line[i].y) == 0)
+                {
+                    blocked_path = true;
+                }
+            }
+            /* If we're fleeing, we want to pick those tiles with the greatest distance
+            * from the player; otherwise, those tiles with the least distance from the
+            * player.
+            */
+            if (!blocked_path && g->is_empty(x, y) &&
+             g->m.sees(z->posx, z->posy, x, y, g->light_level(), linet) &&
+             (( fleeing && rl_dist(g->u.posx, g->u.posy, x, y) >= best) ||
+             (!fleeing && rl_dist(g->u.posx, g->u.posy, x, y) <= best)   )) 
+            {
+                options.push_back( point(x, y) );
+                best = rl_dist(g->u.posx, g->u.posy, x, y);
+            }
 
-// Go back and remove all options that aren't tied for best
- for (int i = 0; i < options.size() && options.size() > 1; i++) {
-  point p = options[i];
-  if (rl_dist(g->u.posx, g->u.posy, options[i].x, options[i].y) != best) {
-   options.erase(options.begin() + i);
-   i--;
-  }
- }
+        }
+    }
 
- if (options.size() == 0)
-  return; // Nowhere to leap!
+    // Go back and remove all options that aren't tied for best
+    for (int i = 0; i < options.size() && options.size() > 1; i++) 
+    {
+        point p = options[i];
+        if (rl_dist(g->u.posx, g->u.posy, options[i].x, options[i].y) != best) 
+        {
+            options.erase(options.begin() + i);
+        i--;
+        }
+    }
 
- z->moves -= 150;
- z->sp_timeout = z->type->sp_freq;	// Reset timer
- point chosen = options[rng(0, options.size() - 1)];
- bool seen = g->u_see(z); // We can see them jump...
- z->posx = chosen.x;
- z->posy = chosen.y;
- seen |= g->u_see(z); // ... or we can see them land
- if (seen)
-  g->add_msg("The %s leaps!", z->name().c_str());
+    if (options.size() == 0)
+        return; // Nowhere to leap!
+
+    z->moves -= 150;
+    z->sp_timeout = z->type->sp_freq;	// Reset timer
+    point chosen = options[rng(0, options.size() - 1)];
+    bool seen = g->u_see(z); // We can see them jump...
+    z->posx = chosen.x;
+    z->posy = chosen.y;
+    seen |= g->u_see(z); // ... or we can see them land
+    if (seen)
+        g->add_msg("The %s leaps!", z->name().c_str());
 }
 
 void mattack::dermatik(game *g, monster *z)
