@@ -716,6 +716,66 @@ Press any key to continue...");
   Press any key to continue...");
   break;
 
+  case COMPACT_SR1_MESS:
+  print_line("\
+  Subj: Security Reminder\n\
+  To: all SRCF staff\n\
+  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
+  \n\
+      I want to remind everyone on staff: Do not open or examine\n\
+  containers above your security-clearance.  If you have some\n\
+  question about safety protocols or shipping procedures, please\n\
+  contact your SRCF administrator or on-site military officer.\n\
+  When in doubt, assume all containers are Class-A Biohazards\n\
+  and highly toxic. Take full precautions!\n\
+  \n\
+  Press any key to continue...");
+  break;
+
+  case COMPACT_SR2_MESS:
+  print_line("\
+  Subj: Security Reminder\n\
+  To: all SRCF staff\n\
+  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
+  \n\
+  From today onward medical wastes are not to be stored anywhere\n\
+  near radioactive materials.  All containers are to be\n\
+  re-arranged according to these new regulations.  If your\n\
+  facility currently has these containers stored in close\n\
+  proximity, you are to work with armed guards on duty at all\n\
+  times. Report any unusual activity to your SRCF administrator\n\
+  at once.\n\
+  \n\
+  Press any key to continue...");
+  break;
+
+  case COMPACT_SR3_MESS:
+  print_line("\
+  Subj: Security Reminder\n\
+  To: all SRCF staff\n\
+  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
+  \n\
+  Worker health and safety is our number one concern!  As such,\n\
+  we are instituting weekly health examinations for all SRCF\n\
+  employees.  Report any unusual symptoms or physical changes\n\
+  to your SRCF administrator at once.\n\
+  \n\
+  Press any key to continue...");
+  break;
+
+  case COMPACT_SR4_MESS:
+  print_line("\
+  Subj: Security Reminder\n\
+  To: all SRCF staff\n\
+  From:  Constantine Dvorak, Undersecretary of Nuclear Security\n\
+  \n\
+  All compromised facilities will remain under lock down until\n\
+  further notice.  Anyone who has seen or come in direct contact\n\
+  with the creatures is to report to the home office for a full\n\
+  medical evaluation and security debriefing.\n\
+  \n\
+  Press any key to continue...");
+  break;
  } // switch (action)
 }
 

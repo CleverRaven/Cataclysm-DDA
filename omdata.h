@@ -92,6 +92,7 @@ enum oter_id {
   ot_mil_surplus_west,
  ot_megastore_entrance, ot_megastore,
  ot_hospital_entrance, ot_hospital,
+ ot_public_works_entrance, ot_public_works,
  ot_mansion_entrance, ot_mansion, ot_fema_entrance, ot_fema,
  ot_station_radio_north, ot_station_radio_east, ot_station_radio_south, ot_station_radio_west,
 // Goodies/dungeons
@@ -106,6 +107,7 @@ enum oter_id {
  ot_spiral_hub, ot_spiral,
  ot_radio_tower,
  ot_toxic_dump,
+ ot_haz_sar_entrance, ot_haz_sar,
  ot_cave, ot_cave_rat,
 // Underground terrain
  ot_spider_pit_under,
@@ -289,6 +291,8 @@ const oter_t oterlist[num_ter_types] = {
 {"megastore",		'M',	c_blue,		5, build_extras, false, false},
 {"hospital",		'H',	c_ltred,	5, build_extras, false, false},
 {"hospital",		'H',	c_red,		5, build_extras, false, false},
+{"public works", 'W',	c_ltgray,		5, no_extras, false, false},
+{"public works",	'w',	c_ltgray,		5, no_extras, false, false},
 {"mansion",		'M',	c_ltgreen,	5, build_extras, false, false},
 {"mansion",		'M',	c_green,	5, build_extras, false, false},
 {"fema camp",		'+',	c_blue,	5, build_extras, false, false},
@@ -327,6 +331,8 @@ const oter_t oterlist[num_ter_types] = {
 {"spiral cavern",	'@',	c_pink,		2, no_extras, false, false},
 {"radio tower",         'X',    c_ltgray,       2, no_extras, false, false},
 {"toxic waste dump",	'D',	c_pink,		2, no_extras, false, false},
+{"hazardous waste sarcophagus", 'X',	c_ltred,		5, no_extras, false, false},
+{"hazardous waste sarcophagus",	'X',	c_pink,		5, no_extras, false, false},
 {"cave",		'C',	c_brown,	2, field_extras, false, false},
 {"rat cave",		'C',	c_dkgray,	2, no_extras, true, false},
 {"cavern",		'0',	c_ltgray,	2, no_extras, false, false},
@@ -455,6 +461,7 @@ enum omspec_id
  OMSPEC_MANSION_WILD,
  OMSPEC_MEGASTORE,
  OMSPEC_HOSPITAL,
+ OMSPEC_PUBLIC_WORKS,
  OMSPEC_SEWAGE,
  OMSPEC_MINE,
  OMSPEC_ANTHILL,
@@ -466,7 +473,8 @@ enum omspec_id
  OMSPEC_SHELTER,
  OMSPEC_CAVE,
  OMSPEC_TOXIC_DUMP,
-    OMSPEC_LONE_GASSTATION,
+ OMSPEC_LONE_GASSTATION,
+ OMSPEC_HAZARDOUS_SAR,
  NUM_OMSPECS
 };
 
@@ -530,6 +538,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_hospital_entrance, 1, 5, 3, 15, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
+{ot_public_works_entrance,    1, 3,  2, 10, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+
 {ot_sewage_treatment, 1,  5, 10, 20, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT) | mfb(OMS_FLAG_CLASSIC)},
 
@@ -566,8 +577,10 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
 
 {ot_s_gas_north,   10,  500,  10, 200, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::by_highway, mfb(OMS_FLAG_CLASSIC)}
+ &omspec_place::by_highway, mfb(OMS_FLAG_CLASSIC)},
 
+{ot_haz_sar_entrance,     1,  2, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)}
 };
 
 // Overmap "Zones"
