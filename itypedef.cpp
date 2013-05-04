@@ -2063,7 +2063,7 @@ AMMO("laser_pack", "fusion pack",	 2, 800,AT_FUSION,	c_ltgreen,	PLASTIC,
 In the middle of the 21st Century, military powers began to look towards\n\
 energy based weapons. The result was the standard fusion pack, capable of\n\
 delivering bolts of superheated gas at near light speed with no recoil.",
-mfb(AMMO_INCENDIARY));
+mfb(AMMO_INCENDIARY)|mfb(AMMO_LASER));
 
 AMMO("40mm_concussive", "40mm concussive",     10,400,AT_40MM,	c_ltred,	STEEL,
 	  1,200,  5,  0, 40,  8, 15,  4, "\
