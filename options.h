@@ -54,6 +54,7 @@ struct option_table
                 break;
             case OPT_SEASON_LENGTH:
                 options[i] = 14;
+                break;
             case OPT_MOVE_VIEW_OFFSET:
                 options[i] = 1;
                 break;
