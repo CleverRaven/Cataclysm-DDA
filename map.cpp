@@ -1804,12 +1804,14 @@ void map::shoot(game *g, const int x, const int y, int &dam,
    ter_set(x, y, t_door_b);
   break;
 
- case t_window:
- case t_window_domestic:
- case t_window_alarm:
-  dam -= rng(0, 5);
-  ter_set(x, y, t_window_frame);
-  break;
+    // laser beams are attenuated, but don't break the glass
+    case t_window:
+    case t_window_domestic:
+    case t_window_alarm:
+        dam -= rng(0, 5);
+        if (!(effects & mfb(AMMO_LASER)))
+            ter_set(x, y, t_window_frame);
+    break;
 
  case t_window_boarded:
   dam -= rng(10, 30);
@@ -1824,6 +1826,22 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   dam -= rng(0, 8);
   ter_set(x, y, t_floor);
   break;
+
+
+    // reinforced glass stops bullets
+    // laser beams are attenuated
+    case t_reinforced_glass_v:
+    case t_reinforced_glass_h:
+    if (effects & mfb(AMMO_LASER))
+    {
+        dam -= rng(0, 8);
+    }
+    else
+    {
+        g->add_msg("The shot is stopped by the reinforced glass wall!");
+        dam = 0;
+    }
+    break;
 
  case t_paper:
   dam -= rng(4, 16);
