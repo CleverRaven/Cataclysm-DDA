@@ -8,7 +8,7 @@
 void mdeath::normal(game *g, monster *z)
 {
  if (g->u_see(z))
-  g->add_msg("%s dies!", z->name().c_str());
+  g->add_msg("The %s dies!", z->name().c_str());
  if (z->made_of(FLESH) && z->has_flag(MF_WARM)) {
   if (g->m.field_at(z->posx, z->posy).type == fd_blood &&
       g->m.field_at(z->posx, z->posy).density < 3)
