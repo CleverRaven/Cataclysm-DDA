@@ -1825,6 +1825,14 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   ter_set(x, y, t_floor);
   break;
 
+
+    // reinforced glass stops bullets
+    case t_reinforced_glass_v:
+    case t_reinforced_glass_h:
+        g->add_msg("The shot is stopped by the reinforced glass wall!");
+        dam = 0;
+        break;
+
  case t_paper:
   dam -= rng(4, 16);
   if (dam > 0)
