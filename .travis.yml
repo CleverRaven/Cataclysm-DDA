@@ -1,5 +1,10 @@
 language: cpp
 compiler:
   - gcc
-# Change this to your needs
+
 script: make
+
+notifications:
+  irc: "irc.newnet.net#Cataclysm-DDA"
+  use_notice: true
+  skip_join: true
