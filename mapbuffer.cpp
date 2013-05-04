@@ -101,17 +101,20 @@ void mapbuffer::save()
   submap *sm = it->second;
   fout << sm->turn_last_touched << std::endl;
 // Dump the terrain.
+  std::string buf;
   for (int j = 0; j < SEEY; j++) {
+   buf.clear();
    for (int i = 0; i < SEEX; i++)
-    fout << int(sm->ter[i][j]) << " ";
-   fout << std::endl;
+    buf += std::_to_string(sm->ter[i][j]) + " ";
+   fout << buf << std::endl;
   }
  // Dump the radiation
+   buf.clear();
   for (int j = 0; j < SEEY; j++) {
    for (int i = 0; i < SEEX; i++)
-    fout << sm->rad[i][j] << " ";
+    buf += std::_to_string(sm->rad[i][j]) + " ";
   }
-  fout << std::endl;
+  fout << buf << std::endl;
 
  // Items section; designate it with an I.  Then check itm[][] for each square
  //   in the grid and print the coords and the item's details.
@@ -215,11 +218,13 @@ void mapbuffer::load()
   if (turndif < 0)
    turndif = 0;
 // Load terrain
+  std::string buf;
+  getline (fin, buf); //chomp endl
   for (int j = 0; j < SEEY; j++) {
+   getline (fin, buf); 
+   char *n = &buf[0];
    for (int i = 0; i < SEEX; i++) {
-    int tmpter;
-    fin >> tmpter;
-    sm->ter[i][j] = ter_id(tmpter);
+    sm->ter[i][j] = ter_id(strtol(n,&n,10));
     sm->itm[i][j].clear();
     sm->trp[i][j] = tr_null;
     sm->fld[i][j] = field();
@@ -227,10 +232,11 @@ void mapbuffer::load()
    }
   }
 // Load irradiation
+  getline (fin, buf);
+  char *n = &buf[0];
   for (int j = 0; j < SEEY; j++) {
    for (int i = 0; i < SEEX; i++) {
-    int radtmp;
-    fin >> radtmp;
+    int radtmp = strtol(n,&n,10);
     radtmp -= int(turndif / 100);	// Radiation slowly decays
     if (radtmp < 0)
      radtmp = 0;
