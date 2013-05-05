@@ -2511,6 +2511,59 @@ void overmap::place_special(overmap_special special, tripoint p)
   make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
  
+  if (special.flags & mfb(OMS_FLAG_3X3_FIXED)) {
+  int startx = p.x - 1, starty = p.y;
+  if (is_road(p.x, p.y - 1, p.z)) { // Road to north
+   ter(p.x+1, p.y, p.z) = oter_id(special.ter - 1);//1
+   ter(p.x, p.y, p.z) = special.ter;//2
+   ter(p.x-1, p.y, p.z) = oter_id(special.ter + 1);//3
+   ter(p.x+1, p.y+1, p.z) = oter_id(special.ter + 2);//4
+   ter(p.x, p.y+1, p.z) = oter_id(special.ter + 3);//5
+   ter(p.x-1, p.y+1, p.z) = oter_id(special.ter + 4);//6
+   ter(p.x+1, p.y+2, p.z) = oter_id(special.ter + 5);//7
+   ter(p.x, p.y+2, p.z) = oter_id(special.ter + 6);//8
+   ter(p.x-1, p.y+2, p.z) = oter_id(special.ter + 7);//9
+   if (special.ter == ot_school_2)
+    make_hiway(p.x, p.y-1, p.x-1, p.y-1, p.z, ot_road_null);
+  } else if (is_road(p.x + 1, p.y, p.z)) { // Road to east
+   ter(p.x, p.y+1, p.z) = oter_id(special.ter - 1);//1
+   ter(p.x, p.y, p.z) = special.ter;//2
+   ter(p.x, p.y-1, p.z) = oter_id(special.ter + 1);//3
+   ter(p.x-1, p.y+1, p.z) = oter_id(special.ter + 2);//4
+   ter(p.x-1, p.y, p.z) = oter_id(special.ter + 3);//5
+   ter(p.x-1, p.y-1, p.z) = oter_id(special.ter + 4);//6
+   ter(p.x-2, p.y+1, p.z) = oter_id(special.ter + 5);//7
+   ter(p.x-2, p.y, p.z) = oter_id(special.ter + 6);//8
+   ter(p.x-2, p.y-1, p.z) = oter_id(special.ter + 7);//9
+   if (special.ter == ot_school_2)
+    make_hiway(p.x+1, p.y, p.x+1, p.y-1, p.z, ot_road_null);
+  } else if (is_road(p.x, p.y + 1, p.z)) { // Road to south
+   ter(p.x-1, p.y, p.z) = oter_id(special.ter - 1);//1
+   ter(p.x, p.y, p.z) = special.ter;//2
+   ter(p.x+1, p.y, p.z) = oter_id(special.ter + 1);//3
+   ter(p.x-1, p.y-1, p.z) = oter_id(special.ter + 2);//4
+   ter(p.x, p.y-1, p.z) = oter_id(special.ter + 3);//5
+   ter(p.x+1, p.y-1, p.z) = oter_id(special.ter + 4);//6
+   ter(p.x-1, p.y-2, p.z) = oter_id(special.ter + 5);//7
+   ter(p.x, p.y-2, p.z) = oter_id(special.ter + 6);//8
+   ter(p.x+1, p.y-2, p.z) = oter_id(special.ter + 7);//9
+   if (special.ter == ot_school_2)
+    make_hiway(p.x, p.y+1, p.x+1, p.y+1, p.z, ot_road_null);
+  } else if (is_road(p.x - 1, p.y, p.z)) { // Road to west
+   ter(p.x, p.y-1, p.z) = oter_id(special.ter - 1);//1
+   ter(p.x, p.y, p.z) = special.ter;//2
+   ter(p.x, p.y+1, p.z) = oter_id(special.ter + 1);//3
+   ter(p.x+1, p.y-1, p.z) = oter_id(special.ter + 2);//4
+   ter(p.x+1, p.y, p.z) = oter_id(special.ter + 3);//5
+   ter(p.x+1, p.y+1, p.z) = oter_id(special.ter + 4);//6
+   ter(p.x+2, p.y-1, p.z) = oter_id(special.ter + 5);//7
+   ter(p.x+2, p.y, p.z) = oter_id(special.ter + 6);//8
+   ter(p.x+2, p.y+1, p.z) = oter_id(special.ter + 7);//9
+   if (special.ter == ot_school_2)
+    make_hiway(p.x-1, p.y, p.x-1, p.y+1, p.z, ot_road_null);
+  }
+ }
+ 
  //Buildings should be designed with the entrance at the southwest corner and open to the street on the south.
  if (special.flags & mfb(OMS_FLAG_2X2_SECOND)) {
   int startx = p.x-3, starty = p.y-3; // Acts as an error message, way offset from ideal
