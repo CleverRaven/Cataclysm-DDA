@@ -29,6 +29,9 @@ void dis_msg(game *g, dis_type type)
  case DI_TEARGAS:
   g->add_msg("You inhale a lungful of tear gas.");
   break;
+ case DI_CRUSHED:
+  g->add_msg("The ceiling collapses on you!");
+  break;
  case DI_BOOMERED:
   g->add_msg("You're covered in bile!");
   break;
@@ -380,6 +383,13 @@ void dis_effect(game *g, player &p, disease &dis)
     i--;
    }
   }
+  break;
+
+ case DI_CRUSHED:
+  p.hurtall(10);
+  //This could be developed on later, for instance
+  //to deal different damage amounts to different body parts and
+  //to account for helmets and other armor
   break;
 
  case DI_BOOMERED:
@@ -1501,6 +1511,9 @@ Loss of health - Torso";
  case DI_ONFIRE:	return "\
 Loss of health - Entire Body\n\
 Your clothing and other equipment may be consumed by the flames.";
+
+ case DI_CRUSHED:   return "\
+If you're seeing this, it is a bug and should be reported!";
 
  case DI_BOOMERED:	return "\
 Perception - 5\n\
