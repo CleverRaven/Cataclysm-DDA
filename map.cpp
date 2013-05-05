@@ -838,7 +838,7 @@ int map::move_cost(const int x, const int y)
    return 8;
   }
  }
- return terlist[ter(x, y)].movecost + field_movecost(x, y);
+ return terlist[ter(x, y)].movecost;
 }
 
 int map::move_cost_ter_only(const int x, const int y)
