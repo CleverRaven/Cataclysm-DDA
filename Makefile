@@ -128,12 +128,12 @@ $(TARGET): $(ODIR) $(DDIR) $(OBJS)
           $(OBJS) $(LDFLAGS)
 
 .PHONY: version
-version:
-	@( VERSION_STRING=$(VERSION) ; \
-            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty ) && VERSION_STRING=$$GITVERSION ; \
-            [ -e "version.h" ] && OLDVERSION=$$(grep VERSION version.h|cut -d '"' -f2) ; \
-            if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee version.h ; fi \
-         )
+#version:
+#	@( VERSION_STRING=$(VERSION) ; \
+#            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty ) && VERSION_STRING=$#$GITVERSION ; \
+#            [ -e "version.h" ] && OLDVERSION=$$(grep VERSION version.h|cut -d '"' -f2) ; \
+#            if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee version.h ; fi \
+#         )
 
 $(ODIR):
 	mkdir $(ODIR)
@@ -144,13 +144,13 @@ $(DDIR):
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
-version.h: version
+#version.h: version
 
 clean: clean-tests
 	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(ODIR)/*.d $(W32ODIR)/*.o $(W32BINDIST) \
 	$(BINDIST)
 	rm -rf $(BINDIST_DIR)
-	rm version.h
+#	rm version.h
 
 bindist: $(BINDIST)
 
