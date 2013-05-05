@@ -1653,8 +1653,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   ter_set(x, y, t_rubble);
    for (int i = x - 1; i <= x + 1; i++)
     for (int j = y - 1; j <= y + 1; j++) {
-     if (one_in(3))
+     if (one_in(2))
       g->m.add_field(g, i, j, fd_rubble, rng(1,3));
+      g->m.field_effect(i, j, g);
    }
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
@@ -1692,8 +1693,9 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   ter_set(x, y, t_rubble);
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
-    if (one_in(3))
+    if (one_in(2))
      g->m.add_field(g, i, j, fd_rubble, rng(1,3));
+     g->m.field_effect(i, j, g);
    }
   //Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
