@@ -56,15 +56,14 @@ private:
 
     nc_color color_from_string(std::string color);
     Use_function use_from_string(std::string name);
-    unsigned flags_from_json(catajson flags);
-    unsigned techniques_from_json(catajson techs);
+    unsigned flags_from_json(catajson flags, std::string flag_type="");
     void set_material_from_json(Item_tag new_id, catajson mats);
+    bool is_mod_target(catajson targets, std::string weapon);
     material material_from_tag(Item_tag new_id, Item_tag index);
     ammotype ammo_from_string(std::string ammo);
 
     //two convenience functions that just call into set_bitmask_by_string
-    void set_flag_by_string(unsigned& cur_flags, std::string new_flag);
-    void set_technique_by_string(unsigned& cur_techs, std::string new_tech);
+    void set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type);
     //sets a bitmask (cur_bitmask) based on the values of flag_map and new_flag
     void set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map,
                                unsigned& cur_bitmask, std::string new_flag);
@@ -75,6 +74,8 @@ private:
     std::map<Item_tag, unsigned> item_flags_list;
     //techniques stuff
     std::map<Item_tag, unsigned> techniques_list;
+    //ammo stuff
+    std::map<Item_tag, unsigned> ammo_flags_list;
 };
 
 extern Item_factory* item_controller;
