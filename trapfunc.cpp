@@ -143,7 +143,17 @@ void trapfuncm::crossbow(game *g, monster *z, int x, int y)
 {
  bool add_bolt = true;
  bool seen = g->u_see(z);
- if (!one_in(4)) {
+ int chance;
+// adapted from shotgun code - chance of getting hit depends on size
+ switch (z->type->size) {
+  case MS_TINY:   chance = 50; break;
+  case MS_SMALL:  chance =  8; break;
+  case MS_MEDIUM: chance =  6; break;
+  case MS_LARGE:  chance =  4; break;
+  case MS_HUGE:   chance =  1; break;
+ } 
+ 
+ if (one_in(chance)) {
   if (seen)
    g->add_msg("A bolt shoots out and hits the %s!", z->name().c_str());
   if (z->hurt(rng(20, 30)))
