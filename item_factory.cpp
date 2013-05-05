@@ -1,6 +1,7 @@
 #include "item_factory.h"
 #include "rng.h"
 #include "enums.h"
+#include "catajson.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -307,111 +308,98 @@ Item_list Item_factory::create_random(int created_at, int quantity){
 ///////////////////////
 
 void Item_factory::load_item_templates(){
-    load_item_templates_from("data/raw/items/instruments.json");
     load_item_templates_from("data/raw/items/melee.json");
     load_item_templates_from("data/raw/items/ranged.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
 // Load values from this data file into m_templates
-// TODO: Consider appropriate location for this code. Is this really where it belongs?
-//       At the very least, it seems the json blah_from methods could be used elsewhere
 void Item_factory::load_item_templates_from(const std::string file_name){
-    std::ifstream data_file;
-    picojson::value input_value;
+    catajson all_items(file_name);
 
-    data_file.open(file_name.c_str());
-    data_file >> input_value;
-    data_file.close();
-
-    //Handle any obvious errors on file load
-    std::string err = picojson::get_last_error();
-    if (! err.empty()) {
-        std::cerr << "In JSON file \"" << file_name << "\"" << data_file << ":" << err << std::endl;
-        exit(1);
-    }
-    if (! input_value.is<picojson::array>()) {
-        std::cerr << file_name << " is not an array of item_templates" << std::endl;
+    if (! all_items.is_array()) {
+        debugmsg("%s is not an array of item_templates", file_name.c_str());
         exit(2);
     }
 
     //Crawl through and extract the items
-    const picojson::array& all_items = input_value.get<picojson::array>();
-    for (picojson::array::const_iterator entry = all_items.begin(); entry != all_items.end(); ++entry) {
-        if( !(entry->is<picojson::object>()) ){
-            std::cerr << "Invalid item definition, entry not a JSON object" << std::endl;
+    for (all_items.set_begin(); all_items.has_curr(); all_items.next()) {
+        catajson entry = all_items.curr();
+        // The one element we absolutely require for an item definition is an id
+        if(!entry.has("id") || !entry.get("id").is_string())
+        {
+            debugmsg("Item definition skipped, no id found or id was malformed.");
         }
-        else{
-            const picojson::value::object& entry_body = entry->get<picojson::object>();
+        else
+        {
+            Item_tag new_id = entry.get("id").as_string();
 
-            // The one element we absolutely require for an item definition is an id
-            picojson::value::object::const_iterator key_pair = entry_body.find("id");
-            if( key_pair == entry_body.end() || !(key_pair->second.is<std::string>()) ){
-                std::cerr << "Item definition skipped, no id found or id was malformed." << std::endl;
-            } else {
-                Item_tag new_id = key_pair->second.get<std::string>();
-
-                // If everything works out, add the item to the group list...
-                // unless a similar item is already there
-                if(m_templates.find(new_id) != m_templates.end()){
-                    std::cerr << "Item definition skipped, id " << new_id << " already exists." << std::endl;
-                } else {
-                    itype* new_item_template;
-                    if (entry_body.find("type") == entry_body.end())
+            // If everything works out, add the item to the group list...
+            // unless a similar item is already there
+            if(m_templates.find(new_id) != m_templates.end())
+            {
+                debugmsg("Item definition skipped, id %s already exists.", new_id.c_str());
+            }
+            else
+            {
+                itype* new_item_template;
+                if (!entry.has("type"))
+                {
+                    new_item_template = new itype();
+                }
+                else
+                {
+                    std::string type_label = entry.get("type").as_string();
+                    if (type_label == "MELEE")
                     {
                         new_item_template = new itype();
                     }
+                    else if (type_label == "GUN")
+                    {
+                        it_gun* gun_template = new it_gun();
+                        gun_template->ammo = ammo_from_string(entry.get("ammo").as_string());
+                        gun_template->skill_used = Skill::skill(entry.get("skill").as_string());
+                        gun_template->dmg_bonus = entry.get("ranged_damage").as_int();
+                        gun_template->range = entry.get("range").as_int();
+                        gun_template->accuracy = entry.get("accuracy").as_int();
+                        gun_template->recoil = entry.get("recoil").as_int();
+                        gun_template->durability = entry.get("durability").as_int();
+                        gun_template->burst = entry.get("burst").as_int();
+                        gun_template->clip = entry.get("clip_size").as_int();
+                        gun_template->reload_time = entry.get("reload").as_int();
+
+                        new_item_template = gun_template;
+                    }
                     else
                     {
-                        std::string type_label = string_from_json(new_id, "type", entry_body);
-                        if (type_label == "MELEE")
-                        {
-                            new_item_template = new itype();
-                        }
-                        else if (type_label == "GUN")
-                        {
-                            it_gun* gun_template = new it_gun();
-                            gun_template->ammo = ammo_from_json(new_id, "ammo", entry_body);
-                            gun_template->skill_used = Skill::skill(string_from_json(new_id, "skill", entry_body));
-                            gun_template->dmg_bonus = int_from_json(new_id, "ranged_damage", entry_body);
-                            gun_template->range = int_from_json(new_id, "range", entry_body);
-                            gun_template->accuracy = int_from_json(new_id, "accuracy", entry_body);
-                            gun_template->recoil = int_from_json(new_id, "recoil", entry_body);
-                            gun_template->durability = int_from_json(new_id, "durability", entry_body);
-                            gun_template->burst = int_from_json(new_id, "burst", entry_body);
-                            gun_template->clip = int_from_json(new_id, "clip_size", entry_body);
-                            gun_template->reload_time = int_from_json(new_id, "reload", entry_body);
-
-                            new_item_template = gun_template;
-                        }
-                        else
-                        {
-                            std::cerr << "Item definition for " << new_id << " skipped, unrecognized type: " <<
-                                      type_label << std::endl;
-                            break;
-                        }
+                        debugmsg("Item definition for %s skipped, unrecognized type: %s", new_id.c_str(),
+                                 type_label.c_str());
+                        break;
                     }
-                    new_item_template->id = new_id;
-                    m_templates[new_id] = new_item_template;
-
-                    // And then proceed to assign the correct field
-                    new_item_template->rarity = int_from_json(new_id, "rarity", entry_body);
-                    new_item_template->price = int_from_json(new_id, "price", entry_body);
-                    new_item_template->name = string_from_json(new_id, "name", entry_body);
-                    new_item_template->sym = char_from_json(new_id, "symbol", entry_body);
-                    new_item_template->color = color_from_json(new_id, "color", entry_body);
-                    new_item_template->description = string_from_json(new_id, "description", entry_body);
-                    new_item_template->m1 = material_from_json(new_id, "material", entry_body, 0);
-                    new_item_template->m2 = material_from_json(new_id, "material", entry_body, 1);
-                    new_item_template->volume = int_from_json(new_id, "volume", entry_body);
-                    new_item_template->weight = int_from_json(new_id, "weight", entry_body);
-                    new_item_template->melee_dam = int_from_json(new_id, "damage", entry_body);
-                    new_item_template->melee_cut = int_from_json(new_id, "cutting", entry_body);
-                    new_item_template->m_to_hit = int_from_json(new_id, "to_hit", entry_body);
-                    new_item_template->use = use_from_json(new_id, "use_action", entry_body);
-                    new_item_template->item_flags = flags_from_json(new_id, "flags", entry_body);
-                    new_item_template->techniques = techniques_from_json(new_id, "techniques", entry_body);
                 }
+                new_item_template->id = new_id;
+                m_templates[new_id] = new_item_template;
+
+                // And then proceed to assign the correct field
+                new_item_template->rarity = entry.get("rarity").as_int();
+                new_item_template->price = entry.get("price").as_int();
+                new_item_template->name = entry.get("name").as_string();
+                new_item_template->sym = entry.get("symbol").as_char();
+                new_item_template->color = color_from_string(entry.get("color").as_string());
+                new_item_template->description = entry.get("description").as_string();
+                set_material_from_json(new_id, entry.get("material"));
+                new_item_template->volume = entry.get("volume").as_int();
+                new_item_template->weight = entry.get("weight").as_int();
+                new_item_template->melee_dam = entry.get("bashing").as_int();
+                new_item_template->melee_cut = entry.get("cutting").as_int();
+                new_item_template->m_to_hit = entry.get("to_hit").as_int();
+                
+                new_item_template->item_flags = (!entry.has("flags") ? 0 :
+                                                 flags_from_json(entry.get("flags")));
+                new_item_template->techniques = (!entry.has("techniques") ? 0 :
+                                                 techniques_from_json(entry.get("techniques")));
+                new_item_template->use = (!entry.has("use_action") ? &iuse::none :
+                                          use_from_string(entry.get("use_action").as_string()));
             }
         }
     }
@@ -520,51 +508,8 @@ void Item_factory::load_item_groups_from(const std::string file_name){
     }
 }
 
-//Grab string, with appropriate error handling
-Item_tag Item_factory::string_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<std::string>()){
-            return value_pair->second.get<std::string>();
-        } else {
-            std::cerr << "Item "<< new_id << " attribute " << index << "was skipped, not a string." << std::endl;
-            return "Error: Unknown Value";
-        }
-    } else {
-        //If string is not found, just return an empty string
-        return "";
-    }
-}
-
-//Grab character, with appropriate error handling
-char Item_factory::char_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    std::string symbol = string_from_json(new_id, index, value_map);
-    if(symbol == ""){
-        std::cerr << "Item "<< new_id << " attribute  " << "was skipped, empty string not allowed." << std::endl;
-        return 'X';
-    }
-    return symbol[0];
-}
-
-//Grab int, with appropriate error handling
-int Item_factory::int_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<double>()){
-            return int(value_pair->second.get<double>());
-        } else {
-            std::cerr << "Item "<< new_id << " attribute name was skipped, not a number." << std::endl;
-            return 0;
-        }
-    } else {
-        //If the value isn't found, just return a 0
-        return 0;
-    }
-}
-
 //Grab color, with appropriate error handling
-nc_color Item_factory::color_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    std::string new_color = string_from_json(new_id, index, value_map);
+nc_color Item_factory::color_from_string(std::string new_color){
     if("red"==new_color){
         return c_red;
     } else if("blue"==new_color){
@@ -596,13 +541,12 @@ nc_color Item_factory::color_from_json(Item_tag new_id, Item_tag index, picojson
     } else if("pink"==new_color){
         return c_pink;
     } else {
-        std::cerr << "Item "<< new_id << " attribute color was skipped, not a color. Color is required." << std::endl;
+        debugmsg("Received invalid color property %s. Color is required.", new_color.c_str());
         return c_white;
     }
 }
 
-ammotype Item_factory::ammo_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    std::string new_ammo = string_from_json(new_id, index, value_map);
+ammotype Item_factory::ammo_from_string(std::string new_ammo){
     if("nail"==new_ammo){
         return AT_NAIL;
     } else if ("BB" == new_ammo) {
@@ -666,21 +610,12 @@ ammotype Item_factory::ammo_from_json(Item_tag new_id, Item_tag index, picojson:
     } else if ("none" == new_ammo) {
         return AT_NULL; // NX17 and other special weapons
     } else {
-        std::cerr << "Item "<< new_id << " attribute ammo was skipped, not recognized. Ammo is required for this item." << std::endl;
+        debugmsg("Read invalid ammo %s.", new_ammo.c_str());
         return AT_NULL;
     }
 }
 
-Use_function Item_factory::use_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-
-    //If none is found, just use the standard none action
-    Item_tag function_name = "NONE";
-    //Otherwise, grab the right label to look for
-    if(value_pair != value_map.end()){
-        function_name = string_from_json(new_id, index, value_map);
-    }
-
+Use_function Item_factory::use_from_string(std::string function_name){
     std::map<Item_tag, Use_function>::iterator found_function = iuse_function_list.find(function_name);
 
     //Before returning, make sure sure the function actually exists
@@ -688,107 +623,93 @@ Use_function Item_factory::use_from_json(Item_tag new_id, Item_tag index, picojs
         return found_function->second;
     } else {
         //Otherwise, return a hardcoded function we know exists (hopefully)
-        std::cerr << "Item "<< new_id << " attribute '"<< index <<"' was skipped, no iuse function defined for the tag '" << function_name << "." << std::endl;
+        debugmsg("Received unrecognized iuse function %s, using iuse::none instead", function_name.c_str());
         return &iuse::none;
     }
 }
 
-unsigned Item_factory::flags_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
+void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag)
+{
+    set_bitmask_by_string(item_flags_list, cur_flags, new_flag);
+}
+
+void Item_factory::set_technique_by_string(unsigned& cur_techs, std::string new_tech)
+{
+    set_bitmask_by_string(techniques_list, cur_techs, new_tech);
+}
+
+void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, unsigned& cur_bitmask, std::string new_flag)
+{
+    std::map<Item_tag, unsigned>::const_iterator found_flag_iter = flag_map.find(new_flag);
+    if(found_flag_iter != flag_map.end())
+    {
+        cur_bitmask = cur_bitmask | found_flag_iter->second;
+    }
+    else
+    {
+        debugmsg("Invalid item flag (etc.): %s", new_flag.c_str()); 
+    }
+}
+
+unsigned Item_factory::flags_from_json(catajson flag_list){
     //If none is found, just use the standard none action
     unsigned flag = 0;
     //Otherwise, grab the right label to look for
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<std::string>()){
-            std::map<Item_tag, unsigned>::const_iterator found_flag_iter = item_flags_list.find(value_pair->second.get<std::string>());
-            if(found_flag_iter != item_flags_list.end()){
-              flag = flag | found_flag_iter->second;
-            } else {
-              std::cerr << "Item " << new_id << " has an invalid flag."; 
-            }
-        } else if (value_pair->second.is<picojson::array>()) {
-            const picojson::array& materials_json = value_pair->second.get<picojson::array>();
-            for (picojson::array::const_iterator iter = materials_json.begin(); iter != materials_json.end(); ++iter) {
-                if((*iter).is<std::string>()){
-                    std::map<Item_tag, unsigned>::const_iterator found_flag_iter = item_flags_list.find((*iter).get<std::string>());
-                    if(found_flag_iter != item_flags_list.end()){
-                      flag = flag | found_flag_iter->second;
-                    } else {
-                      std::cerr << "Item " << new_id << " has an invalid flag."; 
-                    }                
-                } else {
-                    std::cerr << "Item "<< new_id << " has a non-string flag listed." << std::endl;
-                }
-            }
-        } else {
-            std::cerr << "Item "<< new_id << " flag was skipped, not a string or array of strings." << std::endl;
+    if (flag_list.is_array())
+    {
+        for (flag_list.set_begin(); flag_list.has_curr(); flag_list.next())
+        {
+            set_flag_by_string(flag, flag_list.curr().as_string());
         }
+    }
+    else
+    {
+        //we should have gotten a string, if not an array, and catajson will do error checking
+        set_flag_by_string(flag, flag_list.as_string());
     }
     return flag;
 }
 
-unsigned Item_factory::techniques_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
+unsigned Item_factory::techniques_from_json(catajson tech_list){
     //If none is found, just use the standard none action
-    unsigned flag = 0;
+    unsigned tech = 0;
     //Otherwise, grab the right label to look for
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<std::string>()){
-            std::map<Item_tag, unsigned>::const_iterator found_flag_iter = techniques_list.find(value_pair->second.get<std::string>());
-            if(found_flag_iter != techniques_list.end()){
-              flag = flag | found_flag_iter->second;
-            } else {
-              std::cerr << "Item " << new_id << " has an invalid flag."; 
-            }
-        } else if (value_pair->second.is<picojson::array>()) {
-            const picojson::array& materials_json = value_pair->second.get<picojson::array>();
-            for (picojson::array::const_iterator iter = materials_json.begin(); iter != materials_json.end(); ++iter) {
-                if((*iter).is<std::string>()){
-                    std::map<Item_tag, unsigned>::const_iterator found_flag_iter = techniques_list.find((*iter).get<std::string>());
-                    if(found_flag_iter != techniques_list.end()){
-                      flag = flag | found_flag_iter->second;
-                    } else {
-                      std::cerr << "Item " << new_id << " has an invalid flag."; 
-                    }                
-                } else {
-                    std::cerr << "Item "<< new_id << " has a non-string flag listed." << std::endl;
-                }
-            }
-        } else {
-            std::cerr << "Item "<< new_id << " flag was skipped, not a string or array of strings." << std::endl;
+    if (tech_list.is_array())
+    {
+        for (tech_list.set_begin(); tech_list.has_curr(); tech_list.next())
+        {
+            set_technique_by_string(tech, tech_list.curr().as_string());
         }
     }
-    return flag;
+    else
+    {
+        //well, we should have been passed a string, if we didn't get an array
+        set_technique_by_string(tech, tech_list.as_string());
+    }
+    return tech;
 }
 
-material Item_factory::material_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map, int to_return){
+void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
     //If the value isn't found, just return a group of null materials
     material material_list[2] = {MNULL, MNULL};
 
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<std::string>()){
-            material_list[0] = material_from_tag(new_id, value_pair->second.get<std::string>());
-        } else if (value_pair->second.is<picojson::array>()) {
-            int material_count = 0;
-            const picojson::array& materials_json = value_pair->second.get<picojson::array>();
-            for (picojson::array::const_iterator iter = materials_json.begin(); iter != materials_json.end(); ++iter) {
-                if((*iter).is<std::string>()){
-                    material_list[material_count] = material_from_tag(new_id, (*iter).get<std::string>());
-                } else {
-                    std::cerr << "Item "<< new_id << " has a non-string material listed." << std::endl;
-                }
-
-                ++material_count;
-                if(material_count > 2){
-                    std::cerr << "Item "<< new_id << " has too many materials listed." << std::endl;
-                }
-            }
-        } else {
-            std::cerr << "Item "<< new_id << " material was skipped, not a string or array of strings." << std::endl;
+    if (mat_list.is_array())
+    {
+        if (mat_list.has(2))
+        {
+            debugmsg("Too many materials provided for item %s", new_id.c_str());
         }
+        material_list[0] = material_from_tag(new_id, mat_list.get(0).as_string());
+        material_list[1] = material_from_tag(new_id, mat_list.get(1).as_string());
     }
-    return material_list[to_return];
+    else
+    {
+        material_list[0] = material_from_tag(new_id, mat_list.as_string());
+    }
+
+    itype* temp = find_template(new_id);
+    temp->m1 = material_list[0];
+    temp->m2 = material_list[1];
 }
 
 material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
