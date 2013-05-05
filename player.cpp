@@ -3058,153 +3058,239 @@ void player::cauterize(game *g) {
 
 void player::suffer(game *g)
 {
- for (int i = 0; i < my_bionics.size(); i++) {
-  if (my_bionics[i].powered)
-   activate_bionic(i, g);
- }
- if (underwater) {
-  if (!has_trait(PF_GILLS))
-   oxygen--;
-  if (oxygen < 0) {
-   if (has_bionic("bio_gills") && power_level > 0) {
-    oxygen += 5;
-    power_level--;
-   } else {
-    g->add_msg("You're drowning!");
-    hurt(g, bp_torso, 0, rng(1, 4));
-   }
-  }
- }
- for (int i = 0; i < illness.size(); i++) {
-  dis_effect(g, *this, illness[i]);
-  illness[i].duration--;
-  if (illness[i].duration < MIN_DISEASE_AGE)// Cap permanent disease age
-   illness[i].duration = MIN_DISEASE_AGE;
-  if (illness[i].duration == 0) {
-   illness.erase(illness.begin() + i);
-   i--;
-  }
- }
- if (!has_disease(DI_SLEEP)) {
-  int timer = -3600;
-  if (has_trait(PF_ADDICTIVE))
-   timer = -4000;
-  for (int i = 0; i < addictions.size(); i++) {
-   if (addictions[i].sated <= 0 &&
-       addictions[i].intensity >= MIN_ADDICTION_LEVEL)
-    addict_effect(g, addictions[i]);
-   addictions[i].sated--;
-   if (!one_in(addictions[i].intensity - 2) && addictions[i].sated > 0)
-    addictions[i].sated -= 1;
-   if (addictions[i].sated < timer - (100 * addictions[i].intensity)) {
-    if (addictions[i].intensity <= 2) {
-     addictions.erase(addictions.begin() + i);
-     i--;
-    } else {
-     addictions[i].intensity = int(addictions[i].intensity / 2);
-     addictions[i].intensity--;
-     addictions[i].sated = 0;
+    for (int i = 0; i < my_bionics.size(); i++)
+    {
+        if (my_bionics[i].powered)
+        {
+            activate_bionic(i, g);
+        }
     }
-   }
-  }
-  if (has_trait(PF_CHEMIMBALANCE)) {
-   if (one_in(3600)) {
-    g->add_msg("You suddenly feel sharp pain for no reason.");
-    pain += 3 * rng(1, 3);
-   }
-   if (one_in(3600)) {
-    int pkilladd = 5 * rng(-1, 2);
-    if (pkilladd > 0)
-     g->add_msg("You suddenly feel numb.");
-    else if (pkilladd < 0)
-     g->add_msg("You suddenly ache.");
-    pkill += pkilladd;
-   }
-   if (one_in(3600)) {
-    g->add_msg("You feel dizzy for a moment.");
-    moves -= rng(10, 30);
-   }
-   if (one_in(3600)) {
-    int hungadd = 5 * rng(-1, 3);
-    if (hungadd > 0)
-     g->add_msg("You suddenly feel hungry.");
-    else
-     g->add_msg("You suddenly feel a little full.");
-    hunger += hungadd;
-   }
-   if (one_in(3600)) {
-    g->add_msg("You suddenly feel thirsty.");
-    thirst += 5 * rng(1, 3);
-   }
-   if (one_in(3600)) {
-    g->add_msg("You feel fatigued all of a sudden.");
-    fatigue += 10 * rng(2, 4);
-   }
-   if (one_in(4800)) {
-    if (one_in(3))
-     add_morale(MORALE_FEELING_GOOD, 20, 100);
-    else
-     add_morale(MORALE_FEELING_BAD, -20, -100);
-   }
-  }
-  if ((has_trait(PF_SCHIZOPHRENIC) || has_artifact_with(AEP_SCHIZO)) &&
-      one_in(2400)) { // Every 4 hours or so
-   monster phantasm;
-   int i;
-   switch(rng(0, 11)) {
-    case 0:
-     add_disease(DI_HALLU, 3600, g);
-     break;
-    case 1:
-     add_disease(DI_VISUALS, rng(15, 60), g);
-     break;
-    case 2:
-     g->add_msg("From the south you hear glass breaking.");
-     break;
-    case 3:
-     g->add_msg("YOU SHOULD QUIT THE GAME IMMEDIATELY.");
-     add_morale(MORALE_FEELING_BAD, -50, -150);
-     break;
-    case 4:
-     for (i = 0; i < 10; i++) {
-      g->add_msg("XXXXXXXXXXXXXXXXXXXXXXXXXXX");
-     }
-     break;
-    case 5:
-     g->add_msg("You suddenly feel so numb...");
-     pkill += 25;
-     break;
-    case 6:
-     g->add_msg("You start to shake uncontrollably.");
-     add_disease(DI_SHAKES, 10 * rng(2, 5), g);
-     break;
-    case 7:
-     for (i = 0; i < 10; i++) {
-      phantasm = monster(g->mtypes[mon_hallu_zom + rng(0, 3)]);
-      phantasm.spawn(posx + rng(-10, 10), posy + rng(-10, 10));
-      if (g->mon_at(phantasm.posx, phantasm.posy) == -1)
-       g->z.push_back(phantasm);
-     }
-     break;
-    case 8:
-     g->add_msg("It's a good time to lie down and sleep.");
-     add_disease(DI_LYING_DOWN, 200, g);
-     break;
-    case 9:
-     g->add_msg("You have the sudden urge to SCREAM!");
-     g->sound(posx, posy, 10 + 2 * str_cur, "AHHHHHHH!");
-     break;
-    case 10:
-     g->add_msg(std::string(name + name + name + name + name + name + name +
-                            name + name + name + name + name + name + name +
-                            name + name + name + name + name + name).c_str());
-     break;
-    case 11:
-     add_disease(DI_FORMICATION, 600, g);
-     break;
-   }
-  }
-
+    if (underwater)
+    {
+        if (!has_trait(PF_GILLS))
+        {
+            oxygen--;
+        }
+        if (oxygen < 0)
+        {
+            if (has_bionic("bio_gills") && power_level > 0)
+            {
+                oxygen += 5;
+                power_level--;
+            }
+            else
+            {
+                g->add_msg("You're drowning!");
+                hurt(g, bp_torso, 0, rng(1, 4));
+            }
+        }
+    }
+    for (int i = 0; i < illness.size(); i++)
+    {
+        dis_effect(g, *this, illness[i]);
+        illness[i].duration--;
+        if (illness[i].duration < MIN_DISEASE_AGE)// Cap permanent disease age
+        {
+            illness[i].duration = MIN_DISEASE_AGE;
+        }
+        if (illness[i].duration == 0)
+        {
+            illness.erase(illness.begin() + i);
+            i--;
+        }
+    }
+    if (!has_disease(DI_SLEEP))
+    {
+        int timer = -3600;
+        if (has_trait(PF_ADDICTIVE))
+        {
+            timer = -4000;
+        }
+        for (int i = 0; i < addictions.size(); i++)
+        {
+            if (addictions[i].sated <= 0 &&
+                addictions[i].intensity >= MIN_ADDICTION_LEVEL)
+            {
+                addict_effect(g, addictions[i]);
+            }
+            addictions[i].sated--;
+            if (!one_in(addictions[i].intensity - 2) && addictions[i].sated > 0)
+            {
+                addictions[i].sated -= 1;
+            }
+            if (addictions[i].sated < timer - (100 * addictions[i].intensity))
+            {
+                if (addictions[i].intensity <= 2)
+                {
+                    addictions.erase(addictions.begin() + i);
+                    i--;
+                }
+                else
+                {
+                    addictions[i].intensity = int(addictions[i].intensity / 2);
+                    addictions[i].intensity--;
+                    addictions[i].sated = 0;
+                }
+            }
+        }
+        if (has_trait(PF_CHEMIMBALANCE))
+        {
+            if (one_in(3600))
+            {
+                g->add_msg("You suddenly feel sharp pain for no reason.");
+                pain += 3 * rng(1, 3);
+            }
+            if (one_in(3600))
+            {
+                int pkilladd = 5 * rng(-1, 2);
+                if (pkilladd > 0)
+                {
+                    g->add_msg("You suddenly feel numb.");
+                }
+                else if (pkilladd < 0)
+                {
+                    g->add_msg("You suddenly ache.");
+                }
+                pkill += pkilladd;
+            }
+            if (one_in(3600))
+            {
+                g->add_msg("You feel dizzy for a moment.");
+                moves -= rng(10, 30);
+            }
+            if (one_in(3600))
+            {
+                int hungadd = 5 * rng(-1, 3);
+                if (hungadd > 0)
+                {
+                    g->add_msg("You suddenly feel hungry.");
+                }
+                else
+                {
+                    g->add_msg("You suddenly feel a little full.");
+                }
+                hunger += hungadd;
+            }
+            if (one_in(3600))
+            {
+                g->add_msg("You suddenly feel thirsty.");
+                thirst += 5 * rng(1, 3);
+            }
+            if (one_in(3600))
+            {
+                g->add_msg("You feel fatigued all of a sudden.");
+                fatigue += 10 * rng(2, 4);
+            }
+            if (one_in(4800))
+            {
+                if (one_in(3))
+                {
+                    add_morale(MORALE_FEELING_GOOD, 20, 100);
+                }
+                else
+                {
+                    add_morale(MORALE_FEELING_BAD, -20, -100);
+                }
+            }
+            if (one_in(3600))
+            {
+                if (one_in(3))
+                {
+                    g->add_msg("You suddenly feel very cold.");
+                    for (int i = 0 ; i < num_bp ; i++)
+                    {
+                        temp_cur[i] = BODYTEMP_VERY_COLD;
+                    }
+                }
+                else
+                {
+                    g->add_msg("You suddenly feel cold.");
+                    for (int i = 0 ; i < num_bp ; i++)
+                    {
+                        temp_cur[i] = BODYTEMP_COLD;
+                    }
+                }
+            }
+            if (one_in(3600))
+            {
+                if (one_in(3))
+                {
+                    g->add_msg("You suddenly feel very hot.");
+                    for (int i = 0 ; i < num_bp ; i++)
+                    {
+                        temp_cur[i] = BODYTEMP_VERY_HOT;
+                    }
+                }
+                else
+                {
+                    g->add_msg("You suddenly feel hot.");
+                    for (int i = 0 ; i < num_bp ; i++)
+                    {
+                        temp_cur[i] = BODYTEMP_HOT;
+                    }
+                }
+            }
+        }
+        if ((has_trait(PF_SCHIZOPHRENIC) || has_artifact_with(AEP_SCHIZO)) &&
+            one_in(2400))
+        { // Every 4 hours or so
+            monster phantasm;
+            int i;
+            switch(rng(0, 11))
+            {
+                case 0:
+                    add_disease(DI_HALLU, 3600, g);
+                    break;
+                case 1:
+                    add_disease(DI_VISUALS, rng(15, 60), g);
+                    break;
+                case 2:
+                    g->add_msg("From the south you hear glass breaking.");
+                    break;
+                case 3:
+                    g->add_msg("YOU SHOULD QUIT THE GAME IMMEDIATELY.");
+                    add_morale(MORALE_FEELING_BAD, -50, -150);
+                    break;
+                case 4:
+                    for (i = 0; i < 10; i++) {
+                        g->add_msg("XXXXXXXXXXXXXXXXXXXXXXXXXXX");
+                    }
+                    break;
+                case 5:
+                    g->add_msg("You suddenly feel so numb...");
+                    pkill += 25;
+                    break;
+                case 6:
+                    g->add_msg("You start to shake uncontrollably.");
+                    add_disease(DI_SHAKES, 10 * rng(2, 5), g);
+                    break;
+                case 7:
+                    for (i = 0; i < 10; i++)
+                    {
+                        phantasm = monster(g->mtypes[mon_hallu_zom + rng(0, 3)]);
+                        phantasm.spawn(posx + rng(-10, 10), posy + rng(-10, 10));
+                        if (g->mon_at(phantasm.posx, phantasm.posy) == -1)
+                            g->z.push_back(phantasm);
+                    }
+                    break;
+                case 8:
+                    g->add_msg("It's a good time to lie down and sleep.");
+                    add_disease(DI_LYING_DOWN, 200, g);
+                    break;
+                case 9:
+                    g->add_msg("You have the sudden urge to SCREAM!");
+                    g->sound(posx, posy, 10 + 2 * str_cur, "AHHHHHHH!");
+                    break;
+                case 10:
+                    g->add_msg(std::string(name + name + name + name + name + name + name +
+                        name + name + name + name + name + name + name +
+                        name + name + name + name + name + name).c_str());
+                    break;
+                case 11:
+                    add_disease(DI_FORMICATION, 600, g);
+                    break;
+            }
+        }
   if (has_trait(PF_JITTERY) && !has_disease(DI_SHAKES)) {
    if (stim > 50 && one_in(300 - stim))
     add_disease(DI_SHAKES, 300 + stim, g);
