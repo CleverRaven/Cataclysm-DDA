@@ -800,27 +800,6 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain)
  grid[nonant]->ter[lx][ly] = new_terrain;
 }
 
-bool map::is_indoor(const int x, const int y) const
-{
- if (!INBOUNDS(x, y))
-  return false;
-
- int iNumFloor = 0;
- for (int iRow = -1; iRow <= 1; iRow++) {
-  for (int iCol = -1; iCol <= 1; iCol++) {
-   if (terlist[ter(iRow+x, iCol+y)].name == "floor" &&
-       terlist[ter(iRow+x, iCol+y)].flags & mfb(supports_roof)) {
-    iNumFloor++;
-   }
-  }
- }
-
- if (iNumFloor > 0)
-  return true;
-
- return false;
-}
-
 std::string map::tername(const int x, const int y) const
 {
  return terlist[ter(x, y)].name;
@@ -1815,12 +1794,14 @@ void map::shoot(game *g, const int x, const int y, int &dam,
    ter_set(x, y, t_door_b);
   break;
 
- case t_window:
- case t_window_domestic:
- case t_window_alarm:
-  dam -= rng(0, 5);
-  ter_set(x, y, t_window_frame);
-  break;
+    // laser beams are attenuated, but don't break the glass
+    case t_window:
+    case t_window_domestic:
+    case t_window_alarm:
+        dam -= rng(0, 5);
+        if (!(effects & mfb(AMMO_LASER)))
+            ter_set(x, y, t_window_frame);
+    break;
 
  case t_window_boarded:
   dam -= rng(10, 30);
@@ -1835,6 +1816,22 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   dam -= rng(0, 8);
   ter_set(x, y, t_floor);
   break;
+
+
+    // reinforced glass stops bullets
+    // laser beams are attenuated
+    case t_reinforced_glass_v:
+    case t_reinforced_glass_h:
+    if (effects & mfb(AMMO_LASER))
+    {
+        dam -= rng(0, 8);
+    }
+    else
+    {
+        g->add_msg("The shot is stopped by the reinforced glass wall!");
+        dam = 0;
+    }
+    break;
 
  case t_paper:
   dam -= rng(4, 16);
@@ -1988,6 +1985,20 @@ bool map::hit_with_acid(game *g, const int x, const int y)
  }
 
  return true;
+}
+
+// returns true if terrain stops fire
+bool map::hit_with_fire(game *g, const int x, const int y)
+{
+    if (move_cost(x, y) != 0)
+        return false; // Didn't hit the tile!
+
+    // non passable but flammable terrain, set it on fire
+    if (has_flag(flammable, x, y) || has_flag(flammable2, x, y))
+    {
+        add_field(g, x, y, fd_fire, 3);
+    }
+    return true;
 }
 
 void map::marlossify(const int x, const int y)

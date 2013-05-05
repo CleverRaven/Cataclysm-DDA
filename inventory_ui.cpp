@@ -362,7 +362,7 @@ std::vector<item> game::multidrop()
   if (cur_it < u.inv.size())
    mvwprintw(w_inv, maxitems + 4, 12, "> More items");
   wrefresh(w_inv);
-  ch = getch();
+  ch = input();
   if (ch >= '0' && ch <= '9') {
    ch -= '0';
    count *= 10;
@@ -435,21 +435,17 @@ std::vector<item> game::multidrop()
 
  if (ch != '\n')
   return ret; // Canceled!
- int inv_size = u.inv.size();
- for (int i = 0; i < inv_size; i++) {
-  item *it = &*stacks[i]->begin();
-  if (dropping[ it->invlet ] == -1)
-   ret.push_back( u.inv.remove_item_by_letter( it->invlet));
-  else if ( dropping[it->invlet] && it->count_by_charges())
-   ret.push_back( u.inv.remove_item_by_charges( it->invlet,
-                       dropping[ it->invlet] > it->charges ? it->charges : dropping[it->invlet]));
-  else if (dropping[it->invlet]) {
-   int j = dropping[it->invlet] > stacks[i]->size() ? stacks[i]->size() : dropping[it->invlet];
-   while (j-- > 0)
-    ret.push_back( u.inv.remove_item_by_letter( stacks[i]->front().invlet));
-  }
- }
 
+ for (std::map<char,int>::iterator it = dropping.begin(); it != dropping.end(); it++) {
+  if (it->second == -1)
+   ret.push_back( u.inv.remove_item_by_letter( it->first));
+  else if (it->second && u.inv.item_by_letter( it->first).count_by_charges()) {
+   int charges = u.inv.item_by_letter( it->first).charges;// >= it->second ? : it->second;
+   ret.push_back( u.inv.remove_item_by_charges( it->first, it->second > charges ? charges : it->second));
+  } else if (it->second) 
+   for (int j = it->second; j > 0; j--)
+    ret.push_back( u.inv.remove_item_by_letter( it->first));
+ }
 
  for (int i = 0; i < weapon_and_armor.size(); i++)
   ret.push_back(u.i_rem(weapon_and_armor[i]));

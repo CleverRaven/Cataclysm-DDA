@@ -2260,6 +2260,8 @@ int player::clairvoyance()
 {
  if (has_artifact_with(AEP_CLAIRVOYANCE))
   return 3;
+ if (has_artifact_with(AEP_SUPER_CLAIRVOYANCE))
+  return 40;
  return 0;
 }
 

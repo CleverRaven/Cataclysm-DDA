@@ -35,16 +35,16 @@ void game::init_mapitems()
 
  setvector(
    mapitems[mi_livingroom],
-	"rootbeer", "pizza_veggy", "pizza_meat", "cola", "cig", "cigar", "weed",
-	"coke", "meth", "sneakers", "socks", "boots", "boots_winter", "socks_wool",
+	"rootbeer", "cola", "cig", "cigar", "weed",
+	"coke", "meth", "sneakers", "boots", "boots_winter",
 	"flip_flops", "dress_shoes", "heels", "coat_rain", "poncho",
-	"gloves_light", "mittens", "gloves_light", "mittens",
+	"gloves_light", "mittens",
 	"armguard_soft", "armguard_hard",
 	"gloves_wool", "gloves_winter", "gloves_liner", "gloves_leather",
 	"gloves_fingerless", "bandana", "scarf", "hat_cotton",
 	"hat_knit", "hat_fur", "helmet_bike", "helmet_motor",
 	"mag_tv", "mag_news", "lighter", "matches", "extinguisher", "mp3",
-	"usb_drive", NULL);
+	"usb_drive", "beer", NULL);
 
  setvector(
    mapitems[mi_kitchen],
@@ -52,7 +52,11 @@ void game::init_mapitems()
 	"cookbook", "rag", "hotplate", "flashlight", "extinguisher",
 	"whiskey", "bleach", "ammonia", "flour", "sugar", "salt",
 	"tea_raw", "coffee_raw", "funnel", "vac_sealer",
-	"seasoning_italian", "cookbook_italian",
+	"seasoning_italian", "cookbook_italian", "chips2", "chips3",
+	"pizza_veggy", "pizza_meat", "heatpack", "can_beans", "can_corn",
+	"can_spam", "can_pineapple", "can_coconut", "can_sardine",
+	"can_tuna", "broth", "soup_veggy", "soup_meat", "spaghetti_raw",
+	"macaroni_raw", "ravioli", "sauce_red", "sauce_pesto", "bread",
 	NULL);
 
  setvector(
@@ -65,7 +69,8 @@ void game::init_mapitems()
 	"water_clean", "oj", "cola", "rootbeer", "milk", "V8", "apple",
 	"sandwich_t", "mushroom", "blueberries", "strawberries",
 	"tomato", "broccoli", "zucchini", "frozen_dinner", "vodka",
-	"apple_cider", "jihelucake", NULL);
+	"apple_cider", "jihelucake", "beer", "pizza_meat", "pizza_veggy",
+	"orange", "lemon", "potato_raw", NULL);
 
  setvector(
    mapitems[mi_home_hw],
@@ -112,7 +117,7 @@ void game::init_mapitems()
 	"trenchcoat", "peacoat", "vest", "mag_porn", "lighter",
 	"sewing_kit", "thread", "flashlight", "suit", "tophat",
 	"glasses_monocle", "duct_tape", "firecracker_pack", "firecracker",
- "wolfsuit", "snuggie", "flyer",
+ "wolfsuit", "snuggie", "flyer", "socks", "socks_wool",
     NULL);
 
  setvector(
@@ -158,7 +163,7 @@ void game::init_mapitems()
  setvector(
    mapitems[mi_softdrugs],
 	"bandages", "1st_aid", "vitamins", "aspirin", "caffeine",
-   "pills_sleep", "iodine", "dayquil", "nyquil", "heatpack", NULL);
+   "pills_sleep", "iodine", "dayquil", "nyquil", NULL);
 
  setvector(
    mapitems[mi_harddrugs],
