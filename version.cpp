@@ -1,4 +1,4 @@
-#if (defined _WIN32 || defined WINDOWS || defined MINGW)
+/*#if (defined _WIN32 || defined WINDOWS || defined MINGW)
 
 #define VERSION "0.4-git" // FIXME: automatically generate VERSION based on git
 
@@ -8,4 +8,4 @@
 
 #endif
 
-const char* getVersionString() { return VERSION; }
+const char* getVersionString() { return VERSION; }*/
