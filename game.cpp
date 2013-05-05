@@ -6422,23 +6422,37 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 // Otherwise, we have 2 or more items and should list them, etc.
- WINDOW* w_pickup = newwin(12, 48, VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
- WINDOW* w_item_info = newwin(12, 48, 12 + VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
- int maxitems = 9;	 // Number of items to show at one time.
+#ifdef MAXLISTHEIGHT
+ int maxmaxitems=TERMY-15;
+#else
+ int maxmaxitems=MONINFO_HEIGHT+MESSAGES_HEIGHT - 3;
+#endif
+ if(maxmaxitems > TERMY - 15) maxmaxitems=TERMY - 15;
+
+ const int minmaxitems=9;
+
  std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
  std::vector<bool> getitem;
  getitem.resize(here.size(), false);
+
+ int maxitems=here.size();
+ maxitems=(maxitems < minmaxitems ? minmaxitems : (maxitems > maxmaxitems ? maxmaxitems : maxitems ));
+ // maxitems=9; // old behavior
+ int pickupHeight=maxitems+3;
+
+ WINDOW* w_pickup = newwin(pickupHeight, 48, VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
+ WINDOW* w_item_info = newwin(12, 48, TERMY-12, VIEWX * 2 + 8 + VIEW_OFFSET_X);
  int ch = ' ';
  int start = 0, cur_it, iter;
  int new_weight = u.weight_carried(), new_volume = u.volume_carried();
  bool update = true;
- mvwprintw(w_pickup, 0,  0, "PICK UP");
+ mvwprintw(w_pickup, 0,  0, "PICK UP (, = all)");
+
 // Now print the two lists; those on the ground and about to be added to inv
 // Continue until we hit return or space
  do {
-  for (int i = 1; i < 12; i++) {
-   for (int j = 0; j < 48; j++)
-    mvwaddch(w_pickup, i, j, ' ');
+  for (int i = 1; i < pickupHeight; i++) {
+    mvwprintw(w_pickup, i, 0, "                                                ");
   }
   if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
    start -= maxitems;
@@ -6446,7 +6460,7 @@ void game::pickup(int posx, int posy, int min)
   }
   if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
    start += maxitems;
-   mvwprintw(w_pickup, maxitems + 2, 12, "            ");
+   mvwprintw(w_pickup, maxitems + 2, pickupHeight, "            ");
   }
 
   static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;";
@@ -6507,9 +6521,10 @@ void game::pickup(int posx, int posy, int min)
    }
   }
   if (start > 0)
-   mvwprintw(w_pickup, maxitems + 2, 0, "< Go Back");
+   mvwprintw(w_pickup, maxitems + 2, 0, "[<] Prev");
+  mvwprintw(w_pickup, maxitems + 2, 20, " [,] All");
   if (cur_it < here.size())
-   mvwprintw(w_pickup, maxitems + 2, 12, "> More items");
+   mvwprintw(w_pickup, maxitems + 2, 36, "Next [>]");
   if (update) {		// Update weight & volume information
    update = false;
    mvwprintw(w_pickup, 0,  7, "                           ");
