@@ -1636,22 +1636,22 @@ ss%|..C..C|.....h..r|-+-\n\
 sss=......+..h.....r|...\n\
 ss%|r..CC.|.ddd....r|T.S\n\
 ss%|------|---------|---\n\
-ss%|....................\n\
-ss%|.|------|.|------|..\n\
-ss%|.|......|.|......|..\n\
-ss%|||......|.|......|..\n\
-ss%||x......|.|......||.\n\
-ss%|||......|.|......x|.\n\
-ss%|.|......|.|......||.\n\
-ss%|.|......|.|......|..\n\
-ss%|.|XXXXXX|.|XXXXXX|..\n\
-ss%|-|__,,__|-|__,,__|--\n\
-ss%% x_,,,,_ % __,,__ %%\n\
-ss    __,,__   _,,,,_   \n\
-ssssss__,,__sss__,,__sss\n\
-ssssss______sss______sss\n",
+ss%|####################\n\
+ss%|#|------||------|###\n\
+ss%|#|......||......|###\n\
+ss%|||......||......|###\n\
+ss%||x......||......||##\n\
+ss%|||......||......x|##\n\
+ss%|#|......||......||##\n\
+ss%|#|......||......|###\n\
+ss%|#|XXXXXX||XXXXXX|###\n\
+ss%|-|__,,__||__,,__|---\n\
+ss%% x_,,,,_  __,,__  %%\n\
+ss    __,,__  _,,,,_    \n\
+ssssss__,,__ss__,,__ssss\n\
+ssssss______ss______ssss\n",
      mapf::basic_bind("E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s",
-            t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_bench, t_door_metal_locked, t_door_glass_c, t_crate_c, t_pavement_y ,t_pavement, t_rack, t_wall_glass_v, t_wall_glass_h,
+            t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_crate_c, t_pavement_y ,t_pavement, t_rack, t_wall_glass_v, t_wall_glass_h,
             t_console, t_console_broken, t_shrub, t_indoor_plant,
             t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_alarm, t_window,
             t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
@@ -1854,18 +1854,18 @@ sss|....................\n\
 sss|....................\n\
 sss|....................\n\
 sss|....................\n\
-sss|....,,.......,,.....\n\
-sss|...,,,,......,,.....\n\
-sss|....,,......,,,,..xS\n\
-sss|....,,.......,,...SS\n\
-sss|-|XXXXXX|-|XXXXXX|--\n\
-sss|.|EEEEEE|.|EEEEEE|..\n\
-sss|||EEEEEE|.|EEEEEE|..\n\
-sss||xEEEEEE|.|EEEEEE||.\n\
-sss|||EEEEEE|.|EEEEEEx|.\n\
-sss|.|EEEEEE|.|EEEEEE||.\n\
-sss|.|EEEEEE|.|EEEEEE|..\n\
-sss|.|------|.|------|..\n\
+sss|....,,......,,......\n\
+sss|...,,,,.....,,......\n\
+sss|....,,.....,,,,..xS.\n\
+sss|....,,......,,...SS.\n\
+sss|-|XXXXXX||XXXXXX|---\n\
+sss|s|EEEEEE||EEEEEE|sss\n\
+sss|||EEEEEE||EEEEEE|sss\n\
+sss||xEEEEEE||EEEEEE||ss\n\
+sss|||EEEEEE||EEEEEEx|ss\n\
+sss|s|EEEEEE||EEEEEE||ss\n\
+sss|s|EEEEEE||EEEEEE|sss\n\
+sss|s|------||------|sss\n\
 sss|--------------------\n\
 ssssssssssssssssssssssss\n\
 ssssssssssssssssssssssss\n\
