@@ -1,14 +1,28 @@
-## How to Contribute
+# Contribute
 
-Contributing to C:DDA is easy - *simply fork the repository here on GitHub, make your changes, and then send us a pull request* - but there are a couple of guidelines we suggest sticking to:
+Contributing to Cataclysm: Dark Days Ahead is easy - simply fork the repository here on GitHub, make your changes, and then send us a pull request.
+
+## Guidelines
+
+There are a couple of guidelines we suggest sticking to:
 
 * Add this repository as an `upstream` remote.
 * Keep your `master` branch clean. This means you can easily pull changes made to this repository into yours.
 * Create a new branch for each new feature or set of related bug fixes.
 * Never merge from your local branches into your `master` branch. Only update that by pulling from `upstream/master`.
 
+## Code Style
 
-## An Example Workflow
+Current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a seperate commit. Blocks of code can be passed through astyle to ensure that their formatting is correct:
+
+    astyle --style=allman --indent=spaces=4 --add-brackets --align-pointer=name
+
+For example, from vi, set marks a and b around the block, then:
+
+    :'a,'b ! astyle --style=allman --indent=spaces=4 --add-brackets --align-pointer=name
+
+
+## Example Workflow
 
 #### Setup your environment
 
@@ -37,7 +51,7 @@ Contributing to C:DDA is easy - *simply fork the repository here on GitHub, make
 2. Pull the changes from the `upstream/master` branch.
 
         $ git pull --ff-only upstream master
-        # gets changes from the "upstream" remote for the matching branch, in this case "master"
+        # gets changes from "master" branch on the "upstream" remote
 
  * Note: If this gives you an error, it means you have committed directly to your local `master` branch. [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
 
