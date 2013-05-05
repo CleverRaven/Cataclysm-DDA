@@ -1057,6 +1057,8 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
         return;
     }
 
+    //scrap_text is the description of worthless scraps, type is the item type,
+    //pre_text is the bit before the plural on a success, post_text is the bit after the plural
     std::string scrap_text, pre_text, post_text, type;
     if (cut->made_of(COTTON))
     {
