@@ -272,7 +272,7 @@ void defense_game::init_map(game *g)
  std::vector<point> valid;
  for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
   for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
-   if (generator.can_move_to(g->m, x, y) && g->is_empty(x, y))
+   if (generator.can_move_to(g, x, y) && g->is_empty(x, y))
     valid.push_back( point(x, y) );
   }
  }
