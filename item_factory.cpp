@@ -314,8 +314,6 @@ void Item_factory::load_item_templates(){
 }
 
 // Load values from this data file into m_templates
-// TODO: Consider appropriate location for this code. Is this really where it belongs?
-//       At the very least, it seems the json blah_from methods could be used elsewhere
 void Item_factory::load_item_templates_from(const std::string file_name){
     catajson all_items(file_name);
 
