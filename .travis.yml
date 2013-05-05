@@ -6,5 +6,6 @@ script: make
 
 notifications:
   irc: "irc.newnet.net#Cataclysm-DDA"
+  irc: "irc.freenode.org#Cataclysm-DDA"
   use_notice: true
   skip_join: true
