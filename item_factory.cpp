@@ -508,50 +508,6 @@ void Item_factory::load_item_groups_from(const std::string file_name){
     }
 }
 
-/*
-//Grab string, with appropriate error handling
-Item_tag Item_factory::string_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<std::string>()){
-            return value_pair->second.get<std::string>();
-        } else {
-            std::cerr << "Item "<< new_id << " attribute " << index << "was skipped, not a string." << std::endl;
-            return "Error: Unknown Value";
-        }
-    } else {
-        //If string is not found, just return an empty string
-        return "";
-    }
-}
-
-//Grab character, with appropriate error handling
-char Item_factory::char_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    std::string symbol = string_from_json(new_id, index, value_map);
-    if(symbol == ""){
-        std::cerr << "Item "<< new_id << " attribute  " << "was skipped, empty string not allowed." << std::endl;
-        return 'X';
-    }
-    return symbol[0];
-}
-
-//Grab int, with appropriate error handling
-int Item_factory::int_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<double>()){
-            return int(value_pair->second.get<double>());
-        } else {
-            std::cerr << "Item "<< new_id << " attribute name was skipped, not a number." << std::endl;
-            return 0;
-        }
-    } else {
-        //If the value isn't found, just return a 0
-        return 0;
-    }
-}
-*/
-
 //Grab color, with appropriate error handling
 nc_color Item_factory::color_from_string(std::string new_color){
     if("red"==new_color){
