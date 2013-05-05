@@ -1053,3 +1053,19 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
    }
  }
 }
+
+int map::field_movecost(int x, int y, game *g) {
+ switch (g->m.field_at(x, y).type) {
+  case fd_rubble:
+   switch (g->m.field_at(x, y).density){
+    case 1:
+     return 0;
+    case 2:
+     return 2;
+    case 3:
+     return 10;
+   }
+  case else:
+   return 0;
+ }
+}
