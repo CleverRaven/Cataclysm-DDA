@@ -712,6 +712,7 @@ enum field_id {
  fd_acid,
  fd_sap,
  fd_fire,
+ fd_rubble,
  fd_smoke,
  fd_toxic_gas,
  fd_tear_gas,
@@ -751,6 +752,9 @@ const field_t fieldlist[] = {
 
 {{"small fire",	"fire",	"raging fire"},			'4',
  {c_yellow, c_ltred, c_red},	{true, true, true}, {true, true, true},	   800},
+
+{{"rubble heap",	"rubble pile", "mountain of rubble"},		'#',
+ {c_dkgray, c_dkgray, c_dkgray},	{false, false, false},{false, false, false},  0},
 
 {{"thin smoke",	"smoke", "thick smoke"},		'8',
  {c_white, c_ltgray, c_dkgray},	{true, false, false},{false, true, true},  300},
