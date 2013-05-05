@@ -513,6 +513,8 @@ struct it_gunmod : public itype
   used_on_smg = smg;
   used_on_rifle = rifle;
  }
+
+ it_gunmod() { };
 };
 
 struct it_armor : public itype

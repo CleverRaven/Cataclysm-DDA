@@ -2431,16 +2431,6 @@ a burst size of three rounds. However, it reduces accuracy, and increases\n\
 noise and recoil.",
 0);
 
-//	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
-GUNMOD("retool_45", ".45 caliber retool",3,480, c_green,  STEEL, MNULL,    2,  2,  3,  0, -1,
-//	ACC DAM NOI CLP REC BST NEWTYPE,	PISTOL	SHOT	SMG	RIFLE
-	-2,  0,  0,  0,  2,  0, AT_45,		true,	false,	true,	false,
-	(mfb(AT_9MM)|mfb(AT_38)|mfb(AT_40)|mfb(AT_44)), "\
-Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to\n\
-a .45 firearm.  The conversion results in reduced accuracy and increased\n\
-recoil.",
-0);
-
 GUNMOD("retool_9mm", "9mm caliber retool",3,420, c_green,  STEEL, MNULL,    1,  1,  0,  0, -1,
 	-1,  0,  0,  0,  0,  0, AT_9MM,		true,	false,	true,	false,
 	(mfb(AT_38)|mfb(AT_40)|mfb(AT_44)|mfb(AT_45)), "\

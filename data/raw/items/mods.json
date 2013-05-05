@@ -1,0 +1,26 @@
+[
+  { "id":"retool_45",
+    "type": "GUNMOD",
+    "symbol": ":",
+    "color": "green",
+    "name":"45 caliber retool",
+    "description":"Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to a .45 firearm.  The conversion results in reduced accuracy and increased recoil.",
+    "rarity": 3,
+    "price": 480,
+    "material": "STEEL",
+    "weight": 2,
+    "volume": 2,
+    "bashing": 3,
+    "cutting": 0,
+    "to_hit": -1,
+    "accuracy_modifier": 2,
+    "damage_modifier": 0,
+    "loudness_modifier": 0,
+    "ammo_modifier": ".45",
+    "recoil_modifier": 2,
+    "burst_modifier": 0,
+    "clip_size_modifier": 0,
+    "mod_targets": ["pistol", "smg"],
+    "ammo_types": ["9MM", "38", "40", "44"]
+  }
+]
