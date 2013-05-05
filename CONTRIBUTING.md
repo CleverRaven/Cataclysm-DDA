@@ -1,12 +1,3 @@
-Cataclysm: Dark Days Ahead
-==========================
-
-Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While some have described it as a "zombie game", there's far more to Cataclysm than that. Struggle to survive in a harsh, persistant, procedurally generated world. Scavenge the remnants of a dead civilization for for food, equipment, or, if you're lucky, a vehicle with a full tank of gas to get you the hell out of Dodge. Fight to defeat or escape from a wide variety of powerful monstrosities, from zombies to giant insects to killer robots and things far stranger and deadlier, and against the others like yourself, that want what you have...
-
-## How to Compile
-
-The current instructions on how to compile C:DDA can be found [here](http://www.wiki.cataclysmdda.com/index.php?title=How_to_compile).
-
 ## How to Contribute
 
 Contributing to C:DDA is easy - *simply fork the repository here on GitHub, make your changes, and then send us a pull request* - but there are a couple of guidelines we suggest sticking to:
