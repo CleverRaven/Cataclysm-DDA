@@ -3,7 +3,7 @@
     "type": "GUNMOD",
     "symbol": ":",
     "color": "green",
-    "name":"45 caliber retool",
+    "name":".45 caliber retool",
     "description":"Replacing several key parts of a 9mm, .38, .40 or .44 firearm converts it to a .45 firearm.  The conversion results in reduced accuracy and increased recoil.",
     "rarity": 3,
     "price": 480,
