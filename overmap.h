@@ -150,7 +150,8 @@ class overmap
 
   //Drawing
   void draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
-                   int &origx, int &origy, char &ch, bool blink);
+            int &origx, int &origy, char &ch, bool blink,
+            overmap &hori, overmap &vert, overmap &diag);
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();

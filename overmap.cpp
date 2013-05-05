@@ -1055,7 +1055,8 @@ int overmap::dist_from_city(point p)
 }
 
 void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
-                   int &origx, int &origy, char &ch, bool blink)
+                   int &origx, int &origy, char &ch, bool blink,
+                   overmap &hori, overmap &vert, overmap &diag)
 {
  bool legend = true, note_here = false, npc_here = false;
  std::string note_text;
@@ -1063,7 +1064,6 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
  int om_map_height = TERMY;
 
  int omx, omy;
- overmap hori, vert, diag; // Adjacent maps
  point target(-1, -1);
  if (g->u.active_mission >= 0 &&
      g->u.active_mission < g->u.active_missions.size())
@@ -1072,26 +1072,40 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   oter_id cur_ter;
   nc_color ter_color;
   long ter_sym;
-/* First, determine if we're close enough to the edge to need to load an
- * adjacent overmap, and load it/them. */
-  if (cursx < om_map_width / 2) {
-   hori = overmap(g, loc.x - 1, loc.y);
-   if (cursy < om_map_height / 2)
-    diag = overmap(g, loc.x - 1, loc.y - 1);
-   if (cursy > OMAPY - 2 - (om_map_height / 2))
-    diag = overmap(g, loc.x - 1, loc.y + 1);
+  /* First, determine if we're close enough to the edge to need an
+   * adjacent overmap, and record the offsets. */
+  int offx = 0;
+  int offy = 0;
+  if (cursx < om_map_width / 2)
+  {
+      offx = -1;
   }
-  if (cursx > OMAPX - 2 - (om_map_width / 2)) {
-   hori = overmap(g, loc.x + 1, loc.y);
-   if (cursy < om_map_height / 2)
-    diag = overmap(g, loc.x + 1, loc.y - 1);
-   if (cursy > OMAPY - 2 - (om_map_height / 2))
-    diag = overmap(g, loc.x + 1, loc.y + 1);
+  else if (cursx > OMAPX - 2 - (om_map_width / 2))
+  {
+      offx = 1;
   }
   if (cursy < (om_map_height / 2))
-   vert = overmap(g, loc.x, loc.y - 1);
-  if (cursy > OMAPY - 2 - (om_map_height / 2))
-   vert = overmap(g, loc.x, loc.y + 1);
+  {
+      offy = -1;
+  }
+  else if (cursy > OMAPY - 2 - (om_map_height / 2))
+  {
+      offy = 1;
+  }
+
+  // If the offsets don't match the previously loaded ones, load the new adjacent overmaps.
+  if( offx && loc.x + offx != hori.loc.x )
+  {
+      hori = overmap( g, loc.x + offx, loc.y );
+  }
+  if( offy && loc.y + offy != vert.loc.y )
+  {
+      vert = overmap( g, loc.x, loc.y + offy );
+  }
+  if( offx && offy && (loc.x + offx != diag.loc.x || loc.y + offy != diag.loc.y ) )
+  {
+      diag = overmap( g, loc.x + offx, loc.y + offy );
+  }
 
 // Now actually draw the map
   bool csee = false;
@@ -1277,9 +1291,10 @@ point overmap::draw_overmap(game *g, int const zlevel)
  int origx = cursx, origy = cursy;
  char ch = 0;
  point ret(-1, -1);
+ overmap hori, vert, diag; // Adjacent maps
 
  do {
-  draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink);
+     draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
   ch = input();
   int dirx, diry;
   if (ch != ERR)
@@ -1321,7 +1336,7 @@ point overmap::draw_overmap(game *g, int const zlevel)
    timeout(-1);
    std::string term = string_input_popup("Search term:");
    timeout(BLINK_SPEED);
-   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink);
+   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
    point found = find_note(cursx, cursy, zlevel, term);
    if (found.x == -1) {	// Didn't find a note
     std::vector<point> terlist;
@@ -1354,7 +1369,7 @@ point overmap::draw_overmap(game *g, int const zlevel)
       }
       cursx = terlist[i].x;
       cursy = terlist[i].y;
-      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink);
+      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
       wrefresh(w_search);
       timeout(BLINK_SPEED);
      } while(ch != '\n' && ch != ' ' && ch != 'q');

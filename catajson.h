@@ -11,6 +11,7 @@ public:
     catajson(picojson::value val, std::string path_msg);
 
     // accessors for picojson values containing simple types
+    char as_char() const;
     std::string as_string() const;
     int as_int() const;
     bool as_bool() const;
@@ -23,6 +24,7 @@ public:
     bool has(std::string key) const;
     bool has(int index) const;
 
+    bool is_char() const;
     bool is_string() const;
     bool is_number() const; // double OR int
     bool is_bool() const;
