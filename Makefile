@@ -144,13 +144,11 @@ $(DDIR):
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
-version.h: version
-
 clean: clean-tests
 	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(ODIR)/*.d $(W32ODIR)/*.o $(W32BINDIST) \
 	$(BINDIST)
 	rm -rf $(BINDIST_DIR)
-	rm version.h
+	rm -f version.h
 
 bindist: $(BINDIST)
 
