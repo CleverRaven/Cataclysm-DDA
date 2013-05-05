@@ -37,7 +37,7 @@ NUM_OPTION_KEYS
 
 struct option_table
 {
-    double options[NUM_OPTION_KEYS];
+    int options[NUM_OPTION_KEYS];
 
     option_table()
     {
@@ -61,10 +61,10 @@ struct option_table
                 options[i] = 0;
             }
         }
-    };
+    }
 
-    double& operator[] (option_key i) { return options[i]; };
-    double& operator[] (int i) { return options[i]; };
+    int& operator[] (option_key i) { return options[i]; }
+    int& operator[] (int i) { return options[i]; }
 };
 
 extern option_table OPTIONS;
