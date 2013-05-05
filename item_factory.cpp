@@ -390,7 +390,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 set_material_from_json(new_id, entry.get("material"));
                 new_item_template->volume = entry.get("volume").as_int();
                 new_item_template->weight = entry.get("weight").as_int();
-                new_item_template->melee_dam = entry.get("damage").as_int();
+                new_item_template->melee_dam = entry.get("bashing").as_int();
                 new_item_template->melee_cut = entry.get("cutting").as_int();
                 new_item_template->m_to_hit = entry.get("to_hit").as_int();
                 

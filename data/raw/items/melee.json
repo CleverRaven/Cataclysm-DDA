@@ -10,7 +10,7 @@
     "material": "PAPER",
     "weight": 0,
     "volume": 1,
-    "damage": -8,
+    "bashing": -8,
     "cutting": 0,
     "to_hit": -2
   },
@@ -26,7 +26,7 @@
     "material": "PAPER",
     "weight": 0,
     "volume": 1,
-    "damage": -8,
+    "bashing": -8,
     "cutting": 0,
     "to_hit": -2
   },
@@ -42,7 +42,7 @@
     "material": ["FUR", "LEATHER"],
     "weight": 1,
     "volume": 1,
-    "damage": -8,
+    "bashing": -8,
     "cutting": 0,
     "to_hit": 0
   },
@@ -58,7 +58,7 @@
     "material": ["LEATHER", "FLESH"],
     "weight": 1,
     "volume": 2,
-    "damage": -2,
+    "bashing": -2,
     "cutting": 0,
     "to_hit": -1
   },
@@ -74,7 +74,7 @@
     "material": "PLASTIC",
     "weight": 0,
     "volume": 1,
-    "damage": -2,
+    "bashing": -2,
     "cutting": 0,
     "to_hit": -2
   },
@@ -90,7 +90,7 @@
     "material": "PLASTIC",
     "weight": 0,
     "volume": 0,
-    "damage": -8,
+    "bashing": -8,
     "cutting": 1,
     "to_hit": -3
   },
@@ -106,7 +106,7 @@
     "material": "PLASTIC",
     "weight": 0,
     "volume": 0,
-    "damage": -8,
+    "bashing": -8,
     "cutting": 1,
     "to_hit": -3
   },
@@ -122,7 +122,7 @@
     "material": ["PLASTIC", "STEEL"],
     "weight": 2,
     "volume": 2,
-    "damage": 5,
+    "bashing": 5,
     "cutting": 0,
     "to_hit": 1
   },
@@ -138,7 +138,7 @@
     "material": "COTTON",
     "weight": 0,
     "volume": 0,
-    "damage": -20,
+    "bashing": -20,
     "cutting": 0,
     "to_hit": 1
   },
@@ -154,7 +154,7 @@
     "material": "COTTON",
     "weight": 0,
     "volume": 1,
-    "damage": -5,
+    "bashing": -5,
     "cutting": 0,
     "to_hit": 1
   },
@@ -170,7 +170,7 @@
     "material": "WOOD",
     "weight": 20,
     "volume": 10,
-    "damage": 1,
+    "bashing": 1,
     "cutting": 0,
     "to_hit": -10
   },
@@ -186,7 +186,7 @@
     "material": ["IRON", "PLASTIC"],
     "weight": 0,
     "volume": 1,
-    "damage": -3,
+    "bashing": -3,
     "cutting": 0,
     "to_hit": -1
   },
@@ -202,7 +202,7 @@
     "material": ["IRON", "PLASTIC"],
     "weight": 0,
     "volume": 1,
-    "damage": -5,
+    "bashing": -5,
     "cutting": 0,
     "to_hit": -1
   },
@@ -218,7 +218,7 @@
     "material": ["IRON", "PLASTIC"],
     "weight": 2,
     "volume": 4,
-    "damage": 5,
+    "bashing": 5,
     "cutting": 0,
     "to_hit": -1
   },
@@ -234,7 +234,7 @@
     "material": ["IRON", "PLASTIC"],
     "weight": 0,
     "volume": 1,
-    "damage": -5,
+    "bashing": -5,
     "cutting": 0,
     "to_hit": -1
   },
@@ -250,7 +250,7 @@
     "material": ["IRON", "PLASTIC"],
     "weight": 0,
     "volume": 1,
-    "damage": -5,
+    "bashing": -5,
     "cutting": 0,
     "to_hit": -1
   },
@@ -266,7 +266,7 @@
     "material": ["IRON", "PLASTIC"],
     "weight": 0,
     "volume": 1,
-    "damage": -4,
+    "bashing": -4,
     "cutting": 0,
     "to_hit": -1
   },
@@ -282,7 +282,7 @@
     "material": ["STEEL", "PLASTIC"],
     "weight": 0,
     "volume": 1,
-    "damage": -4,
+    "bashing": -4,
     "cutting": 0,
     "to_hit": -1
   },
@@ -298,7 +298,7 @@
     "material": "STEEL",
     "weight": 0,
     "volume": 1,
-    "damage": -6,
+    "bashing": -6,
     "cutting": 0,
     "to_hit": 2
   },
@@ -314,7 +314,7 @@
     "material": "STEEL",
     "weight": 6,
     "volume": 2,
-    "damage": 12,
+    "bashing": 12,
     "cutting": 0,
     "to_hit": -2
   },
@@ -330,7 +330,7 @@
     "material": "STEEL",
     "weight": 80,
     "volume": 2,
-    "damage": 18,
+    "bashing": 18,
     "cutting": 0,
     "to_hit": -4
   },
@@ -346,7 +346,7 @@
     "material": "STEEL",
     "weight": 1,
     "volume": 1,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": -2
   },
@@ -362,7 +362,7 @@
     "material": "GLASS",
     "weight": 20,
     "volume": 50,
-    "damage": 16,
+    "bashing": 16,
     "cutting": 0,
     "to_hit": -5
   },
@@ -378,7 +378,7 @@
     "material": "IRON",
     "weight": 250,
     "volume": 45,
-    "damage": 20,
+    "bashing": 20,
     "cutting": 0,
     "to_hit": -10
   },
@@ -394,7 +394,7 @@
     "material": "WOOD",
     "weight": 10,
     "volume": 6,
-    "damage": 12,
+    "bashing": 12,
     "cutting": 0,
     "to_hit": 3
   },
@@ -410,7 +410,7 @@
     "material": ["IRON", "WOOD"],
     "weight": 7,
     "volume": 6,
-    "damage": 12,
+    "bashing": 12,
     "cutting": 12,
     "to_hit": 1
   },
@@ -426,7 +426,7 @@
     "material": "IRON",
     "weight": 6,
     "volume": 8,
-    "damage": 9,
+    "bashing": 9,
     "cutting": 0,
     "to_hit": 1
   },
@@ -442,7 +442,7 @@
     "material": "IRON",
     "weight": 6,
     "volume": 6,
-    "damage": 14,
+    "bashing": 14,
     "cutting": 0,
     "to_hit": 2
   },
@@ -458,7 +458,7 @@
     "material": "STEEL",
     "weight": 2,
     "volume": 1,
-    "damage": 2,
+    "bashing": 2,
     "cutting": 1,
     "to_hit": -2
   },
@@ -474,7 +474,7 @@
     "material": "FLESH",
     "weight": 0,
     "volume": 1,
-    "damage": 1,
+    "bashing": 1,
     "cutting": 0,
     "to_hit": -2
   },
@@ -490,7 +490,7 @@
     "material": "VEGGY",
     "weight": 0,
     "volume": 1,
-    "damage": -8,
+    "bashing": -8,
     "cutting": 0,
     "to_hit": -3
   },
@@ -506,7 +506,7 @@
     "material": "STEEL",
     "weight": 1,
     "volume": 1,
-    "damage": 2,
+    "bashing": 2,
     "cutting": 0,
     "to_hit": -1
   },
@@ -522,7 +522,7 @@
     "material": "STEEL",
     "weight": 60,
     "volume": 2,
-    "damage": 14,
+    "bashing": 14,
     "cutting": 0,
     "to_hit": -1
   },
@@ -538,7 +538,7 @@
     "material": "STONE",
     "weight": 100,
     "volume": 72,
-    "damage": 8,
+    "bashing": 8,
     "cutting": 0,
     "to_hit": -5
   },
@@ -554,7 +554,7 @@
     "material": "STONE",
     "weight": 8,
     "volume": 2,
-    "damage": 10,
+    "bashing": 10,
     "cutting": 0,
     "to_hit": -1
   },
@@ -570,7 +570,7 @@
     "material": "STONE",
     "weight": 3,
     "volume": 1,
-    "damage": 14,
+    "bashing": 14,
     "cutting": 0,
     "to_hit": -1
   },
@@ -586,7 +586,7 @@
     "material": ["PLASTIC", "GLASS"],
     "weight": 3,
     "volume": 2,
-    "damage": 6,
+    "bashing": 6,
     "cutting": 0,
     "to_hit": -1
   },
@@ -602,7 +602,7 @@
     "material": "PLASTIC",
     "weight": 0,
     "volume": 0,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": 0
   },
@@ -618,7 +618,7 @@
     "material": "STONE",
     "weight": 3,
     "volume": 1,
-    "damage": 12,
+    "bashing": 12,
     "cutting": 0,
     "to_hit": -3
   },
@@ -634,7 +634,7 @@
     "material": "SILVER",
     "weight": 5,
     "volume": 1,
-    "damage": 12,
+    "bashing": 12,
     "cutting": 0,
     "to_hit": 1
   },
@@ -650,7 +650,7 @@
     "material": "IRON",
     "weight": 10,
     "volume": 8,
-    "damage": 6,
+    "bashing": 6,
     "cutting": 10,
     "to_hit": -2
   },
@@ -666,7 +666,7 @@
     "material": "STEEL",
     "weight": 2,
     "volume": 4,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": -2
   },
@@ -682,7 +682,7 @@
     "material": "STEEL",
     "weight": 2,
     "volume": 4,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": -2
   },
@@ -698,7 +698,7 @@
     "material": "IRON",
     "weight": 10,
     "volume": 6,
-    "damage": 13,
+    "bashing": 13,
     "cutting": 0,
     "to_hit": 2
   },
@@ -714,7 +714,7 @@
     "material": "WOOD",
     "weight": 20,
     "volume": 40,
-    "damage": 10,
+    "bashing": 10,
     "cutting": 0,
     "to_hit": -10
   },
@@ -730,7 +730,7 @@
     "material": "WOOD",
     "weight": 6,
     "volume": 6,
-    "damage": 9,
+    "bashing": 9,
     "cutting": 0,
     "to_hit": 1
   },
@@ -746,7 +746,7 @@
     "material": "WOOD",
     "weight": 0,
     "volume": 0,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": -10
   },
@@ -762,7 +762,7 @@
     "material": "GLASS",
     "weight": 1,
     "volume": 1,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": -10
   },
@@ -778,7 +778,7 @@
     "material": "WOOD",
     "weight": 10,
     "volume": 6,
-    "damage": 12,
+    "bashing": 12,
     "cutting": 0,
     "to_hit": 3
   },
@@ -794,7 +794,7 @@
     "material": "STEEL",
     "weight": 0,
     "volume": 3,
-    "damage": -1,
+    "bashing": -1,
     "cutting": 0,
     "to_hit": 0
   },
@@ -810,7 +810,7 @@
     "material": ["STEEL", "IRON"],
     "weight": 40,
     "volume": 25,
-    "damage": -3,
+    "bashing": -3,
     "cutting": 10,
     "to_hit": 0
   },
@@ -826,7 +826,7 @@
     "material": "COTTON",
     "weight": 2,
     "volume": 20,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": -1
   },
@@ -842,7 +842,7 @@
     "material": "IRON",
     "weight": 20,
     "volume": 10,
-    "damage": 4,
+    "bashing": 4,
     "cutting": 0,
     "to_hit": -3
   },
@@ -858,7 +858,7 @@
     "material": "IRON",
     "weight": 1,
     "volume": 0,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": 0
   },
@@ -874,7 +874,7 @@
     "material": ["PLASTIC", "GLASS"],
     "weight": 12,
     "volume": 10,
-    "damage": 5,
+    "bashing": 5,
     "cutting": 0,
     "to_hit": -5
   },
@@ -890,7 +890,7 @@
     "material": ["IRON", "PLASTIC"],
     "weight": 1,
     "volume": 0,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": 0
   },
@@ -906,7 +906,7 @@
     "material": ["IRON", "PLASTIC"],
     "weight": 1,
     "volume": 2,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": 0
   },
@@ -922,7 +922,7 @@
     "material": ["IRON", "PLASTIC"],
     "weight": 5,
     "volume": 8,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": 0
   },
@@ -938,7 +938,7 @@
     "material": ["IRON", "PLASTIC"],
     "weight": 2,
     "volume": 3,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": 0
   },
@@ -954,7 +954,7 @@
     "material": ["IRON", "PLASTIC"],
     "weight": 1,
     "volume": 4,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": 0
   },
@@ -970,7 +970,7 @@
     "material": "GLASS",
     "weight": 1,
     "volume": 1,
-    "damage": 1,
+    "bashing": 1,
     "cutting": 0,
     "to_hit": 0
   },
@@ -986,7 +986,7 @@
     "material": "GLASS",
     "weight": 1,
     "volume": 1,
-    "damage": 1,
+    "bashing": 1,
     "cutting": 0,
     "to_hit": 0
   },
@@ -1002,7 +1002,7 @@
     "material": "GLASS",
     "weight": 1,
     "volume": 1,
-    "damage": 1,
+    "bashing": 1,
     "cutting": 0,
     "to_hit": 0
   },
@@ -1018,7 +1018,7 @@
     "material": "GLASS",
     "weight": 1,
     "volume": 1,
-    "damage": 1,
+    "bashing": 1,
     "cutting": 0,
     "to_hit": 0
   },
@@ -1034,7 +1034,7 @@
     "material": "GLASS",
     "weight": 1,
     "volume": 1,
-    "damage": 1,
+    "bashing": 1,
     "cutting": 0,
     "to_hit": 0
   },
@@ -1050,7 +1050,7 @@
     "material": "GLASS",
     "weight": 1,
     "volume": 1,
-    "damage": 1,
+    "bashing": 1,
     "cutting": 0,
     "to_hit": 0
   },
@@ -1066,7 +1066,7 @@
     "material": "STEEL",
     "weight": 0,
     "volume": 1,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": 0
   },
@@ -1082,7 +1082,7 @@
     "material": "STEEL",
     "weight": 2,
     "volume": 1,
-    "damage": 2,
+    "bashing": 2,
     "cutting": 1,
     "to_hit": -2
   },
@@ -1098,7 +1098,7 @@
     "material": "STEEL",
     "weight": 2,
     "volume": 1,
-    "damage": 2,
+    "bashing": 2,
     "cutting": 1,
     "to_hit": -2
   },
@@ -1114,7 +1114,7 @@
     "material": "STEEL",
     "weight": 2,
     "volume": 1,
-    "damage": 2,
+    "bashing": 2,
     "cutting": 1,
     "to_hit": -2
   },
@@ -1130,7 +1130,7 @@
     "material": "COTTON",
     "weight": 0,
     "volume": 0,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": 0
   },
@@ -1146,7 +1146,7 @@
     "material": ["PLASTIC", "IRON"],
     "weight": 2,
     "volume": 1,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": 0
   },
@@ -1162,7 +1162,7 @@
     "material": "IRON",
     "weight": 1,
     "volume": 1,
-    "damage": 0,
+    "bashing": 0,
     "cutting": 0,
     "to_hit": 0
   },
@@ -1178,7 +1178,7 @@
     "material": "STONE",
     "weight": 3,
     "volume": 9,
-    "damage": 4,
+    "bashing": 4,
     "cutting": 0,
     "to_hit": -1
   },
@@ -1193,7 +1193,7 @@
     "material": "STONE",
     "weight": 3,
     "volume": 1,
-    "damage": 12,
+    "bashing": 12,
     "cutting": 0,
     "to_hit": -2,
     "tool": [
@@ -1210,7 +1210,7 @@
     "price": 25,
     "volume": 1,
     "weight": 0,
-    "damage": -4,
+    "bashing": -4,
     "cutting": 6,
     "to_hit": -2,
     "flags": "SPEAR"
@@ -1225,7 +1225,7 @@
     "price": 0,
     "volume": 5,
     "weight": 3,
-    "damage": 4,
+    "bashing": 4,
     "cutting": 10,
     "to_hit": 1,
     "flags": "SPEAR",
