@@ -754,7 +754,7 @@ const field_t fieldlist[] = {
  {c_yellow, c_ltred, c_red},	{true, true, true}, {true, true, true},	   800},
 
 {{"rubble heap",	"rubble pile", "mountain of rubble"},		'#',
- {c_dkgray, c_dkgray, c_dkgray},	{false, false, false},{false, false, false},  0},
+ {c_dkgray, c_dkgray, c_dkgray},	{true, true, false},{false, false, false},  0},
 
 {{"thin smoke",	"smoke", "thick smoke"},		'8',
  {c_white, c_ltgray, c_dkgray},	{true, false, false},{false, true, true},  300},
