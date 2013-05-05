@@ -1672,6 +1672,11 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
+   for (int i = x - 1; i <= x + 1; i++)
+    for (int j = y - 1; j <= y + 1; j++) {
+     if (one_in(3))
+      g->m.add_field(g, i, j, fd_rubble, rng(1,3));
+   }
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
     if ((i == x && j == y) || !has_flag(collapses, i, j))
@@ -1706,6 +1711,12 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
+  for (int i = x - 1; i <= x + 1; i++)
+   for (int j = y - 1; j <= y + 1; j++) {
+    if (one_in(3))
+     g->m.add_field(g, i, j, fd_rubble, rng(1,3));
+   }
+  //Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
     if ((i == x && j == y) || !has_flag(supports_roof, i, j))
