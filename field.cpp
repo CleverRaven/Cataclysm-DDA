@@ -688,6 +688,10 @@ void map::step_in_field(int x, int y, game *g)
   inside = (veh && veh->is_inside(veh_part));
  }
 
+ if (cur->type != fd_rubble){
+  g->u.rem_disease(DI_BOULDERING);
+ }
+
  switch (cur->type) {
   case fd_null:
   case fd_blood:	// It doesn't actually do anything
@@ -760,6 +764,10 @@ void map::step_in_field(int x, int y, game *g)
     else if (adjusted_intensity == 3)
      g->u.infect(DI_SMOKE, bp_mouth, 7, 30, g);
    }
+   break;
+
+  case fd_rubble:
+   g->u.add_disease(DI_BOULDERING, 0, g, cur->density, 3);
    break;
 
   case fd_smoke:
@@ -1051,23 +1059,5 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
      g->active_npc.erase(g->active_npc.begin() + fdnpc);
     }                                         //Still need to add vehicle damage, but I'm ignoring that for now.
    }
- }
-}
-
-int map::field_movecost(int x, int y, game *g) {
- switch (g->m.field_at(x, y).type) {
-  case fd_rubble:
-   switch (g->m.field_at(x, y).density){
-    case 1:
-     return 0;
-    case 2:
-     return 2;
-    case 3:
-     return 10;
-    default:
-     return 0;          //This should never be needed. But just in case...
-   }
-  default:
-   return 0;
  }
 }
