@@ -308,8 +308,14 @@ craft_cat game::prev_craft_cat(craft_cat cat)
 
 recipe* game::select_crafting_recipe()
 {
-	WINDOW *w_head = newwin( 3, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
-    WINDOW *w_data = newwin(22, 80, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), (TERMX  > 80) ? (TERMX -80)/2 : 0);
+    const int dataHalfLines=(int)((TERMY-3-4)/2);
+    const int dataLines=(int)(dataHalfLines*2);      // old: 18
+    const int dataHeight=dataLines+4;                // old: 22
+
+	WINDOW *w_head = newwin( 3, 80, 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
+    WINDOW *w_data = newwin(dataHeight, 80, 3, (TERMX  > 80) ? (TERMX -80)/2 : 0);
+
+
     craft_cat tab = "CC_WEAPON";
     std::vector<recipe*> current;
     std::vector<bool> available;
@@ -338,31 +344,31 @@ recipe* game::select_crafting_recipe()
         werase(w_data);
         if(filterstring != "")
         {
-            mvwprintz(w_data, 19, 5, c_white, "?: Describe, [F]ind , [R]eset");
+            mvwprintz(w_data, dataHeight+1, 5, c_white, "[?/E]: Describe, [F]ind , [R]eset");
         }
         else
-        {
-            mvwprintz(w_data, 19, 5, c_white, "?: Describe, [F]ind");
+        {   
+            mvwprintz(w_data, dataHeight+1, 5, c_white, "[?/E]: Describe, [F]ind");
         }
-        mvwprintz(w_data, 20, 5, c_white, "Press <ENTER> to attempt to craft object.");
+        mvwprintz(w_data, dataHeight+2, 5, c_white, "Press <ENTER> to attempt to craft object.");
         for (int i = 0; i < 80; i++)
         {
-            mvwputch(w_data, 21, i, c_ltgray, LINE_OXOX);
-            if (i < 21)
+            mvwputch(w_data, dataHeight-1, i, c_ltgray, LINE_OXOX);
+            if (i < dataHeight-1)
             {
                 mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
                 mvwputch(w_data, i, 79, c_ltgray, LINE_XOXO);
             }
         }
 
-        mvwputch(w_data, 21,  0, c_ltgray, LINE_XXOO); // _|
-        mvwputch(w_data, 21, 79, c_ltgray, LINE_XOOX); // |_
+        mvwputch(w_data, dataHeight-1,  0, c_ltgray, LINE_XXOO); // _|
+        mvwputch(w_data, dataHeight-1, 79, c_ltgray, LINE_XOOX); // |_
         wrefresh(w_data);
 
         int recmin = 0, recmax = current.size();
-        if(recmax > MAX_DISPLAYED_RECIPES)
+        if(recmax > dataLines)
         {
-            if (line <= recmin + 9)
+            if (line <= recmin + dataHalfLines)
             {
                 for (int i = recmin; i < recmin + MAX_DISPLAYED_RECIPES; i++)
                 {
@@ -379,36 +385,36 @@ recipe* game::select_crafting_recipe()
                     }
                 }
             }
-            else if (line >= recmax - 9)
+            else if (line >= recmax - dataHalfLines)
             {
-                for (int i = recmax - MAX_DISPLAYED_RECIPES; i < recmax; i++)
+                for (int i = recmax - dataLines; i < recmax; i++)
                 {
-                    mvwprintz(w_data, 18 + i - recmax, 2, c_ltgray, "");	// Clear the line
+                    mvwprintz(w_data, dataLines + i - recmax, 2, c_ltgray, "");	// Clear the line
                     if (i == line)
                     {
-                        mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? h_white : h_dkgray),
+                        mvwprintz(w_data, dataLines + i - recmax, 2, (available[i] ? h_white : h_dkgray),
                         item_controller->find_template(current[i]->result)->name.c_str());
                     }
                     else
                     {
-                        mvwprintz(w_data, 18 + i - recmax, 2, (available[i] ? c_white : c_dkgray),
+                        mvwprintz(w_data, dataLines + i - recmax, 2, (available[i] ? c_white : c_dkgray),
                         item_controller->find_template(current[i]->result)->name.c_str());
                     }
                 }
             }
             else
             {
-                for (int i = line - 9; i < line + 9; i++)
+                for (int i = line - dataHalfLines; i < line + dataHalfLines; i++)
                 {
-                    mvwprintz(w_data, 9 + i - line, 2, c_ltgray, "");	// Clear the line
+                    mvwprintz(w_data, dataHalfLines + i - line, 2, c_ltgray, "");	// Clear the line
                     if (i == line)
                     {
-                        mvwprintz(w_data, 9 + i - line, 2, (available[i] ? h_white : h_dkgray),
+                        mvwprintz(w_data, dataHalfLines + i - line, 2, (available[i] ? h_white : h_dkgray),
                         item_controller->find_template(current[i]->result)->name.c_str());
                     }
                     else
                     {
-                        mvwprintz(w_data, 9 + i - line, 2, (available[i] ? c_white : c_dkgray),
+                        mvwprintz(w_data, dataHalfLines + i - line, 2, (available[i] ? c_white : c_dkgray),
                         item_controller->find_template(current[i]->result)->name.c_str());
                     }
                 }
@@ -416,7 +422,7 @@ recipe* game::select_crafting_recipe()
         }
         else
         {
-            for (int i = 0; i < current.size() && i < 23; i++)
+            for (int i = 0; i < current.size() && i < dataHeight+1; i++)
             {
                 if (i == line)
                 {
@@ -631,6 +637,8 @@ recipe* game::select_crafting_recipe()
                     }
                 }
                 break;
+            case 'e':
+            case 'E':
             case Help:
                 tmp = item(item_controller->find_template(current[line]->result), 0);
                 full_screen_popup(tmp.info(true).c_str());
