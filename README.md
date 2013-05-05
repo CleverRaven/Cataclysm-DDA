@@ -26,7 +26,7 @@ Yes, you can find the tutorial in the **Special** menu at the main menu. You can
 
 #### How can I change the key bindings?
 
-Press the **`?`** key, followed by the **`1`** key to see the full list of key commands. Press the **`+`** key to add a key binding, select which action with the corresponding letter key **`a-w`**, and then the key you wish to assign to that action.
+Press the `?` key, followed by the `1` key to see the full list of key commands. Press the `+` key to add a key binding, select which action with the corresponding letter key `a-w`, and then the key you wish to assign to that action.
 
 #### How can I start a new world?
 
