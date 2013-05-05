@@ -168,7 +168,6 @@ class map
  void step_in_field(const int x, const int y, game *g);		// See fields.cpp
  void mon_in_field(const int x, const int y, game *g, monster *z);	// See fields.cpp
  void field_effect(int x, int y, game *g); //See fields.cpp
- int field_movecost(int x, int y, game *g); //See fields.cpp
 
 // Computers
  computer* computer_at(const int x, const int y);
