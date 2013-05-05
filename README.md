@@ -20,7 +20,7 @@ The latest instructions on how to compile can be found on [our wiki](http://www.
 
 ## Contribute
 
-Please see (CONTRIBUTING.md)[CONTRIBUTING.md] for details.
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 
 ## Frequently Asked Questions
