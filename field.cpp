@@ -1025,19 +1025,31 @@ bool vector_has(std::vector <item> vec, itype_id type)
  return false;
 }
 
-void map::field_effect(int x, int y,  game *g) //Applies effect of field immediately
+void map::field_effect(int x, int y, game *g) //Applies effect of field immediately
 {
  field *cur = &field_at(x, y);
  switch (cur->type) {                        //Can add independent code for different types of fields to apply different effects
   case fd_rubble:
-   int fdmon = g->mon_at(x, y);
+   int fdmon = g->mon_at(x, y);              //The index of the monster at (x,y), or -1 if there isn't one
+   int fdnpc = g->npc_at(x, y);              //The index of the NPC at (x,y), or -1 if there isn't one
    if (g->u.posx == x && g->u.posy == y) {
-    g->u.add_disease(DI_CRUSHED, 42, g);    //Using a disease allows for easy modification without messing with field code
-    g->u.rem_disease(DI_CRUSHED);           //For instance, if we wanted to add a chance of limb mangling or a stun effect later
+    g->u.hurtall(10);                         //Avoiding disease system for the moment, since I was having trouble with it.
+//    g->u.add_disease(DI_CRUSHED, 42, g);    //Using a disease allows for easy modification without messing with field code
+ //   g->u.rem_disease(DI_CRUSHED);           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
    }
-   if (fdmon + 1) {                         //If the index of the monster at (x,y) is > -1...
-    g->z[fdmon].hurt(10);                   //This is a simplistic damage implementation. It can be improved, for instance to account for armor
-                                            //Ideally an external disease-like system would handle this to make it easier to modify later
-   }                                        //Still need to add vehicle and NPC damage, but I'm ignoring that for now.
+   if (fdmon != -1 && fdmon < g->z.size()) {  //If there's a monster at (x,y)...
+    monster* monhit = &(g->z[fdmon]);
+    int dam = 10;                             //This is a simplistic damage implementation. It can be improved, for instance to account for armor
+    if (monhit->hurt(dam))                    //Ideally an external disease-like system would handle this to make it easier to modify later
+     g->kill_mon(fdmon, false);
+   }
+   if (fdnpc != -1 && fdnpc < g->active_npc.size()) { //If there's an NPC at (x,y)...
+    npc *me = (g->active_npc[fdnpc]);
+    me->hurtall(10);             //This is a simplistic damage model. But for now, it should work.
+    if (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0) {
+     me->die(g, false);        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
+     g->active_npc.erase(g->active_npc.begin() + fdnpc);
+    }                                         //Still need to add vehicle damage, but I'm ignoring that for now.
+   }
  }
 }
