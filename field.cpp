@@ -1024,3 +1024,20 @@ bool vector_has(std::vector <item> vec, itype_id type)
  }
  return false;
 }
+
+void map::field_effect(int x, int y,  game *g) //Applies effect of field immediately
+{
+ field *cur = &field_at(x, y);
+ switch (cur->type) {                        //Can add independent code for different types of fields to apply different effects
+  case fd_rubble:
+   int fdmon = g->mon_at(x, y);
+   if (g->u.posx == x && g->u.posy == y) {
+    g->u.add_disease(DI_CRUSHED, 42, g);    //Using a disease allows for easy modification without messing with field code
+    g->u.rem_disease(DI_CRUSHED);           //For instance, if we wanted to add a chance of limb mangling or a stun effect later
+   }
+   if (fdmon + 1) {                         //If the index of the monster at (x,y) is > -1...
+    g->z[fdmon].hurt(10);                   //This is a simplistic damage implementation. It can be improved, for instance to account for armor
+                                            //Ideally an external disease-like system would handle this to make it easier to modify later
+   }                                        //Still need to add vehicle and NPC damage, but I'm ignoring that for now.
+ }
+}

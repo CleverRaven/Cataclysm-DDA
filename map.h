@@ -121,7 +121,7 @@ class map
  point random_outdoor_tile();
 
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
- void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY); 
+ void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY);
  bool close_door(const int x, const int y, const bool inside);
  bool open_door(const int x, const int y, const bool inside);
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
@@ -129,7 +129,7 @@ class map
  void destroy(game *g, const int x, const int y, const bool makesound);
  void shoot(game *g, const int x, const int y, int &dam, const bool hit_items, const unsigned flags);
  bool hit_with_acid(game *g, const int x, const int y);
- bool hit_with_fire(game *g, const int x, const int y); 
+ bool hit_with_fire(game *g, const int x, const int y);
  void marlossify(const int x, const int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
@@ -167,6 +167,7 @@ class map
  bool process_fields_in_submap(game *g, const int gridn);	// See fields.cpp
  void step_in_field(const int x, const int y, game *g);		// See fields.cpp
  void mon_in_field(const int x, const int y, game *g, monster *z);	// See fields.cpp
+ void field_effect(int x, int y,  game *g); //See fields.cpp
 
 // Computers
  computer* computer_at(const int x, const int y);
