@@ -1064,8 +1064,10 @@ int map::field_movecost(int x, int y, game *g) {
      return 2;
     case 3:
      return 10;
+    default:
+     return 0;          //This should never be needed. But just in case...
    }
-  case else:
+  default:
    return 0;
  }
 }
