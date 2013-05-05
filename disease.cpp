@@ -32,6 +32,8 @@ void dis_msg(game *g, dis_type type)
  case DI_CRUSHED:
   g->add_msg("The ceiling collapses on you!");
   break;
+ case DI_BOULDERING:
+  g->add_msg("You are slowed by the rubble.");
  case DI_BOOMERED:
   g->add_msg("You're covered in bile!");
   break;
@@ -391,6 +393,25 @@ void dis_effect(game *g, player &p, disease &dis)
   //to deal different damage amounts to different body parts and
   //to account for helmets and other armor
   break;
+
+ case DI_BOULDERING:
+  switch(g->u.disease_intensity(DI_BOULDERING)){
+   case 1:
+    p.dex_cur -= 1;
+    break;
+   case 2:
+    p.dex_cur -= 3;
+    break;
+   case 3:
+    p.dex_cur -= 5;
+    break;
+   default:
+    debugmsg("Something went wrong with DI_BOULDERING.");
+    debugmsg("Check disease.cpp");
+  }
+   if (p.dex_cur < 1) {
+    p.dex_cur = 1;
+   }
 
  case DI_BOOMERED:
   p.per_cur -= 5;
@@ -1181,6 +1202,7 @@ int disease_speed_boost(disease dis)
  case DI_ASTHMA:	return 0 - int(dis.duration / 5);
  case DI_GRACK:         return +20000;
  case DI_METH:		return (dis.duration > 600 ? 50 : -40);
+ case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
  default:		return 0;
  }
 }
@@ -1324,6 +1346,7 @@ std::string dis_name(disease dis)
                           return "Meth Comedown";
 
  case DI_IN_PIT:	return "Stuck in Pit";
+ case DI_BOULDERING: return "Clambering Over Rubble";
 
  case DI_STEMCELL_TREATMENT: return "Stem cell treatment";
 
@@ -1513,7 +1536,23 @@ Loss of health - Entire Body\n\
 Your clothing and other equipment may be consumed by the flames.";
 
  case DI_CRUSHED:   return "\
-If you're seeing this, it is a bug and should be reported!";
+If you're seeing this, there is a bug in disease.cpp!";
+
+ case DI_BOULDERING:
+  switch (dis.intensity){
+  case 1:
+   return "\
+Dexterity - 1;   Speed -10%\
+You are being slowed by climbing over a pile of rubble";
+  case 2:
+   return "\
+Dexterity - 3;   Speed -20%\
+You are being slowed by climbing over a heap of rubble";
+  case 3:
+   return "\
+Dexterity - 5;   Speed -30%\
+You are being slowed by climbing over a mountain of rubble";
+  }
 
  case DI_BOOMERED:	return "\
 Perception - 5\n\
