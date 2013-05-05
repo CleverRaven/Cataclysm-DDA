@@ -1077,11 +1077,18 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     p->moves -= 25 * cut->volume();
     int count = cut->volume();
     if (p->skillLevel("tailor") == 0)
-    count = rng(0, count);
+    {
+        count = rng(0, count);
+    }
     else if (p->skillLevel("tailor") == 1 && count >= 2)
-    count -= rng(0, 2);
+    {
+        count -= rng(0, 2);
+    }
+
     if (dice(3, 3) > p->dex_cur)
-    count -= rng(1, 3);
+    {
+        count -= rng(1, 3);
+    }
 
     if (count <= 0)
     {
