@@ -1659,6 +1659,13 @@ ssssss______sss______sss\n",
   place_items(mi_office,	75, 4, 2, 6, 2, false, 0);
   place_items(mi_office,	75, 19, 6, 19, 6, false, 0);
   place_items(mi_office,	75, 12, 8, 14, 8, false, 0);
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 12, 3, density);
+  else {
+    if (x_in_y(1,2)){add_spawn(mon_zombie, 2, 15, 7);}
+    if (x_in_y(1,2)){add_spawn(mon_zombie, rng(1,8), 22, 1);}
+    if (x_in_y(1,2)){add_spawn(mon_zombie_cop, 1, 22, 4);}
+    }
   if (t_north == ot_office_tower_1 && t_west == ot_office_tower_1)
    rotate(3);
   else if (t_north == ot_office_tower_1 && t_east == ot_office_tower_1)
@@ -1705,6 +1712,12 @@ ss%|rrrr|...|.R.|EEED...\n",
             t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_alarm, t_window,
             t_toilet, t_sink, t_fridge, t_oven, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
      mapf::end() );
+     if (density > 1)
+        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 2, 8, density);
+     else {
+        add_spawn(mon_zombie, rng(0,5), 15, 7);
+        if (x_in_y(1,1)){add_spawn(mon_zombie, 2, 5, 20);}
+      }
      place_items(mi_office,	75, 4, 23, 7, 23, false, 0);
      place_items(mi_office,	75, 4, 19, 7, 19, false, 0);
      place_items(mi_office,	75, 4, 14, 7, 14, false, 0);
@@ -1763,6 +1776,12 @@ ssssssssssssssssssssssss\n",
      place_items(mi_office,	90, 8, 7, 9, 7, false, 0);
      place_items(mi_cubical_office,	75, 19, 5, 19, 7, false, 0);
      place_items(mi_cleaning,	80, 1, 7, 2, 7, false, 0);
+     if (density > 1)
+        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 14, 10, density);
+     else {
+        add_spawn(mon_zombie, rng(0,15), 14, 10);
+        if (x_in_y(1,2)){add_spawn(mon_zombie_cop, 2, 10, 10);}
+     }
      if (t_north == ot_office_tower_1_entrance)
             rotate(1);
      if (t_east == ot_office_tower_1_entrance)
@@ -1811,6 +1830,11 @@ ssssssssssssssssssssssss\n\
      place_items(mi_office,	75, 17, 21, 19, 21, false, 0);
      place_items(mi_office,	75, 16, 11, 17, 12, false, 0);
      place_items(mi_cleaning,	75, 8, 20, 10, 20, false, 0);
+     if (density > 1)
+        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 9, 15, density);
+     else {
+        add_spawn(mon_zombie, rng(0,5), 9, 15);
+      }
      if (t_west == ot_office_tower_1 && t_north == ot_office_tower_1){
             rotate(1);}
      else if (t_east == ot_office_tower_1 && t_north == ot_office_tower_1){
@@ -1853,6 +1877,11 @@ ssssssssssssssssssssssss\n",
             t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_alarm, t_window,
             t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
      mapf::end() );
+  if (density > 1)
+        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+  else {
+        add_spawn(mon_zombie, rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
+      }
   if (t_north == ot_office_tower_b && t_west == ot_office_tower_b)
    rotate(3);
   else if (t_north == ot_office_tower_b && t_east == ot_office_tower_b)
@@ -1899,6 +1928,11 @@ sss|........|.R.|EEED___\n",
             t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_alarm, t_window,
             t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
      mapf::end() );
+     if (density > 1)
+        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+     else {
+        add_spawn(mon_zombie, rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
+      }
      if (t_west == ot_office_tower_b_entrance){
             rotate(1);
             if (x_in_y(1,5)){add_vehicle (g, veh_car, 17, 7, 180);}
@@ -1958,6 +1992,11 @@ ssssssssssssssssssssssss\n",
             t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_alarm, t_window,
             t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
      mapf::end() );
+     if (density > 1)
+        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+     else {
+        add_spawn(mon_zombie, rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
+      }
      if (t_north == ot_office_tower_b_entrance){
             rotate(1);
             if (x_in_y(1,5)){add_vehicle (g, veh_car, 8, 15, 0);}
@@ -2015,6 +2054,11 @@ ___DEEE|.R.|...,,...|sss\n",
             t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_alarm, t_window,
             t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
      mapf::end() );
+     if (density > 1)
+        place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+     else {
+        add_spawn(mon_zombie, rng(0,5), SEEX * 2 - 1, SEEX * 2 - 1);
+      }
      if (t_west == ot_office_tower_b && t_north == ot_office_tower_b){
             rotate(1);
             if (x_in_y(1,5)){add_vehicle (g, veh_car, 17, 4, 180);}
