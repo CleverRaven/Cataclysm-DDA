@@ -9,6 +9,7 @@
 #include "item.h"
 #include "color.h"
 #include "picojson.h"
+#include "catajson.h"
 #include "item_group.h"
 #include "iuse.h" 
 
@@ -53,16 +54,20 @@ private:
     void load_item_templates_from(const std::string file_name);
     void load_item_groups_from(const std::string file_name);
 
-    Item_tag string_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
-    char char_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
-    int int_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
-    nc_color color_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
-    Use_function use_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
-    unsigned flags_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
-    unsigned techniques_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
-    material material_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map, int to_return);
+    nc_color color_from_string(std::string color);
+    Use_function use_from_string(std::string name);
+    unsigned flags_from_json(catajson flags);
+    unsigned techniques_from_json(catajson techs);
+    void set_material_from_json(Item_tag new_id, catajson mats);
     material material_from_tag(Item_tag new_id, Item_tag index);
-    ammotype ammo_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map);
+    ammotype ammo_from_string(std::string ammo);
+
+    //two convenience functions that just call into set_bitmask_by_string
+    void set_flag_by_string(unsigned& cur_flags, std::string new_flag);
+    void set_technique_by_string(unsigned& cur_techs, std::string new_tech);
+    //sets a bitmask (cur_bitmask) based on the values of flag_map and new_flag
+    void set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map,
+                               unsigned& cur_bitmask, std::string new_flag);
 
     //iuse stuff
     std::map<Item_tag, Use_function> iuse_function_list;

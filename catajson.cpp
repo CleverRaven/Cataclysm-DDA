@@ -31,6 +31,16 @@ catajson::catajson(picojson::value val_in, std::string path_msg_in)
     path_msg = path_msg_in;
 }
 
+char catajson::as_char() const
+{
+    std::string temp = as_string();
+    if (temp.size() != 1)
+    {
+        debugmsg("JSON warning at %s: value requested as char, string length is not 1", path_msg.c_str());
+    }
+    return temp[0];
+}
+
 std::string catajson::as_string() const
 {
     if (val.is<std::string>())
@@ -147,6 +157,11 @@ bool catajson::has(int index) const
         debugmsg("JSON error at %s: value is not an array", path_msg.c_str());
     }
     return false;
+}
+
+bool catajson::is_char() const
+{
+    return is_string() && as_string().size() == 1;
 }
 
 bool catajson::is_string() const
