@@ -308,7 +308,6 @@ Item_list Item_factory::create_random(int created_at, int quantity){
 ///////////////////////
 
 void Item_factory::load_item_templates(){
-    load_item_templates_from("data/raw/items/instruments.json");
     load_item_templates_from("data/raw/items/melee.json");
     load_item_templates_from("data/raw/items/ranged.json");
     load_item_groups_from("data/raw/item_groups.json");
