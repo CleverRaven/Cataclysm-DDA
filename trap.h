@@ -44,6 +44,7 @@ enum trap_id {
  tr_shadow,
  tr_drain,
  tr_snake,
+ tr_airhole,
  num_trap_types
 };
 
@@ -79,6 +80,7 @@ struct trapfunc {
  void shadow		(game *g, int x, int y);
  void drain		(game *g, int x, int y);
  void snake		(game *g, int x, int y);
+ void airhole (game *g, int x, int y);
 };
 
 struct trapfuncm {
@@ -109,6 +111,7 @@ struct trapfuncm {
  void hum	(game *g, monster *z, int x, int y);
  void drain	(game *g, monster *z, int x, int y);
  void snake	(game *g, monster *z, int x, int y);
+ void airhole(game *g, monster *z, int x, int y);
 };
 
 struct trap {

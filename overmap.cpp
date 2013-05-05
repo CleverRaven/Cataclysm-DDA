@@ -229,7 +229,10 @@ void overmap::init_layers()
 {
 	layer = new map_layer[OVERMAP_LAYERS];
 	for(int z = 0; z < OVERMAP_LAYERS; ++z) {
-		oter_id default_type = (z < OVERMAP_DEPTH) ? ot_rock : (z == OVERMAP_DEPTH) ? ot_field : ot_null;
+		oter_id default_type = (z < OVERMAP_DEPTH) ? ot_rock : ot_field;
+		if(z > OVERMAP_DEPTH)
+			default_type= ot_sky;
+
 		for(int i = 0; i < OMAPX; ++i) {
 			for(int j = 0; j < OMAPY; ++j) {
 				layer[z].terrain[i][j] = default_type;
@@ -803,7 +806,7 @@ bool overmap::generate_sub(int const z)
    else if (ter(i, j, z + 1) == ot_bunker && z == -1)
     bunker_points.push_back( point(i, j) );
 
-   else if (ter(i, j, z + 1) == ot_shelter)
+   else if (ter(i, j, 0) == ot_shelter)
     shelter_points.push_back( point(i, j) );
 
    else if (ter(i, j, z + 1) == ot_lmoe)
@@ -882,7 +885,22 @@ bool overmap::generate_sub(int const z)
   ter(bunker_points[i].x, bunker_points[i].y, z) = ot_bunker;
 
  for (int i = 0; i < shelter_points.size(); i++)
-  ter(shelter_points[i].x, shelter_points[i].y, z) = ot_shelter_under;
+ {
+	if(z == -1)
+	{
+	   ter(shelter_points[i].x, shelter_points[i].y, z) = ot_shelter_under;
+	   requires_sub = true;
+	}
+	else
+	if(z == -2)
+	{
+	   ter(shelter_points[i].x, shelter_points[i].y, 1) = ot_shelter_over; // z= 1
+	   requires_sub = true;
+	}
+	else
+	if(z == -3)
+	   ter(shelter_points[i].x, shelter_points[i].y, 2) = ot_shelter_over2; // z= 2
+ }
 
  for (int i = 0; i < lmoe_points.size(); i++)
   ter(lmoe_points[i].x, lmoe_points[i].y, z) = ot_lmoe_under;

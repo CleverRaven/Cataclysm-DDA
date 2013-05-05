@@ -162,7 +162,7 @@ t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
  t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
 // found at fields
  t_mutpoppy, //mutated poppy flower
-
+ t_air,
 num_terrain_types
 };
 
@@ -616,7 +616,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"checkered switch", '6', c_white,   0, tr_null,
 	   mfb(transparent), &iexamine::fswitch},
 {"mutated poppy flower", 'f', c_red, 3, tr_null,
-    mfb(transparent), &iexamine::flower_poppy}
+    mfb(transparent), &iexamine::flower_poppy},
+{"bunch of air",      '.', c_ltcyan,   2, tr_airhole,
+	mfb(transparent)}
 };
 
 enum map_extra {

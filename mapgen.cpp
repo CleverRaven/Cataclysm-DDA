@@ -2493,6 +2493,112 @@ case ot_s_restaurant_coffee_west:{
    rotate(1);
   }break;
 
+
+ case ot_sky:
+  for (int i = 0; i < SEEX * 2; i++) {
+   for (int j = 0; j < SEEY * 2; j++) {
+    ter(i, j) = t_air;
+   }
+  }
+  break;
+
+case ot_shelter_over: 
+{
+  for (int i = 0; i < SEEX*2; i++) {
+   for (int j = 0; j < SEEY*2; j++)
+    ter(i, j) = t_air;
+  }
+
+  square(this, t_floor_red, 0, 0, 5, 2);
+  line(this, t_wall_h, 1, 0, 2, 0);
+  line(this, t_wall_h, 1, 2, 2, 2);
+  line(this, t_wall_v, 0, 0, 0, 2);
+  line(this, t_wall_v, 2, 2, 2, 0);
+  ter(2, 1) = t_door_locked;
+
+  ter(1, 1) = t_stairs_up;
+
+
+  square(this, t_floor, 4, 4, SEEX * 2 - 5, SEEY * 2 - 5);
+
+  line(this, t_wall_h, 4, 4, SEEX * 2 - 5, 4);
+  line(this, t_wall_h, 4, SEEY * 2 - 5, SEEX * 2 - 5, SEEY * 2 - 5);
+
+  line(this, t_pavement, SEEX+4, 3, SEEX * 2 - 4, 3);
+  line(this, t_pavement, SEEX * 2 - 4, 4, SEEX * 2 - 4, 11);
+  line(this, t_pavement, SEEX * 2 - 4, 14, SEEX * 2 - 4, 19);
+
+  line(this, t_pavement, SEEX * 2 - 5, SEEY * 2 - 4, SEEX+1, SEEY * 2 - 4);
+  line(this, t_pavement, SEEX-3, SEEY * 2 - 4, 3, 20);
+
+  line(this, t_sidewalk, 3, 19, 3, 15);
+  line(this, t_sidewalk, 3, 10, 3, 5);
+
+  line(this, t_wall_v, 4, 5, 4, SEEY * 2 - 6);
+  line(this, t_wall_v, 7, 5, 7, SEEY * 2 - 6);
+
+  line(this, t_wall_v, SEEX * 2 - 5, 5, SEEX * 2 - 5, SEEY * 2 - 6);
+  line(this, t_wall_v, SEEX * 2 - 8, 5, SEEX * 2 - 8, SEEY * 2 - 6);
+
+  ter(16, 11) = t_door_c;
+  ter(15, 13) = t_bookcase;
+  ter(15, 14) = t_rack;
+  ter(15, 14) = t_locker;
+  ter(15, 9) = t_table;
+  ter(15, 5) = t_dresser;
+
+  ter(8, 7) = t_dresser;
+  ter(7, 11) = t_door_c;
+  ter(8, 10) = t_locker;
+  ter(8, 11) = t_bookcase;
+  ter(8, 12) = t_bookcase;
+  ter(8, 18) = t_chair;
+  ter(9, 12) = t_crate_c;
+
+  ter(11, 18) = t_locker;  
+  ter(12,18) = t_bookcase;
+
+  ter(SEEX+2, 4) = t_curtains;
+  ter(SEEX+3, 4) = t_curtains;
+
+  ter(SEEX-4, 4) = t_curtains;
+  ter(SEEX-3, 4) = t_window_domestic;
+
+  ter(5, 17) = t_stairs_up;
+  ter(15, 18) = t_stairs_down;
+
+	add_graffiti(g, 14, 15, "I write this message...\n\
+                  with my own blood...\n\
+         if you want to jump...\n\
+             ...try pressing SHIFT+X.");
+
+  add_item(5, 5, g->itypes[itm_mp3], 0);
+  add_item(17, 18, g->itypes[itm_crowbar], 0);
+}
+ break;
+
+
+case ot_shelter_over2:
+{
+// Init to air;
+  for (int i = 0; i < SEEX*2; i++) {
+   for (int j = 0; j < SEEY*2; j++)
+    ter(i, j) = t_air;
+  }
+
+  square(this, t_pavement, 0, 0, 2, 2);
+  ter(0, 1) = t_stairs_down;
+
+  square(this, t_pavement, 4, 4, SEEX * 2 - 5, SEEY * 2 - 5);
+  ter(5, 18) = t_stairs_down;
+
+  add_item(14+rng(-2,2), 14+rng(-2,2), g->itypes[itm_law_packed], 0);
+  for(int i= 0; i < 5; i++)	
+	  add_item(14+rng(-2,2), 14+rng(-2,2), g->itypes[itm_66mm_HEAT], 0);
+
+}
+ break;
+
 //....
 case ot_shelter: {
 // Init to grass & dirt;
