@@ -141,31 +141,34 @@ void trapfunc::crossbow(game *g, int x, int y)
 
 void trapfuncm::crossbow(game *g, monster *z, int x, int y)
 {
- bool add_bolt = true;
- bool seen = g->u_see(z);
- int chance;
-// adapted from shotgun code - chance of getting hit depends on size
- switch (z->type->size) {
-  case MS_TINY:   chance = 50; break;
-  case MS_SMALL:  chance =  8; break;
-  case MS_MEDIUM: chance =  6; break;
-  case MS_LARGE:  chance =  4; break;
-  case MS_HUGE:   chance =  1; break;
- } 
+    bool add_bolt = true;
+    bool seen = g->u_see(z);
+    int chance;
+    // adapted from shotgun code - chance of getting hit depends on size
+    switch (z->type->size) 
+    {
+        case MS_TINY:   chance = 50; break;
+        case MS_SMALL:  chance =  8; break;
+        case MS_MEDIUM: chance =  6; break;
+        case MS_LARGE:  chance =  4; break;
+        case MS_HUGE:   chance =  1; break;
+    } 
  
- if (one_in(chance)) {
-  if (seen)
-   g->add_msg("A bolt shoots out and hits the %s!", z->name().c_str());
-  if (z->hurt(rng(20, 30)))
-   g->kill_mon(g->mon_at(x, y));
-  add_bolt = !one_in(10);
- } else if (seen)
-  g->add_msg("A bolt shoots out, but misses the %s.", z->name().c_str());
- g->m.tr_at(x, y) = tr_null;
- g->m.spawn_item(x, y, g->itypes["crossbow"], 0);
- g->m.spawn_item(x, y, g->itypes["string_6"], 0);
- if (add_bolt)
-  g->m.spawn_item(x, y, g->itypes["bolt_steel"], 0);
+    if (one_in(chance)) 
+    {
+        if (seen)
+            g->add_msg("A bolt shoots out and hits the %s!", z->name().c_str());
+        if (z->hurt(rng(20, 30)))
+            g->kill_mon(g->mon_at(x, y));
+        add_bolt = !one_in(10);
+    } 
+    else if (seen)
+        g->add_msg("A bolt shoots out, but misses the %s.", z->name().c_str());
+    g->m.tr_at(x, y) = tr_null;
+    g->m.spawn_item(x, y, g->itypes["crossbow"], 0);
+    g->m.spawn_item(x, y, g->itypes["string_6"], 0);
+    if (add_bolt)
+    g->m.spawn_item(x, y, g->itypes["bolt_steel"], 0);
 }
 
 void trapfunc::shotgun(game *g, int x, int y)
