@@ -64,6 +64,7 @@ enum oter_id {
  ot_s_pharm_north, ot_s_pharm_east, ot_s_pharm_south, ot_s_pharm_west,
  ot_office_doctor_north, ot_office_doctor_east, ot_office_doctor_south, ot_office_doctor_west,
  ot_office_cubical_north, ot_office_cubical_east, ot_office_cubical_south, ot_office_cubical_west,
+ ot_office_tower_1_entrance, ot_office_tower_1, ot_office_tower_b_entrance, ot_office_tower_b,
  ot_church_north, ot_church_east, ot_church_south, ot_church_west,
  ot_s_grocery_north, ot_s_grocery_east, ot_s_grocery_south, ot_s_grocery_west,
  ot_s_hardware_north, ot_s_hardware_east, ot_s_hardware_south,
@@ -208,6 +209,10 @@ const oter_t oterlist[num_ter_types] = {
 {"office",		'>',	c_ltgray,	5, build_extras, false, false},
 {"office",		'v',	c_ltgray,	5, build_extras, false, false},
 {"office",		'<',	c_ltgray,	5, build_extras, false, false},
+{"office tower", 'T', i_ltgray,		5, no_extras, false, false},
+{"office tower",	't',	i_ltgray,		5, no_extras, false, false},
+{"tower parking", 'p',	i_ltgray,		5, no_extras, false, false},
+{"tower parking",	'p',	i_ltgray,		5, no_extras, false, false},
 {"church",		'C',	c_ltred,	5, build_extras, false, false},
 {"church",		'C',	c_ltred,	5, build_extras, false, false},
 {"church",		'C',	c_ltred,	5, build_extras, false, false},
@@ -464,6 +469,7 @@ enum omspec_id
  OMSPEC_MEGASTORE,
  OMSPEC_HOSPITAL,
  OMSPEC_PUBLIC_WORKS,
+ OMSPEC_OFFICE_TOWER,
  OMSPEC_SEWAGE,
  OMSPEC_MINE,
  OMSPEC_ANTHILL,
@@ -541,6 +547,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_public_works_entrance,    1, 3,  2, 10, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+ 
+{ot_office_tower_1_entrance,    1, 5,  -1, 4, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
 
 {ot_sewage_treatment, 1,  5, 10, 20, "GROUP_NULL", 0, 0, 0, 0,
