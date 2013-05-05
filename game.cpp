@@ -5220,7 +5220,8 @@ void game::advanced_inv()
     canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1) ));
     bool exit = false;
     bool redraw = true;
-    vehicle *left_veh=false; vehicle *right_veh=false;
+    vehicle *left_veh=NULL;
+    vehicle *right_veh=NULL;
     int left_vstor=-1; int right_vstor=-1;
 
     // page : the current page, index : the current selected index on the page , size : the total number of item in that tab
@@ -5248,7 +5249,8 @@ void game::advanced_inv()
             getsquare(right_area, right_offx,right_offy,right_area_string);
 
             // calculate page size and vehicle || floor || inventory target
-            left_veh=false;left_vstor=-1;
+            left_veh=NULL;
+            left_vstor=-1;
             if ( left_area == 0 )  {
               left_size=u.inv.size();
             } else {
@@ -5257,7 +5259,8 @@ void game::advanced_inv()
               if (left_veh) left_vstor=left_veh->part_with_feature(vp, vpf_cargo, false);
               left_size=(left_vstor >= 0 ? left_veh->parts[left_vstor].items.size() : m.i_at(u.posx+left_offx,u.posy+left_offy).size());
             }
-            right_veh=false;right_vstor=-1;
+            right_veh=NULL;
+            right_vstor=-1;
             if ( right_area == 0 )  {
               right_size=u.inv.size();
             } else {
