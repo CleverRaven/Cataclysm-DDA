@@ -44,8 +44,8 @@ bool monster::can_move_to(game *g, int x, int y)
     // various animal behaviours 
     if (has_flag(MF_ANIMAL))
     {
-        // don't enter sharp terrain unless attacking or fleeing
-        if (g->m.has_flag(sharp, x, y) && !(attitude(&(g->u)) == MATT_FLEE || attitude(&(g->u)) == MATT_ATTACK))
+        // don't enter sharp terrain unless tiny, or attacking
+        if (g->m.has_flag(sharp, x, y) && !(attitude(&(g->u)) == MATT_ATTACK || type->size == MS_TINY))
             return false;
 
         // don't enter open pits ever unless tiny or can fly
@@ -617,9 +617,9 @@ void monster::move_to(game *g, int x, int y)
   posx = x;
   posy = y;
   footsteps(g, x, y);
-  if (g->m.has_flag(sharp, posx, posy) && !one_in(4))
+  if (type->size != MS_TINY && g->m.has_flag(sharp, posx, posy) && !one_in(4))
      hurt(rng(2, 3));
-  if (g->m.has_flag(rough, posx, posy) && one_in(6))
+  if (type->size != MS_TINY && g->m.has_flag(rough, posx, posy) && one_in(6))
      hurt(rng(1, 2));
   if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
       g->m.tr_at(posx, posy) != tr_null) { // Monster stepped on a trap!
