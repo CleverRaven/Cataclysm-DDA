@@ -344,13 +344,13 @@ recipe* game::select_crafting_recipe()
         werase(w_data);
         if(filterstring != "")
         {
-            mvwprintz(w_data, dataHeight+1, 5, c_white, "[?/E]: Describe, [F]ind , [R]eset");
+            mvwprintz(w_data, dataLines+1, 5, c_white, "[?/E]: Describe, [F]ind , [R]eset");
         }
         else
         {   
-            mvwprintz(w_data, dataHeight+1, 5, c_white, "[?/E]: Describe, [F]ind");
+            mvwprintz(w_data, dataLines+1, 5, c_white, "[?/E]: Describe, [F]ind");
         }
-        mvwprintz(w_data, dataHeight+2, 5, c_white, "Press <ENTER> to attempt to craft object.");
+        mvwprintz(w_data, dataLines+2, 5, c_white, "Press <ENTER> to attempt to craft object.");
         for (int i = 0; i < 80; i++)
         {
             mvwputch(w_data, dataHeight-1, i, c_ltgray, LINE_OXOX);
@@ -370,7 +370,7 @@ recipe* game::select_crafting_recipe()
         {
             if (line <= recmin + dataHalfLines)
             {
-                for (int i = recmin; i < recmin + MAX_DISPLAYED_RECIPES; i++)
+                for (int i = recmin; i < recmin + dataLines; i++)
                 {
                     mvwprintz(w_data, i - recmin, 2, c_dkgray, "");	// Clear the line
                     if (i == line)
@@ -577,7 +577,9 @@ recipe* game::select_crafting_recipe()
         }
 
         wrefresh(w_data);
-        input = get_input();
+        int ch=(int)getch();
+        if(ch=='e'||ch=='E') ch=(int)'?';
+        input = get_input(ch);
         switch (input)
         {
             case DirectionW:
@@ -637,8 +639,6 @@ recipe* game::select_crafting_recipe()
                     }
                 }
                 break;
-            case 'e':
-            case 'E':
             case Help:
                 tmp = item(item_controller->find_template(current[line]->result), 0);
                 full_screen_popup(tmp.info(true).c_str());
