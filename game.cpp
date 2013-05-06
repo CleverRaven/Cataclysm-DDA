@@ -5209,15 +5209,15 @@ void game::advanced_inv()
 
     std::vector<bool> canputitems;
     canputitems.push_back(true);
-    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+0) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+0) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+0) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy-1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy-1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+1)) && !(m.has_flag(sealed,u.posx-1,u.posy+1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+1)) && !(m.has_flag(sealed,u.posx+0,u.posy+1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+1)) && !(m.has_flag(sealed,u.posx+1,u.posy+1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+0)) && !(m.has_flag(sealed,u.posx-1,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+0)) && !(m.has_flag(sealed,u.posx+0,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+0)) && !(m.has_flag(sealed,u.posx+1,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy-1)) && !(m.has_flag(sealed,u.posx-1,u.posy-1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy-1)) && !(m.has_flag(sealed,u.posx+0,u.posy-1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1)) && !(m.has_flag(sealed,u.posx+1,u.posy-1) ));
     bool exit = false;
     bool redraw = true;
     vehicle *left_veh=NULL;
@@ -6541,7 +6541,7 @@ void game::pickup(int posx, int posy, int min)
    wprintz(w_pickup, c_white, "/%d", u.volume_capacity() - 2);
   }
   wrefresh(w_pickup);
-  ch = getch();
+  ch = input();
  } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
  if (ch != '\n') {
   werase(w_pickup);
@@ -7620,11 +7620,12 @@ single action.", u.weapon.tname().c_str());
 // If it's a gun, some gunmods can also be loaded
 void game::unload(char chInput)
 {
-    item& it = (u.inv.item_by_letter(chInput));
+    item it = (u.inv.remove_item_by_letter(chInput));
 
     if (!it.is_null())
     {
         unload(it);
+        u.i_add(it, this);
     }
 }
 
