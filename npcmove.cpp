@@ -1002,9 +1002,9 @@ void npc::move_to(game *g, int x, int y)
   g->sound(x, y, 18, bashsound);
  } else
  if (g->m.field_at(x, y).type == fd_rubble)
-  add_disease(DI_BOULDERING, 0, g, g->m.field_at(x,y).density, 3);
+  g->u.add_disease(DI_BOULDERING, 100, g, g->m.field_at(x,y).density, 3);
  else
-  rem_disease(DI_BOULDERING);
+  g->u.rem_disease(DI_BOULDERING);
   moves -= 100;
 }
 
