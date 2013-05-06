@@ -88,7 +88,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
         char ch = input(); // See keypress.h
         int dx, dy;
         get_direction (gm, dx, dy, ch);
-        if (ch == KEY_ESCAPE)
+        if (ch == KEY_ESCAPE || ch == 'q' )
             finish = true;
         else
         if (dx != -2 && (dx || dy) &&
@@ -217,7 +217,7 @@ void veh_interact::do_install(int reason)
             return;
         }
         else
-        if (ch == KEY_ESCAPE)
+        if (ch == KEY_ESCAPE || ch == 'q' )
         {
             werase (w_list);
             wrefresh (w_list);
@@ -292,7 +292,7 @@ void veh_interact::do_repair(int reason)
             return;
         }
         else
-        if (ch == KEY_ESCAPE)
+        if (ch == KEY_ESCAPE || ch == 'q' )
         {
             werase (w_parts);
             veh->print_part_desc (w_parts, 0, winw2, cpart, -1);
@@ -381,7 +381,7 @@ void veh_interact::do_remove(int reason)
             return;
         }
         else
-        if (ch == KEY_ESCAPE)
+        if (ch == KEY_ESCAPE || ch == 'q' )
         {
             werase (w_parts);
             veh->print_part_desc (w_parts, 0, winw2, cpart, -1);

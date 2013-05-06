@@ -135,6 +135,7 @@ void game::show_options()
     changed_options = true;
   break;
   }
+  if (changed_options && OPTIONS[OPT_SEASON_LENGTH] < 1 ) OPTIONS[OPT_SEASON_LENGTH]=option_max_options(OPT_SEASON_LENGTH)-1;
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
  if (changed_options && query_yn("Save changes?"))

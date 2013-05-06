@@ -1,6 +1,7 @@
 #include "item_factory.h"
 #include "rng.h"
 #include "enums.h"
+#include "catajson.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -24,200 +25,232 @@ Item_factory::Item_factory(){
 }
 
 void Item_factory::init(){
-  //Populate the iuse functions
-  iuse_function_list["NONE"] = &iuse::none;
-  iuse_function_list["SEWAGE"] = &iuse::sewage;
+    //Populate the iuse functions
+    iuse_function_list["NONE"] = &iuse::none;
+    iuse_function_list["SEWAGE"] = &iuse::sewage;
 
-  iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;
-  iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
-  iuse_function_list["BANDAGE"] = &iuse::bandage;
-  iuse_function_list["FIRSTAID"] = &iuse::firstaid;
-  iuse_function_list["CAFF"] = &iuse::caff;
-  iuse_function_list["ALCOHOL"] = &iuse::alcohol;
-  iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
-  iuse_function_list["PKILL_1"] = &iuse::pkill_1;
-  iuse_function_list["PKILL_2"] = &iuse::pkill_2;
-  iuse_function_list["PKILL_3"] = &iuse::pkill_3;
-  iuse_function_list["PKILL_4"] = &iuse::pkill_4;
-  iuse_function_list["PKILL_L"] = &iuse::pkill_l;
-  iuse_function_list["XANAX"] = &iuse::xanax;
-  iuse_function_list["CIG"] = &iuse::cig;
-  iuse_function_list["ANTIBIOTIC"] = &iuse::antibiotic;
-  iuse_function_list["WEED"] = &iuse::weed;
-  iuse_function_list["COKE"] = &iuse::coke;
-  iuse_function_list["CRACK"] = &iuse::crack;
-  iuse_function_list["GRACK"] = &iuse::grack;
-  iuse_function_list["METH"] = &iuse::meth;
-  iuse_function_list["POISON"] = &iuse::poison;
-  iuse_function_list["HALLU"] = &iuse::hallu;
-  iuse_function_list["THORAZINE"] = &iuse::thorazine;
-  iuse_function_list["PROZAC"] = &iuse::prozac;
-  iuse_function_list["SLEEP"] = &iuse::sleep;
-  iuse_function_list["IODINE"] = &iuse::iodine;
-  iuse_function_list["FLUMED"] = &iuse::flumed;
-  iuse_function_list["FLUSLEEP"] = &iuse::flusleep;
-  iuse_function_list["INHALER"] = &iuse::inhaler;
-  iuse_function_list["BLECH"] = &iuse::blech;
-  iuse_function_list["MUTAGEN"] = &iuse::mutagen;
-  iuse_function_list["MUTAGEN_3"] = &iuse::mutagen_3;
-  iuse_function_list["PURIFIER"] = &iuse::purifier;
-  iuse_function_list["MARLOSS"] = &iuse::marloss;
-  iuse_function_list["DOGFOOD"] = &iuse::dogfood;
+    iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;
+    iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
+    iuse_function_list["BANDAGE"] = &iuse::bandage;
+    iuse_function_list["FIRSTAID"] = &iuse::firstaid;
+    iuse_function_list["CAFF"] = &iuse::caff;
+    iuse_function_list["ALCOHOL"] = &iuse::alcohol;
+    iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
+    iuse_function_list["PKILL_1"] = &iuse::pkill_1;
+    iuse_function_list["PKILL_2"] = &iuse::pkill_2;
+    iuse_function_list["PKILL_3"] = &iuse::pkill_3;
+    iuse_function_list["PKILL_4"] = &iuse::pkill_4;
+    iuse_function_list["PKILL_L"] = &iuse::pkill_l;
+    iuse_function_list["XANAX"] = &iuse::xanax;
+    iuse_function_list["CIG"] = &iuse::cig;
+    iuse_function_list["ANTIBIOTIC"] = &iuse::antibiotic;
+    iuse_function_list["WEED"] = &iuse::weed;
+    iuse_function_list["COKE"] = &iuse::coke;
+    iuse_function_list["CRACK"] = &iuse::crack;
+    iuse_function_list["GRACK"] = &iuse::grack;
+    iuse_function_list["METH"] = &iuse::meth;
+    iuse_function_list["POISON"] = &iuse::poison;
+    iuse_function_list["HALLU"] = &iuse::hallu;
+    iuse_function_list["THORAZINE"] = &iuse::thorazine;
+    iuse_function_list["PROZAC"] = &iuse::prozac;
+    iuse_function_list["SLEEP"] = &iuse::sleep;
+    iuse_function_list["IODINE"] = &iuse::iodine;
+    iuse_function_list["FLUMED"] = &iuse::flumed;
+    iuse_function_list["FLUSLEEP"] = &iuse::flusleep;
+    iuse_function_list["INHALER"] = &iuse::inhaler;
+    iuse_function_list["BLECH"] = &iuse::blech;
+    iuse_function_list["MUTAGEN"] = &iuse::mutagen;
+    iuse_function_list["MUTAGEN_3"] = &iuse::mutagen_3;
+    iuse_function_list["PURIFIER"] = &iuse::purifier;
+    iuse_function_list["MARLOSS"] = &iuse::marloss;
+    iuse_function_list["DOGFOOD"] = &iuse::dogfood;
 
-// TOOLS
-  iuse_function_list["LIGHTER"] = &iuse::lighter;
-  iuse_function_list["SEW"] = &iuse::sew;
-  iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
-  iuse_function_list["SCISSORS"] = &iuse::scissors;
-  iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
-  iuse_function_list["HAMMER"] = &iuse::hammer;
-  iuse_function_list["LIGHT_OFF"] = &iuse::light_off;
-  iuse_function_list["LIGHT_ON"] = &iuse::light_on;
-  iuse_function_list["LIGHTSTRIP"] = &iuse::lightstrip;
-  iuse_function_list["CAUTERIZE_ELEC"] = &iuse::cauterize_elec;
-  iuse_function_list["WATER_PURIFIER"] = &iuse::water_purifier;
-  iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
-  iuse_function_list["RADIO_OFF"] = &iuse::radio_off;
-  iuse_function_list["RADIO_ON"] = &iuse::radio_on;
-  iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
-  iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
-  iuse_function_list["ROADMAP"] = &iuse::roadmap;
-  //// These have special arguments and won't work here
-  //iuse_function_list["ROADMAP_A_TARGET"] = &iuse::roadmap_a_target;
-  //iuse_function_list["ROADMAP_TARGETS"] = &iuse::roadmap_targets;
-  iuse_function_list["PICKLOCK"] = &iuse::picklock;
-  iuse_function_list["CROWBAR"] = &iuse::crowbar;
-  iuse_function_list["MAKEMOUND"] = &iuse::makemound;
-  iuse_function_list["DIG"] = &iuse::dig;
-  iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
-  iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
-  iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
-  iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
-  iuse_function_list["PICKAXE"] = &iuse::pickaxe;
-  iuse_function_list["SET_TRAP"] = &iuse::set_trap;
-  iuse_function_list["GEIGER"] = &iuse::geiger;
-  iuse_function_list["TELEPORT"] = &iuse::teleport;
-  iuse_function_list["CAN_GOO"] = &iuse::can_goo;
-  iuse_function_list["PIPEBOMB"] = &iuse::pipebomb;
-  iuse_function_list["PIPEBOMB_ACT"] = &iuse::pipebomb_act;
-  iuse_function_list["GRENADE"] = &iuse::grenade;
-  iuse_function_list["GRENADE_ACT"] = &iuse::grenade_act;
-  iuse_function_list["FLASHBANG"] = &iuse::flashbang;
-  iuse_function_list["FLASHBANG_ACT"] = &iuse::flashbang_act;
-  iuse_function_list["C4"] = &iuse::c4;
-  iuse_function_list["C4ARMED"] = &iuse::c4armed;
-  iuse_function_list["EMPBOMB"] = &iuse::EMPbomb;
-  iuse_function_list["EMPBOMB_ACT"] = &iuse::EMPbomb_act;
-  iuse_function_list["SCRAMBLER"] = &iuse::scrambler;
-  iuse_function_list["SCRAMBLER_ACT"] = &iuse::scrambler_act;
-  iuse_function_list["GASBOMB"] = &iuse::gasbomb;
-  iuse_function_list["GASBOMB_ACT"] = &iuse::gasbomb_act;
-  iuse_function_list["SMOKEBOMB"] = &iuse::smokebomb;
-  iuse_function_list["SMOKEBOMB_ACT"] = &iuse::smokebomb_act;
-  iuse_function_list["ACIDBOMB"] = &iuse::acidbomb;
-  iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
-  iuse_function_list["MOLOTOV"] = &iuse::molotov;
-  iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
-  iuse_function_list["DYNAMITE"] = &iuse::dynamite;
-  iuse_function_list["DYNAMITE_ACT"] = &iuse::dynamite_act;
-  iuse_function_list["FIRECRACKER_PACK"] = &iuse::firecracker_pack;
-  iuse_function_list["FIRECRACKER_PACK_ACT"] = &iuse::firecracker_pack_act;
-  iuse_function_list["FIRECRACKER"] = &iuse::firecracker;
-  iuse_function_list["FIRECRACKER_ACT"] = &iuse::firecracker_act;
-  iuse_function_list["MININUKE"] = &iuse::mininuke;
-  iuse_function_list["MININUKE_ACT"] = &iuse::mininuke_act;
-  iuse_function_list["PHEROMONE"] = &iuse::pheromone;
-  iuse_function_list["PORTAL"] = &iuse::portal;
-  iuse_function_list["MANHACK"] = &iuse::manhack;
-  iuse_function_list["TURRET"] = &iuse::turret;
-  iuse_function_list["UPS_OFF"] = &iuse::UPS_off;
-  iuse_function_list["UPS_ON"] = &iuse::UPS_on;
-  iuse_function_list["TAZER"] = &iuse::tazer;
-  iuse_function_list["MP3"] = &iuse::mp3;
-  iuse_function_list["MP3_ON"] = &iuse::mp3_on;
-  iuse_function_list["VORTEX"] = &iuse::vortex;
-  iuse_function_list["DOG_WHISTLE"] = &iuse::dog_whistle;
-  iuse_function_list["VACUTAINER"] = &iuse::vacutainer;
-  iuse_function_list["KNIFE"] = &iuse::knife;
-  iuse_function_list["LUMBER"] = &iuse::lumber;
-  iuse_function_list["HACKSAW"] = &iuse::hacksaw;
-  iuse_function_list["TENT"] = &iuse::tent;
-  iuse_function_list["SHELTER"] = &iuse::shelter;
-  iuse_function_list["TORCH"] = &iuse::torch;
-  iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
-  iuse_function_list["CANDLE"] = &iuse::candle;
-  iuse_function_list["CANDLE_LIT"] = &iuse::candle_lit;
-  iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
-  iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
-  iuse_function_list["MOP"] = &iuse::mop;
-  iuse_function_list["SPRAY_CAN"] = &iuse::spray_can;
-  iuse_function_list["RAG"] = &iuse::rag;
-  iuse_function_list["PDA"] = &iuse::pda;
-  iuse_function_list["PDA_FLASHLIGHT"] = &iuse::pda_flashlight;
-  iuse_function_list["LAW"] = &iuse::LAW;
-  iuse_function_list["HEATPACK"] = &iuse::heatpack;
-  iuse_function_list["DEJAR"] = &iuse::dejar;
-  // MACGUFFINS
-  iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
-  // ARTIFACTS
-  // This function is used when an artifact is activated
-  // It examines the item's artifact-specific properties
-  // See artifact.h for a list
-  iuse_function_list["ARTIFACT"] = &iuse::artifact;
+  // TOOLS
+    iuse_function_list["LIGHTER"] = &iuse::lighter;
+    iuse_function_list["SEW"] = &iuse::sew;
+    iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
+    iuse_function_list["SCISSORS"] = &iuse::scissors;
+    iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
+    iuse_function_list["HAMMER"] = &iuse::hammer;
+    iuse_function_list["LIGHT_OFF"] = &iuse::light_off;
+    iuse_function_list["LIGHT_ON"] = &iuse::light_on;
+    iuse_function_list["LIGHTSTRIP"] = &iuse::lightstrip;
+    iuse_function_list["CAUTERIZE_ELEC"] = &iuse::cauterize_elec;
+    iuse_function_list["WATER_PURIFIER"] = &iuse::water_purifier;
+    iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
+    iuse_function_list["RADIO_OFF"] = &iuse::radio_off;
+    iuse_function_list["RADIO_ON"] = &iuse::radio_on;
+    iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
+    iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
+    iuse_function_list["ROADMAP"] = &iuse::roadmap;
+    //// These have special arguments and won't work here
+    //iuse_function_list["ROADMAP_A_TARGET"] = &iuse::roadmap_a_target;
+    //iuse_function_list["ROADMAP_TARGETS"] = &iuse::roadmap_targets;
+    iuse_function_list["PICKLOCK"] = &iuse::picklock;
+    iuse_function_list["CROWBAR"] = &iuse::crowbar;
+    iuse_function_list["MAKEMOUND"] = &iuse::makemound;
+    iuse_function_list["DIG"] = &iuse::dig;
+    iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
+    iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
+    iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
+    iuse_function_list["JACQUESHAMMER"] = &iuse::jacqueshammer;
+    iuse_function_list["PICKAXE"] = &iuse::pickaxe;
+    iuse_function_list["SET_TRAP"] = &iuse::set_trap;
+    iuse_function_list["GEIGER"] = &iuse::geiger;
+    iuse_function_list["TELEPORT"] = &iuse::teleport;
+    iuse_function_list["CAN_GOO"] = &iuse::can_goo;
+    iuse_function_list["PIPEBOMB"] = &iuse::pipebomb;
+    iuse_function_list["PIPEBOMB_ACT"] = &iuse::pipebomb_act;
+    iuse_function_list["GRENADE"] = &iuse::grenade;
+    iuse_function_list["GRENADE_ACT"] = &iuse::grenade_act;
+    iuse_function_list["FLASHBANG"] = &iuse::flashbang;
+    iuse_function_list["FLASHBANG_ACT"] = &iuse::flashbang_act;
+    iuse_function_list["C4"] = &iuse::c4;
+    iuse_function_list["C4ARMED"] = &iuse::c4armed;
+    iuse_function_list["EMPBOMB"] = &iuse::EMPbomb;
+    iuse_function_list["EMPBOMB_ACT"] = &iuse::EMPbomb_act;
+    iuse_function_list["SCRAMBLER"] = &iuse::scrambler;
+    iuse_function_list["SCRAMBLER_ACT"] = &iuse::scrambler_act;
+    iuse_function_list["GASBOMB"] = &iuse::gasbomb;
+    iuse_function_list["GASBOMB_ACT"] = &iuse::gasbomb_act;
+    iuse_function_list["SMOKEBOMB"] = &iuse::smokebomb;
+    iuse_function_list["SMOKEBOMB_ACT"] = &iuse::smokebomb_act;
+    iuse_function_list["ACIDBOMB"] = &iuse::acidbomb;
+    iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
+    iuse_function_list["MOLOTOV"] = &iuse::molotov;
+    iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
+    iuse_function_list["DYNAMITE"] = &iuse::dynamite;
+    iuse_function_list["DYNAMITE_ACT"] = &iuse::dynamite_act;
+    iuse_function_list["FIRECRACKER_PACK"] = &iuse::firecracker_pack;
+    iuse_function_list["FIRECRACKER_PACK_ACT"] = &iuse::firecracker_pack_act;
+    iuse_function_list["FIRECRACKER"] = &iuse::firecracker;
+    iuse_function_list["FIRECRACKER_ACT"] = &iuse::firecracker_act;
+    iuse_function_list["MININUKE"] = &iuse::mininuke;
+    iuse_function_list["MININUKE_ACT"] = &iuse::mininuke_act;
+    iuse_function_list["PHEROMONE"] = &iuse::pheromone;
+    iuse_function_list["PORTAL"] = &iuse::portal;
+    iuse_function_list["MANHACK"] = &iuse::manhack;
+    iuse_function_list["TURRET"] = &iuse::turret;
+    iuse_function_list["UPS_OFF"] = &iuse::UPS_off;
+    iuse_function_list["UPS_ON"] = &iuse::UPS_on;
+    iuse_function_list["TAZER"] = &iuse::tazer;
+    iuse_function_list["MP3"] = &iuse::mp3;
+    iuse_function_list["MP3_ON"] = &iuse::mp3_on;
+    iuse_function_list["VORTEX"] = &iuse::vortex;
+    iuse_function_list["DOG_WHISTLE"] = &iuse::dog_whistle;
+    iuse_function_list["VACUTAINER"] = &iuse::vacutainer;
+    iuse_function_list["KNIFE"] = &iuse::knife;
+    iuse_function_list["LUMBER"] = &iuse::lumber;
+    iuse_function_list["HACKSAW"] = &iuse::hacksaw;
+    iuse_function_list["TENT"] = &iuse::tent;
+    iuse_function_list["SHELTER"] = &iuse::shelter;
+    iuse_function_list["TORCH"] = &iuse::torch;
+    iuse_function_list["TORCH_LIT"] = &iuse::torch_lit;
+    iuse_function_list["CANDLE"] = &iuse::candle;
+    iuse_function_list["CANDLE_LIT"] = &iuse::candle_lit;
+    iuse_function_list["BULLET_PULLER"] = &iuse::bullet_puller;
+    iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
+    iuse_function_list["MOP"] = &iuse::mop;
+    iuse_function_list["SPRAY_CAN"] = &iuse::spray_can;
+    iuse_function_list["RAG"] = &iuse::rag;
+    iuse_function_list["PDA"] = &iuse::pda;
+    iuse_function_list["PDA_FLASHLIGHT"] = &iuse::pda_flashlight;
+    iuse_function_list["LAW"] = &iuse::LAW;
+    iuse_function_list["HEATPACK"] = &iuse::heatpack;
+    iuse_function_list["DEJAR"] = &iuse::dejar;
+    // MACGUFFINS
+    iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
+    // ARTIFACTS
+    // This function is used when an artifact is activated
+    // It examines the item's artifact-specific properties
+    // See artifact.h for a list
+    iuse_function_list["ARTIFACT"] = &iuse::artifact;
 
-  // ITEM FLAGS
-  item_flags_list["LIGHT_1"] = mfb(IF_LIGHT_1);
-  item_flags_list["LIGHT_4"] = mfb(IF_LIGHT_4);
-  item_flags_list["LIGHT_8"] = mfb(IF_LIGHT_8);
-  item_flags_list["LIGHT_20"] = mfb(IF_LIGHT_20);
-  item_flags_list["FIRE"] = mfb(IF_FIRE);
-  item_flags_list["SPEAR"] = mfb(IF_SPEAR);
-  item_flags_list["STAB"] = mfb(IF_STAB);
-  item_flags_list["WRAP"] = mfb(IF_WRAP);
-  item_flags_list["MESSY"] = mfb(IF_MESSY);
-  item_flags_list["RELOAD_ONE"] = mfb(IF_RELOAD_ONE);
-  item_flags_list["STR_RELOAD"] = mfb(IF_STR_RELOAD);
-  item_flags_list["STR8_DRAW"] = mfb(IF_STR8_DRAW);
-  item_flags_list["STR10_DRAW"] = mfb(IF_STR10_DRAW);
-  item_flags_list["USE_UPS"] = mfb(IF_USE_UPS);
-  item_flags_list["RELOAD_AND_SHOOT"] = mfb(IF_RELOAD_AND_SHOOT);
-  item_flags_list["FIRE_100"] = mfb(IF_FIRE_100);
-  item_flags_list["GRENADE"] = mfb(IF_GRENADE);
-  item_flags_list["CHARGE"] = mfb(IF_CHARGE);
-  item_flags_list["SHOCK"] = mfb(IF_SHOCK);
-  item_flags_list["UNARMED_WEAPON"] = mfb(IF_UNARMED_WEAPON);
-  item_flags_list["NO_UNWIELD"] = mfb(IF_NO_UNWIELD);
-  item_flags_list["NO_UNLOAD"] = mfb(IF_NO_UNLOAD);
-  item_flags_list["BACKBLAST"] = mfb(IF_BACKBLAST);
-  item_flags_list["MODE_AUX"] = mfb(IF_MODE_AUX);
-  item_flags_list["MODE_BURST"] = mfb(IF_MODE_BURST);
-  item_flags_list["HOT"] = mfb(IF_HOT);
-  item_flags_list["EATEN_HOT"] = mfb(IF_EATEN_HOT);
-  item_flags_list["ROTTEN"] = mfb(IF_ROTTEN);
-  item_flags_list["VARSIZE"] = mfb(IF_VARSIZE);
-  item_flags_list["FIT"] = mfb(IF_FIT);
-  item_flags_list["DOUBLE_AMMO"] = mfb(IF_DOUBLE_AMMO);
+    // ITEM FLAGS
+    item_flags_list["LIGHT_1"] = mfb(IF_LIGHT_1);
+    item_flags_list["LIGHT_4"] = mfb(IF_LIGHT_4);
+    item_flags_list["LIGHT_8"] = mfb(IF_LIGHT_8);
+    item_flags_list["LIGHT_20"] = mfb(IF_LIGHT_20);
+    item_flags_list["FIRE"] = mfb(IF_FIRE);
+    item_flags_list["SPEAR"] = mfb(IF_SPEAR);
+    item_flags_list["STAB"] = mfb(IF_STAB);
+    item_flags_list["WRAP"] = mfb(IF_WRAP);
+    item_flags_list["MESSY"] = mfb(IF_MESSY);
+    item_flags_list["RELOAD_ONE"] = mfb(IF_RELOAD_ONE);
+    item_flags_list["STR_RELOAD"] = mfb(IF_STR_RELOAD);
+    item_flags_list["STR8_DRAW"] = mfb(IF_STR8_DRAW);
+    item_flags_list["STR10_DRAW"] = mfb(IF_STR10_DRAW);
+    item_flags_list["USE_UPS"] = mfb(IF_USE_UPS);
+    item_flags_list["RELOAD_AND_SHOOT"] = mfb(IF_RELOAD_AND_SHOOT);
+    item_flags_list["FIRE_100"] = mfb(IF_FIRE_100);
+    item_flags_list["GRENADE"] = mfb(IF_GRENADE);
+    item_flags_list["CHARGE"] = mfb(IF_CHARGE);
+    item_flags_list["SHOCK"] = mfb(IF_SHOCK);
+    item_flags_list["UNARMED_WEAPON"] = mfb(IF_UNARMED_WEAPON);
+    item_flags_list["NO_UNWIELD"] = mfb(IF_NO_UNWIELD);
+    item_flags_list["NO_UNLOAD"] = mfb(IF_NO_UNLOAD);
+    item_flags_list["BACKBLAST"] = mfb(IF_BACKBLAST);
+    item_flags_list["MODE_AUX"] = mfb(IF_MODE_AUX);
+    item_flags_list["MODE_BURST"] = mfb(IF_MODE_BURST);
+    item_flags_list["HOT"] = mfb(IF_HOT);
+    item_flags_list["EATEN_HOT"] = mfb(IF_EATEN_HOT);
+    item_flags_list["ROTTEN"] = mfb(IF_ROTTEN);
+    item_flags_list["VARSIZE"] = mfb(IF_VARSIZE);
+    item_flags_list["FIT"] = mfb(IF_FIT);
+    item_flags_list["DOUBLE_AMMO"] = mfb(IF_DOUBLE_AMMO);
 
-// Offensive Techniques
-  techniques_list["SWEEP"] = mfb(TEC_SWEEP);
-  techniques_list["PRECISE"] = mfb(TEC_PRECISE);
-  techniques_list["BRUTAL"] = mfb(TEC_BRUTAL);
-  techniques_list["GRAB"] = mfb(TEC_GRAB);
-  techniques_list["WIDE"] = mfb(TEC_WIDE);
-  techniques_list["RAPID"] = mfb(TEC_RAPID);
-  techniques_list["FEINT"] = mfb(TEC_FEINT);
-  techniques_list["THROW"] = mfb(TEC_THROW);
-  techniques_list["DISARM"] = mfb(TEC_DISARM);
-// Defensive Techniques
-  techniques_list["BLOCK"] = mfb(TEC_BLOCK);
-  techniques_list["BLOCK_LEGS"] = mfb(TEC_BLOCK_LEGS);
-  techniques_list["WBLOCK_1"] = mfb(TEC_WBLOCK_1);
-  techniques_list["WBLOCK_2"] = mfb(TEC_WBLOCK_2);
-  techniques_list["WBLOCK_3"] = mfb(TEC_WBLOCK_3);
-  techniques_list["COUNTER"] = mfb(TEC_COUNTER);
-  techniques_list["BREAK"] = mfb(TEC_BREAK);
-  techniques_list["DEF_THROW"] = mfb(TEC_DEF_THROW);
-  techniques_list["DEF_DISARM"] = mfb(TEC_DEF_DISARM);
+    // Offensive Techniques
+    techniques_list["SWEEP"] = mfb(TEC_SWEEP);
+    techniques_list["PRECISE"] = mfb(TEC_PRECISE);
+    techniques_list["BRUTAL"] = mfb(TEC_BRUTAL);
+    techniques_list["GRAB"] = mfb(TEC_GRAB);
+    techniques_list["WIDE"] = mfb(TEC_WIDE);
+    techniques_list["RAPID"] = mfb(TEC_RAPID);
+    techniques_list["FEINT"] = mfb(TEC_FEINT);
+    techniques_list["THROW"] = mfb(TEC_THROW);
+    techniques_list["DISARM"] = mfb(TEC_DISARM);
+    // Defensive Techniques
+    techniques_list["BLOCK"] = mfb(TEC_BLOCK);
+    techniques_list["BLOCK_LEGS"] = mfb(TEC_BLOCK_LEGS);
+    techniques_list["WBLOCK_1"] = mfb(TEC_WBLOCK_1);
+    techniques_list["WBLOCK_2"] = mfb(TEC_WBLOCK_2);
+    techniques_list["WBLOCK_3"] = mfb(TEC_WBLOCK_3);
+    techniques_list["COUNTER"] = mfb(TEC_COUNTER);
+    techniques_list["BREAK"] = mfb(TEC_BREAK);
+    techniques_list["DEF_THROW"] = mfb(TEC_DEF_THROW);
+    techniques_list["DEF_DISARM"] = mfb(TEC_DEF_DISARM);
+
+    //Ammo lists
+    ammo_flags_list["THREAD"] = mfb(AT_THREAD);
+    ammo_flags_list["BATT"] = mfb(AT_BATT);
+    ammo_flags_list["PLUT"] = mfb(AT_PLUT);
+    ammo_flags_list["NAIL"] = mfb(AT_NAIL);
+    ammo_flags_list["BB"] = mfb(AT_BB);
+    ammo_flags_list["BOLT"] = mfb(AT_BOLT);
+    ammo_flags_list["ARROW"] = mfb(AT_ARROW);
+    ammo_flags_list["SHOT"] = mfb(AT_SHOT);
+    ammo_flags_list["22"] = mfb(AT_22);
+    ammo_flags_list["9MM"] = mfb(AT_9MM);
+    ammo_flags_list["762x25"] = mfb(AT_762x25);
+    ammo_flags_list["38"] = mfb(AT_38);
+    ammo_flags_list["40"] = mfb(AT_40);
+    ammo_flags_list["44"] = mfb(AT_44);
+    ammo_flags_list["45"] = mfb(AT_45);
+    ammo_flags_list["57"] = mfb(AT_57);
+    ammo_flags_list["46"] = mfb(AT_46);
+    ammo_flags_list["762"] = mfb(AT_762);
+    ammo_flags_list["223"] = mfb(AT_223);
+    ammo_flags_list["3006"] = mfb(AT_3006);
+    ammo_flags_list["308"] = mfb(AT_308);
+    ammo_flags_list["40MM"] = mfb(AT_40MM);
+    ammo_flags_list["66MM"] = mfb(AT_66MM);
+    ammo_flags_list["GAS"] = mfb(AT_GAS);
+    ammo_flags_list["FUSION"] = mfb(AT_FUSION);
+    ammo_flags_list["MUSCLE"] = mfb(AT_MUSCLE);
+    ammo_flags_list["12MM"] = mfb(AT_12MM);
+    ammo_flags_list["PLASMA"] = mfb(AT_PLASMA);
+    ammo_flags_list["WATER"] = mfb(AT_WATER);
+    ammo_flags_list["PEBBLE"] = mfb(AT_PEBBLE);
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
@@ -307,111 +340,113 @@ Item_list Item_factory::create_random(int created_at, int quantity){
 ///////////////////////
 
 void Item_factory::load_item_templates(){
-    load_item_templates_from("data/raw/items/instruments.json");
     load_item_templates_from("data/raw/items/melee.json");
     load_item_templates_from("data/raw/items/ranged.json");
+    load_item_templates_from("data/raw/items/mods.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
 // Load values from this data file into m_templates
-// TODO: Consider appropriate location for this code. Is this really where it belongs?
-//       At the very least, it seems the json blah_from methods could be used elsewhere
 void Item_factory::load_item_templates_from(const std::string file_name){
-    std::ifstream data_file;
-    picojson::value input_value;
+    catajson all_items(file_name);
 
-    data_file.open(file_name.c_str());
-    data_file >> input_value;
-    data_file.close();
-
-    //Handle any obvious errors on file load
-    std::string err = picojson::get_last_error();
-    if (! err.empty()) {
-        std::cerr << "In JSON file \"" << file_name << "\"" << data_file << ":" << err << std::endl;
-        exit(1);
-    }
-    if (! input_value.is<picojson::array>()) {
-        std::cerr << file_name << " is not an array of item_templates" << std::endl;
+    if (! all_items.is_array()) {
+        debugmsg("%s is not an array of item_templates", file_name.c_str());
         exit(2);
     }
 
     //Crawl through and extract the items
-    const picojson::array& all_items = input_value.get<picojson::array>();
-    for (picojson::array::const_iterator entry = all_items.begin(); entry != all_items.end(); ++entry) {
-        if( !(entry->is<picojson::object>()) ){
-            std::cerr << "Invalid item definition, entry not a JSON object" << std::endl;
+    for (all_items.set_begin(); all_items.has_curr(); all_items.next()) {
+        catajson entry = all_items.curr();
+        // The one element we absolutely require for an item definition is an id
+        if(!entry.has("id") || !entry.get("id").is_string())
+        {
+            debugmsg("Item definition skipped, no id found or id was malformed.");
         }
-        else{
-            const picojson::value::object& entry_body = entry->get<picojson::object>();
+        else
+        {
+            Item_tag new_id = entry.get("id").as_string();
 
-            // The one element we absolutely require for an item definition is an id
-            picojson::value::object::const_iterator key_pair = entry_body.find("id");
-            if( key_pair == entry_body.end() || !(key_pair->second.is<std::string>()) ){
-                std::cerr << "Item definition skipped, no id found or id was malformed." << std::endl;
-            } else {
-                Item_tag new_id = key_pair->second.get<std::string>();
-
-                // If everything works out, add the item to the group list...
-                // unless a similar item is already there
-                if(m_templates.find(new_id) != m_templates.end()){
-                    std::cerr << "Item definition skipped, id " << new_id << " already exists." << std::endl;
-                } else {
-                    itype* new_item_template;
-                    if (entry_body.find("type") == entry_body.end())
+            // If everything works out, add the item to the group list...
+            // unless a similar item is already there
+            if(m_templates.find(new_id) != m_templates.end())
+            {
+                debugmsg("Item definition skipped, id %s already exists.", new_id.c_str());
+            }
+            else
+            {
+                itype* new_item_template;
+                if (!entry.has("type"))
+                {
+                    new_item_template = new itype();
+                }
+                else
+                {
+                    std::string type_label = entry.get("type").as_string();
+                    if (type_label == "GUNMOD")
                     {
-                        new_item_template = new itype();
+                        it_gunmod* gunmod_template = new it_gunmod();
+                        gunmod_template->damage = entry.get("damage_modifier").as_int();;
+                        gunmod_template->loudness = entry.get("loudness_modifier").as_int();
+                        gunmod_template->newtype = ammo_from_string(entry.get("ammo_modifier").as_string());
+                        gunmod_template->used_on_pistol = is_mod_target(entry.get("mod_targets"), "pistol");
+                        gunmod_template->used_on_shotgun = is_mod_target(entry.get("mod_targets"), "shotgun");
+                        gunmod_template->used_on_smg = is_mod_target(entry.get("mod_targets"), "smg");
+                        gunmod_template->used_on_rifle = is_mod_target(entry.get("mod_targets"), "rifle");
+                        gunmod_template->accuracy = entry.get("accuracy_modifier").as_int();
+                        gunmod_template->recoil = entry.get("recoil_modifier").as_int();
+                        gunmod_template->burst = entry.get("burst_modifier").as_int();
+                        gunmod_template->clip = entry.get("clip_size_modifier").as_int();
+                        gunmod_template->techniques = (!entry.has("ammo") ? 0 :
+                                                 flags_from_json(entry.get("techniques"), "ammo"));
+                        new_item_template = gunmod_template;
+                    }
+                    else if (type_label == "GUN")
+                    {
+                        it_gun* gun_template = new it_gun();
+                        gun_template->ammo = ammo_from_string(entry.get("ammo").as_string());
+                        gun_template->skill_used = Skill::skill(entry.get("skill").as_string());
+                        gun_template->dmg_bonus = entry.get("ranged_damage").as_int();
+                        gun_template->range = entry.get("range").as_int();
+                        gun_template->accuracy = entry.get("accuracy").as_int();
+                        gun_template->recoil = entry.get("recoil").as_int();
+                        gun_template->durability = entry.get("durability").as_int();
+                        gun_template->burst = entry.get("burst").as_int();
+                        gun_template->clip = entry.get("clip_size").as_int();
+                        gun_template->reload_time = entry.get("reload").as_int();
+
+                        new_item_template = gun_template;
                     }
                     else
                     {
-                        std::string type_label = string_from_json(new_id, "type", entry_body);
-                        if (type_label == "MELEE")
-                        {
-                            new_item_template = new itype();
-                        }
-                        else if (type_label == "GUN")
-                        {
-                            it_gun* gun_template = new it_gun();
-                            gun_template->ammo = ammo_from_json(new_id, "ammo", entry_body);
-                            gun_template->skill_used = Skill::skill(string_from_json(new_id, "skill", entry_body));
-                            gun_template->dmg_bonus = int_from_json(new_id, "ranged_damage", entry_body);
-                            gun_template->range = int_from_json(new_id, "range", entry_body);
-                            gun_template->accuracy = int_from_json(new_id, "accuracy", entry_body);
-                            gun_template->recoil = int_from_json(new_id, "recoil", entry_body);
-                            gun_template->durability = int_from_json(new_id, "durability", entry_body);
-                            gun_template->burst = int_from_json(new_id, "burst", entry_body);
-                            gun_template->clip = int_from_json(new_id, "clip_size", entry_body);
-                            gun_template->reload_time = int_from_json(new_id, "reload", entry_body);
-
-                            new_item_template = gun_template;
-                        }
-                        else
-                        {
-                            std::cerr << "Item definition for " << new_id << " skipped, unrecognized type: " <<
-                                      type_label << std::endl;
-                            break;
-                        }
+                        debugmsg("Item definition for %s skipped, unrecognized type: %s", new_id.c_str(),
+                                 type_label.c_str());
+                        break;
                     }
-                    new_item_template->id = new_id;
-                    m_templates[new_id] = new_item_template;
-
-                    // And then proceed to assign the correct field
-                    new_item_template->rarity = int_from_json(new_id, "rarity", entry_body);
-                    new_item_template->price = int_from_json(new_id, "price", entry_body);
-                    new_item_template->name = string_from_json(new_id, "name", entry_body);
-                    new_item_template->sym = char_from_json(new_id, "symbol", entry_body);
-                    new_item_template->color = color_from_json(new_id, "color", entry_body);
-                    new_item_template->description = string_from_json(new_id, "description", entry_body);
-                    new_item_template->m1 = material_from_json(new_id, "material", entry_body, 0);
-                    new_item_template->m2 = material_from_json(new_id, "material", entry_body, 1);
-                    new_item_template->volume = int_from_json(new_id, "volume", entry_body);
-                    new_item_template->weight = int_from_json(new_id, "weight", entry_body);
-                    new_item_template->melee_dam = int_from_json(new_id, "damage", entry_body);
-                    new_item_template->melee_cut = int_from_json(new_id, "cutting", entry_body);
-                    new_item_template->m_to_hit = int_from_json(new_id, "to_hit", entry_body);
-                    new_item_template->use = use_from_json(new_id, "use_action", entry_body);
-                    new_item_template->item_flags = flags_from_json(new_id, "flags", entry_body);
-                    new_item_template->techniques = techniques_from_json(new_id, "techniques", entry_body);
                 }
+                new_item_template->id = new_id;
+                m_templates[new_id] = new_item_template;
+
+                // And then proceed to assign the correct field
+                new_item_template->rarity = entry.get("rarity").as_int();
+                new_item_template->price = entry.get("price").as_int();
+                new_item_template->name = entry.get("name").as_string();
+                new_item_template->sym = entry.get("symbol").as_char();
+                new_item_template->color = color_from_string(entry.get("color").as_string());
+                new_item_template->description = entry.get("description").as_string();
+                set_material_from_json(new_id, entry.get("material"));
+                new_item_template->volume = entry.get("volume").as_int();
+                new_item_template->weight = entry.get("weight").as_int();
+                new_item_template->melee_dam = entry.get("bashing").as_int();
+                new_item_template->melee_cut = entry.get("cutting").as_int();
+                new_item_template->m_to_hit = entry.get("to_hit").as_int();
+                
+                new_item_template->item_flags = (!entry.has("flags") ? 0 :
+                                                 flags_from_json(entry.get("flags")));
+                new_item_template->techniques = (!entry.has("techniques") ? 0 :
+                                                 flags_from_json(entry.get("techniques"), "techniques"));
+                new_item_template->use = (!entry.has("use_action") ? &iuse::none :
+                                          use_from_string(entry.get("use_action").as_string()));
             }
         }
     }
@@ -520,51 +555,8 @@ void Item_factory::load_item_groups_from(const std::string file_name){
     }
 }
 
-//Grab string, with appropriate error handling
-Item_tag Item_factory::string_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<std::string>()){
-            return value_pair->second.get<std::string>();
-        } else {
-            std::cerr << "Item "<< new_id << " attribute " << index << "was skipped, not a string." << std::endl;
-            return "Error: Unknown Value";
-        }
-    } else {
-        //If string is not found, just return an empty string
-        return "";
-    }
-}
-
-//Grab character, with appropriate error handling
-char Item_factory::char_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    std::string symbol = string_from_json(new_id, index, value_map);
-    if(symbol == ""){
-        std::cerr << "Item "<< new_id << " attribute  " << "was skipped, empty string not allowed." << std::endl;
-        return 'X';
-    }
-    return symbol[0];
-}
-
-//Grab int, with appropriate error handling
-int Item_factory::int_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<double>()){
-            return int(value_pair->second.get<double>());
-        } else {
-            std::cerr << "Item "<< new_id << " attribute name was skipped, not a number." << std::endl;
-            return 0;
-        }
-    } else {
-        //If the value isn't found, just return a 0
-        return 0;
-    }
-}
-
 //Grab color, with appropriate error handling
-nc_color Item_factory::color_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    std::string new_color = string_from_json(new_id, index, value_map);
+nc_color Item_factory::color_from_string(std::string new_color){
     if("red"==new_color){
         return c_red;
     } else if("blue"==new_color){
@@ -596,13 +588,12 @@ nc_color Item_factory::color_from_json(Item_tag new_id, Item_tag index, picojson
     } else if("pink"==new_color){
         return c_pink;
     } else {
-        std::cerr << "Item "<< new_id << " attribute color was skipped, not a color. Color is required." << std::endl;
+        debugmsg("Received invalid color property %s. Color is required.", new_color.c_str());
         return c_white;
     }
 }
 
-ammotype Item_factory::ammo_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    std::string new_ammo = string_from_json(new_id, index, value_map);
+ammotype Item_factory::ammo_from_string(std::string new_ammo){
     if("nail"==new_ammo){
         return AT_NAIL;
     } else if ("BB" == new_ammo) {
@@ -666,21 +657,12 @@ ammotype Item_factory::ammo_from_json(Item_tag new_id, Item_tag index, picojson:
     } else if ("none" == new_ammo) {
         return AT_NULL; // NX17 and other special weapons
     } else {
-        std::cerr << "Item "<< new_id << " attribute ammo was skipped, not recognized. Ammo is required for this item." << std::endl;
+        debugmsg("Read invalid ammo %s.", new_ammo.c_str());
         return AT_NULL;
     }
 }
 
-Use_function Item_factory::use_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-
-    //If none is found, just use the standard none action
-    Item_tag function_name = "NONE";
-    //Otherwise, grab the right label to look for
-    if(value_pair != value_map.end()){
-        function_name = string_from_json(new_id, index, value_map);
-    }
-
+Use_function Item_factory::use_from_string(std::string function_name){
     std::map<Item_tag, Use_function>::iterator found_function = iuse_function_list.find(function_name);
 
     //Before returning, make sure sure the function actually exists
@@ -688,107 +670,99 @@ Use_function Item_factory::use_from_json(Item_tag new_id, Item_tag index, picojs
         return found_function->second;
     } else {
         //Otherwise, return a hardcoded function we know exists (hopefully)
-        std::cerr << "Item "<< new_id << " attribute '"<< index <<"' was skipped, no iuse function defined for the tag '" << function_name << "." << std::endl;
+        debugmsg("Received unrecognized iuse function %s, using iuse::none instead", function_name.c_str());
         return &iuse::none;
     }
 }
 
-unsigned Item_factory::flags_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
+void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type)
+{
+    //Use the standard item flag list unless a valid alternative is provided
+    std::map<Item_tag, unsigned> flag_map = item_flags_list;
+    if(flag_type=="ammo"){
+      flag_map = ammo_flags_list;
+    } else if(flag_type=="techniques"){
+      flag_map = techniques_list;
+    }
+
+    set_bitmask_by_string(flag_map, cur_flags, new_flag);
+}
+
+void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, unsigned& cur_bitmask, std::string new_flag)
+{
+    std::map<Item_tag, unsigned>::const_iterator found_flag_iter = flag_map.find(new_flag);
+    if(found_flag_iter != flag_map.end())
+    {
+        cur_bitmask = cur_bitmask | found_flag_iter->second;
+    }
+    else
+    {
+        debugmsg("Invalid item flag (etc.): %s", new_flag.c_str()); 
+    }
+}
+
+unsigned Item_factory::flags_from_json(catajson flag_list, std::string flag_type){
     //If none is found, just use the standard none action
     unsigned flag = 0;
     //Otherwise, grab the right label to look for
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<std::string>()){
-            std::map<Item_tag, unsigned>::const_iterator found_flag_iter = item_flags_list.find(value_pair->second.get<std::string>());
-            if(found_flag_iter != item_flags_list.end()){
-              flag = flag | found_flag_iter->second;
-            } else {
-              std::cerr << "Item " << new_id << " has an invalid flag."; 
-            }
-        } else if (value_pair->second.is<picojson::array>()) {
-            const picojson::array& materials_json = value_pair->second.get<picojson::array>();
-            for (picojson::array::const_iterator iter = materials_json.begin(); iter != materials_json.end(); ++iter) {
-                if((*iter).is<std::string>()){
-                    std::map<Item_tag, unsigned>::const_iterator found_flag_iter = item_flags_list.find((*iter).get<std::string>());
-                    if(found_flag_iter != item_flags_list.end()){
-                      flag = flag | found_flag_iter->second;
-                    } else {
-                      std::cerr << "Item " << new_id << " has an invalid flag."; 
-                    }                
-                } else {
-                    std::cerr << "Item "<< new_id << " has a non-string flag listed." << std::endl;
-                }
-            }
-        } else {
-            std::cerr << "Item "<< new_id << " flag was skipped, not a string or array of strings." << std::endl;
+    if (flag_list.is_array())
+    {
+        for (flag_list.set_begin(); flag_list.has_curr(); flag_list.next())
+        {
+            set_flag_by_string(flag, flag_list.curr().as_string(), flag_type);
         }
+    }
+    else
+    {
+        //we should have gotten a string, if not an array, and catajson will do error checking
+        set_flag_by_string(flag, flag_list.as_string(), flag_type);
     }
     return flag;
 }
 
-unsigned Item_factory::techniques_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map){
+bool Item_factory::is_mod_target(catajson targets, std::string weapon){
     //If none is found, just use the standard none action
-    unsigned flag = 0;
+    unsigned is_included = false;
     //Otherwise, grab the right label to look for
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<std::string>()){
-            std::map<Item_tag, unsigned>::const_iterator found_flag_iter = techniques_list.find(value_pair->second.get<std::string>());
-            if(found_flag_iter != techniques_list.end()){
-              flag = flag | found_flag_iter->second;
-            } else {
-              std::cerr << "Item " << new_id << " has an invalid flag."; 
+    if (targets.is_array())
+    {
+        for (targets.set_begin(); targets.has_curr() && !is_included; targets.next())
+        {
+            if(targets.curr().as_string() == weapon){
+              is_included=true;
             }
-        } else if (value_pair->second.is<picojson::array>()) {
-            const picojson::array& materials_json = value_pair->second.get<picojson::array>();
-            for (picojson::array::const_iterator iter = materials_json.begin(); iter != materials_json.end(); ++iter) {
-                if((*iter).is<std::string>()){
-                    std::map<Item_tag, unsigned>::const_iterator found_flag_iter = techniques_list.find((*iter).get<std::string>());
-                    if(found_flag_iter != techniques_list.end()){
-                      flag = flag | found_flag_iter->second;
-                    } else {
-                      std::cerr << "Item " << new_id << " has an invalid flag."; 
-                    }                
-                } else {
-                    std::cerr << "Item "<< new_id << " has a non-string flag listed." << std::endl;
-                }
-            }
-        } else {
-            std::cerr << "Item "<< new_id << " flag was skipped, not a string or array of strings." << std::endl;
         }
     }
-    return flag;
+    else
+    {
+        if(targets.as_string() == weapon){
+          is_included=true;
+        }
+    }
+    return is_included;
 }
 
-material Item_factory::material_from_json(Item_tag new_id, Item_tag index, picojson::value::object value_map, int to_return){
+void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
     //If the value isn't found, just return a group of null materials
     material material_list[2] = {MNULL, MNULL};
 
-    picojson::value::object::const_iterator value_pair = value_map.find(index);
-    if(value_pair != value_map.end()){
-        if(value_pair->second.is<std::string>()){
-            material_list[0] = material_from_tag(new_id, value_pair->second.get<std::string>());
-        } else if (value_pair->second.is<picojson::array>()) {
-            int material_count = 0;
-            const picojson::array& materials_json = value_pair->second.get<picojson::array>();
-            for (picojson::array::const_iterator iter = materials_json.begin(); iter != materials_json.end(); ++iter) {
-                if((*iter).is<std::string>()){
-                    material_list[material_count] = material_from_tag(new_id, (*iter).get<std::string>());
-                } else {
-                    std::cerr << "Item "<< new_id << " has a non-string material listed." << std::endl;
-                }
-
-                ++material_count;
-                if(material_count > 2){
-                    std::cerr << "Item "<< new_id << " has too many materials listed." << std::endl;
-                }
-            }
-        } else {
-            std::cerr << "Item "<< new_id << " material was skipped, not a string or array of strings." << std::endl;
+    if (mat_list.is_array())
+    {
+        if (mat_list.has(2))
+        {
+            debugmsg("Too many materials provided for item %s", new_id.c_str());
         }
+        material_list[0] = material_from_tag(new_id, mat_list.get(0).as_string());
+        material_list[1] = material_from_tag(new_id, mat_list.get(1).as_string());
     }
-    return material_list[to_return];
+    else
+    {
+        material_list[0] = material_from_tag(new_id, mat_list.as_string());
+    }
+
+    itype* temp = find_template(new_id);
+    temp->m1 = material_list[0];
+    temp->m2 = material_list[1];
 }
 
 material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){

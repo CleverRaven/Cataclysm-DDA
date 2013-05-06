@@ -504,7 +504,7 @@ std::list<item> inventory::remove_partial_stack(char ch, int amount)
         {
             if(amount >= iter->size() || amount < 0)
             {
-                std::list<item> ret = *iter;
+                ret = *iter;
                 items.erase(iter);
             }
             else

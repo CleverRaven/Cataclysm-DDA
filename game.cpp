@@ -3711,7 +3711,7 @@ void game::monmove()
 {
  cleanup_dead();
  for (int i = 0; i < z.size(); i++) {
-  while (!z[i].dead && !z[i].can_move_to(m, z[i].posx, z[i].posy)) {
+  while (!z[i].dead && !z[i].can_move_to(this, z[i].posx, z[i].posy)) {
 // If we can't move to our current position, assign us to a new one
    if (debugmon)
    {
@@ -3728,7 +3728,7 @@ void game::monmove()
    int starty = z[i].posy - 3 * ydir, endy = z[i].posy + 3 * ydir;
    for (int x = startx; x != endx && !okay; x += xdir) {
     for (int y = starty; y != endy && !okay; y += ydir){
-     if (z[i].can_move_to(m, x, y)) {
+     if (z[i].can_move_to(this, x, y)) {
       z[i].posx = x;
       z[i].posy = y;
       okay = true;
@@ -5220,7 +5220,8 @@ void game::advanced_inv()
     canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1) ));
     bool exit = false;
     bool redraw = true;
-    vehicle *left_veh=false; vehicle *right_veh=false;
+    vehicle *left_veh=NULL;
+    vehicle *right_veh=NULL;
     int left_vstor=-1; int right_vstor=-1;
 
     // page : the current page, index : the current selected index on the page , size : the total number of item in that tab
@@ -5248,7 +5249,8 @@ void game::advanced_inv()
             getsquare(right_area, right_offx,right_offy,right_area_string);
 
             // calculate page size and vehicle || floor || inventory target
-            left_veh=false;left_vstor=-1;
+            left_veh=NULL;
+            left_vstor=-1;
             if ( left_area == 0 )  {
               left_size=u.inv.size();
             } else {
@@ -5257,7 +5259,8 @@ void game::advanced_inv()
               if (left_veh) left_vstor=left_veh->part_with_feature(vp, vpf_cargo, false);
               left_size=(left_vstor >= 0 ? left_veh->parts[left_vstor].items.size() : m.i_at(u.posx+left_offx,u.posy+left_offy).size());
             }
-            right_veh=false;right_vstor=-1;
+            right_veh=NULL;
+            right_vstor=-1;
             if ( right_area == 0 )  {
               right_size=u.inv.size();
             } else {
@@ -6422,23 +6425,37 @@ void game::pickup(int posx, int posy, int min)
   return;
  }
 // Otherwise, we have 2 or more items and should list them, etc.
- WINDOW* w_pickup = newwin(12, 48, VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
- WINDOW* w_item_info = newwin(12, 48, 12 + VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
- int maxitems = 9;	 // Number of items to show at one time.
+#ifdef MAXLISTHEIGHT
+ int maxmaxitems=TERMY-15;
+#else
+ int maxmaxitems=MONINFO_HEIGHT+MESSAGES_HEIGHT - 3;
+#endif
+ if(maxmaxitems > TERMY - 15) maxmaxitems=TERMY - 15;
+
+ const int minmaxitems=9;
+
  std::vector <item> here = from_veh? veh->parts[veh_part].items : m.i_at(posx, posy);
  std::vector<bool> getitem;
  getitem.resize(here.size(), false);
+
+ int maxitems=here.size();
+ maxitems=(maxitems < minmaxitems ? minmaxitems : (maxitems > maxmaxitems ? maxmaxitems : maxitems ));
+ // maxitems=9; // old behavior
+ int pickupHeight=maxitems+3;
+
+ WINDOW* w_pickup = newwin(pickupHeight, 48, VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
+ WINDOW* w_item_info = newwin(12, 48, TERMY-12, VIEWX * 2 + 8 + VIEW_OFFSET_X);
  int ch = ' ';
  int start = 0, cur_it, iter;
  int new_weight = u.weight_carried(), new_volume = u.volume_carried();
  bool update = true;
- mvwprintw(w_pickup, 0,  0, "PICK UP");
+ mvwprintw(w_pickup, 0,  0, "PICK UP (, = all)");
+
 // Now print the two lists; those on the ground and about to be added to inv
 // Continue until we hit return or space
  do {
-  for (int i = 1; i < 12; i++) {
-   for (int j = 0; j < 48; j++)
-    mvwaddch(w_pickup, i, j, ' ');
+  for (int i = 1; i < pickupHeight; i++) {
+    mvwprintw(w_pickup, i, 0, "                                                ");
   }
   if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
    start -= maxitems;
@@ -6446,7 +6463,7 @@ void game::pickup(int posx, int posy, int min)
   }
   if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
    start += maxitems;
-   mvwprintw(w_pickup, maxitems + 2, 12, "            ");
+   mvwprintw(w_pickup, maxitems + 2, pickupHeight, "            ");
   }
 
   static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;";
@@ -6507,9 +6524,10 @@ void game::pickup(int posx, int posy, int min)
    }
   }
   if (start > 0)
-   mvwprintw(w_pickup, maxitems + 2, 0, "< Go Back");
+   mvwprintw(w_pickup, maxitems + 2, 0, "[<] Prev");
+  mvwprintw(w_pickup, maxitems + 2, 20, " [,] All");
   if (cur_it < here.size())
-   mvwprintw(w_pickup, maxitems + 2, 12, "> More items");
+   mvwprintw(w_pickup, maxitems + 2, 36, "Next [>]");
   if (update) {		// Update weight & volume information
    update = false;
    mvwprintw(w_pickup, 0,  7, "                           ");
@@ -8860,7 +8878,7 @@ void game::spawn_mon(int shiftx, int shifty)
       mony += rng(-5, 5);
       iter++;
 
-     } while ((!zom.can_move_to(m, monx, mony) || !is_empty(monx, mony) ||
+     } while ((!zom.can_move_to(this, monx, mony) || !is_empty(monx, mony) ||
                 m.sees(u.posx, u.posy, monx, mony, SEEX, t) ||
                 rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
      if (iter < 50) {

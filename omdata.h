@@ -64,6 +64,7 @@ enum oter_id {
  ot_s_pharm_north, ot_s_pharm_east, ot_s_pharm_south, ot_s_pharm_west,
  ot_office_doctor_north, ot_office_doctor_east, ot_office_doctor_south, ot_office_doctor_west,
  ot_office_cubical_north, ot_office_cubical_east, ot_office_cubical_south, ot_office_cubical_west,
+ ot_office_tower_1_entrance, ot_office_tower_1, ot_office_tower_b_entrance, ot_office_tower_b,
  ot_church_north, ot_church_east, ot_church_south, ot_church_west,
  ot_s_grocery_north, ot_s_grocery_east, ot_s_grocery_south, ot_s_grocery_west,
  ot_s_hardware_north, ot_s_hardware_east, ot_s_hardware_south,
@@ -93,6 +94,7 @@ enum oter_id {
  ot_megastore_entrance, ot_megastore,
  ot_hospital_entrance, ot_hospital,
  ot_public_works_entrance, ot_public_works,
+ ot_school_1, ot_school_2, ot_school_3, ot_school_4, ot_school_5, ot_school_6, ot_school_7, ot_school_8, ot_school_9,
  ot_mansion_entrance, ot_mansion, ot_fema_entrance, ot_fema,
  ot_station_radio_north, ot_station_radio_east, ot_station_radio_south, ot_station_radio_west,
 // Goodies/dungeons
@@ -208,6 +210,10 @@ const oter_t oterlist[num_ter_types] = {
 {"office",		'>',	c_ltgray,	5, build_extras, false, false},
 {"office",		'v',	c_ltgray,	5, build_extras, false, false},
 {"office",		'<',	c_ltgray,	5, build_extras, false, false},
+{"office tower", 'T', i_ltgray,		5, no_extras, false, false},
+{"office tower",	't',	i_ltgray,		5, no_extras, false, false},
+{"tower parking", 'p',	i_ltgray,		5, no_extras, false, false},
+{"tower parking",	'p',	i_ltgray,		5, no_extras, false, false},
 {"church",		'C',	c_ltred,	5, build_extras, false, false},
 {"church",		'C',	c_ltred,	5, build_extras, false, false},
 {"church",		'C',	c_ltred,	5, build_extras, false, false},
@@ -293,6 +299,15 @@ const oter_t oterlist[num_ter_types] = {
 {"hospital",		'H',	c_red,		5, build_extras, false, false},
 {"public works", 'W',	c_ltgray,		5, no_extras, false, false},
 {"public works",	'w',	c_ltgray,		5, no_extras, false, false},
+{"regional school", 's', c_ltblue,		5, no_extras, false, false},
+{"regional school", 'S',	c_ltblue,		5, no_extras, false, false},
+{"regional school", 's',	c_ltblue,		5, no_extras, false, false},
+{"regional school", 's',	c_ltblue,		5, no_extras, false, false},
+{"regional school", 's',	c_ltblue,		5, no_extras, false, false},
+{"regional school", 's',	c_ltblue,		5, no_extras, false, false},
+{"regional school", 's',	c_ltblue,		5, no_extras, false, false},
+{"regional school", 's',	c_ltblue,		5, no_extras, false, false},
+{"regional school", 's',	c_ltblue,		5, no_extras, false, false},
 {"mansion",		'M',	c_ltgreen,	5, build_extras, false, false},
 {"mansion",		'M',	c_green,	5, build_extras, false, false},
 {"fema camp",		'+',	c_blue,	5, build_extras, false, false},
@@ -403,6 +418,7 @@ OMS_FLAG_ROTATE_RANDOM, // Rotate randomly--assumes 3 following rotations
 OMS_FLAG_3X3,		// 3x3 square, e.g. bee hive
 OMS_FLAG_BLOB,		// Randomly shaped blob
 OMS_FLAG_3X3_SECOND,	// 3x3 square, made of the tile AFTER the main one
+OMS_FLAG_3X3_FIXED, //3x3 square, made of tiles one ahead and seven after
 OMS_FLAG_2X2,
 OMS_FLAG_2X2_SECOND,
 OMS_FLAG_BIG,		// As big as possible
@@ -464,6 +480,8 @@ enum omspec_id
  OMSPEC_MEGASTORE,
  OMSPEC_HOSPITAL,
  OMSPEC_PUBLIC_WORKS,
+ OMSPEC_OFFICE_TOWER,
+ OMSPEC_SCHOOL,
  OMSPEC_SEWAGE,
  OMSPEC_MINE,
  OMSPEC_ANTHILL,
@@ -542,6 +560,12 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 
 {ot_public_works_entrance,    1, 3,  2, 10, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+
+{ot_office_tower_1_entrance,    1, 5,  -1, 4, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+
+{ot_school_2,    1, 3,  1, 5, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
 
 {ot_sewage_treatment, 1,  5, 10, 20, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT) | mfb(OMS_FLAG_CLASSIC)},
