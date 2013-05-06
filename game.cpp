@@ -5209,15 +5209,15 @@ void game::advanced_inv()
 
     std::vector<bool> canputitems;
     canputitems.push_back(true);
-    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+0) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+0) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+0) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy-1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy-1) ));
-    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+1)) && !(m.has_flag(sealed,u.posx-1,u.posy+1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+1)) && !(m.has_flag(sealed,u.posx+0,u.posy+1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+1)) && !(m.has_flag(sealed,u.posx+1,u.posy+1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy+0)) && !(m.has_flag(sealed,u.posx-1,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy+0)) && !(m.has_flag(sealed,u.posx+0,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy+0)) && !(m.has_flag(sealed,u.posx+1,u.posy+0) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx-1,u.posy-1)) && !(m.has_flag(sealed,u.posx-1,u.posy-1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+0,u.posy-1)) && !(m.has_flag(sealed,u.posx+0,u.posy-1) ));
+    canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1)) && !(m.has_flag(sealed,u.posx+1,u.posy-1) ));
     bool exit = false;
     bool redraw = true;
     vehicle *left_veh=NULL;
