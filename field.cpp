@@ -1060,9 +1060,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
     }
     else if (one_in(g->u.str_cur)) {
      g->u.add_disease(DI_DOWNED, 1, g);
-    }                         //Avoiding disease system for the moment, since I was having trouble with it.
-//    g->u.add_disease(DI_CRUSHED, 42, g);    //Using a disease allows for easy modification without messing with field code
- //   g->u.rem_disease(DI_CRUSHED);           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
+    }
    }
    if (fdmon != -1 && fdmon < g->z.size()) {  //If there's a monster at (x,y)...
     monster* monhit = &(g->z[fdmon]);
@@ -1072,7 +1070,24 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
    }
    if (fdnpc != -1 && fdnpc < g->active_npc.size()) { //If there's an NPC at (x,y)...
     npc *me = (g->active_npc[fdnpc]);
-    me->hurtall(10);             //This is a simplistic damage model. But for now, it should work.
+    int hit_chance = 10;
+    if (me->posx == x && me->posy == y) {
+     if (me->dodge(g) < rng(1, hit_chance) || one_in(me->dodge(g))) {
+      int how_many_limbs_hit = rng(0, num_hp_parts);
+      for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
+       me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
+      }
+      if (one_in(me->dex_cur)) {
+       me->add_disease(DI_DOWNED, 2, g);
+      }
+      if (one_in(me->str_cur)) {
+       me->add_disease(DI_STUNNED, 2, g);
+      }
+     }
+     else if (one_in(me->str_cur)) {
+      me->add_disease(DI_DOWNED, 1, g);
+     }
+    }
     if (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0) {
      me->die(g, false);        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
      g->active_npc.erase(g->active_npc.begin() + fdnpc);
