@@ -7620,7 +7620,6 @@ single action.", u.weapon.tname().c_str());
 // If it's a gun, some gunmods can also be loaded
 void game::unload(char chInput)
 {
-//    item& it = (u.inv.item_by_letter(chInput));
     item it = (u.inv.remove_item_by_letter(chInput));
 
     if (!it.is_null())
