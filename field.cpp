@@ -1042,10 +1042,25 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
  field *cur = &field_at(x, y);
  switch (cur->type) {                        //Can add independent code for different types of fields to apply different effects
   case fd_rubble:
+   int hit_chance = 10;
    int fdmon = g->mon_at(x, y);              //The index of the monster at (x,y), or -1 if there isn't one
    int fdnpc = g->npc_at(x, y);              //The index of the NPC at (x,y), or -1 if there isn't one
    if (g->u.posx == x && g->u.posy == y) {
-    g->u.hurtall(10);                         //Avoiding disease system for the moment, since I was having trouble with it.
+    if (g->u.dodge(g) < rng(1, hit_chance) || one_in(g->u.dodge(g))) {
+     int how_many_limbs_hit = rng(0, num_hp_parts);
+     for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
+      g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
+     }
+     if (one_in(g->u.dex_cur)) {
+      g->u.add_disease(DI_DOWNED, 2, g);
+     }
+     if (one_in(g->u.str_cur)) {
+      g->u.add_disease(DI_STUNNED, 2, g);
+     }
+    }
+    else if (one_in(g->u.str_cur)) {
+     g->u.add_disease(DI_DOWNED, 1, g);
+    }                         //Avoiding disease system for the moment, since I was having trouble with it.
 //    g->u.add_disease(DI_CRUSHED, 42, g);    //Using a disease allows for easy modification without messing with field code
  //   g->u.rem_disease(DI_CRUSHED);           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
    }
