@@ -906,6 +906,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 {
  if(!p->can_see_fine_detail(g)){
    g->add_msg("It's too dark to sew!");
+   it->charges++;
    return;
  }
  char ch = g->inv_type("Repair what?", IC_ARMOR);
