@@ -6541,7 +6541,7 @@ void game::pickup(int posx, int posy, int min)
    wprintz(w_pickup, c_white, "/%d", u.volume_capacity() - 2);
   }
   wrefresh(w_pickup);
-  ch = getch();
+  ch = input();
  } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
  if (ch != '\n') {
   werase(w_pickup);
