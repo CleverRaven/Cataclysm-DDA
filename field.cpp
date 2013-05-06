@@ -917,6 +917,9 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    }
 // Drop through to smoke
 
+  case fd_rubble:
+    if (z->has_flag(MF_FLIES) || z->has_flag(MF_AQUATIC))
+     z->add_effect(ME_BOULDERING, 1)
   case fd_smoke:
    if (!z->has_flag(MF_NO_BREATHE)){
     if (cur->density == 3)
