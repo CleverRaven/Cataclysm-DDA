@@ -12,6 +12,8 @@
 bool will_flood_stop(map *m, bool (&fill)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                      int x, int y);
 
+int furniture_str(game *g, point p);
+
 void game::init_construction()
 {
  int id = -1;
@@ -746,7 +748,10 @@ void game::place_construction(constructable *con)
    point_is_okay = true;
  }
  if (!point_is_okay) {
-  add_msg("You cannot build there!");
+   /* checks if STR is the reason for failing */
+  int str_needed = furniture_str(this, point(dirx,diry));
+  if ( con->id == 5 && u.str_cur < str_needed) add_msg("You're not strong enough!");
+  else add_msg("You cannot build there!");
   return;
  }
 
@@ -1141,5 +1146,33 @@ void construct::done_deconstruct(game *g, point p)
       g->m.ter_set(p.x, p.y, t_floor);
     break;
   }
+
+}
+
+int furniture_str(game *g, point p)
+{
+
+ switch(g->m.ter(p.x, p.y)) {
+  case t_fridge:
+  case t_glass_fridge:
+  case t_oven:
+  case t_bathtub:
+   return 10;
+  case t_bookcase:
+  case t_locker:
+  case t_table:
+   return 9;
+  case t_dresser:
+  case t_rack:
+  case t_chair:
+  case t_armchair:
+  case t_bench:
+  case t_cupboard:
+  case t_desk:
+   return 8;
+  default:
+   // No STR requirement... Maybe something that can't be moved.
+   return 0;
+ }
 
 }
