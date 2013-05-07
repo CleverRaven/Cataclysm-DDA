@@ -1106,5 +1106,4 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
      g->active_npc.erase(g->active_npc.begin() + fdnpc);
     }                                         //Still need to add vehicle damage, but I'm ignoring that for now.
    }
- }
 }
