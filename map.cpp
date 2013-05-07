@@ -105,7 +105,7 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
   part_num = it->second.second;
   return it->second.first;
  }
- debugmsg ("vehicle part cache cache indacated vehicle not found :/");
+ debugmsg ("vehicle part cache cache indicated vehicle not found :/");
  return NULL;
 }
 
