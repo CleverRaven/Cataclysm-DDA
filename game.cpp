@@ -7601,6 +7601,64 @@ single action.", u.weapon.tname().c_str());
    add_msg("You can't reload a %s!", u.weapon.tname(this).c_str());
    return;
   }
+// This is nasty and likely to be deprecated soon //////////////////////////////
+#define CAR_CHARGING 1 // Drain AT_BATT from car when reloading electrical object
+                       // This is a kludge that should really be a constant electrical
+                       // flow or hooking into 'out of ammo!'.
+                       // Gas powered vehicles need storage battery + solar panel,
+                       // but should probably be modified to have ~ a 4000 AT_BATT battery
+                       // per engine, which recharges via alternator_function() while running.
+                       // This implies adding engine starting, which should fail if the
+                       // internal battery is too drained.
+#ifdef CAR_CHARGING
+  if (tool->ammo == AT_BATT) {
+    int vpart = -1;
+    //add_msg("DEBUG: vehicle...?"); // todo: debugmsg is icky
+    vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
+    
+    if(!veh) {
+      int vcount=0;
+      // todo check for power cord
+      for (int dx = -1; dx <= 1; dx++) {
+        for (int dy = -1; dy <= 1; dy++) {
+          veh = m.veh_at(u.posx + dx, u.posy + dy);
+          vcount++;
+        }
+      }
+      // todo choose if vcount > 1
+    }
+    if (veh) {
+      // int cap=veh->fuel_capacity(AT_BATT);
+      int charge=veh->fuel_left(AT_BATT);
+      // add_msg("DEBUG: item: %d/%d, car: %d/%d",u.weapon.charges,tool->max_charges,charge,cap);
+      int trcap=charge; // todo: convert? real world 12v ups battery ~ 4-12 Ah so 1 AT_BATT = 1 Ah
+                        // 100000 AT_BATT storage_battery = 100 Ah // rl electric ca batt @ 12v ~ 180-220 Ah
+                        // but in banks of 10-ish
+#define MIN_CHARGE 10
+// #define BATT_INEFFICIENCY 1.1
+#ifdef  BATT_INEFFICIENCY
+      int avail=(int)((float)trcap/BATT_INEFFICIENCY)-MIN_CHARGE;
+#else
+      int avail=trcap-MIN_CHARGE;
+#endif
+      if(avail<MIN_CHARGE) avail=0;
+      int tocharge=tool->max_charges - u.weapon.charges;
+      if(tocharge <= 0) return; // suppress 'Out of Batteries!' on full charge. Should probably fix above.
+      // add_msg("DEBUG: avail %d need %d",avail,tocharge);
+      if(tocharge > avail) tocharge=avail;
+      
+      if(tocharge > 0) {
+        add_msg("The %s charge indicator moves from %d to %d", u.weapon.tname(this).c_str(),u.weapon.charges,tocharge+u.weapon.charges);
+        veh->drain(AT_BATT, tocharge); // fixme: todrain
+        u.weapon.charges+=tocharge;
+        return;
+      } else {
+        // todo: msg about drained car batt
+      }
+    } // no car =[
+  }
+#endif
+//////////////////////////////////////////////////////////////////////////////// 
   char invlet = u.weapon.pick_reload_ammo(u, true);
   if (invlet == 0) {
 // Reload failed
