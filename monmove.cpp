@@ -8,6 +8,8 @@
 #include "pldata.h"
 #include <stdlib.h>
 #include "cursesdef.h"
+#include <stdio.h>
+#include <math.h>
 
 #ifndef SGN
 #define SGN(a) (((a)<0) ? -1 : 1)
@@ -465,124 +467,187 @@ point monster::sound_move(game *g)
 
 void monster::hit_player(game *g, player &p, bool can_grab)
 {
- if (type->melee_dice == 0) // We don't attack, so just return
-  return;
- add_effect(ME_HIT_BY_PLAYER, 3); // Make us a valid target for a few turns
- if (has_flag(MF_HIT_AND_RUN))
-  add_effect(ME_RUN, 4);
- bool is_npc = p.is_npc();
- bool u_see = (!is_npc || g->u_see(p.posx, p.posy));
- std::string you  = (is_npc ? p.name : "you");
- std::string You  = (is_npc ? p.name : "You");
- std::string your = (is_npc ? p.name + "'s" : "your");
- std::string Your = (is_npc ? p.name + "'s" : "Your");
- body_part bphit;
- int side = rng(0, 1);
- int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
- technique_id tech = p.pick_defensive_technique(g, this, NULL);
- p.perform_defensive_technique(tech, g, this, NULL, bphit, side,
-                               dam, cut, stab);
+    if (type->melee_dice == 0) // We don't attack, so just return
+	{
+        return;
+	}
+    add_effect(ME_HIT_BY_PLAYER, 3); // Make us a valid target for a few turns
+    if (has_flag(MF_HIT_AND_RUN))
+	{
+        add_effect(ME_RUN, 4);
+	}
+    bool is_npc = p.is_npc();
+    bool u_see = (!is_npc || g->u_see(p.posx, p.posy));
+    std::string you  = (is_npc ? p.name : "you");
+    std::string You  = (is_npc ? p.name : "You");
+    std::string your = (is_npc ? p.name + "'s" : "your");
+    std::string Your = (is_npc ? p.name + "'s" : "Your");
+    body_part bphit;
+    int side = rng(0, 1);
+    int dam = hit(g, p, bphit), cut = type->melee_cut, stab = 0;
+    technique_id tech = p.pick_defensive_technique(g, this, NULL);
+    p.perform_defensive_technique(tech, g, this, NULL, bphit, side, dam, cut, stab);
 
-//We dodged
- if (type->melee_skill * 10 < p.dodge_roll(g) && !one_in(p.dodge(g))) {
-  g->add_msg("%s dodge the %s.", You.c_str(), name().c_str());
-  p.practice(g->turn, "dodge", 10);
-  }
-//Successful hit with damage
- else if (dam > 0) {
-  p.practice(g->turn, "dodge", 5);
-  if (u_see && tech != TEC_BLOCK)
-   g->add_msg("The %s hits %s %s.", name().c_str(), your.c_str(),
-              body_part_name(bphit, side).c_str());
+    if (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill))
+    {
+        g->add_msg("The %s misses.", name().c_str());
+    }
+    else
+	{
+        //We dodged
+		int dodge_ii = p.dodge(g) - rng(0, type->melee_skill);
+		if (dodge_ii < 0)
+		{
+		    dodge_ii = 0;
+		}
+		if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
+		{
+            g->add_msg("%s dodge the %s.", You.c_str(), name().c_str());
+            p.practice(g->turn, "dodge", type->melee_skill);
+        }
+        //Successful hit with damage
+        else if (dam > 0)
+		{
+            p.practice(g->turn, "dodge", type->melee_skill/2);
+            if (u_see && tech != TEC_BLOCK)
+			{
+                g->add_msg("The %s hits %s %s.", name().c_str(), your.c_str(), body_part_name(bphit, side).c_str());
+			}
 
-// Attempt defensive moves
-  if (!is_npc) {
-   if (g->u.activity.type == ACT_RELOAD)
-    g->add_msg("You stop reloading.");
-   else if (g->u.activity.type == ACT_READ)
-    g->add_msg("You stop reading.");
-   else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
-    g->add_msg("You stop crafting.");
-   g->u.activity.type = ACT_NULL;
-  }
-  if (p.has_active_bionic("bio_ods")) {
-   if (u_see)
-    g->add_msg("%s offensive defense system shocks it!", Your.c_str());
-   hurt(rng(10, 40));
-  }
-  if (p.encumb(bphit) == 0 &&
-      (p.has_trait(PF_SPINES) || p.has_trait(PF_QUILLS))) {
-   int spine = rng(1, (p.has_trait(PF_QUILLS) ? 20 : 8));
-   g->add_msg("%s %s puncture it!", Your.c_str(),
-              (g->u.has_trait(PF_QUILLS) ? "quills" : "spines"));
-   hurt(spine);
-  }
+             // Attempt defensive moves
+            if (!is_npc)
+			{
+			    if (g->u.activity.type == ACT_RELOAD)
+				{
+                    g->add_msg("You stop reloading.");
+				}
+                else if (g->u.activity.type == ACT_READ)
+				{
+                    g->add_msg("You stop reading.");
+				}
+                else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
+				{
+                    g->add_msg("You stop crafting.");
+                    g->u.activity.type = ACT_NULL;
+				}
+            }
+            if (p.has_active_bionic("bio_ods"))
+			{
+                if (u_see)
+				{
+                    g->add_msg("%s offensive defense system shocks it!", Your.c_str());
+				}
+                hurt(rng(10, 40));
+            }
+            if (p.encumb(bphit) == 0 &&(p.has_trait(PF_SPINES) || p.has_trait(PF_QUILLS)))
+			{
+                int spine = rng(1, (p.has_trait(PF_QUILLS) ? 20 : 8));
+                g->add_msg("%s %s puncture it!", Your.c_str(), (g->u.has_trait(PF_QUILLS) ? "quills" : "spines"));
+                hurt(spine);
+            }
 
-  if (dam + cut <= 0)
-   return; // Defensive technique canceled damage.
+            if (dam + cut <= 0)
+			{
+                return; // Defensive technique canceled damage.
+			}
 
-  p.hit(g, bphit, side, dam, cut);
-  if (has_flag(MF_VENOM)) {
-   if (!is_npc)
-    g->add_msg("You're poisoned!");
-   p.add_disease(DI_POISON, 30, g);
-  } else if (has_flag(MF_BADVENOM)) {
-   if (!is_npc)
-    g->add_msg("You feel poison flood your body, wracking you with pain...");
-   p.add_disease(DI_BADPOISON, 40, g);
-  }
-  if (has_flag(MF_BLEED) && dam > 6 && cut > 0) {
-   if (!is_npc)
-    g->add_msg("You're Bleeding!");
-   p.add_disease(DI_BLEED, 60, g);
-  }
-  if (can_grab && has_flag(MF_GRABS) &&
-      type->melee_skill * 10 > p.dodge_roll(g)) {
-   if (!is_npc)
-    g->add_msg("The %s grabs you!", name().c_str());
-   if (p.weapon.has_technique(TEC_BREAK, &p) &&
-       dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10)){
-    if (!is_npc)
-     g->add_msg("You break the grab!");
-   } else
-    hit_player(g, p, false);
-  }
+            p.hit(g, bphit, side, dam, cut);
+            if (has_flag(MF_VENOM))
+			{
+                if (!is_npc)
+				{
+                    g->add_msg("You're poisoned!");
+				}
+                p.add_disease(DI_POISON, 30, g);
+            }
+            else if (has_flag(MF_BADVENOM))
+			{
+                if (!is_npc)
+				{
+                    g->add_msg("You feel poison flood your body, wracking you with pain...");
+				}
+                p.add_disease(DI_BADPOISON, 40, g);
+            }
+            if (has_flag(MF_BLEED) && dam > 6 && cut > 0)
+			{
+                if (!is_npc)
+				{
+                    g->add_msg("You're Bleeding!");
+				}
+                p.add_disease(DI_BLEED, 60, g);
+            }
+            if (can_grab && has_flag(MF_GRABS) && (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill)))
+			{
+                if (!is_npc)
+				{
+                    g->add_msg("The %s grabs you!", name().c_str());
+				}
+                if (p.weapon.has_technique(TEC_BREAK, &p) && dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
+				{
+                    if (!is_npc)
+					{
+                        g->add_msg("You break the grab!");
+					}
+                }
+                else
+                    hit_player(g, p, false);
+            }
+            if (tech == TEC_COUNTER && !is_npc)
 
-  if (tech == TEC_COUNTER && !is_npc) {
-   g->add_msg("Counter-attack!");
-   hurt( p.hit_mon(g, this) );
-  }
- } // if dam > 0
- if (is_npc) {
-  if (p.hp_cur[hp_head] <= 0 || p.hp_cur[hp_torso] <= 0) {
-   npc* tmp = dynamic_cast<npc*>(&p);
-   tmp->die(g);
-   int index = g->npc_at(p.posx, p.posy);
-   if (index != -1 && index < g->active_npc.size())
-    g->active_npc.erase(g->active_npc.begin() + index);
-   plans.clear();
-  }
- }
-// Adjust anger/morale of same-species monsters, if appropriate
- int anger_adjust = 0, morale_adjust = 0;
- for (int i = 0; i < type->anger.size(); i++) {
-  if (type->anger[i] == MTRIG_FRIEND_ATTACKED)
-   anger_adjust += 15;
- }
- for (int i = 0; i < type->placate.size(); i++) {
-  if (type->placate[i] == MTRIG_FRIEND_ATTACKED)
-   anger_adjust -= 15;
- }
- for (int i = 0; i < type->fear.size(); i++) {
-  if (type->fear[i] == MTRIG_FRIEND_ATTACKED)
-   morale_adjust -= 15;
- }
- if (anger_adjust != 0 && morale_adjust != 0) {
-  for (int i = 0; i < g->z.size(); i++) {
-   g->z[i].morale += morale_adjust;
-   g->z[i].anger += anger_adjust;
-  }
- }
+			{
+                g->add_msg("Counter-attack!");
+                hurt( p.hit_mon(g, this) );
+            }
+        }
+    }
+	
+	// if dam > 0
+    if (is_npc)
+	{
+        if (p.hp_cur[hp_head] <= 0 || p.hp_cur[hp_torso] <= 0)
+		{
+            npc* tmp = dynamic_cast<npc*>(&p);
+            tmp->die(g);
+            int index = g->npc_at(p.posx, p.posy);
+            if (index != -1 && index < g->active_npc.size())
+			{
+                g->active_npc.erase(g->active_npc.begin() + index);
+			}
+            plans.clear();
+        }
+    }
+	
+    // Adjust anger/morale of same-species monsters, if appropriate
+    int anger_adjust = 0, morale_adjust = 0;
+    for (int i = 0; i < type->anger.size(); i++)
+	{
+        if (type->anger[i] == MTRIG_FRIEND_ATTACKED)
+		{
+            anger_adjust += 15;
+		}
+    }
+    for (int i = 0; i < type->placate.size(); i++)
+	{
+        if (type->placate[i] == MTRIG_FRIEND_ATTACKED)
+		{
+            anger_adjust -= 15;
+		}
+    }
+    for (int i = 0; i < type->fear.size(); i++)
+	{
+        if (type->fear[i] == MTRIG_FRIEND_ATTACKED)
+		{
+            morale_adjust -= 15;
+		}
+    }
+    if (anger_adjust != 0 && morale_adjust != 0)
+	{
+        for (int i = 0; i < g->z.size(); i++)
+		{
+            g->z[i].morale += morale_adjust;
+            g->z[i].anger += anger_adjust;
+        }
+    }
 }
 
 void monster::move_to(game *g, int x, int y)

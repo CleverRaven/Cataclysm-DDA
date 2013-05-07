@@ -4,6 +4,8 @@
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
+#include <stdio.h>
+#include <math.h>
 
 void mattack::antqueen(game *g, monster *z)
 {
@@ -722,12 +724,12 @@ void mattack::dermatik(game *g, monster *z)
  z->sp_timeout = z->type->sp_freq;	// Reset timer
 
 // Can we dodge the attack?
- int attack_roll = dice(z->type->melee_skill, 10);
- int player_dodge = g->u.dodge_roll(g);
- if (player_dodge > attack_roll) {
+ if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * 
+			((g->u.dodge(g) - rng(0, z->type->melee_skill)) > 0 ? (g->u.dodge(g) - rng(0, z->type->melee_skill)) : 0))))
+	{
   g->add_msg("The %s tries to land on you, but you dodge.", z->name().c_str());
   z->stumble(g, false);
-  g->u.practice(g->turn, "dodge", 10);
+  g->u.practice(g->turn, "dodge", z->type->melee_skill);
   return;
  }
 
@@ -857,30 +859,34 @@ void mattack::dogthing(game *g, monster *z)
 
 void mattack::tentacle(game *g, monster *z)
 {
- int t;
- if (!g->sees_u(z->posx, z->posy, t))
-  return;
+    int t;
+    if (!g->sees_u(z->posx, z->posy, t))
+	{
+        return;
+	}
+    g->add_msg("The %s lashes its tentacle at you!", z->name().c_str());
+    z->moves -= 100;
+    z->sp_timeout = z->type->sp_freq;	// Reset timer
 
- g->add_msg("The %s lashes its tentacle at you!", z->name().c_str());
- z->moves -= 100;
- z->sp_timeout = z->type->sp_freq;	// Reset timer
+    std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
+    for (int i = 0; i < line.size(); i++)
+	{
+        int tmpdam = 20;
+        g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, 0);
+    }
 
- std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
- for (int i = 0; i < line.size(); i++) {
-  int tmpdam = 20;
-  g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, 0);
- }
-
- if (z->type->melee_skill * 10 > g->u.dodge_roll(g) || one_in(g->u.dodge(g))) {
-  body_part hit = random_body_part();
-  int dam = rng(10, 20), side = rng(0, 1);
-  g->add_msg("Your %s is hit for %d damage!", body_part_name(hit, side).c_str(),
-            dam);
-  g->u.hit(g, hit, side, dam, 0);
-  return;
- }
- g->add_msg("You dodge it!");
-  g->u.practice(g->turn, "dodge", 10);
+    if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * 
+			((g->u.dodge(g) - rng(0, z->type->melee_skill)) > 0 ? (g->u.dodge(g) - rng(0, z->type->melee_skill)) : 0))))
+	{
+        g->add_msg("You dodge it!");
+        g->u.practice(g->turn, "dodge", z->type->melee_skill);
+        return;
+    }
+    body_part hit = random_body_part();
+    int dam = rng(10, 20), side = rng(0, 1);
+    g->add_msg("Your %s is hit for %d damage!", body_part_name(hit, side).c_str(), dam);
+    g->u.hit(g, hit, side, dam, 0);
+    g->u.practice(g->turn, "dodge", z->type->melee_skill/2);
 }
 
 void mattack::vortex(game *g, monster *z)
@@ -1378,23 +1384,28 @@ void mattack::breathe(game *g, monster *z)
 
 void mattack::bite(game *g, monster *z)
 {
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
-  return;
- z->sp_timeout = z->type->sp_freq;	// Reset timer
- g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
- z->moves -= 100;
- if (z->type->melee_skill * 10 > g->u.dodge_roll(g) || one_in(g->u.dodge(g))) {
-  body_part hit = random_body_part();
-  int dam = rng(5, 10), side = rng(0, 1);
-  g->add_msg("Your %s is bitten for %d damage!", body_part_name(hit, side).c_str(),
-             dam);
-  g->u.hit(g, hit, side, dam, 0);
-  if(one_in(10)){
-   g->u.add_disease(DI_BITE, 3600, g);
-  }
-  return;
- }
-  g->add_msg("You dodge it!");
-  g->u.practice(g->turn, "dodge", 10);
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
+	{
+        return;
+	}
+    z->sp_timeout = z->type->sp_freq;	// Reset timer
+    g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
+    z->moves -= 100;
+    if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * 
+			((g->u.dodge(g) - rng(0, z->type->melee_skill)) > 0 ? (g->u.dodge(g) - rng(0, z->type->melee_skill)) : 0))))
+	{
+        g->add_msg("You dodge it!");
+        g->u.practice(g->turn, "dodge", z->type->melee_skill);
+        return;
+    }
+    body_part hit = random_body_part();
+    int dam = rng(5, 10), side = rng(0, 1);
+    g->add_msg("Your %s is bitten for %d damage!", body_part_name(hit, side).c_str(), dam);
+    g->u.hit(g, hit, side, dam, 0);
+    if(one_in(10))
+	{
+        g->u.add_disease(DI_BITE, 3600, g);
+    }
+    g->u.practice(g->turn, "dodge", z->type->melee_skill/2);
 }
 
