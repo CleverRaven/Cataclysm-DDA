@@ -746,7 +746,15 @@ void game::place_construction(constructable *con)
    point_is_okay = true;
  }
  if (!point_is_okay) {
-  add_msg("You cannot build there!");
+  construct test;
+  if (con->name == "Move Furniture" && !(test.*(con->able))(this, point(dirx, diry)))
+  {
+   add_msg("You're not strong enough!");
+  }
+  else
+  {
+   add_msg("You cannot build there!");
+  }
   return;
  }
 
@@ -824,35 +832,17 @@ bool construct::able_log(game *g, point p)
 
 bool construct::able_furniture(game *g, point p)
 {
- int required_str = 0;
-
- switch(g->m.ter(p.x, p.y)) {
-  case t_fridge:
-  case t_glass_fridge:
-  case t_oven:
-  case t_bathtub:
-   required_str = 10;
-   break;
-  case t_bookcase:
-  case t_locker:
-  case t_table:
-   required_str = 9;
-   break;
-  case t_dresser:
-  case t_rack:
-  case t_chair:
-  case t_armchair:
-  case t_bench:
-  case t_cupboard:
-  case t_desk:
-   required_str = 8;
-   break;
-  default:
-   //Not a furniture we can move
-   return false;
+ ter_t terrain_type = terlist[g->m.ter(p.x, p.y)];
+ int required_str = terrain_type.move_str_req;
+ 
+ // Object can not be moved
+ if (required_str < 0)
+ {
+  return false;
  }
-
- if( g->u.str_cur < required_str ) {
+ 
+ if( g->u.str_cur < required_str )
+ {
   return false;
  }
 
