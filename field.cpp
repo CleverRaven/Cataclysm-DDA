@@ -1032,9 +1032,14 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
   case fd_rubble:
    int fdmon = g->mon_at(x, y);              //The index of the monster at (x,y), or -1 if there isn't one
    int fdnpc = g->npc_at(x, y);              //The index of the NPC at (x,y), or -1 if there isn't one
-   npc *me = (g->active_npc[fdnpc]);
-   if (g->u.posx == x && g->u.posy == y && !g->u.in_vehicle) {
-    g->u.hurtall(10);                         //Avoiding disease system for the moment, since I was having trouble with it.
+   npc *me = g->active_npc[fdnpc];
+   vehicle *veh = g->m.veh_at(x,y);
+   int part = veh->global_part_at(x, y);
+   if (g->u.posx == x && g->u.posy == y) {
+    if (!(g->u.in_vehicle && veh->part_flag(part, vpf_roof))){
+     g->u.hurtall(10);
+    }
+                        //Avoiding disease system for the moment, since I was having trouble with it.
 //    g->u.add_disease(DI_CRUSHED, 42, g);    //Using a disease allows for easy modification without messing with field code
  //   g->u.rem_disease(DI_CRUSHED);           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
    }
@@ -1044,8 +1049,10 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
     if (monhit->hurt(dam))                    //Ideally an external disease-like system would handle this to make it easier to modify later
      g->kill_mon(fdmon, false);
    }
-   if (fdnpc != -1 && fdnpc < g->active_npc.size() && !me->in_vehicle) { //If there's an NPC at (x,y)...
-    me->hurtall(10);             //This is a simplistic damage model. But for now, it should work.
+   if (fdnpc != -1 && fdnpc < g->active_npc.size()) { //If there's an NPC at (x,y)...
+    if (!(me->in_vehicle && veh->part_flag(part, vpf_roof))) {
+     me->hurtall(10);             //This is a simplistic damage model. But for now, it should work.
+    }
     if (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0) {
      me->die(g, false);        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
      g->active_npc.erase(g->active_npc.begin() + fdnpc);
