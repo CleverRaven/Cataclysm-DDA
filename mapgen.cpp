@@ -6753,6 +6753,105 @@ break;
    rotate(3);
   break;
 
+ case ot_furniture_north:
+ case ot_furniture_east:
+ case ot_furniture_south:
+ case ot_furniture_west:
+ {
+
+     fill_background(this, t_pavement);
+
+     square(this, t_floor, 2, 2, 21, 15);
+
+     square(this, t_floor, 2, 17, 7, 18);
+
+     mapf::formatted_set_terrain(this, 1, 1,
+"\
+|ggggggggg++ggggggggg|\n\
+| C h H      O O & & |\n\
+|B      c            |\n\
+|B      c            |\n\
+|cccccccc   # m  e  B|\n\
+|bb           m  e  B|\n\
+|d          mm   e  B|\n\
+|bb                 B|\n\
+|bb     dd  OO  oo   |\n\
+|#      dd  OO  oo  B|\n\
+|h                  B|\n\
+|h      EE  CC  &&  B|\n\
+|H      EE  CC  &&  B|\n\
+|H                   |\n\
+|      BBBBBBBBBBBBBB|\n\
+|DD------------------|\n\
+|      D              \n\
+|BBBB  D              \n\
+|------|              \
+", mapf::basic_bind("g - | + D # c & B C O b H h o d e m E", t_wall_glass_h, t_wall_h, t_wall_v, t_door_c, t_door_locked, t_table, t_counter, t_fridge, t_rack, t_cupboard, t_oven, t_bed, t_armchair, t_chair, t_toilet, t_dresser, t_desk, t_sofa, t_bookcase),
+                                 mapf::end());
+     place_items(mi_tools, 50, 21, 5, 21, 8, false, 0);
+     //Upper Right Shelf
+     place_items(mi_hardware, 50, 21, 10, 21, 13, false, 0);
+     //Right Shelf
+     place_items(mi_hardware, 75, 8, 15, 21, 15, false, 0);
+     //Bottom Right Shelf
+     place_items(mi_tools, 75, 2, 18, 5, 18, false, 0);
+     //Bottom Left Shelf
+     place_items(mi_magazines, 75, 2, 3, 2, 4, false, 0);
+     //Upper Left Shelf
+
+     if (terrain_type == ot_furniture_east)
+         rotate(1);
+
+     if (terrain_type == ot_furniture_south)
+         rotate(2);
+
+     if (terrain_type == ot_furniture_west)
+         rotate(3);
+ }
+ break;
+
+
+ case ot_abstorefront_north:
+ case ot_abstorefront_east:
+ case ot_abstorefront_south:
+ case ot_abstorefront_west:
+ {
+
+     fill_background(this, t_pavement);
+
+     square(this, t_floor, 2, 2, 21, 15);
+     mapf::formatted_set_terrain(this, 1, 1,
+"\
+|-xxxxxxxxDDxxxxxxxx-|\n\
+|                   B|\n\
+|B  c        B  B   B|\n\
+|B  c        B  B   B|\n\
+|B  c  B  B  B  B   B|\n\
+|cccc  B  B  B  B   B|\n\
+|B     B  B  B  B   B|\n\
+|B                  B|\n\
+|B  BBBB  BBBBBB BB B|\n\
+|                BB B|\n\
+|B  BBBB  BBBBBB    B|\n\
+|B               --+-|\n\
+|B               |B  |\n\
+|BBBBBBB  BBBBBB |B  D\n\
+|--------------------|\
+", mapf::basic_bind("x - | + D B c", t_window_boarded, t_wall_h, t_wall_v, t_door_c, t_door_locked,
+                    t_rack, t_counter), mapf::end());
+
+     if (terrain_type == ot_abstorefront_east)
+         rotate(1);
+
+     if (terrain_type == ot_abstorefront_south)
+         rotate(2);
+
+     if (terrain_type == ot_abstorefront_west)
+         rotate(3);
+
+ }
+ break;
+
  case ot_megastore_entrance: {
   fill_background(this, t_floor);
 // Construct facing north; below, we'll rotate to face road
