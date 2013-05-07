@@ -748,8 +748,9 @@ void game::place_construction(constructable *con)
    point_is_okay = true;
  }
  if (!point_is_okay) {
-  int str_needed = furniture_str(this, point(dirx,diry)); /* checks if STR is the reason for failing */
-  if (u.str_cur < str_needed) add_msg("You're not strong enough!");
+   /* checks if STR is the reason for failing */
+  int str_needed = furniture_str(this, point(dirx,diry));
+  if ( con->id == 5 && u.str_cur < str_needed) add_msg("You're not strong enough!");
   else add_msg("You cannot build there!");
   return;
  }
