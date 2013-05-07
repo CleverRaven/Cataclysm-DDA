@@ -105,7 +105,7 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
   part_num = it->second.second;
   return it->second.first;
  }
- debugmsg ("vehicle part cache cache indacated vehicle not found :/");
+ debugmsg ("vehicle part cache cache indicated vehicle not found :/");
  return NULL;
 }
 
@@ -1653,15 +1653,13 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   ter_set(x, y, t_rubble);
    for (int i = x - 1; i <= x + 1; i++) {
     for (int j = y - 1; j <= y + 1; j++) {
-     if (one_in(2) && !g->m.has_flag(noitem, x, y)) {
-      if (g->m.field_at(i, j).type != fd_rubble) {
-       g->m.add_field(g, i, j, fd_rubble, rng(1,3));
-      }
+     if (one_in(2) && !g->m.has_flag(noitem, x, y) && !g->m.field_at(i, j).type == fd_rubble) {
+      g->m.add_field(g, i, j, fd_rubble, rng(3,9) / 3);
       g->m.field_effect(i, j, g);
      }
     }
    }
-
+   //TODO: Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
     if ((i == x && j == y) || !has_flag(collapses, i, j))
@@ -1696,17 +1694,14 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
-  for (int i = x - 1; i <= x + 1; i++) {
-    for (int j = y - 1; j <= y + 1; j++) {
-     if (one_in(2) && !g->m.has_flag(noitem, x, y)) {
-      if (g->m.field_at(i, j).type != fd_rubble) {
-       g->m.add_field(g, i, j, fd_rubble, rng(1,3));
-      }
-      g->m.field_effect(i, j, g);
-     }
+  for (int i = x - 1; i <= x + 1; i++)
+   for (int j = y - 1; j <= y + 1; j++) {
+    if (one_in(2) && !g->m.has_flag(noitem, x, y) && !g->m.field_at(i, j).type == fd_rubble) {
+     g->m.add_field(g, i, j, fd_rubble, rng(3,9) / 3);
+     g->m.field_effect(i, j, g);
     }
    }
-  //Make rubble decay into smoke
+  //TODO: Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
     if ((i == x && j == y) || !has_flag(supports_roof, i, j))
