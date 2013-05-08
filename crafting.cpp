@@ -824,14 +824,12 @@ void game::complete_craft()
  if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
   add_msg("You fail to make the %s, and waste some materials.",
           item_controller->find_template(making->result)->name.c_str());
-  for (int i = 0; i < making->components.size(); i++) {
-   if (making->components[i].size() > 0) {
-    std::vector<component> copy = making->components[i];
-    for (int j = 0; j < copy.size(); j++)
-     copy[j].count = rng(0, copy[j].count);
-    consume_items(copy);
-   }
-  }
+    for (int i = 0; i < making->components.size(); i++) 
+    {
+        if (making->components[i].size() > 0)
+        consume_items(making->components[i]);
+    }  
+  
   for (int i = 0; i < making->tools.size(); i++) {
    if (making->tools[i].size() > 0)
     consume_tools(making->tools[i]);
