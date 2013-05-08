@@ -381,7 +381,8 @@ void player::update_bodytemp(game *g)
     // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
     int Ctemperature = 100*(g->temperature - 32) * 5/9;
     // Temperature norms
-    const int ambient_norm = 3100;
+    // Ambient normal temperature is lower while asleep
+    int ambient_norm = (has_disease(DI_SLEEP) ? 3100 : 1900);
     // This adjusts the temperature scale to match the bodytemp scale
     int adjusted_temp = (Ctemperature - ambient_norm);
     // This gets incremented in the for loop and used in the morale calculation
