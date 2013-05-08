@@ -401,18 +401,6 @@ void player::update_bodytemp(game *g)
     {
         // Skip eyes
         if (i == bp_eyes) { continue; }
-        // CONDITIONS TO SKIP OVER BODY TEMPERATURE CALCULATION (this is being removed by another commit anyway...)
-        // Mutations
-        if (i == bp_hands && (has_trait(PF_TALONS) || has_trait(PF_WEBBED)))
-        {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
-        if (i == bp_mouth && has_trait(PF_BEAK))
-        {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
-        if (i == bp_feet && has_trait(PF_HOOVES))
-        {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
-        if (i == bp_torso && has_trait(PF_SHELL))
-        {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
-        if (i == bp_head && has_trait(PF_HORNS_CURLED))
-        {temp_conv[i] = temp_cur[i] = BODYTEMP_NORM; continue;}
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
         float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 40.0 : 60.0);
         int clothing_warmth_adjustement =
