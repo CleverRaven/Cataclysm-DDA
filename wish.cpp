@@ -136,10 +136,14 @@ void game::wish()
     }
    }
   }
+  int search_string_length = pattern.length();
   if (!search_results.empty())
-   mvwprintz(w_search, 1, 12, c_green, "%s               ", pattern.c_str());
+   mvwprintz(w_search, 1, 12, c_green, "%s", pattern.c_str());
   else if (pattern.length() > 0)
-   mvwprintz(w_search, 1, 12, c_red, "\"%s\" not found!            ",pattern.c_str());
+  {
+   mvwprintz(w_search, 1, 12, c_red, "\"%s \" not found!",pattern.c_str());
+   search_string_length += 1;
+  }
   if (incontainer)
    mvwprintz(w_search, 0, 70, c_ltblue, "contained");
   if (a < 0) {
@@ -183,13 +187,20 @@ void game::wish()
   wrefresh(w_info);
   wrefresh(w_list);
   if (search)
-   ch = getch();
+  {
+   curs_set(1);
+   ch = mvgetch(1, search_string_length+12);
+  }
   else
+  {
+   curs_set(0);
    ch = input();
+  }
  } while (ch != '\n');
  clear();
  
  // Allow for multiples
+ curs_set(1);
  mvprintw(0, 0, "How many do you want? (default is 1): ");
  char str[10];
  int count = 1;
@@ -201,6 +212,7 @@ void game::wish()
  {
   count = 1;
  }
+ curs_set(0);
  
  mvprintw(2, 0, "Wish granted - %d x %s.", count, tmp.type->name.c_str());
  tmp.invlet = nextinv;
