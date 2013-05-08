@@ -717,7 +717,7 @@ void player::update_bodytemp(game *g)
         }
         else if (temp_before > BODYTEMP_COLD && temp_after < BODYTEMP_COLD)
         {
-            g->add_msg("You feel your %s getting cold.",
+            g->add_msg("You feel your %s getting chilly.",
                 body_part_name(body_part(i), -1).c_str());
         }
         else if (temp_before < BODYTEMP_SCORCHING && temp_after > BODYTEMP_SCORCHING)
@@ -732,7 +732,7 @@ void player::update_bodytemp(game *g)
         }
         else if (temp_before < BODYTEMP_HOT && temp_after > BODYTEMP_HOT)
         {
-            g->add_msg("You feel your %s getting hot.",
+            g->add_msg("You feel your %s getting warm.",
                 body_part_name(body_part(i), -1).c_str());
         }
     }
@@ -2155,11 +2155,11 @@ void player::disp_status(WINDOW *w, game *g)
  else if (temp_cur[print] >  BODYTEMP_VERY_HOT)
   mvwprintz(w, 1, 9, c_ltred, "Very hot!%s", temp_message);
  else if (temp_cur[print] >  BODYTEMP_HOT)
-  mvwprintz(w, 1, 9, c_yellow,"Hot%s", temp_message);
+  mvwprintz(w, 1, 9, c_yellow,"Warm%s", temp_message);
  else if (temp_cur[print] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
   mvwprintz(w, 1, 9, c_green, "Comfortable%s", temp_message);
  else if (temp_cur[print] >  BODYTEMP_VERY_COLD)
-  mvwprintz(w, 1, 9, c_ltblue,"Cold%s", temp_message);
+  mvwprintz(w, 1, 9, c_ltblue,"Chilly%s", temp_message);
  else if (temp_cur[print] >  BODYTEMP_FREEZING)
   mvwprintz(w, 1, 9, c_cyan,  "Very cold!%s", temp_message);
  else if (temp_cur[print] <= BODYTEMP_FREEZING)
