@@ -578,7 +578,7 @@ void player::update_bodytemp(game *g)
             case bp_hands : temp_equalizer(bp_hands, bp_arms); break;
             case bp_feet  : temp_equalizer(bp_feet, bp_legs); break;
         }
-        // MUTATIONS
+        // MUTATIONS and TRAITS
         // Bark : lowers blister count to -100; harder to get blisters
         // Lightly furred
         if (has_trait(PF_LIGHTFUR))
@@ -590,6 +590,16 @@ void player::update_bodytemp(game *g)
         {
             temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
         }
+        // Disintergration
+        if (has_trait(PF_ROT1)) { temp_conv[i] -= 250;}
+        else if (has_trait(PF_ROT2)) { temp_conv[i] -= 750;}
+        else if (has_trait(PF_ROT3)) { temp_conv[i] -= 1500;}
+        // Radioactive
+        if (has_trait(PF_RADIOACTIVE1)) { temp_conv[i] += 250 }
+        else if (has_trait(PF_RADIOACTIVE2)) { temp_conv[i] += 750 }
+        else if (has_trait(PF_RADIOACTIVE3)) { temp_conv[i] += 1500 }
+        // Chemical Imbalance
+        // Added linse in player::suffer()
         // FINAL CALCULATION : Increments current body temperature towards convergant.
         int temp_before = temp_cur[i];
         int temp_difference = temp_cur[i] - temp_conv[i]; // Negative if the player is warming up.
