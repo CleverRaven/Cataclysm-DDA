@@ -392,8 +392,7 @@ void computer::activate_function(game *g, computer_action action)
    print_line(" %s", log.c_str());
    print_line("Press any key...");
    getch();
-     \n");
-  reset_terminal();
+   reset_terminal();
   } break;
 
   case COMPACT_MAPS: {
