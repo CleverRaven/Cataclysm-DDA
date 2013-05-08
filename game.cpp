@@ -16,6 +16,8 @@
 #include "item_factory.h"
 #include "helper.h"
 #include "text_snippets.h"
+#include "catajson.h"
+#include "artifact.h"
 
 #include <map>
 #include <algorithm>
@@ -1938,6 +1940,108 @@ bool game::load_master()
  return true;
 }
 
+void game::load_artifacts()
+{
+    catajson artifact_list(std::string("save/artifacts.gsav"));
+    artifact_list.set_begin();
+    while (artifact_list.has_curr())
+    {
+	catajson artifact = artifact_list.curr();
+	std::string id = artifact.get(std::string("id")).as_string();
+	unsigned int price = artifact.get(std::string("price")).as_int();
+	std::string name = artifact.get(std::string("name")).as_string();	
+	std::string description =
+	    artifact.get(std::string("description")).as_string();
+	char sym = artifact.get(std::string("sym")).as_int();
+	nc_color color =
+	    int_to_color(artifact.get(std::string("color")).as_int());
+	material m1 = (material)artifact.get(std::string("m1")).as_int();
+	material m2 = (material)artifact.get(std::string("m2")).as_int();
+	unsigned short volume = artifact.get(std::string("volume")).as_int();
+	unsigned short weight = artifact.get(std::string("weight")).as_int();
+	signed char melee_dam = artifact.get(std::string("melee_dam")).as_int();
+	signed char melee_cut = artifact.get(std::string("melee_cut")).as_int();
+	signed char m_to_hit = artifact.get(std::string("m_to_hit")).as_int();
+	unsigned item_flags = artifact.get(std::string("item_flags")).as_int();
+
+	std::string type = artifact.get(std::string("type")).as_string();
+	if (type == "artifact_tool")
+	{
+	    unsigned int max_charges =
+		artifact.get(std::string("max_charges")).as_int();
+	    unsigned int def_charges =
+		artifact.get(std::string("def_charges")).as_int();
+	    unsigned char charges_per_use =
+		artifact.get(std::string("charges_per_use")).as_int();
+	    unsigned char turns_per_charge =
+		artifact.get(std::string("turns_per_charge")).as_int();
+	    ammotype ammo =
+		(ammotype)artifact.get(std::string("ammo")).as_int();
+	    std::string revert_to =
+		artifact.get(std::string("revert_to")).as_string();
+
+	    it_artifact_tool* art_type = new it_artifact_tool(
+		id, price, name, description, sym, color, m1, m2, volume,
+		weight, melee_dam, melee_cut, m_to_hit, item_flags,
+
+		max_charges, def_charges, charges_per_use, turns_per_charge,
+		ammo, revert_to);
+
+	    art_charge charge_type =
+		(art_charge)artifact.get(std::string("charge_type")).as_int();
+
+	    catajson effects_wielded_json =
+		artifact.get(std::string("effects_wielded"));
+	    effects_wielded_json.set_begin();
+	    std::vector<art_effect_passive> effects_wielded;
+	    while (effects_wielded_json.has_curr())
+	    {
+		art_effect_passive effect =
+		    (art_effect_passive)effects_wielded_json.curr().as_int();
+		effects_wielded.push_back(effect);
+		effects_wielded_json.next();
+	    }
+
+	    catajson effects_activated_json =
+		artifact.get(std::string("effects_activated"));
+	    effects_activated_json.set_begin();
+	    std::vector<art_effect_active> effects_activated;
+	    while (effects_activated_json.has_curr())
+	    {
+		art_effect_active effect =
+		    (art_effect_active)effects_activated_json.curr().as_int();
+		effects_activated.push_back(effect);
+		effects_activated_json.next();
+	    }
+
+	    catajson effects_carried_json =
+		artifact.get(std::string("effects_carried"));
+	    effects_carried_json.set_begin();
+	    std::vector<art_effect_passive> effects_carried;
+	    while (effects_carried_json.has_curr())
+	    {
+		art_effect_passive effect =
+		    (art_effect_passive)effects_carried_json.curr().as_int();
+		effects_carried.push_back(effect);
+		effects_carried_json.next();
+	    }
+
+	    art_type->charge_type = charge_type;
+	    art_type->effects_wielded = effects_wielded;
+	    art_type->effects_activated = effects_activated;
+	    art_type->effects_carried = effects_carried;
+
+	    itypes[id] = art_type;
+	}
+	else if (type == "artifact_armor")
+	{
+	    
+	}
+
+	artifact_list.next();
+    }
+}
+
 void game::load_weather(std::ifstream &fin)
 {
     int tmpnextweather, tmpweather, tmptemp, num_segments;
@@ -1961,6 +2065,7 @@ void game::load_weather(std::ifstream &fin)
 
 void game::load(std::string name)
 {
+ load_artifacts(); // artifacts have to be loaded before ant items are created
  std::ifstream fin;
  std::stringstream playerfile;
  playerfile << "save/" << name << ".sav";

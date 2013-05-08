@@ -817,7 +817,7 @@ struct it_artifact_tool : public it_tool
      data[std::string("ammo")] = picojson::value(ammo);
      data[std::string("max_charges")] = picojson::value(max_charges);
      data[std::string("def_charges")] = picojson::value(def_charges);
-     data[std::string("charged_per_use")] = picojson::value(charges_per_use);
+     data[std::string("charges_per_use")] = picojson::value(charges_per_use);
      data[std::string("turns_per_charge")] = picojson::value(turns_per_charge);
      data[std::string("revert_to")] = picojson::value(revert_to);
 
@@ -869,11 +869,17 @@ struct it_artifact_tool : public it_tool
                   std::string pdes, char psym, nc_color pcolor, material pm1,
                   material pm2, unsigned short pvolume, unsigned short pweight,
                   signed char pmelee_dam, signed char pmelee_cut,
-                  signed char pm_to_hit, unsigned pitem_flags)
+                  signed char pm_to_hit, unsigned pitem_flags,
+
+		  unsigned int pmax_charges, unsigned int pdef_charges,
+		  unsigned char pcharges_per_use,
+		  unsigned char pturns_per_charge,
+		  ammotype pammo, itype_id prevert_to)
 
 :it_tool(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
          pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
-         0, 0, 1, 0, AT_NULL, "null", &iuse::artifact)
+	 pmax_charges, pdef_charges, pcharges_per_use, pturns_per_charge,
+	 pammo, prevert_to, &iuse::artifact)
  {
      artifact_itype_ids.push_back(pid);
  };
