@@ -2102,7 +2102,7 @@ void game::load_weather(std::ifstream &fin)
 
 void game::load(std::string name)
 {
- load_artifacts(); // artifacts have to be loaded before ant items are created
+ load_artifacts(); // artifacts have to be loaded before any items are created
  std::ifstream fin;
  std::stringstream playerfile;
  playerfile << "save/" << name << ".sav";
