@@ -2035,7 +2035,44 @@ void game::load_artifacts()
 	}
 	else if (type == "artifact_armor")
 	{
+	    unsigned char covers =
+		artifact.get(std::string("covers")).as_int();
+	    signed char encumber =
+		artifact.get(std::string("encumber")).as_int();
+	    unsigned char dmg_resist =
+		artifact.get(std::string("dmg_resist")).as_int();
+	    unsigned char cut_resist =
+		artifact.get(std::string("cut_resist")).as_int();
+	    unsigned char env_resist =
+		artifact.get(std::string("env_resist")).as_int();
+	    signed char warmth = artifact.get(std::string("warmth")).as_int();
+	    unsigned char storage =
+		artifact.get(std::string("storage")).as_int();
+	    bool power_armor =
+		artifact.get(std::string("power_armor")).as_bool();
 	    
+	    it_artifact_armor* art_type = new it_artifact_armor(
+		id, price, name, description, sym, color, m1, m2, volume,
+		weight, melee_dam, melee_cut, m_to_hit, item_flags,
+		
+		covers, encumber, dmg_resist, cut_resist, env_resist, warmth,
+		storage);
+	    art_type->power_armor = power_armor;
+	    
+	    catajson effects_worn_json =
+		artifact.get(std::string("effects_worn"));
+	    effects_worn_json.set_begin();
+	    std::vector<art_effect_passive> effects_worn;
+	    while (effects_worn_json.has_curr())
+	    {
+		art_effect_passive effect =
+		    (art_effect_passive)effects_worn_json.curr().as_int();
+		effects_worn.push_back(effect);
+		effects_worn_json.next();
+	    }
+	    art_type->effects_worn = effects_worn;
+
+	    itypes[id] = art_type;
 	}
 
 	artifact_list.next();
