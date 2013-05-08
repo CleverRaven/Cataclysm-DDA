@@ -423,9 +423,9 @@ void player::update_bodytemp(game *g)
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
         temp_conv[i] = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
         // HUNGER
-        temp_conv[i] -= 2*(hunger + 100);
+        temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
-        if (!has_disease(DI_SLEEP)) { temp_conv[i] -= 2*fatigue; }
+        if (!has_disease(DI_SLEEP)) { temp_conv[i] -= 1.5*fatigue; }
         else
         {
             int vpart = -1;
