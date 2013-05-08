@@ -495,7 +495,7 @@ void game::init_mapitems()
 	"SICP", "textbook_robots", "extinguisher", "radio",
 	"chainsaw_off", "jackhammer", "jacqueshammer", "ring", "necklace", "usb_drive",
 	"broadsword", "morningstar", "helmet_plate", "cot", "rollmat", "tent_kit",
-    "bat_metal",  "lawnmower",
+    "bat_metal",  "lawnmower", "pickelhaube",
     "makeshift_machete", "picklocks", "rucksack", "puller", "press",
     "vac_sealer", NULL);
 
@@ -639,7 +639,7 @@ void game::init_mapitems()
 	"pants_army", "kevlar", "vest", "mask_gas", "goggles_nv",
 	"helmet_army", "backpack", "UPS_off", "beltrig", "under_armor",
     "boots", "armguard_hard", "power_armor_basic", "power_armor_frame",
-	"helmet_army", "backpack", "UPS_off", "beltrig", NULL);
+	"helmet_army", "backpack", "UPS_off", "beltrig", "beret", NULL);
 
  setvector(
    mapitems[mi_mil_food],
