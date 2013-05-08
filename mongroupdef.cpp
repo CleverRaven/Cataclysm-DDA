@@ -33,15 +33,22 @@ mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group, std::vector <
             (*mtypes)[it->first]->in_category(MC_CLASSIC) ||
             (*mtypes)[it->first]->in_category(MC_WILDLIFE)))
         {   //Not too hard for us (or we dont care)
-            if(it->second >= roll) return it->first;
-            else roll -= it->second;
+            if(it->second.first >= roll)
+            {
+                return it->first;
+            }
+            else { roll -= it->second.first; }
         }
     }
     if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[g.defaultMonster]->difficulty))
         && (!OPTIONS[OPT_STATIC_SPAWN]))
-      return mon_null;
+    {
+        return mon_null;
+    }
     else
-      return g.defaultMonster;
+    {
+        return g.defaultMonster;
+    }
 }
 
 bool MonsterGroupManager::IsMonsterInGroup(std::string group, mon_id monster)
@@ -123,7 +130,8 @@ MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
     {
         jsonmonster = it_mons->get<picojson::object>();
 // todo: Bannination
-        g.monsters[monStr2monId[GetString("monster",&jsonmonster)]] = GetInt("freq",&jsonmonster);
+        g.monsters[monStr2monId[GetString("monster",&jsonmonster)]] =
+            std::pair<int,int>(GetInt("freq",&jsonmonster), GetInt("multiplier",&jsonmonster));
     }
 
     return g;

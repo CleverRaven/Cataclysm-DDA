@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-typedef std::map<mon_id, int> FreqDef;
+typedef std::map<mon_id, std::pair<int,int> > FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
 struct MonsterGroup
