@@ -22,7 +22,8 @@ std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
 void game::init_mongroups() { MonsterGroupManager::LoadJSONGroups(); }
 
-mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group, std::vector <mtype*> *mtypes, int turn)
+mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
+                                                 int *quantity, int turn )
 {
     int roll = rng(1, 1000);
     MonsterGroup g = monsterGroupMap[group];
@@ -35,6 +36,7 @@ mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group, std::vector <
         {   //Not too hard for us (or we dont care)
             if(it->second.first >= roll)
             {
+                if( quantity) { *quantity -= it->second.second; }
                 return it->first;
             }
             else { roll -= it->second.first; }

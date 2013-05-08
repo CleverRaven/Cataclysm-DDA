@@ -9032,7 +9032,7 @@ void map::place_spawns(game *g, std::string group, const int chance,
    } while( move_cost(x, y) == 0 && tries );
 
    // Pick a monster type
-   mon_id monster = MonsterGroupManager::GetMonsterFromGroup(group, &g->mtypes);
+   mon_id monster = MonsterGroupManager::GetMonsterFromGroup( group, &g->mtypes, &num );
 
    add_spawn(monster, 1, x, y);
   }
