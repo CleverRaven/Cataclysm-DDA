@@ -51,6 +51,7 @@ Furry mutation provides warmth, Bark mutation protects from fire.
 Removed/reduced a lot of spam messages related to being hot or cold.
 Sleeping should be easier in the cold (decreased chances of waking up).
 Being too hot can now wake you up.
+Tweaked hunger and fatigue's contribution to body temperature.
 
 
 0.4
