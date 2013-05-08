@@ -823,7 +823,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 
   case COMPACT_SRCF_2_MESS:
   reset_terminal();
-  print_line(" Subj: CDC: Internal Memo, EPA [2918024]\n\
+  print_line(" Subj: SRCF: Internal Memo, EPA [2918024]\n\
   To: all SRCF admin staff\n\
   From:  Constantine Dvorak, Undersecretary of Nuclear Security\n\
   \n\
