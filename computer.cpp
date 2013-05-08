@@ -392,6 +392,8 @@ void computer::activate_function(game *g, computer_action action)
    print_line(" %s", log.c_str());
    print_line("Press any key...");
    getch();
+     \n");
+  reset_terminal();
   } break;
 
   case COMPACT_MAPS: {
@@ -408,6 +410,8 @@ void computer::activate_function(game *g, computer_action action)
      g->cur_om.seen(i, j, 0) = true;
    }
    print_line("Surface map data downloaded.");
+   query_any("Press any key to continue...");
+   reset_terminal();
   } break;
 
   case COMPACT_MAP_SEWER: {
@@ -702,7 +706,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 4. USE PROVIDED GAS MASKS. \n\
 5. AWAIT FURTHER INSTRUCTIONS \n\
 \n\
-Press any key to continue...");
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
   break;
 
   case COMPACT_TOWER_UNRESPONSIVE:
@@ -713,7 +719,9 @@ Press any key to continue...");
   IN THE EVENT OF AN EMERGENCY, CONTACT LOCAL NATIONAL GUARD \n\
   UNITS TO RECEIVE PRIORITY WHEN GENERATORS ARE BEING DEPLOYED. \n\
   \n\
-  Press any key to continue...");
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
   break;
 
   case COMPACT_SR1_MESS:
@@ -728,8 +736,9 @@ Press any key to continue...");
   contact your SRCF administrator or on-site military officer.\n\
   When in doubt, assume all containers are Class-A Biohazards\n\
   and highly toxic. Take full precautions!\n\
-  \n\
-  Press any key to continue...");
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
   break;
 
   case COMPACT_SR2_MESS:
@@ -746,7 +755,9 @@ Press any key to continue...");
   times. Report any unusual activity to your SRCF administrator\n\
   at once.\n\
   \n\
-  Press any key to continue...");
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
   break;
 
   case COMPACT_SR3_MESS:
@@ -760,7 +771,9 @@ Press any key to continue...");
   employees.  Report any unusual symptoms or physical changes\n\
   to your SRCF administrator at once.\n\
   \n\
-  Press any key to continue...");
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
   break;
 
   case COMPACT_SR4_MESS:
@@ -774,7 +787,9 @@ Press any key to continue...");
   with the creatures is to report to the home office for a full\n\
   medical evaluation and security debriefing.\n\
   \n\
-  Press any key to continue...");
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
   break;
  } // switch (action)
 }
@@ -947,6 +962,22 @@ bool computer::query_bool(const char *mes, ...)
  while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
         ret != 'Q');
  return (ret == 'y' || ret == 'Y');
+}
+
+bool computer::query_any(const char *mes, ...)
+{
+// Translate the printf flags
+ va_list ap;
+ va_start(ap, mes);
+ char buff[6000];
+ vsprintf(buff, mes, ap);
+ va_end(ap);
+ std::string full_line = buff;
+// Print the resulting text
+ print_line(full_line.c_str());
+ char ret;
+ ret = getch();
+ return true;
 }
 
 char computer::query_ynq(const char *mes, ...)
