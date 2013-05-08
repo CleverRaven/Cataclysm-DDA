@@ -353,26 +353,26 @@ void player::update_morale()
 
 /* Here lies the intended effects of body temperature
 
-Assumption 1 : a naked person is comfortable at 31C/87.8F.
-Assumption 2 : a "lightly clothed" person is comfortable at 25C/77F.
-Assumption 3 : frostbite cannot happen above 0C temperature.*
+Assumption 1 : a naked person is comfortable at 19C/66.2F (31C/87.8F at rest).
+Assumption 2 : a "lightly clothed" person is comfortable at 13C/55.4F (25C/77F at rest).
+Assumption 3 : the player is always running, thus generating more heat.
+Assumption 4 : frostbite cannot happen above 0C temperature.*
 * In the current model, a naked person can get frostbite at 1C. This isn't true, but it's a compromise with using nice whole numbers.
 
 Here is a list of warmth values and the corresponding temperatures in which the player is comfortable, and in which the player is very cold.
 
 Warmth  Temperature (Comfortable)    Temperature (Very cold)    Notes
-0        31C /  87.8F                 1C /  33.8F               * Naked
-10       25C /  77.0F                -5C /  23.0F               * Lightly clothed
-20       19C /  66.2F               -11C /  12.2F
-30       13C /  55.4F               -17C /   1.4F
-40        7C /  44.6F               -23C /  -9.4F
-50        1C /  33.8F               -29C / -20.2F
-60       -5C /  23.0F               -35C / -31.0F
-70      -11C /  12.2F               -41C / -41.8F
-80      -17C /   1.4F               -47C / -52.6F
-90      -23C /  -9.4F               -53C / -63.4F
-100     -29C / -20.2F               -59C / -74.2F
-
+  0       19C /  66.2F               -11C /  12.2F               * Naked
+ 10       13C /  55.4F               -17C /   1.4F               * Lightly clothed
+ 20        7C /  44.6F               -23C /  -9.4F
+ 30        1C /  33.8F               -29C / -20.2F
+ 40       -5C /  23.0F               -35C / -31.0F
+ 50      -11C /  12.2F               -41C / -41.8F
+ 60      -17C /   1.4F               -47C / -52.6F
+ 70      -23C /  -9.4F               -53C / -63.4F
+ 80      -29C / -20.2F               -59C / -74.2F
+ 90      -35C / -31.0F               -65C / -85.0F
+100      -41C / -41.8F               -71C / -95.8F
 */
 
 void player::update_bodytemp(game *g)
