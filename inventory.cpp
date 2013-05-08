@@ -504,7 +504,7 @@ std::list<item> inventory::remove_partial_stack(char ch, int amount)
         {
             if(amount >= iter->size() || amount < 0)
             {
-                std::list<item> ret = *iter;
+                ret = *iter;
                 items.erase(iter);
             }
             else
@@ -1338,19 +1338,19 @@ void inventory::assign_empty_invlet(item &it, player *p)
 
 std::string inventory::save_str_no_quant() const
 {
-    std::stringstream dump;
+    std::stringstream dump_ss;
     for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         for (std::list<item>::const_iterator stack_iter = iter->begin();
              stack_iter != iter->end();
              ++stack_iter)
         {
-            dump << "I " << stack_iter->save_info() << std::endl;
+            dump_ss << "I " << stack_iter->save_info() << std::endl;
             for (int k = 0; k < stack_iter->contents.size(); k++)
             {
-                dump << "C " << stack_iter->contents[k].save_info() << std::endl;
+                dump_ss << "C " << stack_iter->contents[k].save_info() << std::endl;
             }
         }
     }
-    return dump.str();
+    return dump_ss.str();
 }
