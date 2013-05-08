@@ -2529,7 +2529,6 @@ void overmap::place_special(overmap_special special, tripoint p)
  }
  
   if (special.flags & mfb(OMS_FLAG_3X3_FIXED)) {
-  int startx = p.x - 1, starty = p.y;
   if (is_road(p.x, p.y - 1, p.z)) { // Road to north
    ter(p.x+1, p.y, p.z) = oter_id(special.ter - 1);//1
    ter(p.x, p.y, p.z) = special.ter;//2
