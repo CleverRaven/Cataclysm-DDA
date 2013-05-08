@@ -997,8 +997,8 @@ void dis_effect(game *g, player &p, disease &dis)
   for (int i = 0; !lesser && i < p.worn.size(); i++) {
    if (p.worn[i].is_artifact()) {
     it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
-    for (int i = 0; i < armor->effects_worn.size(); i++) {
-     if (armor->effects_worn[i] == AEP_EVIL)
+    for (int j = 0; j < armor->effects_worn.size(); j++) {
+     if (armor->effects_worn[j] == AEP_EVIL)
       lesser = true;
     }
    }
