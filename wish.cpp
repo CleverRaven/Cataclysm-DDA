@@ -163,12 +163,26 @@ void game::wish()
    ch = input();
  } while (ch != '\n');
  clear();
- mvprintw(0, 0, "\nWish granted - %d (%d).", tmp.type->id.c_str(), "antibiotics");
+ 
+ // Allow for multiples
+ mvprintw(0, 0, "How many do you want? (default is 1): ");
+ char str[10];
+ int count = 1;
+ echo();
+ getnstr(str, 9);
+ noecho();
+ count = atoi(str);
+ 
+ mvprintw(2, 0, "Wish granted - %d x %s.", count, tmp.type->name.c_str());
  tmp.invlet = nextinv;
- if (!incontainer)
-  u.i_add(tmp);
- else
-  u.i_add(tmp.in_its_container(&itypes));
+ int i;
+ for (i=0; i<count; i++)
+ {
+  if (!incontainer)
+   u.i_add(tmp);
+  else
+   u.i_add(tmp.in_its_container(&itypes));
+ }
  advance_nextinv();
  getch();
  delwin(w_info);
