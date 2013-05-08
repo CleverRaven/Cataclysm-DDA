@@ -118,6 +118,8 @@ private:
  char query_ynq(const char *text, ...);
 // Same as query_ynq, but returns true for y or Y
  bool query_bool(const char *text, ...);
+// Simply wait for any key, returns True
+ bool query_any(const char *text, ...);
 };
 
 #endif
