@@ -5823,9 +5823,9 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
         tmpcomp->add_option("Security Reminder [1057]", COMPACT_SR3_MESS, 0);
         tmpcomp->add_option("Security Reminder [1058]", COMPACT_SR4_MESS, 0);
      tmpcomp = add_computer(3, 23, "SRCF Admin Terminal ", 2);
-        tmpcomp->add_option("CDC: Internal Memo, EPA [2918024]", COMPACT_SRCF_1_MESS, 2);
-        tmpcomp->add_option("CDC: Internal Memo, EPA [2918024]", COMPACT_SRCF_2_MESS, 2);
-        tmpcomp->add_option("CDC: Internal Memo, EPA [2918024]", COMPACT_SRCF_3_MESS, 2);
+        tmpcomp->add_option("CDC: Internal Memo, EPA [2918024]", COMPACT_SRCF_1_MESS, 0);
+        tmpcomp->add_option("CDC: Internal Memo, EPA [2918024]", COMPACT_SRCF_2_MESS, 0);
+        tmpcomp->add_option("CDC: Internal Memo, EPA [2918024]", COMPACT_SRCF_3_MESS, 0);
      if (t_west == ot_haz_sar && t_north == ot_haz_sar)
             rotate(1);
      if (t_east == ot_haz_sar && t_north == ot_haz_sar)
