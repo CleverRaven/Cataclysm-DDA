@@ -63,6 +63,6 @@ struct items_location_and_chance
  items_location_and_chance (items_location l, int c) {
   loc = l;
   chance = c;
- };
+ }
 };
 #endif

@@ -4142,7 +4142,13 @@ attacks with no penalty.",
    } while (namepart.find("-") == std::string::npos && !fin.eof());
    art->description = descdata.str();
 
-   itype_id this_id = "artifact"+itypes.size();
+   // OLD CODE: itype_id this_id = "artifact"+itypes.size();
+   // Since "artifact" is a const char* pointer, and itypes.size() is a size_t (integral type)
+   // that performs a pointer addition, giving you some "random" memory location, which is then converted to a std::string. Good luck!
+   // New version actually performs a concat of the stringified size_t to the string "artifact".
+   std::stringstream tmp;
+   tmp << "artifact" << itypes.size();
+   itype_id this_id = tmp.str();
    art->id = this_id;
    itypes[this_id]=art;
 
@@ -4209,7 +4215,13 @@ attacks with no penalty.",
    } while (namepart.find("-") == std::string::npos && !fin.eof());
    art->description = descdata.str();
 
-   itype_id this_id = "artifact"+itypes.size();
+   // OLD CODE: itype_id this_id = "artifact"+itypes.size();
+   // Since "artifact" is a const char* pointer, and itypes.size() is a size_t (integral type)
+   // that performs a pointer addition, giving you some "random" memory location, which is then converted to a std::string. Good luck!
+   // New version actually performs a concat of the stringified size_t to the string "artifact".
+   std::stringstream tmp;
+   tmp << "artifact" << itypes.size();
+   itype_id this_id = tmp.str();
    art->id = this_id;
    itypes[this_id]=art;
   }

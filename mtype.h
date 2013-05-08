@@ -245,7 +245,7 @@ struct mtype {
  // Non-default (messy)
  mtype (int pid, std::string pname, monster_species pspecies, char psym,
         nc_color pcolor, m_size psize, material pmat,
-	    unsigned int pdiff, signed char pagro,
+	    int pdiff, signed char pagro,
         signed char pmorale, unsigned int pspeed, unsigned char pml_skill,
         unsigned char pml_dice, unsigned char pml_sides, unsigned char pml_cut,
         unsigned char pdodge, unsigned char parmor_bash,
@@ -285,7 +285,7 @@ struct mtype {
 
  bool has_flag(m_flag flag)
  {
-  for (int i = 0; i < flags.size(); i++) {
+  for (unsigned int i = 0; i < flags.size(); i++) {
    if (flags[i] == flag)
     return true;
   }
@@ -294,7 +294,7 @@ struct mtype {
 
  bool in_category(m_category category)
  {
-  for (int i = 0; i < categories.size(); i++) {
+  for (unsigned int i = 0; i < categories.size(); i++) {
    if (categories[i] == category)
     return true;
   }

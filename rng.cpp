@@ -2,6 +2,7 @@
 #include "rng.h"
 #include <stdlib.h>
 
+// returns a number on [low, high]
 long rng(long low, long high)
 {
  return low + long((high - low + 1) * double(rand() / double(RAND_MAX + 1.0)));

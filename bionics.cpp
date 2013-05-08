@@ -107,8 +107,8 @@ void player::power_bionics(game *g)
  wrefresh(wBio);
  char ch;
  bool activating = true;
- bionic *tmp;
- int b;
+ bionic *tmp = NULL;
+ int b = -1;
  do {
   ch = getch();
   if (ch == '!') {
@@ -127,7 +127,7 @@ void player::power_bionics(game *g)
      ch = KEY_ESCAPE;
     }
    }
-   if (ch == KEY_ESCAPE) {
+   if (ch == KEY_ESCAPE && tmp != NULL) {
     if (activating) {
      if (bionics[tmp->id]->activated) {
       show_power_level_in_titlebar(wBio, this);
@@ -135,8 +135,8 @@ void player::power_bionics(game *g)
       if (tmp->powered) {
        tmp->powered = false;
        g->add_msg("%s powered off.", bionics[tmp->id]->name.c_str());
-      } else if (power_level >= bionics[tmp->id]->power_cost ||
-                 (weapon_id == "bio_claws_weapon" && tmp->id == "bio_claws_weapon"))
+      } else if (b >= 0 && (power_level >= bionics[tmp->id]->power_cost ||
+                 (weapon_id == "bio_claws_weapon" && tmp->id == "bio_claws_weapon")))
        activate_bionic(b, g);
      } else
       mvwprintz(wBio, 21, 1, c_ltred, "\
@@ -158,6 +158,401 @@ You can not activate %s!  To read a description of \
  wrefresh(wBio);
  delwin(wBio);
  erase();
+}
+
+// TODO: clean up liquid handling
+void pour_water_from_bionics(game *g, player *p, int power_cost)
+{
+    char invlet = g->inv("Choose a container:");
+    if (p->i_at(invlet).type == 0)
+    {
+        g->add_msg("You don't have that item!");
+        p->power_level += power_cost;
+    }
+    else if (!p->i_at(invlet).is_container())
+    {
+        g->add_msg("That %s isn't a container!", p->i_at(invlet).tname().c_str());
+        p->power_level += power_cost;
+    }
+    else
+    {
+        it_container *cont = dynamic_cast<it_container*>(p->i_at(invlet).type);
+        if (p->i_at(invlet).volume_contained() + 1 > cont->contains)
+        {
+            g->add_msg("There's no space left in your %s.", p->i_at(invlet).tname().c_str());
+            p->power_level += power_cost;
+        }
+        else if (!(cont->flags & con_wtight))
+        {
+            g->add_msg("Your %s isn't watertight!", p->i_at(invlet).tname().c_str());
+            p->power_level += power_cost;
+        }
+        else
+        {
+            g->add_msg("You pour water into your %s.", p->i_at(invlet).tname().c_str());
+            p->i_at(invlet).put_in(item(g->itypes["water_clean"], 0));
+        }
+    }
+}
+
+void bio_activate_painkiller(player *p)
+{
+    p->pkill += 6;
+    p->pain -= 2;
+    if (p->pkill > p->pain)
+    {
+       p->pkill = p->pain;
+    }
+}
+
+void bio_activate_resonator(game *g, player *p)
+{
+    std::string junk;
+    g->sound(p->posx, p->posy, 30, "VRRRRMP!");
+    for (int i = p->posx - 1; i <= p->posx + 1; i++)
+    {
+       for (int j = p->posy - 1; j <= p->posy + 1; j++)
+       {
+           g->m.bash(i, j, 40, junk);
+           g->m.bash(i, j, 40, junk); // Multibash effect, so that doors &c will fall
+           g->m.bash(i, j, 40, junk);
+           if (g->m.is_destructable(i, j) && rng(1, 10) >= 4)
+           {
+               g->m.ter_set(i, j, t_rubble);
+           }
+       }
+    }
+}
+
+void bio_activate_time_freeze(game *g, player *p)
+{
+    p->moves += 100 * p->power_level;
+    p->power_level = 0;
+    g->add_msg("Your speed suddenly increases!");
+    if (one_in(3))
+    {
+        g->add_msg("Your muscles tear with the strain.");
+        p->hurt(g, bp_arms, 0, rng(5, 10));
+        p->hurt(g, bp_arms, 1, rng(5, 10));
+        p->hurt(g, bp_legs, 0, rng(7, 12));
+        p->hurt(g, bp_legs, 1, rng(7, 12));
+        p->hurt(g, bp_torso, 0, rng(5, 15));
+    }
+    if (one_in(5))
+    {
+       p->add_disease(DI_TELEGLOW, rng(50, 400), g);
+    }
+}
+
+// TODO: make sure that blood analysis and blood filter are up-to-date
+void bio_activate_blood_anal(game *g, player *p)
+{
+    std::vector<std::string> good;
+    std::vector<std::string> bad;
+    WINDOW *w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 10+((TERMX > 80) ? (TERMX-80)/2 : 0));
+    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+               LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    // Soron: okay, maybe strict allman has issues. So. Many. Braces.
+    // then again, we could also handle this with a map or something...
+    if (p->has_disease(DI_FUNGUS))
+    {
+        bad.push_back("Fungal Parasite");
+    }
+    if (p->has_disease(DI_DERMATIK))
+    {
+        bad.push_back("Insect Parasite");
+    }
+    if (p->has_disease(DI_POISON))
+    {
+        bad.push_back("Poison");
+    }
+    if (p->radiation > 0)
+    {
+        bad.push_back("Irradiated");
+    }
+    if (p->has_disease(DI_PKILL1))
+    {
+        good.push_back("Minor Painkiller");
+    }
+    if (p->has_disease(DI_PKILL2))
+    {
+        good.push_back("Moderate Painkiller");
+    }
+    if (p->has_disease(DI_PKILL3))
+    {
+        good.push_back("Heavy Painkiller");
+    }
+    if (p->has_disease(DI_PKILL_L))
+    {
+        good.push_back("Slow-Release Painkiller");
+    }
+    if (p->has_disease(DI_DRUNK))
+    {
+        good.push_back("Alcohol");
+    }
+    if (p->has_disease(DI_CIG))
+    {
+        good.push_back("Nicotine");
+    }
+    if (p->has_disease(DI_HIGH))
+    {
+        good.push_back("Intoxicant: Other");
+    }
+    if (p->has_disease(DI_TOOK_PROZAC))
+    {
+        good.push_back("Prozac");
+    }
+    if (p->has_disease(DI_TOOK_FLUMED))
+    {
+        good.push_back("Antihistamines");
+    }
+    if (p->has_disease(DI_ADRENALINE))
+    {
+        good.push_back("Adrenaline Spike");
+    }
+
+    if (good.size() == 0 && bad.size() == 0)
+    {
+        mvwprintz(w, 1, 1, c_white, "No effects.");
+    }
+    else
+    {
+        for (int line = 1; line < 39 && line <= good.size() + bad.size(); line++)
+        {
+            if (line <= bad.size())
+            {
+                mvwprintz(w, line, 1, c_red, bad[line - 1].c_str());
+            }
+            else
+            {
+                mvwprintz(w, line, 1, c_green, good[line - 1 - bad.size()].c_str());
+            }
+        }
+    }
+    wrefresh(w);
+    refresh();
+    getch();
+    delwin(w);
+}
+
+void bio_activate_blood_filter(player *p)
+{
+    p->rem_disease(DI_FUNGUS);
+    p->rem_disease(DI_POISON);
+    p->rem_disease(DI_PKILL1);
+    p->rem_disease(DI_PKILL2);
+    p->rem_disease(DI_PKILL3);
+    p->rem_disease(DI_PKILL_L);
+    p->rem_disease(DI_DRUNK);
+    p->rem_disease(DI_CIG);
+    p->rem_disease(DI_HIGH);
+    p->rem_disease(DI_TOOK_PROZAC);
+    p->rem_disease(DI_TOOK_FLUMED);
+    p->rem_disease(DI_ADRENALINE);
+}
+
+void bio_activate_evaporator(game *g, player *p)
+{
+    item tmp_item;
+    if (query_yn("Drink directly? Otherwise you will need a container."))
+    {
+        tmp_item = item(g->itypes["water_clean"], 0);
+        p->thirst -= 50;
+        if (p->has_trait(PF_GOURMAND) && p->thirst < -60)
+        {
+            g->add_msg("You can't finish it all!");
+            p->thirst = -60;
+        }
+        else if (!p->has_trait(PF_GOURMAND) && p->thirst < -20)
+        {
+            g->add_msg("You can't finish it all!");
+            p->thirst = -20;
+        }
+    }
+    else
+    {
+        pour_water_from_bionics(g, p, bionics["bio_evap"]->power_cost);
+    }
+}
+
+void bio_activate_lighter(game *g, player *p)
+{
+    int dirx, diry;
+    g->draw();
+    mvprintw(0, 0, "Torch in which direction?");
+    InputEvent input = get_input();
+    get_direction(dirx, diry, input);
+    if (dirx == -2)
+    {
+        g->add_msg("Invalid direction.");
+        p->power_level += bionics["bio_lighter"]->power_cost;
+        return;
+    }
+    dirx += p->posx;
+    diry += p->posy;
+    if (!g->m.add_field(g, dirx, diry, fd_fire, 1))	// Unsuccessful.
+    {
+        g->add_msg("You can't light a fire there.");
+        p->power_level += bionics["bio_lighter"]->power_cost;
+    }
+}
+
+void bio_activate_claws(game *g, player *p)
+{
+    if (p->weapon.type->id == "bio_claws_weapon")
+    {
+        g->add_msg("You withdraw your claws.");
+        p->weapon = p->ret_null;
+    }
+    else if (p->weapon.type->id != "null")
+    {
+        g->add_msg("Your claws extend, forcing you to drop your %s.",
+                   p->weapon.tname().c_str());
+        g->m.add_item(p->posx, p->posy, p->weapon);
+        p->weapon = item(g->itypes["bio_claws_weapon"], 0);
+        p->weapon.invlet = '#';
+    }
+    else
+    {
+        g->add_msg("Your claws extend!");
+        p->weapon = item(g->itypes["bio_claws_weapon"], 0);
+        p->weapon.invlet = '#';
+    }
+}
+
+void bio_activate_shoot(game *g, player *p, itype_id gun_id, itype_id ammo_id)
+{
+    item tmp_item = p->weapon;
+    p->weapon = item(g->itypes[gun_id], 0);
+    p->weapon.curammo = dynamic_cast<it_ammo*>(g->itypes[ammo_id]);
+    p->weapon.charges = 1;
+    g->refresh_all();
+    g->plfire(false);
+    p->weapon = tmp_item;
+}
+
+void bio_activate_emp(game *g, player *p)
+{
+    int dirx, diry;
+    g->draw();
+    mvprintw(0, 0, "Fire EMP in which direction?");
+    InputEvent input = get_input();
+    get_direction(dirx, diry, input);
+    if (dirx == -2)
+    {
+        g->add_msg("Invalid direction.");
+        p->power_level += bionics["bio_emp"]->power_cost;
+        return;
+    }
+    dirx += p->posx;
+    diry += p->posy;
+    g->emp_blast(dirx, diry);
+}
+
+void bio_activate_water_extractor(game *g, player *p)
+{
+    for (int i = 0; i < g->m.i_at(p->posx, p->posy).size(); ++i )
+    {
+        item tmp = g->m.i_at(p->posx, p->posy)[i];
+        if (tmp.type->id == "corpse" && query_yn("Extract water from the %s",
+                                                  tmp.tname().c_str()))
+        {
+            i = g->m.i_at(p->posx, p->posy).size() + 1;	// Loop is finished
+            pour_water_from_bionics(g, p, bionics["bio_water_extractor"]->power_cost);
+        }
+        if (i == g->m.i_at(p->posx, p->posy).size() - 1)	// We never chose a corpse
+        {
+            p->power_level += bionics["bio_water_extractor"]->power_cost;
+        }
+    }
+}
+
+void bio_activate_magnet(game *g, player *p)
+{
+    std::string junk;
+    std::vector<point> traj;
+    int t;
+    for (int i = p->posx - 10; i <= p->posx + 10; i++)
+    {
+        for (int j = p->posy - 10; j <= p->posy + 10; j++)
+        {
+            if (g->m.i_at(i, j).size() > 0)
+            {
+                if (g->m.sees(i, j, p->posx, p->posy, -1, t))
+                {
+                    traj = line_to(i, j, p->posx, p->posy, t);
+                }
+                else
+                {
+                    traj = line_to(i, j, p->posx, p->posy, 0);
+                }
+            }
+            traj.insert(traj.begin(), point(i, j));
+            for (int k = 0; k < g->m.i_at(i, j).size(); k++)
+            {
+                if (g->m.i_at(i, j)[k].made_of(IRON) || g->m.i_at(i, j)[k].made_of(STEEL)){
+                    item tmp_item = g->m.i_at(i, j)[k];
+                    g->m.i_rem(i, j, k);
+	                int l;
+                    for (l = 0; l < traj.size(); l++)
+                    {
+                        int index = g->mon_at(traj[l].x, traj[l].y);
+                        if (index != -1)
+                        {
+                            if (g->z[index].hurt(tmp_item.weight() * 2))
+                            {
+                                g->kill_mon(index, true);
+                            }
+                            g->m.add_item(traj[l].x, traj[l].y, tmp_item);
+                            l = traj.size() + 1;
+                        }
+                        else if (l > 0 && g->m.move_cost(traj[l].x, traj[l].y) == 0)
+                        {
+                            g->m.bash(traj[l].x, traj[l].y, tmp_item.weight() * 2, junk);
+                            g->sound(traj[l].x, traj[l].y, 12, junk);
+                            if (g->m.move_cost(traj[l].x, traj[l].y) == 0)
+                            {
+                                g->m.add_item(traj[l - 1].x, traj[l - 1].y, tmp_item);
+                                l = traj.size() + 1;
+                            }
+                        }
+                    }
+                    if (l == traj.size())
+                    {
+                        g->m.add_item(p->posx, p->posy, tmp_item);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void bio_activate_lockpick(game *g, player *p)
+{
+    int dirx, diry;
+    g->draw();
+    mvprintw(0, 0, "Unlock in which direction?");
+    InputEvent input = get_input();
+    get_direction(dirx, diry, input);
+    if (dirx == -2)
+    {
+        g->add_msg("Invalid direction.");
+        p->power_level += bionics["bio_lockpick"]->power_cost;
+        return;
+    }
+    dirx += p->posx;
+    diry += p->posy;
+    if (g->m.ter(dirx, diry) == t_door_locked)
+    {
+        p->moves -= 40;
+        g->add_msg("You unlock the door.");
+        g->m.ter_set(dirx, diry, t_door_c);
+    }
+    else
+    {
+        g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
+        p->power_level += bionics["bio_lockpick"]->power_cost;
+    }
 }
 
 // Why put this in a Big Switch?  Why not let bionics have pointers to
@@ -192,285 +587,42 @@ void player::activate_bionic(int b, game *g)
   power_level -= power_cost;
  }
 
- std::string junk;
- std::vector<point> traj;
- std::vector<std::string> good;
- std::vector<std::string> bad;
- WINDOW* w;
- int dirx, diry, t, l, index;
- InputEvent input;
- item tmp_item;
-
  if(bio.id == "bio_painkiller"){
-  pkill += 6;
-  pain -= 2;
-  if (pkill > pain)
-   pkill = pain;
+  bio_activate_painkiller(this);
  } else if (bio.id == "bio_nanobots"){
   healall(4);
  } else if (bio.id == "bio_resonator"){
-  g->sound(posx, posy, 30, "VRRRRMP!");
-  for (int i = posx - 1; i <= posx + 1; i++) {
-   for (int j = posy - 1; j <= posy + 1; j++) {
-    g->m.bash(i, j, 40, junk);
-    g->m.bash(i, j, 40, junk);	// Multibash effect, so that doors &c will fall
-    g->m.bash(i, j, 40, junk);
-    if (g->m.is_destructable(i, j) && rng(1, 10) >= 4)
-     g->m.ter_set(i, j, t_rubble);
-   }
-  }
+  bio_activate_resonator(g, this);
  } else if (bio.id == "bio_time_freeze"){
-  moves += 100 * power_level;
-  power_level = 0;
-  g->add_msg("Your speed suddenly increases!");
-  if (one_in(3)) {
-   g->add_msg("Your muscles tear with the strain.");
-   hurt(g, bp_arms, 0, rng(5, 10));
-   hurt(g, bp_arms, 1, rng(5, 10));
-   hurt(g, bp_legs, 0, rng(7, 12));
-   hurt(g, bp_legs, 1, rng(7, 12));
-   hurt(g, bp_torso, 0, rng(5, 15));
-  }
-  if (one_in(5))
-   add_disease(DI_TELEGLOW, rng(50, 400), g);
+  bio_activate_time_freeze(g, this);
  } else if (bio.id == "bio_teleport"){
   g->teleport();
   add_disease(DI_TELEGLOW, 300, g);
  }
-// TODO: More stuff here (and bio_blood_filter)
  else if(bio.id == "bio_blood_anal"){
-  w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 10+((TERMX > 80) ? (TERMX-80)/2 : 0));
-  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-  if (has_disease(DI_FUNGUS))
-   bad.push_back("Fungal Parasite");
-  if (has_disease(DI_DERMATIK))
-   bad.push_back("Insect Parasite");
-  if (has_disease(DI_POISON))
-   bad.push_back("Poison");
-  if (radiation > 0)
-   bad.push_back("Irradiated");
-  if (has_disease(DI_PKILL1))
-   good.push_back("Minor Painkiller");
-  if (has_disease(DI_PKILL2))
-   good.push_back("Moderate Painkiller");
-  if (has_disease(DI_PKILL3))
-   good.push_back("Heavy Painkiller");
-  if (has_disease(DI_PKILL_L))
-   good.push_back("Slow-Release Painkiller");
-  if (has_disease(DI_DRUNK))
-   good.push_back("Alcohol");
-  if (has_disease(DI_CIG))
-   good.push_back("Nicotine");
-  if (has_disease(DI_HIGH))
-   good.push_back("Intoxicant: Other");
-  if (has_disease(DI_TOOK_PROZAC))
-   good.push_back("Prozac");
-  if (has_disease(DI_TOOK_FLUMED))
-   good.push_back("Antihistamines");
-  if (has_disease(DI_ADRENALINE))
-   good.push_back("Adrenaline Spike");
-  if (good.size() == 0 && bad.size() == 0)
-   mvwprintz(w, 1, 1, c_white, "No effects.");
-  else {
-   for (int line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
-    if (line <= bad.size())
-     mvwprintz(w, line, 1, c_red, bad[line - 1].c_str());
-    else
-     mvwprintz(w, line, 1, c_green, good[line - 1 - bad.size()].c_str());
-   }
-  }
-  wrefresh(w);
-  refresh();
-  getch();
-  delwin(w);
+  bio_activate_blood_anal(g, this);
  } else if(bio.id == "bio_blood_filter"){
-  rem_disease(DI_FUNGUS);
-  rem_disease(DI_POISON);
-  rem_disease(DI_PKILL1);
-  rem_disease(DI_PKILL2);
-  rem_disease(DI_PKILL3);
-  rem_disease(DI_PKILL_L);
-  rem_disease(DI_DRUNK);
-  rem_disease(DI_CIG);
-  rem_disease(DI_HIGH);
-  rem_disease(DI_TOOK_PROZAC);
-  rem_disease(DI_TOOK_FLUMED);
-  rem_disease(DI_ADRENALINE);
+  bio_activate_blood_filter(this);
  } else if(bio.id == "bio_evap"){
-  if (query_yn("Drink directly? Otherwise you will need a container.")) {
-   tmp_item = item(g->itypes["water_clean"], 0);
-   thirst -= 50;
-   if (has_trait(PF_GOURMAND) && thirst < -60) {
-     g->add_msg("You can't finish it all!");
-     thirst = -60;
-   } else if (!has_trait(PF_GOURMAND) && thirst < -20) {
-     g->add_msg("You can't finish it all!");
-     thirst = -20;
-   }
-  } else {
-   t = g->inv("Choose a container:");
-   if (i_at(t).type == 0) {
-    g->add_msg("You don't have that item!");
-    power_level += bionics["bio_evap"]->power_cost;
-   } else if (!i_at(t).is_container()) {
-    g->add_msg("That %s isn't a container!", i_at(t).tname().c_str());
-    power_level += bionics["bio_evap"]->power_cost;
-   } else {
-    it_container *cont = dynamic_cast<it_container*>(i_at(t).type);
-    if (i_at(t).volume_contained() + 1 > cont->contains) {
-     g->add_msg("There's no space left in your %s.", i_at(t).tname().c_str());
-     power_level += bionics["bio_evap"]->power_cost;
-    } else if (!(cont->flags & con_wtight)) {
-     g->add_msg("Your %s isn't watertight!", i_at(t).tname().c_str());
-     power_level += bionics["bio_evap"]->power_cost;
-    } else {
-     g->add_msg("You pour water into your %s.", i_at(t).tname().c_str());
-     i_at(t).put_in(item(g->itypes["water_clean"], 0));
-    }
-   }
-  }
+  bio_activate_evaporator(g, this);
  } else if(bio.id == "bio_lighter"){
-  g->draw();
-  mvprintw(0, 0, "Torch in which direction?");
-  input = get_input();
-  get_direction(dirx, diry, input);
-  if (dirx == -2) {
-   g->add_msg("Invalid direction.");
-   power_level += bionics["bio_lighter"]->power_cost;
-   return;
-  }
-  dirx += posx;
-  diry += posy;
-  if (!g->m.add_field(g, dirx, diry, fd_fire, 1))	// Unsuccessful.
-   g->add_msg("You can't light a fire there.");
+  bio_activate_lighter(g, this);
  } else if(bio.id == "bio_claws"){
-  if (weapon.type->id == "bio_claws_weapon") {
-   g->add_msg("You withdraw your claws.");
-   weapon = ret_null;
-  } else if(weapon.type->id != "null"){
-   g->add_msg("Your claws extend, forcing you to drop your %s.",
-              weapon.tname().c_str());
-   g->m.add_item(posx, posy, weapon);
-   weapon = item(g->itypes["bio_claws_weapon"], 0);
-   weapon.invlet = '#';
-  } else {
-   g->add_msg("Your claws extend!");
-   weapon = item(g->itypes["bio_claws_weapon"], 0);
-   weapon.invlet = '#';
-  }
+  bio_activate_claws(g, this);
  } else if(bio.id == "bio_blaster"){
-  tmp_item = weapon;
-  weapon = item(g->itypes["bio_blaster_gun"], 0);
-  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["bio_fusion_ammo"]);
-  weapon.charges = 1;
-  g->refresh_all();
-  g->plfire(false);
-  weapon = tmp_item;
+  bio_activate_shoot(g, this, "bio_blaster_gun", "bio_fusion_ammo");
  } else if (bio.id == "bio_laser"){
-  tmp_item = weapon;
-  weapon = item(g->itypes["v29"], 0);
-  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["laser_pack"]);
-  weapon.charges = 1;
-  g->refresh_all();
-  g->plfire(false);
-  weapon = tmp_item;
+  bio_activate_shoot(g, this, "v29", "laser_pack");
  } else if (bio.id == "bio_emp"){
-  g->draw();
-  mvprintw(0, 0, "Fire EMP in which direction?");
-  input = get_input();
-  get_direction(dirx, diry, input);
-  if (dirx == -2) {
-   g->add_msg("Invalid direction.");
-   power_level += bionics["bio_emp"]->power_cost;
-   return;
-  }
-  dirx += posx;
-  diry += posy;
-  g->emp_blast(dirx, diry);
+  bio_activate_emp(g, this);
  } else if (bio.id == "bio_hydraulics"){
-  g->add_msg("Your muscles hiss as hydraulic strength fills them!");
+  g->add_msg("Your muscles hiss as hydraulic strength fills them!"); // does this do anything?
  } else if (bio.id == "bio_water_extractor"){
-  for (int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
-   item tmp = g->m.i_at(posx, posy)[i];
-   if (tmp.type->id == "corpse" && query_yn("Extract water from the %s",
-                                              tmp.tname().c_str())) {
-    i = g->m.i_at(posx, posy).size() + 1;	// Loop is finished
-    t = g->inv("Choose a container:");
-    if (i_at(t).type == 0) {
-     g->add_msg("You don't have that item!");
-     power_level += bionics["bio_water_extractor"]->power_cost;
-    } else if (!i_at(t).is_container()) {
-     g->add_msg("That %s isn't a container!", i_at(t).tname().c_str());
-     power_level += bionics["bio_water_extractor"]->power_cost;
-    } else {
-     it_container *cont = dynamic_cast<it_container*>(i_at(t).type);
-     if (i_at(t).volume_contained() + 1 > cont->contains) {
-      g->add_msg("There's no space left in your %s.", i_at(t).tname().c_str());
-      power_level += bionics["bio_water_extractor"]->power_cost;
-     } else {
-      g->add_msg("You pour water into your %s.", i_at(t).tname().c_str());
-      i_at(t).put_in(item(g->itypes["water"], 0));
-     }
-    }
-   }
-   if (i == g->m.i_at(posx, posy).size() - 1)	// We never chose a corpse
-    power_level += bionics["bio_water_extractor"]->power_cost;
-  }
+  bio_activate_water_extractor(g, this);
  } else if(bio.id == "bio_magnet"){
-  for (int i = posx - 10; i <= posx + 10; i++) {
-   for (int j = posy - 10; j <= posy + 10; j++) {
-    if (g->m.i_at(i, j).size() > 0) {
-     if (g->m.sees(i, j, posx, posy, -1, t))
-      traj = line_to(i, j, posx, posy, t);
-     else
-      traj = line_to(i, j, posx, posy, 0);
-    }
-    traj.insert(traj.begin(), point(i, j));
-    for (int k = 0; k < g->m.i_at(i, j).size(); k++) {
-     if (g->m.i_at(i, j)[k].made_of(IRON) || g->m.i_at(i, j)[k].made_of(STEEL)){
-      tmp_item = g->m.i_at(i, j)[k];
-      g->m.i_rem(i, j, k);
-      for (l = 0; l < traj.size(); l++) {
-       index = g->mon_at(traj[l].x, traj[l].y);
-       if (index != -1) {
-        if (g->z[index].hurt(tmp_item.weight() * 2))
-         g->kill_mon(index, true);
-        g->m.add_item(traj[l].x, traj[l].y, tmp_item);
-        l = traj.size() + 1;
-       } else if (l > 0 && g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-        g->m.bash(traj[l].x, traj[l].y, tmp_item.weight() * 2, junk);
-        g->sound(traj[l].x, traj[l].y, 12, junk);
-        if (g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-         g->m.add_item(traj[l - 1].x, traj[l - 1].y, tmp_item);
-         l = traj.size() + 1;
-        }
-       }
-      }
-      if (l == traj.size())
-       g->m.add_item(posx, posy, tmp_item);
-     }
-    }
-   }
-  }
+  bio_activate_magnet(g, this);
  } else if(bio.id == "bio_lockpick"){
-  g->draw();
-  mvprintw(0, 0, "Unlock in which direction?");
-  input = get_input();
-  get_direction(dirx, diry, input);
-  if (dirx == -2) {
-   g->add_msg("Invalid direction.");
-   power_level += bionics["bio_lockpick"]->power_cost;
-   return;
-  }
-  dirx += posx;
-  diry += posy;
-  if (g->m.ter(dirx, diry) == t_door_locked) {
-   moves -= 40;
-   g->add_msg("You unlock the door.");
-   g->m.ter_set(dirx, diry, t_door_c);
-  } else
-   g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
+  bio_activate_lockpick(g, this);
  }
 }
 
@@ -515,9 +667,9 @@ bool player::install_bionics(game *g, it_bionic* type)
 
 // Init the list of bionics
  for (int i = 1; i < type->options.size(); i++) {
-  bionic_id id = type->options[i];
-  mvwprintz(w, i + 3, 1, (has_bionic(id) ? c_ltred : c_ltblue),
-            bionics[id]->name.c_str());
+  bionic_id bio_id = type->options[i];
+  mvwprintz(w, i + 3, 1, (has_bionic(bio_id) ? c_ltred : c_ltblue),
+            bionics[bio_id]->name.c_str());
  }
 // Helper text
  mvwprintz(w, 3, 39, c_white,        "Difficulty of this module: %d",
@@ -597,14 +749,14 @@ charge mechanism, which must be installed from another CBM.", pow_up);
 
  do {
 
-  bionic_id id = type->options[selection];
-  mvwprintz(w, 3 + selection, 1, (has_bionic(id) ? h_ltred : h_ltblue),
-            bionics[id]->name.c_str());
+  bionic_id bio_id = type->options[selection];
+  mvwprintz(w, 3 + selection, 1, (has_bionic(bio_id) ? h_ltred : h_ltblue),
+            bionics[bio_id]->name.c_str());
 
 // Clear the bottom three lines...
   werase(w_description);
 // ...and then fill them with the description of the selected bionic
-  mvwprintz(w_description, 0, 0, c_ltblue, bionics[id]->description.c_str());
+  mvwprintz(w_description, 0, 0, c_ltblue, bionics[bio_id]->description.c_str());
 
   wrefresh(w_description);
   wrefresh(w);
@@ -612,8 +764,8 @@ charge mechanism, which must be installed from another CBM.", pow_up);
   switch (input) {
 
   case DirectionS:
-   mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
-             bionics[id]->name.c_str());
+   mvwprintz(w, 2 + selection, 0, (has_bionic(bio_id) ? c_ltred : c_ltblue),
+             bionics[bio_id]->name.c_str());
    if (selection == type->options.size() - 1)
     selection = 0;
    else
@@ -621,8 +773,8 @@ charge mechanism, which must be installed from another CBM.", pow_up);
    break;
 
   case DirectionN:
-   mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
-             bionics[id]->name.c_str());
+   mvwprintz(w, 2 + selection, 0, (has_bionic(bio_id) ? c_ltred : c_ltblue),
+             bionics[bio_id]->name.c_str());
    if (selection == 0)
     selection = type->options.size() - 1;
    else
@@ -630,8 +782,8 @@ charge mechanism, which must be installed from another CBM.", pow_up);
    break;
 
   }
-  if (input == Confirm && has_bionic(id)) {
-   popup("You already have a %s!", bionics[id]->name.c_str());
+  if (input == Confirm && has_bionic(bio_id)) {
+   popup("You already have a %s!", bionics[bio_id]->name.c_str());
    input = Nothing;
   }
  } while (input != Cancel && input != Confirm);
@@ -640,11 +792,11 @@ charge mechanism, which must be installed from another CBM.", pow_up);
    practice(g->turn, "electronics", (100 - chance_of_success) * 1.5);
    practice(g->turn, "firstaid", (100 - chance_of_success) * 1.0);
    practice(g->turn, "mechanics", (100 - chance_of_success) * 0.5);
-  bionic_id id = type->options[selection];
+  bionic_id bio_id = type->options[selection];
   int success = chance_of_success - rng(1, 100);
   if (success > 0) {
-   g->add_msg("Successfully installed %s.", bionics[id]->name.c_str());
-   add_bionic(id);
+   g->add_msg("Successfully installed %s.", bionics[bio_id]->name.c_str());
+   add_bionic(bio_id);
   } else
    bionics_install_failure(g, this, success);
   werase(w);
@@ -716,7 +868,7 @@ void bionics_install_failure(game *g, player *u, int success)
    failure_level -= rng(1, failure_level + 2);
   }
   return;	// So the failure text doesn't show up twice
-  break;
+  // no need for a break, because we've returned already
 
  case 5:
  {
@@ -741,6 +893,7 @@ void bionics_install_failure(game *g, player *u, int success)
   break;
  }
 
+ // not required in the case of mutation, because we emitted the message already
  g->add_msg(fail_text.c_str());
 
 }

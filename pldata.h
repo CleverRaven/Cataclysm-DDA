@@ -73,7 +73,7 @@ enum dis_type {
 enum add_type {
  ADD_NULL,
  ADD_CAFFEINE, ADD_ALCOHOL, ADD_SLEEP, ADD_PKILLER, ADD_SPEED, ADD_CIG,
- ADD_COKE, ADD_CRACK,
+ ADD_COKE, ADD_CRACK
 };
 
 struct disease
@@ -135,7 +135,7 @@ struct player_activity
   placement = copy.placement;
   continuous = copy.continuous;
   values.clear();
-  for (int i = 0; i < copy.values.size(); i++)
+  for (unsigned int i = 0; i < copy.values.size(); i++)
    values.push_back(copy.values[i]);
  }
 
@@ -144,7 +144,7 @@ struct player_activity
   std::stringstream ret;
   ret << type << " " << moves_left << " " << index << " " << invlet << " " << placement.x <<
          " " << placement.y << " " << values.size();
-  for (int i = 0; i < values.size(); i++)
+  for (unsigned int i = 0; i < values.size(); i++)
    ret << " " << values[i];
 
   return ret.str();

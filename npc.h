@@ -138,7 +138,7 @@ struct npc_favor
   value = 0;
   item_id = "null";
   skill = NULL;
- };
+ }
 
 };
 
@@ -153,7 +153,7 @@ struct npc_personality {
   bravery    = 0;
   collector  = 0;
   altruism   = 0;
- };
+ }
 };
 
 struct npc_opinion
@@ -176,9 +176,9 @@ struct npc_opinion
   value = 0;
   anger = 0;
   owed = 0;
- };
+ }
  npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
-             trust (T), fear (F), value (V), anger(A), owed (O) { };
+             trust (T), fear (F), value (V), anger(A), owed (O) { }
 
  npc_opinion(const npc_opinion &copy)
  {
@@ -188,9 +188,9 @@ struct npc_opinion
   anger = copy.anger;
   owed = copy.owed;
   favors.clear();
-  for (int i = 0; i < copy.favors.size(); i++)
+  for (unsigned int i = 0; i < copy.favors.size(); i++)
    favors.push_back( copy.favors[i] );
- };
+ }
 
  npc_opinion& operator+= (npc_opinion &rhs)
  {
@@ -200,7 +200,7 @@ struct npc_opinion
   anger += rhs.anger;
   owed  += rhs.owed;
   return *this;
- };
+ }
 
 /*
  npc_opinion& operator+= (npc_opinion rhs)
@@ -217,14 +217,14 @@ struct npc_opinion
  npc_opinion& operator+ (npc_opinion &rhs)
  {
   return (npc_opinion(*this) += rhs);
- };
+ }
 
  std::string save_info()
  {
   std::stringstream ret;
   ret << trust << " " << fear << " " << value << " " << anger << " " << owed <<
          " " << favors.size();
-  for (int i = 0; i < favors.size(); i++)
+  for (unsigned int i = 0; i < favors.size(); i++)
     ret << " " << int(favors[i].type) << " " << favors[i].value << " " <<
       favors[i].item_id << " " << favors[i].skill->id();
   return ret.str();
@@ -236,12 +236,13 @@ struct npc_opinion
   info >> trust >> fear >> value >> anger >> owed >> tmpsize;
   for (int i = 0; i < tmpsize; i++) {
    int tmptype, tmpskill;
+   // can tmpskill be made a size_t? Don't want to mess with reading from the stream so didn't change it and just cast later.
    std::string tmpitem;
    npc_favor tmpfavor;
    info >> tmptype >> tmpfavor.value >> tmpitem >> tmpskill;
    tmpfavor.type = npc_favor_type(tmptype);
    tmpfavor.item_id = tmpitem;
-   tmpfavor.skill = Skill::skill(tmpskill);
+   tmpfavor.skill = Skill::skill(static_cast<size_t>(tmpskill)); // see comment a few lines up
    favors.push_back(tmpfavor);
   }
  }
@@ -268,7 +269,7 @@ struct npc_combat_rules
   use_guns = true;
   use_grenades = true;
   use_silent = false;
- };
+ }
 
  std::string save_info()
  {
@@ -370,9 +371,9 @@ struct npc_chatbin
   std::stringstream ret;
   ret << first_topic << " " << mission_selected << " " << tempvalue << " " <<
           missions.size() << " " << missions_assigned.size();
-  for (int i = 0; i < missions.size(); i++)
+  for (unsigned int i = 0; i < missions.size(); i++)
    ret << " " << missions[i];
-  for (int i = 0; i < missions_assigned.size(); i++)
+  for (unsigned int i = 0; i < missions_assigned.size(); i++)
    ret << " " << missions_assigned[i];
   return ret.str();
  }

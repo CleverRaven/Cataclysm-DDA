@@ -64,9 +64,9 @@ struct computer_option
  computer_action action;
  int security;
 
- computer_option() { name = "Unknown", action = COMPACT_NULL, security = 0; };
+ computer_option() { name = "Unknown", action = COMPACT_NULL, security = 0; }
  computer_option(std::string N, computer_action A, int S) :
-   name (N), action (A), security (S) {};
+   name (N), action (A), security (S) {}
 };
 
 class computer

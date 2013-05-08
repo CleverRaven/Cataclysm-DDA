@@ -45,7 +45,7 @@ enum weather_type {
 
 struct weather_effect
 {
- void none		(game *) {};
+ void none		(game *) {}
  void glare		(game *);
  void wet		(game *);
  void very_wet		(game *);
@@ -53,9 +53,9 @@ struct weather_effect
  void lightning		(game *);
  void light_acid	(game *);
  void acid		(game *);
- void flurry		(game *) {};
- void snow		(game *) {};
- void snowstorm		(game *) {};
+ void flurry		(game *) {}
+ void snow		(game *) {}
+ void snowstorm		(game *) {}
 };
 
 // All the weather conditions at some time

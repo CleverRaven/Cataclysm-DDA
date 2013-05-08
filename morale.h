@@ -53,7 +53,7 @@ struct morale_point
  int bonus;
 
  morale_point(morale_type T = MORALE_NULL, itype* I = NULL, int B = 0) :
-              type (T), item_type (I), bonus (B) {};
+              type (T), item_type (I), bonus (B) {}
 
  std::string name(std::string morale_data[])
  {

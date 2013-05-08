@@ -69,7 +69,6 @@ private:
     std::vector<int> need_repair;
     std::vector<int> parts_here;
     int ptank;
-    bool obstruct;
     bool has_fuel;
 public:
     veh_interact ();

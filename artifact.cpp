@@ -352,6 +352,17 @@ std::string artifact_noun[NUM_ART_NOUNS] = {
 
 std::string artifact_name(std::string type);
 
+// A few cases of adding a (signed, often negative) weight or volume to an artiact volume, presumably
+// to modify a "base" case. However, this could underflow (i.e. say that the base weight was 4, the
+// modifier was -8, then since this is stored as unsigned, that'd wind up with a weight of 4,294,967,292.
+// PROBABLY not what was wanted! Min-cap to 0.
+unsigned int add_artifact_vol_wt(unsigned int base,int modifier)
+{
+	int final=static_cast<int>(base)+modifier;
+	if(final<0)final=0;
+	return static_cast<unsigned int>(final);
+}
+
 itype* game::new_artifact()
 {
  if (one_in(2)) { // Generate a "tool" artifact
@@ -378,8 +389,8 @@ itype* game::new_artifact()
    int select = rng(0, 2);
    if (info->extra_weapons[select] != ARTWEAP_NULL) {
     weapon = &(artifact_weapon_data[ info->extra_weapons[select] ]);
-    art->volume += weapon->volume;
-    art->weight += weapon->weight;
+    art->volume = add_artifact_vol_wt(art->volume, weapon->volume);
+    art->weight = add_artifact_vol_wt(art->weight, weapon->weight);
     art->melee_dam += rng(weapon->bash_min, weapon->bash_max);
     art->melee_cut += rng(weapon->bash_min, weapon->bash_max);
     art->m_to_hit += rng(weapon->to_hit_min, weapon->to_hit_max);
@@ -481,7 +492,12 @@ It may have unknown powers; use 'a' to activate them.";
   if (one_in(8) && num_bad + num_good >= 4)
    art->charge_type = ARTC_NULL; // 1 in 8 chance that it can't recharge!
 
-  art->id = itypes.size();
+  // OLD CODE: art->id = itypes.size();
+  // Should be the string "artifact" followed by itypes.size()
+  std::stringstream tmp;
+  tmp << "artifact" << itypes.size();
+  art->id = tmp.str();
+
   itypes[art->name]=art;
   return art;
 
@@ -496,7 +512,7 @@ It may have unknown powers; use 'a' to activate them.";
   art->color = info->color;
   art->m1 = info->m1;
   art->m2 = info->m2;
-  art->volume = info->volume;
+  art->volume = info->volume; // looks like all the current ones are positive
   art->weight = info->weight;
   art->melee_dam = info->melee_bash;
   art->melee_cut = info->melee_cut;
@@ -521,12 +537,12 @@ It may have unknown powers; use 'a' to activate them.";
     artifact_armor_mod mod = info->available_mods[index];
     artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
     if (modinfo->volume >= 0 || art->volume > abs(modinfo->volume))
-     art->volume += modinfo->volume;
+     art->volume = add_artifact_vol_wt(art->volume, modinfo->volume);
     else
      art->volume = 1;
 
     if (modinfo->weight >= 0 || art->weight > abs(modinfo->weight))
-     art->weight += modinfo->weight;
+     art->weight = add_artifact_vol_wt(art->weight, modinfo->weight);
     else
      art->weight = 1;
 
@@ -584,8 +600,13 @@ It may have unknown powers; use 'a' to activate them.";
    value += passive_effect_cost[passive_tmp];
    art->effects_worn.push_back(passive_tmp);
   }
+	 
+  // OLD CODE: art->id = itypes.size();
+  // Should be the string "artifact" followed by itypes.size()
+  std::stringstream tmp;
+  tmp << "artifact" << itypes.size();
+  art->id = tmp.str();
 
-  art->id = itypes.size();
   itypes[art->name]=art;
   return art;
  }
@@ -699,7 +720,12 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
   art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
  }
 
- art->id = itypes.size();
+  // OLD CODE: art->id = itypes.size();
+  // Should be the string "artifact" followed by itypes.size()
+  std::stringstream tmp;
+  tmp << "artifact" << itypes.size();
+  art->id = tmp.str();
+
  itypes[art->name]=art;
  return art;
 }

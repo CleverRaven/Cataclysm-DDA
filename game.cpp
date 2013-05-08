@@ -3134,6 +3134,7 @@ void game::draw_minimap()
     dbg(D_ERROR) << "game:draw_minimap: No data loaded! omx: "
                  << omx << " omy: " << omy;
     debugmsg("No data loaded! omx: %d omy: %d", omx, omy);
+	break;
    }
    nc_color ter_color = oterlist[cur_ter].color;
    long ter_sym = oterlist[cur_ter].sym;
@@ -3942,7 +3943,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
  int radius = sqrt(double(power / 4));
  int dam;
  std::string junk;
- int noise = power * fire ? 2 : 10;
+ int noise = power * (fire ? 2 : 10);
 
  if (power >= 30)
   sound(x, y, noise, "a huge explosion!");

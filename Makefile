@@ -24,6 +24,12 @@
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
 WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
+
+ifeq ($(CXX), clang++)
+	WARNINGS += -Wno-global-constructors -Wno-exit-time-destructors -Wno-variadic-macros -Wno-padded -Wno-weak-vtables -Wno-switch-enum -Wno-missing-prototypes -Wno-error=long-long -Wno-error=float-equal -Wno-error=unreachable-code -Wno-format-nonliteral
+# FIX: padded, weak-vtables, unreachable code
+endif
+
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUG = -g
@@ -59,8 +65,14 @@ W32ODIR = objwin
 DDIR = .deps
 
 OS  = $(shell uname -o)
-CXX = $(CROSS)g++
-LD  = $(CROSS)g++
+
+ifeq ($(CXX), clang++)
+	CXX = $(CROSS)clang++
+	LD  = $(CROSS)clang++
+else
+	CXX = $(CROSS)g++
+	LD  = $(CROSS)g++
+endif
 
 # enable optimizations. slow to build
 ifdef RELEASE
