@@ -791,6 +791,109 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   query_any("Press any key to continue...");
   reset_terminal();
   break;
+  
+  case COMPACT_SRCF_1_MESS:
+  reset_terminal();
+  print_line(" Subj: EPA: Report All Potential Containment Breaches 3873643\n\
+  To: all SRCF staff\n\
+  From:  Robert Shane, Director of the EPA\n\
+  \n\
+  All hazardous waste dumps and sarcouphagi must submit three\n\
+  samples from each operational leache system to the following\n\
+  addresses:\n\
+  \n\
+  CDC Bioterrism Lab \n\
+  Building 10\n\
+  Corporate Square Boulevard\n\
+  Atlanta, GA 30329\n\
+  \n\
+  EPA Region 8 Laboratory\n\
+  16194 W. 45th\n\
+  Drive Golden, Colorado 80403\n\
+  \n\
+  These samples must be accurate and any attempts to cover\n\
+  incompetencies will resault in charges of Federal Corrution\n\
+  and potentially Treason.\n\
+  \n\
+  Director of the EPA,\n\
+  Robert Shane\n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+
+  case COMPACT_SRCF_2_MESS:
+  reset_terminal();
+  print_line(" Subj: CDC: Internal Memo, EPA [2918024]\n\
+  To: all SRCF admin staff\n\
+  From:  Constantine Dvorak, Undersecretary of Nuclear Security\n\
+  \n\
+  Director Grimes has released a new series of accusations that\n\
+  will soon be investigated by a Congressional committee.  Below\n\
+  is the message that he sent myself.\n\
+  \n\
+  --------------------------------------------------------------\n\
+  Subj: Congressional Investigations\n\
+  To: Constantine Dvorak, Undersecretary of Nuclear Safety\n\
+  From: Robert Shane, director of the EPA\n\
+  \n\
+      The EPA has opposed the Security-Restricted Containment\n\
+  Facility (SRCF) project from its inception.  We were horrified\n\
+  that these facilities would be constructed so close to populated\n\
+  areas, and only agreed to sign-off on the project if we were\n\
+  allowed to freely examine and monitor the sarcophagi.  But that\n\
+  has not happened.  Since then the DoE has employed any and all\n\
+  means to keep EPA agents from visiting the SRCFs, using military\n\
+  secrecy, emergency powers, and inter-departmental gag orders to\n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  print_line(" surround the project with an impenetrable thicket of red tape.\n\
+  \n\
+      Although our agents have not been allowed inside, our atmospheric\n\
+  testers in nearby communities have detected high levels of toxins\n\
+  and radiation, and we've found dozens of potentially dangerous\n\
+  unidentified compounds in the ground water.  We now have\n\
+  conclusive evidence that the SRCFs are a threat to the public\n\
+  safety.  We are taking these data to state representatives and\n\
+  petitioning for a full congressional inquiry.  They should be\n\
+  able to force open your secret vaults, and the world will see\n\
+  what you've been hiding.\n\
+  \n\
+  If you had any hand in this outbreak I hope you rot in hell.\n\
+  \n\
+  Director of the EPA,\n\
+  Robert Shane\n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+
+  case COMPACT_SRCF_3_MESS:
+  reset_terminal();
+  print_line(" Subj: CDC: Internal Memo, Standby [2918115]\n\
+  To: all SRCF staff\n\
+  From:  Ellen Grimes, Director of the EPA\n\
+  \n\
+      Your site along with many others has been found to be\n\
+  contaminated with what we will now refer to as [redracted].\n\
+  It is vital that you standby for further orders.  We are\n\
+  currently awaiting the President to decide our course of\n\
+  action in this national crisis.  You will proceed with fail-\n\
+  safe procedures and rig the sarcouphagus with c-4 as outlined\n\
+  in Publication 4423.  We will send you orders to either detonate\n\
+  and seal the sarcouphagus or remove the charges.  It is of\n\
+  upmost importance that the facility is sealed immediatly when\n\
+  the orders are given, we have been alerted by Homeland Security\n\
+  that there are potential terrorist suspects that are being\n\
+  detained in connection with the recent national crisis.\n\
+  \n\
+  Director of the CDC,\n\
+  Ellen Grimes\n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+  
  } // switch (action)
 }
 
