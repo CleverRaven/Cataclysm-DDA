@@ -2094,15 +2094,18 @@ void game::save_factions_missions_npcs ()
 
 void game::save_artifacts()
 {
-	std::ofstream fout;
-	if (artifact_itype_ids.size() > 0) {
-  fout.open("save/artifacts.gsav");
-		for ( std::vector<std::string>::iterator it = artifact_itype_ids.begin();
-   it != artifact_itype_ids.end(); ++it){
-   fout << itypes[*it]->save_data() << "\n";
-  }
-  fout.close();
- }
+    std::ofstream fout;
+    std::vector<picojson::value> artifacts;
+    fout.open("save/artifacts.gsav");
+    for ( std::vector<std::string>::iterator it =
+	      artifact_itype_ids.begin();
+	  it != artifact_itype_ids.end(); ++it)
+    {
+	artifacts.push_back(itypes[*it]->save_data());
+    }
+    picojson::value out = picojson::value(artifacts);
+    fout << out.serialize();
+    fout.close();
 }
 
 void game::save_maps()

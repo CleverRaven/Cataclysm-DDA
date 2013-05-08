@@ -12,6 +12,7 @@
 #include "skill.h"
 #include "bionics.h"
 #include "artifact.h"
+#include "picojson.h"
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -248,7 +249,7 @@ struct itype
  virtual bool is_engine()         { return false; }
  virtual bool is_wheel()          { return false; }
  virtual bool count_by_charges() { return false; }
- virtual std::string save_data() { return std::string(); }
+ virtual picojson::value save_data() { return picojson::value(); }
 
  void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
 
@@ -532,7 +533,7 @@ struct it_armor : public itype
  virtual bool is_armor() { return true; }
  virtual bool is_power_armor() { return power_armor; }
  virtual bool is_artifact() { return false; }
- virtual std::string save_data() { return std::string(); }
+ virtual picojson::value save_data() { return picojson::value(); }
 
  it_armor()
  {
@@ -640,7 +641,7 @@ struct it_tool : public itype
 
  virtual bool is_tool()          { return true; }
  virtual bool is_artifact()      { return false; }
- virtual std::string save_data() { return std::string(); }
+ virtual picojson::value save_data() { return picojson::value(); }
 
  it_tool()
  {
@@ -788,36 +789,70 @@ struct it_artifact_tool : public it_tool
  std::vector<art_effect_passive> effects_carried;
 
  virtual bool is_artifact()  { return true; }
- virtual std::string save_data()
+ virtual picojson::value save_data()
  {
-  std::stringstream data;
-  data << "T " << price << " " << sym << " " << color_to_int(color) << " " <<
-          int(m1) << " " << int(m2) << " " << int(volume) << " " <<
-          int(weight) << " " << int(melee_dam) << " " << int(melee_cut) <<
-          " " << int(m_to_hit) << " " << int(item_flags) << " " <<
-          int(charge_type) << " " << max_charges << " " <<
-          effects_wielded.size();
-  for (int i = 0; i < effects_wielded.size(); i++)
-   data << " " << int(effects_wielded[i]);
+     std::map<std::string, picojson::value> data;
 
-  data << " " << effects_activated.size();
-  for (int i = 0; i < effects_activated.size(); i++)
-   data << " " << int(effects_activated[i]);
+     data[std::string("type")] = picojson::value("artifact_tool");
 
-  data << " " << effects_carried.size();
-  for (int i = 0; i < effects_carried.size(); i++)
-   data << " " << int(effects_carried[i]);
+     // generic data
+     data[std::string("id")] = picojson::value(id);
+     data[std::string("price")] = picojson::value(price);
+     data[std::string("name")] = picojson::value(name);
+     data[std::string("description")] = picojson::value(description);
+     data[std::string("sym")] = picojson::value(sym);
+     data[std::string("color")] = picojson::value(color_to_int(color));
+     data[std::string("m1")] = picojson::value(m1);
+     data[std::string("m2")] = picojson::value(m2);
+     data[std::string("volume")] = picojson::value(volume);
+     data[std::string("weight")] = picojson::value(weight);
+     data[std::string("id")] = picojson::value(id);
+     data[std::string("melee_dam")] = picojson::value(melee_dam);
+     data[std::string("melee_cut")] = picojson::value(melee_cut);
+     data[std::string("m_to_hit")] = picojson::value(m_to_hit);
+     data[std::string("item_flags")] = picojson::value(item_flags);
+     data[std::string("techniques")] = picojson::value(techniques);
 
-  data << " " << name << " - ";
-  std::string desctmp = description;
-  size_t endline;
-  do {
-   endline = desctmp.find("\n");
-   if (endline != std::string::npos)
-    desctmp.replace(endline, 1, " = ");
-  } while (endline != std::string::npos);
-  data << desctmp << " -";
-  return data.str();
+     // tool data
+     data[std::string("ammo")] = picojson::value(ammo);
+     data[std::string("max_charges")] = picojson::value(max_charges);
+     data[std::string("def_charges")] = picojson::value(def_charges);
+     data[std::string("charged_per_use")] = picojson::value(charges_per_use);
+     data[std::string("turns_per_charge")] = picojson::value(turns_per_charge);
+     data[std::string("revert_to")] = picojson::value(revert_to);
+
+     // artifact data
+     data[std::string("charge_type")] = picojson::value(charge_type);
+
+     std::vector<picojson::value> effects_wielded_json;
+     for(std::vector<art_effect_passive>::iterator it = effects_wielded.begin();
+         it != effects_wielded.end(); ++it)
+     {
+         effects_wielded_json.push_back(picojson::value(*it));
+     }
+     data[std::string("effects_wielded")] =
+         picojson::value(effects_wielded_json);
+
+     std::vector<picojson::value> effects_activated_json;
+     for(std::vector<art_effect_active>::iterator it =
+             effects_activated.begin();
+         it != effects_activated.end(); ++it)
+     {
+         effects_activated_json.push_back(picojson::value(*it));
+     }
+     data[std::string("effects_activated")] =
+         picojson::value(effects_activated_json);
+
+     std::vector<picojson::value> effects_carried_json;
+     for(std::vector<art_effect_passive>::iterator it = effects_carried.begin();
+         it != effects_carried.end(); ++it)
+     {
+         effects_carried_json.push_back(picojson::value(*it));
+     }
+     data[std::string("effects_carried")] =
+         picojson::value(effects_carried_json);
+
+     return picojson::value(data);
  }
 
  it_artifact_tool() {
@@ -838,7 +873,10 @@ struct it_artifact_tool : public it_tool
 
 :it_tool(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
          pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
-         0, 0, 1, 0, AT_NULL, "null", &iuse::artifact) { };
+         0, 0, 1, 0, AT_NULL, "null", &iuse::artifact)
+ {
+     artifact_itype_ids.push_back(pid);
+ };
 };
 
 struct it_artifact_armor : public it_armor
@@ -847,31 +885,51 @@ struct it_artifact_armor : public it_armor
 
  virtual bool is_artifact()  { return true; }
 
- virtual std::string save_data()
+ virtual picojson::value save_data()
  {
-  std::stringstream data;
-  data << "A " << price << " " << sym << " " << color_to_int(color) << " " <<
-          int(m1) << " " << int(m2) << " " << int(volume) << " " <<
-          int(weight) << " " << int(melee_dam) << " " << int(melee_cut) <<
-          " " << int(m_to_hit) << " " << int(item_flags) << " " <<
-          int(covers) << " " << int(encumber) << " " << int(dmg_resist) <<
-          " " << int(cut_resist) << " " << int(env_resist) << " " <<
-          int(warmth) << " " << int(storage) << " " << effects_worn.size();
-  for (int i = 0; i < effects_worn.size(); i++)
-   data << " " << int(effects_worn[i]);
+     std::map<std::string, picojson::value> data;
 
-  data << " " << name << " - ";
-  std::string desctmp = description;
-  size_t endline;
-  do {
-   endline = desctmp.find("\n");
-   if (endline != std::string::npos)
-    desctmp.replace(endline, 1, " = ");
-  } while (endline != std::string::npos);
+     data[std::string("type")] = picojson::value("artifact_armor");
 
-  data << desctmp << " -";
+     // generic data
+     data[std::string("id")] = picojson::value(id);
+     data[std::string("price")] = picojson::value(price);
+     data[std::string("name")] = picojson::value(name);
+     data[std::string("description")] = picojson::value(description);
+     data[std::string("sym")] = picojson::value(sym);
+     data[std::string("color")] = picojson::value(color_to_int(color));
+     data[std::string("m1")] = picojson::value(m1);
+     data[std::string("m2")] = picojson::value(m2);
+     data[std::string("volume")] = picojson::value(volume);
+     data[std::string("weight")] = picojson::value(weight);
+     data[std::string("id")] = picojson::value(id);
+     data[std::string("melee_dam")] = picojson::value(melee_dam);
+     data[std::string("melee_cut")] = picojson::value(melee_cut);
+     data[std::string("m_to_hit")] = picojson::value(m_to_hit);
+     data[std::string("item_flags")] = picojson::value(item_flags);
+     data[std::string("techniques")] = picojson::value(techniques);
 
-  return data.str();
+     // armor data
+     data[std::string("covers")] = picojson::value(covers);
+     data[std::string("encumber")] = picojson::value(encumber);
+     data[std::string("dmg_resist")] = picojson::value(dmg_resist);
+     data[std::string("cut_resist")] = picojson::value(cut_resist);
+     data[std::string("env_resist")] = picojson::value(env_resist);
+     data[std::string("warmth")] = picojson::value(warmth);
+     data[std::string("storage")] = picojson::value(storage);
+     data[std::string("power_armor")] = picojson::value(power_armor);
+
+     // artifact data
+     std::vector<picojson::value> effects_worn_json;
+     for(std::vector<art_effect_passive>::iterator it = effects_worn.begin();
+         it != effects_worn.end(); ++it)
+     {
+         effects_worn_json.push_back(picojson::value(*it));
+     }
+     data[std::string("effects_worn")] =
+         picojson::value(effects_worn_json);
+
+     return picojson::value(data);
  }
 
  it_artifact_armor()
@@ -892,7 +950,10 @@ struct it_artifact_armor : public it_armor
 :it_armor(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
           pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
           pcovers, pencumber, pdmg_resist, pcut_resist, penv_resist, pwarmth,
-          pstorage) { };
+          pstorage)
+ {
+     artifact_itype_ids.push_back(pid);
+ };
 };
 
 #endif
