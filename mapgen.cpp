@@ -5799,7 +5799,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
 ###############       f \n\
                       f \n\
 ------|---|--|---www| f \n\
-.x6x..|S.T|l.|^.ddd.| f \n",
+.x66..|S.T|l.|^.ddd.| f \n",
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
             t_sewage_pipe, t_sewage_pump, t_vat, t_crate_c, t_grate, t_wall_glass_h, t_wall_glass_v,
             t_sewage, t_elevator, t_pavement_y ,t_pavement, t_rack, t_door_metal_locked, t_chainfence_v,
@@ -5818,10 +5818,14 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
          radiation(x, y) += rng(10, 70);
      }
      tmpcomp = add_computer(2, 23, "SRCF Security Terminal ", 0);
- 	    tmpcomp->add_option("Security Reminder [1055]", COMPACT_SR1_MESS, 0);
- 	    tmpcomp->add_option("Security Reminder [1056]", COMPACT_SR2_MESS, 0);
+ 	tmpcomp->add_option("Security Reminder [1055]", COMPACT_SR1_MESS, 0);
+ 	tmpcomp->add_option("Security Reminder [1056]", COMPACT_SR2_MESS, 0);
         tmpcomp->add_option("Security Reminder [1057]", COMPACT_SR3_MESS, 0);
         tmpcomp->add_option("Security Reminder [1058]", COMPACT_SR4_MESS, 0);
+     tmpcomp = add_computer(3, 23, "SRCF Admin Terminal ", 2);
+        tmpcomp->add_option("CDC: Internal Memo, EPA [2918024]", COMPACT_SRCF_1_MESS, 2);
+        tmpcomp->add_option("CDC: Internal Memo, EPA [2918024]", COMPACT_SRCF_2_MESS, 2);
+        tmpcomp->add_option("CDC: Internal Memo, EPA [2918024]", COMPACT_SRCF_3_MESS, 2);
      if (t_west == ot_haz_sar && t_north == ot_haz_sar)
             rotate(1);
      if (t_east == ot_haz_sar && t_north == ot_haz_sar)
