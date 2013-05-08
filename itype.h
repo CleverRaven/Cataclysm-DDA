@@ -871,10 +871,10 @@ struct it_artifact_tool : public it_tool
                   signed char pmelee_dam, signed char pmelee_cut,
                   signed char pm_to_hit, unsigned pitem_flags,
 
-		  unsigned int pmax_charges, unsigned int pdef_charges,
-		  unsigned char pcharges_per_use,
-		  unsigned char pturns_per_charge,
-		  ammotype pammo, itype_id prevert_to)
+                  unsigned int pmax_charges, unsigned int pdef_charges,
+                  unsigned char pcharges_per_use,
+                  unsigned char pturns_per_charge,
+                  ammotype pammo, itype_id prevert_to)
 
 :it_tool(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
          pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
