@@ -81,20 +81,23 @@ W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
 #ifeq ($(OS), Msys)
 #  LDFLAGS = -static -lpdcurses
 #else
-  LDFLAGS += -lncurses
+#  LDFLAGS += -lncurses
 #endif
 
 # Linux 64-bit
 ifeq ($(NATIVE), linux64)
+  LDFLAGS += -lncurses
   CXXFLAGS += -m64
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
+    LDFLAGS += -lncurses
     CXXFLAGS += -m32
   endif
 endif
 # OSX
 ifeq ($(NATIVE), osx)
+  LDFLAGS += -lncurses
   CXXFLAGS += -mmacosx-version-min=10.6
 endif
 # Win32 (mingw32?)
@@ -107,11 +110,12 @@ ifeq ($(NATIVE), win32)
   LDFLAGS += -static -lgdi32
 endif
 # MXE cross-compile to win32
-ifeq ($(CROSS), i686-pc-mingw32-)
+ifneq (, $(findstring mingw32,$(CROSS)))
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
+  W32LDFLAGS = -Wl,--stack,1200000,--subsystem,windows
   LDFLAGS += -lgdi32
 endif
 
@@ -124,7 +128,7 @@ all: version $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
+	$(LD) $(W32LDFLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
           $(OBJS) $(LDFLAGS)
 
 .PHONY: version
