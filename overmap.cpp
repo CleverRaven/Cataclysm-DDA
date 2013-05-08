@@ -53,6 +53,13 @@ bool is_river(oter_id ter)
  return false;
 }
 
+bool is_building(oter_id ter)
+{
+ if (ter == ot_null || (ter >= ot_house_north))
+  return true;
+ return false;
+}
+
 bool is_ground(oter_id ter)
 {
  if (ter <= ot_road_nesw_manhole)
@@ -1991,8 +1998,13 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
     else if (!is_road(base, x, y, z))
      ter(x, y, z) = base;
    } else {	// More than one eligable route; pick one randomly
+    //Don't switch directions if there is a building there and we don't have to...
     if (one_in(12) &&
-       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
+       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)) && !is_building(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
+     dir = (dir + 1) % 2; // Switch the direction (hori/vert) in which we move
+    //If our current path has a building in it and there is another possible path, we should take it
+    else if (is_building(ter(next[dir].x, next[dir].y, z)) &&
+       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)) && !is_building(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
      dir = (dir + 1) % 2; // Switch the direction (hori/vert) in which we move
     x = next[dir].x;
     y = next[dir].y;
