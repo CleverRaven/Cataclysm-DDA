@@ -1510,6 +1510,18 @@ A hard plastic hat worn in constructions sites. Excellent protection from\n\
 cuts and percussion.", 0);
 TECH("hat_hard", mfb(TEC_WBLOCK_1) );
 
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
+ARMOR("pickelhaube", "pickelhaube",	50, 240,C_HAT,		IRON,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    8,  8,  10,  1,  1,  10,  10,  0,  10,  0,	mfb(bp_head), "\
+A spiked helmet once worn by German military officers. The spike is very sharp.", 0);
+
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
+ARMOR("beret", "beret",	50, 125,C_HAT,		COTTON,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    2,  1,  -5,  0,  0,  0,  0,  0,  20,  0,	mfb(bp_head), "\
+A soft cotton hat commonly worn by armed forces and existentialists.", 0);
+
 ARMOR("helmet_bike", "bike helmet",	35, 140,C_HAT,		PLASTIC,	MNULL,
    12,  2,  4,  0,  1,  8,  2,  0,  20,  0,	mfb(bp_head), "\
 A thick foam helmet. Designed to protect against concussion.", 0);
