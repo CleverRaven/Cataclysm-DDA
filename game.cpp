@@ -2395,7 +2395,7 @@ z.size(), active_npc.size(), events.size());
    break;
 
   case 11:
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill)
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill)
       u.skillLevel(*aSkill).level(u.skillLevel(*aSkill) + 3);
     add_msg("Skils increased.");
    break;
@@ -2432,7 +2432,7 @@ z.size(), active_npc.size(), events.size());
             int(p->personality.bravery) << " Collector: " <<
             int(p->personality.collector) << " Altruism: " <<
             int(p->personality.altruism) << std::endl;
-    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++; aSkill != Skill::skills.end(); ++aSkill) {
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
       data << (*aSkill)->name() << ": " << p->skillLevel(*aSkill) << std::endl;
     }
 

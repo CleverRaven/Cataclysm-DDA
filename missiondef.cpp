@@ -8,7 +8,7 @@ void game::init_missions()
  id++; mission_types.push_back( \
 mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 
- #define ORIGINS(...) setvector(mission_types[id].origins, __VA_ARGS__, NULL)
+ #define ORIGINS(...) setvector(&mission_types[id].origins, __VA_ARGS__, NULL)
  #define ITEM(itid)     mission_types[id].item_id = itid
 
 // DEADLINE defines the low and high end time limits, in hours
