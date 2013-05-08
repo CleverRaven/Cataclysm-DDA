@@ -2245,6 +2245,8 @@ void game::save_artifacts()
     {
 	artifacts.push_back(itypes[*it]->save_data());
     }
+    artifact_itype_ids.erase(artifact_itype_ids.begin(),
+			     artifact_itype_ids.end());
     picojson::value out = picojson::value(artifacts);
     fout << out.serialize();
     fout.close();
