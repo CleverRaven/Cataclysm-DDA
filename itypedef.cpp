@@ -2805,14 +2805,6 @@ CONT("jar_glass", "glass jar",	50,  2500,	c_ltcyan,	GLASS,MNULL,
     1,  1, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A half-litre glass jar with a metal screw top lid, used for canning.");
 
-//	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
-TOOL("lighter", "cheap lighter",		60,  35,',', c_blue,	PLASTIC,IRON,
-// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    0,  0,  0,  0,  0, 100,100, 1,  0, AT_NULL,	"null", &iuse::lighter, 0, "\
-A lighter must be carried to use various drugs, like cigarettes, or to light\n\
-things like molotov cocktails.  You can also use a lighter to light nearby\n\
-items on fire.");
-
 TOOL("matches", "matchbook", 60, 10,',', c_blue,     PAPER, MNULL,
     0,  0,  0,  0,  0,   20, 20, 1,  0, AT_NULL, "null", &iuse::lighter, 0, "\
 Matches must be carried to use various drugs, like cigarettes, or to light\n\
