@@ -226,26 +226,26 @@ void iexamine::wreckage(game *g, player *p, map *m, int examx, int examy) {
  }
 }
 
-void iexamine::pit(game *g, player *p, map *m, int examx, int examy) 
+void iexamine::pit(game *g, player *p, map *m, int examx, int examy)
 {
     bool player_has = false;
     bool map_has = false;
     inventory map_inv;
     map_inv.form_from_map(g, point(p->posx, p->posy), 1);
- 
+
     // check if player has 2x4
     player_has = p->has_amount("2x4", 1);
 
     // check if map has 2x4 in a 1-tile radius around player
     map_has = map_inv.has_amount("2x4", 1);
- 
+
     // return if there is no 2x4 around
     if (!player_has && !map_has)
     {
         none(g, p, m, examx, examy);
         return;
     }
- 
+
     if (query_yn("Place a plank over the pit?"))
     {
         // if both have, then ask to use the one on the map
@@ -268,79 +268,39 @@ void iexamine::pit(game *g, player *p, map *m, int examx, int examy)
         {
             m->use_amount(point(p->posx, p->posy), 1, "2x4", 1, false);
         }
-        m->ter_set(examx, examy, t_pit_covered);
+
+        if( m->ter(examx, examy) == t_pit )
+        {
+            m->ter_set(examx, examy, t_pit_covered);
+        }
+        else if( m->ter(examx, examy) == t_pit_spiked )
+        {
+            m->ter_set(examx, examy, t_pit_spiked_covered);
+        }
         g->add_msg("You place a plank of wood over the pit.");
     }
 }
- 
-void iexamine::pit_spiked(game *g, player *p, map *m, int examx, int examy) 
-{
-    bool player_has = false;
-    bool map_has = false;
-    inventory map_inv;
-    map_inv.form_from_map(g, point(p->posx, p->posy), 1);
- 
-    // check if player has 2x4
-    player_has = p->has_amount("2x4", 1);
 
-    // check if map has 2x4 in a 1-tile radius around player
-    map_has = map_inv.has_amount("2x4", 1);
- 
-    // return if there is no 2x4 around
-    if (!player_has && !map_has)
+void iexamine::pit_covered(game *g, player *p, map *m, int examx, int examy)
+{
+    if(!query_yn("Remove cover?"))
     {
         none(g, p, m, examx, examy);
         return;
     }
- 
-    if (query_yn("Place a plank over the pit?"))
+
+    item plank(g->itypes["2x4"], g->turn);
+    g->add_msg("You remove the plank.");
+    m->add_item(p->posx, p->posy, plank);
+
+    if( m->ter(examx, examy) == t_pit_covered )
     {
-        // if both have, then ask to use the one on the map
-        if (player_has && map_has)
-        {
-            if (query_yn("Use the plank at your feet?"))
-            {
-                m->use_amount(point(p->posx, p->posy), 1, "2x4", 1, false);
-            }
-            else
-            {
-                p->use_amount("2x4", 1);
-            }
-        }
-        else if (player_has && !map_has)    // only player has plank
-        {
-            p->use_amount("2x4", 1);
-        }
-        else if (!player_has && map_has)    // only map has plank
-        {
-            m->use_amount(point(p->posx, p->posy), 1, "2x4", 1, false);
-        }
-        m->ter_set(examx, examy, t_pit_spiked_covered);
-        g->add_msg("You place a plank of wood over the pit.");
+        m->ter_set(examx, examy, t_pit);
     }
-}
-
-void iexamine::pit_covered(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Remove cover?")) {
-  none(g, p, m, examx, examy);
-  return;
- }
- item plank(g->itypes["2x4"], g->turn);
- g->add_msg("You remove the plank.");
- m->add_item(p->posx, p->posy, plank);
- m->ter_set(examx, examy, t_pit);
-}
-
-void iexamine::pit_spiked_covered(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Remove cover?")) {
-  none(g, p, m, examx, examy);
-  return;
- }
-
- item plank(g->itypes["2x4"], g->turn);
- g->add_msg("You remove the plank.");
- m->add_item(p->posx, p->posy, plank);
- m->ter_set(examx, examy, t_pit_spiked);
+    else if( m->ter(examx, examy) == t_pit_spiked_covered )
+    {
+        m->ter_set(examx, examy, t_pit_spiked);
+    }
 }
 
 void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
