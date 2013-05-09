@@ -5,7 +5,7 @@
 #include "profession.h"
 #include "output.h"
 
-#include "picojson.h"
+#include "catajson.h"
 
 profession::profession()
 {
@@ -30,44 +30,41 @@ profmap profession::_all_profs(profession::load_professions());
 profmap profession::load_professions()
 {
     profmap allProfs;
-    picojson::value profsRaw;
-    std::ifstream profsFile;
+    catajson profsRaw("data/raw/professions.json");
 
-    profsFile.open("data/raw/professions.json");
-
-    profsFile >> profsRaw;
-
-    if (profsRaw.is<picojson::array>())
+    unsigned int id = 0;
+    for (profsRaw.set_begin(); profsRaw.has_curr(); profsRaw.next())
     {
-        const picojson::array& profs = profsRaw.get<picojson::array>();
-        unsigned int id = 0;
-        for (picojson::array::const_iterator aProf = profs.begin(); aProf != profs.end(); ++aProf)
+        ++id;
+        catajson currProf = profsRaw.curr();
+        std::string ident = currProf.get("ident").as_string();
+        std::string name = currProf.get("name").as_string();
+        std::string description = currProf.get("description").as_string();
+        signed int points = currProf.get("points").as_int();
+
+        profession newProfession(id, ident, name, description, points);
+
+        catajson items = currProf.get("items");
+        for (items.set_begin(); items.has_curr(); items.next())
         {
-            ++id;
-            const picojson::object& object = aProf->get<picojson::object>();
-            std::string ident, name, description;
-            signed int points;
-
-            ident = object.at("ident").get<std::string>();
-            name = object.at("name").get<std::string>();
-            description = object.at("description").get<std::string>();
-            points = static_cast<int>(object.at("points").get<double>());
-
-            profession newProfession(id, ident, name, description, points);
-
-            const picojson::array& items = object.at("items").get<picojson::array>();
-            for (picojson::array::const_iterator anItem = items.begin(); anItem != items.end(); ++anItem)
-            {
-                newProfession.add_item(anItem->get<std::string>());
-            }
-
-            allProfs[ident] = newProfession;
+            newProfession.add_item(items.curr().as_string());
         }
-    }
-    else
-    {
-        std::cout << "Bad profession file:\n" << profsRaw << std::endl;
-        exit(1);
+
+        // Addictions are optional
+        if (currProf.has("addictions"))
+        {
+            catajson addictions = currProf.get("addictions");
+            for (addictions.set_begin(); addictions.has_curr(); addictions.next())
+            {
+                catajson currAdd = addictions.curr();
+                std::string type_str = currAdd.get("type").as_string();
+                add_type type = addiction_type(type_str);
+                int intensity = currAdd.get("intensity").as_int();
+                newProfession.add_addiction(type,intensity);
+            }
+        }
+
+        allProfs[ident] = newProfession;
     }
 
     return allProfs;
@@ -83,6 +80,7 @@ profession* profession::prof(std::string ident)
     else
     {
         debugmsg("Tried to get invalid profession: %s", ident.c_str());
+        return NULL;
     }
 }
 
@@ -121,6 +119,11 @@ void profession::add_item(std::string item)
     _starting_items.push_back(item);
 }
 
+void profession::add_addiction(add_type type,int intensity)
+{
+    _starting_addictions.push_back(addiction(type,intensity));
+}
+
 unsigned int profession::id() const
 {
     return _id;
@@ -149,4 +152,9 @@ signed int profession::point_cost() const
 std::vector<std::string> profession::items() const
 {
     return _starting_items;
+}
+
+std::vector<addiction> profession::addictions() const
+{
+    return _starting_addictions;
 }

@@ -25,7 +25,7 @@ void event::actualize(game *g)
     tmp.attitude = NPCATT_DEFEND;
     tmp.posx = g->u.posx - SEEX * 2 + rng(-5, 5);
     tmp.posy = g->u.posy - SEEY * 2 + rng(-5, 5);
-    g->active_npc.push_back(tmp);
+    g->active_npc.push_back(&tmp);
    }
   } break;
 
@@ -124,8 +124,7 @@ void event::actualize(game *g)
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_grate) {
       g->m.ter_set(x, y, t_stairs_down);
-      int j;
-      if (!saw_grate && g->u_see(x, y, j))
+      if (!saw_grate && g->u_see(x, y))
        saw_grate = true;
      }
     }
@@ -230,8 +229,7 @@ void event::per_turn(game *g)
      return; // We're safely indoors!
     eyebot.spawn(place.x, place.y);
     g->z.push_back(eyebot);
-    int t;
-    if (g->u_see(place.x, place.y, t))
+    if (g->u_see(place.x, place.y))
      g->add_msg("An eyebot swoops down nearby!");
    }
   } break;

@@ -116,7 +116,7 @@ another attack.  Your dexterity and melee skills are used to determine\n\
 whether an attack hits, while strength affects damage.",
 "\
 Taking damage often causes pain.  Small amounts of pain are tolerable, but as\n\
-it gets worse you're stats will drop and you will move much slower.  To reduce\n\
+it gets worse your stats will drop and you will move much slower.  To reduce\n\
 pain, take painkillers like codeine, or simply wait it out.",
 "\
 When you kill a monster it will often leave behind a corpse.  Corpses can be\n\
@@ -135,9 +135,9 @@ That drug you just took placed an effect on you.  To check your effects,\n\
 press '@'.  Most only last a short while, while others, like chronic disease,\n\
 last until cured by some other means.",
 "\
-You just drank a bottle of water, reducing your thirst level and leaving you\n\
-with an empty bottle.  Most of the time you'll want to just drop the bottle,\n\
-but you might want to save it to refill from a water source later.",
+You just drank a bottle of water, reducing your thirst level and reducing the\n\
+water level in the bottle.  You'll probably want to drop empty bottles,\n\
+or you might want to save them to refill from a water source later.",
 "\
 You just activated a grenade!  You probably want to throw it.  To throw an\n\
 item, press 't' and then select the item to throw.  The maximum range depends\n\

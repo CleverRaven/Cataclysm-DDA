@@ -229,7 +229,7 @@ std::string vehicle::use_controls()
  options_choice.push_back(control_cancel);
  options_message.push_back("Exit");
 
- int select = menu_vec("Vehicle controls", options_message);
+ int select = menu_vec(true, "Vehicle controls", options_message);
 
  std::string message;
  switch(options_choice[select - 1]) {
@@ -434,6 +434,10 @@ void vehicle::give_part_properties_to_item(game* g, int partnum, item& i){
     itype* itemtype = g->itypes[pitmid];
     if(itemtype->is_var_veh_part())
        i.bigness = parts[partnum].bigness;
+       
+    // remove charges if part is made of a tool
+    if(itemtype->is_tool())
+        i.charges = 0;       
 
     // translate part damage to item damage.
     // max damage is 4, min damage 0.
@@ -676,11 +680,11 @@ player *vehicle::get_passenger (int p)
     if (p >= 0 && parts[p].has_flag(vehicle_part::passenger_flag))
     {
      const int player_id = parts[p].passenger_id;
-     if( player_id == 0 )
+     if( player_id == g->u.getID())
       return &g->u;
      int npcdex = g->npc_by_id (player_id);
      if (npcdex >= 0)
-      return &g->active_npc[npcdex];
+      return g->active_npc[npcdex];
     }
     return 0;
 }
@@ -787,7 +791,7 @@ std::string vehicle::fuel_name(int ftype)
     case AT_WATER:
         return std::string("clean water");
     default:
-        return std::string("INVALID FUEL (BUG)");
+        return std::string("INVALID FUEL (BUG in vehicle::fuel_name)");
     }
 }
 
@@ -1214,7 +1218,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     int npcind = g->npc_at(x, y);
     bool u_here = x == g->u.posx && y == g->u.posy && !g->u.in_vehicle;
     monster *z = mondex >= 0? &g->z[mondex] : 0;
-    player *ph = (npcind >= 0? &g->active_npc[npcind] : (u_here? &g->u : 0));
+    player *ph = (npcind >= 0? g->active_npc[npcind] : (u_here? &g->u : 0));
 
     if (ph && ph->in_vehicle) // if in a vehicle assume it's this one
     	ph = 0;
@@ -1443,7 +1447,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
         }
 
         int turn_roll = rng (0, 100);
-        int turn_amount = rng (1, 3) * sqrt (imp2);
+        int turn_amount = rng (1, 3) * sqrt ((double)imp2);
         turn_amount /= 15;
         if (turn_amount < 1)
             turn_amount = 1;
@@ -1556,8 +1560,7 @@ void vehicle::handle_trap (int x, int y, int part)
             msg.clear();
         default:;
     }
-    int dummy;
-    if (msg.size() > 0 && g->u_see(x, y, dummy))
+    if (msg.size() > 0 && g->u_see(x, y))
         g->add_msg (msg.c_str(), name.c_str(), part_info(part).name, g->traps[t]->name.c_str());
     if (noise > 0)
         g->sound (x, y, noise, snd);
@@ -1591,8 +1594,14 @@ void vehicle::remove_item (int part, int itemdex)
 void vehicle::gain_moves (int mp)
 {
     if (velocity)
+    {
         of_turn = 1 + of_turn_carry;
-    of_turn_carry = 0;;
+    }
+    else
+    {
+        of_turn = 0;
+    }
+    of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
     if (player_in_control(&g->u))
@@ -1958,7 +1967,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     for (int i = 0; i < traj.size(); i++)
         if (traj[i].x == g->u.posx && traj[i].y == g->u.posy)
             return false; // won't shoot at player
-    if (g->u_see(x, y, t))
+    if (g->u_see(x, y))
         g->add_msg("The %s fires its %s!", name.c_str(), part_info(p).name);
     player tmp;
     tmp.name = std::string("The ") + part_info(p).name;

@@ -32,8 +32,8 @@ enum vpart_id
     vp_board_u,
     vp_board_n,
     vp_board_b,
-    vp_isle_h2,
-    vp_isle_v2,
+    vp_aisle_h2,
+    vp_aisle_v2,
     vp_floor_trunk,
     vp_roof,
     vp_door,
@@ -110,7 +110,7 @@ enum vpart_flags
     vpf_wheel,              // this part touches ground (trigger traps)
     vpf_seat,               // is seat
     vpf_bed,                // is bed (like seat, but can't be boarded)
-    vpf_isle,               // is isle (no extra movement cost)
+    vpf_aisle,               // is aisle (no extra movement cost)
     vpf_engine,             // is engine
     vpf_kitchen,            // is kitchen
     vpf_fuel_tank,          // is fuel tank
@@ -201,12 +201,12 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
     { "board",      'b', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, "steel_plate", 1,
         mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
-    { "isle",       '=', c_white,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
-        mfb(vpf_internal) | mfb(vpf_over) | mfb(vpf_no_reinforce) | mfb(vpf_isle) },
-    { "isle",       'H', c_white,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
-        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_isle) },
+    { "aisle",       '=', c_white,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
+        mfb(vpf_internal) | mfb(vpf_over) | mfb(vpf_no_reinforce) | mfb(vpf_aisle) },
+    { "aisle",       'H', c_white,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
+        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_aisle) },
     { "floor trunk",       '=', c_white,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
-        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_isle) | mfb(vpf_cargo) },
+        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_aisle) | mfb(vpf_cargo) },
     { "roof",       '#', c_ltgray,  '#', c_dkgray,  100, 1000, 0, 0, "steel_plate", 1,
         mfb(vpf_internal) | mfb(vpf_roof) },
     { "door",       '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, "frame", 2,
@@ -261,7 +261,7 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
     { "minireactor",                'O', c_ltgreen,  '#', c_red,    80, 700, 10000, AT_PLUT, "minireactor", 7,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
-    { "hydrogene tank",             'O', c_ltblue,  '#', c_red,     80, 150, 3000, AT_PLASMA, "metal_tank", 1,
+    { "hydrogen tank",             'O', c_ltblue,  '#', c_red,     80, 150, 3000, AT_PLASMA, "metal_tank", 1,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },
     { "water tank",                 'O', c_ltcyan,  '#', c_red,     80, 150, 400, AT_WATER, "metal_tank", 1,
         mfb(vpf_internal) | mfb(vpf_fuel_tank) },

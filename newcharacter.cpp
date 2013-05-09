@@ -1,11 +1,14 @@
 #include "player.h"
 #include "profession.h"
+#include "item_factory.h"
 #include "output.h"
 #include "rng.h"
 #include "keypress.h"
 #include "game.h"
 #include "options.h"
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #include <fstream>
 #include <sstream>
 
@@ -54,7 +57,7 @@ void save_template(player *u);
 bool player::create(game *g, character_type type, std::string tempname)
 {
  weapon = item(g->itypes["null"], 0);
- 
+
  g->u.prof = profession::generic();
 
  WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
@@ -179,45 +182,42 @@ bool player::create(game *g, character_type type, std::string tempname)
   hp_max[i] = calc_HP(str_max, has_trait(PF_TOUGH));
   hp_cur[i] = hp_max[i];
  }
- if (has_trait(PF_GLASSJAW)) {
-  hp_max[hp_head] = int(hp_max[hp_head] * .85);
+ if (has_trait(PF_HARDCORE)) {
+  for (int i = 0; i < num_hp_parts; i++) {
+   hp_max[i] = int(hp_max[i] * .25);
+   hp_cur[i] = hp_max[i];
+  }
+ } if (has_trait(PF_GLASSJAW)) {
+  hp_max[hp_head] = int(hp_max[hp_head] * .80);
   hp_cur[hp_head] = hp_max[hp_head];
  }
  if (has_trait(PF_SMELLY))
   scent = 800;
  if (has_trait(PF_ANDROID)) {
-  std::map<std::string,bionic_data*>::iterator random_bionic = bionics.begin();
-  std::advance(random_bionic,rng(0,bionics.size()-1));
-  add_bionic(random_bionic->first);// Other
+  bionic_id first_bio;
+  do {
+   first_bio = g->random_good_bionic();
+  } while (bionics[first_bio]->power_cost > 10);
+  add_bionic(first_bio);
   if (bionics[my_bionics[0].id]->power_cost > 0) {
-   add_bionic(bionic_id(power_source_bionics[rng(0,power_source_bionics.size())]));	// Power Source
+   add_bionic(bionic_id(power_source_bionics[rng(0,power_source_bionics.size()-1)]));	// Power Source
    max_power_level = 10;
    power_level = 10;
   } else {
    bionic_id tmpbio;
    do
-   tmpbio = bionic_id(unpowered_bionics[rng(0, unpowered_bionics.size())]);
+   tmpbio = bionic_id(unpowered_bionics[rng(0, unpowered_bionics.size()-1)]);
    while (bionics[tmpbio]->power_cost > 0);
    add_bionic(tmpbio);
    max_power_level = 0;
    power_level = 0;
   }
-
-/* CHEATER'S STUFF
-
-  add_bionic(bionic_id(rng(0, "bio_ethanol")));	// Power Source
-  for (int i = 0; i < 5; i++)
-   add_bionic(bionic_id(rng("bio_memory", max_"bio_start" - 1)));// Other
-  max_power_level = 80;
-  power_level = 80;
-
-End of cheatery */
  }
 
  if (has_trait(PF_MARTIAL_ARTS)) {
   itype_id ma_type;
   do {
-   int choice = menu("Pick your style:",
+   int choice = menu(false, "Pick your style:",
                      "Karate", "Judo", "Aikido", "Tai Chi", "Taekwondo", NULL);
    if (choice == 1)
     ma_type = "style_karate";
@@ -239,28 +239,25 @@ End of cheatery */
   weapon = item(g->itypes[ styles[0] ], 0, ':');
  else
   weapon   = item(g->itypes["null"], 0);
- 
+
  item tmp; //gets used several times
 
  std::vector<std::string> prof_items = g->u.prof->items();
  for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter) {
-  item tmp = item(g->itypes.at(*iter), 0, 'a' + worn.size());
+  item tmp = item(item_controller->find_template(*iter), 0, 'a' + worn.size());
   if (tmp.is_armor()) {
    if (tmp.has_flag(IF_VARSIZE))
-    tmp.item_flags |= mfb(IF_FIT);      
+    tmp.item_flags |= mfb(IF_FIT);
    worn.push_back(tmp);
   } else {
    inv.push_back(tmp);
   }
+ }
 
-  // if we start with drugs, need to start strongly addicted, too
-  if (tmp.is_food()) {
-   it_comest *comest = dynamic_cast<it_comest*>(tmp.type);
-   if (comest->add != ADD_NULL) {
-    addiction add(comest->add, 10);
-    g->u.addictions.push_back(add);
-   }
-  }
+ std::vector<addiction> prof_addictions = g->u.prof->addictions();
+ for (std::vector<addiction>::const_iterator iter = prof_addictions.begin(); iter != prof_addictions.end(); ++iter)
+ {
+     g->u.addictions.push_back(*iter);
  }
 
 // The near-sighted get to start with glasses.
@@ -735,7 +732,7 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
             mvwprintz(w, 4 + i, 2, c_ltgray, "\
                                              ");	// Clear the line
             int id = i;
-            if (cur_id < 7)
+            if ((cur_id < 7) || (profession::count() < 16))
             {
                 //do nothing
             }
@@ -807,7 +804,7 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
 
  WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 
- int cur_sk = 1;
+ int cur_sk = 0;
  Skill *currentSkill = Skill::skill(cur_sk);
 
  do {
@@ -829,16 +826,16 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
   mvwprintz(w_description, 0, 0, COL_SKILL_USED, currentSkill->description().c_str());
 
   if (cur_sk <= 7) {
-   for (int i = 1; i < 17; i++) {
+   for (int i = 0; i < 17; i++) {
      Skill *thisSkill = Skill::skill(i);
 
-    mvwprintz(w, 4 + i, 2, c_ltgray, "\
+    mvwprintz(w, 5 + i, 2, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 4 + i, 2, (i == cur_sk ? h_ltgray : c_ltgray),
+     mvwprintz(w, 5 + i, 2, (i == cur_sk ? h_ltgray : c_ltgray),
                thisSkill->name().c_str());
     } else {
-     mvwprintz(w, 4 + i, 2,
+     mvwprintz(w, 5 + i, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                "%s ", skill_name(i).c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
@@ -846,15 +843,15 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
     }
    }
   } else if (cur_sk >= Skill::skills.size() - 9) {
-   for (int i = num_skill_types - 16; i < num_skill_types; i++) {
+   for (int i = Skill::skills.size() - 16; i < Skill::skills.size(); i++) {
      Skill *thisSkill = Skill::skill(i);
-    mvwprintz(w, 21 + i - num_skill_types, 2, c_ltgray, "\
+    mvwprintz(w, 21 + i - Skill::skills.size(), 2, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 21 + i - num_skill_types, 2,
+     mvwprintz(w, 21 + i - Skill::skills.size(), 2,
                (i == cur_sk ? h_ltgray : c_ltgray), thisSkill->name().c_str());
     } else {
-     mvwprintz(w, 21 + i - num_skill_types, 2,
+     mvwprintz(w, 21 + i - Skill::skills.size(), 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
                thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
@@ -888,7 +885,7 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
     currentSkill = Skill::skill(cur_sk);
     break;
    case 'k':
-    if (cur_sk > 1)
+    if (cur_sk > 0)
      cur_sk--;
     currentSkill = Skill::skill(cur_sk);
     break;
@@ -960,7 +957,7 @@ To save this character as a template, press !.");
    mvwprintz(w, 6, 8, c_ltgray, "______________________________");
    noname = false;
   }
-  
+
   if (ch == '>') {
    if (points > 0 && !query_yn("Remaining points will be discarded, are you sure you want to proceed?")) {
     continue;

@@ -18,6 +18,11 @@
 #include "options.h"
 #include "options.h"
 
+#ifdef _MSC_VER
+// MSVC prefers ISO C++ conformant names over POSIX names, but it's missing a redirect for snprintf
+#define snprintf _snprintf
+#endif
+
 #define STREETCHANCE 2
 #define NUM_FOREST 250
 #define TOP_HIWAY_DIST 999
@@ -48,6 +53,13 @@ bool is_river(oter_id ter)
  return false;
 }
 
+bool is_building(oter_id ter)
+{
+ if (ter == ot_null || (ter >= ot_house_north))
+  return true;
+ return false;
+}
+
 bool is_ground(oter_id ter)
 {
  if (ter <= ot_road_nesw_manhole)
@@ -66,9 +78,8 @@ bool is_wall_material(oter_id ter)
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- int type = rng(0, 17);
- if (one_in(20))
-  type = 18;
+ const int type = rng(0, 27);
+
  switch (type) {
   case  0: ret = ot_s_lot;	         break;
   case  1: ret = ot_s_gas_north;         break;
@@ -88,7 +99,16 @@ oter_id shop(int dir)
   case 15: ret = ot_pawn_north;          break;
   case 16: ret = ot_mil_surplus_north;   break;
   case 17: ret = ot_s_garage_north;      break;
-  case 18: ret = ot_police_north;        break;
+  case 18: ret = ot_station_radio_north; break;
+  case 19: ret = ot_office_doctor_north; break;
+  case 20: ret = ot_s_restaurant_fast_north;  break;
+  case 21: ret = ot_s_restaurant_coffee_north;  break;
+  case 22: ret = ot_church_north;        break;
+  case 23: ret = ot_office_cubical_north;        break;
+  case 24: ret = ot_police_north;        break;
+  case 25: ret = ot_furniture_north;     break;
+  case 26: ret = ot_abstorefront_north;  break;
+  case 27: ret = ot_police_north;        break;
  }
  if (ret == ot_s_lot)
   return ret;
@@ -128,8 +148,6 @@ overmap::overmap()
  , nullstr("")
 {
 // debugmsg("Warning - null overmap!");
- if (num_ter_types > 256 - 32)
-  debugmsg("More than 256 - 32 oterid!  Saving won't work!");
 }
 
 overmap::overmap(game *g, int x, int y)
@@ -143,10 +161,6 @@ overmap::overmap(game *g, int x, int y)
 {
  if (name.empty()) {
   debugmsg("Attempting to load overmap for unknown player!  Saving won't work!");
- }
-
- if (num_ter_types > 256 - 32) {
-  debugmsg("More than 256 - 32 oterid!  Saving won't work!");
  }
 
  if (g->has_gametype()) {
@@ -342,10 +356,28 @@ point overmap::find_note(int const x, int const y, int const z, std::string cons
  return ret;
 }
 
+//This removes a npc from the overmap. The NPC is supposed to be already dead.
+//This function also assumes the npc is not in the list of active npcs anymore.
+void overmap::remove_npc(int npc_id)
+{
+    for(int i = 0; i < npcs.size(); i++)
+    {
+        if(npcs[i]->getID() == npc_id)
+        {
+            //Remove this npc from the list of overmap npcs.
+            if(!npcs[i]->dead) debugmsg("overmap::remove_npc: NPC (%d) is not dead.",npc_id);
+            npc * tmp = npcs[i];
+            npcs.erase(npcs.begin() + i);
+            delete tmp;
+            return;
+        }
+    }
+}
+
 point overmap::display_notes(game* g, int const z) const
 {
  if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
-  debugmsg("Attempting to display notes on overmap for blank layer %d", z);
+  debugmsg("overmap::display_notes: Attempting to display notes on overmap for blank layer %d", z);
   return point(-1, -1);
  }
 
@@ -406,6 +438,81 @@ point overmap::display_notes(game* g, int const z) const
  } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
  delwin(w_notes);
  return point(-1,-1);
+}
+
+bool overmap::has_npc(game *g, int const x, int const y, int const z) const
+{
+    //Check if the target overmap square has an npc in it.
+    for (int n = 0; n < npcs.size(); n++) {
+        if(npcs[n]->omz == z && !npcs[n]->marked_for_death)
+        {
+            if (npcs[n]->is_active(g))
+            { //Active npcs have different coords. Because Cata hates you!
+                if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
+                    (g->levy + (npcs[n]->posy / SEEY))/2 == y)
+                    return true;
+            } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2== y)
+                return true;
+        }
+    }
+    return false;
+}
+
+// int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
+//     cursy = (g->levy + int(MAPSIZE / 2)) / 2;
+
+//Helper function for the overmap::draw function.
+void overmap::print_npcs(game *g, WINDOW *w, int const x, int const y, int const z)
+{
+    int i = 0, maxnamelength = 0;
+    //Check the max namelength of the npcs in the target
+    for (int n = 0; n < npcs.size(); n++)
+    {
+        if(npcs[n]->omz == z && !npcs[n]->marked_for_death)
+        {
+            if (npcs[n]->is_active(g))
+            {   //Active npcs have different coords. Because Cata hates you!
+                if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
+                    (g->levy + (npcs[n]->posy / SEEY))/2 == y)
+                {
+                    if (npcs[n]->name.length() > maxnamelength)
+                        maxnamelength = npcs[n]->name.length();
+                }
+            } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y) {
+                if (npcs[n]->name.length() > maxnamelength)
+                    maxnamelength = npcs[n]->name.length();
+            }
+        }
+    }
+    //Check if the target has an npc in it.
+    for (int n = 0; n < npcs.size(); n++)
+    {
+        if (npcs[n]->omz == z && !npcs[n]->marked_for_death)
+        {
+            if (npcs[n]->is_active(g))
+            {
+                if ((g->levx + (npcs[n]->posx / SEEX))/2 == x &&
+                    (g->levy + (npcs[n]->posy / SEEY))/2 == y)
+                {
+                    mvwprintz(w, i, 0, c_yellow, npcs[n]->name.c_str());
+                    for (int j = npcs[n]->name.length(); j < maxnamelength; j++)
+                        mvwputch(w, i, j, c_black, LINE_XXXX);
+                    i++;
+                }
+            } else if ((npcs[n]->mapx)/2 == x && (npcs[n]->mapy)/2 == y)
+            {
+                mvwprintz(w, i, 0, c_yellow, npcs[n]->name.c_str());
+                for (int j = npcs[n]->name.length(); j < maxnamelength; j++)
+                    mvwputch(w, i, j, c_black, LINE_XXXX);
+                i++;
+            }
+        }
+    }
+    for (int j = 0; j < i; j++)
+        mvwputch(w, j, maxnamelength, c_white, LINE_XOXO);
+    for (int j = 0; j < maxnamelength; j++)
+        mvwputch(w, i, j, c_white, LINE_OXOX);
+    mvwputch(w, i, maxnamelength, c_white, LINE_XOOX);
 }
 
 void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
@@ -642,6 +749,8 @@ bool overmap::generate_sub(int const z)
  std::vector<point> lmoe_points;
  std::vector<point> triffid_points;
  std::vector<point> temple_points;
+ std::vector<point> office_entrance_points;
+ std::vector<point> office_points;
 
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
@@ -736,7 +845,10 @@ bool overmap::generate_sub(int const z)
      requires_sub = true;
     }
    }
-
+   else if (ter(i, j, z + 1) == ot_office_tower_1_entrance)
+    office_entrance_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_office_tower_1)
+    office_points.push_back( point(i, j) );
   }
  }
 
@@ -806,7 +918,10 @@ bool overmap::generate_sub(int const z)
    requires_sub = true;
   }
  }
-
+ for (int i = 0; i < office_entrance_points.size(); i++)
+  ter(office_entrance_points[i].x, office_entrance_points[i].y, z) = ot_office_tower_b_entrance;
+ for (int i = 0; i < office_points.size(); i++)
+  ter(office_points[i].x, office_points[i].y, z) = ot_office_tower_b;
  return requires_sub;
 }
 
@@ -957,15 +1072,15 @@ int overmap::dist_from_city(point p)
 }
 
 void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
-                   int &origx, int &origy, char &ch, bool blink)
+                   int &origx, int &origy, char &ch, bool blink,
+                   overmap &hori, overmap &vert, overmap &diag)
 {
  bool legend = true, note_here = false, npc_here = false;
- std::string note_text, npc_name;
+ std::string note_text;
  int om_map_width = TERMX-28;
  int om_map_height = TERMY;
 
  int omx, omy;
- overmap hori, vert, diag; // Adjacent maps
  point target(-1, -1);
  if (g->u.active_mission >= 0 &&
      g->u.active_mission < g->u.active_missions.size())
@@ -974,26 +1089,40 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   oter_id cur_ter;
   nc_color ter_color;
   long ter_sym;
-/* First, determine if we're close enough to the edge to need to load an
- * adjacent overmap, and load it/them. */
-  if (cursx < om_map_width / 2) {
-   hori = overmap(g, loc.x - 1, loc.y);
-   if (cursy < om_map_height / 2)
-    diag = overmap(g, loc.x - 1, loc.y - 1);
-   if (cursy > OMAPY - 2 - (om_map_height / 2))
-    diag = overmap(g, loc.x - 1, loc.y + 1);
+  /* First, determine if we're close enough to the edge to need an
+   * adjacent overmap, and record the offsets. */
+  int offx = 0;
+  int offy = 0;
+  if (cursx < om_map_width / 2)
+  {
+      offx = -1;
   }
-  if (cursx > OMAPX - 2 - (om_map_width / 2)) {
-   hori = overmap(g, loc.x + 1, loc.y);
-   if (cursy < om_map_height / 2)
-    diag = overmap(g, loc.x + 1, loc.y - 1);
-   if (cursy > OMAPY - 2 - (om_map_height / 2))
-    diag = overmap(g, loc.x + 1, loc.y + 1);
+  else if (cursx > OMAPX - 2 - (om_map_width / 2))
+  {
+      offx = 1;
   }
   if (cursy < (om_map_height / 2))
-   vert = overmap(g, loc.x, loc.y - 1);
-  if (cursy > OMAPY - 2 - (om_map_height / 2))
-   vert = overmap(g, loc.x, loc.y + 1);
+  {
+      offy = -1;
+  }
+  else if (cursy > OMAPY - 2 - (om_map_height / 2))
+  {
+      offy = 1;
+  }
+
+  // If the offsets don't match the previously loaded ones, load the new adjacent overmaps.
+  if( offx && loc.x + offx != hori.loc.x )
+  {
+      hori = overmap( g, loc.x + offx, loc.y );
+  }
+  if( offy && loc.y + offy != vert.loc.y )
+  {
+      vert = overmap( g, loc.x, loc.y + offy );
+  }
+  if( offx && offy && (loc.x + offx != diag.loc.x || loc.y + offy != diag.loc.y ) )
+  {
+      diag = overmap( g, loc.x + offx, loc.y + offy );
+  }
 
 // Now actually draw the map
   bool csee = false;
@@ -1011,16 +1140,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
      note_here = has_note(omx, omy, z);
      if (note_here)
       note_text = note(omx, omy, z);
-     for (int n = 0; n < npcs.size(); n++) {
-      if ((npcs[n].mapx + 1) / 2 == omx && (npcs[n].mapy + 1) / 2 == omy) {
-       npc_here = true;
-       npc_name = npcs[n].name;
-       n = npcs.size();
-      } else {
-       npc_here = false;
-       npc_name = "";
-      }
-     }
+        //Check if there is an npc.
+        npc_here = has_npc(g,omx,omy,z);
 // <Out of bounds placement>
     } else if (omx < 0) {
      omx += OMAPX;
@@ -1126,6 +1247,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
     case NORTHWEST:  mvwputch(w,  0,  0, c_red, LINE_OXXO); break;
    }
   }
+
   if (has_note(cursx, cursy, z)) {
    note_text = note(cursx, cursy, z);
    if (note_text[1] == ':')
@@ -1135,13 +1257,10 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
    mvwputch(w, 1, note_text.length(), c_white, LINE_XOOX);
    mvwputch(w, 0, note_text.length(), c_white, LINE_XOXO);
    mvwprintz(w, 0, 0, c_yellow, note_text.c_str());
-  } else if (npc_here) {
-   for (int i = 0; i < npc_name.length(); i++)
-    mvwputch(w, 1, i, c_white, LINE_OXOX);
-   mvwputch(w, 1, npc_name.length(), c_white, LINE_XOOX);
-   mvwputch(w, 0, npc_name.length(), c_white, LINE_XOXO);
-   mvwprintz(w, 0, 0, c_yellow, npc_name.c_str());
-  }
+  } else if (has_npc(g, cursx, cursy, z))
+    {
+        print_npcs(g, w, cursx, cursy, z);
+    }
   if (legend) {
    cur_ter = ter(cursx, cursy, z);
 // Draw the vertical line
@@ -1177,7 +1296,8 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   wrefresh(w);
 }
 
-point overmap::choose_point(game *g, int const zlevel)
+//Start drawing the overmap on the screen using the (m)ap command.
+point overmap::draw_overmap(game *g, int const zlevel)
 {
  WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
  WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
@@ -1188,9 +1308,10 @@ point overmap::choose_point(game *g, int const zlevel)
  int origx = cursx, origy = cursy;
  char ch = 0;
  point ret(-1, -1);
+ overmap hori, vert, diag; // Adjacent maps
 
  do {
-  draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink);
+     draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
   ch = input();
   int dirx, diry;
   if (ch != ERR)
@@ -1232,7 +1353,7 @@ point overmap::choose_point(game *g, int const zlevel)
    timeout(-1);
    std::string term = string_input_popup("Search term:");
    timeout(BLINK_SPEED);
-   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink);
+   draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
    point found = find_note(cursx, cursy, zlevel, term);
    if (found.x == -1) {	// Didn't find a note
     std::vector<point> terlist;
@@ -1265,7 +1386,7 @@ point overmap::choose_point(game *g, int const zlevel)
       }
       cursx = terlist[i].x;
       cursy = terlist[i].y;
-      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink);
+      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
       wrefresh(w_search);
       timeout(BLINK_SPEED);
      } while(ch != '\n' && ch != ' ' && ch != 'q');
@@ -1877,8 +1998,13 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
     else if (!is_road(base, x, y, z))
      ter(x, y, z) = base;
    } else {	// More than one eligable route; pick one randomly
+    //Don't switch directions if there is a building there and we don't have to...
     if (one_in(12) &&
-       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
+       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)) && !is_building(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
+     dir = (dir + 1) % 2; // Switch the direction (hori/vert) in which we move
+    //If our current path has a building in it and there is another possible path, we should take it
+    else if (is_building(ter(next[dir].x, next[dir].y, z)) &&
+       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)) && !is_building(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
      dir = (dir + 1) % 2; // Switch the direction (hori/vert) in which we move
     x = next[dir].x;
     y = next[dir].y;
@@ -2078,6 +2204,21 @@ bool overmap::is_road(int x, int y, int z)
      (ter(x, y, z) >= ot_sewer_ns  && ter(x, y, z) <= ot_sewer_nesw) ||
      ter(x, y, z) == ot_sewage_treatment_hub ||
      ter(x, y, z) == ot_sewage_treatment_under)
+  return true;
+ return false;
+}
+
+bool overmap::is_road_or_highway(int x, int y, int z)
+{
+ if (ter(x, y, z) == ot_rift || ter(x, y, z) == ot_hellmouth)
+  return true;
+ if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY) {
+  for (int i = 0; i < roads_out.size(); i++) {
+   if (abs(roads_out[i].x - x) + abs(roads_out[i].y - y) <= 1)
+    return true;
+  }
+ }
+ if ((ter(x, y, z) >= ot_hiway_ns && ter(x, y, z) <= ot_road_nesw_manhole))
   return true;
  return false;
 }
@@ -2308,15 +2449,15 @@ void overmap::place_special(overmap_special special, tripoint p)
  ter(p.x, p.y, p.z) = special.ter;
 // Next, obey any special effects the flags might have
  if (special.flags & mfb(OMS_FLAG_ROTATE_ROAD)) {
-  if (is_road(p.x, p.y - 1, p.z))
+  if (is_road_or_highway(p.x, p.y - 1, p.z))
    rotated = true;
-  else if (is_road(p.x + 1, p.y, p.z)) {
+  else if (is_road_or_highway(p.x + 1, p.y, p.z)) {
    ter(p.x, p.y, p.z) = oter_id( int(ter(p.x, p.y, p.z)) + 1);
    rotated = true;
-  } else if (is_road(p.x, p.y + 1, p.z)) {
+  } else if (is_road_or_highway(p.x, p.y + 1, p.z)) {
    ter(p.x, p.y, p.z) = oter_id( int(ter(p.x, p.y, p.z)) + 2);
    rotated = true;
-  } else if (is_road(p.x - 1, p.y, p.z)) {
+  } else if (is_road_or_highway(p.x - 1, p.y, p.z)) {
    ter(p.x, p.y, p.z) = oter_id( int(ter(p.x, p.y, p.z)) + 3);
    rotated = true;
   }
@@ -2397,6 +2538,83 @@ void overmap::place_special(overmap_special special, tripoint p)
    }
   }
   make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, ot_road_null);
+ }
+ 
+  if (special.flags & mfb(OMS_FLAG_3X3_FIXED)) {
+  if (is_road(p.x, p.y - 1, p.z)) { // Road to north
+   ter(p.x+1, p.y, p.z) = oter_id(special.ter - 1);//1
+   ter(p.x, p.y, p.z) = special.ter;//2
+   ter(p.x-1, p.y, p.z) = oter_id(special.ter + 1);//3
+   ter(p.x+1, p.y+1, p.z) = oter_id(special.ter + 2);//4
+   ter(p.x, p.y+1, p.z) = oter_id(special.ter + 3);//5
+   ter(p.x-1, p.y+1, p.z) = oter_id(special.ter + 4);//6
+   ter(p.x+1, p.y+2, p.z) = oter_id(special.ter + 5);//7
+   ter(p.x, p.y+2, p.z) = oter_id(special.ter + 6);//8
+   ter(p.x-1, p.y+2, p.z) = oter_id(special.ter + 7);//9
+   if (special.ter == ot_school_2)
+    make_hiway(p.x, p.y-1, p.x-1, p.y-1, p.z, ot_road_null);
+  } else if (is_road(p.x + 1, p.y, p.z)) { // Road to east
+   ter(p.x, p.y+1, p.z) = oter_id(special.ter - 1);//1
+   ter(p.x, p.y, p.z) = special.ter;//2
+   ter(p.x, p.y-1, p.z) = oter_id(special.ter + 1);//3
+   ter(p.x-1, p.y+1, p.z) = oter_id(special.ter + 2);//4
+   ter(p.x-1, p.y, p.z) = oter_id(special.ter + 3);//5
+   ter(p.x-1, p.y-1, p.z) = oter_id(special.ter + 4);//6
+   ter(p.x-2, p.y+1, p.z) = oter_id(special.ter + 5);//7
+   ter(p.x-2, p.y, p.z) = oter_id(special.ter + 6);//8
+   ter(p.x-2, p.y-1, p.z) = oter_id(special.ter + 7);//9
+   if (special.ter == ot_school_2)
+    make_hiway(p.x+1, p.y, p.x+1, p.y-1, p.z, ot_road_null);
+  } else if (is_road(p.x, p.y + 1, p.z)) { // Road to south
+   ter(p.x-1, p.y, p.z) = oter_id(special.ter - 1);//1
+   ter(p.x, p.y, p.z) = special.ter;//2
+   ter(p.x+1, p.y, p.z) = oter_id(special.ter + 1);//3
+   ter(p.x-1, p.y-1, p.z) = oter_id(special.ter + 2);//4
+   ter(p.x, p.y-1, p.z) = oter_id(special.ter + 3);//5
+   ter(p.x+1, p.y-1, p.z) = oter_id(special.ter + 4);//6
+   ter(p.x-1, p.y-2, p.z) = oter_id(special.ter + 5);//7
+   ter(p.x, p.y-2, p.z) = oter_id(special.ter + 6);//8
+   ter(p.x+1, p.y-2, p.z) = oter_id(special.ter + 7);//9
+   if (special.ter == ot_school_2)
+    make_hiway(p.x, p.y+1, p.x+1, p.y+1, p.z, ot_road_null);
+  } else if (is_road(p.x - 1, p.y, p.z)) { // Road to west
+   ter(p.x, p.y-1, p.z) = oter_id(special.ter - 1);//1
+   ter(p.x, p.y, p.z) = special.ter;//2
+   ter(p.x, p.y+1, p.z) = oter_id(special.ter + 1);//3
+   ter(p.x+1, p.y-1, p.z) = oter_id(special.ter + 2);//4
+   ter(p.x+1, p.y, p.z) = oter_id(special.ter + 3);//5
+   ter(p.x+1, p.y+1, p.z) = oter_id(special.ter + 4);//6
+   ter(p.x+2, p.y-1, p.z) = oter_id(special.ter + 5);//7
+   ter(p.x+2, p.y, p.z) = oter_id(special.ter + 6);//8
+   ter(p.x+2, p.y+1, p.z) = oter_id(special.ter + 7);//9
+   if (special.ter == ot_school_2)
+    make_hiway(p.x-1, p.y, p.x-1, p.y+1, p.z, ot_road_null);
+  }
+ }
+ 
+ //Buildings should be designed with the entrance at the southwest corner and open to the street on the south.
+ if (special.flags & mfb(OMS_FLAG_2X2_SECOND)) {
+  int startx = p.x-3, starty = p.y-3; // Acts as an error message, way offset from ideal
+  if (is_road(p.x, p.y - 1, p.z)) { // Road to north
+   startx = p.x - 1;
+   starty = p.y;
+  } else if (is_road(p.x + 1, p.y, p.z)) { // Road to east
+   startx = p.x - 1;
+   starty = p.y-1;
+  } else if (is_road(p.x, p.y + 1, p.z)) { // Road to south
+   startx = p.x;
+   starty = p.y - 1;
+  } else if (is_road(p.x - 1, p.y, p.z)) { // Road to west
+   startx = p.x;
+   starty = p.y;
+  }
+  if (startx != -1) {
+   for (int x = startx; x <= startx+1; x++) {
+    for (int y = starty; y <= starty+1; y++)
+     ter(x, y, p.z) = oter_id(special.ter+1);
+   }
+   ter(p.x, p.y, p.z) = oter_id(special.ter);
+  }
  }
 
  if (special.flags & mfb(OMS_FLAG_PARKING_LOT)) {
@@ -2506,26 +2724,35 @@ void overmap::place_radios()
    switch(ter(i, j, 0))
    {
    case ot_radio_tower:
-    if(one_in(2))
-    {
-     snprintf( message, sizeof(message), "This is emergency broadcast station %d%d.\
+   {
+       int choice = rng(0, 2);
+       switch(choice)
+       {
+       case 0:
+           snprintf( message, sizeof(message), "This is emergency broadcast station %d%d.\
   Please proceed quickly and calmly to your designated evacuation point.", i, j);
-     radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
-    } else {
-     radios.push_back(radio_tower(i*2, j*2, rng(80, 200),
-				  "Head West.  All survivors, head West.  Help is waiting."));
-    }
+           radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), message));
+           break;
+       case 1:
+           radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH),
+               "Head West.  All survivors, head West.  Help is waiting."));
+           break;
+       case 2:
+           radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), "", WEATHER_RADIO));
+           break;
+       }
+   }
     break;
    case ot_lmoe:
     snprintf( message, sizeof(message), "This is automated emergency shelter beacon %d%d.\
   Supplies, amenities and shelter are stocked.", i, j);
-    radios.push_back(radio_tower(i*2, j*2, rng(40, 100), message));
+    radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH) / 2, message));
     break;
    case ot_fema_entrance:
     snprintf( message, sizeof(message), "This is FEMA camp %d%d.\
   Supplies are limited, please bring supplemental food, water, and bedding.\
-  This is FEMA camp %d%d.  A desginated long-term emergency shelter.", i, j, i, j);
-    radios.push_back(radio_tower(i*2, j*2, rng(80, 200), message));
+  This is FEMA camp %d%d.  A designated long-term emergency shelter.", i, j, i, j);
+    radios.push_back(radio_tower(i*2, j*2, rng(RADIO_MIN_STRENGTH, RADIO_MAX_STRENGTH), message));
      break;
    }
   }
@@ -2534,6 +2761,11 @@ void overmap::place_radios()
 
 void overmap::save()
 {
+ if (layer == NULL) {
+  debugmsg("Tried to save a null overmap");
+  return;
+ }
+
  std::ofstream fout;
  std::string const plrfilename = player_filename(loc.x, loc.y);
  std::string const terfilename = terrain_filename(loc.x, loc.y);
@@ -2562,7 +2794,7 @@ void overmap::save()
   fout << "L " << z << std::endl;
   for (int j = 0; j < OMAPY; j++) {
    for (int i = 0; i < OMAPX; i++) {
-    fout << char(int(layer[z].terrain[i][j]) + 32);
+    fout << int(layer[z].terrain[i][j]) << " ";
    }
    fout << std::endl;
   }
@@ -2579,11 +2811,12 @@ void overmap::save()
   fout << "R " << roads_out[i].x << " " << roads_out[i].y << std::endl;
  for (int i = 0; i < radios.size(); i++)
   fout << "T " << radios[i].x << " " << radios[i].y << " " <<
-          radios[i].strength << " " << std::endl << radios[i].message <<
+      radios[i].strength << " " << radios[i].type << " " << std::endl << radios[i].message <<
           std::endl;
 
+ //saving the npcs
  for (int i = 0; i < npcs.size(); i++)
-  fout << "n " << npcs[i].save_info() << std::endl;
+  fout << "n " << npcs[i]->save_info() << std::endl;
 
  fout.close();
 }
@@ -2597,7 +2830,7 @@ void overmap::open(game *g)
  int cx, cy, cz, cs, cp, cd;
  std::string cstr;
  city tmp;
- std::vector<item> npc_inventory;
+ std::list<item> npc_inventory;
 
 // Set position IDs
  fin.open(terfilename.c_str());
@@ -2609,19 +2842,20 @@ void overmap::open(game *g)
    if (datatype == 'L') { 	// Load layer data, and switch to layer
     fin >> z;
 
-    std::string dataline;
-    getline(fin, dataline);	// Chomp endl
+    int tmp_ter;
 
-    for (int j = 0; j < OMAPY; j++) {
-     getline(fin, dataline);
-     if (z >= 0 && z < OVERMAP_LAYERS) {
+    if (z >= 0 && z < OVERMAP_LAYERS) {
+     for (int j = 0; j < OMAPY; j++) {
       for (int i = 0; i < OMAPX; i++) {
-       layer[z].terrain[i][j] = oter_id((unsigned char)dataline[i] - 32);
+       fin >> tmp_ter;
+       layer[z].terrain[i][j] = oter_id(tmp_ter);
        layer[z].visible[i][j] = false;
        if (layer[z].terrain[i][j] < 0 || layer[z].terrain[i][j] > num_ter_types)
         debugmsg("Loaded bad ter!  %s; ter %d", terfilename.c_str(), layer[z].terrain[i][j]);
       }
      }
+    } else {
+     debugmsg("Loaded z level out of range (z: %d)", z);
     }
    } else if (datatype == 'Z') {	// Monster group
     fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd;
@@ -2638,7 +2872,9 @@ void overmap::open(game *g)
     roads_out.push_back(tmp);
    } else if (datatype == 'T') {	// Radio tower
     radio_tower tmp;
-    fin >> tmp.x >> tmp.y >> tmp.strength;
+    int tmp_type;
+    fin >> tmp.x >> tmp.y >> tmp.strength >> tmp_type;
+    tmp.type = (radio_type)tmp_type;
     getline(fin, tmp.message);	// Chomp endl
     getline(fin, tmp.message);
     radios.push_back(tmp);
@@ -2647,13 +2883,13 @@ void overmap::open(game *g)
    assignment to an NPC.
  */
     if (!npc_inventory.empty() && !npcs.empty()) {
-     npcs.back().inv.add_stack(npc_inventory);
+     npcs.back()->inv.add_stack(npc_inventory);
      npc_inventory.clear();
     }
     std::string npcdata;
     getline(fin, npcdata);
-    npc tmp;
-    tmp.load_info(g, npcdata);
+    npc * tmp = new npc();
+    tmp->load_info(g, npcdata);
     npcs.push_back(tmp);
    } else if (datatype == 'I' || datatype == 'C' || datatype == 'W' ||
               datatype == 'w' || datatype == 'c') {
@@ -2665,7 +2901,7 @@ void overmap::open(game *g)
      debugmsg(itemdata.c_str());
     } else {
      item tmp(itemdata, g);
-     npc* last = &(npcs.back());
+     npc* last = npcs.back();
      switch (datatype) {
       case 'I': npc_inventory.push_back(tmp);                 break;
       case 'C': npc_inventory.back().contents.push_back(tmp); break;
@@ -2678,7 +2914,7 @@ void overmap::open(game *g)
   }
 // If we accrued an npc_inventory, assign it now
   if (!npc_inventory.empty() && !npcs.empty())
-   npcs.back().inv.add_stack(npc_inventory);
+   npcs.back()->inv.add_stack(npc_inventory);
 
   fin.close();
 
@@ -2796,11 +3032,12 @@ bool omspec_place::wilderness(overmap *om, tripoint p)
 
 bool omspec_place::by_highway(overmap *om, tripoint p)
 {
- oter_id north = om->ter(p.x, p.y - 1, p.z), east = om->ter(p.x + 1, p.y, p.z),
-         south = om->ter(p.x, p.y + 1, p.z), west = om->ter(p.x - 1, p.y, p.z);
-
- return ((north == ot_hiway_ew || north == ot_road_ew) ||
-         (east  == ot_hiway_ns || east  == ot_road_ns) ||
-         (south == ot_hiway_ew || south == ot_road_ew) ||
-         (west  == ot_hiway_ns || west  == ot_road_ns)   );
+ oter_id ter = om->ter(p.x, p.y, p.z);
+ return ((om->is_road_or_highway(p.x, p.y-1, p.z))||
+           (om->is_road_or_highway(p.x, p.y+1, p.z))||
+           (om->is_road_or_highway(p.x+1, p.y, p.z))||
+           (om->is_road_or_highway(p.x-1, p.y, p.z)))
+           &&
+           (ter == ot_forest || ter == ot_forest_thick || ter == ot_forest_water ||
+         ter == ot_field);
 }

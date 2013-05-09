@@ -11,7 +11,7 @@ typedef std::string bionic_id;
 class bionic_data {
 public:
      bionic_data(std::string new_name, bool new_power_source, bool new_activated,
-              int new_power_cost, int new_charge_time, std::string new_description);
+              int new_power_cost, int new_charge_time, std::string new_description, bool new_faulty = false);
 
      std::string name;
      bool power_source;
@@ -21,6 +21,7 @@ public:
      int charge_time;	// How long, when activated, between drawing power_cost
           // If 0, it draws power once
      std::string description;
+     bool faulty; // Whether or not the bionic is faulty
 };
 
 struct bionic {

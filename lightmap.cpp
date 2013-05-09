@@ -27,6 +27,8 @@ void map::generate_lightmap(game* g)
     // In bright light indoor light exists to some degree
     if (!g->m.is_outside(sx, sy))
      lm[sx][sy] = LIGHT_AMBIENT_LOW;
+	else
+	 lm[sx][sy] = natural_light;
    }
   }
  }
@@ -57,25 +59,19 @@ void map::generate_lightmap(game* g)
      }
     }
 
-// TODO: make this bit use item flags
-// may need to make item::has_flag const first
-    if (items.size() == 1 &&
-        items[0].type->id == "flashlight_on")
-     apply_light_source(sx, sy, 20);
-
-   if (items.size() == 1 &&
-       items[0].type->id == "lightstrip")
-    apply_light_source(sx, sy, 1);
+    for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm )
+    {
+        if ( itm->has_flag(IF_LIGHT_20)) { apply_light_source(sx, sy, 20); }
+        if ( itm->has_flag(IF_LIGHT_1)) { apply_light_source(sx, sy, 1); }
+        if ( itm->has_flag(IF_LIGHT_4)) { apply_light_source(sx, sy, 4); }
+        if ( itm->has_flag(IF_LIGHT_8)) { apply_light_source(sx, sy, 8); }
+    }
 
    if(terrain == t_lava)
     apply_light_source(sx, sy, 50);
 
    if(terrain == t_console)
     apply_light_source(sx, sy, 3);
-
-   if (items.size() == 1 &&
-       items[0].type->id == "candle_lit")
-    apply_light_source(sx, sy, 4);
 
    if(terrain == t_emergency_light)
     apply_light_source(sx, sy, 3);
@@ -201,7 +197,7 @@ void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
    const int dy = (fy < ty) ? 1 : -1;
    int x = fx;
    int y = fy;
-   int seen = true;
+   bool seen = true;
 
    // TODO: [lightmap] Pull out the common code here rather than duplication
    if (ax > ay)

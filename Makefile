@@ -9,6 +9,8 @@
 #   make CROSS=i686-pc-mingw32-
 # Win32
 #   Run: make NATIVE=win32
+# OS X
+#   Run: make NATIVE=osx
 
 # Build types:
 # Debug (no optimizations)
@@ -21,7 +23,7 @@
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
-WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-char-subscripts
+WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUG = -g
@@ -44,7 +46,9 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-VERSION = 0.3
+
+VERSION = 0.4
+
 
 TARGET = cataclysm
 W32TARGET = cataclysm.exe
@@ -64,7 +68,7 @@ ifdef RELEASE
   DEBUG =
 endif
 
-CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
+CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
 BINDIST_EXTRAS = README data cataclysm-launcher
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
@@ -77,7 +81,7 @@ W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
 #ifeq ($(OS), Msys)
 #  LDFLAGS = -static -lpdcurses
 #else
-  LDFLAGS = -lncurses
+  LDFLAGS += -lncurses
 #endif
 
 # Linux 64-bit
@@ -88,6 +92,10 @@ else
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
   endif
+endif
+# OSX
+ifeq ($(NATIVE), osx)
+  CXXFLAGS += -mmacosx-version-min=10.6
 endif
 # Win32 (mingw32?)
 ifeq ($(NATIVE), win32)
@@ -112,12 +120,20 @@ HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
-all: $(TARGET)
+all: version $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
           $(OBJS) $(LDFLAGS)
+
+.PHONY: version
+version:
+	@( VERSION_STRING=$(VERSION) ; \
+            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty ) && VERSION_STRING=$$GITVERSION ; \
+            [ -e "version.h" ] && OLDVERSION=$$(grep VERSION version.h|cut -d '"' -f2) ; \
+            if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee version.h ; fi \
+         )
 
 $(ODIR):
 	mkdir $(ODIR)
@@ -128,10 +144,13 @@ $(DDIR):
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
-clean:
+version.cpp: version
+
+clean: clean-tests
 	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(ODIR)/*.d $(W32ODIR)/*.o $(W32BINDIST) \
 	$(BINDIST)
 	rm -rf $(BINDIST_DIR)
+	rm -f version.h
 
 bindist: $(BINDIST)
 
@@ -155,7 +174,10 @@ tests: $(ODIR) $(DDIR) $(OBJS)
 check: tests
 	$(MAKE) -C tests check
 
-.PHONY: tests check ctags etags
+clean-tests:
+	$(MAKE) -C tests clean
+
+.PHONY: tests check ctags etags clean-tests
 
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

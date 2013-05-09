@@ -19,6 +19,7 @@
 #include "graffiti.h"
 #include "lightmap.h"
 
+//TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
 #define CAMPSIZE 1
 #define CAMPCHECK 3
@@ -108,11 +109,10 @@ class map
 // Terrain
  ter_id ter(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  void ter_set(const int x, const int y, const ter_id new_terrain);
- bool is_indoor(const int x, const int y); // Check if current ter is indoors
- std::string tername(const int x, const int y); // Name of terrain at (x, y)
+ std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(const t_flag flag, const int x, const int y);  // checks terrain and vehicles
- bool has_flag_ter_only(const t_flag flag, const int x, const int y); // only checks terrain
+ bool has_flag_ter_only(const t_flag flag, const int x, const int y) const; // only checks terrain
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_only(const int x, const int y);       // only checks terrain
  bool is_outside(const int x, const int y);
@@ -121,6 +121,7 @@ class map
  point random_outdoor_tile();
 
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
+ void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY); 
  bool close_door(const int x, const int y, const bool inside);
  bool open_door(const int x, const int y, const bool inside);
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
@@ -128,6 +129,7 @@ class map
  void destroy(game *g, const int x, const int y, const bool makesound);
  void shoot(game *g, const int x, const int y, int &dam, const bool hit_items, const unsigned flags);
  bool hit_with_acid(game *g, const int x, const int y);
+ bool hit_with_fire(game *g, const int x, const int y); 
  void marlossify(const int x, const int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
@@ -142,6 +144,7 @@ class map
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
  void spawn_item(const int x, const int y, itype* type, int birthday, int quantity = 0, int charges = 0);
+ void spawn_item(const int x, const int y, std::string itype_id, int birthday, int quantity = 0, int charges = 0);
  void add_item(const int x, const int y, item new_item);
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);

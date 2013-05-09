@@ -508,7 +508,7 @@ extremities from frostbite and to keep your distance from large fires.");
     }
 // Clear the lines
     for (int i = 0; i < 23; i++)
-     mvwprintz(w_help, i, 0, c_black, "                                        ");
+     mvwprintz(w_help, i, 0, c_black, "                                                ");
 
     for (int i = 0; i < 23 && offset + i < NUM_ACTIONS; i++) {
      std::vector<char> keys = keys_bound_to( action_id(offset + i) );
@@ -707,7 +707,7 @@ O           Parking lot - Empty lot, few items. Mostly useless.");
 Handguns are small weapons held in one or both hands. They are much more\n\
 difficult to aim and control than larger firearms, and this is reflected in\n\
 their poor accuracy. However, their small size makes them appropriate for\n\
-short-range combat, where largers guns fare poorly.\n\
+short-range combat, where larger guns fare poorly.\n\
 They are also relatively quick to reload, and use a very wide selection of\n\
 ammunition. Their small size and low weight make it possible to carry\n\
 several loaded handguns, switching from one to the next once their ammo is\n\
@@ -794,7 +794,7 @@ making them very good at clearing out large numbers of enemies.");
    mvwprintz(w_help, 10, 0, c_magenta, "( Energy Weapons");
    mvwprintz(w_help, 11, 0, c_white, "\
 Energy weapons is an umbrella term used to describe a variety of rifles and\n\
-handguns which fire lasers, plasma, or energy atttacks. They started to\n\
+handguns which fire lasers, plasma, or energy attacks. They started to\n\
 appear in military use just prior to the start of the apocalypse, and as such\n\
 are very difficult to find.\n\
 Energy weapons have no recoil at all; they are nearly silent, have a long\n\

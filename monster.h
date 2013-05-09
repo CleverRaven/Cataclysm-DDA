@@ -56,7 +56,7 @@ class monster {
 // Access
  std::string name(); 		// Returns the monster's formal name
  std::string name_with_armor(); // Name, with whatever our armor is called
- void print_info(game *g, WINDOW* w); // Prints information to w.
+ void print_info(game *g, WINDOW* w, int vStart = 6); // Prints information to w.
  char symbol();			// Just our type's symbol; no context
  void draw(WINDOW* w, int plx, int ply, bool inv);
  nc_color color_with_effects();	// Color with fire, beartrapped, etc.
@@ -65,6 +65,7 @@ class monster {
  bool can_see();		// MF_SEES and no ME_BLIND
  bool can_hear();		// MF_HEARS and no ME_DEAF
  bool made_of(material m);	// Returns true if it's made of m
+ bool made_of(phase_id p); // Returns true if its phase is p
 
  void load_info(std::string data, std::vector<mtype*> *mtypes);
  std::string save_info();	// String of all data, for save files
@@ -75,7 +76,7 @@ class monster {
  void shift(int sx, int sy); 	// Shifts the monster to the appropriate submap
 			     	// Updates current pos AND our plans
  bool wander(); 		// Returns true if we have no plans
- bool can_move_to(map &m, int x, int y); // Can we move to (x, y)?
+ bool can_move_to(game *g, int x, int y); // Can we move to (x, y)?
  bool will_reach(game *g, int x, int y); // Do we have plans to get to (x, y)?
  int  turns_to_reach(game *g, int x, int y); // How long will it take?
 

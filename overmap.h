@@ -8,7 +8,10 @@
 #include "output.h"
 #include <vector>
 #include <iosfwd>
+#include <string>
+#include <stdlib.h>
 #include "cursesdef.h"
+#include "name.h"
 
 class npc;
 struct settlement;
@@ -21,7 +24,11 @@ struct city {
  int x;
  int y;
  int s;
- city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S) {}
+ std::string name;
+ city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S)
+ {
+     name = Name::get(nameIsTownName);
+ }
 };
 
 struct om_note {
@@ -33,13 +40,24 @@ struct om_note {
          x (X), y (Y), num (N), text (T) {}
 };
 
+enum radio_type {
+    MESSAGE_BROADCAST,
+    WEATHER_RADIO
+};
+
+#define RADIO_MIN_STRENGTH 80
+#define RADIO_MAX_STRENGTH 200
+
 struct radio_tower {
  int x;
  int y;
  int strength;
+ radio_type type;
  std::string message;
- radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "") :
-             x (X), y (Y), strength (S), message (M) {}
+ int frequency;
+radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
+            radio_type T = MESSAGE_BROADCAST) :
+    x (X), y (Y), strength (S), type (T), message (M) {frequency = rand();}
 };
 
 struct map_layer {
@@ -86,13 +104,14 @@ class overmap
   point random_house_in_city(int city_id);
   int dist_from_city(point p);
 // Interactive point choosing; used as the map screen
-  point choose_point(game *g, int const z);
+  point draw_overmap(game *g, int const z);
 
   bool ter_in_type_range(int x, int y, int z, oter_id type, int type_range);
   oter_id& ter(int x, int y, int z);
   bool&   seen(int x, int y, int z);
   std::vector<mongroup*> monsters_at(int x, int y, int z);
   bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
+  bool is_road_or_highway(int x, int y, int z);
 
   bool has_note(int const x, int const y, int const z) const;
   std::string const& note(int const x, int const y, int const z) const;
@@ -101,11 +120,12 @@ class overmap
   point display_notes(game* g, int const z) const;
 
   point find_note(int const x, int const y, int const z, std::string const& text) const;
+  void remove_npc(int npc_id);
 
   // TODO: make private
   std::vector<mongroup> zg;
   std::vector<radio_tower> radios;
-  std::vector<npc> npcs;
+  std::vector<npc *> npcs;
   std::vector<city> cities;
   std::vector<city> roads_out;
   std::vector<settlement> towns;
@@ -131,7 +151,8 @@ class overmap
 
   //Drawing
   void draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
-                   int &origx, int &origy, char &ch, bool blink);
+            int &origx, int &origy, char &ch, bool blink,
+            overmap &hori, overmap &vert, overmap &diag);
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
@@ -165,6 +186,10 @@ class overmap
 
   std::string terrain_filename(int const x, int const y) const;
   std::string player_filename(int const x, int const y) const;
+
+  // Map helper function.
+  bool has_npc(game *g, int const x, int const y, int const z) const;
+  void print_npcs(game *g, WINDOW *w, int const x, int const y, int const z);
 };
 
 // TODO: readd the stream operators

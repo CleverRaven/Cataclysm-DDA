@@ -93,7 +93,7 @@ void computer::use(game *g)
 
   case 'y':
   case 'Y':
-   if (!hack_attempt(&(g->u))) {
+   if (!hack_attempt(g, &(g->u))) {
     if (failures.size() == 0) {
      print_line("Maximum login attempts exceeded. Press any key...");
      getch();
@@ -140,7 +140,7 @@ void computer::use(game *g)
    if (current.security > 0) {
     print_error("Password required.");
     if (query_bool("Hack into system?")) {
-     if (!hack_attempt(&(g->u), current.security)) {
+     if (!hack_attempt(g, &(g->u), current.security)) {
       activate_random_failure(g);
       shutdown_terminal();
       return;
@@ -157,12 +157,12 @@ void computer::use(game *g)
  shutdown_terminal(); // This should have been done by now, but just in case.
 }
 
-bool computer::hack_attempt(player *p, int Security)
+bool computer::hack_attempt(game *g, player *p, int Security)
 {
  if (Security == -1)
   Security = security; // Set to main system security if no value passed
 
- p->practice("computer", 5 + Security * 2);
+ p->practice(g->turn, "computer", 5 + Security * 2);
  int player_roll = p->skillLevel("computer");
  if (p->int_cur < 8 && one_in(2))
   player_roll -= rng(0, 8 - p->int_cur);
@@ -248,6 +248,24 @@ void computer::activate_function(game *g, computer_action action)
    g->m.translate(t_door_metal_locked, t_floor);
    print_line("Doors opened.");
    break;
+   
+  //LOCK AND UNLOCK are used to build more complex buildings that can have multiple doors that can be locked and 
+  //unlocked by different computers.  Simply uses translate_radius which take a given radius and player position
+  //to determine which terrain tiles to edit.
+  case COMPACT_LOCK:
+   g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx, g->u.posy);
+   print_line("Lock enabled.");
+   break;
+
+  case COMPACT_UNLOCK:
+   g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.posx, g->u.posy);
+   print_line("Lock disabled.");
+   break;
+
+  //Toll is required for the church computer/mechanism to function
+  case COMPACT_TOLL:
+   g->sound(g->u.posx, g->u.posy, 120, "Bohm... Bohm... Bohm...");
+   break;  
 
   case COMPACT_SAMPLE:
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
@@ -374,6 +392,7 @@ void computer::activate_function(game *g, computer_action action)
    print_line(" %s", log.c_str());
    print_line("Press any key...");
    getch();
+   reset_terminal();
   } break;
 
   case COMPACT_MAPS: {
@@ -390,6 +409,8 @@ void computer::activate_function(game *g, computer_action action)
      g->cur_om.seen(i, j, 0) = true;
    }
    print_line("Surface map data downloaded.");
+   query_any("Press any key to continue...");
+   reset_terminal();
   } break;
 
   case COMPACT_MAP_SEWER: {
@@ -413,40 +434,74 @@ void computer::activate_function(game *g, computer_action action)
   } break;
 
 
-  case COMPACT_MISS_LAUNCH: {
-// Target Acquisition.
-   point target = g->cur_om.choose_point(g, 0);
-   if (target.x == -1) {
-    print_line("Launch canceled.");
-    return;
-   }
-// Figure out where the glass wall is...
-   int wall_spot = 0;
-   for (int i = g->u.posx; i < g->u.posx + SEEX * 2 && wall_spot == 0; i++) {
-    if (g->m.ter(i, 10) == t_wall_glass_v)
-     wall_spot = i;
-   }
-// ...and put radioactive to the right of it
-   for (int i = wall_spot + 1; i < SEEX * 2 - 1; i++) {
-    for (int j = 1; j < SEEY * 2 - 1; j++) {
-     if (one_in(3))
-      g->m.add_field(NULL, i, j, fd_nuke_gas, 3);
-    }
-   }
-// For each level between here and the surface, remove the missile
-   for (int level = g->levz; level < 0; level++) {
-    tinymap tmpmap(&g->itypes, &g->mapitems, &g->traps);
-    tmpmap.load(g, g->levx, g->levy, level, false);
-    tmpmap.translate(t_missile, t_hole);
-    tmpmap.save(&g->cur_om, g->turn, g->levx, level, g->levz);
-   }
-   for (int x = target.x - 2; x <= target.x + 2; x++) {
-    for (int y = target.y -  2; y <= target.y + 2; y++)
-     g->nuke(x, y);
-   }
+  case COMPACT_MISS_LAUNCH:
+    {
+        // Target Acquisition.
+        point target = g->cur_om.draw_overmap(g, 0);
+        if (target.x == -1)
+        {
+            g->add_msg("Target acquisition canceled");
+            return;
+        }
+        if(query_yn("Confirm nuclear missile launch."))
+        {
+            g->add_msg("Nuclear missile launched!");
+            options.clear();//Remove the option to fire another missle.
+        }
+        else
+        {
+            g->add_msg("Nuclear missile launch aborted.");
+            return;
+        }
+        g->refresh_all();
+
+        //Put some smoke gas and explosions at the nuke location.
+        for(int i= g->u.posx +8; i < g->u.posx +15; i++)
+        {
+            for(int j= g->u.posy +3; j < g->u.posy +12; j++)
+                if(!one_in(4))
+                    g->m.add_field(NULL, i+rng(-2,2), j+rng(-2,2), fd_smoke, rng(1,9));
+        }
+
+        g->explosion(g->u.posx +10, g->u.posx +21, 200, 0, true); //Only explode once. But make it large.
+
+        //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
+        // For each level between here and the surface, remove the missile
+        for (int level = g->levz; level <= 0; level++)
+        {
+            map tmpmap(&g->itypes, &g->mapitems, &g->traps);
+            tmpmap.load(g, g->levx, g->levy, level, false);
+
+            if(level < 0)
+                tmpmap.translate(t_missile, t_hole);
+            else if(level == 0)
+                tmpmap.translate(t_metal_floor, t_hole);
+            tmpmap.save(&g->cur_om, g->turn, g->levx, g->levy, level);
+        }
+
+
+        for(int x = target.x - 2; x <= target.x + 2; x++)
+        {
+            for(int y = target.y -  2; y <= target.y + 2; y++)
+                g->nuke(x, y);
+        }
+
+        activate_failure(g, COMPFAIL_SHUTDOWN);
   } break;
 
-  case COMPACT_MISS_DISARM: // TODO: This!
+
+  case COMPACT_MISS_DISARM: // TODO: stop the nuke from creating radioactive clouds.
+        if(query_yn("Disarm missile."))
+        {
+            g->add_msg("Nuclear missile disarmed!");
+            options.clear();//disable missile.
+            activate_failure(g, COMPFAIL_SHUTDOWN);
+        }
+        else
+        {
+            g->add_msg("Nuclear missile remains active.");
+            return;
+        }
    break;
 
   case COMPACT_LIST_BIONICS: {
@@ -589,9 +644,9 @@ of pureed bone & LSD.");
     }
     item software(g->itypes[miss->item_id], 0);
     software.mission_id = mission_id;
-    int index = g->u.pick_usb();
-    g->u.inv[index].contents.clear();
-    g->u.inv[index].put_in(software);
+    item* usb = g->u.pick_usb();
+    usb->contents.clear();
+    usb->put_in(software);
     print_line("Software downloaded.");
    }
    break;
@@ -622,9 +677,9 @@ of pureed bone & LSD.");
           print_error("USB drive required!");
          else {
           item software(g->itypes["software_blood_data"], 0);
-          int index = g->u.pick_usb();
-          g->u.inv[index].contents.clear();
-          g->u.inv[index].put_in(software);
+          item* usb = g->u.pick_usb();
+          usb->contents.clear();
+          usb->put_in(software);
           print_line("Software downloaded.");
          }
         }
@@ -640,19 +695,204 @@ of pureed bone & LSD.");
 
   case COMPACT_EMERG_MESS:
   print_line("\
-  GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
-  EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
-  SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
-  \n\
-  1. DO NOT PANIC. \n\
-  2. REMAIN INSIDE THE BUILDING. \n\
-  3. SEEK SHELTER IN THE BASEMENT. \n\
-  4. USE PROVIDED GAS MASKS. \n\
-  5. AWAIT FURTHER INSTRUCTIONS \n\
-  \n\
-  Press any key to continue...");
+GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
+EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
+SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
+\n\
+1. DO NOT PANIC. \n\
+2. REMAIN INSIDE THE BUILDING. \n\
+3. SEEK SHELTER IN THE BASEMENT. \n\
+4. USE PROVIDED GAS MASKS. \n\
+5. AWAIT FURTHER INSTRUCTIONS \n\
+\n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
   break;
 
+  case COMPACT_TOWER_UNRESPONSIVE:
+  print_line("\
+  WARNING, RADIO TOWER IS UNRESPONSIVE. \n\
+  \n\
+  BACKUP POWER INSUFFICIENT TO MEET BROADCASTING REQUIREMENTS. \n\
+  IN THE EVENT OF AN EMERGENCY, CONTACT LOCAL NATIONAL GUARD \n\
+  UNITS TO RECEIVE PRIORITY WHEN GENERATORS ARE BEING DEPLOYED. \n\
+  \n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+
+  case COMPACT_SR1_MESS:
+  print_line("\
+  Subj: Security Reminder\n\
+  To: all SRCF staff\n\
+  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
+  \n\
+      I want to remind everyone on staff: Do not open or examine\n\
+  containers above your security-clearance.  If you have some\n\
+  question about safety protocols or shipping procedures, please\n\
+  contact your SRCF administrator or on-site military officer.\n\
+  When in doubt, assume all containers are Class-A Biohazards\n\
+  and highly toxic. Take full precautions!\n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+
+  case COMPACT_SR2_MESS:
+  print_line("\
+  Subj: Security Reminder\n\
+  To: all SRCF staff\n\
+  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
+  \n\
+  From today onward medical wastes are not to be stored anywhere\n\
+  near radioactive materials.  All containers are to be\n\
+  re-arranged according to these new regulations.  If your\n\
+  facility currently has these containers stored in close\n\
+  proximity, you are to work with armed guards on duty at all\n\
+  times. Report any unusual activity to your SRCF administrator\n\
+  at once.\n\
+  \n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+
+  case COMPACT_SR3_MESS:
+  print_line("\
+  Subj: Security Reminder\n\
+  To: all SRCF staff\n\
+  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
+  \n\
+  Worker health and safety is our number one concern!  As such,\n\
+  we are instituting weekly health examinations for all SRCF\n\
+  employees.  Report any unusual symptoms or physical changes\n\
+  to your SRCF administrator at once.\n\
+  \n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+
+  case COMPACT_SR4_MESS:
+  print_line("\
+  Subj: Security Reminder\n\
+  To: all SRCF staff\n\
+  From:  Constantine Dvorak, Undersecretary of Nuclear Security\n\
+  \n\
+  All compromised facilities will remain under lock down until\n\
+  further notice.  Anyone who has seen or come in direct contact\n\
+  with the creatures is to report to the home office for a full\n\
+  medical evaluation and security debriefing.\n\
+  \n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+  
+  case COMPACT_SRCF_1_MESS:
+  reset_terminal();
+  print_line(" Subj: EPA: Report All Potential Containment Breaches 3873643\n\
+  To: all SRCF staff\n\
+  From:  Robert Shane, Director of the EPA\n\
+  \n\
+  All hazardous waste dumps and sarcouphagi must submit three\n\
+  samples from each operational leache system to the following\n\
+  addresses:\n\
+  \n\
+  CDC Bioterrism Lab \n\
+  Building 10\n\
+  Corporate Square Boulevard\n\
+  Atlanta, GA 30329\n\
+  \n\
+  EPA Region 8 Laboratory\n\
+  16194 W. 45th\n\
+  Drive Golden, Colorado 80403\n\
+  \n\
+  These samples must be accurate and any attempts to cover\n\
+  incompetencies will resault in charges of Federal Corrution\n\
+  and potentially Treason.\n\
+  \n\
+  Director of the EPA,\n\
+  Robert Shane\n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+
+  case COMPACT_SRCF_2_MESS:
+  reset_terminal();
+  print_line(" Subj: SRCF: Internal Memo, EPA [2918024]\n\
+  To: all SRCF admin staff\n\
+  From:  Constantine Dvorak, Undersecretary of Nuclear Security\n\
+  \n\
+  Director Grimes has released a new series of accusations that\n\
+  will soon be investigated by a Congressional committee.  Below\n\
+  is the message that he sent myself.\n\
+  \n\
+  --------------------------------------------------------------\n\
+  Subj: Congressional Investigations\n\
+  To: Constantine Dvorak, Undersecretary of Nuclear Safety\n\
+  From: Robert Shane, director of the EPA\n\
+  \n\
+      The EPA has opposed the Security-Restricted Containment\n\
+  Facility (SRCF) project from its inception.  We were horrified\n\
+  that these facilities would be constructed so close to populated\n\
+  areas, and only agreed to sign-off on the project if we were\n\
+  allowed to freely examine and monitor the sarcophagi.  But that\n\
+  has not happened.  Since then the DoE has employed any and all\n\
+  means to keep EPA agents from visiting the SRCFs, using military\n\
+  secrecy, emergency powers, and inter-departmental gag orders to\n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  print_line(" surround the project with an impenetrable thicket of red tape.\n\
+  \n\
+      Although our agents have not been allowed inside, our atmospheric\n\
+  testers in nearby communities have detected high levels of toxins\n\
+  and radiation, and we've found dozens of potentially dangerous\n\
+  unidentified compounds in the ground water.  We now have\n\
+  conclusive evidence that the SRCFs are a threat to the public\n\
+  safety.  We are taking these data to state representatives and\n\
+  petitioning for a full congressional inquiry.  They should be\n\
+  able to force open your secret vaults, and the world will see\n\
+  what you've been hiding.\n\
+  \n\
+  If you had any hand in this outbreak I hope you rot in hell.\n\
+  \n\
+  Director of the EPA,\n\
+  Robert Shane\n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+
+  case COMPACT_SRCF_3_MESS:
+  reset_terminal();
+  print_line(" Subj: CDC: Internal Memo, Standby [2918115]\n\
+  To: all SRCF staff\n\
+  From:  Ellen Grimes, Director of the EPA\n\
+  \n\
+      Your site along with many others has been found to be\n\
+  contaminated with what we will now refer to as [redracted].\n\
+  It is vital that you standby for further orders.  We are\n\
+  currently awaiting the President to decide our course of\n\
+  action in this national crisis.  You will proceed with fail-\n\
+  safe procedures and rig the sarcouphagus with c-4 as outlined\n\
+  in Publication 4423.  We will send you orders to either detonate\n\
+  and seal the sarcouphagus or remove the charges.  It is of\n\
+  upmost importance that the facility is sealed immediatly when\n\
+  the orders are given, we have been alerted by Homeland Security\n\
+  that there are potential terrorist suspects that are being\n\
+  detained in connection with the recent national crisis.\n\
+  \n\
+  Director of the CDC,\n\
+  Ellen Grimes\n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+  
  } // switch (action)
 }
 
@@ -824,6 +1064,22 @@ bool computer::query_bool(const char *mes, ...)
  while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
         ret != 'Q');
  return (ret == 'y' || ret == 'Y');
+}
+
+bool computer::query_any(const char *mes, ...)
+{
+// Translate the printf flags
+ va_list ap;
+ va_start(ap, mes);
+ char buff[6000];
+ vsprintf(buff, mes, ap);
+ va_end(ap);
+ std::string full_line = buff;
+// Print the resulting text
+ print_line(full_line.c_str());
+ char ret;
+ ret = getch();
+ return true;
 }
 
 char computer::query_ynq(const char *mes, ...)

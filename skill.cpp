@@ -1,11 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>    // std::min
 
 #include "skill.h"
 #include "rng.h"
 
 #include "picojson.h"
+
+#include "options.h"
 
 Skill::Skill() {
   _ident = std::string("null");
@@ -22,7 +25,7 @@ Skill::Skill(size_t id, std::string ident, std::string name, std::string descrip
   _description = description;
 }
 
-std::vector<Skill*> Skill::skills(Skill::loadSkills());
+std::vector<Skill*> Skill::skills;
 
 std::vector<Skill*> Skill::loadSkills() {
   std::vector<Skill*> allSkills;
@@ -59,7 +62,7 @@ std::vector<Skill*> Skill::loadSkills() {
 }
 
 Skill* Skill::skill(std::string ident) {
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill) {
   if ((*aSkill)->_ident == ident) {
    return *aSkill;
@@ -77,16 +80,35 @@ size_t Skill::skill_count() {
 }
 
 
-SkillLevel::SkillLevel(int level, int exercise, bool isTraining) {
-  _level = level;
-  _exercise = exercise;
-  _isTraining = isTraining;
+SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPracticed)
+{
+    _level = level;
+    _exercise = exercise;
+    _isTraining = isTraining;
+    if(lastPracticed == 0)
+    {
+        _lastPracticed = HOURS(OPTIONS[OPT_INITIAL_TIME]);
+    }
+    else
+    {
+        _lastPracticed = lastPracticed;
+    }
 }
 
-SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining) {
-  _level = rng(minLevel, maxLevel);
-  _exercise = rng(minExercise, maxExercise);
-  _isTraining = isTraining;
+SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise,
+                       bool isTraining, int lastPracticed)
+{
+    _level = rng(minLevel, maxLevel);
+    _exercise = rng(minExercise, maxExercise);
+    _isTraining = isTraining;
+    if(lastPracticed == 0)
+    {
+        _lastPracticed = HOURS(OPTIONS[OPT_INITIAL_TIME]);
+    }
+    else
+    {
+        _lastPracticed = lastPracticed;
+    }
 }
 
 int SkillLevel::comprehension(int intellect, bool fastLearner) {
@@ -125,7 +147,7 @@ int SkillLevel::comprehension(int intellect, bool fastLearner) {
 int SkillLevel::train(int &level) {
   ++_exercise;
 
-  if (_exercise == 100) {
+  if (_exercise >= 100) {
     _exercise = 0;
     ++_level;
   }
@@ -135,51 +157,96 @@ int SkillLevel::train(int &level) {
   return _exercise;
 }
 
-int SkillLevel::rust(int &level) {
-  --_exercise;
-
-  if (_exercise == 100) {
-    _exercise = 0;
-    --_level;
-  }
-
-  level = _level;
-
-  return _exercise;
+static int rustRate(int level)
+{
+    int forgetCap = std::min(level, 7);
+    return 16384 / int(pow(2.0, double(forgetCap - 1)));
 }
 
-int SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel) {
+bool SkillLevel::isRusting(const calendar& turn) const
+{
+    return OPTIONS[OPT_SKILL_RUST] != 2 && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
+}
+
+bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem)
+{
+    if (OPTIONS[OPT_SKILL_RUST] == 2) return false;
+
+    if (_level > 0 && turn > _lastPracticed &&
+        (turn - _lastPracticed) % rustRate(_level) == 0)
+    {
+        if (rng(1,12) % (forgetful ? 3 : 4))
+        {
+            if (OPTIONS[OPT_SKILL_RUST] == 0 || _exercise > 0)
+            {
+                if (charged_bio_mem) return one_in(5);
+                --_exercise;
+
+                if (_exercise < 0)
+                {
+                    _exercise = 99;
+                    --_level;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void SkillLevel::practice(const calendar& turn)
+{
+    _lastPracticed = turn;
+}
+
+int SkillLevel::readBook(int minimumGain, int maximumGain, const calendar& turn,
+                         int maximumLevel)
+{
   int gain = rng(minimumGain, maximumGain);
 
   int level;
 
   for (int i = 0; i < gain; ++i) {
-    train(level);
+      train(level);
 
     if (level >= maximumLevel)
       break;
   }
+
+  practice(turn);
 
   return _exercise;
 }
 
 
 std::istream& operator>>(std::istream& is, SkillLevel& obj) {
-  int level; int exercise; bool isTraining;
+  int level; int exercise; bool isTraining; int lastPracticed;
 
-  is >> level >> exercise >> isTraining;
+  is >> level >> exercise >> isTraining >> lastPracticed;
 
-  obj = SkillLevel(level, exercise, isTraining);
+  obj = SkillLevel(level, exercise, isTraining, lastPracticed);
 
   return is;
 }
 
 std::ostream& operator<<(std::ostream& os, const SkillLevel& obj) {
-  os << obj.level() << " " << obj.exercise() << " " << obj.isTraining() << " ";
+  os << obj.level() << " " << obj.exercise() << " "
+     << obj.isTraining() << " " << obj.lastPracticed() << " ";
 
   return os;
 }
 
+SkillLevel& SkillLevel::operator= (const SkillLevel &rhs)
+{
+ if (this == &rhs)
+  return *this; // No self-assignment
+
+  _level = rhs._level;
+  _exercise = rhs._exercise;
+  _isTraining = rhs._isTraining;
+  _lastPracticed = rhs._lastPracticed;
+
+ return *this;
+}
 
 std::string skill_name(int sk) {
   return Skill::skill(sk)->name();

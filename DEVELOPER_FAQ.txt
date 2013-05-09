@@ -12,6 +12,8 @@
     Edit iuse.h and include the function in the class declaration; then edit
     iuse.cpp and define your function.  Functions may be shared among different
     item types.
+ 6) If you do not want NPCs to carry the item, add it to the list called 
+    mapitems[mi_trader_avoid] in mapitemsdef.cpp.
 
 1.2 Adding a monster
  1) Edit mtype.h.  Change the enum mon_id and insert a unique identifier for
@@ -80,3 +82,6 @@ An overmap encapsulates the large-scale structure of a map
    There are an arbitrary number of overmaps
    Additional overmaps are generated as the player enters new areas.
 
+ FAQ
+Q: what is the relation of NPCS/Monsters vs maps. How are they stored, where are they stored? Are they stored?
+A: All npcs are now stored in the overmap. Active npcs only contain the currently active npcs. There is a difference between npc active npc coordinates, and overmap coordinates. So these will need to be changed when saving the npcs. Or else the npcs will be saved at the wrong location. And yes they are stored.

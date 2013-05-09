@@ -1,0 +1,24 @@
+[
+  { "id":"lighter",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "blue",
+    "name": "lighter",
+    "description": "A lighter must be carried to use various drugs, like cigarettes, or to light things like molotov cocktails.  You can also use a lighter to light nearby items on fire.",
+    "rarity": 60,
+    "price": 35,
+    "material": ["PLASTIC","IRON"],
+    "weight": 0,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "none",
+    "revert_to": "null",
+    "use_action": "LIGHTER"
+  }
+]

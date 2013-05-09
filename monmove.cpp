@@ -29,18 +29,38 @@ bool monster::wander()
  return (plans.empty());
 }
 
-bool monster::can_move_to(map &m, int x, int y)
+bool monster::can_move_to(game *g, int x, int y)
 {
- if (m.move_cost(x, y) == 0 &&
-     (!has_flag(MF_DESTROYS) || !m.is_destructable(x, y)) &&
+    if (g->m.move_cost(x, y) == 0 &&
+     (!has_flag(MF_DESTROYS) || !g->m.is_destructable(x, y)) &&
      ((!has_flag(MF_AQUATIC) && !has_flag(MF_SWIMS)) ||
-      !m.has_flag(swimmable, x, y)))
-  return false;
- if (has_flag(MF_DIGS) && !m.has_flag(diggable, x, y))
-  return false;
- if (has_flag(MF_AQUATIC) && !m.has_flag(swimmable, x, y))
-  return false;
- return true;
+      !g->m.has_flag(swimmable, x, y)))
+        return false;
+    if (has_flag(MF_DIGS) && !g->m.has_flag(diggable, x, y))
+        return false;
+    if (has_flag(MF_AQUATIC) && !g->m.has_flag(swimmable, x, y))
+    return false;
+
+    // various animal behaviours 
+    if (has_flag(MF_ANIMAL))
+    {
+        // don't enter sharp terrain unless tiny, or attacking
+        if (g->m.has_flag(sharp, x, y) && !(attitude(&(g->u)) == MATT_ATTACK || type->size == MS_TINY))
+            return false;
+
+        // don't enter open pits ever unless tiny or can fly
+        if (!(type->size == MS_TINY || has_flag(MF_FLIES)) && (g->m.ter(x, y) == t_pit || g->m.ter(x, y) == t_pit_spiked))
+            return false;     
+
+        // don't enter lava ever
+        if (g->m.ter(x, y) == t_lava)
+            return false;
+        
+        // don't enter fire or electricity ever
+        if (g->m.field_at(x, y).type == fd_fire || g->m.field_at(x, y).type == fd_electricity) 
+            return false;        
+    }
+    return true;
 }
 
 // Resets plans (list of squares to visit) and builds it as a straight line
@@ -110,7 +130,7 @@ void monster::plan(game *g)
   stc = tc;
  }
  for (int i = 0; i < g->active_npc.size(); i++) {
-  npc *me = &(g->active_npc[i]);
+  npc *me = (g->active_npc[i]);
   int medist = rl_dist(posx, posy, me->posx, me->posy);
   if ((medist < dist || (!fleeing && is_fleeing(*me))) &&
       (can_see() &&
@@ -154,7 +174,7 @@ void monster::plan(game *g)
   else if (closest <= -3)
    set_dest(g->z[-3 - closest].posx, g->z[-3 - closest].posy, stc);
   else if (closest >= 0)
-   set_dest(g->active_npc[closest].posx, g->active_npc[closest].posy, stc);
+   set_dest(g->active_npc[closest]->posx, g->active_npc[closest]->posy, stc);
  }
 }
 
@@ -214,9 +234,9 @@ void monster::move(game *g)
    current_attitude = attitude(&(g->u));
   else {
    for (int i = 0; i < g->active_npc.size(); i++) {
-    if (plans.back().x == g->active_npc[i].posx &&
-        plans.back().y == g->active_npc[i].posy)
-     current_attitude = attitude(&(g->active_npc[i]));
+    if (plans.back().x == g->active_npc[i]->posx &&
+        plans.back().y == g->active_npc[i]->posy)
+     current_attitude = attitude((g->active_npc[i]));
    }
   }
  }
@@ -229,7 +249,7 @@ void monster::move(game *g)
 
  if (plans.size() > 0 && !is_fleeing(g->u) &&
      (mondex == -1 || g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)) &&
-     (can_move_to(g->m, plans[0].x, plans[0].y) ||
+     (can_move_to(g, plans[0].x, plans[0].y) ||
       (plans[0].x == g->u.posx && plans[0].y == g->u.posy) ||
      (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
   // CONCRETE PLANS - Most likely based on sight
@@ -265,8 +285,8 @@ void monster::move(game *g)
            (g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)))
    hit_monster(g, mondex);
   else if (npcdex != -1 && type->melee_dice > 0)
-   hit_player(g, g->active_npc[npcdex]);
-  else if ((!can_move_to(g->m, next.x, next.y) || one_in(3)) &&
+   hit_player(g, *g->active_npc[npcdex]);
+  else if ((!can_move_to(g, next.x, next.y) || one_in(3)) &&
              g->m.has_flag(bashable, next.x, next.y) && has_flag(MF_BASHES)) {
    std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
    int bashskill = int(type->melee_dice * type->melee_sides);
@@ -275,7 +295,7 @@ void monster::move(game *g)
   } else if (g->m.move_cost(next.x, next.y) == 0 && has_flag(MF_DESTROYS)) {
    g->m.destroy(g, next.x, next.y, true);
    moves -= 250;
-  } else if (can_move_to(g->m, next.x, next.y) && g->is_empty(next.x, next.y))
+  } else if (can_move_to(g, next.x, next.y) && g->is_empty(next.x, next.y))
    move_to(g, next.x, next.y);
   else
    moves -= 100;
@@ -326,7 +346,7 @@ void monster::friendly_move(game *g)
  bool moved = false;
  moves -= 100;
  if (plans.size() > 0 && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
-     (can_move_to(g->m, plans[0].x, plans[0].y) ||
+     (can_move_to(g, plans[0].x, plans[0].y) ||
      (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
   next = plans[0];
   plans.erase(plans.begin());
@@ -339,10 +359,10 @@ void monster::friendly_move(game *g)
   if (mondex != -1 && g->z[mondex].friendly == 0 && type->melee_dice > 0)
    hit_monster(g, mondex);
   else if (npcdex != -1 && type->melee_dice > 0)
-   hit_player(g, g->active_npc[g->npc_at(next.x, next.y)]);
-  else if (mondex == -1 && npcdex == -1 && can_move_to(g->m, next.x, next.y))
+   hit_player(g, *g->active_npc[g->npc_at(next.x, next.y)]);
+  else if (mondex == -1 && npcdex == -1 && can_move_to(g, next.x, next.y))
    move_to(g, next.x, next.y);
-  else if ((!can_move_to(g->m, next.x, next.y) || one_in(3)) &&
+  else if ((!can_move_to(g, next.x, next.y) || one_in(3)) &&
            g->m.has_flag(bashable, next.x, next.y) && has_flag(MF_BASHES)) {
    std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
    int bashskill = int(type->melee_dice * type->melee_sides);
@@ -373,7 +393,7 @@ point monster::scent_move(game *g)
    smell = g->scent(posx + x, posy + y);
    int mon = g->mon_at(posx + x, posy + y);
    if ((mon == -1 || g->z[mon].friendly != 0 || has_flag(MF_ATTACKMON)) &&
-       (can_move_to(g->m, posx + x, posy + y) ||
+       (can_move_to(g, posx + x, posy + y) ||
         (posx + x == g->u.posx && posx + y == g->u.posy) ||
         (g->m.has_flag(bashable, posx + x, posy + y) && has_flag(MF_BASHES)))) {
     if ((!is_fleeing(g->u) && smell > maxsmell) ||
@@ -416,45 +436,45 @@ point monster::sound_move(game *g)
  if (wandy < posy) { y--; y2++;          }
  if (wandy > posy) { y++; y2++; y3 -= 2; }
  if (xbest) {
-  if (can_move_to(g->m, x, y) || (x == g->u.posx && y == g->u.posy) ||
+  if (can_move_to(g, x, y) || (x == g->u.posx && y == g->u.posy) ||
       (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y))) {
    next.x = x;
    next.y = y;
-  } else if (can_move_to(g->m, x, y2) || (x == g->u.posx && y == g->u.posy) ||
+  } else if (can_move_to(g, x, y2) || (x == g->u.posx && y == g->u.posy) ||
              (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y2))) {
    next.x = x;
    next.y = y2;
-  } else if (can_move_to(g->m, x2, y) || (x == g->u.posx && y == g->u.posy) ||
+  } else if (can_move_to(g, x2, y) || (x == g->u.posx && y == g->u.posy) ||
              (has_flag(MF_BASHES) && g->m.has_flag(bashable, x2, y))) {
    next.x = x2;
    next.y = y;
-  } else if (can_move_to(g->m, x, y3) || (x == g->u.posx && y == g->u.posy) ||
+  } else if (can_move_to(g, x, y3) || (x == g->u.posx && y == g->u.posy) ||
              (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y3))) {
    next.x = x;
    next.y = y3;
-  } else if (can_move_to(g->m, x3, y) || (x == g->u.posx && y == g->u.posy) ||
+  } else if (can_move_to(g, x3, y) || (x == g->u.posx && y == g->u.posy) ||
              (has_flag(MF_BASHES) && g->m.has_flag(bashable, x3, y))) {
    next.x = x3;
    next.y = y;
   }
  } else {
-  if (can_move_to(g->m, x, y) || (x == g->u.posx && y == g->u.posy) ||
+  if (can_move_to(g, x, y) || (x == g->u.posx && y == g->u.posy) ||
       (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y))) {
    next.x = x;
    next.y = y;
-  } else if (can_move_to(g->m, x2, y) || (x == g->u.posx && y == g->u.posy) ||
+  } else if (can_move_to(g, x2, y) || (x == g->u.posx && y == g->u.posy) ||
              (has_flag(MF_BASHES) && g->m.has_flag(bashable, x2, y))) {
    next.x = x2;
    next.y = y;
-  } else if (can_move_to(g->m, x, y2) || (x == g->u.posx && y == g->u.posy) ||
+  } else if (can_move_to(g, x, y2) || (x == g->u.posx && y == g->u.posy) ||
              (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y2))) {
    next.x = x;
    next.y = y2;
-  } else if (can_move_to(g->m, x3, y) || (x == g->u.posx && y == g->u.posy) ||
+  } else if (can_move_to(g, x3, y) || (x == g->u.posx && y == g->u.posy) ||
              (has_flag(MF_BASHES) && g->m.has_flag(bashable, x3, y))) {
    next.x = x3;
    next.y = y;
-  } else if (can_move_to(g->m, x, y3) || (x == g->u.posx && y == g->u.posy) ||
+  } else if (can_move_to(g, x, y3) || (x == g->u.posx && y == g->u.posy) ||
              (has_flag(MF_BASHES) && g->m.has_flag(bashable, x, y3))) {
    next.x = x;
    next.y = y3;
@@ -471,8 +491,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
  if (has_flag(MF_HIT_AND_RUN))
   add_effect(ME_RUN, 4);
  bool is_npc = p.is_npc();
- int  junk;
- bool u_see = (!is_npc || g->u_see(p.posx, p.posy, junk));
+ bool u_see = (!is_npc || g->u_see(p.posx, p.posy));
  std::string you  = (is_npc ? p.name : "you");
  std::string You  = (is_npc ? p.name : "You");
  std::string your = (is_npc ? p.name + "'s" : "your");
@@ -598,9 +617,9 @@ void monster::move_to(game *g, int x, int y)
   posx = x;
   posy = y;
   footsteps(g, x, y);
-  if (g->m.has_flag(sharp, posx, posy) && !one_in(4))
+  if (type->size != MS_TINY && g->m.has_flag(sharp, posx, posy) && !one_in(4))
      hurt(rng(2, 3));
-  if (g->m.has_flag(rough, posx, posy) && one_in(6))
+  if (type->size != MS_TINY && g->m.has_flag(rough, posx, posy) && one_in(6))
      hurt(rng(1, 2));
   if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
       g->m.tr_at(posx, posy) != tr_null) { // Monster stepped on a trap!
@@ -638,7 +657,7 @@ void monster::stumble(game *g, bool moved)
  std::vector <point> valid_stumbles;
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
-   if (can_move_to(g->m, posx + i, posy + j) &&
+   if (can_move_to(g, posx + i, posy + j) &&
        (g->u.posx != posx + i || g->u.posy != posy + j) &&
        (g->mon_at(posx + i, posy + j) == -1 || (i == 0 && j == 0))) {
     point tmp(posx + i, posy + j);
@@ -684,8 +703,7 @@ void monster::knock_back_from(game *g, int x, int y)
  if (y > posy)
   to.y--;
 
- int t = 0;
- bool u_see = g->u_see(to.x, to.y, t);
+ bool u_see = g->u_see(to.x, to.y);
 
 // First, see if we hit another monster
  int mondex = g->mon_at(to.x, to.y);
@@ -710,7 +728,7 @@ void monster::knock_back_from(game *g, int x, int y)
 
  int npcdex = g->npc_at(to.x, to.y);
  if (npcdex != -1) {
-  npc *p = &(g->active_npc[npcdex]);
+  npc *p = g->active_npc[npcdex];
   hurt(3);
   add_effect(ME_STUNNED, 1);
   p->hit(g, bp_torso, 0, type->size, 0);

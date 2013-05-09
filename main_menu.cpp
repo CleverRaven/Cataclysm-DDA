@@ -6,9 +6,16 @@
 #include "cursesdef.h"
 
 #include <sys/stat.h>
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
+#else
 #include <dirent.h>
+#endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+
+const char* getVersionString();
 
 void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA)
 {
@@ -52,6 +59,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
+        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "Version: %s",getVersionString());
     }
 
     std::vector<std::string> vMenuItems;
@@ -152,7 +160,7 @@ bool game::opening_screen()
         while (!motd_file.eof()) {
             std::string tmp;
             getline(motd_file, tmp);
-            if (tmp[0] != '#')
+            if (!tmp.length() || tmp[0] != '#')
                 motd.push_back(tmp);
         }
     }
@@ -167,7 +175,7 @@ bool game::opening_screen()
         while (!credits_file.eof()) {
             std::string tmp;
             getline(credits_file, tmp);
-            if (tmp[0] != '#')
+            if (!tmp.length() || tmp[0] != '#')
                 credits.push_back(tmp);
         }
     }

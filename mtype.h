@@ -30,7 +30,7 @@ num_species
 enum mon_id {
 mon_null = 0,
 // Wildlife
-mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar, mon_crow,
+mon_squirrel, mon_rabbit, mon_deer, mon_moose, mon_wolf, mon_coyote, mon_bear, mon_cougar, mon_crow,
 // Friendly animals
 mon_dog, mon_cat,
 // Ants
@@ -74,7 +74,7 @@ mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
  mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shadow, mon_breather_hub,
  mon_breather, mon_shadow_snake,
 // Robots
-mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_copbot, mon_molebot,
+mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_hazmatbot, mon_copbot, mon_molebot,
  mon_tripod, mon_chickenbot, mon_tankbot, mon_turret, mon_exploder,
 // Hallucinations
 mon_hallu_zom, mon_hallu_bee, mon_hallu_ant, mon_hallu_mom,
@@ -95,7 +95,7 @@ MS_HUGE		// TAAAANK
 // They are handled in monster::check_triggers(), in monster.cpp
 enum monster_trigger {
 MTRIG_NULL = 0,
-MTRIG_TIME,		// Random over time.
+MTRIG_STALK,		// Increases when following the player
 MTRIG_MEAT,		// Meat or a corpse nearby
 MTRIG_PLAYER_WEAK,	// The player is hurt
 MTRIG_PLAYER_CLOSE,	// The player gets within a few tiles
@@ -186,6 +186,7 @@ struct mtype {
 
  m_size size;
  material mat;	// See enums.h for material list.  Generally, flesh; veggy?
+ phase_id phase;
  std::vector<m_flag> flags;
  std::vector<m_category> categories;
  std::vector<monster_trigger> anger;   // What angers us?
@@ -222,6 +223,7 @@ struct mtype {
   color = c_white;
   size = MS_MEDIUM;
   mat = FLESH;
+  phase = SOLID;
   difficulty = 0;
   agro = 0;
   morale = 0;

@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "pldata.h"
+#include "addiction.h"
 
 class profession;
 
@@ -18,8 +20,10 @@ private:
     std::string _description;
     signed int _point_cost;
     std::vector<std::string> _starting_items;
+    std::vector<addiction> _starting_addictions;
 
     void add_item(std::string item);
+    void add_addiction(add_type, int);
 public:
     //these three aren't meant for external use, but had to be made public regardless
     profession();
@@ -44,6 +48,7 @@ public:
     std::string description() const;
     signed int point_cost() const;
     std::vector<std::string> items() const;
+    std::vector<addiction> addictions() const;
 };
 
 #endif

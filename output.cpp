@@ -228,7 +228,7 @@ void printz(nc_color FG, const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  attron(FG);
- printw(buff);
+ printw("%s", buff); 
  attroff(FG);
 }
 
@@ -240,7 +240,7 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  wattron(w, FG);
- wprintw(w, buff);
+ wprintw(w, "%s", buff);
  wattroff(w, FG);
 }
 
@@ -481,7 +481,7 @@ char popup_getkey(const char *mes, ...)
  return ch;
 }
 
-int menu_vec(const char *mes, std::vector<std::string> options)
+int menu_vec(bool cancelable, const char *mes, std::vector<std::string> options)
 {
  if (options.size() == 0) {
   debugmsg("0-length menu (\"%s\")", mes);
@@ -508,6 +508,9 @@ int menu_vec(const char *mes, std::vector<std::string> options)
  do
  {
   ch = getch();
+  if (cancelable && ch == KEY_ESCAPE)
+   res = options.size();
+  else
   if (ch >= '1' && ch <= '9')
    res = ch - '1' + 1;
   else
@@ -528,7 +531,7 @@ int menu_vec(const char *mes, std::vector<std::string> options)
  return (res);
 }
 
-int menu(const char *mes, ...)
+int menu(bool cancelable, const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
@@ -543,7 +546,7 @@ int menu(const char *mes, ...)
   } else
    done = true;
  }
- return (menu_vec(mes, options));
+ return (menu_vec(cancelable, mes, options));
 }
 
 void popup_top(const char *mes, ...)

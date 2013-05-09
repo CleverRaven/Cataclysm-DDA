@@ -26,8 +26,12 @@ OPT_INITIAL_POINTS, // Set the number of character points
 OPT_INITIAL_TIME, // Sets the starting hour (0-24)
 OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
 OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
+OPT_MOVE_VIEW_OFFSET, // Sensitivity of shift+(movement)
 OPT_STATIC_SPAWN, // Makes zombies spawn using the new static system
-OPT_CLASSIC_ZOMBIES, // Only spawn the more classic zombies
+OPT_CLASSIC_ZOMBIES, // Only spawn the more classic zombies and buildings.
+OPT_SEASON_LENGTH, // Season length, in days
+OPT_STATIC_NPC, //Spawn static npcs
+OPT_RANDOM_NPC, //Spawn random npcs
 NUM_OPTION_KEYS
 };
 
@@ -47,6 +51,12 @@ struct option_table
                 break;
             case OPT_INITIAL_TIME:
                 options[i] = 8;
+                break;
+            case OPT_SEASON_LENGTH:
+                options[i] = 14;
+                break;
+            case OPT_MOVE_VIEW_OFFSET:
+                options[i] = 1;
                 break;
             default:
                 options[i] = 0;

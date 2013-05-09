@@ -59,6 +59,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
      item *melting = &(i_at(x, y)[i]);
      if (melting->made_of(LIQUID) || melting->made_of(VEGGY)   ||
          melting->made_of(FLESH)  || melting->made_of(POWDER)  ||
+         melting->made_of(HFLESH) ||
          melting->made_of(COTTON) || melting->made_of(WOOL)    ||
          melting->made_of(PAPER)  || melting->made_of(PLASTIC) ||
          (melting->made_of(GLASS) && !one_in(3)) || one_in(4)) {
@@ -87,17 +88,33 @@ bool map::process_fields_in_submap(game *g, int gridn)
      destroyed = false;
      vol = i_at(x, y)[i].volume();
      item *it = &(i_at(x, y)[i]);
+     it_ammo *ammo_type = NULL;
 
-     if (it->is_ammo() && it->ammo_type() != AT_BATT &&
-         it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
-         it->ammo_type() != AT_BOLT && it->ammo_type() != AT_ARROW && it->ammo_type() != AT_NULL) {
-      destroyed = true;
-      // cook off ammo instead of just burning it.
-      for(int i = 0; i < (it->charges / 10) + 1; i++)
-      {
-          g->explosion(x, y, (dynamic_cast<it_ammo*>(it->type))->damage / 2, true, false);
-      }
-
+     if (it->is_ammo())
+     {
+         ammo_type = dynamic_cast<it_ammo*>(it->type);
+     }
+     if(ammo_type != NULL &&
+        (ammo_type->ammo_effects & mfb(AMMO_FLAME) ||
+         ammo_type->ammo_effects & mfb(AMMO_INCENDIARY) ||
+         ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE) ||
+         ammo_type->ammo_effects & mfb(AMMO_FRAG) ||
+         ammo_type->ammo_effects & mfb(AMMO_NAPALM) ||
+         ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE_BIG) ||
+         ammo_type->ammo_effects & mfb(AMMO_TEARGAS) ||
+         ammo_type->ammo_effects & mfb(AMMO_SMOKE) ||
+         ammo_type->ammo_effects & mfb(AMMO_FLASHBANG) ||
+         ammo_type->ammo_effects & mfb(AMMO_COOKOFF)))
+     {
+         const int rounds_exploded = rng(1, it->charges);
+         // TODO: Vary the effect based on the ammo flag instead of just exploding them all.
+         // cook off ammo instead of just burning it.
+         for(int i = 0; i < (rounds_exploded / 10) + 1; i++)
+         {
+             g->explosion(x, y, (dynamic_cast<it_ammo*>(it->type))->damage / 2, true, false);
+         }
+         it->charges -= rounds_exploded;
+         if(it->charges == 0) destroyed = true;
      } else if (it->made_of(PAPER)) {
       destroyed = it->burn(cur->density * 3);
       consumed++;
@@ -128,7 +145,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
        smoke++;
       }
 
-     } else if (it->made_of(FLESH)) {
+     } else if ((it->made_of(FLESH))||(it->made_of(HFLESH))) {
       if (vol <= cur->density * 5 || (cur->density == 3 && one_in(vol / 20))) {
        cur->age--;
        destroyed = it->burn(cur->density);
@@ -563,18 +580,16 @@ bool map::process_fields_in_submap(game *g, int gridn)
            mondex = g->mon_at(newp.x, newp.y);
 
        if (npcdex != -1) {
-        int junk;
-        npc *p = &(g->active_npc[npcdex]);
+        npc *p = g->active_npc[npcdex];
         p->hit(g, random_body_part(), rng(0, 1), 6, 0);
-        if (g->u_see(newp.x, newp.y, junk))
+        if (g->u_see(newp.x, newp.y))
          g->add_msg("A %s hits %s!", tmp.tname().c_str(), p->name.c_str());
        }
 
        if (mondex != -1) {
-        int junk;
         monster *mon = &(g->z[mondex]);
         mon->hurt(6 - mon->armor_bash());
-        if (g->u_see(newp.x, newp.y, junk))
+        if (g->u_see(newp.x, newp.y))
          g->add_msg("A %s hits the %s!", tmp.tname().c_str(),
                                          mon->name().c_str());
        }
@@ -861,7 +876,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_fire:
-   if (z->made_of(FLESH))
+   if ( z->made_of(FLESH) || z->made_of(HFLESH) )
     dam = 3;
    if (z->made_of(VEGGY))
     dam = 12;
@@ -904,7 +919,8 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_tear_gas:
-   if ((z->made_of(FLESH) || z->made_of(VEGGY)) && !z->has_flag(MF_NO_BREATHE)) {
+      if ((z->made_of(FLESH) || z->made_of(HFLESH) || z->made_of(VEGGY)) &&
+          !z->has_flag(MF_NO_BREATHE)) {
     z->add_effect(ME_BLIND, cur->density * 8);
     if (cur->density == 3) {
      z->add_effect(ME_STUNNED, rng(10, 20));
@@ -948,7 +964,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    break;
 
   case fd_flame_burst:
-   if (z->made_of(FLESH))
+   if (z->made_of(FLESH) || z->made_of(HFLESH))
     dam = 3;
    if (z->made_of(VEGGY))
     dam = 12;
@@ -981,9 +997,9 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     if (tries == 10)
      g->explode_mon(g->mon_at(z->posx, z->posy));
     else {
-     int mon_hit = g->mon_at(newposx, newposy), t;
+     int mon_hit = g->mon_at(newposx, newposy);
      if (mon_hit != -1) {
-      if (g->u_see(z, t))
+      if (g->u_see(z))
        g->add_msg("The %s teleports into a %s, killing them both!",
                   z->name().c_str(), g->z[mon_hit].name().c_str());
       g->explode_mon(mon_hit);

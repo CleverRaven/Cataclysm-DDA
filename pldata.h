@@ -2,6 +2,7 @@
 #define _PLDATA_H_
 
 #include <sstream>
+#include "enums.h"
 
 enum character_type {
  PLTYPE_CUSTOM,
@@ -107,18 +108,22 @@ struct player_activity
  activity_type type;
  int moves_left;
  int index;
+ char invlet;
+ bool continuous;
  std::vector<int> values;
  point placement;
 
- player_activity() { type = ACT_NULL; moves_left = 0; index = -1;
-                     placement = point(-1, -1); }
+ player_activity() { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
+                     placement = point(-1, -1); continuous = false; }
 
- player_activity(activity_type t, int turns, int Index)
+ player_activity(activity_type t, int turns, int Index, char ch)
  {
   type = t;
   moves_left = turns;
   index = Index;
+  invlet = ch;
   placement = point(-1, -1);
+  continuous = false;
  }
 
  player_activity(const player_activity &copy)
@@ -126,7 +131,9 @@ struct player_activity
   type = copy.type;
   moves_left = copy.moves_left;
   index = copy.index;
+  invlet = copy.invlet;
   placement = copy.placement;
+  continuous = copy.continuous;
   values.clear();
   for (int i = 0; i < copy.values.size(); i++)
    values.push_back(copy.values[i]);
@@ -135,7 +142,7 @@ struct player_activity
  std::string save_info()
  {
   std::stringstream ret;
-  ret << type << " " << moves_left << " " << index << " " << placement.x <<
+  ret << type << " " << moves_left << " " << index << " " << invlet << " " << placement.x <<
          " " << placement.y << " " << values.size();
   for (int i = 0; i < values.size(); i++)
    ret << " " << values[i];
@@ -146,7 +153,7 @@ struct player_activity
  void load_info(std::stringstream &dump)
  {
   int tmp, tmptype;
-  dump >> tmptype >> moves_left >> index >> placement.x >> placement.y >> tmp;
+  dump >> tmptype >> moves_left >> index >> invlet >> placement.x >> placement.y >> tmp;
   type = activity_type(tmptype);
   for (int i = 0; i < tmp; i++) {
    int tmp2;
@@ -187,6 +194,8 @@ enum pl_flag {
  PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
  PF_CANNIBAL, // No penalty for eating human meat
  PF_MARTIAL_ARTS, // Start with a martial art
+ PF_LIAR, // Better at telling lies
+ PF_PRETTY, // -1 grotesqueness
 
  PF_SPLIT,	// Null trait, splits between bad & good
 
@@ -215,6 +224,7 @@ enum pl_flag {
  PF_WOOLALLERGY,// Can't wear wool
  PF_TRUTHTELLER, // Worse at telling lies
  PF_UGLY, // +1 grotesqueness
+ PF_HARDCORE,	// Bodyhp is 75% lower
 
  PF_MAX,
 // Below this point is mutations and other mid-game perks.
@@ -312,6 +322,9 @@ enum pl_flag {
  PF_DEFORMED,
  PF_DEFORMED2,
  PF_DEFORMED3,
+ PF_BEAUTIFUL,
+ PF_BEAUTIFUL2,
+ PF_BEAUTIFUL3,
  PF_HOLLOW_BONES,//
  PF_NAUSEA,//
  PF_VOMITOUS,//
@@ -365,7 +378,7 @@ struct trait {
 
 const trait traits[] = {
 {"NULL trait!", 0, 0, 0, "\
-This is a bug.  Weird."},
+This is a bug.  Weird. (pldata.h:traits)"},
 {"Fleet-Footed", 3, 0, 0, "\
 You can run more quickly than most, resulting in a 15%% speed bonus on sure\n\
 footing."},
@@ -404,9 +417,9 @@ not to skill gain from other sources like books."},
 While you're not any better at melee combat, you are better at recovering\n\
 from a miss, and will be able to attempt another strike faster."},
 {"Drunken Master", 2, 0, 0, "\
-The martial art technique of Zui Quan, or Drunken Fist, comes naturally to\n\
-you.  While under the influence of alcohol, your melee skill will rise\n\
-considerably, especially unarmed combat."},
+The ancient arts of drunken brawling come naturally to you! While under the\n\
+influence of alcohol, your melee skill will rise considerably, especially\n\
+unarmed combat."},
 {"Gourmand", 2, 0, 0, "\
 You eat faster, and can eat and drink more, than anyone else!  You also enjoy\n\
 food more; delicious food is better for your morale, and you don't mind some\n\
@@ -448,6 +461,12 @@ tell you you can't eat people."},
 {"Martial Arts Training", 3, 0, 0, "\
 You have received some martial arts training at a local dojo.  You will start\n\
 with your choice of karate, judo, aikido, tai chi, or taekwondo."},
+{"Skilled Liar", 2, 0, 0, "\
+You have no qualms about bending the truth, and have practically no tells.\n\
+Telling lies and otherwise bluffing will be much easier for you."},
+{"Pretty", 1, 0, -2, "\
+You are a sight to behold. NPCs who care about such thing will react more\n\
+kindly to you."},
 
 {"NULL", 0, 0, 0, " -------------------------------------------------- "},
 
@@ -477,7 +496,7 @@ You have a hard time falling asleep, even under the best circumstances!"},
 You have problems with eating meat, it's possible for you to eat it but\n\
 you will suffer morale penalties due to nausea."},
 {"Glass Jaw", -3, 0, 0, "\
-Your head can't take much abuse.  Its maximum HP is 15%% lower than usual."},
+Your head can't take much abuse.  Its maximum HP is 20%% lower than usual."},
 {"Forgetful", -3, 0, 0, "\
 You have a hard time remembering things.  Your skills will erode slightly\n\
 faster than usual."},
@@ -526,6 +545,9 @@ Telling lies and otherwise bluffing will be much more difficult for you."},
 {"Ugly", -1, 0, 2, "\
 You're not much to look at.  NPCs who care about such things will react\n\
 poorly to you."},
+{"Hardcore", -6, 0, 0, "\
+Your whole body can't take much abuse.  Its maximum HP is 75%% points lower\n\
+than usual. Stacks with Glass Jaw. Not for casuals."},
 
 {"Bug - PF_MAX", 0, 0, 0, "\
 This shouldn't be here!  You have the trait PF_MAX toggled.  Weird."},
@@ -810,6 +832,15 @@ to your appearance."},
 {"Grotesque", -7, 10, 10, "\
 Your visage is disgusting and liable to induce vomiting.  People will not\n\
 want to interact with you unless they have a very good reason to."},
+{"Beautiful", 2, -4, -4, "\
+You're a real head-turner. Some people will react well to your appearance,\n\
+and most people have an easier time trusting you."},
+{"Very Beautiful", 4, -7, -7, "\
+You are a vision of beauty. Some people will react very well to your looks,\n\
+and most people will trust you immediately."},
+{"Glorious", 7, -10, -10, "\
+You are inredibly beautiful. People cannot help themselves for your charms,\n\
+and will do whatever they can to please you."},
 {"Hollow Bones", -6, 0, 0, "\
 You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is\n\
 very light as a result, enabling you to run and attack 20%% faster, but\n\

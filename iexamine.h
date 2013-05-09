@@ -30,9 +30,7 @@ public:
  void shelter (game *g, player *p, map *m, int examx, int examy);
  void wreckage (game *g, player *p, map *m, int examx, int examy);
  void pit (game *g, player *p, map *m, int examx, int examy);
- void pit_spiked (game *g, player *p, map *m, int examx, int examy);
  void pit_covered (game *g, player *p, map *m, int examx, int examy);
- void pit_spiked_covered (game *g, player *p, map *m, int examx, int examy);
  void fence_post (game *g, player *p, map *m, int examx, int examy);
  void remove_fence_rope (game *g, player *p, map *m, int examx, int examy);
  void remove_fence_wire (game *g, player *p, map *m, int examx, int examy);
@@ -49,6 +47,7 @@ public:
  void shrub_wildveggies (game *g, player *p, map *m, int examx, int examy);
  void recycler (game *g, player *p, map *m, int examx, int examy);
  void trap(game *g, player *p, map *m, int examx, int examy);
+ void water_source (game *g, player *p, map *m, const int examx, const int examy);
 };
 
 #endif /* defined(__Cataclysmic__iexamine__) */

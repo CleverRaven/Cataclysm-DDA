@@ -186,9 +186,13 @@ void defense_game::init_constructions(game *g)
 
 void defense_game::init_recipes(game *g)
 {
- for (int i = 0; i < g->recipes.size(); i++) {
-  g->recipes[i]->time /= 10; // Things take turns, not minutes
- }
+    for (recipe_map::iterator map_iter = g->recipes.begin(); map_iter != g->recipes.end(); ++map_iter)
+    {
+        for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
+        {
+            (*list_iter)->time /= 10; // Things take turns, not minutes
+        }
+    }
 }
 
 void defense_game::init_map(game *g)
@@ -268,7 +272,7 @@ void defense_game::init_map(game *g)
  std::vector<point> valid;
  for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
   for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
-   if (generator.can_move_to(g->m, x, y) && g->is_empty(x, y))
+   if (generator.can_move_to(g, x, y) && g->is_empty(x, y))
     valid.push_back( point(x, y) );
   }
  }
@@ -713,7 +717,7 @@ std::string defense_style_name(defense_style style)
   case DEFENSE_TRIFFIDS:	return "Day of the Triffids";
   case DEFENSE_SKYNET:		return "Skynet";
   case DEFENSE_LOVECRAFT:	return "The Call of Cthulhu";
-  default:			return "Bug!  Report this!";
+  default:			return "Bug! (bug in defense.cpp:defense_style_name)";
  }
 }
 
@@ -742,19 +746,19 @@ std::string defense_style_description(defense_style style)
   case DEFENSE_LOVECRAFT:
    return "Ward off legions of eldritch horrors.";
   default:
-   return "What the heck is this I don't even know. A bug!";
+   return "What the heck is this I don't even know. (defense.cpp:defense_style_description)";
  }
 }
 
 std::string defense_location_name(defense_location location)
 {
  switch (location) {
- case DEFLOC_NULL:	return "Nowhere?!  A bug!";
+ case DEFLOC_NULL:	return "Nowhere?! (bug in defense.cpp:defense_location_name)";
  case DEFLOC_HOSPITAL:	return "Hospital";
  case DEFLOC_MALL:	return "Megastore";
  case DEFLOC_BAR:	return "Bar";
  case DEFLOC_MANSION:	return "Mansion";
- default:		return "a ghost's house (bug)";
+ default:		return "a ghost's house (bug in defense.cpp:defense_location_name)";
  }
 }
 
@@ -762,7 +766,7 @@ std::string defense_location_description(defense_location location)
 {
  switch (location) {
  case DEFLOC_NULL:
-  return "NULL Bug.";
+  return "NULL Bug. (defense.cpp:defense_location_description)";
  case DEFLOC_HOSPITAL:
   return                 "One entrance and many rooms.  Some medical supplies.";
  case DEFLOC_MALL:
@@ -772,7 +776,7 @@ std::string defense_location_description(defense_location location)
  case DEFLOC_MANSION:
   return                 "A large house with many rooms and.";
  default:
-  return "Unknown data bug.";
+  return "Unknown data bug. (defense.cpp:defense_location_description)";
  }
 }
 
@@ -1021,7 +1025,7 @@ std::string caravan_category_name(caravan_category cat)
   case CARAVAN_CLOTHES:		return "Clothing & Armor";
   case CARAVAN_TOOLS:		return "Tools, Traps & Grenades";
  }
- return "BUG";
+ return "BUG (defense.cpp:caravan_category_name)";
 }
 
 std::vector<itype_id> caravan_items(caravan_category cat)
@@ -1032,14 +1036,14 @@ std::vector<itype_id> caravan_items(caravan_category cat)
   return ret;
 
  case CARAVAN_MELEE:
-  setvector(ret,
+  setvector(&ret,
 "hammer", "bat", "mace", "morningstar", "hammer_sledge", "hatchet",
 "knife_combat", "rapier", "machete", "katana", "spear_knife",
 "pike", "chainsaw_off", NULL);
   break;
 
  case CARAVAN_GUNS:
-  setvector(ret,
+  setvector(&ret,
 "crossbow", "bolt_steel", "compbow", "arrow_cf", "marlin_9a",
 "22_lr", "hk_mp5", "9mm", "taurus_38", "38_special", "deagle_44",
 "44magnum", "m1911", "hk_ump45", "45_acp", "fn_p90", "57mm",
@@ -1049,21 +1053,21 @@ std::vector<itype_id> caravan_items(caravan_category cat)
   break;
 
  case CARAVAN_COMPONENTS:
-  setvector(ret,
+  setvector(&ret,
 "rag", "fur", "leather", "superglue", "string_36", "chain",
 "processor", "RAM", "power_supply", "motor", "hose", "pot",
 "2x4", "battery", "nail", "gasoline", NULL);
   break;
 
  case CARAVAN_FOOD:
-  setvector(ret,
+  setvector(&ret,
 "1st_aid", "water", "energy_drink", "whiskey", "can_beans",
 "mre_beef", "flour", "inhaler", "codeine", "oxycodone", "adderall",
 "cig", "meth", "royal_jelly", "mutagen", "purifier", NULL);
  break;
 
  case CARAVAN_CLOTHES:
-  setvector(ret,
+  setvector(&ret,
 "backpack", "vest", "trenchcoat", "jacket_leather", "kevlar",
 "gloves_fingerless", "mask_filter", "mask_gas", "glasses_eye",
 "glasses_safety", "goggles_ski", "goggles_nv", "helmet_ball",
@@ -1071,7 +1075,7 @@ std::vector<itype_id> caravan_items(caravan_category cat)
   break;
 
  case CARAVAN_TOOLS:
-  setvector(ret,
+  setvector(&ret,
 "screwdriver", "wrench", "saw", "hacksaw", "lighter", "sewing_kit",
 "scissors", "extinguisher", "flashlight", "hotplate",
 "soldering_iron", "shovel", "jackhammer", "landmine", "teleporter",

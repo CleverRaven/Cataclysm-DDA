@@ -19,7 +19,7 @@ void game::init_mtypes ()
 // Null monster named "None".
  mtypes.push_back(new mtype);
 
-#define mon(name, species, sym, color, size, mat, \
+#define mon(name, species, sym, color, size, mat,\
             diff, agro, morale, speed, melee_skill, melee_dice,\
             melee_sides, melee_cut, dodge, arm_bash, arm_cut, item_chance, HP,\
             sp_freq, death, sp_att, desc) \
@@ -29,11 +29,11 @@ diff, agro, morale, speed, melee_skill, melee_dice, melee_sides,\
 melee_cut, dodge, arm_bash, arm_cut, item_chance, HP, sp_freq, death, sp_att,\
 desc))
 
-#define FLAGS(...)   setvector(mtypes[id]->flags,   __VA_ARGS__, NULL)
-#define CATEGORIES(...)   setvector(mtypes[id]->categories,   __VA_ARGS__, NULL)
-#define ANGER(...)   setvector(mtypes[id]->anger,   __VA_ARGS__, NULL)
-#define FEARS(...)   setvector(mtypes[id]->fear,    __VA_ARGS__, NULL)
-#define PLACATE(...) setvector(mtypes[id]->placate, __VA_ARGS__, NULL)
+#define FLAGS(...)   setvector(&(mtypes[id]->flags),   __VA_ARGS__, NULL)
+#define CATEGORIES(...)   setvector(&(mtypes[id]->categories),   __VA_ARGS__, NULL)
+#define ANGER(...)   setvector(&(mtypes[id]->anger),   __VA_ARGS__, NULL)
+#define FEARS(...)   setvector(&(mtypes[id]->fear),    __VA_ARGS__, NULL)
+#define PLACATE(...) setvector(&(mtypes[id]->placate), __VA_ARGS__, NULL)
 
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 
@@ -66,11 +66,32 @@ A large buck, fast-moving and strong."
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BONES);
 CATEGORIES(MC_WILDLIFE);
 
-mon("wolf",	species_mammal, 'w',	c_dkgray,	MS_MEDIUM,	FLESH,
+mon("moose",	species_mammal, 'M',	c_brown,	MS_LARGE,	FLESH,
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  1,-50, -5,200,  10,  3,  4,  0,  1,  3,  1,  0, 100, 0,
+	&mdeath::normal,	&mattack::none, "\
+A buck of the largest deer species."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BONES);
+CATEGORIES(MC_WILDLIFE);
+
+mon("wolf",	species_mammal, 'w',	c_ltgray,	MS_MEDIUM,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 12,  0, 20,165, 14,  2,  3,  4,  4,  1,  0,  0, 28,  0,
 	&mdeath::normal,	&mattack::none, "\
-A vicious and fast pack hunter."
+A grey wolf. A vicious and fast pack hunter."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED, MF_ATTACKMON, MF_BONES, MF_VIS50);
+ANGER(MTRIG_PLAYER_CLOSE, MTRIG_FRIEND_ATTACKED, MTRIG_PLAYER_WEAK, MTRIG_HURT);
+PLACATE(MTRIG_MEAT);
+FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
+CATEGORIES(MC_WILDLIFE);
+
+mon("coyote",	species_mammal, 'w',	c_brown,	MS_MEDIUM,	FLESH,
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	 10,  0, 20,155, 12,  2,  3,  2,  3,  1,  0,  0, 22,  0,
+	&mdeath::normal,	&mattack::none, "\
+An eastern coyote, also called tweed wolf. It is an hybrid of grey wolves and the smaller western coyotes."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED, MF_ATTACKMON, MF_BONES, MF_VIS50);
 ANGER(MTRIG_PLAYER_CLOSE, MTRIG_FRIEND_ATTACKED, MTRIG_PLAYER_WEAK, MTRIG_HURT);
@@ -82,7 +103,7 @@ mon("bear",	species_mammal, 'B',	c_dkgray,	MS_LARGE,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 10,-10, 40,140, 10,  3,  4,  6,  3,  2,  0,  0, 90, 0,
 	&mdeath::normal,	&mattack::none, "\
-Remember, only YOU can prevent forest fires."
+An american black bear. Remember, only YOU can prevent forest fires."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BLEED, MF_VIS40, MF_BONES);
 ANGER(MTRIG_PLAYER_CLOSE, MTRIG_HURT);
@@ -90,14 +111,14 @@ PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE);
 CATEGORIES(MC_WILDLIFE);
 
-mon("cougar",	species_mammal, 'C',	c_dkgray,	MS_MEDIUM,	FLESH,
+mon("cougar",	species_mammal, 'C',	c_brown,	MS_MEDIUM,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 12,  0, 20,180, 14,  2,  3,  4,  4,  1,  0,  0, 15,  5,
 	&mdeath::normal,	&mattack::leap, "\
 A vicious and fast hunter."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_HIT_AND_RUN, MF_KEENNOSE, MF_BLEED, MF_VIS50, MF_BONES);
-ANGER(MTRIG_TIME, MTRIG_PLAYER_WEAK, MTRIG_HURT);
+ANGER(MTRIG_STALK, MTRIG_PLAYER_WEAK, MTRIG_HURT, MTRIG_PLAYER_CLOSE);
 PLACATE(MTRIG_MEAT);
 FEARS(MTRIG_FIRE, MTRIG_FRIEND_DIED);
 CATEGORIES(MC_WILDLIFE);
@@ -126,7 +147,7 @@ CATEGORIES(MC_WILDLIFE);
 
 mon("cat",	species_mammal, 'c',	c_white,	MS_TINY,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  0,  -40, 15,150, 12,  1,  3,  2,  0,  0,  0,  0, 10,  0,
+	  0,  -40, 15,150, 12,  1,  3,  2,  4,  0,  0,  0, 10,  0,
 	&mdeath::normal,	&mattack::none, "\
 A small domesticated cat, gone feral."
 );
@@ -613,7 +634,7 @@ alarming rate."
 FLAGS(MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_IMMOBILE);
 
 // BLOBS & SLIMES &c
-mon("blob",	species_nether, 'O',	c_dkgray,	MS_MEDIUM,	LIQUID,
+mon("blob",	species_nether, 'O',	c_dkgray,	MS_MEDIUM,	MNULL,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 19,100,100, 85,  9,  2,  4,  0,  0,  6,  0,  0, 85, 30,
 	&mdeath::blobsplit,	&mattack::formblob, "\
@@ -622,8 +643,9 @@ across the ground like a mass of living\n\
 oil."
 );
 FLAGS(MF_SMELLS, MF_HEARS, MF_GOODHEARING, MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_ACIDPROOF);
+mtypes[mon_blob]->phase = LIQUID;
 
-mon("small blob",species_nether, 'o',	c_dkgray,	MS_SMALL,	LIQUID,
+mon("small blob",species_nether, 'o',	c_dkgray,	MS_SMALL,	MNULL,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	  2,100,100, 50,  6,  1,  4,  0,  0,  2,  0,  0, 50, 0,
 	&mdeath::blobsplit,	&mattack::none, "\
@@ -632,6 +654,7 @@ across the ground like a mass of living\n\
 oil."
 );
 FLAGS(MF_SMELLS, MF_HEARS, MF_GOODHEARING, MF_NOHEAD, MF_POISON, MF_NO_BREATHE, MF_ACIDPROOF);
+mtypes[mon_blob_small]->phase = LIQUID;
 
 // CHUDS & SUBWAY DWELLERS
 mon("C.H.U.D.",	species_none, 'S',	c_ltgray,	MS_MEDIUM,	FLESH,
@@ -958,7 +981,7 @@ pink mouth, lined with rows of fangs."
 FLAGS(MF_SEES, MF_SMELLS, MF_HEARS, MF_BASHES, MF_DESTROYS, MF_POISON, MF_VENOM, MF_NO_BREATHE,
       MF_DIGS, MF_VIS40);
 
-mon("gelatinous blob",species_nether, 'O',c_ltgray,	MS_LARGE,	LIQUID,
+mon("gelatinous blob",species_nether, 'O',c_ltgray,	MS_LARGE,	MNULL,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
 	 20,  0,100, 40,  8,  2,  3,  0,  0, 10,  0,  0,200, 4,
 	&mdeath::melt,		&mattack::formblob, "\
@@ -967,6 +990,7 @@ oozes slowly across the ground, small\n\
 chunks falling off of its sides."
 );
 FLAGS(MF_SMELLS, MF_HEARS, MF_PLASTIC, MF_NO_BREATHE, MF_NOHEAD);
+mtypes[mon_gelatin]->phase = LIQUID;
 
 mon("flaming eye",species_nether, 'E',	c_red,		MS_MEDIUM,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
@@ -1103,6 +1127,17 @@ A boxy robot about four feet high.  It moves\n\
 slowly on a set of treads, and is armed with\n\
 a large machine gun type weapon.  It is\n\
 heavily armored."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_BASHES, MF_ATTACKMON, MF_ELECTRONIC, MF_NO_BREATHE, MF_VIS50);
+
+mon("hazmatbot",	species_robot, 'R',	c_ltgray,	MS_MEDIUM,	STEEL,
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	 12,100, 40, 70,  8,  3,  2,  8,  3, 12,  10, 0, 120, 3,
+	&mdeath::explode,	&mattack::none, "\
+A utility robot designed for hazardous\n\
+conditions.  Its only means to stop intruders\n\
+appears to involve thrashing around one of its\n\
+multiple legs."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_BASHES, MF_ATTACKMON, MF_ELECTRONIC, MF_NO_BREATHE, MF_VIS50);
 
@@ -1265,24 +1300,24 @@ std::vector<monster_trigger> default_fears(monster_species spec)
  std::vector<monster_trigger> ret;
  switch (spec) {
   case species_mammal:
-   setvector(ret, MTRIG_HURT, MTRIG_FIRE, MTRIG_FRIEND_DIED, NULL);
+   setvector(&ret, MTRIG_HURT, MTRIG_FIRE, MTRIG_FRIEND_DIED, NULL);
    break;
   case species_insect:
-   setvector(ret, MTRIG_HURT, MTRIG_FIRE, NULL);
+   setvector(&ret, MTRIG_HURT, MTRIG_FIRE, NULL);
    break;
   case species_worm:
-   setvector(ret, MTRIG_HURT, NULL);
+   setvector(&ret, MTRIG_HURT, NULL);
    break;
   case species_zombie:
    break;
   case species_plant:
-   setvector(ret, MTRIG_HURT, MTRIG_FIRE, NULL);
+   setvector(&ret, MTRIG_HURT, MTRIG_FIRE, NULL);
    break;
   case species_fungus:
-   setvector(ret, MTRIG_HURT, MTRIG_FIRE, NULL);
+   setvector(&ret, MTRIG_HURT, MTRIG_FIRE, NULL);
    break;
   case species_nether:
-   setvector(ret, MTRIG_HURT, NULL);
+   setvector(&ret, MTRIG_HURT, NULL);
    break;
   case species_robot:
    break;

@@ -5,7 +5,7 @@
 #include "morale.h"
 
 std::string morale_data[NUM_MORALE_TYPES] = {
-"This is a bug",
+"This is a bug (moraledata.h:moraledata)",
 "Enjoyed %i",
 "Enjoyed a hot meal",
 "Music",
@@ -33,7 +33,11 @@ std::string morale_data[NUM_MORALE_TYPES] = {
 
 "Moodswing",
 "Read %i",
-"Heard Disturbing Scream"
+"Heard Disturbing Scream",
+
+"Masochism",
+"Hoarder",
+"Optimist"
 };
 
 #endif
