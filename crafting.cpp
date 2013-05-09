@@ -259,8 +259,13 @@ bool game::can_make(recipe *r)
             components_player_has.push_back(set_of_components);
         }
     }
-    std::vector<std::vector<component> >::iterator comp_set_it = components_player_has.begin();
-    while (comp_set_it != components_player_has.end())
+    return check_enough_materials(&components_player_has, &tools_player_has, NULL);
+}
+
+bool game::check_enough_materials(std::vector<std::vector<component> > *components_player_has, std::vector<std::vector<component> > *tools_player_has, std::set<std::string> *conflicting_components)
+{
+    std::vector<std::vector<component> >::iterator comp_set_it = components_player_has->begin();
+    while (comp_set_it != components_player_has->end())
     {
         std::vector<component> set_of_components = *comp_set_it;
         std::vector<component>::iterator comp_it = set_of_components.begin();
@@ -268,8 +273,8 @@ bool game::can_make(recipe *r)
         {
             component comp = *comp_it;
             bool sets_have_enough = true;
-            std::vector<std::vector<component> >::iterator tool_set_it = tools_player_has.begin();
-            while (tool_set_it != tools_player_has.end())
+            std::vector<std::vector<component> >::iterator tool_set_it = tools_player_has->begin();
+            while (tool_set_it != tools_player_has->end())
             {
                 bool have_enough = false;
                 std::vector<component> set_of_tools = *tool_set_it;
@@ -283,6 +288,13 @@ bool game::can_make(recipe *r)
                         if (u.has_amount(comp.type, req))
                         {
                             have_enough = true;
+                        }
+                        else
+                        {
+                            if (conflicting_components != NULL)
+                            {
+                                conflicting_components->insert(comp.type);
+                            }
                         }
                     }
                     else
@@ -499,6 +511,8 @@ recipe* game::select_crafting_recipe()
         }
         if (current.size() > 0)
         {
+            std::set<std::string> conflicts;
+            check_enough_materials(&current[line]->components, &current[line]->tools, &conflicts);
             nc_color col = (available[line] ? c_white : c_dkgray);
             mvwprintz(w_data, 0, 30, col, "Primary skill: %s",
             (current[line]->sk_primary == NULL ? "N/A" :
@@ -548,8 +562,12 @@ recipe* game::select_crafting_recipe()
                         itype_id type = current[line]->tools[i][j].type;
                         int charges = current[line]->tools[i][j].count;
                         nc_color toolcol = c_red;
-
-                        if (charges < 0 && crafting_inv.has_amount(type, 1))
+                        
+                        if (conflicts.count(type)!=0)
+                        {
+                            toolcol = c_brown;
+                        }
+                        else if (charges < 0 && crafting_inv.has_amount(type, 1))
                         {
                             toolcol = c_green;
                         }
@@ -602,7 +620,11 @@ recipe* game::select_crafting_recipe()
                     int count = current[line]->components[i][j].count;
                     itype_id type = current[line]->components[i][j].type;
                     nc_color compcol = c_red;
-                    if (item_controller->find_template(type)->count_by_charges() && count > 0)
+                    if (conflicts.count(type)!=0)
+                    {
+                        compcol = c_brown;
+                    }
+                    else if (item_controller->find_template(type)->count_by_charges() && count > 0)
                     {
                         if (crafting_inv.has_charges(type, count))
                         {
