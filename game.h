@@ -350,7 +350,8 @@ class game
   recipe* select_crafting_recipe();    // See crafting.cpp
   bool making_would_work(recipe *r);   // See crafting.cpp
   bool can_make(recipe *r);            // See crafting.cpp
-  bool check_enough_materials(std::vector<std::vector<component> > *components_player_has, std::vector<std::vector<component> > *tools_player_has, std::set<std::string> *conflicting_components);
+  bool check_enough_materials(std::vector<std::vector<component> > *components_player_has, std::vector<std::vector<component> > *tools_player_has);
+  bool check_enough_materials(std::vector<std::vector<component> > *components_player_has, std::vector<std::vector<component> > *tools_player_has, std::set<std::string> *conflicting_components, std::set<std::string> *conflicting_tools);
   void make_craft(recipe *making);     // See crafting.cpp
   void make_all_craft(recipe *making); // See crafting.cpp
   void complete_craft();               // See crafting.cpp

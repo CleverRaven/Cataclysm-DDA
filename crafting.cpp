@@ -259,10 +259,15 @@ bool game::can_make(recipe *r)
             components_player_has.push_back(set_of_components);
         }
     }
-    return check_enough_materials(&components_player_has, &tools_player_has, NULL);
+    return check_enough_materials(&components_player_has, &tools_player_has);
 }
 
-bool game::check_enough_materials(std::vector<std::vector<component> > *components_player_has, std::vector<std::vector<component> > *tools_player_has, std::set<std::string> *conflicting_components)
+bool game::check_enough_materials(std::vector<std::vector<component> > *components_player_has, std::vector<std::vector<component> > *tools_player_has)
+{
+    return check_enough_materials(components_player_has, tools_player_has, NULL, NULL);
+}
+
+bool game::check_enough_materials(std::vector<std::vector<component> > *components_player_has, std::vector<std::vector<component> > *tools_player_has, std::set<std::string> *conflicting_components, std::set<std::string> *conflicting_tools)
 {
     std::vector<std::vector<component> >::iterator comp_set_it = components_player_has->begin();
     while (comp_set_it != components_player_has->end())
@@ -288,18 +293,38 @@ bool game::check_enough_materials(std::vector<std::vector<component> > *componen
                         if (u.has_amount(comp.type, req))
                         {
                             have_enough = true;
+                            if (conflicting_components != NULL && conflicting_tools != NULL)
+                            {
+                                std::set<std::string>::iterator conflicting_comp = conflicting_components->find(comp.type);
+                                // if this component is already conflicting, erase it as we've found a tool from the same set
+                                // that it can be used with
+                                if (conflicting_comp != conflicting_components->end())
+                                {
+                                    conflicting_components->erase(conflicting_comp);
+                                }
+                            }
                         }
                         else
                         {
-                            if (conflicting_components != NULL)
+                            if (conflicting_components != NULL && conflicting_tools != NULL)
                             {
                                 conflicting_components->insert(comp.type);
+                                conflicting_tools->insert(comp.type);
                             }
-                        }
-                    }
+                        }                    }
                     else
                     {
                         have_enough = true;
+                        if (conflicting_components != NULL && conflicting_tools != NULL)
+                        {
+                            std::set<std::string>::iterator conflicting_comp = conflicting_components->find(comp.type);
+                            // if this component is already conflicting, erase it as we've found a tool from the same set
+                            // that it can be used with
+                            if (conflicting_comp != conflicting_components->end())
+                            {
+                                conflicting_components->erase(conflicting_comp);
+                            }
+                        }
                     }
                     ++tool_it;
                 }
@@ -511,8 +536,8 @@ recipe* game::select_crafting_recipe()
         }
         if (current.size() > 0)
         {
-            std::set<std::string> conflicts;
-            check_enough_materials(&current[line]->components, &current[line]->tools, &conflicts);
+            std::set<std::string> comp_conflicts, tool_conflicts;
+            check_enough_materials(&current[line]->components, &current[line]->tools, &comp_conflicts, &tool_conflicts);
             nc_color col = (available[line] ? c_white : c_dkgray);
             mvwprintz(w_data, 0, 30, col, "Primary skill: %s",
             (current[line]->sk_primary == NULL ? "N/A" :
@@ -563,7 +588,7 @@ recipe* game::select_crafting_recipe()
                         int charges = current[line]->tools[i][j].count;
                         nc_color toolcol = c_red;
                         
-                        if (conflicts.count(type)!=0)
+                        if (tool_conflicts.count(type)!=0)
                         {
                             toolcol = c_brown;
                         }
@@ -620,7 +645,7 @@ recipe* game::select_crafting_recipe()
                     int count = current[line]->components[i][j].count;
                     itype_id type = current[line]->components[i][j].type;
                     nc_color compcol = c_red;
-                    if (conflicts.count(type)!=0)
+                    if (comp_conflicts.count(type)!=0)
                     {
                         compcol = c_brown;
                     }
