@@ -631,7 +631,7 @@ void game::construction_menu()
  refresh_all();
 }
 
-bool game::player_can_build(player &p, inventory inv, constructable* con,
+bool game::player_can_build(player &p, inventory pinv, constructable* con,
                             const int level, bool cont, bool exact_level)
 {
  int last_level = level;
@@ -661,7 +661,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
     tools_required = true;
     has_tool = false;
     for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
-     if (inv.has_amount(stage.tools[j][k].type, 1))
+     if (pinv.has_amount(stage.tools[j][k].type, 1))
       has_tool = true;
     }
     if (!has_tool)  // missing one of the tools for this stage
@@ -672,10 +672,10 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
     has_component = false;
     for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
      if (( item_controller->find_template(stage.components[j][k].type)->is_ammo() &&
-	   inv.has_charges(stage.components[j][k].type,
+	   pinv.has_charges(stage.components[j][k].type,
 			   stage.components[j][k].count)    ) ||
          (!item_controller->find_template(stage.components[j][k].type)->is_ammo() &&
-          inv.has_amount (stage.components[j][k].type,
+          pinv.has_amount (stage.components[j][k].type,
                           stage.components[j][k].count)    ))
       has_component = true;
     }

@@ -186,8 +186,8 @@ void iexamine::tent(game *g, player *p, map *m, int examx, int examy) {
   for (int j = -1; j <= 1; j++)
    m->ter_set(examx + i, examy + j, t_dirt);
  g->add_msg("You take down the tent");
- item tent(g->itypes["tent_kit"], g->turn);
- m->add_item(examx, examy, tent);
+ item dropped(g->itypes["tent_kit"], g->turn);
+ m->add_item(examx, examy, dropped);
 }
 
 void iexamine::shelter(game *g, player *p, map *m, int examx, int examy) {
@@ -200,8 +200,8 @@ void iexamine::shelter(game *g, player *p, map *m, int examx, int examy) {
   for (int j = -1; j <= 1; j++)
    m->ter_set(examx + i, examy + j, t_dirt);
  g->add_msg("You take down the shelter");
- item tent(g->itypes["shelter_kit"], g->turn);
- m->add_item(examx, examy, tent);
+ item dropped(g->itypes["shelter_kit"], g->turn);
+ m->add_item(examx, examy, dropped);
 }
 
 void iexamine::wreckage(game *g, player *p, map *m, int examx, int examy) {

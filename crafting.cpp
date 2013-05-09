@@ -117,8 +117,8 @@ void game::init_recipes()
 
                 if (item_controller->find_template(book_name)->is_book())
                 {
-                    it_book *book = dynamic_cast<it_book*>(item_controller->find_template(book_name));
-                    book->recipes[last_rec] = book_level;
+                    it_book *book_def = dynamic_cast<it_book*>(item_controller->find_template(book_name));
+                    book_def->recipes[last_rec] = book_level;
                 }
             }
         }
