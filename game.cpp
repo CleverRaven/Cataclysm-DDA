@@ -7431,6 +7431,11 @@ void game::plfire(bool burst)
 
 void game::butcher()
 {
+ if (u.in_vehicle)
+ {
+     add_msg("You can't butcher while driving!");
+     return;
+ }
  std::vector<int> corpses;
  for (int i = 0; i < m.i_at(u.posx, u.posy).size(); i++) {
   if (m.i_at(u.posx, u.posy)[i].type->id == "corpse")
