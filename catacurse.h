@@ -116,13 +116,14 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
 int wrefresh(WINDOW *win);
 int refresh(void);
 int getch(void);
+int mvgetch(int y, int x);
 int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
 int mvprintw(int y, int x, const char *fmt, ...);
 int werase(WINDOW *win);
 int start_color(void);
 int init_pair(short pair, short f, short b);
 int wmove(WINDOW *win, int y, int x);
-
+int getnstr(char *str, int size, bool echo);
 int clear(void);
 int erase(void);
 int endwin(void);
