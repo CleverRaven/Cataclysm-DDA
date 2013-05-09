@@ -85,6 +85,37 @@ Placable funnel that collects some water while raining.
 Characters with the Android trait no longer get unimplemented bionics.
 Added several new options.
 NPC spawning is toggled with the in-game options menu rather than a text file hack.
+Added more wildlife (coyotes, cats, etc.).
+Robust Genetics trait heavily buffed.
+Change how overmap tile data is saved, to allow for more terrain types and buildings.
+Add high-capacity power storage CBM.
+Add some new magazines and entertainment books.
+Blisters no longer lower max HP (at least until the system is more fleshed out).
+Cannibal trait has been rebalanced, as well as morale effects of eating human flesh.
+Added cookbook for Italian recipes.
+Sewing now requires an adequate source of light.
+New health display for non-Self Aware characters, accurate to 1/10th max HP rather than 1/4th.
+Targeting window (when throwing/firing weapons) has been reorganized.
+Directional antennas!
+Gas pumps have been rebalanced (less fragile when filling vehicles, more fragile when filling containers).
+Added sling, slingshot, and associated ammunition.
+Gas stations can spawn next to highways.
+Large creatures are more likely to leave a corpse when taking high damage.
+Add flavor items with variable descriptions to the game (fliers and such).
+Some guns have range modifiers independent of their ammo. Buffed coilgun range.
+Add limb torsion ratchet bionic, generates power when moving.
+Desks don't spawn outside any more.
+The option to delete your world on character death actually works now!
+Tweaked projectile/glass interaction, stopped leaping monsters from phasing through windows.
+Debug menu changes.
+Made it possible to build indoor furniture in more situations.
+Updated readme, added contributing guidelines.
+Stopped small animals from suiciding, in many cases (e.g., broken windows and landmines).
+Add a few hats. No, not TF2-style.
+Artifacts will successfully save and load now!
+Adjusted monster spawning mechanics to reduce the chance of swarms of difficult zombies.
+Stop roads from going through buildings so often.
+Pits less awkward to board over (can use nearby items).
 
 
 0.4
