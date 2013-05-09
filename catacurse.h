@@ -123,7 +123,7 @@ int werase(WINDOW *win);
 int start_color(void);
 int init_pair(short pair, short f, short b);
 int wmove(WINDOW *win, int y, int x);
-int getnstr(char *str, int size, bool echo);
+int getnstr(char *str, int size);
 int clear(void);
 int erase(void);
 int endwin(void);
@@ -131,7 +131,6 @@ int mvwaddch(WINDOW *win, int y, int x, const chtype ch);
 int wclear(WINDOW *win);
 int wprintw(WINDOW *win, const char *fmt, ...);
 WINDOW *initscr(void);
-int noecho(void);//PORTABILITY, DUMMY FUNCTION
 int cbreak(void);//PORTABILITY, DUMMY FUNCTION
 int keypad(WINDOW *faux, bool bf);//PORTABILITY, DUMMY FUNCTION
 int curs_set(int visibility);//PORTABILITY, DUMMY FUNCTION
@@ -149,7 +148,8 @@ int getbegy(WINDOW *win);
 int move(int y, int x);
 void timeout(int delay);//PORTABILITY, DUMMY FUNCTION
 void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
-
+int echo(void);
+int noecho(void);
 //Window Functions, Do not call these outside of catacurse.cpp
 void WinDestroy();
 bool WinCreate(bool initgl);
