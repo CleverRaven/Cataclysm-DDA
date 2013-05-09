@@ -28,7 +28,6 @@ Broken and Empty windows can no longer be taped up, alarmed windows can.
 Palisade walls changed to require 2 6foot ropes rather than one thirty foot one.
 Domestic Windows drop strings now (Those are the kind that can be opened)
 String can be made from sinew and plant fibre.
-Added a craftable power armor power interface CBM.
 Added blankets, fur blankets (craft only), emergency blankets, sleeping bags, fur sleeping bags (craft only).
 Added house coat, snuggie, cloak, fur cloak (craft only), leather cloak (craft only).
 Added fur scarf, fur gloves, fur trenchcoat, fur pants, fur boots (all craft only).
@@ -57,6 +56,35 @@ Fix artifact saving and loading.
 Multiple building additions in town and in the countryside.
 Support for 2x2 and 3x3 buildings.
 Temporary fix to decrease the number of large structures with roads running through them.
+Items can only be set on fire if it would affect them (no more burning sheets infinitely).
+Looking around at items (with "V") has a few improvements.
+Soldering irons give heating elements when disassembled, tweak numbers for hotplates and water purifiers.
+Advanced inventory management screen, default keymap "/". Lets you interact with adjacent tiles.
+Roadmap is made of paper.
+Removed RV kitchen units from some spawn locations.
+Backend: made it much easier to define pre-built locations. Responsible for a lot of the new building types.
+Increased the quench value of clean water.
+Early-game survivalist stabbing weapon is now pointy stick. Wood spear is higher level.
+You can now read using torches and other items.
+Addictions can be configured explicitly in the professions file.
+Tweak crossbow trap drops.
+Made several UI screens smarter (resize to fit screen, esc can exit, etc.).
+Show nearby map notes on the minimap.
+Some item types can be defined from data files now! So far: misc/melee, guns, gun mods (sorta)
+Glasses can be worn with power armor.
+Added several new constructions.
+Power use of integrated toolset has been rebalanced.
+Armor CBMs have had drawbacks removed.
+Rain coats can be made from plastic bags.
+Fursuits.
+Work to make NPCs less buggy.
+Nuclear missile fixes.
+Tweaked steel recycler behavior.
+Autosaves take into account the passage of real-world time.
+Placable funnel that collects some water while raining.
+Characters with the Android trait no longer get unimplemented bionics.
+Added several new options.
+NPC spawning is toggled with the in-game options menu rather than a text file hack.
 
 
 0.4
