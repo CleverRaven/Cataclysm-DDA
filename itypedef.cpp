@@ -3506,7 +3506,7 @@ mechanics crafting recipes.");
 TOOL("jack", "jack",		30, 86, ';', c_ltgray,	IRON,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
 	 5,  10, 11,  0,  2, 0, 0, 0, 0, AT_NULL, "null", &iuse::none, 0, "\
-A common hydralic jack, used when changing tires.");
+A common hydraulic jack, used when changing tires.");
 
 TOOL("snare_trigger", "snare trigger", 50, 15, ';', c_brown, WOOD, MNULL,
     1, 0, 0, 0, -1, 0, 0, 0, 0, AT_NULL, "null", &iuse::none, 0, "\
