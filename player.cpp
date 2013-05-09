@@ -76,7 +76,7 @@ player::player()
  for (int i = 1; i < NUM_MUTATION_CATEGORIES; i++)
   mutation_category_level[i] = 0;
 
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill) {
    skillLevel(*aSkill).level(0);
  }
@@ -1486,7 +1486,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  line = 1;
  std::vector <skill> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
- for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill)
  {
   int i = (*aSkill)->id();
@@ -6116,7 +6116,7 @@ void player::practice (const calendar& turn, Skill *s, int amount)
 
     if (isSavant)
     {
-        for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin()++;
+        for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
              aSkill != Skill::skills.end(); ++aSkill)
         {
             if (skillLevel(*aSkill) > savantSkillLevel)

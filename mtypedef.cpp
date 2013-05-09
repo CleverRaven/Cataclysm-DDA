@@ -29,11 +29,11 @@ diff, agro, morale, speed, melee_skill, melee_dice, melee_sides,\
 melee_cut, dodge, arm_bash, arm_cut, item_chance, HP, sp_freq, death, sp_att,\
 desc))
 
-#define FLAGS(...)   setvector(mtypes[id]->flags,   __VA_ARGS__, NULL)
-#define CATEGORIES(...)   setvector(mtypes[id]->categories,   __VA_ARGS__, NULL)
-#define ANGER(...)   setvector(mtypes[id]->anger,   __VA_ARGS__, NULL)
-#define FEARS(...)   setvector(mtypes[id]->fear,    __VA_ARGS__, NULL)
-#define PLACATE(...) setvector(mtypes[id]->placate, __VA_ARGS__, NULL)
+#define FLAGS(...)   setvector(&(mtypes[id]->flags),   __VA_ARGS__, NULL)
+#define CATEGORIES(...)   setvector(&(mtypes[id]->categories),   __VA_ARGS__, NULL)
+#define ANGER(...)   setvector(&(mtypes[id]->anger),   __VA_ARGS__, NULL)
+#define FEARS(...)   setvector(&(mtypes[id]->fear),    __VA_ARGS__, NULL)
+#define PLACATE(...) setvector(&(mtypes[id]->placate), __VA_ARGS__, NULL)
 
 // PLEASE NOTE: The description is AT MAX 4 lines of 46 characters each.
 
@@ -1300,24 +1300,24 @@ std::vector<monster_trigger> default_fears(monster_species spec)
  std::vector<monster_trigger> ret;
  switch (spec) {
   case species_mammal:
-   setvector(ret, MTRIG_HURT, MTRIG_FIRE, MTRIG_FRIEND_DIED, NULL);
+   setvector(&ret, MTRIG_HURT, MTRIG_FIRE, MTRIG_FRIEND_DIED, NULL);
    break;
   case species_insect:
-   setvector(ret, MTRIG_HURT, MTRIG_FIRE, NULL);
+   setvector(&ret, MTRIG_HURT, MTRIG_FIRE, NULL);
    break;
   case species_worm:
-   setvector(ret, MTRIG_HURT, NULL);
+   setvector(&ret, MTRIG_HURT, NULL);
    break;
   case species_zombie:
    break;
   case species_plant:
-   setvector(ret, MTRIG_HURT, MTRIG_FIRE, NULL);
+   setvector(&ret, MTRIG_HURT, MTRIG_FIRE, NULL);
    break;
   case species_fungus:
-   setvector(ret, MTRIG_HURT, MTRIG_FIRE, NULL);
+   setvector(&ret, MTRIG_HURT, MTRIG_FIRE, NULL);
    break;
   case species_nether:
-   setvector(ret, MTRIG_HURT, NULL);
+   setvector(&ret, MTRIG_HURT, NULL);
    break;
   case species_robot:
    break;
