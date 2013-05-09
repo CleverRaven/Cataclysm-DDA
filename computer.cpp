@@ -221,10 +221,10 @@ void computer::load_data(std::string data)
   std::string tmpname;
   int tmpaction, tmpsec;
   dump >> tmpname >> tmpaction >> tmpsec;
-  size_t found = tmpname.find("_");
-  while (found != std::string::npos) {
-   tmpname.replace(found, 1, " ");
-   found = tmpname.find("_");
+  size_t tmp_found = tmpname.find("_");
+  while (tmp_found != std::string::npos) {
+   tmpname.replace(tmp_found, 1, " ");
+   tmp_found = tmpname.find("_");
   }
   add_option(tmpname, computer_action(tmpaction), tmpsec);
  }

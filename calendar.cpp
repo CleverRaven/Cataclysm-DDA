@@ -35,16 +35,16 @@ calendar::calendar(int Minute, int Hour, int Day, season_type Season, int Year)
 
 calendar::calendar(int turn)
 {
- int minutes = int(turn / 10);
- int hours = minutes / 60;
- int days = hours / 24;
- int seasons = days / OPTIONS[OPT_SEASON_LENGTH];
+ int minute_param = int(turn / 10);
+ int hour_param = minute_param / 60;
+ int day_param = hour_param / 24;
+ int season_param = day_param / OPTIONS[OPT_SEASON_LENGTH];
  second = 6 * (turn % 10);
- minute = minutes % 60;
- hour = hours % 24;
- day = 1 + days % (int)OPTIONS[OPT_SEASON_LENGTH];
- season = season_type(seasons % 4);
- year = seasons / 4;
+ minute = minute_param % 60;
+ hour = hour_param % 24;
+ day = 1 + day_param % (int)OPTIONS[OPT_SEASON_LENGTH];
+ season = season_type(season_param % 4);
+ year = season_param / 4;
 }
 
 int calendar::get_turn() const
@@ -86,16 +86,16 @@ calendar& calendar::operator =(calendar &rhs)
 
 calendar& calendar::operator =(int rhs)
 {
- int minutes = int(rhs / 10);
- int hours = minutes / 60;
- int days = hours / 24;
- int seasons = days / OPTIONS[OPT_SEASON_LENGTH];
+ int minute_param = int(rhs / 10);
+ int hour_param = minute_param / 60;
+ int day_param = hour_param / 24;
+ int season_param = day_param / OPTIONS[OPT_SEASON_LENGTH];
  second = 6 * (rhs % 10);
- minute = minutes % 60;
- hour = hours % 24;
- day = days % (int)OPTIONS[OPT_SEASON_LENGTH];
- season = season_type(seasons % 4);
- year = seasons / 4;
+ minute = minute_param % 60;
+ hour = hour_param % 24;
+ day = day_param % (int)OPTIONS[OPT_SEASON_LENGTH];
+ season = season_type(season_param % 4);
+ year = season_param / 4;
  return *this;
 }
 
@@ -354,27 +354,27 @@ std::string calendar::print_time(bool just_hour) const
 
     if (OPTIONS[OPT_24_HOUR] == 1)
     {
-        int hours = hour % 24;
-        if (hours < 10)
+        int hour_param = hour % 24;
+        if (hour_param < 10)
         {
             time_string << "0";
         }
-        time_string << hours;
+        time_string << hour_param;
     }
     else if (OPTIONS[OPT_24_HOUR] == 2)
     {
-        int hours = hour % 24;
-        time_string << hours;
+        int hour_param = hour % 24;
+        time_string << hour_param;
         if (!just_hour) time_string << ":";
     }
     else
     {
-        int hours = hour % 12;
-        if (hours == 0)
+        int hour_param = hour % 12;
+        if (hour_param == 0)
         {
-            hours = 12;
+            hour_param = 12;
         }
-        time_string << hours;
+        time_string << hour_param;
         if (!just_hour) time_string << ":";
     }
     if(!just_hour)

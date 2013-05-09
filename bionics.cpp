@@ -515,9 +515,9 @@ bool player::install_bionics(game *g, it_bionic* type)
 
 // Init the list of bionics
  for (int i = 1; i < type->options.size(); i++) {
-  bionic_id id = type->options[i];
-  mvwprintz(w, i + 3, 1, (has_bionic(id) ? c_ltred : c_ltblue),
-            bionics[id]->name.c_str());
+  bionic_id bio_id = type->options[i];
+  mvwprintz(w, i + 3, 1, (has_bionic(bio_id) ? c_ltred : c_ltblue),
+            bionics[bio_id]->name.c_str());
  }
 // Helper text
  mvwprintz(w, 3, 39, c_white,        "Difficulty of this module: %d",
@@ -597,14 +597,14 @@ charge mechanism, which must be installed from another CBM.", pow_up);
 
  do {
 
-  bionic_id id = type->options[selection];
-  mvwprintz(w, 3 + selection, 1, (has_bionic(id) ? h_ltred : h_ltblue),
-            bionics[id]->name.c_str());
+  bionic_id bio_id = type->options[selection];
+  mvwprintz(w, 3 + selection, 1, (has_bionic(bio_id) ? h_ltred : h_ltblue),
+            bionics[bio_id]->name.c_str());
 
 // Clear the bottom three lines...
   werase(w_description);
 // ...and then fill them with the description of the selected bionic
-  mvwprintz(w_description, 0, 0, c_ltblue, bionics[id]->description.c_str());
+  mvwprintz(w_description, 0, 0, c_ltblue, bionics[bio_id]->description.c_str());
 
   wrefresh(w_description);
   wrefresh(w);
@@ -612,8 +612,8 @@ charge mechanism, which must be installed from another CBM.", pow_up);
   switch (input) {
 
   case DirectionS:
-   mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
-             bionics[id]->name.c_str());
+   mvwprintz(w, 2 + selection, 0, (has_bionic(bio_id) ? c_ltred : c_ltblue),
+             bionics[bio_id]->name.c_str());
    if (selection == type->options.size() - 1)
     selection = 0;
    else
@@ -621,8 +621,8 @@ charge mechanism, which must be installed from another CBM.", pow_up);
    break;
 
   case DirectionN:
-   mvwprintz(w, 2 + selection, 0, (has_bionic(id) ? c_ltred : c_ltblue),
-             bionics[id]->name.c_str());
+   mvwprintz(w, 2 + selection, 0, (has_bionic(bio_id) ? c_ltred : c_ltblue),
+             bionics[bio_id]->name.c_str());
    if (selection == 0)
     selection = type->options.size() - 1;
    else
@@ -630,8 +630,8 @@ charge mechanism, which must be installed from another CBM.", pow_up);
    break;
 
   }
-  if (input == Confirm && has_bionic(id)) {
-   popup("You already have a %s!", bionics[id]->name.c_str());
+  if (input == Confirm && has_bionic(bio_id)) {
+   popup("You already have a %s!", bionics[bio_id]->name.c_str());
    input = Nothing;
   }
  } while (input != Cancel && input != Confirm);
@@ -640,11 +640,11 @@ charge mechanism, which must be installed from another CBM.", pow_up);
    practice(g->turn, "electronics", (100 - chance_of_success) * 1.5);
    practice(g->turn, "firstaid", (100 - chance_of_success) * 1.0);
    practice(g->turn, "mechanics", (100 - chance_of_success) * 0.5);
-  bionic_id id = type->options[selection];
+  bionic_id bio_id = type->options[selection];
   int success = chance_of_success - rng(1, 100);
   if (success > 0) {
-   g->add_msg("Successfully installed %s.", bionics[id]->name.c_str());
-   add_bionic(id);
+   g->add_msg("Successfully installed %s.", bionics[bio_id]->name.c_str());
+   add_bionic(bio_id);
   } else
    bionics_install_failure(g, this, success);
   werase(w);

@@ -71,7 +71,7 @@ class SkillLevel {
   bool toggleTraining() { _isTraining = !_isTraining; return _isTraining; }
 
   int level() const { return _level; }
-  int level(int level) { _level = level; return level; }
+  int level(int plevel) { _level = plevel; return plevel; }
 
   int exercise() const { return _exercise; }
 
