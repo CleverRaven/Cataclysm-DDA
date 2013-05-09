@@ -129,7 +129,7 @@ t_railing_v, t_railing_h,
 // Nether
 t_marloss, t_fungus, t_tree_fungal,
 // Water, lava, etc.
-t_water_sh, t_water_dp, t_sewage,
+t_water_sh, t_water_dp, t_water_pool, t_sewage,
 t_lava,
 // Embellishments
 t_bed, t_toilet, t_makeshift_bed,
@@ -444,6 +444,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 	   mfb(transparent)|mfb(liquid)|mfb(swimmable), &iexamine::water_source},
 {"deep water",       '~', c_blue,    0, -1, tr_null,
 	   mfb(transparent)|mfb(liquid)|mfb(swimmable), &iexamine::water_source},
+{"pool water",       '~', c_ltblue,  5, -1, tr_null,
+    mfb(transparent)|mfb(liquid)|mfb(swimmable)|mfb(indoors),
+    &iexamine::water_source},
 {"sewage",           '~', c_ltgreen, 6, -1, tr_null,
 	   mfb(transparent)|mfb(swimmable), &iexamine::water_source},
 {"lava",             '~', c_red,     4, -1, tr_lava,
