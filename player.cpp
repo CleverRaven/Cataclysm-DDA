@@ -1493,7 +1493,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
 
   SkillLevel level = skillLevel(*aSkill);
 
-  if ( i != 0 && sklevel[i] >= 0) {
+  if ( sklevel[i] >= 0) {
    skillslist.push_back(skill(i));
    // Default to not training and not rusting
    nc_color text_color = c_blue;
