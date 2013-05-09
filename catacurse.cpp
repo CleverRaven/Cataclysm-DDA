@@ -497,6 +497,52 @@ int getch(void)
     return lastchar;
 };
 
+int mvgetch(int y, int x)
+{
+    move(y,x);
+    return getch();
+}
+
+int getnstr(char *str, int size, bool echo)
+{
+    int startX = mainwin->cursorx;
+    int count = 0;
+    char input;
+    while(true)
+    {
+	input = getch();
+	// Carriage return, Line feed and End of File terminate the input.
+	if( input == '\r' || input == '\n' || input == '\x04' ) 
+	{
+	    str[count] = '\x00';
+	    return count;
+	}
+	else if( input == 127 ) // Backspace, remapped from \x8 in ProcessMessages()
+	{
+	    if( count == 0 )
+		continue;
+	    str[count] = '\x00';
+	    if(echo)
+	        mvaddch(mainwin->cursory, startX + count, ' ');
+	    --count;
+	    if(echo)
+	      move(mainwin->cursory, startX + count);
+	}
+	else
+	{
+	    if( count >= size - 1 ) // Still need space for trailing 0x00
+	        continue;
+	    str[count] = input;
+	    ++count;
+	    if(echo)
+	    {
+	        move(mainwin->cursory, startX + count);
+		mvaddch(mainwin->cursory, startX + count, input);
+	    }
+	}
+    }
+    return count;
+}
 //The core printing function, prints characters to the array, and sets colors
 inline int printstring(WINDOW *win, char *fmt)
 {
