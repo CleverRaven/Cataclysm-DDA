@@ -1651,14 +1651,21 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
-   for (int i = x - 1; i <= x + 1; i++) {
-    for (int j = y - 1; j <= y + 1; j++) {
-     if (one_in(2) && !g->m.has_flag(noitem, x, y) && !g->m.field_at(i, j).type == fd_rubble) {
-      g->m.add_field(g, i, j, fd_rubble, rng(3,9) / 3);
-      g->m.field_effect(i, j, g);
-     }
+  for (int i = x - 1; i <= x + 1; i++) {
+   for (int j = y - 1; j <= y + 1; j++) {
+    if (one_in(2)) {
+     debugmsg("1");
+      if (!g->m.has_flag(noitem, x, y)) {
+       debugmsg("2");
+       if (g->m.field_at(i, j).type != fd_rubble) {
+        debugmsg("Rubble spawned!");
+        g->m.add_field(g, i, j, fd_rubble, rng(1,3));
+        g->m.field_effect(i, j, g);
+       }
+      }
     }
    }
+  }
    //TODO: Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
@@ -1694,13 +1701,21 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
-  for (int i = x - 1; i <= x + 1; i++)
+  for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
-    if (one_in(2) && !g->m.has_flag(noitem, x, y) && !g->m.field_at(i, j).type == fd_rubble) {
-     g->m.add_field(g, i, j, fd_rubble, rng(3,9) / 3);
-     g->m.field_effect(i, j, g);
+    if (one_in(2)) {
+     debugmsg("1");
+      if (!g->m.has_flag(noitem, x, y)) {
+       debugmsg("2");
+       if (g->m.field_at(i, j).type != fd_rubble) {
+        debugmsg("Rubble spawned!");
+        g->m.add_field(g, i, j, fd_rubble, rng(1,3));
+        g->m.field_effect(i, j, g);
+      }
+      }
     }
    }
+  }
   //TODO: Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
