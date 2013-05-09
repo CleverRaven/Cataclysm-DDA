@@ -202,10 +202,12 @@ void game::wish()
  // Allow for multiples
  curs_set(1);
  mvprintw(0, 0, "How many do you want? (default is 1): ");
- char str[5];
+ char str[10];
  int count = 1;
- getnstr(str, 5, true);
- count = atol(str);
+ echo();
+ getnstr(str, 9);
+ noecho();
+ count = atoi(str);
  if (count<=0)
  {
   count = 1;
@@ -214,7 +216,8 @@ void game::wish()
  
  mvprintw(2, 0, "Wish granted - %d x %s.", count, tmp.type->name.c_str());
  tmp.invlet = nextinv;
- for (int i=0; i<count; i++)
+ int i;
+ for (i=0; i<count; i++)
  {
   if (!incontainer)
    u.i_add(tmp);
