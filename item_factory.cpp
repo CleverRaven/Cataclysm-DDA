@@ -19,8 +19,8 @@ Item_factory* item_controller = new Item_factory();
 Item_factory::Item_factory(){
     init();
     m_missing_item = new itype();
-    m_missing_item->name = "Error: Item Missing";
-    m_missing_item->description = "Error: No item template of this type.";
+    m_missing_item->name = "Error: Item Missing.";
+    m_missing_item->description = "There is only the space where an object should be, but isn't. No item template of this type exists.";
     m_templates["MISSING_ITEM"]=m_missing_item;
 }
 
@@ -343,6 +343,7 @@ void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/melee.json");
     load_item_templates_from("data/raw/items/ranged.json");
     load_item_templates_from("data/raw/items/mods.json");
+    load_item_templates_from("data/raw/items/tools.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
@@ -416,6 +417,18 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         gun_template->reload_time = entry.get("reload").as_int();
 
                         new_item_template = gun_template;
+                    }
+                    else if (type_label == "TOOL")
+                    {
+                        it_tool* tool_template = new it_tool();
+                        tool_template->ammo = ammo_from_string(entry.get("ammo").as_string());
+                        tool_template->max_charges = entry.get("max_charges").as_int();
+                        tool_template->def_charges = entry.get("initial_charges").as_int();
+                        tool_template->charges_per_use = entry.get("charges_per_use").as_int();
+                        tool_template->turns_per_charge = entry.get("turns_per_charge").as_int();
+                        tool_template->revert_to = entry.get("revert_to").as_string();
+
+                        new_item_template = tool_template;
                     }
                     else
                     {
