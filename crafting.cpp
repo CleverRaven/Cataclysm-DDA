@@ -193,6 +193,7 @@ bool game::can_make(recipe *r)
     // under the assumption that all comp and tool's array contains all the required stuffs at the start of the array
 
     // check all tools
+    std::vector<std::vector<component> > tools_player_has;
     for(int i = 0 ; i < r->tools.size() ; i++)
     {
         // if current tool is null(size 0), assume that there is no more after it.
@@ -201,6 +202,7 @@ bool game::can_make(recipe *r)
             break;
         }
         bool has_tool = false;
+        std::vector<component> set_of_tools;
         for(int j = 0 ; j < r->tools[i].size() ; j++)
         {
             itype_id type = r->tools[i][j].type;
@@ -208,15 +210,20 @@ bool game::can_make(recipe *r)
             if((req<= 0 && crafting_inv.has_amount(type,1)) || (req > 0 && crafting_inv.has_charges(type,req)))
             {
                 has_tool = true;
-                break;
+                set_of_tools.push_back(r->tools[i][j]);
             }
         }
         if(!has_tool)
         {
             return false;
         }
+        else
+        {
+            tools_player_has.push_back(set_of_tools);
+        }
     }
     // check all components
+    std::vector<std::vector<component> > components_player_has;
     for(int i = 0 ; i < r->components.size() ; i++)
     {
         if(r->components[i].size() == 0)
@@ -224,6 +231,7 @@ bool game::can_make(recipe *r)
             break;
         }
         bool has_comp = false;
+        std::vector<component> set_of_components;
         for(int j = 0 ; j < r->components[i].size() ; j++)
         {
             itype_id type = r->components[i][j].type;
@@ -233,18 +241,77 @@ bool game::can_make(recipe *r)
                 if (crafting_inv.has_charges(type, req))
                 {
                     has_comp = true;
-                    break;
+                    set_of_components.push_back(r->components[i][j]);
                 }
             }
             else if (crafting_inv.has_amount(type, abs(req)))
             {
                 has_comp = true;
-                break;
+                set_of_components.push_back(r->components[i][j]);
             }
         }
         if(!has_comp)
         {
             return false;
+        }
+        else
+        {
+            components_player_has.push_back(set_of_components);
+        }
+    }
+    std::vector<std::vector<component> >::iterator comp_set_it = components_player_has.begin();
+    while (comp_set_it != components_player_has.end())
+    {
+        std::vector<component> set_of_components = *comp_set_it;
+        std::vector<component>::iterator comp_it = set_of_components.begin();
+        while (comp_it != set_of_components.end())
+        {
+            component comp = *comp_it;
+            bool sets_have_enough = true;
+            std::vector<std::vector<component> >::iterator tool_set_it = tools_player_has.begin();
+            while (tool_set_it != tools_player_has.end())
+            {
+                bool have_enough = false;
+                std::vector<component> set_of_tools = *tool_set_it;
+                std::vector<component>::iterator tool_it = set_of_tools.begin();
+                while(tool_it != set_of_tools.end())
+                {
+                    component tool = *tool_it;
+                    if (comp.type == tool.type)
+                    {
+                        int req = comp.count + 1; //or use tool.count
+                        if (u.has_amount(comp.type, req))
+                        {
+                            have_enough = true;
+                        }
+                    }
+                    else
+                    {
+                        have_enough = true;
+                    }
+                    ++tool_it;
+                }
+                sets_have_enough = sets_have_enough && have_enough;
+                ++tool_set_it;
+            }
+            if (!sets_have_enough)
+            // This component can't be used with any tools from one of the sets of tools
+            // which means it should be removed from this set of components
+            {
+                set_of_components.erase(comp_it);
+            }
+            else
+            {
+                ++comp_it;
+            }
+        }
+        if (set_of_components.size() <= 0)
+        {
+            return false;
+        }
+        else
+        {
+            ++comp_set_it;
         }
     }
     return true;
