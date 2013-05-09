@@ -193,61 +193,158 @@ bool game::can_make(recipe *r)
     // under the assumption that all comp and tool's array contains all the required stuffs at the start of the array
 
     // check all tools
-    for(int i = 0 ; i < r->tools.size() ; i++)
+    std::vector<std::vector<component> > &tools = r->tools;
+    std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
+    while (tool_set_it != tools.end())
     {
+        std::vector<component> &set_of_tools = *tool_set_it;
         // if current tool is null(size 0), assume that there is no more after it.
-        if(r->tools[i].size()==0)
+        if(set_of_tools.size()==0)
         {
             break;
         }
-        bool has_tool = false;
-        for(int j = 0 ; j < r->tools[i].size() ; j++)
+        bool has_tool_in_set = false;
+        std::vector<component>::iterator tool_it = set_of_tools.begin();
+        while(tool_it != set_of_tools.end())
         {
-            itype_id type = r->tools[i][j].type;
-            int req = r->tools[i][j].count;
+            component &tool = *tool_it;
+            itype_id type = tool.type;
+            int req = tool.count;
             if((req<= 0 && crafting_inv.has_amount(type,1)) || (req > 0 && crafting_inv.has_charges(type,req)))
             {
-                has_tool = true;
-                break;
+                has_tool_in_set = true;
+                tool.color = 1;
             }
+            else
+            {
+                tool.color = -1;
+            }
+            ++tool_it;
         }
-        if(!has_tool)
+        if(!has_tool_in_set)
         {
             return false;
         }
+        ++tool_set_it;
     }
     // check all components
-    for(int i = 0 ; i < r->components.size() ; i++)
+    std::vector<std::vector<component> > &components = r->components;
+    std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
+    while (comp_set_it != components.end())
     {
-        if(r->components[i].size() == 0)
+        std::vector<component> &set_of_components = *comp_set_it;
+        if(set_of_components.size() == 0)
         {
             break;
         }
-        bool has_comp = false;
-        for(int j = 0 ; j < r->components[i].size() ; j++)
+        bool has_comp_in_set = false;
+        std::vector<component>::iterator comp_it = set_of_components.begin();
+        while(comp_it != set_of_components.end())
         {
-            itype_id type = r->components[i][j].type;
-            int req = r->components[i][j].count;
+            component &comp = *comp_it;
+            itype_id type = comp.type;
+            int req = comp.count;
             if (item_controller->find_template(type)->count_by_charges() && req > 0)
             {
                 if (crafting_inv.has_charges(type, req))
                 {
-                    has_comp = true;
-                    break;
+                    has_comp_in_set = true;
+                    comp.color = 1;
+                }
+                else
+                {
+                    comp.color = -1;
                 }
             }
             else if (crafting_inv.has_amount(type, abs(req)))
             {
-                has_comp = true;
-                break;
+                has_comp_in_set = true;
+                comp.color = 1;
             }
+            else
+            {
+                comp.color = -1;
+            }
+            ++comp_it;
         }
-        if(!has_comp)
+        if(!has_comp_in_set)
         {
             return false;
         }
+        ++comp_set_it;
     }
-    return true;
+    return check_enough_materials(r);
+}
+
+bool game::check_enough_materials(recipe *r)
+{
+    bool RET_VAL = true;
+    std::vector<std::vector<component> > &components = r->components;
+    std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
+    while (comp_set_it != components.end())
+    {
+        std::vector<component> &set_of_components = *comp_set_it;
+        std::vector<component>::iterator comp_it = set_of_components.begin();
+        bool atleast_one_available = false;
+        while (comp_it != set_of_components.end())
+        {
+            component &comp = *comp_it;
+            if (comp.color == 1)
+            {
+                bool have_enough_in_set = true;
+                std::vector<std::vector<component> > &tools = r->tools;
+                std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
+                while (tool_set_it != tools.end())
+                {
+                    bool have_enough = false;
+                    std::vector<component> &set_of_tools = *tool_set_it;
+                    std::vector<component>::iterator tool_it = set_of_tools.begin();
+                    while(tool_it != set_of_tools.end())
+                    {
+                        component &tool = *tool_it;
+                        if (tool.color == 1)
+                        {
+                            if (comp.type == tool.type)
+                            {
+                                int req = comp.count + 1; //or use tool.count
+                                if (u.has_amount(comp.type, req))
+                                {
+                                    have_enough = true;
+                                }
+                            }
+                            else
+                            {
+                                have_enough = true;
+                            }
+                        }
+                        ++tool_it;
+                    }
+                    have_enough_in_set = have_enough_in_set && have_enough;
+                    ++tool_set_it;
+                }
+                if (!have_enough_in_set)
+                // This component can't be used with any tools from one of the sets of tools
+                // which means it's color should be set to brown
+                {
+                    comp.color = 0;
+                }
+            }
+            //Flag that at least one of the components in the set is available
+            if (comp.color == 1)
+            {
+                atleast_one_available = true;
+            }
+            ++comp_it;
+        }
+        
+        if (!atleast_one_available)
+        // this set doesn't have any components available, so the recipe can't be crafted
+        {
+            RET_VAL = false;
+        }
+        ++comp_set_it;
+    }
+    return RET_VAL;
 }
 
 void game::craft()
@@ -481,8 +578,12 @@ recipe* game::select_crafting_recipe()
                         itype_id type = current[line]->tools[i][j].type;
                         int charges = current[line]->tools[i][j].count;
                         nc_color toolcol = c_red;
-
-                        if (charges < 0 && crafting_inv.has_amount(type, 1))
+                        
+                        if (!available[i] && current[line]->tools[i][j].color == 0)
+                        {
+                            toolcol = c_brown;
+                        }
+                        else if (charges < 0 && crafting_inv.has_amount(type, 1))
                         {
                             toolcol = c_green;
                         }
@@ -535,7 +636,11 @@ recipe* game::select_crafting_recipe()
                     int count = current[line]->components[i][j].count;
                     itype_id type = current[line]->components[i][j].type;
                     nc_color compcol = c_red;
-                    if (item_controller->find_template(type)->count_by_charges() && count > 0)
+                    if (!available[i] && current[line]->components[i][j].color == 0)
+                    {
+                        compcol = c_brown;
+                    }
+                    else if (item_controller->find_template(type)->count_by_charges() && count > 0)
                     {
                         if (crafting_inv.has_charges(type, count))
                         {
