@@ -212,7 +212,6 @@ void veh_interact::do_install(int reason)
         bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[sel_part].difficulty;
         bool wheel = vpart_list[sel_part].flags & mfb (vpf_wheel);
         werase (w_msg);
-        int slen = g->itypes[itm]->name.length();
         mvwprintz(w_msg, 0, 1, c_ltgray, "Needs ");
             wprintz(w_msg, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
             wprintz(w_msg, c_ltgray, ", a ");
