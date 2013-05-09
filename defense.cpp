@@ -1036,14 +1036,14 @@ std::vector<itype_id> caravan_items(caravan_category cat)
   return ret;
 
  case CARAVAN_MELEE:
-  setvector(ret,
+  setvector(&ret,
 "hammer", "bat", "mace", "morningstar", "hammer_sledge", "hatchet",
 "knife_combat", "rapier", "machete", "katana", "spear_knife",
 "pike", "chainsaw_off", NULL);
   break;
 
  case CARAVAN_GUNS:
-  setvector(ret,
+  setvector(&ret,
 "crossbow", "bolt_steel", "compbow", "arrow_cf", "marlin_9a",
 "22_lr", "hk_mp5", "9mm", "taurus_38", "38_special", "deagle_44",
 "44magnum", "m1911", "hk_ump45", "45_acp", "fn_p90", "57mm",
@@ -1053,21 +1053,21 @@ std::vector<itype_id> caravan_items(caravan_category cat)
   break;
 
  case CARAVAN_COMPONENTS:
-  setvector(ret,
+  setvector(&ret,
 "rag", "fur", "leather", "superglue", "string_36", "chain",
 "processor", "RAM", "power_supply", "motor", "hose", "pot",
 "2x4", "battery", "nail", "gasoline", NULL);
   break;
 
  case CARAVAN_FOOD:
-  setvector(ret,
+  setvector(&ret,
 "1st_aid", "water", "energy_drink", "whiskey", "can_beans",
 "mre_beef", "flour", "inhaler", "codeine", "oxycodone", "adderall",
 "cig", "meth", "royal_jelly", "mutagen", "purifier", NULL);
  break;
 
  case CARAVAN_CLOTHES:
-  setvector(ret,
+  setvector(&ret,
 "backpack", "vest", "trenchcoat", "jacket_leather", "kevlar",
 "gloves_fingerless", "mask_filter", "mask_gas", "glasses_eye",
 "glasses_safety", "goggles_ski", "goggles_nv", "helmet_ball",
@@ -1075,7 +1075,7 @@ std::vector<itype_id> caravan_items(caravan_category cat)
   break;
 
  case CARAVAN_TOOLS:
-  setvector(ret,
+  setvector(&ret,
 "screwdriver", "wrench", "saw", "hacksaw", "lighter", "sewing_kit",
 "scissors", "extinguisher", "flashlight", "hotplate",
 "soldering_iron", "shovel", "jackhammer", "landmine", "teleporter",
