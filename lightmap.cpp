@@ -141,7 +141,7 @@ void map::generate_lightmap(game* g)
     if(INBOUNDS(px, py)) {
      int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
      if (dpart >= 0) {
-      float luminance = vehs[v].v->part_info(dpart).power;
+      float luminance = vehs[v].v->part_info(dpart).power * 4;
       if (luminance > LL_LIT) {
         apply_light_arc(px, py, dir, luminance);
       }
