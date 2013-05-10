@@ -904,99 +904,122 @@ void iuse::primitive_fire(game *g, player *p, item *it, bool t)
 
 void iuse::sew(game *g, player *p, item *it, bool t)
 {
- if(!p->can_see_fine_detail(g)){
-   g->add_msg("It's too dark to sew!");
-   it->charges++;
-   return;
- }
- char ch = g->inv_type("Repair what?", IC_ARMOR);
- item* fix = &(p->i_at(ch));
- if (fix == NULL || fix->is_null()) {
-  g->add_msg_if_player(p,"You do not have that item!");
-  it->charges++;
-  return;
- }
- if (!fix->is_armor()) {
-  g->add_msg_if_player(p,"That isn't clothing!");
-  it->charges++;
-  return;
- }
- if (!fix->made_of(COTTON) && !fix->made_of(WOOL)) {
-  g->add_msg_if_player(p,"Your %s is not made of cotton or wool.", fix->tname().c_str());
-  it->charges++;
-  return;
- }
- if (fix->damage < 0) {
-  g->add_msg_if_player(p,"Your %s is already enhanced.", fix->tname().c_str());
-  it->charges++;
-  return;
- } else if (fix->damage == 0) {
-  p->moves -= 500;
-  p->practice(g->turn, "tailor", 10);
-  int rn = dice(4, 2 + p->skillLevel("tailor"));
-  if (p->dex_cur < 8 && one_in(p->dex_cur))
-   rn -= rng(2, 6);
-  if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
-   rn += rng(2, 6);
-  if (p->dex_cur > 16)
-   rn += rng(0, p->dex_cur - 16);
-  if (rn <= 4) {
-   g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
-   fix->damage++;
-  } else if (rn >= 12 && p->i_at(ch).has_flag(IF_VARSIZE) && !p->i_at(ch).has_flag(IF_FIT)) {
-   g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
-   (p->i_at(ch).item_flags |= mfb(IF_FIT));
-  } else if (rn >= 12 && (p->i_at(ch).has_flag(IF_FIT) || !p->i_at(ch).has_flag(IF_VARSIZE))) {
-   g->add_msg_if_player(p, "You make your %s extra sturdy.", fix->tname().c_str());
-   fix->damage--;
-  } else
-   g->add_msg_if_player(p,"You practice your sewing.");
- } else {
-  p->moves -= 500;
-  p->practice(g->turn, "tailor", 8);
-  int rn = dice(4, 2 + p->skillLevel("tailor"));
-  rn -= rng(fix->damage, fix->damage * 2);
-  if (p->dex_cur < 8 && one_in(p->dex_cur))
-   rn -= rng(2, 6);
-  if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur)))
-   rn += rng(2, 6);
-  if (p->dex_cur > 16)
-   rn += rng(0, p->dex_cur - 16);
-  if (rn <= 4) {
-   g->add_msg_if_player(p,"You damage your %s further!", fix->tname().c_str());
-   fix->damage++;
-   if (fix->damage >= 5) {
-    g->add_msg_if_player(p,"You destroy it!");
-    p->i_rem(ch);
-   }
-  } else if (rn <= 6) {
-   g->add_msg_if_player(p,"You don't repair your %s, but you waste lots of thread.",
-              fix->tname().c_str());
-   int waste = rng(1, 8);
-   if (waste > it->charges)
-    it->charges = 1;
-   else
-    it->charges -= waste;
-  } else if (rn <= 8) {
-   g->add_msg_if_player(p,"You repair your %s, but waste lots of thread.",
-              fix->tname().c_str());
-   fix->damage--;
-   int waste = rng(1, 8);
-   if (waste > it->charges)
-    it->charges = 1;
-   else
-    it->charges -= waste;
-  } else if (rn <= 16) {
-   g->add_msg_if_player(p,"You repair your %s!", fix->tname().c_str());
-   fix->damage--;
-  } else {
-   g->add_msg_if_player(p,"You repair your %s completely!", fix->tname().c_str());
-   fix->damage = 0;
-  }
- }
- //iuse::sew uses up 1 charge when called, if less than 1, set to 1, and use that one up.
- if (it->charges < 1)
-  it->charges = 1;
+    if(!p->can_see_fine_detail(g))
+	{
+        g->add_msg("It's too dark to sew!");
+        it->charges++;
+        return;
+    }
+    char ch = g->inv_type("Repair what?", IC_ARMOR);
+    item* fix = &(p->i_at(ch));
+    if (fix == NULL || fix->is_null())
+	{
+        g->add_msg_if_player(p,"You do not have that item!");
+        it->charges++;
+        return;
+    }
+    if (!fix->is_armor())
+	{
+        g->add_msg_if_player(p,"That isn't clothing!");
+        it->charges++;
+        return;
+    }
+    if (!fix->made_of(COTTON) && !fix->made_of(WOOL))
+	{
+        g->add_msg_if_player(p,"Your %s is not made of cotton or wool.", fix->tname().c_str());
+        it->charges++;
+        return;
+    }
+    if (fix->damage < 0)
+	{
+        g->add_msg_if_player(p,"Your %s is already enhanced.", fix->tname().c_str());
+        it->charges++;
+        return;
+    }
+    else if (fix->damage == 0)
+	{
+        p->moves -= 500;
+        p->practice(g->turn, "tailor", 10);
+        int rn = dice(4, 2 + p->skillLevel("tailor"));
+        if (p->dex_cur < 8 && one_in(p->dex_cur))
+            {rn -= rng(2, 6);}
+        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
+            {rn += rng(2, 6);}
+        if (p->dex_cur > 16)
+            {rn += rng(0, p->dex_cur - 16);}
+        if (rn <= 4)
+	    {
+            g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
+            fix->damage++;
+        } 
+        else if (rn >= 12 && p->i_at(ch).has_flag(IF_VARSIZE) && !p->i_at(ch).has_flag(IF_FIT))
+	    {
+            g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
+            (p->i_at(ch).item_flags |= mfb(IF_FIT));
+        }
+        else if (rn >= 12 && (p->i_at(ch).has_flag(IF_FIT) || !p->i_at(ch).has_flag(IF_VARSIZE)))
+	    {
+            g->add_msg_if_player(p, "You make your %s extra sturdy.", fix->tname().c_str());
+            fix->damage--;
+        }
+        else
+            g->add_msg_if_player(p,"You practice your sewing.");
+    }
+    else
+	{
+        p->moves -= 500;
+        p->practice(g->turn, "tailor", 8);
+        int rn = dice(4, 2 + p->skillLevel("tailor"));
+        rn -= rng(fix->damage, fix->damage * 2);
+        if (p->dex_cur < 8 && one_in(p->dex_cur))
+            {rn -= rng(2, 6);}
+        if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur)))
+            {rn += rng(2, 6);}
+        if (p->dex_cur > 16)
+            {rn += rng(0, p->dex_cur - 16);}
+        if (rn <= 4)
+	    {
+            g->add_msg_if_player(p,"You damage your %s further!", fix->tname().c_str());
+            fix->damage++;
+            if (fix->damage >= 5)
+		    {
+                g->add_msg_if_player(p,"You destroy it!");
+                p->i_rem(ch);
+            }
+        }
+	    else if (rn <= 6)
+	    {
+            g->add_msg_if_player(p,"You don't repair your %s, but you waste lots of thread.", fix->tname().c_str());
+            int waste = rng(1, 8);
+            if (waste > it->charges)
+                {it->charges = 1;}
+            else
+                {it->charges -= waste;}
+        }
+        else if (rn <= 8)
+	    {
+            g->add_msg_if_player(p,"You repair your %s, but waste lots of thread.", fix->tname().c_str());
+            fix->damage--;
+            int waste = rng(1, 8);
+        if (waste > it->charges)
+            {it->charges = 1;}
+        else
+            {it->charges -= waste;}
+        }
+	    else if (rn <= 16)
+	    {
+            g->add_msg_if_player(p,"You repair your %s!", fix->tname().c_str());
+            fix->damage--;
+        }
+	    else
+	    {
+            g->add_msg_if_player(p,"You repair your %s completely!", fix->tname().c_str());
+            fix->damage = 0;
+        }
+    }
+    //iuse::sew uses up 1 charge when called, if less than 1, set to 1, and use that one up.
+    if (it->charges < 1)
+        {it->charges = 1;}
 }
 
 void iuse::extra_battery(game *g, player *p, item *it, bool t)
