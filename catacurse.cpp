@@ -256,7 +256,10 @@ void DrawWindow(WINDOW *win)
         }
     };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
-    RedrawWindow(WindowHandle, &update, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+    if (update.top != -1)
+    {
+        RedrawWindow(WindowHandle, &update, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+    }
 };
 
 //Check for any window messages (keypress, paint, mousemove, etc)
