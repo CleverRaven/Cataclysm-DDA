@@ -1807,5 +1807,28 @@
         "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
+    },
+    {
+        "id" : "gasoline",
+        "rarity" : 0,
+        "price" : 50,
+        "name" : "gasoline",
+        "symbol" : "=",
+        "color" : "light_red",
+        "description" : "Gasoline is a highly flammable liquid. When under pressure, it has the\npotential for violent explosion.",
+        "material" : "STEEL",
+        "volume" : 0,
+        "weight" : 0,
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "GAS",
+        "damage" : 5,
+        "pierce" : 5,
+        "range" : 4,
+        "accuracy" : 0,
+        "recoil" : 0,
+        "count" : 200,
+        "effects" : ["AMMO_FLAME","AMMO_STREAM"]        
     }
 ]
