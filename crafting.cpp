@@ -185,6 +185,7 @@ bool game::making_would_work(recipe *making)
 }
 bool game::can_make(recipe *r)
 {
+    bool RET_VAL = true;
     inventory crafting_inv = crafting_inventory();
     if(!u.knows_recipe(r))
     {
@@ -213,17 +214,17 @@ bool game::can_make(recipe *r)
             if((req<= 0 && crafting_inv.has_amount(type,1)) || (req > 0 && crafting_inv.has_charges(type,req)))
             {
                 has_tool_in_set = true;
-                tool.color = 1;
+                tool.available = 1;
             }
             else
             {
-                tool.color = -1;
+                tool.available = -1;
             }
             ++tool_it;
         }
         if(!has_tool_in_set)
         {
-            return false;
+            RET_VAL = false;
         }
         ++tool_set_it;
     }
@@ -249,31 +250,31 @@ bool game::can_make(recipe *r)
                 if (crafting_inv.has_charges(type, req))
                 {
                     has_comp_in_set = true;
-                    comp.color = 1;
+                    comp.available = 1;
                 }
                 else
                 {
-                    comp.color = -1;
+                    comp.available = -1;
                 }
             }
             else if (crafting_inv.has_amount(type, abs(req)))
             {
                 has_comp_in_set = true;
-                comp.color = 1;
+                comp.available = 1;
             }
             else
             {
-                comp.color = -1;
+                comp.available = -1;
             }
             ++comp_it;
         }
         if(!has_comp_in_set)
         {
-            return false;
+            RET_VAL = false;
         }
         ++comp_set_it;
     }
-    return check_enough_materials(r);
+    return check_enough_materials(r) && RET_VAL;
 }
 
 bool game::check_enough_materials(recipe *r)
@@ -289,7 +290,7 @@ bool game::check_enough_materials(recipe *r)
         while (comp_it != set_of_components.end())
         {
             component &comp = *comp_it;
-            if (comp.color == 1)
+            if (comp.available == 1)
             {
                 bool have_enough_in_set = true;
                 std::vector<std::vector<component> > &tools = r->tools;
@@ -302,7 +303,7 @@ bool game::check_enough_materials(recipe *r)
                     while(tool_it != set_of_tools.end())
                     {
                         component &tool = *tool_it;
-                        if (tool.color == 1)
+                        if (tool.available == 1)
                         {
                             if (comp.type == tool.type)
                             {
@@ -324,13 +325,14 @@ bool game::check_enough_materials(recipe *r)
                 }
                 if (!have_enough_in_set)
                 // This component can't be used with any tools from one of the sets of tools
-                // which means it's color should be set to brown
+                // which means it's availability should be set to 0 (in inventory, but
+                // not enough for both tool and components).
                 {
-                    comp.color = 0;
+                    comp.available = 0;
                 }
             }
             //Flag that at least one of the components in the set is available
-            if (comp.color == 1)
+            if (comp.available == 1)
             {
                 atleast_one_available = true;
             }
@@ -344,6 +346,75 @@ bool game::check_enough_materials(recipe *r)
         }
         ++comp_set_it;
     }
+
+    
+    std::vector<std::vector<component> > &tools = r->tools;
+    std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
+    while (tool_set_it != tools.end())
+    {
+        std::vector<component> &set_of_tools = *tool_set_it;
+        std::vector<component>::iterator tool_it = set_of_tools.begin();
+        bool atleast_one_available = false;
+        while (tool_it != set_of_tools.end())
+        {
+            component &tool = *tool_it;
+            if (tool.available == 1)
+            {
+                bool have_enough_in_set = true;
+                std::vector<std::vector<component> > &components = r->components;
+                std::vector<std::vector<component> >::iterator comp_set_it = components.begin();
+                while (comp_set_it != components.end())
+                {
+                    bool have_enough = false, conflict = false;
+                    std::vector<component> &set_of_components = *comp_set_it;
+                    std::vector<component>::iterator comp_it = set_of_components.begin();
+                    while(comp_it != set_of_components.end())
+                    {
+                        component &comp = *comp_it;
+                        if (tool.type == comp.type)
+                        {
+                            int req = comp.count + 1; //or use tool.count
+                            if (!u.has_amount(comp.type, req))
+                            {
+                                conflict = true;
+                                have_enough = have_enough || false;
+                            }
+                        } else if (comp.available == 1)
+                        {
+                            have_enough = true;
+                        }
+                        ++comp_it;
+                    }
+                    if (conflict)
+                    {
+                        have_enough_in_set = have_enough_in_set && have_enough;
+                    }
+                    ++comp_set_it;
+                }
+                if (!have_enough_in_set)
+                    // This tool can't be used with any components from one of the sets of components
+                    // which means it's availability should be set to 0 (in inventory, but
+                    // not enough for both tool and components).
+                {
+                    tool.available = 0;
+                }
+            }
+            //Flag that at least one of the tools in the set is available
+            if (tool.available == 1)
+            {
+                atleast_one_available = true;
+            }
+            ++tool_it;
+        }
+        
+        if (!atleast_one_available)
+            // this set doesn't have any tools available, so the recipe can't be crafted
+        {
+            RET_VAL = false;
+        }
+        ++tool_set_it;
+    }
+    
     return RET_VAL;
 }
 
@@ -579,7 +650,7 @@ recipe* game::select_crafting_recipe()
                         int charges = current[line]->tools[i][j].count;
                         nc_color toolcol = c_red;
                         
-                        if (!available[i] && current[line]->tools[i][j].color == 0)
+                        if (current[line]->tools[i][j].available == 0)
                         {
                             toolcol = c_brown;
                         }
@@ -636,7 +707,7 @@ recipe* game::select_crafting_recipe()
                     int count = current[line]->components[i][j].count;
                     itype_id type = current[line]->components[i][j].type;
                     nc_color compcol = c_red;
-                    if (!available[i] && current[line]->components[i][j].color == 0)
+                    if (current[line]->components[i][j].available == 0)
                     {
                         compcol = c_brown;
                     }
@@ -1025,7 +1096,11 @@ void game::consume_items(std::vector<component> components)
   itype_id type = components[i].type;
   int count = abs(components[i].count);
   bool pl = false, mp = false;
-
+     
+  if (components[i].available != 1)
+  {
+   continue;
+  }
 
   if (item_controller->find_template(type)->count_by_charges() && count > 0)
   {
@@ -1140,6 +1215,10 @@ void game::consume_tools(std::vector<component> tools)
  std::vector<component> map_has;
 // Use charges of any tools that require charges used
  for (int i = 0; i < tools.size() && !found_nocharge; i++) {
+  if (tools[i].available != 1)
+  {
+   continue;
+  }
   itype_id type = tools[i].type;
   if (tools[i].count > 0) {
    int count = tools[i].count;
