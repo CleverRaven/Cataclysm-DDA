@@ -804,7 +804,7 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
 
  WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 
- int cur_sk = 1;
+ int cur_sk = 0;
  Skill *currentSkill = Skill::skill(cur_sk);
 
  do {
@@ -826,16 +826,16 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
   mvwprintz(w_description, 0, 0, COL_SKILL_USED, currentSkill->description().c_str());
 
   if (cur_sk <= 7) {
-   for (int i = 1; i < 17; i++) {
+   for (int i = 0; i < 17; i++) {
      Skill *thisSkill = Skill::skill(i);
 
-    mvwprintz(w, 4 + i, 2, c_ltgray, "\
+    mvwprintz(w, 5 + i, 2, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 4 + i, 2, (i == cur_sk ? h_ltgray : c_ltgray),
+     mvwprintz(w, 5 + i, 2, (i == cur_sk ? h_ltgray : c_ltgray),
                thisSkill->name().c_str());
     } else {
-     mvwprintz(w, 4 + i, 2,
+     mvwprintz(w, 5 + i, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                "%s ", skill_name(i).c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
@@ -843,15 +843,15 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
     }
    }
   } else if (cur_sk >= Skill::skills.size() - 9) {
-   for (int i = num_skill_types - 16; i < num_skill_types; i++) {
+   for (int i = Skill::skills.size() - 16; i < Skill::skills.size(); i++) {
      Skill *thisSkill = Skill::skill(i);
-    mvwprintz(w, 21 + i - num_skill_types, 2, c_ltgray, "\
+    mvwprintz(w, 21 + i - Skill::skills.size(), 2, c_ltgray, "\
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
-     mvwprintz(w, 21 + i - num_skill_types, 2,
+     mvwprintz(w, 21 + i - Skill::skills.size(), 2,
                (i == cur_sk ? h_ltgray : c_ltgray), thisSkill->name().c_str());
     } else {
-     mvwprintz(w, 21 + i - num_skill_types, 2,
+     mvwprintz(w, 21 + i - Skill::skills.size(), 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
                thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
@@ -885,7 +885,7 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
     currentSkill = Skill::skill(cur_sk);
     break;
    case 'k':
-    if (cur_sk > 1)
+    if (cur_sk > 0)
      cur_sk--;
     currentSkill = Skill::skill(cur_sk);
     break;

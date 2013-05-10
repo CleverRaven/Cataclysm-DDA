@@ -16,7 +16,7 @@ void map::generate_lightmap(game* g)
  const int dir_x[] = { 1, 0 , -1,  0 };
  const int dir_y[] = { 0, 1 ,  0, -1 };
  const int dir_d[] = { 180, 270, 0, 90 };
- const float luminance = g->u.active_light();
+ const float held_luminance = g->u.active_light();
  const float natural_light = g->natural_light_level();
 
  // Daylight vision handling returned back to map due to issues it causes here
@@ -34,8 +34,8 @@ void map::generate_lightmap(game* g)
  }
 
  // Apply player light sources
- if (luminance > LIGHT_AMBIENT_LOW)
-  apply_light_source(g->u.posx, g->u.posy, luminance);
+ if (held_luminance > LIGHT_AMBIENT_LOW)
+  apply_light_source(g->u.posx, g->u.posy, held_luminance);
 
   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
@@ -141,9 +141,9 @@ void map::generate_lightmap(game* g)
     if(INBOUNDS(px, py)) {
      int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
      if (dpart >= 0) {
-      float luminance = vehs[v].v->part_info(dpart).power;
-      if (luminance > LL_LIT) {
-        apply_light_arc(px, py, dir, luminance);
+      float veh_luminance = vehs[v].v->part_info(dpart).power;
+      if (veh_luminance > LL_LIT) {
+        apply_light_arc(px, py, dir, veh_luminance);
       }
      }
     }

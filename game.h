@@ -294,6 +294,7 @@ class game
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master();	// Load the master data file, with factions &c
+  void load_artifacts(); // Load artifact data
   void load_weather(std::ifstream &fin);
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game
@@ -349,6 +350,7 @@ class game
   recipe* select_crafting_recipe();    // See crafting.cpp
   bool making_would_work(recipe *r);   // See crafting.cpp
   bool can_make(recipe *r);            // See crafting.cpp
+    bool check_enough_materials(recipe *r, inventory crafting_inv);
   void make_craft(recipe *making);     // See crafting.cpp
   void make_all_craft(recipe *making); // See crafting.cpp
   void complete_craft();               // See crafting.cpp

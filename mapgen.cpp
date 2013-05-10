@@ -225,6 +225,11 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
  }
 }
 
+// TODO: clean up variable shadowing in this function
+// unfortunately, due to how absurdly long the function is (over 8000 lines!), it'll be hard to
+// track down what is and isn't supposed to be carried around between bits of code.
+// I suggest that we break the function down into smaller parts
+
 void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                    const oter_id t_south, const oter_id t_west, const oter_id t_above,
                    const int turn, game *g, const float density)
@@ -5799,7 +5804,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
 ###############       f \n\
                       f \n\
 ------|---|--|---www| f \n\
-.x6x..|S.T|l.|^.ddd.| f \n",
+.x66..|S.T|l.|^.ddd.| f \n",
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
             t_sewage_pipe, t_sewage_pump, t_vat, t_crate_c, t_grate, t_wall_glass_h, t_wall_glass_v,
             t_sewage, t_elevator, t_pavement_y ,t_pavement, t_rack, t_door_metal_locked, t_chainfence_v,
@@ -5818,10 +5823,14 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
          radiation(x, y) += rng(10, 70);
      }
      tmpcomp = add_computer(2, 23, "SRCF Security Terminal ", 0);
- 	    tmpcomp->add_option("Security Reminder [1055]", COMPACT_SR1_MESS, 0);
- 	    tmpcomp->add_option("Security Reminder [1056]", COMPACT_SR2_MESS, 0);
+ 	tmpcomp->add_option("Security Reminder [1055]", COMPACT_SR1_MESS, 0);
+ 	tmpcomp->add_option("Security Reminder [1056]", COMPACT_SR2_MESS, 0);
         tmpcomp->add_option("Security Reminder [1057]", COMPACT_SR3_MESS, 0);
         tmpcomp->add_option("Security Reminder [1058]", COMPACT_SR4_MESS, 0);
+     tmpcomp = add_computer(3, 23, "SRCF Admin Terminal ", 2);
+        tmpcomp->add_option("EPA: Report All Potential Containment Breaches [3873643]", COMPACT_SRCF_1_MESS, 2);
+        tmpcomp->add_option("SRCF: Internal Memo, EPA [2918024]", COMPACT_SRCF_2_MESS, 2);
+        tmpcomp->add_option("CDC: Internal Memo, Standby [2918115]", COMPACT_SRCF_3_MESS, 2);
      if (t_west == ot_haz_sar && t_north == ot_haz_sar)
             rotate(1);
      if (t_east == ot_haz_sar && t_north == ot_haz_sar)
@@ -6752,6 +6761,105 @@ break;
   if (terrain_type == ot_mil_surplus_west)
    rotate(3);
   break;
+
+ case ot_furniture_north:
+ case ot_furniture_east:
+ case ot_furniture_south:
+ case ot_furniture_west:
+ {
+
+     fill_background(this, t_pavement);
+
+     square(this, t_floor, 2, 2, 21, 15);
+
+     square(this, t_floor, 2, 17, 7, 18);
+
+     mapf::formatted_set_terrain(this, 1, 1,
+"\
+|ggggggggg++ggggggggg|\n\
+| C h H      O O & & |\n\
+|B      c            |\n\
+|B      c            |\n\
+|cccccccc   # m  e  B|\n\
+|bb           m  e  B|\n\
+|d          mm   e  B|\n\
+|bb                 B|\n\
+|bb     dd  OO  oo   |\n\
+|#      dd  OO  oo  B|\n\
+|h                  B|\n\
+|h      EE  CC  &&  B|\n\
+|H      EE  CC  &&  B|\n\
+|H                   |\n\
+|      BBBBBBBBBBBBBB|\n\
+|DD------------------|\n\
+|      D              \n\
+|BBBB  D              \n\
+|------|              \
+", mapf::basic_bind("g - | + D # c & B C O b H h o d e m E", t_wall_glass_h, t_wall_h, t_wall_v, t_door_c, t_door_locked, t_table, t_counter, t_fridge, t_rack, t_cupboard, t_oven, t_bed, t_armchair, t_chair, t_toilet, t_dresser, t_desk, t_sofa, t_bookcase),
+                                 mapf::end());
+     place_items(mi_tools, 50, 21, 5, 21, 8, false, 0);
+     //Upper Right Shelf
+     place_items(mi_hardware, 50, 21, 10, 21, 13, false, 0);
+     //Right Shelf
+     place_items(mi_hardware, 75, 8, 15, 21, 15, false, 0);
+     //Bottom Right Shelf
+     place_items(mi_tools, 75, 2, 18, 5, 18, false, 0);
+     //Bottom Left Shelf
+     place_items(mi_magazines, 75, 2, 3, 2, 4, false, 0);
+     //Upper Left Shelf
+
+     if (terrain_type == ot_furniture_east)
+         rotate(1);
+
+     if (terrain_type == ot_furniture_south)
+         rotate(2);
+
+     if (terrain_type == ot_furniture_west)
+         rotate(3);
+ }
+ break;
+
+
+ case ot_abstorefront_north:
+ case ot_abstorefront_east:
+ case ot_abstorefront_south:
+ case ot_abstorefront_west:
+ {
+
+     fill_background(this, t_pavement);
+
+     square(this, t_floor, 2, 2, 21, 15);
+     mapf::formatted_set_terrain(this, 1, 1,
+"\
+|-xxxxxxxxDDxxxxxxxx-|\n\
+|                   B|\n\
+|B  c        B  B   B|\n\
+|B  c        B  B   B|\n\
+|B  c  B  B  B  B   B|\n\
+|cccc  B  B  B  B   B|\n\
+|B     B  B  B  B   B|\n\
+|B                  B|\n\
+|B  BBBB  BBBBBB BB B|\n\
+|                BB B|\n\
+|B  BBBB  BBBBBB    B|\n\
+|B               --+-|\n\
+|B               |B  |\n\
+|BBBBBBB  BBBBBB |B  D\n\
+|--------------------|\
+", mapf::basic_bind("x - | + D B c", t_window_boarded, t_wall_h, t_wall_v, t_door_c, t_door_locked,
+                    t_rack, t_counter), mapf::end());
+
+     if (terrain_type == ot_abstorefront_east)
+         rotate(1);
+
+     if (terrain_type == ot_abstorefront_south)
+         rotate(2);
+
+     if (terrain_type == ot_abstorefront_west)
+         rotate(3);
+
+ }
+ break;
 
  case ot_megastore_entrance: {
   fill_background(this, t_floor);
@@ -8933,7 +9041,7 @@ void map::place_spawns(game *g, std::string group, const int chance,
    } while( move_cost(x, y) == 0 && tries );
 
    // Pick a monster type
-   mon_id monster = MonsterGroupManager::GetMonsterFromGroup(group, &g->mtypes);
+   mon_id monster = MonsterGroupManager::GetMonsterFromGroup( group, &g->mtypes, &num );
 
    add_spawn(monster, 1, x, y);
   }
@@ -10385,7 +10493,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   break;
 
  case room_mansion_pool:
-  square(m, t_water_sh, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
+  square(m, t_water_pool, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
   break;
 
  case room_mansion_bathroom:

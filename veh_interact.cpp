@@ -16,6 +16,7 @@ veh_interact::veh_interact ()
     ddx = 0;
     ddy = 0;
     sel_cmd = ' ';
+    sel_type=0;
 }
 
 void veh_interact::exec (game *gm, vehicle *v, int x, int y)
@@ -78,6 +79,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
                   crafting_inv.has_charges("welder", charges)) ||
                  (crafting_inv.has_amount("toolset", 1) &&
                  crafting_inv.has_charges("toolset", charges/20));
+    has_jack = crafting_inv.has_amount("jack", 1);
+
 
     display_stats ();
     display_veh   ();
@@ -135,16 +138,26 @@ int veh_interact::cant_do (char mode)
     switch (mode)
     {
     case 'i': // install mode
-        return can_mount.size() > 0? (!has_wrench || !has_welder? 2 : 0) : 1;
+        return can_mount.size() > 0?
+            (!has_wrench || (!has_welder && !has_jack) 
+        ? 2 : 0) : 1;
     case 'r': // repair mode
         return need_repair.size() > 0 && cpart >= 0? (!has_welder? 2 : 0) : 1;
     case 'f': // refill mode
         return ptank >= 0? (!has_fuel? 2 : 0) : 1;
     case 'o': // remove mode
         return cpart < 0? 1 :
-               (parts_here.size() < 2 && !veh->can_unmount(cpart)? 2 :
-               (!has_wrench || !has_hacksaw? 3 :
-               (g->u.skillLevel("mechanics") < 2 ? 4 : 0)));
+            (parts_here.size() < 2 && !veh->can_unmount(cpart)? 2 :
+                (
+                    !has_wrench || 
+                    ( wheel >= 0 && !has_hacksaw && !has_jack ) ||
+                    ( wheel < 0 && !has_hacksaw )
+                ? 3 : 
+                    ( g->u.skillLevel("mechanics") < 2 && ( wheel < 0 || ( wheel >= 0 && !has_jack ) ) 
+                    ? 4 :
+                    0 )
+                )
+            );
     default:
         return -1;
     }
@@ -166,9 +179,15 @@ void veh_interact::do_install(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, "You need a wrench and a powered welder to install parts.");
-        mvwprintz(w_msg, 0, 12, has_wrench? c_ltgreen : c_red, "wrench");
-        mvwprintz(w_msg, 0, 25, has_welder? c_ltgreen : c_red, "powered welder");
+        mvwprintz(w_msg, 0, 1, c_ltgray, "You need a ");
+            wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+            wprintz(w_msg, c_ltgray, " and a ");
+            wprintz(w_msg, has_welder? c_ltgreen : c_red, "powered welder");
+            wprintz(w_msg, c_ltgray, " to install parts.");
+        mvwprintz(w_msg, 1, 1, c_ltgray, "To change a wheel you need a ");
+            wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+            wprintz(w_msg, c_ltgray, " and a ");
+            wprintz(w_msg, has_jack? c_ltgreen : c_red, "jack");
         wrefresh (w_msg);
         return;
     default:;
@@ -191,20 +210,34 @@ void veh_interact::do_install(int reason)
         itype_id itm = vpart_list[sel_part].item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[sel_part].difficulty;
+        bool wheel = vpart_list[sel_part].flags & mfb (vpf_wheel);
         werase (w_msg);
-        int slen = g->itypes[itm]->name.length();
-        mvwprintz(w_msg, 0, 1, c_ltgray, "Needs %s and level %d skill in mechanics.",
-                  g->itypes[itm]->name.c_str(), vpart_list[sel_part].difficulty);
-        mvwprintz(w_msg, 0, 7, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
-        mvwprintz(w_msg, 0, 18+slen, has_skill? c_ltgreen : c_red, "%d", vpart_list[sel_part].difficulty);
+        mvwprintz(w_msg, 0, 1, c_ltgray, "Needs ");
+            wprintz(w_msg, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
+            wprintz(w_msg, c_ltgray, ", a ");
+            wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+            wprintz(w_msg, c_ltgray, ", a ");
+            wprintz(w_msg, has_welder? c_ltgreen : c_red, "powered welder");
+            wprintz(w_msg, c_ltgray, ", and level ");
+            wprintz(w_msg, has_skill? c_ltgreen : c_red, "%d", vpart_list[sel_part].difficulty);
+            wprintz(w_msg, c_ltgray, " skill in mechanics.");
+        if(wheel) {
+            wprintz(w_msg, c_ltgray, " -OR- "); 
+                wprintz(w_msg, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
+                wprintz(w_msg, c_ltgray, ", a ");
+                wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+                wprintz(w_msg, c_ltgray, ", and a ");
+                wprintz(w_msg, has_jack? c_ltgreen : c_red, "jack");
+            has_skill=(has_jack||has_skill); // my mother can change her car's tires
+            sel_type=SEL_JACK;
+        }
         bool eng = vpart_list[sel_part].flags & mfb (vpf_engine);
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
         if (engines && eng) // already has engine
         {
-            mvwprintz(w_msg, 1, 1, c_ltgray,
-                      "You also need level %d skill in mechanics to install additional engine.",
-                      dif_eng);
-            mvwprintz(w_msg, 1, 21, has_skill2? c_ltgreen : c_red, "%d", dif_eng);
+            wprintz(w_msg, c_ltgray, " You also need level ");
+            wprintz(w_msg, has_skill2? c_ltgreen : c_red, "%d", dif_eng);
+            wprintz(w_msg, c_ltgray, " skill in mechanics to install additional engine.");
         }
         wrefresh (w_msg);
         char ch = input(); // See keypress.h
@@ -351,9 +384,17 @@ void veh_interact::do_remove(int reason)
         wrefresh (w_msg);
         return;
     case 3:
-        mvwprintz(w_msg, 0, 1, c_ltgray, "You need a wrench and a hack saw to remove parts.");
-        mvwprintz(w_msg, 0, 12, has_wrench? c_ltgreen : c_red, "wrench");
-        mvwprintz(w_msg, 0, 25, has_hacksaw? c_ltgreen : c_red, "hack saw");
+        mvwprintz(w_msg, 0, 1, c_ltgray, "You need a ");
+            wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+            wprintz(w_msg, c_ltgray, " and a ");
+            wprintz(w_msg, has_hacksaw? c_ltgreen : c_red, "hacksaw");
+            wprintz(w_msg, c_ltgray, " to install parts.");
+        if(wheel) {
+            mvwprintz(w_msg, 1, 1, c_ltgray, "To change a wheel you need a ");
+                wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+                wprintz(w_msg, c_ltgray, " and a ");
+                wprintz(w_msg, has_jack? c_ltgreen : c_red, "jack");
+        }
         wrefresh (w_msg);
         return;
     case 4:
@@ -459,6 +500,7 @@ void veh_interact::move_cursor (int dx, int dy)
     need_repair.clear();
     parts_here.clear();
     ptank = -1;
+    wheel = -1;
     if (cpart >= 0)
     {
         parts_here = veh->internal_parts(cpart);
@@ -470,6 +512,9 @@ void veh_interact::move_cursor (int dx, int dy)
                 need_repair.push_back (i);
             if (veh->part_flag(p, vpf_fuel_tank) && veh->parts[p].amount < veh->part_info(p).size)
                 ptank = p;
+            if (veh->part_flag(p, vpf_wheel) && veh->parts[p].amount < veh->part_info(p).size)
+                wheel = p;
+            
         }
     }
     has_fuel = ptank >= 0? g->pl_refill_vehicle(*veh, ptank, true) : false;
@@ -613,6 +658,8 @@ void veh_interact::display_list (int pos)
         itype_id itm = vpart_list[can_mount[i]].item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[can_mount[i]].difficulty;
+        if(wheel && has_wrench && has_jack)
+            has_skill = true;
         nc_color col = has_comps && has_skill? c_white : c_dkgray;
         mvwprintz(w_list, y, 3, pos == i? hilite (col) : col, vpart_list[can_mount[i]].name);
         mvwputch (w_list, y, 1,
@@ -723,6 +770,7 @@ void complete_vehicle (game *g)
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];
     int part = g->u.activity.values[6];
+    int type = g->u.activity.values[7];
     std::vector<component> tools;
     int welder_charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
     itype_id itm;
@@ -740,12 +788,17 @@ void complete_vehicle (game *g)
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part);
         used_item = consume_vpart_item (g, (vpart_id) part);
         veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
-        tools.push_back(component("welder", welder_charges));
-        tools.push_back(component("toolset", welder_charges/20));
-        g->consume_tools(tools);
-        g->add_msg ("You install a %s into the %s.",
+        if(type!=SEL_JACK) {
+            tools.push_back(component("welder", welder_charges));
+            tools.push_back(component("toolset", welder_charges/20));
+            g->consume_tools(tools);
+            g->add_msg ("You install a %s into the %s.",
                    vpart_list[part].name, veh->name.c_str());
-        g->u.practice (g->turn, "mechanics", vpart_list[part].difficulty * 5 + 20);
+            g->u.practice (g->turn, "mechanics", vpart_list[part].difficulty * 5 + 20);
+        } else { // Requires no knowledge of mechanics == no training in mechanics.
+            g->add_msg ("You install replace one of the %s's tires with %s.",
+                veh->name.c_str(), vpart_list[part].name);
+        }
         break;
     case 'r':
         if (veh->parts[part].hp <= 0)
@@ -789,7 +842,8 @@ void complete_vehicle (game *g)
             //else {
             //   g->m.add_item (g->u.posx, g->u.posy, g->itypes[itm], g->turn);
             //}
-            g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
+            if(type!=SEL_JACK) // Changing tires won't make you a car mechanic
+                g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
         }
         if (veh->parts.size() < 2)
         {

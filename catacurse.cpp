@@ -32,6 +32,7 @@ RGBQUAD *windowsPalette;  //The coor palette, 16 colors emulates a terminal
 pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 char szDirectory[MAX_PATH] = "";
+int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
 
 //***********************************
 //Non-curses, Window functions      *
@@ -497,6 +498,52 @@ int getch(void)
     return lastchar;
 };
 
+int mvgetch(int y, int x)
+{
+    move(y,x);
+    return getch();
+}
+
+int getnstr(char *str, int size)
+{
+    int startX = mainwin->cursorx;
+    int count = 0;
+    char input;
+    while(true)
+    {
+	input = getch();
+	// Carriage return, Line feed and End of File terminate the input.
+	if( input == '\r' || input == '\n' || input == '\x04' )
+	{
+	    str[count] = '\x00';
+	    return count;
+	}
+	else if( input == 127 ) // Backspace, remapped from \x8 in ProcessMessages()
+	{
+	    if( count == 0 )
+		continue;
+	    str[count] = '\x00';
+	    if(echoOn == 1)
+	        mvaddch(mainwin->cursory, startX + count, ' ');
+	    --count;
+	    if(echoOn == 1)
+	      move(mainwin->cursory, startX + count);
+	}
+	else
+	{
+	    if( count >= size - 1 ) // Still need space for trailing 0x00
+	        continue;
+	    str[count] = input;
+	    ++count;
+	    if(echoOn == 1)
+	    {
+	        move(mainwin->cursory, startX + count);
+            mvaddch(mainwin->cursory, startX + count, input);
+	    }
+	}
+    }
+    return count;
+}
 //The core printing function, prints characters to the array, and sets colors
 inline int printstring(WINDOW *win, char *fmt)
 {
@@ -712,10 +759,6 @@ int keypad(WINDOW *faux, bool bf)
 return 1;
 };
 
-int noecho(void)
-{
-    return 1;
-};
 int cbreak(void)
 {
     return 1;
@@ -836,5 +879,18 @@ void timeout(int delay)
     inputdelay=delay;
 };
 void set_escdelay(int delay) { } //PORTABILITY, DUMMY FUNCTION
+
+
+int echo()
+{
+    echoOn = 1;
+    return 0; // 0 = OK, -1 = ERR
+}
+
+int noecho()
+{
+    echoOn = 0;
+    return 0;
+}
 
 #endif

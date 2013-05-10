@@ -53,6 +53,7 @@ void game::init_construction()
  CONSTRUCT("Spike Pit", 0, &construct::able_pit, &construct::done_nothing);
   STAGE(t_pit_spiked, 5);
    COMP("spear_wood", 4);
+   COMPCONT("pointy_stick", 4);
 
  CONSTRUCT("Fill Pit", 0, &construct::able_pit, &construct::done_nothing);
   STAGE(t_pit_shallow, 5);
@@ -630,7 +631,7 @@ void game::construction_menu()
  refresh_all();
 }
 
-bool game::player_can_build(player &p, inventory inv, constructable* con,
+bool game::player_can_build(player &p, inventory pinv, constructable* con,
                             const int level, bool cont, bool exact_level)
 {
  int last_level = level;
@@ -660,7 +661,7 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
     tools_required = true;
     has_tool = false;
     for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
-     if (inv.has_amount(stage.tools[j][k].type, 1))
+     if (pinv.has_amount(stage.tools[j][k].type, 1))
       has_tool = true;
     }
     if (!has_tool)  // missing one of the tools for this stage
@@ -671,10 +672,10 @@ bool game::player_can_build(player &p, inventory inv, constructable* con,
     has_component = false;
     for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
      if (( item_controller->find_template(stage.components[j][k].type)->is_ammo() &&
-	   inv.has_charges(stage.components[j][k].type,
+	   pinv.has_charges(stage.components[j][k].type,
 			   stage.components[j][k].count)    ) ||
          (!item_controller->find_template(stage.components[j][k].type)->is_ammo() &&
-          inv.has_amount (stage.components[j][k].type,
+          pinv.has_amount (stage.components[j][k].type,
                           stage.components[j][k].count)    ))
       has_component = true;
     }
@@ -746,7 +747,15 @@ void game::place_construction(constructable *con)
    point_is_okay = true;
  }
  if (!point_is_okay) {
-  add_msg("You cannot build there!");
+  construct test;
+  if (con->name == "Move Furniture" && !(test.*(con->able))(this, point(dirx, diry)))
+  {
+   add_msg("You're not strong enough!");
+  }
+  else
+  {
+   add_msg("You cannot build there!");
+  }
   return;
  }
 
@@ -824,35 +833,17 @@ bool construct::able_log(game *g, point p)
 
 bool construct::able_furniture(game *g, point p)
 {
- int required_str = 0;
-
- switch(g->m.ter(p.x, p.y)) {
-  case t_fridge:
-  case t_glass_fridge:
-  case t_oven:
-  case t_bathtub:
-   required_str = 10;
-   break;
-  case t_bookcase:
-  case t_locker:
-  case t_table:
-   required_str = 9;
-   break;
-  case t_dresser:
-  case t_rack:
-  case t_chair:
-  case t_armchair:
-  case t_bench:
-  case t_cupboard:
-  case t_desk:
-   required_str = 8;
-   break;
-  default:
-   //Not a furniture we can move
-   return false;
+ ter_t terrain_type = terlist[g->m.ter(p.x, p.y)];
+ int required_str = terrain_type.move_str_req;
+ 
+ // Object can not be moved
+ if (required_str < 0)
+ {
+  return false;
  }
-
- if( g->u.str_cur < required_str ) {
+ 
+ if( g->u.str_cur < required_str )
+ {
   return false;
  }
 

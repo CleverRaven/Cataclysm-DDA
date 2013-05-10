@@ -115,7 +115,6 @@ bool game::opening_screen()
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
 
     std::vector<std::string> savegames, templates;
-    std::string tmp;
     dirent *dp;
     DIR *dir = opendir("save");
     if (!dir) {
@@ -133,14 +132,14 @@ bool game::opening_screen()
         exit(1);
     }
     while ((dp = readdir(dir))) {
-        tmp = dp->d_name;
+        std::string tmp = dp->d_name;
         if (tmp.find(".sav") != std::string::npos)
             savegames.push_back(tmp.substr(0, tmp.find(".sav")));
     }
     closedir(dir);
     dir = opendir("data");
     while ((dp = readdir(dir))) {
-        tmp = dp->d_name;
+        std::string tmp = dp->d_name;
         if (tmp.find(".template") != std::string::npos)
             templates.push_back(tmp.substr(0, tmp.find(".template")));
     }

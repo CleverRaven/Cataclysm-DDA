@@ -363,8 +363,8 @@ std::vector<item> game::multidrop()
    mvwprintw(w_inv, maxitems + 4, 12, "> More items");
   wrefresh(w_inv);
   ch = input();
-  if (ch >= '0' && ch <= '9') {
-   ch -= '0';
+  if (ch >= '0'&& ch <= '9') {
+   ch = (char)ch - '0';
    count *= 10;
    count += ch;
   } else if (u.has_item(ch)) {
@@ -498,11 +498,11 @@ void game::compare(int iCompareX, int iCompareY)
 
  WINDOW* w_inv = newwin(TERMY-VIEW_OFFSET_Y*2, TERMX-VIEW_OFFSET_X*2, VIEW_OFFSET_Y, VIEW_OFFSET_X);
  int maxitems = TERMY-5-VIEW_OFFSET_Y*2;    // Number of items to show at one time.
- std::vector<int> compare; // Count of how many we'll drop from each stack
+ std::vector<int> compare_list; // Count of how many we'll drop from each stack
  bool bFirst = false; // First Item selected
  bool bShowCompare = false;
  char cLastCh;
- compare.resize(u.inv.size() + groundsize, 0);
+ compare_list.resize(u.inv.size() + groundsize, 0);
  std::vector<char> weapon_and_armor; // Always single, not counted
  print_inv_statics(this, w_inv, "Compare:", weapon_and_armor);
 // Gun, ammo, weapon, armor, food, tool, book, other
@@ -546,17 +546,17 @@ void game::compare(int iCompareX, int iCompareY)
    }
    if (cur_it < u.inv.size() + groundsize) {
     char icon = '-';
-    if (compare[cur_it] == 1)
+    if (compare_list[cur_it] == 1)
      icon = '+';
     if (cur_it < groundsize) {
      mvwputch (w_inv, cur_line, 0, c_white, '1'+((cur_it<9) ? cur_it: -1));
-     nc_color col = (compare[cur_it] == 0 ? c_ltgray : c_white);
+     nc_color col = (compare_list[cur_it] == 0 ? c_ltgray : c_white);
      mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
                grounditems[cur_it].tname(this).c_str());
     } else {
      item& it = stacks[cur_it-groundsize]->front();
      mvwputch (w_inv, cur_line, 0, c_white, it.invlet);
-     nc_color col = (compare[cur_it] == 0 ? c_ltgray : c_white);
+     nc_color col = (compare_list[cur_it] == 0 ? c_ltgray : c_white);
      mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
                it.tname(this).c_str());
      if (stacks[cur_it-groundsize]->size() > 1)
@@ -616,14 +616,14 @@ void game::compare(int iCompareX, int iCompareY)
     if (index == -1) {
      debugmsg("Inventory got out of sync with inventory slice?");
     }
-    if (compare[index+groundsize] == 1)
+    if (compare_list[index+groundsize] == 1)
     {
-     compare[index+groundsize] = 0;
+     compare_list[index+groundsize] = 0;
      bFirst = false;
     } else {
      if (!bFirst)
      {
-      compare[index+groundsize] = 1;
+      compare_list[index+groundsize] = 1;
       bFirst = true;
       cLastCh = ch;
      } else {
@@ -637,14 +637,14 @@ void game::compare(int iCompareX, int iCompareY)
    if (ch == '0') {
     iZero = 10;
    }
-   if (compare[ch-'1'+iZero] == 1)
+   if (compare_list[ch-'1'+iZero] == 1)
    {
-    compare[ch-'1'+iZero] = 0;
+    compare_list[ch-'1'+iZero] = 0;
     bFirst = false;
    } else {
     if (!bFirst)
     {
-     compare[ch-'1'+iZero] = 1;
+     compare_list[ch-'1'+iZero] = 1;
      bFirst = true;
      cLastCh = ch;
     } else {
