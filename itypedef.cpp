@@ -2770,7 +2770,7 @@ CONT("box_small", "sm. cardboard box",50, 0,	c_brown,	PAPER,	MNULL,
 A small cardboard box. No bigger than a foot in any dimension.");
 
 CONT("canteen", "plastic canteen",	20,  1000,	c_green,	PLASTIC,MNULL,
-    4,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+    6,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A large military-style water canteen, with a 1.5 liter capacity and strap.");
 
 CONT("jerrycan", "plastic jerrycan",	10,  2500,	c_green,	PLASTIC,MNULL,
