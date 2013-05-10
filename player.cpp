@@ -5749,6 +5749,8 @@ bool player::can_sleep(game *g)
  return false;
 }
 
+// Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
+// 2.5 is enough light for detail work.
 float player::fine_detail_vision_mod(game *g)
 {
     if (has_disease(DI_BLIND) || has_disease(DI_BOOMERED))
