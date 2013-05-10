@@ -729,7 +729,7 @@ void mattack::dermatik(game *g, monster *z)
 	{
   g->add_msg("The %s tries to land on you, but you dodge.", z->name().c_str());
   z->stumble(g, false);
-  g->u.practice(g->turn, "dodge", z->type->melee_skill);
+  g->u.practice(g->turn, "dodge", z->type->melee_skill * 2);
   return;
  }
 
@@ -879,14 +879,14 @@ void mattack::tentacle(game *g, monster *z)
 			((g->u.dodge(g) - rng(0, z->type->melee_skill)) > 0 ? (g->u.dodge(g) - rng(0, z->type->melee_skill)) : 0))))
 	{
         g->add_msg("You dodge it!");
-        g->u.practice(g->turn, "dodge", z->type->melee_skill);
+        g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
         return;
     }
     body_part hit = random_body_part();
     int dam = rng(10, 20), side = rng(0, 1);
     g->add_msg("Your %s is hit for %d damage!", body_part_name(hit, side).c_str(), dam);
     g->u.hit(g, hit, side, dam, 0);
-    g->u.practice(g->turn, "dodge", z->type->melee_skill/2);
+    g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
 
 void mattack::vortex(game *g, monster *z)
@@ -1395,7 +1395,7 @@ void mattack::bite(game *g, monster *z)
 			((g->u.dodge(g) - rng(0, z->type->melee_skill)) > 0 ? (g->u.dodge(g) - rng(0, z->type->melee_skill)) : 0))))
 	{
         g->add_msg("You dodge it!");
-        g->u.practice(g->turn, "dodge", z->type->melee_skill);
+        g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
         return;
     }
     body_part hit = random_body_part();
@@ -1406,6 +1406,6 @@ void mattack::bite(game *g, monster *z)
 	{
         g->u.add_disease(DI_BITE, 3600, g);
     }
-    g->u.practice(g->turn, "dodge", z->type->melee_skill/2);
+    g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
 

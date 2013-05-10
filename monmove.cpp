@@ -503,12 +503,12 @@ void monster::hit_player(game *g, player &p, bool can_grab)
 		if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
 		{
             g->add_msg("%s dodge the %s.", You.c_str(), name().c_str());
-            p.practice(g->turn, "dodge", type->melee_skill);
+            p.practice(g->turn, "dodge", type->melee_skill * 2);
         }
         //Successful hit with damage
         else if (dam > 0)
 		{
-            p.practice(g->turn, "dodge", type->melee_skill/2);
+            p.practice(g->turn, "dodge", type->melee_skill);
             if (u_see && tech != TEC_BLOCK)
 			{
                 g->add_msg("The %s hits %s %s.", name().c_str(), your.c_str(), body_part_name(bphit, side).c_str());
