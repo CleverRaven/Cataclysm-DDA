@@ -67,6 +67,7 @@ void Item_factory::init(){
 
   // TOOLS
     iuse_function_list["LIGHTER"] = &iuse::lighter;
+    iuse_function_list["PRIMITIVE_FIRE"] = &iuse::primitive_fire;
     iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["SCISSORS"] = &iuse::scissors;
@@ -75,6 +76,11 @@ void Item_factory::init(){
     iuse_function_list["LIGHT_OFF"] = &iuse::light_off;
     iuse_function_list["LIGHT_ON"] = &iuse::light_on;
     iuse_function_list["LIGHTSTRIP"] = &iuse::lightstrip;
+    iuse_function_list["LIGHTSTRIP_ACTIVE"] = &iuse::lightstrip_active;
+    iuse_function_list["GLOWSTICK"] = &iuse::glowstick;
+    iuse_function_list["GLOWSTICK_ACTIVE"] = &iuse::glowstick_active;
+    iuse_function_list["DIRECTIONAL_ANTENNA"] = &iuse::directional_antenna;
+    iuse_function_list["DEVAC"] = &iuse::devac;
     iuse_function_list["CAUTERIZE_ELEC"] = &iuse::cauterize_elec;
     iuse_function_list["WATER_PURIFIER"] = &iuse::water_purifier;
     iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
