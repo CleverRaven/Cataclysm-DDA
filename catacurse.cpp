@@ -171,10 +171,20 @@ void DrawWindow(WINDOW *win)
 {
     int i,j,drawx,drawy;
     char tmp;
+    RECT update = {win->x * fontwidth, -1,
+                   (win->x + win->width) * fontwidth, -1};
     for (j=0; j<win->height; j++){
         if (win->line[j].touched)
+        {
+            update.bottom = (win->y+j+1)*fontheight;
+            if (update.top == -1)
+            {
+                update.top = update.bottom - fontheight;
+            }
+
+            win->line[j].touched=false;
+
             for (i=0; i<win->width; i++){
-                win->line[j].touched=false;
                 drawx=((win->x+i)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
                 if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
@@ -243,9 +253,10 @@ void DrawWindow(WINDOW *win)
                     };//switch (tmp)
                 }//(tmp < 0)
             };//for (i=0;i<_windows[w].width;i++)
+        }
     };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
-    RedrawWindow(WindowHandle, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+    RedrawWindow(WindowHandle, &update, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 };
 
 //Check for any window messages (keypress, paint, mousemove, etc)
