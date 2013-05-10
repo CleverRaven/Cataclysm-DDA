@@ -4063,7 +4063,7 @@ void game::add_footstep(int x, int y, int volume, int distance)
    tries++;
    x = origx + rng(-err_offset, err_offset);
    y = origy + rng(-err_offset, err_offset);
-  } while (tries < 10 && (u_see(x, y) || (x == u.posx && y == u.posy)));
+  } while (tries < 10 && x == u.posx && y == u.posy);
  }
  if (tries < 10)
   footsteps.push_back(point(x, y));
@@ -4074,8 +4074,11 @@ void game::add_footstep(int x, int y, int volume, int distance)
 void game::draw_footsteps()
 {
  for (int i = 0; i < footsteps.size(); i++) {
-  mvwputch(w_terrain, VIEWY + footsteps[i].y - u.posy - u.view_offset_y,
-                      VIEWX + footsteps[i].x - u.posx - u.view_offset_x, c_yellow, '?');
+     if (!u_see(footsteps[i].x,footsteps[i].y))
+     {
+         mvwputch(w_terrain, VIEWY + footsteps[i].y - u.posy - u.view_offset_y,
+                  VIEWX + footsteps[i].x - u.posx - u.view_offset_x, c_yellow, '?');
+     }
  }
  footsteps.clear();
  wrefresh(w_terrain);
