@@ -497,7 +497,7 @@ void player::update_bodytemp(game *g)
         // BIONICS
         // Bionic "Internal Climate Control" says it eases the effects of high and low ambient temps
         const int variation = BODYTEMP_NORM*0.5;
-        if (has_bionic("bio_climate")
+        if (in_climate_control(g)
             && temp_conv[i] < BODYTEMP_SCORCHING + variation
             && temp_conv[i] > BODYTEMP_FREEZING - variation)
         {
@@ -2320,6 +2320,29 @@ void player::toggle_trait(int flag)
 {
  my_traits[flag] = !my_traits[flag];
  my_mutations[flag] = !my_mutations[flag];
+}
+
+bool player::in_climate_control(game *g)
+{
+    bool regulated_area=false;
+    if(has_active_bionic("bio_climate")) { return true; }
+    if(int(g->turn) >= next_climate_control_check) {
+        next_climate_control_check=int(g->turn)+20;  // save cpu and similate acclimation.
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at(posx, posy, vpart);
+        if(veh) {
+            regulated_area=(
+                veh->is_inside(vpart) &&    // Already checks for opened doors
+                veh->total_power(true) > 0  // Out of gas? No AC for you!
+            );  // TODO: (?) Force player to scrounge together an AC unit
+        }
+        // TODO: AC check for when building power is implmented
+        last_climate_control_ret=regulated_area; 
+        if(!regulated_area) { next_climate_control_check+=40; }  // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
+    } else { 
+        return ( last_climate_control_ret ? true : false );
+    }
+    return regulated_area;
 }
 
 bool player::has_bionic(bionic_id b) const

@@ -259,6 +259,8 @@ void game::start_game()
  u.dex_cur = u.dex_max;
  nextspawn = int(turn);
  temperature = 65; // Springtime-appropriate?
+ u.next_climate_control_check=0;  // Force recheck at startup
+ u.last_climate_control_ret=false;
 
  //Load NPCs. Set nearby npcs to active.
  load_npcs();
