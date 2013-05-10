@@ -274,10 +274,10 @@ bool game::can_make(recipe *r)
         }
         ++comp_set_it;
     }
-    return check_enough_materials(r) && RET_VAL;
+    return check_enough_materials(r, crafting_inv) && RET_VAL;
 }
 
-bool game::check_enough_materials(recipe *r)
+bool game::check_enough_materials(recipe *r, inventory crafting_inv)
 {
     bool RET_VAL = true;
     std::vector<std::vector<component> > &components = r->components;
@@ -307,10 +307,27 @@ bool game::check_enough_materials(recipe *r)
                         {
                             if (comp.type == tool.type)
                             {
-                                int req = comp.count + 1; //or use tool.count
-                                if (u.has_amount(comp.type, req))
+                                bool count_by_charges = item_controller->find_template(comp.type)->count_by_charges();
+                                if (count_by_charges)
                                 {
-                                    have_enough = true;
+                                    int req = comp.count;
+                                    if (tool.count > 0)
+                                    {
+                                        req += tool.count;
+                                    } else
+                                    {
+                                        ++req;
+                                    }
+                                    if (crafting_inv.has_charges(comp.type, req))
+                                    {
+                                        have_enough = true;
+                                    }
+                                } else {
+                                    int req = comp.count + 1;
+                                    if (crafting_inv.has_amount(comp.type, req))
+                                    {
+                                        have_enough = true;
+                                    }
                                 }
                             }
                             else
@@ -373,11 +390,22 @@ bool game::check_enough_materials(recipe *r)
                         component &comp = *comp_it;
                         if (tool.type == comp.type)
                         {
-                            int req = comp.count + 1; //or use tool.count
-                            if (!u.has_amount(comp.type, req))
+                            if (tool.count > 0)
                             {
-                                conflict = true;
-                                have_enough = have_enough || false;
+                                int req = comp.count + tool.count;
+                                if (!crafting_inv.has_charges(comp.type, req))
+                                {
+                                    conflict = true;
+                                    have_enough = have_enough || false;
+                                }
+                            } else
+                            {
+                                int req = comp.count + 1;
+                                if (!crafting_inv.has_amount(comp.type, req))
+                                {
+                                    conflict = true;
+                                    have_enough = have_enough || false;
+                                }
                             }
                         } else if (comp.available == 1)
                         {

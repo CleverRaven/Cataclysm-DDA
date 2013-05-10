@@ -350,7 +350,7 @@ class game
   recipe* select_crafting_recipe();    // See crafting.cpp
   bool making_would_work(recipe *r);   // See crafting.cpp
   bool can_make(recipe *r);            // See crafting.cpp
-  bool check_enough_materials(recipe *r);
+    bool check_enough_materials(recipe *r, inventory crafting_inv);
   void make_craft(recipe *making);     // See crafting.cpp
   void make_all_craft(recipe *making); // See crafting.cpp
   void complete_craft();               // See crafting.cpp
