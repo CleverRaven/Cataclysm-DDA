@@ -1510,6 +1510,18 @@ A hard plastic hat worn in constructions sites. Excellent protection from\n\
 cuts and percussion.", 0);
 TECH("hat_hard", mfb(TEC_WBLOCK_1) );
 
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
+ARMOR("pickelhaube", "pickelhaube",	50, 240,C_HAT,		IRON,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    8,  8,  10,  1,  1,  10,  10,  0,  10,  0,	mfb(bp_head), "\
+A spiked helmet once worn by German military officers. The spike is very sharp.", 0);
+
+//     NAME		RAR PRC	COLOR		MAT1		MAT2
+ARMOR("beret", "beret",	50, 125,C_HAT,		COTTON,	MNULL,
+// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
+    2,  1,  -5,  0,  0,  0,  0,  0,  20,  0,	mfb(bp_head), "\
+A soft cotton hat commonly worn by armed forces and existentialists.", 0);
+
 ARMOR("helmet_bike", "bike helmet",	35, 140,C_HAT,		PLASTIC,	MNULL,
    12,  2,  4,  0,  1,  8,  2,  0,  20,  0,	mfb(bp_head), "\
 A thick foam helmet. Designed to protect against concussion.", 0);
@@ -2793,14 +2805,6 @@ CONT("jar_glass", "glass jar",	50,  2500,	c_ltcyan,	GLASS,MNULL,
     1,  1, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A half-litre glass jar with a metal screw top lid, used for canning.");
 
-//	NAME		RAR PRC	SYM  COLOR	MAT1	MAT
-TOOL("lighter", "cheap lighter",		60,  35,',', c_blue,	PLASTIC,IRON,
-// VOL WGT DAM CUT HIT MAX DEF USE SEC FUEL	REVERT	  FUNCTION
-    0,  0,  0,  0,  0, 100,100, 1,  0, AT_NULL,	"null", &iuse::lighter, 0, "\
-A lighter must be carried to use various drugs, like cigarettes, or to light\n\
-things like molotov cocktails.  You can also use a lighter to light nearby\n\
-items on fire.");
-
 TOOL("matches", "matchbook", 60, 10,',', c_blue,     PAPER, MNULL,
     0,  0,  0,  0,  0,   20, 20, 1,  0, AT_NULL, "null", &iuse::lighter, 0, "\
 Matches must be carried to use various drugs, like cigarettes, or to light\n\
@@ -3498,6 +3502,12 @@ TOOL("wrench", "wrench",		30, 86, ';', c_ltgray,	IRON,	MNULL,
 An adjustable wrench. Makes a decent melee weapon, and is used in many\n\
 mechanics crafting recipes.");
 
+//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
+TOOL("jack", "jack",		30, 86, ';', c_ltgray,	IRON,	MNULL,
+//	VOL WGT DAM CUT HIT FLAGS
+	 5,  10, 11,  0,  2, 0, 0, 0, 0, AT_NULL, "null", &iuse::none, 0, "\
+A common hydraulic jack, used when changing tires.");
+
 TOOL("snare_trigger", "snare trigger", 50, 15, ';', c_brown, WOOD, MNULL,
     1, 0, 0, 0, -1, 0, 0, 0, 0, AT_NULL, "null", &iuse::none, 0, "\
 A stick that has been cut into a trigger mechanism for a snare trap.");
@@ -3835,7 +3845,7 @@ GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 #define STYLE(id, name, dam, description, ...) \
 itypes[id]=new it_style(id, 0, 0, name, description, '$', \
                               c_white, MNULL, MNULL, 0, 0, dam, 0, 0, 0); \
-setvector((static_cast<it_style*>(itypes[id]))->moves, __VA_ARGS__, NULL); \
+ setvector(&((static_cast<it_style*>(itypes[id])))->moves, __VA_ARGS__, NULL); \
 itypes[id]->item_flags |= mfb(IF_UNARMED_WEAPON); \
 martial_arts_itype_ids.push_back(id)
 
@@ -4048,169 +4058,6 @@ attacks with no penalty.",
 "stumble and leer at", TEC_FEINT, 3,
 "counter-attack", TEC_COUNTER, 4
 );
-
-
-// Finally, load up artifacts!
- std::ifstream fin;
- fin.open("save/artifacts.gsav");
- if (!fin.is_open())
-  return; // No artifacts yet!
-
- bool done = fin.eof();
- while (!done) {
-  char arttype = ' ';
-  fin >> arttype;
-
-  if (arttype == 'T') {
-   it_artifact_tool *art = new it_artifact_tool();
-
-   int num_effects, chargetmp, m1tmp, m2tmp, voltmp, wgttmp, bashtmp,
-       cuttmp, hittmp, flagstmp, colortmp, pricetmp, maxtmp;
-   fin >> pricetmp >> art->sym >> colortmp >> m1tmp >> m2tmp >> voltmp >>
-          wgttmp >> bashtmp >> cuttmp >> hittmp >> flagstmp >>
-          chargetmp >> maxtmp >> num_effects;
-   art->price = pricetmp;
-   art->color = int_to_color(colortmp);
-   art->m1 = material(m1tmp);
-   art->m2 = material(m2tmp);
-   art->volume = voltmp;
-   art->weight = wgttmp;
-   art->melee_dam = bashtmp;
-   art->melee_cut = cuttmp;
-   art->m_to_hit = hittmp;
-   art->charge_type = art_charge(chargetmp);
-   art->item_flags = flagstmp;
-   art->max_charges = maxtmp;
-   for (int i = 0; i < num_effects; i++) {
-    int effect;
-    fin >> effect;
-    art->effects_wielded.push_back( art_effect_passive(effect) );
-   }
-   fin >> num_effects;
-   for (int i = 0; i < num_effects; i++) {
-    int effect;
-    fin >> effect;
-    art->effects_activated.push_back( art_effect_active(effect) );
-   }
-   fin >> num_effects;
-   for (int i = 0; i < num_effects; i++) {
-    int effect;
-    fin >> effect;
-    art->effects_carried.push_back( art_effect_passive(effect) );
-   }
-
-   std::string namepart;
-   std::stringstream namedata;
-   bool start = true;
-   do {
-    fin >> namepart;
-    if (namepart != "-") {
-     if (!start)
-      namedata << " ";
-     else
-      start = false;
-     namedata << namepart;
-    }
-   } while (namepart.find("-") == std::string::npos);
-   art->name = namedata.str();
-   start = true;
-
-   std::stringstream descdata;
-   do {
-    fin >> namepart;
-    if (namepart == "=") {
-     descdata << "\n";
-     start = true;
-    } else if (namepart != "-") {
-     if (!start)
-      descdata << " ";
-     descdata << namepart;
-     start = false;
-    }
-   } while (namepart.find("-") == std::string::npos && !fin.eof());
-   art->description = descdata.str();
-
-   itype_id this_id = "artifact"+itypes.size();
-   art->id = this_id;
-   itypes[this_id]=art;
-
-  } else if (arttype == 'A') {
-   it_artifact_armor *art = new it_artifact_armor();
-
-   int num_effects, m1tmp, m2tmp, voltmp, wgttmp, bashtmp, cuttmp,
-       hittmp, covertmp, enctmp, dmgrestmp, cutrestmp, envrestmp, warmtmp,
-       storagetmp, flagstmp, colortmp, pricetmp;
-   fin >> pricetmp >> art->sym >> colortmp >> m1tmp >> m2tmp >> voltmp >>
-          wgttmp >> bashtmp >> cuttmp >> hittmp >> flagstmp >>
-          covertmp >> enctmp >> dmgrestmp >> cutrestmp >> envrestmp >>
-          warmtmp >> storagetmp >> num_effects;
-   art->price = pricetmp;
-   art->color = int_to_color(colortmp);
-   art->m1 = material(m1tmp);
-   art->m2 = material(m2tmp);
-   art->volume = voltmp;
-   art->weight = wgttmp;
-   art->melee_dam = bashtmp;
-   art->melee_cut = cuttmp;
-   art->m_to_hit = hittmp;
-   art->covers = covertmp;
-   art->encumber = enctmp;
-   art->dmg_resist = dmgrestmp;
-   art->cut_resist = cutrestmp;
-   art->env_resist = envrestmp;
-   art->warmth = warmtmp;
-   art->storage = storagetmp;
-   art->item_flags = flagstmp;
-   for (int i = 0; i < num_effects; i++) {
-    int effect;
-    fin >> effect;
-    art->effects_worn.push_back( art_effect_passive(effect) );
-   }
-
-   std::string namepart;
-   std::stringstream namedata;
-   bool start = true;
-   do {
-    if (!start)
-     namedata << " ";
-    else
-     start = false;
-    fin >> namepart;
-    if (namepart != "-")
-     namedata << namepart;
-   } while (namepart.find("-") == std::string::npos);
-   art->name = namedata.str();
-   start = true;
-
-   std::stringstream descdata;
-   do {
-    fin >> namepart;
-    if (namepart == "=") {
-     descdata << "\n";
-     start = true;
-    } else if (namepart != "-") {
-     if (!start)
-      descdata << " ";
-     descdata << namepart;
-     start = false;
-    }
-   } while (namepart.find("-") == std::string::npos && !fin.eof());
-   art->description = descdata.str();
-
-   itype_id this_id = "artifact"+itypes.size();
-   art->id = this_id;
-   itypes[this_id]=art;
-  }
-
-/*
-  std::string chomper;
-  getline(fin, chomper);
-*/
-  if (fin.eof())
-   done = true;
- } // Done reading the file
- fin.close();
-
 
 }
 

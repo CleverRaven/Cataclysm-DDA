@@ -111,6 +111,7 @@ class overmap
   bool&   seen(int x, int y, int z);
   std::vector<mongroup*> monsters_at(int x, int y, int z);
   bool is_safe(int x, int y, int z); // true if monsters_at is empty, or only woodland
+  bool is_road_or_highway(int x, int y, int z);
 
   bool has_note(int const x, int const y, int const z) const;
   std::string const& note(int const x, int const y, int const z) const;

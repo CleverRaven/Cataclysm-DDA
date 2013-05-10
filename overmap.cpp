@@ -53,6 +53,13 @@ bool is_river(oter_id ter)
  return false;
 }
 
+bool is_building(oter_id ter)
+{
+ if (ter == ot_null || (ter >= ot_house_north))
+  return true;
+ return false;
+}
+
 bool is_ground(oter_id ter)
 {
  if (ter <= ot_road_nesw_manhole)
@@ -71,9 +78,8 @@ bool is_wall_material(oter_id ter)
 oter_id shop(int dir)
 {
  oter_id ret = ot_s_lot;
- int type = rng(0, 23);
- if (one_in(20))
-  type = 24;
+ const int type = rng(0, 27);
+
  switch (type) {
   case  0: ret = ot_s_lot;	         break;
   case  1: ret = ot_s_gas_north;         break;
@@ -100,6 +106,9 @@ oter_id shop(int dir)
   case 22: ret = ot_church_north;        break;
   case 23: ret = ot_office_cubical_north;        break;
   case 24: ret = ot_police_north;        break;
+  case 25: ret = ot_furniture_north;     break;
+  case 26: ret = ot_abstorefront_north;  break;
+  case 27: ret = ot_police_north;        break;
  }
  if (ret == ot_s_lot)
   return ret;
@@ -1989,8 +1998,13 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
     else if (!is_road(base, x, y, z))
      ter(x, y, z) = base;
    } else {	// More than one eligable route; pick one randomly
+    //Don't switch directions if there is a building there and we don't have to...
     if (one_in(12) &&
-       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
+       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)) && !is_building(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
+     dir = (dir + 1) % 2; // Switch the direction (hori/vert) in which we move
+    //If our current path has a building in it and there is another possible path, we should take it
+    else if (is_building(ter(next[dir].x, next[dir].y, z)) &&
+       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)) && !is_building(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
      dir = (dir + 1) % 2; // Switch the direction (hori/vert) in which we move
     x = next[dir].x;
     y = next[dir].y;
@@ -2190,6 +2204,21 @@ bool overmap::is_road(int x, int y, int z)
      (ter(x, y, z) >= ot_sewer_ns  && ter(x, y, z) <= ot_sewer_nesw) ||
      ter(x, y, z) == ot_sewage_treatment_hub ||
      ter(x, y, z) == ot_sewage_treatment_under)
+  return true;
+ return false;
+}
+
+bool overmap::is_road_or_highway(int x, int y, int z)
+{
+ if (ter(x, y, z) == ot_rift || ter(x, y, z) == ot_hellmouth)
+  return true;
+ if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY) {
+  for (int i = 0; i < roads_out.size(); i++) {
+   if (abs(roads_out[i].x - x) + abs(roads_out[i].y - y) <= 1)
+    return true;
+  }
+ }
+ if ((ter(x, y, z) >= ot_hiway_ns && ter(x, y, z) <= ot_road_nesw_manhole))
   return true;
  return false;
 }
@@ -2420,15 +2449,15 @@ void overmap::place_special(overmap_special special, tripoint p)
  ter(p.x, p.y, p.z) = special.ter;
 // Next, obey any special effects the flags might have
  if (special.flags & mfb(OMS_FLAG_ROTATE_ROAD)) {
-  if (is_road(p.x, p.y - 1, p.z))
+  if (is_road_or_highway(p.x, p.y - 1, p.z))
    rotated = true;
-  else if (is_road(p.x + 1, p.y, p.z)) {
+  else if (is_road_or_highway(p.x + 1, p.y, p.z)) {
    ter(p.x, p.y, p.z) = oter_id( int(ter(p.x, p.y, p.z)) + 1);
    rotated = true;
-  } else if (is_road(p.x, p.y + 1, p.z)) {
+  } else if (is_road_or_highway(p.x, p.y + 1, p.z)) {
    ter(p.x, p.y, p.z) = oter_id( int(ter(p.x, p.y, p.z)) + 2);
    rotated = true;
-  } else if (is_road(p.x - 1, p.y, p.z)) {
+  } else if (is_road_or_highway(p.x - 1, p.y, p.z)) {
    ter(p.x, p.y, p.z) = oter_id( int(ter(p.x, p.y, p.z)) + 3);
    rotated = true;
   }
@@ -2512,7 +2541,6 @@ void overmap::place_special(overmap_special special, tripoint p)
  }
  
   if (special.flags & mfb(OMS_FLAG_3X3_FIXED)) {
-  int startx = p.x - 1, starty = p.y;
   if (is_road(p.x, p.y - 1, p.z)) { // Road to north
    ter(p.x+1, p.y, p.z) = oter_id(special.ter - 1);//1
    ter(p.x, p.y, p.z) = special.ter;//2
@@ -3005,14 +3033,11 @@ bool omspec_place::wilderness(overmap *om, tripoint p)
 bool omspec_place::by_highway(overmap *om, tripoint p)
 {
  oter_id ter = om->ter(p.x, p.y, p.z);
- oter_id north = om->ter(p.x, p.y - 1, p.z), east = om->ter(p.x + 1, p.y, p.z),
-         south = om->ter(p.x, p.y + 1, p.z), west = om->ter(p.x - 1, p.y, p.z);
-
-   return (((north>=ot_hiway_ew && north<=ot_road_nesw_manhole)||
-           (east>=ot_hiway_ew && north<=ot_road_nesw_manhole) ||
-           (west>=ot_hiway_ew && west<=ot_road_nesw_manhole) ||
-           (south>=ot_hiway_ew && south<=ot_road_nesw_manhole) )
+ return ((om->is_road_or_highway(p.x, p.y-1, p.z))||
+           (om->is_road_or_highway(p.x, p.y+1, p.z))||
+           (om->is_road_or_highway(p.x+1, p.y, p.z))||
+           (om->is_road_or_highway(p.x-1, p.y, p.z)))
            &&
            (ter == ot_forest || ter == ot_forest_thick || ter == ot_forest_water ||
-         ter == ot_field));
+         ter == ot_field);
 }

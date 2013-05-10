@@ -9,33 +9,48 @@
 
 void game::wish()
 {
- WINDOW* w_list = newwin(25, 30, 0,  0);
- WINDOW* w_info = newwin(25, 50, 0, 30);
+ WINDOW* w_search = newwin(2, 80, 0, 0);
+ WINDOW* w_list = newwin(23, 30, 2,  0);
+ WINDOW* w_info = newwin(23, 50, 2, 30);
  int a = 0, shift = 0, result_selected = 0;
  int ch = '.';
  bool search = false;
  bool incontainer = false;
- std::string pattern;
+ bool changed = false;
+ std::string pattern = "";
  std::string info;
  std::vector<int> search_results;
  item tmp;
  tmp.corpse = mtypes[0];
  do {
+  werase(w_search);
   werase(w_info);
   werase(w_list);
-  mvwprintw(w_list, 0, 0, "Wish for a ('/'searches): ");
+  mvwprintw(w_search, 0, 0, "('/' to search, Esc to stop, <> to switch between results)");
+  mvwprintz(w_search, 1, 0, c_white, "Wish for a: ");
   if (search) {
    if (ch == '\n') {
     search = false;
     ch = '.';
+   }
+   else if (ch == 27) // Escape to stop searching
+   {
+    search = false;
    } else if (ch == KEY_BACKSPACE || ch == 127) {
     if (pattern.length() > 0)
+    {
      pattern.erase(pattern.end() - 1);
+     search_results.clear();
+     changed = true;
+    }
+    else
+    {
+     changed = false;
+    }
    } else if (ch == '>' || ch == KEY_NPAGE) {
-    search = false;
     if (!search_results.empty()) {
      result_selected++;
-     if (result_selected > search_results.size())
+     if (result_selected >= search_results.size())
       result_selected = 0;
      shift = search_results[result_selected];
      a = 0;
@@ -44,8 +59,8 @@ void game::wish()
       shift = standard_itype_ids.size() - 23;
      }
     }
+    changed = false;
    } else if (ch == '<' || ch == KEY_PPAGE) {
-    search = false;
     if (!search_results.empty()) {
      result_selected--;
      if (result_selected < 0)
@@ -57,27 +72,38 @@ void game::wish()
       shift = standard_itype_ids.size() - 23;
      }
     }
+    changed = false;
    } else {
     pattern += ch;
     search_results.clear();
+    changed = true;
    }
 
-   if (search) {
-    for (int i = 0; i < standard_itype_ids.size(); i++) {
-     if (item_controller->find_template(standard_itype_ids[i])->name.find(pattern) != std::string::npos) {
-      shift = i;
-      a = 0;
-      result_selected = 0;
-      if (shift + 23 > standard_itype_ids.size()) {
-       a = shift + 23 - standard_itype_ids.size();
-       shift = standard_itype_ids.size() - 23;
+   // If the pattern hasn't changed or we've stopped searching, no need to update
+   if (search && changed) {
+    // If the pattern is blank, search just returns all items, which will be listed anyway
+    if (pattern.length() > 0)
+    {
+     for (int i = 0; i < standard_itype_ids.size(); i++) {
+      if (item_controller->find_template(standard_itype_ids[i])->name.find(pattern) != std::string::npos) {
+       shift = i;
+       a = 0;
+       result_selected = 0;
+       if (shift + 23 > standard_itype_ids.size()) {
+        a = shift + 23 - standard_itype_ids.size();
+        shift = standard_itype_ids.size() - 23;
+       }
+       search_results.push_back(i);
       }
-      search_results.push_back(i);
+     }
+     if (search_results.size() > 0) {
+      shift = search_results[0];
+      a = 0;
      }
     }
-    if (search_results.size() > 0) {
-     shift = search_results[0];
-     a = 0;
+    else // The pattern is blank, so jump back to the top of the list
+    {
+     shift = 0;
     }
    }
 
@@ -86,13 +112,11 @@ void game::wish()
    if (ch == 'k') a--;
    if (ch == '/') {
     search = true;
-    pattern =  "";
-    search_results.clear();
    }
    if (ch == 'f') incontainer = !incontainer;
    if (( ch == '>' || ch == KEY_NPAGE ) && !search_results.empty()) {
     result_selected++;
-    if (result_selected > search_results.size())
+    if (result_selected >= search_results.size())
      result_selected = 0;
     shift = search_results[result_selected];
     a = 0;
@@ -112,12 +136,16 @@ void game::wish()
     }
    }
   }
+  int search_string_length = pattern.length();
   if (!search_results.empty())
-   mvwprintz(w_list, 0, 25, c_green, "%s               ", pattern.c_str());
+   mvwprintz(w_search, 1, 12, c_green, "%s", pattern.c_str());
   else if (pattern.length() > 0)
-   mvwprintz(w_list, 0, 11, c_red, "%s not found!            ",pattern.c_str());
+  {
+   mvwprintz(w_search, 1, 12, c_red, "\"%s \" not found!",pattern.c_str());
+   search_string_length += 1;
+  }
   if (incontainer)
-   mvwprintz(w_list, 1, 20, c_ltblue, "contained");
+   mvwprintz(w_search, 0, 70, c_ltblue, "contained");
   if (a < 0) {
    a = 0;
    shift--;
@@ -128,12 +156,12 @@ void game::wish()
    shift++;
    if (shift + 23 > standard_itype_ids.size()) shift = standard_itype_ids.size() - 23;
   }
-  for (int i = 1; i < 24 && i-1+shift < standard_itype_ids.size(); i++) {
-   nc_color col = c_white;
-   if (i == a + 1)
-    col = h_white;
-   mvwprintz(w_list, i, 0, col, item_controller->find_template(standard_itype_ids[i-1+shift])->name.c_str());
-   wprintz(w_list, item_controller->find_template(standard_itype_ids[i-1+shift])->color, "%c%", item_controller->find_template(standard_itype_ids[i-1+shift])->sym);
+  for (int i = 0; i < 23 && i+shift < standard_itype_ids.size(); i++) {
+   nc_color col = c_ltgray;
+   if (i == a)
+    col = h_ltgray;
+   mvwprintz(w_list, i, 0, col, item_controller->find_template(standard_itype_ids[i+shift])->name.c_str());
+   wprintz(w_list, item_controller->find_template(standard_itype_ids[i+shift])->color, "%c%", item_controller->find_template(standard_itype_ids[i+shift])->sym);
   }
   tmp.make(item_controller->find_template(standard_itype_ids[a + shift]));
   tmp.bday = turn;
@@ -154,21 +182,47 @@ void game::wish()
     tmp.mode = SNIPPET.assign( (dynamic_cast<it_stationary*>(tmp.type))->category );
   }
   info = tmp.info(true);
-  mvwprintw(w_info, 1, 0, info.c_str());
+  mvwprintw(w_info, 0, 0, info.c_str());
+  wrefresh(w_search);
   wrefresh(w_info);
   wrefresh(w_list);
   if (search)
-   ch = getch();
+  {
+   curs_set(1);
+   ch = mvgetch(1, search_string_length+12);
+  }
   else
+  {
+   curs_set(0);
    ch = input();
+  }
  } while (ch != '\n');
  clear();
- mvprintw(0, 0, "\nWish granted - %d (%d).", tmp.type->id.c_str(), "antibiotics");
+
+ // Allow for multiples
+ curs_set(1);
+ mvprintw(0, 0, "How many do you want? (default is 1): ");
+ char str[5];
+ int count = 1;
+ echo();
+ getnstr(str, 5);
+ noecho();
+ count = atoi(str);
+ if (count<=0)
+ {
+  count = 1;
+ }
+ curs_set(0);
+
+ mvprintw(2, 0, "Wish granted - %d x %s.", count, tmp.type->name.c_str());
  tmp.invlet = nextinv;
- if (!incontainer)
-  u.i_add(tmp);
- else
-  u.i_add(tmp.in_its_container(&itypes));
+ for (int i=0; i<count; i++)
+ {
+  if (!incontainer)
+   u.i_add(tmp);
+  else
+   u.i_add(tmp.in_its_container(&itypes));
+ }
  advance_nextinv();
  getch();
  delwin(w_info);

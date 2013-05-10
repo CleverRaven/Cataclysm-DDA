@@ -906,6 +906,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 {
  if(!p->can_see_fine_detail(g)){
    g->add_msg("It's too dark to sew!");
+   it->charges++;
    return;
  }
  char ch = g->inv_type("Repair what?", IC_ARMOR);
@@ -1099,24 +1100,24 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     }
     g->add_msg_if_player(p,"You slice the %s into %d %s%s%s.", cut->tname().c_str(), count, pre_text.c_str(),
                          (count == 1 ? "" : "s"), post_text.c_str());
-    item rag(g->itypes[type], int(g->turn), g->nextinv);
+    item result(g->itypes[type], int(g->turn), g->nextinv);
     p->i_rem(ch);
     bool drop = false;
     for (int i = 0; i < count; i++)
     {
         int iter = 0;
-        while (p->has_item(rag.invlet) && iter < inv_chars.size())
+        while (p->has_item(result.invlet) && iter < inv_chars.size())
         {
-            rag.invlet = g->nextinv;
+            result.invlet = g->nextinv;
             g->advance_nextinv();
             iter++;
         }
         if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
             drop = true;
         if (drop)
-            g->m.add_item(p->posx, p->posy, rag);
+            g->m.add_item(p->posx, p->posy, result);
         else
-            p->i_add(rag, g);
+            p->i_add(result, g);
     }
     return;
 }
@@ -1506,8 +1507,8 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
             messtream << "radio: " << segments[index];
             message = messtream.str();
         }
-        point p = g->find_item(it);
-        g->sound(p.x, p.y, 6, message.c_str());
+        point pos = g->find_item(it);
+        g->sound(pos.x, pos.y, 6, message.c_str());
     } else {	// Activated
         int ch = menu( true, "Radio:", "Scan", "Turn off", NULL );
         switch (ch)
@@ -2766,13 +2767,13 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
  int index = rng(0, valid.size() - 1);
  p->moves -= 60;
  it->invlet = 0; // Remove the manhack from the player's inv
- monster manhack(g->mtypes[mon_manhack], valid[index].x, valid[index].y);
+ monster m_manhack(g->mtypes[mon_manhack], valid[index].x, valid[index].y);
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
      p->skillLevel("computer") < rng(0, 4))
   g->add_msg_if_player(p,"You misprogram the manhack; it's hostile!");
  else
-  manhack.friendly = -1;
- g->z.push_back(manhack);
+  m_manhack.friendly = -1;
+ g->z.push_back(m_manhack);
 }
 
 void iuse::turret(game *g, player *p, item *it, bool t)
@@ -2793,13 +2794,13 @@ void iuse::turret(game *g, player *p, item *it, bool t)
   return;
  }
  it->invlet = 0; // Remove the turret from the player's inv
- monster turret(g->mtypes[mon_turret], dirx, diry);
+ monster mturret(g->mtypes[mon_turret], dirx, diry);
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
      p->skillLevel("computer") < rng(0, 6))
   g->add_msg_if_player(p,"You misprogram the turret; it's hostile!");
  else
-  turret.friendly = -1;
- g->z.push_back(turret);
+  mturret.friendly = -1;
+ g->z.push_back(mturret);
 }
 
 void iuse::UPS_off(game *g, player *p, item *it, bool t)
@@ -2974,9 +2975,9 @@ void iuse::vortex(game *g, player *p, item *it, bool t)
  int index = rng(0, spawn.size() - 1);
  p->moves -= 100;
  it->make(g->itypes["spiral_stone"]);
- monster vortex(g->mtypes[mon_vortex], spawn[index].x, spawn[index].y);
- vortex.friendly = -1;
- g->z.push_back(vortex);
+ monster mvortex(g->mtypes[mon_vortex], spawn[index].x, spawn[index].y);
+ mvortex.friendly = -1;
+ g->z.push_back(mvortex);
 }
 
 void iuse::dog_whistle(game *g, player *p, item *it, bool t)
@@ -3011,10 +3012,10 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  item blood(g->itypes["blood"], g->turn);
  bool drew_blood = false;
  for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
-  item *it = &(g->m.i_at(p->posx, p->posy)[i]);
-  if (it->type->id == "corpse" &&
-      query_yn("Draw blood from %s?", it->tname().c_str())) {
-   blood.corpse = it->corpse;
+  item *map_it = &(g->m.i_at(p->posx, p->posy)[i]);
+  if (map_it->type->id == "corpse" &&
+      query_yn("Draw blood from %s?", map_it->tname().c_str())) {
+   blood.corpse = map_it->corpse;
    drew_blood = true;
   }
  }
@@ -3030,11 +3031,11 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
-    int ch = menu(true,
+    int choice = menu(true,
     "Using knife:", "Cut up fabric", "Carve wood", "Cauterize", "Cancel", NULL);
-    switch (ch)
+    switch (choice)
     {
-        if (ch == 4)
+        if (choice == 4)
         break;
         case 1:
         {
@@ -3908,10 +3909,10 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    if (bug != mon_null) {
     monster spawned(g->mtypes[bug]);
     spawned.friendly = -1;
-    for (int i = 0; i < num && !empty.empty(); i++) {
-     int index = rng(0, empty.size() - 1);
-     point spawnp = empty[index];
-     empty.erase(empty.begin() + index);
+    for (int j = 0; j < num && !empty.empty(); j++) {
+     int index_inner = rng(0, empty.size() - 1);
+     point spawnp = empty[index_inner];
+     empty.erase(empty.begin() + index_inner);
      spawned.spawn(spawnp.x, spawnp.y);
      g->z.push_back(spawned);
     }
@@ -3934,8 +3935,8 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   } break;
 
   case AEA_HURTALL:
-   for (int i = 0; i < g->z.size(); i++)
-    g->z[i].hurt(rng(0, 5));
+   for (int j = 0; j < g->z.size(); j++)
+    g->z[j].hurt(rng(0, 5));
    break;
 
   case AEA_RADIATION:
@@ -4013,7 +4014,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    int num_shadows = rng(4, 8);
    monster spawned(g->mtypes[mon_shadow]);
    int num_spawned = 0;
-   for (int i = 0; i < num_shadows; i++) {
+   for (int j = 0; j < num_shadows; j++) {
     int tries = 0, monx, mony, junk;
     do {
      if (one_in(2)) {

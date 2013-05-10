@@ -16,8 +16,10 @@ struct component
 {
  itype_id type;
  int count;
- component() { type = "null"; count = 0; }
- component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT) {}
+ int available; // -1 means the player doesn't have the item, 1 means they do,
+            // 0 means they have item but not enough for both tool and component
+ component() { type = "null"; count = 0; available = -1;}
+ component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT), available(-1) {}
 };
 
 struct recipe {

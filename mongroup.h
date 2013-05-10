@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 
-typedef std::map<mon_id, int> FreqDef;
+typedef std::map<mon_id, std::pair<int,int> > FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
 struct MonsterGroup
@@ -63,7 +63,8 @@ class MonsterGroupManager
 {
     public:
         static void LoadJSONGroups();
-        static mon_id GetMonsterFromGroup(std::string, std::vector <mtype*> *, int turn = -1);
+        static mon_id GetMonsterFromGroup(std::string, std::vector <mtype*> *,
+                                          int *quantity = 0, int turn = -1);
         static bool IsMonsterInGroup(std::string, mon_id);
         static std::string Monster2Group(mon_id);
         static std::vector<mon_id> GetMonstersFromGroup(std::string);

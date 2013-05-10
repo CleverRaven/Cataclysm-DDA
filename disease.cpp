@@ -997,8 +997,8 @@ void dis_effect(game *g, player &p, disease &dis)
   for (int i = 0; !lesser && i < p.worn.size(); i++) {
    if (p.worn[i].is_artifact()) {
     it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
-    for (int i = 0; i < armor->effects_worn.size(); i++) {
-     if (armor->effects_worn[i] == AEP_EVIL)
+    for (int j = 0; j < armor->effects_worn.size(); j++) {
+     if (armor->effects_worn[j] == AEP_EVIL)
       lesser = true;
     }
    }
@@ -1182,37 +1182,37 @@ std::string dis_name(disease dis)
  case DI_GLARE:		return "Glare";
  case DI_COLD_HEAD:
   switch (dis.intensity) {
-   case 1: return "Cold head";
+   case 1: return "Chilly head";
    case 2: return "Cold head!";
    case 3: return "Freezing head!!";}
   case DI_COLD_MOUTH:
   switch (dis.intensity) {
-   case 1: return "Cold face";
+   case 1: return "Chilly face";
    case 2: return "Cold face!";
    case 3: return "Freezing face!!";}
  case DI_COLD_TORSO:
   switch (dis.intensity) {
-   case 1: return "Cold torso";
+   case 1: return "Chilly torso";
    case 2: return "Cold torso!";
    case 3: return "Freezing torso!!";}
  case DI_COLD_ARMS:
   switch (dis.intensity) {
-   case 1: return "Cold arms";
+   case 1: return "Chilly arms";
    case 2: return "Cold arms!";
    case 3: return "Freezing arms!!";}
  case DI_COLD_HANDS:
   switch (dis.intensity) {
-   case 1: return "Cold hands";
+   case 1: return "Chilly hands";
    case 2: return "Cold hands!";
    case 3: return "Freezing hands!!";}
  case DI_COLD_LEGS:
   switch (dis.intensity) {
-   case 1: return "Cold legs";
+   case 1: return "Chilly legs";
    case 2: return "Cold legs!";
    case 3: return "Freezing legs!!";}
  case DI_COLD_FEET:
   switch (dis.intensity) {
-   case 1: return "Cold feet";
+   case 1: return "Chilly feet";
    case 2: return "Cold feet!";
    case 3: return "Freezing feet!!";}
  case DI_FROSTBITE_HANDS:
@@ -1229,37 +1229,37 @@ std::string dis_name(disease dis)
    case 2: return "Frostbite - face";}
  case DI_HOT_HEAD:
   switch (dis.intensity) {
-   case 1: return "Hot head";
+   case 1: return "Warm head";
    case 2: return "Hot head!";
    case 3: return "Scorching head!!";}
  case DI_HOT_MOUTH:
   switch (dis.intensity) {
-   case 1: return "Hot face";
+   case 1: return "Warm face";
    case 2: return "Hot face!";
    case 3: return "Scorching face!!";}
  case DI_HOT_TORSO:
   switch (dis.intensity) {
-   case 1: return "Hot torso";
+   case 1: return "Warm torso";
    case 2: return "Hot torso!";
    case 3: return "Scorching torso!!";}
  case DI_HOT_ARMS:
   switch (dis.intensity) {
-   case 1: return "Hot arms";
+   case 1: return "Warm arms";
    case 2: return "Hot arms!";
    case 3: return "Scorching arms!!";}
  case DI_HOT_HANDS:
   switch (dis.intensity) {
-   case 1: return "Hot hands";
+   case 1: return "Warm hands";
    case 2: return "Hot hands!";
    case 3: return "Scorching hands!!";}
  case DI_HOT_LEGS:
   switch (dis.intensity) {
-   case 1: return "Hot legs";
+   case 1: return "Warm legs";
    case 2: return "Hot legs!";
    case 3: return "Scorching legs!!";}
  case DI_HOT_FEET:
   switch (dis.intensity) {
-   case 1: return "Hot feet";
+   case 1: return "Warm feet";
    case 2: return "Hot feet!";
    case 3: return "Scorching feet!!";}
  case DI_BLISTERS_MOUTH: return "Blisters - face";
