@@ -10493,7 +10493,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   break;
 
  case room_mansion_pool:
-  square(m, t_water_sh, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
+  square(m, t_water_pool, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
   break;
 
  case room_mansion_bathroom:
