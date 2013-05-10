@@ -76,6 +76,8 @@ private:
     std::map<Item_tag, unsigned> techniques_list;
     //ammo stuff
     std::map<Item_tag, unsigned> ammo_flags_list;
+    //ammo effects
+    std::map<Item_tag, unsigned> ammo_effects_list;
 };
 
 extern Item_factory* item_controller;
