@@ -1,5 +1,5 @@
 [
-    {
+    {   "type" : "AMMO",
         "id" : "battery",
         "rarity" : 50,
         "price" : 120,
@@ -13,7 +13,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "BATT",
+        "ammo_type" : "battery",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -21,7 +21,7 @@
         "recoil" : 0,
         "count" : 100
     },
-    {
+    {   "type" : "AMMO",
         "id" : "thread",
         "rarity" : 40,
         "price" : 50,
@@ -35,7 +35,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "THREAD",
+        "ammo_type" : "thread",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -43,7 +43,7 @@
         "recoil" : 0,
         "count" : 50
     },
-    {
+    {   "type" : "AMMO",
         "id" : "sinew",
         "rarity" : 50,
         "price" : 120,
@@ -57,7 +57,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "THREAD",
+        "ammo_type" : "thread",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -65,7 +65,7 @@
         "recoil" : 0,
         "count" : 10
     },
-    {
+    {   "type" : "AMMO",
         "id" : "plant_fibre",
         "rarity" : 50,
         "price" : 120,
@@ -79,7 +79,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "THREAD",
+        "ammo_type" : "thread",
         "damage" : 1,
         "pierce" : 0,
         "range" : 0,
@@ -87,7 +87,7 @@
         "recoil" : 0,
         "count" : 10
     },
-    {
+    {   "type" : "AMMO",
         "id" : "duct_tape",
         "rarity" : 60,
         "price" : 20,
@@ -101,7 +101,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -109,7 +109,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "cable",
         "rarity" : 60,
         "price" : 20,
@@ -123,7 +123,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -131,7 +131,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "plut_cell",
         "rarity" : 10,
         "price" : 1500,
@@ -145,7 +145,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "PLUT",
+        "ammo_type" : "plutonium",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -153,7 +153,7 @@
         "recoil" : 0,
         "count" : 5
     },
-    {
+    {   "type" : "AMMO",
         "id" : "nail",
         "rarity" : 35,
         "price" : 60,
@@ -167,7 +167,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NAIL",
+        "ammo_type" : "nail",
         "damage" : 4,
         "pierce" : 3,
         "range" : 3,
@@ -175,7 +175,7 @@
         "recoil" : 4,
         "count" : 100
     },
-    {
+    {   "type" : "AMMO",
         "id" : "pebble",
         "rarity" : 1,
         "price" : 1,
@@ -189,7 +189,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "PEBBLE",
+        "ammo_type" : "pebble",
         "damage" : 2,
         "pierce" : 0,
         "range" : 30,
@@ -197,7 +197,7 @@
         "recoil" : 0,
         "count" : 10
     },
-    {
+    {   "type" : "AMMO",
         "id" : "bearing",
         "rarity" : 1,
         "price" : 1,
@@ -211,7 +211,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "PEBBLE",
+        "ammo_type" : "pebble",
         "damage" : 6,
         "pierce" : 1,
         "range" : 30,
@@ -219,7 +219,7 @@
         "recoil" : 0,
         "count" : 50
     },
-    {
+    {   "type" : "AMMO",
         "id" : "bb",
         "rarity" : 8,
         "price" : 50,
@@ -241,7 +241,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "arrow_wood",
         "rarity" : 7,
         "price" : 100,
@@ -255,7 +255,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "ARROW",
+        "ammo_type" : "arrow",
         "damage" : 8,
         "pierce" : 1,
         "range" : 0,
@@ -263,7 +263,7 @@
         "recoil" : 0,
         "count" : 10
     },
-    {
+    {   "type" : "AMMO",
         "id" : "arrow_cf",
         "rarity" : 5,
         "price" : 300,
@@ -277,7 +277,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "ARROW",
+        "ammo_type" : "arrow",
         "damage" : 12,
         "pierce" : 2,
         "range" : 5,
@@ -285,7 +285,7 @@
         "recoil" : 0,
         "count" : 8
     },
-    {
+    {   "type" : "AMMO",
         "id" : "bolt_wood",
         "rarity" : 8,
         "price" : 100,
@@ -299,7 +299,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "BOLT",
+        "ammo_type" : "bolt",
         "damage" : 10,
         "pierce" : 1,
         "range" : 0,
@@ -307,7 +307,7 @@
         "recoil" : 0,
         "count" : 15
     },
-    {
+    {   "type" : "AMMO",
         "id" : "bolt_steel",
         "rarity" : 7,
         "price" : 400,
@@ -321,7 +321,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "BOLT",
+        "ammo_type" : "bolt",
         "damage" : 20,
         "pierce" : 3,
         "range" : 4,
@@ -329,7 +329,7 @@
         "recoil" : 0,
         "count" : 10
     },
-    {
+    {   "type" : "AMMO",
         "id" : "shot_bird",
         "rarity" : 8,
         "price" : 500,
@@ -343,7 +343,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "SHOT",
+        "ammo_type" : "shot",
         "damage" : 18,
         "pierce" : 0,
         "range" : 5,
@@ -352,7 +352,7 @@
         "count" : 25,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "shot_00",
         "rarity" : 8,
         "price" : 800,
@@ -366,7 +366,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "SHOT",
+        "ammo_type" : "shot",
         "damage" : 50,
         "pierce" : 0,
         "range" : 6,
@@ -375,7 +375,7 @@
         "count" : 25,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "shot_slug",
         "rarity" : 6,
         "price" : 900,
@@ -389,7 +389,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "SHOT",
+        "ammo_type" : "shot",
         "damage" : 50,
         "pierce" : 8,
         "range" : 12,
@@ -398,7 +398,7 @@
         "count" : 25,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "shot_he",
         "rarity" : 0,
         "price" : 1200,
@@ -412,7 +412,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "SHOT",
+        "ammo_type" : "shot",
         "damage" : 10,
         "pierce" : 0,
         "range" : 12,
@@ -421,7 +421,7 @@
         "count" : 5,
         "effects" : ["EXPLOSIVE"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "22_lr",
         "rarity" : 9,
         "price" : 250,
@@ -435,7 +435,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "22",
+        "ammo_type" : ".22",
         "damage" : 11,
         "pierce" : 0,
         "range" : 13,
@@ -444,7 +444,7 @@
         "count" : 100,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "22_cb",
         "rarity" : 8,
         "price" : 180,
@@ -458,7 +458,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "22",
+        "ammo_type" : ".22",
         "damage" : 5,
         "pierce" : 0,
         "range" : 10,
@@ -467,7 +467,7 @@
         "count" : 100,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "22_ratshot",
         "rarity" : 2,
         "price" : 230,
@@ -481,7 +481,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "22",
+        "ammo_type" : ".22",
         "damage" : 4,
         "pierce" : 0,
         "range" : 3,
@@ -490,7 +490,7 @@
         "count" : 100,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "9mm",
         "rarity" : 8,
         "price" : 300,
@@ -504,7 +504,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "9MM",
+        "ammo_type" : "9mm",
         "damage" : 18,
         "pierce" : 2,
         "range" : 14,
@@ -513,7 +513,7 @@
         "count" : 50,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "9mmP",
         "rarity" : 8,
         "price" : 380,
@@ -527,7 +527,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "9MM",
+        "ammo_type" : "9mm",
         "damage" : 20,
         "pierce" : 4,
         "range" : 14,
@@ -536,7 +536,7 @@
         "count" : 25,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "9mmP2",
         "rarity" : 8,
         "price" : 440,
@@ -550,7 +550,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "9MM",
+        "ammo_type" : "9mm",
         "damage" : 22,
         "pierce" : 12,
         "range" : 16,
@@ -559,7 +559,7 @@
         "count" : 10,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "762_25",
         "rarity" : 8,
         "price" : 300,
@@ -573,7 +573,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "762x25",
+        "ammo_type" : "7.62x25mm",
         "damage" : 15,
         "pierce" : 4,
         "range" : 12,
@@ -582,7 +582,7 @@
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "38_special",
         "rarity" : 7,
         "price" : 400,
@@ -596,7 +596,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "38",
+        "ammo_type" : ".38",
         "damage" : 20,
         "pierce" : 0,
         "range" : 14,
@@ -605,7 +605,7 @@
         "count" : 50,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "38_super",
         "rarity" : 7,
         "price" : 450,
@@ -619,7 +619,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "38",
+        "ammo_type" : ".38",
         "damage" : 25,
         "pierce" : 4,
         "range" : 16,
@@ -628,7 +628,7 @@
         "count" : 25,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "10mm",
         "rarity" : 4,
         "price" : 420,
@@ -642,7 +642,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "40",
+        "ammo_type" : ".40",
         "damage" : 26,
         "pierce" : 10,
         "range" : 14,
@@ -651,7 +651,7 @@
         "count" : 50,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "40sw",
         "rarity" : 7,
         "price" : 450,
@@ -665,7 +665,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "40",
+        "ammo_type" : ".40",
         "damage" : 22,
         "pierce" : 2,
         "range" : 14,
@@ -674,7 +674,7 @@
         "count" : 50,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "44magnum",
         "rarity" : 7,
         "price" : 580,
@@ -688,7 +688,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "44",
+        "ammo_type" : ".44",
         "damage" : 36,
         "pierce" : 2,
         "range" : 16,
@@ -697,7 +697,7 @@
         "count" : 50,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "45_acp",
         "rarity" : 7,
         "price" : 470,
@@ -711,7 +711,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "45",
+        "ammo_type" : ".45",
         "damage" : 32,
         "pierce" : 2,
         "range" : 16,
@@ -720,7 +720,7 @@
         "count" : 50,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "45_jhp",
         "rarity" : 4,
         "price" : 480,
@@ -734,7 +734,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "45",
+        "ammo_type" : ".45",
         "damage" : 26,
         "pierce" : 20,
         "range" : 16,
@@ -743,7 +743,7 @@
         "count" : 25,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "45_super",
         "rarity" : 5,
         "price" : 520,
@@ -757,7 +757,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "45",
+        "ammo_type" : ".45",
         "damage" : 34,
         "pierce" : 8,
         "range" : 18,
@@ -766,7 +766,7 @@
         "count" : 10,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "57mm",
         "rarity" : 3,
         "price" : 500,
@@ -780,7 +780,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "57",
+        "ammo_type" : "5.7mm",
         "damage" : 14,
         "pierce" : 30,
         "range" : 14,
@@ -789,7 +789,7 @@
         "count" : 100,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "46mm",
         "rarity" : 2,
         "price" : 520,
@@ -803,7 +803,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "46",
+        "ammo_type" : "4.6mm",
         "damage" : 13,
         "pierce" : 35,
         "range" : 14,
@@ -812,7 +812,7 @@
         "count" : 100,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "762_m43",
         "rarity" : 6,
         "price" : 500,
@@ -826,7 +826,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "762",
+        "ammo_type" : "7.62x39mm",
         "damage" : 25,
         "pierce" : 8,
         "range" : 30,
@@ -835,7 +835,7 @@
         "count" : 80,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "762_m87",
         "rarity" : 7,
         "price" : 650,
@@ -849,7 +849,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "762",
+        "ammo_type" : "7.62x39mm",
         "damage" : 28,
         "pierce" : 10,
         "range" : 30,
@@ -858,7 +858,7 @@
         "count" : 80,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "223",
         "rarity" : 8,
         "price" : 620,
@@ -872,7 +872,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "223",
+        "ammo_type" : ".223",
         "damage" : 36,
         "pierce" : 2,
         "range" : 36,
@@ -881,7 +881,7 @@
         "count" : 40,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "556",
         "rarity" : 6,
         "price" : 650,
@@ -895,7 +895,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "223",
+        "ammo_type" : ".223",
         "damage" : 40,
         "pierce" : 8,
         "range" : 38,
@@ -904,7 +904,7 @@
         "count" : 40,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "556_incendiary",
         "rarity" : 2,
         "price" : 840,
@@ -918,7 +918,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "223",
+        "ammo_type" : ".223",
         "damage" : 28,
         "pierce" : 18,
         "range" : 36,
@@ -927,7 +927,7 @@
         "count" : 30,
         "effects" : ["INCENDIARY"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "270",
         "rarity" : 8,
         "price" : 600,
@@ -941,7 +941,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "3006",
+        "ammo_type" : ".30-06",
         "damage" : 42,
         "pierce" : 4,
         "range" : 80,
@@ -950,7 +950,7 @@
         "count" : 20,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "3006",
         "rarity" : 4,
         "price" : 650,
@@ -964,7 +964,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "3006",
+        "ammo_type" : ".30-06",
         "damage" : 50,
         "pierce" : 30,
         "range" : 90,
@@ -973,7 +973,7 @@
         "count" : 10,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "3006_incendiary",
         "rarity" : 1,
         "price" : 780,
@@ -987,7 +987,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "3006",
+        "ammo_type" : ".30-06",
         "damage" : 35,
         "pierce" : 50,
         "range" : 90,
@@ -996,7 +996,7 @@
         "count" : 5,
         "effects" : ["INCENDIARY"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "308",
         "rarity" : 7,
         "price" : 620,
@@ -1010,7 +1010,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "308",
+        "ammo_type" : ".308",
         "damage" : 36,
         "pierce" : 2,
         "range" : 65,
@@ -1019,7 +1019,7 @@
         "count" : 20,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "762_51",
         "rarity" : 6,
         "price" : 680,
@@ -1033,7 +1033,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "308",
+        "ammo_type" : ".308",
         "damage" : 44,
         "pierce" : 8,
         "range" : 75,
@@ -1042,7 +1042,7 @@
         "count" : 20,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "762_51_incendiary",
         "rarity" : 6,
         "price" : 740,
@@ -1056,7 +1056,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "308",
+        "ammo_type" : ".308",
         "damage" : 30,
         "pierce" : 25,
         "range" : 75,
@@ -1065,7 +1065,7 @@
         "count" : 10,
         "effects" : ["INCENDIARY"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "laser_pack",
         "rarity" : 2,
         "price" : 800,
@@ -1079,7 +1079,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "FUSION",
+        "ammo_type" : "fusion",
         "damage" : 12,
         "pierce" : 15,
         "range" : 30,
@@ -1088,7 +1088,7 @@
         "count" : 20,
         "effects" : ["INCENDIARY", "LASER"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "40mm_concussive",
         "rarity" : 10,
         "price" : 400,
@@ -1102,7 +1102,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "40MM",
+        "ammo_type" : "40mm",
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
@@ -1111,7 +1111,7 @@
         "count" : 4,
         "effects" : ["EXPLOSIVE"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "40mm_frag",
         "rarity" : 8,
         "price" : 450,
@@ -1125,7 +1125,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "40MM",
+        "ammo_type" : "40mm",
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
@@ -1134,7 +1134,7 @@
         "count" : 4,
         "effects" : ["FRAG"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "40mm_incendiary",
         "rarity" : 6,
         "price" : 500,
@@ -1148,7 +1148,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "40MM",
+        "ammo_type" : "40mm",
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
@@ -1157,7 +1157,7 @@
         "count" : 4,
         "effects" : ["NAPALM"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "40mm_teargas",
         "rarity" : 5,
         "price" : 450,
@@ -1171,7 +1171,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "40MM",
+        "ammo_type" : "40mm",
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
@@ -1180,7 +1180,7 @@
         "count" : 4,
         "effects" : ["TEARGAS"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "40mm_smoke",
         "rarity" : 4,
         "price" : 350,
@@ -1194,7 +1194,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "40MM",
+        "ammo_type" : "40mm",
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
@@ -1203,7 +1203,7 @@
         "count" : 6,
         "effects" : ["SMOKE", "TRAIL"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "40mm_flashbang",
         "rarity" : 8,
         "price" : 400,
@@ -1217,7 +1217,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "40MM",
+        "ammo_type" : "40mm",
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
@@ -1226,7 +1226,7 @@
         "count" : 6,
         "effects" : ["FLASHBANG"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "66mm_HEAT",
         "rarity" : 0,
         "price" : 0,
@@ -1240,7 +1240,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "66MM",
+        "ammo_type" : "66mm",
         "damage" : 5,
         "pierce" : 20,
         "range" : 80,
@@ -1249,7 +1249,7 @@
         "count" : 1,
         "effects" : ["EXPLOSIVE_BIG", "TRAIL"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "12mm",
         "rarity" : 2,
         "price" : 500,
@@ -1263,7 +1263,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "12MM",
+        "ammo_type" : "12mm",
         "damage" : 25,
         "pierce" : 12,
         "range" : 70,
@@ -1272,7 +1272,7 @@
         "count" : 20,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "plasma",
         "rarity" : 8,
         "price" : 800,
@@ -1286,7 +1286,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "PLASMA",
+        "ammo_type" : "plasma",
         "damage" : 35,
         "pierce" : 14,
         "range" : 12,
@@ -1295,7 +1295,7 @@
         "count" : 25,
         "effects" : ["INCENDIARY"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "charge_shot",
         "rarity" : 0,
         "price" : 0,
@@ -1309,7 +1309,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 5,
         "pierce" : 0,
         "range" : 30,
@@ -1317,7 +1317,7 @@
         "recoil" : 0,
         "count" : 1
     },
-    {
+    {   "type" : "AMMO",
         "id" : "shot_hull",
         "rarity" : 10,
         "price" : 80,
@@ -1331,7 +1331,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1339,7 +1339,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "9mm_casing",
         "rarity" : 10,
         "price" : 30,
@@ -1353,7 +1353,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1361,7 +1361,7 @@
         "recoil" : 0,
         "count" : 100
     },
-    {
+    {   "type" : "AMMO",
         "id" : "22_casing",
         "rarity" : 10,
         "price" : 40,
@@ -1375,7 +1375,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1383,7 +1383,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "38_casing",
         "rarity" : 10,
         "price" : 40,
@@ -1397,7 +1397,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1405,7 +1405,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "40_casing",
         "rarity" : 10,
         "price" : 45,
@@ -1419,7 +1419,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1427,7 +1427,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "44_casing",
         "rarity" : 10,
         "price" : 58,
@@ -1441,7 +1441,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1449,7 +1449,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "45_casing",
         "rarity" : 10,
         "price" : 47,
@@ -1463,7 +1463,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1471,7 +1471,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "57mm_casing",
         "rarity" : 10,
         "price" : 50,
@@ -1485,7 +1485,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1493,7 +1493,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "46mm_casing",
         "rarity" : 10,
         "price" : 52,
@@ -1507,7 +1507,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1515,7 +1515,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "762_casing",
         "rarity" : 10,
         "price" : 50,
@@ -1529,7 +1529,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1537,7 +1537,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "223_casing",
         "rarity" : 10,
         "price" : 72,
@@ -1551,7 +1551,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1559,7 +1559,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "3006_casing",
         "rarity" : 10,
         "price" : 90,
@@ -1573,7 +1573,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1581,7 +1581,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "308_casing",
         "rarity" : 10,
         "price" : 92,
@@ -1595,7 +1595,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1603,7 +1603,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "40mm_casing",
         "rarity" : 10,
         "price" : 92,
@@ -1617,7 +1617,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1625,7 +1625,7 @@
         "recoil" : 0,
         "count" : 20
     },
-    {
+    {   "type" : "AMMO",
         "id" : "gunpowder",
         "rarity" : 10,
         "price" : 30,
@@ -1639,7 +1639,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1648,7 +1648,7 @@
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "shotgun_primer",
         "rarity" : 10,
         "price" : 30,
@@ -1662,7 +1662,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1671,7 +1671,7 @@
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "smpistol_primer",
         "rarity" : 15,
         "price" : 40,
@@ -1685,7 +1685,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1694,7 +1694,7 @@
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "lgpistol_primer",
         "rarity" : 15,
         "price" : 60,
@@ -1708,7 +1708,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1717,7 +1717,7 @@
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "smrifle_primer",
         "rarity" : 10,
         "price" : 60,
@@ -1731,7 +1731,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1740,7 +1740,7 @@
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "lgrifle_primer",
         "rarity" : 10,
         "price" : 80,
@@ -1754,7 +1754,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1763,7 +1763,7 @@
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "lead",
         "rarity" : 10,
         "price" : 50,
@@ -1777,7 +1777,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1785,7 +1785,7 @@
         "recoil" : 0,
         "count" : 200
     },
-    {
+    {   "type" : "AMMO",
         "id" : "incendiary",
         "rarity" : 0,
         "price" : 100,
@@ -1799,7 +1799,7 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "NULL",
+        "ammo_type" : "none",
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
@@ -1808,7 +1808,7 @@
         "count" : 200,
         "effects" : ["COOKOFF"]
     },
-    {
+    {   "type" : "AMMO",
         "id" : "gasoline",
         "rarity" : 0,
         "price" : 50,
@@ -1822,13 +1822,13 @@
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
-        "ammo_type" : "GAS",
+        "ammo_type" : "gasoline",
         "damage" : 5,
         "pierce" : 5,
         "range" : 4,
         "accuracy" : 0,
         "recoil" : 0,
         "count" : 200,
-        "effects" : ["AMMO_FLAME","AMMO_STREAM"]        
+        "effects" : ["FLAME","STREAM"]        
     }
 ]
