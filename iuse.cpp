@@ -904,9 +904,9 @@ void iuse::primitive_fire(game *g, player *p, item *it, bool t)
 
 void iuse::sew(game *g, player *p, item *it, bool t)
 {
-    if(!p->can_see_fine_detail(g))
+    if(p->fine_detail_vision_mod(g) > 2.5)
 	{
-        g->add_msg("It's too dark to sew!");
+        g->add_msg("You can't see to sew!");
         it->charges++;
         return;
     }
@@ -938,7 +938,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     }
     else if (fix->damage == 0)
 	{
-        p->moves -= 500;
+        p->moves -= 500 * p->fine_detail_vision_mod(g);
         p->practice(g->turn, "tailor", 10);
         int rn = dice(4, 2 + p->skillLevel("tailor"));
         if (p->dex_cur < 8 && one_in(p->dex_cur))
@@ -963,11 +963,13 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             fix->damage--;
         }
         else
+		{
             g->add_msg_if_player(p,"You practice your sewing.");
+		}
     }
     else
 	{
-        p->moves -= 500;
+        p->moves -= 500 * p->fine_detail_vision_mod(g);
         p->practice(g->turn, "tailor", 8);
         int rn = dice(4, 2 + p->skillLevel("tailor"));
         rn -= rng(fix->damage, fix->damage * 2);
