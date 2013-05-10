@@ -559,7 +559,6 @@ recipe* game::select_crafting_recipe()
 
         mvwputch(w_data, dataHeight-1,  0, c_ltgray, LINE_XXOO); // _|
         mvwputch(w_data, dataHeight-1, 79, c_ltgray, LINE_XOOX); // |_
-        wrefresh(w_data);
 
         int recmin = 0, recmax = current.size();
         if(recmax > dataLines)
