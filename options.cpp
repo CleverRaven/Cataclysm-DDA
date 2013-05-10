@@ -25,12 +25,11 @@ void game::show_options()
  char ch = ' ';
  bool changed_options = false;
  bool needs_refresh = true;
+ wborder(w_options_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+         LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+ mvwprintz(w_options_border, 0, 36, c_ltred, " OPTIONS ");
+ wrefresh(w_options_border);
  do {
-  wborder(w_options_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-  mvwprintz(w_options_border, 0, 36, c_ltred, " OPTIONS ");
-  wrefresh(w_options_border);
-
 // TODO: change instructions
   if (needs_refresh) {
     werase(w_options);
@@ -81,10 +80,8 @@ void game::show_options()
       }
   }
   wrefresh(w_options);
-  refresh();
   ch = input();
   needs_refresh = true;
-  refresh();
 
  switch (ch) {
 // move up and down
