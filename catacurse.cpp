@@ -246,6 +246,7 @@ void DrawWindow(WINDOW *win)
             };//for (i=0;i<_windows[w].width;i++)
     };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
+    RedrawWindow(WindowHandle, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 };
 
 //Check for any window messages (keypress, paint, mousemove, etc)
@@ -629,7 +630,7 @@ int werase(WINDOW *win)
     }
     win->draw=true;
     wmove(win,0,0);
-    wrefresh(win);
+//    wrefresh(win);
     return 1;
 };
 
