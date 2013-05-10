@@ -117,6 +117,7 @@ Adjusted monster spawning mechanics to reduce the chance of swarms of difficult 
 Stop roads from going through buildings so often.
 Pits less awkward to board over (can use nearby items).
 Tweak glass bottle weight/volume.
+Allow for reading/sewing in the dark through mutations/CBM's with a speed penalty.
 
 
 0.4
