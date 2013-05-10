@@ -221,6 +221,7 @@ void Item_factory::init(){
     techniques_list["DEF_DISARM"] = mfb(TEC_DEF_DISARM);
 
     //Ammo lists
+    ammo_flags_list["NULL"] = mfb(AT_NULL);
     ammo_flags_list["THREAD"] = mfb(AT_THREAD);
     ammo_flags_list["BATT"] = mfb(AT_BATT);
     ammo_flags_list["PLUT"] = mfb(AT_PLUT);
@@ -855,6 +856,8 @@ material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
         return STEEL;
     } else if(name == "SILVER"){
         return SILVER;
+    } else if(name == "NULL"){
+        return MNULL;
     } else {
         std::cerr << "Item "<< new_id << " material was skipped, not a string or array of strings." << std::endl;
         return MNULL;
