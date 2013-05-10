@@ -2754,7 +2754,7 @@ CONT("bottle_plastic", "plastic bottle",	70,  8,	c_ltcyan,	PLASTIC,MNULL,
 A resealable plastic bottle, holds 500mls of liquid.");
 
 CONT("bottle_glass", "glass bottle",	70, 12,	c_cyan,		GLASS,	MNULL,
-    2,  1,  8,  1,	 3,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
+    3,  2,  8,  1,	 3,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A resealable glass bottle, holds 750mls of liquid.");
 
 CONT("can_drink", "aluminum can",	70,  1,	c_ltblue,	STEEL,	MNULL,
@@ -2771,7 +2771,7 @@ A small cardboard box. No bigger than a foot in any dimension.");
 
 CONT("canteen", "plastic canteen",	20,  1000,	c_green,	PLASTIC,MNULL,
     6,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A large military-style water canteen, with a 1.5 liter capacity");
+A large military-style water canteen, with a 1.5 liter capacity and strap.");
 
 CONT("jerrycan", "plastic jerrycan",	10,  2500,	c_green,	PLASTIC,MNULL,
     40,  4, -2,  -2,	 40,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
