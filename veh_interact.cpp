@@ -16,6 +16,7 @@ veh_interact::veh_interact ()
     ddx = 0;
     ddy = 0;
     sel_cmd = ' ';
+    sel_type=0;
 }
 
 void veh_interact::exec (game *gm, vehicle *v, int x, int y)
@@ -61,7 +62,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     }
     for (int i = 0; i < 80; i++)
     {
-        mvwputch(w_grid, winy1, i, c_ltgray, i == winx1? LINE_OXXX : (i == winx2? LINE_OXXX : LINE_OXOX));
+        mvwputch(w_grid, winy1, i, c_ltgray,
+                 i == winx1? LINE_OXXX : (i == winx2? LINE_OXXX : LINE_OXOX));
         if (i < winx2)
             mvwputch(w_grid, winy2, i, c_ltgray, i == winx1? LINE_XXOX : LINE_OXOX);
     }
@@ -71,13 +73,15 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 
     int charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
     has_wrench = crafting_inv.has_amount("wrench", 1) ||
-                 crafting_inv.has_amount("toolset", 1);
+        crafting_inv.has_amount("toolset", 1);
     has_hacksaw = crafting_inv.has_amount("hacksaw", 1) ||
-                  crafting_inv.has_amount("toolset", 1);
+        crafting_inv.has_amount("toolset", 1);
     has_welder = (crafting_inv.has_amount("welder", 1) &&
                   crafting_inv.has_charges("welder", charges)) ||
-                 (crafting_inv.has_amount("toolset", 1) &&
-                 crafting_inv.has_charges("toolset", charges/20));
+        (crafting_inv.has_amount("toolset", 1) &&
+         crafting_inv.has_charges("toolset", charges/20));
+    has_jack = crafting_inv.has_amount("jack", 1);
+
 
     display_stats ();
     display_veh   ();
@@ -91,27 +95,27 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
         if (ch == KEY_ESCAPE || ch == 'q' )
             finish = true;
         else
-        if (dx != -2 && (dx || dy) &&
-            cx + dx >= -6 && cx + dx < 6 &&
-            cy + dy >= -6 && cy + dy < 6)
-            move_cursor(dx, dy);
-        else
-        {
-            int mval = cant_do(ch);
-            display_mode (ch);
-            switch (ch)
+            if (dx != -2 && (dx || dy) &&
+                cx + dx >= -6 && cx + dx < 6 &&
+                cy + dy >= -6 && cy + dy < 6)
+                move_cursor(dx, dy);
+            else
             {
-            case 'i': do_install(mval); break;
-            case 'r': do_repair(mval);  break;
-            case 'f': do_refill(mval);  break;
-            case 'o': do_remove(mval);  break;
-            case 'e': do_rename(mval);  break;
-            default:;
+                int mval = cant_do(ch);
+                display_mode (ch);
+                switch (ch)
+                {
+                case 'i': do_install(mval); break;
+                case 'r': do_repair(mval);  break;
+                case 'f': do_refill(mval);  break;
+                case 'o': do_remove(mval);  break;
+                case 'e': do_rename(mval);  break;
+                default:;
+                }
+                if (sel_cmd != ' ')
+                    finish = true;
+                display_mode (' ');
             }
-            if (sel_cmd != ' ')
-                finish = true;
-            display_mode (' ');
-        }
     }
     werase(w_grid);
     werase(w_mode);
@@ -135,16 +139,26 @@ int veh_interact::cant_do (char mode)
     switch (mode)
     {
     case 'i': // install mode
-        return can_mount.size() > 0? (!has_wrench || !has_welder? 2 : 0) : 1;
+        return can_mount.size() > 0?
+            (!has_wrench || (!has_welder && !has_jack)
+             ? 2 : 0) : 1;
     case 'r': // repair mode
         return need_repair.size() > 0 && cpart >= 0? (!has_welder? 2 : 0) : 1;
     case 'f': // refill mode
         return ptank >= 0? (!has_fuel? 2 : 0) : 1;
     case 'o': // remove mode
         return cpart < 0? 1 :
-               (parts_here.size() < 2 && !veh->can_unmount(cpart)? 2 :
-               (!has_wrench || !has_hacksaw? 3 :
-               (g->u.skillLevel("mechanics") < 2 ? 4 : 0)));
+        (parts_here.size() < 2 && !veh->can_unmount(cpart)? 2 :
+         (
+             !has_wrench ||
+             ( wheel >= 0 && !has_hacksaw && !has_jack ) ||
+             ( wheel < 0 && !has_hacksaw )
+             ? 3 :
+             ( g->u.skillLevel("mechanics") < 2 && ( wheel < 0 || ( wheel >= 0 && !has_jack ) )
+               ? 4 :
+               0 )
+             )
+            );
     default:
         return -1;
     }
@@ -166,9 +180,15 @@ void veh_interact::do_install(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, "You need a wrench and a powered welder to install parts.");
-        mvwprintz(w_msg, 0, 12, has_wrench? c_ltgreen : c_red, "wrench");
-        mvwprintz(w_msg, 0, 25, has_welder? c_ltgreen : c_red, "powered welder");
+        mvwprintz(w_msg, 0, 1, c_ltgray, "You need a ");
+        wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+        wprintz(w_msg, c_ltgray, " and a ");
+        wprintz(w_msg, has_welder? c_ltgreen : c_red, "powered welder");
+        wprintz(w_msg, c_ltgray, " to install parts.");
+        mvwprintz(w_msg, 1, 1, c_ltgray, "To change a wheel you need a ");
+        wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+        wprintz(w_msg, c_ltgray, " and a ");
+        wprintz(w_msg, has_jack? c_ltgreen : c_red, "jack");
         wrefresh (w_msg);
         return;
     default:;
@@ -179,11 +199,13 @@ void veh_interact::do_install(int reason)
     int engines = 0;
     int dif_eng = 0;
     for (int p = 0; p < veh->parts.size(); p++)
+    {
         if (veh->part_flag (p, vpf_engine))
         {
             engines++;
             dif_eng = dif_eng / 2 + 12;
         }
+    }
     while (true)
     {
         sel_part = can_mount[pos];
@@ -191,20 +213,35 @@ void veh_interact::do_install(int reason)
         itype_id itm = vpart_list[sel_part].item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[sel_part].difficulty;
+        bool wheel = vpart_list[sel_part].flags & mfb (vpf_wheel);
         werase (w_msg);
-        int slen = g->itypes[itm]->name.length();
-        mvwprintz(w_msg, 0, 1, c_ltgray, "Needs %s and level %d skill in mechanics.",
-                  g->itypes[itm]->name.c_str(), vpart_list[sel_part].difficulty);
-        mvwprintz(w_msg, 0, 7, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
-        mvwprintz(w_msg, 0, 18+slen, has_skill? c_ltgreen : c_red, "%d", vpart_list[sel_part].difficulty);
+        mvwprintz(w_msg, 0, 1, c_ltgray, "Needs ");
+        wprintz(w_msg, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
+        wprintz(w_msg, c_ltgray, ", a ");
+        wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+        wprintz(w_msg, c_ltgray, ", a ");
+        wprintz(w_msg, has_welder? c_ltgreen : c_red, "powered welder");
+        wprintz(w_msg, c_ltgray, ", and level ");
+        wprintz(w_msg, has_skill? c_ltgreen : c_red, "%d", vpart_list[sel_part].difficulty);
+        wprintz(w_msg, c_ltgray, " skill in mechanics.");
+        if(wheel)
+        {
+            wprintz(w_msg, c_ltgray, " -OR- ");
+            wprintz(w_msg, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
+            wprintz(w_msg, c_ltgray, ", a ");
+            wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+            wprintz(w_msg, c_ltgray, ", and a ");
+            wprintz(w_msg, has_jack? c_ltgreen : c_red, "jack");
+            has_skill=(has_jack||has_skill); // my mother can change her car's tires
+            sel_type=SEL_JACK;
+        }
         bool eng = vpart_list[sel_part].flags & mfb (vpf_engine);
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
         if (engines && eng) // already has engine
         {
-            mvwprintz(w_msg, 1, 1, c_ltgray,
-                      "You also need level %d skill in mechanics to install additional engine.",
-                      dif_eng);
-            mvwprintz(w_msg, 1, 21, has_skill2? c_ltgreen : c_red, "%d", dif_eng);
+            wprintz(w_msg, c_ltgray, " You also need level ");
+            wprintz(w_msg, has_skill2? c_ltgreen : c_red, "%d", dif_eng);
+            wprintz(w_msg, c_ltgray, " skill in mechanics to install additional engine.");
         }
         wrefresh (w_msg);
         char ch = input(); // See keypress.h
@@ -217,20 +254,26 @@ void veh_interact::do_install(int reason)
             return;
         }
         else
-        if (ch == KEY_ESCAPE || ch == 'q' )
         {
-            werase (w_list);
-            wrefresh (w_list);
-            werase (w_msg);
-            break;
+            if (ch == KEY_ESCAPE || ch == 'q' )
+            {
+                werase (w_list);
+                wrefresh (w_list);
+                werase (w_msg);
+                break;
+            }
         }
         if (dy == -1 || dy == 1)
         {
             pos += dy;
             if (pos < 0)
-               pos = can_mount.size()-1;
+            {
+                pos = can_mount.size()-1;
+            }
             else if (pos >= can_mount.size())
-               pos = 0;
+            {
+                pos = 0;
+            }
         }
     }
 }
@@ -278,7 +321,7 @@ void veh_interact::do_repair(int reason)
             itype_id itm = veh->part_info(sel_part).item;
             has_comps = crafting_inv.has_amount(itm, 1);
             mvwprintz(w_msg, 1, 1, c_ltgray, "You also need a wrench and %s to replace broken one.",
-                    g->itypes[itm]->name.c_str());
+                      g->itypes[itm]->name.c_str());
             mvwprintz(w_msg, 1, 17, has_wrench? c_ltgreen : c_red, "wrench");
             mvwprintz(w_msg, 1, 28, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
         }
@@ -286,27 +329,28 @@ void veh_interact::do_repair(int reason)
         char ch = input(); // See keypress.h
         int dx, dy;
         get_direction (g, dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && has_comps && (veh->parts[sel_part].hp > 0 || has_wrench) && has_skill)
+        if ((ch == '\n' || ch == ' ') && has_comps && (veh->parts[sel_part].hp > 0 ||
+                                                       has_wrench) && has_skill)
         {
             sel_cmd = 'r';
             return;
         }
         else
-        if (ch == KEY_ESCAPE || ch == 'q' )
-        {
-            werase (w_parts);
-            veh->print_part_desc (w_parts, 0, winw2, cpart, -1);
-            wrefresh (w_parts);
-            werase (w_msg);
-            break;
-        }
+            if (ch == KEY_ESCAPE || ch == 'q' )
+            {
+                werase (w_parts);
+                veh->print_part_desc (w_parts, 0, winw2, cpart, -1);
+                wrefresh (w_parts);
+                werase (w_msg);
+                break;
+            }
         if (dy == -1 || dy == 1)
         {
             pos += dy;
             if(pos >= need_repair.size())
-               pos = 0;
+                pos = 0;
             else if(pos < 0)
-               pos = need_repair.size() - 1;
+                pos = need_repair.size() - 1;
         }
     }
 }
@@ -321,7 +365,8 @@ void veh_interact::do_refill(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltgray, "You need %s.", veh->fuel_name(veh->part_info(ptank).fuel_type).c_str());
+        mvwprintz(w_msg, 0, 1, c_ltgray, "You need %s.",
+                  veh->fuel_name(veh->part_info(ptank).fuel_type).c_str());
         mvwprintz(w_msg, 0, 10, c_red, veh->fuel_name(veh->part_info(ptank).fuel_type).c_str());
         wrefresh (w_msg);
         return;
@@ -347,13 +392,22 @@ void veh_interact::do_remove(int reason)
         wrefresh (w_msg);
         return;
     case 2:
-        mvwprintz(w_msg, 0, 1, c_ltred, "You cannot remove mount point while something is attached to it.");
+        mvwprintz(w_msg, 0, 1, c_ltred,
+                  "You cannot remove mount point while something is attached to it.");
         wrefresh (w_msg);
         return;
     case 3:
-        mvwprintz(w_msg, 0, 1, c_ltgray, "You need a wrench and a hack saw to remove parts.");
-        mvwprintz(w_msg, 0, 12, has_wrench? c_ltgreen : c_red, "wrench");
-        mvwprintz(w_msg, 0, 25, has_hacksaw? c_ltgreen : c_red, "hack saw");
+        mvwprintz(w_msg, 0, 1, c_ltgray, "You need a ");
+        wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+        wprintz(w_msg, c_ltgray, " and a ");
+        wprintz(w_msg, has_hacksaw? c_ltgreen : c_red, "hacksaw");
+        wprintz(w_msg, c_ltgray, " to install parts.");
+        if(wheel) {
+            mvwprintz(w_msg, 1, 1, c_ltgray, "To change a wheel you need a ");
+            wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
+            wprintz(w_msg, c_ltgray, " and a ");
+            wprintz(w_msg, has_jack? c_ltgreen : c_red, "jack");
+        }
         wrefresh (w_msg);
         return;
     case 4:
@@ -381,30 +435,30 @@ void veh_interact::do_remove(int reason)
             return;
         }
         else
-        if (ch == KEY_ESCAPE || ch == 'q' )
-        {
-            werase (w_parts);
-            veh->print_part_desc (w_parts, 0, winw2, cpart, -1);
-            wrefresh (w_parts);
-            werase (w_msg);
-            break;
-        }
+            if (ch == KEY_ESCAPE || ch == 'q' )
+            {
+                werase (w_parts);
+                veh->print_part_desc (w_parts, 0, winw2, cpart, -1);
+                wrefresh (w_parts);
+                werase (w_msg);
+                break;
+            }
         if (dy == -1 || dy == 1)
         {
             pos += dy;
             if (pos < first)
                 pos = parts_here.size()-1;
             else
-            if (pos >= parts_here.size())
-                pos = first;
+                if (pos >= parts_here.size())
+                    pos = first;
         }
     }
 }
 
 void veh_interact::do_rename(int reason)
 {
-std::string name = string_input_popup("Enter new vehicle name", 20);
-(veh->name = name);
+    std::string name = string_input_popup("Enter new vehicle name", 20);
+    (veh->name = name);
     werase(w_stats);
     werase(w_grid);
     display_stats ();
@@ -426,7 +480,8 @@ int veh_interact::part_at (int dx, int dy)
 
 void veh_interact::move_cursor (int dx, int dy)
 {
-    mvwputch (w_disp, cy+6, cx+6, cpart >= 0? veh->part_color (cpart) : c_black, special_symbol(cpart >= 0? veh->part_sym (cpart) : ' '));
+    mvwputch (w_disp, cy + 6, cx + 6, cpart >= 0 ? veh->part_color (cpart) : c_black,
+              special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
     cx += dx;
     cy += dy;
     cpart = part_at (cx, cy);
@@ -439,10 +494,12 @@ void veh_interact::move_cursor (int dx, int dy)
     bool obstruct = g->m.move_cost_ter_only (vehx, vehy) == 0;
     vehicle *oveh = g->m.veh_at (vehx, vehy);
     if (oveh && oveh != veh)
+    {
         obstruct = true;
-    nc_color col = cpart >= 0? veh->part_color (cpart) : c_black;
-    mvwputch (w_disp, cy+6, cx+6, obstruct? red_background(col) : hilite(col),
-                      special_symbol(cpart >= 0? veh->part_sym (cpart) : ' '));
+    }
+    nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
+    mvwputch (w_disp, cy + 6, cx + 6, obstruct ? red_background(col) : hilite(col),
+              special_symbol(cpart >= 0 ? veh->part_sym (cpart) : ' '));
     wrefresh (w_disp);
     werase (w_parts);
     veh->print_part_desc (w_parts, 0, winw2, cpart, -1);
@@ -459,6 +516,7 @@ void veh_interact::move_cursor (int dx, int dy)
     need_repair.clear();
     parts_here.clear();
     ptank = -1;
+    wheel = -1;
     if (cpart >= 0)
     {
         parts_here = veh->internal_parts(cpart);
@@ -467,12 +525,20 @@ void veh_interact::move_cursor (int dx, int dy)
         {
             int p = parts_here[i];
             if (veh->parts[p].hp < veh->part_info(p).durability)
+            {
                 need_repair.push_back (i);
+            }
             if (veh->part_flag(p, vpf_fuel_tank) && veh->parts[p].amount < veh->part_info(p).size)
+            {
                 ptank = p;
+            }
+            if (veh->part_flag(p, vpf_wheel) && veh->parts[p].amount < veh->part_info(p).size)
+            {
+                wheel = p;
+            }
         }
     }
-    has_fuel = ptank >= 0? g->pl_refill_vehicle(*veh, ptank, true) : false;
+    has_fuel = ptank >= 0 ? g->pl_refill_vehicle(*veh, ptank, true) : false;
     werase (w_msg);
     wrefresh (w_msg);
     display_mode (' ');
@@ -500,13 +566,13 @@ void veh_interact::display_veh ()
     if (x1 < -5)
         ddx = -5 - x1;
     else
-    if (x2 > 6)
-        ddx = 6 - x2;
+        if (x2 > 6)
+            ddx = 6 - x2;
     if (y1 < -6)
         ddy = -6 - y1;
     else
-    if (y2 > 5)
-        ddy = 5 - y2;
+        if (y2 > 5)
+            ddy = 5 - y2;
 
     for (int ep = 0; ep < veh->external_parts.size(); ep++)
     {
@@ -528,29 +594,29 @@ void veh_interact::display_stats ()
     mvwprintz(w_stats, 0, 1, c_ltgray, "Name: ");
     mvwprintz(w_stats, 0, 7, c_ltgreen, veh->name.c_str());
     if(OPTIONS[OPT_USE_METRIC_SYS]) {
-     mvwprintz(w_stats, 1, 1, c_ltgray, "Safe speed:      Km/h");
-     mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", int(veh->safe_velocity(false) * 0.0161f));
-     mvwprintz(w_stats, 2, 1, c_ltgray, "Top speed:       Km/h");
-     mvwprintz(w_stats, 2, 14, c_ltred, "%3d", int(veh->max_velocity(false) * 0.0161f));
-     mvwprintz(w_stats, 3, 1, c_ltgray, "Accel.:          Kmh/t");
-     mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", int(veh->acceleration(false) * 0.0161f));
+        mvwprintz(w_stats, 1, 1, c_ltgray, "Safe speed:      Km/h");
+        mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", int(veh->safe_velocity(false) * 0.0161f));
+        mvwprintz(w_stats, 2, 1, c_ltgray, "Top speed:       Km/h");
+        mvwprintz(w_stats, 2, 14, c_ltred, "%3d", int(veh->max_velocity(false) * 0.0161f));
+        mvwprintz(w_stats, 3, 1, c_ltgray, "Accel.:          Kmh/t");
+        mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", int(veh->acceleration(false) * 0.0161f));
     }
     else {
-     mvwprintz(w_stats, 1, 1, c_ltgray, "Safe speed:      mph");
-     mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", veh->safe_velocity(false) / 100);
-     mvwprintz(w_stats, 2, 1, c_ltgray, "Top speed:       mph");
-     mvwprintz(w_stats, 2, 14, c_ltred, "%3d", veh->max_velocity(false) / 100);
-     mvwprintz(w_stats, 3, 1, c_ltgray, "Accel.:          mph/t");
-     mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", veh->acceleration(false) / 100);
+        mvwprintz(w_stats, 1, 1, c_ltgray, "Safe speed:      mph");
+        mvwprintz(w_stats, 1, 14, c_ltgreen,"%3d", veh->safe_velocity(false) / 100);
+        mvwprintz(w_stats, 2, 1, c_ltgray, "Top speed:       mph");
+        mvwprintz(w_stats, 2, 14, c_ltred, "%3d", veh->max_velocity(false) / 100);
+        mvwprintz(w_stats, 3, 1, c_ltgray, "Accel.:          mph/t");
+        mvwprintz(w_stats, 3, 14, c_ltblue,"%3d", veh->acceleration(false) / 100);
     }
     mvwprintz(w_stats, 4, 1, c_ltgray, "Mass:            kg");
     mvwprintz(w_stats, 4, 12, c_ltblue,"%5d", (int) (veh->total_mass() / 4 * 0.45));
-    mvwprintz(w_stats, 1, 26, c_ltgray, "K dynamics:        ");
-    mvwprintz(w_stats, 1, 37, c_ltblue, "%3d", (int) (veh->k_dynamics() * 100));
-    mvwputch (w_stats, 1, 41, c_ltgray, '%');
-    mvwprintz(w_stats, 2, 26, c_ltgray, "K mass:            ");
-    mvwprintz(w_stats, 2, 37, c_ltblue, "%3d", (int) (veh->k_mass() * 100));
-    mvwputch (w_stats, 2, 41, c_ltgray, '%');
+    mvwprintz(w_stats, 5, 26, c_ltgray, "K dynamics:        ");
+    mvwprintz(w_stats, 5, 37, c_ltblue, "%3d", (int) (veh->k_dynamics() * 100));
+    mvwputch (w_stats, 5, 41, c_ltgray, '%');
+    mvwprintz(w_stats, 6, 26, c_ltgray, "K mass:            ");
+    mvwprintz(w_stats, 6, 37, c_ltblue, "%3d", (int) (veh->k_mass() * 100));
+    mvwputch (w_stats, 6, 41, c_ltgray, '%');
     mvwprintz(w_stats, 5, 1, c_ltgray, "Wheels: ");
     mvwprintz(w_stats, 5, 11, conf? c_ltgreen : c_ltred, conf? "enough" : "  lack");
     mvwprintz(w_stats, 6, 1, c_ltgray,  "Fuel usage (safe):        ");
@@ -574,7 +640,7 @@ void veh_interact::display_stats ()
             first = false;
         }
     }
-    veh->print_fuel_indicator (w_stats, 0, 42);
+    veh->print_fuel_indicator (w_stats, 0, 26, true, true);
     wrefresh (w_stats);
 }
 
@@ -613,6 +679,8 @@ void veh_interact::display_list (int pos)
         itype_id itm = vpart_list[can_mount[i]].item;
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[can_mount[i]].difficulty;
+        if(wheel && has_wrench && has_jack)
+            has_skill = true;
         nc_color col = has_comps && has_skill? c_white : c_dkgray;
         mvwprintz(w_list, y, 3, pos == i? hilite (col) : col, vpart_list[can_mount[i]].name);
         mvwputch (w_list, y, 1,
@@ -622,19 +690,19 @@ void veh_interact::display_list (int pos)
 }
 
 struct candidate_vpart {
-   bool in_inventory;
-   int mapx;
-   int mapy;
-   union
-   {
-       char invlet;
-       int index;
-   };
-   item vpart_item;
-   candidate_vpart(int x, int y, int i, item vpitem):
-      in_inventory(false),mapx(x),mapy(y),index(i) { vpart_item = vpitem; }
-   candidate_vpart(char ch, item vpitem):
-      in_inventory(true),mapx(-1),mapy(-1),invlet(ch) { vpart_item = vpitem; }
+    bool in_inventory;
+    int mapx;
+    int mapy;
+    union
+    {
+        char invlet;
+        int index;
+    };
+    item vpart_item;
+    candidate_vpart(int x, int y, int i, item vpitem):
+        in_inventory(false),mapx(x),mapy(y),index(i) { vpart_item = vpitem; }
+    candidate_vpart(char ch, item vpitem):
+        in_inventory(true),mapx(-1),mapy(-1),invlet(ch) { vpart_item = vpitem; }
 };
 
 // given vpart type, give a choice from inventory items & nearby items.
@@ -645,61 +713,61 @@ item consume_vpart_item (game *g, vpart_id vpid){
     std::vector<candidate_vpart> candidates;
     const itype_id itid = vpart_list[vpid].item;
     for (int x = g->u.posx - PICKUP_RANGE; x <= g->u.posx + PICKUP_RANGE; x++)
-       for (int y = g->u.posy - PICKUP_RANGE; y <= g->u.posy + PICKUP_RANGE; y++)
-          for(int i=0; i < g->m.i_at(x,y).size(); i++){
-             item* ith_item = &(g->m.i_at(x,y)[i]);
-             if (ith_item->type->id == itid)
-                candidates.push_back (candidate_vpart(x,y,i,*ith_item));
-          }
+        for (int y = g->u.posy - PICKUP_RANGE; y <= g->u.posy + PICKUP_RANGE; y++)
+            for(int i=0; i < g->m.i_at(x,y).size(); i++){
+                item* ith_item = &(g->m.i_at(x,y)[i]);
+                if (ith_item->type->id == itid)
+                    candidates.push_back (candidate_vpart(x,y,i,*ith_item));
+            }
 
     std::vector<item*> cand_from_inv = g->u.inv.all_items_by_type(itid);
     for (int i=0; i < cand_from_inv.size(); i++){
-       item* ith_item = cand_from_inv[i];
-       if (ith_item->type->id  == itid)
-          candidates.push_back (candidate_vpart(ith_item->invlet,*ith_item));
+        item* ith_item = cand_from_inv[i];
+        if (ith_item->type->id  == itid)
+            candidates.push_back (candidate_vpart(ith_item->invlet,*ith_item));
     }
     if (g->u.weapon.type->id == itid) {
-       candidates.push_back (candidate_vpart(-1,g->u.weapon));
+        candidates.push_back (candidate_vpart(-1,g->u.weapon));
     }
 
     // bug?
     if(candidates.size() == 0){
-       debugmsg("part not found");
-       return item();
+        debugmsg("part not found");
+        return item();
     }
 
     int selection;
     // no choice?
     if(candidates.size() == 1) {
-       selection = 0;
+        selection = 0;
     } else {
-       // popup menu!?
-       std::vector<std::string> options;
-       for(int i=0;i<candidates.size(); i++){
-          if(candidates[i].in_inventory){
-             if (candidates[i].invlet == -1)
-                options.push_back(candidates[i].vpart_item.tname() + " (wielded)");
-             else
-                options.push_back(candidates[i].vpart_item.tname());
-          }
-          else { //nearby.
-             options.push_back(candidates[i].vpart_item.tname() + " (nearby)");
-          }
-       }
-       selection = menu_vec(false, "Use which gizmo?", options);
-       selection -= 1;
+        // popup menu!?
+        std::vector<std::string> options;
+        for(int i=0;i<candidates.size(); i++){
+            if(candidates[i].in_inventory){
+                if (candidates[i].invlet == -1)
+                    options.push_back(candidates[i].vpart_item.tname() + " (wielded)");
+                else
+                    options.push_back(candidates[i].vpart_item.tname());
+            }
+            else { //nearby.
+                options.push_back(candidates[i].vpart_item.tname() + " (nearby)");
+            }
+        }
+        selection = menu_vec(false, "Use which gizmo?", options);
+        selection -= 1;
     }
     //remove item from inventory. or map.
     if(candidates[selection].in_inventory){
-       if(candidates[selection].invlet == -1) //weapon
-          g->u.remove_weapon();
-       else //non-weapon inventory
-          g->u.inv.remove_item_by_letter(candidates[selection].invlet);
+        if(candidates[selection].invlet == -1) //weapon
+            g->u.remove_weapon();
+        else //non-weapon inventory
+            g->u.inv.remove_item_by_letter(candidates[selection].invlet);
     } else { //map.
-       int x = candidates[selection].mapx;
-       int y = candidates[selection].mapy;
-       int i = candidates[selection].index;
-       g->m.i_rem(x,y,i);
+        int x = candidates[selection].mapx;
+        int y = candidates[selection].mapy;
+        int i = candidates[selection].index;
+        g->m.i_rem(x,y,i);
     }
     return candidates[selection].vpart_item;
     //item ret = candidates[selection].vpart_item;
@@ -723,6 +791,7 @@ void complete_vehicle (game *g)
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];
     int part = g->u.activity.values[6];
+    int type = g->u.activity.values[7];
     std::vector<component> tools;
     int welder_charges = ((it_tool *) g->itypes["welder"])->charges_per_use;
     itype_id itm;
@@ -740,12 +809,17 @@ void complete_vehicle (game *g)
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part);
         used_item = consume_vpart_item (g, (vpart_id) part);
         veh->get_part_properties_from_item(g, partnum, used_item); //transfer damage, etc.
-        tools.push_back(component("welder", welder_charges));
-        tools.push_back(component("toolset", welder_charges/20));
-        g->consume_tools(tools);
-        g->add_msg ("You install a %s into the %s.",
-                   vpart_list[part].name, veh->name.c_str());
-        g->u.practice (g->turn, "mechanics", vpart_list[part].difficulty * 5 + 20);
+        if(type!=SEL_JACK) {
+            tools.push_back(component("welder", welder_charges));
+            tools.push_back(component("toolset", welder_charges/20));
+            g->consume_tools(tools);
+            g->add_msg ("You install a %s into the %s.",
+                        vpart_list[part].name, veh->name.c_str());
+            g->u.practice (g->turn, "mechanics", vpart_list[part].difficulty * 5 + 20);
+        } else { // Requires no knowledge of mechanics == no training in mechanics.
+            g->add_msg ("You install replace one of the %s's tires with %s.",
+                        veh->name.c_str(), vpart_list[part].name);
+        }
         break;
     case 'r':
         if (veh->parts[part].hp <= 0)
@@ -782,14 +856,15 @@ void complete_vehicle (game *g)
             item tmp(parttype, g->turn);
             veh->give_part_properties_to_item(g, part, tmp); //transfer damage, etc.
             if(parttype->is_var_veh_part()){
-               // has bigness.
-               tmp.bigness = bigness;
+                // has bigness.
+                tmp.bigness = bigness;
             }
             g->m.add_item(g->u.posx, g->u.posy, tmp);
             //else {
             //   g->m.add_item (g->u.posx, g->u.posy, g->itypes[itm], g->turn);
             //}
-            g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
+            if(type!=SEL_JACK) // Changing tires won't make you a car mechanic
+                g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
         }
         if (veh->parts.size() < 2)
         {
@@ -807,6 +882,3 @@ void complete_vehicle (game *g)
     default:;
     }
 }
-
-
-

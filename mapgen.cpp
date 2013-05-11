@@ -225,6 +225,11 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
  }
 }
 
+// TODO: clean up variable shadowing in this function
+// unfortunately, due to how absurdly long the function is (over 8000 lines!), it'll be hard to
+// track down what is and isn't supposed to be carried around between bits of code.
+// I suggest that we break the function down into smaller parts
+
 void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                    const oter_id t_south, const oter_id t_west, const oter_id t_above,
                    const int turn, game *g, const float density)
@@ -10488,7 +10493,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   break;
 
  case room_mansion_pool:
-  square(m, t_water_sh, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
+  square(m, t_water_pool, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
   break;
 
  case room_mansion_bathroom:

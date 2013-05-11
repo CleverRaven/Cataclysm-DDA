@@ -1000,12 +1000,12 @@ bool item::has_technique(technique_id tech, player *p)
  return (type->techniques & mfb(tech));
 }
 
-int item::has_gunmod(itype_id type)
+int item::has_gunmod(itype_id mod_type)
 {
  if (!is_gun())
   return -1;
  for (int i = 0; i < contents.size(); i++)
-  if (contents[i].is_gunmod() && contents[i].typeId() == type)
+  if (contents[i].is_gunmod() && contents[i].typeId() == mod_type)
    return i;
  return -1;
 }
@@ -1781,24 +1781,24 @@ char item::pick_reload_ammo(player &u, bool interactive)
   am = u.has_ammo(ammo_type());
  }
 
- char invlet = 0;
+ char am_invlet = 0;
 
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
    WINDOW* w_ammo = newwin(am.size() + 1, 80, VIEW_OFFSET_Y, VIEW_OFFSET_X);
    char ch;
    clear();
-   it_ammo* ammo_type;
+   it_ammo* ammo_def;
    mvwprintw(w_ammo, 0, 0, "\
 Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
    for (int i = 0; i < am.size(); i++) {
-    ammo_type = dynamic_cast<it_ammo*>(am[i]->type);
+    ammo_def = dynamic_cast<it_ammo*>(am[i]->type);
     mvwaddch(w_ammo, i + 1, 1, i + 'a');
     mvwprintw(w_ammo, i + 1, 3, "%s (%d)", am[i]->tname().c_str(),
                                            am[i]->charges);
-    mvwprintw(w_ammo, i + 1, 27, "%d", ammo_type->damage);
-    mvwprintw(w_ammo, i + 1, 38, "%d", ammo_type->pierce);
-    mvwprintw(w_ammo, i + 1, 55, "%d", ammo_type->range);
-    mvwprintw(w_ammo, i + 1, 65, "%d", 100 - ammo_type->accuracy);
+    mvwprintw(w_ammo, i + 1, 27, "%d", ammo_def->damage);
+    mvwprintw(w_ammo, i + 1, 38, "%d", ammo_def->pierce);
+    mvwprintw(w_ammo, i + 1, 55, "%d", ammo_def->range);
+    mvwprintw(w_ammo, i + 1, 65, "%d", 100 - ammo_def->accuracy);
    }
    refresh();
    wrefresh(w_ammo);
@@ -1809,23 +1809,23 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
    delwin(w_ammo);
    erase();
    if (ch == ' ' || ch == 27)
-    invlet = 0;
+    am_invlet = 0;
    else
-    invlet = am[ch - 'a']->invlet;
+    am_invlet = am[ch - 'a']->invlet;
  }
  // Either only one valid choice or chosing for a NPC, just return the first.
  else if (am.size() > 0){
-  invlet = am[0]->invlet;
+  am_invlet = am[0]->invlet;
  }
- return invlet;
+ return am_invlet;
 }
 
-bool item::reload(player &u, char invlet)
+bool item::reload(player &u, char ammo_invlet)
 {
  bool single_load = false;
  int max_load = 1;
  item *reload_target = NULL;
- item *ammo_to_use = invlet != 0 ? &u.inv.item_by_letter(invlet) : NULL;
+ item *ammo_to_use = (ammo_invlet != 0 ? &u.inv.item_by_letter(ammo_invlet) : NULL);
 
  // Handle ammo in containers, currently only gasoline
  if(ammo_to_use && ammo_to_use->is_container())
@@ -1898,7 +1898,7 @@ bool item::reload(player &u, char invlet)
   max_load *= 2;
  }
 
- if (invlet > 0) {
+ if (ammo_invlet > 0) {
   // If the gun is currently loaded with a different type of ammo, reloading fails
   if ((reload_target->is_gun() || reload_target->is_gunmod()) &&
       reload_target->charges > 0 &&
@@ -1932,7 +1932,7 @@ bool item::reload(player &u, char invlet)
       }
       else
       {
-          u.i_remn(invlet);
+          u.i_remn(ammo_invlet);
       }
   }
   return true;

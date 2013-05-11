@@ -213,6 +213,12 @@ void monster::move(game *g)
   moves = 0;
   return;
  }
+ if (has_effect(ME_BOULDERING)){
+  moves -= 20;
+  if (moves < 0)
+   moves = 0;
+  return;
+ }
  if (friendly != 0) {
   if (friendly > 0)
    friendly--;
@@ -336,7 +342,7 @@ void monster::footsteps(game *g, int x, int y)
   default: break;
  }
  int dist = rl_dist(x, y, g->u.posx, g->u.posy);
- g->add_footstep(x, y, volume, dist);
+ g->add_footstep(x, y, volume, dist, this);
  return;
 }
 

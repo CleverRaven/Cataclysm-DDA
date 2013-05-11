@@ -70,7 +70,7 @@ Addictions can be configured explicitly in the professions file.
 Tweak crossbow trap drops.
 Made several UI screens smarter (resize to fit screen, esc can exit, etc.).
 Show nearby map notes on the minimap.
-Some item types can be defined from data files now! So far: misc/melee, guns, gun mods (sorta)
+Some item types can be defined from data files now! So far: misc/melee, guns, tools, gun mods (sorta)
 Glasses can be worn with power armor.
 Added several new constructions.
 Power use of integrated toolset has been rebalanced.
@@ -116,6 +116,8 @@ Artifacts will successfully save and load now!
 Adjusted monster spawning mechanics to reduce the chance of swarms of difficult zombies.
 Stop roads from going through buildings so often.
 Pits less awkward to board over (can use nearby items).
+Tweak glass bottle weight/volume.
+Allow for reading/sewing in the dark through mutations/CBM's with a speed penalty.
 
 
 0.4

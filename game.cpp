@@ -195,6 +195,7 @@ void game::setup()
  autosafemode = OPTIONS[OPT_AUTOSAFEMODE];
 
  footsteps.clear();
+ footsteps_source.clear();
  z.clear();
  coming_to_stairs.clear();
  active_npc.clear();
@@ -1866,8 +1867,9 @@ bool game::is_game_over()
    your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
    your_body.name = u.name;
    m.add_item(u.posx, u.posy, your_body);
-   for (int i = 0; i < tmp.size(); i++)
-    m.add_item(u.posx, u.posy, tmp[i]);
+   for (int j = 0; j < tmp.size(); j++) {
+    m.add_item(u.posx, u.posy, tmp[j]);
+   }
    std::stringstream playerfile;
    playerfile << "save/" << u.name << ".sav";
    unlink(playerfile.str().c_str());
@@ -2556,8 +2558,8 @@ z.size(), active_npc.size(), events.size());
    break;
 
   case 13: {
-   point p = look_around();
-   int npcdex = npc_at(p.x, p.y);
+   point pos = look_around();
+   int npcdex = npc_at(pos.x, pos.y);
    if (npcdex == -1)
     popup("No NPC there.");
    else {
@@ -2843,16 +2845,16 @@ faction* game::list_factions(std::string title)
             "Ranking: %s", fac_ranking_text(valfac[sel].likes_u).c_str());
    mvwprintz(w_info, 1, 0, c_white,
             "Respect: %s", fac_respect_text(valfac[sel].respects_u).c_str());
-   std::string desc = valfac[sel].describe();
-   int linenum = 3;
-   while (desc.length() > maxlength) {
-    size_t split = desc.find_last_of(' ', maxlength);
-    std::string line = desc.substr(0, split);
-    mvwprintz(w_info, linenum, 0, c_white, line.c_str());
-    desc = desc.substr(split + 1);
-    linenum++;
+   std::string inner_desc = valfac[sel].describe();
+   int inner_linenum = 3;
+   while (inner_desc.length() > maxlength) {
+    size_t split = inner_desc.find_last_of(' ', maxlength);
+    std::string line = inner_desc.substr(0, split);
+    mvwprintz(w_info, inner_linenum, 0, c_white, line.c_str());
+    inner_desc = inner_desc.substr(split + 1);
+    inner_linenum++;
    }
-   mvwprintz(w_info, linenum, 0, c_white, desc.c_str());
+   mvwprintz(w_info, inner_linenum, 0, c_white, inner_desc.c_str());
    wrefresh(w_info);
   }
  } while (input != Cancel && input != Confirm && input != Close);
@@ -3216,13 +3218,13 @@ void game::draw_minimap()
  int cursy = (levy + int(MAPSIZE / 2)) / 2;
 
  bool drew_mission = false;
- point target(-1, -1);
+ point targ(-1, -1);
  if (u.active_mission >= 0 && u.active_mission < u.active_missions.size())
-  target = find_mission(u.active_missions[u.active_mission])->target;
+  targ = find_mission(u.active_missions[u.active_mission])->target;
  else
   drew_mission = true;
 
- if (target.x == -1)
+ if (targ.x == -1)
   drew_mission = true;
 
  for (int i = -2; i <= 2; i++) {
@@ -3290,7 +3292,7 @@ void game::draw_minimap()
        ter_color = c_yellow;
    }
    if (seen) {
-    if (!drew_mission && target.x == omx && target.y == omy) {
+    if (!drew_mission && targ.x == omx && targ.y == omy) {
      drew_mission = true;
      if (i != 0 || j != 0)
       mvwputch   (w_minimap, 3 + j, 3 + i, red_background(ter_color), ter_sym);
@@ -3307,25 +3309,25 @@ void game::draw_minimap()
 // Print arrow to mission if we have one!
  if (!drew_mission) {
   double slope;
-  if (cursx != target.x)
-   slope = double(target.y - cursy) / double(target.x - cursx);
-  if (cursx == target.x || abs(slope) > 3.5 ) { // Vertical slope
-   if (target.y > cursy)
+  if (cursx != targ.x)
+   slope = double(targ.y - cursy) / double(targ.x - cursx);
+  if (cursx == targ.x || abs(slope) > 3.5 ) { // Vertical slope
+   if (targ.y > cursy)
     mvwputch(w_minimap, 6, 3, c_red, '*');
    else
     mvwputch(w_minimap, 0, 3, c_red, '*');
   } else {
    int arrowx = 3, arrowy = 3;
    if (abs(slope) >= 1.) { // y diff is bigger!
-    arrowy = (target.y > cursy ? 6 : 0);
-    arrowx = 3 + 3 * (target.y > cursy ? slope : (0 - slope));
+    arrowy = (targ.y > cursy ? 6 : 0);
+    arrowx = 3 + 3 * (targ.y > cursy ? slope : (0 - slope));
     if (arrowx < 0)
      arrowx = 0;
     if (arrowx > 6)
      arrowx = 6;
    } else {
-    arrowx = (target.x > cursx ? 6 : 0);
-    arrowy = 3 + 3 * (target.x > cursx ? slope : (0 - slope));
+    arrowx = (targ.x > cursx ? 6 : 0);
+    arrowy = 3 + 3 * (targ.x > cursx ? slope : (0 - slope));
     if (arrowy < 0)
      arrowy = 0;
     if (arrowy > 6)
@@ -4038,7 +4040,7 @@ void game::sound(int x, int y, int vol, std::string description)
 // add_footstep will create a list of locations to draw monster
 // footsteps. these will be more or less accurate depending on the
 // characters hearing and how close they are
-void game::add_footstep(int x, int y, int volume, int distance)
+void game::add_footstep(int x, int y, int volume, int distance, monster* source)
 {
  if (x == u.posx && y == u.posy)
   return;
@@ -4057,15 +4059,16 @@ void game::add_footstep(int x, int y, int volume, int distance)
   err_offset++;
 
  int tries = 0, origx = x, origy = y;
- if (err_offset > 0) {
-  do {
-   tries++;
-   x = origx + rng(-err_offset, err_offset);
-   y = origy + rng(-err_offset, err_offset);
-  } while (tries < 10 && (u_see(x, y) || (x == u.posx && y == u.posy)));
+ std::vector<point> point_vector;
+ for (x = origx-err_offset; x <= origx+err_offset; x++)
+ {
+     for (y = origy-err_offset; y <= origy+err_offset; y++)
+     {
+         point_vector.push_back(point(x,y));
+     }
  }
- if (tries < 10)
-  footsteps.push_back(point(x, y));
+ footsteps.push_back(point_vector);
+ footsteps_source.push_back(source);
  return;
 }
 
@@ -4073,15 +4076,36 @@ void game::add_footstep(int x, int y, int volume, int distance)
 void game::draw_footsteps()
 {
  for (int i = 0; i < footsteps.size(); i++) {
-  mvwputch(w_terrain, VIEWY + footsteps[i].y - u.posy - u.view_offset_y,
-                      VIEWX + footsteps[i].x - u.posx - u.view_offset_x, c_yellow, '?');
+     if (!u_see(footsteps_source[i]->posx,footsteps_source[i]->posy))
+     {
+         std::vector<point> unseen_points;
+         for (int j = 0; j < footsteps[i].size(); j++)
+         {
+             if (!u_see(footsteps[i][j].x,footsteps[i][j].y))
+             {
+                 unseen_points.push_back(point(footsteps[i][j].x,
+                                               footsteps[i][j].y));
+             }
+         }
+
+         if (unseen_points.size() > 0)
+         {
+             point selected = unseen_points[rng(0,unseen_points.size())];
+
+             mvwputch(w_terrain,
+                      VIEWY + selected.y - u.posy - u.view_offset_y,
+                      VIEWX + selected.x - u.posx - u.view_offset_x,
+                      c_yellow, '?');
+         }
+     }
  }
  footsteps.clear();
+ footsteps_source.clear();
  wrefresh(w_terrain);
  return;
 }
 
-void game::explosion(int x, int y, int power, int shrapnel, bool fire)
+void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
 {
  timespec ts;	// Timespec for the animation of the explosion
  ts.tv_sec = 0;
@@ -4089,7 +4113,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
  int radius = sqrt(double(power / 4));
  int dam;
  std::string junk;
- int noise = power * fire ? 2 : 10;
+ int noise = power * has_fire ? 2 : 10;
 
  if (power >= 30)
   sound(x, y, noise, "a huge explosion!");
@@ -4143,7 +4167,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire)
     u.hit(this, bp_arms,  0, rng(dam / 3, dam),       0);
     u.hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
    }
-   if (fire) {
+   if (has_fire) {
     if (m.field_at(i, j).type == fd_smoke)
      m.field_at(i, j) = field(fd_fire, 1, 0);
     m.add_field(this, i, j, fd_fire, dam / 10);
@@ -4882,6 +4906,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
         u.activity.values.push_back (-vehint.ddx - vehint.cy);   // values[4]
         u.activity.values.push_back (vehint.cx - vehint.ddy);   // values[5]
         u.activity.values.push_back (vehint.sel_part); // values[6]
+        u.activity.values.push_back (vehint.sel_type); // int. might make bitmask
         u.moves = 0;
     }
     refresh_all();
@@ -7571,8 +7596,8 @@ void game::complete_butcher(int index)
   if(skill_shift >= 0){
    //To see if it spawns a random additional CBM
    if(rng(0,1) == 1){ //The CBM works
-    int index = rng(0, mapitems[mi_bionics].size()-1);
-    m.spawn_item(u.posx, u.posy, itypes[ mapitems[mi_bionics][index] ], age);
+    int bio_index = rng(0, mapitems[mi_bionics].size()-1);
+    m.spawn_item(u.posx, u.posy, itypes[ mapitems[mi_bionics][bio_index] ], age);
    }else{//There is a burnt out CBM
     m.spawn_item(u.posx, u.posy, itypes["burnt_out_bionic"], age);
    }
@@ -8593,17 +8618,17 @@ void game::vertical_move(int movez, bool force)
   }
  }
 
- int z = levz + movez;
+ int z_coord = levz + movez;
  // Fill in all the tiles we know about (e.g. subway stations)
  for (int i = 0; i < discover.size(); i++) {
   int x = discover[i].x, y = discover[i].y;
-  cur_om.seen(x, y, z) = true;
-  if (movez ==  1 && !oterlist[ cur_om.ter(x, y, z) ].known_down &&
-      !cur_om.has_note(x, y, z))
-   cur_om.add_note(x, y, z, "AUTO: goes down");
-  if (movez == -1 && !oterlist[ cur_om.ter(x, y, z) ].known_up &&
-      !cur_om.has_note(x, y, z))
-   cur_om.add_note(x, y, z, "AUTO: goes up");
+  cur_om.seen(x, y, z_coord) = true;
+  if (movez ==  1 && !oterlist[ cur_om.ter(x, y, z_coord) ].known_down &&
+      !cur_om.has_note(x, y, z_coord))
+   cur_om.add_note(x, y, z_coord, "AUTO: goes down");
+  if (movez == -1 && !oterlist[ cur_om.ter(x, y, z_coord) ].known_up &&
+      !cur_om.has_note(x, y, z_coord))
+   cur_om.add_note(x, y, z_coord, "AUTO: goes up");
  }
 
  levz += movez;
@@ -9048,13 +9073,13 @@ void game::spawn_mon(int shiftx, int shifty)
  }
 }
 
-int game::valid_group(mon_id type, int x, int y, int z)
+int game::valid_group(mon_id type, int x, int y, int z_coord)
 {
  std::vector <int> valid_groups;
  std::vector <int> semi_valid;	// Groups that're ALMOST big enough
  int dist;
  for (int i = 0; i < cur_om.zg.size(); i++) {
- 	if (cur_om.zg[i].posz != z) { continue; }
+ 	if (cur_om.zg[i].posz != z_coord) { continue; }
   dist = trig_dist(x, y, cur_om.zg[i].posx, cur_om.zg[i].posy);
   if (dist < cur_om.zg[i].radius) {
    if(MonsterGroupManager::IsMonsterInGroup(cur_om.zg[i].type, type)) {

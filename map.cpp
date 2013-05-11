@@ -105,7 +105,7 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
   part_num = it->second.second;
   return it->second.first;
  }
- debugmsg ("vehicle part cache cache indacated vehicle not found :/");
+ debugmsg ("vehicle part cache cache indicated vehicle not found :/");
  return NULL;
 }
 
@@ -263,16 +263,16 @@ void map::destroy_vehicle (vehicle *veh)
   debugmsg("map::destroy_vehicle was passed NULL");
   return;
  }
- const int sm = veh->smx + veh->smy * my_MAPSIZE;
- for (int i = 0; i < grid[sm]->vehicles.size(); i++) {
-  if (grid[sm]->vehicles[i] == veh) {
+ const int veh_sm = veh->smx + veh->smy * my_MAPSIZE;
+ for (int i = 0; i < grid[veh_sm]->vehicles.size(); i++) {
+  if (grid[veh_sm]->vehicles[i] == veh) {
    vehicle_list.erase(veh);
    reset_vehicle_cache();
-   grid[sm]->vehicles.erase (grid[sm]->vehicles.begin() + i);
+   grid[veh_sm]->vehicles.erase (grid[veh_sm]->vehicles.begin() + i);
    return;
   }
  }
- debugmsg ("destroy_vehicle can't find it! sm=%d", sm);
+ debugmsg ("destroy_vehicle can't find it! sm=%d", veh_sm);
 }
 
 bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy, bool test=false)
@@ -1651,6 +1651,22 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
+  for (int i = x - 1; i <= x + 1; i++) {
+   for (int j = y - 1; j <= y + 1; j++) {
+    if (one_in(2)) {
+     //debugmsg("1");
+      if (!g->m.has_flag(noitem, x, y)) {
+       //debugmsg("2");
+       if (g->m.field_at(i, j).type != fd_rubble) {
+        //debugmsg("Rubble spawned!");
+        g->m.add_field(g, i, j, fd_rubble, rng(1,3));
+        g->m.field_effect(i, j, g);
+       }
+      }
+    }
+   }
+  }
+   //TODO: Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
     if ((i == x && j == y) || !has_flag(collapses, i, j))
@@ -1685,6 +1701,22 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
+  for (int i = x - 1; i <= x + 1; i++) {
+   for (int j = y - 1; j <= y + 1; j++) {
+    if (one_in(2)) {
+     //debugmsg("1");
+      if (!g->m.has_flag(noitem, x, y)) {
+       //debugmsg("2");
+       if (g->m.field_at(i, j).type != fd_rubble) {
+        //debugmsg("Rubble spawned!");
+        g->m.add_field(g, i, j, fd_rubble, rng(1,3));
+        g->m.field_effect(i, j, g);
+      }
+      }
+    }
+   }
+  }
+  //TODO: Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
     if ((i == x && j == y) || !has_flag(supports_roof, i, j))
@@ -2998,7 +3030,7 @@ bool map::clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
 }
 
 // Bash defaults to true.
-std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, const bool bash)
+std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const int Ty, const bool can_bash)
 {
 /* TODO: If the origin or destination is out of bound, figure out the closest
  * in-bounds point and go to that, then to the real origin/destination.
@@ -3079,7 +3111,7 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
      done = true;
      parent[x][y] = open[index];
     } else if (x >= startx && x <= endx && y >= starty && y <= endy &&
-               (move_cost(x, y) > 0 || (bash && has_flag(bashable, x, y)))) {
+               (move_cost(x, y) > 0 || (can_bash && has_flag(bashable, x, y)))) {
      if (list[x][y] == ASL_NONE) {	// Not listed, so make it open
       list[x][y] = ASL_OPEN;
       open.push_back(point(x, y));
@@ -3087,14 +3119,14 @@ std::vector<point> map::route(const int Fx, const int Fy, const int Tx, const in
       gscore[x][y] = gscore[open[index].x][open[index].y] + move_cost(x, y);
       if (ter(x, y) == t_door_c)
        gscore[x][y] += 4;	// A turn to open it and a turn to move there
-      else if (move_cost(x, y) == 0 && (bash && has_flag(bashable, x, y)))
+      else if (move_cost(x, y) == 0 && (can_bash && has_flag(bashable, x, y)))
        gscore[x][y] += 18;	// Worst case scenario with damage penalty
       score[x][y] = gscore[x][y] + 2 * rl_dist(x, y, Tx, Ty);
      } else if (list[x][y] == ASL_OPEN) { // It's open, but make it our child
       int newg = gscore[open[index].x][open[index].y] + move_cost(x, y);
       if (ter(x, y) == t_door_c)
        newg += 4;	// A turn to open it and a turn to move there
-      else if (move_cost(x, y) == 0 && (bash && has_flag(bashable, x, y)))
+      else if (move_cost(x, y) == 0 && (can_bash && has_flag(bashable, x, y)))
        newg += 18;	// Worst case scenario with damage penalty
       if (newg < gscore[x][y]) {
        gscore[x][y] = newg;

@@ -5537,9 +5537,9 @@ void player::read(game *g, char ch)
     
     // Check if reading is okay
     // check for light level
-    if (!can_see_fine_detail(g)) 
+    if (fine_detail_vision_mod(g) > 2.5) 
     {
-        g->add_msg("It's too dark to read!");
+        g->add_msg("You can't see to read!");
         return;
     }
 
@@ -5637,17 +5637,17 @@ void player::read(game *g, char ch)
         }
     }
 
+	// Base read_speed() is 1000 move points (1 minute per tmp->time)
+    time = tmp->time * read_speed() * fine_detail_vision_mod(g);
     if (tmp->intel > int_cur) 
     {
         g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
-        time = tmp->time * (read_speed() + ((tmp->intel - int_cur) * 100)); // Lower int characters can read, at a speed penalty
+        time += ((tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
         activity = player_activity(ACT_READ, time, index, ch);
         moves = 0;
         return;
     }
-
-    // Base read_speed() is 1000 move points (1 minute per tmp->time)
-    time = tmp->time * read_speed();
+    
     activity = player_activity(ACT_READ, time, index, ch);
     moves = 0;
 }
@@ -5749,18 +5749,44 @@ bool player::can_sleep(game *g)
  return false;
 }
 
-bool player::can_see_fine_detail(game *g)
+// Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
+// 2.5 is enough light for detail work.
+float player::fine_detail_vision_mod(game *g)
 {
-    // flashlight is *hopefully* handled by the light level check below
-    if (g->u.has_active_item("glowstick_lit") || g->u.has_active_item("lightstrip"))
+    if (has_disease(DI_BLIND) || has_disease(DI_BOOMERED))
     {
-        return true;
+        return 5;
     }
-    if (LL_LIT > g->m.light_at(posx, posy))
+    if (has_active_bionic("bio_night_vision") ||
+        (is_wearing("goggles_nv") && has_active_item("UPS_on")))
     {
-        return false;
+        return 1.5;
     }
-    return true;
+    // flashlight is handled by the light level check below
+    if (g->u.has_active_item("lightstrip"))
+    {
+        return 1;
+    }
+    if (LL_LIT <= g->m.light_at(posx, posy))
+    {
+        return 1;
+    }
+
+    float vision_ii = 0;
+    if (g->m.light_at(posx, posy) == LL_LOW) { vision_ii = 4; }
+    else if (g->m.light_at(posx, posy) == LL_DARK) { vision_ii = 5; }
+
+    if (g->u.has_active_item("glowstick_lit"))
+    {
+        vision_ii -= 3.5;
+    }
+
+    if (has_trait(PF_NIGHTVISION)) { vision_ii -= .5; }
+    else if (has_trait(PF_NIGHTVISION2)) { vision_ii -= 1.5; }
+    else if (has_trait(PF_NIGHTVISION3))	{ vision_ii -= 2.5; }
+
+    if (vision_ii < 1)	{ vision_ii = 1; }
+    return vision_ii;
 }
 
 int player::warmth(body_part bp)

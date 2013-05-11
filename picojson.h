@@ -396,9 +396,9 @@ namespace picojson {
 	}
       }
     }
-    bool expect(int expect) {
+    bool expect(int expect_param) {
       skip_ws();
-      if (getc() != expect) {
+      if (getc() != expect_param) {
 	ungetc();
 	return false;
       }
