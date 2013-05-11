@@ -411,7 +411,6 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     }
                     else if (type_label == "COMESTIBLE")
                     {
-                        debugmsg("HEYA");
                         it_comest* comest_template = new it_comest();
                         comest_template->comesttype = entry.get("comestible_type").as_string();
                         comest_template->tool = entry.get("tool").as_string();
