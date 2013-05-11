@@ -590,12 +590,12 @@ void veh_interact::display_stats ()
     }
     mvwprintz(w_stats, 4, 1, c_ltgray, "Mass:            kg");
     mvwprintz(w_stats, 4, 12, c_ltblue,"%5d", (int) (veh->total_mass() / 4 * 0.45));
-    mvwprintz(w_stats, 1, 26, c_ltgray, "K dynamics:        ");
-    mvwprintz(w_stats, 1, 37, c_ltblue, "%3d", (int) (veh->k_dynamics() * 100));
-    mvwputch (w_stats, 1, 41, c_ltgray, '%');
-    mvwprintz(w_stats, 2, 26, c_ltgray, "K mass:            ");
-    mvwprintz(w_stats, 2, 37, c_ltblue, "%3d", (int) (veh->k_mass() * 100));
-    mvwputch (w_stats, 2, 41, c_ltgray, '%');
+    mvwprintz(w_stats, 5, 26, c_ltgray, "K dynamics:        ");
+    mvwprintz(w_stats, 5, 37, c_ltblue, "%3d", (int) (veh->k_dynamics() * 100));
+    mvwputch (w_stats, 5, 41, c_ltgray, '%');
+    mvwprintz(w_stats, 6, 26, c_ltgray, "K mass:            ");
+    mvwprintz(w_stats, 6, 37, c_ltblue, "%3d", (int) (veh->k_mass() * 100));
+    mvwputch (w_stats, 6, 41, c_ltgray, '%');
     mvwprintz(w_stats, 5, 1, c_ltgray, "Wheels: ");
     mvwprintz(w_stats, 5, 11, conf? c_ltgreen : c_ltred, conf? "enough" : "  lack");
     mvwprintz(w_stats, 6, 1, c_ltgray,  "Fuel usage (safe):        ");
@@ -619,7 +619,7 @@ void veh_interact::display_stats ()
             first = false;
         }
     }
-    veh->print_fuel_indicator (w_stats, 0, 42);
+    veh->print_fuel_indicator (w_stats, 0, 26, true, true);
     wrefresh (w_stats);
 }
 
