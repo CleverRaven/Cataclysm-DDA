@@ -5805,11 +5805,11 @@ ____,_____,_____,_____s\n",
      |..+.S|..+.S|..+.S|\n\
      |..|.T|..|.T|..|.T|\n\
   |--|..|bb|..|bb|..|bb|\n\
-  |..|-+|--|-+|--|-+|--|\n\
+  |..|-D|--|-D|--|-D|--|\n\
 ss|..|..................\n\
 ss=..+..................\n\
 ss|..|..................\n\
-s |.<|-+|--|-+|--|-+|--|\n\
+s |.<|-D|--|-D|--|-D|--|\n\
 s |--|..|bb|..|bb|..|bb|\n\
 s    |..|.T|..|.T|..|.T|\n\
 s    |..+.S|..+.S|..+.S|\n\
@@ -5817,8 +5817,8 @@ s    |..|--|..|--|..|--|\n\
 s    |...ht|...ht|...ht|\n\
 s    |....h|....h|....h|\n\
 s    |c....|c....|c....|\n",
-     mapf::basic_bind("b > < B _ , C x $ ^ . - | # t + = w T S e o h c d l s",
-         t_bathtub, t_stairs_up, t_stairs_down, t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+     mapf::basic_bind("D b > < B _ , C x $ ^ . - | # t + = w T S e o h c d l s",
+         t_door_locked_interior, t_bathtub, t_stairs_up, t_stairs_down, t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
          t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
      mapf::end() );
      for (int i = 0; i <= 23; i++) {
@@ -5854,21 +5854,21 @@ c....|c...d|....c|....c|\n\
 ..+.S|..+.S|S.+..|S.+..|\n\
 ..|.T|..|.T|T.|..|T.|..|\n\
 ..|bb|..|bb|bb|..|bb|..|\n\
--+|--|-+|--|--|+-|--|+-|\n\
+-D|--|-D|--|--|D-|--|D-|\n\
 ........................\n\
 ........................\n\
 ........................\n\
--+|--|---|...|---|--|+-|\n\
-..|bb|EEE+...|xEE|bb|..|\n\
-..|.T|EEE+...+EEE|T.|..|\n\
-..+.S|EEx|...+EEE|S.+..|\n\
+-D|--|---|...|---|--|D-|\n\
+..|bb|EEE=...|xEE|bb|..|\n\
+..|.T|EEE=...=EEE|T.|..|\n\
+..+.S|EEx|...=EEE|S.+..|\n\
 ..|--|---|...|---|--|..|\n\
 ...BB|^.........^|th...|\n\
 c..BB|h.........h|h....|\n\
 c...d|t.........t|....c|\n",
      mapf::basic_bind("E b > < B _ , C x $ ^ . - | # t + = D w T S e o h c d l s",
          t_elevator, t_bathtub, t_stairs_up, t_stairs_down, t_bed, t_pavement, t_pavement_y, t_column, t_elevator_control_off, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
-         t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+         t_door_metal_c, t_door_locked_interior, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
      mapf::end() );
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
@@ -5903,11 +5903,11 @@ th...|BB...|th...|      \n\
 S.+..|S.+..|S.+..|      \n\
 T.|..|T.|..|T.|..|      \n\
 bb|..|bb|..|bb|..|--|   \n\
---|+-|--|+-|--|+-|..|   \n\
+--|D-|--|D-|--|D-|..|   \n\
 ................^|..|ss \n\
 .................+..=ss \n\
 .................|..|ss \n\
---|+-|--|+-|--|+-|<.| s \n\
+--|D-|--|D-|--|D-|<.| s \n\
 bb|..|bb|..|bb|..|--| s \n\
 T.|..|T.|..|T.|..|    s \n\
 S.+..|S.+..|S.+..|    s \n\
@@ -5915,8 +5915,8 @@ S.+..|S.+..|S.+..|    s \n\
 th...|th...|th...|    s \n\
 h....|h....|h....|    s \n\
 ....c|....c|....c|    s \n",
-     mapf::basic_bind("E b > < B _ , C x $ ^ . - | # t + = w T S e o h c d l s",
-         t_elevator, t_bathtub, t_stairs_up, t_stairs_down, t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+     mapf::basic_bind("D E b > < B _ , C x $ ^ . - | # t + = w T S e o h c d l s",
+         t_door_locked_interior, t_elevator, t_bathtub, t_stairs_up, t_stairs_down, t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
          t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
      mapf::end() );
      for (int i = 0; i <= 23; i++) {
@@ -5999,16 +5999,16 @@ th..........^rrr^.......\n\
 ........................\n\
 h......................h\n\
 ---+-|---|HGH|---|-+---|\n\
-T|..c|EEE+...|xEE|c..|T|\n\
-.+..S|EEE+...+EEE|S..+.|\n\
--|..c|EEx|^..+EEE|c..|-|\n\
-T+..S|---|-+-|---|S..+T|\n\
+T|..c|EEE=...|xEE|c..|T|\n\
+.+..S|EEE=...=EEE|S..+.|\n\
+-|..c|EEx|^..=EEE|c..|-|\n\
+T+..S|---|-D-|---|S..+T|\n\
 -|..c|l..........|c..|-|\n\
 T+...|l..l...rrr.|...+T|\n\
 -----|-----------|-----|\n",
      mapf::basic_bind("E r w H V G C x ^ . - | # t + = D T S e o h c d l s",
          t_elevator, t_rack, t_water_pool, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_elevator_control_off, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c,
-         t_door_locked_alarm, t_door_locked, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+         t_door_metal_c, t_door_locked_interior, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
      mapf::end() );
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
@@ -6041,7 +6041,7 @@ T+...|l..l...rrr.|...+T|\n\
 ....|r..........S|######\n\
 ....|r..........c|######\n\
 ....|r......WWWWc|--|###\n\
-....|---++-------|<.|###\n\
+....|---==-------|<.|###\n\
 .................|..|###\n\
 .................+..|###\n\
 tth.............^|..|###\n\
@@ -6055,7 +6055,7 @@ tth.............^|..|###\n\
 ########################\n",
      mapf::basic_bind("r P $ W D < H V G C x ^ . - | # t + = w T S e o h c d l s",
          t_rack, t_sewage_pump, t_sewage_pipe, t_washer, t_dryer, t_stairs_up, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_console_broken, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c,
-         t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+         t_door_locked_interior, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
      mapf::end() );
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
