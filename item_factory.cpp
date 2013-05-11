@@ -459,7 +459,17 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 new_item_template->melee_dam = entry.get("bashing").as_int();
                 new_item_template->melee_cut = entry.get("cutting").as_int();
                 new_item_template->m_to_hit = entry.get("to_hit").as_int();
-                
+
+                if (entry.has("phase"))
+                {
+                    new_item_template->phase = phase_from_string(
+                        entry.get("phase").as_string());
+                }
+                else
+                {
+                    new_item_template->phase = SOLID;
+                }
+
                 new_item_template->item_flags = (!entry.has("flags") ? 0 :
                                                  flags_from_json(entry.get("flags")));
                 new_item_template->techniques = (!entry.has("techniques") ? 0 :
@@ -679,6 +689,20 @@ ammotype Item_factory::ammo_from_string(std::string new_ammo){
         debugmsg("Read invalid ammo %s.", new_ammo.c_str());
         return AT_NULL;
     }
+}
+
+phase_id Item_factory::phase_from_string(std::string phase)
+{
+    if (phase == "solid")
+        return SOLID;
+    else if (phase == "liquid")
+        return LIQUID;
+    else if (phase == "gas")
+        return GAS;
+    else if (phase == "plasma")
+        return PLASMA;
+    else
+        return PNULL;
 }
 
 Use_function Item_factory::use_from_string(std::string function_name){
