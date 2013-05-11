@@ -1313,6 +1313,8 @@ point overmap::draw_overmap(game *g, int const zlevel)
  do {
      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
   ch = input();
+  timeout(BLINK_SPEED);	// Enable blinking!
+
   int dirx, diry;
   if (ch != ERR)
    blink = true;	// If any input is detected, make the blinkies on
@@ -2539,7 +2541,7 @@ void overmap::place_special(overmap_special special, tripoint p)
   }
   make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
- 
+
   if (special.flags & mfb(OMS_FLAG_3X3_FIXED)) {
   if (is_road(p.x, p.y - 1, p.z)) { // Road to north
    ter(p.x+1, p.y, p.z) = oter_id(special.ter - 1);//1
@@ -2591,7 +2593,7 @@ void overmap::place_special(overmap_special special, tripoint p)
     make_hiway(p.x-1, p.y, p.x-1, p.y+1, p.z, ot_road_null);
   }
  }
- 
+
  //Buildings should be designed with the entrance at the southwest corner and open to the street on the south.
  if (special.flags & mfb(OMS_FLAG_2X2_SECOND)) {
   int startx = p.x-3, starty = p.y-3; // Acts as an error message, way offset from ideal
