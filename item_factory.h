@@ -60,6 +60,7 @@ private:
     void set_material_from_json(Item_tag new_id, catajson mats);
     bool is_mod_target(catajson targets, std::string weapon);
     material material_from_tag(Item_tag new_id, Item_tag index);
+    phase_id phase_from_tag(Item_tag name);
     ammotype ammo_from_string(std::string ammo);
 
     //two convenience functions that just call into set_bitmask_by_string
