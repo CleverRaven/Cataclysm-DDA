@@ -4627,6 +4627,7 @@ void game::open()
  if (!didit) {
   switch(m.ter(u.posx + openx, u.posy + openy)) {
   case t_door_locked:
+  case t_door_locked_interior:
   case t_door_locked_alarm:
    add_msg("The door is locked!");
    break;	// Trying to open a locked door uses the full turn's movement
@@ -8345,7 +8346,7 @@ void game::plmove(int x, int y)
    u.moves -= 100;
   } else if (m.open_door(x, y, !m.is_outside(u.posx, u.posy)))
    u.moves -= 100;
-  else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm) {
+  else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm || m.ter(x, y) == t_door_locked_interior) {
    u.moves -= 100;
    add_msg("That door is locked!");
   }
