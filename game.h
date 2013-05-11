@@ -120,7 +120,7 @@ class game
   void sound(int x, int y, int vol, std::string description);
 // creates a list of coordinates to draw footsteps
   void add_footstep(int x, int y, int volume, int distance, monster* source);
-  std::vector<point> footsteps;
+  std::vector<std::vector<point> > footsteps;
   std::vector<monster*> footsteps_source;
 // visual cue to monsters moving out of the players sight
   void draw_footsteps();
