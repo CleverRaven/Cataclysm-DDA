@@ -342,7 +342,7 @@ void monster::footsteps(game *g, int x, int y)
   default: break;
  }
  int dist = rl_dist(x, y, g->u.posx, g->u.posy);
- g->add_footstep(x, y, volume, dist);
+ g->add_footstep(x, y, volume, dist, this);
  return;
 }
 
