@@ -5754,13 +5754,14 @@ bool player::can_sleep(game *g)
 float player::fine_detail_vision_mod(game *g)
 {
     if (has_disease(DI_BLIND) || has_disease(DI_BOOMERED))
-	{
-	    return 5;
-	}
-	if (has_active_bionic("bio_night_vision") || (is_wearing("goggles_nv") && has_active_item("UPS_on")))
-	{
-	    return 1.5;
-	}
+    {
+        return 5;
+    }
+    if (has_active_bionic("bio_night_vision") ||
+        (is_wearing("goggles_nv") && has_active_item("UPS_on")))
+    {
+        return 1.5;
+    }
     // flashlight is handled by the light level check below
     if (g->u.has_active_item("lightstrip"))
     {
@@ -5770,27 +5771,21 @@ float player::fine_detail_vision_mod(game *g)
     {
         return 1;
     }
-	
-	float vision_ii = 0;
-	if (g->m.light_at(posx, posy) == LL_LOW)
-	{vision_ii = 4;}
-	else if (g->m.light_at(posx, posy) == LL_DARK)
-	{vision_ii = 5;}
-	
-	if (g->u.has_active_item("glowstick_lit"))
-	{
-	    vision_ii -= 3.5;
-	}
 
-	if (has_trait(PF_NIGHTVISION))
-    {vision_ii -= .5;}
-	else if (has_trait(PF_NIGHTVISION2))
-    {vision_ii -= 1.5;}
-	else if (has_trait(PF_NIGHTVISION3))
-	{vision_ii -= 2.5;}
-	
-	if (vision_ii < 1)
-	{vision_ii = 1;}
+    float vision_ii = 0;
+    if (g->m.light_at(posx, posy) == LL_LOW) { vision_ii = 4; }
+    else if (g->m.light_at(posx, posy) == LL_DARK) { vision_ii = 5; }
+
+    if (g->u.has_active_item("glowstick_lit"))
+    {
+        vision_ii -= 3.5;
+    }
+
+    if (has_trait(PF_NIGHTVISION)) { vision_ii -= .5; }
+    else if (has_trait(PF_NIGHTVISION2)) { vision_ii -= 1.5; }
+    else if (has_trait(PF_NIGHTVISION3))	{ vision_ii -= 2.5; }
+
+    if (vision_ii < 1)	{ vision_ii = 1; }
     return vision_ii;
 }
 
