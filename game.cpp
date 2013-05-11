@@ -195,6 +195,7 @@ void game::setup()
  autosafemode = OPTIONS[OPT_AUTOSAFEMODE];
 
  footsteps.clear();
+ footsteps_source.clear();
  z.clear();
  coming_to_stairs.clear();
  active_npc.clear();
@@ -4039,7 +4040,7 @@ void game::sound(int x, int y, int vol, std::string description)
 // add_footstep will create a list of locations to draw monster
 // footsteps. these will be more or less accurate depending on the
 // characters hearing and how close they are
-void game::add_footstep(int x, int y, int volume, int distance)
+void game::add_footstep(int x, int y, int volume, int distance, monster* source)
 {
  if (x == u.posx && y == u.posy)
   return;
@@ -4066,7 +4067,10 @@ void game::add_footstep(int x, int y, int volume, int distance)
   } while (tries < 10 && x == u.posx && y == u.posy);
  }
  if (tries < 10)
-  footsteps.push_back(point(x, y));
+ {
+     footsteps.push_back(point(x, y));
+     footsteps_source.push_back(source);
+ }
  return;
 }
 
@@ -4074,13 +4078,15 @@ void game::add_footstep(int x, int y, int volume, int distance)
 void game::draw_footsteps()
 {
  for (int i = 0; i < footsteps.size(); i++) {
-     if (!u_see(footsteps[i].x,footsteps[i].y))
+     if (!u_see(footsteps[i].x,footsteps[i].y) and
+         !u_see(footsteps_source[i]->posx,footsteps_source[i]->posy))
      {
          mvwputch(w_terrain, VIEWY + footsteps[i].y - u.posy - u.view_offset_y,
                   VIEWX + footsteps[i].x - u.posx - u.view_offset_x, c_yellow, '?');
      }
  }
  footsteps.clear();
+ footsteps_source.clear();
  wrefresh(w_terrain);
  return;
 }
