@@ -198,7 +198,7 @@ struct mtype {
  int morale;	// Default morale level
 
  unsigned int  speed;		// Speed; human = 100
- unsigned char melee_skill;	// Melee hit skill
+ unsigned char melee_skill;	// Melee hit skill, 20 is superhuman hitting abilities.
  unsigned char melee_dice;	// Number of dice on melee hit
  unsigned char melee_sides;	// Number of sides those dice have
  unsigned char melee_cut;	// Bonus cutting damage

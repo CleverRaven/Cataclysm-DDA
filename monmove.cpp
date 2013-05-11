@@ -8,6 +8,8 @@
 #include "pldata.h"
 #include <stdlib.h>
 #include "cursesdef.h"
+
+//Used for e^(x) functions
 #include <stdio.h>
 #include <math.h>
 
@@ -488,23 +490,30 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     technique_id tech = p.pick_defensive_technique(g, this, NULL);
     p.perform_defensive_technique(tech, g, this, NULL, bphit, side, dam, cut, stab);
 
+	//110*e^(-.3*[melee skill of monster]) = % chance to miss. *100 to track .01%'s
+	//Returns ~80% at 1, drops quickly to 33% at 4, then slowly to 5% at 10 and 1% at 16
     if (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill))
     {
         g->add_msg("The %s misses.", name().c_str());
     }
     else
 	{
-        //We dodged
+        //Reduce player's ability to dodge by monster's ability to hit
 		int dodge_ii = p.dodge(g) - rng(0, type->melee_skill);
 		if (dodge_ii < 0)
 		{
 		    dodge_ii = 0;
 		}
+		
+		//100/(1+99*e^(-.6*[dodge() return modified by monster's skill])) = % chance to dodge, *100 to track .01%'s
+		//1% minimum, scales slowly to 16% at 5, then rapidly to 80% at 10, then returns less with each
+		//  additional point, reaching 99% at 16
 		if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
 		{
             g->add_msg("%s dodge the %s.", You.c_str(), name().c_str());
-            p.practice(g->turn, "dodge", type->melee_skill * 2);
+            p.practice(g->turn, "dodge", type->melee_skill * 2); //Better monster = more skill gained
         }
+		
         //Successful hit with damage
         else if (dam > 0)
 		{
@@ -551,7 +560,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 return; // Defensive technique canceled damage.
 			}
 
+			//Hurt the player
             p.hit(g, bphit, side, dam, cut);
+			
+			//Monster effects
             if (has_flag(MF_VENOM))
 			{
                 if (!is_npc)
@@ -576,7 +588,9 @@ void monster::hit_player(game *g, player &p, bool can_grab)
 				}
                 p.add_disease(DI_BLEED, 60, g);
             }
-            if (can_grab && has_flag(MF_GRABS) && (rng(0, 10000) < 11000 * exp(-.3 * type->melee_skill)))
+			
+			//Same as monster's chance to not miss
+            if (can_grab && has_flag(MF_GRABS) && (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill)))
 			{
                 if (!is_npc)
 				{
@@ -590,10 +604,11 @@ void monster::hit_player(game *g, player &p, bool can_grab)
 					}
                 }
                 else
-                    hit_player(g, p, false);
+                    hit_player(g, p, false); //We grabed, so hit them again
             }
+			
+			//Counter-attack?
             if (tech == TEC_COUNTER && !is_npc)
-
 			{
                 g->add_msg("Counter-attack!");
                 hurt( p.hit_mon(g, this) );

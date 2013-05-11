@@ -4,6 +4,8 @@
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
+
+//Used for e^(x) functions
 #include <stdio.h>
 #include <math.h>
 
@@ -723,15 +725,15 @@ void mattack::dermatik(game *g, monster *z)
 
  z->sp_timeout = z->type->sp_freq;	// Reset timer
 
-// Can we dodge the attack?
+// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
  if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * 
-			((g->u.dodge(g) - rng(0, z->type->melee_skill)) > 0 ? (g->u.dodge(g) - rng(0, z->type->melee_skill)) : 0))))
+		((g->u.dodge(g) - rng(0, z->type->melee_skill)) > 0 ? (g->u.dodge(g) - rng(0, z->type->melee_skill)) : 0)))) //If <0 use 0
 	{
-  g->add_msg("The %s tries to land on you, but you dodge.", z->name().c_str());
-  z->stumble(g, false);
-  g->u.practice(g->turn, "dodge", z->type->melee_skill * 2);
-  return;
- }
+        g->add_msg("The %s tries to land on you, but you dodge.", z->name().c_str());
+        z->stumble(g, false);
+        g->u.practice(g->turn, "dodge", z->type->melee_skill * 2);
+        return;
+    }
 
 // Can we swat the bug away?
  int dodge_roll = z->dodge_roll();
@@ -875,8 +877,9 @@ void mattack::tentacle(game *g, monster *z)
         g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, 0);
     }
 
+	// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * 
-			((g->u.dodge(g) - rng(0, z->type->melee_skill)) > 0 ? (g->u.dodge(g) - rng(0, z->type->melee_skill)) : 0))))
+			((g->u.dodge(g) - rng(0, z->type->melee_skill)) > 0 ? (g->u.dodge(g) - rng(0, z->type->melee_skill)) : 0)))) //If <0 use 0
 	{
         g->add_msg("You dodge it!");
         g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
@@ -1391,8 +1394,10 @@ void mattack::bite(game *g, monster *z)
     z->sp_timeout = z->type->sp_freq;	// Reset timer
     g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
     z->moves -= 100;
+	
+	// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * 
-			((g->u.dodge(g) - rng(0, z->type->melee_skill)) > 0 ? (g->u.dodge(g) - rng(0, z->type->melee_skill)) : 0))))
+	        ((g->u.dodge(g) - rng(0, z->type->melee_skill)) > 0 ? (g->u.dodge(g) - rng(0, z->type->melee_skill)) : 0)))) //If <0 use 0
 	{
         g->add_msg("You dodge it!");
         g->u.practice(g->turn, "dodge", z->type->melee_skill*2);

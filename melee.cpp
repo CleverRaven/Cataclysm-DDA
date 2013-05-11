@@ -452,37 +452,33 @@ bool player::scored_crit(int target_dodge)
 }
 
 int player::dodge(game *g)
+//Returns 1/2*DEX + dodge skill level + static bonuses from mutations
+//Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
 {
-    if (has_disease(DI_SLEEP) || has_disease(DI_LYING_DOWN))
-	{
-        return 0;
-	}
-    if (activity.type != ACT_NULL)
-	{
-        return 0;
-	}
+    //If we're asleep or busy we can't dodge
+    if (has_disease(DI_SLEEP) || has_disease(DI_LYING_DOWN)) {return 0;}
+    if (activity.type != ACT_NULL) {return 0;}
+	
     int ret = (dex_cur / 2);
     ret += skillLevel("dodge");
     ret += disease_intensity(DI_DODGE_BOOST);
     ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
-    ret += int(current_speed(g) / 150);
-    if (has_trait(PF_TAIL_LONG))
-	{ret += 4;}
-    if (has_trait(PF_TAIL_FLUFFY))
-    {ret += 8;}
-    if (has_trait(PF_WHISKERS))
-    {ret += 1;}
-    if (has_trait(PF_WINGS_BAT))
-    {ret -= 3;}
-    if (str_max >= 16)
-    {ret--;} // Penalty if we're hyuuge
-    else if (str_max <= 5)
-    {ret++;} // Bonus if we're small
+    ret += int(current_speed(g) / 150); //Faster = small dodge advantage
+	
+	//Mutations
+    if (has_trait(PF_TAIL_LONG)) {ret += 4;}
+    if (has_trait(PF_TAIL_FLUFFY)) {ret += 8;}
+    if (has_trait(PF_WHISKERS)) {ret += 1;}
+    if (has_trait(PF_WINGS_BAT)) {ret -= 3;}
+	
+    if (str_max >= 16) {ret--;} // Penalty if we're huge
+    else if (str_max <= 5) {ret++;} // Bonus if we're small
+	
     if (dodges_left <= 0) // We already dodged this turn
 	{
         if (rng(0, skillLevel("dodge") + dex_cur + 15) <= skillLevel("dodge") + dex_cur)
 		{
-            ret = rng(ret/2, ret);
+            ret = rng(ret/2, ret); //Penalize multiple dodges per turn
 		}
         else
 		{
@@ -495,7 +491,7 @@ int player::dodge(game *g)
 
 int player::dodge_roll(game *g)
 {
- return dice(dodge(g), 10);
+ return dice(dodge(g), 10); //Matches NPC and monster dodge_roll functions
 }
 
 int player::base_damage(bool real_life, int stat)
