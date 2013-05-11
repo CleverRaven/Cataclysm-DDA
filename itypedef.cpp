@@ -795,18 +795,6 @@ VAR_VEH_PART("wheel_small", "small wheel",    5, 140,  ']', c_dkgray,  STEEL,   
 A pretty small wheel. Probably from one of those segway things.\
 It is not very menacing.");
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("seat", "seat",  8, 250, '0', c_red,  PLASTIC,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    30,  80,  4,  0,  -4, 0, "\
-A soft car seat covered with leather.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("vehicle_controls", "vehicle controls",  3, 400, '$', c_ltcyan,  PLASTIC,   STEEL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  30,  2,  0,  -4, 0, "\
-A set of various vehicle controls. Useful for crafting.");
-
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("1cyl_combustion", "1-cylinder engine",  3, 100, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS 0BIGNESS_MIN BIGNESS_MAX   ASPECT
@@ -836,95 +824,6 @@ VAR_VEH_PART("v8_combustion", "V8 engine",  2, 250, ':', c_ltcyan,  IRON,   MNUL
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     25,  600,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, "\
 A large and very powerful 8-cylinder combustion engine.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("motor", "electric motor",  2,120, ',', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    6,  80,  4,  0,  0, 0, "\
-A powerful electric motor. Useful for crafting.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("motor_large", "large electric motor",  1,220, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    15,  650,  9,  0,  -3, 0, "\
-A large and very powerful electric motor. Useful for crafting.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("plasma_engine", "plasma engine",  1, 900, ':', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  350,  7,  0,  -2, 0, "\
-High technology engine, working on hydrgen fuel.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("foot_crank", "foot crank",  10, 90, ':', c_ltgray,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    2,  10,  10,  0,  -1, 0, "\
-The pedal and gear assembly from a bicycle.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("metal_tank", "metal tank",  10, 40, '}', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    18,  25,  3,  0,  -2, 0, "\
-A metal tank for holding liquids. Useful for crafting.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("storage_battery", "storage battery",  6, 80, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    8,  220,  6,  0,  -2, 0, "\
-A large storage battery. Useful for crafting.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("minireactor", "minireactor",  1, 900, ':', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    6,  250,  11,  0,  -4, 0, "\
-A small portable plutonium reactor. Handle with great care!");
-
-//      NAME          RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("solar_panel", "solar panel",  3, 900, ']', c_yellow,  GLASS,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  4,  1,  0,  -4, 0, "\
-Electronic device that can convert solar radiation into electric\n\
-power. Useful for crafting.");
-
-MELEE("solar_cell", "solar cell", 5, 50, ';', c_yellow, GLASS, MNULL,
-      1, 0,  1,  0,  -4, 0, "\
-A small electronic device that can convert solar radiation into\n\
-electric power. Useful for crafting.");
-
-MELEE("sheet_metal", "sheet metal",  30, 60, ']', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    4,  20,  5,  0,  -2, 0, "\
-A thin sheet of metal.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("steel_plate", "steel plating",  30, 120, ']', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  600,  6,  0,  -1, 0, "\
-A piece of armor plating made of steel.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("alloy_plate", "superalloy plating",  10, 185, ']', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  350,  6,  0,  -1, 0, "\
-A piece of armor plating made of sturdy superalloy.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("spiked_plate", "spiked plating",  15, 185, ']', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    14,  600,  6,  3,  -1, 0, "\
-A piece of armor plating made of steel. It is covered by menacing\n\
-spikes.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("hard_plate", "hard plating",  30, 160, ']', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  1800,  6,  0,  -1, 0, "\
-A piece of very thick armor plating made of steel.");
-
-MELEE("kitchen_unit", "RV kitchen unit", 20, 400, '&', c_ltcyan, STEEL, MNULL,
-    80, 900, 0, 0, -2, 0, "\
-A vehicle mountable electric range and sink unit with integrated\n\
-tool storage for cooking utensils.");
 
 // ARMOR
 #define ARMOR(id, name, rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
@@ -2807,14 +2706,6 @@ MACGUFFIN("note", "note", 0, '?', c_white, PAPER, MNULL, 1, 0, 0, 0, 0,
 	true, &iuse::mcg_note, "\
 A hand-written paper note.");
 
-MELEE("poppy_flower", "poppy flower",   1, 400,',', c_magenta,	VEGGY,	MNULL,
-	 1,  0, -8,  0, -3, 0, "\
-A poppy stalk with some petals.");
-
-MELEE("poppy_bud", "a poppy bud",   1, 400,',', c_magenta,	VEGGY,	MNULL,
-	 1,  0, -8,  0, -3, 0, "\
-Contains some substances commonly produced by mutated poppy flower");
-
 #define STATIONARY(id, name, rarity, price, category, description) \
 itypes[id] = new it_stationary(id, rarity, price, name, description,\
 ',', c_white, PAPER, MNULL, 0, 0, 0, 0, 0, 0, category)
@@ -2829,13 +2720,6 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
         standard_itype_ids.push_back(iter->first);
     }
 }
-
-//    NAME		RARE SYM COLOR		MAT1	MAT2
-MELEE("bio_claws_weapon", "adamantite claws",0,0,'{', c_pink,	STEEL,	MNULL,
-//	VOL WGT DAM CUT HIT
-	 2,  0,  8, 16,  4,
- mfb(IF_STAB)|mfb(IF_UNARMED_WEAPON)|mfb(IF_NO_UNWIELD), "\
-Short and sharp claws made from a high-tech metal.");
 
 //  NAME		RARE  TYPE	COLOR		MAT
 AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
