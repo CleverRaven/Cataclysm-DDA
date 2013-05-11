@@ -5516,6 +5516,571 @@ wd.d.d.d.|....|----|-|-|\n\
    rotate(0);
    } break;
 
+ case ot_hotel_tower_1_1: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+ssssssssssssssssssssssss\n\
+ssssssssssssssssssssssss\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+ssssssssssssssssssssssss\n",
+     mapf::basic_bind("_ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+  if (t_north == ot_hotel_tower_1_2)
+   rotate(3);
+  else if (t_east == ot_hotel_tower_1_2)
+   rotate(0);
+  else if (t_south == ot_hotel_tower_1_2)
+   rotate(1);
+  else if (t_west == ot_hotel_tower_1_2)
+   rotate(2);
+  }break;
+
+ case ot_hotel_tower_1_2: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+",_____________________,_\n\
+,________sssss________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+s________s   s________ss\n\
+s________s   s________ss\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+,________sssss________,_\n\
+,_____________________,_\n\
+________________________\n\
+________________________\n\
+________________________\n\
+________________________\n\
+________________________\n\
+,_____________________,_\n\
+,________sssss________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+s________sssss________ss\n",
+     mapf::basic_bind("_ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+  if (t_north == ot_hotel_tower_1_5)
+   rotate(0);
+  else if (t_east == ot_hotel_tower_1_5)
+   rotate(1);
+  else if (t_south == ot_hotel_tower_1_5)
+   rotate(2);
+  else if (t_west == ot_hotel_tower_1_5)
+   rotate(3);
+  }break;
+
+ case ot_hotel_tower_1_3: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+sssssssssssssssssssssss\n\
+sssssssssssssssssssssss\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+sssssssssssssssssssssss\n",
+     mapf::basic_bind("_ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+  if (t_north == ot_hotel_tower_1_2){
+   rotate(1);
+   if (x_in_y(1,12)){add_vehicle (g, veh_car, 12, 18, 180);}}
+  else if (t_east == ot_hotel_tower_1_2){
+   rotate(2);
+   if (x_in_y(1,12)){add_vehicle (g, veh_car, 9, 7, 0);}}
+  else if (t_south == ot_hotel_tower_1_2){
+   rotate(3);
+   if (x_in_y(1,12)){add_vehicle (g, veh_car, 12, 18, 180);}}
+  else if (t_west == ot_hotel_tower_1_2){
+   rotate(0);
+   if (x_in_y(1,12)){add_vehicle (g, veh_car, 17, 7, 0);}}
+  }break;
+
+ case ot_hotel_tower_1_4: {
+     fill_background(this, &grass_or_dirt);
+     mapf::formatted_set_terrain(this, 0, 0,
+"s    |c..BB|c..BB|c..BB|\n\
+s    |c..BB|c..BB|c..BB|\n\
+s    |....d|....d|....d|\n\
+s    |-www-|-www-|-www-|\n\
+s                       \n\
+s          T     T      \n\
+s                       \n\
+s                       \n\
+ssssssssssssssssssssssss\n\
+ssssssssssssssssssssssss\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n",
+     mapf::basic_bind("B _ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_tree_young, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (t_north == ot_hotel_tower_1_5)
+   rotate(3);
+  else if (t_east == ot_hotel_tower_1_5)
+   rotate(0);
+  else if (t_south == ot_hotel_tower_1_5)
+   rotate(1);
+  else if (t_west == ot_hotel_tower_1_5)
+   rotate(2);
+  }break;
+
+ case ot_hotel_tower_1_5: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"c..BB|t.........t|BB..c|\n\
+h..BB|h.........h|BB..c|\n\
+th..d|...........|d....|\n\
+-www||...........||www-|\n\
+    |............^|     \n\
+ T  V.hh......|-+-|  T  \n\
+    V.tt......|r.D|     \n\
+    V.tt......c..h|     \n\
+ssss|.hh......x...|sssss\n\
+ssssV.........c...|sssss\n\
+,sssV.........cccc|sss,_\n\
+,sssV............^Vsss,_\n\
+,sss|^............Vsss,_\n\
+,sss|HHHGGHHHGGHHH|sss,_\n\
+,sssssssssssssssssssss,_\n\
+,sssssCsssssssssCsssss,_\n\
+_sssssssssssssssssssss__\n\
+________________________\n\
+________________________\n\
+________________________\n\
+________________________\n\
+________________________\n\
+,_____________________,_\n\
+,_____________________,_\n",
+     mapf::basic_bind("T r V H G D B _ , C x $ ^ . - | # t + = w S e o h c d l s",
+         t_tree_young, t_rack, t_wall_glass_v, t_wall_glass_h, t_door_glass_c, t_desk, t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_window, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (t_north == ot_hotel_tower_1_2)
+   rotate(2);
+  else if (t_east == ot_hotel_tower_1_2)
+   rotate(3);
+  else if (t_south == ot_hotel_tower_1_2)
+   rotate(0);
+  else if (t_west == ot_hotel_tower_1_2)
+   rotate(1);
+  }break;
+
+ case ot_hotel_tower_1_6: {
+   fill_background(this, &grass_or_dirt);
+   mapf::formatted_set_terrain(this, 0, 0,
+"BB..c|BB..c|BB..c|    s\n\
+BB..c|BB..c|BB..c|    s\n\
+d....|d....|d....|    s\n\
+-www-|-www-|-www-|    s\n\
+                      s\n\
+     T     T          s\n\
+                      s\n\
+                      s\n\
+sssssssssssssssssssssss\n\
+sssssssssssssssssssssss\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n",
+     mapf::basic_bind("B _ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_tree_young, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (t_north == ot_hotel_tower_1_5)
+   rotate(1);
+  else if (t_east == ot_hotel_tower_1_5)
+   rotate(2);
+  else if (t_south == ot_hotel_tower_1_5)
+   rotate(3);
+  else if (t_west == ot_hotel_tower_1_5)
+   rotate(0);
+  }break;
+
+ case ot_hotel_tower_1_7: {
+   fill_background(this, &grass_or_dirt);
+   mapf::formatted_set_terrain(this, 0, 0,
+"                        \n\
+     |-www-|-www-|-www-|\n\
+     |....d|th..d|....d|\n\
+     |c..BB|h..BB|c..BB|\n\
+     |c..BB|c..BB|c..BB|\n\
+     |c....|c...d|c....|\n\
+     |....h|c..BB|....h|\n\
+     |...ht|...BB|...ht|\n\
+     |..|--|..|--|..|--|\n\
+     |..+.S|..+.S|..+.S|\n\
+     |..|.T|..|.T|..|.T|\n\
+  |--|..|bb|..|bb|..|bb|\n\
+  |..|-+|--|-+|--|-+|--|\n\
+ss|..|..................\n\
+ss=..+..................\n\
+ss|..|..................\n\
+s |.<|-+|--|-+|--|-+|--|\n\
+s |--|..|bb|..|bb|..|bb|\n\
+s    |..|.T|..|.T|..|.T|\n\
+s    |..+.S|..+.S|..+.S|\n\
+s    |..|--|..|--|..|--|\n\
+s    |...ht|...ht|...ht|\n\
+s    |....h|....h|....h|\n\
+s    |c....|c....|c....|\n",
+     mapf::basic_bind("b > < B _ , C x $ ^ . - | # t + = w T S e o h c d l s",
+         t_bathtub, t_stairs_up, t_stairs_down, t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (t_north == ot_hotel_tower_1_8)
+   rotate(3);
+  else if (t_east == ot_hotel_tower_1_8)
+   rotate(0);
+  else if (t_south == ot_hotel_tower_1_8)
+   rotate(1);
+  else if (t_west == ot_hotel_tower_1_8)
+   rotate(2);
+  } break;
+
+ case ot_hotel_tower_1_8: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"                        \n\
+-www-|-www-|-www-|-www-|\n\
+....d|th..d|d....|d....|\n\
+c..BB|h..BB|BB..c|BB..c|\n\
+c..BB|c..BB|BB..c|BB..c|\n\
+c....|c...d|....c|....c|\n\
+....h|c..BB|h....|h....|\n\
+...ht|...BB|th...|th...|\n\
+..|--|..|--|--|..|--|..|\n\
+..+.S|..+.S|S.+..|S.+..|\n\
+..|.T|..|.T|T.|..|T.|..|\n\
+..|bb|..|bb|bb|..|bb|..|\n\
+-+|--|-+|--|--|+-|--|+-|\n\
+........................\n\
+........................\n\
+........................\n\
+-+|--|---|...|---|--|+-|\n\
+..|bb|EEE+...|xEE|bb|..|\n\
+..|.T|EEE+...+EEE|T.|..|\n\
+..+.S|EEx|...+EEE|S.+..|\n\
+..|--|---|...|---|--|..|\n\
+...BB|^.........^|th...|\n\
+c..BB|h.........h|h....|\n\
+c...d|t.........t|....c|\n",
+     mapf::basic_bind("E b > < B _ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_elevator, t_bathtub, t_stairs_up, t_stairs_down, t_bed, t_pavement, t_pavement_y, t_column, t_elevator_control_off, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (t_north == ot_hotel_tower_1_5)
+   rotate(2);
+  else if (t_east == ot_hotel_tower_1_5)
+   rotate(3);
+  else if (t_south == ot_hotel_tower_1_5)
+   rotate(0);
+  else if (t_west == ot_hotel_tower_1_5)
+   rotate(1);
+   } break;
+
+ case ot_hotel_tower_1_9: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"                        \n\
+-www-|-www-|-www-|      \n\
+d....|d..ht|d....|      \n\
+BB..c|BB..h|BB..c|      \n\
+BB..c|BB..c|BB..c|      \n\
+....c|d...c|....c|      \n\
+h....|BB..c|h....|      \n\
+th...|BB...|th...|      \n\
+--|..|--|..|--|..|      \n\
+S.+..|S.+..|S.+..|      \n\
+T.|..|T.|..|T.|..|      \n\
+bb|..|bb|..|bb|..|--|   \n\
+--|+-|--|+-|--|+-|..|   \n\
+................^|..|ss \n\
+.................+..=ss \n\
+.................|..|ss \n\
+--|+-|--|+-|--|+-|<.| s \n\
+bb|..|bb|..|bb|..|--| s \n\
+T.|..|T.|..|T.|..|    s \n\
+S.+..|S.+..|S.+..|    s \n\
+--|..|--|..|--|..|    s \n\
+th...|th...|th...|    s \n\
+h....|h....|h....|    s \n\
+....c|....c|....c|    s \n",
+     mapf::basic_bind("E b > < B _ , C x $ ^ . - | # t + = w T S e o h c d l s",
+         t_elevator, t_bathtub, t_stairs_up, t_stairs_down, t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (t_north == ot_hotel_tower_1_8)
+   rotate(1);
+  else if (t_east == ot_hotel_tower_1_8)
+   rotate(2);
+  else if (t_south == ot_hotel_tower_1_8)
+   rotate(3);
+  else if (t_west == ot_hotel_tower_1_8)
+   rotate(0);
+   } break;
+
+ case ot_hotel_tower_b_1: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"########################\n\
+#####|--------------|---\n\
+#####|......E..ee...|^ht\n\
+#####|..............|...\n\
+#####|...........E..V...\n\
+#####|..............V...\n\
+#####|.E.........E..V...\n\
+#####|..............V...\n\
+#####|..............G...\n\
+#####|..............V...\n\
+#####|..E..E..E..E..V...\n\
+##|--|.............^|...\n\
+##|.<|-----HHHHHHHH-|...\n\
+##|..|..................\n\
+##|..+..................\n\
+##|..|^..............htt\n\
+##|..|-----------------|\n\
+##|--|#################|\n\
+#######################|\n\
+#######################|\n\
+#######################|\n\
+#######################|\n\
+#######################|\n\
+#######################|\n",
+     mapf::basic_bind("E < H V G C x ^ . - | # t + = D w T S e o h c d l s",
+         t_exercise, t_stairs_up, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_console_broken, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+  place_items(mi_snacks,	60,  15,  2, 16,  2, false, 0);
+  if (t_north == ot_hotel_tower_b_2)
+   rotate(3);
+  else if (t_east == ot_hotel_tower_b_2)
+   rotate(0);
+  else if (t_south == ot_hotel_tower_b_2)
+   rotate(1);
+  else if (t_west == ot_hotel_tower_b_2)
+   rotate(2);
+  }break;
+
+ case ot_hotel_tower_b_2: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"########################\n\
+------------------------\n\
+th..........^rrr^.......\n\
+........................\n\
+.sssssssssssssssssssssss\n\
+.swwwwwwwwwwwwwwwwwwwwws\n\
+.swwwwwwwwwwwwwwwwwwwwws\n\
+.swwwwwwwwwwwwwwwwwwwwws\n\
+.swwwwwwwwwwwwwwwwwwwwws\n\
+.swwwwwwwwwwwwwwwwwwwwws\n\
+.swwwwwwwwwwwwwwwwwwwwws\n\
+.sssssssssssssssssssssss\n\
+........................\n\
+........................\n\
+........................\n\
+h......................h\n\
+---+-|---|HGH|---|-+---|\n\
+T|..c|EEE+...|xEE|c..|T|\n\
+.+..S|EEE+...+EEE|S..+.|\n\
+-|..c|EEx|^..+EEE|c..|-|\n\
+T+..S|---|-+-|---|S..+T|\n\
+-|..c|l..........|c..|-|\n\
+T+...|l..l...rrr.|...+T|\n\
+-----|-----------|-----|\n",
+     mapf::basic_bind("E r w H V G C x ^ . - | # t + = D T S e o h c d l s",
+         t_elevator, t_rack, t_water_pool, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_elevator_control_off, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_locker)
+            place_items(mi_cleaning,	60,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (t_north == ot_hotel_tower_b_1)
+   rotate(1);
+  else if (t_east == ot_hotel_tower_b_1)
+   rotate(2);
+  else if (t_south == ot_hotel_tower_b_1)
+   rotate(3);
+  else if (t_west == ot_hotel_tower_b_1)
+   rotate(0);
+  }break;
+
+ case ot_hotel_tower_b_3: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"########################\n\
+----|------------|######\n\
+...^|............|######\n\
+....|.$$$$PP$$$$$|######\n\
+....|........$...|######\n\
+....|........$...|######\n\
+....|............|######\n\
+....|---+--------|######\n\
+....|r....rrDDDDc|######\n\
+....|r..........S|######\n\
+....|r..........c|######\n\
+....|r......WWWWc|--|###\n\
+....|---++-------|<.|###\n\
+.................|..|###\n\
+.................+..|###\n\
+tth.............^|..|###\n\
+-----------------|..|###\n\
+#################|--|###\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n",
+     mapf::basic_bind("r P $ W D < H V G C x ^ . - | # t + = w T S e o h c d l s",
+         t_rack, t_sewage_pump, t_sewage_pipe, t_washer, t_dryer, t_stairs_up, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_console_broken, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c,
+         t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_rack)
+            place_items(mi_home_hw,	80,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_washer || this->ter(i,j) == t_dryer){
+          if (x_in_y(1,2)){
+            spawn_item(i, j, g->itypes["blanket"], 0);
+            spawn_item(i, j, g->itypes["blanket"], 0);
+            spawn_item(i, j, g->itypes["blanket"], 0);
+          }
+          else if (x_in_y(1,3))
+            place_items(mi_dresser,	80,  i,  j, i,  j, false, 0);
+       }
+      }
+    }
+  if (t_north == ot_hotel_tower_b_2)
+   rotate(1);
+  else if (t_east == ot_hotel_tower_b_2)
+   rotate(2);
+  else if (t_south == ot_hotel_tower_b_2)
+   rotate(3);
+  else if (t_west == ot_hotel_tower_b_2)
+   rotate(0);
+  }break;
 
  case ot_office_doctor_north:
  case ot_office_doctor_east:
