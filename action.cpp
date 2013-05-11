@@ -30,8 +30,9 @@ Warning!  data/keymap.txt contains an unknown action, \"%s\"\n\
 Fix data/keymap.txt at your next chance!", id.c_str());
    else {
     while (fin.peek() != '\n' && !fin.eof()) {
-     char ch;
-     fin >> ch;
+     char space; char ch;
+     fin >> std::noskipws >> space >> ch;
+     fin >> std::skipws;
      if (keymap.find(ch) != keymap.end())
       debugmsg("\
 Warning!  '%c' assigned twice in the keymap!\n\
