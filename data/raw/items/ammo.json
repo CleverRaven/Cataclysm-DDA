@@ -1819,6 +1819,7 @@
         "material" : "STEEL",
         "volume" : 0,
         "weight" : 0,
+        "phase" : "liquid",
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,
