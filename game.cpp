@@ -4058,7 +4058,7 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
  if (u.has_trait(PF_BADHEARING))
   err_offset++;
 
- int tries = 0, origx = x, origy = y;
+ int origx = x, origy = y;
  std::vector<point> point_vector;
  for (x = origx-err_offset; x <= origx+err_offset; x++)
  {

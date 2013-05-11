@@ -1077,8 +1077,7 @@ bool computer::query_any(const char *mes, ...)
  std::string full_line = buff;
 // Print the resulting text
  print_line(full_line.c_str());
- char ret;
- ret = getch();
+ getch();
  return true;
 }
 
