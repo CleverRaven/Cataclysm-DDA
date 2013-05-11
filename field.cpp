@@ -111,7 +111,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
          // cook off ammo instead of just burning it.
          for(int j = 0; j < (rounds_exploded / 10) + 1; j++)
          {
-             g->explosion(x, y, (dynamic_cast<it_ammo*>(it->type))->damage / 2, true, false);
+             g->explosion(x, y, ammo_type->damage / 2, true, false);
          }
          it->charges -= rounds_exploded;
          if(it->charges == 0) destroyed = true;
