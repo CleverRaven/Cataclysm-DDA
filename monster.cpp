@@ -480,13 +480,6 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
 }
 
 int monster::hit(game *g, player &p, body_part &bp_hit) {
- int numdice = type->melee_skill;
- if (dice(numdice, 10) <= dice(p.dodge(g), 10) && !one_in(20)) {
-  if (p.skillLevel("dodge") < numdice)
-   p.practice(g->turn, "dodge", 10);
-  return 0;	// We missed!
- }
- p.practice(g->turn, "dodge", 5);
  int ret = 0;
  int highest_hit;
  switch (type->size) {

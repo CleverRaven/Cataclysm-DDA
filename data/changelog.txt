@@ -118,6 +118,7 @@ Stop roads from going through buildings so often.
 Pits less awkward to board over (can use nearby items).
 Tweak glass bottle weight/volume.
 Allow for reading/sewing in the dark through mutations/CBM's with a speed penalty.
+Rewrote dodge abilities to have a noticeable impact.
 
 
 0.4
