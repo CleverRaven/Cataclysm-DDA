@@ -151,6 +151,7 @@ void computer::use(game *g)
     }
    } else // No need to hack, just activate
     activate_function(g, current.action);
+    reset_terminal();
   } // Done processing a selected option.
  } while (!done); // Done with main terminal loop
 
