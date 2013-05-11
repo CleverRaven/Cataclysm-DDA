@@ -688,6 +688,10 @@ void map::step_in_field(int x, int y, game *g)
   inside = (veh && veh->is_inside(veh_part));
  }
 
+ if (cur->type != fd_rubble){
+  g->u.rem_disease(DI_BOULDERING);
+ }
+
  switch (cur->type) {
   case fd_null:
   case fd_blood:	// It doesn't actually do anything
@@ -760,6 +764,10 @@ void map::step_in_field(int x, int y, game *g)
     else if (adjusted_intensity == 3)
      g->u.infect(DI_SMOKE, bp_mouth, 7, 30, g);
    }
+   break;
+
+  case fd_rubble:
+   g->u.add_disease(DI_BOULDERING, 0, g, cur->density, 3);
    break;
 
   case fd_smoke:
@@ -909,6 +917,11 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    }
 // Drop through to smoke
 
+  case fd_rubble:
+    if (!z->has_flag(MF_FLIES) && !z->has_flag(MF_AQUATIC))
+     z->add_effect(ME_BOULDERING, 1);
+    break;
+
   case fd_smoke:
    if (!z->has_flag(MF_NO_BREATHE)){
     if (cur->density == 3)
@@ -1023,4 +1036,82 @@ bool vector_has(std::vector <item> vec, itype_id type)
    return true;
  }
  return false;
+}
+
+void map::field_effect(int x, int y, game *g) //Applies effect of field immediately
+{
+ field *cur = &field_at(x, y);
+ switch (cur->type) {                        //Can add independent code for different types of fields to apply different effects
+  case fd_rubble:
+   int hit_chance = 10;
+   int fdmon = g->mon_at(x, y);              //The index of the monster at (x,y), or -1 if there isn't one
+   int fdnpc = g->npc_at(x, y);              //The index of the NPC at (x,y), or -1 if there isn't one
+   npc *me;
+   if (fdnpc != -1)
+    me = g->active_npc[fdnpc];
+   int veh_part;
+   bool pc_inside;
+   bool npc_inside;
+   if (g->u.in_vehicle) {
+    vehicle *veh = g->m.veh_at(x, y, veh_part);
+    pc_inside = (veh && veh->is_inside(veh_part));
+   }
+   if (me->in_vehicle) {
+    vehicle *veh = g->m.veh_at(x, y, veh_part);
+    npc_inside = (veh && veh->is_inside(veh_part));
+   }
+   if (g->u.posx == x && g->u.posy == y && !pc_inside) {            //If there's a PC at (x,y) and he's not in a covered vehicle...
+    if (g->u.dodge(g) < rng(1, hit_chance) || one_in(g->u.dodge(g))) {
+     int how_many_limbs_hit = rng(0, num_hp_parts);
+     for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
+      g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
+     }
+     if (one_in(g->u.dex_cur)) {
+      g->u.add_disease(DI_DOWNED, 2, g);
+     }
+     if (one_in(g->u.str_cur)) {
+      g->u.add_disease(DI_STUNNED, 2, g);
+     }
+    }
+    else if (one_in(g->u.str_cur)) {
+     g->u.add_disease(DI_DOWNED, 1, g);
+    }
+                        //Avoiding disease system for the moment, since I was having trouble with it.
+//    g->u.add_disease(DI_CRUSHED, 42, g);    //Using a disease allows for easy modification without messing with field code
+ //   g->u.rem_disease(DI_CRUSHED);           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
+   }
+   if (fdmon != -1 && fdmon < g->z.size()) {  //If there's a monster at (x,y)...
+    monster* monhit = &(g->z[fdmon]);
+    int dam = 10;                             //This is a simplistic damage implementation. It can be improved, for instance to account for armor
+    if (monhit->hurt(dam))                    //Ideally an external disease-like system would handle this to make it easier to modify later
+     g->kill_mon(fdmon, false);
+   }
+   if (fdnpc != -1) {
+    if (fdnpc < g->active_npc.size() && !npc_inside) { //If there's an NPC at (x,y) and he's not in a covered vehicle...
+    if (me->dodge(g) < rng(1, hit_chance) || one_in(me->dodge(g))) {
+      int how_many_limbs_hit = rng(0, num_hp_parts);
+      for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
+       me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
+      }
+      if (one_in(me->dex_cur)) {
+       me->add_disease(DI_DOWNED, 2, g);
+      }
+      if (one_in(me->str_cur)) {
+       me->add_disease(DI_STUNNED, 2, g);
+      }
+     }
+     else if (one_in(me->str_cur)) {
+      me->add_disease(DI_DOWNED, 1, g);
+     }
+    }
+    if (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0) {
+     me->die(g, false);        //Right now cave-ins are treated as not the player's fault. This should be iterated on.
+     g->active_npc.erase(g->active_npc.begin() + fdnpc);
+    }                                       //Still need to add vehicle damage, but I'm ignoring that for now.
+   }
+    vehicle *veh = veh_at(x, y, veh_part);
+    if (veh) {
+     veh->damage(veh_part, (veh->parts[veh_part].hp/3 * cur->density), 1, false);
+    }
+ }
 }

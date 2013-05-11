@@ -946,6 +946,11 @@ void npc::move_to(game *g, int x, int y)
   moves -= 100;
   return;
  }
+ if (has_disease(DI_BOULDERING)) {
+  moves -= 20;
+  if (moves < 0)
+   moves = 0;
+ }
  if (recoil > 0) {	// Start by dropping recoil a little
   if (int(str_cur / 2) + sklevel[sk_gun] >= recoil)
    recoil = 0;
@@ -996,6 +1001,10 @@ void npc::move_to(game *g, int x, int y)
   g->m.bash(x, y, smashskill, bashsound);
   g->sound(x, y, 18, bashsound);
  } else
+ if (g->m.field_at(x, y).type == fd_rubble)
+  g->u.add_disease(DI_BOULDERING, 100, g, g->m.field_at(x,y).density, 3);
+ else
+  g->u.rem_disease(DI_BOULDERING);
   moves -= 100;
 }
 
