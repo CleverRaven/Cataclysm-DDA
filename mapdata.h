@@ -108,7 +108,7 @@ t_wall_glass_v, t_wall_glass_h,
 t_wall_glass_v_alarm, t_wall_glass_h_alarm,
 t_reinforced_glass_v, t_reinforced_glass_h,
 t_bars,
-t_door_c, t_door_b, t_door_o, t_door_locked, t_door_locked_alarm, t_door_frame,
+t_door_c, t_door_b, t_door_o, t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
 t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
 t_door_metal_c, t_door_metal_o, t_door_metal_locked,
 t_door_glass_c, t_door_glass_o,
@@ -311,6 +311,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
     mfb(supports_roof), &iexamine::none},
 {"open wood door",  '\'', c_brown,   2, -1, tr_null,
     mfb(flammable2)|mfb(transparent)|mfb(supports_roof), &iexamine::none},
+{"closed wood door", '+', c_brown,   0, tr_null,	// Locked from all directions
+    mfb(bashable)|mfb(flammable2)|mfb(noitem)|mfb(supports_roof), &iexamine::none},
 {"closed wood door", '+', c_brown,   0, -1, tr_null,	// Actually locked
     mfb(bashable)|mfb(flammable2)|mfb(noitem)|mfb(supports_roof), &iexamine::none},
 {"closed wood door", '+', c_brown,   0, -1, tr_null, // Locked and alarmed
