@@ -220,13 +220,13 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 :
     p.thirst--;
-	if (p.pain < 50) p.pain++;
+	if (p.pain < 40) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your head is pounding from the heat.");
     // Speed -20
    case 2 :
     p.thirst--;
     if (one_in(15000 - p.temp_cur[bp_head])) p.vomit(g); // Hallucinations handled in game.cpp
-	if (p.pain < 20) p.pain++;
+	if (p.pain < 15) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("The heat is making you see things.");
     // Speed -5
     // case 1 : Speed -2
@@ -236,7 +236,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_HOT_MOUTH:
   switch (dis.intensity) {
    case 3 : p.thirst--;
-    if (p.pain < 50) p.pain++;
+    if (p.pain < 30) p.pain++;
    case 2 : p.thirst--;
   }
   break;
@@ -259,7 +259,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_HOT_ARMS:
   switch (dis.intensity) {
    case 3 : p.thirst--;
-    if (p.pain < 50) p.pain++;
+    if (p.pain < 30) p.pain++;
    case 2 : p.thirst--;
   }
   break;
@@ -274,7 +274,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_HOT_LEGS:
   switch (dis.intensity) {
    case 3 : p.thirst--;
-    if (p.pain < 50) p.pain++;
+    if (p.pain < 30) p.pain++;
     if (one_in(400)) g->add_msg("Your legs are cramping up.");
    case 2 : p.thirst--;
   }
@@ -282,8 +282,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_HOT_FEET:
   switch (dis.intensity) {
-   case 3 : if (p.pain < 50) p.pain++;
-   case 2 :
+   case 3 :
     if (p.pain < 30) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your feet are swelling in the heat.");
   }
