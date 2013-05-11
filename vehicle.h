@@ -221,8 +221,8 @@ public:
 // Vehicle parts description
     void print_part_desc (void *w, int y1, int width, int p, int hl = -1);
 
-// Vehicle fuel indicator
-    void print_fuel_indicator (void *w, int y, int x);
+// Vehicle fuel indicator. Should probably rename to print_fuel_indicators and make a print_fuel_indicator(..., FUEL_TYPE);
+    void print_fuel_indicator (void *w, int y, int x, bool fullsize = false, bool verbose = false);
 
 // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir);
