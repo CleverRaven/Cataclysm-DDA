@@ -227,6 +227,7 @@ void Item_factory::init(){
     techniques_list["DEF_DISARM"] = mfb(TEC_DEF_DISARM);
 
     //Ammo lists
+    ammo_flags_list["NULL"] = mfb(AT_NULL);
     ammo_flags_list["THREAD"] = mfb(AT_THREAD);
     ammo_flags_list["BATT"] = mfb(AT_BATT);
     ammo_flags_list["PLUT"] = mfb(AT_PLUT);
@@ -257,6 +258,20 @@ void Item_factory::init(){
     ammo_flags_list["PLASMA"] = mfb(AT_PLASMA);
     ammo_flags_list["WATER"] = mfb(AT_WATER);
     ammo_flags_list["PEBBLE"] = mfb(AT_PEBBLE);
+
+    ammo_effects_list["FLAME"] = mfb(AMMO_FLAME);
+    ammo_effects_list["INCENDIARY"] = mfb(AMMO_INCENDIARY);
+    ammo_effects_list["EXPLOSIVE"] = mfb(AMMO_EXPLOSIVE);
+    ammo_effects_list["FRAG"] = mfb(AMMO_FRAG);
+    ammo_effects_list["NAPALM"] = mfb(AMMO_NAPALM);
+    ammo_effects_list["EXPLOSIVE_BIG"] = mfb(AMMO_EXPLOSIVE_BIG);
+    ammo_effects_list["TEARGAS"] = mfb(AMMO_TEARGAS);
+    ammo_effects_list["SMOKE"] = mfb(AMMO_SMOKE);
+    ammo_effects_list["TRAIL"] = mfb(AMMO_TRAIL);
+    ammo_effects_list["FLASHBANG"] = mfb(AMMO_FLASHBANG);
+    ammo_effects_list["STREAM"] = mfb(AMMO_STREAM);
+    ammo_effects_list["COOKOFF"] = mfb(AMMO_COOKOFF);
+    ammo_effects_list["LASER"] = mfb(AMMO_LASER);
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
@@ -348,6 +363,7 @@ Item_list Item_factory::create_random(int created_at, int quantity){
 void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/melee.json");
     load_item_templates_from("data/raw/items/ranged.json");
+    load_item_templates_from("data/raw/items/ammo.json");
     load_item_templates_from("data/raw/items/mods.json");
     load_item_templates_from("data/raw/items/tools.json");
     load_item_templates_from("data/raw/items/comestibles.json");
@@ -452,6 +468,26 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         tool_template->revert_to = entry.get("revert_to").as_string();
 
                         new_item_template = tool_template;
+                    }
+                    else if (type_label == "AMMO")
+                    {
+                        it_ammo* ammo_template = new it_ammo();
+                        ammo_template->type =
+                            ammo_from_string(
+                                entry.get("ammo_type").as_string());
+                        ammo_template->damage = entry.get("damage").as_int();
+                        ammo_template->pierce = entry.get("pierce").as_int();
+                        ammo_template->range = entry.get("range").as_int();
+                        ammo_template->accuracy =
+                            entry.get("accuracy").as_int();
+                        ammo_template->recoil = entry.get("recoil").as_int();
+                        ammo_template->count = entry.get("count").as_int();
+                        ammo_template->ammo_effects =
+                            (!entry.has("effects") ? 0 :
+                             flags_from_json(entry.get("effects"),
+                                             "ammo_effects"));
+
+                        new_item_template = ammo_template;
                     }
                     else
                     {
@@ -729,6 +765,8 @@ void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag,
       flag_map = ammo_flags_list;
     } else if(flag_type=="techniques"){
       flag_map = techniques_list;
+    } else if(flag_type=="ammo_effects"){
+        flag_map = ammo_effects_list;
     }
 
     set_bitmask_by_string(flag_map, cur_flags, new_flag);
@@ -866,6 +904,8 @@ material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
         return STEEL;
     } else if(name == "SILVER"){
         return SILVER;
+    } else if(name == "NULL"){
+        return MNULL;
     } else {
         return MNULL;
     }
