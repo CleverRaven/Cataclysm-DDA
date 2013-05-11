@@ -441,7 +441,7 @@ void game::construction_menu()
    nc_color col = (player_can_build(u, total_inv, constructions[current]) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
-   char hotkey = 97 + current;
+   unsigned char hotkey = 97 + current;
    if (hotkey > 122)
     hotkey = hotkey - 58;
 
@@ -835,13 +835,13 @@ bool construct::able_furniture(game *g, point p)
 {
  ter_t terrain_type = terlist[g->m.ter(p.x, p.y)];
  int required_str = terrain_type.move_str_req;
- 
+
  // Object can not be moved
  if (required_str < 0)
  {
   return false;
  }
- 
+
  if( g->u.str_cur < required_str )
  {
   return false;
