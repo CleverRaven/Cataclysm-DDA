@@ -962,26 +962,26 @@ point map::random_outdoor_tile()
 
 bool map::has_adjacent_furniture(const int x, const int y)
 {
- for (int i = -1; i <= 1; i += 2)
- {
-   for (int j = 0; j <= 1; j++)
-   {
-       // Apply the adjustment to x first, then y
-       const int adj_x = x + !j?i:0;
-       const int adj_y = y + j?i:0;
+    const char cx[4] = { 0, -1, 0, 1};
+    const char cy[4] = {-1,  0, 1, 0};
 
-       switch( ter(adj_x, adj_y) )
-       {
-       case t_fridge:
-       case t_glass_fridge:
-       case t_dresser:
-       case t_rack:
-       case t_bookcase:
-       case t_locker:
-           return true;
-       }
-   }
- }
+    for (int i = 0; i < 4; i++)
+    {
+        const int adj_x = x + cx[i];
+        const int adj_y = y + cy[i];
+
+        switch( ter(adj_x, adj_y) )
+        {
+        case t_fridge:
+        case t_glass_fridge:
+        case t_dresser:
+        case t_rack:
+        case t_bookcase:
+        case t_locker:
+            return true;
+        }
+    }
+
  return false;
 }
 
@@ -3687,4 +3687,3 @@ tinymap::tinymap(std::map<std::string, itype*> *itptr,
 tinymap::~tinymap()
 {
 }
-
