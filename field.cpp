@@ -1046,17 +1046,18 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
    int hit_chance = 10;
    int fdmon = g->mon_at(x, y);              //The index of the monster at (x,y), or -1 if there isn't one
    int fdnpc = g->npc_at(x, y);              //The index of the NPC at (x,y), or -1 if there isn't one
-   npc *me;
+   npc *me = NULL;
    if (fdnpc != -1)
     me = g->active_npc[fdnpc];
    int veh_part;
-   bool pc_inside;
-   bool npc_inside;
+   bool pc_inside = false;
+   bool npc_inside = false;
+
    if (g->u.in_vehicle) {
     vehicle *veh = g->m.veh_at(x, y, veh_part);
     pc_inside = (veh && veh->is_inside(veh_part));
    }
-   if (me->in_vehicle) {
+   if (me && me->in_vehicle) {
     vehicle *veh = g->m.veh_at(x, y, veh_part);
     npc_inside = (veh && veh->is_inside(veh_part));
    }
