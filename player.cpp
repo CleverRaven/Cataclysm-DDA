@@ -57,6 +57,8 @@ player::player()
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  moves = 100;
  oxygen = 0;
+ next_climate_control_check=0;
+ last_climate_control_ret=false;
  active_mission = -1;
  in_vehicle = false;
  style_selected = "null";
