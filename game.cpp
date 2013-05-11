@@ -195,6 +195,7 @@ void game::setup()
  autosafemode = OPTIONS[OPT_AUTOSAFEMODE];
 
  footsteps.clear();
+ footsteps_source.clear();
  z.clear();
  coming_to_stairs.clear();
  active_npc.clear();
@@ -4039,7 +4040,7 @@ void game::sound(int x, int y, int vol, std::string description)
 // add_footstep will create a list of locations to draw monster
 // footsteps. these will be more or less accurate depending on the
 // characters hearing and how close they are
-void game::add_footstep(int x, int y, int volume, int distance)
+void game::add_footstep(int x, int y, int volume, int distance, monster* source)
 {
  if (x == u.posx && y == u.posy)
   return;
@@ -4058,15 +4059,16 @@ void game::add_footstep(int x, int y, int volume, int distance)
   err_offset++;
 
  int tries = 0, origx = x, origy = y;
- if (err_offset > 0) {
-  do {
-   tries++;
-   x = origx + rng(-err_offset, err_offset);
-   y = origy + rng(-err_offset, err_offset);
-  } while (tries < 10 && x == u.posx && y == u.posy);
+ std::vector<point> point_vector;
+ for (x = origx-err_offset; x <= origx+err_offset; x++)
+ {
+     for (y = origy-err_offset; y <= origy+err_offset; y++)
+     {
+         point_vector.push_back(point(x,y));
+     }
  }
- if (tries < 10)
-  footsteps.push_back(point(x, y));
+ footsteps.push_back(point_vector);
+ footsteps_source.push_back(source);
  return;
 }
 
@@ -4074,13 +4076,31 @@ void game::add_footstep(int x, int y, int volume, int distance)
 void game::draw_footsteps()
 {
  for (int i = 0; i < footsteps.size(); i++) {
-     if (!u_see(footsteps[i].x,footsteps[i].y))
+     if (!u_see(footsteps_source[i]->posx,footsteps_source[i]->posy))
      {
-         mvwputch(w_terrain, VIEWY + footsteps[i].y - u.posy - u.view_offset_y,
-                  VIEWX + footsteps[i].x - u.posx - u.view_offset_x, c_yellow, '?');
+         std::vector<point> unseen_points;
+         for (int j = 0; j < footsteps[i].size(); j++)
+         {
+             if (!u_see(footsteps[i][j].x,footsteps[i][j].y))
+             {
+                 unseen_points.push_back(point(footsteps[i][j].x,
+                                               footsteps[i][j].y));
+             }
+         }
+
+         if (unseen_points.size() > 0)
+         {
+             point selected = unseen_points[rng(0,unseen_points.size())];
+
+             mvwputch(w_terrain,
+                      VIEWY + selected.y - u.posy - u.view_offset_y,
+                      VIEWX + selected.x - u.posx - u.view_offset_x,
+                      c_yellow, '?');
+         }
      }
  }
  footsteps.clear();
+ footsteps_source.clear();
  wrefresh(w_terrain);
  return;
 }
