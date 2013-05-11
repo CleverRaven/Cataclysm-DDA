@@ -751,6 +751,9 @@ bool overmap::generate_sub(int const z)
  std::vector<point> temple_points;
  std::vector<point> office_entrance_points;
  std::vector<point> office_points;
+ std::vector<point> hotel_tower_1_points;
+ std::vector<point> hotel_tower_2_points;
+ std::vector<point> hotel_tower_3_points;
 
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
@@ -849,6 +852,12 @@ bool overmap::generate_sub(int const z)
     office_entrance_points.push_back( point(i, j) );
    else if (ter(i, j, z + 1) == ot_office_tower_1)
     office_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_hotel_tower_1_7)
+    hotel_tower_1_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_hotel_tower_1_8)
+    hotel_tower_2_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_hotel_tower_1_9)
+    hotel_tower_3_points.push_back( point(i, j) );
   }
  }
 
@@ -922,6 +931,12 @@ bool overmap::generate_sub(int const z)
   ter(office_entrance_points[i].x, office_entrance_points[i].y, z) = ot_office_tower_b_entrance;
  for (int i = 0; i < office_points.size(); i++)
   ter(office_points[i].x, office_points[i].y, z) = ot_office_tower_b;
+ for (int i = 0; i < hotel_tower_1_points.size(); i++)
+  ter(hotel_tower_1_points[i].x, hotel_tower_1_points[i].y, z) = ot_hotel_tower_b_1;
+ for (int i = 0; i < hotel_tower_2_points.size(); i++)
+  ter(hotel_tower_2_points[i].x, hotel_tower_2_points[i].y, z) = ot_hotel_tower_b_2;
+ for (int i = 0; i < hotel_tower_3_points.size(); i++)
+  ter(hotel_tower_3_points[i].x, hotel_tower_3_points[i].y, z) = ot_hotel_tower_b_3;
  return requires_sub;
 }
 
