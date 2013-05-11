@@ -350,6 +350,7 @@ void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/ranged.json");
     load_item_templates_from("data/raw/items/mods.json");
     load_item_templates_from("data/raw/items/tools.json");
+    load_item_templates_from("data/raw/items/comestibles.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
@@ -408,6 +409,23 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                                                  flags_from_json(entry.get("techniques"), "ammo"));
                         new_item_template = gunmod_template;
                     }
+                    else if (type_label == "COMESTIBLE")
+                    {
+                        debugmsg("HEYA");
+                        it_comest* comest_template = new it_comest();
+                        comest_template->comesttype = entry.get("comestible_type").as_string();
+                        comest_template->tool = entry.get("tool").as_string();
+                        comest_template->container = entry.get("container").as_string();
+                        comest_template->quench = entry.get("quench").as_int();
+                        comest_template->nutr = entry.get("nutrition").as_int();
+                        comest_template->spoils = entry.get("spoils_in").as_int();
+                        comest_template->addict = entry.get("addiction_potential").as_int();
+                        comest_template->charges = entry.get("charges").as_int();
+                        comest_template->stim = entry.get("stim").as_int();
+                        comest_template->healthy = entry.get("heal").as_int();
+                        comest_template->fun = entry.get("fun").as_int();
+                        new_item_template = comest_template;
+                    }
                     else if (type_label == "GUN")
                     {
                         it_gun* gun_template = new it_gun();
@@ -453,7 +471,17 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 new_item_template->sym = entry.get("symbol").as_char();
                 new_item_template->color = color_from_string(entry.get("color").as_string());
                 new_item_template->description = entry.get("description").as_string();
-                set_material_from_json(new_id, entry.get("material"));
+                if(entry.has("material")){
+                  set_material_from_json(new_id, entry.get("material"));
+                } else {
+                  new_item_template->m1 = MNULL;
+                  new_item_template->m2 = MNULL;
+                }
+                Item_tag new_phase = "solid";
+                if(entry.has("phase")){
+                    new_phase = entry.get("phase").as_string();
+                }
+                new_item_template->phase = phase_from_tag(new_phase);
                 new_item_template->volume = entry.get("volume").as_int();
                 new_item_template->weight = entry.get("weight").as_int();
                 new_item_template->melee_dam = entry.get("bashing").as_int();
@@ -784,6 +812,21 @@ void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
     temp->m2 = material_list[1];
 }
 
+
+phase_id Item_factory::phase_from_tag(Item_tag name){
+    if(name == "LIQUID"){
+        return LIQUID;
+    } else if(name == "SOLID"){
+        return SOLID;
+    } else if(name == "GAS"){
+        return GAS;
+    } else if(name == "PLASMA"){
+        return PLASMA;
+    } else {
+        return PNULL;
+    }
+};
+
 material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
     // Map the valid input tags to a valid material
 
@@ -825,7 +868,6 @@ material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
     } else if(name == "SILVER"){
         return SILVER;
     } else {
-        std::cerr << "Item "<< new_id << " material was skipped, not a string or array of strings." << std::endl;
         return MNULL;
     }
 }

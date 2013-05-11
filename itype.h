@@ -359,6 +359,8 @@ struct it_comest : public itype
         comesttype = pcomesttype;
         item_flags = pitem_flags;
     }
+
+    it_comest() :itype() { };
 };
 
 // v6, v8, wankel, etc.
@@ -472,7 +474,7 @@ struct it_gun : public itype
   reload_time = preload_time;
  }
 
- it_gun() { };
+ it_gun() :itype() { };
 };
 
 struct it_gunmod : public itype
@@ -515,7 +517,7 @@ struct it_gunmod : public itype
   used_on_rifle = rifle;
  }
 
- it_gunmod() { };
+ it_gunmod() :itype() { };
 };
 
 struct it_armor : public itype
@@ -535,7 +537,7 @@ struct it_armor : public itype
  virtual bool is_artifact() { return false; }
  virtual picojson::value save_data() { return picojson::value(); }
 
- it_armor()
+ it_armor() : itype()
  {
   covers = 0;
   encumber = 0;
@@ -643,7 +645,7 @@ struct it_tool : public itype
  virtual bool is_artifact()      { return false; }
  virtual picojson::value save_data() { return picojson::value(); }
 
- it_tool()
+ it_tool() :itype()
  {
   ammo = AT_NULL;
   max_charges = 0;
@@ -855,7 +857,7 @@ struct it_artifact_tool : public it_tool
      return picojson::value(data);
  }
 
- it_artifact_tool() {
+ it_artifact_tool() :it_tool(){
   ammo = AT_NULL;
   price = 0;
   def_charges = 0;
@@ -938,7 +940,7 @@ struct it_artifact_armor : public it_armor
      return picojson::value(data);
  }
 
- it_artifact_armor()
+ it_artifact_armor() :it_armor()
  {
   price = 0;
  };
