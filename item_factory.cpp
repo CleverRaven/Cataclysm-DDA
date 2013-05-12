@@ -895,13 +895,13 @@ void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
 
 
 phase_id Item_factory::phase_from_tag(Item_tag name){
-    if(name == "LIQUID"){
+    if(name == "liquid"){
         return LIQUID;
-    } else if(name == "SOLID"){
+    } else if(name == "solid"){
         return SOLID;
-    } else if(name == "GAS"){
+    } else if(name == "gas"){
         return GAS;
-    } else if(name == "PLASMA"){
+    } else if(name == "plasma"){
         return PLASMA;
     } else {
         return PNULL;
