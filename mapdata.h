@@ -134,7 +134,7 @@ t_lava,
 // Embellishments
 t_bed, t_toilet, t_makeshift_bed,
 // More embellishments than you can shake a stick at.
-t_sink, t_oven, t_woodstove, t_fireplace, t_bathtub, t_chair, t_armchair, t_sofa, t_cupboard, t_trashcan, t_desk,
+t_sink, t_oven, t_woodstove, t_fireplace, t_bathtub, t_chair, t_armchair, t_sofa, t_cupboard, t_trashcan, t_desk, t_exercise,
 t_sandbox, t_slide, t_monkey_bars, t_backboard,
 t_bench, t_table, t_pool_table,
 t_gas_pump, t_gas_pump_smashed, t_gas_pump_empty,
@@ -492,6 +492,8 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"desk",             '#', c_ltred,   3, 8, tr_null,
     mfb(transparent)|mfb(flammable2)|mfb(collapses)|mfb(deconstruct)|
     mfb(container)|mfb(place_item)|mfb(indoors), &iexamine::none},
+{"exercise machine", 'T', c_dkgray,   3, 8, tr_null,
+    mfb(transparent)|mfb(indoors)|mfb(collapses)|mfb(deconstruct), &iexamine::none},
 {"sandbox", '#', c_yellow, 3, -1, tr_null,
    	mfb(transparent)|mfb(deconstruct), &iexamine::none},
 {"slide",            '#', c_ltcyan,  4, -1, tr_null,
