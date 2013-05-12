@@ -311,7 +311,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
     mfb(supports_roof), &iexamine::none},
 {"open wood door",  '\'', c_brown,   2, -1, tr_null,
     mfb(flammable2)|mfb(transparent)|mfb(supports_roof), &iexamine::none},
-{"closed wood door", '+', c_brown,   0, tr_null,	// Locked from all directions
+{"closed wood door", '+', c_brown,   0, -1, tr_null,	// Locked from all directions
     mfb(bashable)|mfb(flammable2)|mfb(noitem)|mfb(supports_roof), &iexamine::none},
 {"closed wood door", '+', c_brown,   0, -1, tr_null,	// Actually locked
     mfb(bashable)|mfb(flammable2)|mfb(noitem)|mfb(supports_roof), &iexamine::none},
@@ -542,9 +542,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
    	mfb(transparent), &iexamine::none},
 {"column",           '1', c_ltgray,  0, -1, tr_null,
 	   mfb(flammable), &iexamine::none},
-{"washing machine",     '{', i_white,  0, tr_null,
+{"washing machine",     '{', i_white,  0, -1, tr_null,
 	   mfb(container)|mfb(collapses)|mfb(bashable)|mfb(place_item)|mfb(indoors), &iexamine::none},
-{"dryer",     '{', i_white,  0, tr_null,
+{"dryer",     '{', i_white,  0, -1, tr_null,
 	   mfb(container)|mfb(collapses)|mfb(bashable)|mfb(place_item)|mfb(indoors), &iexamine::none},
 {"refrigerator",     '{', c_ltcyan,  0, 10, tr_null,
 	   mfb(container)|mfb(collapses)|mfb(bashable)|mfb(place_item)|mfb(indoors), &iexamine::none},
