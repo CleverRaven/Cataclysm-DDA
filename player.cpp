@@ -2411,8 +2411,7 @@ int player::sight_range(int light_level)
 
 int player::unimpaired_range()
 {
-                           // int ret = 12; based on erronious screen size assumption 
- int ret = SEEX * MAPSIZE; // based on lightmap's cache, which the above breaks.
+ int ret = DAYLIGHT_LEVEL;
  if (has_disease(DI_IN_PIT))
   ret = 1;
  if (has_disease(DI_BLIND))
