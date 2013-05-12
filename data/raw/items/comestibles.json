@@ -25,7 +25,7 @@
     "heal": 0,
     "fun": 0,
     "stim": 0,
-    "phase": "LIQUID"
+    "phase": "liquid"
   },
     {
         "type" : "COMESTIBLE",

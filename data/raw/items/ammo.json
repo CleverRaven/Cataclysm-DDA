@@ -1830,6 +1830,7 @@
         "accuracy" : 0,
         "recoil" : 0,
         "count" : 200,
-        "effects" : ["FLAME","STREAM"]        
+        "effects" : ["FLAME","STREAM"],
+        "phase": "liquid"
     }
 ]
