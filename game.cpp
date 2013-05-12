@@ -516,19 +516,22 @@ bool game::do_turn()
  }
 
  process_activity();
+ if(u.moves > 0) {
+     while (u.moves > 0) {
+          cleanup_dead();
+          if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
+              draw();
 
- while (u.moves > 0) {
-  cleanup_dead();
-  if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
-   draw();
+          if(handle_action())
+              ++moves_since_last_save;
 
-  if(handle_action())
-	  ++moves_since_last_save;
-
-  if (is_game_over()) {
-   cleanup_at_end();
-   return true;
-  }
+          if (is_game_over()) {
+              cleanup_at_end();
+              return true;
+          }
+     }
+ } else {
+     handle_key_blocking_activity();
  }
  update_scent();
  m.vehmove(this);
@@ -1178,6 +1181,49 @@ void game::process_missions()
    fail_mission(active_missions[i].uid);
  }
 }
+
+void game::handle_key_blocking_activity() {
+    if ( u.activity.type != ACT_NULL &&
+        u.activity.moves_left > 0 &&
+        u.activity.continuous == true &&
+        (  // bool activity_is_abortable() ?
+            u.activity.type == ACT_READ ||
+            u.activity.type == ACT_BUILD ||
+            u.activity.type == ACT_LONGCRAFT ||
+            u.activity.type == ACT_REFILL_VEHICLE ||
+            u.activity.type == ACT_REFILL_VEHICLE ||
+            u.activity.type == ACT_WAIT
+        )
+    ) {
+        char ch='.';
+        int ich=0;
+        timeout(1);
+        if((ich = input()) != ERR) {
+            timeout(-1);
+            ch = input(ich);
+            action_id act = keymap[ch];
+            switch(act) {  // should probably make the switch in handle_action() a function
+                case ACTION_PAUSE:
+                    cancel_activity_query("Confirm:");
+                break;
+                case ACTION_PL_INFO:
+                    u.disp_info(this);
+                    refresh_all();
+                break;
+                case ACTION_MESSAGES:
+                    msg_buffer();
+                break;
+
+                case ACTION_HELP:
+                    help();
+                    refresh_all();
+                break;
+            }
+        }
+        timeout(-1);
+    }
+}
+
 
 bool game::handle_action()
 {
