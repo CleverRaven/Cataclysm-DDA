@@ -1,3 +1,4 @@
+#include "item_factory.h"
 #include "mondeath.h"
 #include "monster.h"
 #include "game.h"
@@ -342,6 +343,11 @@ void mdeath::zombie(game *g, monster *z)
                 g->m.put_items_from(mi_mil_armor_helmet, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             }
         break;
+        
+        case mon_zombie_hulk:
+            g->m.spawn_item(z->posx, z->posy, item_controller->find_template("rag"), g->turn, 0, 0, rng(5,10));
+            g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            break;
         
         default:
             g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
