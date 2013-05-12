@@ -735,29 +735,29 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   else
    rn = 0;
 
-  // spawn city car wrecks
-  if (rn > 0) {
-   vhtype_id vt = veh_null;
-   int maxwrecks = rng (1,3);
-   for (int nv = 0; nv < maxwrecks; nv++) {
-    int vx = rng (0, 3) * 4 + 5;
-    int vy = rng (0, 3) * 4 + 5;
-    int rc = rng(1, 100);
-	if (rc <= 50)
-     add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 70)
-     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else if (rc <= 90)
-     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
-    else
-     add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, 1);
-   }
-  }
-
   if (terrain_type == ot_road_ew)
    veh_spawn_heading = (one_in(2)? 0 : 180);
   else
    veh_spawn_heading = (one_in(2)? 270 : 90);
+
+  // spawn city car wrecks
+  if (rn > 0) {
+   vhtype_id vt = veh_null;
+   int maxwrecks = rng (0,3);
+   for (int nv = 0; nv < maxwrecks; nv++) {
+    int vx = rng (0, 3) * 4 + 5;
+    int vy = rng (0, 3) * 4 + 5;
+    int rc = rng(1, 100);
+    if (rc <= 50)
+        add_vehicle (g, veh_car_chassis, vx, vy, veh_spawn_heading, -1, 1);
+    else if (rc <= 70)
+        add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, -1, 1);
+    else if (rc <= 90)
+        add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, -1, 1);
+    else
+        add_vehicle (g, veh_motorcycle, vx, vy, veh_spawn_heading, -1, 1);
+   }
+  }
 
   // spawn regular road out of fuel vehicles
   if (rn == 0) {
@@ -766,12 +766,12 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int vx = rng (8, 16);
     int vy = rng (8, 16);
     int rc = rng(1, 10);
-	if (rc <= 5)
-     add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
+    if (rc <= 5)
+        add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
     else if (rc <= 9)
-     add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, 0, -1);
+        add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, 0, -1);
     else
-     add_vehicle (g, veh_semi, vx, vy, veh_spawn_heading, 0, -1);
+        add_vehicle (g, veh_semi, vx, vy, veh_spawn_heading, 0, -1);
    }
   }
 
