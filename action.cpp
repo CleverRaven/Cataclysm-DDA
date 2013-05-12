@@ -30,7 +30,7 @@ Warning!  data/keymap.txt contains an unknown action, \"%s\"\n\
 Fix data/keymap.txt at your next chance!", id.c_str());
    else {
     while (!fin.eof()) {
-      char space; char ch;
+      char ch;
       fin >> std::noskipws >> ch >> std::skipws;
       if (ch == '\n') {
         break;
