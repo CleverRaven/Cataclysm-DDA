@@ -756,142 +756,6 @@ gracken");
 itypes[id]=new itype(id,rarity,price,name,des,sym,\
 color,mat1,mat2,SOLID,volume,wgt,dam,cut,to_hit,flags);
 
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("rope_6", "rope - 6 ft",	 4, 45, ',', c_yellow,	WOOD,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 2,  4,  1,  0,  1, mfb(IF_WRAP), "\
-A short piece of nylon rope. Too small to be of much use.");
-
-MELEE("chain", "steel chain",	20, 80, '/', c_cyan,	STEEL,	MNULL,
-	 4,  8, 12,  0,  2, mfb(IF_WRAP), "\
-A heavy steel chain. Useful as a weapon, or for crafting. It has a chance\n\
-to wrap around your target, allowing for a bonus unarmed attack.");
-TECH("chain", mfb(TEC_GRAB) );
-
-MELEE("hose", "rubber hose",	15, 80, ',', c_green,	PLASTIC,MNULL,
-	 3,  2,  4,  0,  3, mfb(IF_WRAP), "\
-A flexible rubber hose. Useful for crafting.");
-
-MELEE("broom", "broom",		30, 24, '/', c_blue,	PLASTIC,MNULL,
-	10,  8,  6,  0,  1, 0, "\
-A long-handled broom. Makes a terrible weapon unless you're chasing cats.");
-TECH("broom", mfb(TEC_WBLOCK_1) );
-
-MELEE("hammer_sledge", "sledge hammer",	 6, 120,'/', c_brown,	WOOD,	IRON,
-	18, 38, 40,  0,  0, 0, "\
-A large, heavy hammer. Makes a good melee weapon for the very strong, but is\n\
-nearly useless in the hands of the weak.");
-TECH("hammer_sledge", mfb(TEC_BRUTAL)|mfb(TEC_WIDE) );
-
-MELEE("nailboard", "nail board",	 5,  80,'/', c_ltred,	WOOD,	MNULL,
-	 6,  6, 16,  6,  1, mfb(IF_STAB), "\
-A long piece of wood with several nails through one end; essentially a simple\n\
-mace. Makes a great melee weapon.");
-TECH("nailboard", mfb(TEC_WBLOCK_1) );
-
-MELEE("nailbat", "nail bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
-	12, 10, 28,  6,  3, mfb(IF_STAB), "\
-A baseball bat with several nails driven through it, an excellent melee weapon.");
-TECH("nailbat", mfb(TEC_WBLOCK_1) );
-
-MELEE("2x4", "two by four", 	60,  80,'/', c_ltred,	WOOD,	MNULL,
-	 6,  6, 14,  0,  1, 0, "\
-A plank of wood. Makes a decent melee weapon, and can be used to board up\n\
-doors and windows if you have a hammer and nails.");
-TECH("2x4", mfb(TEC_WBLOCK_1) );
-
-MELEE("muffler", "muffler",	30,  30,'/', c_ltgray,	IRON,	MNULL,
-	20, 20, 19,  0, -3, 0, "\
-A muffler from a car. Very unwieldy as a weapon. Useful in a few crafting\n\
-recipes.");
-TECH("muffler", mfb(TEC_WBLOCK_2) );
-
-MELEE("pipe", "pipe",		20,  75,'/', c_dkgray,	STEEL,	MNULL,
-	 4, 10, 13,  0,  3, 0, "\
-A steel pipe, makes a good melee weapon. Useful in a few crafting recipes.");
-TECH("pipe", mfb(TEC_WBLOCK_1) );
-
-MELEE("bat", "baseball bat",	60, 160,'/', c_ltred,	WOOD,	MNULL,
-	12, 10, 28,  0,  3, 0, "\
-A sturdy wood bat. Makes a great melee weapon.");
-TECH("bat", mfb(TEC_WBLOCK_1) );
-
-MELEE("bat_metal", "aluminium bat",	60, 160,'/', c_ltred,	STEEL,	MNULL,
-	10, 6, 24,  0,  3, 0, "\
-An aluminium baseball bat, smaller and lighter than a wooden bat\n\
-and a little less damaging as a result.");
-TECH("bat_metal", mfb(TEC_WBLOCK_1) );
-
-MELEE("spear_wood", "wood spear",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
-	 5,  3,  4, 18,  1, mfb(IF_SPEAR), "\
-A stout pole with an improvised grip and a fire-hardened point.");
-TECH("spear_wood", mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
-
-MELEE("baton", "expandable baton",8, 175,'/', c_blue,	STEEL,	MNULL,
-	 1,  4, 12,  0,  2, 0, "\
-A telescoping baton that collapses for easy storage. Makes an excellent\n\
-melee weapon.");
-TECH("baton", mfb(TEC_WBLOCK_1) );
-
-MELEE("bee_sting", "bee sting",	 5,  70,',', c_dkgray,	FLESH,	MNULL,
-	 1,  0,  0, 18, -1, mfb(IF_SPEAR), "\
-A six-inch stinger from a giant bee. Makes a good melee weapon.");
-TECH("bee_sting", mfb(TEC_PRECISE) );
-
-MELEE("wasp_sting", "wasp sting",	 5,  90,',', c_dkgray,	FLESH,	MNULL,
-	 1,  0,  0, 22, -1, mfb(IF_SPEAR), "\
-A six-inch stinger from a giant wasp. Makes a good melee weapon.");
-TECH("wasp_sting", mfb(TEC_PRECISE) );
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("cane", "walking cane",   10, 160,'/', c_ltred,	WOOD,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	  8,  7, 10,  0,  2, 0, "\
-Handicapped or not, you always walk in style. Consisting of a metal\n\
-headpiece and a wooden body, this makes a great bashing weapon in a pinch.");
-TECH("cane", mfb(TEC_WBLOCK_1) );
-
-MELEE("mace", "mace",		20,1000,'/',c_dkgray,	IRON,	WOOD,
-	10, 18, 36,  0,  1, 0, "\
-A medieval weapon consisting of a wood handle with a heavy iron end. It\n\
-is heavy and slow, but its crushing damage is devastating.");
-TECH("mace", mfb(TEC_SWEEP) );
-
-MELEE("morningstar", "morningstar",	10,1200,'/',c_dkgray, 	IRON,	WOOD,
-	11, 20, 32,  4,  1, mfb(IF_SPEAR), "\
-A medieval weapon consisting of a wood handle with a heavy, spiked iron\n\
-ball on the end. It deals devastating crushing damage, with a small\n\
-amount of piercing to boot.");
-TECH("morningstar", mfb(TEC_SWEEP) );
-
-//    NAME		RAR PRC SYM COLOR	MAT1	MAT2
-MELEE("pool_cue", "pool cue",	 4, 80,'/', c_red,	WOOD,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	14,  5, 12,  0,  3, 0, "\
-A hard-wood stick designed for hitting colorful balls around a felt\n\
-table. Truly, the coolest of sports.");
-TECH("pool_cue", mfb(TEC_WBLOCK_1) );
-
-MELEE("spike", "spike",           0, 0,';',  c_cyan,     STEEL,  MNULL,
-	 2,  2,  2, 10, -2, mfb(IF_STAB),"\
-A large and slightly misshapen spike, could do some damage\n\
-mounted on a vehicle.");
-
-MELEE("javelin", "wooden javelin",	 5,  40,'/', c_ltred,	WOOD,	MNULL,
-//	VOL WGT DAM CUT HIT FLAGS
-	 5,  3,  6,  22,  2, mfb(IF_SPEAR), "\
-A wooden spear, honed to a sharper point and fire hardened\n\
-for toughness. The grip area has also be carved and covered\n\
-for better grip.");
-TECH("javelin", mfb(TEC_WBLOCK_1) | mfb(TEC_RAPID) );
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("frame", "steel frame",  20, 55, ']', c_cyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    60, 240, 20, 0, -5,  0, "\
-A large frame made of steel. Useful for crafting.");
-TECH("frame", mfb(TEC_DEF_DISARM) );
-
 #define VAR_VEH_PART(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, bigmin, bigmax, bigaspect, des)\
 itypes[id]=new it_var_veh_part(id,rarity,price,name,des,sym,\
@@ -925,18 +789,6 @@ VAR_VEH_PART("wheel_small", "small wheel",    5, 140,  ']', c_dkgray,  STEEL,   
 A pretty small wheel. Probably from one of those segway things.\
 It is not very menacing.");
 
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("seat", "seat",  8, 250, '0', c_red,  PLASTIC,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    30,  80,  4,  0,  -4, 0, "\
-A soft car seat covered with leather.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("vehicle_controls", "vehicle controls",  3, 400, '$', c_ltcyan,  PLASTIC,   STEEL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  30,  2,  0,  -4, 0, "\
-A set of various vehicle controls. Useful for crafting.");
-
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
 VAR_VEH_PART("1cyl_combustion", "1-cylinder engine",  3, 100, ':', c_ltcyan,  IRON,   MNULL,
 //  VOL WGT DAM CUT HIT FLAGS 0BIGNESS_MIN BIGNESS_MAX   ASPECT
@@ -966,95 +818,6 @@ VAR_VEH_PART("v8_combustion", "V8 engine",  2, 250, ':', c_ltcyan,  IRON,   MNUL
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     25,  600,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, "\
 A large and very powerful 8-cylinder combustion engine.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("motor", "electric motor",  2,120, ',', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    6,  80,  4,  0,  0, 0, "\
-A powerful electric motor. Useful for crafting.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("motor_large", "large electric motor",  1,220, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    15,  650,  9,  0,  -3, 0, "\
-A large and very powerful electric motor. Useful for crafting.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("plasma_engine", "plasma engine",  1, 900, ':', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  350,  7,  0,  -2, 0, "\
-High technology engine, working on hydrgen fuel.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("foot_crank", "foot crank",  10, 90, ':', c_ltgray,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    2,  10,  10,  0,  -1, 0, "\
-The pedal and gear assembly from a bicycle.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("metal_tank", "metal tank",  10, 40, '}', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    18,  25,  3,  0,  -2, 0, "\
-A metal tank for holding liquids. Useful for crafting.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("storage_battery", "storage battery",  6, 80, ':', c_ltcyan,  IRON,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    8,  220,  6,  0,  -2, 0, "\
-A large storage battery. Useful for crafting.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("minireactor", "minireactor",  1, 900, ':', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    6,  250,  11,  0,  -4, 0, "\
-A small portable plutonium reactor. Handle with great care!");
-
-//      NAME          RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("solar_panel", "solar panel",  3, 900, ']', c_yellow,  GLASS,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  4,  1,  0,  -4, 0, "\
-Electronic device that can convert solar radiation into electric\n\
-power. Useful for crafting.");
-
-MELEE("solar_cell", "solar cell", 5, 50, ';', c_yellow, GLASS, MNULL,
-      1, 0,  1,  0,  -4, 0, "\
-A small electronic device that can convert solar radiation into\n\
-electric power. Useful for crafting.");
-
-MELEE("sheet_metal", "sheet metal",  30, 60, ']', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    4,  20,  5,  0,  -2, 0, "\
-A thin sheet of metal.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("steel_plate", "steel plating",  30, 120, ']', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  600,  6,  0,  -1, 0, "\
-A piece of armor plating made of steel.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("alloy_plate", "superalloy plating",  10, 185, ']', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  350,  6,  0,  -1, 0, "\
-A piece of armor plating made of sturdy superalloy.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("spiked_plate", "spiked plating",  15, 185, ']', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    14,  600,  6,  3,  -1, 0, "\
-A piece of armor plating made of steel. It is covered by menacing\n\
-spikes.");
-
-//      NAME           RAR PRC SYM COLOR        MAT1    MAT2
-MELEE("hard_plate", "hard plating",  30, 160, ']', c_ltcyan,  STEEL,   MNULL,
-//  VOL WGT DAM CUT HIT FLAGS
-    12,  1800,  6,  0,  -1, 0, "\
-A piece of very thick armor plating made of steel.");
-
-MELEE("kitchen_unit", "RV kitchen unit", 20, 400, '&', c_ltcyan, STEEL, MNULL,
-    80, 900, 0, 0, -2, 0, "\
-A vehicle mountable electric range and sink unit with integrated\n\
-tool storage for cooking utensils.");
 
 // ARMOR
 #define ARMOR(id, name, rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
@@ -2415,14 +2178,6 @@ MACGUFFIN("note", "note", 0, '?', c_white, PAPER, MNULL, 1, 0, 0, 0, 0,
 	true, &iuse::mcg_note, "\
 A hand-written paper note.");
 
-MELEE("poppy_flower", "poppy flower",   1, 400,',', c_magenta,	VEGGY,	MNULL,
-	 1,  0, -8,  0, -3, 0, "\
-A poppy stalk with some petals.");
-
-MELEE("poppy_bud", "a poppy bud",   1, 400,',', c_magenta,	VEGGY,	MNULL,
-	 1,  0, -8,  0, -3, 0, "\
-Contains some substances commonly produced by mutated poppy flower");
-
 #define STATIONARY(id, name, rarity, price, category, description) \
 itypes[id] = new it_stationary(id, rarity, price, name, description,\
 ',', c_white, PAPER, MNULL, 0, 0, 0, 0, 0, 0, category)
@@ -2438,13 +2193,6 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
     }
 }
 
-//    NAME		RARE SYM COLOR		MAT1	MAT2
-MELEE("bio_claws_weapon", "adamantite claws",0,0,'{', c_pink,	STEEL,	MNULL,
-//	VOL WGT DAM CUT HIT
-	 2,  0,  8, 16,  4,
- mfb(IF_STAB)|mfb(IF_UNARMED_WEAPON)|mfb(IF_NO_UNWIELD), "\
-Short and sharp claws made from a high-tech metal.");
-
 //  NAME		RARE  TYPE	COLOR		MAT
 AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
 //	VOL WGT DMG  AP RNG ACC REC COUNT
@@ -2455,7 +2203,6 @@ GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "",0);
-
 
 
 
