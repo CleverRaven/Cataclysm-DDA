@@ -1902,19 +1902,19 @@ ss                      \n",
 case ot_apartments_mod_tower_1_entrance:{
   fill_background(this, &grass_or_dirt);
   mapf::formatted_set_terrain(this, 0, 0,
-  "  w.htth..FFFF..eSc|aR..\n\
-  w...............O|.R..\n\
-  |-X|..........ccc|.R..\n\
-  Rss|-+----|o...h.|.R..\n\
+  "  w.htth..FFFF..eSc|....\n\
+  w...............O|....\n\
+  |-X|..........ccc|....\n\
+  Rss|-+----|o...h.|....\n\
   Rss|...BBd|o....A|....\n\
   Rssw...BB.|^.....|....\n\
   Rssw...h..|--|...D....\n\
   Rss|..cxc.+.r|-+-|....\n\
  ||--|+|----|--|r..|....\n\
- |b....|bTS.+..|---|aR..\n\
- |b.T.S|b...|..+..u|.R..\n\
- |-----|-+|-|..|---|.R..\n\
- |.dBBd...+r|...eSc|.R..\n\
+ |b....|bTS.+..|---|....\n\
+ |b.T.S|b...|..+..u|....\n\
+ |-----|-+|-|..|---|....\n\
+ |.dBBd...+r|...eSc|....\n\
  w..BB....|-|.....O|....\n\
  |.....h..+.....ccc|....\n\
  |--|.cxc.|........D....\n\
@@ -2039,19 +2039,19 @@ case ot_apartments_mod_tower_1:{
   else if ((t_west == ot_apartments_mod_tower_1_entrance && t_north == ot_apartments_mod_tower_1) || (t_north == ot_apartments_mod_tower_1_entrance && t_east == ot_apartments_con_tower_1)
            || (t_west == ot_apartments_mod_tower_1 && t_south == ot_apartments_mod_tower_1_entrance) || (t_south == ot_apartments_mod_tower_1 && t_east == ot_apartments_mod_tower_1_entrance)) {
      mapf::formatted_set_terrain(this, 0, 0,
-"..Ra|cSe.u.htth...oo.w  \n\
-..R.|O.....htth......w  \n\
-..R.|ccc..........|X-|  \n\
-..R.|......|----+-|ssR  \n\
+"....|cSe.u.htth...oo.w  \n\
+....|O.....htth......w  \n\
+....|ccc..........|X-|  \n\
+....|......|----+-|ssR  \n\
 ....|.....A|dBB...|ssR  \n\
 ....|.....^|.BB...wssR  \n\
 ....D...|--|......wssR  \n\
 ....|-+-|r.+......|ssR  \n\
 ....|..r|--|----|+|--|| \n\
-..Ra|---|..+.STb|....b| \n\
-..R.|u..+..|...b|S.T.b| \n\
-..R.|---|..|-|+-|-----| \n\
-..R.|cSe...|r+..d.BBd.| \n\
+....|---|..+.STb|....b| \n\
+....|u..+..|...b|S.T.b| \n\
+....|---|..|-|+-|-----| \n\
+....|cSe...|r+..d.BBd.| \n\
 ....|O.....|-|....BB..w \n\
 ....|ccc.....+........| \n\
 ....D.......A|....o|--| \n\
