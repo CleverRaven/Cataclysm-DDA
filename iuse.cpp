@@ -904,99 +904,124 @@ void iuse::primitive_fire(game *g, player *p, item *it, bool t)
 
 void iuse::sew(game *g, player *p, item *it, bool t)
 {
- if(!p->can_see_fine_detail(g)){
-   g->add_msg("It's too dark to sew!");
-   it->charges++;
-   return;
- }
- char ch = g->inv_type("Repair what?", IC_ARMOR);
- item* fix = &(p->i_at(ch));
- if (fix == NULL || fix->is_null()) {
-  g->add_msg_if_player(p,"You do not have that item!");
-  it->charges++;
-  return;
- }
- if (!fix->is_armor()) {
-  g->add_msg_if_player(p,"That isn't clothing!");
-  it->charges++;
-  return;
- }
- if (!fix->made_of(COTTON) && !fix->made_of(WOOL)) {
-  g->add_msg_if_player(p,"Your %s is not made of cotton or wool.", fix->tname().c_str());
-  it->charges++;
-  return;
- }
- if (fix->damage < 0) {
-  g->add_msg_if_player(p,"Your %s is already enhanced.", fix->tname().c_str());
-  it->charges++;
-  return;
- } else if (fix->damage == 0) {
-  p->moves -= 500;
-  p->practice(g->turn, "tailor", 10);
-  int rn = dice(4, 2 + p->skillLevel("tailor"));
-  if (p->dex_cur < 8 && one_in(p->dex_cur))
-   rn -= rng(2, 6);
-  if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
-   rn += rng(2, 6);
-  if (p->dex_cur > 16)
-   rn += rng(0, p->dex_cur - 16);
-  if (rn <= 4) {
-   g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
-   fix->damage++;
-  } else if (rn >= 12 && p->i_at(ch).has_flag(IF_VARSIZE) && !p->i_at(ch).has_flag(IF_FIT)) {
-   g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
-   (p->i_at(ch).item_flags |= mfb(IF_FIT));
-  } else if (rn >= 12 && (p->i_at(ch).has_flag(IF_FIT) || !p->i_at(ch).has_flag(IF_VARSIZE))) {
-   g->add_msg_if_player(p, "You make your %s extra sturdy.", fix->tname().c_str());
-   fix->damage--;
-  } else
-   g->add_msg_if_player(p,"You practice your sewing.");
- } else {
-  p->moves -= 500;
-  p->practice(g->turn, "tailor", 8);
-  int rn = dice(4, 2 + p->skillLevel("tailor"));
-  rn -= rng(fix->damage, fix->damage * 2);
-  if (p->dex_cur < 8 && one_in(p->dex_cur))
-   rn -= rng(2, 6);
-  if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur)))
-   rn += rng(2, 6);
-  if (p->dex_cur > 16)
-   rn += rng(0, p->dex_cur - 16);
-  if (rn <= 4) {
-   g->add_msg_if_player(p,"You damage your %s further!", fix->tname().c_str());
-   fix->damage++;
-   if (fix->damage >= 5) {
-    g->add_msg_if_player(p,"You destroy it!");
-    p->i_rem(ch);
-   }
-  } else if (rn <= 6) {
-   g->add_msg_if_player(p,"You don't repair your %s, but you waste lots of thread.",
-              fix->tname().c_str());
-   int waste = rng(1, 8);
-   if (waste > it->charges)
-    it->charges = 1;
-   else
-    it->charges -= waste;
-  } else if (rn <= 8) {
-   g->add_msg_if_player(p,"You repair your %s, but waste lots of thread.",
-              fix->tname().c_str());
-   fix->damage--;
-   int waste = rng(1, 8);
-   if (waste > it->charges)
-    it->charges = 1;
-   else
-    it->charges -= waste;
-  } else if (rn <= 16) {
-   g->add_msg_if_player(p,"You repair your %s!", fix->tname().c_str());
-   fix->damage--;
-  } else {
-   g->add_msg_if_player(p,"You repair your %s completely!", fix->tname().c_str());
-   fix->damage = 0;
-  }
- }
- //iuse::sew uses up 1 charge when called, if less than 1, set to 1, and use that one up.
- if (it->charges < 1)
-  it->charges = 1;
+    if(p->fine_detail_vision_mod(g) > 2.5)
+	{
+        g->add_msg("You can't see to sew!");
+        it->charges++;
+        return;
+    }
+    char ch = g->inv_type("Repair what?", IC_ARMOR);
+    item* fix = &(p->i_at(ch));
+    if (fix == NULL || fix->is_null())
+	{
+        g->add_msg_if_player(p,"You do not have that item!");
+        it->charges++;
+        return;
+    }
+    if (!fix->is_armor())
+	{
+        g->add_msg_if_player(p,"That isn't clothing!");
+        it->charges++;
+        return;
+    }
+    if (!fix->made_of(COTTON) && !fix->made_of(WOOL))
+	{
+        g->add_msg_if_player(p,"Your %s is not made of cotton or wool.", fix->tname().c_str());
+        it->charges++;
+        return;
+    }
+    if (fix->damage < 0)
+	{
+        g->add_msg_if_player(p,"Your %s is already enhanced.", fix->tname().c_str());
+        it->charges++;
+        return;
+    }
+    else if (fix->damage == 0)
+	{
+        p->moves -= 500 * p->fine_detail_vision_mod(g);
+        p->practice(g->turn, "tailor", 10);
+        int rn = dice(4, 2 + p->skillLevel("tailor"));
+        if (p->dex_cur < 8 && one_in(p->dex_cur))
+            {rn -= rng(2, 6);}
+        if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
+            {rn += rng(2, 6);}
+        if (p->dex_cur > 16)
+            {rn += rng(0, p->dex_cur - 16);}
+        if (rn <= 4)
+	    {
+            g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
+            fix->damage++;
+        } 
+        else if (rn >= 12 && p->i_at(ch).has_flag(IF_VARSIZE) && !p->i_at(ch).has_flag(IF_FIT))
+	    {
+            g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
+            (p->i_at(ch).item_flags |= mfb(IF_FIT));
+        }
+        else if (rn >= 12 && (p->i_at(ch).has_flag(IF_FIT) || !p->i_at(ch).has_flag(IF_VARSIZE)))
+	    {
+            g->add_msg_if_player(p, "You make your %s extra sturdy.", fix->tname().c_str());
+            fix->damage--;
+        }
+        else
+		{
+            g->add_msg_if_player(p,"You practice your sewing.");
+		}
+    }
+    else
+	{
+        p->moves -= 500 * p->fine_detail_vision_mod(g);
+        p->practice(g->turn, "tailor", 8);
+        int rn = dice(4, 2 + p->skillLevel("tailor"));
+        rn -= rng(fix->damage, fix->damage * 2);
+        if (p->dex_cur < 8 && one_in(p->dex_cur))
+            {rn -= rng(2, 6);}
+        if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur)))
+            {rn += rng(2, 6);}
+        if (p->dex_cur > 16)
+            {rn += rng(0, p->dex_cur - 16);}
+        if (rn <= 4)
+	    {
+            g->add_msg_if_player(p,"You damage your %s further!", fix->tname().c_str());
+            fix->damage++;
+            if (fix->damage >= 5)
+		    {
+                g->add_msg_if_player(p,"You destroy it!");
+                p->i_rem(ch);
+            }
+        }
+	    else if (rn <= 6)
+	    {
+            g->add_msg_if_player(p,"You don't repair your %s, but you waste lots of thread.", fix->tname().c_str());
+            int waste = rng(1, 8);
+            if (waste > it->charges)
+                {it->charges = 1;}
+            else
+                {it->charges -= waste;}
+        }
+        else if (rn <= 8)
+	    {
+            g->add_msg_if_player(p,"You repair your %s, but waste lots of thread.", fix->tname().c_str());
+            fix->damage--;
+            int waste = rng(1, 8);
+        if (waste > it->charges)
+            {it->charges = 1;}
+        else
+            {it->charges -= waste;}
+        }
+	    else if (rn <= 16)
+	    {
+            g->add_msg_if_player(p,"You repair your %s!", fix->tname().c_str());
+            fix->damage--;
+        }
+	    else
+	    {
+            g->add_msg_if_player(p,"You repair your %s completely!", fix->tname().c_str());
+            fix->damage = 0;
+        }
+    }
+    //iuse::sew uses up 1 charge when called, if less than 1, set to 1, and use that one up.
+    if (it->charges < 1)
+        {it->charges = 1;}
 }
 
 void iuse::extra_battery(game *g, player *p, item *it, bool t)
@@ -1100,24 +1125,24 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     }
     g->add_msg_if_player(p,"You slice the %s into %d %s%s%s.", cut->tname().c_str(), count, pre_text.c_str(),
                          (count == 1 ? "" : "s"), post_text.c_str());
-    item rag(g->itypes[type], int(g->turn), g->nextinv);
+    item result(g->itypes[type], int(g->turn), g->nextinv);
     p->i_rem(ch);
     bool drop = false;
     for (int i = 0; i < count; i++)
     {
         int iter = 0;
-        while (p->has_item(rag.invlet) && iter < inv_chars.size())
+        while (p->has_item(result.invlet) && iter < inv_chars.size())
         {
-            rag.invlet = g->nextinv;
+            result.invlet = g->nextinv;
             g->advance_nextinv();
             iter++;
         }
         if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
             drop = true;
         if (drop)
-            g->m.add_item(p->posx, p->posy, rag);
+            g->m.add_item(p->posx, p->posy, result);
         else
-            p->i_add(rag, g);
+            p->i_add(result, g);
     }
     return;
 }
@@ -1507,8 +1532,8 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
             messtream << "radio: " << segments[index];
             message = messtream.str();
         }
-        point p = g->find_item(it);
-        g->sound(p.x, p.y, 6, message.c_str());
+        point pos = g->find_item(it);
+        g->sound(pos.x, pos.y, 6, message.c_str());
     } else {	// Activated
         int ch = menu( true, "Radio:", "Scan", "Turn off", NULL );
         switch (ch)
@@ -1697,7 +1722,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  if (type == t_chaingate_l) {
    door_name = "gate";
    new_type = t_chaingate_c;
- } else if (type == t_door_locked || type == t_door_locked_alarm) {
+ } else if (type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
    door_name = "door";
    new_type = t_door_c;
  } else {
@@ -1758,7 +1783,7 @@ if (dirx == 0 && diry == 0) {
  bool noisy;
  int difficulty;
 
- if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm) {
+ if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
    door_name = "door";
    action_name = "pry open";
    new_type = t_door_o;
@@ -2767,13 +2792,13 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
  int index = rng(0, valid.size() - 1);
  p->moves -= 60;
  it->invlet = 0; // Remove the manhack from the player's inv
- monster manhack(g->mtypes[mon_manhack], valid[index].x, valid[index].y);
+ monster m_manhack(g->mtypes[mon_manhack], valid[index].x, valid[index].y);
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
      p->skillLevel("computer") < rng(0, 4))
   g->add_msg_if_player(p,"You misprogram the manhack; it's hostile!");
  else
-  manhack.friendly = -1;
- g->z.push_back(manhack);
+  m_manhack.friendly = -1;
+ g->z.push_back(m_manhack);
 }
 
 void iuse::turret(game *g, player *p, item *it, bool t)
@@ -2794,13 +2819,13 @@ void iuse::turret(game *g, player *p, item *it, bool t)
   return;
  }
  it->invlet = 0; // Remove the turret from the player's inv
- monster turret(g->mtypes[mon_turret], dirx, diry);
+ monster mturret(g->mtypes[mon_turret], dirx, diry);
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
      p->skillLevel("computer") < rng(0, 6))
   g->add_msg_if_player(p,"You misprogram the turret; it's hostile!");
  else
-  turret.friendly = -1;
- g->z.push_back(turret);
+  mturret.friendly = -1;
+ g->z.push_back(mturret);
 }
 
 void iuse::UPS_off(game *g, player *p, item *it, bool t)
@@ -2975,9 +3000,9 @@ void iuse::vortex(game *g, player *p, item *it, bool t)
  int index = rng(0, spawn.size() - 1);
  p->moves -= 100;
  it->make(g->itypes["spiral_stone"]);
- monster vortex(g->mtypes[mon_vortex], spawn[index].x, spawn[index].y);
- vortex.friendly = -1;
- g->z.push_back(vortex);
+ monster mvortex(g->mtypes[mon_vortex], spawn[index].x, spawn[index].y);
+ mvortex.friendly = -1;
+ g->z.push_back(mvortex);
 }
 
 void iuse::dog_whistle(game *g, player *p, item *it, bool t)
@@ -3012,10 +3037,10 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
  item blood(g->itypes["blood"], g->turn);
  bool drew_blood = false;
  for (int i = 0; i < g->m.i_at(p->posx, p->posy).size() && !drew_blood; i++) {
-  item *it = &(g->m.i_at(p->posx, p->posy)[i]);
-  if (it->type->id == "corpse" &&
-      query_yn("Draw blood from %s?", it->tname().c_str())) {
-   blood.corpse = it->corpse;
+  item *map_it = &(g->m.i_at(p->posx, p->posy)[i]);
+  if (map_it->type->id == "corpse" &&
+      query_yn("Draw blood from %s?", map_it->tname().c_str())) {
+   blood.corpse = map_it->corpse;
    drew_blood = true;
   }
  }
@@ -3031,11 +3056,11 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
-    int ch = menu(true,
+    int choice = menu(true,
     "Using knife:", "Cut up fabric", "Carve wood", "Cauterize", "Cancel", NULL);
-    switch (ch)
+    switch (choice)
     {
-        if (ch == 4)
+        if (choice == 4)
         break;
         case 1:
         {
@@ -3909,10 +3934,10 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    if (bug != mon_null) {
     monster spawned(g->mtypes[bug]);
     spawned.friendly = -1;
-    for (int i = 0; i < num && !empty.empty(); i++) {
-     int index = rng(0, empty.size() - 1);
-     point spawnp = empty[index];
-     empty.erase(empty.begin() + index);
+    for (int j = 0; j < num && !empty.empty(); j++) {
+     int index_inner = rng(0, empty.size() - 1);
+     point spawnp = empty[index_inner];
+     empty.erase(empty.begin() + index_inner);
      spawned.spawn(spawnp.x, spawnp.y);
      g->z.push_back(spawned);
     }
@@ -3935,8 +3960,8 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   } break;
 
   case AEA_HURTALL:
-   for (int i = 0; i < g->z.size(); i++)
-    g->z[i].hurt(rng(0, 5));
+   for (int j = 0; j < g->z.size(); j++)
+    g->z[j].hurt(rng(0, 5));
    break;
 
   case AEA_RADIATION:
@@ -4014,7 +4039,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    int num_shadows = rng(4, 8);
    monster spawned(g->mtypes[mon_shadow]);
    int num_spawned = 0;
-   for (int i = 0; i < num_shadows; i++) {
+   for (int j = 0; j < num_shadows; j++) {
     int tries = 0, monx, mony, junk;
     do {
      if (one_in(2)) {

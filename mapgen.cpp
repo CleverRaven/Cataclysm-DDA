@@ -225,6 +225,11 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
  }
 }
 
+// TODO: clean up variable shadowing in this function
+// unfortunately, due to how absurdly long the function is (over 8000 lines!), it'll be hard to
+// track down what is and isn't supposed to be carried around between bits of code.
+// I suggest that we break the function down into smaller parts
+
 void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                    const oter_id t_south, const oter_id t_west, const oter_id t_above,
                    const int turn, game *g, const float density)
@@ -253,6 +258,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  int y = 0;
  int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
  computer *tmpcomp = NULL;
+ int veh_spawn_heading;
 
  switch (terrain_type) {
 
@@ -321,7 +327,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   }
     if (one_in(4))
   {
-      add_vehicle (g, veh_truck, 12, 12, 90);
+      add_vehicle (g, veh_truck, 12, 12, 90, -1, -1);
 	  }
   break;
  case ot_forest:
@@ -721,13 +727,52 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
  case ot_road_ns:
  case ot_road_ew:
-  if ((t_west  >= ot_house_north && t_west  <= ot_sub_station_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_sub_station_west) ||
-      (t_north >= ot_house_north && t_north <= ot_sub_station_west) ||
-      (t_south >= ot_house_north && t_south <= ot_sub_station_west)   )
+  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
+      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
+      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
+      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
    rn = 1;	// rn = 1 if this road has sidewalks
   else
    rn = 0;
+
+  if (terrain_type == ot_road_ew)
+   veh_spawn_heading = (one_in(2)? 0 : 180);
+  else
+   veh_spawn_heading = (one_in(2)? 270 : 90);
+
+  // spawn city car wrecks
+  if (rn > 0) {
+   int maxwrecks = rng (0,3);
+   for (int nv = 0; nv < maxwrecks; nv++) {
+    int vx = rng (0, 3) * 4 + 5;
+    int vy = rng (0, 3) * 4 + 5;
+    int rc = rng(1, 100);
+    if (rc <= 50)
+        add_vehicle (g, veh_car_chassis, vx, vy, veh_spawn_heading, -1, 1);
+    else if (rc <= 70)
+        add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, -1, 1);
+    else if (rc <= 90)
+        add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, -1, 1);
+    else
+        add_vehicle (g, veh_motorcycle, vx, vy, veh_spawn_heading, -1, 1);
+   }
+  }
+
+  // spawn regular road out of fuel vehicles
+  if (rn == 0) {
+   if (one_in(40)) {
+    int vx = rng (8, 16);
+    int vy = rng (8, 16);
+    int rc = rng(1, 10);
+    if (rc <= 5)
+        add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, 0, -1);
+    else if (rc <= 9)
+        add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, 0, -1);
+    else
+        add_vehicle (g, veh_semi, vx, vy, veh_spawn_heading, 0, -1);
+   }
+  }
+
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if (i < 4 || i >= SEEX * 2 - 4) {
@@ -754,13 +799,46 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  case ot_road_es:
  case ot_road_sw:
  case ot_road_wn:
-  if ((t_west  >= ot_house_north && t_west  <= ot_sub_station_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_sub_station_west) ||
-      (t_north >= ot_house_north && t_north <= ot_sub_station_west) ||
-      (t_south >= ot_house_north && t_south <= ot_sub_station_west)   )
+  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
+      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
+      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
+      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
    rn = 1;	// rn = 1 if this road has sidewalks
   else
    rn = 0;
+
+  // spawn city car wrecks
+  if (rn > 0) {
+   int maxwrecks = rng (0,3);
+   for (int nv = 0; nv < maxwrecks; nv++) {
+    int vx = rng (0, 3) * 4 + 5;
+    int vy = rng (0, 3) * 4 + 5;
+    int rc = rng(1, 100);
+	if (rc <= 50)
+     add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 70)
+     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 90)
+     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else
+     add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, 1);
+   }
+  }
+  // spawn regular road out of fuel vehicles
+  if (rn == 0) {
+   if (one_in(40)) {
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
+    int rc = rng(1, 10);
+	if (rc <= 5)
+     add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else if (rc <= 9)
+     add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else
+     add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+   }
+  }
+
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
@@ -792,13 +870,46 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  case ot_road_new:
  case ot_road_nsw:
  case ot_road_esw:
-  if ((t_west  >= ot_house_north && t_west  <= ot_sub_station_west) ||
-      (t_east  >= ot_house_north && t_east  <= ot_sub_station_west) ||
-      (t_north >= ot_house_north && t_north <= ot_sub_station_west) ||
-      (t_south >= ot_house_north && t_south <= ot_sub_station_west)   )
+  if ((t_west  >= ot_house_north && t_west  <= ot_mil_surplus_west) ||
+      (t_east  >= ot_house_north && t_east  <= ot_mil_surplus_west) ||
+      (t_north >= ot_house_north && t_north <= ot_mil_surplus_west) ||
+      (t_south >= ot_house_north && t_south <= ot_mil_surplus_west)   )
    rn = 1;	// rn = 1 if this road has sidewalks
   else
    rn = 0;
+
+  // spawn city car wrecks
+  if (rn > 0) {
+   int maxwrecks = rng (0,3);
+   for (int nv = 0; nv < maxwrecks; nv++) {
+    int vx = rng (0, 3) * 4 + 5;
+    int vy = rng (0, 3) * 4 + 5;
+    int rc = rng(1, 100);
+    if (rc <= 50)
+        add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 70)
+        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 90)
+        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else
+        add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, 1);
+   }
+  }
+  // spawn regular road out of fuel vehicles
+  if (rn == 0) {
+   if (one_in(20)) {
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
+    int rc = rng(0, 10);
+    if (rc <= 5)
+        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else if (rc <= 9)
+        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else
+        add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+   }
+  }
+
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if (i < 4 || (i >= SEEX * 2 - 4 && (j < 4 || j >= SEEY * 2 - 4))) {
@@ -835,6 +946,25 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
    rn = 2;	// rn = 2 if this is actually a plaza
   else
    rn = 1;	// rn = 1 if this road has sidewalks
+
+  // spawn city car wrecks
+  if (rn > 0) {
+   int maxwrecks = rng (1,3);
+   for (int nv = 0; nv < maxwrecks; nv++) {
+    int vx = rng (0, 3) * 4 + 5;
+    int vy = rng (0, 3) * 4 + 5;
+    int rc = rng(1, 100);
+    if (rc <= 50)
+        add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, -1);
+    else if (rc <= 70)
+        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, -1);
+    else if (rc <= 90)
+        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, -1);
+    else
+        add_vehicle (g, veh_motorcycle, vx, vy, one_in(2)? 90 : 180, -1, -1);
+   }
+  }
+
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if (rn == 2)
@@ -905,6 +1035,19 @@ t   t\n\
     }
    }
   }
+   // spawn regular road out of fuel vehicles
+   if (one_in(2)) {
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
+    int rc = rng(1, 10);
+    if (rc <= 5)
+        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else if (rc <= 9)
+        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else
+        add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+   }
+
   if (terrain_type == ot_bridge_ew)
    rotate(1);
   place_items(mi_road, 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
@@ -929,6 +1072,19 @@ t   t\n\
   if (terrain_type == ot_hiway_ew)
    rotate(1);
   place_items(mi_road, 8, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+
+  // spawn regular road out of fuel vehicles
+   if (one_in(2)) {
+    int vx = rng (10, 12);
+    int vy = rng (10, 12);
+    int rc = rng(1, 10);
+    if (rc <= 5)
+        add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else if (rc <= 9)
+        add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, 0, -1);
+    else
+        add_vehicle (g, veh_semi, vx, vy, one_in(2)? 90 : 180, 0, -1);
+   }
   break;
 
  case ot_river_center:
@@ -1359,7 +1515,7 @@ t   t\n\
 					vt = veh_motorcycle;
 			}
 
-      add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270);
+      add_vehicle (g, vt, vx, vy, one_in(2)? 90 : 270, -1, -1);
   }
   place_items(mi_road, 8, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
   if (t_east  >= ot_road_null && t_east  <= ot_road_nesw_manhole)
@@ -5511,6 +5667,600 @@ wd.d.d.d.|....|----|-|-|\n\
    rotate(0);
    } break;
 
+ case ot_hotel_tower_1_1: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+ssssssssssssssssssssssss\n\
+ssssssssssssssssssssssss\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+ssssssssssssssssssssssss\n",
+     mapf::basic_bind("_ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+  place_spawns(g, "GROUP_ZOMBIE", 2, 6, 6, 18,18, density);
+  if (t_north == ot_hotel_tower_1_2)
+   rotate(3);
+  else if (t_east == ot_hotel_tower_1_2)
+   rotate(0);
+  else if (t_south == ot_hotel_tower_1_2)
+   rotate(1);
+  else if (t_west == ot_hotel_tower_1_2)
+   rotate(2);
+  }break;
+
+ case ot_hotel_tower_1_2: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+",_____________________,_\n\
+,________sssss________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+s________s   s________ss\n\
+s________s   s________ss\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+,________sssss________,_\n\
+,_____________________,_\n\
+________________________\n\
+________________________\n\
+________________________\n\
+________________________\n\
+________________________\n\
+,_____________________,_\n\
+,________sssss________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+,________s   s________,_\n\
+s________sssss________ss\n",
+     mapf::basic_bind("_ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  if (t_north == ot_hotel_tower_1_5)
+   rotate(0);
+  else if (t_east == ot_hotel_tower_1_5)
+   rotate(1);
+  else if (t_south == ot_hotel_tower_1_5)
+   rotate(2);
+  else if (t_west == ot_hotel_tower_1_5)
+   rotate(3);
+  }break;
+
+ case ot_hotel_tower_1_3: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+sssssssssssssssssssssss\n\
+sssssssssssssssssssssss\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+sssssssssssssssssssssss\n",
+     mapf::basic_bind("_ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  if (t_north == ot_hotel_tower_1_2){
+   rotate(1);
+   if (x_in_y(1,12)){add_vehicle (g, veh_car, 12, 18, 180);}}
+  else if (t_east == ot_hotel_tower_1_2){
+   rotate(2);
+   if (x_in_y(1,12)){add_vehicle (g, veh_car, 9, 7, 0);}}
+  else if (t_south == ot_hotel_tower_1_2){
+   rotate(3);
+   if (x_in_y(1,12)){add_vehicle (g, veh_car, 12, 18, 180);}}
+  else if (t_west == ot_hotel_tower_1_2){
+   rotate(0);
+   if (x_in_y(1,12)){add_vehicle (g, veh_car, 17, 7, 0);}}
+  }break;
+
+ case ot_hotel_tower_1_4: {
+     fill_background(this, &grass_or_dirt);
+     mapf::formatted_set_terrain(this, 0, 0,
+"s    |c..BB|c..BB|c..BB|\n\
+s    |c..BB|c..BB|c..BB|\n\
+s    |....d|....d|....d|\n\
+s    |-www-|-www-|-www-|\n\
+s                       \n\
+s          T     T      \n\
+s                       \n\
+s                       \n\
+ssssssssssssssssssssssss\n\
+ssssssssssssssssssssssss\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_______________________\n\
+s_____,_____,_____,_____\n\
+s_____,_____,_____,_____\n",
+     mapf::basic_bind("B _ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_tree_young, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  if (t_north == ot_hotel_tower_1_5)
+   rotate(3);
+  else if (t_east == ot_hotel_tower_1_5)
+   rotate(0);
+  else if (t_south == ot_hotel_tower_1_5)
+   rotate(1);
+  else if (t_west == ot_hotel_tower_1_5)
+   rotate(2);
+  }break;
+
+ case ot_hotel_tower_1_5: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"c..BB|t.........t|BB..c|\n\
+h..BB|h.........h|BB..c|\n\
+th..d|...........|d....|\n\
+-www||...........||www-|\n\
+    |............^|     \n\
+ T  V.hh......|-+-|  T  \n\
+    V.tt......|r.D|     \n\
+    V.tt......c..h|     \n\
+ssss|.hh......x...|sssss\n\
+ssssV.........c...|sssss\n\
+,sssV.........cccc|sss,_\n\
+,sssV............^Vsss,_\n\
+,sss|^............Vsss,_\n\
+,sss|HHHGGHHHGGHHH|sss,_\n\
+,sssssssssssssssssssss,_\n\
+,sssssCsssssssssCsssss,_\n\
+_sssssssssssssssssssss__\n\
+________________________\n\
+________________________\n\
+________________________\n\
+________________________\n\
+________________________\n\
+,_____________________,_\n\
+,_____________________,_\n",
+     mapf::basic_bind("T r V H G D B _ , C x $ ^ . - | # t + = w S e o h c d l s",
+         t_tree_young, t_rack, t_wall_glass_v, t_wall_glass_h, t_door_glass_c, t_desk, t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_window, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    if (x_in_y(1,2)){add_spawn(mon_zombie, 2, 15, 7);}
+    if (x_in_y(1,2)){add_spawn(mon_zombie, rng(1,8), 12, 11);}
+    }
+  if (t_north == ot_hotel_tower_1_2)
+   rotate(2);
+  else if (t_east == ot_hotel_tower_1_2)
+   rotate(3);
+  else if (t_south == ot_hotel_tower_1_2)
+   rotate(0);
+  else if (t_west == ot_hotel_tower_1_2)
+   rotate(1);
+  }break;
+
+ case ot_hotel_tower_1_6: {
+   fill_background(this, &grass_or_dirt);
+   mapf::formatted_set_terrain(this, 0, 0,
+"BB..c|BB..c|BB..c|    s\n\
+BB..c|BB..c|BB..c|    s\n\
+d....|d....|d....|    s\n\
+-www-|-www-|-www-|    s\n\
+                      s\n\
+     T     T          s\n\
+                      s\n\
+                      s\n\
+sssssssssssssssssssssss\n\
+sssssssssssssssssssssss\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+______________________s\n\
+____,_____,_____,_____s\n\
+____,_____,_____,_____s\n",
+     mapf::basic_bind("B _ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_tree_young, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  if (t_north == ot_hotel_tower_1_5)
+   rotate(1);
+  else if (t_east == ot_hotel_tower_1_5)
+   rotate(2);
+  else if (t_south == ot_hotel_tower_1_5)
+   rotate(3);
+  else if (t_west == ot_hotel_tower_1_5)
+   rotate(0);
+  }break;
+
+ case ot_hotel_tower_1_7: {
+   fill_background(this, &grass_or_dirt);
+   mapf::formatted_set_terrain(this, 0, 0,
+"                        \n\
+     |-www-|-www-|-www-|\n\
+     |....d|th..d|....d|\n\
+     |c..BB|h..BB|c..BB|\n\
+     |c..BB|c..BB|c..BB|\n\
+     |c....|c...d|c....|\n\
+     |....h|c..BB|....h|\n\
+     |...ht|...BB|...ht|\n\
+     |..|--|..|--|..|--|\n\
+     |..+.S|..+.S|..+.S|\n\
+     |..|.T|..|.T|..|.T|\n\
+  |--|..|bb|..|bb|..|bb|\n\
+  |..|-D|--|-D|--|-D|--|\n\
+ss|..|..................\n\
+ss=..+..................\n\
+ss|..|..................\n\
+s |.<|-D|--|-D|--|-D|--|\n\
+s |--|..|bb|..|bb|..|bb|\n\
+s    |..|.T|..|.T|..|.T|\n\
+s    |..+.S|..+.S|..+.S|\n\
+s    |..|--|..|--|..|--|\n\
+s    |...ht|...ht|...ht|\n\
+s    |....h|....h|....h|\n\
+s    |c....|c....|c....|\n",
+     mapf::basic_bind("D b > < B _ , C x $ ^ . - | # t + = w T S e o h c d l s",
+         t_door_locked_interior, t_bathtub, t_stairs_up, t_stairs_down, t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    add_spawn(mon_zombie, rng(0,12), 14, 11);
+    }
+  if (t_north == ot_hotel_tower_1_8)
+   rotate(3);
+  else if (t_east == ot_hotel_tower_1_8)
+   rotate(0);
+  else if (t_south == ot_hotel_tower_1_8)
+   rotate(1);
+  else if (t_west == ot_hotel_tower_1_8)
+   rotate(2);
+  } break;
+
+ case ot_hotel_tower_1_8: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"                        \n\
+-www-|-www-|-www-|-www-|\n\
+....d|th..d|d....|d....|\n\
+c..BB|h..BB|BB..c|BB..c|\n\
+c..BB|c..BB|BB..c|BB..c|\n\
+c....|c...d|....c|....c|\n\
+....h|c..BB|h....|h....|\n\
+...ht|...BB|th...|th...|\n\
+..|--|..|--|--|..|--|..|\n\
+..+.S|..+.S|S.+..|S.+..|\n\
+..|.T|..|.T|T.|..|T.|..|\n\
+..|bb|..|bb|bb|..|bb|..|\n\
+-D|--|-D|--|--|D-|--|D-|\n\
+........................\n\
+........................\n\
+........................\n\
+-D|--|---|...|---|--|D-|\n\
+..|bb|EEE=...|xEE|bb|..|\n\
+..|.T|EEE=...=EEE|T.|..|\n\
+..+.S|EEx|...=EEE|S.+..|\n\
+..|--|---|...|---|--|..|\n\
+...BB|^.........^|th...|\n\
+c..BB|h.........h|h....|\n\
+c...d|t.........t|....c|\n",
+     mapf::basic_bind("E b > < B _ , C x $ ^ . - | # t + = D w T S e o h c d l s",
+         t_elevator, t_bathtub, t_stairs_up, t_stairs_down, t_bed, t_pavement, t_pavement_y, t_column, t_elevator_control_off, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_metal_c, t_door_locked_interior, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 23, 23, 3, density);
+  else {
+    add_spawn(mon_zombie, rng(1,18), 12, 12);
+    }
+  if (t_north == ot_hotel_tower_1_5)
+   rotate(2);
+  else if (t_east == ot_hotel_tower_1_5)
+   rotate(3);
+  else if (t_south == ot_hotel_tower_1_5)
+   rotate(0);
+  else if (t_west == ot_hotel_tower_1_5)
+   rotate(1);
+   } break;
+
+ case ot_hotel_tower_1_9: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"                        \n\
+-www-|-www-|-www-|      \n\
+d....|d..ht|d....|      \n\
+BB..c|BB..h|BB..c|      \n\
+BB..c|BB..c|BB..c|      \n\
+....c|d...c|....c|      \n\
+h....|BB..c|h....|      \n\
+th...|BB...|th...|      \n\
+--|..|--|..|--|..|      \n\
+S.+..|S.+..|S.+..|      \n\
+T.|..|T.|..|T.|..|      \n\
+bb|..|bb|..|bb|..|--|   \n\
+--|D-|--|D-|--|D-|..|   \n\
+................^|..|ss \n\
+.................+..=ss \n\
+.................|..|ss \n\
+--|D-|--|D-|--|D-|<.| s \n\
+bb|..|bb|..|bb|..|--| s \n\
+T.|..|T.|..|T.|..|    s \n\
+S.+..|S.+..|S.+..|    s \n\
+--|..|--|..|--|..|    s \n\
+th...|th...|th...|    s \n\
+h....|h....|h....|    s \n\
+....c|....c|....c|    s \n",
+     mapf::basic_bind("D E b > < B _ , C x $ ^ . - | # t + = w T S e o h c d l s",
+         t_door_locked_interior, t_elevator, t_bathtub, t_stairs_up, t_stairs_down, t_bed, t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
+         t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_dresser && x_in_y(1,2))
+            place_items(mi_dresser,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_counter && x_in_y(1,5))
+            place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    add_spawn(mon_zombie, rng(1,8), 12, 12);
+    }
+  if (t_north == ot_hotel_tower_1_8)
+   rotate(1);
+  else if (t_east == ot_hotel_tower_1_8)
+   rotate(2);
+  else if (t_south == ot_hotel_tower_1_8)
+   rotate(3);
+  else if (t_west == ot_hotel_tower_1_8)
+   rotate(0);
+   } break;
+
+ case ot_hotel_tower_b_1: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"########################\n\
+#####|--------------|---\n\
+#####|......E..ee...|^ht\n\
+#####|..............|...\n\
+#####|...........E..V...\n\
+#####|..............V...\n\
+#####|.E.........E..V...\n\
+#####|..............V...\n\
+#####|..............G...\n\
+#####|..............V...\n\
+#####|..E..E..E..E..V...\n\
+##|--|.............^|...\n\
+##|.<|-----HHHHHHHH-|...\n\
+##|..|..................\n\
+##|..+..................\n\
+##|..|^..............htt\n\
+##|..|-----------------|\n\
+##|--|#################|\n\
+#######################|\n\
+#######################|\n\
+#######################|\n\
+#######################|\n\
+#######################|\n\
+#######################|\n",
+     mapf::basic_bind("E < H V G C x ^ . - | # t + = D w T S e o h c d l s",
+         t_exercise, t_stairs_up, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_console_broken, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+  place_items(mi_snacks,	60,  15,  2, 16,  2, false, 0);
+  add_spawn(mon_sewer_snake, rng(0, 3), SEEX, SEEY);
+  if (t_north == ot_hotel_tower_b_2)
+   rotate(3);
+  else if (t_east == ot_hotel_tower_b_2)
+   rotate(0);
+  else if (t_south == ot_hotel_tower_b_2)
+   rotate(1);
+  else if (t_west == ot_hotel_tower_b_2)
+   rotate(2);
+  }break;
+
+ case ot_hotel_tower_b_2: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"########################\n\
+------------------------\n\
+th..........^rrr^.......\n\
+........................\n\
+.sssssssssssssssssssssss\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
+.sssssssssssssssssssssss\n\
+........................\n\
+........................\n\
+........................\n\
+h......................h\n\
+---+-|---|HGH|---|-+---|\n\
+T|..c|EEE+...|xEE|c..|T|\n\
+.+..S|EEE+...+EEE|S..+.|\n\
+-|..c|EEx|^..+EEE|c..|-|\n\
+T+..S|---|-+-|---|S..+T|\n\
+-|..c|l..........|c..|-|\n\
+T+...|l..l...rrr.|...+T|\n\
+-----|-----------|-----|\n",
+     mapf::basic_bind("E r W w H V G C x ^ . - | # t + = D T S e o h c d l s",
+         t_elevator, t_rack, t_water_dp, t_water_sh, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_elevator_control_off, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_locker)
+            place_items(mi_cleaning,	60,  i,  j, i,  j, false, 0);
+       }
+     }
+     add_spawn(mon_sewer_snake, rng(0, 10), SEEX, SEEY);
+  if (t_north == ot_hotel_tower_b_1)
+   rotate(1);
+  else if (t_east == ot_hotel_tower_b_1)
+   rotate(2);
+  else if (t_south == ot_hotel_tower_b_1)
+   rotate(3);
+  else if (t_west == ot_hotel_tower_b_1)
+   rotate(0);
+  }break;
+
+ case ot_hotel_tower_b_3: {
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"########################\n\
+----|------------|######\n\
+...^|............|######\n\
+....|.$$$$PP$$$$$|######\n\
+....|........$...|######\n\
+....|........$...|######\n\
+....|............|######\n\
+....|---+--------|######\n\
+....|r....rrDDDDc|######\n\
+....|r..........S|######\n\
+....|r..........c|######\n\
+....|r......WWWWc|--|###\n\
+....|---++-------|<.|###\n\
+.................|..|###\n\
+.................+..|###\n\
+tth.............^|..|###\n\
+-----------------|..|###\n\
+#################|--|###\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n",
+     mapf::basic_bind("r P $ W D < H V G C x ^ . - | # t + = w T S e o h c d l s",
+         t_rack, t_sewage_pump, t_sewage_pipe, t_washer, t_dryer, t_stairs_up, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_console_broken, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c,
+         t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_rack)
+            place_items(mi_home_hw,	80,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_washer || this->ter(i,j) == t_dryer){
+          if (x_in_y(1,2)){
+            spawn_item(i, j, g->itypes["blanket"], 0);
+            spawn_item(i, j, g->itypes["blanket"], 0);
+            spawn_item(i, j, g->itypes["blanket"], 0);
+          }
+          else if (x_in_y(1,3))
+            place_items(mi_dresser,	80,  i,  j, i,  j, false, 0);
+       }
+      }
+    }
+  add_spawn(mon_sewer_snake, rng(0, 3), SEEX, SEEY);
+  if (t_north == ot_hotel_tower_b_2)
+   rotate(1);
+  else if (t_east == ot_hotel_tower_b_2)
+   rotate(2);
+  else if (t_south == ot_hotel_tower_b_2)
+   rotate(3);
+  else if (t_west == ot_hotel_tower_b_2)
+   rotate(0);
+  }break;
 
  case ot_office_doctor_north:
  case ot_office_doctor_east:
@@ -5799,7 +6549,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
 ###############       f \n\
                       f \n\
 ------|---|--|---www| f \n\
-.x66..|S.T|l.|^.ddd.| f \n",
+.x6x..|S.T|l.|^.ddd.| f \n",
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
             t_sewage_pipe, t_sewage_pump, t_vat, t_crate_c, t_grate, t_wall_glass_h, t_wall_glass_v,
             t_sewage, t_elevator, t_pavement_y ,t_pavement, t_rack, t_door_metal_locked, t_chainfence_v,
@@ -5822,10 +6572,11 @@ FFFFFFFFFFFFFFFFFFFFFFf \n\
  	tmpcomp->add_option("Security Reminder [1056]", COMPACT_SR2_MESS, 0);
         tmpcomp->add_option("Security Reminder [1057]", COMPACT_SR3_MESS, 0);
         tmpcomp->add_option("Security Reminder [1058]", COMPACT_SR4_MESS, 0);
-     tmpcomp = add_computer(3, 23, "SRCF Admin Terminal ", 2);
         tmpcomp->add_option("EPA: Report All Potential Containment Breaches [3873643]", COMPACT_SRCF_1_MESS, 2);
         tmpcomp->add_option("SRCF: Internal Memo, EPA [2918024]", COMPACT_SRCF_2_MESS, 2);
         tmpcomp->add_option("CDC: Internal Memo, Standby [2918115]", COMPACT_SRCF_3_MESS, 2);
+        tmpcomp->add_option("USARMY: SEAL SRCF [987167]", COMPACT_SRCF_SEAL_ORDER, 4);
+        tmpcomp->add_option("COMMAND: SEAL SRCF [4423]", COMPACT_SRCF_SEAL, 5);
      if (t_west == ot_haz_sar && t_north == ot_haz_sar)
             rotate(1);
      if (t_east == ot_haz_sar && t_north == ot_haz_sar)
@@ -6055,7 +6806,7 @@ case ot_s_garage_north:
             vt = one_in(2) ? veh_sandbike : veh_sandbike_chassis;
           else
             vt = one_in(2) ? veh_motorcycle : veh_motorcycle_chassis;
-          add_vehicle (g, vt, vx, vy, theta);
+          add_vehicle (g, vt, vx, vy, theta, -1, -1);
         }
   }
   break;
@@ -9157,7 +9908,7 @@ void map::add_spawn(monster *mon)
            mon->faction_id, mon->mission_id, spawnname);
 }
 
-vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
+vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir, int veh_fuel, int veh_status)
 {
  if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
   debugmsg("Bad add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
@@ -9171,7 +9922,7 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
  x %= SEEX;
  y %= SEEY;
 // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
- vehicle * veh = new vehicle(g, type);
+ vehicle * veh = new vehicle(g, type, veh_fuel, veh_status);
  veh->posx = x;
  veh->posy = y;
  veh->smx = smx;
@@ -9179,6 +9930,22 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir)
  veh->face.init(dir);
  veh->turn_dir = dir;
  veh->precalc_mounts (0, dir);
+// veh->init_veh_fuel = 50;
+// veh->init_veh_status = 0;
+
+ for( std::vector<int>::const_iterator part = veh->external_parts.begin();
+      part != veh->external_parts.end(); part++ )
+ {
+     int px = veh->parts[*part].precalc_dx[0];
+     int py = veh->parts[*part].precalc_dy[0];
+
+     // Don't spawn on top of another vehicle or other obstacle.
+     if( veh_at(px, py) != NULL || terlist[ter(px, py)].movecost != 2 )
+     {
+         delete veh;
+         return NULL;
+     }
+ }
 
  grid[nonant]->vehicles.push_back(veh);
 
@@ -10488,7 +11255,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   break;
 
  case room_mansion_pool:
-  square(m, t_water_sh, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
+  square(m, t_water_pool, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
   break;
 
  case room_mansion_bathroom:

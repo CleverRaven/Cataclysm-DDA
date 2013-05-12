@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "enums.h"
 #include "catajson.h"
+#include "addiction.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -67,6 +68,7 @@ void Item_factory::init(){
 
   // TOOLS
     iuse_function_list["LIGHTER"] = &iuse::lighter;
+    iuse_function_list["PRIMITIVE_FIRE"] = &iuse::primitive_fire;
     iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["SCISSORS"] = &iuse::scissors;
@@ -75,6 +77,11 @@ void Item_factory::init(){
     iuse_function_list["LIGHT_OFF"] = &iuse::light_off;
     iuse_function_list["LIGHT_ON"] = &iuse::light_on;
     iuse_function_list["LIGHTSTRIP"] = &iuse::lightstrip;
+    iuse_function_list["LIGHTSTRIP_ACTIVE"] = &iuse::lightstrip_active;
+    iuse_function_list["GLOWSTICK"] = &iuse::glowstick;
+    iuse_function_list["GLOWSTICK_ACTIVE"] = &iuse::glowstick_active;
+    iuse_function_list["DIRECTIONAL_ANTENNA"] = &iuse::directional_antenna;
+    iuse_function_list["DEVAC"] = &iuse::devac;
     iuse_function_list["CAUTERIZE_ELEC"] = &iuse::cauterize_elec;
     iuse_function_list["WATER_PURIFIER"] = &iuse::water_purifier;
     iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
@@ -221,6 +228,7 @@ void Item_factory::init(){
     techniques_list["DEF_DISARM"] = mfb(TEC_DEF_DISARM);
 
     //Ammo lists
+    ammo_flags_list["NULL"] = mfb(AT_NULL);
     ammo_flags_list["THREAD"] = mfb(AT_THREAD);
     ammo_flags_list["BATT"] = mfb(AT_BATT);
     ammo_flags_list["PLUT"] = mfb(AT_PLUT);
@@ -251,6 +259,29 @@ void Item_factory::init(){
     ammo_flags_list["PLASMA"] = mfb(AT_PLASMA);
     ammo_flags_list["WATER"] = mfb(AT_WATER);
     ammo_flags_list["PEBBLE"] = mfb(AT_PEBBLE);
+
+    ammo_effects_list["FLAME"] = mfb(AMMO_FLAME);
+    ammo_effects_list["INCENDIARY"] = mfb(AMMO_INCENDIARY);
+    ammo_effects_list["EXPLOSIVE"] = mfb(AMMO_EXPLOSIVE);
+    ammo_effects_list["FRAG"] = mfb(AMMO_FRAG);
+    ammo_effects_list["NAPALM"] = mfb(AMMO_NAPALM);
+    ammo_effects_list["EXPLOSIVE_BIG"] = mfb(AMMO_EXPLOSIVE_BIG);
+    ammo_effects_list["TEARGAS"] = mfb(AMMO_TEARGAS);
+    ammo_effects_list["SMOKE"] = mfb(AMMO_SMOKE);
+    ammo_effects_list["TRAIL"] = mfb(AMMO_TRAIL);
+    ammo_effects_list["FLASHBANG"] = mfb(AMMO_FLASHBANG);
+    ammo_effects_list["STREAM"] = mfb(AMMO_STREAM);
+    ammo_effects_list["COOKOFF"] = mfb(AMMO_COOKOFF);
+    ammo_effects_list["LASER"] = mfb(AMMO_LASER);
+
+    bodyparts_list["TORSO"] = mfb(bp_torso);
+    bodyparts_list["HEAD"] = mfb(bp_head);
+    bodyparts_list["EYES"] = mfb(bp_eyes);
+    bodyparts_list["MOUTH"] = mfb(bp_mouth);
+    bodyparts_list["ARMS"] = mfb(bp_arms);
+    bodyparts_list["HANDS"] = mfb(bp_hands);
+    bodyparts_list["LEGS"] = mfb(bp_legs);
+    bodyparts_list["FEET"] = mfb(bp_feet);
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
@@ -342,8 +373,11 @@ Item_list Item_factory::create_random(int created_at, int quantity){
 void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/melee.json");
     load_item_templates_from("data/raw/items/ranged.json");
+    load_item_templates_from("data/raw/items/ammo.json");
     load_item_templates_from("data/raw/items/mods.json");
     load_item_templates_from("data/raw/items/tools.json");
+    load_item_templates_from("data/raw/items/comestibles.json");
+    load_item_templates_from("data/raw/items/armor.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
@@ -402,6 +436,23 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                                                  flags_from_json(entry.get("techniques"), "ammo"));
                         new_item_template = gunmod_template;
                     }
+                    else if (type_label == "COMESTIBLE")
+                    {
+                        it_comest* comest_template = new it_comest();
+                        comest_template->comesttype = entry.get("comestible_type").as_string();
+                        comest_template->tool = entry.get("tool").as_string();
+                        comest_template->container = entry.get("container").as_string();
+                        comest_template->quench = entry.get("quench").as_int();
+                        comest_template->nutr = entry.get("nutrition").as_int();
+                        comest_template->spoils = entry.get("spoils_in").as_int();
+                        comest_template->addict = entry.get("addiction_potential").as_int();
+                        comest_template->charges = entry.get("charges").as_int();
+                        comest_template->stim = entry.get("stim").as_int();
+                        comest_template->healthy = entry.get("heal").as_int();
+                        comest_template->fun = entry.get("fun").as_int();
+                        comest_template->add = addiction_type(entry.get("addiction_type").as_string());
+                        new_item_template = comest_template;
+                    }
                     else if (type_label == "GUN")
                     {
                         it_gun* gun_template = new it_gun();
@@ -430,6 +481,42 @@ void Item_factory::load_item_templates_from(const std::string file_name){
 
                         new_item_template = tool_template;
                     }
+                    else if (type_label == "AMMO")
+                    {
+                        it_ammo* ammo_template = new it_ammo();
+                        ammo_template->type =
+                            ammo_from_string(
+                                entry.get("ammo_type").as_string());
+                        ammo_template->damage = entry.get("damage").as_int();
+                        ammo_template->pierce = entry.get("pierce").as_int();
+                        ammo_template->range = entry.get("range").as_int();
+                        ammo_template->accuracy =
+                            entry.get("accuracy").as_int();
+                        ammo_template->recoil = entry.get("recoil").as_int();
+                        ammo_template->count = entry.get("count").as_int();
+                        ammo_template->ammo_effects =
+                            (!entry.has("effects") ? 0 :
+                             flags_from_json(entry.get("effects"),
+                                             "ammo_effects"));
+
+                        new_item_template = ammo_template;
+                    }
+                    else if (type_label == "ARMOR")
+                    {
+                        it_armor* armor_template = new it_armor();
+
+                        armor_template->encumber = entry.get("encumberance").as_int();
+                        armor_template->dmg_resist = entry.get("bashing_protection").as_int();
+                        armor_template->cut_resist = entry.get("cutting_protection").as_int();
+                        armor_template->env_resist = entry.get("enviromental_protection").as_int();
+                        armor_template->warmth = entry.get("warmth").as_int();
+                        armor_template->storage = entry.get("storage").as_int();
+                        armor_template->power_armor = entry.has("power_armor") ? entry.get("power_armor").as_bool() : false;
+                        armor_template->covers = entry.has("covers") ?
+                          flags_from_json(entry.get("covers"),"bodyparts") : 0;
+
+                        new_item_template = armor_template;
+                    }
                     else
                     {
                         debugmsg("Item definition for %s skipped, unrecognized type: %s", new_id.c_str(),
@@ -447,7 +534,17 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 new_item_template->sym = entry.get("symbol").as_char();
                 new_item_template->color = color_from_string(entry.get("color").as_string());
                 new_item_template->description = entry.get("description").as_string();
-                set_material_from_json(new_id, entry.get("material"));
+                if(entry.has("material")){
+                  set_material_from_json(new_id, entry.get("material"));
+                } else {
+                  new_item_template->m1 = MNULL;
+                  new_item_template->m2 = MNULL;
+                }
+                Item_tag new_phase = "solid";
+                if(entry.has("phase")){
+                    new_phase = entry.get("phase").as_string();
+                }
+                new_item_template->phase = phase_from_tag(new_phase);
                 new_item_template->volume = entry.get("volume").as_int();
                 new_item_template->weight = entry.get("weight").as_int();
                 new_item_template->melee_dam = entry.get("bashing").as_int();
@@ -696,6 +793,10 @@ void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag,
       flag_map = ammo_flags_list;
     } else if(flag_type=="techniques"){
       flag_map = techniques_list;
+    } else if(flag_type=="ammo_effects"){
+        flag_map = ammo_effects_list;
+    } else if(flag_type=="bodyparts"){
+        flag_map = bodyparts_list;
     }
 
     set_bitmask_by_string(flag_map, cur_flags, new_flag);
@@ -778,6 +879,21 @@ void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
     temp->m2 = material_list[1];
 }
 
+
+phase_id Item_factory::phase_from_tag(Item_tag name){
+    if(name == "LIQUID"){
+        return LIQUID;
+    } else if(name == "SOLID"){
+        return SOLID;
+    } else if(name == "GAS"){
+        return GAS;
+    } else if(name == "PLASMA"){
+        return PLASMA;
+    } else {
+        return PNULL;
+    }
+};
+
 material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
     // Map the valid input tags to a valid material
 
@@ -818,8 +934,9 @@ material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
         return STEEL;
     } else if(name == "SILVER"){
         return SILVER;
+    } else if(name == "NULL"){
+        return MNULL;
     } else {
-        std::cerr << "Item "<< new_id << " material was skipped, not a string or array of strings." << std::endl;
         return MNULL;
     }
 }

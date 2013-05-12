@@ -6401,11 +6401,13 @@
                      ],
             "components": [
                               [
-                                  ["steel_lump", 8]
+                                  ["steel_lump", 8],
+                                  ["steel_plate", 1]
                               ],
                               [
                                   ["steel_chunk", 4],
-                                  ["scrap", 8]
+                                  ["scrap", 8],
+                                  ["spike", 4]
                               ]
                           ]
         },

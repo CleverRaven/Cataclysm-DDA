@@ -487,7 +487,7 @@ extremities from frostbite and to keep your distance from large fires.");
   case '1': {
    werase(w_help);
    int offset = 1;
-   char ch = ' ';
+   char remapch = ' ';
    bool changed_keymap = false;
    bool needs_refresh = true;
    do {
@@ -526,14 +526,14 @@ extremities from frostbite and to keep your distance from large fires.");
     }
     wrefresh(w_help);
     refresh();
-    ch = input();
+    remapch = input();
     int sx = 0, sy = 0;
-    get_direction(this, sx, sy, ch);
+    get_direction(this, sx, sy, remapch);
     if (sy == -1 && offset > 1)
      offset--;
     if (sy == 1 && offset + 20 < NUM_ACTIONS)
      offset++;
-    if (ch == '-' || ch == '+') {
+    if (remapch == '-' || remapch == '+') {
      needs_refresh = true;
      for (int i = 0; i < 23 && i + offset < NUM_ACTIONS; i++) {
       mvwprintz(w_help, i, 0, c_ltblue, "%c", 'a' + i);
@@ -545,10 +545,10 @@ extremities from frostbite and to keep your distance from large fires.");
      if (actch >= 'a' && actch <= 'a' + 24 &&
          actch - 'a' + offset < NUM_ACTIONS) {
       action_id act = action_id(actch - 'a' + offset);
-      if (ch == '-' && query_yn("Clear keys for %s?",action_name(act).c_str())){
+      if (remapch == '-' && query_yn("Clear keys for %s?",action_name(act).c_str())){
        clear_bindings(act);
        changed_keymap = true;
-      } else if (ch == '+') {
+      } else if (remapch == '+') {
        char newbind = popup_getkey("New key for %s:", action_name(act).c_str());
        if (keymap.find(newbind) == keymap.end()) { // It's not in use!  Good.
         keymap[ newbind ] = act;
@@ -559,7 +559,7 @@ extremities from frostbite and to keep your distance from large fires.");
       }
      }
     }
-   } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
+   } while (remapch != 'q' && remapch != 'Q' && remapch != KEY_ESCAPE);
    if (changed_keymap && query_yn("Save changes?"))
     save_keymap();
    werase(w_help);

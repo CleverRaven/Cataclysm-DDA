@@ -359,6 +359,8 @@ struct it_comest : public itype
         comesttype = pcomesttype;
         item_flags = pitem_flags;
     }
+
+    it_comest() :itype() { };
 };
 
 // v6, v8, wankel, etc.
@@ -409,6 +411,18 @@ struct it_ammo : public itype
  virtual bool is_ammo() { return true; }
 // virtual bool count_by_charges() { return id != "gasoline"; }
  virtual bool count_by_charges() { return true; }
+
+ it_ammo() : itype()
+ {
+     type = AT_NULL;
+     damage = 0;
+     pierce = 0;
+     range = 0;
+     accuracy = 0;
+     recoil = 0;
+     count = 0;
+     ammo_effects = 0;
+ }
 
  it_ammo(std::string pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
@@ -472,7 +486,7 @@ struct it_gun : public itype
   reload_time = preload_time;
  }
 
- it_gun() { };
+ it_gun() :itype() { };
 };
 
 struct it_gunmod : public itype
@@ -515,7 +529,7 @@ struct it_gunmod : public itype
   used_on_rifle = rifle;
  }
 
- it_gunmod() { };
+ it_gunmod() :itype() { };
 };
 
 struct it_armor : public itype
@@ -535,7 +549,7 @@ struct it_armor : public itype
  virtual bool is_artifact() { return false; }
  virtual picojson::value save_data() { return picojson::value(); }
 
- it_armor()
+ it_armor() : itype()
  {
   covers = 0;
   encumber = 0;
@@ -544,6 +558,7 @@ struct it_armor : public itype
   env_resist = 0;
   warmth = 0;
   storage = 0;
+  power_armor = false;
  }
 
  it_armor(itype_id pid, unsigned char prarity, unsigned int pprice,
@@ -643,7 +658,7 @@ struct it_tool : public itype
  virtual bool is_artifact()      { return false; }
  virtual picojson::value save_data() { return picojson::value(); }
 
- it_tool()
+ it_tool() :itype()
  {
   ammo = AT_NULL;
   max_charges = 0;
@@ -656,7 +671,7 @@ struct it_tool : public itype
 
  it_tool(std::string pid, unsigned char prarity, unsigned int pprice,
          std::string pname, std::string pdes,
-         char psym, nc_color pcolor, material pm1, material pm2, phase_id phase,
+         char psym, nc_color pcolor, material pm1, material pm2, phase_id pphase,
          unsigned short pvolume, unsigned short pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
          unsigned pitem_flags,
@@ -665,7 +680,7 @@ struct it_tool : public itype
          unsigned char pcharges_per_use, unsigned char pturns_per_charge,
          ammotype pammo, itype_id prevert_to,
 	 void (iuse::*puse)(game *, player *, item *, bool))
-:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
+:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, pphase,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
   max_charges = pmax_charges;
   def_charges = pdef_charges;
@@ -855,7 +870,7 @@ struct it_artifact_tool : public it_tool
      return picojson::value(data);
  }
 
- it_artifact_tool() {
+ it_artifact_tool() :it_tool(){
   ammo = AT_NULL;
   price = 0;
   def_charges = 0;
@@ -938,7 +953,7 @@ struct it_artifact_armor : public it_armor
      return picojson::value(data);
  }
 
- it_artifact_armor()
+ it_artifact_armor() :it_armor()
  {
   price = 0;
  };

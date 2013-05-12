@@ -199,7 +199,7 @@ void game::init_mapitems()
 	"superglue", "chain", "rope_6", "rope_30", "glass_sheet",
 	"pipe", "nail", "hose", "string_36", "frame", "metal_tank",
 	"wire", "wire_barbed", "duct_tape", "jerrycan", "lawnmower",
-  "foot_crank", "spray_can", "ax", "jerrycan_big", "funnel", "bearings",
+  "foot_crank", "spray_can", "ax", "jerrycan_big", "funnel", "bearings", "jack", 
 	NULL);
 
  setvector(
@@ -528,7 +528,7 @@ void game::init_mapitems()
         "1cyl_combustion", "v2_combustion", "i4_combustion", "v6_combustion",
         "vehicle_controls", "v8_combustion", "hacksaw", "welder", "motor",
         "goggles_welding", "solar_cell", "bearings",
-        "motor_large", "storage_battery", "solar_panel", "jerrycan", "jerrycan_big", "metal_tank", NULL);
+        "motor_large", "storage_battery", "solar_panel", "jerrycan", "jerrycan_big", "metal_tank", "jack", NULL);
 
  setvector(
    &mapitems[mi_chemistry],

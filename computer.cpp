@@ -151,6 +151,7 @@ void computer::use(game *g)
     }
    } else // No need to hack, just activate
     activate_function(g, current.action);
+    reset_terminal();
   } // Done processing a selected option.
  } while (!done); // Done with main terminal loop
 
@@ -221,10 +222,10 @@ void computer::load_data(std::string data)
   std::string tmpname;
   int tmpaction, tmpsec;
   dump >> tmpname >> tmpaction >> tmpsec;
-  size_t found = tmpname.find("_");
-  while (found != std::string::npos) {
-   tmpname.replace(found, 1, " ");
-   found = tmpname.find("_");
+  size_t tmp_found = tmpname.find("_");
+  while (tmp_found != std::string::npos) {
+   tmpname.replace(tmp_found, 1, " ");
+   tmp_found = tmpname.find("_");
   }
   add_option(tmpname, computer_action(tmpaction), tmpsec);
  }
@@ -724,7 +725,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   break;
 
   case COMPACT_SR1_MESS:
-  print_line("\
+  reset_terminal();
+  print_line("\n\
   Subj: Security Reminder\n\
   To: all SRCF staff\n\
   From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
@@ -741,7 +743,8 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   break;
 
   case COMPACT_SR2_MESS:
-  print_line("\
+  reset_terminal();
+  print_line("\n\
   Subj: Security Reminder\n\
   To: all SRCF staff\n\
   From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
@@ -753,14 +756,14 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   proximity, you are to work with armed guards on duty at all\n\
   times. Report any unusual activity to your SRCF administrator\n\
   at once.\n\
-  \n\
-  \n");
+  ");
   query_any("Press any key to continue...");
   reset_terminal();
   break;
 
   case COMPACT_SR3_MESS:
-  print_line("\
+  reset_terminal();
+  print_line("\n\
   Subj: Security Reminder\n\
   To: all SRCF staff\n\
   From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
@@ -769,14 +772,14 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   we are instituting weekly health examinations for all SRCF\n\
   employees.  Report any unusual symptoms or physical changes\n\
   to your SRCF administrator at once.\n\
-  \n\
-  \n");
+  ");
   query_any("Press any key to continue...");
   reset_terminal();
   break;
 
   case COMPACT_SR4_MESS:
-  print_line("\
+  reset_terminal();
+  print_line("\n\
   Subj: Security Reminder\n\
   To: all SRCF staff\n\
   From:  Constantine Dvorak, Undersecretary of Nuclear Security\n\
@@ -785,15 +788,15 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   further notice.  Anyone who has seen or come in direct contact\n\
   with the creatures is to report to the home office for a full\n\
   medical evaluation and security debriefing.\n\
-  \n\
-  \n");
+  ");
   query_any("Press any key to continue...");
   reset_terminal();
   break;
-  
+
   case COMPACT_SRCF_1_MESS:
   reset_terminal();
-  print_line(" Subj: EPA: Report All Potential Containment Breaches 3873643\n\
+  print_line("\n\
+  Subj: EPA: Report All Potential Containment Breaches 3873643\n\
   To: all SRCF staff\n\
   From:  Robert Shane, Director of the EPA\n\
   \n\
@@ -812,9 +815,10 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   \n\
   These samples must be accurate and any attempts to cover\n\
   incompetencies will resault in charges of Federal Corrution\n\
-  and potentially Treason.\n\
-  \n\
-  Director of the EPA,\n\
+  and potentially Treason.\n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  print_line("Director of the EPA,\n\
   Robert Shane\n\
   \n");
   query_any("Press any key to continue...");
@@ -892,6 +896,50 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   query_any("Press any key to continue...");
   reset_terminal();
   break;
+
+  case COMPACT_SRCF_SEAL_ORDER:
+  reset_terminal();
+  print_line(" Subj: USARMY: SEAL SRCF [987167]\n\
+  To: all SRCF staff\n\
+  From:  Major General Cornelius, U.S. Army\n\
+  \n\
+    As a general warning to all civilian staff: the 10th Mountain\n\
+  Division has been assigned to oversee the sealing of the SRCF\n\
+  facilities.  By direct order, all non-essential staff must vacate\n\
+  at the earliest possible opportunity to prevent potential\n\
+  contamination.  Low yield tactical nuclear demolition charges\n\
+  will be deployed in the lower tunnels to ensure that recovery\n\
+  of hazardous material is impossible.  The Army Corps of Engineers\n\
+  will then dump concrete over the rubble so that we can redeploy \n\
+  the 10th Mountain into the greater Boston area.\n\
+  \n\
+  Cornelius,\n\
+  Major General, U.S. Army\n\
+  Commander of the 10th Mountain Division\n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
+  
+  case COMPACT_SRCF_SEAL:
+   g->add_msg("Evacuate Immediatly!");
+   for (int x = 0; x < SEEX * MAPSIZE; x++) {
+    for (int y = 0; y < SEEY * MAPSIZE; y++) {
+     if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
+      g->m.ter_set(x, y, t_rubble);
+      g->explosion(x, y, 40, 0, true);
+      }
+     if (g->m.ter(x, y) == t_wall_glass_h || g->m.ter(x, y) == t_wall_glass_v)
+      g->m.ter_set(x, y, t_rubble);
+     if (g->m.ter(x, y) == t_sewage_pipe || g->m.ter(x, y) == t_sewage || g->m.ter(x, y) == t_grate)
+      g->m.ter_set(x, y, t_rubble);
+     if (g->m.ter(x, y) == t_sewage_pump) {
+      g->m.ter_set(x, y, t_rubble);
+      g->explosion(x, y, 50, 0, true);
+     }
+    }
+   }
+   break;
   
  } // switch (action)
 }
@@ -1077,8 +1125,7 @@ bool computer::query_any(const char *mes, ...)
  std::string full_line = buff;
 // Print the resulting text
  print_line(full_line.c_str());
- char ret;
- ret = getch();
+ getch();
  return true;
 }
 
