@@ -5547,6 +5547,7 @@ ssssssssssssssssssssssss\n",
          t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
          t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
      mapf::end() );
+  place_spawns(g, "GROUP_ZOMBIE", 2, 6, 6, 18,18, density);
   if (t_north == ot_hotel_tower_1_2)
    rotate(3);
   else if (t_east == ot_hotel_tower_1_2)
@@ -5588,6 +5589,7 @@ s________sssss________ss\n",
          t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
          t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
      mapf::end() );
+  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
   if (t_north == ot_hotel_tower_1_5)
    rotate(0);
   else if (t_east == ot_hotel_tower_1_5)
@@ -5629,6 +5631,7 @@ sssssssssssssssssssssss\n",
          t_pavement, t_pavement_y, t_column, t_console_broken, t_shrub, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_bench, t_table, t_door_c,
          t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
      mapf::end() );
+  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
   if (t_north == ot_hotel_tower_1_2){
    rotate(1);
    if (x_in_y(1,12)){add_vehicle (g, veh_car, 12, 18, 180);}}
@@ -5682,6 +5685,7 @@ s_____,_____,_____,_____\n",
             place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
        }
      }
+  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
   if (t_north == ot_hotel_tower_1_5)
    rotate(3);
   else if (t_east == ot_hotel_tower_1_5)
@@ -5731,6 +5735,12 @@ ________________________\n\
             place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
        }
      }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    if (x_in_y(1,2)){add_spawn(mon_zombie, 2, 15, 7);}
+    if (x_in_y(1,2)){add_spawn(mon_zombie, rng(1,8), 12, 11);}
+    }
   if (t_north == ot_hotel_tower_1_2)
    rotate(2);
   else if (t_east == ot_hotel_tower_1_2)
@@ -5780,6 +5790,7 @@ ____,_____,_____,_____s\n",
             place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
        }
      }
+  place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
   if (t_north == ot_hotel_tower_1_5)
    rotate(1);
   else if (t_east == ot_hotel_tower_1_5)
@@ -5829,6 +5840,11 @@ s    |c....|c....|c....|\n",
             place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
        }
      }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    add_spawn(mon_zombie, rng(0,12), 14, 11);
+    }
   if (t_north == ot_hotel_tower_1_8)
    rotate(3);
   else if (t_east == ot_hotel_tower_1_8)
@@ -5878,6 +5894,11 @@ c...d|t.........t|....c|\n",
             place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
        }
      }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 23, 23, 3, density);
+  else {
+    add_spawn(mon_zombie, rng(1,18), 12, 12);
+    }
   if (t_north == ot_hotel_tower_1_5)
    rotate(2);
   else if (t_east == ot_hotel_tower_1_5)
@@ -5927,6 +5948,11 @@ h....|h....|h....|    s \n\
             place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
        }
      }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    add_spawn(mon_zombie, rng(1,8), 12, 12);
+    }
   if (t_north == ot_hotel_tower_1_8)
    rotate(1);
   else if (t_east == ot_hotel_tower_1_8)
@@ -5969,6 +5995,7 @@ h....|h....|h....|    s \n\
          t_door_locked_alarm, t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
      mapf::end() );
   place_items(mi_snacks,	60,  15,  2, 16,  2, false, 0);
+  add_spawn(mon_sewer_snake, rng(0, 3), SEEX, SEEY);
   if (t_north == ot_hotel_tower_b_2)
    rotate(3);
   else if (t_east == ot_hotel_tower_b_2)
@@ -5987,28 +6014,28 @@ h....|h....|h....|    s \n\
 th..........^rrr^.......\n\
 ........................\n\
 .sssssssssssssssssssssss\n\
-.swwwwwwwwwwwwwwwwwwwwws\n\
-.swwwwwwwwwwwwwwwwwwwwws\n\
-.swwwwwwwwwwwwwwwwwwwwws\n\
-.swwwwwwwwwwwwwwwwwwwwws\n\
-.swwwwwwwwwwwwwwwwwwwwws\n\
-.swwwwwwwwwwwwwwwwwwwwws\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
+.sWWWWWWWWWwwwwwwwwwwwws\n\
 .sssssssssssssssssssssss\n\
 ........................\n\
 ........................\n\
 ........................\n\
 h......................h\n\
 ---+-|---|HGH|---|-+---|\n\
-T|..c|EEE=...|xEE|c..|T|\n\
-.+..S|EEE=...=EEE|S..+.|\n\
--|..c|EEx|^..=EEE|c..|-|\n\
-T+..S|---|-D-|---|S..+T|\n\
+T|..c|EEE+...|xEE|c..|T|\n\
+.+..S|EEE+...+EEE|S..+.|\n\
+-|..c|EEx|^..+EEE|c..|-|\n\
+T+..S|---|-+-|---|S..+T|\n\
 -|..c|l..........|c..|-|\n\
 T+...|l..l...rrr.|...+T|\n\
 -----|-----------|-----|\n",
-     mapf::basic_bind("E r w H V G C x ^ . - | # t + = D T S e o h c d l s",
-         t_elevator, t_rack, t_water_pool, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_elevator_control_off, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c,
-         t_door_metal_c, t_door_locked_interior, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+     mapf::basic_bind("E r W w H V G C x ^ . - | # t + = D T S e o h c d l s",
+         t_elevator, t_rack, t_water_dp, t_water_sh, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_elevator_control_off, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c,
+         t_door_locked_alarm, t_door_locked, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
      mapf::end() );
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
@@ -6016,6 +6043,7 @@ T+...|l..l...rrr.|...+T|\n\
             place_items(mi_cleaning,	60,  i,  j, i,  j, false, 0);
        }
      }
+     add_spawn(mon_sewer_snake, rng(0, 10), SEEX, SEEY);
   if (t_north == ot_hotel_tower_b_1)
    rotate(1);
   else if (t_east == ot_hotel_tower_b_1)
@@ -6041,7 +6069,7 @@ T+...|l..l...rrr.|...+T|\n\
 ....|r..........S|######\n\
 ....|r..........c|######\n\
 ....|r......WWWWc|--|###\n\
-....|---==-------|<.|###\n\
+....|---++-------|<.|###\n\
 .................|..|###\n\
 .................+..|###\n\
 tth.............^|..|###\n\
@@ -6055,7 +6083,7 @@ tth.............^|..|###\n\
 ########################\n",
      mapf::basic_bind("r P $ W D < H V G C x ^ . - | # t + = w T S e o h c d l s",
          t_rack, t_sewage_pump, t_sewage_pipe, t_washer, t_dryer, t_stairs_up, t_wall_glass_h, t_wall_glass_v, t_door_glass_c, t_column, t_console_broken, t_indoor_plant, t_floor, t_wall_h, t_wall_v, t_rock, t_table, t_door_c,
-         t_door_locked_interior, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
+         t_door_locked, t_window, t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_dresser, t_locker, t_sidewalk),
      mapf::end() );
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
@@ -6072,6 +6100,7 @@ tth.............^|..|###\n\
        }
       }
     }
+  add_spawn(mon_sewer_snake, rng(0, 3), SEEX, SEEY);
   if (t_north == ot_hotel_tower_b_2)
    rotate(1);
   else if (t_east == ot_hotel_tower_b_2)
