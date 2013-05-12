@@ -118,7 +118,7 @@ int refresh(void);
 int getch(void);
 int wgetch(WINDOW* win);
 int mvgetch(int y, int x);
-int mvwgetch(int y, int x);
+int mvwgetch(WINDOW* win, int y, int x)
 int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
 int mvprintw(int y, int x, const char *fmt, ...);
 int werase(WINDOW *win);
