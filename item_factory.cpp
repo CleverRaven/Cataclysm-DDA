@@ -2,6 +2,7 @@
 #include "rng.h"
 #include "enums.h"
 #include "catajson.h"
+#include "addiction.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -439,6 +440,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         comest_template->stim = entry.get("stim").as_int();
                         comest_template->healthy = entry.get("heal").as_int();
                         comest_template->fun = entry.get("fun").as_int();
+                        comest_template->add = addiction_type(entry.get("addiction_type").as_string());
                         new_item_template = comest_template;
                     }
                     else if (type_label == "GUN")
