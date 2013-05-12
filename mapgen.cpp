@@ -1678,6 +1678,7 @@ case ot_apartments_con_tower_1_entrance:{
         else if (this->ter(i,j) == t_bookcase){
             place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
             place_items(mi_novels,	40,  i,  j, i,  j, false, 0);
+            place_items(mi_alcohol,	30,  i,  j, i,  j, false, 0);
             place_items(mi_manuals,	20,  i,  j, i,  j, false, 0);}
        }
      }
@@ -1748,6 +1749,7 @@ case ot_apartments_con_tower_1:{
         else if (this->ter(i,j) == t_bookcase){
             place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
             place_items(mi_novels,	40,  i,  j, i,  j, false, 0);
+            place_items(mi_alcohol,	30,  i,  j, i,  j, false, 0);
             place_items(mi_manuals,	20,  i,  j, i,  j, false, 0);}
        }
      }
@@ -1813,6 +1815,7 @@ ss                      \n",
         else if (this->ter(i,j) == t_bookcase){
             place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
             place_items(mi_novels,	40,  i,  j, i,  j, false, 0);
+            place_items(mi_alcohol,	30,  i,  j, i,  j, false, 0);
             place_items(mi_manuals,	20,  i,  j, i,  j, false, 0);}
        }
      }
@@ -1879,6 +1882,7 @@ ss                      \n",
         else if (this->ter(i,j) == t_bookcase){
             place_items(mi_magazines,	30,  i,  j, i,  j, false, 0);
             place_items(mi_novels,	40,  i,  j, i,  j, false, 0);
+            place_items(mi_alcohol,	30,  i,  j, i,  j, false, 0);
             place_items(mi_manuals,	20,  i,  j, i,  j, false, 0);}
        }
      }
