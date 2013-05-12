@@ -368,6 +368,7 @@ void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/mods.json");
     load_item_templates_from("data/raw/items/tools.json");
     load_item_templates_from("data/raw/items/comestibles.json");
+    load_item_templates_from("data/raw/items/books.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
@@ -490,6 +491,19 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                                              "ammo_effects"));
 
                         new_item_template = ammo_template;
+                    }
+                    else if (type_label == "BOOK")
+                    {
+                        it_book* book_template = new it_book();
+
+                        book_template->level = entry.get("max_level").as_int();
+                        book_template->req = entry.get("required_level").as_int();
+                        book_template->fun = entry.get("fun").as_int();
+                        book_template->intel = entry.get("intelligence").as_int();
+                        book_template->time = entry.get("time").as_int();
+                        book_template->type = Skill::skill(entry.get("skill").as_string());
+
+                        new_item_template = book_template;
                     }
                     else
                     {
