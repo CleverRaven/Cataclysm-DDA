@@ -9444,7 +9444,7 @@ break;
    if (one_in(2))
     spawn_item(x, y, item_controller->find_template("hat_hard"), 0);
    while (!one_in(3)){
-    put_items_from(mi_cannedfood, 3, x,y, 0);
+    put_items_from(mi_cannedfood, 3, x,y, 0, 0, 0);
    }
   }
   break;
@@ -9696,7 +9696,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
  }
 }
 
-void map::put_items_from(items_location loc, int num, int x, int y, int turn)
+void map::put_items_from(items_location loc, int num, int x, int y, int turn, int quantity, int charges, int damlevel)
 {
  std::vector<itype_id> eligible = (*mapitems)[loc];
  int item_chance = 0;	// # of items
@@ -9713,7 +9713,7 @@ void map::put_items_from(items_location loc, int num, int x, int y, int turn)
              selection, eligible.size(), randnum, item_chance);
    randnum -= item_controller->find_template(eligible[selection])->rarity;
   }
-  spawn_item(x, y, item_controller->find_template(eligible[selection]), turn);
+  spawn_item(x, y, item_controller->find_template(eligible[selection]), turn, quantity, charges, damlevel);
  }
 }
 
@@ -11681,11 +11681,11 @@ void add_corpse(game *g, map *m, int x, int y)
  item body;
  body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
  m->add_item(x, y, body);
- m->put_items_from(mi_shoes,  1, x, y);
- m->put_items_from(mi_pants,  1, x, y);
- m->put_items_from(mi_shirts, 1, x, y);
+ m->put_items_from(mi_shoes,  1, x, y, 0, 0, 0);
+ m->put_items_from(mi_pants,  1, x, y, 0, 0, 0);
+ m->put_items_from(mi_shirts, 1, x, y, 0, 0, 0);
  if (one_in(6))
-  m->put_items_from(mi_jackets, 1, x, y);
+  m->put_items_from(mi_jackets, 1, x, y, 0, 0, 0);
  if (one_in(15))
-  m->put_items_from(mi_bags, 1, x, y);
+  m->put_items_from(mi_bags, 1, x, y, 0, 0, 0);
 }

@@ -312,7 +312,36 @@ void mdeath::smokeburst(game *g, monster *z)
   }
 }
 
-
+// this function generates clothing for zombies 
+void mdeath::zombie(game *g, monster *z)
+{
+    // normal death function first
+    mdeath::normal(g, z);
+    
+    // now generate appropriate clothing
+    switch(z->type->id)
+    {
+        case mon_zombie_cop:
+            g->m.put_items_from(mi_cop_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_cop_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_cop_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+        break;
+        
+        default:
+            g->m.put_items_from(mi_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_shirts, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            if (one_in(6))
+            {
+                g->m.put_items_from(mi_jackets, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            }
+            if (one_in(15))
+            {
+                g->m.put_items_from(mi_bags, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            }
+        break;
+    }
+}
 
 void mdeath::gameover(game *g, monster *z)
 {

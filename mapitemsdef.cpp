@@ -407,6 +407,19 @@ void game::init_mapitems()
 	"textbook_robots", "textbook_mechanics", NULL);
 
  setvector(
+   &mapitems[mi_cop_shoes],
+	"boots", "boots_steel", NULL);
+
+ setvector(
+   &mapitems[mi_cop_torso],
+	"dress_shirt", "under_armor", "jacket_light", 
+    NULL);
+
+ setvector(
+   &mapitems[mi_cop_pants],
+	"pants", "pants_cargo", NULL);
+
+ setvector(
    &mapitems[mi_cop_weapons],
 	"baton", "kevlar", "vest", "gloves_leather", "mask_gas",
 	"goggles_nv", "helmet_riot", "holster", "bootstrap",

@@ -21,7 +21,7 @@ enum items_location {
   mi_gunxtras,
  mi_shoes, mi_pants, mi_shirts, mi_jackets, mi_winter, mi_bags, mi_allclothes,
  mi_novels, mi_manuals, mi_textbooks,
- mi_cop_weapons, mi_cop_evidence,
+ mi_cop_shoes, mi_cop_torso, mi_cop_pants, mi_cop_weapons, mi_cop_evidence,
  mi_hospital_lab, mi_hospital_samples, mi_surgery,
  mi_office, mi_cubical_office, mi_school, mi_church, mi_vault,
  mi_art, mi_pawn, mi_mil_surplus,
