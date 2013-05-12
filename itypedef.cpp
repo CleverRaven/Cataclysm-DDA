@@ -1063,16 +1063,6 @@ itypes[id]=new it_armor(id, rarity,price,name,des,'[',\
 color,mat1,mat2,volume,wgt,dam,0,to_hit,item_flags,covers,encumber,dmg_resist,cut_resist,\
 env,warmth,storage)
 
-//     NAME		RAR PRC	COLOR		MAT1		MAT2
-ARMOR("socks", "socks",	70, 100,C_SHOES,	COTTON,	MNULL,
-// VOL WGT DAM HIT ENC RES CUT ENV WRM STO	COVERS
-    1,  1, -5,  0,  0,  0,  0,  0,  10,  0,	mfb(bp_feet), "\
-Socks. Put 'em on your feet.", 0);
-
-ARMOR("socks_wool", "wool socks",		30, 120,C_SHOES,	WOOL,	MNULL,
-    2,  1, -5,  0,  0,  0,  0,  0,  20,  0,	mfb(bp_feet), "\
-Warm socks made of wool.", 0);
-
 ARMOR("sneakers", "sneakers",	80, 100,C_SHOES,	LEATHER,	MNULL,
     5,  4, -2,  0,  0,  0,  2,  0,  20,  0,	mfb(bp_feet), "\
 Guaranteed to make you run faster and jump higher!", mfb(IF_VARSIZE));

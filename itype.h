@@ -546,6 +546,7 @@ struct it_armor : public itype
   env_resist = 0;
   warmth = 0;
   storage = 0;
+  power_armor = false;
  }
 
  it_armor(itype_id pid, unsigned char prarity, unsigned int pprice,

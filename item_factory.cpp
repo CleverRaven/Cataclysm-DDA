@@ -257,6 +257,15 @@ void Item_factory::init(){
     ammo_flags_list["PLASMA"] = mfb(AT_PLASMA);
     ammo_flags_list["WATER"] = mfb(AT_WATER);
     ammo_flags_list["PEBBLE"] = mfb(AT_PEBBLE);
+
+    body_parts_list["torso"] = mfb(bp_torso);
+    body_parts_list["head"] = mfb(bp_head);
+    body_parts_list["eyes"] = mfb(bp_eyes);
+    body_parts_list["mouth"] = mfb(bp_mouth);
+    body_parts_list["arms"] = mfb(bp_arms);
+    body_parts_list["hands"] = mfb(bp_hands);
+    body_parts_list["legs"] = mfb(bp_legs);
+    body_parts_list["feet"] = mfb(bp_feet);
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
@@ -351,6 +360,7 @@ void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/mods.json");
     load_item_templates_from("data/raw/items/tools.json");
     load_item_templates_from("data/raw/items/comestibles.json");
+    load_item_templates_from("data/raw/items/armor.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
@@ -424,6 +434,22 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         comest_template->healthy = entry.get("heal").as_int();
                         comest_template->fun = entry.get("fun").as_int();
                         new_item_template = comest_template;
+                    }
+                    else if (type_label == "ARMOR")
+                    {
+                        it_armor* armor_template = new it_armor();
+                        armor_template->encumber = entry.get("encumbrance").as_int();
+                        armor_template->dmg_resist = entry.get("bash_resist").as_int();
+                        armor_template->cut_resist = entry.get("cut_resist").as_int();
+                        armor_template->env_resist = entry.get("environment_resist").as_int();
+                        armor_template->warmth = entry.get("warmth").as_int();
+                        armor_template->storage = entry.get("storage").as_int();
+                        if(entry.has("power_armor")){
+                          armor_template->power_armor = entry.get("power_armor").as_bool();
+                        }
+                        armor_template->covers = (!entry.has("covers") ? 0 :
+                                                         flags_from_json(entry.get("covers"), "body_parts"));
+                        new_item_template = armor_template;                       
                     }
                     else if (type_label == "GUN")
                     {
@@ -729,6 +755,8 @@ void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag,
       flag_map = ammo_flags_list;
     } else if(flag_type=="techniques"){
       flag_map = techniques_list;
+    } else if(flag_type=="body_parts"){
+      flag_map = body_parts_list;
     }
 
     set_bitmask_by_string(flag_map, cur_flags, new_flag);
