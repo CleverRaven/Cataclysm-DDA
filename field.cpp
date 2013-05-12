@@ -1114,7 +1114,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
    }
     vehicle *veh = veh_at(x, y, veh_part);
     if (veh) {
-     veh->damage(veh_part, (veh->parts[veh_part].hp/3 * cur->density), 1, false);
+     veh->damage(veh_part, ceil(veh->parts[veh_part].hp/3 * cur->density), 1, false);
     }
  }
 }
