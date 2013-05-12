@@ -2585,7 +2585,7 @@ z.size(), active_npc.size(), events.size());
     opts.push_back (std::string("Cancel"));
     veh_num = menu_vec (false, "Choose vehicle to spawn", opts) + 1;
     if (veh_num > 1 && veh_num < num_vehicles)
-     m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90);
+     m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90, 100, 0);
    }
    break;
 

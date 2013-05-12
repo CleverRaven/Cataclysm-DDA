@@ -195,7 +195,8 @@ class map
                 std::string name = "NONE");
  void add_spawn(monster *mon);
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
- vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir);
+ vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir,
+                      const int init_veh_fuel = -1, const int init_veh_status = -1 );
  computer* add_computer(const int x, const int y, std::string name, const int security);
  float light_transparency(const int x, const int y) const;
  void build_map_cache(game *g);
