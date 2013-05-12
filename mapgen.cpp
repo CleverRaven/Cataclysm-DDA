@@ -9348,6 +9348,20 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir, int ve
 // veh->init_veh_fuel = 50;
 // veh->init_veh_status = 0;
 
+ for( std::vector<int>::const_iterator part = veh->external_parts.begin();
+      part != veh->external_parts.end(); part++ )
+ {
+     int px = veh->parts[*part].precalc_dx[0];
+     int py = veh->parts[*part].precalc_dy[0];
+
+     // Don't spawn on top of another vehicle or other obstacle.
+     if( veh_at(px, py) != NULL || terlist[ter(px, py)].movecost != 2 )
+     {
+         delete veh;
+         return NULL;
+     }
+ }
+
  grid[nonant]->vehicles.push_back(veh);
 
  vehicle_list.insert(veh);
