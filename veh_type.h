@@ -296,7 +296,8 @@ const vpart_info vpart_list[num_vparts] =
         mfb(vpf_internal) | mfb(vpf_armor) | mfb(vpf_sharp) },
     { "hard plating",      ')', c_cyan,   ')', c_cyan,   100, 2300, 0, 0, "hard_plate", 4,
         mfb(vpf_internal) | mfb(vpf_armor) },
-    { "head light",        '*', c_white,  '*', c_white,  10, 20, 120, 0, "flashlight", 1,
+// power 480 is a temporary workaround pending fixes in lightmap.cpp
+    { "head light",        '*', c_white,  '*', c_white,  10, 20, 480, 0, "flashlight", 1,
        mfb(vpf_internal) | mfb(vpf_light) }
 };
 
