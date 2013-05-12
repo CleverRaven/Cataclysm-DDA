@@ -272,6 +272,15 @@ void Item_factory::init(){
     ammo_effects_list["STREAM"] = mfb(AMMO_STREAM);
     ammo_effects_list["COOKOFF"] = mfb(AMMO_COOKOFF);
     ammo_effects_list["LASER"] = mfb(AMMO_LASER);
+
+    bodyparts_list["TORSO"] = mfb(bp_torso);
+    bodyparts_list["HEAD"] = mfb(bp_head);
+    bodyparts_list["EYES"] = mfb(bp_eyes);
+    bodyparts_list["MOUTH"] = mfb(bp_mouth);
+    bodyparts_list["ARMS"] = mfb(bp_arms);
+    bodyparts_list["HANDS"] = mfb(bp_hands);
+    bodyparts_list["LEGS"] = mfb(bp_legs);
+    bodyparts_list["FEET"] = mfb(bp_feet);
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
@@ -367,6 +376,7 @@ void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/mods.json");
     load_item_templates_from("data/raw/items/tools.json");
     load_item_templates_from("data/raw/items/comestibles.json");
+    load_item_templates_from("data/raw/items/armor.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
@@ -488,6 +498,22 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                                              "ammo_effects"));
 
                         new_item_template = ammo_template;
+                    }
+                    else if (type_label == "ARMOR")
+                    {
+                        it_armor* armor_template = new it_armor();
+
+                        armor_template->encumber = entry.get("encumberance").as_int();
+                        armor_template->dmg_resist = entry.get("bashing_protection").as_int();
+                        armor_template->cut_resist = entry.get("cutting_protection").as_int();
+                        armor_template->env_resist = entry.get("enviromental_protection").as_int();
+                        armor_template->warmth = entry.get("warmth").as_int();
+                        armor_template->storage = entry.get("storage").as_int();
+                        armor_template->power_armor = entry.has("power_armor") ? entry.get("power_armor").as_bool() : false;
+                        armor_template->covers = entry.has("covers") ?
+                          flags_from_json(entry.get("covers"),"bodyparts") : 0;
+
+                        new_item_template = armor_template;
                     }
                     else
                     {
@@ -767,6 +793,8 @@ void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag,
       flag_map = techniques_list;
     } else if(flag_type=="ammo_effects"){
         flag_map = ammo_effects_list;
+    } else if(flag_type=="bodyparts"){
+        flag_map = bodyparts_list;
     }
 
     set_bitmask_by_string(flag_map, cur_flags, new_flag);
