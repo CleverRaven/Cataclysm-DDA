@@ -285,7 +285,7 @@ void Item_factory::init(){
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
-void Item_factory::init(game* main_game){	
+void Item_factory::init(game* main_game){
     load_item_templates(); // this one HAS to be called after game is created
     // Make a copy of our items loaded from JSON
     std::map<Item_tag, itype*> new_templates = m_templates;
@@ -378,6 +378,7 @@ void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/tools.json");
     load_item_templates_from("data/raw/items/comestibles.json");
     load_item_templates_from("data/raw/items/armor.json");
+    load_item_templates_from("data/raw/items/books.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
@@ -517,6 +518,19 @@ void Item_factory::load_item_templates_from(const std::string file_name){
 
                         new_item_template = armor_template;
                     }
+                    else if (type_label == "BOOK")
+                    {
+                        it_book* book_template = new it_book();
+
+                        book_template->level = entry.get("max_level").as_int();
+                        book_template->req = entry.get("required_level").as_int();
+                        book_template->fun = entry.get("fun").as_int();
+                        book_template->intel = entry.get("intelligence").as_int();
+                        book_template->time = entry.get("time").as_int();
+                        book_template->type = Skill::skill(entry.get("skill").as_string());
+
+                        new_item_template = book_template;
+                    }
                     else
                     {
                         debugmsg("Item definition for %s skipped, unrecognized type: %s", new_id.c_str(),
@@ -550,7 +564,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 new_item_template->melee_dam = entry.get("bashing").as_int();
                 new_item_template->melee_cut = entry.get("cutting").as_int();
                 new_item_template->m_to_hit = entry.get("to_hit").as_int();
-                
+
                 new_item_template->item_flags = (!entry.has("flags") ? 0 :
                                                  flags_from_json(entry.get("flags")));
                 new_item_template->techniques = (!entry.has("techniques") ? 0 :
@@ -811,7 +825,7 @@ void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, 
     }
     else
     {
-        debugmsg("Invalid item flag (etc.): %s", new_flag.c_str()); 
+        debugmsg("Invalid item flag (etc.): %s", new_flag.c_str());
     }
 }
 
