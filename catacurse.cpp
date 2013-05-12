@@ -472,14 +472,19 @@ int refresh(void)
     return wrefresh(mainwin);
 };
 
+int getch(void)
+{
+    wgetch(mainwin);
+}
+
 //Not terribly sure how this function is suppose to work,
 //but jday helped to figure most of it out
-int getch(void)
+int wgetch(WINDOW* win)
 {
  // standards note: getch is sometimes required to call refresh
  // see, e.g., http://linux.die.net/man/3/getch
  // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
- refresh();
+ wrefresh(win);
  InvalidateRect(WindowHandle,NULL,true);
  lastchar=ERR;//ERR=-1
     if (inputdelay < 0)
@@ -517,6 +522,12 @@ int mvgetch(int y, int x)
 {
     move(y,x);
     return getch();
+}
+
+int mvwgetch(WINDOW* win, int y, int x)
+{
+    move(y, x);
+    return wgetch(win);
 }
 
 int getnstr(char *str, int size)
