@@ -1903,7 +1903,7 @@ case ot_apartments_mod_tower_1_entrance:{
   fill_background(this, &grass_or_dirt);
   mapf::formatted_set_terrain(this, 0, 0,
   "  w.htth..FFFF..eSc|aR..\n\
-  w...............O|>R..\n\
+  w...............O|.R..\n\
   |-X|..........ccc|.R..\n\
   Rss|-+----|o...h.|.R..\n\
   Rss|...BBd|o....A|....\n\
@@ -1912,7 +1912,7 @@ case ot_apartments_mod_tower_1_entrance:{
   Rss|..cxc.+.r|-+-|....\n\
  ||--|+|----|--|r..|....\n\
  |b....|bTS.+..|---|aR..\n\
- |b.T.S|b...|..+..u|<R..\n\
+ |b.T.S|b...|..+..u|.R..\n\
  |-----|-+|-|..|---|.R..\n\
  |.dBBd...+r|...eSc|.R..\n\
  w..BB....|-|.....O|....\n\
@@ -2040,7 +2040,7 @@ case ot_apartments_mod_tower_1:{
            || (t_west == ot_apartments_mod_tower_1 && t_south == ot_apartments_mod_tower_1_entrance) || (t_south == ot_apartments_mod_tower_1 && t_east == ot_apartments_mod_tower_1_entrance)) {
      mapf::formatted_set_terrain(this, 0, 0,
 "..Ra|cSe.u.htth...oo.w  \n\
-..R>|O.....htth......w  \n\
+..R.|O.....htth......w  \n\
 ..R.|ccc..........|X-|  \n\
 ..R.|......|----+-|ssR  \n\
 ....|.....A|dBB...|ssR  \n\
@@ -2049,7 +2049,7 @@ case ot_apartments_mod_tower_1:{
 ....|-+-|r.+......|ssR  \n\
 ....|..r|--|----|+|--|| \n\
 ..Ra|---|..+.STb|....b| \n\
-..R<|u..+..|...b|S.T.b| \n\
+..R.|u..+..|...b|S.T.b| \n\
 ..R.|---|..|-|+-|-----| \n\
 ..R.|cSe...|r+..d.BBd.| \n\
 ....|O.....|-|....BB..w \n\
