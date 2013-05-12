@@ -2737,7 +2737,6 @@ GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 
 
 
-
 // Unarmed Styles
 #define STYLE(id, name, dam, description, ...) \
 itypes[id]=new it_style(id, 0, 0, name, description, '$', \
