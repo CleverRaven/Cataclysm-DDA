@@ -8,8 +8,12 @@ void game::init_monitems()
  monitems[mon_ant_soldier]	= monitems[mon_ant];
  monitems[mon_ant_queen]	= monitems[mon_ant];
 
+// for zombies only: clothing is generated separately upon mondeath
+// monitems should therefore not include main clothing items but extra items
+// that zombies might be carrying
+
  setvector(&monitems[mon_zombie],
-	mi_livingroom,	5,mi_kitchen,	 4,mi_bedroom,	16,mi_dresser,	16,
+	mi_livingroom,	5,mi_kitchen,	 4,mi_bedroom,	16,
 	mi_softdrugs,	 5,mi_harddrugs, 1,mi_tools,	 20,mi_trash,	 7,
 	mi_ammo,	 1,mi_pistols,	 1,mi_shotguns,	 1,mi_smg,	 1,
 	NULL);
@@ -35,16 +39,16 @@ void game::init_monitems()
         mi_cop_weapons, 20, NULL);
 
  setvector(&monitems[mon_zombie_scientist],
-	mi_dresser,	10,mi_harddrugs,	 6,mi_chemistry,	10,
+	mi_harddrugs,	 6,mi_chemistry,	10,
 	mi_teleport,	 6,mi_goo,		 8,mi_cloning_vat,	 1,
 	mi_dissection,	10,mi_electronics,	 9,mi_bionics,		 1,
 	mi_radio,	 2,mi_textbooks,	 3,NULL);
 
  setvector(&monitems[mon_zombie_soldier],
-	mi_dresser,	 5,mi_ammo,		10,mi_pistols,		 5,
+	mi_ammo,		10,mi_pistols,		 5,
 	mi_shotguns,	 2,mi_smg,		 5,mi_bots,		 1,
 	mi_launchers,	 2,mi_mil_rifles,	10,mi_grenades,		 5,
-	mi_mil_armor,	14,mi_mil_food,		 5,mi_bionics_mil,	 1,
+	mi_mil_accessories,	10,mi_mil_food,		 5,mi_bionics_mil,	 1,
 	NULL);
 
  setvector(&monitems[mon_biollante],
