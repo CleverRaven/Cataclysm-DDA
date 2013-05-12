@@ -883,6 +883,7 @@ bool construct::able_door(game *g, point p)
  return (g->m.ter(p.x, p.y) == t_door_c ||
          g->m.ter(p.x, p.y) == t_door_b ||
          g->m.ter(p.x, p.y) == t_door_o ||
+         g->m.ter(p.x, p.y) == t_door_locked_interior ||
          g->m.ter(p.x, p.y) == t_door_locked);
 }
 

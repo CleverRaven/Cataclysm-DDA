@@ -1722,7 +1722,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  if (type == t_chaingate_l) {
    door_name = "gate";
    new_type = t_chaingate_c;
- } else if (type == t_door_locked || type == t_door_locked_alarm) {
+ } else if (type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
    door_name = "door";
    new_type = t_door_c;
  } else {
@@ -1783,7 +1783,7 @@ if (dirx == 0 && diry == 0) {
  bool noisy;
  int difficulty;
 
- if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm) {
+ if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
    door_name = "door";
    action_name = "pry open";
    new_type = t_door_o;
