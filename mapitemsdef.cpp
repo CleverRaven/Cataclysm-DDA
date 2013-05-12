@@ -433,6 +433,22 @@ void game::init_mapitems()
 	"knife_combat", "crowbar", "tazer", "software_hacking", "spray_can", NULL);
 
  setvector(
+   &mapitems[mi_lab_shoes],
+    "sneakers", "boots", "boots_steel", "dress_shoes", NULL);
+
+// increase chances of generating lab coat    
+ setvector(
+   &mapitems[mi_lab_torso],
+    "coat_lab", "coat_lab", "coat_lab", "coat_lab", 
+    "tshirt", "polo_shirt", "dress_shirt", "dress", 
+	"sweatshirt", "sweater", "hoodie", "jumpsuit", 
+    "hazmat_suit", NULL);    
+
+ setvector(
+   &mapitems[mi_lab_pants],
+    "jeans", "pants", "pants_cargo", "skirt",  NULL);  
+
+ setvector(
    &mapitems[mi_hospital_lab],
 	"blood", "iodine", "bleach", "bandages", "syringe",
 	"canister_empty", "coat_lab", "gloves_medical", "mask_dust",
@@ -653,6 +669,24 @@ void game::init_mapitems()
 	"helmet_army", "backpack", "UPS_off", "beltrig", "under_armor",
     "boots", "armguard_hard", "power_armor_basic", "power_armor_frame",
 	"helmet_army", "backpack", "UPS_off", "beltrig", "beret", NULL);
+
+ setvector(
+   &mapitems[mi_mil_accessories],
+	"mask_gas", "goggles_nv", "backpack", "UPS_off", 
+    "armguard_hard", "power_armor_frame",
+	NULL);
+
+ setvector(
+   &mapitems[mi_mil_armor_torso],
+	"kevlar", "vest", "beltrig", "under_armor", "power_armor_basic", NULL);
+
+ setvector(
+   &mapitems[mi_mil_armor_helmet],
+	"helmet_army", "beret", NULL);
+
+ setvector(
+   &mapitems[mi_mil_armor_pants],
+	"pants_army", "pants", "pants_cargo", NULL);
 
  setvector(
    &mapitems[mi_mil_food],
