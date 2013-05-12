@@ -2225,7 +2225,8 @@ point map::find_item(const item *it)
 
 //Old spawn_item method
 //TODO: Deprecate
-void map::spawn_item(const int x, const int y, itype* type, const int birthday, const int quantity, const int charges)
+// added argument to spawn at various damage levels
+void map::spawn_item(const int x, const int y, itype* type, const int birthday, const int quantity, const int charges, const int damlevel)
 {
  if (type->is_style())
   return;
@@ -2237,11 +2238,18 @@ void map::spawn_item(const int x, const int y, itype* type, const int birthday, 
  tmp = tmp.in_its_container(itypes);
  if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
+    // bounds checking for damage level
+    if (damlevel < -1)
+        tmp.damage = -1;
+    if (damlevel > 4)
+        tmp.damage = 4;
+    tmp.damage = damlevel;   
  add_item(x, y, tmp);
 }
 
 //New spawn_item method, using item factory
-void map::spawn_item(const int x, const int y, std::string type_id, const int birthday, const int quantity, const int charges)
+// added argument to spawn at various damage levels
+void map::spawn_item(const int x, const int y, std::string type_id, const int birthday, const int quantity, const int charges, const int damlevel)
 {
  item tmp = item_controller->create(type_id, birthday);
  if (quantity)
@@ -2252,6 +2260,12 @@ void map::spawn_item(const int x, const int y, std::string type_id, const int bi
  tmp = tmp.in_its_container(itypes);
  if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
+    // bounds checking for damage level
+    if (damlevel < -1)
+        tmp.damage = -1;
+    if (damlevel > 4)
+        tmp.damage = 4;
+    tmp.damage = damlevel;  
  add_item(x, y, tmp);
 }
 
