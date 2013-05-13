@@ -253,7 +253,7 @@ class game
   std::list<weather_segment> future_weather;
 
   char nextinv;	// Determines which letter the next inv item will have
-  overmap cur_om;
+  overmap *cur_om;
   map m;
   int levx, levy, levz;	// Placement inside the overmap
   player u;

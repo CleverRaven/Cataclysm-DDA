@@ -1411,11 +1411,11 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
  } else if (ch == '3') {	// General S.O.S.
   p->moves -= 150;
   std::vector<npc*> in_range;
-  for (int i = 0; i < g->cur_om.npcs.size(); i++) {
-   if (g->cur_om.npcs[i]->op_of_u.value >= 4 &&
-       rl_dist(g->levx, g->levy, g->cur_om.npcs[i]->mapx,
-                                   g->cur_om.npcs[i]->mapy) <= 30)
-    in_range.push_back((g->cur_om.npcs[i]));
+  for (int i = 0; i < g->cur_om->npcs.size(); i++) {
+   if (g->cur_om->npcs[i]->op_of_u.value >= 4 &&
+       rl_dist(g->levx, g->levy, g->cur_om->npcs[i]->mapx,
+                                   g->cur_om->npcs[i]->mapy) <= 30)
+    in_range.push_back((g->cur_om->npcs[i]));
   }
   if (in_range.size() > 0) {
    npc* coming = in_range[rng(0, in_range.size() - 1)];
@@ -1446,9 +1446,9 @@ void iuse::radio_off(game *g, player *p, item *it, bool t)
 static radio_tower *find_radio_station( game *g, int frequency )
 {
     radio_tower *tower = NULL;
-    for (int k = 0; k < g->cur_om.radios.size(); k++)
+    for (int k = 0; k < g->cur_om->radios.size(); k++)
     {
-        tower = &g->cur_om.radios[k];
+        tower = &g->cur_om->radios[k];
         if( 0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
             tower->frequency == frequency )
         {
@@ -1545,9 +1545,9 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
             radio_tower *lowest_tower = NULL;
             radio_tower *lowest_larger_tower = NULL;
 
-            for (int k = 0; k < g->cur_om.radios.size(); k++)
+            for (int k = 0; k < g->cur_om->radios.size(); k++)
             {
-                tower = &g->cur_om.radios[k];
+                tower = &g->cur_om->radios[k];
 
                 if( 0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
                     tower->frequency != old_frequency )
@@ -1646,7 +1646,7 @@ void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
 {
  int dist = 0;
  oter_t oter_target = oterlist[target];
- point place = g->cur_om.find_closest(g->om_location(), (oter_id)target, 1, dist,
+ point place = g->cur_om->find_closest(g->om_location(), (oter_id)target, 1, dist,
                                       false);
 
  int pomx = (g->levx + int(MAPSIZE / 2)) / 2; //overmap loc
@@ -1657,7 +1657,7 @@ void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
  if (place.x >= 0 && place.y >= 0) {
   for (int x = place.x - 3; x <= place.x + 3; x++) {
    for (int y = place.y - 3; y <= place.y + 3; y++)
-    g->cur_om.seen(x, y, g->levz) = true;
+    g->cur_om->seen(x, y, g->levz) = true;
   }
 
   direction to_hospital = direction_from(pomx,pomy, place.x, place.y);
@@ -1675,18 +1675,18 @@ void iuse::roadmap_targets(game *g, player *p, item *it, bool t, int target, int
  oter_t oter_target = oterlist[target];
  point place;
  point origin = g->om_location();
- std::vector<point> places = g->cur_om.find_all(tripoint(origin.x, origin.y, g->levz),
+ std::vector<point> places = g->cur_om->find_all(tripoint(origin.x, origin.y, g->levz),
                                                 (oter_id)target, target_range, distance, false);
 
  for (std::vector<point>::iterator iter = places.begin(); iter != places.end(); ++iter) {
   place = *iter;
   if (place.x >= 0 && place.y >= 0) {
   if (reveal_distance == 0) {
-    g->cur_om.seen(place.x,place.y,g->levz) = true;
+    g->cur_om->seen(place.x,place.y,g->levz) = true;
   } else {
    for (int x = place.x - reveal_distance; x <= place.x + reveal_distance; x++) {
     for (int y = place.y - reveal_distance; y <= place.y + reveal_distance; y++)
-      g->cur_om.seen(x, y,g->levz) = true;
+      g->cur_om->seen(x, y,g->levz) = true;
    }
   }
   }
@@ -3719,8 +3719,8 @@ void iuse::mcg_note(game *g, player *p, item *it, bool t)
  }
 // Calculate where that faction is
  if (fac != NULL) {
-  int omx = g->cur_om.posx, omy = g->cur_om.posy;
-  if (fac->omx != g->cur_om.posx || fac->omx != g->cur_om.posy)
+  int omx = g->cur_om->posx, omy = g->cur_om->posy;
+  if (fac->omx != g->cur_om->posx || fac->omx != g->cur_om->posy)
    dir = direction_from(omx, omy, fac->omx, fac->omy);
   else
    dir = direction_from(g->levx, g->levy, fac->mapx, fac->mapy);
@@ -3816,9 +3816,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    bool new_map = false;
    for (int x = int(g->levx / 2) - 20; x <= int(g->levx / 2) + 20; x++) {
     for (int y = int(g->levy / 2) - 20; y <= int(g->levy / 2) + 20; y++) {
-     if (!g->cur_om.seen(x, y, g->levz)) {
+     if (!g->cur_om->seen(x, y, g->levz)) {
       new_map = true;
-      g->cur_om.seen(x, y, g->levz) = true;
+      g->cur_om->seen(x, y, g->levz) = true;
      }
     }
    }

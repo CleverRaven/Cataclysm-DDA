@@ -407,7 +407,7 @@ void computer::activate_function(game *g, computer_action action)
    if (maxy >= OMAPY) maxy = OMAPY - 1;
    for (int i = minx; i <= maxx; i++) {
     for (int j = miny; j <= maxy; j++)
-     g->cur_om.seen(i, j, 0) = true;
+     g->cur_om->seen(i, j, 0) = true;
    }
    print_line("Surface map data downloaded.");
    query_any("Press any key to continue...");
@@ -425,11 +425,11 @@ void computer::activate_function(game *g, computer_action action)
    if (maxy >= OMAPY) maxy = OMAPY - 1;
    for (int i = minx; i <= maxx; i++) {
     for (int j = miny; j <= maxy; j++)
-     if ((g->cur_om.ter(i, j, g->levz) >= ot_sewer_ns &&
-          g->cur_om.ter(i, j, g->levz) <= ot_sewer_nesw) ||
-         (g->cur_om.ter(i, j, g->levz) >= ot_sewage_treatment &&
-          g->cur_om.ter(i, j, g->levz) <= ot_sewage_treatment_under))
-     g->cur_om.seen(i, j, g->levz) = true;
+     if ((g->cur_om->ter(i, j, g->levz) >= ot_sewer_ns &&
+          g->cur_om->ter(i, j, g->levz) <= ot_sewer_nesw) ||
+         (g->cur_om->ter(i, j, g->levz) >= ot_sewage_treatment &&
+          g->cur_om->ter(i, j, g->levz) <= ot_sewage_treatment_under))
+     g->cur_om->seen(i, j, g->levz) = true;
    }
    print_line("Sewage map data downloaded.");
   } break;
@@ -438,7 +438,7 @@ void computer::activate_function(game *g, computer_action action)
   case COMPACT_MISS_LAUNCH:
     {
         // Target Acquisition.
-        point target = g->cur_om.draw_overmap(g, 0);
+        point target = g->cur_om->draw_overmap(g, 0);
         if (target.x == -1)
         {
             g->add_msg("Target acquisition canceled");
@@ -477,7 +477,7 @@ void computer::activate_function(game *g, computer_action action)
                 tmpmap.translate(t_missile, t_hole);
             else if(level == 0)
                 tmpmap.translate(t_metal_floor, t_hole);
-            tmpmap.save(&g->cur_om, g->turn, g->levx, g->levy, level);
+            tmpmap.save(g->cur_om, g->turn, g->levx, g->levy, level);
         }
 
 
@@ -603,7 +603,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n");
    print_line("\
 SITE %d%d%d%d%d\n\
 PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES",
-g->cur_om.pos().x, g->cur_om.pos().y, g->levx, g->levy, abs(g->levz));
+g->cur_om->pos().x, g->cur_om->pos().y, g->levx, g->levy, abs(g->levz));
    print_line("\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
    IMPERATIVE 2:07B\n\
