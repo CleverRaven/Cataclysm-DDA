@@ -401,7 +401,7 @@ void veh_interact::do_remove(int reason)
         wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
         wprintz(w_msg, c_ltgray, " and a ");
         wprintz(w_msg, has_hacksaw? c_ltgreen : c_red, "hacksaw");
-        wprintz(w_msg, c_ltgray, " to install parts.");
+        wprintz(w_msg, c_ltgray, " to remove parts.");
         if(wheel) {
             mvwprintz(w_msg, 1, 1, c_ltgray, "To change a wheel you need a ");
             wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
