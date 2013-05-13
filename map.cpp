@@ -285,7 +285,8 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
  int dsty = y2;
 
  if (!inbounds(srcx, srcy)){
-  debugmsg ("map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
+  if (g->debugmon)
+   debugmsg ("map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
             srcx, srcy, dstx, dsty);
   return false;
  }
@@ -311,7 +312,8 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
   }
  }
  if (our_i < 0) {
-  debugmsg ("displace_vehicle our_i=%d", our_i);
+  if (g->debugmon)
+   debugmsg ("displace_vehicle our_i=%d", our_i);
   return false;
  }
  // move the vehicle
@@ -442,7 +444,8 @@ bool map::vehproceed(game* g){
       return false;
 
    if (!inbounds(x, y)){
-      debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)",x,y);
+    if (g->debugmon)
+     debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)",x,y);
       veh->stop();
       veh->of_turn = 0;
       return true;
@@ -962,26 +965,26 @@ point map::random_outdoor_tile()
 
 bool map::has_adjacent_furniture(const int x, const int y)
 {
- for (int i = -1; i <= 1; i += 2)
- {
-   for (int j = 0; j <= 1; j++)
-   {
-       // Apply the adjustment to x first, then y
-       const int adj_x = x + !j?i:0;
-       const int adj_y = y + j?i:0;
+    const char cx[4] = { 0, -1, 0, 1};
+    const char cy[4] = {-1,  0, 1, 0};
 
-       switch( ter(adj_x, adj_y) )
-       {
-       case t_fridge:
-       case t_glass_fridge:
-       case t_dresser:
-       case t_rack:
-       case t_bookcase:
-       case t_locker:
-           return true;
-       }
-   }
- }
+    for (int i = 0; i < 4; i++)
+    {
+        const int adj_x = x + cx[i];
+        const int adj_y = y + cy[i];
+
+        switch( ter(adj_x, adj_y) )
+        {
+        case t_fridge:
+        case t_glass_fridge:
+        case t_dresser:
+        case t_rack:
+        case t_bookcase:
+        case t_locker:
+            return true;
+        }
+    }
+
  return false;
 }
 
@@ -2188,7 +2191,7 @@ item map::water_from(const int x, const int y)
     else if (ter(x, y) == t_toilet && !one_in(3))
         ret.poison = rng(1, 3);
     else if (tr_at(x, y) == tr_funnel)
-        ret.poison = (one_in(10) > 1) ? 0 : 1;
+        ret.poison = (one_in(10) == true) ? 1 : 0;
     return ret;
 }
 
@@ -2222,7 +2225,8 @@ point map::find_item(const item *it)
 
 //Old spawn_item method
 //TODO: Deprecate
-void map::spawn_item(const int x, const int y, itype* type, const int birthday, const int quantity, const int charges)
+// added argument to spawn at various damage levels
+void map::spawn_item(const int x, const int y, itype* type, const int birthday, const int quantity, const int charges, const int damlevel)
 {
  if (type->is_style())
   return;
@@ -2234,11 +2238,18 @@ void map::spawn_item(const int x, const int y, itype* type, const int birthday, 
  tmp = tmp.in_its_container(itypes);
  if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
+    // bounds checking for damage level
+    if (damlevel < -1)
+        tmp.damage = -1;
+    if (damlevel > 4)
+        tmp.damage = 4;
+    tmp.damage = damlevel;   
  add_item(x, y, tmp);
 }
 
 //New spawn_item method, using item factory
-void map::spawn_item(const int x, const int y, std::string type_id, const int birthday, const int quantity, const int charges)
+// added argument to spawn at various damage levels
+void map::spawn_item(const int x, const int y, std::string type_id, const int birthday, const int quantity, const int charges, const int damlevel)
 {
  item tmp = item_controller->create(type_id, birthday);
  if (quantity)
@@ -2249,6 +2260,12 @@ void map::spawn_item(const int x, const int y, std::string type_id, const int bi
  tmp = tmp.in_its_container(itypes);
  if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
+    // bounds checking for damage level
+    if (damlevel < -1)
+        tmp.damage = -1;
+    if (damlevel > 4)
+        tmp.damage = 4;
+    tmp.damage = damlevel;  
  add_item(x, y, tmp);
 }
 
@@ -3687,4 +3704,3 @@ tinymap::tinymap(std::map<std::string, itype*> *itptr,
 tinymap::~tinymap()
 {
 }
-

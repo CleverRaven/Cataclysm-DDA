@@ -2411,7 +2411,7 @@ int player::sight_range(int light_level)
 
 int player::unimpaired_range()
 {
- int ret = 12;
+ int ret = DAYLIGHT_LEVEL;
  if (has_disease(DI_IN_PIT))
   ret = 1;
  if (has_disease(DI_BLIND))
@@ -4877,8 +4877,13 @@ void player::pick_style(game *g) // Style selection menu
 {
  std::vector<std::string> options;
  options.push_back("No style");
- for (int i = 0; i < styles.size(); i++)
-  options.push_back( g->itypes[styles[i]]->name );
+ for (int i = 0; i < styles.size(); i++) {
+  if(!g->itypes[styles[i]]) {
+    debugmsg ("Bad hand to hand style: %d",i);
+  } else {
+    options.push_back( g->itypes[styles[i]]->name );
+  }
+ }
  int selection = menu_vec(false, "Select a style", options);
  if (selection >= 2)
   style_selected = styles[selection - 2];

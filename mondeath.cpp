@@ -1,3 +1,4 @@
+#include "item_factory.h"
 #include "mondeath.h"
 #include "monster.h"
 #include "game.h"
@@ -312,7 +313,56 @@ void mdeath::smokeburst(game *g, monster *z)
   }
 }
 
+// this function generates clothing for zombies 
+void mdeath::zombie(game *g, monster *z)
+{
+    // normal death function first
+    mdeath::normal(g, z);
+    
+    // now generate appropriate clothing
+    switch(z->type->id)
+    {
+        case mon_zombie_cop:
+            g->m.put_items_from(mi_cop_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_cop_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_cop_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+        break;
 
+        case mon_zombie_scientist:
+            g->m.put_items_from(mi_lab_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_lab_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_lab_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+        break;
+
+        case mon_zombie_soldier:
+            g->m.put_items_from(mi_cop_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_mil_armor_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_mil_armor_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            if (one_in(4))
+            {
+                g->m.put_items_from(mi_mil_armor_helmet, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            }
+        break;
+        
+        case mon_zombie_hulk:
+            g->m.spawn_item(z->posx, z->posy, item_controller->find_template("rag"), g->turn, 0, 0, rng(5,10));
+            g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            break;
+        
+        default:
+            g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_shirts, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            if (one_in(6))
+            {
+                g->m.put_items_from(mi_jackets, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            }
+            if (one_in(15))
+            {
+                g->m.put_items_from(mi_bags, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            }
+        break;
+    }
+}
 
 void mdeath::gameover(game *g, monster *z)
 {

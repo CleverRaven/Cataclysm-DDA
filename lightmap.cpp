@@ -20,17 +20,26 @@ void map::generate_lightmap(game* g)
  const float natural_light = g->natural_light_level();
 
  // Daylight vision handling returned back to map due to issues it causes here
- if (natural_light > LIGHT_SOURCE_BRIGHT) {
-  // Apply sunlight, first light source so just assign
-  for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
-   for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
-    // In bright light indoor light exists to some degree
-    if (!g->m.is_outside(sx, sy))
-     lm[sx][sy] = LIGHT_AMBIENT_LOW;
-	else
-	 lm[sx][sy] = natural_light;
-   }
-  }
+ if (natural_light > LIGHT_SOURCE_BRIGHT)
+ {
+     // Apply sunlight, first light source so just assign
+     for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx)
+     {
+         for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy)
+         {
+             // In bright light indoor light exists to some degree
+             if (!g->m.is_outside(sx, sy))
+             {
+                 lm[sx][sy] = LIGHT_AMBIENT_LOW;
+             }
+             else if (g->u.posx == sx && g->u.posy == sy )
+             {
+                 //Only apply daylight on square where player is standing to avoid flooding
+                 // the lightmap  when in less than total sunlight.
+                 lm[sx][sy] = natural_light;
+             }
+         }
+     }
  }
 
  // Apply player light sources

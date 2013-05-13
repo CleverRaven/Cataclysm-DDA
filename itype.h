@@ -412,6 +412,18 @@ struct it_ammo : public itype
 // virtual bool count_by_charges() { return id != "gasoline"; }
  virtual bool count_by_charges() { return true; }
 
+ it_ammo() : itype()
+ {
+     type = AT_NULL;
+     damage = 0;
+     pierce = 0;
+     range = 0;
+     accuracy = 0;
+     recoil = 0;
+     count = 0;
+     ammo_effects = 0;
+ }
+
  it_ammo(std::string pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
         char psym, nc_color pcolor, material pm1, phase_id pphase,
@@ -546,6 +558,7 @@ struct it_armor : public itype
   env_resist = 0;
   warmth = 0;
   storage = 0;
+  power_armor = false;
  }
 
  it_armor(itype_id pid, unsigned char prarity, unsigned int pprice,
@@ -585,6 +598,7 @@ struct it_book : public itype
 			// "To read" means getting 1 skill point, not all of em
  std::map<recipe*, int> recipes; //what recipes can be learned from this book
  virtual bool is_book() { return true; }
+ it_book() {}
  it_book(std::string pid, unsigned char prarity, unsigned int pprice,
          std::string pname, std::string pdes,
          char psym, nc_color pcolor, material pm1, material pm2,

@@ -111,7 +111,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
          // cook off ammo instead of just burning it.
          for(int j = 0; j < (rounds_exploded / 10) + 1; j++)
          {
-             g->explosion(x, y, (dynamic_cast<it_ammo*>(it->type))->damage / 2, true, false);
+             g->explosion(x, y, ammo_type->damage / 2, true, false);
          }
          it->charges -= rounds_exploded;
          if(it->charges == 0) destroyed = true;
@@ -1066,6 +1066,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
      int how_many_limbs_hit = rng(0, num_hp_parts);
      for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
       g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
+      g->add_msg("You are hit by the falling debris!");
      }
      if (one_in(g->u.dex_cur)) {
       g->u.add_disease(DI_DOWNED, 2, g);
@@ -1075,6 +1076,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
      }
     }
     else if (one_in(g->u.str_cur)) {
+     g->add_msg("You trip as you evade the falling debris!");
      g->u.add_disease(DI_DOWNED, 1, g);
     }
                         //Avoiding disease system for the moment, since I was having trouble with it.
@@ -1112,7 +1114,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
    }
     vehicle *veh = veh_at(x, y, veh_part);
     if (veh) {
-     veh->damage(veh_part, (veh->parts[veh_part].hp/3 * cur->density), 1, false);
+     veh->damage(veh_part, ceil(veh->parts[veh_part].hp/3 * cur->density), 1, false);
     }
  }
 }

@@ -373,7 +373,7 @@ void game::cleanup_at_end(){
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
     {
         death_screen();
-        if (OPTIONS[OPT_DELETE_WORLD] == 1 
+        if (OPTIONS[OPT_DELETE_WORLD] == 1
          || (OPTIONS[OPT_DELETE_WORLD] == 2 && query_yn("Delete saved world?")))
         {
             delete_save();
@@ -516,19 +516,22 @@ bool game::do_turn()
  }
 
  process_activity();
+ if(u.moves > 0) {
+     while (u.moves > 0) {
+          cleanup_dead();
+          if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
+              draw();
 
- while (u.moves > 0) {
-  cleanup_dead();
-  if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
-   draw();
+          if(handle_action())
+              ++moves_since_last_save;
 
-  if(handle_action())
-	  ++moves_since_last_save;
-
-  if (is_game_over()) {
-   cleanup_at_end();
-   return true;
-  }
+          if (is_game_over()) {
+              cleanup_at_end();
+              return true;
+          }
+     }
+ } else {
+     handle_key_blocking_activity();
  }
  update_scent();
  m.vehmove(this);
@@ -1178,6 +1181,49 @@ void game::process_missions()
    fail_mission(active_missions[i].uid);
  }
 }
+
+void game::handle_key_blocking_activity() {
+    if ( u.activity.type != ACT_NULL &&
+        u.activity.moves_left > 0 &&
+        u.activity.continuous == true &&
+        (  // bool activity_is_abortable() ?
+            u.activity.type == ACT_READ ||
+            u.activity.type == ACT_BUILD ||
+            u.activity.type == ACT_LONGCRAFT ||
+            u.activity.type == ACT_REFILL_VEHICLE ||
+            u.activity.type == ACT_REFILL_VEHICLE ||
+            u.activity.type == ACT_WAIT
+        )
+    ) {
+        char ch='.';
+        int ich=0;
+        timeout(1);
+        if((ich = input()) != ERR) {
+            timeout(-1);
+            ch = input(ich);
+            action_id act = keymap[ch];
+            switch(act) {  // should probably make the switch in handle_action() a function
+                case ACTION_PAUSE:
+                    cancel_activity_query("Confirm:");
+                break;
+                case ACTION_PL_INFO:
+                    u.disp_info(this);
+                    refresh_all();
+                break;
+                case ACTION_MESSAGES:
+                    msg_buffer();
+                break;
+
+                case ACTION_HELP:
+                    help();
+                    refresh_all();
+                break;
+            }
+        }
+        timeout(-1);
+    }
+}
+
 
 bool game::handle_action()
 {
@@ -1951,7 +1997,7 @@ void game::load_artifacts()
 	catajson artifact = artifact_list.curr();
 	std::string id = artifact.get(std::string("id")).as_string();
 	unsigned int price = artifact.get(std::string("price")).as_int();
-	std::string name = artifact.get(std::string("name")).as_string();	
+	std::string name = artifact.get(std::string("name")).as_string();
 	std::string description =
 	    artifact.get(std::string("description")).as_string();
 	char sym = artifact.get(std::string("sym")).as_int();
@@ -2052,15 +2098,15 @@ void game::load_artifacts()
 		artifact.get(std::string("storage")).as_int();
 	    bool power_armor =
 		artifact.get(std::string("power_armor")).as_bool();
-	    
+
 	    it_artifact_armor* art_type = new it_artifact_armor(
 		id, price, name, description, sym, color, m1, m2, volume,
 		weight, melee_dam, melee_cut, m_to_hit, item_flags,
-		
+
 		covers, encumber, dmg_resist, cut_resist, env_resist, warmth,
 		storage);
 	    art_type->power_armor = power_armor;
-	    
+
 	    catajson effects_worn_json =
 		artifact.get(std::string("effects_worn"));
 	    effects_worn_json.set_begin();
@@ -2539,7 +2585,7 @@ z.size(), active_npc.size(), events.size());
     opts.push_back (std::string("Cancel"));
     veh_num = menu_vec (false, "Choose vehicle to spawn", opts) + 1;
     if (veh_num > 1 && veh_num < num_vehicles)
-     m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90);
+     m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90, 100, 0);
    }
    break;
 
@@ -4058,7 +4104,7 @@ void game::add_footstep(int x, int y, int volume, int distance, monster* source)
  if (u.has_trait(PF_BADHEARING))
   err_offset++;
 
- int tries = 0, origx = x, origy = y;
+ int origx = x, origy = y;
  std::vector<point> point_vector;
  for (x = origx-err_offset; x <= origx+err_offset; x++)
  {
@@ -4113,7 +4159,7 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
  int radius = sqrt(double(power / 4));
  int dam;
  std::string junk;
- int noise = power * has_fire ? 2 : 10;
+ int noise = power * (has_fire ? 2 : 10);
 
  if (power >= 30)
   sound(x, y, noise, "a huge explosion!");
@@ -4627,6 +4673,7 @@ void game::open()
  if (!didit) {
   switch(m.ter(u.posx + openx, u.posy + openy)) {
   case t_door_locked:
+  case t_door_locked_interior:
   case t_door_locked_alarm:
    add_msg("The door is locked!");
    break;	// Trying to open a locked door uses the full turn's movement
@@ -5638,7 +5685,7 @@ void game::advanced_inv()
             }
             else // moving item from square to inventory
             {
-                std::vector<item> src_items = src_vstor >= 0 ? 
+                std::vector<item> src_items = src_vstor >= 0 ?
                   src_veh->parts[src_vstor].items : m.i_at(u.posx+src_offx,u.posy+src_offy);
                 if(src_items[item_pos].made_of(LIQUID))
                 {
@@ -8345,7 +8392,7 @@ void game::plmove(int x, int y)
    u.moves -= 100;
   } else if (m.open_door(x, y, !m.is_outside(u.posx, u.posy)))
    u.moves -= 100;
-  else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm) {
+  else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm || m.ter(x, y) == t_door_locked_interior) {
    u.moves -= 100;
    add_msg("That door is locked!");
   }
