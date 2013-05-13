@@ -31,3 +31,8 @@ void overmapbuffer::save()
         current_map->save();
     }
 }
+
+void overmapbuffer::clear()
+{
+    overmap_list.clear();
+}

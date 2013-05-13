@@ -10,6 +10,7 @@ public:
 
     overmap &get( game *g, const int x, const int y );
     void save();
+    void clear();
 
 private:
     std::list<overmap> overmap_list;
