@@ -6181,12 +6181,11 @@ void game::reset_item_list_state(WINDOW* window, int height)
     mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(window, TERMY-height-1-VIEW_OFFSET_Y*2, 54, c_ltgray, LINE_XOXX); // -|
 
-    int iTempStart = 2;
+    int iTempStart = 6;
     if (sFilter != "")
     {
         iTempStart = 10;
-        mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2,
-                  iTempStart + 29, c_ltgreen, " %s", "R");
+        mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, 2, c_ltgreen, " %s", "R");
         wprintz(window, c_white, "%s", "eset ");
     }
 
@@ -6199,7 +6198,7 @@ void game::reset_item_list_state(WINDOW* window, int height)
     mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 20, c_ltgreen, " %s", "F");
     wprintz(window, c_white, "%s", "ilter ");
 
-    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 30, c_ltgreen, " %s", "+/-");
+    mvwprintz(window, TERMY-height-1-VIEW_OFFSET_Y*2, iTempStart + 29, c_ltgreen, " %s", "+/-");
     wprintz(window, c_white, "%s", ":Priority ");
 
     refresh_all();
@@ -6331,20 +6330,16 @@ void game::list_items()
             else if(ch == '+')
             {
                 std::string temp = string_input_popup("High Priority : ",55,list_item_upvote);
-                if(temp != "")
-                {
-                    list_item_upvote = temp;
-                    refilter = true;
-                }
+                list_item_upvote = temp;
+                refilter = true;
+                reset = true;
             }
             else if(ch == '-')
             {
                 std::string temp = string_input_popup("Low Priority : ",55,list_item_downvote);
-                if(temp != "")
-                {
-                    list_item_downvote = temp;
-                    refilter = true;
-                }
+                list_item_downvote = temp;
+                refilter = true;
+                reset = true;
             }
             if (refilter)
             {
