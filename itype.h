@@ -969,7 +969,7 @@ struct it_artifact_armor : public it_armor
                    unsigned char pdmg_resist, unsigned char pcut_resist,
                    unsigned char penv_resist, signed char pwarmth,
                    unsigned char pstorage)
-:it_armor(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
+:it_armor(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2,
           pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
           pcovers, pencumber, pdmg_resist, pcut_resist, penv_resist, pwarmth,
           pstorage)
