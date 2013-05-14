@@ -214,6 +214,7 @@ void veh_interact::do_install(int reason)
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[sel_part].difficulty;
         bool wheel = vpart_list[sel_part].flags & mfb (vpf_wheel);
+        bool has_tools = has_welder && has_wrench;
         werase (w_msg);
         mvwprintz(w_msg, 0, 1, c_ltgray, "Needs ");
         wprintz(w_msg, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
@@ -233,6 +234,7 @@ void veh_interact::do_install(int reason)
             wprintz(w_msg, c_ltgray, ", and a ");
             wprintz(w_msg, has_jack? c_ltgreen : c_red, "jack");
             has_skill=(has_jack||has_skill); // my mother can change her car's tires
+            has_tools = has_tools || (has_wrench && has_jack);
             sel_type=SEL_JACK;
         }
         bool eng = vpart_list[sel_part].flags & mfb (vpf_engine);
@@ -247,7 +249,7 @@ void veh_interact::do_install(int reason)
         char ch = input(); // See keypress.h
         int dx, dy;
         get_direction (g, dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && has_comps && has_skill && has_skill2)
+        if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2)
         {
             //if(itm.is_var_veh_part() && crafting_inv.has_amount(itm, 2);
             sel_cmd = 'i';
