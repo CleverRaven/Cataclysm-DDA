@@ -524,8 +524,7 @@ bool map::vehproceed(game* g){
 
    if (veh->skidding){
       if (one_in(4)){ // might turn uncontrollably while skidding
-         veh->move.init (veh->move.dir() +
-               (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
+          veh->turn (one_in(2) ? -15 : 15);
       }
    }
    else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20)) {
