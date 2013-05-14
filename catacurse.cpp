@@ -1,6 +1,7 @@
 #if (defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
 #include "options.h"
+#include "color.h"
 #include <cstdlib>
 #include <fstream>
 
@@ -427,7 +428,7 @@ inline void addedchar(WINDOW *win){
 //Borders the window with fancy lines!
 int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br)
 {
-    wattron(w, c_white);
+    wattron(win, c_white);
     int i, j;
     int oldx=win->cursorx;//methods below move the cursor, save the value!
     int oldy=win->cursory;//methods below move the cursor, save the value!
@@ -454,7 +455,7 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
     //_windows[w].cursorx=oldx;//methods above move the cursor, put it back
     //_windows[w].cursory=oldy;//methods above move the cursor, put it back
     wmove(win,oldy,oldx);
-    wattroff(w, c_white);
+    wattroff(win, c_white);
     return 1;
 };
 
