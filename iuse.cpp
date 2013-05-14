@@ -715,7 +715,7 @@ void iuse::mutagen_3(game *g, player *p, item *it, bool t)
 void iuse::purifier(game *g, player *p, item *it, bool t)
 {
  std::vector<int> valid;	// Which flags the player has
- for (int i = 1; i < PF_MAX2; i++) {
+ for (int i = PF_MAX+1; i < PF_MAX2; i++) {
   if (p->has_trait(pl_flag(i)) && p->has_mutation(pl_flag(i)))
    valid.push_back(i);
  }
