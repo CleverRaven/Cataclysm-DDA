@@ -17,6 +17,7 @@
 #include "cursesdef.h"
 #include "options.h"
 #include "options.h"
+#include "overmapbuffer.h"
 
 #ifdef _MSC_VER
 // MSVC prefers ISO C++ conformant names over POSIX names, but it's missing a redirect for snprintf
@@ -1128,15 +1129,15 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   // If the offsets don't match the previously loaded ones, load the new adjacent overmaps.
   if( offx && loc.x + offx != hori.loc.x )
   {
-      hori = overmap( g, loc.x + offx, loc.y );
+      hori = overmap_buffer.get( g, loc.x + offx, loc.y );
   }
   if( offy && loc.y + offy != vert.loc.y )
   {
-      vert = overmap( g, loc.x, loc.y + offy );
+      vert = overmap_buffer.get( g, loc.x, loc.y + offy );
   }
   if( offx && offy && (loc.x + offx != diag.loc.x || loc.y + offy != diag.loc.y ) )
   {
-      diag = overmap( g, loc.x + offx, loc.y + offy );
+      diag = overmap_buffer.get( g, loc.x + offx, loc.y + offy );
   }
 
 // Now actually draw the map

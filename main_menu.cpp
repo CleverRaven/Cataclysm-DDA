@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "mapbuffer.h"
 #include "cursesdef.h"
+#include "overmapbuffer.h"
 
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -343,6 +344,7 @@ bool game::opening_screen()
                     savegames.clear();
                     MAPBUFFER.reset();
                     MAPBUFFER.make_volatile();
+                    overmap_buffer.clear();
                 }
 
                 layer = 1;

@@ -1985,7 +1985,7 @@ void npc::set_destination(game *g)
  oter_id dest_type = options[rng(0, options.size() - 1)];
 
  int dist = 0;
- point p = g->cur_om.find_closest(point(mapx, mapy),dest_type,4, dist, false);
+ point p = g->cur_om->find_closest(point(mapx, mapy),dest_type,4, dist, false);
  goalx = p.x;
  goaly = p.y;
  goalz = g->levz;
