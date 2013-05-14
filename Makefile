@@ -50,7 +50,7 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_GAME
 
 
-VERSION = 0.4
+VERSION = 0.5
 
 
 TARGET = cataclysm
