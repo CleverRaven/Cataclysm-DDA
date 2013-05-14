@@ -433,8 +433,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         gunmod_template->recoil = entry.get("recoil_modifier").as_int();
                         gunmod_template->burst = entry.get("burst_modifier").as_int();
                         gunmod_template->clip = entry.get("clip_size_modifier").as_int();
-                        gunmod_template->techniques = (!entry.has("ammo") ? 0 :
-                                                 flags_from_json(entry.get("techniques"), "ammo"));
+                        gunmod_template->acceptible_ammo_types = (!entry.has("acceptible_ammo") ? 0 : flags_from_json(entry.get("acceptible_ammo"), "ammo"));
                         new_item_template = gunmod_template;
                     }
                     else if (type_label == "COMESTIBLE")
