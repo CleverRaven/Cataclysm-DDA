@@ -116,7 +116,9 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
 int wrefresh(WINDOW *win);
 int refresh(void);
 int getch(void);
+int wgetch(WINDOW* win);
 int mvgetch(int y, int x);
+int mvwgetch(WINDOW* win, int y, int x)
 int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
 int mvprintw(int y, int x, const char *fmt, ...);
 int werase(WINDOW *win);
