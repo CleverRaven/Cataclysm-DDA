@@ -140,7 +140,7 @@ std::string weather_forecast(game *g, radio_tower tower)
     // Local conditions
     weather_report << "At " << g->turn.print_time(true);
 
-    city *closest_city = &g->cur_om.cities[g->cur_om.closest_city(point(tower.x, tower.y))];
+    city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
     if (closest_city)
     {
         weather_report << " in " << closest_city->name;

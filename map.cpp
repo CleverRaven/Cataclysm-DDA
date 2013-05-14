@@ -3328,8 +3328,8 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 {
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
- const int absx = g->cur_om.pos().x * OMAPX * 2 + worldx + gridx,
-           absy = g->cur_om.pos().y * OMAPY * 2 + worldy + gridy,
+ const int absx = g->cur_om->pos().x * OMAPX * 2 + worldx + gridx,
+           absy = g->cur_om->pos().y * OMAPY * 2 + worldy + gridy,
            gridn = gridx + gridy * my_MAPSIZE;
 
  dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
@@ -3360,7 +3360,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 //  squares divisible by 2.
   int newmapx = worldx + gridx - ((worldx + gridx) % 2);
   int newmapy = worldy + gridy - ((worldy + gridy) % 2);
-  overmap* this_om = &(g->cur_om);
+  overmap* this_om = g->cur_om;
 
   // slightly out of bounds? to the east, south, or both?
   // cur_om is the one containing the upper-left corner of the map

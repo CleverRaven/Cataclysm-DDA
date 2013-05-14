@@ -18,6 +18,7 @@
 #include "text_snippets.h"
 #include "catajson.h"
 #include "artifact.h"
+#include "overmapbuffer.h"
 
 #include <map>
 #include <algorithm>
@@ -233,17 +234,17 @@ void game::start_game()
 // Init some factions.
  if (!load_master())	// Master data record contains factions.
   create_factions();
- cur_om = overmap(this, 0, 0);	// We start in the (0,0,0) overmap.
+ cur_om = &overmap_buffer.get(this, 0, 0);	// We start in the (0,0,0) overmap.
 
 // Find a random house on the map, and set us there.
- cur_om.first_house(levx, levy);
+ cur_om->first_house(levx, levy);
  levx -= int(int(MAPSIZE / 2) / 2);
  levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
 // Start the overmap with out immediate neighborhood visible
  for (int i = -15; i <= 15; i++) {
   for (int j = -15; j <= 15; j++)
-   cur_om.seen(levx + i, levy + j, 0) = true;
+   cur_om->seen(levx + i, levy + j, 0) = true;
  }
 // Convert the overmap coordinates to submap coordinates
  levx = levx * 2 - 1;
@@ -290,16 +291,16 @@ void game::create_factions()
 //Make any nearby overmap npcs active, and put them in the right location.
 void game::load_npcs()
 {
-    for (int i = 0; i < cur_om.npcs.size(); i++)
+    for (int i = 0; i < cur_om->npcs.size(); i++)
     {
         if (rl_dist(levx + int(MAPSIZE / 2), levy + int(MAPSIZE / 2),
-              cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy) <=
-              int(MAPSIZE / 2) + 1 && !cur_om.npcs[i]->is_active(this))
+              cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy) <=
+              int(MAPSIZE / 2) + 1 && !cur_om->npcs[i]->is_active(this))
         {
-            int dx = cur_om.npcs[i]->mapx - levx, dy = cur_om.npcs[i]->mapy - levy;
-            if (debugmon)debugmsg("game::load_npcs: Spawning static NPC, %d:%d (%d:%d)", levx, levy, cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy);
+            int dx = cur_om->npcs[i]->mapx - levx, dy = cur_om->npcs[i]->mapy - levy;
+            if (debugmon)debugmsg("game::load_npcs: Spawning static NPC, %d:%d (%d:%d)", levx, levy, cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy);
 
-            npc * temp = cur_om.npcs[i];
+            npc * temp = cur_om->npcs[i];
 
             if (temp->posx == -1 || temp->posy == -1)
             {
@@ -336,7 +337,7 @@ void game::create_starting_npcs()
  npc * tmp = new npc();
  tmp->normalize(this);
  tmp->randomize(this, (one_in(2) ? NC_DOCTOR : NC_NONE));
- tmp->spawn_at(&cur_om, levx, levy, levz); //spawn the npc in the overmap.
+ tmp->spawn_at(cur_om, levx, levy, levz); //spawn the npc in the overmap.
  tmp->place_near(this, SEEX * int(MAPSIZE / 2) + SEEX, SEEY * int(MAPSIZE / 2) + 6);
  tmp->form_opinion(&u);
  tmp->attitude = NPCATT_NULL;
@@ -402,7 +403,7 @@ bool game::do_turn()
  process_events();
  process_missions();
  if (turn.hours() == 0 && turn.minutes() == 0 && turn.seconds() == 0) // Midnight!
-  cur_om.process_mongroups();
+  cur_om->process_mongroups();
 
 // Check if we've overdosed... in any deadly way.
  if (u.stim > 250) {
@@ -1032,10 +1033,10 @@ int game::reserve_random_mission(mission_origin origin, point p, int npc_id)
 npc* game::find_npc(int id)
 {
     //All the active NPCS are listed in the overmap.
-    for (int i = 0; i < cur_om.npcs.size(); i++)
+    for (int i = 0; i < cur_om->npcs.size(); i++)
     {
-        if (cur_om.npcs[i]->getID() == id)
-            return (cur_om.npcs[i]);
+        if (cur_om->npcs[i]->getID() == id)
+            return (cur_om->npcs[i]);
     }
     return NULL;
 }
@@ -1161,9 +1162,9 @@ void game::mission_step_complete(int id, int step)
   case MGOAL_FIND_MONSTER:
   case MGOAL_KILL_MONSTER: {
    bool npc_found = false;
-   for (int i = 0; i < cur_om.npcs.size(); i++) {
-    if (cur_om.npcs[i]->getID() == miss->npc_id) {
-     miss->target = point(cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy);
+   for (int i = 0; i < cur_om->npcs.size(); i++) {
+    if (cur_om->npcs[i]->getID() == miss->npc_id) {
+     miss->target = point(cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy);
      npc_found = true;
     }
    }
@@ -2176,7 +2177,7 @@ void game::load(std::string name)
  turn = tmpturn;
  nextspawn = tmpspawn;
 
- cur_om = overmap(this, comx, comy);
+ cur_om = &overmap_buffer.get(this, comx, comy);
  m.load(this, levx, levy, levz);
 
  run_mode = tmprun;
@@ -2272,8 +2273,8 @@ void game::save_factions_missions_npcs ()
     //current active npc list should be enough.
     for (int i = 0; i < active_npc.size(); i++)
     {
-        active_npc[i]->omx = cur_om.pos().x;
-        active_npc[i]->omy = cur_om.pos().y;
+        active_npc[i]->omx = cur_om->pos().x;
+        active_npc[i]->omy = cur_om->pos().y;
         active_npc[i]->mapx = levx + (active_npc[i]->posx / SEEX);
         active_npc[i]->mapy = levy + (active_npc[i]->posy / SEEY);
         active_npc[i]->posx %= SEEX;
@@ -2302,8 +2303,8 @@ void game::save_artifacts()
 
 void game::save_maps()
 {
-	cur_om.save();
-    m.save(&cur_om, turn, levx, levy, levz);
+    m.save(cur_om, turn, levx, levy, levz);
+    overmap_buffer.save();
     MAPBUFFER.save();
 }
 
@@ -2336,8 +2337,8 @@ void game::save()
 
  fout << save_weather();
 
- fout << levx << " " << levy << " " << levz << " " << cur_om.pos().x <<
-         " " << cur_om.pos().y << " " << std::endl;
+ fout << levx << " " << levy << " " << levz << " " << cur_om->pos().x <<
+         " " << cur_om->pos().y << " " << std::endl;
  // Next, the scent map.
  for (int i = 0; i < SEEX * MAPSIZE; i++) {
   for (int j = 0; j < SEEY * MAPSIZE; j++)
@@ -2488,14 +2489,14 @@ void game::debug()
    break;
 
   case 3: {
-        point tmp = cur_om.draw_overmap(this, levz);
+        point tmp = cur_om->draw_overmap(this, levz);
         if (tmp.x != -1)
         {
             //First offload the active npcs.
             for (int i = 0; i < active_npc.size(); i++)
             {
-                active_npc[i]->omx = cur_om.pos().x;
-                active_npc[i]->omy = cur_om.pos().y;
+                active_npc[i]->omx = cur_om->pos().x;
+                active_npc[i]->omy = cur_om->pos().y;
                 active_npc[i]->mapx = levx + (active_npc[i]->posx / SEEX);
                 active_npc[i]->mapy = levy + (active_npc[i]->posy / SEEY);
                 active_npc[i]->posx %= SEEX;
@@ -2512,10 +2513,10 @@ void game::debug()
         }
     } break;
   case 4:
-   debugmsg("%d radio towers", cur_om.radios.size());
+   debugmsg("%d radio towers", cur_om->radios.size());
    for (int i = 0; i < OMAPX; i++) {
     for (int j = 0; j < OMAPY; j++)
-     cur_om.seen(i, j, levz) = true;
+     cur_om->seen(i, j, levz) = true;
    }
    add_msg("Current overmap revealed.");
    break;
@@ -2525,7 +2526,7 @@ void game::debug()
    temp->normalize(this);
    temp->randomize(this);
    //temp.attitude = NPCATT_TALK; //not needed
-   temp->spawn_at(&cur_om, levx, levy, levz);
+   temp->spawn_at(cur_om, levx, levy, levz);
    temp->place_near(this, u.posx - 4, u.posy - 4);
    temp->form_opinion(&u);
    //temp.attitude = NPCATT_TALK;//The newly spawned npc always wants to talk. Disabled as form opinion sets the attitude.
@@ -2549,7 +2550,7 @@ NPCs are %s spawn.\n\
 %d monsters exist.\n\
 %d currently active NPC's.\n\
 %d events planned.", u.posx, u.posy, levx, levy,
-oterlist[cur_om.ter(levx / 2, levy / 2, levz)].name.c_str(),
+oterlist[cur_om->ter(levx / 2, levy / 2, levz)].name.c_str(),
 int(turn), int(nextspawn), (!OPTIONS[OPT_RANDOM_NPC] ? "NOT going to" : "going to"),
 z.size(), active_npc.size(), events.size());
 
@@ -2616,7 +2617,7 @@ z.size(), active_npc.size(), events.size());
             npc_attitude_name(p->attitude) << std::endl;
     if (p->has_destination())
      data << "Destination: " << p->goalx << ":" << p->goaly << "(" <<
-             oterlist[ cur_om.ter(p->goalx, p->goaly, p->goalz) ].name << ")" <<
+             oterlist[ cur_om->ter(p->goalx, p->goaly, p->goalz) ].name << ")" <<
              std::endl;
     else
      data << "No destination." << std::endl;
@@ -2695,16 +2696,16 @@ void game::mondebug()
 void game::groupdebug()
 {
  erase();
- mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om.pos().x, cur_om.pos().y, levx,
+ mvprintw(0, 0, "OM %d : %d    M %d : %d", cur_om->pos().x, cur_om->pos().y, levx,
                                            levy);
  int dist, linenum = 1;
- for (int i = 0; i < cur_om.zg.size(); i++) {
- 	if (cur_om.zg[i].posz != levz) { continue; }
-  dist = trig_dist(levx, levy, cur_om.zg[i].posx, cur_om.zg[i].posy);
-  if (dist <= cur_om.zg[i].radius) {
+ for (int i = 0; i < cur_om->zg.size(); i++) {
+ 	if (cur_om->zg[i].posz != levz) { continue; }
+  dist = trig_dist(levx, levy, cur_om->zg[i].posx, cur_om->zg[i].posy);
+  if (dist <= cur_om->zg[i].radius) {
    mvprintw(linenum, 0, "Zgroup %d: Centered at %d:%d, radius %d, pop %d",
-            i, cur_om.zg[i].posx, cur_om.zg[i].posy, cur_om.zg[i].radius,
-            cur_om.zg[i].population);
+            i, cur_om->zg[i].posx, cur_om->zg[i].posy, cur_om->zg[i].radius,
+            cur_om->zg[i].population);
    linenum++;
   }
  }
@@ -2713,7 +2714,7 @@ void game::groupdebug()
 
 void game::draw_overmap()
 {
- cur_om.draw_overmap(this, levz);
+ cur_om->draw_overmap(this, levz);
 }
 
 void game::disp_kills()
@@ -2787,16 +2788,16 @@ void game::disp_NPCs()
 
  mvwprintz(w, 0, 0, c_white, "Your position: %d:%d", levx, levy);
  std::vector<npc*> closest;
- closest.push_back(cur_om.npcs[0]);
- for (int i = 1; i < cur_om.npcs.size(); i++) {
+ closest.push_back(cur_om->npcs[0]);
+ for (int i = 1; i < cur_om->npcs.size(); i++) {
   if (closest.size() < 20)
-   closest.push_back(cur_om.npcs[i]);
-  else if (rl_dist(levx, levy, cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy) <
+   closest.push_back(cur_om->npcs[i]);
+  else if (rl_dist(levx, levy, cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy) <
            rl_dist(levx, levy, closest[19]->mapx, closest[19]->mapy)) {
    for (int j = 0; j < 20; j++) {
     if (rl_dist(levx, levy, closest[j]->mapx, closest[j]->mapy) >
-        rl_dist(levx, levy, cur_om.npcs[i]->mapx, cur_om.npcs[i]->mapy)) {
-     closest.insert(closest.begin() + j, cur_om.npcs[i]);
+        rl_dist(levx, levy, cur_om->npcs[i]->mapx, cur_om->npcs[i]->mapy)) {
+     closest.insert(closest.begin() + j, cur_om->npcs[i]);
      closest.erase(closest.end() - 1);
      j = 20;
     }
@@ -3035,7 +3036,7 @@ void game::draw()
 // TODO: Allow for a 24-hour option--already supported by calendar turn
  mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
 
- oter_id cur_ter = cur_om.ter((levx + int(MAPSIZE / 2)) / 2,
+ oter_id cur_ter = cur_om->ter((levx + int(MAPSIZE / 2)) / 2,
                               (levy + int(MAPSIZE / 2)) / 2, levz);
  std::string tername = oterlist[cur_ter].name;
  if (tername.length() > 14)
@@ -3282,12 +3283,12 @@ void game::draw_minimap()
    long note_sym = 0;
    bool note = false;
    if (omx >= 0 && omx < OMAPX && omy >= 0 && omy < OMAPY) {
-    cur_ter = cur_om.ter(omx, omy, levz);
-    seen    = cur_om.seen(omx, omy, levz);
-    if (cur_om.has_note(omx,omy,levz))
+    cur_ter = cur_om->ter(omx, omy, levz);
+    seen    = cur_om->seen(omx, omy, levz);
+    if (cur_om->has_note(omx,omy,levz))
     {
-        if (cur_om.note(omx,omy,levz)[1] == ':')
-            note_sym = cur_om.note(omx,omy,levz)[0];
+        if (cur_om->note(omx,omy,levz)[1] == ':')
+            note_sym = cur_om->note(omx,omy,levz)[0];
         note = true;
     }
    } else if ((omx < 0 || omx >= OMAPX) && (omy < 0 || omy >= OMAPY)) {
@@ -3896,7 +3897,7 @@ void game::cleanup_dead()
         {
             int npc_id = active_npc[i]->getID();
             active_npc.erase( active_npc.begin() + i );
-            cur_om.remove_npc(npc_id);
+            cur_om->remove_npc(npc_id);
             i--;
         }
     }
@@ -3973,12 +3974,12 @@ void game::monmove()
 // Re-absorb into local group, if applicable
     int group = valid_group((mon_id)(z[i].type->id), levx, levy, levz);
     if (group != -1) {
-     cur_om.zg[group].population++;
-     if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
-         !cur_om.zg[group].diffuse )
-      cur_om.zg[group].radius++;
+     cur_om->zg[group].population++;
+     if (cur_om->zg[group].population / pow(cur_om->zg[group].radius, 2.0) > 5 &&
+         !cur_om->zg[group].diffuse )
+      cur_om->zg[group].radius++;
     } else if (MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)) != "GROUP_NULL") {
-     cur_om.zg.push_back(mongroup(MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)),
+     cur_om->zg.push_back(mongroup(MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)),
                                   levx, levy, levz, 1, 1));
     }
     z[i].dead = true;
@@ -8652,9 +8653,9 @@ void game::vertical_move(int movez, bool force)
  std::vector<point> discover;
  for (int x = 0; x < OMAPX; x++) {
   for (int y = 0; y < OMAPY; y++) {
-   if (cur_om.seen(x, y, levz) &&
-       ((movez ==  1 && oterlist[ cur_om.ter(x, y, levz) ].known_up) ||
-        (movez == -1 && oterlist[ cur_om.ter(x, y, levz) ].known_down) ))
+   if (cur_om->seen(x, y, levz) &&
+       ((movez ==  1 && oterlist[ cur_om->ter(x, y, levz) ].known_up) ||
+        (movez == -1 && oterlist[ cur_om->ter(x, y, levz) ].known_down) ))
     discover.push_back( point(x, y) );
   }
  }
@@ -8663,13 +8664,13 @@ void game::vertical_move(int movez, bool force)
  // Fill in all the tiles we know about (e.g. subway stations)
  for (int i = 0; i < discover.size(); i++) {
   int x = discover[i].x, y = discover[i].y;
-  cur_om.seen(x, y, z_coord) = true;
-  if (movez ==  1 && !oterlist[ cur_om.ter(x, y, z_coord) ].known_down &&
-      !cur_om.has_note(x, y, z_coord))
-   cur_om.add_note(x, y, z_coord, "AUTO: goes down");
-  if (movez == -1 && !oterlist[ cur_om.ter(x, y, z_coord) ].known_up &&
-      !cur_om.has_note(x, y, z_coord))
-   cur_om.add_note(x, y, z_coord, "AUTO: goes up");
+  cur_om->seen(x, y, z_coord) = true;
+  if (movez ==  1 && !oterlist[ cur_om->ter(x, y, z_coord) ].known_down &&
+      !cur_om->has_note(x, y, z_coord))
+   cur_om->add_note(x, y, z_coord, "AUTO: goes down");
+  if (movez == -1 && !oterlist[ cur_om->ter(x, y, z_coord) ].known_up &&
+      !cur_om->has_note(x, y, z_coord))
+   cur_om->add_note(x, y, z_coord, "AUTO: goes up");
  }
 
  levz += movez;
@@ -8758,8 +8759,8 @@ void game::update_map(int &x, int &y)
   olevy = 1;
  }
  if (olevx != 0 || olevy != 0) {
-  cur_om.save();
-  cur_om = overmap(this, cur_om.pos().x + olevx, cur_om.pos().y + olevy);
+  cur_om->save();
+  cur_om = &overmap_buffer.get(this, cur_om->pos().x + olevx, cur_om->pos().y + olevy);
  }
  set_adjacent_overmaps();
 
@@ -8813,27 +8814,24 @@ void game::set_adjacent_overmaps(bool from_scratch)
  bool do_h = false, do_v = false, do_d = false;
  int hori_disp = (levx > OMAPX) ? 1 : -1;
  int vert_disp = (levy > OMAPY) ? 1 : -1;
- int diag_posx = cur_om.pos().x + hori_disp;
- int diag_posy = cur_om.pos().y + vert_disp;
+ int diag_posx = cur_om->pos().x + hori_disp;
+ int diag_posy = cur_om->pos().y + vert_disp;
 
- if(!om_hori || om_hori->pos().x != diag_posx || om_hori->pos().y != cur_om.pos().y || from_scratch)
+ if(!om_hori || om_hori->pos().x != diag_posx || om_hori->pos().y != cur_om->pos().y || from_scratch)
   do_h = true;
- if(!om_vert || om_vert->pos().x != cur_om.pos().x || om_vert->pos().y != diag_posy || from_scratch)
+ if(!om_vert || om_vert->pos().x != cur_om->pos().x || om_vert->pos().y != diag_posy || from_scratch)
   do_v = true;
  if(!om_diag || om_diag->pos().x != diag_posx || om_diag->pos().y != diag_posy || from_scratch)
   do_d = true;
 
  if(do_h){
-  delete om_hori;
-  om_hori = new overmap(this, diag_posx, cur_om.pos().y);
+  om_hori = &overmap_buffer.get(this, diag_posx, cur_om->pos().y);
  }
  if(do_v){
-  delete om_vert;
-  om_vert = new overmap(this, cur_om.pos().x, diag_posy);
+  om_vert = &overmap_buffer.get(this, cur_om->pos().x, diag_posy);
  }
  if(do_d){
-  delete om_diag;
-  om_diag = new overmap(this, diag_posx, diag_posy);
+  om_diag = &overmap_buffer.get(this, diag_posx, diag_posy);
  }
 }
 
@@ -8841,7 +8839,7 @@ void game::update_overmap_seen()
 {
  int omx = (levx + int(MAPSIZE / 2)) / 2, omy = (levy + int(MAPSIZE / 2)) / 2;
  int dist = u.overmap_sight_range(light_level());
- cur_om.seen(omx, omy, levz) = true; // We can always see where we're standing
+ cur_om->seen(omx, omy, levz) = true; // We can always see where we're standing
  if (dist == 0)
   return; // No need to run the rest!
  bool altered_om_vert = false, altered_om_diag = false, altered_om_hori = false;
@@ -8853,7 +8851,7 @@ void game::update_overmap_seen()
    for (int i = 0; i < line.size() && sight_points >= 0; i++) {
     int lx = line[i].x, ly = line[i].y;
     if (lx >= 0 && lx < OMAPX && ly >= 0 && ly < OMAPY)
-     cost = oterlist[cur_om.ter(lx, ly, levz)].see_cost;
+     cost = oterlist[cur_om->ter(lx, ly, levz)].see_cost;
     else if ((lx < 0 || lx >= OMAPX) && (ly < 0 || ly >= OMAPY)) {
      if (lx < 0) lx += OMAPX;
      else        lx -= OMAPX;
@@ -8874,7 +8872,7 @@ void game::update_overmap_seen()
    if (sight_points >= 0) {
     int tmpx = x, tmpy = y;
     if (tmpx >= 0 && tmpx < OMAPX && tmpy >= 0 && tmpy < OMAPY)
-     cur_om.seen(tmpx, tmpy, levz) = true;
+     cur_om->seen(tmpx, tmpy, levz) = true;
     else if ((tmpx < 0 || tmpx >= OMAPX) && (tmpy < 0 || tmpy >= OMAPY)) {
      if (tmpx < 0) tmpx += OMAPX;
      else          tmpx -= OMAPX;
@@ -8988,21 +8986,21 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
    tinymap tmp(&itypes, &mapitems, &traps);
    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, levz, false);
    tmp.add_spawn(&(z[i]));
-   tmp.save(&cur_om, turn, z[i].spawnmapx, z[i].spawnmapy, levz);
+   tmp.save(cur_om, turn, z[i].spawnmapx, z[i].spawnmapy, levz);
   } else if ((stairs || shiftx != 0 || shifty != 0) && z[i].friendly < 0) {
    // Friendly, make it into a static spawn.
    tinymap tmp(&itypes, &mapitems, &traps);
    tmp.load(this, levx, levy, levz, false);
    tmp.add_spawn(&(z[i]));
-   tmp.save(&cur_om, turn, levx, levy, levz);
+   tmp.save(cur_om, turn, levx, levy, levz);
   } else {
    	// No spawn site, so absorb them back into a group.
    int group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty, levz);
    if (group != -1) {
-    cur_om.zg[group].population++;
-    if (cur_om.zg[group].population / pow(cur_om.zg[group].radius, 2.0) > 5 &&
-        !cur_om.zg[group].diffuse)
-     cur_om.zg[group].radius++;
+    cur_om->zg[group].population++;
+    if (cur_om->zg[group].population / pow(cur_om->zg[group].radius, 2.0) > 5 &&
+        !cur_om->zg[group].diffuse)
+     cur_om->zg[group].radius++;
    }
   }
   // Shifting needs some cleanup for despawned monsters since they won't be cleared afterwards.
@@ -9024,12 +9022,12 @@ void game::spawn_mon(int shiftx, int shifty)
  int iter;
  int t;
  // Create a new NPC?
- if (OPTIONS[OPT_RANDOM_NPC] && one_in(100 + 15 * cur_om.npcs.size())) {
+ if (OPTIONS[OPT_RANDOM_NPC] && one_in(100 + 15 * cur_om->npcs.size())) {
   npc * tmp = new npc();
   tmp->normalize(this);
   tmp->randomize(this);
   //tmp->stock_missions(this);
-  tmp->spawn_at(&cur_om, levx, levy, levz);
+  tmp->spawn_at(cur_om, levx, levy, levz);
   tmp->place_near(this, SEEX * 2 * (tmp->mapx - levx) + rng(0 - SEEX, SEEX), SEEY * 2 * (tmp->mapy - levy) + rng(0 - SEEY, SEEY));
   tmp->form_opinion(&u);
   //tmp->attitude = NPCATT_TALK; //Form opinion seems to set the attitude.
@@ -9043,37 +9041,37 @@ void game::spawn_mon(int shiftx, int shifty)
 
 // Now, spawn monsters (perhaps)
  monster zom;
- for (int i = 0; i < cur_om.zg.size(); i++) { // For each valid group...
- 	if (cur_om.zg[i].posz != levz) { continue; } // skip other levels - hack
+ for (int i = 0; i < cur_om->zg.size(); i++) { // For each valid group...
+ 	if (cur_om->zg[i].posz != levz) { continue; } // skip other levels - hack
   group = 0;
-  if(cur_om.zg[i].diffuse)
-   dist = rl_dist(nlevx, nlevy, cur_om.zg[i].posx, cur_om.zg[i].posy);
+  if(cur_om->zg[i].diffuse)
+   dist = rl_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
   else
-   dist = trig_dist(nlevx, nlevy, cur_om.zg[i].posx, cur_om.zg[i].posy);
-  pop = cur_om.zg[i].population;
-  rad = cur_om.zg[i].radius;
+   dist = trig_dist(nlevx, nlevy, cur_om->zg[i].posx, cur_om->zg[i].posy);
+  pop = cur_om->zg[i].population;
+  rad = cur_om->zg[i].radius;
   if (dist <= rad) {
 // (The area of the group's territory) in (population/square at this range)
 // chance of adding one monster; cap at the population OR 16
-   while ( (cur_om.zg[i].diffuse ?
+   while ( (cur_om->zg[i].diffuse ?
             long( pop) :
             long((1.0 - double(dist / rad)) * pop) )
 	  > rng(0, pow(rad, 2.0)) &&
           rng(0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
     group++;
 
-   cur_om.zg[i].population -= group;
+   cur_om->zg[i].population -= group;
    // Reduce group radius proportionally to remaining
    // population to maintain a minimal population density.
-   if (cur_om.zg[i].population / pow(cur_om.zg[i].radius, 2.0) < 1.0 &&
-       !cur_om.zg[i].diffuse)
-     cur_om.zg[i].radius--;
+   if (cur_om->zg[i].population / pow(cur_om->zg[i].radius, 2.0) < 1.0 &&
+       !cur_om->zg[i].diffuse)
+     cur_om->zg[i].radius--;
 
    if (group > 0) // If we spawned some zombies, advance the timer
     nextspawn += rng(group * 4 + z.size() * 4, group * 10 + z.size() * 10);
 
    for (int j = 0; j < group; j++) {	// For each monster in the group...
-     mon_id type = MonsterGroupManager::GetMonsterFromGroup( cur_om.zg[i].type, &mtypes,
+     mon_id type = MonsterGroupManager::GetMonsterFromGroup( cur_om->zg[i].type, &mtypes,
                                                              &group, (int)turn );
      zom = monster(mtypes[type]);
      iter = 0;
@@ -9106,8 +9104,8 @@ void game::spawn_mon(int shiftx, int shifty)
       z.push_back(zom);
      }
    }	// Placing monsters of this group is done!
-   if (cur_om.zg[i].population <= 0) { // Last monster in the group spawned...
-    cur_om.zg.erase(cur_om.zg.begin() + i); // ...so remove that group
+   if (cur_om->zg[i].population <= 0) { // Last monster in the group spawned...
+    cur_om->zg.erase(cur_om->zg.begin() + i); // ...so remove that group
     i--;	// And don't increment i.
    }
   }
@@ -9119,15 +9117,15 @@ int game::valid_group(mon_id type, int x, int y, int z_coord)
  std::vector <int> valid_groups;
  std::vector <int> semi_valid;	// Groups that're ALMOST big enough
  int dist;
- for (int i = 0; i < cur_om.zg.size(); i++) {
- 	if (cur_om.zg[i].posz != z_coord) { continue; }
-  dist = trig_dist(x, y, cur_om.zg[i].posx, cur_om.zg[i].posy);
-  if (dist < cur_om.zg[i].radius) {
-   if(MonsterGroupManager::IsMonsterInGroup(cur_om.zg[i].type, type)) {
+ for (int i = 0; i < cur_om->zg.size(); i++) {
+ 	if (cur_om->zg[i].posz != z_coord) { continue; }
+  dist = trig_dist(x, y, cur_om->zg[i].posx, cur_om->zg[i].posy);
+  if (dist < cur_om->zg[i].radius) {
+   if(MonsterGroupManager::IsMonsterInGroup(cur_om->zg[i].type, type)) {
      valid_groups.push_back(i);
    }
-  } else if (dist < cur_om.zg[i].radius + 3) {
-   if(MonsterGroupManager::IsMonsterInGroup(cur_om.zg[i].type, type)) {
+  } else if (dist < cur_om->zg[i].radius + 3) {
+   if(MonsterGroupManager::IsMonsterInGroup(cur_om->zg[i].type, type)) {
      semi_valid.push_back(i);
    }
   }
@@ -9139,8 +9137,8 @@ int game::valid_group(mon_id type, int x, int y, int z_coord)
 // If there's a group that's ALMOST big enough, expand that group's radius
 // by one and absorb into that group.
    int semi = rng(0, semi_valid.size() - 1);
-   if (!cur_om.zg[semi_valid[semi]].diffuse)
-    cur_om.zg[semi_valid[semi]].radius++;
+   if (!cur_om->zg[semi_valid[semi]].diffuse)
+    cur_om->zg[semi_valid[semi]].radius++;
    return semi_valid[semi];
   }
  }
@@ -9356,19 +9354,19 @@ void game::nuke(int x, int y)
             tmpmap.radiation(i, j) += rng(20, 80);
         }
     }
-    tmpmap.save(&cur_om, turn, mapx, mapy, 0);
-    cur_om.ter(x, y, 0) = ot_crater;
+    tmpmap.save(cur_om, turn, mapx, mapy, 0);
+    cur_om->ter(x, y, 0) = ot_crater;
     //Kill any npcs on that omap location.
-    for(int i = 0; i < cur_om.npcs.size();i++)
-        if(cur_om.npcs[i]->mapx/2== x && cur_om.npcs[i]->mapy/2 == y && cur_om.npcs[i]->omz == 0)
-            cur_om.npcs[i]->marked_for_death = true;
+    for(int i = 0; i < cur_om->npcs.size();i++)
+        if(cur_om->npcs[i]->mapx/2== x && cur_om->npcs[i]->mapy/2 == y && cur_om->npcs[i]->omz == 0)
+            cur_om->npcs[i]->marked_for_death = true;
 }
 
 std::vector<faction *> game::factions_at(int x, int y)
 {
  std::vector<faction *> ret;
  for (int i = 0; i < factions.size(); i++) {
-  if (factions[i].omx == cur_om.pos().x && factions[i].omy == cur_om.pos().y &&
+  if (factions[i].omx == cur_om->pos().x && factions[i].omy == cur_om->pos().y &&
       trig_dist(x, y, factions[i].mapx, factions[i].mapy) <= factions[i].size)
    ret.push_back(&(factions[i]));
  }

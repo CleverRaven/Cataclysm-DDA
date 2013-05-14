@@ -664,7 +664,7 @@ void monster::die(game *g)
  if (has_flag(MF_QUEEN)) {
 // Do it for overmap above/below too
   for(int z = 0; z >= -1; --z) {
-   std::vector<mongroup*> groups = g->cur_om.monsters_at(g->levx, g->levy, z);
+   std::vector<mongroup*> groups = g->cur_om->monsters_at(g->levx, g->levy, z);
    for (int i = 0; i < groups.size(); i++) {
    if (MonsterGroupManager::IsMonsterInGroup(groups[i]->type, mon_id(type->id)))
     groups[i]->dying = true;
