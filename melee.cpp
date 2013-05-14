@@ -608,9 +608,9 @@ int player::roll_cut_damage(monster *z, bool crit)
 
 // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
  if (skillLevel("cutting") <= 5)
-  ret *= double( 0.8 + 0.08 * skillLevel("cutting") );
+  ret *= 0.8 + 0.08 * skillLevel("cutting");
  else
-  ret *= double( 0.92 + 0.04 * skillLevel("cutting") );
+  ret *= 0.92 + 0.04 * skillLevel("cutting");
 
  if (crit)
   ret *= 1.0 + (skillLevel("cutting") / 12.0);
@@ -620,7 +620,7 @@ int player::roll_cut_damage(monster *z, bool crit)
 
 int player::roll_stab_damage(monster *z, bool crit)
 {
- int ret = 0;
+ double ret = 0;
  int z_armor = (z == NULL ? 0 : z->armor_cut() - 3 * skillLevel("stabbing"));
 
  if (crit)
