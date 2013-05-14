@@ -720,7 +720,10 @@ bool map::vehproceed(game* g){
       // accept new direction
       if (veh->skidding){
          veh->face.init (veh->turn_dir);
-         veh->possibly_recover_from_skid();
+         if(pl_ctrl)
+         {
+             veh->possibly_recover_from_skid();
+         }
       }
       else
          veh->face = mdir;
