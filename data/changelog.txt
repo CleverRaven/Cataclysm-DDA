@@ -1,6 +1,25 @@
 Changelog will be a little light for the early entries due to me being really bad at documenting things.
 
 0.5
+
+Highlights:
+---
+* Many new details added to mapgen! New buildings, ruined vehicles on roads, and so on.
+* Much more modding-friendly: MANY bits of data have been moved into data files, rather than being hardcoded in the source.
+* A handful of recipes can be learned from sources other than just leveling your skills.
+* Artifacts should save/load properly now!
+* Assorted UI tweaks and improvements.
+* Weather radio and directional antenna.
+* Rain funnels - first step towards proper rain barrels.
+* Robust Genetics and dodging have both been significantly rebalanced, and should actually be useful.
+* Zombies wear damaged clothing.
+* Tailoring is more important, and string is easier to acquire.
+* New content all around!
+* Numerous bugfixes.
+
+
+Full list:
+---
 Matches usable anywhere lighters could be used previously.
 Draw lit areas outside of LOS and normal sight radius the same as unlit areas
 Tell the player when their gear is damaged in combat
@@ -36,7 +55,7 @@ Added crafting recipes for bandana, blanket, house coat, cloak.
 Weather radio
 Radios are tuneable, so you can receive from more than one station without moving.
 New item that doubles battery capacity of tools, recipe learn from certain electronics books.
-Bugfix: reduced chance of "Tried to kill monster" debug spam.
+Bugfix: reduced chance of "Tried to kill monster" debug s	pam.
 Bugfix: reduced chance of "Stopping out-of-map vehicle" spam.
 Bugfix: can unload liquids into items wielded in hands (e.g., steel jerrycans).
 Bionics screen shows current and maximum power.
@@ -133,6 +152,7 @@ Ruined vehicles spawn on roads.
 Zombies wear damaged clothing.
 Nighttime lights are visible from reasonable distances now.
 
+======
 
 0.4
 Make the battery system bionic only consume as many batteries as necessary to fully power yourself
