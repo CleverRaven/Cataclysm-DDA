@@ -1702,9 +1702,9 @@ detecting traps and other things of interest.");
    if (line == 0) {
     mvwprintz(w_encumb, 1, 1, h_ltgray, "Torso");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Melee skill +%d;      Dodge skill +%d;\n\
-Swimming costs +%d movement points;\n\
-Melee attacks cost +%d movement points", -encumb(bp_torso), -encumb(bp_torso),
+Melee skill %+d;      Dodge skill %+d;\n\
+Swimming costs %+d movement points;\n\
+Melee attacks cost %+d movement points", -encumb(bp_torso), -encumb(bp_torso),
               encumb(bp_torso) * (80 - skillLevel("swimming") * 3), encumb(bp_torso) * 20);
    } else if (line == 1) {
     mvwprintz(w_encumb, 2, 1, h_ltgray, "Head");
