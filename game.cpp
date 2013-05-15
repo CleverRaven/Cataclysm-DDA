@@ -4655,6 +4655,7 @@ void game::revive_corpse(int x, int y, int n)
     monster mon(it.corpse, x, y);
     mon.speed = int(mon.speed * .8) - burnt_penalty / 2;
     mon.hp    = int(mon.hp    * .7) - burnt_penalty;
+    mon.no_extra_death_drops = true;
     m.i_rem(x, y, n);
     z.push_back(mon);
 }
@@ -7565,6 +7566,11 @@ void game::butcher()
 
 void game::complete_butcher(int index)
 {
+ // corpses can disappear (rezzing!), so check for that
+ if (m.i_at(u.posx, u.posy).size() <= index || m.i_at(u.posx, u.posy)[index].typeId() != "corpse") {
+  add_msg("There's no corpse to butcher!");
+  return;
+ }
  mtype* corpse = m.i_at(u.posx, u.posy)[index].corpse;
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);

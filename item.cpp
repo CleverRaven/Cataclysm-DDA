@@ -159,7 +159,7 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  item_flags = 0;
  item_counter = 0;
  curammo = NULL;
- active = mt.species == species_zombie ? true : false;
+ active = mt->species == species_zombie ? true : false;
  if(!it)
   type = nullitem();
  else
@@ -1034,7 +1034,7 @@ bool item::ready_to_revive(game *g)
     {
         return false;
     }
-    int age_in_hours = (int(g->turn) - bday) / (10 * 60);
+    int age_in_hours = (int(g->turn) - bday) ;// (10 * 60);
     int rez_factor = 48 - age_in_hours;
     if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
     {

@@ -32,6 +32,7 @@ monster::monster()
  morale = 2;
  faction_id = -1;
  mission_id = -1;
+ no_extra_death_drops = false;
  dead = false;
  made_footstep = false;
  unique_name = "";
@@ -58,6 +59,7 @@ monster::monster(mtype *t)
  morale = t->morale;
  faction_id = -1;
  mission_id = -1;
+ no_extra_death_drops = false;
  dead = false;
  made_footstep = false;
  unique_name = "";
@@ -84,6 +86,7 @@ monster::monster(mtype *t, int x, int y)
  morale = type->morale;
  faction_id = -1;
  mission_id = -1;
+ no_extra_death_drops = false;
  dead = false;
  made_footstep = false;
  unique_name = "";
@@ -624,41 +627,9 @@ void monster::die(game *g)
 {
  if (!dead)
   dead = true;
-// Drop goodies
- int total_chance = 0, total_it_chance, cur_chance, selected_location,
-     selected_item;
- bool animal_done = false;
- std::vector<items_location_and_chance> it = g->monitems[type->id];
- std::vector<itype_id> mapit;
- if (type->item_chance != 0 && it.size() == 0)
-  debugmsg("Type %s has item_chance %d but no items assigned!",
-           type->name.c_str(), type->item_chance);
- else {
-  for (int i = 0; i < it.size(); i++)
-   total_chance += it[i].chance;
-
-  while (rng(0, 99) < abs(type->item_chance) && !animal_done) {
-   cur_chance = rng(1, total_chance);
-   selected_location = -1;
-   while (cur_chance > 0) {
-    selected_location++;
-    cur_chance -= it[selected_location].chance;
-   }
-   total_it_chance = 0;
-   mapit = g->mapitems[it[selected_location].loc];
-   for (int i = 0; i < mapit.size(); i++)
-    total_it_chance += g->itypes[mapit[i]]->rarity;
-   cur_chance = rng(1, total_it_chance);
-   selected_item = -1;
-   while (cur_chance > 0) {
-    selected_item++;
-    cur_chance -= g->itypes[mapit[selected_item]]->rarity;
-   }
-   g->m.spawn_item(posx, posy, g->itypes[mapit[selected_item]], 0);
-   if (type->item_chance < 0)
-    animal_done = true;	// Only drop ONE item.
-  }
- } // Done dropping items
+ if (!no_extra_death_drops) {
+  drop_items_on_death(g);
+ }
 
 // If we're a queen, make nearby groups of our type start to die out
  if (has_flag(MF_QUEEN)) {
@@ -706,6 +677,55 @@ void monster::die(game *g)
    }
   }
  }
+}
+
+void monster::drop_items_on_death(game *g)
+{
+    int total_chance = 0, total_it_chance, cur_chance, selected_location,
+        selected_item;
+    bool animal_done = false;
+    std::vector<items_location_and_chance> it = g->monitems[type->id];
+    std::vector<itype_id> mapit;
+    if (type->item_chance != 0 && it.size() == 0)
+    {
+        debugmsg("Type %s has item_chance %d but no items assigned!",
+                 type->name.c_str(), type->item_chance);
+        return;
+    }
+
+    for (int i = 0; i < it.size(); i++)
+    {
+        total_chance += it[i].chance;
+    }
+
+    while (rng(0, 99) < abs(type->item_chance) && !animal_done)
+    {
+        cur_chance = rng(1, total_chance);
+        selected_location = -1;
+        while (cur_chance > 0)
+        {
+            selected_location++;
+            cur_chance -= it[selected_location].chance;
+        }
+        total_it_chance = 0;
+        mapit = g->mapitems[it[selected_location].loc];
+        for (int i = 0; i < mapit.size(); i++)
+        {
+            total_it_chance += g->itypes[mapit[i]]->rarity;
+        }
+        cur_chance = rng(1, total_it_chance);
+        selected_item = -1;
+        while (cur_chance > 0)
+        {
+            selected_item++;
+            cur_chance -= g->itypes[mapit[selected_item]]->rarity;
+        }
+        g->m.spawn_item(posx, posy, g->itypes[mapit[selected_item]], 0);
+        if (type->item_chance < 0)
+        {
+            animal_done = true; // Only drop ONE item.
+        }
+    }
 }
 
 void monster::add_effect(monster_effect_type effect, int duration)
