@@ -413,6 +413,7 @@ char option_max_options(option_key id)
         break;
       case OPT_SEASON_LENGTH:
         ret = 127;
+        break;
       case OPT_MOVE_VIEW_OFFSET:
         ret = 50; // TODO calculate max for screen size
         break;
