@@ -282,7 +282,7 @@ void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
  dump << data;
  dump >> idtmp >> posx >> posy >> wandx >> wandy >> wandf >> moves >> speed >>
          hp >> sp_timeout >> plansize >> friendly >> faction_id >> mission_id >>
-         dead >> anger >> morale;
+         no_extra_death_drops >> dead >> anger >> morale;
  type = (*mtypes)[idtmp];
  point ptmp;
  for (int i = 0; i < plansize; i++) {
@@ -297,7 +297,7 @@ std::string monster::save_info()
  pack << int(type->id) << " " << posx << " " << posy << " " << wandx << " " <<
          wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
          " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
-          faction_id << " " << mission_id << " " << dead << " " << anger <<
+          faction_id << " " << mission_id << " " << no_extra_death_drops << " " << dead << " " << anger <<
          " " << morale;
  for (int i = 0; i < plans.size(); i++) {
   pack << " " << plans[i].x << " " << plans[i].y;
