@@ -592,7 +592,7 @@ int player::roll_cut_damage(monster *z, bool crit)
  if (z_armor_cut < 0)
   z_armor_cut = 0;
 
- int ret = weapon.damage_cut() - z_armor_cut;
+ double ret = weapon.damage_cut() - z_armor_cut;
 
  if (unarmed_attack() && !wearing_something_on(bp_hands)) {
   if (has_trait(PF_CLAWS))
@@ -608,19 +608,19 @@ int player::roll_cut_damage(monster *z, bool crit)
 
 // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
  if (skillLevel("cutting") <= 5)
-  ret *= double( 0.8 + 0.08 * skillLevel("cutting") );
+  ret *= 0.8 + 0.08 * skillLevel("cutting");
  else
-  ret *= double( 0.92 + 0.04 * skillLevel("cutting") );
+  ret *= 0.92 + 0.04 * skillLevel("cutting");
 
  if (crit)
-  ret *= double( 1.0 + double(skillLevel("cutting") / 12) );
+  ret *= 1.0 + (skillLevel("cutting") / 12.0);
 
  return ret;
 }
 
 int player::roll_stab_damage(monster *z, bool crit)
 {
- int ret = 0;
+ double ret = 0;
  int z_armor = (z == NULL ? 0 : z->armor_cut() - 3 * skillLevel("stabbing"));
 
  if (crit)
@@ -654,7 +654,7 @@ int player::roll_stab_damage(monster *z, bool crit)
   return 0; // No negative stabbing!
 
  if (crit) {
-  int multiplier = double( 1.0 + double(skillLevel("stabbing") / 5) );
+  double multiplier = 1.0 + (skillLevel("stabbing") / 5.0);
   if (multiplier > 2.5)
    multiplier = 2.5;
   ret *= multiplier;
