@@ -2367,6 +2367,10 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 					    {
 					        int mapx = (nonant % my_MAPSIZE) * SEEX + i;
 					        int mapy = (nonant / my_MAPSIZE) * SEEY + j;
+					        if (g->u_see(mapx, mapy))
+					        {
+					            g->add_msg("A nearby corpse rises and moves towards you!");
+					        }
 					        g->revive_corpse(mapx, mapy, n);
 					    }
 					} else if	(!(*items)[n].is_tool()) { // It's probably a charger gun
