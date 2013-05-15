@@ -191,7 +191,8 @@ void game::setup()
  debugmon = false;	// We're not printing debug messages
 
  weather = WEATHER_CLEAR; // Start with some nice weather...
- nextweather = MINUTES(STARTING_MINUTES + 30); // Weather shift in 30
+ // Weather shift in 30
+ nextweather = MINUTES(STARTING_MINUTES + 30) + HOURS(OPTIONS[OPT_INITIAL_TIME]);
  turnssincelastmon = 0; //Auto safe mode init
  autosafemode = OPTIONS[OPT_AUTOSAFEMODE];
 
