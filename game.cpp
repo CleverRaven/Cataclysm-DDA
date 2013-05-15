@@ -4638,6 +4638,27 @@ void game::explode_mon(int index)
    last_target--;
 }
 
+void game::revive_corpse(int x, int y, int n)
+{
+    if (m.i_at(x, y).size() <= n)
+    {
+        debugmsg("Tried to revive a non-existent corpse!");
+        return;
+    }
+    item& it = m.i_at(x, y)[n];
+    if (it.type->id != "corpse" || it.corpse == NULL)
+    {
+        debugmsg("Tried to revive a non-corpse.");
+        return;
+    }
+    int burnt_penalty = it.burnt;
+    monster mon(it.corpse, x, y);
+    mon.speed = int(mon.speed * .8) - burnt_penalty / 2;
+    mon.hp    = int(mon.hp    * .7) - burnt_penalty;
+    m.i_rem(x, y, n);
+    z.push_back(mon);
+}
+
 void game::open()
 {
  u.moves -= 100;

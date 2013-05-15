@@ -226,13 +226,8 @@ void mattack::resurrect(game *g, monster *z)
    if (g->m.i_at(x, y)[n].type->id == "corpse" && one_in(2)) {
     if (g->u_see(x, y))
      raised++;
-    int burnt_penalty = g->m.i_at(x, y)[n].burnt;
-    monster mon(g->m.i_at(x, y)[n].corpse, x, y);
-    mon.speed = int(mon.speed * .8) - burnt_penalty / 2;
-    mon.hp    = int(mon.hp    * .7) - burnt_penalty;
-    g->m.i_rem(x, y, n);
+    g->revive_corpse(x, y, n);
     n = g->m.i_at(x, y).size();	// Only one body raised per tile
-    g->z.push_back(mon);
    }
   }
  }
