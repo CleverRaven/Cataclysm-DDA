@@ -1636,6 +1636,22 @@ bool vehicle::add_item (int part, item itm)
                  ammo->type == AT_GAS ||
                  ammo->type == AT_PLASMA))
             return false;
+
+    if(itm.charges  != -1 && (itm.is_food() || itm.is_ammo())) {
+      for (int i = 0; i < parts[part].items.size(); i++) {
+        if(parts[part].items[i].type->id == itm.type->id ) {
+          g->add_msg("debug veh inv: %d, %s, si %d ch %d <- %d",i,
+            parts[part].items[i].tname(g).c_str(),
+            parts[part].items[i].contents.size(),
+            parts[part].items[i].charges,
+            itm.charges
+          );
+          parts[part].items[i].charges+=itm.charges;
+          return true;
+        }
+      }
+    }
+
     parts[part].items.push_back (itm);
     return true;
 }
