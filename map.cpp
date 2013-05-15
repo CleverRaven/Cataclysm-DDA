@@ -2362,6 +2362,13 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 								grid[nonant]->active_item_count--;
 							}
 						}
+					} else if ((*items)[n].type->id == "corpse") { // some corpses rez over time
+					    if ((*items)[n].ready_to_revive(g))
+					    {
+					        int mapx = (nonant % my_MAPSIZE) * SEEX + i;
+					        int mapy = (nonant / my_MAPSIZE) * SEEY + j;
+					        g->revive_corpse(mapx, mapy, n);
+					    }
 					} else if	(!(*items)[n].is_tool()) { // It's probably a charger gun
 						(*items)[n].active = false;
 						(*items)[n].charges = 0;

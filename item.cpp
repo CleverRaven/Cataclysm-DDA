@@ -159,7 +159,7 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  item_flags = 0;
  item_counter = 0;
  curammo = NULL;
- active = false;
+ active = mt.species == species_zombie ? true : false;
  if(!it)
   type = nullitem();
  else
@@ -1026,6 +1026,21 @@ bool item::rotten(game *g)
   return false;
  it_comest* food = dynamic_cast<it_comest*>(type);
  return (food->spoils != 0 && int(g->turn) - (int)bday > food->spoils * 600);
+}
+
+bool item::ready_to_revive(game *g)
+{
+    if (type->id != "corpse" || corpse->species != species_zombie)
+    {
+        return false;
+    }
+    int age_in_hours = (int(g->turn) - bday) / (10 * 60);
+    int rez_factor = 48 - age_in_hours;
+    if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
+    {
+        return true;
+    }
+    return false;
 }
 
 bool item::goes_bad()

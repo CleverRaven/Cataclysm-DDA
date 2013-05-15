@@ -95,6 +95,7 @@ public:
  bool craft_has_charges();
  int num_charges();
  bool rotten(game *g);
+ bool ready_to_revive(game *g); // used for corpses
 
 // Our value as a weapon, given particular skills
  int  weapon_value(int skills[num_skill_types]) const;

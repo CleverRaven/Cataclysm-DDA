@@ -4642,7 +4642,7 @@ void game::revive_corpse(int x, int y, int n)
 {
     if (m.i_at(x, y).size() <= n)
     {
-        debugmsg("Tried to revive a non-existent corpse!");
+        debugmsg("Tried to revive a non-existent corpse! (%d, %d), #%d of %d", x, y, n, m.i_at(x, y).size());
         return;
     }
     item& it = m.i_at(x, y)[n];
