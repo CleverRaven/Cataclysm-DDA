@@ -5372,34 +5372,34 @@ void printItems(std::vector<item> &items, WINDOW* window, int page , int selecte
 void printItems(player &u,WINDOW* window,int page, int selected_index, bool active, game* g)
 {
     int itemsPerPage;
-    itemsPerPage=getmaxy(window)-ADVINVOFS; // fixme
-    int columns=getmaxx(window);
-    int rightcol=columns-8;
-    int amtcol=columns-15;
+    itemsPerPage = getmaxy( window ) - ADVINVOFS; // fixme
+    int columns = getmaxx( window );
+    int rightcol = columns - 8;
+    int amount_column = columns - 15;
     nc_color norm = active ? c_white : c_dkgray;
     invslice stacks = u.inv.slice(page * itemsPerPage, itemsPerPage);
-    mvwprintz(window,4,rightcol,norm,"%3d %3d",u.weight_carried(), u.volume_carried());
+    mvwprintz( window, 4, rightcol, norm, "%3d %3d", u.weight_carried(), u.volume_carried() );
 
 
-    mvwprintz(window,5,4,c_ltgray,"Name (charges)");
-    mvwprintz(window,5,rightcol-7,c_ltgray,"amt weight vol");
-    for(int i = 0; i < stacks.size() && i < itemsPerPage; ++i)
+    mvwprintz( window, 5, 4, c_ltgray, "Name (charges)" );
+    mvwprintz( window, 5, rightcol - 7, c_ltgray, "amt weight vol" );
+    for(int i = 0; i < stacks.size() && i < itemsPerPage; ++i )
     {
         nc_color thiscolor = norm;
         item& it = stacks[i]->front();
         if(active && selected_index == i)
         {
             thiscolor = c_yellow;
-            mvwprintz(window,6+i,1,thiscolor,">>");
+            mvwprintz( window, 6 + i, 1, thiscolor, ">>" );
         }
         else
         {
         }
-        mvwprintz(window,6+i,4,thiscolor,"%s",it.tname(g).c_str());
+        mvwprintz(window, 6 + i, 4, thiscolor, "%s", it.tname(g).c_str() );
         int size = u.inv.stack_by_letter(it.invlet).size();
         if(it.charges > 0)
         {
-            wprintz(window,thiscolor," (%d)",it.charges);
+            wprintz(window,thiscolor," (%d)", it.charges);
         }
         else if(it.contents.size() == 1 &&
                 it.contents[0].charges > 0)
@@ -5409,9 +5409,10 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         if(size < 1) {
              size=1;
         } else if (size > 1) {
-             mvwprintz(window,6+i,amtcol,thiscolor,"[%d]",size);
+             mvwprintz(window, 6 + i, amount_column, thiscolor, "[%d]", size);
         }
-        mvwprintz(window,6+i,rightcol,(it.weight() > 0 ? thiscolor : c_dkgray),"%3d", it.weight() * size );
+        mvwprintz(window,6+i,rightcol,(it.weight() > 0 ? thiscolor : c_dkgray),
+                  "%3d", it.weight() * size );
         wprintz(window,(it.volume() > 0 ? thiscolor : c_dkgray), " %3d", it.volume() * size );
     }
 }
@@ -5432,16 +5433,16 @@ void printHeader(std::vector<bool> &canputitems, WINDOW* window,int area)
 
 void game::advanced_inv()
 {
-    const int head_height=5;	// 7 is wasteful
-    const int min_w_height=10;
+    const int head_height = 5;	// 7 is wasteful
+    const int min_w_height = 10;
     //80x25
-    const int min_w_width=80;
-    const int max_w_width=120;
+    const int min_w_width = 80;
+    const int max_w_width = 120;
 
-    int itemsPerPage=10;
+    int itemsPerPage = 10;
     int w_height = (TERMY<min_w_height+head_height) ? min_w_height : TERMY-head_height;
     int w_width = (TERMX<min_w_width) ? min_w_width : (TERMX>max_w_width) ? max_w_width : (int)TERMX;
-//maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;
+
     if (u.in_vehicle)
     {
         add_msg("Exit vehicle first");
@@ -5468,14 +5469,15 @@ void game::advanced_inv()
     canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1)) && !(m.has_flag(sealed,u.posx+1,u.posy-1) ));
     bool exit = false;
     bool redraw = true;
-    int lastCh=NULL;
-    vehicle *left_veh=NULL;
-    vehicle *right_veh=NULL;
-    int left_vstor=-1; int right_vstor=-1;
+    int lastCh = 0;
+    vehicle *left_veh = NULL;
+    vehicle *right_veh = NULL;
+    int left_vstor = -1;
+    int right_vstor = -1;
 
     // page : the current page, index : the current selected index on the page , size : the total number of item in that tab
     int left_page = 0; int left_index = 0; int left_size = 0;
-    int right_page = 0; int right_index = 0; int right_size =0;
+    int right_page = 0; int right_index = 0; int right_size = 0;
 
     int max_left_page = 0; int max_left_index = 0;
     int max_right_page = 0; int max_right_index = 0;
@@ -5595,22 +5597,22 @@ void game::advanced_inv()
         wrefresh(left_window);
         wrefresh(right_window);
         int c = lastCh ? lastCh : getch();
-        lastCh=NULL;
+        lastCh = 0;
         int changeSquare;
         if(screen == 0)
         {
-            changeSquare = getsquare((char)c,left_offx,left_offy,left_area_string);
+            changeSquare = getsquare((char)c, left_offx, left_offy, left_area_string);
         }
         else
         {
-            changeSquare = getsquare((char)c,right_offx,right_offy,right_area_string);
+            changeSquare = getsquare((char)c, right_offx, right_offy, right_area_string);
         }
         if(changeSquare != -1)
         {
             if(left_area == changeSquare || right_area == changeSquare) // do nthing
             {
-                lastCh=(int)popup_getkey("same square!");
-                if(lastCh=='q' || lastCh==KEY_ESCAPE) lastCh=NULL;
+                lastCh = (int)popup_getkey("same square!");
+                if(lastCh == 'q' || lastCh == KEY_ESCAPE) lastCh = 0;
             }
             else if(canputitems[changeSquare])
             {
