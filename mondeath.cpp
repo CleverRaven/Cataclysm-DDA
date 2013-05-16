@@ -318,6 +318,12 @@ void mdeath::zombie(game *g, monster *z)
 {
     // normal death function first
     mdeath::normal(g, z);
+
+    // skip clothing generation if the zombie was rezzed rather than spawned
+    if (z->no_extra_death_drops)
+    {
+        return;
+    }
     
     // now generate appropriate clothing
     switch(z->type->id)
