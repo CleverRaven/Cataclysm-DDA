@@ -5375,10 +5375,14 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
     itemsPerPage=getmaxy(window)-ADVINVOFS; // fixme
     int columns=getmaxx(window);
     int rightcol=columns-8;
+    int amtcol=columns-15;
     nc_color norm = active ? c_white : c_dkgray;
     invslice stacks = u.inv.slice(page * itemsPerPage, itemsPerPage);
-    mvwprintz(window,5,4,c_ltgray,"Name [servings (number)");
-    mvwprintz(window,5,rightcol-3,c_ltgray,"weight vol");
+    mvwprintz(window,4,rightcol,norm,"%3d %3d",u.weight_carried(), u.volume_carried());
+
+
+    mvwprintz(window,5,4,c_ltgray,"Name (charges)");
+    mvwprintz(window,5,rightcol-7,c_ltgray,"amt weight vol");
     for(int i = 0; i < stacks.size() && i < itemsPerPage; ++i)
     {
         nc_color thiscolor = norm;
@@ -5393,10 +5397,6 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         }
         mvwprintz(window,6+i,4,thiscolor,"%s",it.tname(g).c_str());
         int size = u.inv.stack_by_letter(it.invlet).size();
-        if(size > 1)
-        {
-            wprintz(window,thiscolor," [%d]", size);
-        }
         if(it.charges > 0)
         {
             wprintz(window,thiscolor," (%d)",it.charges);
@@ -5406,7 +5406,13 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         {
             wprintz(window,thiscolor," (%d)",it.contents[0].charges);
         }
-        mvwprintz(window,6+i,rightcol,thiscolor,"%3d %3d",it.weight(),it.volume());
+        if(size < 1) {
+             size=1;
+        } else if (size > 1) {
+             mvwprintz(window,6+i,amtcol,thiscolor,"[%d]",size);
+        }
+        mvwprintz(window,6+i,rightcol,(it.weight() > 0 ? thiscolor : c_dkgray),"%3d", it.weight() * size );
+        wprintz(window,(it.volume() > 0 ? thiscolor : c_dkgray), " %3d", it.volume() * size );
     }
 }
 
@@ -5462,6 +5468,7 @@ void game::advanced_inv()
     canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1)) && !(m.has_flag(sealed,u.posx+1,u.posy-1) ));
     bool exit = false;
     bool redraw = true;
+    int lastCh=NULL;
     vehicle *left_veh=NULL;
     vehicle *right_veh=NULL;
     int left_vstor=-1; int right_vstor=-1;
@@ -5525,6 +5532,7 @@ void game::advanced_inv()
             werase(left_window);
             werase(right_window);
             mvwprintz(left_window,1,2,screen == 0 ? c_blue : c_white, "%s",left_area_string.c_str());
+
             mvwprintz(right_window,1,2,screen == 1 ? c_blue : c_white,"%s",right_area_string.c_str());
             {
             // print the header.
@@ -5560,6 +5568,8 @@ void game::advanced_inv()
             if(screen == 1  && max_right_page > 1) mvwprintz(right_window,4,2,c_ltblue,"[<] page %d of %d [>]",right_page+1,max_right_page);
             printHeader(canputitems,left_window,left_area);
             printHeader(canputitems,right_window,right_area);
+            mvwprintz(left_window,1,(w_width/2)-7,(screen==0 ? c_ltgray : c_dkgray),"%2d/75",left_size);
+            mvwprintz(right_window,1,(w_width/2)-7,(screen==1 ? c_ltgray : c_dkgray),"%2d/75",right_size);
             redraw = false;
         }
         // todo: struct screen_vars  (for the love of god)
@@ -5584,7 +5594,8 @@ void game::advanced_inv()
         wrefresh(head);
         wrefresh(left_window);
         wrefresh(right_window);
-        int c = getch();
+        int c = lastCh ? lastCh : getch();
+        lastCh=NULL;
         int changeSquare;
         if(screen == 0)
         {
@@ -5598,7 +5609,8 @@ void game::advanced_inv()
         {
             if(left_area == changeSquare || right_area == changeSquare) // do nthing
             {
-                popup("same square!");
+                lastCh=(int)popup_getkey("same square!");
+                if(lastCh=='q' || lastCh==KEY_ESCAPE) lastCh=NULL;
             }
             else if(canputitems[changeSquare])
             {
