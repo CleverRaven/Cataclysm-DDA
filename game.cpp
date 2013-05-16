@@ -1851,6 +1851,7 @@ int& game::scent(int x, int y)
 void game::update_scent()
 {
  signed int newscent[SEEX * MAPSIZE][SEEY * MAPSIZE];
+ signed int scale[SEEX * MAPSIZE][SEEY * MAPSIZE];
  if (!u.has_active_bionic("bio_scent_mask"))
   grscent[u.posx][u.posy] = u.scent;
  else
@@ -1863,17 +1864,42 @@ void game::update_scent()
    move_cost = m.move_cost(x, y);
    field_at = m.field_at(x, y);
    newscent[x][y] = 0;
+   scale[x][y] = 1;
    if (move_cost != 0 || m.has_flag(bashable, x, y)) {
     int squares_used = 0;
+    const signed int this_field = grscent[x][y];
+
+    /*
     for (int i = -1; i <= 1; i++) {
-     for (int j = -1; j <= 1; j++) {
-      if (grscent[x][y] <= grscent[x+i][y+j]) {
-       newscent[x][y] += grscent[x+i][y+j];
-       squares_used++;
-      }
-     }
+        for (int j = -1; j <= 1; j++) {
+            if (grscent[x][y] <= grscent[x+i][y+j]) {
+                newscent[x][y] += grscent[x+i][y+j];
+                squares_used++;
+            }
+        }
     }
-    newscent[x][y] /= (squares_used + 1);
+    */
+    // Unrolled for performance.  The above block is the rolled up equivalent.
+    newscent[x][y] += grscent[x - 1] [y - 1] * (grscent  [x - 1] [y - 1] >= this_field);
+    squares_used +=   grscent[x - 1] [y - 1] >= this_field;
+    newscent[x][y] += grscent[x - 1] [y]     * (grscent  [x - 1] [y]     >= this_field);
+    squares_used +=   grscent[x - 1] [y]     >= this_field;
+    newscent[x][y] += grscent[x - 1] [y + 1] * (grscent  [x - 1] [y + 1] >= this_field);
+    squares_used +=   grscent[x - 1] [y + 1] >= this_field;
+    newscent[x][y] += grscent[x]     [y - 1] * (grscent  [x]     [y - 1] >= this_field);
+    squares_used +=   grscent[x]     [y - 1] >= this_field;
+    newscent[x][y] += grscent[x]     [y]     * (grscent  [x]     [y]     >= this_field);
+    squares_used +=   grscent[x]     [y]     >= this_field;
+    newscent[x][y] += grscent[x]     [y + 1] * (grscent  [x]     [y + 1] >= this_field);
+    squares_used +=   grscent[x]     [y + 1] >= this_field;
+    newscent[x][y] += grscent[x + 1] [y - 1] * (grscent  [x + 1] [y - 1] >= this_field);
+    squares_used +=   grscent[x + 1] [y - 1] >= this_field;
+    newscent[x][y] += grscent[x + 1] [y]     * (grscent  [x + 1] [y]     >= this_field);
+    squares_used +=   grscent[x + 1] [y]     >= this_field;
+    newscent[x][y] += grscent[x + 1] [y + 1] * (grscent  [x + 1] [y + 1] >= this_field);
+    squares_used +=   grscent[x + 1] [y + 1] >= this_field;
+
+    scale[x][y] += squares_used;
     if (field_at.type == fd_slime &&
         newscent[x][y] < 10 * field_at.density)
      newscent[x][y] = 10 * field_at.density;
@@ -1883,19 +1909,20 @@ void game::update_scent()
      debugmsg("Wacky scent at %d, %d (%d)", x, y, newscent[x][y]);
      newscent[x][y] = 0; // Scent should never be higher
     }
+   } else {
+       //Greatly reduce scent for bashable barriers, even more for ductaped barriers
+       if( m.has_flag(reduce_scent, x, y))
+       {
+           scale[x][y] *= 12;
+       } else {
+           scale[x][y] *= 4;
+       }
    }
   }
  }
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++)
-   if(m.move_cost(x, y) == 0)
-    //Greatly reduce scent for bashable barriers, even more for ductaped barriers
-    if (m.has_flag(reduce_scent, x, y))
-     grscent[x][y] = newscent[x][y] / 12;
-    else
-     grscent[x][y] = newscent[x][y] / 4;
-   else
-    grscent[x][y] = newscent[x][y];
+      grscent[x][y] = newscent[x][y] / scale[x][y];
  }
  if (!u.has_active_bionic("bio_scent_mask"))
   grscent[u.posx][u.posy] = u.scent;
