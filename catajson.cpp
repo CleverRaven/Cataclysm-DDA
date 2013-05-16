@@ -91,6 +91,24 @@ double catajson::as_double() const
     return 0;
 }
 
+std::set<std::string> catajson::as_tags()
+{
+    std::set<std::string> tags;
+    if (is_array())
+    {
+        for (set_begin(); has_curr(); next())
+        {
+            tags.insert( curr().as_string() );
+        }
+    }
+    else
+    {
+        // We should have gotten a string, if not an array.
+        tags.insert( as_string() );
+    }
+    return tags;
+}
+
 catajson catajson::get(std::string key) const
 {
     if (val.is<picojson::object>())
