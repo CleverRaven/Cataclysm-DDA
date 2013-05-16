@@ -1,9 +1,6 @@
 #ifndef _ITYPE_H_
 #define _ITYPE_H_
 
-#include <string>
-#include <vector>
-#include <sstream>
 #include "color.h"
 #include "enums.h"
 #include "iuse.h"
@@ -13,6 +10,9 @@
 #include "bionics.h"
 #include "artifact.h"
 #include "picojson.h"
+#include <string>
+#include <vector>
+#include <sstream>
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb

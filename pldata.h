@@ -1,8 +1,9 @@
 #ifndef _PLDATA_H_
 #define _PLDATA_H_
 
-#include <sstream>
 #include "enums.h"
+#include <sstream>
+#include <vector>
 
 enum character_type {
  PLTYPE_CUSTOM,
