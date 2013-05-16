@@ -72,61 +72,6 @@ SW_DATA,
 NUM_SOFTWARE_TYPES
 };
 
-enum item_flag {
-IF_NULL,
-
-IF_LIGHT_1, // Provides 1 tile of light
-IF_LIGHT_4,	// Provides 4 tiles of light
-IF_LIGHT_8, // Provides 8 tiles of light
-IF_LIGHT_20,	// Provides 20 tiles of light
-
-IF_FIRE,        // Chance to set fire to tiles/enemies
-IF_SPEAR,	// Cutting damage is actually a piercing attack
-IF_STAB,	// This weapon *can* pierce, but also has normal cutting
-IF_WRAP,	// Can wrap around your target, costing you and them movement
-IF_MESSY,	// Splatters blood, etc.
-IF_RELOAD_ONE,	// Reload cartridge by cartridge (e.g. most shotguns)
-IF_STR_RELOAD,  // Reloading time is reduced by Strength * 20
-IF_STR8_DRAW,   // Requires strength 8 to draw
-IF_STR10_DRAW,  // Requires strength 10 to draw
-IF_USE_UPS,	// Draws power from a UPS
-IF_RELOAD_AND_SHOOT, // Reloading and shooting is one action
-IF_FIRE_100,	// Fires 100 rounds at once! (e.g. flamethrower)
-IF_GRENADE,	// NPCs treat this as a grenade
-IF_CHARGE,	// For guns; charges up slowly
-IF_SHOCK,   // Stuns and damages enemies, powers up shockers.
-
-IF_UNARMED_WEAPON, // Counts as an unarmed weapon
-IF_NO_UNWIELD, // Impossible to unwield, e.g. bionic claws
-IF_NO_UNLOAD,  // Cannot be unloaded. For Fusion rifles and other ammo generating weapons.
-IF_BACKBLAST,  // Creates a backblast of smoke.
-
-// Weapon mode flags
-IF_MODE_AUX, // A gunmod with a firing mode
-IF_MODE_BURST, // A burst of attacks
-
-// Food status flags
-IF_HOT,				// hot food
-IF_EATEN_HOT,	// food meant to be eaten hot
-IF_ROTTEN, 		// rotten food
-
-// Clothing flags
-IF_VARSIZE,     // comes in variable sizes (item type flag)
-IF_FIT,         // clothing fits player (item specific flag)
-
-//Book Flags
-/*IF_READ_SKILLBOOK,
-IF_READ_FUNBOOK,
-*/
-// Item mod flags
-
-// has double the normal ammo capacity (item specific flag), only works with tools at the moment
-// need to tweak a few things to make it work with guns as well
-IF_DOUBLE_AMMO,
-
-NUM_ITEM_FLAGS
-};
-
 enum ammo_effect {
 AMMO_FLAME,		// Sets fire to terrain and monsters
 AMMO_INCENDIARY,	// Sparks explosive terrain
