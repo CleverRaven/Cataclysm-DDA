@@ -5346,7 +5346,7 @@ int getsquare(char c , int &off_x, int &off_y, std::string &areastring)
 void printItems(std::vector<item> &items, WINDOW* window, int page , int selected_index , bool active, game* g)
 {
     int itemsPerPage;
-    itemsPerPage=getmaxy(window)-ADVINVOFS; // fixme
+    itemsPerPage = getmaxy(window)-ADVINVOFS; // fixme
     nc_color norm = active ? c_white : c_dkgray;
     for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++)
     {
@@ -5357,7 +5357,7 @@ void printItems(std::vector<item> &items, WINDOW* window, int page , int selecte
         }
         else
         {
-            mvwprintz(window,6+x,6,norm,"%s",items[i].tname(g).c_str());
+            mvwprintz(window, 6+x, 6, norm, "%s", items[i].tname(g).c_str() );
         }
         if(items[i].charges > 0)
         {
@@ -5392,7 +5392,7 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         if(active && selected_index == i)
         {
             thiscolor = c_yellow;
-            mvwprintz( window, 6 + i, 1, thiscolor, ">>" );
+            mvwprintz(window, 6 + i, 1, thiscolor, ">>" );
         }
         else
         {
@@ -5401,21 +5401,21 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         int size = u.inv.stack_by_letter(it.invlet).size();
         if(it.charges > 0)
         {
-            wprintz(window,thiscolor," (%d)", it.charges);
+            wprintz(window, thiscolor," (%d)", it.charges);
         }
         else if(it.contents.size() == 1 &&
                 it.contents[0].charges > 0)
         {
-            wprintz(window,thiscolor," (%d)",it.contents[0].charges);
+            wprintz(window, thiscolor, " (%d)", it.contents[0].charges);
         }
         if(size < 1) {
              size=1;
         } else if (size > 1) {
              mvwprintz(window, 6 + i, amount_column, thiscolor, "[%d]", size);
         }
-        mvwprintz(window,6+i,rightcol,(it.weight() > 0 ? thiscolor : c_dkgray),
+        mvwprintz(window, 6+i,rightcol, (it.weight() > 0 ? thiscolor : c_dkgray),
                   "%3d", it.weight() * size );
-        wprintz(window,(it.volume() > 0 ? thiscolor : c_dkgray), " %3d", it.volume() * size );
+        wprintz(window, (it.volume() > 0 ? thiscolor : c_dkgray), " %3d", it.volume() * size );
     }
 }
 
@@ -5499,7 +5499,7 @@ void game::advanced_inv()
         panes[i].max_index = 0;
         panes[i].page = 0;
         panes[i].max_page = 0;
-        panes[i].area_string="initializing...";
+        panes[i].area_string = "initializing...";
         panes[i].veh = NULL;
     }
     panes[right].area = 5;
@@ -5596,7 +5596,7 @@ void game::advanced_inv()
             if(panes[left].area == changeSquare || panes[right].area == changeSquare) // do nthing
             {
                 lastCh = (int)popup_getkey("same square!");
-                if(lastCh=='q' || lastCh==KEY_ESCAPE || lastCh==' ' ) lastCh=0;
+                if(lastCh == 'q' || lastCh == KEY_ESCAPE || lastCh == ' ' ) lastCh=0;
             }
             else if(canputitems[changeSquare])
             {
@@ -5820,7 +5820,7 @@ void game::advanced_inv()
                     changex = 1;
                     break;
                 case '\t':
-                    changex = dest;//(screen == 0 ? 1 : -1);
+                    changex = dest;
                     break;
                 default :
                     donothing = true;
