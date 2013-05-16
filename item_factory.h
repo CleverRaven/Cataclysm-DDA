@@ -71,8 +71,6 @@ private:
 
     //iuse stuff
     std::map<Item_tag, Use_function> iuse_function_list;
-    //flags stuff
-    std::map<Item_tag, unsigned> item_flags_list;
     //techniques stuff
     std::map<Item_tag, unsigned> techniques_list;
     //ammo stuff

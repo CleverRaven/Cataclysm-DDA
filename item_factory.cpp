@@ -564,8 +564,11 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 new_item_template->melee_cut = entry.get("cutting").as_int();
                 new_item_template->m_to_hit = entry.get("to_hit").as_int();
 
-                new_item_template->item_flags = (!entry.has("flags") ? 0 :
-                                                 flags_from_json(entry.get("flags")));
+                if( entry.has("flags") )
+                {
+                    new_item_template->item_tags = entry.get("flags").as_tags();
+                }
+
                 new_item_template->techniques = (!entry.has("techniques") ? 0 :
                                                  flags_from_json(entry.get("techniques"), "techniques"));
                 new_item_template->use = (!entry.has("use_action") ? &iuse::none :
@@ -800,8 +803,7 @@ Use_function Item_factory::use_from_string(std::string function_name){
 
 void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type)
 {
-    //Use the standard item flag list unless a valid alternative is provided
-    std::map<Item_tag, unsigned> flag_map = item_flags_list;
+    std::map<Item_tag, unsigned> flag_map;
     if(flag_type=="ammo"){
       flag_map = ammo_flags_list;
     } else if(flag_type=="techniques"){

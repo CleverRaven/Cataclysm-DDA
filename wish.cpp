@@ -171,7 +171,7 @@ void game::wish()
    tmp.charges = 100;
   else if (tmp.is_gun())
    tmp.charges = 0;
-  else if (tmp.is_gunmod() && (tmp.has_flag(IF_MODE_AUX) ||
+  else if (tmp.is_gunmod() && (tmp.has_flag("MODE_AUX") ||
 			       tmp.typeId() == "spare_mag"))
    tmp.charges = 0;
   else

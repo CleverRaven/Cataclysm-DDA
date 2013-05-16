@@ -245,18 +245,18 @@ artifact_tool_form_datum artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
 };
 
 artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS] = {
-{"", 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{"", 0, 0, 0, 0, 0, 0, 0, 0, ""},
 // Adjective	Vol,wgt		Bash		Cut		To-Hit
 {"Heavy",	 0, 12,		10, 20,		 0,  0,		-2,  0,
- 0},
+ ""},
 {"Knobbed",	 1,  2,		14, 30,		 0,  0,		-1,  1,
- 0},
+ ""},
 {"Spiked",	 1,  1,		 0,  0,		20, 40,		-1,  1,
- mfb(IF_SPEAR)},
+ "SPEAR"},
 {"Edged",	 2,  4,		 0,  0,		20, 50,		-1,  2,
- 0},
+ ""},
 {"Bladed",	 1,  2,		 0,  0,		12, 30,		-1,  1,
- mfb(IF_STAB)}
+ "STAB"}
 };
 
 artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] = {
@@ -372,7 +372,9 @@ itype* game::new_artifact()
   art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
   art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
   art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-  art->item_flags = weapon->flags;
+  if( weapon->tag != "" ) {
+      art->item_tags.insert(weapon->tag);
+  }
 // Add an extra weapon perhaps?
   if (one_in(2)) {
    int select = rng(0, 2);
@@ -383,7 +385,9 @@ itype* game::new_artifact()
     art->melee_dam += rng(weapon->bash_min, weapon->bash_max);
     art->melee_cut += rng(weapon->bash_min, weapon->bash_max);
     art->m_to_hit += rng(weapon->to_hit_min, weapon->to_hit_max);
-    art->item_flags |= weapon->flags;
+    if( weapon->tag != "" ) {
+        art->item_tags.insert(weapon->tag);
+    }
     std::stringstream newname;
     newname << weapon->adjective << " " << info->name;
     art->name = artifact_name(newname.str());
@@ -503,7 +507,6 @@ It may have unknown powers; use 'a' to activate them.";
   art->melee_dam = info->melee_bash;
   art->melee_cut = info->melee_cut;
   art->m_to_hit = info->melee_hit;
-  art->item_flags = 0;
   art->covers = info->covers;
   art->encumber = info->encumb;
   art->dmg_resist = info->dmg_resist;
@@ -616,7 +619,6 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
  art->melee_dam = 0;
  art->melee_cut = 0;
  art->m_to_hit = 0;
- art->item_flags = 0;
 
  art->name = property_data->name + " " + shape_data->name;
  std::stringstream desc;

@@ -26,8 +26,7 @@ item::item()
  damage = 0;
  burnt = 0;
  poison = 0;
- mode = IF_NULL;
- item_flags = 0;
+ mode = "NULL";
  item_counter = 0;
  type = nullitem();
  curammo = NULL;
@@ -50,8 +49,7 @@ item::item(itype* it, unsigned int turn)
  damage = 0;
  burnt = 0;
  poison = 0;
- mode = IF_NULL;
- item_flags = 0;
+ mode = "NULL";
  item_counter = 0;
  active = false;
  curammo = NULL;
@@ -78,7 +76,7 @@ item::item(itype* it, unsigned int turn)
    charges = -1;
   else
    charges = tool->def_charges;
- } else if ((it->is_gunmod() && it->id == "spare_mag") || it->item_flags & mfb(IF_MODE_AUX)) {
+ } else if ((it->is_gunmod() && it->id == "spare_mag") || it->item_tags.count("MODE_AUX")) {
   charges = 0;
  } else
   charges = -1;
@@ -104,8 +102,7 @@ item::item(itype *it, unsigned int turn, char let)
  damage = 0;
  burnt = 0;
  poison = 0;
- mode = IF_NULL;
- item_flags = 0;
+ mode = "NULL";
  item_counter = 0;
  active = false;
  if (it->is_gun()) {
@@ -155,8 +152,7 @@ void item::make_corpse(itype* it, mtype* mt, unsigned int turn)
  damage = 0;
  burnt = 0;
  poison = 0;
- mode = IF_NULL;
- item_flags = 0;
+ mode = "NULL";
  item_counter = 0;
  curammo = NULL;
  active = false;
@@ -237,7 +233,7 @@ bool item::stacks_with(item rhs)
 
  bool stacks = (type   == rhs.type   && damage  == rhs.damage  &&
                 active == rhs.active && charges == rhs.charges &&
-                item_flags == rhs.item_flags &&
+                item_tags == rhs.item_tags &&
                 contents.size() == rhs.contents.size() &&
                 (!goes_bad() || bday == rhs.bday));
 
@@ -289,8 +285,17 @@ std::string item::save_info() const
  }
  std::stringstream dump;
  dump << " " << int(invlet) << " " << typeId() << " " <<  int(charges) <<
-         " " << int(damage) << " " << int(item_flags) << " " << int(burnt) <<
-     " " << poison << " " << ammotmp << " " << owned << " " << int(bday) << " " << mode;
+     " " << int(damage) << " ";
+
+ dump << item_tags.size() << " ";
+ for( std::set<std::string>::const_iterator it = item_tags.begin();
+      it != item_tags.end(); ++it )
+ {
+     dump << *it << " ";
+ }
+
+ dump << int(burnt) << " " << poison << " " << ammotmp <<
+        " " << owned << " " << int(bday) << " " << mode;
  if (active)
   dump << " 1";
  else
@@ -314,11 +319,18 @@ void item::load_info(std::string data, game *g)
 {
  std::stringstream dump;
  dump << data;
- std::string idtmp, ammotmp;
- int lettmp, damtmp, burntmp, acttmp, corp, item_flagstmp;
- dump >> lettmp >> idtmp >> charges >> damtmp >> item_flagstmp >>
-     burntmp >> poison >> ammotmp >> owned >> bday >> mode >> acttmp >>
-		 corp >> mission_id >> player_id;
+ std::string idtmp, ammotmp, item_tag;
+ int lettmp, damtmp, burntmp, acttmp, corp, tag_count;
+ dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
+
+ for( int i = 0; i < tag_count; ++i )
+ {
+     dump >> item_tag;
+     item_tags.insert( item_tag );
+ }
+
+ dump >> burntmp >> poison >> ammotmp >> owned >> bday >>
+        mode >> acttmp >> corp >> mission_id >> player_id;
  if (corp != -1)
   corpse = g->mtypes[corp];
  else
@@ -338,7 +350,6 @@ void item::load_info(std::string data, game *g)
  invlet = char(lettmp);
  damage = damtmp;
  burnt = burntmp;
- item_flags = item_flagstmp;
  active = false;
  if (acttmp == 1)
   active = true;
@@ -363,7 +374,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("BASE", " Volume: ", "", int(volume()), "", false, true));
   dump->push_back(iteminfo("BASE", "    Weight: ", "", int(weight()), "", true, true));
   dump->push_back(iteminfo("BASE", " Bash: ", "", int(type->melee_dam), "", false));
-  dump->push_back(iteminfo("BASE", (has_flag(IF_SPEAR) ? "  Pierce: " : "  Cut: "), "", int(type->melee_cut), "", false));
+  dump->push_back(iteminfo("BASE", (has_flag("SPEAR") ? "  Pierce: " : "  Cut: "), "", int(type->melee_cut), "", false));
   dump->push_back(iteminfo("BASE", "  To-hit bonus: ", ((type->m_to_hit > 0) ? "+" : ""), int(type->m_to_hit), ""));
   dump->push_back(iteminfo("BASE", " Moves per attack: ", "", int(attack_time()), "", true, true));
 
@@ -465,10 +476,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
   dump->push_back(iteminfo("GUN"," Recoil: ", temp1.str(), int(recoil(false)), temp2.str(), true, true));
 
-  dump->push_back(iteminfo("GUN", " Reload time: ", "", int(gun->reload_time), ((has_flag(IF_RELOAD_ONE)) ? " per round" : ""), true, true));
+  dump->push_back(iteminfo("GUN", " Reload time: ", "", int(gun->reload_time), ((has_flag("RELOAD_ONE")) ? " per round" : ""), true, true));
 
   if (burst_size() == 0) {
-   if (gun->skill_used == Skill::skill("pistol") && has_flag(IF_RELOAD_ONE))
+   if (gun->skill_used == Skill::skill("pistol") && has_flag("RELOAD_ONE"))
     dump->push_back(iteminfo("GUN", " Revolver."));
    else
     dump->push_back(iteminfo("GUN", " Semi-automatic."));
@@ -538,7 +549,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
   dump->push_back(iteminfo("ARMOR", temp1.str()));
 
-    if (has_flag(IF_FIT))
+    if (has_flag("FIT"))
     {
         dump->push_back(iteminfo("ARMOR", " Encumberment: ", "", int(armor->encumber) - 1, " (fits)", true, true));
     }
@@ -581,7 +592,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   it_tool* tool = dynamic_cast<it_tool*>(type);
 
   if ((tool->max_charges)!=0) {
-   if (has_flag(IF_DOUBLE_AMMO)) {
+   if (has_flag("DOUBLE_AMMO")) {
     dump->push_back(iteminfo("TOOL", " Maximum ", "", int(tool->max_charges*2), " charges (doubled)" + ((tool->ammo == AT_NULL) ? "" : (" of " + ammo_name(tool->ammo))) + "."));
    } else {
     dump->push_back(iteminfo("TOOL", " Maximum ", "", int(tool->max_charges), " charges" + ((tool->ammo == AT_NULL) ? "" : (" of " + ammo_name(tool->ammo))) + "."));
@@ -600,17 +611,17 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
  if ( showtext && !is_null() ) {
     if (is_stationary()) {
        // Just use the dynamic description
-        dump->push_back( iteminfo("DESCRIPTION", SNIPPET.get(mode)) );
+        dump->push_back( iteminfo("DESCRIPTION", SNIPPET.get(note)) );
     } else {
        dump->push_back(iteminfo("DESCRIPTION", type->description));
     }
 
-    if (is_armor() && has_flag(IF_FIT))
+    if (is_armor() && has_flag("FIT"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This piece of clothing fits you perfectly."));
     }
-    if (is_tool() && has_flag(IF_DOUBLE_AMMO))
+    if (is_tool() && has_flag("DOUBLE_AMMO"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This tool has double the normal maximum charges."));
@@ -810,7 +821,7 @@ std::string item::tname(game *g)
  if (food != NULL && g != NULL && food_type->spoils != 0 &&
    int(g->turn) < (int)(food->bday + 100))
   ret << " (fresh)";
- if (food != NULL && g != NULL && food->has_flag(IF_HOT))
+ if (food != NULL && g != NULL && food->has_flag("HOT"))
   ret << " (hot)";
  if (food != NULL && g != NULL && food_type->spoils != 0 &&
    int(g->turn) - (int)(food->bday) > food_type->spoils * 600)
@@ -954,34 +965,34 @@ int item::damage_cut() const
  return type->melee_cut;
 }
 
-bool item::has_flag(item_flag f) const
+bool item::has_flag(std::string f) const
 {
  bool ret = false;
 
 // first check for flags specific to item type
 // gun flags
  if (is_gun()) {
-  if (mode == IF_MODE_AUX) {
-   item const* gunmod = inspect_active_gunmod();
-   if( gunmod != NULL )
-	ret = gunmod->has_flag(f);
-	if (ret) return ret;
-  } else {
-   for (int i = 0; i < contents.size(); i++) {
-     // Don't report flags from active gunmods for the gun.
-    if (contents[i].has_flag(f) && contents[i].has_flag(IF_MODE_AUX)) {
-     ret = true;
-     return ret;
-    }
-   }
-  }
+     if (mode == "MODE_AUX") {
+         item const* gunmod = inspect_active_gunmod();
+         if( gunmod != NULL )
+             ret = gunmod->has_flag(f);
+         if (ret) return ret;
+     } else {
+         for (int i = 0; i < contents.size(); i++) {
+             // Don't report flags from active gunmods for the gun.
+             if (contents[i].has_flag(f) && contents[i].has_flag("MODE_AUX")) {
+                 ret = true;
+                 return ret;
+             }
+         }
+     }
  }
 // other item type flags
- ret = type->item_flags & mfb(f);
+ ret = type->item_tags.count(f);
  if (ret) return ret;
 
 // now check for item specific flags
- ret = item_flags & mfb(f);
+ ret = item_tags.count(f);
  return ret;
 }
 
@@ -1060,7 +1071,7 @@ bool item::craft_has_charges()
 int item::num_charges()
 {
  if (is_gun()) {
-  if (mode == IF_MODE_AUX) {
+  if (mode == "MODE_AUX") {
    item* gunmod = active_gunmod();
    if (gunmod != NULL)
     return gunmod->charges;
@@ -1068,7 +1079,7 @@ int item::num_charges()
    return charges;
   }
  }
- if (is_gunmod() && mode == IF_MODE_AUX)
+ if (is_gunmod() && mode == "MODE_AUX")
   return charges;
  return 0;
 }
@@ -1314,7 +1325,7 @@ bool item::is_cutting_weapon() const
  if( is_null() )
   return false;
 
- return (type->melee_cut >= 8 && !has_flag(IF_SPEAR));
+ return (type->melee_cut >= 8 && !has_flag("SPEAR"));
 }
 
 bool item::is_armor() const
@@ -1475,7 +1486,7 @@ int item::reload_time(player &u)
  } else if (is_tool())
   ret = 100 + volume() + weight();
 
- if (has_flag(IF_STR_RELOAD))
+ if (has_flag("STR_RELOAD"))
   ret -= u.str_cur * 20;
  if (ret < 25)
   ret = 25;
@@ -1485,20 +1496,20 @@ int item::reload_time(player &u)
 
 item* item::active_gunmod()
 {
- if( mode == IF_MODE_AUX )
+ if( mode == "MODE_AUX" )
   for (int i = 0; i < contents.size(); i++)
-   if (contents[i].is_gunmod() && contents[i].mode == IF_MODE_AUX)
+   if (contents[i].is_gunmod() && contents[i].mode == "MODE_AUX")
     return &contents[i];
  return NULL;
 }
 
 item const* item::inspect_active_gunmod() const
 {
-    if (mode == IF_MODE_AUX)
+    if (mode == "MODE_AUX")
     {
         for (int i = 0; i < contents.size(); ++i)
         {
-            if (contents[i].is_gunmod() && contents[i].mode == IF_MODE_AUX)
+            if (contents[i].is_gunmod() && contents[i].mode == "MODE_AUX")
             {
                 return &contents[i];
             }
@@ -1509,55 +1520,72 @@ item const* item::inspect_active_gunmod() const
 
 void item::next_mode()
 {
- switch(mode) {
- case IF_NULL:
-  if( has_flag(IF_MODE_BURST) )
-   mode = IF_MODE_BURST;
-  else
-   // Enable the first mod with an AUX firing mode.
-   for (int i = 0; i < contents.size(); i++)
-    if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
-     mode = IF_MODE_AUX;
-     contents[i].mode = IF_MODE_AUX;
-     break;
+    if( mode == "NULL" )
+    {
+        if( has_flag("MODE_BURST") )
+        {
+            mode = "MODE_BURST";
+        }
+        else
+        {
+            // Enable the first mod with an AUX firing mode.
+            for (int i = 0; i < contents.size(); i++)
+            {
+                if (contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX"))
+                {
+                    mode = "MODE_AUX";
+                    contents[i].mode = "MODE_AUX";
+                    break;
+                }
+            }
+        }
+        // Doesn't have another mode.
     }
-  // Doesn't have another mode, just return.
-  break;
- case IF_MODE_BURST:
-  // Enable the first mod with an AUX firing mode.
-  for (int i = 0; i < contents.size(); i++)
-   if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
-    mode = IF_MODE_AUX;
-    contents[i].mode = IF_MODE_AUX;
-    break;
-   }
-  if (mode == IF_MODE_BURST)
-   mode = IF_NULL;
-  break;
- case IF_MODE_AUX:
-  {
-   int i = 0;
-   // Advance to next aux mode, or if there isn't one, normal mode
-   for (; i < contents.size(); i++)
-    if (contents[i].is_gunmod() && contents[i].mode == IF_MODE_AUX) {
-     contents[i].mode = IF_NULL;
-     break;
+    else if( mode ==  "MODE_BURST" )
+    {
+        // Enable the first mod with an AUX firing mode.
+        for (int i = 0; i < contents.size(); i++)
+        {
+            if (contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX"))
+            {
+                mode = "MODE_AUX";
+                contents[i].mode = "MODE_AUX";
+                break;
+            }
+        }
+        if (mode == "MODE_BURST")
+            mode = "NULL";
     }
-   for (i++; i < contents.size(); i++)
-    if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX)) {
-     contents[i].mode = IF_MODE_AUX;
-     break;
+    else if( mode == "MODE_AUX")
+    {
+        int i = 0;
+        // Advance to next aux mode, or if there isn't one, normal mode
+        for (; i < contents.size(); i++)
+        {
+            if (contents[i].is_gunmod() && contents[i].mode == "MODE_AUX")
+            {
+                contents[i].mode = "NULL";
+                break;
+            }
+        }
+        for (i++; i < contents.size(); i++)
+        {
+            if (contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX"))
+            {
+                contents[i].mode = "MODE_AUX";
+                break;
+            }
+        }
+        if (i == contents.size())
+        {
+            mode = "NULL";
+        }
     }
-   if (i == contents.size())
-    mode = IF_NULL;
-   break;
-  }
- }
 }
 
 int item::clip_size()
 {
- if(is_gunmod() && has_flag(IF_MODE_AUX))
+ if(is_gunmod() && has_flag("MODE_AUX"))
   return (dynamic_cast<it_gunmod*>(type))->clip;
  if (!is_gun())
   return 0;
@@ -1565,7 +1593,7 @@ int item::clip_size()
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->clip;
  for (int i = 0; i < contents.size(); i++) {
-  if (contents[i].is_gunmod() && !contents[i].has_flag(IF_MODE_AUX)) {
+  if (contents[i].is_gunmod() && !contents[i].has_flag("MODE_AUX")) {
    int bonus = (ret * (dynamic_cast<it_gunmod*>(contents[i].type))->clip) / 100;
    ret = int(ret + bonus);
   }
@@ -1589,11 +1617,11 @@ int item::accuracy()
 
 int item::gun_damage(bool with_ammo)
 {
- if (is_gunmod() && mode == IF_MODE_AUX)
+ if (is_gunmod() && mode == "MODE_AUX")
   return curammo->damage;
  if (!is_gun())
   return 0;
- if(mode == IF_MODE_AUX) {
+ if(mode == "MODE_AUX") {
   item* gunmod = active_gunmod();
   if(gunmod != NULL && gunmod->curammo != NULL)
    return gunmod->curammo->damage;
@@ -1617,7 +1645,7 @@ int item::noise() const
  if (!is_gun())
   return 0;
  int ret = 0;
- if(mode == IF_MODE_AUX) {
+ if(mode == "MODE_AUX") {
   item const* gunmod = inspect_active_gunmod();
   if (gunmod && gunmod->curammo)
    ret = gunmod->curammo->damage;
@@ -1626,7 +1654,7 @@ int item::noise() const
  ret *= .8;
  if (ret >= 5)
   ret += 20;
- if(mode == IF_MODE_AUX)
+ if(mode == "MODE_AUX")
   return ret;
  for (int i = 0; i < contents.size(); i++) {
   if (contents[i].is_gunmod())
@@ -1640,7 +1668,7 @@ int item::burst_size()
  if (!is_gun())
   return 0;
  // No burst fire for gunmods right now.
- if(mode == IF_MODE_AUX)
+ if(mode == "MODE_AUX")
   return 1;
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->burst;
@@ -1658,7 +1686,7 @@ int item::recoil(bool with_ammo)
  if (!is_gun())
   return 0;
  // Just use the raw ammo recoil for now.
- if(mode == IF_MODE_AUX) {
+ if(mode == "MODE_AUX") {
   item* gunmod = active_gunmod();
   if (gunmod && gunmod->curammo)
    return gunmod->curammo->recoil;
@@ -1682,7 +1710,7 @@ int item::range(player *p)
   return 0;
  // Just use the raw ammo range for now.
  // we do NOT want to use the parent gun's range.
- if(mode == IF_MODE_AUX) {
+ if(mode == "MODE_AUX") {
   item* gunmod = active_gunmod();
   if(gunmod && gunmod->curammo)
    return gunmod->curammo->range;
@@ -1692,12 +1720,12 @@ int item::range(player *p)
 
  int ret = (curammo ? dynamic_cast<it_gun*>(type)->range + curammo->range : 0);
 
- if (has_flag(IF_STR8_DRAW) && p) {
+ if (has_flag("STR8_DRAW") && p) {
   if (p->str_cur < 4)
    return 0;
   else if (p->str_cur < 8)
    ret -= 2 * (8 - p->str_cur);
- } else if (has_flag(IF_STR10_DRAW) && p) {
+ } else if (has_flag("STR10_DRAW") && p) {
   if (p->str_cur < 5)
    return 0;
   else if (p->str_cur < 10)
@@ -1714,7 +1742,7 @@ ammotype item::ammo_type() const
   it_gun* gun = dynamic_cast<it_gun*>(type);
   ammotype ret = gun->ammo;
   for (int i = 0; i < contents.size(); i++) {
-   if (contents[i].is_gunmod() && !contents[i].has_flag(IF_MODE_AUX)) {
+   if (contents[i].is_gunmod() && !contents[i].has_flag("MODE_AUX")) {
     it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
     if (mod->newtype != AT_NULL)
      ret = mod->newtype;
@@ -1769,7 +1797,7 @@ char item::pick_reload_ammo(player &u, bool interactive)
   // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
   // for each attachment, find its associated ammo & append it to the ammo vector
   for (int i = 0; i < contents.size(); i++)
-   if (contents[i].is_gunmod() && contents[i].has_flag(IF_MODE_AUX) &&
+   if (contents[i].is_gunmod() && contents[i].has_flag("MODE_AUX") &&
        contents[i].charges < (dynamic_cast<it_gunmod*>(contents[i].type))->clip) {
     std::vector<item*> tmpammo = u.has_ammo((dynamic_cast<it_gunmod*>(contents[i].type))->newtype);
     for(int j = 0; j < tmpammo.size(); j++)
@@ -1864,7 +1892,7 @@ bool item::reload(player &u, char ammo_invlet)
   } else {
    for (int i = 0; i < contents.size(); i++) {
     if (&contents[i] != gunmod && i != spare_mag && contents[i].is_gunmod() &&
-        contents[i].has_flag(IF_MODE_AUX) && contents[i].ammo_type() == ammo_to_use->ammo_type() &&
+        contents[i].has_flag("MODE_AUX") && contents[i].ammo_type() == ammo_to_use->ammo_type() &&
         (contents[i].charges <= (dynamic_cast<it_gunmod*>(contents[i].type))->clip ||
         (contents[i].charges <= 0 ||  contents[i].curammo->id == ammo_to_use->typeId()))) {
      reload_target = &contents[i];
@@ -1880,9 +1908,9 @@ bool item::reload(player &u, char ammo_invlet)
    if (reload_target->is_gunmod() && reload_target->typeId() == "spare_mag") {
     // Use gun numbers instead of the mod if it's a spare magazine
     max_load = (dynamic_cast<it_gun*>(type))->clip;
-    single_load = has_flag(IF_RELOAD_ONE);
+    single_load = has_flag("RELOAD_ONE");
    } else {
-    single_load = reload_target->has_flag(IF_RELOAD_ONE);
+    single_load = reload_target->has_flag("RELOAD_ONE");
     max_load = reload_target->clip_size();
    }
   }
@@ -1894,7 +1922,7 @@ bool item::reload(player &u, char ammo_invlet)
  } else
   return false;
 
- if (has_flag(IF_DOUBLE_AMMO)) {
+ if (has_flag("DOUBLE_AMMO")) {
   max_load *= 2;
  }
 

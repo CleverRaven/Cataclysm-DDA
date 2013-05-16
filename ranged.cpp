@@ -30,7 +30,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  it_ammo *curammo = NULL;
  item *weapon = NULL;
 
- if (p.weapon.has_flag(IF_CHARGE)) { // It's a charger gun, so make up a type
+ if (p.weapon.has_flag("CHARGE")) { // It's a charger gun, so make up a type
 // Charges maxes out at 8.
   int charges = p.weapon.num_charges();
   it_ammo *tmpammo = dynamic_cast<it_ammo*>(itypes["charge_shot"]);
@@ -100,7 +100,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  int num_shots = 1;
  if (burst)
   num_shots = weapon->burst_size();
- if (num_shots > weapon->num_charges() && !weapon->has_flag(IF_CHARGE))
+ if (num_shots > weapon->num_charges() && !weapon->has_flag("CHARGE"))
   num_shots = weapon->num_charges();
 
  if (num_shots == 0)
@@ -208,7 +208,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   }
 
   // Use up a round (or 100)
-  if (weapon->has_flag(IF_FIRE_100))
+  if (weapon->has_flag("FIRE_100"))
    weapon->charges -= 100;
   else
    weapon->charges--;

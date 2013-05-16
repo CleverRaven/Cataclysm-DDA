@@ -423,7 +423,7 @@ GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 itypes[id]=new it_style(id, 0, 0, name, description, '$', \
                               c_white, MNULL, MNULL, 0, 0, dam, 0, 0); \
  setvector(&((static_cast<it_style*>(itypes[id])))->moves, __VA_ARGS__, NULL); \
-itypes[id]->item_flags |= mfb(IF_UNARMED_WEAPON); \
+itypes[id]->item_tags.insert("UNARMED_WEAPON"); \
 martial_arts_itype_ids.push_back(id)
 
 STYLE("style_karate", "karate", 2, "\

@@ -952,12 +952,12 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
             fix->damage++;
         } 
-        else if (rn >= 12 && p->i_at(ch).has_flag(IF_VARSIZE) && !p->i_at(ch).has_flag(IF_FIT))
+        else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT"))
 	    {
             g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
-            (p->i_at(ch).item_flags |= mfb(IF_FIT));
+            (p->i_at(ch).item_tags.insert("FIT"));
         }
-        else if (rn >= 12 && (p->i_at(ch).has_flag(IF_FIT) || !p->i_at(ch).has_flag(IF_VARSIZE)))
+        else if (rn >= 12 && (p->i_at(ch).has_flag("FIT") || !p->i_at(ch).has_flag("VARSIZE")))
 	    {
             g->add_msg_if_player(p, "You make your %s extra sturdy.", fix->tname().c_str());
             fix->damage--;
@@ -1047,13 +1047,13 @@ void iuse::extra_battery(game *g, player *p, item *it, bool t)
         return;
     }
 
-    if (modded->has_flag(IF_DOUBLE_AMMO))
+    if (modded->has_flag("DOUBLE_AMMO"))
     {
         g->add_msg_if_player(p,"That item has already had its battery capacity doubled.");
         return;
     }
 
-    modded->item_flags |= mfb(IF_DOUBLE_AMMO);
+    modded->item_tags.insert("DOUBLE_AMMO");
     g->add_msg_if_player(p,"You double the battery capacity of your %s!", tool->name.c_str());
     it->invlet = 0;
 }
@@ -4088,7 +4088,7 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
 	if (heat->type->is_food()) {
 		p->moves -= 300;
 		g->add_msg("You heat up the food.");
-		heat->item_flags |= mfb(IF_HOT);
+		heat->item_tags.insert("HOT");
 		heat->active = true;
 		heat->item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);
@@ -4096,7 +4096,7 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
   } else 	if (heat->is_food_container()) {
 		p->moves -= 300;
 		g->add_msg("You heat up the food.");
-		heat->contents[0].item_flags |= mfb(IF_HOT);
+		heat->contents[0].item_tags.insert("HOT");
 		heat->contents[0].active = true;
 		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);

@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <set>
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -227,7 +228,7 @@ struct itype
  signed char melee_cut;	// Cutting damage in melee
  signed char m_to_hit;	// To-hit bonus for melee combat; -5 to 5 is reasonable
 
- unsigned item_flags : NUM_ITEM_FLAGS;
+ std::set<std::string> item_tags;
  unsigned techniques : NUM_TECHNIQUES;
 
  virtual bool is_food()          { return false; }
@@ -266,7 +267,6 @@ struct itype
   weight = 0;
   melee_dam = 0;
   m_to_hit = 0;
-  item_flags = 0;
   techniques = 0;
   use = &iuse::none;
  }
@@ -820,7 +820,15 @@ struct it_artifact_tool : public it_tool
      data[std::string("melee_dam")] = picojson::value(melee_dam);
      data[std::string("melee_cut")] = picojson::value(melee_cut);
      data[std::string("m_to_hit")] = picojson::value(m_to_hit);
-     data[std::string("item_flags")] = picojson::value(item_flags);
+
+     std::vector<picojson::value> tags_json;
+     for(std::set<std::string>::iterator it = item_tags.begin();
+         it != item_tags.end(); ++it)
+     {
+         tags_json.push_back(picojson::value(*it));
+     }
+     data[std::string("item_flags")] = picojson::value(tags_json);
+
      data[std::string("techniques")] = picojson::value(techniques);
 
      // tool data
@@ -879,7 +887,7 @@ struct it_artifact_tool : public it_tool
                   std::string pdes, char psym, nc_color pcolor, material pm1,
                   material pm2, unsigned short pvolume, unsigned short pweight,
                   signed char pmelee_dam, signed char pmelee_cut,
-                  signed char pm_to_hit, unsigned pitem_flags,
+                  signed char pm_to_hit, std::set<std::string> pitem_tags,
 
                   unsigned int pmax_charges, unsigned int pdef_charges,
                   unsigned char pcharges_per_use,
@@ -887,10 +895,11 @@ struct it_artifact_tool : public it_tool
                   ammotype pammo, itype_id prevert_to)
 
 :it_tool(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
+         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit,
 	 pmax_charges, pdef_charges, pcharges_per_use, pturns_per_charge,
 	 pammo, prevert_to, &iuse::artifact)
  {
+     item_tags = pitem_tags;
      artifact_itype_ids.push_back(pid);
  };
 };
@@ -922,7 +931,15 @@ struct it_artifact_armor : public it_armor
      data[std::string("melee_dam")] = picojson::value(melee_dam);
      data[std::string("melee_cut")] = picojson::value(melee_cut);
      data[std::string("m_to_hit")] = picojson::value(m_to_hit);
-     data[std::string("item_flags")] = picojson::value(item_flags);
+
+     std::vector<picojson::value> tags_json;
+     for(std::set<std::string>::iterator it = item_tags.begin();
+         it != item_tags.end(); ++it)
+     {
+         tags_json.push_back(picojson::value(*it));
+     }
+     data[std::string("item_flags")] = picojson::value(tags_json);
+
      data[std::string("techniques")] = picojson::value(techniques);
 
      // armor data
@@ -957,17 +974,18 @@ struct it_artifact_armor : public it_armor
                    std::string pdes, char psym, nc_color pcolor, material pm1,
                    material pm2, unsigned short pvolume, unsigned short pweight,
                    signed char pmelee_dam, signed char pmelee_cut,
-                   signed char pm_to_hit, unsigned pitem_flags,
+                   signed char pm_to_hit, std::set<std::string> pitem_tags,
 
                    unsigned char pcovers, signed char pencumber,
                    unsigned char pdmg_resist, unsigned char pcut_resist,
                    unsigned char penv_resist, signed char pwarmth,
                    unsigned char pstorage)
 :it_armor(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2,
-          pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags,
+          pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit,
           pcovers, pencumber, pdmg_resist, pcut_resist, penv_resist, pwarmth,
           pstorage)
  {
+     item_tags = pitem_tags;
      artifact_itype_ids.push_back(pid);
  };
 };
