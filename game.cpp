@@ -192,7 +192,8 @@ void game::setup()
 
  weather = WEATHER_CLEAR; // Start with some nice weather...
  // Weather shift in 30
- nextweather = MINUTES(STARTING_MINUTES + 30) + HOURS(OPTIONS[OPT_INITIAL_TIME]);
+ nextweather = HOURS(OPTIONS[OPT_INITIAL_TIME]) + MINUTES(30);
+
  turnssincelastmon = 0; //Auto safe mode init
  autosafemode = OPTIONS[OPT_AUTOSAFEMODE];
 
@@ -226,7 +227,6 @@ void game::setup()
 // Set up all default values for a new game
 void game::start_game()
 {
- //turn = MINUTES(STARTING_MINUTES);// It's turn 0...
  turn = HOURS(OPTIONS[OPT_INITIAL_TIME]);
  run_mode = (OPTIONS[OPT_SAFEMODE] ? 1 : 0);
  mostseen = 0;	// ...and mostseen is 0, we haven't seen any monsters yet.
