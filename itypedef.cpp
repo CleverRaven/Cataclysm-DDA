@@ -55,51 +55,6 @@ void game::init_itypes ()
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
             '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
 
-// Drinks
-// Stim should be -8 to 8.
-// quench MAY be less than zero--salt water and liquor make you thirstier.
-// Thirst goes up by 1 every 5 minutes; so a quench of 12 lasts for 1 hour
-
-// Any foods with a nutrition of lower than 5 will never prompt a 'You are full, force yourself to eat that?' message
-
-#define DRINK(id, name,rarity,price,color,container,quench,nutr,spoils,stim,\
-healthy,addict,charges,fun,use_func,addict_func,des, item_flags) \
-	itypes[id] = new it_comest(id,rarity,price,name,des,'~',\
-color,MNULL,LIQUID,2,1,0,0,0,item_flags,quench,nutr,spoils,stim,healthy,addict,charges,\
-fun,container,"null",use_func,addict_func,"DRINK");
-
-#define FOOD(id, name, rarity,price,color,mat1,container,volume,weight,quench,\
-nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des, item_flags) \
-itypes[id]=new it_comest(id,rarity,price,name,des,'%',\
-color,mat1,SOLID,volume,weight,0,0,0,item_flags, quench,nutr,spoils,stim,healthy,addict,charges,\
-fun,container,"null",use_func,addict_func,"FOOD");
-// FOOD
-
-// MEDS
-#define MED(id, name,rarity,price,color,tool,mat,stim,healthy,addict,\
-charges,fun,use_func,addict_func,des) \
-itypes[id]=new it_comest(id,rarity,price,name,des,'!',\
-color,mat,SOLID,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
-fun,"null",tool,use_func,addict_func,"MED");
-
-/*MED("grack", "Grack Cocaine",      8,420, c_white,        "apparatus",
-        POWDER,  200, -2, 80,  4, 50,&iuse::grack,       ADD_CRACK, "\
-Grack Cocaine, the strongest substance known to the multiverse\n\
-this potent substance is refined from the sweat of the legendary\n\
-gracken");
-*/
-
-// MELEE WEAPONS
-// Only use secondary material if it will have a major impact.
-// dam is a somewhat rigid bonus--anything above 30, tops, is ridiculous
-// cut is even MORE rigid, and should be kept lower still
-// to_hit (affects chances of hitting) should be kept small, -5 to +5
-// Note that do-nothing objects (e.g. superglue) belong here too!
-#define MELEE(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
-              flags, des)\
-itypes[id]=new itype(id,rarity,price,name,des,sym,\
-color,mat1,mat2,SOLID,volume,wgt,dam,cut,to_hit,flags);
-
 #define VAR_VEH_PART(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, bigmin, bigmax, bigaspect, des)\
 itypes[id]=new it_var_veh_part(id,rarity,price,name,des,sym,\
@@ -163,19 +118,6 @@ VAR_VEH_PART("v8_combustion", "V8 engine",  2, 250, ':', c_ltcyan,  IRON,   MNUL
     25,  600,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, "\
 A large and very powerful 8-cylinder combustion engine.");
 
-// ARMOR
-#define ARMOR(id, name, rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
-encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des,item_flags)\
-itypes[id]=new it_armor(id, rarity,price,name,des,'[',\
-color,mat1,mat2,volume,wgt,dam,0,to_hit,item_flags,covers,encumber,dmg_resist,cut_resist,\
-env,warmth,storage)
-
-#define POWER_ARMOR(id, name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
-encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des)\
-itypes[id] = new it_armor(id,rarity,price,name,des,'[',\
-  color,mat1,mat2,volume,wgt,dam,0,to_hit,0,covers,encumber,dmg_resist,cut_resist,\
-  env,warmth,storage,true)
-
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
 //   it can survive a dip in water and be okay, its material here is PLASTIC.
@@ -193,13 +135,6 @@ accuracy,recoil,count,des,effects) \
 itypes[id]=new it_ammo(id,rarity,price,name,des,'=',\
 color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count);
 
-// FUEL
-// Fuel is just a special type of ammo; liquid
-#define FUEL(id, name,rarity,price,ammo_type,color,dmg,AP,range,accuracy,recoil,\
-             count,des,effects) \
-itypes[id]=new it_ammo(id,rarity,price,name,des,'~',\
-color,MNULL,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count)
-
 // GUNS
 // ammo_type matches one of the ammo_types above.
 // dmg is ADDED to the damage of the corresponding ammo.  +/-, should be small.
@@ -213,38 +148,6 @@ to_hit,dmg,range,accuracy,recoil,durability,burst,clip,reload_time,des) \
 itypes[id]=new it_gun(id,rarity,price,name,des,'(',\
 color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,range,accuracy,\
 recoil,durability,burst,clip,reload_time)
-
-// GUN MODS
-// Accuracy is inverted from guns; high values are a bonus, low values a penalty
-// The clip modification is a percentage of the original clip size.
-// The final variable is a bitfield of acceptable ammo types.  Using 0 means
-//   that any ammo type is acceptable (so long as the mod works on the class of
-//   gun)
-#define GUNMOD(id, name, rare, value, color, mat1, mat2, volume, weight, meleedam,\
-               meleecut, meleehit, acc, damage, loudness, clip, recoil, burst,\
-               newtype, pistol, shotgun, smg, rifle, a_a_t, des, flags)\
-  itypes[id]=new it_gunmod(id, rare, value, name, des, ':',\
-                            color, mat1, mat2, volume, weight, meleedam,\
-                            meleecut, meleehit, flags, acc, damage, loudness,\
-                            clip, recoil, burst, newtype, a_a_t, pistol,\
-                            shotgun, smg, rifle)
-
-
-// BOOKS
-// Try to keep colors consistant among types of books.
-// TYPE is the skill type required to read, or trained via reading; see skill.h
-// LEV is the skill level you can be brought to by this book; if your skill is
-//  already at LEV or higher, you may enjoy the book but won't learn anything.
-// REQ is the skill level required to read this book, at all. If you lack the
-//  required skill level, you'll waste 10 (?) turns then quit.
-// FUN is the fun had by reading;
-// INT is an intelligence requirement.
-// TIME is the time, in minutes (10 turns), taken to gain the fun/skill bonus.
-#define BOOK(id, name,rarity,price,color,mat1,mat2,volume,wgt,melee_dam,to_hit,\
-type,level,req,fun,intel,time,des) \
-itypes[id]=new it_book(id,rarity,price,name,des,'?',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,0,type,level,req,fun,intel,time)
-//	NAME			RAR PRC	COLOR		MAT1	MAT2
 
 // CONTAINERS
 // These are containers you hold in your hand--ones you wear are _armor_!
