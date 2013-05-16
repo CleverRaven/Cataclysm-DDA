@@ -990,31 +990,31 @@ Interfaces your power system with the internal charging port on suits of power a
     //Fault Bionics from here on out.
     bionics["bio_dis_shock"] = new bionic_data("Electrical Discharge", false, false, 0, 0, "\
 A malfunctioning bionic which occasionally discharges electricity through\n\
-your body, causing pain and brief paralysis but no damage.");
+your body, causing pain and brief paralysis but no damage.",true);
     faulty_bionics.push_back("bio_dis_shock");
 
     bionics["bio_dis_acid"] = new bionic_data("Acidic Discharge", false, false, 0, 0, "\
 A malfunctioning bionic which occasionally discharges acid into your muscles,\n\
-causing sharp pain and minor damage.");
+causing sharp pain and minor damage.",true);
     faulty_bionics.push_back("bio_dis_shock");
 
     bionics["bio_drain"] = new bionic_data("Electrical Drain", false, false, 0, 0, "\
 A malfunctioning bionic.  It doesn't perform any useful function, but will\n\
-occasionally draw power from your batteries.");
+occasionally draw power from your batteries.",true);
     faulty_bionics.push_back("bio_drain");
 
     bionics["bio_noise"] = new bionic_data("Noisemaker", false, false, 0, 0, "\
-A malfunctioning bionic.  It will occasionally emit a loud burst of noise.");
+A malfunctioning bionic.  It will occasionally emit a loud burst of noise.",true);
     faulty_bionics.push_back("bio_noise");
     bionics["bio_power_weakness"] = new bionic_data("Power Overload", false, false, 0, 0, "\
 Damaged power circuits cause short-circuiting inside your muscles when your\n\
 batteries are above 75%%%% capacity, causing greatly reduced strength.  This\n\
-has no effect if you have no internal batteries.");
+has no effect if you have no internal batteries.",true);
     faulty_bionics.push_back("bio_power_weakness");
 
     bionics["bio_stiff"] = new bionic_data("Wire-induced Stiffness", false, false, 0, 0, "\
 Improperly installed wires cause a physical stiffness in most of your body,\n\
-causing increased encumberance.");
+causing increased encumberance.",true);
     faulty_bionics.push_back("bio_stiff");
 }
 
