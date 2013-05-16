@@ -209,9 +209,9 @@ color,MNULL,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,coun
 // clip is how many shots we get before reloading.
 
 #define GUN(id,name,rarity,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
-to_hit,dmg,range,accuracy,recoil,durability,burst,clip,reload_time,des,flags) \
+to_hit,dmg,range,accuracy,recoil,durability,burst,clip,reload_time,des) \
 itypes[id]=new it_gun(id,rarity,price,name,des,'(',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,flags,skill,ammo,dmg,range,accuracy,\
+color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,range,accuracy,\
 recoil,durability,burst,clip,reload_time)
 
 // GUN MODS
@@ -260,7 +260,7 @@ color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,0,type,level,req,fun,intel,time)
 #define CONT(id, name,rarity,price,color,mat1,mat2,volume,wgt,melee_dam,to_hit,\
 contains,flags,des) \
 itypes[id]=new it_container(id,rarity,price,name,des,\
-')',color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,0,contains,flags)
+')',color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,contains,flags)
 // NAME		RAR PRC	COLOR		MAT1	MAT2
 
 /* TOOLS
@@ -280,9 +280,9 @@ itypes[id]=new it_container(id,rarity,price,name,des,\
  */
 #define TOOL(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,melee_dam,\
 melee_cut,to_hit,max_charge,def_charge,charge_per_use,charge_per_sec,fuel,\
-revert,func,flags,des) \
+revert,func,des) \
 itypes[id]=new it_tool(id,rarity,price,name,des,sym,\
-color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
+color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
 
 CONT("bag_plastic", "plastic bag",	50,  1,	c_ltgray,	PLASTIC,MNULL,
@@ -348,7 +348,7 @@ A half-litre glass jar with a metal screw top lid, used for canning.");
 
 TOOL("jack", "jack",		30, 86, ';', c_ltgray,	IRON,	MNULL,
 //	VOL WGT DAM CUT HIT FLAGS
-	 5,  10, 11,  0,  2, 0, 0, 0, 0, AT_NULL, "null", &iuse::none, 0, "\
+	 5,  10, 11,  0,  2, 0, 0, 0, 0, AT_NULL, "null", &iuse::none, "\
 A common hydraulic jack, used when changing tires.");
 
 // BIONICS
@@ -357,7 +357,7 @@ A common hydraulic jack, used when changing tires.");
 // list of options.
 #define BIO(id, name, rarity, price, color, difficulty, des) \
 itypes[id]=new it_bionic(id, rarity,price,name,des,':',\
-color, STEEL, PLASTIC, 10, 18, 8, 0, 0, 0, difficulty)
+color, STEEL, PLASTIC, 10, 18, 8, 0, 0, difficulty)
 
 #define BIO_SINGLE(id,rarity,price,color,difficulty) \
      BIO(id, std::string("CBM: ")+bionics[id]->name, rarity,price,color,difficulty, \
@@ -377,13 +377,13 @@ by 10 units."); // This is another special case, increases power capacity by 10 
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \
 itypes[id]=new it_software(id, 0, price, name, description,\
-	' ', c_white, MNULL, MNULL, 0, 0, 0, 0, 0, 0, swtype, power)
+	' ', c_white, MNULL, MNULL, 0, 0, 0, 0, 0, swtype, power)
 
 //Macguffins
 #define MACGUFFIN(id, name, price, sym, color, mat1, mat2, volume, wgt, dam, cut,\
                   to_hit, readable, function, description) \
 itypes[id]=new it_macguffin(id, 0, price, name, description,\
-	sym, color, mat1, mat2, volume, wgt, dam, cut, to_hit, 0, readable,\
+	sym, color, mat1, mat2, volume, wgt, dam, cut, to_hit, readable,\
 	function)
 
 // BIONIC IMPLANTS
@@ -486,7 +486,7 @@ A hand-written paper note.");
 
 #define STATIONARY(id, name, rarity, price, category, description) \
 itypes[id] = new it_stationary(id, rarity, price, name, description,\
-',', c_white, PAPER, MNULL, 0, 0, 0, 0, 0, 0, category)
+',', c_white, PAPER, MNULL, 0, 0, 0, 0, 0, category)
 
 STATIONARY("flyer", "flyer", 5, 1, "flier", "A scrap of paper.");
 
@@ -508,7 +508,7 @@ AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
 GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
-"",0);
+"");
 
 
 
@@ -518,7 +518,7 @@ GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 // Unarmed Styles
 #define STYLE(id, name, dam, description, ...) \
 itypes[id]=new it_style(id, 0, 0, name, description, '$', \
-                              c_white, MNULL, MNULL, 0, 0, dam, 0, 0, 0); \
+                              c_white, MNULL, MNULL, 0, 0, dam, 0, 0); \
  setvector(&((static_cast<it_style*>(itypes[id])))->moves, __VA_ARGS__, NULL); \
 itypes[id]->item_flags |= mfb(IF_UNARMED_WEAPON); \
 martial_arts_itype_ids.push_back(id)

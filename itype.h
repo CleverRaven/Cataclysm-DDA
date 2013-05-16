@@ -276,7 +276,7 @@ struct itype
        char psym, nc_color pcolor, material pm1, material pm2, phase_id pphase,
        unsigned short pvolume, unsigned short pweight,
        signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-       unsigned pitem_flags, unsigned ptechniques = 0) {
+       unsigned ptechniques = 0) {
   id          = pid;
   rarity      = prarity;
   price       = pprice;
@@ -292,7 +292,6 @@ struct itype
   melee_dam   = pmelee_dam;
   melee_cut   = pmelee_cut;
   m_to_hit    = pm_to_hit;
-  item_flags  = pitem_flags;
   techniques  = ptechniques;
   use         = &iuse::none;
  }
@@ -334,7 +333,7 @@ struct it_comest : public itype
     char psym, nc_color pcolor, material pm1, phase_id pphase,
     unsigned short pvolume, unsigned short pweight,
     signed char pmelee_dam, signed char pmelee_cut,
-    signed char pm_to_hit, unsigned pitem_flags,
+    signed char pm_to_hit,
 
     signed char pquench, unsigned char pnutr, signed char pspoils,
     signed char pstim, signed char phealthy, unsigned char paddict,
@@ -342,7 +341,7 @@ struct it_comest : public itype
     itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
     add_type padd, std::string pcomesttype)
     :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL, pphase,
-    pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+    pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {
         quench     = pquench;
         nutr       = pnutr;
@@ -357,7 +356,6 @@ struct it_comest : public itype
         use        = puse;
         add        = padd;
         comesttype = pcomesttype;
-        item_flags = pitem_flags;
     }
 
     it_comest() :itype() { };
@@ -381,7 +379,7 @@ struct it_var_veh_part: public itype
         unsigned int big_max,
         bigness_property_aspect big_aspect)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   min_bigness = big_min;
   max_bigness = big_max;
   bigness_aspect = big_aspect;
@@ -467,13 +465,12 @@ struct it_gun : public itype
         char psym, nc_color pcolor, material pm1, material pm2,
         unsigned short pvolume, unsigned short pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-        unsigned pitem_flags,
 
 	const char *pskill_used, ammotype pammo, signed char pdmg_bonus, signed char prange,
 	signed char paccuracy, signed char precoil, unsigned char pdurability,
         unsigned char pburst, int pclip, int preload_time)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   skill_used = pskill_used?Skill::skill(pskill_used):NULL;
   ammo = pammo;
   dmg_bonus = pdmg_bonus;
@@ -506,7 +503,7 @@ struct it_gunmod : public itype
            char psym, nc_color pcolor, material pm1, material pm2,
            unsigned short pvolume, unsigned short pweight,
            signed char pmelee_dam, signed char pmelee_cut,
-           signed char pm_to_hit, unsigned pitem_flags,
+           signed char pm_to_hit,
 
            signed char paccuracy, signed char pdamage, signed char ploudness,
            signed char pclip, signed char precoil, signed char pburst,
@@ -514,7 +511,7 @@ struct it_gunmod : public itype
            bool shotgun, bool smg, bool rifle)
 
  :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   accuracy = paccuracy;
   damage = pdamage;
   loudness = ploudness;
@@ -566,14 +563,13 @@ struct it_armor : public itype
           char psym, nc_color pcolor, material pm1, material pm2,
           unsigned short pvolume, unsigned short pweight,
           signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-          unsigned pitem_flags,
 
           unsigned char pcovers, signed char pencumber,
           unsigned char pdmg_resist, unsigned char pcut_resist,
           unsigned char penv_resist, signed char pwarmth,
           unsigned char pstorage, bool ppower_armor = false)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   covers = pcovers;
   encumber = pencumber;
   dmg_resist = pdmg_resist;
@@ -604,12 +600,11 @@ struct it_book : public itype
          char psym, nc_color pcolor, material pm1, material pm2,
          unsigned short pvolume, unsigned short pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-         unsigned pitem_flags,
 
 	 const char *ptype, unsigned char plevel, unsigned char preq,
 	 signed char pfun, unsigned char pintel, unsigned char ptime)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   type = ptype?Skill::skill(ptype):NULL;
   level = plevel;
   req = preq;
@@ -636,11 +631,11 @@ struct it_container : public itype
               char psym, nc_color pcolor, material pm1, material pm2,
               unsigned short pvolume, unsigned short pweight,
               signed char pmelee_dam, signed char pmelee_cut,
-              signed char pm_to_hit, unsigned pitem_flags,
+              signed char pm_to_hit,
 
               unsigned char pcontains, unsigned pflags)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   contains = pcontains;
   flags = pflags;
  }
@@ -675,14 +670,13 @@ struct it_tool : public itype
          char psym, nc_color pcolor, material pm1, material pm2, phase_id pphase,
          unsigned short pvolume, unsigned short pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-         unsigned pitem_flags,
 
          unsigned int pmax_charges, unsigned int pdef_charges,
          unsigned char pcharges_per_use, unsigned char pturns_per_charge,
          ammotype pammo, itype_id prevert_to,
 	 void (iuse::*puse)(game *, player *, item *, bool))
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, pphase,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   max_charges = pmax_charges;
   def_charges = pdef_charges;
   ammo = pammo;
@@ -705,11 +699,11 @@ struct it_bionic : public itype
            char psym, nc_color pcolor, material pm1, material pm2,
            unsigned short pvolume, unsigned short pweight,
            signed char pmelee_dam, signed char pmelee_cut,
-           signed char pm_to_hit, unsigned pitem_flags,
+           signed char pm_to_hit,
 
            int pdifficulty)
  :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
    difficulty = pdifficulty;
    options.push_back(id);
  }
@@ -726,12 +720,12 @@ struct it_macguffin : public itype
               char psym, nc_color pcolor, material pm1, material pm2,
               unsigned short pvolume, unsigned short pweight,
               signed char pmelee_dam, signed char pmelee_cut,
-              signed char pm_to_hit, unsigned pitem_flags,
+              signed char pm_to_hit,
 
               bool preadable,
               void (iuse::*puse)(game *, player *, item *, bool))
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   readable = preadable;
   use = puse;
  }
@@ -749,11 +743,11 @@ struct it_software : public itype
              char psym, nc_color pcolor, material pm1, material pm2,
              unsigned short pvolume, unsigned short pweight,
              signed char pmelee_dam, signed char pmelee_cut,
-             signed char pm_to_hit, unsigned pitem_flags,
+             signed char pm_to_hit,
 
              software_type pswtype, int ppower)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) {
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   swtype = pswtype;
   power = ppower;
  }
@@ -770,10 +764,10 @@ struct it_style : public itype
           char psym, nc_color pcolor, material pm1, material pm2,
           unsigned char pvolume, unsigned char pweight,
           signed char pmelee_dam, signed char pmelee_cut,
-          signed char pm_to_hit, unsigned pitem_flags)
+          signed char pm_to_hit)
 
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags) { }
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) { }
 };
 
 struct it_stationary : public itype
@@ -787,11 +781,11 @@ struct it_stationary : public itype
           char psym, nc_color pcolor, material pm1, material pm2,
           unsigned char pvolume, unsigned char pweight,
           signed char pmelee_dam, signed char pmelee_cut,
-          signed char pm_to_hit, unsigned pitem_flags,
+          signed char pm_to_hit,
           std::string pcategory)
 
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, pitem_flags)
+       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
  {
      category = pcategory;
  }
