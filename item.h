@@ -84,7 +84,7 @@ public:
  int attack_time();
  int damage_bash();
  int damage_cut() const;
- bool has_flag(item_flag f) const;
+ bool has_flag(std::string f) const;
  bool has_technique(technique_id t, player *p = NULL);
  int has_gunmod(itype_id type);
  item* active_gunmod();
@@ -156,9 +156,11 @@ public:
  union{
    int poison;	         // How badly poisoned is it?
    int bigness;         // engine power, wheel size
+   int frequency;       // Radio frequency
+   int note;            // Associated dynamic text snippet.
  };
- int mode;              // Mode of operation, can be changed by the player.
- unsigned item_flags : NUM_ITEM_FLAGS;		// generic item specific flags
+ std::string mode;    // Mode of operation, can be changed by the player.
+ std::set<std::string> item_tags;		// generic item specific flags
  unsigned item_counter;	// generic counter to be used with item flags
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!

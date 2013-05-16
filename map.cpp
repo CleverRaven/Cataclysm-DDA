@@ -2281,9 +2281,9 @@ void map::add_item(const int x, const int y, item new_item)
   return;
 
     // clothing with variable size flag may sometimes be generated fitted
-    if (new_item.is_armor() && new_item.has_flag(IF_VARSIZE) & one_in(3))
+    if (new_item.is_armor() && new_item.has_flag("VARSIZE") & one_in(3))
     {
-        new_item.item_flags |= mfb(IF_FIT);
+        new_item.item_tags.insert("FIT");
     }
 
  if (has_flag(noitem, x, y) || i_at(x, y).size() >= 64) {// Too many items there
@@ -2345,19 +2345,19 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 				((*items)[n].is_container() && (*items)[n].contents.size() > 0 && (*items)[n].contents[0].active))
 				{
 					if ((*items)[n].is_food()) {	// food items
-						if ((*items)[n].has_flag(IF_HOT)) {
+						if ((*items)[n].has_flag("HOT")) {
 							(*items)[n].item_counter--;
 							if ((*items)[n].item_counter == 0) {
-								(*items)[n].item_flags ^= mfb(IF_HOT);
+								(*items)[n].item_tags.erase("HOT");
 								(*items)[n].active = false;
 								grid[nonant]->active_item_count--;
 							}
 						}
 					} else if ((*items)[n].is_food_container()) {	// food in containers
-						if ((*items)[n].contents[0].has_flag(IF_HOT)) {
+						if ((*items)[n].contents[0].has_flag("HOT")) {
 							(*items)[n].contents[0].item_counter--;
 							if ((*items)[n].contents[0].item_counter == 0) {
-								(*items)[n].contents[0].item_flags ^= mfb(IF_HOT);
+								(*items)[n].contents[0].item_tags.erase("HOT");
 								(*items)[n].contents[0].active = false;
 								grid[nonant]->active_item_count--;
 							}
