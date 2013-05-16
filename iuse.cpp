@@ -1468,7 +1468,7 @@ void iuse::directional_antenna(game *g, player *p, item *it, bool t)
         return;
     }
     // Find the radio station its tuned to (if any)
-    radio_tower *tower = find_radio_station( g, radio.mode );
+    radio_tower *tower = find_radio_station( g, radio.frequency );
     if( tower == NULL )
     {
         g->add_msg( "You can't find the direction if your radio isn't tuned." );
@@ -1485,7 +1485,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
     if (t)
     {	// Normal use
         std::string message = "Radio: Kssssssssssssh.";
-        radio_tower *selected_tower = find_radio_station( g, it->mode );
+        radio_tower *selected_tower = find_radio_station( g, it->frequency );
         if( selected_tower != NULL )
         {
             if( selected_tower->type == MESSAGE_BROADCAST )
@@ -1540,7 +1540,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
         {
         case 1:
         {
-            int old_frequency = it->mode;
+            int old_frequency = it->frequency;
             radio_tower *tower = NULL;
             radio_tower *lowest_tower = NULL;
             radio_tower *lowest_larger_tower = NULL;
@@ -1567,11 +1567,11 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
             }
             if( lowest_larger_tower != NULL )
             {
-                it->mode = lowest_larger_tower->frequency;
+                it->frequency = lowest_larger_tower->frequency;
             }
             else if( lowest_tower != NULL )
             {
-                it->mode = lowest_tower->frequency;
+                it->frequency = lowest_tower->frequency;
             }
         }
         break;

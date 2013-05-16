@@ -89,7 +89,7 @@ item::item(itype* it, unsigned int turn)
  // Should be a flag, but we're out at the moment
  if( it->is_stationary() )
  {
-     mode = SNIPPET.assign( (dynamic_cast<it_stationary*>(it))->category );
+     note = SNIPPET.assign( (dynamic_cast<it_stationary*>(it))->category );
  }
 }
 
@@ -143,7 +143,7 @@ item::item(itype *it, unsigned int turn, char let)
  // Should be a flag, but we're out at the moment
  if( it->is_stationary() )
  {
-     mode = SNIPPET.assign( (dynamic_cast<it_stationary*>(it))->category );
+     note = SNIPPET.assign( (dynamic_cast<it_stationary*>(it))->category );
  }
 }
 

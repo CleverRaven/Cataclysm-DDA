@@ -155,6 +155,8 @@ public:
  union{
    int poison;	         // How badly poisoned is it?
    int bigness;         // engine power, wheel size
+   int frequency;       // Radio frequency
+   int note;            // Associated dynamic text snippet.
  };
  int mode;              // Mode of operation, can be changed by the player.
  unsigned item_flags : NUM_ITEM_FLAGS;		// generic item specific flags

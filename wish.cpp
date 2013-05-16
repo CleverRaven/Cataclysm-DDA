@@ -179,7 +179,7 @@ void game::wish()
   // Should be a flag, but we're out at the moment
   if( tmp.is_stationary() )
   {
-    tmp.mode = SNIPPET.assign( (dynamic_cast<it_stationary*>(tmp.type))->category );
+    tmp.note = SNIPPET.assign( (dynamic_cast<it_stationary*>(tmp.type))->category );
   }
   info = tmp.info(true);
   mvwprintw(w_info, 0, 0, info.c_str());
