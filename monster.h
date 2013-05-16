@@ -113,6 +113,7 @@ class monster {
  int  dodge_roll();	// For the purposes of comparing to player::hit_roll()
  int  fall_damage();	// How much a fall hurts us
  void die(game *g);
+ void drop_items_on_death(game *g);
 
 // Other
  void add_effect(monster_effect_type effect, int duration);
@@ -143,6 +144,7 @@ class monster {
  int faction_id; // If we belong to a faction
  int mission_id; // If we're related to a mission
  mtype *type;
+ bool no_extra_death_drops; // if true, don't spawn loot items as part of death
  bool dead;
  bool made_footstep;
  std::string unique_name; // If we're unique
