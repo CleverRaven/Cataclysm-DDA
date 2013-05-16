@@ -1,9 +1,6 @@
 #ifndef _ITEM_FACTORY_H_
 #define _ITEM_FACTORY_H_
 
-#include <string>
-#include <vector>
-#include <map>
 #include "game.h"
 #include "itype.h"
 #include "item.h"
@@ -11,7 +8,10 @@
 #include "picojson.h"
 #include "catajson.h"
 #include "item_group.h"
-#include "iuse.h" 
+#include "iuse.h"
+#include <string>
+#include <vector>
+#include <map>
 
 typedef std::string Item_tag;
 typedef std::vector<item> Item_list;
@@ -71,8 +71,6 @@ private:
 
     //iuse stuff
     std::map<Item_tag, Use_function> iuse_function_list;
-    //flags stuff
-    std::map<Item_tag, unsigned> item_flags_list;
     //techniques stuff
     std::map<Item_tag, unsigned> techniques_list;
     //ammo stuff

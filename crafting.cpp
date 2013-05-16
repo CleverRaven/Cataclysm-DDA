@@ -1071,9 +1071,9 @@ void game::complete_craft()
  int iter = 0;
  item newit(item_controller->find_template(making->result), turn, nextinv);
 
-    if (newit.is_armor() && newit.has_flag(IF_VARSIZE))
+    if (newit.is_armor() && newit.has_flag("VARSIZE"))
     {
-        newit.item_flags |= mfb(IF_FIT);
+        newit.item_tags.insert("FIT");
     }
  // for food items
  if (newit.is_food())
@@ -1081,8 +1081,8 @@ void game::complete_craft()
     int bday_tmp = turn % 3600;		// fuzzy birthday for stacking reasons
     newit.bday = int(turn) + 3600 - bday_tmp;
 
-		if (newit.has_flag(IF_EATEN_HOT)) {	// hot foods generated
-			newit.item_flags |= mfb(IF_HOT);
+		if (newit.has_flag("EATEN_HOT")) {	// hot foods generated
+			newit.item_tags.insert("HOT");
 			newit.active = true;
 			newit.item_counter = 600;
 		}

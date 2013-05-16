@@ -641,7 +641,7 @@ void game::process_activity()
 
    case ACT_RELOAD:
     if (u.weapon.reload(u, u.activity.invlet))
-     if (u.weapon.is_gun() && u.weapon.has_flag(IF_RELOAD_ONE)) {
+     if (u.weapon.is_gun() && u.weapon.has_flag("RELOAD_ONE")) {
       add_msg("You insert a cartridge into your %s.",
               u.weapon.tname(this).c_str());
       if (u.recoil < 8)
@@ -2008,10 +2008,10 @@ void game::load_artifacts()
 	material m2 = (material)artifact.get(std::string("m2")).as_int();
 	unsigned short volume = artifact.get(std::string("volume")).as_int();
 	unsigned short weight = artifact.get(std::string("weight")).as_int();
-	signed char melee_dam = artifact.get(std::string("melee_dam")).as_int();
-	signed char melee_cut = artifact.get(std::string("melee_cut")).as_int();
+ signed char melee_dam = artifact.get(std::string("melee_dam")).as_int();
+ signed char melee_cut = artifact.get(std::string("melee_cut")).as_int();
 	signed char m_to_hit = artifact.get(std::string("m_to_hit")).as_int();
-	unsigned item_flags = artifact.get(std::string("item_flags")).as_int();
+ std::set<std::string> item_tags = artifact.get(std::string("item_flags")).as_tags();
 
 	std::string type = artifact.get(std::string("type")).as_string();
 	if (type == "artifact_tool")
@@ -2031,7 +2031,7 @@ void game::load_artifacts()
 
 	    it_artifact_tool* art_type = new it_artifact_tool(
 		id, price, name, description, sym, color, m1, m2, volume,
-		weight, melee_dam, melee_cut, m_to_hit, item_flags,
+		weight, melee_dam, melee_cut, m_to_hit, item_tags,
 
 		max_charges, def_charges, charges_per_use, turns_per_charge,
 		ammo, revert_to);
@@ -2102,7 +2102,7 @@ void game::load_artifacts()
 
 	    it_artifact_armor* art_type = new it_artifact_armor(
 		id, price, name, description, sym, color, m1, m2, volume,
-		weight, melee_dam, melee_cut, m_to_hit, item_flags,
+		weight, melee_dam, melee_cut, m_to_hit, item_tags,
 
 		covers, encumber, dmg_resist, cut_resist, env_resist, warmth,
 		storage);
@@ -2664,7 +2664,9 @@ z.size(), active_npc.size(), events.size());
       art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
       art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
       art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-      art->item_flags = weapon->flags;
+      if( weapon->tag != "" ) {
+          art->item_tags.insert(weapon->tag);
+      }
       // Add an extra weapon perhaps?
       art->description = "The architect's cube.";
       art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
@@ -6614,7 +6616,7 @@ void game::pickup(int posx, int posy, int min)
    decrease_nextinv();
   } else if (u.volume_carried() + newit.volume() > u.volume_capacity()) {
    if (u.is_armed()) {
-    if (!u.weapon.has_flag(IF_NO_UNWIELD)) {
+    if (!u.weapon.has_flag("NO_UNWIELD")) {
      if (newit.is_armor() && // Armor can be instantly worn
          query_yn("Put on the %s?", newit.tname(this).c_str())) {
       if(u.wear_item(this, &newit)){
@@ -6832,7 +6834,7 @@ void game::pickup(int posx, int posy, int min)
     decrease_nextinv();
    } else if (u.volume_carried() + here[i].volume() > u.volume_capacity()) {
     if (u.is_armed()) {
-     if (!u.weapon.has_flag(IF_NO_UNWIELD)) {
+     if (!u.weapon.has_flag("NO_UNWIELD")) {
       if (here[i].is_armor() && // Armor can be instantly worn
           query_yn("Put on the %s?", here[i].tname(this).c_str())) {
        if(u.wear_item(this, &(here[i])))
@@ -7411,7 +7413,7 @@ void game::plfire(bool burst)
   add_msg ("You need a free arm to drive!");
   return;
  }
- if (u.weapon.has_flag(IF_CHARGE) && !u.weapon.active) {
+ if (u.weapon.has_flag("CHARGE") && !u.weapon.active) {
   if (u.has_charges("UPS_on", 1) || u.has_charges("UPS_off", 1)) {
    add_msg("Your %s starts charging.", u.weapon.tname().c_str());
    u.weapon.charges = 0;
@@ -7424,13 +7426,13 @@ void game::plfire(bool burst)
   }
  }
 
- if ((u.weapon.has_flag(IF_STR8_DRAW)  && u.str_cur <  4) ||
-     (u.weapon.has_flag(IF_STR10_DRAW) && u.str_cur <  5)   ) {
+ if ((u.weapon.has_flag("STR8_DRAW")  && u.str_cur <  4) ||
+     (u.weapon.has_flag("STR10_DRAW") && u.str_cur <  5)   ) {
   add_msg("You're not strong enough to draw the bow!");
   return;
  }
 
- if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT) && u.weapon.charges == 0) {
+ if (u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0) {
   reload_invlet = u.weapon.pick_reload_ammo(u, true);
   if (reload_invlet == 0) {
    add_msg("Out of ammo!");
@@ -7442,15 +7444,15 @@ void game::plfire(bool burst)
   refresh_all();
  }
 
- if (u.weapon.num_charges() == 0 && !u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
+ if (u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT")) {
   add_msg("You need to reload!");
   return;
  }
- if (u.weapon.has_flag(IF_FIRE_100) && u.weapon.num_charges() < 100) {
+ if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
   add_msg("Your %s needs 100 charges to fire!", u.weapon.tname().c_str());
   return;
  }
- if (u.weapon.has_flag(IF_USE_UPS) && !u.has_charges("UPS_off", 5) &&
+ if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
      !u.has_charges("UPS_on", 5)) {
   add_msg("You need a UPS with at least 5 charges to fire that!");
   return;
@@ -7498,7 +7500,7 @@ void game::plfire(bool burst)
                                          passtarget, &u.weapon);
  draw_ter(); // Recenter our view
  if (trajectory.size() == 0) {
-  if(u.weapon.has_flag(IF_RELOAD_AND_SHOOT))
+  if(u.weapon.has_flag("RELOAD_AND_SHOOT"))
    unload(u.weapon);
   return;
  }
@@ -7507,13 +7509,13 @@ void game::plfire(bool burst)
   z[targetindices[passtarget]].add_effect(ME_HIT_BY_PLAYER, 100);
  }
 
- if (u.weapon.has_flag(IF_USE_UPS)) {
+ if (u.weapon.has_flag("USE_UPS")) {
   if (u.has_charges("UPS_off", 5))
    u.use_charges("UPS_off", 5);
   else if (u.has_charges("UPS_on", 5))
    u.use_charges("UPS_on", 5);
  }
- if (u.weapon.mode == IF_MODE_BURST)
+ if (u.weapon.mode == "MODE_BURST")
   burst = true;
 
 // Train up our skill
@@ -7822,7 +7824,7 @@ void game::reload(char chInput)
 void game::reload()
 {
  if (u.weapon.is_gun()) {
-  if (u.weapon.has_flag(IF_RELOAD_AND_SHOOT)) {
+  if (u.weapon.has_flag("RELOAD_AND_SHOOT")) {
    add_msg("Your %s does not need to be reloaded; it reloads and fires in a \
 single action.", u.weapon.tname().c_str());
    return;
@@ -7838,7 +7840,7 @@ single action.", u.weapon.tname().c_str());
           if ((u.weapon.contents[i].is_gunmod() &&
                (u.weapon.contents[i].typeId() == "spare_mag" &&
                 u.weapon.contents[i].charges < (dynamic_cast<it_gun*>(u.weapon.type))->clip)) ||
-              ((u.weapon.contents[i].has_flag(IF_MODE_AUX) &&
+              ((u.weapon.contents[i].has_flag("MODE_AUX") &&
                 u.weapon.contents[i].charges < u.weapon.contents[i].clip_size())))
           {
               alternate_magazine = i;
@@ -7892,7 +7894,7 @@ void game::unload(char chInput)
 void game::unload(item& it)
 {
     if (!it.is_gun() && it.contents.size() == 0 &&
-        (!it.is_tool() || it.ammo_type() == AT_NULL || it.has_flag(IF_NO_UNLOAD)))
+        (!it.is_tool() || it.ammo_type() == AT_NULL || it.has_flag("NO_UNLOAD")))
     {
         add_msg("You can't unload a %s!", it.tname(this).c_str());
         return;
@@ -8017,7 +8019,7 @@ void game::unload(item& it)
 
 void game::wield(char chInput)
 {
- if (u.weapon.has_flag(IF_NO_UNWIELD)) {
+ if (u.weapon.has_flag("NO_UNWIELD")) {
 // Bionics can't be unwielded
   add_msg("You cannot unwield your %s.", u.weapon.tname(this).c_str());
   return;

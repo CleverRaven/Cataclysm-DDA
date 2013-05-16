@@ -236,8 +236,8 @@ bool player::create(game *g, character_type type, std::string tempname)
  for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter) {
   item tmp = item(item_controller->find_template(*iter), 0, 'a' + worn.size());
   if (tmp.is_armor()) {
-   if (tmp.has_flag(IF_VARSIZE))
-    tmp.item_flags |= mfb(IF_FIT);
+   if (tmp.has_flag("VARSIZE"))
+    tmp.item_tags.insert("FIT");
    worn.push_back(tmp);
   } else {
    inv.push_back(tmp);

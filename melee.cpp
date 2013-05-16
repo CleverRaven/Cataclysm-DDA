@@ -40,7 +40,7 @@ bool player::is_armed()
 bool player::unarmed_attack()
 {
  return (weapon.typeId() == "null" || weapon.is_style() ||
-         weapon.has_flag(IF_UNARMED_WEAPON));
+         weapon.has_flag("UNARMED_WEAPON"));
 }
 
 int player::base_to_hit(bool real_life, int stat)
@@ -90,7 +90,7 @@ int player::hit_roll()
  }
 
 // Using a spear?
- if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)) {
+ if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
   int stab_bonus = int(skillLevel("stabbing") / 2);
   if (stab_bonus > best_bonus)
    best_bonus = stab_bonus;
@@ -153,7 +153,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
   }
   melee_practice(g->turn, *this, false, unarmed_attack(),
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
-                 (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)));
+                 (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
   move_cost += stumble_pen;
   if (weapon.has_technique(TEC_FEINT, this))
    move_cost = rng(move_cost / 3, move_cost);
@@ -254,7 +254,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   }
   melee_practice(g->turn, *this, false, unarmed_attack(),
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
-                 (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)));
+                 (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
   move_cost += stumble_pen;
   if (weapon.has_technique(TEC_FEINT, this))
    move_cost = rng(move_cost / 3, move_cost);
@@ -424,7 +424,7 @@ bool player::scored_crit(int target_dodge)
   best_skill = skillLevel("bashing");
  if (weapon.is_cutting_weapon() && skillLevel("cutting") > best_skill)
   best_skill = skillLevel("cutting");
- if ((weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)) &&
+ if ((weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) &&
      skillLevel("stabbing") > best_skill)
   best_skill = skillLevel("stabbing");
  if (unarmed_attack() && skillLevel("unarmed") > best_skill)
@@ -583,7 +583,7 @@ int player::roll_bash_damage(monster *z, bool crit)
 
 int player::roll_cut_damage(monster *z, bool crit)
 {
- if (weapon.has_flag(IF_SPEAR))
+ if (weapon.has_flag("SPEAR"))
   return 0;  // Stabs, doesn't cut!
  int z_armor_cut = (z == NULL ? 0 : z->armor_cut() - skillLevel("cutting") / 2);
 
@@ -636,7 +636,7 @@ int player::roll_stab_damage(monster *z, bool crit)
    ret++;
   if (has_trait(PF_THORNS))
    ret += 4;
- } else if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB))
+ } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
   ret = int((weapon.damage_cut() - z_armor) / 4);
  else
   return 0; // Can't stab at all!
@@ -719,7 +719,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
  if (possible.empty()) { // Use non-crits only if any crit-onlies aren't used
 
   if (weapon.has_technique(TEC_DISARM, this) && !z &&
-      p->weapon.typeId() != "null" && !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
+      p->weapon.typeId() != "null" && !p->weapon.has_flag("UNARMED_WEAPON") &&
       dice(   dex_cur +    skillLevel("unarmed"),  8) >
       dice(p->dex_cur + p->skillLevel("melee"),   10))
    possible.push_back(TEC_DISARM);
@@ -918,7 +918,7 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
 
  if (weapon.has_technique(TEC_DEF_DISARM, this) &&
      z == NULL && p->weapon.typeId() != "null" &&
-     !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
+     !p->weapon.has_flag("UNARMED_WEAPON") &&
      dice(   dex_cur +    skillLevel("unarmed"), 8) >
      dice(p->dex_cur + p->skillLevel("melee"),  10))
   return TEC_DEF_DISARM;
@@ -1204,7 +1204,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
 
 // Getting your weapon stuck
  int cutting_penalty = roll_stuck_penalty(z, stab_dam > cut_dam);
- if (weapon.has_flag(IF_MESSY)) { // e.g. chainsaws
+ if (weapon.has_flag("MESSY")) { // e.g. chainsaws
   cutting_penalty /= 6; // Harder to get stuck
   for (int x = tarposx - 1; x <= tarposx + 1; x++) {
    for (int y = tarposy - 1; y <= tarposy + 1; y++) {
@@ -1223,7 +1223,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
    g->add_msg("Your %s gets stuck in %s, pulling it out of your hands!",
               weapon.tname().c_str(), target.c_str());
   if (mon) {
-   if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB))
+   if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
     z->speed *= .7;
    else
     z->speed *= .85;
@@ -1240,7 +1240,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   if (cutting_penalty >= 50 && is_u)
    g->add_msg("Your %s gets stuck in %s, but you yank it free.",
               weapon.tname().c_str(), target.c_str());
-  if (mon && (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)))
+  if (mon && (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")))
    z->speed *= .9;
  }
 
@@ -1485,7 +1485,7 @@ std::string melee_verb(technique_id tech, std::string your, player &p,
         // verb should be based on how the weapon is used, and the total damage inflicted
 
         // if it's a stabbing weapon or a spear
-        if (p.weapon.has_flag(IF_SPEAR) || (p.weapon.has_flag(IF_STAB) && stab_dam > cut_dam))
+        if (p.weapon.has_flag("SPEAR") || (p.weapon.has_flag("STAB") && stab_dam > cut_dam))
         {
             if (bash_dam + stab_dam + cut_dam >= 30)
                 return "impale" + s;
@@ -1548,13 +1548,13 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
     }
 
     // type of weapon used determines order of practice
-    if (u.weapon.has_flag(IF_SPEAR))
+    if (u.weapon.has_flag("SPEAR"))
     {
         if (stabbing) first  = "stabbing";
         if (bashing)  second = "bashing";
         if (cutting)  third  = "cutting";
     }
-    else if (u.weapon.has_flag(IF_STAB))
+    else if (u.weapon.has_flag("STAB"))
     {
         // stabbity weapons have a 50-50 chance of raising either stabbing or cutting first
         if (one_in(2))
