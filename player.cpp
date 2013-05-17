@@ -3206,6 +3206,15 @@ int player::addiction_level(add_type type)
  return 0;
 }
 
+void player::siphon_gas(game *g, vehicle *veh)
+{
+    int fuel_amount = veh->drain(AT_GAS, veh->fuel_capacity(AT_GAS));
+    item used_item(g->itypes["gasoline"], g->turn);
+    used_item.charges = fuel_amount;
+    g->add_msg("Siphoned %d units of gasoline from the vehicle.", fuel_amount);
+    while (!g->handle_liquid(used_item, false, false)) { } // handle the gas until it's all gone
+}
+
 void player::cauterize(game *g) {
  rem_disease(DI_BLEED);
  rem_disease(DI_BITE);

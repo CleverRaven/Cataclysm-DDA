@@ -79,6 +79,7 @@ class iuse
   void crowbar		(game *g, player *p, item *it, bool t);
   void makemound	(game *g, player *p, item *it, bool t);
   void dig		(game *g, player *p, item *it, bool t);
+  void siphon	(game *g, player *p, item *it, bool t);
   void chainsaw_off	(game *g, player *p, item *it, bool t);
   void chainsaw_on	(game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);

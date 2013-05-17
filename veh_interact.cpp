@@ -81,6 +81,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
         (crafting_inv.has_amount("toolset", 1) &&
          crafting_inv.has_charges("toolset", charges/20));
     has_jack = crafting_inv.has_amount("jack", 1);
+    has_siphon = crafting_inv.has_amount("hose", 1);
 
 
     display_stats ();
@@ -110,6 +111,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
                 case 'f': do_refill(mval);  break;
                 case 'o': do_remove(mval);  break;
                 case 'e': do_rename(mval);  break;
+                case 's': do_siphon(mval);  break;
                 default:;
                 }
                 if (sel_cmd != ' ')
@@ -159,6 +161,8 @@ int veh_interact::cant_do (char mode)
                0 )
              )
             );
+    case 's': // siphon mode
+        return veh->fuel_left(AT_GAS) > 0 ? (!has_siphon? 2 : 0) : 1;
     default:
         return -1;
     }
@@ -457,6 +461,26 @@ void veh_interact::do_remove(int reason)
     }
 }
 
+void veh_interact::do_siphon(int reason)
+{
+    werase (w_msg);
+    switch (reason)
+    {
+    case 1:
+        mvwprintz(w_msg, 0, 1, c_ltred, "The vehicle has no gasoline to siphon.");
+        wrefresh (w_msg);
+        return;
+    case 2:
+        mvwprintz(w_msg, 0, 1, c_ltgray, "You need a %s to siphon fuel.",
+                  "hose");
+        mvwprintz(w_msg, 0, 12, c_red, "hose");
+        wrefresh (w_msg);
+        return;
+    default:;
+    }
+    sel_cmd = 's';
+}
+
 void veh_interact::do_rename(int reason)
 {
     std::string name = string_input_popup("Enter new vehicle name", 20);
@@ -655,6 +679,7 @@ void veh_interact::display_mode (char mode)
         bool mr = !cant_do('r');
         bool mf = !cant_do('f');
         bool mo = !cant_do('o');
+        bool ms = !cant_do('s');
         mvwprintz(w_mode, 0, 1, mi? c_ltgray : c_dkgray, "install");
         mvwputch (w_mode, 0, 1, mi? c_ltgreen : c_green, 'i');
         mvwprintz(w_mode, 0, 9, mr? c_ltgray : c_dkgray, "repair");
@@ -663,9 +688,11 @@ void veh_interact::display_mode (char mode)
         mvwputch (w_mode, 0, 18, mf? c_ltgreen : c_green, 'f');
         mvwprintz(w_mode, 0, 23, mo? c_ltgray : c_dkgray, "remove");
         mvwputch (w_mode, 0, 26, mo? c_ltgreen : c_green, 'o');
+        mvwprintz(w_mode, 0, 30, ms? c_ltgray : c_dkgray, "siphon");
+        mvwputch (w_mode, 0, 30, ms? c_ltgreen : c_green, 's');
     }
-    mvwprintz(w_mode, 0, 30, c_ltgray, "rename");
-    mvwputch (w_mode, 0, 31, c_ltgreen, 'e');
+    mvwprintz(w_mode, 0, 37, c_ltgray, "rename");
+    mvwputch (w_mode, 0, 38, c_ltgreen, 'e');
     mvwprintz(w_mode, 0, 71, c_ltgreen, "ESC");
     mvwprintz(w_mode, 0, 74, c_ltgray, "-back");
     wrefresh (w_mode);
@@ -880,7 +907,10 @@ void complete_vehicle (game *g)
                         veh->part_info(part).name, veh->name.c_str());
             veh->remove_part (part);
         }
-        //break;
+        break;
+    case 's':
+        g->u.siphon_gas(g, veh);
+        break;
     default:;
     }
 }

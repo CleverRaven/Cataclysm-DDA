@@ -1913,6 +1913,38 @@ void iuse::dig(game *g, player *p, item *it, bool t)
 */
 }
 
+void iuse::siphon(game *g, player *p, item *it, bool t)
+{
+    int posx = 0;
+    int posy = 0;
+    g->draw();
+    mvprintw(0, 0, "Siphon where?");
+    get_direction(g, posx, posy, input());
+    if (posx == -2)
+    {
+        g->add_msg_if_player(p,"Invalid direction.");
+        return;
+    }
+    // there's no self-tile check because the player could be in a vehicle
+    posx += p->posx;
+    posy += p->posy;
+    
+    vehicle* veh = g->m.veh_at(posx, posy);
+    if (veh == NULL)
+    {
+        g->add_msg_if_player(p,"There's no vehicle there.");
+        return;
+    }
+    if (veh->fuel_left(AT_GAS) == 0)
+    {
+        g->add_msg_if_player(p, "That vehicle has no fuel to siphon.");
+        return;
+    }
+    p->siphon_gas(g, veh);
+    p->moves -= 200;
+    return;
+}
+
 void iuse::chainsaw_off(game *g, player *p, item *it, bool t)
 {
  p->moves -= 80;
