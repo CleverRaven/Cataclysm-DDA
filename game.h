@@ -229,7 +229,7 @@ class game
 
   inventory crafting_inventory();  // inv_from_map, inv, & 'weapon'
   void consume_items(std::vector<component> components);
-  void consume_tools(std::vector<component> tools);
+  void consume_tools(std::vector<component> tools, bool force_available);
 
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }

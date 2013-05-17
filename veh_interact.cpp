@@ -814,7 +814,7 @@ void complete_vehicle (game *g)
         if(type!=SEL_JACK) {
             tools.push_back(component("welder", welder_charges));
             tools.push_back(component("toolset", welder_charges/20));
-            g->consume_tools(tools);
+            g->consume_tools(tools, true);
             g->add_msg ("You install a %s into the %s.",
                         vpart_list[part].name, veh->name.c_str());
             g->u.practice (g->turn, "mechanics", vpart_list[part].difficulty * 5 + 20);
@@ -827,15 +827,15 @@ void complete_vehicle (game *g)
         if (veh->parts[part].hp <= 0)
         {
             used_item = consume_vpart_item (g, veh->parts[part].id);
-            tools.push_back(component("wrench", 1));
-            g->consume_tools(tools);
+            tools.push_back(component("wrench", -1));
+            g->consume_tools(tools, true);
             tools.clear();
             dd = 0;
             veh->insides_dirty = true;
         }
         tools.push_back(component("welder", welder_charges));
         tools.push_back(component("toolset", welder_charges/20));
-        g->consume_tools(tools);
+        g->consume_tools(tools, true);
         veh->parts[part].hp = veh->part_info(part).durability;
         g->add_msg ("You repair the %s's %s.",
                     veh->name.c_str(), veh->part_info(part).name);
