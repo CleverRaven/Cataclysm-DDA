@@ -2596,6 +2596,10 @@ field& map::field_at(const int x, const int y)
  cast_to_nonant(x, y, nonant);
 */
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+ if( grid[nonant]->field_count <= 0) {
+    nulfield = field();
+    return nulfield;
+ }
 
  const int lx = x % SEEX;
  const int ly = y % SEEY;
