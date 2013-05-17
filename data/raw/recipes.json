@@ -2497,37 +2497,6 @@
                           ]
         },
 
-        {
-            "result": "broth_bone",
-            "category": "CC_DRINK",
-            "skill_pri": "cooking",
-            "difficulty": 1,
-            "time": 60000,
-            "reversible": false,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["hotplate", 6],
-                             ["toolset", 1],
-                             ["fire", -1]
-                         ],
-                         [
-                             ["pot", -1],
-                             ["rock_pot", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["bone", 10]
-                              ],
-                              [
-                                  ["water", 1],
-                                  ["water_clean", 1]
-                              ]
-                          ]
-        },
-
-
 
         {
             "result": "coffee",
@@ -2781,6 +2750,37 @@
                                   ["zucchini", 1],
                                   ["veggy", 1],
                                   ["veggy_wild", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "broth_bone",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 1,
+            "time": 60000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 6],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["bone", 10]
+                              ],
+                              [
+                                  ["water", 1],
+                                  ["water_clean", 1]
                               ]
                           ]
         },
