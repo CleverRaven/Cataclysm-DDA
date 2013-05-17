@@ -72,6 +72,8 @@ public:
  bool has_mutation(int flag) const;
  void toggle_trait(int flag);
 
+ bool in_climate_control(game *g);
+
  bool has_bionic(bionic_id b) const;
  bool has_active_bionic(bionic_id b) const;
  void add_bionic(bionic_id b);
@@ -299,6 +301,8 @@ public:
  bool my_traits[PF_MAX2];
  bool my_mutations[PF_MAX2];
  int mutation_category_level[NUM_MUTATION_CATEGORIES];
+ int next_climate_control_check;
+ bool last_climate_control_ret;
  std::vector<bionic> my_bionics;
 // Current--i.e. modified by disease, pain, etc.
  int str_cur, dex_cur, int_cur, per_cur;
