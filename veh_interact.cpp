@@ -828,7 +828,6 @@ void complete_vehicle (game *g)
     item used_item;
     bool broken;
     int bigness;
-    int fuel_amount;
 
     int dd = 2;
     switch (cmd)
@@ -910,11 +909,7 @@ void complete_vehicle (game *g)
         }
         break;
     case 's':
-        fuel_amount = veh->drain(AT_GAS, veh->fuel_capacity(AT_GAS));
-        used_item = item(g->itypes["gasoline"], g->turn);
-        used_item.charges = fuel_amount;
-        g->add_msg("Siphoned %d units of gasoline from the vehicle.", fuel_amount);
-        while (!g->handle_liquid(used_item, false, false)) { } // handle the gas until it's all gone
+        g->u.siphon_gas(g, veh);
         break;
     default:;
     }

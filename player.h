@@ -12,6 +12,7 @@
 #include "artifact.h"
 #include "mutation.h"
 #include "crafting.h"
+#include "vehicle.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -184,6 +185,7 @@ public:
  bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
+ void siphon_gas(game *g, vehicle *veh);
  void cauterize(game *g);
  void suffer(game *g);
  void vomit(game *g);

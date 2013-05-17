@@ -97,6 +97,7 @@ void Item_factory::init(){
     iuse_function_list["CROWBAR"] = &iuse::crowbar;
     iuse_function_list["MAKEMOUND"] = &iuse::makemound;
     iuse_function_list["DIG"] = &iuse::dig;
+    iuse_function_list["SIPHON"] = &iuse::siphon;
     iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
     iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
