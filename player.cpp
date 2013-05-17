@@ -151,6 +151,9 @@ player& player::operator= (const player & rhs)
 
  underwater = rhs.underwater;
  oxygen = rhs.oxygen;
+ next_climate_control_check=rhs.next_climate_control_check;
+ last_climate_control_ret=rhs.last_climate_control_ret;
+
  recoil = rhs.recoil;
  driving_recoil = rhs.driving_recoil;
  scent = rhs.scent;
