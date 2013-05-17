@@ -4969,7 +4969,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     if (vehint.sel_cmd != ' ')
     {                                                        // TODO: different activity times
         u.activity = player_activity(ACT_VEHICLE,
-                                     vehint.sel_cmd == 'f'? 200 : 20000,
+                                     vehint.sel_cmd == 'f' || vehint.sel_cmd == 's' ? 200 : 20000,
                                      (int) vehint.sel_cmd, 0);
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
