@@ -5979,26 +5979,36 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
  for (int i = worn.size() - 1; i >= 0; i--) {
   tmp = dynamic_cast<it_armor*>(worn[i].type);
   if ((tmp->covers & mfb(bp)) && tmp->storage <= 24) {
-   arm_bash = tmp->dmg_resist;
-   arm_cut  = tmp->cut_resist;
+
+// multiply by material resistance
+   arm_bash = (1 + tmp->dmg_resist) * mat_resist_factor[BASH][tmp->m1] ;
+   arm_cut  = (1 + tmp->cut_resist) * mat_resist_factor[CUT][tmp->m1] ;
+
+// already damaged armour protects less
    switch (worn[i].damage) {
    case 1:
-    arm_bash *= .8;
-    arm_cut  *= .9;
+    arm_bash -= 1;
+    arm_cut  -= 1;
     break;
    case 2:
-    arm_bash *= .7;
-    arm_cut  *= .7;
+    arm_bash -= 3;
+    arm_cut  -= 3;
     break;
    case 3:
-    arm_bash *= .5;
-    arm_cut  *= .4;
+    arm_bash -= 5;
+    arm_cut  -= 6;
     break;
    case 4:
-    arm_bash *= .2;
-    arm_cut  *= .1;
+    arm_bash -= 8;
+    arm_cut  -= 9;
     break;
    }
+    
+    if (arm_bash < 0)
+        arm_bash = 0;
+    if (arm_cut < 0)
+        arm_cut = 0;
+   
    if (((it_armor *)worn[i].type)->is_power_armor()) {
      // Power armor can only be damaged by EXTREME damage
      if (cut > arm_cut * 2 || dam > arm_bash * 2) {
