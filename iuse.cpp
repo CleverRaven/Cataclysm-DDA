@@ -1308,9 +1308,16 @@ void iuse::glowstick_active(game *g, player *p, item *it, bool t)
         // Do nothing... player::active_light and the lightmap::generate deal with this
     }
     else
-    {	// Turning it off
-        g->add_msg_if_player(p,"The glowstick dies.");
-        it->active = false;
+    {
+        if (it->charges > 0)
+        {
+            g->add_msg_if_player(p,"You can't turn off a glowstick.");
+        }
+        else
+        {
+            g->add_msg_if_player(p,"The glowstick fades out.");
+            it->active = false;
+        }
     }
 }
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
