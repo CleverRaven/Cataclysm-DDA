@@ -5346,7 +5346,7 @@ int getsquare(char c , int &off_x, int &off_y, std::string &areastring)
 void printItems(std::vector<item> &items, WINDOW* window, int page , int selected_index , bool active, game* g)
 {
     int itemsPerPage;
-    itemsPerPage=getmaxy(window)-ADVINVOFS; // fixme
+    itemsPerPage = getmaxy(window)-ADVINVOFS; // fixme
     nc_color norm = active ? c_white : c_dkgray;
     for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++)
     {
@@ -5357,7 +5357,7 @@ void printItems(std::vector<item> &items, WINDOW* window, int page , int selecte
         }
         else
         {
-            mvwprintz(window,6+x,6,norm,"%s",items[i].tname(g).c_str());
+            mvwprintz(window, 6+x, 6, norm, "%s", items[i].tname(g).c_str() );
         }
         if(items[i].charges > 0)
         {
@@ -5392,7 +5392,7 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         if(active && selected_index == i)
         {
             thiscolor = c_yellow;
-            mvwprintz( window, 6 + i, 1, thiscolor, ">>" );
+            mvwprintz(window, 6 + i, 1, thiscolor, ">>" );
         }
         else
         {
@@ -5401,21 +5401,21 @@ void printItems(player &u,WINDOW* window,int page, int selected_index, bool acti
         int size = u.inv.stack_by_letter(it.invlet).size();
         if(it.charges > 0)
         {
-            wprintz(window,thiscolor," (%d)", it.charges);
+            wprintz(window, thiscolor," (%d)", it.charges);
         }
         else if(it.contents.size() == 1 &&
                 it.contents[0].charges > 0)
         {
-            wprintz(window,thiscolor," (%d)",it.contents[0].charges);
+            wprintz(window, thiscolor, " (%d)", it.contents[0].charges);
         }
         if(size < 1) {
              size=1;
         } else if (size > 1) {
              mvwprintz(window, 6 + i, amount_column, thiscolor, "[%d]", size);
         }
-        mvwprintz(window,6+i,rightcol,(it.weight() > 0 ? thiscolor : c_dkgray),
+        mvwprintz(window, 6+i,rightcol, (it.weight() > 0 ? thiscolor : c_dkgray),
                   "%3d", it.weight() * size );
-        wprintz(window,(it.volume() > 0 ? thiscolor : c_dkgray), " %3d", it.volume() * size );
+        wprintz(window, (it.volume() > 0 ? thiscolor : c_dkgray), " %3d", it.volume() * size );
     }
 }
 
@@ -5433,13 +5433,26 @@ void printHeader(std::vector<bool> &canputitems, WINDOW* window,int area)
     mvwprintz(window,2,25, canputitems[0] ? (area == 0 ? c_yellow : c_white) : c_red , "[I]");
 }
 
+struct advanced_inv_pane {
+  int pos;
+  int area, offx, offy, size, vstor;  // quick lookup later
+  int index, max_page, max_index, page;
+  std::string area_string;        
+  vehicle *veh;
+  WINDOW *window;
+  //std::vector<item> items;
+};
+
 void game::advanced_inv()
 {
-    const int head_height = 5;	// 7 is wasteful
+    const int head_height = 5;
     const int min_w_height = 10;
-    //80x25
     const int min_w_width = 80;
     const int max_w_width = 120;
+
+    const int left = 0;  // readability, should be #define..
+    const int right = 1;
+    const int isinventory = 0;
 
     int itemsPerPage = 10;
     int w_height = (TERMY<min_w_height+head_height) ? min_w_height : TERMY-head_height;
@@ -5452,7 +5465,7 @@ void game::advanced_inv()
     }
     int headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
     int colstart = (TERMX > w_width) ? (TERMX - w_width)/2 : 0;
-    WINDOW *head = newwin(head_height,w_width, headstart ,colstart);
+    WINDOW *head = newwin(head_height,w_width, headstart, colstart);
     WINDOW *left_window = newwin(w_height,w_width/2, headstart+head_height,colstart);
     WINDOW *right_window = newwin(w_height,w_width/2, headstart+head_height,colstart+w_width/2);
 
@@ -5471,186 +5484,147 @@ void game::advanced_inv()
     canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1)) && !(m.has_flag(sealed,u.posx+1,u.posy-1) ));
     bool exit = false;
     bool redraw = true;
+
     int lastCh = 0;
-    vehicle *left_veh = NULL;
-    vehicle *right_veh = NULL;
-    int left_vstor = -1;
-    int right_vstor = -1;
 
-    // page : the current page, index : the current selected index on the page , size : the total number of item in that tab
-    int left_page = 0; int left_index = 0; int left_size = 0;
-    int right_page = 0; int right_index = 0; int right_size = 0;
+    advanced_inv_pane panes[2];
+    for (int i = 0; i < 2; i++) {
+        panes[i].pos = i;
+        panes[i].area = 0;
+        panes[i].offx = 0;
+        panes[i].offy = 0;
+        panes[i].size = 0;
+        panes[i].vstor = -1;
+        panes[i].index = 0;
+        panes[i].max_index = 0;
+        panes[i].page = 0;
+        panes[i].max_page = 0;
+        panes[i].area_string = "initializing...";
+        panes[i].veh = NULL;
+    }
+    panes[right].area = 5;
+    panes[left].window = left_window;
+    panes[right].window = right_window;
 
-    int max_left_page = 0; int max_left_index = 0;
-    int max_right_page = 0; int max_right_index = 0;
+    int src = left; // the active screen , 0 for left , 1 for right.
+    int dest = right;
 
-    int left_offx = 0; int left_offy = 0;
-    int right_offx = 0; int right_offy = 0;
-
-    int left_area = 0; // the left screen is default to 0 , which is the player inventory.
-    int right_area = 5; // the right screen is default to 5 , which is where the player is standing.
-    std::string left_area_string = "Inventory";
-    std::string right_area_string = "Directly below you";
-
-    int screen = 0; // the active screen , 0 for left , 1 for right.
     while(!exit)
     {
+        dest = (src==left ? right : left);
         if(redraw)
         {
-            // calculate the offset.
-            getsquare(left_area, left_offx,left_offy,left_area_string);
-            getsquare(right_area, right_offx,right_offy,right_area_string);
-
-            // calculate page size and vehicle || floor || inventory target
-            left_veh=NULL;
-            left_vstor=-1;
-            if ( left_area == 0 )  {
-              left_size=u.inv.size();
-            } else {
-              int vp=0;
-              left_veh=m.veh_at(u.posx+left_offx,u.posy+left_offy,vp);
-              if (left_veh) left_vstor=left_veh->part_with_feature(vp, vpf_cargo, false);
-              left_size=(left_vstor >= 0 ? left_veh->parts[left_vstor].items.size() : m.i_at(u.posx+left_offx,u.posy+left_offy).size());
+            for (int i = 0; i < 2; i++) {
+                // calculate the offset.
+                getsquare(panes[i].area, panes[i].offx, panes[i].offy, panes[i].area_string);
+                // calculate page size and vehicle || floor || inventory target
+                panes[i].veh = NULL;
+                panes[i].vstor = -1;
+                if ( panes[i].area == isinventory ) {
+                    panes[i].size = u.inv.size();
+                } else {
+                    int vp = 0;
+                    panes[i].veh = m.veh_at(u.posx+panes[i].offx,u.posy+panes[i].offy,vp);
+                    if ( panes[i].veh ) panes[i].vstor = panes[i].veh->part_with_feature(vp, vpf_cargo, false);
+                    panes[i].size = ( panes[i].vstor >= 0 ? 
+                        panes[i].veh->parts[panes[i].vstor].items.size() :
+                        m.i_at(u.posx+panes[i].offx,u.posy+panes[i].offy).size()
+                    );
+                }
+                // paginate (not sure why)
+                panes[i].max_page = (int)ceil(panes[i].size/(itemsPerPage+0.0)); //(int)ceil(panes[i].size/20.0);
+                panes[i].max_index = panes[i].page == (-1 + panes[i].max_page) ? ((panes[i].size % itemsPerPage)==0?itemsPerPage:panes[i].size % itemsPerPage) : itemsPerPage;
+                // check if things are out of bound
+                panes[i].index = (panes[i].index >= panes[i].max_index) ? panes[i].max_index - 1 : panes[i].index;
+                panes[i].page = panes[i].max_page == 0 ? 0 : ( panes[i].page >= panes[i].max_page ? panes[i].max_page - 1 : panes[i].page);
+                // draw the stuff
+                werase(panes[i].window);
+                mvwprintz(panes[i].window,1,2,src == i ? c_blue : c_white, "%s", panes[i].area_string.c_str());
+                
+                if(panes[i].area == isinventory)
+                {
+                    printItems(u, panes[i].window, panes[i].page, panes[i].index,(src == i), this);
+                }
+                else
+                {
+                    printItems(
+                        panes[i].vstor >= 0 ? panes[i].veh->parts[panes[i].vstor].items : m.i_at( u.posx+panes[i].offx, u.posy+panes[i].offy ),
+                        panes[i].window, panes[i].page, panes[i].index,(src == i), this );
+                }
+                printHeader(canputitems, panes[i].window, panes[i].area);
+                mvwprintz(panes[i].window,1,(w_width/2)-7,(src==i ? c_ltgray : c_dkgray),"%2d/%d", panes[i].size, i == isinventory ? 75 : MAX_ITEM_IN_SQUARE );
             }
-            right_veh=NULL;
-            right_vstor=-1;
-            if ( right_area == 0 )  {
-              right_size=u.inv.size();
-            } else {
-              int vp=0;
-              right_veh=m.veh_at(u.posx+right_offx,u.posy+right_offy,vp);
-              if (right_veh) right_vstor=right_veh->part_with_feature(vp, vpf_cargo, false);
-              right_size=(right_vstor >= 0 ? right_veh->parts[right_vstor].items.size() : m.i_at(u.posx+right_offx,u.posy+right_offy).size());
-            }
 
-            max_left_page = (int)ceil(left_size/(itemsPerPage+0.0)); //(int)ceil(left_size/20.0);
-            max_left_index = left_page == (-1 + max_left_page) ? ((left_size % itemsPerPage)==0?itemsPerPage:left_size % itemsPerPage) : itemsPerPage;
-            max_right_page = (int)ceil(right_size/(itemsPerPage+0.0));
-            max_right_index = right_page == (-1 + max_right_page) ? ((right_size % itemsPerPage)==0?itemsPerPage:right_size % itemsPerPage) : itemsPerPage;
-            // check if things are out of bound
-            left_index = (left_index >= max_left_index) ? max_left_index - 1 : left_index;
-            left_page = max_left_page == 0 ? 0 : ( left_page >= max_left_page ? max_left_page - 1 : left_page);
-            right_index = (right_index >= max_right_index) ? max_right_index - 1 : right_index;
-            right_page = max_right_page == 0 ? 0 : ( right_page >= max_right_page ? max_right_page - 1 : right_page);
             werase(head);
-            werase(left_window);
-            werase(right_window);
-            mvwprintz(left_window,1,2,screen == 0 ? c_blue : c_white, "%s",left_area_string.c_str());
-
-            mvwprintz(right_window,1,2,screen == 1 ? c_blue : c_white,"%s",right_area_string.c_str());
             {
-            // print the header.
+                // print the header.
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
                 mvwprintz(head,1,3, c_white, "hjkl or arrow keys to move cursor");
+                //wprintz(head, c_white, " %d %d/%d %d/%d",panes[src].size,panes[src].index,panes[src].max_index,panes[src].page,panes[src].max_page);
                 mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
                 mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)");
                 mvwprintz(head,1,(w_width/2), c_white, "[m]ove item between screen.");
                 mvwprintz(head,2,(w_width/2), c_white, "[e]amine item.");
                 mvwprintz(head,3,(w_width/2), c_white, "[q]uit/exit this screen");
             }
-            if(left_area == 0)
-            {
-                printItems(u,left_window,left_page,left_index,(screen == 0), this);
+
+            if(panes[src].max_page > 1 ) {
+                mvwprintz(panes[src].window, 4, 2, c_ltblue, "[<] page %d of %d [>]", panes[src].page+1, panes[src].max_page);
             }
-            else
-            {
-                printItems(
-                   left_vstor >= 0 ? left_veh->parts[left_vstor].items : m.i_at(u.posx+left_offx,u.posy+left_offy),
-                   left_window,left_page,left_index,(screen == 0) , this);
-            }
-            if(right_area == 0)
-            {
-                printItems(u,right_window,right_page,right_index,(screen == 1),this);
-            }
-            else
-            {
-                printItems(
-                   right_vstor >= 0 ? right_veh->parts[right_vstor].items : m.i_at(u.posx+right_offx,u.posy+right_offy),
-                   right_window,right_page,right_index,(screen == 1), this);
-            }
-            if(screen == 0 && max_left_page > 1) mvwprintz(left_window,4,2,c_ltblue,"[<] page %d of %d [>]",left_page+1,max_left_page);
-            if(screen == 1  && max_right_page > 1) mvwprintz(right_window,4,2,c_ltblue,"[<] page %d of %d [>]",right_page+1,max_right_page);
-            printHeader(canputitems,left_window,left_area);
-            printHeader(canputitems,right_window,right_area);
-            mvwprintz(left_window,1,(w_width/2)-7,(screen==0 ? c_ltgray : c_dkgray),"%2d/75",left_size);
-            mvwprintz(right_window,1,(w_width/2)-7,(screen==1 ? c_ltgray : c_dkgray),"%2d/75",right_size);
             redraw = false;
         }
         // todo: struct screen_vars  (for the love of god)
-        int src_offx  = screen == 0 ? left_offx  : right_offx;
-        int src_offy  = screen == 0 ? left_offy  : right_offy;
-        int src_index = screen == 0 ? left_index : right_index;
-        int src_page  = screen == 0 ? left_page  : right_page;
-        int src_size  = screen == 0 ? left_size  : right_size;
-        int src_area  = screen == 0 ? left_area  : right_area;
-        int dest_area = screen == 0 ? right_area : left_area;
-        int dest_offx = screen == 0 ? right_offx : left_offx;
-        int dest_offy = screen == 0 ? right_offy : left_offy;
-        int dest_size = screen == 0 ? right_size : left_size;
-        int src_vstor = screen == 0 ? left_vstor  : right_vstor;
-        int dest_vstor = screen == 1 ? left_vstor  : right_vstor;
-        vehicle *src_veh = screen == 0 ? left_veh  : right_veh;
-        vehicle *dest_veh = screen == 1 ? left_veh  : right_veh;
 
-        int item_pos = src_index + (src_page * itemsPerPage);
-        wborder(left_window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
-        wborder(right_window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+        int item_pos = panes[src].index + (panes[src].page * itemsPerPage);
+
+        wborder(panes[left].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+        wborder(panes[right].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
         wrefresh(head);
-        wrefresh(left_window);
-        wrefresh(right_window);
+        wrefresh(panes[left].window);
+        wrefresh(panes[right].window);
         int c = lastCh ? lastCh : getch();
         lastCh = 0;
         int changeSquare;
-        if(screen == 0)
-        {
-            changeSquare = getsquare((char)c, left_offx, left_offy, left_area_string);
-        }
-        else
-        {
-            changeSquare = getsquare((char)c, right_offx, right_offy, right_area_string);
-        }
+
+        if(c == 'i')
+            c = (char)'0';
+
+        changeSquare = getsquare((char)c, panes[src].offx, panes[src].offy, panes[src].area_string);
+
         if(changeSquare != -1)
         {
-            if(left_area == changeSquare || right_area == changeSquare) // do nthing
+            if(panes[left].area == changeSquare || panes[right].area == changeSquare) // do nthing
             {
                 lastCh = (int)popup_getkey("same square!");
-                if(lastCh == 'q' || lastCh == KEY_ESCAPE) lastCh = 0;
+                if(lastCh == 'q' || lastCh == KEY_ESCAPE || lastCh == ' ' ) lastCh=0;
             }
             else if(canputitems[changeSquare])
             {
-                if(screen == 0)
-                {
-                    left_area = changeSquare;
-                }
-                else
-                {
-                    right_area = changeSquare;
-                }
+                panes[src].area = changeSquare;
                 redraw = true;
             }
             else
             {
-                popup("You can't put item there");
+                popup("You can't put items there");
             }
         }
         else if('m' == c)
         {
             // If the active screen has no item.
-            if((screen == 0 && left_size == 0) ||
-               (screen == 1 && right_size == 0))
+            if( panes[src].size == 0 ) 
             {
                 continue;
             }
-            if(src_area == 0) // if the active screen is inventory.
+            if(panes[src].area == isinventory) // if the active screen is inventory.
             {
-                if(dest_size >= MAX_ITEM_IN_SQUARE)
+                if(panes[dest].size >= MAX_ITEM_IN_SQUARE)
                 {
                     popup("Destination area is full. Remove some item first");
                 }
                 else
                 {
                     //if target item has stack
-                    int max = (MAX_ITEM_IN_SQUARE - dest_size); // vehicle fixme (?)
+                    int max = (MAX_ITEM_IN_SQUARE - panes[dest].size); // vehicle fixme (?)
                     // TODO figure out a better way to get the item
                     item* it = &u.inv.slice(item_pos, 1).front()->front();
                     std::list<item>& stack = u.inv.stack_by_letter(it->invlet);
@@ -5673,13 +5647,13 @@ void game::advanced_inv()
                                     iter != moving_items.end();
                                     ++iter)
                                 {
-                                    if(dest_vstor >= 0) {
-                                        if(dest_veh->add_item(dest_vstor,*iter) == false) {
+                                    if(panes[dest].vstor >= 0) {
+                                        if(panes[dest].veh->add_item(panes[dest].vstor,*iter) == false) {
                                           popup("Destination full. Please report a bug if items have vanished.");
                                           continue;
                                         }
                                     } else {
-                                        m.add_item(u.posx+dest_offx,u.posy+dest_offy,*iter);
+                                        m.add_item(u.posx+panes[dest].offx, u.posy+panes[dest].offy, *iter);
                                     }
                                 }
                                 u.moves -= 100;
@@ -5694,14 +5668,14 @@ void game::advanced_inv()
                         {
 
                             item moving_item = u.inv.remove_item_by_charges(it->invlet,amount);
-                            if(dest_vstor>=0) {
-                                if(dest_veh->add_item(dest_vstor,moving_item) == false) {
+                            if(panes[dest].vstor>=0) {
+                                if(panes[dest].veh->add_item(panes[dest].vstor,moving_item) == false) {
                                    // fixme add item back (test)
                                    popup("Destination full. Please report a bug if items have vanished.");
                                    continue;
                                 }
                             } else {
-                              m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
+                              m.add_item(u.posx+panes[dest].offx,u.posy+panes[dest].offy,moving_item);
                             }
                             u.moves -= 100;
                         }
@@ -5709,14 +5683,14 @@ void game::advanced_inv()
                     else // no stack / no charge just move it :D
                     {
                         item moving_item = u.inv.remove_item_by_letter(it->invlet);
-                            if(dest_vstor>=0) {
-                                if(dest_veh->add_item(dest_vstor,moving_item) == false) {
+                            if(panes[dest].vstor>=0) {
+                                if(panes[dest].veh->add_item(panes[dest].vstor,moving_item) == false) {
                                    // fixme add item back (test)
                                    popup("Destination full. Please report a bug if items have vanished.");
                                    continue;
                                 }
                             } else {
-                                m.add_item(u.posx+dest_offx,u.posy+dest_offy,moving_item);
+                                m.add_item(u.posx+panes[dest].offx,u.posy+panes[dest].offy,moving_item);
                             }
                         u.moves -= 100;
                     }
@@ -5724,8 +5698,9 @@ void game::advanced_inv()
             }
             else // moving item from square to inventory
             {
-                std::vector<item> src_items = src_vstor >= 0 ?
-                  src_veh->parts[src_vstor].items : m.i_at(u.posx+src_offx,u.posy+src_offy);
+                std::vector<item> src_items = panes[src].vstor >= 0 ?
+                    panes[src].veh->parts[panes[src].vstor].items :
+                    m.i_at(u.posx+panes[src].offx,u.posy+panes[src].offy);
                 if(src_items[item_pos].made_of(LIQUID))
                 {
                     popup("You can't pick up liquid.");
@@ -5733,7 +5708,7 @@ void game::advanced_inv()
                 }
                 else
                 {
-                    if(dest_area == 0) // if destination is inventory
+                    if(panes[dest].area == isinventory) // if destination is inventory
                     {
                         if(!u.can_pickVolume(src_items[item_pos].volume()))
                         {
@@ -5745,7 +5720,7 @@ void game::advanced_inv()
                             popup("This is too heavy!");
                             continue;
                         }
-                        else if(src_size >= inv_chars.size())
+                        else if(panes[src].size >= inv_chars.size())
                         {
                             popup("Too many itens");
                             continue;
@@ -5753,35 +5728,35 @@ void game::advanced_inv()
                     }
                     else //destination is also a square
                     {
-                        if(dest_size >= MAX_ITEM_IN_SQUARE)
+                        if(panes[dest].size >= MAX_ITEM_IN_SQUARE)
                         {
                             popup("Destination area is full. Remove some item first");
                             continue;
                         }
                     }
                     item new_item = src_items[item_pos];
-                    if(dest_area == 0)
+                    if(panes[dest].area == isinventory)
                     {
                         new_item.invlet = nextinv;
                         advance_nextinv();
                         u.i_add(new_item,this);
                         u.moves -= 100;
                     }
-                    else if (dest_vstor >= 0)
+                    else if (panes[dest].vstor >= 0)
                     {
-                       if(dest_veh->add_item(dest_vstor,new_item) == false) {
+                       if( panes[dest].veh->add_item( panes[dest].vstor, new_item ) == false) {
                          popup("Destination area is full. Remove some item first");
                          continue;
                        }
                     }
                     else
                     {
-                        m.add_item(u.posx+dest_offx,u.posy+dest_offy,new_item);//vfixme
+                        m.add_item(u.posx+panes[dest].offx,u.posy+panes[dest].offy,new_item);//vfixme
                     }
-                    if(src_vstor>=0) {
-                      src_veh->remove_item (src_vstor, item_pos);
+                    if(panes[src].vstor>=0) {
+                        panes[src].veh->remove_item (panes[src].vstor, item_pos);
                     } else {
-                      m.i_rem(u.posx+src_offx,u.posy+src_offy,item_pos);//vfixme
+                        m.i_rem(u.posx+panes[src].offx,u.posy+panes[src].offy,item_pos);//vfixme
                     }
                 }
             }
@@ -5789,68 +5764,41 @@ void game::advanced_inv()
         }
         else if('e' == c)
         {
-            if((screen == 0 && left_size == 0) || (screen == 1 && right_size == 0))
+            if(panes[src].size == 0)
                 continue;
             item it;
-            if(src_area == 0) {
+            if(panes[src].area == isinventory) {
 		it = u.inv.slice(item_pos, 1)[0]->front();
             } else {
-                std::vector<item> src_items = src_vstor>=0 ?
-                  src_veh->parts[src_vstor].items : m.i_at(u.posx+src_offx , u.posy+src_offy);
+                std::vector<item> src_items = panes[src].vstor >= 0 ? // fixme stored, non-src dependant items list
+                    panes[src].veh->parts[panes[src].vstor].items :
+                    m.i_at(u.posx+panes[src].offx , u.posy+panes[src].offy );
                 it = src_items[item_pos];
             }
             std::vector<iteminfo> vThisItem, vDummy, vMenu;
             it.info(true, &vThisItem);
-            compare_split_screen_popup(1+colstart+(screen==0 ? w_width/2 : 0),(w_width/2)-2,0, it.tname(this), vThisItem, vDummy);
+            compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ), (w_width/2)-2, 0, it.tname(this), vThisItem, vDummy);
             redraw = true;
         }
-        else if('q' == c || KEY_ESCAPE == c)
+        else if( 'q' == c || KEY_ESCAPE == c || ' ' == c )
         {
             exit = true;
         }
         else if('>' == c || KEY_NPAGE == c)
         {
-            if(screen == 0)
-            {
-                left_page++;
-                if(left_page >= max_left_page)
-                {
-                    left_page = 0;
-                }
-            }
-            else
-            {
-                right_page++;
-                if(right_page >= max_right_page)
-                {
-                    right_page = 0;
-                }
-            }
+            panes[src].page++;
+            if( panes[src].page >= panes[src].max_page ) panes[src].page = 0;
             redraw = true;
         }
         else if('<' == c || KEY_PPAGE == c)
         {
-            if(screen == 0)
-            {
-                left_page--;
-                if(left_page < 0)
-                {
-                    left_page = max_left_page - 1;
-                }
-            }
-            else
-            {
-                right_page--;
-                if(right_page < 0)
-                {
-                    right_page = max_right_page - 1;
-                }
-            }
+            panes[src].page--;
+            if( panes[src].page < 0 ) panes[src].page = panes[src].max_page;
             redraw = true;
         }
         else
         {
-            int changex = 0;
+            int changex = -1;
             int changey = 0;
             bool donothing = false;
             switch(c)
@@ -5865,14 +5813,14 @@ void game::advanced_inv()
                     break;
                 case 'h':
                 case KEY_LEFT:
-                    changex = -1;
+                    changex = 0;
                     break;
                 case 'l':
                 case KEY_RIGHT:
                     changex = 1;
                     break;
                 case '\t':
-                    changex = (screen == 0 ? 1 : -1); // toggle
+                    changex = dest;
                     break;
                 default :
                     donothing = true;
@@ -5880,36 +5828,29 @@ void game::advanced_inv()
             }
             if(!donothing)
             {
-                if(screen == 0)
-                {
-                    left_index += changey;
-                    left_index = left_index < 0 ? 0 : left_index;
-                    left_index = left_index >= max_left_index ? max_left_index-1 : left_index;
-                    if(1 == changex)
-                    {
-                        screen = 1;
-                    }
+                panes[src].index += changey;
+                if ( panes[src].index < 0 ) {
+                    //panes[src].index = 0;
+                    panes[src].page--;
+                    if( panes[src].page < 0 ) panes[src].page = panes[src].max_page-1;
+                    panes[src].index = itemsPerPage; // corrected at the start of next iteration
+                } else if ( panes[src].index >= panes[src].max_index ) {
+                    //panes[src].index = panes[src].max_index-1;
+                    panes[src].page++;
+                    if( panes[src].page >= panes[src].max_page ) panes[src].page = 0;
+                    panes[src].index = 0;
                 }
-                else
-                {
-                    right_index += changey;
-                    right_index = right_index < 0 ? 0 : right_index;
-                    right_index = right_index >= max_right_index ? max_right_index-1 : right_index;
-                    if(-1 == changex)
-                    {
-                        screen = 0;
-                    }
-                }
+                if ( changex >= 0 ) src = changex;
                 redraw = true;
             }
         }
     }
     werase(head);
-    werase(left_window);
-    werase(right_window);
+    werase(panes[left].window);
+    werase(panes[right].window);
     delwin(head);
-    delwin(left_window);
-    delwin(right_window);
+    delwin(panes[left].window);
+    delwin(panes[right].window);
     refresh_all();
 }
 
