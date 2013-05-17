@@ -1,6 +1,7 @@
 #if (defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
 #include "options.h"
+#include "output.h"
 #include "color.h"
 #include <cstdlib>
 #include <fstream>
@@ -357,6 +358,16 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
     if (begin_y < 0 || begin_x < 0) {
         return NULL; //it's the caller's problem now (since they have logging functions declared)
+    }
+
+    // default values
+    if (ncols == 0)
+    {
+        ncols = TERMX - begin_x;
+    }
+    if (nlines == 0)
+    {
+        nlines = TERMY - begin_y;
     }
 
     int i,j;
