@@ -279,7 +279,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
  case ot_crater:
   for(int i = 0; i < 4; i++)
-    if(t_nesw[i] == ot_crater)
+    if(t_nesw[i] != ot_crater)
         nesw_fac[i] = 6;
 
   for (int i = 0; i < SEEX * 2; i++) {
@@ -10010,6 +10010,9 @@ break;
    nesw_fac[i] = (t_nesw[i] == ot_cavern || t_nesw[i] == ot_subway_ns ||
                   t_nesw[i] == ot_subway_ew ? 0 : 3);
   }
+  e_fac = SEEX * 2 - 1 - e_fac;
+  s_fac = SEEY * 2 - 1 - s_fac;
+
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if ((j < n_fac || j > s_fac || i < w_fac || i > e_fac) &&
