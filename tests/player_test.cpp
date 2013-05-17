@@ -1,6 +1,7 @@
 /* Needs to come before tap lib for some reason? */
 #include "player.h"
 #include "game.h"
+#include "overmapbuffer.h"
 #include "item_factory.h"
 
 /* libtap doesn't extern C their headers, so we do it for them. */
@@ -77,7 +78,7 @@ int main(int argc, char *argv[])
  dummy.name = "dummy";
  fakeworld.m = map( &fakeworld.itypes, &fakeworld.mapitems, &fakeworld.traps );
  fakeworld.u = dummy;
- fakeworld.cur_om = overmap( &fakeworld, 0, 0 );
+ fakeworld.cur_om = &overmap_buffer.get(&fakeworld, 0, 0);
  fakeworld.m.load( &fakeworld, fakeworld.levx, fakeworld.levy, fakeworld.levz );
 
 
