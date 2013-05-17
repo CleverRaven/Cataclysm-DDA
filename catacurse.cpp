@@ -487,7 +487,7 @@ int refresh(void)
 
 int getch(void)
 {
-    wgetch(mainwin);
+    return wgetch(mainwin);
 }
 
 //Not terribly sure how this function is suppose to work,
