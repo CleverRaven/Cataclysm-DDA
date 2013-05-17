@@ -924,12 +924,25 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         it->charges++;
         return;
     }
-    if (!fix->made_of(COTTON) && !fix->made_of(WOOL))
+    if (!fix->made_of(COTTON) && !fix->made_of(WOOL) && !fix->made_of(LEATHER))
 	{
-        g->add_msg_if_player(p,"Your %s is not made of cotton or wool.", fix->tname().c_str());
+        g->add_msg_if_player(p,"Your %s is not made of cotton,wool or leather.", fix->tname().c_str());
         it->charges++;
         return;
     }
+    if ((fix->made_of(COTTON) || fix->made_of(WOOL)) && !p->has_amount("rag",1))
+        {
+        g->add_msg_if_player(p,"You don't have enough rags to do that.");
+        it->charges++;
+        return;
+    }
+    if (fix->made_of(LEATHER) && !p->has_amount("leather",1))
+        {
+        g->add_msg_if_player(p,"You don't have enough leather to do that.");
+        it->charges++;
+        return;
+    }
+ 
     if (fix->damage < 0)
 	{
         g->add_msg_if_player(p,"Your %s is already enhanced.", fix->tname().c_str());
