@@ -5981,8 +5981,8 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
   if ((tmp->covers & mfb(bp)) && tmp->storage <= 24) {
 
 // multiply by material resistance
-   arm_bash = (1 + tmp->dmg_resist) * mat_resist_factor[BASH][tmp->m1] ;
-   arm_cut  = (1 + tmp->cut_resist) * mat_resist_factor[CUT][tmp->m1] ;
+   arm_bash = (1 + tmp->dmg_resist) * mat_resist_factor[BASH][tmp->m1];
+   arm_cut  = (1 + tmp->cut_resist) * mat_resist_factor[CUT][tmp->m1];
 
 // already damaged armour protects less
    switch (worn[i].damage) {
@@ -5991,16 +5991,16 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
     arm_cut  -= 1;
     break;
    case 2:
+    arm_bash -= 2;
+    arm_cut  -= 2;
+    break;
+   case 3:
     arm_bash -= 3;
     arm_cut  -= 3;
     break;
-   case 3:
-    arm_bash -= 5;
-    arm_cut  -= 6;
-    break;
    case 4:
-    arm_bash -= 8;
-    arm_cut  -= 9;
+    arm_bash -= 4;
+    arm_cut  -= 4;
     break;
    }
     
@@ -6017,32 +6017,58 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
 
        worn[i].damage++;
      }
-   } else {
-// Wool, leather, and cotton clothing may be damaged by CUTTING damage
-   if ((worn[i].made_of(WOOL)   || worn[i].made_of(LEATHER) ||
-        worn[i].made_of(COTTON) || worn[i].made_of(GLASS)   ||
-        worn[i].made_of(WOOD)   || worn[i].made_of(KEVLAR)) &&
-       rng(0, tmp->cut_resist * 2) < cut && !one_in(cut))
-   {
-    if (!is_npc())
+   } 
+   else 
     {
-     g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
-    }
-    worn[i].damage++;
-   }
-// Kevlar, plastic, iron, steel, and silver may be damaged by BASHING damage
-   if ((worn[i].made_of(PLASTIC) || worn[i].made_of(IRON)   ||
-        worn[i].made_of(STEEL)   || worn[i].made_of(SILVER) ||
-        worn[i].made_of(STONE))  &&
-       rng(0, tmp->dmg_resist * 2) < dam && !one_in(dam))
-   {
-    if (!is_npc())
-    {
-     g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
-    }
-    worn[i].damage++;
-   }
-   }
+        // determine which damage type is dominant
+        bool bash_check = false;
+        bool cut_check = false;
+    
+        // if both damage types are severe (arbitrarily set at 20), then check both types
+        if (dam > 20)
+            bash_check = true;
+        if (cut > 20)
+            cut_check = true;
+        
+        // otherwise check which damage type dominates
+        if (dam > cut)
+        {
+            bash_check = true;
+        }
+        else if (dam < cut)
+        {
+            cut_check = true;
+        }
+        else // equal chances of either damage type
+        {
+            if (one_in(2))
+                bash_check = true;
+            else
+                cut_check = true;
+        }
+
+        // checks only the first material that the armor is made from
+        // on the assumption that the first material is the dominant material
+        // TODO: should incorporate second material as well?
+
+        if (bash_check && rng(0, (10 + tmp->dmg_resist) * mat_resist_factor[BASH][tmp->m1]) < dam && !one_in(dam))
+        {
+            if (!is_npc())
+            {
+                g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
+            }
+            worn[i].damage++;        
+        }
+        
+        if (cut_check && rng(0, (10 + tmp->cut_resist) * mat_resist_factor[CUT][tmp->m1]) < cut && !one_in(cut))
+        {
+            if (!is_npc())
+            {
+                g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
+            }
+            worn[i].damage++;        
+        }
+    }  
    if (worn[i].damage >= 5) {
     if (!is_npc())
      g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
