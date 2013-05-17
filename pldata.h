@@ -1,8 +1,9 @@
 #ifndef _PLDATA_H_
 #define _PLDATA_H_
 
-#include <sstream>
 #include "enums.h"
+#include <sstream>
+#include <vector>
 
 enum character_type {
  PLTYPE_CUSTOM,
@@ -44,7 +45,7 @@ enum dis_type {
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
 // Fields
- DI_SMOKE, DI_ONFIRE, DI_TEARGAS,
+ DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_DEAF, DI_BLIND,

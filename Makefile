@@ -7,6 +7,9 @@
 #   make NATIVE=linux32
 # Linux cross-compile to Win32
 #   make CROSS=i686-pc-mingw32-
+#   or make CROSS=i586-mingw32msvc-
+#   or whichever prefix your crosscompiler uses
+#      as long as its name contains mingw32
 # Win32
 #   Run: make NATIVE=win32
 # OS X
@@ -47,7 +50,7 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_GAME
 
 
-VERSION = 0.4
+VERSION = 0.5
 
 
 TARGET = cataclysm
@@ -81,38 +84,57 @@ W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
 #ifeq ($(OS), Msys)
 #  LDFLAGS = -static -lpdcurses
 #else
-  LDFLAGS += -lncurses
+#  LDFLAGS += -lncurses
 #endif
+
+# Check if called without a special build target
+ifeq ($(NATIVE),)
+  ifeq ($(CROSS),)
+    TARGETSYSTEM=LINUX
+  endif
+endif
 
 # Linux 64-bit
 ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
+  TARGETSYSTEM=LINUX
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
+    TARGETSYSTEM=LINUX
   endif
 endif
+
 # OSX
 ifeq ($(NATIVE), osx)
   CXXFLAGS += -mmacosx-version-min=10.6
+  TARGETSYSTEM=LINUX
 endif
+
 # Win32 (mingw32?)
 ifeq ($(NATIVE), win32)
-  TARGET = $(W32TARGET)
-  BINDIST = $(W32BINDIST)
-  BINDIST_CMD = $(W32BINDIST_CMD)
-  ODIR = $(W32ODIR)
-  W32LDFLAGS = -Wl,-stack,12000000,-subsystem,windows
-  LDFLAGS += -static -lgdi32
+  TARGETSYSTEM=WINDOWS
 endif
+
 # MXE cross-compile to win32
-ifeq ($(CROSS), i686-pc-mingw32-)
+ifneq (,$(findstring mingw32,$(CROSS)))
+  TARGETSYSTEM=WINDOWS
+endif
+
+# Global settings for Linux targets
+ifeq ($(TARGETSYSTEM),LINUX)
+  LDFLAGS += -lncurses
+endif
+
+# Global settings for Windows targets
+ifeq ($(TARGETSYSTEM),WINDOWS)
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -lgdi32
+  LDFLAGS += -static -lgdi32 
+  W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
 endif
 
 SOURCES = $(wildcard *.cpp)

@@ -1,9 +1,6 @@
 #ifndef _ITEM_FACTORY_H_
 #define _ITEM_FACTORY_H_
 
-#include <string>
-#include <vector>
-#include <map>
 #include "game.h"
 #include "itype.h"
 #include "item.h"
@@ -11,7 +8,10 @@
 #include "picojson.h"
 #include "catajson.h"
 #include "item_group.h"
-#include "iuse.h" 
+#include "iuse.h"
+#include <string>
+#include <vector>
+#include <map>
 
 typedef std::string Item_tag;
 typedef std::vector<item> Item_list;
@@ -60,6 +60,7 @@ private:
     void set_material_from_json(Item_tag new_id, catajson mats);
     bool is_mod_target(catajson targets, std::string weapon);
     material material_from_tag(Item_tag new_id, Item_tag index);
+    phase_id phase_from_tag(Item_tag name);
     ammotype ammo_from_string(std::string ammo);
 
     //two convenience functions that just call into set_bitmask_by_string
@@ -70,12 +71,14 @@ private:
 
     //iuse stuff
     std::map<Item_tag, Use_function> iuse_function_list;
-    //flags stuff
-    std::map<Item_tag, unsigned> item_flags_list;
     //techniques stuff
     std::map<Item_tag, unsigned> techniques_list;
     //ammo stuff
     std::map<Item_tag, unsigned> ammo_flags_list;
+    //ammo effects
+    std::map<Item_tag, unsigned> ammo_effects_list;
+    //bodyparts
+    std::map<Item_tag, unsigned> bodyparts_list;
 };
 
 extern Item_factory* item_controller;

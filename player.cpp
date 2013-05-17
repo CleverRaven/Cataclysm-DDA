@@ -1704,9 +1704,9 @@ detecting traps and other things of interest.");
    if (line == 0) {
     mvwprintz(w_encumb, 1, 1, h_ltgray, "Torso");
     mvwprintz(w_info, 0, 0, c_magenta, "\
-Melee skill -%d;      Dodge skill -%d;\n\
-Swimming costs +%d movement points;\n\
-Melee attacks cost +%d movement points", encumb(bp_torso), encumb(bp_torso),
+Melee skill %+d;      Dodge skill %+d;\n\
+Swimming costs %+d movement points;\n\
+Melee attacks cost %+d movement points", -encumb(bp_torso), -encumb(bp_torso),
               encumb(bp_torso) * (80 - skillLevel("swimming") * 3), encumb(bp_torso) * 20);
    } else if (line == 1) {
     mvwprintz(w_encumb, 2, 1, h_ltgray, "Head");
@@ -2088,9 +2088,9 @@ void player::disp_status(WINDOW *w, game *g)
  }
 
  // Print the current weapon mode
- if (weapon.mode == IF_NULL)
+ if (weapon.mode == "NULL")
   mvwprintz(w, 1, 0, c_red,    "Normal");
- else if (weapon.mode == IF_MODE_BURST)
+ else if (weapon.mode == "MODE_BURST")
   mvwprintz(w, 1, 0, c_red,    "Burst");
  else {
   item* gunmod = weapon.active_gunmod();
@@ -2436,7 +2436,7 @@ int player::sight_range(int light_level)
 
 int player::unimpaired_range()
 {
- int ret = 12;
+ int ret = DAYLIGHT_LEVEL;
  if (has_disease(DI_IN_PIT))
   ret = 1;
  if (has_disease(DI_BLIND))
@@ -3825,7 +3825,7 @@ void player::process_active_items(game *g)
  if (weapon.is_artifact() && weapon.is_tool())
   g->process_artifact(&weapon, this, true);
  else if (weapon.active) {
-  if (weapon.has_flag(IF_CHARGE)) { // We're chargin it up!
+  if (weapon.has_flag("CHARGE")) { // We're chargin it up!
    if (weapon.charges == 8) {
     bool maintain = false;
     if (use_charges_if_avail("UPS_on", 4)) {
@@ -3863,21 +3863,21 @@ void player::process_active_items(game *g)
     }
    }
    return;
-  } // if (weapon.has_flag(IF_CHARGE))
+  } // if (weapon.has_flag("CHARGE"))
 	if (weapon.is_food()) {	// food items
-	  if (weapon.has_flag(IF_HOT)) {
+	  if (weapon.has_flag("HOT")) {
 			weapon.item_counter--;
 			if (weapon.item_counter == 0) {
-				weapon.item_flags ^= mfb(IF_HOT);
+    weapon.item_tags.erase("HOT");
 				weapon.active = false;
 			}
 		}
 		return;
 	} else if (weapon.is_food_container()) {	// food items
-	  if (weapon.contents[0].has_flag(IF_HOT)) {
+	  if (weapon.contents[0].has_flag("HOT")) {
 			weapon.contents[0].item_counter--;
 			if (weapon.contents[0].item_counter == 0) {
-				weapon.contents[0].item_flags ^= mfb(IF_HOT);
+				weapon.contents[0].item_tags.erase("HOT");
 				weapon.contents[0].active = false;
 			}
 		}
@@ -3913,24 +3913,24 @@ void player::process_active_items(game *g)
         {
             if (tmp_it->is_food())
             {
-                if (tmp_it->has_flag(IF_HOT))
+                if (tmp_it->has_flag("HOT"))
                 {
                     tmp_it->item_counter--;
                     if (tmp_it->item_counter == 0)
                     {
-                        tmp_it->item_flags ^= mfb(IF_HOT);
+                        tmp_it->item_tags.erase("HOT");
                         tmp_it->active = false;
                     }
                 }
             }
             else if (tmp_it->is_food_container())
             {
-                if (tmp_it->contents[0].has_flag(IF_HOT))
+                if (tmp_it->contents[0].has_flag("HOT"))
                 {
                     tmp_it->contents[0].item_counter--;
                     if (tmp_it->contents[0].item_counter == 0)
                     {
-                        tmp_it->contents[0].item_flags ^= mfb(IF_HOT);
+                        tmp_it->contents[0].item_tags.erase("HOT");
                         tmp_it->contents[0].active = false;
                     }
                 }
@@ -3968,7 +3968,7 @@ void player::process_active_items(game *g)
 
 item player::remove_weapon()
 {
- if (weapon.has_flag(IF_CHARGE) && weapon.active) { //unwield a charged charge rifle.
+ if (weapon.has_flag("CHARGE") && weapon.active) { //unwield a charged charge rifle.
   weapon.charges = 0;
   weapon.active = false;
  }
@@ -4235,7 +4235,7 @@ int player::butcher_factor()
  if (inv_factor < lowest_factor) {
   lowest_factor = inv_factor;
  }
- if (weapon.damage_cut() >= 10 && !weapon.has_flag(IF_SPEAR)) {
+ if (weapon.damage_cut() >= 10 && !weapon.has_flag("SPEAR")) {
   int factor = weapon.volume() * 5 - weapon.weight() * 1.5 -
                weapon.damage_cut();
   if (weapon.damage_cut() <= 20)
@@ -4717,7 +4717,7 @@ bool player::eat(game *g, char ch)
             if (comest->nutr >= 2)
                 hunger += int(comest->nutr * .75);
         }
-        if (eaten->has_flag(IF_HOT) && eaten->has_flag(IF_EATEN_HOT))
+        if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT"))
             add_morale(MORALE_FOOD_HOT, 5, 10);
         if (has_trait(PF_GOURMAND))
         {
@@ -4807,7 +4807,7 @@ bool player::eat(game *g, char ch)
 
 bool player::wield(game *g, char ch)
 {
- if (weapon.has_flag(IF_NO_UNWIELD)) {
+ if (weapon.has_flag("NO_UNWIELD")) {
   g->add_msg("You cannot unwield your %s!  Withdraw them with 'p'.",
              weapon.tname().c_str());
   return false;
@@ -4902,8 +4902,13 @@ void player::pick_style(game *g) // Style selection menu
 {
  std::vector<std::string> options;
  options.push_back("No style");
- for (int i = 0; i < styles.size(); i++)
-  options.push_back( g->itypes[styles[i]]->name );
+ for (int i = 0; i < styles.size(); i++) {
+  if(!g->itypes[styles[i]]) {
+    debugmsg ("Bad hand to hand style: %d",i);
+  } else {
+    options.push_back( g->itypes[styles[i]]->name );
+  }
+ }
  int selection = menu_vec(false, "Select a style", options);
  if (selection >= 2)
   style_selected = styles[selection - 2];
@@ -5187,7 +5192,7 @@ void player::use_wielded(game *g) {
 
 hint_rating player::rate_action_reload(item *it) {
  if (it->is_gun()) {
-  if (it->has_flag(IF_RELOAD_AND_SHOOT) || it->ammo_type() == AT_NULL) {
+  if (it->has_flag("RELOAD_AND_SHOOT") || it->ammo_type() == AT_NULL) {
    return HINT_CANT;
   }
   if (it->charges == it->clip_size()) {
@@ -5197,7 +5202,7 @@ hint_rating player::rate_action_reload(item *it) {
        if ((it->contents[i].is_gunmod() &&
             (it->contents[i].typeId() == "spare_mag" &&
              it->contents[i].charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
-           (it->contents[i].has_flag(IF_MODE_AUX) &&
+           (it->contents[i].has_flag("MODE_AUX") &&
             it->contents[i].charges < it->contents[i].clip_size()))
        {
            alternate_magazine = i;
@@ -5448,7 +5453,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     inv.add_item(copy);
    return;
   }
-  if (mod->id == "spare_mag" && gun->has_flag(IF_RELOAD_ONE)) {
+  if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
    g->add_msg("You can not use a spare magazine with your %s.",
               gun->tname(g).c_str());
    if (replace_item)
@@ -5462,8 +5467,8 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     if (replace_item)
      inv.add_item(copy);
     return;
-   } else if (!(mod->item_flags & mfb(IF_MODE_AUX)) && mod->newtype != AT_NULL &&
-	      !gun->contents[i].has_flag(IF_MODE_AUX) &&
+   } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != AT_NULL &&
+	      !gun->contents[i].has_flag("MODE_AUX") &&
 	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != AT_NULL) {
     g->add_msg("Your %s's caliber has already been modified.",
                gun->tname(g).c_str());
@@ -5562,9 +5567,9 @@ void player::read(game *g, char ch)
     
     // Check if reading is okay
     // check for light level
-    if (!can_see_fine_detail(g)) 
+    if (fine_detail_vision_mod(g) > 2.5) 
     {
-        g->add_msg("It's too dark to read!");
+        g->add_msg("You can't see to read!");
         return;
     }
 
@@ -5662,17 +5667,17 @@ void player::read(game *g, char ch)
         }
     }
 
+	// Base read_speed() is 1000 move points (1 minute per tmp->time)
+    time = tmp->time * read_speed() * fine_detail_vision_mod(g);
     if (tmp->intel > int_cur) 
     {
         g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
-        time = tmp->time * (read_speed() + ((tmp->intel - int_cur) * 100)); // Lower int characters can read, at a speed penalty
+        time += ((tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
         activity = player_activity(ACT_READ, time, index, ch);
         moves = 0;
         return;
     }
-
-    // Base read_speed() is 1000 move points (1 minute per tmp->time)
-    time = tmp->time * read_speed();
+    
     activity = player_activity(ACT_READ, time, index, ch);
     moves = 0;
 }
@@ -5774,18 +5779,44 @@ bool player::can_sleep(game *g)
  return false;
 }
 
-bool player::can_see_fine_detail(game *g)
+// Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
+// 2.5 is enough light for detail work.
+float player::fine_detail_vision_mod(game *g)
 {
-    // flashlight is *hopefully* handled by the light level check below
-    if (g->u.has_active_item("glowstick_lit") || g->u.has_active_item("lightstrip"))
+    if (has_disease(DI_BLIND) || has_disease(DI_BOOMERED))
     {
-        return true;
+        return 5;
     }
-    if (LL_LIT > g->m.light_at(posx, posy))
+    if (has_active_bionic("bio_night_vision") ||
+        (is_wearing("goggles_nv") && has_active_item("UPS_on")))
     {
-        return false;
+        return 1.5;
     }
-    return true;
+    // flashlight is handled by the light level check below
+    if (g->u.has_active_item("lightstrip"))
+    {
+        return 1;
+    }
+    if (LL_LIT <= g->m.light_at(posx, posy))
+    {
+        return 1;
+    }
+
+    float vision_ii = 0;
+    if (g->m.light_at(posx, posy) == LL_LOW) { vision_ii = 4; }
+    else if (g->m.light_at(posx, posy) == LL_DARK) { vision_ii = 5; }
+
+    if (g->u.has_active_item("glowstick_lit"))
+    {
+        vision_ii -= 3.5;
+    }
+
+    if (has_trait(PF_NIGHTVISION)) { vision_ii -= .5; }
+    else if (has_trait(PF_NIGHTVISION2)) { vision_ii -= 1.5; }
+    else if (has_trait(PF_NIGHTVISION3))	{ vision_ii -= 2.5; }
+
+    if (vision_ii < 1)	{ vision_ii = 1; }
+    return vision_ii;
 }
 
 int player::warmth(body_part bp)
@@ -5825,7 +5856,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
             {
                 armorenc += armor->encumber;
                 warmth += armor->warmth;
-                if (worn[i].has_flag(IF_FIT))
+                if (worn[i].has_flag("FIT"))
                 {
                     armorenc--;
                 }
@@ -6233,7 +6264,7 @@ std::string player::weapname(bool charges)
    dump << "+" << weapon.contents[spare_mag].charges;
   for (int i = 0; i < weapon.contents.size(); i++)
    if (weapon.contents[i].is_gunmod() &&
-       weapon.contents[i].has_flag(IF_MODE_AUX))
+       weapon.contents[i].has_flag("MODE_AUX"))
     dump << "+" << weapon.contents[i].charges;
   dump << ")";
   return dump.str();

@@ -105,7 +105,7 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
   part_num = it->second.second;
   return it->second.first;
  }
- debugmsg ("vehicle part cache cache indacated vehicle not found :/");
+ debugmsg ("vehicle part cache cache indicated vehicle not found :/");
  return NULL;
 }
 
@@ -285,7 +285,8 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
  int dsty = y2;
 
  if (!inbounds(srcx, srcy)){
-  debugmsg ("map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
+  if (g->debugmon)
+   debugmsg ("map::displace_vehicle: coords out of bounds %d,%d->%d,%d",
             srcx, srcy, dstx, dsty);
   return false;
  }
@@ -311,7 +312,8 @@ bool map::displace_vehicle (game *g, int &x, int &y, const int dx, const int dy,
   }
  }
  if (our_i < 0) {
-  debugmsg ("displace_vehicle our_i=%d", our_i);
+  if (g->debugmon)
+   debugmsg ("displace_vehicle our_i=%d", our_i);
   return false;
  }
  // move the vehicle
@@ -442,7 +444,8 @@ bool map::vehproceed(game* g){
       return false;
 
    if (!inbounds(x, y)){
-      debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)",x,y);
+    if (g->debugmon)
+     debugmsg ("stopping out-of-map vehicle. (x,y)=(%d,%d)",x,y);
       veh->stop();
       veh->of_turn = 0;
       return true;
@@ -521,8 +524,7 @@ bool map::vehproceed(game* g){
 
    if (veh->skidding){
       if (one_in(4)){ // might turn uncontrollably while skidding
-         veh->move.init (veh->move.dir() +
-               (one_in(2) ? -15 * rng(1, 3) : 15 * rng(1, 3)));
+          veh->turn (one_in(2) ? -15 : 15);
       }
    }
    else if (pl_ctrl && rng(0, 4) > g->u.skillLevel("driving") && one_in(20)) {
@@ -718,7 +720,10 @@ bool map::vehproceed(game* g){
       // accept new direction
       if (veh->skidding){
          veh->face.init (veh->turn_dir);
-         veh->possibly_recover_from_skid();
+         if(pl_ctrl)
+         {
+             veh->possibly_recover_from_skid();
+         }
       }
       else
          veh->face = mdir;
@@ -962,26 +967,26 @@ point map::random_outdoor_tile()
 
 bool map::has_adjacent_furniture(const int x, const int y)
 {
- for (int i = -1; i <= 1; i += 2)
- {
-   for (int j = 0; j <= 1; j++)
-   {
-       // Apply the adjustment to x first, then y
-       const int adj_x = x + !j?i:0;
-       const int adj_y = y + j?i:0;
+    const char cx[4] = { 0, -1, 0, 1};
+    const char cy[4] = {-1,  0, 1, 0};
 
-       switch( ter(adj_x, adj_y) )
-       {
-       case t_fridge:
-       case t_glass_fridge:
-       case t_dresser:
-       case t_rack:
-       case t_bookcase:
-       case t_locker:
-           return true;
-       }
-   }
- }
+    for (int i = 0; i < 4; i++)
+    {
+        const int adj_x = x + cx[i];
+        const int adj_y = y + cy[i];
+
+        switch( ter(adj_x, adj_y) )
+        {
+        case t_fridge:
+        case t_glass_fridge:
+        case t_dresser:
+        case t_rack:
+        case t_bookcase:
+        case t_locker:
+            return true;
+        }
+    }
+
  return false;
 }
 
@@ -1651,6 +1656,22 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
+  for (int i = x - 1; i <= x + 1; i++) {
+   for (int j = y - 1; j <= y + 1; j++) {
+    if (one_in(2)) {
+     //debugmsg("1");
+      if (!g->m.has_flag(noitem, x, y)) {
+       //debugmsg("2");
+       if (g->m.field_at(i, j).type != fd_rubble) {
+        //debugmsg("Rubble spawned!");
+        g->m.add_field(g, i, j, fd_rubble, rng(1,3));
+        g->m.field_effect(i, j, g);
+       }
+      }
+    }
+   }
+  }
+   //TODO: Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
     if ((i == x && j == y) || !has_flag(collapses, i, j))
@@ -1685,6 +1706,22 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    }
   }
   ter_set(x, y, t_rubble);
+  for (int i = x - 1; i <= x + 1; i++) {
+   for (int j = y - 1; j <= y + 1; j++) {
+    if (one_in(2)) {
+     //debugmsg("1");
+      if (!g->m.has_flag(noitem, x, y)) {
+       //debugmsg("2");
+       if (g->m.field_at(i, j).type != fd_rubble) {
+        //debugmsg("Rubble spawned!");
+        g->m.add_field(g, i, j, fd_rubble, rng(1,3));
+        g->m.field_effect(i, j, g);
+      }
+      }
+    }
+   }
+  }
+  //TODO: Make rubble decay into smoke
   for (int i = x - 1; i <= x + 1; i++)
    for (int j = y - 1; j <= y + 1; j++) {
     if ((i == x && j == y) || !has_flag(supports_roof, i, j))
@@ -2156,7 +2193,7 @@ item map::water_from(const int x, const int y)
     else if (ter(x, y) == t_toilet && !one_in(3))
         ret.poison = rng(1, 3);
     else if (tr_at(x, y) == tr_funnel)
-        ret.poison = (one_in(10) > 1) ? 0 : 1;
+        ret.poison = (one_in(10) == true) ? 1 : 0;
     return ret;
 }
 
@@ -2190,7 +2227,8 @@ point map::find_item(const item *it)
 
 //Old spawn_item method
 //TODO: Deprecate
-void map::spawn_item(const int x, const int y, itype* type, const int birthday, const int quantity, const int charges)
+// added argument to spawn at various damage levels
+void map::spawn_item(const int x, const int y, itype* type, const int birthday, const int quantity, const int charges, const int damlevel)
 {
  if (type->is_style())
   return;
@@ -2202,11 +2240,18 @@ void map::spawn_item(const int x, const int y, itype* type, const int birthday, 
  tmp = tmp.in_its_container(itypes);
  if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
+    // bounds checking for damage level
+    if (damlevel < -1)
+        tmp.damage = -1;
+    if (damlevel > 4)
+        tmp.damage = 4;
+    tmp.damage = damlevel;   
  add_item(x, y, tmp);
 }
 
 //New spawn_item method, using item factory
-void map::spawn_item(const int x, const int y, std::string type_id, const int birthday, const int quantity, const int charges)
+// added argument to spawn at various damage levels
+void map::spawn_item(const int x, const int y, std::string type_id, const int birthday, const int quantity, const int charges, const int damlevel)
 {
  item tmp = item_controller->create(type_id, birthday);
  if (quantity)
@@ -2217,6 +2262,12 @@ void map::spawn_item(const int x, const int y, std::string type_id, const int bi
  tmp = tmp.in_its_container(itypes);
  if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
+    // bounds checking for damage level
+    if (damlevel < -1)
+        tmp.damage = -1;
+    if (damlevel > 4)
+        tmp.damage = 4;
+    tmp.damage = damlevel;  
  add_item(x, y, tmp);
 }
 
@@ -2230,9 +2281,9 @@ void map::add_item(const int x, const int y, item new_item)
   return;
 
     // clothing with variable size flag may sometimes be generated fitted
-    if (new_item.is_armor() && new_item.has_flag(IF_VARSIZE) & one_in(3))
+    if (new_item.is_armor() && new_item.has_flag("VARSIZE") & one_in(3))
     {
-        new_item.item_flags |= mfb(IF_FIT);
+        new_item.item_tags.insert("FIT");
     }
 
  if (has_flag(noitem, x, y) || i_at(x, y).size() >= 64) {// Too many items there
@@ -2294,23 +2345,34 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 				((*items)[n].is_container() && (*items)[n].contents.size() > 0 && (*items)[n].contents[0].active))
 				{
 					if ((*items)[n].is_food()) {	// food items
-						if ((*items)[n].has_flag(IF_HOT)) {
+						if ((*items)[n].has_flag("HOT")) {
 							(*items)[n].item_counter--;
 							if ((*items)[n].item_counter == 0) {
-								(*items)[n].item_flags ^= mfb(IF_HOT);
+								(*items)[n].item_tags.erase("HOT");
 								(*items)[n].active = false;
 								grid[nonant]->active_item_count--;
 							}
 						}
 					} else if ((*items)[n].is_food_container()) {	// food in containers
-						if ((*items)[n].contents[0].has_flag(IF_HOT)) {
+						if ((*items)[n].contents[0].has_flag("HOT")) {
 							(*items)[n].contents[0].item_counter--;
 							if ((*items)[n].contents[0].item_counter == 0) {
-								(*items)[n].contents[0].item_flags ^= mfb(IF_HOT);
+								(*items)[n].contents[0].item_tags.erase("HOT");
 								(*items)[n].contents[0].active = false;
 								grid[nonant]->active_item_count--;
 							}
 						}
+					} else if ((*items)[n].type->id == "corpse") { // some corpses rez over time
+					    if ((*items)[n].ready_to_revive(g))
+					    {
+					        int mapx = (nonant % my_MAPSIZE) * SEEX + i;
+					        int mapy = (nonant / my_MAPSIZE) * SEEY + j;
+					        if (g->u_see(mapx, mapy))
+					        {
+					            g->add_msg("A nearby corpse rises and moves towards you!");
+					        }
+					        g->revive_corpse(mapx, mapy, n);
+					    }
 					} else if	(!(*items)[n].is_tool()) { // It's probably a charger gun
 						(*items)[n].active = false;
 						(*items)[n].charges = 0;
@@ -3279,8 +3341,8 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 {
  dbg(D_INFO) << "map::loadn(game[" << g << "], worldx["<<worldx<<"], worldy["<<worldy<<"], gridx["<<gridx<<"], gridy["<<gridy<<"])";
 
- const int absx = g->cur_om.pos().x * OMAPX * 2 + worldx + gridx,
-           absy = g->cur_om.pos().y * OMAPY * 2 + worldy + gridy,
+ const int absx = g->cur_om->pos().x * OMAPX * 2 + worldx + gridx,
+           absy = g->cur_om->pos().y * OMAPY * 2 + worldy + gridy,
            gridn = gridx + gridy * my_MAPSIZE;
 
  dbg(D_INFO) << "map::loadn absx: " << absx << "  absy: " << absy
@@ -3311,7 +3373,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 //  squares divisible by 2.
   int newmapx = worldx + gridx - ((worldx + gridx) % 2);
   int newmapy = worldy + gridy - ((worldy + gridy) % 2);
-  overmap* this_om = &(g->cur_om);
+  overmap* this_om = g->cur_om;
 
   // slightly out of bounds? to the east, south, or both?
   // cur_om is the one containing the upper-left corner of the map
@@ -3655,4 +3717,3 @@ tinymap::tinymap(std::map<std::string, itype*> *itptr,
 tinymap::~tinymap()
 {
 }
-

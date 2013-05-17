@@ -119,8 +119,9 @@ class game
 // Sound at (x, y) of intensity (vol), described to the player is (description)
   void sound(int x, int y, int vol, std::string description);
 // creates a list of coordinates to draw footsteps
-  void add_footstep(int x, int y, int volume, int distance);
-  std::vector<point> footsteps;
+  void add_footstep(int x, int y, int volume, int distance, monster* source);
+  std::vector<std::vector<point> > footsteps;
+  std::vector<monster*> footsteps_source;
 // visual cue to monsters moving out of the players sight
   void draw_footsteps();
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
@@ -144,6 +145,7 @@ class game
 // Kill that monster; fixes any pointers etc
   void kill_mon(int index, bool player_did_it = false);
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
+  void revive_corpse(int x, int y, int n); // revives a corpse from an item pile
 // hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
   void hit_monster_with_flags(monster &z, unsigned int flags);
   void plfire(bool burst);	// Player fires a gun (target selection)...
@@ -252,7 +254,7 @@ class game
   std::list<weather_segment> future_weather;
 
   char nextinv;	// Determines which letter the next inv item will have
-  overmap cur_om;
+  overmap *cur_om;
   map m;
   int levx, levy, levz;	// Placement inside the overmap
   player u;
@@ -427,6 +429,7 @@ class game
   void update_weather();   // Updates the temperature and weather patten
   void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
   void mon_info();         // Prints a list of nearby monsters (top right)
+  void handle_key_blocking_activity(); // Abort reading etc.
   bool handle_action();
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died

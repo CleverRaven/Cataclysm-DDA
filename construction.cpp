@@ -441,7 +441,7 @@ void game::construction_menu()
    nc_color col = (player_can_build(u, total_inv, constructions[current]) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
-   char hotkey = 97 + current;
+   unsigned char hotkey = 97 + current;
    if (hotkey > 122)
     hotkey = hotkey - 58;
 
@@ -650,34 +650,48 @@ bool game::player_can_build(player &p, inventory pinv, constructable* con,
 
  bool can_build_any = false;
  for (int i = start; i < con->stages.size() && i <= last_level; i++) {
-  construction_stage stage = con->stages[i];
+  construction_stage* stage = &(con->stages[i]);
   bool has_tool = false;
   bool has_component = false;
   bool tools_required = false;
   bool components_required = false;
 
   for (int j = 0; j < 10; j++) {
-   if (stage.tools[j].size() > 0) {
+   if (stage->tools[j].size() > 0) {
     tools_required = true;
     has_tool = false;
-    for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
-     if (pinv.has_amount(stage.tools[j][k].type, 1))
-      has_tool = true;
+    for (int k = 0; k < stage->tools[j].size(); k++) {
+     if (pinv.has_amount(stage->tools[j][k].type, 1))
+     {
+         has_tool = true;
+         stage->tools[j][k].available = 1;
+     }
+     else
+     {
+         stage->tools[j][k].available = -1;
+     }
     }
     if (!has_tool)  // missing one of the tools for this stage
      break;
    }
-   if (stage.components[j].size() > 0) {
+   if (stage->components[j].size() > 0) {
     components_required = true;
     has_component = false;
-    for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
-     if (( item_controller->find_template(stage.components[j][k].type)->is_ammo() &&
-	   pinv.has_charges(stage.components[j][k].type,
-			   stage.components[j][k].count)    ) ||
-         (!item_controller->find_template(stage.components[j][k].type)->is_ammo() &&
-          pinv.has_amount (stage.components[j][k].type,
-                          stage.components[j][k].count)    ))
-      has_component = true;
+    for (int k = 0; k < stage->components[j].size(); k++) {
+     if (( item_controller->find_template(stage->components[j][k].type)->is_ammo() &&
+	   pinv.has_charges(stage->components[j][k].type,
+			   stage->components[j][k].count)    ) ||
+         (!item_controller->find_template(stage->components[j][k].type)->is_ammo() &&
+          pinv.has_amount (stage->components[j][k].type,
+                          stage->components[j][k].count)    ))
+     {
+         has_component = true;
+         stage->components[j][k].available = 1;
+     }
+     else
+     {
+         stage->components[j][k].available = -1;
+     }
     }
     if (!has_component)  // missing one of the comps for this stage
      break;
@@ -835,13 +849,13 @@ bool construct::able_furniture(game *g, point p)
 {
  ter_t terrain_type = terlist[g->m.ter(p.x, p.y)];
  int required_str = terrain_type.move_str_req;
- 
+
  // Object can not be moved
  if (required_str < 0)
  {
   return false;
  }
- 
+
  if( g->u.str_cur < required_str )
  {
   return false;
@@ -883,6 +897,7 @@ bool construct::able_door(game *g, point p)
  return (g->m.ter(p.x, p.y) == t_door_c ||
          g->m.ter(p.x, p.y) == t_door_b ||
          g->m.ter(p.x, p.y) == t_door_o ||
+         g->m.ter(p.x, p.y) == t_door_locked_interior ||
          g->m.ter(p.x, p.y) == t_door_locked);
 }
 
@@ -998,7 +1013,7 @@ void construct::done_log(game *g, point p)
 void construct::done_vehicle(game *g, point p)
 {
     std::string name = string_input_popup("Enter new vehicle name", 20);
-    vehicle *veh = g->m.add_vehicle (g, veh_custom, p.x, p.y, 270);
+    vehicle *veh = g->m.add_vehicle (g, veh_custom, p.x, p.y, 270, 0, 0);
     if (!veh)
     {
         debugmsg ("error constructing vehicle");

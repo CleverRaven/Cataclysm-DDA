@@ -46,8 +46,16 @@ void show_power_level_in_titlebar(WINDOW* window, player* p)
 
 void player::power_bionics(game *g)
 {
- WINDOW* wBio = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
- WINDOW* w_description = newwin(3, 78, 21 + getbegy(wBio), 1 + getbegx(wBio));
+    int HEIGHT = TERMY;
+    int WIDTH = 80;
+    int START_X = (TERMX - WIDTH)/2;
+    int START_Y = (TERMY - HEIGHT)/2;
+ WINDOW* wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
+    int DESCRIPTION_WIDTH = WIDTH - 2; // Same width as bionics window minus 2 for the borders
+    int DESCRIPTION_HEIGHT = 3;
+    int DESCRIPTION_START_X = getbegx(wBio) + 1; // +1 to avoid border
+    int DESCRIPTION_START_Y = getmaxy(wBio) - DESCRIPTION_HEIGHT - 1; // At the bottom of the bio window, -1 to avoid border
+ WINDOW* w_description = newwin(DESCRIPTION_HEIGHT, DESCRIPTION_WIDTH, DESCRIPTION_START_Y, DESCRIPTION_START_X);
 
  werase(wBio);
  wborder(wBio, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -55,20 +63,24 @@ void player::power_bionics(game *g)
 
  std::vector <bionic> passive;
  std::vector <bionic> active;
- mvwprintz(wBio, 1,  1, c_blue, "BIONICS -");
- mvwprintz(wBio, 1, 11, c_white, "Activating.  Press '!' to examine your implants.");
+ int HEADER_TEXT_Y = START_Y + 1;
+ mvwprintz(wBio, HEADER_TEXT_Y,  1, c_blue, "BIONICS -");
+ mvwprintz(wBio, HEADER_TEXT_Y, 11, c_white, "Activating.  Press '!' to examine your implants.");
  show_power_level_in_titlebar(wBio, this);
 
+ int HEADER_LINE_Y = START_Y + 2;
+ int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - 1; 
  for (int i = 1; i < 79; i++) {
-  mvwputch(wBio,  2, i, c_ltgray, LINE_OXOX);
-  mvwputch(wBio, 20, i, c_ltgray, LINE_OXOX);
+  mvwputch(wBio, HEADER_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line under title
+  mvwputch(wBio, DESCRIPTION_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line above description
  }
 
- mvwputch(wBio, 2,  0, c_ltgray, LINE_XXXO); // |-
- mvwputch(wBio, 2, 79, c_ltgray, LINE_XOXX); // -|
+ // Draw symbols to connect additional lines to border
+ mvwputch(wBio, HEADER_LINE_Y,  0, c_ltgray, LINE_XXXO); // |-
+ mvwputch(wBio, HEADER_LINE_Y, 79, c_ltgray, LINE_XOXX); // -|
 
- mvwputch(wBio, 20,  0, c_ltgray, LINE_XXXO); // |-
- mvwputch(wBio, 20, 79, c_ltgray, LINE_XOXX); // -|
+ mvwputch(wBio, DESCRIPTION_LINE_Y,  0, c_ltgray, LINE_XXXO); // |-
+ mvwputch(wBio, DESCRIPTION_LINE_Y, 79, c_ltgray, LINE_XOXX); // -|
 
  for (int i = 0; i < my_bionics.size(); i++) {
   if ( bionics[my_bionics[i].id]->power_source ||
@@ -978,31 +990,31 @@ Interfaces your power system with the internal charging port on suits of power a
     //Fault Bionics from here on out.
     bionics["bio_dis_shock"] = new bionic_data("Electrical Discharge", false, false, 0, 0, "\
 A malfunctioning bionic which occasionally discharges electricity through\n\
-your body, causing pain and brief paralysis but no damage.");
+your body, causing pain and brief paralysis but no damage.",true);
     faulty_bionics.push_back("bio_dis_shock");
 
     bionics["bio_dis_acid"] = new bionic_data("Acidic Discharge", false, false, 0, 0, "\
 A malfunctioning bionic which occasionally discharges acid into your muscles,\n\
-causing sharp pain and minor damage.");
+causing sharp pain and minor damage.",true);
     faulty_bionics.push_back("bio_dis_shock");
 
     bionics["bio_drain"] = new bionic_data("Electrical Drain", false, false, 0, 0, "\
 A malfunctioning bionic.  It doesn't perform any useful function, but will\n\
-occasionally draw power from your batteries.");
+occasionally draw power from your batteries.",true);
     faulty_bionics.push_back("bio_drain");
 
     bionics["bio_noise"] = new bionic_data("Noisemaker", false, false, 0, 0, "\
-A malfunctioning bionic.  It will occasionally emit a loud burst of noise.");
+A malfunctioning bionic.  It will occasionally emit a loud burst of noise.",true);
     faulty_bionics.push_back("bio_noise");
     bionics["bio_power_weakness"] = new bionic_data("Power Overload", false, false, 0, 0, "\
 Damaged power circuits cause short-circuiting inside your muscles when your\n\
 batteries are above 75%%%% capacity, causing greatly reduced strength.  This\n\
-has no effect if you have no internal batteries.");
+has no effect if you have no internal batteries.",true);
     faulty_bionics.push_back("bio_power_weakness");
 
     bionics["bio_stiff"] = new bionic_data("Wire-induced Stiffness", false, false, 0, 0, "\
 Improperly installed wires cause a physical stiffness in most of your body,\n\
-causing increased encumberance.");
+causing increased encumberance.",true);
     faulty_bionics.push_back("bio_stiff");
 }
 

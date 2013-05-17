@@ -121,7 +121,7 @@ class map
  point random_outdoor_tile();
 
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
- void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY); 
+ void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY);
  bool close_door(const int x, const int y, const bool inside);
  bool open_door(const int x, const int y, const bool inside);
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
@@ -129,7 +129,7 @@ class map
  void destroy(game *g, const int x, const int y, const bool makesound);
  void shoot(game *g, const int x, const int y, int &dam, const bool hit_items, const unsigned flags);
  bool hit_with_acid(game *g, const int x, const int y);
- bool hit_with_fire(game *g, const int x, const int y); 
+ bool hit_with_fire(game *g, const int x, const int y);
  void marlossify(const int x, const int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
@@ -143,8 +143,8 @@ class map
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
- void spawn_item(const int x, const int y, itype* type, int birthday, int quantity = 0, int charges = 0);
- void spawn_item(const int x, const int y, std::string itype_id, int birthday, int quantity = 0, int charges = 0);
+ void spawn_item(const int x, const int y, itype* type, int birthday, int quantity = 0, int charges = 0, int damlevel = 0);
+ void spawn_item(const int x, const int y, std::string itype_id, int birthday, int quantity = 0, int charges = 0, int damlevel = 0);
  void add_item(const int x, const int y, item new_item);
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);
@@ -167,6 +167,7 @@ class map
  bool process_fields_in_submap(game *g, const int gridn);	// See fields.cpp
  void step_in_field(const int x, const int y, game *g);		// See fields.cpp
  void mon_in_field(const int x, const int y, game *g, monster *z);	// See fields.cpp
+ void field_effect(int x, int y, game *g); //See fields.cpp
 
 // Computers
  computer* computer_at(const int x, const int y);
@@ -188,13 +189,14 @@ class map
  void place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
- void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0);
+ void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0, const int quantity = 0, const int charges = 0, const int damlevel = 0);
  void add_spawn(mon_id type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
  void add_spawn(monster *mon);
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
- vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir);
+ vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir,
+                      const int init_veh_fuel = -1, const int init_veh_status = -1 );
  computer* add_computer(const int x, const int y, std::string name, const int security);
  float light_transparency(const int x, const int y) const;
  void build_map_cache(game *g);

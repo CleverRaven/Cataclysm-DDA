@@ -14,7 +14,7 @@ enum vehicle_controls {
  control_cancel
 };
 
-vehicle::vehicle(game *ag, vhtype_id type_id): g(ag), type(type_id)
+vehicle::vehicle(game *ag, vhtype_id type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
 {
     posx = 0;
     posy = 0;
@@ -28,6 +28,7 @@ vehicle::vehicle(game *ag, vhtype_id type_id): g(ag), type(type_id)
     cruise_on = true;
     lights_on = false;
     insides_dirty = true;
+
     if (type >= num_vehicles)
         type = 0;
     if (type > veh_custom)
@@ -35,7 +36,7 @@ vehicle::vehicle(game *ag, vhtype_id type_id): g(ag), type(type_id)
         if (type < g->vtypes.size())
         {
             *this = *(g->vtypes[type]);
-            init_state(ag);
+            init_state(ag,init_veh_fuel,init_veh_status);
         }
     }
     precalc_mounts(0, face.dir());
@@ -161,10 +162,38 @@ void vehicle::save (std::ofstream &stout)
     }
 }
 
-void vehicle::init_state(game* g)
+void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 {
+    bool destroyEngine = FALSE;
+    bool destroyTires = FALSE;
+
     int consistent_bignesses[num_vparts];
     memset (consistent_bignesses, 0, sizeof(consistent_bignesses));
+
+    // veh_fuel_multiplier is percentage of fuel
+    // 0 is empty, 100 is full tank, -1 is random 10% to 75%
+    int veh_fuel_mult = init_veh_fuel;
+    if (init_veh_fuel == - 1)
+     veh_fuel_mult = (rng (10,75)/10);
+    if (init_veh_fuel > 100)
+     veh_fuel_mult = 100;
+
+    // veh_status is initial vehicle damage
+    // -1 = light damage (DEFAULT)
+    //  0 = undamgaed
+    //  1 = disabled, destroyed tires OR engine
+    int veh_status = -1;
+    if (init_veh_status == 0)
+     veh_status = 0;
+    if (init_veh_status == 1) {
+     veh_status = 1;
+     if (one_in(2)) {  // either engine or tires are destroyed
+      destroyEngine = TRUE;
+     } else {
+      destroyTires = TRUE;
+     }
+    }
+
     for (int p = 0; p < parts.size(); p++)
     {
         if (part_flag(p, vpf_variable_size)){ // generate its bigness attribute.?
@@ -175,24 +204,41 @@ void vehicle::init_state(game* g)
             }
             parts[p].bigness = consistent_bignesses[parts[p].id];
         }
-        if (part_flag(p, vpf_fuel_tank))   // 10% to 75% fuel for tank
-            parts[p].amount = rng (part_info(p).size / 10, part_info(p).size * 3 / 4);
+        if (part_flag(p, vpf_fuel_tank))   // set fuel status
+          parts[p].amount = part_info(p).size * veh_fuel_mult / 100;
+
         if (part_flag(p, vpf_openable))    // doors are closed
             parts[p].open = 0;
         if (part_flag(p, vpf_seat))        // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
-        //a bit of initial damage :)
-        //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
-        int broken = 8, unhurt = 20;
-        int roll = dice(4,8);
-        if(roll < unhurt){
-           if (roll <= broken)
-              parts[p].hp= 0;
-           else
-              parts[p].hp= ((float)(roll-broken) / (unhurt-broken)) * part_info(p).durability;
+
+        // initial vehicle damage
+        if (veh_status == 0) {
+            // Completely mint condition vehicle
+            parts[p].hp= part_info(p).durability;
+        } else {
+         //a bit of initial damage :)
+         //clamp 4d8 to the range of [8,20]. 8=broken, 20=undamaged.
+         int broken = 8, unhurt = 20;
+         int roll = dice(4,8);
+         if(roll < unhurt){
+            if (roll <= broken)
+               parts[p].hp= 0;
+            else
+               parts[p].hp= ((float)(roll-broken) / (unhurt-broken)) * part_info(p).durability;
+         }
+         else // new.
+            parts[p].hp= part_info(p).durability;
+
+         if (destroyEngine) { // vehicle is disabled because engine is dead
+          if (part_flag(p, vpf_engine))
+           parts[p].hp= 0;
+         }
+         if (destroyTires) { // vehicle is disabled because flat tires
+          if (part_flag(p, vpf_wheel))
+             parts[p].hp= 0;
+         }
         }
-        else // new.
-           parts[p].hp= part_info(p).durability;
     }
 }
 
@@ -607,21 +653,31 @@ void vehicle::print_part_desc (void *w, int y1, int width, int p, int hl)
     }
 }
 
-void vehicle::print_fuel_indicator (void *w, int y, int x)
+void vehicle::print_fuel_indicator (void *w, int y, int x, bool fullsize, bool verbose)
 {
     WINDOW *win = (WINDOW *) w;
     const nc_color fcs[num_fuel_types] = { c_ltred, c_yellow, c_ltgreen, c_ltblue, c_ltcyan };
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_ltgray;
-    mvwprintz(win, y, x, col_indf1, "E...F");
+    int yofs=0;
     for (int i = 0; i < num_fuel_types; i++)
     {
         int cap = fuel_capacity(fuel_types[i]);
-        if (cap > 0)
+        if (cap > 0 && ( basic_consumption(fuel_types[i]) > 0 || fullsize ) )
         {
+            mvwprintz(win, y+yofs, x, col_indf1, "E...F");
             int amnt = cap > 0? fuel_left(fuel_types[i]) * 99 / cap : 0;
             int indf = (amnt / 20) % 5;
-            mvwprintz(win, y, x + indf, fcs[i], "%c", fsyms[indf]);
+            mvwprintz(win, y+yofs, x + indf, fcs[i], "%c", fsyms[indf]);
+            if(verbose) {
+              if(g->debugmon) {
+                mvwprintz(win, y+yofs, x+6, fcs[i], "%d/%d",fuel_left(fuel_types[i]),cap);
+              } else {
+                mvwprintz(win, y+yofs, x+6, fcs[i], "%d",(fuel_left(fuel_types[i])*100)/cap);
+                wprintz(win, c_ltgray, "%c",045);
+              }
+            }
+            if(fullsize) yofs++;
         }
     }
 }
@@ -1580,6 +1636,16 @@ bool vehicle::add_item (int part, item itm)
                  ammo->type == AT_GAS ||
                  ammo->type == AT_PLASMA))
             return false;
+
+    if(itm.charges  != -1 && (itm.is_food() || itm.is_ammo())) {
+      for (int i = 0; i < parts[part].items.size(); i++) {
+        if(parts[part].items[i].type->id == itm.type->id ) {
+          parts[part].items[i].charges+=itm.charges;
+          return true;
+        }
+      }
+    }
+
     parts[part].items.push_back (itm);
     return true;
 }

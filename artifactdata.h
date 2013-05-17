@@ -87,7 +87,7 @@ struct artifact_weapon_datum
  int bash_min, bash_max;
  int cut_min, cut_max;
  int to_hit_min, to_hit_max;
- unsigned flags : NUM_ITEM_FLAGS;
+ std::string tag;
 };
 
 extern artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS];

@@ -684,7 +684,7 @@ bool npc::alt_attack_available(game *g)
 {
  for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
   if ((!is_following() || combat_rules.use_grenades ||
-       !(g->itypes[ALT_ATTACK_ITEMS[i]]->item_flags & mfb(IF_GRENADE))) &&
+       !(g->itypes[ALT_ATTACK_ITEMS[i]]->item_tags.count("GRENADE"))) &&
       has_amount(ALT_ATTACK_ITEMS[i], 1))
    return true;
  }
@@ -946,6 +946,11 @@ void npc::move_to(game *g, int x, int y)
   moves -= 100;
   return;
  }
+ if (has_disease(DI_BOULDERING)) {
+  moves -= 20;
+  if (moves < 0)
+   moves = 0;
+ }
  if (recoil > 0) {	// Start by dropping recoil a little
   if (int(str_cur / 2) + sklevel[sk_gun] >= recoil)
    recoil = 0;
@@ -996,6 +1001,10 @@ void npc::move_to(game *g, int x, int y)
   g->m.bash(x, y, smashskill, bashsound);
   g->sound(x, y, 18, bashsound);
  } else
+ if (g->m.field_at(x, y).type == fd_rubble)
+  g->u.add_disease(DI_BOULDERING, 100, g, g->m.field_at(x,y).density, 3);
+ else
+  g->u.rem_disease(DI_BOULDERING);
   moves -= 100;
 }
 
@@ -1481,7 +1490,7 @@ void npc::alt_attack(game *g, int target)
  */
  for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
   if ((!is_following() || combat_rules.use_grenades ||
-       !(g->itypes[ALT_ATTACK_ITEMS[i]]->item_flags & mfb(IF_GRENADE))) &&
+       !(g->itypes[ALT_ATTACK_ITEMS[i]]->item_tags.count("GRENADE"))) &&
       has_amount(ALT_ATTACK_ITEMS[i], 1))
    which = ALT_ATTACK_ITEMS[i];
  }
@@ -1976,7 +1985,7 @@ void npc::set_destination(game *g)
  oter_id dest_type = options[rng(0, options.size() - 1)];
 
  int dist = 0;
- point p = g->cur_om.find_closest(point(mapx, mapy),dest_type,4, dist, false);
+ point p = g->cur_om->find_closest(point(mapx, mapy),dest_type,4, dist, false);
  goalx = p.x;
  goaly = p.y;
  goalz = g->levz;

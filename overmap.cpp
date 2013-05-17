@@ -17,6 +17,7 @@
 #include "cursesdef.h"
 #include "options.h"
 #include "options.h"
+#include "overmapbuffer.h"
 
 #ifdef _MSC_VER
 // MSVC prefers ISO C++ conformant names over POSIX names, but it's missing a redirect for snprintf
@@ -751,6 +752,9 @@ bool overmap::generate_sub(int const z)
  std::vector<point> temple_points;
  std::vector<point> office_entrance_points;
  std::vector<point> office_points;
+ std::vector<point> hotel_tower_1_points;
+ std::vector<point> hotel_tower_2_points;
+ std::vector<point> hotel_tower_3_points;
 
  for (int i = 0; i < OMAPX; i++) {
   for (int j = 0; j < OMAPY; j++) {
@@ -849,6 +853,12 @@ bool overmap::generate_sub(int const z)
     office_entrance_points.push_back( point(i, j) );
    else if (ter(i, j, z + 1) == ot_office_tower_1)
     office_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_hotel_tower_1_7)
+    hotel_tower_1_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_hotel_tower_1_8)
+    hotel_tower_2_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_hotel_tower_1_9)
+    hotel_tower_3_points.push_back( point(i, j) );
   }
  }
 
@@ -922,6 +932,12 @@ bool overmap::generate_sub(int const z)
   ter(office_entrance_points[i].x, office_entrance_points[i].y, z) = ot_office_tower_b_entrance;
  for (int i = 0; i < office_points.size(); i++)
   ter(office_points[i].x, office_points[i].y, z) = ot_office_tower_b;
+ for (int i = 0; i < hotel_tower_1_points.size(); i++)
+  ter(hotel_tower_1_points[i].x, hotel_tower_1_points[i].y, z) = ot_hotel_tower_b_1;
+ for (int i = 0; i < hotel_tower_2_points.size(); i++)
+  ter(hotel_tower_2_points[i].x, hotel_tower_2_points[i].y, z) = ot_hotel_tower_b_2;
+ for (int i = 0; i < hotel_tower_3_points.size(); i++)
+  ter(hotel_tower_3_points[i].x, hotel_tower_3_points[i].y, z) = ot_hotel_tower_b_3;
  return requires_sub;
 }
 
@@ -1113,15 +1129,15 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   // If the offsets don't match the previously loaded ones, load the new adjacent overmaps.
   if( offx && loc.x + offx != hori.loc.x )
   {
-      hori = overmap( g, loc.x + offx, loc.y );
+      hori = overmap_buffer.get( g, loc.x + offx, loc.y );
   }
   if( offy && loc.y + offy != vert.loc.y )
   {
-      vert = overmap( g, loc.x, loc.y + offy );
+      vert = overmap_buffer.get( g, loc.x, loc.y + offy );
   }
   if( offx && offy && (loc.x + offx != diag.loc.x || loc.y + offy != diag.loc.y ) )
   {
-      diag = overmap( g, loc.x + offx, loc.y + offy );
+      diag = overmap_buffer.get( g, loc.x + offx, loc.y + offy );
   }
 
 // Now actually draw the map
@@ -1313,6 +1329,8 @@ point overmap::draw_overmap(game *g, int const zlevel)
  do {
      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
   ch = input();
+  timeout(BLINK_SPEED);	// Enable blinking!
+
   int dirx, diry;
   if (ch != ERR)
    blink = true;	// If any input is detected, make the blinkies on
@@ -1325,7 +1343,7 @@ point overmap::draw_overmap(game *g, int const zlevel)
    cursy = origy;
   } else if (ch == '\n')
    ret = point(cursx, cursy);
-  else if (ch == KEY_ESCAPE || ch == 'q' || ch == 'Q')
+  else if (ch == KEY_ESCAPE || ch == 'q' || ch == 'Q' || ch == 'm')
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
@@ -2539,7 +2557,7 @@ void overmap::place_special(overmap_special special, tripoint p)
   }
   make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
- 
+
   if (special.flags & mfb(OMS_FLAG_3X3_FIXED)) {
   if (is_road(p.x, p.y - 1, p.z)) { // Road to north
    ter(p.x+1, p.y, p.z) = oter_id(special.ter - 1);//1
@@ -2591,7 +2609,7 @@ void overmap::place_special(overmap_special special, tripoint p)
     make_hiway(p.x-1, p.y, p.x-1, p.y+1, p.z, ot_road_null);
   }
  }
- 
+
  //Buildings should be designed with the entrance at the southwest corner and open to the street on the south.
  if (special.flags & mfb(OMS_FLAG_2X2_SECOND)) {
   int startx = p.x-3, starty = p.y-3; // Acts as an error message, way offset from ideal

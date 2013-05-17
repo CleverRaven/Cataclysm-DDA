@@ -203,7 +203,7 @@ public:
  void read(game *g, char let);	// Read a book
  void try_to_sleep(game *g);	// '$' command; adds DIS_LYING_DOWN
  bool can_sleep(game *g);	// Checked each turn during DIS_LYING_DOWN
- bool can_see_fine_detail(game *g); // Used for things like reading and sewing, checks light level
+ float fine_detail_vision_mod(game *g); // Used for things like reading and sewing, checks light level
 
  // helper functions meant to tell inventory display code what kind of visual feedback to give to the user
  hint_rating rate_action_use(item *it); //rates usability lower for non-tools (books, etc.)

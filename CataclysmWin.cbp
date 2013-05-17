@@ -145,6 +145,8 @@
 		<Unit filename="output.h" />
 		<Unit filename="overmap.cpp" />
 		<Unit filename="overmap.h" />
+		<Unit filename="overmapbuffer.cpp" />
+		<Unit filename="overmapbuffer.h" />
 		<Unit filename="picojson.h" />
 		<Unit filename="player.cpp" />
 		<Unit filename="player.h" />

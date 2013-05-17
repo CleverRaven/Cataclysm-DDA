@@ -1,6 +1,7 @@
 #if (defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
 #include "options.h"
+#include "color.h"
 #include <cstdlib>
 #include <fstream>
 
@@ -47,7 +48,7 @@ bool WinCreate()
     int WinBorderWidth;
     int WinTitleSize;
     unsigned int WindowStyle;
-    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.4");
+    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.5");
     WinTitleSize = GetSystemMetrics(SM_CYCAPTION);      //These lines ensure
     WinBorderWidth = GetSystemMetrics(SM_CXDLGFRAME) * 2;  //that our window will
     WinBorderHeight = GetSystemMetrics(SM_CYDLGFRAME) * 2; // be a perfect size
@@ -172,10 +173,20 @@ void DrawWindow(WINDOW *win)
 {
     int i,j,drawx,drawy;
     char tmp;
+    RECT update = {win->x * fontwidth, -1,
+                   (win->x + win->width) * fontwidth, -1};
     for (j=0; j<win->height; j++){
         if (win->line[j].touched)
+        {
+            update.bottom = (win->y+j+1)*fontheight;
+            if (update.top == -1)
+            {
+                update.top = update.bottom - fontheight;
+            }
+
+            win->line[j].touched=false;
+
             for (i=0; i<win->width; i++){
-                win->line[j].touched=false;
                 drawx=((win->x+i)*fontwidth);
                 drawy=((win->y+j)*fontheight);//-j;
                 if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
@@ -244,8 +255,13 @@ void DrawWindow(WINDOW *win)
                     };//switch (tmp)
                 }//(tmp < 0)
             };//for (i=0;i<_windows[w].width;i++)
+        }
     };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
+    if (update.top != -1)
+    {
+        RedrawWindow(WindowHandle, &update, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+    }
 };
 
 //Check for any window messages (keypress, paint, mousemove, etc)
@@ -412,7 +428,7 @@ inline void addedchar(WINDOW *win){
 //Borders the window with fancy lines!
 int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br)
 {
-
+    wattron(win, c_white);
     int i, j;
     int oldx=win->cursorx;//methods below move the cursor, save the value!
     int oldy=win->cursory;//methods below move the cursor, save the value!
@@ -439,6 +455,7 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
     //_windows[w].cursorx=oldx;//methods above move the cursor, put it back
     //_windows[w].cursory=oldy;//methods above move the cursor, put it back
     wmove(win,oldy,oldx);
+    wattroff(win, c_white);
     return 1;
 };
 
@@ -457,14 +474,19 @@ int refresh(void)
     return wrefresh(mainwin);
 };
 
+int getch(void)
+{
+    wgetch(mainwin);
+}
+
 //Not terribly sure how this function is suppose to work,
 //but jday helped to figure most of it out
-int getch(void)
+int wgetch(WINDOW* win)
 {
  // standards note: getch is sometimes required to call refresh
  // see, e.g., http://linux.die.net/man/3/getch
  // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
- refresh();
+ wrefresh(win);
  InvalidateRect(WindowHandle,NULL,true);
  lastchar=ERR;//ERR=-1
     if (inputdelay < 0)
@@ -502,6 +524,12 @@ int mvgetch(int y, int x)
 {
     move(y,x);
     return getch();
+}
+
+int mvwgetch(WINDOW* win, int y, int x)
+{
+    move(y, x);
+    return wgetch(win);
 }
 
 int getnstr(char *str, int size)
@@ -629,7 +657,7 @@ int werase(WINDOW *win)
     }
     win->draw=true;
     wmove(win,0,0);
-    wrefresh(win);
+//    wrefresh(win);
     return 1;
 };
 
