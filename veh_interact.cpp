@@ -162,7 +162,7 @@ int veh_interact::cant_do (char mode)
              )
             );
     case 's': // siphon mode
-        return veh->fuel_left(AT_GAS) > 0 ? (ptank >= 0 && veh->part_info(ptank).fuel_type == AT_GAS? (!has_siphon? 2 : 0) : 1) : 3;
+        return veh->fuel_left(AT_GAS) > 0 ? (!has_siphon? 2 : 0) : 1;
     default:
         return -1;
     }
@@ -467,7 +467,7 @@ void veh_interact::do_siphon(int reason)
     switch (reason)
     {
     case 1:
-        mvwprintz(w_msg, 0, 1, c_ltred, "There's no gas tank here.");
+        mvwprintz(w_msg, 0, 1, c_ltred, "The vehicle has no gasoline to siphon.");
         wrefresh (w_msg);
         return;
     case 2:
@@ -476,14 +476,9 @@ void veh_interact::do_siphon(int reason)
         mvwprintz(w_msg, 0, 12, c_red, "hose");
         wrefresh (w_msg);
         return;
-    case 3:
-        mvwprintz(w_msg, 0, 1, c_ltred, "The vehicle has no gasoline to siphon.");
-        wrefresh (w_msg);
-        return;
     default:;
     }
     sel_cmd = 's';
-    sel_part = ptank;
 }
 
 void veh_interact::do_rename(int reason)
