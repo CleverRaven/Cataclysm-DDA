@@ -2508,7 +2508,7 @@
             "tools": [
                          [
                              ["hotplate", 6],
-                             ["toolset", 2],
+                             ["toolset", 1],
                              ["fire", -1]
                          ],
                          [
