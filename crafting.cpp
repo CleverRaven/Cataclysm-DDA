@@ -1210,9 +1210,11 @@ void game::consume_items(std::vector<component> components)
             options.push_back(tmpStr);
         }
 
-        if (options.size() == 0) // This SHOULD only happen if cooking with a fire,
+        // unlike with tools, it's a bad thing if there aren't any components available
+        if (options.size() == 0)
         {
-            return;                 // and the fire goes out.
+            debugmsg("Attempted a recipe with no available components!");
+            return;
         }
 
         // Get the selection via a menu popup
