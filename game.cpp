@@ -1912,7 +1912,7 @@ void game::update_scent()
      newscent[x][y] = 0; // Scent should never be higher
     }
     //Greatly reduce scent for bashable barriers, even more for ductaped barriers
-    if( is_bashable )
+    if( move_cost == 0 && is_bashable)
     {
         if( m.has_flag(reduce_scent, x, y))
         {
