@@ -2249,6 +2249,12 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
     }
     new_item.damage = damlevel;
 
+    // clothing with variable size flag may sometimes be generated fitted
+    if (new_item.is_armor() && new_item.has_flag("VARSIZE") & one_in(3))
+    {
+        new_item.item_tags.insert("FIT");
+    }
+
     add_item(x, y, new_item);
 }
 
@@ -2292,12 +2298,6 @@ void map::add_item(const int x, const int y, item new_item)
   return;
  if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
-
-    // clothing with variable size flag may sometimes be generated fitted
-    if (new_item.is_armor() && new_item.has_flag("VARSIZE") & one_in(3))
-    {
-        new_item.item_tags.insert("FIT");
-    }
 
  if (has_flag(noitem, x, y) || i_at(x, y).size() >= 64) {// Too many items there
   std::vector<point> okay;
