@@ -1058,9 +1058,12 @@ void game::complete_craft()
  }
 // If we're here, the craft was a success!
 // Use up the components and tools
+ std::list<item> used;
  for (int i = 0; i < making->components.size(); i++) {
-  if (making->components[i].size() > 0)
-   consume_items(making->components[i]);
+  if (making->components[i].size() > 0) {
+   std::list<item> tmp = consume_items(making->components[i]);
+   used.splice(used.end(), tmp);
+  }
  }
  for (int i = 0; i < making->tools.size(); i++) {
   if (making->tools[i].size() > 0)
@@ -1075,11 +1078,26 @@ void game::complete_craft()
     {
         newit.item_tags.insert("FIT");
     }
+    int used_bday_tally = 0;
+    int used_bday_count = 0;
+    for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter)
+    {
+        if (iter->goes_bad())
+        {
+            used_bday_tally = iter->bday;
+            ++used_bday_count;
+        }
+    }
+    if (used_bday_count > 0)
+    {
+        const int average_used_bday = used_bday_tally / used_bday_count;
+        newit.bday = (average_used_bday + newit.bday) / 2;
+    }
  // for food items
  if (newit.is_food())
   {
-    int bday_tmp = turn % 3600;		// fuzzy birthday for stacking reasons
-    newit.bday = int(turn) + 3600 - bday_tmp;
+    int bday_tmp = newit.bday % 3600;		// fuzzy birthday for stacking reasons
+    newit.bday = int(newit.bday) + 3600 - bday_tmp;
 
 		if (newit.has_flag("EATEN_HOT")) {	// hot foods generated
 			newit.item_tags.insert("HOT");
