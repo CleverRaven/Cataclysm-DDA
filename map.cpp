@@ -2403,9 +2403,10 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 	}
 }
 
-void map::use_amount(const point origin, const int range, const itype_id type, const int amount,
+std::vector<item> map::use_amount(const point origin, const int range, const itype_id type, const int amount,
                      const bool use_container)
 {
+ std::vector<item> ret;
  int quantity = amount;
  for (int radius = 0; radius <= range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
@@ -2416,6 +2417,7 @@ void map::use_amount(const point origin, const int range, const itype_id type, c
       bool used_contents = false;
       for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
        if (curit->contents[m].type->id == type) {
+        ret.push_back(curit->contents[m]);
         quantity--;
         curit->contents.erase(curit->contents.begin() + m);
         m--;
@@ -2426,6 +2428,7 @@ void map::use_amount(const point origin, const int range, const itype_id type, c
        i_rem(x, y, n);
        n--;
       } else if (curit->type->id == type && quantity > 0) {
+       ret.push_back(*curit);
        quantity--;
        i_rem(x, y, n);
        n--;
@@ -2435,10 +2438,12 @@ void map::use_amount(const point origin, const int range, const itype_id type, c
    }
   }
  }
+ return ret;
 }
 
-void map::use_charges(const point origin, const int range, const itype_id type, const int amount)
+std::vector<item> map::use_charges(const point origin, const int range, const itype_id type, const int amount)
 {
+ std::vector<item> ret;
  int quantity = amount;
  for (int radius = 0; radius <= range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
@@ -2458,10 +2463,13 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
           else if (type == "hotplate")
             ftype = AT_BATT;
 
-          quantity -= veh->drain(ftype, quantity);
+          item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
+          tmp.charges = veh->drain(ftype, quantity);
+          quantity -= tmp.charges;
+          ret.push_back(tmp);
 
           if (quantity == 0)
-            return;
+            return ret;
         }
       }
 
@@ -2471,6 +2479,7 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
       for (int m = 0; m < curit->contents.size() && quantity > 0; m++) {
        if (curit->contents[m].type->id == type) {
         if (curit->contents[m].charges <= quantity) {
+         ret.push_back(curit->contents[m]);
          quantity -= curit->contents[m].charges;
          if (curit->contents[m].destroyed_at_zero_charges()) {
           curit->contents.erase(curit->contents.begin() + m);
@@ -2478,14 +2487,18 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
          } else
           curit->contents[m].charges = 0;
         } else {
+         item tmp = curit->contents[m];
+         tmp.charges = quantity;
+         ret.push_back(tmp);
          curit->contents[m].charges -= quantity;
-         return;
+         return ret;
         }
        }
       }
 // Now check the actual item
       if (curit->type->id == type) {
        if (curit->charges <= quantity) {
+        ret.push_back(*curit);
         quantity -= curit->charges;
         if (curit->destroyed_at_zero_charges()) {
          i_rem(x, y, n);
@@ -2493,8 +2506,11 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
         } else
          curit->charges = 0;
        } else {
+        item tmp = *curit;
+        tmp.charges = quantity;
+        ret.push_back(tmp);
         curit->charges -= quantity;
-        return;
+        return ret;
        }
       }
      }
@@ -2502,6 +2518,7 @@ void map::use_charges(const point origin, const int range, const itype_id type, 
    }
   }
  }
+ return ret;
 }
 
 trap_id& map::tr_at(const int x, const int y)

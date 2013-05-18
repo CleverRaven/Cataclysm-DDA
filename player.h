@@ -262,9 +262,9 @@ public:
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
- void use_amount(itype_id it, int quantity, bool use_container = false);
+ std::vector<item> use_amount(itype_id it, int quantity, bool use_container = false);
  bool use_charges_if_avail(itype_id it, int quantity);// Uses up charges
- void use_charges(itype_id it, int quantity);// Uses up charges
+ std::vector<item> use_charges(itype_id it, int quantity);// Uses up charges
  bool has_amount(itype_id it, int quantity);
  bool has_charges(itype_id it, int quantity);
  int  amount_of(itype_id it);
