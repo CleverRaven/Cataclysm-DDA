@@ -818,6 +818,39 @@ void game::cancel_activity()
  u.cancel_activity();
 }
 
+bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
+  if(u.activity.type == ACT_NULL) return false;
+  char buff[1024];
+  va_list ap;
+  va_start(ap, reason);
+  vsprintf(buff, reason, ap);
+  va_end(ap);
+  std::string s(buff);
+
+  bool force_uc = OPTIONS[OPT_FORCE_YN];
+  int ch=(int)' ';  
+
+  std::string verbs[13] = {
+    "whatever",
+    "reloading", "reading", "waiting", "crafting", 
+    "disassembly", "butchering", "foraging", "construction", "construction", "pumping gas",
+    "training"
+  };
+  do {
+    ch=popup_getkey("%s Stop %s? (Y)es, (N)o, (I)gnore further distractions and finish.", 
+      s.c_str(), verbs[u.activity.type].c_str() );
+  } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
+    ch != 'Y' && ch != 'N' && ch != 'I' && 
+    (force_uc || (ch != 'y' && ch != 'n' && ch != 'i'))
+  );
+  if (ch == 'Y' || ch == 'y') {
+    u.cancel_activity();
+  } else if (ch == 'I' || ch == 'i' ) {
+    return true;    
+  }
+  return false;
+}
+
 void game::cancel_activity_query(const char* message, ...)
 {
  char buff[1024];
@@ -4072,9 +4105,15 @@ void game::sound(int x, int y, int vol, std::string description)
    duration = 40;
   u.add_disease(DI_DEAF, duration, this);
  }
- if (x != u.posx || y != u.posy)
-  cancel_activity_query("Heard %s!",
-                        (description == "" ? "a noise" : description.c_str()));
+ if (x != u.posx || y != u.posy) {
+  if(u.activity.ignore_trivial != true) {
+    if( cancel_activity_or_ignore_query("Heard %s!",
+                        (description == "" ? "a noise" : description.c_str())) ) {
+      u.activity.ignore_trivial = true;
+    }
+  }
+ }
+ 
 // We need to figure out where it was coming from, relative to the player
  int dx = x - u.posx;
  int dy = y - u.posy;
