@@ -2225,52 +2225,65 @@ point map::find_item(const item *it)
  return ret;
 }
 
+void map::spawn_item(const int x, const int y, item new_item, const int birthday,
+                     const int quantity, const int charges, const int damlevel)
+{
+    if (charges && new_item.charges > 0)
+    {
+        //let's fail silently if we specify charges for an item that doesn't support it
+        new_item.charges = charges;
+    }
+    new_item = new_item.in_its_container(itypes);
+    if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
+    {
+        return;
+    }
+    // bounds checking for damage level
+    if (damlevel < -1)
+    {
+        new_item.damage = -1;
+    }
+    if (damlevel > 4)
+    {
+        new_item.damage = 4;
+    }
+    new_item.damage = damlevel;
+
+    add_item(x, y, new_item);
+}
+
 //Old spawn_item method
 //TODO: Deprecate
 // added argument to spawn at various damage levels
-void map::spawn_item(const int x, const int y, itype* type, const int birthday, const int quantity, const int charges, const int damlevel)
+void map::spawn_item(const int x, const int y, itype* type, const int birthday,
+                     const int quantity, const int charges, const int damlevel)
 {
- if (type->is_style())
-  return;
- item tmp(type, birthday);
- for(int i = 0; i < quantity; i++)
-  spawn_item(x, y, type, birthday, 0, charges);
- if (charges && tmp.charges > 0) //let's fail silently if we specify charges for an item that doesn't support it
-  tmp.charges = charges;
- tmp = tmp.in_its_container(itypes);
- if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
-  return;
-    // bounds checking for damage level
-    if (damlevel < -1)
-        tmp.damage = -1;
-    if (damlevel > 4)
-        tmp.damage = 4;
-    tmp.damage = damlevel;   
- add_item(x, y, tmp);
+    if (type->is_style())
+    {
+        return;
+    }
+    item new_item(type, birthday);
+    for(int i = 0; i < quantity; i++)
+    {
+        spawn_item(x, y, type, birthday, 0, charges);
+    }
+    spawn_item( x, y, new_item, birthday, quantity, charges, damlevel );
 }
 
 //New spawn_item method, using item factory
 // added argument to spawn at various damage levels
-void map::spawn_item(const int x, const int y, std::string type_id, const int birthday, const int quantity, const int charges, const int damlevel)
+void map::spawn_item(const int x, const int y, std::string type_id, const int birthday,
+                     const int quantity, const int charges, const int damlevel)
 {
- item tmp = item_controller->create(type_id, birthday);
- if (quantity)
-  for(int i = 0; i < quantity; i++)
-   spawn_item(x, y, type_id, birthday, 0, charges);
- if (charges && tmp.charges > 0) //let's fail silently if we specify charges for an item that doesn't support it
-  tmp.charges = charges;
- tmp = tmp.in_its_container(itypes);
- if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
-  return;
-    // bounds checking for damage level
-    if (damlevel < -1)
-        tmp.damage = -1;
-    if (damlevel > 4)
-        tmp.damage = 4;
-    tmp.damage = damlevel;  
- add_item(x, y, tmp);
+    item new_item = item_controller->create(type_id, birthday);
+    for(int i = 0; i < quantity; i++)
+    {
+        spawn_item(x, y, type_id, birthday, 0, charges);
+    }
+    spawn_item( x, y, new_item, birthday, quantity, charges, damlevel );
 }
 
+// Place an item on the map, despite the parameter name, this is not necessaraly a new item.
 void map::add_item(const int x, const int y, item new_item)
 {
  if (new_item.is_style())
