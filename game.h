@@ -23,6 +23,7 @@
 #include "mutation.h"
 #include "gamemode.h"
 #include "action.h"
+#include "material.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -240,6 +241,7 @@ class game
   std::vector <trap*> traps;
   recipe_map recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions
+  material_map materials;   // list of all material types
 
   std::vector <itype_id> mapitems[num_itloc]; // Items at various map types
   std::vector <items_location_and_chance> monitems[num_monsters];
@@ -309,6 +311,7 @@ class game
   std::string save_weather() const;
 
 // Data Initialization
+  void init_materials();    // Initializes material types
   void init_itypes();       // Initializes item types
   void init_skills();
   void init_bionics();      // Initializes bionics... for now.

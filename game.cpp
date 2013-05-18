@@ -19,6 +19,7 @@
 #include "catajson.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
+#include "material.h"
 
 #include <map>
 #include <algorithm>
@@ -61,6 +62,7 @@ game::game() :
  dout() << "Game initialized.";
 // Gee, it sure is init-y around here!
  init_skills();
+ init_materials();      // set up materials                 (SEE material.cpp)
  init_bionics();      // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	      // Set up item types                (SEE itypedef.cpp)
  SNIPPET.load();

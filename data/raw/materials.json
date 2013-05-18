@@ -1,0 +1,11 @@
+[
+    {
+        "ident"         : "cotton",
+        "name"          : "Cotton",
+        "bash_resist"   :   1,
+        "cut_resist"    :   1,
+        "acid_resist"   :   1,
+        "elec_resist"   :   1,
+        "fire_resist"   :   1        
+    }
+]
