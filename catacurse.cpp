@@ -1,6 +1,7 @@
 #if (defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
 #include "options.h"
+#include "output.h"
 #include "color.h"
 #include <cstdlib>
 #include <fstream>
@@ -359,6 +360,16 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
         return NULL; //it's the caller's problem now (since they have logging functions declared)
     }
 
+    // default values
+    if (ncols == 0)
+    {
+        ncols = TERMX - begin_x;
+    }
+    if (nlines == 0)
+    {
+        nlines = TERMY - begin_y;
+    }
+
     int i,j;
     WINDOW *newwindow = new WINDOW;
     //newwindow=&_windows[WindowCount];
@@ -476,7 +487,7 @@ int refresh(void)
 
 int getch(void)
 {
-    wgetch(mainwin);
+    return wgetch(mainwin);
 }
 
 //Not terribly sure how this function is suppose to work,
