@@ -9,7 +9,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "Socks. Put 'em on your feet.",
         "price" : 100,
         "material" : ["COTTON", "NULL"],
@@ -21,7 +21,7 @@
         "rarity" : 70,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -33,7 +33,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "Warm socks made of wool.",
         "price" : 120,
         "material" : ["WOOL", "NULL"],
@@ -45,7 +45,7 @@
         "rarity" : 30,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -57,7 +57,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "Guaranteed to make you run faster and jump higher!",
         "price" : 100,
         "material" : ["LEATHER", "NULL"],
@@ -82,7 +82,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "Tough leather boots. Very durable.",
         "price" : 120,
         "material" : ["LEATHER", "NULL"],
@@ -95,7 +95,7 @@
         "encumberance" : 1,
         "bashing" : 1,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 4
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -107,7 +107,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "Boots lined with fur for warmth.",
         "price" : 120,
         "material" : ["LEATHER", "FUR"],
@@ -120,7 +120,7 @@
         "encumberance" : 1,
         "bashing" : 1,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 4
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -132,7 +132,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 4,
+        "bashing_protection" : 3,
         "description" : "Leather boots with a steel toe. Extremely durable.",
         "price" : 135,
         "material" : ["LEATHER", "STEEL"],
@@ -145,7 +145,7 @@
         "encumberance" : 1,
         "bashing" : 4,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 4
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -157,7 +157,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "Cumbersome boots designed for warmth.",
         "price" : 140,
         "material" : ["WOOL", "PLASTIC"],
@@ -170,7 +170,7 @@
         "encumberance" : 2,
         "bashing" : 0,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -182,7 +182,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "Simple shoes made from animal pelts.",
         "price" : 80,
         "material" : ["FUR", "LEATHER"],
@@ -194,7 +194,7 @@
         "rarity" : 5,
         "encumberance" : 0,
         "bashing" : -3,
-        "cutting_protection" : 1
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -206,7 +206,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 1,
         "description" : "Simple sandals. Very difficult to run in.",
         "price" : 25,
         "material" : ["PLASTIC", "NULL"],
@@ -219,7 +219,7 @@
         "encumberance" : 3,
         "bashing" : -4,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 1
     },
     {
         "type" : "ARMOR",
@@ -231,7 +231,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "Fancy patent leather shoes. Not designed for running in.",
         "price" : 45,
         "material" : ["LEATHER", "NULL"],
@@ -244,7 +244,7 @@
         "encumberance" : 1,
         "bashing" : 1,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 3
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -256,7 +256,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 1,
         "description" : "A pair of high heels. Difficult to even walk in.",
         "price" : 50,
         "material" : ["LEATHER", "NULL"],
@@ -269,7 +269,7 @@
         "encumberance" : 4,
         "bashing" : 6,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 1
     },
     {
         "type" : "ARMOR",
@@ -281,7 +281,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 4,
+        "bashing_protection" : 3,
         "description" : "Boots made from the exoskeletons of insects. Light and durable.",
         "price" : 135,
         "material" : ["CHITIN", "NULL"],
@@ -293,7 +293,7 @@
         "rarity" : 50,
         "encumberance" : 1,
         "bashing" : 4,
-        "cutting_protection" : 4
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -305,7 +305,7 @@
         "to_hit" : 1,
         "storage" : 4,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A pair of khaki shorts.",
         "price" : 180,
         "material" : ["COTTON", "NULL"],
@@ -318,7 +318,7 @@
         "encumberance" : 0,
         "bashing" : -4,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -330,7 +330,7 @@
         "to_hit" : 1,
         "storage" : 8,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A pair of shorts lined with pockets, offering decent storage.",
         "price" : 180,
         "material" : ["COTTON", "NULL"],
@@ -343,7 +343,7 @@
         "encumberance" : 0,
         "bashing" : -4,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -355,7 +355,7 @@
         "to_hit" : 1,
         "storage" : 2,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A pair of blue jeans with two deep pockets.",
         "price" : 180,
         "material" : ["COTTON", "NULL"],
@@ -368,7 +368,7 @@
         "encumberance" : 1,
         "bashing" : -4,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -380,7 +380,7 @@
         "to_hit" : 1,
         "storage" : 4,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A pair of khaki pants. Slightly warmer than jeans.",
         "price" : 185,
         "material" : ["COTTON", "NULL"],
@@ -393,7 +393,7 @@
         "encumberance" : 1,
         "bashing" : -4,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -405,7 +405,7 @@
         "to_hit" : 1,
         "storage" : 2,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A pair of black leather pants. Very tough, but cumbersome and without much storage.",
         "price" : 210,
         "material" : ["LEATHER", "NULL"],
@@ -418,7 +418,7 @@
         "encumberance" : 2,
         "bashing" : -2,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 7
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -430,7 +430,7 @@
         "to_hit" : 0,
         "storage" : 12,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A pair of pants lined with pockets, offering lots of storage.",
         "price" : 280,
         "material" : ["COTTON", "NULL"],
@@ -443,7 +443,7 @@
         "encumberance" : 1,
         "bashing" : -3,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -455,7 +455,7 @@
         "to_hit" : 0,
         "storage" : 14,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A tough pair of pants lined with pockets. Favored by the military.",
         "price" : 315,
         "material" : ["COTTON", "NULL"],
@@ -480,7 +480,7 @@
         "to_hit" : 0,
         "storage" : 4,
         "symbol" : "[",
-        "bashing_protection" : 2,
+        "bashing_protection" : 3,
         "description" : "A pair of pants meant for alpine skiing.",
         "price" : 300,
         "material" : ["COTTON", "NULL"],
@@ -493,7 +493,7 @@
         "encumberance" : 2,
         "bashing" : -3,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -505,7 +505,7 @@
         "to_hit" : 1,
         "storage" : 4,
         "symbol" : "[",
-        "bashing_protection" : 2,
+        "bashing_protection" : 3,
         "description" : "A hefty pair of fur-lined pants.",
         "price" : 300,
         "material" : ["COTTON", "FUR"],
@@ -518,7 +518,7 @@
         "encumberance" : 2,
         "bashing" : -3,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -530,7 +530,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A pair of long underwear that help to maintain body temperature.",
         "price" : 200,
         "material" : ["COTTON", "NULL"],
@@ -543,7 +543,7 @@
         "encumberance" : 0,
         "bashing" : -3,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -555,7 +555,7 @@
         "to_hit" : 0,
         "storage" : 1,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A short, breezy cotton skirt. Easy to move in, but only has a single small pocket.",
         "price" : 120,
         "material" : ["COTTON", "NULL"],
@@ -568,7 +568,7 @@
         "encumberance" : -1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -580,7 +580,7 @@
         "to_hit" : -3,
         "storage" : 8,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A thin, short-sleeved jumpsuit; similar to those worn by prisoners. Provides decent storage and is not very encumbering.",
         "price" : 200,
         "material" : ["COTTON", "PLASTIC"],
@@ -593,7 +593,7 @@
         "encumberance" : 0,
         "bashing" : -3,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -617,7 +617,7 @@
         "rarity" : 4,
         "encumberance" : 1,
         "bashing" : -3,
-        "cutting_protection" : 7
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -629,7 +629,7 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A long cotton dress. Difficult to move in and lacks any storage space.",
         "price" : 180,
         "material" : ["COTTON", "NULL"],
@@ -642,7 +642,7 @@
         "encumberance" : 3,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -654,7 +654,7 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 8,
+        "bashing_protection" : 3,
         "description" : "Leg and body armor made from the exoskeletons of insects. Light and durable.",
         "price" : 1200,
         "material" : ["CHITIN", "NULL"],
@@ -666,7 +666,7 @@
         "rarity" : 1,
         "encumberance" : 2,
         "bashing" : 2,
-        "cutting_protection" : 14
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -678,7 +678,7 @@
         "to_hit" : -5,
         "storage" : 10,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A full-body cotton suit. Makes the apocalypse a truly gentlemanly experience.",
         "price" : 180,
         "material" : ["COTTON", "NULL"],
@@ -691,7 +691,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -703,7 +703,7 @@
         "to_hit" : -8,
         "storage" : 12,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A hazardous materials suit. Though quite bulky and cumbersome, wearing it will provide excellent protection against ambient radiation.",
         "price" : 1000,
         "material" : ["PLASTIC", "NULL"],
@@ -716,7 +716,7 @@
         "encumberance" : 4,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -728,7 +728,7 @@
         "to_hit" : -5,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 16,
+        "bashing_protection" : 3,
         "description" : "An extremely heavy ornamental suit of armor.",
         "price" : 700,
         "material" : ["IRON", "NULL"],
@@ -741,7 +741,7 @@
         "encumberance" : 5,
         "bashing" : 8,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 20
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -753,7 +753,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A short-sleeved cotton shirt.",
         "price" : 80,
         "material" : ["COTTON", "NULL"],
@@ -766,7 +766,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -778,7 +778,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A short-sleeved cotton shirt, slightly thicker than a t-shirt.",
         "price" : 95,
         "material" : ["COTTON", "NULL"],
@@ -791,7 +791,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -803,7 +803,7 @@
         "to_hit" : 0,
         "storage" : 1,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A white button-down shirt with long sleeves. Looks professional!",
         "price" : 115,
         "material" : ["COTTON", "NULL"],
@@ -816,7 +816,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -828,7 +828,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 1,
         "description" : "A sleeveless cotton shirt. Very easy to move in.",
         "price" : 75,
         "material" : ["COTTON", "NULL"],
@@ -841,7 +841,7 @@
         "encumberance" : 0,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 1
     },
     {
         "type" : "ARMOR",
@@ -853,7 +853,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A thick cotton shirt. Provides warmth and a bit of padding.",
         "price" : 110,
         "material" : ["COTTON", "NULL"],
@@ -866,7 +866,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -878,7 +878,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A wool shirt. Provides warmth.",
         "price" : 105,
         "material" : ["WOOL", "NULL"],
@@ -891,7 +891,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -903,7 +903,7 @@
         "to_hit" : 0,
         "storage" : 9,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A sweatshirt with a hood and a \"kangaroo pocket\" in front for storage.",
         "price" : 130,
         "material" : ["COTTON", "NULL"],
@@ -916,7 +916,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -928,7 +928,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "Sports wear that clings to your chest to maintain body temperature.",
         "price" : 200,
         "material" : ["COTTON", "NULL"],
@@ -941,7 +941,7 @@
         "encumberance" : 0,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -953,7 +953,7 @@
         "to_hit" : 0,
         "storage" : 4,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A thin cotton jacket. Good for brisk weather.",
         "price" : 105,
         "material" : ["COTTON", "NULL"],
@@ -966,7 +966,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -978,7 +978,7 @@
         "to_hit" : 0,
         "storage" : 3,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A jacket made from denim. Provides decent protection from cuts.",
         "price" : 120,
         "material" : ["COTTON", "NULL"],
@@ -991,7 +991,7 @@
         "encumberance" : 1,
         "bashing" : -3,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 4
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1003,7 +1003,7 @@
         "to_hit" : 0,
         "storage" : 2,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A professional-looking wool blazer. Quite cumbersome.",
         "price" : 120,
         "material" : ["WOOL", "NULL"],
@@ -1028,7 +1028,7 @@
         "to_hit" : 1,
         "storage" : 4,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A jacket made from thick leather. Cumbersome, but offers excellent protection from cuts.",
         "price" : 150,
         "material" : ["LEATHER", "NULL"],
@@ -1041,7 +1041,7 @@
         "encumberance" : 2,
         "bashing" : -2,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 9
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1053,7 +1053,7 @@
         "to_hit" : -3,
         "storage" : 4,
         "symbol" : "[",
-        "bashing_protection" : 4,
+        "bashing_protection" : 3,
         "description" : "A heavy bulletproof vest. The best protection from cuts and bullets.",
         "price" : 800,
         "material" : ["KEVLAR", "NULL"],
@@ -1066,7 +1066,7 @@
         "encumberance" : 2,
         "bashing" : 6,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 22
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1078,7 +1078,7 @@
         "to_hit" : 0,
         "storage" : 7,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A plastic coat with two very large pockets. Provides protection from rain.",
         "price" : 100,
         "material" : ["COTTON", "PLASTIC"],
@@ -1103,7 +1103,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A simple wool garment worn over the torso. Provides a bit of protection.",
         "price" : 120,
         "material" : ["WOOL", "NULL"],
@@ -1116,7 +1116,7 @@
         "encumberance" : 0,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1128,7 +1128,7 @@
         "to_hit" : -1,
         "storage" : 24,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A thin cotton trenchcoat, lined with pockets. Great for storage.",
         "price" : 225,
         "material" : ["COTTON", "NULL"],
@@ -1141,7 +1141,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1153,7 +1153,7 @@
         "to_hit" : -1,
         "storage" : 24,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A thick leather trenchcoat, lined with pockets. Great for storage.",
         "price" : 225,
         "material" : ["LEATHER", "NULL"],
@@ -1166,7 +1166,7 @@
         "encumberance" : 2,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 9
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1178,7 +1178,7 @@
         "to_hit" : -1,
         "storage" : 24,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A thick fur trenchcoat, lined with pockets. Great for storage.",
         "price" : 225,
         "material" : ["FUR", "NULL"],
@@ -1191,7 +1191,7 @@
         "encumberance" : 2,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 9
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1216,7 +1216,7 @@
         "encumberance" : 3,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1228,7 +1228,7 @@
         "to_hit" : -5,
         "storage" : 4,
         "symbol" : "[",
-        "bashing_protection" : 4,
+        "bashing_protection" : 3,
         "description" : "A fur coat with a couple small pockets. Extremely warm.",
         "price" : 550,
         "material" : ["FUR", "LEATHER"],
@@ -1241,7 +1241,7 @@
         "encumberance" : 2,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1253,7 +1253,7 @@
         "to_hit" : -3,
         "storage" : 10,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A heavy cotton coat. Cumbersome, but warm and with deep pockets.",
         "price" : 180,
         "material" : ["COTTON", "NULL"],
@@ -1266,7 +1266,7 @@
         "encumberance" : 2,
         "bashing" : -4,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1278,7 +1278,7 @@
         "to_hit" : 0,
         "storage" : 14,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A light vest covered in pockets and straps for storage.",
         "price" : 200,
         "material" : ["COTTON", "NULL"],
@@ -1290,7 +1290,7 @@
         "rarity" : 15,
         "encumberance" : 0,
         "bashing" : -3,
-        "cutting_protection" : 1
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -1302,7 +1302,7 @@
         "to_hit" : 0,
         "storage" : 18,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A light vest covered in webbing, pockets and straps. This variety is favoured by the military.",
         "price" : 200,
         "material" : ["COTTON", "NULL"],
@@ -1314,7 +1314,7 @@
         "rarity" : 10,
         "encumberance" : 0,
         "bashing" : -3,
-        "cutting_protection" : 1
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -1326,7 +1326,7 @@
         "to_hit" : -2,
         "storage" : 14,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A long white coat with several large pockets.",
         "price" : 155,
         "material" : ["COTTON", "NULL"],
@@ -1338,7 +1338,7 @@
         "rarity" : 20,
         "encumberance" : 1,
         "bashing" : -3,
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1350,7 +1350,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A pair of soft neoprene arm sleeves, often used in contact sports.",
         "price" : 65,
         "material" : ["COTTON", "NULL"],
@@ -1362,7 +1362,7 @@
         "rarity" : 40,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1374,7 +1374,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 2,
+        "bashing_protection" : 3,
         "description" : "A pair of neoprene arm sleeves covered with molded plastic sheaths.",
         "price" : 130,
         "material" : ["COTTON", "PLASTIC"],
@@ -1386,7 +1386,7 @@
         "rarity" : 20,
         "encumberance" : 1,
         "bashing" : -5,
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1422,7 +1422,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 4,
+        "bashing_protection" : 3,
         "description" : "A pair of arm guards hammered out from metal. Very stylish.",
         "price" : 400,
         "material" : ["IRON", "NULL"],
@@ -1434,7 +1434,7 @@
         "rarity" : 10,
         "encumberance" : 1,
         "bashing" : -5,
-        "cutting_protection" : 4
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1446,7 +1446,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A pair of thin cotton gloves. Often used as a liner beneath other gloves.",
         "price" : 100,
         "material" : ["COTTON", "NULL"],
@@ -1459,7 +1459,7 @@
         "encumberance" : 0,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1471,7 +1471,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A pair of cotton gloves.",
         "price" : 65,
         "material" : ["COTTON", "NULL"],
@@ -1483,7 +1483,7 @@
         "rarity" : 35,
         "encumberance" : 1,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1495,7 +1495,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A pair of warm mittens. They are extremely cumbersome.",
         "price" : 40,
         "material" : ["WOOL", "NULL"],
@@ -1507,7 +1507,7 @@
         "rarity" : 30,
         "encumberance" : 8,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1519,7 +1519,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A pair of warm fur gloves. They are somewhat cumbersome.",
         "price" : 40,
         "material" : ["FUR", "NULL"],
@@ -1531,7 +1531,7 @@
         "rarity" : 30,
         "encumberance" : 3,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1543,7 +1543,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A thick pair of wool gloves. Cumbersome but warm.",
         "price" : 50,
         "material" : ["WOOL", "NULL"],
@@ -1555,7 +1555,7 @@
         "rarity" : 33,
         "encumberance" : 3,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1567,7 +1567,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A pair of padded gloves. Cumbersome but warm.",
         "price" : 65,
         "material" : ["COTTON", "NULL"],
@@ -1579,7 +1579,7 @@
         "rarity" : 40,
         "encumberance" : 5,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1591,7 +1591,7 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A thin pair of leather gloves. Good for doing manual labor.",
         "price" : 85,
         "material" : ["LEATHER", "NULL"],
@@ -1615,7 +1615,7 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 1,
         "description" : "A pair of leather gloves with no fingers, allowing greater manual dexterity.",
         "price" : 90,
         "material" : ["LEATHER", "NULL"],
@@ -1627,7 +1627,7 @@
         "rarity" : 20,
         "encumberance" : 0,
         "bashing" : -3,
-        "cutting_protection" : 2
+        "cutting_protection" : 1
     },
     {
         "type" : "ARMOR",
@@ -1639,7 +1639,7 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A pair of rubber gloves, often used while cleaning with caustic materials.",
         "price" : 30,
         "material" : ["PLASTIC", "NULL"],
@@ -1651,7 +1651,7 @@
         "rarity" : 20,
         "encumberance" : 3,
         "bashing" : -3,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1663,7 +1663,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A pair of thin latex gloves, designed to limit the spread of disease.",
         "price" : 10,
         "material" : ["PLASTIC", "NULL"],
@@ -1675,7 +1675,7 @@
         "rarity" : 70,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1687,7 +1687,7 @@
         "to_hit" : 2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A heavy pair of leather gloves, used by firefighters for heat protection.",
         "price" : 95,
         "material" : ["LEATHER", "NULL"],
@@ -1699,7 +1699,7 @@
         "rarity" : 5,
         "encumberance" : 6,
         "bashing" : -2,
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1711,7 +1711,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 5,
+        "bashing_protection" : 3,
         "description" : "Gauntlets made from the exoskeletons of insects. Very light and durable.",
         "price" : 380,
         "material" : ["CHITIN", "NULL"],
@@ -1723,7 +1723,7 @@
         "rarity" : 1,
         "encumberance" : 1,
         "bashing" : 2,
-        "cutting_protection" : 7
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1735,7 +1735,7 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A simple piece of cotton that straps over the mouth. Provides a small amount of protection from air-borne illness and dust.",
         "price" : 20,
         "material" : ["COTTON", "IRON"],
@@ -1747,7 +1747,7 @@
         "rarity" : 65,
         "encumberance" : 1,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -1759,7 +1759,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 1,
         "description" : "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
         "price" : 28,
         "material" : ["COTTON", "NULL"],
@@ -1771,7 +1771,7 @@
         "rarity" : 35,
         "encumberance" : 0,
         "bashing" : -4,
-        "cutting_protection" : 0
+        "cutting_protection" : 1
     },
     {
         "type" : "ARMOR",
@@ -1783,7 +1783,7 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A long wool scarf, worn over the mouth for warmth.",
         "price" : 40,
         "material" : ["WOOL", "NULL"],
@@ -1795,7 +1795,7 @@
         "rarity" : 45,
         "encumberance" : 1,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1807,7 +1807,7 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A long wool scarf, worn over the mouth for warmth.",
         "price" : 40,
         "material" : ["FUR", "NULL"],
@@ -1819,7 +1819,7 @@
         "rarity" : 45,
         "encumberance" : 1,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1831,7 +1831,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 2,
         "description" : "A mask that straps over your mouth and nose and filters air. Protects from smoke, dust, and other contaminants quite well.",
         "price" : 80,
         "material" : ["PLASTIC", "NULL"],
@@ -1843,7 +1843,7 @@
         "rarity" : 30,
         "encumberance" : 2,
         "bashing" : 1,
-        "cutting_protection" : 1
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -1855,7 +1855,7 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A full gas mask that covers the face and eyes. Provides excellent protection from smoke, teargas, and other contaminants.",
         "price" : 240,
         "material" : ["PLASTIC", "NULL"],
@@ -1867,7 +1867,7 @@
         "rarity" : 10,
         "encumberance" : 4,
         "bashing" : 0,
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1879,7 +1879,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A pair of glasses for the near-sighted. Useless for anyone else.",
         "price" : 150,
         "material" : ["GLASS", "PLASTIC"],
@@ -1891,7 +1891,7 @@
         "rarity" : 90,
         "encumberance" : 0,
         "bashing" : -3,
-        "cutting_protection" : 1
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -1903,7 +1903,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A pair of glasses for the far-sighted. Useless for anyone else.",
         "price" : 80,
         "material" : ["GLASS", "PLASTIC"],
@@ -1915,7 +1915,7 @@
         "rarity" : 90,
         "encumberance" : 0,
         "bashing" : -3,
-        "cutting_protection" : 1
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -1927,7 +1927,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 2,
+        "bashing_protection" : 3,
         "description" : "A pair of plastic glasses, used in workshops, sports, chemistry labs, and many other places. Provides great protection from damage.",
         "price" : 100,
         "material" : ["PLASTIC", "NULL"],
@@ -1939,7 +1939,7 @@
         "rarity" : 40,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 4
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1951,7 +1951,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 2,
         "description" : "A small pair of goggles. Distorts vision above water, but allows you to see much further under water.",
         "price" : 110,
         "material" : ["PLASTIC", "NULL"],
@@ -1975,7 +1975,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 3,
         "description" : "A large pair of goggles that completely seal off your eyes. Excellent protection from environmental dangers.",
         "price" : 175,
         "material" : ["PLASTIC", "NULL"],
@@ -1987,7 +1987,7 @@
         "rarity" : 30,
         "encumberance" : 1,
         "bashing" : -4,
-        "cutting_protection" : 2
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -1999,7 +1999,7 @@
         "to_hit" : -3,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 2,
+        "bashing_protection" : 3,
         "description" : "A dark pair of goggles. They make seeing very difficult, but protect you from bright flashes.",
         "price" : 240,
         "material" : ["GLASS", "STEEL"],
@@ -2011,7 +2011,7 @@
         "rarity" : 70,
         "encumberance" : 6,
         "bashing" : -1,
-        "cutting_protection" : 5
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2023,7 +2023,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 2,
+        "bashing_protection" : 3,
         "description" : "A pair of goggles that amplify ambient light, allowing you to see in the dark.  You must be carrying a powered-on unified power supply, or UPS, to use them.",
         "price" : 920,
         "material" : ["STEEL", "GLASS"],
@@ -2047,7 +2047,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 1,
         "description" : "An essential article of the gentleman's apparel. Also negates near-sight.",
         "price" : 200,
         "material" : ["GLASS", "PLASTIC"],
@@ -2071,7 +2071,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A pair of sunglasses, good for keeping the glare out of your eyes.",
         "price" : 150,
         "material" : ["GLASS", "PLASTIC"],
@@ -2083,7 +2083,7 @@
         "rarity" : 90,
         "encumberance" : 0,
         "bashing" : -3,
-        "cutting_protection" : 1
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -2095,7 +2095,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A Red Sox cap. It provides a little bit of warmth.",
         "price" : 35,
         "material" : ["COTTON", "NULL"],
@@ -2107,7 +2107,7 @@
         "rarity" : 30,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -2119,7 +2119,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "Also called a \"bucket hat.\" Often used in the military.",
         "price" : 55,
         "material" : ["COTTON", "NULL"],
@@ -2131,7 +2131,7 @@
         "rarity" : 10,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -2143,7 +2143,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A snug-fitting cotton hat. Quite warm.",
         "price" : 40,
         "material" : ["COTTON", "NULL"],
@@ -2155,7 +2155,7 @@
         "rarity" : 45,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -2167,7 +2167,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 1,
+        "bashing_protection" : 2,
         "description" : "A snug-fitting wool hat. Very warm.",
         "price" : 50,
         "material" : ["WOOL", "NULL"],
@@ -2179,7 +2179,7 @@
         "rarity" : 25,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -2191,7 +2191,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A red plaid hunting cap with ear flaps. Notably warm.",
         "price" : 80,
         "material" : ["WOOL", "NULL"],
@@ -2203,7 +2203,7 @@
         "rarity" : 20,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2239,7 +2239,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A warm covering that protects the head and face from cold.",
         "price" : 100,
         "material" : ["COTTON", "NULL"],
@@ -2251,7 +2251,7 @@
         "rarity" : 15,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2264,7 +2264,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 4,
+        "bashing_protection" : 2,
         "description" : "A hard plastic hat worn in constructions sites. Excellent protection from cuts and percussion.",
         "price" : 125,
         "material" : ["PLASTIC", "NULL"],
@@ -2276,7 +2276,7 @@
         "rarity" : 50,
         "encumberance" : 1,
         "bashing" : 6,
-        "cutting_protection" : 5
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -2288,7 +2288,7 @@
         "to_hit" : 1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 10,
+        "bashing_protection" : 2,
         "description" : "A spiked helmet once worn by German military officers. The spike is very sharp.",
         "price" : 240,
         "material" : ["IRON", "NULL"],
@@ -2300,7 +2300,7 @@
         "rarity" : 50,
         "encumberance" : 1,
         "bashing" : 10,
-        "cutting_protection" : 10
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -2312,7 +2312,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "A soft cotton hat commonly worn by armed forces and existentialists.",
         "price" : 125,
         "material" : ["COTTON", "NULL"],
@@ -2324,7 +2324,7 @@
         "rarity" : 50,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 0
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -2337,7 +2337,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 8,
+        "bashing_protection" : 2,
         "description" : "A thick foam helmet. Designed to protect against concussion.",
         "price" : 140,
         "material" : ["PLASTIC", "NULL"],
@@ -2362,7 +2362,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 6,
+        "bashing_protection" : 2,
         "description" : "A small metal helmet that covers the head and protects against cuts and percussion.",
         "price" : 190,
         "material" : ["PLASTIC", "IRON"],
@@ -2374,7 +2374,7 @@
         "rarity" : 30,
         "encumberance" : 2,
         "bashing" : 8,
-        "cutting_protection" : 16
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -2387,7 +2387,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 10,
+        "bashing_protection" : 3,
         "description" : "A hard plastic helmet that covers the head and ears. Designed to protect against a baseball to the head.",
         "price" : 195,
         "material" : ["PLASTIC", "IRON"],
@@ -2399,7 +2399,7 @@
         "rarity" : 45,
         "encumberance" : 2,
         "bashing" : 7,
-        "cutting_protection" : 10
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2412,7 +2412,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 12,
+        "bashing_protection" : 3,
         "description" : "A heavy helmet that provides excellent protection from all sorts of damage.",
         "price" : 480,
         "material" : ["PLASTIC", "IRON"],
@@ -2424,7 +2424,7 @@
         "rarity" : 40,
         "encumberance" : 2,
         "bashing" : 10,
-        "cutting_protection" : 28
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2437,7 +2437,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 6,
+        "bashing_protection" : 3,
         "description" : "A helmet with a plastic shield that covers your entire face.",
         "price" : 420,
         "material" : ["PLASTIC", "IRON"],
@@ -2449,7 +2449,7 @@
         "rarity" : 25,
         "encumberance" : 2,
         "bashing" : 8,
-        "cutting_protection" : 28
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2462,7 +2462,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 8,
+        "bashing_protection" : 3,
         "description" : "A helmet with covers for your head and chin, leaving space in-between for you to wear goggles.",
         "price" : 325,
         "material" : ["PLASTIC", "IRON"],
@@ -2474,7 +2474,7 @@
         "rarity" : 40,
         "encumberance" : 3,
         "bashing" : 7,
-        "cutting_protection" : 20
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2486,7 +2486,7 @@
         "to_hit" : -2,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 10,
+        "bashing_protection" : 3,
         "description" : "A helmet made from the exoskeletons of insects. Covers the entire head; very light and durable.",
         "price" : 380,
         "material" : ["CHITIN", "NULL"],
@@ -2498,7 +2498,7 @@
         "rarity" : 1,
         "encumberance" : 1,
         "bashing" : 2,
-        "cutting_protection" : 14
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2511,7 +2511,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 10,
+        "bashing_protection" : 3,
         "description" : "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.",
         "price" : 400,
         "material" : ["IRON", "NULL"],
@@ -2523,7 +2523,7 @@
         "rarity" : 1,
         "encumberance" : 4,
         "bashing" : 10,
-        "cutting_protection" : 15
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2535,7 +2535,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 2,
         "description" : "The only hat for a gentleman. Look exquisite while laughing in the face of danger!",
         "price" : 55,
         "material" : ["COTTON", "NULL"],
@@ -2547,7 +2547,7 @@
         "rarity" : 10,
         "encumberance" : 0,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 2
     },
     {
         "type" : "ARMOR",
@@ -2819,7 +2819,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "Hiding under here will not protect you from the monsters.",
         "price" : 225,
         "material" : ["COTTON", "NULL"],
@@ -2831,7 +2831,7 @@
         "rarity" : 20,
         "encumberance" : 5,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2843,7 +2843,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A heavy fur blanket that covers most of your body.",
         "price" : 225,
         "material" : ["COTTON", "FUR"],
@@ -2855,7 +2855,7 @@
         "rarity" : 20,
         "encumberance" : 5,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2867,7 +2867,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A compact wool blanket that covers your most important body parts.",
         "price" : 225,
         "material" : ["WOOL", "NULL"],
@@ -2879,7 +2879,7 @@
         "rarity" : 20,
         "encumberance" : 5,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2891,7 +2891,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A large sleeping bag that covers you head to toe.",
         "price" : 225,
         "material" : ["COTTON", "NULL"],
@@ -2903,7 +2903,7 @@
         "rarity" : 10,
         "encumberance" : 5,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2915,7 +2915,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "A large sleeping bag lined with fur. Who needs a tent?",
         "price" : 225,
         "material" : ["COTTON", "FUR"],
@@ -2927,7 +2927,7 @@
         "rarity" : 10,
         "encumberance" : 5,
         "bashing" : -5,
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2939,7 +2939,7 @@
         "to_hit" : -1,
         "storage" : 6,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "Makes you wish you had running water to take a shower.",
         "price" : 225,
         "material" : ["COTTON", "NULL"],
@@ -2952,7 +2952,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2964,7 +2964,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 0,
+        "bashing_protection" : 3,
         "description" : "Perfect for reading all those books you stole.",
         "price" : 225,
         "material" : ["COTTON", "NULL"],
@@ -2977,7 +2977,7 @@
         "encumberance" : 2,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 1
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -2989,7 +2989,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 2,
+        "bashing_protection" : 3,
         "description" : "A heavy cloak that is thrown over your body.",
         "price" : 225,
         "material" : ["COTTON", "NULL"],
@@ -3002,7 +3002,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 6
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -3014,7 +3014,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 2,
+        "bashing_protection" : 3,
         "description" : "A heavy fur cloak that is thrown over your body.",
         "price" : 225,
         "material" : ["COTTON", "NULL"],
@@ -3027,7 +3027,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 6
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -3039,7 +3039,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 2,
+        "bashing_protection" : 3,
         "description" : "A heavy leather cloak that is thrown over your body. Provides decent protection",
         "price" : 225,
         "material" : ["COTTON", "NULL"],
@@ -3052,7 +3052,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 12
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",
@@ -3064,7 +3064,7 @@
         "to_hit" : -1,
         "storage" : 0,
         "symbol" : "[",
-        "bashing_protection" : 5,
+        "bashing_protection" : 3,
         "description" : "Stylish cloak.",
         "price" : 225,
         "material" : ["COTTON", "NULL"],
@@ -3077,7 +3077,7 @@
         "encumberance" : 0,
         "bashing" : -5,
         "flags" : ["VARSIZE"],
-        "cutting_protection" : 10
+        "cutting_protection" : 3
     },
     {
         "type" : "ARMOR",

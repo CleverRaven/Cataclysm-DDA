@@ -6009,9 +6009,9 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         int diff_bash = (dam - arm_bash < 0) ? -1 : (dam - arm_bash);
         int diff_cut  = (cut - arm_cut  < 0) ? -1 : (dam - arm_cut);
      
-        // armour damage occurs only if damage exceeds armour absorption by at least a factor of 2
+        // armour damage occurs only if damage exceeds armour absorption
         // plus a random luck factor
-        if (diff_bash > 2 * arm_bash && !one_in(diff_bash))
+        if (diff_bash > arm_bash && !one_in(diff_bash))
         {
             if (!is_npc())
             {
@@ -6020,7 +6020,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
             worn[i].damage++;        
         }
         
-        if (diff_cut > 2 * arm_cut && !one_in(diff_cut))
+        if (diff_cut > arm_cut && !one_in(diff_cut))
         {
             if (!is_npc())
             {
