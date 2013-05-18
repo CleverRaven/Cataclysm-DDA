@@ -1114,8 +1114,9 @@ void game::complete_craft()
  }
 }
 
-void game::consume_items(std::vector<component> components)
+std::list<item> game::consume_items(std::vector<component> components)
 {
+    std::list<item> ret;
     // For each set of components in the recipe, fill you_have with the list of all
     // matching ingredients the player has.
     std::vector<component> player_has;
@@ -1214,7 +1215,7 @@ void game::consume_items(std::vector<component> components)
         if (options.size() == 0)
         {
             debugmsg("Attempted a recipe with no available components!");
-            return;
+            return ret;
         }
 
         // Get the selection via a menu popup
@@ -1240,12 +1241,14 @@ void game::consume_items(std::vector<component> components)
         if (item_controller->find_template(player_use[i].type)->count_by_charges() &&
             player_use[i].count > 0)
         {
-            u.use_charges(player_use[i].type, player_use[i].count);
+            std::list<item> tmp = u.use_charges(player_use[i].type, player_use[i].count);
+            ret.splice(ret.end(), tmp);
         }
         else
         {
-            u.use_amount(player_use[i].type, abs(player_use[i].count),
-                         (player_use[i].count < 0));
+            std::list<item> tmp = u.use_amount(player_use[i].type, abs(player_use[i].count),
+                                               (player_use[i].count < 0));
+            ret.splice(ret.end(), tmp);
         }
     }
     for (int i = 0; i < map_use.size(); i++)
@@ -1253,14 +1256,16 @@ void game::consume_items(std::vector<component> components)
         if (item_controller->find_template(map_use[i].type)->count_by_charges() &&
             map_use[i].count > 0)
         {
-            m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
-                          map_use[i].type, map_use[i].count);
+            std::list<item> tmp = m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
+                                                map_use[i].type, map_use[i].count);
+            ret.splice(ret.end(), tmp);
         }
         else
         {
-            m.use_amount(point(u.posx, u.posy), PICKUP_RANGE,
-                         map_use[i].type, abs(map_use[i].count),
-                         (map_use[i].count < 0));
+           std::list<item> tmp =  m.use_amount(point(u.posx, u.posy), PICKUP_RANGE,
+                                               map_use[i].type, abs(map_use[i].count),
+                                               (map_use[i].count < 0));
+           ret.splice(ret.end(), tmp);
         }
     }
     for (int i = 0; i < mixed_use.size(); i++)
@@ -1269,20 +1274,27 @@ void game::consume_items(std::vector<component> components)
             mixed_use[i].count > 0)
         {
             int from_map = mixed_use[i].count - u.charges_of(mixed_use[i].type);
-            u.use_charges(mixed_use[i].type, u.charges_of(mixed_use[i].type));
-            m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
-                          mixed_use[i].type, from_map);
+            std::list<item> tmp;
+            tmp = u.use_charges(mixed_use[i].type, u.charges_of(mixed_use[i].type));
+            ret.splice(ret.end(), tmp);
+            tmp = m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
+                                mixed_use[i].type, from_map);
+            ret.splice(ret.end(), tmp);
         }
         else
         {
             bool in_container = (mixed_use[i].count < 0);
             int from_map = abs(mixed_use[i].count) - u.amount_of(mixed_use[i].type);
-            u.use_amount(mixed_use[i].type, u.amount_of(mixed_use[i].type),
-                         in_container);
-            m.use_amount(point(u.posx, u.posy), PICKUP_RANGE,
-                         mixed_use[i].type, from_map, in_container);
+            std::list<item> tmp;
+            tmp = u.use_amount(mixed_use[i].type, u.amount_of(mixed_use[i].type),
+                               in_container);
+            ret.splice(ret.end(), tmp);
+            tmp = m.use_amount(point(u.posx, u.posy), PICKUP_RANGE,
+                               mixed_use[i].type, from_map, in_container);
+            ret.splice(ret.end(), tmp);
         }
     }
+    return ret;
 }
 
 void game::consume_tools(std::vector<component> tools)
