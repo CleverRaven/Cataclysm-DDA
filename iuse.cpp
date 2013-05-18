@@ -924,9 +924,21 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         it->charges++;
         return;
     }
-    if (!fix->made_of(COTTON) && !fix->made_of(WOOL))
+    if (!fix->made_of(COTTON) && !fix->made_of(WOOL) && !fix->made_of(LEATHER))
 	{
-        g->add_msg_if_player(p,"Your %s is not made of cotton or wool.", fix->tname().c_str());
+        g->add_msg_if_player(p,"Your %s is not made of cotton,wool or leather.", fix->tname().c_str());
+        it->charges++;
+        return;
+    }
+    if ((fix->made_of(COTTON) || fix->made_of(WOOL)) && !p->has_amount("rag",1))
+        {
+        g->add_msg_if_player(p,"You don't have enough rags to do that.");
+        it->charges++;
+        return;
+    }
+    if (fix->made_of(LEATHER) && !p->has_amount("leather",1))
+        {
+        g->add_msg_if_player(p,"You don't have enough leather to do that.");
         it->charges++;
         return;
     }
@@ -1019,6 +1031,15 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             fix->damage = 0;
         }
     }
+    
+    if (fix->made_of(COTTON) || fix->made_of(WOOL))
+    {
+    p->use_amount("rag",1);
+}
+    else if (fix->made_of(LEATHER))
+    {
+    p->use_amount("leather",1);
+}
     //iuse::sew uses up 1 charge when called, if less than 1, set to 1, and use that one up.
     if (it->charges < 1)
         {it->charges = 1;}
