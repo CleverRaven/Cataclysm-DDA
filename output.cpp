@@ -493,20 +493,24 @@ int menu_vec(bool cancelable, const char *mes, std::vector<std::string> options)
   if (options[i].length() + 6 > width)
    width = options[i].length() + 6;
  }
+int currsel=-1;
+std::string spaces(width-2, ' ');
  WINDOW *w = newwin(height, width, (TERMY-height)/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wattron(w, c_white);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintw(w, 1, 1, title.c_str());
- for (int i = 0; i < options.size(); i++)
-  mvwprintw(w, i + 2, 1, "%c: %s", (i < 9? i + '1' :
-                                   (i == 9? '0' : 'a' + i - 10)),
-            options[i].c_str());
  long ch;
- wrefresh(w);
  int res;
  do
  {
+  for (int i = 0; i < options.size(); i++) {
+   mvwprintz(w, i + 2, 1, (i==currsel ? h_white : c_white), "%s", spaces.c_str() );
+   mvwprintz(w, i + 2, 1, (i==currsel ? h_white : c_white), "%c: %s", (i < 9? i + '1' :
+                                    (i == 9? '0' : 'a' + i - 10)),
+             options[i].c_str());
+  }
+  wrefresh(w);
   ch = getch();
   if (cancelable && ch == KEY_ESCAPE)
    res = options.size();
@@ -520,9 +524,20 @@ int menu_vec(bool cancelable, const char *mes, std::vector<std::string> options)
   if (ch >= 'a' && ch <= 'z')
    res = ch - 'a' + 11;
   else
+  if (ch == KEY_DOWN )
+   currsel++;
+  else
+  if (ch == KEY_UP )
+   currsel--;
+  else
+  if(ch == '\n' && currsel >= 0 && currsel < options.size() )
+   res=currsel+1;
+  else
    res = -1;
   if (res > options.size())
    res = -1;
+  if (currsel < -1) currsel = options.size() - 1;
+  else if ( currsel > 0 && currsel > options.size() ) currsel = 0;
  }
  while (res == -1);
  werase(w);
@@ -728,7 +743,8 @@ void full_screen_popup(const char* mes, ...)
 //if sType == "MENU", sPre == "iOffsetY" or "iOffsetX" also do special things
 //otherwise if sType == "MENU", iValue can be used to control color
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
-char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare)
+// well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
+int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected)
 {
  WINDOW* w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
@@ -737,6 +753,8 @@ char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string 
  int iStartX = 0;
  std::string sPlus;
  bool bStartNewLine = true;
+ int selected_ret='\n';
+ std::string spaces(iWidth-2, ' ');
  for (int i = 0; i < vItemDisplay.size(); i++) {
   if (vItemDisplay[i].sType == "MENU") {
    if (vItemDisplay[i].sPre == "iOffsetY") {
@@ -746,11 +764,17 @@ char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string 
    } else {
     nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
     //patched to allow variable "name" coloring, e.g. for item examining
+    nc_color bgColor = c_white;     //yes the name makes no sense
     if (vItemDisplay[i].iValue >= 0) {
      nameColor = vItemDisplay[i].iValue == 0 ? c_ltgray : c_ltred;
     }
+    if ( i == selected && vItemDisplay[i].sName != "" ) {
+      bgColor = h_white;
+      selected_ret=(int)vItemDisplay[i].sName.c_str()[0]; // fixme: sanity check(?)
+    }
+    mvwprintz(w, line_num, 1, bgColor, "%s", spaces.c_str() );
     mvwprintz(w, line_num, iStartX, nameColor, "%s", (vItemDisplay[i].sName).c_str());
-    wprintz(w, c_white, "%s", (vItemDisplay[i].sPre).c_str());
+    wprintz(w, bgColor, "%s", (vItemDisplay[i].sPre).c_str());
     line_num++;
    }
   } else if (vItemDisplay[i].sType == "DESCRIPTION") {
@@ -826,11 +850,16 @@ char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- char ch = ' ';
+ int ch = (int)' ';
 
  wrefresh(w);
  if (iLeft > 0) {
-  ch = getch();
+  ch = (int)getch();
+  if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
+    ch=selected_ret;
+  } else if ( selected == KEY_LEFT ) {
+    ch=(int)' ';
+  }
   werase(w);
   wrefresh(w);
   delwin(w);
