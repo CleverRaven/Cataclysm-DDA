@@ -505,7 +505,7 @@ std::string spaces(width-2, ' ');
  do
  {
   for (int i = 0; i < options.size(); i++) {
-   mvwprintw(w, i + 2, 1, "%s", spaces.c_str() );
+   mvwprintw(w, i + 2, 1, (i==currsel ? h_white : c_white), "%s", spaces.c_str() );
    mvwprintz(w, i + 2, 1, (i==currsel ? h_white : c_white), "%c: %s", (i < 9? i + '1' :
                                     (i == 9? '0' : 'a' + i - 10)),
              options[i].c_str());
