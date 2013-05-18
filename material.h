@@ -31,7 +31,9 @@ public:
 
     // functions  
     static material_type* find_material(std::string ident);
-    static material_type* find_material_from_tag(material mat);      
+    static material_type* find_material_from_tag(material mat);
+    static material_type* base_material();  // null material
+              
     int dam_resist(damage_type damtype) const;
     
     unsigned int id() const;

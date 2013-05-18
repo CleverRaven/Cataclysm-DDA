@@ -87,7 +87,7 @@ material_type* material_type::find_material(std::string ident)
 // stopgap function for now
 material_type* material_type::find_material_from_tag(material mat)
 {
-   std::string ident;
+    std::string ident;
     
     switch(mat)
     {
@@ -112,7 +112,7 @@ material_type* material_type::find_material_from_tag(material mat)
         case SILVER:    ident = "silver"; break;
         default:        ident = "null"; break;
     }    
-  
+
     material_map::iterator found = _all_materials.find(ident);
     if(found != _all_materials.end()){
         return &(found->second);
@@ -122,6 +122,11 @@ material_type* material_type::find_material_from_tag(material mat)
         debugmsg("Tried to get invalid material: %s", ident.c_str());
         return NULL;
     }   
+}
+
+material_type* material_type::base_material()
+{
+    return material_type::find_material("null");
 }
 
 int material_type::dam_resist(damage_type damtype) const

@@ -902,6 +902,8 @@ material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
         return KEVLAR;
     } else if(name == "FUR"){
         return FUR;
+    } else if(name == "CHITIN"){
+        return CHITIN;        
     } else if(name == "STONE"){
         return STONE;
     } else if(name == "PAPER"){

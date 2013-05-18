@@ -5981,38 +5981,19 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
   tmp = dynamic_cast<it_armor*>(worn[i].type);
   if ((tmp->covers & mfb(bp)) && tmp->storage <= 24) {
 
-    material_type* cur_mat;
-    cur_mat->find_material_from_tag(tmp->m1);
-    
-// multiply by material resistance
-   arm_bash = (1 + tmp->dmg_resist) * cur_mat->bash_resist();
-   arm_cut  = (1 + tmp->cut_resist) * cur_mat->cut_resist();
+    material_type* cur_mat = material_type::find_material_from_tag(tmp->m1);
 
-// already damaged armour protects less
-   switch (worn[i].damage) {
-   case 1:
-    arm_bash -= 1;
-    arm_cut  -= 1;
-    break;
-   case 2:
-    arm_bash -= 2;
-    arm_cut  -= 2;
-    break;
-   case 3:
-    arm_bash -= 3;
-    arm_cut  -= 3;
-    break;
-   case 4:
-    arm_bash -= 4;
-    arm_cut  -= 4;
-    break;
-   }
-    
-    if (arm_bash < 0)
-        arm_bash = 0;
-    if (arm_cut < 0)
-        arm_cut = 0;
-   
+    // subtract clothing damage from basic protection values
+    // in the case of reinforced clothing, this adds to the protection value
+    arm_bash = (arm_bash - worn[i].damage < 0) ? 0 : (arm_bash - worn[i].damage);
+    arm_cut  = (arm_cut  - worn[i].damage < 0) ? 0 : (arm_cut  - worn[i].damage);
+         
+    // multiply by material resistance
+    // this only takes into account the first material
+    arm_bash = tmp->dmg_resist * cur_mat->bash_resist();
+    arm_cut  = tmp->cut_resist * cur_mat->cut_resist();
+
+    // first determine armour damage
    if (((it_armor *)worn[i].type)->is_power_armor()) {
      // Power armor can only be damaged by EXTREME damage
      if (cut > arm_cut * 2 || dam > arm_bash * 2) {
@@ -6024,38 +6005,13 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
    } 
    else 
     {
-        // determine which damage type is dominant
-        bool bash_check = false;
-        bool cut_check = false;
-    
-        // if both damage types are severe (arbitrarily set at 20), then check both types
-        if (dam > 20)
-            bash_check = true;
-        if (cut > 20)
-            cut_check = true;
-        
-        // otherwise check which damage type dominates
-        if (dam > cut)
-        {
-            bash_check = true;
-        }
-        else if (dam < cut)
-        {
-            cut_check = true;
-        }
-        else // equal chances of either damage type
-        {
-            if (one_in(2))
-                bash_check = true;
-            else
-                cut_check = true;
-        }
-
-        // checks only the first material that the armor is made from
-        // on the assumption that the first material is the dominant material
-        // TODO: should incorporate second material as well?
-
-        if (bash_check && rng(0, (10 + tmp->dmg_resist) * cur_mat->bash_resist()) < dam && !one_in(dam))
+        // determine how much the damage exceeds the armour absorption 
+        int diff_bash = (dam - arm_bash < 0) ? -1 : (dam - arm_bash);
+        int diff_cut  = (cut - arm_cut  < 0) ? -1 : (dam - arm_cut);
+     
+        // armour damage occurs only if damage exceeds armour absorption by at least a factor of 2
+        // plus a random luck factor
+        if (diff_bash > 2 * arm_bash && !one_in(diff_bash))
         {
             if (!is_npc())
             {
@@ -6064,26 +6020,30 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
             worn[i].damage++;        
         }
         
-        if (cut_check && rng(0, (10 + tmp->cut_resist) * cur_mat->cut_resist()) < cut && !one_in(cut))
+        if (diff_cut > 2 * arm_cut && !one_in(diff_cut))
         {
             if (!is_npc())
             {
                 g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
             }
             worn[i].damage++;        
-        }
-    }  
-   if (worn[i].damage >= 5) {
-    if (!is_npc())
-     g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
-    else if (g->u_see(posx, posy))
-     g->add_msg("%s's %s is destroyed!", name.c_str(),
-                worn[i].tname(g).c_str());
-    worn.erase(worn.begin() + i);
-   }
-  }
-  dam -= arm_bash;
-  cut -= arm_cut;
+        }        
+    }
+    if (worn[i].damage >= 5) 
+    {
+        if (!is_npc())
+            g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
+        else if (g->u_see(posx, posy))
+            g->add_msg("%s's %s is destroyed!", name.c_str(),
+             worn[i].tname(g).c_str());
+        worn.erase(worn.begin() + i);
+    }
+  } // end of armour damage code
+  
+  // now determine how much the armour reduces damage to player
+  // divide by 6 to normalise to monster damage values
+  dam -= arm_bash / 6;
+  cut -= arm_cut / 6;
  }
  if (has_bionic("bio_carbon")) {
   dam -= 2;
