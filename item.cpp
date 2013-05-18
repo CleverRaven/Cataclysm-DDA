@@ -188,6 +188,13 @@ void item::make(itype* it)
  contents.clear();
 }
 
+void item::clear()
+{
+    // should we be clearing contents, as well?
+    // Seems risky to - there aren't any reported content-clearing bugs
+    item_tags.clear();
+}
+
 bool item::is_null() const
 {
  return (type == NULL || type->id == "null");
@@ -317,6 +324,7 @@ std::string item::save_info() const
 
 void item::load_info(std::string data, game *g)
 {
+ clear();
  std::stringstream dump;
  dump << data;
  std::string idtmp, ammotmp, item_tag;
