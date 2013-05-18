@@ -141,7 +141,14 @@ void game::init_construction()
    COMP("2x4", 10);
    COMP("nail", 20);
 
- CONSTRUCT("Build Log Wall", 2, &construct::able_pit, &construct::done_nothing);
+ CONSTRUCT("Build Log Wall", 2, &construct::able_dig, &construct::done_nothing);
+  STAGE(t_pit_shallow, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   TOOLCONT("digging_stick");
+  STAGE(t_pit, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
   STAGE(t_wall_log_half, 20);
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
@@ -155,7 +162,14 @@ void game::init_construction()
    COMP("stick", 3);
    COMPCONT("2x4", 6);
 
- CONSTRUCT("Build Palisade Wall", 2, &construct::able_pit, &construct::done_nothing);
+ CONSTRUCT("Build Palisade Wall", 2, &construct::able_dig, &construct::done_nothing);
+  STAGE(t_pit_shallow, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   TOOLCONT("digging_stick");
+  STAGE(t_pit, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
   STAGE(t_palisade, 20);
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
@@ -168,7 +182,14 @@ void game::init_construction()
    COMP("stick", 8);
    COMPCONT("2x4", 8);
 
- CONSTRUCT("Build Palisade Gate", 2, &construct::able_pit, &construct::done_nothing);
+ CONSTRUCT("Build Palisade Gate", 2, &construct::able_dig, &construct::done_nothing);
+  STAGE(t_pit_shallow, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   TOOLCONT("digging_stick");
+  STAGE(t_pit, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
   STAGE(t_palisade_gate, 20);
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
