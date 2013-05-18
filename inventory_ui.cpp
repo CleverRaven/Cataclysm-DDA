@@ -142,7 +142,7 @@ char game::inv(std::string title)
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int ch = (int)'.';
- int start = 0, cur_it;
+ int start = 0, cur_it, max_it;
  u.inv.sort();
  u.inv.restack(&u);
  invslice slice = u.inv.slice(0, u.inv.size());
@@ -150,8 +150,13 @@ char game::inv(std::string title)
  print_inv_statics(this, w_inv, title, null_vector);
 // Gun, ammo, weapon, armor, food, tool, book, other
  std::vector<int> firsts = find_firsts(slice);
+ int selected=-1;
+ int selected_char=(int)' ';
 
+ if( last_inv_start >= 0 ) start = last_inv_start;
+ if( last_inv_sel >= 0 ) selected = last_inv_sel;
  do {
+  selected_char=(int)' ';
   if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) { // Clear lines and shift
    for (int i = 1; i < maxitems+4; i++)
     mvwprintz(w_inv, i, 0, c_black, "                                             ");
@@ -159,14 +164,17 @@ char game::inv(std::string title)
    if (start < 0)
     start = 0;
    mvwprintw(w_inv, maxitems + 4, 0, "         ");
+   if ( selected > -1 ) selected = start; // oy, the cheese
   }
   if ((ch == '>' || ch == KEY_NPAGE ) && cur_it < u.inv.size()) { // Clear lines and shift
    start = cur_it;
    mvwprintw(w_inv, maxitems + 4, 12, "            ");
    for (int i = 1; i < maxitems+4; i++)
     mvwprintz(w_inv, i, 0, c_black, "                                             ");
+   if ( selected < start && selected > -1 ) selected = start;  
   }
   int cur_line = 2;
+  max_it = 0;
   for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                             ");
@@ -179,8 +187,9 @@ char game::inv(std::string title)
    }
    if (cur_it < slice.size()) {
     item& it = slice[cur_it]->front();
-    mvwputch (w_inv, cur_line, 0, c_white, it.invlet);
-    mvwprintz(w_inv, cur_line, 1, it.color_in_inventory(&u), " %s",
+    if(cur_it==selected) selected_char=(int)it.invlet;
+    mvwputch (w_inv, cur_line, 0, (cur_it == selected ? h_white : c_white), it.invlet);
+    mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory(&u) ), " %s",
               it.tname(this).c_str());
     if (slice[cur_it]->size() > 1)
      wprintw(w_inv, " [%d]", slice[cur_it]->size());
@@ -189,6 +198,7 @@ char game::inv(std::string title)
     else if (it.contents.size() == 1 &&
              it.contents[0].charges > 0)
      wprintw(w_inv, " (%d)", it.contents[0].charges);
+    max_it=cur_it;
    }
    cur_line++;
   }
@@ -197,8 +207,44 @@ char game::inv(std::string title)
   if (cur_it < u.inv.size())
    mvwprintw(w_inv, maxitems + 4, 12, "> More items");
   wrefresh(w_inv);
+
   ch = getch();
- } while (ch == '<' || ch == '>' || ch == KEY_NPAGE || ch == KEY_PPAGE );
+
+  if ( ch == KEY_DOWN ) {
+    if ( selected < 0 ) {
+      selected = start;
+    } else {
+      selected++;
+    }
+    if ( selected > max_it ) {
+      if( cur_it < u.inv.size() ) {
+        ch='>';
+      } else {
+        selected = u.inv.size() - 1; // wraparound?
+      }
+    }
+  } else if ( ch == KEY_UP ) {
+    selected--;
+    if ( selected < -1 ) {
+      selected = -1; // wraparound?
+    } else if ( selected < start ) {
+      if ( start > 0 ) {
+        for (int i = 1; i < maxitems+4; i++)
+         mvwprintz(w_inv, i, 0, c_black, "                                             ");
+        start -= maxitems;
+        if (start < 0)
+         start = 0;
+        mvwprintw(w_inv, maxitems + 4, 0, "         ");
+      }
+    } 
+  } else if ( ch == '\n' || ch == KEY_RIGHT ) {
+    if ( last_inv_start > -2 && last_inv_sel > -2 ) {
+      last_inv_start=start;
+      last_inv_sel=selected;
+    }
+    ch = selected_char;
+  }
+ } while (ch == '<' || ch == '>' || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_UP || ch == KEY_DOWN );
  werase(w_inv);
  delwin(w_inv);
  erase();
@@ -214,7 +260,7 @@ char game::inv_type(std::string title, item_cat inv_item_type)
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int ch = (int)'.';
- int start = 0, cur_it;
+ int start = 0, cur_it, max_it;
  u.inv.sort();
  u.inv.restack(&u);
  std::vector<char> null_vector;
@@ -227,6 +273,8 @@ char game::inv_type(std::string title, item_cat inv_item_type)
  invslice slice = reduced_inv.slice(0, reduced_inv.size());
  std::vector<int> firsts = find_firsts(slice);
 
+ int selected=-1;
+ int selected_char=(int)' ';
  do {
   if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) { // Clear lines and shift
    for (int i = 1; i < maxitems+4; i++)
@@ -235,14 +283,17 @@ char game::inv_type(std::string title, item_cat inv_item_type)
    if (start < 0)
     start = 0;
    mvwprintw(w_inv, maxitems + 4, 0, "         ");
+   if ( selected > -1 ) selected = start; // oy, the cheese
   }
   if (( ch == '>' || ch == KEY_NPAGE ) && cur_it < reduced_inv.size()) { // Clear lines and shift
    start = cur_it;
    mvwprintw(w_inv, maxitems + 4, 12, "            ");
    for (int i = 1; i < maxitems+4; i++)
     mvwprintz(w_inv, i, 0, c_black, "                                             ");
+   if ( selected < start && selected > -1 ) selected = start;
   }
   int cur_line = 2;
+  max_it = 0;
   for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                             ");
@@ -257,8 +308,9 @@ char game::inv_type(std::string title, item_cat inv_item_type)
    if (cur_it < slice.size())
    {
     item& it = slice[cur_it]->front();
-    mvwputch (w_inv, cur_line, 0, c_white, it.invlet);
-    mvwprintz(w_inv, cur_line, 1, it.color_in_inventory(&u), " %s",
+    if(cur_it==selected) selected_char=(int)it.invlet;
+    mvwputch (w_inv, cur_line, 0, (cur_it == selected ? h_white : c_white), it.invlet);
+    mvwprintz(w_inv, cur_line, 1, (cur_it == selected ? h_white : it.color_in_inventory(&u) ), " %s",
               it.tname(this).c_str());
     if (slice[cur_it]->size() > 1)
      wprintw(w_inv, " [%d]", slice[cur_it]->size());
@@ -267,7 +319,8 @@ char game::inv_type(std::string title, item_cat inv_item_type)
     else if (it.contents.size() == 1 &&
              it.contents[0].charges > 0)
      wprintw(w_inv, " (%d)", it.contents[0].charges);
-   cur_line++;
+    cur_line++;
+    max_it=cur_it;
    }
 //   cur_line++;
   }
@@ -276,8 +329,41 @@ char game::inv_type(std::string title, item_cat inv_item_type)
   if (cur_it < reduced_inv.size())
    mvwprintw(w_inv, maxitems + 4, 12, "> More items");
   wrefresh(w_inv);
+
   ch = getch();
- } while (ch == '<' || ch == '>' || ch == KEY_NPAGE || ch == KEY_PPAGE );
+
+  if ( ch == KEY_DOWN ) {
+    if ( selected < 0 ) {
+      selected = start;
+    } else {
+      selected++;
+    }
+    if ( selected > max_it ) {
+      if( cur_it < u.inv.size() ) {
+        ch='>';
+      } else {
+        selected = u.inv.size() - 1; // wraparound?
+      }
+    }
+  } else if ( ch == KEY_UP ) {
+    selected--;
+    if ( selected < -1 ) {
+      selected = -1; // wraparound?
+    } else if ( selected < start ) {
+      if ( start > 0 ) {
+        for (int i = 1; i < maxitems+4; i++)
+         mvwprintz(w_inv, i, 0, c_black, "                                             ");
+        start -= maxitems;
+        if (start < 0)
+         start = 0;
+        mvwprintw(w_inv, maxitems + 4, 0, "         ");
+      }
+    } 
+  } else if ( ch == '\n' || ch == KEY_RIGHT ) {
+    ch = selected_char;
+  }
+
+ } while (ch == '<' || ch == '>' || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_UP || ch == KEY_DOWN );
  werase(w_inv);
  delwin(w_inv);
  erase();

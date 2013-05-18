@@ -190,6 +190,9 @@ void game::setup()
  uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
 
+ last_inv_start = -2;   // -2: inv() won't change the value. -1 is 'parked' selection, 0 is first item 
+ last_inv_sel = -2;
+
  weather = WEATHER_CLEAR; // Start with some nice weather...
  // Weather shift in 30
  nextweather = HOURS(OPTIONS[OPT_INITIAL_TIME]) + MINUTES(30);
@@ -1529,73 +1532,93 @@ bool game::handle_action()
 
   case ACTION_INVENTORY: {
    bool has = false;
-   char cMenu = ' ';
+   int cMenu = ' ';
+   last_inv_sel = -1;
+   last_inv_start = -1;
    do {
-    const std::string sSpaces = "                              ";
-    char chItem = inv();
-    cMenu = '+';
-    has = u.has_item(chItem);
+     const std::string sSpaces = "                              ";
+     char chItem = inv();
+     cMenu = (int)'+';
+     has = u.has_item(chItem);
 
-    if (has) {
-     item oThisItem = u.i_at(chItem);
-     std::vector<iteminfo> vThisItem, vDummy, vMenu;
+     const int menustart=2;  // lightbar constraints
+     const int menuend=12;
+     int selected=1;         // default 'parked' hidden above 'activate'
 
-     vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 2));
-     vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
-     vMenu.push_back(iteminfo("MENU", "a", "ctivate", u.rate_action_use(&oThisItem)));
-     vMenu.push_back(iteminfo("MENU", "R", "ead", u.rate_action_read(&oThisItem, this)));
-     vMenu.push_back(iteminfo("MENU", "E", "at", u.rate_action_eat(&oThisItem)));
-     vMenu.push_back(iteminfo("MENU", "W", "ear", u.rate_action_wear(&oThisItem)));
-     vMenu.push_back(iteminfo("MENU", "w", "ield"));
-     vMenu.push_back(iteminfo("MENU", "t", "hrow"));
-     vMenu.push_back(iteminfo("MENU", "T", "ake off", u.rate_action_takeoff(&oThisItem)));
-     vMenu.push_back(iteminfo("MENU", "d", "rop"));
-     vMenu.push_back(iteminfo("MENU", "U", "nload", u.rate_action_unload(&oThisItem)));
-     vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
-     vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
-
-     oThisItem.info(true, &vThisItem);
-     compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
-     cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy);
-
-     switch(cMenu) {
-      case 'a':
-       use_item(chItem);
-       break;
-      case 'E':
-       eat(chItem);
-       break;
-      case 'W':
-       wear(chItem);
-       break;
-      case 'w':
-       wield(chItem);
-       break;
-      case 't':
-       plthrow(chItem);
-       break;
-      case 'T':
-       takeoff(chItem);
-       break;
-      case 'd':
-       drop(chItem);
-       break;
-      case 'U':
-       unload(chItem);
-       break;
-      case 'r':
-       reload(chItem);
-       break;
-      case 'R':
-       u.read(this, chItem);
-       break;
-      case 'D':
-       disassemble(chItem);
-      default:
-       break;
+     if (has) {
+       do {
+         item oThisItem = u.i_at(chItem);
+         std::vector<iteminfo> vThisItem, vDummy, vMenu;
+         vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 2));
+         vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
+         vMenu.push_back(iteminfo("MENU", "a", "ctivate", u.rate_action_use(&oThisItem)));
+         vMenu.push_back(iteminfo("MENU", "R", "ead", u.rate_action_read(&oThisItem, this)));
+         vMenu.push_back(iteminfo("MENU", "E", "at", u.rate_action_eat(&oThisItem)));
+         vMenu.push_back(iteminfo("MENU", "W", "ear", u.rate_action_wear(&oThisItem)));
+         vMenu.push_back(iteminfo("MENU", "w", "ield"));
+         vMenu.push_back(iteminfo("MENU", "t", "hrow"));
+         vMenu.push_back(iteminfo("MENU", "T", "ake off", u.rate_action_takeoff(&oThisItem)));
+         vMenu.push_back(iteminfo("MENU", "d", "rop"));
+         vMenu.push_back(iteminfo("MENU", "U", "nload", u.rate_action_unload(&oThisItem)));
+         vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
+         vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
+         oThisItem.info(true, &vThisItem);
+         compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
+         cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy, 
+             selected >= menustart && selected <= menuend ? selected : -1
+         );
+         switch(cMenu) {
+          case 'a':
+           use_item(chItem);
+           break;
+          case 'E':
+           eat(chItem);
+           break;
+          case 'W':
+           wear(chItem);
+           break;
+          case 'w':
+           wield(chItem);
+           break;
+          case 't':
+           plthrow(chItem);
+           break;
+          case 'T':
+           takeoff(chItem);
+           break;
+          case 'd':
+           drop(chItem);
+           break;
+          case 'U':
+           unload(chItem);
+           break;
+          case 'r':
+           reload(chItem);
+           break;
+          case 'R':
+           u.read(this, chItem);
+           break;
+          case 'D':
+           disassemble(chItem);
+          case KEY_UP:
+           selected--;
+           break;
+          case KEY_DOWN:
+           selected++;
+           break;
+          default:
+           break;
+         }
+         if( selected < menustart-1 ) { // wraparound, but can be hidden
+           selected = menuend;
+         } else if ( selected > menuend + 1 ) {
+           selected = menustart;
+         }
+       } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
      }
-    }
-   } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE);
+   } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE || cMenu == KEY_LEFT );
+   last_inv_start = -2;
+   last_inv_sel = -2;
    refresh_all();
   } break;
 
