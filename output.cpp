@@ -493,20 +493,24 @@ int menu_vec(bool cancelable, const char *mes, std::vector<std::string> options)
   if (options[i].length() + 6 > width)
    width = options[i].length() + 6;
  }
+int currsel=-1;
+std::string spaces(width-2, ' ');
  WINDOW *w = newwin(height, width, (TERMY-height)/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wattron(w, c_white);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintw(w, 1, 1, title.c_str());
- for (int i = 0; i < options.size(); i++)
-  mvwprintw(w, i + 2, 1, "%c: %s", (i < 9? i + '1' :
-                                   (i == 9? '0' : 'a' + i - 10)),
-            options[i].c_str());
  long ch;
- wrefresh(w);
  int res;
  do
  {
+  for (int i = 0; i < options.size(); i++) {
+   mvwprintw(w, i + 2, 1, "%s", spaces.c_str() );
+   mvwprintz(w, i + 2, 1, (i==currsel ? h_white : c_white), "%c: %s", (i < 9? i + '1' :
+                                    (i == 9? '0' : 'a' + i - 10)),
+             options[i].c_str());
+  }
+  wrefresh(w);
   ch = getch();
   if (cancelable && ch == KEY_ESCAPE)
    res = options.size();
@@ -520,9 +524,20 @@ int menu_vec(bool cancelable, const char *mes, std::vector<std::string> options)
   if (ch >= 'a' && ch <= 'z')
    res = ch - 'a' + 11;
   else
+  if (ch == KEY_DOWN )
+   currsel++;
+  else
+  if (ch == KEY_UP )
+   currsel--;
+  else
+  if(ch == '\n' && currsel >= 0 && currsel < options.size() )
+   res=currsel+1;
+  else
    res = -1;
   if (res > options.size())
    res = -1;
+  if (currsel < -1) currsel = options.size() - 1;
+  else if ( currsel > 0 && currsel > options.size() ) currsel = 0;
  }
  while (res == -1);
  werase(w);
