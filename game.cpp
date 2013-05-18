@@ -1608,7 +1608,9 @@ bool game::handle_action()
          }
        } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
      }
-   } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE );
+   } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE || cMenu == KEY_LEFT );
+   // last_inv_start = -1;
+   // last_inv_sel = -1;
    refresh_all();
   } break;
 

@@ -505,7 +505,7 @@ std::string spaces(width-2, ' ');
  do
  {
   for (int i = 0; i < options.size(); i++) {
-   mvwprintw(w, i + 2, 1, (i==currsel ? h_white : c_white), "%s", spaces.c_str() );
+   mvwprintz(w, i + 2, 1, (i==currsel ? h_white : c_white), "%s", spaces.c_str() );
    mvwprintz(w, i + 2, 1, (i==currsel ? h_white : c_white), "%c: %s", (i < 9? i + '1' :
                                     (i == 9? '0' : 'a' + i - 10)),
              options[i].c_str());
@@ -855,8 +855,10 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
  wrefresh(w);
  if (iLeft > 0) {
   ch = (int)getch();
-  if ( selected > 0 && ch == '\n' && selected_ret != 0 ) {
+  if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
     ch=selected_ret;
+  } else if ( selected == KEY_LEFT ) {
+    ch=(int)' ';
   }
   werase(w);
   wrefresh(w);
