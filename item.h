@@ -41,6 +41,7 @@ public:
  item(std::string itemdata, game *g);
  ~item();
  void make(itype* it);
+ void clear(); // cleanup that's required to re-use an item variable
 
 // returns the default container of this item, with this item in it
  item in_its_container(std::map<std::string, itype*> *itypes);
