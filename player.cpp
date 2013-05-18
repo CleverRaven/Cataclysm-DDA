@@ -4091,10 +4091,10 @@ std::vector<item> player::use_amount(itype_id it, int quantity, bool use_contain
  std::vector<item> ret;
  bool used_weapon_contents = false;
  for (int i = 0; i < weapon.contents.size(); i++) {
-  if (weapon.contents[0].type->id == it) {
-   ret.push_back(weapon.contents[0]);
+  if (weapon.contents[i].type->id == it) {
+   ret.push_back(weapon.contents[i]);
    quantity--;
-   weapon.contents.erase(weapon.contents.begin() + 0);
+   weapon.contents.erase(weapon.contents.begin() + i);
    i--;
    used_weapon_contents = true;
   }
