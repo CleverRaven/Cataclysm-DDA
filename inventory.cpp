@@ -830,9 +830,9 @@ int inventory::charges_of(itype_id it) const
     return count;
 }
 
-std::vector<item> inventory::use_amount(itype_id it, int quantity, bool use_container)
+std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_container)
 {
-    std::vector<item> ret;
+    std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter)
     {
         for (std::list<item>::iterator stack_iter = iter->begin();
@@ -881,9 +881,9 @@ std::vector<item> inventory::use_amount(itype_id it, int quantity, bool use_cont
     return ret;
 }
 
-std::vector<item> inventory::use_charges(itype_id it, int quantity)
+std::list<item> inventory::use_charges(itype_id it, int quantity)
 {
-    std::vector<item> ret;
+    std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter)
     {
         for (std::list<item>::iterator stack_iter = iter->begin();

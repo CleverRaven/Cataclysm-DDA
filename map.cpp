@@ -2403,10 +2403,10 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 	}
 }
 
-std::vector<item> map::use_amount(const point origin, const int range, const itype_id type, const int amount,
+std::list<item> map::use_amount(const point origin, const int range, const itype_id type, const int amount,
                      const bool use_container)
 {
- std::vector<item> ret;
+ std::list<item> ret;
  int quantity = amount;
  for (int radius = 0; radius <= range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {
@@ -2441,9 +2441,9 @@ std::vector<item> map::use_amount(const point origin, const int range, const ity
  return ret;
 }
 
-std::vector<item> map::use_charges(const point origin, const int range, const itype_id type, const int amount)
+std::list<item> map::use_charges(const point origin, const int range, const itype_id type, const int amount)
 {
- std::vector<item> ret;
+ std::list<item> ret;
  int quantity = amount;
  for (int radius = 0; radius <= range && quantity > 0; radius++) {
   for (int x = origin.x - radius; x <= origin.x + radius; x++) {

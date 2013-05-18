@@ -4086,9 +4086,9 @@ item player::i_remn(char invlet)
  return inv.remove_item_by_letter(invlet);
 }
 
-std::vector<item> player::use_amount(itype_id it, int quantity, bool use_container)
+std::list<item> player::use_amount(itype_id it, int quantity, bool use_container)
 {
- std::vector<item> ret;
+ std::list<item> ret;
  bool used_weapon_contents = false;
  for (int i = 0; i < weapon.contents.size(); i++) {
   if (weapon.contents[i].type->id == it) {
@@ -4107,11 +4107,8 @@ std::vector<item> player::use_amount(itype_id it, int quantity, bool use_contain
   ret.push_back(remove_weapon());
  }
 
- // TODO: use the native vector-combining method, once I can check the API again
- std::vector<item> tmp = inv.use_amount(it, quantity, use_container);
- for (std::vector<item>::iterator iter = tmp.begin(); iter != tmp.end(); ++iter) {
-  ret.push_back(*iter);
- }
+ std::list<item> tmp = inv.use_amount(it, quantity, use_container);
+ ret.splice(ret.end(), tmp);
  return ret;
 }
 
@@ -4195,9 +4192,9 @@ void player::use_fire(const int quantity)
 }
 
 // does NOT return anything if the item is integrated toolset or fire!
-std::vector<item> player::use_charges(itype_id it, int quantity)
+std::list<item> player::use_charges(itype_id it, int quantity)
 {
- std::vector<item> ret;
+ std::list<item> ret;
  // the first two cases *probably* don't need to be tracked for now...
  if (it == "toolset") {
   power_level -= quantity;
@@ -4254,11 +4251,8 @@ std::vector<item> player::use_charges(itype_id it, int quantity)
    }
   }
 
- // TODO: use the native vector-combining method, once I can check the API again
- std::vector<item> tmp = inv.use_charges(it, quantity);
- for (std::vector<item>::iterator iter = tmp.begin(); iter != tmp.end(); ++iter) {
-  ret.push_back(*iter);
- }
+ std::list<item> tmp = inv.use_charges(it, quantity);
+ ret.splice(ret.end(), tmp);
  return ret;
 }
 
