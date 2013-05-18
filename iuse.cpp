@@ -942,7 +942,6 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         it->charges++;
         return;
     }
- 
     if (fix->damage < 0)
 	{
         g->add_msg_if_player(p,"Your %s is already enhanced.", fix->tname().c_str());
@@ -1032,6 +1031,15 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             fix->damage = 0;
         }
     }
+    
+    if (fix->made_of(COTTON) || fix->made_of(WOOL))
+    {
+    p->use_amount("rag",1);
+}
+    else if (fix->made_of(LEATHER))
+    {
+    p->use_amount("leather",1);
+}
     //iuse::sew uses up 1 charge when called, if less than 1, set to 1, and use that one up.
     if (it->charges < 1)
         {it->charges = 1;}
