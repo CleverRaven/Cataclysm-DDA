@@ -743,7 +743,8 @@ void full_screen_popup(const char* mes, ...)
 //if sType == "MENU", sPre == "iOffsetY" or "iOffsetX" also do special things
 //otherwise if sType == "MENU", iValue can be used to control color
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
-char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare)
+// well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
+int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected)
 {
  WINDOW* w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
@@ -752,6 +753,8 @@ char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string 
  int iStartX = 0;
  std::string sPlus;
  bool bStartNewLine = true;
+ int selected_ret='\n';
+ std::string spaces(iWidth-2, ' ');
  for (int i = 0; i < vItemDisplay.size(); i++) {
   if (vItemDisplay[i].sType == "MENU") {
    if (vItemDisplay[i].sPre == "iOffsetY") {
@@ -761,11 +764,17 @@ char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string 
    } else {
     nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
     //patched to allow variable "name" coloring, e.g. for item examining
+    nc_color bgColor = c_white;     //yes the name makes no sense
     if (vItemDisplay[i].iValue >= 0) {
      nameColor = vItemDisplay[i].iValue == 0 ? c_ltgray : c_ltred;
     }
+    if ( i == selected && vItemDisplay[i].sName != "" ) {
+      bgColor = h_white;
+      selected_ret=(int)vItemDisplay[i].sName.c_str()[0]; // fixme: sanity check(?)
+    }
+    mvwprintz(w, line_num, 1, bgColor, "%s", spaces.c_str() );
     mvwprintz(w, line_num, iStartX, nameColor, "%s", (vItemDisplay[i].sName).c_str());
-    wprintz(w, c_white, "%s", (vItemDisplay[i].sPre).c_str());
+    wprintz(w, bgColor, "%s", (vItemDisplay[i].sPre).c_str());
     line_num++;
    }
   } else if (vItemDisplay[i].sType == "DESCRIPTION") {
@@ -841,11 +850,14 @@ char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- char ch = ' ';
+ int ch = (int)' ';
 
  wrefresh(w);
  if (iLeft > 0) {
-  ch = getch();
+  ch = (int)getch();
+  if ( selected > 0 && ch == '\n' && selected_ret != 0 ) {
+    ch=selected_ret;
+  }
   werase(w);
   wrefresh(w);
   delwin(w);
