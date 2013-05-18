@@ -97,6 +97,7 @@ void Item_factory::init(){
     iuse_function_list["CROWBAR"] = &iuse::crowbar;
     iuse_function_list["MAKEMOUND"] = &iuse::makemound;
     iuse_function_list["DIG"] = &iuse::dig;
+    iuse_function_list["SIPHON"] = &iuse::siphon;
     iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
     iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
@@ -172,39 +173,6 @@ void Item_factory::init(){
     // It examines the item's artifact-specific properties
     // See artifact.h for a list
     iuse_function_list["ARTIFACT"] = &iuse::artifact;
-
-    // ITEM FLAGS
-    item_flags_list["LIGHT_1"] = mfb(IF_LIGHT_1);
-    item_flags_list["LIGHT_4"] = mfb(IF_LIGHT_4);
-    item_flags_list["LIGHT_8"] = mfb(IF_LIGHT_8);
-    item_flags_list["LIGHT_20"] = mfb(IF_LIGHT_20);
-    item_flags_list["FIRE"] = mfb(IF_FIRE);
-    item_flags_list["SPEAR"] = mfb(IF_SPEAR);
-    item_flags_list["STAB"] = mfb(IF_STAB);
-    item_flags_list["WRAP"] = mfb(IF_WRAP);
-    item_flags_list["MESSY"] = mfb(IF_MESSY);
-    item_flags_list["RELOAD_ONE"] = mfb(IF_RELOAD_ONE);
-    item_flags_list["STR_RELOAD"] = mfb(IF_STR_RELOAD);
-    item_flags_list["STR8_DRAW"] = mfb(IF_STR8_DRAW);
-    item_flags_list["STR10_DRAW"] = mfb(IF_STR10_DRAW);
-    item_flags_list["USE_UPS"] = mfb(IF_USE_UPS);
-    item_flags_list["RELOAD_AND_SHOOT"] = mfb(IF_RELOAD_AND_SHOOT);
-    item_flags_list["FIRE_100"] = mfb(IF_FIRE_100);
-    item_flags_list["GRENADE"] = mfb(IF_GRENADE);
-    item_flags_list["CHARGE"] = mfb(IF_CHARGE);
-    item_flags_list["SHOCK"] = mfb(IF_SHOCK);
-    item_flags_list["UNARMED_WEAPON"] = mfb(IF_UNARMED_WEAPON);
-    item_flags_list["NO_UNWIELD"] = mfb(IF_NO_UNWIELD);
-    item_flags_list["NO_UNLOAD"] = mfb(IF_NO_UNLOAD);
-    item_flags_list["BACKBLAST"] = mfb(IF_BACKBLAST);
-    item_flags_list["MODE_AUX"] = mfb(IF_MODE_AUX);
-    item_flags_list["MODE_BURST"] = mfb(IF_MODE_BURST);
-    item_flags_list["HOT"] = mfb(IF_HOT);
-    item_flags_list["EATEN_HOT"] = mfb(IF_EATEN_HOT);
-    item_flags_list["ROTTEN"] = mfb(IF_ROTTEN);
-    item_flags_list["VARSIZE"] = mfb(IF_VARSIZE);
-    item_flags_list["FIT"] = mfb(IF_FIT);
-    item_flags_list["DOUBLE_AMMO"] = mfb(IF_DOUBLE_AMMO);
 
     // Offensive Techniques
     techniques_list["SWEEP"] = mfb(TEC_SWEEP);
@@ -564,8 +532,11 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 new_item_template->melee_cut = entry.get("cutting").as_int();
                 new_item_template->m_to_hit = entry.get("to_hit").as_int();
 
-                new_item_template->item_flags = (!entry.has("flags") ? 0 :
-                                                 flags_from_json(entry.get("flags")));
+                if( entry.has("flags") )
+                {
+                    new_item_template->item_tags = entry.get("flags").as_tags();
+                }
+
                 new_item_template->techniques = (!entry.has("techniques") ? 0 :
                                                  flags_from_json(entry.get("techniques"), "techniques"));
                 new_item_template->use = (!entry.has("use_action") ? &iuse::none :
@@ -800,8 +771,7 @@ Use_function Item_factory::use_from_string(std::string function_name){
 
 void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type)
 {
-    //Use the standard item flag list unless a valid alternative is provided
-    std::map<Item_tag, unsigned> flag_map = item_flags_list;
+    std::map<Item_tag, unsigned> flag_map;
     if(flag_type=="ammo"){
       flag_map = ammo_flags_list;
     } else if(flag_type=="techniques"){

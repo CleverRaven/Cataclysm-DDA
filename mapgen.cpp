@@ -11,6 +11,7 @@
 #include "mapgenformat.h"
 #include "overmapbuffer.h"
 
+#include <algorithm>
 #include <cassert>
 
 #ifndef sgn
@@ -257,7 +258,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  int cw = 0;
  int x = 0;
  int y = 0;
- int n_fac = 0, e_fac = 0, s_fac = 0, w_fac = 0;
+
+ oter_id t_nesw[] = {t_north, t_east, t_south, t_west};
+ int nesw_fac[] = {0, 0, 0, 0};
+ int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
+
  computer *tmpcomp = NULL;
  int veh_spawn_heading;
 
@@ -273,14 +278,9 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
   break;
 
  case ot_crater:
-  if (t_north != ot_crater)
-   n_fac = 6;
-  if (t_east  != ot_crater)
-   e_fac = 6;
-  if (t_south != ot_crater)
-   s_fac = 6;
-  if (t_west  != ot_crater)
-   w_fac = 6;
+  for(int i = 0; i < 4; i++)
+    if(t_nesw[i] != ot_crater)
+        nesw_fac[i] = 6;
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -329,46 +329,29 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     if (one_in(4))
   {
       add_vehicle (g, veh_truck, 12, 12, 90, -1, -1);
-	  }
+  }
   break;
  case ot_forest:
  case ot_forest_thick:
  case ot_forest_water:
   switch (terrain_type) {
   case ot_forest_thick:
-   n_fac = 8;
-   e_fac = 8;
-   s_fac = 8;
-   w_fac = 8;
+   std::fill_n(nesw_fac, 4, 8);
    break;
   case ot_forest_water:
-   n_fac = 4;
-   e_fac = 4;
-   s_fac = 4;
-   w_fac = 4;
+   std::fill_n(nesw_fac, 4, 4);
    break;
   case ot_forest:
-   n_fac = 0;
-   e_fac = 0;
-   s_fac = 0;
-   w_fac = 0;
+   std::fill_n(nesw_fac, 4, 0);
+   break;
   }
-       if (t_north == ot_forest || t_north == ot_forest_water)
-   n_fac += 14;
-  else if (t_north == ot_forest_thick)
-   n_fac += 18;
-       if (t_east == ot_forest || t_east == ot_forest_water)
-   e_fac += 14;
-  else if (t_east == ot_forest_thick)
-   e_fac += 18;
-       if (t_south == ot_forest || t_south == ot_forest_water)
-   s_fac += 14;
-  else if (t_south == ot_forest_thick)
-   s_fac += 18;
-       if (t_west == ot_forest || t_west == ot_forest_water)
-   w_fac += 14;
-  else if (t_west == ot_forest_thick)
-   w_fac += 18;
+  for (int i = 0; i < 4; i++)
+  {
+   if (t_nesw[i] == ot_forest || t_nesw[i] == ot_forest_water)
+    nesw_fac[i] += 14;
+   else if (t_nesw[i] == ot_forest_thick)
+    nesw_fac[i] += 18;
+  }
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     int forest_chance = 0, num = 0;
@@ -381,7 +364,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
      num++;
     }
     if (SEEY * 2 - 1 - j < s_fac) {
-     forest_chance += s_fac - (SEEX * 2 - 1 - j);
+     forest_chance += s_fac - (SEEY * 2 - 1 - j);
      num++;
     }
     if (i < w_fac) {
@@ -418,38 +401,17 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
   if (terrain_type == ot_forest_water) {
 // Reset *_fac to handle where to place water
-        if (t_north == ot_forest_water)
-    n_fac = 2;
-   else if (t_north >= ot_river_center && t_north <= ot_river_nw)
-    n_fac = 3;
-   else if (t_north == ot_forest || t_north == ot_forest_thick)
-    n_fac = 1;
-   else
-    n_fac = 0;
-        if (t_east == ot_forest_water)
-    e_fac = 2;
-   else if (t_east >= ot_river_center && t_east <= ot_river_nw)
-    e_fac = 3;
-   else if (t_east == ot_forest || t_east == ot_forest_thick)
-    e_fac = 1;
-   else
-    e_fac = 0;
-        if (t_south == ot_forest_water)
-    s_fac = 2;
-   else if (t_south >= ot_river_center && t_south <= ot_river_nw)
-    s_fac = 3;
-   else if (t_south == ot_forest || t_south == ot_forest_thick)
-    s_fac = 1;
-   else
-    s_fac = 0;
-        if (t_west == ot_forest_water)
-    w_fac = 2;
-   else if (t_west >= ot_river_center && t_west <= ot_river_nw)
-    w_fac = 3;
-   else if (t_west == ot_forest || t_west == ot_forest_thick)
-    w_fac = 1;
-   else
-    w_fac = 0;
+   for (int i = 0; i < 4; i++)
+   {
+    if (t_nesw[i] == ot_forest_water)
+     nesw_fac[i] = 2;
+    else if (t_nesw[i] >= ot_river_center && t_nesw[i] <= ot_river_nw)
+     nesw_fac[i] = 3;
+    else if (t_nesw[i] == ot_forest || t_nesw[i] == ot_forest_thick)
+     nesw_fac[i] = 1;
+    else
+     nesw_fac[i] = 0;
+   }
    x = SEEX / 2 + rng(0, SEEX), y = SEEY / 2 + rng(0, SEEY);
    for (int i = 0; i < 20; i++) {
     if (x >= 0 && x < SEEX * 2 && y >= 0 && y < SEEY * 2) {
@@ -636,26 +598,14 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
  case ot_spider_pit:
 // First generate a forest
-  n_fac = 0;
-  e_fac = 0;
-  s_fac = 0;
-  w_fac = 0;
-  if (t_north == ot_forest || t_north == ot_forest_water)
-   n_fac += 14;
-  else if (t_north == ot_forest_thick)
-   n_fac += 18;
-  if (t_east == ot_forest || t_east == ot_forest_water)
-   e_fac += 14;
-  else if (t_east == ot_forest_thick)
-   e_fac += 18;
-  if (t_south == ot_forest || t_south == ot_forest_water)
-   s_fac += 14;
-  else if (t_south == ot_forest_thick)
-   s_fac += 18;
-  if (t_west == ot_forest || t_west == ot_forest_water)
-   w_fac += 14;
-  else if (t_west == ot_forest_thick)
-   w_fac += 18;
+  std::fill_n(nesw_fac, 4, 0);
+  for (int i = 0; i < 4; i++)
+  {
+   if (t_nesw[i] == ot_forest || t_nesw[i] == ot_forest_water)
+    nesw_fac[i] += 14;
+   else if (t_nesw[i] == ot_forest_thick)
+    nesw_fac[i] += 18;
+  }
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     int forest_chance = 0, num = 0;
@@ -9167,26 +9117,14 @@ break;
   break;
 
  case ot_rock:
-  if (t_north == ot_cavern || t_north == ot_slimepit ||
-      t_north == ot_slimepit_down)
-   n_fac = 6;
-  else
-   n_fac = 0;
-  if (t_east == ot_cavern || t_east == ot_slimepit ||
-      t_east == ot_slimepit_down)
-   e_fac = 6;
-  else
-   e_fac = 0;
-  if (t_south == ot_cavern || t_south == ot_slimepit ||
-      t_south == ot_slimepit_down)
-   s_fac = 6;
-  else
-   s_fac = 0;
-  if (t_west == ot_cavern || t_west == ot_slimepit ||
-      t_west == ot_slimepit_down)
-   w_fac = 6;
-  else
-   w_fac = 0;
+  for (int i = 0; i < 4; i++)
+  {
+   if (t_nesw[i] == ot_cavern || t_nesw[i] == ot_slimepit ||
+       t_nesw[i] == ot_slimepit_down)
+    nesw_fac[i] = 6;
+   else
+    nesw_fac[i] = 0;
+  }
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -9242,14 +9180,11 @@ break;
   break;
 
  case ot_hellmouth:
-  if (t_north != ot_rift && t_north != ot_hellmouth)
-   n_fac = 6;
-  if (t_east != ot_rift && t_east != ot_hellmouth)
-   e_fac = 6;
-  if (t_south != ot_rift && t_south != ot_hellmouth)
-   s_fac = 6;
-  if (t_west != ot_rift && t_west != ot_hellmouth)
-   w_fac = 6;
+  for (int i = 0; i < 4; i++)
+  {
+   if (t_nesw[i] != ot_rift && t_nesw[i] != ot_hellmouth)
+    nesw_fac[i] = 6;
+  }
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -9345,10 +9280,8 @@ break;
 
  case ot_slimepit:
  case ot_slimepit_down:
-  n_fac = (t_north == ot_slimepit || t_north == ot_slimepit_down ? 1 : 0);
-  e_fac = (t_east  == ot_slimepit || t_east  == ot_slimepit_down ? 1 : 0);
-  s_fac = (t_south == ot_slimepit || t_south == ot_slimepit_down ? 1 : 0);
-  w_fac = (t_west  == ot_slimepit || t_west  == ot_slimepit_down ? 1 : 0);
+  for (int i = 0; i < 4; i++)
+   nesw_fac[i] = (t_nesw[i] == ot_slimepit || t_nesw[i] == ot_slimepit_down ? 1 : 0);
 
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
@@ -10072,14 +10005,14 @@ break;
   break;
 
  case ot_cavern:
-  n_fac = (t_north == ot_cavern || t_north == ot_subway_ns ||
-           t_north == ot_subway_ew ? 0 : 3);
-  e_fac = (t_east  == ot_cavern || t_east  == ot_subway_ns ||
-           t_east  == ot_subway_ew ? SEEX * 2 - 1 : SEEX * 2 - 4);
-  s_fac = (t_south == ot_cavern || t_south == ot_subway_ns ||
-           t_south == ot_subway_ew ? SEEY * 2 - 1 : SEEY * 2 - 4);
-  w_fac = (t_west  == ot_cavern || t_west  == ot_subway_ns ||
-           t_west  == ot_subway_ew ? 0 : 3);
+  for (int i = 0; i < 4; i++)
+  {
+   nesw_fac[i] = (t_nesw[i] == ot_cavern || t_nesw[i] == ot_subway_ns ||
+                  t_nesw[i] == ot_subway_ew ? 0 : 3);
+  }
+  e_fac = SEEX * 2 - 1 - e_fac;
+  s_fac = SEEY * 2 - 1 - s_fac;
+
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     if ((j < n_fac || j > s_fac || i < w_fac || i > e_fac) &&

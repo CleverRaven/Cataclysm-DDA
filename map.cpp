@@ -2225,52 +2225,71 @@ point map::find_item(const item *it)
  return ret;
 }
 
+void map::spawn_item(const int x, const int y, item new_item, const int birthday,
+                     const int quantity, const int charges, const int damlevel)
+{
+    if (charges && new_item.charges > 0)
+    {
+        //let's fail silently if we specify charges for an item that doesn't support it
+        new_item.charges = charges;
+    }
+    new_item = new_item.in_its_container(itypes);
+    if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
+    {
+        return;
+    }
+    // bounds checking for damage level
+    if (damlevel < -1)
+    {
+        new_item.damage = -1;
+    }
+    if (damlevel > 4)
+    {
+        new_item.damage = 4;
+    }
+    new_item.damage = damlevel;
+
+    // clothing with variable size flag may sometimes be generated fitted
+    if (new_item.is_armor() && new_item.has_flag("VARSIZE") & one_in(3))
+    {
+        new_item.item_tags.insert("FIT");
+    }
+
+    add_item(x, y, new_item);
+}
+
 //Old spawn_item method
 //TODO: Deprecate
 // added argument to spawn at various damage levels
-void map::spawn_item(const int x, const int y, itype* type, const int birthday, const int quantity, const int charges, const int damlevel)
+void map::spawn_item(const int x, const int y, itype* type, const int birthday,
+                     const int quantity, const int charges, const int damlevel)
 {
- if (type->is_style())
-  return;
- item tmp(type, birthday);
- for(int i = 0; i < quantity; i++)
-  spawn_item(x, y, type, birthday, 0, charges);
- if (charges && tmp.charges > 0) //let's fail silently if we specify charges for an item that doesn't support it
-  tmp.charges = charges;
- tmp = tmp.in_its_container(itypes);
- if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
-  return;
-    // bounds checking for damage level
-    if (damlevel < -1)
-        tmp.damage = -1;
-    if (damlevel > 4)
-        tmp.damage = 4;
-    tmp.damage = damlevel;   
- add_item(x, y, tmp);
+    if (type->is_style())
+    {
+        return;
+    }
+    item new_item(type, birthday);
+    for(int i = 0; i < quantity; i++)
+    {
+        spawn_item(x, y, type, birthday, 0, charges);
+    }
+    spawn_item( x, y, new_item, birthday, quantity, charges, damlevel );
 }
 
 //New spawn_item method, using item factory
 // added argument to spawn at various damage levels
-void map::spawn_item(const int x, const int y, std::string type_id, const int birthday, const int quantity, const int charges, const int damlevel)
+void map::spawn_item(const int x, const int y, std::string type_id, const int birthday,
+                     const int quantity, const int charges, const int damlevel)
 {
- item tmp = item_controller->create(type_id, birthday);
- if (quantity)
-  for(int i = 0; i < quantity; i++)
-   spawn_item(x, y, type_id, birthday, 0, charges);
- if (charges && tmp.charges > 0) //let's fail silently if we specify charges for an item that doesn't support it
-  tmp.charges = charges;
- tmp = tmp.in_its_container(itypes);
- if (tmp.made_of(LIQUID) && has_flag(swimmable, x, y))
-  return;
-    // bounds checking for damage level
-    if (damlevel < -1)
-        tmp.damage = -1;
-    if (damlevel > 4)
-        tmp.damage = 4;
-    tmp.damage = damlevel;  
- add_item(x, y, tmp);
+    item new_item = item_controller->create(type_id, birthday);
+    for(int i = 0; i < quantity; i++)
+    {
+        spawn_item(x, y, type_id, birthday, 0, charges);
+    }
+    spawn_item( x, y, new_item, birthday, quantity, charges, damlevel );
 }
 
+// Place an item on the map, despite the parameter name, this is not necessaraly a new item.
 void map::add_item(const int x, const int y, item new_item)
 {
  if (new_item.is_style())
@@ -2279,12 +2298,6 @@ void map::add_item(const int x, const int y, item new_item)
   return;
  if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
-
-    // clothing with variable size flag may sometimes be generated fitted
-    if (new_item.is_armor() && new_item.has_flag(IF_VARSIZE) & one_in(3))
-    {
-        new_item.item_flags |= mfb(IF_FIT);
-    }
 
  if (has_flag(noitem, x, y) || i_at(x, y).size() >= 64) {// Too many items there
   std::vector<point> okay;
@@ -2345,19 +2358,19 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 				((*items)[n].is_container() && (*items)[n].contents.size() > 0 && (*items)[n].contents[0].active))
 				{
 					if ((*items)[n].is_food()) {	// food items
-						if ((*items)[n].has_flag(IF_HOT)) {
+						if ((*items)[n].has_flag("HOT")) {
 							(*items)[n].item_counter--;
 							if ((*items)[n].item_counter == 0) {
-								(*items)[n].item_flags ^= mfb(IF_HOT);
+								(*items)[n].item_tags.erase("HOT");
 								(*items)[n].active = false;
 								grid[nonant]->active_item_count--;
 							}
 						}
 					} else if ((*items)[n].is_food_container()) {	// food in containers
-						if ((*items)[n].contents[0].has_flag(IF_HOT)) {
+						if ((*items)[n].contents[0].has_flag("HOT")) {
 							(*items)[n].contents[0].item_counter--;
 							if ((*items)[n].contents[0].item_counter == 0) {
-								(*items)[n].contents[0].item_flags ^= mfb(IF_HOT);
+								(*items)[n].contents[0].item_tags.erase("HOT");
 								(*items)[n].contents[0].active = false;
 								grid[nonant]->active_item_count--;
 							}

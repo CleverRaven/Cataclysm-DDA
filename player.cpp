@@ -57,6 +57,8 @@ player::player()
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  moves = 100;
  oxygen = 0;
+ next_climate_control_check=0;
+ last_climate_control_ret=false;
  active_mission = -1;
  in_vehicle = false;
  style_selected = "null";
@@ -149,6 +151,9 @@ player& player::operator= (const player & rhs)
 
  underwater = rhs.underwater;
  oxygen = rhs.oxygen;
+ next_climate_control_check=rhs.next_climate_control_check;
+ last_climate_control_ret=rhs.last_climate_control_ret;
+
  recoil = rhs.recoil;
  driving_recoil = rhs.driving_recoil;
  scent = rhs.scent;
@@ -497,7 +502,7 @@ void player::update_bodytemp(game *g)
         // BIONICS
         // Bionic "Internal Climate Control" says it eases the effects of high and low ambient temps
         const int variation = BODYTEMP_NORM*0.5;
-        if (has_bionic("bio_climate")
+        if (in_climate_control(g)
             && temp_conv[i] < BODYTEMP_SCORCHING + variation
             && temp_conv[i] > BODYTEMP_FREEZING - variation)
         {
@@ -2086,9 +2091,9 @@ void player::disp_status(WINDOW *w, game *g)
  }
 
  // Print the current weapon mode
- if (weapon.mode == IF_NULL)
+ if (weapon.mode == "NULL")
   mvwprintz(w, 1, 0, c_red,    "Normal");
- else if (weapon.mode == IF_MODE_BURST)
+ else if (weapon.mode == "MODE_BURST")
   mvwprintz(w, 1, 0, c_red,    "Burst");
  else {
   item* gunmod = weapon.active_gunmod();
@@ -2320,6 +2325,29 @@ void player::toggle_trait(int flag)
 {
  my_traits[flag] = !my_traits[flag];
  my_mutations[flag] = !my_mutations[flag];
+}
+
+bool player::in_climate_control(game *g)
+{
+    bool regulated_area=false;
+    if(has_active_bionic("bio_climate")) { return true; }
+    if(int(g->turn) >= next_climate_control_check) {
+        next_climate_control_check=int(g->turn)+20;  // save cpu and similate acclimation.
+        int vpart = -1;
+        vehicle *veh = g->m.veh_at(posx, posy, vpart);
+        if(veh) {
+            regulated_area=(
+                veh->is_inside(vpart) &&    // Already checks for opened doors
+                veh->total_power(true) > 0  // Out of gas? No AC for you!
+            );  // TODO: (?) Force player to scrounge together an AC unit
+        }
+        // TODO: AC check for when building power is implmented
+        last_climate_control_ret=regulated_area; 
+        if(!regulated_area) { next_climate_control_check+=40; }  // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
+    } else { 
+        return ( last_climate_control_ret ? true : false );
+    }
+    return regulated_area;
 }
 
 bool player::has_bionic(bionic_id b) const
@@ -3178,6 +3206,15 @@ int player::addiction_level(add_type type)
  return 0;
 }
 
+void player::siphon_gas(game *g, vehicle *veh)
+{
+    int fuel_amount = veh->drain(AT_GAS, veh->fuel_capacity(AT_GAS));
+    item used_item(g->itypes["gasoline"], g->turn);
+    used_item.charges = fuel_amount;
+    g->add_msg("Siphoned %d units of gasoline from the vehicle.", fuel_amount);
+    while (!g->handle_liquid(used_item, false, false)) { } // handle the gas until it's all gone
+}
+
 void player::cauterize(game *g) {
  rem_disease(DI_BLEED);
  rem_disease(DI_BITE);
@@ -3800,7 +3837,7 @@ void player::process_active_items(game *g)
  if (weapon.is_artifact() && weapon.is_tool())
   g->process_artifact(&weapon, this, true);
  else if (weapon.active) {
-  if (weapon.has_flag(IF_CHARGE)) { // We're chargin it up!
+  if (weapon.has_flag("CHARGE")) { // We're chargin it up!
    if (weapon.charges == 8) {
     bool maintain = false;
     if (use_charges_if_avail("UPS_on", 4)) {
@@ -3838,21 +3875,21 @@ void player::process_active_items(game *g)
     }
    }
    return;
-  } // if (weapon.has_flag(IF_CHARGE))
+  } // if (weapon.has_flag("CHARGE"))
 	if (weapon.is_food()) {	// food items
-	  if (weapon.has_flag(IF_HOT)) {
+	  if (weapon.has_flag("HOT")) {
 			weapon.item_counter--;
 			if (weapon.item_counter == 0) {
-				weapon.item_flags ^= mfb(IF_HOT);
+    weapon.item_tags.erase("HOT");
 				weapon.active = false;
 			}
 		}
 		return;
 	} else if (weapon.is_food_container()) {	// food items
-	  if (weapon.contents[0].has_flag(IF_HOT)) {
+	  if (weapon.contents[0].has_flag("HOT")) {
 			weapon.contents[0].item_counter--;
 			if (weapon.contents[0].item_counter == 0) {
-				weapon.contents[0].item_flags ^= mfb(IF_HOT);
+				weapon.contents[0].item_tags.erase("HOT");
 				weapon.contents[0].active = false;
 			}
 		}
@@ -3888,24 +3925,24 @@ void player::process_active_items(game *g)
         {
             if (tmp_it->is_food())
             {
-                if (tmp_it->has_flag(IF_HOT))
+                if (tmp_it->has_flag("HOT"))
                 {
                     tmp_it->item_counter--;
                     if (tmp_it->item_counter == 0)
                     {
-                        tmp_it->item_flags ^= mfb(IF_HOT);
+                        tmp_it->item_tags.erase("HOT");
                         tmp_it->active = false;
                     }
                 }
             }
             else if (tmp_it->is_food_container())
             {
-                if (tmp_it->contents[0].has_flag(IF_HOT))
+                if (tmp_it->contents[0].has_flag("HOT"))
                 {
                     tmp_it->contents[0].item_counter--;
                     if (tmp_it->contents[0].item_counter == 0)
                     {
-                        tmp_it->contents[0].item_flags ^= mfb(IF_HOT);
+                        tmp_it->contents[0].item_tags.erase("HOT");
                         tmp_it->contents[0].active = false;
                     }
                 }
@@ -3943,7 +3980,7 @@ void player::process_active_items(game *g)
 
 item player::remove_weapon()
 {
- if (weapon.has_flag(IF_CHARGE) && weapon.active) { //unwield a charged charge rifle.
+ if (weapon.has_flag("CHARGE") && weapon.active) { //unwield a charged charge rifle.
   weapon.charges = 0;
   weapon.active = false;
  }
@@ -4210,7 +4247,7 @@ int player::butcher_factor()
  if (inv_factor < lowest_factor) {
   lowest_factor = inv_factor;
  }
- if (weapon.damage_cut() >= 10 && !weapon.has_flag(IF_SPEAR)) {
+ if (weapon.damage_cut() >= 10 && !weapon.has_flag("SPEAR")) {
   int factor = weapon.volume() * 5 - weapon.weight() * 1.5 -
                weapon.damage_cut();
   if (weapon.damage_cut() <= 20)
@@ -4692,7 +4729,7 @@ bool player::eat(game *g, char ch)
             if (comest->nutr >= 2)
                 hunger += int(comest->nutr * .75);
         }
-        if (eaten->has_flag(IF_HOT) && eaten->has_flag(IF_EATEN_HOT))
+        if (eaten->has_flag("HOT") && eaten->has_flag("EATEN_HOT"))
             add_morale(MORALE_FOOD_HOT, 5, 10);
         if (has_trait(PF_GOURMAND))
         {
@@ -4782,7 +4819,7 @@ bool player::eat(game *g, char ch)
 
 bool player::wield(game *g, char ch)
 {
- if (weapon.has_flag(IF_NO_UNWIELD)) {
+ if (weapon.has_flag("NO_UNWIELD")) {
   g->add_msg("You cannot unwield your %s!  Withdraw them with 'p'.",
              weapon.tname().c_str());
   return false;
@@ -5167,7 +5204,7 @@ void player::use_wielded(game *g) {
 
 hint_rating player::rate_action_reload(item *it) {
  if (it->is_gun()) {
-  if (it->has_flag(IF_RELOAD_AND_SHOOT) || it->ammo_type() == AT_NULL) {
+  if (it->has_flag("RELOAD_AND_SHOOT") || it->ammo_type() == AT_NULL) {
    return HINT_CANT;
   }
   if (it->charges == it->clip_size()) {
@@ -5177,7 +5214,7 @@ hint_rating player::rate_action_reload(item *it) {
        if ((it->contents[i].is_gunmod() &&
             (it->contents[i].typeId() == "spare_mag" &&
              it->contents[i].charges < (dynamic_cast<it_gun*>(it->type))->clip)) ||
-           (it->contents[i].has_flag(IF_MODE_AUX) &&
+           (it->contents[i].has_flag("MODE_AUX") &&
             it->contents[i].charges < it->contents[i].clip_size()))
        {
            alternate_magazine = i;
@@ -5428,7 +5465,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     inv.add_item(copy);
    return;
   }
-  if (mod->id == "spare_mag" && gun->has_flag(IF_RELOAD_ONE)) {
+  if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
    g->add_msg("You can not use a spare magazine with your %s.",
               gun->tname(g).c_str());
    if (replace_item)
@@ -5442,8 +5479,8 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     if (replace_item)
      inv.add_item(copy);
     return;
-   } else if (!(mod->item_flags & mfb(IF_MODE_AUX)) && mod->newtype != AT_NULL &&
-	      !gun->contents[i].has_flag(IF_MODE_AUX) &&
+   } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != AT_NULL &&
+	      !gun->contents[i].has_flag("MODE_AUX") &&
 	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != AT_NULL) {
     g->add_msg("Your %s's caliber has already been modified.",
                gun->tname(g).c_str());
@@ -5831,7 +5868,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
             {
                 armorenc += armor->encumber;
                 warmth += armor->warmth;
-                if (worn[i].has_flag(IF_FIT))
+                if (worn[i].has_flag("FIT"))
                 {
                     armorenc--;
                 }
@@ -6239,7 +6276,7 @@ std::string player::weapname(bool charges)
    dump << "+" << weapon.contents[spare_mag].charges;
   for (int i = 0; i < weapon.contents.size(); i++)
    if (weapon.contents[i].is_gunmod() &&
-       weapon.contents[i].has_flag(IF_MODE_AUX))
+       weapon.contents[i].has_flag("MODE_AUX"))
     dump << "+" << weapon.contents[i].charges;
   dump << ")";
   return dump.str();

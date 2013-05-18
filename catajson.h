@@ -2,6 +2,7 @@
 #define _CATAJSON_H_
 
 #include "picojson.h"
+#include <set>
 
 class catajson
 {
@@ -16,6 +17,8 @@ public:
     int as_int() const;
     bool as_bool() const;
     double as_double() const;
+    // accessor for not-so-simple type
+    std::set<std::string> as_tags();
     // accessors in the case of array or object values
     catajson get(std::string key) const;
     catajson get(int index) const;

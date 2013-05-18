@@ -952,12 +952,12 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
             fix->damage++;
         } 
-        else if (rn >= 12 && p->i_at(ch).has_flag(IF_VARSIZE) && !p->i_at(ch).has_flag(IF_FIT))
+        else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT"))
 	    {
             g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
-            (p->i_at(ch).item_flags |= mfb(IF_FIT));
+            (p->i_at(ch).item_tags.insert("FIT"));
         }
-        else if (rn >= 12 && (p->i_at(ch).has_flag(IF_FIT) || !p->i_at(ch).has_flag(IF_VARSIZE)))
+        else if (rn >= 12 && (p->i_at(ch).has_flag("FIT") || !p->i_at(ch).has_flag("VARSIZE")))
 	    {
             g->add_msg_if_player(p, "You make your %s extra sturdy.", fix->tname().c_str());
             fix->damage--;
@@ -1047,13 +1047,13 @@ void iuse::extra_battery(game *g, player *p, item *it, bool t)
         return;
     }
 
-    if (modded->has_flag(IF_DOUBLE_AMMO))
+    if (modded->has_flag("DOUBLE_AMMO"))
     {
         g->add_msg_if_player(p,"That item has already had its battery capacity doubled.");
         return;
     }
 
-    modded->item_flags |= mfb(IF_DOUBLE_AMMO);
+    modded->item_tags.insert("DOUBLE_AMMO");
     g->add_msg_if_player(p,"You double the battery capacity of your %s!", tool->name.c_str());
     it->invlet = 0;
 }
@@ -1308,9 +1308,16 @@ void iuse::glowstick_active(game *g, player *p, item *it, bool t)
         // Do nothing... player::active_light and the lightmap::generate deal with this
     }
     else
-    {	// Turning it off
-        g->add_msg_if_player(p,"The glowstick dies.");
-        it->active = false;
+    {
+        if (it->charges > 0)
+        {
+            g->add_msg_if_player(p,"You can't turn off a glowstick.");
+        }
+        else
+        {
+            g->add_msg_if_player(p,"The glowstick fades out.");
+            it->active = false;
+        }
     }
 }
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
@@ -1468,7 +1475,7 @@ void iuse::directional_antenna(game *g, player *p, item *it, bool t)
         return;
     }
     // Find the radio station its tuned to (if any)
-    radio_tower *tower = find_radio_station( g, radio.mode );
+    radio_tower *tower = find_radio_station( g, radio.frequency );
     if( tower == NULL )
     {
         g->add_msg( "You can't find the direction if your radio isn't tuned." );
@@ -1485,7 +1492,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
     if (t)
     {	// Normal use
         std::string message = "Radio: Kssssssssssssh.";
-        radio_tower *selected_tower = find_radio_station( g, it->mode );
+        radio_tower *selected_tower = find_radio_station( g, it->frequency );
         if( selected_tower != NULL )
         {
             if( selected_tower->type == MESSAGE_BROADCAST )
@@ -1540,7 +1547,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
         {
         case 1:
         {
-            int old_frequency = it->mode;
+            int old_frequency = it->frequency;
             radio_tower *tower = NULL;
             radio_tower *lowest_tower = NULL;
             radio_tower *lowest_larger_tower = NULL;
@@ -1567,11 +1574,11 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
             }
             if( lowest_larger_tower != NULL )
             {
-                it->mode = lowest_larger_tower->frequency;
+                it->frequency = lowest_larger_tower->frequency;
             }
             else if( lowest_tower != NULL )
             {
-                it->mode = lowest_tower->frequency;
+                it->frequency = lowest_tower->frequency;
             }
         }
         break;
@@ -1904,6 +1911,38 @@ void iuse::dig(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You can't dig through %s!",
              g->m.tername(p->posx + dirx, p->posy + diry).c_str());
 */
+}
+
+void iuse::siphon(game *g, player *p, item *it, bool t)
+{
+    int posx = 0;
+    int posy = 0;
+    g->draw();
+    mvprintw(0, 0, "Siphon where?");
+    get_direction(g, posx, posy, input());
+    if (posx == -2)
+    {
+        g->add_msg_if_player(p,"Invalid direction.");
+        return;
+    }
+    // there's no self-tile check because the player could be in a vehicle
+    posx += p->posx;
+    posy += p->posy;
+    
+    vehicle* veh = g->m.veh_at(posx, posy);
+    if (veh == NULL)
+    {
+        g->add_msg_if_player(p,"There's no vehicle there.");
+        return;
+    }
+    if (veh->fuel_left(AT_GAS) == 0)
+    {
+        g->add_msg_if_player(p, "That vehicle has no fuel to siphon.");
+        return;
+    }
+    p->siphon_gas(g, veh);
+    p->moves -= 200;
+    return;
 }
 
 void iuse::chainsaw_off(game *g, player *p, item *it, bool t)
@@ -4088,7 +4127,7 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
 	if (heat->type->is_food()) {
 		p->moves -= 300;
 		g->add_msg("You heat up the food.");
-		heat->item_flags |= mfb(IF_HOT);
+		heat->item_tags.insert("HOT");
 		heat->active = true;
 		heat->item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);
@@ -4096,7 +4135,7 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
   } else 	if (heat->is_food_container()) {
 		p->moves -= 300;
 		g->add_msg("You heat up the food.");
-		heat->contents[0].item_flags |= mfb(IF_HOT);
+		heat->contents[0].item_tags.insert("HOT");
 		heat->contents[0].active = true;
 		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);

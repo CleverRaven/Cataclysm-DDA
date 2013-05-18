@@ -5,6 +5,9 @@
 #include "picojson.h"
 #include "options.h"
 
+// Default start time, this is the only place it's still used.
+#define STARTING_MINUTES 480
+
 //Adding a group:
 //  1: Declare it in the MonsterGroupDefs enum in mongroup.h
 //  2: Define it in here with the macro Group(your group, default monster)

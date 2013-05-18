@@ -358,9 +358,33 @@
     "charges_per_use": 0,
     "turns_per_charge": 2,
     "ammo": "none",
-    "revert_to": "null",
+    "revert_to": "glowstick_dead",
     "use_action": "GLOWSTICK_ACTIVE"
   },
+  
+  {
+    "id": "glowstick_dead",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "dead glowstick",
+    "description": "A spent glowstick, essentially trash.",
+    "rarity": 0,
+    "price": 300,
+    "material": "PLASTIC",
+    "weight": 0,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "none",
+    "revert_to": "null",
+    "use_action": "NONE"
+  },  
 
   {
     "id": "hotplate",
@@ -675,6 +699,32 @@
     "revert_to": "null",
     "use_action": "DIG"
   },
+
+
+    {
+        "id" : "hose",
+        "type": "TOOL",
+        "name" : "rubber hose",
+        "description" : "A flexible rubber hose. Can be used for crafting, or siphoning fuel from a vehicle.",
+        "weight" : 2,
+        "to_hit" : 3,
+        "color" : "green",
+        "symbol" : ",",
+        "material" : ["PLASTIC", "NULL"],
+        "volume" : 3,
+        "bashing" : 4,
+        "cutting" : 0,
+        "flags" : ["WRAP"],
+        "rarity" : 15,
+        "price" : 80,
+        "max_charges": 0,
+        "initial_charges": 0,
+        "charges_per_use": 0,
+        "turns_per_charge": 0,
+        "ammo": "none",
+        "revert_to": "null",
+        "use_action": "SIPHON"
+    },
 
   {
     "id": "chainsaw_off",

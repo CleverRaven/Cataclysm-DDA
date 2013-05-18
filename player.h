@@ -12,6 +12,7 @@
 #include "artifact.h"
 #include "mutation.h"
 #include "crafting.h"
+#include "vehicle.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -71,6 +72,8 @@ public:
  bool has_trait(int flag) const;
  bool has_mutation(int flag) const;
  void toggle_trait(int flag);
+
+ bool in_climate_control(game *g);
 
  bool has_bionic(bionic_id b) const;
  bool has_active_bionic(bionic_id b) const;
@@ -184,6 +187,7 @@ public:
  bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
+ void siphon_gas(game *g, vehicle *veh);
  void cauterize(game *g);
  void suffer(game *g);
  void vomit(game *g);
@@ -299,6 +303,8 @@ public:
  bool my_traits[PF_MAX2];
  bool my_mutations[PF_MAX2];
  int mutation_category_level[NUM_MUTATION_CATEGORIES];
+ int next_climate_control_check;
+ bool last_climate_control_ret;
  std::vector<bionic> my_bionics;
 // Current--i.e. modified by disease, pain, etc.
  int str_cur, dex_cur, int_cur, per_cur;

@@ -628,40 +628,6 @@
 
 
         {
-            "result": "bolt_wood",
-            "category": "CC_WEAPON",
-            "skill_pri": "mechanics",
-            "skill_sec": "archery",
-            "difficulty": 1,
-            "time": 5000,
-            "reversible": false,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["hatchet", -1],
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["stick", 1],
-                                  ["broom", 1],
-                                  ["mop", 1],
-                                  ["2x4", 1],
-                                  ["bee_sting", 1]
-                              ]
-                          ]
-        },
-
-
-        {
             "result": "crossbow",
             "category": "CC_WEAPON",
             "skill_pri": "mechanics",
@@ -1207,6 +1173,40 @@
             "category": "CC_AMMO",
             "skill_pri": "archery",
             "skill_sec": "survival",
+            "difficulty": 1,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["stick", 1],
+                                  ["broom", 1],
+                                  ["mop", 1],
+                                  ["2x4", 1],
+                                  ["bee_sting", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bolt_wood",
+            "category": "CC_AMMO",
+            "skill_pri": "mechanics",
+            "skill_sec": "archery",
             "difficulty": 1,
             "time": 5000,
             "reversible": false,
@@ -2750,6 +2750,37 @@
                                   ["zucchini", 1],
                                   ["veggy", 1],
                                   ["veggy_wild", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "broth_bone",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 1,
+            "time": 60000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 6],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["bone", 10]
+                              ],
+                              [
+                                  ["water", 1],
+                                  ["water_clean", 1]
                               ]
                           ]
         },

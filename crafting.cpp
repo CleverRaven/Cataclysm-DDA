@@ -1043,7 +1043,7 @@ void game::complete_craft()
   
   for (int i = 0; i < making->tools.size(); i++) {
    if (making->tools[i].size() > 0)
-    consume_tools(making->tools[i]);
+    consume_tools(making->tools[i], false);
   }
   u.activity.type = ACT_NULL;
   return;
@@ -1064,16 +1064,16 @@ void game::complete_craft()
  }
  for (int i = 0; i < making->tools.size(); i++) {
   if (making->tools[i].size() > 0)
-   consume_tools(making->tools[i]);
+   consume_tools(making->tools[i], false);
  }
 
   // Set up the new item, and pick an inventory letter
  int iter = 0;
  item newit(item_controller->find_template(making->result), turn, nextinv);
 
-    if (newit.is_armor() && newit.has_flag(IF_VARSIZE))
+    if (newit.is_armor() && newit.has_flag("VARSIZE"))
     {
-        newit.item_flags |= mfb(IF_FIT);
+        newit.item_tags.insert("FIT");
     }
  // for food items
  if (newit.is_food())
@@ -1081,8 +1081,8 @@ void game::complete_craft()
     int bday_tmp = turn % 3600;		// fuzzy birthday for stacking reasons
     newit.bday = int(turn) + 3600 - bday_tmp;
 
-		if (newit.has_flag(IF_EATEN_HOT)) {	// hot foods generated
-			newit.item_flags |= mfb(IF_HOT);
+		if (newit.has_flag("EATEN_HOT")) {	// hot foods generated
+			newit.item_tags.insert("HOT");
 			newit.active = true;
 			newit.item_counter = 600;
 		}
@@ -1241,7 +1241,7 @@ void game::consume_items(std::vector<component> components)
  }
 }
 
-void game::consume_tools(std::vector<component> tools)
+void game::consume_tools(std::vector<component> tools, bool force_available)
 {
  bool found_nocharge = false;
  inventory map_inv;
@@ -1250,7 +1250,7 @@ void game::consume_tools(std::vector<component> tools)
  std::vector<component> map_has;
 // Use charges of any tools that require charges used
  for (int i = 0; i < tools.size() && !found_nocharge; i++) {
-  if (tools[i].available != 1)
+  if (!force_available && tools[i].available != 1)
   {
    continue;
   }
@@ -1447,7 +1447,7 @@ void game::complete_disassemble()
   for (int j = 0; j < dis->tools.size(); j++)
   {
     if (dis->tools[j].size() > 0)
-    consume_tools(dis->tools[j]);
+    consume_tools(dis->tools[j], false);
   }
 
   // add the components to the map
