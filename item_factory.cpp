@@ -876,6 +876,8 @@ phase_id Item_factory::phase_from_tag(Item_tag name){
     }
 };
 
+//  TODO: depreciate once materials rewrite is up and running
+
 material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
     // Map the valid input tags to a valid material
 

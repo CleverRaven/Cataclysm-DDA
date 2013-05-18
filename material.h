@@ -25,8 +25,12 @@ private:
 public:
     material_type();
     material_type(unsigned int id, std::string ident, std::string name, int bash_resist, int cut_resist, int acid_resist, int elec_resist, int fire_resist);
+    static material_map _all_materials;
+    static material_map load_materials();
+
     // functions
-    unsigned int id() const;
+    material_type* find_material(std::string ident);
+    std::string material_type_from_tag(material mat);   
     int dam_resist(damage_type damtype) const;
 };
 

@@ -33,34 +33,6 @@ enum item_cat
   IC_CONTAINER
 };
 
-// for use in item damage
-const int mat_resist_factor[NUM_DAM_TYPES][NUM_MAT_TYPES] = 
-{
-    // NULL DAMAGE
-    // NUL VEG FLE POW HFL COT WOL LEA KEV FUR CHI STO PAP WOO PLA GLA IRO STE SIL
-    {   1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1  },
-
-    // BASH DAMAGE
-    // NUL VEG FLE POW HFL COT WOL LEA KEV FUR CHI STO PAP WOO PLA GLA IRO STE SIL
-    {   1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  3,  6,  1,  3,  2,  1,  4,  6,  2  },
-
-    // CUT DAMAGE
-    // NUL VEG FLE POW HFL COT WOL LEA KEV FUR CHI STO PAP WOO PLA GLA IRO STE SIL
-    {   1,  1,  1,  1,  1,  1,  1,  2,  4,  2,  4,  6,  1,  2,  2,  4,  4,  6,  3  },
-
-    // ACID DAMAGE - TODO
-    // NUL VEG FLE POW HFL COT WOL LEA KEV FUR CHI STO PAP WOO PLA GLA IRO STE SIL
-    {   1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 1,  1,  1,  1,  1,  1,  1,  1  },
-
-    // ELECTRICITY DAMAGE - TODO
-    // NUL VEG FLE POW HFL COT WOL LEA KEV FUR CHI STO PAP WOO PLA GLA IRO STE SIL
-    {   1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 1,  1,  1,  1,  1,  1,  1,  1  },
-
-    // FIRE DAMAGE - TODO
-    // NUL VEG FLE POW HFL COT WOO LEA KEV FUR CHI STO PAP WOO PLA GLA IRO STE SIL
-    {   1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 1,  1,  1,  1,  1,  1,  1,  1  }
-};
-
 typedef std::string itype_id;
 extern std::vector<std::string> unreal_itype_ids;
 extern std::vector<std::string> martial_arts_itype_ids;

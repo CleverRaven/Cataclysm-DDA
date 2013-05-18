@@ -31,8 +31,12 @@ material_type::material_type(unsigned int id, std::string ident, std::string nam
     _fire_resist = fire_resist;
 }
 
-void game::init_materials()
+material_map material_type::_all_materials(material_type::load_materials());
+
+material_map material_type::load_materials()
 {
+    material_map allMaterials;
+    
     catajson materialsRaw("data/raw/materials.json");
 
     unsigned int id = 0;
@@ -50,14 +54,49 @@ void game::init_materials()
 
         material_type newMaterial(id, ident, name, bash_resist, cut_resist, acid_resist, elec_resist, fire_resist);
 
-        materials[ident] = newMaterial;
+        allMaterials[ident] = newMaterial;
     }
+    return allMaterials;
 }
 
-
-unsigned int material_type::id() const
+material_type* material_type::find_material(std::string ident)
 {
-    return _id;
+    material_map::iterator found = _all_materials.find(ident);
+    if(found != _all_materials.end()){
+        return &(found->second);
+    }
+    else
+    {
+        debugmsg("Tried to get invalid material: %s", ident.c_str());
+        return NULL;
+    }   
+}
+
+std::string material_type_from_tag(material mat)
+{
+    switch(mat)
+    {
+        case MNULL:     return "null";  break;
+        case VEGGY:     return "veggy"; break;
+        case FLESH:     return "flesh"; break;
+        case POWDER:    return "powder"; break;
+        case HFLESH:    return "hflesh"; break;
+        case COTTON:    return "cotton"; break;
+        case WOOL:      return "wool"; break;
+        case LEATHER:   return "leather"; break;
+        case KEVLAR:    return "kevlar"; break;
+        case FUR:       return "fur"; break;
+        case CHITIN:    return "chitin"; break;
+        case STONE:     return "stone"; break;
+        case PAPER:     return "paper"; break;
+        case WOOD:      return "wood"; break;
+        case PLASTIC:   return "plastic"; break;
+        case GLASS:     return "glass"; break;
+        case IRON:      return "iron"; break;
+        case STEEL:     return "steel"; break;
+        case SILVER:    return "silver"; break;
+        default:        return "null"; break;
+    }
 }
 
 int material_type::dam_resist(damage_type damtype) const
