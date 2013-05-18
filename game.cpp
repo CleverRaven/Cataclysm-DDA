@@ -190,6 +190,9 @@ void game::setup()
  uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
 
+ last_inv_start = -2;   // -2: inv() won't change the value. -1 is 'parked' selection, 0 is first item 
+ last_inv_sel = -2;
+
  weather = WEATHER_CLEAR; // Start with some nice weather...
  nextweather = MINUTES(STARTING_MINUTES + 30); // Weather shift in 30
  turnssincelastmon = 0; //Auto safe mode init
@@ -1529,6 +1532,8 @@ bool game::handle_action()
    int cMenu = ' ';
    do {
      const std::string sSpaces = "                              ";
+     last_inv_sel = -1;
+     last_inv_start = -2;
      char chItem = inv();
      cMenu = (int)'+';
      has = u.has_item(chItem);
@@ -1609,8 +1614,8 @@ bool game::handle_action()
        } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
      }
    } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE || cMenu == KEY_LEFT );
-   // last_inv_start = -1;
-   // last_inv_sel = -1;
+   last_inv_start = -2;
+   last_inv_sel = -2;
    refresh_all();
   } break;
 

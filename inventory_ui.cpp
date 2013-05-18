@@ -153,8 +153,8 @@ char game::inv(std::string title)
  int selected=-1;
  int selected_char=(int)' ';
 
- // if( last_inv_start >= 0 ) start = last_inv_start;
- // if( last_inv_sel >= 0 ) selected = last_inv_sel;
+ if( last_inv_start >= 0 ) start = last_inv_start;
+ if( last_inv_sel >= 0 ) selected = last_inv_sel;
  do {
   selected_char=(int)' ';
   if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) { // Clear lines and shift
@@ -238,8 +238,10 @@ char game::inv(std::string title)
       }
     } 
   } else if ( ch == '\n' || ch == KEY_RIGHT ) {
-    // last_inv_start=start;
-    // last_inv_sel=selected;
+    if ( last_inv_start > -2 && last_inv_sel > -2 ) {
+      last_inv_start=start;
+      last_inv_sel=selected;
+    }
     ch = selected_char;
   }
  } while (ch == '<' || ch == '>' || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_UP || ch == KEY_DOWN );
