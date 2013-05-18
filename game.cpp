@@ -1530,10 +1530,10 @@ bool game::handle_action()
   case ACTION_INVENTORY: {
    bool has = false;
    int cMenu = ' ';
+   last_inv_sel = -1;
+   last_inv_start = -1;
    do {
      const std::string sSpaces = "                              ";
-     last_inv_sel = -1;
-     last_inv_start = -2;
      char chItem = inv();
      cMenu = (int)'+';
      has = u.has_item(chItem);
