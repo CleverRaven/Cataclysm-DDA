@@ -31,6 +31,18 @@ material_type::material_type(unsigned int id, std::string ident, std::string nam
     _fire_resist = fire_resist;
 }
 
+material_type::material_type(std::string ident)
+{
+    material_type* mat_type = find_material(ident);
+    _id = mat_type->id();
+    _name = mat_type->name();
+    _bash_resist = mat_type->bash_resist();
+    _cut_resist = mat_type->cut_resist();
+    _acid_resist = mat_type->acid_resist();
+    _elec_resist = mat_type->elec_resist();
+    _fire_resist = mat_type->fire_resist();
+}
+
 material_map material_type::_all_materials(material_type::load_materials());
 
 material_map material_type::load_materials()
@@ -72,31 +84,44 @@ material_type* material_type::find_material(std::string ident)
     }   
 }
 
-std::string material_type_from_tag(material mat)
+// stopgap function for now
+material_type* material_type::find_material_from_tag(material mat)
 {
+   std::string ident;
+    
     switch(mat)
     {
-        case MNULL:     return "null";  break;
-        case VEGGY:     return "veggy"; break;
-        case FLESH:     return "flesh"; break;
-        case POWDER:    return "powder"; break;
-        case HFLESH:    return "hflesh"; break;
-        case COTTON:    return "cotton"; break;
-        case WOOL:      return "wool"; break;
-        case LEATHER:   return "leather"; break;
-        case KEVLAR:    return "kevlar"; break;
-        case FUR:       return "fur"; break;
-        case CHITIN:    return "chitin"; break;
-        case STONE:     return "stone"; break;
-        case PAPER:     return "paper"; break;
-        case WOOD:      return "wood"; break;
-        case PLASTIC:   return "plastic"; break;
-        case GLASS:     return "glass"; break;
-        case IRON:      return "iron"; break;
-        case STEEL:     return "steel"; break;
-        case SILVER:    return "silver"; break;
-        default:        return "null"; break;
+        case MNULL:     ident = "null";  break;
+        case VEGGY:     ident = "veggy"; break;
+        case FLESH:     ident = "flesh"; break;
+        case POWDER:    ident = "powder"; break;
+        case HFLESH:    ident = "hflesh"; break;
+        case COTTON:    ident = "cotton"; break;
+        case WOOL:      ident = "wool"; break;
+        case LEATHER:   ident = "leather"; break;
+        case KEVLAR:    ident = "kevlar"; break;
+        case FUR:       ident = "fur"; break;
+        case CHITIN:    ident = "chitin"; break;
+        case STONE:     ident = "stone"; break;
+        case PAPER:     ident = "paper"; break;
+        case WOOD:      ident = "wood"; break;
+        case PLASTIC:   ident = "plastic"; break;
+        case GLASS:     ident = "glass"; break;
+        case IRON:      ident = "iron"; break;
+        case STEEL:     ident = "steel"; break;
+        case SILVER:    ident = "silver"; break;
+        default:        ident = "null"; break;
+    }    
+  
+    material_map::iterator found = _all_materials.find(ident);
+    if(found != _all_materials.end()){
+        return &(found->second);
     }
+    else
+    {
+        debugmsg("Tried to get invalid material: %s", ident.c_str());
+        return NULL;
+    }   
 }
 
 int material_type::dam_resist(damage_type damtype) const
@@ -122,4 +147,44 @@ int material_type::dam_resist(damage_type damtype) const
             return 0;
             break;
     }
+}
+
+unsigned int material_type::id() const
+{
+    return _id;
+}
+
+std::string material_type::ident() const
+{
+    return _ident;
+}
+
+std::string material_type::name() const
+{
+    return _name;
+}
+
+int material_type::bash_resist() const
+{
+    return _bash_resist;
+}
+
+int material_type::cut_resist() const
+{
+    return _cut_resist;
+}
+
+int material_type::acid_resist() const
+{
+    return _acid_resist;
+}
+
+int material_type::elec_resist() const
+{
+    return _elec_resist;
+}
+
+int material_type::fire_resist() const
+{
+    return _fire_resist;
 }

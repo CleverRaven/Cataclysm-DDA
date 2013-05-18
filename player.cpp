@@ -15,6 +15,7 @@
 #include <algorithm>
 #include "weather.h"
 #include "item.h"
+#include "material.h"
 
 #include "name.h"
 #include "cursesdef.h"
@@ -5980,9 +5981,12 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
   tmp = dynamic_cast<it_armor*>(worn[i].type);
   if ((tmp->covers & mfb(bp)) && tmp->storage <= 24) {
 
+    material_type* cur_mat;
+    cur_mat->find_material_from_tag(tmp->m1);
+    
 // multiply by material resistance
-   arm_bash = (1 + tmp->dmg_resist) * mat_resist_factor[BASH][tmp->m1];
-   arm_cut  = (1 + tmp->cut_resist) * mat_resist_factor[CUT][tmp->m1];
+   arm_bash = (1 + tmp->dmg_resist) * cur_mat->bash_resist();
+   arm_cut  = (1 + tmp->cut_resist) * cur_mat->cut_resist();
 
 // already damaged armour protects less
    switch (worn[i].damage) {
@@ -6051,7 +6055,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
         // on the assumption that the first material is the dominant material
         // TODO: should incorporate second material as well?
 
-        if (bash_check && rng(0, (10 + tmp->dmg_resist) * mat_resist_factor[BASH][tmp->m1]) < dam && !one_in(dam))
+        if (bash_check && rng(0, (10 + tmp->dmg_resist) * cur_mat->bash_resist()) < dam && !one_in(dam))
         {
             if (!is_npc())
             {
@@ -6060,7 +6064,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
             worn[i].damage++;        
         }
         
-        if (cut_check && rng(0, (10 + tmp->cut_resist) * mat_resist_factor[CUT][tmp->m1]) < cut && !one_in(cut))
+        if (cut_check && rng(0, (10 + tmp->cut_resist) * cur_mat->cut_resist()) < cut && !one_in(cut))
         {
             if (!is_npc())
             {
