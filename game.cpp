@@ -5396,81 +5396,122 @@ int getsquare(char c , int &off_x, int &off_y, std::string &areastring)
 }
 #define ADVINVOFS 7
 // for printing items in environment
-void printItems(std::vector<item> &items, WINDOW* window, int page , int selected_index , bool active, game* g)
-{
-    int itemsPerPage;
-    itemsPerPage = getmaxy(window)-ADVINVOFS; // fixme
-    nc_color norm = active ? c_white : c_dkgray;
-    for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++)
-    {
-        if(active && selected_index == x)
-        {
-            mvwprintz(window,6+x,2,c_yellow, ">>");
-            mvwprintz(window,6+x,6,c_yellow, "%s", items[i].tname(g).c_str());
-        }
-        else
-        {
-            mvwprintz(window, 6+x, 6, norm, "%s", items[i].tname(g).c_str() );
-        }
-        if(items[i].charges > 0)
-        {
-            wprintw(window," (%d)",items[i].charges);
-        }
-        else if(items[i].contents.size() == 1 &&
-                items[i].contents[0].charges > 0)
-        {
-            wprintw(window," (%d)",items[i].contents[0].charges);
-        }
-    }
-}
+struct advanced_inv_listitem {
+    int idx;
+    item it;
+    std::string name;
+    int stacks;
+    int volume;
+    int weight;
+};
 
-void printItems(player &u,WINDOW* window,int page, int selected_index, bool active, game* g)
+struct advanced_inv_pane {
+    int pos;
+    int area, offx, offy, size, vstor;  // quick lookup later
+    int index, max_page, max_index, page;
+    std::string area_string;        
+    int sortby;
+    vehicle *veh;
+    WINDOW *window;
+    std::vector<advanced_inv_listitem> items;
+};
+
+void advprintItems(advanced_inv_pane &pane, bool active, game* g)
 {
+    std::vector<advanced_inv_listitem> &items = pane.items;
+    WINDOW* window = pane.window;
+    int page = pane.page;
+    int selected_index = pane.index;
+    bool isinventory = ( pane.area == 0 );
     int itemsPerPage;
     itemsPerPage = getmaxy( window ) - ADVINVOFS; // fixme
     int columns = getmaxx( window );
     int rightcol = columns - 8;
     int amount_column = columns - 15;
     nc_color norm = active ? c_white : c_dkgray;
-    invslice stacks = u.inv.slice(page * itemsPerPage, itemsPerPage);
-    mvwprintz( window, 4, rightcol, norm, "%3d %3d", u.weight_carried(), u.volume_carried() );
 
-
+    if(isinventory) {
+        mvwprintz( window, 4, rightcol, c_ltgreen, "%3d %3d", g->u.weight_carried(), g->u.volume_carried() );
+    }
+    
     mvwprintz( window, 5, 4, c_ltgray, "Name (charges)" );
-    mvwprintz( window, 5, rightcol - 7, c_ltgray, "amt weight vol" );
-    for(int i = 0; i < stacks.size() && i < itemsPerPage; ++i )
-    {
+    mvwprintz( window, 5, rightcol - 7, c_ltgray, "%s weight vol", ( isinventory ? "amt" : "   " ) );
+
+    for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
+
+        //mvwprintz(window,6+x,2,c_ltgray, "%d",items[i].idx);
+
         nc_color thiscolor = norm;
-        item& it = stacks[i]->front();
-        if(active && selected_index == i)
+        
+        if(active && selected_index == x)
         {
             thiscolor = c_yellow;
-            mvwprintz(window, 6 + i, 1, thiscolor, ">>" );
+            mvwprintz(window,6+x,1,thiscolor, ">>");
         }
-        else
-        {
+
+        mvwprintz(window, 6 + x, 4, thiscolor, "%s", items[i].it.tname(g).c_str() );
+
+        if(items[i].it.charges > 0) {
+            wprintw(window," (%d)",items[i].it.charges);
+        } else if(items[i].it.contents.size() == 1 && items[i].it.contents[0].charges > 0) {
+            wprintw(window," (%d)",items[i].it.contents[0].charges);
         }
-        mvwprintz(window, 6 + i, 4, thiscolor, "%s", it.tname(g).c_str() );
-        int size = u.inv.stack_by_letter(it.invlet).size();
-        if(it.charges > 0)
-        {
-            wprintz(window, thiscolor," (%d)", it.charges);
+
+        if( isinventory && items[i].stacks > 1 ) {
+            mvwprintz(window, 6 + x, amount_column, thiscolor, "[%d]", items[i].stacks);
         }
-        else if(it.contents.size() == 1 &&
-                it.contents[0].charges > 0)
-        {
-            wprintz(window, thiscolor, " (%d)", it.contents[0].charges);
-        }
-        if(size < 1) {
-             size=1;
-        } else if (size > 1) {
-             mvwprintz(window, 6 + i, amount_column, thiscolor, "[%d]", size);
-        }
-        mvwprintz(window, 6+i,rightcol, (it.weight() > 0 ? thiscolor : c_dkgray),
-                  "%3d", it.weight() * size );
-        wprintz(window, (it.volume() > 0 ? thiscolor : c_dkgray), " %3d", it.volume() * size );
+
+        mvwprintz(window, 6 + x, rightcol, (items[i].weight > 0 ? thiscolor : c_dkgray),
+            "%3d", items[i].weight );
+
+        wprintz(window, (items[i].volume > 0 ? thiscolor : c_dkgray), " %3d", items[i].volume );
+
     }
 }
+
+// should probably move to an adv_inv_pane class
+
+enum advanced_inv_sortby {
+    SORTBY_NONE = 1 , SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES
+};
+
+
+struct advanced_inv_sort_bydropped {
+    bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
+        return d1.idx > d2.idx;
+    };
+};
+
+struct advanced_inv_sort_byweight {
+    bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
+        return d1.weight > d2.weight;
+    };
+};
+
+struct advanced_inv_sort_byvolume {
+    bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
+        return d1.volume > d2.volume;
+    };
+};
+struct advanced_inv_sort_bycharges {
+    bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
+        return d1.it.charges > d2.it.charges;
+    };
+};
+struct advanced_inv_sort_case_insensitive_less : public std::binary_function< char,char,bool > {
+    bool operator () (char x, char y) const {
+        return toupper( static_cast< unsigned char >(x)) < toupper( static_cast< unsigned char >(y));
+    }
+};
+struct advanced_inv_sort_byname {
+    bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
+        std::string n1=d1.name;
+        std::string n2=d2.name;
+        return std::lexicographical_compare( n1.begin(), n1.end(),
+           n2.begin(), n2.end(), case_insensitive_less() );
+    };
+};
+
 
 void printHeader(std::vector<bool> &canputitems, WINDOW* window,int area)
 {
@@ -5485,16 +5526,6 @@ void printHeader(std::vector<bool> &canputitems, WINDOW* window,int area)
     mvwprintz(window,3,36, canputitems[3] ? (area == 3 ? c_yellow : c_white) : c_red , "[3]");
     mvwprintz(window,2,25, canputitems[0] ? (area == 0 ? c_yellow : c_white) : c_red , "[I]");
 }
-
-struct advanced_inv_pane {
-  int pos;
-  int area, offx, offy, size, vstor;  // quick lookup later
-  int index, max_page, max_index, page;
-  std::string area_string;        
-  vehicle *veh;
-  WINDOW *window;
-  //std::vector<item> items;
-};
 
 void game::advanced_inv()
 {
@@ -5537,6 +5568,7 @@ void game::advanced_inv()
     canputitems.push_back(!(m.has_flag(noitem,u.posx+1,u.posy-1)) && !(m.has_flag(sealed,u.posx+1,u.posy-1) ));
     bool exit = false;
     bool redraw = true;
+    bool recalc = true;
 
     int lastCh = 0;
 
@@ -5552,6 +5584,7 @@ void game::advanced_inv()
         panes[i].max_index = 0;
         panes[i].page = 0;
         panes[i].max_page = 0;
+        panes[i].sortby = 0;
         panes[i].area_string = "initializing...";
         panes[i].veh = NULL;
     }
@@ -5565,6 +5598,7 @@ void game::advanced_inv()
     while(!exit)
     {
         dest = (src==left ? right : left);
+        if ( recalc ) redraw=true;
         if(redraw)
         {
             for (int i = 0; i < 2; i++) {
@@ -5593,20 +5627,65 @@ void game::advanced_inv()
                 // draw the stuff
                 werase(panes[i].window);
                 mvwprintz(panes[i].window,1,2,src == i ? c_blue : c_white, "%s", panes[i].area_string.c_str());
-                
-                if(panes[i].area == isinventory)
-                {
-                    printItems(u, panes[i].window, panes[i].page, panes[i].index,(src == i), this);
+
+                if(recalc) { 
+                    panes[i].items.clear();
+                    if(panes[i].area == isinventory)
+                    {
+                        invslice stacks = u.inv.slice(0, u.inv.size());
+
+                        for( int x = 0; x < stacks.size(); ++x ) {
+                            item& item = stacks[x]->front();
+                            int size = u.inv.stack_by_letter(item.invlet).size();
+                            if ( size < 1 ) size = 1;
+                            advanced_inv_listitem it;
+                            it.idx=x;
+                            it.name=item.tname(this);
+                            it.stacks=size;
+                            it.weight=item.weight() * size;
+                            it.volume=item.volume() * size;
+                            it.it=item;
+                            panes[i].items.push_back(it);
+                        }
+                    }
+                    else
+                    {
+                        std::vector<item> items = panes[i].vstor >= 0 ?
+                            panes[i].veh->parts[panes[i].vstor].items :
+                            m.i_at(u.posx+panes[i].offx , u.posy+panes[i].offy );
+
+                        for(int x = 0; x < items.size() ; x++) {
+                            advanced_inv_listitem it;
+                            it.idx=x;
+                            it.name=items[x].tname(this);
+                            it.stacks=1;
+                            it.weight=items[x].weight();
+                            it.volume=items[x].volume();
+                            it.it=items[x];
+                            panes[i].items.push_back(it);
+                        }
+                    }
+                    // sort the stuff
+                    switch(panes[i].sortby) {
+                        case SORTBY_NONE:
+                            if ( i != isinventory ) {
+                                std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_bydropped() );
+                            }
+                            break;
+
+                        case SORTBY_NAME:    std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_byname() ); break;
+                        case SORTBY_WEIGHT:    std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_byweight() ); break;
+                        case SORTBY_VOLUME:    std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_byvolume() ); break;
+                        case SORTBY_CHARGES:    std::sort (panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_bycharges() ); break;
+                    }
+                    // draw the stuff
                 }
-                else
-                {
-                    printItems(
-                        panes[i].vstor >= 0 ? panes[i].veh->parts[panes[i].vstor].items : m.i_at( u.posx+panes[i].offx, u.posy+panes[i].offy ),
-                        panes[i].window, panes[i].page, panes[i].index,(src == i), this );
-                }
+                advprintItems( panes[i], (src == i), this );
                 printHeader(canputitems, panes[i].window, panes[i].area);
                 mvwprintz(panes[i].window,1,(w_width/2)-7,(src==i ? c_ltgray : c_dkgray),"%2d/%d", panes[i].size, i == isinventory ? 75 : MAX_ITEM_IN_SQUARE );
             }
+
+            recalc=false;
 
             werase(head);
             {
@@ -5626,15 +5705,21 @@ void game::advanced_inv()
             }
             redraw = false;
         }
-        // todo: struct screen_vars  (for the love of god)
 
-        int item_pos = panes[src].index + (panes[src].page * itemsPerPage);
+        int list_pos = panes[src].index + (panes[src].page * itemsPerPage);
+        int item_pos = panes[src].items[list_pos].idx;
 
         wborder(panes[left].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
         wborder(panes[right].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
         wrefresh(head);
         wrefresh(panes[left].window);
         wrefresh(panes[right].window);
+
+        int changex = -1;
+        int changey = 0;
+        bool donothing = false;
+
+
         int c = lastCh ? lastCh : getch();
         lastCh = 0;
         int changeSquare;
@@ -5654,12 +5739,12 @@ void game::advanced_inv()
             else if(canputitems[changeSquare])
             {
                 panes[src].area = changeSquare;
-                redraw = true;
             }
             else
             {
                 popup("You can't put items there");
             }
+            recalc = true;
         }
         else if('m' == c)
         {
@@ -5813,24 +5898,33 @@ void game::advanced_inv()
                     }
                 }
             }
-            redraw = true;
+            recalc = true;
         }
+        else if('s' == c) {
+            if(panes[src].size == 0) continue;
+            int ch = menu(true, "Sort by... ", "Unsorted (recently added first)", "name", "weight", "volume", "charges", NULL );
+            panes[src].sortby = ch;
+            recalc = true;
+        }   
         else if('e' == c)
         {
             if(panes[src].size == 0)
                 continue;
-            item it;
-            if(panes[src].area == isinventory) {
-		it = u.inv.slice(item_pos, 1)[0]->front();
-            } else {
-                std::vector<item> src_items = panes[src].vstor >= 0 ? // fixme stored, non-src dependant items list
-                    panes[src].veh->parts[panes[src].vstor].items :
-                    m.i_at(u.posx+panes[src].offx , u.posy+panes[src].offy );
-                it = src_items[item_pos];
-            }
+            item it = panes[src].items[list_pos].it;
+
             std::vector<iteminfo> vThisItem, vDummy, vMenu;
             it.info(true, &vThisItem);
-            compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ), (w_width/2)-2, 0, it.tname(this), vThisItem, vDummy);
+            vThisItem.push_back(iteminfo("DESCRIPTION", "\n----------\n"));
+            vThisItem.push_back(iteminfo("DESCRIPTION", "\n\n\n\n\n [up / page up] previous\n [down / page down] next"));
+
+            int ret=compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ), (w_width/2)-2, 0, it.tname(this), vThisItem, vDummy);
+            if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
+                changey += 1;
+                lastCh='e';
+            } else if ( ret == KEY_PPAGE || ret == KEY_UP ) {
+                changey += -1;
+                lastCh='e';
+            }
             redraw = true;
         }
         else if( 'q' == c || KEY_ESCAPE == c || ' ' == c )
@@ -5851,9 +5945,6 @@ void game::advanced_inv()
         }
         else
         {
-            int changex = -1;
-            int changey = 0;
-            bool donothing = false;
             switch(c)
             {
                 case 'j':
@@ -5879,23 +5970,28 @@ void game::advanced_inv()
                     donothing = true;
                     break;
             }
-            if(!donothing)
-            {
-                panes[src].index += changey;
-                if ( panes[src].index < 0 ) {
-                    //panes[src].index = 0;
-                    panes[src].page--;
-                    if( panes[src].page < 0 ) panes[src].page = panes[src].max_page-1;
-                    panes[src].index = itemsPerPage; // corrected at the start of next iteration
-                } else if ( panes[src].index >= panes[src].max_index ) {
-                    //panes[src].index = panes[src].max_index-1;
-                    panes[src].page++;
-                    if( panes[src].page >= panes[src].max_page ) panes[src].page = 0;
-                    panes[src].index = 0;
-                }
-                if ( changex >= 0 ) src = changex;
-                redraw = true;
+        }
+        if(!donothing)
+        {
+          if ( changey != 0 ) {
+            panes[src].index += changey;
+            if ( panes[src].index < 0 ) {
+                //panes[src].index = 0;
+                panes[src].page--;
+                if( panes[src].page < 0 ) panes[src].page = panes[src].max_page-1;
+                panes[src].index = itemsPerPage; // corrected at the start of next iteration
+            } else if ( panes[src].index >= panes[src].max_index ) {
+                //panes[src].index = panes[src].max_index-1;
+                panes[src].page++;
+                if( panes[src].page >= panes[src].max_page ) panes[src].page = 0;
+                panes[src].index = 0;
             }
+            redraw = true;
+          }
+          if ( changex >= 0 ) {
+            src = changex;
+            redraw = true;
+          }
         }
     }
     werase(head);
