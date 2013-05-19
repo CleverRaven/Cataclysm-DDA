@@ -2471,6 +2471,7 @@ ssssssssssssssssssssssss\n\
             t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_alarm, t_window,
             t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
      mapf::end() );
+     spawn_item(18, 15, g->itypes["record_accounting"], 0);
      place_items(mi_cleaning,	75, 3, 5, 5, 5, false, 0);
      place_items(mi_office,	75, 10, 7, 16, 8, false, 0);
      place_items(mi_cubical_office,	75, 15, 15, 19, 15, false, 0);
@@ -5939,6 +5940,7 @@ case ot_lmoe: {
    mapf::end() );
    tmpcomp = add_computer(17, 13, "Broadcasting Control", 0);
    tmpcomp->add_option("ERROR:  SIGNAL DISCONNECT", COMPACT_TOWER_UNRESPONSIVE, 0);
+   spawn_item(18, 13, g->itypes["record_weather"], 0);
    place_items(mi_novels,	70,  5,  12, 6,  12, false, 0);
    place_items(mi_novels,	70,  2,  21, 2,  19, false, 0);
    place_items(mi_novels,	70,  12,  19, 12,  20, false, 0);
@@ -7246,6 +7248,7 @@ tth.............^|..|###\n\
    tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
    tmpcomp->add_failure(COMPFAIL_ALARM);
 
+   if (one_in(2))spawn_item(7, 6, g->itypes["record_patient"], 0);
    place_items(mi_dissection,	60,  4,  9, 4,  11, false, 0);
    place_items(mi_dissection,	60,  9,  9, 10,  9, false, 0);
    place_items(mi_dissection,	60,  20,  11, 20,  13, false, 0);
@@ -8798,6 +8801,7 @@ break;
    square(this, t_counter,  5,  4,  6,  8);
    place_items(mi_hospital_lab, 74, 5, 4, 6, 8, false, 0);
    square(this, t_counter, 10,  4, 11,  8);
+   spawn_item(5, 4, g->itypes["record_patient"], 0);
    place_items(mi_hospital_lab, 74, 10, 4, 11, 8, false, 0);
    square(this, t_counter, 15,  4, 16,  8);
    place_items(mi_hospital_lab, 74, 15, 4, 16, 8, false, 0);
