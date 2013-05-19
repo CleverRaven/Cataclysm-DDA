@@ -5508,7 +5508,7 @@ struct advanced_inv_sort_byname {
         std::string n1=d1.name;
         std::string n2=d2.name;
         return std::lexicographical_compare( n1.begin(), n1.end(),
-           n2.begin(), n2.end(), case_insensitive_less() );
+           n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
     };
 };
 
@@ -5682,7 +5682,7 @@ void game::advanced_inv()
                 }
                 advprintItems( panes[i], (src == i), this );
                 printHeader(canputitems, panes[i].window, panes[i].area);
-                mvwprintz(panes[i].window,1,(w_width/2)-7,(src==i ? c_ltgray : c_dkgray),"%2d/%d", panes[i].size, i == isinventory ? 75 : MAX_ITEM_IN_SQUARE );
+                mvwprintz(panes[i].window,1,(w_width/2)-7,(src==i ? c_ltgray : c_dkgray),"%2d/%d", panes[i].size, panes[i].area == isinventory ? 75 : MAX_ITEM_IN_SQUARE );
             }
 
             recalc=false;
@@ -5712,9 +5712,9 @@ void game::advanced_inv()
         wborder(panes[left].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
         wborder(panes[right].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
 
-        std::string sortnames[5] = { "-bogus-", "none", "name", "weight", "volume", "charges" };
-        mvwprintz(panes[left].window, 0, 3, c_white, "< [s]ort: %s >", sortnames[panes[left].sortby] );
-        mvwprintz(panes[right].window, 0, 3, c_white, "< [s]ort: %s >", sortnames[panes[right].sortby] );
+        std::string sortnames[6] = { "-none-", "none", "name", "weight", "volume", "charges" };
+        mvwprintz(panes[left].window, 0, 3, c_white, "< [s]ort: %s >", sortnames[ ( panes[left].sortby <= 6 ? panes[left].sortby : 0 ) ].c_str() );
+        mvwprintz(panes[right].window, 0, 3, c_white, "< [s]ort: %s >", sortnames[ ( panes[right].sortby <= 6 ? panes[right].sortby : 0 ) ].c_str() );
 
         wrefresh(head);
         wrefresh(panes[left].window);
