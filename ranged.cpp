@@ -523,8 +523,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 {
  std::vector<point> ret;
  int tarx, tary, tart, junk;
- // TODO: [lightmap] Enable auto targeting based on lightmap
- int sight_dist = u.sight_range(light_level());
 
 // First, decide on a target among the monsters, if there are any in range
  if (t.size() > 0) {
@@ -618,8 +616,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     ret = line_to(u.posx, u.posy, x, y, tart); // Sets the vector to that LOS
 // Draw the trajectory
     for (int i = 0; i < ret.size(); i++) {
-     if (abs(ret[i].x - u.posx) <= sight_dist &&
-         abs(ret[i].y - u.posy) <= sight_dist   ) {
       int mondex = mon_at(ret[i].x, ret[i].y),
           npcdex = npc_at(ret[i].x, ret[i].y);
 // NPCs and monsters get drawn with inverted colors
@@ -629,7 +625,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
        active_npc[npcdex]->draw(w_terrain, center.x, center.y, true);
       else
        m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center.x, center.y);
-     }
     }
    }
 
