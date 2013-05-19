@@ -5961,6 +5961,9 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
 {
  it_armor* tmp;
  int arm_bash = 0, arm_cut = 0;
+ bool cut_through = true;      // to determine if cutting damage penetrates multiple layers of armour
+ int bash_absorb = 0;      // to determine if lower layers of armour get damaged
+ 
  if (has_active_bionic("bio_ads")) {
   if (dam > 0 && power_level > 1) {
    dam -= rng(1, 8);
@@ -6006,7 +6009,8 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
    else 
     {
         // determine how much the damage exceeds the armour absorption 
-        int diff_bash = (dam - arm_bash < 0) ? -1 : (dam - arm_bash);
+        // bash damage takes into account preceding layers
+        int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
         int diff_cut  = (cut - arm_cut  < 0) ? -1 : (dam - arm_cut);
      
         // armour damage occurs only if damage exceeds armour absorption
@@ -6019,14 +6023,23 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
             }
             worn[i].damage++;        
         }
+        bash_absorb += arm_bash;
         
-        if (diff_cut > arm_cut && !one_in(diff_cut))
+        // cut damage falls through to inner layers only if preceding layer was damaged
+        if (cut_through)
         {
-            if (!is_npc())
+            if (diff_cut > arm_cut && !one_in(diff_cut))
             {
-                g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
+                if (!is_npc())
+                {
+                    g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
+                }
+                worn[i].damage++;        
+            } 
+            else // layer of clothing was not damaged, so stop cutting damage from penetrating
+            {
+                cut_through = false;
             }
-            worn[i].damage++;        
         }        
     }
     if (worn[i].damage >= 5) 
