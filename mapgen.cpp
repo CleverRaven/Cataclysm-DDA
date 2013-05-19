@@ -2832,6 +2832,450 @@ ssssssssssssssssssssssss\n",
    rotate(1);
  } break;
 
+case ot_cathedral_1_entrance:{
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"ss         ##...........\n\
+ss         ##bbbb...bbbb\n\
+ss          #...........\n\
+ss          wbbbb...bbbb\n\
+ss          w...........\n\
+ss          wbbbb...bbbb\n\
+ss          #...........\n\
+ss         ##bbbb...bbbb\n\
+ss         ##...........\n\
+ss          #bbb....bbbb\n\
+ss          w...........\n\
+ss          #####GG###HH\n\
+ss          w>R.....#...\n\
+ss   ########...........\n\
+ss   #......#...........\n\
+ss   w......#.lllcc.....\n\
+ss   #......###ww####++#\n\
+ss   w......#      ##sss\n\
+ss   #......#       ssss\n\
+ss   ###ww###       ssss\n\
+ss                  ssss\n\
+ss                  ssss\n\
+ssssssssssssssssssssssss\n\
+ssssssssssssssssssssssss\n",
+     mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s",
+            t_bench, t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_crate_c,
+            t_pavement_y ,t_pavement, t_railing_h, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_shrub, t_indoor_plant,
+            t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_interior, t_window_stained_red,
+            t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_bench)
+            place_items(mi_church,	10,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_locker)
+            place_items(mi_jackets,	60,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_window_stained_red)
+            if (one_in(3)) ter_set(i,j,t_window_stained_blue);
+            else if (one_in(3)) ter_set(i,j,t_window_stained_green);
+       }
+     }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+    }
+  if (t_north == ot_cathedral_1 && t_west == ot_cathedral_1)
+   rotate(3);
+  else if (t_north == ot_cathedral_1 && t_east == ot_cathedral_1)
+   rotate(0);
+  else if (t_south == ot_cathedral_1 && t_east == ot_cathedral_1)
+   rotate(1);
+  else if (t_west == ot_cathedral_1 && t_south == ot_cathedral_1)
+   rotate(2);
+}break;
+
+case ot_cathedral_1:{
+// Init to grass & dirt;
+  fill_background(this, &grass_or_dirt);
+  if ((t_south == ot_cathedral_1_entrance && t_east == ot_cathedral_1) || (t_north == ot_cathedral_1 && t_east == ot_cathedral_1_entrance) || (t_west == ot_cathedral_1 && t_north == ot_cathedral_1_entrance) ||
+    (t_south == ot_cathedral_1 && t_west == ot_cathedral_1_entrance)){
+     mapf::formatted_set_terrain(this, 0, 0,
+  "                  ##    \n\
+                 ###wwww\n\
+                ##....tt\n\
+               ##.......\n\
+               w..h.....\n\
+             ###.....ttt\n\
+             w..........\n\
+      ##   ###R.........\n\
+    ####www#..rrrrrrrr..\n\
+  ###...................\n\
+  #...C.................\n\
+ ##......bbbbbbb...bbbbb\n\
+  w.....................\n\
+  w..bbbbbbbbbbb...bbbbb\n\
+  w.....................\n\
+ ##..bbbbbbbbbbb...bbbbb\n\
+  #.....................\n\
+  ###...................\n\
+    #####+##............\n\
+      ##sss##bbbb...bbbb\n\
+sssssssssss>#...........\n\
+sssssssssssswbbbb...bbbb\n\
+ss          w...........\n\
+ss          #bbbb...bbbb\n",
+     mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s",
+            t_bench, t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_column,
+            t_pavement_y ,t_pavement, t_railing_h, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_shrub, t_indoor_plant,
+            t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_interior, t_window_stained_red,
+            t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+     mapf::end() );
+     spawn_item(20, 2, (*itypes)["brazier"], 0);
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_bench)
+            place_items(mi_church,	10,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_locker)
+            place_items(mi_jackets,	60,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_window_stained_red)
+            if (one_in(3)) ter_set(i,j,t_window_stained_blue);
+            else if (one_in(3)) ter_set(i,j,t_window_stained_green);
+       }
+     }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+    }
+     if (t_west == ot_cathedral_1_entrance)
+            rotate(1);
+     if (t_north == ot_cathedral_1_entrance)
+            rotate(2);
+     if (t_east == ot_cathedral_1_entrance)
+            rotate(3);
+  }
+
+  else if ((t_west == ot_cathedral_1_entrance && t_north == ot_cathedral_1) || (t_north == ot_cathedral_1_entrance && t_east == ot_cathedral_1) || (t_west == ot_cathedral_1 && t_south == ot_cathedral_1_entrance) ||
+           (t_south == ot_cathedral_1 && t_east == ot_cathedral_1_entrance)) {
+     mapf::formatted_set_terrain(this, 0, 0,
+"..........##          ss\n\
+bbb...bbbb##          ss\n\
+..........#           ss\n\
+bbb...bbbbw           ss\n\
+..........w           ss\n\
+bbb...bbbbw           ss\n\
+..........#           ss\n\
+bbb...bbbb##          ss\n\
+..........##          ss\n\
+bbb....bbb#           ss\n\
+..........w           ss\n\
+H###GG#####           ss\n\
+..#.....R>w           ss\n\
+..........########    ss\n\
+..........#......#    ss\n\
+...ccccc..#......w    ss\n\
+++####ww###......#    ss\n\
+ss##      #......w    ss\n\
+sss       #......#    ss\n\
+sss       ###ww###    ss\n\
+sss                   ss\n\
+sss                   ss\n\
+ssssssssssssssssssssssss\n\
+ssssssssssssssssssssssss\n",
+     mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s",
+            t_bench, t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_crate_c,
+            t_pavement_y ,t_pavement, t_railing_h, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_shrub, t_indoor_plant,
+            t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_interior, t_window_stained_red,
+            t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_bench)
+            place_items(mi_church,	10,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_locker)
+            place_items(mi_jackets,	60,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_window_stained_red)
+            if (one_in(3)) ter_set(i,j,t_window_stained_blue);
+            else if (one_in(3)) ter_set(i,j,t_window_stained_green);
+       }
+     }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+    }
+     if (t_north == ot_cathedral_1_entrance)
+            rotate(1);
+     if (t_east == ot_cathedral_1_entrance)
+            rotate(2);
+     if (t_south == ot_cathedral_1_entrance)
+            rotate(3);
+  }
+
+  else {
+     mapf::formatted_set_terrain(this, 0, 0,
+  "   ##                   \n\
+www###                  \n\
+t....##                 \n\
+......##                \n\
+....h..w                \n\
+tt.....###              \n\
+.........w              \n\
+........R###   ##       \n\
+.rrrrrrrr..#www####     \n\
+..................###   \n\
+................C...#   \n\
+bbbb...bbbbbbb......##  \n\
+....................w   \n\
+bbbb...bbbbbbbbbbb..w   \n\
+....................w   \n\
+bbbb...bbbbbbbbbbb..##  \n\
+....................#   \n\
+..................###   \n\
+...........##+#####     \n\
+bbb...bbbb##sss##       \n\
+..........#>ssssssssssss\n\
+bbb...bbbbwsssssssssssss\n\
+..........w           ss\n\
+bbb...bbbb#           ss\n",
+     mapf::basic_bind("b E > < R # X G C , _ r V H 6 x % ^ . - | t + = D w T S e o h c d l s",
+            t_bench, t_elevator, t_stairs_down, t_stairs_up, t_railing_v, t_rock, t_door_metal_locked, t_door_glass_c, t_column,
+            t_pavement_y ,t_pavement, t_railing_h, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_shrub, t_indoor_plant,
+            t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_interior, t_window_stained_red,
+            t_toilet, t_sink, t_fridge, t_bookcase, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+     mapf::end() );
+     spawn_item(2, 2, (*itypes)["brazier"], 0);
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_bench)
+            place_items(mi_church,	10,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_window_stained_red)
+            if (one_in(3)) ter_set(i,j,t_window_stained_blue);
+            else if (one_in(3)) ter_set(i,j,t_window_stained_green);
+       }
+     }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+    }
+     if (t_west == ot_cathedral_1 && t_north == ot_cathedral_1){
+            rotate(1);}
+     else if (t_east == ot_cathedral_1 && t_north == ot_cathedral_1){
+            rotate(2);}
+     else if (t_east == ot_cathedral_1 && t_south == ot_cathedral_1){
+            rotate(3);}
+     }
+  }break;
+
+  case ot_cathedral_b_entrance:{
+  fill_background(this, &grass_or_dirt);
+  mapf::formatted_set_terrain(this, 0, 0,
+"############|+|+|+|..|..\n\
+############|T|T|T|..|..\n\
+############|-|-|-|--|..\n\
+############|......d.|..\n\
+############|hdhd..dh|..\n\
+############|........|..\n\
+############|hdhd....+..\n\
+############|........|..\n\
+############|hdhd....|..\n\
+############|--------|..\n\
+############|..^tt^.....\n\
+############|...........\n\
+############|<..........\n\
+############|--D-|-+-ccc\n\
+############|l...|......\n\
+############|l..r|...ddd\n\
+############|l..r|....hd\n\
+############|----|------\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n",
+     mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s",
+            t_oven, t_elevator, t_stairs_down, t_stairs_up, t_rock, t_door_metal_locked, t_door_glass_c, t_makeshift_bed,
+            t_pavement_y ,t_pavement, t_rack, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_indoor_plant,
+            t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_interior, t_window_stained_red,
+            t_toilet, t_sink, t_fridge, t_column, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_desk)
+            place_items(mi_school,	50,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_rack)
+            place_items(mi_cleaning,	70,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_rack)
+            place_items(mi_cleaning,	50,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+    }
+  if (t_north == ot_cathedral_b && t_west == ot_cathedral_b)
+   rotate(3);
+  else if (t_north == ot_cathedral_b && t_east == ot_cathedral_b)
+   rotate(0);
+  else if (t_south == ot_cathedral_b && t_east == ot_cathedral_b)
+   rotate(1);
+  else if (t_west == ot_cathedral_b && t_south == ot_cathedral_b)
+   rotate(2);
+}break;
+
+case ot_cathedral_b:{
+// Init to grass & dirt;
+  fill_background(this, &grass_or_dirt);
+  if ((t_south == ot_cathedral_b_entrance && t_east == ot_cathedral_b) || (t_north == ot_cathedral_b && t_east == ot_cathedral_b_entrance) || (t_west == ot_cathedral_b && t_north == ot_cathedral_b_entrance) ||
+    (t_south == ot_cathedral_b && t_west == ot_cathedral_b_entrance)){
+     mapf::formatted_set_terrain(this, 0, 0,
+  "########################\n\
+########################\n\
+####################____\n\
+###################__o__\n\
+###################_____\n\
+###################__o__\n\
+################________\n\
+################________\n\
+#######|---|______o___o_\n\
+#######|rrr|____________\n\
+#######|...D____________\n\
+######||-+-|------------\n\
+######|c....c.hhh.......\n\
+######|S....c.....C..C..\n\
+######|c....c...........\n\
+######|O....c.....C..C..\n\
+######|O....|...........\n\
+######|e....+.htth......\n\
+######|e...r|.htth......\n\
+######|---|-|.htth..ht..\n\
+##########|<+........t..\n\
+##########|-|--------|..\n\
+############|..S.S.S.|..\n\
+############|........+..\n",
+     mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s",
+            t_oven, t_elevator, t_stairs_down, t_stairs_up, t_rock, t_door_metal_locked, t_door_glass_c, t_makeshift_bed,
+            t_pavement_y ,t_dirtfloor, t_rack, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_indoor_plant,
+            t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_interior, t_window_stained_red,
+            t_toilet, t_sink, t_fridge, t_column, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_fridge)
+            place_items(mi_fridge,	70,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_table)
+            place_items(mi_fridgesnacks,	40,  i,  j, i,  j, false, 0);
+        else if (this->ter(i,j) == t_rack)
+            place_items(mi_cannedfood,	40,  i,  j, i,  j, false, 0);
+       }
+     }
+     add_spawn(mon_blank, rng(1,3), 23, 5);
+     if (t_west == ot_cathedral_b_entrance)
+            rotate(1);
+     else if (t_north == ot_cathedral_b_entrance)
+            rotate(2);
+     else if (t_east == ot_cathedral_b_entrance)
+            rotate(3);
+  }
+
+  else if ((t_west == ot_cathedral_b_entrance && t_north == ot_cathedral_b) || (t_north == ot_cathedral_b_entrance && t_east == ot_cathedral_b) || (t_west == ot_cathedral_b && t_south == ot_cathedral_b_entrance) ||
+           (t_south == ot_cathedral_b && t_east == ot_cathedral_b_entrance)) {
+     mapf::formatted_set_terrain(this, 0, 0,
+".|..|+|D|+|#############\n\
+.|..|T|T|T|#############\n\
+.|--|-|-|-|#############\n\
+.|........|#############\n\
+.|..htth..|#############\n\
+.|..htth..|#############\n\
+.+..htth..|#############\n\
+.|..htth..|#############\n\
+.|........|#############\n\
+.|--------|#############\n\
+...hhh...^|#############\n\
+..........|#############\n\
+.........<|#############\n\
+cc-|-D----|#############\n\
+...|^..dxd|#############\n\
+...+....hd|#############\n\
+.ll|l.....|#############\n\
+---|------|#############\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n",
+     mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s",
+            t_oven, t_elevator, t_stairs_down, t_stairs_up, t_rock, t_door_metal_locked, t_door_glass_c, t_makeshift_bed,
+            t_pavement_y ,t_pavement, t_rack, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_indoor_plant,
+            t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_interior, t_window_stained_red,
+            t_toilet, t_sink, t_fridge, t_column, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+     mapf::end() );
+     for (int i = 0; i <= 23; i++) {
+       for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_desk)
+            place_items(mi_office,	70,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_locker)
+            place_items(mi_office,	70,  i,  j, i,  j, false, 0);
+        if (this->ter(i,j) == t_table)
+            place_items(mi_office,	30,  i,  j, i,  j, false, 0);
+       }
+     }
+  if (density > 1)
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, density);
+  else {
+    place_spawns(g, "GROUP_ZOMBIE", 2, 0, 0, 23, 23, .20);
+    }
+     if (t_north == ot_cathedral_b_entrance)
+            rotate(1);
+     else if (t_east == ot_cathedral_b_entrance)
+            rotate(2);
+     else if (t_south == ot_cathedral_b_entrance)
+            rotate(3);
+  }
+
+  else {
+     mapf::formatted_set_terrain(this, 0, 0,
+  "########################\n\
+########################\n\
+____####################\n\
+t_o__###################\n\
+_____###################\n\
+__o__###################\n\
+________################\n\
+________################\n\
+_o___o______############\n\
+____________############\n\
+____________############\n\
+----------|---|#########\n\
+..........|htt|#########\n\
+C..C..C...|.tt|#########\n\
+..........D.tt|#########\n\
+C..C..C...D.tt|#########\n\
+..........|.tt|#########\n\
+C..C..C...|hhh|#########\n\
+..........|hhh|#########\n\
+..........|-|-|#########\n\
+....hh....+<|###########\n\
+.|--------|-|###########\n\
+.|.S.S.S..|#############\n\
+.+........|#############\n",
+     mapf::basic_bind("O E > < # X G C , _ r V H 6 x ^ . - | t + = D w T S e o h c d l s",
+            t_oven, t_elevator, t_stairs_down, t_stairs_up, t_rock, t_door_metal_locked, t_door_glass_c, t_makeshift_bed,
+            t_pavement_y ,t_dirtfloor, t_rack, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_indoor_plant,
+            t_floor, t_wall_h, t_wall_v, t_table, t_door_c, t_door_locked, t_door_locked_interior, t_window_stained_red,
+            t_toilet, t_sink, t_fridge, t_column, t_chair, t_counter, t_desk, t_locker, t_sidewalk),
+     mapf::end() );
+     spawn_item(0, 3, g->itypes["small_relic"], 0);
+     add_spawn(mon_blank, rng(1,3), 0, 5);
+     if (t_west == ot_cathedral_b && t_north == ot_cathedral_b)
+            rotate(1);
+     else if (t_east == ot_cathedral_b && t_north == ot_cathedral_b)
+            rotate(2);
+     else if (t_east == ot_cathedral_b && t_south == ot_cathedral_b)
+            rotate(3);
+     }
+  }break;
 
  case ot_s_grocery_north:
  case ot_s_grocery_east:
