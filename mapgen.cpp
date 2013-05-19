@@ -6096,6 +6096,7 @@ w                       \n\
      add_spawn(mon_zombie_child, rng(0, 4), SEEX, SEEY);
      add_spawn(mon_zombie, rng(0, 1), SEEX, SEEY);
   place_items(mi_cleaning,	80,  22, 23, 23,  23, false, 0);
+  spawn_item(12, 15, g->itypes["american_flag"], 0);
   if (t_north == ot_school_5)
    rotate(2);
   else if (t_east == ot_school_5)
