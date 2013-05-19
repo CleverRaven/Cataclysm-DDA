@@ -193,6 +193,9 @@ void game::setup()
  last_inv_start = -2;   // -2: inv() won't change the value. -1 is 'parked' selection, 0 is first item 
  last_inv_sel = -2;
 
+ advanced_inv_leftsort = 1;
+ advanced_inv_rightsort = 1;
+
  weather = WEATHER_CLEAR; // Start with some nice weather...
  // Weather shift in 30
  nextweather = HOURS(OPTIONS[OPT_INITIAL_TIME]) + MINUTES(30);
@@ -5584,10 +5587,12 @@ void game::advanced_inv()
         panes[i].max_index = 0;
         panes[i].page = 0;
         panes[i].max_page = 0;
-        panes[i].sortby = 0;
+        panes[i].sortby = 1;
         panes[i].area_string = "initializing...";
         panes[i].veh = NULL;
     }
+    panes[left].sortby = advanced_inv_leftsort;
+    panes[right].sortby = advanced_inv_rightsort;
     panes[right].area = 5;
     panes[left].window = left_window;
     panes[right].window = right_window;
@@ -5909,6 +5914,11 @@ void game::advanced_inv()
             if(panes[src].size == 0) continue;
             int ch = menu(true, "Sort by... ", "Unsorted (recently added first)", "name", "weight", "volume", "charges", NULL );
             panes[src].sortby = ch;
+            if ( src == left ) { 
+                advanced_inv_leftsort=ch;
+            } else {
+                advanced_inv_rightsort=ch;
+            }
             recalc = true;
         }   
         else if('e' == c)

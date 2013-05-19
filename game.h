@@ -479,6 +479,7 @@ class game
   std::string last_action;		// The keypresses of last turn
 
   int last_inv_start, last_inv_sel;     // workaround until inventory_ui.cpp is rewritten
+  int advanced_inv_leftsort, advanced_inv_rightsort;
 
   int moves_since_last_save;
   int item_exchanges_since_save;
