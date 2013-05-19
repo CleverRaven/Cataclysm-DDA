@@ -7564,14 +7564,16 @@ void game::plthrow(char chInput)
  std::vector <int> targetindices;
  int passtarget = -1;
  for (int i = 0; i < z.size(); i++) {
-  if (u_see(&(z[i])) && z[i].posx >= x0 && z[i].posx <= x1 &&
-                        z[i].posy >= y0 && z[i].posy <= y1) {
-   mon_targets.push_back(z[i]);
-   targetindices.push_back(i);
-   if (i == last_target)
-    passtarget = mon_targets.size() - 1;
-   z[i].draw(w_terrain, u.posx, u.posy, true);
-  }
+   if (u_see(&(z[i]))) {
+     z[i].draw(w_terrain, u.posx, u.posy, true);
+     if(rl_dist( u.posx, u.posy, z[i].posx, z[i].posy ) <= range) {
+       mon_targets.push_back(z[i]);
+       targetindices.push_back(i);
+       if (i == last_target) {
+	 passtarget = mon_targets.size() - 1;
+       }
+     }
+   }
  }
 
  // target() sets x and y, or returns false if we canceled (by pressing Esc)
@@ -7670,15 +7672,16 @@ void game::plfire(bool burst)
  std::vector <int> targetindices;
  int passtarget = -1;
  for (int i = 0; i < z.size(); i++) {
-  if (z[i].posx >= x0 && z[i].posx <= x1 &&
-      z[i].posy >= y0 && z[i].posy <= y1 &&
-      z[i].friendly == 0 && u_see(&(z[i]))) {
-   mon_targets.push_back(z[i]);
-   targetindices.push_back(i);
-   if (i == last_target)
-    passtarget = mon_targets.size() - 1;
-   z[i].draw(w_terrain, u.posx, u.posy, true);
-  }
+   if (u_see(&(z[i]))) {
+     z[i].draw(w_terrain, u.posx, u.posy, true);
+     if(rl_dist( u.posx, u.posy, z[i].posx, z[i].posy ) <= range) {
+       mon_targets.push_back(z[i]);
+       targetindices.push_back(i);
+       if (i == last_target) {
+	 passtarget = mon_targets.size() - 1;
+       }
+     }
+   }
  }
 
  // target() sets x and y, and returns an empty vector if we canceled (Esc)

@@ -592,9 +592,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   m.draw(this, w_terrain, center);
 // Draw the Monsters
   for (int i = 0; i < z.size(); i++) {
-   if (u_see(&(z[i])) && z[i].posx >= lowx && z[i].posy >= lowy &&
-                         z[i].posx <=  hix && z[i].posy <=  hiy)
+   if (u_see(&(z[i]))) {
     z[i].draw(w_terrain, center.x, center.y, false);
+   }
   }
 // Draw the NPCs
   for (int i = 0; i < active_npc.size(); i++) {
