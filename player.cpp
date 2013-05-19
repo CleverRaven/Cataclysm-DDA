@@ -62,7 +62,7 @@ player::player()
  active_mission = -1;
  in_vehicle = false;
  style_selected = "null";
- xp_pool = 0;
+ xp_pool = 100;
  last_item = itype_id("null");
  for (int i = 0; i < num_skill_types; i++) {
   sklevel[i] = 0;
@@ -330,15 +330,9 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
  if (int_cur < 0)
   int_cur = 0;
 
- int mor = morale_level();
- int xp_frequency = 10 - int(mor / 20);
- if (xp_frequency < 1)
-  xp_frequency = 1;
- if (int(g->turn) % xp_frequency == 0)
-  xp_pool++;
-
- if (xp_pool > 800)
-  xp_pool = 800;
+ if (int(g->turn) % 10 == 0) {
+  update_mental_focus();
+ }
 }
 
 void player::update_morale()
@@ -354,6 +348,79 @@ void player::update_morale()
    i--;
   }
  }
+}
+
+void player::update_mental_focus()
+{
+    int focus_gain_rate = calc_focus_equilibrium() - xp_pool;
+
+    // handle negative gain rates in a symmetric manner
+    int base_change = 1;
+    if (focus_gain_rate < 0)
+    {
+        base_change = -1;
+        focus_gain_rate = -focus_gain_rate;
+    }
+
+    // for every 100 points, we have a flat gain of 1 focus.
+    // for every n points left over, we have an n% chance of 1 focus
+    int gain = focus_gain_rate / 100;
+    if (rng(0, 100) < (focus_gain_rate % 100))
+    {
+        gain++;
+    }
+
+    xp_pool += (gain * base_change);
+}
+
+// written mostly by FunnyMan3595 in Github issue #613 (DarklingWolf's repo),
+// with some small edits/corrections by Soron
+int player::calc_focus_equilibrium()
+{
+    // Factor in pain, since it's harder to rest your mind while your body hurts.
+    int eff_morale = morale_level() - pain;
+    int focus_gain_rate = 100;
+    if (eff_morale < -99)
+    {
+        // At very low morale, focus goes up at 1% of the normal rate.
+        focus_gain_rate = 1;
+    }
+    else if (eff_morale <= 50)
+    {
+        // At -99 to +50 morale, each point of morale gives 1% of the normal rate.
+        focus_gain_rate += eff_morale;
+    }
+    else
+    {
+        /* Above 50 morale, we apply strong diminishing returns.
+         * Each block of 50% takes twice as many morale points as the previous one:
+         * 150% focus gain at 50 morale (as before)
+         * 200% focus gain at 150 morale (100 more morale)
+         * 250% focus gain at 350 morale (200 more morale)
+         * ...
+         * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
+         */
+
+        int block_multiplier = 1;
+        int morale_left = eff_morale;
+        while (focus_gain_rate < 400)
+        {
+            if (morale_left > 50 * block_multiplier)
+            {
+                // We can afford the entire block.  Get it and continue.
+                morale_left -= 50 * block_multiplier;
+                focus_gain_rate += 50;
+                block_multiplier *= 2;
+            }
+            else
+            {
+                // We can't afford the entire block.  Each block_multiplier morale
+                // points give 1% focus gain, and then we're done.
+                focus_gain_rate += morale_left / block_multiplier;
+            }
+        }
+    }
+    return focus_gain_rate;
 }
 
 /* Here lies the intended effects of body temperature
@@ -6163,6 +6230,22 @@ bool player::wearing_something_on(body_part bp)
  return false;
 }
 
+int player::adjust_for_focus(int amount)
+{
+    int effective_focus = xp_pool;
+    if (has_trait(PF_FASTLEARNER))
+    {
+        effective_focus += 15;
+    }
+    double tmp = amount * (effective_focus / 100.0);
+    int ret = int(tmp);
+    if (rng(0, 100) < 100 * (tmp - ret))
+    {
+        ret++;
+    }
+    return ret;
+}
+
 void player::practice (const calendar& turn, Skill *s, int amount)
 {
     SkillLevel& level = skillLevel(s);
@@ -6195,18 +6278,25 @@ void player::practice (const calendar& turn, Skill *s, int amount)
         }
     }
 
+    amount = adjust_for_focus(amount);
+
     int newLevel;
 
     while (level.isTraining() && amount > 0 && xp_pool >= (1 + level))
     {
         amount -= level + 1;
-        if ((!isSavant || s == savantSkill || one_in(2)) &&
-            rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER)))
+        if (!isSavant || s == savantSkill || one_in(2))
         {
-            xp_pool -= (1 + level);
             skillLevel(s).train(newLevel);
         }
     }
+    int chance_to_drop = xp_pool;
+    xp_pool -= chance_to_drop / 100;
+    if (rng(0, 100) < (chance_to_drop % 100))
+    {
+        xp_pool--;
+    }
+
     skillLevel(s).practice(turn);
 }
 

@@ -64,6 +64,8 @@ public:
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
  void update_morale();	// Ticks down morale counters and removes them
+ void update_mental_focus();
+ int calc_focus_equilibrium();
  void update_bodytemp(game *g);  // Maintains body temperature
  int  current_speed(game *g = NULL); // Number of movement points we get a turn
  int  run_cost(int base_cost); // Adjust base_cost
@@ -225,6 +227,7 @@ public:
  int resist(body_part bp);	// Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
 
+ int adjust_for_focus(int amount);
  void practice(const calendar& turn, Skill *s, int amount);
  void practice(const calendar& turn, std::string s, int amount);
 
