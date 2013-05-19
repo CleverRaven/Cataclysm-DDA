@@ -1149,7 +1149,7 @@ int item::melee_value(int skills[num_skill_types])
  return my_value;
 }
 
-int item::bash_resist()
+int item::bash_resist() const
 {
     int ret = 0;
     
@@ -1169,7 +1169,7 @@ int item::bash_resist()
         return ret;    
 }
 
-int item::cut_resist()
+int item::cut_resist() const
 {
     int ret = 0;
     
