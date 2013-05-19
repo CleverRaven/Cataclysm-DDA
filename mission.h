@@ -19,6 +19,7 @@ enum mission_id {
  MISSION_RESCUE_DOG,
  MISSION_KILL_ZOMBIE_MOM,
  MISSION_REACH_SAFETY,
+ MISSION_GET_FLAG,
  NUM_MISSION_IDS
 };
 
@@ -42,6 +43,7 @@ enum mission_goal {
  MGOAL_FIND_NPC,	// Find a given NPC
  MGOAL_ASSASSINATE,	// Kill a given NPC
  MGOAL_KILL_MONSTER,	// Kill a particular hostile monster
+ 
  NUM_MGOAL
 };
 
