@@ -5216,6 +5216,290 @@ bool player::takeoff(game *g, char let)
  }
 }
 
+void player::sort_armor(game *g)
+{
+    if (worn.size() == 0)
+    {
+        g->add_msg("You are not wearing anything!");
+        return;
+    }
+    
+    // work out required window sizes
+    int worn_win_y = worn.size() + 6;
+    
+    int torso_win_y = 7;
+    int arms_win_y = 7; 
+    int hands_win_y = 7;
+    int legs_win_y = 7;
+    int eyes_win_y = 7;
+    int mouth_win_y = 7;
+    
+    for (int i = 0; i < worn.size(); i++) 
+    {
+        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso))
+            torso_win_y++;
+        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_arms))
+            arms_win_y++;
+        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_hands))
+            hands_win_y++;
+        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_legs))
+            legs_win_y++;
+        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_eyes))
+            eyes_win_y++;
+        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_mouth))
+            mouth_win_y++;         
+    }
+
+    int worn_win_x = 26;
+
+    WINDOW* w_info      = newwin(5, 80,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+    WINDOW* w_all_worn  = newwin(worn_win_y, worn_win_x,  5 + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+    WINDOW* w_torso_worn= newwin(torso_win_y, worn_win_x, 5 + VIEW_OFFSET_Y, worn_win_x + VIEW_OFFSET_X);
+    WINDOW* w_arms_worn = newwin(arms_win_y, worn_win_x, 5 + torso_win_y + VIEW_OFFSET_Y, worn_win_x + VIEW_OFFSET_X);
+    WINDOW* w_hands_worn= newwin(hands_win_y, worn_win_x, 5 + torso_win_y + arms_win_y  + VIEW_OFFSET_Y, worn_win_x + VIEW_OFFSET_X);
+    WINDOW* w_legs_worn = newwin(legs_win_y, worn_win_x, 5 + VIEW_OFFSET_Y, worn_win_x + worn_win_x + VIEW_OFFSET_X);
+    WINDOW* w_eyes_worn = newwin(eyes_win_y, worn_win_x, 5 + legs_win_y + VIEW_OFFSET_Y, worn_win_x + worn_win_x + VIEW_OFFSET_X);
+    WINDOW* w_mouth_worn= newwin(mouth_win_y, worn_win_x, 5 + legs_win_y + eyes_win_y  + VIEW_OFFSET_Y, worn_win_x + worn_win_x + VIEW_OFFSET_X);
+      
+    wborder(w_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wborder(w_all_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wborder(w_torso_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wborder(w_arms_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wborder(w_hands_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wborder(w_legs_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wborder(w_eyes_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wborder(w_mouth_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+    // Print name and header
+    mvwprintz(w_info, 1, 1, c_white, "CLOTHING SORTING");
+    mvwprintz(w_info, 2, 1, c_white, "Press jk to move up/down, s to select items to move.");
+    mvwprintz(w_info, 3, 1, c_white, "Press r to assign special inventory letters to clothing, ESC or q to return.");
+
+    wrefresh(w_info);        
+
+    bool done = false;
+    bool redraw = true;
+    int cursor_y = 0;
+    int selected = -1;
+    
+    int torso_item_count;
+    int eyes_item_count;
+    int mouth_item_count;
+    int arms_item_count;
+    int hands_item_count;
+    int legs_item_count;
+            
+    item tmp_item;    
+ 
+    do 
+    {
+        if (redraw)
+        {
+            werase(w_all_worn);
+            wborder(w_all_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            mvwprintz(w_all_worn, 1, 1, c_white, "WORN CLOTHING");
+            mvwprintz(w_all_worn, 3, 1, c_green, "(Innermost)");
+            for (int i = 0; i < worn.size(); i++) 
+            {
+                if (i == cursor_y)
+                    mvwprintz(w_all_worn, 4+cursor_y, 2, c_yellow, ">>");
+                if (selected >= 0 && i == selected)
+                    mvwprintz(w_all_worn, i+4, 5, c_white, worn[i].tname(g).c_str());
+                else
+                    mvwprintz(w_all_worn, i+4, 4, c_ltgray, worn[i].tname(g).c_str());
+            }            
+            mvwprintz(w_all_worn, 4 + worn.size(), 1, c_red, "(Outermost)");
+            
+            werase(w_torso_worn);
+            werase(w_eyes_worn);
+            werase(w_mouth_worn);    
+            werase(w_hands_worn);
+            werase(w_arms_worn);
+            werase(w_legs_worn);
+          
+            wborder(w_torso_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            wborder(w_eyes_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            wborder(w_mouth_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            wborder(w_arms_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            wborder(w_hands_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            wborder(w_legs_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+            mvwprintz(w_torso_worn, 1, 1, c_white, "TORSO CLOTHING");
+            mvwprintz(w_torso_worn, 3, 1, c_green, "(Innermost)");            
+            mvwprintz(w_eyes_worn, 1, 1, c_white, "EYES CLOTHING");
+            mvwprintz(w_eyes_worn, 3, 1, c_green, "(Innermost)"); 
+            mvwprintz(w_mouth_worn, 1, 1, c_white, "MOUTH CLOTHING");
+            mvwprintz(w_mouth_worn, 3, 1, c_green, "(Innermost)"); 
+            mvwprintz(w_arms_worn, 1, 1, c_white, "ARMS CLOTHING");
+            mvwprintz(w_arms_worn, 3, 1, c_green, "(Innermost)");             
+            mvwprintz(w_hands_worn, 1, 1, c_white, "HANDS CLOTHING");
+            mvwprintz(w_hands_worn, 3, 1, c_green, "(Innermost)"); 
+            mvwprintz(w_legs_worn, 1, 1, c_white, "LEGS CLOTHING");
+            mvwprintz(w_legs_worn, 3, 1, c_green, "(Innermost)"); 
+                         
+            torso_item_count = 0;
+            eyes_item_count = 0;
+            mouth_item_count = 0;
+            arms_item_count = 0;
+            hands_item_count = 0;
+            legs_item_count = 0;
+            
+            for (int i = 0; i < worn.size(); i++) 
+            {
+                if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso))
+                {
+                    mvwprintz(w_torso_worn, torso_item_count + 4, 4, c_ltgray, worn[i].tname(g).c_str());
+                    torso_item_count++;
+                }           
+                if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_eyes))
+                {
+                    mvwprintz(w_eyes_worn, eyes_item_count + 4, 4, c_ltgray, worn[i].tname(g).c_str());
+                    eyes_item_count++;
+                }                
+                if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_mouth))
+                {
+                    mvwprintz(w_mouth_worn, mouth_item_count + 4, 4, c_ltgray, worn[i].tname(g).c_str());
+                    mouth_item_count++;
+                }  
+                if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_arms))
+                {
+                    mvwprintz(w_arms_worn, arms_item_count + 4, 4, c_ltgray, worn[i].tname(g).c_str());
+                    arms_item_count++;
+                }                 
+                if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_hands))
+                {
+                    mvwprintz(w_hands_worn, hands_item_count + 4, 4, c_ltgray, worn[i].tname(g).c_str());
+                    hands_item_count++;
+                }                    
+                if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_legs))
+                {
+                    mvwprintz(w_legs_worn, legs_item_count + 4, 4, c_ltgray, worn[i].tname(g).c_str());
+                    legs_item_count++;
+                }                                                  
+            }  
+            mvwprintz(w_torso_worn, 4 + torso_item_count, 1, c_red, "(Outermost)");          
+            mvwprintz(w_eyes_worn, 4 + eyes_item_count, 1, c_red, "(Outermost)");
+            mvwprintz(w_mouth_worn, 4 + mouth_item_count, 1, c_red, "(Outermost)");              
+            mvwprintz(w_arms_worn, 4 + arms_item_count, 1, c_red, "(Outermost)");
+            mvwprintz(w_hands_worn, 4 + hands_item_count, 1, c_red, "(Outermost)");            
+            mvwprintz(w_legs_worn, 4 + legs_item_count, 1, c_red, "(Outermost)");
+        }
+        
+        wrefresh(w_info);
+        wrefresh(w_all_worn);
+        wrefresh(w_torso_worn);
+        wrefresh(w_eyes_worn);
+        wrefresh(w_mouth_worn);    
+        wrefresh(w_hands_worn);
+        wrefresh(w_arms_worn);
+        wrefresh(w_legs_worn);     
+        
+        redraw = false;
+               
+        switch (input()) 
+        {
+            case 'j':
+            case KEY_DOWN:
+                if (selected >= 0)
+                {
+                    if (selected < (worn.size() - 1))
+                    {
+                        tmp_item = worn[cursor_y + 1];
+                        worn[cursor_y + 1] = worn[cursor_y];
+                        worn[cursor_y] = tmp_item;
+                        selected++;
+                        cursor_y++;
+                    }
+                }
+                else
+                {
+                    cursor_y++;
+                    cursor_y = (cursor_y >= worn.size() ? 0 : cursor_y);
+                }
+                redraw = true;             
+                break;
+            case 'k':
+            case KEY_UP:
+                if (selected >= 0)
+                {
+                    if (selected > 0)
+                    {
+                        tmp_item = worn[cursor_y - 1];
+                        worn[cursor_y - 1] = worn[cursor_y];
+                        worn[cursor_y] = tmp_item;
+                        selected--;
+                        cursor_y--;
+                    }
+                }
+                else
+                {
+                    cursor_y--;
+                    cursor_y = (cursor_y < 0 ? worn.size() - 1 : cursor_y);
+                }
+                redraw = true;
+                break; 
+            case 's':
+                if (((dynamic_cast<it_armor*>(worn[cursor_y].type))->covers & mfb(bp_head)) ||
+                    ((dynamic_cast<it_armor*>(worn[cursor_y].type))->covers & mfb(bp_feet))) 
+                {
+                    popup("This piece of clothing cannot be layered.");
+                }
+                else
+                {
+                    if (selected >= 0)
+                        selected = -1;
+                    else
+                        selected = cursor_y;
+                }
+                redraw = true;
+                break;
+            case 'r':   // uses special characters for worn inventory
+                {
+                    int invlet = 0;
+                    for (int i = 0; i < worn.size(); i++) 
+                    {
+                        if (invlet < 76)
+                        {
+                            if (has_item(inv_chars[52 + invlet]))
+                            {
+                                item change_to = i_at(inv_chars[52 + invlet]);
+                                change_to.invlet = worn[i].invlet;
+                            }
+                            else
+                            {
+                                worn[i].invlet = inv_chars[52 + invlet];
+                            }
+                            invlet++;                    
+                        };
+                    };
+                };
+                break;
+            case 'q':
+            case KEY_ESCAPE:
+                done = true;
+                break;
+        }
+    } while (!done);
+
+    werase(w_info);
+    werase(w_all_worn);
+    werase(w_torso_worn);
+    werase(w_eyes_worn);
+    werase(w_mouth_worn);    
+    werase(w_hands_worn);
+    werase(w_arms_worn);
+    werase(w_legs_worn);
+
+    delwin(w_info);
+    delwin(w_all_worn);
+    delwin(w_torso_worn);
+    delwin(w_eyes_worn);
+    delwin(w_mouth_worn);    
+    delwin(w_hands_worn);
+    delwin(w_arms_worn);
+    delwin(w_legs_worn);
+}
+
 void player::use_wielded(game *g) {
   use(g, weapon.invlet);
 }
