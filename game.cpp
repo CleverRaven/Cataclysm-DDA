@@ -5696,7 +5696,7 @@ void game::advanced_inv()
                 mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
                 mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)");
                 mvwprintz(head,1,(w_width/2), c_white, "[m]ove item between screen.");
-                mvwprintz(head,2,(w_width/2), c_white, "[e]amine item.");
+                mvwprintz(head,2,(w_width/2), c_white, "[e]amine item.  [s]ort display.");
                 mvwprintz(head,3,(w_width/2), c_white, "[q]uit/exit this screen");
             }
 
@@ -5711,6 +5711,11 @@ void game::advanced_inv()
 
         wborder(panes[left].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
         wborder(panes[right].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+
+        std::string sortnames[5] = { "-bogus-", "none", "name", "weight", "volume", "charges" };
+        mvwprintz(panes[left].window, 0, 3, c_white, "< [s]ort: %s >", sortnames[panes[left].sortby] );
+        mvwprintz(panes[right].window, 0, 3, c_white, "< [s]ort: %s >", sortnames[panes[right].sortby] );
+
         wrefresh(head);
         wrefresh(panes[left].window);
         wrefresh(panes[right].window);
