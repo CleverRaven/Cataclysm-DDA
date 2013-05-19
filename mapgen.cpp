@@ -8801,7 +8801,7 @@ break;
    square(this, t_counter,  5,  4,  6,  8);
    place_items(mi_hospital_lab, 74, 5, 4, 6, 8, false, 0);
    square(this, t_counter, 10,  4, 11,  8);
-   spawn_item(5, 4, g->itypes["record_patient"], 0);
+   spawn_item(5, 17, g->itypes["record_patient"], 0);
    place_items(mi_hospital_lab, 74, 10, 4, 11, 8, false, 0);
    square(this, t_counter, 15,  4, 16,  8);
    place_items(mi_hospital_lab, 74, 15, 4, 16, 8, false, 0);
