@@ -4086,13 +4086,15 @@ item player::i_remn(char invlet)
  return inv.remove_item_by_letter(invlet);
 }
 
-void player::use_amount(itype_id it, int quantity, bool use_container)
+std::list<item> player::use_amount(itype_id it, int quantity, bool use_container)
 {
+ std::list<item> ret;
  bool used_weapon_contents = false;
  for (int i = 0; i < weapon.contents.size(); i++) {
-  if (weapon.contents[0].type->id == it) {
+  if (weapon.contents[i].type->id == it) {
+   ret.push_back(weapon.contents[i]);
    quantity--;
-   weapon.contents.erase(weapon.contents.begin() + 0);
+   weapon.contents.erase(weapon.contents.begin() + i);
    i--;
    used_weapon_contents = true;
   }
@@ -4102,10 +4104,12 @@ void player::use_amount(itype_id it, int quantity, bool use_container)
 
  if (weapon.type->id == it) {
   quantity--;
-  remove_weapon();
+  ret.push_back(remove_weapon());
  }
 
- inv.use_amount(it, quantity, use_container);
+ std::list<item> tmp = inv.use_amount(it, quantity, use_container);
+ ret.splice(ret.end(), tmp);
+ return ret;
 }
 
 bool player::use_charges_if_avail(itype_id it, int quantity)
@@ -4187,17 +4191,21 @@ void player::use_fire(const int quantity)
     }
 }
 
-void player::use_charges(itype_id it, int quantity)
+// does NOT return anything if the item is integrated toolset or fire!
+std::list<item> player::use_charges(itype_id it, int quantity)
 {
+ std::list<item> ret;
+ // the first two cases *probably* don't need to be tracked for now...
  if (it == "toolset") {
   power_level -= quantity;
   if (power_level < 0)
    power_level = 0;
-  return;
+  return ret;
  }
  if (it == "fire")
  {
-     return use_fire(quantity);
+     use_fire(quantity);
+     return ret;
  }
 
 // Start by checking weapon contents
@@ -4205,6 +4213,7 @@ void player::use_charges(itype_id it, int quantity)
   if (weapon.contents[i].type->id == it) {
    if (weapon.contents[i].charges > 0 &&
        weapon.contents[i].charges <= quantity) {
+    ret.push_back(weapon.contents[i]);
     quantity -= weapon.contents[i].charges;
     if (weapon.contents[i].destroyed_at_zero_charges()) {
      weapon.contents.erase(weapon.contents.begin() + i);
@@ -4212,30 +4221,39 @@ void player::use_charges(itype_id it, int quantity)
     } else
      weapon.contents[i].charges = 0;
     if (quantity == 0)
-     return;
+     return ret;
    } else {
+    item tmp = weapon.contents[i];
+    tmp.charges = quantity;
+    ret.push_back(tmp);
     weapon.contents[i].charges -= quantity;
-    return;
+    return ret;
    }
   }
  }
 
  if (weapon.type->id == it) {
   if (weapon.charges > 0 && weapon.charges <= quantity) {
+   ret.push_back(weapon);
    quantity -= weapon.charges;
    if (weapon.destroyed_at_zero_charges())
     remove_weapon();
    else
     weapon.charges = 0;
    if (quantity == 0)
-    return;
+    return ret;
    } else {
+    item tmp = weapon;
+    tmp.charges = quantity;
+    ret.push_back(tmp);
     weapon.charges -= quantity;
-    return;
+    return ret;
    }
   }
 
- inv.use_charges(it, quantity);
+ std::list<item> tmp = inv.use_charges(it, quantity);
+ ret.splice(ret.end(), tmp);
+ return ret;
 }
 
 int player::butcher_factor()

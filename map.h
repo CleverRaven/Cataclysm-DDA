@@ -150,9 +150,9 @@ class map
  void process_active_items_in_submap(game *g, const int nonant);
  void process_vehicles(game *g);
 
- void use_amount(const point origin, const int range, const itype_id type, const int amount,
-                 const bool use_container = false);
- void use_charges(const point origin, const int range, const itype_id type, const int amount);
+ std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
+                              const bool use_container = false);
+ std::list<item> use_charges(const point origin, const int range, const itype_id type, const int amount);
 
 // Traps
  trap_id& tr_at(const int x, const int y);
