@@ -222,6 +222,33 @@ of those things now.  Can you put her out of her misery for me?";
     return "Really... that's too bad.";
   }
   break;
+
+ case MISSION_GET_FLAG:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Does she still yet wave?";
+   case TALK_MISSION_OFFER:
+    return "Does she still yet wave? We're battered but not yet out of the\
+ fight, we need the colors!";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Hell ya!  Find me one of those big ol' American flags.";
+   case TALK_MISSION_REJECTED:
+    return "Seriously?  God damned commie...";
+   case TALK_MISSION_ADVICE:
+    return "Find a large federal building or school, they must have one.";
+   case TALK_MISSION_INQUIRE:
+    return "Rescued the standard yet?";
+   case TALK_MISSION_SUCCESS:
+    return "America, hell ya!";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What?!  You liar!";
+   case TALK_MISSION_FAILURE:
+    return "You give up?  This country fell apart becuase no one could find a\
+good man to rely on... might as well give up, I guess.";
+  }
+  break;
+  
  default:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
