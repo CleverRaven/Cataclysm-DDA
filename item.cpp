@@ -7,6 +7,7 @@
 #include <algorithm>
 #include "cursesdef.h"
 #include "text_snippets.h"
+#include "material.h"
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -558,8 +559,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
         dump->push_back(iteminfo("ARMOR", " Encumberment: ", "", int(armor->encumber), "", true, true));
     }
 
-  dump->push_back(iteminfo("ARMOR", " Bashing protection: ", "", int(armor->dmg_resist)));
-  dump->push_back(iteminfo("ARMOR", " Cut protection: ", "", int(armor->cut_resist)));
+  dump->push_back(iteminfo("ARMOR", " Bashing protection: ", "", int(bash_resist())));
+  dump->push_back(iteminfo("ARMOR", " Cut protection: ", "", int(cut_resist())));
   dump->push_back(iteminfo("ARMOR", " Environmental protection: ", "", int(armor->env_resist)));
   dump->push_back(iteminfo("ARMOR", " Warmth: ", "", int(armor->warmth)));
   dump->push_back(iteminfo("ARMOR", " Storage: ", "", int(armor->storage)));
@@ -1146,6 +1147,45 @@ int item::melee_value(int skills[num_skill_types])
   my_value += 15 * skills[sk_unarmed] + 8 * skills[sk_melee];
 
  return my_value;
+}
+
+int item::bash_resist()
+{
+    int ret = 0;
+    
+    if (is_null())
+        return 0;
+
+// base resistance  
+    it_armor* tmp = dynamic_cast<it_armor*>(type);
+    material_type* cur_mat1 = material_type::find_material_from_tag(tmp->m1);        
+    material_type* cur_mat2 = material_type::find_material_from_tag(tmp->m2);        
+    
+    ret = ((tmp->coverage * tmp->thickness) - damage) * (cur_mat1->bash_resist() + (cur_mat2->bash_resist() / 2));
+
+    if (ret < 0)
+        return 0;
+    else
+        return ret;    
+}
+
+int item::cut_resist()
+{
+    int ret = 0;
+    
+    if (is_null())
+        return 0;
+  
+    it_armor* tmp = dynamic_cast<it_armor*>(type);
+    material_type* cur_mat1 = material_type::find_material_from_tag(tmp->m1);
+    material_type* cur_mat2 = material_type::find_material_from_tag(tmp->m2);        
+
+    ret = ((tmp->coverage * tmp->thickness) - damage) * (cur_mat1->cut_resist() + (cur_mat2->cut_resist() / 2));
+
+    if (ret < 0)
+        return 0;
+    else
+        return ret;     
 }
 
 style_move item::style_data(technique_id tech)

@@ -112,8 +112,8 @@ struct artifact_armor_form_datum
  material m2;
  int volume, weight;
  int encumb;
- int dmg_resist;
- int cut_resist;
+ int coverage;
+ int thickness;
  int env_resist;
  int warmth;
  int storage;
@@ -130,8 +130,8 @@ struct artifact_armor_form_datum
     int Warmth, int Storage, int Bash, int Cut, int Hit, unsigned char Covers,
     bool Plural, artifact_armor_mod Mods[5])
    : name (Name), color (Color), m1 (M1), m2 (M2), volume (Volume),
-     weight (Weight), encumb (Encumb), dmg_resist (Dmg_res),
-     cut_resist (Cut_res), env_resist (Env_res), warmth (Warmth),
+     weight (Weight), encumb (Encumb), coverage (Coverage),
+     thickness (thickness), env_resist (Env_res), warmth (Warmth),
      storage (Storage), melee_bash (Bash), melee_cut (Cut), melee_hit (Hit),
      covers (Covers), plural (Plural), available_mods (Mods) { };
 

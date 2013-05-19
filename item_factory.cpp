@@ -473,8 +473,8 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         it_armor* armor_template = new it_armor();
 
                         armor_template->encumber = entry.get("encumberance").as_int();
-                        armor_template->dmg_resist = entry.get("bashing_protection").as_int();
-                        armor_template->cut_resist = entry.get("cutting_protection").as_int();
+                        armor_template->coverage = entry.get("coverage").as_int();
+                        armor_template->thickness = entry.get("material_thickness").as_int();
                         armor_template->env_resist = entry.get("enviromental_protection").as_int();
                         armor_template->warmth = entry.get("warmth").as_int();
                         armor_template->storage = entry.get("storage").as_int();

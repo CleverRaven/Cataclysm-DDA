@@ -5896,7 +5896,7 @@ int player::armor_bash(body_part bp)
  for (int i = 0; i < worn.size(); i++) {
   armor = dynamic_cast<it_armor*>(worn[i].type);
   if (armor->covers & mfb(bp))
-   ret += armor->dmg_resist;
+   ret += worn[i].bash_resist();
  }
  if (has_bionic("bio_carbon"))
   ret += 2;
@@ -5925,7 +5925,7 @@ int player::armor_cut(body_part bp)
  for (int i = 0; i < worn.size(); i++) {
   armor = dynamic_cast<it_armor*>(worn[i].type);
   if (armor->covers & mfb(bp))
-   ret += armor->cut_resist;
+   ret += worn[i].cut_resist();
  }
  if (has_bionic("bio_carbon"))
   ret += 4;
@@ -5984,17 +5984,8 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
   tmp = dynamic_cast<it_armor*>(worn[i].type);
   if ((tmp->covers & mfb(bp)) && tmp->storage <= 24) {
 
-    material_type* cur_mat = material_type::find_material_from_tag(tmp->m1);
-
-    // subtract clothing damage from basic protection values
-    // in the case of reinforced clothing, this adds to the protection value
-    arm_bash = (arm_bash - worn[i].damage < 0) ? 0 : (arm_bash - worn[i].damage);
-    arm_cut  = (arm_cut  - worn[i].damage < 0) ? 0 : (arm_cut  - worn[i].damage);
-         
-    // multiply by material resistance
-    // this only takes into account the first material
-    arm_bash = tmp->dmg_resist * cur_mat->bash_resist();
-    arm_cut  = tmp->cut_resist * cur_mat->cut_resist();
+    arm_bash = worn[i].bash_resist();
+    arm_cut  = worn[i].cut_resist();
 
     // first determine armour damage
    if (((it_armor *)worn[i].type)->is_power_armor()) {
