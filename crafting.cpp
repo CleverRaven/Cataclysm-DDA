@@ -1084,7 +1084,7 @@ void game::complete_craft()
     {
         if (iter->goes_bad())
         {
-            used_bday_tally = iter->bday;
+            used_bday_tally += iter->bday;
             ++used_bday_count;
         }
     }
