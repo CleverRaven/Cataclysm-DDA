@@ -58,6 +58,12 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_NULL);
 
+ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  ITEM("american_flag");
+
  MISSION("Find a Book", MGOAL_FIND_ANY_ITEM, 2, 800, false,
 	&mission_place::always, &mission_start::place_book,
 	&mission_end::standard, &mission_fail::standard);
