@@ -357,6 +357,33 @@ will prove their guilt if we get an expert to examine it.";
   }
   break;
 
+   case MISSION_KILL_JABBERWOCK:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "The eater of the dead...";
+   case TALK_MISSION_OFFER:
+    return "A few days ago another survivor and I were trying to avoid the cities by staying in the woods \
+during the day and foraging for gear at night. It worked well against the normal zed's but one night something \
+caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My \
+buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Thanks, make sure you're ready for whatever the beast is.";
+   case TALK_MISSION_REJECTED:
+    return "Hey, I know I wouldn't volunteer for it either.";
+   case TALK_MISSION_ADVICE:
+    return "I'd carry a shotgun at least, it sounded pretty big.";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "You look a little shaken up, I can't tell you how glad I am that you killed it though.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "Something in the shadows still seems to stare at me when I look at the woods.";
+   case TALK_MISSION_FAILURE:
+    return "I'm glad you came back alive... I wasn't sure if I had sent you to your death.";
+  }
+  break;
+
  default:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
