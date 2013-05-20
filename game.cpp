@@ -5479,33 +5479,27 @@ enum advanced_inv_sortby {
 };
 
 
-struct advanced_inv_sort_bydropped {
+
+struct advanced_inv_sorter {
+    int sortby;
+//    advanced_inv_sorter(int C) : sortby (C) {};
+    advanced_inv_sorter(int sort) { sortby=sort; };
     bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
-        return d1.idx > d2.idx;
+        switch(sortby) {
+           case SORTBY_WEIGHT: return d1.weight > d2.weight; break;
+           case SORTBY_VOLUME: return d1.volume > d2.volume; break;
+           case SORTBY_CHARGES: return d1.it.charges > d2.it.charges; break;
+           default: return d1.idx > d2.idx; break;
+        };
     };
 };
 
-struct advanced_inv_sort_byweight {
-    bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
-        return d1.weight > d2.weight;
-    };
-};
-
-struct advanced_inv_sort_byvolume {
-    bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
-        return d1.volume > d2.volume;
-    };
-};
-struct advanced_inv_sort_bycharges {
-    bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
-        return d1.it.charges > d2.it.charges;
-    };
-};
 struct advanced_inv_sort_case_insensitive_less : public std::binary_function< char,char,bool > {
     bool operator () (char x, char y) const {
         return toupper( static_cast< unsigned char >(x)) < toupper( static_cast< unsigned char >(y));
     }
 };
+
 struct advanced_inv_sort_byname {
     bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
         std::string n1=d1.name;
@@ -5674,14 +5668,13 @@ void game::advanced_inv()
                     switch(panes[i].sortby) {
                         case SORTBY_NONE:
                             if ( i != isinventory ) {
-                                std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_bydropped() );
+                                std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
                             }
                             break;
-
                         case SORTBY_NAME:    std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_byname() ); break;
-                        case SORTBY_WEIGHT:    std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_byweight() ); break;
-                        case SORTBY_VOLUME:    std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_byvolume() ); break;
-                        case SORTBY_CHARGES:    std::sort (panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_bycharges() ); break;
+                        default:
+                            std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) ); 
+                            break;
                     }
                     // draw the stuff
                 }
