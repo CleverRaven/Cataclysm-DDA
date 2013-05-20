@@ -800,6 +800,16 @@ place of a sting."
 );
 FLAGS(MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_POISON, MF_FLIES);
 
+mon("jabberwock",	species_none, 'J',	c_dkgray_red,	MS_HUGE,	FLESH,
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+     50,100,100,140,  9,  4,  8,  3,  3, 12,  8, 0,400,  0,
+	&mdeath::normal,	&mattack::none, "\
+An amalgamation of putrid animal parts that \n\
+have become fused as parts of this golem of\n\
+flesh."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES,
+      MF_DESTROYS, MF_ATTACKMON, MF_LEATHER, MF_BONES, MF_VIS50);
 
 // SPIDERS
 mon("wolf spider",species_insect, 's',	c_brown,	MS_MEDIUM,	FLESH,
