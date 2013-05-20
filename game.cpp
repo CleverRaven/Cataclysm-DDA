@@ -5707,18 +5707,17 @@ void game::advanced_inv()
         int list_pos = panes[src].index + (panes[src].page * itemsPerPage);
         int item_pos = panes[src].items[list_pos].idx;
 
+        std::string sortnames[6] = { "-none-", "none", "name", "weight", "volume", "charges" };
         for (int i = 0; i < 2; i++) {
             if ( src == i ) {
-                wattron(panes[i].window, c_green);
-                wborder(panes[i].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+                wattron(panes[i].window, c_yellow);
+            }
+            wborder(panes[i].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
+            mvwprintw(panes[i].window, 0, 3, "< [s]ort: %s >", sortnames[ ( panes[i].sortby <= 6 ? panes[i].sortby : 0 ) ].c_str() );
+            if ( src == i ) {
                 wattroff(panes[i].window, c_white);
-            } else {
-                wborder(panes[i].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
             }
         }
-        std::string sortnames[6] = { "-none-", "none", "name", "weight", "volume", "charges" };
-        mvwprintz(panes[left].window, 0, 3, c_white, "< [s]ort: %s >", sortnames[ ( panes[left].sortby <= 6 ? panes[left].sortby : 0 ) ].c_str() );
-        mvwprintz(panes[right].window, 0, 3, c_white, "< [s]ort: %s >", sortnames[ ( panes[right].sortby <= 6 ? panes[right].sortby : 0 ) ].c_str() );
 
         wrefresh(head);
         wrefresh(panes[left].window);
@@ -5748,6 +5747,8 @@ void game::advanced_inv()
             else if(canputitems[changeSquare])
             {
                 panes[src].area = changeSquare;
+                panes[src].page = 0;
+                panes[src].index = 0;
             }
             else
             {
