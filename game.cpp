@@ -1703,6 +1703,11 @@ bool game::handle_action()
    u.power_bionics(this);
    refresh_all();
    break;
+   
+  case ACTION_SORT_ARMOR:
+    u.sort_armor(this);
+    refresh_all();    
+    break;
 
   case ACTION_WAIT:
    wait();

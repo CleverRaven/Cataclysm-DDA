@@ -219,6 +219,7 @@ select_fire_mode F\n\
 drop d\n\
 drop_adj D\n\
 bionics p\n\
+sort_armor +\n\
 \n\
 # LONG TERM & SPECIAL ACTIONS\n\
 wait |\n\
