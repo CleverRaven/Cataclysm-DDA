@@ -5705,7 +5705,7 @@ void game::advanced_inv()
         }
 
         int list_pos = panes[src].index + (panes[src].page * itemsPerPage);
-        int item_pos = panes[src].items[list_pos].idx;
+        int item_pos = panes[src].size > 0 ? panes[src].items[list_pos].idx : 0;
 
         std::string sortnames[6] = { "-none-", "none", "name", "weight", "volume", "charges" };
         for (int i = 0; i < 2; i++) {
