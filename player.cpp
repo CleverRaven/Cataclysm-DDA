@@ -2135,6 +2135,9 @@ void player::disp_morale(game* g)
    bpos--;
  mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), "Total:");
  mvwprintz(w, 20, bpos, (mor < 0 ? c_red : c_green), "%d", mor);
+ int gain = calc_focus_equilibrium() - xp_pool;
+ mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), "Focus gain:");
+ mvwprintz(w, 22, bpos, (gain < 0 ? c_red : c_green), "%d.%.2d per minute", gain / 100, gain % 100);
 
  wrefresh(w);
  getch();
