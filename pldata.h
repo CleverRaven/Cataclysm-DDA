@@ -111,6 +111,7 @@ struct player_activity
  int index;
  char invlet;
  bool continuous;
+ bool ignore_trivial;
  std::vector<int> values;
  point placement;
 
@@ -125,6 +126,7 @@ struct player_activity
   invlet = ch;
   placement = point(-1, -1);
   continuous = false;
+  ignore_trivial = false;
  }
 
  player_activity(const player_activity &copy)
@@ -135,6 +137,7 @@ struct player_activity
   invlet = copy.invlet;
   placement = copy.placement;
   continuous = copy.continuous;
+  ignore_trivial = copy.ignore_trivial;
   values.clear();
   for (int i = 0; i < copy.values.size(); i++)
    values.push_back(copy.values[i]);
