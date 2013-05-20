@@ -240,7 +240,7 @@ Hell ya!  Find me one of those big ol' American flags.";
    case TALK_MISSION_INQUIRE:
     return "Rescued the standard yet?";
    case TALK_MISSION_SUCCESS:
-    return "America, hell ya!";
+    return "America, fuck ya!";
    case TALK_MISSION_SUCCESS_LIE:
     return "What?!  You liar!";
    case TALK_MISSION_FAILURE:
@@ -360,7 +360,7 @@ will prove their guilt if we get an expert to examine it.";
    case MISSION_KILL_JABBERWOCK:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
-    return "The eater of the dead...";
+    return "The eater of the dead... something was ripping zombies to shreads and only leaving a few scattered limbs...";
    case TALK_MISSION_OFFER:
     return "A few days ago another survivor and I were trying to avoid the cities by staying in the woods \
 during the day and foraging for gear at night. It worked well against the normal zed's but one night something \
