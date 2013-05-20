@@ -1,5 +1,48 @@
 Changelog will be a little light for the early entries due to me being really bad at documenting things.
 
+0.6
+
+Highlights:
+---
+* Some work to make vehicle collisions sane.
+* Zombies will revive after a time, if not butchered (or otherwise dealt with).
+* The Android trait now behaves the way that the description indicates.
+* Gasoline can be siphoned from vehicles.
+* Sewing requires materials other than thread - rags for cloth, leather patches for leather.
+* Leather repair/reinforcement actually possible!
+* As usual, many bugfixes.
+
+Full list:
+---
+Purifier no longer removes traits available at chargen.
+Fix some calculations that wanted floating-point math, and were using integer math.
+Fix some vehicle collision craziness related to skids.
+Added zombie revival. Chance of unbutchered zombie corpses rezzing, once 6 hours have passed.
+Advanced inventory UI improvements/fixes.
+Dropping count-by-charge items (batteries, meds, etc.) into vehicles will cause restacking.
+Android trait always gives a power system bionic.
+Fix torso encumbrance display (it's smart about sign use now).
+Bitmask-based item flags no longer exist! Instead, we have string-based tags, that have no upper limit.
+Tweaked glowstick behavior - can no longer deactivate, and they have a dead state.
+Android trait should no longer give the player faulty bionics.
+Bolts moved to ammo category, like arrows.
+Added bone broth, and recipe.
+Adjust how Climate Control bionic works, make vehicles have functioning (magic!) AC.
+Added fuel siphoning using rubber hose.
+Appearance-improving mutations are now flagged as being good mutations.
+Welder charges are actually used during vehicle construction.
+Items will no longer become erroneously fitted, and item tags should not spread during map loading.
+Weather accounts for starting time properly.
+Containers can be unloaded again (they were bugged).
+Optimized scentmap updates, hopefully this speeds up certain activities.
+Pit-requiring constructions have pit digging as their first two stages, to make it more obvious what the prereqs are.
+Some menus (notably, inventory) can be navigated with arrow keys and enter.
+Allowing sewing of leather items, make sewing require rags/patches.
+Cooking rotten food does not make it magically fresh any more (but it does make it slightly less rotten).
+
+
+======
+
 0.5
 
 Highlights:
