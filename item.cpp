@@ -1156,17 +1156,24 @@ int item::bash_resist() const
     if (is_null())
         return 0;
 
-// base resistance  
+// base resistance 
     it_armor* tmp = dynamic_cast<it_armor*>(type);
     material_type* cur_mat1 = material_type::find_material_from_tag(tmp->m1);        
     material_type* cur_mat2 = material_type::find_material_from_tag(tmp->m2);        
-    
-    ret = ((tmp->coverage * tmp->thickness) - damage) * (cur_mat1->bash_resist() + (cur_mat2->bash_resist() / 2));
+    int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
 
-    if (ret < 0)
-        return 0;
+    // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
+    if (cur_mat2->is_null())
+    {
+        ret = eff_thickness * (3 * cur_mat1->bash_resist());
+        
+    } 
     else
-        return ret;    
+    {
+        ret = eff_thickness * (cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist());
+    }
+    
+    return ret;    
 }
 
 int item::cut_resist() const
@@ -1179,13 +1186,20 @@ int item::cut_resist() const
     it_armor* tmp = dynamic_cast<it_armor*>(type);
     material_type* cur_mat1 = material_type::find_material_from_tag(tmp->m1);
     material_type* cur_mat2 = material_type::find_material_from_tag(tmp->m2);        
-
-    ret = ((tmp->coverage * tmp->thickness) - damage) * (cur_mat1->cut_resist() + (cur_mat2->cut_resist() / 2));
-
-    if (ret < 0)
-        return 0;
+    int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
+    
+    // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
+    if (cur_mat2->is_null())
+    {
+        ret = eff_thickness * (3 * cur_mat1->cut_resist());
+        
+    } 
     else
-        return ret;     
+    {
+        ret = eff_thickness * (cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist());
+    }
+    
+    return ret;       
 }
 
 style_move item::style_data(technique_id tech)

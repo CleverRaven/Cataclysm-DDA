@@ -154,6 +154,11 @@ int material_type::dam_resist(damage_type damtype) const
     }
 }
 
+bool material_type::is_null() const
+{
+    return (_ident == "null");
+}
+
 unsigned int material_type::id() const
 {
     return _id;

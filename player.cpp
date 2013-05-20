@@ -5978,77 +5978,95 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
   if (cut < 0)
    cut = 0;
  }
+ 
+    // determines how much damage is absorbed by armour
+    // zero if damage misses a covered part
+    int bash_reduction = 0; 
+    int cut_reduction = 0; 
+    
 // See, we do it backwards, which assumes the player put on their jacket after
 //  their T shirt, for example.  TODO: don't assume! ASS out of U & ME, etc.
  for (int i = worn.size() - 1; i >= 0; i--) {
   tmp = dynamic_cast<it_armor*>(worn[i].type);
   if ((tmp->covers & mfb(bp)) && tmp->storage <= 24) {
 
-    arm_bash = worn[i].bash_resist();
-    arm_cut  = worn[i].cut_resist();
-
-    // first determine armour damage
-   if (((it_armor *)worn[i].type)->is_power_armor()) {
-     // Power armor can only be damaged by EXTREME damage
-     if (cut > arm_cut * 2 || dam > arm_bash * 2) {
-       if (!is_npc())
-         g->add_msg("Your %s is damaged!", worn[i].tname(g).c_str());
-
-       worn[i].damage++;
-     }
-   } 
-   else 
+    // first determine if damage is at a covered part of the body
+    // probability given by coverage
+    if (rng(0, 100) < tmp->coverage)
     {
-        // determine how much the damage exceeds the armour absorption 
-        // bash damage takes into account preceding layers
-        int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
-        int diff_cut  = (cut - arm_cut  < 0) ? -1 : (dam - arm_cut);
-     
-        // armour damage occurs only if damage exceeds armour absorption
-        // plus a random luck factor
-        if (diff_bash > arm_bash && !one_in(diff_bash))
+
+        // hit a covered part of the body, so now determine if armour is damaged
+        arm_bash = worn[i].bash_resist();
+        arm_cut  = worn[i].cut_resist();
+
+        // also determine how much damage is absorbed by armour
+        // factor of 6 to normalise for material hardness values
+        bash_reduction = arm_bash / 6;
+        cut_reduction = arm_cut / 6;
+      
+        // power armour first  - to depreciate eventually
+        if (((it_armor *)worn[i].type)->is_power_armor()) 
         {
-            if (!is_npc())
+            if (cut > arm_cut * 2 || dam > arm_bash * 2) 
             {
-                g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
+                if (!is_npc())
+                    g->add_msg("Your %s is damaged!", worn[i].tname(g).c_str());
+                worn[i].damage++;
             }
-            worn[i].damage++;        
-        }
-        bash_absorb += arm_bash;
-        
-        // cut damage falls through to inner layers only if preceding layer was damaged
-        if (cut_through)
+        } 
+        else // normal armour
         {
-            if (diff_cut > arm_cut && !one_in(diff_cut))
+            // determine how much the damage exceeds the armour absorption 
+            // bash damage takes into account preceding layers
+            int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
+            int diff_cut  = (cut - arm_cut  < 0) ? -1 : (dam - arm_cut);
+
+            // armour damage occurs only if damage exceeds armour absorption
+            // plus a random luck factor
+            if (diff_bash > arm_bash && !one_in(diff_bash))
             {
                 if (!is_npc())
                 {
-                    g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
+                    g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
                 }
                 worn[i].damage++;        
-            } 
-            else // layer of clothing was not damaged, so stop cutting damage from penetrating
-            {
-                cut_through = false;
             }
-        }        
-    }
-    if (worn[i].damage >= 5) 
-    {
-        if (!is_npc())
-            g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
-        else if (g->u_see(posx, posy))
-            g->add_msg("%s's %s is destroyed!", name.c_str(),
-             worn[i].tname(g).c_str());
-        worn.erase(worn.begin() + i);
-    }
-  } // end of armour damage code
-  
-  // now determine how much the armour reduces damage to player
-  // divide by 6 to normalise to monster damage values
-  dam -= arm_bash / 6;
-  cut -= arm_cut / 6;
- }
+            bash_absorb += arm_bash;
+
+            // cut damage falls through to inner layers only if preceding layer was damaged
+            if (cut_through)
+            {
+                if (diff_cut > arm_cut && !one_in(diff_cut))
+                {
+                    if (!is_npc())
+                    {
+                        g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
+                    }
+                    worn[i].damage++;        
+                } 
+                else // layer of clothing was not damaged, so stop cutting damage from penetrating
+                {
+                    cut_through = false;
+                }
+            }  
+
+            // now check if armour was completely destroyed and display relevant messages
+            if (worn[i].damage >= 5) 
+            {
+                if (!is_npc())
+                    g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
+                else if (g->u_see(posx, posy))
+                    g->add_msg("%s's %s is destroyed!", name.c_str(),
+                     worn[i].tname(g).c_str());
+                worn.erase(worn.begin() + i);
+            }
+        } // end of armour damage code
+   }
+  }
+    // reduce damage accordingly
+  dam -= bash_reduction;
+  cut -= cut_reduction;  
+}
  if (has_bionic("bio_carbon")) {
   dam -= 2;
   cut -= 4;

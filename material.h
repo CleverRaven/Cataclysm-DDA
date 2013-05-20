@@ -37,13 +37,15 @@ public:
     int dam_resist(damage_type damtype) const;
     
     unsigned int id() const;
+    bool is_null() const;
     std::string ident() const;
     std::string name() const; 
     int bash_resist() const;
     int cut_resist() const;
     int acid_resist() const;    
     int elec_resist() const; 
-    int fire_resist() const;           
+    int fire_resist() const; 
+              
 };
 
 
