@@ -1543,7 +1543,9 @@ case t_wall_log:
   break;
 
  case t_shrub:
-  if (str >= rng(0, 30) && str >= rng(0, 30) && str >= rng(0, 30) && one_in(2)){
+  result = rng(0, 30);
+  if (res) *res = result;
+  if (str >= result && str >= rng(0, 30) && one_in(2)){
    sound += "crunch.";
    ter_set(x, y, t_underbrush);
    return true;
