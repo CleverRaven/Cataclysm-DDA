@@ -549,7 +549,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
    temp1 << "The feet. ";
 
   dump->push_back(iteminfo("ARMOR", temp1.str()));
-
+  dump->push_back(iteminfo("ARMOR", " Coverage: ", "", int(armor->coverage), " percent"));
     if (has_flag("FIT"))
     {
         dump->push_back(iteminfo("ARMOR", " Encumberment: ", "", int(armor->encumber) - 1, " (fits)", true, true));
