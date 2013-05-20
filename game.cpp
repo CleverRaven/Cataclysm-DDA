@@ -5444,7 +5444,7 @@ void advprintItems(advanced_inv_pane &pane, bool active, game* g)
 
         //mvwprintz(window,6+x,2,c_ltgray, "%d",items[i].idx);
 
-        nc_color thiscolor = norm;
+        nc_color thiscolor = active ? items[i].it.color(&g->u) : norm;
         
         if(active && selected_index == x)
         {
@@ -5455,9 +5455,9 @@ void advprintItems(advanced_inv_pane &pane, bool active, game* g)
         mvwprintz(window, 6 + x, 4, thiscolor, "%s", items[i].it.tname(g).c_str() );
 
         if(items[i].it.charges > 0) {
-            wprintw(window," (%d)",items[i].it.charges);
+            wprintz(window, thiscolor, " (%d)",items[i].it.charges);
         } else if(items[i].it.contents.size() == 1 && items[i].it.contents[0].charges > 0) {
-            wprintw(window," (%d)",items[i].it.contents[0].charges);
+            wprintz(window, thiscolor, " (%d)",items[i].it.contents[0].charges);
         }
 
         if( isinventory && items[i].stacks > 1 ) {
