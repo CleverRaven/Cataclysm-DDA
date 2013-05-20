@@ -156,6 +156,8 @@ class game
                   std::vector<point> &trajectory);
   void cancel_activity();
   void cancel_activity_query(const char* message, ...);
+  bool cancel_activity_or_ignore_query(const char* reason, ...); 
+
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
   void assign_mission(int id); // Just assign an existing mission
