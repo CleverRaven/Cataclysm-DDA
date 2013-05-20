@@ -5959,167 +5959,181 @@ int player::armor_cut(body_part bp)
 
 void player::absorb(game *g, body_part bp, int &dam, int &cut)
 {
- it_armor* tmp;
- int arm_bash = 0, arm_cut = 0;
- bool cut_through = true;      // to determine if cutting damage penetrates multiple layers of armour
- int bash_absorb = 0;      // to determine if lower layers of armour get damaged
- 
- if (has_active_bionic("bio_ads")) {
-  if (dam > 0 && power_level > 1) {
-   dam -= rng(1, 8);
-   power_level--;
-  }
-  if (cut > 0 && power_level > 1) {
-   cut -= rng(0, 4);
-   power_level--;
-  }
-  if (dam < 0)
-   dam = 0;
-  if (cut < 0)
-   cut = 0;
- }
+    it_armor* tmp;
+    int arm_bash = 0, arm_cut = 0;
+    bool cut_through = true;      // to determine if cutting damage penetrates multiple layers of armour
+    int bash_absorb = 0;      // to determine if lower layers of armour get damaged
+
+    // CBMS absorb damage first before hitting armour
+    if (has_active_bionic("bio_ads")) 
+    {
+        if (dam > 0 && power_level > 1) 
+        {
+            dam -= rng(1, 8);
+            power_level--;
+        }
+        if (cut > 0 && power_level > 1) 
+        {
+            cut -= rng(0, 4);
+            power_level--;
+        }
+        if (dam < 0)
+            dam = 0;
+        if (cut < 0)
+            cut = 0;
+    }
  
     // determines how much damage is absorbed by armour
     // zero if damage misses a covered part
     int bash_reduction = 0; 
     int cut_reduction = 0; 
     
-// See, we do it backwards, which assumes the player put on their jacket after
-//  their T shirt, for example.  TODO: don't assume! ASS out of U & ME, etc.
- for (int i = worn.size() - 1; i >= 0; i--) {
-  tmp = dynamic_cast<it_armor*>(worn[i].type);
-  if ((tmp->covers & mfb(bp)) && tmp->storage <= 24) {
-
-    // first determine if damage is at a covered part of the body
-    // probability given by coverage
-    if (rng(0, 100) < tmp->coverage)
+    // See, we do it backwards, which assumes the player put on their jacket after
+    //  their T shirt, for example.  TODO: don't assume! ASS out of U & ME, etc.
+    for (int i = worn.size() - 1; i >= 0; i--) 
     {
-
-        // hit a covered part of the body, so now determine if armour is damaged
-        arm_bash = worn[i].bash_resist();
-        arm_cut  = worn[i].cut_resist();
-
-        // also determine how much damage is absorbed by armour
-        // factor of 6 to normalise for material hardness values
-        bash_reduction = arm_bash / 6;
-        cut_reduction = arm_cut / 6;
+        tmp = dynamic_cast<it_armor*>(worn[i].type);
+        if ((tmp->covers & mfb(bp)) && tmp->storage <= 24) 
+        {
+            // first determine if damage is at a covered part of the body
+            // probability given by coverage
+            if (rng(0, 100) < tmp->coverage)
+            {
+                // hit a covered part of the body, so now determine if armour is damaged
+                arm_bash = worn[i].bash_resist();
+                arm_cut  = worn[i].cut_resist();
+                // also determine how much damage is absorbed by armour
+                // factor of 6 to normalise for material hardness values
+                bash_reduction = arm_bash / 6;
+                cut_reduction = arm_cut / 6;
       
-        // power armour first  - to depreciate eventually
-        if (((it_armor *)worn[i].type)->is_power_armor()) 
-        {
-            if (cut > arm_cut * 2 || dam > arm_bash * 2) 
-            {
-                if (!is_npc())
-                    g->add_msg("Your %s is damaged!", worn[i].tname(g).c_str());
-                worn[i].damage++;
-            }
-        } 
-        else // normal armour
-        {
-            // determine how much the damage exceeds the armour absorption 
-            // bash damage takes into account preceding layers
-            int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
-            int diff_cut  = (cut - arm_cut  < 0) ? -1 : (dam - arm_cut);
-
-            // armour damage occurs only if damage exceeds armour absorption
-            // plus a random luck factor
-            if (diff_bash > arm_bash && !one_in(diff_bash))
-            {
-                if (!is_npc())
+                // power armour first  - to depreciate eventually
+                if (((it_armor *)worn[i].type)->is_power_armor()) 
                 {
-                    g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
-                }
-                worn[i].damage++;        
-            }
-            bash_absorb += arm_bash;
-
-            // cut damage falls through to inner layers only if preceding layer was damaged
-            if (cut_through)
-            {
-                if (diff_cut > arm_cut && !one_in(diff_cut))
-                {
-                    if (!is_npc())
+                    if (cut > arm_cut * 2 || dam > arm_bash * 2) 
                     {
-                        g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
+                        if (!is_npc())
+                        g->add_msg("Your %s is damaged!", worn[i].tname(g).c_str());
+                        worn[i].damage++;
                     }
-                    worn[i].damage++;        
                 } 
-                else // layer of clothing was not damaged, so stop cutting damage from penetrating
+                else // normal armour
                 {
-                    cut_through = false;
-                }
-            }  
+                    // determine how much the damage exceeds the armour absorption 
+                    // bash damage takes into account preceding layers
+                    int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
+                    int diff_cut  = (cut - arm_cut  < 0) ? -1 : (dam - arm_cut);
 
-            // now check if armour was completely destroyed and display relevant messages
-            if (worn[i].damage >= 5) 
-            {
-                if (!is_npc())
-                    g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
-                else if (g->u_see(posx, posy))
-                    g->add_msg("%s's %s is destroyed!", name.c_str(),
-                     worn[i].tname(g).c_str());
-                worn.erase(worn.begin() + i);
+                    // armour damage occurs only if damage exceeds armour absorption
+                    // plus a random luck factor
+                    if (diff_bash > arm_bash && !one_in(diff_bash))
+                    {
+                        if (!is_npc())
+                        {
+                            g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
+                        }
+                        worn[i].damage++;        
+                    }
+                    bash_absorb += arm_bash;
+
+                    // cut damage falls through to inner layers only if preceding layer was damaged
+                    if (cut_through)
+                    {
+                        if (diff_cut > arm_cut && !one_in(diff_cut))
+                        {
+                            if (!is_npc())
+                            {
+                                g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
+                            }
+                            worn[i].damage++;        
+                        } 
+                        else // layer of clothing was not damaged, so stop cutting damage from penetrating
+                        {
+                            cut_through = false;
+                        }
+                    }  
+
+                    // now check if armour was completely destroyed and display relevant messages
+                    if (worn[i].damage >= 5) 
+                    {
+                        if (!is_npc())
+                            g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
+                        else if (g->u_see(posx, posy))
+                            g->add_msg("%s's %s is destroyed!", name.c_str(),
+                             worn[i].tname(g).c_str());
+                        worn.erase(worn.begin() + i);
+                    }
+                } // end of armour damage code
             }
-        } // end of armour damage code
-   }
-  }
-    // reduce damage accordingly
-  dam -= bash_reduction;
-  cut -= cut_reduction;  
-}
- if (has_bionic("bio_carbon")) {
-  dam -= 2;
-  cut -= 4;
- }
- if (bp == bp_head && has_bionic("bio_armor_head")) {
-  dam -= 3;
-  cut -= 3;
- } else if (bp == bp_arms && has_bionic("bio_armor_arms")) {
-  dam -= 3;
-  cut -= 3;
- } else if (bp == bp_torso && has_bionic("bio_armor_torso")) {
-  dam -= 3;
-  cut -= 3;
- } else if (bp == bp_legs && has_bionic("bio_armor_legs")) {
-  dam -= 3;
-  cut -= 3;
- }
- if (has_trait(PF_THICKSKIN))
-  cut--;
- if (has_trait(PF_SCALES))
-  cut -= 2;
- if (has_trait(PF_THICK_SCALES))
-  cut -= 4;
- if (has_trait(PF_SLEEK_SCALES))
-  cut -= 1;
- if (has_trait(PF_FEATHERS))
-  dam--;
- if (has_trait(PF_FUR))
-  dam--;
- if (has_trait(PF_CHITIN))
-  cut -= 2;
- if (has_trait(PF_CHITIN2)) {
-  dam--;
-  cut -= 4;
- }
- if (has_trait(PF_CHITIN3)) {
-  dam -= 2;
-  cut -= 8;
- }
- if (has_trait(PF_PLANTSKIN))
-  dam--;
- if (has_trait(PF_BARK))
-  dam -= 2;
- if (bp == bp_feet && has_trait(PF_HOOVES))
-  cut--;
- if (has_trait(PF_LIGHT_BONES))
-  dam *= 1.4;
- if (has_trait(PF_HOLLOW_BONES))
-  dam *= 1.8;
- if (dam < 0)
-  dam = 0;
- if (cut < 0)
-  cut = 0;
+        }
+        // reduce damage accordingly
+        dam -= bash_reduction;
+        cut -= cut_reduction;  
+    }
+    // now account for CBMs and mutations
+    if (has_bionic("bio_carbon")) 
+    {
+        dam -= 2;
+        cut -= 4;
+    }
+    if (bp == bp_head && has_bionic("bio_armor_head")) 
+    {
+        dam -= 3;
+        cut -= 3;
+    } 
+    else if (bp == bp_arms && has_bionic("bio_armor_arms")) 
+    {
+        dam -= 3;
+        cut -= 3;
+    } 
+    else if (bp == bp_torso && has_bionic("bio_armor_torso")) 
+    {
+        dam -= 3;
+        cut -= 3;
+    } 
+    else if (bp == bp_legs && has_bionic("bio_armor_legs")) 
+    {
+        dam -= 3;
+        cut -= 3;
+    }
+    if (has_trait(PF_THICKSKIN))
+        cut--;
+    if (has_trait(PF_SCALES))
+        cut -= 2;
+    if (has_trait(PF_THICK_SCALES))
+        cut -= 4;
+    if (has_trait(PF_SLEEK_SCALES))
+        cut -= 1;
+    if (has_trait(PF_FEATHERS))
+        dam--;
+    if (has_trait(PF_FUR))
+        dam--;
+    if (has_trait(PF_CHITIN))
+        cut -= 2;
+    if (has_trait(PF_CHITIN2)) 
+    {
+        dam--;
+        cut -= 4;
+    }
+    if (has_trait(PF_CHITIN3)) 
+    {
+        dam -= 2;
+        cut -= 8;
+    }
+    if (has_trait(PF_PLANTSKIN))
+        dam--;
+    if (has_trait(PF_BARK))
+        dam -= 2;
+    if (bp == bp_feet && has_trait(PF_HOOVES))
+        cut--;
+    if (has_trait(PF_LIGHT_BONES))
+        dam *= 1.4;
+    if (has_trait(PF_HOLLOW_BONES))
+        dam *= 1.8;
+    if (dam < 0)
+        dam = 0;
+    if (cut < 0)
+        cut = 0;
 }
 
 int player::resist(body_part bp)
