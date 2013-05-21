@@ -225,7 +225,7 @@
     "rarity": 0,
     "price": 600,
     "material": ["GLASS", "IRON"],
-    "flags": "LIGHT_3",
+    "flags": "LIGHT_4",
     "weight": 2,
     "volume": 3,
     "bashing": 1,
