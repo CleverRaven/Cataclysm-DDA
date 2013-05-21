@@ -948,14 +948,15 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         it->charges++;
         return;
     }
-    else if (fix->damage == 0)
-    {
-        if (fix->made_of(COTTON) || fix->made_of(WOOL)) {
-            p->use_amount("rag",1);
-        } else if (fix->made_of(LEATHER)) {
-            p->use_amount("leather",1);
-        }
 
+    if (fix->made_of(COTTON) || fix->made_of(WOOL)) {
+        p->use_amount("rag",1);
+    } else if (fix->made_of(LEATHER)) {
+        p->use_amount("leather",1);
+    }
+
+    if (fix->damage == 0)
+    {
         p->moves -= 500 * p->fine_detail_vision_mod(g);
         p->practice(g->turn, "tailor", 10);
         int rn = dice(4, 2 + p->skillLevel("tailor"));
