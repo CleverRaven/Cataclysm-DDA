@@ -386,9 +386,11 @@ std::vector<item> game::multidrop()
  int base_volume = u.volume_carried();
 
  int ch = (int)'.';
- int start = 0, cur_it;
+ int start = 0, cur_it, max_it;
  invslice stacks = u.inv.slice(0, u.inv.size());
  std::vector<int> firsts = find_firsts(stacks);
+ int selected=-1;
+ int selected_char=(int)' ';
  do {
   inventory drop_subset = u.inv.subset(dropping);
   int new_weight = base_weight - drop_subset.weight();
@@ -397,21 +399,8 @@ std::vector<item> game::multidrop()
    new_weight -= u.i_at(weapon_and_armor[i]).weight();
   }
   print_inv_weight_vol(this, w_inv, new_weight, new_volume);
-  if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) {
-   for (int i = 1; i < maxitems+4; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                             ");
-   start -= maxitems;
-   if (start < 0)
-    start = 0;
-   mvwprintw(w_inv, maxitems + 4, 0, "         ");
-  }
-  if (( ch == '>' || ch == KEY_NPAGE ) && cur_it < u.inv.size()) {
-   start = cur_it;
-   mvwprintw(w_inv, maxitems + 4, 12, "            ");
-   for (int i = 1; i < maxitems+4; i++)
-    mvwprintz(w_inv, i, 0, c_black, "                                             ");
-  }
   int cur_line = 2;
+  max_it = 0;
   for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                             ");
@@ -422,15 +411,19 @@ std::vector<item> game::multidrop()
      cur_line++;
     }
    }
+
+   if ( selected < start && selected > -1 ) selected = start;
+
    if (cur_it < stacks.size()) {
     item& it = stacks[cur_it]->front();
-    mvwputch (w_inv, cur_line, 0, c_white, it.invlet);
+    if(cur_it==selected) selected_char=(int)it.invlet;
+    mvwputch (w_inv, cur_line, 0, (cur_it == selected ? h_white : c_white), it.invlet);
     char icon = '-';
     if (dropping[it.invlet] >= (it.count_by_charges() ? it.charges : stacks[cur_it]->size()))
      icon = '+';
     else if (dropping[it.invlet] > 0)
      icon = '#';
-    nc_color col = (dropping[it.invlet] == 0 ? c_ltgray : c_white);
+    nc_color col = ( cur_it == selected ? h_white : (dropping[it.invlet] == 0 ? c_ltgray : c_white ) );
     mvwprintz(w_inv, cur_line, 1, col, " %c %s", icon,
               it.tname(this).c_str());
     if (stacks[cur_it]->size() > 1)
@@ -442,74 +435,131 @@ std::vector<item> game::multidrop()
      wprintw(w_inv, " (%d)", it.contents[0].charges);
    }
    cur_line++;
+   max_it=cur_it;
   }
   if (start > 0)
    mvwprintw(w_inv, maxitems + 4, 0, "< Go Back");
   if (cur_it < u.inv.size())
    mvwprintw(w_inv, maxitems + 4, 12, "> More items");
   wrefresh(w_inv);
+/* back to (int)getch() as input() mangles arrow keys
   ch = input();
-  if (ch >= '0'&& ch <= '9') {
+*/
+  ch = getch();
+  if ( ch == '<' || ch == KEY_PPAGE ) {
+   if( start > 0) {
+    for (int i = 1; i < maxitems+4; i++)
+     mvwprintz(w_inv, i, 0, c_black, "                                             ");
+    start -= maxitems;
+    if (start < 0)
+     start = 0;
+    mvwprintw(w_inv, maxitems + 4, 0, "         ");
+    if ( selected > -1 ) selected = start; // oy, the cheese
+    }
+  } else if ( ch == '>' || ch == KEY_NPAGE ) {
+   if ( cur_it < u.inv.size()) {
+    start = cur_it;
+    mvwprintw(w_inv, maxitems + 4, 12, "            ");
+    for (int i = 1; i < maxitems+4; i++)
+     mvwprintz(w_inv, i, 0, c_black, "                                             ");
+    if ( selected < start && selected > -1 ) selected = start;
+   }
+  } else if ( ch == KEY_DOWN ) {
+    if ( selected < 0 ) {
+      selected = start;
+    } else {
+      selected++;
+    }
+    if ( selected > max_it ) {
+      if( cur_it < u.inv.size() ) {
+        start = cur_it;
+        mvwprintw(w_inv, maxitems + 4, 12, "            ");
+        for (int i = 1; i < maxitems+4; i++)
+         mvwprintz(w_inv, i, 0, c_black, "                                             ");
+      } else {
+        selected = u.inv.size() - 1; // wraparound?
+      }
+    }
+  } else if ( ch == KEY_UP ) {
+    selected--;
+    if ( selected < -1 ) {
+      selected = -1; // wraparound?
+    } else if ( selected < start ) {
+      if ( start > 0 ) {
+        for (int i = 1; i < maxitems+4; i++)
+         mvwprintz(w_inv, i, 0, c_black, "                                             ");
+        start -= maxitems;
+        if (start < 0)
+         start = 0;
+        mvwprintw(w_inv, maxitems + 4, 0, "         ");
+      }
+    }
+  } else if (ch >= '0'&& ch <= '9') {
    ch = (char)ch - '0';
    count *= 10;
    count += ch;
-  } else if (u.has_item(ch)) {
-   item& it = u.inv.item_by_letter(ch);
-   if (it.is_null()) { // Not from inventory
-    int found = false;
-    for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
-     if (weapon_and_armor[i] == ch) {
-      weapon_and_armor.erase(weapon_and_armor.begin() + i);
-      found = true;
-      print_inv_statics(this, w_inv, "Multidrop:", weapon_and_armor);
+  } else { // todo: reformat and maybe rewrite
+     if ( ch == '\n' || ch == KEY_RIGHT || ch == KEY_LEFT ) {
+        ch = selected_char;
      }
-    }
-    if (!found) {
-     if ( ch == u.weapon.invlet &&
-          std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), u.weapon.type->id) != unreal_itype_ids.end()){
-      if (!warned_about_bionic)
-       add_msg("You cannot drop your %s.", u.weapon.tname(this).c_str());
-      warned_about_bionic = true;
-     } else {
-      weapon_and_armor.push_back(ch);
-      print_inv_statics(this, w_inv, "Multidrop:", weapon_and_armor);
-     }
-    }
-   } else {
-    int index = -1;
-    for (int i = 0; i < stacks.size(); ++i) {
-     if (stacks[i]->front().invlet == it.invlet) {
-      index = i;
-      break;
-     }
-    }
-    if (index == -1) {
-     debugmsg("Inventory got out of sync with inventory slice?");
-    }
-    if (count == 0) {
-    if (it.count_by_charges())
-      {
-       if (dropping[it.invlet] == 0)
-        dropping[it.invlet] = -1;
-       else
-        dropping[it.invlet] = 0;
-      }
-    else
-      {
-       if (dropping[it.invlet] == 0)
-        dropping[it.invlet] = stacks[index]->size();
-       else
-        dropping[it.invlet] = 0;
-      }
-    }
+     if (u.has_item(ch)) {
+       item& it = u.inv.item_by_letter(ch);
+       if (it.is_null()) { // Not from inventory
+        int found = false;
+        for (int i = 0; i < weapon_and_armor.size() && !found; i++) {
+         if (weapon_and_armor[i] == ch) {
+          weapon_and_armor.erase(weapon_and_armor.begin() + i);
+          found = true;
+          print_inv_statics(this, w_inv, "Multidrop:", weapon_and_armor);
+         }
+        }
+        if (!found) {
+         if ( ch == u.weapon.invlet &&
+              std::find(unreal_itype_ids.begin(), unreal_itype_ids.end(), u.weapon.type->id) != unreal_itype_ids.end()){
+          if (!warned_about_bionic)
+           add_msg("You cannot drop your %s.", u.weapon.tname(this).c_str());
+          warned_about_bionic = true;
+         } else {
+          weapon_and_armor.push_back(ch);
+          print_inv_statics(this, w_inv, "Multidrop:", weapon_and_armor);
+         }
+        }
+       } else {
+        int index = -1;
+        for (int i = 0; i < stacks.size(); ++i) {
+         if (stacks[i]->front().invlet == it.invlet) {
+          index = i;
+          break;
+         }
+        }
+        if (index == -1) {
+         debugmsg("Inventory got out of sync with inventory slice?");
+        }
+        if (count == 0) {
+        if (it.count_by_charges())
+          {
+           if (dropping[it.invlet] == 0)
+            dropping[it.invlet] = -1;
+           else
+            dropping[it.invlet] = 0;
+          }
+        else
+          {
+           if (dropping[it.invlet] == 0)
+            dropping[it.invlet] = stacks[index]->size();
+           else
+            dropping[it.invlet] = 0;
+          }
+        }
 
-    else if (count >= stacks[index]->size() && !it.count_by_charges())
-       dropping[it.invlet] = stacks[index]->size();
-    else
-      dropping[it.invlet] = count;
+        else if (count >= stacks[index]->size() && !it.count_by_charges())
+           dropping[it.invlet] = stacks[index]->size();
+        else
+          dropping[it.invlet] = count;
 
-   count = 0;
-  }
+       count = 0;
+       }
+     }
   }
  } while (ch != '\n' && ch != KEY_ESCAPE && ch != ' ');
  werase(w_inv);
