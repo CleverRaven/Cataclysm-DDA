@@ -8343,31 +8343,6 @@ void game::plmove(int x, int y)
    add_msg("You displace the %s.", z[mondex].name().c_str());
   }
 
-    if (u.has_trait(PF_PYROMANIA) && u.morale_level() < 0)
-    {
-        if (m.flammable_items_at(u.posx, u.posy))
-        {
-            if (rng(0,100) < -(u.morale_level()+10)/2)
-            {
-                if (!u.use_charges_if_avail("fire", 1))
-                {
-                    add_msg("You want to light a fire but can't");
-                    u.add_morale(MORALE_PERM_PYROMANIA, -15, -100);
-                }
-                else
-                {
-                    if (m.add_field(this, u.posx, u.posy, fd_fire, 1))
-                    {
-                        m.field_at(u.posx, u.posy).age = 30;
-                        add_msg("You successfully light a fire.");
-                        u.moves -= 15;
-                        u.add_morale(MORALE_PERM_PYROMANIA, 10, 100);
-                    }
-                }
-            }
-        }
-    }
-  
   if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
       x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)))
    update_map(x, y);
@@ -8380,6 +8355,57 @@ void game::plmove(int x, int y)
     (f.*(tr->act))(this, x, y);
    }
   }
+
+    if (u.has_trait(PF_PYROMANIA) && u.morale_level() < 0)
+    {
+        if (rng(0,100) < -(u.morale_level()+10)/2)
+        {
+            int pyro_x;
+            int pyro_y;
+            pyro_x = x;
+            pyro_y = y;
+            for (int i = x - 1; i <= x + 1; i++)
+            {
+                for (int j = y - 1; j <= y + 1; j++)
+                {
+                    if (m.flammable_items_at(i, j))
+                    {
+                        if (pyro_x != x && pyro_y != y)
+                        {
+                            if (one_in(2))
+                            {
+                                pyro_x = i;
+                                pyro_y = j;
+                            }
+                        }
+                        else
+                        {
+                            pyro_x = i;
+                            pyro_y = j;
+                        }
+                    }
+                }
+            }
+            if (pyro_x != x && pyro_y != y)
+            {
+                if (!u.use_charges_if_avail("fire", 1))
+                {
+                    add_msg("You want to light a fire but can't");
+                    u.add_morale(MORALE_PERM_PYROMANIA, -15, -100);
+                }
+                else
+                {
+                    if (m.add_field(this, pyro_x, pyro_y, fd_fire, 1))
+                    {
+                        m.field_at(pyro_x, pyro_y).age = 30;
+                        add_msg("You successfully light a fire.");
+                        u.moves -= 15;
+                        u.add_morale(MORALE_PERM_PYROMANIA, 10, 100);
+                    }
+                }
+            }
+        }
+    }
 
 // Some martial art styles have special effects that trigger when we move
   if(u.weapon.type->id == "style_capoeira"){
