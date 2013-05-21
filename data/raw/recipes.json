@@ -3599,6 +3599,7 @@
             "difficulty": 1,
             "time": 20000,
             "reversible": true,
+            "decomp_learn": 0,
             "autolearn": true,
             "components": [
                               [
@@ -4247,7 +4248,7 @@
                          ],
                          [
                              ["soldering_iron", 20],
-                             ["toolset", 1]
+                             ["toolset", 2]
                          ]
                      ],
             "components": [
@@ -4283,7 +4284,7 @@
                          ],
                          [
                              ["soldering_iron", 20],
-                             ["toolset", 20]
+                             ["toolset", 2]
                          ]
                      ],
             "components": [
