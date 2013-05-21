@@ -8342,6 +8342,32 @@ void game::plmove(int x, int y)
    z[mondex].move_to(this, u.posx, u.posy);
    add_msg("You displace the %s.", z[mondex].name().c_str());
   }
+
+    if (u.has_trait(PF_PYROMANIA) && u.morale_level() < 0)
+    {
+        if (m.flammable_items_at(u.posx, u.posy))
+        {
+            if (rng(0,100) < -(u.morale_level()+10)/2)
+            {
+                if (!u.use_charges_if_avail("fire", 1))
+                {
+                    add_msg("You want to light a fire but can't");
+                    u.add_morale(MORALE_PERM_PYROMANIA, -15, -100);
+                }
+                else
+                {
+                    if (m.add_field(this, u.posx, u.posy, fd_fire, 1))
+                    {
+                        m.field_at(u.posx, u.posy).age = 30;
+                        add_msg("You successfully light a fire.");
+                        u.moves -= 15;
+                        u.add_morale(MORALE_PERM_PYROMANIA, 10, 100);
+                    }
+                }
+            }
+        }
+    }
+  
   if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
       x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)))
    update_map(x, y);

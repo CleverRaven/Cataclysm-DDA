@@ -343,6 +343,13 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
 
 void player::update_morale()
 {
+    if (has_trait(PF_PYROMANIA))
+    {
+        add_morale(MORALE_PERM_PYROMANIA, -1, -100); //Counters natural depreciation, benefits wear off quickly
+        //-1 approx. every .5 hours, 1 hour with Prozac; doubles time while sleeping
+        if (one_in((has_disease(DI_TOOK_PROZAC)? 60:30) * (has_disease(DI_SLEEP)? 2:1))) {add_morale(MORALE_PERM_PYROMANIA, -1, -100);}
+    }
+
     for (int i = 0; i < morale.size(); i++)
     {
         if (morale[i].bonus < 0) {morale[i].bonus++;}
@@ -3774,7 +3781,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
  for (int i = 0; i < morale.size() && !placed; i++) {
   if (morale[i].type == type && morale[i].item_type == item_type) {
    placed = true;
-   if (abs(morale[i].bonus) < abs(max_bonus) || max_bonus == 0) {
+   if (abs(morale[i].bonus) <= abs(max_bonus) || max_bonus == 0) {
     morale[i].bonus += bonus;
     if (abs(morale[i].bonus) > abs(max_bonus) && max_bonus != 0)
      morale[i].bonus = max_bonus;

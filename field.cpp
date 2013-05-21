@@ -81,6 +81,10 @@ bool map::process_fields_in_submap(game *g, int gridn)
     break; // It doesn't do anything.
 
    case fd_fire: {
+    if (g->u.has_trait(PF_PYROMANIA) && one_in(10 - (cur->density * 2)) && g->u_see(x, y))
+	{
+	g->u.add_morale(MORALE_PERM_PYROMANIA, 1, 100);
+	}
 // Consume items as fuel to help us grow/last longer.
     bool destroyed = false;
     int vol = 0, smoke = 0, consumed = 0;
@@ -186,6 +190,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
        i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
       i_at(x, y).erase(i_at(x, y).begin() + i);
       i--;
+	  if (g->u.has_trait(PF_PYROMANIA) && g->u_see(x, y)) {g->u.add_morale(MORALE_PERM_PYROMANIA, 1, 100);}
      }
     }
 
@@ -227,6 +232,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
     while (cur->density < 3 && cur->age < 0) {
      cur->age += 300;
      cur->density++;
+	 if (g->u.has_trait(PF_PYROMANIA) && g->u_see(x, y)) {g->u.add_morale(MORALE_PERM_PYROMANIA, 1, 100);}
     }
 
 // If the flames are in a pit, it can't spread to non-pit
@@ -277,8 +283,10 @@ bool map::process_fields_in_submap(game *g, int gridn)
         if (field_at(fx, fy).type == fd_smoke ||
             field_at(fx, fy).type == fd_web)
          field_at(fx, fy) = field(fd_fire, 1, 0);
+         if (g->u.has_trait(PF_PYROMANIA) && g->u_see(x, y)) {g->u.add_morale(MORALE_PERM_PYROMANIA, 1, 100);}
         else
          add_field(g, fx, fy, fd_fire, 1);
+         if (g->u.has_trait(PF_PYROMANIA) && g->u_see(x, y)) {g->u.add_morale(MORALE_PERM_PYROMANIA, 1, 100);}
        } else {
         bool nosmoke = true;
         for (int ii = -1; ii <= 1; ii++) {

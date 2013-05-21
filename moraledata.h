@@ -37,7 +37,8 @@ std::string morale_data[NUM_MORALE_TYPES] = {
 
 "Masochism",
 "Hoarder",
-"Optimist"
+"Optimist",
+"Pyromania"
 };
 
 #endif
