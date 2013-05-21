@@ -174,7 +174,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
     // 0 is empty, 100 is full tank, -1 is random 10% to 75%
     int veh_fuel_mult = init_veh_fuel;
     if (init_veh_fuel == - 1)
-     veh_fuel_mult = (rng (10,75)/10);
+     veh_fuel_mult = rng (1,7);
     if (init_veh_fuel > 100)
      veh_fuel_mult = 100;
 
