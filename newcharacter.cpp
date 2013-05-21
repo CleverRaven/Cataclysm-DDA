@@ -251,7 +251,7 @@ bool player::create(game *g, character_type type, std::string tempname)
  }
 
 // The near-sighted get to start with glasses.
- if (has_trait(PF_MYOPIC) && !has_trait(PF_HYPEROPTIC)) {
+ if (has_trait(PF_MYOPIC) && !has_trait(PF_HYPEROPIC)) {
   tmp = item(g->itypes["glasses_eye"], 0, 'a' + worn.size());
   worn.push_back(tmp);
  }
@@ -261,7 +261,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   worn.push_back(tmp);
  }
 
- if (has_trait(PF_HYPEROPTIC) && has_trait(PF_MYOPIC))
+ if (has_trait(PF_HYPEROPIC) && has_trait(PF_MYOPIC))
  {
      tmp = item(g->itypes["glasses_bifocal"], 0, 'a' + worn.size());
      worn.push_back(tmp);
