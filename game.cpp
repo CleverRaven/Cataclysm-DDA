@@ -190,7 +190,7 @@ void game::setup()
  uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
 
- last_inv_start = -2;   // -2: inv() won't change the value. -1 is 'parked' selection, 0 is first item 
+ last_inv_start = -2;   // -2: inv() won't change the value. -1 is 'parked' selection, 0 is first item
  last_inv_sel = -2;
 
  weather = WEATHER_CLEAR; // Start with some nice weather...
@@ -1564,7 +1564,7 @@ bool game::handle_action()
          vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
          oThisItem.info(true, &vThisItem);
          compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
-         cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy, 
+         cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy,
              selected >= menustart && selected <= menuend ? selected : -1
          );
          switch(cMenu) {
@@ -5218,7 +5218,7 @@ void game::examine()
    u.moves -= 200;
    if (veh->velocity) {      // TODO: move player out of harms way
     int dsgn = veh->parts[vpart].mount_dx > 0? 1 : -1;
-    fling_player_or_monster (&u, 0, veh->face.dir() + 90 * dsgn, 35);
+    fling_player_or_monster (&u, 0, veh->face.dir() + 90 * dsgn, veh->velocity / (float)100);
    }
    return;
   }
@@ -5490,7 +5490,7 @@ struct advanced_inv_pane {
   int pos;
   int area, offx, offy, size, vstor;  // quick lookup later
   int index, max_page, max_index, page;
-  std::string area_string;        
+  std::string area_string;
   vehicle *veh;
   WINDOW *window;
   //std::vector<item> items;
@@ -5579,7 +5579,7 @@ void game::advanced_inv()
                     int vp = 0;
                     panes[i].veh = m.veh_at(u.posx+panes[i].offx,u.posy+panes[i].offy,vp);
                     if ( panes[i].veh ) panes[i].vstor = panes[i].veh->part_with_feature(vp, vpf_cargo, false);
-                    panes[i].size = ( panes[i].vstor >= 0 ? 
+                    panes[i].size = ( panes[i].vstor >= 0 ?
                         panes[i].veh->parts[panes[i].vstor].items.size() :
                         m.i_at(u.posx+panes[i].offx,u.posy+panes[i].offy).size()
                     );
@@ -5593,7 +5593,7 @@ void game::advanced_inv()
                 // draw the stuff
                 werase(panes[i].window);
                 mvwprintz(panes[i].window,1,2,src == i ? c_blue : c_white, "%s", panes[i].area_string.c_str());
-                
+
                 if(panes[i].area == isinventory)
                 {
                     printItems(u, panes[i].window, panes[i].page, panes[i].index,(src == i), this);
@@ -5664,7 +5664,7 @@ void game::advanced_inv()
         else if('m' == c)
         {
             // If the active screen has no item.
-            if( panes[src].size == 0 ) 
+            if( panes[src].size == 0 )
             {
                 continue;
             }
@@ -8467,7 +8467,7 @@ void game::plswim(int x, int y)
  u.inv.rust_iron_items();
 }
 
-void game::fling_player_or_monster(player *p, monster *zz, int dir, int flvel)
+void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel)
 {
     int steps = 0;
     bool is_u = p && (p == &u);

@@ -178,7 +178,7 @@ class game
   void teleport(player *p = NULL);
   void plswim(int x, int y); // Called by plmove.  Handles swimming
   // when player is thrown (by impact or something)
-  void fling_player_or_monster(player *p, monster *zz, int dir, int flvel);
+  void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel);
 
   void nuke(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
