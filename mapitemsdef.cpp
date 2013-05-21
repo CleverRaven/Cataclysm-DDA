@@ -246,7 +246,7 @@ void game::init_mapitems()
 	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
  "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
  "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
- "heatpack", "glowstick", "emer_blanket", "cloak", "sleeping_bag", NULL);
+ "heatpack", "glowstick", "emer_blanket", "cloak", "sleeping_bag", "gasoline_lantern", NULL);
 
 
  setvector(
@@ -526,7 +526,7 @@ void game::init_mapitems()
 	"broadsword", "morningstar", "helmet_plate", "cot", "rollmat", "tent_kit",
     "bat_metal",  "lawnmower", "pickelhaube",
     "makeshift_machete", "picklocks", "rucksack", "puller", "press",
-    "vac_sealer", NULL);
+    "vac_sealer", "gasoline_lantern", NULL);
 
  setvector(
    &mapitems[mi_mil_surplus], // NOT food or armor!
@@ -548,7 +548,7 @@ void game::init_mapitems()
 	"manual_first_aid", "manual_tailor", "manual_carpentry",
 	"lighter", "matches", "sewing_kit", "thread", "hammer", "extinguisher",
 	"flashlight", "hotplate", "water_purifier", "radio", "rollmat",
- "tent_kit", "canteen", "spray_can", "ax", "heatpack", "blanket", "emer_blanket", "flyer", NULL);
+ "tent_kit", "canteen", "spray_can", "ax", "heatpack", "blanket", "emer_blanket", "flyer", "gasoline_lantern", NULL);
 
  setvector(
    &mapitems[mi_mechanics],
@@ -771,7 +771,7 @@ void game::init_mapitems()
 	"jackhammer", "jacqueshammer", "dynamite", "UPS_off",
    "bio_tools", "bio_flashlight", "bio_lighter", "bio_magnet",
    "bio_resonator", "bio_hydraulics",
-  "jerrycan", "jerrycan_big", NULL);
+  "jerrycan", "jerrycan_big", "gasoline_lantern", NULL);
 
 
  setvector(
@@ -798,7 +798,7 @@ void game::init_mapitems()
 	"wrapper", "string_6", "chain", "rock", "pipe",
 	"mag_porn", "bottle_plastic", "bottle_glass", "can_drink",
 	"can_food", "lighter", "matches", "flashlight", "rag", "crowbar",
- "spray_can", "jar_glass", "flyer", NULL);
+ "spray_can", "jar_glass", "flyer", "gasoline_lanern", NULL);
 
  setvector(
    &mapitems[mi_sewer],
