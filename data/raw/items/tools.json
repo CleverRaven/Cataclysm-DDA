@@ -234,7 +234,7 @@
     "max_charges": 500,
     "initial_charges": 500,
     "charges_per_use": 0,
-    "turns_per_charge": 25,
+    "turns_per_charge": 20,
     "ammo": "gasoline",
     "revert_to": "null",
     "use_action": "GASOLINE_LANTERN_ON"
