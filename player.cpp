@@ -5489,6 +5489,7 @@ void player::sort_armor(game *g)
                             {
                                 item change_to = i_at(inv_chars[52 + invlet]);
                                 change_to.invlet = worn[i].invlet;
+                                worn[i].invlet = inv_chars[52 + invlet];
                             }
                             else
                             {
