@@ -348,10 +348,9 @@ void player::activate_bionic(int b, game *g)
         mvprintw(0, 0, "Torch in which direction?");
         input = get_input();
         get_direction(dirx, diry, input);
-        if (has_trait(PF_PYROMANIA))
-		{add_morale(MORALE_PERM_PYROMANIA, 10, 100);}
+        if (has_trait(PF_PYROMANIA)) {add_morale(MORALE_PERM_PYROMANIA, 10, 100);}
         if (dirx == -2)
-		{
+        {
             g->add_msg("Invalid direction.");
             power_level += bionics["bio_lighter"]->power_cost;
             return;
@@ -359,10 +358,9 @@ void player::activate_bionic(int b, game *g)
         dirx += posx;
         diry += posy;
         if (!g->m.add_field(g, dirx, diry, fd_fire, 1))	// Unsuccessful.
-		{
+        {
             g->add_msg("You can't light a fire there.");
-            if (has_trait(PF_PYROMANIA))
-			{add_morale(MORALE_PERM_PYROMANIA, -10, 100);}
+            if (has_trait(PF_PYROMANIA)) {add_morale(MORALE_PERM_PYROMANIA, -10, 100);}
         }
     }
 
