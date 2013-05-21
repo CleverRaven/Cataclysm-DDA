@@ -499,7 +499,7 @@ std::vector<item> game::multidrop()
    count *= 10;
    count += ch;
   } else { // todo: reformat and maybe rewrite
-     if ( ch == '\n' || ch == KEY_RIGHT || ch == KEY_LEFT ) {
+     if ( ch == '\t' || ch == KEY_RIGHT || ch == KEY_LEFT ) {
         ch = selected_char;
      }
      if (u.has_item(ch)) {
