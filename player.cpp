@@ -6308,7 +6308,7 @@ void player::practice (const calendar& turn, Skill *s, int amount)
 
     int newLevel;
 
-    while (level.isTraining() && amount > 0 && xp_pool >= (1 + level))
+    while (level.isTraining() && amount > 0)
     {
         amount -= level + 1;
         if (!isSavant || s == savantSkill || one_in(2))
