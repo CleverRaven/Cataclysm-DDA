@@ -5225,18 +5225,24 @@ void player::sort_armor(game *g)
     }
     
     // work out required window sizes
+    int info_win_y = 6;
+    int arm_info_win_y = 5;
     int worn_win_y = worn.size() + 6;
     
-    int torso_win_y = 7;
-    int arms_win_y = 7; 
-    int hands_win_y = 7;
-    int legs_win_y = 7;
-    int eyes_win_y = 7;
-    int mouth_win_y = 7;
-    
+    int torso_win_y = 5;
+    int arms_win_y = 5; 
+    int hands_win_y = 5;
+    int legs_win_y = 5;
+    int eyes_win_y = 5;
+    int mouth_win_y = 5;
+
+    // color array for damae
+    nc_color dam_color[] = {c_green, c_ltgreen, c_yellow, c_magenta, c_ltred, c_red};
+
     for (int i = 0; i < worn.size(); i++) 
     {
-        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso))
+        if (((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso)) &&
+            ((dynamic_cast<it_armor*>(worn[i].type))->storage < 24))
             torso_win_y++;
         if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_arms))
             arms_win_y++;
@@ -5252,16 +5258,18 @@ void player::sort_armor(game *g)
 
     int worn_win_x = 26;
 
-    WINDOW* w_info      = newwin(6, 80,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
-    WINDOW* w_all_worn  = newwin(worn_win_y, worn_win_x,  6 + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
-    WINDOW* w_torso_worn= newwin(torso_win_y, worn_win_x, 6 + VIEW_OFFSET_Y, worn_win_x + VIEW_OFFSET_X);
-    WINDOW* w_arms_worn = newwin(arms_win_y, worn_win_x, 6 + torso_win_y + VIEW_OFFSET_Y, worn_win_x + VIEW_OFFSET_X);
-    WINDOW* w_hands_worn= newwin(hands_win_y, worn_win_x, 6 + torso_win_y + arms_win_y  + VIEW_OFFSET_Y, worn_win_x + VIEW_OFFSET_X);
-    WINDOW* w_legs_worn = newwin(legs_win_y, worn_win_x, 6 + VIEW_OFFSET_Y, worn_win_x + worn_win_x + VIEW_OFFSET_X);
-    WINDOW* w_eyes_worn = newwin(eyes_win_y, worn_win_x, 6 + legs_win_y + VIEW_OFFSET_Y, worn_win_x + worn_win_x + VIEW_OFFSET_X);
-    WINDOW* w_mouth_worn= newwin(mouth_win_y, worn_win_x, 6 + legs_win_y + eyes_win_y  + VIEW_OFFSET_Y, worn_win_x + worn_win_x + VIEW_OFFSET_X);
+    WINDOW* w_info      = newwin(info_win_y, 80,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+    WINDOW* w_arm_info  = newwin(arm_info_win_y, 80,  info_win_y + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);    
+    WINDOW* w_all_worn  = newwin(worn_win_y, worn_win_x,  arm_info_win_y + info_win_y + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+    WINDOW* w_torso_worn= newwin(torso_win_y, worn_win_x, arm_info_win_y + info_win_y + VIEW_OFFSET_Y, worn_win_x + VIEW_OFFSET_X);
+    WINDOW* w_arms_worn = newwin(arms_win_y, worn_win_x, arm_info_win_y + info_win_y + torso_win_y + VIEW_OFFSET_Y, worn_win_x + VIEW_OFFSET_X);
+    WINDOW* w_hands_worn= newwin(hands_win_y, worn_win_x, arm_info_win_y + info_win_y + torso_win_y + arms_win_y  + VIEW_OFFSET_Y, worn_win_x + VIEW_OFFSET_X);
+    WINDOW* w_legs_worn = newwin(legs_win_y, worn_win_x, arm_info_win_y + info_win_y + VIEW_OFFSET_Y, worn_win_x + worn_win_x + VIEW_OFFSET_X);
+    WINDOW* w_eyes_worn = newwin(eyes_win_y, worn_win_x, arm_info_win_y + info_win_y + legs_win_y + VIEW_OFFSET_Y, worn_win_x + worn_win_x + VIEW_OFFSET_X);
+    WINDOW* w_mouth_worn= newwin(mouth_win_y, worn_win_x, arm_info_win_y + info_win_y + legs_win_y + eyes_win_y  + VIEW_OFFSET_Y, worn_win_x + worn_win_x + VIEW_OFFSET_X);
       
     wborder(w_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wborder(w_arm_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wborder(w_all_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wborder(w_torso_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wborder(w_arms_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -5276,12 +5284,12 @@ void player::sort_armor(game *g)
     mvwprintz(w_info, 3, 1, c_white, "Press r to assign special inventory letters to clothing, ESC or q to return.");
     mvwprintz(w_info, 4, 1, c_white, "Color key: ");
     mvwprintz(w_info, 4, 13, c_ltgray, "(Reinforced) ");         
-    mvwprintz(w_info, 4, 25, c_green, "|");  
-    mvwprintz(w_info, 4, 26, c_ltgreen, "|");           
-    mvwprintz(w_info, 4, 27, c_yellow, "|");         
-    mvwprintz(w_info, 4, 28, c_magenta, "|");         
-    mvwprintz(w_info, 4, 29, c_ltred, "|"); 
-    mvwprintz(w_info, 4, 30, c_red, "|");             
+    mvwprintz(w_info, 4, 25, dam_color[0], "|");  
+    mvwprintz(w_info, 4, 26, dam_color[1], "|");           
+    mvwprintz(w_info, 4, 27, dam_color[2], "|");         
+    mvwprintz(w_info, 4, 28, dam_color[3], "|");         
+    mvwprintz(w_info, 4, 29, dam_color[4], "|"); 
+    mvwprintz(w_info, 4, 30, dam_color[5], "|");             
     mvwprintz(w_info, 4, 31, c_ltgray, "(Thoroughly Damaged)");         
 
     wrefresh(w_info);        
@@ -5299,35 +5307,64 @@ void player::sort_armor(game *g)
     int legs_item_count;
             
     item tmp_item;    
- 
+    std::stringstream temp1;
+    
     do 
     {
         if (redraw)
         {
+            // detailed armor info window
+            it_armor* cur_armor = dynamic_cast<it_armor*>(worn[cursor_y].type); 
+
+            temp1.str("");
+            temp1 << "Covers: ";
+            if (cur_armor->covers & mfb(bp_head))
+                temp1 << "Head. ";
+            if (cur_armor->covers & mfb(bp_eyes))
+                temp1 << "Eyes. ";
+            if (cur_armor->covers & mfb(bp_mouth))
+                temp1 << "Mouth. ";
+            if (cur_armor->covers & mfb(bp_torso))
+               temp1 << "Torso. ";
+            if (cur_armor->covers & mfb(bp_arms))
+               temp1 << "Arms. ";
+            if (cur_armor->covers & mfb(bp_hands))
+               temp1 << "Hands. ";
+            if (cur_armor->covers & mfb(bp_legs))
+               temp1 << "Legs. ";
+            if (cur_armor->covers & mfb(bp_feet))
+               temp1 << "Feet. ";
+            
+            werase(w_arm_info);          
+            wborder(w_arm_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+            mvwprintz(w_arm_info, 1, 1, dam_color[int(worn[cursor_y].damage + 1)], worn[cursor_y].tname(g).c_str());
+            mvwprintz(w_arm_info, 2, 1, c_ltgray, temp1.str().c_str());
+
+            temp1.str("");
+            temp1 << "Encumbrance: ";
+            temp1 << int(cur_armor->encumber);
+            temp1 << " Bash protection: ";
+            temp1 << int(cur_armor->dmg_resist);
+            temp1 << " Cut protection: ";
+            temp1 << int(cur_armor->cut_resist);
+            temp1 << " Storage: ";
+            temp1 << int(cur_armor->storage); 
+
+            mvwprintz(w_arm_info, 3, 1, c_ltgray, temp1.str().c_str());  
+            
             werase(w_all_worn);
             wborder(w_all_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
             mvwprintz(w_all_worn, 1, 1, c_white, "WORN CLOTHING");
             mvwprintz(w_all_worn, 3, 1, c_ltgray, "(Innermost)");
             for (int i = 0; i < worn.size(); i++) 
             {
-                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type); 
-                nc_color status = c_ltgreen;
-                if (worn[i].damage == -1)
-                    status = c_green;
-                if (worn[i].damage == 1)
-                    status = c_yellow;
-                if (worn[i].damage == 2)
-                    status = c_magenta;
-                if (worn[i].damage == 3)
-                    status = c_ltred;
-                if (worn[i].damage == 4)
-                    status = c_red;                              
+                it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);                           
                 if (i == cursor_y)
                     mvwprintz(w_all_worn, 4+cursor_y, 2, c_yellow, ">>");
                 if (selected >= 0 && i == selected)
-                    mvwprintz(w_all_worn, i+4, 5, status, each_armor->name.c_str());
+                    mvwprintz(w_all_worn, i+4, 5, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
                 else
-                    mvwprintz(w_all_worn, i+4, 4, status, each_armor->name.c_str());
+                    mvwprintz(w_all_worn, i+4, 4, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
             }            
             mvwprintz(w_all_worn, 4 + worn.size(), 1, c_ltgray, "(Outermost)");
             
@@ -5346,17 +5383,17 @@ void player::sort_armor(game *g)
             wborder(w_legs_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
             mvwprintz(w_torso_worn, 1, 1, c_white, "TORSO CLOTHING");
-            mvwprintz(w_torso_worn, 3, 1, c_ltgray, "(Innermost)");            
+            mvwprintz(w_torso_worn, 2, 1, c_ltgray, "(Innermost)");            
             mvwprintz(w_eyes_worn, 1, 1, c_white, "EYES CLOTHING");
-            mvwprintz(w_eyes_worn, 3, 1, c_ltgray, "(Innermost)"); 
+            mvwprintz(w_eyes_worn, 2, 1, c_ltgray, "(Innermost)"); 
             mvwprintz(w_mouth_worn, 1, 1, c_white, "MOUTH CLOTHING");
-            mvwprintz(w_mouth_worn, 3, 1, c_ltgray, "(Innermost)"); 
+            mvwprintz(w_mouth_worn, 2, 1, c_ltgray, "(Innermost)"); 
             mvwprintz(w_arms_worn, 1, 1, c_white, "ARMS CLOTHING");
-            mvwprintz(w_arms_worn, 3, 1, c_ltgray, "(Innermost)");             
+            mvwprintz(w_arms_worn, 2, 1, c_ltgray, "(Innermost)");             
             mvwprintz(w_hands_worn, 1, 1, c_white, "HANDS CLOTHING");
-            mvwprintz(w_hands_worn, 3, 1, c_ltgray, "(Innermost)"); 
+            mvwprintz(w_hands_worn, 2, 1, c_ltgray, "(Innermost)"); 
             mvwprintz(w_legs_worn, 1, 1, c_white, "LEGS CLOTHING");
-            mvwprintz(w_legs_worn, 3, 1, c_ltgray, "(Innermost)"); 
+            mvwprintz(w_legs_worn, 2, 1, c_ltgray, "(Innermost)"); 
                          
             torso_item_count = 0;
             eyes_item_count = 0;
@@ -5368,58 +5405,48 @@ void player::sort_armor(game *g)
             for (int i = 0; i < worn.size(); i++) 
             {
                 it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type); 
-                nc_color status = c_ltgreen;
-                if (worn[i].damage == -1)
-                    status = c_green;
-                if (worn[i].damage == 1)
-                    status = c_yellow;
-                if (worn[i].damage == 2)
-                    status = c_magenta;
-                if (worn[i].damage == 3)
-                    status = c_ltred;
-                if (worn[i].damage == 4)
-                    status = c_red;
                                
-                if (each_armor->covers & mfb(bp_torso))
+                if ((each_armor->covers & mfb(bp_torso)) && (each_armor->storage < 24))
                 {
-                    mvwprintz(w_torso_worn, torso_item_count + 4, 4, status, each_armor->name.c_str());
+                    mvwprintz(w_torso_worn, torso_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
                     torso_item_count++;
                 }           
                 if (each_armor->covers & mfb(bp_eyes))
                 {
-                    mvwprintz(w_eyes_worn, eyes_item_count + 4, 4, status, each_armor->name.c_str());
+                    mvwprintz(w_eyes_worn, eyes_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
                     eyes_item_count++;
                 }                
                 if (each_armor->covers & mfb(bp_mouth))
                 {
-                    mvwprintz(w_mouth_worn, mouth_item_count + 4, 4, status, each_armor->name.c_str());
+                    mvwprintz(w_mouth_worn, mouth_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
                     mouth_item_count++;
                 }  
                 if (each_armor->covers & mfb(bp_arms))
                 {
-                    mvwprintz(w_arms_worn, arms_item_count + 4, 4, status, each_armor->name.c_str());
+                    mvwprintz(w_arms_worn, arms_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
                     arms_item_count++;
                 }                 
                 if (each_armor->covers & mfb(bp_hands))
                 {
-                    mvwprintz(w_hands_worn, hands_item_count + 4, 4, status, each_armor->name.c_str());
+                    mvwprintz(w_hands_worn, hands_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
                     hands_item_count++;
                 }                    
                 if (each_armor->covers & mfb(bp_legs))
                 {
-                    mvwprintz(w_legs_worn, legs_item_count + 4, 4, status, each_armor->name.c_str());
+                    mvwprintz(w_legs_worn, legs_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
                     legs_item_count++;
                 }                                                  
             }  
-            mvwprintz(w_torso_worn, 4 + torso_item_count, 1, c_ltgray, "(Outermost)");          
-            mvwprintz(w_eyes_worn, 4 + eyes_item_count, 1, c_ltgray, "(Outermost)");
-            mvwprintz(w_mouth_worn, 4 + mouth_item_count, 1, c_ltgray, "(Outermost)");              
-            mvwprintz(w_arms_worn, 4 + arms_item_count, 1, c_ltgray, "(Outermost)");
-            mvwprintz(w_hands_worn, 4 + hands_item_count, 1, c_ltgray, "(Outermost)");            
-            mvwprintz(w_legs_worn, 4 + legs_item_count, 1, c_ltgray, "(Outermost)");
+            mvwprintz(w_torso_worn, 3 + torso_item_count, 1, c_ltgray, "(Outermost)");          
+            mvwprintz(w_eyes_worn, 3 + eyes_item_count, 1, c_ltgray, "(Outermost)");
+            mvwprintz(w_mouth_worn, 3 + mouth_item_count, 1, c_ltgray, "(Outermost)");              
+            mvwprintz(w_arms_worn, 3 + arms_item_count, 1, c_ltgray, "(Outermost)");
+            mvwprintz(w_hands_worn, 3 + hands_item_count, 1, c_ltgray, "(Outermost)");            
+            mvwprintz(w_legs_worn, 3 + legs_item_count, 1, c_ltgray, "(Outermost)");
         }
         
         wrefresh(w_info);
+        wrefresh(w_arm_info);
         wrefresh(w_all_worn);
         wrefresh(w_torso_worn);
         wrefresh(w_eyes_worn);
@@ -5518,6 +5545,7 @@ void player::sort_armor(game *g)
 
     werase(w_info);
     werase(w_all_worn);
+    werase(w_arm_info);    
     werase(w_torso_worn);
     werase(w_eyes_worn);
     werase(w_mouth_worn);    
@@ -5526,6 +5554,7 @@ void player::sort_armor(game *g)
     werase(w_legs_worn);
 
     delwin(w_info);
+    delwin(w_arm_info);
     delwin(w_all_worn);
     delwin(w_torso_worn);
     delwin(w_eyes_worn);
