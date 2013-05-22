@@ -365,7 +365,7 @@ void player::update_mental_focus()
     // for every 100 points, we have a flat gain of 1 focus.
     // for every n points left over, we have an n% chance of 1 focus
     int gain = focus_gain_rate / 100;
-    if (rng(0, 100) < (focus_gain_rate % 100))
+    if (rng(1, 100) <= (focus_gain_rate % 100))
     {
         gain++;
     }
@@ -6318,7 +6318,7 @@ void player::practice (const calendar& turn, Skill *s, int amount)
     }
     int chance_to_drop = xp_pool;
     xp_pool -= chance_to_drop / 100;
-    if (rng(0, 100) < (chance_to_drop % 100))
+    if (rng(1, 100) <= (chance_to_drop % 100))
     {
         xp_pool--;
     }
