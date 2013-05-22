@@ -704,18 +704,6 @@ bool map::vehproceed(game* g){
          veh->last_turn = 0;
    }
 
-   if (pl_ctrl && veh->velocity) {
-      // a bit of delay for animation
-      // total delay is roughly one third of a second.
-      int ns_per_frame = abs ( (BILLION/3) / ( (float)veh->velocity / 1000) );
-      if (ns_per_frame > BILLION/15)
-         ns_per_frame = BILLION/15;
-      timespec ts;   // Timespec for the animation
-      ts.tv_sec = 0;
-      ts.tv_nsec = ns_per_frame;
-      nanosleep (&ts, 0);
-   }
-
    if (can_move) {
       // accept new direction
       if (veh->skidding){
