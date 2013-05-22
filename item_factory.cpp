@@ -76,6 +76,8 @@ void Item_factory::init(){
     iuse_function_list["HAMMER"] = &iuse::hammer;
     iuse_function_list["LIGHT_OFF"] = &iuse::light_off;
     iuse_function_list["LIGHT_ON"] = &iuse::light_on;
+    iuse_function_list["GASOLINE_LANTERN_OFF"] = &iuse::gasoline_lantern_off;
+    iuse_function_list["GASOLINE_LANTERN_ON"] = &iuse::gasoline_lantern_on;
     iuse_function_list["LIGHTSTRIP"] = &iuse::lightstrip;
     iuse_function_list["LIGHTSTRIP_ACTIVE"] = &iuse::lightstrip_active;
     iuse_function_list["GLOWSTICK"] = &iuse::glowstick;

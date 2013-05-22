@@ -60,6 +60,8 @@ class iuse
   void hammer		(game *g, player *p, item *it, bool t);
   void light_off	(game *g, player *p, item *it, bool t);
   void light_on		(game *g, player *p, item *it, bool t);
+  void gasoline_lantern_off	(game *g, player *p, item *it, bool t);
+  void gasoline_lantern_on	(game *g, player *p, item *it, bool t);
   void lightstrip		(game *g, player *p, item *it, bool t);
   void lightstrip_active(game *g, player *p, item *it, bool t);
   void glowstick		(game *g, player *p, item *it, bool t);

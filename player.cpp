@@ -2393,20 +2393,33 @@ void player::charge_power(int amount)
 
 float player::active_light()
 {
- float lumination = 0;
+    float lumination = 0;
 
- int flashlight = active_item_charges("flashlight_on");
- int torch = active_item_charges("torch_lit");
- if (flashlight > 0)
-  lumination = std::min(100, flashlight * 5); // Will do for now
- else if (torch > 0)
-  lumination = std::min(100, torch * 5);
- else if (has_active_bionic("bio_flashlight"))
-  lumination = 60;
- else if (has_artifact_with(AEP_GLOW))
-  lumination = 25;
+    int flashlight = active_item_charges("flashlight_on");
+    int torch = active_item_charges("torch_lit");
+    int gasoline_lantern = active_item_charges("gasoline_lantern_on");
+    if (flashlight > 0)
+    {
+        lumination = std::min(100, flashlight * 5);    // Will do for now
+    }
+    else if (torch > 0)
+    {
+        lumination = std::min(100, torch * 5);
+    }
+    else if (gasoline_lantern > 0)
+    {
+        lumination = 5;
+    }
+    else if (has_active_bionic("bio_flashlight"))
+    {
+        lumination = 60;
+    }
+    else if (has_artifact_with(AEP_GLOW))
+    {
+        lumination = 25;
+    }
 
- return lumination;
+    return lumination;
 }
 
 int player::sight_range(int light_level)

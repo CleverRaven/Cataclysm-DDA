@@ -1268,6 +1268,39 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
     g->m.ter_set(dirx, diry, newter);
 }
 
+void iuse::gasoline_lantern_off(game *g, player *p, item *it, bool t)
+{
+    if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,"The lantern is empty.");
+    }
+    else if(!p->use_charges_if_avail("fire", 1))
+    {
+        g->add_msg_if_player(p,"You need a lighter!");
+    }
+    else
+    {
+        g->add_msg_if_player(p,"You turn the lantern on.");
+        it->make(g->itypes["gasoline_lantern_on"]);
+        it->active = true;
+        it->charges --;
+    }
+}
+
+void iuse::gasoline_lantern_on(game *g, player *p, item *it, bool t)
+{
+    if (t)  	// Normal use
+    {
+// Do nothing... player::active_light and the lightmap::generate deal with this
+    }
+    else  	// Turning it off
+    {
+        g->add_msg_if_player(p,"The lantern is extinguished.");
+        it->make(g->itypes["gasoline_lantern"]);
+        it->active = false;
+    }
+}
+
 void iuse::light_off(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
