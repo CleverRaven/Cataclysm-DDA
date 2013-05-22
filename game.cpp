@@ -715,8 +715,8 @@ void game::process_activity()
          max_ex = min_ex;
      }
 
-     min_ex *= originalSkillLevel;
-     max_ex *= originalSkillLevel;
+     min_ex *= originalSkillLevel + 1;
+     max_ex *= originalSkillLevel + 1;
 
      u.skillLevel(reading->type).readBook(min_ex, max_ex, turn, reading->level);
 
