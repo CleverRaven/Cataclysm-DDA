@@ -350,8 +350,6 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
         return false; // no point to mount
     }
 
-// TODO: seatbelts must require an obstacle part n3arby
-
     std::vector<int> parts_here = parts_at_relative (dx, dy);
     if (parts_here.size() < 1)
     {
@@ -363,6 +361,23 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
     if ((vpart_list[id].flags & mfb(vpf_armor)) && flags1 & mfb(vpf_no_reinforce))
     {
         return false;   // trying to put armor plates on non-reinforcable part
+    }
+    // Seatbelts require an anchor point
+    if( vpart_list[id].flags & mfb(vpf_seatbelt) )
+    {
+        bool anchor_found = false;
+        for( std::vector<int>::iterator it = parts_here.begin();
+             it != parts_here.end(); ++it )
+        {
+            if( part_info(*it).flags & mfb(vpf_anchor_point) )
+            {
+                anchor_found = true;
+            }
+        }
+        if( anchor_found == false)
+        {
+            return false;
+        }
     }
 
     for (int vf = vpf_func_begin; vf <= vpf_func_end; vf++)
