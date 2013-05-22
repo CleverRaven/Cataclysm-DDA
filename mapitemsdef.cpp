@@ -28,7 +28,7 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_road],
-	"muffler", "pipe", "motor", "seat",
+   "muffler", "pipe", "motor", "seat", "saddle",
    "wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
    "1cyl_combustion", "v2_combustion", "i4_combustion", "v6_combustion",
    "v8_combustion", "foot_crank", "flyer", NULL);

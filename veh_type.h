@@ -14,6 +14,7 @@ enum vpart_id
 
 // external parts
     vp_seat,
+    vp_saddle,
     vp_bed,
     vp_frame_h,
     vp_frame_v,
@@ -167,6 +168,8 @@ const vpart_info vpart_list[num_vparts] =
     { "seat",       '#', c_red,     '*', c_red,     60,  300, 0, 0, "seat", 1,
         mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_cargo) |
       mfb(vpf_no_reinforce) | mfb(vpf_anchor_point) },
+    { "saddle",     '#', c_red,     '*', c_red,     20,  200, 0, 0, "saddle", 1,
+        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_no_reinforce) },
     { "bed",        '#', c_magenta, '*', c_magenta, 60,  300, 0, 0, "seat", 1,
         mfb(vpf_over) | mfb(vpf_bed) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) },
     { "frame",      'h', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
