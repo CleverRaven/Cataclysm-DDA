@@ -6875,7 +6875,7 @@ void game::pickup(int posx, int posy, int min)
 
   if (idx < here.size()) {
    getitem[idx] = !getitem[idx];
-   wclear(w_item_info);
+   werase(w_item_info);
    if (getitem[idx]) {
     mvwprintw(w_item_info, 1, 0, here[idx].info().c_str());
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
