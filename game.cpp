@@ -773,8 +773,6 @@ void game::process_activity()
      add_msg("You learn %s.", martial_arts_itype_ids[0 - u.activity.index].c_str());
      u.styles.push_back( martial_arts_itype_ids[0 - u.activity.index] );
     } else {
-     u.sklevel[ u.activity.index ]++;
-
      int skillLevel = u.skillLevel(u.activity.index);
      u.skillLevel(u.activity.index).level(skillLevel + 1);
      add_msg("You finish training %s to level %d.",

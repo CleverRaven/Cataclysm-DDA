@@ -99,9 +99,9 @@ public:
  bool ready_to_revive(game *g); // used for corpses
 
 // Our value as a weapon, given particular skills
- int  weapon_value(int skills[num_skill_types]) const;
+ int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
- int  melee_value (int skills[num_skill_types]);
+ int  melee_value (player *p);
 // Returns the data associated with tech, if we are an it_style
  style_move style_data(technique_id tech);
  bool is_two_handed(player *u);

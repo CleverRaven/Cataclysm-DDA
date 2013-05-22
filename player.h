@@ -329,11 +329,20 @@ public:
  std::vector<morale_point> morale;
 
  int xp_pool;
- int sklevel[num_skill_types];
 
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
  SkillLevel& skillLevel(size_t id);
+
+ void set_skill_level(Skill* _skill, int level);
+ void set_skill_level(std::string ident, int level);
+ void set_skill_level(size_t id, int level);
+
+ void boost_skill_level(Skill* _skill, int level);
+ void boost_skill_level(std::string ident, int level);
+ void boost_skill_level(size_t id, int level);
+
+ void copy_skill_levels(const player *rhs);
 
  std::map<std::string, recipe*> learned_recipes;
 

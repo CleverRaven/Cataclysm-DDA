@@ -64,9 +64,6 @@ player::player()
  style_selected = "null";
  xp_pool = 0;
  last_item = itype_id("null");
- for (int i = 0; i < num_skill_types; i++) {
-  sklevel[i] = 0;
- }
  for (int i = 0; i < PF_MAX2; i++)
   my_traits[i] = false;
  for (int i = 0; i < PF_MAX2; i++)
@@ -183,10 +180,6 @@ player& player::operator= (const player & rhs)
 
  morale = rhs.morale;
  xp_pool = rhs.xp_pool;
-
- for (int i = 0; i < num_skill_types; i++) {
-  sklevel[i]    = rhs.sklevel[i];
- }
 
  _skills = rhs._skills;
 
@@ -1493,12 +1486,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
 
   SkillLevel level = skillLevel(*aSkill);
 
-  if ( sklevel[i] >= 0) {
+  if ( level >= 0) {
    skillslist.push_back(skill(i));
    // Default to not training and not rusting
    nc_color text_color = c_blue;
-   bool training = skillLevel(*aSkill).isTraining();
-   bool rusting = skillLevel(*aSkill).isRusting(g->turn);
+   bool training = level.isTraining();
+   bool rusting = level.isRusting(g->turn);
 
    if(training && rusting)
    {
@@ -2626,7 +2619,7 @@ int player::comprehension_percent(skill s, bool real_life)
  if (intel == 0.)
   intel = 1.;
  double percent = 80.; // double temporarily, since we divide a lot
- int learned = (real_life ? sklevel[s] : 4);
+ int learned = (real_life ? int(skillLevel(s)) : 4);
  if (learned > intel / 2)
   percent /= 1 + ((learned - intel / 2) / (intel / 3));
  else if (!real_life && intel > 8)
@@ -6704,6 +6697,37 @@ SkillLevel& player::skillLevel(size_t id) {
 
 SkillLevel& player::skillLevel(Skill *_skill) {
   return _skills[_skill];
+}
+
+void player::copy_skill_levels(const player *rhs)
+{
+    _skills = rhs->_skills;
+}
+
+void player::set_skill_level(Skill* _skill, int level)
+{
+    skillLevel(_skill).level(level);
+}
+void player::set_skill_level(std::string ident, int level)
+{
+    skillLevel(ident).level(level);
+}
+void player::set_skill_level(size_t id, int level)
+{
+    skillLevel(id).level(level);
+}
+
+void player::boost_skill_level(Skill* _skill, int level)
+{
+    skillLevel(_skill).level(level+skillLevel(_skill));
+}
+void player::boost_skill_level(std::string ident, int level)
+{
+    skillLevel(ident).level(level+skillLevel(ident));
+}
+void player::boost_skill_level(size_t id, int level)
+{
+    skillLevel(id).level(level+skillLevel(id));
 }
 
 void player::setID (int i)
