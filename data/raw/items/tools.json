@@ -236,7 +236,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 20,
     "ammo": "gasoline",
-    "revert_to": "null",
+    "revert_to": "gasoline_lantern",
     "use_action": "GASOLINE_LANTERN_ON"
   },
 
