@@ -66,8 +66,6 @@ player::player()
  last_item = itype_id("null");
  for (int i = 0; i < num_skill_types; i++) {
   sklevel[i] = 0;
-  skexercise[i] = 0;
-  sklearn[i] = true;
  }
  for (int i = 0; i < PF_MAX2; i++)
   my_traits[i] = false;
@@ -188,9 +186,6 @@ player& player::operator= (const player & rhs)
 
  for (int i = 0; i < num_skill_types; i++) {
   sklevel[i]    = rhs.sklevel[i];
-  skexercise[i] = rhs.skexercise[i];
-  sktrain[i]    = rhs.sktrain[i];
-  sklearn[i] = rhs.sklearn[i];
  }
 
  _skills = rhs._skills;

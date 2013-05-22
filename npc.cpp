@@ -155,8 +155,11 @@ std::string npc::save_info()
   dump << my_traits[i] << " ";
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
- for (int i = 0; i < num_skill_types; i++)
-  dump << int(sklevel[i]) << " " << skexercise[i] << " ";
+
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   SkillLevel level = skillLevel(*aSkill);
+   dump << level;
+ }
 
  dump << styles.size() << " ";
  for (int i = 0; i < styles.size(); i++)
@@ -242,8 +245,9 @@ void npc::load_info(game *g, std::string data)
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
- for (int i = 0; i < num_skill_types; i++)
-  dump >> sklevel[i] >> skexercise[i];
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   dump >> skillLevel(*aSkill);
+ }
 
  itype_id tmpstyle;
  int numstyle;

@@ -330,9 +330,6 @@ public:
 
  int xp_pool;
  int sklevel[num_skill_types];
- int skexercise[num_skill_types];
- int sktrain[num_skill_types];
- bool sklearn[num_skill_types];
 
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
