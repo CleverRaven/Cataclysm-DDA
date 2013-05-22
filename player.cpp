@@ -2445,7 +2445,7 @@ int player::sight_range(int light_level)
  if (has_disease(DI_BLIND))
   ret = 0;
  if (ret > 4 && has_trait(PF_MYOPIC) && !is_wearing("glasses_eye") &&
-     !is_wearing("glasses_monocle"))
+     !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal"))
   ret = 4;
  return ret;
 }
@@ -2488,7 +2488,8 @@ bool player::sight_impaired()
   (underwater && !has_bionic("bio_membrane") && !has_trait(PF_MEMBRANE)
               && !is_wearing("goggles_swim")) ||
   (has_trait(PF_MYOPIC) && !is_wearing("glasses_eye")
-                        && !is_wearing("glasses_monocle"));
+                        && !is_wearing("glasses_monocle")
+                        && !is_wearing("glasses_bifocal"));
 }
 
 bool player::has_two_arms() const
@@ -5876,7 +5877,8 @@ hint_rating player::rate_action_read(item *it, game *g)
   return HINT_IFFY; //won't read non-fun books when sad
  } else if (book->intel > 0 && has_trait(PF_ILLITERATE)) {
   return HINT_IFFY;
- } else if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) {
+ } else if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")
+            && !is_wearing("glasses_bifocal")) {
   return HINT_IFFY;
  }
 
@@ -5901,7 +5903,8 @@ void player::read(game *g, char ch)
     }
 
     // check for traits
-    if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) 
+    if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")
+        && !is_wearing("glasses_bifocal"))
     {
         g->add_msg("Your eyes won't focus without reading glasses.");
         return;

@@ -86,7 +86,7 @@ void game::init_mapitems()
    &mapitems[mi_bedroom],
 	"inhaler", "cig", "cigar", "weed", "coke", "meth",
 	"heroin", "sneakers", "socks", "mocassins", "bandana", "glasses_eye", "sunglasses",
-	"glasses_reading", "hat_ball", "backpack", "purse", "mbag",
+   "glasses_reading", "glasses_bifocal", "hat_ball", "backpack", "purse", "mbag",
 	"fanny", "battery", "bb", "bbgun", "mag_porn", "mag_tv", "mag_gaming",
 	"mag_news", "novel_romance", "novel_drama", "novel_mystery", "manual_mechanics",
 	"manual_speech", "manual_business", "manual_computers",
@@ -465,7 +465,7 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_office],
-	"cola", "aspirin", "cigar", "glasses_eye", "sunglasses", "glasses_reading",
+   "cola", "aspirin", "cigar", "glasses_eye", "sunglasses", "glasses_reading", "glasses_bifocal",
 	"purse", "mbag", "battery", "mag_news", "manual_business",
 	"textbook_business", "lighter", "matches", "extinguisher", "flashlight",
 	"radio", "bubblewrap", "coffee_raw", "usb_drive",
@@ -473,7 +473,7 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_cubical_office],
-    "cola", "aspirin", "cigar", "glasses_eye", "sunglasses", "glasses_reading",
+   "cola", "aspirin", "cigar", "glasses_eye", "sunglasses", "glasses_reading", "glasses_bifocal",
 	"purse", "mbag", "battery", "mag_news", "manual_business",
 	"textbook_business", "manual_computers", "textbook_computers", "lighter", "matches", "extinguisher", "flashlight",
 	"radio", "bubblewrap", "coffee_raw", "usb_drive","rootbeer", "cig", "coat_rain", "poncho",
@@ -490,7 +490,7 @@ void game::init_mapitems()
 	
  setvector(
    &mapitems[mi_church],
-    "glasses_eye", "sunglasses", "glasses_reading", "lighter", "matches", "coat_rain", "cane", "candlestick",
+   "glasses_eye", "sunglasses", "glasses_reading", "glasses_bifocal", "lighter", "matches", "coat_rain", "cane", "candlestick",
     "candlestick", "candlestick", "candlestick", NULL);
 
  setvector(

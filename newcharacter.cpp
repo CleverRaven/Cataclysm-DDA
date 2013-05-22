@@ -251,15 +251,22 @@ bool player::create(game *g, character_type type, std::string tempname)
  }
 
 // The near-sighted get to start with glasses.
- if (has_trait(PF_MYOPIC)) {
+ if (has_trait(PF_MYOPIC) && !has_trait(PF_HYPEROPIC)) {
   tmp = item(g->itypes["glasses_eye"], 0, 'a' + worn.size());
   worn.push_back(tmp);
  }
 // And the far-sighted get to start with reading glasses.
- if (has_trait(PF_HYPEROPIC)) {
+ if (has_trait(PF_HYPEROPIC) && !has_trait(PF_MYOPIC)) {
   tmp = item(g->itypes["glasses_reading"], 0, 'a' + worn.size());
   worn.push_back(tmp);
  }
+
+ if (has_trait(PF_HYPEROPIC) && has_trait(PF_MYOPIC))
+ {
+     tmp = item(g->itypes["glasses_bifocal"], 0, 'a' + worn.size());
+     worn.push_back(tmp);
+ }
+
 // Likewise, the asthmatic start with their medication.
  if (has_trait(PF_ASTHMA)) {
   tmp = item(g->itypes["inhaler"], 0, 'a' + worn.size());
