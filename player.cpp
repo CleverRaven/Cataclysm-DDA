@@ -6305,22 +6305,21 @@ void player::practice (const calendar& turn, Skill *s, int amount)
     }
 
     amount = adjust_for_focus(amount);
-
-    int newLevel;
-
-    while (level.isTraining() && amount > 0)
+    if (isSavant && s != savantSkill)
     {
-        amount -= level + 1;
-        if (!isSavant || s == savantSkill || one_in(2))
-        {
-            skillLevel(s).train(newLevel);
-        }
+        amount /= 2;
     }
-    int chance_to_drop = xp_pool;
-    xp_pool -= chance_to_drop / 100;
-    if (rng(1, 100) <= (chance_to_drop % 100))
+
+    if (level.isTraining())
     {
-        xp_pool--;
+        skillLevel(s).train(amount);
+
+        int chance_to_drop = xp_pool;
+        xp_pool -= chance_to_drop / 100;
+        if (rng(1, 100) <= (chance_to_drop % 100))
+        {
+            xp_pool--;
+        }
     }
 
     skillLevel(s).practice(turn);

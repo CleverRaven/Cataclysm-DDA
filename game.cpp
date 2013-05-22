@@ -695,8 +695,9 @@ void game::process_activity()
     }
 
     if (u.skillLevel(reading->type) < (int)reading->level) {
+     int originalSkillLevel = u.skillLevel(reading->type);
      int min_ex = reading->time / 10 + u.int_cur / 4,
-         max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type);
+         max_ex = reading->time /  5 + u.int_cur / 2 - originalSkillLevel;
      if (min_ex < 1)
      {
          min_ex = 1;
@@ -714,7 +715,9 @@ void game::process_activity()
          max_ex = min_ex;
      }
 
-     int originalSkillLevel = u.skillLevel(reading->type);
+     min_ex *= originalSkillLevel;
+     max_ex *= originalSkillLevel;
+
      u.skillLevel(reading->type).readBook(min_ex, max_ex, turn, reading->level);
 
      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(),

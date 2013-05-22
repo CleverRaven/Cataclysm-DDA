@@ -73,18 +73,18 @@ class SkillLevel {
   int level() const { return _level; }
   int level(int plevel) { _level = plevel; return plevel; }
 
-  int exercise() const { return _exercise; }
+  int exercise() const { return _exercise / (_level + 1); }
 
   int lastPracticed() const { return _lastPracticed; }
 
   int comprehension(int intellect, bool fastLearner = false);
 
-  int train(int &level);
+  void train(int amount);
   bool isRusting(const calendar& turn) const;
   bool rust(const calendar& turn, bool forgetful, bool charged_bio_mem);
   void practice(const calendar& turn);
 
-  int readBook(int minimumGain, int maximumGain, const calendar& turn, int maximumLevel = 0xFFFFFFFF);
+  void readBook(int minimumGain, int maximumGain, const calendar& turn, int maximumLevel = 0xFFFFFFFF);
 
   bool operator==(const SkillLevel& b) const { return this->_level == b._level && this->_exercise == b._exercise; }
   bool operator< (const SkillLevel& b) const { return this->_level <  b._level || (this->_level == b._level && this->_exercise < b._exercise); }

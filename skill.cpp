@@ -144,17 +144,13 @@ int SkillLevel::comprehension(int intellect, bool fastLearner) {
   }
 }
 
-int SkillLevel::train(int &level) {
-  ++_exercise;
+void SkillLevel::train(int amount) {
+  _exercise += amount;
 
-  if (_exercise >= 100) {
+  if (_exercise >= 100 * (_level + 1)) {
     _exercise = 0;
     ++_level;
   }
-
-  level = _level;
-
-  return _exercise;
 }
 
 static int rustRate(int level)
@@ -180,11 +176,11 @@ bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem
             if (OPTIONS[OPT_SKILL_RUST] == 0 || _exercise > 0)
             {
                 if (charged_bio_mem) return one_in(5);
-                --_exercise;
+                _exercise -= _level;
 
                 if (_exercise < 0)
                 {
-                    _exercise = 99;
+                    _exercise = (100 * _level) - 1;
                     --_level;
                 }
             }
@@ -198,23 +194,16 @@ void SkillLevel::practice(const calendar& turn)
     _lastPracticed = turn;
 }
 
-int SkillLevel::readBook(int minimumGain, int maximumGain, const calendar& turn,
-                         int maximumLevel)
+void SkillLevel::readBook(int minimumGain, int maximumGain, const calendar &turn,
+                          int maximumLevel)
 {
-  int gain = rng(minimumGain, maximumGain);
+    int gain = rng(minimumGain, maximumGain);
 
-  int level;
-
-  for (int i = 0; i < gain; ++i) {
-      train(level);
-
-    if (level >= maximumLevel)
-      break;
-  }
-
-  practice(turn);
-
-  return _exercise;
+    if (_level < maximumLevel)
+    {
+        train(gain);
+    }
+    practice(turn);
 }
 
 
