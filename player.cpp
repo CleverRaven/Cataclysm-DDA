@@ -383,7 +383,7 @@ int player::calc_focus_equilibrium()
     // apply a penalty when improving skills via books
     if (activity.type == ACT_READ)
     {
-        it_book *reading = dynamic_cast<it_book*>(inv.item_by_letter(activity.invlet).type);
+        it_book *reading = dynamic_cast<it_book *>(inv.item_by_letter(activity.invlet).type);
         // only apply a penalty when we're actually learning something
         if (skillLevel(reading->type) < (int)reading->level)
         {
@@ -428,10 +428,21 @@ int player::calc_focus_equilibrium()
                 // We can't afford the entire block.  Each block_multiplier morale
                 // points give 1% focus gain, and then we're done.
                 focus_gain_rate += morale_left / block_multiplier;
+                break;
             }
         }
     }
-    if (focus_gain_rate < 1) { focus_gain_rate = 1; }
+
+    // This should be redundant, but just in case...
+    if (focus_gain_rate < 1)
+    {
+        focus_gain_rate = 1;
+    }
+    else if (focus_gain_rate > 400)
+    {
+        focus_gain_rate = 400;
+    }
+
     return focus_gain_rate;
 }
 
