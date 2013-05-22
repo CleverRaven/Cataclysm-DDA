@@ -6854,27 +6854,47 @@ void game::pickup(int posx, int posy, int min)
  int new_weight = u.weight_carried(), new_volume = u.volume_carried();
  bool update = true;
  mvwprintw(w_pickup, 0,  0, "PICK UP (, = all)");
-
+ int selected=-1;
 // Now print the two lists; those on the ground and about to be added to inv
 // Continue until we hit return or space
  do {
+  static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;";
+  size_t idx=-1;
   for (int i = 1; i < pickupHeight; i++) {
     mvwprintw(w_pickup, i, 0, "                                                ");
   }
   if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
    start -= maxitems;
+   selected = start;
    mvwprintw(w_pickup, maxitems + 2, 0, "         ");
-  }
-  if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
+  } else if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
    start += maxitems;
+   selected = start;
    mvwprintw(w_pickup, maxitems + 2, pickupHeight, "            ");
+  } else if ( ch == KEY_UP ) {
+      selected--;
+      if ( selected < 0 ) { 
+          selected=here.size()-1;
+          start=(int)(here.size()/maxitems) * maxitems;
+      } else if ( selected < start ) {
+          start-= maxitems;
+      }
+  } else if ( ch == KEY_DOWN ) {
+      selected++;
+      if ( selected >= here.size() ) {
+          selected=0;
+          start=0;
+      } else if ( selected >= start + maxitems ) {
+          start+=maxitems;
+      }
+  } else if ( selected >= 0 && ( ch == KEY_RIGHT || ch == KEY_LEFT ) ) {
+      idx=selected;
+  } else {
+      idx = pickup_chars.find(ch);
   }
 
-  static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;";
-  size_t idx = pickup_chars.find(ch);
-
-  if (idx < here.size()) {
-   getitem[idx] = !getitem[idx];
+  if ( idx < here.size()) {
+   getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
    wclear(w_item_info);
    if (getitem[idx]) {
     mvwprintw(w_item_info, 1, 0, here[idx].info().c_str());
@@ -6916,22 +6936,27 @@ void game::pickup(int posx, int posy, int min)
    mvwprintw(w_pickup, 1 + (cur_it % maxitems), 0,
              "                                        ");
    if (cur_it < here.size()) {
-    mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, here[cur_it].color(&u),
+    nc_color icolor=here[cur_it].color(&u);
+    if(cur_it == selected) {
+        icolor=hilite(icolor);
+    }
+    mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor,
              char(pickup_chars[cur_it]));
     if (getitem[cur_it])
-     wprintw(w_pickup, " + ");
+     wprintz(w_pickup, c_ltblue, " + ");
     else
      wprintw(w_pickup, " - ");
-    wprintz(w_pickup, here[cur_it].color(&u), here[cur_it].tname(this).c_str());
+    wprintz(w_pickup, icolor, here[cur_it].tname(this).c_str());
     if (here[cur_it].charges > 0)
-     wprintz(w_pickup, here[cur_it].color(&u), " (%d)", here[cur_it].charges);
+     wprintz(w_pickup, icolor, " (%d)", here[cur_it].charges);
    }
   }
+  mvwprintw(w_pickup, maxitems + 1, 0, "Mark [right]    [up/dn] Scroll    [left] Unmark");
   if (start > 0)
-   mvwprintw(w_pickup, maxitems + 2, 0, "[<] Prev");
+   mvwprintw(w_pickup, maxitems + 2, 0, "[pgup] Prev");
   mvwprintw(w_pickup, maxitems + 2, 20, " [,] All");
   if (cur_it < here.size())
-   mvwprintw(w_pickup, maxitems + 2, 36, "Next [>]");
+   mvwprintw(w_pickup, maxitems + 2, 36, "Next [pgdn]");
   if (update) {		// Update weight & volume information
    update = false;
    mvwprintw(w_pickup, 0,  7, "                           ");
@@ -6945,7 +6970,12 @@ void game::pickup(int posx, int posy, int min)
    wprintz(w_pickup, c_white, "/%d", u.volume_capacity() - 2);
   }
   wrefresh(w_pickup);
+/* No longer using
   ch = input();
+   because it pulls a: case KEY_DOWN:  return 'j';
+*/
+  ch = (int)getch();
+
  } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
  if (ch != '\n') {
   werase(w_pickup);
