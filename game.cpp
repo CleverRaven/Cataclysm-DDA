@@ -6950,6 +6950,8 @@ void game::pickup(int posx, int posy, int min)
  if (ch != '\n') {
   werase(w_pickup);
   wrefresh(w_pickup);
+  werase(w_item_info);
+  wrefresh(w_item_info);
   delwin(w_pickup);
   delwin(w_item_info);
   add_msg("Never mind.");
@@ -7057,6 +7059,8 @@ void game::pickup(int posx, int posy, int min)
  }
  werase(w_pickup);
  wrefresh(w_pickup);
+ werase(w_item_info);
+ wrefresh(w_item_info);
  delwin(w_pickup);
  delwin(w_item_info);
 }
