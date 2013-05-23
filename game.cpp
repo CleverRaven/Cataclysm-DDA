@@ -7542,46 +7542,31 @@ void game::plthrow(char chInput)
   return;
  }
 
- // TODO: [lightmap] This appears to redraw the screen for throwing,
- //                  check were lightmap needs to be shown
- int sight_range = u.sight_range(light_level());
- if (range < sight_range)
-  range = sight_range;
- int x = u.posx, y = u.posy;
- int x0 = x - range;
- int y0 = y - range;
- int x1 = x + range;
- int y1 = y + range;
-
- for (int j = u.posx - VIEWX; j <= u.posx + VIEWX; j++) {
-  for (int k = u.posy - VIEWY; k <= u.posy + VIEWY; k++) {
-   if (u_see(j, k)) {
-    if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
-     m.drawsq(w_terrain, u, j, k, false, true);
-    else
-     mvwputch(w_terrain, k + VIEWY - u.posy - u.view_offset_y,
-                         j + VIEWX - u.posx - u.view_offset_x, c_dkgray, '#');
-   }
-  }
- }
+ m.draw(this, w_terrain, point(u.posx, u.posy));
 
  std::vector <monster> mon_targets;
  std::vector <int> targetindices;
  int passtarget = -1;
  for (int i = 0; i < z.size(); i++) {
-  if (u_see(&(z[i])) && z[i].posx >= x0 && z[i].posx <= x1 &&
-                        z[i].posy >= y0 && z[i].posy <= y1) {
-   mon_targets.push_back(z[i]);
-   targetindices.push_back(i);
-   if (i == last_target)
-    passtarget = mon_targets.size() - 1;
-   z[i].draw(w_terrain, u.posx, u.posy, true);
-  }
+   if (u_see(&(z[i]))) {
+     z[i].draw(w_terrain, u.posx, u.posy, true);
+     if(rl_dist( u.posx, u.posy, z[i].posx, z[i].posy ) <= range) {
+       mon_targets.push_back(z[i]);
+       targetindices.push_back(i);
+       if (i == last_target) {
+	 passtarget = mon_targets.size() - 1;
+       }
+     }
+   }
  }
 
+ int x = u.posx;
+ int y = u.posy;
+
  // target() sets x and y, or returns false if we canceled (by pressing Esc)
- std::vector <point> trajectory = target(x, y, x0, y0, x1, y1, mon_targets,
-                                         passtarget, &thrown);
+ std::vector <point> trajectory = target(x, y, u.posx - range, u.posy - range,
+					 u.posx + range, u.posy + range,
+					 mon_targets, passtarget, &thrown);
  if (trajectory.size() == 0)
   return;
  if (passtarget != -1)
@@ -7650,45 +7635,34 @@ void game::plfire(bool burst)
  }
 
  int range = u.weapon.range(&u);
- // TODO: [lightmap] This appears to redraw the screen for fireing,
- //                  check were lightmap needs to be shown
- int sight_range = u.sight_range(light_level());
- if (range > sight_range)
-  range = sight_range;
- int x = u.posx, y = u.posy;
- int x0 = x - range;
- int y0 = y - range;
- int x1 = x + range;
- int y1 = y + range;
- for (int j = x - VIEWX; j <= x + VIEWX; j++) {
-  for (int k = y - VIEWY; k <= y + VIEWY; k++) {
-   if (u_see(j, k)) {
-    if (k >= y0 && k <= y1 && j >= x0 && j <= x1)
-     m.drawsq(w_terrain, u, j, k, false, true);
-    else
-     mvwputch(w_terrain, k + VIEWY - y, j + VIEWX - x, c_dkgray, '#');
-   }
-  }
- }
+
+ m.draw(this, w_terrain, point(u.posx, u.posy));
+
 // Populate a list of targets with the zombies in range and visible
  std::vector <monster> mon_targets;
  std::vector <int> targetindices;
  int passtarget = -1;
  for (int i = 0; i < z.size(); i++) {
-  if (z[i].posx >= x0 && z[i].posx <= x1 &&
-      z[i].posy >= y0 && z[i].posy <= y1 &&
-      z[i].friendly == 0 && u_see(&(z[i]))) {
-   mon_targets.push_back(z[i]);
-   targetindices.push_back(i);
-   if (i == last_target)
-    passtarget = mon_targets.size() - 1;
-   z[i].draw(w_terrain, u.posx, u.posy, true);
-  }
+   if (u_see(&(z[i]))) {
+     z[i].draw(w_terrain, u.posx, u.posy, true);
+     if(rl_dist( u.posx, u.posy, z[i].posx, z[i].posy ) <= range) {
+       mon_targets.push_back(z[i]);
+       targetindices.push_back(i);
+       if (i == last_target) {
+	 passtarget = mon_targets.size() - 1;
+       }
+     }
+   }
  }
 
+ int x = u.posx;
+ int y = u.posy;
+
  // target() sets x and y, and returns an empty vector if we canceled (Esc)
- std::vector <point> trajectory = target(x, y, x0, y0, x1, y1, mon_targets,
-                                         passtarget, &u.weapon);
+ std::vector <point> trajectory = target(x, y, u.posx - range, u.posy - range,
+					 u.posx + range, u.posy + range,
+					 mon_targets, passtarget, &u.weapon);
+
  draw_ter(); // Recenter our view
  if (trajectory.size() == 0) {
   if(u.weapon.has_flag("RELOAD_AND_SHOOT"))

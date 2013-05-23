@@ -523,8 +523,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 {
  std::vector<point> ret;
  int tarx, tary, tart, junk;
- // TODO: [lightmap] Enable auto targeting based on lightmap
- int sight_dist = u.sight_range(light_level());
 
 // First, decide on a target among the monsters, if there are any in range
  if (t.size() > 0) {
@@ -592,9 +590,9 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   m.draw(this, w_terrain, center);
 // Draw the Monsters
   for (int i = 0; i < z.size(); i++) {
-   if (u_see(&(z[i])) && z[i].posx >= lowx && z[i].posy >= lowy &&
-                         z[i].posx <=  hix && z[i].posy <=  hiy)
+   if (u_see(&(z[i]))) {
     z[i].draw(w_terrain, center.x, center.y, false);
+   }
   }
 // Draw the NPCs
   for (int i = 0; i < active_npc.size(); i++) {
@@ -612,12 +610,12 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
     mvwputch(w_terrain, aty, atx, u.color(), '@');
 
-   if (m.sees(u.posx, u.posy, x, y, -1, tart)) {// Selects a valid line-of-sight
+   // Check with lightmap, only draw if we can see the endpoint.
+   if (u_see( x, y) &&
+       m.sees(u.posx, u.posy, x, y, -1, tart)) {// Selects a valid line-of-sight
     ret = line_to(u.posx, u.posy, x, y, tart); // Sets the vector to that LOS
 // Draw the trajectory
     for (int i = 0; i < ret.size(); i++) {
-     if (abs(ret[i].x - u.posx) <= sight_dist &&
-         abs(ret[i].y - u.posy) <= sight_dist   ) {
       int mondex = mon_at(ret[i].x, ret[i].y),
           npcdex = npc_at(ret[i].x, ret[i].y);
 // NPCs and monsters get drawn with inverted colors
@@ -627,7 +625,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
        active_npc[npcdex]->draw(w_terrain, center.x, center.y, true);
       else
        m.drawsq(w_terrain, u, ret[i].x, ret[i].y, true,true,center.x, center.y);
-     }
     }
    }
 
