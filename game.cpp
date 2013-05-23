@@ -2612,8 +2612,12 @@ void game::debug()
   case 4:
    debugmsg("%d radio towers", cur_om->radios.size());
    for (int i = 0; i < OMAPX; i++) {
-    for (int j = 0; j < OMAPY; j++)
-     cur_om->seen(i, j, levz) = true;
+       for (int j = 0; j < OMAPY; j++) {
+           for (int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++)
+           {
+               cur_om->seen(i, j, k) = true;
+           }
+       }
    }
    add_msg("Current overmap revealed.");
    break;
