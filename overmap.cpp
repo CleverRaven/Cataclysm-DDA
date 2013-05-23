@@ -1299,14 +1299,17 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
     int distance = rl_dist(origx, origy, target.x, target.y);
     mvwprintz(w, 3, om_map_width + 1, c_white, "Distance to target: %d", distance);
    }
-   mvwprintz(w, 17, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
-   mvwprintz(w, 18, om_map_width + 1, c_magenta, "0 - Center map on character");
-   mvwprintz(w, 19, om_map_width + 1, c_magenta, "t - Toggle legend          ");
-   mvwprintz(w, 20, om_map_width + 1, c_magenta, "/ - Search                 ");
-   mvwprintz(w, 21, om_map_width + 1, c_magenta, "N - Add/Edit a note        ");
-   mvwprintz(w, 22, om_map_width + 1, c_magenta, "D - Delete a note          ");
-   mvwprintz(w, 23, om_map_width + 1, c_magenta, "L - List notes             ");
-   mvwprintz(w, 24, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
+   mvwprintz(w, 15, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
+   mvwprintz(w, 16, om_map_width + 1, c_magenta, "0 - Center map on character");
+   mvwprintz(w, 17, om_map_width + 1, c_magenta, "t - Toggle legend          ");
+   mvwprintz(w, 18, om_map_width + 1, c_magenta, "/ - Search                 ");
+   mvwprintz(w, 19, om_map_width + 1, c_magenta, "N - Add/Edit a note        ");
+   mvwprintz(w, 20, om_map_width + 1, c_magenta, "D - Delete a note          ");
+   mvwprintz(w, 21, om_map_width + 1, c_magenta, "L - List notes             ");
+   mvwprintz(w, 22, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
+   char level_string[10];
+   sprintf(level_string, "LEVEL %i",z);
+   mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, level_string);
   }
 // Done with all drawing!
   wrefresh(w);
