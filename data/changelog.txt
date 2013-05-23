@@ -40,7 +40,7 @@ Some menus (notably, inventory) can be navigated with arrow keys and enter.
 Allowing sewing of leather items, make sewing require rags/patches.
 Cooking rotten food does not make it magically fresh any more (but it does make it slightly less rotten).
 Resolves an issue where destroying an item while tailoring would crash the game.
-
+New UI to sort clothing and automatically assign special characters to clothing (accessed via +)
 
 ======
 
