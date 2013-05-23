@@ -66,6 +66,37 @@
 
 
         {
+            "result": "vac_sealer",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "difficulty": 0,
+            "time": 500,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 4]
+                              ],
+                              [
+                                  ["element", 2]
+                              ],
+                              [
+                                  ["hose", 1]
+                              ],
+                              [
+                                  ["power_supply", 1]
+                              ]
+                          ]
+        },
+        
+
+        {
             "result": "lighter",
             "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
