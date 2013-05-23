@@ -476,8 +476,8 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         it_armor* armor_template = new it_armor();
 
                         armor_template->encumber = entry.get("encumberance").as_int();
-                        armor_template->dmg_resist = entry.get("bashing_protection").as_int();
-                        armor_template->cut_resist = entry.get("cutting_protection").as_int();
+                        armor_template->coverage = entry.get("coverage").as_int();
+                        armor_template->thickness = entry.get("material_thickness").as_int();
                         armor_template->env_resist = entry.get("enviromental_protection").as_int();
                         armor_template->warmth = entry.get("warmth").as_int();
                         armor_template->storage = entry.get("storage").as_int();
@@ -879,6 +879,8 @@ phase_id Item_factory::phase_from_tag(Item_tag name){
     }
 };
 
+//  TODO: depreciate once materials rewrite is up and running
+
 material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
     // Map the valid input tags to a valid material
 
@@ -903,6 +905,8 @@ material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
         return KEVLAR;
     } else if(name == "FUR"){
         return FUR;
+    } else if(name == "CHITIN"){
+        return CHITIN;        
     } else if(name == "STONE"){
         return STONE;
     } else if(name == "PAPER"){

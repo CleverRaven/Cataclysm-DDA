@@ -10,13 +10,25 @@ MNULL = 0,
 //Food Materials
 VEGGY, FLESH, POWDER, HFLESH, //Human Flesh.
 //Clothing
-COTTON, WOOL, LEATHER, KEVLAR, FUR,
+COTTON, WOOL, LEATHER, KEVLAR, FUR, CHITIN,
 //Other
-STONE, PAPER, WOOD, PLASTIC, GLASS, IRON, STEEL, SILVER
+STONE, PAPER, WOOD, PLASTIC, GLASS, IRON, STEEL, SILVER, 
+NUM_MAT_TYPES
 };
 
 enum phase_id {
 PNULL, SOLID, LIQUID, GAS, PLASMA
+};
+
+enum damage_type
+{
+    DNULL = 0,
+    BASH,
+    CUT,
+    ACID,
+    ELECTRICITY,
+    FIRE,
+    NUM_DAM_TYPES
 };
 
 struct point {

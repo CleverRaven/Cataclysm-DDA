@@ -7,6 +7,7 @@
 #include <algorithm>
 #include "cursesdef.h"
 #include "text_snippets.h"
+#include "material.h"
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -556,7 +557,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
    temp1 << "The feet. ";
 
   dump->push_back(iteminfo("ARMOR", temp1.str()));
-
+  dump->push_back(iteminfo("ARMOR", " Coverage: ", "", int(armor->coverage), " percent"));
     if (has_flag("FIT"))
     {
         dump->push_back(iteminfo("ARMOR", " Encumberment: ", "", int(armor->encumber) - 1, " (fits)", true, true));
@@ -566,8 +567,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
         dump->push_back(iteminfo("ARMOR", " Encumberment: ", "", int(armor->encumber), "", true, true));
     }
 
-  dump->push_back(iteminfo("ARMOR", " Bashing protection: ", "", int(armor->dmg_resist)));
-  dump->push_back(iteminfo("ARMOR", " Cut protection: ", "", int(armor->cut_resist)));
+  dump->push_back(iteminfo("ARMOR", " Bashing protection: ", "", int(bash_resist())));
+  dump->push_back(iteminfo("ARMOR", " Cut protection: ", "", int(cut_resist())));
   dump->push_back(iteminfo("ARMOR", " Environmental protection: ", "", int(armor->env_resist)));
   dump->push_back(iteminfo("ARMOR", " Warmth: ", "", int(armor->warmth)));
   dump->push_back(iteminfo("ARMOR", " Storage: ", "", int(armor->storage)));
@@ -1154,6 +1155,59 @@ int item::melee_value(int skills[num_skill_types])
   my_value += 15 * skills[sk_unarmed] + 8 * skills[sk_melee];
 
  return my_value;
+}
+
+int item::bash_resist() const
+{
+    int ret = 0;
+    
+    if (is_null())
+        return 0;
+
+// base resistance 
+    it_armor* tmp = dynamic_cast<it_armor*>(type);
+    material_type* cur_mat1 = material_type::find_material_from_tag(tmp->m1);        
+    material_type* cur_mat2 = material_type::find_material_from_tag(tmp->m2);        
+    int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
+
+    // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
+    if (cur_mat2->is_null())
+    {
+        ret = eff_thickness * (3 * cur_mat1->bash_resist());
+        
+    } 
+    else
+    {
+        ret = eff_thickness * (cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist());
+    }
+    
+    return ret;    
+}
+
+int item::cut_resist() const
+{
+    int ret = 0;
+    
+    if (is_null())
+        return 0;
+  
+    it_armor* tmp = dynamic_cast<it_armor*>(type);
+    material_type* cur_mat1 = material_type::find_material_from_tag(tmp->m1);
+    material_type* cur_mat2 = material_type::find_material_from_tag(tmp->m2);        
+    int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
+    
+    // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
+    if (cur_mat2->is_null())
+    {
+        ret = eff_thickness * (3 * cur_mat1->cut_resist());
+        
+    } 
+    else
+    {
+        ret = eff_thickness * (cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist());
+    }
+    
+    return ret;       
 }
 
 style_move item::style_data(technique_id tech)

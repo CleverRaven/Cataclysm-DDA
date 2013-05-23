@@ -102,6 +102,9 @@ public:
  int  weapon_value(int skills[num_skill_types]) const;
 // As above, but discounts its use as a ranged weapon
  int  melee_value (int skills[num_skill_types]);
+// how resistant armour is to bashing and cutting damage
+ int bash_resist() const;
+ int cut_resist() const;
 // Returns the data associated with tech, if we are an it_style
  style_move style_data(technique_id tech);
  bool is_two_handed(player *u);

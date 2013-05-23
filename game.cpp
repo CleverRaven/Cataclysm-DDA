@@ -2185,10 +2185,10 @@ void game::load_artifacts()
 		artifact.get(std::string("covers")).as_int();
 	    signed char encumber =
 		artifact.get(std::string("encumber")).as_int();
-	    unsigned char dmg_resist =
-		artifact.get(std::string("dmg_resist")).as_int();
-	    unsigned char cut_resist =
-		artifact.get(std::string("cut_resist")).as_int();
+	    unsigned char coverage =
+		artifact.get(std::string("coverage")).as_int();
+	    unsigned char thickness =
+		artifact.get(std::string("material_thickness")).as_int();
 	    unsigned char env_resist =
 		artifact.get(std::string("env_resist")).as_int();
 	    signed char warmth = artifact.get(std::string("warmth")).as_int();
@@ -2201,7 +2201,7 @@ void game::load_artifacts()
 		id, price, name, description, sym, color, m1, m2, volume,
 		weight, melee_dam, melee_cut, m_to_hit, item_tags,
 
-		covers, encumber, dmg_resist, cut_resist, env_resist, warmth,
+		covers, encumber, coverage, thickness, env_resist, warmth,
 		storage);
 	    art_type->power_armor = power_armor;
 
