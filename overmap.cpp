@@ -1313,7 +1313,7 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-point overmap::draw_overmap(game *g, int const zlevel)
+point overmap::draw_overmap(game *g, int zlevel)
 {
  WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
  WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
@@ -1321,7 +1321,7 @@ point overmap::draw_overmap(game *g, int const zlevel)
  bool blink = true;
  int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
      cursy = (g->levy + int(MAPSIZE / 2)) / 2;
- int origx = cursx, origy = cursy;
+ int origx = cursx, origy = cursy, origz = zlevel;
  char ch = 0;
  point ret(-1, -1);
  overmap hori, vert, diag; // Adjacent maps
@@ -1341,7 +1341,13 @@ point overmap::draw_overmap(game *g, int const zlevel)
   } else if (ch == '0') {
    cursx = origx;
    cursy = origy;
-  } else if (ch == '\n')
+   zlevel = origz;
+  } else if (ch == '>' && zlevel > -OVERMAP_DEPTH) {
+      zlevel -= 1;
+  } else if (ch == '<' && zlevel < OVERMAP_HEIGHT) {
+      zlevel += 1;
+  }
+  else if (ch == '\n')
    ret = point(cursx, cursy);
   else if (ch == KEY_ESCAPE || ch == 'q' || ch == 'Q' || ch == 'm')
    ret = point(-1, -1);
