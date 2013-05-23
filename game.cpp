@@ -5261,13 +5261,14 @@ void game::examine()
  if (u.in_vehicle) {
   int vpart;
   vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
-  bool qexv = (veh && (veh->velocity != 0 ?
+  // velocity is divided by 100 to get mph, so only try throwing the player if the mph is > 1
+  bool qexv = (veh && (veh->velocity >= 100 ?
                        query_yn("Really exit moving vehicle?") :
                        query_yn("Exit vehicle?")));
   if (qexv) {
    m.unboard_vehicle (this, u.posx, u.posy);
    u.moves -= 200;
-   if (veh->velocity) {      // TODO: move player out of harms way
+   if (veh->velocity >= 100) {      // TODO: move player out of harms way
     int dsgn = veh->parts[vpart].mount_dx > 0? 1 : -1;
     fling_player_or_monster (&u, 0, veh->face.dir() + 90 * dsgn, veh->velocity / (float)100);
    }
@@ -6898,7 +6899,7 @@ void game::pickup(int posx, int posy, int min)
 
   if ( idx < here.size()) {
    getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
-   wclear(w_item_info);
+   werase(w_item_info);
    if (getitem[idx]) {
     mvwprintw(w_item_info, 1, 0, here[idx].info().c_str());
     wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -6983,6 +6984,8 @@ void game::pickup(int posx, int posy, int min)
  if (ch != '\n') {
   werase(w_pickup);
   wrefresh(w_pickup);
+  werase(w_item_info);
+  wrefresh(w_item_info);
   delwin(w_pickup);
   delwin(w_item_info);
   add_msg("Never mind.");
@@ -7090,6 +7093,8 @@ void game::pickup(int posx, int posy, int min)
  }
  werase(w_pickup);
  wrefresh(w_pickup);
+ werase(w_item_info);
+ wrefresh(w_item_info);
  delwin(w_pickup);
  delwin(w_item_info);
 }
