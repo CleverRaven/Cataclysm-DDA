@@ -1299,21 +1299,24 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
     int distance = rl_dist(origx, origy, target.x, target.y);
     mvwprintz(w, 3, om_map_width + 1, c_white, "Distance to target: %d", distance);
    }
-   mvwprintz(w, 17, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
-   mvwprintz(w, 18, om_map_width + 1, c_magenta, "0 - Center map on character");
-   mvwprintz(w, 19, om_map_width + 1, c_magenta, "t - Toggle legend          ");
-   mvwprintz(w, 20, om_map_width + 1, c_magenta, "/ - Search                 ");
-   mvwprintz(w, 21, om_map_width + 1, c_magenta, "N - Add/Edit a note        ");
-   mvwprintz(w, 22, om_map_width + 1, c_magenta, "D - Delete a note          ");
-   mvwprintz(w, 23, om_map_width + 1, c_magenta, "L - List notes             ");
-   mvwprintz(w, 24, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
+   mvwprintz(w, 15, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
+   mvwprintz(w, 16, om_map_width + 1, c_magenta, "0 - Center map on character");
+   mvwprintz(w, 17, om_map_width + 1, c_magenta, "t - Toggle legend          ");
+   mvwprintz(w, 18, om_map_width + 1, c_magenta, "/ - Search                 ");
+   mvwprintz(w, 19, om_map_width + 1, c_magenta, "N - Add/Edit a note        ");
+   mvwprintz(w, 20, om_map_width + 1, c_magenta, "D - Delete a note          ");
+   mvwprintz(w, 21, om_map_width + 1, c_magenta, "L - List notes             ");
+   mvwprintz(w, 22, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
+   char level_string[10];
+   sprintf(level_string, "LEVEL %i",z);
+   mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, level_string);
   }
 // Done with all drawing!
   wrefresh(w);
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-point overmap::draw_overmap(game *g, int const zlevel)
+point overmap::draw_overmap(game *g, int zlevel)
 {
  WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
  WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
@@ -1321,7 +1324,7 @@ point overmap::draw_overmap(game *g, int const zlevel)
  bool blink = true;
  int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
      cursy = (g->levy + int(MAPSIZE / 2)) / 2;
- int origx = cursx, origy = cursy;
+ int origx = cursx, origy = cursy, origz = zlevel;
  char ch = 0;
  point ret(-1, -1);
  overmap hori, vert, diag; // Adjacent maps
@@ -1341,7 +1344,13 @@ point overmap::draw_overmap(game *g, int const zlevel)
   } else if (ch == '0') {
    cursx = origx;
    cursy = origy;
-  } else if (ch == '\n')
+   zlevel = origz;
+  } else if (ch == '>' && zlevel > -OVERMAP_DEPTH) {
+      zlevel -= 1;
+  } else if (ch == '<' && zlevel < OVERMAP_HEIGHT) {
+      zlevel += 1;
+  }
+  else if (ch == '\n')
    ret = point(cursx, cursy);
   else if (ch == KEY_ESCAPE || ch == 'q' || ch == 'Q' || ch == 'm')
    ret = point(-1, -1);
