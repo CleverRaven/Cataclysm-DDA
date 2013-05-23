@@ -418,12 +418,14 @@ std::string string_input_popup(std::string title, int max_length, std::string in
    delwin(w);
    refresh();
    return ret;
-  } else if ((ch == KEY_BACKSPACE || ch == 127) && posx > startx) {
+  } else if (ch == KEY_BACKSPACE || ch == 127) {
 // Move the cursor back and re-draw it
-   ret = ret.substr(0, ret.size() - 1);
-   mvwputch(w, 1, posx, c_ltgray, '_');
-   posx--;
-   mvwputch(w, 1, posx, h_ltgray, '_');
+   if( posx > startx ) { // but silently drop input if we're at 0, instead of adding '^'
+       ret = ret.substr(0, ret.size() - 1);
+       mvwputch(w, 1, posx, c_ltgray, '_');
+       posx--;
+       mvwputch(w, 1, posx, h_ltgray, '_');
+   }
   } else if(ret.size() < max_length || max_length == 0) {
    ret += ch;
    mvwputch(w, 1, posx, c_magenta, ch);
