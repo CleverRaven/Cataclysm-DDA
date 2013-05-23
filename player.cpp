@@ -5241,8 +5241,7 @@ void player::sort_armor(game *g)
 
     for (int i = 0; i < worn.size(); i++) 
     {
-        if (((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso)) &&
-            ((dynamic_cast<it_armor*>(worn[i].type))->storage < 24))
+        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso))
             torso_win_y++;
         if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_arms))
             arms_win_y++;
@@ -5347,6 +5346,8 @@ void player::sort_armor(game *g)
             temp1 << int(cur_armor->dmg_resist);
             temp1 << " Cut protection: ";
             temp1 << int(cur_armor->cut_resist);
+            temp1 << " Warmth: ";
+            temp1 << int(cur_armor->warmth); 
             temp1 << " Storage: ";
             temp1 << int(cur_armor->storage); 
 
@@ -5406,7 +5407,7 @@ void player::sort_armor(game *g)
             {
                 it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type); 
                                
-                if ((each_armor->covers & mfb(bp_torso)) && (each_armor->storage < 24))
+                if (each_armor->covers & mfb(bp_torso))
                 {
                     mvwprintz(w_torso_worn, torso_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
                     torso_item_count++;
