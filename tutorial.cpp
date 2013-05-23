@@ -164,7 +164,7 @@ void tutorial_game::post_action(game *g, action_id act)
   itype *it = g->itypes[ g->u.last_item];
   if (it->is_armor()) {
    it_armor *armor = dynamic_cast<it_armor*>(it);
-   if (armor->dmg_resist >= 2 || armor->cut_resist >= 4)
+   if (armor->coverage >= 2 || armor->thickness >= 2)
     add_message(g, LESSON_WORE_ARMOR);
    if (armor->storage >= 20)
     add_message(g, LESSON_WORE_STORAGE);

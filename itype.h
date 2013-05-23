@@ -478,8 +478,8 @@ struct it_armor : public itype
 {
  unsigned char covers; // Bitfield of enum body_part
  signed char encumber;
- unsigned char dmg_resist;
- unsigned char cut_resist;
+ unsigned char coverage;
+ unsigned char thickness; 
  unsigned char env_resist; // Resistance to environmental effects
  signed char warmth;
  unsigned char storage;
@@ -495,8 +495,8 @@ struct it_armor : public itype
  {
   covers = 0;
   encumber = 0;
-  dmg_resist = 0;
-  cut_resist = 0;
+  coverage = 0;
+  thickness = 0;
   env_resist = 0;
   warmth = 0;
   storage = 0;
@@ -510,15 +510,15 @@ struct it_armor : public itype
           signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
           unsigned char pcovers, signed char pencumber,
-          unsigned char pdmg_resist, unsigned char pcut_resist,
+          unsigned char pcoverage, unsigned char pthickness,
           unsigned char penv_resist, signed char pwarmth,
           unsigned char pstorage, bool ppower_armor = false)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
   covers = pcovers;
   encumber = pencumber;
-  dmg_resist = pdmg_resist;
-  cut_resist = pcut_resist;
+  coverage = pcoverage;
+  thickness = pthickness;
   env_resist = penv_resist;
   warmth = pwarmth;
   storage = pstorage;
@@ -890,8 +890,8 @@ struct it_artifact_armor : public it_armor
      // armor data
      data[std::string("covers")] = picojson::value(covers);
      data[std::string("encumber")] = picojson::value(encumber);
-     data[std::string("dmg_resist")] = picojson::value(dmg_resist);
-     data[std::string("cut_resist")] = picojson::value(cut_resist);
+     data[std::string("coverage")] = picojson::value(coverage);
+     data[std::string("material_thickness")] = picojson::value(thickness);
      data[std::string("env_resist")] = picojson::value(env_resist);
      data[std::string("warmth")] = picojson::value(warmth);
      data[std::string("storage")] = picojson::value(storage);
@@ -922,12 +922,12 @@ struct it_artifact_armor : public it_armor
                    signed char pm_to_hit, std::set<std::string> pitem_tags,
 
                    unsigned char pcovers, signed char pencumber,
-                   unsigned char pdmg_resist, unsigned char pcut_resist,
+                   unsigned char pcoverage, unsigned char pthickness,
                    unsigned char penv_resist, signed char pwarmth,
                    unsigned char pstorage)
 :it_armor(pid, 0, pprice, pname, pdes, psym, pcolor, pm1, pm2,
           pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit,
-          pcovers, pencumber, pdmg_resist, pcut_resist, penv_resist, pwarmth,
+          pcovers, pencumber, pcoverage, pthickness, penv_resist, pwarmth,
           pstorage)
  {
      item_tags = pitem_tags;

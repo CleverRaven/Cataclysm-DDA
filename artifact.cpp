@@ -263,35 +263,35 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] = {
 {"", c_white, MNULL, MNULL,        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
  0, false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
-// Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
-{"Robe",   c_red, WOOL, MNULL,     6,  6,  1,  3,  1,  0,  2,  0, -8,  0, -3,
+// Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+{"Robe",   c_red, WOOL, MNULL,     6,  6,  1,  3,  3,  0,  2,  0, -8,  0, -3,
  mfb(bp_torso)|mfb(bp_legs), false,
  {ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
   ARMORMOD_PADDED}},
 
-{"Coat",   c_brown,LEATHER,MNULL, 14, 14,  2,  4, 12,  1,  4,  4, -6,  0, -3,
+{"Coat",   c_brown,LEATHER,MNULL, 14, 14,  2,  3, 2,  1,  4,  4, -6,  0, -3,
  mfb(bp_torso), false,
  {ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
   ARMORMOD_PLATED}},
 
-{"Mask",   c_white, WOOD, MNULL,   4,  1,  2,  2, 16,  1,  2,  0,  2,  0, -2,
+{"Mask",   c_white, WOOD, MNULL,   4,  1,  2,  2, 2,  1,  2,  0,  2,  0, -2,
  mfb(bp_eyes)|mfb(bp_mouth), false,
  {ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
   ARMORMOD_NULL}},
 
-// Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
-{"Helm",   c_dkgray,SILVER, MNULL, 6,  6,  2,  4, 18,  0,  1,  0,  8,  0, -2,
+// Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+{"Helm",   c_dkgray,SILVER, MNULL, 6,  6,  2,  3, 3,  0,  1,  0,  8,  0, -2,
  mfb(bp_head), false,
  {ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
   ARMORMOD_NULL}},
 
-{"Gloves", c_ltblue,LEATHER,MNULL, 2,  1,  1,  6,  6,  1,  2,  0, -4,  0, -2,
+{"Gloves", c_ltblue,LEATHER,MNULL, 2,  1,  1,  3,  3,  1,  2,  0, -4,  0, -2,
  mfb(bp_hands), true,
  {ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
   ARMORMOD_NULL}},
 
-// Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
-{"Boots", c_blue, LEATHER, MNULL,  6,  2,  1,  6,  6,  1,  3,  0,  4,  0, -1,
+// Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+{"Boots", c_blue, LEATHER, MNULL,  6,  2,  1,  3,  3,  1,  3,  0,  4,  0, -1,
  mfb(bp_feet), true,
  {ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
   ARMORMOD_NULL}},
@@ -308,7 +308,7 @@ artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS] = {
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 // Description; "It is ..." or "They are ..."
 {"very thin and light.", c_white, MNULL, MNULL,
-// Vol Wgt Enc Dmg Cut Env Wrm Sto
+// Vol Wgt Enc Cov Thk Env Wrm Sto
     -4, -8, -2, -1, -1, -1, -1,  0, 0, 0, 0, 0,  false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
@@ -322,15 +322,15 @@ artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS] = {
 
 {"disgustingly furry.", c_white, WOOL, MNULL,
 // Vol Wgt Enc Dmg Cut Env Wrm Sto
-     4,  2,  1,  4,  0,  1,  3,  0, 0, 0, 0, 0,  false,
+     4,  2,  1,  1,  1,  1,  3,  0, 0, 0, 0, 0,  false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
 {"leather-padded.", c_white, LEATHER, MNULL,
-     4,  4,  1, 10,  4,  0,  1, -3, 0, 0, 0, 0,  false,
+     4,  4,  1, 1,  1,  0,  1, -3, 0, 0, 0, 0,  false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
 {"plated in iron.", c_white, IRON, MNULL,
-     4, 12,  3,  8, 14,  0,  1, -4, 0, 0, 0, 0, false,
+     4, 12,  3,  2, 2,  0,  1, -4, 0, 0, 0, 0, false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
 };
@@ -509,8 +509,8 @@ It may have unknown powers; use 'a' to activate them.";
   art->m_to_hit = info->melee_hit;
   art->covers = info->covers;
   art->encumber = info->encumb;
-  art->dmg_resist = info->dmg_resist;
-  art->cut_resist = info->cut_resist;
+  art->coverage = info->coverage;
+  art->thickness = info->thickness;
   art->env_resist = info->env_resist;
   art->warmth = info->warmth;
   art->storage = info->storage;
@@ -537,15 +537,15 @@ It may have unknown powers; use 'a' to activate them.";
 
     art->encumber += modinfo->encumb;
 
-    if (modinfo->dmg_resist > 0 || art->dmg_resist > abs(modinfo->dmg_resist))
-     art->dmg_resist += modinfo->dmg_resist;
+    if (modinfo->coverage > 0 || art->coverage > abs(modinfo->coverage))
+     art->coverage += modinfo->coverage;
     else
-     art->dmg_resist = 0;
+     art->coverage = 0;
 
-    if (modinfo->cut_resist > 0 || art->cut_resist > abs(modinfo->cut_resist))
-     art->cut_resist += modinfo->cut_resist;
+    if (modinfo->thickness > 0 || art->thickness > abs(modinfo->thickness))
+     art->thickness += modinfo->thickness;
     else
-     art->cut_resist = 0;
+     art->thickness = 0;
 
     if (modinfo->env_resist > 0 || art->env_resist > abs(modinfo->env_resist))
      art->env_resist += modinfo->env_resist;
