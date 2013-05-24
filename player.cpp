@@ -6426,55 +6426,53 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                 // factor of 6 to normalise for material hardness values
                 bash_reduction = arm_bash / 6;
                 cut_reduction = arm_cut / 6;
-      
+
                 // power armour first  - to depreciate eventually
-                if (((it_armor *)worn[i].type)->is_power_armor()) 
+                if (((it_armor *)worn[i].type)->is_power_armor())
                 {
-                    if (cut > arm_cut * 2 || dam > arm_bash * 2) 
+                    if (cut > arm_cut * 2 || dam > arm_bash * 2)
                     {
                         if (!is_npc())
                         g->add_msg("Your %s is damaged!", worn[i].tname(g).c_str());
                         worn[i].damage++;
                     }
-                } 
+                }
                 else // normal armour
                 {
-                    // determine how much the damage exceeds the armour absorption 
+                    // determine how much the damage exceeds the armour absorption
                     // bash damage takes into account preceding layers
                     int diff_bash = (dam - arm_bash - bash_absorb < 0) ? -1 : (dam - arm_bash);
                     int diff_cut  = (cut - arm_cut  < 0) ? -1 : (dam - arm_cut);
+                    bool armor_damaged = false;
+                    std::string pre_damage_name = worn[i].tname(g);
 
                     // armour damage occurs only if damage exceeds armour absorption
                     // plus a luck factor, even if damage is below armour absorption (2% chance)
-                    if ((diff_bash > arm_bash && !one_in(diff_bash)) || (diff_bash == -1 && one_in(50)))
+                    if ((diff_bash > arm_bash && !one_in(diff_bash)) ||
+                        (diff_bash == -1 && one_in(50)))
                     {
-                        if (!is_npc())
-                        {
-                            g->add_msg("Your %s is dented!", worn[i].tname(g).c_str());
-                        }
-                        worn[i].damage++;        
+                        armor_damaged = true;
+                        worn[i].damage++;
                     }
                     bash_absorb += arm_bash;
 
                     // cut damage falls through to inner layers only if preceding layer was damaged
                     if (cut_through)
                     {
-                        if ((diff_cut > arm_cut && !one_in(diff_cut)) || (diff_cut == -1 && one_in(50)))
+                        if ((diff_cut > arm_cut && !one_in(diff_cut)) ||
+                            (diff_cut == -1 && one_in(50)))
                         {
-                            if (!is_npc())
-                            {
-                                g->add_msg("Your %s is cut!", worn[i].tname(g).c_str());
-                            }
-                            worn[i].damage++;        
-                        } 
+                            armor_damaged = true;
+                            worn[i].damage++;
+                        }
                         else // layer of clothing was not damaged, so stop cutting damage from penetrating
                         {
                             cut_through = false;
                         }
-                    }  
+                    }
 
                     // now check if armour was completely destroyed and display relevant messages
-                    if (worn[i].damage >= 5) 
+                    if (worn[i].damage >= 5)
                     {
                         if (!is_npc())
                             g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
@@ -6482,6 +6480,11 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                             g->add_msg("%s's %s is destroyed!", name.c_str(),
                              worn[i].tname(g).c_str());
                         worn.erase(worn.begin() + i);
+                    } else if (armor_damaged) {
+                        std::string damage_verb = diff_bash > diff_cut ? tmp->bash_dmg_verb() :
+                                                                         tmp->cut_dmg_verb();
+                        g->add_msg_if_player(this, "Your %s is %s!", pre_damage_name.c_str(),
+                                             damage_verb.c_str());
                     }
                 } // end of armour damage code
             }
