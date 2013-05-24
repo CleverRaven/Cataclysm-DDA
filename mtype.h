@@ -46,6 +46,8 @@ mon_graboid, mon_worm, mon_halfworm,
  mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
  mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
  mon_zombie_master,  mon_beekeeper, mon_zombie_child,
+// Flesh Golem
+ mon_jabberwock,
 // Triffids
 mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
  mon_creeper_vine, mon_biollante, mon_vinebeast, mon_triffid_heart,
@@ -60,7 +62,7 @@ mon_chud, mon_one_eye, mon_crawler,
 mon_sewer_fish, mon_sewer_snake, mon_sewer_rat, mon_rat_king,
 // Swamp monsters
 mon_mosquito, mon_dragonfly, mon_centipede, mon_frog, mon_slug,
- mon_dermatik_larva, mon_dermatik, mon_jabberwock,
+ mon_dermatik_larva, mon_dermatik,
 // SPIDERS
 mon_spider_wolf, mon_spider_web, mon_spider_jumping, mon_spider_trapdoor,
  mon_spider_widow,
