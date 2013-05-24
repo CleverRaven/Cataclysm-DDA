@@ -489,9 +489,9 @@ mon("jabberwock",	species_none, 'J',	c_dkgray_red,	MS_HUGE,	FLESH,
      50,100,100,140,  9,  4,  8,  3,  3, 12,  8,  0,400,  0,
 	&mdeath::normal,	&mattack::flesh_golem, "\
 An amalgamation of putrid human and animal\n\
-parts that have become fused as parts of this\n\
-golem of flesh.  The eyes of all the heads\n\
-dart rapidly and the mouths scream or groan."
+parts that have become fused in this golem\n\
+of flesh.  The eyes of all the heads dart\n\
+rapidly and the mouths scream or groan."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES,
       MF_DESTROYS, MF_ATTACKMON, MF_LEATHER, MF_BONES, MF_VIS50);
