@@ -1376,7 +1376,7 @@ case t_wall_log:
    const int num_boards = rng(0, 3);
    for (int i = 0; i < num_boards; i++)
     spawn_item(x, y, (*itypes)["steel_chunk"], 0);
-   spawn_item(x, y, (*itypes)["pipe"], 0);
+   spawn_item(x, y, (*itypes)["hose"], 0);
    return true;
   } else {
    sound += "clang!";
