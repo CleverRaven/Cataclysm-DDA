@@ -5643,6 +5643,8 @@ void game::advanced_inv()
 
     int src = left; // the active screen , 0 for left , 1 for right.
     int dest = right;
+    int max_inv = inv_chars.size() - u.worn.size() - ( u.is_armed() || u.weapon.is_style() ? 1 : 0 );
+
 
     while(!exit)
     {
@@ -5650,6 +5652,7 @@ void game::advanced_inv()
         if ( recalc ) redraw=true;
         if(redraw)
         {
+            max_inv = inv_chars.size() - u.worn.size() - ( u.is_armed() || u.weapon.is_style() ? 1 : 0 );
             for (int i = 0; i < 2; i++) {
                 // calculate the offset.
                 getsquare(panes[i].area, panes[i].offx, panes[i].offy, panes[i].area_string);
@@ -5730,7 +5733,7 @@ void game::advanced_inv()
                 }
                 advprintItems( panes[i], (src == i), this );
                 printHeader(canputitems, panes[i].window, panes[i].area);
-                mvwprintz(panes[i].window,1,(w_width/2)-7,(src==i ? c_ltgray : c_dkgray),"%2d/%d", panes[i].size, panes[i].area == isinventory ? 75 : MAX_ITEM_IN_SQUARE );
+                mvwprintz(panes[i].window,1,(w_width/2)-7,(src==i ? c_ltgray : c_dkgray),"%2d/%d", panes[i].size, panes[i].area == isinventory ? max_inv : MAX_ITEM_IN_SQUARE );
             }
 
             recalc=false;
@@ -5918,7 +5921,7 @@ void game::advanced_inv()
                             popup("This is too heavy!");
                             continue;
                         }
-                        else if(panes[src].size >= inv_chars.size())
+                        else if(panes[dest].size >= max_inv)
                         {
                             popup("Too many itens");
                             continue;
