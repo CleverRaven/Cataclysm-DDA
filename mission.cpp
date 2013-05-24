@@ -226,10 +226,10 @@ of those things now.  Can you put her out of her misery for me?";
  case MISSION_GET_FLAG:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
-    return "Does she still yet wave?";
+    return "Does our flag still yet wave?";
    case TALK_MISSION_OFFER:
-    return "Does she still yet wave? We're battered but not yet out of the\
- fight, we need the colors!";
+    return "Does our flag still yet wave? We're battered but not yet out of the\
+ fight, we need the old colors!";
    case TALK_MISSION_ACCEPTED:
     return "\
 Hell ya!  Find me one of those big ol' American flags.";
