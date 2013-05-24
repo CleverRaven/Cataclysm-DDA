@@ -269,6 +269,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  switch (terrain_type) {
 
  case ot_null:
+  debugmsg("Generating terrain for ot_null, please report this as a bug");
   for (int i = 0; i < SEEX * 2; i++) {
    for (int j = 0; j < SEEY * 2; j++) {
     ter_set(i, j, t_null);
