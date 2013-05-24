@@ -1144,6 +1144,7 @@ void construct::done_deconstruct(game *g, point p)
     case t_fridge:
       g->m.spawn_item(p.x, p.y, item_controller->find_template("scrap"), 0, rng(2,6));
       g->m.spawn_item(p.x, p.y, item_controller->find_template("steel_chunk"), 0, rng(2,3));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("hose"), 0, 1);
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
