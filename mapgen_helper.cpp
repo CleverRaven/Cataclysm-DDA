@@ -34,3 +34,18 @@ void mapgendata::set_dir(int dir, int val)
             break;
     }
 }
+
+// helper functions below
+
+void mapgen_null(map *m)
+{
+    debugmsg("Generating terrain for ot_null, please report this as a bug");
+    for (int i = 0; i < SEEX * 2; i++)
+    {
+        for (int j = 0; j < SEEY * 2; j++)
+        {
+            m->ter_set(i, j, t_null);
+            m->radiation(i, j) = 0;
+        }
+    }
+}

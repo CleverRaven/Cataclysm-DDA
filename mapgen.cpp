@@ -228,21 +228,6 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
  }
 }
 
-void mapgen_null(map *m);
-
-void mapgen_null(map *m)
-{
-    debugmsg("Generating terrain for ot_null, please report this as a bug");
-    for (int i = 0; i < SEEX * 2; i++)
-    {
-        for (int j = 0; j < SEEY * 2; j++)
-        {
-            m->ter_set(i, j, t_null);
-            m->radiation(i, j) = 0;
-        }
-    }
-}
-
 // TODO: clean up variable shadowing in this function
 // unfortunately, due to how absurdly long the function is (over 8000 lines!), it'll be hard to
 // track down what is and isn't supposed to be carried around between bits of code.
