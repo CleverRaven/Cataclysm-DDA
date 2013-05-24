@@ -152,7 +152,7 @@ $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 .PHONY: version
 version:
 	@( VERSION_STRING=$(VERSION) ; \
-            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty ) && VERSION_STRING=$$GITVERSION ; \
+            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9]*.[0-9]*" ) && VERSION_STRING=$$GITVERSION ; \
             [ -e "version.h" ] && OLDVERSION=$$(grep VERSION version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee version.h ; fi \
          )
