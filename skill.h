@@ -77,8 +77,6 @@ class SkillLevel {
 
   int lastPracticed() const { return _lastPracticed; }
 
-  int comprehension(int intellect, bool fastLearner = false);
-
   void train(int amount);
   bool isRusting(const calendar& turn) const;
   bool rust(const calendar& turn, bool forgetful, bool charged_bio_mem);

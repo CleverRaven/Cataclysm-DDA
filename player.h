@@ -148,7 +148,6 @@ public:
  int throw_dex_mod	(bool real_life = true);
 
 // Mental skills and stats
- int comprehension_percent(skill s, bool real_life = true);
  int read_speed		(bool real_life = true);
  int talk_skill(); // Skill at convincing NPCs of stuff
  int intimidation(); // Physical intimidation
