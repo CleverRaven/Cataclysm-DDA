@@ -330,7 +330,7 @@ public:
 
  std::vector<morale_point> morale;
 
- int xp_pool;
+ int focus_pool;
  int sklevel[num_skill_types];
  int skexercise[num_skill_types];
  int sktrain[num_skill_types];
