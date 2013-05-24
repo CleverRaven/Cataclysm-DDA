@@ -70,7 +70,7 @@ void mission_start::place_zombie_mom(game *g, mission *miss)
 void mission_start::place_jabberwock(game *g, mission *miss)
 {
  int dist = 0;
- point site = g->cur_om->find_closest(g->om_location(), ot_forest_thick, 40, dist, false);
+ point site = g->cur_om->find_closest(g->om_location(), ot_forest_thick, 1, dist, false);
  miss->target = site;
 // Make it seen on our map
  for (int x = site.x - 6; x <= site.x + 6; x++) {
@@ -79,7 +79,7 @@ void mission_start::place_jabberwock(game *g, mission *miss)
  }
  tinymap grove(&(g->itypes), &(g->mapitems), &(g->traps));
  grove.load(g, site.x * 2, site.y * 2,  0, false);
- grove.add_spawn(mon_jabberwock, 1, SEEX, SEEY, false, -1, miss->uid, "Jabberwok");
+ grove.add_spawn(mon_jabberwock, 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
  grove.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
 }
 
