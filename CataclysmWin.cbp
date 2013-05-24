@@ -102,6 +102,8 @@
 		<Unit filename="mapdata.cpp" />
 		<Unit filename="mapdata.h" />
 		<Unit filename="mapgen.cpp" />
+		<Unit filename="mapgen_helper.cpp" />
+		<Unit filename="mapgen_helper.h" />
 		<Unit filename="mapgenformat.cpp" />
 		<Unit filename="mapgenformat.h" />
 		<Unit filename="mapitems.h" />

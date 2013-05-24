@@ -141,6 +141,9 @@
     <ClCompile Include="..\mapgen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\mapgen_helper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\mapgenformat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -390,6 +393,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mapgen_helper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\mapbuffer.h">

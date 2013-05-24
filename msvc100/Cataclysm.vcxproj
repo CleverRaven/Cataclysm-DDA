@@ -110,6 +110,7 @@
     <ClCompile Include="..\mapbuffer.cpp" />
     <ClCompile Include="..\mapdata.cpp" />
     <ClCompile Include="..\mapgen.cpp" />
+    <ClCompile Include="..\mapgen_helper.cpp" />
     <ClCompile Include="..\mapgenformat.cpp" />
     <ClCompile Include="..\mapitemsdef.cpp" />
     <ClCompile Include="..\melee.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="..\lightmap.h" />
     <ClInclude Include="..\line.h" />
     <ClInclude Include="..\map.h" />
+    <ClInclude Include="..\mapgen_helper.h" />
     <ClInclude Include="..\mapbuffer.h" />
     <ClInclude Include="..\mapdata.h" />
     <ClInclude Include="..\mapgenformat.h" />
