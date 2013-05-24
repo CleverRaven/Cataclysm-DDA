@@ -2872,9 +2872,12 @@ ssssssssssssssssssssssss\n",
             place_items(mi_church,	10,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_locker)
             place_items(mi_jackets,	60,  i,  j, i,  j, false, 0);
-        if (this->ter(i,j) == t_window_stained_red)
-            if (one_in(3)) ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3)) ter_set(i,j,t_window_stained_green);
+        if (this->ter(i,j) == t_window_stained_red){
+            if (one_in(3)) 
+            	ter_set(i,j,t_window_stained_blue);
+            else if (one_in(3)) 
+            	ter_set(i,j,t_window_stained_green);
+        }
        }
      }
   if (density > 1)
@@ -2935,9 +2938,12 @@ ss          #bbbb...bbbb\n",
             place_items(mi_church,	10,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_locker)
             place_items(mi_jackets,	60,  i,  j, i,  j, false, 0);
-        if (this->ter(i,j) == t_window_stained_red)
-            if (one_in(3)) ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3)) ter_set(i,j,t_window_stained_green);
+        if (this->ter(i,j) == t_window_stained_red){
+            if (one_in(3)) 
+            	ter_set(i,j,t_window_stained_blue);
+            else if (one_in(3)) 
+            	ter_set(i,j,t_window_stained_green);
+        }
        }
      }
   if (density > 1)
@@ -2992,9 +2998,12 @@ ssssssssssssssssssssssss\n",
             place_items(mi_church,	10,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_locker)
             place_items(mi_jackets,	60,  i,  j, i,  j, false, 0);
-        if (this->ter(i,j) == t_window_stained_red)
-            if (one_in(3)) ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3)) ter_set(i,j,t_window_stained_green);
+        if (this->ter(i,j) == t_window_stained_red){
+            if (one_in(3)) 
+            	ter_set(i,j,t_window_stained_blue);
+            else if (one_in(3)) 
+            	ter_set(i,j,t_window_stained_green);
+        }
        }
      }
   if (density > 1)
@@ -3047,9 +3056,12 @@ bbb...bbbb#           ss\n",
        for (int j = 0; j <= 23; j++) {
         if (this->ter(i,j) == t_bench)
             place_items(mi_church,	10,  i,  j, i,  j, false, 0);
-        if (this->ter(i,j) == t_window_stained_red)
-            if (one_in(3)) ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3)) ter_set(i,j,t_window_stained_green);
+        if (this->ter(i,j) == t_window_stained_red){
+            if (one_in(3)) 
+            	ter_set(i,j,t_window_stained_blue);
+            else if (one_in(3)) 
+            	ter_set(i,j,t_window_stained_green);
+        }
        }
      }
   if (density > 1)
