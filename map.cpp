@@ -1376,7 +1376,17 @@ case t_wall_log:
    const int num_boards = rng(0, 3);
    for (int i = 0; i < num_boards; i++)
     spawn_item(x, y, (*itypes)["steel_chunk"], 0);
-   spawn_item(x, y, (*itypes)["hose"], 0);
+   switch(ter(x, y))
+   {
+       case t_locker:
+       case t_rack:
+           spawn_item(x, y, (*itypes)["pipe"], 0);
+           break;
+       case t_fridge:
+       case t_glass_fridge:
+           spawn_item(x, y, (*itypes)["hose"], 0);
+           break;
+   }
    return true;
   } else {
    sound += "clang!";
