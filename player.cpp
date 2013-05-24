@@ -63,7 +63,7 @@ player::player()
  active_mission = -1;
  in_vehicle = false;
  style_selected = "null";
- xp_pool = 0;
+ focus_pool = 100;
  last_item = itype_id("null");
  for (int i = 0; i < num_skill_types; i++) {
   sklevel[i] = 0;
@@ -185,7 +185,7 @@ player& player::operator= (const player & rhs)
   frostbite_timer[i] = rhs.frostbite_timer[i];
 
  morale = rhs.morale;
- xp_pool = rhs.xp_pool;
+ focus_pool = rhs.focus_pool;
 
  for (int i = 0; i < num_skill_types; i++) {
   sklevel[i]    = rhs.sklevel[i];
@@ -331,15 +331,9 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
  if (int_cur < 0)
   int_cur = 0;
 
- int mor = morale_level();
- int xp_frequency = 10 - int(mor / 20);
- if (xp_frequency < 1)
-  xp_frequency = 1;
- if (int(g->turn) % xp_frequency == 0)
-  xp_pool++;
-
- if (xp_pool > 800)
-  xp_pool = 800;
+ if (int(g->turn) % 10 == 0) {
+  update_mental_focus();
+ }
 }
 
 void player::update_morale()
@@ -355,6 +349,102 @@ void player::update_morale()
    i--;
   }
  }
+}
+
+void player::update_mental_focus()
+{
+    int focus_gain_rate = calc_focus_equilibrium() - focus_pool;
+
+    // handle negative gain rates in a symmetric manner
+    int base_change = 1;
+    if (focus_gain_rate < 0)
+    {
+        base_change = -1;
+        focus_gain_rate = -focus_gain_rate;
+    }
+
+    // for every 100 points, we have a flat gain of 1 focus.
+    // for every n points left over, we have an n% chance of 1 focus
+    int gain = focus_gain_rate / 100;
+    if (rng(1, 100) <= (focus_gain_rate % 100))
+    {
+        gain++;
+    }
+
+    focus_pool += (gain * base_change);
+}
+
+// written mostly by FunnyMan3595 in Github issue #613 (DarklingWolf's repo),
+// with some small edits/corrections by Soron
+int player::calc_focus_equilibrium()
+{
+    // Factor in pain, since it's harder to rest your mind while your body hurts.
+    int eff_morale = morale_level() - pain;
+    int focus_gain_rate = 100;
+    // apply a penalty when improving skills via books
+    if (activity.type == ACT_READ)
+    {
+        it_book *reading = dynamic_cast<it_book *>(inv.item_by_letter(activity.invlet).type);
+        // only apply a penalty when we're actually learning something
+        if (skillLevel(reading->type) < (int)reading->level)
+        {
+            focus_gain_rate -= 100;
+        }
+    }
+
+    if (eff_morale < -99)
+    {
+        // At very low morale, focus goes up at 1% of the normal rate.
+        focus_gain_rate = 1;
+    }
+    else if (eff_morale <= 50)
+    {
+        // At -99 to +50 morale, each point of morale gives 1% of the normal rate.
+        focus_gain_rate += eff_morale;
+    }
+    else
+    {
+        /* Above 50 morale, we apply strong diminishing returns.
+         * Each block of 50% takes twice as many morale points as the previous one:
+         * 150% focus gain at 50 morale (as before)
+         * 200% focus gain at 150 morale (100 more morale)
+         * 250% focus gain at 350 morale (200 more morale)
+         * ...
+         * Cap out at 400% focus gain with 3,150+ morale, mostly as a sanity check.
+         */
+
+        int block_multiplier = 1;
+        int morale_left = eff_morale;
+        while (focus_gain_rate < 400)
+        {
+            if (morale_left > 50 * block_multiplier)
+            {
+                // We can afford the entire block.  Get it and continue.
+                morale_left -= 50 * block_multiplier;
+                focus_gain_rate += 50;
+                block_multiplier *= 2;
+            }
+            else
+            {
+                // We can't afford the entire block.  Each block_multiplier morale
+                // points give 1% focus gain, and then we're done.
+                focus_gain_rate += morale_left / block_multiplier;
+                break;
+            }
+        }
+    }
+
+    // This should be redundant, but just in case...
+    if (focus_gain_rate < 1)
+    {
+        focus_gain_rate = 1;
+    }
+    else if (focus_gain_rate > 400)
+    {
+        focus_gain_rate = 400;
+    }
+
+    return focus_gain_rate;
 }
 
 /* Here lies the intended effects of body temperature
@@ -933,7 +1023,7 @@ void player::load_info(game *g, std::string data)
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
          inveh >> scent >> moves >> underwater >> dodges_left >> blocks_left >>
-         oxygen >> active_mission >> xp_pool >> male >> prof_ident >> health >>
+         oxygen >> active_mission >> focus_pool >> male >> prof_ident >> health >>
          styletmp;
 
  if (profession::exists(prof_ident)) {
@@ -1058,7 +1148,7 @@ std::string player::save_info()
          " " << cash << " " << recoil << " " << driving_recoil << " " <<
          (in_vehicle? 1 : 0) << " " << scent << " " << moves << " " <<
          underwater << " " << dodges_left << " " << blocks_left << " " <<
-         oxygen << " " << active_mission << " " << xp_pool << " " << male <<
+         oxygen << " " << active_mission << " " << focus_pool << " " << male <<
          " " << prof->ident() << " " << health << " " << style_selected <<
          " " << activity.save_info() << " " << backlog.save_info() << " ";
 
@@ -2069,6 +2159,9 @@ void player::disp_morale(game* g)
    bpos--;
  mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), "Total:");
  mvwprintz(w, 20, bpos, (mor < 0 ? c_red : c_green), "%d", mor);
+ int gain = calc_focus_equilibrium() - focus_pool;
+ mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), "Focus gain:");
+ mvwprintz(w, 22, bpos, (gain < 0 ? c_red : c_green), "%d.%.2d per minute", gain / 100, gain % 100);
 
  wrefresh(w);
  getch();
@@ -2187,13 +2280,13 @@ void player::disp_status(WINDOW *w, game *g)
  else if (fatigue > 191)
   mvwprintz(w, 2, 30, c_yellow, "Tired");
 
- mvwprintz(w, 2, 41, c_white, "XP: ");
+ mvwprintz(w, 2, 41, c_white, "Focus: ");
  nc_color col_xp = c_dkgray;
- if (xp_pool >= 100)
+ if (focus_pool >= 100)
   col_xp = c_white;
- else if (xp_pool >  0)
+ else if (focus_pool >  0)
   col_xp = c_ltgray;
- mvwprintz(w, 2, 45, col_xp, "%d", xp_pool);
+ mvwprintz(w, 2, 48, col_xp, "%d", focus_pool);
 
  nc_color col_pain = c_yellow;
  if (pain - pkill >= 60)
@@ -2624,23 +2717,6 @@ int player::throw_dex_mod(bool real_life)
   deviation = 2 * (8 - dex);
 
  return (real_life ? rng(0, deviation) : deviation);
-}
-
-int player::comprehension_percent(skill s, bool real_life)
-{
- double intel = (double)(real_life ? int_cur : int_max);
- if (intel == 0.)
-  intel = 1.;
- double percent = 80.; // double temporarily, since we divide a lot
- int learned = (real_life ? sklevel[s] : 4);
- if (learned > intel / 2)
-  percent /= 1 + ((learned - intel / 2) / (intel / 3));
- else if (!real_life && intel > 8)
-  percent += 125 - 1000 / intel;
-
- if (has_trait(PF_FASTLEARNER))
-  percent += 50.;
- return (int)(percent);
 }
 
 int player::read_speed(bool real_life)
@@ -6582,6 +6658,22 @@ bool player::wearing_something_on(body_part bp)
  return false;
 }
 
+int player::adjust_for_focus(int amount)
+{
+    int effective_focus = focus_pool;
+    if (has_trait(PF_FASTLEARNER))
+    {
+        effective_focus += 15;
+    }
+    double tmp = amount * (effective_focus / 100.0);
+    int ret = int(tmp);
+    if (rng(0, 100) < 100 * (tmp - ret))
+    {
+        ret++;
+    }
+    return ret;
+}
+
 void player::practice (const calendar& turn, Skill *s, int amount)
 {
     SkillLevel& level = skillLevel(s);
@@ -6614,18 +6706,24 @@ void player::practice (const calendar& turn, Skill *s, int amount)
         }
     }
 
-    int newLevel;
-
-    while (level.isTraining() && amount > 0 && xp_pool >= (1 + level))
+    amount = adjust_for_focus(amount);
+    if (isSavant && s != savantSkill)
     {
-        amount -= level + 1;
-        if ((!isSavant || s == savantSkill || one_in(2)) &&
-            rng(0, 100) < level.comprehension(int_cur, has_trait(PF_FASTLEARNER)))
+        amount /= 2;
+    }
+
+    if (level.isTraining())
+    {
+        skillLevel(s).train(amount);
+
+        int chance_to_drop = focus_pool;
+        focus_pool -= chance_to_drop / 100;
+        if (rng(1, 100) <= (chance_to_drop % 100))
         {
-            xp_pool -= (1 + level);
-            skillLevel(s).train(newLevel);
+            focus_pool--;
         }
     }
+
     skillLevel(s).practice(turn);
 }
 
