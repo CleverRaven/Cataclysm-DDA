@@ -698,16 +698,29 @@ void game::process_activity()
     }
 
     if (u.skillLevel(reading->type) < (int)reading->level) {
-     int min_ex = reading->time / 10 + u.int_cur / 4,
-       max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type);
-     if (min_ex < 1)
-      min_ex = 1;
-     if (max_ex < 2)
-      max_ex = 2;
-     if (max_ex > 10)
-      max_ex = 10;
-
      int originalSkillLevel = u.skillLevel(reading->type);
+     int min_ex = reading->time / 10 + u.int_cur / 4,
+         max_ex = reading->time /  5 + u.int_cur / 2 - originalSkillLevel;
+     if (min_ex < 1)
+     {
+         min_ex = 1;
+     }
+     if (max_ex < 2)
+     {
+         max_ex = 2;
+     }
+     if (max_ex > 10)
+     {
+         max_ex = 10;
+     }
+     if (max_ex < min_ex)
+     {
+         max_ex = min_ex;
+     }
+
+     min_ex *= originalSkillLevel + 1;
+     max_ex *= originalSkillLevel + 1;
+
      u.skillLevel(reading->type).readBook(min_ex, max_ex, turn, reading->level);
 
      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(),
@@ -3174,7 +3187,7 @@ void game::draw()
            season_name[turn.get_season()].c_str(), turn.days() + 1);
  if (run_mode != 0 || autosafemode != 0) {
   int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
-  mvwprintz(w_status, 2, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
+  mvwprintz(w_status, 1, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
   wprintz(w_status, (run_mode == 0) ? ((iPercent >= 50) ? c_green : c_red): c_green, "A");
   wprintz(w_status, (run_mode == 0) ? ((iPercent >= 75) ? c_green : c_red): c_green, "F");
   wprintz(w_status, (run_mode == 0) ? ((iPercent == 100) ? c_green : c_red): c_green, "E");
