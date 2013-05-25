@@ -347,32 +347,42 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
         }
     if (!n3ar)
     {
-//         debugmsg ("can_mount%d(%d,%d): no point to mount", id, dx, dy);
         return false; // no point to mount
     }
-
-// TODO: seatbelts must require an obstacle part n3arby
 
     std::vector<int> parts_here = parts_at_relative (dx, dy);
     if (parts_here.size() < 1)
     {
         int res = vpart_list[id].flags & mfb(vpf_external);
-//         if (!res)
-//             debugmsg ("can_mount: not first or external");
         return res; // can be mounted if first and external
     }
 
     int flags1 = part_info(parts_here[0]).flags;
     if ((vpart_list[id].flags & mfb(vpf_armor)) && flags1 & mfb(vpf_no_reinforce))
     {
-//         debugmsg ("can_mount: armor plates on non-reinforcable part");
         return false;   // trying to put armor plates on non-reinforcable part
+    }
+    // Seatbelts require an anchor point
+    if( vpart_list[id].flags & mfb(vpf_seatbelt) )
+    {
+        bool anchor_found = false;
+        for( std::vector<int>::iterator it = parts_here.begin();
+             it != parts_here.end(); ++it )
+        {
+            if( part_info(*it).flags & mfb(vpf_anchor_point) )
+            {
+                anchor_found = true;
+            }
+        }
+        if( anchor_found == false)
+        {
+            return false;
+        }
     }
 
     for (int vf = vpf_func_begin; vf <= vpf_func_end; vf++)
         if ((vpart_list[id].flags & mfb(vf)) && part_with_feature(parts_here[0], vf, false) >= 0)
         {
-//             debugmsg ("can_mount%d(%d,%d): already has inner part with same unique feature",id, dx, dy);
             return false;   // this part already has inner part with same unique feature
         }
 
@@ -384,11 +394,6 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
         return true; // can mount as internal part or over it
     if (allow_over && this_over)
         return true; // can mount as part over
-//     debugmsg ("can_mount%d(%d,%d): allow_i=%c allow_o=%c this_i=%c this_o=%c", id, dx, dy,
-//               allow_inner? 'y' : 'n',
-//               allow_over? 'y' : 'n',
-//               this_inner? 'y' : 'n',
-//               this_over? 'y' : 'n');
     return false;
 }
 
