@@ -222,6 +222,168 @@ of those things now.  Can you put her out of her misery for me?";
     return "Really... that's too bad.";
   }
   break;
+
+ case MISSION_GET_FLAG:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Does our flag still yet wave?";
+   case TALK_MISSION_OFFER:
+    return "Does our flag still yet wave? We're battered but not yet out of the\
+ fight, we need the old colors!";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Hell ya!  Find me one of those big ol' American flags.";
+   case TALK_MISSION_REJECTED:
+    return "Seriously?  God damned commie...";
+   case TALK_MISSION_ADVICE:
+    return "Find a large federal building or school, they must have one.";
+   case TALK_MISSION_INQUIRE:
+    return "Rescued the standard yet?";
+   case TALK_MISSION_SUCCESS:
+    return "America, fuck ya!";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What?!  You liar!";
+   case TALK_MISSION_FAILURE:
+    return "You give up?  This country fell apart becuase no one could find a\
+good man to rely on... might as well give up, I guess.";
+  }
+  break;
+
+   case MISSION_GET_RELIC:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "St. Michael the archangel defend me in battle...";
+   case TALK_MISSION_OFFER:
+    return "As the world seems to abandon the reality that we once knew, it \
+becomes plausable that the old superstitions that were cast aside may \
+have had some truth to them.  Please go and find me a religious relic...\
+I doubt it will be of much use but I've got to hope in something.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+I wish you the best of luck, may whatever god you please guide your path.";
+   case TALK_MISSION_REJECTED:
+    return "Ya, I guess the stress may just be getting to me...";
+   case TALK_MISSION_ADVICE:
+    return "I suppose a large church or cathedral may have something.";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Thankyou, I need some time alone now...";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What good does this do us?";
+   case TALK_MISSION_FAILURE:
+    return "It was a lost cause anyways...";
+  }
+  break;
+
+   case MISSION_GET_RECORD_WEATHER:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "I wonder if a retreat might exist...";
+   case TALK_MISSION_OFFER:
+    return "Everyone who dies gets back up, right?  Which means that whatever \
+is causing this it must be airborne to have infected everyone.  I believe that \
+if that is the case then there should be regions that were not downwind from \
+where-ever the disease was released.  We need to find a record of all the \
+weather paterns leading up to the outbreak.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Thanks so much, you may save both of us yet.";
+   case TALK_MISSION_REJECTED:
+    return "Ya, it was a long shot I admit.";
+   case TALK_MISSION_ADVICE:
+    return "I'm not sure, maybe a news station would have what we are looking?";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "These look more complicated than I thought, just give me some time.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "This isn't what we need.";
+   case TALK_MISSION_FAILURE:
+    return "If only we could find a great valley or something.";
+  }
+  break;
+
+   case MISSION_GET_RECORD_PATIENT:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "I hope I don't see many names I know...";
+   case TALK_MISSION_OFFER:
+    return "I've lost so many friends... please find me a patient list from the \
+regional hospital or doctor's office.  I just want to know who might still be out there.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Thankyou, I suppose it wont change what has already happened but it will bring me closure.";
+   case TALK_MISSION_REJECTED:
+    return "Please, I just want to know what happened to everyone.";
+   case TALK_MISSION_ADVICE:
+    return "I bet you'll run into a lot of those things in the hospital, please be careful.";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Oh dear, I thought Timmy would have made it...";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "Thanks for trying... I guess.";
+   case TALK_MISSION_FAILURE:
+    return "I bet some of them are still out there...";
+  }
+  break;
+
+   case MISSION_GET_RECORD_ACCOUNTING:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Those twisted snakes...";
+   case TALK_MISSION_OFFER:
+    return "Our world fell apart because our leaders were as crooked as the conmen that \
+paid for their elections.  Just find me one of those corporate accounting books and I'll \
+show you and the rest of the world just who is at fault.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+You'll see, I know I'm right.";
+   case TALK_MISSION_REJECTED:
+    return "I know it isn't pressing but the big corporations didn't get a chance to destroy \
+the evidence yet.";
+   case TALK_MISSION_ADVICE:
+    return "Try a big corporate building of some sort, they're bound to have an accounting department.";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Great, let's see... uh... hmmm...  Fine, I didn't even do my own taxes but I'm sure this \
+will prove their guilt if we get an expert to examine it.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "Thanks for trying... I guess.";
+   case TALK_MISSION_FAILURE:
+    return "The day of reconing will come for the corporations if it hasn't already.";
+  }
+  break;
+
+   case MISSION_KILL_JABBERWOCK:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "The eater of the dead... something was ripping zombies to shreads and only leaving a few scattered limbs...";
+   case TALK_MISSION_OFFER:
+    return "A few days ago another survivor and I were trying to avoid the cities by staying in the woods \
+during the day and foraging for gear at night. It worked well against the normal zed's but one night something \
+caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My \
+buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Thanks, make sure you're ready for whatever the beast is.";
+   case TALK_MISSION_REJECTED:
+    return "Hey, I know I wouldn't volunteer for it either.";
+   case TALK_MISSION_ADVICE:
+    return "I'd carry a shotgun at least, it sounded pretty big.";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "You look a little shaken up, I can't tell you how glad I am that you killed it though.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "Something in the shadows still seems to stare at me when I look at the woods.";
+   case TALK_MISSION_FAILURE:
+    return "I'm glad you came back alive... I wasn't sure if I had sent you to your death.";
+  }
+  break;
+
  default:
   switch (state) {
    case TALK_MISSION_DESCRIBE:

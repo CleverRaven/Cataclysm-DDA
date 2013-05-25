@@ -1437,3 +1437,40 @@ void mattack::bite(game *g, monster *z)
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
 
+void mattack::flesh_golem(game *g, monster *z)
+{
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
+	{
+    if (one_in(12)){
+    int j;
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 20 ||
+        !g->sees_u(z->posx, z->posy, j))
+    return;	// Out of range
+    z->moves = -200;
+    z->sp_timeout = z->type->sp_freq;	// Reset timer
+    g->sound(z->posx, z->posy, 80, "a terrifying roar that nearly deafens you!");
+    }
+    return;
+	}
+    z->sp_timeout = z->type->sp_freq;	// Reset timer
+    g->add_msg("The %s swings a massive claw at you!", z->name().c_str());
+    z->moves -= 100;
+
+	// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+ int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+ if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
+	{
+        g->add_msg("You dodge it!");
+        g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+        return;
+    }
+    body_part hit = random_body_part();
+    int dam = rng(5, 10), side = rng(0, 1);
+    g->add_msg("Your %s is battered for %d damage!", body_part_name(hit, side).c_str(), dam);
+    g->u.hit(g, hit, side, dam, 0);
+    if(one_in(6))
+	{
+        g->u.add_disease(DI_DOWNED, 30, g);
+    }
+    g->u.practice(g->turn, "dodge", z->type->melee_skill);
+}
