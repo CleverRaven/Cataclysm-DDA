@@ -625,6 +625,7 @@ bool map::vehproceed(game* g){
       if(delta2.norm() > 800) {
          veh2->skidding = 1;
       }
+#define testng_vehicle_collisions 1
 #ifdef testng_vehicle_collisions
       dbg("C(%d): %s (%.0f): %.0f => %.0f // %s (%.0f): %.0f => %.0f",
         (int)g->turn,
