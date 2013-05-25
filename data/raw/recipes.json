@@ -946,6 +946,30 @@
                           ]
         },
 
+        {
+            "result": "40mm_acidbomb",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "difficulty": 3,
+            "time": 100,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver",-1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["acidbomb", 1]
+                              ],
+                              [
+                                  ["40mm_casing", 1]
+                              ]
+                          ]
+        },
+
 
         {
             "result": "grenade",

@@ -78,6 +78,7 @@ AMMO_INCENDIARY,	// Sparks explosive terrain
 AMMO_EXPLOSIVE,		// Small explosion
 AMMO_FRAG,		// Frag explosion
 AMMO_NAPALM,		// Firey explosion
+AMMO_ACIDBOMB, // Acid bomb ammo
 AMMO_EXPLOSIVE_BIG,	// Big explosion!
 AMMO_TEARGAS,		// Teargas burst
 AMMO_SMOKE,  		// Smoke burst
