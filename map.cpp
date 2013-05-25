@@ -626,7 +626,7 @@ bool map::vehproceed(game* g){
          veh2->skidding = 1;
       }
 #ifdef testng_vehicle_collisions
-      dbg("C(%d): %s (%.0f): %.0f => %.0f // %s (%.0f): %.0f => %.0f",
+      debugmsg("C(%d): %s (%.0f): %.0f => %.0f // %s (%.0f): %.0f => %.0f",
         (int)g->turn,
         veh->name.c_str(), m1, velo_veh1.norm(), final1.norm(),
         veh2->name.c_str(), m2, velo_veh2.norm(), final2.norm()
