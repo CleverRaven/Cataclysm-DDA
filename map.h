@@ -145,6 +145,7 @@ class map
  point find_item(const item *it);
  void spawn_item(const int x, const int y, itype* type, int birthday, int quantity = 0, int charges = 0, int damlevel = 0);
  void spawn_item(const int x, const int y, std::string itype_id, int birthday, int quantity = 0, int charges = 0, int damlevel = 0);
+ void add_item_or_charges(const int x, const int y, item new_item);
  void add_item(const int x, const int y, item new_item);
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);
