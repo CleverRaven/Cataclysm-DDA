@@ -518,7 +518,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 item *relevent)
 {
  std::vector<point> ret;
- int tarx, tary, tart, junk;
+ int tarx, tary, junk;
 
 // First, decide on a target among the monsters, if there are any in range
  if (t.size() > 0) {
@@ -554,7 +554,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    } else {
      wprintz(w_target, c_red, "Throwing %s", relevent->tname().c_str());
    }
- } 
+ }
  wprintz(w_target, c_white, " >");
 /* Annoying clutter @ 2 3 4. */
  mvwprintz(w_target, 9, 1, c_white,
@@ -569,52 +569,45 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  wrefresh(w_target);
  char ch;
  bool snap_to_target = OPTIONS[OPT_SNAP_TO_TARGET];
-// The main loop.
  do {
   point center;
   if (snap_to_target)
    center = point(x, y);
   else
    center = point(u.posx, u.posy);
-// Clear the target window.
-//  for (int i = 5; i < 12; i++) {
+  // Clear the target window.
   for (int i = 1; i < 8; i++) {
    for (int j = 1; j < 46; j++)
     mvwputch(w_target, i, j, c_white, ' ');
   }
   m.build_map_cache(this);
   m.draw(this, w_terrain, center);
-// Draw the Monsters
+  // Draw the Monsters
   for (int i = 0; i < z.size(); i++) {
    if (u_see(&(z[i]))) {
     z[i].draw(w_terrain, center.x, center.y, false);
    }
   }
-// Draw the NPCs
+  // Draw the NPCs
   for (int i = 0; i < active_npc.size(); i++) {
    if (u_see(active_npc[i]->posx, active_npc[i]->posy))
     active_npc[i]->draw(w_terrain, center.x, center.y, false);
   }
   if (x != u.posx || y != u.posy) {
-// Calculate the return vector (and draw it too)
-/*
-   for (int i = 0; i < ret.size(); i++)
-    m.drawsq(w_terrain, u, ret[i].x, ret[i].y, false, true, center.x, center.y);
-*/
-// Draw the player
+
+   // Draw the player
    int atx = VIEWX + u.posx - center.x, aty = VIEWY + u.posy - center.y;
    if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
     mvwputch(w_terrain, aty, atx, u.color(), '@');
 
-   // Check with lightmap, only draw if we can see the endpoint.
-   if (u_see( x, y) &&
-       m.sees(u.posx, u.posy, x, y, -1, tart)) {// Selects a valid line-of-sight
-    ret = line_to(u.posx, u.posy, x, y, tart); // Sets the vector to that LOS
-// Draw the trajectory
+   // Only draw a highlighted trajectory if we can see the endpoint.
+   // Provides feedback to the player, and avoids leaking information about tiles they can't see.
+   if (u_see( x, y)) {
+    ret = line_to(u.posx, u.posy, x, y, 0);
     for (int i = 0; i < ret.size(); i++) {
       int mondex = mon_at(ret[i].x, ret[i].y),
           npcdex = npc_at(ret[i].x, ret[i].y);
-// NPCs and monsters get drawn with inverted colors
+      // NPCs and monsters get drawn with inverted colors
       if (mondex != -1 && u_see(&(z[mondex])))
        z[mondex].draw(w_terrain, center.x, center.y, true);
       else if (npcdex != -1)
@@ -632,13 +625,11 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     mvwprintw(w_target, 1, 1, "Range: %d", rl_dist(u.posx, u.posy, x, y));
 
    if (mon_at(x, y) == -1) {
-// what?    mvwprintw(w_status, 0, 9, "                             ");
     if (snap_to_target)
      mvwputch(w_terrain, VIEWY, VIEWX, c_red, '*');
     else
      mvwputch(w_terrain, y + VIEWY - u.posy, x + VIEWX - u.posx, c_red, '*');
    } else if (u_see(&(z[mon_at(x, y)]))) {
-//    mvwprintw(w_target, 0, 1, "< %s >", z[mon_at(x, y)].name().c_str() );
     z[mon_at(x, y)].print_info(this, w_target,2);
    }
   }
