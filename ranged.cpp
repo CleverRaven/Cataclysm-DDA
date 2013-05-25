@@ -267,35 +267,43 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   }
 
   int dam = weapon->gun_damage();
+  int tx = trajectory[0].x;
+  int ty = trajectory[0].y;
+  int px = trajectory[0].x;
+  int py = trajectory[0].y;
   for (int i = 0; i < trajectory.size() &&
        (dam > 0 || (effects & AMMO_FLAME)); i++) {
-   if (i > 0)
-    m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false, true);
+      px = tx;
+      py = ty;
+      tx = trajectory[i].x;
+      ty = trajectory[i].y;
 // Drawing the bullet uses player u, and not player p, because it's drawn
 // relative to YOUR position, which may not be the gunman's position.
-   if (u_see(trajectory[i].x, trajectory[i].y)) {
+   if (u_see(tx, ty)) {
+    if (i > 0)
+    {
+        m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false, true);
+    }
     char bullet = '*';
     if (effects & mfb(AMMO_FLAME))
      bullet = '#';
-    mvwputch(w_terrain, trajectory[i].y + VIEWY - u.posy,
-                        trajectory[i].x + VIEWX - u.posx, c_red, bullet);
+    mvwputch(w_terrain, ty + VIEWY - u.posy, tx + VIEWX - u.posx, c_red, bullet);
     wrefresh(w_terrain);
     if (&p == &u)
      nanosleep(&ts, NULL);
    }
 
    if (dam <= 0) { // Ran out of momentum.
-    ammo_effects(this, trajectory[i].x, trajectory[i].y, effects);
+    ammo_effects(this, tx, ty, effects);
     if (is_bolt &&
         ((curammo->m1 == WOOD && !one_in(4)) ||
          (curammo->m1 != WOOD && !one_in(15))))
-     m.add_item(trajectory[i].x, trajectory[i].y, ammotmp);
+     m.add_item(tx, ty, ammotmp);
     if (weapon->num_charges() == 0)
      weapon->curammo = NULL;
     return;
    }
 
-   int tx = trajectory[i].x, ty = trajectory[i].y;
 // If there's a monster in the path of our bullet, and either our aim was true,
 //  OR it's not the monster we were aiming at and we were lucky enough to hit it
    int mondex = mon_at(tx, ty);
@@ -338,19 +346,16 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
     m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, effects);
   } // Done with the trajectory!
 
-    int lastx = trajectory[trajectory.size() - 1].x;
-    int lasty = trajectory[trajectory.size() - 1].y;
-    
-    ammo_effects(this, lastx, lasty, effects);
+  ammo_effects(this, tx, ty, effects);
 
-  if (m.move_cost(lastx, lasty) == 0) {
-   lastx = trajectory[trajectory.size() - 2].x;
-   lasty = trajectory[trajectory.size() - 2].y;
+  if (m.move_cost(tx, ty) == 0) {
+      tx = px;
+      ty = py;
   }
   if (is_bolt &&
       ((curammo->m1 == WOOD && !one_in(5)) ||
        (curammo->m1 != WOOD && !one_in(15))  ))
-    m.add_item(lastx, lasty, ammotmp);
+    m.add_item(tx, ty, ammotmp);
  }
 
  if (weapon->num_charges() == 0)
