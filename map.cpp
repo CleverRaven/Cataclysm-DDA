@@ -2293,18 +2293,6 @@ void map::add_item_or_charges(const int x, const int y, item new_item) {
         }
     }
     add_item(x, y, new_item);
-
-/*
-
-    if (it == &i_at(ret.x, ret.y)[i])
-
-      for (int i = 0; i < parts[part].items.size(); i++) {
-        if(parts[part].items[i].type->id == new_item.type->id ) {
-          parts[part].items[i].charges+=itm.charges;
-        }
-      }
-*/
-    
 }
 // Place an item on the map, despite the parameter name, this is not necessaraly a new item.
 void map::add_item(const int x, const int y, item new_item)
