@@ -5768,6 +5768,55 @@ bool player::try_study_recipe(game *g, it_book *book)
     return true; // "false" seems to mean "attempted and failed"
 }
 
+void player::pyromania_fire_call(game *g, int x, int y)
+{
+    if (rng(0,100) < -(morale_level()+10)/2)
+    {
+        int pyro_x = x;
+        int pyro_y = y;
+        for (int i = x - 1; i <= x + 1; i++)
+        {
+            for (int j = y - 1; j <= y + 1; j++)
+            {
+                if (g->m.flammable_items_at(i, j))
+                {
+                    if (pyro_x != x && pyro_y != y)
+                    {
+                        if (one_in(2))
+                        {
+                            pyro_x = i;
+                            pyro_y = j;
+                        }
+                    }
+                    else
+                    {
+                        pyro_x = i;
+                        pyro_y = j;
+                    }
+                }
+            }
+        }
+        if (pyro_x != x && pyro_y != y)
+        {
+            if (!use_charges_if_avail("fire", 1))
+            {
+                g->add_msg("You want to light a fire but can't");
+                add_morale(MORALE_PERM_PYROMANIA, -15, -100);
+            }
+            else
+            {
+                if (g->m.add_field(g, pyro_x, pyro_y, fd_fire, 1))
+                {
+                    g->m.field_at(pyro_x, pyro_y).age = 30;
+                    g->add_msg("You successfully light a fire.");
+                    moves -= 15;
+                    add_morale(MORALE_PERM_PYROMANIA, 10, 100);
+                }
+            }
+        }
+    }
+}
+
 void player::try_to_sleep(game *g)
 {
  int vpart = -1;

@@ -285,6 +285,8 @@ public:
  bool studied_all_recipes(it_book *book);
  bool try_study_recipe(game *g, it_book *book);
 
+void pyromania_fire_call(game *g, int x, int y);
+
 // ---------------VALUES-----------------
  int posx, posy;
  int view_offset_x, view_offset_y;
