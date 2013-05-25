@@ -4,200 +4,208 @@
         "name"          : "Null",
         "bash_resist"   :   0,
         "cut_resist"    :   0,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb"  : "damaged",
         "acid_resist"   :   0,
         "elec_resist"   :   0,
-        "fire_resist"   :   0        
+        "fire_resist"   :   0
     },
-    
-    
     {
         "ident"         : "veggy",
         "name"          : "Plant Matter",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb"  : "cut",
         "acid_resist"   :   0,
         "elec_resist"   :   1,
-        "fire_resist"   :   0        
+        "fire_resist"   :   0
     },
-
-
     {
         "ident"         : "flesh",
         "name"          : "Flesh",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
+        "bash_dmg_verb" : "bruised",
+        "cut_dmg_verb"  : "sliced",
         "acid_resist"   :   0,
         "elec_resist"   :   1,
-        "fire_resist"   :   0       
+        "fire_resist"   :   0
     },
-    
-
     {
         "ident"         : "powder",
         "name"          : "Powder",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb"  : "damaged",
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   0       
-    }, 
-    
+        "fire_resist"   :   0
+    },
     {
         "ident"         : "hflesh",
         "name"          : "Human Flesh",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
+        "bash_dmg_verb" : "bruised",
+        "cut_dmg_verb"  : "sliced",
         "acid_resist"   :   0,
         "elec_resist"   :   1,
-        "fire_resist"   :   0       
+        "fire_resist"   :   0
     },
-    
-
     {
         "ident"         : "cotton",
         "name"          : "Cotton",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb"  : "cut",
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   0       
-    },         
-    
+        "fire_resist"   :   0
+    },
     {
         "ident"         : "wool",
         "name"          : "Wool",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
+        "bash_dmg_verb" : "torn",
+        "cut_dmg_verb"  : "cut",
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   0       
+        "fire_resist"   :   0
     },
-    
-
     {
         "ident"         : "leather",
         "name"          : "Leather",
         "bash_resist"   :   2,
         "cut_resist"    :   2,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb"  : "sliced",
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   1       
-    }, 
-    
+        "fire_resist"   :   1
+    },
     {
         "ident"         : "kevlar",
         "name"          : "Kevlar",
         "bash_resist"   :   2,
         "cut_resist"    :   4,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb"  : "cut",
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   1        
+        "fire_resist"   :   1
     },
-    
-
     {
         "ident"         : "fur",
         "name"          : "Fur",
         "bash_resist"   :   2,
         "cut_resist"    :   2,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb"  : "sliced",
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   0       
-    }, 
-    
+        "fire_resist"   :   0
+    },
     {
         "ident"         : "chitin",
         "name"          : "Chitin",
         "bash_resist"   :   3,
         "cut_resist"    :   4,
+        "bash_dmg_verb" : "cracked",
+        "cut_dmg_verb"  : "chipped",
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   2       
+        "fire_resist"   :   2
     },
-    
-
     {
         "ident"         : "stone",
         "name"          : "Stone",
         "bash_resist"   :   6,
         "cut_resist"    :   6,
+        "bash_dmg_verb" : "cracked",
+        "cut_dmg_verb"  : "chipped",
         "acid_resist"   :   2,
         "elec_resist"   :   2,
-        "fire_resist"   :   2        
-    }, 
-    
+        "fire_resist"   :   2
+    },
     {
         "ident"         : "paper",
         "name"          : "Paper",
         "bash_resist"   :   1,
         "cut_resist"    :   1,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb"  : "cut",
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   0       
+        "fire_resist"   :   0
     },
-    
-
     {
         "ident"         : "wood",
         "name"          : "Wood",
         "bash_resist"   :   3,
         "cut_resist"    :   2,
+        "bash_dmg_verb" : "splintered",
+        "cut_dmg_verb"  : "gouged",
         "acid_resist"   :   1,
         "elec_resist"   :   2,
-        "fire_resist"   :   0       
-    }, 
-
+        "fire_resist"   :   0
+    },
     {
         "ident"         : "plastic",
         "name"          : "Plastic",
         "bash_resist"   :   2,
         "cut_resist"    :   2,
+        "bash_dmg_verb" : "dented",
+        "cut_dmg_verb"  : "gouged",
         "acid_resist"   :   1,
         "elec_resist"   :   2,
-        "fire_resist"   :   0        
+        "fire_resist"   :   0
     },
-    
-
     {
         "ident"         : "glass",
         "name"          : "Glass",
         "bash_resist"   :   1,
         "cut_resist"    :   4,
+        "bash_dmg_verb" : "cracked",
+        "cut_dmg_verb"  : "scratched",
         "acid_resist"   :   2,
         "elec_resist"   :   2,
-        "fire_resist"   :   2        
-    }, 
-
-    
+        "fire_resist"   :   2
+    },
     {
         "ident"         : "iron",
         "name"          : "Iron",
         "bash_resist"   :   4,
         "cut_resist"    :   4,
+        "bash_dmg_verb" : "dented",
+        "cut_dmg_verb"  : "scratched",
         "acid_resist"   :   0,
         "elec_resist"   :   0,
-        "fire_resist"   :   2        
+        "fire_resist"   :   2
     },
-    
-
     {
         "ident"         : "steel",
         "name"          : "Steel",
         "bash_resist"   :   6,
         "cut_resist"    :   6,
+        "bash_dmg_verb" : "dented",
+        "cut_dmg_verb"  : "scratched",
         "acid_resist"   :   0,
         "elec_resist"   :   0,
-        "fire_resist"   :   2        
-    }, 
-
-    
+        "fire_resist"   :   2
+    },
     {
         "ident"         : "silver",
         "name"          : "Silver",
         "bash_resist"   :   2,
         "cut_resist"    :   3,
+        "bash_dmg_verb" : "dented",
+        "cut_dmg_verb"  : "scratched",
         "acid_resist"   :   0,
         "elec_resist"   :   0,
-        "fire_resist"   :   2        
+        "fire_resist"   :   2
     }
 ]
