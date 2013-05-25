@@ -376,7 +376,7 @@ void player::update_morale()
                 morale.erase(morale.begin() + i);
                 i--;
             }
-            else if (morale[i].permanent == -1)
+            else if (morale[i].permanent < 0)
             {
                 if (morale[i].neg_decay >= 0)
                 {
