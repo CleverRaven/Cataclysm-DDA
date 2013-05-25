@@ -8076,12 +8076,33 @@ single action.", u.weapon.tname().c_str());
 // Unload a containter, gun, or tool
 // If it's a gun, some gunmods can also be loaded
 void game::unload(char chInput)
-{
-    item& it = u.i_at(chInput);
-
+{	// this is necessary to prevent re-selection of the same item later
+    item it = (u.inv.remove_item_by_letter(chInput));
     if (!it.is_null())
     {
         unload(it);
+        u.i_add(it, this);
+    }
+    else
+    {
+        item ite;
+        if (u.weapon.invlet == chInput) {	// item is wielded as weapon.
+            if (std::find(martial_arts_itype_ids.begin(), martial_arts_itype_ids.end(), u.weapon.type->id) != martial_arts_itype_ids.end()){
+                return; //ABORT!
+            } else {
+                ite = u.weapon;
+                u.weapon = item(itypes["null"], 0); //ret_null;
+                unload(ite);
+                u.weapon = ite;
+                return;
+            }
+        } else {	//this is that opportunity for reselection where the original container is worn, see issue #808
+            item& itm = u.i_at(chInput);
+            if (!itm.is_null())
+            {
+                unload(itm);
+            }
+        }
     }
 }
 
