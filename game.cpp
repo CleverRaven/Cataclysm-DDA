@@ -5902,7 +5902,7 @@ void game::advanced_inv()
                                    continue;
                                 }
                             } else {
-                              m.add_item(u.posx+panes[dest].offx,u.posy+panes[dest].offy,moving_item);
+                              m.add_item_or_charges(u.posx+panes[dest].offx,u.posy+panes[dest].offy,moving_item);
                             }
                             u.moves -= 100;
                         }
@@ -6920,7 +6920,10 @@ void game::pickup(int posx, int posy, int min)
       } else if ( selected >= start + maxitems ) {
           start+=maxitems;
       }
-  } else if ( selected >= 0 && ( ch == KEY_RIGHT || ch == KEY_LEFT ) ) {
+  } else if ( selected >= 0 && ( 
+                 ( ch == KEY_RIGHT && !getitem[selected]) || 
+                 ( ch == KEY_LEFT && getitem[selected] ) 
+            ) ) {
       idx=selected;
   } else {
       idx = pickup_chars.find(ch);
@@ -7434,7 +7437,7 @@ void game::drop(char chInput)
  }
  if (!to_veh || vh_overflow)
   for (i = 0; i < dropped.size(); i++) {
-    m.add_item(u.posx, u.posy, dropped[i]);
+    m.add_item_or_charges(u.posx, u.posy, dropped[i]);
  }
 }
 
@@ -7513,7 +7516,7 @@ void game::drop_in_direction()
    add_msg ("Trunk is full, so some items fall on the ground.");
  } else {
   for (int i = 0; i < dropped.size(); i++)
-   m.add_item(dirx, diry, dropped[i]);
+   m.add_item_or_charges(dirx, diry, dropped[i]);
  }
 }
 
@@ -8170,7 +8173,7 @@ void game::unload(item& it)
                     u.i_add(content, this);
                 } else {
                     add_msg("You drop the %s on the ground.", content.tname(this).c_str());
-                    m.add_item(u.posx, u.posy, content);
+                    m.add_item_or_charges(u.posx, u.posy, content);
                 }
             }
             it.contents.erase(it.contents.begin());

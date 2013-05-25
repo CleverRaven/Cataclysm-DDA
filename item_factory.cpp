@@ -235,6 +235,7 @@ void Item_factory::init(){
     ammo_effects_list["EXPLOSIVE"] = mfb(AMMO_EXPLOSIVE);
     ammo_effects_list["FRAG"] = mfb(AMMO_FRAG);
     ammo_effects_list["NAPALM"] = mfb(AMMO_NAPALM);
+    ammo_effects_list["ACIDBOMB"] = mfb(AMMO_ACIDBOMB);
     ammo_effects_list["EXPLOSIVE_BIG"] = mfb(AMMO_EXPLOSIVE_BIG);
     ammo_effects_list["TEARGAS"] = mfb(AMMO_TEARGAS);
     ammo_effects_list["SMOKE"] = mfb(AMMO_SMOKE);

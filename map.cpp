@@ -2296,6 +2296,21 @@ void map::spawn_item(const int x, const int y, std::string type_id, const int bi
     spawn_item( x, y, new_item, birthday, quantity, charges, damlevel );
 }
 
+void map::add_item_or_charges(const int x, const int y, item new_item) {
+    if (new_item.is_style() || !INBOUNDS(x, y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ) {
+     return;
+    }
+    if(new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo())) {
+        for (int n = 0; n < i_at(x, y).size(); n++) {
+            item* curit = &(i_at(x, y)[n]);
+            if(curit->type->id == new_item.type->id) {
+                curit->charges+= new_item.charges;
+                return;
+            }
+        }
+    }
+    add_item(x, y, new_item);
+}
 // Place an item on the map, despite the parameter name, this is not necessaraly a new item.
 void map::add_item(const int x, const int y, item new_item)
 {
