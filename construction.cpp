@@ -998,6 +998,7 @@ void construct::done_furniture(game *g, point p)
   break;
  }
 
+ g->sound(x, y, terlist[g->m.ter(p.x, p.y)].move_str_req * 2, "a scraping noise");
  g->m.ter_set(x, y, g->m.ter(p.x, p.y));
  g->m.ter_set(p.x, p.y, t_floor);
 
