@@ -2103,6 +2103,14 @@ bool game::load_master()
 
 void game::load_artifacts()
 {
+    // check if artifacts.gsav exists
+    std::ifstream test;
+    test.open("save/artifacts.gsav");
+    if (test.is_open())
+        test.close();
+    else
+        return;
+
     catajson artifact_list(std::string("save/artifacts.gsav"));
     artifact_list.set_begin();
     while (artifact_list.has_curr())
@@ -2263,7 +2271,6 @@ void game::load_weather(std::ifstream &fin)
 
 void game::load(std::string name)
 {
- load_artifacts(); // artifacts have to be loaded before any items are created
  std::ifstream fin;
  std::stringstream playerfile;
  playerfile << "save/" << name << ".sav";
