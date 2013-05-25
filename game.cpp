@@ -4261,7 +4261,7 @@ void game::draw_footsteps()
 
          if (unseen_points.size() > 0)
          {
-             point selected = unseen_points[rng(0,unseen_points.size())];
+             point selected = unseen_points[rng(0,unseen_points.size() - 1)];
 
              mvwputch(w_terrain,
                       VIEWY + selected.y - u.posy - u.view_offset_y,
