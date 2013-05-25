@@ -343,18 +343,30 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
 
 void player::update_morale()
 {
-    if (has_trait(PF_PYROMANIA))
-    {
-        add_morale(MORALE_PERM_PYROMANIA, -1, -100); //Counters natural depreciation, benefits wear off quickly
-        //-1 approx. every .5 hours, 1 hour with Prozac; doubles time while sleeping
-        if (one_in((has_disease(DI_TOOK_PROZAC)? 60:30) * (has_disease(DI_SLEEP)? 2:1))) {add_morale(MORALE_PERM_PYROMANIA, -1, -100);}
-    }
-
     for (int i = 0; i < morale.size(); i++)
     {
-        if (morale[i].bonus < 0) {morale[i].bonus++;}
-        else if (morale[i].bonus > 0) {morale[i].bonus--;}
-
+        if (morale[i].bonus < 0)
+        {
+            if (morale[i].neg_decay >= 0)
+            {
+                morale[i].bonus += morale[i].neg_decay;
+            }
+            else
+            {
+                if (one_in(-morale[i].neg_decay)) {morale[i].bonus++;}
+            }
+        }
+        else if (morale[i].bonus > 0)
+        {
+            if (morale[i].pos_decay >= 0)
+            {
+                morale[i].bonus -= morale[i].pos_decay;
+            }
+            else
+            {
+                if (one_in(-morale[i].pos_decay)) {morale[i].bonus--;}
+            }
+        }
         if (morale[i].bonus == 0)
         {
             morale.erase(morale.begin() + i);
@@ -3774,7 +3786,7 @@ int player::morale_level()
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        itype* item_type)
+                        itype* item_type, int pos_decay, int neg_decay)
 {
  bool placed = false;
 
@@ -3789,7 +3801,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
   }
  }
  if (!placed) { // Didn't increase an existing point, so add a new one
-  morale_point tmp(type, item_type, bonus);
+  morale_point tmp(type, item_type, bonus, pos_decay, neg_decay);
   morale.push_back(tmp);
  }
 }

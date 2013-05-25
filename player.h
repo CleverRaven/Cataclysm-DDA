@@ -238,8 +238,11 @@ public:
  bool can_pickVolume(int volume);
  bool can_pickWeight(int weight);
  int morale_level();	// Modified by traits, &c
+
+//Pos & Neg decay is the decay rate (x per minute) when bonus is positive or negative respectively. If decay rate
+//is negative, moral is added (positive morale for pos and negative for neg) at a rate of one_in(-(decay)) per minute
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
-                 itype* item_type = NULL);
+                 itype* item_type = NULL, int pos_decay = 1, int neg_decay = 1);
 
  std::string weapname(bool charges = true);
 
