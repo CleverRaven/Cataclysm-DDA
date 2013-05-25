@@ -58,6 +58,41 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_NULL);
 
+ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  ITEM("american_flag");
+
+ MISSION("Find Relic", MGOAL_FIND_ITEM, 2, 1000, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_ANY_NPC);
+  ITEM("small_relic");
+
+ MISSION("Find Weather Log", MGOAL_FIND_ITEM, 2, 500, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  ITEM("record_weather");
+
+ MISSION("Find Patient Records", MGOAL_FIND_ITEM, 2, 1000, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  ITEM("record_patient");
+
+ MISSION("Find Corporate Accounts", MGOAL_FIND_ITEM, 2, 1400, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  ITEM("record_accounting");
+  
+ MISSION("Kill Jabberwock", MGOAL_KILL_MONSTER, 5, 2500, true,
+	&mission_place::always, &mission_start::place_jabberwock,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+
  MISSION("Find a Book", MGOAL_FIND_ANY_ITEM, 2, 800, false,
 	&mission_place::always, &mission_start::place_book,
 	&mission_end::standard, &mission_fail::standard);

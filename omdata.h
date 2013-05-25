@@ -68,6 +68,7 @@ enum oter_id {
  ot_apartments_mod_tower_1_entrance,ot_apartments_mod_tower_1,
  ot_office_tower_1_entrance, ot_office_tower_1, ot_office_tower_b_entrance, ot_office_tower_b,
  ot_church_north, ot_church_east, ot_church_south, ot_church_west,
+ ot_cathedral_1_entrance, ot_cathedral_1, ot_cathedral_b_entrance, ot_cathedral_b,
  ot_s_grocery_north, ot_s_grocery_east, ot_s_grocery_south, ot_s_grocery_west,
  ot_s_hardware_north, ot_s_hardware_east, ot_s_hardware_south,
   ot_s_hardware_west,
@@ -230,6 +231,10 @@ const oter_t oterlist[num_ter_types] = {
 {"church",		'C',	c_ltred,	5, build_extras, false, false},
 {"church",		'C',	c_ltred,	5, build_extras, false, false},
 {"church",		'C',	c_ltred,	5, build_extras, false, false},
+{"cathedral", 'C', i_ltred, 	5, no_extras, false, false},
+{"cathedral",	'C',	i_ltred,		5, no_extras, false, false},
+{"cathedral basement", 'C',	i_ltred,		5, no_extras, false, false},
+{"cathedral basement",	'C',	i_ltred,		5, no_extras, false, false},
 {"grocery store",	'^',	c_green,	5, build_extras, false, false},
 {"grocery store",	'>',	c_green,	5, build_extras, false, false},
 {"grocery store",	'v',	c_green,	5, build_extras, false, false},
@@ -515,6 +520,7 @@ enum omspec_id
  OMSPEC_APARTMENT_CON_TOWER,
  OMSPEC_APARTMENT_MOD_TOWER,
  OMSPEC_OFFICE_TOWER,
+ OMSPEC_CATHEDRAL,
  OMSPEC_SCHOOL,
  OMSPEC_HOTEL_TOWER,
  OMSPEC_SEWAGE,
@@ -603,6 +609,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
 
 {ot_office_tower_1_entrance,    1, 5,  -1, 4, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+
+{ot_cathedral_1_entrance,    1, 2,  -1, 2, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
 
 {ot_school_2,    1, 3,  1, 5, "GROUP_NULL", 0, 0, 0, 0,

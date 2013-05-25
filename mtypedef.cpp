@@ -483,6 +483,18 @@ FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_BLEED,
       MF_POISON, MF_GUILT, MF_NO_BREATHE, MF_VIS30);
 CATEGORIES(MC_CLASSIC);
 
+//Somewhere between a zombie and a blob creature
+mon("jabberwock",	species_none, 'J',	c_dkgray_red,	MS_HUGE,	FLESH,
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+     50,100,100,140,  9,  4,  8,  3,  3, 12,  8,  0,400,  0,
+	&mdeath::normal,	&mattack::flesh_golem, "\
+An amalgamation of putrid human and animal\n\
+parts that have become fused in this golem\n\
+of flesh.  The eyes of all the heads dart\n\
+rapidly and the mouths scream or groan."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES,
+      MF_DESTROYS, MF_ATTACKMON, MF_LEATHER, MF_BONES, MF_VIS50);
 
 // PLANTS & FUNGI
 mon("triffid",	species_plant, 'F',	c_ltgreen,	MS_MEDIUM,	VEGGY,
@@ -799,7 +811,6 @@ threatening, but has a large ovipositor in\n\
 place of a sting."
 );
 FLAGS(MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_POISON, MF_FLIES);
-
 
 // SPIDERS
 mon("wolf spider",species_insect, 's',	c_brown,	MS_MEDIUM,	FLESH,
