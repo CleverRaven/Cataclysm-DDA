@@ -350,6 +350,7 @@ void player::update_morale()
             if (morale[i].neg_decay >= 0)
             {
                 morale[i].bonus += morale[i].neg_decay;
+                if (morale[i].bonus > 0) {morale[i].bonus = 0;}
             }
             else
             {
@@ -361,6 +362,7 @@ void player::update_morale()
             if (morale[i].pos_decay >= 0)
             {
                 morale[i].bonus -= morale[i].pos_decay;
+                if (morale[i].bonus < 0) {morale[i].bonus = 0;}
             }
             else
             {
