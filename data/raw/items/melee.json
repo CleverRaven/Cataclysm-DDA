@@ -1607,6 +1607,21 @@
         "price" : 250
     },
     {
+        "id" : "saddle",
+        "name" : "saddle",
+        "description" : "A leather-covered seat designed to be straddled.",
+        "weight" : 10,
+        "to_hit" : -4,
+        "color" : "red",
+        "symbol" : "0",
+        "material" : ["PLASTIC", "NULL"],
+        "volume" : 5,
+        "bashing" : 2,
+        "cutting" : 0,
+        "rarity" : 8,
+        "price" : 25
+    },
+    {
         "id" : "vehicle_controls",
         "name" : "vehicle controls",
         "description" : "A set of various vehicle controls. Useful for crafting.",

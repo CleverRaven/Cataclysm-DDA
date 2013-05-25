@@ -14,6 +14,7 @@ enum vpart_id
 
 // external parts
     vp_seat,
+    vp_saddle,
     vp_bed,
     vp_frame_h,
     vp_frame_v,
@@ -97,6 +98,7 @@ enum vpart_flags
     vpf_mount_point,        // allows mounting other parts to it
     vpf_mount_inner,        // allows mounting internal parts inside it (or over it)
     vpf_mount_over,         // allows mounting parts like cargo trunk over it
+    vpf_anchor_point,       // Allows secure attachment of a seatbelt
     vpf_opaque,             // can't see through it
     vpf_obstacle,           // can't pass through it
     vpf_openable,           // can open/close it
@@ -164,7 +166,10 @@ const vpart_info vpart_list[num_vparts] =
     { "null part",  '?', c_red,     '?', c_red,     100, 100, 0, 0, "null", 0,
         0 },
     { "seat",       '#', c_red,     '*', c_red,     60,  300, 0, 0, "seat", 1,
-        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) },
+        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_cargo) |
+      mfb(vpf_no_reinforce) | mfb(vpf_anchor_point) },
+    { "saddle",     '#', c_red,     '*', c_red,     20,  200, 0, 0, "saddle", 1,
+        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_no_reinforce) },
     { "bed",        '#', c_magenta, '*', c_magenta, 60,  300, 0, 0, "seat", 1,
         mfb(vpf_over) | mfb(vpf_bed) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) },
     { "frame",      'h', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
