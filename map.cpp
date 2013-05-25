@@ -591,29 +591,47 @@ bool map::vehproceed(game* g){
       float m2 = veh2->total_mass();
 
       rl_vec2d collision_axis = (velo_veh1 - velo_veh2).normalized();
+      // imp? & delta? & final? reworked:
+      // newvel1 =( vel1 * ( mass1 - mass2 ) + ( 2 * mass2 * vel2 ) ) / ( mass1 + mass2 )
+      // as per http://en.wikipedia.org/wiki/Elastic_collision
       // impulse vectors
-      rl_vec2d imp1 = collision_axis   *    collision_axis.dot_product (velo_veh1) * m1;
-      rl_vec2d imp2 = (collision_axis) * (-collision_axis).dot_product (velo_veh2) * m2;
-
+      rl_vec2d imp1 = collision_axis   *    collision_axis.dot_product (velo_veh1) * ( m1 ) * 2;
+      rl_vec2d imp2 = (collision_axis) * (-collision_axis).dot_product (velo_veh2) * ( m2 ) * 2;
       // finally, changes in veh velocity
       // 30% is absorbed as bashing damage??
-      rl_vec2d delta1 = imp2 * .7f / m1;
-      rl_vec2d delta2 = imp1 * .7f / m2;
 
+      rl_vec2d delta1 = (imp2 * .7f); // todo: get remaing kinetic energy, convert to damage
+      rl_vec2d delta2 = (imp1 * .7f); // by adding imp
+      rl_vec2d final1 = ( ( velo_veh1 * ( m1 - m2 ) ) + delta1 ) / ( m1 + m2 );
+      rl_vec2d final2 = ( ( velo_veh2 * ( m2 - m1 ) ) + delta2 ) / ( m1 + m2 );
+
+/*    old bouncing pingpong collisions that generate kinetic energy to reach mach 20+
+      rl_vec2d imp1 = collision_axis   *    collision_axis.dot_product (velo_veh1) * m1;
+      rl_vec2d imp2 = (collision_axis) * (-collision_axis).dot_product (velo_veh2) * m2;
+      rl_vec2d delta1 = (imp2 * .7f) / m1;
+      rl_vec2d delta2 = (imp1 * .7f) / m2;
       rl_vec2d final1 = velo_veh1 + delta1;
+      rl_vec2d final2 = velo_veh2 + delta2;
+*/
+
       veh->move.init (final1.x, final1.y);
       veh->velocity = final1.norm();
       // shrug it off if the change is less than 8mph.
       if(delta1.norm() > 800) {
          veh->skidding = 1;
       }
-      rl_vec2d final2 = velo_veh2 + delta2;
       veh2->move.init(final2.x, final2.y);
       veh2->velocity = final2.norm();
       if(delta2.norm() > 800) {
          veh2->skidding = 1;
       }
-
+#ifdef testng_vehicle_collisions
+      debugmsg("C(%d): %s (%.0f): %.0f => %.0f // %s (%.0f): %.0f => %.0f",
+        (int)g->turn,
+        veh->name.c_str(), m1, velo_veh1.norm(), final1.norm(),
+        veh2->name.c_str(), m2, velo_veh2.norm(), final2.norm()
+      );
+#endif
       //give veh2 the initiative to proceed next before veh1
       float avg_of_turn = (veh2->of_turn + veh->of_turn) / 2;
       if(avg_of_turn < .1f)
