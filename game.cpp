@@ -6920,7 +6920,10 @@ void game::pickup(int posx, int posy, int min)
       } else if ( selected >= start + maxitems ) {
           start+=maxitems;
       }
-  } else if ( selected >= 0 && ( ch == KEY_RIGHT || ch == KEY_LEFT ) ) {
+  } else if ( selected >= 0 && ( 
+                 ( ch == KEY_RIGHT && !getitem[selected]) || 
+                 ( ch == KEY_LEFT && getitem[selected] ) 
+            ) ) {
       idx=selected;
   } else {
       idx = pickup_chars.find(ch);
