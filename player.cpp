@@ -5424,7 +5424,9 @@ void player::sort_armor(game *g)
                temp1 << "Legs. ";
             if (cur_armor->covers & mfb(bp_feet))
                temp1 << "Feet. ";
-            
+            temp1 << " Coverage: ";
+            temp1 << int(cur_armor->coverage);                          
+                           
             werase(w_arm_info);          
             wborder(w_arm_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
             mvwprintz(w_arm_info, 1, 1, dam_color[int(worn[cursor_y].damage + 1)], worn[cursor_y].tname(g).c_str());
@@ -5432,10 +5434,18 @@ void player::sort_armor(game *g)
 
             temp1.str("");
             temp1 << "Encumbrance: ";
-            temp1 << int(cur_armor->encumber);
-            temp1 << " Bash protection: ";
+            if (worn[cursor_y].has_flag("FIT"))
+            {
+                temp1 << (int(cur_armor->encumber) - 1);
+                temp1 << " (fits)";
+            }
+            else
+            {
+                temp1 << int(cur_armor->encumber);
+            }
+            temp1 << " Bash prot: ";
             temp1 << int(worn[cursor_y].bash_resist());
-            temp1 << " Cut protection: ";
+            temp1 << " Cut prot: ";
             temp1 << int(worn[cursor_y].cut_resist());
             temp1 << " Warmth: ";
             temp1 << int(cur_armor->warmth); 
