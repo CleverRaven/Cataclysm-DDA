@@ -3680,7 +3680,9 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     p->i_add(lead);}
     else
    g->m.add_item(p->posx, p->posy, lead);
- }
+
+  p->practice(g->turn, "gun", rng(1, multiply / 5 + 1));
+}
 
 void iuse::boltcutters(game *g, player *p, item *it, bool t)
 {
