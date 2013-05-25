@@ -518,7 +518,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
                                 item *relevent)
 {
  std::vector<point> ret;
- int tarx, tary, tart, junk;
+ int tarx, tary, junk;
 
 // First, decide on a target among the monsters, if there are any in range
  if (t.size() > 0) {
@@ -600,11 +600,10 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    if (atx >= 0 && atx < TERRAIN_WINDOW_WIDTH && aty >= 0 && aty < TERRAIN_WINDOW_HEIGHT)
     mvwputch(w_terrain, aty, atx, u.color(), '@');
 
-   // Check with lightmap, only draw if we can see the endpoint.
-   if (u_see( x, y) &&
-       m.sees(u.posx, u.posy, x, y, -1, tart)) {// Selects a valid line-of-sight
-    ret = line_to(u.posx, u.posy, x, y, tart); // Sets the vector to that LOS
-// Draw the trajectory
+   // Only draw a highlighted trajectory if we can see the endpoint.
+   // Provides feedback to the player, and avoids leaking information about tiles they can't see.
+   if (u_see( x, y)) {
+    ret = line_to(u.posx, u.posy, x, y, 0);
     for (int i = 0; i < ret.size(); i++) {
       int mondex = mon_at(ret[i].x, ret[i].y),
           npcdex = npc_at(ret[i].x, ret[i].y);
