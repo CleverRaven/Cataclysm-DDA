@@ -368,6 +368,8 @@ void game::cleanup_at_end(){
 
 		// save artifacts.
 		save_artifacts();
+                artifact_itype_ids.erase(artifact_itype_ids.begin(),
+                                         artifact_itype_ids.end());
 
 		// and the overmap, and the local map.
 		save_maps(); //Omap also contains the npcs who need to be saved.
@@ -698,16 +700,29 @@ void game::process_activity()
     }
 
     if (u.skillLevel(reading->type) < (int)reading->level) {
-     int min_ex = reading->time / 10 + u.int_cur / 4,
-       max_ex = reading->time /  5 + u.int_cur / 2 - u.skillLevel(reading->type);
-     if (min_ex < 1)
-      min_ex = 1;
-     if (max_ex < 2)
-      max_ex = 2;
-     if (max_ex > 10)
-      max_ex = 10;
-
      int originalSkillLevel = u.skillLevel(reading->type);
+     int min_ex = reading->time / 10 + u.int_cur / 4,
+         max_ex = reading->time /  5 + u.int_cur / 2 - originalSkillLevel;
+     if (min_ex < 1)
+     {
+         min_ex = 1;
+     }
+     if (max_ex < 2)
+     {
+         max_ex = 2;
+     }
+     if (max_ex > 10)
+     {
+         max_ex = 10;
+     }
+     if (max_ex < min_ex)
+     {
+         max_ex = min_ex;
+     }
+
+     min_ex *= originalSkillLevel + 1;
+     max_ex *= originalSkillLevel + 1;
+
      u.skillLevel(reading->type).readBook(min_ex, max_ex, turn, reading->level);
 
      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(),
@@ -2090,6 +2105,14 @@ bool game::load_master()
 
 void game::load_artifacts()
 {
+    // check if artifacts.gsav exists
+    std::ifstream test;
+    test.open("save/artifacts.gsav");
+    if (test.is_open())
+        test.close();
+    else
+        return;
+
     catajson artifact_list(std::string("save/artifacts.gsav"));
     artifact_list.set_begin();
     while (artifact_list.has_curr())
@@ -2250,7 +2273,6 @@ void game::load_weather(std::ifstream &fin)
 
 void game::load(std::string name)
 {
- load_artifacts(); // artifacts have to be loaded before any items are created
  std::ifstream fin;
  std::stringstream playerfile;
  playerfile << "save/" << name << ".sav";
@@ -2393,8 +2415,6 @@ void game::save_artifacts()
     {
 	artifacts.push_back(itypes[*it]->save_data());
     }
-    artifact_itype_ids.erase(artifact_itype_ids.begin(),
-			     artifact_itype_ids.end());
     picojson::value out = picojson::value(artifacts);
     fout << out.serialize();
     fout.close();
@@ -3174,7 +3194,7 @@ void game::draw()
            season_name[turn.get_season()].c_str(), turn.days() + 1);
  if (run_mode != 0 || autosafemode != 0) {
   int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
-  mvwprintz(w_status, 2, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
+  mvwprintz(w_status, 1, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
   wprintz(w_status, (run_mode == 0) ? ((iPercent >= 50) ? c_green : c_red): c_green, "A");
   wprintz(w_status, (run_mode == 0) ? ((iPercent >= 75) ? c_green : c_red): c_green, "F");
   wprintz(w_status, (run_mode == 0) ? ((iPercent == 100) ? c_green : c_red): c_green, "E");
@@ -4248,7 +4268,7 @@ void game::draw_footsteps()
 
          if (unseen_points.size() > 0)
          {
-             point selected = unseen_points[rng(0,unseen_points.size())];
+             point selected = unseen_points[rng(0,unseen_points.size() - 1)];
 
              mvwputch(w_terrain,
                       VIEWY + selected.y - u.posy - u.view_offset_y,
@@ -5649,6 +5669,8 @@ void game::advanced_inv()
 
     int src = left; // the active screen , 0 for left , 1 for right.
     int dest = right;
+    int max_inv = inv_chars.size() - u.worn.size() - ( u.is_armed() || u.weapon.is_style() ? 1 : 0 );
+
 
     while(!exit)
     {
@@ -5656,6 +5678,7 @@ void game::advanced_inv()
         if ( recalc ) redraw=true;
         if(redraw)
         {
+            max_inv = inv_chars.size() - u.worn.size() - ( u.is_armed() || u.weapon.is_style() ? 1 : 0 );
             for (int i = 0; i < 2; i++) {
                 // calculate the offset.
                 getsquare(panes[i].area, panes[i].offx, panes[i].offy, panes[i].area_string);
@@ -5736,7 +5759,7 @@ void game::advanced_inv()
                 }
                 advprintItems( panes[i], (src == i), this );
                 printHeader(canputitems, panes[i].window, panes[i].area);
-                mvwprintz(panes[i].window,1,(w_width/2)-7,(src==i ? c_ltgray : c_dkgray),"%2d/%d", panes[i].size, panes[i].area == isinventory ? 75 : MAX_ITEM_IN_SQUARE );
+                mvwprintz(panes[i].window,1,(w_width/2)-7,(src==i ? c_ltgray : c_dkgray),"%2d/%d", panes[i].size, panes[i].area == isinventory ? max_inv : MAX_ITEM_IN_SQUARE );
             }
 
             recalc=false;
@@ -5924,7 +5947,7 @@ void game::advanced_inv()
                             popup("This is too heavy!");
                             continue;
                         }
-                        else if(panes[src].size >= inv_chars.size())
+                        else if(panes[dest].size >= max_inv)
                         {
                             popup("Too many itens");
                             continue;
@@ -9661,6 +9684,10 @@ void game::autosave()
     }
     add_msg("Saving game, this may take a while");
     save();
+
+    save_factions_missions_npcs();
+    save_artifacts();
+    save_maps();
 
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;

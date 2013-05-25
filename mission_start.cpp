@@ -67,6 +67,22 @@ void mission_start::place_zombie_mom(game *g, mission *miss)
  zomhouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
 }
 
+void mission_start::place_jabberwock(game *g, mission *miss)
+{
+ int dist = 0;
+ point site = g->cur_om->find_closest(g->om_location(), ot_forest_thick, 1, dist, false);
+ miss->target = site;
+// Make it seen on our map
+ for (int x = site.x - 6; x <= site.x + 6; x++) {
+  for (int y = site.y - 6; y <= site.y + 6; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ tinymap grove(&(g->itypes), &(g->mapitems), &(g->traps));
+ grove.load(g, site.x * 2, site.y * 2,  0, false);
+ grove.add_spawn(mon_jabberwock, 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
+ grove.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
+}
+
 void mission_start::place_npc_software(game *g, mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);

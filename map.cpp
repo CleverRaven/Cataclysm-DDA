@@ -1365,6 +1365,23 @@ case t_wall_log:
 
  case t_locker:
  case t_rack:
+  result = rng(0, 30);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "metal screeching!";
+   ter_set(x, y, t_metal);
+   spawn_item(x, y, (*itypes)["scrap"], 0, rng(2, 8));
+   const int num_boards = rng(0, 3);
+   for (int i = 0; i < num_boards; i++)
+    spawn_item(x, y, (*itypes)["steel_chunk"], 0);
+   spawn_item(x, y, (*itypes)["pipe"], 0);
+   return true;
+  } else {
+   sound += "clang!";
+   return true;
+  }
+  break;
+
  case t_fridge:
  case t_glass_fridge:
   result = rng(0, 30);

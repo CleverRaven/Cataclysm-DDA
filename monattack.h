@@ -46,6 +46,7 @@ class mattack
   void upgrade		(game *g, monster *z);
   void breathe		(game *g, monster *z);
   void bite		    (game *g, monster *z);
+  void flesh_golem  (game *g, monster *z);
 };
 
 #endif
