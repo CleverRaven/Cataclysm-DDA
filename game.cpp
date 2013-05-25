@@ -1637,8 +1637,10 @@ bool game::handle_action()
            break;
           case 'D':
            disassemble(chItem);
+           break;
           case '=':
            reassign_item(chItem);
+           break;
           case KEY_UP:
            selected--;
            break;
