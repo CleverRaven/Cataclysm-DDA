@@ -8356,7 +8356,7 @@ void game::plmove(int x, int y)
    }
   }
 
-    if (u.has_trait(PF_PYROMANIA) && u.morale_level() < 0)
+    if (u.has_trait(PF_PYROMANIA) && u.morale_level() <= -12)
     {
         u.pyromania_fire_call(this, x, y);
     }
