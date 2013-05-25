@@ -368,6 +368,8 @@ void game::cleanup_at_end(){
 
 		// save artifacts.
 		save_artifacts();
+                artifact_itype_ids.erase(artifact_itype_ids.begin(),
+                                         artifact_itype_ids.end());
 
 		// and the overmap, and the local map.
 		save_maps(); //Omap also contains the npcs who need to be saved.
@@ -2406,8 +2408,6 @@ void game::save_artifacts()
     {
 	artifacts.push_back(itypes[*it]->save_data());
     }
-    artifact_itype_ids.erase(artifact_itype_ids.begin(),
-			     artifact_itype_ids.end());
     picojson::value out = picojson::value(artifacts);
     fout << out.serialize();
     fout.close();
@@ -9674,6 +9674,10 @@ void game::autosave()
     }
     add_msg("Saving game, this may take a while");
     save();
+
+    save_factions_missions_npcs();
+    save_artifacts();
+    save_maps();
 
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;
