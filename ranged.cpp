@@ -1045,38 +1045,44 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
  }
 }
 
-void ammo_effects(game *g, int x, int y, long effects)
-{
- if (effects & mfb(AMMO_EXPLOSIVE))
-  g->explosion(x, y, 24, 0, false);
+void ammo_effects(game *g, int x, int y, long effects) {
+  if (effects & mfb(AMMO_EXPLOSIVE))
+    g->explosion(x, y, 24, 0, false);
 
- if (effects & mfb(AMMO_FRAG))
-  g->explosion(x, y, 12, 28, false);
+  if (effects & mfb(AMMO_FRAG))
+    g->explosion(x, y, 12, 28, false);
 
- if (effects & mfb(AMMO_NAPALM))
-  g->explosion(x, y, 18, 0, true);
+  if (effects & mfb(AMMO_NAPALM))
+    g->explosion(x, y, 18, 0, true);
 
- if (effects & mfb(AMMO_EXPLOSIVE_BIG))
-  g->explosion(x, y, 40, 0, false);
-
- if (effects & mfb(AMMO_TEARGAS)) {
-  for (int i = -2; i <= 2; i++) {
-   for (int j = -2; j <= 2; j++)
-    g->m.add_field(g, x + i, y + j, fd_tear_gas, 3);
+  if (effects & mfb(AMMO_ACIDBOMB)) {
+    for (int i = x - 1; i <= x + 1; i++) {
+      for (int j = y - 1; j <= y + 1; j++) {
+        g->m.add_field(g, i, j, fd_acid, 3);
+      }
+    }
   }
- }
 
- if (effects & mfb(AMMO_SMOKE)) {
-  for (int i = -1; i <= 1; i++) {
-   for (int j = -1; j <= 1; j++)
-    g->m.add_field(g, x + i, y + j, fd_smoke, 3);
+  if (effects & mfb(AMMO_EXPLOSIVE_BIG))
+    g->explosion(x, y, 40, 0, false);
+
+  if (effects & mfb(AMMO_TEARGAS)) {
+    for (int i = -2; i <= 2; i++) {
+      for (int j = -2; j <= 2; j++)
+        g->m.add_field(g, x + i, y + j, fd_tear_gas, 3);
+    }
   }
- }
 
- if (effects & mfb(AMMO_FLASHBANG))
-  g->flashbang(x, y);
+  if (effects & mfb(AMMO_SMOKE)) {
+    for (int i = -1; i <= 1; i++) {
+      for (int j = -1; j <= 1; j++)
+        g->m.add_field(g, x + i, y + j, fd_smoke, 3);
+    }
+  }
 
- if (effects & mfb(AMMO_FLAME))
-  g->explosion(x, y, 4, 0, true);
+  if (effects & mfb(AMMO_FLASHBANG))
+    g->flashbang(x, y);
 
+  if (effects & mfb(AMMO_FLAME))
+    g->explosion(x, y, 4, 0, true);
 }
