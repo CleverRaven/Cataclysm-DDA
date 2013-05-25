@@ -711,6 +711,9 @@ char npc::choose_escape_item()
    }
   }
  }
+ // Protect us from accessing an invalid index.
+ if (ret == -1) { return ret; }
+
  return slice[ret]->front().invlet;
 }
 
