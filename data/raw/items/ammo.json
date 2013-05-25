@@ -1246,7 +1246,7 @@
         "range" : 40,
         "accuracy" : 8,
         "recoil" : 15,
-        "count" : 4,
+        "count" : 1,
         "effects" : ["ACIDBOMB"]
     },
     {   "type" : "AMMO",
