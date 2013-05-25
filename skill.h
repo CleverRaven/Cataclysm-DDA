@@ -73,7 +73,7 @@ class SkillLevel {
   int level() const { return _level; }
   int level(int plevel) { _level = plevel; return plevel; }
 
-  int exercise() const { return _exercise / (_level + 1); }
+  int exercise(bool raw = false) const { return raw ? _exercise : _exercise / (_level + 1); }
 
   int lastPracticed() const { return _lastPracticed; }
 
