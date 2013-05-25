@@ -381,10 +381,18 @@ int player::calc_focus_equilibrium()
     // Factor in pain, since it's harder to rest your mind while your body hurts.
     int eff_morale = morale_level() - pain;
     int focus_gain_rate = 100;
+    it_book* reading;    
     // apply a penalty when improving skills via books
     if (activity.type == ACT_READ)
     {
-        it_book *reading = dynamic_cast<it_book *>(inv.item_by_letter(activity.invlet).type);
+        if (this->activity.index == -2)
+        {
+            reading = dynamic_cast<it_book *>(weapon.type);        
+        }
+        else
+        {
+            reading = dynamic_cast<it_book *>(inv.item_by_letter(activity.invlet).type);
+        }
         // only apply a penalty when we're actually learning something
         if (skillLevel(reading->type) < (int)reading->level)
         {
