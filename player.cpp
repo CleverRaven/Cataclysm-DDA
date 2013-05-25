@@ -354,7 +354,7 @@ void player::update_morale()
             }
             else
             {
-                if (one_in(-morale[i].neg_decay)) {morale[i].bonus++;}
+                if (one_in(-morale[i].neg_decay)) {morale[i].bonus--;}
             }
         }
         else if (morale[i].bonus > 0)
@@ -366,13 +366,40 @@ void player::update_morale()
             }
             else
             {
-                if (one_in(-morale[i].pos_decay)) {morale[i].bonus--;}
+                if (one_in(-morale[i].pos_decay)) {morale[i].bonus++;}
             }
         }
         if (morale[i].bonus == 0)
         {
-            morale.erase(morale.begin() + i);
-            i--;
+            if (morale[i].permanent == 0)
+            {
+                morale.erase(morale.begin() + i);
+                i--;
+            }
+            else if (morale[i].permanent == -1)
+            {
+                if (morale[i].neg_decay >= 0)
+                {
+                    morale[i].bonus += morale[i].neg_decay;
+                    if (morale[i].bonus > 0) {morale[i].bonus = 0;}
+                }
+                else
+                {
+                    if (one_in(-morale[i].neg_decay)) {morale[i].bonus--;}
+                }
+            }
+            else
+            {
+                if (morale[i].pos_decay >= 0)
+                {
+                    morale[i].bonus -= morale[i].pos_decay;
+                    if (morale[i].bonus < 0) {morale[i].bonus = 0;}
+                }
+                else
+                {
+                    if (one_in(-morale[i].pos_decay)) {morale[i].bonus++;}
+                }
+            }
         }
     }
 }
@@ -3787,8 +3814,8 @@ int player::morale_level()
  return ret;
 }
 
-void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        itype* item_type, int pos_decay, int neg_decay)
+void player::add_morale(morale_type type, int bonus, int max_bonus, itype* item_type,
+                        int pos_decay, int neg_decay, int permanent)
 {
  bool placed = false;
 
@@ -3803,7 +3830,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
   }
  }
  if (!placed) { // Didn't increase an existing point, so add a new one
-  morale_point tmp(type, item_type, bonus, pos_decay, neg_decay);
+  morale_point tmp(type, item_type, bonus, pos_decay, neg_decay, permanent);
   morale.push_back(tmp);
  }
 }
@@ -5786,6 +5813,11 @@ void player::pyromania_fire_call(game *g, int x, int y)
 {
     if (rng(0,100) < -(morale_level()+10)/2)
     {
+        if (has_disease(DI_TOOK_PROZAC) && one_in(2)) //50% chance reduction with Prozac
+        {
+            return;
+        }
+
         int pyro_x = x;
         int pyro_y = y;
         for (int i = x - 1; i <= x + 1; i++)
@@ -5815,7 +5847,7 @@ void player::pyromania_fire_call(game *g, int x, int y)
             if (!use_charges_if_avail("fire", 1))
             {
                 g->add_msg("You want to light a fire but can't");
-                add_morale(MORALE_PERM_PYROMANIA, -15, -100);
+                add_morale(MORALE_PERM_PYROMANIA, -15, -100, NULL, 2, -45, -1);
             }
             else
             {
@@ -5824,7 +5856,7 @@ void player::pyromania_fire_call(game *g, int x, int y)
                     g->m.field_at(pyro_x, pyro_y).age = 30;
                     g->add_msg("You successfully light a fire.");
                     moves -= 15;
-                    add_morale(MORALE_PERM_PYROMANIA, 10, 100);
+                    add_morale(MORALE_PERM_PYROMANIA, 10, 100, NULL, 2, -45, -1);
                 }
             }
         }

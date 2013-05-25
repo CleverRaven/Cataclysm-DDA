@@ -54,9 +54,10 @@ struct morale_point
  int bonus;
  int pos_decay;
  int neg_decay;
+ int permanent;
 
- morale_point(morale_type T = MORALE_NULL, itype* I = NULL, int B = 0, int pos = 1, int neg = 1) :
-              type (T), item_type (I), bonus (B), pos_decay (pos), neg_decay (neg) {}; 
+ morale_point(morale_type T = MORALE_NULL, itype* I = NULL, int B = 0, int pos = 1, int neg = 1, int perm = 0) :
+              type (T), item_type (I), bonus (B), pos_decay (pos), neg_decay (neg), permanent (perm) {}; 
 
  std::string name(std::string morale_data[])
  {
