@@ -12677,6 +12677,7 @@ void map::add_extra(map_extra type, game *g)
    }
   }
 
+  spawn_item(rng(5,18), rng(5,18), g->itypes["black_box"], 0);
   place_items(mi_helicopter, 90, cx - 4, cy - 4, cx + 4, cy + 4, true, 0);
   place_items(mi_helicopter, 20, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
   items_location extra_items = mi_helicopter;
