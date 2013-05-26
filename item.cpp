@@ -566,9 +566,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
     {
         dump->push_back(iteminfo("ARMOR", " Encumberment: ", "", int(armor->encumber), "", true, true));
     }
-
-  dump->push_back(iteminfo("ARMOR", " Bashing protection: ", "", int(bash_resist())));
-  dump->push_back(iteminfo("ARMOR", " Cut protection: ", "", int(cut_resist())));
+  dump->push_back(iteminfo("ARMOR", " Protection: Bash: ", "", int(bash_resist()), "", false, true));
+  dump->push_back(iteminfo("ARMOR", "    Cut: ", "", int(cut_resist()), "", true, true));
   dump->push_back(iteminfo("ARMOR", " Environmental protection: ", "", int(armor->env_resist)));
   dump->push_back(iteminfo("ARMOR", " Warmth: ", "", int(armor->warmth)));
   dump->push_back(iteminfo("ARMOR", " Storage: ", "", int(armor->storage)));
