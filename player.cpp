@@ -630,7 +630,7 @@ void player::update_bodytemp(game *g)
                 temp_conv[i] = BODYTEMP_NORM;
             }
         }
-        // Bionic "Thermal Dissapation" says it prevents fire damage up to 2000F. 500 is picked at random...
+        // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F. 500 is picked at random...
         if (has_bionic("bio_heatsink") && blister_count < 500)
         {
             blister_count = (has_trait(PF_BARK) ? -100 : 0);
