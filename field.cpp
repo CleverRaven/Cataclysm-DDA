@@ -316,7 +316,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
      for (int a = -1; a <= 1; a++) {
       for (int b = -1; b <= 1; b++) {
        if ((field_at(x+a, y+b).type == fd_smoke &&
-             field_at(x+a, y+b).density < 3       ) ||
+             field_at(x+a, y+b).density < 3) ||
            (field_at(x+a, y+b).is_null() && move_cost(x+a, y+b) > 0))
         spread.push_back(point(x+a, y+b));
       }
