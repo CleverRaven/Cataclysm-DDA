@@ -1474,3 +1474,35 @@ void mattack::flesh_golem(game *g, monster *z)
     }
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
+
+void mattack::parrot(game *g, monster *z)
+{
+ int j;
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 50)
+  return;	// Out of range
+ if (one_in(1)){
+  z->moves = -100;			// It takes a while
+  z->sp_timeout = z->type->sp_freq;	// Reset timer
+  switch (rng(1,18)) {
+    case 1:      g->sound(z->posx, z->posy, 60, "a woman cry out!");       break;
+    case 2:      g->sound(z->posx, z->posy, 40, "a small girl crying...");       break;
+    case 3:      g->sound(z->posx, z->posy, 30, "'This creature has some form of higher level brain function.'");       break;
+    case 4:      g->sound(z->posx, z->posy, 30, "'Shall we terminate the specimen if power is lost?'");       break;
+    case 5:      g->sound(z->posx, z->posy, 50, "a small girl pleading, 'Mommy, help!'");       break;
+    case 6:      g->sound(z->posx, z->posy, 60, "a child, 'Oh God, my leg!  Give it back!'");       break;
+    case 7:      g->sound(z->posx, z->posy, 30, "'Destroy the specimen if it begins to interact with the lock.'");       break;
+    case 8:      g->sound(z->posx, z->posy, 60, "a woman yell, 'I hope you rot in hell for this!'");       break;
+    case 9:      g->sound(z->posx, z->posy, 60, "'Kill them all and let God sort them out!'");       break;
+    case 10:     g->sound(z->posx, z->posy, 50, "'I'm gonna cut your damned limbs off and let you blead out!'");       break;
+    case 11:     g->sound(z->posx, z->posy, 30, "'I wonder if you understand what I'm saying.'");       break;
+    case 12:     g->sound(z->posx, z->posy, 30, "'I believe that it is trying to learn our language.'");       break;
+    case 13:     g->sound(z->posx, z->posy, 30, "'It seems to want to experiment on us... give it a prisoner.'");       break;
+    case 14:     g->sound(z->posx, z->posy, 30, "'It is interested in observing the brain of a living human.'");       break;
+    case 15:     g->sound(z->posx, z->posy, 30, "'Would it react differently with a child?'");       break;
+    case 16:     g->sound(z->posx, z->posy, 30, "'It seems to want to experiment on us... give it a prisoner.'");       break;
+    case 17:     g->sound(z->posx, z->posy, 30, "'Although advanced, its ethics are not our own.'");       break;
+    case 18:     g->sound(z->posx, z->posy, 30, "'It shows no empathy towards the prisoners we... 'gave' it.'");       break;
+   }
+ }
+
+}
