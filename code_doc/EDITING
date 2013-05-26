@@ -58,20 +58,20 @@ ADDITIONS
         "weight" : 1,       // weight of armour
         "color" : "blue",   // ascii character colour
         "covers" : ["FEET"],    // where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
-        "to_hit" : 0,       // bonus if using it as a melee weapon (whatever for?)
+        "to_hit" : 0,       // to-hit bonus if using it as a melee weapon (whatever for?)
         "storage" : 0,      // how many volume storage slots it adds
         "symbol" : "[",     // ascii character
         "description" : "Socks. Put 'em on your feet.", // description of armour
         "price" : 100,      // price of armour, used when bartering with NPCs
         "material" : ["COTTON", "NULL"],    // material types.  See materials.json for possible options
         "volume" : 1,       // volume occupied
-        "cutting" : 0,      // OBSOLETE, TO BE DEPRECIATED
+        "cutting" : 0,      // cutting damage caused by using it as a melee weapon
         "warmth" : 10,      // how much warmth clothing provides
         "phase" : "solid",  // what phase it is
         "enviromental_protection" : 0,  // how much environmental protection it affords
         "rarity" : 70,      // determines how often it spawns
         "encumberance" : 0, // base encumbrance (unfitted value)
-        "bashing" : -5,     // OBSOLETE, TO BE DEPRECIATED
+        "bashing" : -5,     // bashing damage caused by using it as a melee weapon
         "flags" : ["VARSIZE"]   // used to indicate clothing type which can be fitted.  Leave out the flags field entirely if clothing cannot be fitted
         "coverage" : 80,    // what percentage of body part
         "material_thickness" : 1    // thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armour types go up to 10 or more
