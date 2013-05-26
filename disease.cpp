@@ -3,6 +3,7 @@
 #include "bodypart.h"
 #include "disease.h"
 #include "weather.h"
+#include <stdlib.h>
 #include <sstream>
 
 void dis_msg(game *g, dis_type type)
@@ -219,13 +220,14 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_HOT_HEAD:
   switch (dis.intensity) {
    case 3 :
-    p.thirst--;
-	if (p.pain < 50) p.pain++;
+    p.thirst++;
+	if (p.pain < 40) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your head is pounding from the heat.");
     // Speed -20
    case 2 :
-    p.thirst--;
-    if (one_in(15000 - p.temp_cur[bp_head])) p.vomit(g); // Hallucinations handled in game.cpp
+    p.thirst++;
+    // Hallucinations handled in game.cpp
+    if (one_in(std::min(14500,15000-p.temp_cur[bp_head]))) p.vomit(g);
 	if (p.pain < 20) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("The heat is making you see things.");
     // Speed -5
@@ -235,21 +237,21 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_HOT_MOUTH:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-    if (p.pain < 50) p.pain++;
-   case 2 : p.thirst--;
+   case 3 : p.thirst++;
+    if (p.pain < 30) p.pain++;
+   case 2 : p.thirst++;
   }
   break;
 
  case DI_HOT_TORSO:
   switch (dis.intensity) {
    case 3 :
-    p.thirst--;
+    p.thirst++;
     p.str_cur--;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("You are sweating profusely.");
     // Speed -20
    case 2 :
-    p.thirst--;
+    p.thirst++;
 	p.str_cur--;
     // Speed -5
     // case 1 : Speed -2
@@ -258,9 +260,9 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_HOT_ARMS:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-    if (p.pain < 50) p.pain++;
-   case 2 : p.thirst--;
+   case 3 : p.thirst++;
+    if (p.pain < 30) p.pain++;
+   case 2 : p.thirst++;
   }
   break;
 
@@ -273,17 +275,16 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_HOT_LEGS:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-    if (p.pain < 50) p.pain++;
+   case 3 : p.thirst++;
+    if (p.pain < 30) p.pain++;
     if (one_in(400)) g->add_msg("Your legs are cramping up.");
-   case 2 : p.thirst--;
+   case 2 : p.thirst++;
   }
   break;
 
  case DI_HOT_FEET:
   switch (dis.intensity) {
-   case 3 : if (p.pain < 50) p.pain++;
-   case 2 :
+   case 3 :
     if (p.pain < 30) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your feet are swelling in the heat.");
   }
@@ -1503,7 +1504,7 @@ std::string dis_description(disease dis)
 
  case DI_HOT_FEET:
   switch (dis.intensity) {
-   case 1: return "Your feet feel hot.";
+   case 1: return "Your feet feel warm.";
    case 2: return "Your feet are painfully swollen due to the heat.";
    case 3: return "Your feet are painfully swollen due to the heat.";}
 
