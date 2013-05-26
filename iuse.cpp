@@ -924,21 +924,26 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         it->charges++;
         return;
     }
-    if (!fix->made_of(COTTON) && !fix->made_of(WOOL) && !fix->made_of(LEATHER))
+
+    itype_id repair_item = "none";
+    if (fix->made_of(COTTON) || fix->made_of(WOOL))
+    {
+        repair_item = "rag";
+    }
+    else if (fix->made_of(LEATHER))
+    {
+        repair_item = "leather";
+    }
+    else
 	{
-        g->add_msg_if_player(p,"Your %s is not made of cotton,wool or leather.", fix->tname().c_str());
+        g->add_msg_if_player(p,"Your %s is not made of cotton, wool or leather.", fix->tname().c_str());
         it->charges++;
         return;
     }
-    if ((fix->made_of(COTTON) || fix->made_of(WOOL)) && !p->has_amount("rag",1))
-        {
-        g->add_msg_if_player(p,"You don't have enough rags to do that.");
-        it->charges++;
-        return;
-    }
-    if (fix->made_of(LEATHER) && !p->has_amount("leather",1))
-        {
-        g->add_msg_if_player(p,"You don't have enough leather to do that.");
+
+    if (!p->has_amount(repair_item, 1))
+    {
+        g->add_msg_if_player(p,"You don't have enough %ss to do that.", repair_item.c_str());
         it->charges++;
         return;
     }
@@ -949,11 +954,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         return;
     }
 
-    if (fix->made_of(COTTON) || fix->made_of(WOOL)) {
-        p->use_amount("rag",1);
-    } else if (fix->made_of(LEATHER)) {
-        p->use_amount("leather",1);
-    }
+    p->use_amount(repair_item,1);
 
     if (fix->damage == 0)
     {
