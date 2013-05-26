@@ -33,6 +33,9 @@
     <ClCompile Include="..\bodypart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\building_generation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\calendar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -139,9 +142,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\mapgen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\mapgen_helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\mapgenformat.cpp">

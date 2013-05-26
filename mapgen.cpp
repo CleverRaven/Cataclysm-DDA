@@ -8,7 +8,7 @@
 #include "debug.h"
 #include "options.h"
 #include "item_factory.h"
-#include "mapgen_helper.h"
+#include "building_generation.h"
 #include "mapgenformat.h"
 #include "overmapbuffer.h"
 

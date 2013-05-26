@@ -1,5 +1,5 @@
-#ifndef _MAPGEN_HELPER_H_
-#define _MAPGEN_HELPER_H_
+#ifndef _BUILDING_GENERATION_H_
+#define _BUILDING_GENERATION_H_
 
 #include "omdata.h"
 #include "map.h"
