@@ -10,7 +10,7 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 
  #define ORIGINS(...) setvector(&mission_types[id].origins, __VA_ARGS__, NULL)
  #define ITEM(itid)     mission_types[id].item_id = itid
-
+ #define FOLLOWUP(next_up) mission_types[id].follow_up = next_up
 // DEADLINE defines the low and high end time limits, in hours
 // Omitting DEADLINE means the mission never times out
  #define DEADLINE(low, high) mission_types[id].deadline_low  = low  * 600;\
@@ -59,24 +59,26 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
   ORIGINS(ORIGIN_NULL);
 
 //patriot mission 1
- MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
+MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  FOLLOWUP(MISSION_GET_BLACK_BOX);
   ITEM("american_flag");
 
 //patriot mission 2
-  MISSION("Retrieve Military Black Box", MGOAL_FIND_ITEM, 2, 1000, false,
+ MISSION("Retrieve Military Black Box", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
-  ORIGINS(ORIGIN_ANY_NPC);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_GET_BLACK_BOX_TRANSCRIPT);
   ITEM("black_box");
 
 //patriot mission 3
  MISSION("Retrieve Black Box Transcript", MGOAL_FIND_ITEM, 2, 1500, false,
 	&mission_place::always, &mission_start::reveal_lab_black_box,
 	&mission_end::standard, &mission_fail::standard);
-  ORIGINS(ORIGIN_ANY_NPC);
+  ORIGINS(ORIGIN_SECONDARY);
   ITEM("black_box_transcript");
 
  MISSION("Find Relic", MGOAL_FIND_ITEM, 2, 1000, false,
