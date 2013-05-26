@@ -5341,28 +5341,11 @@ void game::examine()
 
  (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 
- if (m.has_flag(sealed, examx, examy)) {
-  if (m.trans(examx, examy)) {
-   std::string buff;
-   if (m.i_at(examx, examy).size() <= 3 && m.i_at(examx, examy).size() != 0) {
-    buff = "It contains ";
-    for (int i = 0; i < m.i_at(examx, examy).size(); i++) {
-     buff += m.i_at(examx, examy)[i].tname(this);
-     if (i + 2 < m.i_at(examx, examy).size())
-      buff += ", ";
-     else if (i + 1 < m.i_at(examx, examy).size())
-      buff += ", and ";
+    if (m.has_flag(sealed, examx, examy))
+    {
+        add_msg("The %s is firmly sealed.", m.tername(examx, examy).c_str());
     }
-    buff += ",";
-   } else if (m.i_at(examx, examy).size() != 0)
-    buff = "It contains many items,";
-   buff += " but is firmly sealed.";
-   add_msg(buff.c_str());
-  } else {
-   add_msg("There's something in there, but you can't see what it is, and the\
- %s is firmly sealed.", m.tername(examx, examy).c_str());
-  }
- } else {
+    else {
    //examx,examy has no traps, is a container and doesn't have a special examination function
   if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) &&
        xter_t->examine == &iexamine::none)
@@ -6283,8 +6266,9 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     {
         for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++)
         {
-            if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
-                u_see(u.posx + iCol, u.posy + iRow))
+            if (u_see(u.posx + iCol, u.posy + iRow) && 
+               (!m.has_flag(container, u.posx + iCol, u.posy + iRow) ||
+               (rl_dist(u.posx, u.posy, u.posx + iCol, u.posy + iRow) == 1 && !m.has_flag(sealed, u.posx + iCol, u.posy + iRow))))
             {
                 temp_items.clear();
                 here.clear();
