@@ -2880,6 +2880,7 @@
         "rarity" : 20,
         "encumberance" : 0,
         "bashing" : -5,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 1
     },
     {
@@ -2904,6 +2905,7 @@
         "encumberance" : 5,
         "bashing" : -5,
         "coverage" : 100,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 3
     },
     {
@@ -2928,6 +2930,7 @@
         "encumberance" : 5,
         "bashing" : -5,
         "coverage" : 100,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -2952,6 +2955,7 @@
         "encumberance" : 5,
         "bashing" : -5,
         "coverage" : 100,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -2976,6 +2980,7 @@
         "encumberance" : 5,
         "bashing" : -5,
         "coverage" : 100,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -3000,6 +3005,7 @@
         "encumberance" : 5,
         "bashing" : -5,
         "coverage" : 100,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 6
     },
     {
@@ -3025,6 +3031,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -3050,6 +3057,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -3075,12 +3083,13 @@
         "bashing" : -5,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
         "id" : "cloak_fur",
-        "name" : "cloak",
+        "name" : "fur cloak",
         "weight" : 15,
         "color" : "light_red",
         "covers" : ["TORSO", "HEAD", "ARMS", "LEGS"],
@@ -3100,12 +3109,13 @@
         "bashing" : -5,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
         "id" : "cloak_leather",
-        "name" : "cloak",
+        "name" : "leather cloak",
         "weight" : 25,
         "color" : "light_red",
         "covers" : ["TORSO", "HEAD", "ARMS", "LEGS"],
@@ -3125,6 +3135,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -3150,6 +3161,7 @@
         "bashing" : -5,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
