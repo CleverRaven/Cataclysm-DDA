@@ -2254,13 +2254,12 @@
                           ]
         },
 
-
         {
             "result": "acid",
             "category": "CC_DRINK",
             "skill_pri": "cooking",
             "difficulty": 4,
-            "time": 1000,
+            "time": 10000,
             "reversible": false,
             "autolearn": true,
             "tools": [
@@ -2281,6 +2280,30 @@
                               ]
                           ]
         },
+
+        {
+            "result": "acid",
+            "id_suffix": "from batteries",
+            "category": "CC_DRINK",
+            "skill_pri": "electronics",
+            "skill_sec": "mechanics",
+            "difficulty": 2,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["battery", 125]
+                              ]
+                          ]
+        },
+
 
 
         {
