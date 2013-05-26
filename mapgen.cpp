@@ -6151,8 +6151,7 @@ __________           f  \n",
      place_items(mi_mechanics,	85,  14,  9, 16,  9, false, 0);
      place_items(mi_electronics,	80,  16,  2, 18,  2, false, 0);
      place_items(mi_cleaning,	85,  12,  2, 13,  2, false, 0);
-     for (int j = 0; j <= rng(1, 3); j++) {
-         spawn_item(3, 2, g->itypes["log"], 0);}
+     spawn_item(3, 2, g->itypes["log"], 0, rng(1, 3));}
      if (t_west == ot_public_works && t_north == ot_public_works){
             rotate(1);
             if (x_in_y(2,3)){add_vehicle (g, veh_truck, 2, 0, 90);}
