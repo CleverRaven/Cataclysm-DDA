@@ -972,7 +972,7 @@ FLAGS(MF_SEES, MF_SMELLS, MF_HEARS, MF_NOHEAD, MF_HARDTOSHOOT, MF_FLIES,
 mon("Mi-go",	species_nether, 'H',	c_pink,		MS_MEDIUM,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
      26, 20, 30,120, 14,  5,  3, 10,  7,  4, 12,  0,110, 0,
-	&mdeath::normal,	&mattack::none, "\
+	&mdeath::normal,	&mattack::parrot, "\
 A pinkish, fungoid crustacean-like\n\
 creature with numerous pairs of clawed\n\
 appendages and a head covered with waving\n\
