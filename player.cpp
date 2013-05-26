@@ -5181,69 +5181,71 @@ bool player::wear_item(game *g, item *to_wear)
      g->add_msg("You can't wear %s with power armor!", to_wear->tname().c_str());
      return false;
    }
- }
+}
 
-// Make sure we're not wearing 2 of the item already
- int count = 0;
- for (int i = 0; i < worn.size(); i++) {
-  if (worn[i].type->id == to_wear->type->id)
-   count++;
- }
- if (count == 2) {
-  g->add_msg("You can't wear more than two %s at once.",
-             to_wear->tname().c_str());
-  return false;
- }
- if (has_trait(PF_WOOLALLERGY) && to_wear->made_of(WOOL)) {
-  g->add_msg("You can't wear that, it's made of wool!");
-  return false;
- }
- if (armor->covers & mfb(bp_head) && encumb(bp_head) != 0) {
-  g->add_msg("You can't wear a%s helmet!",
-             wearing_something_on(bp_head) ? "nother" : "");
-  return false;
- }
- if (armor->covers & mfb(bp_hands) && has_trait(PF_WEBBED)) {
-  g->add_msg("You cannot put %s over your webbed hands.", armor->name.c_str());
-  return false;
- }
- if (armor->covers & mfb(bp_hands) && has_trait(PF_TALONS)) {
-  g->add_msg("You cannot put %s over your talons.", armor->name.c_str());
-  return false;
- }
- if (armor->covers & mfb(bp_mouth) && has_trait(PF_BEAK)) {
-  g->add_msg("You cannot put a %s over your beak.", armor->name.c_str());
-  return false;
- }
- if (armor->covers & mfb(bp_feet) && has_trait(PF_HOOVES)) {
-  g->add_msg("You cannot wear footwear on your hooves.");
-  return false;
- }
- if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED)) {
-  g->add_msg("You cannot wear headgear over your horns.");
-  return false;
- }
- if (armor->covers & mfb(bp_torso) && has_trait(PF_SHELL)) {
-  g->add_msg("You cannot wear anything over your shell.");
-  return false;
- }
- if (armor->covers & mfb(bp_head) && !to_wear->made_of(WOOL) &&
-     !to_wear->made_of(COTTON) && !to_wear->made_of(LEATHER) &&
-     (has_trait(PF_HORNS_POINTED) || has_trait(PF_ANTENNAE) ||
-      has_trait(PF_ANTLERS))) {
-  g->add_msg("You cannot wear a helmet over your %s.",
-             (has_trait(PF_HORNS_POINTED) ? "horns" :
-              (has_trait(PF_ANTENNAE) ? "antennae" : "antlers")));
-  return false;
- }
- // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
- if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of(WOOL) || to_wear->made_of(COTTON))) {
- for (int i = 0; i < worn.size(); i++) {
-  item *worn_item = &worn[i];
-  it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
-  if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON))) {
-   g->add_msg("You're already wearing footwear!");
+if (!to_wear->has_flag("OVERSIZE")) {
+ // Make sure we're not wearing 2 of the item already
+  int count = 0;
+  for (int i = 0; i < worn.size(); i++) {
+   if (worn[i].type->id == to_wear->type->id)
+    count++;
+  }
+  if (count == 2) {
+   g->add_msg("You can't wear more than two %s at once.",
+              to_wear->tname().c_str());
    return false;
+  }
+  if (has_trait(PF_WOOLALLERGY) && to_wear->made_of(WOOL)) {
+   g->add_msg("You can't wear that, it's made of wool!");
+   return false;
+  }
+  if (armor->covers & mfb(bp_head) && encumb(bp_head) != 0) {
+   g->add_msg("You can't wear a%s helmet!",
+              wearing_something_on(bp_head) ? "nother" : "");
+   return false;
+  }
+  if (armor->covers & mfb(bp_hands) && has_trait(PF_WEBBED)) {
+   g->add_msg("You cannot put %s over your webbed hands.", armor->name.c_str());
+   return false;
+  }
+  if (armor->covers & mfb(bp_hands) && has_trait(PF_TALONS)) {
+   g->add_msg("You cannot put %s over your talons.", armor->name.c_str());
+   return false;
+  }
+  if (armor->covers & mfb(bp_mouth) && has_trait(PF_BEAK)) {
+   g->add_msg("You cannot put a %s over your beak.", armor->name.c_str());
+   return false;
+  }
+  if (armor->covers & mfb(bp_feet) && has_trait(PF_HOOVES)) {
+   g->add_msg("You cannot wear footwear on your hooves.");
+   return false;
+  }
+  if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED)) {
+   g->add_msg("You cannot wear headgear over your horns.");
+   return false;
+  }
+  if (armor->covers & mfb(bp_torso) && has_trait(PF_SHELL)) {
+   g->add_msg("You cannot wear anything over your shell.");
+   return false;
+  }
+  if (armor->covers & mfb(bp_head) && !to_wear->made_of(WOOL) &&
+      !to_wear->made_of(COTTON) && !to_wear->made_of(LEATHER) &&
+      (has_trait(PF_HORNS_POINTED) || has_trait(PF_ANTENNAE) ||
+       has_trait(PF_ANTLERS))) {
+   g->add_msg("You cannot wear a helmet over your %s.",
+              (has_trait(PF_HORNS_POINTED) ? "horns" :
+               (has_trait(PF_ANTENNAE) ? "antennae" : "antlers")));
+   return false;
+  }
+  // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
+  if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of(WOOL) || to_wear->made_of(COTTON))) {
+  for (int i = 0; i < worn.size(); i++) {
+   item *worn_item = &worn[i];
+   it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
+   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON))) {
+    g->add_msg("You're already wearing footwear!");
+    return false;
+   }
   }
  }
 }
