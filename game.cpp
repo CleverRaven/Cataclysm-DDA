@@ -6870,7 +6870,7 @@ void game::pickup(int posx, int posy, int min)
  int new_weight = u.weight_carried(), new_volume = u.volume_carried();
  bool update = true;
  mvwprintw(w_pickup, 0,  0, "PICK UP (, = all)");
- int selected=-1;
+ int selected=0;
 // Now print the two lists; those on the ground and about to be added to inv
 // Continue until we hit return or space
  do {
@@ -6914,6 +6914,7 @@ void game::pickup(int posx, int posy, int min)
 
   if ( idx < here.size()) {
    getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
+   selected=idx;
    werase(w_item_info);
    if (getitem[idx]) {
     mvwprintw(w_item_info, 1, 0, here[idx].info().c_str());
