@@ -924,21 +924,31 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         it->charges++;
         return;
     }
-    if (!fix->made_of(COTTON) && !fix->made_of(WOOL) && !fix->made_of(LEATHER))
+
+    itype_id repair_item = "none";
+    std::string plural = "";
+    if (fix->made_of(COTTON) || fix->made_of(WOOL))
+    {
+        repair_item = "rag";
+        plural = "s";
+    }
+    else if (fix->made_of(LEATHER))
+    {
+        repair_item = "leather";
+    }
+    else
 	{
-        g->add_msg_if_player(p,"Your %s is not made of cotton,wool or leather.", fix->tname().c_str());
+        g->add_msg_if_player(p,"Your %s is not made of cotton, wool or leather.", fix->tname().c_str());
         it->charges++;
         return;
     }
-    if ((fix->made_of(COTTON) || fix->made_of(WOOL)) && !p->has_amount("rag",1))
-        {
-        g->add_msg_if_player(p,"You don't have enough rags to do that.");
-        it->charges++;
-        return;
-    }
-    if (fix->made_of(LEATHER) && !p->has_amount("leather",1))
-        {
-        g->add_msg_if_player(p,"You don't have enough leather to do that.");
+
+    // this will cause issues if/when NPCs start being able to sew.
+    // but, then again, it'll cause issues when they start crafting, too.
+    inventory crafting_inv = g->crafting_inventory();
+    if (!crafting_inv.has_amount(repair_item, 1))
+    {
+        g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repair_item.c_str(), plural.c_str());
         it->charges++;
         return;
     }
@@ -949,11 +959,10 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         return;
     }
 
-    if (fix->made_of(COTTON) || fix->made_of(WOOL)) {
-        p->use_amount("rag",1);
-    } else if (fix->made_of(LEATHER)) {
-        p->use_amount("leather",1);
-    }
+    std::vector<component> comps;
+    comps.push_back(component(repair_item, 1));
+    comps.back().available = true;
+    g->consume_items(comps);
 
     if (fix->damage == 0)
     {
