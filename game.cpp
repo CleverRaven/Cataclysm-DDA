@@ -368,8 +368,6 @@ void game::cleanup_at_end(){
 
 		// save artifacts.
 		save_artifacts();
-                artifact_itype_ids.erase(artifact_itype_ids.begin(),
-                                         artifact_itype_ids.end());
 
 		// and the overmap, and the local map.
 		save_maps(); //Omap also contains the npcs who need to be saved.
