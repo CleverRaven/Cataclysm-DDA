@@ -561,19 +561,26 @@ void dis_effect(game *g, player &p, disease &dis)
 
     // Cold or heat may wake you up.
     // Player will sleep through cold or heat if fatigued enough
-    for (int i = 0 ; i < num_bp ; i++){
-      if (p.temp_cur[i] < BODYTEMP_FREEZING - p.fatigue/2
-         || (one_in(p.temp_cur[i] + 5000) && p.temp_cur[i] < BODYTEMP_VERY_COLD - p.fatigue/2))
-      {
-        g->add_msg("The cold wakes you up.");
-        dis.duration = 1;
-      }
-      else if (p.temp_cur[i] > BODYTEMP_SCORCHING + p.fatigue/2
-              || (one_in(15000 - p.temp_cur[i]) && p.temp_cur[i] > BODYTEMP_VERY_HOT + p.fatigue/2))
-      {
-        g->add_msg("The heat wakes you up.");
-        dis.duration = 1;
-      }
+    for (int i = 0 ; i < num_bp ; i++)
+    {
+        if (p.temp_cur[i] < BODYTEMP_VERY_COLD - p.fatigue/2)
+        {
+            if (one_in(5000)) {g->add_msg("You toss and turn trying to keep warm.")}
+            if (p.temp_cur[i] < BODYTEMP_FREEZING - p.fatigue/2 || (one_in(p.temp_cur[i] + 5000)))
+            {
+                g->add_msg("The cold wakes you up.");
+                dis.duration = 1;
+            }
+        }
+        else if (p.temp_cur[i] > BODYTEMP_VERY_HOT + p.fatigue/2)
+        {
+            if (one_in(5000)) {g->add_msg("You toss and turn in the heat.")}
+            if (p.temp_cur[i] > BODYTEMP_SCORCHING + p.fatigue/2 || (one_in(15000 - p.temp_cur[i])))
+            {
+                g->add_msg("The heat wakes you up.");
+                dis.duration = 1;
+            }
+        }
     }
 
     break;
