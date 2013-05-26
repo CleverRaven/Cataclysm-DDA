@@ -65,7 +65,7 @@ void game::init_recipes()
         {
             if ((*name_iter) == rec_name)
             {
-                debugmsg("Recipe name collision: %s", rec_name.c_str());
+                debugmsg("Recipe name collision (set a unique value for the id_suffix field to fix): %s", rec_name.c_str());
             }
         }
 
