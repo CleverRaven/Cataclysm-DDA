@@ -910,7 +910,7 @@ may cause delayed reaction time and drowsiness.");
     bionics["bio_nanobots"] = new bionic_data("Repair Nanobots", false, true, 5, 0, "\
 Inside your body is a fleet of tiny dormant robots.  Once charged from your\n\
 energy banks, they will flit about your body, repairing any damage.");
-    bionics["bio_heatsink"] = new bionic_data("Thermal Dissapation", false, true, 1, 6, "\
+    bionics["bio_heatsink"] = new bionic_data("Thermal Dissipation", false, true, 1, 6, "\
 Powerful heatsinks supermaterials are woven into your flesh.  While powered,\n\
 this system will prevent heat damage up to 2000 degrees fahrenheit.  Note\n\
 that this does not affect your internal temperature.");
