@@ -4052,6 +4052,15 @@ bool player::process_single_active_item(game *g, item *it)
                 }
             }
         }
+        else if (it->type->id == "corpse")
+        {
+            if (it->ready_to_revive(g))
+            {
+                g->add_msg_if_player(this, "Oh dear god, a corpse you're carrying has started moving!");
+                g->revive_corpse(posx, posy, it);
+                return false;
+            }
+        }
         else
         {
             debugmsg("%s is active, but has no known active function.", it->tname().c_str());
