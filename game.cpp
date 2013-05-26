@@ -398,6 +398,7 @@ void game::cleanup_at_end(){
             gamemode = new special_game;	// null gamemode or something..
         }
     }
+    overmap_buffer.clear();
 }
 
 // MAIN GAME LOOP
