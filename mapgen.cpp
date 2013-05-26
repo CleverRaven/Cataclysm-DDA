@@ -4555,20 +4555,16 @@ case ot_lmoe: {
    add_trap(SEEX + 1, SEEY + 1, tr_dissector);
    if (!one_in(3)) {
     rn = dice(4, 3);
-    for (int i = 0; i < rn; i++) {
-     spawn_item(SEEX - 1, SEEY - 1, item_controller->find_template("laser_pack"), 0);
-     spawn_item(SEEX + 1, SEEY - 1, item_controller->find_template("laser_pack"), 0);
-    }
+    spawn_item(SEEX - 1, SEEY - 1, item_controller->find_template("laser_pack"), 0, rn);
+    spawn_item(SEEX + 1, SEEY - 1, item_controller->find_template("laser_pack"), 0, rn);
     spawn_item(SEEX - 1, SEEY    , item_controller->find_template("v29"), 0);
     spawn_item(SEEX + 1, SEEY    , item_controller->find_template("ftk93"), 0);
    } else if (!one_in(3)) {
     rn = dice(3, 6);
-    for (int i = 0; i < rn; i++) {
-     spawn_item(SEEX - 1, SEEY - 1, item_controller->find_template("mininuke"), 0);
-     spawn_item(SEEX    , SEEY - 1, item_controller->find_template("mininuke"), 0);
-     spawn_item(SEEX - 1, SEEY    , item_controller->find_template("mininuke"), 0);
-     spawn_item(SEEX    , SEEY    , item_controller->find_template("mininuke"), 0);
-    }
+    spawn_item(SEEX - 1, SEEY - 1, item_controller->find_template("mininuke"), 0, rn);
+    spawn_item(SEEX    , SEEY - 1, item_controller->find_template("mininuke"), 0, rn);
+    spawn_item(SEEX - 1, SEEY    , item_controller->find_template("mininuke"), 0, rn);
+    spawn_item(SEEX    , SEEY    , item_controller->find_template("mininuke"), 0, rn);
    } else {
     ter_set(SEEX - 2, SEEY - 1, t_rack);
     ter_set(SEEX - 1, SEEY - 1, t_rack);
