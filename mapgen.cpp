@@ -4555,20 +4555,16 @@ case ot_lmoe: {
    add_trap(SEEX + 1, SEEY + 1, tr_dissector);
    if (!one_in(3)) {
     rn = dice(4, 3);
-    for (int i = 0; i < rn; i++) {
-     spawn_item(SEEX - 1, SEEY - 1, item_controller->find_template("laser_pack"), 0);
-     spawn_item(SEEX + 1, SEEY - 1, item_controller->find_template("laser_pack"), 0);
-    }
+    spawn_item(SEEX - 1, SEEY - 1, item_controller->find_template("laser_pack"), 0, rn);
+    spawn_item(SEEX + 1, SEEY - 1, item_controller->find_template("laser_pack"), 0, rn);
     spawn_item(SEEX - 1, SEEY    , item_controller->find_template("v29"), 0);
     spawn_item(SEEX + 1, SEEY    , item_controller->find_template("ftk93"), 0);
    } else if (!one_in(3)) {
     rn = dice(3, 6);
-    for (int i = 0; i < rn; i++) {
-     spawn_item(SEEX - 1, SEEY - 1, item_controller->find_template("mininuke"), 0);
-     spawn_item(SEEX    , SEEY - 1, item_controller->find_template("mininuke"), 0);
-     spawn_item(SEEX - 1, SEEY    , item_controller->find_template("mininuke"), 0);
-     spawn_item(SEEX    , SEEY    , item_controller->find_template("mininuke"), 0);
-    }
+    spawn_item(SEEX - 1, SEEY - 1, item_controller->find_template("mininuke"), 0, rn);
+    spawn_item(SEEX    , SEEY - 1, item_controller->find_template("mininuke"), 0, rn);
+    spawn_item(SEEX - 1, SEEY    , item_controller->find_template("mininuke"), 0, rn);
+    spawn_item(SEEX    , SEEY    , item_controller->find_template("mininuke"), 0, rn);
    } else {
     ter_set(SEEX - 2, SEEY - 1, t_rack);
     ter_set(SEEX - 1, SEEY - 1, t_rack);
@@ -6054,16 +6050,11 @@ case ot_public_works:{
      mapf::end() );
      place_items(mi_hardware,	85,  2, 3, 2,  8, false, 0);
      place_items(mi_hardware,	85,  6,  2, 13,  2, false, 0);
-     for (int j = 0; j <= rng(1, 3); j++) {
-         spawn_item(21, 2, g->itypes["log"], 0);}
-     for (int j = 0; j <= rng(1, 10); j++) {
-         spawn_item(15, 2, g->itypes["pipe"], 0);}
-     for (int j = 0; j <= rng(1, 7); j++) {
-         spawn_item(4, 2, g->itypes["glass_sheet"], 0);}
-     for (int j = 0; j <= rng(1, 20); j++) {
-         spawn_item(16, 5, g->itypes["2x4"], 0);}
-     for (int j = 0; j <= rng(1, 20); j++) {
-         spawn_item(16, 7, g->itypes["2x4"], 0);}
+     spawn_item(21, 2, g->itypes["log"], 0, rng(1, 3));
+     spawn_item(15, 2, g->itypes["pipe"], 0, rng(1, 10));
+     spawn_item(4, 2, g->itypes["glass_sheet"], 0, rng(1, 7));
+     spawn_item(16, 5, g->itypes["2x4"], 0, rng(1, 20));
+     spawn_item(16, 7, g->itypes["2x4"], 0, rng(1, 20));
      spawn_item(12, 2, g->itypes["nail"], 0);
      spawn_item(13, 2, g->itypes["nail"], 0);
      if (t_west == ot_public_works_entrance)
@@ -6160,8 +6151,7 @@ __________           f  \n",
      place_items(mi_mechanics,	85,  14,  9, 16,  9, false, 0);
      place_items(mi_electronics,	80,  16,  2, 18,  2, false, 0);
      place_items(mi_cleaning,	85,  12,  2, 13,  2, false, 0);
-     for (int j = 0; j <= rng(1, 3); j++) {
-         spawn_item(3, 2, g->itypes["log"], 0);}
+     spawn_item(3, 2, g->itypes["log"], 0, rng(1, 3));
      if (t_west == ot_public_works && t_north == ot_public_works){
             rotate(1);
             if (x_in_y(2,3)){add_vehicle (g, veh_truck, 2, 0, 90);}
