@@ -711,6 +711,9 @@ char npc::choose_escape_item()
    }
   }
  }
+ // Protect us from accessing an invalid index.
+ if (ret == -1) { return ret; }
+
  return slice[ret]->front().invlet;
 }
 
@@ -719,6 +722,10 @@ void npc::use_escape_item(game *g, char invlet, int target)
  if (invlet == 0) {
   debugmsg("%s tried to use item with null invlet", name.c_str());
   move_pause();
+  return;
+ }
+ if (invlet == -1) {
+  // No item found.
   return;
  }
 
