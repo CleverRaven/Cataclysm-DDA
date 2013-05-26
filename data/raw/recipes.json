@@ -941,7 +941,8 @@
                                   ["flask_glass", 1]
                               ],
                               [
-                                  ["battery", 500]
+                                  ["battery", 500],
+                                  ["acid", 4]
                               ]
                           ]
         },
@@ -2250,6 +2251,34 @@
             "components": [
                               [
                                   ["water", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "acid",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 4,
+            "time": 1000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 3],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pan", -1],
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["water_acid", 1]
                               ]
                           ]
         },
@@ -3694,7 +3723,8 @@
             "components": [
                               [
                                   ["ammonia", 1],
-                                  ["lemon", 1]
+                                  ["lemon", 1],
+                                  ["acid", 1]
                               ],
                               [
                                   ["steel_chunk", 1],

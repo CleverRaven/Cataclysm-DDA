@@ -2222,6 +2222,12 @@ item map::water_from(const int x, const int y)
     return ret;
 }
 
+item map::acid_from(const int x, const int y)
+{
+    item ret(item_controller->find_template("water_acid"), 0);
+    return ret;
+}
+
 void map::i_rem(const int x, const int y, const int index)
 {
  if (index > i_at(x, y).size() - 1)
