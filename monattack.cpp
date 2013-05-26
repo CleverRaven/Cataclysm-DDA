@@ -1479,7 +1479,7 @@ void mattack::parrot(game *g, monster *z)
  int j;
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 50)
   return;	// Out of range
- if (one_in(1)){
+ if (one_in(20)){
   z->moves = -100;			// It takes a while
   z->sp_timeout = z->type->sp_freq;	// Reset timer
   switch (rng(1,18)) {
