@@ -941,7 +941,6 @@
                                   ["flask_glass", 1]
                               ],
                               [
-                                  ["battery", 500],
                                   ["acid", 4]
                               ]
                           ]
