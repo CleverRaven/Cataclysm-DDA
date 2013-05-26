@@ -945,7 +945,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 
     // this will cause issues if/when NPCs start being able to sew.
     // but, then again, it'll cause issues when they start crafting, too.
-    inventory crafting_inv = g->crafting_inventory();
+    inventory crafting_inv = g->crafting_inventory(p);
     if (!crafting_inv.has_amount(repair_item, 1))
     {
         g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repair_item.c_str(), plural.c_str());
@@ -962,7 +962,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     std::vector<component> comps;
     comps.push_back(component(repair_item, 1));
     comps.back().available = true;
-    g->consume_items(comps);
+    g->consume_items(p, comps);
 
     if (fix->damage == 0)
     {

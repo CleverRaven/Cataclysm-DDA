@@ -5752,7 +5752,7 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
             {
                 // check tools are available
                 // loop over the tools and see what's required...again
-                inventory crafting_inv = g->crafting_inventory();
+                inventory crafting_inv = g->crafting_inventory(this);
                 for (int j = 0; j < cur_recipe->tools.size(); j++)
                 {
                     bool have_tool = false;
