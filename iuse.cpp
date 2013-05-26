@@ -926,9 +926,11 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     }
 
     itype_id repair_item = "none";
+    std::string plural = "";
     if (fix->made_of(COTTON) || fix->made_of(WOOL))
     {
         repair_item = "rag";
+        plural = "s";
     }
     else if (fix->made_of(LEATHER))
     {
@@ -946,7 +948,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     inventory crafting_inv = g->crafting_inventory();
     if (!crafting_inv.has_amount(repair_item, 1))
     {
-        g->add_msg_if_player(p,"You don't have enough %ss to do that.", repair_item.c_str());
+        g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repair_item.c_str(), plural.c_str());
         it->charges++;
         return;
     }
