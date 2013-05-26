@@ -6881,7 +6881,7 @@ void game::pickup(int posx, int posy, int min)
  int pickupHeight=maxitems+3;
 
  WINDOW* w_pickup = newwin(pickupHeight, 48, VIEW_OFFSET_Y, VIEWX * 2 + 8 + VIEW_OFFSET_X);
- WINDOW* w_item_info = newwin(13, 48, TERMY-13, VIEWX * 2 + 8 + VIEW_OFFSET_X);
+ WINDOW* w_item_info = newwin(12, 48, TERMY-12, VIEWX * 2 + 8 + VIEW_OFFSET_X);
  int ch = ' ';
  int start = 0, cur_it, iter;
  int new_weight = u.weight_carried(), new_volume = u.volume_carried();
