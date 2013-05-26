@@ -724,6 +724,10 @@ void npc::use_escape_item(game *g, char invlet, int target)
   move_pause();
   return;
  }
+ if (invlet == -1) {
+  // No item found.
+  return;
+ }
 
 /* There is a static list of items that NPCs consider to be "escape items," so
  * we can just use a switch here to decide what to do based on type.  See
