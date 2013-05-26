@@ -491,16 +491,6 @@ void player::update_bodytemp(game *g)
     int adjusted_temp = (Ctemperature - ambient_norm);
     // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
-    // Fetch the morale value of wetness for bodywetness
-    int bodywetness = 0;
-    for (int i = 0; bodywetness == 0 && i < morale.size(); i++)
-    {
-        if( morale[i].type == MORALE_WET )
-        {
-            bodywetness = abs(morale[i].bonus); // Make it positive, less confusing
-            break;
-        }
-    }
     // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
@@ -508,8 +498,7 @@ void player::update_bodytemp(game *g)
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
         float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 40.0 : 60.0);
-        int clothing_warmth_adjustement =
-            homeostasis_adjustement * (float)warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
+        int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
         // Disease name shorthand
         int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
         int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;
@@ -6316,12 +6305,31 @@ float player::fine_detail_vision_mod(game *g)
 
 int player::warmth(body_part bp)
 {
- int ret = 0;
- for (int i = 0; i < worn.size(); i++) {
-  if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp))
-   ret += (dynamic_cast<it_armor*>(worn[i].type))->warmth;
- }
- return ret;
+    // Fetch the morale value of wetness for bodywetness
+    int bodywetness = 0;
+    for (int i = 0; bodywetness == 0 && i < morale.size(); i++)
+    {
+        if( morale[i].type == MORALE_WET )
+        {
+            bodywetness = abs(morale[i].bonus); // Make it positive, less confusing
+            break;
+        }
+    }
+    int ret = 0, warmth = 0;
+    for (int i = 0; i < worn.size(); i++)
+    {
+        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp))
+        {
+            warmth = (dynamic_cast<it_armor*>(worn[i].type))->warmth;
+            // Wool items do not lose their warmth in the rain
+            if (!worn[i].made_of(WOOL))
+            {
+                warmth *= 1.0 - (float)bodywetness / 100.0;
+            }
+            ret += warmth;
+        }
+    }
+    return ret;
 }
 
 int player::encumb(body_part bp) {
