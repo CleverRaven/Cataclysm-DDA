@@ -229,9 +229,9 @@ class game
   point find_item(item *it);
   void remove_item(item *it);
 
-  inventory crafting_inventory();  // inv_from_map, inv, & 'weapon'
-  std::list<item> consume_items(std::vector<component> components);
-  void consume_tools(std::vector<component> tools, bool force_available);
+  inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
+  std::list<item> consume_items(player *p, std::vector<component> components);
+  void consume_tools(player *p, std::vector<component> tools, bool force_available);
 
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
