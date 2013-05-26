@@ -58,11 +58,26 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_NULL);
 
+//patriot mission 1
  MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
   ITEM("american_flag");
+
+//patriot mission 2
+  MISSION("Retrieve Military Black Box", MGOAL_FIND_ITEM, 2, 1000, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_ANY_NPC);
+  ITEM("black_box");
+
+//patriot mission 3
+ MISSION("Retrieve Black Box Transcript", MGOAL_FIND_ITEM, 2, 1500, false,
+	&mission_place::always, &mission_start::reveal_lab_black_box,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_ANY_NPC);
+  ITEM("black_box_transcript");
 
  MISSION("Find Relic", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_place::always, &mission_start::standard,
