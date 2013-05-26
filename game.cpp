@@ -77,6 +77,7 @@ game::game() :
  init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();     // Set up autosave
  load_keyboard_settings();
+ moveCount = 0;
 
  gamemode = new special_game;	// Nothing, basically.
 }
