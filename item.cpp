@@ -8,6 +8,7 @@
 #include "cursesdef.h"
 #include "text_snippets.h"
 #include "material.h"
+#include "item_factory.h"
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -73,10 +74,14 @@ item::item(itype* it, unsigned int turn)
    charges = comest->charges;
  } else if (it->is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(it);
-  if (tool->max_charges == 0)
+  if (tool->max_charges == 0) {
    charges = -1;
-  else
+  } else {
    charges = tool->def_charges;
+   if (tool->ammo != AT_NULL) {
+    curammo = dynamic_cast<it_ammo*>(item_controller->find_template(default_ammo(tool->ammo)));
+   }
+  }
  } else if ((it->is_gunmod() && it->id == "spare_mag") || it->item_tags.count("MODE_AUX")) {
   charges = 0;
  } else
