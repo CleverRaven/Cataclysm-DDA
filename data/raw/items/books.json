@@ -1032,5 +1032,27 @@
         "rarity" : 20,
         "price" : 100,
         "required_level" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "black_box_transcript",
+        "name" : "black box transcript",
+        "max_level" : 0,
+        "description" : "A full flight log for a military aircraft.  Nothing of interest stands out.",
+        "weight" : 5,
+        "to_hit" : 1,
+        "color" : "blue",
+        "intelligence" : 0,
+        "symbol" : "?",
+        "material" : ["PAPER", "NULL"],
+        "volume" : 5,
+        "bashing" : 5,
+        "cutting" : 0,
+        "time" : 30,
+        "fun" : -1,
+        "skill" : "none",
+        "rarity" : 0,
+        "price" : 500,
+        "required_level" : 0
     }
 ]
