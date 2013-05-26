@@ -6054,16 +6054,11 @@ case ot_public_works:{
      mapf::end() );
      place_items(mi_hardware,	85,  2, 3, 2,  8, false, 0);
      place_items(mi_hardware,	85,  6,  2, 13,  2, false, 0);
-     for (int j = 0; j <= rng(1, 3); j++) {
-         spawn_item(21, 2, g->itypes["log"], 0);}
-     for (int j = 0; j <= rng(1, 10); j++) {
-         spawn_item(15, 2, g->itypes["pipe"], 0);}
-     for (int j = 0; j <= rng(1, 7); j++) {
-         spawn_item(4, 2, g->itypes["glass_sheet"], 0);}
-     for (int j = 0; j <= rng(1, 20); j++) {
-         spawn_item(16, 5, g->itypes["2x4"], 0);}
-     for (int j = 0; j <= rng(1, 20); j++) {
-         spawn_item(16, 7, g->itypes["2x4"], 0);}
+     spawn_item(21, 2, g->itypes["log"], 0, rng(1, 3));
+     spawn_item(15, 2, g->itypes["pipe"], 0, rng(1, 10));
+     spawn_item(4, 2, g->itypes["glass_sheet"], 0, rng(1, 7));
+     spawn_item(16, 5, g->itypes["2x4"], 0, rng(1, 20));
+     spawn_item(16, 7, g->itypes["2x4"], 0, rng(1, 20));}
      spawn_item(12, 2, g->itypes["nail"], 0);
      spawn_item(13, 2, g->itypes["nail"], 0);
      if (t_west == ot_public_works_entrance)
