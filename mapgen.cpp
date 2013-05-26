@@ -5861,8 +5861,8 @@ case ot_lmoe: {
  case ot_spiral: {
   fill_background(this, t_rock_floor);
   int num_spiral = rng(1, 4);
+  int orx = rng(SEEX - 4, SEEX), ory = rng(SEEY - 4, SEEY);
   for (int i = 0; i < num_spiral; i++) {
-   int orx = rng(SEEX - 4, SEEX), ory = rng(SEEY - 4, SEEY);
    line(this, t_rock, orx    , ory    , orx + 5, ory    );
    line(this, t_rock, orx + 5, ory    , orx + 5, ory + 5);
    line(this, t_rock, orx + 1, ory + 5, orx + 5, ory + 5);
