@@ -6283,8 +6283,9 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     {
         for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++)
         {
-            if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
-                u_see(u.posx + iCol, u.posy + iRow))
+            if (u_see(u.posx + iCol, u.posy + iRow) && 
+               (!m.has_flag(container, u.posx + iCol, u.posy + iRow) ||
+               (rl_dist(u.posx, u.posy, u.posx + iCol, u.posy + iRow) == 1 && !m.has_flag(sealed, u.posx + iCol, u.posy + iRow))))
             {
                 temp_items.clear();
                 here.clear();
