@@ -1337,6 +1337,7 @@
         "rarity" : 20,
         "encumberance" : 1,
         "bashing" : -3,
+        "flags" : ["VARSIZE"],
         "coverage" : 95,
         "material_thickness" : 2
     },
