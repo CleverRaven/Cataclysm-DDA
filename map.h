@@ -140,6 +140,7 @@ class map
 // Items
  std::vector<item>& i_at(int x, int y);
  item water_from(const int x, const int y);
+ item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);

@@ -713,6 +713,11 @@ void iexamine::trap(game *g, player *p, map *m, int examx, int examy) {
  {
      water_source(g, p, m, examx, examy);
  }
+ else if (m->tr_at(examx, examy) == tr_funnel && m->is_outside(examx, examy) &&
+          (g->weather == WEATHER_ACID_DRIZZLE || g->weather == WEATHER_ACID_RAIN))
+ {
+     acid_source(g, p, m, examx, examy);
+ }
 }
 
 void iexamine::water_source(game *g, player *p, map *m, const int examx, const int examy)
@@ -730,5 +735,14 @@ void iexamine::water_source(game *g, player *p, map *m, const int examx, const i
         water = p->inv.item_by_type(water.typeId());
         p->eat(g, water.invlet);
         p->moves -= 350;
+    }
+}
+
+void iexamine::acid_source(game *g, player *p, map *m, const int examx, const int examy)
+{
+    item acid = m->acid_from(examx, examy);
+    if (g->handle_liquid(acid, true, true))
+    {
+        p->moves -= 100;
     }
 }
