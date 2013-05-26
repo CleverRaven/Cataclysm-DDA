@@ -684,7 +684,7 @@ bool npc::alt_attack_available(game *g)
 {
  for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
   if ((!is_following() || combat_rules.use_grenades ||
-       !(g->itypes[ALT_ATTACK_ITEMS[i]]->item_flags & mfb(IF_GRENADE))) &&
+       !(g->itypes[ALT_ATTACK_ITEMS[i]]->item_tags.count("GRENADE"))) &&
       has_amount(ALT_ATTACK_ITEMS[i], 1))
    return true;
  }
@@ -711,6 +711,9 @@ char npc::choose_escape_item()
    }
   }
  }
+ // Protect us from accessing an invalid index.
+ if (ret == -1) { return ret; }
+
  return slice[ret]->front().invlet;
 }
 
@@ -719,6 +722,10 @@ void npc::use_escape_item(game *g, char invlet, int target)
  if (invlet == 0) {
   debugmsg("%s tried to use item with null invlet", name.c_str());
   move_pause();
+  return;
+ }
+ if (invlet == -1) {
+  // No item found.
   return;
  }
 
@@ -1490,7 +1497,7 @@ void npc::alt_attack(game *g, int target)
  */
  for (int i = 0; i < NUM_ALT_ATTACK_ITEMS; i++) {
   if ((!is_following() || combat_rules.use_grenades ||
-       !(g->itypes[ALT_ATTACK_ITEMS[i]]->item_flags & mfb(IF_GRENADE))) &&
+       !(g->itypes[ALT_ATTACK_ITEMS[i]]->item_tags.count("GRENADE"))) &&
       has_amount(ALT_ATTACK_ITEMS[i], 1))
    which = ALT_ATTACK_ITEMS[i];
  }
@@ -1985,7 +1992,7 @@ void npc::set_destination(game *g)
  oter_id dest_type = options[rng(0, options.size() - 1)];
 
  int dist = 0;
- point p = g->cur_om.find_closest(point(mapx, mapy),dest_type,4, dist, false);
+ point p = g->cur_om->find_closest(point(mapx, mapy),dest_type,4, dist, false);
  goalx = p.x;
  goaly = p.y;
  goalz = g->levz;

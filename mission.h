@@ -19,6 +19,12 @@ enum mission_id {
  MISSION_RESCUE_DOG,
  MISSION_KILL_ZOMBIE_MOM,
  MISSION_REACH_SAFETY,
+ MISSION_GET_FLAG,
+ MISSION_GET_RELIC,
+ MISSION_GET_RECORD_WEATHER,
+ MISSION_GET_RECORD_PATIENT,
+ MISSION_GET_RECORD_ACCOUNTING,
+ MISSION_KILL_JABBERWOCK,
  NUM_MISSION_IDS
 };
 
@@ -42,6 +48,7 @@ enum mission_goal {
  MGOAL_FIND_NPC,	// Find a given NPC
  MGOAL_ASSASSINATE,	// Kill a given NPC
  MGOAL_KILL_MONSTER,	// Kill a particular hostile monster
+ 
  NUM_MGOAL
 };
 
@@ -62,6 +69,7 @@ struct mission_start {
  void infect_npc	(game *, mission *); // DI_INFECTION, remove antibiotics
  void place_dog		(game *, mission *); // Put a dog in a house!
  void place_zombie_mom	(game *, mission *); // Put a zombie mom in a house!
+ void place_jabberwock (game *, mission *); // Put a jabberwok in the woods nearby
  void place_npc_software(game *, mission *); // Put NPC-type-dependent software
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
  void find_safety	(game *, mission *); // Goal is set to non-spawn area

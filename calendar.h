@@ -3,9 +3,6 @@
 
 #include <string>
 
-// How many minutes exist when the game starts - 8:00 AM
-#define STARTING_MINUTES 480
-
 // Convert minutes, hours, days to turns
 #define MINUTES(x) ((x) * 10)
 #define HOURS(x)   ((x) * 600)

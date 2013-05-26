@@ -81,6 +81,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
         (crafting_inv.has_amount("toolset", 1) &&
          crafting_inv.has_charges("toolset", charges/20));
     has_jack = crafting_inv.has_amount("jack", 1);
+    has_siphon = crafting_inv.has_amount("hose", 1);
 
 
     display_stats ();
@@ -110,6 +111,7 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
                 case 'f': do_refill(mval);  break;
                 case 'o': do_remove(mval);  break;
                 case 'e': do_rename(mval);  break;
+                case 's': do_siphon(mval);  break;
                 default:;
                 }
                 if (sel_cmd != ' ')
@@ -159,6 +161,8 @@ int veh_interact::cant_do (char mode)
                0 )
              )
             );
+    case 's': // siphon mode
+        return veh->fuel_left(AT_GAS) > 0 ? (!has_siphon? 2 : 0) : 1;
     default:
         return -1;
     }
@@ -214,6 +218,7 @@ void veh_interact::do_install(int reason)
         bool has_comps = crafting_inv.has_amount(itm, 1);
         bool has_skill = g->u.skillLevel("mechanics") >= vpart_list[sel_part].difficulty;
         bool wheel = vpart_list[sel_part].flags & mfb (vpf_wheel);
+        bool has_tools = has_welder && has_wrench;
         werase (w_msg);
         mvwprintz(w_msg, 0, 1, c_ltgray, "Needs ");
         wprintz(w_msg, has_comps? c_ltgreen : c_red, g->itypes[itm]->name.c_str());
@@ -233,6 +238,7 @@ void veh_interact::do_install(int reason)
             wprintz(w_msg, c_ltgray, ", and a ");
             wprintz(w_msg, has_jack? c_ltgreen : c_red, "jack");
             has_skill=(has_jack||has_skill); // my mother can change her car's tires
+            has_tools = has_tools || (has_wrench && has_jack);
             sel_type=SEL_JACK;
         }
         bool eng = vpart_list[sel_part].flags & mfb (vpf_engine);
@@ -247,7 +253,7 @@ void veh_interact::do_install(int reason)
         char ch = input(); // See keypress.h
         int dx, dy;
         get_direction (g, dx, dy, ch);
-        if ((ch == '\n' || ch == ' ') && has_comps && has_skill && has_skill2)
+        if ((ch == '\n' || ch == ' ') && has_comps && has_tools && has_skill && has_skill2)
         {
             //if(itm.is_var_veh_part() && crafting_inv.has_amount(itm, 2);
             sel_cmd = 'i';
@@ -401,7 +407,7 @@ void veh_interact::do_remove(int reason)
         wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
         wprintz(w_msg, c_ltgray, " and a ");
         wprintz(w_msg, has_hacksaw? c_ltgreen : c_red, "hacksaw");
-        wprintz(w_msg, c_ltgray, " to install parts.");
+        wprintz(w_msg, c_ltgray, " to remove parts.");
         if(wheel) {
             mvwprintz(w_msg, 1, 1, c_ltgray, "To change a wheel you need a ");
             wprintz(w_msg, has_wrench? c_ltgreen : c_red, "wrench");
@@ -453,6 +459,26 @@ void veh_interact::do_remove(int reason)
                     pos = first;
         }
     }
+}
+
+void veh_interact::do_siphon(int reason)
+{
+    werase (w_msg);
+    switch (reason)
+    {
+    case 1:
+        mvwprintz(w_msg, 0, 1, c_ltred, "The vehicle has no gasoline to siphon.");
+        wrefresh (w_msg);
+        return;
+    case 2:
+        mvwprintz(w_msg, 0, 1, c_ltgray, "You need a %s to siphon fuel.",
+                  "hose");
+        mvwprintz(w_msg, 0, 12, c_red, "hose");
+        wrefresh (w_msg);
+        return;
+    default:;
+    }
+    sel_cmd = 's';
 }
 
 void veh_interact::do_rename(int reason)
@@ -653,6 +679,7 @@ void veh_interact::display_mode (char mode)
         bool mr = !cant_do('r');
         bool mf = !cant_do('f');
         bool mo = !cant_do('o');
+        bool ms = !cant_do('s');
         mvwprintz(w_mode, 0, 1, mi? c_ltgray : c_dkgray, "install");
         mvwputch (w_mode, 0, 1, mi? c_ltgreen : c_green, 'i');
         mvwprintz(w_mode, 0, 9, mr? c_ltgray : c_dkgray, "repair");
@@ -661,9 +688,11 @@ void veh_interact::display_mode (char mode)
         mvwputch (w_mode, 0, 18, mf? c_ltgreen : c_green, 'f');
         mvwprintz(w_mode, 0, 23, mo? c_ltgray : c_dkgray, "remove");
         mvwputch (w_mode, 0, 26, mo? c_ltgreen : c_green, 'o');
+        mvwprintz(w_mode, 0, 30, ms? c_ltgray : c_dkgray, "siphon");
+        mvwputch (w_mode, 0, 30, ms? c_ltgreen : c_green, 's');
     }
-    mvwprintz(w_mode, 0, 30, c_ltgray, "rename");
-    mvwputch (w_mode, 0, 31, c_ltgreen, 'e');
+    mvwprintz(w_mode, 0, 37, c_ltgray, "rename");
+    mvwputch (w_mode, 0, 38, c_ltgreen, 'e');
     mvwprintz(w_mode, 0, 71, c_ltgreen, "ESC");
     mvwprintz(w_mode, 0, 74, c_ltgray, "-back");
     wrefresh (w_mode);
@@ -812,7 +841,7 @@ void complete_vehicle (game *g)
         if(type!=SEL_JACK) {
             tools.push_back(component("welder", welder_charges));
             tools.push_back(component("toolset", welder_charges/20));
-            g->consume_tools(tools);
+            g->consume_tools(tools, true);
             g->add_msg ("You install a %s into the %s.",
                         vpart_list[part].name, veh->name.c_str());
             g->u.practice (g->turn, "mechanics", vpart_list[part].difficulty * 5 + 20);
@@ -825,15 +854,15 @@ void complete_vehicle (game *g)
         if (veh->parts[part].hp <= 0)
         {
             used_item = consume_vpart_item (g, veh->parts[part].id);
-            tools.push_back(component("wrench", 1));
-            g->consume_tools(tools);
+            tools.push_back(component("wrench", -1));
+            g->consume_tools(tools, true);
             tools.clear();
             dd = 0;
             veh->insides_dirty = true;
         }
         tools.push_back(component("welder", welder_charges));
         tools.push_back(component("toolset", welder_charges/20));
-        g->consume_tools(tools);
+        g->consume_tools(tools, true);
         veh->parts[part].hp = veh->part_info(part).durability;
         g->add_msg ("You repair the %s's %s.",
                     veh->name.c_str(), veh->part_info(part).name);
@@ -878,7 +907,10 @@ void complete_vehicle (game *g)
                         veh->part_info(part).name, veh->name.c_str());
             veh->remove_part (part);
         }
-        //break;
+        break;
+    case 's':
+        g->u.siphon_gas(g, veh);
+        break;
     default:;
     }
 }

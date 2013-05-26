@@ -5,6 +5,10 @@
 #include "line.h"
 #include "bodypart.h"
 
+//Used for e^(x) functions
+#include <stdio.h>
+#include <math.h>
+
 void mattack::antqueen(game *g, monster *z)
 {
  std::vector<point> egg_points;
@@ -184,6 +188,7 @@ void mattack::boomer(game *g, monster *z)
   g->u.infect(DI_BOOMERED, bp_eyes, 3, 12, g);
  else if (u_see)
   g->add_msg("You dodge it!");
+  g->u.practice(g->turn, "dodge", 10);
 }
 
 void mattack::resurrect(game *g, monster *z)
@@ -221,13 +226,8 @@ void mattack::resurrect(game *g, monster *z)
    if (g->m.i_at(x, y)[n].type->id == "corpse" && one_in(2)) {
     if (g->u_see(x, y))
      raised++;
-    int burnt_penalty = g->m.i_at(x, y)[n].burnt;
-    monster mon(g->m.i_at(x, y)[n].corpse, x, y);
-    mon.speed = int(mon.speed * .8) - burnt_penalty / 2;
-    mon.hp    = int(mon.hp    * .7) - burnt_penalty;
-    g->m.i_rem(x, y, n);
+    g->revive_corpse(x, y, n);
     n = g->m.i_at(x, y).size();	// Only one body raised per tile
-    g->z.push_back(mon);
    }
   }
  }
@@ -694,7 +694,7 @@ void mattack::leap(game *g, monster *z)
             if (!blocked_path && g->is_empty(x, y) &&
              g->m.sees(z->posx, z->posy, x, y, g->light_level(), linet) &&
              (( fleeing && rl_dist(g->u.posx, g->u.posy, x, y) >= best) ||
-             (!fleeing && rl_dist(g->u.posx, g->u.posy, x, y) <= best)   )) 
+             (!fleeing && rl_dist(g->u.posx, g->u.posy, x, y) <= best) ))
             {
                 options.push_back( point(x, y) );
                 best = rl_dist(g->u.posx, g->u.posy, x, y);
@@ -704,10 +704,10 @@ void mattack::leap(game *g, monster *z)
     }
 
     // Go back and remove all options that aren't tied for best
-    for (int i = 0; i < options.size() && options.size() > 1; i++) 
+    for (int i = 0; i < options.size() && options.size() > 1; i++)
     {
         point p = options[i];
-        if (rl_dist(g->u.posx, g->u.posy, options[i].x, options[i].y) != best) 
+        if (rl_dist(g->u.posx, g->u.posy, options[i].x, options[i].y) != best)
         {
             options.erase(options.begin() + i);
         i--;
@@ -736,14 +736,15 @@ void mattack::dermatik(game *g, monster *z)
 
  z->sp_timeout = z->type->sp_freq;	// Reset timer
 
-// Can we dodge the attack?
- int attack_roll = dice(z->type->melee_skill, 10);
- int player_dodge = g->u.dodge_roll(g);
- if (player_dodge > attack_roll) {
-  g->add_msg("The %s tries to land on you, but you dodge.", z->name().c_str());
-  z->stumble(g, false);
-  return;
- }
+// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+ int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+ if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
+	{
+        g->add_msg("The %s tries to land on you, but you dodge.", z->name().c_str());
+        z->stumble(g, false);
+        g->u.practice(g->turn, "dodge", z->type->melee_skill * 2);
+        return;
+    }
 
 // Can we swat the bug away?
  int dodge_roll = z->dodge_roll();
@@ -871,29 +872,35 @@ void mattack::dogthing(game *g, monster *z)
 
 void mattack::tentacle(game *g, monster *z)
 {
- int t;
- if (!g->sees_u(z->posx, z->posy, t))
-  return;
+    int t;
+    if (!g->sees_u(z->posx, z->posy, t))
+	{
+        return;
+	}
+    g->add_msg("The %s lashes its tentacle at you!", z->name().c_str());
+    z->moves -= 100;
+    z->sp_timeout = z->type->sp_freq;	// Reset timer
 
- g->add_msg("The %s lashes its tentacle at you!", z->name().c_str());
- z->moves -= 100;
- z->sp_timeout = z->type->sp_freq;	// Reset timer
+    std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
+    for (int i = 0; i < line.size(); i++)
+	{
+        int tmpdam = 20;
+        g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, 0);
+    }
 
- std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
- for (int i = 0; i < line.size(); i++) {
-  int tmpdam = 20;
-  g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, 0);
- }
-
- if (rng(0, 20) > g->u.dodge(g) || one_in(g->u.dodge(g))) {
-  body_part hit = random_body_part();
-  int dam = rng(10, 20), side = rng(0, 1);
-  g->add_msg("Your %s is hit for %d damage!", body_part_name(hit, side).c_str(),
-            dam);
-  g->u.hit(g, hit, side, dam, 0);
-  return;
- }
- g->add_msg("You dodge it!");
+	// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+ int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+ if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
+	{
+        g->add_msg("You dodge it!");
+        g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+        return;
+    }
+    body_part hit = random_body_part();
+    int dam = rng(10, 20), side = rng(0, 1);
+    g->add_msg("Your %s is hit for %d damage!", body_part_name(hit, side).c_str(), dam);
+    g->u.hit(g, hit, side, dam, 0);
+    g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
 
 void mattack::vortex(game *g, monster *z)
@@ -1403,22 +1410,67 @@ void mattack::breathe(game *g, monster *z)
 
 void mattack::bite(game *g, monster *z)
 {
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
-  return;
- z->sp_timeout = z->type->sp_freq;	// Reset timer
- g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
- z->moves -= 100;
- if (rng(0, 20) > g->u.dodge(g) || one_in(g->u.dodge(g))) {
-  body_part hit = random_body_part();
-  int dam = rng(5, 10), side = rng(0, 1);
-  g->add_msg("Your %s is bitten for %d damage!", body_part_name(hit, side).c_str(),
-             dam);
-  g->u.hit(g, hit, side, dam, 0);
-  if(one_in(10)){
-   g->u.add_disease(DI_BITE, 3600, g);
-  }
-  return;
- }
-  g->add_msg("You dodge it!");
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
+	{
+        return;
+	}
+    z->sp_timeout = z->type->sp_freq;	// Reset timer
+    g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
+    z->moves -= 100;
+
+	// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+ int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+ if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
+	{
+        g->add_msg("You dodge it!");
+        g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+        return;
+    }
+    body_part hit = random_body_part();
+    int dam = rng(5, 10), side = rng(0, 1);
+    g->add_msg("Your %s is bitten!", body_part_name(hit, side).c_str());
+    g->u.hit(g, hit, side, dam, 0);
+    if(one_in(10))
+	{
+        g->u.add_disease(DI_BITE, 3600, g);
+    }
+    g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
 
+void mattack::flesh_golem(game *g, monster *z)
+{
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
+	{
+    if (one_in(12)){
+    int j;
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 20 ||
+        !g->sees_u(z->posx, z->posy, j))
+    return;	// Out of range
+    z->moves = -200;
+    z->sp_timeout = z->type->sp_freq;	// Reset timer
+    g->sound(z->posx, z->posy, 80, "a terrifying roar that nearly deafens you!");
+    }
+    return;
+	}
+    z->sp_timeout = z->type->sp_freq;	// Reset timer
+    g->add_msg("The %s swings a massive claw at you!", z->name().c_str());
+    z->moves -= 100;
+
+	// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+ int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+ if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
+	{
+        g->add_msg("You dodge it!");
+        g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+        return;
+    }
+    body_part hit = random_body_part();
+    int dam = rng(5, 10), side = rng(0, 1);
+    g->add_msg("Your %s is battered for %d damage!", body_part_name(hit, side).c_str(), dam);
+    g->u.hit(g, hit, side, dam, 0);
+    if(one_in(6))
+	{
+        g->u.add_disease(DI_DOWNED, 30, g);
+    }
+    g->u.practice(g->turn, "dodge", z->type->melee_skill);
+}

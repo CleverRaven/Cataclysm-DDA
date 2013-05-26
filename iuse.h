@@ -60,6 +60,8 @@ class iuse
   void hammer		(game *g, player *p, item *it, bool t);
   void light_off	(game *g, player *p, item *it, bool t);
   void light_on		(game *g, player *p, item *it, bool t);
+  void gasoline_lantern_off	(game *g, player *p, item *it, bool t);
+  void gasoline_lantern_on	(game *g, player *p, item *it, bool t);
   void lightstrip		(game *g, player *p, item *it, bool t);
   void lightstrip_active(game *g, player *p, item *it, bool t);
   void glowstick		(game *g, player *p, item *it, bool t);
@@ -79,6 +81,7 @@ class iuse
   void crowbar		(game *g, player *p, item *it, bool t);
   void makemound	(game *g, player *p, item *it, bool t);
   void dig		(game *g, player *p, item *it, bool t);
+  void siphon	(game *g, player *p, item *it, bool t);
   void chainsaw_off	(game *g, player *p, item *it, bool t);
   void chainsaw_on	(game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);

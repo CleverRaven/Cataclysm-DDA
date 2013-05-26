@@ -995,7 +995,8 @@ void game::complete_craft()
 
 // farsightedness can impose a penalty on electronics and tailoring success
 // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
- if (u.has_trait(PF_HYPEROPIC) && !u.is_wearing("glasses_reading")) {
+ if (u.has_trait(PF_HYPEROPIC) && !u.is_wearing("glasses_reading")
+     && !u.is_wearing("glasses_bifocal")) {
   int main_rank_penalty = 0;
   if (making->sk_primary == Skill::skill("electronics")) {
    main_rank_penalty = 2;
@@ -1043,7 +1044,7 @@ void game::complete_craft()
   
   for (int i = 0; i < making->tools.size(); i++) {
    if (making->tools[i].size() > 0)
-    consume_tools(making->tools[i]);
+    consume_tools(making->tools[i], false);
   }
   u.activity.type = ACT_NULL;
   return;
@@ -1058,31 +1059,49 @@ void game::complete_craft()
  }
 // If we're here, the craft was a success!
 // Use up the components and tools
+ std::list<item> used;
  for (int i = 0; i < making->components.size(); i++) {
-  if (making->components[i].size() > 0)
-   consume_items(making->components[i]);
+  if (making->components[i].size() > 0) {
+   std::list<item> tmp = consume_items(making->components[i]);
+   used.splice(used.end(), tmp);
+  }
  }
  for (int i = 0; i < making->tools.size(); i++) {
   if (making->tools[i].size() > 0)
-   consume_tools(making->tools[i]);
+   consume_tools(making->tools[i], false);
  }
 
   // Set up the new item, and pick an inventory letter
  int iter = 0;
  item newit(item_controller->find_template(making->result), turn, nextinv);
 
-    if (newit.is_armor() && newit.has_flag(IF_VARSIZE))
+    if (newit.is_armor() && newit.has_flag("VARSIZE"))
     {
-        newit.item_flags |= mfb(IF_FIT);
+        newit.item_tags.insert("FIT");
+    }
+    int used_bday_tally = 0;
+    int used_bday_count = 0;
+    for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter)
+    {
+        if (iter->goes_bad())
+        {
+            used_bday_tally += iter->bday;
+            ++used_bday_count;
+        }
+    }
+    if (used_bday_count > 0)
+    {
+        const int average_used_bday = used_bday_tally / used_bday_count;
+        newit.bday = (average_used_bday + newit.bday) / 2;
     }
  // for food items
  if (newit.is_food())
   {
-    int bday_tmp = turn % 3600;		// fuzzy birthday for stacking reasons
-    newit.bday = int(turn) + 3600 - bday_tmp;
+    int bday_tmp = newit.bday % 3600;		// fuzzy birthday for stacking reasons
+    newit.bday = int(newit.bday) + 3600 - bday_tmp;
 
-		if (newit.has_flag(IF_EATEN_HOT)) {	// hot foods generated
-			newit.item_flags |= mfb(IF_HOT);
+		if (newit.has_flag("EATEN_HOT")) {	// hot foods generated
+			newit.item_tags.insert("HOT");
 			newit.active = true;
 			newit.item_counter = 600;
 		}
@@ -1114,134 +1133,190 @@ void game::complete_craft()
  }
 }
 
-void game::consume_items(std::vector<component> components)
+std::list<item> game::consume_items(std::vector<component> components)
 {
-// For each set of components in the recipe, fill you_have with the list of all
-// matching ingredients the player has.
- std::vector<component> player_has;
- std::vector<component> map_has;
- std::vector<component> mixed;
- std::vector<component> player_use;
- std::vector<component> map_use;
- std::vector<component> mixed_use;
- inventory map_inv;
- map_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
+    std::list<item> ret;
+    // For each set of components in the recipe, fill you_have with the list of all
+    // matching ingredients the player has.
+    std::vector<component> player_has;
+    std::vector<component> map_has;
+    std::vector<component> mixed;
+    std::vector<component> player_use;
+    std::vector<component> map_use;
+    std::vector<component> mixed_use;
+    inventory map_inv;
+    map_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
 
- for (int i = 0; i < components.size(); i++) {
-  itype_id type = components[i].type;
-  int count = abs(components[i].count);
-  bool pl = false, mp = false;
-     
-  if (components[i].available != 1)
-  {
-   continue;
-  }
+    for (int i = 0; i < components.size(); i++)
+    {
+        itype_id type = components[i].type;
+        int count = abs(components[i].count);
+        bool pl = false, mp = false;
 
-  if (item_controller->find_template(type)->count_by_charges() && count > 0)
-  {
-   if (u.has_charges(type, count)) {
-    player_has.push_back(components[i]);
-    pl = true;
-   }
-   if (map_inv.has_charges(type, count)) {
-    map_has.push_back(components[i]);
-    mp = true;
-   }
-   if (!pl && !mp && u.charges_of(type) + map_inv.charges_of(type) >= count)
-    mixed.push_back(components[i]);
-  }
+        if (components[i].available != 1)
+        {
+            continue;
+        }
 
-  else { // Counting by units, not charges
+        if (item_controller->find_template(type)->count_by_charges() && count > 0)
+        {
+            if (u.has_charges(type, count))
+            {
+                player_has.push_back(components[i]);
+                pl = true;
+            }
+            if (map_inv.has_charges(type, count))
+            {
+                map_has.push_back(components[i]);
+                mp = true;
+            }
+            if (!pl && !mp && u.charges_of(type) + map_inv.charges_of(type) >= count)
+            {
+                mixed.push_back(components[i]);
+            }
+        }
+        else // Counting by units, not charges
+        {
 
-   if (u.has_amount(type, count)) {
-    player_has.push_back(components[i]);
-    pl = true;
-   }
-   if (map_inv.has_amount(type, count)) {
-    map_has.push_back(components[i]);
-    mp = true;
-   }
-   if (!pl && !mp && u.amount_of(type) + map_inv.amount_of(type) >= count)
-    mixed.push_back(components[i]);
+            if (u.has_amount(type, count))
+            {
+                player_has.push_back(components[i]);
+                pl = true;
+            }
+            if (map_inv.has_amount(type, count))
+            {
+                map_has.push_back(components[i]);
+                mp = true;
+            }
+            if (!pl && !mp && u.amount_of(type) + map_inv.amount_of(type) >= count)
+            {
+                mixed.push_back(components[i]);
+            }
 
-  }
- }
+        }
+    }
 
- if (player_has.size() + map_has.size() + mixed.size() == 1) { // Only 1 choice
-  if (player_has.size() == 1)
-   player_use.push_back(player_has[0]);
-  else if (map_has.size() == 1)
-   map_use.push_back(map_has[0]);
-  else
-   mixed_use.push_back(mixed[0]);
+    if (player_has.size() + map_has.size() + mixed.size() == 1) // Only 1 choice
+    {
+        if (player_has.size() == 1)
+        {
+            player_use.push_back(player_has[0]);
+        }
+        else if (map_has.size() == 1)
+        {
+            map_use.push_back(map_has[0]);
+        }
+        else
+        {
+            mixed_use.push_back(mixed[0]);
+        }
+    }
+    else // Let the player pick which component they want to use
+    {
+        std::vector<std::string> options; // List for the menu_vec below
+        // Populate options with the names of the items
+        for (int i = 0; i < map_has.size(); i++)
+        {
+            std::string tmpStr = item_controller->find_template(map_has[i].type)->name + " (nearby)";
+            options.push_back(tmpStr);
+        }
+        for (int i = 0; i < player_has.size(); i++)
+        {
+            options.push_back(item_controller->find_template(player_has[i].type)->name);
+        }
+        for (int i = 0; i < mixed.size(); i++)
+        {
+            std::string tmpStr = item_controller->find_template(mixed[i].type)->name +" (on person & nearby)";
+            options.push_back(tmpStr);
+        }
 
- } else { // Let the player pick which component they want to use
-  std::vector<std::string> options; // List for the menu_vec below
-// Populate options with the names of the items
-  for (int i = 0; i < map_has.size(); i++) {
-   std::string tmpStr = item_controller->find_template(map_has[i].type)->name + " (nearby)";
-   options.push_back(tmpStr);
-  }
-  for (int i = 0; i < player_has.size(); i++)
-   options.push_back(item_controller->find_template(player_has[i].type)->name);
-  for (int i = 0; i < mixed.size(); i++) {
-   std::string tmpStr = item_controller->find_template(mixed[i].type)->name +" (on person & nearby)";
-   options.push_back(tmpStr);
-  }
+        // unlike with tools, it's a bad thing if there aren't any components available
+        if (options.size() == 0)
+        {
+            debugmsg("Attempted a recipe with no available components!");
+            return ret;
+        }
 
-  if (options.size() == 0) // This SHOULD only happen if cooking with a fire,
-   return;                 // and the fire goes out.
+        // Get the selection via a menu popup
+        int selection = menu_vec(false, "Use which component?", options) - 1;
+        if (selection < map_has.size())
+        {
+            map_use.push_back(map_has[selection]);
+        }
+        else if (selection < map_has.size() + player_has.size())
+        {
+            selection -= map_has.size();
+            player_use.push_back(player_has[selection]);
+        }
+        else
+        {
+            selection -= map_has.size() + player_has.size();
+            mixed_use.push_back(mixed[selection]);
+        }
+    }
 
-// Get the selection via a menu popup
-  int selection = menu_vec(false, "Use which component?", options) - 1;
-  if (selection < map_has.size())
-   map_use.push_back(map_has[selection]);
-  else if (selection < map_has.size() + player_has.size()) {
-   selection -= map_has.size();
-   player_use.push_back(player_has[selection]);
-  } else {
-   selection -= map_has.size() + player_has.size();
-   mixed_use.push_back(mixed[selection]);
-  }
- }
-
- for (int i = 0; i < player_use.size(); i++) {
-  if (item_controller->find_template(player_use[i].type)->count_by_charges() &&
-      player_use[i].count > 0)
-   u.use_charges(player_use[i].type, player_use[i].count);
-  else
-   u.use_amount(player_use[i].type, abs(player_use[i].count),
-                   (player_use[i].count < 0));
- }
- for (int i = 0; i < map_use.size(); i++) {
-  if (item_controller->find_template(map_use[i].type)->count_by_charges() &&
-      map_use[i].count > 0)
-   m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
-                    map_use[i].type, map_use[i].count);
-  else
-   m.use_amount(point(u.posx, u.posy), PICKUP_RANGE,
-                   map_use[i].type, abs(map_use[i].count),
-                   (map_use[i].count < 0));
- }
- for (int i = 0; i < mixed_use.size(); i++) {
-  if (item_controller->find_template(mixed_use[i].type)->count_by_charges() &&
-      mixed_use[i].count > 0) {
-   int from_map = mixed_use[i].count - u.charges_of(mixed_use[i].type);
-   u.use_charges(mixed_use[i].type, u.charges_of(mixed_use[i].type));
-   m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
-                    mixed_use[i].type, from_map);
-  } else {
-   bool in_container = (mixed_use[i].count < 0);
-   int from_map = abs(mixed_use[i].count) - u.amount_of(mixed_use[i].type);
-   u.use_amount(mixed_use[i].type, u.amount_of(mixed_use[i].type),
-                   in_container);
-   m.use_amount(point(u.posx, u.posy), PICKUP_RANGE,
-                   mixed_use[i].type, from_map, in_container);
-  }
- }
+    for (int i = 0; i < player_use.size(); i++)
+    {
+        if (item_controller->find_template(player_use[i].type)->count_by_charges() &&
+            player_use[i].count > 0)
+        {
+            std::list<item> tmp = u.use_charges(player_use[i].type, player_use[i].count);
+            ret.splice(ret.end(), tmp);
+        }
+        else
+        {
+            std::list<item> tmp = u.use_amount(player_use[i].type, abs(player_use[i].count),
+                                               (player_use[i].count < 0));
+            ret.splice(ret.end(), tmp);
+        }
+    }
+    for (int i = 0; i < map_use.size(); i++)
+    {
+        if (item_controller->find_template(map_use[i].type)->count_by_charges() &&
+            map_use[i].count > 0)
+        {
+            std::list<item> tmp = m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
+                                                map_use[i].type, map_use[i].count);
+            ret.splice(ret.end(), tmp);
+        }
+        else
+        {
+           std::list<item> tmp =  m.use_amount(point(u.posx, u.posy), PICKUP_RANGE,
+                                               map_use[i].type, abs(map_use[i].count),
+                                               (map_use[i].count < 0));
+           ret.splice(ret.end(), tmp);
+        }
+    }
+    for (int i = 0; i < mixed_use.size(); i++)
+    {
+        if (item_controller->find_template(mixed_use[i].type)->count_by_charges() &&
+            mixed_use[i].count > 0)
+        {
+            int from_map = mixed_use[i].count - u.charges_of(mixed_use[i].type);
+            std::list<item> tmp;
+            tmp = u.use_charges(mixed_use[i].type, u.charges_of(mixed_use[i].type));
+            ret.splice(ret.end(), tmp);
+            tmp = m.use_charges(point(u.posx, u.posy), PICKUP_RANGE,
+                                mixed_use[i].type, from_map);
+            ret.splice(ret.end(), tmp);
+        }
+        else
+        {
+            bool in_container = (mixed_use[i].count < 0);
+            int from_map = abs(mixed_use[i].count) - u.amount_of(mixed_use[i].type);
+            std::list<item> tmp;
+            tmp = u.use_amount(mixed_use[i].type, u.amount_of(mixed_use[i].type),
+                               in_container);
+            ret.splice(ret.end(), tmp);
+            tmp = m.use_amount(point(u.posx, u.posy), PICKUP_RANGE,
+                               mixed_use[i].type, from_map, in_container);
+            ret.splice(ret.end(), tmp);
+        }
+    }
+    return ret;
 }
 
-void game::consume_tools(std::vector<component> tools)
+void game::consume_tools(std::vector<component> tools, bool force_available)
 {
  bool found_nocharge = false;
  inventory map_inv;
@@ -1250,7 +1325,7 @@ void game::consume_tools(std::vector<component> tools)
  std::vector<component> map_has;
 // Use charges of any tools that require charges used
  for (int i = 0; i < tools.size() && !found_nocharge; i++) {
-  if (tools[i].available != 1)
+  if (!force_available && tools[i].available != 1)
   {
    continue;
   }
@@ -1447,7 +1522,7 @@ void game::complete_disassemble()
   for (int j = 0; j < dis->tools.size(); j++)
   {
     if (dis->tools[j].size() > 0)
-    consume_tools(dis->tools[j]);
+    consume_tools(dis->tools[j], false);
   }
 
   // add the components to the map

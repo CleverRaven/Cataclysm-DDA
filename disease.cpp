@@ -524,48 +524,57 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg("You try to sleep, but can't...");
   break;
 
- case DI_SLEEP:
-  p.moves = 0;
-  if (int(g->turn) % 25 == 0) {
-   if (p.fatigue > 0)
-    p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
-   if (p.has_trait(PF_FASTHEALER))
-    p.healall(rng(0, 1));
-   else
-    p.healall(rng(0, 1) * rng(0, 1) * rng(0, 1));
-   if (p.fatigue <= 0 && p.fatigue > -20) {
-    p.fatigue = -25;
-    g->add_msg("Fully rested.");
-    dis.duration = dice(3, 100);
-   }
-  }
-  if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler")) {
-// Hunger and thirst advance more slowly while we sleep.
-   p.hunger--;
-   p.thirst--;
-  }
-  if (rng(5, 80) + rng(0, 120) + rng(0, abs(p.fatigue)) +
-      rng(0, abs(p.fatigue * 5)) < g->light_level() &&
-      (p.fatigue < 10 || one_in(p.fatigue / 2))) {
-   g->add_msg("The light wakes you up.");
-   dis.duration = 1;
-  }
-  // Cold or heat may wake you up.
-  // Player will sleep through cold or heat if fatigued enough
-  for (int i = 0 ; i < num_bp ; i++){
-   if (p.temp_cur[i] < BODYTEMP_VERY_COLD - p.fatigue/2 ||
-   (one_in(p.temp_cur[i] + 1000) && p.temp_cur[i] < BODYTEMP_COLD - p.fatigue/2)){
-    g->add_msg("The cold wakes you up.");
-    dis.duration = 1;
-   }
-   if (p.temp_cur[i] > BODYTEMP_VERY_HOT + p.fatigue/2 ||
-   (one_in(11000 - p.temp_cur[i]) && p.temp_cur[i] > BODYTEMP_HOT + p.fatigue/2)){
-    g->add_msg("The heat wakes you up.");
-    dis.duration = 1;
-   }
-  }
+  case DI_SLEEP:
+    p.moves = 0;
 
-  break;
+    if (int(g->turn) % 25 == 0) {
+      if (p.fatigue > 0)
+        p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
+      if (p.has_trait(PF_FASTHEALER)) {
+        p.healall(rng(0, 1));
+      } else if (p.has_trait(PF_FASTHEALER2)) {
+        p.healall(rng(0, 2));
+      } else if (p.has_trait(PF_REGEN)) {
+        p.healall(rng(1, 2));
+      } else {
+        p.healall(rng(0, 1) * rng(0, 1) * rng(0, 1));
+      }
+
+      if (p.fatigue <= 0 && p.fatigue > -20) {
+        p.fatigue = -25;
+        g->add_msg("Fully rested.");
+        dis.duration = dice(3, 100);
+      }
+    }
+
+    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler")) {
+      // Hunger and thirst advance more slowly while we sleep.
+      p.hunger--;
+      p.thirst--;
+    }
+
+    if (rng(5, 80) + rng(0, 120) + rng(0, abs(p.fatigue)) +
+        rng(0, abs(p.fatigue * 5)) < g->light_level() &&
+        (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+      g->add_msg("The light wakes you up.");
+      dis.duration = 1;
+    }
+
+    // Cold or heat may wake you up.
+    // Player will sleep through cold or heat if fatigued enough
+    for (int i = 0 ; i < num_bp ; i++){
+      if (p.temp_cur[i] < BODYTEMP_VERY_COLD - p.fatigue/2 ||
+          (one_in(p.temp_cur[i] + 1000) && p.temp_cur[i] < BODYTEMP_COLD - p.fatigue/2)){
+        g->add_msg("The cold wakes you up.");
+        dis.duration = 1;
+      } else if (p.temp_cur[i] > BODYTEMP_VERY_HOT + p.fatigue/2 ||
+          (one_in(11000 - p.temp_cur[i]) && p.temp_cur[i] > BODYTEMP_HOT + p.fatigue/2)){
+        g->add_msg("The heat wakes you up.");
+        dis.duration = 1;
+      }
+    }
+
+    break;
 
  case DI_STEMCELL_TREATMENT:
   //slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))

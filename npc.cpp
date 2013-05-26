@@ -940,7 +940,7 @@ std::list<item> starting_inv(npc *me, npc_class type, game *g)
 // TODO: More specifics.
 
  while (total_space > 0 && !one_in(8)) {
-  tmp = standard_itype_ids[rng(0, standard_itype_ids.size())];
+  tmp = standard_itype_ids[rng(0, standard_itype_ids.size()-1)];
   if (total_space >= g->itypes[tmp]->volume) {
    ret.push_back(item(g->itypes[tmp], 0));
    ret.back() = ret.back().in_its_container(&g->itypes);
@@ -2051,7 +2051,7 @@ void npc::die(game *g, bool your_fault)
    g->fail_mission( g->active_missions[i].uid );
  }
 
- g->cur_om.remove_npc(getID());
+ g->cur_om->remove_npc(getID());
 }
 
 std::string npc_attitude_name(npc_attitude att)

@@ -46,6 +46,8 @@ mon_graboid, mon_worm, mon_halfworm,
  mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
  mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
  mon_zombie_master,  mon_beekeeper, mon_zombie_child,
+// Flesh Golem
+ mon_jabberwock,
 // Triffids
 mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
  mon_creeper_vine, mon_biollante, mon_vinebeast, mon_triffid_heart,
@@ -198,7 +200,7 @@ struct mtype {
  int morale;	// Default morale level
 
  unsigned int  speed;		// Speed; human = 100
- unsigned char melee_skill;	// Melee skill; should be 0 to 5
+ unsigned char melee_skill;	// Melee hit skill, 20 is superhuman hitting abilities.
  unsigned char melee_dice;	// Number of dice on melee hit
  unsigned char melee_sides;	// Number of sides those dice have
  unsigned char melee_cut;	// Bonus cutting damage

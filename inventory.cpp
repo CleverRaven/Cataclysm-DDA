@@ -318,7 +318,7 @@ item& inventory::add_item(item newit, bool keep_invlet)
             }
             else if (it_ref->stacks_with(newit))
             {
-                if (it_ref->is_food() && it_ref->has_flag(IF_HOT))
+                if (it_ref->is_food() && it_ref->has_flag("HOT"))
                 {
                     int tmpcounter = (it_ref->item_counter + newit.item_counter) / 2;
                     it_ref->item_counter = tmpcounter;
@@ -830,8 +830,9 @@ int inventory::charges_of(itype_id it) const
     return count;
 }
 
-void inventory::use_amount(itype_id it, int quantity, bool use_container)
+std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_container)
 {
+    std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter)
     {
         for (std::list<item>::iterator stack_iter = iter->begin();
@@ -844,6 +845,7 @@ void inventory::use_amount(itype_id it, int quantity, bool use_container)
             {
                 if (stack_iter->contents[k].type->id == it)
                 {
+                    ret.push_back(stack_iter->contents[k]);
                     quantity--;
                     stack_iter->contents.erase(stack_iter->contents.begin() + k);
                     k--;
@@ -864,6 +866,7 @@ void inventory::use_amount(itype_id it, int quantity, bool use_container)
             }
             else if (stack_iter->type->id == it && quantity > 0)
             {
+                ret.push_back(*stack_iter);
                 quantity--;
                 stack_iter = iter->erase(stack_iter);
                 --stack_iter;
@@ -875,10 +878,12 @@ void inventory::use_amount(itype_id it, int quantity, bool use_container)
             }
         }
     }
+    return ret;
 }
 
-void inventory::use_charges(itype_id it, int quantity)
+std::list<item> inventory::use_charges(itype_id it, int quantity)
 {
+    std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter)
     {
         for (std::list<item>::iterator stack_iter = iter->begin();
@@ -892,6 +897,7 @@ void inventory::use_charges(itype_id it, int quantity)
                 {
                     if (stack_iter->contents[k].charges <= quantity)
                     {
+                        ret.push_back(stack_iter->contents[k]);
                         quantity -= stack_iter->contents[k].charges;
                         if (stack_iter->contents[k].destroyed_at_zero_charges())
                         {
@@ -905,8 +911,11 @@ void inventory::use_charges(itype_id it, int quantity)
                     }
                     else
                     {
+                        item tmp = stack_iter->contents[k];
+                        tmp.charges = quantity;
+                        ret.push_back(tmp);
                         stack_iter->contents[k].charges -= quantity;
-                        return;
+                        return ret;
                     }
                 }
             }
@@ -916,6 +925,7 @@ void inventory::use_charges(itype_id it, int quantity)
             {
                 if (stack_iter->charges <= quantity)
                 {
+                    ret.push_back(*stack_iter);
                     quantity -= stack_iter->charges;
                     if (stack_iter->destroyed_at_zero_charges())
                     {
@@ -935,12 +945,16 @@ void inventory::use_charges(itype_id it, int quantity)
                 }
                 else
                 {
+                    item tmp = *stack_iter;
+                    tmp.charges = quantity;
+                    ret.push_back(tmp);
                     stack_iter->charges -= quantity;
-                    return;
+                    return ret;
                 }
             }
         }
     }
+    return ret;
 }
 
 bool inventory::has_amount(itype_id it, int quantity) const
@@ -1037,7 +1051,7 @@ int inventory::butcher_factor() const
              ++stack_iter)
         {
             const item& cur_item = *stack_iter;
-            if (cur_item.damage_cut() >= 10 && !cur_item.has_flag(IF_SPEAR))
+            if (cur_item.damage_cut() >= 10 && !cur_item.has_flag("SPEAR"))
             {
                 int factor = cur_item.volume() * 5 - cur_item.weight() * 1.5 -
                              cur_item.damage_cut();

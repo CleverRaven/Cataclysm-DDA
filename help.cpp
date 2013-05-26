@@ -39,7 +39,7 @@ c: Viewing                           k: Traps\n\
 d: Hunger, Thirst, and Sleep         l: Items overview\n\
 e: Pain and Stimulants               m: Combat\n\
 f: Addiction                         n: Unarmed Styles\n\
-g: Morale and XP                     o: Survival tips\n\
+g: Morale and Learning               o: Survival tips\n\
 h: Radioactivity and Mutation\n\
 \n\
 1: List of all commands (you can change key commands here)\n\
@@ -221,14 +221,24 @@ Press any key for more...");
    getch();
    werase(w_help);
    mvwprintz(w_help, 0, 0, c_white, "\
-Morale is also responsible for filling your XP pool. This XP pool is used\n\
-for improving your skills; as you use your skills, points are taken from the\n\
-XP pool and placed into the skill used. If your XP pool is empty, your\n\
-skills cannot be improved except through the use of books.\n\
+Morale is also responsible for ensuring you can learn effectively, via a\n\
+mechanic referred to as 'focus'. Your focus level is a measure of how\n\
+effectively you can learn. The natural level is 100, which indicates normal\n\
+learning potential. Higher or lower focus levels make it easier or harder to\n\
+learn from practical experience.\n\
 \n\
-Your XP pool will not fill unless your morale is at least 0. A morale level\n\
-between 0 and 100 gives the percentage chance for your XP to increase by 1\n\
-each turn. Above 100, you get 1 XP point each turn for every 100 morale.");
+Your focus level has a natural set point that it converges towards. When your\n\
+focus is much lower - or higher - than this set point, it will change faster\n\
+than when it is near the set point. Having high morale will raise the set\n\
+point, and having low morale will lower the set point. Pain is also factored\n\
+into the set point calculation - it's harder to learn when you're in pain.\n\
+\n\
+Your focus is also lowered by certain activities. Training your skills\n\
+through real-world practice lowers your focus gradually, by an amount that\n\
+depends on your current level of focus (higher focus means larger decreases,\n\
+as well as improved learning). Training your skills by reading books\n\
+decreases your focus rapidly, by giving a significant penalty to the set\n\
+point of your focus.");
    wrefresh(w_help);
    refresh();
    getch();

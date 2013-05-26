@@ -41,6 +41,7 @@ public:
  item(std::string itemdata, game *g);
  ~item();
  void make(itype* it);
+ void clear(); // cleanup that's required to re-use an item variable
 
 // returns the default container of this item, with this item in it
  item in_its_container(std::map<std::string, itype*> *itypes);
@@ -84,7 +85,7 @@ public:
  int attack_time();
  int damage_bash();
  int damage_cut() const;
- bool has_flag(item_flag f) const;
+ bool has_flag(std::string f) const;
  bool has_technique(technique_id t, player *p = NULL);
  int has_gunmod(itype_id type);
  item* active_gunmod();
@@ -95,11 +96,15 @@ public:
  bool craft_has_charges();
  int num_charges();
  bool rotten(game *g);
+ bool ready_to_revive(game *g); // used for corpses
 
 // Our value as a weapon, given particular skills
  int  weapon_value(int skills[num_skill_types]) const;
 // As above, but discounts its use as a ranged weapon
  int  melee_value (int skills[num_skill_types]);
+// how resistant armour is to bashing and cutting damage
+ int bash_resist() const;
+ int cut_resist() const;
 // Returns the data associated with tech, if we are an it_style
  style_move style_data(technique_id tech);
  bool is_two_handed(player *u);
@@ -155,9 +160,11 @@ public:
  union{
    int poison;	         // How badly poisoned is it?
    int bigness;         // engine power, wheel size
+   int frequency;       // Radio frequency
+   int note;            // Associated dynamic text snippet.
  };
- int mode;              // Mode of operation, can be changed by the player.
- unsigned item_flags : NUM_ITEM_FLAGS;		// generic item specific flags
+ std::string mode;    // Mode of operation, can be changed by the player.
+ std::set<std::string> item_tags;		// generic item specific flags
  unsigned item_counter;	// generic counter to be used with item flags
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!

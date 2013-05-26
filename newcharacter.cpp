@@ -199,19 +199,9 @@ bool player::create(game *g, character_type type, std::string tempname)
    first_bio = g->random_good_bionic();
   } while (bionics[first_bio]->power_cost > 10);
   add_bionic(first_bio);
-  if (bionics[my_bionics[0].id]->power_cost > 0) {
-   add_bionic(bionic_id(power_source_bionics[rng(0,power_source_bionics.size()-1)]));	// Power Source
-   max_power_level = 10;
-   power_level = 10;
-  } else {
-   bionic_id tmpbio;
-   do
-   tmpbio = bionic_id(unpowered_bionics[rng(0, unpowered_bionics.size()-1)]);
-   while (bionics[tmpbio]->power_cost > 0);
-   add_bionic(tmpbio);
-   max_power_level = 0;
-   power_level = 0;
-  }
+  add_bionic(bionic_id(power_source_bionics[rng(0,power_source_bionics.size()-1)]));	// Power Source
+  max_power_level = 10;
+  power_level = 10;
  }
 
  if (has_trait(PF_MARTIAL_ARTS)) {
@@ -246,8 +236,8 @@ bool player::create(game *g, character_type type, std::string tempname)
  for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter) {
   item tmp = item(item_controller->find_template(*iter), 0, 'a' + worn.size());
   if (tmp.is_armor()) {
-   if (tmp.has_flag(IF_VARSIZE))
-    tmp.item_flags |= mfb(IF_FIT);
+   if (tmp.has_flag("VARSIZE"))
+    tmp.item_tags.insert("FIT");
    worn.push_back(tmp);
   } else {
    inv.push_back(tmp);
@@ -261,15 +251,22 @@ bool player::create(game *g, character_type type, std::string tempname)
  }
 
 // The near-sighted get to start with glasses.
- if (has_trait(PF_MYOPIC)) {
+ if (has_trait(PF_MYOPIC) && !has_trait(PF_HYPEROPIC)) {
   tmp = item(g->itypes["glasses_eye"], 0, 'a' + worn.size());
   worn.push_back(tmp);
  }
 // And the far-sighted get to start with reading glasses.
- if (has_trait(PF_HYPEROPIC)) {
+ if (has_trait(PF_HYPEROPIC) && !has_trait(PF_MYOPIC)) {
   tmp = item(g->itypes["glasses_reading"], 0, 'a' + worn.size());
   worn.push_back(tmp);
  }
+
+ if (has_trait(PF_HYPEROPIC) && has_trait(PF_MYOPIC))
+ {
+     tmp = item(g->itypes["glasses_bifocal"], 0, 'a' + worn.size());
+     worn.push_back(tmp);
+ }
+
 // Likewise, the asthmatic start with their medication.
  if (has_trait(PF_ASTHMA)) {
   tmp = item(g->itypes["inhaler"], 0, 'a' + worn.size());
@@ -391,8 +388,6 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
    mvwprintz(w, 8,  2, COL_STAT_ACT, "Intelligence: %d  ", u->int_max);
    mvwprintz(w, 9,  2, c_ltgray,     "Perception:   %d  ", u->per_max);
 
-   mvwprintz(w, 6, 33, COL_STAT_ACT, "Skill comprehension: %d%%%%                     ",
-             u->skillLevel("melee").comprehension(u->int_max));
    mvwprintz(w, 7, 33, COL_STAT_ACT, "Read times: %d%%%%                              ",
              u->read_speed(false));
    mvwprintz(w, 8, 33, COL_STAT_ACT, "                                            ");

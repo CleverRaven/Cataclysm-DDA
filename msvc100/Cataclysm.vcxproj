@@ -136,6 +136,7 @@
     <ClCompile Include="..\options.cpp" />
     <ClCompile Include="..\output.cpp" />
     <ClCompile Include="..\overmap.cpp" />
+    <ClCompile Include="..\overmapbuffer.cpp" />
     <ClCompile Include="..\player.cpp" />
     <ClCompile Include="..\posix_time.cpp" />
     <ClCompile Include="..\profession.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="..\options.h" />
     <ClInclude Include="..\output.h" />
     <ClInclude Include="..\overmap.h" />
+    <ClCompile Include="..\overmapbuffer.h" />
     <ClInclude Include="..\picojson.h" />
     <ClInclude Include="..\player.h" />
     <ClInclude Include="..\pldata.h" />

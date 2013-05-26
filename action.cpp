@@ -29,16 +29,21 @@ void game::load_keyboard_settings()
 Warning!  data/keymap.txt contains an unknown action, \"%s\"\n\
 Fix data/keymap.txt at your next chance!", id.c_str());
    else {
-    while (fin.peek() != '\n' && !fin.eof()) {
-     char ch;
-     fin >> ch;
-     if (keymap.find(ch) != keymap.end())
-      debugmsg("\
+    while (!fin.eof()) {
+      char ch;
+      fin >> std::noskipws >> ch >> std::skipws;
+      if (ch == '\n') {
+        break;
+      } else if (ch != ' ' || fin.peek() == '\n') {
+        if (keymap.find(ch) != keymap.end()) {
+          debugmsg("\
 Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
 Fix data/keymap.txt at your next chance!", ch, id.c_str());
-     else
-      keymap[ ch ] = act;
+        } else {
+          keymap[ ch ] = act;
+        }
+      }
     }
    }
   } else {
@@ -191,6 +196,8 @@ std::string action_ident(action_id act)
             return "drop_adj";
         case ACTION_BIONICS:
             return "bionics";
+        case ACTION_SORT_ARMOR:
+            return "sort_armor";            
         case ACTION_WAIT:
             return "wait";
         case ACTION_CRAFT:
@@ -361,6 +368,8 @@ std::string action_name(action_id act)
             return "Drop Item to Adjacent Tile";
         case ACTION_BIONICS:
             return "View/Activate Bionics";
+        case ACTION_SORT_ARMOR:
+            return "Re-layer armour/clothing";             
         case ACTION_WAIT:
             return "Wait for Several Minutes";
         case ACTION_CRAFT:

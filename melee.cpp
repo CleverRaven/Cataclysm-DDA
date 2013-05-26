@@ -40,7 +40,7 @@ bool player::is_armed()
 bool player::unarmed_attack()
 {
  return (weapon.typeId() == "null" || weapon.is_style() ||
-         weapon.has_flag(IF_UNARMED_WEAPON));
+         weapon.has_flag("UNARMED_WEAPON"));
 }
 
 int player::base_to_hit(bool real_life, int stat)
@@ -90,7 +90,7 @@ int player::hit_roll()
  }
 
 // Using a spear?
- if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)) {
+ if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) {
   int stab_bonus = int(skillLevel("stabbing") / 2);
   if (stab_bonus > best_bonus)
    best_bonus = stab_bonus;
@@ -107,7 +107,8 @@ int player::hit_roll()
  }
 
 // Farsightedness makes us hit worse
- if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")) {
+ if (has_trait(PF_HYPEROPIC) && !is_wearing("glasses_reading")
+     && !is_wearing("glasses_bifocal")) {
   numdice -= 2;
  }
 
@@ -153,7 +154,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
   }
   melee_practice(g->turn, *this, false, unarmed_attack(),
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
-                 (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)));
+                 (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
   move_cost += stumble_pen;
   if (weapon.has_technique(TEC_FEINT, this))
    move_cost = rng(move_cost / 3, move_cost);
@@ -254,7 +255,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   }
   melee_practice(g->turn, *this, false, unarmed_attack(),
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
-                 (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)));
+                 (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")));
   move_cost += stumble_pen;
   if (weapon.has_technique(TEC_FEINT, this))
    move_cost = rng(move_cost / 3, move_cost);
@@ -424,7 +425,7 @@ bool player::scored_crit(int target_dodge)
   best_skill = skillLevel("bashing");
  if (weapon.is_cutting_weapon() && skillLevel("cutting") > best_skill)
   best_skill = skillLevel("cutting");
- if ((weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)) &&
+ if ((weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) &&
      skillLevel("stabbing") > best_skill)
   best_skill = skillLevel("stabbing");
  if (unarmed_attack() && skillLevel("unarmed") > best_skill)
@@ -452,44 +453,46 @@ bool player::scored_crit(int target_dodge)
 }
 
 int player::dodge(game *g)
+//Returns 1/2*DEX + dodge skill level + static bonuses from mutations
+//Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
 {
- if (has_disease(DI_SLEEP) || has_disease(DI_LYING_DOWN))
-  return 0;
- if (activity.type != ACT_NULL)
-  return 0;
- int ret = 4 + (dex_cur / 2);
- ret += skillLevel("dodge");
- ret += disease_intensity(DI_DODGE_BOOST);
- ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
- ret += int(current_speed(g) / 150);
- if (has_trait(PF_TAIL_LONG))
-  ret += 4;
- if (has_trait(PF_TAIL_FLUFFY))
-  ret += 8;
- if (has_trait(PF_WHISKERS))
-  ret += 1;
- if (has_trait(PF_WINGS_BAT))
-  ret -= 3;
- if (str_max >= 16)
-  ret--; // Penalty if we're hyuuge
- else if (str_max <= 5)
-  ret++; // Bonus if we're small
- if (dodges_left <= 0) { // We already dodged this turn
-  if (rng(1, skillLevel("dodge") + dex_cur + 15) <= skillLevel("dodge") + dex_cur)
-   ret = rng(0, ret);
-  else
-   ret = 0;
- }
- dodges_left--;
-// If we're over our cap, average it with our cap
- if (ret > int(dex_cur / 2) + skillLevel("dodge") * 2)
-  ret = ( ret + int(dex_cur / 2) + skillLevel("dodge") * 2 ) / 2;
- return ret;
+    //If we're asleep or busy we can't dodge
+    if (has_disease(DI_SLEEP) || has_disease(DI_LYING_DOWN)) {return 0;}
+    if (activity.type != ACT_NULL) {return 0;}
+
+    int ret = (dex_cur / 2);
+    ret += skillLevel("dodge");
+    ret += disease_intensity(DI_DODGE_BOOST);
+    ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
+    ret += int(current_speed(g) / 150); //Faster = small dodge advantage
+
+    //Mutations
+    if (has_trait(PF_TAIL_LONG)) {ret += 4;}
+    if (has_trait(PF_TAIL_FLUFFY)) {ret += 8;}
+    if (has_trait(PF_WHISKERS)) {ret += 1;}
+    if (has_trait(PF_WINGS_BAT)) {ret -= 3;}
+
+    if (str_max >= 16) {ret--;} // Penalty if we're huge
+    else if (str_max <= 5) {ret++;} // Bonus if we're small
+
+    if (dodges_left <= 0) // We already dodged this turn
+    {
+        if (rng(0, skillLevel("dodge") + dex_cur + 15) <= skillLevel("dodge") + dex_cur)
+        {
+            ret = rng(ret/2, ret); //Penalize multiple dodges per turn
+        }
+        else
+        {
+            ret = 0;
+        }
+    }
+    dodges_left--;
+    return ret;
 }
 
 int player::dodge_roll(game *g)
 {
- return dice(dodge(g), 6);
+    return dice(dodge(g), 10); //Matches NPC and monster dodge_roll functions
 }
 
 int player::base_damage(bool real_life, int stat)
@@ -581,7 +584,7 @@ int player::roll_bash_damage(monster *z, bool crit)
 
 int player::roll_cut_damage(monster *z, bool crit)
 {
- if (weapon.has_flag(IF_SPEAR))
+ if (weapon.has_flag("SPEAR"))
   return 0;  // Stabs, doesn't cut!
  int z_armor_cut = (z == NULL ? 0 : z->armor_cut() - skillLevel("cutting") / 2);
 
@@ -590,7 +593,7 @@ int player::roll_cut_damage(monster *z, bool crit)
  if (z_armor_cut < 0)
   z_armor_cut = 0;
 
- int ret = weapon.damage_cut() - z_armor_cut;
+ double ret = weapon.damage_cut() - z_armor_cut;
 
  if (unarmed_attack() && !wearing_something_on(bp_hands)) {
   if (has_trait(PF_CLAWS))
@@ -606,19 +609,19 @@ int player::roll_cut_damage(monster *z, bool crit)
 
 // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
  if (skillLevel("cutting") <= 5)
-  ret *= double( 0.8 + 0.08 * skillLevel("cutting") );
+  ret *= 0.8 + 0.08 * skillLevel("cutting");
  else
-  ret *= double( 0.92 + 0.04 * skillLevel("cutting") );
+  ret *= 0.92 + 0.04 * skillLevel("cutting");
 
  if (crit)
-  ret *= double( 1.0 + double(skillLevel("cutting") / 12) );
+  ret *= 1.0 + (skillLevel("cutting") / 12.0);
 
  return ret;
 }
 
 int player::roll_stab_damage(monster *z, bool crit)
 {
- int ret = 0;
+ double ret = 0;
  int z_armor = (z == NULL ? 0 : z->armor_cut() - 3 * skillLevel("stabbing"));
 
  if (crit)
@@ -634,7 +637,7 @@ int player::roll_stab_damage(monster *z, bool crit)
    ret++;
   if (has_trait(PF_THORNS))
    ret += 4;
- } else if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB))
+ } else if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
   ret = int((weapon.damage_cut() - z_armor) / 4);
  else
   return 0; // Can't stab at all!
@@ -652,7 +655,7 @@ int player::roll_stab_damage(monster *z, bool crit)
   return 0; // No negative stabbing!
 
  if (crit) {
-  int multiplier = double( 1.0 + double(skillLevel("stabbing") / 5) );
+  double multiplier = 1.0 + (skillLevel("stabbing") / 5.0);
   if (multiplier > 2.5)
    multiplier = 2.5;
   ret *= multiplier;
@@ -717,7 +720,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
  if (possible.empty()) { // Use non-crits only if any crit-onlies aren't used
 
   if (weapon.has_technique(TEC_DISARM, this) && !z &&
-      p->weapon.typeId() != "null" && !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
+      p->weapon.typeId() != "null" && !p->weapon.has_flag("UNARMED_WEAPON") &&
       dice(   dex_cur +    skillLevel("unarmed"),  8) >
       dice(p->dex_cur + p->skillLevel("melee"),   10))
    possible.push_back(TEC_DISARM);
@@ -916,7 +919,7 @@ technique_id player::pick_defensive_technique(game *g, monster *z, player *p)
 
  if (weapon.has_technique(TEC_DEF_DISARM, this) &&
      z == NULL && p->weapon.typeId() != "null" &&
-     !p->weapon.has_flag(IF_UNARMED_WEAPON) &&
+     !p->weapon.has_flag("UNARMED_WEAPON") &&
      dice(   dex_cur +    skillLevel("unarmed"), 8) >
      dice(p->dex_cur + p->skillLevel("melee"),  10))
   return TEC_DEF_DISARM;
@@ -1202,7 +1205,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
 
 // Getting your weapon stuck
  int cutting_penalty = roll_stuck_penalty(z, stab_dam > cut_dam);
- if (weapon.has_flag(IF_MESSY)) { // e.g. chainsaws
+ if (weapon.has_flag("MESSY")) { // e.g. chainsaws
   cutting_penalty /= 6; // Harder to get stuck
   for (int x = tarposx - 1; x <= tarposx + 1; x++) {
    for (int y = tarposy - 1; y <= tarposy + 1; y++) {
@@ -1221,7 +1224,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
    g->add_msg("Your %s gets stuck in %s, pulling it out of your hands!",
               weapon.tname().c_str(), target.c_str());
   if (mon) {
-   if (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB))
+   if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
     z->speed *= .7;
    else
     z->speed *= .85;
@@ -1238,7 +1241,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   if (cutting_penalty >= 50 && is_u)
    g->add_msg("Your %s gets stuck in %s, but you yank it free.",
               weapon.tname().c_str(), target.c_str());
-  if (mon && (weapon.has_flag(IF_SPEAR) || weapon.has_flag(IF_STAB)))
+  if (mon && (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")))
    z->speed *= .9;
  }
 
@@ -1483,7 +1486,7 @@ std::string melee_verb(technique_id tech, std::string your, player &p,
         // verb should be based on how the weapon is used, and the total damage inflicted
 
         // if it's a stabbing weapon or a spear
-        if (p.weapon.has_flag(IF_SPEAR) || (p.weapon.has_flag(IF_STAB) && stab_dam > cut_dam))
+        if (p.weapon.has_flag("SPEAR") || (p.weapon.has_flag("STAB") && stab_dam > cut_dam))
         {
             if (bash_dam + stab_dam + cut_dam >= 30)
                 return "impale" + s;
@@ -1546,13 +1549,13 @@ void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
     }
 
     // type of weapon used determines order of practice
-    if (u.weapon.has_flag(IF_SPEAR))
+    if (u.weapon.has_flag("SPEAR"))
     {
         if (stabbing) first  = "stabbing";
         if (bashing)  second = "bashing";
         if (cutting)  third  = "cutting";
     }
-    else if (u.weapon.has_flag(IF_STAB))
+    else if (u.weapon.has_flag("STAB"))
     {
         // stabbity weapons have a 50-50 chance of raising either stabbing or cutting first
         if (one_in(2))

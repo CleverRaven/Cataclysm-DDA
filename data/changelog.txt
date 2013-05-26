@@ -1,6 +1,69 @@
 Changelog will be a little light for the early entries due to me being really bad at documenting things.
 
+0.6
+
+Highlights:
+---
+* Some work to make vehicle collisions sane.
+* Zombies will revive after a time, if not butchered (or otherwise dealt with).
+* The Android trait now behaves the way that the description indicates.
+* Gasoline can be siphoned from vehicles.
+* Sewing requires materials other than thread - rags for cloth, leather patches for leather.
+* Leather repair/reinforcement actually possible!
+* As usual, many bugfixes.
+
+Full list:
+---
+Purifier no longer removes traits available at chargen.
+Fix some calculations that wanted floating-point math, and were using integer math.
+Fix some vehicle collision craziness related to skids.
+Added zombie revival. Chance of unbutchered zombie corpses rezzing, once 6 hours have passed.
+Advanced inventory UI improvements/fixes.
+Dropping count-by-charge items (batteries, meds, etc.) into vehicles will cause restacking.
+Android trait always gives a power system bionic.
+Fix torso encumbrance display (it's smart about sign use now).
+Bitmask-based item flags no longer exist! Instead, we have string-based tags, that have no upper limit.
+Tweaked glowstick behavior - can no longer deactivate, and they have a dead state.
+Android trait should no longer give the player faulty bionics.
+Bolts moved to ammo category, like arrows.
+Added bone broth, and recipe.
+Adjust how Climate Control bionic works, make vehicles have functioning (magic!) AC.
+Added fuel siphoning using rubber hose.
+Appearance-improving mutations are now flagged as being good mutations.
+Welder charges are actually used during vehicle construction.
+Items will no longer become erroneously fitted, and item tags should not spread during map loading.
+Weather accounts for starting time properly.
+Containers can be unloaded again (they were bugged).
+Optimized scentmap updates, hopefully this speeds up certain activities.
+Pit-requiring constructions have pit digging as their first two stages, to make it more obvious what the prereqs are.
+Some menus (notably, inventory) can be navigated with arrow keys and enter.
+Allowing sewing of leather items, make sewing require rags/patches.
+Cooking rotten food does not make it magically fresh any more (but it does make it slightly less rotten).
+Resolves an issue where destroying an item while tailoring would crash the game.
+New UI to sort clothing and automatically assign special characters to clothing (accessed via +)
+
+======
+
 0.5
+
+Highlights:
+---
+* Many new details added to mapgen! New buildings, ruined vehicles on roads, and so on.
+* Much more modding-friendly: MANY bits of data have been moved into data files, rather than being hardcoded in the source.
+* A handful of recipes can be learned from sources other than just leveling your skills.
+* Artifacts should save/load properly now!
+* Assorted UI tweaks and improvements.
+* Weather radio and directional antenna.
+* Rain funnels - first step towards proper rain barrels.
+* Robust Genetics and dodging have both been significantly rebalanced, and should actually be useful.
+* Zombies wear damaged clothing.
+* Tailoring is more important, and string is easier to acquire.
+* New content all around!
+* Numerous bugfixes.
+
+
+Full list:
+---
 Matches usable anywhere lighters could be used previously.
 Draw lit areas outside of LOS and normal sight radius the same as unlit areas
 Tell the player when their gear is damaged in combat
@@ -36,7 +99,7 @@ Added crafting recipes for bandana, blanket, house coat, cloak.
 Weather radio
 Radios are tuneable, so you can receive from more than one station without moving.
 New item that doubles battery capacity of tools, recipe learn from certain electronics books.
-Bugfix: reduced chance of "Tried to kill monster" debug spam.
+Bugfix: reduced chance of "Tried to kill monster" debug s	pam.
 Bugfix: reduced chance of "Stopping out-of-map vehicle" spam.
 Bugfix: can unload liquids into items wielded in hands (e.g., steel jerrycans).
 Bionics screen shows current and maximum power.
@@ -70,7 +133,7 @@ Addictions can be configured explicitly in the professions file.
 Tweak crossbow trap drops.
 Made several UI screens smarter (resize to fit screen, esc can exit, etc.).
 Show nearby map notes on the minimap.
-Some item types can be defined from data files now! So far: misc/melee, guns, tools, gun mods (sorta)
+Some item types can be defined from data files now! So far: misc/melee, armor, guns, ammo, tools, gun mods, books
 Glasses can be worn with power armor.
 Added several new constructions.
 Power use of integrated toolset has been rebalanced.
@@ -118,7 +181,22 @@ Stop roads from going through buildings so often.
 Pits less awkward to board over (can use nearby items).
 Tweak glass bottle weight/volume.
 Allow for reading/sewing in the dark through mutations/CBM's with a speed penalty.
+Rewrote dodge abilities to have a noticeable impact.
+Mansion pools are considered indoors now.
+Tires can be changed with a wrench and a jack.
+Add game logic to handle recipes that take the same item as a component and a tool, and add UI to alert the player.
+Improve rendering in the main Windows port - animations should display better.
+Cave-ins cause damaging rubble to fall.
+Improve fuel guage display in the vehicle examination window.
+Overmap notes blink again.
+Space and tab should be available for keymaps.
+Hitting the "pause"/"skip turn" button will let you cancel reading, crafting, and other long-term actions.
+Special road spawns should not happen on bridges.
+Ruined vehicles spawn on roads.
+Zombies wear damaged clothing.
+Nighttime lights are visible from reasonable distances now.
 
+======
 
 0.4
 Make the battery system bionic only consume as many batteries as necessary to fully power yourself

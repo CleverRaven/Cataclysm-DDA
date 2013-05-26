@@ -715,7 +715,7 @@ void iuse::mutagen_3(game *g, player *p, item *it, bool t)
 void iuse::purifier(game *g, player *p, item *it, bool t)
 {
  std::vector<int> valid;	// Which flags the player has
- for (int i = 1; i < PF_MAX2; i++) {
+ for (int i = PF_MAX+1; i < PF_MAX2; i++) {
   if (p->has_trait(pl_flag(i)) && p->has_mutation(pl_flag(i)))
    valid.push_back(i);
  }
@@ -924,9 +924,21 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         it->charges++;
         return;
     }
-    if (!fix->made_of(COTTON) && !fix->made_of(WOOL))
+    if (!fix->made_of(COTTON) && !fix->made_of(WOOL) && !fix->made_of(LEATHER))
 	{
-        g->add_msg_if_player(p,"Your %s is not made of cotton or wool.", fix->tname().c_str());
+        g->add_msg_if_player(p,"Your %s is not made of cotton,wool or leather.", fix->tname().c_str());
+        it->charges++;
+        return;
+    }
+    if ((fix->made_of(COTTON) || fix->made_of(WOOL)) && !p->has_amount("rag",1))
+        {
+        g->add_msg_if_player(p,"You don't have enough rags to do that.");
+        it->charges++;
+        return;
+    }
+    if (fix->made_of(LEATHER) && !p->has_amount("leather",1))
+        {
+        g->add_msg_if_player(p,"You don't have enough leather to do that.");
         it->charges++;
         return;
     }
@@ -936,8 +948,15 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         it->charges++;
         return;
     }
-    else if (fix->damage == 0)
-	{
+
+    if (fix->made_of(COTTON) || fix->made_of(WOOL)) {
+        p->use_amount("rag",1);
+    } else if (fix->made_of(LEATHER)) {
+        p->use_amount("leather",1);
+    }
+
+    if (fix->damage == 0)
+    {
         p->moves -= 500 * p->fine_detail_vision_mod(g);
         p->practice(g->turn, "tailor", 10);
         int rn = dice(4, 2 + p->skillLevel("tailor"));
@@ -952,12 +971,12 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
             fix->damage++;
         } 
-        else if (rn >= 12 && p->i_at(ch).has_flag(IF_VARSIZE) && !p->i_at(ch).has_flag(IF_FIT))
+        else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT"))
 	    {
             g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
-            (p->i_at(ch).item_flags |= mfb(IF_FIT));
+            (p->i_at(ch).item_tags.insert("FIT"));
         }
-        else if (rn >= 12 && (p->i_at(ch).has_flag(IF_FIT) || !p->i_at(ch).has_flag(IF_VARSIZE)))
+        else if (rn >= 12 && (p->i_at(ch).has_flag("FIT") || !p->i_at(ch).has_flag("VARSIZE")))
 	    {
             g->add_msg_if_player(p, "You make your %s extra sturdy.", fix->tname().c_str());
             fix->damage--;
@@ -1019,6 +1038,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             fix->damage = 0;
         }
     }
+    
     //iuse::sew uses up 1 charge when called, if less than 1, set to 1, and use that one up.
     if (it->charges < 1)
         {it->charges = 1;}
@@ -1047,13 +1067,13 @@ void iuse::extra_battery(game *g, player *p, item *it, bool t)
         return;
     }
 
-    if (modded->has_flag(IF_DOUBLE_AMMO))
+    if (modded->has_flag("DOUBLE_AMMO"))
     {
         g->add_msg_if_player(p,"That item has already had its battery capacity doubled.");
         return;
     }
 
-    modded->item_flags |= mfb(IF_DOUBLE_AMMO);
+    modded->item_tags.insert("DOUBLE_AMMO");
     g->add_msg_if_player(p,"You double the battery capacity of your %s!", tool->name.c_str());
     it->invlet = 0;
 }
@@ -1248,6 +1268,39 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
     g->m.ter_set(dirx, diry, newter);
 }
 
+void iuse::gasoline_lantern_off(game *g, player *p, item *it, bool t)
+{
+    if (it->charges == 0)
+    {
+        g->add_msg_if_player(p,"The lantern is empty.");
+    }
+    else if(!p->use_charges_if_avail("fire", 1))
+    {
+        g->add_msg_if_player(p,"You need a lighter!");
+    }
+    else
+    {
+        g->add_msg_if_player(p,"You turn the lantern on.");
+        it->make(g->itypes["gasoline_lantern_on"]);
+        it->active = true;
+        it->charges --;
+    }
+}
+
+void iuse::gasoline_lantern_on(game *g, player *p, item *it, bool t)
+{
+    if (t)  	// Normal use
+    {
+// Do nothing... player::active_light and the lightmap::generate deal with this
+    }
+    else  	// Turning it off
+    {
+        g->add_msg_if_player(p,"The lantern is extinguished.");
+        it->make(g->itypes["gasoline_lantern"]);
+        it->active = false;
+    }
+}
+
 void iuse::light_off(game *g, player *p, item *it, bool t)
 {
  if (it->charges == 0)
@@ -1308,9 +1361,16 @@ void iuse::glowstick_active(game *g, player *p, item *it, bool t)
         // Do nothing... player::active_light and the lightmap::generate deal with this
     }
     else
-    {	// Turning it off
-        g->add_msg_if_player(p,"The glowstick dies.");
-        it->active = false;
+    {
+        if (it->charges > 0)
+        {
+            g->add_msg_if_player(p,"You can't turn off a glowstick.");
+        }
+        else
+        {
+            g->add_msg_if_player(p,"The glowstick fades out.");
+            it->active = false;
+        }
     }
 }
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
@@ -1411,11 +1471,11 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
  } else if (ch == '3') {	// General S.O.S.
   p->moves -= 150;
   std::vector<npc*> in_range;
-  for (int i = 0; i < g->cur_om.npcs.size(); i++) {
-   if (g->cur_om.npcs[i]->op_of_u.value >= 4 &&
-       rl_dist(g->levx, g->levy, g->cur_om.npcs[i]->mapx,
-                                   g->cur_om.npcs[i]->mapy) <= 30)
-    in_range.push_back((g->cur_om.npcs[i]));
+  for (int i = 0; i < g->cur_om->npcs.size(); i++) {
+   if (g->cur_om->npcs[i]->op_of_u.value >= 4 &&
+       rl_dist(g->levx, g->levy, g->cur_om->npcs[i]->mapx,
+                                   g->cur_om->npcs[i]->mapy) <= 30)
+    in_range.push_back((g->cur_om->npcs[i]));
   }
   if (in_range.size() > 0) {
    npc* coming = in_range[rng(0, in_range.size() - 1)];
@@ -1446,9 +1506,9 @@ void iuse::radio_off(game *g, player *p, item *it, bool t)
 static radio_tower *find_radio_station( game *g, int frequency )
 {
     radio_tower *tower = NULL;
-    for (int k = 0; k < g->cur_om.radios.size(); k++)
+    for (int k = 0; k < g->cur_om->radios.size(); k++)
     {
-        tower = &g->cur_om.radios[k];
+        tower = &g->cur_om->radios[k];
         if( 0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
             tower->frequency == frequency )
         {
@@ -1468,7 +1528,7 @@ void iuse::directional_antenna(game *g, player *p, item *it, bool t)
         return;
     }
     // Find the radio station its tuned to (if any)
-    radio_tower *tower = find_radio_station( g, radio.mode );
+    radio_tower *tower = find_radio_station( g, radio.frequency );
     if( tower == NULL )
     {
         g->add_msg( "You can't find the direction if your radio isn't tuned." );
@@ -1485,7 +1545,7 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
     if (t)
     {	// Normal use
         std::string message = "Radio: Kssssssssssssh.";
-        radio_tower *selected_tower = find_radio_station( g, it->mode );
+        radio_tower *selected_tower = find_radio_station( g, it->frequency );
         if( selected_tower != NULL )
         {
             if( selected_tower->type == MESSAGE_BROADCAST )
@@ -1540,14 +1600,14 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
         {
         case 1:
         {
-            int old_frequency = it->mode;
+            int old_frequency = it->frequency;
             radio_tower *tower = NULL;
             radio_tower *lowest_tower = NULL;
             radio_tower *lowest_larger_tower = NULL;
 
-            for (int k = 0; k < g->cur_om.radios.size(); k++)
+            for (int k = 0; k < g->cur_om->radios.size(); k++)
             {
-                tower = &g->cur_om.radios[k];
+                tower = &g->cur_om->radios[k];
 
                 if( 0 < tower->strength - rl_dist(tower->x, tower->y, g->levx, g->levy) &&
                     tower->frequency != old_frequency )
@@ -1567,11 +1627,11 @@ void iuse::radio_on(game *g, player *p, item *it, bool t)
             }
             if( lowest_larger_tower != NULL )
             {
-                it->mode = lowest_larger_tower->frequency;
+                it->frequency = lowest_larger_tower->frequency;
             }
             else if( lowest_tower != NULL )
             {
-                it->mode = lowest_tower->frequency;
+                it->frequency = lowest_tower->frequency;
             }
         }
         break;
@@ -1646,7 +1706,7 @@ void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
 {
  int dist = 0;
  oter_t oter_target = oterlist[target];
- point place = g->cur_om.find_closest(g->om_location(), (oter_id)target, 1, dist,
+ point place = g->cur_om->find_closest(g->om_location(), (oter_id)target, 1, dist,
                                       false);
 
  int pomx = (g->levx + int(MAPSIZE / 2)) / 2; //overmap loc
@@ -1657,7 +1717,7 @@ void iuse::roadmap_a_target(game *g, player *p, item *it, bool t, int target)
  if (place.x >= 0 && place.y >= 0) {
   for (int x = place.x - 3; x <= place.x + 3; x++) {
    for (int y = place.y - 3; y <= place.y + 3; y++)
-    g->cur_om.seen(x, y, g->levz) = true;
+    g->cur_om->seen(x, y, g->levz) = true;
   }
 
   direction to_hospital = direction_from(pomx,pomy, place.x, place.y);
@@ -1675,18 +1735,18 @@ void iuse::roadmap_targets(game *g, player *p, item *it, bool t, int target, int
  oter_t oter_target = oterlist[target];
  point place;
  point origin = g->om_location();
- std::vector<point> places = g->cur_om.find_all(tripoint(origin.x, origin.y, g->levz),
+ std::vector<point> places = g->cur_om->find_all(tripoint(origin.x, origin.y, g->levz),
                                                 (oter_id)target, target_range, distance, false);
 
  for (std::vector<point>::iterator iter = places.begin(); iter != places.end(); ++iter) {
   place = *iter;
   if (place.x >= 0 && place.y >= 0) {
   if (reveal_distance == 0) {
-    g->cur_om.seen(place.x,place.y,g->levz) = true;
+    g->cur_om->seen(place.x,place.y,g->levz) = true;
   } else {
    for (int x = place.x - reveal_distance; x <= place.x + reveal_distance; x++) {
     for (int y = place.y - reveal_distance; y <= place.y + reveal_distance; y++)
-      g->cur_om.seen(x, y,g->levz) = true;
+      g->cur_om->seen(x, y,g->levz) = true;
    }
   }
   }
@@ -1722,7 +1782,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  if (type == t_chaingate_l) {
    door_name = "gate";
    new_type = t_chaingate_c;
- } else if (type == t_door_locked || type == t_door_locked_alarm) {
+ } else if (type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
    door_name = "door";
    new_type = t_door_c;
  } else {
@@ -1783,7 +1843,7 @@ if (dirx == 0 && diry == 0) {
  bool noisy;
  int difficulty;
 
- if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm) {
+ if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
    door_name = "door";
    action_name = "pry open";
    new_type = t_door_o;
@@ -1904,6 +1964,38 @@ void iuse::dig(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You can't dig through %s!",
              g->m.tername(p->posx + dirx, p->posy + diry).c_str());
 */
+}
+
+void iuse::siphon(game *g, player *p, item *it, bool t)
+{
+    int posx = 0;
+    int posy = 0;
+    g->draw();
+    mvprintw(0, 0, "Siphon where?");
+    get_direction(g, posx, posy, input());
+    if (posx == -2)
+    {
+        g->add_msg_if_player(p,"Invalid direction.");
+        return;
+    }
+    // there's no self-tile check because the player could be in a vehicle
+    posx += p->posx;
+    posy += p->posy;
+    
+    vehicle* veh = g->m.veh_at(posx, posy);
+    if (veh == NULL)
+    {
+        g->add_msg_if_player(p,"There's no vehicle there.");
+        return;
+    }
+    if (veh->fuel_left(AT_GAS) == 0)
+    {
+        g->add_msg_if_player(p, "That vehicle has no fuel to siphon.");
+        return;
+    }
+    p->siphon_gas(g, veh);
+    p->moves -= 200;
+    return;
 }
 
 void iuse::chainsaw_off(game *g, player *p, item *it, bool t)
@@ -3588,7 +3680,9 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     p->i_add(lead);}
     else
    g->m.add_item(p->posx, p->posy, lead);
- }
+
+  p->practice(g->turn, "gun", rng(1, multiply / 5 + 1));
+}
 
 void iuse::boltcutters(game *g, player *p, item *it, bool t)
 {
@@ -3719,8 +3813,8 @@ void iuse::mcg_note(game *g, player *p, item *it, bool t)
  }
 // Calculate where that faction is
  if (fac != NULL) {
-  int omx = g->cur_om.posx, omy = g->cur_om.posy;
-  if (fac->omx != g->cur_om.posx || fac->omx != g->cur_om.posy)
+  int omx = g->cur_om->posx, omy = g->cur_om->posy;
+  if (fac->omx != g->cur_om->posx || fac->omx != g->cur_om->posy)
    dir = direction_from(omx, omy, fac->omx, fac->omy);
   else
    dir = direction_from(g->levx, g->levy, fac->mapx, fac->mapy);
@@ -3816,9 +3910,9 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    bool new_map = false;
    for (int x = int(g->levx / 2) - 20; x <= int(g->levx / 2) + 20; x++) {
     for (int y = int(g->levy / 2) - 20; y <= int(g->levy / 2) + 20; y++) {
-     if (!g->cur_om.seen(x, y, g->levz)) {
+     if (!g->cur_om->seen(x, y, g->levz)) {
       new_map = true;
-      g->cur_om.seen(x, y, g->levz) = true;
+      g->cur_om->seen(x, y, g->levz) = true;
      }
     }
    }
@@ -4088,7 +4182,7 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
 	if (heat->type->is_food()) {
 		p->moves -= 300;
 		g->add_msg("You heat up the food.");
-		heat->item_flags |= mfb(IF_HOT);
+		heat->item_tags.insert("HOT");
 		heat->active = true;
 		heat->item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);
@@ -4096,7 +4190,7 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
   } else 	if (heat->is_food_container()) {
 		p->moves -= 300;
 		g->add_msg("You heat up the food.");
-		heat->contents[0].item_flags |= mfb(IF_HOT);
+		heat->contents[0].item_tags.insert("HOT");
 		heat->contents[0].active = true;
 		heat->contents[0].item_counter = 600;		// sets the hot food flag for 60 minutes
 		it->make(g->itypes["heatpack_used"]);

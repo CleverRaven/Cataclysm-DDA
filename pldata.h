@@ -1,8 +1,9 @@
 #ifndef _PLDATA_H_
 #define _PLDATA_H_
 
-#include <sstream>
 #include "enums.h"
+#include <sstream>
+#include <vector>
 
 enum character_type {
  PLTYPE_CUSTOM,
@@ -110,6 +111,7 @@ struct player_activity
  int index;
  char invlet;
  bool continuous;
+ bool ignore_trivial;
  std::vector<int> values;
  point placement;
 
@@ -124,6 +126,7 @@ struct player_activity
   invlet = ch;
   placement = point(-1, -1);
   continuous = false;
+  ignore_trivial = false;
  }
 
  player_activity(const player_activity &copy)
@@ -134,6 +137,7 @@ struct player_activity
   invlet = copy.invlet;
   placement = copy.placement;
   continuous = copy.continuous;
+  ignore_trivial = copy.ignore_trivial;
   values.clear();
   for (int i = 0; i < copy.values.size(); i++)
    values.push_back(copy.values[i]);
@@ -410,9 +414,9 @@ Your skin is tough.  Cutting damage is slightly reduced for you."},
 {"Packmule", 3, 0, 0, "\
 You can manage to find space for anything!  You can carry 40%% more volume."},
 {"Fast Learner", 3, 0, 0, "\
-Your skill comprehension is 50%% higher, allowing you to learn skills much\n\
-faster than others.  Note that this only applies to real-world experience,\n\
-not to skill gain from other sources like books."},
+You have a flexible mind, allowing you to learn skills much faster than\n\
+others.  Note that this only applies to real-world experience, not to skill\n\
+gain from other sources like books."},
 {"Deft", 2, 0, 0, "\
 While you're not any better at melee combat, you are better at recovering\n\
 from a miss, and will be able to attempt another strike faster."},
