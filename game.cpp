@@ -6920,24 +6920,23 @@ void game::pickup(int posx, int posy, int min)
       selected = idx;
       start = (int)( idx / maxitems ) * maxitems;
    }
-   werase(w_item_info);
-   if (getitem[idx]) {
-    mvwprintw(w_item_info, 1, 0, here[idx].info().c_str());
-    wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                         LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    wrefresh(w_item_info);
-    new_weight += here[idx].weight();
-    new_volume += here[idx].volume();
-    update = true;
-   } else {
-    wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                         LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    wrefresh(w_item_info);
-    new_weight -= here[idx].weight();
-    new_volume -= here[idx].volume();
-    update = true;
-   }
+
+   new_weight += here[idx].weight();
+   new_volume += here[idx].volume();
+   update = true;
   }
+
+  if ( selected != last_selected ) {
+      last_selected = selected;
+      werase(w_item_info);
+      if ( selected >= 0 && selected <= here.size()-1 ) {
+          mvwprintw(w_item_info, 1, 0, here[selected].info().c_str());
+      }
+      wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                           LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      wrefresh(w_item_info);
+  }
+
   if (ch == ',') {
    int count = 0;
    for (int i = 0; i < here.size(); i++) {
