@@ -4761,18 +4761,10 @@ mapf::basic_bind("D l H O f A r d C h 6 x g G , . - | + D t c ^ w W e E % T S ="
    mapf::end());
    for (int i = 0; i <= 23; i++) {
     for (int j = 0; j <= 23; j++) {
-     if (this->ter(i,j) == t_crate_c){
-         if (one_in(2))
-            place_items(mi_robots,	60,  i,  j, i,  j, false, 0);
-         else if (one_in(2))
-            place_items(mi_science,	60,  i,  j, i,  j, false, 0);
-         else
-            place_items(mi_sewage_plant,	60,  i,  j, i,  j, false, 0);
-      }
      else if (this->ter(i,j) == t_locker)
-         place_items(mi_cleaning,	60,  i,  j, i,  j, false, 0);
-     else if (this->ter(i,j) == t_rack)
-         place_items(mi_mine_equipment,	50,  i,  j, i,  j, false, 0);
+         place_items(mi_science,	60,  i,  j, i,  j, false, 0);
+     else if (this->ter(i,j) ==  t_fridge)
+         place_items(mi_fridge,	50,  i,  j, i,  j, false, 0);
      if (one_in(500) && this->ter(i,j) == t_rock_floor) add_spawn(mon_zombie, 1, i, j);
     }
    }
