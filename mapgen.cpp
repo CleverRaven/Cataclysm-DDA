@@ -249,7 +249,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  oter_id t_nesw[] = {t_north, t_east, t_south, t_west};
  int nesw_fac[] = {0, 0, 0, 0};
  int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
- 
+
  mapgendata facing_data(t_north, t_east, t_south, t_west);
 
  computer *tmpcomp = NULL;
@@ -509,6 +509,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         add_vehicle (g, veh_car_chassis, vx, vy, veh_spawn_heading, -1, 1);
     else if (rc <= 70)
         add_vehicle (g, veh_car, vx, vy, veh_spawn_heading, -1, 1);
+    else if (rc <= 80)
+        add_vehicle (g, veh_car_electric, vx, vy, veh_spawn_heading, -1, 1);
     else if (rc <= 90)
         add_vehicle (g, veh_truck, vx, vy, veh_spawn_heading, -1, 1);
     else
@@ -576,6 +578,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
      add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 70)
      add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 80)
+     add_vehicle (g, veh_car_electric, vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 90)
      add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
     else
@@ -647,6 +651,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 70)
         add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, 1);
+    else if (rc <= 80)
+        add_vehicle (g, veh_car_electric, vx, vy, one_in(2)? 90 : 180, -1, 1);
     else if (rc <= 90)
         add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, 1);
     else
@@ -716,6 +722,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
         add_vehicle (g, veh_car_chassis, vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 70)
         add_vehicle (g, veh_car, vx, vy, one_in(2)? 90 : 180, -1, -1);
+    else if (rc <= 80)
+        add_vehicle (g, veh_car_electric, vx, vy, one_in(2)? 90 : 180, -1, -1);
     else if (rc <= 90)
         add_vehicle (g, veh_truck, vx, vy, one_in(2)? 90 : 180, -1, -1);
     else
@@ -1266,6 +1274,8 @@ t   t\n\
 				else if (rc <= 21)
 					vt = veh_bug;
 				else if (rc <= 50)
+					vt = veh_car;
+				else if (rc <= 60)
 					vt = veh_car;
 				else if (rc <= 75)
 					vt = veh_bicycle;
@@ -2680,9 +2690,9 @@ ssssssssssssssssssssssss\n",
         if (this->ter(i,j) == t_locker)
             place_items(mi_jackets,	60,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_window_stained_red){
-            if (one_in(3)) 
+            if (one_in(3))
             	ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3)) 
+            else if (one_in(3))
             	ter_set(i,j,t_window_stained_green);
         }
        }
@@ -2746,9 +2756,9 @@ ss          #bbbb...bbbb\n",
         if (this->ter(i,j) == t_locker)
             place_items(mi_jackets,	60,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_window_stained_red){
-            if (one_in(3)) 
+            if (one_in(3))
             	ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3)) 
+            else if (one_in(3))
             	ter_set(i,j,t_window_stained_green);
         }
        }
@@ -2806,9 +2816,9 @@ ssssssssssssssssssssssss\n",
         if (this->ter(i,j) == t_locker)
             place_items(mi_jackets,	60,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_window_stained_red){
-            if (one_in(3)) 
+            if (one_in(3))
             	ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3)) 
+            else if (one_in(3))
             	ter_set(i,j,t_window_stained_green);
         }
        }
@@ -2864,9 +2874,9 @@ bbb...bbbb#           ss\n",
         if (this->ter(i,j) == t_bench)
             place_items(mi_church,	10,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_window_stained_red){
-            if (one_in(3)) 
+            if (one_in(3))
             	ter_set(i,j,t_window_stained_blue);
-            else if (one_in(3)) 
+            else if (one_in(3))
             	ter_set(i,j,t_window_stained_green);
         }
        }
