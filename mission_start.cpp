@@ -211,6 +211,23 @@ void mission_start::place_npc_software(game *g, mission *miss)
  compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
 }
 
+void mission_start::reveal_lab_black_box(game *g, mission *miss)
+{
+ npc* dev = g->find_npc(miss->npc_id);
+ if (dev != NULL) {
+  g->u.i_add( item(g->itypes["black_box"], 0) );
+  g->add_msg("%s gave you back the black box.", dev->name.c_str());
+ }
+ int dist = 0;
+ point place = g->cur_om->find_closest(g->om_location(), ot_lab, 1, dist,
+                                      false);
+ for (int x = place.x - 3; x <= place.x + 3; x++) {
+  for (int y = place.y - 3; y <= place.y + 3; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ miss->target = place;
+}
+
 void mission_start::reveal_hospital(game *g, mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);

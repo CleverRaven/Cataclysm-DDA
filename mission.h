@@ -19,7 +19,9 @@ enum mission_id {
  MISSION_RESCUE_DOG,
  MISSION_KILL_ZOMBIE_MOM,
  MISSION_REACH_SAFETY,
- MISSION_GET_FLAG,
+ MISSION_GET_FLAG,//patriot mission 1
+ MISSION_GET_BLACK_BOX,//patriot mission 2
+ MISSION_GET_BLACK_BOX_TRANSCRIPT,//patriot mission 3
  MISSION_GET_RELIC,
  MISSION_GET_RECORD_WEATHER,
  MISSION_GET_RECORD_PATIENT,
@@ -71,6 +73,7 @@ struct mission_start {
  void place_zombie_mom	(game *, mission *); // Put a zombie mom in a house!
  void place_jabberwock (game *, mission *); // Put a jabberwok in the woods nearby
  void place_npc_software(game *, mission *); // Put NPC-type-dependent software
+ void reveal_lab_black_box (game *, mission *); // Reveal the nearest lab and give black box
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
  void find_safety	(game *, mission *); // Goal is set to non-spawn area
  void place_book	(game *, mission *); // Place a book to retrieve
