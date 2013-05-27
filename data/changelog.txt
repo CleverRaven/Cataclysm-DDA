@@ -41,6 +41,12 @@ Allowing sewing of leather items, make sewing require rags/patches.
 Cooking rotten food does not make it magically fresh any more (but it does make it slightly less rotten).
 Resolves an issue where destroying an item while tailoring would crash the game.
 New UI to sort clothing and automatically assign special characters to clothing (accessed via +)
+Footwear warmth values tweaked to be more flexible.
+Wool warmth is not reduced by rain.
+Sofas and armchairs help with sleeping.
+Temperature is less of an issue while sleeping.
+Warning messages for when the player is cold/hot while sleeping.
+Oversized clothing can be worn over anything (blankets, cloaks, etc).
 
 ======
 
