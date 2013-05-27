@@ -8167,6 +8167,7 @@ void game::unload(item& it)
     }
 // Unloading a gun or tool!
  u.moves -= int(it.reload_time(u) / 2);
+
  // Default to unloading the gun, but then try other alternatives.
  item* weapon = &it;
  if (weapon->is_gun()) {	// Gun ammo is combined with existing items
@@ -8183,40 +8184,38 @@ void game::unload(item& it)
   // Then try an underslung shotgun
   else if (has_shotgun != -1 && weapon->contents[has_shotgun].charges > 0)
    weapon = &weapon->contents[has_shotgun];
-  u.inv.add_item_by_type(weapon->curammo->id, 1, weapon->charges);
-  weapon->charges = 0;
  }
+
  item newam;
 
- if ((weapon->is_gun() || weapon->is_gunmod()) && weapon->curammo != NULL)
+ if (weapon->curammo != NULL) {
   newam = item(weapon->curammo, turn);
- else
+ } else { 
   newam = item(itypes[default_ammo(weapon->ammo_type())], turn);
- while (weapon->charges > 0) {
+ }
+ newam.charges = weapon->charges;
+ weapon->charges = 0;
+ if (newam.made_of(LIQUID)) {
+  if (!handle_liquid(newam, false, false))
+   weapon->charges += newam.charges;	// Put it back in
+ } else {
   int iter = 0;
   while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < inv_chars.size()) {
    newam.invlet = nextinv;
    advance_nextinv();
    iter++;
   }
-  if (newam.made_of(LIQUID))
-   newam.charges = weapon->charges;
-  weapon->charges -= newam.charges;
-  if (weapon->charges < 0) {
-   newam.charges += weapon->charges;
-   weapon->charges = 0;
-  }
   if (u.weight_carried() + newam.weight() < u.weight_capacity() &&
       u.volume_carried() + newam.volume() < u.volume_capacity() && iter < inv_chars.size()) {
-   if (newam.made_of(LIQUID)) {
-    if (!handle_liquid(newam, false, false))
-     weapon->charges += newam.charges;	// Put it back in
-   } else
-    u.i_add(newam, this);
-  } else
+   u.i_add(newam, this);
+  } else {
    m.add_item(u.posx, u.posy, newam);
+  }
  }
- weapon->curammo = NULL;
+ // null the curammo, but only if we did empty the item
+ if (weapon->charges == 0) {
+  weapon->curammo = NULL;
+ }
 }
 
 void game::wield(char chInput)
