@@ -693,6 +693,53 @@ of pureed bone & LSD.");
     }
    }
    break;
+   
+  case COMPACT_DATA_ANAL:
+   for (int x = g->u.posx - 2; x <= g->u.posx + 2; x++) {
+    for (int y = g->u.posy - 2; y <= g->u.posy + 2; y++) {
+     if (g->m.ter(x, y) == t_floor_blue) {
+      print_error("PROCESSING DATA");
+      if (g->m.i_at(x, y).empty()){
+       print_error("ERROR: Please place memory bank in scan area.");
+       query_any("Press any key to continue...");}
+      else if (g->m.i_at(x, y).size() > 1){
+       print_error("ERROR: Please only scan one item at a time.");
+       query_any("Press any key to continue...");}
+      else if (g->m.i_at(x, y)[0].type->id != "usb_drive" && g->m.i_at(x, y)[0].type->id != "black_box"){
+       print_error("ERROR: Memory bank destroyed or not present.");
+       query_any("Press any key to continue...");}
+      else if (g->m.i_at(x, y)[0].type->id == "usb_drive" && g->m.i_at(x, y)[0].contents.empty()){
+       print_error("ERROR: Memory bank is empty.");
+       query_any("Press any key to continue...");}
+      else { // Success!
+       if (g->m.i_at(x, y)[0].type->id == "usb_drive"){
+            print_line("Memory Bank:  Unencrypted\nNothing of interest.");
+            query_any("Press any key to continue...");}
+       if (g->m.i_at(x, y)[0].type->id == "black_box"){
+            print_line("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n");
+            query_any("Press any key to continue...");
+            item transcript(g->itypes["black_box_transcript"], g->turn);
+            g->m.add_item(g->u.posx, g->u.posy, transcript);
+       } else
+       print_line("Memory Bank:  Unencrypted\nNothing of interest.\n");
+       query_any("Press any key to continue...");
+       reset_terminal();
+      }
+     }
+    }
+   }
+   break;
+
+  case COMPACT_DISCONNECT:
+  reset_terminal();
+  print_line("\n\
+ERROR:  NETWORK DISCONNECT \n\
+UNABLE TO REACH NETWORK ROUTER OR PROXY.  PLEASE CONTACT YOUR\n\
+SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n\
+  \n");
+  query_any("Press any key to continue...");
+  reset_terminal();
+  break;
 
   case COMPACT_EMERG_MESS:
   print_line("\
@@ -1081,6 +1128,31 @@ void computer::activate_failure(game *g, computer_failure fail)
         print_error("ERROR: Please only use blood samples.");
        else {
         print_error("ERROR: Blood sample destroyed.");
+        g->m.i_at(x, y)[i].contents.clear();
+       }
+      }
+     }
+    }
+   }
+   getch();
+   break;
+   
+  case COMPFAIL_DESTROY_DATA:
+   print_error("ERROR: ACCESSING DATA MALFUNCTION");
+   for (int x = 0; x <= 23; x++) {
+    for (int y = 0; y <= 23; y++) {
+     if (g->m.ter(x, y) == t_floor_blue) {
+      for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
+       if (g->m.i_at(x, y).empty())
+        print_error("ERROR: Please place memory bank in scan area.");
+       else if (g->m.i_at(x, y).size() > 1)
+        print_error("ERROR: Please only scan one item at a time.");
+       else if (g->m.i_at(x, y)[0].type->id != "usb_drive")
+        print_error("ERROR: Memory bank destroyed or not present.");
+       else if (g->m.i_at(x, y)[0].contents.empty())
+        print_error("ERROR: Memory bank is empty.");
+       else {
+        print_error("ERROR: Data bank destroyed.");
         g->m.i_at(x, y)[i].contents.clear();
        }
       }

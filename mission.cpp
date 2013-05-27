@@ -223,6 +223,7 @@ of those things now.  Can you put her out of her misery for me?";
   }
   break;
 
+//patriot mission 1
  case MISSION_GET_FLAG:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
@@ -246,6 +247,70 @@ Hell ya!  Find me one of those big ol' American flags.";
    case TALK_MISSION_FAILURE:
     return "You give up?  This country fell apart becuase no one could find a\
 good man to rely on... might as well give up, I guess.";
+  }
+  break;
+
+//patriot mission 2
+ case MISSION_GET_BLACK_BOX:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "We've got the flag, now we need to locate US forces.";
+   case TALK_MISSION_OFFER:
+    return "We have the flag but now we need to locate US troops to see\
+ what we can do to help.  I haven't seen any but I'm figure'n one of\
+ those choppers that were fly'n round during th outbreak would have a good\
+ idea.  If you can get me a black box from one of the wrecks I'll look\
+ into where we might open'er at.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Fuck ya, America!";
+   case TALK_MISSION_REJECTED:
+    return "Do you have any better ideas?";
+   case TALK_MISSION_ADVICE:
+    return "Survivors were talking about them crashing but I don't know\
+ where.  If I were a pilot I'd avoid crash landing in a city or forest\
+ though.";
+   case TALK_MISSION_INQUIRE:
+    return "How 'bout that black box?";
+   case TALK_MISSION_SUCCESS:
+    return "America, fuck ya!";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What?!  I out'ta whip you're ass.";
+   case TALK_MISSION_FAILURE:
+    return "Damn, I'll have to find'er myself.";
+  }
+  break;
+
+//patriot mission 3
+ case MISSION_GET_BLACK_BOX_TRANSCRIPT:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "With the black box in hand, we need to find a lab.";
+   case TALK_MISSION_OFFER:
+    return "Thanks to your searching we've got the black box but now we\
+ need to have a look'n-side her.  Now, most buildings don't have power\
+ anymore but there are a few that might be of use.  Have you ever seen\
+ one of those science labs that have popped up in the middle of nowhere?\
+ Them suckers have a glowing terminal out front so I know they have power\
+ somewhere inside'em.  If you can get inside and find a computer lab that\
+ still works you ought to be able to find out what's in the black box.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Fuck ya, America!";
+   case TALK_MISSION_REJECTED:
+    return "Do you have any better ideas?";
+   case TALK_MISSION_ADVICE:
+    return "When I was play'n with the terminal for the one I ran into it\
+ kept asking for an ID card.  Finding one would be the first order of business.";
+   case TALK_MISSION_INQUIRE:
+    return "How 'bout that black box?";
+   case TALK_MISSION_SUCCESS:
+    return "America, fuck ya!  I was in the guard a few years back so I'm\
+ confident I can make heads-or-tails of these transmissions.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What?!  I out'ta whip you're ass.";
+   case TALK_MISSION_FAILURE:
+    return "Damn, I maybe we can find an egg-head to crack the terminal.";
   }
   break;
 
@@ -304,6 +369,7 @@ Thanks so much, you may save both of us yet.";
   }
   break;
 
+//humanitarian mission 1
    case MISSION_GET_RECORD_PATIENT:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
