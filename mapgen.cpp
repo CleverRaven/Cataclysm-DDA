@@ -10,9 +10,11 @@
 #include "item_factory.h"
 #include "mapgenformat.h"
 #include "overmapbuffer.h"
+#include "enums.h"
 
 #include <algorithm>
 #include <cassert>
+#include <list>
 
 #ifndef sgn
 #define sgn(x) (((x) < 0) ? -1 : 1)
@@ -5860,9 +5862,28 @@ case ot_lmoe: {
 
  case ot_spiral: {
   fill_background(this, t_rock_floor);
-  int num_spiral = rng(1, 4);
-  int orx = rng(SEEX - 4, SEEX), ory = rng(SEEY - 4, SEEY);
+  const int num_spiral = rng(1, 4);
+  std::list<point> offsets;
+  const int spiral_width = 8;
+  // Divide the room into quadrants, and place a spiral origin
+  // at a random offset within each quadrant.
+  for( int x = 0; x < 2; ++x ) {
+      for( int y = 0; y < 2; ++y ) {
+          const int x_jitter = rng(0, SEEX - spiral_width);
+          const int y_jitter = rng(0, SEEY - spiral_width);
+          offsets.push_back( point((x * SEEX) + x_jitter,
+                                   (y * SEEY) + y_jitter) );
+      }
+  }
+
+ // Randomly place from 1 - 4 of the spirals at the chosen offsets.
   for (int i = 0; i < num_spiral; i++) {
+      std::list<point>::iterator chosen_point = offsets.begin();
+      std::advance( chosen_point, rng(0, offsets.size() - 1) );
+      const int orx = chosen_point->x;
+      const int ory = chosen_point->y;
+      offsets.erase( chosen_point );
+
       line(this, t_rock, orx    , ory    , orx + 5, ory    );
       line(this, t_rock, orx + 5, ory    , orx + 5, ory + 5);
       line(this, t_rock, orx + 1, ory + 5, orx + 5, ory + 5);
