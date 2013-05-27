@@ -6096,6 +6096,10 @@ void player::read(game *g, char ch)
         g->add_msg("You're illiterate!");
         return;
     }
+    else if (tmp->type == NULL)
+    {
+        /* No-op, there's no associated skill. */
+    }
     else if (skillLevel(tmp->type) < (int)tmp->req) 
     {
         g->add_msg("The %s-related jargon flies over your head!",

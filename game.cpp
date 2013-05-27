@@ -688,9 +688,9 @@ void game::process_activity()
             no_recipes = false;
         }
 
-        // for books that the player cannot yet read due to skill level, but contain
-        // lower level recipes, break out once recipe has been studied
-        if ((u.skillLevel(reading->type) < (int)reading->req))
+        // for books that the player cannot yet read due to skill level or have no skill component,
+        // but contain lower level recipes, break out once recipe has been studied
+        if (reading->type == NULL || (u.skillLevel(reading->type) < (int)reading->req))
         {
             if (recipe_learned)
                 add_msg("The rest of the book is currently still beyond your understanding.");
