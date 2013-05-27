@@ -4761,7 +4761,7 @@ mapf::basic_bind("D l H O f A r d C h 6 x g G , . - | + D t c ^ w W e E % T S ="
    mapf::end());
    for (int i = 0; i <= 23; i++) {
     for (int j = 0; j <= 23; j++) {
-     else if (this->ter(i,j) == t_locker)
+     if (this->ter(i,j) == t_locker)
          place_items(mi_science,	60,  i,  j, i,  j, false, 0);
      else if (this->ter(i,j) ==  t_fridge)
          place_items(mi_fridge,	50,  i,  j, i,  j, false, 0);
