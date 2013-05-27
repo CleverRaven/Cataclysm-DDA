@@ -560,7 +560,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
 
  {ot_lmoe,   0, 3, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_CLASSIC)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_CLASSIC)},
 
  {ot_farm,   0, 20, 20, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_3X3_SECOND) |mfb(OMS_FLAG_DIRT_LOT) | mfb(OMS_FLAG_CLASSIC)},
@@ -569,14 +569,14 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::forest, 0},
 
 {ot_lab_stairs,	   0, 30,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
-{ot_fema_entrance,	   0, 5,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
+{ot_fema_entrance,	   2, 5,  8, -1, "GROUP_NULL", 0, 0, 0, 0,
+ &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
 // Terrain	 MIN MAX DISTANCE
 {ot_bunker,	   2, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD)},
 
 {ot_outpost,	   0, 10,  4, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, 0},
@@ -600,28 +600,28 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::by_highway, mfb(OMS_FLAG_3X3_SECOND) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_public_works_entrance,    1, 3,  2, 10, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
 
 {ot_apartments_con_tower_1_entrance,    1, 5,  -1, 2, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
- 
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+
 {ot_apartments_mod_tower_1_entrance,    1, 4,  -1, 2, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
 
 {ot_office_tower_1_entrance,    1, 5,  -1, 4, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
 
 {ot_cathedral_1_entrance,    1, 2,  -1, 2, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)},
 
 {ot_school_2,    1, 3,  1, 5, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
- 
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
+
 {ot_hotel_tower_1_2,    1, 4,  -1, 4, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_3X3_FIXED)},
 
 {ot_sewage_treatment, 1,  5, 10, 20, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_PARKING_LOT) | mfb(OMS_FLAG_CLASSIC)},
+ &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_mine_entrance,  0,  5,  15, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
@@ -659,7 +659,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::by_highway, mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_ROTATE_ROAD)},
 
 {ot_haz_sar_entrance,     1,  2, 15, -1, "GROUP_NULL", 0, 0, 0, 0,
- &omspec_place::land, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)}
+ &omspec_place::wilderness, mfb(OMS_FLAG_ROAD) | mfb(OMS_FLAG_CLASSIC) | mfb(OMS_FLAG_2X2_SECOND)}
 };
 
 // Overmap "Zones"
