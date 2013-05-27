@@ -6939,6 +6939,7 @@ void game::pickup(int posx, int posy, int min)
       }
       wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].tname(this).c_str() );
       wrefresh(w_item_info);
   }
 
