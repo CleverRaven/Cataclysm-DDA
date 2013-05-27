@@ -3029,7 +3029,6 @@
         "rarity" : 25,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
         "flags" : ["OVERSIZE"],
         "material_thickness" : 4
@@ -3055,7 +3054,6 @@
         "rarity" : 5,
         "encumberance" : 2,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
         "flags" : ["OVERSIZE"],
         "material_thickness" : 4
@@ -3081,7 +3079,6 @@
         "rarity" : 5,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
         "flags" : ["OVERSIZE"],
         "material_thickness" : 3
@@ -3107,7 +3104,6 @@
         "rarity" : 5,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
         "flags" : ["OVERSIZE"],
         "material_thickness" : 4
@@ -3133,7 +3129,6 @@
         "rarity" : 5,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
         "flags" : ["OVERSIZE"],
         "material_thickness" : 4
@@ -3159,7 +3154,6 @@
         "rarity" : 1,
         "encumberance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
         "flags" : ["OVERSIZE"],
         "material_thickness" : 4
