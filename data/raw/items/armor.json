@@ -14,7 +14,7 @@
         "material" : ["COTTON", "NULL"],
         "volume" : 1,
         "cutting" : 0,
-        "warmth" : 10,
+        "warmth" : 20,
         "phase" : "solid",
         "enviromental_protection" : 0,
         "rarity" : 70,
@@ -38,7 +38,7 @@
         "material" : ["WOOL", "NULL"],
         "volume" : 2,
         "cutting" : 0,
-        "warmth" : 20,
+        "warmth" : 40,
         "phase" : "solid",
         "enviromental_protection" : 0,
         "rarity" : 30,
@@ -87,7 +87,7 @@
         "material" : ["LEATHER", "NULL"],
         "volume" : 7,
         "cutting" : 0,
-        "warmth" : 50,
+        "warmth" : 35,
         "phase" : "solid",
         "enviromental_protection" : 2,
         "rarity" : 70,
@@ -112,7 +112,7 @@
         "material" : ["LEATHER", "FUR"],
         "volume" : 7,
         "cutting" : 0,
-        "warmth" : 70,
+        "warmth" : 60,
         "phase" : "solid",
         "enviromental_protection" : 2,
         "rarity" : 70,
@@ -137,7 +137,7 @@
         "material" : ["LEATHER", "STEEL"],
         "volume" : 7,
         "cutting" : 0,
-        "warmth" : 50,
+        "warmth" : 35,
         "phase" : "solid",
         "enviromental_protection" : 3,
         "rarity" : 50,
@@ -162,7 +162,7 @@
         "material" : ["WOOL", "PLASTIC"],
         "volume" : 8,
         "cutting" : 0,
-        "warmth" : 90,
+        "warmth" : 80,
         "phase" : "solid",
         "enviromental_protection" : 1,
         "rarity" : 60,
@@ -187,7 +187,7 @@
         "material" : ["FUR", "LEATHER"],
         "volume" : 2,
         "cutting" : 0,
-        "warmth" : 40,
+        "warmth" : 30,
         "phase" : "solid",
         "enviromental_protection" : 0,
         "rarity" : 5,
@@ -286,7 +286,7 @@
         "material" : ["CHITIN", "NULL"],
         "volume" : 7,
         "cutting" : 0,
-        "warmth" : 50,
+        "warmth" : 20,
         "phase" : "solid",
         "enviromental_protection" : 3,
         "rarity" : 50,
@@ -2880,6 +2880,7 @@
         "rarity" : 20,
         "encumberance" : 0,
         "bashing" : -5,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 1
     },
     {
@@ -2904,6 +2905,7 @@
         "encumberance" : 5,
         "bashing" : -5,
         "coverage" : 100,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 3
     },
     {
@@ -2928,6 +2930,7 @@
         "encumberance" : 5,
         "bashing" : -5,
         "coverage" : 100,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -2952,6 +2955,7 @@
         "encumberance" : 5,
         "bashing" : -5,
         "coverage" : 100,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -2976,6 +2980,7 @@
         "encumberance" : 5,
         "bashing" : -5,
         "coverage" : 100,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -3000,6 +3005,7 @@
         "encumberance" : 5,
         "bashing" : -5,
         "coverage" : 100,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 6
     },
     {
@@ -3023,8 +3029,8 @@
         "rarity" : 25,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -3048,8 +3054,8 @@
         "rarity" : 5,
         "encumberance" : 2,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -3073,14 +3079,14 @@
         "rarity" : 5,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
         "id" : "cloak_fur",
-        "name" : "cloak",
+        "name" : "fur cloak",
         "weight" : 15,
         "color" : "light_red",
         "covers" : ["TORSO", "HEAD", "ARMS", "LEGS"],
@@ -3098,14 +3104,14 @@
         "rarity" : 5,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
         "id" : "cloak_leather",
-        "name" : "cloak",
+        "name" : "leather cloak",
         "weight" : 25,
         "color" : "light_red",
         "covers" : ["TORSO", "HEAD", "ARMS", "LEGS"],
@@ -3123,8 +3129,8 @@
         "rarity" : 5,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
@@ -3148,8 +3154,8 @@
         "rarity" : 1,
         "encumberance" : 0,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["OVERSIZE"],
         "material_thickness" : 4
     },
     {
