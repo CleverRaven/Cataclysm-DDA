@@ -3931,8 +3931,6 @@ int player::active_item_charges(itype_id id)
 
 void player::process_active_items(game *g)
 {
- it_tool* tmp;
- iuse use;
  if (weapon.is_artifact() && weapon.is_tool())
   g->process_artifact(&weapon, this, true);
  else if (weapon.active) {
@@ -3975,39 +3973,9 @@ void player::process_active_items(game *g)
    }
    return;
   } // if (weapon.has_flag("CHARGE"))
-	if (weapon.is_food()) {	// food items
-	  if (weapon.has_flag("HOT")) {
-			weapon.item_counter--;
-			if (weapon.item_counter == 0) {
-    weapon.item_tags.erase("HOT");
-				weapon.active = false;
-			}
-		}
-		return;
-	} else if (weapon.is_food_container()) {	// food items
-	  if (weapon.contents[0].has_flag("HOT")) {
-			weapon.contents[0].item_counter--;
-			if (weapon.contents[0].item_counter == 0) {
-				weapon.contents[0].item_tags.erase("HOT");
-				weapon.contents[0].active = false;
-			}
-		}
-		return;
-	}
-  if (!weapon.is_tool()) {
-   debugmsg("%s is active, but it is not a tool.", weapon.tname().c_str());
-   return;
-  }
-  tmp = dynamic_cast<it_tool*>(weapon.type);
-  (use.*tmp->use)(g, this, &weapon, true);
-  if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
-   weapon.charges--;
-  if (weapon.charges <= 0) {
-   (use.*tmp->use)(g, this, &weapon, false);
-   if (tmp->revert_to == "null")
-    weapon = ret_null;
-   else
-    weapon.type = g->itypes[tmp->revert_to];
+  if (!process_single_active_item(g, &weapon))
+  {
+   weapon = ret_null;
   }
  }
 
@@ -4019,54 +3987,9 @@ void player::process_active_items(game *g)
         {
             g->process_artifact(tmp_it, this);
         }
-        if (tmp_it->active ||
-            (tmp_it->is_container() && tmp_it->contents.size() > 0 && tmp_it->contents[0].active))
+        if (!process_single_active_item(g, tmp_it))
         {
-            if (tmp_it->is_food())
-            {
-                if (tmp_it->has_flag("HOT"))
-                {
-                    tmp_it->item_counter--;
-                    if (tmp_it->item_counter == 0)
-                    {
-                        tmp_it->item_tags.erase("HOT");
-                        tmp_it->active = false;
-                    }
-                }
-            }
-            else if (tmp_it->is_food_container())
-            {
-                if (tmp_it->contents[0].has_flag("HOT"))
-                {
-                    tmp_it->contents[0].item_counter--;
-                    if (tmp_it->contents[0].item_counter == 0)
-                    {
-                        tmp_it->contents[0].item_tags.erase("HOT");
-                        tmp_it->contents[0].active = false;
-                    }
-                }
-            }
-            else
-            {
-                tmp = dynamic_cast<it_tool*>(tmp_it->type);
-                (use.*tmp->use)(g, this, tmp_it, true);
-                if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
-                {
-                    tmp_it->charges--;
-                }
-                if (tmp_it->charges <= 0)
-                {
-                    (use.*tmp->use)(g, this, tmp_it, false);
-                    if (tmp->revert_to == "null")
-                    {
-                        inv.remove_item(tmp_it);
-                    }
-                    else
-                    {
-                        tmp_it->type = g->itypes[tmp->revert_to];
-                    }
-                }
-            }
+            inv.remove_item(tmp_it);
         }
     }
 
@@ -4075,6 +3998,75 @@ void player::process_active_items(game *g)
     if (worn[i].is_artifact())
     g->process_artifact(&(worn[i]), this);
   }
+}
+
+// returns false if the item needs to be removed
+bool player::process_single_active_item(game *g, item *it)
+{
+    if (it->active ||
+        (it->is_container() && it->contents.size() > 0 && it->contents[0].active))
+    {
+        if (it->is_food())
+        {
+            if (it->has_flag("HOT"))
+            {
+                it->item_counter--;
+                if (it->item_counter == 0)
+                {
+                    it->item_tags.erase("HOT");
+                    it->active = false;
+                }
+            }
+        }
+        else if (it->is_food_container())
+        {
+            if (it->contents[0].has_flag("HOT"))
+            {
+                it->contents[0].item_counter--;
+                if (it->contents[0].item_counter == 0)
+                {
+                    it->contents[0].item_tags.erase("HOT");
+                    it->contents[0].active = false;
+                }
+            }
+        }
+        else if (it->is_tool())
+        {
+            iuse use;
+            it_tool* tmp = dynamic_cast<it_tool*>(it->type);
+            (use.*tmp->use)(g, this, it, true);
+            if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
+            {
+                it->charges--;
+            }
+            if (it->charges <= 0)
+            {
+                (use.*tmp->use)(g, this, it, false);
+                if (tmp->revert_to == "null")
+                {
+                    return false;
+                }
+                else
+                {
+                    it->type = g->itypes[tmp->revert_to];
+                }
+            }
+        }
+        else if (it->type->id == "corpse")
+        {
+            if (it->ready_to_revive(g))
+            {
+                g->add_msg_if_player(this, "Oh dear god, a corpse you're carrying has started moving!");
+                g->revive_corpse(posx, posy, it);
+                return false;
+            }
+        }
+        else
+        {
+            debugmsg("%s is active, but has no known active function.", it->tname().c_str());
+        }
+    }
+    return true;
 }
 
 item player::remove_weapon()

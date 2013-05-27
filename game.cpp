@@ -4776,18 +4776,23 @@ void game::revive_corpse(int x, int y, int n)
         debugmsg("Tried to revive a non-existent corpse! (%d, %d), #%d of %d", x, y, n, m.i_at(x, y).size());
         return;
     }
-    item& it = m.i_at(x, y)[n];
-    if (it.type->id != "corpse" || it.corpse == NULL)
+    item* it = &m.i_at(x, y)[n];
+    revive_corpse(x, y, it);
+    m.i_rem(x, y, n);
+}
+
+void game::revive_corpse(int x, int y, item *it)
+{
+    if (it->type->id != "corpse" || it->corpse == NULL)
     {
         debugmsg("Tried to revive a non-corpse.");
         return;
     }
-    int burnt_penalty = it.burnt;
-    monster mon(it.corpse, x, y);
+    int burnt_penalty = it->burnt;
+    monster mon(it->corpse, x, y);
     mon.speed = int(mon.speed * .8) - burnt_penalty / 2;
     mon.hp    = int(mon.hp    * .7) - burnt_penalty;
     mon.no_extra_death_drops = true;
-    m.i_rem(x, y, n);
     z.push_back(mon);
 }
 
