@@ -1592,8 +1592,8 @@ bool game::handle_action()
      has = u.has_item(chItem);
 
      const int menustart=2;  // lightbar constraints
-     const int menuend=12;
-     int selected=1;         // default 'parked' hidden above 'activate'
+     const int menuend=13;
+     int selected=2;
 
      if (has) {
        do {
@@ -1664,9 +1664,9 @@ bool game::handle_action()
           default:
            break;
          }
-         if( selected < menustart-1 ) { // wraparound, but can be hidden
+         if( selected < menustart ) { // wraparound, but can be hidden
            selected = menuend;
-         } else if ( selected > menuend + 1 ) {
+         } else if ( selected > menuend ) {
            selected = menustart;
          }
        } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
