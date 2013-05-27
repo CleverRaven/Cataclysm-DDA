@@ -217,8 +217,8 @@
     },
     {
         "type" : "GUNMOD",
-        "id" : "stablizer",
-        "name" : "gyroscopic stablizer",
+        "id" : "stabilizer",
+        "name" : "gyroscopic stabilizer",
         "clip_size_modifier" : -10,
         "accuracy_modifier" : 2,
         "damage_modifier" : -2,

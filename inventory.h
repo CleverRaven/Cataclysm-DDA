@@ -95,7 +95,7 @@ class inventory
   int worst_item_value(npc* p) const;
   bool has_enough_painkiller(int pain) const;
   item& most_appropriate_painkiller(int pain);
-  item& best_for_melee(int skills[num_skill_types]);
+  item& best_for_melee(player *p);
   item& most_loaded_gun();
 
   void rust_iron_items();

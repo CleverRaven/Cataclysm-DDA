@@ -65,11 +65,6 @@ player::player()
  style_selected = "null";
  focus_pool = 100;
  last_item = itype_id("null");
- for (int i = 0; i < num_skill_types; i++) {
-  sklevel[i] = 0;
-  skexercise[i] = 0;
-  sklearn[i] = true;
- }
  for (int i = 0; i < PF_MAX2; i++)
   my_traits[i] = false;
  for (int i = 0; i < PF_MAX2; i++)
@@ -186,13 +181,6 @@ player& player::operator= (const player & rhs)
 
  morale = rhs.morale;
  focus_pool = rhs.focus_pool;
-
- for (int i = 0; i < num_skill_types; i++) {
-  sklevel[i]    = rhs.sklevel[i];
-  skexercise[i] = rhs.skexercise[i];
-  sktrain[i]    = rhs.sktrain[i];
-  sklearn[i] = rhs.sklearn[i];
- }
 
  _skills = rhs._skills;
 
@@ -507,7 +495,7 @@ void player::update_bodytemp(game *g)
         // Skip eyes
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
-        float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 40.0 : 60.0);
+        float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
         int clothing_warmth_adjustement =
             homeostasis_adjustement * (float)warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
         // Disease name shorthand
@@ -630,7 +618,7 @@ void player::update_bodytemp(game *g)
                 temp_conv[i] = BODYTEMP_NORM;
             }
         }
-        // Bionic "Thermal Dissapation" says it prevents fire damage up to 2000F. 500 is picked at random...
+        // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F. 500 is picked at random...
         if (has_bionic("bio_heatsink") && blister_count < 500)
         {
             blister_count = (has_trait(PF_BARK) ? -100 : 0);
@@ -1597,12 +1585,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
 
   SkillLevel level = skillLevel(*aSkill);
 
-  if ( sklevel[i] >= 0) {
+  if ( level >= 0) {
    skillslist.push_back(skill(i));
    // Default to not training and not rusting
    nc_color text_color = c_blue;
-   bool training = skillLevel(*aSkill).isTraining();
-   bool rusting = skillLevel(*aSkill).isRusting(g->turn);
+   bool training = level.isTraining();
+   bool rusting = level.isRusting(g->turn);
 
    if(training && rusting)
    {
@@ -5744,7 +5732,7 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
             {
                 // check tools are available
                 // loop over the tools and see what's required...again
-                inventory crafting_inv = g->crafting_inventory();
+                inventory crafting_inv = g->crafting_inventory(this);
                 for (int j = 0; j < cur_recipe->tools.size(); j++)
                 {
                     bool have_tool = false;
@@ -6921,6 +6909,37 @@ SkillLevel& player::skillLevel(size_t id) {
 
 SkillLevel& player::skillLevel(Skill *_skill) {
   return _skills[_skill];
+}
+
+void player::copy_skill_levels(const player *rhs)
+{
+    _skills = rhs->_skills;
+}
+
+void player::set_skill_level(Skill* _skill, int level)
+{
+    skillLevel(_skill).level(level);
+}
+void player::set_skill_level(std::string ident, int level)
+{
+    skillLevel(ident).level(level);
+}
+void player::set_skill_level(size_t id, int level)
+{
+    skillLevel(id).level(level);
+}
+
+void player::boost_skill_level(Skill* _skill, int level)
+{
+    skillLevel(_skill).level(level+skillLevel(_skill));
+}
+void player::boost_skill_level(std::string ident, int level)
+{
+    skillLevel(ident).level(level+skillLevel(ident));
+}
+void player::boost_skill_level(size_t id, int level)
+{
+    skillLevel(id).level(level+skillLevel(id));
 }
 
 void player::setID (int i)

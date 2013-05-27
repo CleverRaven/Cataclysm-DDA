@@ -443,7 +443,7 @@ void game::construction_menu()
  long ch;
  bool exit = false;
 
- inventory total_inv = crafting_inventory();
+ inventory total_inv = crafting_inventory(&u);
 
  do {
 // Erase existing list of constructions
@@ -732,7 +732,7 @@ bool game::player_can_build(player &p, inventory pinv, constructable* con,
 void game::place_construction(constructable *con)
 {
  refresh_all();
- inventory total_inv = crafting_inventory();
+ inventory total_inv = crafting_inventory(&u);
 
  std::vector<point> valid;
  for (int x = u.posx - 1; x <= u.posx + 1; x++) {
@@ -815,8 +815,6 @@ void game::place_construction(constructable *con)
 
 void game::complete_construction()
 {
- inventory map_inv;
- map_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
  int stage_num = u.activity.values[0];
  constructable *built = constructions[u.activity.index];
  construction_stage stage = built->stages[stage_num];
@@ -828,7 +826,7 @@ void game::complete_construction()
    u.practice(turn, "carpentry", 10);
  for (int i = 0; i < 10; i++) {
   if (!stage.components[i].empty())
-   consume_items(stage.components[i]);
+   consume_items(&u, stage.components[i]);
  }
 
 // Make the terrain change

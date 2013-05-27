@@ -941,7 +941,7 @@
                                   ["flask_glass", 1]
                               ],
                               [
-                                  ["battery", 500]
+                                  ["acid", 4]
                               ]
                           ]
         },
@@ -2253,6 +2253,57 @@
                               ]
                           ]
         },
+
+        {
+            "result": "acid",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 4,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 3],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pan", -1],
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["water_acid", 1]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "acid",
+            "id_suffix": "from batteries",
+            "category": "CC_DRINK",
+            "skill_pri": "electronics",
+            "skill_sec": "mechanics",
+            "difficulty": 2,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["battery", 125]
+                              ]
+                          ]
+        },
+
 
 
         {
@@ -3694,7 +3745,8 @@
             "components": [
                               [
                                   ["ammonia", 1],
-                                  ["lemon", 1]
+                                  ["lemon", 1],
+                                  ["acid", 1]
                               ],
                               [
                                   ["steel_chunk", 1],

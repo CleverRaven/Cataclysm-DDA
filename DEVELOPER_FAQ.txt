@@ -77,13 +77,13 @@
         "price" : 100,      // price of armour, used when bartering with NPCs
         "material" : ["COTTON", "NULL"],    // material types.  See materials.json for possible options
         "volume" : 1,       // volume occupied
-        "cutting" : 0,      // OBSOLETE, TO BE DEPRECIATED
+        "cutting" : 0,      // cutting damage caused by using it as a melee weapon
         "warmth" : 10,      // how much warmth clothing provides
         "phase" : "solid",  // what phase it is
         "enviromental_protection" : 0,  // how much environmental protection it affords
         "rarity" : 70,      // determines how often it spawns
         "encumberance" : 0, // base encumbrance (unfitted value)
-        "bashing" : -5,     // OBSOLETE, TO BE DEPRECIATED
+        "bashing" : -5,     // bashing damage caused by using it as a melee weapon
         "flags" : ["VARSIZE"]   // used to indicate clothing type which can be fitted.  Leave out the flags field entirely if clothing cannot be fitted
         "coverage" : 80,    // what percentage of body part
         "material_thickness" : 1    // thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armour types go up to 10 or more

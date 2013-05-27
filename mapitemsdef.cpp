@@ -333,7 +333,7 @@ void game::init_mapitems()
 	"glasses_safety", "goggles_nv", "holster", "bootstrap",
 	"mag_guns", "mag_archery", "flashlight", "UPS_off", "suppressor", "grip",
 	"barrel_big", "barrel_small", "barrel_rifled", "clip", "spare_mag",
-	"clip2", "stablizer", "blowback", "autofire", "retool_45",
+	"clip2", "stabilizer", "blowback", "autofire", "retool_45",
 	"retool_9mm", "retool_22", "retool_57", "retool_46",
 	"retool_308", "retool_223", "tazer","shot_hull",
         "9mm_casing", "38_casing", "40_casing", "44_casing", "45_casing",
