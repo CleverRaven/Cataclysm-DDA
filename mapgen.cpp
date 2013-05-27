@@ -8,6 +8,7 @@
 #include "debug.h"
 #include "options.h"
 #include "item_factory.h"
+#include "building_generation.h"
 #include "mapgenformat.h"
 #include "overmapbuffer.h"
 
@@ -19,20 +20,6 @@
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
-
-ter_id grass_or_dirt()
-{
- if (one_in(4))
-  return t_grass;
- return t_dirt;
-}
-
-ter_id dirt_or_pile()
-{
- if (one_in(4))
-  return t_dirtmound;
- return t_dirt;
-}
 
 enum room_type {
  room_null,
@@ -262,6 +249,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  oter_id t_nesw[] = {t_north, t_east, t_south, t_west};
  int nesw_fac[] = {0, 0, 0, 0};
  int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
+ 
+ mapgendata facing_data(t_north, t_east, t_south, t_west);
 
  computer *tmpcomp = NULL;
  int veh_spawn_heading;
@@ -269,204 +258,22 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
  switch (terrain_type) {
 
  case ot_null:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    ter_set(i, j, t_null);
-    radiation(i, j) = 0;
-   }
-  }
+  mapgen_null(this);
   break;
-
  case ot_crater:
-  for(int i = 0; i < 4; i++)
-    if(t_nesw[i] != ot_crater)
-        nesw_fac[i] = 6;
-
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    if (rng(0, w_fac) <= i && rng(0, e_fac) <= SEEX * 2 - 1 - i &&
-        rng(0, n_fac) <= j && rng(0, s_fac) <= SEEX * 2 - 1 - j   ) {
-     ter_set(i, j, t_rubble);
-     radiation(i, j) = rng(0, 4) * rng(0, 2);
-    } else {
-     ter_set(i, j, t_dirt);
-     radiation(i, j) = rng(0, 2) * rng(0, 2) * rng(0, 2);
-    }
-   }
-  }
-  place_items(mi_wreckage, 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+  mapgen_crater(this, facing_data);
   break;
-
  case ot_field:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    ter_set(i, j, grass_or_dirt());
-    //------Jovan's-----
-    if (one_in(120))
-    {
-      if (one_in(30))
-      {
-        ter_set(i, j, t_shrub_blueberry);
-      }
-      else
-      ter_set(i, j, t_shrub);
-    }
-    else
-    if (one_in(1000)) ter_set(i,j, t_mutpoppy);
-    //------------------
-    }
-  }
-  place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
+  mapgen_field(this, turn);
   break;
  case ot_dirtlot:
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    ter_set(i, j, t_dirt);
-    if (one_in(120)) ter_set(i, j, t_pit_shallow); else
-    if (one_in(50)) ter_set(i,j, t_grass);
-    }
-  }
-    if (one_in(4))
-  {
-      add_vehicle (g, veh_truck, 12, 12, 90, -1, -1);
-  }
+  mapgen_dirtlot(this, g);
   break;
+
  case ot_forest:
  case ot_forest_thick:
  case ot_forest_water:
-  switch (terrain_type) {
-  case ot_forest_thick:
-   std::fill_n(nesw_fac, 4, 8);
-   break;
-  case ot_forest_water:
-   std::fill_n(nesw_fac, 4, 4);
-   break;
-  case ot_forest:
-   std::fill_n(nesw_fac, 4, 0);
-   break;
-  }
-  for (int i = 0; i < 4; i++)
-  {
-   if (t_nesw[i] == ot_forest || t_nesw[i] == ot_forest_water)
-    nesw_fac[i] += 14;
-   else if (t_nesw[i] == ot_forest_thick)
-    nesw_fac[i] += 18;
-  }
-  for (int i = 0; i < SEEX * 2; i++) {
-   for (int j = 0; j < SEEY * 2; j++) {
-    int forest_chance = 0, num = 0;
-    if (j < n_fac) {
-     forest_chance += n_fac - j;
-     num++;
-    }
-    if (SEEX * 2 - 1 - i < e_fac) {
-     forest_chance += e_fac - (SEEX * 2 - 1 - i);
-     num++;
-    }
-    if (SEEY * 2 - 1 - j < s_fac) {
-     forest_chance += s_fac - (SEEY * 2 - 1 - j);
-     num++;
-    }
-    if (i < w_fac) {
-     forest_chance += w_fac - i;
-     num++;
-    }
-    if (num > 0)
-     forest_chance /= num;
-    rn = rng(0, forest_chance);
-         if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance))
-    {
-      if (one_in(250))
-      {
-        ter_set(i, j, t_tree_apple);
-        spawn_item(i, j, item_controller->find_template("apple"), turn);
-      }
-      else
-      ter_set(i, j, t_tree);
-    }
-    else if ((forest_chance > 0 && rn > 10) || one_in(100 - forest_chance))
-     ter_set(i, j, t_tree_young);
-    else if ((forest_chance > 0 && rn >  9) || one_in(100 - forest_chance))
-    {
-      if (one_in(250))
-      ter_set(i, j, t_shrub_blueberry);
-      else
-      ter_set(i, j, t_underbrush);
-    }
-    else
-     ter_set(i, j, t_dirt);
-   }
-  }
-  place_items(mi_forest, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
-
-  if (terrain_type == ot_forest_water) {
-// Reset *_fac to handle where to place water
-   for (int i = 0; i < 4; i++)
-   {
-    if (t_nesw[i] == ot_forest_water)
-     nesw_fac[i] = 2;
-    else if (t_nesw[i] >= ot_river_center && t_nesw[i] <= ot_river_nw)
-     nesw_fac[i] = 3;
-    else if (t_nesw[i] == ot_forest || t_nesw[i] == ot_forest_thick)
-     nesw_fac[i] = 1;
-    else
-     nesw_fac[i] = 0;
-   }
-   x = SEEX / 2 + rng(0, SEEX), y = SEEY / 2 + rng(0, SEEY);
-   for (int i = 0; i < 20; i++) {
-    if (x >= 0 && x < SEEX * 2 && y >= 0 && y < SEEY * 2) {
-     if (ter(x, y) == t_water_sh)
-      ter_set(x, y, t_water_dp);
-     else if (ter(x, y) == t_dirt || ter(x, y) == t_underbrush)
-      ter_set(x, y, t_water_sh);
-    } else
-     i = 20;
-    x += rng(-2, 2);
-    y += rng(-2, 2);
-    if (x < 0 || x >= SEEX * 2)
-     x = SEEX / 2 + rng(0, SEEX);
-    if (y < 0 || y >= SEEY * 2)
-     y = SEEY / 2 + rng(0, SEEY);
-    for (int j = 0; j < n_fac; j++) {
-     int wx = rng(0, SEEX * 2 -1), wy = rng(0, SEEY - 1);
-     if (ter(wx, wy) == t_dirt || ter(wx, wy) == t_underbrush)
-      ter_set(wx, wy, t_water_sh);
-    }
-    for (int j = 0; j < e_fac; j++) {
-     int wx = rng(SEEX, SEEX * 2 - 1), wy = rng(0, SEEY * 2 - 1);
-     if (ter(wx, wy) == t_dirt || ter(wx, wy) == t_underbrush)
-      ter_set(wx, wy, t_water_sh);
-    }
-    for (int j = 0; j < s_fac; j++) {
-     int wx = rng(0, SEEX * 2 - 1), wy = rng(SEEY, SEEY * 2 - 1);
-     if (ter(wx, wy) == t_dirt || ter(wx, wy) == t_underbrush)
-      ter_set(wx, wy, t_water_sh);
-    }
-    for (int j = 0; j < w_fac; j++) {
-     int wx = rng(0, SEEX - 1), wy = rng(0, SEEY * 2 - 1);
-     if (ter(wx, wy) == t_dirt || ter(wx, wy) == t_underbrush)
-      ter_set(wx, wy, t_water_sh);
-    }
-   }
-   rn = rng(0, 2) * rng(0, 1) * (rng(0, 1) + rng(0, 1));// Good chance of 0
-   for (int i = 0; i < rn; i++) {
-    x = rng(0, SEEX * 2 - 1);
-    y = rng(0, SEEY * 2 - 1);
-    add_trap(x, y, tr_sinkhole);
-    if (ter(x, y) != t_water_sh)
-     ter_set(x, y, t_dirt);
-   }
-  }
-
-  if (one_in(100)) { // One in 100 forests has a spider living in it :o
-   for (int i = 0; i < SEEX * 2; i++) {
-    for (int j = 0; j < SEEX * 2; j++) {
-     if ((ter(i, j) == t_dirt || ter(i, j) == t_underbrush) && !one_in(3))
-      add_field(NULL, i, j, fd_web, rng(1, 3));
-    }
-   }
-   add_spawn(mon_spider_web, rng(1, 2), SEEX, SEEY);
-  }
+  mapgen_forest_general(this, terrain_type, facing_data, turn);
   break;
 
  case ot_hive:
