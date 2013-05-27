@@ -5863,14 +5863,14 @@ case ot_lmoe: {
   int num_spiral = rng(1, 4);
   int orx = rng(SEEX - 4, SEEX), ory = rng(SEEY - 4, SEEY);
   for (int i = 0; i < num_spiral; i++) {
-   line(this, t_rock, orx    , ory    , orx + 5, ory    );
-   line(this, t_rock, orx + 5, ory    , orx + 5, ory + 5);
-   line(this, t_rock, orx + 1, ory + 5, orx + 5, ory + 5);
-   line(this, t_rock, orx + 1, ory + 2, orx + 1, ory + 4);
-   line(this, t_rock, orx + 1, ory + 2, orx + 3, ory + 2);
-   ter_set(orx + 3, ory + 3, t_rock);
-   ter_set(orx + 2, ory + 3, t_rock_floor);
-   place_items(mi_spiral, 60, orx + 2, ory + 3, orx + 2, ory + 3, false, 0);
+      line(this, t_rock, orx    , ory    , orx + 5, ory    );
+      line(this, t_rock, orx + 5, ory    , orx + 5, ory + 5);
+      line(this, t_rock, orx + 1, ory + 5, orx + 5, ory + 5);
+      line(this, t_rock, orx + 1, ory + 2, orx + 1, ory + 4);
+      line(this, t_rock, orx + 1, ory + 2, orx + 3, ory + 2);
+      ter_set(orx + 3, ory + 3, t_rock);
+      ter_set(orx + 2, ory + 3, t_rock_floor);
+      place_items(mi_spiral, 60, orx + 2, ory + 3, orx + 2, ory + 3, false, 0);
   }
  } break;
 
