@@ -6921,8 +6921,13 @@ void game::pickup(int posx, int posy, int min)
       start = (int)( idx / maxitems ) * maxitems;
    }
 
-   new_weight += here[idx].weight();
-   new_volume += here[idx].volume();
+   if (getitem[idx]) {
+       new_weight += here[idx].weight();
+       new_volume += here[idx].volume();
+   } else {
+       new_weight -= here[idx].weight();
+       new_volume -= here[idx].volume();
+   }
    update = true;
   }
 
