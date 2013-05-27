@@ -49,7 +49,7 @@ bool WinCreate()
     int WinBorderWidth;
     int WinTitleSize;
     unsigned int WindowStyle;
-    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.5");
+    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.6git");
     WinTitleSize = GetSystemMetrics(SM_CYCAPTION);      //These lines ensure
     WinBorderWidth = GetSystemMetrics(SM_CXDLGFRAME) * 2;  //that our window will
     WinBorderHeight = GetSystemMetrics(SM_CYDLGFRAME) * 2; // be a perfect size
