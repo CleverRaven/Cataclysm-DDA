@@ -217,7 +217,7 @@ void game::init_vehicles()
     // 0-^-0
     // |"""|
     // +###+
-    // |---|
+    // |"""|
     // |HHH|
     // 0HHH0
 
@@ -255,9 +255,12 @@ void game::init_vehicles()
     PART (2, -2,    vp_wheel_wide);
     PART (2,  2,    vp_wheel_wide);
 
-    PART (-1, -1,   vp_board_h);
-    PART (-1, 0,    vp_board_h);
-    PART (-1, 1,    vp_board_h);
+    PART (-1, -1,   vp_frame_h);
+    PART (-1, -1,   vp_window);
+    PART (-1, 0,    vp_frame_h);
+    PART (-1, 0,    vp_window);
+    PART (-1, 1,    vp_frame_h);
+    PART (-1, 1,    vp_window);
     PART (-1, -2,   vp_board_b);
     PART (-1, -2,   vp_fuel_tank_gas);
     PART (-1, 2,    vp_board_n);
