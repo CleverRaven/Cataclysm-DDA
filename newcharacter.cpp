@@ -388,13 +388,13 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
    mvwprintz(w, 8,  2, COL_STAT_ACT, "Intelligence: %d  ", u->int_max);
    mvwprintz(w, 9,  2, c_ltgray,     "Perception:   %d  ", u->per_max);
 
-   mvwprintz(w, 7, 33, COL_STAT_ACT, "Read times: %d%%%%                              ",
+   mvwprintz(w, 6, 33, COL_STAT_ACT, "Read times: %d%%%%                              ",
              u->read_speed(false));
-   mvwprintz(w, 8, 33, COL_STAT_ACT, "                                            ");
-   mvwprintz(w, 9, 33, COL_STAT_ACT, "Intelligence is also used when crafting,    ");
-   mvwprintz(w,10, 33, COL_STAT_ACT, "installing bionics, and interacting with    ");
-   mvwprintz(w,11, 33, COL_STAT_ACT, "NPCs.                                       ");
-   mvwprintz(w,12, 33, COL_STAT_ACT, "                                            ");
+   mvwprintz(w, 7, 33, COL_STAT_ACT, "                                            ");
+   mvwprintz(w, 8, 33, COL_STAT_ACT, "Intelligence is also used when crafting,    ");
+   mvwprintz(w, 9, 33, COL_STAT_ACT, "installing bionics, and interacting with    ");
+   mvwprintz(w,10, 33, COL_STAT_ACT, "NPCs.                                       ");
+   mvwprintz(w,11, 33, COL_STAT_ACT, "                                            ");
    break;
 
   case 4:

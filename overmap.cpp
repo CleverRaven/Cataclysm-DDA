@@ -36,8 +36,8 @@
 #define SETTLE_DICE 2
 #define SETTLE_SIDES 2
 #define HIVECHANCE 180	//Chance that any given forest will be a hive
-#define SWAMPINESS 8	//Affects the size of a swamp
-#define SWAMPCHANCE 850	// Chance that a swamp will spawn instead of forest
+#define SWAMPINESS 4	//Affects the size of a swamp
+#define SWAMPCHANCE 8500	// Chance that a swamp will spawn instead of forest
 
 
 void settlement_building(settlement &set, int x, int y);
@@ -712,11 +712,11 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
   road_points.push_back(cities[i]);
 // And finally connect them via "highways"
  place_hiways(road_points, 0, ot_road_null);
-// Place specials
- place_specials();
 // Make the roads out road points;
  for (int i = 0; i < roads_out.size(); i++)
   ter(roads_out[i].x, roads_out[i].y, 0) = ot_road_nesw;
+// Place specials
+ place_specials();
 // Clean up our roads and rivers
  polish(0);
 
