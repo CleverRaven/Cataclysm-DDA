@@ -20,6 +20,7 @@ void game::wish()
  std::string pattern = "";
  std::string info;
  std::vector<int> search_results;
+ // use this item for info display, but NOT for instantiation
  item tmp;
  tmp.corpse = mtypes[0];
  do {
@@ -214,14 +215,15 @@ void game::wish()
  }
  curs_set(0);
 
- mvprintw(2, 0, "Wish granted - %d x %s.", count, tmp.type->name.c_str());
+ item granted = item_controller->create(standard_itype_ids[a + shift], turn);
+ mvprintw(2, 0, "Wish granted - %d x %s.", count, granted.type->name.c_str());
  tmp.invlet = nextinv;
  for (int i=0; i<count; i++)
  {
   if (!incontainer)
-   u.i_add(tmp);
+   u.i_add(granted);
   else
-   u.i_add(tmp.in_its_container(&itypes));
+   u.i_add(granted.in_its_container(&itypes));
  }
  advance_nextinv();
  getch();
