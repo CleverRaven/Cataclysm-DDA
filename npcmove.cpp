@@ -542,7 +542,7 @@ npc_action npc::method_of_attack(game *g, int target, int danger)
   else if (allowed && enough_time_to_reload(g, target, it)) {
    has_empty_gun = true;
    empty_guns.push_back(&it);
-  } else if (it.melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
+  } else if (it.melee_value(this) > weapon.melee_value(this) * 1.1)
    has_better_melee = true;
  }
 
@@ -711,6 +711,9 @@ char npc::choose_escape_item()
    }
   }
  }
+ // Protect us from accessing an invalid index.
+ if (ret == -1) { return ret; }
+
  return slice[ret]->front().invlet;
 }
 
@@ -719,6 +722,10 @@ void npc::use_escape_item(game *g, char invlet, int target)
  if (invlet == 0) {
   debugmsg("%s tried to use item with null invlet", name.c_str());
   move_pause();
+  return;
+ }
+ if (invlet == -1) {
+  // No item found.
   return;
  }
 
@@ -770,7 +777,7 @@ int npc::confident_range(char invlet)
     deviation += 3.5 * (5 - skillLevel(firing->skill_used));
   else
     deviation -= 2.5 * (skillLevel(firing->skill_used) - 5);
-  if (sklevel[sk_gun] < 3)
+  if (skillLevel("gun") < 3)
     deviation += 1.5 * (3 - skillLevel("gun"));
   else
     deviation -= .5 * (skillLevel("gun") - 3);
@@ -802,10 +809,10 @@ int npc::confident_range(char invlet)
   item *thrown = &(inv.item_by_letter(invlet));
   max = throw_range(invlet); // The max distance we can throw
   int deviation = 0;
-  if (sklevel[sk_throw] < 8)
-   deviation += rng(0, 8 - sklevel[sk_throw]);
+  if (skillLevel(sk_throw) < 8)
+   deviation += rng(0, 8 - skillLevel(sk_throw));
   else
-   deviation -= sklevel[sk_throw] - 6;
+   deviation -= skillLevel(sk_throw) - 6;
 
   deviation += throw_dex_mod();
 
@@ -952,10 +959,10 @@ void npc::move_to(game *g, int x, int y)
    moves = 0;
  }
  if (recoil > 0) {	// Start by dropping recoil a little
-  if (int(str_cur / 2) + sklevel[sk_gun] >= recoil)
+  if (int(str_cur / 2) + skillLevel(sk_gun) >= recoil)
    recoil = 0;
   else {
-   recoil -= int(str_cur / 2) + sklevel[sk_gun];
+   recoil -= int(str_cur / 2) + skillLevel(sk_gun);
    recoil = int(recoil / 2);
   }
  }
@@ -1169,10 +1176,10 @@ void npc::move_pause()
 {
  moves = 0;
  if (recoil > 0) {
-  if (str_cur + 2 * sklevel[sk_gun] >= recoil)
+  if (str_cur + 2 * skillLevel(sk_gun) >= recoil)
    recoil = 0;
   else {
-   recoil -= str_cur + 2 * sklevel[sk_gun];
+   recoil -= str_cur + 2 * skillLevel(sk_gun);
    recoil = int(recoil / 2);
   }
  }
@@ -1415,7 +1422,7 @@ npc_action npc::scan_new_items(game *g, int target)
   else if (allowed && enough_time_to_reload(g, target, it)) {
    has_empty_gun = true;
    empty_guns.push_back(&it);
-  } else if (it.melee_value(sklevel) > weapon.melee_value(sklevel) * 1.1)
+  } else if (it.melee_value(this) > weapon.melee_value(this) * 1.1)
    has_better_melee = true;
  }
 
@@ -1452,10 +1459,10 @@ void npc::melee_player(game *g, player &foe)
 
 void npc::wield_best_melee(game *g)
 {
- item& it = inv.best_for_melee(sklevel);
- int best_score = it.melee_value(sklevel);
+ item& it = inv.best_for_melee(this);
+ int best_score = it.melee_value(this);
  if (!styles.empty() && // Wield a style if our skills warrant it
-      best_score < 15 * sklevel[sk_unarmed] + 8 * sklevel[sk_melee]) {
+      best_score < 15 * skillLevel(sk_unarmed) + 8 * skillLevel(sk_melee)) {
 // TODO: More intelligent style choosing
   wield(g, 0 - rng(1, styles.size()));
   return;
@@ -1667,16 +1674,16 @@ void npc::heal_player(game *g, player &patient)
   int amount_healed;
   if (has_amount("1st_aid", 1)) {
    switch (worst) {
-    case hp_head:  amount_healed = 10 + 1.6 * sklevel[sk_firstaid]; break;
-    case hp_torso: amount_healed = 20 + 3   * sklevel[sk_firstaid]; break;
-    default:       amount_healed = 15 + 2   * sklevel[sk_firstaid];
+    case hp_head:  amount_healed = 10 + 1.6 * skillLevel(sk_firstaid); break;
+    case hp_torso: amount_healed = 20 + 3   * skillLevel(sk_firstaid); break;
+    default:       amount_healed = 15 + 2   * skillLevel(sk_firstaid);
    }
    use_charges("1st_aid", 1);
   } else if (has_amount("bandages", 1)) {
    switch (worst) {
-    case hp_head:  amount_healed =  1 + 1.6 * sklevel[sk_firstaid]; break;
-    case hp_torso: amount_healed =  4 + 3   * sklevel[sk_firstaid]; break;
-    default:       amount_healed =  3 + 2   * sklevel[sk_firstaid];
+    case hp_head:  amount_healed =  1 + 1.6 * skillLevel(sk_firstaid); break;
+    case hp_torso: amount_healed =  4 + 3   * skillLevel(sk_firstaid); break;
+    default:       amount_healed =  3 + 2   * skillLevel(sk_firstaid);
    }
    use_charges("bandages", 1);
   }
@@ -1717,16 +1724,16 @@ void npc::heal_self(game *g)
  int amount_healed;
  if (has_amount("1st_aid", 1)) {
   switch (worst) {
-   case hp_head:  amount_healed = 10 + 1.6 * sklevel[sk_firstaid]; break;
-   case hp_torso: amount_healed = 20 + 3   * sklevel[sk_firstaid]; break;
-   default:       amount_healed = 15 + 2   * sklevel[sk_firstaid];
+   case hp_head:  amount_healed = 10 + 1.6 * skillLevel(sk_firstaid); break;
+   case hp_torso: amount_healed = 20 + 3   * skillLevel(sk_firstaid); break;
+   default:       amount_healed = 15 + 2   * skillLevel(sk_firstaid);
   }
   use_charges("1st_aid", 1);
  } else if (has_amount("bandages", 1)) {
   switch (worst) {
-   case hp_head:  amount_healed =  1 + 1.6 * sklevel[sk_firstaid]; break;
-   case hp_torso: amount_healed =  4 + 3   * sklevel[sk_firstaid]; break;
-   default:       amount_healed =  3 + 2   * sklevel[sk_firstaid];
+   case hp_head:  amount_healed =  1 + 1.6 * skillLevel(sk_firstaid); break;
+   case hp_torso: amount_healed =  4 + 3   * skillLevel(sk_firstaid); break;
+   default:       amount_healed =  3 + 2   * skillLevel(sk_firstaid);
   }
   use_charges("bandages", 1);
  } else {

@@ -250,6 +250,7 @@ public:
  bool has_active_item(itype_id id);
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);
+ bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
  item i_rem(char let);	// Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
@@ -331,14 +332,20 @@ public:
  std::vector<morale_point> morale;
 
  int focus_pool;
- int sklevel[num_skill_types];
- int skexercise[num_skill_types];
- int sktrain[num_skill_types];
- bool sklearn[num_skill_types];
 
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
  SkillLevel& skillLevel(size_t id);
+
+ void set_skill_level(Skill* _skill, int level);
+ void set_skill_level(std::string ident, int level);
+ void set_skill_level(size_t id, int level);
+
+ void boost_skill_level(Skill* _skill, int level);
+ void boost_skill_level(std::string ident, int level);
+ void boost_skill_level(size_t id, int level);
+
+ void copy_skill_levels(const player *rhs);
 
  std::map<std::string, recipe*> learned_recipes;
 

@@ -33,6 +33,8 @@
 		<Unit filename="bionics.h" />
 		<Unit filename="bodypart.cpp" />
 		<Unit filename="bodypart.h" />
+		<Unit filename="building_generation.cpp" />
+		<Unit filename="building_generation.h" />
 		<Unit filename="calendar.cpp" />
 		<Unit filename="calendar.h" />
 		<Unit filename="catacurse.cpp" />

@@ -566,9 +566,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
     {
         dump->push_back(iteminfo("ARMOR", " Encumberment: ", "", int(armor->encumber), "", true, true));
     }
-
-  dump->push_back(iteminfo("ARMOR", " Bashing protection: ", "", int(bash_resist())));
-  dump->push_back(iteminfo("ARMOR", " Cut protection: ", "", int(cut_resist())));
+  dump->push_back(iteminfo("ARMOR", " Protection: Bash: ", "", int(bash_resist()), "", false, true));
+  dump->push_back(iteminfo("ARMOR", "    Cut: ", "", int(cut_resist()), "", true, true));
   dump->push_back(iteminfo("ARMOR", " Environmental protection: ", "", int(armor->env_resist)));
   dump->push_back(iteminfo("ARMOR", " Warmth: ", "", int(armor->warmth)));
   dump->push_back(iteminfo("ARMOR", " Storage: ", "", int(armor->storage)));
@@ -1108,7 +1107,7 @@ int item::num_charges()
  return 0;
 }
 
-int item::weapon_value(int skills[num_skill_types]) const
+int item::weapon_value(player *p) const
 {
  if( is_null() )
   return 0;
@@ -1121,38 +1120,38 @@ int item::weapon_value(int skills[num_skill_types]) const
   gun_value += int(gun->burst / 2);
   gun_value += int(gun->clip / 3);
   gun_value -= int(gun->accuracy / 5);
-  gun_value *= (.5 + (.3 * skills[sk_gun]));
-  gun_value *= (.3 + (.7 * skills[gun->skill_used->id()])); /// TODO: FIXME
+  gun_value *= (.5 + (.3 * p->skillLevel(sk_gun)));
+  gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used->id()))); /// TODO: FIXME
   my_value += gun_value;
  }
 
- my_value += int(type->melee_dam * (1   + .3 * skills[sk_bashing] +
-                                          .1 * skills[sk_melee]    ));
+ my_value += int(type->melee_dam * (1   + .3 * p->skillLevel(sk_bashing) +
+                                          .1 * p->skillLevel(sk_melee)    ));
 
- my_value += int(type->melee_cut * (1   + .4 * skills[sk_cutting] +
-                                          .1 * skills[sk_melee]    ));
+ my_value += int(type->melee_cut * (1   + .4 * p->skillLevel(sk_cutting) +
+                                          .1 * p->skillLevel(sk_melee)    ));
 
- my_value += int(type->m_to_hit  * (1.2 + .3 * skills[sk_melee]));
+ my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel(sk_melee)));
 
  return my_value;
 }
 
-int item::melee_value(int skills[num_skill_types])
+int item::melee_value(player *p)
 {
  if( is_null() )
   return 0;
 
  int my_value = 0;
- my_value += int(type->melee_dam * (1   + .3 * skills[sk_bashing] +
-                                          .1 * skills[sk_melee]    ));
+ my_value += int(type->melee_dam * (1   + .3 * p->skillLevel(sk_bashing) +
+                                          .1 * p->skillLevel(sk_melee)    ));
 
- my_value += int(type->melee_cut * (1   + .4 * skills[sk_cutting] +
-                                          .1 * skills[sk_melee]    ));
+ my_value += int(type->melee_cut * (1   + .4 * p->skillLevel(sk_cutting) +
+                                          .1 * p->skillLevel(sk_melee)    ));
 
- my_value += int(type->m_to_hit  * (1.2 + .3 * skills[sk_melee]));
+ my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel(sk_melee)));
 
  if (is_style())
-  my_value += 15 * skills[sk_unarmed] + 8 * skills[sk_melee];
+  my_value += 15 * p->skillLevel(sk_unarmed) + 8 * p->skillLevel(sk_melee);
 
  return my_value;
 }

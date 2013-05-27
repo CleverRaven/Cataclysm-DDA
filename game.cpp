@@ -77,6 +77,7 @@ game::game() :
  init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
  init_autosave();     // Set up autosave
  load_keyboard_settings();
+ moveCount = 0;
 
  gamemode = new special_game;	// Nothing, basically.
 }
@@ -368,8 +369,6 @@ void game::cleanup_at_end(){
 
 		// save artifacts.
 		save_artifacts();
-                artifact_itype_ids.erase(artifact_itype_ids.begin(),
-                                         artifact_itype_ids.end());
 
 		// and the overmap, and the local map.
 		save_maps(); //Omap also contains the npcs who need to be saved.
@@ -789,8 +788,6 @@ void game::process_activity()
      add_msg("You learn %s.", martial_arts_itype_ids[0 - u.activity.index].c_str());
      u.styles.push_back( martial_arts_itype_ids[0 - u.activity.index] );
     } else {
-     u.sklevel[ u.activity.index ]++;
-
      int skillLevel = u.skillLevel(u.activity.index);
      u.skillLevel(u.activity.index).level(skillLevel + 1);
      add_msg("You finish training %s to level %d.",
@@ -4778,18 +4775,23 @@ void game::revive_corpse(int x, int y, int n)
         debugmsg("Tried to revive a non-existent corpse! (%d, %d), #%d of %d", x, y, n, m.i_at(x, y).size());
         return;
     }
-    item& it = m.i_at(x, y)[n];
-    if (it.type->id != "corpse" || it.corpse == NULL)
+    item* it = &m.i_at(x, y)[n];
+    revive_corpse(x, y, it);
+    m.i_rem(x, y, n);
+}
+
+void game::revive_corpse(int x, int y, item *it)
+{
+    if (it->type->id != "corpse" || it->corpse == NULL)
     {
         debugmsg("Tried to revive a non-corpse.");
         return;
     }
-    int burnt_penalty = it.burnt;
-    monster mon(it.corpse, x, y);
+    int burnt_penalty = it->burnt;
+    monster mon(it->corpse, x, y);
     mon.speed = int(mon.speed * .8) - burnt_penalty / 2;
     mon.hp    = int(mon.hp    * .7) - burnt_penalty;
     mon.no_extra_death_drops = true;
-    m.i_rem(x, y, n);
     z.push_back(mon);
 }
 
@@ -5342,28 +5344,11 @@ void game::examine()
 
  (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 
- if (m.has_flag(sealed, examx, examy)) {
-  if (m.trans(examx, examy)) {
-   std::string buff;
-   if (m.i_at(examx, examy).size() <= 3 && m.i_at(examx, examy).size() != 0) {
-    buff = "It contains ";
-    for (int i = 0; i < m.i_at(examx, examy).size(); i++) {
-     buff += m.i_at(examx, examy)[i].tname(this);
-     if (i + 2 < m.i_at(examx, examy).size())
-      buff += ", ";
-     else if (i + 1 < m.i_at(examx, examy).size())
-      buff += ", and ";
+    if (m.has_flag(sealed, examx, examy))
+    {
+        add_msg("The %s is firmly sealed.", m.tername(examx, examy).c_str());
     }
-    buff += ",";
-   } else if (m.i_at(examx, examy).size() != 0)
-    buff = "It contains many items,";
-   buff += " but is firmly sealed.";
-   add_msg(buff.c_str());
-  } else {
-   add_msg("There's something in there, but you can't see what it is, and the\
- %s is firmly sealed.", m.tername(examx, examy).c_str());
-  }
- } else {
+    else {
    //examx,examy has no traps, is a container and doesn't have a special examination function
   if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) &&
        xter_t->examine == &iexamine::none)
@@ -6284,8 +6269,9 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     {
         for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++)
         {
-            if (!m.has_flag(container, u.posx + iCol, u.posy + iRow) &&
-                u_see(u.posx + iCol, u.posy + iRow))
+            if (u_see(u.posx + iCol, u.posy + iRow) && 
+               (!m.has_flag(container, u.posx + iCol, u.posy + iRow) ||
+               (rl_dist(u.posx, u.posy, u.posx + iCol, u.posy + iRow) == 1 && !m.has_flag(sealed, u.posx + iCol, u.posy + iRow))))
             {
                 temp_items.clear();
                 here.clear();

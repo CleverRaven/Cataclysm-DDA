@@ -72,6 +72,7 @@
     <ClCompile Include="..\basecamp.cpp" />
     <ClCompile Include="..\bionics.cpp" />
     <ClCompile Include="..\bodypart.cpp" />
+    <ClCompile Include="..\building_generation.cpp" />
     <ClCompile Include="..\calendar.cpp" />
     <ClCompile Include="..\catacurse.cpp" />
     <ClCompile Include="..\catajson.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="..\basecamp.h" />
     <ClInclude Include="..\bionics.h" />
     <ClInclude Include="..\bodypart.h" />
+    <ClInclude Include="..\building_generation.h" />
     <ClInclude Include="..\calendar.h" />
     <ClInclude Include="..\catacurse.h" />
     <ClInclude Include="..\catajson.h" />

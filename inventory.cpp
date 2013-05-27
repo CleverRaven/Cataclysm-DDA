@@ -1220,13 +1220,13 @@ item& inventory::most_appropriate_painkiller(int pain)
     return ret;
 }
 
-item& inventory::best_for_melee(int skills[num_skill_types])
+item& inventory::best_for_melee(player *p)
 {
     item& ret = nullitem;
     int best = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        int score = iter->front().melee_value(skills);
+        int score = iter->front().melee_value(p);
         if (score > best)
         {
             best = score;

@@ -65,11 +65,6 @@ player::player()
  style_selected = "null";
  focus_pool = 100;
  last_item = itype_id("null");
- for (int i = 0; i < num_skill_types; i++) {
-  sklevel[i] = 0;
-  skexercise[i] = 0;
-  sklearn[i] = true;
- }
  for (int i = 0; i < PF_MAX2; i++)
   my_traits[i] = false;
  for (int i = 0; i < PF_MAX2; i++)
@@ -186,13 +181,6 @@ player& player::operator= (const player & rhs)
 
  morale = rhs.morale;
  focus_pool = rhs.focus_pool;
-
- for (int i = 0; i < num_skill_types; i++) {
-  sklevel[i]    = rhs.sklevel[i];
-  skexercise[i] = rhs.skexercise[i];
-  sktrain[i]    = rhs.sktrain[i];
-  sklearn[i] = rhs.sklearn[i];
- }
 
  _skills = rhs._skills;
 
@@ -507,7 +495,7 @@ void player::update_bodytemp(game *g)
         // Skip eyes
         if (i == bp_eyes) { continue; }
         // Represents the fact that the body generates heat when it is cold. TODO : should this increase hunger?
-        float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 40.0 : 60.0);
+        float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
         int clothing_warmth_adjustement =
             homeostasis_adjustement * (float)warmth(body_part(i)) * (1.0 - (float)bodywetness / 100.0);
         // Disease name shorthand
@@ -630,7 +618,7 @@ void player::update_bodytemp(game *g)
                 temp_conv[i] = BODYTEMP_NORM;
             }
         }
-        // Bionic "Thermal Dissapation" says it prevents fire damage up to 2000F. 500 is picked at random...
+        // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F. 500 is picked at random...
         if (has_bionic("bio_heatsink") && blister_count < 500)
         {
             blister_count = (has_trait(PF_BARK) ? -100 : 0);
@@ -1597,12 +1585,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
 
   SkillLevel level = skillLevel(*aSkill);
 
-  if ( sklevel[i] >= 0) {
+  if ( level >= 0) {
    skillslist.push_back(skill(i));
    // Default to not training and not rusting
    nc_color text_color = c_blue;
-   bool training = skillLevel(*aSkill).isTraining();
-   bool rusting = skillLevel(*aSkill).isRusting(g->turn);
+   bool training = level.isTraining();
+   bool rusting = level.isRusting(g->turn);
 
    if(training && rusting)
    {
@@ -3931,8 +3919,6 @@ int player::active_item_charges(itype_id id)
 
 void player::process_active_items(game *g)
 {
- it_tool* tmp;
- iuse use;
  if (weapon.is_artifact() && weapon.is_tool())
   g->process_artifact(&weapon, this, true);
  else if (weapon.active) {
@@ -3975,39 +3961,9 @@ void player::process_active_items(game *g)
    }
    return;
   } // if (weapon.has_flag("CHARGE"))
-	if (weapon.is_food()) {	// food items
-	  if (weapon.has_flag("HOT")) {
-			weapon.item_counter--;
-			if (weapon.item_counter == 0) {
-    weapon.item_tags.erase("HOT");
-				weapon.active = false;
-			}
-		}
-		return;
-	} else if (weapon.is_food_container()) {	// food items
-	  if (weapon.contents[0].has_flag("HOT")) {
-			weapon.contents[0].item_counter--;
-			if (weapon.contents[0].item_counter == 0) {
-				weapon.contents[0].item_tags.erase("HOT");
-				weapon.contents[0].active = false;
-			}
-		}
-		return;
-	}
-  if (!weapon.is_tool()) {
-   debugmsg("%s is active, but it is not a tool.", weapon.tname().c_str());
-   return;
-  }
-  tmp = dynamic_cast<it_tool*>(weapon.type);
-  (use.*tmp->use)(g, this, &weapon, true);
-  if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
-   weapon.charges--;
-  if (weapon.charges <= 0) {
-   (use.*tmp->use)(g, this, &weapon, false);
-   if (tmp->revert_to == "null")
-    weapon = ret_null;
-   else
-    weapon.type = g->itypes[tmp->revert_to];
+  if (!process_single_active_item(g, &weapon))
+  {
+   weapon = ret_null;
   }
  }
 
@@ -4019,54 +3975,9 @@ void player::process_active_items(game *g)
         {
             g->process_artifact(tmp_it, this);
         }
-        if (tmp_it->active ||
-            (tmp_it->is_container() && tmp_it->contents.size() > 0 && tmp_it->contents[0].active))
+        if (!process_single_active_item(g, tmp_it))
         {
-            if (tmp_it->is_food())
-            {
-                if (tmp_it->has_flag("HOT"))
-                {
-                    tmp_it->item_counter--;
-                    if (tmp_it->item_counter == 0)
-                    {
-                        tmp_it->item_tags.erase("HOT");
-                        tmp_it->active = false;
-                    }
-                }
-            }
-            else if (tmp_it->is_food_container())
-            {
-                if (tmp_it->contents[0].has_flag("HOT"))
-                {
-                    tmp_it->contents[0].item_counter--;
-                    if (tmp_it->contents[0].item_counter == 0)
-                    {
-                        tmp_it->contents[0].item_tags.erase("HOT");
-                        tmp_it->contents[0].active = false;
-                    }
-                }
-            }
-            else
-            {
-                tmp = dynamic_cast<it_tool*>(tmp_it->type);
-                (use.*tmp->use)(g, this, tmp_it, true);
-                if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
-                {
-                    tmp_it->charges--;
-                }
-                if (tmp_it->charges <= 0)
-                {
-                    (use.*tmp->use)(g, this, tmp_it, false);
-                    if (tmp->revert_to == "null")
-                    {
-                        inv.remove_item(tmp_it);
-                    }
-                    else
-                    {
-                        tmp_it->type = g->itypes[tmp->revert_to];
-                    }
-                }
-            }
+            inv.remove_item(tmp_it);
         }
     }
 
@@ -4075,6 +3986,75 @@ void player::process_active_items(game *g)
     if (worn[i].is_artifact())
     g->process_artifact(&(worn[i]), this);
   }
+}
+
+// returns false if the item needs to be removed
+bool player::process_single_active_item(game *g, item *it)
+{
+    if (it->active ||
+        (it->is_container() && it->contents.size() > 0 && it->contents[0].active))
+    {
+        if (it->is_food())
+        {
+            if (it->has_flag("HOT"))
+            {
+                it->item_counter--;
+                if (it->item_counter == 0)
+                {
+                    it->item_tags.erase("HOT");
+                    it->active = false;
+                }
+            }
+        }
+        else if (it->is_food_container())
+        {
+            if (it->contents[0].has_flag("HOT"))
+            {
+                it->contents[0].item_counter--;
+                if (it->contents[0].item_counter == 0)
+                {
+                    it->contents[0].item_tags.erase("HOT");
+                    it->contents[0].active = false;
+                }
+            }
+        }
+        else if (it->is_tool())
+        {
+            iuse use;
+            it_tool* tmp = dynamic_cast<it_tool*>(it->type);
+            (use.*tmp->use)(g, this, it, true);
+            if (tmp->turns_per_charge > 0 && int(g->turn) % tmp->turns_per_charge == 0)
+            {
+                it->charges--;
+            }
+            if (it->charges <= 0)
+            {
+                (use.*tmp->use)(g, this, it, false);
+                if (tmp->revert_to == "null")
+                {
+                    return false;
+                }
+                else
+                {
+                    it->type = g->itypes[tmp->revert_to];
+                }
+            }
+        }
+        else if (it->type->id == "corpse")
+        {
+            if (it->ready_to_revive(g))
+            {
+                g->add_msg_if_player(this, "Oh dear god, a corpse you're carrying has started moving!");
+                g->revive_corpse(posx, posy, it);
+                return false;
+            }
+        }
+        else
+        {
+            debugmsg("%s is active, but has no known active function.", it->tname().c_str());
+        }
+    }
+    return true;
 }
 
 item player::remove_weapon()
@@ -5752,7 +5732,7 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
             {
                 // check tools are available
                 // loop over the tools and see what's required...again
-                inventory crafting_inv = g->crafting_inventory();
+                inventory crafting_inv = g->crafting_inventory(this);
                 for (int j = 0; j < cur_recipe->tools.size(); j++)
                 {
                     bool have_tool = false;
@@ -6929,6 +6909,37 @@ SkillLevel& player::skillLevel(size_t id) {
 
 SkillLevel& player::skillLevel(Skill *_skill) {
   return _skills[_skill];
+}
+
+void player::copy_skill_levels(const player *rhs)
+{
+    _skills = rhs->_skills;
+}
+
+void player::set_skill_level(Skill* _skill, int level)
+{
+    skillLevel(_skill).level(level);
+}
+void player::set_skill_level(std::string ident, int level)
+{
+    skillLevel(ident).level(level);
+}
+void player::set_skill_level(size_t id, int level)
+{
+    skillLevel(id).level(level);
+}
+
+void player::boost_skill_level(Skill* _skill, int level)
+{
+    skillLevel(_skill).level(level+skillLevel(_skill));
+}
+void player::boost_skill_level(std::string ident, int level)
+{
+    skillLevel(ident).level(level+skillLevel(ident));
+}
+void player::boost_skill_level(size_t id, int level)
+{
+    skillLevel(id).level(level+skillLevel(id));
 }
 
 void player::setID (int i)

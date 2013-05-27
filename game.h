@@ -146,6 +146,7 @@ class game
   void kill_mon(int index, bool player_did_it = false);
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
   void revive_corpse(int x, int y, int n); // revives a corpse from an item pile
+  void revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion
 // hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
   void hit_monster_with_flags(monster &z, unsigned int flags);
   void plfire(bool burst);	// Player fires a gun (target selection)...
@@ -229,9 +230,9 @@ class game
   point find_item(item *it);
   void remove_item(item *it);
 
-  inventory crafting_inventory();  // inv_from_map, inv, & 'weapon'
-  std::list<item> consume_items(std::vector<component> components);
-  void consume_tools(std::vector<component> tools, bool force_available);
+  inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
+  std::list<item> consume_items(player *p, std::vector<component> components);
+  void consume_tools(player *p, std::vector<component> tools, bool force_available);
 
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }

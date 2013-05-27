@@ -168,7 +168,7 @@ void trapfuncm::crossbow(game *g, monster *z, int x, int y)
     g->m.spawn_item(x, y, g->itypes["crossbow"], 0);
     g->m.spawn_item(x, y, g->itypes["string_6"], 0);
     if (add_bolt)
-    g->m.spawn_item(x, y, g->itypes["bolt_steel"], 0);
+    g->m.spawn_item(x, y, g->itypes["bolt_steel"], 0, 0, 1);
 }
 
 void trapfunc::shotgun(game *g, int x, int y)
