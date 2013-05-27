@@ -1590,8 +1590,8 @@ bool game::handle_action()
      has = u.has_item(chItem);
 
      const int menustart=2;  // lightbar constraints
-     const int menuend=12;
-     int selected=1;         // default 'parked' hidden above 'activate'
+     const int menuend=13;
+     int selected=2;
 
      if (has) {
        do {
@@ -1662,9 +1662,9 @@ bool game::handle_action()
           default:
            break;
          }
-         if( selected < menustart-1 ) { // wraparound, but can be hidden
+         if( selected < menustart ) { // wraparound, but can be hidden
            selected = menuend;
-         } else if ( selected > menuend + 1 ) {
+         } else if ( selected > menuend ) {
            selected = menustart;
          }
        } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
@@ -6873,7 +6873,8 @@ void game::pickup(int posx, int posy, int min)
  int new_weight = u.weight_carried(), new_volume = u.volume_carried();
  bool update = true;
  mvwprintw(w_pickup, 0,  0, "PICK UP (, = all)");
- int selected=-1;
+ int selected=0;
+ int last_selected=-1;
 // Now print the two lists; those on the ground and about to be added to inv
 // Continue until we hit return or space
  do {
@@ -6893,10 +6894,11 @@ void game::pickup(int posx, int posy, int min)
   } else if ( ch == KEY_UP ) {
       selected--;
       if ( selected < 0 ) { 
-          selected=here.size()-1;
-          start=(int)(here.size()/maxitems) * maxitems;
+          selected = here.size()-1;
+          start = (int)( here.size() / maxitems ) * maxitems;
+          if (start >= here.size()-1) start -= maxitems;
       } else if ( selected < start ) {
-          start-= maxitems;
+          start -= maxitems;
       }
   } else if ( ch == KEY_DOWN ) {
       selected++;
@@ -6910,31 +6912,40 @@ void game::pickup(int posx, int posy, int min)
                  ( ch == KEY_RIGHT && !getitem[selected]) || 
                  ( ch == KEY_LEFT && getitem[selected] ) 
             ) ) {
-      idx=selected;
+      idx = selected;
   } else {
       idx = pickup_chars.find(ch);
   }
 
   if ( idx < here.size()) {
    getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
-   werase(w_item_info);
-   if (getitem[idx]) {
-    mvwprintw(w_item_info, 1, 0, here[idx].info().c_str());
-    wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                         LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    wrefresh(w_item_info);
-    new_weight += here[idx].weight();
-    new_volume += here[idx].volume();
-    update = true;
-   } else {
-    wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                         LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    wrefresh(w_item_info);
-    new_weight -= here[idx].weight();
-    new_volume -= here[idx].volume();
-    update = true;
+   if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
+      selected = idx;
+      start = (int)( idx / maxitems ) * maxitems;
    }
+
+   if (getitem[idx]) {
+       new_weight += here[idx].weight();
+       new_volume += here[idx].volume();
+   } else {
+       new_weight -= here[idx].weight();
+       new_volume -= here[idx].volume();
+   }
+   update = true;
   }
+
+  if ( selected != last_selected ) {
+      last_selected = selected;
+      werase(w_item_info);
+      if ( selected >= 0 && selected <= here.size()-1 ) {
+          mvwprintw(w_item_info, 1, 0, here[selected].info().c_str());
+      }
+      wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                           LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].tname(this).c_str() );
+      wrefresh(w_item_info);
+  }
+
   if (ch == ',') {
    int count = 0;
    for (int i = 0; i < here.size(); i++) {
