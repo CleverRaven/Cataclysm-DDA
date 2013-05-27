@@ -1476,7 +1476,6 @@ void mattack::flesh_golem(game *g, monster *z)
 }
 void mattack::parrot(game *g, monster *z)
 {
- int j;
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 50)
   return;	// Out of range
  if (one_in(20)){
