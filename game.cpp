@@ -6871,6 +6871,7 @@ void game::pickup(int posx, int posy, int min)
  bool update = true;
  mvwprintw(w_pickup, 0,  0, "PICK UP (, = all)");
  int selected=0;
+ int last_selected=-1;
 // Now print the two lists; those on the ground and about to be added to inv
 // Continue until we hit return or space
  do {
@@ -6890,10 +6891,11 @@ void game::pickup(int posx, int posy, int min)
   } else if ( ch == KEY_UP ) {
       selected--;
       if ( selected < 0 ) { 
-          selected=here.size()-1;
-          start=(int)(here.size()/maxitems) * maxitems;
+          selected = here.size()-1;
+          start = (int)( here.size() / maxitems ) * maxitems;
+          if (start >= here.size()-1) start -= maxitems;
       } else if ( selected < start ) {
-          start-= maxitems;
+          start -= maxitems;
       }
   } else if ( ch == KEY_DOWN ) {
       selected++;
@@ -6907,14 +6909,17 @@ void game::pickup(int posx, int posy, int min)
                  ( ch == KEY_RIGHT && !getitem[selected]) || 
                  ( ch == KEY_LEFT && getitem[selected] ) 
             ) ) {
-      idx=selected;
+      idx = selected;
   } else {
       idx = pickup_chars.find(ch);
   }
 
   if ( idx < here.size()) {
    getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
-   selected=idx;
+   if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
+      selected = idx;
+      start = (int)( idx / maxitems ) * maxitems;
+   }
    werase(w_item_info);
    if (getitem[idx]) {
     mvwprintw(w_item_info, 1, 0, here[idx].info().c_str());
@@ -6952,6 +6957,7 @@ void game::pickup(int posx, int posy, int min)
    }
    update = true;
   }
+  //mvprintw(0,0,"idx: %d selected: %d maxitems: %d start: %d here: %d             ",idx,selected,maxitems,start,here.size());
   for (cur_it = start; cur_it < start + maxitems; cur_it++) {
    mvwprintw(w_pickup, 1 + (cur_it % maxitems), 0,
              "                                        ");
