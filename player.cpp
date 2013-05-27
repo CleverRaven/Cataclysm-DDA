@@ -479,6 +479,9 @@ void player::update_bodytemp(game *g)
     int adjusted_temp = (Ctemperature - ambient_norm);
     // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
+    const trap_id trap_at_pos = g->m.tr_at(posx, posy);
+    const ter_id ter_at_pos = g->m.ter(posx, posy);
+
     // Current temperature and converging temperature calculations
     for (int i = 0 ; i < num_bp ; i++)
     {
@@ -500,21 +503,21 @@ void player::update_bodytemp(game *g)
         {
             int vpart = -1;
             vehicle *veh = g->m.veh_at (posx, posy, vpart);
-            if      (g->m.ter(posx, posy) == t_bed)
+            if      (ter_at_pos == t_bed)
             {
                 temp_conv[i] += 1000;
             }
-            else if (g->m.ter(posx, posy) == t_makeshift_bed ||
-                     g->m.ter(posx, posy) == t_armchair ||
-                     g->m.ter(posx, posy) == t_sofa)
+            else if (ter_at_pos == t_makeshift_bed ||
+                     ter_at_pos == t_armchair ||
+                     ter_at_pos == t_sofa)
             {
                 temp_conv[i] += 500;
             }
-            else if (g->m.tr_at(posx, posy) == tr_cot)
+            else if (trap_at_pos == tr_cot)
             {
                 temp_conv[i] -= 500;
             }
-            else if (g->m.tr_at(posx, posy) == tr_rollmat)
+            else if (trap_at_pos == tr_rollmat)
             {
                 temp_conv[i] -= 1000;
             }
@@ -561,7 +564,7 @@ void player::update_bodytemp(game *g)
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
         if (has_disease(DI_ONFIRE)) { temp_cur[i] += 250; }
         if ((g->m.field_at(posx, posy).type == fd_fire && g->m.field_at(posx, posy).density > 2)
-            || g->m.tr_at(posx, posy) == tr_lava)
+            || trap_at_pos == tr_lava)
         {
             temp_cur[i] += 250;
         }
@@ -697,12 +700,12 @@ void player::update_bodytemp(game *g)
         }
         if (temp_cur[i] != temp_conv[i])
         {
-            if      ((g->m.ter(posx, posy) == t_water_sh || g->m.ter(posx, posy) == t_sewage)
+            if      ((ter_at_pos == t_water_sh || ter_at_pos == t_sewage)
                     && (i == bp_feet || i == bp_legs))
             {
                 temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
             }
-            else if (g->m.ter(posx, posy) == t_water_dp)
+            else if (ter_at_pos == t_water_dp)
             {
                 temp_cur[i] = temp_difference*exp(-0.004) + temp_conv[i] + rounding_error;
             }
@@ -6202,16 +6205,18 @@ void player::try_to_sleep(game *g)
 {
  int vpart = -1;
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
- if (g->m.ter(posx, posy) == t_bed || g->m.ter(posx, posy) == t_makeshift_bed ||
-     g->m.tr_at(posx, posy) == tr_cot || g->m.tr_at(posx, posy) == tr_rollmat ||
-     g->m.ter(posx, posy) == t_armchair || g->m.ter(posx, posy) == t_sofa ||
+ const trap_id trap_at_pos = g->m.tr_at(posx, posy);
+ const ter_id ter_at_pos = g->m.ter(posx, posy);
+ if (ter_at_pos == t_bed || ter_at_pos == t_makeshift_bed ||
+     trap_at_pos == tr_cot || trap_at_pos == tr_rollmat ||
+     ter_at_pos == t_armchair || ter_at_pos == t_sofa ||
      (veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
       (veh && veh->part_with_feature (vpart, vpf_bed) >= 0))
   g->add_msg("This is a comfortable place to sleep.");
- else if (g->m.ter(posx, posy) != t_floor)
+ else if (ter_at_pos != t_floor)
   g->add_msg("It's %shard to get to sleep on this %s.",
-             terlist[g->m.ter(posx, posy)].movecost <= 2 ? "a little " : "",
-             terlist[g->m.ter(posx, posy)].name.c_str());
+             terlist[ter_at_pos].movecost <= 2 ? "a little " : "",
+             terlist[ter_at_pos].name.c_str());
  add_disease(DI_LYING_DOWN, 300, g);
 }
 
@@ -6225,15 +6230,17 @@ bool player::can_sleep(game *g)
 
  int vpart = -1;
  vehicle *veh = g->m.veh_at (posx, posy, vpart);
+ const trap_id trap_at_pos = g->m.tr_at(posx, posy);
+ const ter_id ter_at_pos = g->m.ter(posx, posy);
  if ((veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
-     g->m.ter(posx, posy) == t_makeshift_bed || g->m.tr_at(posx, posy) == tr_cot ||
-     g->m.ter(posx, posy) == t_sofa)
+     ter_at_pos == t_makeshift_bed || trap_at_pos == tr_cot ||
+     ter_at_pos == t_sofa)
   sleepy += 4;
- else if (g->m.tr_at(posx, posy) == tr_rollmat || g->m.ter(posx, posy) == t_armchair)
+ else if (trap_at_pos == tr_rollmat || ter_at_pos == t_armchair)
   sleepy += 3;
- else if (g->m.ter(posx, posy) == t_bed)
+ else if (ter_at_pos == t_bed)
   sleepy += 5;
- else if (g->m.ter(posx, posy) == t_floor)
+ else if (ter_at_pos == t_floor)
   sleepy += 1;
  else
   sleepy -= g->m.move_cost(posx, posy);
