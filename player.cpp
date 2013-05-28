@@ -1733,23 +1733,60 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
    mvwprintz(w_stats, 0, 0, h_ltgray, "          STATS           ");
    if (line == 0) {
     mvwprintz(w_stats, 2, 2, h_ltgray, "Strength:");
+
+// display player current STR effects
+    mvwprintz(w_stats, 6, 2, c_magenta, "Base HP: %d              ",
+             hp_max[1]);
+    mvwprintz(w_stats, 7, 2, c_magenta, "Carry weight: %d lbs     ",
+             weight_capacity(false) / 4);
+    mvwprintz(w_stats, 8, 2, c_magenta, "Melee damage: %d         ",
+             base_damage(false));
+
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Strength affects your melee damage, the amount of weight you can carry, your\n\
 total HP, your resistance to many diseases, and the effectiveness of actions\n\
 which require brute force.");
    } else if (line == 1) {
     mvwprintz(w_stats, 3, 2, h_ltgray, "Dexterity:");
+ // display player current DEX effects
+    mvwprintz(w_stats, 6, 2, c_magenta, "Melee to-hit bonus: +%d                      ",
+             base_to_hit(false));
+    mvwprintz(w_stats, 7, 2, c_magenta, "                                            ");
+    mvwprintz(w_stats, 7, 2, c_magenta, "Ranged %s: %s%d",
+              (ranged_dex_mod(false) <= 0 ? "bonus" : "penalty"),
+             (ranged_dex_mod(false) <= 0 ? "+" : "-"),
+             abs(ranged_dex_mod(false)));
+    mvwprintz(w_stats, 8, 2, c_magenta, "                                            ");
+    mvwprintz(w_stats, 8, 2, c_magenta, "Throwing %s: %s%d",
+             (throw_dex_mod(false) <= 0 ? "bonus" : "penalty"),
+             (throw_dex_mod(false) <= 0 ? "+" : "-"),
+             abs(throw_dex_mod(false)));
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Dexterity affects your chance to hit in melee combat, helps you steady your\n\
 gun for ranged combat, and enhances many actions that require finesse.");
    } else if (line == 2) {
     mvwprintz(w_stats, 4, 2, h_ltgray, "Intelligence:");
+ // display player current INT effects
+   mvwprintz(w_stats, 6, 2, c_magenta, "Read times: %d%%%%           ",
+             read_speed(false));
+   mvwprintz(w_stats, 7, 2, c_magenta, "Crafting Bonus: %d          ",
+             int_cur);
+   mvwprintz(w_stats, 8, 2, c_magenta, "                             ");
+
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Intelligence is less important in most situations, but it is vital for more\n\
 complex tasks like electronics crafting. It also affects how much skill you\n\
 can pick up from reading a book.");
    } else if (line == 3) {
     mvwprintz(w_stats, 5, 2, h_ltgray, "Perception:");
+
+       mvwprintz(w_stats, 6, 2,  c_magenta, "Ranged %s: %s%d",
+             (ranged_per_mod(false) <= 0 ? "bonus" : "penalty"),
+             (ranged_per_mod(false) <= 0 ? "+" : "-"),
+             abs(ranged_per_mod(false)),"          ");
+    mvwprintz(w_stats, 7, 2, c_magenta, "Trap dection level: %d       ",
+             per_cur);
+    mvwprintz(w_stats, 8, 2, c_magenta, "                             ");
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Perception is the most important stat for ranged combat. It's also used for\n\
 detecting traps and other things of interest.");
