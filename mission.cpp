@@ -379,7 +379,7 @@ Thanks so much, you may save both of us yet.";
 regional hospital or doctor's office.  I just want to know who might still be out there.";
    case TALK_MISSION_ACCEPTED:
     return "\
-Thankyou, I suppose it wont change what has already happened but it will bring me closure.";
+Thank you, I suppose it wont change what has already happened but it will bring me closure.";
    case TALK_MISSION_REJECTED:
     return "Please, I just want to know what happened to everyone.";
    case TALK_MISSION_ADVICE:
@@ -392,6 +392,64 @@ Thankyou, I suppose it wont change what has already happened but it will bring m
     return "Thanks for trying... I guess.";
    case TALK_MISSION_FAILURE:
     return "I bet some of them are still out there...";
+  }
+  break;
+
+//humanitarian mission 2
+   case MISSION_REACH_FEMA_CAMP:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Maybe they escaped to one of the camps...";
+   case TALK_MISSION_OFFER:
+    return "I can't thank you enough for bringing me the patient records but I do have \
+another request.  You seem to know your way around... could you take me to one of the \
+FEMA camps?  I know some were overrun but I don't want to believe all of them could have \
+fallen.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Thank you, just bring me to the camp... I just want to see.";
+   case TALK_MISSION_REJECTED:
+    return "Please, I don't know what else to do.";
+   case TALK_MISSION_ADVICE:
+    return "We should go at night, if it is overrun then we can quickly make our escape.";
+   case TALK_MISSION_INQUIRE:
+    return "Any leads on where a camp might be?";
+   case TALK_MISSION_SUCCESS:
+    return "I guess this wasn't as bright an idea as I thought.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "Thanks for trying... I guess.";
+   case TALK_MISSION_FAILURE:
+    return "I bet some of them are still out there...";
+  }
+  break;
+
+//humanitarian mission 3
+   case MISSION_REACH_FARM_HOUSE:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "I just need a place to start over...";
+   case TALK_MISSION_OFFER:
+    return "I've accepted that everyone I used to know is dead... one way or another.  I \
+really wish I could have done something to save my brother but he was one of the first to go. \
+I'd like to start over, just rebuild at one of the farms in the countryside.  Can you help me \
+secure one?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Thank you, let's find a remote one so we don't have to worry about many zombies.";
+   case TALK_MISSION_REJECTED:
+    return "Please, I just don't know what to do otherwise.";
+   case TALK_MISSION_ADVICE:
+    return "Traveling the backroads would be a good way to search for one.";
+   case TALK_MISSION_INQUIRE:
+    return "Shall we keep looking for a farm house?";
+   case TALK_MISSION_SUCCESS:
+    return "Well, my adventuring days are over.  I can't thank you enough.  Trying to make \
+this place self sustaining will take some work but the future is looking brighter.  At least it \
+ought to be safe for now.  You'll always be welcome here.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "Thanks for trying... I guess.";
+   case TALK_MISSION_FAILURE:
+    return "I guess it was just a pipe dream.";
   }
   break;
 
