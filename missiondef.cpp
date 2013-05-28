@@ -98,7 +98,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
  MISSION("Find Patient Records", MGOAL_FIND_ITEM, 2, 600, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
-  ORIGINS(ORIGIN_ANY_NPC);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
   FOLLOWUP(MISSION_REACH_FEMA_CAMP);
   ITEM("record_patient");
 
@@ -106,7 +106,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
  MISSION("Reach FEMA Camp", MGOAL_GO_TO_TYPE, 2, 600, false,
 	&mission_place::always, &mission_start::join,
 	&mission_end::standard, &mission_fail::standard);
-  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_SECONDARY);
+  ORIGINS(ORIGIN_SECONDARY);
   DESTINATION(ot_fema);
   FOLLOWUP(MISSION_REACH_FARM_HOUSE);
 
@@ -114,7 +114,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
  MISSION("Reach Farm House", MGOAL_GO_TO_TYPE, 2, 600, false,
 	&mission_place::always, &mission_start::join,
 	&mission_end::leave, &mission_fail::standard);
-  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_SECONDARY);
+  ORIGINS(ORIGIN_SECONDARY);
   DESTINATION(ot_farm);
 
  MISSION("Find Corporate Accounts", MGOAL_FIND_ITEM, 2, 1400, false,
