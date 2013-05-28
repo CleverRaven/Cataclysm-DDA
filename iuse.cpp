@@ -1150,6 +1150,11 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     {
         count -= rng(1, 3);
     }
+    
+    if (cut->damage>2 || cut->damage<0)
+    {
+        count-= cut->damage;
+    }
 
     if (count <= 0)
     {
