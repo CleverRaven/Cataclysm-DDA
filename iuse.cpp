@@ -942,11 +942,13 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         it->charges++;
         return;
     }
-
+    
+    int items_needed=(fix->damage>2||fix->damage==0)?1:0;
+    
     // this will cause issues if/when NPCs start being able to sew.
     // but, then again, it'll cause issues when they start crafting, too.
     inventory crafting_inv = g->crafting_inventory(p);
-    if (!crafting_inv.has_amount(repair_item, 1))
+    if (!crafting_inv.has_amount(repair_item, items_needed))
     {
         g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repair_item.c_str(), plural.c_str());
         it->charges++;
@@ -960,7 +962,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     }
 
     std::vector<component> comps;
-    comps.push_back(component(repair_item, 1));
+    comps.push_back(component(repair_item, items_needed));
     comps.back().available = true;
  
 
@@ -989,7 +991,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 	    {
             g->add_msg_if_player(p, "You make your %s extra sturdy.", fix->tname().c_str());
             fix->damage--;
-			g->consume_items(p, comps);
+            g->consume_items(p, comps);
         }
         else
 		{
@@ -1030,7 +1032,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         else if (rn <= 8)
 	    {
             g->add_msg_if_player(p,"You repair your %s, but waste lots of thread.", fix->tname().c_str());
-			if (fix->damage>=3) {g->consume_items(p, comps);}
+            if (fix->damage>=3) {g->consume_items(p, comps);}
             fix->damage--;
             int waste = rng(1, 8);
         if (waste > it->charges)
@@ -1041,13 +1043,13 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 	    else if (rn <= 16)
 	    {
             g->add_msg_if_player(p,"You repair your %s!", fix->tname().c_str());
-			if (fix->damage>=3) {g->consume_items(p, comps);}
+            if (fix->damage>=3) {g->consume_items(p, comps);}
             fix->damage--;
         }
 	    else
 	    {
             g->add_msg_if_player(p,"You repair your %s completely!", fix->tname().c_str());
-			if (fix->damage>=3) {g->consume_items(p, comps);}
+            if (fix->damage>=3) {g->consume_items(p, comps);}
             fix->damage = 0;
         }
     }
