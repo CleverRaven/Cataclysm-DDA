@@ -286,12 +286,69 @@ void map::apply_light_arc(int x, int y, int angle, float luminance)
  bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
  memset(lit, 0, sizeof(lit));
 
+luminance=luminance*4; // testing
+
  int range = LIGHT_RANGE(luminance);
  apply_light_source(x, y, LIGHT_SOURCE_LOCAL);
 
- // Normalise (should work with negative values too)
- angle = angle % 360;
 
+ // Normalise (should work with negative values too)
+ #define newcalc 1
+ #ifdef newcalc
+ int nangle = angle % 360;
+
+ const double PI = 3.14159265358979f;
+ const double HALFPI = 1.570796326794895f;
+
+ double rad = PI * (double)nangle / 180;
+ int endx = x + range * cos(rad);
+ int endy = y + range * sin(rad);
+ apply_light_ray(lit, x, y, endx, endy , luminance);
+
+ #define beam_angle 45.0
+ double wangle=beam_angle/2.0;
+
+ double testrad = ( PI * wangle / 180 ) + rad;
+ int testx = x + range * cos(testrad);
+ int testy = y + range * sin(testrad);
+
+ apply_light_ray(lit, x, y, testx, testy , luminance);
+
+ double wdist=sqrt(double(pow(endx - testx, 2.0) + pow(endy - testy, 2.0)));
+ if(wdist > 0.5) {
+   double wstep = ( wangle / ( wdist * 1.42 ) );
+
+   mvprintw(0, 0, "irad: %f s: %d,%d, e %d,%d e2 %d,%d            ",
+     rad,x,y, endx, endy, testx, testy);
+   mvprintw(1, 0, "wdist: %f wstep: %f angle(n): %d testang(n): %d                ",
+     wdist,wstep,nangle, int (nangle + wangle )
+   );
+
+   int iter=0;
+   for (double ao=wstep; ao <= wangle; ao+=wstep) {
+   //ao
+   //10 hpi
+     double fdist=(ao * HALFPI)/wangle;
+     
+     double orad = ( PI * ao / 180.0 );
+     endx = int(x + ((double)range - fdist * 2.0) * cos(rad+orad));
+     endy = int(y + ((double)range - fdist * 2.0) * sin(rad+orad));
+     if(!lit[endx][endy])     apply_light_ray(lit, x, y, endx, endy , luminance);
+   /*  apply_light_ray(lit, x+1, y+1, endx+1, endy+1 , luminance);
+     apply_light_ray(lit, x-1, y-1, endx-1, endy-1 , luminance);
+   */
+     endx = int(x + ((double)range - fdist * 2.0) * cos(rad-orad));
+     endy = int(y + ((double)range - fdist * 2.0) * sin(rad-orad));
+     if(!lit[endx][endy])     apply_light_ray(lit, x, y, endx, endy , luminance);
+   /*  apply_light_ray(lit, x+1, y+1, endx+1, endy+1 , luminance);
+     apply_light_ray(lit, x-1, y-1, endx-1, endy-1 , luminance);
+   */
+     iter++;
+   }
+   mvprintw(2, 0, "iters: %d            ",iter);
+ }
+#else
+ angle = angle % 360;
  // East side
  if (angle < 90 || angle > 270) {
   int sy = y - ((angle <  90) ? range * (( 45 - angle) / 45.0f) : range);
@@ -331,6 +388,8 @@ void map::apply_light_arc(int x, int y, int angle, float luminance)
   for(int ox = sx; ox <= ex; ++ox)
    apply_light_ray(lit, x, y, ox, oy, luminance);
  }
+
+#endif
 }
 
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
