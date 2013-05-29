@@ -6867,7 +6867,7 @@ void game::pickup(int posx, int posy, int min)
    u.moves -= 100;
    add_msg("Wielding %c - %s", newit.invlet, newit.tname(this).c_str());
   } else {
-   u.i_add(newit, this);
+   newit = u.i_add(newit, this);
    if (from_veh)
     veh->remove_item (veh_part, 0);
    else
