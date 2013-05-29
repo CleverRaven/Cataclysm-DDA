@@ -2042,9 +2042,43 @@ bool game::is_game_over()
 void game::death_screen()
 {
     gamemode->game_over(this);
+
+#if (defined _WIN32 || defined __WIN32__)
+    WIN32_FIND_DATA FindFileData;
+    HANDLE hFind;
+    TCHAR Buffer[MAX_PATH];
+    
+    GetCurrentDirectory(MAX_PATH, Buffer);
+    SetCurrentDirectory("save");
     std::stringstream playerfile;
-    playerfile << "save/" << u.name << ".sav";
-    unlink(playerfile.str().c_str());
+    playerfile << u.name << "*";
+    hFind = FindFirstFile(playerfile.str().c_str(), &FindFileData);
+    if(INVALID_HANDLE_VALUE != hFind) {
+        do {
+            DeleteFile(FindFileData.cFileName);
+        } while(FindNextFile(hFind, &FindFileData) != 0);
+        FindClose(hFind);
+    }
+    SetCurrentDirectory(Buffer);
+#else
+    DIR *save_dir = opendir("save");
+    struct dirent *save_dirent = NULL;
+    if(save_dir != NULL && 0 == chdir("save"))
+    {
+        while ((save_dirent = readdir(save_dir)) != NULL)
+        {
+            std::string name_prefix = save_dirent->d_name;
+            name_prefix = name_prefix.substr(0,u.name.length());
+
+            if (u.name == name_prefix)
+            {
+                (void)unlink(save_dirent->d_name);
+            }
+        }
+        (void)chdir("..");
+        (void)closedir(save_dir);
+    }
+#endif
 
     const std::string sText = "GAME OVER - Press Spacebar to Quit";
 
