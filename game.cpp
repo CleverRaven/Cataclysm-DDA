@@ -6772,9 +6772,10 @@ void game::pickup(int posx, int posy, int min)
  if (veh) {
   k_part = veh->part_with_feature(veh_part, vpf_kitchen);
   veh_part = veh->part_with_feature(veh_part, vpf_cargo, false);
-  from_veh = veh && veh_part >= 0 &&
+  from_veh = veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0 &&
-             query_yn("Get items from %s?", veh->part_info(veh_part).name);
+             ( k_part < 0 ||
+             query_yn("Get items from %s?", veh->part_info(veh_part).name) );
 
   if (!from_veh && k_part >= 0) {
     if (veh->fuel_left(AT_WATER)) {
