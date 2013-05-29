@@ -6099,7 +6099,7 @@ void game::advanced_inv()
                 continue;
             item it = panes[src].items[list_pos].it;
             int ret=0;
-#ifndef awaiting_other_codepush
+#ifndef awaiting_menu_codepush
             if(panes[src].area == isinventory ) {
                 char pleaseDeprecateMe=it.invlet;
                 ret=inventory_item_menu(pleaseDeprecateMe, 0, w_width/2
@@ -6116,7 +6116,7 @@ void game::advanced_inv()
                 ret=compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ),
                     (w_width/2)-2, 0, it.tname(this), vThisItem, vDummy );
 #endif
-#ifndef awaiting_other_codepush
+#ifndef awaiting_menu_codepush
             }
 #endif
             if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
