@@ -5327,10 +5327,11 @@ void game::examine()
   // velocity is divided by 100 to get mph, so only try throwing the player if the mph is > 1
   bool qexv = (veh && (veh->velocity >= 100 ?
                        query_yn("Really exit moving vehicle?") :
-                       query_yn("Exit vehicle?")));
+                       true));
   if (qexv) {
    m.unboard_vehicle (this, u.posx, u.posy);
    u.moves -= 200;
+   add_msg("You disembark.");
    if (veh->velocity >= 100) {      // TODO: move player out of harms way
     int dsgn = veh->parts[vpart].mount_dx > 0? 1 : -1;
     fling_player_or_monster (&u, 0, veh->face.dir() + 90 * dsgn, veh->velocity / (float)100);
