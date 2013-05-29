@@ -56,6 +56,7 @@ enum room_type {
  room_mansion_dining,
  room_mansion_game,
  room_mansion_pool,
+ room_mansion_study,
  room_mansion_bathroom,
  room_mansion_gallery,
  room_split
@@ -9374,7 +9375,7 @@ break;
    line(this, t_wall_v, SEEX * 2 - 1, 0, SEEX * 2 - 1, SEEX * 2 - 1);
   }
 // Now pick a random layout
-  switch (rng(1, 4)) {
+  switch (rng(1, 10)) {
 
   case 1: // Just one. big. room.
    mansion_room(this, 1, tw, rw, SEEY * 2 - 2);
@@ -9385,6 +9386,7 @@ break;
    break;
 
   case 2: // Wide hallway, two rooms.
+  case 3:
    if (one_in(2)) { // vertical hallway
     line(this, t_wall_v,  9,  tw,  9, SEEY * 2 - 2);
     line(this, t_wall_v, 14,  tw, 14, SEEY * 2 - 2);
@@ -9410,7 +9412,11 @@ break;
     line(this, t_floor, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
    break;
 
-  case 3: // Four corners rooms
+  case 4: // Four corners rooms
+  case 5:
+  case 6:
+  case 7:
+  case 8:
    line(this, t_wall_v, 10, tw, 10,  9);
    line(this, t_wall_v, 13, tw, 13,  9);
    line(this, t_wall_v, 10, 14, 10, SEEY * 2 - 2);
@@ -9450,7 +9456,8 @@ break;
     line(this, t_floor, SEEX - 1, SEEY * 2 - 1, SEEX, SEEY * 2 - 1);
    break;
 
-  case 4: // One large room in lower-left
+  case 9: // One large room in lower-left
+  case 10:
    mw = rng( 4, 10);
    cw = rng(13, 19);
    x = rng(5, 10);
@@ -9468,7 +9475,7 @@ break;
    else
     ter_set(x, rng(tw + 2, mw - 2), t_door_c);
    line(this, t_wall_h, cw + 1, y, rw, y);
-   mansion_room(this, cw + 1, y, rw, SEEY * 2 - 2);
+   mansion_room(this, cw + 1, y+1, rw, SEEY * 2 - 2);
    if (one_in(2))
     ter_set(rng(cw + 2, rw - 1), y, t_door_c);
    else
@@ -9544,7 +9551,7 @@ break;
     } else
      consecutive = 0;
    }
-  }
+  } 
   break;
 
    case ot_fema_entrance: {
@@ -12195,12 +12202,14 @@ room_type pick_mansion_room(int x1, int y1, int x2, int y2)
   valid.push_back(room_mansion_bedroom);
  if (shortest >= 9)
   valid.push_back(room_mansion_library);
- if (shortest >= 6 && area <= 60)
+ if (shortest >= 6 && longest <= 10)
   valid.push_back(room_mansion_kitchen);
  if (longest >= 7 && shortest >= 5)
   valid.push_back(room_mansion_dining);
  if (shortest >= 6 && longest <= 10)
   valid.push_back(room_mansion_game);
+ if (shortest >= 6 && longest <= 10)
+  valid.push_back(room_mansion_study);  
  if (shortest >= 10)
   valid.push_back(room_mansion_pool);
  if (longest <= 6 || shortest <= 4)
@@ -12293,31 +12302,59 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
 
  case room_mansion_bedroom:
   if (dx > dy || (dx == dy && one_in(2))) { // horizontal
-   int dressy = (one_in(2) ? cy_low - 2 : cy_low + 2);
    if (one_in(2)) { // bed on left
     square(m, t_bed, x1 + 1, cy_low - 1, x1 + 3, cy_low + 1);
-    m->ter_set(x1 + 1, dressy, t_dresser);
-    m->place_items(mi_dresser, 80, x1 + 1, dressy, x1 + 1, dressy, false, 0);
    } else { // bed on right
     square(m, t_bed, x2 - 3, cy_low - 1, x2 - 1, cy_low + 1);
-    m->ter_set(x1 + 1, dressy, t_dresser);
-    m->place_items(mi_dresser, 80, x2 - 1, dressy, x2 - 1, dressy, false, 0);
    }
+    m->ter_set(cx_hi - 2, y1, t_bookcase);
+    m->ter_set(cx_hi - 1, y1, t_counter);
+    m->ter_set(cx_hi    , y1, t_console_broken);
+    m->ter_set(cx_hi + 1, y1, t_counter);
+    m->ter_set(cx_hi + 2, y1, t_bookcase);
+    m->place_items(mi_bedroom, 60, cx_hi - 2, y1, cx_hi + 2, y1, false, 0);    
+
+    m->ter_set(cx_hi - 2, y2, t_dresser);
+    m->ter_set(cx_hi - 1, y2, t_dresser);
+    m->place_items(mi_dresser, 80, cx_hi - 2, y2, cx_hi - 1, y2, false, 0);    
+    if (one_in(10))
+        m->place_items(mi_homeguns, 58, cx_hi - 2, y2, cx_hi - 1, y2, false, 0);
+            
+    m->ter_set(cx_hi + 1, y2, t_desk);
+    m->place_items(mi_office, 50, cx_hi + 1, y2, cx_hi + 1, y2, false, 0);    
+
+    m->ter_set(cx_hi + 2, y2, t_chair);
+        
+    m->ter_set(x1, y1, t_indoor_plant);
+    m->ter_set(x1, y2, t_indoor_plant);
+    
   } else { // vertical
-   int dressx = (one_in(2) ? cx_low - 2 : cx_low + 2);
    if (one_in(2)) { // bed at top
     square(m, t_bed, cx_low - 1, y1 + 1, cx_low + 1, y1 + 3);
-    m->ter_set(dressx, y1 + 1, t_dresser);
-    m->place_items(mi_dresser, 80, dressx, y1 + 1, dressx, y1 + 1, false, 0);
    } else { // bed at bottom
     square(m, t_bed, cx_low - 1, y2 - 3, cx_low + 1, y2 - 1);
-    m->ter_set(dressx, y2 - 1, t_dresser);
-    m->place_items(mi_dresser, 80, dressx, y2 - 1, dressx, y2 - 1, false, 0);
    }
+    m->ter_set(x1, cy_hi - 2, t_bookcase);
+    m->ter_set(x1, cy_hi - 1, t_counter);
+    m->ter_set(x1, cy_hi, t_console_broken);
+    m->ter_set(x1, cy_hi + 1, t_counter);
+    m->ter_set(x1, cy_hi + 2, t_bookcase);
+    m->place_items(mi_bedroom, 80, x1, cy_hi - 2, x1, cy_hi + 2, false, 0);
+
+    m->ter_set(x2, cy_hi - 2, t_dresser);
+    m->ter_set(x2, cy_hi - 1, t_dresser);
+    m->place_items(mi_dresser, 80, cx_hi - 2, y2, cx_hi - 1, y2, false, 0);        
+    if (one_in(10))
+        m->place_items(mi_homeguns, 58, x2, cy_hi - 2, x2, cy_hi - 1, false, 0);
+
+    m->ter_set(x2, cy_hi + 1, t_desk);
+    m->place_items(mi_office, 50, x2, cy_hi + 1, x2, cy_hi + 1, false, 0); 
+        
+    m->ter_set(x2, cy_hi + 2, t_chair);
+        
+    m->ter_set(x1, y2, t_indoor_plant);
+    m->ter_set(x2, y2, t_indoor_plant);    
   }
-  m->place_items(mi_bedroom, 75, x1, y1, x2, y2, false, 0);
-  if (one_in(10))
-   m->place_items(mi_homeguns, 58, x1, y1, x2, y2, false, 0);
   break;
 
  case room_mansion_library:
@@ -12359,27 +12396,18 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
   break;
 
  case room_mansion_kitchen:
-  square(m, t_counter, cx_low, cy_low, cx_hi, cy_hi);
-  m->place_items(mi_cleaning,  58, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
-  if (one_in(2)) { // Fridge/racks on left/right
-   line(m, t_fridge, cx_low - 1, cy_low, cx_low - 1, cy_hi);
-   m->place_items(mi_fridge, 82, cx_low - 1, cy_low, cx_low - 1, cy_hi,
-                  false, 0);
-   line(m, t_rack, cx_hi + 1, cy_low, cx_hi + 1, cy_hi);
-   m->place_items(mi_cannedfood, 50, cx_hi + 1, cy_low, cx_hi + 1, cy_hi,
-                  false, 0);
-   m->place_items(mi_pasta,      50, cx_hi + 1, cy_low, cx_hi + 1, cy_hi,
-                  false, 0);
-  } else { // Fridge/racks on top/bottom
-   line(m, t_fridge, cx_low, cy_low - 1, cx_hi, cy_low - 1);
-   m->place_items(mi_fridge, 82, cx_low, cy_low - 1, cx_hi, cy_low - 1,
-                  false, 0);
-   line(m, t_rack, cx_low, cy_hi + 1, cx_hi, cy_hi + 1);
-   m->place_items(mi_cannedfood, 50, cx_low, cy_hi + 1, cx_hi, cy_hi + 1,
-                  false, 0);
-   m->place_items(mi_pasta,      50, cx_low, cy_hi + 1, cx_hi, cy_hi + 1,
-                  false, 0);
-  }
+    line(m, t_counter, cx_hi - 2, y1 + 1, cx_hi - 2, y2 - 1);
+    line(m, t_counter, cx_hi,     y1 + 1, cx_hi,     y2 - 1);
+    m->place_items(mi_kitchen,  60, cx_hi - 2, y1 + 1, cx_hi, y2 - 1, false, 0);
+
+    line(m, t_fridge, cx_hi + 2, y1 + 1, cx_hi + 2, cy_hi - 1);
+    m->place_items(mi_fridge,  80, cx_hi + 2, y1 + 1, cx_hi + 2, cy_hi - 1, false, 0);
+    
+    m->ter_set(cx_hi + 2, cy_hi, t_oven);   
+    
+    line(m, t_rack, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1);
+    m->place_items(mi_cannedfood,  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
+    m->place_items(mi_pasta,  70, cx_hi + 2, cy_hi + 1, cx_hi + 2, y2 - 1, false, 0);
   break;
 
  case room_mansion_dining:
@@ -12394,6 +12422,10 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
    line(m, t_bench, x1 + 2, cy_low + 1, x2 - 2, cy_low + 1);
    m->place_items(mi_dining, 78, x1 + 2, cy_low, x2 - 2, cy_low, false, 0);
   }
+    m->ter_set(x1, y1, t_indoor_plant);
+    m->ter_set(x2, y1, t_indoor_plant); 
+    m->ter_set(x1, y2, t_indoor_plant);
+    m->ter_set(x2, y2, t_indoor_plant);  
   break;
 
  case room_mansion_game:
@@ -12406,58 +12438,124 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
    m->place_items(mi_pool_table, 80, cx_low - 1, cy_low, cx_low + 1, cy_low + 1,
                   false, 0);
   }
+
+    if (one_in(2))
+    {
+        line(m, t_sofa, x1 + 1, cy_low - 1, x1 + 1, cy_low + 1);
+        m->ter_set(x1 + 1, cy_low - 2, t_table);
+        m->place_items(mi_coffee_shop, 70, x1 + 1, cy_low + 2, x1 + 1, cy_low + 2, false, 0);  
+        m->place_items(mi_magazines, 50, x1 + 1, cy_low + 2, x1 + 1, cy_low + 2, false, 0);                  
+        m->ter_set(x1 + 1, cy_low + 2, t_table);
+        m->place_items(mi_coffee_shop, 70, x1 + 1, cy_low - 2, x1 + 1, cy_low - 2, false, 0);   
+        m->place_items(mi_magazines, 70, x1 + 1, cy_low - 2, x1 + 1, cy_low - 2, false, 0);  
+    }
+    else
+    {
+        line(m, t_sofa, cx_low - 1, y1 + 1, cx_low + 1, y1 + 1);
+        m->ter_set(cx_low - 2, y1 + 1, t_table);
+        m->place_items(mi_coffee_shop, 70, cx_low - 2, y1 + 1, cx_low - 2, y1 + 1, false, 0);  
+        m->place_items(mi_magazines, 50, cx_low - 2, y1 + 1, cx_low - 2, y1 + 1, false, 0);                  
+        m->ter_set(cx_low + 2, y1 + 1, t_table);
+        m->place_items(mi_coffee_shop, 70, cx_low + 2, y1 + 1, cx_low + 2, y1 + 1, false, 0);   
+        m->place_items(mi_magazines, 70, cx_low + 2, y1 + 1, cx_low + 2, y1 + 1, false, 0);         
+    }
+    m->ter_set(x1, y1, t_indoor_plant);
+    m->ter_set(x2, y1, t_indoor_plant); 
+    m->ter_set(x1, y2, t_indoor_plant);
+    m->ter_set(x2, y2, t_indoor_plant);    
   break;
 
  case room_mansion_pool:
-  square(m, t_water_pool, x1 + 2, y1 + 2, x2 - 2, y2 - 2);
+    square(m, t_water_pool, x1 + 3, y1 + 3, x2 - 3, y2 - 3);
+
+    m->ter_set(rng(x1 + 1, cx_hi - 2), y1 + 2, t_chair);
+    m->ter_set(cx_hi, y1 + 2, t_table);
+    m->ter_set(rng(x1 + 1, cx_hi + 2), y1 + 2, t_chair);
+    m->place_items(mi_magazines, 60, cx_hi, y1 + 2, cx_hi, y1 + 2, false, 0);
+
+    m->ter_set(x1, y1, t_indoor_plant);
+    m->ter_set(x2, y1, t_indoor_plant); 
+    m->ter_set(x1, y2, t_indoor_plant);
+    m->ter_set(x2, y2, t_indoor_plant);         
+  break;
+
+    case room_mansion_study:
+        int study_y;
+        if (one_in(2))
+        {
+            study_y = y1;
+        }
+        else
+        {
+            study_y = y2;
+        }
+        for (int x = x1 + 1; x <= x2 - 1; x++) 
+        {
+            if (x % 2 == 0) 
+            {
+                m->ter_set(x, study_y, t_rack);
+                if (one_in(3))
+                {
+                    m->place_items(mi_alcohol, 60, x, study_y, x, study_y, false, 0);
+                }
+                else if (one_in(3))
+                {
+                    m->place_items(mi_church, 60, x, study_y, x, study_y, false, 0);
+                }
+                else
+                {
+                    m->place_items(mi_art, 60, x, study_y, x, study_y, false, 0);
+                }
+            }
+        }
+        
+        square(m, t_table, cx_low, cy_low - 1, cx_low + 1, cy_low + 1);
+        m->place_items(mi_novels, 50, cx_low, cy_low - 1, cx_low + 1, cy_low + 1,
+                  false, 0);
+        m->place_items(mi_magazines, 60, cx_low, cy_low - 1, cx_low + 1, cy_low + 1,
+                  false, 0);
+        m->place_items(mi_office, 60, cx_low, cy_low - 1, cx_low + 1, cy_low + 1,
+                  false, 0);
+        if (one_in(2))
+            m->ter_set(cx_low - 1, rng(cy_low - 1, cy_low + 1), t_chair);
+        else
+            m->ter_set(cx_low + 2, rng(cy_low - 1, cy_low + 1), t_chair);
+        m->ter_set(x1, y1, t_indoor_plant);
+        m->ter_set(x2, y1, t_indoor_plant); 
+        m->ter_set(x1, y2, t_indoor_plant);
+        m->ter_set(x2, y2, t_indoor_plant);         
   break;
 
  case room_mansion_bathroom:
-  m->ter_set( rng(x1 + 1, x2 - 1), rng(y1 + 1, y2 - 1) , t_toilet);
+    m->ter_set( rng(x1 + 1, cx_hi - 1), rng(y1 + 1, cy_hi - 1) , t_toilet);
+    m->ter_set( rng(cx_hi + 1, x2 - 1), rng(y1 + 1, cy_hi - 1) , t_bathtub);
+    m->ter_set( rng(x1 + 1, cx_hi - 1), rng(cy_hi + 1, y2 - 1) , t_sink);
+
+    m->ter_set(x1, y2, t_indoor_plant);
+    m->ter_set(x2, y2, t_indoor_plant);    
+  
   m->place_items(mi_harddrugs, 20, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
   m->place_items(mi_softdrugs, 72, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
   m->place_items(mi_cleaning,  48, x1 + 1, y1 + 1, x2 - 1, y2 - 1, false, 0);
   break;
 
  case room_mansion_gallery:
-  for (int x = x1 + 1; x <= cx_low - 1; x += rng(2, 4)) {
-   for (int y = y1 + 1; y <= cy_low - 1; y += rng(2, 4)) {
-    if (one_in(10)) { // Suit of armor
-     m->spawn_item(x, y, (*(m->itypes))["helmet_plate"], 0);
-     m->spawn_item(x, y, (*(m->itypes))["armor_plate"],  0);
-     if (one_in(2))
-      m->spawn_item(x, y, (*(m->itypes))["pike"],  0);
-     else if (one_in(3))
-      m->spawn_item(x, y, (*(m->itypes))["broadsword"],  0);
-     else if (one_in(6))
-      m->spawn_item(x, y, (*(m->itypes))["mace"],  0);
-     else if (one_in(6))
-      m->spawn_item(x, y, (*(m->itypes))["morningstar"],  0);
-    } else { // Objets d'art
-     m->ter_set(x, y, t_counter);
-     m->place_items(mi_art, 70, x, y, x, y, false, 0);
-    }
-   }
-  }
-  for (int x = x2 - 1; x >= cx_hi + 1; x -= rng(2, 4)) {
-   for (int y = y2 - 1; y >= cy_hi + 1; y -= rng(2, 4)) {
-    if (one_in(10)) { // Suit of armor
-     m->spawn_item(x, y, (*(m->itypes))["helmet_plate"], 0);
-     m->spawn_item(x, y, (*(m->itypes))["armor_plate"],  0);
-     if (one_in(2))
-      m->spawn_item(x, y, (*(m->itypes))["pike"],  0);
-     else if (one_in(3))
-      m->spawn_item(x, y, (*(m->itypes))["broadsword"],  0);
-     else if (one_in(6))
-      m->spawn_item(x, y, (*(m->itypes))["mace"],  0);
-     else if (one_in(6))
-      m->spawn_item(x, y, (*(m->itypes))["morningstar"],  0);
-    } else { // Objets d'art
-     m->ter_set(x, y, t_counter);
-     m->place_items(mi_art, 70, x, y, x, y, false, 0);
-    }
-   }
-  }
+
+    m->ter_set(x2 + 2, y2 + 2, t_rack);
+    m->place_items(mi_medieval, 40, x2 + 2, y2 + 2, x2 + 2, y2 + 2, false, 0);    
+    m->ter_set(x2 - 2, y2 + 2, t_rack);
+    m->place_items(mi_art, 70, x2 - 2, y2 + 2, x2 - 2, y2 + 2, false, 0);    
+    m->ter_set(x2 + 2, y2 - 2, t_rack);
+    m->place_items(mi_art, 70, x2 + 2, y2 - 2, x2 + 2, y2 - 2, false, 0);    
+    m->ter_set(x2 - 2, y2 - 2, t_rack);
+    m->place_items(mi_alcohol, 80, x2 - 2, y2 - 2, x2 - 2, y2 - 2, false, 0);    
+
+    square(m, t_table, cx_low - 1, cy_low - 1, cx_low + 1, cy_low + 1);    
+    m->ter_set(x1, y1, t_indoor_plant);
+    m->ter_set(x2, y1, t_indoor_plant); 
+    m->ter_set(x1, y2, t_indoor_plant);
+    m->ter_set(x2, y2, t_indoor_plant);  
+        
   break;
  }
 }
