@@ -5158,6 +5158,16 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   close_message = "The gate is closed!";
   break;
 
+ case t_gates_control_concrete:
+  v_wall_type = t_concrete_v;
+  h_wall_type = t_concrete_h;
+  door_type   = t_door_metal_locked;
+  floor_type  = t_floor;
+  pull_message = "You turn the handle...";
+  open_message = "The gate is opened!";
+  close_message = "The gate is closed!";
+  break;
+
  case t_barndoor:
   v_wall_type = t_wall_wood;
   h_wall_type = t_wall_wood;
