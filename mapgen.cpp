@@ -4518,9 +4518,9 @@ A......D.........|dh...|\n\
 .A.AA..D.........|dxd.^|\n\
 -------|---++----|-----|\n",
 mapf::basic_bind("M D & P S p l H O f F A r d C h 6 x g G , . - | + D t c ^",
-		 t_gates_mech_control, t_door_metal_locked, t_radio_tower, t_generator_broken, t_sewage_pump,
+                 t_gates_control_concrete, t_door_metal_locked, t_radio_tower, t_generator_broken, t_sewage_pump,
                  t_sewage_pipe, t_locker, t_chaingate_c, t_column, t_chainfence_v, t_chainfence_h, t_crate_c, t_rack, t_desk,
-                 t_centrifuge, t_chair, t_console, t_console_broken, t_reinforced_glass_v, t_reinforced_glass_h,
+                 t_centrifuge, t_chair, t_console, t_console_broken, t_wall_glass_v, t_wall_glass_h,
                  t_rock_blue, t_rock_floor, t_concrete_h, t_concrete_v, t_door_metal_c, t_door_metal_locked, t_table, t_counter, t_indoor_plant),
    mapf::end());
    for (int i = 0; i <= 23; i++) {
