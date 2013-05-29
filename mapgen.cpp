@@ -9353,6 +9353,11 @@ break;
    rotate(2);
   if (t_west >= ot_road_null && t_west <= ot_bridge_ew)
    rotate(3);
+    // add zombies
+    if (one_in(3))
+    {
+        add_spawn(mon_zombie, rng(1,8), 12, 12);   
+    }
  } break;
 
  case ot_mansion:
@@ -9552,6 +9557,11 @@ break;
      consecutive = 0;
    }
   } 
+    // add zombies
+    if (one_in(2))
+    {
+        add_spawn(mon_zombie, rng(4,8), 12, 12);   
+    }  
   break;
 
    case ot_fema_entrance: {
