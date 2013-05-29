@@ -876,7 +876,12 @@ bool overmap::generate_sub(int const z)
  for (int i = 0; i < subway_points.size(); i++)
   ter(subway_points[i].x, subway_points[i].y, z) = ot_subway_station;
  for (int i = 0; i < lab_points.size(); i++)
-  requires_sub |= build_lab(lab_points[i].x, lab_points[i].y, z, lab_points[i].s);
+ {
+     bool lab = build_lab(lab_points[i].x, lab_points[i].y, z, lab_points[i].s);
+     requires_sub |= lab;
+     if (!lab && ter(lab_points[i].x, lab_points[i].y, z) == ot_lab_core)
+         ter(lab_points[i].x, lab_points[i].y, z) = ot_lab;
+ }
  for (int i = 0; i < ant_points.size(); i++)
   build_anthill(ant_points[i].x, ant_points[i].y, z, ant_points[i].s);
  polish(z, ot_subway_ns, ot_subway_nesw);
