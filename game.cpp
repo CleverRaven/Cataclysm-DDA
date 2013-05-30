@@ -5684,7 +5684,7 @@ void game::advanced_inv()
         {3, 3, 36, 1, 1, 0, 0, "South East", "SE", false, NULL, -1, 0, "" },
         {4, 2, 30, -1, 0, 0, 0, "West", "W", false, NULL, -1, 0, "" },
         {5, 2, 33, 0, 0, 0, 0, "Directly below you", "DN", false, NULL, -1, 0, "" },
-        {6, 2, 36, 0, 1, 0, 0, "East", "E", false, NULL, -1, 0, "" },
+        {6, 2, 36, 1, 0, 0, 0, "East", "E", false, NULL, -1, 0, "" },
         {7, 1, 30, -1, -1, 0, 0, "North West", "NW", false, NULL, -1, 0, "" },
         {8, 1, 33, 0, -1, 0, 0, "North", "N", false, NULL, -1, 0, "" },
         {9, 1, 36, 1, -1, 0, 0, "North East", "NE", false, NULL, -1, 0, "" },
