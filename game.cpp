@@ -5712,8 +5712,6 @@ void game::advanced_inv()
         panes[right].index = uistate.adv_inv_rightindex;
         panes[right].page = uistate.adv_inv_rightpage;
     }
-    uistate.adv_inv_last_coords.x = u.posx;
-    uistate.adv_inv_last_coords.y = u.posy;
 
     panes[left].window = left_window;
     panes[right].window = right_window;
