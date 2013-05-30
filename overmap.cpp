@@ -20,8 +20,8 @@
 #include "overmapbuffer.h"
 
 #ifdef _MSC_VER
-// MSVC prefers ISO C++ conformant names over POSIX names, but it's missing a redirect for snprintf
-#define snprintf _snprintf
+// MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
+#define snprintf _snprintf_s
 #endif
 
 #define STREETCHANCE 2

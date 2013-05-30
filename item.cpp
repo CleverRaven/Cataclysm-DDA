@@ -1059,6 +1059,7 @@ bool item::ready_to_revive(game *g)
         return false;
     }
     int age_in_hours = (int(g->turn) - bday) / (10 * 60);
+    age_in_hours -= ((float)burnt/volume()) * 24;
     int rez_factor = 48 - age_in_hours;
     if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
     {

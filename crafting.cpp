@@ -1079,20 +1079,21 @@ void game::complete_craft()
     {
         newit.item_tags.insert("FIT");
     }
-    int used_bday_tally = 0;
-    int used_bday_count = 0;
+    float used_age_tally = 0;
+    int used_age_count = 0;
     for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter)
     {
         if (iter->goes_bad())
         {
-            used_bday_tally += iter->bday;
-            ++used_bday_count;
+            used_age_tally += ((int)turn - iter->bday)/
+                (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
+            ++used_age_count;
         }
     }
-    if (used_bday_count > 0)
+    if (used_age_count > 0 && newit.goes_bad())
     {
-        const int average_used_bday = used_bday_tally / used_bday_count;
-        newit.bday = (average_used_bday + newit.bday) / 2;
+        const int average_used_age = (used_age_tally / used_age_count) * dynamic_cast<it_comest*>(newit.type)->spoils;
+        newit.bday = newit.bday - average_used_age;
     }
  // for food items
  if (newit.is_food())

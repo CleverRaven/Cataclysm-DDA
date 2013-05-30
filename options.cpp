@@ -216,6 +216,10 @@ option_key lookup_option_key(std::string id)
   return OPT_AUTOSAFEMODETURNS;
  if (id == "autosave")
   return OPT_AUTOSAVE;
+ if (id == "autosave_turns")
+  return OPT_AUTOSAVE_TURNS;
+ if (id == "autosave_minutes")
+  return OPT_AUTOSAVE_MINUTES;
  if (id == "gradual_night_light")
   return OPT_GRADUAL_NIGHT_LIGHT;
  if (id == "rain_animation")
@@ -265,6 +269,8 @@ std::string option_string(option_key key)
   case OPT_AUTOSAFEMODE:	return "autosafemode";
   case OPT_AUTOSAFEMODETURNS: return "autosafemodeturns";
   case OPT_AUTOSAVE:    	return "autosave";
+  case OPT_AUTOSAVE_TURNS: return "autosave_turns";
+  case OPT_AUTOSAVE_MINUTES: return "autosave_minutes";
   case OPT_GRADUAL_NIGHT_LIGHT: return "gradual_night_light";
   case OPT_RAIN_ANIMATION: return "rain_animation";
   case OPT_QUERY_DISASSEMBLE: return "query_disassemble";
@@ -300,6 +306,8 @@ std::string option_desc(option_key key)
   case OPT_AUTOSAFEMODE:	return "If true, auto-safemode will be on\nafter starting a new game or loading.\nDefault is false";
   case OPT_AUTOSAFEMODETURNS: return "Number of turns after safemode\nis reenabled if no hostiles are\nin safemodeproximity distance.\nDefault is 50";
   case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map\nDefault is false";
+  case OPT_AUTOSAVE_TURNS: return "Number of minutes between autosaves";
+  case OPT_AUTOSAVE_MINUTES: return "Minimum number of real time minutes\nbetween autosaves";
   case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\nshould only make a difference\nduring the night.\nDefault is false";
   case OPT_RAIN_ANIMATION: return "If true, will display weather\nanimations.\nDefault is true";
   case OPT_QUERY_DISASSEMBLE: return "If true, will query before\ndisassembling items.\nDefault is true";
@@ -335,6 +343,8 @@ std::string option_name(option_key key)
   case OPT_AUTOSAFEMODE:	return "Auto-Safemode on by default";
   case OPT_AUTOSAFEMODETURNS: return "Turns to reenable safemode";
   case OPT_AUTOSAVE:    	return "Periodically Autosave";
+  case OPT_AUTOSAVE_TURNS: return "Game minutes between autosaves";
+  case OPT_AUTOSAVE_MINUTES: return "Real minutes between autosaves";
   case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light";
   case OPT_RAIN_ANIMATION: return "Rain animation";
   case OPT_QUERY_DISASSEMBLE: return "Query on disassembly";
@@ -371,6 +381,8 @@ bool option_is_bool(option_key id)
   case OPT_VIEWPORT_Y:
   case OPT_SEASON_LENGTH:
   case OPT_MOVE_VIEW_OFFSET:
+  case OPT_AUTOSAVE_TURNS:
+  case OPT_AUTOSAVE_MINUTES:
    return false;
     break;
   default:
@@ -417,6 +429,10 @@ char option_max_options(option_key id)
       case OPT_MOVE_VIEW_OFFSET:
         ret = 50; // TODO calculate max for screen size
         break;
+      case OPT_AUTOSAVE_TURNS:
+      case OPT_AUTOSAVE_MINUTES:
+        ret = 127;
+        break;
       default:
         ret = 2;
         break;
@@ -454,6 +470,10 @@ autosafemode F\n\
 autosafemodeturns 50\n\
 # If true, game will periodically save the map\n\
 autosave F\n\
+# Minutes between autosaves\n\
+autosave_turns 30\n\
+# Minimum real time minutes between autosaves\n\
+autosave_minutes 5\n\
 # If true will add nice gradual-lighting (should only make a difference @night)\n\
 gradual_night_light F\n\
 # If true, will display weather animations\n\
