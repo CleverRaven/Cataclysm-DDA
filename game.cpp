@@ -39,6 +39,11 @@
 #include <tchar.h>
 #endif
 
+#ifdef _MSC_VER
+// MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
+#define snprintf _snprintf_s
+#endif
+
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 #define MAX_ITEM_IN_SQUARE 64
 void intro();
@@ -5929,7 +5934,7 @@ void game::advanced_inv()
                     for (int i=1; i <= 9; i++) {
                         buf[0]=0;
                         int safe=snprintf(buf,128, "%2d/%d%s", squares[i].size, MAX_ITEM_IN_SQUARE, (squares[i].size >= MAX_ITEM_IN_SQUARE ? " (FULL)" : "" ) );
-                        if ( safe >= 128 ) {
+                        if ( safe >= 128 || safe < 0 ) {
                             popup(":-O this shouldn't happen (BUG)"); return;
                         }
                         if ( i == panes[src].area ) {
