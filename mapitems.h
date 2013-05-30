@@ -25,7 +25,7 @@ enum items_location {
  mi_lab_shoes, mi_lab_torso, mi_lab_pants,
  mi_hospital_lab, mi_hospital_samples, mi_surgery,
  mi_office, mi_cubical_office, mi_school, mi_church, mi_vault,
- mi_art, mi_pawn, mi_mil_surplus,
+ mi_medieval, mi_art, mi_pawn, mi_mil_surplus,
  mi_shelter, mi_mechanics,
  mi_chemistry, mi_teleport, mi_goo, mi_cloning_vat, mi_dissection,
  mi_hydro, mi_electronics, mi_monparts, mi_bionics, mi_bionics_common,
