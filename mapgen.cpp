@@ -187,7 +187,6 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
 
  // This attempts to scale density of zombies inversely with distance from the nearest city.
  // In other words, make city centers dense and perimiters sparse.
- city *closest_city = &om->cities[om->closest_city(point(overx, overy))];
  float density = 0.0;
  for (int i = overx-3; i <= overx+3; i++)
  {
