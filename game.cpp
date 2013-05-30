@@ -5418,7 +5418,7 @@ struct advanced_inv_area {
 struct advanced_inv_listitem {
     int idx;
     int area;
-    item it;
+    item *it;
     std::string name;
     int stacks;
     int volume;
@@ -5525,8 +5525,7 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
     mvwprintz( window, 5, rightcol - 7, c_ltgray, "%s weight vol", ( isinventory ? "amt" : ( isall ? "src" : "   " ) ) );
 
     for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
-
-        nc_color thiscolor = active ? items[i].it.color(&g->u) : norm;
+        nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
         nc_color thiscolordark = c_dkgray;
         
         if(active && selected_index == x)
@@ -5536,12 +5535,12 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
             mvwprintz(window,6+x,1,thiscolor, ">>%s", spaces.c_str());
         }
 
-        mvwprintz(window, 6 + x, 4, thiscolor, "%s", items[i].it.tname(g).c_str() );
+        mvwprintz(window, 6 + x, 4, thiscolor, "%s", items[i].it->tname(g).c_str() );
 
-        if(items[i].it.charges > 0) {
-            wprintz(window, thiscolor, " (%d)",items[i].it.charges);
-        } else if(items[i].it.contents.size() == 1 && items[i].it.contents[0].charges > 0) {
-            wprintz(window, thiscolor, " (%d)",items[i].it.contents[0].charges);
+        if(items[i].it->charges > 0) {
+            wprintz(window, thiscolor, " (%d)",items[i].it->charges);
+        } else if(items[i].it->contents.size() == 1 && items[i].it->contents[0].charges > 0) {
+            wprintz(window, thiscolor, " (%d)",items[i].it->contents[0].charges);
         }
 
         if( isinventory && items[i].stacks > 1 ) {
@@ -5571,7 +5570,7 @@ struct advanced_inv_sorter {
         switch(sortby) {
            case SORTBY_WEIGHT: return d1.weight > d2.weight; break;
            case SORTBY_VOLUME: return d1.volume > d2.volume; break;
-           case SORTBY_CHARGES: return d1.it.charges > d2.it.charges; break;
+           case SORTBY_CHARGES: return d1.it->charges > d2.it->charges; break;
            default: return d1.idx > d2.idx; break;
         };
     };
@@ -5754,7 +5753,7 @@ void game::advanced_inv()
                             it.stacks=size;
                             it.weight=item.weight() * size;
                             it.volume=item.volume() * size;
-                            it.it=item;
+                            it.it=&item;
                             it.area=panes[i].area;
                             panes[i].items.push_back(it);
                         }
@@ -5780,7 +5779,7 @@ void game::advanced_inv()
                                     it.stacks=1;
                                     it.weight=items[x].weight();
                                     it.volume=items[x].volume();
-                                    it.it=items[x];
+                                    it.it=&items[x];
                                     it.area=s;
 
                                     panes[i].items.push_back(it);
@@ -6131,7 +6130,7 @@ void game::advanced_inv()
         {
             if(panes[src].size == 0)
                 continue;
-            item it = panes[src].items[list_pos].it;
+            item *it = panes[src].items[list_pos].it;
             int ret=0;
 #ifndef awaiting_menu_codepush
             if(panes[src].area == isinventory ) {
@@ -6144,11 +6143,11 @@ void game::advanced_inv()
             } else {
 #else
                 std::vector<iteminfo> vThisItem, vDummy, vMenu;
-                it.info(true, &vThisItem);
+                it->info(true, &vThisItem);
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n----------\n"));
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n\n\n\n\n [up / page up] previous\n [down / page down] next"));
                 ret=compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ),
-                    (w_width/2)-2, 0, it.tname(this), vThisItem, vDummy );
+                    (w_width/2)-2, 0, it->tname(this), vThisItem, vDummy );
 #endif
 #ifndef awaiting_menu_codepush
             }
