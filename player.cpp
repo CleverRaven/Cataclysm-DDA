@@ -1530,7 +1530,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  mvwprintz(w_encumb, 0, 1, c_ltgray, "ENCUMBERANCE AND WARMTH");
  for (int i=0; i < 8; i++) {
   iEnc = iLayers = iArmorEnc = iWarmth = 0;
-  iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc, iWarmth);
+  iWarmth = warmth(body_part(i));
+  iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
   mvwprintz(w_encumb, i+1, 1, c_ltgray, "%s:", asText[i].c_str());
   mvwprintz(w_encumb, i+1, 8, c_ltgray, "(%d)", iLayers);
   mvwprintz(w_encumb, i+1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2), " ", iArmorEnc, "+", iEnc-iArmorEnc);
@@ -6386,11 +6387,11 @@ int player::warmth(body_part bp)
 }
 
 int player::encumb(body_part bp) {
- int iLayers = 0, iArmorEnc = 0, iWarmth = 0;
- return encumb(bp, iLayers, iArmorEnc, iWarmth);
+ int iLayers = 0, iArmorEnc = 0;
+ return encumb(bp, iLayers, iArmorEnc);
 }
 
-int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
+int player::encumb(body_part bp, int &layers, int &armorenc)
 {
     int ret = 0;
     it_armor* armor;
@@ -6406,12 +6407,10 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
             if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
             {
                 armorenc += armor->encumber - 4;
-                warmth   += armor->warmth - 40;
             }
             else
             {
                 armorenc += armor->encumber;
-                warmth += armor->warmth;
                 if (worn[i].has_flag("FIT"))
                 {
                     armorenc--;
