@@ -3897,6 +3897,9 @@ void game::mon_info()
    run_mode = 1;
  }
 
+ if (newseen == 0 && run_mode == 2)
+     run_mode = 1;
+
  mostseen = newseen;
  nc_color tmpcol;
 // Print the direction headings
