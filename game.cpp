@@ -5327,10 +5327,11 @@ void game::examine()
   // velocity is divided by 100 to get mph, so only try throwing the player if the mph is > 1
   bool qexv = (veh && (veh->velocity >= 100 ?
                        query_yn("Really exit moving vehicle?") :
-                       query_yn("Exit vehicle?")));
+                       true));
   if (qexv) {
    m.unboard_vehicle (this, u.posx, u.posy);
    u.moves -= 200;
+   add_msg("You disembark.");
    if (veh->velocity >= 100) {      // TODO: move player out of harms way
     int dsgn = veh->parts[vpart].mount_dx > 0? 1 : -1;
     fling_player_or_monster (&u, 0, veh->face.dir() + 90 * dsgn, veh->velocity / (float)100);
@@ -6893,9 +6894,10 @@ void game::pickup(int posx, int posy, int min)
  if (veh) {
   k_part = veh->part_with_feature(veh_part, vpf_kitchen);
   veh_part = veh->part_with_feature(veh_part, vpf_cargo, false);
-  from_veh = veh && veh_part >= 0 &&
+  from_veh = veh_part >= 0 &&
              veh->parts[veh_part].items.size() > 0 &&
-             query_yn("Get items from %s?", veh->part_info(veh_part).name);
+             ( k_part < 0 ||
+             query_yn("Get items from %s?", veh->part_info(veh_part).name) );
 
   if (!from_veh && k_part >= 0) {
     if (veh->fuel_left(AT_WATER)) {
