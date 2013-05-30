@@ -6334,8 +6334,12 @@ float player::fine_detail_vision_mod(game *g)
 
 int player::warmth(body_part bp)
 {
-    // Fetch the morale value of wetness for bodywetness
     int bodywetness = 0;
+    int ret = 0, warmth = 0;
+    int pocket_check = 0;
+    it_armor* armor = NULL;
+
+    // Fetch the morale value of wetness for bodywetness
     for (int i = 0; bodywetness == 0 && i < morale.size(); i++)
     {
         if( morale[i].type == MORALE_WET )
@@ -6344,12 +6348,32 @@ int player::warmth(body_part bp)
             break;
         }
     }
-    int ret = 0, warmth = 0;
+
+    // If the player is not wielding anything, check if hands can be put in pockets
+    if (bp == bp_hands && !is_armed())
+    {
+        for (int i = 0; i < worn.size(); i++)
+        {
+            if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso) && worn[i].has_flag("POCKETS") && pocket_check == 0)
+            {
+                ret += 10;
+                pocket_check++;
+            }
+        }
+    }
+
     for (int i = 0; i < worn.size(); i++)
     {
-        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp))
+        armor = dynamic_cast<it_armor*>(worn[i].type);
+
+        if (armor->covers & mfb(bp))
         {
-            warmth = (dynamic_cast<it_armor*>(worn[i].type))->warmth;
+            warmth = armor->warmth;
+            // Power armor has lower warmth when turned on.
+            if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
+            {
+                warmth -= 50;
+            }
             // Wool items do not lose their warmth in the rain
             if (!worn[i].made_of(WOOL))
             {
