@@ -5769,7 +5769,7 @@ void game::advanced_inv()
                             advanced_inv_update_area(squares[s], this);
                             //mvprintw(s+(i*10), 0, "%d %d                                   ",i,s);
                             if( panes[idest].area != s && squares[s].canputitems ) {
-                                std::vector<item> items = squares[s].vstor >= 0 ?
+                                std::vector<item>& items = squares[s].vstor >= 0 ?
                                     squares[s].veh->parts[squares[s].vstor].items :
                                     m.i_at(squares[s].x , squares[s].y );
                                 for(int x = 0; x < items.size() ; x++) {
