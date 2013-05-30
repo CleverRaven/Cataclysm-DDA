@@ -7,9 +7,16 @@ Highlights:
 * Some work to make vehicle collisions sane.
 * Zombies will revive after a time, if not butchered (or otherwise dealt with).
 * The Android trait now behaves the way that the description indicates.
-* Gasoline can be siphoned from vehicles.
+* Gasoline can be siphoned from vehicles. Requires a rubber hose for now - these are easier to acquire.
 * Sewing requires materials other than thread - rags for cloth, leather patches for leather.
 * Leather repair/reinforcement actually possible!
+* Inventory management UI improvements, and a new screen to organize worn items.
+* NPCs continue to be less buggy, but are still prone to crashes.
+* Weapon firing code reworked a bit. UI improvements, and you should now be able to fire at anything within range.
+* Reworked the armor/protection code.
+* Reworked the learning system: replaced XP with Focus. See the relevant help text.
+* Added a bunch of new missions, for those who play with the shelter NPC turned on.
+* Vehicle collision physics are now based on *actual* physics! Reduces collision insanity.
 * As usual, many bugfixes.
 
 Full list:
@@ -47,6 +54,65 @@ Sofas and armchairs help with sleeping.
 Temperature is less of an issue while sleeping.
 Warning messages for when the player is cold/hot while sleeping.
 Oversized clothing can be worn over anything (blankets, cloaks, etc).
+Sound interruptions can be categorically ignored while crafting, reading, etc.
+More improvements to the advanced inventory UI.
+Shrubs less difficult to smash.
+Upgraded versions of Fast Healer still give you bonuses while sleeping.
+Soldering iron recipe learnable via disassembly.
+Integrated toolset power usage normalized on a few recipes.
+Vehicle speed is now taken into account when throwing a character that exits a moving vehicle.
+Gasoline lanterns added to the game.
+Bifocal glasses added to the game.
+Tweak Windows (catacurse) colors.
+Correct window border color behavior under Windows.
+Add glass jars, make sauces spawn in them instead of in tin cans.
+Removed a couple NPC crash bugs.
+You can safely exit a vehicle moving less than 1 MPH.
+Fix a pair of drawing glitches related to the item pickup window.
+Remove the artificial delay when animating vehicle movement.
+Out-of-range enemies are still drawn when firing a weapon.
+Make it so that anything within range can be targeted with a ranged weapon.
+Disassembly recipe for vacuum sealer.
+Backspace no longer causes junk to be input during string entry.
+The overmap screen now lets you use "<" and ">" to view different z-levels.
+Reworked the armor/protection code.
+Fridges drop rubber hose instead of pipe when destroyed.
+Reworked the learning system: replaced XP with Focus. See the relevant help text.
+Autosave should save everything now, rather than a subset.
+Fix artifact saving/loading... again.
+Added new missions.
+Added cathedral to mapgen.
+Fixed flamethrowers.
+Add 40mm acid bomb shells.
+Moving furniture causes noise.
+Clothing damage descriptions now depend on the item's material.
+Gunmods now show "%" properly in the magazine size line.
+Add bicycle seats: low-mass seats that can't take a seatbelt.
+Vehicle collision physics are now based on *actual* physics! Reduces collision insanity.
+Foraging gives survival experience, even on failure.
+Disassembling ammo gives firearms experience.
+Ball bearings should hopefully drop now.
+Added headlights to a few more default vehicles.
+Lab coats can be fitted.
+Items in adjacent containers (fridges, lockers, etc.) visible with 'V' screen.
+Players can no longer examine sealed crates to see their contents.
+Funnels give acid water during acid rain :).
+Acid water (after refinement) now an alternate ingredient for acid bombs.
+Corrected a few item name typos.
+Cleaned up generation of a particular (spiral-y) underground room.
+More temperature tweaks.
+Being hot makes you MORE thirsty, not less.
+Reworked item unloading and reloading a bit to remove bugs.
+Flatbed trucks now have rear windows.
+Electric cars added as potential vehicle spawns.
+Fix some bugs related to known overmap data and leaking the state to other characters.
+Effects of current stats are shown on the '@' screen.
+Materials obtained from clothing depend on the clothing's damage level.
+Fixed some lab mapgen bugs.
+Mansions got a little love.
+Having too little intelligence for a book is more of a penalty.
+Vehicle headlight state is persistent after save-load.
+
 
 ======
 
