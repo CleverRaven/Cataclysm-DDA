@@ -5325,13 +5325,18 @@ void game::examine()
  if (veh) {
   int vpcargo = veh->part_with_feature(veh_part, vpf_cargo, false);
   int vpkitchen = veh->part_with_feature(veh_part, vpf_kitchen, true);
+  int vpcontrols = veh->part_with_feature(veh_part, vpf_controls);
   if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0)
    pickup(examx, examy, 0);
   else if (u.in_vehicle)
    add_msg ("You can't do that while onboard.");
   else if (abs(veh->velocity) > 0)
    add_msg ("You can't do that on moving vehicle.");
-  else
+  else if (vpcontrols >= 0) {
+   std::string message = veh->use_controls();
+   if (!message.empty())
+    add_msg(message.c_str());
+  } else
    exam_vehicle (*veh, examx, examy);
  }
 
