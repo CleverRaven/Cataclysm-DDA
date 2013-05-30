@@ -23,6 +23,8 @@
 
 #define dbg(x) dout((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
+#define MON_RADIUS 3
+
 enum room_type {
  room_null,
  room_closet,
@@ -188,9 +190,9 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
  // This attempts to scale density of zombies inversely with distance from the nearest city.
  // In other words, make city centers dense and perimiters sparse.
  float density = 0.0;
- for (int i = overx-3; i <= overx+3; i++)
+ for (int i = overx-MON_RADIUS; i <= overx+MON_RADIUS; i++)
  {
-     for (int j = overy-3; j <= overy+3; j++)
+     for (int j = overy-MON_RADIUS; j <= overy+MON_RADIUS; j++)
      {
          density += oterlist[om->ter(i,j,z)].mondensity;
      }
