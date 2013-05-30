@@ -1,5 +1,6 @@
 #include "game.h"
 #include "output.h"
+#include "uistate.h"
 #include "keypress.h"
 #include <string>
 #include <vector>
@@ -153,8 +154,8 @@ char game::inv(std::string title)
  int selected=-1;
  int selected_char=(int)' ';
 
- if( last_inv_start >= 0 ) start = last_inv_start;
- if( last_inv_sel >= 0 ) selected = last_inv_sel;
+ if( uistate.last_inv_start >= 0 ) start = uistate.last_inv_start;
+ if( uistate.last_inv_sel >= 0 ) selected = uistate.last_inv_sel;
  do {
   selected_char=(int)' ';
   if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) { // Clear lines and shift
@@ -238,9 +239,9 @@ char game::inv(std::string title)
       }
     } 
   } else if ( ch == '\n' || ch == KEY_RIGHT ) {
-    if ( last_inv_start > -2 && last_inv_sel > -2 ) {
-      last_inv_start=start;
-      last_inv_sel=selected;
+    if ( uistate.last_inv_start > -2 && uistate.last_inv_sel > -2 ) {
+      uistate.last_inv_start=start;
+      uistate.last_inv_sel=selected;
     }
     ch = selected_char;
   }

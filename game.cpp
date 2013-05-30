@@ -13,6 +13,7 @@
 #include "bodypart.h"
 #include "map.h"
 #include "output.h"
+#include "uistate.h"
 #include "item_factory.h"
 #include "helper.h"
 #include "text_snippets.h"
@@ -43,6 +44,8 @@
 #define MAX_ITEM_IN_SQUARE 64
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
+
+uistatedata uistate;
 
 // This is the main game set-up process.
 game::game() :
@@ -190,12 +193,6 @@ void game::setup()
  curmes = 0;		// We haven't read any messages yet
  uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
-
- last_inv_start = -2;   // -2: inv() won't change the value. -1 is 'parked' selection, 0 is first item
- last_inv_sel = -2;
-
- advanced_inv_leftsort = 1;
- advanced_inv_rightsort = 1;
 
  weather = WEATHER_CLEAR; // Start with some nice weather...
  // Weather shift in 30
@@ -5702,18 +5699,22 @@ void game::advanced_inv()
         {1,  isinventory, 0, 0, 0, -1,  0, 0, 0, 0,  "Initializing...", 1, 0, NULL, NULL, listitem_stub},
     };
 
-    panes[left].sortby = advanced_inv_leftsort;
-    panes[right].sortby = advanced_inv_rightsort;
-/*  todo:
-    if(u.prefs.last_coords == .. ) {
-        panes[left].area = u.uiprefs.adv_leftarea;
-        panes[right].area = u.uiprefs.adv_rightarea;
-        panes[left].index = u.uiprefs.adv_leftindex;
-        panes[right].index = u.uiprefs.adv_rightindex;
-        panes[left].page = u.uiprefs.adv_leftpage;
-        panes[right].page = u.uiprefs.adv_rightpage;
+    panes[left].sortby = uistate.adv_inv_leftsort;
+    panes[right].sortby = uistate.adv_inv_rightsort;
+    panes[left].area = uistate.adv_inv_leftarea;
+    panes[right].area = uistate.adv_inv_rightarea;
+    bool moved=( uistate.adv_inv_last_coords.x != u.posx || uistate.adv_inv_last_coords.y != u.posy );
+    if ( !moved || panes[left].area == isinventory ) { 
+        panes[left].index = uistate.adv_inv_leftindex;
+        panes[left].page = uistate.adv_inv_leftpage;
     }
-*/
+    if ( !moved || panes[right].area == isinventory ) {
+        panes[right].index = uistate.adv_inv_rightindex;
+        panes[right].page = uistate.adv_inv_rightpage;
+    }
+    uistate.adv_inv_last_coords.x = u.posx;
+    uistate.adv_inv_last_coords.y = u.posy;
+
     panes[left].window = left_window;
     panes[right].window = right_window;
 
@@ -6117,13 +6118,13 @@ void game::advanced_inv()
             }
             recalc = true;
         } else if('s' == c) {
-            if(panes[src].size == 0) continue;
+            //if(panes[src].size == 0) continue;
             int ch = menu(true, "Sort by... ", "Unsorted (recently added first)", "name", "weight", "volume", "charges", NULL );
             panes[src].sortby = ch;
             if ( src == left ) { 
-                advanced_inv_leftsort=ch;
+                uistate.adv_inv_leftsort=ch;
             } else {
-                advanced_inv_rightsort=ch;
+                uistate.adv_inv_rightsort=ch;
             }
             recalc = true;
         }   
@@ -6229,6 +6230,16 @@ void game::advanced_inv()
           }
         }
     }
+
+    uistate.adv_inv_last_coords.x = u.posx;
+    uistate.adv_inv_last_coords.y = u.posy;
+    uistate.adv_inv_leftarea = panes[left].area;
+    uistate.adv_inv_rightarea = panes[right].area;
+    uistate.adv_inv_leftindex = panes[left].index;
+    uistate.adv_inv_leftpage = panes[left].page;
+    uistate.adv_inv_rightindex = panes[right].index;
+    uistate.adv_inv_rightpage = panes[right].page;
+
     werase(head);
     werase(panes[left].window);
     werase(panes[right].window);
