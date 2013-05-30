@@ -482,10 +482,6 @@ class game
   std::vector<event> events;	        // Game events to be processed
   int kills[num_monsters];	        // Player's kill count
   std::string last_action;		// The keypresses of last turn
-
-  int last_inv_start, last_inv_sel;     // workaround until inventory_ui.cpp is rewritten
-  int advanced_inv_leftsort, advanced_inv_rightsort;
-
   int moves_since_last_save;
   int item_exchanges_since_save;
   time_t last_save_timestamp;
