@@ -513,10 +513,12 @@ bool game::do_turn()
   if (u.radiation > 1 && one_in(3))
    u.radiation--;
   u.get_sick(this);
-// Auto-save on the half-hour if autosave is enabled
-  if (OPTIONS[OPT_AUTOSAVE])
-    autosave();
  }
+
+// Auto-save if autosave is enabled
+ if (OPTIONS[OPT_AUTOSAVE] &&
+     turn % ((int)OPTIONS[OPT_AUTOSAVE_TURNS] * 10) == 0)
+     autosave();
 
  update_weather();
 
@@ -9855,7 +9857,7 @@ void game::autosave()
     time_t now = time(NULL);
     // Don't autosave while driving, if the player's done nothing, or if it's been less than 5 real minutes.
     if (u.in_vehicle || (!moves_since_last_save && !item_exchanges_since_save) ||
-        now < last_save_timestamp + 300)
+        now < last_save_timestamp + (60 * OPTIONS[OPT_AUTOSAVE_MINUTES]))
     {
         return;
     }
