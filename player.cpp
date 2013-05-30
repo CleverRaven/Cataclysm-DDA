@@ -834,9 +834,9 @@ void player::update_bodytemp(game *g)
 void player::temp_equalizer(body_part bp1, body_part bp2)
 {
  // Body heat is moved around.
- // When bp1 gives 15%, bp2 will return 15% of the _new_ difference
- int diff = (temp_conv[bp2] - temp_conv[bp1])*0.15; // If bp1 is warmer, it will lose heat
- temp_conv[bp1] += diff;
+ // Shift in one direction only, will be shifted in the other direction seperately.
+ int diff = (temp_cur[bp2] - temp_cur[bp1])*0.0001; // If bp1 is warmer, it will lose heat
+ temp_cur[bp1] += diff;
 }
 
 int player::current_speed(game *g)
