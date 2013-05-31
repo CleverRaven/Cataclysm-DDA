@@ -49,14 +49,14 @@ struct recipe {
     autolearn = false;
   }
 
-recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, const char *p1,
-       const char *p2, int pdiff, int ptime, bool preversible, bool pautolearn,
+recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &p1,
+       std::string &p2, int pdiff, int ptime, bool preversible, bool pautolearn,
        int plearn_dis) :
   ident (pident), id (pid), result (pres), cat(pcat), difficulty (pdiff), time (ptime),
   reversible (preversible), autolearn (pautolearn), learn_by_disassembly (plearn_dis)
   {
-    sk_primary = p1?Skill::skill(p1):NULL;
-    sk_secondary = p2?Skill::skill(p2):NULL;
+    sk_primary = p1.size()?Skill::skill(p1):NULL;
+    sk_secondary = p2.size()?Skill::skill(p2):NULL;
   }
 };
 
