@@ -6369,6 +6369,8 @@ point game::look_around()
            {
                mvwprintw(w_look, 3, 1, "There is an item there.");
            }
+       } else {
+           mvwprintw(w_look, 3, 1, "You cannot see what is inside of it.");
        }
    }
    else if (npc_at(lx, ly) != -1)
@@ -6385,6 +6387,8 @@ point game::look_around()
            {
                mvwprintw(w_look, 3, 1, "There is an item there.");
            }
+       } else {
+           mvwprintw(w_look, 3, 1, "You cannot see what is inside of it.");
        }
    }
    else if (veh)
@@ -6402,6 +6406,8 @@ point game::look_around()
            mvwprintw(w_look, 4, 1, "There are other items there as well.");
        }
        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+   } else if (m.has_flag(container, lx, ly)) {
+       mvwprintw(w_look, 3, 1, "You cannot see what is inside of it.");
    }
    else
    {
