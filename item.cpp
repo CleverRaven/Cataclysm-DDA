@@ -99,10 +99,12 @@ item::item(itype* it, unsigned int turn)
 
 item::item(itype *it, unsigned int turn, char let)
 {
- if(!it)
+ if(!it) {
   type = nullitem();
- else
+  debugmsg("Instantiating an item from itype, with NULL itype!");
+ } else {
   type = it;
+ }
  bday = turn;
  name = "";
  damage = 0;
