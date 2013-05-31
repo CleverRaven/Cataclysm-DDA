@@ -1530,7 +1530,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  mvwprintz(w_encumb, 0, 1, c_ltgray, "ENCUMBERANCE AND WARMTH");
  for (int i=0; i < 8; i++) {
   iEnc = iLayers = iArmorEnc = iWarmth = 0;
-  iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc, iWarmth);
+  iWarmth = warmth(body_part(i));
+  iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
   mvwprintz(w_encumb, i+1, 1, c_ltgray, "%s:", asText[i].c_str());
   mvwprintz(w_encumb, i+1, 8, c_ltgray, "(%d)", iLayers);
   mvwprintz(w_encumb, i+1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2), " ", iArmorEnc, "+", iEnc-iArmorEnc);
@@ -2451,12 +2452,23 @@ void player::toggle_trait(int flag)
 bool player::in_climate_control(game *g)
 {
     bool regulated_area=false;
+    // Check
     if(has_active_bionic("bio_climate")) { return true; }
-    if(int(g->turn) >= next_climate_control_check) {
+    for (int i = 0; i < worn.size(); i++)
+    {
+        if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
+           (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
+        {
+            return true;
+        }
+    }
+    if(int(g->turn) >= next_climate_control_check)
+    {
         next_climate_control_check=int(g->turn)+20;  // save cpu and similate acclimation.
         int vpart = -1;
         vehicle *veh = g->m.veh_at(posx, posy, vpart);
-        if(veh) {
+        if(veh)
+        {
             regulated_area=(
                 veh->is_inside(vpart) &&    // Already checks for opened doors
                 veh->total_power(true) > 0  // Out of gas? No AC for you!
@@ -2465,7 +2477,9 @@ bool player::in_climate_control(game *g)
         // TODO: AC check for when building power is implmented
         last_climate_control_ret=regulated_area; 
         if(!regulated_area) { next_climate_control_check+=40; }  // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
-    } else { 
+    }
+    else
+    {
         return ( last_climate_control_ret ? true : false );
     }
     return regulated_area;
@@ -6334,8 +6348,12 @@ float player::fine_detail_vision_mod(game *g)
 
 int player::warmth(body_part bp)
 {
-    // Fetch the morale value of wetness for bodywetness
     int bodywetness = 0;
+    int ret = 0, warmth = 0;
+    int pocket_check = 0;
+    it_armor* armor = NULL;
+
+    // Fetch the morale value of wetness for bodywetness
     for (int i = 0; bodywetness == 0 && i < morale.size(); i++)
     {
         if( morale[i].type == MORALE_WET )
@@ -6344,12 +6362,27 @@ int player::warmth(body_part bp)
             break;
         }
     }
-    int ret = 0, warmth = 0;
+
+    // If the player is not wielding anything, check if hands can be put in pockets
+    if (bp == bp_hands && !is_armed())
+    {
+        for (int i = 0; i < worn.size(); i++)
+        {
+            if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso) && worn[i].has_flag("POCKETS") && pocket_check == 0)
+            {
+                ret += 10;
+                pocket_check++;
+            }
+        }
+    }
+
     for (int i = 0; i < worn.size(); i++)
     {
-        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp))
+        armor = dynamic_cast<it_armor*>(worn[i].type);
+
+        if (armor->covers & mfb(bp))
         {
-            warmth = (dynamic_cast<it_armor*>(worn[i].type))->warmth;
+            warmth = armor->warmth;
             // Wool items do not lose their warmth in the rain
             if (!worn[i].made_of(WOOL))
             {
@@ -6362,11 +6395,11 @@ int player::warmth(body_part bp)
 }
 
 int player::encumb(body_part bp) {
- int iLayers = 0, iArmorEnc = 0, iWarmth = 0;
- return encumb(bp, iLayers, iArmorEnc, iWarmth);
+ int iLayers = 0, iArmorEnc = 0;
+ return encumb(bp, iLayers, iArmorEnc);
 }
 
-int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
+int player::encumb(body_part bp, int &layers, int &armorenc)
 {
     int ret = 0;
     it_armor* armor;
@@ -6382,12 +6415,10 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
             if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
             {
                 armorenc += armor->encumber - 4;
-                warmth   += armor->warmth - 40;
             }
             else
             {
                 armorenc += armor->encumber;
-                warmth += armor->warmth;
                 if (worn[i].has_flag("FIT"))
                 {
                     armorenc--;

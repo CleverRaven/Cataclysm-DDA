@@ -221,7 +221,7 @@ public:
 
  int warmth(body_part bp);	// Warmth provided by armor &c
  int encumb(body_part bp);	// Encumberance from armor &c
- int encumb(body_part bp, int &layers, int &armorenc, int &warmth);
+ int encumb(body_part bp, int &layers, int &armorenc);
  int armor_bash(body_part bp);	// Bashing resistance
  int armor_cut(body_part bp);	// Cutting  resistance
  int resist(body_part bp);	// Infection &c resistance
