@@ -127,6 +127,7 @@ struct mission_type {
    deadline_low = 0;
    deadline_high = 0;
    item_id = "null";
+   target_id = ot_null;
    follow_up = MISSION_NULL;
   };
 
