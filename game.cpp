@@ -6434,6 +6434,9 @@ point game::look_around()
   wrefresh(w_look);
   wrefresh(w_terrain);
  } while (input != Close && input != Cancel && input != Confirm);
+
+ werase(w_look);
+ delwin(w_look);
  if (input == Confirm)
   return point(lx, ly);
  return point(-1, -1);
@@ -6915,8 +6918,13 @@ void game::list_items()
     u.view_offset_x = iStoreViewOffsetX;
     u.view_offset_y = iStoreViewOffsetY;
 
-    erase();
-    refresh_all();
+    werase(w_items);
+    werase(w_item_info);
+    werase(w_item_info_border);
+    delwin(w_items);
+    delwin(w_item_info);
+    delwin(w_item_info_border);
+    refresh_all(); // TODO - figure out what precisely needs refreshing, rather than the whole screen
 }
 
 // Pick up items at (posx, posy).
