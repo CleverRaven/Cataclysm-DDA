@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>    // std::min
+#include <list>
 
 #include "skill.h"
 #include "rng.h"
@@ -17,12 +18,13 @@ Skill::Skill() {
   _description = std::string("The zen-most skill there is.");
 }
 
-Skill::Skill(size_t id, std::string ident, std::string name, std::string description) {
+Skill::Skill(size_t id, std::string ident, std::string name, std::string description, std::set<std::string> tags) {
   _id = id;
   _ident = ident;
 
   _name = name;
   _description = description;
+  _tags = tags;
 }
 
 std::vector<Skill*> Skill::skills;
@@ -49,8 +51,14 @@ std::vector<Skill*> Skill::loadSkills() {
       ident = aField++->get<std::string>();
       name = aField++->get<std::string>();
       description = aField++->get<std::string>();
+      
+      std::set<std::string> tags;
+      const picojson::array& rawTags = aField++->get<picojson::array>();
+      for (picojson::array::const_iterator aTag = rawTags.begin(); aTag != rawTags.end(); ++aTag) {
+        tags.insert(aTag->get<std::string>());
+      }
 
-      Skill *newSkill = new Skill(allSkills.size(), ident, name, description);
+      Skill *newSkill = new Skill(allSkills.size(), ident, name, description, tags);
       allSkills.push_back(newSkill);
     }
   } else {
@@ -73,6 +81,25 @@ Skill* Skill::skill(std::string ident) {
 
 Skill* Skill::skill(size_t id) {
   return Skill::skills[id];
+}
+
+Skill* Skill::random_skill_with_tag(std::string tag) {
+    std::list<Skill*> valid;
+    for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+         aSkill != Skill::skills.end(); ++aSkill)
+    {
+        if ((*aSkill)->_tags.find(tag) != (*aSkill)->_tags.end())
+        {
+            valid.push_back(*aSkill);
+        }
+    }
+    if (valid.size() == 0)
+    {
+        return NULL;
+    }
+    std::list<Skill*>::iterator chosen = valid.begin();
+    std::advance(chosen, rng(0, valid.size() - 1));
+    return *chosen;
 }
 
 size_t Skill::skill_count() {

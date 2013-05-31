@@ -99,10 +99,12 @@ item::item(itype* it, unsigned int turn)
 
 item::item(itype *it, unsigned int turn, char let)
 {
- if(!it)
+ if(!it) {
   type = nullitem();
- else
+  debugmsg("Instantiating an item from itype, with NULL itype!");
+ } else {
   type = it;
+ }
  bday = turn;
  name = "";
  damage = 0;
@@ -1131,18 +1133,18 @@ int item::weapon_value(player *p) const
   gun_value += int(gun->burst / 2);
   gun_value += int(gun->clip / 3);
   gun_value -= int(gun->accuracy / 5);
-  gun_value *= (.5 + (.3 * p->skillLevel(sk_gun)));
-  gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used->id()))); /// TODO: FIXME
+  gun_value *= (.5 + (.3 * p->skillLevel("gun")));
+  gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
   my_value += gun_value;
  }
 
- my_value += int(type->melee_dam * (1   + .3 * p->skillLevel(sk_bashing) +
-                                          .1 * p->skillLevel(sk_melee)    ));
+ my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
+                                          .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->melee_cut * (1   + .4 * p->skillLevel(sk_cutting) +
-                                          .1 * p->skillLevel(sk_melee)    ));
+ my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
+                                          .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel(sk_melee)));
+ my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
 
  return my_value;
 }
@@ -1153,16 +1155,16 @@ int item::melee_value(player *p)
   return 0;
 
  int my_value = 0;
- my_value += int(type->melee_dam * (1   + .3 * p->skillLevel(sk_bashing) +
-                                          .1 * p->skillLevel(sk_melee)    ));
+ my_value += int(type->melee_dam * (1   + .3 * p->skillLevel("bashing") +
+                                          .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->melee_cut * (1   + .4 * p->skillLevel(sk_cutting) +
-                                          .1 * p->skillLevel(sk_melee)    ));
+ my_value += int(type->melee_cut * (1   + .4 * p->skillLevel("cutting") +
+                                          .1 * p->skillLevel("melee")    ));
 
- my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel(sk_melee)));
+ my_value += int(type->m_to_hit  * (1.2 + .3 * p->skillLevel("melee")));
 
  if (is_style())
-  my_value += 15 * p->skillLevel(sk_unarmed) + 8 * p->skillLevel(sk_melee);
+  my_value += 15 * p->skillLevel("unarmed") + 8 * p->skillLevel("melee");
 
  return my_value;
 }

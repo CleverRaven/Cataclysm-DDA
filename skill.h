@@ -3,27 +3,10 @@
 
 #include <string>
 #include <vector>
+#include <set>
 #include <iostream>
 #include <stdint.h>
 #include "calendar.h"
-
-enum skill {
- sk_null = 0,
-// Melee
- sk_dodge, sk_melee, sk_unarmed, sk_bashing, sk_cutting, sk_stabbing,
-// Combat
- sk_throw, sk_gun, sk_pistol, sk_shotgun, sk_smg, sk_rifle, sk_archery,
-  sk_launcher,
-// Crafting
- sk_mechanics, sk_electronics, sk_cooking, sk_tailor, sk_carpentry,
-// Medical
- sk_firstaid,
-// Social
- sk_speech, sk_barter,
-// Other
- sk_computer, sk_survival, sk_traps, sk_swimming, sk_driving,
- num_skill_types	// MUST be last!
-};
 
 class Skill {
   size_t _id;
@@ -31,6 +14,7 @@ class Skill {
 
   std::string _name;
   std::string _description;
+  std::set<std::string> _tags;
 
  public:
   static std::vector<Skill*> skills;
@@ -38,10 +22,12 @@ class Skill {
   static Skill* skill(std::string ident);
   static Skill* skill(size_t id);
 
+  static Skill* random_skill_with_tag(std::string tag);
+
   static size_t skill_count();
 
   Skill();
-  Skill(size_t id, std::string ident, std::string name, std::string description);
+  Skill(size_t id, std::string ident, std::string name, std::string description, std::set<std::string> tags);
 
   //DEBUG
   size_t id() { return _id; }
@@ -108,9 +94,6 @@ class SkillLevel {
 
 std::istream& operator>>(std::istream& is, SkillLevel& obj);
 std::ostream& operator<<(std::ostream& os, const SkillLevel& obj);
-
-std::string skill_name(int);
-std::string skill_description(int);
 
 double price_adjustment(int);
 

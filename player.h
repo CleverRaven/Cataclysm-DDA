@@ -231,7 +231,7 @@ public:
  void practice(const calendar& turn, Skill *s, int amount);
  void practice(const calendar& turn, std::string s, int amount);
 
- void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0);
+ void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0, std::string name = "");
  void cancel_activity();
 
  int weight_carried();
@@ -335,15 +335,12 @@ public:
 
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
- SkillLevel& skillLevel(size_t id);
 
  void set_skill_level(Skill* _skill, int level);
  void set_skill_level(std::string ident, int level);
- void set_skill_level(size_t id, int level);
 
  void boost_skill_level(Skill* _skill, int level);
  void boost_skill_level(std::string ident, int level);
- void boost_skill_level(size_t id, int level);
 
  void copy_skill_levels(const player *rhs);
 

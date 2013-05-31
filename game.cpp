@@ -792,11 +792,12 @@ void game::process_activity()
      add_msg("You learn %s.", martial_arts_itype_ids[0 - u.activity.index].c_str());
      u.styles.push_back( martial_arts_itype_ids[0 - u.activity.index] );
     } else {
-     int skillLevel = u.skillLevel(u.activity.index);
-     u.skillLevel(u.activity.index).level(skillLevel + 1);
+     Skill* skill = Skill::skill(u.activity.name);
+     int skillLevel = u.skillLevel(skill);
+     u.skillLevel(skill).level(skillLevel + 1);
      add_msg("You finish training %s to level %d.",
-             skill_name(u.activity.index).c_str(),
-             (int)u.skillLevel(u.activity.index));
+             skill->name().c_str(),
+             (int)u.skillLevel(skill));
     }
     break;
 
@@ -5151,7 +5152,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     {                                                        // TODO: different activity times
         u.activity = player_activity(ACT_VEHICLE,
                                      vehint.sel_cmd == 'f' || vehint.sel_cmd == 's' ? 200 : 20000,
-                                     (int) vehint.sel_cmd, 0);
+                                     (int) vehint.sel_cmd, 0, "");
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
         u.activity.values.push_back (vehint.cx);   // values[2]
