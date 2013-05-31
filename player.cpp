@@ -2452,12 +2452,23 @@ void player::toggle_trait(int flag)
 bool player::in_climate_control(game *g)
 {
     bool regulated_area=false;
+    // Check
     if(has_active_bionic("bio_climate")) { return true; }
-    if(int(g->turn) >= next_climate_control_check) {
+    for (int i = 0; i < worn.size(); i++)
+    {
+        if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
+           (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
+        {
+            return true;
+        }
+    }
+    if(int(g->turn) >= next_climate_control_check)
+    {
         next_climate_control_check=int(g->turn)+20;  // save cpu and similate acclimation.
         int vpart = -1;
         vehicle *veh = g->m.veh_at(posx, posy, vpart);
-        if(veh) {
+        if(veh)
+        {
             regulated_area=(
                 veh->is_inside(vpart) &&    // Already checks for opened doors
                 veh->total_power(true) > 0  // Out of gas? No AC for you!
@@ -2466,7 +2477,9 @@ bool player::in_climate_control(game *g)
         // TODO: AC check for when building power is implmented
         last_climate_control_ret=regulated_area; 
         if(!regulated_area) { next_climate_control_check+=40; }  // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
-    } else { 
+    }
+    else
+    {
         return ( last_climate_control_ret ? true : false );
     }
     return regulated_area;
@@ -6370,11 +6383,6 @@ int player::warmth(body_part bp)
         if (armor->covers & mfb(bp))
         {
             warmth = armor->warmth;
-            // Power armor has lower warmth when turned on.
-            if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
-            {
-                warmth -= 50;
-            }
             // Wool items do not lose their warmth in the rain
             if (!worn[i].made_of(WOOL))
             {
