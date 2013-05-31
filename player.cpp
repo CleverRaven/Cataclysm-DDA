@@ -1340,7 +1340,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   trait_win_size_y = maxy - infooffsetybottom;
  }
 
- skill_win_size_y = num_skill_types;
+ skill_win_size_y = Skill::skill_count();
  if (skill_win_size_y + infooffsetybottom > maxy ) {
   skill_win_size_y = maxy - infooffsetybottom;
  }
@@ -1571,17 +1571,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
 
 // Next, draw skills.
  line = 1;
- std::vector <skill> skillslist;
+ std::vector<Skill*> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill)
  {
-  int i = (*aSkill)->id();
-
   SkillLevel level = skillLevel(*aSkill);
 
   if ( level >= 0) {
-   skillslist.push_back(skill(i));
+   skillslist.push_back(*aSkill);
    // Default to not training and not rusting
    nc_color text_color = c_blue;
    bool training = level.isTraining();
@@ -2041,14 +2039,16 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
 
    Skill *selectedSkill;
 
-   for (int i = min; i < max; i++) {
-     Skill *aSkill = Skill::skill(skillslist[i]);
+   for (std::vector<Skill*>::iterator iter = Skill::skills.begin();
+        iter != Skill::skills.end(); ++iter)
+   {
+     Skill *aSkill = *iter;
      SkillLevel level = skillLevel(aSkill);
 
      bool isLearning = level.isTraining();
      int exercise = level.exercise();
 
-    if (i == line) {
+    if (aSkill->id() == line) {
       selectedSkill = aSkill;
      if (exercise >= 100)
       status = isLearning ? h_pink : h_red;
@@ -2060,9 +2060,9 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
      else
       status = isLearning ? c_ltblue : c_blue;
     }
-    mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
-    mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
-    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
+    mvwprintz(w_skills, 1 + aSkill->id() - min, 1, c_ltgray, "                         ");
+    mvwprintz(w_skills, 1 + aSkill->id() - min, 1, status, "%s:", aSkill->name().c_str());
+    mvwprintz(w_skills, 1 + aSkill->id() - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
    }
    werase(w_info);
    if (line >= 0 && line < skillslist.size())
@@ -2083,7 +2083,7 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
       werase(w_skills);
      mvwprintz(w_skills, 0, 0, c_ltgray, "           SKILLS         ");
      for (int i = 0; i < skillslist.size() && i < skill_win_size_y; i++) {
-      Skill *thisSkill = Skill::skill(skillslist[i]);
+      Skill *thisSkill = skillslist[i];
       SkillLevel level = skillLevel(thisSkill);
       bool isLearning = level.isTraining();
 
@@ -6194,12 +6194,12 @@ void player::read(game *g, char ch)
     {
         g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
         time += (tmp->time * (tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
-        activity = player_activity(ACT_READ, time, index, ch);
+        activity = player_activity(ACT_READ, time, index, ch, "");
         moves = 0;
         return;
     }
     
-    activity = player_activity(ACT_READ, time, index, ch);
+    activity = player_activity(ACT_READ, time, index, ch, "");
     moves = 0;
 }
 
@@ -6853,14 +6853,14 @@ void player::learn_recipe(recipe *rec)
     learned_recipes[rec->ident] = rec;
 }
 
-void player::assign_activity(game* g, activity_type type, int moves, int index, char invlet)
+void player::assign_activity(game* g, activity_type type, int moves, int index, char invlet, std::string name)
 {
  if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
-     query_yn("Resume task?")) {
+     backlog.name == name && query_yn("Resume task?")) {
   activity = backlog;
   backlog = player_activity();
  } else
-  activity = player_activity(type, moves, index, invlet);
+  activity = player_activity(type, moves, index, invlet, name);
 }
 
 void player::cancel_activity()
@@ -6996,10 +6996,6 @@ SkillLevel& player::skillLevel(std::string ident) {
   return _skills[Skill::skill(ident)];
 }
 
-SkillLevel& player::skillLevel(size_t id) {
-  return _skills[Skill::skill(id)];
-}
-
 SkillLevel& player::skillLevel(Skill *_skill) {
   return _skills[_skill];
 }
@@ -7017,10 +7013,6 @@ void player::set_skill_level(std::string ident, int level)
 {
     skillLevel(ident).level(level);
 }
-void player::set_skill_level(size_t id, int level)
-{
-    skillLevel(id).level(level);
-}
 
 void player::boost_skill_level(Skill* _skill, int level)
 {
@@ -7029,10 +7021,6 @@ void player::boost_skill_level(Skill* _skill, int level)
 void player::boost_skill_level(std::string ident, int level)
 {
     skillLevel(ident).level(level+skillLevel(ident));
-}
-void player::boost_skill_level(size_t id, int level)
-{
-    skillLevel(id).level(level+skillLevel(id));
 }
 
 void player::setID (int i)

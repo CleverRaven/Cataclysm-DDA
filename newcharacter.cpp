@@ -814,10 +814,10 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
   mvwprintz(w,  3, 40, c_ltgray, "                                    ");
   if (points >= u->skillLevel(currentSkill) + 1)
    mvwprintz(w,  3, 30, COL_SKILL_USED, "Upgrading %s costs %d points",
-             skill_name(cur_sk).c_str(), u->skillLevel(currentSkill) + 1);
+             currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
   else
    mvwprintz(w,  3, 30, c_ltred, "Upgrading %s costs %d points",
-             skill_name(cur_sk).c_str(), u->skillLevel(currentSkill) + 1);
+             currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
   mvwprintz(w_description, 0, 0, COL_SKILL_USED, currentSkill->description().c_str());
 
   if (cur_sk <= 7) {
@@ -832,7 +832,7 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
     } else {
      mvwprintz(w, 5 + i, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-               "%s ", skill_name(i).c_str());
+               "%s ", thisSkill->name().c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }

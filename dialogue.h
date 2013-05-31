@@ -89,6 +89,7 @@ struct talk_response
  int mission_index;
  mission_id miss;	// If it generates a new mission
  int tempvalue;		// Used for various stuff
+ Skill* skill;
  npc_opinion opinion_success;
  npc_opinion opinion_failure;
  void (talk_function::*effect_success)(game *, npc *);
@@ -104,6 +105,7 @@ struct talk_response
   mission_index = -1;
   miss = MISSION_NULL;
   tempvalue = -1;
+  skill = NULL;
   effect_success = &talk_function::nothing;
   effect_failure = &talk_function::nothing;
   opinion_success = npc_opinion();
@@ -120,6 +122,7 @@ struct talk_response
   mission_index = rhs.mission_index;
   miss = rhs.miss;
   tempvalue = rhs.tempvalue;
+  skill = rhs.skill;
   effect_success = rhs.effect_success;
   effect_failure = rhs.effect_failure;
   opinion_success = rhs.opinion_success;
