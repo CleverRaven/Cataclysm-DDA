@@ -20,6 +20,8 @@
 #  Default
 # Release (turn on optimizations)
 #  make RELEASE=1
+# Tiles (uses SDL rather than ncurses)
+#  make TILES=1
 
 
 # comment these to toggle them as one sees fit.
@@ -54,11 +56,17 @@ VERSION = 0.5
 
 
 TARGET = cataclysm
+TILESTARGET = cataclysm-tiles
+W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
 BINDIST_DIR = bindist
 
+# tiles object directories are because gcc gets confused
+# when preprocessor defines change, but the source doesn't
 ODIR = obj
+ODIRTILES = obj/tiles
 W32ODIR = objwin
+W32ODIRTILES = objwin/tiles
 DDIR = .deps
 
 OS  = $(shell uname -o)
@@ -122,11 +130,6 @@ ifneq (,$(findstring mingw32,$(CROSS)))
   TARGETSYSTEM=WINDOWS
 endif
 
-# Global settings for Linux targets
-ifeq ($(TARGETSYSTEM),LINUX)
-  LDFLAGS += -lncurses
-endif
-
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
   TARGET = $(W32TARGET)
@@ -136,6 +139,24 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   LDFLAGS += -static -lgdi32 
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
 endif
+
+ifdef TILES
+  LDFLAGS += -lSDL -lSDL_ttf
+  DEFINES += -DTILES
+  ifeq ($(TARGETSYSTEM),WINDOWS)
+    TARGET = $(W32TILESTARGET)
+    ODIR = $(W32ODIRTILES)
+  else
+    TARGET = $(TILESTARGET)
+    ODIR = $(ODIRTILES)
+  endif
+else
+  # Link to ncurses if we're using a non-tiles, Linux build
+  ifeq ($(TARGETSYSTEM),LINUX)
+    LDFLAGS += -lncurses
+  endif
+endif
+
 
 SOURCES = $(wildcard *.cpp)
 HEADERS = $(wildcard *.h)

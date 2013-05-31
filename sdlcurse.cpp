@@ -1,4 +1,4 @@
-#if (defined _WIN32 || defined WINDOWS)
+#if (defined TILES)
 #include "catacurse.h"
 #include "options.h"
 #include "output.h"
@@ -6,8 +6,15 @@
 #include <cstdlib>
 #include <fstream>
 
+// SDL headers end up in different places depending on the OS, sadly
+#if (defined _WIN32 || defined WINDOWS)
 #include "SDL.h"
 #include "SDL_ttf.h"
+#else
+#include "SDL/SDL.h"
+#include "SDL/SDL_ttf.h"
+#endif
+
 //***********************************
 //Globals                           *
 //***********************************
@@ -31,7 +38,6 @@ int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
-char szDirectory[MAX_PATH] = "";
 int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
 
 //***********************************
@@ -96,19 +102,31 @@ void WinDestroy()
 };
 
 //The following 3 methods use mem functions for fast drawing
-inline void VertLineDIB(int x, int y, int y2,int thickness, unsigned char color)
+inline void VertLineDIB(int x, int y, int y2, int thickness, unsigned char color)
 {
-	SDL_Rect rect = {x, y, thickness, y2-y };
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = thickness;
+	rect.h = y2-y;
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
-inline void HorzLineDIB(int x, int y, int x2,int thickness, unsigned char color)
+inline void HorzLineDIB(int x, int y, int x2, int thickness, unsigned char color)
 {
-	SDL_Rect rect = {x, y, x2-x, thickness };
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = x2-x;
+	rect.h = thickness;
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
 inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
 {
-	SDL_Rect rect = {x, y, width, height };
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = width;
+	rect.h = height;
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
 
@@ -120,7 +138,11 @@ static void OuputText(char* t, int x, int y, int n, unsigned char color)
 	SDL_Surface* text = TTF_RenderText_Solid(font, buf, windowsPalette[color]);
 	if(text)
 	{
-		SDL_Rect rect = {x, y, fontheight, fontheight};
+		SDL_Rect rect;
+		rect.x = x;
+		rect.y = y;
+		rect.w = fontheight;
+		rect.h = fontheight;
 		SDL_BlitSurface(text, NULL, screen, &rect);
 		SDL_FreeSurface(text);
 	}
@@ -268,9 +290,9 @@ WINDOW *initscr(void)
     lastchar=-1;
     inputdelay=-1;
 
-    std::string typeface = "FixedSys";
+    std::string typeface = "fixedsys";
 	std::ifstream fin;
-	fin.open("data\\FONTDATA");
+	fin.open("data/FONTDATA");
 	if (!fin.is_open()){
 		fontheight=16;
 		fontwidth=8;
@@ -289,7 +311,7 @@ WINDOW *initscr(void)
     halfheight=fontheight / 2;
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
-    if(!WinCreate()) ;// do something here
+    if(!WinCreate()) {}// do something here
 
 	font = TTF_OpenFont(typeface.c_str(), fontheight*72/96+1);
 
@@ -455,7 +477,6 @@ int wgetch(WINDOW* win)
         {
             CheckMessages();
             if (lastchar!=ERR) break;
-            Sleep(1);
         }
         while (lastchar==ERR);
 	}
@@ -468,7 +489,6 @@ int wgetch(WINDOW* win)
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;
-            Sleep(2);
         }
         while (endtime<(starttime+inputdelay));
 	}
@@ -476,7 +496,6 @@ int wgetch(WINDOW* win)
 	{
 		CheckMessages();
 	}
-    Sleep(25);
     return lastchar;
 }
 
@@ -880,4 +899,4 @@ int noecho()
     return 0;
 }
 
-#endif
+#endif // TILES
