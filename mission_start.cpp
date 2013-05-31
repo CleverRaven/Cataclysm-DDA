@@ -89,6 +89,16 @@ void mission_start::place_jabberwock(game *g, mission *miss)
  grove.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
 }
 
+void mission_start::kill_100_z(game *g, mission *miss)
+{
+ npc *p = g->find_npc(miss->npc_id);
+ p->attitude = NPCATT_FOLLOW;//npc joins you
+ miss->monster_type = mon_zombie;
+ int killed = 0;
+ killed += g->kill_count(mon_zombie);
+ miss->monster_kill_goal = 100+killed;//your kill score must increase by 100
+}
+
 void mission_start::place_npc_software(game *g, mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
