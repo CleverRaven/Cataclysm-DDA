@@ -876,7 +876,12 @@ bool overmap::generate_sub(int const z)
  for (int i = 0; i < subway_points.size(); i++)
   ter(subway_points[i].x, subway_points[i].y, z) = ot_subway_station;
  for (int i = 0; i < lab_points.size(); i++)
-  requires_sub |= build_lab(lab_points[i].x, lab_points[i].y, z, lab_points[i].s);
+ {
+     bool lab = build_lab(lab_points[i].x, lab_points[i].y, z, lab_points[i].s);
+     requires_sub |= lab;
+     if (!lab && ter(lab_points[i].x, lab_points[i].y, z) == ot_lab_core)
+         ter(lab_points[i].x, lab_points[i].y, z) = ot_lab;
+ }
  for (int i = 0; i < ant_points.size(); i++)
   build_anthill(ant_points[i].x, ant_points[i].y, z, ant_points[i].s);
  polish(z, ot_subway_ns, ot_subway_nesw);
@@ -1794,6 +1799,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
 
 bool overmap::build_lab(int x, int y, int z, int s)
 {
+ std::vector<point> generated_lab;
  ter(x, y, z) = ot_lab;
  for (int n = 0; n <= 1; n++) {	// Do it in two passes to allow diagonals
   for (int i = 1; i <= s; i++) {
@@ -1802,14 +1808,31 @@ bool overmap::build_lab(int x, int y, int z, int s)
      if ((ter(lx - 1, ly, z) == ot_lab || ter(lx + 1, ly, z) == ot_lab ||
          ter(lx, ly - 1, z) == ot_lab || ter(lx, ly + 1, z) == ot_lab) &&
          one_in(i))
-      ter(lx, ly, z) = ot_lab;
+     {
+         ter(lx, ly, z) = ot_lab;
+         generated_lab.push_back(point(lx,ly));
+     }
     }
    }
   }
  }
+ bool generate_stairs = true;
+ for (std::vector<point>::iterator it=generated_lab.begin();
+      it != generated_lab.end(); it++)
+ {
+     if (ter(it->x, it->y, z+1) == ot_lab_stairs)
+         generate_stairs = false;
+ }
+ if (generate_stairs && generated_lab.size() > 0)
+ {
+     int v = rng(0,generated_lab.size());
+     point p = generated_lab[v];
+     ter(p.x, p.y, z+1) = ot_lab_stairs;
+ }
+
  ter(x, y, z) = ot_lab_core;
  int numstairs = 0;
- if (s > 1) {	// Build stairs going down
+ if (s > 0) {	// Build stairs going down
   while (!one_in(6)) {
    int stairx, stairy;
    int tries = 0;

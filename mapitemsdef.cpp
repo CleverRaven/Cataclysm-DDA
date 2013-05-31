@@ -502,6 +502,11 @@ void game::init_mapitems()
   "minireactor", "alloy_plate", NULL);
 
  setvector(
+   &mapitems[mi_medieval],
+	"katana", "mace", "morningstar", "rapier", "broadsword",
+	"pike", "helmet_plate", "armor_plate", NULL);  
+
+ setvector(
    &mapitems[mi_art],
 	"fur", "katana", "petrified_eye", "spiral_stone", "rapier",
 	"cane", "candlestick", "heels", "ring", "necklace", NULL);
