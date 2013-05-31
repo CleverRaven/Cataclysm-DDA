@@ -353,18 +353,14 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
      double orad = ( PI * ao / 180.0 );
      endx = int( x + ( (double)range - fdist * 2.0) * cos(rad+orad) );
      endy = int( y + ( (double)range - fdist * 2.0) * sin(rad+orad) );
-     if(!lit[endx][endy]) {
-         apply_light_ray(lit, x, y, endx, endy , dluminance);
-         rendered++;
-     }
+     apply_light_ray(lit, x, y, endx, endy , dluminance);
+     rendered++;
 
      iter++;
      endx = int( x + ( (double)range - fdist * 2.0) * cos(rad-orad) );
      endy = int( y + ( (double)range - fdist * 2.0) * sin(rad-orad) );
-     if(!lit[endx][endy]) { 
-         apply_light_ray(lit, x, y, endx, endy , dluminance);
-         rendered++;
-     }
+     apply_light_ray(lit, x, y, endx, endy , dluminance);
+     rendered++;
 
      iter++;
    }
