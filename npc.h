@@ -371,7 +371,7 @@ struct npc_chatbin
  {
   std::stringstream ret;
   ret << first_topic << " " << mission_selected << " " << tempvalue << " " <<
-          (skill ? skill->ident() : "none") << missions.size() << " " << missions_assigned.size();
+          (skill ? skill->ident() : "none") << " " << missions.size() << " " << missions_assigned.size();
   for (int i = 0; i < missions.size(); i++)
    ret << " " << missions[i];
   for (int i = 0; i < missions_assigned.size(); i++)
