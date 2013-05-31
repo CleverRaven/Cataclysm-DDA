@@ -6,15 +6,18 @@
 #include <cstdlib>
 #include <fstream>
 
+#include "SDL.h"
+#include "SDL_ttf.h"
 //***********************************
 //Globals                           *
 //***********************************
 
 WINDOW *mainwin;
-const WCHAR *szWindowClass = (L"CataCurseWindow");    //Class name :D
-HINSTANCE WindowINST;   //the instance of the window
-HWND WindowHandle;      //the handle of the window
-HDC WindowDC;           //Device Context of the window, used for backbuffer
+static SDL_Color windowsPalette[256];
+static SDL_Surface *screen = NULL;
+TTF_Font* font;
+int nativeWidth;
+int nativeHeight;
 int WindowX;            //X pos of the actual window, not the curses window
 int WindowY;            //Y pos of the actual window, not the curses window
 int WindowWidth;        //Width of the actual window, not the curses window
@@ -23,16 +26,11 @@ int lastchar;          //the last character that was pressed, resets in getch
 int inputdelay;         //How long getch will wait for a character to be typed
 //WINDOW *_windows;  //Probably need to change this to dynamic at some point
 //int WindowCount;        //The number of curses windows currently in use
-HDC backbuffer;         //an off-screen DC to prevent flickering, lower cpu
-HBITMAP backbit;        //the bitmap that is used in conjunction wth the above
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
-HFONT font;             //Handle to the font created by CreateFont
-RGBQUAD *windowsPalette;  //The coor palette, 16 colors emulates a terminal
 pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
-unsigned char *dcbits;  //the bits of the screen image, for direct access
 char szDirectory[MAX_PATH] = "";
 int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
 
@@ -40,151 +38,102 @@ int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-n
 //Non-curses, Window functions      *
 //***********************************
 
+void ClearScreen()
+{
+	SDL_FillRect(screen, NULL, 0);
+}
+
+/*
+bool fexists(const char *filename)
+{
+  ifstream ifile(filename);
+  return ifile;
+}*/
+
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
-    int success;
-    WNDCLASSEXW WindowClassType;
-    int WinBorderHeight;
-    int WinBorderWidth;
-    int WinTitleSize;
-    unsigned int WindowStyle;
-    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.6git");
-    WinTitleSize = GetSystemMetrics(SM_CYCAPTION);      //These lines ensure
-    WinBorderWidth = GetSystemMetrics(SM_CXDLGFRAME) * 2;  //that our window will
-    WinBorderHeight = GetSystemMetrics(SM_CYDLGFRAME) * 2; // be a perfect size
-    WindowClassType.cbSize = sizeof(WNDCLASSEXW);
-    WindowClassType.style = 0;//No point in having a custom style, no mouse, etc
-    WindowClassType.lpfnWndProc = ProcessMessages;//the procedure that gets msgs
-    WindowClassType.cbClsExtra = 0;
-    WindowClassType.cbWndExtra = 0;
-    WindowClassType.hInstance = WindowINST;// hInstance
-    WindowClassType.hIcon = LoadIcon(WindowINST, IDI_APPLICATION);//Default Icon
-    WindowClassType.hIconSm = LoadIcon(WindowINST, IDI_APPLICATION);//Default Icon
-    WindowClassType.hCursor = LoadCursor(NULL, IDC_ARROW);//Default Pointer
-    WindowClassType.lpszMenuName = NULL;
-    WindowClassType.hbrBackground = 0;//Thanks jday! Remove background brush
-    WindowClassType.lpszClassName = szWindowClass;
-    success = RegisterClassExW(&WindowClassType);
-    if ( success== 0){
-        return false;
-    }
-    WindowStyle = WS_OVERLAPPEDWINDOW & ~(WS_THICKFRAME) & ~(WS_MAXIMIZEBOX);
-    WindowHandle = CreateWindowExW(WS_EX_APPWINDOW || WS_EX_TOPMOST * 0,
-                                   szWindowClass , szTitle,WindowStyle, WindowX,
-                                   WindowY, WindowWidth + (WinBorderWidth) * 1,
-                                   WindowHeight + (WinBorderHeight +
-                                   WinTitleSize) * 1, 0, 0, WindowINST, NULL);
-    if (WindowHandle == 0){
-        return false;
-    }
-    ShowWindow(WindowHandle,5);
+	const SDL_VideoInfo* video_info;
+	int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
+
+	if(SDL_Init(init_flags) < 0)
+	{
+		return false;
+	}
+
+	if(TTF_Init()<0) 
+	{
+		return false;
+	}
+
+	SDL_EnableUNICODE(1);
+	SDL_EnableKeyRepeat(500, 25);
+
+	atexit(SDL_Quit);
+
+	SDL_WM_SetCaption("Cataclysm: Dark Days Ahead - 0.5", NULL);
+
+	video_info = SDL_GetVideoInfo();
+	nativeWidth = video_info->current_w;
+	nativeHeight = video_info->current_h;
+
+	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
+	//SDL_SetColors(screen,windowsPalette,0,256);
+
+	SDL_ShowCursor(SDL_DISABLE);
+
+	if(screen==NULL) return false;
+
+	ClearScreen();
+
     return true;
 };
 
-//Unregisters, releases the DC if needed, and destroys the window.
 void WinDestroy()
 {
-    if ((WindowDC > 0) && (ReleaseDC(WindowHandle, WindowDC) == 0)){
-        WindowDC = 0;
-    }
-    if ((!WindowHandle == 0) && (!(DestroyWindow(WindowHandle)))){
-        WindowHandle = 0;
-    }
-    if (!(UnregisterClassW(szWindowClass, WindowINST))){
-        WindowINST = 0;
-    }
-};
-
-//This function processes any Windows messages we get. Keyboard, OnClose, etc
-LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
-                                 WPARAM wParam, LPARAM lParam)
-{
-    switch (Msg){
-        case WM_CHAR:               //This handles most key presses
-            lastchar=(int)wParam;
-            switch (lastchar){
-                case 13:            //Reroute ENTER key for compatilbity purposes
-                    lastchar=10;
-                    break;
-                case 8:             //Reroute BACKSPACE key for compatilbity purposes
-                    lastchar=127;
-                    break;
-            };
-            break;
-        case WM_KEYDOWN:                //Here we handle non-character input
-            switch (wParam){
-                case VK_LEFT:
-                    lastchar = KEY_LEFT;
-                    break;
-                case VK_RIGHT:
-                    lastchar = KEY_RIGHT;
-                    break;
-                case VK_UP:
-                    lastchar = KEY_UP;
-                    break;
-                case VK_DOWN:
-                    lastchar = KEY_DOWN;
-                    break;
-                case VK_NEXT:
-                    lastchar = KEY_NPAGE;
-                    break;
-                case VK_PRIOR:
-                    lastchar = KEY_PPAGE;
-                    break;
-                default:
-                    break;
-            };
-        case WM_ERASEBKGND:
-            return 1;               //We don't want to erase our background
-        case WM_PAINT:              //Pull from our backbuffer, onto the screen
-            BitBlt(WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0,SRCCOPY);
-            ValidateRect(WindowHandle,NULL);
-            break;
-        case WM_DESTROY:
-            exit(0);//A messy exit, but easy way to escape game loop
-        default://If we didnt process a message, return the default value for it
-            return DefWindowProcW(hWnd, Msg, wParam, lParam);
-    };
-    return 0;
+	if(screen) SDL_FreeSurface(screen);
+	screen = NULL;
 };
 
 //The following 3 methods use mem functions for fast drawing
 inline void VertLineDIB(int x, int y, int y2,int thickness, unsigned char color)
 {
-    int j;
-    for (j=y; j<y2; j++)
-        memset(&dcbits[x+j*WindowWidth],color,thickness);
+	SDL_Rect rect = {x, y, thickness, y2-y };
+    SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
 inline void HorzLineDIB(int x, int y, int x2,int thickness, unsigned char color)
 {
-    int j;
-    for (j=y; j<y+thickness; j++)
-        memset(&dcbits[x+j*WindowWidth],color,x2-x);
+	SDL_Rect rect = {x, y, x2-x, thickness };
+    SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
 inline void FillRectDIB(int x, int y, int width, int height, unsigned char color)
 {
-    int j;
-    for (j=y; j<y+height; j++)
-        //NOTE TO FUTURE: this breaks if j is negative. Apparently it doesn't break if j is too large, though?
-        memset(&dcbits[x+j*WindowWidth],color,width);
+	SDL_Rect rect = {x, y, width, height };
+    SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
+
+static void OuputText(char* t, int x, int y, int n, unsigned char color)
+{
+	static char buf[256];
+	strncpy(buf, t, n);
+	buf[n] = '\0';
+	SDL_Surface* text = TTF_RenderText_Solid(font, buf, windowsPalette[color]);
+	if(text)
+	{
+		SDL_Rect rect = {x, y, fontheight, fontheight};
+		SDL_BlitSurface(text, NULL, screen, &rect);
+		SDL_FreeSurface(text);
+	}
+}
 
 void DrawWindow(WINDOW *win)
 {
     int i,j,drawx,drawy;
     char tmp;
-    RECT update = {win->x * fontwidth, -1,
-                   (win->x + win->width) * fontwidth, -1};
+
     for (j=0; j<win->height; j++){
         if (win->line[j].touched)
         {
-            update.bottom = (win->y+j+1)*fontheight;
-            if (update.top == -1)
-            {
-                update.top = update.bottom - fontheight;
-            }
-
             win->line[j].touched=false;
 
             for (i=0; i<win->width; i++){
@@ -197,12 +146,7 @@ void DrawWindow(WINDOW *win)
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
                 if ( tmp > 0){
-                //if (tmp==95){//If your font doesnt draw underscores..uncomment
-                //        HorzLineDIB(drawx,drawy+fontheight-2,drawx+fontwidth,1,FG);
-                //    } else { // all the wa to here
-                    int color = RGB(windowsPalette[FG].rgbRed,windowsPalette[FG].rgbGreen,windowsPalette[FG].rgbBlue);
-                    SetTextColor(backbuffer,color);
-                    ExtTextOut(backbuffer,drawx,drawy,0,NULL,&tmp,1,NULL);
+                    OuputText(&tmp, drawx,drawy,1,FG);
                 //    }     //and this line too.
                 } else if (  tmp < 0 ) {
                     switch (tmp) {
@@ -259,21 +203,60 @@ void DrawWindow(WINDOW *win)
         }
     };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
-    if (update.top != -1)
-    {
-        RedrawWindow(WindowHandle, &update, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
-    }
-};
+    //if (update.top != -1)
+    //{
+		SDL_Flip(screen);
+    //}
+}
 
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
-    MSG msg;
-    while (PeekMessage(&msg, 0 , 0, 0, PM_REMOVE)){
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
-};
+	SDL_Event ev;
+	while(SDL_PollEvent(&ev))
+	{
+		switch(ev.type)
+		{
+			case SDL_KEYDOWN:
+			if ( (ev.key.keysym.unicode & 0xFF80) == 0 ) {
+				lastchar = ev.key.keysym.unicode & 0x7F;
+				switch (lastchar){
+					case 13:            //Reroute ENTER key for compatilbity purposes
+						lastchar=10;
+						break;
+					case 8:             //Reroute BACKSPACE key for compatilbity purposes
+						lastchar=127;
+						break;
+				}
+			}
+			if(ev.key.keysym.sym==SDLK_LEFT) {
+				lastchar = KEY_LEFT;
+			}
+			else if(ev.key.keysym.sym==SDLK_RIGHT) {
+				lastchar = KEY_RIGHT;
+			}
+			else if(ev.key.keysym.sym==SDLK_UP) {
+				lastchar = KEY_UP;
+			}
+			else if(ev.key.keysym.sym==SDLK_DOWN) {
+				lastchar = KEY_DOWN;
+			}
+			else if(ev.key.keysym.sym==SDLK_PAGEUP) {
+				lastchar = KEY_PPAGE;
+			}
+			else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
+				lastchar = KEY_NPAGE;
+			  
+			}
+				break;
+			case SDL_QUIT:
+				endwin();
+				exit(0);
+				break;
+
+		}
+	}
+}
 
 //***********************************
 //Psuedo-Curses Functions           *
@@ -282,77 +265,42 @@ void CheckMessages()
 //Basic Init, create the font, backbuffer, etc
 WINDOW *initscr(void)
 {
-   // _windows = new WINDOW[20];         //initialize all of our variables
-    BITMAPINFO bmi;
     lastchar=-1;
     inputdelay=-1;
-    std::string typeface;
-char * typeface_c;
-std::ifstream fin;
-fin.open("data\\FONTDATA");
- if (!fin.is_open()){
-     MessageBox(WindowHandle, "Failed to open FONTDATA, loading defaults.",
-                NULL, 0);
-     fontheight=16;
-     fontwidth=8;
- } else {
-     getline(fin, typeface);
-     typeface_c= new char [typeface.size()+1];
-     strcpy (typeface_c, typeface.c_str());
-     fin >> fontwidth;
-     fin >> fontheight;
-     if ((fontwidth <= 4) || (fontheight <=4)){
-         MessageBox(WindowHandle, "Invalid font size specified!",
-                    NULL, 0);
-        fontheight=16;
-        fontwidth=8;
-     }
- }
+
+    std::string typeface = "FixedSys";
+	std::ifstream fin;
+	fin.open("data\\FONTDATA");
+	if (!fin.is_open()){
+		fontheight=16;
+		fontwidth=8;
+	} else {
+		 getline(fin, typeface);
+		 fin >> fontwidth;
+		 fin >> fontheight;
+		 if ((fontwidth <= 4) || (fontheight <=4)){
+			fontheight=16;
+			fontwidth=8;
+		}
+		fin.close();
+	}
+
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
-    WindowX=(GetSystemMetrics(SM_CXSCREEN) / 2)-WindowWidth/2;    //center this
-    WindowY=(GetSystemMetrics(SM_CYSCREEN) / 2)-WindowHeight/2;   //sucker
-    WinCreate();    //Create the actual window, register it, etc
-    CheckMessages();    //Let the message queue handle setting up the window
-    WindowDC = GetDC(WindowHandle);
-    backbuffer = CreateCompatibleDC(WindowDC);
-    ZeroMemory(&bmi, sizeof(BITMAPINFO));
-    bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    bmi.bmiHeader.biWidth = WindowWidth;
-    bmi.bmiHeader.biHeight = -WindowHeight;
-    bmi.bmiHeader.biPlanes = 1;
-    bmi.bmiHeader.biBitCount=8;
-    bmi.bmiHeader.biCompression = BI_RGB;   //store it in uncompressed bytes
-    bmi.bmiHeader.biSizeImage = WindowWidth * WindowHeight * 1;
-    bmi.bmiHeader.biClrUsed=16;         //the number of colors in our palette
-    bmi.bmiHeader.biClrImportant=16;    //the number of colors in our palette
-    backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
-    DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
+    if(!WinCreate()) ;// do something here
 
- int nResults = AddFontResourceExA("data\\termfont",FR_PRIVATE,NULL);
-   if (nResults>0){
-    font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-                      ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                      PROOF_QUALITY, FF_MODERN, typeface_c);   //Create our font
+	font = TTF_OpenFont(typeface.c_str(), fontheight*72/96+1);
 
-  } else {
-      MessageBox(WindowHandle, "Failed to load default font, using FixedSys.",
-                NULL, 0);
-       font = CreateFont(fontheight, fontwidth, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
-                      ANSI_CHARSET, OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,
-                      PROOF_QUALITY, FF_MODERN, "FixedSys");   //Create our font
-   }
-    //FixedSys will be user-changable at some point in time??
-    SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
-    SelectObject(backbuffer, font);//Load our font into the DC
-//    WindowCount=0;
-
-    delete typeface_c;
+	TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+	TTF_SetFontOutline(font, 0);
+	TTF_SetFontKerning(font, 0);
+	TTF_SetFontHinting(font, TTF_HINTING_MONO);
+ 
     mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
-};
+}
 
 WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
 {
@@ -400,8 +348,7 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
     }
     //WindowCount++;
     return newwindow;
-};
-
+}
 
 //Deletes the window and marks it as free. Clears it just in case.
 int delwin(WINDOW *win)
@@ -417,7 +364,7 @@ int delwin(WINDOW *win)
     delete win->line;
     delete win;
     return 1;
-};
+}
 
 inline int newline(WINDOW *win){
     if (win->cursory < win->height - 1){
@@ -426,14 +373,14 @@ inline int newline(WINDOW *win){
         return 1;
     }
 return 0;
-};
+}
 
 inline void addedchar(WINDOW *win){
     win->cursorx++;
     win->line[win->cursory].touched=true;
     if (win->cursorx > win->width)
         newline(win);
-};
+}
 
 
 //Borders the window with fancy lines!
@@ -471,7 +418,7 @@ ncurses does not do this, and this prevents: wattron(win, c_customBordercolor); 
     wmove(win,oldy,oldx);
     wattroff(win, c_white);
     return 1;
-};
+}
 
 //Refreshes a window, causing it to redraw on top.
 int wrefresh(WINDOW *win)
@@ -480,13 +427,13 @@ int wrefresh(WINDOW *win)
     if (win->draw)
         DrawWindow(win);
     return 1;
-};
+}
 
 //Refreshes window 0 (stdscr), causing it to redraw on top.
 int refresh(void)
 {
     return wrefresh(mainwin);
-};
+}
 
 int getch(void)
 {
@@ -497,42 +444,41 @@ int getch(void)
 //but jday helped to figure most of it out
 int wgetch(WINDOW* win)
 {
- // standards note: getch is sometimes required to call refresh
- // see, e.g., http://linux.die.net/man/3/getch
- // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
- wrefresh(win);
- InvalidateRect(WindowHandle,NULL,true);
- lastchar=ERR;//ERR=-1
+	// standards note: getch is sometimes required to call refresh
+	// see, e.g., http://linux.die.net/man/3/getch
+	// so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
+	wrefresh(win);
+	lastchar=ERR;//ERR=-1
     if (inputdelay < 0)
-    {
+	{
         do
         {
             CheckMessages();
             if (lastchar!=ERR) break;
-            MsgWaitForMultipleObjects(0, NULL, FALSE, 50, QS_ALLEVENTS);//low cpu wait!
+            Sleep(1);
         }
         while (lastchar==ERR);
-    }
+	}
     else if (inputdelay > 0)
-    {
-        unsigned long starttime=GetTickCount();
+	{
+        unsigned long starttime=SDL_GetTicks();
         unsigned long endtime;
         do
         {
-            CheckMessages();        //MsgWaitForMultipleObjects won't work very good here
-            endtime=GetTickCount(); //it responds to mouse movement, and WM_PAINT, not good
+            CheckMessages();
+            endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;
             Sleep(2);
         }
         while (endtime<(starttime+inputdelay));
-    }
-    else
-    {
-        CheckMessages();
-    };
+	}
+	else
+	{
+		CheckMessages();
+	}
     Sleep(25);
     return lastchar;
-};
+}
 
 int mvgetch(int y, int x)
 {
@@ -714,9 +660,8 @@ int clear(void)
 //Ends the terminal, destroy everything
 int endwin(void)
 {
-    DeleteObject(font);
+	TTF_CloseFont(font);
     WinDestroy();
-    RemoveFontResourceExA("data\\termfont",FR_PRIVATE,NULL);//Unload it
     return 1;
 };
 
@@ -763,37 +708,37 @@ int getbegy(WINDOW *win)
     return win->y;
 };
 
-inline RGBQUAD BGR(int b, int g, int r)
+//copied from gdi version and don't bother to rename it
+inline SDL_Color BGR(int b, int g, int r)
 {
-    RGBQUAD result;
-    result.rgbBlue=b;    //Blue
-    result.rgbGreen=g;    //Green
-    result.rgbRed=r;    //Red
-    result.rgbReserved=0;//The Alpha, isnt used, so just set it to 0
+    SDL_Color result;
+    result.b=b;    //Blue
+    result.g=g;    //Green
+    result.r=r;    //Red
+    //result.a=0;//The Alpha, isnt used, so just set it to 0
     return result;
 };
 
 int start_color(void)
 {
- colorpairs=new pairs[50];
- windowsPalette=new RGBQUAD[16]; //Colors in the struct are BGR!! not RGB!!
- windowsPalette[0]= BGR(0,0,0); // Black
- windowsPalette[1]= BGR(0, 0, 255); // Red
- windowsPalette[2]= BGR(0,110,0); // Green
- windowsPalette[3]= BGR(23,51,92); // Brown???
- windowsPalette[4]= BGR(200, 0, 0); // Blue
- windowsPalette[5]= BGR(98, 58, 139); // Purple
- windowsPalette[6]= BGR(180, 150, 0); // Cyan
- windowsPalette[7]= BGR(150, 150, 150);// Gray
- windowsPalette[8]= BGR(99, 99, 99);// Dark Gray
- windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
- windowsPalette[10]= BGR(0, 255, 0); // Bright Green
- windowsPalette[11]= BGR(0, 255, 255); // Yellow
- windowsPalette[12]= BGR(255, 100, 100); // Light Blue
- windowsPalette[13]= BGR(240, 0, 255); // Pink
- windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
- windowsPalette[15]= BGR(255, 255, 255); //White
- return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
+	colorpairs=new pairs[50];
+	windowsPalette[0]= BGR(0,0,0); // Black
+	windowsPalette[1]= BGR(0, 0, 255); // Red
+	windowsPalette[2]= BGR(0,110,0); // Green
+	windowsPalette[3]= BGR(23,51,92); // Brown???
+	windowsPalette[4]= BGR(200, 0, 0); // Blue
+	windowsPalette[5]= BGR(98, 58, 139); // Purple
+	windowsPalette[6]= BGR(180, 150, 0); // Cyan
+	windowsPalette[7]= BGR(150, 150, 150);// Gray
+	windowsPalette[8]= BGR(99, 99, 99);// Dark Gray
+	windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
+	windowsPalette[10]= BGR(0, 255, 0); // Bright Green
+	windowsPalette[11]= BGR(0, 255, 255); // Yellow
+	windowsPalette[12]= BGR(255, 100, 100); // Light Blue
+	windowsPalette[13]= BGR(240, 0, 255); // Pink
+	windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
+	windowsPalette[15]= BGR(255, 255, 255); //White
+	//SDL_SetColors(screen,windowsPalette,0,256);
 };
 
 int keypad(WINDOW *faux, bool bf)
