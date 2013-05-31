@@ -245,7 +245,7 @@ Hell ya!  Find me one of those big ol' American flags.";
    case TALK_MISSION_SUCCESS_LIE:
     return "What?!  You liar!";
    case TALK_MISSION_FAILURE:
-    return "You give up?  This country fell apart becuase no one could find a\
+    return "You give up?  This country fell apart because no one could find a\
 good man to rely on... might as well give up, I guess.";
   }
   break;
@@ -314,13 +314,14 @@ Fuck ya, America!";
   }
   break;
 
+//martyr mission 1
    case MISSION_GET_RELIC:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
     return "St. Michael the archangel defend me in battle...";
    case TALK_MISSION_OFFER:
     return "As the world seems to abandon the reality that we once knew, it \
-becomes plausable that the old superstitions that were cast aside may \
+becomes plausible that the old superstitions that were cast aside may \
 have had some truth to them.  Please go and find me a religious relic...\
 I doubt it will be of much use but I've got to hope in something.";
    case TALK_MISSION_ACCEPTED:
@@ -333,7 +334,7 @@ I wish you the best of luck, may whatever god you please guide your path.";
    case TALK_MISSION_INQUIRE:
     return "Any luck?";
    case TALK_MISSION_SUCCESS:
-    return "Thankyou, I need some time alone now...";
+    return "Thank you, I need some time alone now...";
    case TALK_MISSION_SUCCESS_LIE:
     return "What good does this do us?";
    case TALK_MISSION_FAILURE:
@@ -350,7 +351,7 @@ I wish you the best of luck, may whatever god you please guide your path.";
 is causing this it must be airborne to have infected everyone.  I believe that \
 if that is the case then there should be regions that were not downwind from \
 where-ever the disease was released.  We need to find a record of all the \
-weather paterns leading up to the outbreak.";
+weather patterns leading up to the outbreak.";
    case TALK_MISSION_ACCEPTED:
     return "\
 Thanks so much, you may save both of us yet.";
@@ -458,7 +459,7 @@ ought to be safe for now.  You'll always be welcome here.";
    case TALK_MISSION_DESCRIBE:
     return "Those twisted snakes...";
    case TALK_MISSION_OFFER:
-    return "Our world fell apart because our leaders were as crooked as the conmen that \
+    return "Our world fell apart because our leaders were as crooked as the con-men that \
 paid for their elections.  Just find me one of those corporate accounting books and I'll \
 show you and the rest of the world just who is at fault.";
    case TALK_MISSION_ACCEPTED:
@@ -477,14 +478,15 @@ will prove their guilt if we get an expert to examine it.";
    case TALK_MISSION_SUCCESS_LIE:
     return "Thanks for trying... I guess.";
    case TALK_MISSION_FAILURE:
-    return "The day of reconing will come for the corporations if it hasn't already.";
+    return "The day of reckoning will come for the corporations if it hasn't already.";
   }
   break;
 
+//demon slayer mission 1
    case MISSION_KILL_JABBERWOCK:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
-    return "The eater of the dead... something was ripping zombies to shreads and only leaving a few scattered limbs...";
+    return "The eater of the dead... something was ripping zombies to shreds and only leaving a few scattered limbs...";
    case TALK_MISSION_OFFER:
     return "A few days ago another survivor and I were trying to avoid the cities by staying in the woods \
 during the day and foraging for gear at night. It worked well against the normal zed's but one night something \
@@ -505,6 +507,37 @@ Thanks, make sure you're ready for whatever the beast is.";
     return "Something in the shadows still seems to stare at me when I look at the woods.";
    case TALK_MISSION_FAILURE:
     return "I'm glad you came back alive... I wasn't sure if I had sent you to your death.";
+  }
+  break;
+
+//demon slayer mission 2
+     case MISSION_KILL_100_Z:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "You seem to know this new world better than most...";
+   case TALK_MISSION_OFFER:
+    return "You're kitted out better than most... would you be interested in making this world a \
+little better for the rest of us?  The towns have enough supplies for us survivors to \
+start securing a foothold but we don't have anyone with the skills and equipment to thin the masses \
+of undead.  I'll lend you a hand to the best of my ability but you really \
+showed promise taking out that other beast.  You, I, and a 100 regular zombies laid to rest, what do you say?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Hell ya, we may get ourselves killed but we'll be among the first legends of the apocalypse.";
+   case TALK_MISSION_REJECTED:
+    return "Hey, I know I wouldn't volunteer for it either... but then I remember that most of us survivors \
+won't make it unless someone decides to take the initiative.";
+   case TALK_MISSION_ADVICE:
+    return "I'd secure an ammo cache and try to sweep a town in multiple passes.";
+   case TALK_MISSION_INQUIRE:
+    return "Got this knocked out?";
+   case TALK_MISSION_SUCCESS:
+    return "Man... you're a goddamn machine.  It was a pleasure working with you.  You know, you may just change \
+our little neck of the world if you keep this up.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "I don't think that was quite a hundred dead zeds.";
+   case TALK_MISSION_FAILURE:
+    return "Quitting already?";
   }
   break;
 
