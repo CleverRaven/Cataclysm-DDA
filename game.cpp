@@ -1129,10 +1129,9 @@ bool game::mission_complete(int id, int npc_id)
   } break;
   
   case MGOAL_GO_TO_TYPE: {
-   oter_id cur_ter = cur_om->ter(levx + int(MAPSIZE / 2),
-                              levy + int(MAPSIZE / 2), levz);
-   if (cur_ter == miss->target_id)
-    return true;
+   oter_id cur_ter = cur_om->ter((levx + int (MAPSIZE / 2)) / 2, (levy + int (MAPSIZE / 2)) / 2, levz);
+   if (cur_ter == miss->type->target_id){
+    return true;}
    return false;
   } break;
 
