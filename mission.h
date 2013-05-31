@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include "omdata.h"
 #include "itype.h"
 #include "npc.h"
 
@@ -24,7 +25,9 @@ enum mission_id {
  MISSION_GET_BLACK_BOX_TRANSCRIPT,//patriot mission 3
  MISSION_GET_RELIC,
  MISSION_GET_RECORD_WEATHER,
- MISSION_GET_RECORD_PATIENT,
+ MISSION_GET_RECORD_PATIENT,//humanitarian 1
+ MISSION_REACH_FEMA_CAMP,//humanitarian 2
+ MISSION_REACH_FARM_HOUSE,//humanitarian 3
  MISSION_GET_RECORD_ACCOUNTING,
  MISSION_KILL_JABBERWOCK,
  NUM_MISSION_IDS
@@ -44,6 +47,7 @@ enum mission_origin {
 enum mission_goal {
  MGOAL_NULL = 0,
  MGOAL_GO_TO,		// Reach a certain overmap tile
+ MGOAL_GO_TO_TYPE,  // Instead of a point, go to an oter_id map tile like ot_hospital_entrance
  MGOAL_FIND_ITEM,	// Find an item of a given type
  MGOAL_FIND_ANY_ITEM,	// Find an item tagged with this mission
  MGOAL_FIND_MONSTER,	// Find and retrieve a friendly monster
@@ -68,6 +72,7 @@ struct mission_place {	// Return true if [posx,posy] is valid in overmap
  */
 struct mission_start {
  void standard		(game *, mission *); // Standard for its goal type
+ void join   	(game *, mission *); // NPC giving mission joins your party
  void infect_npc	(game *, mission *); // DI_INFECTION, remove antibiotics
  void place_dog		(game *, mission *); // Put a dog in a house!
  void place_zombie_mom	(game *, mission *); // Put a zombie mom in a house!
@@ -81,6 +86,7 @@ struct mission_start {
 
 struct mission_end {	// These functions are run when a mission ends
  void standard		(game *, mission *){}; // Nothing special happens
+ void leave  	(game *, mission *); // NPC leaves after the mission is complete
  void heal_infection	(game *, mission *);
 };
 
@@ -101,6 +107,7 @@ struct mission_type {
 
  std::vector<mission_origin> origins;	// Points of origin
  itype_id item_id;
+ oter_id target_id;
  mission_id follow_up;
 
  bool (mission_place::*place)(game *g, int x, int y);
@@ -120,6 +127,7 @@ struct mission_type {
    deadline_low = 0;
    deadline_high = 0;
    item_id = "null";
+   target_id = ot_null;
    follow_up = MISSION_NULL;
   };
 
@@ -135,6 +143,7 @@ struct mission {
  int uid;		// Unique ID number, used for referencing elsewhere
  point target;		// Marked on the player's map.  (-1,-1) for none
  itype_id item_id;	// Item that needs to be found (or whatever)
+ oter_id target_id;   // Destination type to be reached
  int count;		// How many of that item
  int deadline;		// Turn number
  int npc_id;		// ID of a related npc
@@ -155,6 +164,7 @@ struct mission {
   uid = -1;
   target = point(-1, -1);
   item_id = "null";
+  target_id = ot_null;
   count = 0;
   deadline = 0;
   npc_id = -1;

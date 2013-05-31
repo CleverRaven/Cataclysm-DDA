@@ -4521,9 +4521,9 @@ A......D.........|dh...|\n\
 .A.AA..D.........|dxd.^|\n\
 -------|---++----|-----|\n",
 mapf::basic_bind("M D & P S p l H O f F A r d C h 6 x g G , . - | + D t c ^",
-		 t_gates_mech_control, t_door_metal_locked, t_radio_tower, t_generator_broken, t_sewage_pump,
+                 t_gates_control_concrete, t_door_metal_locked, t_radio_tower, t_generator_broken, t_sewage_pump,
                  t_sewage_pipe, t_locker, t_chaingate_c, t_column, t_chainfence_v, t_chainfence_h, t_crate_c, t_rack, t_desk,
-                 t_centrifuge, t_chair, t_console, t_console_broken, t_reinforced_glass_v, t_reinforced_glass_h,
+                 t_centrifuge, t_chair, t_console, t_console_broken, t_wall_glass_v, t_wall_glass_h,
                  t_rock_blue, t_rock_floor, t_concrete_h, t_concrete_v, t_door_metal_c, t_door_metal_locked, t_table, t_counter, t_indoor_plant),
    mapf::end());
    for (int i = 0; i <= 23; i++) {
@@ -8107,86 +8107,116 @@ case ot_s_garage_north:
 }
 break;
 
- case ot_farm:
-		{
-		fill_background(this, t_grass); //basic lot
-		square(this, t_floor, 0, 0, 14, 9);  //house floor #1
-		square(this, t_wall_wood, 16, 0, 23, 9); //Barn exterior #2
-
-		for (int i = 0; i < SEEX * 2; i++) {
-		for (int j = 13; j < SEEY * 2; j++)
-		ter_set(i, j, grass_or_dirt());
-		}
-
-		line(this, t_wall_h, 0, 0, 14, 0); // House north wall #4
-		line(this, t_wall_h, 0, 9, 14, 9); // House south wall #5
-		line(this, t_wall_h, 1, 5, 8, 5); // House interior wall 1 horizontal #6
-		line(this, t_wall_h, 10, 4, 13, 4); // House interior wall 2 horizontal #7
-		line(this, t_wall_v, 0, 1, 0, 8); // House west wall #8
-		line(this, t_wall_v, 14, 1, 14, 8);// House east wall #9
-		line(this, t_wall_v, 9, 4, 9, 5);// House interior wall 3 vertical #10
-		line(this, t_wall_v, 10, 1, 10, 3);// House interior wall 4 Vertical #11
-		square(this, t_dirtfloor, 17, 1, 22, 8); // Barn Floor #None
-		ter_set( 5,  0, t_window_domestic); // Begin placing items left-right, top-down
-		ter_set( 12,  0, t_window_domestic);//House window
-		ter_set( 19,  0, t_door_c);//Barn door N1
-		ter_set( 20,  0, t_door_c);//Barn door N2
-		ter_set( 1,  1, t_dresser);//Bedroom dresser 1
-		square(this, t_bed, 2, 1, 3, 2); //Big old bed in bedroom
-		ter_set( 4,  1, t_dresser);//Bedroom dresser 2
-		ter_set( 11,  1, t_toilet);//Toilet in bathroom
-		ter_set( 12,  1, t_sink);//Sink in bathroom
-		ter_set( 17,  1, t_locker);//Locker in barn
-		ter_set( 18,  1, t_locker);//Locker in barn
-		ter_set( 10,  2, t_door_c);//bedroom to bathroom door
-		ter_set( 13,  2, t_bathtub);//Bathtub
-		ter_set( 0,  3, t_window_domestic);//West bedroom window
-		ter_set( 18,  3, t_column); //Barn pillar 1
-		ter_set( 21,  3, t_column); //Barn pillar 2
-		ter_set( 7,  4, t_chair); //Chair in bedroom
-		ter_set( 8,  4, t_desk); //Desk in bedroom
-		ter_set( 12,  4, t_door_c); //Kitchen to bathroom door
-		ter_set( 5,  5, t_door_c); //Living room to bedroom door
-		ter_set( 13,  5, t_cupboard); //Bleck so many cupboards
-		ter_set( 2,  6, t_armchair); //Armchair in living room
-		ter_set( 13,  6, t_cupboard); //cupboard....
-		ter_set( 18,  6, t_column); //Barn pillar 3
-		ter_set( 21,  6, t_column); //Barn pillar 4
-		ter_set( 13,  7, t_oven); //oven
-		ter_set( 22,  7, t_dirtmound); //oven
-		line(this, t_cupboard, 8, 8, 13, 8); //Row of cupboards
-		ter_set( 10,  8, t_fridge); //Refridgerator
-		ter_set( 12,  8, t_sink); //Kitchen sink
-		line(this, t_dirtmound, 21, 8, 22, 8); //Dirt corner of barn
-		ter_set( 2,  9, t_window_domestic);//House window living room
-		ter_set( 7,  9, t_door_c); //House entrance
-		ter_set( 12,  9, t_window_domestic);//House window kitchen
-		ter_set( 19,  9, t_door_c);//Barn door S1
-		ter_set( 20,  9, t_door_c);//Barn door S2
-		line(this, t_shrub, 1, 10, 3, 10); //Bushes 1
-		line(this, t_shrub, 11, 10, 13, 10); //Bushes 2
-        place_items(mi_fridge, 65, 10, 8, 10, 8, false, 0);
-		place_items(mi_kitchen, 70, 10, 5, 12, 7, false, 0);
-		place_items(mi_livingroom, 65, 1, 6, 6, 8, false, 0);
-		place_items(mi_dresser, 80, 1, 1, 1, 1, false, 0);
-		place_items(mi_dresser, 80, 4, 1, 4, 1, false, 0);
-		place_items(mi_bedroom, 65, 5, 1, 9, 3, false, 0);
-		place_items(mi_softdrugs, 70, 11, 2, 12, 3, false, 0);
-		place_items(mi_bigtools, 50, 17, 1, 22, 8, true, 0);
-		place_items(mi_homeguns, 20, 17, 1, 22, 8, true, 0);
-
+ case ot_farm:{
+    if (!one_in(10)){
+        fill_background(this, &grass_or_dirt);
+        mapf::formatted_set_terrain(this, 0, 0,
+"                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+          %%%       %%% \n\
+###++### |-w---+-----w-|\n\
+#DD____# |uSeuu........|\n\
+#D_____# |o............|\n\
+#_1__1_# |u..........H.|\n\
+#______# |u...|---+----|\n\
+#______# |-+-||kh......|\n\
+#_1__1_# |...|.........w\n\
+#______# |b..+......BB.|\n\
+#____ll# |.ST|.....dBBd|\n\
+###++### |-w-|----w----|\n\
+                        \n\
+                        \n\
+FFFFFFFFFFFFFFFFFFFFFFFF\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n",
+        mapf::basic_bind(", F . _ H u e S T o b l # % 1 D + - | w k h B d",
+           t_dirt, t_fence_barbed, t_floor, t_dirtfloor, t_armchair, t_cupboard, t_fridge, t_sink,
+           t_toilet, t_oven, t_bathtub, t_locker, t_wall_wood, t_shrub, t_column, t_dirtmound, t_door_c,
+           t_wall_h, t_wall_v, t_window_domestic, t_desk, t_chair, t_bed, t_dresser),
+        mapf::end() );
+        place_items(mi_fridge, 65, 12, 11, 12, 11, false, 0);
+		place_items(mi_kitchen, 70, 10, 11, 14, 3, false, 0);
+		place_items(mi_livingroom, 65, 15, 11, 22, 13, false, 0);
+		place_items(mi_dresser, 80, 19, 18, 19, 18, false, 0);
+		place_items(mi_dresser, 80, 22, 18, 22, 18, false, 0);
+		place_items(mi_bedroom, 65, 15, 15, 22, 18, false, 0);
+		place_items(mi_softdrugs, 70, 11, 16, 12, 17, false, 0);
+		place_items(mi_bigtools, 50, 1, 11, 6, 18, true, 0);
+		place_items(mi_homeguns, 20, 1, 11, 6, 18, true, 0);
 		if(one_in(2)){
-		add_spawn(mon_zombie, rng(1, 6), 20, 4);}
+		add_spawn(mon_zombie, rng(1, 6), 4, 14);}
 		else {
-		add_spawn(mon_zombie, rng(1, 6), 6, 3);
+		add_spawn(mon_zombie, rng(1, 6), 12, 17);
 		}
-		rotate(2);
-		}
-		break;
-		case ot_farm_field:
-		if(t_east == ot_farm)
-		{
+    } else {
+        fill_background(this, &grass_or_dirt);
+        mapf::formatted_set_terrain(this, 0, 0,
+"                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+          %%%       %%% \n\
+###++### |-w---+-----w-|\n\
+#DD____# |uSeuu..mm....|\n\
+#D_____# |o...........m|\n\
+#_1__1_# |u...........m|\n\
+#______# |u...|---+----|\n\
+#______# |-+-||mm....mm|\n\
+#_1__1_# |...|.........w\n\
+#______# |b..+......BB.|\n\
+#____ll# |.ST|mm...dBBd|\n\
+###++### |-w-|----w----|\n\
+                        \n\
+                        \n\
+FFFFFFFFFFFFFFFFFFFFFFFF\n\
+,,,,,,,,,,,,,,,,,,,,,,,,\n",
+        mapf::basic_bind("m , F . _ H u e S T o b l # % 1 D + - | w k h B d",
+           t_makeshift_bed, t_dirt, t_fence_barbed, t_floor, t_dirtfloor, t_armchair, t_cupboard, t_fridge, t_sink,
+           t_toilet, t_oven, t_bathtub, t_locker, t_wall_wood, t_shrub, t_column, t_dirtmound, t_door_c,
+           t_wall_h, t_wall_v, t_window_boarded, t_desk, t_chair, t_bed, t_dresser),
+        mapf::end() );
+        place_items(mi_cannedfood, 65, 12, 11, 12, 11, false, 0);
+		place_items(mi_bigtools, 50, 1, 11, 6, 18, true, 0);
+		place_items(mi_homeguns, 20, 1, 11, 6, 18, true, 0);
+        for (int i = 0; i <= 23; i++) {
+            for (int j = 0; j <= 23; j++) {
+                if (this->ter(i,j) == t_dresser)
+                    place_items(mi_dresser,	50,  i,  j, i,  j, false, 0);
+                if (this->ter(i,j) == t_floor)
+                    place_items(mi_trash,	20,  i,  j, i,  j, false, 0);
+                if (this->ter(i,j) == t_cupboard){
+                    place_items(mi_kitchen,	70,  i,  j, i,  j, false, 0);
+                    place_items(mi_softdrugs,	40,  i,  j, i,  j, false, 0);
+                    place_items(mi_cannedfood,	40,  i,  j, i,  j, false, 0);}
+                if (this->ter(i,j) == t_makeshift_bed || this->ter(i,j) == t_bed){
+                    place_items(mi_livingroom,	20,  i,  j, i,  j, false, 0);
+                    place_items(mi_survival_armor,	20,  i,  j, i,  j, false, 0);
+                    place_items(mi_camping,	20,  i,  j, i,  j, false, 0);
+                    place_items(mi_survival_tools,	20,  i,  j, i,  j, false, 0);}
+                if (this->ter(i,j) == t_grass){
+                    if (one_in(20)) add_trap(i, j, tr_beartrap);
+                    if (one_in(20)) add_trap(i, j, tr_tripwire);
+                    if (one_in(15)) add_trap(i, j, tr_pit);}
+            }
+        }
+    }
+    }
+    break;
 
+    case ot_farm_field:
+        //build barn
+		if(t_east == ot_farm){
 		fill_background(this, &grass_or_dirt);
 		square(this, t_wall_wood, 3, 3, 20, 20);
 		square(this, t_dirtfloor, 4, 4, 19, 19);
@@ -8222,21 +8252,29 @@ break;
 		ter_set(5, 20, t_window_boarded);
 		ter_set(18, 20, t_window_boarded);
 
-
+        if(t_south == ot_farm_field){
+            square(this, t_fence_barbed, 1, 20, 1, 23);
+            ter_set(2, 20, t_fence_barbed);
+            ter_set(1, 20, t_fence_post);
+            square(this, t_fence_barbed, 22, 20, 22, 22);
+            ter_set(21, 20, t_fence_barbed);
+            ter_set(23, 22, t_fence_barbed);
+            ter_set(22, 22, t_fence_post);
+            ter_set(22, 20, t_fence_post);
+            square(this, t_dirt, 2, 21, 21, 23);
+            square(this, t_dirt, 22, 23, 23, 23);
+            ter_set(16, 21, t_barndoor);
+        }
 		place_items(mi_bigtools, 60, 4, 4, 7, 19, true, 0);
 		place_items(mi_bigtools, 60, 16, 5, 19, 19, true, 0);
 		place_items(mi_mechanics, 40, 8, 4, 15, 19, true, 0);
 		place_items(mi_home_hw, 50, 4, 19, 7, 19, true, 0);
 		place_items(mi_tools, 50, 4, 19, 7, 19, true, 0);
-
 		if(one_in(10)){
 			add_spawn(mon_zombie, rng(3, 6), 12, 12);
 			}
 
-
-		}
-		else
-		{
+		}else{
 		fill_background(this, t_grass); // basic lot
 		square(this, t_fence_barbed, 1, 1, 22, 22);
 		square(this, t_dirt, 2, 2, 21, 21);
@@ -8244,25 +8282,59 @@ break;
 		ter_set(22, 1, t_fence_post);
 		ter_set(1, 22, t_fence_post);
 		ter_set(22, 22, t_fence_post);
-		line(this, t_dirtmound, 3, 3, 20, 3); //Crop rows
-		line(this, t_dirtmound, 3, 5, 20, 5);
-		line(this, t_dirtmound, 3, 7, 20, 7);
-		line(this, t_dirtmound, 3, 9, 20, 9);
-		line(this, t_dirtmound, 3, 11, 20, 11);
-		line(this, t_dirtmound, 3, 13, 20, 13);
-		line(this, t_dirtmound, 3, 15, 20, 15);
-		line(this, t_dirtmound, 3, 17, 20, 17);
-		line(this, t_dirtmound, 3, 19, 20, 19);
 
-		place_items(mi_hydro, 70, 3, 3, 20, 3, true, turn); //Spawn crops
-		place_items(mi_hydro, 70, 3, 5, 20, 5, true, turn);
-		place_items(mi_hydro, 70, 3, 7, 20, 7, true, turn);
-		place_items(mi_hydro, 70, 3, 9, 20, 9, true, turn);
-		place_items(mi_hydro, 70, 3, 11, 20, 11, true, turn);
-		place_items(mi_hydro, 70, 3, 13, 20, 13, true, turn);
-		place_items(mi_hydro, 70, 3, 15, 20, 15, true, turn);
-		place_items(mi_hydro, 70, 3, 17, 20, 17, true, turn);
-		place_items(mi_hydro, 70, 3, 19, 20, 19, true, turn);
+		int xStart = 4;
+		int xEnd = 19;
+		//acidia, connecting fields
+		if(t_east == ot_farm_field){
+            square(this, t_fence_barbed, 22, 1, 23, 22);
+            square(this, t_dirt, 21, 2, 23, 21);
+            xEnd = 22;
+		}
+        if(t_west == ot_farm_field){
+            square(this, t_fence_barbed, 0, 1, 1, 22);
+            square(this, t_dirt, 0, 2, 2, 21);
+            xStart = 1;
+		}
+        if(t_south == ot_farm_field){
+            square(this, t_fence_barbed, 1, 22, 22, 23);
+            square(this, t_dirt, 2, 21, 21, 23);
+            line(this, t_dirtmound, xStart, 21, xEnd, 21);
+            if(t_east == ot_farm_field){square(this, t_dirt, 20, 20, 23, 23);}
+            if(t_west == ot_farm_field){square(this, t_dirt, 0, 20, 3, 23);}
+		}
+        if(t_north == ot_farm_field || t_north == ot_farm){
+            square(this, t_fence_barbed, 1, 0, 22, 1);
+            square(this, t_dirt, 2, 0, 21, 2);
+            line(this, t_dirtmound, xStart, 1, xEnd, 1);
+            if(t_east == ot_farm_field){square(this, t_dirt, 20, 0, 23, 3);}
+            if(t_west == ot_farm_field){square(this, t_dirt, 0, 0, 3, 3);}
+		}
+        if(t_west == ot_farm){
+            square(this, t_fence_barbed, 0, 22, 1, 22);
+            square(this, t_dirt, 0, 23, 2, 23);
+            ter_set(1, 22, t_fence_post);
+		}
+		//standard field
+		line(this, t_dirtmound, xStart, 3, xEnd, 3); //Crop rows
+		line(this, t_dirtmound, xStart, 5, xEnd, 5);
+		line(this, t_dirtmound, xStart, 7, xEnd, 7);
+		line(this, t_dirtmound, xStart, 9, xEnd, 9);
+		line(this, t_dirtmound, xStart, 11, xEnd, 11);
+		line(this, t_dirtmound, xStart, 13, xEnd, 13);
+		line(this, t_dirtmound, xStart, 15, xEnd, 15);
+		line(this, t_dirtmound, xStart, 17, xEnd, 17);
+		line(this, t_dirtmound, xStart, 19, xEnd, 19);
+
+		place_items(mi_hydro, 70, xStart, 3, xEnd, 3, true, turn); //Spawn crops
+		place_items(mi_hydro, 70, xStart, 5, xEnd, 5, true, turn);
+		place_items(mi_hydro, 70, xStart, 7, xEnd, 7, true, turn);
+		place_items(mi_hydro, 70, xStart, 9, xEnd, 9, true, turn);
+		place_items(mi_hydro, 70, xStart, 11, xEnd, 11, true, turn);
+		place_items(mi_hydro, 70, xStart, 13, xEnd, 13, true, turn);
+		place_items(mi_hydro, 70, xStart, 15, xEnd, 15, true, turn);
+		place_items(mi_hydro, 70, xStart, 17, xEnd, 17, true, turn);
+		place_items(mi_hydro, 70, xStart, 19, xEnd, 19, true, turn);
 		}
 		break;
 

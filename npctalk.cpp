@@ -567,6 +567,11 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
      SUCCESS(TALK_MISSION_SUCCESS);
      SUCCESS_ACTION(&talk_function::mission_success);
     break;
+   case MGOAL_GO_TO_TYPE:
+    RESPONSE("We're here!");
+     SUCCESS(TALK_MISSION_SUCCESS);
+     SUCCESS_ACTION(&talk_function::mission_success);
+    break;
    case MGOAL_GO_TO:
    case MGOAL_FIND_NPC:
     RESPONSE("Here I am.");
