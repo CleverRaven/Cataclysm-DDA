@@ -8537,8 +8537,9 @@ void game::pldrive(int x, int y) {
    veh->move.init (veh->turn_dir);
   }
  }
+ // Don't spend turns to adjust cruise speed.
+ if( x != 0 || !veh->cruise_on ){ u.moves = 0; }
 
- u.moves = 0;
  if (x != 0 && veh->velocity != 0 && one_in(4))
      u.practice(turn, "driving", 1);
 }
