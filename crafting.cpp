@@ -44,8 +44,8 @@ void game::init_recipes()
         bool autolearn = curr.get("autolearn").as_bool();
         // optional fields
         bool reversible = curr.has("reversible") ? curr.get("reversible").as_bool() : false;
-        const char *skill1 = curr.has("skill_pri") ? curr.get("skill_pri").as_string().c_str() : NULL;
-        const char *skill2 = curr.has("skill_sec") ? curr.get("skill_sec").as_string().c_str() : NULL;
+        std::string skill1 = curr.has("skill_pri") ? curr.get("skill_pri").as_string() : "";
+        std::string skill2 = curr.has("skill_sec") ? curr.get("skill_sec").as_string() : "";
         std::string id_suffix = curr.has("id_suffix") ? curr.get("id_suffix").as_string() : "";
         int learn_by_disassembly = curr.has("decomp_learn") ? curr.get("decomp_learn").as_int() : -1;
 
