@@ -298,7 +298,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
  memset(lit, 0, sizeof(lit));
 
- #define lum_mult 4
+ #define lum_mult 3
  #define newcalc 1
 // #define sidefade_test 1
 // #define lightarc_debug 1
@@ -338,13 +338,12 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
    );
 #endif
    int iter=0;
-   int rendered=0;
    for (double ao=wstep; ao <= wangle; ao+=wstep) {
      double fdist=(ao * HALFPI) / wangle;
 #ifdef sidefade_test // neatish-ellipsis fading transform (which turns ugly with more power)
      float dluminance=( (wangle-ao) * luminance ) /wangle;
 #ifdef lightarc_debug
-     mvprintw(3, 0, "lum: %f/%f rm %d          ",dluminance,luminance,rmult);
+     mvprintw(3, 0, "lum: %f/%f rm %d          ",dluminance,luminance);
 #endif
 #else
      float dluminance=luminance;
@@ -354,18 +353,15 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
      endx = int( x + ( (double)range - fdist * 2.0) * cos(rad+orad) );
      endy = int( y + ( (double)range - fdist * 2.0) * sin(rad+orad) );
      apply_light_ray(lit, x, y, endx, endy , dluminance);
-     rendered++;
 
-     iter++;
      endx = int( x + ( (double)range - fdist * 2.0) * cos(rad-orad) );
      endy = int( y + ( (double)range - fdist * 2.0) * sin(rad-orad) );
      apply_light_ray(lit, x, y, endx, endy , dluminance);
-     rendered++;
 
-     iter++;
+     iter+=2;
    }
 #ifdef lightarc_debug
-   mvprintw(2, 0, "iters: %d/%d            ", rendered, iter );
+   mvprintw(2, 0, "iters: %d            ", iter );
 #endif
  }
 #else
