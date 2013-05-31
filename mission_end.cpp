@@ -11,3 +11,9 @@ void mission_end::heal_infection(game *g, mission *miss)
   }
  }
 }
+
+void mission_end::leave(game *g, mission *miss)
+{
+ npc *p = g->find_npc(miss->npc_id);
+ p->attitude = NPCATT_NULL;
+}

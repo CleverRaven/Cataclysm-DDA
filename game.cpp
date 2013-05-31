@@ -1132,6 +1132,13 @@ bool game::mission_complete(int id, int npc_id)
     return true;
    return false;
   } break;
+  
+  case MGOAL_GO_TO_TYPE: {
+   oter_id cur_ter = cur_om->ter((levx + int (MAPSIZE / 2)) / 2, (levy + int (MAPSIZE / 2)) / 2, levz);
+   if (cur_ter == miss->type->target_id){
+    return true;}
+   return false;
+  } break;
 
   case MGOAL_FIND_ITEM:
    if (!u.has_amount(type->item_id, 1))
@@ -5185,6 +5192,16 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
  case t_gates_mech_control:
   v_wall_type = t_wall_v;
   h_wall_type = t_wall_h;
+  door_type   = t_door_metal_locked;
+  floor_type  = t_floor;
+  pull_message = "You turn the handle...";
+  open_message = "The gate is opened!";
+  close_message = "The gate is closed!";
+  break;
+
+ case t_gates_control_concrete:
+  v_wall_type = t_concrete_v;
+  h_wall_type = t_concrete_h;
   door_type   = t_door_metal_locked;
   floor_type  = t_floor;
   pull_message = "You turn the handle...";
