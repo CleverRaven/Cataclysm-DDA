@@ -94,7 +94,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
   ITEM("record_weather");
 
-//humanitarian 1
+//humanitarian mission 1
  MISSION("Find Patient Records", MGOAL_FIND_ITEM, 2, 600, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
@@ -102,7 +102,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   FOLLOWUP(MISSION_REACH_FEMA_CAMP);
   ITEM("record_patient");
 
-//humanitarian 2
+//humanitarian mission 2
  MISSION("Reach FEMA Camp", MGOAL_GO_TO_TYPE, 2, 600, false,
 	&mission_place::always, &mission_start::join,
 	&mission_end::standard, &mission_fail::standard);
@@ -110,7 +110,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   DESTINATION(ot_fema);
   FOLLOWUP(MISSION_REACH_FARM_HOUSE);
 
-//humanitarian 3
+//humanitarian mission 3
  MISSION("Reach Farm House", MGOAL_GO_TO_TYPE, 2, 600, false,
 	&mission_place::always, &mission_start::join,
 	&mission_end::leave, &mission_fail::standard);
@@ -123,10 +123,18 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
   ITEM("record_accounting");
   
- MISSION("Kill Jabberwock", MGOAL_KILL_MONSTER, 5, 2500, true,
+ //demon slayer mission 1 
+ MISSION("Kill Jabberwock", MGOAL_KILL_MONSTER, 5, 2000, true,
 	&mission_place::always, &mission_start::place_jabberwock,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  FOLLOWUP(MISSION_KILL_100_Z);
+
+//demon slayer mission 2 
+ MISSION("Kill 100 Zombies", MGOAL_KILL_MONSTER_TYPE, 5, 2500, false,
+	&mission_place::always, &mission_start::kill_100_z,
+	&mission_end::leave, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
 
  MISSION("Find a Book", MGOAL_FIND_ANY_ITEM, 2, 800, false,
 	&mission_place::always, &mission_start::place_book,
