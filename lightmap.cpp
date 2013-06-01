@@ -161,7 +161,7 @@ void map::generate_lightmap(game* g)
            int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
 
            if (dpart >= 0) {
-             apply_light_arc(px, py, dir, veh_luminance);
+             apply_light_arc(px, py, dir, veh_luminance, 45);
            }
 
          }
@@ -298,8 +298,8 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
  memset(lit, 0, sizeof(lit));
 
- #define lum_mult 3
- #define newcalc 1
+ #define lum_mult 3.0
+// wideangle=45; // for testing
 // #define sidefade_test 1
 // #define lightarc_debug 1
 
@@ -310,7 +310,6 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
 
 
  // Normalise (should work with negative values too)
- #ifdef newcalc
 
  const double PI = 3.14159265358979f;
  const double HALFPI = 1.570796326794895f;
@@ -364,49 +363,6 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
    mvprintw(2, 0, "iters: %d            ", iter );
 #endif
  }
-#else
- angle = angle % 360;
- // East side
- if (angle < 90 || angle > 270) {
-  int sy = y - ((angle <  90) ? range * (( 45 - angle) / 45.0f) : range);
-  int ey = y + ((angle > 270) ? range * ((angle - 315) / 45.0f) : range);
-
-  int ox = x + range;
-  for(int oy = sy; oy <= ey; ++oy)
-   apply_light_ray(lit, x, y, ox, oy, luminance);
- }
-
- // South side
- if (angle < 180) {
-  int sx = x - ((angle < 90) ? range * (( angle - 45) / 45.0f) : range);
-  int ex = x + ((angle > 90) ? range * ((135 - angle) / 45.0f) : range);
-
-  int oy = y + range;
-  for(int ox = sx; ox <= ex; ++ox)
-   apply_light_ray(lit, x, y, ox, oy, luminance);
- }
-
- // West side
- if (angle > 90 && angle < 270) {
-  int sy = y - ((angle < 180) ? range * ((angle - 135) / 45.0f) : range);
-  int ey = y + ((angle > 180) ? range * ((225 - angle) / 45.0f) : range);
-
-  int ox = x - range;
-  for(int oy = sy; oy <= ey; ++oy)
-   apply_light_ray(lit, x, y, ox, oy, luminance);
- }
-
- // North side
- if (angle > 180) {
-  int sx = x - ((angle > 270) ? range * ((315 - angle) / 45.0f) : range);
-  int ex = x + ((angle < 270) ? range * ((angle - 225) / 45.0f) : range);
-
-  int oy = y - range;
-  for(int ox = sx; ox <= ex; ++ox)
-   apply_light_ray(lit, x, y, ox, oy, luminance);
- }
-
-#endif
 }
 
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
