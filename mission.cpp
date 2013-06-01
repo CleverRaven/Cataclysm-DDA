@@ -516,12 +516,12 @@ will prove their guilt if we get an expert to examine it.";
   break;
   
 //vigilante mission 2
-  case MISSION_GET_RECORD_ACCOUNTING:
+  case MISSION_GET_SAFE_BOX:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
     return "Those twisted snakes...";
    case TALK_MISSION_OFFER:
-    return "Now I don't mean to upset you but I'm not sure what I can do with the accounting ledger at the\
+    return "Now I don't mean to upset you but I'm not sure what I can do with the accounting ledger at the \
 moment.  We do have a new lead though, the ledger has a safe deposit box under the regional manager's name.  \
 Guess what, dumb sucker wrote down his combination.  Come with me to retrieve the box and you can keep any \
 of the goodies in it that I can't use to press charges against these bastards.";
