@@ -4719,9 +4719,9 @@ bool player::eat(game *g, char ch)
                 return false;
         }
         int charge = (eaten->volume() + eaten->weight()) / 2;
-        if (eaten->type->m1 == LEATHER || eaten->type->m2 == LEATHER)
+        if (eaten->type->m1 == "leather" || eaten->type->m2 == "leather")
             charge /= 4;
-        if (eaten->type->m1 == WOOD    || eaten->type->m2 == WOOD)
+        if (eaten->type->m1 == "wood"    || eaten->type->m2 == "wood")
             charge /= 2;
         charge_power(charge);
     }
@@ -4755,7 +4755,7 @@ bool player::eat(game *g, char ch)
                 !query_yn("You're full.  Force yourself to eat?"))
             return false;
 
-        if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY) && comest->nutr > 0)
+        if (has_trait(PF_CARNIVORE) && eaten->made_of("veggy") && comest->nutr > 0)
         {
             if (!is_npc())
                 g->add_msg("You can only eat meat!");
@@ -4763,11 +4763,11 @@ bool player::eat(game *g, char ch)
                 g->add_msg("Carnivore %s tried to eat meat!", name.c_str());
             return false;
         }
-        if (!has_trait(PF_CANNIBAL) && eaten->made_of(HFLESH)&& !is_npc() &&
+        if (!has_trait(PF_CANNIBAL) && eaten->made_of("hflesh")&& !is_npc() &&
                 !query_yn("The thought of eating that makes you feel sick. Really do it?"))
             return false;
 
-        if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH) && !is_npc() &&
+        if (has_trait(PF_VEGETARIAN) && eaten->made_of("flesh") && !is_npc() &&
                 !query_yn("Really eat that meat? Your stomach won't be happy."))
             return false;
 
@@ -4846,7 +4846,7 @@ bool player::eat(game *g, char ch)
         if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak)
             charge_power(rng(1, 4));
 
-        if (eaten->made_of(HFLESH)) {
+        if (eaten->made_of("hflesh")) {
           if (has_trait(PF_CANNIBAL)) {
               g->add_msg_if_player(this, "You feast upon the human flesh.");
               add_morale(MORALE_CANNIBAL, 15, 100);
@@ -4855,14 +4855,14 @@ bool player::eat(game *g, char ch)
               add_morale(MORALE_CANNIBAL, -60, -400);
           }
         }
-        if (has_trait(PF_VEGETARIAN) && (eaten->made_of(FLESH) || eaten->made_of(HFLESH)))
+        if (has_trait(PF_VEGETARIAN) && (eaten->made_of("flesh") || eaten->made_of("hflesh")))
         {
             if (!is_npc())
                 g->add_msg("Almost instantly you feel a familiar pain in your stomach");
             add_morale(MORALE_VEGETARIAN, -75, -400);
         }
         if ((has_trait(PF_HERBIVORE) || has_trait(PF_RUMINANT)) &&
-                eaten->made_of(FLESH))
+                eaten->made_of("flesh"))
         {
             if (!one_in(3))
                 vomit(g);
@@ -5104,7 +5104,7 @@ hint_rating player::rate_action_wear(item *it)
  if (count == 2) {
   return HINT_IFFY;
  }
- if (has_trait(PF_WOOLALLERGY) && it->made_of(WOOL)) {
+ if (has_trait(PF_WOOLALLERGY) && it->made_of("wool")) {
   return HINT_IFFY; //should this be HINT_CANT? I kinda think not, because HINT_CANT is more for things that can NEVER happen
  }
  if (armor->covers & mfb(bp_head) && encumb(bp_head) != 0) {
@@ -5128,18 +5128,18 @@ hint_rating player::rate_action_wear(item *it)
  if (armor->covers & mfb(bp_torso) && has_trait(PF_SHELL)) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_head) && !it->made_of(WOOL) &&
-     !it->made_of(COTTON) && !it->made_of(LEATHER) &&
+ if (armor->covers & mfb(bp_head) && !it->made_of("wool") &&
+     !it->made_of("cotton") && !it->made_of("leather") &&
      (has_trait(PF_HORNS_POINTED) || has_trait(PF_ANTENNAE) ||
       has_trait(PF_ANTLERS))) {
   return HINT_IFFY;
  }
  // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
- if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(it->made_of(WOOL) || it->made_of(COTTON))) {
+ if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(it->made_of("wool") || it->made_of("cotton"))) {
   for (int i = 0; i < worn.size(); i++) {
    item *worn_item = &worn[i];
    it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
-   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON))) {
+   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of("wool") || worn_item->made_of("cotton"))) {
     return HINT_IFFY;
    }
   }
@@ -5220,7 +5220,7 @@ if (!to_wear->has_flag("OVERSIZE")) {
               to_wear->tname().c_str());
    return false;
   }
-  if (has_trait(PF_WOOLALLERGY) && to_wear->made_of(WOOL)) {
+  if (has_trait(PF_WOOLALLERGY) && to_wear->made_of("wool")) {
    g->add_msg("You can't wear that, it's made of wool!");
    return false;
   }
@@ -5253,8 +5253,8 @@ if (!to_wear->has_flag("OVERSIZE")) {
    g->add_msg("You cannot wear anything over your shell.");
    return false;
   }
-  if (armor->covers & mfb(bp_head) && !to_wear->made_of(WOOL) &&
-      !to_wear->made_of(COTTON) && !to_wear->made_of(LEATHER) &&
+  if (armor->covers & mfb(bp_head) && !to_wear->made_of("wool") &&
+      !to_wear->made_of("cotton") && !to_wear->made_of("leather") &&
       (has_trait(PF_HORNS_POINTED) || has_trait(PF_ANTENNAE) ||
        has_trait(PF_ANTLERS))) {
    g->add_msg("You cannot wear a helmet over your %s.",
@@ -5263,11 +5263,11 @@ if (!to_wear->has_flag("OVERSIZE")) {
    return false;
   }
   // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
-  if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of(WOOL) || to_wear->made_of(COTTON))) {
+  if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of("wool") || to_wear->made_of("cotton"))) {
   for (int i = 0; i < worn.size(); i++) {
    item *worn_item = &worn[i];
    it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
-   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON))) {
+   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of("wool") || worn_item->made_of("cotton"))) {
     g->add_msg("You're already wearing footwear!");
     return false;
    }
@@ -6384,7 +6384,7 @@ int player::warmth(body_part bp)
         {
             warmth = armor->warmth;
             // Wool items do not lose their warmth in the rain
-            if (!worn[i].made_of(WOOL))
+            if (!worn[i].made_of("wool"))
             {
                 warmth *= 1.0 - (float)bodywetness / 100.0;
             }
