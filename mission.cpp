@@ -486,6 +486,7 @@ ought to be safe for now.  You'll always be welcome here.";
   }
   break;
 
+//vigilante mission 1
    case MISSION_GET_RECORD_ACCOUNTING:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
@@ -507,6 +508,35 @@ the evidence yet.";
    case TALK_MISSION_SUCCESS:
     return "Great, let's see... uh... hmmm...  Fine, I didn't even do my own taxes but I'm sure this \
 will prove their guilt if we get an expert to examine it.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "Thanks for trying... I guess.";
+   case TALK_MISSION_FAILURE:
+    return "The day of reckoning will come for the corporations if it hasn't already.";
+  }
+  break;
+  
+//vigilante mission 2
+  case MISSION_GET_RECORD_ACCOUNTING:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Those twisted snakes...";
+   case TALK_MISSION_OFFER:
+    return "Now I don't mean to upset you but I'm not sure what I can do with the accounting ledger at the\
+moment.  We do have a new lead though, the ledger has a safe deposit box under the regional manager's name.  \
+Guess what, dumb sucker wrote down his combination.  Come with me to retrieve the box and you can keep any \
+of the goodies in it that I can't use to press charges against these bastards.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+You'll see, I know I'm right.";
+   case TALK_MISSION_REJECTED:
+    return "I know it isn't pressing but the world is going to be just as corrupt when we start rebuilding unless \
+we take measure to stop those who seek to rule over us.";
+   case TALK_MISSION_ADVICE:
+    return "This shouldn't be hard unless we run into a horde.";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Great, anything I can't use to prosecute the bastards is yours, as promised.";
    case TALK_MISSION_SUCCESS_LIE:
     return "Thanks for trying... I guess.";
    case TALK_MISSION_FAILURE:
