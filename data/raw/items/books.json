@@ -1058,7 +1058,7 @@
     {
         "type" : "BOOK",
         "id" : "priest_diary",
-        "name" : "Priest's Diary'",
+        "name" : "Priest's Diary",
         "max_level" : 0,
         "description" : "A small book filled with journal entries in Latin.",
         "weight" : 3,
