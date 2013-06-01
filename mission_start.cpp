@@ -262,6 +262,38 @@ void mission_start::place_npc_software(game *g, mission *miss)
  compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
 }
 
+void mission_start::place_priest_diary(game *g, mission *miss)
+{
+ oter_id ter = ot_house_north;
+ int dist = 0;
+ point place;
+ int city_id = g->cur_om->closest_city( g->om_location() );
+ place = g->cur_om->random_house_in_city(city_id);
+ miss->target = place;
+ for (int x = place.x - 2; x <= place.x + 2; x++) {
+  for (int y = place.y - 2; y <= place.y + 2; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ tinymap compmap(&(g->itypes), &(g->mapitems), &(g->traps));
+ compmap.load(g, place.x * 2, place.y * 2, 0, false);
+ point comppoint;
+
+  std::vector<point> valid;
+  for (int x = 0; x < SEEX * 2; x++) {
+   for (int y = 0; y < SEEY * 2; y++) {
+    if (compmap.ter(x, y) == t_bed || compmap.ter(x, y) == t_dresser || compmap.ter(x, y) == t_indoor_plant || compmap.ter(x, y) == t_cupboard) {
+      valid.push_back( point(x, y) );
+    }
+   }
+  }
+  if (valid.empty())
+   comppoint = point( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
+  else
+   comppoint = valid[rng(0, valid.size() - 1)];
+ compmap.spawn_item(comppoint.x, comppoint.y, g->itypes["priest_diary"], 0);
+ compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
+}
+
 void mission_start::reveal_lab_black_box(game *g, mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
