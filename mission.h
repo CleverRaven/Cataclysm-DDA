@@ -31,6 +31,7 @@ enum mission_id {
  MISSION_GET_RECORD_ACCOUNTING,
  MISSION_KILL_JABBERWOCK,//demon slayer 1
  MISSION_KILL_100_Z,//demon slayer 2
+ MISSION_KILL_HORDE_MASTER,//demon slayer 3
  NUM_MISSION_IDS
 };
 
@@ -80,6 +81,7 @@ struct mission_start {
  void place_zombie_mom	(game *, mission *); // Put a zombie mom in a house!
  void place_jabberwock (game *, mission *); // Put a jabberwok in the woods nearby
  void kill_100_z (game *, mission *); // Kill 100 more regular zombies
+ void kill_horde_master (game *, mission *);// Kill the master zombie at the center of the horde
  void place_npc_software(game *, mission *); // Put NPC-type-dependent software
  void reveal_lab_black_box (game *, mission *); // Reveal the nearest lab and give black box
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
