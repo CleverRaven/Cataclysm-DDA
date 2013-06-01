@@ -30,6 +30,7 @@ OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
 OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
 OPT_MOVE_VIEW_OFFSET, // Sensitivity of shift+(movement)
 OPT_STATIC_SPAWN, // Makes zombies spawn using the new static system
+OPT_ZOMBIE_DENSITY_GEO, // determine zombie population according to: 0 building type, 1: distance from city center
 OPT_CLASSIC_ZOMBIES, // Only spawn the more classic zombies and buildings.
 OPT_SEASON_LENGTH, // Season length, in days
 OPT_STATIC_NPC, //Spawn static npcs

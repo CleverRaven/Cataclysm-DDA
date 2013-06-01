@@ -244,6 +244,8 @@ option_key lookup_option_key(std::string id)
   return OPT_MOVE_VIEW_OFFSET;
  if (id == "static_spawn")
   return OPT_STATIC_SPAWN;
+ if (id == "zombie_density_geo")
+  return OPT_ZOMBIE_DENSITY_GEO;
  if (id == "classic_zombies")
   return OPT_CLASSIC_ZOMBIES;
  if (id == "season_length")
@@ -283,6 +285,7 @@ std::string option_string(option_key key)
   case OPT_VIEWPORT_Y: return "viewport_y";
   case OPT_MOVE_VIEW_OFFSET: return "move_view_offset";
   case OPT_STATIC_SPAWN: return "static_spawn";
+  case OPT_ZOMBIE_DENSITY_GEO: return "zombie_density_geo";
   case OPT_CLASSIC_ZOMBIES: return "classic_zombies";
   case OPT_SEASON_LENGTH: return "season_length";
   case OPT_STATIC_NPC: return "static_npc";
@@ -321,6 +324,7 @@ std::string option_desc(option_key key)
   case OPT_MOVE_VIEW_OFFSET: return "Move view by how many squares per\nkeypress.\nDefault is 1";
   case OPT_SEASON_LENGTH: return "Season length, in days.\nDefault is 14";
   case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is false";
+  case OPT_ZOMBIE_DENSITY_GEO: return "Zombie population density based on:\n0 - Building type (new method)\n all buildings of a certian type will\n increase density a set amount\n1 - Distance from city center\n old method";
   case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false";
   case OPT_STATIC_NPC: return "If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false";
   case OPT_RANDOM_NPC: return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false";
@@ -357,6 +361,7 @@ std::string option_name(option_key key)
   case OPT_VIEWPORT_Y: return "Viewport height";
   case OPT_MOVE_VIEW_OFFSET: return "Move view offset";
   case OPT_STATIC_SPAWN: return "Static spawn";
+  case OPT_ZOMBIE_DENSITY_GEO: return "Geographical zombie density";
   case OPT_CLASSIC_ZOMBIES: return "Classic zombies";
   case OPT_SEASON_LENGTH: return "Season length";
   case OPT_STATIC_NPC: return "Static npcs";
@@ -502,6 +507,8 @@ move_view_offset 1\n\
 # Spawn zombies at game start instead of during the game.  You must create a new world after changing\n\
 static_spawn T\n\
 # Only spawn classic zombies and natural wildlife.  You must create a new world after changing\n\
+zombie_density_geo F\n\
+# Spawn zombies according to distance from city center, rather than building type.\n\
 classic_zombies F\n\
 # Season length in days\n\
 season_length 14\n\
