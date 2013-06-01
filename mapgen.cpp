@@ -8436,6 +8436,13 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
   place_items(mi_cop_weapons,  70, 20,  8, 22,  8,    false, 0);
   place_items(mi_cop_weapons,  70, 20,  8, 20, 11,    false, 0);
   place_items(mi_cop_evidence, 60,  1, 15,  4, 15,    false, 0);
+  
+  for (int i = 0; i <= 23; i++) {
+    for (int j = 0; j <= 23; j++) {
+        if (this->ter(i,j) == t_floor && one_in(80))
+            spawn_item(i, j, g->itypes["badge_deputy"], 0);
+    }
+  }
 
   if (terrain_type == ot_police_west)
    rotate(1);
