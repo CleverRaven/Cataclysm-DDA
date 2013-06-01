@@ -351,7 +351,7 @@ I wish you the best of luck, may whatever god you please guide your path.";
     return "From what I understand, the creatures you encountered \
 surrounding this relic were unlike anything I've heard of.  It is \
 laughable that I now consider the living dead to be part of our \
-ordinary reality.  Never-the-less, the church must have some explanation\
+ordinary reality.  Never-the-less, the church must have some explanation \
 for these events.  I have located the residence of a local clergy man, \
 could you go to this address and recover any items that may reveal what \
 the church's stance is on these events?";
