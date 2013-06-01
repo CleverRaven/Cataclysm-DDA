@@ -23,7 +23,8 @@ enum mission_id {
  MISSION_GET_FLAG,//patriot 1
  MISSION_GET_BLACK_BOX,//patriot 2
  MISSION_GET_BLACK_BOX_TRANSCRIPT,//patriot 3
- MISSION_GET_RELIC,
+ MISSION_GET_RELIC,//martyr 1
+ MISSION_RECOVER_PRIEST_DIARY,//martyr 2
  MISSION_GET_RECORD_WEATHER,
  MISSION_GET_RECORD_PATIENT,//humanitarian 1
  MISSION_REACH_FEMA_CAMP,//humanitarian 2
@@ -83,6 +84,7 @@ struct mission_start {
  void kill_100_z (game *, mission *); // Kill 100 more regular zombies
  void kill_horde_master (game *, mission *);// Kill the master zombie at the center of the horde
  void place_npc_software(game *, mission *); // Put NPC-type-dependent software
+ void place_priest_diary (game *, mission *); // Hides the priest's diary in a local house
  void reveal_lab_black_box (game *, mission *); // Reveal the nearest lab and give black box
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
  void find_safety	(game *, mission *); // Goal is set to non-spawn area
