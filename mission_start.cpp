@@ -99,6 +99,41 @@ void mission_start::kill_100_z(game *g, mission *miss)
  miss->monster_kill_goal = 100+killed;//your kill score must increase by 100
 }
 
+void mission_start::kill_horde_master(game *g, mission *miss)
+{
+ npc *p = g->find_npc(miss->npc_id);
+ p->attitude = NPCATT_FOLLOW;//npc joins you
+ int dist = 0;//pick one of the below locations for the horde to haunt
+ point site = g->cur_om->find_closest(g->om_location(), ot_office_tower_1, 1, dist, false);
+ if (site.x == -1 && site.y == -1 )
+    site = g->cur_om->find_closest(g->om_location(), ot_hotel_tower_1_8, 1, dist, false);
+ if (site.x == -1 && site.y == -1)
+    site = g->cur_om->find_closest(g->om_location(), ot_school_5, 1, dist, false);
+ if (site.x == -1 && site.y == -1)
+    site = g->cur_om->find_closest(g->om_location(), ot_forest_thick, 1, dist, false);
+ miss->target = site;
+// Make it seen on our map
+ for (int x = site.x - 6; x <= site.x + 6; x++) {
+  for (int y = site.y - 6; y <= site.y + 6; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ tinymap tile(&(g->itypes), &(g->mapitems), &(g->traps));
+ tile.load(g, site.x * 2, site.y * 2,  0, false);
+ tile.add_spawn(mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul");
+ tile.add_spawn(mon_zombie_brute,3,SEEX,SEEY);
+ tile.add_spawn(mon_zombie_fast,3,SEEX,SEEY);
+ if (SEEX > 1 && SEEX < OMAPX && SEEY > 1 && SEEY < OMAPY){
+ for (int x = SEEX - 1; x <= SEEX + 1; x++) {
+  for (int y = SEEY - 1; y <= SEEY + 1; y++)
+   tile.add_spawn(mon_zombie,rng(3,10),x,y);
+   tile.add_spawn(mon_zombie_fast,rng(0,2),SEEX,SEEY);
+ }
+}
+ tile.add_spawn(mon_zombie_necro,2,SEEX,SEEY);
+ tile.add_spawn(mon_zombie_hulk,1,SEEX,SEEY);
+ tile.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
+}
+
 void mission_start::place_npc_software(game *g, mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
