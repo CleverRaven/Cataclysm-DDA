@@ -46,6 +46,10 @@ class iuse
   void blech		(game *g, player *p, item *it, bool t);
   void mutagen		(game *g, player *p, item *it, bool t);
   void mutagen_3	(game *g, player *p, item *it, bool t);
+  void mutagen_plant	(game *g, player *p, item *it, bool t);
+  void mutagen_insect	(game *g, player *p, item *it, bool t);
+  void mutagen_slime	(game *g, player *p, item *it, bool t);
+  void mutagen_fish	(game *g, player *p, item *it, bool t);
   void purifier		(game *g, player *p, item *it, bool t);
   void marloss		(game *g, player *p, item *it, bool t);
   void dogfood		(game *g, player *p, item *it, bool t);

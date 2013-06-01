@@ -5,6 +5,7 @@
 #include "output.h"
 #include "rng.h"
 #include "line.h"
+#include "mutation.h"
 #include "player.h"
 #include <sstream>
 
@@ -710,6 +711,30 @@ void iuse::mutagen_3(game *g, player *p, item *it, bool t)
   p->mutate(g);
  if (one_in(2))
   p->mutate(g);
+}
+
+void iuse::mutagen_plant(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "You feel much closer to nature.");
+ p->mutate_category(g, MUTCAT_PLANT);
+}
+
+void iuse::mutagen_insect(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "You hear buzzing and feel your body harden.");
+ p->mutate_category(g, MUTCAT_INSECT);
+}
+
+void iuse::mutagen_slime(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "Your body seems to loose all rigidity for a moment.");
+ p->mutate_category(g, MUTCAT_SLIME);
+}
+
+void iuse::mutagen_fish(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "You are overcome by an overwhelming longing for the ocean.");
+ p->mutate_category(g, MUTCAT_FISH);
 }
 
 void iuse::purifier(game *g, player *p, item *it, bool t)
