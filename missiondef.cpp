@@ -126,11 +126,28 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   ORIGINS(ORIGIN_SECONDARY);
   DESTINATION(ot_farm);
 
+//vigilante mission 1 
  MISSION("Find Corporate Accounts", MGOAL_FIND_ITEM, 2, 1400, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  FOLLOWUP(MISSION_GET_SAFE_BOX);
   ITEM("record_accounting");
+
+//vigilante mission 2
+ MISSION("Retrieve Deposit Box", MGOAL_FIND_ITEM, 2, 300, false,
+	&mission_place::always, &mission_start::place_deposit_box,
+	&mission_end::deposit_box, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_GET_DEPUTY_BADGE);
+  ITEM("safe_box");
+
+//vigilante mission 3
+ MISSION("Find Deputy Badge", MGOAL_FIND_ITEM, 2, 1500, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("badge_deputy");
   
  //demon slayer mission 1 
  MISSION("Kill Jabberwock", MGOAL_KILL_MONSTER, 5, 2000, true,
