@@ -527,7 +527,7 @@ Guess what, dumb sucker wrote down his combination.  Come with me to retrieve th
 of the goodies in it that I can't use to press charges against these bastards.";
    case TALK_MISSION_ACCEPTED:
     return "\
-You'll see, I know I'm right.";
+You may make a tidy profit from this.";
    case TALK_MISSION_REJECTED:
     return "I know it isn't pressing but the world is going to be just as corrupt when we start rebuilding unless \
 we take measure to stop those who seek to rule over us.";
@@ -541,6 +541,33 @@ we take measure to stop those who seek to rule over us.";
     return "Thanks for trying... I guess.";
    case TALK_MISSION_FAILURE:
     return "The day of reckoning will come for the corporations if it hasn't already.";
+  }
+  break;
+
+//vigilante mission 3
+  case MISSION_GET_DEPUTY_BADGE:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Those twisted snakes...";
+   case TALK_MISSION_OFFER:
+    return "I hope you will find use from what you got out of the deposit box but I also have another job for you \
+that might lead you to an opportunity to deal out justice for those who cannot.  First things first, we can't just \
+look like ruffians.  Find us a deputy badge, easy enough?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+I'd check the police station.";
+   case TALK_MISSION_REJECTED:
+    return "We're also official... just hang in there and I'll show you what we can really do.";
+   case TALK_MISSION_ADVICE:
+    return "They shouldn't be that hard to find... should they?";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Great work, Deputy.  We're in business.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "Thanks for trying... I guess.";
+   case TALK_MISSION_FAILURE:
+    return "The day of reckoning will come for the criminals if it hasn't already.";
   }
   break;
 
