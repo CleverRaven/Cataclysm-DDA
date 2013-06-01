@@ -82,12 +82,21 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("black_box_transcript");
 
+//martyr mission 1
  MISSION("Find Relic", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
-  ORIGINS(ORIGIN_ANY_NPC);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  FOLLOWUP(MISSION_RECOVER_PRIEST_DIARY);
   ITEM("small_relic");
 
+//martyr mission 2
+ MISSION("Recover Priest's Diary", MGOAL_FIND_ITEM, 2, 700, false,
+	&mission_place::always, &mission_start::place_priest_diary,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("priest_diary");
+  
  MISSION("Find Weather Log", MGOAL_FIND_ITEM, 2, 500, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
@@ -138,7 +147,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   FOLLOWUP(MISSION_KILL_HORDE_MASTER);
 
 //demon slayer mission 3
- MISSION("Kill Horde Master",MGOAL_KILL_MONSTER, 5, 2500, false,
+ MISSION("Kill Horde Master",MGOAL_KILL_MONSTER, 5, 2500, true,
 	&mission_place::always, &mission_start::kill_horde_master,
 	&mission_end::leave, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
