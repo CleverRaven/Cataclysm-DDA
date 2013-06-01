@@ -381,8 +381,10 @@ void game::cleanup_at_end(){
  // Clear the future weather for future projects
  future_weather.clear();
 
- if (uquit == QUIT_DIED)
-  popup_top("Game over! Press spacebar...");
+    if (uquit == QUIT_DIED)
+    {
+        popup_top("Game over! Press spacebar...");
+    }
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
     {
         death_screen();
@@ -2108,6 +2110,7 @@ void game::death_screen()
     while(input != Cancel && input != Close && input != Confirm);
     delwin(w_death);
 
+    msg_buffer();
     disp_kills();
 }
 
