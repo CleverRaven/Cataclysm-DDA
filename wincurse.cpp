@@ -1,5 +1,4 @@
 #if ((!defined TILES) && (defined _WIN32 || defined WINDOWS))
-#include "windows.h"
 #include "catacurse.h"
 #include "options.h"
 #include "output.h"

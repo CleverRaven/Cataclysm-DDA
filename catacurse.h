@@ -4,6 +4,7 @@
 #define _WIN32_WINNT 0x0500
 #define WIN32_LEAN_AND_MEAN
 //#define VC_EXTRALEAN
+#include "windows.h"
 #endif
 #include <stdio.h>
 typedef int	chtype;
