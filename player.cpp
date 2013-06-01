@@ -3732,14 +3732,24 @@ void player::suffer(game *g)
  } else if (radiation < int((100 * g->m.radiation(posx, posy)) / 8))
   radiation += rng(0, g->m.radiation(posx, posy) / 8);
 
- if (rng(1, 2500) < radiation && (int(g->turn) % 150 == 0 || radiation > 2000)){
-  mutate(g);
-  if (radiation > 2000)
-   radiation = 2000;
-  radiation /= 2;
-  radiation -= 5;
-  if (radiation < 0)
-   radiation = 0;
+ if( !(int(g->turn) % 150) ){
+   if(radiation > 2000 || rng(30, 2500) < radiation) {
+     mutate(g);
+     if (radiation > 2000)
+       radiation = 2000;
+     radiation /= 2;
+     radiation -= 5;
+     if (radiation < 0)
+     radiation = 0;
+   }
+   else if (radiation > 60 && rng(1, 800) < radiation) {
+     vomit(g);
+     radiation -= 30;
+   }
+ }
+
+ if( radiation > 100 && !(int(g->turn) % 15) ){
+     hurtall(radiation / 100);
  }
 
 // Negative bionics effects
