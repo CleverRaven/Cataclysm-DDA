@@ -3083,6 +3083,30 @@
   },
 
   {
+    "id": "safe_box",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "yellow",
+    "name": "safe deposit box",
+    "description": "A combination lock box, breaking inside would destroy anything of value.",
+    "rarity": 0,
+    "price": 800,
+    "material": "STEEL",
+    "weight": 20,
+    "volume": 15,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "none",
+    "revert_to": "null",
+    "use_action": "NONE"
+  },
+
+  {
     "id": "pickaxe",
     "type": "TOOL",
     "symbol": "/",
