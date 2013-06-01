@@ -1101,6 +1101,14 @@ npc* game::find_npc(int id)
     return NULL;
 }
 
+int game::kill_count(mon_id mon){
+ std::vector<mtype *> types;
+ for (int i = 0; i < num_monsters; i++) {
+   if (mtypes[i]-> id == mon)
+    return kills[i];
+ }
+ }
+
 mission* game::find_mission(int id)
 {
  for (int i = 0; i < active_missions.size(); i++) {
@@ -1166,6 +1174,13 @@ bool game::mission_complete(int id, int npc_id)
 
   case MGOAL_KILL_MONSTER:
    return (miss->step >= 1);
+   
+  case MGOAL_KILL_MONSTER_TYPE:
+   debugmsg("%d kill count", kill_count(miss->monster_type));
+   debugmsg("%d goal", miss->monster_kill_goal);
+   if (kill_count(miss->monster_type) >= miss->monster_kill_goal){
+    return true;}
+   return false;
 
   default:
    return false;
