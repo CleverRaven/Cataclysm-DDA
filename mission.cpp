@@ -511,7 +511,7 @@ Thanks, make sure you're ready for whatever the beast is.";
   break;
 
 //demon slayer mission 2
-     case MISSION_KILL_100_Z:
+  case MISSION_KILL_100_Z:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
     return "You seem to know this new world better than most...";
@@ -536,6 +536,35 @@ won't make it unless someone decides to take the initiative.";
 our little neck of the world if you keep this up.";
    case TALK_MISSION_SUCCESS_LIE:
     return "I don't think that was quite a hundred dead zeds.";
+   case TALK_MISSION_FAILURE:
+    return "Quitting already?";
+  }
+  break;
+
+//demon slayer mission 3
+  case MISSION_KILL_HORDE_MASTER:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "I've heard some bad rumors so I hope you are up for another challenge...";
+   case TALK_MISSION_OFFER:
+    return "Apparently one of the other survivors picked up on an unusually dense horde of undead \
+moving into the area.  At the center of this throng there was a 'leader' of some sort.  The short of it is, \
+kill the son of a bitch.  We don't know what it is capable of or why it is surrounded by other zombies but \
+this thing reeks of trouble.  Do whatever it takes but we can't risk it getting away.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+I'll lend you a hand but I'd try and recruit another gunslinger if you can.";
+   case TALK_MISSION_REJECTED:
+    return "What's the use of walking away, they'll track you down eventually.";
+   case TALK_MISSION_ADVICE:
+    return "Don't risk torching the building it may be hiding in if it has a basement.  The sucker may still be \
+alive under the rubble and ash.";
+   case TALK_MISSION_INQUIRE:
+    return "Got this knocked out?";
+   case TALK_MISSION_SUCCESS:
+    return "May that bastard never get up again.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "I don't think we got it yet.";
    case TALK_MISSION_FAILURE:
     return "Quitting already?";
   }
