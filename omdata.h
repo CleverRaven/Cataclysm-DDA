@@ -393,8 +393,8 @@ const oter_t oterlist[num_ter_types] = {
 {"solid rock",		'%',	c_dkgray,	5, no_extras, false, false, 0},
 {"rift",		'^',	c_red,		2, no_extras, false, false, 0},
 {"hellmouth",		'^',	c_ltred,	2, no_extras, true, false, 0},
-{"slime pit",		'~',	c_ltgreen,	2, no_extras, true, false, 0},
 {"slime pit",		'~',	c_ltgreen,	2, no_extras, false, false, 0},
+{"slime pit",		'~',	c_ltgreen,	2, no_extras, true, false, 0},
 {"triffid grove",	'T',	c_ltred,	5, no_extras, true, false, 0},
 {"triffid roots",	'T',	c_ltred,	5, no_extras, true, true, 0},
 {"triffid heart",	'T',	c_red,		5, no_extras, false, true, 0},
@@ -634,7 +634,7 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
 {ot_spider_pit,	   0,500,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::forest, 0},
 
-{ot_slimepit,	   0,  4,  0, -1, "GROUP_GOO", 2, 10, 100, 200,
+{ot_slimepit_down,	   0,  4,  0, -1, "GROUP_GOO", 2, 10, 100, 200,
  &omspec_place::land, 0},
 
 {ot_fungal_bloom,  0,  3,  5, -1, "GROUP_FUNGI", 600, 1200, 30, 50,
