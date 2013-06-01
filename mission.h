@@ -29,7 +29,8 @@ enum mission_id {
  MISSION_GET_RECORD_PATIENT,//humanitarian 1
  MISSION_REACH_FEMA_CAMP,//humanitarian 2
  MISSION_REACH_FARM_HOUSE,//humanitarian 3
- MISSION_GET_RECORD_ACCOUNTING,
+ MISSION_GET_RECORD_ACCOUNTING,//vigilante 1
+ MISSION_GET_SAFE_BOX,//vigilante 2
  MISSION_KILL_JABBERWOCK,//demon slayer 1
  MISSION_KILL_100_Z,//demon slayer 2
  MISSION_KILL_HORDE_MASTER,//demon slayer 3
@@ -85,6 +86,7 @@ struct mission_start {
  void kill_horde_master (game *, mission *);// Kill the master zombie at the center of the horde
  void place_npc_software(game *, mission *); // Put NPC-type-dependent software
  void place_priest_diary (game *, mission *); // Hides the priest's diary in a local house
+ void place_deposit_box (game *, mission *); // Place a safe deposit box in a nearby bank
  void reveal_lab_black_box (game *, mission *); // Reveal the nearest lab and give black box
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
  void find_safety	(game *, mission *); // Goal is set to non-spawn area
