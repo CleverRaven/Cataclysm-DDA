@@ -130,9 +130,16 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
   FOLLOWUP(MISSION_KILL_100_Z);
 
-//demon slayer mission 2 
+//demon slayer mission 2
  MISSION("Kill 100 Zombies", MGOAL_KILL_MONSTER_TYPE, 5, 2500, false,
 	&mission_place::always, &mission_start::kill_100_z,
+	&mission_end::leave, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_KILL_HORDE_MASTER);
+
+//demon slayer mission 3
+ MISSION("Kill Horde Master",MGOAL_KILL_MONSTER, 5, 2500, false,
+	&mission_place::always, &mission_start::kill_horde_master,
 	&mission_end::leave, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
 
