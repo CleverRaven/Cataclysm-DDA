@@ -60,7 +60,7 @@ bool vehicle::player_in_control (player *p)
 void vehicle::load (std::ifstream &stin)
 {
     int t;
-    int fdir, mdir, skd, prts, cr_on;
+    int fdir, mdir, skd, prts, cr_on, li_on;
     stin >>
         t >>
         posx >>
@@ -71,6 +71,7 @@ void vehicle::load (std::ifstream &stin)
         velocity >>
         cruise_velocity >>
         cr_on >>
+        li_on >>
         turret_mode >>
         skd >>
         of_turn_carry >>
@@ -80,6 +81,7 @@ void vehicle::load (std::ifstream &stin)
     move.init (mdir);
     skidding = skd != 0;
     cruise_on = cr_on != 0;
+    lights_on = li_on != 0;
     std::string databuff;
     getline(stin, databuff); // Clear EoL
     getline(stin, name); // read name
@@ -135,6 +137,7 @@ void vehicle::save (std::ofstream &stout)
         velocity << " " <<
         cruise_velocity << " " <<
         (cruise_on? 1 : 0) << " " <<
+        (lights_on? 1 : 0) << " " <<
         turret_mode << " " <<
         (skidding? 1 : 0) << " " <<
         of_turn_carry << " " <<

@@ -914,7 +914,7 @@
         "rarity" : 65,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -964,7 +964,7 @@
         "rarity" : 50,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -989,7 +989,7 @@
         "rarity" : 35,
         "encumberance" : 1,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 4
     },
@@ -1139,7 +1139,7 @@
         "rarity" : 25,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -1164,7 +1164,7 @@
         "rarity" : 25,
         "encumberance" : 2,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 4
     },
@@ -1189,7 +1189,7 @@
         "rarity" : 25,
         "encumberance" : 2,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 6
     },
@@ -1214,7 +1214,7 @@
         "rarity" : 50,
         "encumberance" : 3,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 8
     },
@@ -1239,7 +1239,7 @@
         "rarity" : 5,
         "encumberance" : 2,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 8
     },
@@ -1264,7 +1264,7 @@
         "rarity" : 30,
         "encumberance" : 2,
         "bashing" : -4,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 8
     },

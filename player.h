@@ -221,7 +221,7 @@ public:
 
  int warmth(body_part bp);	// Warmth provided by armor &c
  int encumb(body_part bp);	// Encumberance from armor &c
- int encumb(body_part bp, int &layers, int &armorenc, int &warmth);
+ int encumb(body_part bp, int &layers, int &armorenc);
  int armor_bash(body_part bp);	// Bashing resistance
  int armor_cut(body_part bp);	// Cutting  resistance
  int resist(body_part bp);	// Infection &c resistance
@@ -231,7 +231,7 @@ public:
  void practice(const calendar& turn, Skill *s, int amount);
  void practice(const calendar& turn, std::string s, int amount);
 
- void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0);
+ void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0, std::string name = "");
  void cancel_activity();
 
  int weight_carried();
@@ -335,15 +335,12 @@ public:
 
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
- SkillLevel& skillLevel(size_t id);
 
  void set_skill_level(Skill* _skill, int level);
  void set_skill_level(std::string ident, int level);
- void set_skill_level(size_t id, int level);
 
  void boost_skill_level(Skill* _skill, int level);
  void boost_skill_level(std::string ident, int level);
- void boost_skill_level(size_t id, int level);
 
  void copy_skill_levels(const player *rhs);
 

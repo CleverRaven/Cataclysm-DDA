@@ -12,6 +12,12 @@ void mission_start::standard(game *g, mission *miss)
 {
 }
 
+void mission_start::join(game *g, mission *miss)
+{
+ npc *p = g->find_npc(miss->npc_id);
+ p->attitude = NPCATT_FOLLOW;
+}
+
 void mission_start::infect_npc(game *g, mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);

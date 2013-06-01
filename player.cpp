@@ -834,9 +834,9 @@ void player::update_bodytemp(game *g)
 void player::temp_equalizer(body_part bp1, body_part bp2)
 {
  // Body heat is moved around.
- // When bp1 gives 15%, bp2 will return 15% of the _new_ difference
- int diff = (temp_conv[bp2] - temp_conv[bp1])*0.15; // If bp1 is warmer, it will lose heat
- temp_conv[bp1] += diff;
+ // Shift in one direction only, will be shifted in the other direction seperately.
+ int diff = (temp_cur[bp2] - temp_cur[bp1])*0.0001; // If bp1 is warmer, it will lose heat
+ temp_cur[bp1] += diff;
 }
 
 int player::current_speed(game *g)
@@ -1340,7 +1340,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   trait_win_size_y = maxy - infooffsetybottom;
  }
 
- skill_win_size_y = num_skill_types;
+ skill_win_size_y = Skill::skill_count();
  if (skill_win_size_y + infooffsetybottom > maxy ) {
   skill_win_size_y = maxy - infooffsetybottom;
  }
@@ -1530,7 +1530,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  mvwprintz(w_encumb, 0, 1, c_ltgray, "ENCUMBERANCE AND WARMTH");
  for (int i=0; i < 8; i++) {
   iEnc = iLayers = iArmorEnc = iWarmth = 0;
-  iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc, iWarmth);
+  iWarmth = warmth(body_part(i));
+  iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
   mvwprintz(w_encumb, i+1, 1, c_ltgray, "%s:", asText[i].c_str());
   mvwprintz(w_encumb, i+1, 8, c_ltgray, "(%d)", iLayers);
   mvwprintz(w_encumb, i+1, 11, c_ltgray, "%*s%d%s%d=", (iArmorEnc < 0 || iArmorEnc > 9 ? 1 : 2), " ", iArmorEnc, "+", iEnc-iArmorEnc);
@@ -1570,17 +1571,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
 
 // Next, draw skills.
  line = 1;
- std::vector <skill> skillslist;
+ std::vector<Skill*> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill)
  {
-  int i = (*aSkill)->id();
-
   SkillLevel level = skillLevel(*aSkill);
 
   if ( level >= 0) {
-   skillslist.push_back(skill(i));
+   skillslist.push_back(*aSkill);
    // Default to not training and not rusting
    nc_color text_color = c_blue;
    bool training = level.isTraining();
@@ -2040,14 +2039,16 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
 
    Skill *selectedSkill;
 
-   for (int i = min; i < max; i++) {
-     Skill *aSkill = Skill::skill(skillslist[i]);
+   for (std::vector<Skill*>::iterator iter = Skill::skills.begin();
+        iter != Skill::skills.end(); ++iter)
+   {
+     Skill *aSkill = *iter;
      SkillLevel level = skillLevel(aSkill);
 
      bool isLearning = level.isTraining();
      int exercise = level.exercise();
 
-    if (i == line) {
+    if (aSkill->id() == line) {
       selectedSkill = aSkill;
      if (exercise >= 100)
       status = isLearning ? h_pink : h_red;
@@ -2059,9 +2060,9 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
      else
       status = isLearning ? c_ltblue : c_blue;
     }
-    mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
-    mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
-    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
+    mvwprintz(w_skills, 1 + aSkill->id() - min, 1, c_ltgray, "                         ");
+    mvwprintz(w_skills, 1 + aSkill->id() - min, 1, status, "%s:", aSkill->name().c_str());
+    mvwprintz(w_skills, 1 + aSkill->id() - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
    }
    werase(w_info);
    if (line >= 0 && line < skillslist.size())
@@ -2082,7 +2083,7 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
       werase(w_skills);
      mvwprintz(w_skills, 0, 0, c_ltgray, "           SKILLS         ");
      for (int i = 0; i < skillslist.size() && i < skill_win_size_y; i++) {
-      Skill *thisSkill = Skill::skill(skillslist[i]);
+      Skill *thisSkill = skillslist[i];
       SkillLevel level = skillLevel(thisSkill);
       bool isLearning = level.isTraining();
 
@@ -2451,12 +2452,23 @@ void player::toggle_trait(int flag)
 bool player::in_climate_control(game *g)
 {
     bool regulated_area=false;
+    // Check
     if(has_active_bionic("bio_climate")) { return true; }
-    if(int(g->turn) >= next_climate_control_check) {
+    for (int i = 0; i < worn.size(); i++)
+    {
+        if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
+           (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
+        {
+            return true;
+        }
+    }
+    if(int(g->turn) >= next_climate_control_check)
+    {
         next_climate_control_check=int(g->turn)+20;  // save cpu and similate acclimation.
         int vpart = -1;
         vehicle *veh = g->m.veh_at(posx, posy, vpart);
-        if(veh) {
+        if(veh)
+        {
             regulated_area=(
                 veh->is_inside(vpart) &&    // Already checks for opened doors
                 veh->total_power(true) > 0  // Out of gas? No AC for you!
@@ -2465,7 +2477,9 @@ bool player::in_climate_control(game *g)
         // TODO: AC check for when building power is implmented
         last_climate_control_ret=regulated_area; 
         if(!regulated_area) { next_climate_control_check+=40; }  // Takes longer to cool down / warm up with AC, than it does to step outside and feel cruddy.
-    } else { 
+    }
+    else
+    {
         return ( last_climate_control_ret ? true : false );
     }
     return regulated_area;
@@ -6179,13 +6193,13 @@ void player::read(game *g, char ch)
     if (tmp->intel > int_cur) 
     {
         g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
-        time += ((tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
-        activity = player_activity(ACT_READ, time, index, ch);
+        time += (tmp->time * (tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
+        activity = player_activity(ACT_READ, time, index, ch, "");
         moves = 0;
         return;
     }
     
-    activity = player_activity(ACT_READ, time, index, ch);
+    activity = player_activity(ACT_READ, time, index, ch, "");
     moves = 0;
 }
 
@@ -6334,8 +6348,12 @@ float player::fine_detail_vision_mod(game *g)
 
 int player::warmth(body_part bp)
 {
-    // Fetch the morale value of wetness for bodywetness
     int bodywetness = 0;
+    int ret = 0, warmth = 0;
+    int pocket_check = 0;
+    it_armor* armor = NULL;
+
+    // Fetch the morale value of wetness for bodywetness
     for (int i = 0; bodywetness == 0 && i < morale.size(); i++)
     {
         if( morale[i].type == MORALE_WET )
@@ -6344,12 +6362,27 @@ int player::warmth(body_part bp)
             break;
         }
     }
-    int ret = 0, warmth = 0;
+
+    // If the player is not wielding anything, check if hands can be put in pockets
+    if (bp == bp_hands && !is_armed())
+    {
+        for (int i = 0; i < worn.size(); i++)
+        {
+            if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso) && worn[i].has_flag("POCKETS") && pocket_check == 0)
+            {
+                ret += 10;
+                pocket_check++;
+            }
+        }
+    }
+
     for (int i = 0; i < worn.size(); i++)
     {
-        if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp))
+        armor = dynamic_cast<it_armor*>(worn[i].type);
+
+        if (armor->covers & mfb(bp))
         {
-            warmth = (dynamic_cast<it_armor*>(worn[i].type))->warmth;
+            warmth = armor->warmth;
             // Wool items do not lose their warmth in the rain
             if (!worn[i].made_of(WOOL))
             {
@@ -6362,11 +6395,11 @@ int player::warmth(body_part bp)
 }
 
 int player::encumb(body_part bp) {
- int iLayers = 0, iArmorEnc = 0, iWarmth = 0;
- return encumb(bp, iLayers, iArmorEnc, iWarmth);
+ int iLayers = 0, iArmorEnc = 0;
+ return encumb(bp, iLayers, iArmorEnc);
 }
 
-int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
+int player::encumb(body_part bp, int &layers, int &armorenc)
 {
     int ret = 0;
     it_armor* armor;
@@ -6382,12 +6415,10 @@ int player::encumb(body_part bp, int &layers, int &armorenc, int &warmth)
             if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
             {
                 armorenc += armor->encumber - 4;
-                warmth   += armor->warmth - 40;
             }
             else
             {
                 armorenc += armor->encumber;
-                warmth += armor->warmth;
                 if (worn[i].has_flag("FIT"))
                 {
                     armorenc--;
@@ -6822,14 +6853,14 @@ void player::learn_recipe(recipe *rec)
     learned_recipes[rec->ident] = rec;
 }
 
-void player::assign_activity(game* g, activity_type type, int moves, int index, char invlet)
+void player::assign_activity(game* g, activity_type type, int moves, int index, char invlet, std::string name)
 {
  if (backlog.type == type && backlog.index == index && backlog.invlet == invlet &&
-     query_yn("Resume task?")) {
+     backlog.name == name && query_yn("Resume task?")) {
   activity = backlog;
   backlog = player_activity();
  } else
-  activity = player_activity(type, moves, index, invlet);
+  activity = player_activity(type, moves, index, invlet, name);
 }
 
 void player::cancel_activity()
@@ -6965,10 +6996,6 @@ SkillLevel& player::skillLevel(std::string ident) {
   return _skills[Skill::skill(ident)];
 }
 
-SkillLevel& player::skillLevel(size_t id) {
-  return _skills[Skill::skill(id)];
-}
-
 SkillLevel& player::skillLevel(Skill *_skill) {
   return _skills[_skill];
 }
@@ -6986,10 +7013,6 @@ void player::set_skill_level(std::string ident, int level)
 {
     skillLevel(ident).level(level);
 }
-void player::set_skill_level(size_t id, int level)
-{
-    skillLevel(id).level(level);
-}
 
 void player::boost_skill_level(Skill* _skill, int level)
 {
@@ -6998,10 +7021,6 @@ void player::boost_skill_level(Skill* _skill, int level)
 void player::boost_skill_level(std::string ident, int level)
 {
     skillLevel(ident).level(level+skillLevel(ident));
-}
-void player::boost_skill_level(size_t id, int level)
-{
-    skillLevel(id).level(level+skillLevel(id));
 }
 
 void player::setID (int i)

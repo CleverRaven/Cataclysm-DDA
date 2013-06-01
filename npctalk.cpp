@@ -26,6 +26,10 @@
                                  ret.back().text = txt;\
                                  ret.back().tempvalue = index
 
+#define SELECT_SKIL(txt, skillIn)  ret.push_back(talk_response());\
+                                 ret.back().text = txt;\
+                                 ret.back().skill = skillIn;
+
 #define TRIAL(tr, diff) ret.back().trial = tr;\
                         ret.back().difficulty = diff
 
@@ -227,7 +231,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
  case TALK_TRAIN: {
   if (g->u.backlog.type == ACT_TRAIN)
    return "Shall we resume?";
-  std::vector<skill> trainable = p->skills_offered_to( &(g->u) );
+  std::vector<Skill*> trainable = p->skills_offered_to( &(g->u) );
   std::vector<itype_id> styles = p->styles_offered_to( &(g->u) );
   if (trainable.empty() && styles.empty())
    return "Sorry, but it doesn't seem I have anything to teach you.";
@@ -567,6 +571,11 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
      SUCCESS(TALK_MISSION_SUCCESS);
      SUCCESS_ACTION(&talk_function::mission_success);
     break;
+   case MGOAL_GO_TO_TYPE:
+    RESPONSE("We're here!");
+     SUCCESS(TALK_MISSION_SUCCESS);
+     SUCCESS_ACTION(&talk_function::mission_success);
+    break;
    case MGOAL_GO_TO:
    case MGOAL_FIND_NPC:
     RESPONSE("Here I am.");
@@ -738,12 +747,12 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    std::stringstream resume;
    resume << "Yes, let's resume training " <<
              (g->u.backlog.index > 0 ?
-              skill_name(g->u.backlog.index) :
+              Skill::skill(g->u.backlog.name)->name() :
               g->itypes[ martial_arts_itype_ids[0-g->u.backlog.index] ]->name);
    SELECT_TEMP( resume.str(), g->u.backlog.index);
     SUCCESS(TALK_TRAIN_START);
   }
-  std::vector<skill> trainable = p->skills_offered_to( &(g->u) );
+  std::vector<Skill*> trainable = p->skills_offered_to( &(g->u) );
   std::vector<itype_id> styles = p->styles_offered_to( &(g->u) );
   if (trainable.empty() && styles.empty()) {
    RESPONSE("Oh, okay."); // Nothing to learn here
@@ -757,12 +766,12 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    //shift--;
    printed++;
    std::stringstream skilltext;
-   skill trained = trainable[i];
+   Skill* trained = trainable[i];
 
-   skilltext << skill_name(trained) << ": " << static_cast<int>(g->u.skillLevel(trained)) <<
+   skilltext << trained->name() << ": " << static_cast<int>(g->u.skillLevel(trained)) <<
                 " -> " << g->u.skillLevel(trained) + 1 << " (cost " <<
                 200 * (g->u.skillLevel(trained) + 1) << ")";
-   SELECT_TEMP( skilltext.str(), trainable[i] );
+   SELECT_SKIL( skilltext.str(), trainable[i] );
     SUCCESS(TALK_TRAIN_START);
   }
   if (shift < 0)
@@ -1487,18 +1496,15 @@ void talk_function::set_engagement_all(game *g, npc *p)
 void talk_function::start_training(game *g, npc *p)
 {
  int cost = 0, time = 0;
- skill sk_used = sk_null;
- //There were some style references here that... didn't do anything. Created but never used.
- //TODO: Remove these comments once I'm sure this is correct.
- //itype_id style = "null";
- if (p->chatbin.tempvalue < 0) {
+ Skill* sk_used = NULL;
+ if (p->chatbin.skill == NULL) {
+  // we're training a martial art style
   cost = -800;
-  // style = itype_id(0 - p->chatbin.tempvalue);
   time = 30000;
  } else {
-   sk_used = skill(p->chatbin.tempvalue);
-   cost = -200 * (1 + g->u.skillLevel(Skill::skill(sk_used)));
-   time = 10000 + 5000 * g->u.skillLevel(Skill::skill(sk_used));
+   sk_used = p->chatbin.skill;
+   cost = -200 * (1 + g->u.skillLevel(sk_used));
+   time = 10000 + 5000 * g->u.skillLevel(sk_used);
  }
 
 // Pay for it
@@ -1507,7 +1513,7 @@ void talk_function::start_training(game *g, npc *p)
  else if (!trade(g, p, cost, "Pay for training:"))
   return;
 // Then receive it
- g->u.assign_activity(g, ACT_TRAIN, time, p->chatbin.tempvalue);
+ g->u.assign_activity(g, ACT_TRAIN, time, p->chatbin.tempvalue, 0, p->chatbin.skill->ident());
 }
 
 void parse_tags(std::string &phrase, player *u, npc *me)
@@ -1689,6 +1695,8 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   beta->chatbin.mission_selected = chosen.mission_index;
  if (chosen.tempvalue != -1)
   beta->chatbin.tempvalue = chosen.tempvalue;
+ if (chosen.skill != NULL)
+  beta->chatbin.skill = chosen.skill;
 
  talk_function effect;
  if (chosen.trial == TALK_TRIAL_NONE ||
@@ -1765,12 +1773,12 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
 
 // Adjust the prices based on your barter skill.
  for (int i = 0; i < their_price.size(); i++) {
-  their_price[i] *= (price_adjustment(g->u.skillLevel(sk_barter)) +
+  their_price[i] *= (price_adjustment(g->u.skillLevel("barter")) +
                      (p->int_cur - g->u.int_cur) / 15);
   getting_theirs[i] = false;
  }
  for (int i = 0; i < your_price.size(); i++) {
-  your_price[i] /= (price_adjustment(g->u.skillLevel(sk_barter)) +
+  your_price[i] /= (price_adjustment(g->u.skillLevel("barter")) +
                     (p->int_cur - g->u.int_cur) / 15);
   getting_yours[i] = false;
  }

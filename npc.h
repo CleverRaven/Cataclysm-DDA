@@ -356,12 +356,14 @@ struct npc_chatbin
  std::vector<int> missions_assigned;
  int mission_selected;
  int tempvalue; //No clue what this value does, but it is used all over the place. So it is NOT temp.
+ Skill* skill;
  talk_topic first_topic;
 
  npc_chatbin()
  {
   mission_selected = -1;
   tempvalue = -1;
+  skill = NULL;
   first_topic = TALK_NONE;
  }
 
@@ -369,7 +371,7 @@ struct npc_chatbin
  {
   std::stringstream ret;
   ret << first_topic << " " << mission_selected << " " << tempvalue << " " <<
-          missions.size() << " " << missions_assigned.size();
+          (skill ? skill->ident() : "none") << " " << missions.size() << " " << missions_assigned.size();
   for (int i = 0; i < missions.size(); i++)
    ret << " " << missions[i];
   for (int i = 0; i < missions_assigned.size(); i++)
@@ -380,9 +382,11 @@ struct npc_chatbin
  void load_info(std::stringstream &info)
  {
   int tmpsize_miss, tmpsize_assigned, tmptopic;
-  info >> tmptopic >> mission_selected >> tempvalue >> tmpsize_miss >>
-          tmpsize_assigned;
+  std::string skill_ident;
+  info >> tmptopic >> mission_selected >> tempvalue >> skill_ident >>
+          tmpsize_miss >> tmpsize_assigned;
   first_topic = talk_topic(tmptopic);
+  skill = skill_ident == "none" ? NULL : Skill::skill(skill_ident);
   for (int i = 0; i < tmpsize_miss; i++) {
    int tmpmiss;
    info >> tmpmiss;
@@ -413,7 +417,7 @@ public:
  void randomize_from_faction(game *g, faction *fac);
  void spawn_at(overmap *o, int posx, int posy, int omz);
  void place_near(game *g, int potentialX, int potentialY);
- skill best_skill();
+ Skill* best_skill();
  void starting_weapon(game *g);
 
 // Save & load
@@ -443,7 +447,7 @@ public:
  void make_angry(); // Called if the player attacks us
  bool wants_to_travel_with(player *p);
  int assigned_missions_value(game *g);
- std::vector<skill> skills_offered_to(player *p); // Skills that're higher
+ std::vector<Skill*> skills_offered_to(player *p); // Skills that're higher
  std::vector<itype_id> styles_offered_to(player *p); // Martial Arts
 // State checks
  bool is_enemy(); // We want to kill/mug/etc the player

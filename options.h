@@ -16,6 +16,8 @@ OPT_SAFEMODEPROXIMITY, //Range after which safemode kicks in
 OPT_AUTOSAFEMODE, // Autosafemode on by default?
 OPT_AUTOSAFEMODETURNS, //Number of turns untill safemode kicks back in
 OPT_AUTOSAVE, // Automatically save the game on intervals.
+OPT_AUTOSAVE_TURNS, // Turns between autosaves
+OPT_AUTOSAVE_MINUTES, // Minimum realtime minutes between autosaves
 OPT_GRADUAL_NIGHT_LIGHT, // be so cool at night :)
 OPT_RAIN_ANIMATION, // Enable the rain and other weather animation
 OPT_QUERY_DISASSEMBLE, // Query before disassembling items
@@ -57,6 +59,12 @@ struct option_table
                 break;
             case OPT_MOVE_VIEW_OFFSET:
                 options[i] = 1;
+                break;
+            case OPT_AUTOSAVE_TURNS:
+                options[i] = 30;
+                break;
+            case OPT_AUTOSAVE_MINUTES:
+                options[i] = 5;
                 break;
             default:
                 options[i] = 0;

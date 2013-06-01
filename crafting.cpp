@@ -44,8 +44,8 @@ void game::init_recipes()
         bool autolearn = curr.get("autolearn").as_bool();
         // optional fields
         bool reversible = curr.has("reversible") ? curr.get("reversible").as_bool() : false;
-        const char *skill1 = curr.has("skill_pri") ? curr.get("skill_pri").as_string().c_str() : NULL;
-        const char *skill2 = curr.has("skill_sec") ? curr.get("skill_sec").as_string().c_str() : NULL;
+        std::string skill1 = curr.has("skill_pri") ? curr.get("skill_pri").as_string() : "";
+        std::string skill2 = curr.has("skill_sec") ? curr.get("skill_sec").as_string() : "";
         std::string id_suffix = curr.has("id_suffix") ? curr.get("id_suffix").as_string() : "";
         int learn_by_disassembly = curr.has("decomp_learn") ? curr.get("decomp_learn").as_int() : -1;
 
@@ -1079,20 +1079,21 @@ void game::complete_craft()
     {
         newit.item_tags.insert("FIT");
     }
-    int used_bday_tally = 0;
-    int used_bday_count = 0;
+    float used_age_tally = 0;
+    int used_age_count = 0;
     for (std::list<item>::iterator iter = used.begin(); iter != used.end(); ++iter)
     {
         if (iter->goes_bad())
         {
-            used_bday_tally += iter->bday;
-            ++used_bday_count;
+            used_age_tally += ((int)turn - iter->bday)/
+                (float)(dynamic_cast<it_comest*>(iter->type)->spoils);
+            ++used_age_count;
         }
     }
-    if (used_bday_count > 0)
+    if (used_age_count > 0 && newit.goes_bad())
     {
-        const int average_used_bday = used_bday_tally / used_bday_count;
-        newit.bday = (average_used_bday + newit.bday) / 2;
+        const int average_used_age = (used_age_tally / used_age_count) * dynamic_cast<it_comest*>(newit.type)->spoils;
+        newit.bday = newit.bday - average_used_age;
     }
  // for food items
  if (newit.is_food())
