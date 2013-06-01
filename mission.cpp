@@ -342,6 +342,38 @@ I wish you the best of luck, may whatever god you please guide your path.";
   }
   break;
 
+//martyr mission 2
+   case MISSION_RECOVER_PRIEST_DIARY:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "St. Michael the archangel defend me in battle...";
+   case TALK_MISSION_OFFER:
+    return "From what I understand, the creatures you encountered \
+surrounding this relic were unlike anything I've heard of.  It is \
+laughable that I now consider the living dead to be part of our \
+ordinary reality.  Never-the-less, the church must have some explanation\
+for these events.  I have located the residence of a local clergy man, \
+could you go to this address and recover any items that may reveal what \
+the church's stance is on these events?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+I wish you the best of luck, may whatever god you please guide your path.";
+   case TALK_MISSION_REJECTED:
+    return "Ya, I guess the stress may just be getting to me...";
+   case TALK_MISSION_ADVICE:
+    return "If the information is confidential the priest must have it hidden \
+within his own home.";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Thank you, a diary is exactly what I was looking for.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What good does this do us?";
+   case TALK_MISSION_FAILURE:
+    return "It was a lost cause anyways...";
+  }
+  break;
+
    case MISSION_GET_RECORD_WEATHER:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
