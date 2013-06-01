@@ -5991,7 +5991,7 @@ void game::advanced_inv()
                     popup("Destination area is full. Remove some item first");
                 } else {
                     //if target item has stack
-                    int max = (MAX_ITEM_IN_SQUARE - panes[destarea].size); // vehicle fixme (?)
+                    int max = (MAX_ITEM_IN_SQUARE - squares[destarea].size); // vehicle fixme (?)
                     // TODO figure out a better way to get the item
 #ifdef uselimitedchridx
                     item* it = &u.inv.slice(item_pos, 1).front()->front();
