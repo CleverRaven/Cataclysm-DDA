@@ -294,6 +294,52 @@ void mission_start::place_priest_diary(game *g, mission *miss)
  compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
 }
 
+void mission_start::place_deposit_box(game *g, mission *miss)
+{
+ npc *p = g->find_npc(miss->npc_id);
+ p->attitude = NPCATT_FOLLOW;//npc joins you
+ int dist = 0;
+ point site = g->cur_om->find_closest(g->om_location(), ot_bank_north, 1, dist, false);
+ if (site.x == -1 && site.y == -1 )
+    site = g->cur_om->find_closest(g->om_location(), ot_bank_south, 1, dist, false);
+ if (site.x == -1 && site.y == -1)
+    site = g->cur_om->find_closest(g->om_location(), ot_bank_east, 1, dist, false);
+ if (site.x == -1 && site.y == -1)
+    site = g->cur_om->find_closest(g->om_location(), ot_bank_west, 1, dist, false);
+ if (site.x == -1 && site.y == -1)
+    site = g->cur_om->find_closest(g->om_location(), ot_office_tower_1, 1, dist, false);
+ miss->target = site;
+ for (int x = site.x - 2; x <= site.x + 2; x++) {
+  for (int y = site.y - 2; y <= site.y + 2; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ tinymap compmap(&(g->itypes), &(g->mapitems), &(g->traps));
+ compmap.load(g, site.x * 2, site.y * 2, 0, false);
+ point comppoint;
+  std::vector<point> valid;
+  for (int x = 0; x < SEEX * 2; x++) {
+   for (int y = 0; y < SEEY * 2; y++) {
+    if (compmap.ter(x, y) == t_floor) {
+     bool okay = false;
+     for (int x2 = x - 1; x2 <= x + 1 && !okay; x2++) {
+      for (int y2 = y - 1; y2 <= y + 1 && !okay; y2++) {
+       if (compmap.ter(x2, y2) == t_wall_metal_h|| compmap.ter(x2, y2) == t_wall_metal_v) {
+        okay = true;
+        valid.push_back( point(x, y) );
+       }
+      }
+     }
+    }
+   }
+  }
+  if (valid.empty())
+   comppoint = point( rng(6, SEEX * 2 - 7), rng(6, SEEY * 2 - 7) );
+  else
+   comppoint = valid[rng(0, valid.size() - 1)];
+compmap.spawn_item(comppoint.x, comppoint.y, g->itypes["safe_box"], 0);
+compmap.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
+}
+
 void mission_start::reveal_lab_black_box(game *g, mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
