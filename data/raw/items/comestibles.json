@@ -3592,7 +3592,7 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "A full medical kit, with bandages, anti-biotics, and rapid healing agents. Used for healing large amounts of damage.",
+        "description" : "A full medical kit, with bandages, local anaesthetics, and rapid healing agents. Used for healing large amounts of damage.",
         "price" : 350,
         "material" : "PLASTIC",
         "tool" : "null",
