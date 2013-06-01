@@ -31,6 +31,7 @@ enum mission_id {
  MISSION_REACH_FARM_HOUSE,//humanitarian 3
  MISSION_GET_RECORD_ACCOUNTING,//vigilante 1
  MISSION_GET_SAFE_BOX,//vigilante 2
+ MISSION_GET_DEPUTY_BADGE,//vigilante 3
  MISSION_KILL_JABBERWOCK,//demon slayer 1
  MISSION_KILL_100_Z,//demon slayer 2
  MISSION_KILL_HORDE_MASTER,//demon slayer 3
@@ -96,6 +97,7 @@ struct mission_start {
 struct mission_end {	// These functions are run when a mission ends
  void standard		(game *, mission *){}; // Nothing special happens
  void leave  	(game *, mission *); // NPC leaves after the mission is complete
+ void deposit_box   (game *, mission *); // random valuable reward
  void heal_infection	(game *, mission *);
 };
 
