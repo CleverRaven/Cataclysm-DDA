@@ -20,6 +20,7 @@ OPT_AUTOSAVE_TURNS, // Turns between autosaves
 OPT_AUTOSAVE_MINUTES, // Minimum realtime minutes between autosaves
 OPT_GRADUAL_NIGHT_LIGHT, // be so cool at night :)
 OPT_RAIN_ANIMATION, // Enable the rain and other weather animation
+OPT_CIRCLEDIST, // Compute distance with pythagorean theorem
 OPT_QUERY_DISASSEMBLE, // Query before disassembling items
 OPT_DROP_EMPTY, // auto drop empty containers after use
 OPT_SKILL_RUST, // level of skill rust
