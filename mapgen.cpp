@@ -7795,14 +7795,16 @@ case ot_haz_sar_entrance_b1:{
      mapf::end() );
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
-        if (this->ter(i,j) == t_rock_floor && one_in(250)){
-            item body;
-            body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
-            add_item(i, j, body);
-            place_items(mi_science,  70, i, j, i, j, true, 0);
+        if (this->ter(i,j) == t_rock_floor){
+            if (one_in(250)){
+                item body;
+                body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+                add_item(i, j, body);
+                place_items(mi_science,  70, i, j, i, j, true, 0);}
+            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
-            radiation(x, y) += rng(10, 60);
+            radiation(x, y) += rng(10, 70);
         if (this->ter(i,j) == t_sewage){
             if (one_in(2)) ter_set(i,j,t_dirtfloor);
             if (one_in(4)) ter_set(i,j,t_dirtmound);
@@ -7865,14 +7867,18 @@ case ot_haz_sar_b1:{
        for (int j = 0; j <= 23; j++) {
         if (this->ter(i,j) == t_rack)
             place_items(mi_mechanics,	60,  i,  j, i,  j, false, 0);
-        if (this->ter(i,j) == t_rock_floor && one_in(250)){
-            item body;
-            body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
-            add_item(i, j, body);
-            place_items(mi_science,  70, i, j, i, j, true, 0);
+        if (this->ter(i,j) == t_rock_floor){
+            if (one_in(250)){
+                item body;
+                body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+                add_item(i, j, body);
+                place_items(mi_science,  70, i, j, i, j, true, 0);}
+            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
-            radiation(x, y) += rng(10, 60);
+            radiation(x, y) += rng(10, 70);
+        //if (this->ter(i,j) == t_locker)
+          //  place_items(mi_jackets,	60,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_sewage){
             if (one_in(2)) ter_set(i,j,t_dirtfloor);
             if (one_in(4)) ter_set(i,j,t_dirtmound);
@@ -7908,7 +7914,7 @@ case ot_haz_sar_b1:{
 ......................$.\n\
 ......................$.\n\
 ......................$.\n\
-......................|#\n\
+.....................M|#\n\
 ....................####\n\
 ..................######\n\
 ###....M.........#######\n\
@@ -7929,14 +7935,16 @@ case ot_haz_sar_b1:{
      mapf::end() );
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
-        if (this->ter(i,j) == t_rock_floor && one_in(250)){
-            item body;
-            body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
-            add_item(i, j, body);
-            place_items(mi_science,  70, i, j, i, j, true, 0);
+        if (this->ter(i,j) == t_rock_floor){
+            if (one_in(250)){
+                item body;
+                body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+                add_item(i, j, body);
+                place_items(mi_science,  70, i, j, i, j, true, 0);}
+            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
-            radiation(x, y) += rng(10, 60);
+            radiation(x, y) += rng(10, 70);
         if (this->ter(i,j) == t_sewage){
             if (one_in(2)) ter_set(i,j,t_dirtfloor);
             if (one_in(4)) ter_set(i,j,t_dirtmound);
@@ -7963,7 +7971,7 @@ case ot_haz_sar_b1:{
      mapf::formatted_set_terrain(this, 0, 0,
 "...#####################\n\
 $$$--###################\n\
-......#|----------|#####\n\
+...M..#|----------|#####\n\
 .......|__________|#####\n\
 .......$__________|#####\n\
 .......$__________|#####\n\
@@ -7999,14 +8007,18 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             place_items(mi_cubical_office,	60,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_rack)
             place_items(mi_sewage_plant,	60,  i,  j, i,  j, false, 0);
-        if (this->ter(i,j) == t_rock_floor && one_in(250)){
-            item body;
-            body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
-            add_item(i, j, body);
-            place_items(mi_science,  70, i, j, i, j, true, 0);
+        if (this->ter(i,j) == t_rock_floor){
+            if (one_in(250)){
+                item body;
+                body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
+                add_item(i, j, body);
+                place_items(mi_science,  70, i, j, i, j, true, 0);}
+            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
-            radiation(x, y) += rng(10, 60);
+            radiation(x, y) += rng(10, 70);
+        //if (this->ter(i,j) == t_locker)
+          //  place_items(mi_jackets,	60,  i,  j, i,  j, false, 0);
         if (this->ter(i,j) == t_sewage){
             if (one_in(2)) ter_set(i,j,t_dirtfloor);
             if (one_in(4)) ter_set(i,j,t_dirtmound);
