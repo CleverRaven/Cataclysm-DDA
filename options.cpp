@@ -252,6 +252,8 @@ option_key lookup_option_key(std::string id)
   return OPT_STATIC_NPC;
  if (id == "random_npc")
   return OPT_RANDOM_NPC;
+ if (id == "rad_mutation")
+  return OPT_RAD_MUTATION;
  return OPT_NULL;
 }
 
@@ -287,6 +289,7 @@ std::string option_string(option_key key)
   case OPT_SEASON_LENGTH: return "season_length";
   case OPT_STATIC_NPC: return "static_npc";
   case OPT_RANDOM_NPC: return "random_npc";
+  case OPT_RAD_MUTATION: return "rad_mutation";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -324,6 +327,7 @@ std::string option_desc(option_key key)
   case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false";
   case OPT_STATIC_NPC: return "If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false";
   case OPT_RANDOM_NPC: return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false";
+  case OPT_RAD_MUTATION: return "If true, radiation causes the player\nto mutate.\nDefault is true";
   default:			return " ";
  }
  return "Big ol Bug (options.cpp:option_desc)";
@@ -361,6 +365,7 @@ std::string option_name(option_key key)
   case OPT_SEASON_LENGTH: return "Season length";
   case OPT_STATIC_NPC: return "Static npcs";
   case OPT_RANDOM_NPC: return "Random npcs";
+  case OPT_RAD_MUTATION: return "Mutations by radiation";
   default:			return "Unknown Option (options.cpp:option_name)";
  }
  return "Big ol Bug (options.cpp:option_name)";
@@ -509,6 +514,8 @@ season_length 14\n\
 static_npc F\n\
 # Spawn random NPCs during gameplay.\n\
 random_npc F\n\
+# Radiation causes mutations.\n\
+rad_mutation T\n\
 ";
  fout.close();
 }
