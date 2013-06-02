@@ -20,7 +20,8 @@
 #include "catajson.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
-
+//#include "ui.h"
+#include "mapdata.h"
 #include <map>
 #include <algorithm>
 #include <string>
@@ -2641,7 +2642,8 @@ void game::debug()
                    "Check NPC",              // 13
                    "Spawn Artifact",         // 14
                    "Spawn Clarivoyance Artifact", //15
-                   "Cancel",                 // 16
+                   "Peek", // 16
+                   "Cancel",                 // 17
                    NULL);
  int veh_num;
  std::vector<std::string> opts;
@@ -2847,6 +2849,13 @@ z.size(), active_npc.size(), events.size());
       u.i_add(artifact);
   }
   break;
+
+  case 16: {
+      point coord = look_debug();
+  
+  }
+  break;
+  
  }
  erase();
  refresh_all();
@@ -6306,14 +6315,264 @@ void game::peek()
   u.posy -= my;
  }
 }
+////////////////////////////////////////////////////////////////////////////////////////////
+point game::look_debug(point coords) {
+  draw_ter();
+  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
+  int mx, my;
+  int ch;
+  
+  InputEvent input;
+  const int lookHeight=TERMY-12+VIEW_OFFSET_Y;
+  WINDOW* w_look = newwin(lookHeight+1, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
+  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+  mvwprintz(w_look, 1, 1, c_white, "Looking Around");
+  wrefresh(w_look);
+  bool skip=false;
+  int pter=-1;
+  do {
+    if ( skip ) {
+      skip = false;
+      input=Nothing;
+    } else {
+      input = get_input();
+    }
+      get_direction(mx, my, input);
+      if (mx != -2 && my != -2) {	// Directional key pressed
+        lx += mx;
+        ly += my;
+      }
+    int cy=1;  
+    werase(w_terrain);
+    draw_ter(lx, ly);
+    mvwprintz(w_look, 0, 2 ,c_white, "< %d,%d >----------",lx,ly);
+    for (int i = 1; i < lookHeight; i++) {
+      mvwprintz(w_look, i, 1, c_white, "                                              ");
+    }
 
+    // Debug helper
+    int junk;
+    int veh_part = 0;
+    vehicle *veh = m.veh_at(lx, ly, veh_part);
+    int veh_in=-1;
+    if(veh) veh_in=veh->is_inside(veh_part);
+ /*
+    int dofs=lookHeight-10;
+    mvwprintw(w_look, dofs, 1, "Items: %d", m.i_at(lx, ly).size() );
+    mvwprintw(w_look, dofs+1, 1, "id: %d, in %d, roof: %d, decon: %d",
+      m.ter(lx, ly),
+      m.has_flag(indoors, lx, ly),
+      m.has_flag(supports_roof, lx, ly),
+      m.has_flag(deconstruct, lx, ly)
+    );
+    mvwprintw(w_look, dofs+2, 1, "movecost %d, veh_in %d, light %d, u_see %d",
+      m.move_cost(lx, ly),
+      veh_in,m.light_at(lx,ly),
+      u_see(lx,ly)
+    );
+    mvwprintw(w_look, dofs+3, 1, "p: in_v %s %d in_cc %s ", u.in_vehicle?"y":"n", int(turn), u.in_climate_control(this)?"y":"n");
+    int Ctemperature = 100*(temperature - 32) * 5/9;
+    mvwprintw(w_look, dofs+4, 1, "temp: %d // ",Ctemperature);
+    for (int i = 0; i < num_bp; i++) {
+      wprintw(w_look,"%d/%d ", u.temp_cur[i],u.temp_conv[i]);
+    }
+*/
+    int tter=m.ter(lx, ly);
+    ter_t terrain_type = terlist[m.ter(lx, ly)];
+    std::string extras="";
+    if(veh_in >= 0) extras+=" [vehicle]";
+    if(m.has_flag(indoors, lx, ly)) extras+=" [indoors]";
+    if(m.has_flag(supports_roof, lx, ly)) extras+=" [roof]";
+    mvwputch(w_look, 1, 2, terrain_type.color, terrain_type.sym);
+    mvwprintw(w_look, 1, 4, "%d: %s; movecost %d %s", m.ter(lx, ly), m.tername(lx, ly).c_str(), m.move_cost(lx, ly), extras.c_str());
+mvwprintw(w_look, 3, 2, "dist: %d u_see: %d light: %d", rl_dist(u.posx, u.posy, lx, ly), u_see(lx, ly), m.light_at(lx,ly) );
+/*    extras="";
+    for (int i=0;i < num_t_flags; i++ ) {
+      extras+=(terrain_type.flags & mfb(i) ? "1" : "0");
+    }
+     mvwprintw(w_look, 2, 1, "%s %s", m.features(lx, ly).c_str(),extras.c_str());
+*/
+
+     field tmpfield = m.field_at(lx, ly);
+     if (tmpfield.type != fd_null) {
+        mvwprintz(w_look, 4, 1, fieldlist[tmpfield.type].color[tmpfield.density-1], "field: %s", fieldlist[tmpfield.type].name[tmpfield.density-1].c_str());
+     }
+
+     if (m.tr_at(lx, ly) != tr_null) mvwprintz(w_look, 5, 1, traps[m.tr_at(lx, ly)]->color, "trap: %s", traps[m.tr_at(lx, ly)]->name.c_str());
+
+     int dex = mon_at(lx, ly);
+     if (dex != -1 && u_see(&(z[dex]))) {
+         z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
+         z[mon_at(lx, ly)].print_info(this, w_look);
+         if (!m.has_flag(container, lx, ly))
+         {
+             if (m.i_at(lx, ly).size() > 1)
+             {
+                 mvwprintw(w_look, 3, 1, "There are several items there.");
+             }
+             else if (m.i_at(lx, ly).size() == 1)
+             {
+                 mvwprintw(w_look, 3, 1, "There is an item there.");
+             }
+         }
+     }
+     else if (npc_at(lx, ly) != -1)
+     {
+         active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
+         active_npc[npc_at(lx, ly)]->print_info(w_look);
+         if (!m.has_flag(container, lx, ly))
+         {
+             if (m.i_at(lx, ly).size() > 1)
+             {
+                 mvwprintw(w_look, 3, 1, "There are several items there.");
+             }
+             else if (m.i_at(lx, ly).size() == 1)
+             {
+                 mvwprintw(w_look, 3, 1, "There is an item there.");
+             }
+         }
+     }
+     else if (veh)
+     {
+         mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
+         veh->print_part_desc(w_look, 4, 48, veh_part);
+         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+     }
+     else if (!m.has_flag(container, lx, ly) && m.i_at(lx, ly).size() > 0)
+     {
+         mvwprintw(w_look, 3, 1, "There is a %s there.",
+                   m.i_at(lx, ly)[0].tname(this).c_str());
+         if (m.i_at(lx, ly).size() > 1)
+         {
+             mvwprintw(w_look, 4, 1, "There are %d other items there as well.",m.i_at(lx, ly).size());
+         }
+         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+     }
+     else
+     {
+         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+     }
+//
+      mvwprintw(w_look, 6, 1, "[g] edit m_ter, [>] add trap");
+    if (m.graffiti_at(lx, ly).contents)
+      mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
+
+    
+
+
+    wrefresh(w_look);
+    wrefresh(w_terrain);
+    
+    if(input == Pickup) {
+    int pwh=TERMY;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
+
+      WINDOW* w_pickter = newwin(pwh, pww, pwy, pwx);
+      wborder(w_pickter, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      wrefresh(w_pickter);
+      int pickh=pwh-2;
+      int pickw=pww-2;
+
+      int cur_t=0;
+      if( pter < 0 ) pter=tter;
+      int lastpter=pter;
+      int xmax=pickw;//int(pickw/2);
+      int ymax=int(num_terrain_types/xmax);
+      int feh=0;
+      point pterp=point(-1,-1);
+      point lastpterp=point(-1,-1);
+      point tterp=point(-1,-1);
+      
+      do {
+            int prow=(int)( ( pter / xmax ) + 0.5 );
+            cur_t=0;
+            for (int y=2; y < pickh && cur_t < num_terrain_types; y+=2) {
+              for (int x=2; x < pickw && cur_t < num_terrain_types; x++,cur_t++) {
+
+                 ter_t ttype = terlist[cur_t];
+                 mvwputch(w_pickter, y, x, ttype.color, ttype.sym);
+
+                 if(cur_t == pter) {
+                    pterp=point(x,y);
+                 } else if(cur_t == lastpter) {
+                    lastpterp=point(x,y);
+                 } else if (cur_t == tter) {
+                    tterp=point(x,y);
+                 }
+              }
+            }
+
+            mvwputch(w_pickter, lastpterp.y+1, lastpterp.x-1, c_ltgreen, ' ');
+            mvwputch(w_pickter, lastpterp.y-1, lastpterp.x+1, c_ltgreen, ' ');
+            mvwputch(w_pickter, lastpterp.y+1, lastpterp.x+1, c_ltgreen, ' ');
+            mvwputch(w_pickter, lastpterp.y-1, lastpterp.x-1, c_ltgreen, ' ');
+
+            mvwputch(w_pickter, tterp.y+1, tterp.x, c_ltgray, '^');
+            mvwputch(w_pickter, tterp.y-1, tterp.x, c_ltgray, 'v');
+
+            mvwputch(w_pickter, pterp.y+1, pterp.x-1, c_ltgreen, LINE_XXOO);
+            mvwputch(w_pickter, pterp.y-1, pterp.x+1, c_ltgreen, LINE_OOXX);
+            mvwputch(w_pickter, pterp.y+1, pterp.x+1, c_ltgreen, LINE_XOOX);
+            mvwputch(w_pickter, pterp.y-1, pterp.x-1, c_ltgreen, LINE_OXXO);
+            
+            wborder(w_pickter, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+            ter_t pttype = terlist[pter];
+
+            mvwprintz(w_pickter, 0, 2, c_white, "< %d: %s >-----------",pter,pttype.name.c_str());
+
+            mvwprintz(w_pickter, ymax*3, 2, c_white, "< %d: %s >-----------",pter,pttype.name.c_str());
+            
+
+            wrefresh(w_pickter);
+            ///////////////////////
+            /// 0: 0 1 2 3 
+            /// 1: 4 5 6 7
+            /// 3: 8 9
+            feh=(int)getch();
+            lastpter=pter;
+            if( feh == KEY_LEFT ) {
+                pter=(pter-1 >= 0 ? pter-1 : num_terrain_types - 1);
+            } else if( feh == KEY_RIGHT ) {
+                pter=(pter+1 < num_terrain_types ? pter+1 : 0 );
+            } else if( feh == KEY_UP ) {
+                pter=( pter-xmax+2 > 0 ? pter-xmax+2 : 0 );
+            } else if( feh == KEY_DOWN ) {
+                pter=( pter + xmax-2 < num_terrain_types ? pter+xmax-2 : num_terrain_types - 1);
+            }
+      } while (feh == KEY_UP || feh == KEY_DOWN || feh == KEY_LEFT || feh == KEY_RIGHT );
+
+      werase(w_pickter);
+      delwin(w_pickter);
+      refresh_all();
+      if( ( feh == KEY_ENTER || feh == '\n' ) && pter != tter) {
+          ter_t tset = terlist[pter];
+          m.ter_set(lx, ly, (ter_id)pter);
+      }
+      skip = true;
+      
+      
+//      wrefresh(w_look);
+//      wrefresh(w_terrain);
+
+    }
+    ////
+  } while (input != Close && input != Cancel && input != Confirm);
+  if (input == Confirm) return point(lx, ly);
+  return point(-1, -1);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
 point game::look_around()
 {
  draw_ter();
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my;
  InputEvent input;
- WINDOW* w_look = newwin(13, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
+ const int lookHeight=TERMY-12+VIEW_OFFSET_Y;
+ WINDOW* w_look = newwin(lookHeight+1, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_look, 1, 1, c_white, "Looking Around");
