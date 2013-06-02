@@ -1855,5 +1855,27 @@
         "count" : 200,
         "effects" : ["FLAME","STREAM"],
         "phase": "liquid"
-    }
+    },
+    {   "type" : "AMMO",
+        "id" : "medical_tape",
+        "rarity" : 45,
+        "price" : 20,
+        "name" : "medical tape",
+        "symbol" : "=",
+        "color" : "white",
+        "description" : "A roll of medical tape, similar to duct tape.",
+        "material" : "PLASTIC",
+        "volume" : 0,
+        "weight" : 0,
+        "bashing" : 0,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "none",
+        "damage" : 0,
+        "pierce" : 0,
+        "range" : 0,
+        "accuracy" : 0,
+        "recoil" : 0,
+        "count" : 35
+    }	
 ]
