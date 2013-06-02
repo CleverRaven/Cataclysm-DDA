@@ -141,24 +141,35 @@ void map::generate_lightmap(game* g)
  // Apply any vehicle light sources
  VehicleList vehs = g->m.get_vehicles();
  for(int v = 0; v < vehs.size(); ++v) {
-  if(vehs[v].v->lights_on) {
-   int dir = vehs[v].v->face.dir();
-   for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
-        part != vehs[v].v->external_parts.end(); ++part) {
-    int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
-    int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
-    if(INBOUNDS(px, py)) {
-     int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
-     if (dpart >= 0) {
-      float veh_luminance = vehs[v].v->part_info(dpart).power;
-      if (veh_luminance > LL_LIT) {
-        apply_light_arc(px, py, dir, veh_luminance);
-      }
+   if(vehs[v].v->lights_on) {
+     int dir = vehs[v].v->face.dir();
+     float veh_luminance=0.0;
+     float iteration=1.0;
+     for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin(); part != vehs[v].v->external_parts.end(); ++part) {
+         int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
+         if (dpart >= 0) { 
+             veh_luminance += ( vehs[v].v->part_info(dpart).power / iteration );
+             iteration=iteration * 1.1;
+         }
      }
-    }
+     if (veh_luminance > LL_LIT) {
+       for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
+            part != vehs[v].v->external_parts.end(); ++part) {
+         int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
+         int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
+         if(INBOUNDS(px, py)) {
+           int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
+
+           if (dpart >= 0) {
+             apply_light_arc(px, py, dir, veh_luminance, 45);
+           }
+
+         }
+       }
+     }
    }
-  }
  }
+//
 }
 
 lit_level map::light_at(int dx, int dy)
@@ -278,7 +289,8 @@ void map::apply_light_source(int x, int y, float luminance)
  }
 }
 
-void map::apply_light_arc(int x, int y, int angle, float luminance)
+
+void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangle )
 {
  if (luminance <= LIGHT_SOURCE_LOCAL)
   return;
@@ -286,55 +298,75 @@ void map::apply_light_arc(int x, int y, int angle, float luminance)
  bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
  memset(lit, 0, sizeof(lit));
 
+ #define lum_mult 3.0
+// wideangle=45; // for testing
+// #define sidefade_test 1
+// #define lightarc_debug 1
+
+ luminance=luminance*lum_mult;
+
  int range = LIGHT_RANGE(luminance);
  apply_light_source(x, y, LIGHT_SOURCE_LOCAL);
 
+
  // Normalise (should work with negative values too)
- angle = angle % 360;
 
- // East side
- if (angle < 90 || angle > 270) {
-  int sy = y - ((angle <  90) ? range * (( 45 - angle) / 45.0f) : range);
-  int ey = y + ((angle > 270) ? range * ((angle - 315) / 45.0f) : range);
+ const double PI = 3.14159265358979f;
+ const double HALFPI = 1.570796326794895f;
+ const double wangle=wideangle/2.0;
 
-  int ox = x + range;
-  for(int oy = sy; oy <= ey; ++oy)
-   apply_light_ray(lit, x, y, ox, oy, luminance);
- }
+ int nangle = angle % 360;
 
- // South side
- if (angle < 180) {
-  int sx = x - ((angle < 90) ? range * (( angle - 45) / 45.0f) : range);
-  int ex = x + ((angle > 90) ? range * ((135 - angle) / 45.0f) : range);
+ double rad = PI * (double)nangle / 180;
+ int endx = x + range * cos(rad);
+ int endy = y + range * sin(rad);
+ apply_light_ray(lit, x, y, endx, endy , luminance, true);
 
-  int oy = y + range;
-  for(int ox = sx; ox <= ex; ++ox)
-   apply_light_ray(lit, x, y, ox, oy, luminance);
- }
+ double testrad = ( PI * wangle / 180 ) + rad;
+ int testx = x + range * cos(testrad);
+ int testy = y + range * sin(testrad);
 
- // West side
- if (angle > 90 && angle < 270) {
-  int sy = y - ((angle < 180) ? range * ((angle - 135) / 45.0f) : range);
-  int ey = y + ((angle > 180) ? range * ((225 - angle) / 45.0f) : range);
+ double wdist=sqrt(double(pow(endx - testx, 2.0) + pow(endy - testy, 2.0))); // distance between center and widest endpoints
+ if(wdist > 0.5) {
+   double wstep = ( wangle / ( wdist * 1.42 ) ); // attempt to determine beam density required to cover all squares
+#ifdef lightarc_debug
+   mvprintw(0, 0, "irad: %f s: %d,%d, e %d,%d e2 %d,%d            ",
+     rad,x,y, endx, endy, testx, testy);
+   mvprintw(1, 0, "wdist: %f wstep: %f angle(n): %d testang(n): %d                ",
+     wdist,wstep,nangle, int (nangle + wangle )
+   );
+#endif
+   int iter=0;
+   for (double ao=wstep; ao <= wangle; ao+=wstep) {
+     double fdist=(ao * HALFPI) / wangle;
+#ifdef sidefade_test // neatish-ellipsis fading transform (which turns ugly with more power)
+     float dluminance=( (wangle-ao) * luminance ) /wangle;
+#ifdef lightarc_debug
+     mvprintw(3, 0, "lum: %f/%f rm %d          ",dluminance,luminance);
+#endif
+#else
+     float dluminance=luminance;
+#endif
+     fdist=0.0;
+     double orad = ( PI * ao / 180.0 );
+     endx = int( x + ( (double)range - fdist * 2.0) * cos(rad+orad) );
+     endy = int( y + ( (double)range - fdist * 2.0) * sin(rad+orad) );
+     apply_light_ray(lit, x, y, endx, endy , dluminance, true);
 
-  int ox = x - range;
-  for(int oy = sy; oy <= ey; ++oy)
-   apply_light_ray(lit, x, y, ox, oy, luminance);
- }
+     endx = int( x + ( (double)range - fdist * 2.0) * cos(rad-orad) );
+     endy = int( y + ( (double)range - fdist * 2.0) * sin(rad-orad) );
+     apply_light_ray(lit, x, y, endx, endy , dluminance, true);
 
- // North side
- if (angle > 180) {
-  int sx = x - ((angle > 270) ? range * ((315 - angle) / 45.0f) : range);
-  int ex = x + ((angle < 270) ? range * ((angle - 225) / 45.0f) : range);
-
-  int oy = y - range;
-  for(int ox = sx; ox <= ex; ++ox)
-   apply_light_ray(lit, x, y, ox, oy, luminance);
+     iter+=2;
+   }
+#ifdef lightarc_debug
+   mvprintw(2, 0, "iters: %d            ", iter );
+#endif
  }
 }
 
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
-                          int sx, int sy, int ex, int ey, float luminance)
+                          int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc)
 {
  int ax = abs(ex - sx) << 1;
  int ay = abs(ey - sy) << 1;
@@ -362,7 +394,13 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
     lit[x][y] = true;
 
     // We know x is the longest angle here and squares can ignore the abs calculation
-    float light = luminance / ((sx - x) * (sx - x));
+    float light=0.0;
+    if ( trig_brightcalc ) {
+      int td = trig_dist(sx, sy, x, y);
+      light = luminance / ( td * td );
+    } else {
+      light = luminance / ((sx - x) * (sx - x));
+    }
     lm[x][y] += light * transparency;
    }
 
@@ -389,7 +427,13 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
     lit[x][y] = true;
 
     // We know y is the longest angle here and squares can ignore the abs calculation
-    float light = luminance / ((sy - y) * (sy - y));
+    float light=0.0;
+    if ( trig_brightcalc ) {
+      int td = trig_dist(sx, sy, x, y);
+      light = luminance / ( td * td );
+    } else {
+      light = luminance / ((sy - y) * (sy - y));
+    }
     lm[x][y] += light;
    }
 
