@@ -319,7 +319,7 @@ std::string option_desc(option_key key)
   case OPT_AUTOSAVE_MINUTES: return "Minimum number of real time minutes\nbetween autosaves";
   case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\nshould only make a difference\nduring the night.\nDefault is false";
   case OPT_RAIN_ANIMATION: return "If true, will display weather\nanimations.\nDefault is true";
-  case OPT_CIRCLEDIST: return "";
+  case OPT_CIRCLEDIST: return "If true, the game will calculate\nrange in a realistic way:\nlight sources will be circles\ndiagonal movement will\ncover more ground and take\nlonger.\nIf disabled, everything is\nsquare: moving to the northwest\ncorner of a building\ntakes as long as moving\nto the north wall.";
   case OPT_QUERY_DISASSEMBLE: return "If true, will query before\ndisassembling items.\nDefault is true";
   case OPT_DROP_EMPTY: return "Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers";
   case OPT_SKILL_RUST: return "Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - none at all";
