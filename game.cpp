@@ -381,8 +381,10 @@ void game::cleanup_at_end(){
  // Clear the future weather for future projects
  future_weather.clear();
 
- if (uquit == QUIT_DIED)
-  popup_top("Game over! Press spacebar...");
+    if (uquit == QUIT_DIED)
+    {
+        popup_top("Game over! Press spacebar...");
+    }
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
     {
         death_screen();
@@ -2108,6 +2110,7 @@ void game::death_screen()
     while(input != Cancel && input != Close && input != Confirm);
     delwin(w_death);
 
+    msg_buffer();
     disp_kills();
 }
 
@@ -5991,7 +5994,7 @@ void game::advanced_inv()
                     popup("Destination area is full. Remove some item first");
                 } else {
                     //if target item has stack
-                    int max = (MAX_ITEM_IN_SQUARE - panes[destarea].size); // vehicle fixme (?)
+                    int max = (MAX_ITEM_IN_SQUARE - squares[destarea].size); // vehicle fixme (?)
                     // TODO figure out a better way to get the item
 #ifdef uselimitedchridx
                     item* it = &u.inv.slice(item_pos, 1).front()->front();

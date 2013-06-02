@@ -1934,7 +1934,7 @@ bool overmap::build_slimepit(int x, int y, int z, int s)
             {
                 if (rng(1, s * 2) >= n)
                 {
-                    if (one_in(8))
+                    if (one_in(8) && z > -OVERMAP_DEPTH)
                     {
                         ter(i, j, z) = ot_slimepit_down;
                         requires_sub = true;
