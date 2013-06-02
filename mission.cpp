@@ -314,6 +314,38 @@ Fuck ya, America!";
   }
   break;
 
+//patriot mission 4
+ case MISSION_EXPLORE_SARCOPHAGUS:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "You wouldn't believe what I found...";
+   case TALK_MISSION_OFFER:
+    return "Holy hell, the crash you recovered the black box from wasn't as old as I thought.  \
+Check this out, it was on its approach to pick up a team sent to secure and destroy something called a \
+'Hazardous Waste Sarcophagus' in the middle of nowhere.  If the bird never picked up the team then we \
+may still have a chance to meet up with them.  It includes an access code for the elevator and an encoded \
+message for the team leader, I guess.  If we want to join up with what remains of the government then now \
+may be our only chance.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Fuck ya, America!";
+   case TALK_MISSION_REJECTED:
+    return "Are you going to forfeit your duty when the country needs you the most?";
+   case TALK_MISSION_ADVICE:
+    return "If there is a military team down there then we better go in prepared if we want to \
+impress them.  Carry as much ammo as you can and prepare to ditch this place if they have a second \
+bird coming to pick them up.";
+   case TALK_MISSION_INQUIRE:
+    return "Having any trouble following the map?";
+   case TALK_MISSION_SUCCESS:
+    return "We got this shit!";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What?!  I out'ta whip your ass.";
+   case TALK_MISSION_FAILURE:
+    return "Damn, we were so close.";
+  }
+  break;
+
 //martyr mission 1
    case MISSION_GET_RELIC:
   switch (state) {
