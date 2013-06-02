@@ -3660,7 +3660,7 @@
     "revert_to": "null",
     "use_action": "DEVAC"
   },
-
+  
   {
     "id": "bag_apple_vac",
     "type": "TOOL",
@@ -3683,5 +3683,29 @@
     "ammo": "none",
     "revert_to": "null",
     "use_action": "DEVAC"
+  },
+  
+  {
+    "id": "medical_gauze",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "white",
+    "name": "medical Gauze",
+    "description": "A decent sized piece of cotton designed for medical proposes.",
+    "rarity": 60,
+    "price": 35,
+    "material": ["COTTON", "NULL"],
+    "weight": 0,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "none",
+    "revert_to": "null",
+    "use_action": "NONE"
   }
 ]
