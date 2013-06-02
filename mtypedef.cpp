@@ -355,7 +355,7 @@ distended muscles on both arms and legs."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_POISON, MF_NO_BREATHE, MF_VIS40);
 
-mon("zombie hulk",species_zombie, 'Z',	c_blue,		MS_HUGE,	FLESH,
+mon("zombie hulk",species_zombie, 'Z',	c_ltred,		MS_HUGE,	FLESH,
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
      50,100,100,130,  9,  4,  8,  0,  0, 12,  8, 80,260,  0,
 	&mdeath::zombie,	&mattack::none, "\
