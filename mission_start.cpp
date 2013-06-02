@@ -357,6 +357,24 @@ void mission_start::reveal_lab_black_box(game *g, mission *miss)
  miss->target = place;
 }
 
+void mission_start::oepn_sarcophagus(game *g, mission *miss)
+{
+ npc *p = g->find_npc(miss->npc_id);
+ p->attitude = NPCATT_FOLLOW;
+ if (p != NULL) {
+  g->u.i_add( item(g->itypes["sarcophagus_access_code"], 0) );
+  g->add_msg("%s gave you sarcophagus access code.", p->name.c_str());
+ }
+ int dist = 0;
+ point place = g->cur_om->find_closest(g->om_location(), ot_haz_sar_entrance, 1, dist,
+                                      false);
+ for (int x = place.x - 3; x <= place.x + 3; x++) {
+  for (int y = place.y - 3; y <= place.y + 3; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ miss->target = place;
+}
+
 void mission_start::reveal_hospital(game *g, mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
