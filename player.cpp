@@ -5116,10 +5116,17 @@ hint_rating player::rate_action_wear(item *it)
  if (armor->covers & mfb(bp_hands) && has_trait(PF_TALONS)) {
   return HINT_IFFY;
  }
+ if ( armor->covers & mfb(bp_hands) && (has_trait(PF_ARM_TENTACLES)
+        || has_trait(PF_ARM_TENTACLES_4) || PF_ARM_TENTACLES_8) ) {
+  return HINT_IFFY;
+ }
  if (armor->covers & mfb(bp_mouth) && has_trait(PF_BEAK)) {
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_feet) && has_trait(PF_HOOVES)) {
+  return HINT_IFFY;
+ }
+ if (armor->covers & mfb(bp_feet) && has_trait(PF_LEG_TENTACLES)) {
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED)) {
@@ -5233,6 +5240,11 @@ if (!to_wear->has_flag("OVERSIZE")) {
    g->add_msg("You cannot put %s over your webbed hands.", armor->name.c_str());
    return false;
   }
+  if ( armor->covers & mfb(bp_hands) && (has_trait(PF_ARM_TENTACLES)
+        || has_trait(PF_ARM_TENTACLES_4) || PF_ARM_TENTACLES_8) ) {
+   g->add_msg("You cannot put %s over your tentacles.", armor->name.c_str());
+   return false;
+  }
   if (armor->covers & mfb(bp_hands) && has_trait(PF_TALONS)) {
    g->add_msg("You cannot put %s over your talons.", armor->name.c_str());
    return false;
@@ -5243,6 +5255,10 @@ if (!to_wear->has_flag("OVERSIZE")) {
   }
   if (armor->covers & mfb(bp_feet) && has_trait(PF_HOOVES)) {
    g->add_msg("You cannot wear footwear on your hooves.");
+   return false;
+  }
+  if (armor->covers & mfb(bp_feet) && has_trait(PF_LEG_TENTACLES)) {
+   g->add_msg("You cannot wear footwear on your tentacles.");
    return false;
   }
   if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED)) {
