@@ -4372,7 +4372,7 @@
         "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "A powerful disinfectant commonly used for contamated",
+        "description" : "A powerful disinfectant commonly used for contaminated wounds.",
         "price" : 350,
         "material" : "PLASTIC",
         "tool" : "null",
