@@ -23,6 +23,7 @@ enum mission_id {
  MISSION_GET_FLAG,//patriot 1
  MISSION_GET_BLACK_BOX,//patriot 2
  MISSION_GET_BLACK_BOX_TRANSCRIPT,//patriot 3
+ MISSION_EXPLORE_SARCOPHAGUS,//patriot 4
  MISSION_GET_RELIC,//martyr 1
  MISSION_RECOVER_PRIEST_DIARY,//martyr 2
  MISSION_GET_RECORD_WEATHER,
@@ -89,6 +90,7 @@ struct mission_start {
  void place_priest_diary (game *, mission *); // Hides the priest's diary in a local house
  void place_deposit_box (game *, mission *); // Place a safe deposit box in a nearby bank
  void reveal_lab_black_box (game *, mission *); // Reveal the nearest lab and give black box
+ void oepn_sarcophagus (game *, mission *); // Reveal the sarcophagus and give access code acidia v
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
  void find_safety	(game *, mission *); // Goal is set to non-spawn area
  void place_book	(game *, mission *); // Place a book to retrieve
