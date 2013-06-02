@@ -48,8 +48,16 @@ class iuse
   void mutagen_3	(game *g, player *p, item *it, bool t);
   void mutagen_plant	(game *g, player *p, item *it, bool t);
   void mutagen_insect	(game *g, player *p, item *it, bool t);
+  void mutagen_spider	(game *g, player *p, item *it, bool t);
   void mutagen_slime	(game *g, player *p, item *it, bool t);
   void mutagen_fish	(game *g, player *p, item *it, bool t);
+  void mutagen_rat	(game *g, player *p, item *it, bool t);
+  void mutagen_beast	(game *g, player *p, item *it, bool t);
+  void mutagen_cattle	(game *g, player *p, item *it, bool t);
+  void mutagen_cephalopod	(game *g, player *p, item *it, bool t);
+  void mutagen_bird	(game *g, player *p, item *it, bool t);
+  void mutagen_lizard	(game *g, player *p, item *it, bool t);
+  void mutagen_troglobite	(game *g, player *p, item *it, bool t);
   void purifier		(game *g, player *p, item *it, bool t);
   void marloss		(game *g, player *p, item *it, bool t);
   void dogfood		(game *g, player *p, item *it, bool t);

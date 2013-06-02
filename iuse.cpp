@@ -725,9 +725,15 @@ void iuse::mutagen_insect(game *g, player *p, item *it, bool t)
  p->mutate_category(g, MUTCAT_INSECT);
 }
 
+void iuse::mutagen_spider(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "You feel insidious.");
+ p->mutate_category(g, MUTCAT_SPIDER);
+}
+
 void iuse::mutagen_slime(game *g, player *p, item *it, bool t)
 {
- g->add_msg_if_player(p, "Your body seems to loose all rigidity for a moment.");
+ g->add_msg_if_player(p, "Your body looses all rigidity for a moment.");
  p->mutate_category(g, MUTCAT_SLIME);
 }
 
@@ -735,6 +741,48 @@ void iuse::mutagen_fish(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p, "You are overcome by an overwhelming longing for the ocean.");
  p->mutate_category(g, MUTCAT_FISH);
+}
+
+void iuse::mutagen_rat(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "You feel a momentary nausea.");
+ p->mutate_category(g, MUTCAT_RAT);
+}
+
+void iuse::mutagen_beast(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "Your heart races and you see blood for a moment.");
+ p->mutate_category(g, MUTCAT_BEAST);
+}
+
+void iuse::mutagen_cattle(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "Your mind and body slows down. You feel peaceful.");
+ p->mutate_category(g, MUTCAT_CATTLE);
+}
+
+void iuse::mutagen_cephalopod(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "Your mind is overcome by images of lovecraftian horros for a moment.");
+ p->mutate_category(g, MUTCAT_CEPHALOPOD);
+}
+
+void iuse::mutagen_bird(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "Your body lightens and you long for the sky.");
+ p->mutate_category(g, MUTCAT_BIRD);
+}
+
+void iuse::mutagen_lizard(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "For a heartbeat your body cools down.");
+ p->mutate_category(g, MUTCAT_LIZARD);
+}
+
+void iuse::mutagen_troglobite(game *g, player *p, item *it, bool t)
+{
+ g->add_msg_if_player(p, "You feel more adapted for dark caves.");
+ p->mutate_category(g, MUTCAT_TROGLO);
 }
 
 void iuse::purifier(game *g, player *p, item *it, bool t)
