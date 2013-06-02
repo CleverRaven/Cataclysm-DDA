@@ -1906,5 +1906,20 @@
         "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD"],
         "rarity" : 0,
         "price" : 0
-    }
+    },
+  {
+    "id": "bag_bundle_10",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "10 plastic bags",
+    "description": "10 plastic bags, folded smooth and wrapped tightly together with a string.",
+    "rarity": 2,
+    "price": 5,
+    "material": "PLASTIC",
+    "weight": 0,
+    "volume": 5,
+    "bashing": -20,
+    "cutting": 0,
+    "to_hit": 1
+  }
 ]

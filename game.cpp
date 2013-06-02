@@ -381,8 +381,10 @@ void game::cleanup_at_end(){
  // Clear the future weather for future projects
  future_weather.clear();
 
- if (uquit == QUIT_DIED)
-  popup_top("Game over! Press spacebar...");
+    if (uquit == QUIT_DIED)
+    {
+        popup_top("Game over! Press spacebar...");
+    }
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE)
     {
         death_screen();
@@ -2108,6 +2110,7 @@ void game::death_screen()
     while(input != Cancel && input != Close && input != Confirm);
     delwin(w_death);
 
+    msg_buffer();
     disp_kills();
 }
 
@@ -5596,31 +5599,38 @@ enum advanced_inv_sortby {
     SORTBY_NONE = 1 , SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES
 };
 
-struct advanced_inv_sorter {
-    int sortby;
-    advanced_inv_sorter(int sort) { sortby=sort; };
-    bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
-        switch(sortby) {
-           case SORTBY_WEIGHT: return d1.weight > d2.weight; break;
-           case SORTBY_VOLUME: return d1.volume > d2.volume; break;
-           case SORTBY_CHARGES: return d1.it->charges > d2.it->charges; break;
-           default: return d1.idx > d2.idx; break;
-        };
-    };
-};
-
 struct advanced_inv_sort_case_insensitive_less : public std::binary_function< char,char,bool > {
     bool operator () (char x, char y) const {
         return toupper( static_cast< unsigned char >(x)) < toupper( static_cast< unsigned char >(y));
     }
 };
 
-struct advanced_inv_sort_byname {
+struct advanced_inv_sorter {
+    int sortby;
+    advanced_inv_sorter(int sort) { sortby=sort; };
     bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
+        if ( sortby != SORTBY_NAME ) {
+            switch(sortby) {
+                case SORTBY_WEIGHT: {
+                    if ( d1.weight != d2.weight ) return d1.weight > d2.weight;
+                    break;
+                }
+                case SORTBY_VOLUME: {
+                    if ( d1.volume != d2.volume ) return d1.volume > d2.volume;
+                    break;
+                }
+                case SORTBY_CHARGES: {
+                    if ( d1.it->charges != d2.it->charges ) return d1.it->charges > d2.it->charges;
+                    break;
+                }
+                default: return d1.idx > d2.idx; break;
+            };
+        }
+        // secondary sort by name 
         std::string n1=d1.name;
         std::string n2=d2.name;
         return std::lexicographical_compare( n1.begin(), n1.end(),
-           n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
+            n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
     };
 };
 
@@ -5628,13 +5638,15 @@ void advanced_inv_print_header(advanced_inv_area* squares, advanced_inv_pane &pa
 {
     WINDOW* window=pane.window;
     int area=pane.area;
+    int wwidth=getmaxx(window);
+    int ofs=wwidth-25-2-14;
     for ( int i=0; i < 11; i++ ) {
         char key=( i == 0 ? 'I' : ( i == 10 ? 'A' : (char)(i+48) ) );
         char bracket[3]="[]";
         if ( squares[i].vstor >= 0 ) strcpy(bracket,"<>");
         nc_color bcolor = ( squares[i].canputitems ? ( area == i || ( area == 10 && i != 0 ) ? c_cyan : c_ltgray ) : c_red );
         nc_color kcolor = ( squares[i].canputitems ? ( area == i ? c_ltgreen : ( i == sel ? c_cyan : c_ltgray ) ) : c_red );
-        mvwprintz(window,squares[i].hscreenx,squares[i].hscreeny, bcolor, "%c", bracket[0]);
+        mvwprintz(window,squares[i].hscreenx,squares[i].hscreeny+ofs, bcolor, "%c", bracket[0]);
         wprintz(window, kcolor, "%c", key);
         wprintz(window, bcolor, "%c", bracket[1]);
     }
@@ -5662,6 +5674,9 @@ void advanced_inv_update_area( advanced_inv_area &area, game *g ) {
         } else {
             area.canputitems=(!(g->m.has_flag(noitem,u.posx+area.offx,u.posy+area.offy)) && !(g->m.has_flag(sealed,u.posx+area.offx,u.posy+area.offy) ));
             area.size = g->m.i_at(u.posx+area.offx,u.posy+area.offy).size();
+            if (g->m.graffiti_at(u.posx+area.offx,u.posy+area.offy).contents) {
+                area.desc = g->m.graffiti_at(u.posx+area.offx,u.posy+area.offy).contents->c_str();
+            }
         }
     } else if ( i == 0 ) {
         area.size=u.inv.size();
@@ -5837,7 +5852,6 @@ void game::advanced_inv()
                                 std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
                             }
                             break;
-                        case SORTBY_NAME:    std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_byname() ); break;
                         default:
                             std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) ); 
                             break;
@@ -5864,8 +5878,7 @@ void game::advanced_inv()
 
                 advanced_inv_print_header(squares,panes[i], sel );
                 // todo move --v to --^
-                mvwprintz(panes[i].window,1,(w_width/2)-7,(src==i ? c_ltgray : c_dkgray),"%2d/%d", panes[i].size, panes[i].area == isinventory ? max_inv : MAX_ITEM_IN_SQUARE );
-                mvwprintz(panes[i].window, 2, 1, src == i ? c_green : c_dkgray , "%s", squares[panes[i].area].desc.c_str() );
+                mvwprintz(panes[i].window, 2, 2, src == i ? c_green : c_dkgray , "%s", squares[panes[i].area].desc.c_str() );
 
             }
 
@@ -5901,6 +5914,10 @@ void game::advanced_inv()
             }
             wborder(panes[i].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
             mvwprintw(panes[i].window, 0, 3, "< [s]ort: %s >", sortnames[ ( panes[i].sortby <= 6 ? panes[i].sortby : 0 ) ].c_str() );
+            int max=( panes[i].area == isinventory ? max_inv : MAX_ITEM_IN_SQUARE );
+            if ( panes[i].area == isall ) max *= 9;
+            int fmtw=7 + ( panes[i].size > 99 ? 3 : panes[i].size > 9 ? 2 : 1 ) + ( max > 99 ? 3 : max > 9 ? 2 : 1 );
+            mvwprintw(panes[i].window,0 ,(w_width/2)-fmtw,"< %d/%d >", panes[i].size, max );
             if ( src == i ) {
                 wattroff(panes[i].window, c_white);
             }
@@ -5991,7 +6008,7 @@ void game::advanced_inv()
                     popup("Destination area is full. Remove some item first");
                 } else {
                     //if target item has stack
-                    int max = (MAX_ITEM_IN_SQUARE - panes[destarea].size); // vehicle fixme (?)
+                    int max = (MAX_ITEM_IN_SQUARE - squares[destarea].size); // vehicle fixme (?)
                     // TODO figure out a better way to get the item
 #ifdef uselimitedchridx
                     item* it = &u.inv.slice(item_pos, 1).front()->front();
