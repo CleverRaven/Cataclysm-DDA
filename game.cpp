@@ -5638,13 +5638,15 @@ void advanced_inv_print_header(advanced_inv_area* squares, advanced_inv_pane &pa
 {
     WINDOW* window=pane.window;
     int area=pane.area;
+    int wwidth=getmaxx(window);
+    int ofs=wwidth-25-2-14;
     for ( int i=0; i < 11; i++ ) {
         char key=( i == 0 ? 'I' : ( i == 10 ? 'A' : (char)(i+48) ) );
         char bracket[3]="[]";
         if ( squares[i].vstor >= 0 ) strcpy(bracket,"<>");
         nc_color bcolor = ( squares[i].canputitems ? ( area == i || ( area == 10 && i != 0 ) ? c_cyan : c_ltgray ) : c_red );
         nc_color kcolor = ( squares[i].canputitems ? ( area == i ? c_ltgreen : ( i == sel ? c_cyan : c_ltgray ) ) : c_red );
-        mvwprintz(window,squares[i].hscreenx,squares[i].hscreeny, bcolor, "%c", bracket[0]);
+        mvwprintz(window,squares[i].hscreenx,squares[i].hscreeny+ofs, bcolor, "%c", bracket[0]);
         wprintz(window, kcolor, "%c", key);
         wprintz(window, bcolor, "%c", bracket[1]);
     }
@@ -5672,6 +5674,9 @@ void advanced_inv_update_area( advanced_inv_area &area, game *g ) {
         } else {
             area.canputitems=(!(g->m.has_flag(noitem,u.posx+area.offx,u.posy+area.offy)) && !(g->m.has_flag(sealed,u.posx+area.offx,u.posy+area.offy) ));
             area.size = g->m.i_at(u.posx+area.offx,u.posy+area.offy).size();
+            if (g->m.graffiti_at(u.posx+area.offx,u.posy+area.offy).contents) {
+                area.desc = g->m.graffiti_at(u.posx+area.offx,u.posy+area.offy).contents->c_str();
+            }
         }
     } else if ( i == 0 ) {
         area.size=u.inv.size();
@@ -5874,8 +5879,8 @@ void game::advanced_inv()
 
                 advanced_inv_print_header(squares,panes[i], sel );
                 // todo move --v to --^
-                mvwprintz(panes[i].window,1,(w_width/2)-7,(src==i ? c_ltgray : c_dkgray),"%2d/%d", panes[i].size, panes[i].area == isinventory ? max_inv : MAX_ITEM_IN_SQUARE );
-                mvwprintz(panes[i].window, 2, 1, src == i ? c_green : c_dkgray , "%s", squares[panes[i].area].desc.c_str() );
+                //mvwprintz(panes[i].window,1 ,(w_width/2)-7,(src==i ? c_cyan : c_ltgray),"%2d/%d", panes[i].size, panes[i].area == isinventory ? max_inv : MAX_ITEM_IN_SQUARE );
+                mvwprintz(panes[i].window, 2, 2, src == i ? c_green : c_dkgray , "%s", squares[panes[i].area].desc.c_str() );
 
             }
 
@@ -5911,6 +5916,10 @@ void game::advanced_inv()
             }
             wborder(panes[i].window,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
             mvwprintw(panes[i].window, 0, 3, "< [s]ort: %s >", sortnames[ ( panes[i].sortby <= 6 ? panes[i].sortby : 0 ) ].c_str() );
+            int max=( panes[i].area == isinventory ? max_inv : MAX_ITEM_IN_SQUARE );
+            if ( panes[i].area == isall ) max *= 9;
+            int fmtw=7 + ( panes[i].size > 99 ? 3 : panes[i].size > 9 ? 2 : 1 ) + ( max > 99 ? 3 : max > 9 ? 2 : 1 );
+            mvwprintw(panes[i].window,0 ,(w_width/2)-fmtw,"< %d/%d >", panes[i].size, max );
             if ( src == i ) {
                 wattroff(panes[i].window, c_white);
             }
