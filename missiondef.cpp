@@ -80,7 +80,15 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_place::always, &mission_start::reveal_lab_black_box,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_EXPLORE_SARCOPHAGUS);
   ITEM("black_box_transcript");
+
+//acidia mk v
+ MISSION("Follow Sarcophagus Team", MGOAL_GO_TO_TYPE, 2, 500, false,
+	&mission_place::always, &mission_start::oepn_sarcophagus,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  DESTINATION(ot_haz_sar_b1);
 
 //martyr mission 1
  MISSION("Find Relic", MGOAL_FIND_ITEM, 2, 1000, false,
