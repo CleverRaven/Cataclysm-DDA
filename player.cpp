@@ -5126,7 +5126,7 @@ hint_rating player::rate_action_wear(item *it)
  if (armor->covers & mfb(bp_feet) && has_trait(PF_HOOVES)) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_mouth) && has_trait(PF_LEG_TENTACLES)) {
+ if (armor->covers & mfb(bp_feet) && has_trait(PF_LEG_TENTACLES)) {
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED)) {
