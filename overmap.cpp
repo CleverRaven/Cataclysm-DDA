@@ -949,10 +949,10 @@ bool overmap::generate_sub(int const z)
   ter(office_entrance_points[i].x, office_entrance_points[i].y, z) = ot_office_tower_b_entrance;
  for (int i = 0; i < office_points.size(); i++)
   ter(office_points[i].x, office_points[i].y, z) = ot_office_tower_b;
- for (int i = 0; i < haz_sar_entrance_points.size(); i++)
-  ter(haz_sar_entrance_points[i].x, haz_sar_entrance_points[i].y, z) = ot_haz_sar_entrance_b1;
- for (int i = 0; i < haz_sar_points.size(); i++)
-  ter(haz_sar_points[i].x, haz_sar_points[i].y, z) = ot_haz_sar_b1;
+ for (int i = 0; i < haz_sar_entrance_points.size(); i++){
+    ter(haz_sar_entrance_points[i].x, haz_sar_entrance_points[i].y, z-1) = ot_haz_sar_entrance_b1;}
+ for (int i = 0; i < haz_sar_points.size(); i++){
+    ter(haz_sar_points[i].x, haz_sar_points[i].y, z-1) = ot_haz_sar_b1;}
  for (int i = 0; i < cathedral_entrance_points.size(); i++)
   ter(cathedral_entrance_points[i].x, cathedral_entrance_points[i].y, z) = ot_cathedral_b_entrance;
  for (int i = 0; i < cathedral_points.size(); i++)
