@@ -1,4 +1,5 @@
 #include "line.h"
+#include "game.h"
 #include <stdlib.h>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
@@ -66,6 +67,9 @@ int trig_dist(int x1, int y1, int x2, int y2)
 
 int rl_dist(int x1, int y1, int x2, int y2)
 {
+ if(trigdist) {
+   return int(sqrt(double(pow(x1 - x2, 2.0) + pow(y1 - y2, 2.0))));
+ }
  int dx = abs(x1 - x2), dy = abs(y1 - y2);
  if (dx > dy)
   return dx;

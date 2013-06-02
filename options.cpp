@@ -10,6 +10,8 @@
 
 option_table OPTIONS;
 
+bool trigdist;
+
 option_key lookup_option_key(std::string id);
 bool option_is_bool(option_key id);
 void create_default_options();
@@ -190,6 +192,7 @@ void load_options()
    getline(fin, id); // Chomp
  }
  fin.close();
+ trigdist=true; // if(OPTIONS[OPT_CIRCLEDIST]) trigdist=true; // cache to global due to heavy usage. stub for testing
 }
 
 option_key lookup_option_key(std::string id)
