@@ -823,7 +823,7 @@ void mattack::formblob(game *g, monster *z)
      g->z[thatmon].speed += 5;
      if (g->z[thatmon].speed >= 60)
       g->z[thatmon].poly(g->mtypes[mon_blob]);
-    } else if ((g->z[thatmon].made_of(FLESH) || g->z[thatmon].made_of(VEGGY)) &&
+    } else if ((g->z[thatmon].made_of("flesh") || g->z[thatmon].made_of("veggy")) &&
                rng(0, z->hp) > rng(0, g->z[thatmon].hp)) {	// Blobify!
      didit = true;
      g->z[thatmon].poly(g->mtypes[mon_blob]);
@@ -956,7 +956,7 @@ void mattack::vortex(game *g, monster *z)
       }
 // TODO: Hit NPCs
       if (dam == 0 || i == traj.size() - 1) {
-       if (thrown.made_of(GLASS)) {
+       if (thrown.made_of("glass")) {
         if (g->u_see(traj[i].x, traj[i].y))
          g->add_msg("The %s shatters!", thrown.tname().c_str());
         for (int n = 0; n < thrown.contents.size(); n++)
@@ -981,6 +981,8 @@ void mattack::vortex(game *g, monster *z)
      case MS_HUGE:   distance = 0; break;
     }
     damage = distance * 4;
+// MATERIALS-TODO: add and use material density
+/*
     switch (thrown->type->mat) {
      case LIQUID:  distance += 3; damage -= 10; break;
      case VEGGY:   distance += 1; damage -=  5; break;
@@ -998,6 +1000,7 @@ void mattack::vortex(game *g, monster *z)
      case STEEL:
      case SILVER:  distance -= 3; damage -= 10; break;
     }
+*/
     if (distance > 0) {
      if (g->u_see(thrown))
       g->add_msg("The %s is thrown by winds!", thrown->name().c_str());

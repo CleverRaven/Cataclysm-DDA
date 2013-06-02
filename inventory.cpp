@@ -1260,7 +1260,7 @@ void inventory::rust_iron_items()
              stack_iter != iter->end();
              ++stack_iter)
         {
-            if (stack_iter->type->m1 == IRON && stack_iter->damage < 5 && one_in(8))
+            if (stack_iter->type->m1 == "iron" && stack_iter->damage < 5 && one_in(8))
             {
                 stack_iter->damage++;
             }

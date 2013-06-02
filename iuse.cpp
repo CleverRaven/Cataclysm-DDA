@@ -927,12 +927,12 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 
     itype_id repair_item = "none";
     std::string plural = "";
-    if (fix->made_of(COTTON) || fix->made_of(WOOL))
+    if (fix->made_of("cotton") || fix->made_of("wool"))
     {
         repair_item = "rag";
         plural = "s";
     }
-    else if (fix->made_of(LEATHER))
+    else if (fix->made_of("leather"))
     {
         repair_item = "leather";
     }
@@ -1112,7 +1112,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
         g->add_msg_if_player(p, "There's no point in cutting a %s.", cut->type->name.c_str());
         return;
     }
-    if (!cut->made_of(COTTON) && !cut->made_of(LEATHER))
+    if (!cut->made_of("cotton") && !cut->made_of("leather"))
     {
         g->add_msg("You can only slice items made of cotton or leather.");
         return;
@@ -1121,7 +1121,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     //scrap_text is the description of worthless scraps, type is the item type,
     //pre_text is the bit before the plural on a success, post_text is the bit after the plural
     std::string scrap_text, pre_text, post_text, type;
-    if (cut->made_of(COTTON))
+    if (cut->made_of("cotton"))
     {
         scrap_text = "ribbons";
         pre_text = "rag";

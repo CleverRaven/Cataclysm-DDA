@@ -296,8 +296,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
    if (dam <= 0) { // Ran out of momentum.
     ammo_effects(this, tx, ty, effects);
     if (is_bolt &&
-        ((curammo->m1 == WOOD && !one_in(4)) ||
-         (curammo->m1 != WOOD && !one_in(15))))
+        ((curammo->m1 == "wood" && !one_in(4)) ||
+         (curammo->m1 != "wood" && !one_in(15))))
      m.add_item(tx, ty, ammotmp);
     if (weapon->num_charges() == 0)
      weapon->curammo = NULL;
@@ -353,8 +353,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
       ty = py;
   }
   if (is_bolt &&
-      ((curammo->m1 == WOOD && !one_in(5)) ||
-       (curammo->m1 != WOOD && !one_in(15))  ))
+      ((curammo->m1 == "wood" && !one_in(5)) ||
+       (curammo->m1 != "wood" && !one_in(15))  ))
     m.add_item(tx, ty, ammotmp);
  }
 
@@ -446,7 +446,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     if (thrown.type->melee_cut > z[mon_at(tx, ty)].armor_cut())
      dam += (thrown.type->melee_cut - z[mon_at(tx, ty)].armor_cut());
    }
-   if (thrown.made_of(GLASS) && !thrown.active && // active = molotov, etc.
+   if (thrown.made_of("glass") && !thrown.active && // active = molotov, etc.
        rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
     if (u_see(tx, ty))
      add_msg("The %s shatters!", thrown.tname().c_str());
@@ -505,7 +505,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
    ty = u.posy;
   }
  }
- if (thrown.made_of(GLASS) && !thrown.active && // active means molotov, etc
+ if (thrown.made_of("glass") && !thrown.active && // active means molotov, etc
      rng(0, thrown.volume() + 8) - rng(0, p.str_cur) < thrown.volume()) {
   if (u_see(tx, ty))
    add_msg("The %s shatters!", thrown.tname().c_str());
@@ -693,21 +693,22 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  } while (true);
 }
 
+// MATERIALS-TODO: use fire resistance
 void game::hit_monster_with_flags(monster &z, unsigned int effects)
 {
  if (effects & mfb(AMMO_FLAME)) {
 
-  if (z.made_of(VEGGY) || z.made_of(COTTON) || z.made_of(WOOL) ||
-      z.made_of(PAPER) || z.made_of(WOOD))
+  if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
+      z.made_of("paper") || z.made_of("wood"))
    z.add_effect(ME_ONFIRE, rng(8, 20));
-  else if (z.made_of(FLESH))
+  else if (z.made_of("flesh"))
    z.add_effect(ME_ONFIRE, rng(5, 10));
  } else if (effects & mfb(AMMO_INCENDIARY)) {
 
-  if (z.made_of(VEGGY) || z.made_of(COTTON) || z.made_of(WOOL) ||
-      z.made_of(PAPER) || z.made_of(WOOD))
+  if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
+      z.made_of("paper") || z.made_of("wood"))
    z.add_effect(ME_ONFIRE, rng(2, 6));
-  else if (z.made_of(FLESH) && one_in(4))
+  else if (z.made_of("flesh") && one_in(4))
    z.add_effect(ME_ONFIRE, rng(1, 4));
 
  }
@@ -1011,7 +1012,7 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
 {
  field_id blood = fd_blood;
  if (mon != NULL) {
-  if (!mon->made_of(FLESH))
+  if (!mon->made_of("flesh"))
    return;
   if (mon->type->dies == &mdeath::boomer)
    blood = fd_bile;

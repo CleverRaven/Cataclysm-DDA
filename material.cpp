@@ -16,6 +16,10 @@ material_type::material_type()
     _cut_resist = 0;
     _bash_dmg_verb = "damages";
     _cut_dmg_verb = "damages";
+    _dmg_adj[0] = "lightly damaged";
+    _dmg_adj[1] = "damaged";
+    _dmg_adj[2] = "very damaged";
+    _dmg_adj[3] = "thoroughly damaged";
     _acid_resist = 0;
     _elec_resist = 0;
     _fire_resist = 0;
@@ -24,7 +28,7 @@ material_type::material_type()
 material_type::material_type(unsigned int id, std::string ident, std::string name,
                              int bash_resist, int cut_resist,
                              std::string bash_dmg_verb, std::string cut_dmg_verb,
-                             int acid_resist, int elec_resist, int fire_resist)
+                             std::string dmg_adj[], int acid_resist, int elec_resist, int fire_resist)
 {
     _id = id;
     _ident = ident;
@@ -33,6 +37,10 @@ material_type::material_type(unsigned int id, std::string ident, std::string nam
     _cut_resist = cut_resist;
     _bash_dmg_verb = bash_dmg_verb;
     _cut_dmg_verb = bash_dmg_verb;
+    _dmg_adj[0] = dmg_adj[0];
+    _dmg_adj[1] = dmg_adj[1];
+    _dmg_adj[2] = dmg_adj[2];
+    _dmg_adj[3] = dmg_adj[3];        
     _acid_resist = acid_resist;
     _elec_resist = elec_resist;
     _fire_resist = fire_resist;
@@ -47,6 +55,10 @@ material_type::material_type(std::string ident)
     _cut_resist = mat_type->cut_resist();
     _bash_dmg_verb = mat_type->bash_dmg_verb();
     _cut_dmg_verb = mat_type->bash_dmg_verb();
+    _dmg_adj[0] = mat_type->dmg_adj(1);
+    _dmg_adj[1] = mat_type->dmg_adj(2);
+    _dmg_adj[2] = mat_type->dmg_adj(3);
+    _dmg_adj[3] = mat_type->dmg_adj(4); 
     _acid_resist = mat_type->acid_resist();
     _elec_resist = mat_type->elec_resist();
     _fire_resist = mat_type->fire_resist();
@@ -75,8 +87,15 @@ material_map material_type::load_materials()
         int elec_resist = currMaterial.get("elec_resist").as_int();
         int fire_resist = currMaterial.get("fire_resist").as_int();
 
+        catajson adjList = currMaterial.get("dmg_adj");
+        std::string dmg_adj[4];
+        dmg_adj[0] = adjList.get(0).as_string();
+        dmg_adj[1] = adjList.get(1).as_string();
+        dmg_adj[2] = adjList.get(2).as_string();
+        dmg_adj[3] = adjList.get(3).as_string();
+
         material_type newMaterial(id, ident, name, bash_resist, cut_resist, bash_dmg_verb,
-                                  cut_dmg_verb, acid_resist, elec_resist, fire_resist);
+                                  cut_dmg_verb, dmg_adj, acid_resist, elec_resist, fire_resist);
 
         allMaterials[ident] = newMaterial;
     }
@@ -97,6 +116,7 @@ material_type* material_type::find_material(std::string ident)
 }
 
 // stopgap function for now
+/*
 material_type* material_type::find_material_from_tag(material mat)
 {
     std::string ident;
@@ -135,6 +155,7 @@ material_type* material_type::find_material_from_tag(material mat)
         return NULL;
     }
 }
+*/
 
 material_type* material_type::base_material()
 {
@@ -204,6 +225,16 @@ std::string material_type::bash_dmg_verb() const
 std::string material_type::cut_dmg_verb() const
 {
     return _cut_dmg_verb;
+}
+
+std::string material_type::dmg_adj(int dam) const
+{
+    int tmpdam = dam - 1;
+    // bounds check
+    if (tmpdam < 0 || tmpdam > 4)
+        return "";
+    
+    return _dmg_adj[tmpdam];
 }
 
 int material_type::acid_resist() const

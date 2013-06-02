@@ -2173,8 +2173,8 @@ void game::load_artifacts()
 	char sym = artifact.get(std::string("sym")).as_int();
 	nc_color color =
 	    int_to_color(artifact.get(std::string("color")).as_int());
-	material m1 = (material)artifact.get(std::string("m1")).as_int();
-	material m2 = (material)artifact.get(std::string("m2")).as_int();
+	std::string m1 = artifact.get(std::string("m1")).as_string();
+	std::string m2 = artifact.get(std::string("m2")).as_string();
 	unsigned short volume = artifact.get(std::string("volume")).as_int();
 	unsigned short weight = artifact.get(std::string("weight")).as_int();
  signed char melee_dam = artifact.get(std::string("melee_dam")).as_int();
@@ -4749,7 +4749,7 @@ void game::explode_mon(int index)
   kills[z[index].type->id]++;	// Increment our kill counter
 // Send body parts and blood all over!
   mtype* corpse = z[index].type;
-  if (corpse->mat == FLESH || corpse->mat == VEGGY) { // No chunks otherwise
+  if (corpse->mat == "flesh" || corpse->mat == "veggy") { // No chunks otherwise
    int num_chunks;
    switch (corpse->size) {
     case MS_TINY:   num_chunks =  1; break;
@@ -4760,12 +4760,12 @@ void game::explode_mon(int index)
    }
    itype* meat;
    if (corpse->has_flag(MF_POISON)) {
-    if (corpse->mat == FLESH)
+    if (corpse->mat == "flesh")
      meat = itypes["meat_tainted"];
     else
      meat = itypes["veggy_tainted"];
    } else {
-    if (corpse->mat == FLESH)
+    if (corpse->mat == "flesh")
      meat = itypes["meat"];
     else
      meat = itypes["veggy"];
@@ -4968,7 +4968,7 @@ void game::smash()
   u.moves -= 80;
   if (u.skillLevel("melee") == 0)
    u.practice(turn, "melee", rng(0, 1) * rng(0, 1));
-  if (u.weapon.made_of(GLASS) &&
+  if (u.weapon.made_of("glass") &&
       rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
    add_msg("Your %s shatters!", u.weapon.tname(this).c_str());
    for (int i = 0; i < u.weapon.contents.size(); i++)
@@ -8043,7 +8043,7 @@ void game::complete_butcher(int index)
   if (corpse->has_flag(MF_BONES)) {
     m.spawn_item(u.posx, u.posy, itypes["bone"], age, bones);
    add_msg("You harvest some usable bones!");
-  } else if (corpse->mat == VEGGY) {
+  } else if (corpse->mat == "veggy") {
     m.spawn_item(u.posx, u.posy, itypes["plant_sac"], age, bones);
    add_msg("You harvest some fluid bladders!");
   }
@@ -8053,7 +8053,7 @@ void game::complete_butcher(int index)
   if (corpse->has_flag(MF_BONES)) {
     m.spawn_item(u.posx, u.posy, itypes["sinew"], age, sinews);
    add_msg("You harvest some usable sinews!");
-  } else if (corpse->mat == VEGGY) {
+  } else if (corpse->mat == "veggy") {
     m.spawn_item(u.posx, u.posy, itypes["plant_fibre"], age, sinews);
    add_msg("You harvest some plant fibres!");
   }
@@ -8106,12 +8106,12 @@ void game::complete_butcher(int index)
  else {
   itype* meat;
   if (corpse->has_flag(MF_POISON)) {
-    if (corpse->mat == FLESH)
+    if (corpse->mat == "flesh")
      meat = itypes["meat_tainted"];
     else
      meat = itypes["veggy_tainted"];
   } else {
-   if (corpse->mat == FLESH)
+   if (corpse->mat == "flesh")
     if(corpse->has_flag(MF_HUMAN))
      meat = itypes["human_flesh"];
     else

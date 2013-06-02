@@ -10,7 +10,7 @@ void mdeath::normal(game *g, monster *z)
 {
  if (g->u_see(z))
   g->add_msg("The %s dies!", z->name().c_str());
- if (z->made_of(FLESH) && z->has_flag(MF_WARM)) {
+ if (z->made_of("flesh") && z->has_flag(MF_WARM)) {
   if (g->m.field_at(z->posx, z->posy).type == fd_blood &&
       g->m.field_at(z->posx, z->posy).density < 3)
    g->m.field_at(z->posx, z->posy).density++;
@@ -20,7 +20,7 @@ void mdeath::normal(game *g, monster *z)
 // Drop a dang ol' corpse
 // If their hp is less than -50, we destroyed them so badly no corpse was left
  if ((z->hp >= -50 || z->hp >= 0 - 2 * z->type->hp) &&
-     (z->made_of(FLESH) || z->made_of(VEGGY))) {
+     (z->made_of("flesh") || z->made_of("veggy"))) {
   item tmp;
   tmp.make_corpse(g->itypes["corpse"], z->type, g->turn);
   g->m.add_item(z->posx, z->posy, tmp);
