@@ -4362,7 +4362,7 @@
         "color" : "red",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "BANDAGE",
+        "use_action" : "FIRSTAID",
         "stim" : 0,
         "container" : "bottle_plastic",
         "to_hit" : 0,
@@ -4380,7 +4380,7 @@
         "cutting" : 0,
         "phase" : "liquid",
         "charges" : 1,
-        "rarity" : 50,
+        "rarity" : 35,
         "bashing" : 0,
         "fun" : 0
     }

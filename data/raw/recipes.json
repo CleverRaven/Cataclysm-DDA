@@ -6899,11 +6899,13 @@
             "autolearn": true,
             "components": [
                               [
-                                  ["rag", 3]
+                                  ["rag", 3],
+								  ["medical_gauze", 1]
                               ],
                               [
                                   ["superglue", 1],
-                                  ["duct_tape", 5]
+                                  ["duct_tape", 5],
+								  ["medical_tape", 3]
                               ],
                               [
                                   ["vodka", 7],
