@@ -5599,31 +5599,38 @@ enum advanced_inv_sortby {
     SORTBY_NONE = 1 , SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES
 };
 
-struct advanced_inv_sorter {
-    int sortby;
-    advanced_inv_sorter(int sort) { sortby=sort; };
-    bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
-        switch(sortby) {
-           case SORTBY_WEIGHT: return d1.weight > d2.weight; break;
-           case SORTBY_VOLUME: return d1.volume > d2.volume; break;
-           case SORTBY_CHARGES: return d1.it->charges > d2.it->charges; break;
-           default: return d1.idx > d2.idx; break;
-        };
-    };
-};
-
 struct advanced_inv_sort_case_insensitive_less : public std::binary_function< char,char,bool > {
     bool operator () (char x, char y) const {
         return toupper( static_cast< unsigned char >(x)) < toupper( static_cast< unsigned char >(y));
     }
 };
 
-struct advanced_inv_sort_byname {
+struct advanced_inv_sorter {
+    int sortby;
+    advanced_inv_sorter(int sort) { sortby=sort; };
     bool operator()(const advanced_inv_listitem& d1, const advanced_inv_listitem& d2) {
+        if ( sortby != SORTBY_NAME ) {
+            switch(sortby) {
+                case SORTBY_WEIGHT: {
+                    if ( d1.weight != d2.weight ) return d1.weight > d2.weight;
+                    break;
+                }
+                case SORTBY_VOLUME: {
+                    if ( d1.volume != d2.volume ) return d1.volume > d2.volume;
+                    break;
+                }
+                case SORTBY_CHARGES: {
+                    if ( d1.it->charges != d2.it->charges ) return d1.it->charges > d2.it->charges;
+                    break;
+                }
+                default: return d1.idx > d2.idx; break;
+            };
+        }
+        // secondary sort by name 
         std::string n1=d1.name;
         std::string n2=d2.name;
         return std::lexicographical_compare( n1.begin(), n1.end(),
-           n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
+            n2.begin(), n2.end(), advanced_inv_sort_case_insensitive_less() );
     };
 };
 
@@ -5840,7 +5847,7 @@ void game::advanced_inv()
                                 std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
                             }
                             break;
-                        case SORTBY_NAME:    std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_byname() ); break;
+//                        case SORTBY_NAME:    std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_byname() ); break;
                         default:
                             std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) ); 
                             break;
