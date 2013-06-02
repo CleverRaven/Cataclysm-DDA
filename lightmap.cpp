@@ -266,14 +266,14 @@ void map::apply_light_source(int x, int y, float luminance)
   int sy = y - range; int ey = y + range;
 
   for(int off = sx; off <= ex; ++off) {
-   apply_light_ray(lit, x, y, off, sy, luminance);
-   apply_light_ray(lit, x, y, off, ey, luminance);
+   apply_light_ray(lit, x, y, off, sy, luminance, trigdist);
+   apply_light_ray(lit, x, y, off, ey, luminance, trigdist);
   }
 
   // Skip corners with + 1 and < as they were done
   for(int off = sy + 1; off < ey; ++off) {
-   apply_light_ray(lit, x, y, sx, off, luminance);
-   apply_light_ray(lit, x, y, ex, off, luminance);
+   apply_light_ray(lit, x, y, sx, off, luminance, trigdist);
+   apply_light_ray(lit, x, y, ex, off, luminance, trigdist);
   }
  }
 }
