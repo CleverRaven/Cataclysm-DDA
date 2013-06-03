@@ -1078,7 +1078,7 @@
         "to_hit" : 0,
         "storage" : 7,
         "symbol" : "[",
-        "description" : "A plastic coat with two very large pockets. Provides protection from rain.",
+        "description" : "A plastic coat with two very large pockets. Provides protection from rain and some protection from acid rain.",
         "price" : 100,
         "material" : ["PLASTIC", "NULL"],
         "volume" : 9,
