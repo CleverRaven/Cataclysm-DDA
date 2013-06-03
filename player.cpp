@@ -6822,7 +6822,7 @@ void player::practice (const calendar& turn, Skill *s, int amount)
         amount /= 2;
     }
 
-    if (level.isTraining())
+    if (amount > 0 && level.isTraining())
     {
         skillLevel(s).train(amount);
 
