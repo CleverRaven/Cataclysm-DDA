@@ -833,7 +833,7 @@ A: Lots of the food found in towns is perishable, and will only last a few\n\
    canned food, jerky, and hunting.\n\
 \n\
 Q: How can I remove boards from boarded-up windows and doors?\n\
-A: Use the hammer and choose the direction of the boarded-up window or\n\
+A: Use a hammer and choose the direction of the boarded-up window or\n\
    door to remove the boards.\n\
 \n\
 Q: The game just told me to quit, and other weird stuff is happening.\n\
