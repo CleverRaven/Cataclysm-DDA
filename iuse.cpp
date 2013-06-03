@@ -508,6 +508,23 @@ void iuse::meth(game *g, player *p, item *it, bool t)
  p->add_disease(DI_METH, duration, g);
 }
 
+void iuse::vitamins(game *g, player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,"You take some vitamins.");
+    if (p->health >= 10)
+    {
+        return;
+    }
+    else if (p->health >= 0)
+    {
+        p->health = 10;
+    }
+    else
+    {
+        p->health += 10;
+    }
+}
+
 void iuse::poison(game *g, player *p, item *it, bool t)
 {
  p->add_disease(DI_POISON, 600, g);

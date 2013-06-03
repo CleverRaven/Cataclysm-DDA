@@ -1449,7 +1449,7 @@ void game::disassemble(char ch)
                             int req = cur_recipe->tools[j][0].count;
                             if (cur_recipe->tools[j][0].type == "welder")
                             {
-                                add_msg("You need a hack saw to disassemble this.");
+                                add_msg("You need a hacksaw to disassemble this.");
                             }
                             else
                             {

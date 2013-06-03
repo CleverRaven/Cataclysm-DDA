@@ -35,6 +35,7 @@ class iuse
   void crack		(game *g, player *p, item *it, bool t);
   void grack		(game *g, player *p, item *it, bool t);
   void meth		(game *g, player *p, item *it, bool t);
+  void vitamins		(game *g, player *p, item *it, bool t);
   void poison		(game *g, player *p, item *it, bool t);
   void hallu		(game *g, player *p, item *it, bool t);
   void thorazine	(game *g, player *p, item *it, bool t);

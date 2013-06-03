@@ -194,7 +194,7 @@ enum pl_flag {
  PF_GOURMAND,	// Faster eating, higher level of max satiated
  PF_ANIMALEMPATH,// Animals attack less
  PF_TERRIFYING,	// All creatures run away more
- PF_DISRESISTANT,// Less likely to succumb to low health; TODO: Implement this
+ PF_DISRESISTANT,// Less likely to succumb to low health
  PF_ADRENALINE,	// Big bonuses when low on HP
  PF_SELFAWARE, // Let's you see exact HP totals
  PF_INCONSPICUOUS,// Less spawns due to timeouts
