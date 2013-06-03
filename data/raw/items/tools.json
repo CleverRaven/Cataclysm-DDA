@@ -2703,7 +2703,7 @@
     "type": "TOOL",
     "symbol": ";",
     "color": "light_cyan",
-    "name": "hack saw",
+    "name": "hacksaw",
     "description": "A sturdy saw, useful for cutting through metal objects.",
     "rarity": 17,
     "price": 65,
