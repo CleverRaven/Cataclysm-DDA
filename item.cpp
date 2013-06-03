@@ -731,14 +731,7 @@ std::string item::tname(game *g)
    case VEGGY:
    case HFLESH:
    case FLESH:
-    if (type->id == "corpse") {
-     if (damage == 1) damtext = "bruised";
-     if (damage == 2) damtext = "damaged";
-     if (damage == 3) damtext = "mangled";
-     if (damage == 4) damtext = "pulped";
-    } else {
-     damtext = "partially eaten ";
-    }
+    damtext = "partially eaten ";
     break;
    case COTTON:
    case WOOL:
@@ -786,10 +779,17 @@ std::string item::tname(game *g)
     if (damage ==  4) damtext = "thoroughly rusted ";
     break;
    default:
-    if (damage ==  1) damtext = "lightly damaged ";
-    if (damage ==  2) damtext = "damaged ";
-    if (damage ==  3) damtext = "very damaged ";
-    if (damage ==  4) damtext = "thoroughly damaged ";
+    if (type->id == "corpse") {
+     if (damage == 1) damtext = "bruised ";
+     if (damage == 2) damtext = "damaged ";
+     if (damage == 3) damtext = "mangled ";
+     if (damage == 4) damtext = "pulped ";
+    } else {
+     if (damage ==  1) damtext = "lightly damaged ";
+     if (damage ==  2) damtext = "damaged ";
+     if (damage ==  3) damtext = "very damaged ";
+     if (damage ==  4) damtext = "thoroughly damaged ";
+    }
   }
   ret << damtext;
  }
