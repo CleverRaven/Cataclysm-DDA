@@ -1573,13 +1573,35 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  line = 1;
  std::vector<Skill*> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
+
+ // sort skills by level
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill)
  {
   SkillLevel level = skillLevel(*aSkill);
-
-  if ( level >= 0) {
+  if (level < 0)
+   continue;
+  bool foundplace = false;
+  for (std::vector<Skill*>::iterator i = skillslist.begin();
+      i != skillslist.end(); ++i)
+  {
+   SkillLevel thislevel = skillLevel(*i);
+   if (thislevel < level)
+   {
+    skillslist.insert(i, *aSkill);
+    foundplace = true;
+    break;
+   }
+  }
+  if (not foundplace)
    skillslist.push_back(*aSkill);
+ }
+
+ for (std::vector<Skill*>::iterator aSkill = skillslist.begin();
+      aSkill != skillslist.end(); ++aSkill)
+ {
+   SkillLevel level = skillLevel(*aSkill);
+
    // Default to not training and not rusting
    nc_color text_color = c_blue;
    bool training = level.isTraining();
@@ -1604,8 +1626,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
      mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%%%)", (int)level,
                (level.exercise() <  0 ? 0 : level.exercise()));
      line++;
-    }
-  }
+   }
  }
  wrefresh(w_skills);
 
@@ -2039,30 +2060,32 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
 
    Skill *selectedSkill;
 
-   for (std::vector<Skill*>::iterator iter = Skill::skills.begin();
-        iter != Skill::skills.end(); ++iter)
+   for (int i = min; i < max; i++)
    {
-     Skill *aSkill = *iter;
-     SkillLevel level = skillLevel(aSkill);
+    Skill *aSkill = skillslist[i];
+    SkillLevel level = skillLevel(aSkill);
 
-     bool isLearning = level.isTraining();
-     int exercise = level.exercise();
+    bool isLearning = level.isTraining();
+    int exercise = level.exercise();
+    bool rusting = level.isRusting(g->turn);
 
-    if (aSkill->id() == line) {
+    if (i == line) {
       selectedSkill = aSkill;
      if (exercise >= 100)
-      status = isLearning ? h_pink : h_red;
+      status = isLearning ? h_pink : h_magenta;
+     else if (rusting)
+      status = isLearning ? h_ltred : h_red;
      else
       status = isLearning ? h_ltblue : h_blue;
     } else {
-     if (exercise < 0)
+     if (rusting)
       status = isLearning ? c_ltred : c_red;
      else
       status = isLearning ? c_ltblue : c_blue;
     }
-    mvwprintz(w_skills, 1 + aSkill->id() - min, 1, c_ltgray, "                         ");
-    mvwprintz(w_skills, 1 + aSkill->id() - min, 1, status, "%s:", aSkill->name().c_str());
-    mvwprintz(w_skills, 1 + aSkill->id() - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
+    mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
+    mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
+    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
    }
    werase(w_info);
    if (line >= 0 && line < skillslist.size())
@@ -2086,8 +2109,9 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
       Skill *thisSkill = skillslist[i];
       SkillLevel level = skillLevel(thisSkill);
       bool isLearning = level.isTraining();
+      bool rusting = level.isRusting(g->turn);
 
-      if (level.exercise() < 0)
+      if (rusting)
        status = isLearning ? c_ltred : c_red;
       else
        status = isLearning ? c_ltblue : c_blue;
