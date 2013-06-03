@@ -2067,15 +2067,18 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
 
     bool isLearning = level.isTraining();
     int exercise = level.exercise();
+    bool rusting = level.isRusting(g->turn);
 
     if (i == line) {
       selectedSkill = aSkill;
      if (exercise >= 100)
-      status = isLearning ? h_pink : h_red;
+      status = isLearning ? h_pink : h_magenta;
+     else if (rusting)
+      status = isLearning ? h_ltred : h_red;
      else
       status = isLearning ? h_ltblue : h_blue;
     } else {
-     if (exercise < 0)
+     if (rusting)
       status = isLearning ? c_ltred : c_red;
      else
       status = isLearning ? c_ltblue : c_blue;
@@ -2106,8 +2109,9 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
       Skill *thisSkill = skillslist[i];
       SkillLevel level = skillLevel(thisSkill);
       bool isLearning = level.isTraining();
+      bool rusting = level.isRusting(g->turn);
 
-      if (level.exercise() < 0)
+      if (rusting)
        status = isLearning ? c_ltred : c_red;
       else
        status = isLearning ? c_ltblue : c_blue;
