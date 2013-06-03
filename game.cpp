@@ -4986,7 +4986,7 @@ void game::smash()
         }
         if (corpses.size() > 0)
         {
-            add_msg("You swing at the corpse%s!", corpses.size() > 1 ? "s" : "");
+            add_msg("You swing at the corpse%s.", corpses.size() > 1 ? "s" : "");
 
             // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
             // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
@@ -5003,14 +5003,21 @@ void game::smash()
             for (std::list<item*>::iterator iter = corpses.begin(); iter != corpses.end(); ++iter)
             {
                 item *it = *iter;
-                if (it->damage < 4 && ( one_in(it->volume()) ||
-                    rng(0, pulp_power * (it->damage + 1)) > it->volume()) )
+                int rn = rng(0, pulp_power * (it->damage + 1));
+                int damage = rn / it->volume();
+                // chance of a critical success, higher chance for small critters
+                if (one_in(it->volume()))
                 {
-                    add_msg("You damage the %s", it->tname().c_str());
-                    it->damage++;
+                    damage++;
+                }
+                if (damage > 0)
+                {
+                    add_msg("You %sdamage the %s!", (damage > 1 ? "greatly " : ""), it->tname().c_str());
+                    it->damage += damage;
                     if (it->damage >= 4)
                     {
                         add_msg("The corpse is now thoroughly pulped.");
+                        it->damage = 4;
                         // TODO mark corpses as inactive when appropriate
                     }
                 }
