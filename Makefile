@@ -127,6 +127,7 @@ endif
 
 # MXE cross-compile to win32
 ifneq (,$(findstring mingw32,$(CROSS)))
+  DEFINES += -DCROSS_LINUX
   TARGETSYSTEM=WINDOWS
 endif
 
@@ -141,9 +142,10 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
 endif
 
 ifdef TILES
-  LDFLAGS += -lSDL -lSDL_ttf
+  LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
+    LDFLAGS += -lgdi32 -ldxguid -lwinmm
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else
