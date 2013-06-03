@@ -4979,7 +4979,7 @@ void game::smash()
         for (int i = 0; i < m.i_at(u.posx + smashx, u.posy + smashy).size(); ++i)
         {
             item *it = &m.i_at(u.posx + smashx, u.posy + smashy)[i];
-            if (it->type->id == "corpse")
+            if (it->type->id == "corpse" && it->damage < 4)
             {
                 corpses.push_back(it);
             }
