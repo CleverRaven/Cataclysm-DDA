@@ -319,7 +319,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  double rad = PI * (double)nangle / 180;
  int endx = x + range * cos(rad);
  int endy = y + range * sin(rad);
- apply_light_ray(lit, x, y, endx, endy , luminance, true);
+ apply_light_ray(lit, x, y, endx, endy , luminance);
 
  double testrad = ( PI * wangle / 180 ) + rad;
  int testx = x + range * cos(testrad);
@@ -350,11 +350,11 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
      double orad = ( PI * ao / 180.0 );
      endx = int( x + ( (double)range - fdist * 2.0) * cos(rad+orad) );
      endy = int( y + ( (double)range - fdist * 2.0) * sin(rad+orad) );
-     apply_light_ray(lit, x, y, endx, endy , dluminance, true);
+     apply_light_ray(lit, x, y, endx, endy , dluminance);
 
      endx = int( x + ( (double)range - fdist * 2.0) * cos(rad-orad) );
      endy = int( y + ( (double)range - fdist * 2.0) * sin(rad-orad) );
-     apply_light_ray(lit, x, y, endx, endy , dluminance, true);
+     apply_light_ray(lit, x, y, endx, endy , dluminance);
 
      iter+=2;
    }
@@ -365,7 +365,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
 }
 
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
-                          int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc)
+                          int sx, int sy, int ex, int ey, float luminance)
 {
  int ax = abs(ex - sx) << 1;
  int ay = abs(ey - sy) << 1;
@@ -394,12 +394,8 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
 
     // We know x is the longest angle here and squares can ignore the abs calculation
     float light=0.0;
-    if ( trig_brightcalc ) {
-      int td = trig_dist(sx, sy, x, y);
-      light = luminance / ( td * td );
-    } else {
-      light = luminance / ((sx - x) * (sx - x));
-    }
+    int td = trig_dist(sx, sy, x, y);
+    light = luminance / ( td * td );
     lm[x][y] += light * transparency;
    }
 
@@ -427,12 +423,8 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
 
     // We know y is the longest angle here and squares can ignore the abs calculation
     float light=0.0;
-    if ( trig_brightcalc ) {
-      int td = trig_dist(sx, sy, x, y);
-      light = luminance / ( td * td );
-    } else {
-      light = luminance / ((sy - y) * (sy - y));
-    }
+    int td = trig_dist(sx, sy, x, y);
+    light = luminance / ( td * td );
     lm[x][y] += light;
    }
 
