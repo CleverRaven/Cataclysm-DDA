@@ -1340,7 +1340,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   trait_win_size_y = maxy - infooffsetybottom;
  }
 
- skill_win_size_y = Skill::skill_count();
+ skill_win_size_y = Skill::skill_count() + 1;
  if (skill_win_size_y + infooffsetybottom > maxy ) {
   skill_win_size_y = maxy - infooffsetybottom;
  }
