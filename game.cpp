@@ -4975,11 +4975,12 @@ void game::smash()
     get_direction(smashx, smashy, input);
     if (smashx != -2 && smashy != -2)
     {
+        const int full_pulp_threshold = 4;
         std::list<item*> corpses;
         for (int i = 0; i < m.i_at(u.posx + smashx, u.posy + smashy).size(); ++i)
         {
             item *it = &m.i_at(u.posx + smashx, u.posy + smashy)[i];
-            if (it->type->id == "corpse" && it->damage < 4)
+            if (it->type->id == "corpse" && it->damage < full_pulp_threshold)
             {
                 corpses.push_back(it);
             }
@@ -5000,16 +5001,25 @@ void game::smash()
             }
             double pulp_power = sqrt(u.str_cur + u.weapon.type->melee_dam) * sqrt(cut_power + 1);
             pulp_power *= 20; // constant multiplier to get the chance right
-            for (std::list<item*>::iterator iter = corpses.begin(); iter != corpses.end(); ++iter)
+            int rn = rng(0, pulp_power);
+            while (rn > 0 && !corpses.empty())
             {
-                item *it = *iter;
-                int rn = rng(0, pulp_power * (it->damage + 1));
+                item *it = corpses.front();
+                corpses.pop_front();
                 int damage = rn / it->volume();
+                if (damage + it->damage > full_pulp_threshold)
+                {
+                    damage = full_pulp_threshold - it->damage;
+                }
+                rn -= (damage + 1) * it->volume(); // slight efficiency loss to swing
+                
                 // chance of a critical success, higher chance for small critters
+                // comes AFTER the loss of power from the above calculation
                 if (one_in(it->volume()))
                 {
                     damage++;
                 }
+                
                 if (damage > 0)
                 {
                     add_msg("You %sdamage the %s!", (damage > 1 ? "greatly " : ""), it->tname().c_str());
