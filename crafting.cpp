@@ -1128,7 +1128,7 @@ void game::complete_craft()
            newit.tname().c_str());
    m.add_item(u.posx, u.posy, newit);
   } else {
-   u.i_add(newit);
+   newit = u.i_add(newit);
    add_msg("%c - %s", newit.invlet, newit.tname().c_str());
   }
  }
