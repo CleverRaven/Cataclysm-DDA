@@ -1175,7 +1175,7 @@ void mattack::smg(game *g, monster *z)
   z->moves = -150;			// It takes a while
   if (g->u_see(z->posx, z->posy))
    g->add_msg("The %s fires its smg!", z->name().c_str());
-  player tmp;
+  npc tmp;
   tmp.name = "The " + z->name();
 
   tmp.skillLevel("smg").level(1);
@@ -1214,7 +1214,7 @@ void mattack::smg(game *g, monster *z)
  if (g->u_see(z->posx, z->posy))
   g->add_msg("The %s fires its smg!", z->name().c_str());
 // Set up a temporary player to fire this gun
- player tmp;
+ npc tmp;
  tmp.name = "The " + z->name();
 
  tmp.skillLevel("smg").level(1);
