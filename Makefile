@@ -181,7 +181,7 @@ version:
          )
 
 $(ODIR):
-	mkdir $(ODIR)
+	mkdir -p $(ODIR)
 
 $(DDIR):
 	@mkdir $(DDIR)
@@ -192,7 +192,7 @@ $(ODIR)/%.o: %.cpp
 version.cpp: version
 
 clean: clean-tests
-	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(ODIR)/*.d $(W32ODIR)/*.o $(W32BINDIST) \
+	rm -rf $(TARGET) $(W32TARGET) $(ODIR) $(W32ODIR) $(W32BINDIST) \
 	$(BINDIST)
 	rm -rf $(BINDIST_DIR)
 	rm -f version.h
