@@ -4958,6 +4958,7 @@ void game::close()
 
 void game::smash()
 {
+    const int move_cost = 80;
     bool didit = false;
     std::string bashsound, extra;
     int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
@@ -5014,6 +5015,7 @@ void game::smash()
                     }
                 }
             }
+            u.moves -= move_cost;
             return; // don't smash terrain if we've smashed a corpse
         }
         else
@@ -5039,7 +5041,7 @@ void game::smash()
             sound(u.posx, u.posy, 30, "An alarm sounds!");
             add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
         }
-        u.moves -= 80;
+        u.moves -= move_cost;
         if (u.skillLevel("melee") == 0)
         {
             u.practice(turn, "melee", rng(0, 1) * rng(0, 1));
