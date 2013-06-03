@@ -820,10 +820,10 @@ really need it.");
 
   case '6':
    mvwprintz(w_help, 0, 0, c_white, "\
-Q: What is Run Mode, and why does it prevent me from moving?\n\
-A: Run Mode is a way to guarantee that you won't die by holding a movement\n\
+Q: What is Safe Mode, and why does it prevent me from moving?\n\
+A: Safe Mode is a way to guarantee that you won't die by holding a movement\n\
    key down. When a monster comes into view, your movement will be ignored\n\
-   until Run Mode is turned off with the ! key. This ensures that the\n\
+   until Safe Mode is turned off with the ! key. This ensures that the\n\
    sudden appearence of a monster won't catch you off guard.\n\
 \n\
 Q: It seems like everything I eat makes me sick! What's wrong?\n\
@@ -832,14 +832,12 @@ A: Lots of the food found in towns is perishable, and will only last a few\n\
    the first to go. After the first couple of days, you should switch to\n\
    canned food, jerky, and hunting.\n\
 \n\
-Q: Why doesn't reading a book seem to give me any training?\n\
-A: Your skills will not be displayed in the @ screen until they reach level\n\
-   one. Generally it will take several reads of the same book to gain a\n\
-   single level in a skill.\n\
+Q: How can I remove boards from boarded-up windows and doors?\n\
+A: Use the hammer and choose the direction of the boarded-up window or\n\
+   door to remove the boards.\n\
 \n\
-Q: How can I board up windows and doors?\n\
-A: You'll need a hammer, nails, and two by fours. Use the hammer and choose\n\
-   the direction in which the terrain you wish to barricade lies.\n\
+Q: The game just told me to quit, and other weird stuff is happening.\n\
+A: You have the Schizophrenic trait, which might make the game seem buggy.\n\
 \n\
 Q: How can I prevent monsters from attacking while I sleep?\n\
 A: Find a safe place to sleep, in a building far from the front door. Set\n\
@@ -877,16 +875,24 @@ A: Check the difficulty of the recipe, and the primary skill used; your skill\n\
    getch();
    werase(w_help);
    mvwprintz(w_help, 0, 0, c_white, "\
+Q: Why can't I carry anything?\n\
+A: At the start of the game you only have the space in your pockets. A\n\
+   good first goal of many survivors is to find a backpack or pouch to store\n\
+   things in. (The shelter basement is a good place to check first!)\n\
+\n\
 Q: Shotguns bring in more zombies than they kill!  What's the point?\n\
 A: Shotguns are intended for emergency use. If you are cornered, use your\n\
    shotgun to escape, then just run from the zombies it attracts.\n\
 \n\
-Q: The game just told me to quit, and other weird stuff is happening.\n\
-A: You have the Schizophrenic trait, which might make the game seem buggy.\n\
+Q: Help! I started a fire and now my house is burning down!\n\
+A: Fires will spread to nearby flammable tiles if they are able. Liting a\n\
+   fire in a set-up brazier, wood stove, stone fireplace, or pit will stop\n\
+   it from spreading. Fire extinquishers can put out fires that get out of\n\
+   control.\n\
 \n\
 Q: I have a question that's not addressed here. How can I get an answer?\n\
-A: Email your question to TheDarklingWolf@Gmail.com. I'll answer it for you,\n\
-   and possibly include it on this list.");
+A: Ask the helpful people on the forum at smf.cataclysmdda.com or email\n\
+   your question to TheDarklingWolf@Gmail.com.");
 
    wrefresh(w_help);
    refresh();
