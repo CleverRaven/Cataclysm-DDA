@@ -2096,8 +2096,6 @@ void npc::die(game *g, bool your_fault)
   if (g->active_missions[i].npc_id == getID())
    g->fail_mission( g->active_missions[i].uid );
  }
-
- g->cur_om->remove_npc(getID());
 }
 
 std::string npc_attitude_name(npc_attitude att)
