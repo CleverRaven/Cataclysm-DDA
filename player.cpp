@@ -2735,7 +2735,7 @@ int player::ranged_per_mod(bool real_life)
    deviation = rng(0, deviation);
  } else {
   deviation = 3 * (0 - (per > 16 ? 8 : per - 8));
-  if (real_life && one_in(per))
+  if (real_life && one_in(per - 8))
    deviation = 0 - rng(0, abs(deviation));
  }
  return deviation;
