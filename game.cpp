@@ -4859,6 +4859,11 @@ void game::revive_corpse(int x, int y, item *it)
     monster mon(it->corpse, x, y);
     mon.speed = int(mon.speed * .8) - burnt_penalty / 2;
     mon.hp    = int(mon.hp    * .7) - burnt_penalty;
+    if (it->damage > 0)
+    {
+        mon.speed /= it->damage + 1;
+        mon.hp /= it->damage + 1;
+    }
     mon.no_extra_death_drops = true;
     z.push_back(mon);
 }

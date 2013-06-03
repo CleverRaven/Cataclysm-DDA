@@ -1068,12 +1068,16 @@ bool item::rotten(game *g)
 
 bool item::ready_to_revive(game *g)
 {
-    if (type->id != "corpse" || corpse->species != species_zombie)
+    if (type->id != "corpse" || corpse->species != species_zombie || damage >= 4)
     {
         return false;
     }
     int age_in_hours = (int(g->turn) - bday) / (10 * 60);
     age_in_hours -= ((float)burnt/volume()) * 24;
+    if (damage > 0)
+    {
+        age_in_hours /= (damage + 1);
+    }
     int rez_factor = 48 - age_in_hours;
     if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
     {
