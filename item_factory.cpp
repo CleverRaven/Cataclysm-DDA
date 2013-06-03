@@ -50,6 +50,7 @@ void Item_factory::init(){
     iuse_function_list["CRACK"] = &iuse::crack;
     iuse_function_list["GRACK"] = &iuse::grack;
     iuse_function_list["METH"] = &iuse::meth;
+    iuse_function_list["VITAMINS"] = &iuse::vitamins;
     iuse_function_list["POISON"] = &iuse::poison;
     iuse_function_list["HALLU"] = &iuse::hallu;
     iuse_function_list["THORAZINE"] = &iuse::thorazine;
