@@ -1124,7 +1124,8 @@ void vehicle::consume_fuel ()
                 //  - if j is 0, then we're looking for plutonium (it's first)
                 //  - otherwise we're looking for batteries (second)
                 if (part_flag(p, vpf_fuel_tank) &&
-                    (part_info(p).fuel_type == (elec? (j? AT_BATT : AT_PLUT) : ftypes[ft])))
+                    (part_info(p).fuel_type == (elec? (j? AT_BATT : AT_PLUT) : ftypes[ft])) && 
+                    parts[p].amount > 0)
                 {
                     parts[p].amount -= amnt / ((elec && !j)?100:1);
                     if (parts[p].amount < 0)

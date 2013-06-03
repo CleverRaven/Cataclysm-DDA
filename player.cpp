@@ -3684,7 +3684,7 @@ void player::suffer(game *g)
   }
  }
 
- if (has_trait(PF_SLIMY)) {
+ if (has_trait(PF_SLIMY) && !in_vehicle) {
   if (g->m.field_at(posx, posy).type == fd_null)
    g->m.add_field(g, posx, posy, fd_slime, 1);
   else if (g->m.field_at(posx, posy).type == fd_slime &&
@@ -3692,7 +3692,7 @@ void player::suffer(game *g)
    g->m.field_at(posx, posy).density++;
  }
 
- if (has_trait(PF_WEB_WEAVER) && one_in(3)) {
+ if (has_trait(PF_WEB_WEAVER) && !in_vehicle && one_in(3)) {
   if (g->m.field_at(posx, posy).type == fd_null ||
       g->m.field_at(posx, posy).type == fd_slime)
    g->m.add_field(g, posx, posy, fd_web, 1);
