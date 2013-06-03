@@ -4963,7 +4963,6 @@ void game::smash()
  int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
  mvwprintw(w_terrain, 0, 0, "Smash what? (hjklyubn) ");
  wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
  InputEvent input = get_input();
  last_action += input;
  if (input == Close) {
@@ -4972,12 +4971,6 @@ void game::smash()
  }
  int smashx, smashy;
  get_direction(smashx, smashy, input);
-// TODO: Move this elsewhere.
- if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
-     !event_queued(EVENT_WANTED)) {
-  sound(u.posx, u.posy, 30, "An alarm sounds!");
-  add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
- }
  if (smashx != -2 && smashy != -2)
   didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
  else
@@ -4986,6 +4979,12 @@ void game::smash()
   if (extra != "")
    add_msg(extra.c_str());
   sound(u.posx, u.posy, 18, bashsound);
+  // TODO: Move this elsewhere, like maybe into the map on-break code
+  if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
+      !event_queued(EVENT_WANTED)) {
+   sound(u.posx, u.posy, 30, "An alarm sounds!");
+   add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
+  }
   u.moves -= 80;
   if (u.skillLevel("melee") == 0)
    u.practice(turn, "melee", rng(0, 1) * rng(0, 1));
