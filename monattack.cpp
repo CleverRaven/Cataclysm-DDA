@@ -4,6 +4,7 @@
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
+#include "material.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -974,33 +975,19 @@ void mattack::vortex(game *g, monster *z)
     int distance = 0, damage = 0;
     monster *thrown = &(g->z[mondex]);
     switch (thrown->type->size) {
-     case MS_TINY:   distance = 5; break;
-     case MS_SMALL:  distance = 3; break;
-     case MS_MEDIUM: distance = 2; break;
-     case MS_LARGE:  distance = 1; break;
+     case MS_TINY:   distance = 10; break;
+     case MS_SMALL:  distance = 6; break;
+     case MS_MEDIUM: distance = 4; break;
+     case MS_LARGE:  distance = 2; break;
      case MS_HUGE:   distance = 0; break;
     }
-    damage = distance * 4;
-// MATERIALS-TODO: add and use material density
-/*
-    switch (thrown->type->mat) {
-     case LIQUID:  distance += 3; damage -= 10; break;
-     case VEGGY:   distance += 1; damage -=  5; break;
-     case POWDER:  distance += 4; damage -= 30; break;
-     case COTTON:
-     case WOOL:    distance += 5; damage -= 40; break;
-     case LEATHER: distance -= 1; damage +=  5; break;
-     case KEVLAR:  distance -= 3; damage -= 20; break;
-     case STONE:   distance -= 3; damage +=  5; break;
-     case PAPER:   distance += 6; damage -= 10; break;
-     case WOOD:    distance += 1; damage +=  5; break;
-     case PLASTIC: distance += 1; damage +=  5; break;
-     case GLASS:   distance += 2; damage += 20; break;
-     case IRON:    distance -= 1; // fall through
-     case STEEL:
-     case SILVER:  distance -= 3; damage -= 10; break;
-    }
-*/
+    damage = distance * 3;
+    // subtract 1 unit of distance for every 10 units of density
+    // subtract 5 units of damage for every 10 units of density
+    material_type* mon_mat = material_type::find_material(thrown->type->mat);
+    distance -= mon_mat->density() / 10;
+    damage -= mon_mat->density() / 5;
+    
     if (distance > 0) {
      if (g->u_see(thrown))
       g->add_msg("The %s is thrown by winds!", thrown->name().c_str());

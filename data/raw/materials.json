@@ -9,7 +9,8 @@
         "dmg_adj"       : ["lightly damaged", "damaged", "very damaged", "thoroughly damaged"],
         "acid_resist"   :   0,
         "elec_resist"   :   0,
-        "fire_resist"   :   0
+        "fire_resist"   :   0,
+        "density"       :   1
     },
     {
         "ident"         : "veggy",
@@ -21,7 +22,8 @@
         "dmg_adj"       : ["lightly damaged", "damaged", "very damaged", "thoroughly damaged"],        
         "acid_resist"   :   0,
         "elec_resist"   :   1,
-        "fire_resist"   :   0
+        "fire_resist"   :   0,
+        "density"       :   4
     },
     {
         "ident"         : "flesh",
@@ -33,7 +35,8 @@
         "dmg_adj"       : ["bruised", "mutilated", "badly mutilated", "thoroughly mutilated"],        
         "acid_resist"   :   0,
         "elec_resist"   :   1,
-        "fire_resist"   :   0
+        "fire_resist"   :   0,
+        "density"       :   5
     },
     {
         "ident"         : "powder",
@@ -45,7 +48,8 @@
         "dmg_adj"       : ["lightly damaged", "damaged", "very damaged", "thoroughly damaged"],        
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   0
+        "fire_resist"   :   0,
+        "density"       :   1
     },
     {
         "ident"         : "hflesh",
@@ -57,7 +61,8 @@
         "dmg_adj"       : ["bruised", "mutilated", "badly mutilated", "thoroughly mutilated"],         
         "acid_resist"   :   0,
         "elec_resist"   :   1,
-        "fire_resist"   :   0
+        "fire_resist"   :   0,
+        "density"       :   5
     },
     {
         "ident"         : "cotton",
@@ -69,7 +74,8 @@
         "dmg_adj"       : ["ripped", "torn", "shredded", "tattered"],        
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   0
+        "fire_resist"   :   0,
+        "density"       :   3
     },
     {
         "ident"         : "wool",
@@ -81,7 +87,8 @@
         "dmg_adj"       : ["ripped", "torn", "shredded", "tattered"],        
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   0
+        "fire_resist"   :   0,
+        "density"       :   9
     },
     {
         "ident"         : "leather",
@@ -93,7 +100,8 @@
         "dmg_adj"       : ["scratched", "cut", "shredded", "tattered"],          
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   1
+        "fire_resist"   :   1,
+        "density"       :   6
     },
     {
         "ident"         : "kevlar",
@@ -105,7 +113,8 @@
         "dmg_adj"       : ["marked", "dented", "scarred", "broken"],        
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   1
+        "fire_resist"   :   1,
+        "density"       :   10
     },
     {
         "ident"         : "fur",
@@ -117,7 +126,8 @@
         "dmg_adj"       : ["ripped", "torn", "shredded", "tattered"],          
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   0
+        "fire_resist"   :   0,
+        "density"       :   9
     },
     {
         "ident"         : "chitin",
@@ -129,7 +139,8 @@
         "dmg_adj"       : ["scratched", "cut", "cracked", "shattered"],        
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   2
+        "fire_resist"   :   2,
+        "density"       :   10
     },
     {
         "ident"         : "stone",
@@ -141,7 +152,8 @@
         "dmg_adj"       : ["scratched", "cut", "cracked", "shattered"],       
         "acid_resist"   :   2,
         "elec_resist"   :   2,
-        "fire_resist"   :   2
+        "fire_resist"   :   2,
+        "density"       :   17
     },
     {
         "ident"         : "paper",
@@ -153,7 +165,8 @@
         "dmg_adj"       : ["ripped", "torn", "shredded", "tattered"],       
         "acid_resist"   :   0,
         "elec_resist"   :   2,
-        "fire_resist"   :   0
+        "fire_resist"   :   0,
+        "density"       :   4
     },
     {
         "ident"         : "wood",
@@ -165,7 +178,8 @@
         "dmg_adj"       : ["scratched", "chipped", "cracked", "splintered"],        
         "acid_resist"   :   1,
         "elec_resist"   :   2,
-        "fire_resist"   :   0
+        "fire_resist"   :   0,
+        "density"       :   4
     },
     {
         "ident"         : "plastic",
@@ -177,7 +191,8 @@
         "dmg_adj"       : ["scratched", "cut", "cracked", "shattered"],       
         "acid_resist"   :   1,
         "elec_resist"   :   2,
-        "fire_resist"   :   0
+        "fire_resist"   :   0,
+        "density"       :   8
     },
     {
         "ident"         : "glass",
@@ -189,7 +204,8 @@
         "dmg_adj"       : ["scratched", "cut", "cracked", "shattered"],       
         "acid_resist"   :   2,
         "elec_resist"   :   2,
-        "fire_resist"   :   2
+        "fire_resist"   :   2,
+        "density"       :   14
     },
     {
         "ident"         : "iron",
@@ -201,7 +217,8 @@
         "dmg_adj"       : ["marked", "dented", "smashed", "shattered"],        
         "acid_resist"   :   0,
         "elec_resist"   :   0,
-        "fire_resist"   :   2
+        "fire_resist"   :   2,
+        "density"       :   52
     },
     {
         "ident"         : "steel",
@@ -213,7 +230,8 @@
         "dmg_adj"       : ["marked", "dented", "smashed", "shattered"],         
         "acid_resist"   :   0,
         "elec_resist"   :   0,
-        "fire_resist"   :   2
+        "fire_resist"   :   2,
+        "density"       :   52
     },
     {
         "ident"         : "silver",
@@ -225,6 +243,7 @@
         "dmg_adj"       : ["marked", "dented", "smashed", "shattered"],          
         "acid_resist"   :   0,
         "elec_resist"   :   0,
-        "fire_resist"   :   2
+        "fire_resist"   :   2,
+        "density"       :   70
     }
 ]

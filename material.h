@@ -24,13 +24,15 @@ private:
     int _acid_resist;
     int _elec_resist;
     int _fire_resist;
+    int _density;   // relative to "powder", which is 1
 
 public:
     material_type();
     material_type(unsigned int id, std::string ident, std::string name,
                   int bash_resist, int cut_resist,
                   std::string bash_dmg_verb, std::string cut_dmg_verb,
-                  std::string dmg_adj[], int acid_resist, int elec_resist, int fire_resist);
+                  std::string dmg_adj[], int acid_resist, int elec_resist, int fire_resist,
+                  int density);
     material_type(std::string ident);
     static material_map _all_materials;
     static material_map load_materials();
@@ -54,6 +56,7 @@ public:
     int acid_resist() const;
     int elec_resist() const;
     int fire_resist() const;
+    int density() const;
 };
 
 
