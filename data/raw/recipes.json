@@ -6931,23 +6931,10 @@
             "reversible": false,
             "autolearn": true,
             "components": [
-                              [
-                                  ["rag", 3],
-								  ["medical_gauze", 1]
-                              ],
-                              [
-                                  ["superglue", 1],
-                                  ["duct_tape", 5],
-								  ["medical_tape", 3]
-                              ],
-                              [
-                                  ["vodka", 7],
-                                  ["rum", 7],
-                                  ["whiskey", 7],
-                                  ["tequila", 7],
-                                  ["gin", 7],
-                                  ["triple_sec", 7]
-                              ]
+                              [ ["rag", 3], ["medical_gauze", 1] ],
+                              [ ["superglue", 1], ["duct_tape", 5], ["medical_tape", 3] ],
+                              [ ["vodka", 7], ["rum", 7], ["whiskey", 7],
+                                ["tequila", 7], ["gin", 7], ["triple_sec", 7] ]
                           ]
         },
 
@@ -7455,7 +7442,31 @@
                                   ["sugar", 4]
                               ]
                           ]
+        },
+        {
+            "result": "steel_chunk",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 0,
+            "time": 5000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+                         [
+                             ["welder", 20],
+                             ["toolset", 1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 3]
+                              ]
+                          ]
         }
+
         
     ]
 }
