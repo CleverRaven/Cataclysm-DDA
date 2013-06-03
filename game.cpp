@@ -1683,7 +1683,6 @@ bool game::handle_action()
    break;
 
   case ACTION_INVENTORY: {
-   bool has = false;
    int cMenu = ' ';
    do {
      const std::string sSpaces = "                              ";
