@@ -298,15 +298,11 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  memset(lit, 0, sizeof(lit));
 
  #define lum_mult 3.0
-// wideangle=45; // for testing
-// #define sidefade_test 1
-// #define lightarc_debug 1
 
  luminance=luminance*lum_mult;
 
  int range = LIGHT_RANGE(luminance);
  apply_light_source(x, y, LIGHT_SOURCE_LOCAL);
-
 
  // Normalise (should work with negative values too)
 
@@ -328,24 +324,11 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  double wdist=sqrt(double(pow(endx - testx, 2.0) + pow(endy - testy, 2.0))); // distance between center and widest endpoints
  if(wdist > 0.5) {
    double wstep = ( wangle / ( wdist * 1.42 ) ); // attempt to determine beam density required to cover all squares
-#ifdef lightarc_debug
-   mvprintw(0, 0, "irad: %f s: %d,%d, e %d,%d e2 %d,%d            ",
-     rad,x,y, endx, endy, testx, testy);
-   mvprintw(1, 0, "wdist: %f wstep: %f angle(n): %d testang(n): %d                ",
-     wdist,wstep,nangle, int (nangle + wangle )
-   );
-#endif
    int iter=0;
    for (double ao=wstep; ao <= wangle; ao+=wstep) {
      double fdist=(ao * HALFPI) / wangle;
-#ifdef sidefade_test // neatish-ellipsis fading transform (which turns ugly with more power)
-     float dluminance=( (wangle-ao) * luminance ) /wangle;
-#ifdef lightarc_debug
-     mvprintw(3, 0, "lum: %f/%f rm %d          ",dluminance,luminance);
-#endif
-#else
      float dluminance=luminance;
-#endif
+
      fdist=0.0;
      double orad = ( PI * ao / 180.0 );
      endx = int( x + ( (double)range - fdist * 2.0) * cos(rad+orad) );
@@ -358,9 +341,6 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
 
      iter+=2;
    }
-#ifdef lightarc_debug
-   mvprintw(2, 0, "iters: %d            ", iter );
-#endif
  }
 }
 
