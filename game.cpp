@@ -4859,6 +4859,11 @@ void game::revive_corpse(int x, int y, item *it)
     monster mon(it->corpse, x, y);
     mon.speed = int(mon.speed * .8) - burnt_penalty / 2;
     mon.hp    = int(mon.hp    * .7) - burnt_penalty;
+    if (it->damage > 0)
+    {
+        mon.speed /= it->damage + 1;
+        mon.hp /= it->damage + 1;
+    }
     mon.no_extra_death_drops = true;
     z.push_back(mon);
 }
@@ -4953,50 +4958,133 @@ void game::close()
 
 void game::smash()
 {
- bool didit = false;
- std::string bashsound, extra;
- int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
- mvwprintw(w_terrain, 0, 0, "Smash what? (hjklyubn) ");
- wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
- InputEvent input = get_input();
- last_action += input;
- if (input == Close) {
-  add_msg("Never mind.");
-  return;
- }
- int smashx, smashy;
- get_direction(smashx, smashy, input);
-// TODO: Move this elsewhere.
- if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
-     !event_queued(EVENT_WANTED)) {
-  sound(u.posx, u.posy, 30, "An alarm sounds!");
-  add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
- }
- if (smashx != -2 && smashy != -2)
-  didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
- else
-  add_msg("Invalid direction.");
- if (didit) {
-  if (extra != "")
-   add_msg(extra.c_str());
-  sound(u.posx, u.posy, 18, bashsound);
-  u.moves -= 80;
-  if (u.skillLevel("melee") == 0)
-   u.practice(turn, "melee", rng(0, 1) * rng(0, 1));
-  if (u.weapon.made_of(GLASS) &&
-      rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
-   add_msg("Your %s shatters!", u.weapon.tname(this).c_str());
-   for (int i = 0; i < u.weapon.contents.size(); i++)
-    m.add_item(u.posx, u.posy, u.weapon.contents[i]);
-   sound(u.posx, u.posy, 16, "");
-   u.hit(this, bp_hands, 1, 0, rng(0, u.weapon.volume()));
-   if (u.weapon.volume() > 20)// Hurt left arm too, if it was big
-    u.hit(this, bp_hands, 0, 0, rng(0, u.weapon.volume() * .5));
-   u.remove_weapon();
-  }
- } else
-  add_msg("There's nothing there!");
+    const int move_cost = (u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
+    bool didit = false;
+    std::string bashsound, extra;
+    int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
+    mvwprintw(w_terrain, 0, 0, "Smash what? (hjklyubn) ");
+    wrefresh(w_terrain);
+    InputEvent input = get_input();
+    last_action += input;
+    if (input == Close)
+    {
+        add_msg("Never mind.");
+        return;
+    }
+    int smashx, smashy;
+    get_direction(smashx, smashy, input);
+    if (smashx != -2 && smashy != -2)
+    {
+        const int full_pulp_threshold = 4;
+        std::list<item*> corpses;
+        for (int i = 0; i < m.i_at(u.posx + smashx, u.posy + smashy).size(); ++i)
+        {
+            item *it = &m.i_at(u.posx + smashx, u.posy + smashy)[i];
+            if (it->type->id == "corpse" && it->damage < full_pulp_threshold)
+            {
+                corpses.push_back(it);
+            }
+        }
+        if (corpses.size() > 0)
+        {
+            add_msg("You swing at the corpse%s.", corpses.size() > 1 ? "s" : "");
+
+            // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
+            // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
+            // a str 8 character with a baseball bat (28 bash, 0 cut) should have around a 25% chance.
+
+            int cut_power = u.weapon.type->melee_cut;
+            // stabbing weapons are a lot less effective at pulping
+            if (u.weapon.has_flag("STAB") || u.weapon.has_flag("SPEAR"))
+            {
+                cut_power /= 2;
+            }
+            double pulp_power = sqrt(u.str_cur + u.weapon.type->melee_dam) * sqrt(cut_power + 1);
+            pulp_power *= 20; // constant multiplier to get the chance right
+            int rn = rng(0, pulp_power);
+            while (rn > 0 && !corpses.empty())
+            {
+                item *it = corpses.front();
+                corpses.pop_front();
+                int damage = rn / it->volume();
+                if (damage + it->damage > full_pulp_threshold)
+                {
+                    damage = full_pulp_threshold - it->damage;
+                }
+                rn -= (damage + 1) * it->volume(); // slight efficiency loss to swing
+                
+                // chance of a critical success, higher chance for small critters
+                // comes AFTER the loss of power from the above calculation
+                if (one_in(it->volume()))
+                {
+                    damage++;
+                }
+                
+                if (damage > 0)
+                {
+                    add_msg("You %sdamage the %s!", (damage > 1 ? "greatly " : ""), it->tname().c_str());
+                    it->damage += damage;
+                    if (it->damage >= 4)
+                    {
+                        add_msg("The corpse is now thoroughly pulped.");
+                        it->damage = 4;
+                        // TODO mark corpses as inactive when appropriate
+                    }
+                }
+            }
+            u.moves -= move_cost;
+            return; // don't smash terrain if we've smashed a corpse
+        }
+        else
+        {
+            didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
+        }
+    }
+    else
+    {
+        add_msg("Invalid direction.");
+    }
+    if (didit)
+    {
+        if (extra != "")
+        {
+            add_msg(extra.c_str());
+        }
+        sound(u.posx, u.posy, 18, bashsound);
+        // TODO: Move this elsewhere, like maybe into the map on-break code
+        if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
+            !event_queued(EVENT_WANTED))
+        {
+            sound(u.posx, u.posy, 30, "An alarm sounds!");
+            add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
+        }
+        u.moves -= move_cost;
+        if (u.skillLevel("melee") == 0)
+        {
+            u.practice(turn, "melee", rng(0, 1) * rng(0, 1));
+        }
+        if (u.weapon.made_of(GLASS) &&
+            rng(0, u.weapon.volume() + 3) < u.weapon.volume())
+        {
+            add_msg("Your %s shatters!", u.weapon.tname(this).c_str());
+            for (int i = 0; i < u.weapon.contents.size(); i++)
+            {
+                m.add_item(u.posx, u.posy, u.weapon.contents[i]);
+            }
+            sound(u.posx, u.posy, 16, "");
+            u.hit(this, bp_hands, 1, 0, rng(0, u.weapon.volume()));
+            if (u.weapon.volume() > 20)
+            {
+                // Hurt left arm too, if it was big
+                u.hit(this, bp_hands, 0, 0, rng(0, u.weapon.volume() * .5));
+            }
+            u.remove_weapon();
+        }
+    }
+    else
+    {
+        add_msg("There's nothing there!");
+    }
 }
 
 void game::use_item(char chInput)
