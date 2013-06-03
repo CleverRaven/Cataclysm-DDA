@@ -3120,7 +3120,7 @@
         "symbol" : "[",
         "description" : "A heavy leather cloak that is thrown over your body. Provides decent protection",
         "price" : 225,
-        "material" : ["COTTON", "NULL"],
+        "material" : ["LEATHER", "NULL"],
         "volume" : 10,
         "cutting" : 0,
         "warmth" : 40,
