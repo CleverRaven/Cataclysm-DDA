@@ -2367,11 +2367,21 @@ void game::load(std::string name)
  z.clear();
  monster montmp;
  char junk;
+ int num_items;
  if (fin.peek() == '\n')
   fin.get(junk); // Chomp that pesky endline
  for (int i = 0; i < nummon; i++) {
   getline(fin, data);
   montmp.load_info(data, &mtypes);
+
+  fin >> num_items;
+  // Chomp the endline after number of items.
+  getline( fin, data );
+  for (int i = 0; i < num_items; i++) {
+      getline( fin, data );
+      montmp.inv.push_back( item( data, this ) );
+  }
+
   z.push_back(montmp);
  }
 // And the kill counts;
@@ -2512,8 +2522,14 @@ void game::save()
  }
  // Now save all monsters.
  fout << std::endl << z.size() << std::endl;
- for (int i = 0; i < z.size(); i++)
-  fout << z[i].save_info() << std::endl;
+ for (int i = 0; i < z.size(); i++) {
+     fout << z[i].save_info() << std::endl;
+     fout << z[i].inv.size() << std::endl;
+     for( std::vector<item>::iterator it = z[i].inv.begin(); it != z[i].inv.end(); ++it )
+     {
+         fout << it->save_info() << std::endl;
+     }
+ }
  for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
   fout << kills[i] << " ";
  // And finally the player.
