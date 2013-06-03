@@ -4958,7 +4958,7 @@ void game::close()
 
 void game::smash()
 {
-    const int move_cost = 80;
+    const int move_cost = (u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
     bool didit = false;
     std::string bashsound, extra;
     int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
