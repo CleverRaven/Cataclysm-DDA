@@ -4971,10 +4971,45 @@ void game::smash()
  }
  int smashx, smashy;
  get_direction(smashx, smashy, input);
- if (smashx != -2 && smashy != -2)
-  didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
- else
+ if (smashx != -2 && smashy != -2) {
+  std::list<item*> corpses;
+  for (int i = 0; i < m.i_at(u.posx + smashx, u.posy + smashy).size(); ++i) {
+   item *it = &m.i_at(u.posx + smashx, u.posy + smashy)[i];
+   if (it->type->id == "corpse") {
+    corpses.push_back(it);
+   }
+  }
+  if (corpses.size() > 0) {
+   add_msg("You swing at the corpse%s!", corpses.size() > 1 ? "s" : "");
+   // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
+   // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
+   // a str 8 character with a baseball bat (28 bash, 0 cut) should have around a 25% chance.
+   int cut_power = u.weapon.type->melee_cut;
+   // stabbing weapons are a lot less effective at pulping
+   if (u.weapon.has_flag("STAB") || u.weapon.has_flag("SPEAR")) {
+    cut_power /= 2;
+   }
+   double pulp_power = sqrt(u.str_cur + u.weapon.type->melee_dam) * sqrt(cut_power + 1);
+   pulp_power *= 20; // constant multiplier to get the chance right
+   for (std::list<item*>::iterator iter = corpses.begin(); iter != corpses.end(); ++iter) {
+    item *it = *iter;
+    if (it->damage < 4 && ( one_in(it->volume()) ||
+        rng(0, pulp_power * (it->damage + 1)) > it->volume()) ) {
+     add_msg("You damage the %s", it->tname().c_str());
+     it->damage++;
+     if (it->damage >= 4) {
+      add_msg("The corpse is now thoroughly pulped.");
+      // TODO mark corpses as inactive when appropriate
+     }
+    }
+   }
+   return; // don't smash terrain if we've smashed a corpse
+  } else {
+   didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
+  }
+ } else {
   add_msg("Invalid direction.");
+ }
  if (didit) {
   if (extra != "")
    add_msg(extra.c_str());
