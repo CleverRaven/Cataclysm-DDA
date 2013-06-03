@@ -6232,7 +6232,6 @@ void game::advanced_inv()
                 continue;
             item *it = panes[src].items[list_pos].it;
             int ret=0;
-#ifndef awaiting_menu_codepush
             if(panes[src].area == isinventory ) {
                 char pleaseDeprecateMe=it->invlet;
                 ret=inventory_item_menu(pleaseDeprecateMe, 0, w_width/2
@@ -6242,17 +6241,13 @@ void game::advanced_inv()
                 recalc=true;
                 checkshowmsg=true;
             } else {
-#else
                 std::vector<iteminfo> vThisItem, vDummy, vMenu;
                 it->info(true, &vThisItem);
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n----------\n"));
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n\n\n\n\n [up / page up] previous\n [down / page down] next"));
                 ret=compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ),
                     (w_width/2)-2, 0, it->tname(this), vThisItem, vDummy );
-#endif
-#ifndef awaiting_menu_codepush
             }
-#endif
             if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 changey += 1;
                 lastCh='e';
