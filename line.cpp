@@ -165,7 +165,7 @@ std::string direction_name_short(direction dir)
   case NORTHEAST: return "NE";
   case EAST:      return "E ";
   case SOUTHEAST: return "SE";
-  case SOUTH:     return "W ";
+  case SOUTH:     return "S ";
   case SOUTHWEST: return "SW";
   case WEST:      return "W ";
   case NORTHWEST: return "NW";
