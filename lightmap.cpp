@@ -145,9 +145,10 @@ void map::generate_lightmap(game* g)
      int dir = vehs[v].v->face.dir();
      float veh_luminance=0.0;
      float iteration=1.0;
-     for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin(); part != vehs[v].v->external_parts.end(); ++part) {
+     for (std::vector<int>::iterator part = vehs[v].v->external_parts.begin();
+          part != vehs[v].v->external_parts.end(); ++part) {
          int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
-         if (dpart >= 0) { 
+         if (dpart >= 0) {
              veh_luminance += ( vehs[v].v->part_info(dpart).power / iteration );
              iteration=iteration * 1.1;
          }
@@ -163,13 +164,11 @@ void map::generate_lightmap(game* g)
            if (dpart >= 0) {
              apply_light_arc(px, py, dir, veh_luminance, 45);
            }
-
          }
        }
      }
    }
  }
-//
 }
 
 lit_level map::light_at(int dx, int dy)

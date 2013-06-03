@@ -213,11 +213,19 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   else
    weapon->charges--;
 
-  // Current guns have a durability between 5 and 9.
-  // Misfire chance is between 1/64 and 1/1024.
-  if (one_in(2 << firing->durability)) {
-   add_msg("Your weapon misfired!");
-   return;
+  if (firing->skill_used != Skill::skill("archery") &&
+      firing->skill_used != Skill::skill("throw"))
+  {
+      // Current guns have a durability between 5 and 9.
+      // Misfire chance is between 1/64 and 1/1024.
+      if (one_in(2 << firing->durability)) {
+          if (p.is_npc()) {
+              add_msg("%s's weapon misfired!", p.name.c_str());
+          } else {
+              add_msg("Your weapon misfired!");
+          }
+          return;
+      }
   }
 
   make_gun_sound_effect(this, p, burst, weapon);

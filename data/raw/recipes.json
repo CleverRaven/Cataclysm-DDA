@@ -5416,7 +5416,9 @@
                      ],
             "components": [
                               [
-                                  ["rag", 10],
+                                  ["rag", 10]
+                              ],
+                              [
                                   ["fur", 10]
                               ]
                           ]
@@ -5533,7 +5535,9 @@
                      ],
             "components": [
                               [
-                                  ["rag", 20],
+                                  ["rag", 20]
+                              ],
+                              [
                                   ["fur", 10]
                               ]
                           ]
@@ -6899,11 +6903,13 @@
             "autolearn": true,
             "components": [
                               [
-                                  ["rag", 3]
+                                  ["rag", 3],
+								  ["medical_gauze", 1]
                               ],
                               [
                                   ["superglue", 1],
-                                  ["duct_tape", 5]
+                                  ["duct_tape", 5],
+								  ["medical_tape", 3]
                               ],
                               [
                                   ["vodka", 7],
@@ -7350,6 +7356,27 @@
                               [
                                   ["salt_water", 1],
                                   ["salt", 4]
+                              ]
+                          ]
+        },
+
+	
+        {
+            "result": "bag_bundle_10",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 0,
+            "time": 500,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [],
+            "components": [
+
+                              [
+                                  ["string_6", 1]
+                              ],
+                              [
+                                  ["bag_plastic", 10]
                               ]
                           ]
         },

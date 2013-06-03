@@ -1340,7 +1340,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   trait_win_size_y = maxy - infooffsetybottom;
  }
 
- skill_win_size_y = Skill::skill_count();
+ skill_win_size_y = Skill::skill_count() + 1;
  if (skill_win_size_y + infooffsetybottom > maxy ) {
   skill_win_size_y = maxy - infooffsetybottom;
  }
@@ -2735,7 +2735,7 @@ int player::ranged_per_mod(bool real_life)
    deviation = rng(0, deviation);
  } else {
   deviation = 3 * (0 - (per > 16 ? 8 : per - 8));
-  if (real_life && one_in(per))
+  if (real_life && one_in(per - 8))
    deviation = 0 - rng(0, abs(deviation));
  }
  return deviation;
@@ -4736,9 +4736,9 @@ bool player::eat(game *g, char ch)
         if (comest->tool != "null")
         {
             bool has = has_amount(comest->tool, 1);
-   if (g->itypes[comest->tool]->count_by_charges())
-    has = has_charges(comest->tool, 1);
-   if (!has) {
+            if (g->itypes[comest->tool]->count_by_charges())
+                has = has_charges(comest->tool, 1);
+            if (!has) {
                 if (!is_npc())
                     g->add_msg("You need a %s to consume that!",
                                g->itypes[comest->tool]->name.c_str());
@@ -4813,9 +4813,9 @@ bool player::eat(game *g, char ch)
         // Descriptive text
         if (!is_npc())
         {
-            if (eaten->made_of(LIQUID))
+            if (comest->comesttype == "DRINK")
                 g->add_msg("You drink your %s.", eaten->tname(g).c_str());
-            else if (comest->nutr >= 5)
+            else if (comest->comesttype == "FOOD")
                 g->add_msg("You eat your %s.", eaten->tname(g).c_str());
         }
         else if (g->u_see(posx, posy))
@@ -5116,10 +5116,17 @@ hint_rating player::rate_action_wear(item *it)
  if (armor->covers & mfb(bp_hands) && has_trait(PF_TALONS)) {
   return HINT_IFFY;
  }
+ if ( armor->covers & mfb(bp_hands) && (has_trait(PF_ARM_TENTACLES)
+        || has_trait(PF_ARM_TENTACLES_4) || PF_ARM_TENTACLES_8) ) {
+  return HINT_IFFY;
+ }
  if (armor->covers & mfb(bp_mouth) && has_trait(PF_BEAK)) {
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_feet) && has_trait(PF_HOOVES)) {
+  return HINT_IFFY;
+ }
+ if (armor->covers & mfb(bp_feet) && has_trait(PF_LEG_TENTACLES)) {
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED)) {
@@ -5233,6 +5240,11 @@ if (!to_wear->has_flag("OVERSIZE")) {
    g->add_msg("You cannot put %s over your webbed hands.", armor->name.c_str());
    return false;
   }
+  if ( armor->covers & mfb(bp_hands) && (has_trait(PF_ARM_TENTACLES)
+        || has_trait(PF_ARM_TENTACLES_4) || PF_ARM_TENTACLES_8) ) {
+   g->add_msg("You cannot put %s over your tentacles.", armor->name.c_str());
+   return false;
+  }
   if (armor->covers & mfb(bp_hands) && has_trait(PF_TALONS)) {
    g->add_msg("You cannot put %s over your talons.", armor->name.c_str());
    return false;
@@ -5243,6 +5255,10 @@ if (!to_wear->has_flag("OVERSIZE")) {
   }
   if (armor->covers & mfb(bp_feet) && has_trait(PF_HOOVES)) {
    g->add_msg("You cannot wear footwear on your hooves.");
+   return false;
+  }
+  if (armor->covers & mfb(bp_feet) && has_trait(PF_LEG_TENTACLES)) {
+   g->add_msg("You cannot wear footwear on your tentacles.");
    return false;
   }
   if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED)) {

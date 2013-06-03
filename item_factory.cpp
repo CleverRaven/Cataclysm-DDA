@@ -34,6 +34,7 @@ void Item_factory::init(){
     iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
     iuse_function_list["BANDAGE"] = &iuse::bandage;
     iuse_function_list["FIRSTAID"] = &iuse::firstaid;
+    iuse_function_list["DISINFECTANT"] = &iuse::disinfectant;
     iuse_function_list["CAFF"] = &iuse::caff;
     iuse_function_list["ALCOHOL"] = &iuse::alcohol;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
