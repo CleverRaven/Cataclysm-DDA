@@ -1340,7 +1340,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   trait_win_size_y = maxy - infooffsetybottom;
  }
 
- skill_win_size_y = Skill::skill_count();
+ skill_win_size_y = Skill::skill_count() + 1;
  if (skill_win_size_y + infooffsetybottom > maxy ) {
   skill_win_size_y = maxy - infooffsetybottom;
  }
@@ -4736,9 +4736,9 @@ bool player::eat(game *g, char ch)
         if (comest->tool != "null")
         {
             bool has = has_amount(comest->tool, 1);
-   if (g->itypes[comest->tool]->count_by_charges())
-    has = has_charges(comest->tool, 1);
-   if (!has) {
+            if (g->itypes[comest->tool]->count_by_charges())
+                has = has_charges(comest->tool, 1);
+            if (!has) {
                 if (!is_npc())
                     g->add_msg("You need a %s to consume that!",
                                g->itypes[comest->tool]->name.c_str());
@@ -4813,9 +4813,9 @@ bool player::eat(game *g, char ch)
         // Descriptive text
         if (!is_npc())
         {
-            if (eaten->made_of(LIQUID))
+            if (comest->comesttype == "DRINK")
                 g->add_msg("You drink your %s.", eaten->tname(g).c_str());
-            else if (comest->nutr >= 5)
+            else if (comest->comesttype == "FOOD")
                 g->add_msg("You eat your %s.", eaten->tname(g).c_str());
         }
         else if (g->u_see(posx, posy))

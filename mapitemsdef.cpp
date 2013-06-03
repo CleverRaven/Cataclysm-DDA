@@ -163,7 +163,7 @@ void game::init_mapitems()
  setvector(
    &mapitems[mi_softdrugs],
 	"bandages", "1st_aid", "vitamins", "aspirin", "caffeine",
-   "pills_sleep", "iodine", "dayquil", "nyquil", NULL);
+   "pills_sleep", "iodine", "dayquil", "nyquil", "disinfectant", NULL);
 
  setvector(
    &mapitems[mi_harddrugs],
@@ -452,7 +452,8 @@ void game::init_mapitems()
    &mapitems[mi_hospital_lab],
 	"blood", "iodine", "bleach", "bandages", "syringe",
 	"canister_empty", "coat_lab", "gloves_medical", "mask_dust",
-	"glasses_safety", "vacutainer", "usb_drive", NULL);
+	"glasses_safety", "vacutainer", "usb_drive", "disinfectant",
+	"gauze", "medical_tape", NULL);
 
  setvector(
    &mapitems[mi_hospital_samples],
@@ -461,7 +462,8 @@ void game::init_mapitems()
  setvector(
    &mapitems[mi_surgery],
 	"blood", "iodine", "bandages", "scalpel", "syringe",
-	"gloves_medical", "mask_dust", "vacutainer", "rag_bloody", NULL);
+	"gloves_medical", "mask_dust", "vacutainer", "rag_bloody", "disinfectant",
+	"gauze", "medical_tape", NULL);
 
  setvector(
    &mapitems[mi_office],
@@ -740,7 +742,7 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_survival_tools],
-	"bandages", "1st_aid", "caffeine", "iodine", "electrohack",
+	"bandages", "1st_aid", "disinfectant", "caffeine", "iodine", "electrohack",
 	"string_36", "rope_30", "chain", "binoculars",
 	"bottle_plastic", "lighter", "matches", "sewing_kit", "thread", "extinguisher",
 	"flashlight", "crowbar", "chainsaw_off", "beartrap",
