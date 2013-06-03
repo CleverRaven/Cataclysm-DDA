@@ -321,6 +321,16 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
     }
 }
 
+void iuse::disinfectant(game *g, player *p, item *it, bool t)
+{
+    
+    if (use_healing_item(g, p, it, 6, 5, 9, "Disinfectant", p->has_disease(DI_BITE) ? "Clean Wound" : ""))
+    {
+        g->add_msg_if_player(p,"You disinfect the bite wound.");
+        p->rem_disease(DI_BITE);
+    }
+}
+
 // Aspirin
 void iuse::pkill_1(game *g, player *p, item *it, bool t)
 {
