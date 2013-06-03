@@ -731,7 +731,14 @@ std::string item::tname(game *g)
    case VEGGY:
    case HFLESH:
    case FLESH:
-    damtext = "partially eaten ";
+    if (type->id == "corpse") {
+     if (damage == 1) damtext = "bruised";
+     if (damage == 2) damtext = "damaged";
+     if (damage == 3) damtext = "mangled";
+     if (damage == 4) damtext = "pulped";
+    } else {
+     damtext = "partially eaten ";
+    }
     break;
    case COTTON:
    case WOOL:
