@@ -293,16 +293,17 @@ void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
 
 std::string monster::save_info()
 {
- std::stringstream pack;
- pack << int(type->id) << " " << posx << " " << posy << " " << wandx << " " <<
-         wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
-         " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
-          faction_id << " " << mission_id << " " << no_extra_death_drops << " " << dead << " " << anger <<
-         " " << morale;
- for (int i = 0; i < plans.size(); i++) {
-  pack << " " << plans[i].x << " " << plans[i].y;
- }
- return pack.str();
+    std::stringstream pack;
+    pack << int(type->id) << " " << posx << " " << posy << " " << wandx << " " <<
+        wandy << " " << wandf << " " << moves << " " << speed << " " << hp <<
+        " " << sp_timeout << " " << plans.size() << " " << friendly << " " <<
+        faction_id << " " << mission_id << " " << no_extra_death_drops << " " <<
+        dead << " " << anger << " " << morale;
+    for (int i = 0; i < plans.size(); i++) {
+        pack << " " << plans[i].x << " " << plans[i].y;
+    }
+
+    return pack.str();
 }
 
 void monster::debug(player &u)
