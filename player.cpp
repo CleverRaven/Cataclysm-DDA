@@ -5117,7 +5117,7 @@ hint_rating player::rate_action_wear(item *it)
   return HINT_IFFY;
  }
  if ( armor->covers & mfb(bp_hands) && (has_trait(PF_ARM_TENTACLES)
-        || has_trait(PF_ARM_TENTACLES_4) || PF_ARM_TENTACLES_8) ) {
+        || has_trait(PF_ARM_TENTACLES_4) || has_trait(PF_ARM_TENTACLES_8)) ) {
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_mouth) && has_trait(PF_BEAK)) {
@@ -5241,7 +5241,7 @@ if (!to_wear->has_flag("OVERSIZE")) {
    return false;
   }
   if ( armor->covers & mfb(bp_hands) && (has_trait(PF_ARM_TENTACLES)
-        || has_trait(PF_ARM_TENTACLES_4) || PF_ARM_TENTACLES_8) ) {
+        || has_trait(PF_ARM_TENTACLES_4) || has_trait(PF_ARM_TENTACLES_8)) ) {
    g->add_msg("You cannot put %s over your tentacles.", armor->name.c_str());
    return false;
   }
