@@ -779,10 +779,17 @@ std::string item::tname(game *g)
     if (damage ==  4) damtext = "thoroughly rusted ";
     break;
    default:
-    if (damage ==  1) damtext = "lightly damaged ";
-    if (damage ==  2) damtext = "damaged ";
-    if (damage ==  3) damtext = "very damaged ";
-    if (damage ==  4) damtext = "thoroughly damaged ";
+    if (type->id == "corpse") {
+     if (damage == 1) damtext = "bruised ";
+     if (damage == 2) damtext = "damaged ";
+     if (damage == 3) damtext = "mangled ";
+     if (damage == 4) damtext = "pulped ";
+    } else {
+     if (damage ==  1) damtext = "lightly damaged ";
+     if (damage ==  2) damtext = "damaged ";
+     if (damage ==  3) damtext = "very damaged ";
+     if (damage ==  4) damtext = "thoroughly damaged ";
+    }
   }
   ret << damtext;
  }
@@ -1061,12 +1068,16 @@ bool item::rotten(game *g)
 
 bool item::ready_to_revive(game *g)
 {
-    if (type->id != "corpse" || corpse->species != species_zombie)
+    if (type->id != "corpse" || corpse->species != species_zombie || damage >= 4)
     {
         return false;
     }
     int age_in_hours = (int(g->turn) - bday) / (10 * 60);
     age_in_hours -= ((float)burnt/volume()) * 24;
+    if (damage > 0)
+    {
+        age_in_hours /= (damage + 1);
+    }
     int rez_factor = 48 - age_in_hours;
     if (age_in_hours > 6 && (rez_factor <= 0 || one_in(rez_factor)))
     {
