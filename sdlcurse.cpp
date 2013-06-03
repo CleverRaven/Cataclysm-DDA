@@ -313,7 +313,7 @@ WINDOW *initscr(void)
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
 
-	font = TTF_OpenFont(typeface.c_str(), fontheight*72/96+1);
+	font = TTF_OpenFont(typeface.c_str(), fontheight-1);
 
 	TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
 	TTF_SetFontOutline(font, 0);
