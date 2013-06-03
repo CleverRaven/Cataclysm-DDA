@@ -198,17 +198,17 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
                 }
                 if (p->has_trait(PF_SELFAWARE)) {
                     if (current_hp >= 100){
-                        mvwprintz(hp_window, i * 2 + 15, 0, color, "%d", current_hp);
+                        mvwprintz(hp_window, i + 2, 16, color, "%d", current_hp);
                     } else if (current_hp >= 10) {
-                        mvwprintz(hp_window, i * 2 + 16, 0, color, "%d", current_hp);
+                        mvwprintz(hp_window, i + 2, 17, color, "%d", current_hp);
                     } else {
-                        mvwprintz(hp_window, i * 2 + 17, 0, color, "%d", current_hp);
+                        mvwprintz(hp_window, i + 2, 19, color, "%d", current_hp);
                     }
                 } else {
-                    mvwprintz(hp_window, i * 2 + 15, 0, color, asterisks.c_str());
+                    mvwprintz(hp_window, i + 2, 16, color, asterisks.c_str());
                 }
             } else { // curhp is 0; requires surgical attention
-                mvwprintz(hp_window, i + 2, 15, c_dkgray, "---");
+                mvwprintz(hp_window, i + 2, 16, c_dkgray, "---");
             }
         }
         wrefresh(hp_window);
