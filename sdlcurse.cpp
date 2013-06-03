@@ -240,8 +240,8 @@ void CheckMessages()
 		switch(ev.type)
 		{
 			case SDL_KEYDOWN:
-			if ( ev.key.keysym.unicode != 0 && (ev.key.keysym.unicode & 0xFF80) == 0 ) {
-				lastchar = ev.key.keysym.unicode & 0x7F;
+			if (ev.key.keysym.unicode != 0) {
+				lastchar = ev.key.keysym.unicode;
 				switch (lastchar){
 					case 13:            //Reroute ENTER key for compatilbity purposes
 						lastchar=10;
