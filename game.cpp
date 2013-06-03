@@ -6483,7 +6483,7 @@ point game::look_around()
 
 bool game::list_items_match(std::string sText, std::string sPattern)
 {
- unsigned long iPos;
+ size_t iPos;
 
  do {
   iPos = sPattern.find(",");
