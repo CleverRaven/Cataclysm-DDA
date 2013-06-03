@@ -158,57 +158,82 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
         mvwprintz(hp_window, 9, 1, c_ltgray, "8: Exit");
         nc_color color;
         std::string asterisks = "";
-        int current_hp;
-        for (int i = 0; i < num_hp_parts; i++) {
-            current_hp = p->hp_cur[i];
-            int temporary_bonus = bonus;
-            if (current_hp != 0) {
-                switch (hp_part(i)) {
-                    case hp_head:
-                        current_hp += head_power;
-                        temporary_bonus *=  .8;
-                        break;
-                    case hp_torso:
-                        current_hp += torso_power;
-                        temporary_bonus *= 1.5;
-                        break;
-                    default:
-                        current_hp += normal_power;
-                        break;
-                }
-                current_hp += temporary_bonus;
-                if (current_hp > p->hp_max[i]){
-                  current_hp = p->hp_max[i];
-                }
-                if (current_hp == p->hp_max[i]){
-                  color = c_green;
-                  asterisks = "***";
-                } else if (current_hp > p->hp_max[i] * .8) {
-                  color = c_ltgreen;
-                  asterisks = "***";
-                } else if (current_hp > p->hp_max[i] * .5) {
-                  color = c_yellow;
-                  asterisks = "** ";
-                } else if (current_hp > p->hp_max[i] * .3) {
-                  color = c_ltred;
-                  asterisks = "** ";
-                } else {
-                  color = c_red;
-                  asterisks = "*  ";
-                }
-                if (p->has_trait(PF_SELFAWARE)) {
-                    if (current_hp >= 100){
-                        mvwprintz(hp_window, i + 2, 16, color, "%d", current_hp);
-                    } else if (current_hp >= 10) {
-                        mvwprintz(hp_window, i + 2, 17, color, "%d", current_hp);
-                    } else {
-                        mvwprintz(hp_window, i + 2, 19, color, "%d", current_hp);
+        for (int i = 0; i < num_hp_parts; i++)
+        {
+            if (p->hp_cur[i] < p->hp_max[i])
+            {
+                int current_hp = p->hp_cur[i];
+                int temporary_bonus = bonus;
+                if (current_hp != 0)
+                {
+                    switch (hp_part(i)) {
+                        case hp_head:
+                            current_hp += head_power;
+                            temporary_bonus *=  .8;
+                            break;
+                        case hp_torso:
+                            current_hp += torso_power;
+                            temporary_bonus *= 1.5;
+                            break;
+                        default:
+                            current_hp += normal_power;
+                            break;
                     }
-                } else {
-                    mvwprintz(hp_window, i + 2, 16, color, asterisks.c_str());
+                    current_hp += temporary_bonus;
+                    if (current_hp > p->hp_max[i])
+                    {
+                        current_hp = p->hp_max[i];
+                    }
+                    if (current_hp == p->hp_max[i])
+                    {
+                        color = c_green;
+                        asterisks = "***";
+                    }
+                    else if (current_hp > p->hp_max[i] * .8)
+                    {
+                        color = c_ltgreen;
+                        asterisks = "***";
+                    }
+                    else if (current_hp > p->hp_max[i] * .5)
+                    {
+                        color = c_yellow;
+                        asterisks = "** ";
+                    }
+                    else if (current_hp > p->hp_max[i] * .3)
+                    {
+                        color = c_ltred;
+                        asterisks = "** ";
+                    }
+                    else
+                    {
+                        color = c_red;
+                        asterisks = "*  ";
+                    }
+                    if (p->has_trait(PF_SELFAWARE))
+                    {
+                        if (current_hp >= 100)
+                        {
+                            mvwprintz(hp_window, i + 2, 16, color, "%d", current_hp);
+                        }
+                        else if (current_hp >= 10)
+                        {
+                            mvwprintz(hp_window, i + 2, 17, color, "%d", current_hp);
+                        }
+                        else
+                        {
+                            mvwprintz(hp_window, i + 2, 19, color, "%d", current_hp);
+                        }
+                    }
+                    else
+                    {
+                        mvwprintz(hp_window, i + 2, 16, color, asterisks.c_str());
+                    }
                 }
-            } else { // curhp is 0; requires surgical attention
-                mvwprintz(hp_window, i + 2, 16, c_dkgray, "---");
+                else
+                {
+                    // curhp is 0; requires surgical attention
+                    mvwprintz(hp_window, i + 2, 16, c_dkgray, "---");
+                }
             }
         }
         wrefresh(hp_window);
