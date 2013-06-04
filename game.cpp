@@ -4999,7 +4999,7 @@ void game::smash()
             {
                 cut_power /= 2;
             }
-            double pulp_power = sqrt(u.str_cur + u.weapon.type->melee_dam) * sqrt(cut_power + 1);
+            double pulp_power = sqrt((double)(u.str_cur + u.weapon.type->melee_dam)) * sqrt((double)(cut_power + 1));
             pulp_power *= 20; // constant multiplier to get the chance right
             int rn = rng(0, pulp_power);
             while (rn > 0 && !corpses.empty())
