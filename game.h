@@ -49,12 +49,6 @@
 
 #define PICKUP_RANGE 2
 
-enum input_ret {
- IR_GOOD,
- IR_BAD,
- IR_TIMEOUT
-};
-
 enum quit_status {
  QUIT_NO = 0,  // Still playing
  QUIT_MENU,    // Quit at the menu
