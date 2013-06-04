@@ -5719,8 +5719,7 @@ void game::advanced_inv()
 
     bool checkshowmsg=false;
     bool showmsg=false;
-//#define awaiting_menu_codepush 1
-#define uselimitedchridx 1
+
     int itemsPerPage = 10;
     int w_height = (TERMY<min_w_height+head_height) ? min_w_height : TERMY-head_height;
     int w_width = (TERMX<min_w_width) ? min_w_width : (TERMX>max_w_width) ? max_w_width : (int)TERMX;
@@ -5736,7 +5735,7 @@ void game::advanced_inv()
     WINDOW *left_window = newwin(w_height,w_width/2, headstart+head_height,colstart);
     WINDOW *right_window = newwin(w_height,w_width/2, headstart+head_height,colstart+w_width/2);
 
-    itemsPerPage=getmaxy(left_window)-ADVINVOFS; // fixme helptoggle
+    itemsPerPage=getmaxy(left_window)-ADVINVOFS;
     // todo: awaiting ui::menu // last_tmpdest=-1;
     bool exit = false;
     bool redraw = true;
@@ -5812,11 +5811,8 @@ void game::advanced_inv()
                             item& item = stacks[x]->front();
                             advanced_inv_listitem it;
                             it.idx=x;
-#ifdef uselimitedchridx
+                            // todo: for the love of gods create a u.inv.stack_by_int()
                             int size = u.inv.stack_by_letter(item.invlet).size();
-#else
-                            int size = u.inv.function_pending();
-#endif
                             if ( size < 1 ) size = 1;
                             it.name=item.tname(this);
                             it.stacks=size;
@@ -5871,12 +5867,10 @@ void game::advanced_inv()
                                 std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter(SORTBY_NONE) );
                             }
                             break;
-//                        case SORTBY_NAME:    std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sort_byname() ); break;
                         default:
                             std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) ); 
                             break;
                     }
-                    // draw the stuff
                 }
 
                 // paginate (not sure why)
@@ -5887,7 +5881,6 @@ void game::advanced_inv()
                 panes[i].page = panes[i].max_page == 0 ? 0 : ( panes[i].page >= panes[i].max_page ? panes[i].max_page - 1 : panes[i].page);
                 // draw the stuff
                 werase(panes[i].window);
-                mvwprintz(panes[i].window,1,2,src == i ? c_cyan : c_ltgray, "%s", panes[i].area_string.c_str());
 
 
 
@@ -5898,7 +5891,7 @@ void game::advanced_inv()
 
                 advanced_inv_print_header(squares,panes[i], sel );
                 // todo move --v to --^
-                //mvwprintz(panes[i].window,1 ,(w_width/2)-7,(src==i ? c_cyan : c_ltgray),"%2d/%d", panes[i].size, panes[i].area == isinventory ? max_inv : MAX_ITEM_IN_SQUARE );
+                mvwprintz(panes[i].window,1,2,src == i ? c_cyan : c_ltgray, "%s", panes[i].area_string.c_str());
                 mvwprintz(panes[i].window, 2, 2, src == i ? c_green : c_dkgray , "%s", squares[panes[i].area].desc.c_str() );
 
             }
@@ -6052,14 +6045,10 @@ void game::advanced_inv()
                     popup("Destination area is full. Remove some item first");
                 } else {
                     //if target item has stack
-                    int max = (MAX_ITEM_IN_SQUARE - squares[destarea].size); // vehicle fixme (?)
-                    // TODO figure out a better way to get the item
-#ifdef uselimitedchridx
+                    int max = (MAX_ITEM_IN_SQUARE - squares[destarea].size);
+                    // TODO figure out a better way to get the item. Without invlets.
                     item* it = &u.inv.slice(item_pos, 1).front()->front();
                     std::list<item>& stack = u.inv.stack_by_letter(it->invlet);
-#else
-                    std::list<item>& stack = u.inv.function_pending();
-#endif
 
                     if(stack.size() > 1) // if the item stack
                     {
@@ -6135,7 +6124,7 @@ void game::advanced_inv()
                 int s;
                 if(panes[src].area == isall) {
                     s = panes[src].items[list_pos].area;
-                    // temp_fudge pending tests/cleanup
+                    // todo: phase out these vars? ---v // temp_fudge pending tests/cleanup
                     panes[src].offx = squares[s].offx;
                     panes[src].offy = squares[s].offy;
                     panes[src].vstor = squares[s].vstor;
@@ -6216,7 +6205,6 @@ void game::advanced_inv()
             checkshowmsg=false;
             redraw=true;
         } else if('s' == c) {
-            //if(panes[src].size == 0) continue;
             int ch = menu(true, "Sort by... ", "Unsorted (recently added first)", "name", "weight", "volume", "charges", NULL );
             panes[src].sortby = ch;
             if ( src == left ) { 
@@ -6306,12 +6294,10 @@ void game::advanced_inv()
           if ( changey != 0 ) {
             panes[src].index += changey;
             if ( panes[src].index < 0 ) {
-                //panes[src].index = 0;
                 panes[src].page--;
                 if( panes[src].page < 0 ) panes[src].page = panes[src].max_page-1;
                 panes[src].index = itemsPerPage; // corrected at the start of next iteration
             } else if ( panes[src].index >= panes[src].max_index ) {
-                //panes[src].index = panes[src].max_index-1;
                 panes[src].page++;
                 if( panes[src].page >= panes[src].max_page ) panes[src].page = 0;
                 panes[src].index = 0;
