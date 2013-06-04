@@ -3751,10 +3751,10 @@ void player::suffer(game *g)
   g->teleport(this);
 
  if (is_wearing("hazmat_suit")) {
-  if (radiation < int((100 * g->m.radiation(posx, posy)) / 20))
-   radiation += rng(0, g->m.radiation(posx, posy) / 20);
- } else if (radiation < int((100 * g->m.radiation(posx, posy)) / 8))
-  radiation += rng(0, g->m.radiation(posx, posy) / 8);
+   radiation += rng(0, g->m.radiation(posx, posy) / 40);
+ } else {
+  radiation += rng(0, g->m.radiation(posx, posy) / 16);
+ }
 
  if (rng(1, 2500) < radiation && (int(g->turn) % 150 == 0 || radiation > 2000)){
   mutate(g);
