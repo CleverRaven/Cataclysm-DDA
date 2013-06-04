@@ -49,12 +49,6 @@
 
 #define PICKUP_RANGE 2
 
-enum tut_type {
- TUT_NULL,
- TUT_BASIC, TUT_COMBAT,
- TUT_MAX
-};
-
 enum input_ret {
  IR_GOOD,
  IR_BAD,
