@@ -970,8 +970,8 @@ int player::swim_speed()
   ret -= 100;
  if (has_trait(PF_LEG_TENTACLES))
   ret -= 60;
- ret += (50 - skillLevel("swimming") * 2) * abs(encumb(bp_legs));
- ret += (80 - skillLevel("swimming") * 3) * abs(encumb(bp_torso));
+ ret += (50 - skillLevel("swimming") * 2) * encumb(bp_legs);
+ ret += (80 - skillLevel("swimming") * 3) * encumb(bp_torso);
  if (skillLevel("swimming") < 10) {
   for (int i = 0; i < worn.size(); i++)
     ret += (worn[i].volume() * (10 - skillLevel("swimming"))) / 2;
@@ -1879,7 +1879,7 @@ Dexterity %+d when throwing items", encumb(bp_hands) * 30, -encumb(bp_hands));
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Running costs %+d movement points;  Swimming costs %+d movement points;\n\
 Dodge skill %+.1f", encumb(bp_legs) * 3,
-              encumb(bp_legs) *(50 - skillLevel("swimming")),
+              encumb(bp_legs) *(50 - skillLevel("swimming") * 2),
                      double(double(-encumb(bp_legs)) / 2));
    } else if (line == 7) {
     mvwprintz(w_encumb, 8, 1, h_ltgray, "Feet");
