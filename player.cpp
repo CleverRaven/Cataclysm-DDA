@@ -1593,7 +1593,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
     break;
    }
   }
-  if (not foundplace)
+  if (!foundplace)
    skillslist.push_back(*aSkill);
  }
 
