@@ -665,8 +665,16 @@ int player::roll_stuck_penalty(monster *z, bool stabbing)
     const int weapon_speed = attack_speed( *this, false );
     int stuck_cost = weapon_speed;
     const int attack_skill = stabbing ? skillLevel("stabbing") : skillLevel("cutting");
+    const float cut_damage = weapon.damage_cut();
+    const float bash_damage = weapon.damage_bash();
+    float cut_bash_ratio = 0.0;
 
-    if( weapon.damage_cut() == 0 ) { return 0; }
+    // Scale cost along with the ratio between cutting and bashing damage of the weapon.
+    if( cut_damage > 0.0 || bash_damage > 0.0 )
+    {
+        cut_bash_ratio = cut_damage / ( cut_damage + bash_damage );
+    }
+    stuck_cost *= cut_bash_ratio;
 
     if( weapon.has_flag("SLICE") )
     {
