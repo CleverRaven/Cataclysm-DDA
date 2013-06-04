@@ -1293,7 +1293,96 @@ void game::handle_key_blocking_activity() {
         timeout(-1);
     }
 }
+//// item submenu for 'i' and '/'
+int game::inventory_item_menu(char chItem, int startx, int width) {
+    bool has = false;
+    const std::string sSpaces = "                              ";
+    int cMenu = (int)'+';
+    has = u.has_item(chItem);
 
+    const int menustart=2;  // lightbar constraints
+    const int menuend=12;
+    int selected=1;         // default 'parked' hidden above 'activate'
+
+    if (has) {
+        do {
+            item oThisItem = u.i_at(chItem);
+            std::vector<iteminfo> vThisItem, vDummy, vMenu;
+            vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 2));
+            vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
+            vMenu.push_back(iteminfo("MENU", "a", "ctivate", u.rate_action_use(&oThisItem)));
+            vMenu.push_back(iteminfo("MENU", "R", "ead", u.rate_action_read(&oThisItem, this)));
+            vMenu.push_back(iteminfo("MENU", "E", "at", u.rate_action_eat(&oThisItem)));
+            vMenu.push_back(iteminfo("MENU", "W", "ear", u.rate_action_wear(&oThisItem)));
+            vMenu.push_back(iteminfo("MENU", "w", "ield"));
+            vMenu.push_back(iteminfo("MENU", "t", "hrow"));
+            vMenu.push_back(iteminfo("MENU", "T", "ake off", u.rate_action_takeoff(&oThisItem)));
+            vMenu.push_back(iteminfo("MENU", "d", "rop"));
+            vMenu.push_back(iteminfo("MENU", "U", "nload", u.rate_action_unload(&oThisItem)));
+            vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
+            vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
+            vMenu.push_back(iteminfo("MENU", "=", " reassign"));
+            oThisItem.info(true, &vThisItem);
+            compare_split_screen_popup(startx, width, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
+            cMenu = compare_split_screen_popup(startx+width, 14, 16, "", vMenu, vDummy, 
+                selected >= menustart && selected <= menuend ? selected : -1
+            );
+            switch(cMenu) {
+                case 'a':
+                 use_item(chItem);
+                 break;
+                case 'E':
+                 eat(chItem);
+                 break;
+                case 'W':
+                 wear(chItem);
+                 break;
+                case 'w':
+                 wield(chItem);
+                 break;
+                case 't':
+                 plthrow(chItem);
+                 break;
+                case 'T':
+                 takeoff(chItem);
+                 break;
+                case 'd':
+                 drop(chItem);
+                 break;
+                case 'U':
+                 unload(chItem);
+                 break;
+                case 'r':
+                 reload(chItem);
+                 break;
+                case 'R':
+                 u.read(this, chItem);
+                 break;
+                case 'D':
+                 disassemble(chItem);
+                 break;
+                case '=':
+                 reassign_item(chItem);
+                 break;
+                case KEY_UP:
+                 selected--;
+                 break;
+                case KEY_DOWN:
+                 selected++;
+                 break;
+                default:
+                 break;
+            }
+            if( selected < menustart-1 ) { // wraparound, but can be hidden
+                selected = menuend;
+            } else if ( selected > menuend + 1 ) {
+                selected = menustart;
+            }
+        } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
+    }
+    return cMenu;
+}
+//
 
 bool game::handle_action()
 {
@@ -1594,99 +1683,12 @@ bool game::handle_action()
    break;
 
   case ACTION_INVENTORY: {
-   bool has = false;
    int cMenu = ' ';
-   uistate.last_inv_sel = -1;
-   uistate.last_inv_start = -1;
    do {
      const std::string sSpaces = "                              ";
      char chItem = inv();
-     cMenu = (int)'+';
-     has = u.has_item(chItem);
-
-     const int menustart=2;  // lightbar constraints
-     const int menuend=13;
-     int selected=2;
-
-     if (has) {
-       do {
-         item oThisItem = u.i_at(chItem);
-         std::vector<iteminfo> vThisItem, vDummy, vMenu;
-         vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 2));
-         vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
-         vMenu.push_back(iteminfo("MENU", "a", "ctivate", u.rate_action_use(&oThisItem)));
-         vMenu.push_back(iteminfo("MENU", "R", "ead", u.rate_action_read(&oThisItem, this)));
-         vMenu.push_back(iteminfo("MENU", "E", "at", u.rate_action_eat(&oThisItem)));
-         vMenu.push_back(iteminfo("MENU", "W", "ear", u.rate_action_wear(&oThisItem)));
-         vMenu.push_back(iteminfo("MENU", "w", "ield"));
-         vMenu.push_back(iteminfo("MENU", "t", "hrow"));
-         vMenu.push_back(iteminfo("MENU", "T", "ake off", u.rate_action_takeoff(&oThisItem)));
-         vMenu.push_back(iteminfo("MENU", "d", "rop"));
-         vMenu.push_back(iteminfo("MENU", "U", "nload", u.rate_action_unload(&oThisItem)));
-         vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
-         vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
-         vMenu.push_back(iteminfo("MENU", "=", " reassign"));
-         oThisItem.info(true, &vThisItem);
-         compare_split_screen_popup(0, 50, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
-         cMenu = compare_split_screen_popup(50, 14, 16, "", vMenu, vDummy,
-             selected >= menustart && selected <= menuend ? selected : -1
-         );
-         switch(cMenu) {
-          case 'a':
-           use_item(chItem);
-           break;
-          case 'E':
-           eat(chItem);
-           break;
-          case 'W':
-           wear(chItem);
-           break;
-          case 'w':
-           wield(chItem);
-           break;
-          case 't':
-           plthrow(chItem);
-           break;
-          case 'T':
-           takeoff(chItem);
-           break;
-          case 'd':
-           drop(chItem);
-           break;
-          case 'U':
-           unload(chItem);
-           break;
-          case 'r':
-           reload(chItem);
-           break;
-          case 'R':
-           u.read(this, chItem);
-           break;
-          case 'D':
-           disassemble(chItem);
-           break;
-          case '=':
-           reassign_item(chItem);
-           break;
-          case KEY_UP:
-           selected--;
-           break;
-          case KEY_DOWN:
-           selected++;
-           break;
-          default:
-           break;
-         }
-         if( selected < menustart ) { // wraparound, but can be hidden
-           selected = menuend;
-         } else if ( selected > menuend ) {
-           selected = menustart;
-         }
-       } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
-     }
+     cMenu=inventory_item_menu(chItem);
    } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=' );
-   uistate.last_inv_start = -2;
-   uistate.last_inv_sel = -2;
    refresh_all();
   } break;
 
@@ -5784,8 +5786,8 @@ void game::advanced_inv()
     const int isinventory = 0;
     const int isall = 10;
 
-#define awaiting_menu_codepush 1
-#define uselimitedchridx 1
+    bool checkshowmsg=false;
+    bool showmsg=false;
 
     int itemsPerPage = 10;
     int w_height = (TERMY<min_w_height+head_height) ? min_w_height : TERMY-head_height;
@@ -5802,7 +5804,7 @@ void game::advanced_inv()
     WINDOW *left_window = newwin(w_height,w_width/2, headstart+head_height,colstart);
     WINDOW *right_window = newwin(w_height,w_width/2, headstart+head_height,colstart+w_width/2);
 
-    itemsPerPage=getmaxy(left_window)-ADVINVOFS; // fixme helptoggle
+    itemsPerPage=getmaxy(left_window)-ADVINVOFS;
     // todo: awaiting ui::menu // last_tmpdest=-1;
     bool exit = false;
     bool redraw = true;
@@ -5878,11 +5880,8 @@ void game::advanced_inv()
                             item& item = stacks[x]->front();
                             advanced_inv_listitem it;
                             it.idx=x;
-#ifdef uselimitedchridx
+                            // todo: for the love of gods create a u.inv.stack_by_int()
                             int size = u.inv.stack_by_letter(item.invlet).size();
-#else
-                            int size = u.inv.function_pending();
-#endif
                             if ( size < 1 ) size = 1;
                             it.name=item.tname(this);
                             it.stacks=size;
@@ -5941,7 +5940,6 @@ void game::advanced_inv()
                             std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) ); 
                             break;
                     }
-                    // draw the stuff
                 }
 
                 // paginate (not sure why)
@@ -5952,7 +5950,6 @@ void game::advanced_inv()
                 panes[i].page = panes[i].max_page == 0 ? 0 : ( panes[i].page >= panes[i].max_page ? panes[i].max_page - 1 : panes[i].page);
                 // draw the stuff
                 werase(panes[i].window);
-                mvwprintz(panes[i].window,1,2,src == i ? c_cyan : c_ltgray, "%s", panes[i].area_string.c_str());
 
 
 
@@ -5963,6 +5960,7 @@ void game::advanced_inv()
 
                 advanced_inv_print_header(squares,panes[i], sel );
                 // todo move --v to --^
+                mvwprintz(panes[i].window,1,2,src == i ? c_cyan : c_ltgray, "%s", panes[i].area_string.c_str());
                 mvwprintz(panes[i].window, 2, 2, src == i ? c_green : c_dkgray , "%s", squares[panes[i].area].desc.c_str() );
 
             }
@@ -5971,16 +5969,39 @@ void game::advanced_inv()
 
             werase(head);
             {
-                // print the header (which is sorta dead-space after the first dozen uses so
-                // todo: make header toggle help / useful info
                 wborder(head,LINE_XOXO,LINE_XOXO,LINE_OXOX,LINE_OXOX,LINE_OXXO,LINE_OOXX,LINE_XXOO,LINE_XOOX);
-                mvwprintz(head,1,3, c_white, "hjkl or arrow keys to move cursor");
-                //wprintz(head, c_white, " %d %d/%d %d/%d",panes[src].size,panes[src].index,panes[src].max_index,panes[src].page,panes[src].max_page);
-                mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
-                mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)"); 
-                mvwprintz(head,1,(w_width/2), c_white, "[m]ove item between screen.");
-                mvwprintz(head,2,(w_width/2), c_white, "[e]amine item.  [s]ort display.");
-                mvwprintz(head,3,(w_width/2), c_white, "[q]uit/exit this screen");
+                int line=1;
+                if( checkshowmsg || showmsg ) {
+                  for (int i = messages.size() - 1; i >= 0 && line < 4; i--) {
+                    std::string mes = messages[i].message;
+                    if (messages[i].count > 1) {
+                      std::stringstream mesSS;
+                      mesSS << mes << " x " << messages[i].count;
+                      mes = mesSS.str();
+                    }
+                    nc_color col = c_dkgray;
+                    if (int(messages[i].turn) >= curmes) {
+                       col = c_ltred;
+                       showmsg=true;
+                    } else {
+                       col = c_ltgray;
+                    } 
+                    if ( showmsg ) mvwprintz(head, line, 2, col, mes.c_str());
+                    line++;
+                  }
+                }
+                if ( ! showmsg ) {
+                  mvwprintz(head,0,w_width-18,c_white,"< [?] show log >");
+                  mvwprintz(head,1,3, c_white, "hjkl or arrow keys to move cursor");
+                  //wprintz(head, c_white, " %d %d/%d %d/%d",panes[src].size,panes[src].index,panes[src].max_index,panes[src].page,panes[src].max_page);
+                  mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
+                  mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)"); 
+                  mvwprintz(head,1,(w_width/2), c_white, "[m]ove item between screen.");
+                  mvwprintz(head,2,(w_width/2), c_white, "[e]amine item.  [s]ort display.");
+                  mvwprintz(head,3,(w_width/2), c_white, "[q]uit/exit this screen");
+                } else {
+                  mvwprintz(head,0,w_width-19,c_white,"< [?] show help >");
+                }
             }
 
             if(panes[src].max_page > 1 ) {
@@ -6093,14 +6114,10 @@ void game::advanced_inv()
                     popup("Destination area is full. Remove some item first");
                 } else {
                     //if target item has stack
-                    int max = (MAX_ITEM_IN_SQUARE - squares[destarea].size); // vehicle fixme (?)
-                    // TODO figure out a better way to get the item
-#ifdef uselimitedchridx
+                    int max = (MAX_ITEM_IN_SQUARE - squares[destarea].size);
+                    // TODO figure out a better way to get the item. Without invlets.
                     item* it = &u.inv.slice(item_pos, 1).front()->front();
                     std::list<item>& stack = u.inv.stack_by_letter(it->invlet);
-#else
-                    std::list<item>& stack = u.inv.function_pending();
-#endif
 
                     if(stack.size() > 1) // if the item stack
                     {
@@ -6176,7 +6193,7 @@ void game::advanced_inv()
                 int s;
                 if(panes[src].area == isall) {
                     s = panes[src].items[list_pos].area;
-                    // temp_fudge pending tests/cleanup
+                    // todo: phase out these vars? ---v // temp_fudge pending tests/cleanup
                     panes[src].offx = squares[s].offx;
                     panes[src].offy = squares[s].offy;
                     panes[src].vstor = squares[s].vstor;
@@ -6252,8 +6269,11 @@ void game::advanced_inv()
                 }
             }
             recalc = true;
+        } else if('?' == c) {
+            showmsg=(!showmsg);
+            checkshowmsg=false;
+            redraw=true;
         } else if('s' == c) {
-            //if(panes[src].size == 0) continue;
             int ch = menu(true, "Sort by... ", "Unsorted (recently added first)", "name", "weight", "volume", "charges", NULL );
             panes[src].sortby = ch;
             if ( src == left ) { 
@@ -6269,26 +6289,22 @@ void game::advanced_inv()
                 continue;
             item *it = panes[src].items[list_pos].it;
             int ret=0;
-#ifndef awaiting_menu_codepush
             if(panes[src].area == isinventory ) {
-                char pleaseDeprecateMe=it.invlet;
+                char pleaseDeprecateMe=it->invlet;
                 ret=inventory_item_menu(pleaseDeprecateMe, 0, w_width/2
                    // fixme: replace compare_split_screen_popup which requires y=0 for item menu to function right 
                    // colstart + ( src == left ? w_width/2 : 0 ), 50
                 );
                 recalc=true;
+                checkshowmsg=true;
             } else {
-#else
                 std::vector<iteminfo> vThisItem, vDummy, vMenu;
                 it->info(true, &vThisItem);
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n----------\n"));
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n\n\n\n\n [up / page up] previous\n [down / page down] next"));
                 ret=compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ),
                     (w_width/2)-2, 0, it->tname(this), vThisItem, vDummy );
-#endif
-#ifndef awaiting_menu_codepush
             }
-#endif
             if ( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 changey += 1;
                 lastCh='e';
@@ -6347,12 +6363,10 @@ void game::advanced_inv()
           if ( changey != 0 ) {
             panes[src].index += changey;
             if ( panes[src].index < 0 ) {
-                //panes[src].index = 0;
                 panes[src].page--;
                 if( panes[src].page < 0 ) panes[src].page = panes[src].max_page-1;
                 panes[src].index = itemsPerPage; // corrected at the start of next iteration
             } else if ( panes[src].index >= panes[src].max_index ) {
-                //panes[src].index = panes[src].max_index-1;
                 panes[src].page++;
                 if( panes[src].page >= panes[src].max_page ) panes[src].page = 0;
                 panes[src].index = 0;
