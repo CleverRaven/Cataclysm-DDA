@@ -3626,27 +3626,8 @@ unsigned char game::light_level()
     ret = (ret * (25 - turns_left)) / 25;
   }
  }
- int flashlight = u.active_item_charges("flashlight_on");
- if (ret < 10 && flashlight > 0) {
-/* additive so that low battery flashlights still increase the light level
-	rather than decrease it 						*/
-  ret += flashlight;
-  if (ret > 10)
-   ret = 10;
- }
- if (ret < 8 && u.has_active_bionic("bio_flashlight"))
-  ret = 8;
  if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT))
   ret = 8;
- if ((ret < 6 && u.has_amount("torch_lit", 1)) ||
-     (ret < 6 && u.has_amount("pda_flashlight", 1)))
-  ret = 6;
- if (ret < 4 && u.has_artifact_with(AEP_GLOW))
-  ret = 4;
- if (ret < 3 && u.has_amount("candle_lit", 1))
-  ret = 3;
- if (ret < 1)
-  ret = 1;
 
  latest_lightlevel = ret;
  latest_lightlevel_turn = turn;
