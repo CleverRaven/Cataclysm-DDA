@@ -2565,6 +2565,10 @@ float player::active_light()
     {
         lumination = std::min(100, torch * 5);
     }
+    else if (active_item_charges("pda_flashlight") > 0)
+    {
+        lumination = 6;
+    }
     else if (gasoline_lantern > 0)
     {
         lumination = 5;
