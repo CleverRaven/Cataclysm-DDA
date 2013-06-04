@@ -924,18 +924,19 @@ bool map::is_outside(const int x, const int y)
  return outside_cache[x][y];
 }
 
+// MATERIALS-TODO: Use fire resistance
 bool map::flammable_items_at(const int x, const int y)
 {
  for (int i = 0; i < i_at(x, y).size(); i++) {
   item *it = &(i_at(x, y)[i]);
   int vol = it->volume();
-  if (it->made_of(PAPER) || it->made_of(POWDER) ||
+  if (it->made_of("paper") || it->made_of("powder") ||
       it->type->id == "whiskey" || it->type->id == "vodka" ||
       it->type->id == "rum" || it->type->id == "tequila")
     return true;
-  if ((it->made_of(WOOD) || it->made_of(VEGGY)) && (it->burnt < 1 || vol <= 10))
+  if ((it->made_of("wood") || it->made_of("veggy")) && (it->burnt < 1 || vol <= 10))
     return true;
-  if (it->made_of(COTTON) && (vol <= 5 || it->burnt < 1))
+  if (it->made_of("cotton") && (vol <= 5 || it->burnt < 1))
     return true;
   if (it->is_ammo() && it->ammo_type() != AT_BATT &&
       it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
@@ -1017,7 +1018,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 
  for (int i = 0; i < i_at(x, y).size(); i++) {	// Destroy glass items (maybe)
    // the check for active supresses molotovs smashing themselves with their own explosion
-   if (i_at(x, y)[i].made_of(GLASS) && !i_at(x, y)[i].active && one_in(2)) {
+   if (i_at(x, y)[i].made_of("glass") && !i_at(x, y)[i].active && one_in(2)) {
    if (sound == "")
     sound = "A " + i_at(x, y)[i].tname() + " shatters!  ";
    else
@@ -1953,28 +1954,17 @@ void map::shoot(game *g, const int x, const int y, int &dam,
 
  for (int i = 0; i < i_at(x, y).size(); i++) {
   bool destroyed = false;
-  switch (i_at(x, y)[i].type->m1) {
-   case GLASS:
-   case PAPER:
-    if (dam > rng(2, 8) && one_in(i_at(x, y)[i].volume()))
-     destroyed = true;
-    break;
-   case PLASTIC:
-    if (dam > rng(2, 10) && one_in(i_at(x, y)[i].volume() * 3))
-     destroyed = true;
-    break;
-   case VEGGY:
-   case FLESH:
-    if (dam > rng(10, 40))
-     destroyed = true;
-    break;
-   case COTTON:
-   case WOOL:
-    i_at(x, y)[i].damage++;
+  int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);   // volume dependent chance
+  
+    if (dam > i_at(x, y)[i].bash_resist() && one_in(chance))
+    {
+        i_at(x, y)[i].damage++;
+    }
     if (i_at(x, y)[i].damage >= 5)
-     destroyed = true;
-    break;
-  }
+    {
+        destroyed = true;
+    }
+  
   if (destroyed) {
    for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
     i_at(x, y).push_back(i_at(x, y)[i].contents[j]);

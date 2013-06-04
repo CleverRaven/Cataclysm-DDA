@@ -125,18 +125,19 @@ std::string monster::name()
  return type->name;
 }
 
+// MATERIALS-TODO: put description in materials.json?
 std::string monster::name_with_armor()
 {
  std::string ret = type->name;
  if (type->species == species_insect)
   ret += "'s carapace";
  else {
-  switch (type->mat) {
-   case VEGGY: ret += "'s thick bark";    break;
-   case FLESH: ret += "'s thick hide";    break;
-   case IRON:
-   case STEEL: ret += "'s armor plating"; break;
-  }
+     if (type->mat == "veggy")
+        ret += "'s thick bark";
+    else if (type->mat == "flesh" || type->mat == "hflesh")
+        ret += "'s thick hide";   
+    else if (type->mat == "iron" || type->mat == "steel")
+        ret += "'s armor plating";    
  }
  return ret;
 }
@@ -261,7 +262,7 @@ bool monster::can_hear()
  return has_flag(MF_HEARS) && !has_effect(ME_DEAF);
 }
 
-bool monster::made_of(material m)
+bool monster::made_of(std::string m)
 {
  if (type->mat == m)
   return true;
@@ -768,13 +769,14 @@ void monster::process_effects(game *g)
    hurt(rng(1, 3));
    break;
 
+// MATERIALS-TODO: use fire resistance
   case ME_ONFIRE:
-   if (made_of(FLESH))
+   if (made_of("flesh"))
     hurt(rng(3, 8));
-   if (made_of(VEGGY))
+   if (made_of("veggy"))
     hurt(rng(10, 20));
-   if (made_of(PAPER) || made_of(POWDER) || made_of(WOOD) || made_of(COTTON) ||
-       made_of(WOOL))
+   if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
+       made_of("wool"))
     hurt(rng(15, 40));
    break;
 

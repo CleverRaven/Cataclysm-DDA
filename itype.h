@@ -162,8 +162,8 @@ struct itype
  char sym;		// Symbol on the map
  nc_color color;	// Color on the map (color.h)
 
- material m1;		// Main material
- material m2;		// Secondary material -- MNULL if made of just 1 thing
+ std::string m1;		// Main material
+ std::string m2;		// Secondary material -- "null" if made of just 1 thing
 
  phase_id phase;      //e.g. solid, liquid, gas
 
@@ -200,6 +200,8 @@ struct itype
  virtual bool count_by_charges() { return false; }
  virtual picojson::value save_data() { return picojson::value(); }
 
+ std::string dmg_adj(int dam) { return material_type::find_material(m1)->dmg_adj(dam); }
+
  void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
 
  itype() {
@@ -208,8 +210,8 @@ struct itype
   name  = "none";
   sym = '#';
   color = c_white;
-  m1 = MNULL;
-  m2 = MNULL;
+  m1 = "null";
+  m2 = "null";
   phase = SOLID;
   volume = 0;
   weight = 0;
@@ -221,7 +223,7 @@ struct itype
 
  itype(std::string pid, unsigned char prarity, unsigned int pprice,
        std::string pname, std::string pdes,
-       char psym, nc_color pcolor, material pm1, material pm2, phase_id pphase,
+       char psym, nc_color pcolor, std::string pm1, std::string pm2, phase_id pphase,
        unsigned short pvolume, unsigned short pweight,
        signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
        unsigned ptechniques = 0) {
@@ -278,7 +280,7 @@ struct it_comest : public itype
 
     it_comest(std::string pid, unsigned char prarity, unsigned int pprice,
     std::string pname, std::string pdes,
-    char psym, nc_color pcolor, material pm1, phase_id pphase,
+    char psym, nc_color pcolor, std::string pm1, phase_id pphase,
     unsigned short pvolume, unsigned short pweight,
     signed char pmelee_dam, signed char pmelee_cut,
     signed char pm_to_hit,
@@ -288,7 +290,7 @@ struct it_comest : public itype
     unsigned char pcharges, signed char pfun, itype_id pcontainer,
     itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
     add_type padd, std::string pcomesttype)
-    :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL, pphase,
+    :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
     pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {
         quench     = pquench;
@@ -318,7 +320,7 @@ struct it_var_veh_part: public itype
 
  it_var_veh_part(std::string pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
-        char psym, nc_color pcolor, material pm1, material pm2,
+        char psym, nc_color pcolor, std::string pm1, std::string pm2,
         unsigned short pvolume, unsigned short pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
         unsigned effects,
@@ -372,7 +374,7 @@ struct it_ammo : public itype
 
  it_ammo(std::string pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
-        char psym, nc_color pcolor, material pm1, phase_id pphase,
+        char psym, nc_color pcolor, std::string pm1, phase_id pphase,
         unsigned short pvolume, unsigned short pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
         unsigned effects,
@@ -380,7 +382,7 @@ struct it_ammo : public itype
         ammotype ptype, unsigned char pdamage, unsigned char ppierce,
 	signed char paccuracy, unsigned char precoil, unsigned char prange,
         unsigned char pcount)
-:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, MNULL, pphase,
+:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
   type = ptype;
   damage = pdamage;
@@ -410,7 +412,7 @@ struct it_gun : public itype
 
  it_gun(std::string pid, unsigned char prarity, unsigned int pprice,
         std::string pname, std::string pdes,
-        char psym, nc_color pcolor, material pm1, material pm2,
+        char psym, nc_color pcolor, std::string pm1, std::string pm2,
         unsigned short pvolume, unsigned short pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
@@ -448,7 +450,7 @@ struct it_gunmod : public itype
 
  it_gunmod(std::string pid, unsigned char prarity, unsigned int pprice,
            std::string pname, std::string pdes,
-           char psym, nc_color pcolor, material pm1, material pm2,
+           char psym, nc_color pcolor, std::string pm1, std::string pm2,
            unsigned short pvolume, unsigned short pweight,
            signed char pmelee_dam, signed char pmelee_cut,
            signed char pm_to_hit,
@@ -493,13 +495,13 @@ struct it_armor : public itype
  virtual bool is_power_armor() { return power_armor; }
  virtual bool is_artifact() { return false; }
  virtual picojson::value save_data() { return picojson::value(); }
- std::string bash_dmg_verb() { return m2 == MNULL || !one_in(3) ?
-         material_type::find_material_from_tag(m1)->bash_dmg_verb() :
-         material_type::find_material_from_tag(m2)->bash_dmg_verb();
+ std::string bash_dmg_verb() { return m2 == "null" || !one_in(3) ?
+         material_type::find_material(m1)->bash_dmg_verb() :
+         material_type::find_material(m2)->bash_dmg_verb();
  }
- std::string cut_dmg_verb() { return m2 == MNULL || !one_in(3) ?
-         material_type::find_material_from_tag(m1)->cut_dmg_verb() :
-         material_type::find_material_from_tag(m2)->cut_dmg_verb();
+ std::string cut_dmg_verb() { return m2 == "null" || !one_in(3) ?
+         material_type::find_material(m1)->cut_dmg_verb() :
+         material_type::find_material(m2)->cut_dmg_verb();
  }
 
  it_armor() : itype()
@@ -516,7 +518,7 @@ struct it_armor : public itype
 
  it_armor(itype_id pid, unsigned char prarity, unsigned int pprice,
           std::string pname, std::string pdes,
-          char psym, nc_color pcolor, material pm1, material pm2,
+          char psym, nc_color pcolor, std::string pm1, std::string pm2,
           unsigned short pvolume, unsigned short pweight,
           signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
@@ -553,7 +555,7 @@ struct it_book : public itype
  it_book() {}
  it_book(std::string pid, unsigned char prarity, unsigned int pprice,
          std::string pname, std::string pdes,
-         char psym, nc_color pcolor, material pm1, material pm2,
+         char psym, nc_color pcolor, std::string pm1, std::string pm2,
          unsigned short pvolume, unsigned short pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
@@ -584,7 +586,7 @@ struct it_container : public itype
  virtual bool is_container() { return true; }
  it_container(std::string pid, unsigned char prarity, unsigned int pprice,
               std::string pname, std::string pdes,
-              char psym, nc_color pcolor, material pm1, material pm2,
+              char psym, nc_color pcolor, std::string pm1, std::string pm2,
               unsigned short pvolume, unsigned short pweight,
               signed char pmelee_dam, signed char pmelee_cut,
               signed char pm_to_hit,
@@ -623,7 +625,7 @@ struct it_tool : public itype
 
  it_tool(std::string pid, unsigned char prarity, unsigned int pprice,
          std::string pname, std::string pdes,
-         char psym, nc_color pcolor, material pm1, material pm2, phase_id pphase,
+         char psym, nc_color pcolor, std::string pm1, std::string pm2, phase_id pphase,
          unsigned short pvolume, unsigned short pweight,
          signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
@@ -652,7 +654,7 @@ struct it_bionic : public itype
 
  it_bionic(std::string pid, unsigned char prarity, unsigned int pprice,
            std::string pname, std::string pdes,
-           char psym, nc_color pcolor, material pm1, material pm2,
+           char psym, nc_color pcolor, std::string pm1, std::string pm2,
            unsigned short pvolume, unsigned short pweight,
            signed char pmelee_dam, signed char pmelee_cut,
            signed char pm_to_hit,
@@ -673,7 +675,7 @@ struct it_macguffin : public itype
 
  it_macguffin(std::string pid, unsigned char prarity, unsigned int pprice,
               std::string pname, std::string pdes,
-              char psym, nc_color pcolor, material pm1, material pm2,
+              char psym, nc_color pcolor, std::string pm1, std::string pm2,
               unsigned short pvolume, unsigned short pweight,
               signed char pmelee_dam, signed char pmelee_cut,
               signed char pm_to_hit,
@@ -696,7 +698,7 @@ struct it_software : public itype
 
  it_software(std::string pid, unsigned char prarity, unsigned int pprice,
              std::string pname, std::string pdes,
-             char psym, nc_color pcolor, material pm1, material pm2,
+             char psym, nc_color pcolor, std::string pm1, std::string pm2,
              unsigned short pvolume, unsigned short pweight,
              signed char pmelee_dam, signed char pmelee_cut,
              signed char pm_to_hit,
@@ -717,7 +719,7 @@ struct it_style : public itype
 
  it_style(std::string pid, unsigned char prarity, unsigned int pprice,
           std::string pname, std::string pdes,
-          char psym, nc_color pcolor, material pm1, material pm2,
+          char psym, nc_color pcolor, std::string pm1, std::string pm2,
           unsigned char pvolume, unsigned char pweight,
           signed char pmelee_dam, signed char pmelee_cut,
           signed char pm_to_hit)
@@ -734,7 +736,7 @@ struct it_stationary : public itype
 
  it_stationary(std::string pid, unsigned char prarity, unsigned int pprice,
           std::string pname, std::string pdes,
-          char psym, nc_color pcolor, material pm1, material pm2,
+          char psym, nc_color pcolor, std::string pm1, std::string pm2,
           unsigned char pvolume, unsigned char pweight,
           signed char pmelee_dam, signed char pmelee_cut,
           signed char pm_to_hit,
@@ -840,8 +842,8 @@ struct it_artifact_tool : public it_tool
  };
 
  it_artifact_tool(std::string pid, unsigned int pprice, std::string pname,
-                  std::string pdes, char psym, nc_color pcolor, material pm1,
-                  material pm2, unsigned short pvolume, unsigned short pweight,
+                  std::string pdes, char psym, nc_color pcolor, std::string pm1,
+                  std::string pm2, unsigned short pvolume, unsigned short pweight,
                   signed char pmelee_dam, signed char pmelee_cut,
                   signed char pm_to_hit, std::set<std::string> pitem_tags,
 
@@ -927,8 +929,8 @@ struct it_artifact_armor : public it_armor
  };
 
  it_artifact_armor(std::string pid, unsigned int pprice, std::string pname,
-                   std::string pdes, char psym, nc_color pcolor, material pm1,
-                   material pm2, unsigned short pvolume, unsigned short pweight,
+                   std::string pdes, char psym, nc_color pcolor, std::string pm1,
+                   std::string pm2, unsigned short pvolume, unsigned short pweight,
                    signed char pmelee_dam, signed char pmelee_cut,
                    signed char pm_to_hit, std::set<std::string> pitem_tags,
 

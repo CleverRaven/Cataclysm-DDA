@@ -615,7 +615,7 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
     for (int i = 0; i < m->i_at(examx, examy).size(); i++)
     {
         item *it = &(m->i_at(examx, examy)[i]);
-        if (it->made_of(STEEL))
+        if (it->made_of("steel"))
             steel_weight += it->weight();
         m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
         i--;

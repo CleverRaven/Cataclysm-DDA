@@ -371,17 +371,19 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   break;
 
+
+// MATERIALS-TODO: this should be determined by materials properties
  case DI_ONFIRE:
   p.hurtall(3);
   for (int i = 0; i < p.worn.size(); i++) {
-   if (p.worn[i].made_of(VEGGY) || p.worn[i].made_of(PAPER)) {
+   if (p.worn[i].made_of("veggy") || p.worn[i].made_of("paper")) {
     p.worn.erase(p.worn.begin() + i);
     i--;
-   } else if ((p.worn[i].made_of(COTTON) || p.worn[i].made_of(WOOL)) &&
+   } else if ((p.worn[i].made_of("cotton") || p.worn[i].made_of("wool")) &&
               one_in(10)) {
     p.worn.erase(p.worn.begin() + i);
     i--;
-   } else if (p.worn[i].made_of(PLASTIC) && one_in(50)) {
+   } else if (p.worn[i].made_of("plastic") && one_in(50)) {
     p.worn.erase(p.worn.begin() + i);
     i--;
    }

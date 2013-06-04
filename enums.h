@@ -5,17 +5,6 @@
 #define sgn(x) (((x) < 0) ? -1 : 1)
 #endif
 
-enum material {
-MNULL = 0,
-//Food Materials
-VEGGY, FLESH, POWDER, HFLESH, //Human Flesh.
-//Clothing
-COTTON, WOOL, LEATHER, KEVLAR, FUR, CHITIN,
-//Other
-STONE, PAPER, WOOD, PLASTIC, GLASS, IRON, STEEL, SILVER, 
-NUM_MAT_TYPES
-};
-
 enum phase_id {
 PNULL, SOLID, LIQUID, GAS, PLASMA
 };

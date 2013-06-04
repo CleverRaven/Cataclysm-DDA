@@ -15,8 +15,6 @@
 #define mfb(n) long(1 << (n))
 #endif
 
-bool is_flammable(material m);
-
 std::string default_technique_name(technique_id tech);
 
 item::item()
@@ -725,73 +723,22 @@ std::string item::tname(game *g)
 {
  std::stringstream ret;
 
+// MATERIALS-TODO: put this in json
  if (damage != 0 && !is_null()) {
   std::string damtext;
-  switch (type->m1) {
-   case VEGGY:
-   case HFLESH:
-   case FLESH:
-    damtext = "partially eaten ";
-    break;
-   case COTTON:
-   case WOOL:
-    if (damage == -1) damtext = "reinforced ";
-    if (damage ==  1) damtext = "ripped ";
-    if (damage ==  2) damtext = "torn ";
-    if (damage ==  3) damtext = "shredded ";
-    if (damage ==  4) damtext = "tattered ";
-    break;
-   case LEATHER:
-    if (damage == -1) damtext = "reinforced ";
-    if (damage ==  1) damtext = "scratched ";
-    if (damage ==  2) damtext = "cut ";
-    if (damage ==  3) damtext = "torn ";
-    if (damage ==  4) damtext = "tattered ";
-    break;
-   case KEVLAR:
-    if (damage == -1) damtext = "reinforced ";
-    if (damage ==  1) damtext = "marked ";
-    if (damage ==  2) damtext = "dented ";
-    if (damage ==  3) damtext = "scarred ";
-    if (damage ==  4) damtext = "broken ";
-    break;
-   case PAPER:
-    if (damage ==  1) damtext = "torn ";
-    if (damage >=  2) damtext = "shredded ";
-    break;
-   case WOOD:
-    if (damage ==  1) damtext = "scratched ";
-    if (damage ==  2) damtext = "chipped ";
-    if (damage ==  3) damtext = "cracked ";
-    if (damage ==  4) damtext = "splintered ";
-    break;
-   case PLASTIC:
-   case GLASS:
-    if (damage ==  1) damtext = "scratched ";
-    if (damage ==  2) damtext = "cut ";
-    if (damage ==  3) damtext = "cracked ";
-    if (damage ==  4) damtext = "shattered ";
-    break;
-   case IRON:
-    if (damage ==  1) damtext = "lightly rusted ";
-    if (damage ==  2) damtext = "rusted ";
-    if (damage ==  3) damtext = "very rusty ";
-    if (damage ==  4) damtext = "thoroughly rusted ";
-    break;
-   default:
-    if (type->id == "corpse") {
-     if (damage == 1) damtext = "bruised ";
-     if (damage == 2) damtext = "damaged ";
-     if (damage == 3) damtext = "mangled ";
-     if (damage == 4) damtext = "pulped ";
-    } else {
-     if (damage ==  1) damtext = "lightly damaged ";
-     if (damage ==  2) damtext = "damaged ";
-     if (damage ==  3) damtext = "very damaged ";
-     if (damage ==  4) damtext = "thoroughly damaged ";
-    }
+  if (damage == -1) {
+    damtext = "reinforced";
+  } else {
+   if (type->id == "corpse") {
+    if (damage == 1) damtext = "bruised";
+    if (damage == 2) damtext = "damaged";
+    if (damage == 3) damtext = "mangled";
+    if (damage == 4) damtext = "pulped";
+   } else {
+    damtext = type->dmg_adj(damage);
+   }
   }
-  ret << damtext;
+  ret << damtext << " ";
  }
 
  if (is_var_veh_part()){
@@ -879,6 +826,7 @@ int item::price() const
  return ret;
 }
 
+// MATERIALS-TODO: add a density field to materials.json
 int item::weight() const
 {
  if (typeId() == "corpse") {
@@ -890,9 +838,9 @@ int item::weight() const
    case MS_LARGE:  ret = 2000;	break;
    case MS_HUGE:   ret = 4000;	break;
   }
-  if (made_of(VEGGY))
+  if (made_of("veggy"))
    ret /= 10;
-  else if (made_of(IRON) || made_of(STEEL) || made_of(STONE))
+  else if (made_of("iron") || made_of("steel") || made_of("stone"))
    ret *= 5;
   return ret;
  }
@@ -1187,21 +1135,36 @@ int item::bash_resist() const
     if (is_null())
         return 0;
 
-// base resistance 
-    it_armor* tmp = dynamic_cast<it_armor*>(type);
-    material_type* cur_mat1 = material_type::find_material_from_tag(tmp->m1);        
-    material_type* cur_mat2 = material_type::find_material_from_tag(tmp->m2);        
-    int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
+    if (is_armor())
+    {
+        // base resistance 
+        it_armor* tmp = dynamic_cast<it_armor*>(type);
+        material_type* cur_mat1 = material_type::find_material(tmp->m1);        
+        material_type* cur_mat2 = material_type::find_material(tmp->m2);        
+        int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
 
-    // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
-    if (cur_mat2->is_null())
+        // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
+        if (cur_mat2->is_null())
+        {
+            ret = eff_thickness * (3 * cur_mat1->bash_resist());      
+        } 
+        else
+        {
+            ret = eff_thickness * (cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist());
+        }
+    }
+    else // for non-armor, just bash_resist
     {
-        ret = eff_thickness * (3 * cur_mat1->bash_resist());
-        
-    } 
-    else
-    {
-        ret = eff_thickness * (cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist());
+        material_type* cur_mat1 = material_type::find_material(type->m1);        
+        material_type* cur_mat2 = material_type::find_material(type->m2);
+        if (cur_mat2->is_null())
+        {
+            ret = 3 * cur_mat1->bash_resist();      
+        } 
+        else
+        {
+            ret = cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist();
+        }
     }
     
     return ret;    
@@ -1213,23 +1176,39 @@ int item::cut_resist() const
     
     if (is_null())
         return 0;
-  
-    it_armor* tmp = dynamic_cast<it_armor*>(type);
-    material_type* cur_mat1 = material_type::find_material_from_tag(tmp->m1);
-    material_type* cur_mat2 = material_type::find_material_from_tag(tmp->m2);        
-    int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
-    
-    // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
-    if (cur_mat2->is_null())
-    {
-        ret = eff_thickness * (3 * cur_mat1->cut_resist());
+
+    if (is_armor())
+        {
+        it_armor* tmp = dynamic_cast<it_armor*>(type);
+        material_type* cur_mat1 = material_type::find_material(tmp->m1);
+        material_type* cur_mat2 = material_type::find_material(tmp->m2);        
+        int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
         
-    } 
-    else
-    {
-        ret = eff_thickness * (cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist());
+        // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
+        if (cur_mat2->is_null())
+        {
+            ret = eff_thickness * (3 * cur_mat1->cut_resist());
+            
+        } 
+        else
+        {
+            ret = eff_thickness * (cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist());
+        }
     }
-    
+    else // for non-armor
+    {
+        material_type* cur_mat1 = material_type::find_material(type->m1);        
+        material_type* cur_mat2 = material_type::find_material(type->m2);
+        if (cur_mat2->is_null())
+        {
+            ret = 3 * cur_mat1->cut_resist();      
+        } 
+        else
+        {
+            ret = cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist();
+        }
+    }
+        
     return ret;       
 }
 
@@ -1255,15 +1234,15 @@ bool item::is_two_handed(player *u)
   return (weight() > u->str_cur * 4);
 }
 
-bool item::made_of(material mat) const
+bool item::made_of(std::string mat_ident) const
 {
  if( is_null() )
   return false;
 
  if (typeId() == "corpse")
-  return (corpse->mat == mat);
+  return (corpse->mat == mat_ident);
 
- return (type->m1 == mat || type->m2 == mat);
+    return (type->m1 == mat_ident || type->m2 == mat_ident);
 }
 
 bool item::made_of(phase_id phase) const
@@ -1274,19 +1253,15 @@ bool item::made_of(phase_id phase) const
     return (type->phase == phase);
 }
 
-bool item::conductive()
+bool item::conductive() const
 {
  if( is_null() )
   return false;
 
- if ((type->m1 == IRON || type->m1 == STEEL || type->m1 == SILVER ||
-      type->m1 == MNULL) &&
-     (type->m2 == IRON || type->m2 == STEEL || type->m2 == SILVER ||
-      type->m2 == MNULL))
-  return true;
- if (type->m1 == MNULL && type->m2 == MNULL)
-  return true;
- return false;
+    material_type* cur_mat1 = material_type::find_material(type->m1);
+    material_type* cur_mat2 = material_type::find_material(type->m2); 
+
+    return (cur_mat1->elec_resist() <= 0 || cur_mat2->elec_resist() <= 0);
 }
 
 bool item::destroyed_at_zero_charges()
@@ -1362,8 +1337,7 @@ bool item::is_food(player const*u) const
  if (u->has_bionic("bio_batteries") && is_ammo() &&
      (dynamic_cast<it_ammo*>(type))->type == AT_BATT)
   return true;
- if (u->has_bionic("bio_furnace") && is_flammable(type->m1) &&
-     is_flammable(type->m2) && typeId() != "corpse")
+ if (u->has_bionic("bio_furnace") && flammable() && typeId() != "corpse")
   return true;
  return false;
 }
@@ -2080,9 +2054,12 @@ bool item::burn(int amount)
  return (burnt >= volume() * 3);
 }
 
-bool is_flammable(material m)
+bool item::flammable() const
 {
- return (m == COTTON || m == WOOL || m == PAPER || m == WOOD || m == MNULL);
+    material_type* cur_mat1 = material_type::find_material(type->m1);
+    material_type* cur_mat2 = material_type::find_material(type->m2); 
+
+    return ((cur_mat1->fire_resist() + cur_mat2->elec_resist()) <= 0);    
 }
 
 std::string default_technique_name(technique_id tech)

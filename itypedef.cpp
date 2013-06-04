@@ -34,26 +34,26 @@ void game::init_itypes ()
 {
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes["null"]=
-  new itype("null", 0, 0, "none", "", '#', c_white, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
+  new itype("null", 0, 0, "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // Corpse - a special item
  itypes["corpse"]=
-  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, PNULL, 0, 0,
+  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
             0, 0, 1, 0);
 // Fire - only appears in crafting recipes
  itypes["fire"]=
   new itype("fire", 0, 0, "nearby fire",
             "Some fire - if you are reading this it's a bug! (itypdef:fire)",
-            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // Integrated toolset - ditto
  itypes["toolset"]=
   new itype("toolset", 0, 0, "integrated toolset",
             "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
-            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // For smoking crack or meth
  itypes["apparatus"]=
   new itype("apparatus", 0, 0, "something to smoke that from, and a lighter",
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
-            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 
 #define VAR_VEH_PART(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, bigmin, bigmax, bigaspect, des)\
@@ -62,65 +62,65 @@ color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax, bigaspect)
 
 //"wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
 //           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel", "wheel", 10, 100, ']', c_dkgray,  STEEL,   PLASTIC,
+VAR_VEH_PART("wheel", "wheel", 10, 100, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
     40,  140, 12,  0,  -1, 0,       13,         20,  BIGNESS_WHEEL_DIAMETER,  "\
 A car wheel");
 //           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_wide", "wide wheel", 4, 340, ']', c_dkgray,  STEEL,   PLASTIC,
+VAR_VEH_PART("wheel_wide", "wide wheel", 4, 340, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
     70,  260, 17,  0,  -1, 0,       17,         36,  BIGNESS_WHEEL_DIAMETER,  "\
 A wide wheel. \\o/ This wide.");
 //           NAME            RAR  PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_bicycle", "bicycle wheel", 18, 40,  ']', c_dkgray,  STEEL,   PLASTIC,
+VAR_VEH_PART("wheel_bicycle", "bicycle wheel", 18, 40,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     28,  45,  8,  0,  -1, 0,       9,         18,  BIGNESS_WHEEL_DIAMETER,  "\
 A bicycle wheel");
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_motorbike", "motorbike wheel", 13, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
+VAR_VEH_PART("wheel_motorbike", "motorbike wheel", 13, 140,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     33,  85,  10,  0,  -1, 0,       9,         14,  BIGNESS_WHEEL_DIAMETER,  "\
 A motorbike wheel");
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_small", "small wheel",    5, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
+VAR_VEH_PART("wheel_small", "small wheel",    5, 140,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     9,  42,  10,  0,  -1, 0,       6,         14,   BIGNESS_WHEEL_DIAMETER,  "\
 A pretty small wheel. Probably from one of those segway things.\
 It is not very menacing.");
 
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("1cyl_combustion", "1-cylinder engine",  3, 100, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("1cyl_combustion", "1-cylinder engine",  3, 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS 0BIGNESS_MIN BIGNESS_MAX   ASPECT
     6,  70,  4,  0,  -1, 0,       28,         75,   BIGNESS_ENGINE_DISPLACEMENT, "\
 A single-cylinder 4-stroke combustion engine.");
 
 //                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v2_combustion", "V-twin engine",  2, 100, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("v2_combustion", "V-twin engine",  2, 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     6,  70,  4,  0,  -1, 0,       65,        260, BIGNESS_ENGINE_DISPLACEMENT, "\
 A 2-cylinder 4-stroke combustion engine.");
 
 //                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("i4_combustion", "Inline-4 engine",  6, 150, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("i4_combustion", "Inline-4 engine",  6, 150, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     6,  160,  8,  0,  -2, 0,       220,       350, BIGNESS_ENGINE_DISPLACEMENT, "\
 A small, yet powerful 4-cylinder combustion engine.");
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v6_combustion", "V6 engine",  3, 180, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("v6_combustion", "V6 engine",  3, 180, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     14,  400,  12,  0,  -3, 0,    250,        520, BIGNESS_ENGINE_DISPLACEMENT, "\
 A powerful 6-cylinder combustion engine.");
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v8_combustion", "V8 engine",  2, 250, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("v8_combustion", "V8 engine",  2, 250, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     25,  600,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, "\
 A large and very powerful 8-cylinder combustion engine.");
 
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
-//   it can survive a dip in water and be okay, its material here is PLASTIC.
+//   it can survive a dip in water and be okay, its material here is "plastic".
 // dmg is damage done, in an average hit.  Note that the average human has
 //   80 health.  Headshots do 8x damage; vital hits do 2x-4x; glances do 0x-1x.
 // Weight and price is per 100 rounds.
@@ -188,68 +188,68 @@ itypes[id]=new it_tool(id,rarity,price,name,des,sym,\
 color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
 
-CONT("bag_plastic", "plastic bag",	50,  1,	c_ltgray,	PLASTIC,MNULL,
+CONT("bag_plastic", "plastic bag",	50,  1,	c_ltgray,	"plastic","null",
 // VOL WGT DAM HIT	VOL	FLAGS
     1,  0, -8, -4,	24,	0, "\
 A small, open plastic bag. Essentially trash.");
 
-CONT("bottle_plastic", "plastic bottle",	70,  8,	c_ltcyan,	PLASTIC,MNULL,
+CONT("bottle_plastic", "plastic bottle",	70,  8,	c_ltcyan,	"plastic","null",
     2,  0, -8,  1,	 2,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A resealable plastic bottle, holds 500mls of liquid.");
 
-CONT("bottle_glass", "glass bottle",	70, 12,	c_cyan,		GLASS,	MNULL,
+CONT("bottle_glass", "glass bottle",	70, 12,	c_cyan,		"glass",	"null",
     3,  2,  8,  1,	 3,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A resealable glass bottle, holds 750mls of liquid.");
 
-CONT("can_drink", "aluminum can",	70,  1,	c_ltblue,	STEEL,	MNULL,
+CONT("can_drink", "aluminum can",	70,  1,	c_ltblue,	"steel",	"null",
     1,  0,  0,  0,	 1,	mfb(con_rigid)|mfb(con_wtight), "\
 An aluminum can, like what soda comes in.");
 
-CONT("can_food", "tin can",		65,  2,	c_blue,		IRON,	MNULL,
+CONT("can_food", "tin can",		65,  2,	c_blue,		"iron",	"null",
     1,  0, -1,  1,	 1,	mfb(con_rigid)|mfb(con_wtight), "\
 A tin can, like what beans come in.");
 
-CONT("box_small", "sm. cardboard box",50, 0,	c_brown,	PAPER,	MNULL,
+CONT("box_small", "sm. cardboard box",50, 0,	c_brown,	"paper",	"null",
     4,  0, -5,  1,	 4,	mfb(con_rigid), "\
 A small cardboard box. No bigger than a foot in any dimension.");
 
-CONT("canteen", "plastic canteen",	20,  1000,	c_green,	PLASTIC,MNULL,
+CONT("canteen", "plastic canteen",	20,  1000,	c_green,	"plastic","null",
     6,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A large military-style water canteen, with a 1.5 liter capacity and strap.");
 
-CONT("jerrycan", "plastic jerrycan",	10,  2500,	c_green,	PLASTIC,MNULL,
+CONT("jerrycan", "plastic jerrycan",	10,  2500,	c_green,	"plastic","null",
     40,  4, -2,  -2,	 40,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids\n\
 in a pinch. It has a capacity of 10 liters.");
 
-CONT("jug_plastic", "gallon jug",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
+CONT("jug_plastic", "gallon jug",	10,  2500,	c_ltcyan,	"plastic","null",
     10,  2, -8,  1,	 10,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A standard plastic jug used for household cleaning chemicals.");
 
-CONT("flask_glass", "glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
+CONT("flask_glass", "glass flask",	10,  2500,	c_ltcyan,	"glass","null",
     1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A 250 ml laboratory conical flask, with a rubber bung.");
 
-CONT("waterskin", "waterskin",   0,  0, c_brown, LEATHER, MNULL,
+CONT("waterskin", "waterskin",   0,  0, c_brown, "leather", "null",
 // VOL WGT DAM HIT	VOL	FLAGS
     6, 4,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
 A watertight leather bag, can hold 1.5 liters of water.");
 
-CONT("jerrycan_big", "steel jerrycan", 20, 5000, c_green, STEEL, MNULL,
+CONT("jerrycan_big", "steel jerrycan", 20, 5000, c_green, "steel", "null",
     100, 7, -3, -3, 100, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A steel jerrycan, meant to carry fuel, but can carry other liquds\n\
 in a pinch. It has a capacity of 25 liters.");
 
-CONT("keg", "aluminum keg", 20, 6000, c_ltcyan, STEEL, MNULL,
+CONT("keg", "aluminum keg", 20, 6000, c_ltcyan, "steel", "null",
     200, 12, -4, -4, 200, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A reusable aluminum keg, used for shipping beer.\n\
 It has a capcity of 50 liters.");
 
-CONT("jar_glass", "glass jar",	50,  2500,	c_ltcyan,	GLASS,MNULL,
+CONT("jar_glass", "glass jar",	50,  2500,	c_ltcyan,	"glass","null",
     1,  1, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A half-litre glass jar with a metal screw top lid, used for canning.");
 
-TOOL("jack", "jack",		30, 86, ';', c_ltgray,	IRON,	MNULL,
+TOOL("jack", "jack",		30, 86, ';', c_ltgray,	"iron",	"null",
 //	VOL WGT DAM CUT HIT FLAGS
 	 5,  10, 11,  0,  2, 0, 0, 0, 0, AT_NULL, "null", &iuse::none, "\
 A common hydraulic jack, used when changing tires.");
@@ -260,7 +260,7 @@ A common hydraulic jack, used when changing tires.");
 // list of options.
 #define BIO(id, name, rarity, price, color, difficulty, des) \
 itypes[id]=new it_bionic(id, rarity,price,name,des,':',\
-color, STEEL, PLASTIC, 10, 18, 8, 0, 0, difficulty)
+color, "steel", "plastic", 10, 18, 8, 0, 0, difficulty)
 
 #define BIO_SINGLE(id,rarity,price,color,difficulty) \
      BIO(id, std::string("CBM: ")+bionics[id]->name, rarity,price,color,difficulty, \
@@ -280,7 +280,7 @@ by 10 units."); // This is another special case, increases power capacity by 10 
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \
 itypes[id]=new it_software(id, 0, price, name, description,\
-	' ', c_white, MNULL, MNULL, 0, 0, 0, 0, 0, swtype, power)
+	' ', c_white, "null", "null", 0, 0, 0, 0, 0, swtype, power)
 
 //Macguffins
 #define MACGUFFIN(id, name, price, sym, color, mat1, mat2, volume, wgt, dam, cut,\
@@ -383,13 +383,13 @@ A piece of mathematical software.");
 SOFTWARE("software_blood_data", "infection data", 200, SW_DATA, 5, "\
 Medical data on zombie blood.");
 
-MACGUFFIN("note", "note", 0, '?', c_white, PAPER, MNULL, 1, 0, 0, 0, 0,
+MACGUFFIN("note", "note", 0, '?', c_white, "paper", "null", 1, 0, 0, 0, 0,
 	true, &iuse::mcg_note, "\
 A hand-written paper note.");
 
 #define STATIONARY(id, name, rarity, price, category, description) \
 itypes[id] = new it_stationary(id, rarity, price, name, description,\
-',', c_white, PAPER, MNULL, 0, 0, 0, 0, 0, category)
+',', c_white, "paper", "null", 0, 0, 0, 0, 0, category)
 
 STATIONARY("flyer", "flyer", 5, 1, "flier", "A scrap of paper.");
 
@@ -403,12 +403,12 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
 }
 
 //  NAME		RARE  TYPE	COLOR		MAT
-AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
+AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	"null",
 //	VOL WGT DMG  AP RNG ACC REC COUNT
 	 0,  0, 40,  0, 10,  1,  0,  5, "", mfb(AMMO_INCENDIARY));
 
 //  NAME		RARE	COLOR		MAT1	MAT2
-GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
+GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "");
@@ -421,7 +421,7 @@ GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 // Unarmed Styles
 #define STYLE(id, name, dam, description, ...) \
 itypes[id]=new it_style(id, 0, 0, name, description, '$', \
-                              c_white, MNULL, MNULL, 0, 0, dam, 0, 0); \
+                              c_white, "null", "null", 0, 0, dam, 0, 0); \
  setvector(&((static_cast<it_style*>(itypes[id])))->moves, __VA_ARGS__, NULL); \
 itypes[id]->item_tags.insert("UNARMED_WEAPON"); \
 martial_arts_itype_ids.push_back(id)

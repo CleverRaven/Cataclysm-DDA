@@ -604,6 +604,8 @@ void trapfunc::lava(game *g, int x, int y)
  g->u.hit(g, bp_legs, 1, 0, 20);
 }
 
+
+// MATERIALS-TODO: use fire resistance
 void trapfuncm::lava(game *g, monster *z, int x, int y)
 {
  bool sees = g->u_see(z);
@@ -612,16 +614,16 @@ void trapfuncm::lava(game *g, monster *z, int x, int y)
                                      z->name().c_str());
 
  int dam = 30;
- if (z->made_of(FLESH))
+ if (z->made_of("flesh"))
   dam = 50;
- if (z->made_of(VEGGY))
+ if (z->made_of("veggy"))
   dam = 80;
- if (z->made_of(PAPER) || z->made_of(LIQUID) || z->made_of(POWDER) ||
-     z->made_of(WOOD)  || z->made_of(COTTON) || z->made_of(WOOL))
+ if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
+     z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool"))
   dam = 200;
- if (z->made_of(STONE))
+ if (z->made_of("stone"))
   dam = 15;
- if (z->made_of(KEVLAR) || z->made_of(STEEL))
+ if (z->made_of("kevlar") || z->made_of("steel"))
   dam = 5;
 
  z->hurt(dam);
