@@ -194,7 +194,7 @@ std::string material_type::dmg_adj(int dam) const
 {
     int tmpdam = dam - 1;
     // bounds check
-    if (tmpdam < 0 || tmpdam > 4)
+    if (tmpdam < 0 || tmpdam >= 4)
         return "";
     
     return _dmg_adj[tmpdam];
