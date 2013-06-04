@@ -1,9 +1,11 @@
 #ifndef __CATACURSE__
 #define __CATACURSE__
+#if (defined _WIN32 || defined WINDOWS)
 #define _WIN32_WINNT 0x0500
 #define WIN32_LEAN_AND_MEAN
 //#define VC_EXTRALEAN
-#include <windows.h>
+#include "windows.h"
+#endif
 #include <stdio.h>
 typedef int	chtype;
 typedef unsigned short	attr_t;
@@ -152,10 +154,9 @@ void timeout(int delay);//PORTABILITY, DUMMY FUNCTION
 void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
 int echo(void);
 int noecho(void);
-//Window Functions, Do not call these outside of catacurse.cpp
+//non-curses functions, Do not call these in the main game code
 void WinDestroy();
 bool WinCreate(bool initgl);
 void CheckMessages();
 int FindWin(WINDOW *wnd);
-LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,u_int32_t Msg,WPARAM wParam, LPARAM lParam);
 #endif

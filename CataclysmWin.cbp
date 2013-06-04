@@ -37,7 +37,6 @@
 		<Unit filename="building_generation.h" />
 		<Unit filename="calendar.cpp" />
 		<Unit filename="calendar.h" />
-		<Unit filename="catacurse.cpp" />
 		<Unit filename="catacurse.h" />
 		<Unit filename="catajson.cpp" />
 		<Unit filename="catajson.h" />
@@ -191,6 +190,7 @@
 		<Unit filename="weather.cpp" />
 		<Unit filename="weather.h" />
 		<Unit filename="weather_data.cpp" />
+		<Unit filename="wincurse.cpp" />
 		<Unit filename="wish.cpp" />
 		<Extensions>
 			<code_completion />

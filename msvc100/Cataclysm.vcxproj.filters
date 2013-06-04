@@ -39,9 +39,6 @@
     <ClCompile Include="..\calendar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\catacurse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\catajson.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -283,6 +280,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\weather_data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\wincurse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\wish.cpp">

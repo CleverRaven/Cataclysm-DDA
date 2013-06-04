@@ -1,4 +1,4 @@
-#if (defined _WIN32 || defined WINDOWS)
+#if ((!defined TILES) && (defined _WIN32 || defined WINDOWS))
 #include "catacurse.h"
 #include "options.h"
 #include "output.h"
@@ -39,6 +39,9 @@ int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-n
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
+
+// declare this locally, because it's not generally cross-compatible in catacurse.h
+LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,u_int32_t Msg,WPARAM wParam, LPARAM lParam);
 
 //Registers, creates, and shows the Window!!
 bool WinCreate()
