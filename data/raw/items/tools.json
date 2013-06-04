@@ -3699,7 +3699,7 @@
     "description": "A decent sized piece of cotton designed for medical purposes.",
     "rarity": 60,
     "price": 35,
-    "material": ["COTTON", "NULL"],
+    "material": "cotton",
     "weight": 0,
     "volume": 0,
     "bashing": 0,

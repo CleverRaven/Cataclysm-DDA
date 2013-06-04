@@ -1864,7 +1864,7 @@
         "symbol" : "=",
         "color" : "white",
         "description" : "A roll of medical tape, similar to duct tape.",
-        "material" : "PLASTIC",
+        "material" : "plastic",
         "volume" : 0,
         "weight" : 0,
         "bashing" : 0,

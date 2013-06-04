@@ -4374,7 +4374,7 @@
         "nutrition" : 0,
         "description" : "A powerful disinfectant commonly used for contaminated wounds.",
         "price" : 350,
-        "material" : "PLASTIC",
+        "material" : "plastic",
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,

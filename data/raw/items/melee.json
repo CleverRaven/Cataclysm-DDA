@@ -1921,7 +1921,7 @@
     "description": "10 plastic bags, folded smooth and wrapped tightly together with a string.",
     "rarity": 2,
     "price": 5,
-    "material": "PLASTIC",
+    "material": "plastic",
     "weight": 0,
     "volume": 5,
     "bashing": -20,
