@@ -48,7 +48,7 @@
 #define EXPLOSION_SPEED 70000000
 
 #define PICKUP_RANGE 2
-
+extern bool trigdist;
 enum tut_type {
  TUT_NULL,
  TUT_BASIC, TUT_COMBAT,

@@ -354,7 +354,7 @@ void monster::friendly_move(game *g)
 {
  point next;
  bool moved = false;
- moves -= 100;
+ moves -= 100; // fixme
  if (plans.size() > 0 && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
      (can_move_to(g, plans[0].x, plans[0].y) ||
      (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
@@ -703,13 +703,20 @@ void monster::move_to(game *g, int x, int y)
    moves = 0;
    return;
   }
+  
   if (plans.size() > 0)
    plans.erase(plans.begin());
   if (has_flag(MF_SWIMS) && g->m.has_flag(swimmable, x, y))
-   moves += 50;
+   moves += 50 * (trigdist && x != posx && y != posy ? 1.41 : 1 );
   if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
-      (!has_flag(MF_SWIMS) || !g->m.has_flag(swimmable, x, y)))
-   moves -= (g->m.move_cost(x, y) - 2) * 50;
+      (!has_flag(MF_SWIMS) || !g->m.has_flag(swimmable, x, y))) {
+     moves -= (g->m.move_cost(x, y) - 2) * 50 * (trigdist && x != posx && y != posy ? 1.41 : 1 );
+  } else if (trigdist && x != posx && y != posy) {
+     moves -= 41;
+  }
+/* else {
+   moves /= (trigdist && x != posx && y != posy ? 1.41 : 1 );
+  }*/
   posx = x;
   posy = y;
   footsteps(g, x, y);
@@ -767,10 +774,11 @@ void monster::stumble(game *g, bool moved)
  }
 
  int choice = rng(0, valid_stumbles.size() - 1);
+ bool diagonal=(posx != valid_stumbles[choice].x && posy != valid_stumbles[choice].y);
  posx = valid_stumbles[choice].x;
  posy = valid_stumbles[choice].y;
  if (!has_flag(MF_DIGS) || !has_flag(MF_FLIES))
-  moves -= (g->m.move_cost(posx, posy) - 2) * 50;
+  moves -= (g->m.move_cost(posx, posy) - 2) * 50 * (trigdist && diagonal ? 1.41 : 1 );
  // Here we have to fix our plans[] list,
  // acquiring a new path to the previous target.
  // target == either end of current plan, or the player.
@@ -912,7 +920,7 @@ int monster::turns_to_reach(game *g, int x, int y)
   if (g->m.move_cost(path[i].x, path[i].y) == 0) // We have to bash through
    turns += 5;
   else
-   turns += double(50 * g->m.move_cost(path[i].x, path[i].y)) / speed;
+   turns += double(50 * g->m.move_cost(path[i].x, path[i].y) * (trigdist && x != posx && y != posy ? 1.414 : 1 )) / speed;
  }
  return int(turns + .9); // Round up
 }
