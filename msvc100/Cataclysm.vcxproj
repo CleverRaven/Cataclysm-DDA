@@ -74,7 +74,6 @@
     <ClCompile Include="..\bodypart.cpp" />
     <ClCompile Include="..\building_generation.cpp" />
     <ClCompile Include="..\calendar.cpp" />
-    <ClCompile Include="..\catacurse.cpp" />
     <ClCompile Include="..\catajson.cpp" />
     <ClCompile Include="..\color.cpp" />
     <ClCompile Include="..\computer.cpp" />
@@ -156,6 +155,7 @@
     <ClCompile Include="..\version.cpp" />
     <ClCompile Include="..\weather.cpp" />
     <ClCompile Include="..\weather_data.cpp" />
+    <ClCompile Include="..\wincurse.cpp" />
     <ClCompile Include="..\wish.cpp" />
   </ItemGroup>
   <ItemGroup>
