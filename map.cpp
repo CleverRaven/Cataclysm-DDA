@@ -2797,21 +2797,20 @@ void map::debug()
 void map::draw(game *g, WINDOW* w, const point center)
 {
  g->reset_light_level();
+ const int g_light_level = (int)g->light_level();
  const int natural_sight_range = g->u.sight_range(1);
- const int light_sight_range = g->u.sight_range(g->light_level());
- const int lowlight_sight_range = std::max((int)g->light_level() / 2, natural_sight_range);
+ const int light_sight_range = g->u.sight_range(g_light_level);
+ const int lowlight_sight_range = std::max(g_light_level / 2, natural_sight_range);
  const int max_sight_range = g->u.unimpaired_range();
+ const bool u_is_boomered = g->u.has_disease(DI_BOOMERED);
+ const int u_clairvoyance = g->u.clairvoyance();
+ const bool u_sight_impaired = g->u.sight_impaired();
 
  for (int i = 0; i < my_MAPSIZE * my_MAPSIZE; i++) {
   if (!grid[i])
    debugmsg("grid %d (%d, %d) is null! mapbuffer size = %d",
             i, i % my_MAPSIZE, i / my_MAPSIZE, MAPBUFFER.size());
  }
-
- const bool u_is_boomered = g->u.has_disease(DI_BOOMERED);
- const int  u_clairvoyance = g->u.clairvoyance();
- const bool u_sight_impaired = g->u.sight_impaired();
- const int  g_light_level = (int)g->light_level();
 
  for  (int realx = center.x - getmaxx(w)/2; realx <= center.x + getmaxx(w)/2; realx++) {
   for (int realy = center.y - getmaxy(w)/2; realy <= center.y + getmaxy(w)/2; realy++) {
@@ -2823,7 +2822,7 @@ void map::draw(game *g, WINDOW* w, const point center)
    if (!is_outside(realx, realy)) {
     sight_range = natural_sight_range;
    // Don't display area as shadowy if it's outside and illuminated by natural light
-   } else if (dist <= g->u.sight_range(g_light_level)) {
+   } else if (dist <= light_sight_range) {
     low_sight_range = std::max(g_light_level, natural_sight_range);
     bRainOutside = true;
    }

@@ -856,12 +856,15 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
             if (use_container && used_item_contents)
             {
                 stack_iter = iter->erase(stack_iter);
-                --stack_iter;
                 if (iter->empty())
                 {
                     iter = items.erase(iter);
                     --iter;
                     stack_iter = iter->begin();
+                }
+                else
+                {
+                    --stack_iter;
                 }
             }
             else if (stack_iter->type->id == it && quantity > 0)
@@ -869,12 +872,15 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                 ret.push_back(*stack_iter);
                 quantity--;
                 stack_iter = iter->erase(stack_iter);
-                --stack_iter;
                 if (iter->empty())
                 {
                     iter = items.erase(iter);
                     --iter;
                     stack_iter = iter->begin();
+                }
+                else
+                {
+                    --stack_iter;
                 }
             }
         }
@@ -931,12 +937,15 @@ std::list<item> inventory::use_charges(itype_id it, int quantity)
                     if (stack_iter->destroyed_at_zero_charges())
                     {
                         stack_iter = iter->erase(stack_iter);
-                        --stack_iter;
                         if (iter->empty())
                         {
                             iter = items.erase(iter);
                             --iter;
                             break;
+                        }
+                        else
+                        {
+                            --stack_iter;
                         }
                     }
                     else

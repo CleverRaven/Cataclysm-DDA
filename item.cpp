@@ -1231,7 +1231,11 @@ style_move item::style_data(technique_id tech)
 
 bool item::is_two_handed(player *u)
 {
-  return (weight() > u->str_cur * 4);
+    if (has_flag("ALWAYS_TWOHAND"))
+    {
+        return true;
+    }
+    return (weight() > u->str_cur * 4);
 }
 
 bool item::made_of(std::string mat_ident) const
