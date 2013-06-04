@@ -6,920 +6,1018 @@
 
 void game::init_mapitems()
 {
- setvector(mapitems[mi_child_items],
-  itm_chocolate, itm_candy, itm_crack, itm_bat, itm_backpack, itm_pockknife, NULL);
+ setvector(&mapitems[mi_child_items],
+  "chocolate", "candy", "crack", "bat", "backpack", "pockknife", "mag_comic", NULL);
 
  setvector(
-   mapitems[mi_field],
-	itm_rock, itm_strawberries, NULL);
+   &mapitems[mi_field],
+	"rock", "strawberries", NULL);
 
  setvector(
-   mapitems[mi_forest],
-	itm_rock, itm_stick, itm_mushroom, itm_mushroom_poison,
-	itm_mushroom_magic, itm_blueberries, NULL);
+   &mapitems[mi_forest],
+	"rock", "stick", "mushroom", "mushroom_poison",
+	"mushroom_magic", "blueberries", NULL);
 
  setvector(
-   mapitems[mi_hive],
-	itm_honeycomb, NULL);
+   &mapitems[mi_hive],
+	"honeycomb", NULL);
 
  setvector(
-   mapitems[mi_hive_center],
-	itm_honeycomb, itm_royal_jelly, NULL);
+   &mapitems[mi_hive_center],
+	"honeycomb", "royal_jelly", NULL);
 
  setvector(
-   mapitems[mi_road],
-	itm_muffler, itm_pipe, itm_motor, itm_seat,
-   itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
-   itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion,
-   itm_v8_combustion, itm_foot_crank, NULL);
+   &mapitems[mi_road],
+   "muffler", "pipe", "motor", "seat", "saddle",
+   "wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
+   "1cyl_combustion", "v2_combustion", "i4_combustion", "v6_combustion",
+   "v8_combustion", "foot_crank", "flyer", NULL);
 
  setvector(
-   mapitems[mi_livingroom],
-	itm_rootbeer, itm_pizza, itm_cola, itm_cig, itm_cigar, itm_weed,
-	itm_coke, itm_meth, itm_sneakers, itm_socks, itm_boots, itm_boots_winter, itm_socks_wool,
-	itm_flip_flops, itm_dress_shoes, itm_heels, itm_coat_rain, itm_poncho,
-	itm_gloves_light, itm_mittens, itm_gloves_light, itm_mittens,
-	itm_armguard_soft, itm_armguard_hard,
-	itm_gloves_wool, itm_gloves_winter, itm_gloves_liner, itm_gloves_leather,
-	itm_gloves_fingerless, itm_bandana, itm_scarf, itm_hat_cotton,
-	itm_hat_knit, itm_hat_fur, itm_helmet_bike, itm_helmet_motor,
-	itm_mag_tv, itm_mag_news, itm_lighter, itm_extinguisher, itm_mp3,
-	itm_usb_drive, itm_sneakers_fit, itm_boots_fit, itm_boots_steel_fit,
-        itm_boots_winter_fit, itm_dress_shoes_fit, itm_heels_fit, NULL);
+   &mapitems[mi_livingroom],
+	"rootbeer", "cola", "cig", "cigar", "weed",
+	"coke", "meth", "sneakers", "boots", "boots_winter",
+	"flip_flops", "dress_shoes", "heels", "coat_rain", "poncho",
+	"gloves_light", "mittens",
+	"armguard_soft", "armguard_hard",
+	"gloves_wool", "gloves_winter", "gloves_liner", "gloves_leather",
+	"gloves_fingerless", "bandana", "scarf", "hat_cotton",
+	"hat_knit", "hat_fur", "helmet_bike", "helmet_motor",
+	"mag_tv", "mag_news", "lighter", "matches", "extinguisher", "mp3",
+	"usb_drive", "beer", NULL);
 
  setvector(
-   mapitems[mi_kitchen],
-	itm_chips, itm_pot, itm_pan, itm_knife_butter, itm_knife_steak, itm_knife_butcher,
-	itm_cookbook, itm_rag, itm_hotplate, itm_flashlight, itm_extinguisher,
-	itm_whiskey, itm_bleach, itm_ammonia, itm_flour, itm_sugar, itm_salt,
-	itm_tea_raw, itm_coffee_raw,
+   &mapitems[mi_kitchen],
+	"chips", "pot", "pan", "knife_butter", "knife_steak", "knife_butcher",
+	"cookbook", "rag", "hotplate", "flashlight", "extinguisher",
+	"whiskey", "bleach", "ammonia", "flour", "sugar", "salt",
+	"tea_raw", "coffee_raw", "funnel", "vac_sealer",
+	"seasoning_italian", "cookbook_italian", "chips2", "chips3",
+	"pizza_veggy", "pizza_meat", "heatpack", "can_beans", "can_corn",
+	"can_spam", "can_pineapple", "can_coconut", "can_sardine",
+	"can_tuna", "broth", "soup_veggy", "soup_meat", "spaghetti_raw",
+	"macaroni_raw", "ravioli", "sauce_red", "sauce_pesto", "bread",
 	NULL);
 
  setvector(
-   mapitems[mi_knifeblock],
-    itm_knife_steak, itm_knife_butcher, itm_knife_combat, itm_pockknife,
+   &mapitems[mi_knifeblock],
+    "knife_steak", "knife_butcher", "knife_combat", "pockknife",
     NULL);
 
  setvector(
-   mapitems[mi_fridge],
-	itm_water_clean, itm_oj, itm_cola, itm_rootbeer, itm_milk, itm_V8, itm_apple,
-	itm_sandwich_t, itm_mushroom, itm_blueberries, itm_strawberries,
-	itm_tomato, itm_broccoli, itm_zucchini, itm_frozen_dinner, itm_vodka,
-	itm_apple_cider, itm_jihelucake, NULL);
+   &mapitems[mi_fridge],
+	"water_clean", "oj", "cola", "rootbeer", "milk", "V8", "apple",
+	"sandwich_t", "mushroom", "blueberries", "strawberries",
+	"tomato", "broccoli", "zucchini", "frozen_dinner", "vodka",
+	"apple_cider", "jihelucake", "beer", "pizza_meat", "pizza_veggy",
+	"orange", "lemon", "potato_raw", NULL);
 
  setvector(
-   mapitems[mi_home_hw],
-	itm_superglue, itm_string_6, itm_string_36, itm_screwdriver, itm_wrench,
-	itm_hacksaw, itm_xacto, itm_gloves_leather, itm_mask_dust,
-	itm_glasses_safety, itm_battery, itm_nail, itm_nailgun,
-	itm_manual_mechanics, itm_hammer, itm_flashlight, itm_soldering_iron,
-	itm_bubblewrap, itm_binoculars, itm_duct_tape, itm_lawnmower, itm_foot_crank,
-        itm_boltcutters, itm_spray_can, NULL);
+   &mapitems[mi_home_hw],
+	"superglue", "string_6", "string_36", "screwdriver", "wrench",
+	"hacksaw", "xacto", "gloves_leather", "mask_dust",
+	"glasses_safety", "battery", "nail", "nailgun",
+  "solar_cell",
+	"manual_mechanics", "hammer", "flashlight", "soldering_iron",
+	"bubblewrap", "binoculars", "duct_tape", "lawnmower", "foot_crank",
+        "boltcutters", "spray_can", "jar_glass", "bearing", NULL);
 
  setvector(
-   mapitems[mi_bedroom],
-	itm_inhaler, itm_cig, itm_cigar, itm_weed, itm_coke, itm_meth,
-	itm_heroin, itm_sneakers, itm_socks, itm_mocassins, itm_bandana, itm_glasses_eye, itm_sunglasses,
-	itm_glasses_reading, itm_hat_ball, itm_backpack, itm_purse, itm_mbag,
-	itm_fanny, itm_battery, itm_bb, itm_bbgun, itm_mag_porn, itm_mag_tv,
-	itm_mag_news, itm_novel_romance, itm_novel_drama, itm_manual_mechanics,
-	itm_manual_speech, itm_manual_business, itm_manual_computers,
-	itm_lighter, itm_sewing_kit, itm_thread, itm_scissors, itm_soldering_iron,
-	itm_radio, itm_syringe, itm_mp3, itm_usb_drive,
-        itm_sneakers_fit, itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
-        itm_dress_shoes_fit, itm_heels_fit, itm_chips, itm_cola, itm_picklocks, NULL);
+   &mapitems[mi_bedroom],
+	"inhaler", "cig", "cigar", "weed", "coke", "meth",
+	"heroin", "sneakers", "socks", "mocassins", "bandana", "glasses_eye", "sunglasses",
+   "glasses_reading", "glasses_bifocal", "hat_ball", "backpack", "purse", "mbag",
+	"fanny", "battery", "bb", "bbgun", "mag_porn", "mag_tv", "mag_gaming",
+	"mag_news", "novel_romance", "novel_drama", "novel_mystery", "manual_mechanics",
+	"manual_speech", "manual_business", "manual_computers",
+	"lighter", "matches", "sewing_kit", "thread", "scissors", "soldering_iron",
+	"radio", "syringe", "mp3", "usb_drive", "firecracker_pack", "firecracker",
+	"chips", "cola", "picklocks", "wolfsuit", "glowstick", "blanket", "house_coat", NULL);
 
  setvector(
-   mapitems[mi_homeguns],
-	itm_22_lr, itm_9mm, itm_crossbow, itm_sig_mosquito, itm_sw_22,
-	itm_glock_19, itm_usp_9mm, itm_sw_619, itm_taurus_38, itm_sig_40,
-	itm_sw_610, itm_ruger_redhawk, itm_deagle_44, itm_usp_45, itm_m1911,
-	itm_fn57, itm_mac_10, itm_shotgun_sawn, itm_silencer, itm_grip,
-	itm_clip, itm_spare_mag, itm_grenade, itm_EMPbomb, itm_gasbomb, itm_tazer,
-	itm_longbow, itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_u_shotgun, itm_shot_hull,
-        itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
-        itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
-        itm_3006_casing, itm_308_casing, itm_gunpowder,
-        itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
-        itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_puller, itm_press, NULL);
+   &mapitems[mi_homeguns],
+	"22_lr", "9mm", "crossbow", "sig_mosquito", "sw_22",
+	"glock_19", "usp_9mm", "sw_619", "taurus_38", "sig_40",
+	"sw_610", "ruger_redhawk", "deagle_44", "usp_45", "m1911",
+	"fn57", "mac_10", "shotgun_sawn", "suppressor", "grip",
+	"clip", "spare_mag", "grenade", "EMPbomb", "gasbomb", "tazer",
+	"longbow", "compbow", "arrow_wood", "arrow_cf", "u_shotgun", "shot_hull",
+        "9mm_casing", "38_casing", "40_casing", "44_casing", "45_casing",
+        "57mm_casing", "46mm_casing", "762_casing", "223_casing",
+        "3006_casing", "308_casing", "gunpowder",
+        "shotgun_primer", "smpistol_primer", "lgpistol_primer",
+        "smrifle_primer", "lgrifle_primer", "lead", "puller", "press", NULL);
 
  setvector(
-   mapitems[mi_dresser],
-	itm_jeans, itm_shorts, itm_pants, itm_pants_leather, itm_pants_cargo, itm_shorts_cargo, itm_skirt,
-	itm_dress, itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top,
-	itm_sweatshirt, itm_sweater, itm_hoodie, itm_jacket_light,
-	itm_jacket_jean, itm_blazer, itm_jacket_leather, itm_poncho,
-	itm_trenchcoat, itm_peacoat, itm_vest, itm_mag_porn, itm_lighter,
-	itm_sewing_kit, itm_thread, itm_flashlight, itm_suit, itm_tophat,
-	itm_glasses_monocle, itm_duct_tape,
-        itm_jeans_fit, itm_pants_fit, itm_pants_cargo_fit,
-        itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
-        itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,
-
-        NULL);
+   &mapitems[mi_dresser],
+	"jeans", "shorts", "pants", "pants_leather", "pants_cargo", "shorts_cargo", "skirt",
+  "dress", "tshirt", "polo_shirt", "dress_shirt", "tank_top",
+	"sweatshirt", "sweater", "hoodie", "jacket_light",
+	"jacket_jean", "blazer", "jacket_leather", "poncho",
+	"trenchcoat", "peacoat", "vest", "mag_porn", "lighter",
+	"sewing_kit", "thread", "flashlight", "suit", "tophat",
+	"glasses_monocle", "duct_tape", "firecracker_pack", "firecracker",
+ "wolfsuit", "snuggie", "flyer", "socks", "socks_wool",
+    NULL);
 
  setvector(
-   mapitems[mi_dining],
-	itm_wrapper, itm_knife_butter, itm_knife_steak, itm_bottle_glass,
+   &mapitems[mi_dining],
+	"wrapper", "knife_butter", "knife_steak", "bottle_glass",
 	NULL);
 
  setvector(
-   mapitems[mi_snacks],
-	itm_chips, itm_pretzels, itm_chocolate, itm_jerky, itm_candy,
-	itm_tea_raw, itm_coffee_raw, itm_chips2, itm_chips3, NULL);
+   &mapitems[mi_snacks],
+	"chips", "pretzels", "chocolate", "jerky", "candy",
+	"tea_raw", "coffee_raw", "chips2", "chips3", NULL);
 
  setvector(
-   mapitems[mi_fridgesnacks],
-	itm_water_clean, itm_oj, itm_apple_cider, itm_energy_drink, itm_cola,
-	itm_rootbeer, itm_milk, itm_V8, itm_sandwich_t, itm_frozen_dinner,
-	itm_pizza, itm_pie, NULL);
+   &mapitems[mi_fridgesnacks],
+	"water_clean", "oj", "apple_cider", "energy_drink", "cola",
+	"rootbeer", "milk", "V8", "sandwich_t", "frozen_dinner",
+	"pizza_veggy", "pizza_meat", "pie", NULL);
 
  setvector(
-   mapitems[mi_behindcounter],
-	itm_aspirin, itm_caffeine, itm_cig, itm_cigar, itm_battery,
-	itm_shotgun_sawn, itm_mag_porn, itm_lighter, itm_flashlight,
-	itm_extinguisher, itm_tazer, itm_mp3, itm_roadmap, NULL);
+   &mapitems[mi_fast_food],
+	"water_clean", "cola", "rootbeer", "sandwich_t", "sandwich_t", "sandwich_t", "pizza_veggy", "pizza_meat",
+	"pie", "chips", "candy", NULL);
 
  setvector(
-   mapitems[mi_magazines],
-	itm_mag_tv, itm_mag_news, itm_mag_cars, itm_mag_cooking,
-	itm_novel_romance, itm_novel_spy, itm_mag_carpentry,
-	itm_mag_guns, itm_mag_archery, NULL);
+   &mapitems[mi_coffee_shop],
+	"water_clean", "cola", "rootbeer", "sandwich_t", "pizza_veggy", "pizza_meat", "pretzels", "chocolate", "jerky", "candy",
+	"tea_raw", "pie", "chips", "candy", "coffee_raw", "coffee_raw", "coffee_raw", "coffee_raw", NULL);
 
  setvector(
-   mapitems[mi_softdrugs],
-	itm_bandages, itm_1st_aid, itm_vitamins, itm_aspirin, itm_caffeine,
-	itm_pills_sleep, itm_iodine, itm_dayquil, itm_nyquil, NULL);
+   &mapitems[mi_behindcounter],
+	"aspirin", "caffeine", "cig", "cigar", "battery",
+	"shotgun_sawn", "mag_porn", "lighter", "matches", "flashlight",
+	"extinguisher", "tazer", "mp3", "roadmap", NULL);
 
  setvector(
-   mapitems[mi_harddrugs],
-	itm_inhaler, itm_codeine, itm_oxycodone, itm_tramadol, itm_xanax,
-	itm_adderall, itm_thorazine, itm_prozac, itm_antibiotics, itm_syringe,
+   &mapitems[mi_magazines],
+	"mag_tv", "mag_news", "mag_cars", "mag_cooking",
+	"novel_romance", "novel_spy", "mag_carpentry", "mag_comic",
+	"mag_guns", "mag_archery", "novel_horror", "novel_mystery", "novel_fantasy",
+	"mag_dodge","mag_comic","mag_throwing", "novel_firstaid",
+ "mag_gaming", "Mag_swimming", "flyer", NULL);
+
+ setvector(
+   &mapitems[mi_softdrugs],
+	"bandages", "1st_aid", "vitamins", "aspirin", "caffeine",
+   "pills_sleep", "iodine", "dayquil", "nyquil", "disinfectant", NULL);
+
+ setvector(
+   &mapitems[mi_harddrugs],
+	"inhaler", "codeine", "oxycodone", "tramadol", "xanax",
+	"adderall", "thorazine", "prozac", "antibiotics", "syringe",
 	 NULL);
 
  setvector(
-   mapitems[mi_cannedfood],
-	itm_can_beans, itm_can_corn, itm_can_spam, itm_can_pineapple,
-	itm_can_coconut, itm_can_sardine, itm_can_tuna, itm_can_catfood,
-	itm_broth, itm_soup_veggy, itm_soup_meat, itm_flour, itm_sugar, itm_salt, NULL);
+   &mapitems[mi_cannedfood],
+	"can_beans", "can_corn", "can_spam", "can_pineapple",
+	"can_coconut", "can_sardine", "can_tuna", "can_catfood",
+	"broth", "soup_veggy", "soup_meat", "flour", "sugar", "salt", NULL);
 
  setvector(
-   mapitems[mi_pasta],
-	itm_spaghetti_raw, itm_macaroni_raw, itm_ravioli, itm_sauce_red,
-	itm_sauce_pesto, itm_bread, NULL);
+   &mapitems[mi_pasta],
+	"spaghetti_raw", "macaroni_raw", "ravioli", "sauce_red",
+	"sauce_pesto", "bread", "seasoning_italian", NULL);
 
  setvector(
-   mapitems[mi_produce],
-	itm_apple, itm_orange, itm_lemon, itm_mushroom, itm_potato_raw,
-	itm_blueberries, itm_strawberries, itm_tomato, itm_broccoli,
-	itm_zucchini, NULL);
+   &mapitems[mi_produce],
+	"apple", "orange", "lemon", "mushroom", "potato_raw",
+	"blueberries", "strawberries", "tomato", "broccoli",
+	"zucchini", NULL);
 
  setvector(
-   mapitems[mi_cleaning],
-	itm_salt_water, itm_bleach, itm_ammonia, itm_broom, itm_mop,
-	itm_gloves_rubber, itm_mask_dust, itm_bottle_plastic, itm_sewing_kit, itm_thread,
-	itm_rag, itm_scissors, itm_string_36, NULL);
+   &mapitems[mi_cleaning],
+	"salt_water", "bleach", "ammonia", "broom", "mop",
+	"gloves_rubber", "mask_dust", "bottle_plastic", "sewing_kit", "thread",
+	"rag", "scissors", "string_36", NULL);
 
  setvector(
-   mapitems[mi_hardware],
-	itm_superglue, itm_chain, itm_rope_6, itm_rope_30, itm_glass_sheet,
-	itm_pipe, itm_nail, itm_hose, itm_string_36, itm_frame, itm_metal_tank,
-	itm_wire, itm_wire_barbed, itm_duct_tape, itm_jerrycan, itm_lawnmower,
-	itm_foot_crank, itm_spray_can, itm_ax,
+   &mapitems[mi_hardware],
+	"superglue", "chain", "rope_6", "rope_30", "glass_sheet",
+	"pipe", "nail", "hose", "string_36", "frame", "metal_tank",
+	"wire", "wire_barbed", "duct_tape", "jerrycan", "lawnmower",
+  "foot_crank", "spray_can", "ax", "jerrycan_big", "funnel", "bearing", "jack", 
 	NULL);
 
  setvector(
-   mapitems[mi_tools],
-	itm_screwdriver, itm_hammer, itm_wrench, itm_saw, itm_hacksaw,
-	itm_hammer_sledge, itm_xacto, itm_flashlight, itm_crowbar, itm_nailgun,
-	itm_press, itm_puller, itm_boltcutters, itm_ax, NULL);
+   &mapitems[mi_tools],
+	"screwdriver", "hammer", "wrench", "saw", "hacksaw",
+	"hammer_sledge", "xacto", "flashlight", "crowbar", "nailgun",
+	"press", "puller", "boltcutters", "ax", NULL);
 
  setvector(
-   mapitems[mi_bigtools],
-	itm_broom, itm_mop, itm_hoe, itm_shovel, itm_chainsaw_off,
-	itm_hammer_sledge, itm_jackhammer, itm_jacqueshammer, itm_welder, itm_ax, NULL);
+   &mapitems[mi_bigtools],
+	"broom", "mop", "hoe", "shovel", "chainsaw_off",
+	"hammer_sledge", "jackhammer", "jacqueshammer", "welder", "ax", NULL);
 
  setvector(
-   mapitems[mi_mischw],
-	itm_2x4, itm_machete, itm_boots_steel, itm_hat_hard, itm_mask_filter,
-	itm_glasses_safety, itm_bb, itm_bbgun, itm_beartrap, itm_two_way_radio,
-	itm_radio, itm_hotplate, itm_extinguisher, itm_nailgun,
-	itm_manual_mechanics, itm_manual_carpentry, itm_mag_carpentry,
-	itm_duct_tape, itm_lawnmower, itm_boltcutters,
-	itm_foot_crank, itm_cable, itm_textbook_mechanics, NULL);
+   &mapitems[mi_mischw],
+	"2x4", "machete", "boots_steel", "hat_hard", "mask_filter",
+	"glasses_safety", "bb", "bbgun", "beartrap", "two_way_radio",
+	"radio", "hotplate", "extinguisher", "nailgun",
+	"manual_mechanics", "manual_carpentry", "mag_carpentry",
+	"duct_tape", "lawnmower", "boltcutters",
+	"foot_crank", "cable", "textbook_mechanics", "vac_sealer", NULL);
 
  setvector(
-   mapitems[mi_consumer_electronics],
-	itm_amplifier, itm_antenna, itm_battery, itm_soldering_iron,
-	itm_screwdriver, itm_processor, itm_RAM, itm_mp3, itm_flashlight,
-	itm_radio, itm_hotplate, itm_receiver, itm_transponder, itm_tazer,
-	itm_two_way_radio, itm_usb_drive, itm_manual_electronics, itm_cable, NULL);
+   &mapitems[mi_consumer_electronics],
+  "amplifier", "antenna", "battery", "soldering_iron", "solar_cell",
+	"screwdriver", "processor", "RAM", "mp3", "flashlight",
+	"radio", "hotplate", "receiver", "transponder", "tazer",
+	"two_way_radio", "usb_drive", "manual_electronics", "cable",
+    "vac_sealer", NULL);
 
  setvector(
-   mapitems[mi_sports],
-	itm_bandages, itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_socks, itm_tshirt,
-	itm_tank_top, itm_gloves_fingerless, itm_glasses_safety, itm_tshirt_fit,
-	itm_armguard_soft, itm_armguard_hard,
-	itm_goggles_swim, itm_goggles_ski, itm_hat_ball, itm_helmet_bike,
-	itm_helmet_ball, itm_manual_brawl, itm_foot_crank, NULL);
+   &mapitems[mi_sports],
+	"bandages", "aspirin", "bat", "bat_metal", "sneakers", "socks", "tshirt",
+	"tank_top", "gloves_fingerless", "glasses_safety", "armguard_soft", "armguard_hard",
+	"goggles_swim", "goggles_ski", "hat_ball", "helmet_bike",
+	"helmet_ball", "manual_brawl", "foot_crank", "glowstick", NULL);
 
  setvector(
-   mapitems[mi_camping],
-	itm_rope_30, itm_hatchet, itm_pot, itm_pan, itm_binoculars,
-	itm_hotplate, itm_knife_combat, itm_machete, itm_vest, itm_backpack,
-	itm_bb, itm_bolt_steel, itm_bbgun, itm_crossbow, itm_manual_knives,itm_manual_survival,
-	itm_manual_first_aid, itm_manual_traps, itm_lighter, itm_sewing_kit, itm_thread,
-	itm_hammer, itm_flashlight, itm_water_purifier, itm_radio, itm_beartrap,
-        itm_UPS_off, itm_string_36, itm_longbow, itm_compbow, itm_arrow_wood,
-        itm_arrow_cf, itm_wire, itm_rollmat, itm_tent_kit, itm_canteen, itm_ax, NULL);
+   &mapitems[mi_camping],
+	"rope_30", "hatchet", "pot", "pan", "binoculars", "firecracker_pack",
+	"hotplate", "knife_combat", "machete", "vest", "backpack",
+	"bb", "bolt_steel", "bbgun", "crossbow", "manual_knives","manual_survival",
+	"manual_first_aid", "manual_traps", "lighter", "matches", "sewing_kit", "thread",
+	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
+ "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
+ "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
+ "heatpack", "glowstick", "emer_blanket", "cloak", "sleeping_bag", "gasoline_lantern", NULL);
 
 
  setvector(
-   mapitems[mi_allsporting],
-	itm_aspirin, itm_bat, itm_bat_metal, itm_sneakers, itm_socks, itm_tshirt, itm_tank_top,
-	itm_gloves_fingerless, itm_glasses_safety, itm_goggles_swim,
-	itm_armguard_soft, itm_armguard_hard,
-	itm_goggles_ski, itm_hat_ball, itm_helmet_bike, itm_helmet_ball,
-	itm_manual_brawl, itm_rope_30, itm_hatchet, itm_pot, itm_pan,
-	itm_binoculars, itm_hotplate, itm_knife_combat, itm_machete, itm_vest,
-	itm_backpack, itm_bb, itm_bolt_steel, itm_bbgun, itm_crossbow,
-	itm_manual_knives, itm_manual_first_aid, itm_manual_traps, itm_lighter,
-	itm_sewing_kit, itm_thread, itm_hammer, itm_flashlight, itm_water_purifier,
-	itm_radio, itm_beartrap, itm_extinguisher, itm_string_36, itm_longbow,
-	itm_compbow, itm_arrow_wood, itm_arrow_cf, itm_rollmat, itm_tent_kit,
-	itm_tshirt_fit, itm_foot_crank, itm_mag_archery, NULL);
+   &mapitems[mi_allsporting],
+	"aspirin", "bat", "bat_metal", "sneakers", "socks", "tshirt", "tank_top",
+	"gloves_fingerless", "glasses_safety", "goggles_swim",
+	"armguard_soft", "armguard_hard", "mag_firstaid", "mag_throwing", "mag_swimming",
+	"goggles_ski", "hat_ball", "helmet_bike", "helmet_ball",
+	"manual_brawl", "rope_30", "hatchet", "pot", "pan",
+	"binoculars", "hotplate", "knife_combat", "machete", "vest",
+	"backpack", "bb", "bolt_steel", "bbgun", "crossbow",
+	"manual_knives", "manual_first_aid", "manual_traps", "lighter", "matches",
+	"sewing_kit", "thread", "hammer", "flashlight", "water_purifier",
+	"radio", "beartrap", "extinguisher", "string_36", "longbow",
+	"compbow", "arrow_wood", "arrow_cf", "rollmat", "tent_kit",
+    "foot_crank", "mag_archery", "heatpack", "glowstick", NULL);
 
  setvector(
-   mapitems[mi_alcohol],
-	itm_whiskey, itm_vodka, itm_gin, itm_rum, itm_tequila, itm_triple_sec, NULL);
+   &mapitems[mi_alcohol],
+  "whiskey", "vodka", "gin", "rum", "tequila", "triple_sec", "beer", NULL);
 
  setvector(
-   mapitems[mi_pool_table],
-	itm_pool_cue, itm_pool_ball, NULL);
+   &mapitems[mi_pool_table],
+	"pool_cue", "pool_ball", NULL);
 
  setvector(
-   mapitems[mi_trash],
-	itm_iodine, itm_meth, itm_heroin, itm_wrapper, itm_string_6, itm_chain,
-	itm_glass_sheet, itm_stick, itm_muffler, itm_pipe, itm_bag_plastic,
-	itm_bottle_plastic, itm_bottle_glass, itm_can_drink, itm_can_food,
-	itm_box_small, itm_bubblewrap, itm_lighter, itm_syringe, itm_rag,
-	itm_software_hacking, itm_jug_plastic, itm_spray_can, NULL);
+   &mapitems[mi_trash],
+	"iodine", "meth", "heroin", "wrapper", "string_6", "chain",
+	"glass_sheet", "stick", "muffler", "pipe", "bag_plastic",
+	"bottle_plastic", "bottle_glass", "can_drink", "can_food",
+	"box_small", "bubblewrap", "lighter", "matches", "syringe", "rag",
+	"software_hacking", "jug_plastic", "spray_can", "keg",
+ "jar_glass", "flyer", NULL);
 
  setvector(
-   mapitems[mi_ammo],
-	itm_shot_bird, itm_shot_00, itm_shot_slug, itm_22_lr, itm_22_cb,
-	itm_22_ratshot, itm_9mm, itm_9mmP, itm_9mmP2, itm_38_special,
-	itm_38_super, itm_10mm, itm_40sw, itm_44magnum, itm_45_acp, itm_45_jhp,
-	itm_45_super, itm_57mm, itm_46mm, itm_762_m43, itm_762_m87, itm_223,
-	itm_556, itm_270, itm_3006, itm_308, itm_762_51, NULL);
+   &mapitems[mi_ammo],
+	"shot_bird", "shot_00", "shot_slug", "22_lr", "22_cb",
+	"22_ratshot", "9mm", "9mmP", "9mmP2", "38_special",
+	"38_super", "10mm", "40sw", "44magnum", "45_acp", "45_jhp",
+	"45_super", "57mm", "46mm", "762_m43", "762_m87", "223",
+	"556", "270", "3006", "308", "762_51", NULL);
 
  setvector(
-   mapitems[mi_pistols],
-	itm_sig_mosquito, itm_sw_22, itm_glock_19, itm_usp_9mm, itm_sw_619,
-	itm_taurus_38, itm_sig_40, itm_sw_610, itm_ruger_redhawk, itm_deagle_44,
-	itm_usp_45, itm_m1911, itm_fn57, itm_hk_ucp, NULL);
+   &mapitems[mi_pistols],
+	"sig_mosquito", "sw_22", "glock_19", "usp_9mm", "sw_619",
+	"taurus_38", "sig_40", "sw_610", "ruger_redhawk", "deagle_44",
+	"usp_45", "m1911", "fn57", "hk_ucp", NULL);
 
  setvector(
-   mapitems[mi_shotguns],
-	itm_shotgun_s, itm_shotgun_d, itm_remington_870, itm_mossberg_500,
-	itm_saiga_12, NULL);
+   &mapitems[mi_shotguns],
+	"shotgun_s", "shotgun_d", "remington_870", "mossberg_500",
+	"saiga_12", NULL);
 
  setvector(
-   mapitems[mi_rifles],
-	itm_marlin_9a, itm_ruger_1022, itm_browning_blr, itm_remington_700,
-	itm_sks, itm_ruger_mini, itm_savage_111f, NULL);
+   &mapitems[mi_rifles],
+	"marlin_9a", "ruger_1022", "browning_blr", "remington_700",
+	"sks", "ruger_mini", "savage_111f", NULL);
 
  setvector(
-   mapitems[mi_smg],
-	itm_american_180, itm_uzi, itm_tec9, itm_calico, itm_hk_mp5, itm_mac_10,
-	itm_hk_ump45, itm_TDI, itm_fn_p90, itm_hk_mp7, NULL);
+   &mapitems[mi_smg],
+	"american_180", "uzi", "tec9", "calico", "hk_mp5", "mac_10",
+	"hk_ump45", "TDI", "fn_p90", "hk_mp7", NULL);
 
  setvector(
-   mapitems[mi_assault],
-	itm_hk_g3, itm_hk_g36, itm_ak47, itm_fn_fal, itm_acr, itm_ar15,
-	itm_scar_l, itm_scar_h, itm_steyr_aug, itm_m249, NULL);
+   &mapitems[mi_assault],
+	"hk_g3", "hk_g36", "ak47", "fn_fal", "acr", "ar15",
+	"scar_l", "scar_h", "steyr_aug", "m249", NULL);
 
  setvector(
-   mapitems[mi_allguns],
-	itm_sig_mosquito, itm_sw_22, itm_glock_19, itm_usp_9mm, itm_sw_619,
-	itm_taurus_38, itm_sig_40, itm_sw_610, itm_ruger_redhawk, itm_deagle_44,
-	itm_usp_45, itm_m1911, itm_fn57, itm_hk_ucp, itm_shotgun_s,
-	itm_shotgun_d, itm_remington_870, itm_mossberg_500, itm_saiga_12,
-	itm_american_180, itm_uzi, itm_tec9, itm_calico, itm_hk_mp5, itm_mac_10,
-	itm_hk_ump45, itm_TDI, itm_fn_p90, itm_hk_mp7, itm_marlin_9a,
-	itm_ruger_1022, itm_browning_blr, itm_remington_700, itm_sks,
-	itm_ruger_mini, itm_savage_111f, itm_hk_g3, itm_hk_g36, itm_ak47,
-	itm_fn_fal, itm_acr, itm_ar15, itm_scar_l, itm_scar_h, itm_steyr_aug,
-	itm_m249, NULL);
+   &mapitems[mi_allguns],
+	"sig_mosquito", "sw_22", "glock_19", "usp_9mm", "sw_619",
+	"taurus_38", "sig_40", "sw_610", "ruger_redhawk", "deagle_44",
+	"usp_45", "m1911", "fn57", "hk_ucp", "shotgun_s",
+	"shotgun_d", "remington_870", "mossberg_500", "saiga_12",
+	"american_180", "uzi", "tec9", "calico", "hk_mp5", "mac_10",
+	"hk_ump45", "TDI", "fn_p90", "hk_mp7", "marlin_9a",
+	"ruger_1022", "browning_blr", "remington_700", "sks",
+	"ruger_mini", "savage_111f", "hk_g3", "hk_g36", "ak47",
+	"fn_fal", "acr", "ar15", "scar_l", "scar_h", "steyr_aug",
+	"m249", NULL);
 
  setvector(
-   mapitems[mi_gunxtras],
-	itm_glasses_safety, itm_goggles_nv, itm_holster, itm_bootstrap,
-	itm_mag_guns, itm_mag_archery, itm_flashlight, itm_UPS_off, itm_silencer, itm_grip,
-	itm_barrel_big, itm_barrel_small, itm_barrel_rifled, itm_clip, itm_spare_mag,
-	itm_clip2, itm_stablizer, itm_blowback, itm_autofire, itm_retool_45,
-	itm_retool_9mm, itm_retool_22, itm_retool_57, itm_retool_46,
-	itm_retool_308, itm_retool_223, itm_tazer,itm_shot_hull,
-        itm_9mm_casing, itm_38_casing, itm_40_casing, itm_44_casing, itm_45_casing,
-        itm_57mm_casing, itm_46mm_casing, itm_762_casing, itm_223_casing,
-        itm_3006_casing, itm_308_casing, itm_gunpowder,
-        itm_shotgun_primer, itm_smpistol_primer, itm_lgpistol_primer,
-        itm_smrifle_primer, itm_lgrifle_primer, itm_lead, itm_press, itm_puller, NULL);
+   &mapitems[mi_gunxtras],
+	"glasses_safety", "goggles_nv", "holster", "bootstrap",
+	"mag_guns", "mag_archery", "flashlight", "UPS_off", "suppressor", "grip",
+	"barrel_big", "barrel_small", "barrel_rifled", "clip", "spare_mag",
+	"clip2", "stabilizer", "blowback", "autofire", "retool_45",
+	"retool_9mm", "retool_22", "retool_57", "retool_46",
+	"retool_308", "retool_223", "tazer","shot_hull",
+        "9mm_casing", "38_casing", "40_casing", "44_casing", "45_casing",
+        "57mm_casing", "46mm_casing", "762_casing", "223_casing",
+        "3006_casing", "308_casing", "gunpowder",
+        "shotgun_primer", "smpistol_primer", "lgpistol_primer",
+        "smrifle_primer", "lgrifle_primer", "lead", "press", "puller", NULL);
 
  setvector(
-   mapitems[mi_shoes],
-	itm_sneakers, itm_socks, itm_boots, itm_flip_flops, itm_dress_shoes, itm_heels,
-        itm_sneakers_fit, itm_boots_fit, itm_boots_winter_fit,
-        itm_dress_shoes_fit, itm_heels_fit, NULL);
+   &mapitems[mi_shoes],
+	"sneakers", "socks", "boots", "flip_flops", "dress_shoes", "heels",
+    NULL);
 
  setvector(
-   mapitems[mi_pants],
-	itm_jeans, itm_shorts, itm_pants, itm_pants_leather, itm_pants_cargo, itm_shorts_cargo, itm_skirt,
-	itm_dress,
-        itm_jeans_fit, itm_pants_fit, itm_pants_cargo_fit, NULL);
+   &mapitems[mi_pants],
+	"jeans", "shorts", "pants", "pants_leather", "pants_cargo", "shorts_cargo", "skirt",
+	"dress", NULL);
 
  setvector(
-   mapitems[mi_shirts],
-	itm_tshirt, itm_polo_shirt, itm_dress_shirt, itm_tank_top,
-	itm_sweatshirt, itm_sweater, itm_hoodie, itm_under_armor,
-        itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
-        itm_tshirt_fit, NULL);
+   &mapitems[mi_shirts],
+	"tshirt", "polo_shirt", "dress_shirt", "tank_top",
+	"sweatshirt", "sweater", "hoodie", "under_armor",
+    NULL);
 
  setvector(
-   mapitems[mi_jackets],
-	itm_jacket_light, itm_jacket_jean, itm_blazer, itm_jacket_leather,
-	itm_coat_rain, itm_trenchcoat, itm_trenchcoat_fit, itm_jacket_light_fit,
-        itm_jacket_leather_fit, NULL);
+   &mapitems[mi_jackets],
+	"jacket_light", "jacket_jean", "blazer", "jacket_leather",
+	"coat_rain", "trenchcoat", NULL);
 
  setvector(
-   mapitems[mi_winter],
-	itm_coat_winter, itm_peacoat, itm_gloves_light, itm_mittens,
-	itm_gloves_wool, itm_gloves_winter, itm_gloves_liner, itm_gloves_leather, itm_scarf,
-	itm_hat_cotton, itm_hat_knit, itm_hat_fur, itm_pants_ski, itm_long_underpants,
-    itm_balclava, NULL);
+   &mapitems[mi_winter],
+	"coat_winter", "peacoat", "gloves_light", "mittens",
+	"gloves_wool", "gloves_winter", "gloves_liner", "gloves_leather", "scarf",
+	"hat_cotton", "hat_knit", "hat_fur", "pants_ski", "long_underpants",
+    "balclava", NULL);
 
  setvector(
-   mapitems[mi_bags],
-	itm_backpack, itm_purse, itm_mbag, itm_rucksack, NULL);
+   &mapitems[mi_bags],
+	"backpack", "purse", "mbag", "rucksack", NULL);
 
  setvector(
-   mapitems[mi_allclothes],
-	itm_jeans, itm_shorts, itm_pants, itm_suit, itm_tophat, itm_glasses_monocle,
-	itm_pants_leather, itm_pants_cargo, itm_shorts_cargo, itm_skirt, itm_tshirt,
-	itm_polo_shirt, itm_dress_shirt, itm_tank_top, itm_sweatshirt,
-	itm_sweater, itm_hoodie, itm_jacket_light, itm_jacket_jean,
-	itm_blazer, itm_jacket_leather, itm_coat_winter, itm_peacoat,
-	itm_gloves_light, itm_mittens, itm_gloves_wool, itm_gloves_winter, itm_gloves_liner,
-	itm_gloves_leather, itm_scarf, itm_hat_cotton, itm_hat_knit,
-	itm_hat_fur, itm_UPS_off, itm_jeans_fit, itm_pants_fit,
-    itm_under_armor, itm_balclava, itm_pants_ski, itm_long_underpants,
-        itm_pants_cargo_fit, itm_polo_shirt_fit, itm_sweatshirt_fit,
-        itm_sweater_fit,
-        itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit,
-        itm_trenchcoat_leather, itm_trenchcoat_leather_fit, NULL);
+   &mapitems[mi_allclothes],
+	"jeans", "shorts", "pants", "suit", "tophat", "glasses_monocle",
+	"pants_leather", "pants_cargo", "shorts_cargo", "skirt", "tshirt",
+	"polo_shirt", "dress_shirt", "tank_top", "sweatshirt",
+	"sweater", "hoodie", "jacket_light", "jacket_jean",
+	"blazer", "jacket_leather", "coat_winter", "peacoat",
+	"gloves_light", "mittens", "gloves_wool", "gloves_winter", "gloves_liner",
+	"gloves_leather", "scarf", "hat_cotton", "hat_knit",
+	"hat_fur", "UPS_off", "under_armor", "balclava", "pants_ski", "long_underpants",
+    "trenchcoat_leather", "cloak", "house_coat", "jedi_cloak", NULL);
 
  setvector(
-   mapitems[mi_novels],
-	itm_novel_romance, itm_novel_spy, itm_novel_scifi, itm_novel_drama,
+   &mapitems[mi_novels],
+	"novel_romance", "novel_spy", "novel_scifi", "novel_drama",
+	"cookbok_human", "novel_mystery", "novel_fantasy", "novel_horror",
 	NULL);
 
  setvector(
-   mapitems[mi_manuals],
-	itm_manual_brawl, itm_manual_knives, itm_manual_mechanics,
-	itm_manual_speech, itm_manual_business, itm_manual_first_aid,
-	itm_manual_computers, itm_cookbook, itm_manual_electronics,
-	itm_manual_tailor, itm_manual_traps, itm_manual_carpentry,
-        itm_manual_survival, NULL);
+   &mapitems[mi_manuals],
+	"manual_brawl", "manual_knives", "manual_mechanics",
+	"manual_speech", "manual_business", "manual_first_aid",
+	"manual_computers", "cookbook", "cookbook_italian", "manual_electronics",
+	"manual_tailor", "manual_traps", "manual_carpentry",
+        "manual_survival", NULL);
 
  setvector(
-   mapitems[mi_textbooks],
-	itm_textbook_computers, itm_textbook_electronics, itm_textbook_business,
-	itm_textbook_chemistry, itm_textbook_carpentry, itm_SICP,
-	itm_textbook_robots, itm_textbook_mechanics, NULL);
+   &mapitems[mi_textbooks],
+	"textbook_computers", "textbook_electronics", "textbook_business",
+	"textbook_chemistry", "textbook_carpentry", "SICP",
+	"textbook_robots", "textbook_mechanics", NULL);
 
  setvector(
-   mapitems[mi_cop_weapons],
-	itm_baton, itm_kevlar, itm_vest, itm_gloves_leather, itm_mask_gas,
-	itm_goggles_nv, itm_helmet_riot, itm_holster, itm_bootstrap,
-	itm_armguard_hard,
-	itm_shot_00, itm_9mm, itm_usp_9mm, itm_remington_870, itm_two_way_radio,
-	itm_UPS_off, itm_tazer, NULL);
+   &mapitems[mi_cop_shoes],
+	"boots", "boots_steel", NULL);
 
  setvector(
-   mapitems[mi_cop_evidence],
-	itm_weed, itm_coke, itm_meth, itm_heroin, itm_syringe, itm_electrohack,
-	itm_knife_combat, itm_crowbar, itm_tazer, itm_software_hacking, itm_spray_can, NULL);
+   &mapitems[mi_cop_torso],
+	"dress_shirt", "under_armor", "jacket_light", 
+    NULL);
 
  setvector(
-   mapitems[mi_hospital_lab],
-	itm_blood, itm_iodine, itm_bleach, itm_bandages, itm_syringe,
-	itm_canister_empty, itm_coat_lab, itm_gloves_medical, itm_mask_dust,
-	itm_glasses_safety, itm_vacutainer, itm_usb_drive, NULL);
+   &mapitems[mi_cop_pants],
+	"pants", "pants_cargo", NULL);
 
  setvector(
-   mapitems[mi_hospital_samples],
-	itm_blood, itm_vacutainer, NULL);
+   &mapitems[mi_cop_weapons],
+	"baton", "kevlar", "vest", "gloves_leather", "mask_gas",
+	"goggles_nv", "helmet_riot", "holster", "bootstrap",
+	"armguard_hard",
+	"shot_00", "9mm", "usp_9mm", "remington_870", "two_way_radio",
+	"UPS_off", "tazer", NULL);
 
  setvector(
-   mapitems[mi_surgery],
-	itm_blood, itm_iodine, itm_bandages, itm_scalpel, itm_syringe,
-	itm_gloves_medical, itm_mask_dust, itm_vacutainer, itm_rag_bloody, NULL);
+   &mapitems[mi_cop_evidence],
+	"weed", "coke", "meth", "heroin", "syringe", "electrohack",
+	"knife_combat", "crowbar", "tazer", "software_hacking", "spray_can", NULL);
 
  setvector(
-   mapitems[mi_office],
-	itm_cola, itm_aspirin, itm_cigar, itm_glasses_eye, itm_sunglasses, itm_glasses_reading,
-	itm_purse, itm_mbag, itm_battery, itm_mag_news, itm_manual_business,
-	itm_textbook_business, itm_lighter, itm_extinguisher, itm_flashlight,
-	itm_radio, itm_bubblewrap, itm_coffee_raw, itm_usb_drive,
-	itm_software_useless, NULL);
+   &mapitems[mi_lab_shoes],
+    "sneakers", "boots", "boots_steel", "dress_shoes", NULL);
+
+// increase chances of generating lab coat    
+ setvector(
+   &mapitems[mi_lab_torso],
+    "coat_lab", "coat_lab", "coat_lab", "coat_lab", 
+    "tshirt", "polo_shirt", "dress_shirt", "dress", 
+	"sweatshirt", "sweater", "hoodie", "jumpsuit", 
+    "hazmat_suit", NULL);    
 
  setvector(
-   mapitems[mi_vault],
-	itm_purifier, itm_plut_cell, itm_ftk93, itm_nx17, itm_canister_goo,
-	itm_UPS_off, itm_gold, itm_plasma_engine,
-   itm_bionics_time_freeze, itm_bionics_teleport,
-	itm_minireactor, itm_alloy_plate, NULL);
+   &mapitems[mi_lab_pants],
+    "jeans", "pants", "pants_cargo", "skirt",  NULL);  
 
  setvector(
-   mapitems[mi_art],
-	itm_fur, itm_katana, itm_petrified_eye, itm_spiral_stone, itm_rapier,
-	itm_cane, itm_candlestick, itm_heels, itm_ring, itm_necklace, NULL);
+   &mapitems[mi_hospital_lab],
+	"blood", "iodine", "bleach", "bandages", "syringe",
+	"canister_empty", "coat_lab", "gloves_medical", "mask_dust",
+	"glasses_safety", "vacutainer", "usb_drive", "disinfectant",
+	"gauze", "medical_tape", NULL);
 
  setvector(
-   mapitems[mi_pawn],
-	itm_cigar, itm_katana, itm_gold, itm_rapier, itm_cane, itm_suit,
-	itm_mask_gas, itm_goggles_welding, itm_goggles_nv, itm_glasses_monocle,
-	itm_tophat, itm_ruger_redhawk, itm_deagle_44, itm_m1911, itm_geiger_off,
-	itm_UPS_off, itm_tazer, itm_mp3, itm_fur, itm_leather, itm_string_36,
-	itm_chain, itm_steel_chunk, itm_spring, itm_steel_lump, itm_manhole_cover, itm_rock,
-	itm_hammer_sledge, itm_ax, itm_knife_butcher, itm_knife_combat,
-	itm_bat, itm_petrified_eye, itm_binoculars, itm_boots, itm_mocassins,
-	itm_dress_shoes, itm_heels, itm_pants, itm_pants_army, itm_skirt,
-	itm_jumpsuit, itm_dress, itm_dress_shirt, itm_sweater, itm_blazer,
-	itm_jacket_leather, itm_coat_fur, itm_peacoat, itm_coat_lab,
-	itm_helmet_army, itm_hat_fur, itm_holster, itm_bootstrap,
-	itm_remington_870, itm_browning_blr, itm_remington_700, itm_sks,
-	itm_novel_romance, itm_novel_spy, itm_novel_scifi, itm_novel_drama,
-	itm_SICP, itm_textbook_robots, itm_extinguisher, itm_radio,
-	itm_chainsaw_off, itm_jackhammer, itm_jacqueshammer, itm_ring, itm_necklace, itm_usb_drive,
-	itm_broadsword, itm_morningstar, itm_helmet_plate, itm_cot, itm_rollmat, itm_tent_kit,
-	itm_boots_fit, itm_boots_steel_fit, itm_boots_winter_fit,
-    itm_dress_shoes_fit, itm_bat_metal, itm_jeans_fit, itm_pants_army_fit,
-    itm_polo_shirt_fit, itm_sweatshirt_fit, itm_sweater_fit,
-    itm_jacket_light_fit, itm_tshirt_fit, itm_trenchcoat_fit, itm_lawnmower,
-    itm_makeshift_machete, itm_picklocks, itm_rucksack, itm_puller, itm_press, NULL);
+   &mapitems[mi_hospital_samples],
+	"blood", "vacutainer", NULL);
 
  setvector(
-   mapitems[mi_mil_surplus], // NOT food or armor!
-	itm_knife_combat, itm_binoculars, itm_bolt_steel, itm_crossbow,
-	itm_mag_guns, itm_manual_brawl, itm_manual_knives, itm_cot,
-	itm_manual_mechanics, itm_manual_first_aid, itm_manual_traps,
-	itm_flashlight, itm_water_purifier, itm_two_way_radio, itm_radio,
-	itm_geiger_off, itm_usb_drive, itm_canteen, itm_jerrycan, itm_rucksack, NULL);
+   &mapitems[mi_surgery],
+	"blood", "iodine", "bandages", "scalpel", "syringe",
+	"gloves_medical", "mask_dust", "vacutainer", "rag_bloody", "disinfectant",
+	"gauze", "medical_tape", NULL);
 
  setvector(
-   mapitems[mi_shelter],
-	itm_water_clean, itm_soup_veggy, itm_soup_meat, itm_chocolate, itm_ravioli, itm_can_beans,
-	itm_can_spam, itm_can_tuna, itm_coffee_raw, itm_bandages, itm_1st_aid,
-	itm_vitamins, itm_iodine, itm_dayquil, itm_screwdriver, itm_boots,
-	itm_boots_winter, itm_socks_wool, itm_jeans, itm_shorts, itm_tshirt, itm_sweatshirt, itm_sweater,
-	itm_coat_winter, itm_gloves_wool, itm_gloves_winter, itm_gloves_liner, itm_hat_knit,
-	itm_backpack, itm_battery, itm_novel_scifi, itm_novel_drama,
-	itm_manual_first_aid, itm_manual_tailor, itm_manual_carpentry,
-	itm_lighter, itm_sewing_kit, itm_thread, itm_hammer, itm_extinguisher,
-	itm_flashlight, itm_hotplate, itm_water_purifier, itm_radio, itm_rollmat,
-        itm_tent_kit, itm_canteen, itm_spray_can, itm_ax, NULL);
+   &mapitems[mi_office],
+   "cola", "aspirin", "cigar", "glasses_eye", "sunglasses", "glasses_reading", "glasses_bifocal",
+	"purse", "mbag", "battery", "mag_news", "manual_business",
+	"textbook_business", "lighter", "matches", "extinguisher", "flashlight",
+	"radio", "bubblewrap", "coffee_raw", "usb_drive",
+	"software_useless", NULL);
 
  setvector(
-   mapitems[mi_mechanics],
-        itm_wrench, itm_frame, itm_motor,
-        itm_wheel, itm_wheel_wide, itm_wheel_bicycle, itm_wheel_motorbike, itm_wheel_small,
-        itm_1cyl_combustion, itm_v2_combustion, itm_i4_combustion, itm_v6_combustion,
-        itm_vehicle_controls, itm_v8_combustion, itm_hacksaw, itm_welder, itm_motor,
-        itm_motor_large, itm_storage_battery, itm_solar_panel, itm_jerrycan, itm_metal_tank, NULL);
+   &mapitems[mi_cubical_office],
+   "cola", "aspirin", "cigar", "glasses_eye", "sunglasses", "glasses_reading", "glasses_bifocal",
+	"purse", "mbag", "battery", "mag_news", "manual_business",
+	"textbook_business", "manual_computers", "textbook_computers", "lighter", "matches", "extinguisher", "flashlight",
+	"radio", "bubblewrap", "coffee_raw", "usb_drive","rootbeer", "cig", "coat_rain", "poncho",
+	"mag_tv", "mag_news", "lighter", "matches", "extinguisher", "mp3", NULL);
+	
+ setvector(
+   &mapitems[mi_school],
+    "glasses_reading", "purse", "mbag", "battery", "mag_news", "manual_computers",
+	"usb_drive", "mag_tv", "manual_mechanics", "manual_speech", "manual_business", "manual_first_aid",
+	"manual_computers", "cookbook", "cookbook_italian", "manual_electronics",
+	"manual_tailor", "manual_carpentry", "novel_romance", "novel_spy", "novel_scifi", "novel_drama",
+        "novel_mystery", "novel_fantasy", "novel_horror", "chocolate", "candy", "backpack", "pockknife", "mag_comic",
+	NULL);
+	
+ setvector(
+   &mapitems[mi_church],
+   "glasses_eye", "sunglasses", "glasses_reading", "glasses_bifocal", "lighter", "matches", "coat_rain", "cane", "candlestick",
+    "candlestick", "candlestick", "candlestick", NULL);
 
  setvector(
-   mapitems[mi_chemistry],
-	itm_iodine, itm_water_clean, itm_salt_water, itm_bleach, itm_ammonia,
-	itm_mutagen, itm_purifier, itm_royal_jelly, itm_superglue,
-	itm_bottle_glass, itm_syringe, itm_extinguisher, itm_hotplate,
-	itm_software_medical, NULL);
+   &mapitems[mi_vault],
+	"purifier", "plut_cell", "ftk93", "nx17", "canister_goo",
+	"UPS_off", "gold", "plasma_engine",
+   "bio_time_freeze", "bio_teleport",
+   "power_armor_basic",
+  "minireactor", "alloy_plate", NULL);
 
  setvector(
-   mapitems[mi_teleport],
-	itm_screwdriver, itm_wrench, itm_jumpsuit, itm_mask_dust,
-	itm_glasses_safety, itm_goggles_welding, itm_teleporter, itm_usb_drive,
+   &mapitems[mi_medieval],
+	"katana", "mace", "morningstar", "rapier", "broadsword",
+	"pike", "helmet_plate", "armor_plate", NULL);  
+
+ setvector(
+   &mapitems[mi_art],
+	"fur", "katana", "petrified_eye", "spiral_stone", "rapier",
+	"cane", "candlestick", "heels", "ring", "necklace", NULL);
+
+ setvector(
+   &mapitems[mi_pawn],
+	"cigar", "katana", "gold", "rapier", "cane", "suit",
+	"mask_gas", "goggles_welding", "goggles_nv", "glasses_monocle",
+	"tophat", "ruger_redhawk", "deagle_44", "m1911", "geiger_off",
+	"UPS_off", "tazer", "mp3", "fur", "leather", "string_36",
+	"chain", "steel_chunk", "spring", "steel_lump", "manhole_cover", "rock",
+	"hammer_sledge", "ax", "knife_butcher", "knife_combat",
+	"bat", "petrified_eye", "binoculars", "boots", "mocassins",
+	"dress_shoes", "heels", "pants", "pants_army", "skirt",
+	"jumpsuit", "dress", "dress_shirt", "sweater", "blazer",
+	"jacket_leather", "coat_fur", "peacoat", "coat_lab",
+	"helmet_army", "hat_fur", "holster", "bootstrap",
+	"remington_870", "browning_blr", "remington_700", "sks",
+	"novel_romance", "novel_spy", "novel_scifi", "novel_drama",
+	"SICP", "textbook_robots", "extinguisher", "radio",
+	"chainsaw_off", "jackhammer", "jacqueshammer", "ring", "necklace", "usb_drive",
+	"broadsword", "morningstar", "helmet_plate", "cot", "rollmat", "tent_kit",
+    "bat_metal",  "lawnmower", "pickelhaube",
+    "makeshift_machete", "picklocks", "rucksack", "puller", "press",
+    "vac_sealer", "gasoline_lantern", NULL);
+
+ setvector(
+   &mapitems[mi_mil_surplus], // NOT food or armor!
+	"knife_combat", "binoculars", "bolt_steel", "crossbow",
+	"mag_guns", "manual_brawl", "manual_knives", "cot",
+	"manual_mechanics", "manual_first_aid", "manual_traps",
+	"flashlight", "water_purifier", "two_way_radio", "radio",
+ "geiger_off", "usb_drive", "canteen", "jerrycan", "rucksack",
+ "heatpack", "sleeping_bag", "emer_blanket", "flyer", NULL);
+
+ setvector(
+   &mapitems[mi_shelter],
+	"water_clean", "soup_veggy", "soup_meat", "chocolate", "ravioli", "can_beans",
+	"can_spam", "can_tuna", "coffee_raw", "bandages", "1st_aid",
+	"vitamins", "iodine", "dayquil", "screwdriver", "boots",
+	"boots_winter", "socks_wool", "jeans", "shorts", "tshirt", "sweatshirt", "sweater",
+	"coat_winter", "gloves_wool", "gloves_winter", "gloves_liner", "hat_knit",
+	"backpack", "battery", "novel_scifi", "novel_drama", "mag_dodge",
+	"manual_first_aid", "manual_tailor", "manual_carpentry",
+	"lighter", "matches", "sewing_kit", "thread", "hammer", "extinguisher",
+	"flashlight", "hotplate", "water_purifier", "radio", "rollmat",
+ "tent_kit", "canteen", "spray_can", "ax", "heatpack", "blanket", "emer_blanket", "flyer", "gasoline_lantern", NULL);
+
+ setvector(
+   &mapitems[mi_mechanics],
+        "wrench", "frame", "motor",
+        "wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
+        "1cyl_combustion", "v2_combustion", "i4_combustion", "v6_combustion",
+        "vehicle_controls", "v8_combustion", "hacksaw", "welder", "motor",
+        "goggles_welding", "solar_cell", "bearing",
+        "motor_large", "storage_battery", "solar_panel", "jerrycan", "jerrycan_big", "metal_tank", "jack", NULL);
+
+ setvector(
+   &mapitems[mi_chemistry],
+	"iodine", "water_clean", "salt_water", "bleach", "ammonia",
+	"mutagen", "purifier", "royal_jelly", "superglue",
+	"bottle_glass", "syringe", "extinguisher", "hotplate",
+	"software_medical", "funnel", NULL);
+
+ setvector(
+   &mapitems[mi_teleport],
+	"screwdriver", "wrench", "jumpsuit", "mask_dust",
+	"glasses_safety", "goggles_welding", "teleporter", "usb_drive",
 	NULL);
 
  setvector(
-   mapitems[mi_goo],
-	itm_jumpsuit, itm_gloves_rubber, itm_mask_filter, itm_glasses_safety,
-	itm_helmet_riot, itm_lighter, itm_canister_goo, NULL);
+   &mapitems[mi_goo],
+	"jumpsuit", "gloves_rubber", "mask_filter", "glasses_safety",
+	"helmet_riot", "lighter", "canister_goo", NULL);
 
  setvector(
-   mapitems[mi_cloning_vat],
-	itm_fetus, itm_arm, itm_leg, NULL);
+   &mapitems[mi_cloning_vat],
+	"fetus", "arm", "leg", NULL);
 
  setvector(
-   mapitems[mi_dissection],
-	itm_iodine, itm_bleach, itm_bandages, itm_string_6, itm_hacksaw,
-	itm_xacto, itm_knife_butcher, itm_machete, itm_gloves_rubber,
-	itm_bag_plastic, itm_syringe, itm_rag, itm_scissors, itm_rag_bloody, NULL);
+   &mapitems[mi_dissection],
+	"iodine", "bleach", "bandages", "string_6", "hacksaw",
+	"xacto", "knife_butcher", "machete", "gloves_rubber",
+	"bag_plastic", "syringe", "rag", "scissors", "rag_bloody", NULL);
 
  setvector(
-   mapitems[mi_hydro],
-	itm_blueberries, itm_strawberries, itm_tomato, itm_broccoli,
-	itm_zucchini, itm_potato_raw, itm_corn, itm_withered, NULL);
+   &mapitems[mi_hydro],
+	"blueberries", "strawberries", "tomato", "broccoli",
+	"zucchini", "potato_raw", "corn", "withered", NULL);
 
  setvector(
-   mapitems[mi_electronics],
-	itm_superglue, itm_electrohack, itm_processor, itm_RAM,
-	itm_power_supply, itm_amplifier, itm_transponder, itm_receiver,
-	itm_antenna,
-	itm_screwdriver, itm_mask_dust, itm_glasses_safety, itm_goggles_welding,
-	itm_battery, itm_plut_cell, itm_manual_electronics,
-	itm_textbook_electronics, itm_soldering_iron, itm_hotplate, itm_UPS_off,
-	itm_usb_drive, itm_software_useless, NULL);
+   &mapitems[mi_electronics],
+	"superglue", "electrohack", "processor", "RAM",
+	"power_supply", "amplifier", "transponder", "receiver",
+  "antenna", "solar_cell",
+	"screwdriver", "mask_dust", "glasses_safety", "goggles_welding",
+	"battery", "plut_cell", "manual_electronics",
+	"textbook_electronics", "soldering_iron", "hotplate", "UPS_off",
+	"usb_drive", "software_useless", "vac_sealer", NULL);
 
  setvector(
-   mapitems[mi_monparts],
-	itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted,
-	itm_royal_jelly, itm_ant_egg, itm_bee_sting, itm_chitin_piece, NULL);
+   &mapitems[mi_monparts],
+	"meat", "veggy", "meat_tainted", "veggy_tainted",
+	"royal_jelly", "ant_egg", "bee_sting", "chitin_piece", NULL);
 
  setvector(
-   mapitems[mi_bionics],
-   itm_bionics_solar, itm_bionics_batteries, itm_bionics_metabolics,
-   itm_bionics_ethanol, itm_bionics_furnace,
-   itm_bionics_toolset,      itm_bionics_storage,  itm_bionics_flashlight,
-   itm_bionics_lighter,      itm_bionics_magnet,
-   itm_bionics_memory,  itm_bionics_painkiller, itm_bionics_alarm,
-   itm_bionics_ears, itm_bionics_eye_enhancer, itm_bionics_night_vision,
-   itm_bionics_infrared, itm_bionics_scent_vision,
-   itm_bionics_targeting, itm_bionics_ground_sonar,
-   itm_bionics_membrane, itm_bionics_gills,
-   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
-   itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
-   itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
-   itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
-   itm_bionics_armor_arms, itm_bionics_armor_legs,
-   itm_bionics_shock, itm_bionics_heat_absorb, itm_bionics_claws,
-   itm_bionics_nanobots, itm_bionics_blood_anal,
-   itm_bionics_ads, itm_bionics_ods,
-   itm_bionics_resonator, itm_bionics_hydraulics,
-   itm_bionics_time_freeze, itm_bionics_teleport,
-   itm_bionics_blaster, itm_bionics_laser, itm_bionics_emp,
+   &mapitems[mi_bionics],
+   "bio_solar", "bio_batteries", "bio_metabolics",
+   "bio_ethanol", "bio_furnace", "bio_torsionratchet",
+   "bio_tools",      "bio_storage",  "bio_flashlight",
+   "bio_lighter",      "bio_magnet",
+   "bio_memory",  "bio_painkiller", "bio_alarm",
+   "bio_ears", "bio_eye_enhancer", "bio_night_vision",
+   "bio_infrared", "bio_scent_vision",
+   "bio_targeting", "bio_ground_sonar",
+   "bio_membrane", "bio_gills",
+   "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter",
+   "bio_recycler", "bio_digestion", "bio_evap", "bio_water_extractor",
+   "bio_face_mask", "bio_scent_mask", "bio_cloak", "bio_fingerhack",
+   "bio_carbon", "bio_armor_head", "bio_armor_torso",
+   "bio_armor_arms", "bio_armor_legs",
+   "bio_shock", "bio_heat_absorb", "bio_claws",
+   "bio_nanobots", "bio_blood_anal",
+   "bio_ads", "bio_ods",
+   "bio_resonator", "bio_hydraulics",
+   "bio_time_freeze", "bio_teleport",
+   "bio_blaster", "bio_laser", "bio_emp",
+   "bio_power_armor_interface",
 	NULL);
 
  setvector(
-   mapitems[mi_bionics_common],
-	itm_bionics_battery,
-   itm_bionics_toolset,      itm_bionics_storage,  itm_bionics_flashlight,
-   itm_bionics_lighter,      itm_bionics_magnet,   itm_bionics_alarm,
-   itm_bionics_solar, itm_bionics_batteries, itm_bionics_metabolics,
-   itm_bionics_ethanol, itm_bionics_furnace, NULL);
+   &mapitems[mi_bionics_common],
+	"bio_power_storage",
+   "bio_tools",      "bio_storage",  "bio_flashlight",
+   "bio_lighter",      "bio_magnet",   "bio_alarm",
+   "bio_solar", "bio_batteries", "bio_metabolics",
+   "bio_ethanol", "bio_furnace", "bio_torsionratchet", NULL);
 
  setvector(
-   mapitems[mi_bots],
-	itm_bot_manhack, itm_bot_turret, NULL);
+   &mapitems[mi_bots],
+	"bot_manhack", "bot_turret", NULL);
 
  setvector(
-   mapitems[mi_launchers],
-	itm_40mm_concussive, itm_40mm_frag, itm_40mm_incendiary,
-	itm_40mm_teargas, itm_40mm_smoke, itm_40mm_flashbang, itm_m79,
-	itm_m320, itm_mgl, itm_m203, NULL);
+   &mapitems[mi_launchers],
+	"40mm_concussive", "40mm_frag", "40mm_incendiary",
+	"40mm_teargas", "40mm_smoke", "40mm_flashbang", "m79",
+	"m320", "mgl", "m203", "LAW_Packed", NULL);
 
  setvector(
-   mapitems[mi_mil_rifles],
-	itm_556, itm_556_incendiary, itm_762_51, itm_762_51_incendiary,
-	itm_laser_pack, itm_12mm, itm_plasma, itm_m4a1, itm_scar_l, itm_scar_h,
-	itm_m249, itm_ftk93, itm_nx17, itm_hk_g80, itm_plasma_rifle,
-	itm_silencer, itm_clip, itm_spare_mag, itm_m203, itm_UPS_off, itm_u_shotgun,
+   &mapitems[mi_mil_rifles],
+	"556", "556_incendiary", "762_51", "762_51_incendiary",
+	"laser_pack", "12mm", "plasma", "m4a1", "scar_l", "scar_h",
+	"m249", "ftk93", "nx17", "hk_g80", "plasma_rifle",
+	"suppressor", "clip", "spare_mag", "m203", "UPS_off", "u_shotgun",
 	NULL);
 
  setvector(
-   mapitems[mi_grenades],
-	itm_grenade, itm_flashbang, itm_EMPbomb, itm_gasbomb, itm_smokebomb,
-	itm_dynamite, itm_mininuke, itm_c4, NULL);
+   &mapitems[mi_grenades],
+	"grenade", "flashbang", "EMPbomb", "gasbomb", "smokebomb",
+	"dynamite", "mininuke", "c4", NULL);
 
  setvector(
-   mapitems[mi_mil_armor],
-	itm_pants_army, itm_kevlar, itm_vest, itm_mask_gas, itm_goggles_nv,
-	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, itm_under_armor,
-        itm_boots, itm_boots_fit, itm_pants_army_fit, itm_armguard_hard,
-	itm_helmet_army, itm_backpack, itm_UPS_off, itm_beltrig, NULL);
+   &mapitems[mi_mil_armor],
+	"pants_army", "kevlar", "vest", "mask_gas", "goggles_nv",
+	"helmet_army", "backpack", "UPS_off", "beltrig", "under_armor",
+    "boots", "armguard_hard", "power_armor_basic", "power_armor_frame",
+	"helmet_army", "backpack", "UPS_off", "beltrig", "beret", NULL);
 
  setvector(
-   mapitems[mi_mil_food],
-	itm_chocolate, itm_can_beans, itm_mre_beef, itm_mre_veggy, itm_1st_aid,
-	itm_codeine, itm_antibiotics, itm_water_clean, itm_purifier, NULL);
-
- setvector(
-   mapitems[mi_mil_food_nodrugs],
-	itm_chocolate, itm_can_beans, itm_mre_beef, itm_mre_veggy, itm_1st_aid,
-	itm_water_clean, NULL);
-
- setvector(
-   mapitems[mi_bionics_mil],
-	itm_bionics_battery, itm_bionics_solar,
-   itm_bionics_solar, itm_bionics_batteries, itm_bionics_metabolics,
-   itm_bionics_ethanol, itm_bionics_furnace,
-   itm_bionics_ears, itm_bionics_eye_enhancer, itm_bionics_night_vision,
-   itm_bionics_infrared, itm_bionics_scent_vision,
-   itm_bionics_recycler, itm_bionics_digestion, itm_bionics_evap, itm_bionics_water_extractor,
-   itm_bionics_carbon, itm_bionics_armor_head, itm_bionics_armor_torso,
-   itm_bionics_armor_arms, itm_bionics_armor_legs,
-   itm_bionics_targeting, itm_bionics_ground_sonar,
-   itm_bionics_face_mask, itm_bionics_scent_mask, itm_bionics_cloak, itm_bionics_fingerhack,
-   itm_bionics_nanobots, itm_bionics_blood_anal,
-   itm_bionics_ads, itm_bionics_ods,
-   itm_bionics_blaster, itm_bionics_laser, itm_bionics_emp,
-   itm_bionics_time_freeze, itm_bionics_teleport,
+   &mapitems[mi_mil_accessories],
+	"mask_gas", "goggles_nv", "backpack", "UPS_off", 
+    "armguard_hard", "power_armor_frame",
 	NULL);
 
  setvector(
-   mapitems[mi_weapons],
-	itm_chain, itm_hammer, itm_wrench, itm_hammer_sledge, itm_hatchet,
-	itm_ax, itm_knife_combat, itm_pipe, itm_bat, itm_machete, itm_katana,
-	itm_baton, itm_tazer, itm_rapier, itm_bat_metal, NULL);
+   &mapitems[mi_mil_armor_torso],
+	"kevlar", "vest", "beltrig", "under_armor", "power_armor_basic", NULL);
 
  setvector(
-   mapitems[mi_survival_armor],
-	itm_boots_steel, itm_pants_cargo, itm_shorts_cargo, itm_pants_army, itm_jumpsuit,
-	itm_jacket_leather, itm_kevlar, itm_vest, itm_gloves_fingerless,
-	itm_mask_filter, itm_mask_gas, itm_goggles_ski, itm_helmet_skid,
-  itm_armguard_hard, itm_under_armor, itm_long_underpants,
-	itm_helmet_ball, itm_helmet_riot, itm_helmet_motor, itm_holster,
-	itm_bootstrap, itm_UPS_off, itm_beltrig,
-        itm_pants_cargo_fit, itm_pants_army_fit, itm_rucksack, NULL);
+   &mapitems[mi_mil_armor_helmet],
+	"helmet_army", "beret", NULL);
 
  setvector(
-   mapitems[mi_survival_tools],
-	itm_bandages, itm_1st_aid, itm_caffeine, itm_iodine, itm_electrohack,
-	itm_string_36, itm_rope_30, itm_chain, itm_binoculars,
-	itm_bottle_plastic, itm_lighter, itm_sewing_kit, itm_thread, itm_extinguisher,
-	itm_flashlight, itm_crowbar, itm_chainsaw_off, itm_beartrap,
-	itm_grenade, itm_EMPbomb, itm_hotplate, itm_UPS_off, itm_canteen, itm_spray_can,
-   itm_bionics_toolset, itm_bionics_ethanol, NULL);
+   &mapitems[mi_mil_armor_pants],
+	"pants_army", "pants", "pants_cargo", NULL);
 
  setvector(
-   mapitems[mi_sewage_plant],
-	itm_1st_aid, itm_motor, itm_hose, itm_screwdriver, itm_wrench, itm_pipe,
-	itm_boots, itm_jumpsuit, itm_coat_lab, itm_gloves_rubber,
-	itm_mask_filter, itm_glasses_safety, itm_hat_hard, itm_extinguisher,
-	itm_flashlight, itm_water_purifier, itm_two_way_radio,
-   itm_bionics_toolset,      itm_bionics_storage,  itm_bionics_flashlight,
-   itm_bionics_lighter,      itm_bionics_magnet,
-   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter, NULL);
+   &mapitems[mi_mil_food],
+	"chocolate", "can_beans", "mre_beef", "mre_veggy", "1st_aid",
+ "codeine", "antibiotics", "water_clean", "purifier", "heatpack", NULL);
 
  setvector(
-   mapitems[mi_mine_storage],
-	itm_rock, itm_coal, NULL);
+   &mapitems[mi_mil_food_nodrugs],
+	"chocolate", "can_beans", "mre_beef", "mre_veggy", "1st_aid",
+	"water_clean", NULL);
 
  setvector(
-   mapitems[mi_mine_equipment],
-	itm_water_clean, itm_1st_aid, itm_rope_30, itm_chain, itm_boots_steel,
-	itm_jumpsuit, itm_gloves_leather, itm_mask_filter, itm_mask_gas,
-	itm_glasses_safety, itm_goggles_welding, itm_goggles_nv, itm_hat_hard,
-	itm_backpack, itm_battery, itm_flashlight, itm_two_way_radio,
-	itm_jackhammer, itm_jacqueshammer, itm_dynamite, itm_UPS_off,
-   itm_bionics_toolset, itm_bionics_flashlight, itm_bionics_lighter, itm_bionics_magnet,
-   itm_bionics_resonator, itm_bionics_hydraulics,
-	itm_jerrycan, NULL);
+   &mapitems[mi_bionics_mil],
+	"bio_power_storage",
+   "bio_solar", "bio_batteries", "bio_metabolics",
+   "bio_ethanol", "bio_furnace", "bio_torsionratchet",
+   "bio_ears", "bio_eye_enhancer", "bio_night_vision",
+   "bio_infrared", "bio_scent_vision",
+   "bio_recycler", "bio_digestion", "bio_evap", "bio_water_extractor",
+   "bio_carbon", "bio_armor_head", "bio_armor_torso",
+   "bio_armor_arms", "bio_armor_legs",
+   "bio_targeting", "bio_ground_sonar",
+   "bio_face_mask", "bio_scent_mask", "bio_cloak", "bio_fingerhack",
+   "bio_nanobots", "bio_blood_anal",
+   "bio_ads", "bio_ods",
+   "bio_blaster", "bio_laser", "bio_emp",
+   "bio_time_freeze", "bio_teleport",
+   "bio_power_armor_interface",
+	NULL);
+
+ setvector(
+   &mapitems[mi_weapons],
+	"chain", "hammer", "wrench", "hammer_sledge", "hatchet",
+	"ax", "knife_combat", "pipe", "bat", "machete", "katana",
+	"baton", "tazer", "rapier", "bat_metal", NULL);
+
+ setvector(
+   &mapitems[mi_survival_armor],
+	"boots_steel", "pants_cargo", "shorts_cargo", "pants_army", "jumpsuit",
+	"jacket_leather", "kevlar", "vest", "gloves_fingerless",
+	"mask_filter", "mask_gas", "goggles_ski", "helmet_skid",
+    "armguard_hard", "under_armor", "long_underpants",
+	"helmet_ball", "helmet_riot", "helmet_motor", "holster",
+	"bootstrap", "UPS_off", "beltrig", "rucksack",
+    "emer_blanket", "cloak", NULL);
+
+ setvector(
+   &mapitems[mi_survival_tools],
+	"bandages", "1st_aid", "disinfectant", "caffeine", "iodine", "electrohack",
+	"string_36", "rope_30", "chain", "binoculars",
+	"bottle_plastic", "lighter", "matches", "sewing_kit", "thread", "extinguisher",
+	"flashlight", "crowbar", "chainsaw_off", "beartrap",
+	"grenade", "EMPbomb", "hotplate", "UPS_off", "canteen", "spray_can",
+ "bio_tools", "bio_ethanol", "heatpack", "glowstick", NULL);
+
+ setvector(
+   &mapitems[mi_sewage_plant],
+	"1st_aid", "motor", "hose", "screwdriver", "wrench", "pipe",
+	"boots", "jumpsuit", "coat_lab", "gloves_rubber",
+	"mask_filter", "glasses_safety", "hat_hard", "extinguisher",
+	"flashlight", "water_purifier", "two_way_radio",
+ "bio_tools", "bio_storage",  "bio_flashlight",
+ "bio_lighter", "bio_magnet", "flyer",
+ "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
+
+ setvector(
+   &mapitems[mi_construction_worker],
+	"boots", "boots_steel", "jumpsuit", "gloves_rubber","gloves_leather",
+	"mask_filter", "glasses_safety", "hat_hard", "battery",
+	"flashlight", "two_way_radio", NULL);
+
+ setvector(
+   &mapitems[mi_mine_storage],
+	"rock", "coal", NULL);
+
+ setvector(
+   &mapitems[mi_mine_equipment],
+	"water_clean", "1st_aid", "rope_30", "chain", "boots_steel",
+	"jumpsuit", "gloves_leather", "mask_filter", "mask_gas",
+	"glasses_safety", "goggles_welding", "goggles_nv", "hat_hard",
+	"backpack", "battery", "flashlight", "two_way_radio",
+	"jackhammer", "jacqueshammer", "dynamite", "UPS_off",
+   "bio_tools", "bio_flashlight", "bio_lighter", "bio_magnet",
+   "bio_resonator", "bio_hydraulics",
+  "jerrycan", "jerrycan_big", "gasoline_lantern", NULL);
 
 
  setvector(
-   mapitems[mi_spiral],
-	itm_spiral_stone, itm_vortex_stone, NULL);
+   &mapitems[mi_spiral],
+	"spiral_stone", "vortex_stone", NULL);
 
  setvector(
-   mapitems[mi_radio],
-	itm_cola, itm_caffeine, itm_cig, itm_weed, itm_amplifier,
-	itm_transponder, itm_receiver, itm_antenna, itm_screwdriver,
-	itm_battery, itm_mag_porn, itm_mag_tv, itm_manual_electronics,
-	itm_lighter, itm_flashlight, itm_two_way_radio, itm_radio, itm_mp3,
-	itm_usb_drive, NULL);
+   &mapitems[mi_radio],
+	"cola", "caffeine", "cig", "weed", "amplifier",
+	"transponder", "receiver", "antenna", "screwdriver",
+	"battery", "mag_porn", "mag_tv", "manual_electronics",
+	"lighter", "flashlight", "two_way_radio", "radio", "mp3",
+ "solar_cell", "flyer",	"usb_drive", NULL);
 
  setvector(
-   mapitems[mi_toxic_dump_equipment],
-	itm_1st_aid, itm_iodine, itm_canister_empty, itm_boots_steel,
-	itm_hazmat_suit, itm_mask_gas, itm_hat_hard, itm_textbook_carpentry,
-	itm_extinguisher, itm_radio, itm_geiger_off, itm_UPS_off,
-   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter, NULL);
+   &mapitems[mi_toxic_dump_equipment],
+	"1st_aid", "iodine", "canister_empty", "boots_steel",
+	"hazmat_suit", "mask_gas", "hat_hard", "textbook_carpentry",
+ "extinguisher", "radio", "geiger_off", "UPS_off", "flyer",
+ "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
 
  setvector(
-   mapitems[mi_subway],
-	itm_wrapper, itm_string_6, itm_chain, itm_rock, itm_pipe,
-	itm_mag_porn, itm_bottle_plastic, itm_bottle_glass, itm_can_drink,
-	itm_can_food, itm_lighter, itm_flashlight, itm_rag, itm_crowbar, itm_spray_can, NULL);
+   &mapitems[mi_subway],
+	"wrapper", "string_6", "chain", "rock", "pipe",
+	"mag_porn", "bottle_plastic", "bottle_glass", "can_drink",
+	"can_food", "lighter", "matches", "flashlight", "rag", "crowbar",
+ "spray_can", "jar_glass", "flyer", "gasoline_lanern", NULL);
 
  setvector(
-   mapitems[mi_sewer],
-	itm_mutagen, itm_fetus, itm_weed, itm_mag_porn, itm_rag, NULL);
+   &mapitems[mi_sewer],
+   "mutagen", "fetus", "weed", "mag_porn", "rag", "flyer", NULL);
 
  setvector(
-   mapitems[mi_cavern],
-	itm_rock, itm_jackhammer, itm_jacqueshammer, itm_flashlight, itm_dynamite, NULL);
+   &mapitems[mi_cavern],
+	"rock", "jackhammer", "jacqueshammer", "flashlight", "dynamite", "matches", NULL);
 
  setvector(
-   mapitems[mi_spider],
-	itm_corpse, itm_mutagen, itm_purifier, itm_meat, itm_meat_tainted,
-	itm_arm, itm_leg, itm_1st_aid, itm_codeine, itm_oxycodone, itm_weed,
-	itm_coke, itm_wrapper, itm_fur, itm_leather, itm_id_science,
-	itm_id_military, itm_rope_30, itm_stick, itm_hatchet, itm_ax,
-	itm_bee_sting, itm_chitin_piece, itm_vest, itm_mask_gas, itm_goggles_nv,
-	itm_hat_boonie, itm_helmet_riot, itm_bolt_steel, itm_shot_00,
-	itm_762_m87, itm_556, itm_556_incendiary, itm_3006_incendiary,
-	itm_762_51, itm_762_51_incendiary, itm_saiga_12, itm_hk_mp5, itm_TDI,
-	itm_savage_111f, itm_sks, itm_ak47, itm_m4a1, itm_steyr_aug, itm_v29,
-	itm_nx17, itm_flamethrower, itm_flashlight, itm_radio, itm_geiger_off,
-	itm_teleporter, itm_canister_goo, itm_dynamite, itm_mininuke,
-	itm_bot_manhack, itm_UPS_off, itm_bionics_battery,
-   itm_bionics_flashlight, itm_bionics_lighter,
-	itm_arrow_cf, itm_spray_can, itm_bionics_blaster, NULL);
+   &mapitems[mi_spider],
+	"corpse", "mutagen", "purifier", "meat", "meat_tainted",
+	"arm", "leg", "1st_aid", "codeine", "oxycodone", "weed",
+	"coke", "wrapper", "fur", "leather", "id_science",
+	"id_military", "rope_30", "stick", "hatchet", "ax",
+	"bee_sting", "chitin_piece", "vest", "mask_gas", "goggles_nv",
+	"hat_boonie", "helmet_riot", "bolt_steel", "shot_00",
+	"762_m87", "556", "556_incendiary", "3006_incendiary",
+	"762_51", "762_51_incendiary", "saiga_12", "hk_mp5", "TDI",
+	"savage_111f", "sks", "ak47", "m4a1", "steyr_aug", "v29",
+	"nx17", "flamethrower", "flashlight", "radio", "geiger_off",
+	"teleporter", "canister_goo", "dynamite", "mininuke",
+	"bot_manhack", "UPS_off", "bio_power_storage",
+   "bio_flashlight", "bio_lighter",
+	"arrow_cf", "spray_can", "bio_blaster", NULL);
 
  setvector(
-   mapitems[mi_ant_food],
-	itm_meat, itm_veggy, itm_meat_tainted, itm_veggy_tainted, itm_apple,
-	itm_orange, itm_mushroom, itm_blueberries, itm_strawberries,
-	itm_tomato, itm_broccoli, itm_zucchini, itm_potato_raw, itm_honeycomb,
-	itm_royal_jelly, itm_arm, itm_leg, itm_rock, itm_stick,
-   itm_bionics_metabolics, itm_bionics_blaster, NULL);
+   &mapitems[mi_ant_food],
+	"meat", "veggy", "meat_tainted", "veggy_tainted", "apple",
+	"orange", "mushroom", "blueberries", "strawberries",
+	"tomato", "broccoli", "zucchini", "potato_raw", "honeycomb",
+	"royal_jelly", "arm", "leg", "rock", "stick",
+   "bio_metabolics", "bio_blaster", NULL);
 
  setvector(
-   mapitems[mi_ant_egg],
-	itm_ant_egg, NULL);	//TODO: More items here?
+   &mapitems[mi_ant_egg],
+	"ant_egg", NULL);	//TODO: More items here?
 
  setvector(
-   mapitems[mi_biollante],
-	itm_biollante_bud, NULL);
+   &mapitems[mi_biollante],
+	"biollante_bud", NULL);
 
  setvector(
-   mapitems[mi_bugs],
-	itm_chitin_piece, NULL);
+   &mapitems[mi_bugs],
+	"chitin_piece", NULL);
 
  setvector(
-   mapitems[mi_bees],
-	itm_bee_sting, itm_chitin_piece, NULL);
+   &mapitems[mi_bees],
+	"bee_sting", "chitin_piece", NULL);
 
  setvector(
-   mapitems[mi_wasps],
-	itm_wasp_sting, itm_chitin_piece, NULL);
+   &mapitems[mi_wasps],
+	"wasp_sting", "chitin_piece", NULL);
 
  setvector(
-   mapitems[mi_robots],
-	itm_processor, itm_RAM, itm_power_supply, itm_amplifier,
-	itm_transponder, itm_receiver, itm_antenna, itm_steel_chunk, itm_spring,
-	itm_steel_lump, itm_motor, itm_battery, itm_plut_cell, NULL);
+   &mapitems[mi_robots],
+  "processor", "RAM", "power_supply", "amplifier", "solar_cell",
+	"transponder", "receiver", "antenna", "steel_chunk", "spring",
+	"steel_lump", "motor", "battery", "plut_cell", NULL);
 
  setvector(
-   mapitems[mi_eyebot],
-     itm_flashlight, NULL);
+   &mapitems[mi_eyebot],
+     "flashlight", NULL);
 
  setvector(
-   mapitems[mi_manhack],
-    itm_knife_combat, NULL);
+   &mapitems[mi_manhack],
+    "knife_combat", NULL);
 
  setvector(
-   mapitems[mi_skitterbot],
-     itm_tazer, NULL);
+   &mapitems[mi_skitterbot],
+     "tazer", NULL);
 
  setvector(
-   mapitems[mi_secubot],
-    itm_9mm, itm_steel_plate, NULL);
+   &mapitems[mi_secubot],
+    "9mm", "steel_plate", NULL);
 
  setvector(
-   mapitems[mi_copbot],
-     itm_baton, itm_tazer, itm_alloy_plate, NULL);
+   &mapitems[mi_copbot],
+     "baton", "tazer", "alloy_plate", NULL);
 
  setvector(
-   mapitems[mi_molebot],
-     itm_spiked_plate, itm_hard_plate, NULL);
+   &mapitems[mi_molebot],
+     "spiked_plate", "hard_plate", NULL);
 
  setvector(
-   mapitems[mi_tripod],
-     itm_flamethrower, itm_alloy_plate, NULL);
+   &mapitems[mi_tripod],
+     "flamethrower", "alloy_plate", NULL);
 
  setvector(
-   mapitems[mi_chickenbot],
-     itm_9mm, itm_alloy_plate, NULL);
+   &mapitems[mi_chickenbot],
+     "9mm", "alloy_plate", NULL);
 
  setvector(
-   mapitems[mi_tankbot],
-     itm_tazer, itm_flamethrower, itm_9mm, itm_alloy_plate,
-     itm_hard_plate, NULL);
+   &mapitems[mi_tankbot],
+     "tazer", "flamethrower", "9mm", "alloy_plate",
+     "hard_plate", NULL);
 
  setvector(
-   mapitems[mi_turret],
-     itm_9mm, NULL);
+   &mapitems[mi_turret],
+     "9mm", NULL);
 
  setvector(
-   mapitems[mi_helicopter],
-	itm_chain, itm_power_supply, itm_antenna, itm_steel_chunk, itm_spring,
-	itm_steel_lump, itm_frame, itm_steel_plate, itm_spiked_plate,
-	itm_hard_plate, itm_motor, itm_motor_large, itm_hose, itm_pants_army,
-	itm_jumpsuit, itm_kevlar, itm_mask_gas, itm_helmet_army, itm_battery,
-	itm_plut_cell, itm_m249, itm_v8_combustion, itm_extinguisher,
-	itm_two_way_radio, itm_radio, itm_UPS_off, itm_beltrig,
-        itm_pants_army_fit, itm_boots_fit, itm_rucksack, NULL);
+   &mapitems[mi_helicopter],
+	"chain", "power_supply", "antenna", "steel_chunk", "spring",
+	"steel_lump", "frame", "steel_plate", "spiked_plate",
+	"hard_plate", "motor", "motor_large", "hose", "pants_army",
+	"jumpsuit", "kevlar", "mask_gas", "helmet_army", "battery",
+	"plut_cell", "m249", "v8_combustion", "extinguisher",
+	"two_way_radio", "radio", "UPS_off", "beltrig",
+    "rucksack", "LAW_Packed", NULL);
 
 // TODO: Replace kevlar with the ceramic plate armor
  setvector(
-   mapitems[mi_military],
-	itm_water_clean, itm_mre_beef, itm_mre_veggy, itm_bandages, itm_1st_aid,
-	itm_iodine, itm_codeine, itm_cig, itm_knife_combat, itm_boots_steel,
-	itm_pants_army, itm_kevlar, itm_vest, itm_gloves_fingerless,
-	itm_mask_gas, itm_glasses_safety, itm_goggles_nv, itm_hat_boonie,
-	itm_armguard_hard,
-	itm_helmet_army, itm_backpack, itm_holster, itm_bootstrap, itm_9mm,
-	itm_45_acp, itm_556, itm_556_incendiary, itm_762_51,
-	itm_762_51_incendiary, itm_laser_pack, itm_40mm_concussive,
-	itm_40mm_frag, itm_40mm_incendiary, itm_40mm_teargas, itm_40mm_smoke,
-	itm_40mm_flashbang, itm_usp_9mm, itm_usp_45, itm_m4a1, itm_scar_l,
-	itm_scar_h, itm_m249, itm_ftk93, itm_nx17, itm_m320, itm_mgl,
-	itm_silencer, itm_clip, itm_lighter, itm_flashlight, itm_two_way_radio,
-	itm_landmine, itm_grenade, itm_flashbang, itm_EMPbomb, itm_gasbomb,
-	itm_smokebomb, itm_UPS_off, itm_tazer, itm_c4, itm_hk_g80, itm_12mm,
-	itm_binoculars, itm_u_shotgun, itm_beltrig, itm_pants_army_fit,
-        itm_spare_mag, itm_canteen, itm_jerrycan, itm_rucksack, NULL);
-
-
- setvector(
-   mapitems[mi_science],
-	itm_water_clean, itm_bleach, itm_ammonia, itm_mutagen, itm_purifier,
-	itm_iodine, itm_inhaler, itm_adderall, itm_id_science, itm_electrohack,
-	itm_RAM, itm_screwdriver, itm_canister_empty, itm_coat_lab,
-	itm_gloves_medical, itm_mask_dust, itm_mask_filter, itm_glasses_eye, itm_sunglasses,
-	itm_glasses_safety, itm_textbook_computers, itm_textbook_electronics,
-	itm_textbook_chemistry, itm_SICP, itm_textbook_robots,
-	itm_soldering_iron, itm_geiger_off, itm_teleporter, itm_canister_goo,
-	itm_EMPbomb, itm_pheromone, itm_portal, itm_bot_manhack, itm_UPS_off,
-	itm_tazer, itm_plasma, itm_usb_drive,
-   itm_bionics_purifier, itm_bionics_climate, itm_bionics_heatsink, itm_bionics_blood_filter,
-	itm_software_useless, itm_canteen, NULL);
+   &mapitems[mi_military],
+	"water_clean", "mre_beef", "mre_veggy", "bandages", "1st_aid",
+	"iodine", "codeine", "cig", "knife_combat", "boots_steel",
+	"pants_army", "kevlar", "vest", "gloves_fingerless",
+	"mask_gas", "glasses_safety", "goggles_nv", "hat_boonie",
+	"armguard_hard",
+	"helmet_army", "backpack", "holster", "bootstrap", "9mm",
+	"45_acp", "556", "556_incendiary", "762_51",
+	"762_51_incendiary", "laser_pack", "40mm_concussive",
+	"40mm_frag", "40mm_incendiary", "40mm_teargas", "40mm_smoke",
+	"40mm_flashbang", "usp_9mm", "usp_45", "m4a1", "scar_l",
+	"scar_h", "m249", "ftk93", "nx17", "m320", "mgl",
+	"suppressor", "clip", "lighter", "flashlight", "two_way_radio",
+	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
+	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
+	"binoculars", "u_shotgun", "beltrig", "power_armor_basic",
+    "power_armor_helmet_basic", "power_armor_frame", "spare_mag",
+    "canteen", "jerrycan", "rucksack", "heatpack", "LAW_Packed", NULL);
 
  setvector(
-   mapitems[mi_rare],
-	itm_mutagen, itm_purifier, itm_royal_jelly, itm_fetus, itm_id_science,
-	itm_id_military, itm_electrohack, itm_processor, itm_armor_chitin,
-	itm_plut_cell, itm_laser_pack, itm_m249, itm_v29, itm_ftk93, itm_nx17,
-	itm_conversion_battle, itm_conversion_sniper, itm_canister_goo,
-	itm_mininuke, itm_portal, itm_c4, itm_12mm, itm_hk_g80,
-	itm_plasma, itm_plasma_rifle, NULL);
+   &mapitems[mi_science],
+	"water_clean", "bleach", "ammonia", "mutagen", "purifier",
+	"iodine", "inhaler", "adderall", "id_science", "electrohack",
+	"RAM", "screwdriver", "canister_empty", "coat_lab",
+	"gloves_medical", "mask_dust", "mask_filter", "glasses_eye", "sunglasses",
+	"glasses_safety", "textbook_computers", "textbook_electronics",
+	"textbook_chemistry", "SICP", "textbook_robots",
+	"soldering_iron", "geiger_off", "teleporter", "canister_goo",
+	"EMPbomb", "pheromone", "portal", "bot_manhack", "UPS_off",
+	"tazer", "plasma", "usb_drive",
+   "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter",
+	"software_useless", "canteen", NULL);
 
  setvector(
-   mapitems[mi_stash_food],
-	itm_water_clean, itm_cola, itm_jerky, itm_ravioli, itm_can_beans,
-	itm_can_corn, itm_can_spam, NULL);
+   &mapitems[mi_rare],
+	"mutagen", "purifier", "royal_jelly", "fetus", "id_science",
+	"id_military", "electrohack", "processor", "armor_chitin",
+	"plut_cell", "laser_pack", "m249", "v29", "ftk93", "nx17",
+	"conversion_battle", "conversion_sniper", "canister_goo",
+	"mininuke", "portal", "c4", "12mm", "hk_g80",
+ "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
+	"plasma", "plasma_rifle", NULL);
 
  setvector(
-   mapitems[mi_stash_ammo],
-	itm_bolt_steel, itm_shot_00, itm_shot_slug, itm_22_lr, itm_9mm,
-	itm_38_super, itm_10mm, itm_44magnum, itm_45_acp, itm_57mm, itm_46mm,
-	itm_762_m87, itm_556, itm_3006, itm_762_51, itm_arrow_cf, itm_press, itm_puller, NULL);
+   &mapitems[mi_stash_food],
+	"water_clean", "cola", "jerky", "ravioli", "can_beans",
+	"can_corn", "can_spam", NULL);
 
  setvector(
-   mapitems[mi_stash_wood],
-	itm_stick, itm_ax, itm_saw, itm_2x4, itm_log, NULL);
+   &mapitems[mi_stash_ammo],
+	"bolt_steel", "shot_00", "shot_slug", "22_lr", "9mm",
+	"38_super", "10mm", "44magnum", "45_acp", "57mm", "46mm",
+	"762_m87", "556", "3006", "762_51", "arrow_cf", "press", "puller", NULL);
 
  setvector(
-   mapitems[mi_stash_drugs],
-	itm_pills_sleep, itm_oxycodone, itm_xanax, itm_adderall, itm_weed,
-	itm_coke, itm_meth, itm_heroin, itm_crack, itm_crackpipe, NULL);
+   &mapitems[mi_stash_wood],
+	"stick", "ax", "saw", "2x4", "log", NULL);
 
  setvector(
-   mapitems[mi_drugdealer],
-	itm_energy_drink, itm_whiskey, itm_jerky, itm_bandages, itm_caffeine,
-	itm_oxycodone, itm_adderall, itm_cig, itm_weed, itm_coke, itm_meth,
-	itm_heroin, itm_syringe, itm_electrohack, itm_hatchet, itm_nailboard,
-	itm_knife_combat, itm_bat, itm_machete, itm_katana, itm_pants_cargo, itm_shorts_cargo,
-	itm_hoodie, itm_gloves_fingerless, itm_backpack, itm_holster,
-	itm_armguard_soft, itm_armguard_hard,
-	itm_shot_00, itm_9mm, itm_45_acp, itm_glock_19, itm_shotgun_sawn,
-	itm_uzi, itm_tec9, itm_mac_10, itm_silencer, itm_clip2, itm_autofire,
-	itm_mag_porn, itm_lighter, itm_crowbar, itm_pipebomb, itm_grenade,
-	itm_mininuke, itm_crack, itm_crackpipe, itm_pants_cargo_fit, itm_spare_mag, itm_bionics_blaster, NULL);
+   &mapitems[mi_stash_drugs],
+	"pills_sleep", "oxycodone", "xanax", "adderall", "weed",
+	"coke", "meth", "heroin", "crack", "crackpipe", NULL);
 
  setvector(
-   mapitems[mi_wreckage],
-	itm_chain, itm_steel_chunk, itm_spring, itm_steel_lump, itm_frame, itm_rock, NULL);
+   &mapitems[mi_drugdealer],
+	"energy_drink", "whiskey", "jerky", "bandages", "caffeine",
+	"oxycodone", "adderall", "cig", "weed", "coke", "meth",
+	"heroin", "syringe", "electrohack", "hatchet", "nailboard",
+	"knife_combat", "bat", "machete", "katana", "pants_cargo", "shorts_cargo",
+	"hoodie", "gloves_fingerless", "backpack", "holster",
+	"armguard_soft", "armguard_hard",
+	"shot_00", "9mm", "45_acp", "glock_19", "shotgun_sawn",
+	"uzi", "tec9", "mac_10", "suppressor", "clip2", "autofire",
+	"mag_porn", "lighter", "matches", "crowbar", "pipebomb", "grenade",
+	"mininuke", "crack", "crackpipe", "spare_mag", "bio_blaster", NULL);
 
  setvector(
-   mapitems[mi_npc_hacker],
-	itm_energy_drink, itm_adderall, itm_electrohack, itm_usb_drive,
-	itm_battery, itm_manual_computers, itm_textbook_computers,
-	itm_SICP, itm_soldering_iron, NULL);
+   &mapitems[mi_wreckage],
+	"chain", "steel_chunk", "spring", "steel_lump", "frame", "rock", NULL);
+
+ setvector(
+   &mapitems[mi_npc_hacker],
+	"energy_drink", "adderall", "electrohack", "usb_drive",
+	"battery", "manual_computers", "textbook_computers",
+  "solar_cell",
+	"SICP", "soldering_iron", NULL);
 
 // This one kind of an inverted list; what an NPC will NOT carry
  setvector(
-   mapitems[mi_trader_avoid],
-	itm_null, itm_corpse, itm_fire, itm_toolset, itm_meat, itm_veggy,
-	itm_meat_tainted, itm_veggy_tainted, itm_meat_cooked, itm_veggy_cooked,
-	itm_mushroom_poison, itm_spaghetti_cooked, itm_macaroni_cooked,
-	itm_fetus, itm_arm, itm_leg, itm_wrapper, itm_manhole_cover, itm_rock,
-	itm_stick, itm_bag_plastic, itm_flashlight_on, itm_radio_on,
-	itm_chainsaw_on, itm_pipebomb_act, itm_grenade_act, itm_flashbang_act,
-	itm_EMPbomb_act, itm_gasbomb_act, itm_smokebomb_act, itm_molotov_lit,
-	itm_dynamite_act, itm_mininuke_act, itm_UPS_on, itm_mp3_on, itm_c4armed,
-        itm_apparatus, itm_brazier, itm_rag_bloody,
-	NULL);
+   &mapitems[mi_trader_avoid],
+	"null", "corpse", "fire", "toolset", "meat", "veggy",
+	"meat_tainted", "veggy_tainted", "meat_cooked", "veggy_cooked",
+	"mushroom_poison", "spaghetti_cooked", "macaroni_cooked",
+	"fetus", "arm", "leg", "wrapper", "manhole_cover", "rock",
+	"stick", "bag_plastic", "flashlight_on", "radio_on",
+	"chainsaw_on", "pipebomb_act", "grenade_act", "flashbang_act",
+	"EMPbomb_act", "gasbomb_act", "smokebomb_act", "molotov_lit",
+	"dynamite_act", "firecracker_pack_act", "firecracker_act",
+	"mininuke_act", "UPS_on", "mp3_on", "c4armed", "apparatus",
+	"brazier", "rag_bloody", "candle_lit", "torch_lit",
+	"acidbomb_act", NULL);
 }

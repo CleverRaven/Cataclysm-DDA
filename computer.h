@@ -1,7 +1,6 @@
 #ifndef _COMPUTER_H_
 #define _COMPUTER_H_
 
-//#include "texthash.h"
 #include "output.h"
 #include <vector>
 #include <string>
@@ -15,6 +14,9 @@ enum computer_action
 {
  COMPACT_NULL = 0,
  COMPACT_OPEN,
+ COMPACT_LOCK,
+ COMPACT_UNLOCK,
+ COMPACT_TOLL,
  COMPACT_SAMPLE,
  COMPACT_RELEASE,
  COMPACT_TERMINATE,
@@ -31,8 +33,20 @@ enum computer_action
  COMPACT_AMIGARA_START,
  COMPACT_DOWNLOAD_SOFTWARE,
  COMPACT_BLOOD_ANAL,
+ COMPACT_DATA_ANAL,
+ COMPACT_DISCONNECT,
  COMPACT_STEMCELL_TREATMENT,
  COMPACT_EMERG_MESS,
+ COMPACT_TOWER_UNRESPONSIVE,
+ COMPACT_SR1_MESS, //Security Reminders for Hazardous Waste Sarcophagus (SRCF)
+ COMPACT_SR2_MESS,
+ COMPACT_SR3_MESS,
+ COMPACT_SR4_MESS,
+ COMPACT_SRCF_1_MESS,
+ COMPACT_SRCF_2_MESS,
+ COMPACT_SRCF_3_MESS,
+ COMPACT_SRCF_SEAL_ORDER,
+ COMPACT_SRCF_SEAL,
  NUM_COMPUTER_ACTIONS
 };
 
@@ -48,6 +62,7 @@ enum computer_failure
  COMPFAIL_PUMP_LEAK,
  COMPFAIL_AMIGARA,
  COMPFAIL_DESTROY_BLOOD,
+ COMPFAIL_DESTROY_DATA,
  NUM_COMPUTER_FAILURES
 };
 
@@ -77,7 +92,7 @@ public:
 // Basic usage
  void shutdown_terminal(); // Shutdown (free w_terminal, etc)
  void use(game *g);
- bool hack_attempt(player *p, int Security = -1);// -1 defaults to main security
+ bool hack_attempt(game *g, player *p, int Security = -1);// -1 defaults to main security
 // Save/load
  std::string save_data();
  void load_data(std::string data);
@@ -111,6 +126,8 @@ private:
  char query_ynq(const char *text, ...);
 // Same as query_ynq, but returns true for y or Y
  bool query_bool(const char *text, ...);
+// Simply wait for any key, returns True
+ bool query_any(const char *text, ...);
 };
 
 #endif

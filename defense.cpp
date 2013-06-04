@@ -4,6 +4,7 @@
 #include "keypress.h"
 #include "itype.h"
 #include "mtype.h"
+#include "overmapbuffer.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -79,6 +80,8 @@ bool defense_game::init(game *g)
  setup();
  g->u.cash = initial_cash;
  popup_nowait("Please wait as the map generates [ 0%]");
+ // TODO: support multiple defence games? clean up old defence game
+ g->cur_om = &overmap_buffer.get(g, 0, 0);
  init_map(g);
  caravan(g);
  return true;
@@ -155,10 +158,10 @@ void defense_game::game_over(game *g)
 
 void defense_game::init_itypes(game *g)
 {
- g->itypes[itm_2x4]->volume = 0;
- g->itypes[itm_2x4]->weight = 0;
- g->itypes[itm_landmine]->price = 300;
- g->itypes[itm_bot_turret]->price = 6000;
+ g->itypes["2x4"]->volume = 0;
+ g->itypes["2x4"]->weight = 0;
+ g->itypes["landmine"]->price = 300;
+ g->itypes["bot_turret"]->price = 6000;
 }
 
 void defense_game::init_mtypes(game *g)
@@ -184,21 +187,25 @@ void defense_game::init_constructions(game *g)
 
 void defense_game::init_recipes(game *g)
 {
- for (int i = 0; i < g->recipes.size(); i++) {
-  g->recipes[i]->time /= 10; // Things take turns, not minutes
- }
+    for (recipe_map::iterator map_iter = g->recipes.begin(); map_iter != g->recipes.end(); ++map_iter)
+    {
+        for (recipe_list::iterator list_iter = map_iter->second.begin(); list_iter != map_iter->second.end(); ++list_iter)
+        {
+            (*list_iter)->time /= 10; // Things take turns, not minutes
+        }
+    }
 }
 
 void defense_game::init_map(game *g)
 {
  for (int x = 0; x < OMAPX; x++) {
   for (int y = 0; y < OMAPY; y++) {
-   g->cur_om.ter(x, y) = ot_field;
-   g->cur_om.seen(x, y) = true;
+   g->cur_om->ter(x, y, 0) = ot_field;
+   g->cur_om->seen(x, y, 0) = true;
   }
  }
 
- g->cur_om.save(g->u.name, 0, 0, DEFENSE_Z);
+ g->cur_om->save();
  g->levx = 100;
  g->levy = 100;
  g->levz = 0;
@@ -210,29 +217,29 @@ void defense_game::init_map(game *g)
  case DEFLOC_HOSPITAL:
   for (int x = 49; x <= 51; x++) {
    for (int y = 49; y <= 51; y++)
-    g->cur_om.ter(x, y) = ot_hospital;
+    g->cur_om->ter(x, y, 0) = ot_hospital;
   }
-  g->cur_om.ter(50, 49) = ot_hospital_entrance;
+  g->cur_om->ter(50, 49, 0) = ot_hospital_entrance;
   break;
 
  case DEFLOC_MALL:
   for (int x = 49; x <= 51; x++) {
    for (int y = 49; y <= 51; y++)
-    g->cur_om.ter(x, y) = ot_megastore;
+    g->cur_om->ter(x, y, 0) = ot_megastore;
   }
-  g->cur_om.ter(50, 49) = ot_megastore_entrance;
+  g->cur_om->ter(50, 49, 0) = ot_megastore_entrance;
   break;
 
  case DEFLOC_BAR:
-  g->cur_om.ter(50, 50) = ot_bar_north;
+  g->cur_om->ter(50, 50, 0) = ot_bar_north;
   break;
 
  case DEFLOC_MANSION:
   for (int x = 49; x <= 51; x++) {
    for (int y = 49; y <= 51; y++)
-    g->cur_om.ter(x, y) = ot_mansion;
+    g->cur_om->ter(x, y, 0) = ot_mansion;
   }
-  g->cur_om.ter(50, 49) = ot_mansion_entrance;
+  g->cur_om->ter(50, 49, 0) = ot_mansion_entrance;
   break;
  }
 // Init the map
@@ -251,14 +258,14 @@ void defense_game::init_map(game *g)
    mx -= mx % 2;
    my -= my % 2;
    tinymap tm(&g->itypes, &g->mapitems, &g->traps);
-   tm.generate(g, &(g->cur_om), mx, my, int(g->turn));
+   tm.generate(g, g->cur_om, mx, my, 0, int(g->turn));
    tm.clear_spawns();
    tm.clear_traps();
-   tm.save(&g->cur_om, int(g->turn), mx, my);
+   tm.save(g->cur_om, int(g->turn), mx, my, 0);
   }
  }
 
- g->m.load(g, g->levx, g->levy);
+ g->m.load(g, g->levx, g->levy, g->levz, true);
 
  g->update_map(g->u.posx, g->u.posy);
  monster generator(g->mtypes[mon_generator], g->u.posx + 1, g->u.posy + 1);
@@ -266,7 +273,7 @@ void defense_game::init_map(game *g)
  std::vector<point> valid;
  for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
   for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
-   if (generator.can_move_to(g->m, x, y) && g->is_empty(x, y))
+   if (generator.can_move_to(g, x, y) && g->is_empty(x, y))
     valid.push_back( point(x, y) );
   }
  }
@@ -711,7 +718,7 @@ std::string defense_style_name(defense_style style)
   case DEFENSE_TRIFFIDS:	return "Day of the Triffids";
   case DEFENSE_SKYNET:		return "Skynet";
   case DEFENSE_LOVECRAFT:	return "The Call of Cthulhu";
-  default:			return "Bug!  Report this!";
+  default:			return "Bug! (bug in defense.cpp:defense_style_name)";
  }
 }
 
@@ -740,19 +747,19 @@ std::string defense_style_description(defense_style style)
   case DEFENSE_LOVECRAFT:
    return "Ward off legions of eldritch horrors.";
   default:
-   return "What the heck is this I don't even know. A bug!";
+   return "What the heck is this I don't even know. (defense.cpp:defense_style_description)";
  }
 }
 
 std::string defense_location_name(defense_location location)
 {
  switch (location) {
- case DEFLOC_NULL:	return "Nowhere?!  A bug!";
+ case DEFLOC_NULL:	return "Nowhere?! (bug in defense.cpp:defense_location_name)";
  case DEFLOC_HOSPITAL:	return "Hospital";
  case DEFLOC_MALL:	return "Megastore";
  case DEFLOC_BAR:	return "Bar";
  case DEFLOC_MANSION:	return "Mansion";
- default:		return "a ghost's house (bug)";
+ default:		return "a ghost's house (bug in defense.cpp:defense_location_name)";
  }
 }
 
@@ -760,7 +767,7 @@ std::string defense_location_description(defense_location location)
 {
  switch (location) {
  case DEFLOC_NULL:
-  return "NULL Bug.";
+  return "NULL Bug. (defense.cpp:defense_location_description)";
  case DEFLOC_HOSPITAL:
   return                 "One entrance and many rooms.  Some medical supplies.";
  case DEFLOC_MALL:
@@ -770,7 +777,7 @@ std::string defense_location_description(defense_location location)
  case DEFLOC_MANSION:
   return                 "A large house with many rooms and.";
  default:
-  return "Unknown data bug.";
+  return "Unknown data bug. (defense.cpp:defense_location_description)";
  }
 }
 
@@ -956,7 +963,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
     break;
 
    case KEY_ESCAPE:
-    if (query_yn(g->VIEWX, g->VIEWY, "Really buy nothing?")) {
+    if (query_yn("Really buy nothing?")) {
      cancel = true;
      done = true;
     } else {
@@ -970,9 +977,9 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
    case '\n':
     if (total_price > g->u.cash)
      popup("You can't afford those items!");
-    else if ((items[0].empty() && query_yn(g->VIEWX, g->VIEWY, "Really buy nothing?")) ||
+    else if ((items[0].empty() && query_yn("Really buy nothing?")) ||
              (!items[0].empty() &&
-              query_yn(g->VIEWX, g->VIEWY, "Buy %d items, leaving you with $%d?", items[0].size(),
+              query_yn("Buy %d items, leaving you with $%d?", items[0].size(),
                        g->u.cash - total_price)))
      done = true;
     if (!done) { // We canceled, so redraw everything
@@ -995,7 +1002,7 @@ Press Enter to buy everything in your cart, Esc to buy nothing.");
    for (int j = 0; j < item_count[0][i]; j++) {
     if (g->u.volume_carried() + tmp.volume() <= g->u.volume_capacity() &&
         g->u.weight_carried() + tmp.weight() <= g->u.weight_capacity() &&
-        g->u.inv.size() < 52)
+        g->u.inv.size() < inv_chars.size())
      g->u.i_add(tmp);
     else { // Could fit it in the inventory!
      dropped_some = true;
@@ -1019,7 +1026,7 @@ std::string caravan_category_name(caravan_category cat)
   case CARAVAN_CLOTHES:		return "Clothing & Armor";
   case CARAVAN_TOOLS:		return "Tools, Traps & Grenades";
  }
- return "BUG";
+ return "BUG (defense.cpp:caravan_category_name)";
 }
 
 std::vector<itype_id> caravan_items(caravan_category cat)
@@ -1030,51 +1037,51 @@ std::vector<itype_id> caravan_items(caravan_category cat)
   return ret;
 
  case CARAVAN_MELEE:
-  setvector(ret,
-itm_hammer, itm_bat, itm_mace, itm_morningstar, itm_hammer_sledge, itm_hatchet,
-itm_knife_combat, itm_rapier, itm_machete, itm_katana, itm_spear_knife,
-itm_pike, itm_chainsaw_off, NULL);
+  setvector(&ret,
+"hammer", "bat", "mace", "morningstar", "hammer_sledge", "hatchet",
+"knife_combat", "rapier", "machete", "katana", "spear_knife",
+"pike", "chainsaw_off", NULL);
   break;
 
  case CARAVAN_GUNS:
-  setvector(ret,
-itm_crossbow, itm_bolt_steel, itm_compbow, itm_arrow_cf, itm_marlin_9a,
-itm_22_lr, itm_hk_mp5, itm_9mm, itm_taurus_38, itm_38_special, itm_deagle_44,
-itm_44magnum, itm_m1911, itm_hk_ump45, itm_45_acp, itm_fn_p90, itm_57mm,
-itm_remington_870, itm_shot_00, itm_shot_slug, itm_browning_blr, itm_3006,
-itm_ak47, itm_762_m87, itm_m4a1, itm_556, itm_savage_111f, itm_hk_g3,
-itm_762_51, itm_hk_g80, itm_12mm, itm_plasma_rifle, itm_plasma, NULL);
+  setvector(&ret,
+"crossbow", "bolt_steel", "compbow", "arrow_cf", "marlin_9a",
+"22_lr", "hk_mp5", "9mm", "taurus_38", "38_special", "deagle_44",
+"44magnum", "m1911", "hk_ump45", "45_acp", "fn_p90", "57mm",
+"remington_870", "shot_00", "shot_slug", "browning_blr", "3006",
+"ak47", "762_m87", "m4a1", "556", "savage_111f", "hk_g3",
+"762_51", "hk_g80", "12mm", "plasma_rifle", "plasma", NULL);
   break;
 
  case CARAVAN_COMPONENTS:
-  setvector(ret,
-itm_rag, itm_fur, itm_leather, itm_superglue, itm_string_36, itm_chain,
-itm_processor, itm_RAM, itm_power_supply, itm_motor, itm_hose, itm_pot,
-itm_2x4, itm_battery, itm_nail, itm_gasoline, NULL);
+  setvector(&ret,
+"rag", "fur", "leather", "superglue", "string_36", "chain",
+"processor", "RAM", "power_supply", "motor", "hose", "pot",
+"2x4", "battery", "nail", "gasoline", NULL);
   break;
 
  case CARAVAN_FOOD:
-  setvector(ret,
-itm_1st_aid, itm_water, itm_energy_drink, itm_whiskey, itm_can_beans,
-itm_mre_beef, itm_flour, itm_inhaler, itm_codeine, itm_oxycodone, itm_adderall,
-itm_cig, itm_meth, itm_royal_jelly, itm_mutagen, itm_purifier, NULL);
+  setvector(&ret,
+"1st_aid", "water", "energy_drink", "whiskey", "can_beans",
+"mre_beef", "flour", "inhaler", "codeine", "oxycodone", "adderall",
+"cig", "meth", "royal_jelly", "mutagen", "purifier", NULL);
  break;
 
  case CARAVAN_CLOTHES:
-  setvector(ret,
-itm_backpack, itm_vest, itm_trenchcoat, itm_jacket_leather, itm_kevlar,
-itm_gloves_fingerless, itm_mask_filter, itm_mask_gas, itm_glasses_eye,
-itm_glasses_safety, itm_goggles_ski, itm_goggles_nv, itm_helmet_ball,
-itm_helmet_riot, NULL);
+  setvector(&ret,
+"backpack", "vest", "trenchcoat", "jacket_leather", "kevlar",
+"gloves_fingerless", "mask_filter", "mask_gas", "glasses_eye",
+"glasses_safety", "goggles_ski", "goggles_nv", "helmet_ball",
+"helmet_riot", NULL);
   break;
 
  case CARAVAN_TOOLS:
-  setvector(ret,
-itm_screwdriver, itm_wrench, itm_saw, itm_hacksaw, itm_lighter, itm_sewing_kit,
-itm_scissors, itm_extinguisher, itm_flashlight, itm_hotplate,
-itm_soldering_iron, itm_shovel, itm_jackhammer, itm_landmine, itm_teleporter,
-itm_grenade, itm_flashbang, itm_EMPbomb, itm_smokebomb, itm_bot_manhack,
-itm_bot_turret, itm_UPS_off, itm_mininuke, NULL);
+  setvector(&ret,
+"screwdriver", "wrench", "saw", "hacksaw", "lighter", "sewing_kit",
+"scissors", "extinguisher", "flashlight", "hotplate",
+"soldering_iron", "shovel", "jackhammer", "landmine", "teleporter",
+"grenade", "flashbang", "EMPbomb", "smokebomb", "bot_manhack",
+"bot_turret", "UPS_off", "mininuke", NULL);
   break;
  }
 

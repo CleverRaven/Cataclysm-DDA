@@ -1,7 +1,6 @@
 #include "game.h"
 #include "keypress.h"
 #include "options.h"
-#include "action.h"
 
 #ifndef LINE_XOXO
 	#define LINE_XOXO 4194424
@@ -19,11 +18,8 @@
 
 void game::help()
 {
- int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
- int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
-
- WINDOW* w_help_border = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
- WINDOW* w_help = newwin(23, 78, 1 + (int)((iMaxY > 25) ? (iMaxY-25)/2 : 0), 1 + (int)((iMaxX > 80) ? (iMaxX-80)/2 : 0));
+ WINDOW* w_help_border = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW* w_help = newwin(23, 78, 1 + (int)((TERMY > 25) ? (TERMY-25)/2 : 0), 1 + (int)((TERMX > 80) ? (TERMX-80)/2 : 0));
 
  char ch;
 
@@ -43,7 +39,7 @@ c: Viewing                           k: Traps\n\
 d: Hunger, Thirst, and Sleep         l: Items overview\n\
 e: Pain and Stimulants               m: Combat\n\
 f: Addiction                         n: Unarmed Styles\n\
-g: Morale and XP                     o: Survival tips\n\
+g: Morale and Learning               o: Survival tips\n\
 h: Radioactivity and Mutation\n\
 \n\
 1: List of all commands (you can change key commands here)\n\
@@ -225,14 +221,24 @@ Press any key for more...");
    getch();
    werase(w_help);
    mvwprintz(w_help, 0, 0, c_white, "\
-Morale is also responsible for filling your XP pool. This XP pool is used\n\
-for improving your skills; as you use your skills, points are taken from the\n\
-XP pool and placed into the skill used. If your XP pool is empty, your\n\
-skills cannot be improved except through the use of books.\n\
+Morale is also responsible for ensuring you can learn effectively, via a\n\
+mechanic referred to as 'focus'. Your focus level is a measure of how\n\
+effectively you can learn. The natural level is 100, which indicates normal\n\
+learning potential. Higher or lower focus levels make it easier or harder to\n\
+learn from practical experience.\n\
 \n\
-Your XP pool will not fill unless your morale is at least 0. A morale level\n\
-between 0 and 100 gives the percentage chance for your XP to increase by 1\n\
-each turn. Above 100, you get 1 XP point each turn for every 100 morale.");
+Your focus level has a natural set point that it converges towards. When your\n\
+focus is much lower - or higher - than this set point, it will change faster\n\
+than when it is near the set point. Having high morale will raise the set\n\
+point, and having low morale will lower the set point. Pain is also factored\n\
+into the set point calculation - it's harder to learn when you're in pain.\n\
+\n\
+Your focus is also lowered by certain activities. Training your skills\n\
+through real-world practice lowers your focus gradually, by an amount that\n\
+depends on your current level of focus (higher focus means larger decreases,\n\
+as well as improved learning). Training your skills by reading books\n\
+decreases your focus rapidly, by giving a significant penalty to the set\n\
+point of your focus.");
    wrefresh(w_help);
    refresh();
    getch();
@@ -405,8 +411,9 @@ but you will absorb the excess.\n\
 Swarms of monsters may call for firearms. If you find one, wield it first,\n\
 then reload by pressing 'r'. If you wish to change ammo, you must unload the\n\
 weapon by pressing 'U', then reload again. To fire, press 'f', move the\n\
-cursor to the relevant space, then hit '.' or 'f'. Some guns have automatic\n\
-fire; to shoot a burst, press 'F'. This will severely reduce accuracy.\n\
+cursor to the relevant space, then hit '.' or 'f'. Some guns have alternate\n\
+firing modes, such as burst fire; to cycle modes, press 'F'.  Firing\n\
+continuously, especially in bursts, will severely reduce accuracy.\n\
 \n\
 Unlike most roguelikes, fleeing will often be your best option, especially\n\
 when overwhelmed by a swarm of zombies. Try to avoid getting cornered inside\n\
@@ -490,7 +497,7 @@ extremities from frostbite and to keep your distance from large fires.");
   case '1': {
    werase(w_help);
    int offset = 1;
-   char ch = ' ';
+   char remapch = ' ';
    bool changed_keymap = false;
    bool needs_refresh = true;
    do {
@@ -511,7 +518,7 @@ extremities from frostbite and to keep your distance from large fires.");
     }
 // Clear the lines
     for (int i = 0; i < 23; i++)
-     mvwprintz(w_help, i, 0, c_black, "                                        ");
+     mvwprintz(w_help, i, 0, c_black, "                                                ");
 
     for (int i = 0; i < 23 && offset + i < NUM_ACTIONS; i++) {
      std::vector<char> keys = keys_bound_to( action_id(offset + i) );
@@ -529,14 +536,14 @@ extremities from frostbite and to keep your distance from large fires.");
     }
     wrefresh(w_help);
     refresh();
-    ch = input();
+    remapch = input();
     int sx = 0, sy = 0;
-    get_direction(this, sx, sy, ch);
+    get_direction(this, sx, sy, remapch);
     if (sy == -1 && offset > 1)
      offset--;
     if (sy == 1 && offset + 20 < NUM_ACTIONS)
      offset++;
-    if (ch == '-' || ch == '+') {
+    if (remapch == '-' || remapch == '+') {
      needs_refresh = true;
      for (int i = 0; i < 23 && i + offset < NUM_ACTIONS; i++) {
       mvwprintz(w_help, i, 0, c_ltblue, "%c", 'a' + i);
@@ -548,10 +555,10 @@ extremities from frostbite and to keep your distance from large fires.");
      if (actch >= 'a' && actch <= 'a' + 24 &&
          actch - 'a' + offset < NUM_ACTIONS) {
       action_id act = action_id(actch - 'a' + offset);
-      if (ch == '-' && query_yn(this->VIEWX, this->VIEWY, "Clear keys for %s?",action_name(act).c_str())){
+      if (remapch == '-' && query_yn("Clear keys for %s?",action_name(act).c_str())){
        clear_bindings(act);
        changed_keymap = true;
-      } else if (ch == '+') {
+      } else if (remapch == '+') {
        char newbind = popup_getkey("New key for %s:", action_name(act).c_str());
        if (keymap.find(newbind) == keymap.end()) { // It's not in use!  Good.
         keymap[ newbind ] = act;
@@ -562,8 +569,8 @@ extremities from frostbite and to keep your distance from large fires.");
       }
      }
     }
-   } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
-   if (changed_keymap && query_yn(this->VIEWX, this->VIEWY, "Save changes?"))
+   } while (remapch != 'q' && remapch != 'Q' && remapch != KEY_ESCAPE);
+   if (changed_keymap && query_yn("Save changes?"))
     save_keymap();
    werase(w_help);
   } break;
@@ -710,7 +717,7 @@ O           Parking lot - Empty lot, few items. Mostly useless.");
 Handguns are small weapons held in one or both hands. They are much more\n\
 difficult to aim and control than larger firearms, and this is reflected in\n\
 their poor accuracy. However, their small size makes them appropriate for\n\
-short-range combat, where largers guns fare poorly.\n\
+short-range combat, where larger guns fare poorly.\n\
 They are also relatively quick to reload, and use a very wide selection of\n\
 ammunition. Their small size and low weight make it possible to carry\n\
 several loaded handguns, switching from one to the next once their ammo is\n\
@@ -797,7 +804,7 @@ making them very good at clearing out large numbers of enemies.");
    mvwprintz(w_help, 10, 0, c_magenta, "( Energy Weapons");
    mvwprintz(w_help, 11, 0, c_white, "\
 Energy weapons is an umbrella term used to describe a variety of rifles and\n\
-handguns which fire lasers, plasma, or energy atttacks. They started to\n\
+handguns which fire lasers, plasma, or energy attacks. They started to\n\
 appear in military use just prior to the start of the apocalypse, and as such\n\
 are very difficult to find.\n\
 Energy weapons have no recoil at all; they are nearly silent, have a long\n\
@@ -813,10 +820,10 @@ really need it.");
 
   case '6':
    mvwprintz(w_help, 0, 0, c_white, "\
-Q: What is Run Mode, and why does it prevent me from moving?\n\
-A: Run Mode is a way to guarantee that you won't die by holding a movement\n\
+Q: What is Safe Mode, and why does it prevent me from moving?\n\
+A: Safe Mode is a way to guarantee that you won't die by holding a movement\n\
    key down. When a monster comes into view, your movement will be ignored\n\
-   until Run Mode is turned off with the ! key. This ensures that the\n\
+   until Safe Mode is turned off with the ! key. This ensures that the\n\
    sudden appearence of a monster won't catch you off guard.\n\
 \n\
 Q: It seems like everything I eat makes me sick! What's wrong?\n\
@@ -825,14 +832,12 @@ A: Lots of the food found in towns is perishable, and will only last a few\n\
    the first to go. After the first couple of days, you should switch to\n\
    canned food, jerky, and hunting.\n\
 \n\
-Q: Why doesn't reading a book seem to give me any training?\n\
-A: Your skills will not be displayed in the @ screen until they reach level\n\
-   one. Generally it will take several reads of the same book to gain a\n\
-   single level in a skill.\n\
+Q: How can I remove boards from boarded-up windows and doors?\n\
+A: Use a hammer and choose the direction of the boarded-up window or\n\
+   door to remove the boards.\n\
 \n\
-Q: How can I board up windows and doors?\n\
-A: You'll need a hammer, nails, and two by fours. Use the hammer and choose\n\
-   the direction in which the terrain you wish to barricade lies.\n\
+Q: The game just told me to quit, and other weird stuff is happening.\n\
+A: You have the Schizophrenic trait, which might make the game seem buggy.\n\
 \n\
 Q: How can I prevent monsters from attacking while I sleep?\n\
 A: Find a safe place to sleep, in a building far from the front door. Set\n\
@@ -870,16 +875,24 @@ A: Check the difficulty of the recipe, and the primary skill used; your skill\n\
    getch();
    werase(w_help);
    mvwprintz(w_help, 0, 0, c_white, "\
+Q: Why can't I carry anything?\n\
+A: At the start of the game you only have the space in your pockets. A\n\
+   good first goal of many survivors is to find a backpack or pouch to store\n\
+   things in. (The shelter basement is a good place to check first!)\n\
+\n\
 Q: Shotguns bring in more zombies than they kill!  What's the point?\n\
 A: Shotguns are intended for emergency use. If you are cornered, use your\n\
    shotgun to escape, then just run from the zombies it attracts.\n\
 \n\
-Q: The game just told me to quit, and other weird stuff is happening.\n\
-A: You have the Schizophrenic trait, which might make the game seem buggy.\n\
+Q: Help! I started a fire and now my house is burning down!\n\
+A: Fires will spread to nearby flammable tiles if they are able. Liting a\n\
+   fire in a set-up brazier, wood stove, stone fireplace, or pit will stop\n\
+   it from spreading. Fire extinquishers can put out fires that get out of\n\
+   control.\n\
 \n\
 Q: I have a question that's not addressed here. How can I get an answer?\n\
-A: Email your question to TheDarklingWolf@Gmail.com. I'll answer it for you,\n\
-   and possibly include it on this list.");
+A: Ask the helpful people on the forum at smf.cataclysmdda.com or email\n\
+   your question to TheDarklingWolf@Gmail.com.");
 
    wrefresh(w_help);
    refresh();

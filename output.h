@@ -21,6 +21,16 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
+// Display data
+extern int TERMX;
+extern int TERMY;
+extern int VIEWX;
+extern int VIEWY;
+extern int VIEW_OFFSET_X;
+extern int VIEW_OFFSET_Y;
+extern int TERRAIN_WINDOW_WIDTH;
+extern int TERRAIN_WINDOW_HEIGHT;
+
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW* w, nc_color FG, long ch);
 void mvwputch(WINDOW* w, int y, int x, nc_color FG, long ch);
@@ -38,27 +48,28 @@ void draw_tabs(WINDOW *w, int active_tab, ...);
 #define STRING(x) STRING2(x)
 
 // classy
-#define debugmsg(format...) realDebugmsg(__FILE__, STRING(__LINE__), format)
+#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __VA_ARGS__)
 
 void realDebugmsg(const char* name, const char* line, const char *mes, ...);
-bool query_yn(int iViewX, int iViewY, const char *mes, ...);
+bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
 std::string string_input_popup(std::string title, int max_length = 0, std::string input = "");
 char popup_getkey(const char *mes, ...);
-int  menu_vec(const char *mes, std::vector<std::string> options);
-int  menu(const char *mes, ...);
+// for the next two functions, if cancelable is true, esc returns the last option
+int  menu_vec(bool cancelable, const char *mes, std::vector<std::string> options);
+int  menu(bool cancelable, const char *mes, ...);
 void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);
 void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
-char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare);
+int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected=-1);
 
 nc_color hilite(nc_color c);
 nc_color invert_color(nc_color c);
 nc_color red_background(nc_color c);
 nc_color rand_color();
 char rand_char();
-long special_symbol (char sym);
+long special_symbol (long sym);
 
 // utility: moves \n's around to fit string breaks within a certain width.
 std::string word_rewrap (const std::string &in, int width);

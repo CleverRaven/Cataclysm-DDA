@@ -5,14 +5,19 @@
 #define sgn(x) (((x) < 0) ? -1 : 1)
 #endif
 
-enum material {
-MNULL = 0,
-//Food Materials
-LIQUID, VEGGY, FLESH, POWDER, HFLESH, //Human Flesh.
-//Clothing
-COTTON, WOOL, LEATHER, KEVLAR, FUR,
-//Other
-STONE, PAPER, WOOD, PLASTIC, GLASS, IRON, STEEL, SILVER
+enum phase_id {
+PNULL, SOLID, LIQUID, GAS, PLASMA
+};
+
+enum damage_type
+{
+    DNULL = 0,
+    BASH,
+    CUT,
+    ACID,
+    ELECTRICITY,
+    FIRE,
+    NUM_DAM_TYPES
 };
 
 struct point {

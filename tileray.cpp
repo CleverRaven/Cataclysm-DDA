@@ -5,8 +5,8 @@
 static const int sx[4] = { 1, -1, -1, 1 };
 static const int sy[4] = { 1, 1, -1, -1 };
 
-tileray::tileray (): deltax(0), deltay(0), direction(0), leftover (0),
-                     last_dx(0), last_dy(0), infinite (false), steps(0)
+tileray::tileray (): deltax(0), deltay(0),  leftover(0), direction(0),
+                     last_dx(0), last_dy(0), steps(0), infinite (false)
 {
 }
 
@@ -22,24 +22,26 @@ tileray::tileray (int adir): direction (adir)
 
 void tileray::init (int adx, int ady)
 {
-    leftover = 0;
-    last_dx = 0;
-    last_dy = 0;
     deltax = adx;
     deltay = ady;
+    leftover = 0;
     if (!adx && !ady)
         direction = 0;
     else{
-        direction = (int) (atan2 (deltay, deltax) * 180.0 / M_PI);
+        direction = (int) (atan2 ((double)deltay, (double)deltax) * 180.0 / M_PI);
         if (direction <0)
             direction += 360;
     }
-    infinite = false;
+    last_dx = 0;
+    last_dy = 0;
     steps = 0;
+    infinite = false;
 }
 
 void tileray::init (int adir)
 {
+    deltax = 0;
+    deltay = 0;
     leftover = 0;
     direction = adir;
     if (direction <0)
@@ -50,8 +52,8 @@ void tileray::init (int adir)
     last_dy = 0;
     deltax = abs((int) (cos ((float) direction * M_PI / 180.0) * 100));
     deltay = abs((int) (sin ((float) direction * M_PI / 180.0) * 100));
-    infinite = true;
     steps = 0;
+    infinite = true;
 }
 
 int tileray::dx ()
@@ -83,7 +85,7 @@ int tileray::dir4 ()
         return 0;
 }
 
-char tileray::dir_symbol (char sym)
+long tileray::dir_symbol (long sym)
 {
     switch (sym)
     {

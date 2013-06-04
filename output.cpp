@@ -26,6 +26,16 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
+// Display data
+int TERMX;
+int TERMY;
+int VIEWX;
+int VIEWY;
+int VIEW_OFFSET_X;
+int VIEW_OFFSET_Y;
+int TERRAIN_WINDOW_WIDTH;
+int TERRAIN_WINDOW_HEIGHT;
+
 nc_color hilite(nc_color c)
 {
  switch (c) {
@@ -218,7 +228,7 @@ void printz(nc_color FG, const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  attron(FG);
- printw(buff);
+ printw("%s", buff); 
  attroff(FG);
 }
 
@@ -230,7 +240,7 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  wattron(w, FG);
- wprintw(w, buff);
+ wprintw(w, "%s", buff);
  wattroff(w, FG);
 }
 
@@ -318,7 +328,7 @@ void realDebugmsg(const char* filename, const char* line, const char *mes, ...)
  attroff(c_red);
 }
 
-bool query_yn(int iViewX, int iViewY, const char *mes, ...)
+bool query_yn(const char *mes, ...)
 {
  bool force_uc = OPTIONS[OPT_FORCE_YN];
  va_list ap;
@@ -328,20 +338,16 @@ bool query_yn(int iViewX, int iViewY, const char *mes, ...)
  va_end(ap);
  int win_width = strlen(buff) + 26;
 
- int iMaxX = (iViewX < 12) ? 80 : (iViewX*2)+56;
- int iMaxY = (iViewY < 12) ? 25 : (iViewY*2)+1;
-
- WINDOW *w = newwin(3, win_width, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > win_width) ? (iMaxX-win_width)/2 : 0);
+ WINDOW *w = newwin(3, win_width, (TERMY-3)/2, (TERMX > win_width) ? (TERMX-win_width)/2 : 0);
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintz(w, 1, 1, c_ltred, "%s (%s)", buff,
-           (force_uc ? "Y/N - Case Sensitive" : "y/n"));
+ mvwprintz(w, 1, 1, c_ltred, "%s (%s)", buff, (force_uc ? "Y/N - Case Sensitive" : "y/n"));
  wrefresh(w);
  char ch;
  do
   ch = getch();
- while (ch != 'Y' && ch != 'N' && (force_uc || (ch != 'y' && ch != 'n')));
+ while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE && ch != 'Y' && ch != 'N' && (force_uc || (ch != 'y' && ch != 'n')));
  werase(w);
  wrefresh(w);
  delwin(w);
@@ -359,7 +365,9 @@ int query_int(const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  int win_width = strlen(buff) + 10;
- WINDOW* w = newwin(3, win_width, 11, 0);
+
+ WINDOW *w = newwin(3, win_width, (TERMY-3)/2, 11+((TERMX > win_width) ? (TERMX-win_width)/2 : 0));
+
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w, 1, 1, c_ltred, "%s (0-9)", buff);
@@ -382,7 +390,7 @@ std::string string_input_popup(std::string title, int max_length, std::string in
  std::string ret = input;
 
  int startx = title.size() + 2;
- WINDOW* w = newwin(3, 80, 11, 0);
+ WINDOW *w = newwin(3, 80, (TERMY-3)/2, ((TERMX > 80) ? (TERMX-80)/2 : 0));
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  for (int i = startx + 1; i < 79; i++)
@@ -410,12 +418,14 @@ std::string string_input_popup(std::string title, int max_length, std::string in
    delwin(w);
    refresh();
    return ret;
-  } else if ((ch == KEY_BACKSPACE || ch == 127) && posx > startx) {
+  } else if (ch == KEY_BACKSPACE || ch == 127) {
 // Move the cursor back and re-draw it
-   ret = ret.substr(0, ret.size() - 1);
-   mvwputch(w, 1, posx, c_ltgray, '_');
-   posx--;
-   mvwputch(w, 1, posx, h_ltgray, '_');
+   if( posx > startx ) { // but silently drop input if we're at 0, instead of adding '^'
+       ret = ret.substr(0, ret.size() - 1);
+       mvwputch(w, 1, posx, c_ltgray, '_');
+       posx--;
+       mvwputch(w, 1, posx, h_ltgray, '_');
+   }
   } else if(ret.size() < max_length || max_length == 0) {
    ret += ch;
    mvwputch(w, 1, posx, c_magenta, ch);
@@ -448,8 +458,7 @@ char popup_getkey(const char *mes, ...)
  width += 2;
  if (height > 25)
   height = 25;
- WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
-                    int((80 - width) / 2));
+ WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  tmp = buff;
@@ -474,7 +483,7 @@ char popup_getkey(const char *mes, ...)
  return ch;
 }
 
-int menu_vec(const char *mes, std::vector<std::string> options)
+int menu_vec(bool cancelable, const char *mes, std::vector<std::string> options)
 {
  if (options.size() == 0) {
   debugmsg("0-length menu (\"%s\")", mes);
@@ -486,21 +495,28 @@ int menu_vec(const char *mes, std::vector<std::string> options)
   if (options[i].length() + 6 > width)
    width = options[i].length() + 6;
  }
- WINDOW* w = newwin(height, width, 12-height/2, 40-width/2);
+int currsel=-1;
+std::string spaces(width-2, ' ');
+ WINDOW *w = newwin(height, width, (TERMY-height)/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wattron(w, c_white);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintw(w, 1, 1, title.c_str());
- for (int i = 0; i < options.size(); i++)
-  mvwprintw(w, i + 2, 1, "%c: %s", (i < 9? i + '1' :
-                                   (i == 9? '0' : 'a' + i - 10)),
-            options[i].c_str());
  long ch;
- wrefresh(w);
  int res;
  do
  {
+  for (int i = 0; i < options.size(); i++) {
+   mvwprintz(w, i + 2, 1, (i==currsel ? h_white : c_white), "%s", spaces.c_str() );
+   mvwprintz(w, i + 2, 1, (i==currsel ? h_white : c_white), "%c: %s", (i < 9? i + '1' :
+                                    (i == 9? '0' : 'a' + i - 10)),
+             options[i].c_str());
+  }
+  wrefresh(w);
   ch = getch();
+  if (cancelable && ch == KEY_ESCAPE)
+   res = options.size();
+  else
   if (ch >= '1' && ch <= '9')
    res = ch - '1' + 1;
   else
@@ -510,9 +526,20 @@ int menu_vec(const char *mes, std::vector<std::string> options)
   if (ch >= 'a' && ch <= 'z')
    res = ch - 'a' + 11;
   else
+  if (ch == KEY_DOWN )
+   currsel++;
+  else
+  if (ch == KEY_UP )
+   currsel--;
+  else
+  if(ch == '\n' && currsel >= 0 && currsel < options.size() )
+   res=currsel+1;
+  else
    res = -1;
   if (res > options.size())
    res = -1;
+  if (currsel < -1) currsel = options.size() - 1;
+  else if ( currsel > 0 && currsel > options.size() ) currsel = 0;
  }
  while (res == -1);
  werase(w);
@@ -521,7 +548,7 @@ int menu_vec(const char *mes, std::vector<std::string> options)
  return (res);
 }
 
-int menu(const char *mes, ...)
+int menu(bool cancelable, const char *mes, ...)
 {
  va_list ap;
  va_start(ap, mes);
@@ -536,7 +563,7 @@ int menu(const char *mes, ...)
   } else
    done = true;
  }
- return (menu_vec(mes, options));
+ return (menu_vec(cancelable, mes, options));
 }
 
 void popup_top(const char *mes, ...)
@@ -560,7 +587,7 @@ void popup_top(const char *mes, ...)
  if (width == 0 || tmp.length() > width)
   width = tmp.length();
  width += 2;
- WINDOW* w = newwin(height + 1, width, 0, int((80 - width) / 2));
+ WINDOW *w = newwin(height+1, width, 0, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  tmp = buff;
@@ -610,8 +637,7 @@ void popup(const char *mes, ...)
  width += 2;
  if (height > 25)
   height = 25;
- WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
-                    int((80 - width) / 2));
+ WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  tmp = buff;
@@ -661,8 +687,7 @@ void popup_nowait(const char *mes, ...)
  width += 2;
  if (height > 25)
   height = 25;
- WINDOW* w = newwin(height + 1, width, int((25 - height) / 2),
-                    int((80 - width) / 2));
+ WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  tmp = buff;
@@ -690,7 +715,8 @@ void full_screen_popup(const char* mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
- WINDOW* w = newwin(25, 80, 0, 0);
+
+ WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  size_t pos = tmp.find_first_of('\n');
@@ -715,15 +741,22 @@ void full_screen_popup(const char* mes, ...)
  refresh();
 }
 
-char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare)
+//note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things
+//if sType == "MENU", sPre == "iOffsetY" or "iOffsetX" also do special things
+//otherwise if sType == "MENU", iValue can be used to control color
+//all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
+// well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
+int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string sItemName, std::vector<iteminfo> vItemDisplay, std::vector<iteminfo> vItemCompare, int selected)
 {
- WINDOW* w = newwin(iHeight, iWidth, 0, iLeft);
+ WINDOW* w = newwin(iHeight, iWidth, VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
  mvwprintz(w, 1, 2, c_white, sItemName.c_str());
  int line_num = 3;
  int iStartX = 0;
  std::string sPlus;
  bool bStartNewLine = true;
+ int selected_ret='\n';
+ std::string spaces(iWidth-2, ' ');
  for (int i = 0; i < vItemDisplay.size(); i++) {
   if (vItemDisplay[i].sType == "MENU") {
    if (vItemDisplay[i].sPre == "iOffsetY") {
@@ -731,14 +764,24 @@ char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string 
    } else if (vItemDisplay[i].sPre == "iOffsetX") {
     iStartX = vItemDisplay[i].iValue;
    } else {
-    mvwprintz(w, line_num, iStartX, c_ltgreen, "%s", (vItemDisplay[i].sName).c_str());
-    wprintz(w, c_white, "%s", (vItemDisplay[i].sPre).c_str());
+    nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
+    //patched to allow variable "name" coloring, e.g. for item examining
+    nc_color bgColor = c_white;     //yes the name makes no sense
+    if (vItemDisplay[i].iValue >= 0) {
+     nameColor = vItemDisplay[i].iValue == 0 ? c_ltgray : c_ltred;
+    }
+    if ( i == selected && vItemDisplay[i].sName != "" ) {
+      bgColor = h_white;
+      selected_ret=(int)vItemDisplay[i].sName.c_str()[0]; // fixme: sanity check(?)
+    }
+    mvwprintz(w, line_num, 1, bgColor, "%s", spaces.c_str() );
+    mvwprintz(w, line_num, iStartX, nameColor, "%s", (vItemDisplay[i].sName).c_str());
+    wprintz(w, bgColor, "%s", (vItemDisplay[i].sPre).c_str());
     line_num++;
    }
   } else if (vItemDisplay[i].sType == "DESCRIPTION") {
    std::string sText = vItemDisplay[i].sName;
    std::replace(sText.begin(), sText.end(), '\n', ' ');
-   int iPos;
    while (1) {
      line_num++;
      if (sText.size() > iWidth-4) {
@@ -809,11 +852,16 @@ char compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- char ch = ' ';
+ int ch = (int)' ';
 
  wrefresh(w);
  if (iLeft > 0) {
-  ch = getch();
+  ch = (int)getch();
+  if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
+    ch=selected_ret;
+  } else if ( selected == KEY_LEFT ) {
+    ch=(int)' ';
+  }
   werase(w);
   wrefresh(w);
   delwin(w);
@@ -842,7 +890,7 @@ char rand_char()
 
 // this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
 // h, j, c to horizontal, vertical, cross correspondingly
-long special_symbol (char sym)
+long special_symbol (long sym)
 {
     switch (sym)
     {
@@ -925,7 +973,11 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
 
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 {
-    WINDOW *w_hit = newwin(1, 1, iY, iX);
+    WINDOW *w_hit = newwin(1, 1, iY+VIEW_OFFSET_Y, iX+VIEW_OFFSET_X);
+    if (w_hit == NULL) {
+        return; //we passed in negative values (semi-expected), so let's not segfault
+    }
+
     mvwputch(w_hit, 0, 0, cColor, cTile);
     wrefresh(w_hit);
 

@@ -1,6 +1,7 @@
 #include "game.h"
 #include "options.h"
 #include "output.h"
+#include "debug.h"
 #include "keypress.h"
 
 #include <stdlib.h>
@@ -16,23 +17,20 @@ std::string options_header();
 
 void game::show_options()
 {
- int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
- int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
-
- WINDOW* w_options_border = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
- WINDOW* w_options = newwin(23, 78, 1 + (int)((iMaxY > 25) ? (iMaxY-25)/2 : 0), 1 + (int)((iMaxX > 80) ? (iMaxX-80)/2 : 0));
+ WINDOW* w_options_border = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW* w_options = newwin(23, 78, 1 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 1 + ((TERMX > 80) ? (TERMX-80)/2 : 0));
 
  int offset = 1;
+ const int MAX_LINE = 22;
  int line = 0;
  char ch = ' ';
  bool changed_options = false;
  bool needs_refresh = true;
+ wborder(w_options_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+         LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+ mvwprintz(w_options_border, 0, 36, c_ltred, " OPTIONS ");
+ wrefresh(w_options_border);
  do {
-  wborder(w_options_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
-  mvwprintz(w_options_border, 0, 36, c_ltred, " OPTIONS ");
-  wrefresh(w_options_border);
-
 // TODO: change instructions
   if (needs_refresh) {
     werase(w_options);
@@ -61,7 +59,7 @@ void game::show_options()
   int valid_option_count = 0;
 
 // display options
-  for (int i = 0; i < 25 && offset + i < NUM_OPTION_KEYS; i++)
+  for (int i = 0; i < 26 && offset + i < NUM_OPTION_KEYS; i++)
   {
        valid_option_count++;
        mvwprintz(w_options, i, 0, c_white, "%s: ",
@@ -83,22 +81,32 @@ void game::show_options()
       }
   }
   wrefresh(w_options);
-  refresh();
   ch = input();
   needs_refresh = true;
-  refresh();
 
  switch (ch) {
 // move up and down
   case 'j':
    line++;
-   if (line == NUM_OPTION_KEYS - 1)
+   if (line > MAX_LINE/2 && offset + 1 < NUM_OPTION_KEYS - MAX_LINE) {
+    ++offset;
+    --line;
+   }
+   if (line > MAX_LINE) {
     line = 0;
+    offset = 1;
+   }
    break;
   case 'k':
    line--;
-   if (line < 0)
-    line = NUM_OPTION_KEYS - 2;
+   if (line < MAX_LINE/2 && offset > 1) {
+    --offset;
+    ++line;
+   }
+   if (line < 0) {
+    line = MAX_LINE;
+    offset = NUM_OPTION_KEYS - MAX_LINE - 1;
+   }
    break;
 // toggle options with left/right keys
   case 'h':
@@ -124,9 +132,10 @@ void game::show_options()
     changed_options = true;
   break;
   }
+  if (changed_options && OPTIONS[OPT_SEASON_LENGTH] < 1 ) OPTIONS[OPT_SEASON_LENGTH]=option_max_options(OPT_SEASON_LENGTH)-1;
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
- if (changed_options && query_yn(this->VIEWX, this->VIEWY, "Save changes?"))
+ if (changed_options && query_yn("Save changes?"))
   save_options();
  werase(w_options);
 }
@@ -140,7 +149,7 @@ void load_options()
   create_default_options();
   fin.open("data/options.txt");
   if (!fin.is_open()) {
-   debugmsg("Could neither read nor create ./data/options.txt");
+   DebugLog() << "Could neither read nor create ./data/options.txt\n";
    return;
   }
  }
@@ -155,7 +164,7 @@ void load_options()
   else {
    option_key key = lookup_option_key(id);
    if (key == OPT_NULL) {
-    debugmsg("Bad option: %s", id.c_str());
+    DebugLog() << "Bad option: " << id << "\n";
     getline(fin, id);
    } else if (option_is_bool(key)) {
     std::string val;
@@ -207,8 +216,14 @@ option_key lookup_option_key(std::string id)
   return OPT_AUTOSAFEMODETURNS;
  if (id == "autosave")
   return OPT_AUTOSAVE;
+ if (id == "autosave_turns")
+  return OPT_AUTOSAVE_TURNS;
+ if (id == "autosave_minutes")
+  return OPT_AUTOSAVE_MINUTES;
  if (id == "gradual_night_light")
   return OPT_GRADUAL_NIGHT_LIGHT;
+ if (id == "rain_animation")
+  return OPT_RAIN_ANIMATION;
  if (id == "query_disassemble")
   return OPT_QUERY_DISASSEMBLE;
  if (id == "drop_empty")
@@ -225,8 +240,18 @@ option_key lookup_option_key(std::string id)
   return OPT_VIEWPORT_X;
  if (id == "viewport_y")
   return OPT_VIEWPORT_Y;
+ if (id == "move_view_offset")
+  return OPT_MOVE_VIEW_OFFSET;
  if (id == "static_spawn")
   return OPT_STATIC_SPAWN;
+ if (id == "classic_zombies")
+  return OPT_CLASSIC_ZOMBIES;
+ if (id == "season_length")
+  return OPT_SEASON_LENGTH;
+ if (id == "static_npc")
+  return OPT_STATIC_NPC;
+ if (id == "random_npc")
+  return OPT_RANDOM_NPC;
  return OPT_NULL;
 }
 
@@ -244,7 +269,10 @@ std::string option_string(option_key key)
   case OPT_AUTOSAFEMODE:	return "autosafemode";
   case OPT_AUTOSAFEMODETURNS: return "autosafemodeturns";
   case OPT_AUTOSAVE:    	return "autosave";
+  case OPT_AUTOSAVE_TURNS: return "autosave_turns";
+  case OPT_AUTOSAVE_MINUTES: return "autosave_minutes";
   case OPT_GRADUAL_NIGHT_LIGHT: return "gradual_night_light";
+  case OPT_RAIN_ANIMATION: return "rain_animation";
   case OPT_QUERY_DISASSEMBLE: return "query_disassemble";
   case OPT_DROP_EMPTY: return "drop_empty";
   case OPT_SKILL_RUST: return "skill_rust";
@@ -253,7 +281,12 @@ std::string option_string(option_key key)
   case OPT_INITIAL_TIME: return "initial_time";
   case OPT_VIEWPORT_X: return "viewport_x";
   case OPT_VIEWPORT_Y: return "viewport_y";
+  case OPT_MOVE_VIEW_OFFSET: return "move_view_offset";
   case OPT_STATIC_SPAWN: return "static_spawn";
+  case OPT_CLASSIC_ZOMBIES: return "classic_zombies";
+  case OPT_SEASON_LENGTH: return "season_length";
+  case OPT_STATIC_NPC: return "static_npc";
+  case OPT_RANDOM_NPC: return "random_npc";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -262,30 +295,38 @@ std::string option_string(option_key key)
 std::string option_desc(option_key key)
 {
  switch (key) {
-  case OPT_USE_CELSIUS:		return "If true, use C not F";
-  case OPT_USE_METRIC_SYS:	return "If true, use Km/h not mph";
-  case OPT_FORCE_YN:		return "If true, y/n prompts are case-sensitive\nand y and n are not accepted";
-  case OPT_NO_CBLINK:		return "If true, bright backgrounds are not\nused--some consoles are not compatible";
-  case OPT_24_HOUR:		return "12h/24h Time:\n0 - AM/PM\n1 - 24h military\n2 - 24h normal";
-  case OPT_SNAP_TO_TARGET:	return "If true, automatically follow the\ncrosshair when firing/throwing";
-  case OPT_SAFEMODE:		return "If true, safemode will be on after\nstarting a new game or loading";
-  case OPT_SAFEMODEPROXIMITY: return "If safemode is enabled,\ndistance to hostiles when safemode\nshould show a warning (0=Viewdistance)";
-  case OPT_AUTOSAFEMODE:	return "If true, auto-safemode will be on\nafter starting a new game or loading";
-  case OPT_AUTOSAFEMODETURNS: return "Number of turns after safemode\nis reenabled if no hostiles are\nin safemodeproximity distance";
-  case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map";
-  case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\n(should only make a difference @night)";
-  case OPT_QUERY_DISASSEMBLE: return "If true, will query before disassembling\nitems";
-  case OPT_DROP_EMPTY: return "Set to drop empty containers after use\n0 - don't drop any\n1 - all except watertight containers\n2 - all containers";
-  case OPT_SKILL_RUST: return "Set the level of skill rust\n0 - vanilla Cataclysm\n1 - capped at skill levels\n2 - none at all";
-  case OPT_DELETE_WORLD: return "Delete saves upon player death\n0 - no\n1 - yes\n2 - query";
-  case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.  Default is 6";
-  case OPT_INITIAL_TIME: return "Initial starting time of day on character\ngeneration.  Default is 8:00";
-  case OPT_VIEWPORT_X: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe X axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
-  case OPT_VIEWPORT_Y: return "WINDOWS ONLY: Set the expansion of the viewport along\nthe Y axis.  Must restart for changes\nto take effect.  Default is 12. POSIX\nsystems will use terminal size at startup.";
-  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must delete save directory\nafter changing for it to take effect.\nDefault is F";
+  case OPT_USE_CELSIUS:		return "If true, use Celcius not Fahrenheit.\nDefault is fahrenheit";
+  case OPT_USE_METRIC_SYS:	return "If true, use Km/h not mph.\nDefault is mph";
+  case OPT_FORCE_YN:		return "If true, y/n prompts are case-\nsensitive and y and n\nare not accepted.\nDefault is true";
+  case OPT_NO_CBLINK:		return "If true, bright backgrounds are not\nused--some consoles are not\ncompatible.\nDefault is false";
+  case OPT_24_HOUR:		return "12h/24h Time:\n0 - AM/PM (default)\n1 - 24h military\n2 - 24h normal";
+  case OPT_SNAP_TO_TARGET:	return "If true, automatically follow the\ncrosshair when firing/throwing.\nDefault is false";
+  case OPT_SAFEMODE:		return "If true, safemode will be on after\nstarting a new game or loading.\nDefault is true";
+  case OPT_SAFEMODEPROXIMITY: return "If safemode is enabled,\ndistance to hostiles when safemode\nshould show a warning.\n0=Viewdistance, and the default";
+  case OPT_AUTOSAFEMODE:	return "If true, auto-safemode will be on\nafter starting a new game or loading.\nDefault is false";
+  case OPT_AUTOSAFEMODETURNS: return "Number of turns after safemode\nis reenabled if no hostiles are\nin safemodeproximity distance.\nDefault is 50";
+  case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map\nDefault is false";
+  case OPT_AUTOSAVE_TURNS: return "Number of minutes between autosaves";
+  case OPT_AUTOSAVE_MINUTES: return "Minimum number of real time minutes\nbetween autosaves";
+  case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\nshould only make a difference\nduring the night.\nDefault is false";
+  case OPT_RAIN_ANIMATION: return "If true, will display weather\nanimations.\nDefault is true";
+  case OPT_QUERY_DISASSEMBLE: return "If true, will query before\ndisassembling items.\nDefault is true";
+  case OPT_DROP_EMPTY: return "Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers";
+  case OPT_SKILL_RUST: return "Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - none at all";
+  case OPT_DELETE_WORLD: return "Delete saves upon player death.\n0 - no (default)\n1 - yes\n2 - query";
+  case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.\nDefault is 6";
+  case OPT_INITIAL_TIME: return "Initial starting time of day on\ncharacter generation.\nDefault is 8:00";
+  case OPT_VIEWPORT_X: return "WINDOWS ONLY: Set the expansion of the\nviewport along the X axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
+  case OPT_VIEWPORT_Y: return "WINDOWS ONLY: Set the expansion of the\nviewport along the Y axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
+  case OPT_MOVE_VIEW_OFFSET: return "Move view by how many squares per\nkeypress.\nDefault is 1";
+  case OPT_SEASON_LENGTH: return "Season length, in days.\nDefault is 14";
+  case OPT_STATIC_SPAWN: return "Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is false";
+  case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false";
+  case OPT_STATIC_NPC: return "If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false";
+  case OPT_RANDOM_NPC: return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false";
   default:			return " ";
  }
- return "Big ol Bug";
+ return "Big ol Bug (options.cpp:option_desc)";
 }
 
 std::string option_name(option_key key)
@@ -302,7 +343,10 @@ std::string option_name(option_key key)
   case OPT_AUTOSAFEMODE:	return "Auto-Safemode on by default";
   case OPT_AUTOSAFEMODETURNS: return "Turns to reenable safemode";
   case OPT_AUTOSAVE:    	return "Periodically Autosave";
+  case OPT_AUTOSAVE_TURNS: return "Game minutes between autosaves";
+  case OPT_AUTOSAVE_MINUTES: return "Real minutes between autosaves";
   case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light";
+  case OPT_RAIN_ANIMATION: return "Rain animation";
   case OPT_QUERY_DISASSEMBLE: return "Query on disassembly";
   case OPT_DROP_EMPTY: return "Drop empty containers";
   case OPT_SKILL_RUST: return "Skill Rust";
@@ -311,10 +355,15 @@ std::string option_name(option_key key)
   case OPT_INITIAL_TIME: return "Initial time";
   case OPT_VIEWPORT_X: return "Viewport width";
   case OPT_VIEWPORT_Y: return "Viewport height";
+  case OPT_MOVE_VIEW_OFFSET: return "Move view offset";
   case OPT_STATIC_SPAWN: return "Static spawn";
-  default:			return "Unknown Option (BUG)";
+  case OPT_CLASSIC_ZOMBIES: return "Classic zombies";
+  case OPT_SEASON_LENGTH: return "Season length";
+  case OPT_STATIC_NPC: return "Static npcs";
+  case OPT_RANDOM_NPC: return "Random npcs";
+  default:			return "Unknown Option (options.cpp:option_name)";
  }
- return "Big ol Bug";
+ return "Big ol Bug (options.cpp:option_name)";
 }
 
 bool option_is_bool(option_key id)
@@ -330,6 +379,10 @@ bool option_is_bool(option_key id)
   case OPT_INITIAL_TIME:
   case OPT_VIEWPORT_X:
   case OPT_VIEWPORT_Y:
+  case OPT_SEASON_LENGTH:
+  case OPT_MOVE_VIEW_OFFSET:
+  case OPT_AUTOSAVE_TURNS:
+  case OPT_AUTOSAVE_MINUTES:
    return false;
     break;
   default:
@@ -368,7 +421,17 @@ char option_max_options(option_key id)
         break;
       case OPT_VIEWPORT_X:
       case OPT_VIEWPORT_Y:
-        ret = 61; // TODO Set up min/max values so weird numbers don't have to be used.
+        ret = 93; // TODO Set up min/max values so weird numbers don't have to be used.
+        break;
+      case OPT_SEASON_LENGTH:
+        ret = 127;
+        break;
+      case OPT_MOVE_VIEW_OFFSET:
+        ret = 50; // TODO calculate max for screen size
+        break;
+      case OPT_AUTOSAVE_TURNS:
+      case OPT_AUTOSAVE_MINUTES:
+        ret = 127;
         break;
       default:
         ret = 2;
@@ -407,8 +470,14 @@ autosafemode F\n\
 autosafemodeturns 50\n\
 # If true, game will periodically save the map\n\
 autosave F\n\
+# Minutes between autosaves\n\
+autosave_turns 30\n\
+# Minimum real time minutes between autosaves\n\
+autosave_minutes 5\n\
 # If true will add nice gradual-lighting (should only make a difference @night)\n\
 gradual_night_light F\n\
+# If true, will display weather animations\n\
+rain_animation T\n\
 # If true, will query beefore disassembling items\n\
 query_disassemble T\n\
 # Player will automatically drop empty containers after use\n\
@@ -428,8 +497,18 @@ initial_time 8\n\
 viewport_x 12\n\
 # The height of the terrain window, which is also the height of the main window, in characters.\n\
 viewport_y 12\n\
+# How many squares to shift the view when using move view keys (HJKLYUBN).\n\
+move_view_offset 1\n\
 # Spawn zombies at game start instead of during the game.  You must create a new world after changing\n\
 static_spawn T\n\
+# Only spawn classic zombies and natural wildlife.  You must create a new world after changing\n\
+classic_zombies F\n\
+# Season length in days\n\
+season_length 14\n\
+# Spawn static NPCs at start. Requires reset after changing.\n\
+static_npc F\n\
+# Spawn random NPCs during gameplay.\n\
+random_npc F\n\
 ";
  fout.close();
 }

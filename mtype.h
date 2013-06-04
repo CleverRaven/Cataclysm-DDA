@@ -8,6 +8,7 @@
 #include <math.h>
 #include "mondeath.h"
 #include "monattack.h"
+#include "material.h"
 #include "enums.h"
 #include "color.h"
 
@@ -30,7 +31,7 @@ num_species
 enum mon_id {
 mon_null = 0,
 // Wildlife
-mon_squirrel, mon_rabbit, mon_deer, mon_wolf, mon_bear, mon_cougar, mon_crow,
+mon_squirrel, mon_rabbit, mon_deer, mon_moose, mon_wolf, mon_coyote, mon_bear, mon_cougar, mon_crow,
 // Friendly animals
 mon_dog, mon_cat,
 // Ants
@@ -46,6 +47,8 @@ mon_graboid, mon_worm, mon_halfworm,
  mon_boomer, mon_boomer_fungus, mon_skeleton, mon_zombie_necro,
  mon_zombie_scientist, mon_zombie_soldier, mon_zombie_grabber,
  mon_zombie_master,  mon_beekeeper, mon_zombie_child,
+// Flesh Golem
+ mon_jabberwock,
 // Triffids
 mon_triffid, mon_triffid_young, mon_triffid_queen, mon_creeper_hub,
  mon_creeper_vine, mon_biollante, mon_vinebeast, mon_triffid_heart,
@@ -74,7 +77,7 @@ mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
  mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shadow, mon_breather_hub,
  mon_breather, mon_shadow_snake,
 // Robots
-mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_copbot, mon_molebot,
+mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_hazmatbot, mon_copbot, mon_molebot,
  mon_tripod, mon_chickenbot, mon_tankbot, mon_turret, mon_exploder,
 // Hallucinations
 mon_hallu_zom, mon_hallu_bee, mon_hallu_ant, mon_hallu_mom,
@@ -95,7 +98,7 @@ MS_HUGE		// TAAAANK
 // They are handled in monster::check_triggers(), in monster.cpp
 enum monster_trigger {
 MTRIG_NULL = 0,
-MTRIG_TIME,		// Random over time.
+MTRIG_STALK,		// Increases when following the player
 MTRIG_MEAT,		// Meat or a corpse nearby
 MTRIG_PLAYER_WEAK,	// The player is hurt
 MTRIG_PLAYER_CLOSE,	// The player gets within a few tiles
@@ -159,6 +162,7 @@ MF_ELECTRONIC,	// e.g. a robot; affected by emp blasts, and other stuff
 MF_FUR,		// May produce fur when butchered.
 MF_LEATHER,	// May produce leather when butchered
 MF_CBM, // May produce a cbm or two when butchered
+MF_BONES, // May produce bones and sinews when butchered
 MF_IMMOBILE,	// Doesn't move (e.g. turrets)
 MF_FRIENDLY_SPECIAL, // Use our special attack, even if friendly
 MF_HIT_AND_RUN,	// Flee for several turns after a melee attack
@@ -168,17 +172,26 @@ MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and po
 MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
 
+enum m_category {
+MC_NULL = 0, // No category.
+MC_CLASSIC, // Only monsters we expect in a classic zombie movie.
+MC_WILDLIFE, // The natural animals.
+MC_MAX // Size of flag array.
+};
+
 struct mtype {
  int id;
  std::string name;
  std::string description;
  monster_species species;
- char sym;	// Symbol on the map
+ long sym;	// Symbol on the map
  nc_color color;// Color of symbol (see color.h)
 
  m_size size;
- material mat;	// See enums.h for material list.  Generally, flesh; veggy?
+ std::string mat;	// See materials.json for material list.  Generally, flesh; veggy?
+ phase_id phase;
  std::vector<m_flag> flags;
+ std::vector<m_category> categories;
  std::vector<monster_trigger> anger;   // What angers us?
  std::vector<monster_trigger> placate; // What reduces our anger?
  std::vector<monster_trigger> fear;    // What are we afraid of?
@@ -188,7 +201,7 @@ struct mtype {
  int morale;	// Default morale level
 
  unsigned int  speed;		// Speed; human = 100
- unsigned char melee_skill;	// Melee skill; should be 0 to 5
+ unsigned char melee_skill;	// Melee hit skill, 20 is superhuman hitting abilities.
  unsigned char melee_dice;	// Number of dice on melee hit
  unsigned char melee_sides;	// Number of sides those dice have
  unsigned char melee_cut;	// Bonus cutting damage
@@ -212,7 +225,8 @@ struct mtype {
   sym = ' ';
   color = c_white;
   size = MS_MEDIUM;
-  mat = FLESH;
+  mat = "hflesh";
+  phase = SOLID;
   difficulty = 0;
   agro = 0;
   morale = 0;
@@ -233,7 +247,7 @@ struct mtype {
  }
  // Non-default (messy)
  mtype (int pid, std::string pname, monster_species pspecies, char psym,
-        nc_color pcolor, m_size psize, material pmat,
+        nc_color pcolor, m_size psize, std::string pmat,
 	    unsigned int pdiff, signed char pagro,
         signed char pmorale, unsigned int pspeed, unsigned char pml_skill,
         unsigned char pml_dice, unsigned char pml_sides, unsigned char pml_cut,
@@ -276,6 +290,15 @@ struct mtype {
  {
   for (int i = 0; i < flags.size(); i++) {
    if (flags[i] == flag)
+    return true;
+  }
+  return false;
+ }
+
+ bool in_category(m_category category)
+ {
+  for (int i = 0; i < categories.size(); i++) {
+   if (categories[i] == category)
     return true;
   }
   return false;

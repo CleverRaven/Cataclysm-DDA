@@ -84,7 +84,7 @@ void mapbuffer::save_if_dirty()
 
 void mapbuffer::save()
 {
- std::map<tripoint, submap*>::iterator it;
+ std::map<tripoint, submap*, pointcomp>::iterator it;
  std::ofstream fout;
  fout.open("save/maps.txt");
 
@@ -198,8 +198,7 @@ void mapbuffer::load()
  if (!fin.is_open())
   return;
 
- int itx, ity, t, d, a, num_submaps, num_loaded=0;
- bool fields_here = false;
+ int itx, ity, t, d, a, num_submaps, num_loaded = 0;
  item it_tmp;
  std::string databuff;
  fin >> num_submaps;
@@ -263,7 +262,6 @@ void mapbuffer::load()
     fin >> itx >> ity >> t;
     sm->trp[itx][ity] = trap_id(t);
    } else if (string_identifier == "F") {
-    fields_here = true;
     fin >> itx >> ity >> t >> d >> a;
     sm->fld[itx][ity] = field(field_id(t), d, a);
     sm->field_count++;

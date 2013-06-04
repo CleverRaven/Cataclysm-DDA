@@ -22,9 +22,10 @@
 #include "artifact.h"
 #include "mutation.h"
 #include "gamemode.h"
-//#include "action.h"
+#include "action.h"
 #include <vector>
 #include <map>
+#include <list>
 #include <stdarg.h>
 
 // Fixed window sizes
@@ -118,8 +119,9 @@ class game
 // Sound at (x, y) of intensity (vol), described to the player is (description)
   void sound(int x, int y, int vol, std::string description);
 // creates a list of coordinates to draw footsteps
-  void add_footstep(int x, int y, int volume, int distance);
-  std::vector<point> footsteps;
+  void add_footstep(int x, int y, int volume, int distance, monster* source);
+  std::vector<std::vector<point> > footsteps;
+  std::vector<monster*> footsteps_source;
 // visual cue to monsters moving out of the players sight
   void draw_footsteps();
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
@@ -143,6 +145,8 @@ class game
 // Kill that monster; fixes any pointers etc
   void kill_mon(int index, bool player_did_it = false);
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
+  void revive_corpse(int x, int y, int n); // revives a corpse from an item pile
+  void revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion
 // hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
   void hit_monster_with_flags(monster &z, unsigned int flags);
   void plfire(bool burst);	// Player fires a gun (target selection)...
@@ -153,6 +157,8 @@ class game
                   std::vector<point> &trajectory);
   void cancel_activity();
   void cancel_activity_query(const char* message, ...);
+  bool cancel_activity_or_ignore_query(const char* reason, ...); 
+
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
   void assign_mission(int id); // Just assign an existing mission
@@ -175,20 +181,20 @@ class game
   void teleport(player *p = NULL);
   void plswim(int x, int y); // Called by plmove.  Handles swimming
   // when player is thrown (by impact or something)
-  void fling_player_or_monster(player *p, monster *zz, int dir, int flvel);
+  void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel);
 
   void nuke(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
   int& scent(int x, int y);
-  float natural_light_level();
+  float natural_light_level() const;
   unsigned char light_level();
   void reset_light_level();
   int assign_npc_id();
   int assign_faction_id();
   faction* faction_by_id(int it);
   bool sees_u(int x, int y, int &t);
-  bool u_see (int x, int y, int &t);
-  bool u_see (monster *mon, int &t);
+  bool u_see (int x, int y);
+  bool u_see (monster *mon);
   bool pl_sees(player *p, monster *mon, int &t);
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
@@ -207,23 +213,35 @@ class game
   point look_around();// Look at nearby terrain	';'
   void list_items(); //List all items around the player
   bool list_items_match(std::string sText, std::string sPattern);
-  std::string sFilter;
+  int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
+  int list_filter_low_priority(std::vector<map_item_stack> &stack,int start, std::string prorities);
+  std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack, std::string filter);
+  std::vector<map_item_stack> find_nearby_items(int search_x, int search_y);
+  std::string ask_item_filter(WINDOW* window, int rows);
+  void draw_trail_to_square(std::vector<point>& vPoint, int x, int y);
+  void reset_item_list_state(WINDOW* window, int height);
+  std::string sFilter; // this is a member so that it's remembered over time
+  std::string list_item_upvote;
+  std::string list_item_downvote;
   char inv(std::string title = "Inventory:");
-  char inv_type(std::string title = "Inventory:", int inv_item_type = 0);
+  char inv_type(std::string title = "Inventory:", item_cat inv_item_type = IC_NULL);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
   void remove_item(item *it);
 
-  inventory crafting_inventory();  // inv_from_map, inv, & 'weapon'
-  void consume_items(std::vector<component> components);
-  void consume_tools(std::vector<component> tools);
+  inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
+  std::list<item> consume_items(player *p, std::vector<component> components);
+  void consume_tools(player *p, std::vector<component> tools, bool force_available);
 
-  std::vector <itype*> itypes;
+  bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
+  special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
+
+  std::map<std::string, itype*> itypes;
   std::vector <mtype*> mtypes;
   std::vector <vehicle*> vtypes;
   std::vector <trap*> traps;
-  std::vector<recipe*> recipes;	// The list of valid recipes
+  recipe_map recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions
 
   std::vector <itype_id> mapitems[num_itloc]; // Items at various map types
@@ -235,16 +253,18 @@ class game
   calendar turn;
   signed char temperature;              // The air temperature
   weather_type weather;			// Weather pattern--SEE weather.h
+
+  std::list<weather_segment> future_weather;
+
   char nextinv;	// Determines which letter the next inv item will have
-  overmap cur_om;
+  overmap *cur_om;
   map m;
-  light_map lm;
   int levx, levy, levz;	// Placement inside the overmap
   player u;
   std::vector<monster> z;
   std::vector<monster_and_count> coming_to_stairs;
   int monstairx, monstairy, monstairz;
-  std::vector<npc> active_npc;
+  std::vector<npc *> active_npc;
   std::vector<faction> factions;
   std::vector<mission> active_missions; // Missions which may be assigned
 // NEW: Dragging a piece of furniture, with a list of items contained
@@ -252,14 +272,8 @@ class game
   std::vector<item> items_dragged;
   int weight_dragged; // Computed once, when you start dragging
   bool debugmon;
-  bool no_npc;
-// Display data... TODO: Make this more portable?
-  int VIEWX;
-  int VIEWY;
-  int TERMX;
-  int TERMY;
-  int TERRAIN_WINDOW_WIDTH;
-  int TERRAIN_WINDOW_HEIGHT;
+
+  std::map<int, std::map<int, bool> > mapRain;
 
   WINDOW *w_terrain;
   WINDOW *w_minimap;
@@ -271,18 +285,38 @@ class game
   WINDOW *w_void; //space unter status if viewport Y > 12
   overmap *om_hori, *om_vert, *om_diag; // Adjacent overmaps
 
+ bool handle_liquid(item &liquid, bool from_ground, bool infinite);
+
+ void open_gate( game *g, const int examx, const int examy, const enum ter_id handle_type );
+
+ recipe* recipe_by_name(std::string name); // See crafting.cpp
+
+ bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
+
+ void load_artifacts(); // Load artifact data
+                        // Needs to be called by main() before MAPBUFFER.load
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master();	// Load the master data file, with factions &c
+  void load_weather(std::ifstream &fin);
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game
   void start_special_game(special_game_id gametype); // See gamemode.cpp
 
+  //private save functions.
+		void save_factions_missions_npcs();
+  void save_artifacts();
+	 void save_maps();
+  std::string save_weather() const;
+
 // Data Initialization
   void init_itypes();       // Initializes item types
+  void init_skills();
+  void init_bionics();      // Initializes bionics... for now.
   void init_mapitems();     // Initializes item placement
   void init_mtypes();       // Initializes monster types
   void init_mongroups();    // Initualizes monster groups
@@ -296,11 +330,13 @@ class game
   void init_autosave();     // Initializes autosave parameters
 
   void load_keyboard_settings(); // Load keybindings from disk
+
   void save_keymap();		// Save keybindings to disk
   std::vector<char> keys_bound_to(action_id act); // All keys bound to act
   void clear_bindings(action_id act); // Deletes all keys bound to act
 
   void create_factions();   // Creates new factions (for a new game world)
+  void load_npcs(); //Make any nearby NPCs from the overmap active.
   void create_starting_npcs(); // Creates NPCs that start near you
 
 // Player actions
@@ -314,18 +350,27 @@ class game
   void open();	// Open a door			'o'
   void close();	// Close a door			'c'
   void smash();	// Smash terrain
-  void craft();                    // See crafting.cpp
-  void recraft();                  // See crafting.cpp
-  void try_and_make(recipe *r);
-  bool can_make(recipe *r);
-  void make_craft(recipe *making); // See crafting.cpp
-  void complete_craft();           // See crafting.cpp
+  void craft();                        // See crafting.cpp
+  void recraft();                      // See crafting.cpp
+  void long_craft();                   // See crafting.cpp
+  bool crafting_allowed();             // See crafting.cpp
+  recipe* select_crafting_recipe();    // See crafting.cpp
+  bool making_would_work(recipe *r);   // See crafting.cpp
+  bool can_make(recipe *r);            // See crafting.cpp
+    bool check_enough_materials(recipe *r, inventory crafting_inv);
+  void make_craft(recipe *making);     // See crafting.cpp
+  void make_all_craft(recipe *making); // See crafting.cpp
+  void complete_craft();               // See crafting.cpp
   void pick_recipes(std::vector<recipe*> &current,
-                    std::vector<bool> &available, craft_cat tab);// crafting.cpp
-  void disassemble();              // See crafting.cpp
-  void disassemble_item(recipe *dis);              // See crafting.cpp
-  void complete_disassemble();              // See crafting.cpp
-  void construction_menu();                   // See construction.cpp
+                    std::vector<bool> &available, craft_cat tab,std::string filter);// crafting.cpp
+  void add_known_recipes(std::vector<recipe*> &current, recipe_list source,
+                             std::string filter = ""); //crafting.cpp
+  craft_cat next_craft_cat(craft_cat cat); // crafting.cpp
+  craft_cat prev_craft_cat(craft_cat cat); // crafting.cpp
+  void disassemble(char ch = 0);       // See crafting.cpp
+  void complete_disassemble();         // See crafting.cpp
+  recipe* recipe_by_index(int index);  // See crafting.cpp
+  void construction_menu();            // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
                         const int level = -1, bool cont = false,
 			bool exact_level=false);
@@ -335,15 +380,16 @@ class game
   bool vehicle_near ();
   void handbrake ();
   void examine();// Examine nearby terrain	'e'
+  void advanced_inv();
   // open vehicle interaction screen
   void exam_vehicle(vehicle &veh, int examx, int examy, int cx=0, int cy=0);
   void pickup(int posx, int posy, int min);// Pickup items; ',' or via examine()
 // Pick where to put liquid; false if it's left where it was
-  bool handle_liquid(item &liquid, bool from_ground, bool infinite);
+
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'
   void drop(char chInput = '.');	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'
-  void reassign_item(); // Reassign the letter of an item   '='
+  void reassign_item(char ch = '.'); // Reassign the letter of an item   '='
   void butcher(); // Butcher a corpse		'B'
   void complete_butcher(int index);	// Finish the butchering process
   void forage();	// Foraging ('a' on underbrush)
@@ -354,7 +400,7 @@ class game
   void takeoff(char chInput = '.'); // Remove armor		'T'
   void reload();  // Reload a wielded gun/tool	'r'
   void reload(char chInput);
-  void unload();  // Unload a wielded gun/tool	'U'
+  void unload(item& it);  // Unload a gun/tool	'U'
   void unload(char chInput);
   void wield(char chInput = '.');   // Wield a weapon		'w'
   void read();    // Read a book		'R' (or 'a')
@@ -376,7 +422,7 @@ class game
   void update_stair_monsters();
   void despawn_monsters(const bool stairs = false, const int shiftx = 0, const int shifty = 0);
   void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
-  int valid_group(mon_id type, int x, int y);// Picks a group from cur_om
+  int valid_group(mon_id type, int x, int y, int z);// Picks a group from cur_om
   void set_adjacent_overmaps(bool from_scratch = false);
 
 // Routine loop functions, approximately in order of execution
@@ -388,6 +434,7 @@ class game
   void update_weather();   // Updates the temperature and weather patten
   void hallucinate(const int x, const int y); // Prints hallucination junk to the screen
   void mon_info();         // Prints a list of nearby monsters (top right)
+  void handle_key_blocking_activity(); // Abort reading etc.
   bool handle_action();
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died
@@ -405,10 +452,6 @@ class game
   void disp_kills();       // Display the player's kill counts
   void disp_NPCs();        // Currently UNUSED.  Lists global NPCs.
   void list_missions();    // Listed current, completed and failed missions.
-
-// If x & y are OOB, creates a new overmap and returns the proper terrain; also,
-// may mark the square as seen by the player
-  oter_id ter_at(int x, int y, bool& mark_as_seen);
 
 // Debug functions
   void debug();           // All-encompassing debug screen.  TODO: This.
@@ -439,13 +482,15 @@ class game
   std::vector<event> events;	        // Game events to be processed
   int kills[num_monsters];	        // Player's kill count
   std::string last_action;		// The keypresses of last turn
-
   int moves_since_last_save;
   int item_exchanges_since_save;
+  time_t last_save_timestamp;
   unsigned char latest_lightlevel;
   calendar latest_lightlevel_turn;
 
   special_game *gamemode;
+
+  int moveCount; //Times the player has moved (not pause, sleep, etc)
 };
 
 #endif

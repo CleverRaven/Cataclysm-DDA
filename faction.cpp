@@ -57,7 +57,7 @@ faction::faction(int uid)
  mapy = 0;
  size = 0;
  power = 0;
- uid = id;
+ id = uid;
 }
 
 
@@ -92,9 +92,9 @@ void faction::load_info(std::string data)
  goal = faction_goal(goaltmp);
  job1 = faction_job(jobtmp1);
  job2 = faction_job(jobtmp2);
- int size, tmpop;
- dump >> size;
- for (int i = 0; i < size; i++) {
+ int tmpsize, tmpop;
+ dump >> tmpsize;
+ for (int i = 0; i < tmpsize; i++) {
   dump >> tmpop;
   opinion_of.push_back(tmpop);
  }

@@ -2,6 +2,7 @@
 #include "npc.h"
 #include "game.h"
 #include "rng.h"
+#include "options.h"
 
 void event::actualize(game *g)
 {
@@ -24,7 +25,7 @@ void event::actualize(game *g)
     tmp.attitude = NPCATT_DEFEND;
     tmp.posx = g->u.posx - SEEX * 2 + rng(-5, 5);
     tmp.posy = g->u.posy - SEEY * 2 + rng(-5, 5);
-    g->active_npc.push_back(tmp);
+    g->active_npc.push_back(&tmp);
    }
   } break;
 
@@ -112,7 +113,7 @@ void event::actualize(game *g)
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_root_wall && one_in(3))
-      g->m.ter(x, y) = t_underbrush;
+      g->m.ter_set(x, y, t_underbrush);
     }
    }
    break;
@@ -122,9 +123,8 @@ void event::actualize(game *g)
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      if (g->m.ter(x, y) == t_grate) {
-      g->m.ter(x, y) = t_stairs_down;
-      int j;
-      if (!saw_grate && g->u_see(x, y, j))
+      g->m.ter_set(x, y, t_stairs_down);
+      if (!saw_grate && g->u_see(x, y))
        saw_grate = true;
      }
     }
@@ -184,7 +184,7 @@ void event::actualize(game *g)
 // flood_buf is filled with correct tiles; now copy them back to g->m
    for (int x = 0; x < SEEX * MAPSIZE; x++) {
     for (int y = 0; y < SEEY * MAPSIZE; y++)
-     g->m.ter(x, y) = flood_buf[x][y];
+       g->m.ter_set(x, y, flood_buf[x][y]);
    }
    g->add_event(EVENT_TEMPLE_FLOOD, int(g->turn) + rng(2, 3));
   } break;
@@ -220,7 +220,8 @@ void event::per_turn(game *g)
 {
  switch (type) {
   case EVENT_WANTED: {
-   if (g->levz >= 0 && one_in(100)) { // About once every 10 minutes
+   // About once every 10 minutes. Suppress in classic zombie mode.
+   if (g->levz >= 0 && one_in(100) && !OPTIONS[OPT_CLASSIC_ZOMBIES]) {
     monster eyebot(g->mtypes[mon_eyebot]);
     eyebot.faction_id = faction_id;
     point place = g->m.random_outdoor_tile();
@@ -228,8 +229,7 @@ void event::per_turn(game *g)
      return; // We're safely indoors!
     eyebot.spawn(place.x, place.y);
     g->z.push_back(eyebot);
-    int t;
-    if (g->u_see(place.x, place.y, t))
+    if (g->u_see(place.x, place.y))
      g->add_msg("An eyebot swoops down nearby!");
    }
   } break;

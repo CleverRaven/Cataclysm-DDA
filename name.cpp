@@ -1,54 +1,46 @@
-#include <cstdlib>
-#include <iostream>
-#include <fstream>
 #include <map>
 
+#include "catajson.h"
 #include "name.h"
-#include "picojson.h"
 
 NameGenerator::NameGenerator() {
-  std::ifstream rawFile;
-  picojson::value rawData;
+    catajson name_records("data/raw/names.json");
 
-  rawFile.open("data/raw/names.json");
+    for (name_records.set_begin(); name_records.has_curr(); name_records.next())
+    {
+        catajson name_entry = name_records.curr();
+        std::string name = name_entry.get("name").as_string();
+        std::string usage = name_entry.get("usage").as_string();
+        uint32_t flags = 0;
 
-  rawFile >> rawData;
+        if (usage == "given") {
+            flags |= nameIsGivenName;
+        } else if (usage == "family") {
+            flags |= nameIsFamilyName;
+        } else if (usage == "universal") {
+            flags |= nameIsGivenName | nameIsFamilyName;
+        } else if (usage == "city") {
+            flags |= nameIsTownName;
+        }
 
-  rawFile.close();
+        // Gender is optional
+        if(name_entry.has("gender"))
+        {
+            std::string gender = name_entry.get("gender").as_string();
 
-  const picojson::array& rawNames = rawData.get<picojson::array>();
-  for (picojson::array::const_iterator i = rawNames.begin(); i != rawNames.end(); ++i) {
-    std::map<std::string,picojson::value> aNameData = i->get<std::map<std::string,picojson::value> >();
+            if (gender == "male") {
+                flags |= nameIsMaleName;
+            } else if (gender == "female") {
+                flags |= nameIsFemaleName;
+            } else if (gender == "unisex") {
+                flags |= nameIsUnisexName;
+            }
+        }
 
-    std::string name, gender, usage;
-    uint32_t flags = 0;
+        Name aName(name, flags);
 
-    name = aNameData["name"].get<std::string>();
-
-    gender = aNameData["gender"].get<std::string>();
-
-    if (gender == "male") {
-      flags |= nameIsMaleName;
-    } else if (gender == "female") {
-      flags |= nameIsFemaleName;
-    } else if (gender == "unisex") {
-      flags |= nameIsUnisexName;
+        names.push_back(aName);
     }
-
-    usage = aNameData["usage"].get<std::string>();
-
-    if (usage == "given") {
-      flags |= nameIsGivenName;
-    } else if (usage == "family") {
-      flags |= nameIsFamilyName;
-    } else if (usage == "universal") {
-      flags |= nameIsGivenName | nameIsFamilyName;
-    }
-
-    Name aName(name, flags);
-
-    names.push_back(aName);
-  }
 }
 
 std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags) {
@@ -71,9 +63,9 @@ std::string NameGenerator::getName(uint32_t searchFlags) {
 std::string NameGenerator::generateName(bool male) {
   uint32_t baseSearchFlags = male ? nameIsMaleName : nameIsFemaleName;
 
-  return getName(baseSearchFlags | nameIsGivenName) + " " + getName(baseSearchFlags | nameIsFamilyName);
+  return getName(baseSearchFlags | nameIsGivenName) + " " +
+      getName(baseSearchFlags | nameIsFamilyName);
 }
-
 
 NameGenerator& Name::generator() {
   return NameGenerator::generator();

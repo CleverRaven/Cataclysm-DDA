@@ -3,6 +3,7 @@
 #include "bodypart.h"
 #include "disease.h"
 #include "weather.h"
+#include <stdlib.h>
 #include <sstream>
 
 void dis_msg(game *g, dis_type type)
@@ -29,6 +30,11 @@ void dis_msg(game *g, dis_type type)
  case DI_TEARGAS:
   g->add_msg("You inhale a lungful of tear gas.");
   break;
+ case DI_CRUSHED:
+  g->add_msg("The ceiling collapses on you!");
+  break;
+ case DI_BOULDERING:
+  g->add_msg("You are slowed by the rubble.");
  case DI_BOOMERED:
   g->add_msg("You're covered in bile!");
   break;
@@ -74,16 +80,23 @@ void dis_msg(game *g, dis_type type)
   g->add_msg("You're knocked to the floor!");
   break;
  case DI_AMIGARA:
-  g->add_msg("You can't look away from the fautline...");
+  g->add_msg("You can't look away from the faultline...");
   break;
  case DI_STEMCELL_TREATMENT:
   g->add_msg("You receive a pureed bone & enamel injection into your eyeball.");
   g->add_msg("It is excruciating.");
+  break;
  case DI_BITE:
   g->add_msg("The bite wound feels really deep...");
   break;
  case DI_INFECTED:
   g->add_msg("Your bite wound feels infected");
+  break;
+ case DI_LIGHTSNARE:
+  g->add_msg("You are snared.");
+  break;
+ case DI_HEAVYSNARE:
+  g->add_msg("You are snared.");
   break;
  default:
   break;
@@ -93,7 +106,6 @@ void dis_msg(game *g, dis_type type)
 void dis_effect(game *g, player &p, disease &dis)
 {
  int bonus;
- int junk;
  switch (dis.type) {
  case DI_GLARE:
   p.per_cur -= 1;
@@ -105,47 +117,49 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_COLD_HEAD:
   switch (dis.intensity) {
-   case 3 : p.int_cur -= 3; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your thoughts are unclear.");
+   case 3 : p.int_cur -= 3; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your thoughts are unclear.");
    case 2 : p.int_cur--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
+  }
+  break;
+
+  case DI_COLD_MOUTH:
+  switch (dis.intensity) {
+   case 3 : p.per_cur -= 3; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your face is stiff from the cold.");
+   case 2 : p.per_cur--;
   }
   break;
 
  case DI_COLD_TORSO:
   switch (dis.intensity) {
-   case 3 : p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your torso is burning up. You should remove some layers.");
+   case 3 : p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your torso is burning up. You should remove some layers.");
    // Speed -20
    case 2 :	p.dex_cur -= 1;
    // Speed -5
-   case 1 : p.dex_cur -= 1; if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
-   // Speed -2
+   // case1 : Speed -2
   }
   break;
 
  case DI_COLD_ARMS:
   switch (dis.intensity) {
    case 3 : p.dex_cur -= 2;
-   case 2 :	p.dex_cur--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("Your arms are shivering.");
+   case 2 :	p.dex_cur--; if (!p.has_disease(DI_SLEEP) && one_in(800)) g->add_msg("Your arms are shivering.");
   }
   break;
 
  case DI_COLD_HANDS:
   switch (dis.intensity) {
    case 3 :	p.dex_cur -= 2;
-   case 2 :	p.dex_cur -= 2;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
+   case 2 :	p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(800)) g->add_msg("Your hands are shivering.");
   }
   break;
 
  case DI_COLD_LEGS:
   switch (dis.intensity) {
-   case 3 :	p.str_cur--; if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your legs are seizing from the incredible cold.");
+   case 3 :	p.str_cur--; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your legs are seizing from the incredible cold.");
    // Speed -20
    case 2 :	p.str_cur--;
    // Speed -5
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("Your legs feel sluggish from the cold.");
-   // Speed -2
+   // case 1 : Speed -2
   }
   break;
 
@@ -153,7 +167,6 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.str_cur--;
    case 2 : p.str_cur--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Brr.\"");
   }
   break;
 
@@ -161,8 +174,8 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 2 : p.dex_cur -= 3;
    case 1 :
-    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
-    if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your hands feel numb.");
+    if (p.temp_cur[bp_hands] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your hands feel numb.");
   }
  break;
 
@@ -170,8 +183,8 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 2 : // -4 speed
    case 1 :
-    if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
-	if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your feet feel numb.");
+    if (p.temp_cur[bp_feet] > BODYTEMP_COLD && p.pain < 40) p.pain++;
+	if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your feet feel numb.");
   }
  break;
 
@@ -180,72 +193,76 @@ void dis_effect(game *g, player &p, disease &dis)
    case 2 : p.per_cur -= 3;
    case 1 :
     if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
-	if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your face feels numb.");
+	if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your face feels numb.");
   }
  break;
 
  case DI_BLISTERS_HANDS:
   p.dex_cur--;
   if (p.pain < 35) p.pain++;
-  if (one_in(2)) p.hp_max[hp_arm_r]--;
-  else p.hp_max[hp_arm_l]--;
+  if (one_in(2)) p.hp_cur[hp_arm_r]--;
+  else p.hp_cur[hp_arm_l]--;
   break;
 
  case DI_BLISTERS_FEET:
   p.str_cur--;
   if (p.pain < 35) p.pain++;
-  if (one_in(2)) p.hp_max[hp_leg_r]--;
-  else p.hp_max[hp_leg_l]--;
+  if (one_in(2)) p.hp_cur[hp_leg_r]--;
+  else p.hp_cur[hp_leg_l]--;
   break;
 
  case DI_BLISTERS_MOUTH:
   p.per_cur--;
-  p.hp_max[hp_head]--;
+  p.hp_cur[hp_head]--;
   if (p.pain < 35) p.pain++;
   break;
 
  case DI_HOT_HEAD:
   switch (dis.intensity) {
    case 3 :
-    p.thirst--;
-	if (p.pain < 50) p.pain++;
+    p.thirst++;
+	if (p.pain < 40) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your head is pounding from the heat.");
     // Speed -20
    case 2 :
-    p.thirst--;
-    if (one_in(15000 - p.temp_cur[bp_head])) p.vomit(g); // Hallucinations handled in game.cpp
+    p.thirst++;
+    // Hallucinations handled in game.cpp
+    if (one_in(std::min(14500,15000-p.temp_cur[bp_head]))) p.vomit(g);
 	if (p.pain < 20) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("The heat is making you see things.");
     // Speed -5
-   case 1 :
-    if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
-    // Speed -2
+    // case 1 : Speed -2
+  }
+  break;
+
+ case DI_HOT_MOUTH:
+  switch (dis.intensity) {
+   case 3 : p.thirst++;
+    if (p.pain < 30) p.pain++;
+   case 2 : p.thirst++;
   }
   break;
 
  case DI_HOT_TORSO:
   switch (dis.intensity) {
    case 3 :
-    p.thirst--;
+    p.thirst++;
     p.str_cur--;
-    if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("You are sweating profusely.");
+    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("You are sweating profusely.");
     // Speed -20
    case 2 :
-    p.thirst--;
+    p.thirst++;
 	p.str_cur--;
     // Speed -5
-   case 1 :
-    if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
-    // Speed -2
+    // case 1 : Speed -2
   }
   break;
 
  case DI_HOT_ARMS:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-    if (p.pain < 50) p.pain++;
-   case 2 : p.thirst--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
+   case 3 : p.thirst++;
+    if (p.pain < 30) p.pain++;
+   case 2 : p.thirst++;
   }
   break;
 
@@ -253,33 +270,31 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 : p.dex_cur--;
    case 2 : p.dex_cur--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
   }
   break;
 
  case DI_HOT_LEGS:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-    if (p.pain < 50) p.pain++;
-    if (one_in(200)) g->add_msg("Your legs are cramping up.");
-   case 2 : p.thirst--;
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
+   case 3 : p.thirst++;
+    if (p.pain < 30) p.pain++;
+    if (one_in(400)) g->add_msg("Your legs are cramping up.");
+   case 2 : p.thirst++;
   }
   break;
 
  case DI_HOT_FEET:
   switch (dis.intensity) {
-   case 3 : if (p.pain < 50) p.pain++;
-   case 2 :
+   case 3 :
     if (p.pain < 30) p.pain++;
-    if (!p.has_disease(DI_SLEEP) && one_in(200)) g->add_msg("Your feet are swelling in the heat.");
-   case 1 : if (!p.has_disease(DI_SLEEP) && one_in(600)) g->add_msg("\"Phew, it's hot.\"");
+    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your feet are swelling in the heat.");
   }
   break;
 
  case DI_COMMON_COLD:
   if (int(g->turn) % 300 == 0)
    p.thirst++;
+  if (int(g->turn) % 50 == 0)
+   p.fatigue++;
   if (p.has_disease(DI_TOOK_FLUMED)) {
    p.str_cur--;
    p.int_cur--;
@@ -356,22 +371,50 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   break;
 
+
+// MATERIALS-TODO: this should be determined by materials properties
  case DI_ONFIRE:
   p.hurtall(3);
   for (int i = 0; i < p.worn.size(); i++) {
-   if (p.worn[i].made_of(VEGGY) || p.worn[i].made_of(PAPER)) {
+   if (p.worn[i].made_of("veggy") || p.worn[i].made_of("paper")) {
     p.worn.erase(p.worn.begin() + i);
     i--;
-   } else if ((p.worn[i].made_of(COTTON) || p.worn[i].made_of(WOOL)) &&
+   } else if ((p.worn[i].made_of("cotton") || p.worn[i].made_of("wool")) &&
               one_in(10)) {
     p.worn.erase(p.worn.begin() + i);
     i--;
-   } else if (p.worn[i].made_of(PLASTIC) && one_in(50)) {
+   } else if (p.worn[i].made_of("plastic") && one_in(50)) {
     p.worn.erase(p.worn.begin() + i);
     i--;
    }
   }
   break;
+
+ case DI_CRUSHED:
+  p.hurtall(10);
+  //This could be developed on later, for instance
+  //to deal different damage amounts to different body parts and
+  //to account for helmets and other armor
+  break;
+
+ case DI_BOULDERING:
+  switch(g->u.disease_intensity(DI_BOULDERING)){
+   case 1:
+    p.dex_cur -= 1;
+    break;
+   case 2:
+    p.dex_cur -= 3;
+    break;
+   case 3:
+    p.dex_cur -= 5;
+    break;
+   default:
+    debugmsg("Something went wrong with DI_BOULDERING.");
+    debugmsg("Check disease.cpp");
+  }
+   if (p.dex_cur < 1) {
+    p.dex_cur = 1;
+   }
 
  case DI_BOOMERED:
   p.per_cur -= 5;
@@ -422,7 +465,7 @@ void dis_effect(game *g, player &p, disease &dis)
        one_in(2000 + bonus * 10)) {
     if (!p.is_npc())
      g->add_msg("You vomit a thick, gray goop.");
-    else if (g->u_see(p.posx, p.posy, junk))
+    else if (g->u_see(p.posx, p.posy))
      g->add_msg("%s vomits a thick, gray goop.", p.name.c_str());
     p.moves = -200;
     p.hunger += 50;
@@ -432,7 +475,7 @@ void dis_effect(game *g, player &p, disease &dis)
    if (one_in(1000 + bonus * 8)) {
     if (!p.is_npc())
      g->add_msg("You double over, spewing live spores from your mouth!");
-    else if (g->u_see(p.posx, p.posy, junk))
+    else if (g->u_see(p.posx, p.posy))
      g->add_msg("%s coughs up a stream of live spores!", p.name.c_str());
     p.moves = -500;
     int sporex, sporey;
@@ -443,7 +486,7 @@ void dis_effect(game *g, player &p, disease &dis)
       sporey = p.posy + j;
       if (g->m.move_cost(sporex, sporey) > 0 && one_in(5)) {
        if (g->mon_at(sporex, sporey) >= 0) {	// Spores hit a monster
-        if (g->u_see(sporex, sporey, junk))
+        if (g->u_see(sporex, sporey))
          g->add_msg("The %s is covered in tiny spores!",
                     g->z[g->mon_at(sporex, sporey)].name().c_str());
         if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
@@ -458,7 +501,7 @@ void dis_effect(game *g, player &p, disease &dis)
    } else if (one_in(6000 + bonus * 20)) {
     if (!p.is_npc())
      g->add_msg("Fungus stalks burst through your hands!");
-    else if (g->u_see(p.posx, p.posy, junk))
+    else if (g->u_see(p.posx, p.posy))
      g->add_msg("Fungus stalks burst through %s's hands!", p.name.c_str());
     p.hurt(g, bp_arms, 0, 60);
     p.hurt(g, bp_arms, 1, 60);
@@ -483,41 +526,67 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg("You try to sleep, but can't...");
   break;
 
- case DI_SLEEP:
-  p.moves = 0;
-  if (int(g->turn) % 25 == 0) {
-   if (p.fatigue > 0)
-    p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
-   if (p.has_trait(PF_FASTHEALER))
-    p.healall(rng(0, 1));
-   else
-    p.healall(rng(0, 1) * rng(0, 1) * rng(0, 1));
-   if (p.fatigue <= 0 && p.fatigue > -20) {
-    p.fatigue = -25;
-    g->add_msg("Fully rested.");
-    dis.duration = dice(3, 100);
-   }
-  }
-  if (int(g->turn) % 100 == 0 && !p.has_bionic(bio_recycler)) {
-// Hunger and thirst advance more slowly while we sleep.
-   p.hunger--;
-   p.thirst--;
-  }
-  if (rng(5, 80) + rng(0, 120) + rng(0, abs(p.fatigue)) +
-      rng(0, abs(p.fatigue * 5)) < g->light_level() &&
-      (p.fatigue < 10 || one_in(p.fatigue / 2))) {
-   g->add_msg("The light wakes you up.");
-   dis.duration = 1;
-  }
-  // Cold may wake you up.
-  // Player gets desperate for sleep
-  if (p.temp_cur[bp_torso] < BODYTEMP_VERY_COLD - p.fatigue/2 ||
-  (one_in(p.temp_cur[bp_torso]) && p.temp_cur[bp_torso] < BODYTEMP_NORM - p.fatigue/2)){
-   g->add_msg("The cold wakes you up.");
-   dis.duration = 1;
-  }
+  case DI_SLEEP:
+    p.moves = 0;
 
-  break;
+    if (int(g->turn) % 25 == 0) {
+      if (p.fatigue > 0)
+        p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
+      if (p.has_trait(PF_FASTHEALER)) {
+        p.healall(rng(0, 1));
+      } else if (p.has_trait(PF_FASTHEALER2)) {
+        p.healall(rng(0, 2));
+      } else if (p.has_trait(PF_REGEN)) {
+        p.healall(rng(1, 2));
+      } else {
+        p.healall(rng(0, 1) * rng(0, 1) * rng(0, 1));
+      }
+
+      if (p.fatigue <= 0 && p.fatigue > -20) {
+        p.fatigue = -25;
+        g->add_msg("Fully rested.");
+        dis.duration = dice(3, 100);
+      }
+    }
+
+    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler")) {
+      // Hunger and thirst advance more slowly while we sleep.
+      p.hunger--;
+      p.thirst--;
+    }
+
+    if (rng(5, 80) + rng(0, 120) + rng(0, abs(p.fatigue)) +
+        rng(0, abs(p.fatigue * 5)) < g->light_level() &&
+        (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+      g->add_msg("The light wakes you up.");
+      dis.duration = 1;
+    }
+
+    // Cold or heat may wake you up.
+    // Player will sleep through cold or heat if fatigued enough
+    for (int i = 0 ; i < num_bp ; i++)
+    {
+        if (p.temp_cur[i] < BODYTEMP_VERY_COLD - p.fatigue/2)
+        {
+            if (one_in(5000)) { g->add_msg("You toss and turn trying to keep warm."); }
+            if (p.temp_cur[i] < BODYTEMP_FREEZING - p.fatigue/2 || (one_in(p.temp_cur[i] + 5000)))
+            {
+                g->add_msg("The cold wakes you up.");
+                dis.duration = 1;
+            }
+        }
+        else if (p.temp_cur[i] > BODYTEMP_VERY_HOT + p.fatigue/2)
+        {
+            if (one_in(5000)) { g->add_msg("You toss and turn in the heat."); }
+            if (p.temp_cur[i] > BODYTEMP_SCORCHING + p.fatigue/2 || (one_in(15000 - p.temp_cur[i])))
+            {
+                g->add_msg("The heat wakes you up.");
+                dis.duration = 1;
+            }
+        }
+    }
+
+    break;
 
  case DI_STEMCELL_TREATMENT:
   //slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))
@@ -702,11 +771,10 @@ void dis_effect(game *g, player &p, disease &dis)
     }
    }
    if (valid_spawns.size() >= 1) {
-    int t;
     p.rem_disease(DI_DERMATIK); // No more infection!  yay.
     if (!p.is_npc())
      g->add_msg("Insects erupt from your skin!");
-    else if (g->u_see(p.posx, p.posy, t))
+    else if (g->u_see(p.posx, p.posy))
      g->add_msg("Insects erupt from %s's skin!", p.name.c_str());
     p.moves -= 600;
     monster grub(g->mtypes[mon_dermatik_larva]);
@@ -755,11 +823,10 @@ void dis_effect(game *g, player &p, disease &dis)
   p.int_cur -= 2;
   p.str_cur -= 1;
   if (one_in(10 + 40 * p.int_cur)) {
-   int t;
    if (!p.is_npc()) {
     g->add_msg("You start scratching yourself all over!");
     g->cancel_activity();
-   } else if (g->u_see(p.posx, p.posy, t))
+   } else if (g->u_see(p.posx, p.posy))
     g->add_msg("%s starts scratching %s all over!", p.name.c_str(),
                (p.male ? "himself" : "herself"));
    p.moves -= 150;
@@ -882,7 +949,7 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   if (dis.duration > 3600) { // 12 teles
    if (one_in(4000 - int(.25 * (dis.duration - 3600)))) {
-    mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER");
+    mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
     monster beast(g->mtypes[type]);
     int x, y, tries = 0;
     do {
@@ -893,10 +960,10 @@ void dis_effect(game *g, player &p, disease &dis)
              tries < 10);
     if (tries < 10) {
      if (g->m.move_cost(x, y) == 0)
-      g->m.ter(x, y) = t_rubble;
+      g->m.ter_set(x, y, t_rubble);
      beast.spawn(x, y);
      g->z.push_back(beast);
-     if (g->u_see(x, y, junk)) {
+     if (g->u_see(x, y)) {
       g->cancel_activity_query("A monster appears nearby!");
       g->add_msg("A portal opens nearby, and a monster crawls through!");
      }
@@ -944,9 +1011,9 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_ATTENTION:
   if (one_in( 100000 / dis.duration ) && one_in( 100000 / dis.duration ) &&
       one_in(250)) {
-   mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER");
+   mon_id type = MonsterGroupManager::GetMonsterFromGroup("GROUP_NETHER", &g->mtypes);
    monster beast(g->mtypes[type]);
-   int x, y, tries = 0, junk;
+   int x, y, tries = 0;
    do {
     x = p.posx + rng(-4, 4);
     y = p.posy + rng(-4, 4);
@@ -955,10 +1022,10 @@ void dis_effect(game *g, player &p, disease &dis)
             tries < 10);
    if (tries < 10) {
     if (g->m.move_cost(x, y) == 0)
-     g->m.ter(x, y) = t_rubble;
+     g->m.ter_set(x, y, t_rubble);
     beast.spawn(x, y);
     g->z.push_back(beast);
-    if (g->u_see(x, y, junk)) {
+    if (g->u_see(x, y)) {
      g->cancel_activity_query("A monster appears nearby!");
      g->add_msg("A portal opens nearby, and a monster crawls through!");
     }
@@ -983,8 +1050,8 @@ void dis_effect(game *g, player &p, disease &dis)
   for (int i = 0; !lesser && i < p.worn.size(); i++) {
    if (p.worn[i].is_artifact()) {
     it_artifact_armor *armor = dynamic_cast<it_artifact_armor*>(p.worn[i].type);
-    for (int i = 0; i < armor->effects_worn.size(); i++) {
-     if (armor->effects_worn[i] == AEP_EVIL)
+    for (int j = 0; j < armor->effects_worn.size(); j++) {
+     if (armor->effects_worn[j] == AEP_EVIL)
       lesser = true;
     }
    }
@@ -1032,6 +1099,20 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   break;
 
+ case DI_LIGHTSNARE:
+  p.moves = -500;
+  if(one_in(10)) {
+    g->add_msg("You attempt to free yourself from the snare.");
+  }
+  break;
+
+ case DI_HEAVYSNARE:
+  p.moves = -500;
+  if(one_in(20)) {
+    g->add_msg("You attempt to free yourself from the snare.");
+  }
+  break;
+
  case DI_INFECTED:
 	 p.dex_cur-= 1;
   if (dis.duration > 10800) {	// Infection Symptoms 6 hours into infection
@@ -1067,16 +1148,20 @@ void dis_effect(game *g, player &p, disease &dis)
 
   } else if (dis.duration > 3600) {	//Infection Symptoms 18 hours into infection
    if (one_in(100)) {
-    if (!p.is_npc())
-     if (p.has_disease(DI_SLEEP)) {
-      p.rem_disease(DI_SLEEP);
-      g->add_msg("You wake up.");
-      g->add_msg("You feel terribly weak, standing up is nearly impossible.");
-     } else
-      g->add_msg("You can barely remain standing.");
-    p.vomit(g);
-    if(p.pain < 100)
-    	p.pain++;
+       if (!p.is_npc()) {
+           if (p.has_disease(DI_SLEEP)) {
+               p.rem_disease(DI_SLEEP);
+               g->add_msg("You wake up.");
+               g->add_msg("You feel terribly weak, standing up is nearly impossible.");
+           } else {
+               g->add_msg("You can barely remain standing.");
+           }
+       }
+       p.vomit(g);
+       if(p.pain < 100)
+       {
+           p.pain++;
+       }
    }
    p.str_cur-= 2;
    p.dex_cur-= 2;
@@ -1139,6 +1224,7 @@ int disease_speed_boost(disease dis)
  case DI_ASTHMA:	return 0 - int(dis.duration / 5);
  case DI_GRACK:         return +20000;
  case DI_METH:		return (dis.duration > 600 ? 50 : -40);
+ case DI_BOULDERING: return ( 0 - (dis.intensity * 10));
  default:		return 0;
  }
 }
@@ -1150,32 +1236,37 @@ std::string dis_name(disease dis)
  case DI_GLARE:		return "Glare";
  case DI_COLD_HEAD:
   switch (dis.intensity) {
-   case 1: return "Cold head";
+   case 1: return "Chilly head";
    case 2: return "Cold head!";
    case 3: return "Freezing head!!";}
+  case DI_COLD_MOUTH:
+  switch (dis.intensity) {
+   case 1: return "Chilly face";
+   case 2: return "Cold face!";
+   case 3: return "Freezing face!!";}
  case DI_COLD_TORSO:
   switch (dis.intensity) {
-   case 1: return "Cold torso";
+   case 1: return "Chilly torso";
    case 2: return "Cold torso!";
    case 3: return "Freezing torso!!";}
  case DI_COLD_ARMS:
   switch (dis.intensity) {
-   case 1: return "Cold arms";
+   case 1: return "Chilly arms";
    case 2: return "Cold arms!";
    case 3: return "Freezing arms!!";}
  case DI_COLD_HANDS:
   switch (dis.intensity) {
-   case 1: return "Cold hands";
+   case 1: return "Chilly hands";
    case 2: return "Cold hands!";
    case 3: return "Freezing hands!!";}
  case DI_COLD_LEGS:
   switch (dis.intensity) {
-   case 1: return "Cold legs";
+   case 1: return "Chilly legs";
    case 2: return "Cold legs!";
    case 3: return "Freezing legs!!";}
  case DI_COLD_FEET:
   switch (dis.intensity) {
-   case 1: return "Cold feet";
+   case 1: return "Chilly feet";
    case 2: return "Cold feet!";
    case 3: return "Freezing feet!!";}
  case DI_FROSTBITE_HANDS:
@@ -1192,32 +1283,37 @@ std::string dis_name(disease dis)
    case 2: return "Frostbite - face";}
  case DI_HOT_HEAD:
   switch (dis.intensity) {
-   case 1: return "Hot head";
+   case 1: return "Warm head";
    case 2: return "Hot head!";
    case 3: return "Scorching head!!";}
+ case DI_HOT_MOUTH:
+  switch (dis.intensity) {
+   case 1: return "Warm face";
+   case 2: return "Hot face!";
+   case 3: return "Scorching face!!";}
  case DI_HOT_TORSO:
   switch (dis.intensity) {
-   case 1: return "Hot torso";
+   case 1: return "Warm torso";
    case 2: return "Hot torso!";
    case 3: return "Scorching torso!!";}
  case DI_HOT_ARMS:
   switch (dis.intensity) {
-   case 1: return "Hot arms";
+   case 1: return "Warm arms";
    case 2: return "Hot arms!";
    case 3: return "Scorching arms!!";}
  case DI_HOT_HANDS:
   switch (dis.intensity) {
-   case 1: return "Hot hands";
+   case 1: return "Warm hands";
    case 2: return "Hot hands!";
    case 3: return "Scorching hands!!";}
  case DI_HOT_LEGS:
   switch (dis.intensity) {
-   case 1: return "Hot legs";
+   case 1: return "Warm legs";
    case 2: return "Hot legs!";
    case 3: return "Scorching legs!!";}
  case DI_HOT_FEET:
   switch (dis.intensity) {
-   case 1: return "Hot feet";
+   case 1: return "Warm feet";
    case 2: return "Hot feet!";
    case 3: return "Scorching feet!!";}
  case DI_BLISTERS_MOUTH: return "Blisters - face";
@@ -1272,6 +1368,7 @@ std::string dis_name(disease dis)
                           return "Meth Comedown";
 
  case DI_IN_PIT:	return "Stuck in Pit";
+ case DI_BOULDERING: return "Clambering Over Rubble";
 
  case DI_STEMCELL_TREATMENT: return "Stem cell treatment";
 
@@ -1284,7 +1381,7 @@ std::string dis_name(disease dis)
   switch (dis.intensity) {
    case 1: return "Snakebite Unlocked!";
    case 2: return "Viper Strike Unlocked!";
-   default: return "VIPER BUG!!!!";
+   default: return "Viper combo bug. (in disease.cpp:dis_name)";
   }
   case DI_BITE:
   if (dis.duration > 3000) return "Bite Wound";
@@ -1319,17 +1416,11 @@ std::string dis_description(disease dis)
    case 2: return "Your head is very exposed to the cold. It is hard to concentrate.";
    case 3: return "Your head is dangerously cold. Getting undressed sounds like a good idea.";}
 
- case DI_COLD_EYES:
-  switch (dis.intensity) {
-   case 1: return "Your eyes are exposed to the cold.";
-   case 2: return "Your eyes are very exposed to the cold.";
-   case 3: return "Your eyes are dangerously cold.";}
-
  case DI_COLD_MOUTH:
   switch (dis.intensity) {
-   case 1: return "Your mouth is exposed to the cold.";
-   case 2: return "Your mouth is very exposed to the cold.";
-   case 3: return "Your mouth is dangerously cold.";}
+   case 1: return "Your face is exposed to the cold.";
+   case 2: return "Your face is very exposed to the cold.";
+   case 3: return "Your face is dangerously cold.";}
 
  case DI_COLD_TORSO:
   switch (dis.intensity) {
@@ -1341,25 +1432,25 @@ std::string dis_description(disease dis)
   switch (dis.intensity) {
    case 1: return "Your arms are exposed to the cold.";
    case 2: return "Your arms are very exposed to the cold. Your arms are shivering.";
-   case 3: return "Your arms is dangerously cold. Your arms are shivering uncontrollably";}
+   case 3: return "Your arms are dangerously cold. Your arms are shivering uncontrollably";}
 
  case DI_COLD_HANDS:
   switch (dis.intensity) {
    case 1: return "Your hands are exposed to the cold.";
    case 2: return "Your hands are very exposed to the cold. Your hands are shivering.";
-   case 3: return "Your hands is dangerously cold. Your hands are shivering uncontrollably";}
+   case 3: return "Your hands are dangerously cold. Your hands are shivering uncontrollably";}
 
  case DI_COLD_LEGS:
   switch (dis.intensity) {
    case 1: return "Your legs are exposed to the cold.";
    case 2: return "Your legs are very exposed to the cold. Your strength is sapped.";
-   case 3: return "Your legs is dangerously cold. Your strength is sapped.";}
+   case 3: return "Your legs are dangerously cold. Your strength is sapped.";}
 
  case DI_COLD_FEET:
   switch (dis.intensity) {
    case 1: return "Your feet are exposed to the cold.";
    case 2: return "Your feet are very exposed to the cold. Your strength is sapped.";
-   case 3: return "Your feet is dangerously cold. Your strength is sapped.";}
+   case 3: return "Your feet are dangerously cold. Your strength is sapped.";}
 
  case DI_FROSTBITE_HANDS:
   switch (dis.intensity) {
@@ -1393,6 +1484,12 @@ std::string dis_description(disease dis)
    case 2: return "Your head is sweating from the heat. You feel nauseated. You have a headache.";
    case 3: return "Your head is sweating profusely. You feel very nauseated. You have a headache.";}
 
+ case DI_HOT_MOUTH:
+  switch (dis.intensity) {
+   case 1: return "Your face feels warm.";
+   case 2: return "Your face is sweating from the heat, making it hard to see.";
+   case 3: return "Your face is sweating profusely, making it hard to see.";}
+
  case DI_HOT_TORSO:
   switch (dis.intensity) {
    case 1: return "Your torso feels warm.";
@@ -1419,7 +1516,7 @@ std::string dis_description(disease dis)
 
  case DI_HOT_FEET:
   switch (dis.intensity) {
-   case 1: return "Your feet feel hot.";
+   case 1: return "Your feet feel warm.";
    case 2: return "Your feet are painfully swollen due to the heat.";
    case 3: return "Your feet are painfully swollen due to the heat.";}
 
@@ -1459,6 +1556,25 @@ Loss of health - Torso";
  case DI_ONFIRE:	return "\
 Loss of health - Entire Body\n\
 Your clothing and other equipment may be consumed by the flames.";
+
+ case DI_CRUSHED:   return "\
+If you're seeing this, there is a bug in disease.cpp!";
+
+ case DI_BOULDERING:
+  switch (dis.intensity){
+  case 1:
+   return "\
+Dexterity - 1;   Speed -10%\
+You are being slowed by climbing over a pile of rubble";
+  case 2:
+   return "\
+Dexterity - 3;   Speed -20%\
+You are being slowed by climbing over a heap of rubble";
+  case 3:
+   return "\
+Dexterity - 5;   Speed -30%\
+You are being slowed by climbing over a mountain of rubble";
+  }
 
  case DI_BOOMERED:	return "\
 Perception - 5\n\
@@ -1627,7 +1743,7 @@ You have an infected wound.";
  You are recovering from an infection.";
 
  default:
-  return "Who knows?  This is probably a bug.";
+  return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
  }
 }
 

@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
  cbreak();  // C-style breaks (e.g. ^C to SIGINT)
  keypad(stdscr, true); // Numpad is numbers
  init_colors(); // See color.cpp
- curs_set(0); // Invisible cursor
+// curs_set(0); // Invisible cursor
  set_escdelay(10); // Make escape actually responsive
 
  std::srand(seed);
@@ -55,7 +55,10 @@ int main(int argc, char *argv[])
  game *g = new game;
  g->init_ui();
  MAPBUFFER.set_game(g);
+ g->load_artifacts(); //artifacts have to be loaded before any items are created
  MAPBUFFER.load();
+
+ curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
  #if (!(defined _WIN32 || defined WINDOWS))
   struct sigaction sigIntHandler;
@@ -90,7 +93,7 @@ void exit_handler(int s) {
  bool bExit = false;
 
  if (s == 2) {
-  if (query_yn(12, 12, "Really Quit? All unsafed changes will be lost.")) {
+  if (query_yn("Really Quit? All unsaved changes will be lost.")) {
    bExit = true;
   }
  } else if (s == -999) {

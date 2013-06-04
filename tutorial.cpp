@@ -2,9 +2,12 @@
 #include "output.h"
 #include "action.h"
 #include "tutorial.h"
+#include "overmapbuffer.h"
 
 bool tutorial_game::init(game *g)
 {
+	// TODO: clean up old tutorial
+
  g->turn = HOURS(12); // Start at noon
  for (int i = 0; i < NUM_LESSONS; i++)
   tutorials_seen[i] = false;
@@ -24,28 +27,26 @@ bool tutorial_game::init(game *g)
  g->u.name = "John Smith";
  g->levx = 100;
  g->levy = 100;
- g->cur_om = overmap(g, 0, 0, TUTORIAL_Z - 1);
- g->cur_om.make_tutorial();
- g->cur_om.save(g->u.name, 0, 0, TUTORIAL_Z - 1);
- g->cur_om = overmap(g, 0, 0, TUTORIAL_Z);
- g->cur_om.make_tutorial();
+ g->cur_om = &overmap_buffer.get(g, 0, 0);
+ g->cur_om->make_tutorial();
+ g->cur_om->save();
  g->u.toggle_trait(PF_QUICK);
- g->u.inv.push_back(item(g->itypes[itm_lighter], 0, 'e'));
+ g->u.inv.push_back(item(g->itypes["lighter"], 0, 'e'));
  g->u.skillLevel("gun").level(5);
  g->u.skillLevel("melee").level(5);
 // Init the starting map at g location.
  for (int i = 0; i <= MAPSIZE; i += 2) {
   for (int j = 0; j <= MAPSIZE; j += 2) {
    tinymap tm(&g->itypes, &g->mapitems, &g->traps);
-   tm.generate(g, &(g->cur_om), g->levx + i - 1, g->levy + j - 1, int(g->turn));
+   tm.generate(g, g->cur_om, g->levx + i - 1, g->levy + j - 1, 0, int(g->turn));
   }
  }
 // Start with the overmap revealed
  for (int x = 0; x < OMAPX; x++) {
   for (int y = 0; y < OMAPY; y++)
-   g->cur_om.seen(x, y) = true;
+   g->cur_om->seen(x, y, 0) = true;
  }
- g->m.load(g, g->levx, g->levy);
+ g->m.load(g, g->levx, g->levy, 0);
  g->levz = 0;
  g->u.posx = SEEX + 2;
  g->u.posy = SEEY + 4;
@@ -62,7 +63,7 @@ void tutorial_game::per_turn(game *g)
   add_message(g, LESSON_INTRO);
 
  if (g->light_level() == 1) {
-  if (g->u.has_amount(itm_flashlight, 1))
+  if (g->u.has_amount("flashlight", 1))
    add_message(g, LESSON_DARK);
   else
    add_message(g, LESSON_DARK_NO_FLASH);
@@ -76,7 +77,7 @@ void tutorial_game::per_turn(game *g)
 
  if (!tutorials_seen[LESSON_BUTCHER]) {
   for (int i = 0; i < g->m.i_at(g->u.posx, g->u.posy).size(); i++) {
-   if (g->m.i_at(g->u.posx, g->u.posy)[i].type->id == itm_corpse) {
+   if (g->m.i_at(g->u.posx, g->u.posy)[i].type->id == "corpse") {
     add_message(g, LESSON_BUTCHER);
     i = g->m.i_at(g->u.posx, g->u.posy).size();
    }
@@ -140,7 +141,7 @@ void tutorial_game::post_action(game *g, action_id act)
   break;
 
  case ACTION_USE:
-  if (g->u.has_amount(itm_grenade_act, 1))
+  if (g->u.has_amount("grenade_act", 1))
    add_message(g, LESSON_ACT_GRENADE);
   for (int x = g->u.posx - 1; x <= g->u.posx + 1; x++) {
    for (int y = g->u.posy - 1; y <= g->u.posy + 1; y++) {
@@ -151,11 +152,11 @@ void tutorial_game::post_action(game *g, action_id act)
   break;
 
  case ACTION_EAT:
-  if (g->u.last_item == itm_codeine)
+  if (g->u.last_item == "codeine")
    add_message(g, LESSON_TOOK_PAINKILLER);
-  else if (g->u.last_item == itm_cig)
+  else if (g->u.last_item == "cig")
    add_message(g, LESSON_TOOK_CIG);
-  else if (g->u.last_item == itm_water)
+  else if (g->u.last_item == "water")
    add_message(g, LESSON_DRANK_WATER);
   break;
 
@@ -163,7 +164,7 @@ void tutorial_game::post_action(game *g, action_id act)
   itype *it = g->itypes[ g->u.last_item];
   if (it->is_armor()) {
    it_armor *armor = dynamic_cast<it_armor*>(it);
-   if (armor->dmg_resist >= 2 || armor->cut_resist >= 4)
+   if (armor->coverage >= 2 || armor->thickness >= 2)
     add_message(g, LESSON_WORE_ARMOR);
    if (armor->storage >= 20)
     add_message(g, LESSON_WORE_STORAGE);

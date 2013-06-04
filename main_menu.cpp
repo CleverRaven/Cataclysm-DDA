@@ -4,11 +4,19 @@
 #include "debug.h"
 #include "mapbuffer.h"
 #include "cursesdef.h"
+#include "overmapbuffer.h"
 
 #include <sys/stat.h>
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
+#else
 #include <dirent.h>
+#endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+
+const char* getVersionString();
 
 void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA)
 {
@@ -22,7 +30,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
 
     int iLine = 0;
     const int iOffsetX1 = 3;
-    const int iOffsetX2 = 5;
+    const int iOffsetX2 = 4;
     const int iOffsetX3 = 18;
 
     const nc_color cColor1 = c_ltcyan;
@@ -38,12 +46,12 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
 
     if (bShowDDA) {
         iLine++;
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                   .__     ________                           ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __ \\______ \\  _____    ___.__   ______");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /  |    |  \\ \\__  \\  <   |  | /  ___/");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <   |    `   \\ / __ \\_ \\___  | \\___ \\ ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\ /_______  /(____  / / ____|/____  >");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/         \\/      \\/  \\/          \\/ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                   .__      ________                           ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __  \\______ \\  _____    ___.__   ______");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /   |    |  \\ \\__  \\  <   |  | /  ___/");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <    |    `   \\ / __ \\_ \\___  | \\___ \\ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\  /_______  /(____  / / ____|/____  >");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/          \\/      \\/  \\/          \\/ ");
 
         iLine++;
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
@@ -52,6 +60,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
+        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "Version: %s",getVersionString());
     }
 
     std::vector<std::string> vMenuItems;
@@ -90,15 +99,12 @@ void game::print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int i
 
 bool game::opening_screen()
 {
-    int iMaxX = (VIEWX < 12) ? 80 : (VIEWX*2)+56;
-    int iMaxY = (VIEWY < 12) ? 25 : (VIEWY*2)+1;
-
-    WINDOW* w_background = newwin(iMaxY, iMaxX, 0, 0);
+    WINDOW* w_background = newwin(TERMY, TERMX, 0, 0);
 
     werase(w_background);
     wrefresh(w_background);
 
-    WINDOW* w_open = newwin(25, 80, (iMaxY > 25) ? (iMaxY-25)/2 : 0, (iMaxX > 80) ? (iMaxX-80)/2 : 0);
+    WINDOW* w_open = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
     const int iMenuOffsetX = 2;
     int iMenuOffsetY = 22;
 
@@ -110,7 +116,6 @@ bool game::opening_screen()
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
 
     std::vector<std::string> savegames, templates;
-    std::string tmp;
     dirent *dp;
     DIR *dir = opendir("save");
     if (!dir) {
@@ -128,14 +133,14 @@ bool game::opening_screen()
         exit(1);
     }
     while ((dp = readdir(dir))) {
-        tmp = dp->d_name;
+        std::string tmp = dp->d_name;
         if (tmp.find(".sav") != std::string::npos)
             savegames.push_back(tmp.substr(0, tmp.find(".sav")));
     }
     closedir(dir);
     dir = opendir("data");
     while ((dp = readdir(dir))) {
-        tmp = dp->d_name;
+        std::string tmp = dp->d_name;
         if (tmp.find(".template") != std::string::npos)
             templates.push_back(tmp.substr(0, tmp.find(".template")));
     }
@@ -155,7 +160,7 @@ bool game::opening_screen()
         while (!motd_file.eof()) {
             std::string tmp;
             getline(motd_file, tmp);
-            if (tmp[0] != '#')
+            if (!tmp.length() || tmp[0] != '#')
                 motd.push_back(tmp);
         }
     }
@@ -170,7 +175,7 @@ bool game::opening_screen()
         while (!credits_file.eof()) {
             std::string tmp;
             getline(credits_file, tmp);
-            if (tmp[0] != '#')
+            if (!tmp.length() || tmp[0] != '#')
                 credits.push_back(tmp);
         }
     }
@@ -181,13 +186,13 @@ bool game::opening_screen()
 
             if (sel1 == 0) {	// Print the MOTD.
                 for (int i = 0; i < motd.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, motd[i].c_str());
+                    mvwprintz(w_open, i + 7, 8, c_ltred, motd[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
             } else if (sel1 == 7) {	// Print the Credits.
                 for (int i = 0; i < credits.size() && i < 16; i++)
-                    mvwprintz(w_open, i + 7, 12 + iMenuOffsetX, c_ltred, credits[i].c_str());
+                    mvwprintz(w_open, i + 7, 8, c_ltred, credits[i].c_str());
 
                 wrefresh(w_open);
                 refresh();
@@ -334,11 +339,12 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 3) {  // Delete world
-                if (query_yn(this->VIEWX, this->VIEWY, "Delete the world and all saves?")) {
+                if (query_yn("Delete the world and all saves?")) {
                     delete_save();
                     savegames.clear();
                     MAPBUFFER.reset();
                     MAPBUFFER.make_volatile();
+                    overmap_buffer.clear();
                 }
 
                 layer = 1;
@@ -390,16 +396,16 @@ bool game::opening_screen()
             wrefresh(w_open);
             refresh();
             input = get_input();
-            if (input == DirectionN) {
+            if (input == DirectionS) {
                 if (sel1 > 0)
                     sel1--;
                 else
                     sel1 = templates.size() - 1;
-            } else if (templates.size() == 0 && (input == DirectionS || input == Confirm)) {
+            } else if (templates.size() == 0 && (input == DirectionN || input == Confirm)) {
                 sel1 = 1;
                 layer = 2;
                 print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
-            } else if (input == DirectionS) {
+            } else if (input == DirectionN) {
                 if (sel1 < templates.size() - 1)
                     sel1++;
                 else

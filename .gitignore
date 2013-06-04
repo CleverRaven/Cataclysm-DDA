@@ -1,9 +1,14 @@
 cataclysm
 data/*.template
-bin/
 save/
 obj/
 debug.log
 logg.txt
 bindist/
 cataclysmdda-*
+objwin/
+cataclysm.exe
+version.h
+Cataclysm.exe
+CataclysmWin.depend
+CataclysmWin.layout

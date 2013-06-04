@@ -14,8 +14,8 @@ class map;
 class player;
 class game;
 
-const int num_fuel_types = 4;
-const int fuel_types[num_fuel_types] = { AT_GAS, AT_BATT, AT_PLUT, AT_PLASMA };
+const int num_fuel_types = 5;
+const int fuel_types[num_fuel_types] = { AT_GAS, AT_BATT, AT_PLUT, AT_PLASMA, AT_WATER };
 const int k_mvel = 200;
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
@@ -49,7 +49,7 @@ struct veh_collision {
 struct vehicle_part
 {
     vehicle_part() : id(vp_null), mount_dx(0), mount_dy(0), hp(0),
-    blood(0), inside(false), flags(0), passenger_id(0), bigness(0)
+      blood(0), bigness(0), inside(false), flags(0), passenger_id(0)
     {
         precalc_dx[0] = precalc_dx[1] = -1;
         precalc_dy[0] = precalc_dy[1] = -1;
@@ -150,14 +150,14 @@ private:
     game *g;
 
 public:
-    vehicle (game *ag=0, vhtype_id type_id = veh_null);
+    vehicle (game *ag=0, vhtype_id type_id = veh_null, int veh_init_fuel = -1, int veh_init_status = -1);
     ~vehicle ();
 
 // check if given player controls this vehicle
     bool player_in_control (player *p);
 
 // init parts state for randomly generated vehicle
-    void init_state(game* g);
+    void init_state(game* g, int veh_init_fuel, int veh_init_status);
 
 // load and init vehicle data from stream. This implies valid save data!
     void load (std::ifstream &stin);
@@ -221,8 +221,8 @@ public:
 // Vehicle parts description
     void print_part_desc (void *w, int y1, int width, int p, int hl = -1);
 
-// Vehicle fuel indicator
-    void print_fuel_indicator (void *w, int y, int x);
+// Vehicle fuel indicator. Should probably rename to print_fuel_indicators and make a print_fuel_indicator(..., FUEL_TYPE);
+    void print_fuel_indicator (void *w, int y, int x, bool fullsize = false, bool verbose = false);
 
 // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
     void precalc_mounts (int idir, int dir);
@@ -246,6 +246,10 @@ public:
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
     int refill (int ftype, int amount);
+
+    // drains a fuel type (e.g. for the kitchen unit)
+    // returns amount actually drained, does not engage reactor
+    int drain (int ftype, int amount);
 
 // vehicle's fuel type name
     std::string fuel_name(int ftype);
@@ -384,6 +388,8 @@ public:
     // temp values
     int smx, smy;   // submap coords. WARNING: must ALWAYS correspond to sumbap coords in grid, or i'm out
     bool insides_dirty; // if true, then parts' "inside" flags are outdated and need refreshing
+    int init_veh_fuel;
+    int init_veh_status;
 
     // save values
     int posx, posy;

@@ -7,8 +7,13 @@
 #   make NATIVE=linux32
 # Linux cross-compile to Win32
 #   make CROSS=i686-pc-mingw32-
+#   or make CROSS=i586-mingw32msvc-
+#   or whichever prefix your crosscompiler uses
+#      as long as its name contains mingw32
 # Win32
 #   Run: make NATIVE=win32
+# OS X
+#   Run: make NATIVE=osx
 
 # Build types:
 # Debug (no optimizations)
@@ -21,9 +26,9 @@
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
-#WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-char-subscripts
+WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
 # Uncomment below to disable warnings
-WARNINGS = -w
+#WARNINGS = -w
 DEBUG = -g
 #PROFILE = -pg
 #OTHERS = -O3
@@ -44,7 +49,9 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-VERSION = 0.3
+
+VERSION = 0.5
+
 
 TARGET = cataclysm
 W32TARGET = cataclysm.exe
@@ -56,6 +63,7 @@ DDIR = .deps
 
 OS  = $(shell uname -o)
 CXX = $(CROSS)g++
+LD  = $(CROSS)g++
 
 # enable optimizations. slow to build
 ifdef RELEASE
@@ -63,7 +71,7 @@ ifdef RELEASE
   DEBUG =
 endif
 
-CXXFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
+CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
 BINDIST_EXTRAS = README data cataclysm-launcher
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
@@ -76,34 +84,57 @@ W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
 #ifeq ($(OS), Msys)
 #  LDFLAGS = -static -lpdcurses
 #else
-  LDFLAGS = -lncurses
+#  LDFLAGS += -lncurses
 #endif
+
+# Check if called without a special build target
+ifeq ($(NATIVE),)
+  ifeq ($(CROSS),)
+    TARGETSYSTEM=LINUX
+  endif
+endif
 
 # Linux 64-bit
 ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
+  TARGETSYSTEM=LINUX
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
+    TARGETSYSTEM=LINUX
   endif
 endif
+
+# OSX
+ifeq ($(NATIVE), osx)
+  CXXFLAGS += -mmacosx-version-min=10.6
+  TARGETSYSTEM=LINUX
+endif
+
 # Win32 (mingw32?)
 ifeq ($(NATIVE), win32)
-  TARGET = $(W32TARGET)
-  BINDIST = $(W32BINDIST)
-  BINDIST_CMD = $(W32BINDIST_CMD)
-  ODIR = $(W32ODIR)
-  W32LDFLAGS = -Wl,-stack,12000000,-subsystem,windows
-  LDFLAGS += -static -lgdi32
+  TARGETSYSTEM=WINDOWS
 endif
+
 # MXE cross-compile to win32
-ifeq ($(CROSS), i686-pc-mingw32-)
+ifneq (,$(findstring mingw32,$(CROSS)))
+  TARGETSYSTEM=WINDOWS
+endif
+
+# Global settings for Linux targets
+ifeq ($(TARGETSYSTEM),LINUX)
+  LDFLAGS += -lncurses
+endif
+
+# Global settings for Windows targets
+ifeq ($(TARGETSYSTEM),WINDOWS)
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -lgdi32
+  LDFLAGS += -static -lgdi32 
+  W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
 endif
 
 SOURCES = $(wildcard *.cpp)
@@ -111,12 +142,20 @@ HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
-all: $(TARGET)
+all: version $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(CXX) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
+	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
           $(OBJS) $(LDFLAGS)
+
+.PHONY: version
+version:
+	@( VERSION_STRING=$(VERSION) ; \
+            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9]*.[0-9]*" ) && VERSION_STRING=$$GITVERSION ; \
+            [ -e "version.h" ] && OLDVERSION=$$(grep VERSION version.h|cut -d '"' -f2) ; \
+            if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee version.h ; fi \
+         )
 
 $(ODIR):
 	mkdir $(ODIR)
@@ -127,10 +166,13 @@ $(DDIR):
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
-clean:
+version.cpp: version
+
+clean: clean-tests
 	rm -f $(TARGET) $(W32TARGET) $(ODIR)/*.o $(ODIR)/*.d $(W32ODIR)/*.o $(W32BINDIST) \
 	$(BINDIST)
 	rm -rf $(BINDIST_DIR)
+	rm -f version.h
 
 bindist: $(BINDIST)
 
@@ -145,13 +187,19 @@ export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
 ctags: $(SOURCES) $(HEADERS)
 	ctags $(SOURCES) $(HEADERS)
 
+etags: $(SOURCES) $(HEADERS)
+	etags $(SOURCES) $(HEADERS)
+
 tests: $(ODIR) $(DDIR) $(OBJS)
 	$(MAKE) -C tests
 
 check: tests
 	$(MAKE) -C tests check
 
-.PHONY: tests check
+clean-tests:
+	$(MAKE) -C tests clean
+
+.PHONY: tests check ctags etags clean-tests
 
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

@@ -12,6 +12,12 @@ void mission_start::standard(game *g, mission *miss)
 {
 }
 
+void mission_start::join(game *g, mission *miss)
+{
+ npc *p = g->find_npc(miss->npc_id);
+ p->attitude = NPCATT_FOLLOW;
+}
+
 void mission_start::infect_npc(game *g, mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);
@@ -20,55 +26,67 @@ void mission_start::infect_npc(game *g, mission *miss)
   return;
  }
  p->add_disease(DI_INFECTION, -1, g);
- for (int i = 0; i < p->inv.size(); i++) {
-  if (p->inv[i].type->id == itm_antibiotics) {
-   p->inv.remove_stack(i);
-   i--;
-  }
- }
+ // make sure they don't have any antibiotics
+ while ( !p->inv.remove_item_by_type("antibiotics").is_null() ) { /* empty */ }
 }
 
 void mission_start::place_dog(game *g, mission *miss)
 {
- int city_id = g->cur_om.closest_city( g->om_location() );
- point house = g->cur_om.random_house_in_city(city_id);
+ int city_id = g->cur_om->closest_city( g->om_location() );
+ point house = g->cur_om->random_house_in_city(city_id);
  npc* dev = g->find_npc(miss->npc_id);
  if (dev == NULL) {
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
   return;
  }
- g->u.i_add( item(g->itypes[itm_dog_whistle], 0) );
+ g->u.i_add( item(g->itypes["dog_whistle"], 0) );
  g->add_msg("%s gave you a dog whistle.", dev->name.c_str());
 
  miss->target = house;
 // Make it seen on our map
  for (int x = house.x - 6; x <= house.x + 6; x++) {
   for (int y = house.y - 6; y <= house.y + 6; y++)
-   g->cur_om.seen(x, y) = true;
+   g->cur_om->seen(x, y, 0) = true;
  }
 
  tinymap doghouse(&(g->itypes), &(g->mapitems), &(g->traps));
- doghouse.load(g, house.x * 2, house.y * 2, false);
+ doghouse.load(g, house.x * 2, house.y * 2, 0, false);
  doghouse.add_spawn(mon_dog, 1, SEEX, SEEY, true, -1, miss->uid);
- doghouse.save(&(g->cur_om), int(g->turn), house.x * 2, house.y * 2);
+ doghouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
 }
 
 void mission_start::place_zombie_mom(game *g, mission *miss)
 {
- int city_id = g->cur_om.closest_city( g->om_location() );
- point house = g->cur_om.random_house_in_city(city_id);
+ int city_id = g->cur_om->closest_city( g->om_location() );
+ point house = g->cur_om->random_house_in_city(city_id);
 
  miss->target = house;
 // Make it seen on our map
  for (int x = house.x - 6; x <= house.x + 6; x++) {
   for (int y = house.y - 6; y <= house.y + 6; y++)
-   g->cur_om.seen(x, y) = true;
+   g->cur_om->seen(x, y, 0) = true;
  }
 
  tinymap zomhouse(&(g->itypes), &(g->mapitems), &(g->traps));
- zomhouse.load(g, house.x * 2, house.y * 2, false);
+ zomhouse.load(g, house.x * 2, house.y * 2,  0, false);
  zomhouse.add_spawn(mon_zombie, 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
- zomhouse.save(&(g->cur_om), int(g->turn), house.x * 2, house.y * 2);
+ zomhouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
+}
+
+void mission_start::place_jabberwock(game *g, mission *miss)
+{
+ int dist = 0;
+ point site = g->cur_om->find_closest(g->om_location(), ot_forest_thick, 1, dist, false);
+ miss->target = site;
+// Make it seen on our map
+ for (int x = site.x - 6; x <= site.x + 6; x++) {
+  for (int y = site.y - 6; y <= site.y + 6; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ tinymap grove(&(g->itypes), &(g->mapitems), &(g->traps));
+ grove.load(g, site.x * 2, site.y * 2,  0, false);
+ grove.add_spawn(mon_jabberwock, 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
+ grove.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
 }
 
 void mission_start::place_npc_software(game *g, mission *miss)
@@ -78,45 +96,45 @@ void mission_start::place_npc_software(game *g, mission *miss)
   debugmsg("Couldn't find NPC! %d", miss->npc_id);
   return;
  }
- g->u.i_add( item(g->itypes[itm_usb_drive], 0) );
+ g->u.i_add( item(g->itypes["usb_drive"], 0) );
  g->add_msg("%s gave you a USB drive.", dev->name.c_str());
 
  oter_id ter = ot_house_north;
 
  switch (dev->myclass) {
  case NC_HACKER:
-  miss->item_id = itm_software_hacking;
+  miss->item_id = "software_hacking";
   break;
  case NC_DOCTOR:
-  miss->item_id = itm_software_medical;
+  miss->item_id = "software_medical";
   ter = ot_s_pharm_north;
   miss->follow_up = MISSION_GET_ZOMBIE_BLOOD_ANAL;
   break;
  case NC_SCIENTIST:
-  miss->item_id = itm_software_math;
+  miss->item_id = "software_math";
   break;
  default:
-  miss->item_id = itm_software_useless;
+  miss->item_id = "software_useless";
  }
 
  int dist = 0;
  point place;
  if (ter == ot_house_north) {
-  int city_id = g->cur_om.closest_city( g->om_location() );
-  place = g->cur_om.random_house_in_city(city_id);
+  int city_id = g->cur_om->closest_city( g->om_location() );
+  place = g->cur_om->random_house_in_city(city_id);
  } else
-  place = g->cur_om.find_closest(g->om_location(), ter, 4, dist, false);
+  place = g->cur_om->find_closest(g->om_location(), ter, 4, dist, false);
  miss->target = place;
 // Make it seen on our map
  for (int x = place.x - 6; x <= place.x + 6; x++) {
   for (int y = place.y - 6; y <= place.y + 6; y++)
-   g->cur_om.seen(x, y) = true;
+   g->cur_om->seen(x, y, 0) = true;
  }
  tinymap compmap(&(g->itypes), &(g->mapitems), &(g->traps));
- compmap.load(g, place.x * 2, place.y * 2, false);
+ compmap.load(g, place.x * 2, place.y * 2, 0, false);
  point comppoint;
 
- switch (g->cur_om.ter(place.x, place.y)) {
+ switch (g->cur_om->ter(place.x, place.y, 0)) {
  case ot_house_north:
  case ot_house_east:
  case ot_house_west:
@@ -190,28 +208,45 @@ void mission_start::place_npc_software(game *g, mission *miss)
 
  std::stringstream compname;
  compname << dev->name << "'s Terminal";
- compmap.ter(comppoint.x, comppoint.y) = t_console;
+ compmap.ter_set(comppoint.x, comppoint.y, t_console);
  computer *tmpcomp = compmap.add_computer(comppoint.x, comppoint.y,
                                           compname.str(), 0);
  tmpcomp->mission_id = miss->uid;
  tmpcomp->add_option("Download Software", COMPACT_DOWNLOAD_SOFTWARE, 0);
 
- compmap.save(&(g->cur_om), int(g->turn), place.x * 2, place.y * 2);
+ compmap.save(g->cur_om, int(g->turn), place.x * 2, place.y * 2, 0);
+}
+
+void mission_start::reveal_lab_black_box(game *g, mission *miss)
+{
+ npc* dev = g->find_npc(miss->npc_id);
+ if (dev != NULL) {
+  g->u.i_add( item(g->itypes["black_box"], 0) );
+  g->add_msg("%s gave you back the black box.", dev->name.c_str());
+ }
+ int dist = 0;
+ point place = g->cur_om->find_closest(g->om_location(), ot_lab, 1, dist,
+                                      false);
+ for (int x = place.x - 3; x <= place.x + 3; x++) {
+  for (int y = place.y - 3; y <= place.y + 3; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ miss->target = place;
 }
 
 void mission_start::reveal_hospital(game *g, mission *miss)
 {
  npc* dev = g->find_npc(miss->npc_id);
  if (dev != NULL) {
-  g->u.i_add( item(g->itypes[itm_vacutainer], 0) );
+  g->u.i_add( item(g->itypes["vacutainer"], 0) );
   g->add_msg("%s gave you a vacutainer.", dev->name.c_str());
  }
  int dist = 0;
- point place = g->cur_om.find_closest(g->om_location(), ot_hospital, 1, dist,
+ point place = g->cur_om->find_closest(g->om_location(), ot_hospital, 1, dist,
                                       false);
  for (int x = place.x - 3; x <= place.x + 3; x++) {
   for (int y = place.y - 3; y <= place.y + 3; y++)
-   g->cur_om.seen(x, y) = true;
+   g->cur_om->seen(x, y, 0) = true;
  }
  miss->target = place;
 }
@@ -231,7 +266,7 @@ void mission_start::find_safety(game *g, mission *miss)
      case 2: check.y += dist; check.x -= radius; break;
      case 3: check.y += dist; check.x += radius; break;
     }
-    if (g->cur_om.is_safe(check.x, check.y)) {
+    if (g->cur_om->is_safe(check.x, check.y, g->levz)) {
      miss->target = check;
      done = true;
     }

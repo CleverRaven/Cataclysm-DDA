@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FE1372AC-5F90-447E-BBCA-1B253836EB77}</ProjectGuid>
+    <RootNamespace>Cataclysm</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='x64'" Label="Configuration">
+    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>_MBCS;NOMINMAX;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <Link>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\action.cpp" />
+    <ClCompile Include="..\addiction.cpp" />
+    <ClCompile Include="..\artifact.cpp" />
+    <ClCompile Include="..\basecamp.cpp" />
+    <ClCompile Include="..\bionics.cpp" />
+    <ClCompile Include="..\bodypart.cpp" />
+    <ClCompile Include="..\building_generation.cpp" />
+    <ClCompile Include="..\calendar.cpp" />
+    <ClCompile Include="..\catacurse.cpp" />
+    <ClCompile Include="..\catajson.cpp" />
+    <ClCompile Include="..\color.cpp" />
+    <ClCompile Include="..\computer.cpp" />
+    <ClCompile Include="..\construction.cpp" />
+    <ClCompile Include="..\crafting.cpp" />
+    <ClCompile Include="..\debug.cpp" />
+    <ClCompile Include="..\defense.cpp" />
+    <ClCompile Include="..\disease.cpp" />
+    <ClCompile Include="..\event.cpp" />
+    <ClCompile Include="..\faction.cpp" />
+    <ClCompile Include="..\field.cpp" />
+    <ClCompile Include="..\game.cpp" />
+    <ClCompile Include="..\gamemode.cpp" />
+    <ClCompile Include="..\graffiti.cpp" />
+    <ClCompile Include="..\help.cpp" />
+    <ClCompile Include="..\helper.cpp" />
+    <ClCompile Include="..\iexamine.cpp" />
+    <ClCompile Include="..\input.cpp" />
+    <ClCompile Include="..\inventory.cpp" />
+    <ClCompile Include="..\inventory_ui.cpp" />
+    <ClCompile Include="..\item.cpp" />
+    <ClCompile Include="..\item_factory.cpp" />
+    <ClCompile Include="..\item_group.cpp" />
+    <ClCompile Include="..\itypedef.cpp" />
+    <ClCompile Include="..\iuse.cpp" />
+    <ClCompile Include="..\keypress.cpp" />
+    <ClCompile Include="..\lightmap.cpp" />
+    <ClCompile Include="..\line.cpp" />
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\main_menu.cpp" />
+    <ClCompile Include="..\map.cpp" />
+    <ClCompile Include="..\mapbuffer.cpp" />
+    <ClCompile Include="..\mapdata.cpp" />
+    <ClCompile Include="..\mapgen.cpp" />
+    <ClCompile Include="..\mapgenformat.cpp" />
+    <ClCompile Include="..\mapitemsdef.cpp" />
+    <ClCompile Include="..\material.cpp" />
+    <ClCompile Include="..\melee.cpp" />
+    <ClCompile Include="..\mission.cpp" />
+    <ClCompile Include="..\missiondef.cpp" />
+    <ClCompile Include="..\mission_end.cpp" />
+    <ClCompile Include="..\mission_fail.cpp" />
+    <ClCompile Include="..\mission_place.cpp" />
+    <ClCompile Include="..\mission_start.cpp" />
+    <ClCompile Include="..\monattack.cpp" />
+    <ClCompile Include="..\mondeath.cpp" />
+    <ClCompile Include="..\mongroupdef.cpp" />
+    <ClCompile Include="..\monitemsdef.cpp" />
+    <ClCompile Include="..\monmove.cpp" />
+    <ClCompile Include="..\monster.cpp" />
+    <ClCompile Include="..\mtypedef.cpp" />
+    <ClCompile Include="..\mutation.cpp" />
+    <ClCompile Include="..\mutation_data.cpp" />
+    <ClCompile Include="..\name.cpp" />
+    <ClCompile Include="..\newcharacter.cpp" />
+    <ClCompile Include="..\npc.cpp" />
+    <ClCompile Include="..\npcmove.cpp" />
+    <ClCompile Include="..\npctalk.cpp" />
+    <ClCompile Include="..\options.cpp" />
+    <ClCompile Include="..\output.cpp" />
+    <ClCompile Include="..\overmap.cpp" />
+    <ClCompile Include="..\overmapbuffer.cpp" />
+    <ClCompile Include="..\player.cpp" />
+    <ClCompile Include="..\posix_time.cpp" />
+    <ClCompile Include="..\profession.cpp" />
+    <ClCompile Include="..\ranged.cpp" />
+    <ClCompile Include="..\rng.cpp" />
+    <ClCompile Include="..\settlement.cpp" />
+    <ClCompile Include="..\setvector.cpp" />
+    <ClCompile Include="..\skill.cpp" />
+    <ClCompile Include="..\text_snippets.cpp" />
+    <ClCompile Include="..\tileray.cpp" />
+    <ClCompile Include="..\trapdef.cpp" />
+    <ClCompile Include="..\trapfunc.cpp" />
+    <ClCompile Include="..\tutorial.cpp" />
+    <ClCompile Include="..\vehicle.cpp" />
+    <ClCompile Include="..\veh_interact.cpp" />
+    <ClCompile Include="..\veh_typedef.cpp" />
+    <ClCompile Include="..\version.cpp" />
+    <ClCompile Include="..\weather.cpp" />
+    <ClCompile Include="..\weather_data.cpp" />
+    <ClCompile Include="..\wish.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\action.h" />
+    <ClInclude Include="..\addiction.h" />
+    <ClInclude Include="..\artifact.h" />
+    <ClInclude Include="..\artifactdata.h" />
+    <ClInclude Include="..\basecamp.h" />
+    <ClInclude Include="..\bionics.h" />
+    <ClInclude Include="..\bodypart.h" />
+    <ClInclude Include="..\building_generation.h" />
+    <ClInclude Include="..\calendar.h" />
+    <ClInclude Include="..\catacurse.h" />
+    <ClInclude Include="..\catajson.h" />
+    <ClInclude Include="..\color.h" />
+    <ClInclude Include="..\computer.h" />
+    <ClInclude Include="..\construction.h" />
+    <ClInclude Include="..\crafting.h" />
+    <ClInclude Include="..\cursesdef.h" />
+    <ClInclude Include="..\debug.h" />
+    <ClInclude Include="..\dialogue.h" />
+    <ClInclude Include="..\disease.h" />
+    <ClInclude Include="..\enums.h" />
+    <ClInclude Include="..\event.h" />
+    <ClInclude Include="..\facdata.h" />
+    <ClInclude Include="..\faction.h" />
+    <ClInclude Include="..\game.h" />
+    <ClInclude Include="..\gamemode.h" />
+    <ClInclude Include="..\graffiti.h" />
+    <ClInclude Include="..\helper.h" />
+    <ClInclude Include="..\iexamine.h" />
+    <ClInclude Include="..\input.h" />
+    <ClInclude Include="..\inventory.h" />
+    <ClInclude Include="..\item.h" />
+    <ClInclude Include="..\item_factory.h" />
+    <ClInclude Include="..\item_group.h" />
+    <ClInclude Include="..\itype.h" />
+    <ClInclude Include="..\iuse.h" />
+    <ClInclude Include="..\keypress.h" />
+    <ClInclude Include="..\lightmap.h" />
+    <ClInclude Include="..\line.h" />
+    <ClInclude Include="..\map.h" />
+    <ClInclude Include="..\mapbuffer.h" />
+    <ClInclude Include="..\mapdata.h" />
+    <ClInclude Include="..\mapgenformat.h" />
+    <ClInclude Include="..\mapitems.h" />
+    <ClInclude Include="..\material.h" />
+    <ClInclude Include="..\mission.h" />
+    <ClInclude Include="..\monattack.h" />
+    <ClInclude Include="..\mondeath.h" />
+    <ClInclude Include="..\mongroup.h" />
+    <ClInclude Include="..\monster.h" />
+    <ClInclude Include="..\morale.h" />
+    <ClInclude Include="..\moraledata.h" />
+    <ClInclude Include="..\mtype.h" />
+    <ClInclude Include="..\mutation.h" />
+    <ClInclude Include="..\name.h" />
+    <ClInclude Include="..\npc.h" />
+    <ClInclude Include="..\omdata.h" />
+    <ClInclude Include="..\options.h" />
+    <ClInclude Include="..\output.h" />
+    <ClInclude Include="..\overmap.h" />
+    <ClInclude Include="..\overmapbuffer.h" />
+    <ClInclude Include="..\picojson.h" />
+    <ClInclude Include="..\player.h" />
+    <ClInclude Include="..\pldata.h" />
+    <ClInclude Include="..\posix_time.h" />
+    <ClInclude Include="..\profession.h" />
+    <ClInclude Include="..\rng.h" />
+    <ClInclude Include="..\settlement.h" />
+    <ClInclude Include="..\setvector.h" />
+    <ClInclude Include="..\skill.h" />
+    <ClInclude Include="..\text_snippets.h" />
+    <ClInclude Include="..\tileray.h" />
+    <ClInclude Include="..\trap.h" />
+    <ClInclude Include="..\tutorial.h" />
+    <ClInclude Include="..\vehicle.h" />
+    <ClInclude Include="..\veh_interact.h" />
+    <ClInclude Include="..\veh_type.h" />
+    <ClInclude Include="..\wdirent.h" />
+    <ClInclude Include="..\weather.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\data\cataicon.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

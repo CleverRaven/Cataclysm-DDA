@@ -97,6 +97,8 @@ typedef struct {
 #define    KEY_RIGHT      0x105    /* right arrow*/
 #define    KEY_HOME       0x106    /* home key */                   //<---------not used
 #define    KEY_BACKSPACE  0x107    /* Backspace */                  //<---------not used
+#define    KEY_NPAGE      0x152    /* page down */
+#define    KEY_PPAGE      0x153    /* page up */
 
 /* Curses external declarations. */
 
@@ -114,13 +116,16 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
 int wrefresh(WINDOW *win);
 int refresh(void);
 int getch(void);
+int wgetch(WINDOW* win);
+int mvgetch(int y, int x);
+int mvwgetch(WINDOW* win, int y, int x);
 int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...);
 int mvprintw(int y, int x, const char *fmt, ...);
 int werase(WINDOW *win);
 int start_color(void);
 int init_pair(short pair, short f, short b);
 int wmove(WINDOW *win, int y, int x);
-
+int getnstr(char *str, int size);
 int clear(void);
 int erase(void);
 int endwin(void);
@@ -128,7 +133,6 @@ int mvwaddch(WINDOW *win, int y, int x, const chtype ch);
 int wclear(WINDOW *win);
 int wprintw(WINDOW *win, const char *fmt, ...);
 WINDOW *initscr(void);
-int noecho(void);//PORTABILITY, DUMMY FUNCTION
 int cbreak(void);//PORTABILITY, DUMMY FUNCTION
 int keypad(WINDOW *faux, bool bf);//PORTABILITY, DUMMY FUNCTION
 int curs_set(int visibility);//PORTABILITY, DUMMY FUNCTION
@@ -146,7 +150,8 @@ int getbegy(WINDOW *win);
 int move(int y, int x);
 void timeout(int delay);//PORTABILITY, DUMMY FUNCTION
 void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
-
+int echo(void);
+int noecho(void);
 //Window Functions, Do not call these outside of catacurse.cpp
 void WinDestroy();
 bool WinCreate(bool initgl);

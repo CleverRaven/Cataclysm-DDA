@@ -5,6 +5,10 @@
 #include "output.h"
 #include "inventory.h"
 
+enum sel_types {
+  SEL_NULL, SEL_JACK
+};
+
 class vehicle;
 class game;
 
@@ -17,6 +21,7 @@ public:
     int ddy;
     int sel_part;
     char sel_cmd;
+    int sel_type;
 private:
     int cpart;
     int page_size;
@@ -47,6 +52,8 @@ private:
     bool has_wrench;
     bool has_welder;
     bool has_hacksaw;
+    bool has_jack;
+    bool has_siphon;
     inventory crafting_inv;
 
     int part_at (int dx, int dy);
@@ -58,6 +65,7 @@ private:
     void do_refill(int reason);
     void do_remove(int reason);
     void do_rename(int reason);
+    void do_siphon(int reason);
 
     void display_veh ();
     void display_stats ();
@@ -69,6 +77,7 @@ private:
     std::vector<int> need_repair;
     std::vector<int> parts_here;
     int ptank;
+    int wheel;
     bool obstruct;
     bool has_fuel;
 public:

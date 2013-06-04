@@ -155,7 +155,7 @@ std::string direction_name(direction dir)
   case WEST:      return "west";
   case NORTHWEST: return "northwest";
  }
- return "WEIRD DIRECTION_NAME() BUG";
+ return "BUG. (line.cpp:direction_name)";
 }
 
 std::string direction_name_short(direction dir)
@@ -165,12 +165,12 @@ std::string direction_name_short(direction dir)
   case NORTHEAST: return "NE";
   case EAST:      return "E ";
   case SOUTHEAST: return "SE";
-  case SOUTH:     return "W ";
+  case SOUTH:     return "S ";
   case SOUTHWEST: return "SW";
   case WEST:      return "W ";
   case NORTHWEST: return "NW";
  }
- return "WEIRD DIRECTION_NAME() BUG";
+ return "Bug. (line.cpp:direction_name_short)";
 }
 
 

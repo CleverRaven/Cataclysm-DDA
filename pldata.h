@@ -1,7 +1,9 @@
 #ifndef _PLDATA_H_
 #define _PLDATA_H_
 
+#include "enums.h"
 #include <sstream>
+#include <vector>
 
 enum character_type {
  PLTYPE_CUSTOM,
@@ -28,22 +30,22 @@ enum dis_type {
  DI_GLARE, DI_WET,
 // Temperature, the order is important (dependant on bodypart.h)
  DI_COLD,
- DI_COLD_TORSO, DI_COLD_HEAD, DI_COLD_EYES, DI_COLD_MOUTH, 
+ DI_COLD_TORSO, DI_COLD_HEAD, DI_COLD_EYES, DI_COLD_MOUTH,
  DI_COLD_ARMS, DI_COLD_HANDS, DI_COLD_LEGS, DI_COLD_FEET,
  DI_FROSTBITE,
  DI_FROSTBITE_TORSO, DI_FROSTBITE_HEAD, DI_FROSTBITE_EYES, DI_FROSTBITE_MOUTH,
  DI_FROSTBITE_ARMS, DI_FROSTBITE_HANDS, DI_FROSTBITE_LEGS, DI_FROSTBITE_FEET,
  DI_HOT,
- DI_HOT_TORSO, DI_HOT_HEAD, DI_HOT_EYES, DI_HOT_MOUTH, 
+ DI_HOT_TORSO, DI_HOT_HEAD, DI_HOT_EYES, DI_HOT_MOUTH,
  DI_HOT_ARMS, DI_HOT_HANDS, DI_HOT_LEGS, DI_HOT_FEET,
  DI_BLISTERS,
- DI_BLISTERS_TORSO, DI_BLISTERS_HEAD, DI_BLISTERS_EYES, DI_BLISTERS_MOUTH, 
+ DI_BLISTERS_TORSO, DI_BLISTERS_HEAD, DI_BLISTERS_EYES, DI_BLISTERS_MOUTH,
  DI_BLISTERS_ARMS, DI_BLISTERS_HANDS, DI_BLISTERS_LEGS, DI_BLISTERS_FEET,
 // Diseases
  DI_INFECTION,
  DI_COMMON_COLD, DI_FLU, DI_RECOVER,
 // Fields
- DI_SMOKE, DI_ONFIRE, DI_TEARGAS,
+ DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_DEAF, DI_BLIND,
@@ -57,7 +59,7 @@ enum dis_type {
   DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
   DI_TOOK_FLUMED, DI_ADRENALINE, DI_ASTHMA, DI_GRACK, DI_METH,
 // Traps
- DI_BEARTRAP, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
+ DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
 // Martial Arts
  DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
   DI_SPEED_BOOST, DI_VIPER_COMBO,
@@ -96,8 +98,8 @@ struct addiction
 
 enum activity_type {
  ACT_NULL = 0,
- ACT_RELOAD, ACT_READ, ACT_WAIT, ACT_CRAFT, ACT_DISASSEMBLE, ACT_BUTCHER, ACT_FORAGE, ACT_BUILD,
- ACT_VEHICLE, ACT_REFILL_VEHICLE,
+ ACT_RELOAD, ACT_READ, ACT_WAIT, ACT_CRAFT, ACT_LONGCRAFT,
+ ACT_DISASSEMBLE, ACT_BUTCHER, ACT_FORAGE, ACT_BUILD, ACT_VEHICLE, ACT_REFILL_VEHICLE,
  ACT_TRAIN,
  NUM_ACTIVITIES
 };
@@ -107,18 +109,26 @@ struct player_activity
  activity_type type;
  int moves_left;
  int index;
+ char invlet;
+ std::string name;
+ bool continuous;
+ bool ignore_trivial;
  std::vector<int> values;
  point placement;
 
- player_activity() { type = ACT_NULL; moves_left = 0; index = -1;
-                     placement = point(-1, -1); }
+ player_activity() { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
+                     name = ""; placement = point(-1, -1); continuous = false; }
 
- player_activity(activity_type t, int turns, int Index)
+ player_activity(activity_type t, int turns, int Index, char ch, std::string name_in)
  {
   type = t;
   moves_left = turns;
   index = Index;
+  invlet = ch;
+  name = name_in;
   placement = point(-1, -1);
+  continuous = false;
+  ignore_trivial = false;
  }
 
  player_activity(const player_activity &copy)
@@ -126,7 +136,11 @@ struct player_activity
   type = copy.type;
   moves_left = copy.moves_left;
   index = copy.index;
+  invlet = copy.invlet;
+  name = copy.name;
   placement = copy.placement;
+  continuous = copy.continuous;
+  ignore_trivial = copy.ignore_trivial;
   values.clear();
   for (int i = 0; i < copy.values.size(); i++)
    values.push_back(copy.values[i]);
@@ -135,8 +149,9 @@ struct player_activity
  std::string save_info()
  {
   std::stringstream ret;
-  ret << type << " " << moves_left << " " << index << " " << placement.x <<
-         " " << placement.y << " " << values.size();
+  // name can be empty, so make sure we prepend something to it
+  ret << type << " " << moves_left << " " << index << " " << invlet << " str:" << name << " "
+         << placement.x << " " << placement.y << " " << values.size();
   for (int i = 0; i < values.size(); i++)
    ret << " " << values[i];
 
@@ -146,7 +161,9 @@ struct player_activity
  void load_info(std::stringstream &dump)
  {
   int tmp, tmptype;
-  dump >> tmptype >> moves_left >> index >> placement.x >> placement.y >> tmp;
+  std::string tmpname;
+  dump >> tmptype >> moves_left >> index >> invlet >> tmpname >> placement.x >> placement.y >> tmp;
+  name = tmpname.substr(4);
   type = activity_type(tmptype);
   for (int i = 0; i < tmp; i++) {
    int tmp2;
@@ -177,7 +194,7 @@ enum pl_flag {
  PF_GOURMAND,	// Faster eating, higher level of max satiated
  PF_ANIMALEMPATH,// Animals attack less
  PF_TERRIFYING,	// All creatures run away more
- PF_DISRESISTANT,// Less likely to succumb to low health; TODO: Implement this
+ PF_DISRESISTANT,// Less likely to succumb to low health
  PF_ADRENALINE,	// Big bonuses when low on HP
  PF_SELFAWARE, // Let's you see exact HP totals
  PF_INCONSPICUOUS,// Less spawns due to timeouts
@@ -187,10 +204,13 @@ enum pl_flag {
  PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
  PF_CANNIBAL, // No penalty for eating human meat
  PF_MARTIAL_ARTS, // Start with a martial art
+ PF_LIAR, // Better at telling lies
+ PF_PRETTY, // -1 grotesqueness
 
  PF_SPLIT,	// Null trait, splits between bad & good
 
  PF_MYOPIC,	// Smaller sight radius UNLESS wearing glasses
+ PF_HYPEROPIC, // With no reading glasses, can't read and takes melee penalty
  PF_HEAVYSLEEPER, // Sleeps in, won't wake up to sounds as easily
  PF_ASTHMA,	// Occasionally needs medicine or suffers effects
  PF_BADBACK,	// Carries less
@@ -214,6 +234,7 @@ enum pl_flag {
  PF_WOOLALLERGY,// Can't wear wool
  PF_TRUTHTELLER, // Worse at telling lies
  PF_UGLY, // +1 grotesqueness
+ PF_HARDCORE,	// Bodyhp is 75% lower
 
  PF_MAX,
 // Below this point is mutations and other mid-game perks.
@@ -311,6 +332,9 @@ enum pl_flag {
  PF_DEFORMED,
  PF_DEFORMED2,
  PF_DEFORMED3,
+ PF_BEAUTIFUL,
+ PF_BEAUTIFUL2,
+ PF_BEAUTIFUL3,
  PF_HOLLOW_BONES,//
  PF_NAUSEA,//
  PF_VOMITOUS,//
@@ -364,7 +388,7 @@ struct trait {
 
 const trait traits[] = {
 {"NULL trait!", 0, 0, 0, "\
-This is a bug.  Weird."},
+This is a bug.  Weird. (pldata.h:traits)"},
 {"Fleet-Footed", 3, 0, 0, "\
 You can run more quickly than most, resulting in a 15%% speed bonus on sure\n\
 footing."},
@@ -396,16 +420,16 @@ Your skin is tough.  Cutting damage is slightly reduced for you."},
 {"Packmule", 3, 0, 0, "\
 You can manage to find space for anything!  You can carry 40%% more volume."},
 {"Fast Learner", 3, 0, 0, "\
-Your skill comprehension is 50%% higher, allowing you to learn skills much\n\
-faster than others.  Note that this only applies to real-world experience,\n\
-not to skill gain from other sources like books."},
+You have a flexible mind, allowing you to learn skills much faster than\n\
+others.  Note that this only applies to real-world experience, not to skill\n\
+gain from other sources like books."},
 {"Deft", 2, 0, 0, "\
 While you're not any better at melee combat, you are better at recovering\n\
 from a miss, and will be able to attempt another strike faster."},
 {"Drunken Master", 2, 0, 0, "\
-The martial art technique of Zui Quan, or Drunken Fist, comes naturally to\n\
-you.  While under the influence of alcohol, your melee skill will rise\n\
-considerably, especially unarmed combat."},
+The ancient arts of drunken brawling come naturally to you! While under the\n\
+influence of alcohol, your melee skill will rise considerably, especially\n\
+unarmed combat."},
 {"Gourmand", 2, 0, 0, "\
 You eat faster, and can eat and drink more, than anyone else!  You also enjoy\n\
 food more; delicious food is better for your morale, and you don't mind some\n\
@@ -447,6 +471,12 @@ tell you you can't eat people."},
 {"Martial Arts Training", 3, 0, 0, "\
 You have received some martial arts training at a local dojo.  You will start\n\
 with your choice of karate, judo, aikido, tai chi, or taekwondo."},
+{"Skilled Liar", 2, 0, 0, "\
+You have no qualms about bending the truth, and have practically no tells.\n\
+Telling lies and otherwise bluffing will be much easier for you."},
+{"Pretty", 1, 0, -2, "\
+You are a sight to behold. NPCs who care about such thing will react more\n\
+kindly to you."},
 
 {"NULL", 0, 0, 0, " -------------------------------------------------- "},
 
@@ -454,6 +484,10 @@ with your choice of karate, judo, aikido, tai chi, or taekwondo."},
 Without your glasses, your seeing radius is severely reduced!  However, while\n\
 wearing glasses this trait has no effect, and you are guaranteed to start\n\
 with a pair."},
+{"Far-Sighted", -2, 0, 0, "\
+Without reading glasses, you are unable to read anything, and take penalities\n\
+on melee accuracy and electronics/tailoring crafting. However, you are\n\
+guaranteed to start with a pair of reading glasses."},
 {"Heavy Sleeper", -1, 0, 0, "\
 You're quite the heavy sleeper.  Noises are unlikely to wake you up."},
 {"Asthmatic", -4, 0, 0, "\
@@ -472,7 +506,7 @@ You have a hard time falling asleep, even under the best circumstances!"},
 You have problems with eating meat, it's possible for you to eat it but\n\
 you will suffer morale penalties due to nausea."},
 {"Glass Jaw", -3, 0, 0, "\
-Your head can't take much abuse.  Its maximum HP is 15%% lower than usual."},
+Your head can't take much abuse.  Its maximum HP is 20%% lower than usual."},
 {"Forgetful", -3, 0, 0, "\
 You have a hard time remembering things.  Your skills will erode slightly\n\
 faster than usual."},
@@ -521,6 +555,9 @@ Telling lies and otherwise bluffing will be much more difficult for you."},
 {"Ugly", -1, 0, 2, "\
 You're not much to look at.  NPCs who care about such things will react\n\
 poorly to you."},
+{"Hardcore", -6, 0, 0, "\
+Your whole body can't take much abuse.  Its maximum HP is 75%% points lower\n\
+than usual. Stacks with Glass Jaw. Not for casuals."},
 
 {"Bug - PF_MAX", 0, 0, 0, "\
 This shouldn't be here!  You have the trait PF_MAX toggled.  Weird."},
@@ -805,6 +842,15 @@ to your appearance."},
 {"Grotesque", -7, 10, 10, "\
 Your visage is disgusting and liable to induce vomiting.  People will not\n\
 want to interact with you unless they have a very good reason to."},
+{"Beautiful", 2, -4, -4, "\
+You're a real head-turner. Some people will react well to your appearance,\n\
+and most people have an easier time trusting you."},
+{"Very Beautiful", 4, -7, -7, "\
+You are a vision of beauty. Some people will react very well to your looks,\n\
+and most people will trust you immediately."},
+{"Glorious", 7, -10, -10, "\
+You are inredibly beautiful. People cannot help themselves for your charms,\n\
+and will do whatever they can to please you."},
 {"Hollow Bones", -6, 0, 0, "\
 You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is\n\
 very light as a result, enabling you to run and attack 20%% faster, but\n\

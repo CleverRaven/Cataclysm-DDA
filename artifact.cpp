@@ -9,6 +9,347 @@ std::vector<art_effect_passive> fill_bad_passive();
 std::vector<art_effect_active>  fill_good_active();
 std::vector<art_effect_active>  fill_bad_active();
 
+int passive_effect_cost[NUM_AEPS] = {
+0,	// AEP_NULL
+
+3,	// AEP_STR_UP
+3,	// AEP_DEX_UP
+3,	// AEP_PER_UP
+3,	// AEP_INT_UP
+5,	// AEP_ALL_UP
+4,	// AEP_SPEED_UP
+2,	// AEP_IODINE
+4,	// AEP_SNAKES
+7,	// AEP_INVISIBLE
+5,	// AEP_CLAIRVOYANCE
+50,	// AEP_SUPER_CLAIRVOYANCE
+2,	// AEP_STEALTH
+2,	// AEP_EXTINGUISH
+1,	// AEP_GLOW
+1,	// AEP_PSYSHIELD
+3,	// AEP_RESIST_ELECTRICITY
+3,	// AEP_CARRY_MORE
+5,	// AEP_SAP_LIFE
+
+0,	// AEP_SPLIT
+
+-2,	// AEP_HUNGER
+-2,	// AEP_THIRST
+-1,	// AEP_SMOKE
+-5,	// AEP_EVIL
+-3,	// AEP_SCHIZO
+-5,	// AEP_RADIOACTIVE
+-3,	// AEP_MUTAGENIC
+-5,	// AEP_ATTENTION
+-2,	// AEP_STR_DOWN
+-2,	// AEP_DEX_DOWN
+-2,	// AEP_PER_DOWN
+-2,	// AEP_INT_DOWN
+-5,	// AEP_ALL_DOWN
+-4,	// AEP_SPEED_DOWN
+-5,	// AEP_FORCE_TELEPORT
+-3,	// AEP_MOVEMENT_NOISE
+-2,	// AEP_BAD_WEATHER
+-1	// AEP_SICK
+};
+
+int active_effect_cost[NUM_AEAS] = {
+ 0, // AEA_NULL
+
+ 2, // AEA_STORM
+ 4, // AEA_FIREBALL
+ 5, // AEA_ADRENALINE
+ 4, // AEA_MAP
+ 0, // AEA_BLOOD
+ 0, // AEA_FATIGUE
+ 4, // AEA_ACIDBALL
+ 5, // AEA_PULSE
+ 4, // AEA_HEAL
+ 3, // AEA_CONFUSED
+ 3, // AEA_ENTRANCE
+ 3, // AEA_BUGS
+ 5, // AEA_TELEPORT
+ 1, // AEA_LIGHT
+ 4, // AEA_GROWTH
+ 6, // AEA_HURTALL
+
+ 0, // AEA_SPLIT
+
+-3, // AEA_RADIATION
+-2, // AEA_PAIN
+-3, // AEA_MUTATE
+-2, // AEA_PARALYZE
+-3, // AEA_FIRESTORM
+-6, // AEA_ATTENTION
+-4, // AEA_TELEGLOW
+-2, // AEA_NOISE
+-2, // AEA_SCREAM
+-3, // AEA_DIM
+-4, // AEA_FLASH
+-2, // AEA_VOMIT
+-5  // AEA_SHADOWS
+};
+
+artifact_shape_datum artifact_shape_data[ARTSHAPE_MAX] = {
+{"BUG", "BUG", 0, 0, 0, 0},
+{"sphere", "smooth sphere", 2, 4, 0, 10},
+{"rod", "tapered rod", 1, 7, 1, 7},
+{"teardrop", "teardrop-shaped stone", 2, 6, 0, 8},
+{"lamp", "hollow, transparent cube", 4, 9, 0, 3},
+{"snake", "winding, flexible rod", 0, 8, 0, 8},
+{"disc", "smooth disc", 4, 6, 2, 4},
+{"beads", "string of beads", 3, 7, 0, 6},
+{"napkin", "very thin sheet", 0, 3, 0, 3},
+{"urchin", "spiked sphere", 3, 5, 2, 6},
+{"jelly", "malleable blob", 2, 8, 2, 4},
+{"spiral", "spiraling rod", 5, 6, 2, 3},
+{"pin", "pointed rod", 1, 5, 1, 9},
+{"tube", "hollow tube", 2, 5, 3, 6},
+{"pyramid", "regular tetrahedron", 3, 7, 2, 4},
+{"crystal", "translucent crystal", 1, 6, 2, 7},
+{"knot", "twisted, knotted cord", 2, 6, 1, 7},
+{"crescent", "crescent-shaped stone", 2, 6, 2, 6}
+};
+
+artifact_property_datum artifact_property_data[ARTPROP_MAX] = {
+{"BUG", "BUG",
+ {AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL},
+ {AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL},
+ {AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL},
+ {AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL}
+},
+{"wriggling", "is constantly wriggling",
+ {AEP_SPEED_UP, AEP_SNAKES, AEP_NULL, AEP_NULL},
+ {AEP_DEX_DOWN, AEP_FORCE_TELEPORT, AEP_SICK, AEP_NULL},
+ {AEA_TELEPORT, AEA_ADRENALINE, AEA_NULL, AEA_NULL},
+ {AEA_MUTATE, AEA_ATTENTION, AEA_VOMIT, AEA_NULL}
+},
+{"glowing", "glows faintly",
+ {AEP_INT_UP, AEP_GLOW, AEP_CLAIRVOYANCE, AEP_NULL},
+ {AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_ATTENTION, AEP_NULL},
+ {AEA_LIGHT, AEA_LIGHT, AEA_LIGHT, AEA_NULL},
+ {AEA_ATTENTION, AEA_TELEGLOW, AEA_FLASH, AEA_SHADOWS}
+},
+{"humming", "hums very quietly",
+ {AEP_ALL_UP, AEP_PSYSHIELD, AEP_NULL, AEP_NULL},
+ {AEP_SCHIZO, AEP_PER_DOWN, AEP_INT_DOWN, AEP_NULL},
+ {AEA_PULSE, AEA_ENTRANCE, AEA_NULL, AEA_NULL},
+ {AEA_NOISE, AEA_NOISE, AEA_SCREAM, AEA_NULL}
+},
+{"moving", "shifts from side to side slowly",
+ {AEP_STR_UP, AEP_DEX_UP, AEP_SPEED_UP, AEP_NULL},
+ {AEP_HUNGER, AEP_PER_DOWN, AEP_FORCE_TELEPORT, AEP_NULL},
+ {AEA_TELEPORT, AEA_TELEPORT, AEA_MAP, AEA_NULL},
+ {AEA_PARALYZE, AEA_VOMIT, AEA_VOMIT, AEA_NULL}
+},
+{"whispering", "makes very faint whispering sounds",
+ {AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_STEALTH, AEP_NULL},
+ {AEP_EVIL, AEP_SCHIZO, AEP_ATTENTION, AEP_NULL},
+ {AEA_FATIGUE, AEA_ENTRANCE, AEA_ENTRANCE, AEA_NULL},
+ {AEA_ATTENTION, AEA_SCREAM, AEA_SCREAM, AEA_SHADOWS}
+},
+{"breathing",
+ "shrinks and grows very slightly with a regular pulse, as if breathing",
+ {AEP_SAP_LIFE, AEP_ALL_UP, AEP_SPEED_UP, AEP_CARRY_MORE},
+ {AEP_HUNGER, AEP_THIRST, AEP_SICK, AEP_BAD_WEATHER},
+ {AEA_ADRENALINE, AEA_HEAL, AEA_ENTRANCE, AEA_GROWTH},
+ {AEA_MUTATE, AEA_ATTENTION, AEA_SHADOWS, AEA_NULL}
+},
+{"dead", "is icy cold to the touch",
+ {AEP_INVISIBLE, AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_SAP_LIFE},
+ {AEP_HUNGER, AEP_EVIL, AEP_ALL_DOWN, AEP_SICK},
+ {AEA_BLOOD, AEA_HURTALL, AEA_NULL, AEA_NULL},
+ {AEA_PAIN, AEA_SHADOWS, AEA_DIM, AEA_VOMIT}
+},
+{"itchy", "makes your skin itch slightly when it is close",
+ {AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD, AEP_NULL},
+ {AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_SICK, AEP_NULL},
+ {AEA_ADRENALINE, AEA_BLOOD, AEA_HEAL, AEA_BUGS},
+ {AEA_RADIATION, AEA_PAIN, AEA_PAIN, AEA_VOMIT}
+},
+{"glittering", "glitters faintly under direct light",
+ {AEP_INT_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL},
+ {AEP_SMOKE, AEP_ATTENTION, AEP_NULL, AEP_NULL},
+ {AEA_MAP, AEA_LIGHT, AEA_CONFUSED, AEA_ENTRANCE},
+ {AEA_RADIATION, AEA_MUTATE, AEA_ATTENTION, AEA_FLASH}
+},
+{"electric", "very weakly shocks you when touched",
+ {AEP_RESIST_ELECTRICITY, AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD},
+ {AEP_THIRST, AEP_SMOKE, AEP_STR_DOWN, AEP_BAD_WEATHER},
+ {AEA_STORM, AEA_ADRENALINE, AEA_LIGHT, AEA_NULL},
+ {AEA_PAIN, AEA_PARALYZE, AEA_FLASH, AEA_FLASH}
+},
+{"slimy", "feels slimy",
+ {AEP_SNAKES, AEP_STEALTH, AEP_EXTINGUISH, AEP_SAP_LIFE},
+ {AEP_THIRST, AEP_DEX_DOWN, AEP_SPEED_DOWN, AEP_SICK},
+ {AEA_BLOOD, AEA_ACIDBALL, AEA_GROWTH, AEA_ACIDBALL},
+ {AEA_MUTATE, AEA_MUTATE, AEA_VOMIT, AEA_VOMIT}
+},
+{"engraved", "is covered with odd etchings",
+ {AEP_CLAIRVOYANCE, AEP_INVISIBLE, AEP_PSYSHIELD, AEP_SAP_LIFE},
+ {AEP_EVIL, AEP_ATTENTION, AEP_NULL, AEP_NULL},
+ {AEA_FATIGUE, AEA_TELEPORT, AEA_HEAL, AEA_FATIGUE},
+ {AEA_ATTENTION, AEA_ATTENTION, AEA_TELEGLOW, AEA_DIM}
+},
+{"crackling", "occasionally makes a soft crackling sound",
+ {AEP_EXTINGUISH, AEP_RESIST_ELECTRICITY, AEP_NULL, AEP_NULL},
+ {AEP_SMOKE, AEP_RADIOACTIVE, AEP_MOVEMENT_NOISE, AEP_NULL},
+ {AEA_STORM, AEA_FIREBALL, AEA_PULSE, AEA_NULL},
+ {AEA_PAIN, AEA_PARALYZE, AEA_NOISE, AEA_NOISE}
+},
+{"warm", "is warm to the touch",
+ {AEP_STR_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL},
+ {AEP_SMOKE, AEP_RADIOACTIVE, AEP_NULL, AEP_NULL},
+ {AEA_FIREBALL, AEA_FIREBALL, AEA_FIREBALL, AEA_LIGHT},
+ {AEA_FIRESTORM, AEA_FIRESTORM, AEA_TELEGLOW, AEA_NULL}
+},
+{"rattling", "makes a rattling sound when moved",
+ {AEP_DEX_UP, AEP_SPEED_UP, AEP_SNAKES, AEP_CARRY_MORE},
+ {AEP_ATTENTION, AEP_INT_DOWN, AEP_MOVEMENT_NOISE, AEP_MOVEMENT_NOISE},
+ {AEA_BLOOD, AEA_PULSE, AEA_BUGS, AEA_NULL},
+ {AEA_PAIN, AEA_ATTENTION, AEA_NOISE, AEA_NULL}
+},
+{"scaled", "has a surface reminiscent of reptile scales",
+ {AEP_SNAKES, AEP_SNAKES, AEP_SNAKES, AEP_STEALTH},
+ {AEP_THIRST, AEP_MUTAGENIC, AEP_SPEED_DOWN, AEP_NULL},
+ {AEA_ADRENALINE, AEA_BUGS, AEA_GROWTH, AEA_NULL},
+ {AEA_MUTATE, AEA_SCREAM, AEA_DIM, AEA_NULL}
+},
+{"fractal",
+"has a self-similar pattern which repeats until it is too small for you to see",
+ {AEP_ALL_UP, AEP_ALL_UP, AEP_CLAIRVOYANCE, AEP_PSYSHIELD},
+ {AEP_SCHIZO, AEP_ATTENTION, AEP_FORCE_TELEPORT, AEP_BAD_WEATHER},
+ {AEA_STORM, AEA_FATIGUE, AEA_TELEPORT, AEA_NULL},
+ {AEA_RADIATION, AEA_MUTATE, AEA_TELEGLOW, AEA_TELEGLOW}
+}
+};
+
+artifact_tool_form_datum artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
+{"", '*', c_white, "null", "null", 0, 0, 0, 0, ARTWEAP_BULK,
+ {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}},
+
+{"Harp", ';', c_yellow, "wood", "null", 20, 30, 10, 18, ARTWEAP_BULK,
+ {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}},
+
+{"Staff", '/', c_brown, "wood", "null", 6, 12, 4, 10, ARTWEAP_CLUB,
+ {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}},
+
+{"Sword", '/', c_ltblue, "steel", "null", 8, 14, 8, 28, ARTWEAP_SWORD,
+ {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}},
+
+{"Dagger", ';', c_ltblue, "steel", "null", 1, 4, 1, 6, ARTWEAP_KNIFE,
+ {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}},
+
+{"Cube", '*', c_white, "steel", "null", 1, 3, 1, 20, ARTWEAP_BULK,
+ {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}}
+};
+
+artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS] = {
+{"", 0, 0, 0, 0, 0, 0, 0, 0, ""},
+// Adjective	Vol,wgt		Bash		Cut		To-Hit
+{"Heavy",	 0, 12,		10, 20,		 0,  0,		-2,  0,
+ ""},
+{"Knobbed",	 1,  2,		14, 30,		 0,  0,		-1,  1,
+ ""},
+{"Spiked",	 1,  1,		 0,  0,		20, 40,		-1,  1,
+ "SPEAR"},
+{"Edged",	 2,  4,		 0,  0,		20, 50,		-1,  2,
+ ""},
+{"Bladed",	 1,  2,		 0,  0,		12, 30,		-1,  1,
+ "STAB"}
+};
+
+artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] = {
+{"", c_white, "null", "null",        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+ 0, false,
+ {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
+// Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+{"Robe",   c_red, "wool", "null",     6,  6,  1,  3,  3,  0,  2,  0, -8,  0, -3,
+ mfb(bp_torso)|mfb(bp_legs), false,
+ {ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
+  ARMORMOD_PADDED}},
+
+{"Coat",   c_brown,"leather","null", 14, 14,  2,  3, 2,  1,  4,  4, -6,  0, -3,
+ mfb(bp_torso), false,
+ {ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
+  ARMORMOD_PLATED}},
+
+{"Mask",   c_white, "wood", "null",   4,  1,  2,  2, 2,  1,  2,  0,  2,  0, -2,
+ mfb(bp_eyes)|mfb(bp_mouth), false,
+ {ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
+  ARMORMOD_NULL}},
+
+// Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+{"Helm",   c_dkgray, "silver", "null", 6,  6,  2,  3, 3,  0,  1,  0,  8,  0, -2,
+ mfb(bp_head), false,
+ {ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
+  ARMORMOD_NULL}},
+
+{"Gloves", c_ltblue,"leather","null", 2,  1,  1,  3,  3,  1,  2,  0, -4,  0, -2,
+ mfb(bp_hands), true,
+ {ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
+  ARMORMOD_NULL}},
+
+// Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+{"Boots", c_blue, "leather", "null",  6,  2,  1,  3,  3,  1,  3,  0,  4,  0, -1,
+ mfb(bp_feet), true,
+ {ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
+  ARMORMOD_NULL}},
+
+{"Ring", c_ltgreen, "silver", "null",   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+ 0, true,
+ {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
+
+};
+
+artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS] = {
+
+{"", c_white, "null", "null", 0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, false,
+ {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
+// Description; "It is ..." or "They are ..."
+{"very thin and light.", c_white, "null", "null",
+// Vol Wgt Enc Cov Thk Env Wrm Sto
+    -4, -8, -2, -1, -1, -1, -1,  0, 0, 0, 0, 0,  false,
+ {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
+
+{"extremely bulky.", c_white, "null", "null",
+     8, 10,  2,  1,  1,  0,  1,  0, 0, 0, 0, 0,  false,
+ {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
+
+{"covered in pockets.", c_white, "null", "null",
+     1,  1,  1,  0,  0,  0,  0, 16, 0, 0, 0, 0,  false,
+ {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
+
+{"disgustingly furry.", c_white, "wool", "null",
+// Vol Wgt Enc Dmg Cut Env Wrm Sto
+     4,  2,  1,  1,  1,  1,  3,  0, 0, 0, 0, 0,  false,
+ {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
+
+{"leather-padded.", c_white, "leather", "null",
+     4,  4,  1, 1,  1,  0,  1, -3, 0, 0, 0, 0,  false,
+ {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
+
+{"plated in iron.", c_white, "iron", "null",
+     4, 12,  3,  2, 2,  0,  1, -4, 0, 0, 0, 0, false,
+ {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
+
+};
+
+std::string artifact_adj[NUM_ART_ADJS] = {
+"Forbidden", "Unknown", "Forgotten", "Hideous", "Eldritch",
+"Gelatinous", "Ancient", "Cursed", "Bloody", "Undying",
+"Shadowy", "Silent", "Cyclopean", "Fungal", "Unspeakable",
+"Grotesque", "Frigid", "Shattered", "Sleeping", "Repellent"
+};
+
+// Prepending + makes it proper, e.g. "The Forbidden Abyss"
+std::string artifact_noun[NUM_ART_NOUNS] = {
+"Technique", "Dreams", "Beasts", "Evil", "Miasma",
+"+Abyss", "+City", "Shadows", "Shade", "Illusion",
+"Justice", "+Necropolis", "Ichor", "+Monolith", "Aeons",
+"Graves", "Horrors", "Suffering", "Death", "Horror"
+};
+
 std::string artifact_name(std::string type);
 
 itype* game::new_artifact()
@@ -31,7 +372,9 @@ itype* game::new_artifact()
   art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
   art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
   art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-  art->item_flags = weapon->flags;
+  if( weapon->tag != "" ) {
+      art->item_tags.insert(weapon->tag);
+  }
 // Add an extra weapon perhaps?
   if (one_in(2)) {
    int select = rng(0, 2);
@@ -42,7 +385,9 @@ itype* game::new_artifact()
     art->melee_dam += rng(weapon->bash_min, weapon->bash_max);
     art->melee_cut += rng(weapon->bash_min, weapon->bash_max);
     art->m_to_hit += rng(weapon->to_hit_min, weapon->to_hit_max);
-    art->item_flags |= weapon->flags;
+    if( weapon->tag != "" ) {
+        art->item_tags.insert(weapon->tag);
+    }
     std::stringstream newname;
     newname << weapon->adjective << " " << info->name;
     art->name = artifact_name(newname.str());
@@ -141,7 +486,9 @@ It may have unknown powers; use 'a' to activate them.";
    art->charge_type = ARTC_NULL; // 1 in 8 chance that it can't recharge!
 
   art->id = itypes.size();
-  itypes.push_back(art);
+  
+  itypes[art->id]=art;
+  artifact_itype_ids.push_back(art->id);
   return art;
 
  } else { // Generate an armor artifact
@@ -160,11 +507,10 @@ It may have unknown powers; use 'a' to activate them.";
   art->melee_dam = info->melee_bash;
   art->melee_cut = info->melee_cut;
   art->m_to_hit = info->melee_hit;
-  art->item_flags = 0;
   art->covers = info->covers;
   art->encumber = info->encumb;
-  art->dmg_resist = info->dmg_resist;
-  art->cut_resist = info->cut_resist;
+  art->coverage = info->coverage;
+  art->thickness = info->thickness;
   art->env_resist = info->env_resist;
   art->warmth = info->warmth;
   art->storage = info->storage;
@@ -191,15 +537,15 @@ It may have unknown powers; use 'a' to activate them.";
 
     art->encumber += modinfo->encumb;
 
-    if (modinfo->dmg_resist > 0 || art->dmg_resist > abs(modinfo->dmg_resist))
-     art->dmg_resist += modinfo->dmg_resist;
+    if (modinfo->coverage > 0 || art->coverage > abs(modinfo->coverage))
+     art->coverage += modinfo->coverage;
     else
-     art->dmg_resist = 0;
+     art->coverage = 0;
 
-    if (modinfo->cut_resist > 0 || art->cut_resist > abs(modinfo->cut_resist))
-     art->cut_resist += modinfo->cut_resist;
+    if (modinfo->thickness > 0 || art->thickness > abs(modinfo->thickness))
+     art->thickness += modinfo->thickness;
     else
-     art->cut_resist = 0;
+     art->thickness = 0;
 
     if (modinfo->env_resist > 0 || art->env_resist > abs(modinfo->env_resist))
      art->env_resist += modinfo->env_resist;
@@ -245,7 +591,8 @@ It may have unknown powers; use 'a' to activate them.";
   }
 
   art->id = itypes.size();
-  itypes.push_back(art);
+  itypes[art->id]=art;
+  artifact_itype_ids.push_back(art->id);
   return art;
  }
 }
@@ -265,14 +612,13 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
 
  art->sym = ':';
  art->color = c_yellow;
- art->m1 = STONE;
- art->m2 = MNULL;
+ art->m1 = "stone";
+ art->m2 = "null";
  art->volume = rng(shape_data->volume_min, shape_data->volume_max);
  art->weight = rng(shape_data->weight_min, shape_data->weight_max);
  art->melee_dam = 0;
  art->melee_cut = 0;
  art->m_to_hit = 0;
- art->item_flags = 0;
 
  art->name = property_data->name + " " + shape_data->name;
  std::stringstream desc;
@@ -359,7 +705,8 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
  }
 
  art->id = itypes.size();
- itypes.push_back(art);
+ artifact_itype_ids.push_back(art->id);
+ itypes[art->id]=art;
  return art;
 }
 
@@ -426,23 +773,23 @@ void game::process_artifact(item *it, player *p, bool wielded)
   if (it->charges < tool->max_charges) {
    switch (tool->charge_type) {
     case ARTC_TIME:
-     if (turn.second == 0 && turn.minute == 0) // Once per hour
+     if (turn.seconds() == 0 && turn.minutes() == 0) // Once per hour
       it->charges++;
      break;
     case ARTC_SOLAR:
-     if (turn.second == 0 && turn.minute % 10 == 0 &&
+     if (turn.seconds() == 0 && turn.minutes() % 10 == 0 &&
          is_in_sunlight(p->posx, p->posy))
       it->charges++;
      break;
     case ARTC_PAIN:
-     if (turn.second == 0) {
+     if (turn.seconds() == 0) {
       add_msg("You suddenly feel sharp pain for no reason.");
       p->pain += 3 * rng(1, 3);
       it->charges++;
      }
      break;
     case ARTC_HP:
-     if (turn.second == 0) {
+     if (turn.seconds() == 0) {
       add_msg("You feel your body decaying.");
       p->hurtall(1);
       it->charges++;
@@ -598,6 +945,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
    case AEP_CLAIRVOYANCE:
     add_msg("You can see through walls!");
+    break;
+
+   case AEP_SUPER_CLAIRVOYANCE:
+    add_msg("You can see through everything!");
     break;
 
    case AEP_STEALTH:

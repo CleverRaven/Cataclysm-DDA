@@ -17,7 +17,9 @@
 #include "npc.h"
 #include "vehicle.h"
 #include "graffiti.h"
+#include "lightmap.h"
 
+//TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define MAPSIZE 11
 #define CAMPSIZE 1
 #define CAMPCHECK 3
@@ -43,7 +45,7 @@ class map
 
 // Constructors & Initialization
  map();
- map(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
+ map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
      std::vector<trap*> *trptr);
  ~map();
 
@@ -51,13 +53,13 @@ class map
  void draw(game *g, WINDOW* w, const point center);
  void debug();
  void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
-             const int cx = -1, const int cy = -1,
+             const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
 
 // File I/O
- virtual void save(overmap *om, unsigned const int turn, const int x, const int y);
- virtual void load(game *g, const int wx, const int wy, const bool update_vehicles = true);
- void shift(game *g, const int wx, const int wy, const int x, const int y);
+ virtual void save(overmap *om, unsigned const int turn, const int x, const int y, const int z);
+ virtual void load(game *g, const int wx, const int wy, const int wz, const bool update_vehicles = true);
+ void shift(game *g, const int wx, const int wy, const int wz, const int x, const int y);
  void spawn_monsters(game *g);
  void clear_spawns();
  void clear_traps();
@@ -65,12 +67,12 @@ class map
 // Movement and LOS
  int move_cost(const int x, const int y); // Cost to move through; 0 = impassible
  int move_cost_ter_only(const int x, const int y); // same as above, but don't take vehicles into account
- bool trans(const int x, const int y, char * trans_buf = NULL); // Transparent?
+ bool trans(const int x, const int y); // Transparent?
  // (Fx, Fy) sees (Tx, Ty), within a range of (range)?
  // tc indicates the Bresenham line used to connect the two points, and may
  //  subsequently be used to form a path between them
  bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
-           const int range, int &tc, char * trans_buf = NULL);
+           const int range, int &tc);
 // clear_path is the same idea, but uses cost_min <= move_cost <= cost_max
  bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                  const int range, const int cost_min, const int cost_max, int &tc);
@@ -105,12 +107,12 @@ class map
  bool displace_water (const int x, const int y);
 
 // Terrain
- ter_id& ter(const int x, const int y); // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
- bool is_indoor(const int x, const int y); // Check if current ter is indoors
- std::string tername(const int x, const int y); // Name of terrain at (x, y)
+ ter_id ter(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ void ter_set(const int x, const int y, const ter_id new_terrain);
+ std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
  bool has_flag(const t_flag flag, const int x, const int y);  // checks terrain and vehicles
- bool has_flag_ter_only(const t_flag flag, const int x, const int y); // only checks terrain
+ bool has_flag_ter_only(const t_flag flag, const int x, const int y) const; // only checks terrain
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
  bool is_destructable_ter_only(const int x, const int y);       // only checks terrain
  bool is_outside(const int x, const int y);
@@ -119,6 +121,7 @@ class map
  point random_outdoor_tile();
 
  void translate(const ter_id from, const ter_id to); // Change all instances of $from->$to
+ void translate_radius(const ter_id from, const ter_id to, const float radi, const int uX, const int uY);
  bool close_door(const int x, const int y, const bool inside);
  bool open_door(const int x, const int y, const bool inside);
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
@@ -126,6 +129,7 @@ class map
  void destroy(game *g, const int x, const int y, const bool makesound);
  void shoot(game *g, const int x, const int y, int &dam, const bool hit_items, const unsigned flags);
  bool hit_with_acid(game *g, const int x, const int y);
+ bool hit_with_fire(game *g, const int x, const int y);
  void marlossify(const int x, const int y);
  bool has_adjacent_furniture(const int x, const int y);
  void mop_spills(const int x, const int y);
@@ -136,18 +140,21 @@ class map
 // Items
  std::vector<item>& i_at(int x, int y);
  item water_from(const int x, const int y);
+ item acid_from(const int x, const int y);
  void i_clear(const int x, const int y);
  void i_rem(const int x, const int y, const int index);
  point find_item(const item *it);
- void add_item(const int x, const int y, itype* type, int birthday, int quantity = 0);
+ void spawn_item(const int x, const int y, itype* type, int birthday, int quantity = 0, int charges = 0, int damlevel = 0);
+ void spawn_item(const int x, const int y, std::string itype_id, int birthday, int quantity = 0, int charges = 0, int damlevel = 0);
+ void add_item_or_charges(const int x, const int y, item new_item);
  void add_item(const int x, const int y, item new_item);
  void process_active_items(game *g);
  void process_active_items_in_submap(game *g, const int nonant);
  void process_vehicles(game *g);
 
- void use_amount(const point origin, const int range, const itype_id type, const int amount,
-                 const bool use_container = false);
- void use_charges(const point origin, const int range, const itype_id type, const int amount);
+ std::list<item> use_amount(const point origin, const int range, const itype_id type, const int amount,
+                              const bool use_container = false);
+ std::list<item> use_charges(const point origin, const int range, const itype_id type, const int amount);
 
 // Traps
  trap_id& tr_at(const int x, const int y);
@@ -162,6 +169,7 @@ class map
  bool process_fields_in_submap(game *g, const int gridn);	// See fields.cpp
  void step_in_field(const int x, const int y, game *g);		// See fields.cpp
  void mon_in_field(const int x, const int y, game *g, monster *z);	// See fields.cpp
+ void field_effect(int x, int y, game *g); //See fields.cpp
 
 // Computers
  computer* computer_at(const int x, const int y);
@@ -176,31 +184,39 @@ class map
  bool add_graffiti(game *g, int x, int y, std::string contents);
 
 // mapgen.cpp functions
- void generate(game *g, overmap *om, const int x, const int y, const int turn);
+ void generate(game *g, overmap *om, const int x, const int y, const int z, const int turn);
  void post_process(game *g, unsigned zones);
  void place_spawns(game *g, std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
  void place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
- void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0);
+ void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0, const int quantity = 0, const int charges = 0, const int damlevel = 0);
+ void spawn_item(const int x, const int y, item new_item, const int birthday,
+                 const int quantity, const int charges, const int damlevel);
  void add_spawn(mon_id type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,
                 std::string name = "NONE");
  void add_spawn(monster *mon);
  void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
- vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir);
+ vehicle *add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir,
+                      const int init_veh_fuel = -1, const int init_veh_status = -1 );
  computer* add_computer(const int x, const int y, std::string name, const int security);
+ float light_transparency(const int x, const int y) const;
+ void build_map_cache(game *g);
+ lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
+ float ambient_light_at(int dx, int dy); // Raw values for tilesets
+ bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
 
- std::vector <itype*> *itypes;
+ std::map<std::string, itype*>* itypes;
  std::set<vehicle*> vehicle_list;
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
 
 protected:
- void saven(overmap *om, unsigned const int turn, const int x, const int y,
+ void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
             const int gridx, const int gridy);
- bool loadn(game *g, const int x, const int y, const int gridx, const int gridy,
+ bool loadn(game *g, const int x, const int y, const int z, const int gridx, const int gridy,
             const  bool update_vehicles = true);
  void copy_grid(const int to, const int from);
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
@@ -209,6 +225,10 @@ protected:
  void add_extra(map_extra type, game *g);
  void rotate(const int turns);// Rotates the current map 90*turns degress clockwise
 			// Useful for houses, shops, etc
+ void build_transparency_cache();
+ void build_outside_cache(const game *g);
+ void generate_lightmap(game *g);
+ void build_seen_cache(game *g);
 
  bool inbounds(const int x, const int y);
  int my_MAPSIZE;
@@ -227,6 +247,18 @@ protected:
  bool veh_in_active_range;
 
 private:
+ long determine_wall_corner(const int x, const int y, const long orig_sym);
+ void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
+ void apply_light_source(int x, int y, float luminance);
+ void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
+ void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                      int sx, int sy, int ex, int ey, float luminance);
+
+ float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+ bool seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
  submap* grid[MAPSIZE * MAPSIZE];
 };
 
@@ -234,7 +266,7 @@ class tinymap : public map
 {
 public:
  tinymap();
- tinymap(std::vector<itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
+ tinymap(std::map<std::string, itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
      std::vector<trap*> *trptr);
  ~tinymap();
 

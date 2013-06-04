@@ -3,6 +3,10 @@
 #include <vector>
 #include "setvector.h"
 #include "picojson.h"
+#include "options.h"
+
+// Default start time, this is the only place it's still used.
+#define STARTING_MINUTES 480
 
 //Adding a group:
 //  1: Declare it in the MonsterGroupDefs enum in mongroup.h
@@ -21,24 +25,35 @@ std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
 void game::init_mongroups() { MonsterGroupManager::LoadJSONGroups(); }
 
-mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group)
-{
-    return GetMonsterFromGroup(group, -1, NULL);
-}
-
-mon_id MonsterGroupManager::GetMonsterFromGroup(std::string group, int turn, std::vector <mtype*> *mtypes)
+mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
+                                                 int *quantity, int turn )
 {
     int roll = rng(1, 1000);
     MonsterGroup g = monsterGroupMap[group];
     for (FreqDef_iter it = g.monsters.begin(); it != g.monsters.end(); ++it)
     {
-        if(turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + (*mtypes)[it->first]->difficulty))
+        if((turn == -1 || (turn + 900 >= MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[it->first]->difficulty))) &&
+           (!OPTIONS[OPT_CLASSIC_ZOMBIES] ||
+            (*mtypes)[it->first]->in_category(MC_CLASSIC) ||
+            (*mtypes)[it->first]->in_category(MC_WILDLIFE)))
         {   //Not too hard for us (or we dont care)
-            if(it->second >= roll) return it->first;
-            else roll -= it->second;
+            if(it->second.first >= roll)
+            {
+                if( quantity) { *quantity -= it->second.second; }
+                return it->first;
+            }
+            else { roll -= it->second.first; }
         }
     }
-    return g.defaultMonster;
+    if ((turn + 900 < MINUTES(STARTING_MINUTES) + HOURS((*mtypes)[g.defaultMonster]->difficulty))
+        && (!OPTIONS[OPT_STATIC_SPAWN]))
+    {
+        return mon_null;
+    }
+    else
+    {
+        return g.defaultMonster;
+    }
 }
 
 bool MonsterGroupManager::IsMonsterInGroup(std::string group, mon_id monster)
@@ -119,7 +134,9 @@ MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
     for (picojson::array::const_iterator it_mons = jsonarray.begin(); it_mons != jsonarray.end(); ++it_mons)
     {
         jsonmonster = it_mons->get<picojson::object>();
-        g.monsters[monStr2monId[GetString("monster",&jsonmonster)]] = GetInt("freq",&jsonmonster);
+// todo: Bannination
+        g.monsters[monStr2monId[GetString("monster",&jsonmonster)]] =
+            std::pair<int,int>(GetInt("freq",&jsonmonster), GetInt("multiplier",&jsonmonster));
     }
 
     return g;
@@ -191,7 +208,7 @@ int GetInt(std::string key, picojson::object *obj)
 void init_translation()
 {
     monStr2monId["mon_null"] = mon_null;
-    monStr2monId["mon_squirrel"] = mon_squirrel; monStr2monId["mon_rabbit"] = mon_rabbit; monStr2monId["mon_deer"] = mon_deer; monStr2monId["mon_wolf"] = mon_wolf; monStr2monId["mon_bear"] = mon_bear; monStr2monId["mon_cougar"] = mon_cougar; monStr2monId["mon_crow"] = mon_crow;
+    monStr2monId["mon_squirrel"] = mon_squirrel; monStr2monId["mon_rabbit"] = mon_rabbit; monStr2monId["mon_deer"] = mon_deer; monStr2monId["mon_moose"] = mon_moose; monStr2monId["mon_wolf"] = mon_wolf; monStr2monId["mon_coyote"] = mon_coyote; monStr2monId["mon_bear"] = mon_bear; monStr2monId["mon_cougar"] = mon_cougar; monStr2monId["mon_crow"] = mon_crow;
     monStr2monId["mon_dog"] = mon_dog; monStr2monId["mon_cat"] = mon_cat;
     monStr2monId["mon_ant_larva"] = mon_ant_larva; monStr2monId["mon_ant"] = mon_ant; monStr2monId["mon_ant_soldier"] = mon_ant_soldier; monStr2monId["mon_ant_queen"] = mon_ant_queen; monStr2monId["mon_ant_fungus"] = mon_ant_fungus;
     monStr2monId["mon_fly"] = mon_fly; monStr2monId["mon_bee"] = mon_bee; monStr2monId["mon_wasp"] = mon_wasp;
@@ -211,6 +228,7 @@ void init_translation()
     monStr2monId["mon_sewer_fish"] = mon_sewer_fish; monStr2monId["mon_sewer_snake"] = mon_sewer_snake; monStr2monId["mon_sewer_rat"] = mon_sewer_rat; monStr2monId["mon_rat_king"] = mon_rat_king;
     monStr2monId["mon_mosquito"] = mon_mosquito; monStr2monId["mon_dragonfly"] = mon_dragonfly; monStr2monId["mon_centipede"] = mon_centipede; monStr2monId["mon_frog"] = mon_frog; monStr2monId["mon_slug"] = mon_slug;
     monStr2monId["mon_dermatik_larva"] = mon_dermatik_larva; monStr2monId["mon_dermatik"] = mon_dermatik;
+    monStr2monId["mon_jabberwock"] = mon_jabberwock;
     monStr2monId["mon_spider_wolf"] = mon_spider_wolf; monStr2monId["mon_spider_web"] = mon_spider_web; monStr2monId["mon_spider_jumping"] = mon_spider_jumping; monStr2monId["mon_spider_trapdoor"] = mon_spider_trapdoor;
     monStr2monId["mon_spider_widow"] = mon_spider_widow;
     monStr2monId["mon_dark_wyrm"] = mon_dark_wyrm; monStr2monId["mon_amigara_horror"] = mon_amigara_horror; monStr2monId["mon_dog_thing"] = mon_dog_thing; monStr2monId["mon_headless_dog_thing"] = mon_headless_dog_thing;

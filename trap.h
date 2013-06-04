@@ -11,6 +11,7 @@ enum trap_id {
  tr_bubblewrap,
  tr_cot,
  tr_brazier,
+ tr_funnel,
  tr_rollmat,
  tr_beartrap,
  tr_beartrap_buried,
@@ -22,6 +23,8 @@ enum trap_id {
  tr_shotgun_1,
  tr_engine,
  tr_blade,
+ tr_light_snare,
+ tr_heavy_snare,
  tr_landmine,
  tr_landmine_buried,
  tr_telepad,
@@ -50,6 +53,8 @@ struct trapfunc {
  void none		(game *g, int x, int y) { };
  void bubble		(game *g, int x, int y);
  void beartrap		(game *g, int x, int y);
+ void snare_light (game *g, int x, int y);
+ void snare_heavy (game *g, int x, int y);
  void snare		(game *g, int x, int y) { };
  void board		(game *g, int x, int y);
  void tripwire		(game *g, int x, int y);
@@ -86,6 +91,8 @@ struct trapfuncm {
  void crossbow	(game *g, monster *z, int x, int y);
  void shotgun	(game *g, monster *z, int x, int y);
  void blade	(game *g, monster *z, int x, int y);
+ void snare_light (game *g, monster *z, int x, int y);
+ void snare_heavy (game *g, monster *z, int x, int y);
  void snare	(game *g, monster *z, int x, int y) { };
  void landmine	(game *g, monster *z, int x, int y);
  void telepad	(game *g, monster *z, int x, int y);
@@ -106,7 +113,7 @@ struct trapfuncm {
 
 struct trap {
  int id;
- char sym;
+ long sym;
  nc_color color;
  std::string name;
 
@@ -122,10 +129,12 @@ struct trap {
 // Type of trap
  bool is_benign();
 
- trap(int pid, char psym, nc_color pcolor, std::string pname,
+ trap(int pid, std::string string_id, std::string pname, nc_color pcolor, char psym,
       int pvisibility, int pavoidance, int pdifficulty,
       void (trapfunc::*pact)(game *, int x, int y),
-      void (trapfuncm::*pactm)(game *, monster *, int x, int y), ...) {
+      void (trapfuncm::*pactm)(game *, monster *, int x, int y),
+      std::vector<std::string> keys) {
+  //string_id is ignored at the moment, will later replace the id
   id = pid;
   sym = psym;
   color = pcolor;
@@ -135,12 +144,8 @@ struct trap {
   difficulty = pdifficulty;
   act = pact;
   actm = pactm;
-  va_list ap;
-  va_start(ap, pactm);
-  itype_id tmp;
-  while ((tmp = (itype_id)va_arg(ap, int)))
-   components.push_back(tmp);
-  va_end(ap);
+
+  components.insert(components.end(), keys.begin(), keys.end());
  };
 };
 
