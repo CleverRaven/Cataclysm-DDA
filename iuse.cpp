@@ -4080,11 +4080,13 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
 void iuse::spray_can(game *g, player *p, item *it, bool t)
 {
- std::string message = string_input_popup("Spray what?");
+ std::string verb=( it->type->id ==  "permanent_marker" ? "Write" : "Spray" );
+ std::string lcverb=( it->type->id ==  "permanent_marker" ? "write" : "spray" );
+ std::string message = string_input_popup(verb + " what?");
  if(g->m.add_graffiti(g, p->posx, p->posy, message))
-  g->add_msg("You spray a message on the ground.");
+  g->add_msg("You %s a message on the ground.",lcverb.c_str());
  else
-  g->add_msg("You fail to spray a message here.");
+  g->add_msg("You fail to %s a message here.",lcverb.c_str());
 }
 
 void iuse::heatpack(game *g, player *p, item *it, bool t)
