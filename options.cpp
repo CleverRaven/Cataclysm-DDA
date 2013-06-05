@@ -406,7 +406,7 @@ char option_max_options(option_key id)
         ret = 61;
         break;
       case OPT_AUTOSAFEMODETURNS:
-        ret = 51;
+        ret = 101;
         break;
       case OPT_INITIAL_POINTS:
         ret = 25;
