@@ -1037,7 +1037,7 @@
                      ],
             "components": [
                               [
-                                  ["motor", 1]
+                                  ["1cyl_combustion", 1]
                               ],
                               [
                                   ["chain", 1]
