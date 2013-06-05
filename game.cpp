@@ -4995,14 +4995,14 @@ void game::smash()
                     damage = full_pulp_threshold - it->damage;
                 }
                 rn -= (damage + 1) * it->volume(); // slight efficiency loss to swing
-                
+
                 // chance of a critical success, higher chance for small critters
                 // comes AFTER the loss of power from the above calculation
                 if (one_in(it->volume()))
                 {
                     damage++;
                 }
-                
+
                 if (damage > 0)
                 {
                     add_msg("You %sdamage the %s!", (damage > 1 ? "greatly " : ""), it->tname().c_str());
@@ -5012,6 +5012,19 @@ void game::smash()
                         add_msg("The corpse is now thoroughly pulped.");
                         it->damage = 4;
                         // TODO mark corpses as inactive when appropriate
+                    }
+                    // Splatter some blood around
+                    for (int x = u.posx + smashx - 1; x <= u.posx + smashx + 1; x++) {
+                        for (int y = u.posy + smashy - 1; y <= u.posy + smashy + 1; y++) {
+                            if (!one_in(damage)) {
+                                if (m.field_at(x, y).type == fd_blood &&
+                                    m.field_at(x, y).density < 3) {
+                                    m.field_at(x, y).density++;
+                                } else {
+                                    m.add_field(this, x, y, fd_blood, 1);
+                                }
+                            }
+                        }
                     }
                 }
             }
