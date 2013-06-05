@@ -278,6 +278,12 @@ void player::activate_bionic(int b, game *g)
     good.push_back("Methamphetamines");
   if (has_disease(DI_HIGH))
    good.push_back("Intoxicant: Other");
+  if (has_disease(DI_HALLU) || has_disease(DI_VISUALS))
+   bad.push_back("Magic Mushroom");
+  if (has_disease(DI_IODINE))
+   good.push_back("Iodine");
+  if (has_disease(DI_TOOK_XANAX))
+   good.push_back("Xanax");
   if (has_disease(DI_TOOK_PROZAC))
    good.push_back("Prozac");
   if (has_disease(DI_TOOK_FLUMED))
