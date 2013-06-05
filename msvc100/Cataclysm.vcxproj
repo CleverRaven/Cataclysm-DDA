@@ -85,6 +85,16 @@
       <PreprocessorDefinitions>TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
+  <PropertyGroup>
+    <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <CustomBuildStep>
+      <Command>getversion.cmd</Command>
+      <Message>Generationg version.h</Message>
+      <Outputs>version.h</Outputs>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\action.cpp" />
     <ClCompile Include="..\addiction.cpp" />
@@ -256,6 +266,7 @@
     <ClInclude Include="..\vehicle.h" />
     <ClInclude Include="..\veh_interact.h" />
     <ClInclude Include="..\veh_type.h" />
+    <ClInclude Include="..\version.h" />
     <ClInclude Include="..\wdirent.h" />
     <ClInclude Include="..\weather.h" />
   </ItemGroup>

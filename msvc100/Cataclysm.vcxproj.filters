@@ -527,6 +527,9 @@
     <ClInclude Include="..\weather.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resource.rc">
