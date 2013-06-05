@@ -33,6 +33,8 @@
 		<Unit filename="bionics.h" />
 		<Unit filename="bodypart.cpp" />
 		<Unit filename="bodypart.h" />
+		<Unit filename="building_generation.cpp" />
+		<Unit filename="building_generation.h" />
 		<Unit filename="calendar.cpp" />
 		<Unit filename="calendar.h" />
 		<Unit filename="catacurse.cpp" />
@@ -106,6 +108,8 @@
 		<Unit filename="mapgenformat.h" />
 		<Unit filename="mapitems.h" />
 		<Unit filename="mapitemsdef.cpp" />
+		<Unit filename="material.h" />
+		<Unit filename="material.cpp" />
 		<Unit filename="melee.cpp" />
 		<Unit filename="mission.cpp" />
 		<Unit filename="mission.h" />
@@ -145,6 +149,8 @@
 		<Unit filename="output.h" />
 		<Unit filename="overmap.cpp" />
 		<Unit filename="overmap.h" />
+		<Unit filename="overmapbuffer.cpp" />
+		<Unit filename="overmapbuffer.h" />
 		<Unit filename="picojson.h" />
 		<Unit filename="player.cpp" />
 		<Unit filename="player.h" />

@@ -76,8 +76,8 @@ class inventory
   int  amount_of (itype_id it) const;
   int  charges_of(itype_id it) const;
 
-  void use_amount (itype_id it, int quantity, bool use_container = false);
-  void use_charges(itype_id it, int quantity);
+  std::list<item> use_amount (itype_id it, int quantity, bool use_container = false);
+  std::list<item> use_charges(itype_id it, int quantity);
 
   bool has_amount (itype_id it, int quantity) const;
   bool has_charges(itype_id it, int quantity) const;
@@ -95,7 +95,7 @@ class inventory
   int worst_item_value(npc* p) const;
   bool has_enough_painkiller(int pain) const;
   item& most_appropriate_painkiller(int pain);
-  item& best_for_melee(int skills[num_skill_types]);
+  item& best_for_melee(player *p);
   item& most_loaded_gun();
 
   void rust_iron_items();

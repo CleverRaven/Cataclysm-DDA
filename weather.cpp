@@ -69,23 +69,36 @@ thunder(g);
 
 void weather_effect::light_acid(game *g)
 {
- wet(g);
- if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE) {
-  if (!g->u.is_wearing("coat_rain")) {
-   g->add_msg("The acid rain stings, but is harmless for now...");
-  } else if (one_in(3)) {
-   g->add_msg("Your raincoat protects you from the acid rain.");
-  }
- }
+    wet(g);
+    if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE)
+    {
+        if (!g->u.is_wearing("coat_rain") || !one_in(3))
+        {
+            g->add_msg("The acid rain stings, but is mostly harmless for now...");
+            if (one_in(20) && (g->u.pain < 10)) {g->u.pain++;}
+        }
+        else
+        {
+            g->add_msg("Your raincoat protects you from the acidic drizzle.");
+        }
+    }
 }
 
 void weather_effect::acid(game *g)
 {
- if (PLAYER_OUTSIDE) {
-  g->add_msg("The acid rain burns!");
-  if (one_in(8)&&(g->u.pain < 100))
-   g->u.pain += 3 * rng(1, 3);
- }
+    if (PLAYER_OUTSIDE)
+    {
+        if (!g->u.is_wearing("coat_rain") || !one_in(10))
+        {
+            g->add_msg("The acid rain burns!");
+            if (one_in(8)&&(g->u.pain < 100)) {g->u.pain += 3 * rng(1, 3);}
+        }
+        else
+        {
+            g->add_msg("Your raincoat protects you from the acid rain");
+        }
+    }
+ 
  if (g->levz >= 0) {
   for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
    for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
@@ -140,7 +153,7 @@ std::string weather_forecast(game *g, radio_tower tower)
     // Local conditions
     weather_report << "At " << g->turn.print_time(true);
 
-    city *closest_city = &g->cur_om.cities[g->cur_om.closest_city(point(tower.x, tower.y))];
+    city *closest_city = &g->cur_om->cities[g->cur_om->closest_city(point(tower.x, tower.y))];
     if (closest_city)
     {
         weather_report << " in " << closest_city->name;

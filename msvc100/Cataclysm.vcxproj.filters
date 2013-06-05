@@ -33,6 +33,9 @@
     <ClCompile Include="..\bodypart.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\building_generation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\calendar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -147,6 +150,9 @@
     <ClCompile Include="..\mapitemsdef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\melee.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -219,6 +225,9 @@
     <ClCompile Include="..\overmap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\overmapbuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -241,6 +250,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\skill.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\text_snippets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\tileray.cpp">
@@ -297,6 +309,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\bodypart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\building_generation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\calendar.h">
@@ -404,6 +419,9 @@
     <ClInclude Include="..\mapitems.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\mission.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -449,6 +467,9 @@
     <ClInclude Include="..\overmap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\overmapbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\picojson.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -476,6 +497,9 @@
     <ClInclude Include="..\skill.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\text_snippets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\tileray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -494,10 +518,10 @@
     <ClInclude Include="..\vehicle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\weather.h">
+    <ClInclude Include="..\wdirent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\weather_data.h">
+    <ClInclude Include="..\weather.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

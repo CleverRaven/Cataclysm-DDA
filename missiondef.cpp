@@ -10,7 +10,8 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 
  #define ORIGINS(...) setvector(&mission_types[id].origins, __VA_ARGS__, NULL)
  #define ITEM(itid)     mission_types[id].item_id = itid
-
+ #define DESTINATION(dest)     mission_types[id].target_id = dest
+ #define FOLLOWUP(next_up) mission_types[id].follow_up = next_up
 // DEADLINE defines the low and high end time limits, in hours
 // Omitting DEADLINE means the mission never times out
  #define DEADLINE(low, high) mission_types[id].deadline_low  = low  * 600;\
@@ -57,6 +58,75 @@ mission_type(id, name, goal, diff, val, urgent, place, start, end, fail) )
 	&mission_place::always, &mission_start::find_safety,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_NULL);
+
+//patriot mission 1
+MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  FOLLOWUP(MISSION_GET_BLACK_BOX);
+  ITEM("american_flag");
+
+//patriot mission 2
+ MISSION("Retrieve Military Black Box", MGOAL_FIND_ITEM, 2, 1000, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_GET_BLACK_BOX_TRANSCRIPT);
+  ITEM("black_box");
+
+//patriot mission 3
+ MISSION("Retrieve Black Box Transcript", MGOAL_FIND_ITEM, 2, 1500, false,
+	&mission_place::always, &mission_start::reveal_lab_black_box,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("black_box_transcript");
+
+ MISSION("Find Relic", MGOAL_FIND_ITEM, 2, 1000, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_ANY_NPC);
+  ITEM("small_relic");
+
+ MISSION("Find Weather Log", MGOAL_FIND_ITEM, 2, 500, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  ITEM("record_weather");
+
+//humanitarian 1
+ MISSION("Find Patient Records", MGOAL_FIND_ITEM, 2, 600, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  FOLLOWUP(MISSION_REACH_FEMA_CAMP);
+  ITEM("record_patient");
+
+//humanitarian 2
+ MISSION("Reach FEMA Camp", MGOAL_GO_TO_TYPE, 2, 600, false,
+	&mission_place::always, &mission_start::join,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  DESTINATION(ot_fema);
+  FOLLOWUP(MISSION_REACH_FARM_HOUSE);
+
+//humanitarian 3
+ MISSION("Reach Farm House", MGOAL_GO_TO_TYPE, 2, 600, false,
+	&mission_place::always, &mission_start::join,
+	&mission_end::leave, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  DESTINATION(ot_farm);
+
+ MISSION("Find Corporate Accounts", MGOAL_FIND_ITEM, 2, 1400, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  ITEM("record_accounting");
+  
+ MISSION("Kill Jabberwock", MGOAL_KILL_MONSTER, 5, 2500, true,
+	&mission_place::always, &mission_start::place_jabberwock,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
 
  MISSION("Find a Book", MGOAL_FIND_ANY_ITEM, 2, 800, false,
 	&mission_place::always, &mission_start::place_book,

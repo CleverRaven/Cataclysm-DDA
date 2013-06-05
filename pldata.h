@@ -1,8 +1,9 @@
 #ifndef _PLDATA_H_
 #define _PLDATA_H_
 
-#include <sstream>
 #include "enums.h"
+#include <sstream>
+#include <vector>
 
 enum character_type {
  PLTYPE_CUSTOM,
@@ -109,21 +110,25 @@ struct player_activity
  int moves_left;
  int index;
  char invlet;
+ std::string name;
  bool continuous;
+ bool ignore_trivial;
  std::vector<int> values;
  point placement;
 
  player_activity() { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
-                     placement = point(-1, -1); continuous = false; }
+                     name = ""; placement = point(-1, -1); continuous = false; }
 
- player_activity(activity_type t, int turns, int Index, char ch)
+ player_activity(activity_type t, int turns, int Index, char ch, std::string name_in)
  {
   type = t;
   moves_left = turns;
   index = Index;
   invlet = ch;
+  name = name_in;
   placement = point(-1, -1);
   continuous = false;
+  ignore_trivial = false;
  }
 
  player_activity(const player_activity &copy)
@@ -132,8 +137,10 @@ struct player_activity
   moves_left = copy.moves_left;
   index = copy.index;
   invlet = copy.invlet;
+  name = copy.name;
   placement = copy.placement;
   continuous = copy.continuous;
+  ignore_trivial = copy.ignore_trivial;
   values.clear();
   for (int i = 0; i < copy.values.size(); i++)
    values.push_back(copy.values[i]);
@@ -142,8 +149,9 @@ struct player_activity
  std::string save_info()
  {
   std::stringstream ret;
-  ret << type << " " << moves_left << " " << index << " " << invlet << " " << placement.x <<
-         " " << placement.y << " " << values.size();
+  // name can be empty, so make sure we prepend something to it
+  ret << type << " " << moves_left << " " << index << " " << invlet << " str:" << name << " "
+         << placement.x << " " << placement.y << " " << values.size();
   for (int i = 0; i < values.size(); i++)
    ret << " " << values[i];
 
@@ -153,7 +161,9 @@ struct player_activity
  void load_info(std::stringstream &dump)
  {
   int tmp, tmptype;
-  dump >> tmptype >> moves_left >> index >> invlet >> placement.x >> placement.y >> tmp;
+  std::string tmpname;
+  dump >> tmptype >> moves_left >> index >> invlet >> tmpname >> placement.x >> placement.y >> tmp;
+  name = tmpname.substr(4);
   type = activity_type(tmptype);
   for (int i = 0; i < tmp; i++) {
    int tmp2;
@@ -184,7 +194,7 @@ enum pl_flag {
  PF_GOURMAND,	// Faster eating, higher level of max satiated
  PF_ANIMALEMPATH,// Animals attack less
  PF_TERRIFYING,	// All creatures run away more
- PF_DISRESISTANT,// Less likely to succumb to low health; TODO: Implement this
+ PF_DISRESISTANT,// Less likely to succumb to low health
  PF_ADRENALINE,	// Big bonuses when low on HP
  PF_SELFAWARE, // Let's you see exact HP totals
  PF_INCONSPICUOUS,// Less spawns due to timeouts
@@ -410,9 +420,9 @@ Your skin is tough.  Cutting damage is slightly reduced for you."},
 {"Packmule", 3, 0, 0, "\
 You can manage to find space for anything!  You can carry 40%% more volume."},
 {"Fast Learner", 3, 0, 0, "\
-Your skill comprehension is 50%% higher, allowing you to learn skills much\n\
-faster than others.  Note that this only applies to real-world experience,\n\
-not to skill gain from other sources like books."},
+You have a flexible mind, allowing you to learn skills much faster than\n\
+others.  Note that this only applies to real-world experience, not to skill\n\
+gain from other sources like books."},
 {"Deft", 2, 0, 0, "\
 While you're not any better at melee combat, you are better at recovering\n\
 from a miss, and will be able to attempt another strike faster."},

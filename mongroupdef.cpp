@@ -5,6 +5,9 @@
 #include "picojson.h"
 #include "options.h"
 
+// Default start time, this is the only place it's still used.
+#define STARTING_MINUTES 480
+
 //Adding a group:
 //  1: Declare it in the MonsterGroupDefs enum in mongroup.h
 //  2: Define it in here with the macro Group(your group, default monster)
@@ -225,6 +228,7 @@ void init_translation()
     monStr2monId["mon_sewer_fish"] = mon_sewer_fish; monStr2monId["mon_sewer_snake"] = mon_sewer_snake; monStr2monId["mon_sewer_rat"] = mon_sewer_rat; monStr2monId["mon_rat_king"] = mon_rat_king;
     monStr2monId["mon_mosquito"] = mon_mosquito; monStr2monId["mon_dragonfly"] = mon_dragonfly; monStr2monId["mon_centipede"] = mon_centipede; monStr2monId["mon_frog"] = mon_frog; monStr2monId["mon_slug"] = mon_slug;
     monStr2monId["mon_dermatik_larva"] = mon_dermatik_larva; monStr2monId["mon_dermatik"] = mon_dermatik;
+    monStr2monId["mon_jabberwock"] = mon_jabberwock;
     monStr2monId["mon_spider_wolf"] = mon_spider_wolf; monStr2monId["mon_spider_web"] = mon_spider_web; monStr2monId["mon_spider_jumping"] = mon_spider_jumping; monStr2monId["mon_spider_trapdoor"] = mon_spider_trapdoor;
     monStr2monId["mon_spider_widow"] = mon_spider_widow;
     monStr2monId["mon_dark_wyrm"] = mon_dark_wyrm; monStr2monId["mon_amigara_horror"] = mon_amigara_horror; monStr2monId["mon_dog_thing"] = mon_dog_thing; monStr2monId["mon_headless_dog_thing"] = mon_headless_dog_thing;

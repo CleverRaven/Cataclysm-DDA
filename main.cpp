@@ -55,6 +55,7 @@ int main(int argc, char *argv[])
  game *g = new game;
  g->init_ui();
  MAPBUFFER.set_game(g);
+ g->load_artifacts(); //artifacts have to be loaded before any items are created
  MAPBUFFER.load();
 
  curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone

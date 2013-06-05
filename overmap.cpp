@@ -17,10 +17,11 @@
 #include "cursesdef.h"
 #include "options.h"
 #include "options.h"
+#include "overmapbuffer.h"
 
 #ifdef _MSC_VER
-// MSVC prefers ISO C++ conformant names over POSIX names, but it's missing a redirect for snprintf
-#define snprintf _snprintf
+// MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
+#define snprintf _snprintf_s
 #endif
 
 #define STREETCHANCE 2
@@ -35,8 +36,8 @@
 #define SETTLE_DICE 2
 #define SETTLE_SIDES 2
 #define HIVECHANCE 180	//Chance that any given forest will be a hive
-#define SWAMPINESS 8	//Affects the size of a swamp
-#define SWAMPCHANCE 850	// Chance that a swamp will spawn instead of forest
+#define SWAMPINESS 4	//Affects the size of a swamp
+#define SWAMPCHANCE 8500	// Chance that a swamp will spawn instead of forest
 
 
 void settlement_building(settlement &set, int x, int y);
@@ -711,11 +712,11 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
   road_points.push_back(cities[i]);
 // And finally connect them via "highways"
  place_hiways(road_points, 0, ot_road_null);
-// Place specials
- place_specials();
 // Make the roads out road points;
  for (int i = 0; i < roads_out.size(); i++)
   ter(roads_out[i].x, roads_out[i].y, 0) = ot_road_nesw;
+// Place specials
+ place_specials();
 // Clean up our roads and rivers
  polish(0);
 
@@ -751,6 +752,8 @@ bool overmap::generate_sub(int const z)
  std::vector<point> temple_points;
  std::vector<point> office_entrance_points;
  std::vector<point> office_points;
+ std::vector<point> cathedral_entrance_points;
+ std::vector<point> cathedral_points;
  std::vector<point> hotel_tower_1_points;
  std::vector<point> hotel_tower_2_points;
  std::vector<point> hotel_tower_3_points;
@@ -852,6 +855,10 @@ bool overmap::generate_sub(int const z)
     office_entrance_points.push_back( point(i, j) );
    else if (ter(i, j, z + 1) == ot_office_tower_1)
     office_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_cathedral_1_entrance)
+    cathedral_entrance_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_cathedral_1)
+    cathedral_points.push_back( point(i, j) );
    else if (ter(i, j, z + 1) == ot_hotel_tower_1_7)
     hotel_tower_1_points.push_back( point(i, j) );
    else if (ter(i, j, z + 1) == ot_hotel_tower_1_8)
@@ -869,7 +876,12 @@ bool overmap::generate_sub(int const z)
  for (int i = 0; i < subway_points.size(); i++)
   ter(subway_points[i].x, subway_points[i].y, z) = ot_subway_station;
  for (int i = 0; i < lab_points.size(); i++)
-  requires_sub |= build_lab(lab_points[i].x, lab_points[i].y, z, lab_points[i].s);
+ {
+     bool lab = build_lab(lab_points[i].x, lab_points[i].y, z, lab_points[i].s);
+     requires_sub |= lab;
+     if (!lab && ter(lab_points[i].x, lab_points[i].y, z) == ot_lab_core)
+         ter(lab_points[i].x, lab_points[i].y, z) = ot_lab;
+ }
  for (int i = 0; i < ant_points.size(); i++)
   build_anthill(ant_points[i].x, ant_points[i].y, z, ant_points[i].s);
  polish(z, ot_subway_ns, ot_subway_nesw);
@@ -931,6 +943,10 @@ bool overmap::generate_sub(int const z)
   ter(office_entrance_points[i].x, office_entrance_points[i].y, z) = ot_office_tower_b_entrance;
  for (int i = 0; i < office_points.size(); i++)
   ter(office_points[i].x, office_points[i].y, z) = ot_office_tower_b;
+ for (int i = 0; i < cathedral_entrance_points.size(); i++)
+  ter(cathedral_entrance_points[i].x, cathedral_entrance_points[i].y, z) = ot_cathedral_b_entrance;
+ for (int i = 0; i < cathedral_points.size(); i++)
+  ter(cathedral_points[i].x, cathedral_points[i].y, z) = ot_cathedral_b;
  for (int i = 0; i < hotel_tower_1_points.size(); i++)
   ter(hotel_tower_1_points[i].x, hotel_tower_1_points[i].y, z) = ot_hotel_tower_b_1;
  for (int i = 0; i < hotel_tower_2_points.size(); i++)
@@ -1128,15 +1144,15 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
   // If the offsets don't match the previously loaded ones, load the new adjacent overmaps.
   if( offx && loc.x + offx != hori.loc.x )
   {
-      hori = overmap( g, loc.x + offx, loc.y );
+      hori = overmap_buffer.get( g, loc.x + offx, loc.y );
   }
   if( offy && loc.y + offy != vert.loc.y )
   {
-      vert = overmap( g, loc.x, loc.y + offy );
+      vert = overmap_buffer.get( g, loc.x, loc.y + offy );
   }
   if( offx && offy && (loc.x + offx != diag.loc.x || loc.y + offy != diag.loc.y ) )
   {
-      diag = overmap( g, loc.x + offx, loc.y + offy );
+      diag = overmap_buffer.get( g, loc.x + offx, loc.y + offy );
   }
 
 // Now actually draw the map
@@ -1298,21 +1314,24 @@ void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
     int distance = rl_dist(origx, origy, target.x, target.y);
     mvwprintz(w, 3, om_map_width + 1, c_white, "Distance to target: %d", distance);
    }
-   mvwprintz(w, 17, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
-   mvwprintz(w, 18, om_map_width + 1, c_magenta, "0 - Center map on character");
-   mvwprintz(w, 19, om_map_width + 1, c_magenta, "t - Toggle legend          ");
-   mvwprintz(w, 20, om_map_width + 1, c_magenta, "/ - Search                 ");
-   mvwprintz(w, 21, om_map_width + 1, c_magenta, "N - Add/Edit a note        ");
-   mvwprintz(w, 22, om_map_width + 1, c_magenta, "D - Delete a note          ");
-   mvwprintz(w, 23, om_map_width + 1, c_magenta, "L - List notes             ");
-   mvwprintz(w, 24, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
+   mvwprintz(w, 15, om_map_width + 1, c_magenta, "Use movement keys to pan.  ");
+   mvwprintz(w, 16, om_map_width + 1, c_magenta, "0 - Center map on character");
+   mvwprintz(w, 17, om_map_width + 1, c_magenta, "t - Toggle legend          ");
+   mvwprintz(w, 18, om_map_width + 1, c_magenta, "/ - Search                 ");
+   mvwprintz(w, 19, om_map_width + 1, c_magenta, "N - Add/Edit a note        ");
+   mvwprintz(w, 20, om_map_width + 1, c_magenta, "D - Delete a note          ");
+   mvwprintz(w, 21, om_map_width + 1, c_magenta, "L - List notes             ");
+   mvwprintz(w, 22, om_map_width + 1, c_magenta, "Esc or q - Return to game  ");
+   char level_string[10];
+   sprintf(level_string, "LEVEL %i",z);
+   mvwprintz(w, getmaxy(w)-1, om_map_width + 1, c_red, level_string);
   }
 // Done with all drawing!
   wrefresh(w);
 }
 
 //Start drawing the overmap on the screen using the (m)ap command.
-point overmap::draw_overmap(game *g, int const zlevel)
+point overmap::draw_overmap(game *g, int zlevel)
 {
  WINDOW* w_map = newwin(TERMY, TERMX, 0, 0);
  WINDOW* w_search = newwin(13, 27, 3, TERMX-27);
@@ -1320,7 +1339,7 @@ point overmap::draw_overmap(game *g, int const zlevel)
  bool blink = true;
  int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
      cursy = (g->levy + int(MAPSIZE / 2)) / 2;
- int origx = cursx, origy = cursy;
+ int origx = cursx, origy = cursy, origz = zlevel;
  char ch = 0;
  point ret(-1, -1);
  overmap hori, vert, diag; // Adjacent maps
@@ -1328,6 +1347,8 @@ point overmap::draw_overmap(game *g, int const zlevel)
  do {
      draw(w_map, g, zlevel, cursx, cursy, origx, origy, ch, blink, hori, vert, diag);
   ch = input();
+  timeout(BLINK_SPEED);	// Enable blinking!
+
   int dirx, diry;
   if (ch != ERR)
    blink = true;	// If any input is detected, make the blinkies on
@@ -1338,9 +1359,15 @@ point overmap::draw_overmap(game *g, int const zlevel)
   } else if (ch == '0') {
    cursx = origx;
    cursy = origy;
-  } else if (ch == '\n')
+   zlevel = origz;
+  } else if (ch == '>' && zlevel > -OVERMAP_DEPTH) {
+      zlevel -= 1;
+  } else if (ch == '<' && zlevel < OVERMAP_HEIGHT) {
+      zlevel += 1;
+  }
+  else if (ch == '\n')
    ret = point(cursx, cursy);
-  else if (ch == KEY_ESCAPE || ch == 'q' || ch == 'Q')
+  else if (ch == KEY_ESCAPE || ch == 'q' || ch == 'Q' || ch == 'm')
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
@@ -1772,6 +1799,7 @@ void overmap::make_road(int cx, int cy, int cs, int dir, city town)
 
 bool overmap::build_lab(int x, int y, int z, int s)
 {
+ std::vector<point> generated_lab;
  ter(x, y, z) = ot_lab;
  for (int n = 0; n <= 1; n++) {	// Do it in two passes to allow diagonals
   for (int i = 1; i <= s; i++) {
@@ -1780,14 +1808,31 @@ bool overmap::build_lab(int x, int y, int z, int s)
      if ((ter(lx - 1, ly, z) == ot_lab || ter(lx + 1, ly, z) == ot_lab ||
          ter(lx, ly - 1, z) == ot_lab || ter(lx, ly + 1, z) == ot_lab) &&
          one_in(i))
-      ter(lx, ly, z) = ot_lab;
+     {
+         ter(lx, ly, z) = ot_lab;
+         generated_lab.push_back(point(lx,ly));
+     }
     }
    }
   }
  }
+ bool generate_stairs = true;
+ for (std::vector<point>::iterator it=generated_lab.begin();
+      it != generated_lab.end(); it++)
+ {
+     if (ter(it->x, it->y, z+1) == ot_lab_stairs)
+         generate_stairs = false;
+ }
+ if (generate_stairs && generated_lab.size() > 0)
+ {
+     int v = rng(0,generated_lab.size());
+     point p = generated_lab[v];
+     ter(p.x, p.y, z+1) = ot_lab_stairs;
+ }
+
  ter(x, y, z) = ot_lab_core;
  int numstairs = 0;
- if (s > 1) {	// Build stairs going down
+ if (s > 0) {	// Build stairs going down
   while (!one_in(6)) {
    int stairx, stairy;
    int tries = 0;
@@ -1889,7 +1934,7 @@ bool overmap::build_slimepit(int x, int y, int z, int s)
             {
                 if (rng(1, s * 2) >= n)
                 {
-                    if (one_in(8))
+                    if (one_in(8) && z > -OVERMAP_DEPTH)
                     {
                         ter(i, j, z) = ot_slimepit_down;
                         requires_sub = true;
@@ -2554,7 +2599,7 @@ void overmap::place_special(overmap_special special, tripoint p)
   }
   make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, ot_road_null);
  }
- 
+
   if (special.flags & mfb(OMS_FLAG_3X3_FIXED)) {
   if (is_road(p.x, p.y - 1, p.z)) { // Road to north
    ter(p.x+1, p.y, p.z) = oter_id(special.ter - 1);//1
@@ -2606,7 +2651,7 @@ void overmap::place_special(overmap_special special, tripoint p)
     make_hiway(p.x-1, p.y, p.x-1, p.y+1, p.z, ot_road_null);
   }
  }
- 
+
  //Buildings should be designed with the entrance at the southwest corner and open to the street on the south.
  if (special.flags & mfb(OMS_FLAG_2X2_SECOND)) {
   int startx = p.x-3, starty = p.y-3; // Acts as an error message, way offset from ideal

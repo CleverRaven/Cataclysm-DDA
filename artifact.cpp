@@ -225,78 +225,78 @@ artifact_property_datum artifact_property_data[ARTPROP_MAX] = {
 };
 
 artifact_tool_form_datum artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
-{"", '*', c_white, MNULL, MNULL, 0, 0, 0, 0, ARTWEAP_BULK,
+{"", '*', c_white, "null", "null", 0, 0, 0, 0, ARTWEAP_BULK,
  {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}},
 
-{"Harp", ';', c_yellow, WOOD, MNULL, 20, 30, 10, 18, ARTWEAP_BULK,
+{"Harp", ';', c_yellow, "wood", "null", 20, 30, 10, 18, ARTWEAP_BULK,
  {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}},
 
-{"Staff", '/', c_brown, WOOD, MNULL, 6, 12, 4, 10, ARTWEAP_CLUB,
+{"Staff", '/', c_brown, "wood", "null", 6, 12, 4, 10, ARTWEAP_CLUB,
  {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}},
 
-{"Sword", '/', c_ltblue, STEEL, MNULL, 8, 14, 8, 28, ARTWEAP_SWORD,
+{"Sword", '/', c_ltblue, "steel", "null", 8, 14, 8, 28, ARTWEAP_SWORD,
  {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}},
 
-{"Dagger", ';', c_ltblue, STEEL, MNULL, 1, 4, 1, 6, ARTWEAP_KNIFE,
+{"Dagger", ';', c_ltblue, "steel", "null", 1, 4, 1, 6, ARTWEAP_KNIFE,
  {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}},
 
-{"Cube", '*', c_white, STEEL, MNULL, 1, 3, 1, 20, ARTWEAP_BULK,
+{"Cube", '*', c_white, "steel", "null", 1, 3, 1, 20, ARTWEAP_BULK,
  {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}}
 };
 
 artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS] = {
-{"", 0, 0, 0, 0, 0, 0, 0, 0, 0},
+{"", 0, 0, 0, 0, 0, 0, 0, 0, ""},
 // Adjective	Vol,wgt		Bash		Cut		To-Hit
 {"Heavy",	 0, 12,		10, 20,		 0,  0,		-2,  0,
- 0},
+ ""},
 {"Knobbed",	 1,  2,		14, 30,		 0,  0,		-1,  1,
- 0},
+ ""},
 {"Spiked",	 1,  1,		 0,  0,		20, 40,		-1,  1,
- mfb(IF_SPEAR)},
+ "SPEAR"},
 {"Edged",	 2,  4,		 0,  0,		20, 50,		-1,  2,
- 0},
+ ""},
 {"Bladed",	 1,  2,		 0,  0,		12, 30,		-1,  1,
- mfb(IF_STAB)}
+ "STAB"}
 };
 
 artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] = {
-{"", c_white, MNULL, MNULL,        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+{"", c_white, "null", "null",        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
  0, false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
-// Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
-{"Robe",   c_red, WOOL, MNULL,     6,  6,  1,  3,  1,  0,  2,  0, -8,  0, -3,
+// Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+{"Robe",   c_red, "wool", "null",     6,  6,  1,  3,  3,  0,  2,  0, -8,  0, -3,
  mfb(bp_torso)|mfb(bp_legs), false,
  {ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
   ARMORMOD_PADDED}},
 
-{"Coat",   c_brown,LEATHER,MNULL, 14, 14,  2,  4, 12,  1,  4,  4, -6,  0, -3,
+{"Coat",   c_brown,"leather","null", 14, 14,  2,  3, 2,  1,  4,  4, -6,  0, -3,
  mfb(bp_torso), false,
  {ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
   ARMORMOD_PLATED}},
 
-{"Mask",   c_white, WOOD, MNULL,   4,  1,  2,  2, 16,  1,  2,  0,  2,  0, -2,
+{"Mask",   c_white, "wood", "null",   4,  1,  2,  2, 2,  1,  2,  0,  2,  0, -2,
  mfb(bp_eyes)|mfb(bp_mouth), false,
  {ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
   ARMORMOD_NULL}},
 
-// Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
-{"Helm",   c_dkgray,SILVER, MNULL, 6,  6,  2,  4, 18,  0,  1,  0,  8,  0, -2,
+// Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+{"Helm",   c_dkgray, "silver", "null", 6,  6,  2,  3, 3,  0,  1,  0,  8,  0, -2,
  mfb(bp_head), false,
  {ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
   ARMORMOD_NULL}},
 
-{"Gloves", c_ltblue,LEATHER,MNULL, 2,  1,  1,  6,  6,  1,  2,  0, -4,  0, -2,
+{"Gloves", c_ltblue,"leather","null", 2,  1,  1,  3,  3,  1,  2,  0, -4,  0, -2,
  mfb(bp_hands), true,
  {ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
   ARMORMOD_NULL}},
 
-// Name    color  Materials      Vol Wgt Enc Dmg Cut Env Wrm Sto Bsh Cut Hit
-{"Boots", c_blue, LEATHER, MNULL,  6,  2,  1,  6,  6,  1,  3,  0,  4,  0, -1,
+// Name    color  Materials      Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+{"Boots", c_blue, "leather", "null",  6,  2,  1,  3,  3,  1,  3,  0,  4,  0, -1,
  mfb(bp_feet), true,
  {ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
   ARMORMOD_NULL}},
 
-{"Ring", c_ltgreen, SILVER, MNULL,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+{"Ring", c_ltgreen, "silver", "null",   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
  0, true,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
 
@@ -304,33 +304,33 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] = {
 
 artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS] = {
 
-{"", c_white, MNULL, MNULL, 0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, false,
+{"", c_white, "null", "null", 0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 // Description; "It is ..." or "They are ..."
-{"very thin and light.", c_white, MNULL, MNULL,
-// Vol Wgt Enc Dmg Cut Env Wrm Sto
+{"very thin and light.", c_white, "null", "null",
+// Vol Wgt Enc Cov Thk Env Wrm Sto
     -4, -8, -2, -1, -1, -1, -1,  0, 0, 0, 0, 0,  false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
-{"extremely bulky.", c_white, MNULL, MNULL,
+{"extremely bulky.", c_white, "null", "null",
      8, 10,  2,  1,  1,  0,  1,  0, 0, 0, 0, 0,  false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
-{"covered in pockets.", c_white, MNULL, MNULL,
+{"covered in pockets.", c_white, "null", "null",
      1,  1,  1,  0,  0,  0,  0, 16, 0, 0, 0, 0,  false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
-{"disgustingly furry.", c_white, WOOL, MNULL,
+{"disgustingly furry.", c_white, "wool", "null",
 // Vol Wgt Enc Dmg Cut Env Wrm Sto
-     4,  2,  1,  4,  0,  1,  3,  0, 0, 0, 0, 0,  false,
+     4,  2,  1,  1,  1,  1,  3,  0, 0, 0, 0, 0,  false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
-{"leather-padded.", c_white, LEATHER, MNULL,
-     4,  4,  1, 10,  4,  0,  1, -3, 0, 0, 0, 0,  false,
+{"leather-padded.", c_white, "leather", "null",
+     4,  4,  1, 1,  1,  0,  1, -3, 0, 0, 0, 0,  false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
-{"plated in iron.", c_white, IRON, MNULL,
-     4, 12,  3,  8, 14,  0,  1, -4, 0, 0, 0, 0, false,
+{"plated in iron.", c_white, "iron", "null",
+     4, 12,  3,  2, 2,  0,  1, -4, 0, 0, 0, 0, false,
  {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}},
 
 };
@@ -372,7 +372,9 @@ itype* game::new_artifact()
   art->melee_dam = rng(weapon->bash_min, weapon->bash_max);
   art->melee_cut = rng(weapon->cut_min, weapon->cut_max);
   art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
-  art->item_flags = weapon->flags;
+  if( weapon->tag != "" ) {
+      art->item_tags.insert(weapon->tag);
+  }
 // Add an extra weapon perhaps?
   if (one_in(2)) {
    int select = rng(0, 2);
@@ -383,7 +385,9 @@ itype* game::new_artifact()
     art->melee_dam += rng(weapon->bash_min, weapon->bash_max);
     art->melee_cut += rng(weapon->bash_min, weapon->bash_max);
     art->m_to_hit += rng(weapon->to_hit_min, weapon->to_hit_max);
-    art->item_flags |= weapon->flags;
+    if( weapon->tag != "" ) {
+        art->item_tags.insert(weapon->tag);
+    }
     std::stringstream newname;
     newname << weapon->adjective << " " << info->name;
     art->name = artifact_name(newname.str());
@@ -503,11 +507,10 @@ It may have unknown powers; use 'a' to activate them.";
   art->melee_dam = info->melee_bash;
   art->melee_cut = info->melee_cut;
   art->m_to_hit = info->melee_hit;
-  art->item_flags = 0;
   art->covers = info->covers;
   art->encumber = info->encumb;
-  art->dmg_resist = info->dmg_resist;
-  art->cut_resist = info->cut_resist;
+  art->coverage = info->coverage;
+  art->thickness = info->thickness;
   art->env_resist = info->env_resist;
   art->warmth = info->warmth;
   art->storage = info->storage;
@@ -534,15 +537,15 @@ It may have unknown powers; use 'a' to activate them.";
 
     art->encumber += modinfo->encumb;
 
-    if (modinfo->dmg_resist > 0 || art->dmg_resist > abs(modinfo->dmg_resist))
-     art->dmg_resist += modinfo->dmg_resist;
+    if (modinfo->coverage > 0 || art->coverage > abs(modinfo->coverage))
+     art->coverage += modinfo->coverage;
     else
-     art->dmg_resist = 0;
+     art->coverage = 0;
 
-    if (modinfo->cut_resist > 0 || art->cut_resist > abs(modinfo->cut_resist))
-     art->cut_resist += modinfo->cut_resist;
+    if (modinfo->thickness > 0 || art->thickness > abs(modinfo->thickness))
+     art->thickness += modinfo->thickness;
     else
-     art->cut_resist = 0;
+     art->thickness = 0;
 
     if (modinfo->env_resist > 0 || art->env_resist > abs(modinfo->env_resist))
      art->env_resist += modinfo->env_resist;
@@ -609,14 +612,13 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
 
  art->sym = ':';
  art->color = c_yellow;
- art->m1 = STONE;
- art->m2 = MNULL;
+ art->m1 = "stone";
+ art->m2 = "null";
  art->volume = rng(shape_data->volume_min, shape_data->volume_max);
  art->weight = rng(shape_data->weight_min, shape_data->weight_max);
  art->melee_dam = 0;
  art->melee_cut = 0;
  art->m_to_hit = 0;
- art->item_flags = 0;
 
  art->name = property_data->name + " " + shape_data->name;
  std::stringstream desc;

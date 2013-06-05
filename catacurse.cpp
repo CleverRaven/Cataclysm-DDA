@@ -1,6 +1,8 @@
 #if (defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
 #include "options.h"
+#include "output.h"
+#include "color.h"
 #include <cstdlib>
 #include <fstream>
 
@@ -47,7 +49,7 @@ bool WinCreate()
     int WinBorderWidth;
     int WinTitleSize;
     unsigned int WindowStyle;
-    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.4");
+    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.6git");
     WinTitleSize = GetSystemMetrics(SM_CYCAPTION);      //These lines ensure
     WinBorderWidth = GetSystemMetrics(SM_CXDLGFRAME) * 2;  //that our window will
     WinBorderHeight = GetSystemMetrics(SM_CYDLGFRAME) * 2; // be a perfect size
@@ -358,6 +360,16 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
         return NULL; //it's the caller's problem now (since they have logging functions declared)
     }
 
+    // default values
+    if (ncols == 0)
+    {
+        ncols = TERMX - begin_x;
+    }
+    if (nlines == 0)
+    {
+        nlines = TERMY - begin_y;
+    }
+
     int i,j;
     WINDOW *newwindow = new WINDOW;
     //newwindow=&_windows[WindowCount];
@@ -427,7 +439,10 @@ inline void addedchar(WINDOW *win){
 //Borders the window with fancy lines!
 int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br)
 {
-
+/* 
+ncurses does not do this, and this prevents: wattron(win, c_customBordercolor); wborder(win, ...); wattroff(win, c_customBorderColor);
+    wattron(win, c_white);
+*/
     int i, j;
     int oldx=win->cursorx;//methods below move the cursor, save the value!
     int oldy=win->cursory;//methods below move the cursor, save the value!
@@ -454,6 +469,7 @@ int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, 
     //_windows[w].cursorx=oldx;//methods above move the cursor, put it back
     //_windows[w].cursory=oldy;//methods above move the cursor, put it back
     wmove(win,oldy,oldx);
+    wattroff(win, c_white);
     return 1;
 };
 
@@ -472,14 +488,19 @@ int refresh(void)
     return wrefresh(mainwin);
 };
 
+int getch(void)
+{
+    return wgetch(mainwin);
+}
+
 //Not terribly sure how this function is suppose to work,
 //but jday helped to figure most of it out
-int getch(void)
+int wgetch(WINDOW* win)
 {
  // standards note: getch is sometimes required to call refresh
  // see, e.g., http://linux.die.net/man/3/getch
  // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
- refresh();
+ wrefresh(win);
  InvalidateRect(WindowHandle,NULL,true);
  lastchar=ERR;//ERR=-1
     if (inputdelay < 0)
@@ -517,6 +538,12 @@ int mvgetch(int y, int x)
 {
     move(y,x);
     return getch();
+}
+
+int mvwgetch(WINDOW* win, int y, int x)
+{
+    move(y, x);
+    return wgetch(win);
 }
 
 int getnstr(char *str, int size)
@@ -752,20 +779,20 @@ int start_color(void)
  windowsPalette=new RGBQUAD[16]; //Colors in the struct are BGR!! not RGB!!
  windowsPalette[0]= BGR(0,0,0); // Black
  windowsPalette[1]= BGR(0, 0, 255); // Red
- windowsPalette[2]= BGR(0,100,0); // Green
+ windowsPalette[2]= BGR(0,110,0); // Green
  windowsPalette[3]= BGR(23,51,92); // Brown???
- windowsPalette[4]= BGR(150, 0, 0); // Blue
+ windowsPalette[4]= BGR(200, 0, 0); // Blue
  windowsPalette[5]= BGR(98, 58, 139); // Purple
  windowsPalette[6]= BGR(180, 150, 0); // Cyan
- windowsPalette[7]= BGR(196, 196, 196);// Gray
- windowsPalette[8]= BGR(77, 77, 77);// Dark Gray
+ windowsPalette[7]= BGR(150, 150, 150);// Gray
+ windowsPalette[8]= BGR(99, 99, 99);// Dark Gray
  windowsPalette[9]= BGR(150, 150, 255); // Light Red/Salmon?
  windowsPalette[10]= BGR(0, 255, 0); // Bright Green
  windowsPalette[11]= BGR(0, 255, 255); // Yellow
  windowsPalette[12]= BGR(255, 100, 100); // Light Blue
  windowsPalette[13]= BGR(240, 0, 255); // Pink
  windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
- windowsPalette[15]= BGR(255, 255, 255);
+ windowsPalette[15]= BGR(255, 255, 255); //White
  return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
 };
 

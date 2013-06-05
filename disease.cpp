@@ -3,6 +3,7 @@
 #include "bodypart.h"
 #include "disease.h"
 #include "weather.h"
+#include <stdlib.h>
 #include <sstream>
 
 void dis_msg(game *g, dis_type type)
@@ -219,13 +220,14 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_HOT_HEAD:
   switch (dis.intensity) {
    case 3 :
-    p.thirst--;
-	if (p.pain < 50) p.pain++;
+    p.thirst++;
+	if (p.pain < 40) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your head is pounding from the heat.");
     // Speed -20
    case 2 :
-    p.thirst--;
-    if (one_in(15000 - p.temp_cur[bp_head])) p.vomit(g); // Hallucinations handled in game.cpp
+    p.thirst++;
+    // Hallucinations handled in game.cpp
+    if (one_in(std::min(14500,15000-p.temp_cur[bp_head]))) p.vomit(g);
 	if (p.pain < 20) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("The heat is making you see things.");
     // Speed -5
@@ -235,21 +237,21 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_HOT_MOUTH:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-    if (p.pain < 50) p.pain++;
-   case 2 : p.thirst--;
+   case 3 : p.thirst++;
+    if (p.pain < 30) p.pain++;
+   case 2 : p.thirst++;
   }
   break;
 
  case DI_HOT_TORSO:
   switch (dis.intensity) {
    case 3 :
-    p.thirst--;
+    p.thirst++;
     p.str_cur--;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("You are sweating profusely.");
     // Speed -20
    case 2 :
-    p.thirst--;
+    p.thirst++;
 	p.str_cur--;
     // Speed -5
     // case 1 : Speed -2
@@ -258,9 +260,9 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_HOT_ARMS:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-    if (p.pain < 50) p.pain++;
-   case 2 : p.thirst--;
+   case 3 : p.thirst++;
+    if (p.pain < 30) p.pain++;
+   case 2 : p.thirst++;
   }
   break;
 
@@ -273,17 +275,16 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_HOT_LEGS:
   switch (dis.intensity) {
-   case 3 : p.thirst--;
-    if (p.pain < 50) p.pain++;
+   case 3 : p.thirst++;
+    if (p.pain < 30) p.pain++;
     if (one_in(400)) g->add_msg("Your legs are cramping up.");
-   case 2 : p.thirst--;
+   case 2 : p.thirst++;
   }
   break;
 
  case DI_HOT_FEET:
   switch (dis.intensity) {
-   case 3 : if (p.pain < 50) p.pain++;
-   case 2 :
+   case 3 :
     if (p.pain < 30) p.pain++;
     if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg("Your feet are swelling in the heat.");
   }
@@ -370,17 +371,19 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   break;
 
+
+// MATERIALS-TODO: this should be determined by materials properties
  case DI_ONFIRE:
   p.hurtall(3);
   for (int i = 0; i < p.worn.size(); i++) {
-   if (p.worn[i].made_of(VEGGY) || p.worn[i].made_of(PAPER)) {
+   if (p.worn[i].made_of("veggy") || p.worn[i].made_of("paper")) {
     p.worn.erase(p.worn.begin() + i);
     i--;
-   } else if ((p.worn[i].made_of(COTTON) || p.worn[i].made_of(WOOL)) &&
+   } else if ((p.worn[i].made_of("cotton") || p.worn[i].made_of("wool")) &&
               one_in(10)) {
     p.worn.erase(p.worn.begin() + i);
     i--;
-   } else if (p.worn[i].made_of(PLASTIC) && one_in(50)) {
+   } else if (p.worn[i].made_of("plastic") && one_in(50)) {
     p.worn.erase(p.worn.begin() + i);
     i--;
    }
@@ -523,48 +526,67 @@ void dis_effect(game *g, player &p, disease &dis)
     g->add_msg("You try to sleep, but can't...");
   break;
 
- case DI_SLEEP:
-  p.moves = 0;
-  if (int(g->turn) % 25 == 0) {
-   if (p.fatigue > 0)
-    p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
-   if (p.has_trait(PF_FASTHEALER))
-    p.healall(rng(0, 1));
-   else
-    p.healall(rng(0, 1) * rng(0, 1) * rng(0, 1));
-   if (p.fatigue <= 0 && p.fatigue > -20) {
-    p.fatigue = -25;
-    g->add_msg("Fully rested.");
-    dis.duration = dice(3, 100);
-   }
-  }
-  if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler")) {
-// Hunger and thirst advance more slowly while we sleep.
-   p.hunger--;
-   p.thirst--;
-  }
-  if (rng(5, 80) + rng(0, 120) + rng(0, abs(p.fatigue)) +
-      rng(0, abs(p.fatigue * 5)) < g->light_level() &&
-      (p.fatigue < 10 || one_in(p.fatigue / 2))) {
-   g->add_msg("The light wakes you up.");
-   dis.duration = 1;
-  }
-  // Cold or heat may wake you up.
-  // Player will sleep through cold or heat if fatigued enough
-  for (int i = 0 ; i < num_bp ; i++){
-   if (p.temp_cur[i] < BODYTEMP_VERY_COLD - p.fatigue/2 ||
-   (one_in(p.temp_cur[i] + 1000) && p.temp_cur[i] < BODYTEMP_COLD - p.fatigue/2)){
-    g->add_msg("The cold wakes you up.");
-    dis.duration = 1;
-   }
-   if (p.temp_cur[i] > BODYTEMP_VERY_HOT + p.fatigue/2 ||
-   (one_in(11000 - p.temp_cur[i]) && p.temp_cur[i] > BODYTEMP_HOT + p.fatigue/2)){
-    g->add_msg("The heat wakes you up.");
-    dis.duration = 1;
-   }
-  }
+  case DI_SLEEP:
+    p.moves = 0;
 
-  break;
+    if (int(g->turn) % 25 == 0) {
+      if (p.fatigue > 0)
+        p.fatigue -= 1 + rng(0, 1) * rng(0, 1);
+      if (p.has_trait(PF_FASTHEALER)) {
+        p.healall(rng(0, 1));
+      } else if (p.has_trait(PF_FASTHEALER2)) {
+        p.healall(rng(0, 2));
+      } else if (p.has_trait(PF_REGEN)) {
+        p.healall(rng(1, 2));
+      } else {
+        p.healall(rng(0, 1) * rng(0, 1) * rng(0, 1));
+      }
+
+      if (p.fatigue <= 0 && p.fatigue > -20) {
+        p.fatigue = -25;
+        g->add_msg("Fully rested.");
+        dis.duration = dice(3, 100);
+      }
+    }
+
+    if (int(g->turn) % 100 == 0 && !p.has_bionic("bio_recycler")) {
+      // Hunger and thirst advance more slowly while we sleep.
+      p.hunger--;
+      p.thirst--;
+    }
+
+    if (rng(5, 80) + rng(0, 120) + rng(0, abs(p.fatigue)) +
+        rng(0, abs(p.fatigue * 5)) < g->light_level() &&
+        (p.fatigue < 10 || one_in(p.fatigue / 2))) {
+      g->add_msg("The light wakes you up.");
+      dis.duration = 1;
+    }
+
+    // Cold or heat may wake you up.
+    // Player will sleep through cold or heat if fatigued enough
+    for (int i = 0 ; i < num_bp ; i++)
+    {
+        if (p.temp_cur[i] < BODYTEMP_VERY_COLD - p.fatigue/2)
+        {
+            if (one_in(5000)) { g->add_msg("You toss and turn trying to keep warm."); }
+            if (p.temp_cur[i] < BODYTEMP_FREEZING - p.fatigue/2 || (one_in(p.temp_cur[i] + 5000)))
+            {
+                g->add_msg("The cold wakes you up.");
+                dis.duration = 1;
+            }
+        }
+        else if (p.temp_cur[i] > BODYTEMP_VERY_HOT + p.fatigue/2)
+        {
+            if (one_in(5000)) { g->add_msg("You toss and turn in the heat."); }
+            if (p.temp_cur[i] > BODYTEMP_SCORCHING + p.fatigue/2 || (one_in(15000 - p.temp_cur[i])))
+            {
+                g->add_msg("The heat wakes you up.");
+                dis.duration = 1;
+            }
+        }
+    }
+
+    break;
 
  case DI_STEMCELL_TREATMENT:
   //slightly repair broken limbs. (also nonbroken limbs (unless they're too healthy))
@@ -1494,7 +1516,7 @@ std::string dis_description(disease dis)
 
  case DI_HOT_FEET:
   switch (dis.intensity) {
-   case 1: return "Your feet feel hot.";
+   case 1: return "Your feet feel warm.";
    case 2: return "Your feet are painfully swollen due to the heat.";
    case 3: return "Your feet are painfully swollen due to the heat.";}
 

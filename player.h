@@ -12,6 +12,7 @@
 #include "artifact.h"
 #include "mutation.h"
 #include "crafting.h"
+#include "vehicle.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -63,6 +64,8 @@ public:
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
  void update_morale();	// Ticks down morale counters and removes them
+ void update_mental_focus();
+ int calc_focus_equilibrium();
  void update_bodytemp(game *g);  // Maintains body temperature
  int  current_speed(game *g = NULL); // Number of movement points we get a turn
  int  run_cost(int base_cost); // Adjust base_cost
@@ -71,6 +74,8 @@ public:
  bool has_trait(int flag) const;
  bool has_mutation(int flag) const;
  void toggle_trait(int flag);
+
+ bool in_climate_control(game *g);
 
  bool has_bionic(bionic_id b) const;
  bool has_active_bionic(bionic_id b) const;
@@ -143,7 +148,6 @@ public:
  int throw_dex_mod	(bool real_life = true);
 
 // Mental skills and stats
- int comprehension_percent(skill s, bool real_life = true);
  int read_speed		(bool real_life = true);
  int talk_skill(); // Skill at convincing NPCs of stuff
  int intimidation(); // Physical intimidation
@@ -184,6 +188,7 @@ public:
  bool has_addiction(add_type type) const;
  int  addiction_level(add_type type);
 
+ void siphon_gas(game *g, vehicle *veh);
  void cauterize(game *g);
  void suffer(game *g);
  void vomit(game *g);
@@ -195,6 +200,7 @@ public:
  bool wear(game *g, char let);	// Wear item; returns false on fail
  bool wear_item(game *g, item *to_wear);
  bool takeoff(game *g, char let);// Take off item; returns false on fail
+ void sort_armor(game *g);      // re-order armor layering
  void use(game *g, char let);	// Use a tool
  void use_wielded(game *g);
  bool install_bionics(game *g, it_bionic* type);	// Install bionics
@@ -215,16 +221,17 @@ public:
 
  int warmth(body_part bp);	// Warmth provided by armor &c
  int encumb(body_part bp);	// Encumberance from armor &c
- int encumb(body_part bp, int &layers, int &armorenc, int &warmth);
+ int encumb(body_part bp, int &layers, int &armorenc);
  int armor_bash(body_part bp);	// Bashing resistance
  int armor_cut(body_part bp);	// Cutting  resistance
  int resist(body_part bp);	// Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
 
+ int adjust_for_focus(int amount);
  void practice(const calendar& turn, Skill *s, int amount);
  void practice(const calendar& turn, std::string s, int amount);
 
- void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0);
+ void assign_activity(game* g, activity_type type, int moves, int index = -1, char invlet = 0, std::string name = "");
  void cancel_activity();
 
  int weight_carried();
@@ -243,6 +250,7 @@ public:
  bool has_active_item(itype_id id);
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);
+ bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
  item i_rem(char let);	// Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
@@ -258,9 +266,9 @@ public:
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
- void use_amount(itype_id it, int quantity, bool use_container = false);
+ std::list<item> use_amount(itype_id it, int quantity, bool use_container = false);
  bool use_charges_if_avail(itype_id it, int quantity);// Uses up charges
- void use_charges(itype_id it, int quantity);// Uses up charges
+ std::list<item> use_charges(itype_id it, int quantity);// Uses up charges
  bool has_amount(itype_id it, int quantity);
  bool has_charges(itype_id it, int quantity);
  int  amount_of(itype_id it);
@@ -299,6 +307,8 @@ public:
  bool my_traits[PF_MAX2];
  bool my_mutations[PF_MAX2];
  int mutation_category_level[NUM_MUTATION_CATEGORIES];
+ int next_climate_control_check;
+ bool last_climate_control_ret;
  std::vector<bionic> my_bionics;
 // Current--i.e. modified by disease, pain, etc.
  int str_cur, dex_cur, int_cur, per_cur;
@@ -321,15 +331,18 @@ public:
 
  std::vector<morale_point> morale;
 
- int xp_pool;
- int sklevel[num_skill_types];
- int skexercise[num_skill_types];
- int sktrain[num_skill_types];
- bool sklearn[num_skill_types];
+ int focus_pool;
 
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
- SkillLevel& skillLevel(size_t id);
+
+ void set_skill_level(Skill* _skill, int level);
+ void set_skill_level(std::string ident, int level);
+
+ void boost_skill_level(Skill* _skill, int level);
+ void boost_skill_level(std::string ident, int level);
+
+ void copy_skill_levels(const player *rhs);
 
  std::map<std::string, recipe*> learned_recipes;
 

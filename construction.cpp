@@ -141,7 +141,14 @@ void game::init_construction()
    COMP("2x4", 10);
    COMP("nail", 20);
 
- CONSTRUCT("Build Log Wall", 2, &construct::able_pit, &construct::done_nothing);
+ CONSTRUCT("Build Log Wall", 2, &construct::able_dig, &construct::done_nothing);
+  STAGE(t_pit_shallow, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   TOOLCONT("digging_stick");
+  STAGE(t_pit, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
   STAGE(t_wall_log_half, 20);
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
@@ -155,7 +162,14 @@ void game::init_construction()
    COMP("stick", 3);
    COMPCONT("2x4", 6);
 
- CONSTRUCT("Build Palisade Wall", 2, &construct::able_pit, &construct::done_nothing);
+ CONSTRUCT("Build Palisade Wall", 2, &construct::able_dig, &construct::done_nothing);
+  STAGE(t_pit_shallow, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   TOOLCONT("digging_stick");
+  STAGE(t_pit, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
   STAGE(t_palisade, 20);
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
@@ -168,7 +182,14 @@ void game::init_construction()
    COMP("stick", 8);
    COMPCONT("2x4", 8);
 
- CONSTRUCT("Build Palisade Gate", 2, &construct::able_pit, &construct::done_nothing);
+ CONSTRUCT("Build Palisade Gate", 2, &construct::able_dig, &construct::done_nothing);
+  STAGE(t_pit_shallow, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
+   TOOLCONT("digging_stick");
+  STAGE(t_pit, 10);
+   TOOL("shovel");
+   TOOLCONT("primitive_shovel");
   STAGE(t_palisade_gate, 20);
    TOOL("shovel");
    TOOLCONT("primitive_shovel");
@@ -422,7 +443,7 @@ void game::construction_menu()
  long ch;
  bool exit = false;
 
- inventory total_inv = crafting_inventory();
+ inventory total_inv = crafting_inventory(&u);
 
  do {
 // Erase existing list of constructions
@@ -441,7 +462,7 @@ void game::construction_menu()
    nc_color col = (player_can_build(u, total_inv, constructions[current]) ?
                    c_white : c_dkgray);
    // Map menu items to hotkey letters, skipping j, k, l, and q.
-   char hotkey = 97 + current;
+   unsigned char hotkey = 97 + current;
    if (hotkey > 122)
     hotkey = hotkey - 58;
 
@@ -650,34 +671,48 @@ bool game::player_can_build(player &p, inventory pinv, constructable* con,
 
  bool can_build_any = false;
  for (int i = start; i < con->stages.size() && i <= last_level; i++) {
-  construction_stage stage = con->stages[i];
+  construction_stage* stage = &(con->stages[i]);
   bool has_tool = false;
   bool has_component = false;
   bool tools_required = false;
   bool components_required = false;
 
   for (int j = 0; j < 10; j++) {
-   if (stage.tools[j].size() > 0) {
+   if (stage->tools[j].size() > 0) {
     tools_required = true;
     has_tool = false;
-    for (int k = 0; k < stage.tools[j].size() && !has_tool; k++) {
-     if (pinv.has_amount(stage.tools[j][k].type, 1))
-      has_tool = true;
+    for (int k = 0; k < stage->tools[j].size(); k++) {
+     if (pinv.has_amount(stage->tools[j][k].type, 1))
+     {
+         has_tool = true;
+         stage->tools[j][k].available = 1;
+     }
+     else
+     {
+         stage->tools[j][k].available = -1;
+     }
     }
     if (!has_tool)  // missing one of the tools for this stage
      break;
    }
-   if (stage.components[j].size() > 0) {
+   if (stage->components[j].size() > 0) {
     components_required = true;
     has_component = false;
-    for (int k = 0; k < stage.components[j].size() && !has_component; k++) {
-     if (( item_controller->find_template(stage.components[j][k].type)->is_ammo() &&
-	   pinv.has_charges(stage.components[j][k].type,
-			   stage.components[j][k].count)    ) ||
-         (!item_controller->find_template(stage.components[j][k].type)->is_ammo() &&
-          pinv.has_amount (stage.components[j][k].type,
-                          stage.components[j][k].count)    ))
-      has_component = true;
+    for (int k = 0; k < stage->components[j].size(); k++) {
+     if (( item_controller->find_template(stage->components[j][k].type)->is_ammo() &&
+	   pinv.has_charges(stage->components[j][k].type,
+			   stage->components[j][k].count)    ) ||
+         (!item_controller->find_template(stage->components[j][k].type)->is_ammo() &&
+          pinv.has_amount (stage->components[j][k].type,
+                          stage->components[j][k].count)    ))
+     {
+         has_component = true;
+         stage->components[j][k].available = 1;
+     }
+     else
+     {
+         stage->components[j][k].available = -1;
+     }
     }
     if (!has_component)  // missing one of the comps for this stage
      break;
@@ -697,7 +732,7 @@ bool game::player_can_build(player &p, inventory pinv, constructable* con,
 void game::place_construction(constructable *con)
 {
  refresh_all();
- inventory total_inv = crafting_inventory();
+ inventory total_inv = crafting_inventory(&u);
 
  std::vector<point> valid;
  for (int x = u.posx - 1; x <= u.posx + 1; x++) {
@@ -780,8 +815,6 @@ void game::place_construction(constructable *con)
 
 void game::complete_construction()
 {
- inventory map_inv;
- map_inv.form_from_map(this, point(u.posx, u.posy), PICKUP_RANGE);
  int stage_num = u.activity.values[0];
  constructable *built = constructions[u.activity.index];
  construction_stage stage = built->stages[stage_num];
@@ -793,7 +826,7 @@ void game::complete_construction()
    u.practice(turn, "carpentry", 10);
  for (int i = 0; i < 10; i++) {
   if (!stage.components[i].empty())
-   consume_items(stage.components[i]);
+   consume_items(&u, stage.components[i]);
  }
 
 // Make the terrain change
@@ -835,13 +868,13 @@ bool construct::able_furniture(game *g, point p)
 {
  ter_t terrain_type = terlist[g->m.ter(p.x, p.y)];
  int required_str = terrain_type.move_str_req;
- 
+
  // Object can not be moved
  if (required_str < 0)
  {
   return false;
  }
- 
+
  if( g->u.str_cur < required_str )
  {
   return false;
@@ -963,6 +996,7 @@ void construct::done_furniture(game *g, point p)
   break;
  }
 
+ g->sound(x, y, terlist[g->m.ter(p.x, p.y)].move_str_req * 2, "a scraping noise");
  g->m.ter_set(x, y, g->m.ter(p.x, p.y));
  g->m.ter_set(p.x, p.y, t_floor);
 
@@ -999,7 +1033,7 @@ void construct::done_log(game *g, point p)
 void construct::done_vehicle(game *g, point p)
 {
     std::string name = string_input_popup("Enter new vehicle name", 20);
-    vehicle *veh = g->m.add_vehicle (g, veh_custom, p.x, p.y, 270);
+    vehicle *veh = g->m.add_vehicle (g, veh_custom, p.x, p.y, 270, 0, 0);
     if (!veh)
     {
         debugmsg ("error constructing vehicle");
@@ -1109,6 +1143,7 @@ void construct::done_deconstruct(game *g, point p)
     case t_fridge:
       g->m.spawn_item(p.x, p.y, item_controller->find_template("scrap"), 0, rng(2,6));
       g->m.spawn_item(p.x, p.y, item_controller->find_template("steel_chunk"), 0, rng(2,3));
+      g->m.spawn_item(p.x, p.y, item_controller->find_template("hose"), 0, 1);
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 

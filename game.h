@@ -145,6 +145,8 @@ class game
 // Kill that monster; fixes any pointers etc
   void kill_mon(int index, bool player_did_it = false);
   void explode_mon(int index);	// Explode a monster; like kill_mon but messier
+  void revive_corpse(int x, int y, int n); // revives a corpse from an item pile
+  void revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion
 // hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
   void hit_monster_with_flags(monster &z, unsigned int flags);
   void plfire(bool burst);	// Player fires a gun (target selection)...
@@ -155,6 +157,8 @@ class game
                   std::vector<point> &trajectory);
   void cancel_activity();
   void cancel_activity_query(const char* message, ...);
+  bool cancel_activity_or_ignore_query(const char* reason, ...); 
+
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
   void assign_mission(int id); // Just assign an existing mission
@@ -177,7 +181,7 @@ class game
   void teleport(player *p = NULL);
   void plswim(int x, int y); // Called by plmove.  Handles swimming
   // when player is thrown (by impact or something)
-  void fling_player_or_monster(player *p, monster *zz, int dir, int flvel);
+  void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel);
 
   void nuke(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
@@ -221,14 +225,15 @@ class game
   std::string list_item_downvote;
   char inv(std::string title = "Inventory:");
   char inv_type(std::string title = "Inventory:", item_cat inv_item_type = IC_NULL);
+  int inventory_item_menu(char chItem, int startx = 0, int width = 50);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
   void remove_item(item *it);
 
-  inventory crafting_inventory();  // inv_from_map, inv, & 'weapon'
-  void consume_items(std::vector<component> components);
-  void consume_tools(std::vector<component> tools);
+  inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
+  std::list<item> consume_items(player *p, std::vector<component> components);
+  void consume_tools(player *p, std::vector<component> tools, bool force_available);
 
   bool has_gametype() const { return gamemode && gamemode->id() != SGAME_NULL; }
   special_game_id gametype() const { return (gamemode) ? gamemode->id() : SGAME_NULL; }
@@ -253,7 +258,7 @@ class game
   std::list<weather_segment> future_weather;
 
   char nextinv;	// Determines which letter the next inv item will have
-  overmap cur_om;
+  overmap *cur_om;
   map m;
   int levx, levy, levz;	// Placement inside the overmap
   player u;
@@ -289,13 +294,15 @@ class game
 
  bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 
+ void load_artifacts(); // Load artifact data
+                        // Needs to be called by main() before MAPBUFFER.load
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
   void print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY, bool bShowDDA = true);
   void print_menu_items(WINDOW* w_in, std::vector<std::string> vItems, int iSel, int iOffsetY, int iOffsetX);
   bool load_master();	// Load the master data file, with factions &c
-  void load_artifacts(); // Load artifact data
   void load_weather(std::ifstream &fin);
   void load(std::string name);	// Load a player-specific save file
   void start_game();	// Starts a new game
@@ -383,7 +390,7 @@ class game
   void compare(int iCompareX = -999, int iCompareY = -999); // Compare two Items	'I'
   void drop(char chInput = '.');	  // Drop an item		'd'
   void drop_in_direction(); // Drop w/ direction 'D'
-  void reassign_item(); // Reassign the letter of an item   '='
+  void reassign_item(char ch = '.'); // Reassign the letter of an item   '='
   void butcher(); // Butcher a corpse		'B'
   void complete_butcher(int index);	// Finish the butchering process
   void forage();	// Foraging ('a' on underbrush)
@@ -476,7 +483,6 @@ class game
   std::vector<event> events;	        // Game events to be processed
   int kills[num_monsters];	        // Player's kill count
   std::string last_action;		// The keypresses of last turn
-
   int moves_since_last_save;
   int item_exchanges_since_save;
   time_t last_save_timestamp;

@@ -34,6 +34,7 @@ void Item_factory::init(){
     iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
     iuse_function_list["BANDAGE"] = &iuse::bandage;
     iuse_function_list["FIRSTAID"] = &iuse::firstaid;
+    iuse_function_list["DISINFECTANT"] = &iuse::disinfectant;
     iuse_function_list["CAFF"] = &iuse::caff;
     iuse_function_list["ALCOHOL"] = &iuse::alcohol;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
@@ -50,6 +51,7 @@ void Item_factory::init(){
     iuse_function_list["CRACK"] = &iuse::crack;
     iuse_function_list["GRACK"] = &iuse::grack;
     iuse_function_list["METH"] = &iuse::meth;
+    iuse_function_list["VITAMINS"] = &iuse::vitamins;
     iuse_function_list["POISON"] = &iuse::poison;
     iuse_function_list["HALLU"] = &iuse::hallu;
     iuse_function_list["THORAZINE"] = &iuse::thorazine;
@@ -76,6 +78,8 @@ void Item_factory::init(){
     iuse_function_list["HAMMER"] = &iuse::hammer;
     iuse_function_list["LIGHT_OFF"] = &iuse::light_off;
     iuse_function_list["LIGHT_ON"] = &iuse::light_on;
+    iuse_function_list["GASOLINE_LANTERN_OFF"] = &iuse::gasoline_lantern_off;
+    iuse_function_list["GASOLINE_LANTERN_ON"] = &iuse::gasoline_lantern_on;
     iuse_function_list["LIGHTSTRIP"] = &iuse::lightstrip;
     iuse_function_list["LIGHTSTRIP_ACTIVE"] = &iuse::lightstrip_active;
     iuse_function_list["GLOWSTICK"] = &iuse::glowstick;
@@ -97,6 +101,7 @@ void Item_factory::init(){
     iuse_function_list["CROWBAR"] = &iuse::crowbar;
     iuse_function_list["MAKEMOUND"] = &iuse::makemound;
     iuse_function_list["DIG"] = &iuse::dig;
+    iuse_function_list["SIPHON"] = &iuse::siphon;
     iuse_function_list["CHAINSAW_OFF"] = &iuse::chainsaw_off;
     iuse_function_list["CHAINSAW_ON"] = &iuse::chainsaw_on;
     iuse_function_list["JACKHAMMER"] = &iuse::jackhammer;
@@ -173,39 +178,6 @@ void Item_factory::init(){
     // See artifact.h for a list
     iuse_function_list["ARTIFACT"] = &iuse::artifact;
 
-    // ITEM FLAGS
-    item_flags_list["LIGHT_1"] = mfb(IF_LIGHT_1);
-    item_flags_list["LIGHT_4"] = mfb(IF_LIGHT_4);
-    item_flags_list["LIGHT_8"] = mfb(IF_LIGHT_8);
-    item_flags_list["LIGHT_20"] = mfb(IF_LIGHT_20);
-    item_flags_list["FIRE"] = mfb(IF_FIRE);
-    item_flags_list["SPEAR"] = mfb(IF_SPEAR);
-    item_flags_list["STAB"] = mfb(IF_STAB);
-    item_flags_list["WRAP"] = mfb(IF_WRAP);
-    item_flags_list["MESSY"] = mfb(IF_MESSY);
-    item_flags_list["RELOAD_ONE"] = mfb(IF_RELOAD_ONE);
-    item_flags_list["STR_RELOAD"] = mfb(IF_STR_RELOAD);
-    item_flags_list["STR8_DRAW"] = mfb(IF_STR8_DRAW);
-    item_flags_list["STR10_DRAW"] = mfb(IF_STR10_DRAW);
-    item_flags_list["USE_UPS"] = mfb(IF_USE_UPS);
-    item_flags_list["RELOAD_AND_SHOOT"] = mfb(IF_RELOAD_AND_SHOOT);
-    item_flags_list["FIRE_100"] = mfb(IF_FIRE_100);
-    item_flags_list["GRENADE"] = mfb(IF_GRENADE);
-    item_flags_list["CHARGE"] = mfb(IF_CHARGE);
-    item_flags_list["SHOCK"] = mfb(IF_SHOCK);
-    item_flags_list["UNARMED_WEAPON"] = mfb(IF_UNARMED_WEAPON);
-    item_flags_list["NO_UNWIELD"] = mfb(IF_NO_UNWIELD);
-    item_flags_list["NO_UNLOAD"] = mfb(IF_NO_UNLOAD);
-    item_flags_list["BACKBLAST"] = mfb(IF_BACKBLAST);
-    item_flags_list["MODE_AUX"] = mfb(IF_MODE_AUX);
-    item_flags_list["MODE_BURST"] = mfb(IF_MODE_BURST);
-    item_flags_list["HOT"] = mfb(IF_HOT);
-    item_flags_list["EATEN_HOT"] = mfb(IF_EATEN_HOT);
-    item_flags_list["ROTTEN"] = mfb(IF_ROTTEN);
-    item_flags_list["VARSIZE"] = mfb(IF_VARSIZE);
-    item_flags_list["FIT"] = mfb(IF_FIT);
-    item_flags_list["DOUBLE_AMMO"] = mfb(IF_DOUBLE_AMMO);
-
     // Offensive Techniques
     techniques_list["SWEEP"] = mfb(TEC_SWEEP);
     techniques_list["PRECISE"] = mfb(TEC_PRECISE);
@@ -265,6 +237,7 @@ void Item_factory::init(){
     ammo_effects_list["EXPLOSIVE"] = mfb(AMMO_EXPLOSIVE);
     ammo_effects_list["FRAG"] = mfb(AMMO_FRAG);
     ammo_effects_list["NAPALM"] = mfb(AMMO_NAPALM);
+    ammo_effects_list["ACIDBOMB"] = mfb(AMMO_ACIDBOMB);
     ammo_effects_list["EXPLOSIVE_BIG"] = mfb(AMMO_EXPLOSIVE_BIG);
     ammo_effects_list["TEARGAS"] = mfb(AMMO_TEARGAS);
     ammo_effects_list["SMOKE"] = mfb(AMMO_SMOKE);
@@ -285,7 +258,7 @@ void Item_factory::init(){
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
-void Item_factory::init(game* main_game){	
+void Item_factory::init(game* main_game){
     load_item_templates(); // this one HAS to be called after game is created
     // Make a copy of our items loaded from JSON
     std::map<Item_tag, itype*> new_templates = m_templates;
@@ -378,6 +351,7 @@ void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/tools.json");
     load_item_templates_from("data/raw/items/comestibles.json");
     load_item_templates_from("data/raw/items/armor.json");
+    load_item_templates_from("data/raw/items/books.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
@@ -432,8 +406,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         gunmod_template->recoil = entry.get("recoil_modifier").as_int();
                         gunmod_template->burst = entry.get("burst_modifier").as_int();
                         gunmod_template->clip = entry.get("clip_size_modifier").as_int();
-                        gunmod_template->techniques = (!entry.has("ammo") ? 0 :
-                                                 flags_from_json(entry.get("techniques"), "ammo"));
+                        gunmod_template->acceptible_ammo_types = (!entry.has("acceptable_ammo") ? 0 : flags_from_json(entry.get("acceptable_ammo"), "ammo"));
                         new_item_template = gunmod_template;
                     }
                     else if (type_label == "COMESTIBLE")
@@ -506,8 +479,8 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         it_armor* armor_template = new it_armor();
 
                         armor_template->encumber = entry.get("encumberance").as_int();
-                        armor_template->dmg_resist = entry.get("bashing_protection").as_int();
-                        armor_template->cut_resist = entry.get("cutting_protection").as_int();
+                        armor_template->coverage = entry.get("coverage").as_int();
+                        armor_template->thickness = entry.get("material_thickness").as_int();
                         armor_template->env_resist = entry.get("enviromental_protection").as_int();
                         armor_template->warmth = entry.get("warmth").as_int();
                         armor_template->storage = entry.get("storage").as_int();
@@ -516,6 +489,19 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                           flags_from_json(entry.get("covers"),"bodyparts") : 0;
 
                         new_item_template = armor_template;
+                    }
+                    else if (type_label == "BOOK")
+                    {
+                        it_book* book_template = new it_book();
+
+                        book_template->level = entry.get("max_level").as_int();
+                        book_template->req = entry.get("required_level").as_int();
+                        book_template->fun = entry.get("fun").as_int();
+                        book_template->intel = entry.get("intelligence").as_int();
+                        book_template->time = entry.get("time").as_int();
+                        book_template->type = Skill::skill(entry.get("skill").as_string());
+
+                        new_item_template = book_template;
                     }
                     else
                     {
@@ -537,8 +523,8 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 if(entry.has("material")){
                   set_material_from_json(new_id, entry.get("material"));
                 } else {
-                  new_item_template->m1 = MNULL;
-                  new_item_template->m2 = MNULL;
+                  new_item_template->m1 = "null";
+                  new_item_template->m2 = "null";
                 }
                 Item_tag new_phase = "solid";
                 if(entry.has("phase")){
@@ -550,9 +536,20 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 new_item_template->melee_dam = entry.get("bashing").as_int();
                 new_item_template->melee_cut = entry.get("cutting").as_int();
                 new_item_template->m_to_hit = entry.get("to_hit").as_int();
-                
-                new_item_template->item_flags = (!entry.has("flags") ? 0 :
-                                                 flags_from_json(entry.get("flags")));
+
+                if( entry.has("flags") )
+                {
+                    new_item_template->item_tags = entry.get("flags").as_tags();
+                    /*
+                    List of current flags
+                    FIT - Reduces encumberance by one
+                    VARSIZE - Can be made to fit via tailoring
+                    OVERSIZE - Can always be worn no matter encumberance/mutations/bionics/etc
+                    HOOD - Will increase warmth for head if head is cold and player is not wearing a helmet (headwear of material that is not wool or cotton)
+                    POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
+                    */
+                }
+
                 new_item_template->techniques = (!entry.has("techniques") ? 0 :
                                                  flags_from_json(entry.get("techniques"), "techniques"));
                 new_item_template->use = (!entry.has("use_action") ? &iuse::none :
@@ -787,8 +784,7 @@ Use_function Item_factory::use_from_string(std::string function_name){
 
 void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type)
 {
-    //Use the standard item flag list unless a valid alternative is provided
-    std::map<Item_tag, unsigned> flag_map = item_flags_list;
+    std::map<Item_tag, unsigned> flag_map;
     if(flag_type=="ammo"){
       flag_map = ammo_flags_list;
     } else if(flag_type=="techniques"){
@@ -811,7 +807,7 @@ void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, 
     }
     else
     {
-        debugmsg("Invalid item flag (etc.): %s", new_flag.c_str()); 
+        debugmsg("Invalid item flag (etc.): %s", new_flag.c_str());
     }
 }
 
@@ -858,7 +854,7 @@ bool Item_factory::is_mod_target(catajson targets, std::string weapon){
 
 void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
     //If the value isn't found, just return a group of null materials
-    material material_list[2] = {MNULL, MNULL};
+    std::string material_list[2] = {"null", "null"};
 
     if (mat_list.is_array())
     {
@@ -866,12 +862,12 @@ void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
         {
             debugmsg("Too many materials provided for item %s", new_id.c_str());
         }
-        material_list[0] = material_from_tag(new_id, mat_list.get(0).as_string());
-        material_list[1] = material_from_tag(new_id, mat_list.get(1).as_string());
+        material_list[0] = mat_list.get(0).as_string();
+        material_list[1] = mat_list.get(1).as_string();
     }
     else
     {
-        material_list[0] = material_from_tag(new_id, mat_list.as_string());
+        material_list[0] = mat_list.as_string();
     }
 
     itype* temp = find_template(new_id);
@@ -881,62 +877,15 @@ void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
 
 
 phase_id Item_factory::phase_from_tag(Item_tag name){
-    if(name == "LIQUID"){
+    if(name == "liquid"){
         return LIQUID;
-    } else if(name == "SOLID"){
+    } else if(name == "solid"){
         return SOLID;
-    } else if(name == "GAS"){
+    } else if(name == "gas"){
         return GAS;
-    } else if(name == "PLASMA"){
+    } else if(name == "plasma"){
         return PLASMA;
     } else {
         return PNULL;
     }
 };
-
-material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
-    // Map the valid input tags to a valid material
-
-    // This should clearly be some sort of map, stored somewhere
-    // ...unless it can get replaced entirely, which would be nice.
-    // For now, though, that isn't the problem I'm solving.
-    if(name == "VEGGY"){
-        return VEGGY;
-    } else if(name == "FLESH"){
-        return FLESH;
-    } else if(name == "POWDER"){
-        return POWDER;
-    } else if(name == "HFLESH"){
-        return HFLESH;
-    } else if(name == "COTTON"){
-        return COTTON;
-    } else if(name == "WOOL"){
-        return WOOL;
-    } else if(name == "LEATHER"){
-        return LEATHER;
-    } else if(name == "KEVLAR"){
-        return KEVLAR;
-    } else if(name == "FUR"){
-        return FUR;
-    } else if(name == "STONE"){
-        return STONE;
-    } else if(name == "PAPER"){
-        return PAPER;
-    } else if(name == "WOOD"){
-        return WOOD;
-    } else if(name == "PLASTIC"){
-        return PLASTIC;
-    } else if(name == "GLASS"){
-        return GLASS;
-    } else if(name == "IRON"){
-        return IRON;
-    } else if(name == "STEEL"){
-        return STEEL;
-    } else if(name == "SILVER"){
-        return SILVER;
-    } else if(name == "NULL"){
-        return MNULL;
-    } else {
-        return MNULL;
-    }
-}

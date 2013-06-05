@@ -34,71 +34,26 @@ void game::init_itypes ()
 {
 // First, the null object.  NOT REALLY AN OBJECT AT ALL.  More of a concept.
  itypes["null"]=
-  new itype("null", 0, 0, "none", "", '#', c_white, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
+  new itype("null", 0, 0, "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // Corpse - a special item
  itypes["corpse"]=
-  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, MNULL, MNULL, PNULL, 0, 0,
+  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
             0, 0, 1, 0);
 // Fire - only appears in crafting recipes
  itypes["fire"]=
   new itype("fire", 0, 0, "nearby fire",
             "Some fire - if you are reading this it's a bug! (itypdef:fire)",
-            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // Integrated toolset - ditto
  itypes["toolset"]=
   new itype("toolset", 0, 0, "integrated toolset",
             "A fake item. If you are reading this it's a bug! (itypdef:toolset)",
-            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
+            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // For smoking crack or meth
  itypes["apparatus"]=
   new itype("apparatus", 0, 0, "something to smoke that from, and a lighter",
             "A fake item. If you are reading this it's a bug! (itypdef:apparatus)",
-            '$', c_red, MNULL, MNULL, PNULL, 0, 0, 0, 0, 0, 0);
-
-// Drinks
-// Stim should be -8 to 8.
-// quench MAY be less than zero--salt water and liquor make you thirstier.
-// Thirst goes up by 1 every 5 minutes; so a quench of 12 lasts for 1 hour
-
-// Any foods with a nutrition of lower than 5 will never prompt a 'You are full, force yourself to eat that?' message
-
-#define DRINK(id, name,rarity,price,color,container,quench,nutr,spoils,stim,\
-healthy,addict,charges,fun,use_func,addict_func,des, item_flags) \
-	itypes[id] = new it_comest(id,rarity,price,name,des,'~',\
-color,MNULL,LIQUID,2,1,0,0,0,item_flags,quench,nutr,spoils,stim,healthy,addict,charges,\
-fun,container,"null",use_func,addict_func,"DRINK");
-
-#define FOOD(id, name, rarity,price,color,mat1,container,volume,weight,quench,\
-nutr,spoils,stim,healthy,addict,charges,fun,use_func,addict_func,des, item_flags) \
-itypes[id]=new it_comest(id,rarity,price,name,des,'%',\
-color,mat1,SOLID,volume,weight,0,0,0,item_flags, quench,nutr,spoils,stim,healthy,addict,charges,\
-fun,container,"null",use_func,addict_func,"FOOD");
-// FOOD
-
-// MEDS
-#define MED(id, name,rarity,price,color,tool,mat,stim,healthy,addict,\
-charges,fun,use_func,addict_func,des) \
-itypes[id]=new it_comest(id,rarity,price,name,des,'!',\
-color,mat,SOLID,1,1,0,0,0,0,0,0,0,stim,healthy,addict,charges,\
-fun,"null",tool,use_func,addict_func,"MED");
-
-/*MED("grack", "Grack Cocaine",      8,420, c_white,        "apparatus",
-        POWDER,  200, -2, 80,  4, 50,&iuse::grack,       ADD_CRACK, "\
-Grack Cocaine, the strongest substance known to the multiverse\n\
-this potent substance is refined from the sweat of the legendary\n\
-gracken");
-*/
-
-// MELEE WEAPONS
-// Only use secondary material if it will have a major impact.
-// dam is a somewhat rigid bonus--anything above 30, tops, is ridiculous
-// cut is even MORE rigid, and should be kept lower still
-// to_hit (affects chances of hitting) should be kept small, -5 to +5
-// Note that do-nothing objects (e.g. superglue) belong here too!
-#define MELEE(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
-              flags, des)\
-itypes[id]=new itype(id,rarity,price,name,des,sym,\
-color,mat1,mat2,SOLID,volume,wgt,dam,cut,to_hit,flags);
+            '$', c_red, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 
 #define VAR_VEH_PART(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,dam,cut,to_hit,\
               flags, bigmin, bigmax, bigaspect, des)\
@@ -107,78 +62,65 @@ color,mat1,mat2,volume,wgt,dam,cut,to_hit,flags, bigmin, bigmax, bigaspect)
 
 //"wheel", "wheel_wide", "wheel_bicycle", "wheel_motorbike", "wheel_small",
 //           NAME     RAR PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel", "wheel", 10, 100, ']', c_dkgray,  STEEL,   PLASTIC,
+VAR_VEH_PART("wheel", "wheel", 10, 100, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX  BIGNESS_ASPECT
     40,  140, 12,  0,  -1, 0,       13,         20,  BIGNESS_WHEEL_DIAMETER,  "\
 A car wheel");
 //           NAME         RAR PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_wide", "wide wheel", 4, 340, ']', c_dkgray,  STEEL,   PLASTIC,
+VAR_VEH_PART("wheel_wide", "wide wheel", 4, 340, ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX   ASPECT
     70,  260, 17,  0,  -1, 0,       17,         36,  BIGNESS_WHEEL_DIAMETER,  "\
 A wide wheel. \\o/ This wide.");
 //           NAME            RAR  PRC  SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_bicycle", "bicycle wheel", 18, 40,  ']', c_dkgray,  STEEL,   PLASTIC,
+VAR_VEH_PART("wheel_bicycle", "bicycle wheel", 18, 40,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     28,  45,  8,  0,  -1, 0,       9,         18,  BIGNESS_WHEEL_DIAMETER,  "\
 A bicycle wheel");
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_motorbike", "motorbike wheel", 13, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
+VAR_VEH_PART("wheel_motorbike", "motorbike wheel", 13, 140,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     33,  85,  10,  0,  -1, 0,       9,         14,  BIGNESS_WHEEL_DIAMETER,  "\
 A motorbike wheel");
 //           NAME              RAR  PRC   SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("wheel_small", "small wheel",    5, 140,  ']', c_dkgray,  STEEL,   PLASTIC,
+VAR_VEH_PART("wheel_small", "small wheel",    5, 140,  ']', c_dkgray,  "steel",   "plastic",
 //  VOL WGT  DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX    ASPECT
     9,  42,  10,  0,  -1, 0,       6,         14,   BIGNESS_WHEEL_DIAMETER,  "\
 A pretty small wheel. Probably from one of those segway things.\
 It is not very menacing.");
 
 //                                 NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("1cyl_combustion", "1-cylinder engine",  3, 100, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("1cyl_combustion", "1-cylinder engine",  3, 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS 0BIGNESS_MIN BIGNESS_MAX   ASPECT
     6,  70,  4,  0,  -1, 0,       28,         75,   BIGNESS_ENGINE_DISPLACEMENT, "\
 A single-cylinder 4-stroke combustion engine.");
 
 //                              NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v2_combustion", "V-twin engine",  2, 100, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("v2_combustion", "V-twin engine",  2, 100, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     6,  70,  4,  0,  -1, 0,       65,        260, BIGNESS_ENGINE_DISPLACEMENT, "\
 A 2-cylinder 4-stroke combustion engine.");
 
 //                                NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("i4_combustion", "Inline-4 engine",  6, 150, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("i4_combustion", "Inline-4 engine",  6, 150, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     6,  160,  8,  0,  -2, 0,       220,       350, BIGNESS_ENGINE_DISPLACEMENT, "\
 A small, yet powerful 4-cylinder combustion engine.");
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v6_combustion", "V6 engine",  3, 180, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("v6_combustion", "V6 engine",  3, 180, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     14,  400,  12,  0,  -3, 0,    250,        520, BIGNESS_ENGINE_DISPLACEMENT, "\
 A powerful 6-cylinder combustion engine.");
 
 //                          NAME           RAR PRC SYM COLOR        MAT1    MAT2
-VAR_VEH_PART("v8_combustion", "V8 engine",  2, 250, ':', c_ltcyan,  IRON,   MNULL,
+VAR_VEH_PART("v8_combustion", "V8 engine",  2, 250, ':', c_ltcyan,  "iron",   "null",
 //  VOL WGT DAM CUT HIT FLAGS BIGNESS_MIN BIGNESS_MAX ASPECT
     25,  600,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, "\
 A large and very powerful 8-cylinder combustion engine.");
 
-// ARMOR
-#define ARMOR(id, name, rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
-encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des,item_flags)\
-itypes[id]=new it_armor(id, rarity,price,name,des,'[',\
-color,mat1,mat2,volume,wgt,dam,0,to_hit,item_flags,covers,encumber,dmg_resist,cut_resist,\
-env,warmth,storage)
-
-#define POWER_ARMOR(id, name,rarity,price,color,mat1,mat2,volume,wgt,dam,to_hit,\
-encumber,dmg_resist,cut_resist,env,warmth,storage,covers,des)\
-itypes[id] = new it_armor(id,rarity,price,name,des,'[',\
-  color,mat1,mat2,volume,wgt,dam,0,to_hit,0,covers,encumber,dmg_resist,cut_resist,\
-  env,warmth,storage,true)
-
 // AMMUNITION
 // Material should be the wrapper--even though shot is made of iron, because
-//   it can survive a dip in water and be okay, its material here is PLASTIC.
+//   it can survive a dip in water and be okay, its material here is "plastic".
 // dmg is damage done, in an average hit.  Note that the average human has
 //   80 health.  Headshots do 8x damage; vital hits do 2x-4x; glances do 0x-1x.
 // Weight and price is per 100 rounds.
@@ -193,13 +135,6 @@ accuracy,recoil,count,des,effects) \
 itypes[id]=new it_ammo(id,rarity,price,name,des,'=',\
 color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count);
 
-// FUEL
-// Fuel is just a special type of ammo; liquid
-#define FUEL(id, name,rarity,price,ammo_type,color,dmg,AP,range,accuracy,recoil,\
-             count,des,effects) \
-itypes[id]=new it_ammo(id,rarity,price,name,des,'~',\
-color,MNULL,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count)
-
 // GUNS
 // ammo_type matches one of the ammo_types above.
 // dmg is ADDED to the damage of the corresponding ammo.  +/-, should be small.
@@ -209,42 +144,10 @@ color,MNULL,LIQUID,1,1,0,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,coun
 // clip is how many shots we get before reloading.
 
 #define GUN(id,name,rarity,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
-to_hit,dmg,range,accuracy,recoil,durability,burst,clip,reload_time,des,flags) \
+to_hit,dmg,range,accuracy,recoil,durability,burst,clip,reload_time,des) \
 itypes[id]=new it_gun(id,rarity,price,name,des,'(',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,flags,skill,ammo,dmg,range,accuracy,\
+color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,range,accuracy,\
 recoil,durability,burst,clip,reload_time)
-
-// GUN MODS
-// Accuracy is inverted from guns; high values are a bonus, low values a penalty
-// The clip modification is a percentage of the original clip size.
-// The final variable is a bitfield of acceptable ammo types.  Using 0 means
-//   that any ammo type is acceptable (so long as the mod works on the class of
-//   gun)
-#define GUNMOD(id, name, rare, value, color, mat1, mat2, volume, weight, meleedam,\
-               meleecut, meleehit, acc, damage, loudness, clip, recoil, burst,\
-               newtype, pistol, shotgun, smg, rifle, a_a_t, des, flags)\
-  itypes[id]=new it_gunmod(id, rare, value, name, des, ':',\
-                            color, mat1, mat2, volume, weight, meleedam,\
-                            meleecut, meleehit, flags, acc, damage, loudness,\
-                            clip, recoil, burst, newtype, a_a_t, pistol,\
-                            shotgun, smg, rifle)
-
-
-// BOOKS
-// Try to keep colors consistant among types of books.
-// TYPE is the skill type required to read, or trained via reading; see skill.h
-// LEV is the skill level you can be brought to by this book; if your skill is
-//  already at LEV or higher, you may enjoy the book but won't learn anything.
-// REQ is the skill level required to read this book, at all. If you lack the
-//  required skill level, you'll waste 10 (?) turns then quit.
-// FUN is the fun had by reading;
-// INT is an intelligence requirement.
-// TIME is the time, in minutes (10 turns), taken to gain the fun/skill bonus.
-#define BOOK(id, name,rarity,price,color,mat1,mat2,volume,wgt,melee_dam,to_hit,\
-type,level,req,fun,intel,time,des) \
-itypes[id]=new it_book(id,rarity,price,name,des,'?',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,0,type,level,req,fun,intel,time)
-//	NAME			RAR PRC	COLOR		MAT1	MAT2
 
 // CONTAINERS
 // These are containers you hold in your hand--ones you wear are _armor_!
@@ -260,7 +163,7 @@ color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,0,type,level,req,fun,intel,time)
 #define CONT(id, name,rarity,price,color,mat1,mat2,volume,wgt,melee_dam,to_hit,\
 contains,flags,des) \
 itypes[id]=new it_container(id,rarity,price,name,des,\
-')',color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,0,contains,flags)
+')',color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,contains,flags)
 // NAME		RAR PRC	COLOR		MAT1	MAT2
 
 /* TOOLS
@@ -280,467 +183,75 @@ itypes[id]=new it_container(id,rarity,price,name,des,\
  */
 #define TOOL(id, name,rarity,price,sym,color,mat1,mat2,volume,wgt,melee_dam,\
 melee_cut,to_hit,max_charge,def_charge,charge_per_use,charge_per_sec,fuel,\
-revert,func,flags,des) \
+revert,func,des) \
 itypes[id]=new it_tool(id,rarity,price,name,des,sym,\
-color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,flags,max_charge,\
+color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
 
-
-//	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
-GUNMOD("suppressor", "suppressor",	 15,  480, c_dkgray, STEEL, PLASTIC,  2,  1,  3,  0,  2,
-//	ACC DAM NOI CLP REC BST NEWTYPE,	PISTOL	SHOT	SMG	RIFLE
-	-1, -4,-25,  0,  0,  0,	AT_NULL,	true,	false,	true,	true,
-	0, "\
-Using a suppressor is almost an imperative in zombie-infested regions. Gunfire\n\
-is very noisy, and will attract predators. Its only drawback is a reduced\n\
-muzzle velocity, resulting in less accuracy and damage.",
-0);
-
-GUNMOD("grip", "enhanced grip",  12, 280, c_brown,  STEEL, PLASTIC,   1,  1,  0,  0, -1,
-	 2,  0,  0,  0, -2,  0, AT_NULL,	false,	true,	true,	true,
-	0, "\
-A grip placed forward on the barrel allows for greater control and accuracy.\n\
-Aside from increased weight, there are no drawbacks.",
-0);
-
-GUNMOD("barrel_big", "barrel extension",10,400,  c_ltgray, STEEL, MNULL,    4,  1,  5,  0,  2,
-	 6,  1,  0,  0,  5,  0,	AT_NULL,	false,	false,	true,	true,
-	0, "\
-A longer barrel increases the muzzle velocity of a firearm, contributing to\n\
-both accuracy and damage.  However, the longer barrel tends to vibrate after\n\
-firing, greatly increasing recoil.",
-0);
-
-//	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
-GUNMOD("barrel_small", "shortened barrel", 6, 320, c_ltgray, STEEL, MNULL,    1,  1, -2,  0, -1,
-//	ACC DAM NOI CLP REC BST NEWTYPE,	PISTOL	SHOT	SMG	RIFLE
-	-5,  0,  2,  0, -6,  0, AT_NULL,	false,	false,	true,	true,
-	0, "\
-A shortened barrel results in markedly reduced accuracy, and a minor increase\n\
-in noise, but also reduces recoil greatly as a result of the improved\n\
-managability of the firearm.",
-0);
-
-GUNMOD("barrel_rifled", "rifled barrel",    5, 220, c_ltgray, STEEL, MNULL,    2,  1,  3,  0,  1,
-	10,-20,  0,  0,  0, -1, AT_NULL,	false,	true,	false,	false,
-	0, "\
-Rifling a shotgun barrel is mainly done in order to improve its accuracy when\n\
-firing slugs. The rifling makes the gun less suitable for shot, however.",
-0);
-
-GUNMOD("clip", "extended magazine",	  8,  560, c_ltgray, STEEL, PLASTIC,  1,  1, -2,  0, -1,
-	-1,  0,  0, 50,  0,  0, AT_NULL,	true,	true,	true,	true,
-	0, "\
-Increases the ammunition capacity of your firearm by 50%, but the added bulk\n\
-reduces accuracy slightly.",
-0);
-
-//	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
-GUNMOD("clip2", "double magazine",	   4, 720, c_ltgray, STEEL, PLASTIC,  2,  2,  0,  0,  0,
-//	ACC DAM NOI CLP REC BST NEWTYPE,	PISTOL	SHOT	SMG	RIFLE
-	-2,  0,  0,100,  2,  0, AT_NULL,	false,	true,	true,	true,
-	0, "\
-Completely doubles the ammunition capacity of your firearm, but the added\n\
-bulk reduces accuracy and increases recoil.",
-0);
-
-GUNMOD("spare_mag", "spare magazine",	   15, 200, c_ltgray, STEEL, PLASTIC,  1,  1,  0,  0,  0,
-	0,  0,  0,  0,  0,  0, AT_NULL,	true,	true,	true,	true,
-	0, "\
-A spare magazine you can keep on hand to make reloads faster, but must itself\n\
- be reloaded before it can be used again.",
-0);
-
-GUNMOD("stablizer", "gyroscopic stablizer",4,680,c_blue,  STEEL, PLASTIC,  3,  2,  0,  0, -3,
-	 2, -2,  0,-10, -8,  0, AT_NULL,	false,	false,	true,	true,
-	0, "\
-An advanced unit that straps onto the side of your firearm and reduces\n\
-vibration, greatly reducing recoil and increasing accuracy.  However, it also\n\
-takes up space in the magazine slot, reducing ammo capacity.",
-0);
-
-GUNMOD("blowback", "rapid blowback",   3, 700, c_red,    STEEL, PLASTIC,  0,  1,  0,  0,  0,
-	-3,  0,  4,  0,  0,  6, AT_NULL,	false,	false,	true,	true,
-	0, "\
-An improved blowback mechanism makes your firearm's automatic fire faster, at\n\
-the cost of reduced accuracy and increased noise.",
-0);
-
-//	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
-GUNMOD("autofire", "auto-fire mechanism",2,650,c_red,    STEEL, PLASTIC,  1,  2,  2,  0, -1,
-//	ACC DAM NOI CLP REC BST NEWTYPE,	PISTOL	SHOT	SMG	RIFLE
-	-2,  0,  2,  0,  2,  3, AT_NULL,	true,	false,	false,	false,
-	(mfb(AT_22)|mfb(AT_9MM)|mfb(AT_38)|mfb(AT_40)|mfb(AT_57)|mfb(AT_46)), "\
-A simple mechanism that converts a pistol to a fully-automatic weapon, with\n\
-a burst size of three rounds. However, it reduces accuracy, and increases\n\
-noise and recoil.",
-0);
-
-GUNMOD("retool_9mm", "9mm caliber retool",3,420, c_green,  STEEL, MNULL,    1,  1,  0,  0, -1,
-	-1,  0,  0,  0,  0,  0, AT_9MM,		true,	false,	true,	false,
-	(mfb(AT_38)|mfb(AT_40)|mfb(AT_44)|mfb(AT_45)), "\
-Replacing several key parts of a .38, .40, .44 or .45 firearm converts it to\n\
-a 9mm firearm.  The conversion results in a slight reduction in accuracy.",
-0);
-
-GUNMOD("retool_22", ".22 caliber retool",2,320, c_green,  STEEL, MNULL,    1,  1, -2,  0, -1,
-	-1,  0,  0,  0,  0,  0, AT_22,		true,	false,	true,	true,
-	(mfb(AT_9MM)|mfb(AT_38)|mfb(AT_40)|mfb(AT_57)|mfb(AT_46)|mfb(AT_762)|
-	 mfb(AT_223)), "\
-Replacing several key parts of a 9mm, .38, .40, 5.7mm, 4.6mm, 7.62mm or .223\n\
-firearm converts it to a .22 firearm. The conversion results in a slight\n\
-reduction in accuracy.",
-0);
-
-//	NAME      	 RAR  PRC  COLOR     MAT1   MAT2     VOL WGT DAM CUT HIT
-GUNMOD("retool_57", "5.7mm caliber retool",1,460,c_green, STEEL, MNULL,    1,  1, -3,  0, -1,
-//	ACC DAM NOI CLP REC BST NEWTYPE,	PISTOL	SHOT	SMG	RIFLE
-	-1,  0,  0,  0,  0,  0, AT_57,		true,	false,	true,	false,
-	(mfb(AT_22)|mfb(AT_9MM)|mfb(AT_38)), "\
-FN Hestal sells a conversion kit, used to convert .22, 9mm, or .38 firearms\n\
-to their proprietary 5.7x28mm, a round designed for accuracy and armor\n\
-penetration.",
-0);
-
-GUNMOD("retool_46", "4.6mm caliber retool",1,460,c_green, STEEL, MNULL,    1,  1, -3,  0, -1,
-	-1,  0,  0,  0,  0,  0, AT_46,		true,	false,	true,	false,
-	(mfb(AT_22)|mfb(AT_9MM)|mfb(AT_38)), "\
-Heckler and Koch sells a conversion kit, used to convert .22, 9mm, or .38\n\
-firearms to their proprietary 4.6x30mm, a round designed for accuracy and\n\
-armor penetration.",
-0);
-
-//	NAME      	RAR  PRC  COLOR     MAT1   MAT2      VOL WGT DAM CUT HIT
-GUNMOD("retool_308", ".308 caliber retool",2,520,c_green, STEEL, MNULL,     2,  1,  4,  0,  1,
-//	ACC DAM NOI CLP REC BST NEWTYPE		PISTOL	SHOT	SMG	RIFLE
-	-2,  0,  0,-20,  0,  0, AT_308,		false,	true,	false,	true,
-	(mfb(AT_SHOT)|mfb(AT_762)|mfb(AT_223)|mfb(AT_3006)), "\
-This kit is used to convert a shotgun or 7.62mm, .223 or .30-06 rifle to the\n\
-popular and powerful .308 caliber. The conversion results in reduced ammo\n\
-capacity and a slight reduction in accuracy.",
-0);
-
-GUNMOD("retool_223", ".223 caliber retool",2,500,c_green, STEEL, MNULL,     2,  1,  4,  0,  1,
-	-2,  0,  0,-10,  0,  0, AT_223,		false,	true,	false,	true,
-	(mfb(AT_SHOT)|mfb(AT_762)|mfb(AT_3006)|mfb(AT_308)), "\
-This kit is used to convert a shotgun or 7.62mm, .30-06, or .308 rifle to the\n\
-popular, accurate, and damaging .223 caliber. The conversion results in\n\
-slight reductions in both accuracy and ammo capacity.",
-0);
-
-//	NAME      	RAR  PRC  COLOR     MAT1   MAT2      VOL WGT DAM CUT HIT
-GUNMOD("conversion_battle", "battle rifle conversion",1,680,c_magenta,STEEL,MNULL, 4,  3,  6,  0, -1,
-//	ACC DAM NOI CLP REC BST NEWTYPE		PISTOL	SHOT	SMG	RIFLE
-	-6,  6,  4, 20,  4,  4, AT_NULL,	false,	false,	false,	true,
-	0, "\
-This is a complete conversion kit, designed to turn a rifle into a powerful\n\
-battle rifle. It reduces accuracy, and increases noise and recoil, but also\n\
-increases damage, ammo capacity, and fire rate.",
-0);
-
-GUNMOD("conversion_sniper", "sniper conversion",1,660, c_green,  STEEL, MNULL,     1,  2,  0,  0, -1,
-	10,  8,  3,-15,  0,-99, AT_NULL,	false,	false,	false,	true,
-	0, "\
-This is a complete conversion kit, designed to turn a rifle into a deadly\n\
-sniper rifle. It decreases ammo capacity, and removes any automatic fire\n\
-capabilities, but also increases accuracy and damage.",
-0);
-
-GUNMOD("m203", "M203",		2,650,	c_ltred, STEEL,	MNULL,        2,  1,  2,  0, -1,
-	-2,  0,  0,  1,  0, 0, AT_40MM,		false,	false,	false,	true,
-	0, "\
-The M203 was originally designed for use with M16 variants but today can be\n\
-attached to almost any rifle. It allows a single 40mm grenade to be loaded\n\
-and fired.",
-mfb(IF_MODE_AUX));
-
-//	NAME      	RAR  PRC  COLOR     MAT1   MAT2      VOL WGT DAM CUT HIT
-GUNMOD("bayonet", "bayonet",	 6, 400, c_ltcyan, STEEL, MNULL,       2,  2,  0, 16, -3,
-//	ACC DAM NOI CLP REC BST NEWTYPE		PISTOL	SHOT	SMG	RIFLE
-	  0,  0,  0,  0,  3,  0, AT_NULL,	false,	true,	true,	true,
-	0, "\
-A bayonet is a stabbing weapon that can be attached to the front of a\n\
-shotgun, sub-machinegun or rifle, allowing a melee attack to deal\n\
-piercing damage. The added length increases recoil slightly.",
-mfb(IF_STAB));
-
-GUNMOD("u_shotgun", "underslung shotgun", 2,650,  c_ltred, STEEL, MNULL,        2,  1,  2,  0, -1,
-        -2,  0,  0,  2,  0, 0, AT_SHOT,         false,  false,  false,  true,
-        0, "\
-A miniaturized shotgun with 2 barrels, which can be mounted under the\n\
-barrel of many rifles. It allows two shotgun shells to be loaded and fired.",
-mfb(IF_MODE_AUX));
-
-GUNMOD("gun_crossbow", "rail-mounted crossbow", 2, 500,  c_ltred, STEEL, WOOD,      2,  1,  2,  0, -1,
-        0,  0,  0,  1,  0, 0, AT_BOLT,         false,  true,  false,  true,
-        0, "\
-A kit to attach a pair of crossbow arms and a firing rail to\n\
-the barrel of a long firearm. It allows crossbow bolts to be fired.",
-mfb(IF_MODE_AUX)|mfb(IF_STR_RELOAD));
-
-BOOK("mag_porn", "Playboy",			20,  30,c_pink,		PAPER,	MNULL,
-// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    1,  1, -3,  1,	NULL,	 0,  0,  1,  0,  10, "\
-You can read it for the articles. Or not.");
-
-BOOK("mag_tv", "US Weekly",		40,  40,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	"speech",	 1,  0,  1,  3,  8, "\
-Weekly news about a bunch of famous people who're all (un)dead now.");
-
-BOOK("mag_news", "TIME magazine",		35,  40,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	NULL,	 0,  0,  2,  7,  10, "\
-Current events concerning a bunch of people who're all (un)dead now.");
-
-BOOK("mag_cars", "Top Gear magazine",	40,  45,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	"driving",	 1,  0,  1,  2,  8, "\
-Lots of articles about cars and driving techniques.");
-
-BOOK("mag_cooking", "Bon Appetit",		30,  45,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	"cooking",	 1,  0,  1,  5,  8, "\
-Exciting recipes and restaurant reviews. Full of handy tips about cooking.");
-
-BOOK("mag_carpentry", "Birdhouse Monthly",       30,  45,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	"carpentry",	 1,  0,  1,  5,  8, "\
-A riveting periodical all about birdhouses and their construction.");
-
-BOOK("mag_guns", "Guns n Ammo",		20,  48,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	"gun",		 1,  0,  1,  2,  7, "\
-Reviews of firearms, and various useful tips about their use.");
-
-BOOK("mag_archery", "Archery for Kids",		20,  48, c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	"archery",		 1,  0,  1,  2,  7, "\
-Will you be able to place the arrow right into bull's eye?\n\
-It is not that easy, but once you know how it's done,\n\
-you will have a lot of fun with archery.");
-
-BOOK("mag_gaming", "Computer Gaming",			20,  30,c_pink,		PAPER,	MNULL,
-// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    1,  1, -3,  1,	NULL,	 0,  0,  2,  7,  8, "\
-Reviews of recently released computer games and previews\n\
-of upcoming titles.");
-
-BOOK("mag_comic", "comic book",			20,  30,c_pink,		PAPER,	MNULL,
-// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    1,  1, -3,  1,	NULL,	 0,  0,  2,  0,  7, "\
-A super-hero comic.");
-
-BOOK("mag_firstaid", "Paramedics",		15,  48, c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	"firstaid",		 1,  0,  1,  1,  8, "\
-An educational magazine for EMTs.");
-
-BOOK("mag_dodge", "Dance Dance Dance!",		20,  48,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	"dodge",		 1,  0,  1,  2,  8, "\
-Learn the moves of the trendiest dances right now.");
-
-BOOK("mag_throwing", "Diskobolus",		20,  48,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	"throw",		 1,  0,  1,  1,  8, "\
-A biannual magazine devoted to discus throw.");
-
-BOOK("mag_swimming", "Swim Planet",		20,  48,c_pink,		PAPER,	MNULL,
-    1,  1, -3,  1,	"swimming",		 1,  0,  1,  1,  8, "\
-The world's leading resource about aquatic sports.");
-
-BOOK("novel_romance", "romance novel",		30,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	NULL,	 0,  0,  2,  4, 15, "\
-Drama and mild smut.");
-
-BOOK("novel_spy", "spy novel",		28,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	NULL,	 0,  0,  3,  5, 18, "\
-A tale of intrigue and espionage amongst Nazis, no, Commies, no, Iraqis!");
-
-//	NAME			RAR PRC	COLOR		MAT1	MAT2
-BOOK("novel_scifi", "scifi novel",		20,  55,c_ltblue,	PAPER,	MNULL,
-// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    3,  1, -3,  0,	NULL,	 0,  0,  3,  6, 20, "\
-Aliens, ray guns, and space ships.");
-
-BOOK("novel_drama", "drama novel",		40,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	NULL,	 0,  0,  4,  7, 25, "\
-A real book for real adults.");
-
-BOOK("novel_fantasy", "fantasy novel",		20,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	NULL,	 0,  0,  4,  7, 20, "\
-Basic Sword & Sorcery.");
-
-BOOK("novel_mystery", "mystery novel",		25,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	NULL,	 0,  0,  4,  7, 18, "\
-A detective investigates an unusual murder in a secluded location.");
-
-BOOK("novel_horror", "horror novel",		18,  55,c_ltblue,	PAPER,	MNULL,
-    4,  1, -2,  0,	NULL,	 0,  0,  1,  7, 18, "\
-Maybe not the best reading material considering the situation.");
-
-BOOK("manual_brawl", "101 Wrestling Moves",	30, 180,c_green,	PAPER,	MNULL,
-    2,  1, -4,  0, 	"unarmed",	 3,  0,  0,  3, 15, "\
-It seems to be a wrestling manual, poorly photocopied and released on spiral-\n\
-bound paper. Still, there are lots of useful tips for unarmed combat.");
-
-BOOK("manual_knives", "Spetsnaz Knife Techniques",12,200,c_green,	PAPER,	MNULL,
-    1,  1, -5,  0,	"cutting",	 4,  1,  0,  4, 18, "\
-A classic Soviet text on the art of attacking with a blade.");
-
-//	NAME			RAR PRC	COLOR		MAT1	MAT2
-BOOK("manual_mechanics", "Under the Hood",		35, 190,c_green,	PAPER,	MNULL,
-// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    3,  1, -3,  0,	"mechanics",	 3,  0,  0,  5, 18, "\
-An advanced mechanics manual, covering all sorts of topics.");
-
-BOOK("manual_survival", "Pitching a Tent",20,200,c_green,  PAPER,  MNULL,
-// VOL WGT DAM HIT      TYPE            LEV REQ FUN INT TIME
-    3,  1,  -3, 0,      "survival",    3,   0,  0,  4,  18,"\
-A guide detailing the basics of woodsmanship and outdoor survival.");
-
-BOOK("manual_speech", "Self-Esteem for Dummies",	50, 160,c_green,	PAPER,	MNULL,
-    3,  1, -3,  0,	"speech",	 3,  0,  0,  5, 20, "\
-Full of useful tips for showing confidence in your speech.");
-
-BOOK("manual_business", "How to Succeed in Business",40,180,c_green,	PAPER,	MNULL,
-    3,  1, -3,  0,	"barter",	 3,  0, -1,  6, 25, "\
-Useful if you want to get a good deal when purchasing goods.");
-
-BOOK("manual_first_aid", "The Big Book of First Aid",40,200,c_green,	PAPER,	MNULL,
-    5,  2, -2,  0,	"firstaid",	 3,  0,  0,  7, 20, "\
-It's big and heavy, but full of great information about first aid.");
-
-BOOK("manual_computers", "How to Browse the Web",	20, 170,c_green,	PAPER,	MNULL,
-    3,  1, -3,  0,	"computer",	 2,  0,  0,  5, 15, "\
-Very beginner-level information about computers.");
-
-//	NAME			RAR PRC	COLOR		MAT1	MAT2
-BOOK("cookbook", "Cooking on a Budget",	35, 160,c_green,	PAPER,	MNULL,
-// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    4,  1, -2,  0,	"cooking",	 3,  0,  0,  4, 10, "\
-A nice cook book that goes beyond recipes and into the chemistry of food.");
-
-BOOK("cookbook_human", "To Serve Man", 1, 400, c_green, PAPER, MNULL,
-    4, 1, -2, 0, "cooking", 4, 2, -5, 4, 10, "\
-It's... it's a cookbook!");
-
-BOOK("cookbook_italian", "Cucina Italiana", 25, 200, c_green, PAPER, MNULL,
-    4, 1, -2, 0, "cooking", 4, 3, 0, 6, 10, "\
-This cookbook is written in Italian, but handily illustrated with\n\
-step by step photo instructions.");
-
-BOOK("manual_electronics", "What's a Transistor?",	20, 200,c_green,	PAPER,	MNULL,
-    3,  1, -3,  0,	"electronics",	 3,  0,  0,  7, 20, "\
-A basic manual of electronics and circuit design.");
-
-BOOK("manual_tailor", "Sew What?  Clothing!",	15, 190,c_green,	PAPER,	MNULL,
-    3,  1, -3,  0,	"tailor",	 3,  0,  0,  4, 18, "\
-A colorful book about tailoring.");
-
-BOOK("manual_traps", "How to Trap Anything",	12, 240,c_green,	PAPER,	MNULL,
-    2,  1, -3,  0,	"traps",	 4,  0,  0,  4, 20, "\
-A worn manual that describes how to set and disarm a wide variety of traps.");
-
-//	NAME			RAR PRC	COLOR		MAT1	MAT2
-BOOK("manual_carpentry", "Building for Beginners",  10, 220,c_green,	PAPER,	MNULL,
-// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    2,  1, -3,  0,	"carpentry",	 3,  0,  0,  5, 16, "\
-A large, paperback book detailing several beginner's projects in\n\
-construction.");
-
-BOOK("textbook_computers", "Computer Science 301",	 8, 500,c_blue,		PAPER,	MNULL,
-    7,  4,  5,  1,	"computer",	 5,  2, -2, 11, 35, "\
-A college textbook on computer science.");
-
-BOOK("textbook_electronics", "Advanced Electronics",	 6, 520,c_blue,		PAPER,	MNULL,
-    7,  5,  5,  1,	"electronics",	 5,  2, -1, 11, 35, "\
-A college textbook on circuit design.");
-
-BOOK("textbook_business", "Advanced Economics",	12, 480,c_blue,		PAPER,	MNULL,
-    7,  4,  5,  1,	"barter",	 5,  3, -1,  9, 30, "\
-A college textbook on economics.");
-
-BOOK("textbook_mechanics", "Mechanical Mastery",12,495,c_blue,PAPER,MNULL,
-    6,  3,  4,  1,      "mechanics",   6,   3, -1,  6,  30,"\
-An advanced guide on mechanics and welding, covering topics like\n\
-\"Grinding off rust\" and \"Making cursive E\'s\".");
-
-//	NAME			RAR PRC	COLOR		MAT1	MAT2
-BOOK("textbook_chemistry", "Chemistry Textbook",	11, 495,c_blue,		PAPER,	MNULL,
-// VOL WGT DAM HIT	TYPE		LEV REQ FUN INT TIME
-    8,  6,  5,  1,	"cooking",	 6,  3, -1, 12, 35, "\
-A college textbook on chemistry.");
-
-BOOK("textbook_carpentry", "Engineering 301",		 6, 550,c_blue,		PAPER,	MNULL,
-    6,  3,  4,  1,	"carpentry",	 6,  3, -1,  8, 30, "\
-A textbook on civil engineering and construction.");
-
-BOOK("SICP", "SICP",			 3, 780,c_blue,		PAPER,	MNULL,
-    6,  5,  6,  0,	"computer",	 8,  4, -1, 13, 50, "\
-A classic text, \"The Structure and Interpretation of Computer Programs.\"\n\
-Written with examples in LISP, but applicable to any language.");
-
-BOOK("textbook_robots", "Robots for Fun & Profit",  1, 920,c_blue,		PAPER,	MNULL,
-    8,  8,  8,  1,	"electronics",	10,  5, -1, 14, 55, "\
-A rare book on the design of robots, with lots of helpful step-by-step guides."
-);
-
-CONT("bag_plastic", "plastic bag",	50,  1,	c_ltgray,	PLASTIC,MNULL,
+CONT("bag_plastic", "plastic bag",	50,  1,	c_ltgray,	"plastic","null",
 // VOL WGT DAM HIT	VOL	FLAGS
     1,  0, -8, -4,	24,	0, "\
 A small, open plastic bag. Essentially trash.");
 
-CONT("bottle_plastic", "plastic bottle",	70,  8,	c_ltcyan,	PLASTIC,MNULL,
+CONT("bottle_plastic", "plastic bottle",	70,  8,	c_ltcyan,	"plastic","null",
     2,  0, -8,  1,	 2,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A resealable plastic bottle, holds 500mls of liquid.");
 
-CONT("bottle_glass", "glass bottle",	70, 12,	c_cyan,		GLASS,	MNULL,
+CONT("bottle_glass", "glass bottle",	70, 12,	c_cyan,		"glass",	"null",
     3,  2,  8,  1,	 3,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A resealable glass bottle, holds 750mls of liquid.");
 
-CONT("can_drink", "aluminum can",	70,  1,	c_ltblue,	STEEL,	MNULL,
+CONT("can_drink", "aluminum can",	70,  1,	c_ltblue,	"steel",	"null",
     1,  0,  0,  0,	 1,	mfb(con_rigid)|mfb(con_wtight), "\
 An aluminum can, like what soda comes in.");
 
-CONT("can_food", "tin can",		65,  2,	c_blue,		IRON,	MNULL,
+CONT("can_food", "tin can",		65,  2,	c_blue,		"iron",	"null",
     1,  0, -1,  1,	 1,	mfb(con_rigid)|mfb(con_wtight), "\
 A tin can, like what beans come in.");
 
-CONT("box_small", "sm. cardboard box",50, 0,	c_brown,	PAPER,	MNULL,
+CONT("box_small", "sm. cardboard box",50, 0,	c_brown,	"paper",	"null",
     4,  0, -5,  1,	 4,	mfb(con_rigid), "\
 A small cardboard box. No bigger than a foot in any dimension.");
 
-CONT("canteen", "plastic canteen",	20,  1000,	c_green,	PLASTIC,MNULL,
+CONT("canteen", "plastic canteen",	20,  1000,	c_green,	"plastic","null",
     6,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A large military-style water canteen, with a 1.5 liter capacity and strap.");
 
-CONT("jerrycan", "plastic jerrycan",	10,  2500,	c_green,	PLASTIC,MNULL,
+CONT("jerrycan", "plastic jerrycan",	10,  2500,	c_green,	"plastic","null",
     40,  4, -2,  -2,	 40,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids\n\
 in a pinch. It has a capacity of 10 liters.");
 
-CONT("jug_plastic", "gallon jug",	10,  2500,	c_ltcyan,	PLASTIC,MNULL,
+CONT("jug_plastic", "gallon jug",	10,  2500,	c_ltcyan,	"plastic","null",
     10,  2, -8,  1,	 10,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A standard plastic jug used for household cleaning chemicals.");
 
-CONT("flask_glass", "glass flask",	10,  2500,	c_ltcyan,	GLASS,MNULL,
+CONT("flask_glass", "glass flask",	10,  2500,	c_ltcyan,	"glass","null",
     1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A 250 ml laboratory conical flask, with a rubber bung.");
 
-CONT("waterskin", "waterskin",   0,  0, c_brown, LEATHER, MNULL,
+CONT("waterskin", "waterskin",   0,  0, c_brown, "leather", "null",
 // VOL WGT DAM HIT	VOL	FLAGS
     6, 4,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
 A watertight leather bag, can hold 1.5 liters of water.");
 
-CONT("jerrycan_big", "steel jerrycan", 20, 5000, c_green, STEEL, MNULL,
+CONT("jerrycan_big", "steel jerrycan", 20, 5000, c_green, "steel", "null",
     100, 7, -3, -3, 100, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A steel jerrycan, meant to carry fuel, but can carry other liquds\n\
 in a pinch. It has a capacity of 25 liters.");
 
-CONT("keg", "aluminum keg", 20, 6000, c_ltcyan, STEEL, MNULL,
+CONT("keg", "aluminum keg", 20, 6000, c_ltcyan, "steel", "null",
     200, 12, -4, -4, 200, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A reusable aluminum keg, used for shipping beer.\n\
 It has a capcity of 50 liters.");
 
-CONT("jar_glass", "glass jar",	50,  2500,	c_ltcyan,	GLASS,MNULL,
+CONT("jar_glass", "glass jar",	50,  2500,	c_ltcyan,	"glass","null",
     1,  1, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
 A half-litre glass jar with a metal screw top lid, used for canning.");
 
-TOOL("jack", "jack",		30, 86, ';', c_ltgray,	IRON,	MNULL,
+TOOL("jack", "jack",		30, 86, ';', c_ltgray,	"iron",	"null",
 //	VOL WGT DAM CUT HIT FLAGS
-	 5,  10, 11,  0,  2, 0, 0, 0, 0, AT_NULL, "null", &iuse::none, 0, "\
+	 5,  10, 11,  0,  2, 0, 0, 0, 0, AT_NULL, "null", &iuse::none, "\
 A common hydraulic jack, used when changing tires.");
 
 // BIONICS
@@ -749,7 +260,7 @@ A common hydraulic jack, used when changing tires.");
 // list of options.
 #define BIO(id, name, rarity, price, color, difficulty, des) \
 itypes[id]=new it_bionic(id, rarity,price,name,des,':',\
-color, STEEL, PLASTIC, 10, 18, 8, 0, 0, 0, difficulty)
+color, "steel", "plastic", 10, 18, 8, 0, 0, difficulty)
 
 #define BIO_SINGLE(id,rarity,price,color,difficulty) \
      BIO(id, std::string("CBM: ")+bionics[id]->name, rarity,price,color,difficulty, \
@@ -769,13 +280,13 @@ by 10 units."); // This is another special case, increases power capacity by 10 
 // SOFTWARE
 #define SOFTWARE(id, name, price, swtype, power, description) \
 itypes[id]=new it_software(id, 0, price, name, description,\
-	' ', c_white, MNULL, MNULL, 0, 0, 0, 0, 0, 0, swtype, power)
+	' ', c_white, "null", "null", 0, 0, 0, 0, 0, swtype, power)
 
 //Macguffins
 #define MACGUFFIN(id, name, price, sym, color, mat1, mat2, volume, wgt, dam, cut,\
                   to_hit, readable, function, description) \
 itypes[id]=new it_macguffin(id, 0, price, name, description,\
-	sym, color, mat1, mat2, volume, wgt, dam, cut, to_hit, 0, readable,\
+	sym, color, mat1, mat2, volume, wgt, dam, cut, to_hit, readable,\
 	function)
 
 // BIONIC IMPLANTS
@@ -872,13 +383,13 @@ A piece of mathematical software.");
 SOFTWARE("software_blood_data", "infection data", 200, SW_DATA, 5, "\
 Medical data on zombie blood.");
 
-MACGUFFIN("note", "note", 0, '?', c_white, PAPER, MNULL, 1, 0, 0, 0, 0,
+MACGUFFIN("note", "note", 0, '?', c_white, "paper", "null", 1, 0, 0, 0, 0,
 	true, &iuse::mcg_note, "\
 A hand-written paper note.");
 
 #define STATIONARY(id, name, rarity, price, category, description) \
 itypes[id] = new it_stationary(id, rarity, price, name, description,\
-',', c_white, PAPER, MNULL, 0, 0, 0, 0, 0, 0, category)
+',', c_white, "paper", "null", 0, 0, 0, 0, 0, category)
 
 STATIONARY("flyer", "flyer", 5, 1, "flier", "A scrap of paper.");
 
@@ -892,15 +403,15 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
 }
 
 //  NAME		RARE  TYPE	COLOR		MAT
-AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	MNULL,
+AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	"null",
 //	VOL WGT DMG  AP RNG ACC REC COUNT
 	 0,  0, 40,  0, 10,  1,  0,  5, "", mfb(AMMO_INCENDIARY));
 
 //  NAME		RARE	COLOR		MAT1	MAT2
-GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
+GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
-"",0);
+"");
 
 
 
@@ -910,9 +421,9 @@ GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	STEEL,	PLASTIC,
 // Unarmed Styles
 #define STYLE(id, name, dam, description, ...) \
 itypes[id]=new it_style(id, 0, 0, name, description, '$', \
-                              c_white, MNULL, MNULL, 0, 0, dam, 0, 0, 0); \
+                              c_white, "null", "null", 0, 0, dam, 0, 0); \
  setvector(&((static_cast<it_style*>(itypes[id])))->moves, __VA_ARGS__, NULL); \
-itypes[id]->item_flags |= mfb(IF_UNARMED_WEAPON); \
+itypes[id]->item_tags.insert("UNARMED_WEAPON"); \
 martial_arts_itype_ids.push_back(id)
 
 STYLE("style_karate", "karate", 2, "\

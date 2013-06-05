@@ -18,6 +18,7 @@ class iuse
   void royal_jelly	(game *g, player *p, item *it, bool t);
   void bandage		(game *g, player *p, item *it, bool t);
   void firstaid		(game *g, player *p, item *it, bool t);
+  void disinfectant (game *g, player *p, item *it, bool t);
   void caff		(game *g, player *p, item *it, bool t);
   void alcohol		(game *g, player *p, item *it, bool t);
   void alcohol_weak (game *g, player *p, item *it, bool t);
@@ -34,6 +35,7 @@ class iuse
   void crack		(game *g, player *p, item *it, bool t);
   void grack		(game *g, player *p, item *it, bool t);
   void meth		(game *g, player *p, item *it, bool t);
+  void vitamins		(game *g, player *p, item *it, bool t);
   void poison		(game *g, player *p, item *it, bool t);
   void hallu		(game *g, player *p, item *it, bool t);
   void thorazine	(game *g, player *p, item *it, bool t);
@@ -60,6 +62,8 @@ class iuse
   void hammer		(game *g, player *p, item *it, bool t);
   void light_off	(game *g, player *p, item *it, bool t);
   void light_on		(game *g, player *p, item *it, bool t);
+  void gasoline_lantern_off	(game *g, player *p, item *it, bool t);
+  void gasoline_lantern_on	(game *g, player *p, item *it, bool t);
   void lightstrip		(game *g, player *p, item *it, bool t);
   void lightstrip_active(game *g, player *p, item *it, bool t);
   void glowstick		(game *g, player *p, item *it, bool t);
@@ -79,6 +83,7 @@ class iuse
   void crowbar		(game *g, player *p, item *it, bool t);
   void makemound	(game *g, player *p, item *it, bool t);
   void dig		(game *g, player *p, item *it, bool t);
+  void siphon	(game *g, player *p, item *it, bool t);
   void chainsaw_off	(game *g, player *p, item *it, bool t);
   void chainsaw_on	(game *g, player *p, item *it, bool t);
   void jackhammer	(game *g, player *p, item *it, bool t);

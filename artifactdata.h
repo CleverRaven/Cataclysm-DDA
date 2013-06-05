@@ -48,8 +48,8 @@ struct artifact_tool_form_datum
  std::string name;
  char sym;
  nc_color color;
- material m1;
- material m2;
+ std::string m1;
+ std::string m2;
  int volume_min, volume_max;
  int weight_min, weight_max;
  artifact_weapon_type base_weapon;
@@ -57,7 +57,7 @@ struct artifact_tool_form_datum
 
 /*
  artifact_tool_form_datum
-   (std::string Name, char Sym, nc_color Color, material M1, material M2,
+   (std::string Name, char Sym, nc_color Color, std::string M1, std::string M2,
     int Volmin, int Volmax, int Wgtmin, int Wgtmax, artifact_weapon_type Base,
     artifact_weapon_type extra[3])
    : name (Name), sym (Sym), color (Color), m1 (M1), m2 (M2),
@@ -87,7 +87,7 @@ struct artifact_weapon_datum
  int bash_min, bash_max;
  int cut_min, cut_max;
  int to_hit_min, to_hit_max;
- unsigned flags : NUM_ITEM_FLAGS;
+ std::string tag;
 };
 
 extern artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS];
@@ -108,12 +108,12 @@ struct artifact_armor_form_datum
 {
  std::string name;
  nc_color color;
- material m1;
- material m2;
+ std::string m1;
+ std::string m2;
  int volume, weight;
  int encumb;
- int dmg_resist;
- int cut_resist;
+ int coverage;
+ int thickness;
  int env_resist;
  int warmth;
  int storage;
@@ -125,13 +125,13 @@ struct artifact_armor_form_datum
 /*
 // Constructor
  artifact_armor_form_datum
-   (std::string Name, nc_color Color, material M1, material M2, int Volume,
+   (std::string Name, nc_color Color, std::string M1, std::string M2, int Volume,
     int Weight, int Encumb, int Dmg_res, int Cut_res, int Env_res,
     int Warmth, int Storage, int Bash, int Cut, int Hit, unsigned char Covers,
     bool Plural, artifact_armor_mod Mods[5])
    : name (Name), color (Color), m1 (M1), m2 (M2), volume (Volume),
-     weight (Weight), encumb (Encumb), dmg_resist (Dmg_res),
-     cut_resist (Cut_res), env_resist (Env_res), warmth (Warmth),
+     weight (Weight), encumb (Encumb), coverage (Coverage),
+     thickness (thickness), env_resist (Env_res), warmth (Warmth),
      storage (Storage), melee_bash (Bash), melee_cut (Cut), melee_hit (Hit),
      covers (Covers), plural (Plural), available_mods (Mods) { };
 
@@ -154,7 +154,7 @@ enum artifact_armor_form
 extern artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS];
 
 /* Armor mods alter the normal values of armor.
- * If the basic armor type has MNULL as its second material, and the mod has a
+ * If the basic armor type has "null" as its second material, and the mod has a
  * material attached, the second material will be changed.
  */
 extern artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS];

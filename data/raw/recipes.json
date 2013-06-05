@@ -66,6 +66,37 @@
 
 
         {
+            "result": "vac_sealer",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "difficulty": 0,
+            "time": 500,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 4]
+                              ],
+                              [
+                                  ["element", 2]
+                              ],
+                              [
+                                  ["hose", 1]
+                              ],
+                              [
+                                  ["power_supply", 1]
+                              ]
+                          ]
+        },
+        
+
+        {
             "result": "lighter",
             "id_suffix": "uncraft",
             "category": "CC_NONCRAFT",
@@ -628,40 +659,6 @@
 
 
         {
-            "result": "bolt_wood",
-            "category": "CC_WEAPON",
-            "skill_pri": "mechanics",
-            "skill_sec": "archery",
-            "difficulty": 1,
-            "time": 5000,
-            "reversible": false,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["hatchet", -1],
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["stick", 1],
-                                  ["broom", 1],
-                                  ["mop", 1],
-                                  ["2x4", 1],
-                                  ["bee_sting", 1]
-                              ]
-                          ]
-        },
-
-
-        {
             "result": "crossbow",
             "category": "CC_WEAPON",
             "skill_pri": "mechanics",
@@ -944,7 +941,31 @@
                                   ["flask_glass", 1]
                               ],
                               [
-                                  ["battery", 500]
+                                  ["acid", 4]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "40mm_acidbomb",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "difficulty": 3,
+            "time": 100,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver",-1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["acidbomb", 1]
+                              ],
+                              [
+                                  ["40mm_casing", 1]
                               ]
                           ]
         },
@@ -1207,6 +1228,40 @@
             "category": "CC_AMMO",
             "skill_pri": "archery",
             "skill_sec": "survival",
+            "difficulty": 1,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["stick", 1],
+                                  ["broom", 1],
+                                  ["mop", 1],
+                                  ["2x4", 1],
+                                  ["bee_sting", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bolt_wood",
+            "category": "CC_AMMO",
+            "skill_pri": "mechanics",
+            "skill_sec": "archery",
             "difficulty": 1,
             "time": 5000,
             "reversible": false,
@@ -2199,6 +2254,57 @@
                           ]
         },
 
+        {
+            "result": "acid",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 4,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 3],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pan", -1],
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["water_acid", 1]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "acid",
+            "id_suffix": "from batteries",
+            "category": "CC_DRINK",
+            "skill_pri": "electronics",
+            "skill_sec": "mechanics",
+            "difficulty": 2,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["battery", 125]
+                              ]
+                          ]
+        },
+
+
 
         {
             "result": "meat_cooked",
@@ -2750,6 +2856,37 @@
                                   ["zucchini", 1],
                                   ["veggy", 1],
                                   ["veggy_wild", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "broth_bone",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 1,
+            "time": 60000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 6],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["bone", 10]
+                              ],
+                              [
+                                  ["water", 1],
+                                  ["water_clean", 1]
                               ]
                           ]
         },
@@ -3568,6 +3705,7 @@
             "difficulty": 1,
             "time": 20000,
             "reversible": true,
+            "decomp_learn": 0,
             "autolearn": true,
             "components": [
                               [
@@ -3607,7 +3745,8 @@
             "components": [
                               [
                                   ["ammonia", 1],
-                                  ["lemon", 1]
+                                  ["lemon", 1],
+                                  ["acid", 1]
                               ],
                               [
                                   ["steel_chunk", 1],
@@ -4216,7 +4355,7 @@
                          ],
                          [
                              ["soldering_iron", 20],
-                             ["toolset", 1]
+                             ["toolset", 2]
                          ]
                      ],
             "components": [
@@ -4252,7 +4391,7 @@
                          ],
                          [
                              ["soldering_iron", 20],
-                             ["toolset", 20]
+                             ["toolset", 2]
                          ]
                      ],
             "components": [
@@ -5277,7 +5416,9 @@
                      ],
             "components": [
                               [
-                                  ["rag", 10],
+                                  ["rag", 10]
+                              ],
+                              [
                                   ["fur", 10]
                               ]
                           ]
@@ -5394,7 +5535,9 @@
                      ],
             "components": [
                               [
-                                  ["rag", 20],
+                                  ["rag", 20]
+                              ],
+                              [
                                   ["fur", 10]
                               ]
                           ]
@@ -6401,11 +6544,13 @@
                      ],
             "components": [
                               [
-                                  ["steel_lump", 8]
+                                  ["steel_lump", 8],
+                                  ["steel_plate", 1]
                               ],
                               [
                                   ["steel_chunk", 4],
-                                  ["scrap", 8]
+                                  ["scrap", 8],
+                                  ["spike", 4]
                               ]
                           ]
         },
@@ -6758,11 +6903,13 @@
             "autolearn": true,
             "components": [
                               [
-                                  ["rag", 3]
+                                  ["rag", 3],
+								  ["medical_gauze", 1]
                               ],
                               [
                                   ["superglue", 1],
-                                  ["duct_tape", 5]
+                                  ["duct_tape", 5],
+								  ["medical_tape", 3]
                               ],
                               [
                                   ["vodka", 7],
@@ -7209,6 +7356,27 @@
                               [
                                   ["salt_water", 1],
                                   ["salt", 4]
+                              ]
+                          ]
+        },
+
+	
+        {
+            "result": "bag_bundle_10",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 0,
+            "time": 500,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [],
+            "components": [
+
+                              [
+                                  ["string_6", 1]
+                              ],
+                              [
+                                  ["bag_plastic", 10]
                               ]
                           ]
         },

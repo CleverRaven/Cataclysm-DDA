@@ -9,6 +9,7 @@
 #include "skill.h"
 #include "output.h"
 #include "line.h"
+#include "item_factory.h"
 
 std::vector<item> starting_clothes(npc_class type, bool male, game *g);
 std::list<item> starting_inv(npc *me, npc_class type, game *g);
@@ -50,8 +51,10 @@ npc::npc()
  mission = NPC_MISSION_NULL;
  myclass = NC_NONE;
  patience = 0;
-    for (int i = 0; i < num_skill_types; i++)
-        sklevel[i] = 0;
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+      aSkill != Skill::skills.end(); ++aSkill) {
+   set_skill_level(*aSkill, 0);
+ }
     setID(-1);
 }
 
@@ -128,8 +131,7 @@ npc& npc::operator= (const npc & rhs)
   hp_max[i] = rhs.hp_max[i];
  }
 
- for (int i = 0; i < num_skill_types; i++)
-  sklevel[i] = rhs.sklevel[i];
+ copy_skill_levels(&rhs);
 
  styles.clear();
  for (int i = 0; i < rhs.styles.size(); i++)
@@ -155,8 +157,11 @@ std::string npc::save_info()
   dump << my_traits[i] << " ";
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
- for (int i = 0; i < num_skill_types; i++)
-  dump << int(sklevel[i]) << " " << skexercise[i] << " ";
+
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   SkillLevel level = skillLevel(*aSkill);
+   dump << level;
+ }
 
  dump << styles.size() << " ";
  for (int i = 0; i < styles.size(); i++)
@@ -242,8 +247,9 @@ void npc::load_info(game *g, std::string data)
 
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
- for (int i = 0; i < num_skill_types; i++)
-  dump >> sklevel[i] >> skexercise[i];
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   dump >> skillLevel(*aSkill);
+ }
 
  itype_id tmpstyle;
  int numstyle;
@@ -329,21 +335,27 @@ void npc::randomize(game *g, npc_class type)
  myclass = type;
  switch (type) {	// Type of character
  case NC_NONE:	// Untyped; no particular specialization
-  for (int i = 1; i < num_skill_types; i++) {
-   sklevel[i] = dice(4, 2) - rng(1, 4);
-   if (!one_in(3))
-    sklevel[i] = 0;
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = 0;
+   if (one_in(3))
+   {
+    level = dice(4, 2) - rng(1, 4);
+   }
+   set_skill_level(*aSkill, level);
   }
   break;
 
  case NC_HACKER:
-  for (int i = 1; i < num_skill_types; i++) {
-   sklevel[i] = dice(2, 2) - rng(1, 2);
-   if (!one_in(3))
-    sklevel[i] = 0;
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = 0;
+   if (one_in(3))
+   {
+    level = dice(2, 2) - rng(1, 2);
+   }
+   set_skill_level(*aSkill, level);
   }
-  sklevel[sk_electronics] += rng(1, 4);
-  sklevel[sk_computer] += rng(3, 6);
+  boost_skill_level("electronics", rng(1, 4));
+  boost_skill_level("computer", rng(3, 6));
   str_max -= rng(0, 4);
   dex_max -= rng(0, 2);
   int_max += rng(1, 5);
@@ -353,12 +365,15 @@ void npc::randomize(game *g, npc_class type)
   break;
 
  case NC_DOCTOR:
-  for (int i = 1; i < num_skill_types; i++) {
-   sklevel[i] = dice(3, 2) - rng(1, 3);
-   if (!one_in(3))
-    sklevel[i] = 0;
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = 0;
+   if (one_in(3))
+   {
+    level = dice(3, 2) - rng(1, 3);
+   }
+   set_skill_level(*aSkill, level);
   }
-  sklevel[sk_firstaid] += rng(2, 6);
+  boost_skill_level("firstaid", rng(2, 6));
   str_max -= rng(0, 2);
   int_max += rng(0, 2);
   per_max += rng(0, 1) * rng(0, 1);
@@ -369,15 +384,18 @@ void npc::randomize(game *g, npc_class type)
   break;
 
  case NC_TRADER:
-  for (int i = 1; i < num_skill_types; i++) {
-   sklevel[i] = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
-   if (!one_in(3))
-    sklevel[i] = 0;
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = 0;
+   if (one_in(3))
+   {
+    level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
+   }
+   set_skill_level(*aSkill, level);
   }
-  sklevel[sk_mechanics] += rng(0, 2);
-  sklevel[sk_electronics] +=  rng(0, 2);
-  sklevel[sk_speech] += rng(0, 3);
-  sklevel[sk_barter] += rng(2, 5);
+  boost_skill_level("mechanics", rng(0, 2));
+  boost_skill_level("electronics", rng(0, 2));
+  boost_skill_level("speech", rng(0, 3));
+  boost_skill_level("barter", rng(2, 5));
   int_max += rng(0, 1) * rng(0, 1);
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
@@ -385,15 +403,18 @@ void npc::randomize(game *g, npc_class type)
   break;
 
  case NC_NINJA:
-  for (int i = 1; i < num_skill_types; i++) {
-   sklevel[i] = dice(2, 2) - rng(1, 2);
-   if (!one_in(3))
-    sklevel[i] = 0;
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = 0;
+   if (one_in(3))
+   {
+    level = dice(2, 2) - rng(1, 2);
+   }
+   set_skill_level(*aSkill, level);
   }
-  sklevel[sk_dodge] += rng(2, 4);
-  sklevel[sk_melee] += rng(1, 4);
-  sklevel[sk_unarmed] += rng(4, 6);
-  sklevel[sk_throw] += rng(0, 2);
+  boost_skill_level("dodge", rng(2, 4));
+  boost_skill_level("melee", rng(1, 4));
+  boost_skill_level("unarmed", rng(4, 6));
+  boost_skill_level("throw", rng(0, 2));
   str_max -= rng(0, 1);
   dex_max += rng(0, 2);
   per_max += rng(0, 2);
@@ -405,14 +426,17 @@ void npc::randomize(game *g, npc_class type)
   break;
 
  case NC_COWBOY:
-  for (int i = 1; i < num_skill_types; i++) {
-   sklevel[i] = dice(3, 2) - rng(0, 4);
-   if (sklevel[i] < 0)
-    sklevel[i] = 0;
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = dice(3, 2) - rng(0, 4);	
+   if (level < 0)
+   {
+    level = 0;
+   }
+   set_skill_level(*aSkill, level);
   }
-  sklevel[sk_gun] += rng(1, 3);
-  sklevel[sk_pistol] += rng(1, 3);
-  sklevel[sk_rifle] += rng(0, 2);
+  boost_skill_level("gun", rng(1, 3));
+  boost_skill_level("pistol", rng(1, 3));
+  boost_skill_level("rifle", rng(0, 2));
   int_max -= rng(0, 2);
   str_max += rng(0, 1);
   per_max += rng(0, 2);
@@ -421,18 +445,21 @@ void npc::randomize(game *g, npc_class type)
   break;
 
  case NC_SCIENTIST:
-  for (int i = 1; i < num_skill_types; i++) {
-   sklevel[i] = dice(3, 2) - 4;
-   if (sklevel[i] < 0)
-    sklevel[i] = 0;
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = dice(3, 2) - 4;
+   if (level < 0)
+   {
+    level = 0;
+   }
+   set_skill_level(*aSkill, level);
   }
-  sklevel[sk_computer] += rng(0, 3);
-  sklevel[sk_electronics] += rng(0, 3);
-  sklevel[sk_firstaid] += rng(0, 1);
+  boost_skill_level("computer", rng(0, 3));
+  boost_skill_level("electronics", rng(0, 3));
+  boost_skill_level("firstaid", rng(0, 1));
   switch (rng(1, 3)) { // pick a specialty
-   case 1: sklevel[sk_computer] += rng(2, 6); break;
-   case 2: sklevel[sk_electronics] += rng(2, 6); break;
-   case 3: sklevel[sk_firstaid] += rng(2, 6); break;
+   case 1: boost_skill_level("computer", rng(2, 6)); break;
+   case 2: boost_skill_level("electronics", rng(2, 6)); break;
+   case 3: boost_skill_level("firstaid", rng(2, 6)); break;
   }
   if (one_in(4))
    flags |= mfb(NF_TECHNOPHILE);
@@ -447,13 +474,16 @@ void npc::randomize(game *g, npc_class type)
   break;
 
  case NC_BOUNTY_HUNTER:
-  for (int i = 1; i < num_skill_types; i++) {
-   sklevel[i] = dice(3, 2) - 3;
-   if (sklevel[i] > 0 && one_in(3))
-    sklevel[i]--;
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
+   int level = dice(3, 2) - 3;
+   if (level > 0 && one_in(3))
+   {
+    level--;
+   }
+   set_skill_level(*aSkill, level);
   }
-  sklevel[sk_gun] += rng(2, 4);
-  sklevel[rng(sk_pistol, sk_rifle)] += rng(3, 5);
+  boost_skill_level("gun", rng(2, 4));
+  boost_skill_level(Skill::random_skill_with_tag("gun"), rng(3, 5));
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
   break;
@@ -598,7 +628,7 @@ void npc::randomize_from_faction(game *g, faction *fac)
   personality.altruism += rng(0, 4);
   int_max += rng(2, 4);
   per_max += rng(0, 2);
-  sklevel[sk_firstaid] += rng(1, 5);
+  boost_skill_level("firstaid", rng(1, 5));
  }
  if (fac->has_job(FACJOB_FARMERS)) {
   personality.aggression -= rng(2, 4);
@@ -614,10 +644,10 @@ void npc::randomize_from_faction(game *g, faction *fac)
   personality.aggression -= rng(0, 2);
   personality.bravery -= rng(0, 2);
   switch (rng(1, 4)) {
-   case 1: sklevel[sk_mechanics] += dice(2, 4);		break;
-   case 2: sklevel[sk_electronics] += dice(2, 4);	break;
-   case 3: sklevel[sk_cooking] += dice(2, 4);		break;
-   case 4: sklevel[sk_tailor] += dice(2,  4);		break;
+   case 1: boost_skill_level("mechanics", dice(2, 4));		break;
+   case 2: boost_skill_level("electronics", dice(2, 4));	break;
+   case 3: boost_skill_level("cooking", dice(2, 4));		break;
+   case 4: boost_skill_level("tailor", dice(2,  4));		break;
   }
  }
 
@@ -644,9 +674,9 @@ void npc::randomize_from_faction(game *g, faction *fac)
   per_max += rng(0, 2);
   int_max += rng(0, 4);
   if (one_in(3)) {
-   sklevel[sk_mechanics] += dice(2, 3);
-   sklevel[sk_electronics] += dice(2, 3);
-   sklevel[sk_firstaid] += dice(2, 3);
+   boost_skill_level("mechanics", dice(2, 3));
+   boost_skill_level("electronics", dice(2, 3));
+   boost_skill_level("firstaid", dice(2, 3));
   }
  }
  if (fac->has_value(FACVAL_BOOKS)) {
@@ -662,9 +692,10 @@ void npc::randomize_from_faction(game *g, faction *fac)
   dex_max += rng(0, 3);
   per_max += rng(0, 2);
   int_max += rng(0, 2);
-  for (int i = 1; i < num_skill_types; i++) {
+  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+       aSkill != Skill::skills.end(); ++aSkill) {
    if (one_in(3))
-    sklevel[i] += rng(2, 4);
+    boost_skill_level(*aSkill, rng(2, 4));
   }
  }
  if (fac->has_value(FACVAL_ROBOTS)) {
@@ -940,7 +971,7 @@ std::list<item> starting_inv(npc *me, npc_class type, game *g)
 // TODO: More specifics.
 
  while (total_space > 0 && !one_in(8)) {
-  tmp = standard_itype_ids[rng(0, standard_itype_ids.size())];
+  tmp = standard_itype_ids[rng(0, standard_itype_ids.size()-1)];
   if (total_space >= g->itypes[tmp]->volume) {
    ret.push_back(item(g->itypes[tmp], 0));
    ret.back() = ret.back().in_its_container(&g->itypes);
@@ -1003,76 +1034,89 @@ void npc::place_near(game *g, int potentialX, int potentialY)
     posy = potentialY + y;
 }
 
-skill npc::best_skill()
+Skill* npc::best_skill()
 {
- std::vector<int> best_skills;
+ std::vector<Skill*> best_skills;
  int highest = 0;
- for (int i = sk_unarmed; i <= sk_rifle; i++) {
-  if (sklevel[i] > highest && i != sk_gun) {
-   highest = sklevel[i];
-   best_skills.clear();
+ for (std::vector<Skill*>::iterator iter = Skill::skills.begin(); iter != Skill::skills.end(); ++iter) {
+  if ((*iter)->ident() != "gun") {
+   if (skillLevel(*iter) > highest) {
+    highest = skillLevel(*iter);
+    best_skills.clear();
+    best_skills.push_back(*iter);
+   } else if (skillLevel(*iter) == highest) {
+    best_skills.push_back(*iter);
+   }
   }
-  if (sklevel[i] == highest && i != sk_gun)
-   best_skills.push_back(i);
  }
  int index = rng(0, best_skills.size() - 1);
- return skill(best_skills[index]);
+ return best_skills[index];
 }
 
 void npc::starting_weapon(game *g)
 {
- if (!styles.empty()) {
-  weapon.make(g->itypes[styles[rng(0, styles.size() - 1)]]);
-  return;
- }
- skill best = best_skill();
- int index;
- switch (best) {
- case sk_bashing:
-  switch (rng(0, 5)) {
-   case 0: weapon.make(g->itypes["hammer"]);        break;
-   case 1: weapon.make(g->itypes["wrench"]);        break;
-   case 2: weapon.make(g->itypes["hammer_sledge"]); break;
-   case 3: weapon.make(g->itypes["pipe"]);          break;
-   case 4: weapon.make(g->itypes["bat"]);           break;
-   case 5: weapon.make(g->itypes["crowbar"]);       break;
-  }
-  break;
- case sk_cutting:
-  switch (rng(0, 5)) {
-   case 0: weapon.make(g->itypes["knife_butcher"]); break;
-   case 1: weapon.make(g->itypes["hatchet"]);       break;
-   case 2: weapon.make(g->itypes["ax"]);            break;
-   case 3: weapon.make(g->itypes["machete"]);       break;
-   case 4: weapon.make(g->itypes["knife_combat"]);  break;
-   case 5: weapon.make(g->itypes["katana"]);        break;
-  }
-  break;
- case sk_throw:
-// TODO: Some throwing weapons... grenades?
-  break;
- case sk_pistol:
-  index = rng(0, g->mapitems[mi_pistols].size() - 1);
-  weapon.make(g->itypes[(g->mapitems[mi_pistols])[index]]);
-  break;
- case sk_shotgun:
-  index = rng(0, g->mapitems[mi_shotguns].size() - 1);
-  weapon.make(g->itypes[(g->mapitems[mi_shotguns])[index]]);
-  break;
- case sk_smg:
-  index = rng(0, g->mapitems[mi_smg].size() - 1);
-  weapon.make(g->itypes[(g->mapitems[mi_smg])[index]]);
-  break;
- case sk_rifle:
-  index = rng(0, g->mapitems[mi_rifles].size() - 1);
-  weapon.make(g->itypes[(g->mapitems[mi_rifles])[index]]);
-  break;
- }
- if (weapon.is_gun()) {
-  it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
-  weapon.charges = gun->clip;
-  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes[default_ammo(gun->ammo)]);
- }
+    if (!styles.empty())
+    {
+        weapon.make(g->itypes[styles[rng(0, styles.size() - 1)]]);
+        return;
+    }
+
+    // TODO add throwing weapons
+
+    std::list<itype_id> possible_items;
+    Skill* best = best_skill();
+    if (best->ident() == "bashing")
+    {
+        possible_items.push_back("hammer");
+        possible_items.push_back("wrench");
+        possible_items.push_back("hammer_sledge");
+        possible_items.push_back("pipe");
+        possible_items.push_back("bat");
+        possible_items.push_back("crowbar");
+    }
+    else if (best->ident() == "cutting")
+    {
+        possible_items.push_back("knife_butcher");
+        possible_items.push_back("hatchet");
+        possible_items.push_back("ax");
+        possible_items.push_back("machete");
+        possible_items.push_back("knife_combat");
+        possible_items.push_back("katana");
+    }
+    else if (best->ident() == "pistol")
+    {
+        int index = rng(0, g->mapitems[mi_pistols].size() - 1);
+        possible_items.push_back(g->mapitems[mi_pistols][index]);
+    }
+    else if (best->ident() == "shotgun")
+    {
+        int index = rng(0, g->mapitems[mi_shotguns].size() - 1);
+        possible_items.push_back(g->mapitems[mi_shotguns][index]);
+    }
+    else if (best->ident() == "smg")
+    {
+        int index = rng(0, g->mapitems[mi_smg].size() - 1);
+        possible_items.push_back(g->mapitems[mi_smg][index]);
+    }
+    else if (best->ident() == "rifle")
+    {
+        int index = rng(0, g->mapitems[mi_rifles].size() - 1);
+        possible_items.push_back(g->mapitems[mi_rifles][index]);
+    }
+
+    if (possible_items.size() > 0)
+    {
+        std::list<itype_id>::iterator chosen = possible_items.begin();
+        std::advance(chosen, rng(0, possible_items.size() - 1));
+        weapon.make(item_controller->find_template(*chosen));
+    }
+
+    if (weapon.is_gun())
+    {
+        it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
+        weapon.charges = gun->clip;
+        weapon.curammo = dynamic_cast<it_ammo*>(g->itypes[default_ammo(gun->ammo)]);
+    }
 }
 
 bool npc::wear_if_wanted(item it)
@@ -1412,14 +1456,16 @@ int npc::assigned_missions_value(game *g)
  return ret;
 }
 
-std::vector<skill> npc::skills_offered_to(player *p)
+std::vector<Skill*> npc::skills_offered_to(player *p)
 {
- std::vector<skill> ret;
+ std::vector<Skill*> ret;
  if (p == NULL)
   return ret;
- for (int i = 0; i < num_skill_types; i++) {
-   if (p->skillLevel(Skill::skill(i)) < sklevel[i])
-   ret.push_back( skill(i) );
+ for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
+      aSkill != Skill::skills.end(); ++aSkill) {
+  if (p->skillLevel(*aSkill) < skillLevel(*aSkill)) {
+   ret.push_back(*aSkill);
+  }
  }
  return ret;
 }
@@ -1478,15 +1524,15 @@ void npc::decide_needs()
   it_gun* gun = dynamic_cast<it_gun*>(weapon.type);
   needrank[need_ammo] = 5 * has_ammo(gun->ammo).size();
  }
- if (weapon.type->id == "null" && sklevel[sk_unarmed] < 4)
+ if (weapon.type->id == "null" && skillLevel("unarmed") < 4)
   needrank[need_weapon] = 1;
  else
   needrank[need_weapon] = weapon.type->melee_dam + weapon.type->melee_cut +
                           weapon.type->m_to_hit;
  if (!weapon.is_gun())
-  needrank[need_gun] = sklevel[sk_unarmed] + sklevel[sk_melee] +
-                       sklevel[sk_bashing] + sklevel[sk_cutting] -
-                       sklevel[sk_gun] * 2 + 5;
+  needrank[need_gun] = skillLevel("unarmed") + skillLevel("melee") +
+                       skillLevel("bashing") + skillLevel("cutting") -
+                       skillLevel("gun") * 2 + 5;
  needrank[need_food] = 15 - hunger;
  needrank[need_drink] = 15 - thirst;
  invslice slice = inv.slice(0, inv.size());
@@ -1556,7 +1602,7 @@ void npc::init_selling(std::vector<item*> &items, std::vector<int> &prices)
    val = value(slice[i]->front()) - (slice[i]->front().price() / 50);
    if (val <= NPC_LOW_VALUE || mission == NPC_MISSION_SHOPKEEP) {
     items.push_back(&slice[i]->front());
-    price = slice[i]->front().price() / (price_adjustment(sklevel[sk_barter]));
+    price = slice[i]->front().price() / (price_adjustment(skillLevel("barter")));
     prices.push_back(price);
    }
   }
@@ -1575,7 +1621,7 @@ void npc::init_buying(inventory& you, std::vector<item*> &items,
    price = slice[i]->front().price();
    if (val >= NPC_VERY_HI_VALUE)
     price *= 2;
-   price *= price_adjustment(sklevel[sk_barter]);
+   price *= price_adjustment(skillLevel("barter"));
    prices.push_back(price);
   }
  }
@@ -1601,9 +1647,9 @@ void npc::update_worst_item_value()
 int npc::value(const item &it)
 {
  int ret = it.price() / 50;
- skill best = best_skill();
- if (best != sk_unarmed) {
-  int weapon_val = it.weapon_value(sklevel) - weapon.weapon_value(sklevel);
+ Skill* best = best_skill();
+ if (best->ident() != "unarmed") {
+  int weapon_val = it.weapon_value(this) - weapon.weapon_value(this);
   if (weapon_val > 0)
    ret += weapon_val;
  }
@@ -2050,8 +2096,6 @@ void npc::die(game *g, bool your_fault)
   if (g->active_missions[i].npc_id == getID())
    g->fail_mission( g->active_missions[i].uid );
  }
-
- g->cur_om.remove_npc(getID());
 }
 
 std::string npc_attitude_name(npc_attitude att)

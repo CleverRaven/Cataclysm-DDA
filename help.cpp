@@ -39,7 +39,7 @@ c: Viewing                           k: Traps\n\
 d: Hunger, Thirst, and Sleep         l: Items overview\n\
 e: Pain and Stimulants               m: Combat\n\
 f: Addiction                         n: Unarmed Styles\n\
-g: Morale and XP                     o: Survival tips\n\
+g: Morale and Learning               o: Survival tips\n\
 h: Radioactivity and Mutation\n\
 \n\
 1: List of all commands (you can change key commands here)\n\
@@ -221,14 +221,24 @@ Press any key for more...");
    getch();
    werase(w_help);
    mvwprintz(w_help, 0, 0, c_white, "\
-Morale is also responsible for filling your XP pool. This XP pool is used\n\
-for improving your skills; as you use your skills, points are taken from the\n\
-XP pool and placed into the skill used. If your XP pool is empty, your\n\
-skills cannot be improved except through the use of books.\n\
+Morale is also responsible for ensuring you can learn effectively, via a\n\
+mechanic referred to as 'focus'. Your focus level is a measure of how\n\
+effectively you can learn. The natural level is 100, which indicates normal\n\
+learning potential. Higher or lower focus levels make it easier or harder to\n\
+learn from practical experience.\n\
 \n\
-Your XP pool will not fill unless your morale is at least 0. A morale level\n\
-between 0 and 100 gives the percentage chance for your XP to increase by 1\n\
-each turn. Above 100, you get 1 XP point each turn for every 100 morale.");
+Your focus level has a natural set point that it converges towards. When your\n\
+focus is much lower - or higher - than this set point, it will change faster\n\
+than when it is near the set point. Having high morale will raise the set\n\
+point, and having low morale will lower the set point. Pain is also factored\n\
+into the set point calculation - it's harder to learn when you're in pain.\n\
+\n\
+Your focus is also lowered by certain activities. Training your skills\n\
+through real-world practice lowers your focus gradually, by an amount that\n\
+depends on your current level of focus (higher focus means larger decreases,\n\
+as well as improved learning). Training your skills by reading books\n\
+decreases your focus rapidly, by giving a significant penalty to the set\n\
+point of your focus.");
    wrefresh(w_help);
    refresh();
    getch();
@@ -810,10 +820,10 @@ really need it.");
 
   case '6':
    mvwprintz(w_help, 0, 0, c_white, "\
-Q: What is Run Mode, and why does it prevent me from moving?\n\
-A: Run Mode is a way to guarantee that you won't die by holding a movement\n\
+Q: What is Safe Mode, and why does it prevent me from moving?\n\
+A: Safe Mode is a way to guarantee that you won't die by holding a movement\n\
    key down. When a monster comes into view, your movement will be ignored\n\
-   until Run Mode is turned off with the ! key. This ensures that the\n\
+   until Safe Mode is turned off with the ! key. This ensures that the\n\
    sudden appearence of a monster won't catch you off guard.\n\
 \n\
 Q: It seems like everything I eat makes me sick! What's wrong?\n\
@@ -822,14 +832,12 @@ A: Lots of the food found in towns is perishable, and will only last a few\n\
    the first to go. After the first couple of days, you should switch to\n\
    canned food, jerky, and hunting.\n\
 \n\
-Q: Why doesn't reading a book seem to give me any training?\n\
-A: Your skills will not be displayed in the @ screen until they reach level\n\
-   one. Generally it will take several reads of the same book to gain a\n\
-   single level in a skill.\n\
+Q: How can I remove boards from boarded-up windows and doors?\n\
+A: Use a hammer and choose the direction of the boarded-up window or\n\
+   door to remove the boards.\n\
 \n\
-Q: How can I board up windows and doors?\n\
-A: You'll need a hammer, nails, and two by fours. Use the hammer and choose\n\
-   the direction in which the terrain you wish to barricade lies.\n\
+Q: The game just told me to quit, and other weird stuff is happening.\n\
+A: You have the Schizophrenic trait, which might make the game seem buggy.\n\
 \n\
 Q: How can I prevent monsters from attacking while I sleep?\n\
 A: Find a safe place to sleep, in a building far from the front door. Set\n\
@@ -867,16 +875,24 @@ A: Check the difficulty of the recipe, and the primary skill used; your skill\n\
    getch();
    werase(w_help);
    mvwprintz(w_help, 0, 0, c_white, "\
+Q: Why can't I carry anything?\n\
+A: At the start of the game you only have the space in your pockets. A\n\
+   good first goal of many survivors is to find a backpack or pouch to store\n\
+   things in. (The shelter basement is a good place to check first!)\n\
+\n\
 Q: Shotguns bring in more zombies than they kill!  What's the point?\n\
 A: Shotguns are intended for emergency use. If you are cornered, use your\n\
    shotgun to escape, then just run from the zombies it attracts.\n\
 \n\
-Q: The game just told me to quit, and other weird stuff is happening.\n\
-A: You have the Schizophrenic trait, which might make the game seem buggy.\n\
+Q: Help! I started a fire and now my house is burning down!\n\
+A: Fires will spread to nearby flammable tiles if they are able. Liting a\n\
+   fire in a set-up brazier, wood stove, stone fireplace, or pit will stop\n\
+   it from spreading. Fire extinquishers can put out fires that get out of\n\
+   control.\n\
 \n\
 Q: I have a question that's not addressed here. How can I get an answer?\n\
-A: Email your question to TheDarklingWolf@Gmail.com. I'll answer it for you,\n\
-   and possibly include it on this list.");
+A: Ask the helpful people on the forum at smf.cataclysmdda.com or email\n\
+   your question to TheDarklingWolf@Gmail.com.");
 
    wrefresh(w_help);
    refresh();

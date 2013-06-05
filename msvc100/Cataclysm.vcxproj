@@ -72,6 +72,7 @@
     <ClCompile Include="..\basecamp.cpp" />
     <ClCompile Include="..\bionics.cpp" />
     <ClCompile Include="..\bodypart.cpp" />
+    <ClCompile Include="..\building_generation.cpp" />
     <ClCompile Include="..\calendar.cpp" />
     <ClCompile Include="..\catacurse.cpp" />
     <ClCompile Include="..\catajson.cpp" />
@@ -97,9 +98,7 @@
     <ClCompile Include="..\item.cpp" />
     <ClCompile Include="..\item_factory.cpp" />
     <ClCompile Include="..\item_group.cpp" />
-    <ClCompile Include="..\itypedef.cpp">
-      <Optimization>Disabled</Optimization>
-    </ClCompile>
+    <ClCompile Include="..\itypedef.cpp" />
     <ClCompile Include="..\iuse.cpp" />
     <ClCompile Include="..\keypress.cpp" />
     <ClCompile Include="..\lightmap.cpp" />
@@ -112,6 +111,7 @@
     <ClCompile Include="..\mapgen.cpp" />
     <ClCompile Include="..\mapgenformat.cpp" />
     <ClCompile Include="..\mapitemsdef.cpp" />
+    <ClCompile Include="..\material.cpp" />
     <ClCompile Include="..\melee.cpp" />
     <ClCompile Include="..\mission.cpp" />
     <ClCompile Include="..\missiondef.cpp" />
@@ -136,6 +136,7 @@
     <ClCompile Include="..\options.cpp" />
     <ClCompile Include="..\output.cpp" />
     <ClCompile Include="..\overmap.cpp" />
+    <ClCompile Include="..\overmapbuffer.cpp" />
     <ClCompile Include="..\player.cpp" />
     <ClCompile Include="..\posix_time.cpp" />
     <ClCompile Include="..\profession.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="..\basecamp.h" />
     <ClInclude Include="..\bionics.h" />
     <ClInclude Include="..\bodypart.h" />
+    <ClInclude Include="..\building_generation.h" />
     <ClInclude Include="..\calendar.h" />
     <ClInclude Include="..\catacurse.h" />
     <ClInclude Include="..\catajson.h" />
@@ -200,6 +202,7 @@
     <ClInclude Include="..\mapdata.h" />
     <ClInclude Include="..\mapgenformat.h" />
     <ClInclude Include="..\mapitems.h" />
+    <ClInclude Include="..\material.h" />
     <ClInclude Include="..\mission.h" />
     <ClInclude Include="..\monattack.h" />
     <ClInclude Include="..\mondeath.h" />
@@ -215,6 +218,7 @@
     <ClInclude Include="..\options.h" />
     <ClInclude Include="..\output.h" />
     <ClInclude Include="..\overmap.h" />
+    <ClInclude Include="..\overmapbuffer.h" />
     <ClInclude Include="..\picojson.h" />
     <ClInclude Include="..\player.h" />
     <ClInclude Include="..\pldata.h" />
@@ -231,8 +235,8 @@
     <ClInclude Include="..\vehicle.h" />
     <ClInclude Include="..\veh_interact.h" />
     <ClInclude Include="..\veh_type.h" />
+    <ClInclude Include="..\wdirent.h" />
     <ClInclude Include="..\weather.h" />
-    <ClInclude Include="..\weather_data.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resource.rc" />

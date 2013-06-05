@@ -2,6 +2,7 @@
 #include "output.h"
 #include "action.h"
 #include "tutorial.h"
+#include "overmapbuffer.h"
 
 bool tutorial_game::init(game *g)
 {
@@ -26,9 +27,9 @@ bool tutorial_game::init(game *g)
  g->u.name = "John Smith";
  g->levx = 100;
  g->levy = 100;
- g->cur_om = overmap(g, 0, 0);
- g->cur_om.make_tutorial();
- g->cur_om.save();
+ g->cur_om = &overmap_buffer.get(g, 0, 0);
+ g->cur_om->make_tutorial();
+ g->cur_om->save();
  g->u.toggle_trait(PF_QUICK);
  g->u.inv.push_back(item(g->itypes["lighter"], 0, 'e'));
  g->u.skillLevel("gun").level(5);
@@ -37,13 +38,13 @@ bool tutorial_game::init(game *g)
  for (int i = 0; i <= MAPSIZE; i += 2) {
   for (int j = 0; j <= MAPSIZE; j += 2) {
    tinymap tm(&g->itypes, &g->mapitems, &g->traps);
-   tm.generate(g, &(g->cur_om), g->levx + i - 1, g->levy + j - 1, 0, int(g->turn));
+   tm.generate(g, g->cur_om, g->levx + i - 1, g->levy + j - 1, 0, int(g->turn));
   }
  }
 // Start with the overmap revealed
  for (int x = 0; x < OMAPX; x++) {
   for (int y = 0; y < OMAPY; y++)
-   g->cur_om.seen(x, y, 0) = true;
+   g->cur_om->seen(x, y, 0) = true;
  }
  g->m.load(g, g->levx, g->levy, 0);
  g->levz = 0;
@@ -163,7 +164,7 @@ void tutorial_game::post_action(game *g, action_id act)
   itype *it = g->itypes[ g->u.last_item];
   if (it->is_armor()) {
    it_armor *armor = dynamic_cast<it_armor*>(it);
-   if (armor->dmg_resist >= 2 || armor->cut_resist >= 4)
+   if (armor->coverage >= 2 || armor->thickness >= 2)
     add_message(g, LESSON_WORE_ARMOR);
    if (armor->storage >= 20)
     add_message(g, LESSON_WORE_STORAGE);

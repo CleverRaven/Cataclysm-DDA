@@ -4,6 +4,7 @@
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
+#include "material.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -226,13 +227,8 @@ void mattack::resurrect(game *g, monster *z)
    if (g->m.i_at(x, y)[n].type->id == "corpse" && one_in(2)) {
     if (g->u_see(x, y))
      raised++;
-    int burnt_penalty = g->m.i_at(x, y)[n].burnt;
-    monster mon(g->m.i_at(x, y)[n].corpse, x, y);
-    mon.speed = int(mon.speed * .8) - burnt_penalty / 2;
-    mon.hp    = int(mon.hp    * .7) - burnt_penalty;
-    g->m.i_rem(x, y, n);
+    g->revive_corpse(x, y, n);
     n = g->m.i_at(x, y).size();	// Only one body raised per tile
-    g->z.push_back(mon);
    }
   }
  }
@@ -828,7 +824,7 @@ void mattack::formblob(game *g, monster *z)
      g->z[thatmon].speed += 5;
      if (g->z[thatmon].speed >= 60)
       g->z[thatmon].poly(g->mtypes[mon_blob]);
-    } else if ((g->z[thatmon].made_of(FLESH) || g->z[thatmon].made_of(VEGGY)) &&
+    } else if ((g->z[thatmon].made_of("flesh") || g->z[thatmon].made_of("veggy")) &&
                rng(0, z->hp) > rng(0, g->z[thatmon].hp)) {	// Blobify!
      didit = true;
      g->z[thatmon].poly(g->mtypes[mon_blob]);
@@ -961,7 +957,7 @@ void mattack::vortex(game *g, monster *z)
       }
 // TODO: Hit NPCs
       if (dam == 0 || i == traj.size() - 1) {
-       if (thrown.made_of(GLASS)) {
+       if (thrown.made_of("glass")) {
         if (g->u_see(traj[i].x, traj[i].y))
          g->add_msg("The %s shatters!", thrown.tname().c_str());
         for (int n = 0; n < thrown.contents.size(); n++)
@@ -979,30 +975,19 @@ void mattack::vortex(game *g, monster *z)
     int distance = 0, damage = 0;
     monster *thrown = &(g->z[mondex]);
     switch (thrown->type->size) {
-     case MS_TINY:   distance = 5; break;
-     case MS_SMALL:  distance = 3; break;
-     case MS_MEDIUM: distance = 2; break;
-     case MS_LARGE:  distance = 1; break;
+     case MS_TINY:   distance = 10; break;
+     case MS_SMALL:  distance = 6; break;
+     case MS_MEDIUM: distance = 4; break;
+     case MS_LARGE:  distance = 2; break;
      case MS_HUGE:   distance = 0; break;
     }
-    damage = distance * 4;
-    switch (thrown->type->mat) {
-     case LIQUID:  distance += 3; damage -= 10; break;
-     case VEGGY:   distance += 1; damage -=  5; break;
-     case POWDER:  distance += 4; damage -= 30; break;
-     case COTTON:
-     case WOOL:    distance += 5; damage -= 40; break;
-     case LEATHER: distance -= 1; damage +=  5; break;
-     case KEVLAR:  distance -= 3; damage -= 20; break;
-     case STONE:   distance -= 3; damage +=  5; break;
-     case PAPER:   distance += 6; damage -= 10; break;
-     case WOOD:    distance += 1; damage +=  5; break;
-     case PLASTIC: distance += 1; damage +=  5; break;
-     case GLASS:   distance += 2; damage += 20; break;
-     case IRON:    distance -= 1; // fall through
-     case STEEL:
-     case SILVER:  distance -= 3; damage -= 10; break;
-    }
+    damage = distance * 3;
+    // subtract 1 unit of distance for every 10 units of density
+    // subtract 5 units of damage for every 10 units of density
+    material_type* mon_mat = material_type::find_material(thrown->type->mat);
+    distance -= mon_mat->density() / 10;
+    damage -= mon_mat->density() / 5;
+    
     if (distance > 0) {
      if (g->u_see(thrown))
       g->add_msg("The %s is thrown by winds!", thrown->name().c_str());
@@ -1180,7 +1165,7 @@ void mattack::smg(game *g, monster *z)
   z->moves = -150;			// It takes a while
   if (g->u_see(z->posx, z->posy))
    g->add_msg("The %s fires its smg!", z->name().c_str());
-  player tmp;
+  npc tmp;
   tmp.name = "The " + z->name();
 
   tmp.skillLevel("smg").level(1);
@@ -1219,7 +1204,7 @@ void mattack::smg(game *g, monster *z)
  if (g->u_see(z->posx, z->posy))
   g->add_msg("The %s fires its smg!", z->name().c_str());
 // Set up a temporary player to fire this gun
- player tmp;
+ npc tmp;
  tmp.name = "The " + z->name();
 
  tmp.skillLevel("smg").level(1);
@@ -1433,7 +1418,7 @@ void mattack::bite(game *g, monster *z)
     }
     body_part hit = random_body_part();
     int dam = rng(5, 10), side = rng(0, 1);
-    g->add_msg("Your %s is bitten for %d damage!", body_part_name(hit, side).c_str(), dam);
+    g->add_msg("Your %s is bitten!", body_part_name(hit, side).c_str());
     g->u.hit(g, hit, side, dam, 0);
     if(one_in(10))
 	{
@@ -1442,3 +1427,70 @@ void mattack::bite(game *g, monster *z)
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
 
+void mattack::flesh_golem(game *g, monster *z)
+{
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
+	{
+    if (one_in(12)){
+    int j;
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 20 ||
+        !g->sees_u(z->posx, z->posy, j))
+    return;	// Out of range
+    z->moves = -200;
+    z->sp_timeout = z->type->sp_freq;	// Reset timer
+    g->sound(z->posx, z->posy, 80, "a terrifying roar that nearly deafens you!");
+    }
+    return;
+	}
+    z->sp_timeout = z->type->sp_freq;	// Reset timer
+    g->add_msg("The %s swings a massive claw at you!", z->name().c_str());
+    z->moves -= 100;
+
+	// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+ int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+ if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
+	{
+        g->add_msg("You dodge it!");
+        g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+        return;
+    }
+    body_part hit = random_body_part();
+    int dam = rng(5, 10), side = rng(0, 1);
+    g->add_msg("Your %s is battered for %d damage!", body_part_name(hit, side).c_str(), dam);
+    g->u.hit(g, hit, side, dam, 0);
+    if(one_in(6))
+	{
+        g->u.add_disease(DI_DOWNED, 30, g);
+    }
+    g->u.practice(g->turn, "dodge", z->type->melee_skill);
+}
+void mattack::parrot(game *g, monster *z)
+{
+ if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 50)
+  return;	// Out of range
+ if (one_in(20)){
+  z->moves = -100;			// It takes a while
+  z->sp_timeout = z->type->sp_freq;	// Reset timer
+  switch (rng(1,18)) {
+    case 1:      g->sound(z->posx, z->posy, 60, "a woman cry out!");       break;
+    case 2:      g->sound(z->posx, z->posy, 40, "a small girl crying...");       break;
+    case 3:      g->sound(z->posx, z->posy, 20, "'This creature has some form of higher level brain function.'");       break;
+    case 4:      g->sound(z->posx, z->posy, 40, "'Shall we terminate the specimen if power is lost?'");       break;
+    case 5:      g->sound(z->posx, z->posy, 40, "a small girl pleading, 'Mommy, help!'");       break;
+    case 6:      g->sound(z->posx, z->posy, 40, "a child, 'Oh God, my leg!  Give it back!'");       break;
+    case 7:      g->sound(z->posx, z->posy, 40, "'Destroy the specimen if it begins to interact with the lock.'");       break;
+    case 8:      g->sound(z->posx, z->posy, 40, "a woman yell, 'I hope you rot in hell for this!'");       break;
+    case 9:      g->sound(z->posx, z->posy, 40, "'Kill them all and let God sort them out!'");       break;
+    case 10:     g->sound(z->posx, z->posy, 40, "'I'm gonna cut your damned limbs off and let you blead out!'");       break;
+    case 11:     g->sound(z->posx, z->posy, 40, "'I wonder if you understand what I'm saying.'");       break;
+    case 12:     g->sound(z->posx, z->posy, 40, "'I believe that it is trying to learn our language.'");       break;
+    case 13:     g->sound(z->posx, z->posy, 40, "'It seems to want to experiment on us... give it a prisoner.'");       break;
+    case 14:     g->sound(z->posx, z->posy, 40, "'It is interested in observing the brain of a living human.'");       break;
+    case 15:     g->sound(z->posx, z->posy, 40, "'Would it react differently with a child?'");       break;
+    case 16:     g->sound(z->posx, z->posy, 40, "'It seems to want to experiment on us... give it a prisoner.'");       break;
+    case 17:     g->sound(z->posx, z->posy, 40, "'Although advanced, its ethics are not our own.'");       break;
+    case 18:     g->sound(z->posx, z->posy, 40, "'It shows no empathy towards the prisoners we... 'gave' it.'");       break;
+   }
+ }
+
+}
