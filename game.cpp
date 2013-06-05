@@ -248,8 +248,6 @@ void game::start_game()
 
 // Find a random house on the map, and set us there.
  cur_om->first_house(levx, levy);
- levx -= int(int(MAPSIZE / 2) / 2);
- levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
 // Start the overmap with our immediate neighborhood visible
  if (OPTIONS[OPT_STATIC_SPAWN])
@@ -261,6 +259,8 @@ void game::start_game()
   }
  }
 // Convert the overmap coordinates to submap coordinates
+ levx -= int(int(MAPSIZE / 2) / 2);
+ levy -= int(int(MAPSIZE / 2) / 2);
  levx = levx * 2 - 1;
  levy = levy * 2 - 1;
  set_adjacent_overmaps(true);
