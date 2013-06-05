@@ -20,7 +20,7 @@
         "bash_dmg_verb" : "ripped",
         "cut_dmg_verb"  : "cut",
         "dmg_adj"       : ["lightly damaged", "damaged", "very damaged", "thoroughly damaged"],        
-        "acid_resist"   :   0,
+        "acid_resist"   :   1,
         "elec_resist"   :   1,
         "fire_resist"   :   0,
         "density"       :   4
@@ -33,7 +33,7 @@
         "bash_dmg_verb" : "bruised",
         "cut_dmg_verb"  : "sliced",
         "dmg_adj"       : ["bruised", "mutilated", "badly mutilated", "thoroughly mutilated"],        
-        "acid_resist"   :   0,
+        "acid_resist"   :   1,
         "elec_resist"   :   1,
         "fire_resist"   :   0,
         "density"       :   5
@@ -59,7 +59,7 @@
         "bash_dmg_verb" : "bruised",
         "cut_dmg_verb"  : "sliced",
         "dmg_adj"       : ["bruised", "mutilated", "badly mutilated", "thoroughly mutilated"],         
-        "acid_resist"   :   0,
+        "acid_resist"   :   1,
         "elec_resist"   :   1,
         "fire_resist"   :   0,
         "density"       :   5
@@ -72,7 +72,7 @@
         "bash_dmg_verb" : "ripped",
         "cut_dmg_verb"  : "cut",
         "dmg_adj"       : ["ripped", "torn", "shredded", "tattered"],        
-        "acid_resist"   :   0,
+        "acid_resist"   :   1,
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   3
@@ -85,7 +85,7 @@
         "bash_dmg_verb" : "torn",
         "cut_dmg_verb"  : "cut",
         "dmg_adj"       : ["ripped", "torn", "shredded", "tattered"],        
-        "acid_resist"   :   0,
+        "acid_resist"   :   1,
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   9
@@ -98,7 +98,7 @@
         "bash_dmg_verb" : "ripped",
         "cut_dmg_verb"  : "sliced",
         "dmg_adj"       : ["scratched", "cut", "shredded", "tattered"],          
-        "acid_resist"   :   0,
+        "acid_resist"   :   1,
         "elec_resist"   :   2,
         "fire_resist"   :   1,
         "density"       :   6
@@ -111,7 +111,7 @@
         "bash_dmg_verb" : "ripped",
         "cut_dmg_verb"  : "cut",
         "dmg_adj"       : ["marked", "dented", "scarred", "broken"],        
-        "acid_resist"   :   0,
+        "acid_resist"   :   2,
         "elec_resist"   :   2,
         "fire_resist"   :   1,
         "density"       :   10
@@ -124,7 +124,7 @@
         "bash_dmg_verb" : "ripped",
         "cut_dmg_verb"  : "sliced",
         "dmg_adj"       : ["ripped", "torn", "shredded", "tattered"],          
-        "acid_resist"   :   0,
+        "acid_resist"   :   1,
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   9
@@ -137,7 +137,7 @@
         "bash_dmg_verb" : "cracked",
         "cut_dmg_verb"  : "chipped",
         "dmg_adj"       : ["scratched", "cut", "cracked", "shattered"],        
-        "acid_resist"   :   0,
+        "acid_resist"   :   1,
         "elec_resist"   :   2,
         "fire_resist"   :   2,
         "density"       :   10
@@ -150,7 +150,7 @@
         "bash_dmg_verb" : "cracked",
         "cut_dmg_verb"  : "chipped",
         "dmg_adj"       : ["scratched", "cut", "cracked", "shattered"],       
-        "acid_resist"   :   2,
+        "acid_resist"   :   3,
         "elec_resist"   :   2,
         "fire_resist"   :   2,
         "density"       :   17
@@ -163,7 +163,7 @@
         "bash_dmg_verb" : "ripped",
         "cut_dmg_verb"  : "cut",
         "dmg_adj"       : ["ripped", "torn", "shredded", "tattered"],       
-        "acid_resist"   :   0,
+        "acid_resist"   :   1,
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   4
@@ -176,7 +176,7 @@
         "bash_dmg_verb" : "splintered",
         "cut_dmg_verb"  : "gouged",
         "dmg_adj"       : ["scratched", "chipped", "cracked", "splintered"],        
-        "acid_resist"   :   1,
+        "acid_resist"   :   2,
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   4
@@ -189,7 +189,7 @@
         "bash_dmg_verb" : "dented",
         "cut_dmg_verb"  : "gouged",
         "dmg_adj"       : ["scratched", "cut", "cracked", "shattered"],       
-        "acid_resist"   :   1,
+        "acid_resist"   :   2,
         "elec_resist"   :   2,
         "fire_resist"   :   0,
         "density"       :   8
@@ -197,12 +197,12 @@
     {
         "ident"         : "glass",
         "name"          : "Glass",
-        "bash_resist"   :   1,
+        "bash_resist"   :   3,
         "cut_resist"    :   4,
         "bash_dmg_verb" : "cracked",
         "cut_dmg_verb"  : "scratched",
         "dmg_adj"       : ["scratched", "cut", "cracked", "shattered"],       
-        "acid_resist"   :   2,
+        "acid_resist"   :   3,
         "elec_resist"   :   2,
         "fire_resist"   :   2,
         "density"       :   14
@@ -241,7 +241,7 @@
         "bash_dmg_verb" : "dented",
         "cut_dmg_verb"  : "scratched",
         "dmg_adj"       : ["marked", "dented", "smashed", "shattered"],          
-        "acid_resist"   :   0,
+        "acid_resist"   :   2,
         "elec_resist"   :   0,
         "fire_resist"   :   2,
         "density"       :   70

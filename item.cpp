@@ -1212,6 +1212,27 @@ int item::cut_resist() const
     return ret;       
 }
 
+int item::acid_resist() const
+{
+    int ret = 0;
+    
+    if (is_null())
+        return 0;
+            
+    // similar weighted sum of acid resistances
+    material_type* cur_mat1 = material_type::find_material(type->m1);        
+    material_type* cur_mat2 = material_type::find_material(type->m2);
+    if (cur_mat2->is_null())
+    {
+        ret = 3 * cur_mat1->acid_resist();      
+    } 
+    else
+    {
+        ret = cur_mat1->acid_resist() + cur_mat1->acid_resist() + cur_mat2->acid_resist();
+    }    
+    
+}
+
 style_move item::style_data(technique_id tech)
 {
  style_move ret;
