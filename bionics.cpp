@@ -309,6 +309,8 @@ void player::activate_bionic(int b, game *g)
   rem_disease(DI_TOOK_PROZAC);
   rem_disease(DI_TOOK_FLUMED);
   rem_disease(DI_ADRENALINE);
+  pkill = 0;
+  stim = 0;
  } else if(bio.id == "bio_evap"){
   if (query_yn("Drink directly? Otherwise you will need a container.")) {
    tmp_item = item(g->itypes["water_clean"], 0);
