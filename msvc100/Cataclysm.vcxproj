@@ -62,7 +62,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_MBCS;NOMINMAX;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;NOMINMAX;_USE_MATH_DEFINES;USE_WINMAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -78,6 +78,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release' or '$(Configuration)'=='Release SDL'">
     <Link>
       <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug SDL' or '$(Configuration)'=='Release SDL'">
