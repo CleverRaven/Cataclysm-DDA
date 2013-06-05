@@ -1816,12 +1816,22 @@ bool game::handle_action()
 
   case ACTION_SLEEP:
    if (veh_ctrl) {
-    std::string message = veh->use_controls();
-    if (!message.empty())
-     add_msg(message.c_str());
+    add_msg("Vehicle control has moved, new default binding is '^'.");
    } else if (query_yn("Are you sure you want to sleep?")) {
     u.try_to_sleep(this);
     u.moves = 0;
+   }
+   break;
+
+  case ACTION_CONTROL_VEHICLE:
+   if (veh_ctrl) {
+    std::string message = veh->use_controls();
+    if (!message.empty())
+     add_msg(message.c_str());
+   } else if (u.in_vehicle) {
+     exit_vehicle();
+   } else {
+     add_msg("You're not in a vehicle.");
    }
    break;
 
@@ -5434,28 +5444,31 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
  }
 }
 
-void game::examine()
+void game::exit_vehicle()
 {
- if (u.in_vehicle) {
-  int vpart;
-  vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
-  if (veh) {
-   // velocity is divided by 100 to get mph, so only try throwing the player if the mph is > 1
-   bool moving = veh->velocity >= 100 || veh->velocity <= -100; 
-   bool qexv = (moving ?
-                query_yn("Really exit moving vehicle?") :
-                query_yn("Exit vehicle?"));
-   if (qexv) {
-    m.unboard_vehicle (this, u.posx, u.posy);
+    if (!u.in_vehicle)
+        return;
+    int vpart;
+    vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
+    if (!veh)
+        debugmsg("Tried to exit non-existent vehicle.");
+    // velocity is divided by 100 to get mph,
+    // so only try throwing the player if the mph is > 1
+    bool moving = veh->velocity >= 100 || veh->velocity <= -100; 
+    if (moving && !query_yn("Really exit moving vehicle?"))
+        return;
+    add_msg("You disembark.");
+    m.unboard_vehicle(this, u.posx, u.posy);
     u.moves -= 200;
     if (moving) {      // TODO: move player out of harms way
-     int dsgn = veh->parts[vpart].mount_dx > 0? 1 : -1;
-     fling_player_or_monster (&u, 0, veh->face.dir() + 90 * dsgn, veh->velocity / (float)100);
+        int dsgn = veh->parts[vpart].mount_dx > 0 ? 1 : -1;
+        fling_player_or_monster(&u, 0, veh->face.dir() + 90 * dsgn, veh->velocity / (float)100);
     }
     return;
-   }
-  }
- }
+}
+
+void game::examine()
+{
  mvwprintw(w_terrain, 0, 0, "Examine where? (Direction button) ");
  wrefresh(w_terrain);
  DebugLog() << __FUNCTION__ << "calling get_input() \n";

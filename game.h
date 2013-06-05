@@ -146,6 +146,7 @@ class game
   void cancel_activity();
   void cancel_activity_query(const char* message, ...);
   bool cancel_activity_or_ignore_query(const char* reason, ...); 
+  void exit_vehicle();
 
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
