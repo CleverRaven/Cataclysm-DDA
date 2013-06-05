@@ -5450,8 +5450,10 @@ void game::exit_vehicle()
         return;
     int vpart;
     vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
-    if (!veh)
+    if (!veh) {
         debugmsg("Tried to exit non-existent vehicle.");
+        return;
+    }
     // velocity is divided by 100 to get mph,
     // so only try throwing the player if the mph is > 1
     bool moving = veh->velocity >= 100 || veh->velocity <= -100; 
