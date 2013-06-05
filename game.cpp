@@ -5460,9 +5460,9 @@ void game::exit_vehicle()
     add_msg("You disembark.");
     m.unboard_vehicle(this, u.posx, u.posy);
     u.moves -= 200;
-    if (moving) {      // TODO: move player out of harms way
-        int dsgn = veh->parts[vpart].mount_dx > 0 ? 1 : -1;
-        fling_player_or_monster(&u, 0, veh->face.dir() + 90 * dsgn, veh->velocity / (float)100);
+    if (moving) {
+        int dsgn = veh->parts[vpart].mount_dy > 0 ? 1 : -1;
+        fling_player_or_monster(&u, 0, veh->face.dir() + 90 * dsgn, 30);
     }
     return;
 }
