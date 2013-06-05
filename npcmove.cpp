@@ -996,9 +996,10 @@ void npc::move_to(game *g, int x, int y)
 // TODO: Determine if it's an enemy NPC (hit them), or a friendly in the way
   moves -= 100;
  else if (g->m.move_cost(x, y) > 0) {
+  bool diagonal = ( posx != x && posy != y );
   posx = x;
   posy = y;
-  moves -= run_cost(g->m.move_cost(x, y) * 50);
+  moves -= run_cost(g->m.move_cost(x, y) * 50) * ( trigdist && diagonal ? 1.41 : 1 );
  } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor)))
   moves -= 100;
  else if (g->m.has_flag(bashable, x, y)) {

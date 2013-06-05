@@ -8850,7 +8850,7 @@ void game::plmove(int x, int y)
       }
 
 // Calculate cost of moving
-  u.moves -= u.run_cost(m.move_cost(x, y) * 50);
+  u.moves -= u.run_cost(m.move_cost(x, y) * 50 ) * ( trigdist && x != u.posx && y != u.posy ? 1.41 : 1 );
 
 // Adjust recoil down
   if (u.recoil > 0) {
@@ -9013,6 +9013,7 @@ void game::plswim(int x, int y)
  if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
      x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)))
   update_map(x, y);
+ bool diagonal=( x != u.posx && y != u.posy );
  u.posx = x;
  u.posy = y;
  if (!m.has_flag(swimmable, x, y)) {
@@ -9040,7 +9041,7 @@ void game::plswim(int x, int y)
   else
    popup("You need to breathe but you can't swim!  Get to dry land, quick!");
  }
- u.moves -= (movecost > 200 ? 200 : movecost);
+ u.moves -= (movecost > 200 ? 200 : movecost)  * (trigdist && diagonal ? 1.41 : 1 );
  u.inv.rust_iron_items();
 }
 

@@ -249,10 +249,10 @@ protected:
 private:
  long determine_wall_corner(const int x, const int y, const long orig_sym);
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
- void apply_light_source(int x, int y, float luminance);
+ void apply_light_source(int x, int y, float luminance, bool trig_brightcalc = true);
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
-                      int sx, int sy, int ex, int ey, float luminance);
+                      int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
