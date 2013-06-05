@@ -590,10 +590,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             }
 
             //Hurt the player
-            p.hit(g, bphit, side, dam, cut);
+            dam = p.hit(g, bphit, side, dam, cut);
 
             //Monster effects
-            if (has_flag(MF_VENOM))
+            if (dam > 0 && has_flag(MF_VENOM))
             {
                 if (!is_npc)
                 {
@@ -601,7 +601,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 }
                 p.add_disease(DI_POISON, 30, g);
             }
-            else if (has_flag(MF_BADVENOM))
+            else if (dam > 0 && has_flag(MF_BADVENOM))
             {
                 if (!is_npc)
                 {

@@ -308,7 +308,7 @@ std::string option_desc(option_key key)
   case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map\nDefault is false";
   case OPT_AUTOSAVE_TURNS: return "Number of minutes between autosaves";
   case OPT_AUTOSAVE_MINUTES: return "Minimum number of real time minutes\nbetween autosaves";
-  case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\nshould only make a difference\nduring the night.\nDefault is false";
+  case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\nshould only make a difference\nduring the night.\nDefault is true";
   case OPT_RAIN_ANIMATION: return "If true, will display weather\nanimations.\nDefault is true";
   case OPT_QUERY_DISASSEMBLE: return "If true, will query before\ndisassembling items.\nDefault is true";
   case OPT_DROP_EMPTY: return "Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers";
@@ -406,7 +406,7 @@ char option_max_options(option_key id)
         ret = 61;
         break;
       case OPT_AUTOSAFEMODETURNS:
-        ret = 51;
+        ret = 101;
         break;
       case OPT_INITIAL_POINTS:
         ret = 25;
@@ -475,7 +475,7 @@ autosave_turns 30\n\
 # Minimum real time minutes between autosaves\n\
 autosave_minutes 5\n\
 # If true will add nice gradual-lighting (should only make a difference @night)\n\
-gradual_night_light F\n\
+gradual_night_light T\n\
 # If true, will display weather animations\n\
 rain_animation T\n\
 # If true, will query beefore disassembling items\n\
