@@ -52,30 +52,35 @@ bool map::process_fields_in_submap(game *g, int gridn)
      cur->age += 250;
     break;
 
-// TODO-MATERIALS: use acid resistance
    case fd_acid:
     if (has_flag(swimmable, x, y))	// Dissipate faster in water
      cur->age += 20;
     for (int i = 0; i < i_at(x, y).size(); i++) {
      item *melting = &(i_at(x, y)[i]);
-     if (melting->made_of(LIQUID) || melting->made_of("veggy")   ||
-         melting->made_of("flesh")  || melting->made_of("powder")  ||
-         melting->made_of("hflesh") ||
-         melting->made_of("cotton") || melting->made_of("wool")    ||
-         melting->made_of("paper")  || melting->made_of("plastic") ||
-         (melting->made_of("glass") && !one_in(3)) || one_in(4)) {
-// Acid destructable objects here
-      melting->damage++;
-      if (melting->damage >= 5 ||
-          (melting->made_of("paper") && melting->damage >= 3)) {
-       cur->age += melting->volume();
-       for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
-        i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
-       i_at(x, y).erase(i_at(x, y).begin() + i);
-       i--;
+     
+     // see DEVELOPER_FAQ.txt for how acid resistance is calculated
+     
+     int chance = melting->acid_resist();
+     if (chance == 0)
+     {
+         melting->damage++;
+     }
+     else if (chance > 0 && chance < 9)
+     {
+         if (one_in(chance))
+         {
+             melting->damage++;
+         }
+     }
+     if (melting->damage >= 5)
+     {
+        cur->age += melting->volume();
+        for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
+            i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
+        i_at(x, y).erase(i_at(x, y).begin() + i);
+        i--;
       }
      }
-    }
     break;
 
    case fd_sap:
