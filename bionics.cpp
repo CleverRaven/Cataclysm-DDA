@@ -308,6 +308,10 @@ void player::activate_bionic(int b, game *g)
   rem_disease(DI_DRUNK);
   rem_disease(DI_CIG);
   rem_disease(DI_HIGH);
+  rem_disease(DI_HALLU);
+  rem_disease(DI_VISUALS);
+  rem_disease(DI_IODINE);
+  rem_disease(DI_TOOK_XANAX);
   rem_disease(DI_TOOK_PROZAC);
   rem_disease(DI_TOOK_FLUMED);
   rem_disease(DI_ADRENALINE);
