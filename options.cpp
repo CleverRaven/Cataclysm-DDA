@@ -117,7 +117,7 @@ void game::show_options()
       else
       {
         OPTIONS[ option_key(offset + line) ]--;
-        if ((OPTIONS[ option_key(offset + line) ]) < 0 )
+        if ((OPTIONS[ option_key(offset + line) ]) < option_min_options(option_key(offset + line)))
           OPTIONS[ option_key(offset + line) ] = option_max_options(option_key(offset + line)) - 1;
       }
       changed_options = true;
@@ -129,7 +129,7 @@ void game::show_options()
     {
       OPTIONS[ option_key(offset + line) ]++;
       if ((OPTIONS[ option_key(offset + line) ]) >= option_max_options(option_key(offset + line)))
-        OPTIONS[ option_key(offset + line) ] = 0;
+        OPTIONS[ option_key(offset + line) ] = option_min_options(option_key(offset + line));
     }
     changed_options = true;
   break;
@@ -287,6 +287,7 @@ std::string option_string(option_key key)
   case OPT_SKILL_RUST: return "skill_rust";
   case OPT_DELETE_WORLD: return "delete_world";
   case OPT_INITIAL_POINTS: return "initial_points";
+  case OPT_MAX_TRAIT_POINTS: return "max_trait_points";
   case OPT_INITIAL_TIME: return "initial_time";
   case OPT_VIEWPORT_X: return "viewport_x";
   case OPT_VIEWPORT_Y: return "viewport_y";
@@ -325,6 +326,7 @@ std::string option_desc(option_key key)
   case OPT_SKILL_RUST: return "Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - none at all";
   case OPT_DELETE_WORLD: return "Delete saves upon player death.\n0 - no (default)\n1 - yes\n2 - query";
   case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.\nDefault is 6";
+  case OPT_MAX_TRAIT_POINTS: return "Maximum trait points available for\ncharacter generation.\nDefault is 12";
   case OPT_INITIAL_TIME: return "Initial starting time of day on\ncharacter generation.\nDefault is 8:00";
   case OPT_VIEWPORT_X: return "WINDOWS ONLY: Set the expansion of the\nviewport along the X axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
   case OPT_VIEWPORT_Y: return "WINDOWS ONLY: Set the expansion of the\nviewport along the Y axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
@@ -363,6 +365,7 @@ std::string option_name(option_key key)
   case OPT_SKILL_RUST: return "Skill Rust";
   case OPT_DELETE_WORLD: return "Delete World";
   case OPT_INITIAL_POINTS: return "Initial points";
+  case OPT_MAX_TRAIT_POINTS: return "Maximum trait points";
   case OPT_INITIAL_TIME: return "Initial time";
   case OPT_VIEWPORT_X: return "Viewport width";
   case OPT_VIEWPORT_Y: return "Viewport height";
@@ -387,6 +390,7 @@ bool option_is_bool(option_key id)
   case OPT_DROP_EMPTY:
   case OPT_DELETE_WORLD:
   case OPT_INITIAL_POINTS:
+  case OPT_MAX_TRAIT_POINTS:
   case OPT_INITIAL_TIME:
   case OPT_VIEWPORT_X:
   case OPT_VIEWPORT_Y:
@@ -422,6 +426,9 @@ char option_max_options(option_key id)
       case OPT_INITIAL_POINTS:
         ret = 25;
         break;
+      case OPT_MAX_TRAIT_POINTS:
+        ret = 25;
+        break;
       case OPT_INITIAL_TIME:
         ret = 24; // 0h to 23h
         break;
@@ -446,6 +453,24 @@ char option_max_options(option_key id)
         break;
       default:
         ret = 2;
+        break;
+    }
+  return ret;
+}
+
+char option_min_options(option_key id)
+{
+  char ret;
+  if (option_is_bool(id))
+    ret = 0;
+  else
+    switch (id)
+    {
+      case OPT_MAX_TRAIT_POINTS:
+        ret = 3;
+        break;
+      default:
+        ret = 0;
         break;
     }
   return ret;
@@ -504,6 +529,8 @@ skill_rust 0\n\
 delete_world 0\n\
 # Initial points available in character generation\n\
 initial_points 6\n\
+# Maximum trait points allowed in character generation\n\
+max_trait_points 12\n\
 # Initial time at character generation\n\
 initial_time 8\n\
 # The width of the terrain window in characters.\n\
