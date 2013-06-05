@@ -7776,20 +7776,22 @@ void game::drop(char chInput)
    add_msg("You drop several items.");
  }
 
- bool vh_overflow = false;
- int i = 0;
+  bool vh_overflow = false;
+ int i = 0; //stuff dropped into trunk
+ int j = 0; //stuff dropped onto ground
  if (to_veh) {
   for (i = 0; i < dropped.size(); i++)
    if (!veh->add_item (veh_part, dropped[i])) {
     vh_overflow = true;
     break;
    }
-  if (vh_overflow)
+  if (vh_overflow){
    add_msg ("The trunk is full, so some items fall on the ground.");
- }
- if (!to_veh || vh_overflow)
-  for (i = 0; i < dropped.size(); i++) {
-    m.add_item_or_charges(u.posx, u.posy, dropped[i]);
+    if (!to_veh || vh_overflow)
+     for (j = i; j < dropped.size(); j++) {
+      m.add_item_or_charges(u.posx, u.posy, dropped[j]);
+     }
+  }
  }
 }
 
