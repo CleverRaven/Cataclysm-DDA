@@ -2414,18 +2414,18 @@ void map::process_active_items_in_submap(game *g, const int nonant)
 					} else if ((*items)[n].type->id == "corpse") { // some corpses rez over time
 					    if ((*items)[n].ready_to_revive(g))
 					    {
-                                                if (rng(0,(*items)[n].volume()) > (*items)[n].burnt)
-                                                {
-                                                    int mapx = (nonant % my_MAPSIZE) * SEEX + i;
-                                                    int mapy = (nonant / my_MAPSIZE) * SEEY + j;
-                                                    if (g->u_see(mapx, mapy))
-                                                    {
-                                                        g->add_msg("A nearby corpse rises and moves towards you!");
-                                                    }
-                                                    g->revive_corpse(mapx, mapy, n);
-                                                } else {
-                                                    (*items)[n].active = false;
-                                                }
+             if (rng(0,(*items)[n].volume()) > (*items)[n].burnt)
+             {
+                 int mapx = (nonant % my_MAPSIZE) * SEEX + i;
+                 int mapy = (nonant / my_MAPSIZE) * SEEY + j;
+                 if (g->u_see(mapx, mapy))
+                 {
+                     g->add_msg("A nearby corpse rises and moves towards you!");
+                 }
+                 g->revive_corpse(mapx, mapy, n);
+             } else {
+                 (*items)[n].active = false;
+             }
 					    }
 					} else if	(!(*items)[n].is_tool()) { // It's probably a charger gun
 						(*items)[n].active = false;
