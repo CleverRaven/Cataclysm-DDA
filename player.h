@@ -154,7 +154,7 @@ public:
 
 // Converts bphurt to a hp_part (if side == 0, the left), then does/heals dam
 // hit() processes damage through armor
- void hit   (game *g, body_part bphurt, int side, int  dam, int  cut);
+ int hit   (game *g, body_part bphurt, int side, int  dam, int  cut);
 // absorb() reduces dam and cut by your armor (and bionics, traits, etc)
  void absorb(game *g, body_part bp,               int &dam, int &cut);
 // hurt() doesn't--effects of disease, what have you

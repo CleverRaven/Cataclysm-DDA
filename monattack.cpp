@@ -1419,8 +1419,8 @@ void mattack::bite(game *g, monster *z)
     body_part hit = random_body_part();
     int dam = rng(5, 10), side = rng(0, 1);
     g->add_msg("Your %s is bitten!", body_part_name(hit, side).c_str());
-    g->u.hit(g, hit, side, dam, 0);
-    if(one_in(10))
+    dam = g->u.hit(g, hit, side, dam, 0);
+    if(dam > 0 && one_in(14 - dam))
 	{
         g->u.add_disease(DI_BITE, 3600, g);
     }
