@@ -5016,7 +5016,7 @@ void game::smash()
                     // Splatter some blood around
                     for (int x = u.posx + smashx - 1; x <= u.posx + smashx + 1; x++) {
                         for (int y = u.posy + smashy - 1; y <= u.posy + smashy + 1; y++) {
-                            if (!one_in(damage)) {
+                            if (!one_in(damage+1)) {
                                 if (m.field_at(x, y).type == fd_blood &&
                                     m.field_at(x, y).density < 3) {
                                     m.field_at(x, y).density++;
