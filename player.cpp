@@ -2844,7 +2844,7 @@ int player::intimidation()
  return ret;
 }
 
-void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
+int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 {
  int painadd = 0;
  if (has_disease(DI_SLEEP)) {
@@ -2857,7 +2857,7 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 
  dam += cut;
  if (dam <= 0)
-  return;
+  return dam;
 
  hit_animation(this->posx - g->u.posx + VIEWX - g->u.view_offset_x,
                this->posy - g->u.posy + VIEWY - g->u.view_offset_y,
@@ -2962,6 +2962,8 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  if (has_trait(PF_ADRENALINE) && !has_disease(DI_ADRENALINE) &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease(DI_ADRENALINE, 200, g);
+
+ return dam;
 }
 
 void player::hurt(game *g, body_part bphurt, int side, int dam)
