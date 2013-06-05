@@ -62,13 +62,13 @@ std::vector <point> line_to(int x1, int y1, int x2, int y2, int t)
 
 int trig_dist(int x1, int y1, int x2, int y2)
 {
- return int(sqrt(double(pow(x1 - x2, 2.0) + pow(y1 - y2, 2.0))));
+   return int( sqrt( double( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) ) ) );
 }
 
 int rl_dist(int x1, int y1, int x2, int y2)
 {
  if(trigdist) {
-   return int(sqrt(double(pow(x1 - x2, 2.0) + pow(y1 - y2, 2.0))));
+   return int( sqrt( double( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) ) ) );
  }
  int dx = abs(x1 - x2), dy = abs(y1 - y2);
  if (dx > dy)
