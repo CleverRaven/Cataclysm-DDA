@@ -2003,6 +2003,9 @@ void overmap::place_rifts(int const z)
 
 void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
 {
+ if (x1 == x2 && y1 == y2)
+     return;
+
  std::vector<point> next;
  int dir = 0;
  int x = x1, y = y1;
