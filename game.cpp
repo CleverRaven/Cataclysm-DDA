@@ -3630,7 +3630,9 @@ unsigned char game::light_level()
  }
  if (ret < 8 && event_queued(EVENT_ARTIFACT_LIGHT))
   ret = 8;
-
+ if(ret < 1)
+  ret = 1;
+  
  latest_lightlevel = ret;
  latest_lightlevel_turn = turn;
  return ret;
