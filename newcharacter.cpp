@@ -42,7 +42,7 @@
 void draw_tabs(WINDOW* w, std::string sTab);
 
 int set_stats(WINDOW* w, game* g, player *u, int &points);
-int set_traits(WINDOW* w, game* g, player *u, int &points, int &max_trait_points);
+int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points);
 int set_profession(WINDOW* w, game* g, player *u, int &points);
 int set_skills(WINDOW* w, game* g, player *u, int &points);
 int set_description(WINDOW* w, game* g, player *u, int &points);
@@ -482,7 +482,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
  } while (true);
 }
 
-int set_traits(WINDOW* w, game* g, player *u, int &points, int &max_trait_points)
+int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
 {
  draw_tabs(w, "TRAITS");
 
