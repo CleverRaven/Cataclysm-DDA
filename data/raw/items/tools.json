@@ -3135,6 +3135,30 @@
   },
 
   {
+    "id": "permanent_marker",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "light_blue",
+    "name": "permanent marker",
+    "description": "A King Size(tm) industrial strength permanent marker, about halfway between a typical marker and a can of spray paint in size.",
+    "rarity": 50,
+    "price": 10,
+    "material": "plastic",
+    "weight": 0,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 500,
+    "initial_charges": 500,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "none",
+    "revert_to": "null",
+    "use_action": "SPRAY_CAN"
+  },
+
+  {
     "id": "rag",
     "type": "TOOL",
     "symbol": ",",

@@ -199,7 +199,7 @@ void game::init_mapitems()
 	"superglue", "chain", "rope_6", "rope_30", "glass_sheet",
 	"pipe", "nail", "hose", "string_36", "frame", "metal_tank",
 	"wire", "wire_barbed", "duct_tape", "jerrycan", "lawnmower",
-  "foot_crank", "spray_can", "ax", "jerrycan_big", "funnel", "bearing", "jack", 
+  "foot_crank", "spray_can", "ax", "jerrycan_big", "funnel", "bearing", "jack", "permanent_marker",
 	NULL);
 
  setvector(

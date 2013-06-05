@@ -95,6 +95,19 @@
  8) If the armour is made from 2 materials types, then it takes a weighted average of the primary material (66%) and secondary material (33%).
  9) Materials resistance factors are given relative to PAPER as a material (this probably needs some fine-tuning for balance).
 
+1.5 Acid resistance
+This determines how items react to acid fields.  Item acid resistances are a weighted
+average of the materials acid resistance (see item::acid_resist).
+An item acid resistance of zero means it will get corroded every turn
+An item acid resistance above zero means it has a chance of getting corroded every turn
+An item acid resistance above 9 means completely acidproof
+
+Acid resistance values are in materials.json, and defined as such:
+0 - zero resistance to acid (metals)
+1 - partly resistant to acid
+2 - very resistant to acid
+3 - complete acid resistance
+
 	FAQ
 Q: What the heck is up with the map objects?
 
