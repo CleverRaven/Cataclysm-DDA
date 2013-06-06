@@ -12,3 +12,9 @@ version.h
 Cataclysm.exe
 CataclysmWin.depend
 CataclysmWin.layout
+
+# Visual Studio files
+*.suo
+*.user
+Cataclysm.sdf
+Release*/
