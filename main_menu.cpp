@@ -26,7 +26,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     for (int i = 1; i < 79; i++)
         mvwputch(w_open, 23, i, c_white, LINE_OXOX);
 
-    mvwprintz(w_open, 24, 5, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+    mvwprintz(w_open, 24, 5, c_red, "Please report bugs to Jon93 NOT the DDA team.");
 
     int iLine = 0;
     const int iOffsetX1 = 3;
@@ -46,12 +46,12 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
 
     if (bShowDDA) {
         iLine++;
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "________                   .__      ________                           ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\______ \\  _____   _______ |  | __  \\______ \\  _____    ___.__   ______");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    |  \\ \\__  \\  \\_  __ \\|  |/ /   |    |  \\ \\__  \\  <   |  | /  ___/");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " |    `   \\ / __ \\_ |  | \\/|    <    |    `   \\ / __ \\_ \\___  | \\___ \\ ");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/_______  /(____  / |__|   |__|_ \\  /_______  /(____  / / ____|/____  >");
-        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "        \\/      \\/              \\/          \\/      \\/  \\/          \\/ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "  ________                       ________                       ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " /  _____/  ____   ____   ____   \\______ \\ _____  ___.__. ______");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "/   \\  ___ /  _ \\ /  _ \\ /    \\   |    |  \\\\__  \\<   |  |/  ___/");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "\\    \\_\\  (  <_> |  <_> )   |  \\  |    `   \\/ __ \\\\___  |\\___ \\ ");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, " \\______  /\\\____/ \\____/|___|  / /_______  (____  / ____/____  >");
+        mvwprintz(w_open, iLine++, iOffsetX2, cColor2, "       \\/                   \\/          \\/     \\/\\/         \\/ ");
 
         iLine++;
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "   _____   .__                         .___");
@@ -60,7 +60,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "Version: %s",getVersionString());
+        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "Goon Edition: %s",getVersionString());
     }
 
     std::vector<std::string> vMenuItems;

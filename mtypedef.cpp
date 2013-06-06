@@ -101,9 +101,9 @@ CATEGORIES(MC_WILDLIFE);
 
 mon("bear",	species_mammal, 'B',	c_dkgray,	MS_LARGE,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 10,-10, 40,140, 10,  3,  4,  6,  3,  2,  0,  0, 90, 0,
+	 10,-10, 40,100, 10,  3,  4,  6,  3,  2,  0,  0, 90, 0,
 	&mdeath::normal,	&mattack::none, "\
-An american black bear. Remember, only YOU can prevent forest fires."
+A bad ass mother fucker, Remember \n he's exercising his second amendment rights."
 );
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BLEED, MF_VIS40, MF_BONES);
 ANGER(MTRIG_PLAYER_CLOSE, MTRIG_HURT);
