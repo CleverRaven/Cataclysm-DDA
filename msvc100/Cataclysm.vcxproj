@@ -85,6 +85,9 @@
     <ClCompile>
       <PreprocessorDefinitions>TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <PropertyGroup>
     <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
