@@ -249,15 +249,19 @@ void game::start_game()
 
 // Find a random house on the map, and set us there.
  cur_om->first_house(levx, levy);
- levx -= int(int(MAPSIZE / 2) / 2);
- levy -= int(int(MAPSIZE / 2) / 2);
  levz = 0;
-// Start the overmap with out immediate neighborhood visible
- for (int i = -15; i <= 15; i++) {
-  for (int j = -15; j <= 15; j++)
-   cur_om->seen(levx + i, levy + j, 0) = true;
+// Start the overmap with our immediate neighborhood visible
+ if (OPTIONS[OPT_STATIC_SPAWN])
+   cur_om->seen(levx, levy, 0) = true;
+ else {
+  for (int i = -15; i <= 15; i++) {
+   for (int j = -15; j <= 15; j++)
+    cur_om->seen(levx + i, levy + j, 0) = true;
+  }
  }
 // Convert the overmap coordinates to submap coordinates
+ levx -= int(int(MAPSIZE / 2) / 2);
+ levy -= int(int(MAPSIZE / 2) / 2);
  levx = levx * 2 - 1;
  levy = levy * 2 - 1;
  set_adjacent_overmaps(true);
