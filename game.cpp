@@ -5471,7 +5471,8 @@ void game::exit_vehicle()
         // Dive sideways three tiles
         fling_player_or_monster(&u, 0, veh->face.dir() + 90 * dsgn, 30, true);
         // Roll forwards according to vehicle speed
-        fling_player_or_monster(&u, 0, veh->face.dir(), veh->velocity / (float)100);
+        if (!m.has_flag(swimmable, u.posx, u.posy))
+            fling_player_or_monster(&u, 0, veh->face.dir(), veh->velocity / (float)100);
     }
     return;
 }
