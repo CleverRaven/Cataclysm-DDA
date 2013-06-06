@@ -7789,7 +7789,6 @@ void game::drop(char chInput)
   for (int i = 0; i < dropped.size(); i++)
    m.add_item_or_charges(u.posx, u.posy, dropped[i]);
  }
- }
 }
 
 void game::drop_in_direction()
