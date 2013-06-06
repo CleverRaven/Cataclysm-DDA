@@ -140,7 +140,7 @@ void game::show_options()
  if (changed_options && query_yn("Save changes?")) {
    save_options();
    trigdist=( OPTIONS[OPT_CIRCLEDIST] ? true : false );
- } 
+ }
  werase(w_options);
 }
 
@@ -242,6 +242,8 @@ option_key lookup_option_key(std::string id)
   return OPT_DELETE_WORLD;
  if (id == "initial_points")
   return OPT_INITIAL_POINTS;
+ if (id == "max_trait_points")
+  return OPT_MAX_TRAIT_POINTS;
  if(id == "initial_time")
   return OPT_INITIAL_TIME;
  if (id == "viewport_x")
