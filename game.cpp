@@ -4161,7 +4161,7 @@ void game::monmove()
     int group = valid_group((mon_id)(z[i].type->id), levx, levy, levz);
     if (group != -1) {
      cur_om->zg[group].population++;
-     if (cur_om->zg[group].population / pow(cur_om->zg[group].radius, 2.0) > 5 &&
+     if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
          !cur_om->zg[group].diffuse )
       cur_om->zg[group].radius++;
     } else if (MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)) != "GROUP_NULL") {
@@ -9611,7 +9611,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
    int group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty, levz);
    if (group != -1) {
     cur_om->zg[group].population++;
-    if (cur_om->zg[group].population / pow(cur_om->zg[group].radius, 2.0) > 5 &&
+    if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
         !cur_om->zg[group].diffuse)
      cur_om->zg[group].radius++;
    }
@@ -9669,14 +9669,14 @@ void game::spawn_mon(int shiftx, int shifty)
    while ( (cur_om->zg[i].diffuse ?
             long( pop) :
             long((1.0 - double(dist / rad)) * pop) )
-	  > rng(0, pow(rad, 2.0)) &&
+	  > rng(0, (rad * rad)) &&
           rng(0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
     group++;
 
    cur_om->zg[i].population -= group;
    // Reduce group radius proportionally to remaining
    // population to maintain a minimal population density.
-   if (cur_om->zg[i].population / pow(cur_om->zg[i].radius, 2.0) < 1.0 &&
+   if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
        !cur_om->zg[i].diffuse)
      cur_om->zg[i].radius--;
 
