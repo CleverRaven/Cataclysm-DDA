@@ -323,7 +323,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  int testx = x + range * cos(testrad);
  int testy = y + range * sin(testrad);
 
- double wdist=sqrt(double(pow(endx - testx, 2.0) + pow(endy - testy, 2.0))); // distance between center and widest endpoints
+ double wdist=sqrt(double((endx - testx) * (endx - testx) + (endy - testy) * (endy - testy))); // distance between center and widest endpoints
  if(wdist > 0.5) {
    double wstep = ( wangle / ( wdist * 1.42 ) ); // attempt to determine beam density required to cover all squares
 
