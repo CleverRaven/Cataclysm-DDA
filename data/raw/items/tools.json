@@ -525,11 +525,11 @@
     "to_hit": 0,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 1,
+    "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "TWO_WAY_RADIO"
+    "use_action": "NONE"
   },
 
   {
