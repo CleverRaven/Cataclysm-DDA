@@ -758,6 +758,7 @@ int start_color(void)
 	windowsPalette[14]= BGR(255, 240, 0); // Light Cyan?
 	windowsPalette[15]= BGR(255, 255, 255); //White
 	//SDL_SetColors(screen,windowsPalette,0,256);
+	return 0;
 };
 
 int keypad(WINDOW *faux, bool bf)
