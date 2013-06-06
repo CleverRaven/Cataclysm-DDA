@@ -86,8 +86,6 @@ bool WinCreate()
 	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
 	//SDL_SetColors(screen,windowsPalette,0,256);
 
-	SDL_ShowCursor(SDL_DISABLE);
-
 	if(screen==NULL) return false;
 
 	ClearScreen();
