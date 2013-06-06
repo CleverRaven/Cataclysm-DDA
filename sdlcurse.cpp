@@ -475,6 +475,7 @@ int wgetch(WINDOW* win)
         {
             CheckMessages();
             if (lastchar!=ERR) break;
+            SDL_Delay(1);
         }
         while (lastchar==ERR);
 	}
@@ -487,6 +488,7 @@ int wgetch(WINDOW* win)
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;
+            SDL_Delay(1);
         }
         while (endtime<(starttime+inputdelay));
 	}
