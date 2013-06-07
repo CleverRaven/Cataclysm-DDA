@@ -1817,12 +1817,22 @@ bool game::handle_action()
 
   case ACTION_SLEEP:
    if (veh_ctrl) {
-    std::string message = veh->use_controls();
-    if (!message.empty())
-     add_msg(message.c_str());
+    add_msg("Vehicle control has moved, new default binding is '^'.");
    } else if (query_yn("Are you sure you want to sleep?")) {
     u.try_to_sleep(this);
     u.moves = 0;
+   }
+   break;
+
+  case ACTION_CONTROL_VEHICLE:
+   if (veh_ctrl) {
+    std::string message = veh->use_controls();
+    if (!message.empty())
+     add_msg(message.c_str());
+   } else if (u.in_vehicle) {
+     exit_vehicle();
+   } else {
+     add_msg("You're not in a vehicle.");
    }
    break;
 
@@ -5459,28 +5469,45 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
  }
 }
 
-void game::examine()
+void game::exit_vehicle()
 {
- if (u.in_vehicle) {
-  int vpart;
-  vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
-  if (veh) {
-   // velocity is divided by 100 to get mph, so only try throwing the player if the mph is > 1
-   bool moving = veh->velocity >= 100 || veh->velocity <= -100; 
-   bool qexv = (moving ?
-                query_yn("Really exit moving vehicle?") :
-                query_yn("Exit vehicle?"));
-   if (qexv) {
-    m.unboard_vehicle (this, u.posx, u.posy);
+    if (!u.in_vehicle)
+        return;
+    int vpart;
+    vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
+    if (!veh) {
+        debugmsg("Tried to exit non-existent vehicle.");
+        return;
+    }
+    // velocity is divided by 100 to get mph,
+    // so only try throwing the player if the mph is > 1
+    bool moving = veh->velocity >= 100 || veh->velocity <= -100; 
+    if (moving && !query_yn("Really exit moving vehicle?"))
+        return;
+    if (moving)
+        add_msg("You dive from the vehicle.");
+    else
+        add_msg("You disembark.");
+    m.unboard_vehicle(this, u.posx, u.posy);
     u.moves -= 200;
-    if (moving) {      // TODO: move player out of harms way
-     int dsgn = veh->parts[vpart].mount_dx > 0? 1 : -1;
-     fling_player_or_monster (&u, 0, veh->face.dir() + 90 * dsgn, veh->velocity / (float)100);
+    if (moving) {
+        // If on the left, dive left. If on the right, dive right.
+        int dsgn = veh->parts[vpart].mount_dy > 0 ? 1 : -1;
+        // Dive sideways three tiles
+        fling_player_or_monster(&u, 0, veh->face.dir() + 90 * dsgn, 30, true);
+        // Hit the ground according to vehicle speed
+        if (!m.has_flag(swimmable, u.posx, u.posy)) {
+            if (veh->velocity > 0)
+                fling_player_or_monster(&u, 0, veh->face.dir(), veh->velocity / (float)100);
+            else
+                fling_player_or_monster(&u, 0, veh->face.dir() + 180, -(veh->velocity) / (float)100);
+        }
     }
     return;
-   }
-  }
- }
+}
+
+void game::examine()
+{
  mvwprintw(w_terrain, 0, 0, "Examine where? (Direction button) ");
  wrefresh(w_terrain);
  DebugLog() << __FUNCTION__ << "calling get_input() \n";
@@ -9043,7 +9070,7 @@ void game::plswim(int x, int y)
  u.inv.rust_iron_items();
 }
 
-void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel)
+void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled)
 {
     int steps = 0;
     bool is_u = p && (p == &u);
@@ -9087,6 +9114,8 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
         bool slam = false;
         int mondex = mon_at(x, y);
         dam1 = flvel / 3 + rng (0, flvel * 1 / 3);
+        if (controlled)
+            dam1 = std::max(dam1 / 2 - 5, 0);
         if (mondex >= 0)
         {
             slam = true;
@@ -9117,7 +9146,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
                 zz->hurt (dam1);
             flvel = flvel / 2;
         }
-        if (slam)
+        if (slam && dam1)
             add_msg ("%s slammed against the %s for %d damage!", sname.c_str(), dname.c_str(), dam1);
         if (thru)
         {
@@ -9146,6 +9175,8 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
     {
         // fall on ground
         dam1 = rng (flvel / 3, flvel * 2 / 3) / 2;
+        if (controlled)
+            dam1 = std::max(dam1 / 2 - 5, 0);
         if (is_player)
         {
             int dex_reduce = p->dex_cur < 4? 4 : p->dex_cur;
@@ -9166,14 +9197,17 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
             if (dam1 > 0)
             {
                 add_msg ("You fall on the ground for %d damage.", dam1);
-            } else {
-                add_msg ("You fall on the ground.");
+            } else if (!controlled) {
+                add_msg ("You land on the ground.");
             }
         }
     }
     else if (is_u)
     {
-        add_msg ("You fall into water.");
+        if (controlled)
+            add_msg ("You dive into water.");
+        else
+            add_msg ("You fall into water.");
     }
 }
 
