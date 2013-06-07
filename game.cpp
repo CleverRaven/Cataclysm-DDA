@@ -9264,8 +9264,9 @@ void game::vertical_move(int movez, bool force)
   monstairx = levx;
   monstairy = levy;
   monstairz = levz;
-  despawn_monsters(true);
  }
+ // Despawn monsters, only push them onto the stair monster list if we're taking stairs.
+ despawn_monsters( abs(movez) == 1 && !force );
  z.clear();
 
 // Figure out where we know there are up/down connectors
