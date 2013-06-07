@@ -587,7 +587,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
   if (snap_to_target)
    center = point(x, y);
   else
-   center = point(u.posx, u.posy);
+   center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
   // Clear the target window.
   for (int i = 1; i < 8; i++) {
    for (int j = 1; j < 46; j++)
@@ -641,7 +641,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     if (snap_to_target)
      mvwputch(w_terrain, VIEWY, VIEWX, c_red, '*');
     else
-     mvwputch(w_terrain, y + VIEWY - u.posy, x + VIEWX - u.posx, c_red, '*');
+     mvwputch(w_terrain, VIEWY + y - center.y, VIEWX + x - center.x, c_red, '*');
    } else if (u_see(&(z[mon_at(x, y)]))) {
     z[mon_at(x, y)].print_info(this, w_target,2);
    }
