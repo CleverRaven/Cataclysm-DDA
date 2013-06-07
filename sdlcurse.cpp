@@ -84,6 +84,7 @@ bool WinCreate()
 	nativeWidth = video_info->current_w;
 	nativeHeight = video_info->current_h;
 
+    SDL_putenv("SDL_VIDEO_CENTERED=center");
 	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
 	//SDL_SetColors(screen,windowsPalette,0,256);
 
@@ -260,55 +261,69 @@ void DrawWindow(WINDOW *win)
 void CheckMessages()
 {
 	SDL_Event ev;
+    bool quit = false;
 	while(SDL_PollEvent(&ev))
 	{
 		switch(ev.type)
 		{
 			case SDL_KEYDOWN:
-            if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT || 
-                ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || 
-                ev.key.keysym.sym==SDLK_RALT || ev.key.keysym.sym==SDLK_LALT)
 			{
-				break; // temporary fix for unwanted keys
-			}
-			else if (ev.key.keysym.unicode != 0) {
-				lastchar = ev.key.keysym.unicode;
-				switch (lastchar){
-					case 13:            //Reroute ENTER key for compatilbity purposes
-						lastchar=10;
-						break;
-					case 8:             //Reroute BACKSPACE key for compatilbity purposes
-						lastchar=127;
-						break;
+				Uint8 *keystate = SDL_GetKeyState(NULL);
+				// manually handle Alt+F4 for older SDL lib, no big deal
+				if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
+				{
+					quit = true;
+					break;
+				}
+				else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT || 
+					ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || 
+					ev.key.keysym.sym==SDLK_RALT || ev.key.keysym.sym==SDLK_LALT)
+				{
+					break; // temporary fix for unwanted keys
+				}
+				else if (ev.key.keysym.unicode != 0) {
+					lastchar = ev.key.keysym.unicode;
+					switch (lastchar){
+						case 13:            //Reroute ENTER key for compatilbity purposes
+							lastchar=10;
+							break;
+						case 8:             //Reroute BACKSPACE key for compatilbity purposes
+							lastchar=127;
+							break;
+					}
+				}
+				if(ev.key.keysym.sym==SDLK_LEFT) {
+					lastchar = KEY_LEFT;
+				}
+				else if(ev.key.keysym.sym==SDLK_RIGHT) {
+					lastchar = KEY_RIGHT;
+				}
+				else if(ev.key.keysym.sym==SDLK_UP) {
+					lastchar = KEY_UP;
+				}
+				else if(ev.key.keysym.sym==SDLK_DOWN) {
+					lastchar = KEY_DOWN;
+				}
+				else if(ev.key.keysym.sym==SDLK_PAGEUP) {
+					lastchar = KEY_PPAGE;
+				}
+				else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
+					lastchar = KEY_NPAGE;
+				  
 				}
 			}
-			if(ev.key.keysym.sym==SDLK_LEFT) {
-				lastchar = KEY_LEFT;
-			}
-			else if(ev.key.keysym.sym==SDLK_RIGHT) {
-				lastchar = KEY_RIGHT;
-			}
-			else if(ev.key.keysym.sym==SDLK_UP) {
-				lastchar = KEY_UP;
-			}
-			else if(ev.key.keysym.sym==SDLK_DOWN) {
-				lastchar = KEY_DOWN;
-			}
-			else if(ev.key.keysym.sym==SDLK_PAGEUP) {
-				lastchar = KEY_PPAGE;
-			}
-			else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
-				lastchar = KEY_NPAGE;
-			  
-			}
-				break;
+			break;
 			case SDL_QUIT:
-				endwin();
-				exit(0);
+                quit = true;
 				break;
 
 		}
 	}
+    if(quit)
+    {
+        endwin();
+        exit(0);
+    }
 }
 
 //***********************************
@@ -323,17 +338,19 @@ WINDOW *initscr(void)
 
     std::string typeface = "";
 	std::ifstream fin;
+    int fontsize = 0; //actuall size
 	fin.open("data/FONTDATA");
 	if (!fin.is_open()){
-		fontheight=16;
-		fontwidth=8;
+        fontheight=16;
+        fontwidth=8;
 	} else {
-		 getline(fin, typeface);
-		 fin >> fontwidth;
-		 fin >> fontheight;
-		 if ((fontwidth <= 4) || (fontheight <=4)){
-			fontheight=16;
-			fontwidth=8;
+        getline(fin, typeface);
+        fin >> fontwidth;
+        fin >> fontheight;
+        fin >> fontsize;
+        if ((fontwidth <= 4) || (fontheight <=4)){
+            fontheight=16;
+            fontwidth=8;
 		}
 		fin.close();
 	}
@@ -352,9 +369,8 @@ WINDOW *initscr(void)
     if(!fexists(typeface.c_str()))
         typeface = "data/font/fixedsys.ttf";
 
-    //char fontpath[100];
-    //sprintf(fontpath, "data/font/%s.ttf", typeface.c_str());
-	font = TTF_OpenFont(typeface.c_str(), fontheight-1);
+    if(fontsize<=0) fontsize=fontheight-1;
+	font = TTF_OpenFont(typeface.c_str(), fontsize);
 
     //if(!font) something went wrong
 
