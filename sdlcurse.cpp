@@ -264,53 +264,55 @@ void CheckMessages()
     bool quit = false;
 	while(SDL_PollEvent(&ev))
 	{
-		Uint8 *keystate = SDL_GetKeyState(NULL);
 		switch(ev.type)
 		{
 			case SDL_KEYDOWN:
-            // manually handle Alt+F4 for older SDL lib, no big deal
-            if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
-            {
-                quit = true;
-                break;
-            }
-            else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT || 
-                ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || 
-                ev.key.keysym.sym==SDLK_RALT || ev.key.keysym.sym==SDLK_LALT)
 			{
-				break; // temporary fix for unwanted keys
-			}
-			else if (ev.key.keysym.unicode != 0) {
-				lastchar = ev.key.keysym.unicode;
-				switch (lastchar){
-					case 13:            //Reroute ENTER key for compatilbity purposes
-						lastchar=10;
-						break;
-					case 8:             //Reroute BACKSPACE key for compatilbity purposes
-						lastchar=127;
-						break;
+				Uint8 *keystate = SDL_GetKeyState(NULL);
+				// manually handle Alt+F4 for older SDL lib, no big deal
+				if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
+				{
+					quit = true;
+					break;
+				}
+				else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT || 
+					ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || 
+					ev.key.keysym.sym==SDLK_RALT || ev.key.keysym.sym==SDLK_LALT)
+				{
+					break; // temporary fix for unwanted keys
+				}
+				else if (ev.key.keysym.unicode != 0) {
+					lastchar = ev.key.keysym.unicode;
+					switch (lastchar){
+						case 13:            //Reroute ENTER key for compatilbity purposes
+							lastchar=10;
+							break;
+						case 8:             //Reroute BACKSPACE key for compatilbity purposes
+							lastchar=127;
+							break;
+					}
+				}
+				if(ev.key.keysym.sym==SDLK_LEFT) {
+					lastchar = KEY_LEFT;
+				}
+				else if(ev.key.keysym.sym==SDLK_RIGHT) {
+					lastchar = KEY_RIGHT;
+				}
+				else if(ev.key.keysym.sym==SDLK_UP) {
+					lastchar = KEY_UP;
+				}
+				else if(ev.key.keysym.sym==SDLK_DOWN) {
+					lastchar = KEY_DOWN;
+				}
+				else if(ev.key.keysym.sym==SDLK_PAGEUP) {
+					lastchar = KEY_PPAGE;
+				}
+				else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
+					lastchar = KEY_NPAGE;
+				  
 				}
 			}
-			if(ev.key.keysym.sym==SDLK_LEFT) {
-				lastchar = KEY_LEFT;
-			}
-			else if(ev.key.keysym.sym==SDLK_RIGHT) {
-				lastchar = KEY_RIGHT;
-			}
-			else if(ev.key.keysym.sym==SDLK_UP) {
-				lastchar = KEY_UP;
-			}
-			else if(ev.key.keysym.sym==SDLK_DOWN) {
-				lastchar = KEY_DOWN;
-			}
-			else if(ev.key.keysym.sym==SDLK_PAGEUP) {
-				lastchar = KEY_PPAGE;
-			}
-			else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
-				lastchar = KEY_NPAGE;
-			  
-			}
-				break;
+			break;
 			case SDL_QUIT:
                 quit = true;
 				break;
