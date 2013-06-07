@@ -352,9 +352,9 @@ WINDOW *initscr(void)
     if(!fexists(typeface.c_str()))
         typeface = "data/fixedsys.ttf";
 
-    char fontpath[100];
-    sprintf(fontpath, "data/font/%s.ttf", typeface.c_str());
-	font = TTF_OpenFont(fontpath, fontheight-1);
+    //char fontpath[100];
+    //sprintf(fontpath, "data/font/%s.ttf", typeface.c_str());
+	font = TTF_OpenFont(typeface.c_str(), fontheight-1);
 
     //if(!font) something went wrong
 
