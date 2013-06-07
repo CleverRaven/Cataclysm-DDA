@@ -36,6 +36,7 @@ OPT_CLASSIC_ZOMBIES, // Only spawn the more classic zombies and buildings.
 OPT_SEASON_LENGTH, // Season length, in days
 OPT_STATIC_NPC, //Spawn static npcs
 OPT_RANDOM_NPC, //Spawn random npcs
+OPT_RAD_MUTATION, //Radiation mutates
 NUM_OPTION_KEYS
 };
 

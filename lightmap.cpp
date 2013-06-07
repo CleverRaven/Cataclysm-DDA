@@ -351,6 +351,9 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
  int x = sx;
  int y = sy;
 
+ if( sx == ex && sy == ey ) { return; }
+
+
  float transparency = LIGHT_TRANSPARENCY_CLEAR;
 
  // TODO: [lightmap] Pull out the common code here rather than duplication
@@ -410,7 +413,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
     } else {
       light = luminance / ((sy - y) * (sy - y));
     }
-    lm[x][y] += light;
+    lm[x][y] += light * transparency;
    }
 
    if (INBOUNDS(x, y))
