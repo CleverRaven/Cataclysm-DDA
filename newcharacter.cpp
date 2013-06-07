@@ -230,6 +230,12 @@ bool player::create(game *g, character_type type, std::string tempname)
  else
   weapon   = item(g->itypes["null"], 0);
 
+// Add permanent morale bonuses
+ if (has_trait(PF_PYROMANIA))
+ {
+     g->u.add_morale(MORALE_PERM_PYROMANIA, -1, -100, NULL, 2, -45, -1);
+ }
+
  item tmp; //gets used several times
 
  std::vector<std::string> prof_items = g->u.prof->items();
