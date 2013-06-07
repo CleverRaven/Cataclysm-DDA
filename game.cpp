@@ -1825,15 +1825,7 @@ bool game::handle_action()
    break;
 
   case ACTION_CONTROL_VEHICLE:
-   if (veh_ctrl) {
-    std::string message = veh->use_controls();
-    if (!message.empty())
-     add_msg(message.c_str());
-   } else if (u.in_vehicle) {
-     exit_vehicle();
-   } else {
-     add_msg("You're not in a vehicle.");
-   }
+   control_vehicle();
    break;
 
   case ACTION_TOGGLE_SAFEMODE:
@@ -5506,6 +5498,49 @@ void game::exit_vehicle()
     return;
 }
 
+void game::control_vehicle()
+{
+    int veh_part;
+    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+
+    if (veh && veh->player_in_control(&u)) {
+        std::string message = veh->use_controls();
+        if (!message.empty())
+            add_msg(message.c_str());
+    } else if (u.in_vehicle) {
+        exit_vehicle();
+    } else {
+        mvwprintw(w_terrain, 0, 0, "Control vehicle where? (Direction button) ");
+        wrefresh(w_terrain);
+        DebugLog() << __FUNCTION__ << "calling get_input() \n";
+        int examx, examy;
+        InputEvent input = get_input();
+        last_action += input;
+        if (input == Cancel || input == Close)
+            return;
+        get_direction(examx, examy, input);
+        if (examx == -2 || examy == -2) {
+            add_msg("Invalid direction.");
+            return;
+        }
+        examx += u.posx;
+        examy += u.posy;
+
+        veh = m.veh_at(examx, examy, veh_part);
+        if (!veh) {
+            add_msg("No vehicle there.");
+            return;
+        }
+        if (veh->part_with_feature(veh_part, vpf_controls) < 0) {
+            add_msg("No controls there.");
+            return;
+        }
+        std::string message = veh->use_controls();
+        if (!message.empty())
+            add_msg(message.c_str());
+    }
+}
+
 void game::examine()
 {
  mvwprintw(w_terrain, 0, 0, "Examine where? (Direction button) ");
@@ -5529,18 +5564,13 @@ void game::examine()
  if (veh) {
   int vpcargo = veh->part_with_feature(veh_part, vpf_cargo, false);
   int vpkitchen = veh->part_with_feature(veh_part, vpf_kitchen, true);
-  int vpcontrols = veh->part_with_feature(veh_part, vpf_controls);
   if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0)
    pickup(examx, examy, 0);
   else if (u.in_vehicle)
    add_msg ("You can't do that while onboard.");
   else if (abs(veh->velocity) > 0)
    add_msg ("You can't do that on moving vehicle.");
-  else if (vpcontrols >= 0) {
-   std::string message = veh->use_controls();
-   if (!message.empty())
-    add_msg(message.c_str());
-  } else
+  else
    exam_vehicle (*veh, examx, examy);
  }
 
