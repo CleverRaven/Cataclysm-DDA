@@ -351,7 +351,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
  int x = sx;
  int y = sy;
 
- if( sx = ex && sy == ey ) { return; }
+ if( sx == ex && sy == ey ) { return; }
 
 
  float transparency = LIGHT_TRANSPARENCY_CLEAR;
