@@ -339,19 +339,16 @@ WINDOW *initscr(void)
     int fontsize = 0; //actuall size
 	fin.open("data/FONTDATA");
 	if (!fin.is_open()){
-		fontheight=16;
-		fontwidth=8;
+        fontheight=16;
+        fontwidth=8;
 	} else {
-		 getline(fin, typeface);
-		 fin >> fontwidth;
-		 fin >> fontheight;
-		 fin >> fontsize;
-         //std::string fs;
-		 //getline(fin, fs);
-         //if(fs!="") istringstream (fs) >> fontsize;
-		 if ((fontwidth <= 4) || (fontheight <=4)){
-			fontheight=16;
-			fontwidth=8;
+        getline(fin, typeface);
+        fin >> fontwidth;
+        fin >> fontheight;
+        fin >> fontsize;
+        if ((fontwidth <= 4) || (fontheight <=4)){
+            fontheight=16;
+            fontwidth=8;
 		}
 		fin.close();
 	}
@@ -370,8 +367,6 @@ WINDOW *initscr(void)
     if(!fexists(typeface.c_str()))
         typeface = "data/font/fixedsys.ttf";
 
-    //char fontpath[100];
-    //sprintf(fontpath, "data/font/%s.ttf", typeface.c_str());
     if(fontsize<=0) fontsize=fontheight-1;
 	font = TTF_OpenFont(typeface.c_str(), fontsize);
 
