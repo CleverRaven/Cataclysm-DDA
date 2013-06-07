@@ -129,6 +129,7 @@ int init_pair(short pair, short f, short b);
 int wmove(WINDOW *win, int y, int x);
 int getnstr(char *str, int size);
 int clear(void);
+int clearok(WINDOW *win);
 int erase(void);
 int endwin(void);
 int mvwaddch(WINDOW *win, int y, int x, const chtype ch);

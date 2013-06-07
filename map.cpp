@@ -2636,6 +2636,15 @@ void map::disarm_trap(game *g, const int x, const int y)
    if (comp[i] != "null")
     spawn_item(x, y, g->itypes[comp[i]], 0, 0, 1);
   }
+  if( tr_at(x, y) == tr_engine ) {
+      for (int i = -1; i <= 1; i++) {
+          for (int j = -1; j <= 1; j++) {
+              if (i != 0 || j != 0) {
+                  tr_at(x + i, y + j) = tr_null;
+              }
+          }
+      }
+  }
   tr_at(x, y) = tr_null;
   if(diff > 1.25 * skillLevel) // failure might have set off trap
     g->u.practice(g->turn, "traps", 1.5*(diff - skillLevel));

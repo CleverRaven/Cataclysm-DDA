@@ -229,6 +229,7 @@ recraft -\n\
 construct *\n\
 disassemble (\n\
 sleep $\n\
+control_vehicle ^\n\
 safemode !\n\
 autosafe \"\n\
 ignore_enemy '\n\

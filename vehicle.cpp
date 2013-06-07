@@ -11,6 +11,7 @@ enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
  toggle_turrets,
+ exit_vehicle,
  control_cancel
 };
 
@@ -275,8 +276,15 @@ std::string vehicle::use_controls()
   options_message.push_back((0 == turret_mode) ? "Switch turrets to burst mode" : "Disable turrets");
  }
 
+ // Exit vehicle, if we are in it.
+ int vpart;
+ if (g->u.in_vehicle && g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
+  options_choice.push_back(exit_vehicle);
+  options_message.push_back("Exit vehicle");
+ }
+
  options_choice.push_back(control_cancel);
- options_message.push_back("Exit");
+ options_message.push_back("Do nothing");
 
  int select = menu_vec(true, "Vehicle controls", options_message);
 
@@ -294,6 +302,9 @@ std::string vehicle::use_controls()
    if (++turret_mode > 1)
     turret_mode = 0;
    message = (0 == turret_mode) ? "Turrets: Disabled" : "Turrets: Burst mode";
+   break;
+  case exit_vehicle:
+   g->exit_vehicle();
    break;
   case control_cancel:
    break;

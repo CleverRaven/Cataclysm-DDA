@@ -102,6 +102,7 @@ id++;
 keys.push_back("motor");
 keys.push_back("blade");
 keys.push_back("blade");
+keys.push_back("string_36");
 traps.push_back(new trap(id, "ENGINE", "spinning blade engine", c_ltred, '_',  0, 0,
     2, &trapfunc::none, &trapfuncm::none, keys));;
 

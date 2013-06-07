@@ -87,8 +87,6 @@ bool WinCreate()
 	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
 	//SDL_SetColors(screen,windowsPalette,0,256);
 
-	SDL_ShowCursor(SDL_DISABLE);
-
 	if(screen==NULL) return false;
 
 	ClearScreen();
@@ -354,7 +352,9 @@ WINDOW *initscr(void)
     if(!fexists(typeface.c_str()))
         typeface = "data/fixedsys.ttf";
 
-	font = TTF_OpenFont(typeface.c_str(), fontheight-1);
+    char fontpath[100];
+    sprintf(fontpath, "data/font/%s.ttf", typeface.c_str());
+	font = TTF_OpenFont(fontpath, fontheight-1);
 
     //if(!font) something went wrong
 
@@ -520,6 +520,7 @@ int wgetch(WINDOW* win)
         {
             CheckMessages();
             if (lastchar!=ERR) break;
+            SDL_Delay(1);
         }
         while (lastchar==ERR);
 	}
@@ -532,6 +533,7 @@ int wgetch(WINDOW* win)
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;
+            SDL_Delay(1);
         }
         while (endtime<(starttime+inputdelay));
 	}
@@ -746,9 +748,18 @@ int mvwaddch(WINDOW *win, int y, int x, const chtype ch)
 int wclear(WINDOW *win)
 {
     werase(win);
-    wrefresh(win);
+    clearok(win);
     return 1;
 };
+
+int clearok(WINDOW *win)
+{
+    for (int i=0; i<win->y; i++)
+    {
+        win->line[i].touched = true;
+    }
+    return 1;
+}
 
 //gets the max x of a window (the width)
 int getmaxx(WINDOW *win)
