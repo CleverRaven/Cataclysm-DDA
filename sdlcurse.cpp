@@ -157,24 +157,6 @@ static void OutputChar(char t, int x, int y, int n, unsigned char color)
     }
 }
 
-static void OutputText(char* t, int x, int y, int n, unsigned char color)
-{
-	static char buf[256];
-	strncpy(buf, t, n);
-	buf[n] = '\0';
-	SDL_Surface* text = TTF_RenderUTF8_Solid(font, buf, windowsPalette[color]);
-	if(text)
-	{
-		SDL_Rect rect;
-		rect.x = x;
-		rect.y = y;
-		rect.w = fontheight;
-		rect.h = fontheight;
-		SDL_BlitSurface(text, NULL, screen, &rect);
-		SDL_FreeSurface(text);
-	}
-}
-
 void DrawWindow(WINDOW *win)
 {
     int i,j,drawx,drawy;
