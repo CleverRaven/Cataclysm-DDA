@@ -1229,8 +1229,9 @@ int item::acid_resist() const
     else
     {
         ret = cur_mat1->acid_resist() + cur_mat1->acid_resist() + cur_mat2->acid_resist();
-    }    
+    }
     
+    return ret;
 }
 
 style_move item::style_data(technique_id tech)
