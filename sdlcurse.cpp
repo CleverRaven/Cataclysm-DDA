@@ -133,20 +133,20 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 
 static void OutputChar(char t, int x, int y, int n, unsigned char color)
 {
-    t &= 0x7f;
+    unsigned char ch = t & 0x7f;
     color &= 0xf;
 
-    SDL_Surface * glyph = glyph_cache[t][color];
+    SDL_Surface * glyph = glyph_cache[ch][color];
 
     if(glyph==NULL)
     {
-        glyph = glyph_cache[t][color] = TTF_RenderGlyph_Solid(font, t, windowsPalette[color]);
+        glyph = glyph_cache[ch][color] = TTF_RenderGlyph_Solid(font, ch, windowsPalette[color]);
     }
 
     if(glyph)
     {
 		int minx=0, maxy=0, dx=0, dy = 0;
-		if( 0==TTF_GlyphMetrics(font, t, &minx, NULL, NULL, &maxy, NULL))
+		if( 0==TTF_GlyphMetrics(font, ch, &minx, NULL, NULL, &maxy, NULL))
 		{
 			dx = minx;
 			dy = TTF_FontAscent(font) - maxy;
