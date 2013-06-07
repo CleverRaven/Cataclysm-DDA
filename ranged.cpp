@@ -280,7 +280,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   int px = trajectory[0].x;
   int py = trajectory[0].y;
   for (int i = 0; i < trajectory.size() &&
-       (dam > 0 || (effects & AMMO_FLAME)); i++) {
+         (dam > 0 || (effects & mfb(AMMO_FLAME))); i++) {
       px = tx;
       py = ty;
       tx = trajectory[i].x;
@@ -301,7 +301,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
      nanosleep(&ts, NULL);
    }
 
-   if (dam <= 0) { // Ran out of momentum.
+   if (dam <= 0 && !(effects & mfb(AMMO_FLAME))) { // Ran out of momentum.
     ammo_effects(this, tx, ty, effects);
     if (is_bolt &&
         ((curammo->m1 == "wood" && !one_in(4)) ||
