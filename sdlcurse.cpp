@@ -86,8 +86,6 @@ bool WinCreate()
 	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
 	//SDL_SetColors(screen,windowsPalette,0,256);
 
-	SDL_ShowCursor(SDL_DISABLE);
-
 	if(screen==NULL) return false;
 
 	ClearScreen();
@@ -477,6 +475,7 @@ int wgetch(WINDOW* win)
         {
             CheckMessages();
             if (lastchar!=ERR) break;
+            SDL_Delay(1);
         }
         while (lastchar==ERR);
 	}
@@ -489,6 +488,7 @@ int wgetch(WINDOW* win)
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;
+            SDL_Delay(1);
         }
         while (endtime<(starttime+inputdelay));
 	}
