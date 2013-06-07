@@ -84,7 +84,8 @@ bool WinCreate()
 	nativeWidth = video_info->current_w;
 	nativeHeight = video_info->current_h;
 
-    SDL_putenv("SDL_VIDEO_CENTERED=center");
+    char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
+    SDL_putenv(center_string);
 	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
 	//SDL_SetColors(screen,windowsPalette,0,256);
 
