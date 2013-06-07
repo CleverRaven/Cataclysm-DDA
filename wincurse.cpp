@@ -734,9 +734,18 @@ int mvwaddch(WINDOW *win, int y, int x, const chtype ch)
 int wclear(WINDOW *win)
 {
     werase(win);
-    wrefresh(win);
+    clearok(win);
     return 1;
 };
+
+int clearok(WINDOW *win)
+{
+    for (int i=0; i<win->y; i++)
+    {
+        win->line[i].touched = true;
+    }
+    return 1;
+}
 
 //gets the max x of a window (the width)
 int getmaxx(WINDOW *win)
