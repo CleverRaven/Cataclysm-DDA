@@ -5117,23 +5117,6 @@ bool game::choose_adjacent(std::string verb, int &x, int &y)
     return true;
 }
 
-bool game::pl_choose_vehicle (int &x, int &y)
-{
- refresh_all();
- mvprintz(0, 0, c_red, "Choose a vehicle at direction:");
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
- InputEvent input = get_input();
- int dirx, diry;
- get_direction(dirx, diry, input);
- if (dirx == -2) {
-  add_msg("Invalid direction!");
-  return false;
- }
- x += dirx;
- y += diry;
- return true;
-}
-
 bool game::vehicle_near ()
 {
  for (int dx = -1; dx <= 1; dx++) {
@@ -7524,7 +7507,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
  }
  if (liquid.type->id == "gasoline" && vehicle_near() && query_yn("Refill vehicle?")) {
   int vx = u.posx, vy = u.posy;
-  if (pl_choose_vehicle(vx, vy)) {
+  refresh_all();
+  if (choose_adjacent("Refill vehicle", vx, vy)) {
    vehicle *veh = m.veh_at (vx, vy);
    if (veh) {
     int ftype = AT_GAS;
@@ -7548,7 +7532,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    } else // if (veh)
     add_msg ("There isn't any vehicle there.");
    return false;
-  } // if (pl_choose_vehicle(vx, vy))
+  } // if (choose_adjacent("Refill vehicle", vx, vy))
 
  } else { // Not filling vehicle
 
