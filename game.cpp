@@ -1817,10 +1817,30 @@ bool game::handle_action()
 
   case ACTION_SLEEP:
    if (veh_ctrl) {
-    add_msg("Vehicle control has moved, new default binding is '^'.");
-   } else if (query_yn("Are you sure you want to sleep?")) {
-    u.try_to_sleep(this);
-    u.moves = 0;
+     add_msg("Vehicle control has moved, new default binding is '^'.");
+   } else {
+     if (OPTIONS[OPT_SAVESLEEP] && (moves_since_last_save || item_exchanges_since_save) &&
+         !(u.in_vehicle)) {
+       if (query_yn("Do you want to save game before sleeping?")) {
+         //copied from autosave()
+         time_t now = time(NULL);
+
+         add_msg("Saving game, this may take a while");
+         save();
+
+         save_factions_missions_npcs();
+         save_artifacts();
+         save_maps();
+
+         moves_since_last_save = 0;
+         item_exchanges_since_save = 0;
+         last_save_timestamp = now;
+       }
+     }
+     if (query_yn("Are you sure you want to sleep?")) {
+       u.try_to_sleep(this);
+       u.moves = 0;
+     }
    }
    break;
 
