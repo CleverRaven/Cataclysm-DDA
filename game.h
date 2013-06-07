@@ -379,6 +379,8 @@ class game
 			bool exact_level=false);
   void place_construction(constructable *con); // See construction.cpp
   void complete_construction();               // See construction.cpp
+  // Get input from the player to choose an adjacent tile (for examine() etc)
+  bool choose_adjacent(std::string verb, int &x, int&y);
   bool pl_choose_vehicle (int &x, int &y);
   bool vehicle_near ();
   void handbrake ();
