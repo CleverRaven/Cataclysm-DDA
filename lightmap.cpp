@@ -413,7 +413,7 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
     } else {
       light = luminance / ((sy - y) * (sy - y));
     }
-    lm[x][y] += light;
+    lm[x][y] += light * transparency;
    }
 
    if (INBOUNDS(x, y))
