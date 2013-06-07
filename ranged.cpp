@@ -587,7 +587,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 
   if(trigdist && trig_dist(u.posx,u.posy, x,y) > range) {
     bool cont=true;
-    int cx=x
+    int cx=x;
     int cy=y;
     for (int i = 0; i < ret.size() && cont; i++) {
       if(trig_dist(u.posx,u.posy, ret[i].x, ret[i].y) > range) {
