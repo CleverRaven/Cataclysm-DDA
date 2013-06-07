@@ -264,10 +264,10 @@ void CheckMessages()
     bool quit = false;
 	while(SDL_PollEvent(&ev))
 	{
+		Uint8 *keystate = SDL_GetKeyState(NULL);
 		switch(ev.type)
 		{
 			case SDL_KEYDOWN:
-            Uint8 *keystate = SDL_GetKeyState(NULL);
             // manually handle Alt+F4 for older SDL lib, no big deal
             if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
             {
