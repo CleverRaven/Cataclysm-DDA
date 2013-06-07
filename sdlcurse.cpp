@@ -84,6 +84,7 @@ bool WinCreate()
 	nativeWidth = video_info->current_w;
 	nativeHeight = video_info->current_h;
 
+    SDL_putenv("SDL_VIDEO_CENTERED=center");
 	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
 	//SDL_SetColors(screen,windowsPalette,0,256);
 
@@ -260,12 +261,20 @@ void DrawWindow(WINDOW *win)
 void CheckMessages()
 {
 	SDL_Event ev;
+    bool quit = false;
 	while(SDL_PollEvent(&ev))
 	{
 		switch(ev.type)
 		{
 			case SDL_KEYDOWN:
-            if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT || 
+            Uint8 *keystate = SDL_GetKeyState(NULL);
+            // manually handle Alt+F4 for older SDL lib, no big deal
+            if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
+            {
+                quit = true;
+                break;
+            }
+            else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT || 
                 ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || 
                 ev.key.keysym.sym==SDLK_RALT || ev.key.keysym.sym==SDLK_LALT)
 			{
@@ -303,12 +312,16 @@ void CheckMessages()
 			}
 				break;
 			case SDL_QUIT:
-				endwin();
-				exit(0);
+                quit = true;
 				break;
 
 		}
 	}
+    if(quit)
+    {
+        endwin();
+        exit(0);
+    }
 }
 
 //***********************************
