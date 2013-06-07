@@ -382,6 +382,7 @@ class game
   bool pl_choose_vehicle (int &x, int &y);
   bool vehicle_near ();
   void handbrake ();
+  void control_vehicle(); // Use vehicle controls  '^'
   void examine();// Examine nearby terrain	'e'
   void advanced_inv();
   // open vehicle interaction screen
