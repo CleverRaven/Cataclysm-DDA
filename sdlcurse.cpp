@@ -86,8 +86,6 @@ bool WinCreate()
 	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
 	//SDL_SetColors(screen,windowsPalette,0,256);
 
-	SDL_ShowCursor(SDL_DISABLE);
-
 	if(screen==NULL) return false;
 
 	ClearScreen();
@@ -313,7 +311,9 @@ WINDOW *initscr(void)
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
 
-	font = TTF_OpenFont(typeface.c_str(), fontheight-1);
+    char fontpath[100];
+    sprintf(fontpath, "data/font/%s.ttf", typeface.c_str());
+	font = TTF_OpenFont(fontpath, fontheight-1);
 
 	TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
 	TTF_SetFontOutline(font, 0);
@@ -477,6 +477,7 @@ int wgetch(WINDOW* win)
         {
             CheckMessages();
             if (lastchar!=ERR) break;
+            SDL_Delay(1);
         }
         while (lastchar==ERR);
 	}
@@ -489,6 +490,7 @@ int wgetch(WINDOW* win)
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;
+            SDL_Delay(1);
         }
         while (endtime<(starttime+inputdelay));
 	}
