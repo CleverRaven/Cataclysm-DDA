@@ -4867,90 +4867,80 @@ void game::revive_corpse(int x, int y, item *it)
 
 void game::open()
 {
- u.moves -= 100;
- bool didit = false;
- mvwprintw(w_terrain, 0, 0, "Open where? (hjklyubn) ");
- wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
- int openx, openy;
- InputEvent input = get_input();
- last_action += input;
- get_direction(openx, openy, input);
- if (openx != -2 && openy != -2)
- {
-  int vpart;
-  vehicle *veh = m.veh_at(u.posx + openx, u.posy + openy, vpart);
-  if (veh && veh->part_flag(vpart, vpf_openable)) {
-   if (veh->parts[vpart].open) {
-    add_msg("That door is already open.");
-    u.moves += 100;
-   } else {
-    veh->parts[vpart].open = 1;
-    veh->insides_dirty = true;
-   }
-   return;
-  }
+    int openx, openy;
+    if (!choose_adjacent("Open", openx, openy))
+        return;
 
-  if (m.is_outside(u.posx, u.posy))
-   didit = m.open_door(u.posx + openx, u.posy + openy, false);
-  else
-   didit = m.open_door(u.posx + openx, u.posy + openy, true);
- }
- else
-  add_msg("Invalid direction.");
- if (!didit) {
-  switch(m.ter(u.posx + openx, u.posy + openy)) {
-  case t_door_locked:
-  case t_door_locked_interior:
-  case t_door_locked_alarm:
-   add_msg("The door is locked!");
-   break;	// Trying to open a locked door uses the full turn's movement
-  case t_door_o:
-   add_msg("That door is already open.");
-   u.moves += 100;
-   break;
-  default:
-   add_msg("No door there.");
-   u.moves += 100;
-  }
- }
+    u.moves -= 100;
+    bool didit = false;
+
+    int vpart;
+    vehicle *veh = m.veh_at(openx, openy, vpart);
+    if (veh && veh->part_flag(vpart, vpf_openable)) {
+        if (veh->parts[vpart].open) {
+            add_msg("That door is already open.");
+            u.moves += 100;
+        } else {
+            veh->parts[vpart].open = 1;
+            veh->insides_dirty = true;
+        }
+        return;
+    }
+
+    if (m.is_outside(u.posx, u.posy))
+        didit = m.open_door(openx, openy, false);
+    else
+        didit = m.open_door(openx, openy, true);
+
+    if (!didit) {
+        switch(m.ter(openx, openy)) {
+        case t_door_locked:
+        case t_door_locked_interior:
+        case t_door_locked_alarm:
+            add_msg("The door is locked!");
+            break;	// Trying to open a locked door uses the full turn's movement
+        case t_door_o:
+            add_msg("That door is already open.");
+            u.moves += 100;
+            break;
+        default:
+            add_msg("No door there.");
+            u.moves += 100;
+        }
+    }
 }
 
 void game::close()
 {
- bool didit = false;
- mvwprintw(w_terrain, 0, 0, "Close where? (hjklyubn) ");
- wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
- int closex, closey;
- InputEvent input = get_input();
- last_action += input;
- get_direction(closex, closey, input);
- if (closex != -2 && closey != -2) {
-  closex += u.posx;
-  closey += u.posy;
-  int vpart;
-  vehicle *veh = m.veh_at(closex, closey, vpart);
-  if (mon_at(closex, closey) != -1)
-   add_msg("There's a %s in the way!",z[mon_at(closex, closey)].name().c_str());
-  else if (veh && veh->part_flag(vpart, vpf_openable) &&
-          veh->parts[vpart].open) {
-   veh->parts[vpart].open = 0;
-   veh->insides_dirty = true;
-   didit = true;
-  } else if (m.i_at(closex, closey).size() > 0)
-   add_msg("There's %s in the way!", m.i_at(closex, closey).size() == 1 ?
-           m.i_at(closex, closey)[0].tname(this).c_str() : "some stuff");
-  else if (closex == u.posx && closey == u.posy)
-   add_msg("There's some buffoon in the way!");
-  else if (m.ter(closex, closey) == t_window_domestic && m.is_outside(u.posx, u.posy))  {
-   add_msg("You cannot close the curtains from outside. You must be inside the building.");
- } else
-   didit = m.close_door(closex, closey, true);
- } else
-  add_msg("Invalid direction.");
- if (didit)
-  u.moves -= 90;
+    int closex, closey;
+    if (!choose_adjacent("Close", closex, closey))
+        return;
+
+    bool didit = false;
+
+    int vpart;
+    vehicle *veh = m.veh_at(closex, closey, vpart);
+    if (mon_at(closex, closey) != -1)
+        add_msg("There's a %s in the way!",
+                z[mon_at(closex, closey)].name().c_str());
+    else if (veh && veh->part_flag(vpart, vpf_openable) &&
+             veh->parts[vpart].open) {
+        veh->parts[vpart].open = 0;
+        veh->insides_dirty = true;
+        didit = true;
+    } else if (m.i_at(closex, closey).size() > 0)
+        add_msg("There's %s in the way!", m.i_at(closex, closey).size() == 1 ?
+                m.i_at(closex, closey)[0].tname(this).c_str() : "some stuff");
+    else if (closex == u.posx && closey == u.posy)
+        add_msg("There's some buffoon in the way!");
+    else if (m.ter(closex, closey) == t_window_domestic &&
+             m.is_outside(u.posx, u.posy))  {
+        add_msg("You cannot close the curtains from outside. You must be inside the building.");
+    } else
+        didit = m.close_door(closex, closey, true);
+
+    if (didit)
+        u.moves -= 90;
 }
 
 void game::smash()
@@ -4959,101 +4949,89 @@ void game::smash()
     bool didit = false;
     std::string bashsound, extra;
     int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
-    mvwprintw(w_terrain, 0, 0, "Smash what? (hjklyubn) ");
-    wrefresh(w_terrain);
-    InputEvent input = get_input();
-    last_action += input;
-    if (input == Close)
-    {
-        add_msg("Never mind.");
-        return;
-    }
     int smashx, smashy;
-    get_direction(smashx, smashy, input);
-    if (smashx != -2 && smashy != -2)
+
+    if (!choose_adjacent("Smash", smashx, smashy))
+        return;
+
+    const int full_pulp_threshold = 4;
+    std::list<item*> corpses;
+    for (int i = 0; i < m.i_at(smashx, smashy).size(); ++i)
     {
-        const int full_pulp_threshold = 4;
-        std::list<item*> corpses;
-        for (int i = 0; i < m.i_at(u.posx + smashx, u.posy + smashy).size(); ++i)
+        item *it = &m.i_at(smashx, smashy)[i];
+        if (it->type->id == "corpse" && it->damage < full_pulp_threshold)
         {
-            item *it = &m.i_at(u.posx + smashx, u.posy + smashy)[i];
-            if (it->type->id == "corpse" && it->damage < full_pulp_threshold)
-            {
-                corpses.push_back(it);
-            }
+            corpses.push_back(it);
         }
-        if (corpses.size() > 0)
+    }
+    if (corpses.size() > 0)
+    {
+        add_msg("You swing at the corpse%s.", corpses.size() > 1 ? "s" : "");
+
+        // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
+        // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
+        // a str 8 character with a baseball bat (28 bash, 0 cut) should have around a 25% chance.
+
+        int cut_power = u.weapon.type->melee_cut;
+        // stabbing weapons are a lot less effective at pulping
+        if (u.weapon.has_flag("STAB") || u.weapon.has_flag("SPEAR"))
         {
-            add_msg("You swing at the corpse%s.", corpses.size() > 1 ? "s" : "");
-
-            // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
-            // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
-            // a str 8 character with a baseball bat (28 bash, 0 cut) should have around a 25% chance.
-
-            int cut_power = u.weapon.type->melee_cut;
-            // stabbing weapons are a lot less effective at pulping
-            if (u.weapon.has_flag("STAB") || u.weapon.has_flag("SPEAR"))
+            cut_power /= 2;
+        }
+        double pulp_power = sqrt((double)(u.str_cur + u.weapon.type->melee_dam)) * sqrt((double)(cut_power + 1));
+        pulp_power *= 20; // constant multiplier to get the chance right
+        int rn = rng(0, pulp_power);
+        while (rn > 0 && !corpses.empty())
+        {
+            item *it = corpses.front();
+            corpses.pop_front();
+            int damage = rn / it->volume();
+            if (damage + it->damage > full_pulp_threshold)
             {
-                cut_power /= 2;
+                damage = full_pulp_threshold - it->damage;
             }
-            double pulp_power = sqrt((double)(u.str_cur + u.weapon.type->melee_dam)) * sqrt((double)(cut_power + 1));
-            pulp_power *= 20; // constant multiplier to get the chance right
-            int rn = rng(0, pulp_power);
-            while (rn > 0 && !corpses.empty())
+            rn -= (damage + 1) * it->volume(); // slight efficiency loss to swing
+
+            // chance of a critical success, higher chance for small critters
+            // comes AFTER the loss of power from the above calculation
+            if (one_in(it->volume()))
             {
-                item *it = corpses.front();
-                corpses.pop_front();
-                int damage = rn / it->volume();
-                if (damage + it->damage > full_pulp_threshold)
-                {
-                    damage = full_pulp_threshold - it->damage;
-                }
-                rn -= (damage + 1) * it->volume(); // slight efficiency loss to swing
+                damage++;
+            }
 
-                // chance of a critical success, higher chance for small critters
-                // comes AFTER the loss of power from the above calculation
-                if (one_in(it->volume()))
+            if (damage > 0)
+            {
+                add_msg("You %sdamage the %s!", (damage > 1 ? "greatly " : ""), it->tname().c_str());
+                it->damage += damage;
+                if (it->damage >= 4)
                 {
-                    damage++;
+                    add_msg("The corpse is now thoroughly pulped.");
+                    it->damage = 4;
+                    // TODO mark corpses as inactive when appropriate
                 }
-
-                if (damage > 0)
-                {
-                    add_msg("You %sdamage the %s!", (damage > 1 ? "greatly " : ""), it->tname().c_str());
-                    it->damage += damage;
-                    if (it->damage >= 4)
-                    {
-                        add_msg("The corpse is now thoroughly pulped.");
-                        it->damage = 4;
-                        // TODO mark corpses as inactive when appropriate
-                    }
-                    // Splatter some blood around
-                    for (int x = u.posx + smashx - 1; x <= u.posx + smashx + 1; x++) {
-                        for (int y = u.posy + smashy - 1; y <= u.posy + smashy + 1; y++) {
-                            if (!one_in(damage+1)) {
-                                if (m.field_at(x, y).type == fd_blood &&
-                                    m.field_at(x, y).density < 3) {
-                                    m.field_at(x, y).density++;
-                                } else {
-                                    m.add_field(this, x, y, fd_blood, 1);
-                                }
+                // Splatter some blood around
+                for (int x = smashx - 1; x <= smashx + 1; x++) {
+                    for (int y = smashy - 1; y <= smashy + 1; y++) {
+                        if (!one_in(damage+1)) {
+                            if (m.field_at(x, y).type == fd_blood &&
+                                m.field_at(x, y).density < 3) {
+                                m.field_at(x, y).density++;
+                            } else {
+                                m.add_field(this, x, y, fd_blood, 1);
                             }
                         }
                     }
                 }
             }
-            u.moves -= move_cost;
-            return; // don't smash terrain if we've smashed a corpse
         }
-        else
-        {
-            didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
-        }
+        u.moves -= move_cost;
+        return; // don't smash terrain if we've smashed a corpse
     }
     else
     {
-        add_msg("Invalid direction.");
+        didit = m.bash(smashx, smashy, smashskill, bashsound);
     }
+
     if (didit)
     {
         if (extra != "")
@@ -5062,7 +5040,7 @@ void game::smash()
         }
         sound(u.posx, u.posy, 18, bashsound);
         // TODO: Move this elsewhere, like maybe into the map on-break code
-        if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
+        if (m.has_flag(alarmed, smashx, smashy) &&
             !event_queued(EVENT_WANTED))
         {
             sound(u.posx, u.posy, 30, "An alarm sounds!");
@@ -5118,21 +5096,25 @@ void game::use_wielded_item()
   u.use_wielded(this);
 }
 
-bool game::pl_choose_vehicle (int &x, int &y)
+bool game::choose_adjacent(std::string verb, int &x, int &y)
 {
- refresh_all();
- mvprintz(0, 0, c_red, "Choose a vehicle at direction:");
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
- InputEvent input = get_input();
- int dirx, diry;
- get_direction(dirx, diry, input);
- if (dirx == -2) {
-  add_msg("Invalid direction!");
-  return false;
- }
- x += dirx;
- y += diry;
- return true;
+    std::string query_text = verb + " where? (Direction button)";
+    mvwprintw(w_terrain, 0, 0, query_text.c_str());
+    wrefresh(w_terrain);
+    DebugLog() << "calling get_input() for " << verb << "\n";
+    InputEvent input = get_input();
+    last_action += input;
+    if (input == Cancel || input == Close)
+        return false;
+    else
+        get_direction(x, y, input);
+    if (x == -2 || y == -2) {
+        add_msg("Invalid direction.");
+        return false;
+    }
+    x += u.posx;
+    y += u.posy;
+    return true;
 }
 
 bool game::vehicle_near ()
@@ -5510,22 +5492,9 @@ void game::control_vehicle()
     } else if (u.in_vehicle) {
         exit_vehicle();
     } else {
-        mvwprintw(w_terrain, 0, 0, "Control vehicle where? (Direction button) ");
-        wrefresh(w_terrain);
-        DebugLog() << __FUNCTION__ << "calling get_input() \n";
         int examx, examy;
-        InputEvent input = get_input();
-        last_action += input;
-        if (input == Cancel || input == Close)
+        if (!choose_adjacent("Control vehicle", examx, examy))
             return;
-        get_direction(examx, examy, input);
-        if (examx == -2 || examy == -2) {
-            add_msg("Invalid direction.");
-            return;
-        }
-        examx += u.posx;
-        examy += u.posy;
-
         veh = m.veh_at(examx, examy, veh_part);
         if (!veh) {
             add_msg("No vehicle there.");
@@ -5543,21 +5512,9 @@ void game::control_vehicle()
 
 void game::examine()
 {
- mvwprintw(w_terrain, 0, 0, "Examine where? (Direction button) ");
- wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
  int examx, examy;
- InputEvent input = get_input();
- last_action += input;
- if (input == Cancel || input == Close)
-  return;
- get_direction(examx, examy, input);
- if (examx == -2 || examy == -2) {
-  add_msg("Invalid direction.");
-  return;
- }
- examx += u.posx;
- examy += u.posy;
+ if (!choose_adjacent("Examine", examx, examy))
+    return;
 
  int veh_part = 0;
  vehicle *veh = m.veh_at (examx, examy, veh_part);
@@ -7550,7 +7507,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
  }
  if (liquid.type->id == "gasoline" && vehicle_near() && query_yn("Refill vehicle?")) {
   int vx = u.posx, vy = u.posy;
-  if (pl_choose_vehicle(vx, vy)) {
+  refresh_all();
+  if (choose_adjacent("Refill vehicle", vx, vy)) {
    vehicle *veh = m.veh_at (vx, vy);
    if (veh) {
     int ftype = AT_GAS;
@@ -7574,7 +7532,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    } else // if (veh)
     add_msg ("There isn't any vehicle there.");
    return false;
-  } // if (pl_choose_vehicle(vx, vy))
+  } // if (choose_adjacent("Refill vehicle", vx, vy))
 
  } else { // Not filling vehicle
 
