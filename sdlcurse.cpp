@@ -267,7 +267,13 @@ void CheckMessages()
 		switch(ev.type)
 		{
 			case SDL_KEYDOWN:
-			if (ev.key.keysym.unicode != 0) {
+            if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT || 
+                ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || 
+                ev.key.keysym.sym==SDLK_RALT || ev.key.keysym.sym==SDLK_LALT)
+			{
+				break; // temporary fix for unwanted keys
+			}
+			else if (ev.key.keysym.unicode != 0) {
 				lastchar = ev.key.keysym.unicode;
 				switch (lastchar){
 					case 13:            //Reroute ENTER key for compatilbity purposes
