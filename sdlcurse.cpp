@@ -346,11 +346,11 @@ WINDOW *initscr(void)
     
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str()))
-        typeface = "data/" + typeface + ".ttf";
+        typeface = "data/font/" + typeface + ".ttf";
 
     //different default font with wincurse
     if(!fexists(typeface.c_str()))
-        typeface = "data/fixedsys.ttf";
+        typeface = "data/font/fixedsys.ttf";
 
     //char fontpath[100];
     //sprintf(fontpath, "data/font/%s.ttf", typeface.c_str());
