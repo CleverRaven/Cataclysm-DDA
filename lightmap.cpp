@@ -2,6 +2,7 @@
 #include "map.h"
 #include "game.h"
 #include "lightmap.h"
+#include "options.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * MAPSIZE && y >= 0 && y < SEEY * MAPSIZE)
@@ -314,31 +315,65 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
 
  int nangle = angle % 360;
 
+ int endx, endy;
  double rad = PI * (double)nangle / 180;
- int endx = x + range * cos(rad);
- int endy = y + range * sin(rad);
- apply_light_ray(lit, x, y, endx, endy , luminance, true);
+ calc_ray_end(nangle, range, x, y, &endx, &endy);
+ apply_light_ray(lit, x, y, endx, endy , luminance, trigdist);
 
- double testrad = ( PI * wangle / 180 ) + rad;
- int testx = x + range * cos(testrad);
- int testy = y + range * sin(testrad);
+ int testx, testy;
+ calc_ray_end(wangle + nangle, range, x, y, &testx, &testy);
 
- double wdist=sqrt(double((endx - testx) * (endx - testx) + (endy - testy) * (endy - testy))); // distance between center and widest endpoints
+ double wdist=sqrt(double((endx - testx) * (endx - testx) + (endy - testy) * (endy - testy)));
  if(wdist > 0.5) {
    double wstep = ( wangle / ( wdist * 1.42 ) ); // attempt to determine beam density required to cover all squares
 
    for (double ao=wstep; ao <= wangle; ao+=wstep) {
-     double fdist=(ao * HALFPI) / wangle;
-     double orad = ( PI * ao / 180.0 );
-     endx = int( x + ( (double)range - fdist * 2.0) * cos(rad+orad) );
-     endy = int( y + ( (double)range - fdist * 2.0) * sin(rad+orad) );
-     apply_light_ray(lit, x, y, endx, endy , luminance, true);
+     if ( trigdist ) {
+       double fdist=(ao * HALFPI) / wangle;
+       double orad = ( PI * ao / 180.0 );
+       endx = int( x + ( (double)range - fdist * 2.0) * cos(rad+orad) );
+       endy = int( y + ( (double)range - fdist * 2.0) * sin(rad+orad) );
+       apply_light_ray(lit, x, y, endx, endy , luminance, true);
 
-     endx = int( x + ( (double)range - fdist * 2.0) * cos(rad-orad) );
-     endy = int( y + ( (double)range - fdist * 2.0) * sin(rad-orad) );
-     apply_light_ray(lit, x, y, endx, endy , luminance, true);
+       endx = int( x + ( (double)range - fdist * 2.0) * cos(rad-orad) );
+       endy = int( y + ( (double)range - fdist * 2.0) * sin(rad-orad) );
+       apply_light_ray(lit, x, y, endx, endy , luminance, true);
+     } else {
+       calc_ray_end(nangle + ao, range, x, y, &endx, &endy);
+       apply_light_ray(lit, x, y, endx, endy , luminance, false);
+       calc_ray_end(nangle - ao, range, x, y, &endx, &endy);
+       apply_light_ray(lit, x, y, endx, endy , luminance, false);
+     }
    }
  }
+}
+
+void map::calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy)
+{
+    const double PI = 3.14159265358979f;
+    double rad = (PI * angle) / 180;
+    if (trigdist)
+    {
+        *outx = x + range * cos(rad);
+        *outy = y + range * sin(rad);
+    } else {
+        int mult = 0;
+        if (angle >= 135 && angle <= 315)
+        {
+            mult = -1;
+        } else {
+            mult = 1;
+        }
+
+        if (angle <= 45 || (135 <= angle && angle <= 215) || 315 < angle)
+        {
+            *outx = x + range * mult;
+            *outy = y + range * tan(rad) * mult;
+        } else {
+            *outx = x + range * 1/tan(rad) * mult;
+            *outy = y + range * mult;
+        }
+    }
 }
 
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
