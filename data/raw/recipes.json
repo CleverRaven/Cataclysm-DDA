@@ -4909,6 +4909,33 @@
 
 
         {
+            "result": "bio_blood_filter",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "solar_panel",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
