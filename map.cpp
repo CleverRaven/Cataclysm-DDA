@@ -2920,7 +2920,10 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  const int k = x + getmaxx(w)/2 - cx;
  const int j = y + getmaxy(w)/2 - cy;
  nc_color tercol;
- ter_id curr_ter = ter(x,y);
+ const ter_id curr_ter = ter(x,y);
+ const trap_id curr_trap = tr_at(x, y);
+ const field curr_field = field_at(x, y);
+ const std::vector<item> curr_items = i_at(x, y);
  long sym = terlist[curr_ter].sym;
  bool hi = false;
  bool graf = false;
@@ -2940,10 +2943,10 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  if (move_cost(x, y) == 0 && has_flag(swimmable, x, y) && !u.underwater)
   show_items = false;	// Can only see underwater items if WE are underwater
 // If there's a trap here, and we have sufficient perception, draw that instead
- if (tr_at(x, y) != tr_null &&
-     u.per_cur - u.encumb(bp_eyes) >= (*traps)[tr_at(x, y)]->visibility) {
-  tercol = (*traps)[tr_at(x, y)]->color;
-  if ((*traps)[tr_at(x, y)]->sym == '%') {
+ if (curr_trap != tr_null &&
+     u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility) {
+  tercol = (*traps)[curr_trap]->color;
+  if ((*traps)[curr_trap]->sym == '%') {
    switch(rng(1, 5)) {
     case 1: sym = '*'; break;
     case 2: sym = '0'; break;
@@ -2952,14 +2955,14 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     case 5: sym = '+'; break;
    }
   } else
-   sym = (*traps)[tr_at(x, y)]->sym;
+   sym = (*traps)[curr_trap]->sym;
  }
 // If there's a field here, draw that instead (unless its symbol is %)
- if (field_at(x, y).type != fd_null &&
-     fieldlist[field_at(x, y).type].sym != '&') {
-  tercol = fieldlist[field_at(x, y).type].color[field_at(x, y).density - 1];
+ if (curr_field.type != fd_null &&
+     fieldlist[curr_field.type].sym != '&') {
+  tercol = fieldlist[curr_field.type].color[curr_field.density - 1];
   drew_field = true;
-  if (fieldlist[field_at(x, y).type].sym == '*') {
+  if (fieldlist[curr_field.type].sym == '*') {
    switch (rng(1, 5)) {
     case 1: sym = '*'; break;
     case 2: sym = '0'; break;
@@ -2967,21 +2970,21 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     case 4: sym = '&'; break;
     case 5: sym = '+'; break;
    }
-  } else if (fieldlist[field_at(x, y).type].sym != '%' ||
-             i_at(x, y).size() > 0) {
-   sym = fieldlist[field_at(x, y).type].sym;
+  } else if (fieldlist[curr_field.type].sym != '%' ||
+             curr_items.size() > 0) {
+   sym = fieldlist[curr_field.type].sym;
    drew_field = false;
   }
  }
 // If there's items here, draw those instead
- if (show_items && !has_flag(container, x, y) && i_at(x, y).size() > 0 && !drew_field) {
+ if (show_items && !has_flag(container, x, y) && curr_items.size() > 0 && !drew_field) {
   if ((terlist[curr_ter].sym != '.'))
    hi = true;
   else {
-   tercol = i_at(x, y)[i_at(x, y).size() - 1].color();
-   if (i_at(x, y).size() > 1)
+   tercol = curr_items[curr_items.size() - 1].color();
+   if (curr_items.size() > 1)
     invert = !invert;
-   sym = i_at(x, y)[i_at(x, y).size() - 1].symbol();
+   sym = curr_items[curr_items.size() - 1].symbol();
   }
  }
 
