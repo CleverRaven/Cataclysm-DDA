@@ -320,7 +320,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  int testx, testy;
  calc_ray_end(wangle + nangle, range, x, y, &testx, &testy);
 
- double wdist=trig_dist(testx,testy,endx,endy);
+ double wdist=sqrt(double((endx - testx) * (endx - testx) + (endy - testy) * (endy - testy)));
  if(wdist > 0.5) {
    double wstep = ( wangle / ( wdist * 1.42 ) ); // attempt to determine beam density required to cover all squares
 
