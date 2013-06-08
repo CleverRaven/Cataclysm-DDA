@@ -2255,7 +2255,8 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container(itypes);
-    if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
+    if ((new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ||
+        has_flag(destroy_item, x, y))
     {
         return;
     }
@@ -2311,7 +2312,7 @@ void map::spawn_item(const int x, const int y, std::string type_id, const int bi
 }
 
 void map::add_item_or_charges(const int x, const int y, item new_item) {
-    if (new_item.is_style() || !INBOUNDS(x, y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ) {
+    if (new_item.is_style() || !INBOUNDS(x, y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) {
      return;
     }
     if(new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo())) {
@@ -2334,6 +2335,8 @@ void map::add_item(const int x, const int y, item new_item)
   return;
  if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
+ if (has_flag(destroy_item, x, y))
+     return;
 
  if (has_flag(noitem, x, y) || i_at(x, y).size() >= 64) {// Too many items there
   std::vector<point> okay;
