@@ -226,6 +226,7 @@ public:
  int armor_cut(body_part bp);	// Cutting  resistance
  int resist(body_part bp);	// Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
+ bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
  int adjust_for_focus(int amount);
  void practice(const calendar& turn, Skill *s, int amount);
