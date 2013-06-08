@@ -57,6 +57,7 @@ player::player()
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  moves = 100;
+ movecounter = 0;
  oxygen = 0;
  next_climate_control_check=0;
  last_climate_control_ret=false;
@@ -163,6 +164,7 @@ player& player::operator= (const player & rhs)
 
  cash = rhs.cash;
  moves = rhs.moves;
+ movecounter = rhs.movecounter;
 
  for (int i = 0; i < num_hp_parts; i++)
   hp_cur[i] = rhs.hp_cur[i];
@@ -2450,6 +2452,7 @@ void player::disp_status(WINDOW *w, game *g)
   mvwprintz(w, 3, 27, col_int, "Int %s%d", int_cur >= 10 ? "" : " ", int_cur);
   mvwprintz(w, 3, 34, col_per, "Per %s%d", per_cur >= 10 ? "" : " ", per_cur);
   mvwprintz(w, 3, 41, col_spd, "Spd %s%d", spd_cur >= 10 ? "" : " ", spd_cur);
+  mvwprintz(w, 3, 50, c_white, "%d", movecounter);
  }
 }
 

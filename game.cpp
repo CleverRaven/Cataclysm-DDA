@@ -1503,6 +1503,7 @@ bool game::handle_action()
  int soffset = OPTIONS[OPT_MOVE_VIEW_OFFSET];
  int soffsetr = 0 - soffset;
 
+ int before_action_moves = u.moves;
 
  switch (act) {
 
@@ -1936,6 +1937,8 @@ bool game::handle_action()
  }
 
  gamemode->post_action(this, act);
+
+ u.movecounter = before_action_moves - u.moves;
 
  return true;
 }
