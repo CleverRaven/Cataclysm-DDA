@@ -63,6 +63,7 @@ public:
  void disp_status(WINDOW* w, game *g = NULL);// On-screen data
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
+ void action_taken(); // Called after every action, invalidates player caches.
  void update_morale();	// Ticks down morale counters and removes them
  void update_mental_focus();
  int calc_focus_equilibrium();
@@ -102,6 +103,8 @@ public:
  bool is_armed();	// True if we're wielding something; true for bionics
  bool unarmed_attack(); // False if we're wielding something; true for bionics
  bool avoid_trap(trap *tr);
+
+ bool has_nv();
 
  void pause(game *g); // '.' command; pauses & reduces recoil
 
@@ -329,6 +332,7 @@ public:
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
+ bool nv_cached;
 
  std::vector<morale_point> morale;
 
