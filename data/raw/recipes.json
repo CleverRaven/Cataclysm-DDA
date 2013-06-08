@@ -4446,6 +4446,42 @@
 
 
         {
+            "result": "bio_power_armor_interface_mkII",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 9,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 5]
+                              ],
+                              [
+                                  ["amplifier", 3]
+                              ],
+                              [
+                                  ["plut_cell", 5]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "bio_evap",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
@@ -4483,11 +4519,11 @@
             "result": "bio_laser",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
-            "difficulty": 7,
+            "difficulty": 9,
             "time": 50000,
             "reversible": true,
             "autolearn": false,
-            "decomp_learn": 5,
+            "decomp_learn": 7,
             "tools": [
                          [
                              ["screwdriver", -1],
@@ -4594,7 +4630,7 @@
             "result": "bio_armor_head",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
-            "difficulty": 7,
+            "difficulty": 6,
             "time": 50000,
             "reversible": true,
             "autolearn": true,
@@ -4633,7 +4669,7 @@
             "result": "bio_armor_arms",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
-            "difficulty": 7,
+            "difficulty": 6,
             "time": 50000,
             "reversible": true,
             "autolearn": true,
@@ -4672,7 +4708,7 @@
             "result": "bio_armor_torso",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
-            "difficulty": 7,
+            "difficulty": 6,
             "time": 50000,
             "reversible": true,
             "autolearn": true,
@@ -4711,7 +4747,7 @@
             "result": "bio_armor_legs",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
-            "difficulty": 7,
+            "difficulty": 6,
             "time": 50000,
             "reversible": true,
             "autolearn": true,

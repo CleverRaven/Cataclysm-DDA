@@ -2481,7 +2481,7 @@ bool player::in_climate_control(game *g)
     for (int i = 0; i < worn.size(); i++)
     {
         if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
-           (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
+            (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
         {
             return true;
         }
@@ -6487,7 +6487,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
 
         if (armor->covers & mfb(bp))
         {
-            if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
+           if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
             {
                 armorenc += armor->encumber - 4;
             }
