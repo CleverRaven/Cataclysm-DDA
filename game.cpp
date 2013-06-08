@@ -541,8 +541,10 @@ bool game::do_turn()
           if (!u.has_disease(DI_SLEEP) && u.activity.type == ACT_NULL)
               draw();
 
-          if(handle_action())
+          if(handle_action()) {
               ++moves_since_last_save;
+              u.action_taken();
+          }
 
           if (is_game_over()) {
               cleanup_at_end();

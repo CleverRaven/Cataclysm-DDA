@@ -63,6 +63,7 @@ public:
  void disp_status(WINDOW* w, game *g = NULL);// On-screen data
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
+ void action_taken(); // Called after every action, invalidates player caches.
  void update_morale();	// Ticks down morale counters and removes them
  void update_mental_focus();
  int calc_focus_equilibrium();

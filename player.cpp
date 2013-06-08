@@ -329,6 +329,11 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
  nv_cached = false;
 }
 
+void player::action_taken()
+{
+    nv_cached = false;
+}
+
 void player::update_morale()
 {
  for (int i = 0; i < morale.size(); i++) {
