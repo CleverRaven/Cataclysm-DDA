@@ -8063,7 +8063,11 @@ void game::plfire(bool burst)
  draw_ter(); // Recenter our view
  if (trajectory.size() == 0) {
   if(u.weapon.has_flag("RELOAD_AND_SHOOT"))
-   unload(u.weapon);
+  {
+      u.moves += u.weapon.reload_time(u);
+      unload(u.weapon);
+      u.moves += u.weapon.reload_time(u) / 2; // unloading time
+  }
   return;
  }
  if (passtarget != -1) { // We picked a real live target

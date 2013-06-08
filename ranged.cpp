@@ -703,6 +703,8 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     if (t[i].posx == x && t[i].posy == y)
      target = i;
    }
+   if (u.posx == x && u.posy == y)
+       ret.clear();
    return ret;
   } else if (ch == '0') {
    x = u.posx;
