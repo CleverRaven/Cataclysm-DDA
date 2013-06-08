@@ -857,6 +857,16 @@ int map::move_cost_ter_only(const int x, const int y)
  return terlist[ter(x, y)].movecost;
 }
 
+int map::combined_movecost(const int x1, const int y1,
+                           const int x2, const int y2)
+{
+    int cost1 = move_cost(x1, y1);
+    int cost2 = move_cost(x2, y2);
+    // 50 moves taken per move_cost (70.71.. diagonally)
+    int mult = (trigdist && x1 != x2 && y1 != y2 ? 71 : 50);
+    return (cost1 + cost2) * mult / 2;
+}
+
 bool map::trans(const int x, const int y)
 {
  // Control statement is a problem. Normally returning false on an out-of-bounds

@@ -8889,7 +8889,7 @@ void game::plmove(int x, int y)
       }
 
 // Calculate cost of moving
-  u.moves -= u.run_cost(m.move_cost(x, y) * 50 ) * ( trigdist && x != u.posx && y != u.posy ? 1.41 : 1 );
+  u.moves -= u.run_cost(m.combined_movecost(u.posx, u.posy, x, y));
 
 // Adjust recoil down
   if (u.recoil > 0) {
