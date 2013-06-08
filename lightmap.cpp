@@ -45,7 +45,7 @@ void map::generate_lightmap(game* g)
  // Apply player light sources
  if (held_luminance > LIGHT_AMBIENT_LOW)
   apply_light_source(g->u.posx, g->u.posy, held_luminance);
-
+  int flood_basalt_check = 0; // does excessive lava need high quality lighting? Nope nope nope nope
   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
     const ter_id terrain = g->m.ter(sx, sy);
@@ -70,20 +70,22 @@ void map::generate_lightmap(game* g)
 
     for( std::vector<item>::const_iterator itm = items.begin(); itm != items.end(); ++itm )
     {
-        if ( itm->has_flag("LIGHT_20")) { apply_light_source(sx, sy, 20); }
-        if ( itm->has_flag("LIGHT_1")) { apply_light_source(sx, sy, 1); }
-        if ( itm->has_flag("LIGHT_4")) { apply_light_source(sx, sy, 4); }
-        if ( itm->has_flag("LIGHT_8")) { apply_light_source(sx, sy, 8); }
+        if ( itm->has_flag("LIGHT_20")) { apply_light_source(sx, sy, 20, trigdist); }
+        if ( itm->has_flag("LIGHT_1")) { apply_light_source(sx, sy, 1, trigdist); }
+        if ( itm->has_flag("LIGHT_4")) { apply_light_source(sx, sy, 4, trigdist); }
+        if ( itm->has_flag("LIGHT_8")) { apply_light_source(sx, sy, 8, trigdist); }
     }
 
-   if(terrain == t_lava)
-    apply_light_source(sx, sy, 50);
+   if(terrain == t_lava) {
+     flood_basalt_check++;
+     apply_light_source(sx, sy, 50, trigdist && flood_basalt_check < 512 ); // todo: optimize better
+   }
 
    if(terrain == t_console)
-    apply_light_source(sx, sy, 3);
+    apply_light_source(sx, sy, 3, false); // 3^2 circle is just silly
 
    if(terrain == t_emergency_light)
-    apply_light_source(sx, sy, 3);
+    apply_light_source(sx, sy, 3, false);
 
    // TODO: [lightmap] Attach light brightness to fields
   switch(current_field.type) {
@@ -259,7 +261,7 @@ void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
    }
 }
 
-void map::apply_light_source(int x, int y, float luminance)
+void map::apply_light_source(int x, int y, float luminance, bool trig_brightcalc )
 {
  bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y];
  memset(lit, 0, sizeof(lit));
@@ -276,14 +278,14 @@ void map::apply_light_source(int x, int y, float luminance)
   int sy = y - range; int ey = y + range;
 
   for(int off = sx; off <= ex; ++off) {
-   apply_light_ray(lit, x, y, off, sy, luminance);
-   apply_light_ray(lit, x, y, off, ey, luminance);
+   apply_light_ray(lit, x, y, off, sy, luminance, trig_brightcalc);
+   apply_light_ray(lit, x, y, off, ey, luminance, trig_brightcalc);
   }
 
   // Skip corners with + 1 and < as they were done
   for(int off = sy + 1; off < ey; ++off) {
-   apply_light_ray(lit, x, y, sx, off, luminance);
-   apply_light_ray(lit, x, y, ex, off, luminance);
+   apply_light_ray(lit, x, y, sx, off, luminance, trig_brightcalc);
+   apply_light_ray(lit, x, y, ex, off, luminance, trig_brightcalc);
   }
  }
 }
@@ -315,37 +317,32 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  double rad = PI * (double)nangle / 180;
  int endx = x + range * cos(rad);
  int endy = y + range * sin(rad);
- apply_light_ray(lit, x, y, endx, endy , luminance);
+ apply_light_ray(lit, x, y, endx, endy , luminance, true);
 
  double testrad = ( PI * wangle / 180 ) + rad;
  int testx = x + range * cos(testrad);
  int testy = y + range * sin(testrad);
 
- double wdist=sqrt(double(pow(endx - testx, 2.0) + pow(endy - testy, 2.0))); // distance between center and widest endpoints
+ double wdist=sqrt(double((endx - testx) * (endx - testx) + (endy - testy) * (endy - testy))); // distance between center and widest endpoints
  if(wdist > 0.5) {
    double wstep = ( wangle / ( wdist * 1.42 ) ); // attempt to determine beam density required to cover all squares
-   int iter=0;
+
    for (double ao=wstep; ao <= wangle; ao+=wstep) {
      double fdist=(ao * HALFPI) / wangle;
-     float dluminance=luminance;
-
-     fdist=0.0;
      double orad = ( PI * ao / 180.0 );
      endx = int( x + ( (double)range - fdist * 2.0) * cos(rad+orad) );
      endy = int( y + ( (double)range - fdist * 2.0) * sin(rad+orad) );
-     apply_light_ray(lit, x, y, endx, endy , dluminance);
+     apply_light_ray(lit, x, y, endx, endy , luminance, true);
 
      endx = int( x + ( (double)range - fdist * 2.0) * cos(rad-orad) );
      endy = int( y + ( (double)range - fdist * 2.0) * sin(rad-orad) );
-     apply_light_ray(lit, x, y, endx, endy , dluminance);
-
-     iter+=2;
+     apply_light_ray(lit, x, y, endx, endy , luminance, true);
    }
  }
 }
 
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
-                          int sx, int sy, int ex, int ey, float luminance)
+                          int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc)
 {
  int ax = abs(ex - sx) << 1;
  int ay = abs(ey - sy) << 1;
@@ -353,6 +350,9 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
  int dy = (sy < ey) ? 1 : -1;
  int x = sx;
  int y = sy;
+
+ if( sx == ex && sy == ey ) { return; }
+
 
  float transparency = LIGHT_TRANSPARENCY_CLEAR;
 
@@ -374,8 +374,12 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
 
     // We know x is the longest angle here and squares can ignore the abs calculation
     float light=0.0;
-    int td = trig_dist(sx, sy, x, y);
-    light = luminance / ( td * td );
+    if ( trig_brightcalc ) {
+      int td = trig_dist(sx, sy, x, y);
+      light = luminance / ( td * td );
+    } else {
+      light = luminance / ((sx - x) * (sx - x));
+    }
     lm[x][y] += light * transparency;
    }
 
@@ -403,9 +407,13 @@ void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
 
     // We know y is the longest angle here and squares can ignore the abs calculation
     float light=0.0;
-    int td = trig_dist(sx, sy, x, y);
-    light = luminance / ( td * td );
-    lm[x][y] += light;
+    if ( trig_brightcalc ) {
+      int td = trig_dist(sx, sy, x, y);
+      light = luminance / ( td * td );
+    } else {
+      light = luminance / ((sy - y) * (sy - y));
+    }
+    lm[x][y] += light * transparency;
    }
 
    if (INBOUNDS(x, y))

@@ -274,8 +274,16 @@ void player::activate_bionic(int b, game *g)
    good.push_back("Alcohol");
   if (has_disease(DI_CIG))
    good.push_back("Nicotine");
+  if (has_disease(DI_METH))
+    good.push_back("Methamphetamines");
   if (has_disease(DI_HIGH))
    good.push_back("Intoxicant: Other");
+  if (has_disease(DI_HALLU) || has_disease(DI_VISUALS))
+   bad.push_back("Magic Mushroom");
+  if (has_disease(DI_IODINE))
+   good.push_back("Iodine");
+  if (has_disease(DI_TOOK_XANAX))
+   good.push_back("Xanax");
   if (has_disease(DI_TOOK_PROZAC))
    good.push_back("Prozac");
   if (has_disease(DI_TOOK_FLUMED))
@@ -306,9 +314,16 @@ void player::activate_bionic(int b, game *g)
   rem_disease(DI_DRUNK);
   rem_disease(DI_CIG);
   rem_disease(DI_HIGH);
+  rem_disease(DI_HALLU);
+  rem_disease(DI_VISUALS);
+  rem_disease(DI_IODINE);
+  rem_disease(DI_TOOK_XANAX);
   rem_disease(DI_TOOK_PROZAC);
   rem_disease(DI_TOOK_FLUMED);
   rem_disease(DI_ADRENALINE);
+  rem_disease(DI_METH);
+  pkill = 0;
+  stim = 0;
  } else if(bio.id == "bio_evap"){
   if (query_yn("Drink directly? Otherwise you will need a container.")) {
    tmp_item = item(g->itypes["water_clean"], 0);

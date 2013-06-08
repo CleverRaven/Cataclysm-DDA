@@ -52,30 +52,35 @@ bool map::process_fields_in_submap(game *g, int gridn)
      cur->age += 250;
     break;
 
-// TODO-MATERIALS: use acid resistance
    case fd_acid:
     if (has_flag(swimmable, x, y))	// Dissipate faster in water
      cur->age += 20;
     for (int i = 0; i < i_at(x, y).size(); i++) {
      item *melting = &(i_at(x, y)[i]);
-     if (melting->made_of(LIQUID) || melting->made_of("veggy")   ||
-         melting->made_of("flesh")  || melting->made_of("powder")  ||
-         melting->made_of("hflesh") ||
-         melting->made_of("cotton") || melting->made_of("wool")    ||
-         melting->made_of("paper")  || melting->made_of("plastic") ||
-         (melting->made_of("glass") && !one_in(3)) || one_in(4)) {
-// Acid destructable objects here
-      melting->damage++;
-      if (melting->damage >= 5 ||
-          (melting->made_of("paper") && melting->damage >= 3)) {
-       cur->age += melting->volume();
-       for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
-        i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
-       i_at(x, y).erase(i_at(x, y).begin() + i);
-       i--;
+     
+     // see DEVELOPER_FAQ.txt for how acid resistance is calculated
+     
+     int chance = melting->acid_resist();
+     if (chance == 0)
+     {
+         melting->damage++;
+     }
+     else if (chance > 0 && chance < 9)
+     {
+         if (one_in(chance))
+         {
+             melting->damage++;
+         }
+     }
+     if (melting->damage >= 5)
+     {
+        cur->age += melting->volume();
+        for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
+            i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
+        i_at(x, y).erase(i_at(x, y).begin() + i);
+        i--;
       }
      }
-    }
     break;
 
    case fd_sap:
@@ -195,7 +200,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
     if (veh)
      veh->damage (part, cur->density * 10, false);
     // If the flames are in a brazier, they're fully contained, so skip consuming terrain
-    if((tr_brazier != tr_at(x, y))&&(has_flag(fire_container, x, y) != TRUE )) {
+    if((tr_brazier != tr_at(x, y))&&(has_flag(fire_container, x, y) != true )) {
      // Consume the terrain we're on
      if (has_flag(explodes, x, y)) {
       ter_set(x, y, ter_id(int(ter(x, y)) + 1));
@@ -235,7 +240,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
     bool in_pit = (ter(x, y) == t_pit);
 // If the flames are REALLY big, they contribute to adjacent flames
     if (cur->density == 3 && cur->age < 0 && tr_brazier != tr_at(x, y)
-        && (has_flag(fire_container, x, y) != TRUE  ) ){
+        && (has_flag(fire_container, x, y) != true  ) ){
 // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
      int starti = rng(0, 2);
      int startj = rng(0, 2);
@@ -263,12 +268,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
        if (field_at(fx, fy).type == fd_web)
         spread_chance = 50 + spread_chance / 2;
        if (has_flag(explodes, fx, fy) && one_in(8 - cur->density) &&
-	   tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != TRUE ) ) {
+	   tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != true ) ) {
         ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
         g->explosion(fx, fy, 40, 0, true);
        } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
                   tr_brazier != tr_at(x, y) &&
-                  (has_flag(fire_container, x, y) != TRUE )&&
+                  (has_flag(fire_container, x, y) != true )&&
                   (in_pit == (ter(fx, fy) == t_pit)) &&
                   ((cur->density == 3 &&
                     (has_flag(flammable, fx, fy) || one_in(20))) ||
@@ -296,7 +301,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
         if (move_cost(fx, fy) > 0 &&
             (!one_in(smoke) || (nosmoke && one_in(40))) &&
             rng(3, 35) < cur->density * 10 && cur->age < 1000 &&
-            (has_flag(suppress_smoke, x, y) != TRUE )) {
+            (has_flag(suppress_smoke, x, y) != true )) {
          smoke--;
          add_field(g, fx, fy, fd_smoke, rng(1, cur->density));
         }

@@ -1037,7 +1037,7 @@
                      ],
             "components": [
                               [
-                                  ["motor", 1]
+                                  ["1cyl_combustion", 1]
                               ],
                               [
                                   ["chain", 1]
@@ -2325,7 +2325,8 @@
                              ["pot", -1],
                              ["rock_pot", -1],
                              ["spear_wood", -1],
-                             ["pointy_stick", -1]
+                             ["pointy_stick", -1],
+                             ["javelin", -1]	
                          ]
                      ],
             "components": [
@@ -2356,7 +2357,8 @@
                              ["pot", -1],
                              ["rock_pot", -1],
                              ["spear_wood", -1],
-                             ["pointy_stick", -1]
+                             ["pointy_stick", -1],
+                             ["javelin", -1]
                          ]
                      ],
             "components": [
@@ -2421,7 +2423,8 @@
                              ["pot", -1],
                              ["rock_pot", -1],
                              ["spear_wood", -1],
-                             ["pointy_stick", -1]
+                             ["pointy_stick", -1],
+                             ["javelin", -1]
                          ]
                      ],
             "components": [
@@ -4958,6 +4961,35 @@
 
 
         {
+            "result": "vest_leather",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 0,
+            "time": 20000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["scissors", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["jacket_leather", 1]
+                              ]
+                          ]
+        },
+
+
+       {
             "result": "gloves_liner",
             "category": "CC_ARMOR",
             "skill_pri": "tailor",
@@ -6902,23 +6934,10 @@
             "reversible": false,
             "autolearn": true,
             "components": [
-                              [
-                                  ["rag", 3],
-								  ["medical_gauze", 1]
-                              ],
-                              [
-                                  ["superglue", 1],
-                                  ["duct_tape", 5],
-								  ["medical_tape", 3]
-                              ],
-                              [
-                                  ["vodka", 7],
-                                  ["rum", 7],
-                                  ["whiskey", 7],
-                                  ["tequila", 7],
-                                  ["gin", 7],
-                                  ["triple_sec", 7]
-                              ]
+                              [ ["rag", 3], ["medical_gauze", 1] ],
+                              [ ["superglue", 1], ["duct_tape", 5], ["medical_tape", 3] ],
+                              [ ["vodka", 7], ["rum", 7], ["whiskey", 7],
+                                ["tequila", 7], ["gin", 7], ["triple_sec", 7] ]
                           ]
         },
 
@@ -7426,7 +7445,31 @@
                                   ["sugar", 4]
                               ]
                           ]
+        },
+        {
+            "result": "steel_chunk",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 0,
+            "time": 5000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+                         [
+                             ["welder", 20],
+                             ["toolset", 1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 3]
+                              ]
+                          ]
         }
+
         
     ]
 }

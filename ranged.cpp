@@ -112,7 +112,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  ts.tv_nsec = BULLET_SPEED;
 
  // Use up some ammunition
- int trange = trig_dist(p.posx, p.posy, tarx, tary);
+int trange = rl_dist(p.posx, p.posy, tarx, tary);
+
  if (trange < int(firing->volume / 3) && firing->ammo != AT_SHOT)
   trange = int(firing->volume / 3);
  else if (p.has_bionic("bio_targeting")) {
@@ -280,7 +281,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   int px = trajectory[0].x;
   int py = trajectory[0].y;
   for (int i = 0; i < trajectory.size() &&
-       (dam > 0 || (effects & AMMO_FLAME)); i++) {
+         (dam > 0 || (effects & mfb(AMMO_FLAME))); i++) {
       px = tx;
       py = ty;
       tx = trajectory[i].x;
@@ -301,7 +302,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
      nanosleep(&ts, NULL);
    }
 
-   if (dam <= 0) { // Ran out of momentum.
+   if (dam <= 0 && !(effects & mfb(AMMO_FLAME))) { // Ran out of momentum.
     ammo_effects(this, tx, ty, effects);
     if (is_bolt &&
         ((curammo->m1 == "wood" && !one_in(4)) ||
@@ -532,7 +533,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 {
  std::vector<point> ret;
  int tarx, tary, junk;
-
+ int range=(hix-u.posx);
 // First, decide on a target among the monsters, if there are any in range
  if (t.size() > 0) {
 // Check for previous target
@@ -583,11 +584,27 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
  char ch;
  bool snap_to_target = OPTIONS[OPT_SNAP_TO_TARGET];
  do {
+  ret = line_to(u.posx, u.posy, x, y,0);
+
+  if(trigdist && trig_dist(u.posx,u.posy, x,y) > range) {
+    bool cont=true;
+    int cx=x;
+    int cy=y;
+    for (int i = 0; i < ret.size() && cont; i++) {
+      if(trig_dist(u.posx,u.posy, ret[i].x, ret[i].y) > range) {
+        ret.resize(i);
+        cont=false;
+      } else {
+        cx=0+ret[i].x; cy=0+ret[i].y;
+      }
+    }
+    x=cx;y=cy;
+  }
   point center;
   if (snap_to_target)
    center = point(x, y);
   else
-   center = point(u.posx, u.posy);
+   center = point(u.posx + u.view_offset_x, u.posy + u.view_offset_y);
   // Clear the target window.
   for (int i = 1; i < 8; i++) {
    for (int j = 1; j < 46; j++)
@@ -616,7 +633,6 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
    // Only draw a highlighted trajectory if we can see the endpoint.
    // Provides feedback to the player, and avoids leaking information about tiles they can't see.
    if (u_see( x, y)) {
-    ret = line_to(u.posx, u.posy, x, y, 0);
     for (int i = 0; i < ret.size(); i++) {
       int mondex = mon_at(ret[i].x, ret[i].y),
           npcdex = npc_at(ret[i].x, ret[i].y);
@@ -641,7 +657,7 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
     if (snap_to_target)
      mvwputch(w_terrain, VIEWY, VIEWX, c_red, '*');
     else
-     mvwputch(w_terrain, y + VIEWY - u.posy, x + VIEWX - u.posx, c_red, '*');
+     mvwputch(w_terrain, VIEWY + y - center.y, VIEWX + x - center.x, c_red, '*');
    } else if (u_see(&(z[mon_at(x, y)]))) {
     z[mon_at(x, y)].print_info(this, w_target,2);
    }

@@ -167,15 +167,17 @@ bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem
     {
         if (rng(1,12) % (forgetful ? 3 : 4))
         {
-            if (OPTIONS[OPT_SKILL_RUST] == 0 || _exercise > 0)
-            {
-                if (charged_bio_mem) return one_in(5);
-                _exercise -= _level;
+            if (charged_bio_mem) return one_in(5);
+            _exercise -= _level;
 
-                if (_exercise < 0)
+            if (_exercise < 0)
+            {
+                if (OPTIONS[OPT_SKILL_RUST] == 0)
                 {
                     _exercise = (100 * _level) - 1;
                     --_level;
+                } else {
+                    _exercise = 0;
                 }
             }
         }

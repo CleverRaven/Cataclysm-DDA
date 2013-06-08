@@ -48,7 +48,7 @@
 #define EXPLOSION_SPEED 70000000
 
 #define PICKUP_RANGE 2
-
+extern bool trigdist;
 enum tut_type {
  TUT_NULL,
  TUT_BASIC, TUT_COMBAT,
@@ -158,6 +158,7 @@ class game
   void cancel_activity();
   void cancel_activity_query(const char* message, ...);
   bool cancel_activity_or_ignore_query(const char* reason, ...); 
+  void exit_vehicle();
 
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
@@ -181,7 +182,7 @@ class game
   void teleport(player *p = NULL);
   void plswim(int x, int y); // Called by plmove.  Handles swimming
   // when player is thrown (by impact or something)
-  void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel);
+  void fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled = false);
 
   void nuke(int x, int y);
   std::vector<faction *> factions_at(int x, int y);
@@ -225,6 +226,7 @@ class game
   std::string list_item_downvote;
   char inv(std::string title = "Inventory:");
   char inv_type(std::string title = "Inventory:", item_cat inv_item_type = IC_NULL);
+  int inventory_item_menu(char chItem, int startx = 0, int width = 50);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
@@ -275,6 +277,7 @@ class game
 
   std::map<int, std::map<int, bool> > mapRain;
 
+  int w_void_lines;
   WINDOW *w_terrain;
   WINDOW *w_minimap;
   WINDOW *w_HP;
@@ -376,9 +379,11 @@ class game
 			bool exact_level=false);
   void place_construction(constructable *con); // See construction.cpp
   void complete_construction();               // See construction.cpp
-  bool pl_choose_vehicle (int &x, int &y);
+  // Get input from the player to choose an adjacent tile (for examine() etc)
+  bool choose_adjacent(std::string verb, int &x, int&y);
   bool vehicle_near ();
   void handbrake ();
+  void control_vehicle(); // Use vehicle controls  '^'
   void examine();// Examine nearby terrain	'e'
   void advanced_inv();
   // open vehicle interaction screen

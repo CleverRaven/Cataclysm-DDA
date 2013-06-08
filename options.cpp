@@ -10,6 +10,8 @@
 
 option_table OPTIONS;
 
+bool trigdist;
+
 option_key lookup_option_key(std::string id);
 bool option_is_bool(option_key id);
 void create_default_options();
@@ -115,7 +117,7 @@ void game::show_options()
       else
       {
         OPTIONS[ option_key(offset + line) ]--;
-        if ((OPTIONS[ option_key(offset + line) ]) < 0 )
+        if ((OPTIONS[ option_key(offset + line) ]) < option_min_options(option_key(offset + line)))
           OPTIONS[ option_key(offset + line) ] = option_max_options(option_key(offset + line)) - 1;
       }
       changed_options = true;
@@ -127,7 +129,7 @@ void game::show_options()
     {
       OPTIONS[ option_key(offset + line) ]++;
       if ((OPTIONS[ option_key(offset + line) ]) >= option_max_options(option_key(offset + line)))
-        OPTIONS[ option_key(offset + line) ] = 0;
+        OPTIONS[ option_key(offset + line) ] = option_min_options(option_key(offset + line));
     }
     changed_options = true;
   break;
@@ -135,8 +137,10 @@ void game::show_options()
   if (changed_options && OPTIONS[OPT_SEASON_LENGTH] < 1 ) OPTIONS[OPT_SEASON_LENGTH]=option_max_options(OPT_SEASON_LENGTH)-1;
  } while (ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
- if (changed_options && query_yn("Save changes?"))
-  save_options();
+ if (changed_options && query_yn("Save changes?")) {
+   save_options();
+   trigdist=( OPTIONS[OPT_CIRCLEDIST] ? true : false );
+ }
  werase(w_options);
 }
 
@@ -190,6 +194,8 @@ void load_options()
    getline(fin, id); // Chomp
  }
  fin.close();
+ trigdist=false; // cache to global due to heavy usage.
+ if(OPTIONS[OPT_CIRCLEDIST]) trigdist=true;
 }
 
 option_key lookup_option_key(std::string id)
@@ -224,6 +230,8 @@ option_key lookup_option_key(std::string id)
   return OPT_GRADUAL_NIGHT_LIGHT;
  if (id == "rain_animation")
   return OPT_RAIN_ANIMATION;
+ if (id == "circledist")
+  return OPT_CIRCLEDIST;
  if (id == "query_disassemble")
   return OPT_QUERY_DISASSEMBLE;
  if (id == "drop_empty")
@@ -234,6 +242,8 @@ option_key lookup_option_key(std::string id)
   return OPT_DELETE_WORLD;
  if (id == "initial_points")
   return OPT_INITIAL_POINTS;
+ if (id == "max_trait_points")
+  return OPT_MAX_TRAIT_POINTS;
  if(id == "initial_time")
   return OPT_INITIAL_TIME;
  if (id == "viewport_x")
@@ -252,6 +262,8 @@ option_key lookup_option_key(std::string id)
   return OPT_STATIC_NPC;
  if (id == "random_npc")
   return OPT_RANDOM_NPC;
+ if (id == "rad_mutation")
+  return OPT_RAD_MUTATION;
  return OPT_NULL;
 }
 
@@ -273,11 +285,13 @@ std::string option_string(option_key key)
   case OPT_AUTOSAVE_MINUTES: return "autosave_minutes";
   case OPT_GRADUAL_NIGHT_LIGHT: return "gradual_night_light";
   case OPT_RAIN_ANIMATION: return "rain_animation";
+  case OPT_CIRCLEDIST: return "circledist";
   case OPT_QUERY_DISASSEMBLE: return "query_disassemble";
   case OPT_DROP_EMPTY: return "drop_empty";
   case OPT_SKILL_RUST: return "skill_rust";
   case OPT_DELETE_WORLD: return "delete_world";
   case OPT_INITIAL_POINTS: return "initial_points";
+  case OPT_MAX_TRAIT_POINTS: return "max_trait_points";
   case OPT_INITIAL_TIME: return "initial_time";
   case OPT_VIEWPORT_X: return "viewport_x";
   case OPT_VIEWPORT_Y: return "viewport_y";
@@ -287,6 +301,7 @@ std::string option_string(option_key key)
   case OPT_SEASON_LENGTH: return "season_length";
   case OPT_STATIC_NPC: return "static_npc";
   case OPT_RANDOM_NPC: return "random_npc";
+  case OPT_RAD_MUTATION: return "rad_mutation";
   default:			return "unknown_option";
  }
  return "unknown_option";
@@ -308,13 +323,15 @@ std::string option_desc(option_key key)
   case OPT_AUTOSAVE:    	return "If true, game will periodically\nsave the map\nDefault is false";
   case OPT_AUTOSAVE_TURNS: return "Number of minutes between autosaves";
   case OPT_AUTOSAVE_MINUTES: return "Minimum number of real time minutes\nbetween autosaves";
-  case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\nshould only make a difference\nduring the night.\nDefault is false";
+  case OPT_GRADUAL_NIGHT_LIGHT: return "If true will add nice gradual-lighting\nshould only make a difference\nduring the night.\nDefault is true";
   case OPT_RAIN_ANIMATION: return "If true, will display weather\nanimations.\nDefault is true";
+  case OPT_CIRCLEDIST: return "If true, the game will calculate\nrange in a realistic way:\nlight sources will be circles\ndiagonal movement will\ncover more ground and take\nlonger.\nIf disabled, everything is\nsquare: moving to the northwest\ncorner of a building\ntakes as long as moving\nto the north wall.";
   case OPT_QUERY_DISASSEMBLE: return "If true, will query before\ndisassembling items.\nDefault is true";
   case OPT_DROP_EMPTY: return "Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers";
   case OPT_SKILL_RUST: return "Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - none at all";
   case OPT_DELETE_WORLD: return "Delete saves upon player death.\n0 - no (default)\n1 - yes\n2 - query";
   case OPT_INITIAL_POINTS: return "Initial points available on character\ngeneration.\nDefault is 6";
+  case OPT_MAX_TRAIT_POINTS: return "Maximum trait points available for\ncharacter generation.\nDefault is 12";
   case OPT_INITIAL_TIME: return "Initial starting time of day on\ncharacter generation.\nDefault is 8:00";
   case OPT_VIEWPORT_X: return "WINDOWS ONLY: Set the expansion of the\nviewport along the X axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
   case OPT_VIEWPORT_Y: return "WINDOWS ONLY: Set the expansion of the\nviewport along the Y axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
@@ -324,6 +341,7 @@ std::string option_desc(option_key key)
   case OPT_CLASSIC_ZOMBIES: return "Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false";
   case OPT_STATIC_NPC: return "If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false";
   case OPT_RANDOM_NPC: return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false";
+  case OPT_RAD_MUTATION: return "If true, radiation causes the player\nto mutate.\nDefault is true";
   default:			return " ";
  }
  return "Big ol Bug (options.cpp:option_desc)";
@@ -347,11 +365,13 @@ std::string option_name(option_key key)
   case OPT_AUTOSAVE_MINUTES: return "Real minutes between autosaves";
   case OPT_GRADUAL_NIGHT_LIGHT: return "Gradual night light";
   case OPT_RAIN_ANIMATION: return "Rain animation";
+  case OPT_CIRCLEDIST: return "Circular distances";
   case OPT_QUERY_DISASSEMBLE: return "Query on disassembly";
   case OPT_DROP_EMPTY: return "Drop empty containers";
   case OPT_SKILL_RUST: return "Skill Rust";
   case OPT_DELETE_WORLD: return "Delete World";
   case OPT_INITIAL_POINTS: return "Initial points";
+  case OPT_MAX_TRAIT_POINTS: return "Maximum trait points";
   case OPT_INITIAL_TIME: return "Initial time";
   case OPT_VIEWPORT_X: return "Viewport width";
   case OPT_VIEWPORT_Y: return "Viewport height";
@@ -361,6 +381,7 @@ std::string option_name(option_key key)
   case OPT_SEASON_LENGTH: return "Season length";
   case OPT_STATIC_NPC: return "Static npcs";
   case OPT_RANDOM_NPC: return "Random npcs";
+  case OPT_RAD_MUTATION: return "Mutations by radiation";
   default:			return "Unknown Option (options.cpp:option_name)";
  }
  return "Big ol Bug (options.cpp:option_name)";
@@ -376,6 +397,7 @@ bool option_is_bool(option_key id)
   case OPT_DROP_EMPTY:
   case OPT_DELETE_WORLD:
   case OPT_INITIAL_POINTS:
+  case OPT_MAX_TRAIT_POINTS:
   case OPT_INITIAL_TIME:
   case OPT_VIEWPORT_X:
   case OPT_VIEWPORT_Y:
@@ -406,9 +428,12 @@ char option_max_options(option_key id)
         ret = 61;
         break;
       case OPT_AUTOSAFEMODETURNS:
-        ret = 51;
+        ret = 101;
         break;
       case OPT_INITIAL_POINTS:
+        ret = 25;
+        break;
+      case OPT_MAX_TRAIT_POINTS:
         ret = 25;
         break;
       case OPT_INITIAL_TIME:
@@ -435,6 +460,24 @@ char option_max_options(option_key id)
         break;
       default:
         ret = 2;
+        break;
+    }
+  return ret;
+}
+
+char option_min_options(option_key id)
+{
+  char ret;
+  if (option_is_bool(id))
+    ret = 0;
+  else
+    switch (id)
+    {
+      case OPT_MAX_TRAIT_POINTS:
+        ret = 3;
+        break;
+      default:
+        ret = 0;
         break;
     }
   return ret;
@@ -475,9 +518,11 @@ autosave_turns 30\n\
 # Minimum real time minutes between autosaves\n\
 autosave_minutes 5\n\
 # If true will add nice gradual-lighting (should only make a difference @night)\n\
-gradual_night_light F\n\
+gradual_night_light T\n\
 # If true, will display weather animations\n\
 rain_animation T\n\
+# If true, compute distance with real math\n\
+circledist T\n\
 # If true, will query beefore disassembling items\n\
 query_disassemble T\n\
 # Player will automatically drop empty containers after use\n\
@@ -491,6 +536,8 @@ skill_rust 0\n\
 delete_world 0\n\
 # Initial points available in character generation\n\
 initial_points 6\n\
+# Maximum trait points allowed in character generation\n\
+max_trait_points 12\n\
 # Initial time at character generation\n\
 initial_time 8\n\
 # The width of the terrain window in characters.\n\
@@ -509,6 +556,8 @@ season_length 14\n\
 static_npc F\n\
 # Spawn random NPCs during gameplay.\n\
 random_npc F\n\
+# Radiation causes mutations.\n\
+rad_mutation T\n\
 ";
  fout.close();
 }
