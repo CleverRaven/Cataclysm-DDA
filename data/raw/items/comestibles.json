@@ -3365,7 +3365,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "human_canned",
-        "name" : "canned cad",
+        "name" : "soylent slices",
         "weight" : 2,
         "color" : "red",
         "addiction_type" : "none",
