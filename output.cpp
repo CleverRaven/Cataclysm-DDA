@@ -445,8 +445,6 @@ int popup_getkey(const char *mes, ...) {
 
 int mkpopup(const char *mes, va_list ap)
 {
- va_list ap;
- va_start(ap, mes);
  char buff[8192];
  vsprintf(buff, mes, ap);
  va_end(ap);
