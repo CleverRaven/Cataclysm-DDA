@@ -499,8 +499,9 @@ void game::init_mapitems()
    &mapitems[mi_vault],
 	"purifier", "plut_cell", "ftk93", "nx17", "canister_goo",
 	"UPS_off", "gold", "plasma_engine",
-   "bio_time_freeze", "bio_teleport",
-   "power_armor_basic",
+  "bio_time_freeze", "bio_teleport",
+  "power_armor_basic",
+  "power_armor_light", "power_armor_heavy",
   "minireactor", "alloy_plate", NULL);
 
  setvector(
@@ -959,7 +960,9 @@ void game::init_mapitems()
 	"plut_cell", "laser_pack", "m249", "v29", "ftk93", "nx17",
 	"conversion_battle", "conversion_sniper", "canister_goo",
 	"mininuke", "portal", "c4", "12mm", "hk_g80",
- "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
+  "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
+  "power_armor_light", "power_armor_helmet_light",
+  "power_armor_heavy", "power_armor_helmet_heavy",
 	"plasma", "plasma_rifle", NULL);
 
  setvector(
