@@ -4052,7 +4052,7 @@
             "difficulty": 4,
             "time": 30000,
             "reversible": true,
-            "autolearn": true,
+            "autolearn": false,
             "tools": [
                          [
                              ["screwdriver", -1],

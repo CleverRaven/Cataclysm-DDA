@@ -216,7 +216,7 @@ void game::init_mapitems()
  setvector(
    &mapitems[mi_mischw],
 	"2x4", "machete", "boots_steel", "hat_hard", "mask_filter",
-	"glasses_safety", "bb", "bbgun", "beartrap", "two_way_radio",
+	"glasses_safety", "bb", "bbgun", "beartrap",
 	"radio", "hotplate", "extinguisher", "nailgun",
 	"manual_mechanics", "manual_carpentry", "mag_carpentry",
 	"duct_tape", "lawnmower", "boltcutters",
@@ -227,7 +227,7 @@ void game::init_mapitems()
   "amplifier", "antenna", "battery", "soldering_iron", "solar_cell",
 	"screwdriver", "processor", "RAM", "mp3", "flashlight",
 	"radio", "hotplate", "receiver", "transponder", "tazer",
-	"two_way_radio", "usb_drive", "manual_electronics", "cable",
+	"usb_drive", "manual_electronics", "cable",
     "vac_sealer", NULL);
 
  setvector(
@@ -424,7 +424,7 @@ void game::init_mapitems()
 	"baton", "kevlar", "vest", "gloves_leather", "mask_gas",
 	"goggles_nv", "helmet_riot", "holster", "bootstrap",
 	"armguard_hard",
-	"shot_00", "9mm", "usp_9mm", "remington_870", "two_way_radio",
+	"shot_00", "9mm", "usp_9mm", "remington_870", 
 	"UPS_off", "tazer", NULL);
 
  setvector(
@@ -540,7 +540,7 @@ void game::init_mapitems()
 	"knife_combat", "binoculars", "bolt_steel", "crossbow",
 	"mag_guns", "manual_brawl", "manual_knives", "cot",
 	"manual_mechanics", "manual_first_aid", "manual_traps",
-	"flashlight", "water_purifier", "two_way_radio", "radio",
+	"flashlight", "water_purifier",  "radio",
  "geiger_off", "usb_drive", "canteen", "jerrycan", "rucksack",
  "heatpack", "sleeping_bag", "emer_blanket", "flyer", NULL);
 
@@ -754,7 +754,7 @@ void game::init_mapitems()
 	"1st_aid", "motor", "hose", "screwdriver", "wrench", "pipe",
 	"boots", "jumpsuit", "coat_lab", "gloves_rubber",
 	"mask_filter", "glasses_safety", "hat_hard", "extinguisher",
-	"flashlight", "water_purifier", "two_way_radio",
+	"flashlight", "water_purifier", 
  "bio_tools", "bio_storage",  "bio_flashlight",
  "bio_lighter", "bio_magnet", "flyer",
  "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
@@ -763,7 +763,7 @@ void game::init_mapitems()
    &mapitems[mi_construction_worker],
 	"boots", "boots_steel", "jumpsuit", "gloves_rubber","gloves_leather",
 	"mask_filter", "glasses_safety", "hat_hard", "battery",
-	"flashlight", "two_way_radio", NULL);
+	"flashlight",  NULL);
 
  setvector(
    &mapitems[mi_mine_storage],
@@ -774,7 +774,7 @@ void game::init_mapitems()
 	"water_clean", "1st_aid", "rope_30", "chain", "boots_steel",
 	"jumpsuit", "gloves_leather", "mask_filter", "mask_gas",
 	"glasses_safety", "goggles_welding", "goggles_nv", "hat_hard",
-	"backpack", "battery", "flashlight", "two_way_radio",
+	"backpack", "battery", "flashlight", 
 	"jackhammer", "jacqueshammer", "dynamite", "UPS_off",
    "bio_tools", "bio_flashlight", "bio_lighter", "bio_magnet",
    "bio_resonator", "bio_hydraulics",
@@ -790,7 +790,7 @@ void game::init_mapitems()
 	"cola", "caffeine", "cig", "weed", "amplifier",
 	"transponder", "receiver", "antenna", "screwdriver",
 	"battery", "mag_porn", "mag_tv", "manual_electronics",
-	"lighter", "flashlight", "two_way_radio", "radio", "mp3",
+	"lighter", "flashlight",  "radio", "mp3",
  "solar_cell", "flyer",	"usb_drive", NULL);
 
  setvector(
@@ -914,7 +914,7 @@ void game::init_mapitems()
 	"hard_plate", "motor", "motor_large", "hose", "pants_army",
 	"jumpsuit", "kevlar", "mask_gas", "helmet_army", "battery",
 	"plut_cell", "m249", "v8_combustion", "extinguisher",
-	"two_way_radio", "radio", "UPS_off", "beltrig",
+	 "radio", "UPS_off", "beltrig",
     "rucksack", "LAW_Packed", NULL);
 
 // TODO: Replace kevlar with the ceramic plate armor
@@ -931,7 +931,7 @@ void game::init_mapitems()
 	"40mm_frag", "40mm_incendiary", "40mm_teargas", "40mm_smoke",
 	"40mm_flashbang", "usp_9mm", "usp_45", "m4a1", "scar_l",
 	"scar_h", "m249", "ftk93", "nx17", "m320", "mgl",
-	"suppressor", "clip", "lighter", "flashlight", "two_way_radio",
+	"suppressor", "clip", "lighter", "flashlight", 
 	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
 	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
 	"binoculars", "u_shotgun", "beltrig", "power_armor_basic",
