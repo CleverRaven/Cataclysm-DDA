@@ -113,6 +113,11 @@ class game
   void vadd_msg(const char* msg, va_list ap );
   void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
+  std::string press_x(action_id act);	// (Press X (or Y)|Try) to Z
+  std::string press_x(action_id act, std::string key_bound,
+                                     std::string key_unbound);
+  std::string press_x(action_id act, std::string key_bound_pre,
+          std::string key_bound_suf, std::string key_unbound);
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
@@ -376,7 +381,7 @@ class game
   void construction_menu();            // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
                         const int level = -1, bool cont = false,
-			bool exact_level=false);
+                        bool exact_level=false);
   void place_construction(constructable *con); // See construction.cpp
   void complete_construction();               // See construction.cpp
   // Get input from the player to choose an adjacent tile (for examine() etc)
