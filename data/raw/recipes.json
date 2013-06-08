@@ -253,7 +253,7 @@
             "result": "sling",
 			"category": "CC_WEAPON",
             "difficulty": 0,
-            "time": 1000,
+            "time": 10000,
             "reversible": false,
             "autolearn": true,
             "tools": [
@@ -284,7 +284,7 @@
             "result": "slingshot",
 			"category": "CC_WEAPON",
             "difficulty": 0,
-            "time": 3000,
+            "time": 15000,
             "reversible": false,
             "autolearn": true,
             "tools": [
@@ -440,7 +440,7 @@
             "skill_pri": "archery",
             "skill_sec": "survival",
             "difficulty": 2,
-            "time": 15000,
+            "time": 120000,
             "reversible": true,
             "autolearn": true,
             "tools": [
@@ -1204,7 +1204,7 @@
             "result": "pebble",
             "category": "CC_AMMO",
             "difficulty": 0,
-            "time": 1000,
+            "time": 5000,
             "reversible": false,
             "autolearn": true,
 			"tools": [
@@ -1229,7 +1229,7 @@
             "skill_pri": "archery",
             "skill_sec": "survival",
             "difficulty": 1,
-            "time": 5000,
+            "time": 15000,
             "reversible": false,
             "autolearn": true,
             "tools": [
@@ -1252,6 +1252,37 @@
                                   ["mop", 1],
                                   ["2x4", 1],
                                   ["bee_sting", 1]
+                              ]
+                          ]
+        },
+
+		{
+            "result": "arrow_cf",
+            "category": "CC_AMMO",
+            "skill_pri": "archery",
+            "skill_sec": "mechanics",
+            "difficulty": 2,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hammer", -1],
+                             ["rock", -1],
+                             ["toolset", -1]
+						 ],
+
+						 [
+							 ["fire", 1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["steel_lump", 1]
+							  ],
+
+							  [
+                                  ["blade", 1]
                               ]
                           ]
         },
