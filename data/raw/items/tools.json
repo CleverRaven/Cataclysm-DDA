@@ -2322,7 +2322,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "name": "X-Acto knife",
-    "description": "A small, very sharp knife.  Causes decent damage but is difficult to hit with. Its small tip allows for a precision strike in the hands of the skilled.",
+    "description": "A small, very sharp knife.  Causes decent damage but is difficult to hit with. Its small tip allows for a precision strike in the hands of the skilled. It is too small to butcher corpses with.",
     "rarity": 10,
     "price": 40,
     "material": ["iron", "plastic"],
