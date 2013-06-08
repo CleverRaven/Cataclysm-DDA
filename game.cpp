@@ -5484,6 +5484,9 @@ void game::control_vehicle()
 {
     int veh_part;
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+    int seat = -1;
+    if (veh)
+        seat = veh->part_with_feature(veh_part, vpf_seat);
 
     if (veh && veh->player_in_control(&u)) {
         std::string message = veh->use_controls();
@@ -5491,6 +5494,11 @@ void game::control_vehicle()
             add_msg(message.c_str());
     } else if (u.in_vehicle) {
         exit_vehicle();
+    } else if (veh && seat >= 0 && veh->parts[seat].items.size() == 0 &&
+               !veh->parts[seat].has_flag(vehicle_part::passenger_flag)) {
+        m.board_vehicle(this, u.posx, u.posy, &u);
+        u.moves -= 200;
+        add_msg("You sit down.");
     } else {
         int examx, examy;
         if (!choose_adjacent("Control vehicle", examx, examy))
