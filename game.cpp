@@ -2452,17 +2452,6 @@ void game::save_factions_missions_npcs ()
     for (int i = 0; i < factions.size(); i++)
         fout << factions[i].save_info() << std::endl;
 
-    //Currently all npcs are also saved in the omap. Just cleaning out the
-    //current active npc list should be enough.
-    for (int i = 0; i < active_npc.size(); i++)
-    {
-        active_npc[i]->omx = cur_om->pos().x;
-        active_npc[i]->omy = cur_om->pos().y;
-        active_npc[i]->mapx = levx + (active_npc[i]->posx / SEEX);
-        active_npc[i]->mapy = levy + (active_npc[i]->posy / SEEY);
-        active_npc[i]->posx %= SEEX;
-        active_npc[i]->posy %= SEEY;
-    }
     fout.close();
 }
 
