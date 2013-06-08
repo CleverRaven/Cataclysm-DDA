@@ -1817,13 +1817,15 @@ bool game::handle_action()
 
   case ACTION_SLEEP:
    if (veh_ctrl) {
-    std::string message = veh->use_controls();
-    if (!message.empty())
-     add_msg(message.c_str());
+    add_msg("Vehicle control has moved, new default binding is '^'.");
    } else if (query_yn("Are you sure you want to sleep?")) {
     u.try_to_sleep(this);
     u.moves = 0;
    }
+   break;
+
+  case ACTION_CONTROL_VEHICLE:
+   control_vehicle();
    break;
 
   case ACTION_TOGGLE_SAFEMODE:
@@ -4161,7 +4163,7 @@ void game::monmove()
     int group = valid_group((mon_id)(z[i].type->id), levx, levy, levz);
     if (group != -1) {
      cur_om->zg[group].population++;
-     if (cur_om->zg[group].population / pow(cur_om->zg[group].radius, 2.0) > 5 &&
+     if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
          !cur_om->zg[group].diffuse )
       cur_om->zg[group].radius++;
     } else if (MonsterGroupManager::Monster2Group((mon_id)(z[i].type->id)) != "GROUP_NULL") {
@@ -4865,90 +4867,80 @@ void game::revive_corpse(int x, int y, item *it)
 
 void game::open()
 {
- u.moves -= 100;
- bool didit = false;
- mvwprintw(w_terrain, 0, 0, "Open where? (hjklyubn) ");
- wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
- int openx, openy;
- InputEvent input = get_input();
- last_action += input;
- get_direction(openx, openy, input);
- if (openx != -2 && openy != -2)
- {
-  int vpart;
-  vehicle *veh = m.veh_at(u.posx + openx, u.posy + openy, vpart);
-  if (veh && veh->part_flag(vpart, vpf_openable)) {
-   if (veh->parts[vpart].open) {
-    add_msg("That door is already open.");
-    u.moves += 100;
-   } else {
-    veh->parts[vpart].open = 1;
-    veh->insides_dirty = true;
-   }
-   return;
-  }
+    int openx, openy;
+    if (!choose_adjacent("Open", openx, openy))
+        return;
 
-  if (m.is_outside(u.posx, u.posy))
-   didit = m.open_door(u.posx + openx, u.posy + openy, false);
-  else
-   didit = m.open_door(u.posx + openx, u.posy + openy, true);
- }
- else
-  add_msg("Invalid direction.");
- if (!didit) {
-  switch(m.ter(u.posx + openx, u.posy + openy)) {
-  case t_door_locked:
-  case t_door_locked_interior:
-  case t_door_locked_alarm:
-   add_msg("The door is locked!");
-   break;	// Trying to open a locked door uses the full turn's movement
-  case t_door_o:
-   add_msg("That door is already open.");
-   u.moves += 100;
-   break;
-  default:
-   add_msg("No door there.");
-   u.moves += 100;
-  }
- }
+    u.moves -= 100;
+    bool didit = false;
+
+    int vpart;
+    vehicle *veh = m.veh_at(openx, openy, vpart);
+    if (veh && veh->part_flag(vpart, vpf_openable)) {
+        if (veh->parts[vpart].open) {
+            add_msg("That door is already open.");
+            u.moves += 100;
+        } else {
+            veh->parts[vpart].open = 1;
+            veh->insides_dirty = true;
+        }
+        return;
+    }
+
+    if (m.is_outside(u.posx, u.posy))
+        didit = m.open_door(openx, openy, false);
+    else
+        didit = m.open_door(openx, openy, true);
+
+    if (!didit) {
+        switch(m.ter(openx, openy)) {
+        case t_door_locked:
+        case t_door_locked_interior:
+        case t_door_locked_alarm:
+            add_msg("The door is locked!");
+            break;	// Trying to open a locked door uses the full turn's movement
+        case t_door_o:
+            add_msg("That door is already open.");
+            u.moves += 100;
+            break;
+        default:
+            add_msg("No door there.");
+            u.moves += 100;
+        }
+    }
 }
 
 void game::close()
 {
- bool didit = false;
- mvwprintw(w_terrain, 0, 0, "Close where? (hjklyubn) ");
- wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
- int closex, closey;
- InputEvent input = get_input();
- last_action += input;
- get_direction(closex, closey, input);
- if (closex != -2 && closey != -2) {
-  closex += u.posx;
-  closey += u.posy;
-  int vpart;
-  vehicle *veh = m.veh_at(closex, closey, vpart);
-  if (mon_at(closex, closey) != -1)
-   add_msg("There's a %s in the way!",z[mon_at(closex, closey)].name().c_str());
-  else if (veh && veh->part_flag(vpart, vpf_openable) &&
-          veh->parts[vpart].open) {
-   veh->parts[vpart].open = 0;
-   veh->insides_dirty = true;
-   didit = true;
-  } else if (m.i_at(closex, closey).size() > 0)
-   add_msg("There's %s in the way!", m.i_at(closex, closey).size() == 1 ?
-           m.i_at(closex, closey)[0].tname(this).c_str() : "some stuff");
-  else if (closex == u.posx && closey == u.posy)
-   add_msg("There's some buffoon in the way!");
-  else if (m.ter(closex, closey) == t_window_domestic && m.is_outside(u.posx, u.posy))  {
-   add_msg("You cannot close the curtains from outside. You must be inside the building.");
- } else
-   didit = m.close_door(closex, closey, true);
- } else
-  add_msg("Invalid direction.");
- if (didit)
-  u.moves -= 90;
+    int closex, closey;
+    if (!choose_adjacent("Close", closex, closey))
+        return;
+
+    bool didit = false;
+
+    int vpart;
+    vehicle *veh = m.veh_at(closex, closey, vpart);
+    if (mon_at(closex, closey) != -1)
+        add_msg("There's a %s in the way!",
+                z[mon_at(closex, closey)].name().c_str());
+    else if (veh && veh->part_flag(vpart, vpf_openable) &&
+             veh->parts[vpart].open) {
+        veh->parts[vpart].open = 0;
+        veh->insides_dirty = true;
+        didit = true;
+    } else if (m.i_at(closex, closey).size() > 0)
+        add_msg("There's %s in the way!", m.i_at(closex, closey).size() == 1 ?
+                m.i_at(closex, closey)[0].tname(this).c_str() : "some stuff");
+    else if (closex == u.posx && closey == u.posy)
+        add_msg("There's some buffoon in the way!");
+    else if (m.ter(closex, closey) == t_window_domestic &&
+             m.is_outside(u.posx, u.posy))  {
+        add_msg("You cannot close the curtains from outside. You must be inside the building.");
+    } else
+        didit = m.close_door(closex, closey, true);
+
+    if (didit)
+        u.moves -= 90;
 }
 
 void game::smash()
@@ -4957,101 +4949,89 @@ void game::smash()
     bool didit = false;
     std::string bashsound, extra;
     int smashskill = int(u.str_cur / 2.5 + u.weapon.type->melee_dam);
-    mvwprintw(w_terrain, 0, 0, "Smash what? (hjklyubn) ");
-    wrefresh(w_terrain);
-    InputEvent input = get_input();
-    last_action += input;
-    if (input == Close)
-    {
-        add_msg("Never mind.");
-        return;
-    }
     int smashx, smashy;
-    get_direction(smashx, smashy, input);
-    if (smashx != -2 && smashy != -2)
+
+    if (!choose_adjacent("Smash", smashx, smashy))
+        return;
+
+    const int full_pulp_threshold = 4;
+    std::list<item*> corpses;
+    for (int i = 0; i < m.i_at(smashx, smashy).size(); ++i)
     {
-        const int full_pulp_threshold = 4;
-        std::list<item*> corpses;
-        for (int i = 0; i < m.i_at(u.posx + smashx, u.posy + smashy).size(); ++i)
+        item *it = &m.i_at(smashx, smashy)[i];
+        if (it->type->id == "corpse" && it->damage < full_pulp_threshold)
         {
-            item *it = &m.i_at(u.posx + smashx, u.posy + smashy)[i];
-            if (it->type->id == "corpse" && it->damage < full_pulp_threshold)
-            {
-                corpses.push_back(it);
-            }
+            corpses.push_back(it);
         }
-        if (corpses.size() > 0)
+    }
+    if (corpses.size() > 0)
+    {
+        add_msg("You swing at the corpse%s.", corpses.size() > 1 ? "s" : "");
+
+        // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
+        // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
+        // a str 8 character with a baseball bat (28 bash, 0 cut) should have around a 25% chance.
+
+        int cut_power = u.weapon.type->melee_cut;
+        // stabbing weapons are a lot less effective at pulping
+        if (u.weapon.has_flag("STAB") || u.weapon.has_flag("SPEAR"))
         {
-            add_msg("You swing at the corpse%s.", corpses.size() > 1 ? "s" : "");
-
-            // numbers logic: a str 8 character with a butcher knife (4 bash, 18 cut)
-            // should have at least a 50% chance of damaging an intact zombie corpse (75 volume).
-            // a str 8 character with a baseball bat (28 bash, 0 cut) should have around a 25% chance.
-
-            int cut_power = u.weapon.type->melee_cut;
-            // stabbing weapons are a lot less effective at pulping
-            if (u.weapon.has_flag("STAB") || u.weapon.has_flag("SPEAR"))
+            cut_power /= 2;
+        }
+        double pulp_power = sqrt((double)(u.str_cur + u.weapon.type->melee_dam)) * sqrt((double)(cut_power + 1));
+        pulp_power *= 20; // constant multiplier to get the chance right
+        int rn = rng(0, pulp_power);
+        while (rn > 0 && !corpses.empty())
+        {
+            item *it = corpses.front();
+            corpses.pop_front();
+            int damage = rn / it->volume();
+            if (damage + it->damage > full_pulp_threshold)
             {
-                cut_power /= 2;
+                damage = full_pulp_threshold - it->damage;
             }
-            double pulp_power = sqrt((double)(u.str_cur + u.weapon.type->melee_dam)) * sqrt((double)(cut_power + 1));
-            pulp_power *= 20; // constant multiplier to get the chance right
-            int rn = rng(0, pulp_power);
-            while (rn > 0 && !corpses.empty())
+            rn -= (damage + 1) * it->volume(); // slight efficiency loss to swing
+
+            // chance of a critical success, higher chance for small critters
+            // comes AFTER the loss of power from the above calculation
+            if (one_in(it->volume()))
             {
-                item *it = corpses.front();
-                corpses.pop_front();
-                int damage = rn / it->volume();
-                if (damage + it->damage > full_pulp_threshold)
-                {
-                    damage = full_pulp_threshold - it->damage;
-                }
-                rn -= (damage + 1) * it->volume(); // slight efficiency loss to swing
+                damage++;
+            }
 
-                // chance of a critical success, higher chance for small critters
-                // comes AFTER the loss of power from the above calculation
-                if (one_in(it->volume()))
+            if (damage > 0)
+            {
+                add_msg("You %sdamage the %s!", (damage > 1 ? "greatly " : ""), it->tname().c_str());
+                it->damage += damage;
+                if (it->damage >= 4)
                 {
-                    damage++;
+                    add_msg("The corpse is now thoroughly pulped.");
+                    it->damage = 4;
+                    // TODO mark corpses as inactive when appropriate
                 }
-
-                if (damage > 0)
-                {
-                    add_msg("You %sdamage the %s!", (damage > 1 ? "greatly " : ""), it->tname().c_str());
-                    it->damage += damage;
-                    if (it->damage >= 4)
-                    {
-                        add_msg("The corpse is now thoroughly pulped.");
-                        it->damage = 4;
-                        // TODO mark corpses as inactive when appropriate
-                    }
-                    // Splatter some blood around
-                    for (int x = u.posx + smashx - 1; x <= u.posx + smashx + 1; x++) {
-                        for (int y = u.posy + smashy - 1; y <= u.posy + smashy + 1; y++) {
-                            if (!one_in(damage+1)) {
-                                if (m.field_at(x, y).type == fd_blood &&
-                                    m.field_at(x, y).density < 3) {
-                                    m.field_at(x, y).density++;
-                                } else {
-                                    m.add_field(this, x, y, fd_blood, 1);
-                                }
+                // Splatter some blood around
+                for (int x = smashx - 1; x <= smashx + 1; x++) {
+                    for (int y = smashy - 1; y <= smashy + 1; y++) {
+                        if (!one_in(damage+1)) {
+                            if (m.field_at(x, y).type == fd_blood &&
+                                m.field_at(x, y).density < 3) {
+                                m.field_at(x, y).density++;
+                            } else {
+                                m.add_field(this, x, y, fd_blood, 1);
                             }
                         }
                     }
                 }
             }
-            u.moves -= move_cost;
-            return; // don't smash terrain if we've smashed a corpse
         }
-        else
-        {
-            didit = m.bash(u.posx + smashx, u.posy + smashy, smashskill, bashsound);
-        }
+        u.moves -= move_cost;
+        return; // don't smash terrain if we've smashed a corpse
     }
     else
     {
-        add_msg("Invalid direction.");
+        didit = m.bash(smashx, smashy, smashskill, bashsound);
     }
+
     if (didit)
     {
         if (extra != "")
@@ -5060,7 +5040,7 @@ void game::smash()
         }
         sound(u.posx, u.posy, 18, bashsound);
         // TODO: Move this elsewhere, like maybe into the map on-break code
-        if (m.has_flag(alarmed, u.posx + smashx, u.posy + smashy) &&
+        if (m.has_flag(alarmed, smashx, smashy) &&
             !event_queued(EVENT_WANTED))
         {
             sound(u.posx, u.posy, 30, "An alarm sounds!");
@@ -5116,21 +5096,25 @@ void game::use_wielded_item()
   u.use_wielded(this);
 }
 
-bool game::pl_choose_vehicle (int &x, int &y)
+bool game::choose_adjacent(std::string verb, int &x, int &y)
 {
- refresh_all();
- mvprintz(0, 0, c_red, "Choose a vehicle at direction:");
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
- InputEvent input = get_input();
- int dirx, diry;
- get_direction(dirx, diry, input);
- if (dirx == -2) {
-  add_msg("Invalid direction!");
-  return false;
- }
- x += dirx;
- y += diry;
- return true;
+    std::string query_text = verb + " where? (Direction button)";
+    mvwprintw(w_terrain, 0, 0, query_text.c_str());
+    wrefresh(w_terrain);
+    DebugLog() << "calling get_input() for " << verb << "\n";
+    InputEvent input = get_input();
+    last_action += input;
+    if (input == Cancel || input == Close)
+        return false;
+    else
+        get_direction(x, y, input);
+    if (x == -2 || y == -2) {
+        add_msg("Invalid direction.");
+        return false;
+    }
+    x += u.posx;
+    y += u.posy;
+    return true;
 }
 
 bool game::vehicle_near ()
@@ -5459,61 +5443,91 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
  }
 }
 
-void game::examine()
+void game::exit_vehicle()
 {
- if (u.in_vehicle) {
-  int vpart;
-  vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
-  if (veh) {
-   // velocity is divided by 100 to get mph, so only try throwing the player if the mph is > 1
-   bool moving = veh->velocity >= 100 || veh->velocity <= -100; 
-   bool qexv = (moving ?
-                query_yn("Really exit moving vehicle?") :
-                query_yn("Exit vehicle?"));
-   if (qexv) {
-    m.unboard_vehicle (this, u.posx, u.posy);
+    if (!u.in_vehicle)
+        return;
+    int vpart;
+    vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
+    if (!veh) {
+        debugmsg("Tried to exit non-existent vehicle.");
+        return;
+    }
+    // velocity is divided by 100 to get mph,
+    // so only try throwing the player if the mph is > 1
+    bool moving = veh->velocity >= 100 || veh->velocity <= -100; 
+    if (moving && !query_yn("Really exit moving vehicle?"))
+        return;
+    if (moving)
+        add_msg("You dive from the vehicle.");
+    else
+        add_msg("You disembark.");
+    m.unboard_vehicle(this, u.posx, u.posy);
     u.moves -= 200;
-    if (moving) {      // TODO: move player out of harms way
-     int dsgn = veh->parts[vpart].mount_dx > 0? 1 : -1;
-     fling_player_or_monster (&u, 0, veh->face.dir() + 90 * dsgn, veh->velocity / (float)100);
+    if (moving) {
+        // If on the left, dive left. If on the right, dive right.
+        int dsgn = veh->parts[vpart].mount_dy > 0 ? 1 : -1;
+        // Dive sideways three tiles
+        fling_player_or_monster(&u, 0, veh->face.dir() + 90 * dsgn, 30, true);
+        // Hit the ground according to vehicle speed
+        if (!m.has_flag(swimmable, u.posx, u.posy)) {
+            if (veh->velocity > 0)
+                fling_player_or_monster(&u, 0, veh->face.dir(), veh->velocity / (float)100);
+            else
+                fling_player_or_monster(&u, 0, veh->face.dir() + 180, -(veh->velocity) / (float)100);
+        }
     }
     return;
-   }
-  }
- }
- mvwprintw(w_terrain, 0, 0, "Examine where? (Direction button) ");
- wrefresh(w_terrain);
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
+}
+
+void game::control_vehicle()
+{
+    int veh_part;
+    vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+
+    if (veh && veh->player_in_control(&u)) {
+        std::string message = veh->use_controls();
+        if (!message.empty())
+            add_msg(message.c_str());
+    } else if (u.in_vehicle) {
+        exit_vehicle();
+    } else {
+        int examx, examy;
+        if (!choose_adjacent("Control vehicle", examx, examy))
+            return;
+        veh = m.veh_at(examx, examy, veh_part);
+        if (!veh) {
+            add_msg("No vehicle there.");
+            return;
+        }
+        if (veh->part_with_feature(veh_part, vpf_controls) < 0) {
+            add_msg("No controls there.");
+            return;
+        }
+        std::string message = veh->use_controls();
+        if (!message.empty())
+            add_msg(message.c_str());
+    }
+}
+
+void game::examine()
+{
  int examx, examy;
- InputEvent input = get_input();
- last_action += input;
- if (input == Cancel || input == Close)
-  return;
- get_direction(examx, examy, input);
- if (examx == -2 || examy == -2) {
-  add_msg("Invalid direction.");
-  return;
- }
- examx += u.posx;
- examy += u.posy;
+ if (!choose_adjacent("Examine", examx, examy))
+    return;
 
  int veh_part = 0;
  vehicle *veh = m.veh_at (examx, examy, veh_part);
  if (veh) {
   int vpcargo = veh->part_with_feature(veh_part, vpf_cargo, false);
   int vpkitchen = veh->part_with_feature(veh_part, vpf_kitchen, true);
-  int vpcontrols = veh->part_with_feature(veh_part, vpf_controls);
   if ((vpcargo >= 0 && veh->parts[vpcargo].items.size() > 0) || vpkitchen >= 0)
    pickup(examx, examy, 0);
   else if (u.in_vehicle)
    add_msg ("You can't do that while onboard.");
   else if (abs(veh->velocity) > 0)
    add_msg ("You can't do that on moving vehicle.");
-  else if (vpcontrols >= 0) {
-   std::string message = veh->use_controls();
-   if (!message.empty())
-    add_msg(message.c_str());
-  } else
+  else
    exam_vehicle (*veh, examx, examy);
  }
 
@@ -7493,7 +7507,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
  }
  if (liquid.type->id == "gasoline" && vehicle_near() && query_yn("Refill vehicle?")) {
   int vx = u.posx, vy = u.posy;
-  if (pl_choose_vehicle(vx, vy)) {
+  refresh_all();
+  if (choose_adjacent("Refill vehicle", vx, vy)) {
    vehicle *veh = m.veh_at (vx, vy);
    if (veh) {
     int ftype = AT_GAS;
@@ -7517,7 +7532,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    } else // if (veh)
     add_msg ("There isn't any vehicle there.");
    return false;
-  } // if (pl_choose_vehicle(vx, vy))
+  } // if (choose_adjacent("Refill vehicle", vx, vy))
 
  } else { // Not filling vehicle
 
@@ -9043,7 +9058,7 @@ void game::plswim(int x, int y)
  u.inv.rust_iron_items();
 }
 
-void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel)
+void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float flvel, bool controlled)
 {
     int steps = 0;
     bool is_u = p && (p == &u);
@@ -9087,6 +9102,8 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
         bool slam = false;
         int mondex = mon_at(x, y);
         dam1 = flvel / 3 + rng (0, flvel * 1 / 3);
+        if (controlled)
+            dam1 = std::max(dam1 / 2 - 5, 0);
         if (mondex >= 0)
         {
             slam = true;
@@ -9117,7 +9134,7 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
                 zz->hurt (dam1);
             flvel = flvel / 2;
         }
-        if (slam)
+        if (slam && dam1)
             add_msg ("%s slammed against the %s for %d damage!", sname.c_str(), dname.c_str(), dam1);
         if (thru)
         {
@@ -9146,6 +9163,8 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
     {
         // fall on ground
         dam1 = rng (flvel / 3, flvel * 2 / 3) / 2;
+        if (controlled)
+            dam1 = std::max(dam1 / 2 - 5, 0);
         if (is_player)
         {
             int dex_reduce = p->dex_cur < 4? 4 : p->dex_cur;
@@ -9166,14 +9185,17 @@ void game::fling_player_or_monster(player *p, monster *zz, const int& dir, float
             if (dam1 > 0)
             {
                 add_msg ("You fall on the ground for %d damage.", dam1);
-            } else {
-                add_msg ("You fall on the ground.");
+            } else if (!controlled) {
+                add_msg ("You land on the ground.");
             }
         }
     }
     else if (is_u)
     {
-        add_msg ("You fall into water.");
+        if (controlled)
+            add_msg ("You dive into water.");
+        else
+            add_msg ("You fall into water.");
     }
 }
 
@@ -9611,7 +9633,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
    int group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty, levz);
    if (group != -1) {
     cur_om->zg[group].population++;
-    if (cur_om->zg[group].population / pow(cur_om->zg[group].radius, 2.0) > 5 &&
+    if (cur_om->zg[group].population / (cur_om->zg[group].radius * cur_om->zg[group].radius) > 5 &&
         !cur_om->zg[group].diffuse)
      cur_om->zg[group].radius++;
    }
@@ -9669,14 +9691,14 @@ void game::spawn_mon(int shiftx, int shifty)
    while ( (cur_om->zg[i].diffuse ?
             long( pop) :
             long((1.0 - double(dist / rad)) * pop) )
-	  > rng(0, pow(rad, 2.0)) &&
+	  > rng(0, (rad * rad)) &&
           rng(0, MAPSIZE * 4) > group && group < pop && group < MAPSIZE * 3)
     group++;
 
    cur_om->zg[i].population -= group;
    // Reduce group radius proportionally to remaining
    // population to maintain a minimal population density.
-   if (cur_om->zg[i].population / pow(cur_om->zg[i].radius, 2.0) < 1.0 &&
+   if (cur_om->zg[i].population / (cur_om->zg[i].radius * cur_om->zg[i].radius) < 1.0 &&
        !cur_om->zg[i].diffuse)
      cur_om->zg[i].radius--;
 

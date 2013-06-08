@@ -25,6 +25,11 @@ static void add_or_drop_item(game *g, player *p, item *it)
   {
       replacement.charges = 1;
   }
+  if( replacement.is_drink() ) {
+      it->charges++;
+      return;
+  }
+
   while (p->has_item(replacement.invlet)) {
     replacement.invlet = g->nextinv;
     g->advance_nextinv();

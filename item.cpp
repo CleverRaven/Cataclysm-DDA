@@ -1229,8 +1229,9 @@ int item::acid_resist() const
     else
     {
         ret = cur_mat1->acid_resist() + cur_mat1->acid_resist() + cur_mat2->acid_resist();
-    }    
+    }
     
+    return ret;
 }
 
 style_move item::style_data(technique_id tech)
@@ -1563,7 +1564,26 @@ int item::sort_rank() const
 
 bool item::operator<(const item& other) const
 {
-    return sort_rank() < other.sort_rank();
+    int my_rank = sort_rank();
+    int other_rank = other.sort_rank();
+    if (my_rank == other_rank)
+    {
+        const item *me = is_container() && contents.size() > 0 ? &contents[0] : this;
+        const item *rhs = other.is_container() && other.contents.size() > 0 ? &other.contents[0] : &other;
+
+        if (me->type->id == rhs->type->id)
+        {
+            return me->charges < rhs->charges;
+        }
+        else
+        {
+            return me->type->id < rhs->type->id;
+        }
+    }
+    else
+    {
+        return sort_rank() < other.sort_rank();
+    }
 }
 
 int item::reload_time(player &u)

@@ -26,6 +26,7 @@ OPT_DROP_EMPTY, // auto drop empty containers after use
 OPT_SKILL_RUST, // level of skill rust
 OPT_DELETE_WORLD, // Delete workd every time New Character is created
 OPT_INITIAL_POINTS, // Set the number of character points
+OPT_MAX_TRAIT_POINTS, // Set the number of trait points
 OPT_INITIAL_TIME, // Sets the starting hour (0-24)
 OPT_VIEWPORT_X, // Set the width of the terrain window, in characters
 OPT_VIEWPORT_Y, // Set the height of the terrain window, in characters
@@ -35,6 +36,7 @@ OPT_CLASSIC_ZOMBIES, // Only spawn the more classic zombies and buildings.
 OPT_SEASON_LENGTH, // Season length, in days
 OPT_STATIC_NPC, //Spawn static npcs
 OPT_RANDOM_NPC, //Spawn random npcs
+OPT_RAD_MUTATION, //Radiation mutates
 NUM_OPTION_KEYS
 };
 
@@ -67,6 +69,9 @@ struct option_table
             case OPT_AUTOSAVE_MINUTES:
                 options[i] = 5;
                 break;
+            case OPT_MAX_TRAIT_POINTS:
+                options[i] = 12;
+                break;
             default:
                 options[i] = 0;
             }
@@ -81,6 +86,7 @@ extern option_table OPTIONS;
 
 bool option_is_bool(option_key id);
 char option_max_options(option_key id);
+char option_min_options(option_key id);
 void show_options();
 void load_options();
 void save_options();
