@@ -343,14 +343,14 @@ void map::calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy)
         *outy = y + range * sin(rad);
     } else {
         int mult = 0;
-        if (angle >= 45 && angle <= 225)
+        if (angle >= 135 && angle <= 315)
         {
-            mult = 1;
-        } else {
             mult = -1;
+        } else {
+            mult = 1;
         }
 
-        if (angle <= 45 || (135 <= angle && angle <= 215) || 315 <= angle)
+        if (angle <= 45 || (135 <= angle && angle <= 215) || 315 < angle)
         {
             *outx = x + range * mult;
             *outy = y + range * tan(rad) * mult;
