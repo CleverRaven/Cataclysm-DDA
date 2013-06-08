@@ -255,7 +255,7 @@ class game
   calendar turn;
   signed char temperature;              // The air temperature
   weather_type weather;			// Weather pattern--SEE weather.h
-
+  int queued_move;
   std::list<weather_segment> future_weather;
 
   char nextinv;	// Determines which letter the next inv item will have
