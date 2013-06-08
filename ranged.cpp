@@ -291,12 +291,14 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
    if (u_see(tx, ty)) {
     if (i > 0)
     {
-        m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false, true);
+        m.drawsq(w_terrain, u, trajectory[i-1].x, trajectory[i-1].y, false,
+                 true, u.posx + u.view_offset_x, u.posy + u.view_offset_y);
     }
     char bullet = '*';
     if (effects & mfb(AMMO_FLAME))
      bullet = '#';
-    mvwputch(w_terrain, ty + VIEWY - u.posy, tx + VIEWX - u.posx, c_red, bullet);
+    mvwputch(w_terrain, ty + VIEWY - u.posy - u.view_offset_y,
+             tx + VIEWX - u.posx - u.view_offset_x, c_red, bullet);
     wrefresh(w_terrain);
     if (&p == &u)
      nanosleep(&ts, NULL);
