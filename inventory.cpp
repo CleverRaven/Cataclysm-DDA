@@ -832,6 +832,7 @@ int inventory::charges_of(itype_id it) const
 
 std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_container)
 {
+    sort();
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter)
     {
@@ -890,6 +891,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
 
 std::list<item> inventory::use_charges(itype_id it, int quantity)
 {
+    sort();
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter)
     {
