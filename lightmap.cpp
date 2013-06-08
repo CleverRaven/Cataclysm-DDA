@@ -309,11 +309,14 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
 
  // Normalise (should work with negative values too)
 
+ const double PI = 3.14159265358979f;
+ const double HALFPI = 1.570796326794895f;
  const double wangle=wideangle/2.0;
 
  int nangle = angle % 360;
 
  int endx, endy;
+ double rad = PI * (double)nangle / 180;
  calc_ray_end(nangle, range, x, y, &endx, &endy);
  apply_light_ray(lit, x, y, endx, endy , luminance, OPTIONS[OPT_CIRCLEDIST]);
 
@@ -325,10 +328,22 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
    double wstep = ( wangle / ( wdist * 1.42 ) ); // attempt to determine beam density required to cover all squares
 
    for (double ao=wstep; ao <= wangle; ao+=wstep) {
-     calc_ray_end(nangle + ao, range, x, y, &endx, &endy);
-     apply_light_ray(lit, x, y, endx, endy , luminance, OPTIONS[OPT_CIRCLEDIST]);
-     calc_ray_end(nangle - ao, range, x, y, &endx, &endy);
-     apply_light_ray(lit, x, y, endx, endy , luminance, OPTIONS[OPT_CIRCLEDIST]);
+     if ( trigdist ) {
+       double fdist=(ao * HALFPI) / wangle;
+       double orad = ( PI * ao / 180.0 );
+       endx = int( x + ( (double)range - fdist * 2.0) * cos(rad+orad) );
+       endy = int( y + ( (double)range - fdist * 2.0) * sin(rad+orad) );
+       apply_light_ray(lit, x, y, endx, endy , luminance, true);
+
+       endx = int( x + ( (double)range - fdist * 2.0) * cos(rad-orad) );
+       endy = int( y + ( (double)range - fdist * 2.0) * sin(rad-orad) );
+       apply_light_ray(lit, x, y, endx, endy , luminance, true);
+     } else {
+       calc_ray_end(nangle + ao, range, x, y, &endx, &endy);
+       apply_light_ray(lit, x, y, endx, endy , luminance, false);
+       calc_ray_end(nangle - ao, range, x, y, &endx, &endy);
+       apply_light_ray(lit, x, y, endx, endy , luminance, false);
+     }
    }
  }
 }
