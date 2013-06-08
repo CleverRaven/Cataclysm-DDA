@@ -318,7 +318,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  int endx, endy;
  double rad = PI * (double)nangle / 180;
  calc_ray_end(nangle, range, x, y, &endx, &endy);
- apply_light_ray(lit, x, y, endx, endy , luminance, OPTIONS[OPT_CIRCLEDIST]);
+ apply_light_ray(lit, x, y, endx, endy , luminance, trigdist);
 
  int testx, testy;
  calc_ray_end(wangle + nangle, range, x, y, &testx, &testy);
@@ -352,7 +352,7 @@ void map::calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy)
 {
     const double PI = 3.14159265358979f;
     double rad = (PI * angle) / 180;
-    if (OPTIONS[OPT_CIRCLEDIST] == 1)
+    if (trigdist)
     {
         *outx = x + range * cos(rad);
         *outy = y + range * sin(rad);
