@@ -112,7 +112,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  ts.tv_nsec = BULLET_SPEED;
 
  // Use up some ammunition
- int trange = trig_dist(p.posx, p.posy, tarx, tary);
+int trange = rl_dist(p.posx, p.posy, tarx, tary);
+
  if (trange < int(firing->volume / 3) && firing->ammo != AT_SHOT)
   trange = int(firing->volume / 3);
  else if (p.has_bionic("bio_targeting")) {
