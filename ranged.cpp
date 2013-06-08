@@ -134,7 +134,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {
    std::vector<point> new_targets;
    int mondex;
-   for (int radius = 1; radius <= 2 + p.skillLevel("gun") && new_targets.empty();
+   for (int radius = 1; radius <= 2 + p.skillLevel("gun") && radius <= p.weapon.range() && new_targets.empty();
         radius++) {
     for (int diff = 0 - radius; diff <= radius; diff++) {
      mondex = mon_at(tarx + diff, tary - radius);
