@@ -81,11 +81,11 @@ endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
-BINDIST_EXTRAS = README data cataclysm-launcher
+BINDIST_EXTRAS = README data
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = cataclysmdda-$(VERSION).zip
-BINDIST_CMD    = tar -czvf $(BINDIST) $(BINDIST_DIR)
-W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
+BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
+W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd ..
 
 # is this section even being used anymore?
 # SOMEBODY PLEASE CHECK
@@ -159,6 +159,9 @@ else
   endif
 endif
 
+ifeq ($(TARGETSYSTEM),LINUX)
+  BINDIST_EXTRAS += cataclysm-launcher
+endif
 
 SOURCES = $(wildcard *.cpp)
 HEADERS = $(wildcard *.h)
