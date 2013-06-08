@@ -2593,9 +2593,7 @@ float player::active_light()
 int player::sight_range(int light_level)
 {
  int ret = light_level;
- if (((is_wearing("goggles_nv") && has_active_item("UPS_on")) ||
-     has_active_bionic("bio_night_vision")) &&
-     ret < 12)
+ if ( has_nv() && ret < 12)
   ret = 12;
  if (has_trait(PF_NIGHTVISION) && ret < 12)
   ret += 1;
@@ -6407,8 +6405,7 @@ float player::fine_detail_vision_mod(game *g)
     {
         return 5;
     }
-    if (has_active_bionic("bio_night_vision") ||
-        (is_wearing("goggles_nv") && has_active_item("UPS_on")))
+    if ( has_nv() )
     {
         return 1.5;
     }

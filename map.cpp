@@ -2927,8 +2927,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  bool normal_tercol = false, drew_field = false;
  if (u.has_disease(DI_BOOMERED))
   tercol = c_magenta;
- else if ((u.is_wearing("goggles_nv") && u.has_active_item("UPS_on")) ||
-          u.has_active_bionic("bio_night_vision"))
+ else if ( u.has_nv() )
   tercol = (bright_light) ? c_white : c_ltgreen;
  else if (low_light)
   tercol = c_dkgray;
