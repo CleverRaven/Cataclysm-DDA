@@ -672,14 +672,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
  return temp1.str();
 }
 
-char item::symbol()
+char item::symbol() const
 {
  if( is_null() )
   return ' ';
  return type->sym;
 }
 
-nc_color item::color(player *u)
+nc_color item::color(player *u) const
 {
  nc_color ret = c_ltgray;
 
@@ -806,7 +806,7 @@ std::string item::tname(game *g)
  return ret.str();
 }
 
-nc_color item::color()
+nc_color item::color() const
 {
  if (typeId() == "corpse")
   return corpse->color;
