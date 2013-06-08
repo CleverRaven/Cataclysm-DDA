@@ -3759,16 +3759,20 @@ void player::suffer(game *g)
  if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600))
   g->teleport(this);
 
- bool power_armored = false, has_helmet = false;
+ int localRadiation = g->m.radiation(posx, posy);
 
- power_armored = is_wearing_power_armor(&has_helmet);
+ if (localRadiation) {
+   bool power_armored = false, has_helmet = false;
 
- if (power_armored && has_helmet) {
-   radiation += 0; // Power armor protects completely from radiation
- } else if (is_wearing("hazmat_suit") || power_armored) {
-   radiation += rng(0, g->m.radiation(posx, posy) / 40);
- } else {
-  radiation += rng(0, g->m.radiation(posx, posy) / 16);
+   power_armored = is_wearing_power_armor(&has_helmet);
+
+   if (power_armored && has_helmet) {
+     radiation += 0; // Power armor protects completely from radiation
+   } else if (power_armored || is_wearing("hazmat_suit")) {
+     radiation += rng(0, localRadiation / 40);
+   } else {
+     radiation += rng(0, localRadiation / 16);
+   }
  }
 
  if( int(g->turn) % 150 == 0 )
