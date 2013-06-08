@@ -10264,7 +10264,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
    }
    place_items(mi_allguns, 80, 2, 1, SEEX * 2 - 3, 1, false, 0);
    place_items(mi_ammo,    94, 2, 5, SEEX * 2 - 3, 5, false, 0);
-   place_items(mi_weapons, 88, 2, 9, SEEX * 2 - 3, 9, false, 0);
+   place_items(mi_gunxtras, 88, 2, 9, SEEX * 2 - 7, 9, false, 0);
+   place_items(mi_weapons, 88, SEEX * 2 - 6, 9, SEEX * 2 - 3, 9, false, 0);
    ter_set(SEEX - 1, SEEY * 2 - 2, t_stairs_up);
    ter_set(SEEX    , SEEY * 2 - 2, t_stairs_up);
    break;
