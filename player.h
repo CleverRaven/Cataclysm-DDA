@@ -103,6 +103,8 @@ public:
  bool unarmed_attack(); // False if we're wielding something; true for bionics
  bool avoid_trap(trap *tr);
 
+ bool has_nv();
+
  void pause(game *g); // '.' command; pauses & reduces recoil
 
 // melee.cpp
@@ -328,6 +330,7 @@ public:
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
+ bool nv_cached;
 
  std::vector<morale_point> morale;
 

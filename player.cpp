@@ -84,6 +84,7 @@ player::player()
   frostbite_timer[i] = 0;
   temp_conv[i] = BODYTEMP_NORM;
  }
+ nv_cached = false;
 }
 
 player::player(const player &rhs)
@@ -200,6 +201,8 @@ player& player::operator= (const player & rhs)
 
  illness = rhs.illness;
  addictions = rhs.addictions;
+
+ nv_cached = false;
 
  return (*this);
 }
@@ -322,6 +325,8 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
  if (int(g->turn) % 10 == 0) {
   update_mental_focus();
  }
+
+ nv_cached = false;
 }
 
 void player::update_morale()
@@ -2675,6 +2680,19 @@ bool player::avoid_trap(trap* tr)
  if (myroll >= traproll)
   return true;
  return false;
+}
+
+bool player::has_nv()
+{
+    static bool nv = false;
+
+    if( !nv_cached ) {
+        nv_cached = true;
+        nv = (is_wearing("goggles_nv") && has_active_item("UPS_on")) ||
+            has_active_bionic("bio_night_vision");
+    }
+
+    return nv;
 }
 
 void player::pause(game *g)
