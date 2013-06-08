@@ -1503,6 +1503,7 @@ bool game::handle_action()
  int soffset = OPTIONS[OPT_MOVE_VIEW_OFFSET];
  int soffsetr = 0 - soffset;
 
+ int before_action_moves = u.moves;
 
  switch (act) {
 
@@ -1956,6 +1957,8 @@ bool game::handle_action()
  }
 
  gamemode->post_action(this, act);
+
+ u.movecounter = before_action_moves - u.moves;
 
  return true;
 }
@@ -2472,17 +2475,6 @@ void game::save_factions_missions_npcs ()
     for (int i = 0; i < factions.size(); i++)
         fout << factions[i].save_info() << std::endl;
 
-    //Currently all npcs are also saved in the omap. Just cleaning out the
-    //current active npc list should be enough.
-    for (int i = 0; i < active_npc.size(); i++)
-    {
-        active_npc[i]->omx = cur_om->pos().x;
-        active_npc[i]->omy = cur_om->pos().y;
-        active_npc[i]->mapx = levx + (active_npc[i]->posx / SEEX);
-        active_npc[i]->mapy = levy + (active_npc[i]->posy / SEEY);
-        active_npc[i]->posx %= SEEX;
-        active_npc[i]->posy %= SEEY;
-    }
     fout.close();
 }
 
@@ -5504,6 +5496,9 @@ void game::control_vehicle()
 {
     int veh_part;
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
+    int seat = -1;
+    if (veh)
+        seat = veh->part_with_feature(veh_part, vpf_seat);
 
     if (veh && veh->player_in_control(&u)) {
         std::string message = veh->use_controls();
@@ -5511,6 +5506,11 @@ void game::control_vehicle()
             add_msg(message.c_str());
     } else if (u.in_vehicle) {
         exit_vehicle();
+    } else if (veh && seat >= 0 &&
+               !veh->parts[seat].has_flag(vehicle_part::passenger_flag)) {
+        m.board_vehicle(this, u.posx, u.posy, &u);
+        u.moves -= 100;
+        add_msg("You sit down.");
     } else {
         int examx, examy;
         if (!choose_adjacent("Control vehicle", examx, examy))
@@ -8083,7 +8083,11 @@ void game::plfire(bool burst)
  draw_ter(); // Recenter our view
  if (trajectory.size() == 0) {
   if(u.weapon.has_flag("RELOAD_AND_SHOOT"))
-   unload(u.weapon);
+  {
+      u.moves += u.weapon.reload_time(u);
+      unload(u.weapon);
+      u.moves += u.weapon.reload_time(u) / 2; // unloading time
+  }
   return;
  }
  if (passtarget != -1) { // We picked a real live target
