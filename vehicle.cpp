@@ -11,6 +11,7 @@ enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
  toggle_turrets,
+ exit_vehicle,
  control_cancel
 };
 
@@ -167,8 +168,8 @@ void vehicle::save (std::ofstream &stout)
 
 void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 {
-    bool destroyEngine = FALSE;
-    bool destroyTires = FALSE;
+    bool destroyEngine = false;
+    bool destroyTires = false;
 
     int consistent_bignesses[num_vparts];
     memset (consistent_bignesses, 0, sizeof(consistent_bignesses));
@@ -191,9 +192,9 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
     if (init_veh_status == 1) {
      veh_status = 1;
      if (one_in(2)) {  // either engine or tires are destroyed
-      destroyEngine = TRUE;
+      destroyEngine = true;
      } else {
-      destroyTires = TRUE;
+      destroyTires = true;
      }
     }
 
@@ -275,8 +276,15 @@ std::string vehicle::use_controls()
   options_message.push_back((0 == turret_mode) ? "Switch turrets to burst mode" : "Disable turrets");
  }
 
+ // Exit vehicle, if we are in it.
+ int vpart;
+ if (g->u.in_vehicle && g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
+  options_choice.push_back(exit_vehicle);
+  options_message.push_back("Exit vehicle");
+ }
+
  options_choice.push_back(control_cancel);
- options_message.push_back("Exit");
+ options_message.push_back("Do nothing");
 
  int select = menu_vec(true, "Vehicle controls", options_message);
 
@@ -294,6 +302,9 @@ std::string vehicle::use_controls()
    if (++turret_mode > 1)
     turret_mode = 0;
    message = (0 == turret_mode) ? "Turrets: Disabled" : "Turrets: Burst mode";
+   break;
+  case exit_vehicle:
+   g->exit_vehicle();
    break;
   case control_cancel:
    break;
@@ -1124,7 +1135,8 @@ void vehicle::consume_fuel ()
                 //  - if j is 0, then we're looking for plutonium (it's first)
                 //  - otherwise we're looking for batteries (second)
                 if (part_flag(p, vpf_fuel_tank) &&
-                    (part_info(p).fuel_type == (elec? (j? AT_BATT : AT_PLUT) : ftypes[ft])))
+                    (part_info(p).fuel_type == (elec? (j? AT_BATT : AT_PLUT) : ftypes[ft])) && 
+                    parts[p].amount > 0)
                 {
                     parts[p].amount -= amnt / ((elec && !j)?100:1);
                     if (parts[p].amount < 0)

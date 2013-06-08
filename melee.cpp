@@ -171,12 +171,6 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
  int pain = 0; // Boost to pain; required for perform_technique
 
-// Moves lost to getting your weapon stuck
- int stuck_penalty = roll_stuck_penalty(z, (stab_dam >= cut_dam));
- if (weapon.is_style())
-  stuck_penalty = 0;
- moves -= stuck_penalty;
-
 // Pick one or more special attacks
  technique_id technique = pick_technique(g, z, NULL, critical_hit, allow_grab);
 
@@ -298,12 +292,6 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   p.rem_disease(DI_ARMOR_BOOST);
 
  int pain = 0; // Boost to pain; required for perform_technique
-
-// Moves lost to getting your weapon stuck
- int stuck_penalty = roll_stuck_penalty(NULL, (stab_dam >= cut_dam));
- if (weapon.is_style())
-  stuck_penalty = 0;
- moves -= stuck_penalty;
 
 // Pick one or more special attacks
  technique_id technique = pick_technique(g, NULL, &p, critical_hit, allow_grab);
@@ -664,21 +652,67 @@ int player::roll_stab_damage(monster *z, bool crit)
  return ret;
 }
 
+// Chance of a weapon sticking is based on weapon attack type.
+// Only an issue for cutting and piercing weapons.
+// Attack modes are "CHOP", "STAB", and "SLICE".
+// "SPEAR" is synonymous with "STAB".
+// Weapons can have a "low_stick" flag indicating they
+// Have a feature to prevent sticking, such as a spear with a crossbar,
+// Or a stabbing blade designed to resist sticking.
 int player::roll_stuck_penalty(monster *z, bool stabbing)
 {
- int ret = 0;
- int basharm = (z == NULL ? 6 : z->armor_bash()),
-     cutarm  = (z == NULL ? 6 : z->armor_cut());
- if (stabbing)
-  ret = weapon.damage_cut() * 3 + basharm * 3 + cutarm * 3 -
-        dice(skillLevel("stabbing"), 10);
- else
-  ret = weapon.damage_cut() * 4 + basharm * 5 + cutarm * 4 -
-        dice(skillLevel("cutting"), 10);
+    // The cost of the weapon getting stuck, in units of move points.
+    const int weapon_speed = attack_speed( *this, false );
+    int stuck_cost = weapon_speed;
+    const int attack_skill = stabbing ? skillLevel("stabbing") : skillLevel("cutting");
+    const float cut_damage = weapon.damage_cut();
+    const float bash_damage = weapon.damage_bash();
+    float cut_bash_ratio = 0.0;
 
- if (ret >= weapon.damage_cut() * 10)
-  return weapon.damage_cut() * 10;
- return (ret < 0 ? 0 : ret);
+    // Scale cost along with the ratio between cutting and bashing damage of the weapon.
+    if( cut_damage > 0.0 || bash_damage > 0.0 )
+    {
+        cut_bash_ratio = cut_damage / ( cut_damage + bash_damage );
+    }
+    stuck_cost *= cut_bash_ratio;
+
+    if( weapon.has_flag("SLICE") )
+    {
+        // Slicing weapons assumed to have a very low chance of sticking.
+        stuck_cost *= 0.25;
+    }
+    else if( weapon.has_flag("STAB") || weapon.has_flag("SPEAR") )
+    {
+        // Stabbing has a moderate change of sticking.
+        stuck_cost *= 0.50;
+    }
+    else if( weapon.has_flag("CHOP") )
+    {
+        // Chopping has a high chance of sticking.
+        stuck_cost *= 1.00;
+    }
+    else
+    {
+        // Items with no attack type are assumed to be improvised weapons,
+        // and get a very high stick cost.
+        stuck_cost *= 2.00;
+    }
+
+    if( weapon.has_flag("NON_STUCK") )
+    {
+        // Greatly reduce sticking frequency/severity if the weapon has an anti-sticking feature.
+        stuck_cost /= 4;
+    }
+
+    // Reduce cost based on player skill, by 10.5 move/level on average.
+    stuck_cost -= dice( attack_skill, 20 );
+
+    // Make sure cost doesn't go negative.
+    stuck_cost = std::max( stuck_cost, 0 );
+    // Cap stuck penalty at 2x weapon speed.
+    stuck_cost = std::min( stuck_cost, 2*weapon_speed );
+
+    return stuck_cost;
 }
 
 technique_id player::pick_technique(game *g, monster *z, player *p,
@@ -1188,7 +1222,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  }
 
 // Glass weapons shatter sometimes
- if (weapon.made_of(GLASS) &&
+ if (weapon.made_of("glass") &&
      rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
   if (can_see)
    g->add_msg("%s %s shatters!", Your.c_str(), weapon.tname(g).c_str());

@@ -8,8 +8,8 @@ long input(long ch)
   ch = getch();
  }
 
- // Needs a totally seperate implementation for windows
-#if !(defined _WIN32 || defined WINDOWS)
+// Our current tiles and Windows code doesn't have ungetch()
+#if !(defined TILES || defined _WIN32 || defined WINDOWS)
  int newch;
 
  // Clear the buffer of characters that match the one we're going to act on.
@@ -24,6 +24,7 @@ long input(long ch)
   ungetch(newch);
  }
 #endif
+
 
  switch (ch) {
   case KEY_UP:    return 'k';
@@ -228,6 +229,7 @@ recraft -\n\
 construct *\n\
 disassemble (\n\
 sleep $\n\
+control_vehicle ^\n\
 safemode !\n\
 autosafe \"\n\
 ignore_enemy '\n\

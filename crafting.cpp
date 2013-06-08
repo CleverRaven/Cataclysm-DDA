@@ -1128,7 +1128,7 @@ void game::complete_craft()
            newit.tname().c_str());
    m.add_item(u.posx, u.posy, newit);
   } else {
-   u.i_add(newit);
+   newit = u.i_add(newit);
    add_msg("%c - %s", newit.invlet, newit.tname().c_str());
   }
  }
@@ -1449,7 +1449,7 @@ void game::disassemble(char ch)
                             int req = cur_recipe->tools[j][0].count;
                             if (cur_recipe->tools[j][0].type == "welder")
                             {
-                                add_msg("You need a hack saw to disassemble this.");
+                                add_msg("You need a hacksaw to disassemble this.");
                             }
                             else
                             {

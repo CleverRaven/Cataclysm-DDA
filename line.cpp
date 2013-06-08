@@ -1,4 +1,5 @@
 #include "line.h"
+#include "game.h"
 #include <stdlib.h>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
@@ -61,11 +62,14 @@ std::vector <point> line_to(int x1, int y1, int x2, int y2, int t)
 
 int trig_dist(int x1, int y1, int x2, int y2)
 {
- return int(sqrt(double(pow(x1 - x2, 2.0) + pow(y1 - y2, 2.0))));
+   return int( sqrt( double( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) ) ) );
 }
 
 int rl_dist(int x1, int y1, int x2, int y2)
 {
+ if(trigdist) {
+   return int( sqrt( double( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) ) ) );
+ }
  int dx = abs(x1 - x2), dy = abs(y1 - y2);
  if (dx > dy)
   return dx;
@@ -165,7 +169,7 @@ std::string direction_name_short(direction dir)
   case NORTHEAST: return "NE";
   case EAST:      return "E ";
   case SOUTHEAST: return "SE";
-  case SOUTH:     return "W ";
+  case SOUTH:     return "S ";
   case SOUTHWEST: return "SW";
   case WEST:      return "W ";
   case NORTHWEST: return "NW";

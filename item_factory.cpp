@@ -34,6 +34,7 @@ void Item_factory::init(){
     iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
     iuse_function_list["BANDAGE"] = &iuse::bandage;
     iuse_function_list["FIRSTAID"] = &iuse::firstaid;
+    iuse_function_list["DISINFECTANT"] = &iuse::disinfectant;
     iuse_function_list["CAFF"] = &iuse::caff;
     iuse_function_list["ALCOHOL"] = &iuse::alcohol;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
@@ -50,6 +51,7 @@ void Item_factory::init(){
     iuse_function_list["CRACK"] = &iuse::crack;
     iuse_function_list["GRACK"] = &iuse::grack;
     iuse_function_list["METH"] = &iuse::meth;
+    iuse_function_list["VITAMINS"] = &iuse::vitamins;
     iuse_function_list["POISON"] = &iuse::poison;
     iuse_function_list["HALLU"] = &iuse::hallu;
     iuse_function_list["THORAZINE"] = &iuse::thorazine;
@@ -521,8 +523,8 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 if(entry.has("material")){
                   set_material_from_json(new_id, entry.get("material"));
                 } else {
-                  new_item_template->m1 = MNULL;
-                  new_item_template->m2 = MNULL;
+                  new_item_template->m1 = "null";
+                  new_item_template->m2 = "null";
                 }
                 Item_tag new_phase = "solid";
                 if(entry.has("phase")){
@@ -852,7 +854,7 @@ bool Item_factory::is_mod_target(catajson targets, std::string weapon){
 
 void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
     //If the value isn't found, just return a group of null materials
-    material material_list[2] = {MNULL, MNULL};
+    std::string material_list[2] = {"null", "null"};
 
     if (mat_list.is_array())
     {
@@ -860,12 +862,12 @@ void Item_factory::set_material_from_json(Item_tag new_id, catajson mat_list){
         {
             debugmsg("Too many materials provided for item %s", new_id.c_str());
         }
-        material_list[0] = material_from_tag(new_id, mat_list.get(0).as_string());
-        material_list[1] = material_from_tag(new_id, mat_list.get(1).as_string());
+        material_list[0] = mat_list.get(0).as_string();
+        material_list[1] = mat_list.get(1).as_string();
     }
     else
     {
-        material_list[0] = material_from_tag(new_id, mat_list.as_string());
+        material_list[0] = mat_list.as_string();
     }
 
     itype* temp = find_template(new_id);
@@ -887,54 +889,3 @@ phase_id Item_factory::phase_from_tag(Item_tag name){
         return PNULL;
     }
 };
-
-//  TODO: depreciate once materials rewrite is up and running
-
-material Item_factory::material_from_tag(Item_tag new_id, Item_tag name){
-    // Map the valid input tags to a valid material
-
-    // This should clearly be some sort of map, stored somewhere
-    // ...unless it can get replaced entirely, which would be nice.
-    // For now, though, that isn't the problem I'm solving.
-    if(name == "VEGGY"){
-        return VEGGY;
-    } else if(name == "FLESH"){
-        return FLESH;
-    } else if(name == "POWDER"){
-        return POWDER;
-    } else if(name == "HFLESH"){
-        return HFLESH;
-    } else if(name == "COTTON"){
-        return COTTON;
-    } else if(name == "WOOL"){
-        return WOOL;
-    } else if(name == "LEATHER"){
-        return LEATHER;
-    } else if(name == "KEVLAR"){
-        return KEVLAR;
-    } else if(name == "FUR"){
-        return FUR;
-    } else if(name == "CHITIN"){
-        return CHITIN;        
-    } else if(name == "STONE"){
-        return STONE;
-    } else if(name == "PAPER"){
-        return PAPER;
-    } else if(name == "WOOD"){
-        return WOOD;
-    } else if(name == "PLASTIC"){
-        return PLASTIC;
-    } else if(name == "GLASS"){
-        return GLASS;
-    } else if(name == "IRON"){
-        return IRON;
-    } else if(name == "STEEL"){
-        return STEEL;
-    } else if(name == "SILVER"){
-        return SILVER;
-    } else if(name == "NULL"){
-        return MNULL;
-    } else {
-        return MNULL;
-    }
-}

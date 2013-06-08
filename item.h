@@ -102,15 +102,19 @@ public:
  int  weapon_value(player *p) const;
 // As above, but discounts its use as a ranged weapon
  int  melee_value (player *p);
-// how resistant armour is to bashing and cutting damage
+// how resistant item is to bashing and cutting damage
  int bash_resist() const;
  int cut_resist() const;
+ // elemental resistances
+ int acid_resist() const;
 // Returns the data associated with tech, if we are an it_style
  style_move style_data(technique_id tech);
  bool is_two_handed(player *u);
- bool made_of(material mat) const;
+ bool made_of(std::string mat_ident) const;
  bool made_of(phase_id phase) const;
- bool conductive(); // Electricity
+ bool conductive() const; // Electricity
+ bool flammable() const;
+ 
  bool destroyed_at_zero_charges();
 // Most of the is_whatever() functions call the same function in our itype
  bool is_null() const; // True if type is NULL, or points to the null item (id == 0)

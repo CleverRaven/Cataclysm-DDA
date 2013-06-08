@@ -970,8 +970,8 @@ int player::swim_speed()
   ret -= 100;
  if (has_trait(PF_LEG_TENTACLES))
   ret -= 60;
- ret += (50 - skillLevel("swimming") * 2) * abs(encumb(bp_legs));
- ret += (80 - skillLevel("swimming") * 3) * abs(encumb(bp_torso));
+ ret += (50 - skillLevel("swimming") * 2) * encumb(bp_legs);
+ ret += (80 - skillLevel("swimming") * 3) * encumb(bp_torso);
  if (skillLevel("swimming") < 10) {
   for (int i = 0; i < worn.size(); i++)
     ret += (worn[i].volume() * (10 - skillLevel("swimming"))) / 2;
@@ -1340,7 +1340,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   trait_win_size_y = maxy - infooffsetybottom;
  }
 
- skill_win_size_y = Skill::skill_count();
+ skill_win_size_y = Skill::skill_count() + 1;
  if (skill_win_size_y + infooffsetybottom > maxy ) {
   skill_win_size_y = maxy - infooffsetybottom;
  }
@@ -1573,13 +1573,35 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  line = 1;
  std::vector<Skill*> skillslist;
  mvwprintz(w_skills, 0, 11, c_ltgray, "SKILLS");
+
+ // sort skills by level
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin();
       aSkill != Skill::skills.end(); ++aSkill)
  {
   SkillLevel level = skillLevel(*aSkill);
-
-  if ( level >= 0) {
+  if (level < 0)
+   continue;
+  bool foundplace = false;
+  for (std::vector<Skill*>::iterator i = skillslist.begin();
+      i != skillslist.end(); ++i)
+  {
+   SkillLevel thislevel = skillLevel(*i);
+   if (thislevel < level)
+   {
+    skillslist.insert(i, *aSkill);
+    foundplace = true;
+    break;
+   }
+  }
+  if (!foundplace)
    skillslist.push_back(*aSkill);
+ }
+
+ for (std::vector<Skill*>::iterator aSkill = skillslist.begin();
+      aSkill != skillslist.end(); ++aSkill)
+ {
+   SkillLevel level = skillLevel(*aSkill);
+
    // Default to not training and not rusting
    nc_color text_color = c_blue;
    bool training = level.isTraining();
@@ -1604,8 +1626,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
      mvwprintz(w_skills, line, 19, text_color, "%-2d(%2d%%%%)", (int)level,
                (level.exercise() <  0 ? 0 : level.exercise()));
      line++;
-    }
-  }
+   }
  }
  wrefresh(w_skills);
 
@@ -1858,7 +1879,7 @@ Dexterity %+d when throwing items", encumb(bp_hands) * 30, -encumb(bp_hands));
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Running costs %+d movement points;  Swimming costs %+d movement points;\n\
 Dodge skill %+.1f", encumb(bp_legs) * 3,
-              encumb(bp_legs) *(50 - skillLevel("swimming")),
+              encumb(bp_legs) *(50 - skillLevel("swimming") * 2),
                      double(double(-encumb(bp_legs)) / 2));
    } else if (line == 7) {
     mvwprintz(w_encumb, 8, 1, h_ltgray, "Feet");
@@ -2039,30 +2060,32 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
 
    Skill *selectedSkill;
 
-   for (std::vector<Skill*>::iterator iter = Skill::skills.begin();
-        iter != Skill::skills.end(); ++iter)
+   for (int i = min; i < max; i++)
    {
-     Skill *aSkill = *iter;
-     SkillLevel level = skillLevel(aSkill);
+    Skill *aSkill = skillslist[i];
+    SkillLevel level = skillLevel(aSkill);
 
-     bool isLearning = level.isTraining();
-     int exercise = level.exercise();
+    bool isLearning = level.isTraining();
+    int exercise = level.exercise();
+    bool rusting = level.isRusting(g->turn);
 
-    if (aSkill->id() == line) {
+    if (i == line) {
       selectedSkill = aSkill;
      if (exercise >= 100)
-      status = isLearning ? h_pink : h_red;
+      status = isLearning ? h_pink : h_magenta;
+     else if (rusting)
+      status = isLearning ? h_ltred : h_red;
      else
       status = isLearning ? h_ltblue : h_blue;
     } else {
-     if (exercise < 0)
+     if (rusting)
       status = isLearning ? c_ltred : c_red;
      else
       status = isLearning ? c_ltblue : c_blue;
     }
-    mvwprintz(w_skills, 1 + aSkill->id() - min, 1, c_ltgray, "                         ");
-    mvwprintz(w_skills, 1 + aSkill->id() - min, 1, status, "%s:", aSkill->name().c_str());
-    mvwprintz(w_skills, 1 + aSkill->id() - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
+    mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
+    mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
+    mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
    }
    werase(w_info);
    if (line >= 0 && line < skillslist.size())
@@ -2086,8 +2109,9 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
       Skill *thisSkill = skillslist[i];
       SkillLevel level = skillLevel(thisSkill);
       bool isLearning = level.isTraining();
+      bool rusting = level.isRusting(g->turn);
 
-      if (level.exercise() < 0)
+      if (rusting)
        status = isLearning ? c_ltred : c_red;
       else
        status = isLearning ? c_ltblue : c_blue;
@@ -2541,6 +2565,10 @@ float player::active_light()
     {
         lumination = std::min(100, torch * 5);
     }
+    else if (active_item_charges("pda_flashlight") > 0)
+    {
+        lumination = 6;
+    }
     else if (gasoline_lantern > 0)
     {
         lumination = 5;
@@ -2735,7 +2763,7 @@ int player::ranged_per_mod(bool real_life)
    deviation = rng(0, deviation);
  } else {
   deviation = 3 * (0 - (per > 16 ? 8 : per - 8));
-  if (real_life && one_in(per))
+  if (real_life && one_in(per - 8))
    deviation = 0 - rng(0, abs(deviation));
  }
  return deviation;
@@ -2816,7 +2844,7 @@ int player::intimidation()
  return ret;
 }
 
-void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
+int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 {
  int painadd = 0;
  if (has_disease(DI_SLEEP)) {
@@ -2829,7 +2857,7 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 
  dam += cut;
  if (dam <= 0)
-  return;
+  return dam;
 
  hit_animation(this->posx - g->u.posx + VIEWX - g->u.view_offset_x,
                this->posy - g->u.posy + VIEWY - g->u.view_offset_y,
@@ -2934,6 +2962,8 @@ void player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  if (has_trait(PF_ADRENALINE) && !has_disease(DI_ADRENALINE) &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
   add_disease(DI_ADRENALINE, 200, g);
+
+ return dam;
 }
 
 void player::hurt(game *g, body_part bphurt, int side, int dam)
@@ -3684,7 +3714,7 @@ void player::suffer(game *g)
   }
  }
 
- if (has_trait(PF_SLIMY)) {
+ if (has_trait(PF_SLIMY) && !in_vehicle) {
   if (g->m.field_at(posx, posy).type == fd_null)
    g->m.add_field(g, posx, posy, fd_slime, 1);
   else if (g->m.field_at(posx, posy).type == fd_slime &&
@@ -3692,7 +3722,7 @@ void player::suffer(game *g)
    g->m.field_at(posx, posy).density++;
  }
 
- if (has_trait(PF_WEB_WEAVER) && one_in(3)) {
+ if (has_trait(PF_WEB_WEAVER) && !in_vehicle && one_in(3)) {
   if (g->m.field_at(posx, posy).type == fd_null ||
       g->m.field_at(posx, posy).type == fd_slime)
    g->m.add_field(g, posx, posy, fd_web, 1);
@@ -3727,10 +3757,10 @@ void player::suffer(game *g)
   g->teleport(this);
 
  if (is_wearing("hazmat_suit")) {
-  if (radiation < int((100 * g->m.radiation(posx, posy)) / 20))
-   radiation += rng(0, g->m.radiation(posx, posy) / 20);
- } else if (radiation < int((100 * g->m.radiation(posx, posy)) / 8))
-  radiation += rng(0, g->m.radiation(posx, posy) / 8);
+   radiation += rng(0, g->m.radiation(posx, posy) / 40);
+ } else {
+  radiation += rng(0, g->m.radiation(posx, posy) / 16);
+ }
 
  if (rng(1, 2500) < radiation && (int(g->turn) % 150 == 0 || radiation > 2000)){
   mutate(g);
@@ -4719,9 +4749,9 @@ bool player::eat(game *g, char ch)
                 return false;
         }
         int charge = (eaten->volume() + eaten->weight()) / 2;
-        if (eaten->type->m1 == LEATHER || eaten->type->m2 == LEATHER)
+        if (eaten->type->m1 == "leather" || eaten->type->m2 == "leather")
             charge /= 4;
-        if (eaten->type->m1 == WOOD    || eaten->type->m2 == WOOD)
+        if (eaten->type->m1 == "wood"    || eaten->type->m2 == "wood")
             charge /= 2;
         charge_power(charge);
     }
@@ -4736,9 +4766,9 @@ bool player::eat(game *g, char ch)
         if (comest->tool != "null")
         {
             bool has = has_amount(comest->tool, 1);
-   if (g->itypes[comest->tool]->count_by_charges())
-    has = has_charges(comest->tool, 1);
-   if (!has) {
+            if (g->itypes[comest->tool]->count_by_charges())
+                has = has_charges(comest->tool, 1);
+            if (!has) {
                 if (!is_npc())
                     g->add_msg("You need a %s to consume that!",
                                g->itypes[comest->tool]->name.c_str());
@@ -4755,7 +4785,7 @@ bool player::eat(game *g, char ch)
                 !query_yn("You're full.  Force yourself to eat?"))
             return false;
 
-        if (has_trait(PF_CARNIVORE) && eaten->made_of(VEGGY) && comest->nutr > 0)
+        if (has_trait(PF_CARNIVORE) && eaten->made_of("veggy") && comest->nutr > 0)
         {
             if (!is_npc())
                 g->add_msg("You can only eat meat!");
@@ -4763,11 +4793,11 @@ bool player::eat(game *g, char ch)
                 g->add_msg("Carnivore %s tried to eat meat!", name.c_str());
             return false;
         }
-        if (!has_trait(PF_CANNIBAL) && eaten->made_of(HFLESH)&& !is_npc() &&
+        if (!has_trait(PF_CANNIBAL) && eaten->made_of("hflesh")&& !is_npc() &&
                 !query_yn("The thought of eating that makes you feel sick. Really do it?"))
             return false;
 
-        if (has_trait(PF_VEGETARIAN) && eaten->made_of(FLESH) && !is_npc() &&
+        if (has_trait(PF_VEGETARIAN) && eaten->made_of("flesh") && !is_npc() &&
                 !query_yn("Really eat that meat? Your stomach won't be happy."))
             return false;
 
@@ -4813,9 +4843,9 @@ bool player::eat(game *g, char ch)
         // Descriptive text
         if (!is_npc())
         {
-            if (eaten->made_of(LIQUID))
+            if (comest->comesttype == "DRINK")
                 g->add_msg("You drink your %s.", eaten->tname(g).c_str());
-            else if (comest->nutr >= 5)
+            else if (comest->comesttype == "FOOD")
                 g->add_msg("You eat your %s.", eaten->tname(g).c_str());
         }
         else if (g->u_see(posx, posy))
@@ -4846,7 +4876,7 @@ bool player::eat(game *g, char ch)
         if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak)
             charge_power(rng(1, 4));
 
-        if (eaten->made_of(HFLESH)) {
+        if (eaten->made_of("hflesh")) {
           if (has_trait(PF_CANNIBAL)) {
               g->add_msg_if_player(this, "You feast upon the human flesh.");
               add_morale(MORALE_CANNIBAL, 15, 100);
@@ -4855,14 +4885,14 @@ bool player::eat(game *g, char ch)
               add_morale(MORALE_CANNIBAL, -60, -400);
           }
         }
-        if (has_trait(PF_VEGETARIAN) && (eaten->made_of(FLESH) || eaten->made_of(HFLESH)))
+        if (has_trait(PF_VEGETARIAN) && (eaten->made_of("flesh") || eaten->made_of("hflesh")))
         {
             if (!is_npc())
                 g->add_msg("Almost instantly you feel a familiar pain in your stomach");
             add_morale(MORALE_VEGETARIAN, -75, -400);
         }
         if ((has_trait(PF_HERBIVORE) || has_trait(PF_RUMINANT)) &&
-                eaten->made_of(FLESH))
+                eaten->made_of("flesh"))
         {
             if (!one_in(3))
                 vomit(g);
@@ -5104,7 +5134,7 @@ hint_rating player::rate_action_wear(item *it)
  if (count == 2) {
   return HINT_IFFY;
  }
- if (has_trait(PF_WOOLALLERGY) && it->made_of(WOOL)) {
+ if (has_trait(PF_WOOLALLERGY) && it->made_of("wool")) {
   return HINT_IFFY; //should this be HINT_CANT? I kinda think not, because HINT_CANT is more for things that can NEVER happen
  }
  if (armor->covers & mfb(bp_head) && encumb(bp_head) != 0) {
@@ -5116,10 +5146,17 @@ hint_rating player::rate_action_wear(item *it)
  if (armor->covers & mfb(bp_hands) && has_trait(PF_TALONS)) {
   return HINT_IFFY;
  }
+ if ( armor->covers & mfb(bp_hands) && (has_trait(PF_ARM_TENTACLES)
+        || has_trait(PF_ARM_TENTACLES_4) || has_trait(PF_ARM_TENTACLES_8)) ) {
+  return HINT_IFFY;
+ }
  if (armor->covers & mfb(bp_mouth) && has_trait(PF_BEAK)) {
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_feet) && has_trait(PF_HOOVES)) {
+  return HINT_IFFY;
+ }
+ if (armor->covers & mfb(bp_feet) && has_trait(PF_LEG_TENTACLES)) {
   return HINT_IFFY;
  }
  if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED)) {
@@ -5128,18 +5165,18 @@ hint_rating player::rate_action_wear(item *it)
  if (armor->covers & mfb(bp_torso) && has_trait(PF_SHELL)) {
   return HINT_IFFY;
  }
- if (armor->covers & mfb(bp_head) && !it->made_of(WOOL) &&
-     !it->made_of(COTTON) && !it->made_of(LEATHER) &&
+ if (armor->covers & mfb(bp_head) && !it->made_of("wool") &&
+     !it->made_of("cotton") && !it->made_of("leather") &&
      (has_trait(PF_HORNS_POINTED) || has_trait(PF_ANTENNAE) ||
       has_trait(PF_ANTLERS))) {
   return HINT_IFFY;
  }
  // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
- if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(it->made_of(WOOL) || it->made_of(COTTON))) {
+ if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(it->made_of("wool") || it->made_of("cotton"))) {
   for (int i = 0; i < worn.size(); i++) {
    item *worn_item = &worn[i];
    it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
-   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON))) {
+   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of("wool") || worn_item->made_of("cotton"))) {
     return HINT_IFFY;
    }
   }
@@ -5220,7 +5257,7 @@ if (!to_wear->has_flag("OVERSIZE")) {
               to_wear->tname().c_str());
    return false;
   }
-  if (has_trait(PF_WOOLALLERGY) && to_wear->made_of(WOOL)) {
+  if (has_trait(PF_WOOLALLERGY) && to_wear->made_of("wool")) {
    g->add_msg("You can't wear that, it's made of wool!");
    return false;
   }
@@ -5231,6 +5268,11 @@ if (!to_wear->has_flag("OVERSIZE")) {
   }
   if (armor->covers & mfb(bp_hands) && has_trait(PF_WEBBED)) {
    g->add_msg("You cannot put %s over your webbed hands.", armor->name.c_str());
+   return false;
+  }
+  if ( armor->covers & mfb(bp_hands) && (has_trait(PF_ARM_TENTACLES)
+        || has_trait(PF_ARM_TENTACLES_4) || has_trait(PF_ARM_TENTACLES_8)) ) {
+   g->add_msg("You cannot put %s over your tentacles.", armor->name.c_str());
    return false;
   }
   if (armor->covers & mfb(bp_hands) && has_trait(PF_TALONS)) {
@@ -5245,6 +5287,10 @@ if (!to_wear->has_flag("OVERSIZE")) {
    g->add_msg("You cannot wear footwear on your hooves.");
    return false;
   }
+  if (armor->covers & mfb(bp_feet) && has_trait(PF_LEG_TENTACLES)) {
+   g->add_msg("You cannot wear footwear on your tentacles.");
+   return false;
+  }
   if (armor->covers & mfb(bp_head) && has_trait(PF_HORNS_CURLED)) {
    g->add_msg("You cannot wear headgear over your horns.");
    return false;
@@ -5253,8 +5299,8 @@ if (!to_wear->has_flag("OVERSIZE")) {
    g->add_msg("You cannot wear anything over your shell.");
    return false;
   }
-  if (armor->covers & mfb(bp_head) && !to_wear->made_of(WOOL) &&
-      !to_wear->made_of(COTTON) && !to_wear->made_of(LEATHER) &&
+  if (armor->covers & mfb(bp_head) && !to_wear->made_of("wool") &&
+      !to_wear->made_of("cotton") && !to_wear->made_of("leather") &&
       (has_trait(PF_HORNS_POINTED) || has_trait(PF_ANTENNAE) ||
        has_trait(PF_ANTLERS))) {
    g->add_msg("You cannot wear a helmet over your %s.",
@@ -5263,11 +5309,11 @@ if (!to_wear->has_flag("OVERSIZE")) {
    return false;
   }
   // Checks to see if the player is wearing not cotton or not wool, ie leather/plastic shoes
-  if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of(WOOL) || to_wear->made_of(COTTON))) {
+  if (armor->covers & mfb(bp_feet) && wearing_something_on(bp_feet) && !(to_wear->made_of("wool") || to_wear->made_of("cotton"))) {
   for (int i = 0; i < worn.size(); i++) {
    item *worn_item = &worn[i];
    it_armor *worn_armor = dynamic_cast<it_armor*>(worn_item->type);
-   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of(WOOL) || worn_item->made_of(COTTON))) {
+   if( worn_armor->covers & mfb(bp_feet) && !(worn_item->made_of("wool") || worn_item->made_of("cotton"))) {
     g->add_msg("You're already wearing footwear!");
     return false;
    }
@@ -5493,6 +5539,7 @@ void player::sort_armor(game *g)
             wborder(w_all_worn, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
             mvwprintz(w_all_worn, 1, 1, c_white, "WORN CLOTHING");
             mvwprintz(w_all_worn, 3, 1, c_ltgray, "(Innermost)");
+            mvwprintz(w_all_worn, 1, worn_win_x-6, c_ltgray ,"stor");
             for (int i = 0; i < worn.size(); i++) 
             {
                 it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type);                           
@@ -5502,6 +5549,7 @@ void player::sort_armor(game *g)
                     mvwprintz(w_all_worn, i+4, 5, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
                 else
                     mvwprintz(w_all_worn, i+4, 4, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
+                mvwprintz(w_all_worn, i+4, worn_win_x-4, dam_color[int(worn[i].damage + 1)], "%2d", int(each_armor->storage));
             }            
             mvwprintz(w_all_worn, 4 + worn.size(), 1, c_ltgray, "(Outermost)");
             
@@ -5532,6 +5580,13 @@ void player::sort_armor(game *g)
             mvwprintz(w_legs_worn, 1, 1, c_white, "LEGS CLOTHING");
             mvwprintz(w_legs_worn, 2, 1, c_ltgray, "(Innermost)"); 
                          
+            mvwprintz(w_torso_worn, 1, worn_win_x-5, c_ltgray ,"enc");
+            mvwprintz(w_eyes_worn, 1, worn_win_x-5, c_ltgray ,"enc");
+            mvwprintz(w_mouth_worn, 1, worn_win_x-5, c_ltgray ,"enc");
+            mvwprintz(w_arms_worn, 1, worn_win_x-5, c_ltgray ,"enc");
+            mvwprintz(w_hands_worn, 1, worn_win_x-5, c_ltgray ,"enc");
+            mvwprintz(w_legs_worn, 1, worn_win_x-5, c_ltgray ,"enc");
+
             torso_item_count = 0;
             eyes_item_count = 0;
             mouth_item_count = 0;
@@ -5543,34 +5598,42 @@ void player::sort_armor(game *g)
             {
                 it_armor* each_armor = dynamic_cast<it_armor*>(worn[i].type); 
                                
+                nc_color fitc=(worn[i].has_flag("FIT") ? c_green : c_ltgray );
+
                 if (each_armor->covers & mfb(bp_torso))
                 {
                     mvwprintz(w_torso_worn, torso_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
+                    mvwprintz(w_torso_worn, torso_item_count + 3, worn_win_x-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
                     torso_item_count++;
                 }           
                 if (each_armor->covers & mfb(bp_eyes))
                 {
                     mvwprintz(w_eyes_worn, eyes_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
+                    mvwprintz(w_eyes_worn, eyes_item_count + 3, worn_win_x-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
                     eyes_item_count++;
                 }                
                 if (each_armor->covers & mfb(bp_mouth))
                 {
                     mvwprintz(w_mouth_worn, mouth_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
+                    mvwprintz(w_mouth_worn, mouth_item_count + 3, worn_win_x-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
                     mouth_item_count++;
                 }  
                 if (each_armor->covers & mfb(bp_arms))
                 {
                     mvwprintz(w_arms_worn, arms_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
+                    mvwprintz(w_arms_worn, arms_item_count + 3, worn_win_x-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
                     arms_item_count++;
                 }                 
                 if (each_armor->covers & mfb(bp_hands))
                 {
                     mvwprintz(w_hands_worn, hands_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
+                    mvwprintz(w_hands_worn, hands_item_count + 3, worn_win_x-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
                     hands_item_count++;
                 }                    
                 if (each_armor->covers & mfb(bp_legs))
                 {
                     mvwprintz(w_legs_worn, legs_item_count + 3, 3, dam_color[int(worn[i].damage + 1)], each_armor->name.c_str());
+                    mvwprintz(w_legs_worn, legs_item_count + 3, worn_win_x-4, fitc, "%2d", int(each_armor->encumber) - (worn[i].has_flag("FIT") ? 1 : 0 ) );
                     legs_item_count++;
                 }                                                  
             }  
@@ -6384,7 +6447,7 @@ int player::warmth(body_part bp)
         {
             warmth = armor->warmth;
             // Wool items do not lose their warmth in the rain
-            if (!worn[i].made_of(WOOL))
+            if (!worn[i].made_of("wool"))
             {
                 warmth *= 1.0 - (float)bodywetness / 100.0;
             }
@@ -6806,7 +6869,7 @@ void player::practice (const calendar& turn, Skill *s, int amount)
         amount /= 2;
     }
 
-    if (level.isTraining())
+    if (amount > 0 && level.isTraining())
     {
         skillLevel(s).train(amount);
 

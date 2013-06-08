@@ -10739,7 +10739,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
      if (i % 4 == 2)
       ter_set(i, j, t_door_c);
      else if (i % 5 == 3)
-      ter_set(i, j, t_window);
+      ter_set(i, j, t_window_domestic);
      else
       ter_set(i, j, t_wall_h);
     } else

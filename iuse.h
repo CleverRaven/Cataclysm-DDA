@@ -18,6 +18,7 @@ class iuse
   void royal_jelly	(game *g, player *p, item *it, bool t);
   void bandage		(game *g, player *p, item *it, bool t);
   void firstaid		(game *g, player *p, item *it, bool t);
+  void disinfectant (game *g, player *p, item *it, bool t);
   void caff		(game *g, player *p, item *it, bool t);
   void alcohol		(game *g, player *p, item *it, bool t);
   void alcohol_weak (game *g, player *p, item *it, bool t);
@@ -34,6 +35,7 @@ class iuse
   void crack		(game *g, player *p, item *it, bool t);
   void grack		(game *g, player *p, item *it, bool t);
   void meth		(game *g, player *p, item *it, bool t);
+  void vitamins		(game *g, player *p, item *it, bool t);
   void poison		(game *g, player *p, item *it, bool t);
   void hallu		(game *g, player *p, item *it, bool t);
   void thorazine	(game *g, player *p, item *it, bool t);

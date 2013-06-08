@@ -239,10 +239,10 @@ char game::inv(std::string title)
       }
     } 
   } else if ( ch == '\n' || ch == KEY_RIGHT ) {
-    if ( uistate.last_inv_start > -2 && uistate.last_inv_sel > -2 ) {
+//    if ( uistate.last_inv_start > -2 && uistate.last_inv_sel > -2 ) {
       uistate.last_inv_start=start;
       uistate.last_inv_sel=selected;
-    }
+//    }
     ch = selected_char;
   }
  } while (ch == '<' || ch == '>' || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_UP || ch == KEY_DOWN );

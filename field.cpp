@@ -57,29 +57,36 @@ bool map::process_fields_in_submap(game *g, int gridn)
      cur->age += 20;
     for (int i = 0; i < i_at(x, y).size(); i++) {
      item *melting = &(i_at(x, y)[i]);
-     if (melting->made_of(LIQUID) || melting->made_of(VEGGY)   ||
-         melting->made_of(FLESH)  || melting->made_of(POWDER)  ||
-         melting->made_of(HFLESH) ||
-         melting->made_of(COTTON) || melting->made_of(WOOL)    ||
-         melting->made_of(PAPER)  || melting->made_of(PLASTIC) ||
-         (melting->made_of(GLASS) && !one_in(3)) || one_in(4)) {
-// Acid destructable objects here
-      melting->damage++;
-      if (melting->damage >= 5 ||
-          (melting->made_of(PAPER) && melting->damage >= 3)) {
-       cur->age += melting->volume();
-       for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
-        i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
-       i_at(x, y).erase(i_at(x, y).begin() + i);
-       i--;
+     
+     // see DEVELOPER_FAQ.txt for how acid resistance is calculated
+     
+     int chance = melting->acid_resist();
+     if (chance == 0)
+     {
+         melting->damage++;
+     }
+     else if (chance > 0 && chance < 9)
+     {
+         if (one_in(chance))
+         {
+             melting->damage++;
+         }
+     }
+     if (melting->damage >= 5)
+     {
+        cur->age += melting->volume();
+        for (int m = 0; m < i_at(x, y)[i].contents.size(); m++)
+            i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
+        i_at(x, y).erase(i_at(x, y).begin() + i);
+        i--;
       }
      }
-    }
     break;
 
    case fd_sap:
     break; // It doesn't do anything.
 
+// TODO-MATERIALS: use fire resistance
    case fd_fire: {
 // Consume items as fuel to help us grow/last longer.
     bool destroyed = false;
@@ -115,7 +122,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
          }
          it->charges -= rounds_exploded;
          if(it->charges == 0) destroyed = true;
-     } else if (it->made_of(PAPER)) {
+     } else if (it->made_of("paper")) {
       destroyed = it->burn(cur->density * 3);
       consumed++;
       if (cur->density == 1)
@@ -123,7 +130,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
       if (vol >= 4)
        smoke++;
 
-     } else if ((it->made_of(WOOD) || it->made_of(VEGGY))) {
+     } else if ((it->made_of("wood") || it->made_of("veggy"))) {
       if (vol <= cur->density * 10 || cur->density == 3) {
        cur->age -= 4;
        destroyed = it->burn(cur->density);
@@ -134,7 +141,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
        smoke++;
       }
 
-     } else if ((it->made_of(COTTON) || it->made_of(WOOL))) {
+     } else if ((it->made_of("cotton") || it->made_of("wool"))) {
       if (vol <= cur->density * 5 || cur->density == 3) {
        cur->age--;
        destroyed = it->burn(cur->density);
@@ -145,7 +152,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
        smoke++;
       }
 
-     } else if ((it->made_of(FLESH))||(it->made_of(HFLESH))) {
+     } else if ((it->made_of("flesh"))||(it->made_of("hflesh"))) {
       if (vol <= cur->density * 5 || (cur->density == 3 && one_in(vol / 20))) {
        cur->age--;
        destroyed = it->burn(cur->density);
@@ -167,12 +174,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
       }
       destroyed = true;
       consumed++;
-     } else if (it->made_of(POWDER)) {
+     } else if (it->made_of("powder")) {
       cur->age -= vol;
       destroyed = true;
       smoke += 2;
 
-     } else if (it->made_of(PLASTIC)) {
+     } else if (it->made_of("plastic")) {
       smoke += 3;
       if (it->burnt <= cur->density * 2 || (cur->density == 3 && one_in(vol))) {
        destroyed = it->burn(cur->density);
@@ -193,7 +200,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
     if (veh)
      veh->damage (part, cur->density * 10, false);
     // If the flames are in a brazier, they're fully contained, so skip consuming terrain
-    if((tr_brazier != tr_at(x, y))&&(has_flag(fire_container, x, y) != TRUE )) {
+    if((tr_brazier != tr_at(x, y))&&(has_flag(fire_container, x, y) != true )) {
      // Consume the terrain we're on
      if (has_flag(explodes, x, y)) {
       ter_set(x, y, ter_id(int(ter(x, y)) + 1));
@@ -233,7 +240,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
     bool in_pit = (ter(x, y) == t_pit);
 // If the flames are REALLY big, they contribute to adjacent flames
     if (cur->density == 3 && cur->age < 0 && tr_brazier != tr_at(x, y)
-        && (has_flag(fire_container, x, y) != TRUE  ) ){
+        && (has_flag(fire_container, x, y) != true  ) ){
 // Randomly offset our x/y shifts by 0-2, to randomly pick a square to spread to
      int starti = rng(0, 2);
      int startj = rng(0, 2);
@@ -261,12 +268,12 @@ bool map::process_fields_in_submap(game *g, int gridn)
        if (field_at(fx, fy).type == fd_web)
         spread_chance = 50 + spread_chance / 2;
        if (has_flag(explodes, fx, fy) && one_in(8 - cur->density) &&
-	   tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != TRUE ) ) {
+	   tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != true ) ) {
         ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
         g->explosion(fx, fy, 40, 0, true);
        } else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance &&
                   tr_brazier != tr_at(x, y) &&
-                  (has_flag(fire_container, x, y) != TRUE )&&
+                  (has_flag(fire_container, x, y) != true )&&
                   (in_pit == (ter(fx, fy) == t_pit)) &&
                   ((cur->density == 3 &&
                     (has_flag(flammable, fx, fy) || one_in(20))) ||
@@ -294,7 +301,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
         if (move_cost(fx, fy) > 0 &&
             (!one_in(smoke) || (nosmoke && one_in(40))) &&
             rng(3, 35) < cur->density * 10 && cur->age < 1000 &&
-            (has_flag(suppress_smoke, x, y) != TRUE )) {
+            (has_flag(suppress_smoke, x, y) != true )) {
          smoke--;
          add_field(g, fx, fy, fd_smoke, rng(1, cur->density));
         }
@@ -865,6 +872,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    }
    break;
 
+// TODO: Use acid resistance
   case fd_acid:
    if (!z->has_flag(MF_DIGS) && !z->has_flag(MF_FLIES) &&
        !z->has_flag(MF_ACIDPROOF)) {
@@ -883,15 +891,16 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     cur->density--;
    break;
 
+// MATERIALS-TODO: Use fire resistance
   case fd_fire:
-   if ( z->made_of(FLESH) || z->made_of(HFLESH) )
+   if ( z->made_of("flesh") || z->made_of("hflesh") )
     dam = 3;
-   if (z->made_of(VEGGY))
+   if (z->made_of("veggy"))
     dam = 12;
-   if (z->made_of(PAPER) || z->made_of(LIQUID) || z->made_of(POWDER) ||
-       z->made_of(WOOD)  || z->made_of(COTTON) || z->made_of(WOOL))
+   if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
+       z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool"))
     dam = 20;
-   if (z->made_of(STONE) || z->made_of(KEVLAR) || z->made_of(STEEL))
+   if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel"))
     dam = -20;
    if (z->has_flag(MF_FLIES))
     dam -= 15;
@@ -902,16 +911,16 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     dam += rng(6, 12);
     if (!z->has_flag(MF_FLIES)) {
      z->moves -= 20;
-     if (!z->made_of(LIQUID) && !z->made_of(STONE) && !z->made_of(KEVLAR) &&
-         !z->made_of(STEEL) && !z->has_flag(MF_FIREY))
+     if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
+         !z->made_of("steel") && !z->has_flag(MF_FIREY))
       z->add_effect(ME_ONFIRE, rng(3, 8));
     }
    } else if (cur->density == 3) {
     dam += rng(10, 20);
     if (!z->has_flag(MF_FLIES) || one_in(3)) {
      z->moves -= 40;
-     if (!z->made_of(LIQUID) && !z->made_of(STONE) && !z->made_of(KEVLAR) &&
-         !z->made_of(STEEL) && !z->has_flag(MF_FIREY))
+     if (!z->made_of(LIQUID) && !z->made_of("stone") && !z->made_of("kevlar") &&
+         !z->made_of("steel") && !z->has_flag(MF_FIREY))
       z->add_effect(ME_ONFIRE, rng(8, 12));
     }
    }
@@ -926,13 +935,13 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    if (!z->has_flag(MF_NO_BREATHE)){
     if (cur->density == 3)
      z->moves -= rng(10, 20);
-    if (z->made_of(VEGGY))	// Plants suffer from smoke even worse
+    if (z->made_of("veggy"))	// Plants suffer from smoke even worse
      z->moves -= rng(1, cur->density * 12);
    }
    break;
 
   case fd_tear_gas:
-      if ((z->made_of(FLESH) || z->made_of(HFLESH) || z->made_of(VEGGY)) &&
+      if ((z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy")) &&
           !z->has_flag(MF_NO_BREATHE)) {
     z->add_effect(ME_BLIND, cur->density * 8);
     if (cur->density == 3) {
@@ -943,7 +952,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
      dam = rng(2, 5);
     } else
      z->add_effect(ME_STUNNED, rng(1, 5));
-    if (z->made_of(VEGGY)) {
+    if (z->made_of("veggy")) {
      z->moves -= rng(cur->density * 5, cur->density * 12);
      dam += cur->density * rng(8, 14);
     }
@@ -969,22 +978,23 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
      z->moves -= rng(0, 15);
      dam = rng(0, 12);
     }
-    if (z->made_of(VEGGY)) {
+    if (z->made_of("veggy")) {
      z->moves -= rng(cur->density * 5, cur->density * 12);
      dam *= cur->density;
     }
    }
    break;
-
+   
+// MATERIALS-TODO: Use fire resistance
   case fd_flame_burst:
-   if (z->made_of(FLESH) || z->made_of(HFLESH))
+   if (z->made_of("flesh") || z->made_of("hflesh"))
     dam = 3;
-   if (z->made_of(VEGGY))
+   if (z->made_of("veggy"))
     dam = 12;
-   if (z->made_of(PAPER) || z->made_of(LIQUID) || z->made_of(POWDER) ||
-       z->made_of(WOOD)  || z->made_of(COTTON) || z->made_of(WOOL))
+   if (z->made_of("paper") || z->made_of(LIQUID) || z->made_of("powder") ||
+       z->made_of("wood")  || z->made_of("cotton") || z->made_of("wool"))
     dam = 50;
-   if (z->made_of(STONE) || z->made_of(KEVLAR) || z->made_of(STEEL))
+   if (z->made_of("stone") || z->made_of("kevlar") || z->made_of("steel"))
     dam = -25;
    dam += rng(0, 8);
    z->moves -= 20;

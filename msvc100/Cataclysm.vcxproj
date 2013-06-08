@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -9,6 +9,14 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug SDL|Win32">
+      <Configuration>Debug SDL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug SDL|x64">
+      <Configuration>Debug SDL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -17,18 +25,26 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release SDL|Win32">
+      <Configuration>Release SDL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release SDL|x64">
+      <Configuration>Release SDL</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FE1372AC-5F90-447E-BBCA-1B253836EB77}</ProjectGuid>
     <RootNamespace>Cataclysm</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Debug SDL'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)'=='Release' or '$(Configuration)'=='Release SDL'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
@@ -43,15 +59,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>_MBCS;NOMINMAX;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;NOMINMAX;_USE_MATH_DEFINES;USE_WINMAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4100;4127;4996</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Debug SDL'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -60,10 +75,29 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release' or '$(Configuration)'=='Release SDL'">
     <Link>
       <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug SDL' or '$(Configuration)'=='Release SDL'">
+    <ClCompile>
+      <PreprocessorDefinitions>TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL.lib;SDL_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <PropertyGroup>
+    <CustomBuildBeforeTargets>ClCompile</CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <CustomBuildStep>
+      <Command>getversion.cmd</Command>
+      <Message>Generationg version.h</Message>
+      <Outputs>version.h</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\action.cpp" />
@@ -74,7 +108,6 @@
     <ClCompile Include="..\bodypart.cpp" />
     <ClCompile Include="..\building_generation.cpp" />
     <ClCompile Include="..\calendar.cpp" />
-    <ClCompile Include="..\catacurse.cpp" />
     <ClCompile Include="..\catajson.cpp" />
     <ClCompile Include="..\color.cpp" />
     <ClCompile Include="..\computer.cpp" />
@@ -142,6 +175,7 @@
     <ClCompile Include="..\profession.cpp" />
     <ClCompile Include="..\ranged.cpp" />
     <ClCompile Include="..\rng.cpp" />
+    <ClCompile Include="..\sdlcurse.cpp" />
     <ClCompile Include="..\settlement.cpp" />
     <ClCompile Include="..\setvector.cpp" />
     <ClCompile Include="..\skill.cpp" />
@@ -156,6 +190,7 @@
     <ClCompile Include="..\version.cpp" />
     <ClCompile Include="..\weather.cpp" />
     <ClCompile Include="..\weather_data.cpp" />
+    <ClCompile Include="..\wincurse.cpp" />
     <ClCompile Include="..\wish.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +270,7 @@
     <ClInclude Include="..\vehicle.h" />
     <ClInclude Include="..\veh_interact.h" />
     <ClInclude Include="..\veh_type.h" />
+    <ClInclude Include="..\version.h" />
     <ClInclude Include="..\wdirent.h" />
     <ClInclude Include="..\weather.h" />
   </ItemGroup>

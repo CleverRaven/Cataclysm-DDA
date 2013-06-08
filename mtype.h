@@ -8,6 +8,7 @@
 #include <math.h>
 #include "mondeath.h"
 #include "monattack.h"
+#include "material.h"
 #include "enums.h"
 #include "color.h"
 
@@ -187,7 +188,7 @@ struct mtype {
  nc_color color;// Color of symbol (see color.h)
 
  m_size size;
- material mat;	// See enums.h for material list.  Generally, flesh; veggy?
+ std::string mat;	// See materials.json for material list.  Generally, flesh; veggy?
  phase_id phase;
  std::vector<m_flag> flags;
  std::vector<m_category> categories;
@@ -224,7 +225,7 @@ struct mtype {
   sym = ' ';
   color = c_white;
   size = MS_MEDIUM;
-  mat = FLESH;
+  mat = "hflesh";
   phase = SOLID;
   difficulty = 0;
   agro = 0;
@@ -246,7 +247,7 @@ struct mtype {
  }
  // Non-default (messy)
  mtype (int pid, std::string pname, monster_species pspecies, char psym,
-        nc_color pcolor, m_size psize, material pmat,
+        nc_color pcolor, m_size psize, std::string pmat,
 	    unsigned int pdiff, signed char pagro,
         signed char pmorale, unsigned int pspeed, unsigned char pml_skill,
         unsigned char pml_dice, unsigned char pml_sides, unsigned char pml_cut,

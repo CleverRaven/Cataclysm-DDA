@@ -4,6 +4,7 @@
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
+#include "material.h"
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -823,7 +824,7 @@ void mattack::formblob(game *g, monster *z)
      g->z[thatmon].speed += 5;
      if (g->z[thatmon].speed >= 60)
       g->z[thatmon].poly(g->mtypes[mon_blob]);
-    } else if ((g->z[thatmon].made_of(FLESH) || g->z[thatmon].made_of(VEGGY)) &&
+    } else if ((g->z[thatmon].made_of("flesh") || g->z[thatmon].made_of("veggy")) &&
                rng(0, z->hp) > rng(0, g->z[thatmon].hp)) {	// Blobify!
      didit = true;
      g->z[thatmon].poly(g->mtypes[mon_blob]);
@@ -956,7 +957,7 @@ void mattack::vortex(game *g, monster *z)
       }
 // TODO: Hit NPCs
       if (dam == 0 || i == traj.size() - 1) {
-       if (thrown.made_of(GLASS)) {
+       if (thrown.made_of("glass")) {
         if (g->u_see(traj[i].x, traj[i].y))
          g->add_msg("The %s shatters!", thrown.tname().c_str());
         for (int n = 0; n < thrown.contents.size(); n++)
@@ -974,30 +975,19 @@ void mattack::vortex(game *g, monster *z)
     int distance = 0, damage = 0;
     monster *thrown = &(g->z[mondex]);
     switch (thrown->type->size) {
-     case MS_TINY:   distance = 5; break;
-     case MS_SMALL:  distance = 3; break;
-     case MS_MEDIUM: distance = 2; break;
-     case MS_LARGE:  distance = 1; break;
+     case MS_TINY:   distance = 10; break;
+     case MS_SMALL:  distance = 6; break;
+     case MS_MEDIUM: distance = 4; break;
+     case MS_LARGE:  distance = 2; break;
      case MS_HUGE:   distance = 0; break;
     }
-    damage = distance * 4;
-    switch (thrown->type->mat) {
-     case LIQUID:  distance += 3; damage -= 10; break;
-     case VEGGY:   distance += 1; damage -=  5; break;
-     case POWDER:  distance += 4; damage -= 30; break;
-     case COTTON:
-     case WOOL:    distance += 5; damage -= 40; break;
-     case LEATHER: distance -= 1; damage +=  5; break;
-     case KEVLAR:  distance -= 3; damage -= 20; break;
-     case STONE:   distance -= 3; damage +=  5; break;
-     case PAPER:   distance += 6; damage -= 10; break;
-     case WOOD:    distance += 1; damage +=  5; break;
-     case PLASTIC: distance += 1; damage +=  5; break;
-     case GLASS:   distance += 2; damage += 20; break;
-     case IRON:    distance -= 1; // fall through
-     case STEEL:
-     case SILVER:  distance -= 3; damage -= 10; break;
-    }
+    damage = distance * 3;
+    // subtract 1 unit of distance for every 10 units of density
+    // subtract 5 units of damage for every 10 units of density
+    material_type* mon_mat = material_type::find_material(thrown->type->mat);
+    distance -= mon_mat->density() / 10;
+    damage -= mon_mat->density() / 5;
+    
     if (distance > 0) {
      if (g->u_see(thrown))
       g->add_msg("The %s is thrown by winds!", thrown->name().c_str());
@@ -1175,7 +1165,7 @@ void mattack::smg(game *g, monster *z)
   z->moves = -150;			// It takes a while
   if (g->u_see(z->posx, z->posy))
    g->add_msg("The %s fires its smg!", z->name().c_str());
-  player tmp;
+  npc tmp;
   tmp.name = "The " + z->name();
 
   tmp.skillLevel("smg").level(1);
@@ -1214,7 +1204,7 @@ void mattack::smg(game *g, monster *z)
  if (g->u_see(z->posx, z->posy))
   g->add_msg("The %s fires its smg!", z->name().c_str());
 // Set up a temporary player to fire this gun
- player tmp;
+ npc tmp;
  tmp.name = "The " + z->name();
 
  tmp.skillLevel("smg").level(1);
@@ -1429,8 +1419,8 @@ void mattack::bite(game *g, monster *z)
     body_part hit = random_body_part();
     int dam = rng(5, 10), side = rng(0, 1);
     g->add_msg("Your %s is bitten!", body_part_name(hit, side).c_str());
-    g->u.hit(g, hit, side, dam, 0);
-    if(one_in(10))
+    dam = g->u.hit(g, hit, side, dam, 0);
+    if(dam > 0 && one_in(14 - dam))
 	{
         g->u.add_disease(DI_BITE, 3600, g);
     }

@@ -59,7 +59,6 @@ private:
     unsigned flags_from_json(catajson flags, std::string flag_type="");
     void set_material_from_json(Item_tag new_id, catajson mats);
     bool is_mod_target(catajson targets, std::string weapon);
-    material material_from_tag(Item_tag new_id, Item_tag index);
     phase_id phase_from_tag(Item_tag name);
     ammotype ammo_from_string(std::string ammo);
 
