@@ -133,28 +133,15 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   if (curshot > 0 &&
       (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {
    std::vector<point> new_targets;
-   int mondex;
-   for (int radius = 1; radius <= 2 + p.skillLevel("gun") && new_targets.empty();
+   for (int radius = 1; radius <= 2 + p.skillLevel("gun") && radius <= p.weapon.range() && new_targets.empty();
         radius++) {
-    for (int diff = 0 - radius; diff <= radius; diff++) {
-     mondex = mon_at(tarx + diff, tary - radius);
-     if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
-      new_targets.push_back( point(tarx + diff, tary - radius) );
-
-     mondex = mon_at(tarx + diff, tary + radius);
-     if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
-      new_targets.push_back( point(tarx + diff, tary + radius) );
-
-     if (diff != 0 - radius && diff != radius) { // Corners were already checked
-      mondex = mon_at(tarx - radius, tary + diff);
-      if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
-       new_targets.push_back( point(tarx - radius, tary + diff) );
-
-      mondex = mon_at(tarx + radius, tary + diff);
-      if (mondex != -1 && z[mondex].hp > 0 && z[mondex].friendly == 0)
-       new_targets.push_back( point(tarx + radius, tary + diff) );
-     }
-    }
+       for (std::vector<monster>::iterator it = z.begin(); it != z.end(); it++)
+       {
+           if (rl_dist(p.posx,p.posy,it->posx,it->posy) > radius)
+               continue;
+           if (it->hp >0 && it->friendly == 0)
+               new_targets.push_back(point(it->posx, it->posy));
+       }
    }
    if (!new_targets.empty()) {
     int target_picked = rng(0, new_targets.size() - 1);
