@@ -5606,6 +5606,29 @@
                           ]
         },
 
+		 {
+            "result": "rollmat",
+            "category": "tool",
+            "skill_pri": "tailor",
+            "skill_sec": "survival",
+            "difficulty": 1,
+            "time": 75000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["needle_bone", 30],
+                             ["sewing_kit", 30]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["rag", 10],
+                                  ["fur", 5]
+                              ]
+                          ]
+        },
+
 
         {
             "result": "primitive_hammer",
