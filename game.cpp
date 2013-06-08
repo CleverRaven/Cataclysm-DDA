@@ -5494,10 +5494,10 @@ void game::control_vehicle()
             add_msg(message.c_str());
     } else if (u.in_vehicle) {
         exit_vehicle();
-    } else if (veh && seat >= 0 && veh->parts[seat].items.size() == 0 &&
+    } else if (veh && seat >= 0 &&
                !veh->parts[seat].has_flag(vehicle_part::passenger_flag)) {
         m.board_vehicle(this, u.posx, u.posy, &u);
-        u.moves -= 200;
+        u.moves -= 100;
         add_msg("You sit down.");
     } else {
         int examx, examy;
