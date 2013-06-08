@@ -20,7 +20,7 @@
 #include "catajson.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
-//#include "ui.h"
+#include "trap.h"
 #include "mapdata.h"
 #include <map>
 #include <algorithm>
@@ -6485,9 +6485,10 @@ point game::look_debug(point coords) {
   draw_ter();
   int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
   int mx, my;
-  int ch;
-  
-  InputEvent input;
+  int ch; int nextch=0; InputEvent input;
+
+  std::string padding=std::string(46,' ');
+
   const int lookHeight=TERMY-12+VIEW_OFFSET_Y;
   WINDOW* w_look = newwin(lookHeight+1, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
   wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -6496,132 +6497,121 @@ point game::look_debug(point coords) {
   wrefresh(w_look);
   bool skip=false;
   int pter=-1;
+  int fsel=-1;int fset=-1;
+  int trsel=-1;int trset=-1;
   do {
-    if ( skip ) {
+    if (nextch!=0) {
+      ch=nextch;
+      nextch=0;skip=false;
+      if(ch) input = get_input(ch);
+    } else if ( skip ) {
       skip = false;
       input=Nothing;
+      ch=0;
     } else {
-      input = get_input();
+      ch=(int)getch();
+      if(ch) input = get_input(ch);
     }
-      get_direction(mx, my, input);
-      if (mx != -2 && my != -2) {	// Directional key pressed
-        lx += mx;
-        ly += my;
-      }
-    int cy=1;  
+    get_direction(mx, my, input);
+    if (mx != -2 && my != -2) {	// Directional key pressed
+      lx += mx;
+      ly += my;
+    }
+
     werase(w_terrain);
     draw_ter(lx, ly);
-    mvwprintz(w_look, 0, 2 ,c_white, "< %d,%d >----------",lx,ly);
+    mvwprintz(w_look, 0, 2 ,c_ltgray, "< %d,%d >",lx,ly);
     for (int i = 1; i < lookHeight; i++) {
       mvwprintz(w_look, i, 1, c_white, "                                              ");
     }
 
-    // Debug helper
+    // Debug helper 2, child of debug helper
     int junk;
     int veh_part = 0;
     vehicle *veh = m.veh_at(lx, ly, veh_part);
     int veh_in=-1;
     if(veh) veh_in=veh->is_inside(veh_part);
- /*
-    int dofs=lookHeight-10;
-    mvwprintw(w_look, dofs, 1, "Items: %d", m.i_at(lx, ly).size() );
-    mvwprintw(w_look, dofs+1, 1, "id: %d, in %d, roof: %d, decon: %d",
-      m.ter(lx, ly),
-      m.has_flag(indoors, lx, ly),
-      m.has_flag(supports_roof, lx, ly),
-      m.has_flag(deconstruct, lx, ly)
-    );
-    mvwprintw(w_look, dofs+2, 1, "movecost %d, veh_in %d, light %d, u_see %d",
-      m.move_cost(lx, ly),
-      veh_in,m.light_at(lx,ly),
-      u_see(lx,ly)
-    );
-    mvwprintw(w_look, dofs+3, 1, "p: in_v %s %d in_cc %s ", u.in_vehicle?"y":"n", int(turn), u.in_climate_control(this)?"y":"n");
-    int Ctemperature = 100*(temperature - 32) * 5/9;
-    mvwprintw(w_look, dofs+4, 1, "temp: %d // ",Ctemperature);
-    for (int i = 0; i < num_bp; i++) {
-      wprintw(w_look,"%d/%d ", u.temp_cur[i],u.temp_conv[i]);
-    }
-*/
+
+    int off=1;
+    int boff=lookHeight-1;
     int tter=m.ter(lx, ly);
     ter_t terrain_type = terlist[m.ter(lx, ly)];
     std::string extras="";
     if(veh_in >= 0) extras+=" [vehicle]";
     if(m.has_flag(indoors, lx, ly)) extras+=" [indoors]";
     if(m.has_flag(supports_roof, lx, ly)) extras+=" [roof]";
-    mvwputch(w_look, 1, 2, terrain_type.color, terrain_type.sym);
-    mvwprintw(w_look, 1, 4, "%d: %s; movecost %d %s", m.ter(lx, ly), m.tername(lx, ly).c_str(), m.move_cost(lx, ly), extras.c_str());
-mvwprintw(w_look, 3, 2, "dist: %d u_see: %d light: %d", rl_dist(u.posx, u.posy, lx, ly), u_see(lx, ly), m.light_at(lx,ly) );
-/*    extras="";
-    for (int i=0;i < num_t_flags; i++ ) {
-      extras+=(terrain_type.flags & mfb(i) ? "1" : "0");
+    mvwputch(w_look, off, 2, terrain_type.color, terrain_type.sym);
+    mvwprintw(w_look, off, 4, "%d: %s; movecost %d movestr %d", m.ter(lx, ly),
+         m.tername(lx, ly).c_str(),
+         m.move_cost(lx, ly), 
+         terrain_type.move_str_req
+    );
+    off++; // 2
+
+    mvwprintw(w_look, off, 2, "dist: %d u_see: %d light: %d v_in: %d", rl_dist(u.posx, u.posy, lx, ly), u_see(lx, ly), m.light_at(lx,ly), veh_in );
+    off++; // 3
+
+    //extras="";
+    //for (int i=0;i < num_t_flags; i++ ) {
+    //  extras+=(terrain_type.flags & mfb(i) ? "1" : "0");
+    //}
+    mvwprintw(w_look, off, 1, "%s %s", m.features(lx, ly).c_str(),extras.c_str());
+    off++;
+    
+    field curfield = m.field_at(lx, ly);
+    if (curfield.type != fd_null) {
+
+       mvwprintz(w_look, off, 1, fieldlist[curfield.type].color[curfield.density-1], "field: %s (%d) density %d", 
+           fieldlist[curfield.type].name[curfield.density-1].c_str(), curfield.type, curfield.density
+       );
+       off++; // 4
     }
-     mvwprintw(w_look, 2, 1, "%s %s", m.features(lx, ly).c_str(),extras.c_str());
-*/
 
-     field tmpfield = m.field_at(lx, ly);
-     if (tmpfield.type != fd_null) {
-        mvwprintz(w_look, 4, 1, fieldlist[tmpfield.type].color[tmpfield.density-1], "field: %s", fieldlist[tmpfield.type].name[tmpfield.density-1].c_str());
-     }
+    trap_id curtrap=m.tr_at(lx, ly);
+    if (curtrap != tr_null) { 
+       mvwprintz(w_look, off, 1, traps[curtrap]->color, "trap: %s (%d)", 
+           traps[curtrap]->name.c_str(), curtrap
+       );
+       off++; // 5
+    }
 
-     if (m.tr_at(lx, ly) != tr_null) mvwprintz(w_look, 5, 1, traps[m.tr_at(lx, ly)]->color, "trap: %s", traps[m.tr_at(lx, ly)]->name.c_str());
+    int dex = mon_at(lx, ly);
+    if (dex != -1) {
+        z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
+        z[mon_at(lx, ly)].print_info(this, w_look);
+        off+=6;
+    }
+    else if (npc_at(lx, ly) != -1)
+    {
+        active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
+        active_npc[npc_at(lx, ly)]->print_info(w_look);
+        off+=6;
+    }
+    else if (veh)
+    {
+        mvwprintw(w_look, off, 1, "There is a %s there. Parts:", veh->name.c_str());
+        off++;
+        veh->print_part_desc(w_look, off, 48, veh_part);
+        off+=6;
+        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+    } else {
+        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+    }
 
-     int dex = mon_at(lx, ly);
-     if (dex != -1 && u_see(&(z[dex]))) {
-         z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
-         z[mon_at(lx, ly)].print_info(this, w_look);
-         if (!m.has_flag(container, lx, ly))
-         {
-             if (m.i_at(lx, ly).size() > 1)
-             {
-                 mvwprintw(w_look, 3, 1, "There are several items there.");
-             }
-             else if (m.i_at(lx, ly).size() == 1)
-             {
-                 mvwprintw(w_look, 3, 1, "There is an item there.");
-             }
-         }
-     }
-     else if (npc_at(lx, ly) != -1)
-     {
-         active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
-         active_npc[npc_at(lx, ly)]->print_info(w_look);
-         if (!m.has_flag(container, lx, ly))
-         {
-             if (m.i_at(lx, ly).size() > 1)
-             {
-                 mvwprintw(w_look, 3, 1, "There are several items there.");
-             }
-             else if (m.i_at(lx, ly).size() == 1)
-             {
-                 mvwprintw(w_look, 3, 1, "There is an item there.");
-             }
-         }
-     }
-     else if (veh)
-     {
-         mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
-         veh->print_part_desc(w_look, 4, 48, veh_part);
-         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-     }
-     else if (!m.has_flag(container, lx, ly) && m.i_at(lx, ly).size() > 0)
-     {
-         mvwprintw(w_look, 3, 1, "There is a %s there.",
-                   m.i_at(lx, ly)[0].tname(this).c_str());
-         if (m.i_at(lx, ly).size() > 1)
-         {
-             mvwprintw(w_look, 4, 1, "There are %d other items there as well.",m.i_at(lx, ly).size());
-         }
-         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-     }
-     else
-     {
-         m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-     }
-//
-      mvwprintw(w_look, 6, 1, "[g] edit m_ter, [>] add trap");
+    if (!m.has_flag(container, lx, ly) && m.i_at(lx, ly).size() > 0)
+    {
+        mvwprintw(w_look, off, 1, "There is a %s there.",
+                  m.i_at(lx, ly)[0].tname(this).c_str()); off++;
+        if (m.i_at(lx, ly).size() > 1)
+        {
+            mvwprintw(w_look, off, 1, "There are %d other items there as well.",m.i_at(lx, ly).size()-1); off++;
+        }
+    }
+     mvwprintw(w_look, boff, 1, "[t] add trap, [f] add field effect"); boff--;
+     mvwprintw(w_look, boff, 1, "[enter] check npc, [g] edit m_ter"); boff--;
+
     if (m.graffiti_at(lx, ly).contents)
-      mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
+      mvwprintw(w_look, off, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str()); off++;
 
     
 
@@ -6629,8 +6619,10 @@ mvwprintw(w_look, 3, 2, "dist: %d u_see: %d light: %d", rl_dist(u.posx, u.posy, 
     wrefresh(w_look);
     wrefresh(w_terrain);
     
-    if(input == Pickup) {
-    int pwh=TERMY;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
+    if(ch == 'g') {
+      ///////////////////////////////////////////
+      ///// tile edit
+      int pwh=TERMY;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
 
       WINDOW* w_pickter = newwin(pwh, pww, pwy, pwx);
       wborder(w_pickter, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -6642,7 +6634,7 @@ mvwprintw(w_look, 3, 2, "dist: %d u_see: %d light: %d", rl_dist(u.posx, u.posy, 
       int cur_t=0;
       if( pter < 0 ) pter=tter;
       int lastpter=pter;
-      int xmax=pickw;//int(pickw/2);
+      int xmax=pickw; //int(pickw/2);
       int ymax=int(num_terrain_types/xmax);
       int feh=0;
       point pterp=point(-1,-1);
@@ -6650,7 +6642,6 @@ mvwprintw(w_look, 3, 2, "dist: %d u_see: %d light: %d", rl_dist(u.posx, u.posy, 
       point tterp=point(-1,-1);
       
       do {
-            int prow=(int)( ( pter / xmax ) + 0.5 );
             cur_t=0;
             for (int y=2; y < pickh && cur_t < num_terrain_types; y+=2) {
               for (int x=2; x < pickw && cur_t < num_terrain_types; x++,cur_t++) {
@@ -6687,10 +6678,17 @@ mvwprintw(w_look, 3, 2, "dist: %d u_see: %d light: %d", rl_dist(u.posx, u.posy, 
             ter_t pttype = terlist[pter];
 
             mvwprintz(w_pickter, 0, 2, c_white, "< %d: %s >-----------",pter,pttype.name.c_str());
-
-            mvwprintz(w_pickter, ymax*3, 2, c_white, "< %d: %s >-----------",pter,pttype.name.c_str());
+            int off=ymax*3; 
+            for (int i=off;i < 3; i++) {
+              mvwprintw(w_pickter, i, 1, "%s",padding.c_str());
+            }
+              mvwprintz(w_pickter, off, 2, c_white, "movecost %d, move str %d",pttype.movecost,pttype.move_str_req);
+              //mvwprintw(w_pickter, off+1, 2, "%s", m.features(lx, ly).c_str());
+              std::string extras="";
+              if(pttype.flags & mfb(indoors)) extras+="[indoors] ";
+              if(pttype.flags & mfb(supports_roof)) extras+="[roof] ";
+              mvwprintw(w_pickter, off+2, 2, "%s", extras.c_str());
             
-
             wrefresh(w_pickter);
             ///////////////////////
             /// 0: 0 1 2 3 
@@ -6706,24 +6704,151 @@ mvwprintw(w_look, 3, 2, "dist: %d u_see: %d light: %d", rl_dist(u.posx, u.posy, 
                 pter=( pter-xmax+2 > 0 ? pter-xmax+2 : 0 );
             } else if( feh == KEY_DOWN ) {
                 pter=( pter + xmax-2 < num_terrain_types ? pter+xmax-2 : num_terrain_types - 1);
+            } else if( feh == 't' ) {
+                nextch=feh;
             }
       } while (feh == KEY_UP || feh == KEY_DOWN || feh == KEY_LEFT || feh == KEY_RIGHT );
 
       werase(w_pickter);
       delwin(w_pickter);
       refresh_all();
-      if( ( feh == KEY_ENTER || feh == '\n' ) && pter != tter) {
+      if( ( feh == KEY_ENTER || feh == '\n' || feh == 'g' ) && pter != tter) {
           ter_t tset = terlist[pter];
           m.ter_set(lx, ly, (ter_id)pter);
       }
       skip = true;
-      
-      
-//      wrefresh(w_look);
-//      wrefresh(w_terrain);
 
+
+    } else if ( ch == 'f' ) {
+      ///////////////////////////////////////////
+      ///// field edit
+      int pwh=lookHeight-1;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
+//lookHeight+1, 48, 12+VIEW_OFFSET_Y
+      WINDOW* w_pickfield = newwin(pwh, pww, pwy, pwx);
+      wborder(w_pickfield, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      //
+      int fmax=pwh-4;
+      int fshift=0;
+      int feh=0;
+      if ( fsel == -1 ) fsel=curfield.type;
+      std::string fids[num_fields];fids[0]="-clear-";
+      fids[14]="fire_vent"; fids[18]="push_items"; fids[19]="shock_vent"; fids[20]="acid_vent";
+      do {
+        if( fsel < fshift ) {
+            fshift=fsel;
+        } else if ( fsel > fshift+fmax ) {
+            fshift=fsel-fmax;
+        }
+            field_t ftype;
+            std::string fnam;
+            for ( int f=fshift; f<=fshift+fmax; f++ ) {
+                  mvwprintz(w_pickfield, f+1-fshift, 1, c_white, "%s", padding.c_str());
+                  if ( f < num_fields ) {
+                      ftype = fieldlist[f];
+                      fnam = ( ftype.name[0].size() == 0 ? fids[f] : ftype.name[0] );
+                      mvwprintz(w_pickfield, f+1-fshift, 2, (fsel==f ? h_white : ( curfield.type == f ? c_green : c_ltgray ) ), "%d %s",f,fnam.c_str());
+                  }
+            }
+            wrefresh(w_pickfield);
+
+            feh=(int)getch();
+            if(feh==KEY_UP) {
+                fsel--;
+            } else if (feh==KEY_DOWN) {
+                fsel++;
+            }
+            if( fsel < 0 ) {
+                fsel = num_fields-1;
+            } else if ( fsel >= num_fields ) {
+                fsel = 0;
+            }
+
+      } while (feh == KEY_UP || feh == KEY_DOWN || feh == KEY_LEFT || feh == KEY_RIGHT );
+      if( ( feh == KEY_ENTER || feh == '\n' || feh == 'f' ) && curfield.type != fsel ) {
+            if ( fsel == 0 ) {
+                  fset=fsel;
+                  m.remove_field(lx, ly);
+            } else if ( fset < num_fields-1 ) {
+                  int num=menu(false,"density?","1","2","3","-cancel-",NULL);
+                  if(num<1 || num>3) {
+                      nextch='t';
+                  } else if (num != curfield.density) {
+                      fset=fsel;
+                      m.remove_field(lx, ly);
+                      m.add_field(this, lx, ly, field_id(fset), num);
+                  }
+            }
+      }
+      werase(w_pickfield);
+      wrefresh(w_pickfield);
+      delwin(w_pickfield);
+      wrefresh(w_look);
+//      refresh_all();
+      skip = true;
+
+    } else if ( ch == 't' ) {
+      ///////////////////////////////////////////
+      ///// trap edit
+      int pwh=lookHeight-1;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
+
+      WINDOW* w_picktrap = newwin(pwh, pww, pwy, pwx);
+      wborder(w_picktrap, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      //
+      int tmax=pwh-4;
+      int tshift=0;
+      int feh=0;
+      if ( trsel == -1 ) trsel=curtrap;
+      std::string trids[num_trap_types];trids[0]="-clear-";
+      do {
+        if( trsel < tshift ) {
+            tshift=trsel;
+        } else if ( trsel > tshift+tmax ) {
+            tshift=trsel-tmax;
+        }
+            std::string tnam;
+            for ( int t=tshift; t<=tshift+tmax; t++ ) {
+                  mvwprintz(w_picktrap, t+1-tshift, 1, c_white, "%s", padding.c_str());
+                  if ( t < num_trap_types ) {
+                      tnam = ( traps[t]->name.size() == 0 ? trids[t] : traps[t]->name );
+                      mvwputch(w_picktrap, t+1-tshift, 2, traps[t]->color, traps[t]->sym);
+                      mvwprintz(w_picktrap, t+1-tshift, 4, (trsel==t ? h_white : ( curtrap == t ? c_green : c_ltgray ) ), "%d %s", t, tnam.c_str() );
+                  }
+            }
+            wrefresh(w_picktrap);
+
+            feh=(int)getch();
+            if(feh==KEY_UP) {
+                trsel--;
+            } else if (feh==KEY_DOWN) {
+                trsel++;
+            }
+            if( trsel < 0 ) {
+                trsel = num_trap_types-1;
+            } else if ( trsel >= num_trap_types ) {
+                trsel = 0;
+            }
+
+      } while (feh == KEY_UP || feh == KEY_DOWN || feh == KEY_LEFT || feh == KEY_RIGHT );
+      if( ( feh == KEY_ENTER || feh == '\n' || feh == 't' ) && curtrap != trsel ) {
+          if ( trsel == 0 ) {
+              trset=trsel;
+              m.add_trap(lx, ly, trap_id(trset));
+          } else if ( trsel < num_trap_types-1 ) {
+              trset=trsel;
+              m.add_trap(lx, ly, trap_id(trset));
+          }
+      }
+      werase(w_picktrap);
+      wrefresh(w_picktrap);
+
+      delwin(w_picktrap);
+      wrefresh(w_look);
+//      refresh_all();
+      skip = true;
+      //
     }
-    ////
   } while (input != Close && input != Cancel && input != Confirm);
   if (input == Confirm) return point(lx, ly);
   return point(-1, -1);
