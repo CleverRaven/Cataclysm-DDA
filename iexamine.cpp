@@ -25,15 +25,17 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
+ bool use_pump = false
  item gas(g->itypes["gasoline"], g->turn);
  if (one_in(10 + p->dex_cur)) {
   g->add_msg("You accidentally spill the gasoline.");
   m->add_item(p->posx, p->posy, gas);
+  use_pump = true
  } else {
   p->moves -= 300;
-  g->handle_liquid(gas, false, true);
+  use_pump = g->handle_liquid(gas, false, true);
  }
- if (one_in(10)) {
+ if (use_pump && one_in(10)) {
   g->add_msg("With a clang and a shudder, the gas pump goes silent.");
   m->ter_set(examx, examy, t_gas_pump_empty);
  }
