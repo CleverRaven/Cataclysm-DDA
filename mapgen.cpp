@@ -7801,7 +7801,7 @@ case ot_haz_sar_entrance_b1:{
                 body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
                 add_item(i, j, body);
                 place_items(mi_science,  70, i, j, i, j, true, 0);}
-            //else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
+            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
             radiation(x, y) += rng(10, 70);
@@ -7811,11 +7811,11 @@ case ot_haz_sar_entrance_b1:{
             if (one_in(2)) ter_set(i,j,t_wreckage);
             place_items(mi_trash,	50,  i,  j, i,  j, false, 0);
             place_items(mi_sewer,	50,  i,  j, i,  j, false, 0);
-            //if (one_in(5)){
-                //if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
-                //else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
-               // else add_spawn(mon_zombie, 1, i, j);
-            //}
+            if (one_in(5)){
+                if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
+                else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
+                else add_spawn(mon_zombie, 1, i, j);
+            }
         }
        }
      }
@@ -7873,7 +7873,7 @@ case ot_haz_sar_b1:{
                 body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
                 add_item(i, j, body);
                 place_items(mi_science,  70, i, j, i, j, true, 0);}
-            //else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
+            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
             radiation(x, y) += rng(10, 70);
@@ -7883,11 +7883,11 @@ case ot_haz_sar_b1:{
             if (one_in(2)) ter_set(i,j,t_wreckage);
             place_items(mi_trash,	50,  i,  j, i,  j, false, 0);
             place_items(mi_sewer,	50,  i,  j, i,  j, false, 0);
-            //if (one_in(5)){
-               // if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
-              //  else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
-              //  else add_spawn(mon_zombie, 1, i, j);
-            //}
+            if (one_in(5)){
+                if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
+                else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
+                else add_spawn(mon_zombie, 1, i, j);
+            }
         }
        }
      }
@@ -7939,7 +7939,7 @@ case ot_haz_sar_b1:{
                 body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
                 add_item(i, j, body);
                 place_items(mi_science,  70, i, j, i, j, true, 0);}
-            //else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
+            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
             radiation(x, y) += rng(10, 70);
@@ -7949,11 +7949,11 @@ case ot_haz_sar_b1:{
             if (one_in(2)) ter_set(i,j,t_wreckage);
             place_items(mi_trash,	50,  i,  j, i,  j, false, 0);
             place_items(mi_sewer,	50,  i,  j, i,  j, false, 0);
-            //if (one_in(5)){
-                //if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
-                //else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
-                //else add_spawn(mon_zombie, 1, i, j);
-            //}
+            if (one_in(5)){
+                if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
+                else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
+                else add_spawn(mon_zombie, 1, i, j);
+            }
         }
        }
      }
@@ -8011,7 +8011,7 @@ $$$$-|-|=HH-|-HHHH-|####\n",
                 body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], 0);
                 add_item(i, j, body);
                 place_items(mi_science,  70, i, j, i, j, true, 0);}
-            //else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
+            else if (one_in(80))add_spawn(mon_zombie, 1, i, j);
         }
         if (this->ter(i,j) != t_metal_floor)
             radiation(x, y) += rng(10, 70);
@@ -8021,11 +8021,11 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             if (one_in(2)) ter_set(i,j,t_wreckage);
             place_items(mi_trash,	50,  i,  j, i,  j, false, 0);
             place_items(mi_sewer,	50,  i,  j, i,  j, false, 0);
-            //if (one_in(5)){
-                //if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
-                //else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
-                //else add_spawn(mon_zombie, 1, i, j);
-            //}
+            if (one_in(5)){
+                if (one_in(10))add_spawn(mon_zombie_child, 1, i, j);
+                else if (one_in(15))add_spawn(mon_zombie_fast, 1, i, j);
+                else add_spawn(mon_zombie, 1, i, j);
+            }
         }
        }
      }
