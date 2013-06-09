@@ -377,8 +377,6 @@ void game::cleanup_at_end(){
 		save_maps(); //Omap also contains the npcs who need to be saved.
 	}
 
- // Save the monsters before we die!
- despawn_monsters();
  // Clear the future weather for future projects
  future_weather.clear();
 
