@@ -25,12 +25,12 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
- bool use_pump = false
+ bool use_pump = false;
  item gas(g->itypes["gasoline"], g->turn);
  if (one_in(10 + p->dex_cur)) {
   g->add_msg("You accidentally spill the gasoline.");
   m->add_item(p->posx, p->posy, gas);
-  use_pump = true
+  use_pump = true;
  } else {
   p->moves -= 300;
   use_pump = g->handle_liquid(gas, false, true);
@@ -632,10 +632,10 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
 
     g->sound(examx, examy, 80, "Ka-klunk!");
 
-    int lump_weight = item_controller->find_template("steel_lump")->weight
-    int sheet_weight = item_controller->find_template("sheet_metal")->weight
-    int chunk_weight = item_controller->find_template("steel_chunk")->weight
-    int scrap_weight = item_controller->find_template("scrap")->weight
+    int lump_weight = item_controller->find_template("steel_lump")->weight;
+    int sheet_weight = item_controller->find_template("sheet_metal")->weight;
+    int chunk_weight = item_controller->find_template("steel_chunk")->weight;
+    int scrap_weight = item_controller->find_template("scrap")->weight;
 
     switch(ch)
     {
