@@ -534,6 +534,7 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
 void monster::hit_monster(game *g, int i)
 {
  monster* target = &(g->z[i]);
+ moves -= 100;
 
  if (this == target) {
   debugmsg("stopped monster from hitting itself");
