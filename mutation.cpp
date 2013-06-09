@@ -42,8 +42,26 @@ void player::mutate(game *g)
         force_good = true;
     }
 
-    // First, see if we should ugrade/extend an existing mutation
+    // Determine the mutation categorie
+    mutation_category cat = MUTCAT_NULL;
+
+    // Count up the players number of mutations in categories and find
+    // the category with the highest single count.
+    int total = 0, highest = 0;
+    for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
+    {
+        total += mutation_category_level[i];
+        if (mutation_category_level[i] > highest)
+        {
+            cat = mutation_category(i);
+            highest = mutation_category_level[i];
+        }
+    }
+
+    // See if we should ugrade/extend an existing mutation...
     std::vector<pl_flag> upgrades;
+    // ... or remove one that is not in our highest category
+    std::vector<pl_flag> downgrades;
     // For each mutation...
     for (int base_mutation_index = 1; base_mutation_index < PF_MAX2; base_mutation_index++)
     {
@@ -73,43 +91,50 @@ void player::mutate(game *g)
                     upgrades.push_back(mutation);
                 }
             }
+
+            // ...consider wether its in our highest category
+            if( has_mutation(base_mutation) ){ // don't remove starting traits
+                std::vector<pl_flag> group = mutations_from_category(cat);
+                bool in_cat = false;
+                for (int j = 0; j < group.size(); j++)
+                {
+                    if (group[j] == base_mutation)
+                    {
+                        in_cat = true;
+                        break;
+                    }
+                }
+                // mark for removal
+                if(!in_cat) downgrades.push_back(base_mutation);
+            }
         }
     }
 
-    // If we have upgrades, we prefer them.
-    if (upgrades.size() > 0)
-    {
-        // (upgrade count) chances to pick an upgrade, 4 chances to pick something else.
-        int roll = rng(0, upgrades.size() + 4);
-        if (roll < upgrades.size())
-        {
-            // We got a valid upgrade index, so use it and return.
-            mutate_towards(g, upgrades[roll]);
-            return;
-        }
+    // Preliminary round to either upgrade or remove existing mutations
+    if(one_in(2)){
+      if (upgrades.size() > 0)
+      {
+          // (upgrade count) chances to pick an upgrade, 4 chances to pick something else.
+          int roll = rng(0, upgrades.size() + 4);
+          if (roll < upgrades.size())
+          {
+              // We got a valid upgrade index, so use it and return.
+              mutate_towards(g, upgrades[roll]);
+              return;
+          }
+      }
     }
-
-    // Next, see if we should mutate within a given category
-    mutation_category cat = MUTCAT_NULL;
-
-    // Count up the number of mutations in categories and find
-    // the category with the highest single count.
-    int total = 0, highest = 0;
-    for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-    {
-        total += mutation_category_level[i];
-        if (mutation_category_level[i] > highest)
-        {
-            cat = mutation_category(i);
-            highest = mutation_category_level[i];
-        }
-    }
-
-    // Pick one of the mutations out of a hat.  If it's in the highest-count
-    // category, we pick from that category.  If not, we mutate randomly.
-    if (rng(0, total) > highest)
-    {
-        cat = MUTCAT_NULL;
+    else {
+      // Remove existing mutations that don't fit into our category
+      if (downgrades.size() > 0 && cat != MUTCAT_NULL)
+      {
+          int roll = rng(0, downgrades.size() + 4);
+          if (roll < downgrades.size())
+          {
+              remove_mutation(g, downgrades[roll]);
+              return;
+          }
+      }
     }
 
     std::vector<pl_flag> valid; // Valid mutations
