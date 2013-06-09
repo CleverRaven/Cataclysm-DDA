@@ -42,18 +42,7 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
 void iexamine::elevator(game *g, player *p, map *m, int examx, int examy){
  if (!query_yn("Use the %s?",m->tername(examx, examy).c_str())) return;
  int movez = (g->levz < 0 ? 2 : -2);
- g->levz += movez;
- m->load(g, g->levx, g->levy, g->levz);
- g->update_map(p->posx, p->posy);
- for (int x = 0; x < SEEX * MAPSIZE; x++) {
-  for (int y = 0; y < SEEY * MAPSIZE; y++) {
-   if (m->ter(x, y) == t_elevator) {
-    p->posx = x;
-    p->posy = y;
-   }
-  }
- }
- g->refresh_all();
+ g->vertical_move( movez, false );
 }
 
 void iexamine::controls_gate(game *g, player *p, map *m, int examx, int examy) {
