@@ -1817,7 +1817,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   return;
 
  if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED)) {
-  g->sound(g->u.posx, g->u.posy, 30, "An alarm sounds!");
+  g->sound(z, y, 30, "An alarm sounds!");
   g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
  }
 
@@ -1836,6 +1836,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   if (hit_items || one_in(8)) {	// 1 in 8 chance of hitting the door
    dam -= rng(20, 40);
    if (dam > 0)
+    g->sound(z, y, 10, "crash!");
     ter_set(x, y, t_dirt);
   } else
    dam -= rng(0, 1);
@@ -1847,57 +1848,101 @@ void map::shoot(game *g, const int x, const int y, int &dam,
  case t_door_locked_alarm:
   dam -= rng(15, 30);
   if (dam > 0)
+   g->sound(z, y, 10, "smash!");
    ter_set(x, y, t_door_b);
   break;
 
  case t_door_boarded:
   dam -= rng(15, 35);
   if (dam > 0)
+   g->sound(z, y, 10, "crash!");
    ter_set(x, y, t_door_b);
   break;
 
-    // laser beams are attenuated, but don't break the glass
-    case t_window:
+    // Fall-through intended
+    case t_window_domestic_taped:
+    case t_curtains:
+        if ((effects & mfb(AMMO_LASER))
+            dam -= rng(1, 5);
     case t_window_domestic:
+        if ((effects & mfb(AMMO_LASER))
+            dam -= rng(0, 5);
+        else
+        {
+            dam -= rng(1,3);
+            if (dam > 0)
+                g->sound(x, y, 16, "glass breaking!");
+                ter_set(x, y, t_window_frame);
+                spawn_item(x, y, (*itypes)["sheet"], 0, 1);
+                spawn_item(x, y, (*itypes)["stick"], 0);
+                spawn_item(x, y, (*itypes)["string_36"], 0);
+        }
+    break;
+
+    // Fall-through intended
+    case t_window_taped:
+    case t_window_alarm_taped:
+        if ((effects & mfb(AMMO_LASER))
+            dam -= rng(1, 5);
+    case t_window:
     case t_window_alarm:
-        dam -= rng(0, 5);
-        if (!(effects & mfb(AMMO_LASER)))
-            ter_set(x, y, t_window_frame);
+        if ((effects & mfb(AMMO_LASER))
+            dam -= rng(0, 5);
+        else
+        {
+            dam -= rng(1,3);
+            if (dam > 0)
+                g->sound(x, y, 16, "glass breaking!");
+                ter_set(x, y, t_window_frame);
+        }
     break;
 
  case t_window_boarded:
   dam -= rng(10, 30);
   if (dam > 0)
+   g->sound(x, y, 16, "glass breaking!");
    ter_set(x, y, t_window_frame);
   break;
 
- case t_wall_glass_h:
- case t_wall_glass_v:
- case t_wall_glass_h_alarm:
- case t_wall_glass_v_alarm:
-  dam -= rng(0, 8);
-  ter_set(x, y, t_floor);
-  break;
+    case t_wall_glass_h:
+    case t_wall_glass_v:
+    case t_wall_glass_h_alarm:
+    case t_wall_glass_v_alarm:
+        if (effects & mfb(AMMO_LASER))
+            dam -= rng(0,5);
+        else
+        {
+            dam -= rng(1,8);
+            if (dam > 0)
+                g->sound(x, y, 20, "glass breaking!");
+                ter_set(x, y, t_floor);
+        }
+    break;
 
 
-    // reinforced glass stops bullets
+    // reinforced glass stops most bullets
     // laser beams are attenuated
     case t_reinforced_glass_v:
     case t_reinforced_glass_h:
-    if (effects & mfb(AMMO_LASER))
-    {
-        dam -= rng(0, 8);
-    }
-    else
-    {
-        g->add_msg("The shot is stopped by the reinforced glass wall!");
-        dam = 0;
-    }
+        if (effects & mfb(AMMO_LASER))
+        {
+            dam -= rng(0, 8);
+        }
+        else
+        {
+            dam -= 40;
+            if (dam <= 0)
+                g->add_msg("The shot is stopped by the reinforced glass wall!");
+            else if (dam >= 40)
+                g->sound(x, y, 20, "glass breaking!");
+                ter_set(x, y, t_floor);
+        }
     break;
 
  case t_paper:
   dam -= rng(4, 16);
   if (dam > 0)
+   g->sound(z, y, 8, "rrrrip!");
    ter_set(x, y, t_dirt);
   if (effects & mfb(AMMO_INCENDIARY))
    add_field(g, x, y, fd_fire, 1);
@@ -1915,6 +1960,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         spawn_item(i, j, g->itypes["gasoline"], 0);
       }
      }
+     g->sound(z, y, 10, "smash!");
     }
     ter_set(x, y, t_gas_pump_smashed);
    }
@@ -1924,7 +1970,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
 
  case t_vat:
   if (dam >= 10) {
-   g->sound(x, y, 15, "ke-rash!");
+   g->sound(x, y, 20, "ke-rash!");
    ter_set(x, y, t_floor);
   } else
    dam = 0;
