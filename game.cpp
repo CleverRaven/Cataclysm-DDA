@@ -6352,8 +6352,8 @@ void game::advanced_inv()
             sm.entries.push_back(uimenu_entry(SORTBY_VOLUME, true, 'v', sortnames[SORTBY_VOLUME]));
             sm.entries.push_back(uimenu_entry(SORTBY_CHARGES, true, 'c', sortnames[SORTBY_CHARGES]));
             sm.selected=panes[src].sortby-1; /* pre-select current sort. uimenu.selected is entries[index] (starting at 0), not return value */
-            sm.query(); /* calculate key and window variables, generate window, and loop until we get a value answer */
-            if(sm.ret < 1) continue; /* didn't get a valud answer =[ */
+            sm.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
+            if(sm.ret < 1) continue; /* didn't get a valid answer =[ */
             panes[src].sortby = sm.ret;
             if ( src == left ) { 
                 uistate.adv_inv_leftsort=sm.ret;
