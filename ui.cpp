@@ -1,8 +1,5 @@
 #include "ui.h"
-#include "map.h"
 #include "output.h"
-#include "game.h"
-#include "item.h"
 #include <sstream>
 #include <stdlib.h>
 #include "cursesdef.h"
@@ -24,6 +21,7 @@ uimenu::uimenu(bool cancancel, const char * mes, ...) { // here we emulate the o
    bool done = false;
    int i=0;
    text=mes;
+   shift_retval=1;
    return_invalid=cancancel;
    while (!done) {
      tmp = va_arg(ap, char*);
@@ -36,9 +34,27 @@ uimenu::uimenu(bool cancancel, const char * mes, ...) { // here we emulate the o
      i++;
    }
    query();
+   
 }
 
-uimenu::uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents) {
+uimenu::uimenu(bool cancelable, const char *mes, std::vector<std::string> options) { // exact usage as menu_vec
+    init();
+    if (options.size() == 0) {
+        debugmsg("0-length menu (\"%s\")", mes);
+        ret = -1;
+    } else {
+        text=mes;
+        shift_retval=1;
+        return_invalid=cancelable;
+        
+        for (int i = 0; i < options.size(); i++) {
+            entries.push_back(uimenu_entry(i, true, -1, options[i] ));
+        }
+        query();
+    }
+}
+
+uimenu::uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents) { // another quick convenience coonstructor
    init();
    w_x=startx; w_y=starty; w_width=width;
    text=title;
@@ -48,7 +64,7 @@ uimenu::uimenu(int startx, int width, int starty, std::string title, std::vector
 }
 
 uimenu::operator int() const {
-  int r=ret;
+  int r=ret+shift_retval;
   return r;
 }
 
@@ -57,7 +73,7 @@ void uimenu::init() {
   w_y=-1;                // -1 = auto center
   w_width=-1;            // -1 = autocalculate based on largest entry
   w_height=-1;           // -1 = autocalculate based on number of entries // fixme: scrolling list with offset 
-  ret=UIMENU_INVALID;    // return this unless a valid selection is made. UIMENU_INVALID = -1024 
+  ret=UIMENU_INVALID;    // return this unless a valid selection is made ( -1024 )
   text="-undefined-";    // header text
   keypress=0;            // last keypress from (int)getch()
   window=NULL;           // our window
@@ -76,6 +92,7 @@ void uimenu::init() {
   return_invalid=false;    // return 0-(int)invalidKeyCode
   hilight_full=true;       // render hilight_color background over the entire line (minus padding)
   hilight_disabled=false;  // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
+  shift_retval=0;          // for legacy menu/vec_menu
 }
 
 void uimenu::show() {
@@ -104,7 +121,9 @@ void uimenu::show() {
        for ( int a = 0; a < autoassign.size(); a++ ) {
          int palloc = autoassign[ a ];
          if ( palloc < 9 ) {
-           entries[  palloc ].hotkey=palloc+48; // 0-9;
+           entries[  palloc ].hotkey=palloc+49; // 1-9;
+         } else if ( palloc == 9 ) {
+           entries[  palloc ].hotkey=palloc+39; // 0;
          } else if ( palloc < 36 ) {
            entries[  palloc ].hotkey=palloc+87; // a-z
          } else if ( palloc < 61 ) {
@@ -116,7 +135,11 @@ void uimenu::show() {
        }
      }
 
-     if (h_auto) w_height = 4 + entries.size();
+     if (h_auto) w_height = 3 + entries.size();
+
+     if (w_auto && w_width > TERMX) w_width=TERMX;
+     if (h_auto && w_height > TERMY) w_height=TERMY;
+
      if (w_x == -1) w_x = int((TERMX-w_width)/2);
      if (w_y == -1) w_y = int((TERMY-w_height)/2);
      
@@ -125,11 +148,12 @@ void uimenu::show() {
      wattron(window, border_color);
      wborder(window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+     wattroff(window, border_color);
      started=true;
    }
    std::string padspaces=std::string(w_width-2-pad_left-pad_right, ' ');
-   mvwprintz(window,1,2,c_ltgreen,"%s",text.c_str());
-   int estart=3; // todo fold text + get offset
+   mvwprintz(window,1,2,text_color,"%s",text.c_str());
+   int estart=2; // todo fold text + get offset
    for ( int i = 0; i < entries.size(); i++ ) {
      nc_color co = ( i == selected ? hilight_color : ( entries[ i ].enabled ? text_color : disabled_color ) );
      if ( hilight_full ) {
@@ -148,6 +172,7 @@ void uimenu::query(bool loop) {
   keypress=0;
   if ( entries.size() < 1 ) return;
   //int last_selected = selected;
+  int startret=ret;
   do {
     show();
     keypress=getch();
@@ -171,24 +196,24 @@ void uimenu::query(bool loop) {
       }
       // todo: scroll_callback(this, selected, last_selected );
     } else if ( keypress == '\n' || keypress == KEY_RIGHT || keypress == KEY_ENTER || keymap.find(keypress) != keymap.end() ) {
-      if ( !( keypress == '\n' || keypress == KEY_RIGHT || keypress == KEY_ENTER) ) {
+      if ( keymap.find(keypress) != keymap.end() ) { //!( keypress == '\n' || keypress == KEY_RIGHT || keypress == KEY_ENTER) ) {
         selected=keymap[ keypress ];
       }
       if( entries[ selected ].enabled ) {
-        ret = entries[ selected ].retval;
+        ret = entries[ selected ].retval; // valid
       } else if ( return_invalid ) {
-        ret = 0 - entries[ selected ].retval;
-      } else {
-        keypress = 0;
+        ret = 0 - entries[ selected ].retval; // disabled
       }
-   // todo: if ( ch != 0 ) select_callback(this, selected, &ret );      
+    } else {
+      if ( return_invalid ) { ret = -1; }
     }
-  } while ( loop & ( keypress == KEY_UP || keypress == KEY_DOWN || keypress==0 ) );
+  } while ( loop & ( keypress == KEY_UP || keypress == KEY_DOWN || keypress==0 || ret == startret ) );
 }
 
 uimenu::~uimenu() {
   //dprint(3,"death: ret=%d, w_x=%d, w_y=%d, w_width=%d, w_height=%d", ret, w_x, w_y, w_width, w_height );
   werase(window);
+  wrefresh(window);
   delwin(window);
   window=NULL;
   init();

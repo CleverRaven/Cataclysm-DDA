@@ -1,13 +1,12 @@
 #ifndef _UI_H_
 #define _UI_H_
 
-#include "map.h"
 #include "output.h"
-#include "game.h"
-#include "item.h"
 #include <sstream>
 #include <stdlib.h>
 #include "cursesdef.h"
+
+//#define menu(a,b,...) uimenu(a,b,__VA_ARGS__)
 
 const int UIMENU_INVALID=-1024;
 
@@ -43,10 +42,15 @@ class uimenu {
     bool return_invalid;
     bool hilight_disabled;
     bool hilight_full;
+    int shift_retval;
 
-    uimenu();
-    uimenu(bool cancancel, const char * message, ...);
+    uimenu(); // bare init
+
+    uimenu(bool cancancel, const char * message, ...); // legacy menu()
+    uimenu(bool cancelable, const char *mes, std::vector<std::string> options); // legacy menu_vec
+
     uimenu (int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents);
+
     void init();
     void show();
     void query(bool loop=true);
