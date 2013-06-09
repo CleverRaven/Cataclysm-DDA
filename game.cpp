@@ -3,6 +3,7 @@
 #include "input.h"
 #include "keypress.h"
 #include "output.h"
+#include "ui.h"
 #include "skill.h"
 #include "line.h"
 #include "computer.h"
@@ -5782,6 +5783,22 @@ struct advanced_inv_sorter {
     };
 };
 
+void advanced_inv_menu_square(advanced_inv_area* squares, uimenu *menu ) {
+    int ofs=-25-4;
+    int sel=menu->selected+1;
+    for ( int i=1; i < 10; i++ ) {
+        char key=(char)(i+48);
+        char bracket[3]="[]";
+        if ( squares[i].vstor >= 0 ) strcpy(bracket,"<>");
+        bool canputitems=( squares[i].canputitems && menu->entries[i-1].enabled ? true : false);
+        nc_color bcolor = ( canputitems ? ( sel == i ? h_cyan : c_cyan ) : c_dkgray );
+        nc_color kcolor = ( canputitems ? ( sel == i ? h_ltgreen : c_ltgreen ) : c_dkgray );
+        mvwprintz(menu->window,squares[i].hscreenx+5,squares[i].hscreeny+ofs, bcolor, "%c", bracket[0]);
+        wprintz(menu->window, kcolor, "%c", key);
+        wprintz(menu->window, bcolor, "%c", bracket[1]);
+    }
+}
+
 void advanced_inv_print_header(advanced_inv_area* squares, advanced_inv_pane &pane, int sel=-1 )
 {
     WINDOW* window=pane.window;
@@ -5846,6 +5863,7 @@ void game::advanced_inv()
     const int right = 1;
     const int isinventory = 0;
     const int isall = 10;
+    std::string sortnames[6] = { "-none-", "none", "name", "weight", "volume", "charges" };
 
     bool checkshowmsg=false;
     bool showmsg=false;
@@ -6074,7 +6092,6 @@ void game::advanced_inv()
         int list_pos = panes[src].index + (panes[src].page * itemsPerPage);
         int item_pos = panes[src].size > 0 ? panes[src].items[list_pos].idx : 0;
         // todo move 
-        std::string sortnames[6] = { "-none-", "none", "name", "weight", "volume", "charges" };
         for (int i = 0; i < 2; i++) {
             if ( src == i ) {
                 wattron(panes[i].window, c_cyan);
@@ -6139,35 +6156,47 @@ void game::advanced_inv()
             int destarea = panes[dest].area;
             if ( panes[dest].area == isall ) {
                 // popup("Choose a specific square in the destination window.");  continue;
-                const char * msg = "Select destination";
+                bool valid=false;
+                uimenu m; /* using new uimenu class */
+                m.text="Select destination";
+                m.pad_left=9; /* free space for advanced_inv_menu_square */
                 char buf[1024];
-                int tmpdest=-1;
-                do {
-                    std::vector<std::string> menudests;
-                    for (int i=1; i <= 9; i++) {
-                        buf[0]=0;
-                        int safe=snprintf(buf,128, "%2d/%d%s", squares[i].size, MAX_ITEM_IN_SQUARE, (squares[i].size >= MAX_ITEM_IN_SQUARE ? " (FULL)" : "" ) );
-                        if ( safe >= 128 || safe < 0 ) {
-                            popup(":-O this shouldn't happen (BUG)"); return;
-                        }
-                        if ( i == panes[src].area ) {
-                           menudests.push_back(""); // todo; finish more versatile replacement menu
-                        } else {
-                           std::string prefix = buf;
-                           menudests.push_back(prefix + " " + squares[i].name + " " + ( squares[i].vstor >= 0 ? squares[i].veh->name : "" ) + (squares[i].canputitems ? "" : " (INVALID)" ) );
-                        }
+                
+                for(int i=1; i < 10; i++) {
+                    buf[0]=0;
+                    int safe=snprintf(buf,128, "%2d/%d%s", squares[i].size, MAX_ITEM_IN_SQUARE, (squares[i].size >= MAX_ITEM_IN_SQUARE ? " (FULL)" : "" ) );
+                    if ( safe >= 128 || safe < 0 ) {
+                        popup(":-O this shouldn't happen (BUG)"); return;
                     }
-                    int ch = menu_vec(true, msg , menudests );
-                    if ( ch == panes[src].area ) {
+                    std::string prefix = buf;
+                    m.entries.push_back( uimenu_entry( /* std::vector<uimenu_entry> */
+                        i, /* return value */
+                        (squares[i].canputitems && i != panes[src].area), /* enabled */
+                        i+48, /* hotkey */
+                        prefix + " " +
+                          squares[i].name + " " + 
+                          ( squares[i].vstor >= 0 ? squares[i].veh->name : "" ) /* entry text */
+                    ) );
+                }
+                 
+                m.selected=uistate.adv_inv_last_popup_dest-1; // selected keyed to uimenu.entries, which starts at 0;
+                m.show(); // generate and show window.
+                while ( m.ret == UIMENU_INVALID && m.keypress != 'q' && m.keypress != KEY_ESCAPE ) {
+                    advanced_inv_menu_square(squares, &m ); // render a fancy ascii grid at the left of the menu
+                    m.query(false); // query, but don't loop
+                }
+                if ( m.ret >= 0 && m.ret <= 9 ) { // is it a square?
+                    if ( m.ret == panes[src].area ) { // should never happen, but sanity checks keep developers sane.
                         popup("Can't move stuff to the same place.");
-                    } else if ( ! squares[ch].canputitems ) {
+                    } else if ( ! squares[m.ret].canputitems ) { // this was also disabled in it's uimenu_entry
                         popup("Invalid. Like the menu said.");
                     } else {
-                        tmpdest = ch;
+                        destarea = m.ret;
+                        valid=true;
+                        uistate.adv_inv_last_popup_dest=m.ret;
                     }
-                } while ( tmpdest == -1 ); 
-                if (!( tmpdest >= 1 && tmpdest <= 9)) continue;     
-                destarea = tmpdest;
+                }
+                if ( ! valid ) continue;
             }
             if(panes[src].area == isinventory) // if the active screen is inventory.
             {
@@ -6335,12 +6364,23 @@ void game::advanced_inv()
             checkshowmsg=false;
             redraw=true;
         } else if('s' == c) {
-            int ch = menu(true, "Sort by... ", "Unsorted (recently added first)", "name", "weight", "volume", "charges", NULL );
-            panes[src].sortby = ch;
+            // int ch = uimenu(true, "Sort by... ", "Unsorted (recently added first)", "name", "weight", "volume", "charges", NULL ); 
+            redraw=true;
+            uimenu sm; /* using new uimenu class */
+            sm.text="Sort by... ";
+            sm.entries.push_back(uimenu_entry(SORTBY_NONE, true, 'u', "Unsorted (recently added first)" ));
+            sm.entries.push_back(uimenu_entry(SORTBY_NAME, true, 'n', sortnames[SORTBY_NAME]));
+            sm.entries.push_back(uimenu_entry(SORTBY_WEIGHT, true, 'w', sortnames[SORTBY_WEIGHT]));
+            sm.entries.push_back(uimenu_entry(SORTBY_VOLUME, true, 'v', sortnames[SORTBY_VOLUME]));
+            sm.entries.push_back(uimenu_entry(SORTBY_CHARGES, true, 'c', sortnames[SORTBY_CHARGES]));
+            sm.selected=panes[src].sortby-1; /* pre-select current sort. uimenu.selected is entries[index] (starting at 0), not return value */
+            sm.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
+            if(sm.ret < 1) continue; /* didn't get a valid answer =[ */
+            panes[src].sortby = sm.ret;
             if ( src == left ) { 
-                uistate.adv_inv_leftsort=ch;
+                uistate.adv_inv_leftsort=sm.ret;
             } else {
-                uistate.adv_inv_rightsort=ch;
+                uistate.adv_inv_rightsort=sm.ret;
             }
             recalc = true;
         }   

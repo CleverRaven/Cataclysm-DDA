@@ -9,6 +9,7 @@ struct uistatedata {
   int adv_inv_rightindex;
   int adv_inv_leftpage;
   int adv_inv_rightpage;
+  int adv_inv_last_popup_dest;
   point adv_inv_last_coords;
   int last_inv_start, last_inv_sel;
   uistatedata() {
@@ -20,6 +21,7 @@ struct uistatedata {
       adv_inv_rightindex=0;
       adv_inv_leftpage=0;
       adv_inv_rightpage=0;
+      adv_inv_last_popup_dest=0;
       adv_inv_last_coords.x=-999;
       adv_inv_last_coords.y=-999;
       last_inv_start = -2;
