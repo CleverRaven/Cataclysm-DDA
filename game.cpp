@@ -5052,12 +5052,12 @@ void game::smash()
         {
             add_msg(extra.c_str());
         }
-        sound(u.posx, u.posy, 18, bashsound);
+        sound(smashx, smashy, 18, bashsound);
         // TODO: Move this elsewhere, like maybe into the map on-break code
         if (m.has_flag(alarmed, smashx, smashy) &&
             !event_queued(EVENT_WANTED))
         {
-            sound(u.posx, u.posy, 30, "An alarm sounds!");
+            sound(smashx, smashy, 30, "An alarm sounds!");
             add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
         }
         u.moves -= move_cost;
