@@ -803,9 +803,9 @@ void monster::stumble(game *g, bool moved)
  int cx = valid_stumbles[choice].x;
  int cy = valid_stumbles[choice].y;
 
+ moves -= calc_movecost(g, posx, posy, cx, cy);
  posx = cx;
  posy = cy;
- moves -= calc_movecost(g, posx, posy, cx, cy);
 
  // Here we have to fix our plans[] list,
  // acquiring a new path to the previous target.
