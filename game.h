@@ -159,6 +159,8 @@ class game
   void cancel_activity_query(const char* message, ...);
   bool cancel_activity_or_ignore_query(const char* reason, ...); 
   void exit_vehicle();
+  // Get input from the player to choose an adjacent tile (for examine() etc)
+  bool choose_adjacent(std::string verb, int &x, int&y);
 
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
@@ -379,8 +381,6 @@ class game
 			bool exact_level=false);
   void place_construction(constructable *con); // See construction.cpp
   void complete_construction();               // See construction.cpp
-  // Get input from the player to choose an adjacent tile (for examine() etc)
-  bool choose_adjacent(std::string verb, int &x, int&y);
   bool vehicle_near ();
   void handbrake ();
   void control_vehicle(); // Use vehicle controls  '^'
