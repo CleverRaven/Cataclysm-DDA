@@ -367,6 +367,7 @@ BIO_SINGLE("bio_laser", 2, 7200, c_red, 5);
 BIO_SINGLE("bio_emp", 2, 7200, c_red, 5);
 // power armor
 BIO_SINGLE("bio_power_armor_interface", 20, 1200, c_yellow, 1);
+BIO_SINGLE("bio_power_armor_interface_mkII", 8, 10000, c_yellow, 8);
 
 SOFTWARE("software_useless", "misc software", 300, SW_USELESS, 0, "\
 A miscellaneous piece of hobby software. Probably useless.");
