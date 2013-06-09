@@ -230,7 +230,6 @@ void monster::move(game *g)
   return;
  }
 
- moves -= 100;
  bool moved = false;
  point next;
  int mondex = (plans.size() > 0 ? g->mon_at(plans[0].x, plans[0].y) : -1);
@@ -253,6 +252,7 @@ void monster::move(game *g)
 
  if (current_attitude == MATT_IGNORE ||
      (current_attitude == MATT_FOLLOW && plans.size() <= MONSTER_FOLLOW_DIST)) {
+  moves -= 100;
   stumble(g, false);
   return;
  }
@@ -289,10 +289,11 @@ void monster::move(game *g)
   int npcdex = g->npc_at(next.x, next.y);
   if (next.x == g->u.posx && next.y == g->u.posy && type->melee_dice > 0)
    hit_player(g, g->u);
-  else if (mondex != -1 && g->z[mondex].type->species == species_hallu)
+  else if (mondex != -1 && g->z[mondex].type->species == species_hallu) {
    g->kill_mon(mondex);
-  else if (mondex != -1 && type->melee_dice > 0 && this != &(g->z[mondex]) &&
-           (g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)))
+   moves -= 100;
+  } else if (mondex != -1 && type->melee_dice > 0 && this != &(g->z[mondex]) &&
+             (g->z[mondex].friendly != 0 || has_flag(MF_ATTACKMON)))
    hit_monster(g, mondex);
   else if (npcdex != -1 && type->melee_dice > 0)
    hit_player(g, *g->active_npc[npcdex]);
@@ -302,6 +303,7 @@ void monster::move(game *g)
    int bashskill = int(type->melee_dice * type->melee_sides);
    g->m.bash(next.x, next.y, bashskill, bashsound);
    g->sound(next.x, next.y, 18, bashsound);
+   moves -= 100;
   } else if (g->m.move_cost(next.x, next.y) == 0 && has_flag(MF_DESTROYS)) {
    g->m.destroy(g, next.x, next.y, true);
    moves -= 250;
@@ -309,7 +311,8 @@ void monster::move(game *g)
    move_to(g, next.x, next.y);
   else
    moves -= 100;
- }
+ } else
+  moves -= 100;
 
 // If we're close to our target, we get focused and don't stumble
  if ((has_flag(MF_STUMBLES) && (plans.size() > 3 || plans.size() == 0)) ||
@@ -354,15 +357,16 @@ void monster::friendly_move(game *g)
 {
  point next;
  bool moved = false;
- moves -= 100; // fixme
  if (plans.size() > 0 && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
      (can_move_to(g, plans[0].x, plans[0].y) ||
      (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
   next = plans[0];
   plans.erase(plans.begin());
   moved = true;
- } else
+ } else {
+  moves -= 100;
   stumble(g, moved);
+ }
  if (moved) {
   int mondex = g->mon_at(next.x, next.y);
   int npcdex = g->npc_at(next.x, next.y);
@@ -378,6 +382,7 @@ void monster::friendly_move(game *g)
    int bashskill = int(type->melee_dice * type->melee_sides);
    g->m.bash(next.x, next.y, bashskill, bashsound);
    g->sound(next.x, next.y, 18, bashsound);
+   moves -= 100;
   } else if (g->m.move_cost(next.x, next.y) == 0 && has_flag(MF_DESTROYS)) {
    g->m.destroy(g, next.x, next.y, true);
    moves -= 250;
@@ -495,6 +500,8 @@ point monster::sound_move(game *g)
 
 void monster::hit_player(game *g, player &p, bool can_grab)
 {
+    moves -= 100;
+
     if (type->melee_dice == 0) // We don't attack, so just return
     {
         return;
@@ -706,17 +713,20 @@ void monster::move_to(game *g, int x, int y)
   
   if (plans.size() > 0)
    plans.erase(plans.begin());
-  if (has_flag(MF_SWIMS) && g->m.has_flag(swimmable, x, y))
-   moves += 50 * (trigdist && x != posx && y != posy ? 1.41 : 1 );
+
+  int diag_mult = (trigdist && x != posx && y != posy ? 1.41 : 1 );
+
   if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
       (!has_flag(MF_SWIMS) || !g->m.has_flag(swimmable, x, y))) {
-     moves -= (g->m.move_cost(x, y) - 2) * 50 * (trigdist && x != posx && y != posy ? 1.41 : 1 );
-  } else if (trigdist && x != posx && y != posy) {
-     moves -= 41;
+    moves -= (g->m.combined_movecost(posx, posy, x, y));
+  } else {
+    moves -= 100 * diag_mult;
   }
-/* else {
-   moves /= (trigdist && x != posx && y != posy ? 1.41 : 1 );
-  }*/
+  if (has_flag(MF_SWIMS) && g->m.has_flag(swimmable, posx, posy))
+    moves += 25 * diag_mult; // half tile refund
+  if (has_flag(MF_SWIMS) && g->m.has_flag(swimmable, x, y))
+    moves += 25 * diag_mult; // half tile refund
+
   posx = x;
   posy = y;
   footsteps(g, x, y);
@@ -774,11 +784,15 @@ void monster::stumble(game *g, bool moved)
  }
 
  int choice = rng(0, valid_stumbles.size() - 1);
- bool diagonal=(posx != valid_stumbles[choice].x && posy != valid_stumbles[choice].y);
+
+ if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES))
+  moves -= g->m.combined_movecost(posx, posy, valid_stumbles[choice].x, valid_stumbles[choice].y);
+ else
+  moves -= (posx != valid_stumbles[choice].x && posy != valid_stumbles[choice].y) ? 141 : 100;
+
  posx = valid_stumbles[choice].x;
  posy = valid_stumbles[choice].y;
- if (!has_flag(MF_DIGS) || !has_flag(MF_FLIES))
-  moves -= (g->m.move_cost(posx, posy) - 2) * 50 * (trigdist && diagonal ? 1.41 : 1 );
+
  // Here we have to fix our plans[] list,
  // acquiring a new path to the previous target.
  // target == either end of current plan, or the player.
@@ -919,8 +933,10 @@ int monster::turns_to_reach(game *g, int x, int y)
  for (int i = 0; i < path.size(); i++) {
   if (g->m.move_cost(path[i].x, path[i].y) == 0) // We have to bash through
    turns += 5;
+  else if (i == 0)
+   turns += double(50 * g->m.combined_movecost(posx, posy, path[i].x, path[i].y)) / speed;
   else
-   turns += double(50 * g->m.move_cost(path[i].x, path[i].y) * (trigdist && x != posx && y != posy ? 1.414 : 1 )) / speed;
+   turns += double(50 * g->m.combined_movecost(path[i-1].x, path[i-1].y, path[i].x, path[i].y)) / speed;
  }
  return int(turns + .9); // Round up
 }
