@@ -1164,17 +1164,14 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
 void iuse::extinguisher(game *g, player *p, item *it, bool t)
 {
  g->draw();
- mvprintz(0, 0, c_red, "Pick a direction to spray:");
- int dirx, diry;
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction!");
-  it->charges++;
+ int x, y;
+ // If anyone other than the player wants to use one of these,
+ // they're going to need to figure out how to aim it.
+ if (!g->choose_adjacent("Spray", x, y))
   return;
- }
+ 
  p->moves -= 140;
- int x = dirx + p->posx;
- int y = diry + p->posy;
+
  if (g->m.field_at(x, y).type == fd_fire) {
   g->m.field_at(x, y).density -= rng(2, 3);
   if (g->m.field_at(x, y).density <= 0) {
@@ -1197,8 +1194,8 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
   }
  }
  if (g->m.move_cost(x, y) != 0) {
-  x += dirx;
-  y += diry;
+  x += (x - p->posx);
+  y += (y - p->posy);
   if (g->m.field_at(x, y).type == fd_fire) {
    g->m.field_at(x, y).density -= rng(0, 1) + rng(0, 1);
    if (g->m.field_at(x, y).density <= 0) {
@@ -1212,25 +1209,22 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
 void iuse::hammer(game *g, player *p, item *it, bool t)
 {
     g->draw();
-    mvprintz(0, 0, c_red, "Pick a direction in which to pry:");
-    int dirx, diry;
-    get_direction(g, dirx, diry, input());
-    if (dirx == -2)
-    {
-        g->add_msg_if_player(p,"Invalid direction!");
+    int x, y;
+    // If anyone other than the player wants to use one of these,
+    // they're going to need to figure out how to aim it.
+    if (!g->choose_adjacent("Pry", x, y))
         return;
-    }
-    if (dirx == 0 && diry == 0)
+
+    if (x == p->posx && y == p->posy)
     {
         g->add_msg_if_player(p, "You try to hit yourself with the hammer.");
         g->add_msg_if_player(p, "But you can't touch this.");
         return;
     }
-    dirx += p->posx;
-    diry += p->posy;
+
     int nails = 0, boards = 0;
     ter_id newter;
-    switch (g->m.ter(dirx, diry))
+    switch (g->m.ter(x, y))
     {
         case t_fence_h:
         case t_fence_v:
@@ -1259,7 +1253,7 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
     p->moves -= 500;
     g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
     g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
-    g->m.ter_set(dirx, diry, newter);
+    g->m.ter_set(x, y, newter);
 }
 
 void iuse::gasoline_lantern_off(game *g, player *p, item *it, bool t)

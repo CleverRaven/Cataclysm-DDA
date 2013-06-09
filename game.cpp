@@ -6463,22 +6463,22 @@ void game::advanced_inv()
 //represents carfully peeking around a corner, hence the large move cost.
 void game::peek()
 {
- int mx, my;
- InputEvent input;
+    int prevx, prevy, peekx, peeky;
 
- mvprintz(0, 0, c_white, "Use directional keys to chose an adjacent square to peek from.");
+    if (!choose_adjacent("Peek", peekx, peeky))
+        return;
 
- input = get_input();
- get_direction (mx, my, input);
- if (mx != -2 && my != -2 &&
-     m.move_cost(u.posx + mx, u.posy + my) > 0) {
-  u.moves -= 200;
-  u.posx += mx;
-  u.posy += my;
-  look_around();
-  u.posx -= mx;
-  u.posy -= my;
- }
+    if (m.move_cost(peekx, peeky) == 0)
+        return;
+
+    u.moves -= 200;
+    prevx = u.posx;
+    prevy = u.posy;
+    u.posx = peekx;
+    u.posy = peeky;
+    look_around();
+    u.posx = prevx;
+    u.posy = prevy;
 }
 
 point game::look_around()
@@ -7830,18 +7830,10 @@ void game::drop(char chInput)
 
 void game::drop_in_direction()
 {
- refresh_all();
- mvprintz(0, 0, c_red, "Choose a direction:");
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
  int dirx, diry;
- InputEvent input = get_input();
- get_direction(dirx, diry, input);
- if (dirx == -2) {
-  add_msg("Invalid direction!");
+ if (!choose_adjacent("Drop", dirx, diry))
   return;
- }
- dirx += u.posx;
- diry += u.posy;
+
  int veh_part = 0;
  bool to_veh = false;
  vehicle *veh = m.veh_at(dirx, diry, veh_part);
