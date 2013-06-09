@@ -948,9 +948,9 @@ int monster::turns_to_reach(game *g, int x, int y)
   if (g->m.move_cost(path[i].x, path[i].y) == 0) // We have to bash through
    turns += 5;
   else if (i == 0)
-   turns += double(50 * g->m.combined_movecost(posx, posy, path[i].x, path[i].y)) / speed;
+   turns += double(calc_movecost(g, posx, posy, path[i].x, path[i].y)) / speed;
   else
-   turns += double(50 * g->m.combined_movecost(path[i-1].x, path[i-1].y, path[i].x, path[i].y)) / speed;
+   turns += double(calc_movecost(g, path[i-1].x, path[i-1].y, path[i].x, path[i].y)) / speed;
  }
  return int(turns + .9); // Round up
 }
