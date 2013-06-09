@@ -1817,7 +1817,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   return;
 
  if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED)) {
-  g->sound(z, y, 30, "An alarm sounds!");
+  g->sound(x, y, 30, "An alarm sounds!");
   g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
  }
 
@@ -1836,7 +1836,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
   if (hit_items || one_in(8)) {	// 1 in 8 chance of hitting the door
    dam -= rng(20, 40);
    if (dam > 0)
-    g->sound(z, y, 10, "crash!");
+    g->sound(x, y, 10, "crash!");
     ter_set(x, y, t_dirt);
   } else
    dam -= rng(0, 1);
@@ -1848,24 +1848,24 @@ void map::shoot(game *g, const int x, const int y, int &dam,
  case t_door_locked_alarm:
   dam -= rng(15, 30);
   if (dam > 0)
-   g->sound(z, y, 10, "smash!");
+   g->sound(x, y, 10, "smash!");
    ter_set(x, y, t_door_b);
   break;
 
  case t_door_boarded:
   dam -= rng(15, 35);
   if (dam > 0)
-   g->sound(z, y, 10, "crash!");
+   g->sound(x, y, 10, "crash!");
    ter_set(x, y, t_door_b);
   break;
 
     // Fall-through intended
     case t_window_domestic_taped:
     case t_curtains:
-        if ((effects & mfb(AMMO_LASER))
+        if (effects & mfb(AMMO_LASER))
             dam -= rng(1, 5);
     case t_window_domestic:
-        if ((effects & mfb(AMMO_LASER))
+        if (effects & mfb(AMMO_LASER))
             dam -= rng(0, 5);
         else
         {
@@ -1882,11 +1882,11 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     // Fall-through intended
     case t_window_taped:
     case t_window_alarm_taped:
-        if ((effects & mfb(AMMO_LASER))
+        if (effects & mfb(AMMO_LASER))
             dam -= rng(1, 5);
     case t_window:
     case t_window_alarm:
-        if ((effects & mfb(AMMO_LASER))
+        if (effects & mfb(AMMO_LASER))
             dam -= rng(0, 5);
         else
         {
@@ -1942,7 +1942,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
  case t_paper:
   dam -= rng(4, 16);
   if (dam > 0)
-   g->sound(z, y, 8, "rrrrip!");
+   g->sound(x, y, 8, "rrrrip!");
    ter_set(x, y, t_dirt);
   if (effects & mfb(AMMO_INCENDIARY))
    add_field(g, x, y, fd_fire, 1);
@@ -1960,7 +1960,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         spawn_item(i, j, g->itypes["gasoline"], 0);
       }
      }
-     g->sound(z, y, 10, "smash!");
+     g->sound(x, y, 10, "smash!");
     }
     ter_set(x, y, t_gas_pump_smashed);
    }
