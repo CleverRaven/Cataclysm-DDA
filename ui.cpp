@@ -38,7 +38,7 @@ uimenu::uimenu(bool cancancel, const char * mes, ...) { // here we emulate the o
    query();
 }
 
-uimenu::uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents) { /* WARNING: used in early testing, may be broken */
+uimenu::uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents) {
    init();
    w_x=startx; w_y=starty; w_width=width;
    text=title;
@@ -57,7 +57,7 @@ void uimenu::init() {
   w_y=-1;                // -1 = auto center
   w_width=-1;            // -1 = autocalculate based on largest entry
   w_height=-1;           // -1 = autocalculate based on number of entries // fixme: scrolling list with offset 
-  ret=-1024;             // return this unless a valid selection is made. -1024 is also 
+  ret=UIMENU_INVALID;    // return this unless a valid selection is made. UIMENU_INVALID = -1024 
   text="-undefined-";    // header text
   keypress=0;            // last keypress from (int)getch()
   window=NULL;           // our window
