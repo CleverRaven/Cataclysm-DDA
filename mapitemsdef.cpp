@@ -335,7 +335,7 @@ void game::init_mapitems()
 	"barrel_big", "barrel_small", "barrel_rifled", "clip", "spare_mag",
 	"clip2", "stabilizer", "blowback", "autofire", "retool_45",
 	"retool_9mm", "retool_22", "retool_57", "retool_46",
-	"retool_308", "retool_223", "tazer","shot_hull",
+	"retool_308", "retool_223", "brass_catcher", "tazer","shot_hull",
         "9mm_casing", "38_casing", "40_casing", "44_casing", "45_casing",
         "57mm_casing", "46mm_casing", "762_casing", "223_casing",
         "3006_casing", "308_casing", "gunpowder",
@@ -412,7 +412,7 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_cop_torso],
-	"dress_shirt", "under_armor", "jacket_light", 
+	"dress_shirt", "under_armor", "jacket_light",
     NULL);
 
  setvector(
@@ -436,17 +436,17 @@ void game::init_mapitems()
    &mapitems[mi_lab_shoes],
     "sneakers", "boots", "boots_steel", "dress_shoes", NULL);
 
-// increase chances of generating lab coat    
+// increase chances of generating lab coat
  setvector(
    &mapitems[mi_lab_torso],
-    "coat_lab", "coat_lab", "coat_lab", "coat_lab", 
-    "tshirt", "polo_shirt", "dress_shirt", "dress", 
-	"sweatshirt", "sweater", "hoodie", "jumpsuit", 
-    "hazmat_suit", NULL);    
+    "coat_lab", "coat_lab", "coat_lab", "coat_lab",
+    "tshirt", "polo_shirt", "dress_shirt", "dress",
+	"sweatshirt", "sweater", "hoodie", "jumpsuit",
+    "hazmat_suit", NULL);
 
  setvector(
    &mapitems[mi_lab_pants],
-    "jeans", "pants", "pants_cargo", "skirt",  NULL);  
+    "jeans", "pants", "pants_cargo", "skirt",  NULL);
 
  setvector(
    &mapitems[mi_hospital_lab],
@@ -661,7 +661,7 @@ void game::init_mapitems()
    &mapitems[mi_mil_rifles],
 	"556", "556_incendiary", "762_51", "762_51_incendiary",
 	"laser_pack", "12mm", "plasma", "m4a1", "scar_l", "scar_h",
-	"m249", "ftk93", "nx17", "hk_g80", "plasma_rifle",
+	"m249", "ftk93", "nx17", "hk_g80", "plasma_rifle", "brass_catcher",
 	"suppressor", "clip", "spare_mag", "m203", "UPS_off", "u_shotgun",
 	NULL);
 
@@ -679,7 +679,7 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_mil_accessories],
-	"mask_gas", "goggles_nv", "backpack", "UPS_off", 
+	"mask_gas", "goggles_nv", "backpack", "UPS_off",
     "armguard_hard", "power_armor_frame",
 	NULL);
 
@@ -931,7 +931,7 @@ void game::init_mapitems()
 	"40mm_frag", "40mm_incendiary", "40mm_teargas", "40mm_smoke",
 	"40mm_flashbang", "usp_9mm", "usp_45", "m4a1", "scar_l",
 	"scar_h", "m249", "ftk93", "nx17", "m320", "mgl",
-	"suppressor", "clip", "lighter", "flashlight", 
+	"suppressor", "clip", "brass_catcher", "lighter", "flashlight", 
 	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
 	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
 	"binoculars", "u_shotgun", "beltrig", "power_armor_basic",

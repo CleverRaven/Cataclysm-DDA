@@ -7526,6 +7526,17 @@
                           ]
         },
 
+        {
+            "result": "brass_catcher",
+            "category": "CC_MISC",
+            "skill_pri": "tailor",
+            "difficulty": 3,
+            "time": 65000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [ [ ["needle_bone", 4], ["sewing_kit", 4] ] ],
+            "components": [ [ ["rag", 4] ] ]
+        },
 
         {
             "result": "pheromone",
