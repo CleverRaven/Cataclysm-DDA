@@ -702,6 +702,33 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     }
 }
 
+int monster::calc_movecost(game *g, int x1, int y1, int x2, int y2)
+{
+    int movecost = 0;
+    int diag_mult = (trigdist && x1 != x2 && y1 != y2) ? 1.41 : 1;
+
+    // Digging and flying monsters ignore terrain cost
+    if (has_flag(MF_DIGS) || has_flag(MF_FLIES)) {
+        movecost = 100 * diag_mult;
+    // Swimming monsters move super fast in water
+    } else if (has_flag(MF_SWIMS)) {
+        if (g->m.has_flag(swimmable, x1, y1))
+            movecost += 25;
+        else
+            movecost += 50 * g->m.move_cost(x1, y1);
+        if (g->m.has_flag(swimmable, x2, y2))
+            movecost += 25;
+        else
+            movecost += 50 * g->m.move_cost(x2, y2);
+        movecost *= diag_mult;
+    // All others use the same calculation as the player
+    } else {
+        movecost = (g->m.combined_movecost(x1, y1, x2, y2));
+    }
+
+    return movecost;
+}
+
 void monster::move_to(game *g, int x, int y)
 {
  int mondex = g->mon_at(x, y);
@@ -714,18 +741,7 @@ void monster::move_to(game *g, int x, int y)
   if (plans.size() > 0)
    plans.erase(plans.begin());
 
-  int diag_mult = (trigdist && x != posx && y != posy ? 1.41 : 1 );
-
-  if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES) &&
-      (!has_flag(MF_SWIMS) || !g->m.has_flag(swimmable, x, y))) {
-    moves -= (g->m.combined_movecost(posx, posy, x, y));
-  } else {
-    moves -= 100 * diag_mult;
-  }
-  if (has_flag(MF_SWIMS) && g->m.has_flag(swimmable, posx, posy))
-    moves += 25 * diag_mult; // half tile refund
-  if (has_flag(MF_SWIMS) && g->m.has_flag(swimmable, x, y))
-    moves += 25 * diag_mult; // half tile refund
+  moves -= calc_movecost(g, posx, posy, x, y);
 
   posx = x;
   posy = y;
@@ -784,14 +800,12 @@ void monster::stumble(game *g, bool moved)
  }
 
  int choice = rng(0, valid_stumbles.size() - 1);
+ int cx = valid_stumbles[choice].x;
+ int cy = valid_stumbles[choice].y;
 
- if (!has_flag(MF_DIGS) && !has_flag(MF_FLIES))
-  moves -= g->m.combined_movecost(posx, posy, valid_stumbles[choice].x, valid_stumbles[choice].y);
- else
-  moves -= (posx != valid_stumbles[choice].x && posy != valid_stumbles[choice].y) ? 141 : 100;
-
- posx = valid_stumbles[choice].x;
- posy = valid_stumbles[choice].y;
+ posx = cx;
+ posy = cy;
+ moves -= calc_movecost(g, posx, posy, cx, cy);
 
  // Here we have to fix our plans[] list,
  // acquiring a new path to the previous target.
