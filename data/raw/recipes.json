@@ -3472,6 +3472,368 @@
 
 
         {
+            "result": "mutagen_plant",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["veggy_tainted", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_insect",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["honeycomb", 3],
+                                  ["bee_sting", 3],
+                                  ["wasp_sting", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_spider",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["chitin_piece", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_slime",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["sewage", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_fish",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["can_sardine", 1],
+                                  ["can_tuna", 1]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_rat",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat_tainted", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_beast",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_cattle",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_cephalopod",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat_tainted", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_bird",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_lizard",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_troglobite",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+        {
             "result": "purifier",
             "category": "CC_CHEM",
             "skill_pri": "cooking",

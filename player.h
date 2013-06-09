@@ -88,6 +88,7 @@ public:
 
  bool mutation_ok(game *g, pl_flag mutation, bool force_good, bool force_bad);
  void mutate(game *g);
+ void mutate_category(game *g, mutation_category);
  void mutate_towards(game *g, pl_flag mut);
  void remove_mutation(game *g, pl_flag mut);
  bool has_child_flag(game *g, pl_flag mut);
