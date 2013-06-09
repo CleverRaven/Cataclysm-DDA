@@ -12431,7 +12431,7 @@ x: %d - %d, dx: %d cx: %d/%d", x1, x2, dx, cx_low, cx_hi,
 
     m->ter_set(x2, cy_hi - 2, t_dresser);
     m->ter_set(x2, cy_hi - 1, t_dresser);
-    m->place_items(mi_dresser, 80, cx_hi - 2, y2, cx_hi - 1, y2, false, 0);        
+    m->place_items(mi_dresser, 80, x2, cy_hi - 2, x2, cy_hi - 1, false, 0);        
     if (one_in(10))
         m->place_items(mi_homeguns, 58, x2, cy_hi - 2, x2, cy_hi - 1, false, 0);
 
