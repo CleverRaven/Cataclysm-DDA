@@ -173,6 +173,42 @@ void player::mutate(game *g)
     mutate_towards(g, selection);
 }
 
+void player::mutate_category(game *g, mutation_category cat)
+{
+    bool force_bad = one_in(3);
+    bool force_good = false;
+    if (has_trait(PF_ROBUST) && force_bad)
+    {
+        // Robust Genetics gives you a 33% chance for a good mutation,
+        // instead of the 33% chance of a bad one.
+        force_bad = false;
+        force_good = true;
+    }
+
+    // Pull the category's list for valid mutations
+    std::vector<pl_flag> valid;
+    valid = mutations_from_category(cat);
+
+    // Remove anything we already have, that we have a child of, or that
+    // goes against our intention of a good/bad mutation
+    for (int i = 0; i < valid.size(); i++)
+    {
+        if (!mutation_ok(g, valid[i], force_good, force_bad))
+        {
+            valid.erase(valid.begin() + i);
+            i--;
+        }
+    }
+
+    // if we can't mutate in the category do nothing
+    if (valid.empty()) return;
+
+    pl_flag selection = valid[ rng(0, valid.size() - 1) ]; // Pick one!
+    mutate_towards(g, selection);
+
+    return;
+}
+
 void player::mutate_towards(game *g, pl_flag mut)
 {
  if (has_child_flag(g, mut)) {
