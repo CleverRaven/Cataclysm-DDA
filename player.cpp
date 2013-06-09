@@ -2703,7 +2703,7 @@ bool player::has_nv()
 
 void player::pause(game *g)
 {
- moves = 0;
+ moves -= 10000 / current_speed();
  if (recoil > 0) {
    if (str_cur + 2 * skillLevel("gun") >= recoil)
    recoil = 0;
