@@ -651,7 +651,7 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
     }
     else if( it->has_flag("MUTAGEN_CEPHALOPOD") )
     {
-        g->add_msg_if_player(p, "Your mind is overcome by images of lovecraftian horros for a moment.");
+        g->add_msg_if_player(p, "Your mind is overcome by images of eldritch horros for a moment.");
         p->mutate_category(g, MUTCAT_CEPHALOPOD);
     }
     else if( it->has_flag("MUTAGEN_BIRD") )
