@@ -3780,10 +3780,20 @@ void player::suffer(game *g)
  if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600))
   g->teleport(this);
 
- if (is_wearing("hazmat_suit")) {
-   radiation += rng(0, g->m.radiation(posx, posy) / 40);
- } else {
-  radiation += rng(0, g->m.radiation(posx, posy) / 16);
+ int localRadiation = g->m.radiation(posx, posy);
+
+ if (localRadiation) {
+   bool power_armored = false, has_helmet = false;
+
+   power_armored = is_wearing_power_armor(&has_helmet);
+
+   if (power_armored && has_helmet) {
+     radiation += 0; // Power armor protects completely from radiation
+   } else if (power_armored || is_wearing("hazmat_suit")) {
+     radiation += rng(0, localRadiation / 40);
+   } else {
+     radiation += rng(0, localRadiation / 16);
+   }
  }
 
  if( int(g->turn) % 150 == 0 )
@@ -6848,6 +6858,29 @@ bool player::wearing_something_on(body_part bp)
     return true;
  }
  return false;
+}
+
+bool player::is_wearing_power_armor(bool *hasHelmet) const {
+  if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor()) {
+    if (hasHelmet) {
+      *hasHelmet = false;
+
+      if (worn.size() > 1) {
+        for (size_t i = 1; i < worn.size(); i++) {
+          it_armor *candidate = dynamic_cast<it_armor*>(worn[i].type);
+
+          if (candidate->is_power_armor() && candidate->covers & mfb(bp_head)) {
+            *hasHelmet = true;
+            break;
+          }
+        }
+      }
+    }
+
+    return true;
+  } else {
+    return false;
+  }
 }
 
 int player::adjust_for_focus(int amount)
