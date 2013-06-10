@@ -2757,7 +2757,7 @@ void overmap::place_mongroups()
   for (int i = 0; i < numgroups; i++) {
    zg.push_back(
 	 mongroup("GROUP_WORM", rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
-	          rng(20, 40), rng(500, 1000)));
+	          rng(20, 40), rng(30, 50)));
   }
  }
 
