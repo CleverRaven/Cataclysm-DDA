@@ -4203,3 +4203,9 @@ void iuse::devac(game *g, player *p, item *it, bool t)
     it->contents.push_back(item(g->itypes[uvfood],0));  //shoving the "xxx" into the container
     it->contents[0].bday = g->turn + 3600 - (g->turn % 3600);
 }
+
+void iuse::rad_badge(game *g, player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,"You remove the badge from its wrapper, exposing it to ambient radiation.");
+    it->make(g->itypes["rad_badge"]);
+}

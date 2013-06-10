@@ -3794,6 +3794,26 @@ void player::suffer(game *g)
    } else {
      radiation += rng(0, localRadiation / 16);
    }
+
+   // Apply rads to any radiation badges.
+   std::vector<item *> possessions = inv_dump();
+   for( std::vector<item *>::iterator it = possessions.begin(); it != possessions.end(); ++it ) {
+       if( (*it)->type->id == "rad_badge" ) {
+           // Actual irridation levels of badges and the player aren't precisely matched.
+           // This is intentional.
+           int before = (*it)->irridation;
+           (*it)->irridation += rng(0, localRadiation / 16);
+           if( inv.has_item(*it) ) { continue; }
+           for( int i = 0; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ ){
+               if( before < rad_dosage_thresholds[i] &&
+                   (*it)->irridation >= rad_dosage_thresholds[i] ) {
+                   g->add_msg_if_player( this, "Your radiation badge changes from %s to %s!",
+                                         rad_threshold_colors[i - 1].c_str(),
+                                         rad_threshold_colors[i].c_str() );
+               }
+           }
+       }
+   }
  }
 
  if( int(g->turn) % 150 == 0 )
@@ -4269,14 +4289,14 @@ item& player::i_of_type(itype_id type)
  return ret_null;
 }
 
-std::vector<item> player::inv_dump()
+std::vector<item *> player::inv_dump()
 {
- std::vector<item> ret;
+ std::vector<item *> ret;
  if (std::find(standard_itype_ids.begin(), standard_itype_ids.end(), weapon.type->id) != standard_itype_ids.end()){
-  ret.push_back(weapon);
+  ret.push_back(&weapon);
  }
  for (int i = 0; i < worn.size(); i++)
-  ret.push_back(worn[i]);
+  ret.push_back(&worn[i]);
  inv.dump(ret);
  return ret;
 }

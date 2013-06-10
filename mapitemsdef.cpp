@@ -453,7 +453,7 @@ void game::init_mapitems()
 	"blood", "iodine", "bleach", "bandages", "syringe",
 	"canister_empty", "coat_lab", "gloves_medical", "mask_dust",
 	"glasses_safety", "vacutainer", "usb_drive", "disinfectant",
-	"gauze", "medical_tape", NULL);
+	"gauze", "medical_tape", "wrapped_rad_badge", NULL);
 
  setvector(
    &mapitems[mi_hospital_samples],
@@ -576,7 +576,7 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_teleport],
-	"screwdriver", "wrench", "jumpsuit", "mask_dust",
+	"screwdriver", "wrench", "jumpsuit", "mask_dust", "wrapped_rad_badge",
 	"glasses_safety", "goggles_welding", "teleporter", "usb_drive",
 	NULL);
 
@@ -796,7 +796,7 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_toxic_dump_equipment],
-	"1st_aid", "iodine", "canister_empty", "boots_steel",
+	"1st_aid", "iodine", "canister_empty", "boots_steel", "wrapped_rad_badge",
 	"hazmat_suit", "mask_gas", "hat_hard", "textbook_carpentry",
  "extinguisher", "radio", "geiger_off", "UPS_off", "flyer",
  "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
@@ -949,7 +949,7 @@ void game::init_mapitems()
 	"textbook_chemistry", "SICP", "textbook_robots",
 	"soldering_iron", "geiger_off", "teleporter", "canister_goo",
 	"EMPbomb", "pheromone", "portal", "bot_manhack", "UPS_off",
-	"tazer", "plasma", "usb_drive",
+	"tazer", "plasma", "usb_drive", "wrapped_rad_badge",
    "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter",
 	"software_useless", "canteen", NULL);
 
