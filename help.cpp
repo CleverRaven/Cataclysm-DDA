@@ -126,9 +126,9 @@ movement will be ignored if new monsters enter the player's view.",
    werase(w_help);
    mvwprintz(w_help, 0, 0, c_white, "\
 The player can often see more than can be displayed on the screen at a time.\n\
-%s allows you to scoll around\n\
-using the movement keys and view irems on the map. %s provides a\n\
-list of nearby visible items, though items shut away in crates, cubpoards,\n\
+%s allows you to scroll around\n\
+using the movement keys and view items on the map. %s provides a\n\
+list of nearby visible items, though items shut away in crates, cupboards,\n\
 refrigerators and the like will not be displayed. Pressing Shift+vikeys\n\
 will scroll the view persistently, allowing you to keep an eye on things\n\
 as you move around.",
@@ -272,7 +272,7 @@ point of your focus.");
   case 'H':
    werase(w_help);
    mvwprintz(w_help, 0, 0, c_white, "\
-Though it is relatively rare, certain areas of the world may be contamiated\n\
+Though it is relatively rare, certain areas of the world may be contaminated\n\
 with radiation. It will gradually accumulate in your body, weakening you\n\
 more and more. While in radiation-free areas, your radiation level will\n\
 slowly decrease. Taking iodine tablets will help speed the process.\n\
@@ -655,8 +655,8 @@ ITEM TYPES:\n\
  in your inventory. %s to use these.\n\
 \n\
 )       Container\n\
-    These items may hold other items. Someare passable weapons. Many will be\n\
- listed with their contents, e.g. \"plastic bottle of water\".\n\
+    These items may hold other items. Some are passable weapons.\n\
+ Many will be listed with their contents, e.g. \"plastic bottle of water\".\n\
  Those containing comestibles may be eaten%s;\n\
  this may leave an empty container.\n\
 Press any key to continue...",
@@ -959,9 +959,9 @@ A: Shotguns are intended for emergency use. If you are cornered, use\n\
    your shotgun to escape, then just run from the zombies it attracts.\n\
 \n\
 Q: Help! I started a fire and now my house is burning down!\n\
-A: Fires will spread to nearby flammable tiles if they are able. Liting a\n\
+A: Fires will spread to nearby flammable tiles if they are able. Lighting a\n\
    stop fire in a set-up brazier, wood stove, stone fireplace, or pit will\n\
-   it from spreading. Fire extinquishers can put out fires that get out\n\
+   it from spreading. Fire extinguishers can put out fires that get out\n\
    of control.\n\
 \n\
 Q: I have a question that's not addressed here. How can I get an answer?\n\
