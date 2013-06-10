@@ -18,3 +18,12 @@ CataclysmWin.layout
 *.user
 Cataclysm.sdf
 Release*/
+
+# Temporary and backup files
+*~
+\#*
+*.bak
+
+# System Files
+Thumbs.db
+.DS_Store
