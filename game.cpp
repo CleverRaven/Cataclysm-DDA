@@ -5522,7 +5522,13 @@ void game::control_vehicle()
             add_msg("No vehicle there.");
             return;
         }
-        if (veh->part_with_feature(veh_part, vpf_controls) < 0) {
+        if (veh->part_with_feature(veh_part, vpf_seat) >= 0 &&
+                !veh->parts[veh_part].has_flag(vehicle_part::passenger_flag) &&
+                query_yn("Board vehicle?")) {
+            m.board_vehicle(this, examx, examy, &u);
+            u.moves -= 200;
+            return;
+        } else if (veh->part_with_feature(veh_part, vpf_controls) < 0) {
             add_msg("No controls there.");
             return;
         }
@@ -8849,16 +8855,6 @@ void game::plmove(int x, int y)
  if (m.move_cost(x, y) > 0) { // move_cost() of 0 = impassible (e.g. a wall)
   if (u.underwater)
    u.underwater = false;
-  dpart = veh ? veh->part_with_feature (vpart, vpf_seat) : -1;
-  bool can_board = dpart >= 0 && veh->parts[dpart].items.size() == 0 &&
-      !veh->parts[dpart].has_flag(vehicle_part::passenger_flag);
-/*  if (veh.type != veh_null)
-      add_msg ("vp=%d dp=%d can=%c", vpart, dpart, can_board? 'y' : 'n',);*/
-  if (can_board && query_yn("Board vehicle?")) { // empty vehicle's seat ahead
-   m.board_vehicle (this, x, y, &u);
-   u.moves -= 200;
-   return;
-  }
 
   if (m.field_at(x, y).is_dangerous() &&
       !query_yn("Really step into that %s?", m.field_at(x, y).name().c_str()))
