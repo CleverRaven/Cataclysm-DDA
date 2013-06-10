@@ -9866,12 +9866,7 @@ void game::gameover()
  inv();
 }
 
-bool game::game_quit()
-{
- if (uquit == QUIT_MENU)
-  return true;
- return false;
-}
+bool game::game_quit() { return (uquit == QUIT_MENU); }
 
 void game::write_msg()
 {
