@@ -63,7 +63,7 @@ void player::mutate(game *g)
     // ... or remove one that is not in our highest category
     std::vector<pl_flag> downgrades;
     // For each mutation...
-    for (int base_mutation_index = 1; base_mutation_index < PF_MAX2; base_mutation_index++)
+    for (int base_mutation_index = PF_MAX+1; base_mutation_index < PF_MAX2; base_mutation_index++)
     {
         pl_flag base_mutation = (pl_flag) base_mutation_index;
 
