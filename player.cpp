@@ -4269,14 +4269,14 @@ item& player::i_of_type(itype_id type)
  return ret_null;
 }
 
-std::vector<item> player::inv_dump()
+std::vector<item *> player::inv_dump()
 {
- std::vector<item> ret;
+ std::vector<item *> ret;
  if (std::find(standard_itype_ids.begin(), standard_itype_ids.end(), weapon.type->id) != standard_itype_ids.end()){
-  ret.push_back(weapon);
+  ret.push_back(&weapon);
  }
  for (int i = 0; i < worn.size(); i++)
-  ret.push_back(worn[i]);
+  ret.push_back(&worn[i]);
  inv.dump(ret);
  return ret;
 }
