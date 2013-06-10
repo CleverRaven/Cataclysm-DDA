@@ -1897,13 +1897,13 @@ bool game::handle_action()
   case ACTION_QUIT:
    if (query_yn("Commit suicide?")) {
     u.moves = 0;
-    std::vector<item> tmp = u.inv_dump();
+    std::vector<item *> tmp = u.inv_dump();
     item your_body;
     your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
     your_body.name = u.name;
     m.add_item(u.posx, u.posy, your_body);
     for (int i = 0; i < tmp.size(); i++)
-     m.add_item(u.posx, u.posy, tmp[i]);
+        m.add_item(u.posx, u.posy, *(tmp[i]));
     uquit = QUIT_SUICIDE;
    }
    break;
@@ -2064,13 +2064,13 @@ bool game::is_game_over()
   return true;
  for (int i = 0; i <= hp_torso; i++) {
   if (u.hp_cur[i] < 1) {
-   std::vector<item> tmp = u.inv_dump();
+   std::vector<item *> tmp = u.inv_dump();
    item your_body;
    your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
    your_body.name = u.name;
    m.add_item(u.posx, u.posy, your_body);
    for (int j = 0; j < tmp.size(); j++) {
-    m.add_item(u.posx, u.posy, tmp[j]);
+       m.add_item(u.posx, u.posy, *(tmp[j]));
    }
    std::stringstream playerfile;
    playerfile << "save/" << u.name << ".sav";

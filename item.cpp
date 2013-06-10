@@ -639,6 +639,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This piece of clothing has pockets to warm your hands."));
     }
+    if (is_armor() && type->id == "rad_badge")
+    {
+        int i;
+        for( i = 0; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ )
+        {
+            if( irridation < rad_dosage_thresholds[i] )
+            {
+                break;
+            }
+        }
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "The film strip on the badge is " +
+                                 rad_threshold_colors[i - 1] + "."));
+    }
     if (is_tool() && has_flag("DOUBLE_AMMO"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
