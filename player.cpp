@@ -1567,8 +1567,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
   if (traits[traitslist[i]].points > 0)
    status = c_ltgreen;
-  else
+  else if (traits[traitslist[i]].points < 0)
    status = c_ltred;
+  else
+   status = c_yellow;
   mvwprintz(w_traits, i+1, 1, status, traits[traitslist[i]].name.c_str());
  }
 
