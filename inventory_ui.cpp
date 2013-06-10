@@ -377,6 +377,8 @@ std::vector<item> game::multidrop()
  u.inv.sort();
  u.inv.restack(&u);
  WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
+ int drp_line_width=getmaxx(w_inv)-90;
+ const std::string drp_line_padding = ( drp_line_width > 1 ? std::string(drp_line_width, ' ') : " ");
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  std::map<char, int> dropping; // Count of how many we'll drop from each stack
  int count = 0; // The current count
@@ -402,9 +404,47 @@ std::vector<item> game::multidrop()
   print_inv_weight_vol(this, w_inv, new_weight, new_volume);
   int cur_line = 2;
   max_it = 0;
+  int drp_line = 1;
+  // Print weapon to be dropped, the first position is reserved for high visibility
+  mvwprintw(w_inv, 0, 90, "%s", drp_line_padding.c_str());
+  bool dropping_w = false;
+  for (int k = 0; k < weapon_and_armor.size() && !dropping_w; k++) {
+    if (weapon_and_armor[k] == u.weapon.invlet) {
+      dropping_w = true;
+    }
+    if (dropping_w && u.is_armed()) {
+      mvwprintz(w_inv, 0, 90, c_ltblue, "%c + %s", u.weapon.invlet, u.weapname().c_str());
+    }
+  }
+  // Print worn items to be dropped
+  if(dropping_w) {
+    mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
+    drp_line++;
+  }
+  bool dropping_a = false;
+  if (u.worn.size() > 0){
+    for (int k = 0; k < u.worn.size(); k++) {
+      bool dropping_w = false;
+      for (int j = 0; j < weapon_and_armor.size() && !dropping_w; j++) {
+        if (weapon_and_armor[j] == u.worn[k].invlet) {
+          dropping_w = true;
+          dropping_a = true;
+          mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
+          mvwprintz(w_inv, drp_line, 90, c_cyan, "%c + %s", u.worn[k].invlet, u.worn[k].tname(this).c_str());
+          drp_line++;
+        }
+      }
+    }
+  }
+  if(dropping_a) {
+    mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
+    drp_line++;
+  }
   for (cur_it = start; cur_it < start + maxitems && cur_line < maxitems+3; cur_it++) {
 // Clear the current line;
    mvwprintw(w_inv, cur_line, 0, "                                             ");
+   mvwprintw(w_inv, drp_line, 90, "%s", drp_line_padding.c_str());
+   mvwprintw(w_inv, drp_line + 1, 90, "%s", drp_line_padding.c_str());
 // Print category header
    for (int i = 1; i < iCategorieNum; i++) {
     if (cur_it == firsts[i-1]) {
@@ -434,6 +474,19 @@ std::vector<item> game::multidrop()
     else if (it.contents.size() == 1 &&
              it.contents[0].charges > 0)
      wprintw(w_inv, " (%d)", it.contents[0].charges);
+    if (icon=='+'||icon=='#') {
+      mvwprintz(w_inv, drp_line, 90, col, "%c %c %s", it.invlet, icon, it.tname(this).c_str());
+      if (icon=='+'){
+        if (stacks[cur_it]->size() > 1)
+          wprintz(w_inv, col, " [%d]", stacks[cur_it]->size());
+        if (it.charges > 0)
+          wprintz(w_inv, col, " (%d)", it.charges);
+      }
+      if (icon=='#') {
+        wprintz(w_inv, col, " {%d}", dropping[it.invlet]);
+      }
+      drp_line++;
+    }
    }
    cur_line++;
    max_it=cur_it;

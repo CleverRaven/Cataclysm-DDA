@@ -857,6 +857,16 @@ int map::move_cost_ter_only(const int x, const int y)
  return terlist[ter(x, y)].movecost;
 }
 
+int map::combined_movecost(const int x1, const int y1,
+                           const int x2, const int y2)
+{
+    int cost1 = move_cost(x1, y1);
+    int cost2 = move_cost(x2, y2);
+    // 50 moves taken per move_cost (70.71.. diagonally)
+    int mult = (trigdist && x1 != x2 && y1 != y2 ? 71 : 50);
+    return (cost1 + cost2) * mult / 2;
+}
+
 bool map::trans(const int x, const int y)
 {
  // Control statement is a problem. Normally returning false on an out-of-bounds
@@ -2255,7 +2265,8 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container(itypes);
-    if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
+    if ((new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ||
+        has_flag(destroy_item, x, y))
     {
         return;
     }
@@ -2311,7 +2322,7 @@ void map::spawn_item(const int x, const int y, std::string type_id, const int bi
 }
 
 void map::add_item_or_charges(const int x, const int y, item new_item) {
-    if (new_item.is_style() || !INBOUNDS(x, y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ) {
+    if (new_item.is_style() || !INBOUNDS(x, y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) {
      return;
     }
     if(new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo())) {
@@ -2334,6 +2345,8 @@ void map::add_item(const int x, const int y, item new_item)
   return;
  if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
+ if (has_flag(destroy_item, x, y))
+     return;
 
  if (has_flag(noitem, x, y) || i_at(x, y).size() >= 64) {// Too many items there
   std::vector<point> okay;
@@ -2920,15 +2933,17 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  const int k = x + getmaxx(w)/2 - cx;
  const int j = y + getmaxy(w)/2 - cy;
  nc_color tercol;
- ter_id curr_ter = ter(x,y);
+ const ter_id curr_ter = ter(x,y);
+ const trap_id curr_trap = tr_at(x, y);
+ const field curr_field = field_at(x, y);
+ const std::vector<item> curr_items = i_at(x, y);
  long sym = terlist[curr_ter].sym;
  bool hi = false;
  bool graf = false;
  bool normal_tercol = false, drew_field = false;
  if (u.has_disease(DI_BOOMERED))
   tercol = c_magenta;
- else if ((u.is_wearing("goggles_nv") && u.has_active_item("UPS_on")) ||
-          u.has_active_bionic("bio_night_vision"))
+ else if ( u.has_nv() )
   tercol = (bright_light) ? c_white : c_ltgreen;
  else if (low_light)
   tercol = c_dkgray;
@@ -2940,10 +2955,10 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  if (move_cost(x, y) == 0 && has_flag(swimmable, x, y) && !u.underwater)
   show_items = false;	// Can only see underwater items if WE are underwater
 // If there's a trap here, and we have sufficient perception, draw that instead
- if (tr_at(x, y) != tr_null &&
-     u.per_cur - u.encumb(bp_eyes) >= (*traps)[tr_at(x, y)]->visibility) {
-  tercol = (*traps)[tr_at(x, y)]->color;
-  if ((*traps)[tr_at(x, y)]->sym == '%') {
+ if (curr_trap != tr_null &&
+     u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility) {
+  tercol = (*traps)[curr_trap]->color;
+  if ((*traps)[curr_trap]->sym == '%') {
    switch(rng(1, 5)) {
     case 1: sym = '*'; break;
     case 2: sym = '0'; break;
@@ -2952,14 +2967,14 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     case 5: sym = '+'; break;
    }
   } else
-   sym = (*traps)[tr_at(x, y)]->sym;
+   sym = (*traps)[curr_trap]->sym;
  }
 // If there's a field here, draw that instead (unless its symbol is %)
- if (field_at(x, y).type != fd_null &&
-     fieldlist[field_at(x, y).type].sym != '&') {
-  tercol = fieldlist[field_at(x, y).type].color[field_at(x, y).density - 1];
+ if (curr_field.type != fd_null &&
+     fieldlist[curr_field.type].sym != '&') {
+  tercol = fieldlist[curr_field.type].color[curr_field.density - 1];
   drew_field = true;
-  if (fieldlist[field_at(x, y).type].sym == '*') {
+  if (fieldlist[curr_field.type].sym == '*') {
    switch (rng(1, 5)) {
     case 1: sym = '*'; break;
     case 2: sym = '0'; break;
@@ -2967,21 +2982,21 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     case 4: sym = '&'; break;
     case 5: sym = '+'; break;
    }
-  } else if (fieldlist[field_at(x, y).type].sym != '%' ||
-             i_at(x, y).size() > 0) {
-   sym = fieldlist[field_at(x, y).type].sym;
+  } else if (fieldlist[curr_field.type].sym != '%' ||
+             curr_items.size() > 0) {
+   sym = fieldlist[curr_field.type].sym;
    drew_field = false;
   }
  }
 // If there's items here, draw those instead
- if (show_items && !has_flag(container, x, y) && i_at(x, y).size() > 0 && !drew_field) {
+ if (show_items && !has_flag(container, x, y) && curr_items.size() > 0 && !drew_field) {
   if ((terlist[curr_ter].sym != '.'))
    hi = true;
   else {
-   tercol = i_at(x, y)[i_at(x, y).size() - 1].color();
-   if (i_at(x, y).size() > 1)
+   tercol = curr_items[curr_items.size() - 1].color();
+   if (curr_items.size() > 1)
     invert = !invert;
-   sym = i_at(x, y)[i_at(x, y).size() - 1].symbol();
+   sym = curr_items[curr_items.size() - 1].symbol();
   }
  }
 

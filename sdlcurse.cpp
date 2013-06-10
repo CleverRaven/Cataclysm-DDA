@@ -22,6 +22,7 @@
 WINDOW *mainwin;
 static SDL_Color windowsPalette[256];
 static SDL_Surface *screen = NULL;
+static SDL_Surface *glyph_cache[128][16]; //cache ascii characters 
 TTF_Font* font;
 int nativeWidth;
 int nativeHeight;
@@ -49,12 +50,12 @@ void ClearScreen()
 	SDL_FillRect(screen, NULL, 0);
 }
 
-/*
+
 bool fexists(const char *filename)
 {
-  ifstream ifile(filename);
+  std::ifstream ifile(filename);
   return ifile;
-}*/
+}
 
 //Registers, creates, and shows the Window!!
 bool WinCreate()
@@ -77,16 +78,16 @@ bool WinCreate()
 
 	atexit(SDL_Quit);
 
-	SDL_WM_SetCaption("Cataclysm: Dark Days Ahead - 0.5", NULL);
+	SDL_WM_SetCaption("Cataclysm: Dark Days Ahead - 0.6git", NULL);
 
 	video_info = SDL_GetVideoInfo();
 	nativeWidth = video_info->current_w;
 	nativeHeight = video_info->current_h;
 
+    char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
+    SDL_putenv(center_string);
 	screen = SDL_SetVideoMode(WindowWidth, WindowHeight, 32, (SDL_SWSURFACE|SDL_DOUBLEBUF));
 	//SDL_SetColors(screen,windowsPalette,0,256);
-
-	SDL_ShowCursor(SDL_DISABLE);
 
 	if(screen==NULL) return false;
 
@@ -130,22 +131,30 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
 
-static void OuputText(char* t, int x, int y, int n, unsigned char color)
+static void OutputChar(char t, int x, int y, int n, unsigned char color)
 {
-	static char buf[256];
-	strncpy(buf, t, n);
-	buf[n] = '\0';
-	SDL_Surface* text = TTF_RenderText_Solid(font, buf, windowsPalette[color]);
-	if(text)
-	{
-		SDL_Rect rect;
-		rect.x = x;
-		rect.y = y;
-		rect.w = fontheight;
-		rect.h = fontheight;
-		SDL_BlitSurface(text, NULL, screen, &rect);
-		SDL_FreeSurface(text);
-	}
+    unsigned char ch = t & 0x7f;
+    color &= 0xf;
+
+    SDL_Surface * glyph = glyph_cache[ch][color];
+
+    if(glyph==NULL)
+    {
+        glyph = glyph_cache[ch][color] = TTF_RenderGlyph_Solid(font, ch, windowsPalette[color]);
+    }
+
+    if(glyph)
+    {
+		int minx=0, maxy=0, dx=0, dy = 0;
+		if( 0==TTF_GlyphMetrics(font, ch, &minx, NULL, NULL, &maxy, NULL))
+		{
+			dx = minx;
+			dy = TTF_FontAscent(font) - maxy;
+			SDL_Rect rect;
+			rect.x = x+dx; rect.y = y+dy; rect.w = fontwidth; rect.h = fontheight;
+			SDL_BlitSurface(glyph, NULL, screen, &rect);
+		}
+    }
 }
 
 void DrawWindow(WINDOW *win)
@@ -168,7 +177,7 @@ void DrawWindow(WINDOW *win)
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
                 if ( tmp > 0){
-                    OuputText(&tmp, drawx,drawy,1,FG);
+                    OutputChar(tmp, drawx,drawy,1,FG);
                 //    }     //and this line too.
                 } else if (  tmp < 0 ) {
                     switch (tmp) {
@@ -235,49 +244,69 @@ void DrawWindow(WINDOW *win)
 void CheckMessages()
 {
 	SDL_Event ev;
+    bool quit = false;
 	while(SDL_PollEvent(&ev))
 	{
 		switch(ev.type)
 		{
 			case SDL_KEYDOWN:
-			if (ev.key.keysym.unicode != 0) {
-				lastchar = ev.key.keysym.unicode;
-				switch (lastchar){
-					case 13:            //Reroute ENTER key for compatilbity purposes
-						lastchar=10;
-						break;
-					case 8:             //Reroute BACKSPACE key for compatilbity purposes
-						lastchar=127;
-						break;
+			{
+				Uint8 *keystate = SDL_GetKeyState(NULL);
+				// manually handle Alt+F4 for older SDL lib, no big deal
+				if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
+				{
+					quit = true;
+					break;
+				}
+				else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT || 
+					ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || 
+					ev.key.keysym.sym==SDLK_RALT || ev.key.keysym.sym==SDLK_LALT)
+				{
+					break; // temporary fix for unwanted keys
+				}
+				else if (ev.key.keysym.unicode != 0) {
+					lastchar = ev.key.keysym.unicode;
+					switch (lastchar){
+						case 13:            //Reroute ENTER key for compatilbity purposes
+							lastchar=10;
+							break;
+						case 8:             //Reroute BACKSPACE key for compatilbity purposes
+							lastchar=127;
+							break;
+					}
+				}
+				if(ev.key.keysym.sym==SDLK_LEFT) {
+					lastchar = KEY_LEFT;
+				}
+				else if(ev.key.keysym.sym==SDLK_RIGHT) {
+					lastchar = KEY_RIGHT;
+				}
+				else if(ev.key.keysym.sym==SDLK_UP) {
+					lastchar = KEY_UP;
+				}
+				else if(ev.key.keysym.sym==SDLK_DOWN) {
+					lastchar = KEY_DOWN;
+				}
+				else if(ev.key.keysym.sym==SDLK_PAGEUP) {
+					lastchar = KEY_PPAGE;
+				}
+				else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
+					lastchar = KEY_NPAGE;
+				  
 				}
 			}
-			if(ev.key.keysym.sym==SDLK_LEFT) {
-				lastchar = KEY_LEFT;
-			}
-			else if(ev.key.keysym.sym==SDLK_RIGHT) {
-				lastchar = KEY_RIGHT;
-			}
-			else if(ev.key.keysym.sym==SDLK_UP) {
-				lastchar = KEY_UP;
-			}
-			else if(ev.key.keysym.sym==SDLK_DOWN) {
-				lastchar = KEY_DOWN;
-			}
-			else if(ev.key.keysym.sym==SDLK_PAGEUP) {
-				lastchar = KEY_PPAGE;
-			}
-			else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
-				lastchar = KEY_NPAGE;
-			  
-			}
-				break;
+			break;
 			case SDL_QUIT:
-				endwin();
-				exit(0);
+                quit = true;
 				break;
 
 		}
 	}
+    if(quit)
+    {
+        endwin();
+        exit(0);
+    }
 }
 
 //***********************************
@@ -290,19 +319,21 @@ WINDOW *initscr(void)
     lastchar=-1;
     inputdelay=-1;
 
-    std::string typeface = "fixedsys";
+    std::string typeface = "";
 	std::ifstream fin;
+    int fontsize = 0; //actuall size
 	fin.open("data/FONTDATA");
 	if (!fin.is_open()){
-		fontheight=16;
-		fontwidth=8;
+        fontheight=16;
+        fontwidth=8;
 	} else {
-		 getline(fin, typeface);
-		 fin >> fontwidth;
-		 fin >> fontheight;
-		 if ((fontwidth <= 4) || (fontheight <=4)){
-			fontheight=16;
-			fontwidth=8;
+        getline(fin, typeface);
+        fin >> fontwidth;
+        fin >> fontheight;
+        fin >> fontsize;
+        if ((fontwidth <= 4) || (fontheight <=4)){
+            fontheight=16;
+            fontwidth=8;
 		}
 		fin.close();
 	}
@@ -312,8 +343,19 @@ WINDOW *initscr(void)
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
+    
+    //make fontdata compatible with wincurse
+    if(!fexists(typeface.c_str()))
+        typeface = "data/font/" + typeface + ".ttf";
 
-	font = TTF_OpenFont(typeface.c_str(), fontheight-1);
+    //different default font with wincurse
+    if(!fexists(typeface.c_str()))
+        typeface = "data/font/fixedsys.ttf";
+
+    if(fontsize<=0) fontsize=fontheight-1;
+	font = TTF_OpenFont(typeface.c_str(), fontsize);
+
+    //if(!font) something went wrong
 
 	TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
 	TTF_SetFontOutline(font, 0);
@@ -477,6 +519,7 @@ int wgetch(WINDOW* win)
         {
             CheckMessages();
             if (lastchar!=ERR) break;
+            SDL_Delay(1);
         }
         while (lastchar==ERR);
 	}
@@ -489,6 +532,7 @@ int wgetch(WINDOW* win)
             CheckMessages();
             endtime=SDL_GetTicks();
             if (lastchar!=ERR) break;
+            SDL_Delay(1);
         }
         while (endtime<(starttime+inputdelay));
 	}
@@ -680,6 +724,14 @@ int clear(void)
 int endwin(void)
 {
 	TTF_CloseFont(font);
+	for(int i=0; i<128; i++)
+	{
+		for(int j=0; j<16; j++)
+		{
+			if(glyph_cache[i][j]) SDL_FreeSurface(glyph_cache[i][j]);
+			glyph_cache[i][j] = NULL;
+		}
+	}
     WinDestroy();
     return 1;
 };
@@ -695,9 +747,18 @@ int mvwaddch(WINDOW *win, int y, int x, const chtype ch)
 int wclear(WINDOW *win)
 {
     werase(win);
-    wrefresh(win);
+    clearok(win);
     return 1;
 };
+
+int clearok(WINDOW *win)
+{
+    for (int i=0; i<win->y; i++)
+    {
+        win->line[i].touched = true;
+    }
+    return 1;
+}
 
 //gets the max x of a window (the width)
 int getmaxx(WINDOW *win)

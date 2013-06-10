@@ -216,7 +216,7 @@ void game::init_mapitems()
  setvector(
    &mapitems[mi_mischw],
 	"2x4", "machete", "boots_steel", "hat_hard", "mask_filter",
-	"glasses_safety", "bb", "bbgun", "beartrap", "two_way_radio",
+	"glasses_safety", "bb", "bbgun", "beartrap",
 	"radio", "hotplate", "extinguisher", "nailgun",
 	"manual_mechanics", "manual_carpentry", "mag_carpentry",
 	"duct_tape", "lawnmower", "boltcutters",
@@ -227,7 +227,7 @@ void game::init_mapitems()
   "amplifier", "antenna", "battery", "soldering_iron", "solar_cell",
 	"screwdriver", "processor", "RAM", "mp3", "flashlight",
 	"radio", "hotplate", "receiver", "transponder", "tazer",
-	"two_way_radio", "usb_drive", "manual_electronics", "cable",
+	"usb_drive", "manual_electronics", "cable",
     "vac_sealer", NULL);
 
  setvector(
@@ -335,7 +335,7 @@ void game::init_mapitems()
 	"barrel_big", "barrel_small", "barrel_rifled", "clip", "spare_mag",
 	"clip2", "stabilizer", "blowback", "autofire", "retool_45",
 	"retool_9mm", "retool_22", "retool_57", "retool_46",
-	"retool_308", "retool_223", "tazer","shot_hull",
+	"retool_308", "retool_223", "brass_catcher", "tazer","shot_hull",
         "9mm_casing", "38_casing", "40_casing", "44_casing", "45_casing",
         "57mm_casing", "46mm_casing", "762_casing", "223_casing",
         "3006_casing", "308_casing", "gunpowder",
@@ -412,7 +412,7 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_cop_torso],
-	"dress_shirt", "under_armor", "jacket_light", 
+	"dress_shirt", "under_armor", "jacket_light",
     NULL);
 
  setvector(
@@ -424,7 +424,7 @@ void game::init_mapitems()
 	"baton", "kevlar", "vest", "gloves_leather", "mask_gas",
 	"goggles_nv", "helmet_riot", "holster", "bootstrap",
 	"armguard_hard",
-	"shot_00", "9mm", "usp_9mm", "remington_870", "two_way_radio",
+	"shot_00", "9mm", "usp_9mm", "remington_870", 
 	"UPS_off", "tazer", NULL);
 
  setvector(
@@ -436,17 +436,17 @@ void game::init_mapitems()
    &mapitems[mi_lab_shoes],
     "sneakers", "boots", "boots_steel", "dress_shoes", NULL);
 
-// increase chances of generating lab coat    
+// increase chances of generating lab coat
  setvector(
    &mapitems[mi_lab_torso],
-    "coat_lab", "coat_lab", "coat_lab", "coat_lab", 
-    "tshirt", "polo_shirt", "dress_shirt", "dress", 
-	"sweatshirt", "sweater", "hoodie", "jumpsuit", 
-    "hazmat_suit", NULL);    
+    "coat_lab", "coat_lab", "coat_lab", "coat_lab",
+    "tshirt", "polo_shirt", "dress_shirt", "dress",
+	"sweatshirt", "sweater", "hoodie", "jumpsuit",
+    "hazmat_suit", NULL);
 
  setvector(
    &mapitems[mi_lab_pants],
-    "jeans", "pants", "pants_cargo", "skirt",  NULL);  
+    "jeans", "pants", "pants_cargo", "skirt",  NULL);
 
  setvector(
    &mapitems[mi_hospital_lab],
@@ -499,8 +499,9 @@ void game::init_mapitems()
    &mapitems[mi_vault],
 	"purifier", "plut_cell", "ftk93", "nx17", "canister_goo",
 	"UPS_off", "gold", "plasma_engine",
-   "bio_time_freeze", "bio_teleport",
-   "power_armor_basic",
+  "bio_time_freeze", "bio_teleport",
+  "power_armor_basic",
+  "power_armor_light", "power_armor_heavy",
   "minireactor", "alloy_plate", NULL);
 
  setvector(
@@ -540,7 +541,7 @@ void game::init_mapitems()
 	"knife_combat", "binoculars", "bolt_steel", "crossbow",
 	"mag_guns", "manual_brawl", "manual_knives", "cot",
 	"manual_mechanics", "manual_first_aid", "manual_traps",
-	"flashlight", "water_purifier", "two_way_radio", "radio",
+	"flashlight", "water_purifier",  "radio",
  "geiger_off", "usb_drive", "canteen", "jerrycan", "rucksack",
  "heatpack", "sleeping_bag", "emer_blanket", "flyer", NULL);
 
@@ -661,7 +662,7 @@ void game::init_mapitems()
    &mapitems[mi_mil_rifles],
 	"556", "556_incendiary", "762_51", "762_51_incendiary",
 	"laser_pack", "12mm", "plasma", "m4a1", "scar_l", "scar_h",
-	"m249", "ftk93", "nx17", "hk_g80", "plasma_rifle",
+	"m249", "ftk93", "nx17", "hk_g80", "plasma_rifle", "brass_catcher",
 	"suppressor", "clip", "spare_mag", "m203", "UPS_off", "u_shotgun",
 	NULL);
 
@@ -679,7 +680,7 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_mil_accessories],
-	"mask_gas", "goggles_nv", "backpack", "UPS_off", 
+	"mask_gas", "goggles_nv", "backpack", "UPS_off",
     "armguard_hard", "power_armor_frame",
 	NULL);
 
@@ -754,7 +755,7 @@ void game::init_mapitems()
 	"1st_aid", "motor", "hose", "screwdriver", "wrench", "pipe",
 	"boots", "jumpsuit", "coat_lab", "gloves_rubber",
 	"mask_filter", "glasses_safety", "hat_hard", "extinguisher",
-	"flashlight", "water_purifier", "two_way_radio",
+	"flashlight", "water_purifier", 
  "bio_tools", "bio_storage",  "bio_flashlight",
  "bio_lighter", "bio_magnet", "flyer",
  "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
@@ -763,7 +764,7 @@ void game::init_mapitems()
    &mapitems[mi_construction_worker],
 	"boots", "boots_steel", "jumpsuit", "gloves_rubber","gloves_leather",
 	"mask_filter", "glasses_safety", "hat_hard", "battery",
-	"flashlight", "two_way_radio", NULL);
+	"flashlight",  NULL);
 
  setvector(
    &mapitems[mi_mine_storage],
@@ -774,7 +775,7 @@ void game::init_mapitems()
 	"water_clean", "1st_aid", "rope_30", "chain", "boots_steel",
 	"jumpsuit", "gloves_leather", "mask_filter", "mask_gas",
 	"glasses_safety", "goggles_welding", "goggles_nv", "hat_hard",
-	"backpack", "battery", "flashlight", "two_way_radio",
+	"backpack", "battery", "flashlight", 
 	"jackhammer", "jacqueshammer", "dynamite", "UPS_off",
    "bio_tools", "bio_flashlight", "bio_lighter", "bio_magnet",
    "bio_resonator", "bio_hydraulics",
@@ -790,7 +791,7 @@ void game::init_mapitems()
 	"cola", "caffeine", "cig", "weed", "amplifier",
 	"transponder", "receiver", "antenna", "screwdriver",
 	"battery", "mag_porn", "mag_tv", "manual_electronics",
-	"lighter", "flashlight", "two_way_radio", "radio", "mp3",
+	"lighter", "flashlight",  "radio", "mp3",
  "solar_cell", "flyer",	"usb_drive", NULL);
 
  setvector(
@@ -914,7 +915,7 @@ void game::init_mapitems()
 	"hard_plate", "motor", "motor_large", "hose", "pants_army",
 	"jumpsuit", "kevlar", "mask_gas", "helmet_army", "battery",
 	"plut_cell", "m249", "v8_combustion", "extinguisher",
-	"two_way_radio", "radio", "UPS_off", "beltrig",
+	 "radio", "UPS_off", "beltrig",
     "rucksack", "LAW_Packed", NULL);
 
 // TODO: Replace kevlar with the ceramic plate armor
@@ -931,7 +932,7 @@ void game::init_mapitems()
 	"40mm_frag", "40mm_incendiary", "40mm_teargas", "40mm_smoke",
 	"40mm_flashbang", "usp_9mm", "usp_45", "m4a1", "scar_l",
 	"scar_h", "m249", "ftk93", "nx17", "m320", "mgl",
-	"suppressor", "clip", "lighter", "flashlight", "two_way_radio",
+	"suppressor", "clip", "brass_catcher", "lighter", "flashlight", 
 	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
 	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
 	"binoculars", "u_shotgun", "beltrig", "power_armor_basic",
@@ -959,7 +960,9 @@ void game::init_mapitems()
 	"plut_cell", "laser_pack", "m249", "v29", "ftk93", "nx17",
 	"conversion_battle", "conversion_sniper", "canister_goo",
 	"mininuke", "portal", "c4", "12mm", "hk_g80",
- "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
+  "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
+  "power_armor_light", "power_armor_helmet_light",
+  "power_armor_heavy", "power_armor_helmet_heavy",
 	"plasma", "plasma_rifle", NULL);
 
  setvector(

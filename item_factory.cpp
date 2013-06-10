@@ -63,7 +63,6 @@ void Item_factory::init(){
     iuse_function_list["INHALER"] = &iuse::inhaler;
     iuse_function_list["BLECH"] = &iuse::blech;
     iuse_function_list["MUTAGEN"] = &iuse::mutagen;
-    iuse_function_list["MUTAGEN_3"] = &iuse::mutagen_3;
     iuse_function_list["PURIFIER"] = &iuse::purifier;
     iuse_function_list["MARLOSS"] = &iuse::marloss;
     iuse_function_list["DOGFOOD"] = &iuse::dogfood;

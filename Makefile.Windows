@@ -13,6 +13,7 @@ DDIR = .deps
 TARGET = cataclysm.exe
 
 CXX = g++
+WNDRES = windres
 
 LINKER = i486-mingw32-ld
 LINKERFLAGS = -Wl,-stack,12000000,-subsystem,windows
@@ -20,6 +21,7 @@ LINKERFLAGS = -Wl,-stack,12000000,-subsystem,windows
 CFLAGS = $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS)
 
 LDFLAGS = -static -lgdi32
+RFLAGS = -J rc -O coff
 
 #ifeq ($(OS), Msys)
 #LDFLAGS = -static -lpdcurses
@@ -29,6 +31,8 @@ LDFLAGS = -static -lgdi32
 
 SOURCES = $(wildcard *.cpp)
 _OBJS = $(SOURCES:.cpp=.o)
+RSRC = $(wildcard *.rc)
+_OBJS += $(RSRC:.rc=.res)
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
 all: $(TARGET)
@@ -46,7 +50,11 @@ $(DDIR):
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@
 
+$(ODIR)/%.res: %.rc
+	$(WNDRES) $(RFLAGS) $< -o $@
+
 clean:
 	rm -f $(TARGET) $(ODIR)/*.o
 
 -include $(SOURCES:%.cpp=$(DEPDIR)/%.P)
+

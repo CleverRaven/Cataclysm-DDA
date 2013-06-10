@@ -746,7 +746,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   if (g->u.backlog.type == ACT_TRAIN) {
    std::stringstream resume;
    resume << "Yes, let's resume training " <<
-             (g->u.backlog.index > 0 ?
+             (g->u.backlog.name != "" ?
               Skill::skill(g->u.backlog.name)->name() :
               g->itypes[ martial_arts_itype_ids[0-g->u.backlog.index] ]->name);
    SELECT_TEMP( resume.str(), g->u.backlog.index);

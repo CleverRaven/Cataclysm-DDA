@@ -36,14 +36,13 @@
 #define COL_SKILL_USED		c_green    // A skill with at least one point
 
 #define HIGH_STAT 14 // The point after which stats cost double
-#define MAX_TRAIT_POINTS 12 // How many points from traits
 
 #define NEWCHAR_TAB_MAX 4 // The ID of the rightmost tab
 
 void draw_tabs(WINDOW* w, std::string sTab);
 
 int set_stats(WINDOW* w, game* g, player *u, int &points);
-int set_traits(WINDOW* w, game* g, player *u, int &points);
+int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points);
 int set_profession(WINDOW* w, game* g, player *u, int &points);
 int set_skills(WINDOW* w, game* g, player *u, int &points);
 int set_description(WINDOW* w, game* g, player *u, int &points);
@@ -62,7 +61,7 @@ bool player::create(game *g, character_type type, std::string tempname)
 
  WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
 
- int tab = 0, points = 38;
+ int tab = 0, points = 38, max_trait_points = 12;
  if (type != PLTYPE_CUSTOM) {
   switch (type) {
    case PLTYPE_RANDOM: {
@@ -82,13 +81,13 @@ bool player::create(game *g, character_type type, std::string tempname)
 
     int num_gtraits = 0, num_btraits = 0, rn, tries;
     while (points < 0 || rng(-3, 20) > points) {
-     if (num_btraits < MAX_TRAIT_POINTS && one_in(3)) {
+     if (num_btraits < max_trait_points && one_in(3)) {
       tries = 0;
       do {
        rn = random_bad_trait();
        tries++;
       } while ((has_trait(rn) ||
-              num_btraits - traits[rn].points > MAX_TRAIT_POINTS) && tries < 5);
+              num_btraits - traits[rn].points > max_trait_points) && tries < 5);
       if (tries < 5) {
        toggle_trait(rn);
        points -= traits[rn].points;
@@ -104,14 +103,14 @@ bool player::create(game *g, character_type type, std::string tempname)
      }
     }
     while (points > 0) {
-     switch (rng((num_gtraits < MAX_TRAIT_POINTS ? 1 : 5), 9)) {
+     switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
      case 1:
      case 2:
      case 3:
      case 4:
       rn = random_good_trait();
       if (!has_trait(rn) && points >= traits[rn].points &&
-          num_gtraits + traits[rn].points <= MAX_TRAIT_POINTS) {
+          num_gtraits + traits[rn].points <= max_trait_points) {
        toggle_trait(rn);
        points -= traits[rn].points;
        num_gtraits += traits[rn].points;
@@ -160,13 +159,14 @@ bool player::create(game *g, character_type type, std::string tempname)
   tab = NEWCHAR_TAB_MAX;
  } else
   points = OPTIONS[OPT_INITIAL_POINTS];
+  max_trait_points = OPTIONS[OPT_MAX_TRAIT_POINTS];
 
  do {
   werase(w);
   wrefresh(w);
   switch (tab) {
    case 0: tab += set_stats      (w, g, this, points); break;
-   case 1: tab += set_traits     (w, g, this, points); break;
+   case 1: tab += set_traits     (w, g, this, points, max_trait_points); break;
    case 2: tab += set_profession (w, g, this, points); break;
    case 3: tab += set_skills     (w, g, this, points); break;
    case 4: tab += set_description(w, g, this, points); break;
@@ -482,7 +482,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
  } while (true);
 }
 
-int set_traits(WINDOW* w, game* g, player *u, int &points)
+int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
 {
  draw_tabs(w, "TRAITS");
 
@@ -517,9 +517,9 @@ int set_traits(WINDOW* w, game* g, player *u, int &points)
  do {
   mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
   mvwprintz(w,  3,20, c_ltgreen, "%s%d/%d", (num_good < 10 ? " " : ""),
-                                 num_good, MAX_TRAIT_POINTS);
+                                 num_good, max_trait_points);
   mvwprintz(w,  3,33, c_ltred, "%s%d/%d", (num_bad < 10 ? " " : ""),
-                               num_bad, MAX_TRAIT_POINTS);
+                               num_bad, max_trait_points);
 // Clear the bottom of the screen.
   mvwprintz(w_description, 0, 0, c_ltgray, "                                                                             ");
   mvwprintz(w_description, 1, 0, c_ltgray, "                                                                             ");
@@ -655,13 +655,13 @@ int set_traits(WINDOW* w, game* g, player *u, int &points)
      } else
       mvwprintz(w,  3, 2, c_red, "Points left: %d  ", points);
     } else if (using_adv && num_good + traits[cur_trait].points >
-                            MAX_TRAIT_POINTS)
+                            max_trait_points)
      popup("Sorry, but you can only take %d points of advantages.",
-           MAX_TRAIT_POINTS);
+           max_trait_points);
     else if (!using_adv && num_bad - traits[cur_trait].points >
-                           MAX_TRAIT_POINTS)
+                           max_trait_points)
      popup("Sorry, but you can only take %d points of disadvantages.",
-           MAX_TRAIT_POINTS);
+           max_trait_points);
     else if (points >= traits[cur_trait].points) {
      u->toggle_trait(cur_trait);
      points -= traits[cur_trait].points;
