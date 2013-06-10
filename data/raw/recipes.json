@@ -3472,6 +3472,368 @@
 
 
         {
+            "result": "mutagen_plant",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["veggy_tainted", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_insect",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["honeycomb", 3],
+                                  ["bee_sting", 3],
+                                  ["wasp_sting", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_spider",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["chitin_piece", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_slime",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["sewage", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_fish",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["can_sardine", 1],
+                                  ["can_tuna", 1]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_rat",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat_tainted", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_beast",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_cattle",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_cephalopod",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat_tainted", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_bird",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_lizard",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_troglobite",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+        {
             "result": "purifier",
             "category": "CC_CHEM",
             "skill_pri": "cooking",
@@ -4052,7 +4414,7 @@
             "difficulty": 4,
             "time": 30000,
             "reversible": true,
-            "autolearn": true,
+            "autolearn": false,
             "tools": [
                          [
                              ["screwdriver", -1],
@@ -4380,6 +4742,39 @@
 
 
         {
+            "result": "bio_batteries",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 2]
+                              ],
+                              [
+                                  ["amplifier", 2]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "bio_power_armor_interface",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
@@ -4407,6 +4802,532 @@
                               [
                                   ["burnt_out_bionic", 1],
                                   ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_power_armor_interface_mkII",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 9,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 5]
+                              ],
+                              [
+                                  ["amplifier", 3]
+                              ],
+                              [
+                                  ["plut_cell", 5]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_evap",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 2]
+                              ],
+                              [
+                                  ["hose", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_laser",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 9,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "decomp_learn": 7,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 2]
+                              ],
+                              [
+                                  ["amplifier", 2]
+                              ],
+                              [
+                                  ["lens", 2]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_flashlight",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 6,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 1]
+                              ],
+                              [
+                                  ["amplifier", 1]
+                              ],
+                              [
+                                  ["lens", 2]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_water_extractor",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 2]
+                              ],
+                              [
+                                  ["element", 1]
+                              ],
+                              [
+                                  ["hose", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_armor_head",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 6,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["wrench", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["alloy_sheet", 4],
+                                  ["alloy_plate", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_armor_arms",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 6,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["wrench", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["alloy_sheet", 4],
+                                  ["alloy_plate", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_armor_torso",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 6,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["wrench", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["alloy_sheet", 4],
+                                  ["alloy_plate", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_armor_legs",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 6,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["wrench", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["alloy_sheet", 4],
+                                  ["alloy_plate", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_recycler",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_digestion",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_face_mask",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", 20],
+                             ["toolset", 2]
+                         ],
+                         [
+                             ["soldering_iron", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_nanobots",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_ground_sonar",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_metabolics",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_blood_filter",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
                               ]
                           ]
         },
@@ -6967,6 +7888,17 @@
                           ]
         },
 
+        {
+            "result": "brass_catcher",
+            "category": "CC_MISC",
+            "skill_pri": "tailor",
+            "difficulty": 3,
+            "time": 65000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [ [ ["needle_bone", 4], ["sewing_kit", 4] ] ],
+            "components": [ [ ["rag", 4] ] ]
+        },
 
         {
             "result": "pheromone",

@@ -46,7 +46,7 @@ public:
 // returns the default container of this item, with this item in it
  item in_its_container(std::map<std::string, itype*> *itypes);
 
- nc_color color(player *u);
+ nc_color color(player *u) const;
  nc_color color_in_inventory(player *u);
  std::string tname(game *g = NULL); // g needed for rotten-test
  void use(player &u);
@@ -71,8 +71,8 @@ public:
  //std::string info(bool showtext = false);	// Formatted for human viewing
  std::string info(bool showtext = false);
  std::string info(bool showtext, std::vector<iteminfo> *dump);
- char symbol();
- nc_color color();
+ char symbol() const;
+ nc_color color() const;
  int price() const;
 
  bool invlet_is_okay();

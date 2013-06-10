@@ -65,8 +65,13 @@ class map
  void clear_traps();
 
 // Movement and LOS
- int move_cost(const int x, const int y); // Cost to move through; 0 = impassible
- int move_cost_ter_only(const int x, const int y); // same as above, but don't take vehicles into account
+ // Cost to move through; 0 = impassible, 1 = 50 moves, 2 = 100 etc
+ int move_cost(const int x, const int y);
+ // Same as above, but don't take vehicles into account
+ int move_cost_ter_only(const int x, const int y);
+ // Cost to move out of one tile and into the next,
+ // returns player/monster moves (50, 75, 100, etc), unlike move_cost
+ int combined_movecost(const int x1, const int y1, const int x2, const int y2);
  bool trans(const int x, const int y); // Transparent?
  // (Fx, Fy) sees (Tx, Ty), within a range of (range)?
  // tc indicates the Bresenham line used to connect the two points, and may
@@ -253,6 +258,7 @@ private:
  void apply_light_arc(int x, int y, int angle, float luminance, int wideangle = 30 );
  void apply_light_ray(bool lit[MAPSIZE*SEEX][MAPSIZE*SEEY],
                       int sx, int sy, int ex, int ey, float luminance, bool trig_brightcalc = true);
+ void calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy);
 
  float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
  float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];

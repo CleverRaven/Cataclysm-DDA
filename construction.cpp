@@ -767,15 +767,9 @@ void game::place_construction(constructable *con)
    }
   }
  }
- mvprintz(0, 0, c_red, "Pick a direction in which to construct:");
  int dirx, diry;
- get_direction(this, dirx, diry, input());
- if (dirx == -2) {
-  add_msg("Invalid direction.");
+ if (!choose_adjacent("Contruct", dirx, diry))
   return;
- }
- dirx += u.posx;
- diry += u.posy;
  bool point_is_okay = false;
  for (int i = 0; i < valid.size() && !point_is_okay; i++) {
   if (valid[i].x == dirx && valid[i].y == diry)
