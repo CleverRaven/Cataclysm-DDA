@@ -277,7 +277,7 @@ char game::inv_type(std::string title, item_cat inv_item_type)
  invslice slice = reduced_inv.slice(0, reduced_inv.size());
  std::vector<int> firsts = find_firsts(slice);
 
- int selected=-1;
+ int selected=0;
  int selected_char=(int)' ';
  do {
   if (( ch == '<' || ch == KEY_PPAGE ) && start > 0) { // Clear lines and shift
@@ -346,13 +346,16 @@ char game::inv_type(std::string title, item_cat inv_item_type)
       if( cur_it < u.inv.size() ) {
         ch='>';
       } else {
-        selected = u.inv.size() - 1; // wraparound?
+        start = 0;
+        selected = 0;
       }
     }
   } else if ( ch == KEY_UP ) {
     selected--;
-    if ( selected < -1 ) {
-      selected = -1; // wraparound?
+    if ( selected < 0 ) {
+      selected = u.inv.size()-1;
+      start = ((int)(u.inv.size()/(maxitems+3))*(maxitems+4))-firsts.size();
+      ch='>';
     } else if ( selected < start ) {
       if ( start > 0 ) {
         for (int i = 1; i < maxitems+4; i++)
