@@ -127,31 +127,26 @@ void mapgen_crater(map *m, mapgendata dat)
     m->place_items(mi_wreckage, 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
-void mapgen_field(map *m, int turn)
-{
-    for (int i = 0; i < SEEX * 2; i++)
-    {
-        for (int j = 0; j < SEEY * 2; j++)
-        {
-            m->ter_set(i, j, grass_or_dirt());
-            //------Jovan's-----
-            if (one_in(120))
-            {
-                if (one_in(30))
-                {
-                    m->ter_set(i, j, t_shrub_blueberry);
-                }
-                else
-                {
-                    m->ter_set(i, j, t_shrub);
-                }
-            }
-            else
-            if (one_in(1000)) { m->ter_set(i,j, t_mutpoppy); }
-            //------------------
+void mapgen_field(map *m, int turn) {
+  for (int i = 0; i < SEEX * 2; i++) {
+    for (int j = 0; j < SEEY * 2; j++) {
+      if (one_in(120)) {
+        if (one_in(30)) {
+          m->ter_set(i, j, t_shrub_blueberry);
+        } else if (one_in(30)) {
+          m->ter_set(i, j, t_shrub_strawberry);
+        } else {
+          m->ter_set(i, j, t_shrub);
         }
+      } else if (one_in(1000)) {
+        m->ter_set(i,j, t_mutpoppy);
+      } else {
+        m->ter_set(i, j, grass_or_dirt());
+      }
     }
-    m->place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
+  }
+
+  m->place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
 }
 
 void mapgen_dirtlot(map *m, game *g)
