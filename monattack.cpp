@@ -1398,33 +1398,38 @@ void mattack::breathe(game *g, monster *z)
  }
 }
 
-void mattack::bite(game *g, monster *z)
-{
-    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1)
-	{
-        return;
-	}
-    z->sp_timeout = z->type->sp_freq;	// Reset timer
-    g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
-    z->moves -= 100;
+void mattack::bite(game *g, monster *z) {
+  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1) {
+    return;
+  }
 
-	// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
- int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
- if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
-	{
-        g->add_msg("You dodge it!");
-        g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
-        return;
-    }
-    body_part hit = random_body_part();
-    int dam = rng(5, 10), side = rng(0, 1);
+  z->sp_timeout = z->type->sp_freq; // Reset timer
+  g->add_msg("The %s lunges forward attempting to bite you!", z->name().c_str());
+  z->moves -= 100;
+
+  // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+  int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+  if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check)))) {
+    g->add_msg("You dodge it!");
+    g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
+    return;
+  }
+
+  body_part hit = random_body_part();
+  int dam = rng(5, 10), side = rng(0, 1);
+  dam = g->u.hit(g, hit, side, dam, 0);
+
+  if (dam > 0) {
     g->add_msg("Your %s is bitten!", body_part_name(hit, side).c_str());
-    dam = g->u.hit(g, hit, side, dam, 0);
-    if(dam > 0 && one_in(14 - dam))
-	{
-        g->u.add_disease(DI_BITE, 3600, g);
+
+    if(one_in(14 - dam)) {
+      g->u.add_disease(DI_BITE, 3600, g);
     }
-    g->u.practice(g->turn, "dodge", z->type->melee_skill);
+  } else {
+    g->add_msg("Your %s is bitten, but your armor protects you.", body_part_name(hit, side).c_str());
+  }
+
+  g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
 
 void mattack::flesh_golem(game *g, monster *z)
