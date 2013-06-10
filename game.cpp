@@ -2676,7 +2676,7 @@ void game::debug()
                    "Check NPC",              // 13
                    "Spawn Artifact",         // 14
                    "Spawn Clarivoyance Artifact", //15
-                   "Peek", // 16
+                   "Map editor", // 16
                    "Cancel",                 // 17
                    NULL);
  int veh_num;
