@@ -1958,8 +1958,10 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
      status = c_ltblue;
     else if (traits[traitslist[i]].points > 0)
      status = c_ltgreen;
-    else
+    else if (traits[traitslist[i]].points < 0)
      status = c_ltred;
+    else
+     status = c_yellow;
     if (i == line)
      mvwprintz(w_traits, 1 + i - min, 1, hilite(status),
                traits[traitslist[i]].name.c_str());
@@ -1987,8 +1989,10 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
       mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
       if (traits[traitslist[i]].points > 0)
        status = c_ltgreen;
-      else
+      else if (traits[traitslist[i]].points < 0)
        status = c_ltred;
+      else
+       status = c_yellow;
       mvwprintz(w_traits, i + 1, 1, status, traits[traitslist[i]].name.c_str());
      }
      wrefresh(w_traits);
