@@ -3,7 +3,6 @@
 #include "input.h"
 #include "keypress.h"
 #include "output.h"
-#include "ui.h"
 #include "skill.h"
 #include "line.h"
 #include "computer.h"
