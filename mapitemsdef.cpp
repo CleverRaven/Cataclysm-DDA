@@ -101,7 +101,7 @@ void game::init_mapitems()
 	"sw_610", "ruger_redhawk", "deagle_44", "usp_45", "m1911",
 	"fn57", "mac_10", "shotgun_sawn", "suppressor", "grip",
 	"clip", "spare_mag", "grenade", "EMPbomb", "gasbomb", "tazer",
-	"longbow", "compbow", "arrow_wood", "arrow_cf", "u_shotgun", "shot_hull",
+	"longbow", "compbow", "compositebow", "shortbow", "recurbow", "reflexbow", "arrow_wood", "arrow_cf", "u_shotgun", "shot_hull",
         "9mm_casing", "38_casing", "40_casing", "44_casing", "45_casing",
         "57mm_casing", "46mm_casing", "762_casing", "223_casing",
         "3006_casing", "308_casing", "gunpowder",
@@ -244,9 +244,9 @@ void game::init_mapitems()
 	"bb", "bolt_steel", "bbgun", "crossbow", "manual_knives","manual_survival",
 	"manual_first_aid", "manual_traps", "lighter", "matches", "sewing_kit", "thread",
 	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
- "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
- "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
- "heatpack", "glowstick", "emer_blanket", "cloak", "sleeping_bag", "gasoline_lantern", NULL);
+    "UPS_off", "string_36", "longbow", "compbow", "compositebow", "shortbow", "recurbow", "reflexbow",
+    "arrow_wood", "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
+    "heatpack", "glowstick", "emer_blanket", "cloak", "sleeping_bag", "gasoline_lantern", NULL);
 
 
  setvector(
@@ -261,7 +261,8 @@ void game::init_mapitems()
 	"manual_knives", "manual_first_aid", "manual_traps", "lighter", "matches",
 	"sewing_kit", "thread", "hammer", "flashlight", "water_purifier",
 	"radio", "beartrap", "extinguisher", "string_36", "longbow",
-	"compbow", "arrow_wood", "arrow_cf", "rollmat", "tent_kit",
+	"compbow", "compositebow", "shortbow", "recurbow", "reflexbow",
+	"arrow_wood", "arrow_cf", "rollmat", "tent_kit",
     "foot_crank", "mag_archery", "heatpack", "glowstick", NULL);
 
  setvector(
@@ -424,7 +425,7 @@ void game::init_mapitems()
 	"baton", "kevlar", "vest", "gloves_leather", "mask_gas",
 	"goggles_nv", "helmet_riot", "holster", "bootstrap",
 	"armguard_hard",
-	"shot_00", "9mm", "usp_9mm", "remington_870", 
+	"shot_00", "9mm", "usp_9mm", "remington_870",
 	"UPS_off", "tazer", NULL);
 
  setvector(
@@ -480,7 +481,7 @@ void game::init_mapitems()
 	"textbook_business", "manual_computers", "textbook_computers", "lighter", "matches", "extinguisher", "flashlight",
 	"radio", "bubblewrap", "coffee_raw", "usb_drive","rootbeer", "cig", "coat_rain", "poncho",
 	"mag_tv", "mag_news", "lighter", "matches", "extinguisher", "mp3", NULL);
-	
+
  setvector(
    &mapitems[mi_school],
     "glasses_reading", "purse", "mbag", "battery", "mag_news", "manual_computers",
@@ -489,7 +490,7 @@ void game::init_mapitems()
 	"manual_tailor", "manual_carpentry", "novel_romance", "novel_spy", "novel_scifi", "novel_drama",
         "novel_mystery", "novel_fantasy", "novel_horror", "chocolate", "candy", "backpack", "pockknife", "mag_comic",
 	NULL);
-	
+
  setvector(
    &mapitems[mi_church],
    "glasses_eye", "sunglasses", "glasses_reading", "glasses_bifocal", "lighter", "matches", "coat_rain", "cane", "candlestick",
@@ -507,7 +508,7 @@ void game::init_mapitems()
  setvector(
    &mapitems[mi_medieval],
 	"katana", "mace", "morningstar", "rapier", "broadsword",
-	"pike", "helmet_plate", "armor_plate", NULL);  
+	"pike", "helmet_plate", "armor_plate", NULL);
 
  setvector(
    &mapitems[mi_art],
@@ -755,7 +756,7 @@ void game::init_mapitems()
 	"1st_aid", "motor", "hose", "screwdriver", "wrench", "pipe",
 	"boots", "jumpsuit", "coat_lab", "gloves_rubber",
 	"mask_filter", "glasses_safety", "hat_hard", "extinguisher",
-	"flashlight", "water_purifier", 
+	"flashlight", "water_purifier",
  "bio_tools", "bio_storage",  "bio_flashlight",
  "bio_lighter", "bio_magnet", "flyer",
  "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
@@ -775,7 +776,7 @@ void game::init_mapitems()
 	"water_clean", "1st_aid", "rope_30", "chain", "boots_steel",
 	"jumpsuit", "gloves_leather", "mask_filter", "mask_gas",
 	"glasses_safety", "goggles_welding", "goggles_nv", "hat_hard",
-	"backpack", "battery", "flashlight", 
+	"backpack", "battery", "flashlight",
 	"jackhammer", "jacqueshammer", "dynamite", "UPS_off",
    "bio_tools", "bio_flashlight", "bio_lighter", "bio_magnet",
    "bio_resonator", "bio_hydraulics",
@@ -932,7 +933,7 @@ void game::init_mapitems()
 	"40mm_frag", "40mm_incendiary", "40mm_teargas", "40mm_smoke",
 	"40mm_flashbang", "usp_9mm", "usp_45", "m4a1", "scar_l",
 	"scar_h", "m249", "ftk93", "nx17", "m320", "mgl",
-	"suppressor", "clip", "brass_catcher", "lighter", "flashlight", 
+	"suppressor", "clip", "brass_catcher", "lighter", "flashlight",
 	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
 	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
 	"binoculars", "u_shotgun", "beltrig", "power_armor_basic",

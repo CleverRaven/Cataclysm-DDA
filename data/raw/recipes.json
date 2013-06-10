@@ -468,6 +468,41 @@
                           ]
         },
 
+		
+        {
+            "result": "shortbow",
+            "category": "CC_WEAPON",
+            "skill_pri": "archery",
+            "skill_sec": "survival",
+            "difficulty": 2,
+            "time": 15000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["stick", 1]
+                              ],
+                              [
+                                  ["string_36", 2],
+                                  ["sinew", 200],
+                                  ["plant_fibre", 200]
+                              ]
+                          ]
+        },
+
 
         {
             "result": "nailboard",
