@@ -151,7 +151,7 @@ char game::inv(std::string title)
  print_inv_statics(this, w_inv, title, null_vector);
 // Gun, ammo, weapon, armor, food, tool, book, other
  std::vector<int> firsts = find_firsts(slice);
- int selected=-1;
+ int selected=0;
  int selected_char=(int)' ';
 
  if( uistate.last_inv_start >= 0 ) start = uistate.last_inv_start;
@@ -221,13 +221,16 @@ char game::inv(std::string title)
       if( cur_it < u.inv.size() ) {
         ch='>';
       } else {
-        selected = u.inv.size() - 1; // wraparound?
+        start = 0;
+        selected = 0;
       }
     }
   } else if ( ch == KEY_UP ) {
     selected--;
-    if ( selected < -1 ) {
-      selected = -1; // wraparound?
+    if ( selected < 0 ) {
+      selected = u.inv.size()-1;
+      start = ((int)(u.inv.size()/(maxitems+3))*(maxitems+4))-firsts.size();
+      ch='>';
     } else if ( selected < start ) {
       if ( start > 0 ) {
         for (int i = 1; i < maxitems+4; i++)
