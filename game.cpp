@@ -6531,8 +6531,11 @@ void game::peek()
 point game::look_debug(point coords) {
   draw_ter();
   int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
+
   int mx, my;
-  int ch; int nextch=0; InputEvent input;
+  int ch;
+  int nextch=0;
+  InputEvent input;
 
   std::string padding=std::string(46,' ');
 
@@ -6543,9 +6546,14 @@ point game::look_debug(point coords) {
   mvwprintz(w_look, 1, 1, c_white, "Looking Around");
   wrefresh(w_look);
   bool skip=false;
+
   int pter=-1;
-  int fsel=-1;int fset=-1;
-  int trsel=-1;int trset=-1;
+
+  int fsel=-1;
+  int fset=-1;
+
+  int trsel=-1;
+  int trset=-1;
   do {
     if (nextch!=0) {
       ch=nextch;
@@ -6569,11 +6577,10 @@ point game::look_debug(point coords) {
     draw_ter(lx, ly);
     mvwprintz(w_look, 0, 2 ,c_ltgray, "< %d,%d >",lx,ly);
     for (int i = 1; i < lookHeight; i++) {
-      mvwprintz(w_look, i, 1, c_white, "                                              ");
+      mvwprintz(w_look, i, 1, c_white, padding.c_str());
     }
 
     // Debug helper 2, child of debug helper
-    int junk;
     int veh_part = 0;
     vehicle *veh = m.veh_at(lx, ly, veh_part);
     int veh_in=-1;
@@ -6581,12 +6588,11 @@ point game::look_debug(point coords) {
 
     int off=1;
     int boff=lookHeight-1;
+
     int tter=m.ter(lx, ly);
     ter_t terrain_type = terlist[m.ter(lx, ly)];
-    std::string extras="";
-    if(veh_in >= 0) extras+=" [vehicle]";
-    if(m.has_flag(indoors, lx, ly)) extras+=" [indoors]";
-    if(m.has_flag(supports_roof, lx, ly)) extras+=" [roof]";
+
+
     mvwputch(w_look, off, 2, terrain_type.color, terrain_type.sym);
     mvwprintw(w_look, off, 4, "%d: %s; movecost %d movestr %d", m.ter(lx, ly),
          m.tername(lx, ly).c_str(),
@@ -6598,16 +6604,16 @@ point game::look_debug(point coords) {
     mvwprintw(w_look, off, 2, "dist: %d u_see: %d light: %d v_in: %d", rl_dist(u.posx, u.posy, lx, ly), u_see(lx, ly), m.light_at(lx,ly), veh_in );
     off++; // 3
 
-    //extras="";
-    //for (int i=0;i < num_t_flags; i++ ) {
-    //  extras+=(terrain_type.flags & mfb(i) ? "1" : "0");
-    //}
+    std::string extras="";
+    if(veh_in >= 0) extras+=" [vehicle]";
+    if(m.has_flag(indoors, lx, ly)) extras+=" [indoors]";
+    if(m.has_flag(supports_roof, lx, ly)) extras+=" [roof]";
+
     mvwprintw(w_look, off, 1, "%s %s", m.features(lx, ly).c_str(),extras.c_str());
     off++;
     
     field curfield = m.field_at(lx, ly);
     if (curfield.type != fd_null) {
-
        mvwprintz(w_look, off, 1, fieldlist[curfield.type].color[curfield.density-1], "field: %s (%d) density %d", 
            fieldlist[curfield.type].name[curfield.density-1].c_str(), curfield.type, curfield.density
        );
@@ -6627,15 +6633,11 @@ point game::look_debug(point coords) {
         z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
         z[mon_at(lx, ly)].print_info(this, w_look);
         off+=6;
-    }
-    else if (npc_at(lx, ly) != -1)
-    {
+    } else if (npc_at(lx, ly) != -1) {
         active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
         active_npc[npc_at(lx, ly)]->print_info(w_look);
         off+=6;
-    }
-    else if (veh)
-    {
+    } else if (veh) {
         mvwprintw(w_look, off, 1, "There is a %s there. Parts:", veh->name.c_str());
         off++;
         veh->print_part_desc(w_look, off, 48, veh_part);
@@ -6649,19 +6651,17 @@ point game::look_debug(point coords) {
     {
         mvwprintw(w_look, off, 1, "There is a %s there.",
                   m.i_at(lx, ly)[0].tname(this).c_str()); off++;
-        if (m.i_at(lx, ly).size() > 1)
-        {
+        if (m.i_at(lx, ly).size() > 1) {
             mvwprintw(w_look, off, 1, "There are %d other items there as well.",m.i_at(lx, ly).size()-1); off++;
         }
     }
-     mvwprintw(w_look, boff, 1, "[t] add trap, [f] add field effect"); boff--;
-     mvwprintw(w_look, boff, 1, "[enter] check npc, [g] edit m_ter"); boff--;
+
 
     if (m.graffiti_at(lx, ly).contents)
       mvwprintw(w_look, off, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str()); off++;
 
-    
-
+    mvwprintw(w_look, boff, 1, "[t] add trap, [f] add field effect"); boff--;
+    mvwprintw(w_look, boff, 1, "[g] edit m_ter"); boff--;
 
     wrefresh(w_look);
     wrefresh(w_terrain);
@@ -6669,21 +6669,25 @@ point game::look_debug(point coords) {
     if(ch == 'g') {
       ///////////////////////////////////////////
       ///// tile edit
-      int pwh=TERMY;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
+      int pwh=TERMY;
+      int pww=48;
+      int pwy=0;
+      int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
 
       WINDOW* w_pickter = newwin(pwh, pww, pwy, pwx);
       wborder(w_pickter, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
       wrefresh(w_pickter);
+
       int pickh=pwh-2;
       int pickw=pww-2;
-
       int cur_t=0;
+
       if( pter < 0 ) pter=tter;
       int lastpter=pter;
       int xmax=pickw; //int(pickw/2);
       int ymax=int(num_terrain_types/xmax);
-      int feh=0;
+      int subch=0;
       point pterp=point(-1,-1);
       point lastpterp=point(-1,-1);
       point tterp=point(-1,-1);
@@ -6741,25 +6745,25 @@ point game::look_debug(point coords) {
             /// 0: 0 1 2 3 
             /// 1: 4 5 6 7
             /// 3: 8 9
-            feh=(int)getch();
+            subch=(int)getch();
             lastpter=pter;
-            if( feh == KEY_LEFT ) {
+            if( subch == KEY_LEFT ) {
                 pter=(pter-1 >= 0 ? pter-1 : num_terrain_types - 1);
-            } else if( feh == KEY_RIGHT ) {
+            } else if( subch == KEY_RIGHT ) {
                 pter=(pter+1 < num_terrain_types ? pter+1 : 0 );
-            } else if( feh == KEY_UP ) {
+            } else if( subch == KEY_UP ) {
                 pter=( pter-xmax+2 > 0 ? pter-xmax+2 : 0 );
-            } else if( feh == KEY_DOWN ) {
+            } else if( subch == KEY_DOWN ) {
                 pter=( pter + xmax-2 < num_terrain_types ? pter+xmax-2 : num_terrain_types - 1);
-            } else if( feh == 't' ) {
-                nextch=feh;
+            } else if( subch == 't' ) {
+                nextch=subch;
             }
-      } while (feh == KEY_UP || feh == KEY_DOWN || feh == KEY_LEFT || feh == KEY_RIGHT );
+      } while (subch == KEY_UP || subch == KEY_DOWN || subch == KEY_LEFT || subch == KEY_RIGHT );
 
       werase(w_pickter);
       delwin(w_pickter);
       refresh_all();
-      if( ( feh == KEY_ENTER || feh == '\n' || feh == 'g' ) && pter != tter) {
+      if( ( subch == KEY_ENTER || subch == '\n' || subch == 'g' ) && pter != tter) {
           ter_t tset = terlist[pter];
           m.ter_set(lx, ly, (ter_id)pter);
       }
@@ -6770,14 +6774,12 @@ point game::look_debug(point coords) {
       ///////////////////////////////////////////
       ///// field edit
       int pwh=lookHeight-1;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
-//lookHeight+1, 48, 12+VIEW_OFFSET_Y
       WINDOW* w_pickfield = newwin(pwh, pww, pwy, pwx);
       wborder(w_pickfield, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-      //
       int fmax=pwh-4;
       int fshift=0;
-      int feh=0;
+      int subch=0;
       if ( fsel == -1 ) fsel=curfield.type;
       std::string fids[num_fields];fids[0]="-clear-";
       fids[14]="fire_vent"; fids[18]="push_items"; fids[19]="shock_vent"; fids[20]="acid_vent";
@@ -6799,10 +6801,10 @@ point game::look_debug(point coords) {
             }
             wrefresh(w_pickfield);
 
-            feh=(int)getch();
-            if(feh==KEY_UP) {
+            subch=(int)getch();
+            if(subch==KEY_UP) {
                 fsel--;
-            } else if (feh==KEY_DOWN) {
+            } else if (subch==KEY_DOWN) {
                 fsel++;
             }
             if( fsel < 0 ) {
@@ -6811,16 +6813,16 @@ point game::look_debug(point coords) {
                 fsel = 0;
             }
 
-      } while (feh == KEY_UP || feh == KEY_DOWN || feh == KEY_LEFT || feh == KEY_RIGHT );
-      if( ( feh == KEY_ENTER || feh == '\n' || feh == 'f' ) && curfield.type != fsel ) {
+      } while (subch == KEY_UP || subch == KEY_DOWN || subch == KEY_LEFT || subch == KEY_RIGHT );
+      if( ( subch == KEY_ENTER || subch == '\n' || subch == 'f' ) && curfield.type != fsel ) {
             if ( fsel == 0 ) {
                   fset=fsel;
                   m.remove_field(lx, ly);
             } else if ( fset < num_fields-1 ) {
-                  int num=menu(false,"density?","1","2","3","-cancel-",NULL);
+                  int num=uimenu(false,"density?","1","2","3","-cancel-",NULL);
                   if(num<1 || num>3) {
                       nextch='t';
-                  } else if (num != curfield.density) {
+                  } else if ( curfield.type != fsel && num != curfield.density ) {
                       fset=fsel;
                       m.remove_field(lx, ly);
                       m.add_field(this, lx, ly, field_id(fset), num);
@@ -6831,7 +6833,6 @@ point game::look_debug(point coords) {
       wrefresh(w_pickfield);
       delwin(w_pickfield);
       wrefresh(w_look);
-//      refresh_all();
       skip = true;
 
     } else if ( ch == 't' ) {
@@ -6845,7 +6846,7 @@ point game::look_debug(point coords) {
       //
       int tmax=pwh-4;
       int tshift=0;
-      int feh=0;
+      int subch=0;
       if ( trsel == -1 ) trsel=curtrap;
       std::string trids[num_trap_types];trids[0]="-clear-";
       do {
@@ -6865,10 +6866,10 @@ point game::look_debug(point coords) {
             }
             wrefresh(w_picktrap);
 
-            feh=(int)getch();
-            if(feh==KEY_UP) {
+            subch=(int)getch();
+            if(subch==KEY_UP) {
                 trsel--;
-            } else if (feh==KEY_DOWN) {
+            } else if (subch==KEY_DOWN) {
                 trsel++;
             }
             if( trsel < 0 ) {
@@ -6877,8 +6878,8 @@ point game::look_debug(point coords) {
                 trsel = 0;
             }
 
-      } while (feh == KEY_UP || feh == KEY_DOWN || feh == KEY_LEFT || feh == KEY_RIGHT );
-      if( ( feh == KEY_ENTER || feh == '\n' || feh == 't' ) && curtrap != trsel ) {
+      } while (subch == KEY_UP || subch == KEY_DOWN || subch == KEY_LEFT || subch == KEY_RIGHT );
+      if( ( subch == KEY_ENTER || subch == '\n' || subch == 't' ) && curtrap != trsel ) {
           if ( trsel == 0 ) {
               trset=trsel;
               m.add_trap(lx, ly, trap_id(trset));
@@ -6892,7 +6893,6 @@ point game::look_debug(point coords) {
 
       delwin(w_picktrap);
       wrefresh(w_look);
-//      refresh_all();
       skip = true;
       //
     }
