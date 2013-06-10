@@ -50,8 +50,8 @@ void map::generate_lightmap(game* g)
   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
     const ter_id terrain = g->m.ter(sx, sy);
-    const std::vector<item> items = g->m.i_at(sx, sy);
-    const field current_field = g->m.field_at(sx, sy);
+    const std::vector<item> &items = g->m.i_at(sx, sy);
+    const field &current_field = g->m.field_at(sx, sy);
     // When underground natural_light is 0, if this changes we need to revisit
     if (natural_light > LIGHT_AMBIENT_LOW) {
      if (!g->m.is_outside(sx, sy)) {
