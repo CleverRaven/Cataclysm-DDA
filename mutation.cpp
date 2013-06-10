@@ -105,7 +105,7 @@ void player::mutate(game *g)
                     }
                 }
                 // mark for removal
-                if(!in_cat) downgrades.push_back(base_mutation);
+                if(!in_cat && base_mutation_index > PF_MAX) downgrades.push_back(base_mutation);
             }
         }
     }
