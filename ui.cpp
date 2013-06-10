@@ -195,7 +195,7 @@ void uimenu::query(bool loop) {
         if ( entries[ selected ].enabled == false ) { selected++; } else { iter=0; }
       }
       // todo: scroll_callback(this, selected, last_selected );
-    } else if ( keypress == '\n' || keypress == KEY_RIGHT || keypress == KEY_ENTER || keymap.find(keypress) != keymap.end() ) {
+    } else if ( keypress == '\n' || keypress == KEY_ENTER || keymap.find(keypress) != keymap.end() ) {
       if ( keymap.find(keypress) != keymap.end() ) { //!( keypress == '\n' || keypress == KEY_RIGHT || keypress == KEY_ENTER) ) {
         selected=keymap[ keypress ];
       }
@@ -207,7 +207,7 @@ void uimenu::query(bool loop) {
     } else {
       if ( return_invalid ) { ret = -1; }
     }
-  } while ( loop & ( keypress == KEY_UP || keypress == KEY_DOWN || keypress==0 || ret == startret ) );
+  } while ( loop & (ret == startret ) );
 }
 
 uimenu::~uimenu() {
