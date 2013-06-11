@@ -69,7 +69,7 @@ ODIRTILES = obj/tiles
 W32ODIR = objwin
 W32ODIRTILES = objwin/tiles
 DDIR = .deps
-WNDRES = windres
+WNDRES = $(CROSS)windres
 RFLAGS = -J rc -O coff
 
 OS  = $(shell uname -o)
