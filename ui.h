@@ -1,10 +1,7 @@
 #ifndef _UI_H_
 #define _UI_H_
 
-#include "map.h"
 #include "output.h"
-#include "game.h"
-#include "item.h"
 #include <sstream>
 #include <stdlib.h>
 #include "cursesdef.h"
@@ -12,12 +9,12 @@
 const int UIMENU_INVALID=-1024;
 
 struct uimenu_entry {
-  int retval;           // return this int
-  bool enabled;         // darken, and forbid scrolling if hilight_disabled is false
-  int hotkey;           // keycode from (int)getch(). -1: automagically pick first free character: 1-9 a-z A-Z
-  std::string txt;      // what it says on the tin
-  uimenu_entry(std::string T) { retval = -1; enabled=true; hotkey=-1; txt=T;};
-  uimenu_entry(int R, bool E, int K, std::string T) : retval(R), enabled(E), hotkey(K), txt(T) {};
+    int retval;           // return this int
+    bool enabled;         // darken, and forbid scrolling if hilight_disabled is false
+    int hotkey;           // keycode from (int)getch(). -1: automagically pick first free character: 1-9 a-z A-Z
+    std::string txt;      // what it says on the tin
+    uimenu_entry(std::string T) { retval = -1; enabled=true; hotkey=-1; txt=T;};
+    uimenu_entry(int R, bool E, int K, std::string T) : retval(R), enabled(E), hotkey(K), txt(T) {};
 };
 
 class uimenu {
@@ -43,10 +40,15 @@ class uimenu {
     bool return_invalid;
     bool hilight_disabled;
     bool hilight_full;
+    int shift_retval;
 
-    uimenu();
-    uimenu(bool cancancel, const char * message, ...);
+    uimenu(); // bare init
+
+    uimenu(bool cancancel, const char * message, ...); // legacy menu()
+    uimenu(bool cancelable, const char *mes, std::vector<std::string> options); // legacy menu_vec
+
     uimenu (int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents);
+
     void init();
     void show();
     void query(bool loop=true);
