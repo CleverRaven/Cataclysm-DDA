@@ -213,6 +213,8 @@ void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
 {
    if (!INBOUNDS(fx, fy) || !INBOUNDS(tx, ty)) return;
 
+   seen_cache[fx][fy] = true;
+
    const int ax = abs(tx - fx) << 1;
    const int ay = abs(ty - fy) << 1;
    const int dx = (fx < tx) ? 1 : -1;
