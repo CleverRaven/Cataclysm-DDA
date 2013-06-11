@@ -254,6 +254,7 @@ class game
   std::vector <mission_type> mission_types; // The list of mission templates
   mutation_branch mutation_data[PF_MAX2]; // Mutation data
   std::map<char, action_id> keymap;
+  std::map<char, action_id> default_keymap;
 
   calendar turn;
   signed char temperature;              // The air temperature
