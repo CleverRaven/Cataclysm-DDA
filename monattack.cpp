@@ -1202,7 +1202,7 @@ void mattack::smg(game *g, monster *z)
            z->name().c_str(),boo_hoo);
        } else {
          g->add_msg("Pointed in your direction, the %s emits an IFF warning beep.",
-           z->name().c_str(),boo_hoo);
+           z->name().c_str());
        }
     }
     return;
@@ -1223,7 +1223,7 @@ void mattack::smg(game *g, monster *z)
   tmp.dex_cur =  6;
   tmp.per_cur =  8;
   tmp.weapon = item(g->itypes["smg_9mm"], 0);
-  tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm_blank"]);
+  tmp.weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["9mm"]);
   tmp.weapon.charges = 10;
   std::vector<point> traj = line_to(z->posx, z->posy,
                                     target->posx, target->posy, fire_t);
