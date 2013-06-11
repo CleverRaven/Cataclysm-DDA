@@ -104,7 +104,7 @@ class inventory
   int volume() const;
   int max_active_item_charges(itype_id id) const;
 
-  void dump(std::vector<item>& dest) const; // dumps contents into dest (does not delete contents)
+  void dump(std::vector<item*>& dest); // dumps contents into dest (does not delete contents)
 
   // vector rather than list because it's NOT an item stack
   std::vector<item*> active_items();

@@ -10,6 +10,10 @@
 class player;
 class npc;
 
+// Thresholds for radiation dosage for the radiation film badge.
+const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
+const std::string rad_threshold_colors[] = { "green", "blue", "yellow", "orange", "red", "black"};
+
 struct iteminfo{
  public:
   std::string sType; //Itemtype
@@ -46,7 +50,7 @@ public:
 // returns the default container of this item, with this item in it
  item in_its_container(std::map<std::string, itype*> *itypes);
 
- nc_color color(player *u);
+ nc_color color(player *u) const;
  nc_color color_in_inventory(player *u);
  std::string tname(game *g = NULL); // g needed for rotten-test
  void use(player &u);
@@ -71,8 +75,8 @@ public:
  //std::string info(bool showtext = false);	// Formatted for human viewing
  std::string info(bool showtext = false);
  std::string info(bool showtext, std::vector<iteminfo> *dump);
- char symbol();
- nc_color color();
+ char symbol() const;
+ nc_color color() const;
  int price() const;
 
  bool invlet_is_okay();
@@ -166,6 +170,7 @@ public:
    int bigness;         // engine power, wheel size
    int frequency;       // Radio frequency
    int note;            // Associated dynamic text snippet.
+   int irridation;      // Tracks radiation dosage.
  };
  std::string mode;    // Mode of operation, can be changed by the player.
  std::set<std::string> item_tags;		// generic item specific flags

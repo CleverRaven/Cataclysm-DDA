@@ -987,6 +987,26 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
     }
    }
    break;
+
+  case COMPACT_SRCF_ELEVATOR:
+   if (!g->u.has_amount("sarcophagus_access_code", 1)){
+    print_error("Access code required!");
+    query_any("Press any key to continue...");}
+   else{
+    g->u.use_amount("sarcophagus_access_code", 1);
+    reset_terminal();
+    print_line("\nPower:         Backup Only\nRadion Level:  Very Dangerous\nOperational:   Overrided\n\n");
+    query_any("Press any key to continue...");
+    for (int x = 0; x < SEEX * MAPSIZE; x++) {
+        for (int y = 0; y < SEEY * MAPSIZE; y++) {
+            if (g->m.ter(x, y) == t_elevator_control_off) {
+                g->m.ter_set(x, y, t_elevator_control);
+
+            }
+        }
+    }
+   }
+   break;
   
  } // switch (action)
 }

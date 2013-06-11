@@ -101,6 +101,7 @@ typedef struct {
 #define    KEY_BACKSPACE  0x107    /* Backspace */                  //<---------not used
 #define    KEY_NPAGE      0x152    /* page down */
 #define    KEY_PPAGE      0x153    /* page up */
+#define    KEY_ENTER      0x157    /* enter */
 
 /* Curses external declarations. */
 

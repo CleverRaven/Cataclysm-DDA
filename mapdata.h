@@ -50,6 +50,7 @@ enum t_flag {
  rough,        // May hurt the player's feet
  sealed,       // Can't 'e' to retrieve items here
  noitem,       // Items "fall off" this space
+ destroy_item,  // Items are destroyed by this tile
  goes_down,    // Can '>' to go down a level
  goes_up,      // Can '<' to go up a level
  console,      // Used as a computer
@@ -454,7 +455,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"sewage",           '~', c_ltgreen, 6, -1, tr_null,
 	   mfb(transparent)|mfb(swimmable), &iexamine::water_source},
 {"lava",             '~', c_red,     4, -1, tr_lava,
-	   mfb(transparent)|mfb(liquid), &iexamine::none},
+        mfb(transparent)|mfb(liquid)|mfb(destroy_item), &iexamine::none},
 {"bed",              '#', c_magenta, 5, -1, tr_null,
     mfb(transparent)|mfb(container)|mfb(flammable2)|mfb(collapses)|
         mfb(deconstruct)|mfb(place_item)|mfb(indoors), &iexamine::none},

@@ -2083,10 +2083,10 @@ void npc::die(game *g, bool your_fault)
  my_body.make_corpse(g->itypes["corpse"], g->mtypes[mon_null], g->turn);
  my_body.name = name;
  g->m.add_item(posx, posy, my_body);
- std::vector<item> dump;
+ std::vector<item *> dump;
  inv.dump(dump);
  for (int i = 0; i < dump.size(); i++)
-  g->m.add_item(posx, posy, dump[i]);
+     g->m.add_item(posx, posy, *(dump[i]));
  for (int i = 0; i < worn.size(); i++)
   g->m.add_item(posx, posy, worn[i]);
  if (weapon.type->id != "null")

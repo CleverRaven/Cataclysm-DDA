@@ -286,6 +286,7 @@ void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
          no_extra_death_drops >> dead >> anger >> morale;
  type = (*mtypes)[idtmp];
  point ptmp;
+ plans.clear();
  for (int i = 0; i < plansize; i++) {
   dump >> ptmp.x >> ptmp.y;
   plans.push_back(ptmp);
@@ -534,6 +535,7 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
 void monster::hit_monster(game *g, int i)
 {
  monster* target = &(g->z[i]);
+ moves -= 100;
 
  if (this == target) {
   debugmsg("stopped monster from hitting itself");

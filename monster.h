@@ -93,6 +93,7 @@ class monster {
  point scent_move(game *g);
  point sound_move(game *g);
  void hit_player(game *g, player &p, bool can_grab = true);
+ int calc_movecost(game *g, int x1, int y1, int x2, int y2);
  void move_to(game *g, int x, int y);
  void stumble(game *g, bool moved);
  void knock_back_from(game *g, int posx, int posy);

@@ -1969,7 +1969,7 @@
     "symbol": "(",
     "color": "light_red",
     "name": "M72 LAW",
-    "description": "A single use rocket launcher, developed during WW2 as a countermeasure to the increasing prevalance of tanks. Once fired, it cannot be reloaded and must be disposed of.",
+    "description": "A disposable light anti-tank rocket launcher. Once fired, it cannot be reloaded and must be disposed of.",
     "rarity": 200,
     "price": 8500,
     "material": "steel",
