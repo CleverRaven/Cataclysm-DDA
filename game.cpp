@@ -9637,7 +9637,6 @@ void game::update_overmap_seen()
  cur_om->seen(omx, omy, levz) = true; // We can always see where we're standing
  if (dist == 0)
   return; // No need to run the rest!
- bool altered_om_vert = false, altered_om_diag = false, altered_om_hori = false;
  for (int x = omx - dist; x <= omx + dist; x++) {
   for (int y = omy - dist; y <= omy + dist; y++) {
    std::vector<point> line = line_to(omx, omy, x, y, 0);
@@ -9674,27 +9673,18 @@ void game::update_overmap_seen()
      if (tmpy < 0) tmpy += OMAPY;
      else          tmpy -= OMAPY;
      om_diag->seen(tmpx, tmpy, levz) = true;
-     altered_om_diag = true;
     } else if (tmpx < 0 || tmpx >= OMAPX) {
      if (tmpx < 0) tmpx += OMAPX;
      else          tmpx -= OMAPX;
      om_hori->seen(tmpx, tmpy, levz) = true;
-     altered_om_hori = true;
     } else if (tmpy < 0 || tmpy >= OMAPY) {
      if (tmpy < 0) tmpy += OMAPY;
      else          tmpy -= OMAPY;
      om_vert->seen(tmpx, tmpy, levz) = true;
-     altered_om_vert = true;
     }
    }
   }
  }
- if (altered_om_vert)
-  om_vert->save();
- if (altered_om_hori)
-  om_hori->save();
- if (altered_om_diag)
-  om_diag->save();
 }
 
 point game::om_location()
