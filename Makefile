@@ -169,16 +169,18 @@ endif
 SOURCES = $(wildcard *.cpp)
 HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
+_RESOURSES = ""
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard *.rc)
-  _OBJS += $(RSRC:.rc=.res)
+  _RESOURCES += $(RSRC:.rc=.res)
 endif
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
+RESOURCES = $(patsubst %,$(ODIR)/%,$(_RESOURCES))
 
 all: version $(TARGET)
 	@
 
-$(TARGET): $(ODIR) $(DDIR) $(OBJS)
+$(TARGET): $(ODIR) $(DDIR) $(OBJS) $(RESOURCES)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
           $(OBJS) $(LDFLAGS)
 
