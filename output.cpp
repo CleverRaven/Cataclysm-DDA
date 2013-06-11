@@ -435,10 +435,16 @@ std::string string_input_popup(std::string title, int max_length, std::string in
  } while (true);
 }
 
-char popup_getkey(const char *mes, ...)
+int popup_getkey(const char *mes, ...) {
+  va_list ap;
+  va_start(ap, mes);
+  int ch=mkpopup(mes, ap);
+  va_end(ap);
+  return ch;
+}
+
+int mkpopup(const char *mes, va_list ap)
 {
- va_list ap;
- va_start(ap, mes);
  char buff[8192];
  vsprintf(buff, mes, ap);
  va_end(ap);
@@ -475,7 +481,7 @@ char popup_getkey(const char *mes, ...)
  mvwprintz(w, line_num, 1, c_white, tmp.c_str());
 
  wrefresh(w);
- char ch = getch();;
+ int ch = getch();;
  werase(w);
  wrefresh(w);
  delwin(w);

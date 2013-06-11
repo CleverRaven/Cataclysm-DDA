@@ -55,7 +55,8 @@ void realDebugmsg(const char* name, const char* line, const char *mes, ...);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
 std::string string_input_popup(std::string title, int max_length = 0, std::string input = "");
-char popup_getkey(const char *mes, ...);
+int mkpopup(const char *mes, va_list ap);
+int popup_getkey(const char *mes, ...);
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec(bool cancelable, const char *mes, std::vector<std::string> options);
 int  menu(bool cancelable, const char *mes, ...);

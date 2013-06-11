@@ -199,7 +199,7 @@ void game::setup()
  curmes = 0;		// We haven't read any messages yet
  uquit = QUIT_NO;	// We haven't quit the game
  debugmon = false;	// We're not printing debug messages
-
+ queued_move = -1;
  weather = WEATHER_CLEAR; // Start with some nice weather...
  // Weather shift in 30
  nextweather = HOURS(OPTIONS[OPT_INITIAL_TIME]) + MINUTES(30);
@@ -1455,7 +1455,11 @@ bool game::handle_action()
             bWeatherEffect = false;
             break;
     }
-
+  action_id act;
+  if(queued_move > 1 && queued_move < 10 ) { // ignored vehicle prompt and wanted to move
+    act=(action_id)queued_move;
+    queued_move=-1;
+  } else {
     if (bWeatherEffect && OPTIONS[OPT_RAIN_ANIMATION]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH-121)/2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT-121)/2: 0;
@@ -1500,15 +1504,15 @@ bool game::handle_action()
     } else {
         ch = input();
     }
-
-  if (keymap.find(ch) == keymap.end()) {
-	  if (ch != ' ' && ch != '\n')
-		  add_msg("Unknown command: '%c'", ch);
-	  return false;
+  
+    if (keymap.find(ch) == keymap.end()) {
+     	  if (ch != ' ' && ch != '\n')
+	    	  add_msg("Unknown command: '%c'", ch);
+    	  return false;
+    }
+  
+    act = keymap[ch];
   }
-
- action_id act = keymap[ch];
-
 // This has no action unless we're in a special game mode.
  gamemode->pre_action(this, act);
 
@@ -8993,10 +8997,24 @@ void game::plmove(int x, int y)
       !veh->parts[dpart].has_flag(vehicle_part::passenger_flag);
 /*  if (veh.type != veh_null)
       add_msg ("vp=%d dp=%d can=%c", vpart, dpart, can_board? 'y' : 'n',);*/
-  if (can_board && query_yn("Board vehicle?")) { // empty vehicle's seat ahead
-   m.board_vehicle (this, x, y, &u);
-   u.moves -= 200;
-   return;
+  
+
+  if (can_board) {
+    int ch=popup_getkey("Board vehicle? (y/N)");
+    if(ch=='Y' || (!OPTIONS[OPT_FORCE_YN] && (ch == 'y'))) {
+      m.board_vehicle (this, x, y, &u);
+      u.moves -= 200;
+      return;
+    } else if ( ch != 'N' && ch != 'n' ) {
+
+      int act = keymap[input(ch)];
+      if( act >= 2 && act <= 9 ) {
+
+        queued_move=act;
+
+      }
+
+    }
   }
 
   if (m.field_at(x, y).is_dangerous() &&
