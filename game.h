@@ -172,6 +172,7 @@ class game
   int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
                              int npc_id = -1);
   npc* find_npc(int id);
+  int kill_count(mon_id mon);       // Return the number of kills of a given mon_id
   mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
   mission_type* find_mission_type(int id); // Same, but returns its type
   bool mission_complete(int id, int npc_id); // True if we made it
@@ -253,6 +254,7 @@ class game
   std::vector <mission_type> mission_types; // The list of mission templates
   mutation_branch mutation_data[PF_MAX2]; // Mutation data
   std::map<char, action_id> keymap;
+  std::map<char, action_id> default_keymap;
 
   calendar turn;
   signed char temperature;              // The air temperature

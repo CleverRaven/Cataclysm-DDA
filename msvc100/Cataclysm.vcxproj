@@ -184,6 +184,7 @@
     <ClCompile Include="..\trapdef.cpp" />
     <ClCompile Include="..\trapfunc.cpp" />
     <ClCompile Include="..\tutorial.cpp" />
+    <ClCompile Include="..\ui.cpp" />
     <ClCompile Include="..\vehicle.cpp" />
     <ClCompile Include="..\veh_interact.cpp" />
     <ClCompile Include="..\veh_typedef.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="..\tileray.h" />
     <ClInclude Include="..\trap.h" />
     <ClInclude Include="..\tutorial.h" />
+    <ClInclude Include="..\ui.h" />
     <ClInclude Include="..\vehicle.h" />
     <ClInclude Include="..\veh_interact.h" />
     <ClInclude Include="..\veh_type.h" />

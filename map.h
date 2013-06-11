@@ -193,7 +193,7 @@ class map
  void post_process(game *g, unsigned zones);
  void place_spawns(game *g, std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
- void place_items(items_location loc, const int chance, const int x1, const int y1,
+ int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
  void put_items_from(items_location loc, const int num, const int x, const int y, const int turn = 0, const int quantity = 0, const int charges = 0, const int damlevel = 0);

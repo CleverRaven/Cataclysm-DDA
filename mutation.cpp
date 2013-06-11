@@ -105,7 +105,7 @@ void player::mutate(game *g)
                     }
                 }
                 // mark for removal
-                if(!in_cat) downgrades.push_back(base_mutation);
+                if(!in_cat && base_mutation_index > PF_MAX) downgrades.push_back(base_mutation);
             }
         }
     }
@@ -315,6 +315,26 @@ void player::mutate_towards(game *g, pl_flag mut)
 
 void player::remove_mutation(game *g, pl_flag mut)
 {
+    // Check for dependant mutations first
+    std::vector<pl_flag> dependant;
+    for (int i = 0; i < PF_MAX2; i++)
+    {
+        for (std::vector<pl_flag>::iterator it = g->mutation_data[i].prereqs.begin();
+             it != g->mutation_data[i].prereqs.end(); it++)
+        {
+            if (*it == i)
+            {
+                dependant.push_back((pl_flag)i);
+                break;
+            }
+        }
+    }
+    if (dependant.size() != 0)
+    {
+        remove_mutation(g,dependant[rng(0,dependant.size())]);
+        return;
+    }
+
 // Check if there's a prereq we should shrink back into
  pl_flag replacing = PF_NULL;
  std::vector<pl_flag> originals = g->mutation_data[mut].prereqs;

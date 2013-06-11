@@ -10,6 +10,10 @@
 class player;
 class npc;
 
+// Thresholds for radiation dosage for the radiation film badge.
+const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
+const std::string rad_threshold_colors[] = { "green", "blue", "yellow", "orange", "red", "black"};
+
 struct iteminfo{
  public:
   std::string sType; //Itemtype
@@ -166,6 +170,7 @@ public:
    int bigness;         // engine power, wheel size
    int frequency;       // Radio frequency
    int note;            // Associated dynamic text snippet.
+   int irridation;      // Tracks radiation dosage.
  };
  std::string mode;    // Mode of operation, can be changed by the player.
  std::set<std::string> item_tags;		// generic item specific flags

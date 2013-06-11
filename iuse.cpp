@@ -489,7 +489,7 @@ void iuse::grack(game *g, player *p, item *it, bool t)
 {
   // Grack requires a fire source AND a pipe.
   if (!use_fire(g, p, it)) return;
-  g->add_msg_if_player(p,"You smoke some Grack Cocaine, time seems to stop.");
+  g->add_msg_if_player(p,"You smoke some Grack Cocaine. Time seems to stop.");
   int duration = 1000;
   if (p->has_trait(PF_LIGHTWEIGHT))
     duration += 10;
@@ -616,7 +616,7 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
     }
     else if( it->has_flag("MUTAGEN_INSECT") )
     {
-        g->add_msg_if_player(p, "You hear buzzing and feel your body harden.");
+        g->add_msg_if_player(p, "You hear buzzing, and feel your body harden.");
         p->mutate_category(g, MUTCAT_INSECT);
     }
     else if( it->has_flag("MUTAGEN_SPIDER") )
@@ -626,7 +626,7 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
     }
     else if( it->has_flag("MUTAGEN_SLIME") )
     {
-        g->add_msg_if_player(p, "Your body looses all rigidity for a moment.");
+        g->add_msg_if_player(p, "Your body loses all rigidity for a moment.");
         p->mutate_category(g, MUTCAT_SLIME);
     }
     else if( it->has_flag("MUTAGEN_FISH") )
@@ -646,12 +646,12 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
     }
     else if( it->has_flag("MUTAGEN_CATTLE") )
     {
-        g->add_msg_if_player(p, "Your mind and body slows down. You feel peaceful.");
+        g->add_msg_if_player(p, "Your mind and body slow down. You feel peaceful.");
         p->mutate_category(g, MUTCAT_CATTLE);
     }
     else if( it->has_flag("MUTAGEN_CEPHALOPOD") )
     {
-        g->add_msg_if_player(p, "Your mind is overcome by images of eldritch horros for a moment.");
+        g->add_msg_if_player(p, "Your mind is overcome by images of eldritch horrors...and then they pass.");
         p->mutate_category(g, MUTCAT_CEPHALOPOD);
     }
     else if( it->has_flag("MUTAGEN_BIRD") )
@@ -661,12 +661,12 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
     }
     else if( it->has_flag("MUTAGEN_LIZARD") )
     {
-        g->add_msg_if_player(p, "For a heartbeat your body cools down.");
+        g->add_msg_if_player(p, "For a heartbeat, your body cools down.");
         p->mutate_category(g, MUTCAT_LIZARD);
     }
     else if( it->has_flag("MUTAGEN_TROGLOBITE") )
     {
-        g->add_msg_if_player(p, "You feel more adapted for dark caves.");
+        g->add_msg_if_player(p, "You yearn for a cool, dark place to hide.");
         p->mutate_category(g, MUTCAT_TROGLO);
     }
     else
@@ -779,7 +779,7 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
    g->add_msg_if_player(p,"The dog seems to like you!");
    g->z[mon_dex].friendly = -1;
   } else
-   g->add_msg_if_player(p,"The %s seems quit unimpressed!",g->z[mon_dex].type->name.c_str());
+   g->add_msg_if_player(p,"The %s seems quite unimpressed!",g->z[mon_dex].type->name.c_str());
  } else
   g->add_msg_if_player(p,"You spill the dogfood all over the ground.");
 
@@ -3730,7 +3730,7 @@ void iuse::rag(game *g, player *p, item *it, bool t)
    g->add_msg_if_player(p,"You managed to stop the bleeding.");
    p->rem_disease(DI_BLEED);
   } else {
-   g->add_msg_if_player(p,"You couldnt stop the bleeding.");
+   g->add_msg_if_player(p,"You couldn't stop the bleeding.");
   }
   p->use_charges("rag", 1);
   it->make(g->itypes["rag_bloody"]);
@@ -4202,4 +4202,10 @@ void iuse::devac(game *g, player *p, item *it, bool t)
 	it->make(g->itypes[uvcont]);  //turning "vacuum packed xxx" into container for "xxx"
     it->contents.push_back(item(g->itypes[uvfood],0));  //shoving the "xxx" into the container
     it->contents[0].bday = g->turn + 3600 - (g->turn % 3600);
+}
+
+void iuse::rad_badge(game *g, player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,"You remove the badge from its wrapper, exposing it to ambient radiation.");
+    it->make(g->itypes["rad_badge"]);
 }

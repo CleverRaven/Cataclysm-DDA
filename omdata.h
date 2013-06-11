@@ -120,6 +120,7 @@ enum oter_id {
  ot_radio_tower,
  ot_toxic_dump,
  ot_haz_sar_entrance, ot_haz_sar,
+ ot_haz_sar_entrance_b1, ot_haz_sar_b1,
  ot_cave, ot_cave_rat,
 // Underground terrain
  ot_spider_pit_under,
@@ -384,7 +385,9 @@ const oter_t oterlist[num_ter_types] = {
 {"spiral cavern",	'@',	c_pink,		2, no_extras, false, false, 0},
 {"radio tower",         'X',    c_ltgray,       2, no_extras, false, false, 0},
 {"toxic waste dump",	'D',	c_pink,		2, no_extras, false, false, 0},
-{"hazardous waste sarcophagus", 'X',	c_ltred,		5, no_extras, false, false, 0},
+{"hazardous waste sarcophagus", 'X', c_ltred,		5, no_extras, false, false, 0},
+{"hazardous waste sarcophagus",	'X',	c_pink,		5, no_extras, false, false, 0},
+{"hazardous waste sarcophagus", 'X',	c_pink,		5, no_extras, false, false, 0},
 {"hazardous waste sarcophagus",	'X',	c_pink,		5, no_extras, false, false, 0},
 {"cave",		'C',	c_brown,	2, field_extras, false, false, 0},
 {"rat cave",		'C',	c_dkgray,	2, no_extras, true, false, 0},
