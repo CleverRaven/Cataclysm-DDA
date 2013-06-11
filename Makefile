@@ -69,6 +69,8 @@ ODIRTILES = obj/tiles
 W32ODIR = objwin
 W32ODIRTILES = objwin/tiles
 DDIR = .deps
+WNDRES = windres
+RFLAGS = -J rc -O coff
 
 OS  = $(shell uname -o)
 CXX = $(CROSS)g++
@@ -167,6 +169,10 @@ endif
 SOURCES = $(wildcard *.cpp)
 HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
+ifeq ($(TARGETSYSTEM),WINDOWS)
+  RSRC = $(wildcard *.rc)
+  _OBJS += $(RSRC:.rc=.res)
+endif
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
 all: version $(TARGET)
@@ -192,6 +198,9 @@ $(DDIR):
 
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+
+$(ODIR)/%.res: %.rc
+	$(WNDRES) $(RFLAGS) $< -o $@
 
 version.cpp: version
 
