@@ -11486,8 +11486,8 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir, int ve
  for( std::vector<int>::const_iterator part = veh->external_parts.begin();
       part != veh->external_parts.end(); part++ )
  {
-     int px = veh->parts[*part].precalc_dx[0];
-     int py = veh->parts[*part].precalc_dy[0];
+     int px = x + veh->parts[*part].precalc_dx[0];
+     int py = y + veh->parts[*part].precalc_dy[0];
 
      // Don't spawn on top of another vehicle or other obstacle.
      if( veh_at(px, py) != NULL || terlist[ter(px, py)].movecost != 2 )
