@@ -1722,6 +1722,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
    move_adjust = abs(move_adjust);
    mvwprintz(w_speed, line, (move_adjust >= 10 ? 22 : 23), col, "%d%%%%",
              move_adjust);
+   line++;
   }
  }
  if (has_trait(PF_QUICK)) {
