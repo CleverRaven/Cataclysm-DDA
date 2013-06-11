@@ -80,21 +80,38 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_place::always, &mission_start::reveal_lab_black_box,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_EXPLORE_SARCOPHAGUS);
   ITEM("black_box_transcript");
 
+//acidia mk v
+ MISSION("Follow Sarcophagus Team", MGOAL_GO_TO_TYPE, 2, 500, false,
+	&mission_place::always, &mission_start::oepn_sarcophagus,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  DESTINATION(ot_haz_sar_b1);
+
+//martyr mission 1
  MISSION("Find Relic", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
-  ORIGINS(ORIGIN_ANY_NPC);
+  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  FOLLOWUP(MISSION_RECOVER_PRIEST_DIARY);
   ITEM("small_relic");
 
+//martyr mission 2
+ MISSION("Recover Priest's Diary", MGOAL_FIND_ITEM, 2, 700, false,
+	&mission_place::always, &mission_start::place_priest_diary,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("priest_diary");
+  
  MISSION("Find Weather Log", MGOAL_FIND_ITEM, 2, 500, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
   ITEM("record_weather");
 
-//humanitarian 1
+//humanitarian mission 1
  MISSION("Find Patient Records", MGOAL_FIND_ITEM, 2, 600, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
@@ -102,7 +119,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   FOLLOWUP(MISSION_REACH_FEMA_CAMP);
   ITEM("record_patient");
 
-//humanitarian 2
+//humanitarian mission 2
  MISSION("Reach FEMA Camp", MGOAL_GO_TO_TYPE, 2, 600, false,
 	&mission_place::always, &mission_start::join,
 	&mission_end::standard, &mission_fail::standard);
@@ -110,23 +127,55 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   DESTINATION(ot_fema);
   FOLLOWUP(MISSION_REACH_FARM_HOUSE);
 
-//humanitarian 3
+//humanitarian mission 3
  MISSION("Reach Farm House", MGOAL_GO_TO_TYPE, 2, 600, false,
 	&mission_place::always, &mission_start::join,
 	&mission_end::leave, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   DESTINATION(ot_farm);
 
+//vigilante mission 1 
  MISSION("Find Corporate Accounts", MGOAL_FIND_ITEM, 2, 1400, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  FOLLOWUP(MISSION_GET_SAFE_BOX);
   ITEM("record_accounting");
+
+//vigilante mission 2
+ MISSION("Retrieve Deposit Box", MGOAL_FIND_ITEM, 2, 300, false,
+	&mission_place::always, &mission_start::place_deposit_box,
+	&mission_end::deposit_box, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_GET_DEPUTY_BADGE);
+  ITEM("safe_box");
+
+//vigilante mission 3
+ MISSION("Find Deputy Badge", MGOAL_FIND_ITEM, 2, 1500, false,
+	&mission_place::always, &mission_start::standard,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("badge_deputy");
   
- MISSION("Kill Jabberwock", MGOAL_KILL_MONSTER, 5, 2500, true,
+ //demon slayer mission 1 
+ MISSION("Kill Jabberwock", MGOAL_KILL_MONSTER, 5, 2000, true,
 	&mission_place::always, &mission_start::place_jabberwock,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_ANY_NPC);
+  FOLLOWUP(MISSION_KILL_100_Z);
+
+//demon slayer mission 2
+ MISSION("Kill 100 Zombies", MGOAL_KILL_MONSTER_TYPE, 5, 2500, false,
+	&mission_place::always, &mission_start::kill_100_z,
+	&mission_end::leave, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_KILL_HORDE_MASTER);
+
+//demon slayer mission 3
+ MISSION("Kill Horde Master",MGOAL_KILL_MONSTER, 5, 2500, true,
+	&mission_place::always, &mission_start::kill_horde_master,
+	&mission_end::leave, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
 
  MISSION("Find a Book", MGOAL_FIND_ANY_ITEM, 2, 800, false,
 	&mission_place::always, &mission_start::place_book,
