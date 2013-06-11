@@ -1951,9 +1951,12 @@ void map::shoot(game *g, const int x, const int y, int &dam,
             }
             else
             {
+                //Greatly weakens power of bullets
                 dam -= 40;
                 if (dam <= 0)
                     g->add_msg("The shot is stopped by the reinforced glass wall!");
+                //high powered bullets penetrate the glass, but only extremely strong
+                // ones (80 before reduction) actually destroy the glass itself.
                 else if (dam >= 40)
                 {
                     g->sound(x, y, 20, "glass breaking!");
