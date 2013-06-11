@@ -546,33 +546,32 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
   m->spawn_item(examx, examy, g->itypes["poppy_bud"],0);
 }
 
+void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std::string itemType, int new_ter) {
+  if (!query_yn("Pick %s?", m->tername(examx, examy).c_str())) {
+    none(g, p, m, examx, examy);
+    return;
+  }
+
+  int num_fruits = rng(1, p->skillLevel("survival"));
+
+  if (num_fruits > 12)
+    num_fruits = 12;
+
+  m->spawn_item(examx, examy, g->itypes[itemType], g->turn, num_fruits - 1);
+
+  m->ter_set(examx, examy, (ter_id)new_ter);
+}
+
 void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Pick %s?",m->tername(examx, examy).c_str())) return;
-
- int num_apples = rng(1, p->skillLevel("survival"));
- if (num_apples >= 12)
-  num_apples = 12;
- for (int i = 0; i < num_apples; i++)
-  m->spawn_item(examx, examy, g->itypes["apple"], g->turn, 0);
-
- m->ter_set(examx, examy, t_tree);
-
+  pick_plant(g, p, m, examx, examy, "apple", t_tree);
 }
 
 void iexamine::shrub_blueberry(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Pick %s?",m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
-  return;
- }
+  pick_plant(g, p, m, examx, examy, "blueberries", t_shrub);
+}
 
- int num_blueberries = rng(1, p->skillLevel("survival"));
-
- if (num_blueberries >= 12)
-  num_blueberries = 12;
- for (int i = 0; i < num_blueberries; i++)
-  m->spawn_item(examx, examy, g->itypes["blueberries"], g->turn, 0);
-
- m->ter_set(examx, examy, t_shrub);
+void iexamine::shrub_strawberry(game *g, player *p, map *m, int examx, int examy) {
+  pick_plant(g, p, m, examx, examy, "strawberries", t_shrub);
 }
 
 void iexamine::shrub_wildveggies(game *g, player *p, map *m, int examx, int examy) {

@@ -142,6 +142,11 @@ void mapgen_field(map *m, int turn)
                     m->ter_set(i, j, t_shrub_blueberry);
                 }
                 else
+                if (one_in(30))
+                {
+                    m->ter_set(i, j, t_shurb_strawberry);
+                }
+                else
                 {
                     m->ter_set(i, j, t_shrub);
                 }
