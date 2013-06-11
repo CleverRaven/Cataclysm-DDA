@@ -23,11 +23,11 @@ void game::help()
 
  char ch;
  action_id movearray[] = {ACTION_MOVE_NW,ACTION_MOVE_N,ACTION_MOVE_NE,
-                          ACTION_MOVE_W,ACTION_PAUSE,ACTION_MOVE_E,
+                          ACTION_MOVE_W, ACTION_PAUSE, ACTION_MOVE_E,
                           ACTION_MOVE_SW,ACTION_MOVE_S,ACTION_MOVE_SE};
  do {
   wborder(w_help_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                        LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+                         LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
   mvwprintz(w_help_border, 0, 38, c_ltred, " HELP ");
   wrefresh(w_help_border);
   werase(w_help);
@@ -109,9 +109,9 @@ movement will be ignored if new monsters enter the player's view.",
        std::vector<char> keys = keys_bound_to( movearray[acty*3+actx] );
        if (keys.empty()) {
        } else {
-         mvwputch(w_help, (acty * 3 + 2), (actx * 3), c_white, keys[0]);
+         mvwputch(w_help, (acty * 3 + 2), (actx * 3), c_ltblue, keys[0]);
          if (keys.size() >0) {
-           mvwputch(w_help, (acty * 3 + 2), (actx * 3 + 10), c_white, keys[1]);
+           mvwputch(w_help, (acty * 3 + 2), (actx * 3 + 10), c_ltblue, keys[1]);
          }
        }
      }
@@ -147,7 +147,7 @@ As time passes, you will begin to feel hunger and thirst. A status warning\n\
 at the bottom of the screen will appear. As hunger and thirst reach critical\n\
 levels, you will begin to suffer movement penalties. Thirst is more dangerous\n\
 than hunger. Finding food in a city is usually easy; outside of a city, you\n\
-may have to hunt an animal, then stand over its corpse and %sutcher it into\n\
+may have to hunt an animal, then stand over its corpse and %s it into\n\
 small chunks of meat. Likewise, outside of a city you may have to drink water\n\
 from a river or other natural source; stand in shallow water and \n\
 %s to pick it up. You'll need a watertight container. \n\
@@ -161,7 +161,7 @@ You may not always fall asleep right away. Sleeping indoors, especially on a\n\
 bed, will help; or you can always use sleeping pills. While sleeping, you'll\n\
 slowly replenish lost hit points. You'll also be vulnerable to attack, so\n\
 try to find a safe place, or set traps for unwary intruders.",
-     press_x(ACTION_BUTCHER, "", "b").c_str(),
+     press_x(ACTION_BUTCHER, "butcher").c_str(),
      from_sentence_case(press_x(ACTION_PICKUP)).c_str(),
      press_x(ACTION_SLEEP, " by pressing ", ",", "").c_str());
    wrefresh(w_help);
@@ -389,7 +389,7 @@ these containers and loot their contents.\n\
 \n\
 %s opens a comparison menu, where you can see two items\n\
 side-by-side with their attributes highlighted to indicate which is superior.\n\
-You can also access the item comparison menu by pressing 'C' when the %siew\n\
+You can also access the item comparison menu by pressing 'C' when the %s\n\
 nearby items menu is open and an item is selected.\n\
 \n\
 All items may be used as a melee weapon, though some are better than others.\n\
@@ -404,7 +404,7 @@ Press any key for more...",
       from_sentence_case(press_x(ACTION_PICKUP)).c_str(),
       press_x(ACTION_EXAMINE, "Pressing ", "'Examine Nearby Terrain'").c_str(),
       press_x(ACTION_COMPARE, "Pressing ", "'Compare two Items'").c_str(),
-      press_x(ACTION_LIST_ITEMS, "","v").c_str(),
+      press_x(ACTION_LIST_ITEMS, "view").c_str(),
       press_x(ACTION_INVENTORY, "hitting ", "trying").c_str()/*,
       press_x(ACTION_ADVANCEDINV).c_str(), //'Advanced Inventory management'"
       press_x(ACTION_ORGANIZE).c_str()*/); //'Swap Inventory Letters'
@@ -932,7 +932,7 @@ A: At present time, there is only one cure, royal jelly. You can find royal\n\
    jelly in the bee hives which dot forests.\n\
 \n\
 Q: How do I get into science labs?\n\
-A: You can enter the front door if you have an ID card by %sxamining the\n\
+A: You can enter the front door if you have an ID card by %s the\n\
    keypad. If you are skilled in computers and have an electrohack, it is\n\
    possible to hack the keypad. An EMP blast has a chance to force the doors\n\
    open, but it's more likely to break them. You can also sneak in through\n\
@@ -942,7 +942,7 @@ Q: Why does my crafting fail so often?\n\
 A: Check the difficulty of the recipe, and the primary skill used; your\n\
    skill level should be around one and a half times the difficulty to\n\
    be confident that it will succeed.",
-     press_x(ACTION_EXAMINE, "", "e").c_str());
+     press_x(ACTION_EXAMINE, "examining").c_str());
 
    wrefresh(w_help);
    refresh();
