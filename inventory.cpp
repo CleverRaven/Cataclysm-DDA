@@ -650,14 +650,14 @@ std::vector<item> inventory::remove_mission_items(int mission_id)
     return ret;
 }
 
-void inventory::dump(std::vector<item>& dest) const
+void inventory::dump(std::vector<item *>& dest)
 {
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        for (std::list<item>::const_iterator stack_iter = iter->begin();
+        for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end(); ++stack_iter)
         {
-            dest.push_back(*stack_iter);
+            dest.push_back(&(*stack_iter));
         }
     }
 }
@@ -832,6 +832,7 @@ int inventory::charges_of(itype_id it) const
 
 std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_container)
 {
+    sort();
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter)
     {
@@ -890,6 +891,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
 
 std::list<item> inventory::use_charges(itype_id it, int quantity)
 {
+    sort();
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; ++iter)
     {

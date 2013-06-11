@@ -42,18 +42,7 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
 void iexamine::elevator(game *g, player *p, map *m, int examx, int examy){
  if (!query_yn("Use the %s?",m->tername(examx, examy).c_str())) return;
  int movez = (g->levz < 0 ? 2 : -2);
- g->levz += movez;
- m->load(g, g->levx, g->levy, g->levz);
- g->update_map(p->posx, p->posy);
- for (int x = 0; x < SEEX * MAPSIZE; x++) {
-  for (int y = 0; y < SEEY * MAPSIZE; y++) {
-   if (m->ter(x, y) == t_elevator) {
-    p->posx = x;
-    p->posy = y;
-   }
-  }
- }
- g->refresh_all();
+ g->vertical_move( movez, false );
 }
 
 void iexamine::controls_gate(game *g, player *p, map *m, int examx, int examy) {
@@ -530,23 +519,31 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Pick %s?",m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
-  return;
- }
+  if(!query_yn("Pick %s?",m->tername(examx, examy).c_str())) {
+    none(g, p, m, examx, examy);
+    return;
+  }
 
- g->add_msg("This flower has a heady aroma");
- if (!(p->is_wearing("mask_filter")||p->is_wearing("mask_gas") ||
-       one_in(3)))  {
-  g->add_msg("You fall asleep...");
-  p->add_disease(DI_SLEEP, 1200, g);
-  g->add_msg("Your legs are covered by flower's roots!");
-  p->hurt(g,bp_legs, 0, 4);
-  p->moves-=50;
- }
- m->ter_set(examx, examy, t_dirt);
- m->spawn_item(examx, examy, g->itypes["poppy_flower"],0);
- m->spawn_item(examx, examy, g->itypes["poppy_bud"],0);
+  int resist = p->resist(bp_mouth);
+
+  if (resist < 10) {
+    // Can't smell the flowers with a gas mask on!
+    g->add_msg("This flower has a heady aroma");
+  }
+
+  if (one_in(3) && resist < 5)  {
+    // Should user player::infect, but can't!
+    // player::infect needs to be restructured to return a bool indicating success.
+    g->add_msg("You fall asleep...");
+    p->add_disease(DI_SLEEP, 1200, g);
+    g->add_msg("Your legs are covered by flower's roots!");
+    p->hurt(g,bp_legs, 0, 4);
+    p->moves-=50;
+  }
+
+  m->ter_set(examx, examy, t_dirt);
+  m->spawn_item(examx, examy, g->itypes["poppy_flower"],0);
+  m->spawn_item(examx, examy, g->itypes["poppy_bud"],0);
 }
 
 void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {

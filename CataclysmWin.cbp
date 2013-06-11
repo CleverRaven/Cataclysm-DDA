@@ -179,6 +179,8 @@
 		<Unit filename="trapfunc.cpp" />
 		<Unit filename="tutorial.cpp" />
 		<Unit filename="tutorial.h" />
+		<Unit filename="ui.cpp" />
+		<Unit filename="ui.h" />
 		<Unit filename="veh_interact.cpp" />
 		<Unit filename="veh_interact.h" />
 		<Unit filename="veh_type.h" />

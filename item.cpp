@@ -639,6 +639,20 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This piece of clothing has pockets to warm your hands."));
     }
+    if (is_armor() && type->id == "rad_badge")
+    {
+        int i;
+        for( i = 0; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ )
+        {
+            if( irridation < rad_dosage_thresholds[i] )
+            {
+                break;
+            }
+        }
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "The film strip on the badge is " +
+                                 rad_threshold_colors[i - 1] + "."));
+    }
     if (is_tool() && has_flag("DOUBLE_AMMO"))
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
@@ -672,14 +686,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
  return temp1.str();
 }
 
-char item::symbol()
+char item::symbol() const
 {
  if( is_null() )
   return ' ';
  return type->sym;
 }
 
-nc_color item::color(player *u)
+nc_color item::color(player *u) const
 {
  nc_color ret = c_ltgray;
 
@@ -806,7 +820,7 @@ std::string item::tname(game *g)
  return ret.str();
 }
 
-nc_color item::color()
+nc_color item::color() const
 {
  if (typeId() == "corpse")
   return corpse->color;
@@ -1564,7 +1578,26 @@ int item::sort_rank() const
 
 bool item::operator<(const item& other) const
 {
-    return sort_rank() < other.sort_rank();
+    int my_rank = sort_rank();
+    int other_rank = other.sort_rank();
+    if (my_rank == other_rank)
+    {
+        const item *me = is_container() && contents.size() > 0 ? &contents[0] : this;
+        const item *rhs = other.is_container() && other.contents.size() > 0 ? &other.contents[0] : &other;
+
+        if (me->type->id == rhs->type->id)
+        {
+            return me->charges < rhs->charges;
+        }
+        else
+        {
+            return me->type->id < rhs->type->id;
+        }
+    }
+    else
+    {
+        return sort_rank() < other.sort_rank();
+    }
 }
 
 int item::reload_time(player &u)

@@ -47,7 +47,6 @@ class iuse
   void inhaler		(game *g, player *p, item *it, bool t);
   void blech		(game *g, player *p, item *it, bool t);
   void mutagen		(game *g, player *p, item *it, bool t);
-  void mutagen_3	(game *g, player *p, item *it, bool t);
   void purifier		(game *g, player *p, item *it, bool t);
   void marloss		(game *g, player *p, item *it, bool t);
   void dogfood		(game *g, player *p, item *it, bool t);
@@ -153,7 +152,7 @@ class iuse
   void heatpack			(game *g, player *p, item *it, bool t);
   void dejar            (game *g, player *p, item *it, bool t);
   void devac            (game *g, player *p, item *it, bool t);
-
+  void rad_badge        (game *g, player *p, item *it, bool t);
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS

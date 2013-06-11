@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "item.h"
+#include "ui.h"
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424

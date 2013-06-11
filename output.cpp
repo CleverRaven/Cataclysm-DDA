@@ -483,87 +483,26 @@ char popup_getkey(const char *mes, ...)
  return ch;
 }
 
-int menu_vec(bool cancelable, const char *mes, std::vector<std::string> options)
-{
- if (options.size() == 0) {
-  debugmsg("0-length menu (\"%s\")", mes);
-  return -1;
- }
- std::string title = mes;
- int height = 3 + options.size(), width = title.length() + 2;
- for (int i = 0; i < options.size(); i++) {
-  if (options[i].length() + 6 > width)
-   width = options[i].length() + 6;
- }
-int currsel=-1;
-std::string spaces(width-2, ' ');
- WINDOW *w = newwin(height, width, (TERMY-height)/2, (TERMX > width) ? (TERMX-width)/2 : 0);
- wattron(w, c_white);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- mvwprintw(w, 1, 1, title.c_str());
- long ch;
- int res;
- do
- {
-  for (int i = 0; i < options.size(); i++) {
-   mvwprintz(w, i + 2, 1, (i==currsel ? h_white : c_white), "%s", spaces.c_str() );
-   mvwprintz(w, i + 2, 1, (i==currsel ? h_white : c_white), "%c: %s", (i < 9? i + '1' :
-                                    (i == 9? '0' : 'a' + i - 10)),
-             options[i].c_str());
-  }
-  wrefresh(w);
-  ch = getch();
-  if (cancelable && ch == KEY_ESCAPE)
-   res = options.size();
-  else
-  if (ch >= '1' && ch <= '9')
-   res = ch - '1' + 1;
-  else
-  if (ch == '0')
-   res = 10;
-  else
-  if (ch >= 'a' && ch <= 'z')
-   res = ch - 'a' + 11;
-  else
-  if (ch == KEY_DOWN )
-   currsel++;
-  else
-  if (ch == KEY_UP )
-   currsel--;
-  else
-  if(ch == '\n' && currsel >= 0 && currsel < options.size() )
-   res=currsel+1;
-  else
-   res = -1;
-  if (res > options.size())
-   res = -1;
-  if (currsel < -1) currsel = options.size() - 1;
-  else if ( currsel > 0 && currsel > options.size() ) currsel = 0;
- }
- while (res == -1);
- werase(w);
- wrefresh(w);
- delwin(w);
- return (res);
+int menu_vec(bool cancelable, const char *mes, std::vector<std::string> options) { // compatibility stub for uimenu(cancelable, mes, options)
+  return (int)uimenu(cancelable, mes, options);
 }
 
-int menu(bool cancelable, const char *mes, ...)
-{
- va_list ap;
- va_start(ap, mes);
- char* tmp;
- std::vector<std::string> options;
- bool done = false;
- while (!done) {
-  tmp = va_arg(ap, char*);
-  if (tmp != NULL) {
-   std::string strtmp = tmp;
-   options.push_back(strtmp);
-  } else
-   done = true;
- }
- return (menu_vec(cancelable, mes, options));
+int menu(bool cancelable, const char *mes, ...) { // compatibility stub for uimenu(cancelable, mes, ...)
+  va_list ap;
+  va_start(ap, mes);
+  char* tmp;
+  std::vector<std::string> options;
+  bool done = false;
+  while (!done) {
+    tmp = va_arg(ap, char*);
+    if (tmp != NULL) {
+      std::string strtmp = tmp;
+      options.push_back(strtmp);
+    } else {
+      done = true;
+    }
+  }
+  return (uimenu(cancelable, mes, options));
 }
 
 void popup_top(const char *mes, ...)

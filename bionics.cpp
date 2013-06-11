@@ -1002,6 +1002,11 @@ the movements of creatures below the ground.");
     bionics["bio_power_armor_interface"] = new bionic_data("Power Armor Interface", false, true, 1, 10, "\
 Interfaces your power system with the internal charging port on suits of power armor.");
 
+    bionics["bio_power_armor_interface_mkII"] = new bionic_data("Power Armor Interface Mk. II", false, true, 1, 50, "\
+Interfaces your power system with the internal charging port on suits of power armor.\n\
+The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II\n\
+power armor series.");
+
     //Fault Bionics from here on out.
     bionics["bio_dis_shock"] = new bionic_data("Electrical Discharge", false, false, 0, 0, "\
 A malfunctioning bionic which occasionally discharges electricity through\n\

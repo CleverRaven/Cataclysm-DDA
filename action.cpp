@@ -1,9 +1,20 @@
 #include "game.h"
 #include "keypress.h"
+#include "output.h"
+#include <istream>
+#include <sstream>
 #include <fstream>
+
+void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap);
 
 void game::load_keyboard_settings()
 {
+ // Load the default keymap
+ std::istringstream sin;
+ sin.str(default_keymap_txt());
+ parse_keymap(sin, default_keymap);
+
+ // Load the player's actual keymap
  std::ifstream fin;
  fin.open("data/keymap.txt");
  if (!fin) { // It doesn't exist
@@ -15,13 +26,37 @@ void game::load_keyboard_settings()
  }
  if (!fin) { // Still can't open it--probably bad permissions
   debugmsg("Can't open data/keymap.txt.  This may be a permissions issue.");
+  keymap = default_keymap;
   return;
+ } else {
+  parse_keymap(fin, keymap);
  }
- while (!fin.eof()) {
+
+ // Check for new defaults, and automatically bind them if possible
+ std::map<char, action_id>::iterator d_it;
+ bool found;
+ for (d_it = default_keymap.begin(); d_it != default_keymap.end(); d_it++) {
+  found = false;
+  std::map<char, action_id>::iterator k_it;
+  for (k_it = keymap.begin(); k_it != keymap.end(); k_it++) {
+   if (d_it->second == k_it->second) {
+    found = true;
+    break;
+   }
+  }
+  if (!found && !keymap.count(d_it->first)) {
+   keymap[d_it->first] = d_it->second;
+  }
+ }
+}
+
+void parse_keymap(std::istream &keymap_txt, std::map<char, action_id> &kmap)
+{
+ while (!keymap_txt.eof()) {
   std::string id;
-  fin >> id;
+  keymap_txt >> id;
   if (id == "")
-   getline(fin, id); // Empty line, chomp it
+   getline(keymap_txt, id); // Empty line, chomp it
   else if (id[0] != '#') {
    action_id act = look_up_action(id);
    if (act == ACTION_NULL)
@@ -29,25 +64,25 @@ void game::load_keyboard_settings()
 Warning!  data/keymap.txt contains an unknown action, \"%s\"\n\
 Fix data/keymap.txt at your next chance!", id.c_str());
    else {
-    while (!fin.eof()) {
+    while (!keymap_txt.eof()) {
       char ch;
-      fin >> std::noskipws >> ch >> std::skipws;
+      keymap_txt >> std::noskipws >> ch >> std::skipws;
       if (ch == '\n') {
         break;
-      } else if (ch != ' ' || fin.peek() == '\n') {
-        if (keymap.find(ch) != keymap.end()) {
+      } else if (ch != ' ' || keymap_txt.peek() == '\n') {
+        if (kmap.find(ch) != kmap.end()) {
           debugmsg("\
 Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
 Fix data/keymap.txt at your next chance!", ch, id.c_str());
         } else {
-          keymap[ ch ] = act;
+          kmap[ ch ] = act;
         }
       }
     }
    }
   } else {
-   getline(fin, id); // Clear the whole line
+   getline(keymap_txt, id); // Clear the whole line
   }
  }
 }
