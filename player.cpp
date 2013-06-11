@@ -86,6 +86,7 @@ player::player()
   temp_conv[i] = BODYTEMP_NORM;
  }
  nv_cached = false;
+ volume = 0;
 }
 
 player::player(const player &rhs)
@@ -2331,6 +2332,9 @@ void player::disp_status(WINDOW *w, game *g)
   mvwprintz(w, 1, 9, c_cyan,  "Very cold!%s", temp_message);
  else if (temp_cur[print] <= BODYTEMP_FREEZING)
   mvwprintz(w, 1, 9, c_blue,  "Freezing!%s", temp_message);
+ 
+ mvwprintz(w, 1, 32, c_yellow, "Sound:%d", volume);
+ volume = 0;
 
       if (thirst > 520)
   mvwprintz(w, 2, 15, c_ltred,  "Parched");

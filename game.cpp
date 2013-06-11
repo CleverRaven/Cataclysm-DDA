@@ -4288,6 +4288,8 @@ void game::sound(int x, int y, int vol, std::string description)
       u.activity.ignore_trivial = true;
     }
   }
+ } else {
+     u.volume += vol;
  }
  
 // We need to figure out where it was coming from, relative to the player
