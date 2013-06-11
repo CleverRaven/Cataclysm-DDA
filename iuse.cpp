@@ -500,18 +500,24 @@ void iuse::grack(game *g, player *p, item *it, bool t)
 
 void iuse::meth(game *g, player *p, item *it, bool t)
 {
- int duration = 10 * (40 - p->str_cur);
- if (p->has_amount("apparatus", 1) &&
-     p->use_charges_if_avail("fire", 1)) {
-  g->add_msg_if_player(p,"You smoke some crystals.");
-  duration *= 1.5;
- } else
-  g->add_msg_if_player(p,"You snort some crystals.");
- if (!p->has_disease(DI_METH))
-  duration += 600;
- int hungerpen = (p->str_cur < 10 ? 20 : 30 - p->str_cur);
- p->hunger -= hungerpen;
- p->add_disease(DI_METH, duration, g);
+    int duration = 10 * (40 - p->str_cur);
+    if (p->has_amount("apparatus", 1) &&
+        p->use_charges_if_avail("fire", 1))
+    {
+        g->add_msg_if_player(p,"You smoke some crystals.");
+        duration *= 1.5;
+    }
+    else
+    {
+        g->add_msg_if_player(p,"You snort some crystals.");
+    }
+    if (!p->has_disease(DI_METH)) {duration += 600;}
+    if (duration > 0)
+    {
+        int hungerpen = (p->str_cur < 10 ? 20 : 30 - p->str_cur);
+        p->hunger -= hungerpen;
+        p->add_disease(DI_METH, duration, g);
+    }
 }
 
 void iuse::vitamins(game *g, player *p, item *it, bool t)
