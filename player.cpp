@@ -177,7 +177,7 @@ player& player::operator= (const player & rhs)
   temp_cur[i] = rhs.temp_cur[i];
 
  for (int i = 0 ; i < num_bp; i++)
-  temp_conv[i] = BODYTEMP_NORM;
+  temp_conv[i] = rhs.temp_conv[i];
 
  for (int i = 0; i < num_bp; i++)
   frostbite_timer[i] = rhs.frostbite_timer[i];
@@ -1053,7 +1053,7 @@ void player::load_info(game *g, std::string data)
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
  for (int i = 0; i < num_bp; i++)
-  dump >> temp_cur[i] >> frostbite_timer[i];
+  dump >> temp_cur[i] >> temp_conv[i] >> frostbite_timer[i];
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    dump >> skillLevel(*aSkill);
@@ -1081,7 +1081,7 @@ void player::load_info(game *g, std::string data)
  disease illtmp;
  dump >> numill;
  for (int i = 0; i < numill; i++) {
-  dump >> typetmp >> illtmp.duration;
+  dump >> typetmp >> illtmp.duration >> illtmp.intensity;
   illtmp.type = dis_type(typetmp);
   illness.push_back(illtmp);
  }
@@ -1163,7 +1163,7 @@ std::string player::save_info()
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
  for (int i = 0; i < num_bp; i++)
-  dump << temp_cur[i] << " " << frostbite_timer[i] << " ";
+  dump << temp_cur[i] << " " << temp_conv[i] << " " << frostbite_timer[i] << " ";
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    SkillLevel level = skillLevel(*aSkill);
@@ -1184,7 +1184,7 @@ std::string player::save_info()
 
  dump << illness.size() << " ";
  for (int i = 0; i < illness.size();  i++)
-  dump << int(illness[i].type) << " " << illness[i].duration << " ";
+  dump << int(illness[i].type) << " " << illness[i].duration << " " << illness[i].intensity << " " ;
 
  dump << addictions.size() << " ";
  for (int i = 0; i < addictions.size(); i++)
@@ -1736,6 +1736,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
    move_adjust = abs(move_adjust);
    mvwprintz(w_speed, line, (move_adjust >= 10 ? 22 : 23), col, "%d%%%%",
              move_adjust);
+   line++;
   }
  }
  if (has_trait(PF_QUICK)) {
