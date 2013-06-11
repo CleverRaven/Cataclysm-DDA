@@ -199,7 +199,7 @@ $(DDIR):
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
-$(ODIR)/%.res: %.rc
+$(ODIR)/%.res: %.rc $(ODIR)
 	$(WNDRES) $(RFLAGS) $< -o $@
 
 version.cpp: version
