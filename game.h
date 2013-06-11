@@ -118,6 +118,7 @@ class game
                                      std::string key_unbound);
   std::string press_x(action_id act, std::string key_bound_pre,
           std::string key_bound_suf, std::string key_unbound);
+  std::string press_x(action_id act, std::string act_desc);	// ('Z'ing|zing) (X( or Y)))
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
