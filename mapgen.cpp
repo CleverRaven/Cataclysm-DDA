@@ -4836,7 +4836,11 @@ mapf::basic_bind("r d h 6 x g G , . - | + D t c ^ % = &",
    add_trap(SEEX - 2, SEEY + 1, tr_dissector);
    add_trap(SEEX + 1, SEEY + 1, tr_dissector);
    square(this, t_counter, SEEX - 1, SEEY - 1, SEEX, SEEY);
-   place_items(mi_bionics, 75, SEEX - 1, SEEY - 1, SEEX, SEEY, false, 0);
+   int item_count = 0;
+   while (item_count < 5)
+   {
+       item_count += place_items(mi_bionics, 75, SEEX - 1, SEEY - 1, SEEX, SEEY, false, 0);
+   }
    line(this, t_reinforced_glass_h, SEEX - 2, SEEY - 2, SEEX + 1, SEEY - 2);
    line(this, t_reinforced_glass_h, SEEX - 2, SEEY + 1, SEEX + 1, SEEY + 1);
    line(this, t_reinforced_glass_v, SEEX - 2, SEEY - 1, SEEX - 2, SEEY);
@@ -11338,21 +11342,22 @@ void map::place_spawns(game *g, std::string group, const int chance,
 }
 
 
-void map::place_items(items_location loc, int chance, int x1, int y1,
+int map::place_items(items_location loc, int chance, int x1, int y1,
                       int x2, int y2, bool ongrass, int turn)
 {
  std::vector<itype_id> eligible = (*mapitems)[loc];
 
  if (chance >= 100 || chance <= 0) {
   debugmsg("map::place_items() called with an invalid chance (%d)", chance);
-  return;
+  return 0;
  }
  if (eligible.size() == 0) { // No items here! (Why was it called?)
   debugmsg("map::place_items() called for an empty items list (list #%d)", loc);
-  return;
+  return 0;
  }
 
  int item_chance = 0;	// # of items
+ int item_num = 0;
  for (int i = 0; i < eligible.size(); i++)
   item_chance += item_controller->find_template(eligible[i])->rarity;
  int selection, randnum;
@@ -11379,6 +11384,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
            tries < 20);
   if (tries < 20) {
    spawn_item(px, py, eligible[selection], turn);
+   item_num++;
 // Guns in the home and behind counters are generated with their ammo
 // TODO: Make this less of a hack
    if (item_controller->find_template(eligible[selection])->is_gun() &&
@@ -11388,6 +11394,7 @@ void map::place_items(items_location loc, int chance, int x1, int y1,
    }
   }
  }
+ return item_num;
 }
 
 void map::put_items_from(items_location loc, int num, int x, int y, int turn, int quantity, int charges, int damlevel)
