@@ -20,16 +20,22 @@ enum mission_id {
  MISSION_RESCUE_DOG,
  MISSION_KILL_ZOMBIE_MOM,
  MISSION_REACH_SAFETY,
- MISSION_GET_FLAG,//patriot mission 1
- MISSION_GET_BLACK_BOX,//patriot mission 2
- MISSION_GET_BLACK_BOX_TRANSCRIPT,//patriot mission 3
- MISSION_GET_RELIC,
+ MISSION_GET_FLAG,//patriot 1
+ MISSION_GET_BLACK_BOX,//patriot 2
+ MISSION_GET_BLACK_BOX_TRANSCRIPT,//patriot 3
+ MISSION_EXPLORE_SARCOPHAGUS,//patriot 4
+ MISSION_GET_RELIC,//martyr 1
+ MISSION_RECOVER_PRIEST_DIARY,//martyr 2
  MISSION_GET_RECORD_WEATHER,
  MISSION_GET_RECORD_PATIENT,//humanitarian 1
  MISSION_REACH_FEMA_CAMP,//humanitarian 2
  MISSION_REACH_FARM_HOUSE,//humanitarian 3
- MISSION_GET_RECORD_ACCOUNTING,
- MISSION_KILL_JABBERWOCK,
+ MISSION_GET_RECORD_ACCOUNTING,//vigilante 1
+ MISSION_GET_SAFE_BOX,//vigilante 2
+ MISSION_GET_DEPUTY_BADGE,//vigilante 3
+ MISSION_KILL_JABBERWOCK,//demon slayer 1
+ MISSION_KILL_100_Z,//demon slayer 2
+ MISSION_KILL_HORDE_MASTER,//demon slayer 3
  NUM_MISSION_IDS
 };
 
@@ -54,6 +60,7 @@ enum mission_goal {
  MGOAL_FIND_NPC,	// Find a given NPC
  MGOAL_ASSASSINATE,	// Kill a given NPC
  MGOAL_KILL_MONSTER,	// Kill a particular hostile monster
+ MGOAL_KILL_MONSTER_TYPE, // Kill a number of a given monster type
  
  NUM_MGOAL
 };
@@ -77,8 +84,13 @@ struct mission_start {
  void place_dog		(game *, mission *); // Put a dog in a house!
  void place_zombie_mom	(game *, mission *); // Put a zombie mom in a house!
  void place_jabberwock (game *, mission *); // Put a jabberwok in the woods nearby
+ void kill_100_z (game *, mission *); // Kill 100 more regular zombies
+ void kill_horde_master (game *, mission *);// Kill the master zombie at the center of the horde
  void place_npc_software(game *, mission *); // Put NPC-type-dependent software
+ void place_priest_diary (game *, mission *); // Hides the priest's diary in a local house
+ void place_deposit_box (game *, mission *); // Place a safe deposit box in a nearby bank
  void reveal_lab_black_box (game *, mission *); // Reveal the nearest lab and give black box
+ void oepn_sarcophagus (game *, mission *); // Reveal the sarcophagus and give access code acidia v
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
  void find_safety	(game *, mission *); // Goal is set to non-spawn area
  void place_book	(game *, mission *); // Place a book to retrieve
@@ -87,6 +99,7 @@ struct mission_start {
 struct mission_end {	// These functions are run when a mission ends
  void standard		(game *, mission *){}; // Nothing special happens
  void leave  	(game *, mission *); // NPC leaves after the mission is complete
+ void deposit_box   (game *, mission *); // random valuable reward
  void heal_infection	(game *, mission *);
 };
 
@@ -107,6 +120,8 @@ struct mission_type {
 
  std::vector<mission_origin> origins;	// Points of origin
  itype_id item_id;
+ mon_id monster_type;
+ int monster_kill_goal;
  oter_id target_id;
  mission_id follow_up;
 
@@ -128,6 +143,8 @@ struct mission_type {
    deadline_high = 0;
    item_id = "null";
    target_id = ot_null;
+   monster_type = mon_null;
+   monster_kill_goal = -1;
    follow_up = MISSION_NULL;
   };
 
@@ -144,6 +161,8 @@ struct mission {
  point target;		// Marked on the player's map.  (-1,-1) for none
  itype_id item_id;	// Item that needs to be found (or whatever)
  oter_id target_id;   // Destination type to be reached
+ mon_id monster_type;  // Monster ID that are to be killed
+ int monster_kill_goal;  // the kill count you wish to reach
  int count;		// How many of that item
  int deadline;		// Turn number
  int npc_id;		// ID of a related npc
@@ -165,6 +184,8 @@ struct mission {
   target = point(-1, -1);
   item_id = "null";
   target_id = ot_null;
+  monster_type = mon_null;
+  monster_kill_goal = -1;
   count = 0;
   deadline = 0;
   npc_id = -1;
