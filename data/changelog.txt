@@ -112,6 +112,9 @@ Fixed some lab mapgen bugs.
 Mansions got a little love.
 Having too little intelligence for a book is more of a penalty.
 Vehicle headlight state is persistent after save-load.
+Being hot no longer increases thirst by an unreasonable amount
+Minor : temp_conv and dis.intensity are saved, fixing strange on-load inconsistencies
+Minor : Diseases that affect speed no longer overwrite eachother in the @ menu
 
 
 ======
