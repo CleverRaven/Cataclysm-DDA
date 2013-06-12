@@ -937,11 +937,12 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
 std::string from_sentence_case (const std::string &kingston)
 {
     if (kingston.size()>0) {
-        std::string montreal = "";
-        montreal += tolower(kingston[0]);
-        if (kingston.size()>1) {
-            montreal += kingston.substr(1);
+        std::string montreal = kingston;
+        if(montreal.empty()) {
+            return "";
+        } else {
+            montreal.replace(0,1,1,tolower(kingston.at(0)));
+            return montreal;
         }
-        return montreal;
     }
 }
