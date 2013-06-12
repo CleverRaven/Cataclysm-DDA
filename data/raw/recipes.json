@@ -1259,7 +1259,7 @@
 
 		
         {
-            "result": "arrow_wood",
+            "result": "shaft_wood",
             "category": "CC_AMMO",
             "skill_pri": "archery",
             "skill_sec": "survival",
@@ -1287,6 +1287,67 @@
                                   ["mop", 1],
                                   ["2x4", 1],
                                   ["bee_sting", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "arrowhead",
+            "category": "CC_AMMO",
+            "skill_pri": "archery",
+            "skill_sec": "survival",
+            "difficulty": 1,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+							 ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+								  ["steel_lump", 1],	
+                                  ["scrap", 3]
+                              ]
+                          ]
+        },
+
+		
+        {
+            "result": "arrow_wood",
+            "category": "CC_AMMO",
+            "skill_pri": "archery",
+            "skill_sec": "survival",
+            "difficulty": 2,
+            "time": 5000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["shaft_wood", 10]
+							  ],
+							  [
+                                  ["arrowhead", 10]
+							  ],
+							  [
+                                  ["feather", 20]
                               ]
                           ]
         },
