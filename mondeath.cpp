@@ -19,7 +19,7 @@ void mdeath::normal(game *g, monster *z)
  }
 
     int gib_amount = 0;
-    bool leave_corpse = true;
+    bool leave_corpse = false;
     int corpse_damage = 0;
 // determine how much of a mess is left, for flesh and veggy creatures
     if (z->made_of("flesh") || z->made_of("veggy") || z->made_of("hflesh"))
