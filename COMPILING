@@ -11,10 +11,13 @@ sudo apt-get install libc6-dev-i386 lib32ncurses5-dev lib32stdc++-dev g++-multil
 make NATIVE=linux32
 
 # Cross-compile for Windows
+# First, set up mxe (only necessary once):
 sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
 mkdir -p ~/src/mxe
 git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
 cd ~/src/mxe
 make gcc
+
+# Then, go back into the C:DDA source directory, and:
 PATH=${PATH}:~/src/mxe/usr/bin
-make CROSS=win32
+make CROSS=i686-pc-mingw32-
