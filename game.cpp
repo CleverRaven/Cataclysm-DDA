@@ -10639,13 +10639,10 @@ void intro()
   werase(tmp);
   wprintw(tmp, "\
 Whoa. Whoa. Hey. This game requires a minimum terminal size of 80x25. I'm\n\
-sorry if your graphical terminal emulator went with the woefully-diminuitive\n\
-80x24 as its default size, but that just won't work here.  Now stretch the\n\
-bottom of your window downward so you get an extra line.\n");
-  wrefresh(tmp);
-  refresh();
-  wrefresh(tmp);
-  getch();
+sorry if your graphical terminal emulator went with the woefully-diminutive\n\
+%dx%d as its default size, but that just won't work here.  Now stretch the\n\
+window until you've got it at the right size (or bigger).\n", maxx, maxy);
+  wgetch(tmp);
   getmaxyx(stdscr, maxy, maxx);
  }
  werase(tmp);
