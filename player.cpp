@@ -63,6 +63,7 @@ player::player()
  last_climate_control_ret=false;
  active_mission = -1;
  in_vehicle = false;
+ controlling_vehicle = false;
  style_selected = "null";
  focus_pool = 100;
  last_item = itype_id("null");
@@ -107,6 +108,7 @@ player& player::operator= (const player & rhs)
  view_offset_y = rhs.view_offset_y;
 
  in_vehicle = rhs.in_vehicle;
+ controlling_vehicle = rhs.controlling_vehicle;
  activity = rhs.activity;
  backlog = rhs.backlog;
 
@@ -1017,7 +1019,7 @@ void player::load_info(game *g, std::string data)
 {
  std::stringstream dump;
  dump << data;
- int inveh;
+ int inveh, vctrl;
  itype_id styletmp;
  std::string prof_ident;
 
@@ -1025,9 +1027,9 @@ void player::load_info(game *g, std::string data)
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
-         inveh >> scent >> moves >> underwater >> dodges_left >> blocks_left >>
-         oxygen >> active_mission >> focus_pool >> male >> prof_ident >> health >>
-         styletmp;
+         inveh >> vctrl >> scent >> moves >> underwater >> dodges_left >>
+         blocks_left >> oxygen >> active_mission >> focus_pool >> male >>
+         prof_ident >> health >> styletmp;
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1040,6 +1042,7 @@ void player::load_info(game *g, std::string data)
  backlog.load_info(dump);
 
  in_vehicle = inveh != 0;
+ controlling_vehicle = vctrl != 0;
  style_selected = styletmp;
 
  for (int i = 0; i < PF_MAX2; i++)
@@ -1149,11 +1152,12 @@ std::string player::save_info()
          max_power_level << " " << hunger << " " << thirst << " " << fatigue <<
          " " << stim << " " << pain << " " << pkill << " " << radiation <<
          " " << cash << " " << recoil << " " << driving_recoil << " " <<
-         (in_vehicle? 1 : 0) << " " << scent << " " << moves << " " <<
-         underwater << " " << dodges_left << " " << blocks_left << " " <<
-         oxygen << " " << active_mission << " " << focus_pool << " " << male <<
-         " " << prof->ident() << " " << health << " " << style_selected <<
-         " " << activity.save_info() << " " << backlog.save_info() << " ";
+         (in_vehicle? 1 : 0) << " " << (controlling_vehicle? 1 : 0) << " " <<
+         scent << " " << moves << " " << underwater << " " << dodges_left <<
+         " " << blocks_left << " " << oxygen << " " << active_mission << " " <<
+         focus_pool << " " << male << " " << prof->ident() << " " << health <<
+         " " << style_selected << " " << activity.save_info() << " " <<
+         backlog.save_info() << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
