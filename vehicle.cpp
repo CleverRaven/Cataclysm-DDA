@@ -11,7 +11,7 @@ enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
  toggle_turrets,
- exit_vehicle,
+ release_control,
  control_cancel
 };
 
@@ -55,7 +55,7 @@ bool vehicle::player_in_control (player *p)
     vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
     if (veh && veh != this)
         return false;
-    return part_with_feature(veh_part, vpf_controls, false) >= 0 && p->in_vehicle;
+    return part_with_feature(veh_part, vpf_controls, false) >= 0 && p->controlling_vehicle;
 }
 
 void vehicle::load (std::ifstream &stin)
@@ -213,7 +213,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 
         if (part_flag(p, vpf_openable))    // doors are closed
             parts[p].open = 0;
-        if (part_flag(p, vpf_seat))        // no passengers
+        if (part_flag(p, vpf_boardable))        // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
 
         // initial vehicle damage
@@ -278,9 +278,10 @@ std::string vehicle::use_controls()
 
  // Exit vehicle, if we are in it.
  int vpart;
- if (g->u.in_vehicle && g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
-  options_choice.push_back(exit_vehicle);
-  options_message.push_back("Exit vehicle");
+ if (g->u.controlling_vehicle &&
+     g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
+  options_choice.push_back(release_control);
+  options_message.push_back("Let go of controls");
  }
 
  options_choice.push_back(control_cancel);
@@ -303,8 +304,9 @@ std::string vehicle::use_controls()
     turret_mode = 0;
    message = (0 == turret_mode) ? "Turrets: Disabled" : "Turrets: Burst mode";
    break;
-  case exit_vehicle:
-   g->exit_vehicle();
+  case release_control:
+   g->u.controlling_vehicle = false;
+   g->add_msg("You let go of the controls.");
    break;
   case control_cancel:
    break;
@@ -734,7 +736,7 @@ std::vector<int> vehicle::boarded_parts()
 {
     std::vector<int> res;
     for (int p = 0; p < parts.size(); p++)
-        if (part_flag (p, vpf_seat) &&
+        if (part_flag (p, vpf_boardable) &&
                 parts[p].has_flag(vehicle_part::passenger_flag))
             res.push_back (p);
     return res;
@@ -743,7 +745,7 @@ std::vector<int> vehicle::boarded_parts()
 int vehicle::free_seat()
 {
  for (int p = 0; p < parts.size(); p++)
-  if (part_flag (p, vpf_seat) && !parts[p].has_flag(vehicle_part::passenger_flag))
+  if (part_flag (p, vpf_boardable) && !parts[p].has_flag(vehicle_part::passenger_flag))
    return p;
 
  return -1;
@@ -751,7 +753,7 @@ int vehicle::free_seat()
 
 player *vehicle::get_passenger (int p)
 {
-    p = part_with_feature (p, vpf_seat, false);
+    p = part_with_feature (p, vpf_boardable, false);
     if (p >= 0 && parts[p].has_flag(vehicle_part::passenger_flag))
     {
      const int player_id = parts[p].passenger_id;
@@ -782,7 +784,7 @@ int vehicle::total_mass ()
         m += g->itypes[part_info(i).item]->weight;
         for (int j = 0; j < parts[i].items.size(); j++)
             m += parts[i].items[j].type->weight;
-        if (part_flag(i,vpf_seat) && parts[i].has_flag(vehicle_part::passenger_flag))
+        if (part_flag(i,vpf_boardable) && parts[i].has_flag(vehicle_part::passenger_flag))
             m += 520; // TODO: get real weight
     }
     return m;

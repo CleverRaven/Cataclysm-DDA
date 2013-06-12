@@ -158,7 +158,7 @@ class game
   void cancel_activity();
   void cancel_activity_query(const char* message, ...);
   bool cancel_activity_or_ignore_query(const char* reason, ...); 
-  void exit_vehicle();
+  void moving_vehicle_dismount(int tox, int toy);
   // Get input from the player to choose an adjacent tile (for examine() etc)
   bool choose_adjacent(std::string verb, int &x, int&y);
 
