@@ -36,13 +36,14 @@
 #define COL_SKILL_USED		c_green    // A skill with at least one point
 
 #define HIGH_STAT 14 // The point after which stats cost double
+#define MAX_TRAIT_POINTS 12 // How many points from traits
 
 #define NEWCHAR_TAB_MAX 4 // The ID of the rightmost tab
 
 void draw_tabs(WINDOW* w, std::string sTab);
 
 int set_stats(WINDOW* w, game* g, player *u, int &points);
-int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points);
+int set_traits(WINDOW* w, game* g, player *u, int &points);
 int set_profession(WINDOW* w, game* g, player *u, int &points);
 int set_skills(WINDOW* w, game* g, player *u, int &points);
 int set_description(WINDOW* w, game* g, player *u, int &points);
@@ -61,7 +62,7 @@ bool player::create(game *g, character_type type, std::string tempname)
 
  WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
 
- int tab = 0, points = 38, max_trait_points = 12;
+ int tab = 0, points = 38;
  if (type != PLTYPE_CUSTOM) {
   switch (type) {
    case PLTYPE_RANDOM: {
@@ -81,13 +82,13 @@ bool player::create(game *g, character_type type, std::string tempname)
 
     int num_gtraits = 0, num_btraits = 0, rn, tries;
     while (points < 0 || rng(-3, 20) > points) {
-     if (num_btraits < max_trait_points && one_in(3)) {
+     if (num_btraits < MAX_TRAIT_POINTS && one_in(3)) {
       tries = 0;
       do {
        rn = random_bad_trait();
        tries++;
       } while ((has_trait(rn) ||
-              num_btraits - traits[rn].points > max_trait_points) && tries < 5);
+              num_btraits - traits[rn].points > MAX_TRAIT_POINTS) && tries < 5);
       if (tries < 5) {
        toggle_trait(rn);
        points -= traits[rn].points;
@@ -103,14 +104,14 @@ bool player::create(game *g, character_type type, std::string tempname)
      }
     }
     while (points > 0) {
-     switch (rng((num_gtraits < max_trait_points ? 1 : 5), 9)) {
+     switch (rng((num_gtraits < MAX_TRAIT_POINTS ? 1 : 5), 9)) {
      case 1:
      case 2:
      case 3:
      case 4:
       rn = random_good_trait();
       if (!has_trait(rn) && points >= traits[rn].points &&
-          num_gtraits + traits[rn].points <= max_trait_points) {
+          num_gtraits + traits[rn].points <= MAX_TRAIT_POINTS) {
        toggle_trait(rn);
        points -= traits[rn].points;
        num_gtraits += traits[rn].points;
@@ -159,14 +160,13 @@ bool player::create(game *g, character_type type, std::string tempname)
   tab = NEWCHAR_TAB_MAX;
  } else
   points = OPTIONS[OPT_INITIAL_POINTS];
-  max_trait_points = OPTIONS[OPT_MAX_TRAIT_POINTS];
 
  do {
   werase(w);
   wrefresh(w);
   switch (tab) {
    case 0: tab += set_stats      (w, g, this, points); break;
-   case 1: tab += set_traits     (w, g, this, points, max_trait_points); break;
+   case 1: tab += set_traits     (w, g, this, points); break;
    case 2: tab += set_profession (w, g, this, points); break;
    case 3: tab += set_skills     (w, g, this, points); break;
    case 4: tab += set_description(w, g, this, points); break;
@@ -219,6 +219,67 @@ bool player::create(game *g, character_type type, std::string tempname)
     ma_type = "style_tai_chi";
    if (choice == 5)
     ma_type = "style_taekwondo";
+   item tmpitem = item(g->itypes[ma_type], 0);
+   full_screen_popup(tmpitem.info(true).c_str());
+  } while (!query_yn("Use this style?"));
+  styles.push_back(ma_type);
+ }
+ 
+    if (has_trait(PF_MARTIAL_ARTS2)) {
+  itype_id ma_type;
+  do {
+   int choice = menu(false, "Pick your style:",
+                     "Capoeira", "Krav Maga", "Muay Thai", "Ninjutsu", "Zui Quan", NULL);
+   if (choice == 1)
+    ma_type = "style_capoeira";
+   if (choice == 2)
+    ma_type = "style_krav_maga";
+   if (choice == 3)
+    ma_type = "style_muay_thai";
+   if (choice == 4)
+    ma_type = "style_ninjutsu";
+   if (choice == 5)
+    ma_type = "style_zui_quan";
+   item tmpitem = item(g->itypes[ma_type], 0);
+   full_screen_popup(tmpitem.info(true).c_str());
+  } while (!query_yn("Use this style?"));
+  styles.push_back(ma_type);
+ }
+ if (has_trait(PF_MARTIAL_ARTS3)) {
+  itype_id ma_type;
+  do {
+   int choice = menu(false, "Pick your style:",
+                     "Tiger", "Crane", "Leopard", "Snake", "Dragon", NULL);
+   if (choice == 1)
+    ma_type = "style_tiger";
+   if (choice == 2)
+    ma_type = "style_crane";
+   if (choice == 3)
+    ma_type = "style_leopard";
+   if (choice == 4)
+    ma_type = "style_snake";
+   if (choice == 5)
+    ma_type = "style_dragon";
+   item tmpitem = item(g->itypes[ma_type], 0);
+   full_screen_popup(tmpitem.info(true).c_str());
+  } while (!query_yn("Use this style?"));
+  styles.push_back(ma_type);
+ }
+ if (has_trait(PF_MARTIAL_ARTS4)) {
+  itype_id ma_type;
+  do {
+   int choice = menu(false, "Pick your style:",
+                     "Centipede", "Viper", "Scorpion", "Lizard", "Toad", NULL);
+   if (choice == 1)
+    ma_type = "style_centipede";
+   if (choice == 2)
+    ma_type = "style_venom_snake";
+   if (choice == 3)
+    ma_type = "style_scorpion";
+   if (choice == 4)
+    ma_type = "style_lizard";
+   if (choice == 5)
+    ma_type = "style_toad";
    item tmpitem = item(g->itypes[ma_type], 0);
    full_screen_popup(tmpitem.info(true).c_str());
   } while (!query_yn("Use this style?"));
@@ -482,7 +543,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
  } while (true);
 }
 
-int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
+int set_traits(WINDOW* w, game* g, player *u, int &points)
 {
  draw_tabs(w, "TRAITS");
 
@@ -517,9 +578,9 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
  do {
   mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
   mvwprintz(w,  3,20, c_ltgreen, "%s%d/%d", (num_good < 10 ? " " : ""),
-                                 num_good, max_trait_points);
+                                 num_good, MAX_TRAIT_POINTS);
   mvwprintz(w,  3,33, c_ltred, "%s%d/%d", (num_bad < 10 ? " " : ""),
-                               num_bad, max_trait_points);
+                               num_bad, MAX_TRAIT_POINTS);
 // Clear the bottom of the screen.
   mvwprintz(w_description, 0, 0, c_ltgray, "                                                                             ");
   mvwprintz(w_description, 1, 0, c_ltgray, "                                                                             ");
@@ -655,13 +716,13 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
      } else
       mvwprintz(w,  3, 2, c_red, "Points left: %d  ", points);
     } else if (using_adv && num_good + traits[cur_trait].points >
-                            max_trait_points)
+                            MAX_TRAIT_POINTS)
      popup("Sorry, but you can only take %d points of advantages.",
-           max_trait_points);
+           MAX_TRAIT_POINTS);
     else if (!using_adv && num_bad - traits[cur_trait].points >
-                           max_trait_points)
+                           MAX_TRAIT_POINTS)
      popup("Sorry, but you can only take %d points of disadvantages.",
-           max_trait_points);
+           MAX_TRAIT_POINTS);
     else if (points >= traits[cur_trait].points) {
      u->toggle_trait(cur_trait);
      points -= traits[cur_trait].points;
@@ -814,10 +875,10 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
   mvwprintz(w,  3, 40, c_ltgray, "                                    ");
   if (points >= u->skillLevel(currentSkill) + 1)
    mvwprintz(w,  3, 30, COL_SKILL_USED, "Upgrading %s costs %d points",
-             currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
+             skill_name(cur_sk).c_str(), u->skillLevel(currentSkill) + 1);
   else
    mvwprintz(w,  3, 30, c_ltred, "Upgrading %s costs %d points",
-             currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
+             skill_name(cur_sk).c_str(), u->skillLevel(currentSkill) + 1);
   mvwprintz(w_description, 0, 0, COL_SKILL_USED, currentSkill->description().c_str());
 
   if (cur_sk <= 7) {
@@ -832,7 +893,7 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
     } else {
      mvwprintz(w, 5 + i, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-               "%s ", thisSkill->name().c_str());
+               "%s ", skill_name(i).c_str());
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
