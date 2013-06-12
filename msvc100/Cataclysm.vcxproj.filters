@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="JSON">
+      <UniqueIdentifier>{fe3ddf07-52dc-43c4-8721-47159b745eab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\action.cpp">
@@ -539,6 +542,57 @@
   <ItemGroup>
     <None Include="..\data\cataicon.ico">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\data\raw\item_groups.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\materials.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\monstergroups.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\names.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\professions.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\recipes.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\skills.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\snippets.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\items\ammo.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\items\armor.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\items\books.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\items\comestibles.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\items\instruments.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\items\melee.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\items\mods.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\items\ranged.json">
+      <Filter>JSON</Filter>
+    </None>
+    <None Include="..\data\raw\items\tools.json">
+      <Filter>JSON</Filter>
     </None>
   </ItemGroup>
 </Project>

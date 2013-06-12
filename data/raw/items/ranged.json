@@ -88,7 +88,7 @@
     "symbol": "(",
     "color": "yellow",
     "name": "slingshot",
-    "description": "A wooden slingshot, it is easy to use and accurate, but pebbles do little damage. Pebbles are used as ammunition.",
+    "description": "A wooden slingshot, it is easy to use but inaccurate, but pebbles do little damage. Pebbles are used as ammunition.",
     "rarity": 5,
     "price": 50,
     "material": "wood",
@@ -100,9 +100,9 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": 2,
-    "ranged_damage": 2,
+    "ranged_damage": 1,
     "range": 0,
-    "accuracy": 15,
+    "accuracy": 8,
     "recoil": 0,
     "durability": 6,
     "burst": 0,
@@ -186,12 +186,12 @@
     "to_hit": 0,
     "ranged_damage": 0,
     "range": 10,
-    "accuracy": 12,
+    "accuracy": 15,
     "recoil": 0,
     "durability": 6,
     "burst": 0,
     "clip_size": 1,
-    "reload": 80
+    "reload": 120
   },
 
   {

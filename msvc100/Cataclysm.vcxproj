@@ -305,6 +305,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\data\cataicon.ico" />
+    <None Include="..\data\raw\items\ammo.json" />
+    <None Include="..\data\raw\items\armor.json" />
+    <None Include="..\data\raw\items\books.json" />
+    <None Include="..\data\raw\items\comestibles.json" />
+    <None Include="..\data\raw\items\instruments.json" />
+    <None Include="..\data\raw\items\melee.json" />
+    <None Include="..\data\raw\items\mods.json" />
+    <None Include="..\data\raw\items\ranged.json" />
+    <None Include="..\data\raw\items\tools.json" />
+    <None Include="..\data\raw\item_groups.json" />
+    <None Include="..\data\raw\materials.json" />
+    <None Include="..\data\raw\monstergroups.json" />
+    <None Include="..\data\raw\names.json" />
+    <None Include="..\data\raw\professions.json" />
+    <None Include="..\data\raw\recipes.json" />
+    <None Include="..\data\raw\skills.json" />
+    <None Include="..\data\raw\snippets.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

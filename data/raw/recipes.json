@@ -454,7 +454,10 @@
                              ["machete", -1],
                              ["broadsword", -1],
                              ["toolset", -1]
-                         ]
+                         ],
+						 [
+							 ["hacksaw", -1]
+						 ]
                      ],
             "components": [
                               [
@@ -1243,7 +1246,10 @@
                              ["machete", -1],
                              ["broadsword", -1],
                              ["toolset", -1]
-                         ]
+                         ],
+						 [
+							 ["hacksaw", -1]
+						 ]
                      ],
             "components": [
                               [
@@ -1308,7 +1314,11 @@
                              ["machete", -1],
                              ["broadsword", -1],
                              ["toolset", -1]
-                         ]
+                         ],
+
+						 [
+							 ["hacksaw", -1]
+						 ]
                      ],
             "components": [
                               [
