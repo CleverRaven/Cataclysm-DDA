@@ -2806,6 +2806,7 @@ z.size(), active_npc.size(), events.size());
     veh_num = menu_vec (false, "Choose vehicle to spawn", opts) + 1;
     if (veh_num > 1 && veh_num < num_vehicles)
      m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90, 100, 0);
+     m.board_vehicle (this, u.posx, u.posy, &u);
    }
    break;
 
