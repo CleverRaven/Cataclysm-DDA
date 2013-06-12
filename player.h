@@ -305,6 +305,7 @@ public:
  std::vector<int> completed_missions;
  std::vector<int> failed_missions;
  int active_mission;
+ int volume;
 
  std::string name;
  bool male;
