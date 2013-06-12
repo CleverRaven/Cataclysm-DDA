@@ -70,11 +70,11 @@ struct vehicle_part
     int bigness;            // size of engine, wheel radius, translates to item properties.
     bool inside;            // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     int flags;
+    int passenger_id;       // carrying passenger
     union
     {
         int amount;         // amount of fuel for tank
         int open;           // door is open
-        int passenger_id;   // seat has passenger
     };
     std::vector<item> items;// inventory
 
