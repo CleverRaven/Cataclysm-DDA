@@ -110,20 +110,22 @@ struct player_activity
  int moves_left;
  int index;
  char invlet;
+ std::string name;
  bool continuous;
  bool ignore_trivial;
  std::vector<int> values;
  point placement;
 
  player_activity() { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
-                     placement = point(-1, -1); continuous = false; }
+                     name = ""; placement = point(-1, -1); continuous = false; }
 
- player_activity(activity_type t, int turns, int Index, char ch)
+ player_activity(activity_type t, int turns, int Index, char ch, std::string name_in)
  {
   type = t;
   moves_left = turns;
   index = Index;
   invlet = ch;
+  name = name_in;
   placement = point(-1, -1);
   continuous = false;
   ignore_trivial = false;
@@ -135,6 +137,7 @@ struct player_activity
   moves_left = copy.moves_left;
   index = copy.index;
   invlet = copy.invlet;
+  name = copy.name;
   placement = copy.placement;
   continuous = copy.continuous;
   ignore_trivial = copy.ignore_trivial;
@@ -146,8 +149,9 @@ struct player_activity
  std::string save_info()
  {
   std::stringstream ret;
-  ret << type << " " << moves_left << " " << index << " " << invlet << " " << placement.x <<
-         " " << placement.y << " " << values.size();
+  // name can be empty, so make sure we prepend something to it
+  ret << type << " " << moves_left << " " << index << " " << invlet << " str:" << name << " "
+         << placement.x << " " << placement.y << " " << values.size();
   for (int i = 0; i < values.size(); i++)
    ret << " " << values[i];
 
@@ -157,7 +161,9 @@ struct player_activity
  void load_info(std::stringstream &dump)
  {
   int tmp, tmptype;
-  dump >> tmptype >> moves_left >> index >> invlet >> placement.x >> placement.y >> tmp;
+  std::string tmpname;
+  dump >> tmptype >> moves_left >> index >> invlet >> tmpname >> placement.x >> placement.y >> tmp;
+  name = tmpname.substr(4);
   type = activity_type(tmptype);
   for (int i = 0; i < tmp; i++) {
    int tmp2;
@@ -188,7 +194,7 @@ enum pl_flag {
  PF_GOURMAND,	// Faster eating, higher level of max satiated
  PF_ANIMALEMPATH,// Animals attack less
  PF_TERRIFYING,	// All creatures run away more
- PF_DISRESISTANT,// Less likely to succumb to low health; TODO: Implement this
+ PF_DISRESISTANT,// Less likely to succumb to low health
  PF_ADRENALINE,	// Big bonuses when low on HP
  PF_SELFAWARE, // Let's you see exact HP totals
  PF_INCONSPICUOUS,// Less spawns due to timeouts
@@ -198,9 +204,6 @@ enum pl_flag {
  PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
  PF_CANNIBAL, // No penalty for eating human meat
  PF_MARTIAL_ARTS, // Start with a martial art
- PF_MARTIAL_ARTS2, // Start with a martial art
- PF_MARTIAL_ARTS3, // Start with a martial art
- PF_MARTIAL_ARTS4, // Start with a martial art
  PF_LIAR, // Better at telling lies
  PF_PRETTY, // -1 grotesqueness
 
@@ -465,19 +468,9 @@ mutation will be beneficial are greatly increased."},
 For your whole life you've been forbidden from indulging in your peculiar\n\
 tastes. Now the world's ended, and you'll be damned if anyone is going to\n\
 tell you you can't eat people."},
-{"Martial Arts Training", 2, 0, 0, "\
+{"Martial Arts Training", 3, 0, 0, "\
 You have received some martial arts training at a local dojo.  You will start\n\
 with your choice of karate, judo, aikido, tai chi, or taekwondo."},
-{"Specialized Combat Instruction", 3, 0, 0, "\
-You have been trained in some of the lesser-known forms of unarmed combat.\n\
-You will start with your choice of Capoeira, Krav Maga, Muay Thai\n\
-Ninjutsu, or Zui Quan."},
-{"Shaolin Adept", 4, 0, 0, "\
-You have studied the arts of the Shaolin monks.  You will start with one\n\
-of the Five Animal fighting styles, Tiger, Crane, Leopard, Snake, or Dragon."},
-{"Venom Mob Protoge", 4, 0, 0, "\
-You are a pupil of the Venom Clan.  You will start with one of the\n\
-Five Deadly Venoms, Centipede, Viper, Scorpion, Lizard, or Toad."},
 {"Skilled Liar", 2, 0, 0, "\
 You have no qualms about bending the truth, and have practically no tells.\n\
 Telling lies and otherwise bluffing will be much easier for you."},
