@@ -3,6 +3,7 @@
 #include "options.h"
 #include "output.h"
 #include "color.h"
+#include "debug.h"
 #include <cstdlib>
 #include <fstream>
 
@@ -24,6 +25,7 @@ static SDL_Color windowsPalette[256];
 static SDL_Surface *screen = NULL;
 static SDL_Surface *glyph_cache[128][16]; //cache ascii characters 
 TTF_Font* font;
+static bool ttf_height_hack = false;
 int nativeWidth;
 int nativeHeight;
 int WindowX;            //X pos of the actual window, not the curses window
@@ -149,7 +151,7 @@ static void OutputChar(char t, int x, int y, int n, unsigned char color)
 		if( 0==TTF_GlyphMetrics(font, ch, &minx, NULL, NULL, &maxy, NULL))
 		{
 			dx = minx;
-			dy = TTF_FontAscent(font) - maxy;
+			dy = (ttf_height_hack?fontheight:TTF_FontAscent(font))-maxy;
 			SDL_Rect rect;
 			rect.x = x+dx; rect.y = y+dy; rect.w = fontwidth; rect.h = fontheight;
 			SDL_BlitSurface(glyph, NULL, screen, &rect);
@@ -159,12 +161,22 @@ static void OutputChar(char t, int x, int y, int n, unsigned char color)
 
 void DrawWindow(WINDOW *win)
 {
-    int i,j,drawx,drawy;
+    int i,j,drawx,drawy,jr=0;
     char tmp;
 
+    SDL_Rect update;
+	update.x = win->x * fontwidth; update.y = 9999;
+	update.w = win->width * fontwidth; update.h = 9999;
     for (j=0; j<win->height; j++){
         if (win->line[j].touched)
         {
+            if (update.y == 9999)
+            {
+                update.y = (win->y+j)*fontheight;
+				jr=j;
+            }
+			update.h = (j-jr+1)*fontheight;
+
             win->line[j].touched=false;
 
             for (i=0; i<win->width; i++){
@@ -234,10 +246,10 @@ void DrawWindow(WINDOW *win)
         }
     };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
-    //if (update.top != -1)
-    //{
-		SDL_Flip(screen);
-    //}
+    if (update.y != 9999)
+    {
+		SDL_UpdateRect(screen, update.x, update.y, update.w, update.h);
+    }
 }
 
 //Check for any window messages (keypress, paint, mousemove, etc)
@@ -358,10 +370,21 @@ WINDOW *initscr(void)
     //if(!font) something went wrong
 
 	TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
-	TTF_SetFontOutline(font, 0);
-	TTF_SetFontKerning(font, 0);
-	TTF_SetFontHinting(font, TTF_HINTING_MONO);
- 
+	//TTF_SetFontOutline(font, 0);
+	//TTF_SetFontKerning(font, 0);
+	//TTF_SetFontHinting(font, TTF_HINTING_MONO);
+
+	// glyph height hack by utunnels 
+	// SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
+	// this causes baseline problems for certain fonts 
+	// I can only guess by check a certain tall character...
+	int testminy=0;
+	if( 0==TTF_GlyphMetrics(font, '|', NULL, NULL, &testminy, NULL, NULL))
+	{
+		// the whole glyph is above the baseline, so...
+		if(testminy>=0) ttf_height_hack = true;
+	}
+
     mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
