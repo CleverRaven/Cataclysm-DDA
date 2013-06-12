@@ -74,7 +74,7 @@ sudo apt-get install autoconf bison flex cmake git automake intltool libtool sco
 mkdir -p ~/src/mxe
 git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
 cd ~/src/mxe
-make sdl sdl-ttf
+make sdl sdl_ttf
 ```
 
 ### Building ###
