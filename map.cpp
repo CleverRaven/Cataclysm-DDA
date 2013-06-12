@@ -857,6 +857,16 @@ int map::move_cost_ter_only(const int x, const int y)
  return terlist[ter(x, y)].movecost;
 }
 
+int map::combined_movecost(const int x1, const int y1,
+                           const int x2, const int y2)
+{
+    int cost1 = move_cost(x1, y1);
+    int cost2 = move_cost(x2, y2);
+    // 50 moves taken per move_cost (70.71.. diagonally)
+    int mult = (trigdist && x1 != x2 && y1 != y2 ? 71 : 50);
+    return (cost1 + cost2) * mult / 2;
+}
+
 bool map::trans(const int x, const int y)
 {
  // Control statement is a problem. Normally returning false on an out-of-bounds
@@ -1803,175 +1813,259 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
 void map::shoot(game *g, const int x, const int y, int &dam,
                 const bool hit_items, const unsigned effects)
 {
- if (dam < 0)
-  return;
-
- if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED)) {
-  g->sound(g->u.posx, g->u.posy, 30, "An alarm sounds!");
-  g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
- }
-
- int vpart;
- vehicle *veh = veh_at(x, y, vpart);
- if (veh) {
-  const bool inc = (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME));
-  dam = veh->damage (vpart, dam, inc? 2 : 0, hit_items);
- }
-
- switch (ter(x, y)) {
-
- case t_wall_wood_broken:
- case t_wall_log_broken:
- case t_door_b:
-  if (hit_items || one_in(8)) {	// 1 in 8 chance of hitting the door
-   dam -= rng(20, 40);
-   if (dam > 0)
-    ter_set(x, y, t_dirt);
-  } else
-   dam -= rng(0, 1);
-  break;
-
-
- case t_door_c:
- case t_door_locked:
- case t_door_locked_alarm:
-  dam -= rng(15, 30);
-  if (dam > 0)
-   ter_set(x, y, t_door_b);
-  break;
-
- case t_door_boarded:
-  dam -= rng(15, 35);
-  if (dam > 0)
-   ter_set(x, y, t_door_b);
-  break;
-
-    // laser beams are attenuated, but don't break the glass
-    case t_window:
-    case t_window_domestic:
-    case t_window_alarm:
-        dam -= rng(0, 5);
-        if (!(effects & mfb(AMMO_LASER)))
-            ter_set(x, y, t_window_frame);
-    break;
-
- case t_window_boarded:
-  dam -= rng(10, 30);
-  if (dam > 0)
-   ter_set(x, y, t_window_frame);
-  break;
-
- case t_wall_glass_h:
- case t_wall_glass_v:
- case t_wall_glass_h_alarm:
- case t_wall_glass_v_alarm:
-  dam -= rng(0, 8);
-  ter_set(x, y, t_floor);
-  break;
-
-
-    // reinforced glass stops bullets
-    // laser beams are attenuated
-    case t_reinforced_glass_v:
-    case t_reinforced_glass_h:
-    if (effects & mfb(AMMO_LASER))
+    if (dam < 0)
     {
-        dam -= rng(0, 8);
+        return;
     }
-    else
+
+    if (has_flag(alarmed, x, y) && !g->event_queued(EVENT_WANTED))
     {
-        g->add_msg("The shot is stopped by the reinforced glass wall!");
+        g->sound(x, y, 30, "An alarm sounds!");
+        g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+    }
+
+    int vpart;
+    vehicle *veh = veh_at(x, y, vpart);
+    if (veh)
+    {
+        const bool inc = (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME));
+        dam = veh->damage (vpart, dam, inc? 2 : 0, hit_items);
+    }
+
+    switch (ter(x, y))
+    {
+
+        case t_wall_wood_broken:
+        case t_wall_log_broken:
+        case t_door_b:
+            if (hit_items || one_in(8))
+            {	// 1 in 8 chance of hitting the door
+                dam -= rng(20, 40);
+                if (dam > 0)
+                {
+                    g->sound(x, y, 10, "crash!");
+                    ter_set(x, y, t_dirt);
+                }
+            }
+            else
+                dam -= rng(0, 1);
+        break;
+
+
+        case t_door_c:
+        case t_door_locked:
+        case t_door_locked_alarm:
+            dam -= rng(15, 30);
+            if (dam > 0)
+            {
+                g->sound(x, y, 10, "smash!");
+                ter_set(x, y, t_door_b);
+            }
+        break;
+
+        case t_door_boarded:
+            dam -= rng(15, 35);
+            if (dam > 0)
+            {
+                g->sound(x, y, 10, "crash!");
+                ter_set(x, y, t_door_b);
+            }
+        break;
+
+        // Fall-through intended
+        case t_window_domestic_taped:
+        case t_curtains:
+            if (effects & mfb(AMMO_LASER))
+                dam -= rng(1, 5);
+        case t_window_domestic:
+            if (effects & mfb(AMMO_LASER))
+                dam -= rng(0, 5);
+            else
+            {
+                dam -= rng(1,3);
+                if (dam > 0)
+                {
+                    g->sound(x, y, 16, "glass breaking!");
+                    ter_set(x, y, t_window_frame);
+                    spawn_item(x, y, (*itypes)["sheet"], 0, 1);
+                    spawn_item(x, y, (*itypes)["stick"], 0);
+                    spawn_item(x, y, (*itypes)["string_36"], 0);
+                }
+            }
+        break;
+
+        // Fall-through intended
+        case t_window_taped:
+        case t_window_alarm_taped:
+            if (effects & mfb(AMMO_LASER))
+                dam -= rng(1, 5);
+        case t_window:
+        case t_window_alarm:
+            if (effects & mfb(AMMO_LASER))
+                dam -= rng(0, 5);
+            else
+            {
+                dam -= rng(1,3);
+                if (dam > 0)
+                {
+                    g->sound(x, y, 16, "glass breaking!");
+                    ter_set(x, y, t_window_frame);
+                }
+            }
+        break;
+
+        case t_window_boarded:
+            dam -= rng(10, 30);
+            if (dam > 0)
+            {
+                g->sound(x, y, 16, "glass breaking!");
+                ter_set(x, y, t_window_frame);
+            }
+        break;
+
+        case t_wall_glass_h:
+        case t_wall_glass_v:
+        case t_wall_glass_h_alarm:
+        case t_wall_glass_v_alarm:
+            if (effects & mfb(AMMO_LASER))
+                dam -= rng(0,5);
+            else
+            {
+                dam -= rng(1,8);
+                if (dam > 0)
+                {
+                    g->sound(x, y, 20, "glass breaking!");
+                    ter_set(x, y, t_floor);
+                }
+            }
+        break;
+
+
+        // reinforced glass stops most bullets
+        // laser beams are attenuated
+        case t_reinforced_glass_v:
+        case t_reinforced_glass_h:
+            if (effects & mfb(AMMO_LASER))
+            {
+                dam -= rng(0, 8);
+            }
+            else
+            {
+                //Greatly weakens power of bullets
+                dam -= 40;
+                if (dam <= 0)
+                    g->add_msg("The shot is stopped by the reinforced glass wall!");
+                //high powered bullets penetrate the glass, but only extremely strong
+                // ones (80 before reduction) actually destroy the glass itself.
+                else if (dam >= 40)
+                {
+                    g->sound(x, y, 20, "glass breaking!");
+                    ter_set(x, y, t_floor);
+                }
+            }
+        break;
+
+        case t_paper:
+            dam -= rng(4, 16);
+            if (dam > 0)
+            {
+                g->sound(x, y, 8, "rrrrip!");
+                ter_set(x, y, t_dirt);
+            }
+            if (effects & mfb(AMMO_INCENDIARY))
+                add_field(g, x, y, fd_fire, 1);
+        break;
+
+        case t_gas_pump:
+            if (hit_items || one_in(3))
+            {
+                if (dam > 15)
+                {
+                    if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
+                        g->explosion(x, y, 40, 0, true);
+                    else
+                    {
+                        for (int i = x - 2; i <= x + 2; i++)
+                        {
+                            for (int j = y - 2; j <= y + 2; j++)
+                            {
+                                if (move_cost(i, j) > 0 && one_in(3))
+                                    spawn_item(i, j, g->itypes["gasoline"], 0);
+                            }
+                        }
+                        g->sound(x, y, 10, "smash!");
+                    }
+                    ter_set(x, y, t_gas_pump_smashed);
+                }
+                dam -= 60;
+            }
+        break;
+
+        case t_vat:
+            if (dam >= 10)
+            {
+                g->sound(x, y, 20, "ke-rash!");
+                ter_set(x, y, t_floor);
+            }
+            else
+                dam = 0;
+        break;
+
+        default:
+            if (move_cost(x, y) == 0 && !trans(x, y))
+                dam = 0;	// TODO: Bullets can go through some walls?
+            else
+                dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
+    }
+
+    if (effects & mfb(AMMO_TRAIL) && !one_in(4))
+        add_field(g, x, y, fd_smoke, rng(1, 2));
+
+    // Set damage to 0 if it's less
+    if (dam < 0)
         dam = 0;
-    }
-    break;
 
- case t_paper:
-  dam -= rng(4, 16);
-  if (dam > 0)
-   ter_set(x, y, t_dirt);
-  if (effects & mfb(AMMO_INCENDIARY))
-   add_field(g, x, y, fd_fire, 1);
-  break;
-
- case t_gas_pump:
-  if (hit_items || one_in(3)) {
-   if (dam > 15) {
-    if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
-     g->explosion(x, y, 40, 0, true);
-    else {
-     for (int i = x - 2; i <= x + 2; i++) {
-      for (int j = y - 2; j <= y + 2; j++) {
-       if (move_cost(i, j) > 0 && one_in(3))
-        spawn_item(i, j, g->itypes["gasoline"], 0);
-      }
-     }
-    }
-    ter_set(x, y, t_gas_pump_smashed);
-   }
-   dam -= 60;
-  }
-  break;
-
- case t_vat:
-  if (dam >= 10) {
-   g->sound(x, y, 15, "ke-rash!");
-   ter_set(x, y, t_floor);
-  } else
-   dam = 0;
-  break;
-
- default:
-  if (move_cost(x, y) == 0 && !trans(x, y))
-   dam = 0;	// TODO: Bullets can go through some walls?
-  else
-   dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
- }
-
- if (effects & mfb(AMMO_TRAIL) && !one_in(4))
-  add_field(g, x, y, fd_smoke, rng(1, 2));
-
-// Set damage to 0 if it's less
- if (dam < 0)
-  dam = 0;
-
-// Check fields?
- field *fieldhit = &(field_at(x, y));
- switch (fieldhit->type) {
-  case fd_web:
-   if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
-    add_field(g, x, y, fd_fire, fieldhit->density - 1);
-   else if (dam > 5 + fieldhit->density * 5 && one_in(5 - fieldhit->density)) {
-    dam -= rng(1, 2 + fieldhit->density * 2);
-    remove_field(x, y);
-   }
-   break;
- }
-
-// Now, destroy items on that tile.
-
- if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y))
-  return;	// Items on floor-type spaces won't be shot up.
-
- for (int i = 0; i < i_at(x, y).size(); i++) {
-  bool destroyed = false;
-  int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);   // volume dependent chance
-  
-    if (dam > i_at(x, y)[i].bash_resist() && one_in(chance))
+    // Check fields?
+    field *fieldhit = &(field_at(x, y));
+    switch (fieldhit->type)
     {
-        i_at(x, y)[i].damage++;
+        case fd_web:
+            if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
+                add_field(g, x, y, fd_fire, fieldhit->density - 1);
+            else if (dam > 5 + fieldhit->density * 5 && one_in(5 - fieldhit->density))
+            {
+                dam -= rng(1, 2 + fieldhit->density * 2);
+                remove_field(x, y);
+            }
+        break;
     }
-    if (i_at(x, y)[i].damage >= 5)
+
+    // Now, destroy items on that tile.
+    if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y))
+        return;	// Items on floor-type spaces won't be shot up.
+
+    for (int i = 0; i < i_at(x, y).size(); i++)
     {
-        destroyed = true;
-    }
+        bool destroyed = false;
+        int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);   // volume dependent chance
   
-  if (destroyed) {
-   for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
-    i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
-   i_rem(x, y, i);
-   i--;
-  }
- }
+        if (dam > i_at(x, y)[i].bash_resist() && one_in(chance))
+        {
+            i_at(x, y)[i].damage++;
+        }
+        if (i_at(x, y)[i].damage >= 5)
+        {
+            destroyed = true;
+        }
+  
+        if (destroyed)
+        {
+            for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
+                i_at(x, y).push_back(i_at(x, y)[i].contents[j]);
+            i_rem(x, y, i);
+            i--;
+        }
+    }
 }
 
 bool map::hit_with_acid(game *g, const int x, const int y)
@@ -1993,6 +2087,14 @@ bool map::hit_with_acid(game *g, const int x, const int y)
   case t_door_locked_alarm:
    if (one_in(3))
     ter_set(x, y, t_door_b);
+   break;
+
+  case t_door_bar_c:
+  case t_door_bar_o:
+  case t_door_bar_locked:
+  case t_bars:
+   ter_set(x, y, t_floor);
+   g->add_msg("The metal bars melt!");
    break;
 
   case t_door_b:
@@ -2084,6 +2186,9 @@ bool map::open_door(const int x, const int y, const bool inside)
  } else if (ter(x, y) == t_door_metal_c) {
   ter_set(x, y, t_door_metal_o);
   return true;
+ } else if (ter(x, y) == t_door_bar_c) {
+  ter_set(x, y, t_door_bar_o);
+  return true;
  } else if (ter(x, y) == t_door_glass_c) {
   ter_set(x, y, t_door_glass_o);
   return true;
@@ -2154,6 +2259,9 @@ bool map::close_door(const int x, const int y, const bool inside)
   ter_set(x, y, t_fencegate_c);
  } else if (ter(x, y) == t_door_metal_o) {
   ter_set(x, y, t_door_metal_c);
+  return true;
+ } else if (ter(x, y) == t_door_bar_o) {
+  ter_set(x, y, t_door_bar_locked);//jail doors lock behind you
   return true;
  } else if (ter(x, y) == t_door_glass_o) {
   ter_set(x, y, t_door_glass_c);
@@ -2255,7 +2363,8 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
         new_item.charges = charges;
     }
     new_item = new_item.in_its_container(itypes);
-    if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
+    if ((new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ||
+        has_flag(destroy_item, x, y))
     {
         return;
     }
@@ -2311,7 +2420,7 @@ void map::spawn_item(const int x, const int y, std::string type_id, const int bi
 }
 
 void map::add_item_or_charges(const int x, const int y, item new_item) {
-    if (new_item.is_style() || !INBOUNDS(x, y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ) {
+    if (new_item.is_style() || !INBOUNDS(x, y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) {
      return;
     }
     if(new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo())) {
@@ -2334,6 +2443,8 @@ void map::add_item(const int x, const int y, item new_item)
   return;
  if (new_item.made_of(LIQUID) && has_flag(swimmable, x, y))
   return;
+ if (has_flag(destroy_item, x, y))
+     return;
 
  if (has_flag(noitem, x, y) || i_at(x, y).size() >= 64) {// Too many items there
   std::vector<point> okay;
@@ -2920,15 +3031,17 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  const int k = x + getmaxx(w)/2 - cx;
  const int j = y + getmaxy(w)/2 - cy;
  nc_color tercol;
- ter_id curr_ter = ter(x,y);
+ const ter_id curr_ter = ter(x,y);
+ const trap_id curr_trap = tr_at(x, y);
+ const field curr_field = field_at(x, y);
+ const std::vector<item> curr_items = i_at(x, y);
  long sym = terlist[curr_ter].sym;
  bool hi = false;
  bool graf = false;
  bool normal_tercol = false, drew_field = false;
  if (u.has_disease(DI_BOOMERED))
   tercol = c_magenta;
- else if ((u.is_wearing("goggles_nv") && u.has_active_item("UPS_on")) ||
-          u.has_active_bionic("bio_night_vision"))
+ else if ( u.has_nv() )
   tercol = (bright_light) ? c_white : c_ltgreen;
  else if (low_light)
   tercol = c_dkgray;
@@ -2940,10 +3053,10 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  if (move_cost(x, y) == 0 && has_flag(swimmable, x, y) && !u.underwater)
   show_items = false;	// Can only see underwater items if WE are underwater
 // If there's a trap here, and we have sufficient perception, draw that instead
- if (tr_at(x, y) != tr_null &&
-     u.per_cur - u.encumb(bp_eyes) >= (*traps)[tr_at(x, y)]->visibility) {
-  tercol = (*traps)[tr_at(x, y)]->color;
-  if ((*traps)[tr_at(x, y)]->sym == '%') {
+ if (curr_trap != tr_null &&
+     u.per_cur - u.encumb(bp_eyes) >= (*traps)[curr_trap]->visibility) {
+  tercol = (*traps)[curr_trap]->color;
+  if ((*traps)[curr_trap]->sym == '%') {
    switch(rng(1, 5)) {
     case 1: sym = '*'; break;
     case 2: sym = '0'; break;
@@ -2952,14 +3065,14 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     case 5: sym = '+'; break;
    }
   } else
-   sym = (*traps)[tr_at(x, y)]->sym;
+   sym = (*traps)[curr_trap]->sym;
  }
 // If there's a field here, draw that instead (unless its symbol is %)
- if (field_at(x, y).type != fd_null &&
-     fieldlist[field_at(x, y).type].sym != '&') {
-  tercol = fieldlist[field_at(x, y).type].color[field_at(x, y).density - 1];
+ if (curr_field.type != fd_null &&
+     fieldlist[curr_field.type].sym != '&') {
+  tercol = fieldlist[curr_field.type].color[curr_field.density - 1];
   drew_field = true;
-  if (fieldlist[field_at(x, y).type].sym == '*') {
+  if (fieldlist[curr_field.type].sym == '*') {
    switch (rng(1, 5)) {
     case 1: sym = '*'; break;
     case 2: sym = '0'; break;
@@ -2967,21 +3080,21 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     case 4: sym = '&'; break;
     case 5: sym = '+'; break;
    }
-  } else if (fieldlist[field_at(x, y).type].sym != '%' ||
-             i_at(x, y).size() > 0) {
-   sym = fieldlist[field_at(x, y).type].sym;
+  } else if (fieldlist[curr_field.type].sym != '%' ||
+             curr_items.size() > 0) {
+   sym = fieldlist[curr_field.type].sym;
    drew_field = false;
   }
  }
 // If there's items here, draw those instead
- if (show_items && !has_flag(container, x, y) && i_at(x, y).size() > 0 && !drew_field) {
+ if (show_items && !has_flag(container, x, y) && curr_items.size() > 0 && !drew_field) {
   if ((terlist[curr_ter].sym != '.'))
    hi = true;
   else {
-   tercol = i_at(x, y)[i_at(x, y).size() - 1].color();
-   if (i_at(x, y).size() > 1)
+   tercol = curr_items[curr_items.size() - 1].color();
+   if (curr_items.size() > 1)
     invert = !invert;
-   sym = i_at(x, y)[i_at(x, y).size() - 1].symbol();
+   sym = curr_items[curr_items.size() - 1].symbol();
   }
  }
 

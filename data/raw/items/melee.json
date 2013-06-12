@@ -272,6 +272,22 @@
   },
 
   {
+    "id": "lens",
+    "symbol": ".",
+    "color": "light_cyan",
+    "name": "high-quality lens",
+    "description": "A high-quality lens, useful for focusing or diffusing light.",
+    "rarity": 1,
+    "price": 1200,
+    "material": "glass",
+    "weight": 0,
+    "volume": 0,
+    "bashing": -8,
+    "cutting": 0,
+    "to_hit": -3
+  },
+
+  {
     "id": "burnt_out_bionic",
     "symbol": ",",
     "color": "light_red",
@@ -1820,6 +1836,21 @@
         "cutting" : 0,
         "rarity" : 10,
         "price" : 185
+    },
+    {
+        "id" : "alloy_sheet",
+        "name" : "superalloy sheet",
+        "description" : "A sheet sturdy superalloy, incredibly hard, yet incredibly malleable.",
+        "weight" : 50,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["steel", "null"],
+        "volume" : 2,
+        "bashing" : -2,
+        "cutting" : 0,
+        "rarity" : 20,
+        "price" : 85
     },
     {
         "id" : "spiked_plate",

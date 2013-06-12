@@ -50,6 +50,7 @@ enum t_flag {
  rough,        // May hurt the player's feet
  sealed,       // Can't 'e' to retrieve items here
  noitem,       // Items "fall off" this space
+ destroy_item,  // Items are destroyed by this tile
  goes_down,    // Can '>' to go down a level
  goes_up,      // Can '<' to go up a level
  console,      // Used as a computer
@@ -111,6 +112,7 @@ t_bars,
 t_door_c, t_door_b, t_door_o, t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
 t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
 t_door_metal_c, t_door_metal_o, t_door_metal_locked,
+t_door_bar_c, t_door_bar_o, t_door_bar_locked,
 t_door_glass_c, t_door_glass_o,
 t_bulletin,
 t_portcullis,
@@ -120,7 +122,7 @@ t_window_stained_green, t_window_stained_red, t_window_stained_blue,
 t_rock, t_fault,
 t_paper,
 // Tree
-t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_indoor_plant, t_shrub_blueberry, t_log,
+t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_indoor_plant, t_shrub_blueberry, t_shrub_strawberry, t_log,
 t_root_wall,
 t_wax, t_floor_wax,
 t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -338,6 +340,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
     mfb(transparent)|mfb(supports_roof), &iexamine::none},
 {"closed metal door",'+', c_cyan,    0, -1, tr_null, // Actually locked
     mfb(noitem)|mfb(supports_roof), &iexamine::none},
+{"closed bar door",'+', c_cyan,    0, -1, tr_null,// unlocked, only created at map gen
+    mfb(transparent)|mfb(noitem)|mfb(supports_roof), &iexamine::none},
+{"open bar door", '\'', c_cyan,    2, -1, tr_null,
+    mfb(transparent)|mfb(supports_roof), &iexamine::none},
+{"closed bar door",'+', c_cyan,    0, -1, tr_null, // locked
+    mfb(transparent)|mfb(noitem)|mfb(supports_roof), &iexamine::none},
 {"closed glass door",'+', c_ltcyan,  0, -1, tr_null,
     mfb(transparent)|mfb(bashable)|mfb(door)|mfb(noitem)|mfb(supports_roof), &iexamine::none},
 {"open glass door", '\'', c_ltcyan,  2, -1, tr_null,
@@ -406,6 +414,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"blueberry bush",   '#', c_ltgreen,   8, -1, tr_null,
     mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable2)|mfb(thin_obstacle),
     &iexamine::shrub_blueberry},
+{"strawberry bush",   '#', c_ltgreen,   8, -1, tr_null,
+    mfb(transparent)|mfb(bashable)|mfb(container)|mfb(flammable2)|mfb(thin_obstacle),
+    &iexamine::shrub_strawberry},
 {"tree trunk",              '1', c_brown,   4, -1, tr_null,
 	   mfb(transparent)|mfb(flammable2)|mfb(diggable), &iexamine::none},
 {"root wall",        '#', c_brown,   0, -1, tr_null,
@@ -454,7 +465,7 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"sewage",           '~', c_ltgreen, 6, -1, tr_null,
 	   mfb(transparent)|mfb(swimmable), &iexamine::water_source},
 {"lava",             '~', c_red,     4, -1, tr_lava,
-	   mfb(transparent)|mfb(liquid), &iexamine::none},
+        mfb(transparent)|mfb(liquid)|mfb(destroy_item), &iexamine::none},
 {"bed",              '#', c_magenta, 5, -1, tr_null,
     mfb(transparent)|mfb(container)|mfb(flammable2)|mfb(collapses)|
         mfb(deconstruct)|mfb(place_item)|mfb(indoors), &iexamine::none},

@@ -57,6 +57,7 @@ player::player()
  male = true;
  prof = profession::has_initialized() ? profession::generic() : NULL; //workaround for a potential structural limitation, see player::create
  moves = 100;
+ movecounter = 0;
  oxygen = 0;
  next_climate_control_check=0;
  last_climate_control_ret=false;
@@ -84,6 +85,8 @@ player::player()
   frostbite_timer[i] = 0;
   temp_conv[i] = BODYTEMP_NORM;
  }
+ nv_cached = false;
+ volume = 0;
 }
 
 player::player(const player &rhs)
@@ -163,6 +166,7 @@ player& player::operator= (const player & rhs)
 
  cash = rhs.cash;
  moves = rhs.moves;
+ movecounter = rhs.movecounter;
 
  for (int i = 0; i < num_hp_parts; i++)
   hp_cur[i] = rhs.hp_cur[i];
@@ -174,7 +178,7 @@ player& player::operator= (const player & rhs)
   temp_cur[i] = rhs.temp_cur[i];
 
  for (int i = 0 ; i < num_bp; i++)
-  temp_conv[i] = BODYTEMP_NORM;
+  temp_conv[i] = rhs.temp_conv[i];
 
  for (int i = 0; i < num_bp; i++)
   frostbite_timer[i] = rhs.frostbite_timer[i];
@@ -200,6 +204,8 @@ player& player::operator= (const player & rhs)
 
  illness = rhs.illness;
  addictions = rhs.addictions;
+
+ nv_cached = false;
 
  return (*this);
 }
@@ -322,6 +328,13 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
  if (int(g->turn) % 10 == 0) {
   update_mental_focus();
  }
+
+ nv_cached = false;
+}
+
+void player::action_taken()
+{
+    nv_cached = false;
 }
 
 void player::update_morale()
@@ -1041,7 +1054,7 @@ void player::load_info(game *g, std::string data)
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
  for (int i = 0; i < num_bp; i++)
-  dump >> temp_cur[i] >> frostbite_timer[i];
+  dump >> temp_cur[i] >> temp_conv[i] >> frostbite_timer[i];
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    dump >> skillLevel(*aSkill);
@@ -1069,7 +1082,7 @@ void player::load_info(game *g, std::string data)
  disease illtmp;
  dump >> numill;
  for (int i = 0; i < numill; i++) {
-  dump >> typetmp >> illtmp.duration;
+  dump >> typetmp >> illtmp.duration >> illtmp.intensity;
   illtmp.type = dis_type(typetmp);
   illness.push_back(illtmp);
  }
@@ -1151,7 +1164,7 @@ std::string player::save_info()
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
  for (int i = 0; i < num_bp; i++)
-  dump << temp_cur[i] << " " << frostbite_timer[i] << " ";
+  dump << temp_cur[i] << " " << temp_conv[i] << " " << frostbite_timer[i] << " ";
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    SkillLevel level = skillLevel(*aSkill);
@@ -1172,7 +1185,7 @@ std::string player::save_info()
 
  dump << illness.size() << " ";
  for (int i = 0; i < illness.size();  i++)
-  dump << int(illness[i].type) << " " << illness[i].duration << " ";
+  dump << int(illness[i].type) << " " << illness[i].duration << " " << illness[i].intensity << " " ;
 
  dump << addictions.size() << " ";
  for (int i = 0; i < addictions.size(); i++)
@@ -1555,8 +1568,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
   if (traits[traitslist[i]].points > 0)
    status = c_ltgreen;
-  else
+  else if (traits[traitslist[i]].points < 0)
    status = c_ltred;
+  else
+   status = c_yellow;
   mvwprintz(w_traits, i+1, 1, status, traits[traitslist[i]].name.c_str());
  }
 
@@ -1722,6 +1737,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
    move_adjust = abs(move_adjust);
    mvwprintz(w_speed, line, (move_adjust >= 10 ? 22 : 23), col, "%d%%%%",
              move_adjust);
+   line++;
   }
  }
  if (has_trait(PF_QUICK)) {
@@ -1944,8 +1960,10 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
      status = c_ltblue;
     else if (traits[traitslist[i]].points > 0)
      status = c_ltgreen;
-    else
+    else if (traits[traitslist[i]].points < 0)
      status = c_ltred;
+    else
+     status = c_yellow;
     if (i == line)
      mvwprintz(w_traits, 1 + i - min, 1, hilite(status),
                traits[traitslist[i]].name.c_str());
@@ -1973,8 +1991,10 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
       mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
       if (traits[traitslist[i]].points > 0)
        status = c_ltgreen;
-      else
+      else if (traits[traitslist[i]].points < 0)
        status = c_ltred;
+      else
+       status = c_yellow;
       mvwprintz(w_traits, i + 1, 1, status, traits[traitslist[i]].name.c_str());
      }
      wrefresh(w_traits);
@@ -2313,6 +2333,9 @@ void player::disp_status(WINDOW *w, game *g)
   mvwprintz(w, 1, 9, c_cyan,  "Very cold!%s", temp_message);
  else if (temp_cur[print] <= BODYTEMP_FREEZING)
   mvwprintz(w, 1, 9, c_blue,  "Freezing!%s", temp_message);
+ 
+ mvwprintz(w, 1, 32, c_yellow, "Sound:%d", volume);
+ volume = 0;
 
       if (thirst > 520)
   mvwprintz(w, 2, 15, c_ltred,  "Parched");
@@ -2450,6 +2473,7 @@ void player::disp_status(WINDOW *w, game *g)
   mvwprintz(w, 3, 27, col_int, "Int %s%d", int_cur >= 10 ? "" : " ", int_cur);
   mvwprintz(w, 3, 34, col_per, "Per %s%d", per_cur >= 10 ? "" : " ", per_cur);
   mvwprintz(w, 3, 41, col_spd, "Spd %s%d", spd_cur >= 10 ? "" : " ", spd_cur);
+  mvwprintz(w, 3, 50, c_white, "%d", movecounter);
  }
 }
 
@@ -2481,7 +2505,7 @@ bool player::in_climate_control(game *g)
     for (int i = 0; i < worn.size(); i++)
     {
         if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
-           (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
+            (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
         {
             return true;
         }
@@ -2588,9 +2612,7 @@ float player::active_light()
 int player::sight_range(int light_level)
 {
  int ret = light_level;
- if (((is_wearing("goggles_nv") && has_active_item("UPS_on")) ||
-     has_active_bionic("bio_night_vision")) &&
-     ret < 12)
+ if ( has_nv() && ret < 12)
   ret = 12;
  if (has_trait(PF_NIGHTVISION) && ret < 12)
   ret += 1;
@@ -2675,6 +2697,19 @@ bool player::avoid_trap(trap* tr)
  if (myroll >= traproll)
   return true;
  return false;
+}
+
+bool player::has_nv()
+{
+    static bool nv = false;
+
+    if( !nv_cached ) {
+        nv_cached = true;
+        nv = (is_wearing("goggles_nv") && has_active_item("UPS_on")) ||
+            has_active_bionic("bio_night_vision");
+    }
+
+    return nv;
 }
 
 void player::pause(game *g)
@@ -3756,10 +3791,40 @@ void player::suffer(game *g)
  if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600))
   g->teleport(this);
 
- if (is_wearing("hazmat_suit")) {
-   radiation += rng(0, g->m.radiation(posx, posy) / 40);
- } else {
-  radiation += rng(0, g->m.radiation(posx, posy) / 16);
+ int localRadiation = g->m.radiation(posx, posy);
+
+ if (localRadiation) {
+   bool power_armored = false, has_helmet = false;
+
+   power_armored = is_wearing_power_armor(&has_helmet);
+
+   if (power_armored && has_helmet) {
+     radiation += 0; // Power armor protects completely from radiation
+   } else if (power_armored || is_wearing("hazmat_suit")) {
+     radiation += rng(0, localRadiation / 40);
+   } else {
+     radiation += rng(0, localRadiation / 16);
+   }
+
+   // Apply rads to any radiation badges.
+   std::vector<item *> possessions = inv_dump();
+   for( std::vector<item *>::iterator it = possessions.begin(); it != possessions.end(); ++it ) {
+       if( (*it)->type->id == "rad_badge" ) {
+           // Actual irridation levels of badges and the player aren't precisely matched.
+           // This is intentional.
+           int before = (*it)->irridation;
+           (*it)->irridation += rng(0, localRadiation / 16);
+           if( inv.has_item(*it) ) { continue; }
+           for( int i = 0; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ ){
+               if( before < rad_dosage_thresholds[i] &&
+                   (*it)->irridation >= rad_dosage_thresholds[i] ) {
+                   g->add_msg_if_player( this, "Your radiation badge changes from %s to %s!",
+                                         rad_threshold_colors[i - 1].c_str(),
+                                         rad_threshold_colors[i].c_str() );
+               }
+           }
+       }
+   }
  }
 
  if( int(g->turn) % 150 == 0 )
@@ -4235,14 +4300,14 @@ item& player::i_of_type(itype_id type)
  return ret_null;
 }
 
-std::vector<item> player::inv_dump()
+std::vector<item *> player::inv_dump()
 {
- std::vector<item> ret;
+ std::vector<item *> ret;
  if (std::find(standard_itype_ids.begin(), standard_itype_ids.end(), weapon.type->id) != standard_itype_ids.end()){
-  ret.push_back(weapon);
+  ret.push_back(&weapon);
  }
  for (int i = 0; i < worn.size(); i++)
-  ret.push_back(worn[i]);
+  ret.push_back(&worn[i]);
  inv.dump(ret);
  return ret;
 }
@@ -6389,8 +6454,7 @@ float player::fine_detail_vision_mod(game *g)
     {
         return 5;
     }
-    if (has_active_bionic("bio_night_vision") ||
-        (is_wearing("goggles_nv") && has_active_item("UPS_on")))
+    if ( has_nv() )
     {
         return 1.5;
     }
@@ -6487,7 +6551,7 @@ int player::encumb(body_part bp, int &layers, int &armorenc)
 
         if (armor->covers & mfb(bp))
         {
-            if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface")))
+           if (armor->is_power_armor() && (has_active_item("UPS_on") || has_active_bionic("bio_power_armor_interface") || has_active_bionic("bio_power_armor_interface_mkII")))
             {
                 armorenc += armor->encumber - 4;
             }
@@ -6825,6 +6889,29 @@ bool player::wearing_something_on(body_part bp)
     return true;
  }
  return false;
+}
+
+bool player::is_wearing_power_armor(bool *hasHelmet) const {
+  if (worn.size() && ((it_armor *)worn[0].type)->is_power_armor()) {
+    if (hasHelmet) {
+      *hasHelmet = false;
+
+      if (worn.size() > 1) {
+        for (size_t i = 1; i < worn.size(); i++) {
+          it_armor *candidate = dynamic_cast<it_armor*>(worn[i].type);
+
+          if (candidate->is_power_armor() && candidate->covers & mfb(bp_head)) {
+            *hasHelmet = true;
+            break;
+          }
+        }
+      }
+    }
+
+    return true;
+  } else {
+    return false;
+  }
 }
 
 int player::adjust_for_focus(int amount)
