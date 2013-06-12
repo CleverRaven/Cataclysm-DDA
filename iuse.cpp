@@ -1771,6 +1771,10 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  } else if (type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
    door_name = "door";
    new_type = t_door_c;
+ } else if (type == t_door_bar_locked) {
+   door_name = "door";
+   new_type = t_door_bar_o;
+   g->add_msg_if_player(p, "The door swings open...");
  } else {
   g->add_msg("That cannot be picked.");
   return;
@@ -1835,6 +1839,12 @@ if (dirx == 0 && diry == 0) {
    new_type = t_door_o;
    noisy = true;
    difficulty = 6;
+ } else if (type == t_door_bar_locked) {
+   door_name = "door";
+   action_name = "pry open";
+   new_type = t_door_bar_o;
+   noisy = false;
+   difficulty = 10;
  } else if (type == t_manhole_cover) {
    door_name = "manhole cover";
    action_name = "lift";

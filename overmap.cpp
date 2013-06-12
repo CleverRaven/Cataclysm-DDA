@@ -752,6 +752,8 @@ bool overmap::generate_sub(int const z)
  std::vector<point> temple_points;
  std::vector<point> office_entrance_points;
  std::vector<point> office_points;
+ std::vector<point> prison_points;
+ std::vector<point> prison_entrance_points;
  std::vector<point> haz_sar_entrance_points;
  std::vector<point> haz_sar_points;
  std::vector<point> cathedral_entrance_points;
@@ -857,6 +859,12 @@ bool overmap::generate_sub(int const z)
     office_entrance_points.push_back( point(i, j) );
    else if (ter(i, j, z + 1) == ot_office_tower_1)
     office_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_prison_1 || ter(i, j, z + 1) == ot_prison_3 ||
+            ter(i, j, z + 1) == ot_prison_4 || ter(i, j, z + 1) == ot_prison_5 || ter(i, j, z + 1) == ot_prison_6 ||
+            ter(i, j, z + 1) == ot_prison_7 || ter(i, j, z + 1) == ot_prison_8 || ter(i, j, z + 1) == ot_prison_9)
+    prison_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_prison_2)
+    prison_entrance_points.push_back( point(i, j) );
    else if (ter(i, j, z + 1) == ot_haz_sar_entrance)
     haz_sar_entrance_points.push_back( point(i, j) );
    else if (ter(i, j, z + 1) == ot_haz_sar)
@@ -949,6 +957,10 @@ bool overmap::generate_sub(int const z)
   ter(office_entrance_points[i].x, office_entrance_points[i].y, z) = ot_office_tower_b_entrance;
  for (int i = 0; i < office_points.size(); i++)
   ter(office_points[i].x, office_points[i].y, z) = ot_office_tower_b;
+ for (int i = 0; i < prison_points.size(); i++)
+  ter(prison_points[i].x, prison_points[i].y, z) = ot_prison_b;
+ for (int i = 0; i < prison_entrance_points.size(); i++)
+  ter(prison_entrance_points[i].x, prison_entrance_points[i].y, z) = ot_prison_b_entrance;
  for (int i = 0; i < haz_sar_entrance_points.size(); i++){
     ter(haz_sar_entrance_points[i].x, haz_sar_entrance_points[i].y, z-1) = ot_haz_sar_entrance_b1;}
  for (int i = 0; i < haz_sar_points.size(); i++){

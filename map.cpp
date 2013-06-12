@@ -2089,6 +2089,14 @@ bool map::hit_with_acid(game *g, const int x, const int y)
     ter_set(x, y, t_door_b);
    break;
 
+  case t_door_bar_c:
+  case t_door_bar_o:
+  case t_door_bar_locked:
+  case t_bars:
+   ter_set(x, y, t_floor);
+   g->add_msg("The metal bars melt!");
+   break;
+
   case t_door_b:
    if (one_in(4))
     ter_set(x, y, t_door_frame);
@@ -2178,6 +2186,9 @@ bool map::open_door(const int x, const int y, const bool inside)
  } else if (ter(x, y) == t_door_metal_c) {
   ter_set(x, y, t_door_metal_o);
   return true;
+ } else if (ter(x, y) == t_door_bar_c) {
+  ter_set(x, y, t_door_bar_o);
+  return true;
  } else if (ter(x, y) == t_door_glass_c) {
   ter_set(x, y, t_door_glass_o);
   return true;
@@ -2248,6 +2259,9 @@ bool map::close_door(const int x, const int y, const bool inside)
   ter_set(x, y, t_fencegate_c);
  } else if (ter(x, y) == t_door_metal_o) {
   ter_set(x, y, t_door_metal_c);
+  return true;
+ } else if (ter(x, y) == t_door_bar_o) {
+  ter_set(x, y, t_door_bar_locked);//jail doors lock behind you
   return true;
  } else if (ter(x, y) == t_door_glass_o) {
   ter_set(x, y, t_door_glass_c);
