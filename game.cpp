@@ -4932,6 +4932,7 @@ void game::open()
         case t_door_locked:
         case t_door_locked_interior:
         case t_door_locked_alarm:
+        case t_door_bar_locked:
             add_msg("The door is locked!");
             break;	// Trying to open a locked door uses the full turn's movement
         case t_door_o:
@@ -9562,6 +9563,10 @@ void game::plmove(int x, int y)
   else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm || m.ter(x, y) == t_door_locked_interior) {
    u.moves -= 100;
    add_msg("That door is locked!");
+  }
+  else if (m.ter(x, y) == t_door_bar_locked) {
+   u.moves -= 80;
+   add_msg("You rattle the bars but the door is locked!");
   }
  }
 }

@@ -112,6 +112,7 @@ t_bars,
 t_door_c, t_door_b, t_door_o, t_door_locked_interior, t_door_locked, t_door_locked_alarm, t_door_frame,
 t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o, t_door_boarded,
 t_door_metal_c, t_door_metal_o, t_door_metal_locked,
+t_door_bar_c, t_door_bar_o, t_door_bar_locked,
 t_door_glass_c, t_door_glass_o,
 t_bulletin,
 t_portcullis,
@@ -339,6 +340,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
     mfb(transparent)|mfb(supports_roof), &iexamine::none},
 {"closed metal door",'+', c_cyan,    0, -1, tr_null, // Actually locked
     mfb(noitem)|mfb(supports_roof), &iexamine::none},
+{"closed bar door",'+', c_cyan,    0, -1, tr_null,// unlocked, only created at map gen
+    mfb(transparent)|mfb(noitem)|mfb(supports_roof), &iexamine::none},
+{"open bar door", '\'', c_cyan,    2, -1, tr_null,
+    mfb(transparent)|mfb(supports_roof), &iexamine::none},
+{"closed bar door",'+', c_cyan,    0, -1, tr_null, // locked
+    mfb(transparent)|mfb(noitem)|mfb(supports_roof), &iexamine::none},
 {"closed glass door",'+', c_ltcyan,  0, -1, tr_null,
     mfb(transparent)|mfb(bashable)|mfb(door)|mfb(noitem)|mfb(supports_roof), &iexamine::none},
 {"open glass door", '\'', c_ltcyan,  2, -1, tr_null,
