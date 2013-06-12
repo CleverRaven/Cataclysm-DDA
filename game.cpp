@@ -8734,7 +8734,7 @@ void game::complete_butcher(int index)
   pelts += (skill_shift - 5);
   bones += (skill_shift - 2);
   sinews += (skill_shift - 8);
-  feathers += (skill_shift - 3);
+  feathers += (skill_shift - 1);
  }
 
  if (bones > 0) {
