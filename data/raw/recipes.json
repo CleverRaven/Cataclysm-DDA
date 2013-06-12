@@ -689,6 +689,61 @@
 
 
         {
+            "result": "e_rep_crossbow",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "electronics",
+            "difficulty": 6,
+            "time": 60000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["wrench", -1]
+                         ],
+			 [
+                             ["hammer", -1],
+					  ["toolset", -1]			
+                         ],
+		         [
+                             ["screwdriver", -1],
+					  ["toolset", -1]
+			 ],
+		         [   ["soldering_iron", 100],
+				   ["toolset", 10]
+			 ]
+                     ],
+            "components": [  
+					   [   
+						["2x4", 2],
+						["stick", 2]
+					   ],
+                              [
+                                ["hose", 2]
+                              ],
+			      [
+			         ["sheet_metal", 1]
+		              ],
+		              [
+			         ["chain", 1]
+			      ],
+                              [
+                                 ["motor", 1]
+                              ],
+			      [
+				 ["power_supply", 4]
+			      ],
+			      [
+				 ["amplifier", 4]
+			      ],
+			      [
+				 ["cable", 100]
+			      ]
+                          ]
+        },
+
+
+        {
             "result": "rifle_22",
             "category": "CC_WEAPON",
             "skill_pri": "mechanics",
