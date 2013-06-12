@@ -6781,12 +6781,12 @@ point game::look_debug(point coords) {
       int fshift=0;
       int subch=0;
       if ( fsel == -1 ) fsel=curfield.type;
-      std::string fids[num_fields]=(num_fields,"undef");;
+      std::string fids[num_fields];
       fids[0]="-clear-";
-      fids[14]="fire_vent";
-      fids[18]="push_items";
-      fids[19]="shock_vent";
-      fids[20]="acid_vent";
+      fids[fd_fire_vent]="fire_vent";
+      fids[fd_push_items]="push_items";
+      fids[fd_shock_vent]="shock_vent";
+      fids[fd_acid_vent]="acid_vent";
       do {
         if( fsel < fshift ) {
             fshift=fsel;
@@ -6852,7 +6852,8 @@ point game::look_debug(point coords) {
       int tshift=0;
       int subch=0;
       if ( trsel == -1 ) trsel=curtrap;
-      std::string trids[num_trap_types];trids[0]="-clear-";
+      std::string trids[num_trap_types];
+      trids[0]="-clear-";
       do {
         if( trsel < tshift ) {
             tshift=trsel;
