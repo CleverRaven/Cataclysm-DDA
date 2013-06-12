@@ -204,6 +204,9 @@ enum pl_flag {
  PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
  PF_CANNIBAL, // No penalty for eating human meat
  PF_MARTIAL_ARTS, // Start with a martial art
+ PF_MARTIAL_ARTS2, // Start with a martial art
+ PF_MARTIAL_ARTS3, // Start with a martial art
+ PF_MARTIAL_ARTS4, // Start with a martial art
  PF_LIAR, // Better at telling lies
  PF_PRETTY, // -1 grotesqueness
 
@@ -471,6 +474,16 @@ tell you you can't eat people."},
 {"Martial Arts Training", 3, 0, 0, "\
 You have received some martial arts training at a local dojo.  You will start\n\
 with your choice of karate, judo, aikido, tai chi, or taekwondo."},
+{"Specialized Combat Instruction", 3, 0, 0, "\
+You have been trained in some of the lesser-known forms of unarmed combat.\n\
+You will start with your choice of Capoeira, Krav Maga, Muay Thai\n\
+Ninjutsu, or Zui Quan."},
+{"Shaolin Adept", 3, 0, 0, "\
+You have studied the arts of the Shaolin monks.  You will start with one\n\
+of the Five Animal fighting styles, Tiger, Crane, Leopard, Snake, or Dragon."},
+{"Venom Mob Protoge", 3, 0, 0, "\
+You are a pupil of the Venom Clan.  You will start with one of the\n\
+Five Deadly Venoms, Centipede, Viper, Scorpion, Lizard, or Toad."},
 {"Skilled Liar", 2, 0, 0, "\
 You have no qualms about bending the truth, and have practically no tells.\n\
 Telling lies and otherwise bluffing will be much easier for you."},
