@@ -17,116 +17,89 @@ void mdeath::normal(game *g, monster *z)
   else
    g->m.add_field(g, z->posx, z->posy, fd_blood, 1);
  }
-// Drop a dang ol' corpse
-// If their hp is less than -50, we destroyed them so badly no corpse was left
-// for flesh/veggy creatures only
-    if (((z->hp >= -50 || z->hp >= 0 - 2 * z->type->hp)) &&
-        (z->made_of("flesh") || z->made_of("veggy") || z->made_of("hflesh")))
+
+    int gib_amount = 0;
+    bool leave_corpse = true;
+    int corpse_damage = 0;
+// determine how much of a mess is left, for flesh and veggy creatures
+    if (z->made_of("flesh") || z->made_of("veggy") || z->made_of("hflesh"))
+    {
+        if (z->hp >= 0 - 2 * z->type->hp) // less than 2x monster hp overkill, leave corpse
+        {
+            leave_corpse = true;
+            corpse_damage = 0;
+        }
+        if (z->hp >= 0 - 2 * z->type->hp - 20 && z->hp < 0 - 2 * z->type->hp) // corpse with damage 1
+        {
+            leave_corpse = true;
+            corpse_damage = 1;
+            gib_amount = rng(1,3);                
+        }
+        if (z->hp >= 0 - 2 * z->type->hp - 40 && z->hp < 0 - 2 * z->type->hp - 20) // corpse with damage 2
+        {
+            leave_corpse = true;
+            corpse_damage = 2;       
+            gib_amount = rng(2,5); 
+        }
+        if (z->hp >= 0 - 2 * z->type->hp - 60 && z->hp < 0 - 2 * z->type->hp - 40) // corpse with damage 3
+        {
+            leave_corpse = true;
+            corpse_damage = 3;     
+            gib_amount = rng(3,9); 
+        }
+        if (z->hp >= 0 - 2 * z->type->hp - 80 && z->hp < 0 - 2 * z->type->hp - 60) // corpse with damage 4
+        {
+            leave_corpse = true;
+            corpse_damage = 4;
+            gib_amount = rng(4,12); 
+        }
+        if (z->hp <= 0 - 2 * z->type->hp - 80) // no corpse if MS_TINY or MS_SMALL, gib_amount fields only
+        {
+            if (z->type->size == MS_MEDIUM || z->type->size == MS_LARGE || z->type->size == MS_HUGE)
+            {
+                leave_corpse = true;
+                corpse_damage = 4;
+            }
+            else
+            {
+                leave_corpse = false;
+            }            
+            gib_amount = rng(5,15); 
+        }
+    }
+
+    // leave a corpse, if any
+    if (leave_corpse)
     {
         item tmp;
         tmp.make_corpse(g->itypes["corpse"], z->type, g->turn);
-        g->m.add_item(z->posx, z->posy, tmp);
+        tmp.damage = corpse_damage;
+        g->m.add_item(z->posx, z->posy, tmp);  
     }
-    else // gibbed, no corpses but chunks, pelts, bones, sinews
+
+    // leave gibs
+    for (int i = 0; i < gib_amount; i++)
     {
-        int pieces, pelts, bones, sinews;        
-        switch (z->type->size) 
+        int rand_posx = z->posx + rng(1,5) - 3;
+        int rand_posy = z->posx + rng(1,5) - 3;
+            
+        if (((g->m.field_at(rand_posx, rand_posy).type == fd_gibs_flesh) ||
+            (g->m.field_at(rand_posx, rand_posy).type == fd_gibs_veggy)) &&
+            (g->m.field_at(rand_posx, rand_posy).density < 3))
         {
-            case MS_TINY:   pieces =  1; pelts =  0; bones = 0; sinews = 0; break;
-            case MS_SMALL:  pieces =  2; pelts =  1; bones = 2; sinews = 2; break;
-            case MS_MEDIUM: pieces =  4; pelts =  3; bones = 4; sinews = 5; break;
-            case MS_LARGE:  pieces =  8; pelts =  5; bones = 7; sinews = 7; break;
-            case MS_HUGE:   pieces = 16; pelts =  9; bones = 15;sinews = 10;break;
+            g->m.field_at(rand_posx, rand_posy).density++;                
         }
-        
-        // pieces 
-        itype* meat;
-        if (z->type->has_flag(MF_POISON)) // tainted meats
-        {
-            if (z->made_of("flesh"))
-            {
-                meat = g->itypes["meat_tainted"];
-            }
-            else
-            {
-                meat = g->itypes["veggy_tainted"];
-            }
-        } 
-        else // not tainted
+        else if (g->m.field_at(rand_posx, rand_posy).is_null())
         {
             if (z->made_of("flesh") || z->made_of("hflesh"))
             {
-                if(z->type->has_flag(MF_HUMAN)) // TODO: Why human checked twice?
-                {
-                    meat = g->itypes["human_flesh"];
-                }
-                else
-                {
-                    meat = g->itypes["meat"];
-                }
+                g->m.add_field(g, z->posx + rng(1,5) - 3, z->posy + rng(1,5) - 3, fd_gibs_flesh, rng(1,3));
             }
-            else
+            else if (z->made_of("veggy"))
             {
-                meat = g->itypes["veggy"];
+                g->m.add_field(g, z->posx + rng(1,5) - 3, z->posy + rng(1,5) - 3, fd_gibs_veggy, rng(1,3));
             }
-        }
-        for (int i = 0; i < pieces; i++)
-        {
-            g->m.spawn_item(z->posx + rng(1, 5) - 3, z->posy + rng(1, 5) - 3, meat, g->turn, pieces); 
-          
-        }
-        
-        // bones and sinews
-        if (z->type->has_flag(MF_BONES)) 
-        {
-            itype* bone; 
-            itype* sinew;
-            if (z->made_of("veggy"))
-            {
-                bone = g->itypes["plant_sac"];
-                sinew = g->itypes["plant_fibre"];
-            }
-            else
-            {
-                bone = g->itypes["bone"];
-                sinew = g->itypes["sinew"];
-            }  
-            
-            for (int i = 0; i < bones; i++)
-            {
-                g->m.spawn_item(z->posx + rng(1, 5) - 3, z->posy + rng(1, 5) - 3, bone, g->turn, bones); 
-            }            
-            
-            for (int i = 0; i < sinews; i++)
-            {
-                g->m.spawn_item(z->posx + rng(1, 5) - 3, z->posy + rng(1, 5) - 3, sinew, g->turn, sinews); 
-            }              
-        }
-        
-        // pelts
-        int fur = 0;
-        int leather = 0;        
-        if (z->type->has_flag(MF_FUR) && z->type->has_flag(MF_LEATHER)) 
-        {
-            fur = rng(0, pelts);
-            leather = pelts - fur;
-        } 
-        else if (z->type->has_flag(MF_FUR)) 
-        {
-            fur = pelts;
-        } 
-        else if (z->type->has_flag(MF_LEATHER)) 
-        {
-            leather = pelts;
-        }
-        for (int i = 0; i < fur; i++)
-        {
-            g->m.spawn_item(z->posx + rng(1, 5) - 3, z->posy + rng(1, 5) - 3, g->itypes["fur"], g->turn, fur);
-        }
-        for (int i = 0; i < leather; i++)
-        {
-            g->m.spawn_item(z->posx + rng(1, 5) - 3, z->posy + rng(1, 5) - 3, g->itypes["leather"], g->turn, leather);            
-        } 
+        }    
     }        
 }
 
