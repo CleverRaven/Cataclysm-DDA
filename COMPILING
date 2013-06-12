@@ -12,8 +12,8 @@ make NATIVE=linux32
 
 # Cross-compile for Windows
 sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
-mkdir -p ~/src
-git clone -b stable https://github.com/mxe/mxe.git ~/src
+mkdir -p ~/src/mxe
+git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
 cd ~/src/mxe
 make gcc
 PATH=${PATH}:~/src/mxe/usr/bin
