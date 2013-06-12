@@ -286,6 +286,7 @@ void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
          no_extra_death_drops >> dead >> anger >> morale;
  type = (*mtypes)[idtmp];
  point ptmp;
+ plans.clear();
  for (int i = 0; i < plansize; i++) {
   dump >> ptmp.x >> ptmp.y;
   plans.push_back(ptmp);

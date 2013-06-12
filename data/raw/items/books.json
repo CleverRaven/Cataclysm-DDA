@@ -1054,5 +1054,27 @@
         "rarity" : 0,
         "price" : 500,
         "required_level" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "priest_diary",
+        "name" : "Priest's Diary",
+        "max_level" : 0,
+        "description" : "A small book filled with journal entries in Latin.",
+        "weight" : 3,
+        "to_hit" : 1,
+        "color" : "blue",
+        "intelligence" : 0,
+        "symbol" : "?",
+        "material" : ["PAPER", "NULL"],
+        "volume" : 3,
+        "bashing" : 3,
+        "cutting" : 0,
+        "time" : 30,
+        "fun" : -1,
+        "skill" : "none",
+        "rarity" : 0,
+        "price" : 500,
+        "required_level" : 0
     }
 ]

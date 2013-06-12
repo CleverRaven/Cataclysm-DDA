@@ -159,6 +159,8 @@ class game
   void cancel_activity_query(const char* message, ...);
   bool cancel_activity_or_ignore_query(const char* reason, ...); 
   void exit_vehicle();
+  // Get input from the player to choose an adjacent tile (for examine() etc)
+  bool choose_adjacent(std::string verb, int &x, int&y);
 
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
@@ -170,6 +172,7 @@ class game
   int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
                              int npc_id = -1);
   npc* find_npc(int id);
+  int kill_count(mon_id mon);       // Return the number of kills of a given mon_id
   mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
   mission_type* find_mission_type(int id); // Same, but returns its type
   bool mission_complete(int id, int npc_id); // True if we made it
@@ -211,6 +214,7 @@ class game
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
   void peek();
+  point look_debug(point point=point(-256,-256));
   point look_around();// Look at nearby terrain	';'
   void list_items(); //List all items around the player
   bool list_items_match(std::string sText, std::string sPattern);
@@ -251,6 +255,7 @@ class game
   std::vector <mission_type> mission_types; // The list of mission templates
   mutation_branch mutation_data[PF_MAX2]; // Mutation data
   std::map<char, action_id> keymap;
+  std::map<char, action_id> default_keymap;
 
   calendar turn;
   signed char temperature;              // The air temperature
@@ -379,8 +384,6 @@ class game
 			bool exact_level=false);
   void place_construction(constructable *con); // See construction.cpp
   void complete_construction();               // See construction.cpp
-  // Get input from the player to choose an adjacent tile (for examine() etc)
-  bool choose_adjacent(std::string verb, int &x, int&y);
   bool vehicle_near ();
   void handbrake ();
   void control_vehicle(); // Use vehicle controls  '^'

@@ -86,6 +86,7 @@ player::player()
   temp_conv[i] = BODYTEMP_NORM;
  }
  nv_cached = false;
+ volume = 0;
 }
 
 player::player(const player &rhs)
@@ -177,7 +178,7 @@ player& player::operator= (const player & rhs)
   temp_cur[i] = rhs.temp_cur[i];
 
  for (int i = 0 ; i < num_bp; i++)
-  temp_conv[i] = BODYTEMP_NORM;
+  temp_conv[i] = rhs.temp_conv[i];
 
  for (int i = 0; i < num_bp; i++)
   frostbite_timer[i] = rhs.frostbite_timer[i];
@@ -1053,7 +1054,7 @@ void player::load_info(game *g, std::string data)
  for (int i = 0; i < num_hp_parts; i++)
   dump >> hp_cur[i] >> hp_max[i];
  for (int i = 0; i < num_bp; i++)
-  dump >> temp_cur[i] >> frostbite_timer[i];
+  dump >> temp_cur[i] >> temp_conv[i] >> frostbite_timer[i];
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    dump >> skillLevel(*aSkill);
@@ -1081,7 +1082,7 @@ void player::load_info(game *g, std::string data)
  disease illtmp;
  dump >> numill;
  for (int i = 0; i < numill; i++) {
-  dump >> typetmp >> illtmp.duration;
+  dump >> typetmp >> illtmp.duration >> illtmp.intensity;
   illtmp.type = dis_type(typetmp);
   illness.push_back(illtmp);
  }
@@ -1163,7 +1164,7 @@ std::string player::save_info()
  for (int i = 0; i < num_hp_parts; i++)
   dump << hp_cur[i] << " " << hp_max[i] << " ";
  for (int i = 0; i < num_bp; i++)
-  dump << temp_cur[i] << " " << frostbite_timer[i] << " ";
+  dump << temp_cur[i] << " " << temp_conv[i] << " " << frostbite_timer[i] << " ";
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    SkillLevel level = skillLevel(*aSkill);
@@ -1184,7 +1185,7 @@ std::string player::save_info()
 
  dump << illness.size() << " ";
  for (int i = 0; i < illness.size();  i++)
-  dump << int(illness[i].type) << " " << illness[i].duration << " ";
+  dump << int(illness[i].type) << " " << illness[i].duration << " " << illness[i].intensity << " " ;
 
  dump << addictions.size() << " ";
  for (int i = 0; i < addictions.size(); i++)
@@ -1567,8 +1568,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  for (int i = 0; i < traitslist.size() && i < trait_win_size_y; i++) {
   if (traits[traitslist[i]].points > 0)
    status = c_ltgreen;
-  else
+  else if (traits[traitslist[i]].points < 0)
    status = c_ltred;
+  else
+   status = c_yellow;
   mvwprintz(w_traits, i+1, 1, status, traits[traitslist[i]].name.c_str());
  }
 
@@ -1734,6 +1737,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
    move_adjust = abs(move_adjust);
    mvwprintz(w_speed, line, (move_adjust >= 10 ? 22 : 23), col, "%d%%%%",
              move_adjust);
+   line++;
   }
  }
  if (has_trait(PF_QUICK)) {
@@ -1956,8 +1960,10 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
      status = c_ltblue;
     else if (traits[traitslist[i]].points > 0)
      status = c_ltgreen;
-    else
+    else if (traits[traitslist[i]].points < 0)
      status = c_ltred;
+    else
+     status = c_yellow;
     if (i == line)
      mvwprintz(w_traits, 1 + i - min, 1, hilite(status),
                traits[traitslist[i]].name.c_str());
@@ -1985,8 +1991,10 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
       mvwprintz(w_traits, i + 1, 1, c_black, "                         ");
       if (traits[traitslist[i]].points > 0)
        status = c_ltgreen;
-      else
+      else if (traits[traitslist[i]].points < 0)
        status = c_ltred;
+      else
+       status = c_yellow;
       mvwprintz(w_traits, i + 1, 1, status, traits[traitslist[i]].name.c_str());
      }
      wrefresh(w_traits);
@@ -2325,6 +2333,9 @@ void player::disp_status(WINDOW *w, game *g)
   mvwprintz(w, 1, 9, c_cyan,  "Very cold!%s", temp_message);
  else if (temp_cur[print] <= BODYTEMP_FREEZING)
   mvwprintz(w, 1, 9, c_blue,  "Freezing!%s", temp_message);
+ 
+ mvwprintz(w, 1, 32, c_yellow, "Sound:%d", volume);
+ volume = 0;
 
       if (thirst > 520)
   mvwprintz(w, 2, 15, c_ltred,  "Parched");
@@ -3794,6 +3805,26 @@ void player::suffer(game *g)
    } else {
      radiation += rng(0, localRadiation / 16);
    }
+
+   // Apply rads to any radiation badges.
+   std::vector<item *> possessions = inv_dump();
+   for( std::vector<item *>::iterator it = possessions.begin(); it != possessions.end(); ++it ) {
+       if( (*it)->type->id == "rad_badge" ) {
+           // Actual irridation levels of badges and the player aren't precisely matched.
+           // This is intentional.
+           int before = (*it)->irridation;
+           (*it)->irridation += rng(0, localRadiation / 16);
+           if( inv.has_item(*it) ) { continue; }
+           for( int i = 0; i < sizeof(rad_dosage_thresholds)/sizeof(rad_dosage_thresholds[0]); i++ ){
+               if( before < rad_dosage_thresholds[i] &&
+                   (*it)->irridation >= rad_dosage_thresholds[i] ) {
+                   g->add_msg_if_player( this, "Your radiation badge changes from %s to %s!",
+                                         rad_threshold_colors[i - 1].c_str(),
+                                         rad_threshold_colors[i].c_str() );
+               }
+           }
+       }
+   }
  }
 
  if( int(g->turn) % 150 == 0 )
@@ -4269,14 +4300,14 @@ item& player::i_of_type(itype_id type)
  return ret_null;
 }
 
-std::vector<item> player::inv_dump()
+std::vector<item *> player::inv_dump()
 {
- std::vector<item> ret;
+ std::vector<item *> ret;
  if (std::find(standard_itype_ids.begin(), standard_itype_ids.end(), weapon.type->id) != standard_itype_ids.end()){
-  ret.push_back(weapon);
+  ret.push_back(&weapon);
  }
  for (int i = 0; i < worn.size(); i++)
-  ret.push_back(worn[i]);
+  ret.push_back(&worn[i]);
  inv.dump(ret);
  return ret;
 }

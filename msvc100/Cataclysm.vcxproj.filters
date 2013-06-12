@@ -267,6 +267,9 @@
     <ClCompile Include="..\tutorial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\ui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\veh_interact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -510,6 +513,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\tutorial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\veh_interact.h">

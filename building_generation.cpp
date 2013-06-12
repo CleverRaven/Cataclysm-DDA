@@ -134,12 +134,16 @@ void mapgen_field(map *m, int turn)
         for (int j = 0; j < SEEY * 2; j++)
         {
             m->ter_set(i, j, grass_or_dirt());
-            //------Jovan's-----
             if (one_in(120))
             {
                 if (one_in(30))
                 {
                     m->ter_set(i, j, t_shrub_blueberry);
+                }
+                else
+                if (one_in(30))
+                {
+                    m->ter_set(i, j, t_shrub_strawberry);
                 }
                 else
                 {
@@ -148,7 +152,6 @@ void mapgen_field(map *m, int turn)
             }
             else
             if (one_in(1000)) { m->ter_set(i,j, t_mutpoppy); }
-            //------------------
         }
     }
     m->place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
