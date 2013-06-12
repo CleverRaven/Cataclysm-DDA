@@ -259,7 +259,7 @@
     "description": "A bow that has limbs which curve away from the archer sacrificing accuracy for power. Arrows fired from this weapon have a good chance of remaining intact for re-use. It requires 10 strength to fire",
     "rarity": 2,
     "price": 1200,
-    "material": ["steel" "plastic"],
+    "material": ["steel", "plastic"],
     "flags": ["ALWAYS_TWOHAND", "STR10_DRAW", "RELOAD_AND_SHOOT"],
     "skill": "archery",
     "ammo": "arrow",
