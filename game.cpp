@@ -9547,7 +9547,8 @@ void game::plmove(int x, int y)
   } else if (m.i_at(x, y).size() != 0)
    add_msg("There are many items here.");
   if (veh1 && veh1->part_with_feature(vpart1, vpf_controls) >= 0)
-   add_msg("There are vehicle controls here.");
+      add_msg("There are vehicle controls here.  %s to drive.",
+              press_x(ACTION_CONTROL_VEHICLE).c_str() );
 
  } else if (veh_closed_door) { // move_cost <= 0
   veh1->parts[dpart].open = 1;
