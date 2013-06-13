@@ -5529,7 +5529,13 @@ void game::control_vehicle()
             add_msg("No vehicle there.");
             return;
         }
-        if (veh->part_with_feature(veh_part, vpf_controls) < 0) {
+        if (veh->part_with_feature(veh_part, vpf_seat) >= 0 &&
+                !veh->parts[veh_part].has_flag(vehicle_part::passenger_flag) &&
+                query_yn("Board vehicle?")) {
+            m.board_vehicle(this, examx, examy, &u);
+            u.moves -= 200;
+            return;
+        } else if (veh->part_with_feature(veh_part, vpf_controls) < 0) {
             add_msg("No controls there.");
             return;
         }
