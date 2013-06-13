@@ -7,7 +7,7 @@
 #include <sstream>
 
 void mdeath::normal(game *g, monster *z)
-{    
+{
  if (g->u_see(z))
   g->add_msg("The %s dies!", z->name().c_str());
  if (z->made_of("flesh") && z->has_flag(MF_WARM)) {
@@ -33,25 +33,25 @@ void mdeath::normal(game *g, monster *z)
         {
             leave_corpse = true;
             corpse_damage = 1;
-            gib_amount = rng(1,3);                
+            gib_amount = rng(1,3);
         }
         if (z->hp >= 0 - 2 * z->type->hp - 40 && z->hp < 0 - 2 * z->type->hp - 20) // corpse with damage 2
         {
             leave_corpse = true;
-            corpse_damage = 2;       
-            gib_amount = rng(2,5); 
+            corpse_damage = 2;
+            gib_amount = rng(2,5);
         }
         if (z->hp >= 0 - 2 * z->type->hp - 60 && z->hp < 0 - 2 * z->type->hp - 40) // corpse with damage 3
         {
             leave_corpse = true;
-            corpse_damage = 3;     
-            gib_amount = rng(3,9); 
+            corpse_damage = 3;
+            gib_amount = rng(3,9);
         }
         if (z->hp >= 0 - 2 * z->type->hp - 80 && z->hp < 0 - 2 * z->type->hp - 60) // corpse with damage 4
         {
             leave_corpse = true;
             corpse_damage = 4;
-            gib_amount = rng(4,12); 
+            gib_amount = rng(4,12);
         }
         if (z->hp <= 0 - 2 * z->type->hp - 80) // no corpse if MS_TINY or MS_SMALL, gib_amount fields only
         {
@@ -63,8 +63,8 @@ void mdeath::normal(game *g, monster *z)
             else
             {
                 leave_corpse = false;
-            }            
-            gib_amount = rng(5,15); 
+            }
+            gib_amount = rng(5,15);
         }
     }
 
@@ -74,7 +74,7 @@ void mdeath::normal(game *g, monster *z)
         item tmp;
         tmp.make_corpse(g->itypes["corpse"], z->type, g->turn);
         tmp.damage = corpse_damage;
-        g->m.add_item(z->posx, z->posy, tmp);  
+        g->m.add_item(z->posx, z->posy, tmp);
     }
 
     // leave gibs
@@ -82,12 +82,12 @@ void mdeath::normal(game *g, monster *z)
     {
         int rand_posx = z->posx + rng(1,5) - 3;
         int rand_posy = z->posx + rng(1,5) - 3;
-            
+
         if (((g->m.field_at(rand_posx, rand_posy).type == fd_gibs_flesh) ||
             (g->m.field_at(rand_posx, rand_posy).type == fd_gibs_veggy)) &&
             (g->m.field_at(rand_posx, rand_posy).density < 3))
         {
-            g->m.field_at(rand_posx, rand_posy).density++;                
+            g->m.field_at(rand_posx, rand_posy).density++;
         }
         else if (g->m.field_at(rand_posx, rand_posy).is_null())
         {
@@ -99,8 +99,8 @@ void mdeath::normal(game *g, monster *z)
             {
                 g->m.add_field(g, z->posx + rng(1,5) - 3, z->posy + rng(1,5) - 3, fd_gibs_veggy, rng(1,3));
             }
-        }    
-    }        
+        }
+    }
 }
 
 void mdeath::acid(game *g, monster *z)
@@ -389,7 +389,7 @@ void mdeath::smokeburst(game *g, monster *z)
   }
 }
 
-// this function generates clothing for zombies 
+// this function generates clothing for zombies
 void mdeath::zombie(game *g, monster *z)
 {
     // normal death function first
@@ -400,7 +400,7 @@ void mdeath::zombie(game *g, monster *z)
     {
         return;
     }
-    
+
     // now generate appropriate clothing
     switch(z->type->id)
     {
@@ -425,12 +425,12 @@ void mdeath::zombie(game *g, monster *z)
                 g->m.put_items_from(mi_mil_armor_helmet, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             }
         break;
-        
+
         case mon_zombie_hulk:
             g->m.spawn_item(z->posx, z->posy, item_controller->find_template("rag"), g->turn, 0, 0, rng(5,10));
             g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             break;
-        
+
         default:
             g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             g->m.put_items_from(mi_shirts, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
@@ -447,12 +447,12 @@ void mdeath::zombie(game *g, monster *z)
 
     if ((z->hp >= -50 || z->hp >= 0 - 2 * z->type->hp))  // zombie drops from gibbing are damaged
     {
-        for (int i = 0; i < g->m.i_at(z->posx, z->posy).size(); i++) 
+        for (int i = 0; i < g->m.i_at(z->posx, z->posy).size(); i++)
         {
             item *dropped_item = &(g->m.i_at(z->posx, z->posy)[i]);
-            
+
             dropped_item->damage++;
-            
+
             if (dropped_item->damage >= 5)
             {
                 for (int j = 0; j < g->m.i_at(z->posx, z->posy)[i].contents.size(); j++)
@@ -460,7 +460,7 @@ void mdeath::zombie(game *g, monster *z)
                     g->m.i_at(z->posx, z->posy).push_back(g->m.i_at(z->posx, z->posy)[i].contents[j] );
                 }
                 g->m.i_at(z->posx, z->posy).erase(g->m.i_at(z->posx, z->posy).begin() + i);
-                i--;            
+                i--;
             }
         }
     }
