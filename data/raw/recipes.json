@@ -1447,6 +1447,345 @@
                           ]
         },
 
+        {
+        	"result" : "arrow_like_object",
+        	"category" : "CC_WEAPON",
+        	"skill_pri" : "archery",
+        	"difficulty" : 0,
+        	"time" : 5000,
+        	"reversible" : false,
+        	"autolearn" : true,
+        	"tools" : [
+        		[
+        			["hatchet", -1],
+        			["knife_steak", -1],
+        			["knife_combat", -1],
+        			["knife_butcher", -1],
+        			["pockknife", -1],
+        			["scalpel", -1],
+        			["machete", -1],
+        			["broadsword", -1],
+        			["toolset", -1]
+        		]
+        	],
+        	"components" : [
+        		[
+        			["stick", 1],
+        			["broom", 1],
+        			["mop", 1],
+        			["2x4", 1],
+        			["bee_sting", 1]
+        		]
+        	]
+        },
+        {
+        	"result" : "arrow_tipped",
+        	"category" : "CC_WEAPON",
+        	"skill_pri" : "archery",
+        	"skill_sec" : "survival",
+        	"difficulty" : 2,
+        	"time" : 5000,
+        	"reversible" : false,
+        	"autolearn" : true,
+        	"tools" : [
+        		[
+        			["hatchet", -1],
+        			["knife_steak", -1],
+        			["knife_combat", -1],
+        			["knife_butcher", -1],
+        			["pockknife", -1],
+        			["scalpel", -1],
+        			["machete", -1],
+        			["broadsword", -1],
+        			["toolset", -1]
+        		]
+        	],
+        	"components" : [
+        		[
+        			["stick", 1],
+        			["broom", 1],
+        			["mop", 1],
+        			["2x4", 1],
+        			["bee_sting", 1]
+        		],
+        		[
+        			["bone", 1],
+        			["rock", 1],
+        			["scrap", 1],
+        			["nail", 10]
+        		]
+        	]
+        },
+        {
+        	"result" : "arrow_fletched",
+        	"category" : "CC_WEAPON",
+        	"skill_pri" : "archery",
+        	"skill_sec" : "survival",
+        	"difficulty" : 1,
+        	"time" : 5000,
+        	"reversible" : false,
+        	"autolearn" : true,
+        	"tools" : [
+        		[
+        			["hatchet", -1],
+        			["knife_steak", -1],
+        			["knife_combat", -1],
+        			["knife_butcher", -1],
+        			["pockknife", -1],
+        			["scalpel", -1],
+        			["machete", -1],
+        			["broadsword", -1],
+        			["toolset", -1]
+        		]
+        	],
+        	"components" : [
+        		[
+        			["stick", 1],
+        			["broom", 1],
+        			["mop", 1],
+        			["2x4", 1],
+        			["bee_sting", 1]
+        		],
+        		[
+        			["leather", 1],
+        			["fur", 1],
+        			["duct_tape", 25]
+        		]
+        	]
+        },
+        {
+        	"result" : "arrow_prepped",
+        	"category" : "CC_WEAPON",
+        	"skill_pri" : "archery",
+        	"skill_sec" : "survival",
+        	"difficulty" : 4,
+        	"time" : 5000,
+        	"reversible" : false,
+        	"autolearn" : true,
+        	"tools" : [
+        		[
+        			["hatchet", -1],
+        			["knife_steak", -1],
+        			["knife_combat", -1],
+        			["knife_butcher", -1],
+        			["pockknife", -1],
+        			["scalpel", -1],
+        			["machete", -1],
+        			["broadsword", -1],
+        			["toolset", -1]
+        		],
+        		[
+        			["fire", -1]
+        		]
+        	],
+        	"components" : [
+        		[
+        			["stick", 1],
+        			["broom", 1],
+        			["mop", 1],
+        			["2x4", 1],
+        			["bee_sting", 1]
+        		],
+        		[
+        			["rock", 1],
+        			["bone", 1],
+        			["scrap", 1]
+        		],
+        		[
+        			["leather", 1],
+        			["fur", 1],
+        			["duct_tape", 25]
+        		]
+        	]
+        },
+        {
+        	"result" : "arrow_metal",
+        	"category" : "CC_WEAPON",
+        	"skill_pri" : "archery",
+        	"skill_sec" : "mechanics",
+        	"difficulty" : 5,
+        	"time" : 5000,
+        	"reversible" : false,
+        	"autolearn" : true,
+        	"tools" : [
+        		[
+        			["hatchet", -1],
+        			["knife_steak", -1],
+        			["knife_combat", -1],
+        			["knife_butcher", -1],
+        			["pockknife", -1],
+        			["scalpel", -1],
+        			["machete", -1],
+        			["broadsword", -1],
+        			["toolset", -1]
+        		],
+        		[
+        			["hacksaw", -1]
+        		],
+        		[
+        			["hammer", -1]
+        		]
+        	],
+        	"components" : [
+        		[
+        			["scrap", 10]
+        		]
+        	]
+        },
+        {
+        	"result" : "arrow_wood_heavy",
+        	"category" : "CC_WEAPON",
+        	"skill_pri" : "archery",
+        	"skill_sec" : "survival",
+        	"difficulty" : 6,
+        	"time" : 5000,
+        	"reversible" : false,
+        	"autolearn" : true,
+        	"tools" : [
+        		[
+        			["hatchet", -1],
+        			["knife_steak", -1],
+        			["knife_combat", -1],
+        			["knife_butcher", -1],
+        			["pockknife", -1],
+        			["scalpel", -1],
+        			["machete", -1],
+        			["broadsword", -1],
+        			["toolset", -1]
+        		],
+        		[
+        			["fire", -1]
+        		]
+        	],
+        	"components" : [
+        		[
+        			["stick", 2],
+        			["broom", 2],
+        			["mop", 2],
+        			["2x4", 2],
+        			["bee_sting", 2]
+        		],
+        		[
+        			["rock", 3],
+        			["bone", 3],
+        			["scrap", 3]
+        		],
+        		[
+        			["leather", 2],
+        			["fur", 2],
+        			["duct_tape", 50]
+        		]
+        	]
+        },
+        {
+        	"result" : "arrow_metal_heavy",
+        	"category" : "CC_WEAPON",
+        	"skill_pri" : "archery",
+        	"skill_sec" : "mechanics",
+        	"difficulty" : 8,
+        	"time" : 5000,
+        	"reversible" : false,
+        	"autolearn" : true,
+        	"tools" : [
+        		[
+        			["hatchet", -1],
+        			["knife_steak", -1],
+        			["knife_combat", -1],
+        			["knife_butcher", -1],
+        			["pockknife", -1],
+        			["scalpel", -1],
+        			["machete", -1],
+        			["broadsword", -1],
+        			["toolset", -1]
+        		],
+        		[
+        			["hacksaw", -1]
+        		],
+        		[
+        			["hammer", -1]
+        		]
+        	],
+        	"components" : [
+        		[
+        			["scrap", 30]
+        		]
+        	]
+        },
+        {
+        	"result" : "arrow_exploding",
+        	"category" : "CC_WEAPON",
+        	"skill_pri" : "archery",
+        	"skill_sec" : "mechanics",
+        	"difficulty" : 6,
+        	"time" : 5000,
+        	"reversible" : false,
+        	"autolearn" : true,
+        	"tools" : [
+        		[
+        			["hatchet", -1],
+        			["knife_steak", -1],
+        			["knife_combat", -1],
+        			["knife_butcher", -1],
+        			["pockknife", -1],
+        			["scalpel", -1],
+        			["machete", -1],
+        			["broadsword", -1],
+        			["toolset", -1]
+        		],
+        		[
+        			["hammer", -1]
+        		],
+        		[
+        			["screwdriver", -1]
+        		]
+        	],
+        	"components" : [
+        		[
+        			["exploding_arrow_warhead", 5]
+        		],
+        		[
+        			["arrow_prepped", 5],
+        			["arrow_metal", 5]
+        		]
+        	]
+        },
+        {
+        	"result" : "exploding_arrow_warhead",
+        	"category" : "CC_WEAPON",
+        	"skill_pri" : "mechanics",
+        	"skill_sec" : "archery",
+        	"difficulty" : 6,
+        	"time" : 5000,
+        	"reversible" : false,
+        	"autolearn" : true,
+        	"tools" : [
+        		[
+        			["screwdriver", -1],
+        			["toolset", -1]
+        		]
+        	],
+        	"components" : [
+        		[
+        			["scrap", 2]
+        		],
+        		[
+        			["superglue", 1],
+        			["string_36", 1]
+        		],
+        		[
+        			["can_food", 1],
+        			["can_drink", 1],
+        			["canister_empty", 1]
+        		],
+        		[
+        			["nail", 10],
+        			["bb", 30]
+        		],
+        		[
+        			["gunpowder", 36]
+        		]
+        	]
+        },
 
         {
             "result": "arrowhead",
