@@ -105,6 +105,7 @@ enum vpart_flags
     vpf_no_reinforce,       // can't reinforce this part with armor plates
     vpf_sharp,              // cutting damage instead of bashing
     vpf_unmount_on_damage,  // when damaged, part is unmounted, rather than broken
+    vpf_boardable,          // part can carry passengers
 
 // functional flags (only one of each can be mounted per tile)
     vpf_over,               // can be mounted over other part
@@ -166,12 +167,14 @@ const vpart_info vpart_list[num_vparts] =
     { "null part",  '?', c_red,     '?', c_red,     100, 100, 0, 0, "null", 0,
         0 },
     { "seat",       '#', c_red,     '*', c_red,     60,  300, 0, 0, "seat", 1,
-        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_cargo) |
-      mfb(vpf_no_reinforce) | mfb(vpf_anchor_point) },
+        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_boardable) | mfb(vpf_cargo) |
+        mfb(vpf_no_reinforce) | mfb(vpf_anchor_point) },
     { "saddle",     '#', c_red,     '*', c_red,     20,  200, 0, 0, "saddle", 1,
-        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_no_reinforce) },
+        mfb(vpf_over) | mfb(vpf_seat) | mfb(vpf_boardable) |
+        mfb(vpf_no_reinforce) },
     { "bed",        '#', c_magenta, '*', c_magenta, 60,  300, 0, 0, "seat", 1,
-        mfb(vpf_over) | mfb(vpf_bed) | mfb(vpf_cargo) | mfb(vpf_no_reinforce) },
+        mfb(vpf_over) | mfb(vpf_bed) | mfb(vpf_boardable) |
+        mfb(vpf_cargo) | mfb(vpf_no_reinforce) },
     { "frame",      'h', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
         mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) },
     { "frame",      'j', c_ltgray,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
@@ -207,19 +210,19 @@ const vpart_info vpart_list[num_vparts] =
     { "board",      'b', c_ltgray,  '#', c_ltgray,  100, 1000, 0, 0, "steel_plate", 1,
         mfb(vpf_external) | mfb(vpf_mount_point) | mfb (vpf_mount_inner) | mfb(vpf_opaque) | mfb(vpf_obstacle) },
     { "aisle",       '=', c_white,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
-        mfb(vpf_internal) | mfb(vpf_over) | mfb(vpf_no_reinforce) | mfb(vpf_aisle) },
+        mfb(vpf_internal) | mfb(vpf_over) | mfb(vpf_no_reinforce) | mfb(vpf_aisle) | mfb(vpf_boardable) },
     { "aisle",       'H', c_white,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
-        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_aisle) },
+        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_aisle) | mfb(vpf_boardable) },
     { "floor trunk",       '=', c_white,  '#', c_ltgray,  100, 400, 0, 0, "frame", 1,
-        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_aisle) | mfb(vpf_cargo) },
+        mfb(vpf_internal) | mfb(vpf_over) | mfb (vpf_no_reinforce) | mfb(vpf_aisle) | mfb(vpf_boardable) | mfb(vpf_cargo) },
     { "roof",       '#', c_ltgray,  '#', c_dkgray,  100, 1000, 0, 0, "steel_plate", 1,
         mfb(vpf_internal) | mfb(vpf_roof) },
     { "door",       '+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, "frame", 2,
-        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable) },
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_openable) | mfb(vpf_boardable) },
     { "opaque door",'+', c_cyan,    '&', c_cyan,    80,  200, 0, 0, "frame", 2,
-        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) },
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) | mfb(vpf_boardable) },
     { "internal door", '+', c_cyan, '&', c_cyan,    75,  75, 0, 0, "frame", 2,
-        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) | mfb(vpf_roof) | mfb(vpf_no_reinforce) },
+        mfb(vpf_external) | mfb(vpf_obstacle) | mfb(vpf_opaque) | mfb(vpf_openable) | mfb(vpf_roof) | mfb(vpf_no_reinforce) | mfb(vpf_boardable) },
     { "windshield", '"', c_ltcyan,  '0', c_ltgray,  70,  50, 0, 0, "glass_sheet", 1,
         mfb(vpf_over) | mfb(vpf_obstacle) | mfb(vpf_no_reinforce) },
     { "blade",      '-', c_white,   'x', c_white,   250, 100, 0, 0, "blade", 2,
@@ -273,7 +276,7 @@ const vpart_info vpart_list[num_vparts] =
     { "trunk",                      'H', c_brown,  '#', c_brown,    80, 300, 400, 0, "frame", 1,
         mfb(vpf_over) | mfb(vpf_cargo) },
     { "box",                        'o', c_brown,  '#', c_brown,    60, 100, 400, 0, "frame", 1,
-        mfb(vpf_over) | mfb(vpf_cargo) },
+        mfb(vpf_over) | mfb(vpf_cargo) | mfb(vpf_boardable) },
 
     { "controls",   '$', c_ltgray,  '$', c_red,     10, 250, 0, 0, "vehicle_controls", 3,
         mfb(vpf_internal)  | mfb(vpf_controls) },

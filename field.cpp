@@ -48,6 +48,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
    case fd_blood:
    case fd_bile:
+   case fd_gibs_flesh:
+   case fd_gibs_veggy:
     if (has_flag(swimmable, x, y))	// Dissipate faster in water
      cur->age += 250;
     break;

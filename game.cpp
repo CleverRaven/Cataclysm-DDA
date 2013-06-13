@@ -484,7 +484,8 @@ bool game::do_turn()
   if (u.fatigue == 192 && !u.has_disease(DI_LYING_DOWN) &&
       !u.has_disease(DI_SLEEP)) {
    if (u.activity.type == ACT_NULL)
-    add_msg("You're feeling tired.  Press '$' to lie down for sleep.");
+     add_msg("You're feeling tired.  %s to lie down for sleep.",
+             press_x(ACTION_SLEEP).c_str());
    else
     cancel_activity_query("You're feeling tired.");
   }
@@ -1526,7 +1527,8 @@ bool game::handle_action()
 
   case ACTION_PAUSE:
    if (run_mode == 2) // Monsters around and we don't wanna pause
-    add_msg("Monster spotted--safe mode is on! (Press '!' to turn it off.)");
+     add_msg("Monster spotted--safe mode is on! (%s to turn it off.)",
+             press_x(ACTION_TOGGLE_SAFEMODE).c_str());
    else
     u.pause(this);
    break;
@@ -1534,7 +1536,7 @@ bool game::handle_action()
   case ACTION_MOVE_N:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(0, -1);
    else
     plmove(0, -1);
@@ -1543,7 +1545,7 @@ bool game::handle_action()
   case ACTION_MOVE_NE:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(1, -1);
    else
     plmove(1, -1);
@@ -1552,7 +1554,7 @@ bool game::handle_action()
   case ACTION_MOVE_E:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(1, 0);
    else
     plmove(1, 0);
@@ -1561,7 +1563,7 @@ bool game::handle_action()
   case ACTION_MOVE_SE:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(1, 1);
    else
     plmove(1, 1);
@@ -1570,7 +1572,7 @@ bool game::handle_action()
   case ACTION_MOVE_S:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(0, 1);
    else
    plmove(0, 1);
@@ -1579,7 +1581,7 @@ bool game::handle_action()
   case ACTION_MOVE_SW:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(-1, 1);
    else
     plmove(-1, 1);
@@ -1588,7 +1590,7 @@ bool game::handle_action()
   case ACTION_MOVE_W:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(-1, 0);
    else
     plmove(-1, 0);
@@ -1597,7 +1599,7 @@ bool game::handle_action()
   case ACTION_MOVE_NW:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(-1, -1);
    else
     plmove(-1, -1);
@@ -2806,6 +2808,7 @@ z.size(), active_npc.size(), events.size());
     veh_num = menu_vec (false, "Choose vehicle to spawn", opts) + 1;
     if (veh_num > 1 && veh_num < num_vehicles)
      m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90, 100, 0);
+     m.board_vehicle (this, u.posx, u.posy, &u);
    }
    break;
 
@@ -5479,39 +5482,30 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
  }
 }
 
-void game::exit_vehicle()
+void game::moving_vehicle_dismount(int tox, int toy)
 {
-    if (!u.in_vehicle)
-        return;
     int vpart;
     vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
     if (!veh) {
         debugmsg("Tried to exit non-existent vehicle.");
         return;
     }
-    // velocity is divided by 100 to get mph,
-    // so only try throwing the player if the mph is > 1
-    bool moving = veh->velocity >= 100 || veh->velocity <= -100; 
-    if (moving && !query_yn("Really exit moving vehicle?"))
+    if (u.posx == tox && u.posy == toy) {
+        debugmsg("Need somewhere to dismount towards.");
         return;
-    if (moving)
-        add_msg("You dive from the vehicle.");
-    else
-        add_msg("You disembark.");
+    }
+    int d = (45 * (direction_from(u.posx, u.posy, tox, toy)) - 90) % 360;
+    add_msg("You dive from the %s.", veh->name.c_str());
     m.unboard_vehicle(this, u.posx, u.posy);
     u.moves -= 200;
-    if (moving) {
-        // If on the left, dive left. If on the right, dive right.
-        int dsgn = veh->parts[vpart].mount_dy > 0 ? 1 : -1;
-        // Dive sideways three tiles
-        fling_player_or_monster(&u, 0, veh->face.dir() + 90 * dsgn, 30, true);
-        // Hit the ground according to vehicle speed
-        if (!m.has_flag(swimmable, u.posx, u.posy)) {
-            if (veh->velocity > 0)
-                fling_player_or_monster(&u, 0, veh->face.dir(), veh->velocity / (float)100);
-            else
-                fling_player_or_monster(&u, 0, veh->face.dir() + 180, -(veh->velocity) / (float)100);
-        }
+    // Dive three tiles in the direction of tox and toy
+    fling_player_or_monster(&u, 0, d, 30, true);
+    // Hit the ground according to vehicle speed
+    if (!m.has_flag(swimmable, u.posx, u.posy)) {
+        if (veh->velocity > 0)
+            fling_player_or_monster(&u, 0, veh->face.dir(), veh->velocity / (float)100);
+        else
+            fling_player_or_monster(&u, 0, veh->face.dir() + 180, -(veh->velocity) / (float)100);
     }
     return;
 }
@@ -5520,21 +5514,14 @@ void game::control_vehicle()
 {
     int veh_part;
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
-    int seat = -1;
-    if (veh)
-        seat = veh->part_with_feature(veh_part, vpf_seat);
 
     if (veh && veh->player_in_control(&u)) {
         std::string message = veh->use_controls();
         if (!message.empty())
             add_msg(message.c_str());
-    } else if (u.in_vehicle) {
-        exit_vehicle();
-    } else if (veh && seat >= 0 &&
-               !veh->parts[seat].has_flag(vehicle_part::passenger_flag)) {
-        m.board_vehicle(this, u.posx, u.posy, &u);
-        u.moves -= 100;
-        add_msg("You sit down.");
+    } else if (veh && veh->part_with_feature(veh_part, vpf_controls) >= 0) {
+        u.controlling_vehicle = true;
+        add_msg("You take control of the %s.", veh->name.c_str());
     } else {
         int examx, examy;
         if (!choose_adjacent("Control vehicle", examx, examy))
@@ -6883,12 +6870,12 @@ point game::look_debug(point coords) {
       int fshift=0;
       int subch=0;
       if ( fsel == -1 ) fsel=curfield.type;
-      std::string fids[num_fields]=(num_fields,"undef");
+      std::string fids[num_fields];
       fids[0]="-clear-";
-      fids[14]="fire_vent";
-      fids[18]="push_items";
-      fids[19]="shock_vent";
-      fids[20]="acid_vent";
+      fids[fd_fire_vent]="fire_vent";
+      fids[fd_push_items]="push_items";
+      fids[fd_shock_vent]="shock_vent";
+      fids[fd_acid_vent]="acid_vent";
       do {
         if( fsel < fshift ) {
             fshift=fsel;
@@ -6954,7 +6941,8 @@ point game::look_debug(point coords) {
       int tshift=0;
       int subch=0;
       if ( trsel == -1 ) trsel=curtrap;
-      std::string trids[num_trap_types];trids[0]="-clear-";
+      std::string trids[num_trap_types];
+      trids[0]="-clear-";
       do {
         if( trsel < tshift ) {
             tshift=trsel;
@@ -9219,8 +9207,10 @@ void game::chat()
 
 void game::pldrive(int x, int y) {
  if (run_mode == 2) { // Monsters around and we don't wanna run
-  add_msg("Monster spotted--run mode is on! "
-          "(Press '!' to turn it off or ' to ignore monster.)");
+   add_msg("Monster spotted--run mode is on! "
+           "(%s to turn it off or %s to ignore monster.)",
+           press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
+           from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
   return;
  }
  int part = -1;
@@ -9262,8 +9252,10 @@ void game::pldrive(int x, int y) {
 void game::plmove(int x, int y)
 {
  if (run_mode == 2) { // Monsters around and we don't wanna run
-  add_msg("Monster spotted--safe mode is on! \
-(Press '!' to turn it off or ' to ignore monster.)");
+   add_msg("Monster spotted--safe mode is on! \
+(%s to turn it off or %s to ignore monster.)",
+           press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
+           from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
   return;
  }
  if (u.has_disease(DI_STUNNED)) {
@@ -9366,27 +9358,34 @@ void game::plmove(int x, int y)
   }
  }
 
- int vpart = -1, dpart = -1;
- vehicle *veh = m.veh_at(x, y, vpart);
+ int vpart0 = -1, vpart1 = -1, dpart = -1;
+ vehicle *veh0 = m.veh_at(u.posx, u.posy, vpart0);
+ vehicle *veh1 = m.veh_at(x, y, vpart1);
  bool veh_closed_door = false;
- if (veh) {
-  dpart = veh->part_with_feature (vpart, vpf_openable);
-  veh_closed_door = dpart >= 0 && !veh->parts[dpart].open;
+ if (veh1) {
+  dpart = veh1->part_with_feature (vpart1, vpf_openable);
+  veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
  }
+
+ if (veh0 && abs(veh0->velocity) > 100) {
+  if (!veh1) {
+   if (query_yn("Dive from moving vehicle?")) {
+    moving_vehicle_dismount(x, y);
+   }
+   return;
+  } else if (veh1 != veh0) {
+   add_msg("There is another vehicle in the way.");
+   return;
+  } else if (veh1->part_with_feature(vpart1, vpf_boardable) < 0) {
+   add_msg("That part of the vehicle is currently unsafe.");
+   return;
+  }
+ }
+
 
  if (m.move_cost(x, y) > 0) { // move_cost() of 0 = impassible (e.g. a wall)
   if (u.underwater)
    u.underwater = false;
-  dpart = veh ? veh->part_with_feature (vpart, vpf_seat) : -1;
-  bool can_board = dpart >= 0 && veh->parts[dpart].items.size() == 0 &&
-      !veh->parts[dpart].has_flag(vehicle_part::passenger_flag);
-/*  if (veh.type != veh_null)
-      add_msg ("vp=%d dp=%d can=%c", vpart, dpart, can_board? 'y' : 'n',);*/
-  if (can_board && query_yn("Board vehicle?")) { // empty vehicle's seat ahead
-   m.board_vehicle (this, x, y, &u);
-   u.moves -= 200;
-   return;
-  }
 
   if (m.field_at(x, y).is_dangerous() &&
       !query_yn("Really step into that %s?", m.field_at(x, y).name().c_str()))
@@ -9423,8 +9422,8 @@ void game::plmove(int x, int y)
   if ((!u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 2) ||
       ( u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 4    ))
   {
-   if (veh && m.move_cost(x,y) != 2)
-    add_msg("Moving past this %s is slow!", veh->part_info(vpart).name);
+   if (veh1 && m.move_cost(x,y) != 2)
+    add_msg("Moving past this %s is slow!", veh1->part_info(vpart1).name);
    else
     add_msg("Moving past this %s is slow!", m.tername(x, y).c_str());
   }
@@ -9481,8 +9480,19 @@ void game::plmove(int x, int y)
   if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
       x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)))
    update_map(x, y);
+
+// If the player is in a vehicle, unboard them from the current part
+  if (u.in_vehicle)
+   m.unboard_vehicle(this, u.posx, u.posy);
+
+// Move the player
   u.posx = x;
   u.posy = y;
+
+// If the new tile is a boardable part, board it
+  if (veh1 && veh1->part_with_feature(vpart1, vpf_boardable) >= 0)
+   m.board_vehicle(this, u.posx, u.posy, &u);
+
   if (m.tr_at(x, y) != tr_null) { // We stepped on a trap!
    trap* tr = traps[m.tr_at(x, y)];
    if (!u.avoid_trap(tr)) {
@@ -9536,20 +9546,23 @@ void game::plmove(int x, int y)
    add_msg(buff.c_str());
   } else if (m.i_at(x, y).size() != 0)
    add_msg("There are many items here.");
+  if (veh1 && veh1->part_with_feature(vpart1, vpf_controls) >= 0)
+   add_msg("There are vehicle controls here.");
 
  } else if (veh_closed_door) { // move_cost <= 0
-  veh->parts[dpart].open = 1;
-  veh->insides_dirty = true;
+  veh1->parts[dpart].open = 1;
+  veh1->insides_dirty = true;
   u.moves -= 100;
-  add_msg ("You open the %s's %s.", veh->name.c_str(),
-                                    veh->part_info(dpart).name);
+  add_msg ("You open the %s's %s.", veh1->name.c_str(),
+                                    veh1->part_info(dpart).name);
 
  } else if (m.has_flag(swimmable, x, y)) { // Dive into water!
 // Requires confirmation if we were on dry land previously
   if ((m.has_flag(swimmable, u.posx, u.posy) &&
       m.move_cost(u.posx, u.posy) == 0) || query_yn("Dive into the water?")) {
    if (m.move_cost(u.posx, u.posy) > 0 && u.swim_speed() < 500)
-    add_msg("You start swimming.  Press '>' to dive underwater.");
+     add_msg("You start swimming.  %s to dive underwater.",
+             press_x(ACTION_MOVE_DOWN).c_str());
    plswim(x, y);
   }
 
@@ -9600,7 +9613,8 @@ void game::plswim(int x, int y)
  }
  if (u.oxygen <= 5 && u.underwater) {
   if (movecost < 500)
-   popup("You need to breathe! (Press '<' to surface.)");
+    popup("You need to breathe! (%s to surface.)",
+          press_x(ACTION_MOVE_UP).c_str());
   else
    popup("You need to breathe but you can't swim!  Get to dry land, quick!");
  }
@@ -10639,17 +10653,126 @@ void intro()
   werase(tmp);
   wprintw(tmp, "\
 Whoa. Whoa. Hey. This game requires a minimum terminal size of 80x25. I'm\n\
-sorry if your graphical terminal emulator went with the woefully-diminuitive\n\
-80x24 as its default size, but that just won't work here.  Now stretch the\n\
-bottom of your window downward so you get an extra line.\n");
-  wrefresh(tmp);
-  refresh();
-  wrefresh(tmp);
-  getch();
+sorry if your graphical terminal emulator went with the woefully-diminutive\n\
+%dx%d as its default size, but that just won't work here.  Now stretch the\n\
+window until you've got it at the right size (or bigger).\n", maxx, maxy);
+  wgetch(tmp);
   getmaxyx(stdscr, maxy, maxx);
  }
  werase(tmp);
  wrefresh(tmp);
  delwin(tmp);
  erase();
+}
+
+// (Press X (or Y)|Try) to Z
+std::string game::press_x(action_id act)
+{
+    return press_x(act,"Press ","","Try");
+}
+std::string game::press_x(action_id act, std::string key_bound, std::string key_unbound)
+{
+    return press_x(act,key_bound,"",key_unbound);
+}
+std::string game::press_x(action_id act, std::string key_bound_pre, std::string key_bound_suf, std::string key_unbound)
+{
+    std::vector<char> keys = keys_bound_to( action_id(act) );
+    if (keys.empty()) {
+        return key_unbound;
+    } else {
+        std::string keyed = key_bound_pre.append("");
+        for (int j = 0; j < keys.size(); j++) {
+            if (keys[j] == '\'' || keys[j] == '"'){
+                if (j < keys.size() - 1) {
+                    keyed += keys[j]; keyed += " or ";
+                } else {
+                    keyed += keys[j];
+                }
+            } else {
+                if (j < keys.size() - 1) {
+                    keyed += "'"; keyed += keys[j]; keyed += "' or ";
+                } else {
+                    if (keys[j] == '_') {
+                        keyed += "'_' (underscore)";
+                    } else {
+                        keyed += "'"; keyed += keys[j]; keyed += "'";
+                    }
+                }
+            }
+        }
+        return keyed.append(key_bound_suf.c_str());
+    }
+}
+// ('Z'ing|zing) (\(X( or Y))\))
+std::string game::press_x(action_id act, std::string act_desc)
+{
+    bool key_after=false;
+    bool z_ing=false;
+    char zing = tolower(act_desc.at(0));
+    std::vector<char> keys = keys_bound_to( action_id(act) );
+    if (keys.empty()) {
+        return act_desc;
+    } else {
+        std::string keyed = ("");
+        for (int j = 0; j < keys.size(); j++) {
+            if (tolower(keys[j])==zing) {
+                if (z_ing) {
+                    keyed.replace(1,1,1,act_desc.at(0));
+                    if (key_after) {
+                        keyed += " or '"; 
+                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0)) 
+                                                          : tolower(act_desc.at(0))); 
+                        keyed += "'";
+                    } else {
+                        keyed +=" ('"; 
+                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0)) 
+                                                          : tolower(act_desc.at(0))); 
+                        keyed += "'";
+                        key_after=true;
+                    }
+                } else {
+                    std::string uhh="";
+                    if (keys[j] == '\'' || keys[j] == '"'){
+                        uhh+="("; uhh+=keys[j]; uhh+=")";
+                    } else {
+                        uhh+="'"; uhh+=keys[j]; uhh+="'";
+                    }
+                    if(act_desc.length()>1) {
+                        uhh+=act_desc.substr(1);
+                    }
+                    if (keys[j] == '_') {
+                        uhh += " (underscore)";
+                    }
+                    keyed.insert(0,uhh);
+                    z_ing=true;
+                }
+            } else {
+                if (key_after) {
+                    if (keys[j] == '\'' || keys[j] == '"'){
+                        keyed += " or "; keyed += keys[j];
+                    } else if (keys[j] == '_') {
+                        keyed += "or '_' (underscore)";
+                    } else {
+                        keyed+=" or '"; keyed+=keys[j]; keyed+="'";
+                    }
+                } else {
+                    if (keys[j] == '\'' || keys[j] == '"'){
+                        keyed += " ("; keyed += keys[j];
+                    } else if (keys[j] == '_') {
+                        keyed += " ('_' (underscore)";
+                    } else {
+                        keyed += " ('"; keyed+=keys[j]; keyed+="'";
+                    }
+                   key_after=true;
+                }
+            }
+        }
+        if (!z_ing) {
+            keyed.insert(0,act_desc);
+        }
+        if (key_after) {
+            keyed+=")";
+        }
+        return keyed;
+    }
 }

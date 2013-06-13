@@ -207,9 +207,9 @@ void map::board_vehicle(game *g, int x, int y, player *p)
   return;
  }
 
- const int seat_part = veh->part_with_feature (part, vpf_seat);
+ const int seat_part = veh->part_with_feature (part, vpf_boardable);
  if (part < 0) {
-  debugmsg ("map::board_vehicle: boarding %s (not seat)",
+  debugmsg ("map::board_vehicle: boarding %s (not boardable)",
             veh->part_info(part).name);
   return;
  }
@@ -240,9 +240,9 @@ void map::unboard_vehicle(game *g, const int x, const int y)
   debugmsg ("map::unboard_vehicle: vehicle not found");
   return;
  }
- const int seat_part = veh->part_with_feature (part, vpf_seat, false);
+ const int seat_part = veh->part_with_feature (part, vpf_boardable, false);
  if (part < 0) {
-  debugmsg ("map::unboard_vehicle: unboarding %s (not seat)",
+  debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
             veh->part_info(part).name);
   return;
  }
@@ -3419,7 +3419,7 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
   return;
  }
 
-// if player is driving vehicle, (s)he must be shifted with vehicle too
+// if player is in vehicle, (s)he must be shifted with vehicle too
  if (g->u.in_vehicle && (sx !=0 || sy != 0)) {
   g->u.posx -= sx * SEEX;
   g->u.posy -= sy * SEEY;
