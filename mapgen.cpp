@@ -7093,7 +7093,7 @@ bb| ss____________ss |bb\n\
          t_concrete_v, t_fence_barbed, t_chainfence_h, t_chainfence_v, t_sink),
      mapf::end() );
      add_spawn(mon_secubot, rng(1, 2), 11, 7); 
-     add_spawn(mon_zombie_cop, rng(0, 3), rng(12,18), rng(4,19,));
+     add_spawn(mon_zombie_cop, rng(0, 3), rng(12,18), rng(4,19));
      place_items(mi_pistols,	30,  11,  1, 12,  1, false, 0);
      place_items(mi_ammo,	50,  11,  1, 12,  1, false, 0);
      for (int i = 0; i <= 23; i++) {
