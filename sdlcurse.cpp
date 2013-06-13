@@ -25,7 +25,7 @@ static SDL_Color windowsPalette[256];
 static SDL_Surface *screen = NULL;
 static SDL_Surface *glyph_cache[128][16]; //cache ascii characters 
 TTF_Font* font;
-static bool ttf_height_hack = false;
+static int ttf_height_hack = 0;
 int nativeWidth;
 int nativeHeight;
 int WindowX;            //X pos of the actual window, not the curses window
@@ -133,6 +133,35 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
 
+
+static void cache_glyphs()
+{
+    int top=999, bottom=-999;
+
+    start_color();
+    
+    for(int ch=0; ch<128; ch++)
+    {
+        for(int color=0; color<16; color++)
+        {
+            SDL_Surface * glyph = glyph_cache[ch][color] = TTF_RenderGlyph_Solid(font, ch, windowsPalette[color]);
+            int minx, maxx, miny, maxy, advance;
+            if(glyph!=NULL && color==0 && 0==TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) )
+            {
+               int t = TTF_FontAscent(font)-maxy;
+               int b = t + glyph->h;
+               if(t<top) top = t;
+               if(b>bottom) bottom = b;
+            }
+        }
+    }
+    
+    int height = bottom - top;
+    int delta = (fontheight-height)/2;
+
+    ttf_height_hack =  delta - top;
+}
+
 static void OutputChar(char t, int x, int y, int n, unsigned char color)
 {
     unsigned char ch = t & 0x7f;
@@ -140,18 +169,13 @@ static void OutputChar(char t, int x, int y, int n, unsigned char color)
 
     SDL_Surface * glyph = glyph_cache[ch][color];
 
-    if(glyph==NULL)
-    {
-        glyph = glyph_cache[ch][color] = TTF_RenderGlyph_Solid(font, ch, windowsPalette[color]);
-    }
-
     if(glyph)
     {
 		int minx=0, maxy=0, dx=0, dy = 0;
 		if( 0==TTF_GlyphMetrics(font, ch, &minx, NULL, NULL, &maxy, NULL))
 		{
 			dx = minx;
-			dy = (ttf_height_hack?fontheight:TTF_FontAscent(font))-maxy;
+			dy = TTF_FontAscent(font)-maxy+ttf_height_hack;
 			SDL_Rect rect;
 			rect.x = x+dx; rect.y = y+dy; rect.w = fontwidth; rect.h = fontheight;
 			SDL_BlitSurface(glyph, NULL, screen, &rect);
@@ -325,6 +349,8 @@ void CheckMessages()
 //Psuedo-Curses Functions           *
 //***********************************
 
+
+
 //Basic Init, create the font, backbuffer, etc
 WINDOW *initscr(void)
 {
@@ -378,12 +404,8 @@ WINDOW *initscr(void)
 	// SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
 	// this causes baseline problems for certain fonts 
 	// I can only guess by check a certain tall character...
-	int testminy=0;
-	if( 0==TTF_GlyphMetrics(font, '|', NULL, NULL, &testminy, NULL, NULL))
-	{
-		// the whole glyph is above the baseline, so...
-		if(testminy>=0) ttf_height_hack = true;
-	}
+    cache_glyphs();
+
 
     mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
