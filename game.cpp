@@ -484,7 +484,8 @@ bool game::do_turn()
   if (u.fatigue == 192 && !u.has_disease(DI_LYING_DOWN) &&
       !u.has_disease(DI_SLEEP)) {
    if (u.activity.type == ACT_NULL)
-    add_msg("You're feeling tired.  Press '$' to lie down for sleep.");
+     add_msg("You're feeling tired.  %s to lie down for sleep.",
+             press_x(ACTION_SLEEP).c_str());
    else
     cancel_activity_query("You're feeling tired.");
   }
@@ -1526,7 +1527,8 @@ bool game::handle_action()
 
   case ACTION_PAUSE:
    if (run_mode == 2) // Monsters around and we don't wanna pause
-    add_msg("Monster spotted--safe mode is on! (Press '!' to turn it off.)");
+     add_msg("Monster spotted--safe mode is on! (%s to turn it off.)",
+             press_x(ACTION_TOGGLE_SAFEMODE).c_str());
    else
     u.pause(this);
    break;
@@ -9205,8 +9207,10 @@ void game::chat()
 
 void game::pldrive(int x, int y) {
  if (run_mode == 2) { // Monsters around and we don't wanna run
-  add_msg("Monster spotted--run mode is on! "
-          "(Press '!' to turn it off or ' to ignore monster.)");
+   add_msg("Monster spotted--run mode is on! "
+           "(%s to turn it off or %s to ignore monster.)",
+           press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
+           from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
   return;
  }
  int part = -1;
@@ -9248,8 +9252,10 @@ void game::pldrive(int x, int y) {
 void game::plmove(int x, int y)
 {
  if (run_mode == 2) { // Monsters around and we don't wanna run
-  add_msg("Monster spotted--safe mode is on! \
-(Press '!' to turn it off or ' to ignore monster.)");
+   add_msg("Monster spotted--safe mode is on! \
+(%s to turn it off or %s to ignore monster.)",
+           press_x(ACTION_TOGGLE_SAFEMODE).c_str(),
+           from_sentence_case(press_x(ACTION_IGNORE_ENEMY)).c_str());
   return;
  }
  if (u.has_disease(DI_STUNNED)) {
@@ -9555,7 +9561,8 @@ void game::plmove(int x, int y)
   if ((m.has_flag(swimmable, u.posx, u.posy) &&
       m.move_cost(u.posx, u.posy) == 0) || query_yn("Dive into the water?")) {
    if (m.move_cost(u.posx, u.posy) > 0 && u.swim_speed() < 500)
-    add_msg("You start swimming.  Press '>' to dive underwater.");
+     add_msg("You start swimming.  %s to dive underwater.",
+             press_x(ACTION_MOVE_DOWN).c_str());
    plswim(x, y);
   }
 
@@ -9606,7 +9613,8 @@ void game::plswim(int x, int y)
  }
  if (u.oxygen <= 5 && u.underwater) {
   if (movecost < 500)
-   popup("You need to breathe! (Press '<' to surface.)");
+    popup("You need to breathe! (%s to surface.)",
+          press_x(ACTION_MOVE_UP).c_str());
   else
    popup("You need to breathe but you can't swim!  Get to dry land, quick!");
  }
@@ -10655,4 +10663,116 @@ window until you've got it at the right size (or bigger).\n", maxx, maxy);
  wrefresh(tmp);
  delwin(tmp);
  erase();
+}
+
+// (Press X (or Y)|Try) to Z
+std::string game::press_x(action_id act)
+{
+    return press_x(act,"Press ","","Try");
+}
+std::string game::press_x(action_id act, std::string key_bound, std::string key_unbound)
+{
+    return press_x(act,key_bound,"",key_unbound);
+}
+std::string game::press_x(action_id act, std::string key_bound_pre, std::string key_bound_suf, std::string key_unbound)
+{
+    std::vector<char> keys = keys_bound_to( action_id(act) );
+    if (keys.empty()) {
+        return key_unbound;
+    } else {
+        std::string keyed = key_bound_pre.append("");
+        for (int j = 0; j < keys.size(); j++) {
+            if (keys[j] == '\'' || keys[j] == '"'){
+                if (j < keys.size() - 1) {
+                    keyed += keys[j]; keyed += " or ";
+                } else {
+                    keyed += keys[j];
+                }
+            } else {
+                if (j < keys.size() - 1) {
+                    keyed += "'"; keyed += keys[j]; keyed += "' or ";
+                } else {
+                    if (keys[j] == '_') {
+                        keyed += "'_' (underscore)";
+                    } else {
+                        keyed += "'"; keyed += keys[j]; keyed += "'";
+                    }
+                }
+            }
+        }
+        return keyed.append(key_bound_suf.c_str());
+    }
+}
+// ('Z'ing|zing) (\(X( or Y))\))
+std::string game::press_x(action_id act, std::string act_desc)
+{
+    bool key_after=false;
+    bool z_ing=false;
+    char zing = tolower(act_desc.at(0));
+    std::vector<char> keys = keys_bound_to( action_id(act) );
+    if (keys.empty()) {
+        return act_desc;
+    } else {
+        std::string keyed = ("");
+        for (int j = 0; j < keys.size(); j++) {
+            if (tolower(keys[j])==zing) {
+                if (z_ing) {
+                    keyed.replace(1,1,1,act_desc.at(0));
+                    if (key_after) {
+                        keyed += " or '"; 
+                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0)) 
+                                                          : tolower(act_desc.at(0))); 
+                        keyed += "'";
+                    } else {
+                        keyed +=" ('"; 
+                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0)) 
+                                                          : tolower(act_desc.at(0))); 
+                        keyed += "'";
+                        key_after=true;
+                    }
+                } else {
+                    std::string uhh="";
+                    if (keys[j] == '\'' || keys[j] == '"'){
+                        uhh+="("; uhh+=keys[j]; uhh+=")";
+                    } else {
+                        uhh+="'"; uhh+=keys[j]; uhh+="'";
+                    }
+                    if(act_desc.length()>1) {
+                        uhh+=act_desc.substr(1);
+                    }
+                    if (keys[j] == '_') {
+                        uhh += " (underscore)";
+                    }
+                    keyed.insert(0,uhh);
+                    z_ing=true;
+                }
+            } else {
+                if (key_after) {
+                    if (keys[j] == '\'' || keys[j] == '"'){
+                        keyed += " or "; keyed += keys[j];
+                    } else if (keys[j] == '_') {
+                        keyed += "or '_' (underscore)";
+                    } else {
+                        keyed+=" or '"; keyed+=keys[j]; keyed+="'";
+                    }
+                } else {
+                    if (keys[j] == '\'' || keys[j] == '"'){
+                        keyed += " ("; keyed += keys[j];
+                    } else if (keys[j] == '_') {
+                        keyed += " ('_' (underscore)";
+                    } else {
+                        keyed += " ('"; keyed+=keys[j]; keyed+="'";
+                    }
+                   key_after=true;
+                }
+            }
+        }
+        if (!z_ing) {
+            keyed.insert(0,act_desc);
+        }
+        if (key_after) {
+            keyed+=")";
+        }
+        return keyed;
+    }
 }

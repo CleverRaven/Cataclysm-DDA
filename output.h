@@ -75,6 +75,9 @@ long special_symbol (long sym);
 // utility: moves \n's around to fit string breaks within a certain width.
 std::string word_rewrap (const std::string &in, int width);
 
+// string manipulations.
+std::string from_sentence_case (const std::string &kingston);
+
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);
 
