@@ -945,4 +945,5 @@ std::string from_sentence_case (const std::string &kingston)
             return montreal;
         }
     }
+    return "";
 }
