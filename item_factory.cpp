@@ -169,6 +169,7 @@ void Item_factory::init(){
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["DEJAR"] = &iuse::dejar;
+    iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS

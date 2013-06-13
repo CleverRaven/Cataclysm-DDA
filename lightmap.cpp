@@ -45,13 +45,13 @@ void map::generate_lightmap(game* g)
 
  // Apply player light sources
  if (held_luminance > LIGHT_AMBIENT_LOW)
-  apply_light_source(g->u.posx, g->u.posy, held_luminance);
+  apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
   int flood_basalt_check = 0; // does excessive lava need high quality lighting? Nope nope nope nope
   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
     const ter_id terrain = g->m.ter(sx, sy);
-    const std::vector<item> items = g->m.i_at(sx, sy);
-    const field current_field = g->m.field_at(sx, sy);
+    const std::vector<item> &items = g->m.i_at(sx, sy);
+    const field &current_field = g->m.field_at(sx, sy);
     // When underground natural_light is 0, if this changes we need to revisit
     if (natural_light > LIGHT_AMBIENT_LOW) {
      if (!g->m.is_outside(sx, sy)) {
@@ -92,23 +92,23 @@ void map::generate_lightmap(game* g)
   switch(current_field.type) {
     case fd_fire:
      if (3 == current_field.density)
-      apply_light_source(sx, sy, 160);
+      apply_light_source(sx, sy, 160, trigdist);
      else if (2 == current_field.density)
-      apply_light_source(sx, sy, 60);
+      apply_light_source(sx, sy, 60, trigdist);
      else
-      apply_light_source(sx, sy, 16);
+      apply_light_source(sx, sy, 16, trigdist);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_light_source(sx, sy, 8);
+     apply_light_source(sx, sy, 8, trigdist);
      break;
     case fd_electricity:
      if (3 == current_field.density)
-      apply_light_source(sx, sy, 8);
+      apply_light_source(sx, sy, 8, trigdist);
      else if (2 == current_field.density)
-      apply_light_source(sx, sy, 1);
+      apply_light_source(sx, sy, 1, trigdist);
      else
-      apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
+      apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL, trigdist);  // kinda a hack as the square will still get marked
      break;
    }
   }
@@ -119,23 +119,23 @@ void map::generate_lightmap(game* g)
   int my = g->z[i].posy;
   if (INBOUNDS(mx, my)) {
    if (g->z[i].has_effect(ME_ONFIRE)) {
-    apply_light_source(mx, my, 3);
+     apply_light_source(mx, my, 3, trigdist);
    }
    // TODO: [lightmap] Attach natural light brightness to creatures
    // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
    // TODO: [lightmap] Allow creatures to have facing and arc lights
    switch (g->z[i].type->id) {
     case mon_zombie_electric:
-     apply_light_source(mx, my, 1);
+     apply_light_source(mx, my, 1, trigdist);
      break;
     case mon_turret:
-     apply_light_source(mx, my, 2);
+     apply_light_source(mx, my, 2, trigdist);
      break;
     case mon_flaming_eye:
-     apply_light_source(mx, my, LIGHT_SOURCE_BRIGHT);
+     apply_light_source(mx, my, LIGHT_SOURCE_BRIGHT, trigdist);
      break;
     case mon_manhack:
-     apply_light_source(mx, my, LIGHT_SOURCE_LOCAL);
+     apply_light_source(mx, my, LIGHT_SOURCE_LOCAL, trigdist);
      break;
    }
   }
@@ -212,6 +212,8 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
 void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
 {
    if (!INBOUNDS(fx, fy) || !INBOUNDS(tx, ty)) return;
+
+   seen_cache[fx][fy] = true;
 
    const int ax = abs(tx - fx) << 1;
    const int ay = abs(ty - fy) << 1;
@@ -305,7 +307,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  luminance=luminance*lum_mult;
 
  int range = LIGHT_RANGE(luminance);
- apply_light_source(x, y, LIGHT_SOURCE_LOCAL);
+ apply_light_source(x, y, LIGHT_SOURCE_LOCAL, trigdist);
 
  // Normalise (should work with negative values too)
 

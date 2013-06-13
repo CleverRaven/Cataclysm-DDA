@@ -25,15 +25,17 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
+ bool use_pump = false;
  item gas(g->itypes["gasoline"], g->turn);
  if (one_in(10 + p->dex_cur)) {
   g->add_msg("You accidentally spill the gasoline.");
   m->add_item(p->posx, p->posy, gas);
+  use_pump = true;
  } else {
   p->moves -= 300;
-  g->handle_liquid(gas, false, true);
+  use_pump = g->handle_liquid(gas, false, true);
  }
- if (one_in(10)) {
+ if (use_pump && one_in(10)) {
   g->add_msg("With a clang and a shudder, the gas pump goes silent.");
   m->ter_set(examx, examy, t_gas_pump_empty);
  }
@@ -546,33 +548,32 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
   m->spawn_item(examx, examy, g->itypes["poppy_bud"],0);
 }
 
+void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std::string itemType, int new_ter) {
+  if (!query_yn("Pick %s?", m->tername(examx, examy).c_str())) {
+    none(g, p, m, examx, examy);
+    return;
+  }
+
+  int num_fruits = rng(1, p->skillLevel("survival"));
+
+  if (num_fruits > 12)
+    num_fruits = 12;
+
+  m->spawn_item(examx, examy, g->itypes[itemType], g->turn, num_fruits - 1);
+
+  m->ter_set(examx, examy, (ter_id)new_ter);
+}
+
 void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Pick %s?",m->tername(examx, examy).c_str())) return;
-
- int num_apples = rng(1, p->skillLevel("survival"));
- if (num_apples >= 12)
-  num_apples = 12;
- for (int i = 0; i < num_apples; i++)
-  m->spawn_item(examx, examy, g->itypes["apple"], g->turn, 0);
-
- m->ter_set(examx, examy, t_tree);
-
+  pick_plant(g, p, m, examx, examy, "apple", t_tree);
 }
 
 void iexamine::shrub_blueberry(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Pick %s?",m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
-  return;
- }
+  pick_plant(g, p, m, examx, examy, "blueberries", t_shrub);
+}
 
- int num_blueberries = rng(1, p->skillLevel("survival"));
-
- if (num_blueberries >= 12)
-  num_blueberries = 12;
- for (int i = 0; i < num_blueberries; i++)
-  m->spawn_item(examx, examy, g->itypes["blueberries"], g->turn, 0);
-
- m->ter_set(examx, examy, t_shrub);
+void iexamine::shrub_strawberry(game *g, player *p, map *m, int examx, int examy) {
+  pick_plant(g, p, m, examx, examy, "strawberries", t_shrub);
 }
 
 void iexamine::shrub_wildveggies(game *g, player *p, map *m, int examx, int examy) {
@@ -630,16 +631,21 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
 
     g->sound(examx, examy, 80, "Ka-klunk!");
 
+    int lump_weight = item_controller->find_template("steel_lump")->weight;
+    int sheet_weight = item_controller->find_template("sheet_metal")->weight;
+    int chunk_weight = item_controller->find_template("steel_chunk")->weight;
+    int scrap_weight = item_controller->find_template("scrap")->weight;
+
     switch(ch)
     {
         case 1: // 1 steel lump = weight 80
-            num_lumps = steel_weight / (item_controller->find_template("steel_lump")->weight);
-            steel_weight -= num_lumps * (item_controller->find_template("steel_lump")->weight);
-            num_sheets = steel_weight / (item_controller->find_template("sheet_metal")->weight);
-            steel_weight -= num_sheets * (item_controller->find_template("sheet_metal")->weight);
-            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
-            steel_weight -= num_chunks * (item_controller->find_template("steel_chunk")->weight);
-            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            num_lumps = steel_weight / (lump_weight);
+            steel_weight -= num_lumps * (lump_weight);
+            num_sheets = steel_weight / (sheet_weight);
+            steel_weight -= num_sheets * (sheet_weight);
+            num_chunks = steel_weight / (chunk_weight);
+            steel_weight -= num_chunks * (chunk_weight);
+            num_scraps = steel_weight / (scrap_weight);
             if (num_lumps == 0)
             {
                 g->add_msg("The recycler beeps: \"Insufficient steel!\"");
@@ -648,11 +654,11 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             break;
 
         case 2: // 1 metal sheet = weight 20
-            num_sheets = steel_weight / (item_controller->find_template("sheet_metal")->weight);
-            steel_weight -= num_sheets * (item_controller->find_template("sheet_metal")->weight);
-            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
-            steel_weight -= num_chunks * (item_controller->find_template("sheet_chunk")->weight);
-            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            num_sheets = steel_weight / (sheet_weight);
+            steel_weight -= num_sheets * (sheet_weight);
+            num_chunks = steel_weight / (chunk_weight);
+            steel_weight -= num_chunks * (chunk_weight);
+            num_scraps = steel_weight / (scrap_weight);
             if (num_sheets == 0)
             {
                 g->add_msg("The recycler beeps: \"Insufficient steel!\"");
@@ -661,9 +667,9 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             break;
 
         case 3: // 1 steel chunk = weight 6
-            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
-            steel_weight -= num_chunks * (item_controller->find_template("steel_chunk")->weight);
-            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            num_chunks = steel_weight / (chunk_weight);
+            steel_weight -= num_chunks * (chunk_weight);
+            num_scraps = steel_weight / (scrap_weight);
             if (num_chunks == 0)
             {
                 g->add_msg("The recycler beeps: \"Insufficient steel!\"");
@@ -672,7 +678,7 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             break;
 
         case 4: // 1 metal scrap = weight 1
-            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            num_scraps = steel_weight / (scrap_weight);
             break;
     }
 

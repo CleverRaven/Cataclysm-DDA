@@ -263,7 +263,7 @@ public:
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let);	// Returns the item with inventory letter let
  item &i_of_type(itype_id type); // Returns the first item with this type
- std::vector<item> inv_dump(); // Inventory + weapon + worn (for death, etc)
+ std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor();	// Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
  bool is_wearing(itype_id it);	// Are we wearing a specific itype?
@@ -298,6 +298,7 @@ public:
  int posx, posy;
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
+ bool controlling_vehicle;  // Is currently in control of a vehicle
  player_activity activity;
  player_activity backlog;
 // _missions vectors are of mission IDs
@@ -305,6 +306,7 @@ public:
  std::vector<int> completed_missions;
  std::vector<int> failed_missions;
  int active_mission;
+ int volume;
 
  std::string name;
  bool male;

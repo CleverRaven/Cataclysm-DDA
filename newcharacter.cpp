@@ -224,6 +224,67 @@ bool player::create(game *g, character_type type, std::string tempname)
   } while (!query_yn("Use this style?"));
   styles.push_back(ma_type);
  }
+ 
+    if (has_trait(PF_MARTIAL_ARTS2)) {
+  itype_id ma_type;
+  do {
+   int choice = menu(false, "Pick your style:",
+                     "Capoeira", "Krav Maga", "Muay Thai", "Ninjutsu", "Zui Quan", NULL);
+   if (choice == 1)
+    ma_type = "style_capoeira";
+   if (choice == 2)
+    ma_type = "style_krav_maga";
+   if (choice == 3)
+    ma_type = "style_muay_thai";
+   if (choice == 4)
+    ma_type = "style_ninjutsu";
+   if (choice == 5)
+    ma_type = "style_zui_quan";
+   item tmpitem = item(g->itypes[ma_type], 0);
+   full_screen_popup(tmpitem.info(true).c_str());
+  } while (!query_yn("Use this style?"));
+  styles.push_back(ma_type);
+ }
+ if (has_trait(PF_MARTIAL_ARTS3)) {
+  itype_id ma_type;
+  do {
+   int choice = menu(false, "Pick your style:",
+                     "Tiger", "Crane", "Leopard", "Snake", "Dragon", NULL);
+   if (choice == 1)
+    ma_type = "style_tiger";
+   if (choice == 2)
+    ma_type = "style_crane";
+   if (choice == 3)
+    ma_type = "style_leopard";
+   if (choice == 4)
+    ma_type = "style_snake";
+   if (choice == 5)
+    ma_type = "style_dragon";
+   item tmpitem = item(g->itypes[ma_type], 0);
+   full_screen_popup(tmpitem.info(true).c_str());
+  } while (!query_yn("Use this style?"));
+  styles.push_back(ma_type);
+ }
+ if (has_trait(PF_MARTIAL_ARTS4)) {
+  itype_id ma_type;
+  do {
+   int choice = menu(false, "Pick your style:",
+                     "Centipede", "Viper", "Scorpion", "Lizard", "Toad", NULL);
+   if (choice == 1)
+    ma_type = "style_centipede";
+   if (choice == 2)
+    ma_type = "style_venom_snake";
+   if (choice == 3)
+    ma_type = "style_scorpion";
+   if (choice == 4)
+    ma_type = "style_lizard";
+   if (choice == 5)
+    ma_type = "style_toad";
+   item tmpitem = item(g->itypes[ma_type], 0);
+   full_screen_popup(tmpitem.info(true).c_str());
+  } while (!query_yn("Use this style?"));
+  styles.push_back(ma_type);
+ }
  ret_null = item(g->itypes["null"], 0);
  if (!styles.empty())
   weapon = item(g->itypes[ styles[0] ], 0, ':');

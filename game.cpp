@@ -3,7 +3,6 @@
 #include "input.h"
 #include "keypress.h"
 #include "output.h"
-#include "ui.h"
 #include "skill.h"
 #include "line.h"
 #include "computer.h"
@@ -21,7 +20,8 @@
 #include "catajson.h"
 #include "artifact.h"
 #include "overmapbuffer.h"
-
+#include "trap.h"
+#include "mapdata.h"
 #include <map>
 #include <algorithm>
 #include <string>
@@ -1105,6 +1105,15 @@ npc* game::find_npc(int id)
     return NULL;
 }
 
+int game::kill_count(mon_id mon){
+ std::vector<mtype *> types;
+ for (int i = 0; i < num_monsters; i++) {
+  if (mtypes[i]-> id == mon)
+   return kills[i];
+ }
+ return 0;
+}
+
 mission* game::find_mission(int id)
 {
  for (int i = 0; i < active_missions.size(); i++) {
@@ -1170,6 +1179,13 @@ bool game::mission_complete(int id, int npc_id)
 
   case MGOAL_KILL_MONSTER:
    return (miss->step >= 1);
+   
+  case MGOAL_KILL_MONSTER_TYPE:
+   debugmsg("%d kill count", kill_count(miss->monster_type));
+   debugmsg("%d goal", miss->monster_kill_goal);
+   if (kill_count(miss->monster_type) >= miss->monster_kill_goal){
+    return true;}
+   return false;
 
   default:
    return false;
@@ -1518,7 +1534,7 @@ bool game::handle_action()
   case ACTION_MOVE_N:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(0, -1);
    else
     plmove(0, -1);
@@ -1527,7 +1543,7 @@ bool game::handle_action()
   case ACTION_MOVE_NE:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(1, -1);
    else
     plmove(1, -1);
@@ -1536,7 +1552,7 @@ bool game::handle_action()
   case ACTION_MOVE_E:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(1, 0);
    else
     plmove(1, 0);
@@ -1545,7 +1561,7 @@ bool game::handle_action()
   case ACTION_MOVE_SE:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(1, 1);
    else
     plmove(1, 1);
@@ -1554,7 +1570,7 @@ bool game::handle_action()
   case ACTION_MOVE_S:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(0, 1);
    else
    plmove(0, 1);
@@ -1563,7 +1579,7 @@ bool game::handle_action()
   case ACTION_MOVE_SW:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(-1, 1);
    else
     plmove(-1, 1);
@@ -1572,7 +1588,7 @@ bool game::handle_action()
   case ACTION_MOVE_W:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(-1, 0);
    else
     plmove(-1, 0);
@@ -1581,7 +1597,7 @@ bool game::handle_action()
   case ACTION_MOVE_NW:
    moveCount++;
 
-   if (u.in_vehicle)
+   if (veh_ctrl)
     pldrive(-1, -1);
    else
     plmove(-1, -1);
@@ -1897,13 +1913,13 @@ bool game::handle_action()
   case ACTION_QUIT:
    if (query_yn("Commit suicide?")) {
     u.moves = 0;
-    std::vector<item> tmp = u.inv_dump();
+    std::vector<item *> tmp = u.inv_dump();
     item your_body;
     your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
     your_body.name = u.name;
     m.add_item(u.posx, u.posy, your_body);
     for (int i = 0; i < tmp.size(); i++)
-     m.add_item(u.posx, u.posy, tmp[i]);
+        m.add_item(u.posx, u.posy, *(tmp[i]));
     uquit = QUIT_SUICIDE;
    }
    break;
@@ -1982,8 +1998,6 @@ void game::update_scent()
  int scale[SEEX * MAPSIZE][SEEY * MAPSIZE];
  if (!u.has_active_bionic("bio_scent_mask"))
   grscent[u.posx][u.posy] = u.scent;
- else
-  grscent[u.posx][u.posy] = 0;
 
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
@@ -2064,13 +2078,13 @@ bool game::is_game_over()
   return true;
  for (int i = 0; i <= hp_torso; i++) {
   if (u.hp_cur[i] < 1) {
-   std::vector<item> tmp = u.inv_dump();
+   std::vector<item *> tmp = u.inv_dump();
    item your_body;
    your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
    your_body.name = u.name;
    m.add_item(u.posx, u.posy, your_body);
    for (int j = 0; j < tmp.size(); j++) {
-    m.add_item(u.posx, u.posy, tmp[j]);
+       m.add_item(u.posx, u.posy, *(tmp[j]));
    }
    std::stringstream playerfile;
    playerfile << "save/" << u.name << ".sav";
@@ -2675,7 +2689,8 @@ void game::debug()
                    "Check NPC",              // 13
                    "Spawn Artifact",         // 14
                    "Spawn Clarivoyance Artifact", //15
-                   "Cancel",                 // 16
+                   "Map editor", // 16
+                   "Cancel",                 // 17
                    NULL);
  int veh_num;
  std::vector<std::string> opts;
@@ -2791,6 +2806,7 @@ z.size(), active_npc.size(), events.size());
     veh_num = menu_vec (false, "Choose vehicle to spawn", opts) + 1;
     if (veh_num > 1 && veh_num < num_vehicles)
      m.add_vehicle (this, (vhtype_id)veh_num, u.posx, u.posy, -90, 100, 0);
+     m.board_vehicle (this, u.posx, u.posy, &u);
    }
    break;
 
@@ -2879,6 +2895,11 @@ z.size(), active_npc.size(), events.size());
 
       item artifact( art, 0);
       u.i_add(artifact);
+  }
+  break;
+
+  case 16: {
+      point coord = look_debug();
   }
   break;
  }
@@ -4275,6 +4296,8 @@ void game::sound(int x, int y, int vol, std::string description)
       u.activity.ignore_trivial = true;
     }
   }
+ } else {
+     u.volume += vol;
  }
  
 // We need to figure out where it was coming from, relative to the player
@@ -4910,6 +4933,7 @@ void game::open()
         case t_door_locked:
         case t_door_locked_interior:
         case t_door_locked_alarm:
+        case t_door_bar_locked:
             add_msg("The door is locked!");
             break;	// Trying to open a locked door uses the full turn's movement
         case t_door_o:
@@ -5051,12 +5075,12 @@ void game::smash()
         {
             add_msg(extra.c_str());
         }
-        sound(u.posx, u.posy, 18, bashsound);
+        sound(smashx, smashy, 18, bashsound);
         // TODO: Move this elsewhere, like maybe into the map on-break code
         if (m.has_flag(alarmed, smashx, smashy) &&
             !event_queued(EVENT_WANTED))
         {
-            sound(u.posx, u.posy, 30, "An alarm sounds!");
+            sound(smashx, smashy, 30, "An alarm sounds!");
             add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
         }
         u.moves -= move_cost;
@@ -5456,39 +5480,30 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
  }
 }
 
-void game::exit_vehicle()
+void game::moving_vehicle_dismount(int tox, int toy)
 {
-    if (!u.in_vehicle)
-        return;
     int vpart;
     vehicle *veh = m.veh_at(u.posx, u.posy, vpart);
     if (!veh) {
         debugmsg("Tried to exit non-existent vehicle.");
         return;
     }
-    // velocity is divided by 100 to get mph,
-    // so only try throwing the player if the mph is > 1
-    bool moving = veh->velocity >= 100 || veh->velocity <= -100; 
-    if (moving && !query_yn("Really exit moving vehicle?"))
+    if (u.posx == tox && u.posy == toy) {
+        debugmsg("Need somewhere to dismount towards.");
         return;
-    if (moving)
-        add_msg("You dive from the vehicle.");
-    else
-        add_msg("You disembark.");
+    }
+    int d = (45 * (direction_from(u.posx, u.posy, tox, toy)) - 90) % 360;
+    add_msg("You dive from the %s.", veh->name.c_str());
     m.unboard_vehicle(this, u.posx, u.posy);
     u.moves -= 200;
-    if (moving) {
-        // If on the left, dive left. If on the right, dive right.
-        int dsgn = veh->parts[vpart].mount_dy > 0 ? 1 : -1;
-        // Dive sideways three tiles
-        fling_player_or_monster(&u, 0, veh->face.dir() + 90 * dsgn, 30, true);
-        // Hit the ground according to vehicle speed
-        if (!m.has_flag(swimmable, u.posx, u.posy)) {
-            if (veh->velocity > 0)
-                fling_player_or_monster(&u, 0, veh->face.dir(), veh->velocity / (float)100);
-            else
-                fling_player_or_monster(&u, 0, veh->face.dir() + 180, -(veh->velocity) / (float)100);
-        }
+    // Dive three tiles in the direction of tox and toy
+    fling_player_or_monster(&u, 0, d, 30, true);
+    // Hit the ground according to vehicle speed
+    if (!m.has_flag(swimmable, u.posx, u.posy)) {
+        if (veh->velocity > 0)
+            fling_player_or_monster(&u, 0, veh->face.dir(), veh->velocity / (float)100);
+        else
+            fling_player_or_monster(&u, 0, veh->face.dir() + 180, -(veh->velocity) / (float)100);
     }
     return;
 }
@@ -5497,21 +5512,14 @@ void game::control_vehicle()
 {
     int veh_part;
     vehicle *veh = m.veh_at(u.posx, u.posy, veh_part);
-    int seat = -1;
-    if (veh)
-        seat = veh->part_with_feature(veh_part, vpf_seat);
 
     if (veh && veh->player_in_control(&u)) {
         std::string message = veh->use_controls();
         if (!message.empty())
             add_msg(message.c_str());
-    } else if (u.in_vehicle) {
-        exit_vehicle();
-    } else if (veh && seat >= 0 &&
-               !veh->parts[seat].has_flag(vehicle_part::passenger_flag)) {
-        m.board_vehicle(this, u.posx, u.posy, &u);
-        u.moves -= 100;
-        add_msg("You sit down.");
+    } else if (veh && veh->part_with_feature(veh_part, vpf_controls) >= 0) {
+        u.controlling_vehicle = true;
+        add_msg("You take control of the %s.", veh->name.c_str());
     } else {
         int examx, examy;
         if (!choose_adjacent("Control vehicle", examx, examy))
@@ -5606,6 +5614,7 @@ struct advanced_inv_listitem {
     int stacks;
     int volume;
     int weight;
+    int cat;
 };
 
 // left/right listwindows
@@ -5619,8 +5628,8 @@ struct advanced_inv_pane {
     vehicle *veh;
     WINDOW *window;
     std::vector<advanced_inv_listitem> items;
+    int numcats;
 };
-
 
 int getsquare(int c , int &off_x, int &off_y, std::string &areastring, advanced_inv_area *squares) {
     int ret=-1;
@@ -5700,14 +5709,18 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
     int amount_column = columns - 15;
     nc_color norm = active ? c_white : c_dkgray;
     std::string spaces(getmaxx(window)-4, ' ');
+    bool compact=(TERMX<=100);
     if(isinventory) {
         mvwprintz( window, 4, rightcol, c_ltgreen, "%3d %3d", g->u.weight_carried(), g->u.volume_carried() );
     }
     
-    mvwprintz( window, 5, 4, c_ltgray, "Name (charges)" );
+    mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, "Name (charges)" );
     mvwprintz( window, 5, rightcol - 7, c_ltgray, "%s weight vol", ( isinventory ? "amt" : ( isall ? "src" : "   " ) ) );
 
     for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
+      if ( items[i].volume == -8 ) {
+        mvwprintz(window,6+x,( columns - items[i].name.size()-6 )/2,c_cyan, "[%s]", items[i].name.c_str() );
+      } else {
         nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
         nc_color thiscolordark = c_dkgray;
         
@@ -5715,10 +5728,14 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
         {
             thiscolor = hilite(thiscolor);
             thiscolordark = hilite(thiscolordark);
-            mvwprintz(window,6+x,1,thiscolor, ">>%s", spaces.c_str());
+            if ( compact ) {
+                mvwprintz(window,6+x,1,thiscolor, "  %s", spaces.c_str());
+            } else {
+                mvwprintz(window,6+x,1,thiscolor, ">>%s", spaces.c_str());
+            }
         }
 
-        mvwprintz(window, 6 + x, 4, thiscolor, "%s", items[i].it->tname(g).c_str() );
+        mvwprintz(window, 6 + x, ( compact ? 1 : 4 ), thiscolor, "%s", items[i].it->tname(g).c_str() );
 
         if(items[i].it->charges > 0) {
             wprintz(window, thiscolor, " (%d)",items[i].it->charges);
@@ -5736,14 +5753,14 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
             "%3d", items[i].weight );
 
         wprintz(window, (items[i].volume > 0 ? thiscolor : thiscolordark), " %3d", items[i].volume );
-
+      }
     }
 }
 
 // should probably move to an adv_inv_pane class
 
 enum advanced_inv_sortby {
-    SORTBY_NONE = 1 , SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES
+    SORTBY_NONE = 1 , SORTBY_NAME, SORTBY_WEIGHT, SORTBY_VOLUME, SORTBY_CHARGES, SORTBY_CATEGORY, NUM_SORTBY
 };
 
 struct advanced_inv_sort_case_insensitive_less : public std::binary_function< char,char,bool > {
@@ -5768,6 +5785,16 @@ struct advanced_inv_sorter {
                 }
                 case SORTBY_CHARGES: {
                     if ( d1.it->charges != d2.it->charges ) return d1.it->charges > d2.it->charges;
+                    break;
+                }
+                case SORTBY_CATEGORY: {
+                    if ( d1.cat != d2.cat ) {
+                      return d1.cat < d2.cat;
+                    } else if ( d1.volume == -8 ) {
+                      return true;
+                    } else if ( d2.volume == -8 ) {
+                      return false;
+                    }
                     break;
                 }
                 default: return d1.idx > d2.idx; break;
@@ -5848,7 +5875,23 @@ void advanced_inv_update_area( advanced_inv_area &area, game *g ) {
         area.desc = "All 9 squares";
         area.canputitems=true;
     }
-} 
+}
+
+int advanced_inv_getinvcat(item *it) {
+    if ( it->is_gun() ) return 0;
+    if ( it->is_ammo() ) return 1;
+    if ( it->is_weap() ) return 2;
+    if ( it->is_tool() ) return 3;
+    if ( it->is_armor() ) return 4;
+    if ( it->is_food_container() ) return 5;
+    if ( it->is_food() ) {
+        it_comest* comest = dynamic_cast<it_comest*>(it->type);
+        return ( comest->comesttype != "MED" ? 5 : 6 );
+    }
+    if ( it->is_book() ) return 7;
+    if (it->is_gunmod() || it->is_bionic()) return 8;
+    return 9;
+}
 
 void game::advanced_inv()
 {
@@ -5861,8 +5904,8 @@ void game::advanced_inv()
     const int right = 1;
     const int isinventory = 0;
     const int isall = 10;
-    std::string sortnames[6] = { "-none-", "none", "name", "weight", "volume", "charges" };
-
+    std::string sortnames[8] = { "-none-", "none", "name", "weight", "volume", "charges", "category", "-" };
+    std::string invcats[10] = { "guns", "ammo", "weapons", "tools", "clothing", "food", "drugs", "books", "mods", "other" };
     bool checkshowmsg=false;
     bool showmsg=false;
 
@@ -5909,8 +5952,8 @@ void game::advanced_inv()
 
     std::vector<advanced_inv_listitem> listitem_stub;
     advanced_inv_pane panes[2] = {
-        {0,  5, 0, 0, 0, -1,  0, 0, 0, 0,  "Initializing...", 1, 0, NULL, NULL, listitem_stub},
-        {1,  isinventory, 0, 0, 0, -1,  0, 0, 0, 0,  "Initializing...", 1, 0, NULL, NULL, listitem_stub},
+        {0,  5, 0, 0, 0, -1,  0, 0, 0, 0,  "Initializing...", 1, 0, NULL, NULL, listitem_stub, 0},
+        {1,  isinventory, 0, 0, 0, -1,  0, 0, 0, 0,  "Initializing...", 1, 0, NULL, NULL, listitem_stub, 0},
     };
 
     panes[left].sortby = uistate.adv_inv_leftsort;
@@ -5950,6 +5993,8 @@ void game::advanced_inv()
                 if(recalc) { 
 
                     panes[i].items.clear();
+                    bool hascat[10]={false,false,false,false,false,false,false,false,false,false};
+                    panes[i].numcats=0;
                     if(panes[i].area == isinventory) {
 
                         invslice stacks = u.inv.slice(0, u.inv.size());
@@ -5964,8 +6009,20 @@ void game::advanced_inv()
                             it.stacks=size;
                             it.weight=item.weight() * size;
                             it.volume=item.volume() * size;
+                            it.cat=advanced_inv_getinvcat(&item);
                             it.it=&item;
                             it.area=panes[i].area;
+                            if( !hascat[it.cat] ) {
+                                hascat[it.cat]=true;
+                                panes[i].numcats++;
+                                if(panes[i].sortby == SORTBY_CATEGORY) {
+                                    advanced_inv_listitem itc;
+                                    itc.idx=-8; itc.stacks=-8; itc.weight=-8; itc.volume=-8;
+                                    itc.cat=it.cat; itc.name=invcats[it.cat];
+                                    itc.area=panes[i].area;
+                                    panes[i].items.push_back(itc);
+                                }
+                            }
                             panes[i].items.push_back(it);
                         }
                     } else {
@@ -5990,10 +6047,21 @@ void game::advanced_inv()
                                     it.stacks=1;
                                     it.weight=items[x].weight();
                                     it.volume=items[x].volume();
+                                    it.cat=advanced_inv_getinvcat(&items[x]);
                                     it.it=&items[x];
                                     it.area=s;
-
+                                    if( ! hascat[it.cat] ) {
+                                        hascat[it.cat]=true;
+                                        panes[i].numcats++;
+                                        if(panes[i].sortby == SORTBY_CATEGORY) {
+                                            advanced_inv_listitem itc;
+                                            itc.idx=-8; itc.stacks=-8; itc.weight=-8; itc.volume=-8;
+                                            itc.cat=it.cat; itc.name=invcats[it.cat]; itc.area=s;
+                                            panes[i].items.push_back(itc);
+                                        }
+                                    }
                                     panes[i].items.push_back(it);
+
                                 }
 
                             }
@@ -6024,7 +6092,17 @@ void game::advanced_inv()
                 panes[i].max_index = panes[i].page == (-1 + panes[i].max_page) ? ((panes[i].size % itemsPerPage)==0?itemsPerPage:panes[i].size % itemsPerPage) : itemsPerPage;
                 // check if things are out of bound
                 panes[i].index = (panes[i].index >= panes[i].max_index) ? panes[i].max_index - 1 : panes[i].index;
+
+
                 panes[i].page = panes[i].max_page == 0 ? 0 : ( panes[i].page >= panes[i].max_page ? panes[i].max_page - 1 : panes[i].page);
+
+                if( panes[i].sortby == SORTBY_CATEGORY && panes[i].items.size() > 0 ) {
+                  int lpos = panes[i].index + (panes[i].page * itemsPerPage);
+                  if ( lpos < panes[i].items.size() && panes[i].items[lpos].volume == -8 ) {
+                     panes[i].index += ( panes[i].index+1 >= itemsPerPage ? -1 : 1 );
+                  }
+                }
+
                 // draw the stuff
                 werase(panes[i].window);
 
@@ -6144,15 +6222,17 @@ void game::advanced_inv()
             }
             recalc = true;
         }
-        else if('m' == c)
+        else if('m' == c || 'M' == c)
         {
             // If the active screen has no item.
             if( panes[src].size == 0 )
             {
                 continue;
+            } else if ( item_pos == -8 ) {
+                continue; // category header
             }
             int destarea = panes[dest].area;
-            if ( panes[dest].area == isall ) {
+            if ( panes[dest].area == isall || 'M' == c ) {
                 // popup("Choose a specific square in the destination window.");  continue;
                 bool valid=false;
                 uimenu m; /* using new uimenu class */
@@ -6217,7 +6297,7 @@ void game::advanced_inv()
                             bool still_move = true;
                             if(amount > max)
                             {
-                                still_move = query_yn("Not enough space in destination. Move as many as possible ? ");
+                                still_move = query_yn("Not enough space in destination. %d available, need %d Move as many as possible?", max, amount);
                             }
                             if(still_move)
                             {
@@ -6370,11 +6450,13 @@ void game::advanced_inv()
             sm.entries.push_back(uimenu_entry(SORTBY_NAME, true, 'n', sortnames[SORTBY_NAME]));
             sm.entries.push_back(uimenu_entry(SORTBY_WEIGHT, true, 'w', sortnames[SORTBY_WEIGHT]));
             sm.entries.push_back(uimenu_entry(SORTBY_VOLUME, true, 'v', sortnames[SORTBY_VOLUME]));
-            sm.entries.push_back(uimenu_entry(SORTBY_CHARGES, true, 'c', sortnames[SORTBY_CHARGES]));
+            sm.entries.push_back(uimenu_entry(SORTBY_CHARGES, true, 'x', sortnames[SORTBY_CHARGES]));
+            sm.entries.push_back(uimenu_entry(SORTBY_CATEGORY, true, 'c', sortnames[SORTBY_CATEGORY]));
             sm.selected=panes[src].sortby-1; /* pre-select current sort. uimenu.selected is entries[index] (starting at 0), not return value */
             sm.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
             if(sm.ret < 1) continue; /* didn't get a valid answer =[ */
             panes[src].sortby = sm.ret;
+
             if ( src == left ) { 
                 uistate.adv_inv_leftsort=sm.ret;
             } else {
@@ -6384,8 +6466,11 @@ void game::advanced_inv()
         }   
         else if('e' == c)
         {
-            if(panes[src].size == 0)
+            if(panes[src].size == 0) {
                 continue;
+            } else if ( item_pos == -8 ) {
+                continue; // category header
+            }
             item *it = panes[src].items[list_pos].it;
             int ret=0;
             if(panes[src].area == isinventory ) {
@@ -6460,15 +6545,26 @@ void game::advanced_inv()
         if(!donothing)
         {
           if ( changey != 0 ) {
-            panes[src].index += changey;
-            if ( panes[src].index < 0 ) {
-                panes[src].page--;
-                if( panes[src].page < 0 ) panes[src].page = panes[src].max_page-1;
-                panes[src].index = itemsPerPage; // corrected at the start of next iteration
-            } else if ( panes[src].index >= panes[src].max_index ) {
-                panes[src].page++;
-                if( panes[src].page >= panes[src].max_page ) panes[src].page = 0;
-                panes[src].index = 0;
+            for ( int l=2; l > 0; l-- ) {
+              panes[src].index += changey;
+              if ( panes[src].index < 0 ) {
+                  panes[src].page--;
+                  if( panes[src].page < 0 ) {
+                    panes[src].page = panes[src].max_page-1;
+                    panes[src].index = panes[src].items.size() - 1 - ( panes[src].page * itemsPerPage );
+                  } else {
+                    panes[src].index = itemsPerPage; // corrected at the start of next iteration
+                  }
+              } else if ( panes[src].index >= panes[src].max_index ) {
+                  panes[src].page++;
+                  if( panes[src].page >= panes[src].max_page ) panes[src].page = 0;
+                  panes[src].index = 0;
+              }
+              int lpos=panes[src].index + (panes[src].page * itemsPerPage);
+              if ( lpos < panes[src].items.size() && panes[src].items[lpos].volume != -8 ) {
+                  l=0;
+              }
+
             }
             redraw = true;
           }
@@ -6518,14 +6614,394 @@ void game::peek()
     u.posx = prevx;
     u.posy = prevy;
 }
+////////////////////////////////////////////////////////////////////////////////////////////
+point game::look_debug(point coords) {
+  draw_ter();
+  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
 
+  int mx, my;
+  int ch;
+  int nextch=0;
+  InputEvent input;
+
+  std::string padding=std::string(46,' ');
+
+  const int lookHeight=TERMY-12+VIEW_OFFSET_Y;
+  WINDOW* w_look = newwin(lookHeight+1, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
+  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+  mvwprintz(w_look, 1, 1, c_white, "Looking Around");
+  wrefresh(w_look);
+  bool skip=false;
+
+  int pter=-1;
+
+  int fsel=-1;
+  int fset=-1;
+
+  int trsel=-1;
+  int trset=-1;
+  do {
+    if (nextch!=0) {
+      ch=nextch;
+      nextch=0;skip=false;
+      if(ch) input = get_input(ch);
+    } else if ( skip ) {
+      skip = false;
+      input=Nothing;
+      ch=0;
+    } else {
+      ch=(int)getch();
+      if(ch) input = get_input(ch);
+    }
+    get_direction(mx, my, input);
+    if (mx != -2 && my != -2) {	// Directional key pressed
+      lx += mx;
+      ly += my;
+    }
+
+    werase(w_terrain);
+    draw_ter(lx, ly);
+    mvwprintz(w_look, 0, 2 ,c_ltgray, "< %d,%d >",lx,ly);
+    for (int i = 1; i < lookHeight; i++) {
+      mvwprintz(w_look, i, 1, c_white, padding.c_str());
+    }
+
+    // Debug helper 2, child of debug helper
+    int veh_part = 0;
+    vehicle *veh = m.veh_at(lx, ly, veh_part);
+    int veh_in=-1;
+    if(veh) veh_in=veh->is_inside(veh_part);
+
+    int off=1;
+    int boff=lookHeight-1;
+
+    int tter=m.ter(lx, ly);
+    ter_t terrain_type = terlist[m.ter(lx, ly)];
+
+
+    mvwputch(w_look, off, 2, terrain_type.color, terrain_type.sym);
+    mvwprintw(w_look, off, 4, "%d: %s; movecost %d movestr %d", m.ter(lx, ly),
+         m.tername(lx, ly).c_str(),
+         m.move_cost(lx, ly), 
+         terrain_type.move_str_req
+    );
+    off++; // 2
+
+    mvwprintw(w_look, off, 2, "dist: %d u_see: %d light: %d v_in: %d", rl_dist(u.posx, u.posy, lx, ly), u_see(lx, ly), m.light_at(lx,ly), veh_in );
+    off++; // 3
+
+    std::string extras="";
+    if(veh_in >= 0) extras+=" [vehicle]";
+    if(m.has_flag(indoors, lx, ly)) extras+=" [indoors]";
+    if(m.has_flag(supports_roof, lx, ly)) extras+=" [roof]";
+
+    mvwprintw(w_look, off, 1, "%s %s", m.features(lx, ly).c_str(),extras.c_str());
+    off++;
+    
+    field curfield = m.field_at(lx, ly);
+    if (curfield.type != fd_null) {
+       mvwprintz(w_look, off, 1, fieldlist[curfield.type].color[curfield.density-1], "field: %s (%d) density %d", 
+           fieldlist[curfield.type].name[curfield.density-1].c_str(), curfield.type, curfield.density
+       );
+       off++; // 4
+    }
+
+    trap_id curtrap=m.tr_at(lx, ly);
+    if (curtrap != tr_null) { 
+       mvwprintz(w_look, off, 1, traps[curtrap]->color, "trap: %s (%d)", 
+           traps[curtrap]->name.c_str(), curtrap
+       );
+       off++; // 5
+    }
+
+    int dex = mon_at(lx, ly);
+    if (dex != -1) {
+        z[mon_at(lx, ly)].draw(w_terrain, lx, ly, true);
+        z[mon_at(lx, ly)].print_info(this, w_look);
+        off+=6;
+    } else if (npc_at(lx, ly) != -1) {
+        active_npc[npc_at(lx, ly)]->draw(w_terrain, lx, ly, true);
+        active_npc[npc_at(lx, ly)]->print_info(w_look);
+        off+=6;
+    } else if (veh) {
+        mvwprintw(w_look, off, 1, "There is a %s there. Parts:", veh->name.c_str());
+        off++;
+        veh->print_part_desc(w_look, off, 48, veh_part);
+        off+=6;
+        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+    } else {
+        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+    }
+
+    if (!m.has_flag(container, lx, ly) && m.i_at(lx, ly).size() > 0)
+    {
+        mvwprintw(w_look, off, 1, "There is a %s there.",
+                  m.i_at(lx, ly)[0].tname(this).c_str()); off++;
+        if (m.i_at(lx, ly).size() > 1) {
+            mvwprintw(w_look, off, 1, "There are %d other items there as well.",m.i_at(lx, ly).size()-1); off++;
+        }
+    }
+
+
+    if (m.graffiti_at(lx, ly).contents)
+      mvwprintw(w_look, off, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str()); off++;
+
+    mvwprintw(w_look, boff, 1, "[t] add trap, [f] add field effect"); boff--;
+    mvwprintw(w_look, boff, 1, "[g] edit m_ter"); boff--;
+
+    wrefresh(w_look);
+    wrefresh(w_terrain);
+    
+    if(ch == 'g') {
+      ///////////////////////////////////////////
+      ///// tile edit
+      int pwh=TERMY;
+      int pww=48;
+      int pwy=0;
+      int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
+
+      WINDOW* w_pickter = newwin(pwh, pww, pwy, pwx);
+      wborder(w_pickter, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      wrefresh(w_pickter);
+
+      int pickh=pwh-2;
+      int pickw=pww-2;
+      int cur_t=0;
+
+      if( pter < 0 ) pter=tter;
+      int lastpter=pter;
+      int xmax=pickw; //int(pickw/2);
+      int ymax=int(num_terrain_types/xmax);
+      int subch=0;
+      point pterp=point(-1,-1);
+      point lastpterp=point(-1,-1);
+      point tterp=point(-1,-1);
+      
+      do {
+            cur_t=0;
+            for (int y=2; y < pickh && cur_t < num_terrain_types; y+=2) {
+              for (int x=2; x < pickw && cur_t < num_terrain_types; x++,cur_t++) {
+
+                 ter_t ttype = terlist[cur_t];
+                 mvwputch(w_pickter, y, x, ttype.color, ttype.sym);
+
+                 if(cur_t == pter) {
+                    pterp=point(x,y);
+                 } else if(cur_t == lastpter) {
+                    lastpterp=point(x,y);
+                 } else if (cur_t == tter) {
+                    tterp=point(x,y);
+                 }
+              }
+            }
+
+            mvwputch(w_pickter, lastpterp.y+1, lastpterp.x-1, c_ltgreen, ' ');
+            mvwputch(w_pickter, lastpterp.y-1, lastpterp.x+1, c_ltgreen, ' ');
+            mvwputch(w_pickter, lastpterp.y+1, lastpterp.x+1, c_ltgreen, ' ');
+            mvwputch(w_pickter, lastpterp.y-1, lastpterp.x-1, c_ltgreen, ' ');
+
+            mvwputch(w_pickter, tterp.y+1, tterp.x, c_ltgray, '^');
+            mvwputch(w_pickter, tterp.y-1, tterp.x, c_ltgray, 'v');
+
+            mvwputch(w_pickter, pterp.y+1, pterp.x-1, c_ltgreen, LINE_XXOO);
+            mvwputch(w_pickter, pterp.y-1, pterp.x+1, c_ltgreen, LINE_OOXX);
+            mvwputch(w_pickter, pterp.y+1, pterp.x+1, c_ltgreen, LINE_XOOX);
+            mvwputch(w_pickter, pterp.y-1, pterp.x-1, c_ltgreen, LINE_OXXO);
+            
+            wborder(w_pickter, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+            ter_t pttype = terlist[pter];
+
+            mvwprintz(w_pickter, 0, 2, c_white, "< %d: %s >-----------",pter,pttype.name.c_str());
+            int off=ymax*3; 
+            for (int i=off;i < 3; i++) {
+              mvwprintw(w_pickter, i, 1, "%s",padding.c_str());
+            }
+              mvwprintz(w_pickter, off, 2, c_white, "movecost %d, move str %d",pttype.movecost,pttype.move_str_req);
+              //mvwprintw(w_pickter, off+1, 2, "%s", m.features(lx, ly).c_str());
+              std::string extras="";
+              if(pttype.flags & mfb(indoors)) extras+="[indoors] ";
+              if(pttype.flags & mfb(supports_roof)) extras+="[roof] ";
+              mvwprintw(w_pickter, off+2, 2, "%s", extras.c_str());
+            
+            wrefresh(w_pickter);
+            ///////////////////////
+            /// 0: 0 1 2 3 
+            /// 1: 4 5 6 7
+            /// 3: 8 9
+            subch=(int)getch();
+            lastpter=pter;
+            if( subch == KEY_LEFT ) {
+                pter=(pter-1 >= 0 ? pter-1 : num_terrain_types - 1);
+            } else if( subch == KEY_RIGHT ) {
+                pter=(pter+1 < num_terrain_types ? pter+1 : 0 );
+            } else if( subch == KEY_UP ) {
+                pter=( pter-xmax+2 > 0 ? pter-xmax+2 : 0 );
+            } else if( subch == KEY_DOWN ) {
+                pter=( pter + xmax-2 < num_terrain_types ? pter+xmax-2 : num_terrain_types - 1);
+            } else if( subch == 't' ) {
+                nextch=subch;
+            }
+      } while (subch == KEY_UP || subch == KEY_DOWN || subch == KEY_LEFT || subch == KEY_RIGHT );
+
+      werase(w_pickter);
+      delwin(w_pickter);
+      refresh_all();
+      if( ( subch == KEY_ENTER || subch == '\n' || subch == 'g' ) && pter != tter) {
+          ter_t tset = terlist[pter];
+          m.ter_set(lx, ly, (ter_id)pter);
+      }
+      skip = true;
+
+
+    } else if ( ch == 'f' ) {
+      ///////////////////////////////////////////
+      ///// field edit
+      int pwh=lookHeight-1;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
+      WINDOW* w_pickfield = newwin(pwh, pww, pwy, pwx);
+      wborder(w_pickfield, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      int fmax=pwh-4;
+      int fshift=0;
+      int subch=0;
+      if ( fsel == -1 ) fsel=curfield.type;
+      std::string fids[num_fields];
+      fids[0]="-clear-";
+      fids[fd_fire_vent]="fire_vent";
+      fids[fd_push_items]="push_items";
+      fids[fd_shock_vent]="shock_vent";
+      fids[fd_acid_vent]="acid_vent";
+      do {
+        if( fsel < fshift ) {
+            fshift=fsel;
+        } else if ( fsel > fshift+fmax ) {
+            fshift=fsel-fmax;
+        }
+            field_t ftype;
+            std::string fnam;
+            for ( int f=fshift; f<=fshift+fmax; f++ ) {
+                  mvwprintz(w_pickfield, f+1-fshift, 1, c_white, "%s", padding.c_str());
+                  if ( f < num_fields ) {
+                      ftype = fieldlist[f];
+                      fnam = ( ftype.name[0].size() == 0 ? fids[f] : ftype.name[0] );
+                      mvwprintz(w_pickfield, f+1-fshift, 2, (fsel==f ? h_white : ( curfield.type == f ? c_green : c_ltgray ) ), "%d %s",f,fnam.c_str());
+                  }
+            }
+            wrefresh(w_pickfield);
+
+            subch=(int)getch();
+            if(subch==KEY_UP) {
+                fsel--;
+            } else if (subch==KEY_DOWN) {
+                fsel++;
+            }
+            if( fsel < 0 ) {
+                fsel = num_fields-1;
+            } else if ( fsel >= num_fields ) {
+                fsel = 0;
+            }
+
+      } while (subch == KEY_UP || subch == KEY_DOWN || subch == KEY_LEFT || subch == KEY_RIGHT );
+      if( ( subch == KEY_ENTER || subch == '\n' || subch == 'f' ) && curfield.type != fsel ) {
+            if ( fsel == 0 ) {
+                  fset=fsel;
+                  m.remove_field(lx, ly);
+            } else if ( fset < num_fields-1 ) {
+                  int num=uimenu(false,"density?","1","2","3","-cancel-",NULL);
+                  if(num<1 || num>3) {
+                      nextch='t';
+                  } else if ( curfield.type != fsel && num != curfield.density ) {
+                      fset=fsel;
+                      m.remove_field(lx, ly);
+                      m.add_field(this, lx, ly, field_id(fset), num);
+                  }
+            }
+      }
+      werase(w_pickfield);
+      wrefresh(w_pickfield);
+      delwin(w_pickfield);
+      wrefresh(w_look);
+      skip = true;
+
+    } else if ( ch == 't' ) {
+      ///////////////////////////////////////////
+      ///// trap edit
+      int pwh=lookHeight-1;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
+
+      WINDOW* w_picktrap = newwin(pwh, pww, pwy, pwx);
+      wborder(w_picktrap, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+      //
+      int tmax=pwh-4;
+      int tshift=0;
+      int subch=0;
+      if ( trsel == -1 ) trsel=curtrap;
+      std::string trids[num_trap_types];
+      trids[0]="-clear-";
+      do {
+        if( trsel < tshift ) {
+            tshift=trsel;
+        } else if ( trsel > tshift+tmax ) {
+            tshift=trsel-tmax;
+        }
+            std::string tnam;
+            for ( int t=tshift; t<=tshift+tmax; t++ ) {
+                  mvwprintz(w_picktrap, t+1-tshift, 1, c_white, "%s", padding.c_str());
+                  if ( t < num_trap_types ) {
+                      tnam = ( traps[t]->name.size() == 0 ? trids[t] : traps[t]->name );
+                      mvwputch(w_picktrap, t+1-tshift, 2, traps[t]->color, traps[t]->sym);
+                      mvwprintz(w_picktrap, t+1-tshift, 4, (trsel==t ? h_white : ( curtrap == t ? c_green : c_ltgray ) ), "%d %s", t, tnam.c_str() );
+                  }
+            }
+            wrefresh(w_picktrap);
+
+            subch=(int)getch();
+            if(subch==KEY_UP) {
+                trsel--;
+            } else if (subch==KEY_DOWN) {
+                trsel++;
+            }
+            if( trsel < 0 ) {
+                trsel = num_trap_types-1;
+            } else if ( trsel >= num_trap_types ) {
+                trsel = 0;
+            }
+
+      } while (subch == KEY_UP || subch == KEY_DOWN || subch == KEY_LEFT || subch == KEY_RIGHT );
+      if( ( subch == KEY_ENTER || subch == '\n' || subch == 't' ) && curtrap != trsel ) {
+          if ( trsel == 0 ) {
+              trset=trsel;
+              m.add_trap(lx, ly, trap_id(trset));
+          } else if ( trsel < num_trap_types-1 ) {
+              trset=trsel;
+              m.add_trap(lx, ly, trap_id(trset));
+          }
+      }
+      werase(w_picktrap);
+      wrefresh(w_picktrap);
+
+      delwin(w_picktrap);
+      wrefresh(w_look);
+      skip = true;
+      //
+    }
+  } while (input != Close && input != Cancel && input != Confirm);
+  if (input == Confirm) return point(lx, ly);
+  return point(-1, -1);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
 point game::look_around()
 {
  draw_ter();
  int lx = u.posx + u.view_offset_x, ly = u.posy + u.view_offset_y;
  int mx, my;
  InputEvent input;
- WINDOW* w_look = newwin(13, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
+ const int lookHeight=TERMY-12+VIEW_OFFSET_Y;
+ WINDOW* w_look = newwin(lookHeight+1, 48, 12+VIEW_OFFSET_Y, VIEWX * 2 + 8+VIEW_OFFSET_X);
  wborder(w_look, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  mvwprintz(w_look, 1, 1, c_white, "Looking Around");
@@ -8876,27 +9352,34 @@ void game::plmove(int x, int y)
   }
  }
 
- int vpart = -1, dpart = -1;
- vehicle *veh = m.veh_at(x, y, vpart);
+ int vpart0 = -1, vpart1 = -1, dpart = -1;
+ vehicle *veh0 = m.veh_at(u.posx, u.posy, vpart0);
+ vehicle *veh1 = m.veh_at(x, y, vpart1);
  bool veh_closed_door = false;
- if (veh) {
-  dpart = veh->part_with_feature (vpart, vpf_openable);
-  veh_closed_door = dpart >= 0 && !veh->parts[dpart].open;
+ if (veh1) {
+  dpart = veh1->part_with_feature (vpart1, vpf_openable);
+  veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
  }
+
+ if (veh0 && abs(veh0->velocity) > 100) {
+  if (!veh1) {
+   if (query_yn("Dive from moving vehicle?")) {
+    moving_vehicle_dismount(x, y);
+   }
+   return;
+  } else if (veh1 != veh0) {
+   add_msg("There is another vehicle in the way.");
+   return;
+  } else if (veh1->part_with_feature(vpart1, vpf_boardable) < 0) {
+   add_msg("That part of the vehicle is currently unsafe.");
+   return;
+  }
+ }
+
 
  if (m.move_cost(x, y) > 0) { // move_cost() of 0 = impassible (e.g. a wall)
   if (u.underwater)
    u.underwater = false;
-  dpart = veh ? veh->part_with_feature (vpart, vpf_seat) : -1;
-  bool can_board = dpart >= 0 && veh->parts[dpart].items.size() == 0 &&
-      !veh->parts[dpart].has_flag(vehicle_part::passenger_flag);
-/*  if (veh.type != veh_null)
-      add_msg ("vp=%d dp=%d can=%c", vpart, dpart, can_board? 'y' : 'n',);*/
-  if (can_board && query_yn("Board vehicle?")) { // empty vehicle's seat ahead
-   m.board_vehicle (this, x, y, &u);
-   u.moves -= 200;
-   return;
-  }
 
   if (m.field_at(x, y).is_dangerous() &&
       !query_yn("Really step into that %s?", m.field_at(x, y).name().c_str()))
@@ -8933,8 +9416,8 @@ void game::plmove(int x, int y)
   if ((!u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 2) ||
       ( u.has_trait(PF_PARKOUR) && m.move_cost(x, y) > 4    ))
   {
-   if (veh && m.move_cost(x,y) != 2)
-    add_msg("Moving past this %s is slow!", veh->part_info(vpart).name);
+   if (veh1 && m.move_cost(x,y) != 2)
+    add_msg("Moving past this %s is slow!", veh1->part_info(vpart1).name);
    else
     add_msg("Moving past this %s is slow!", m.tername(x, y).c_str());
   }
@@ -8991,8 +9474,19 @@ void game::plmove(int x, int y)
   if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
       x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)))
    update_map(x, y);
+
+// If the player is in a vehicle, unboard them from the current part
+  if (u.in_vehicle)
+   m.unboard_vehicle(this, u.posx, u.posy);
+
+// Move the player
   u.posx = x;
   u.posy = y;
+
+// If the new tile is a boardable part, board it
+  if (veh1 && veh1->part_with_feature(vpart1, vpf_boardable) >= 0)
+   m.board_vehicle(this, u.posx, u.posy, &u);
+
   if (m.tr_at(x, y) != tr_null) { // We stepped on a trap!
    trap* tr = traps[m.tr_at(x, y)];
    if (!u.avoid_trap(tr)) {
@@ -9046,13 +9540,15 @@ void game::plmove(int x, int y)
    add_msg(buff.c_str());
   } else if (m.i_at(x, y).size() != 0)
    add_msg("There are many items here.");
+  if (veh1 && veh1->part_with_feature(vpart1, vpf_controls) >= 0)
+   add_msg("There are vehicle controls here.");
 
  } else if (veh_closed_door) { // move_cost <= 0
-  veh->parts[dpart].open = 1;
-  veh->insides_dirty = true;
+  veh1->parts[dpart].open = 1;
+  veh1->insides_dirty = true;
   u.moves -= 100;
-  add_msg ("You open the %s's %s.", veh->name.c_str(),
-                                    veh->part_info(dpart).name);
+  add_msg ("You open the %s's %s.", veh1->name.c_str(),
+                                    veh1->part_info(dpart).name);
 
  } else if (m.has_flag(swimmable, x, y)) { // Dive into water!
 // Requires confirmation if we were on dry land previously
@@ -9073,6 +9569,10 @@ void game::plmove(int x, int y)
   else if (m.ter(x, y) == t_door_locked || m.ter(x, y) == t_door_locked_alarm || m.ter(x, y) == t_door_locked_interior) {
    u.moves -= 100;
    add_msg("That door is locked!");
+  }
+  else if (m.ter(x, y) == t_door_bar_locked) {
+   u.moves -= 80;
+   add_msg("You rattle the bars but the door is locked!");
   }
  }
 }
@@ -9536,7 +10036,6 @@ void game::update_overmap_seen()
  cur_om->seen(omx, omy, levz) = true; // We can always see where we're standing
  if (dist == 0)
   return; // No need to run the rest!
- bool altered_om_vert = false, altered_om_diag = false, altered_om_hori = false;
  for (int x = omx - dist; x <= omx + dist; x++) {
   for (int y = omy - dist; y <= omy + dist; y++) {
    std::vector<point> line = line_to(omx, omy, x, y, 0);
@@ -9573,27 +10072,18 @@ void game::update_overmap_seen()
      if (tmpy < 0) tmpy += OMAPY;
      else          tmpy -= OMAPY;
      om_diag->seen(tmpx, tmpy, levz) = true;
-     altered_om_diag = true;
     } else if (tmpx < 0 || tmpx >= OMAPX) {
      if (tmpx < 0) tmpx += OMAPX;
      else          tmpx -= OMAPX;
      om_hori->seen(tmpx, tmpy, levz) = true;
-     altered_om_hori = true;
     } else if (tmpy < 0 || tmpy >= OMAPY) {
      if (tmpy < 0) tmpy += OMAPY;
      else          tmpy -= OMAPY;
      om_vert->seen(tmpx, tmpy, levz) = true;
-     altered_om_vert = true;
     }
    }
   }
  }
- if (altered_om_vert)
-  om_vert->save();
- if (altered_om_hori)
-  om_hori->save();
- if (altered_om_diag)
-  om_diag->save();
 }
 
 point game::om_location()
@@ -9866,12 +10356,7 @@ void game::gameover()
  inv();
 }
 
-bool game::game_quit()
-{
- if (uquit == QUIT_MENU)
-  return true;
- return false;
-}
+bool game::game_quit() { return (uquit == QUIT_MENU); }
 
 void game::write_msg()
 {
@@ -10160,13 +10645,10 @@ void intro()
   werase(tmp);
   wprintw(tmp, "\
 Whoa. Whoa. Hey. This game requires a minimum terminal size of 80x25. I'm\n\
-sorry if your graphical terminal emulator went with the woefully-diminuitive\n\
-80x24 as its default size, but that just won't work here.  Now stretch the\n\
-bottom of your window downward so you get an extra line.\n");
-  wrefresh(tmp);
-  refresh();
-  wrefresh(tmp);
-  getch();
+sorry if your graphical terminal emulator went with the woefully-diminutive\n\
+%dx%d as its default size, but that just won't work here.  Now stretch the\n\
+window until you've got it at the right size (or bigger).\n", maxx, maxy);
+  wgetch(tmp);
   getmaxyx(stdscr, maxy, maxx);
  }
  werase(tmp);

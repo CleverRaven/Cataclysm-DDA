@@ -493,6 +493,8 @@ void game::mutation_wish()
    nc_color col = c_white;
    if (i == a + 1)
     col = h_white;
+   if (i-1+shift > PF_MAX2)
+       break;
    mvwprintz(w_list, i, 0, col, traits[i-1+shift].name.c_str());
   }
   mvwprintw(w_info, 1, 0, mutation_data[a+shift].valid ? "Valid" : "Nonvalid");
