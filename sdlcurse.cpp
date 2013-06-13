@@ -43,6 +43,10 @@ int halfheight;          //half of the font height, used for centering lines
 pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
 int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
 
+static unsigned long lastupdate = 0;
+static unsigned long interval = 25;
+static bool needupdate = false;
+
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
@@ -183,23 +187,30 @@ static void OutputChar(char t, int x, int y, int n, unsigned char color)
     }
 }
 
+void try_update()
+{
+	unsigned long now=SDL_GetTicks();
+	if(now-lastupdate>=interval)
+	{
+		SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
+		needupdate = false;
+		lastupdate = now;
+	}
+	else
+	{
+		needupdate = true;
+	}
+}
+
 void DrawWindow(WINDOW *win)
 {
-    int i,j,drawx,drawy,jr=0;
+    int i,j,drawx,drawy;
     char tmp;
 
-    SDL_Rect update;
-	update.x = win->x * fontwidth; update.y = 9999;
-	update.w = win->width * fontwidth; update.h = 9999;
     for (j=0; j<win->height; j++){
         if (win->line[j].touched)
         {
-            if (update.y == 9999)
-            {
-                update.y = (win->y+j)*fontheight;
-				jr=j;
-            }
-			update.h = (j-jr+1)*fontheight;
+            needupdate = true;
 
             win->line[j].touched=false;
 
@@ -270,10 +281,8 @@ void DrawWindow(WINDOW *win)
         }
     };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
-    if (update.y != 9999)
-    {
-		SDL_UpdateRect(screen, update.x, update.y, update.w, update.h);
-    }
+
+    if (needupdate) try_update();
 }
 
 //Check for any window messages (keypress, paint, mousemove, etc)
@@ -338,6 +347,7 @@ void CheckMessages()
 
 		}
 	}
+    if (needupdate) try_update();
     if(quit)
     {
         endwin();
