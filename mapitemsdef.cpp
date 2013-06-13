@@ -241,7 +241,7 @@ void game::init_mapitems()
    &mapitems[mi_camping],
 	"rope_30", "hatchet", "pot", "pan", "binoculars", "firecracker_pack",
 	"hotplate", "knife_combat", "machete", "vest", "backpack",
-	"bb", "bolt_steel", "bbgun", "crossbow", "manual_knives","manual_survival",
+	"bb", "bolt_steel", "bbgun", "crossbow", "hand_crossbow", "manual_knives","manual_survival",
 	"manual_first_aid", "manual_traps", "lighter", "matches", "sewing_kit", "thread",
 	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
  "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
@@ -257,7 +257,7 @@ void game::init_mapitems()
 	"goggles_ski", "hat_ball", "helmet_bike", "helmet_ball",
 	"manual_brawl", "rope_30", "hatchet", "pot", "pan",
 	"binoculars", "hotplate", "knife_combat", "machete", "vest",
-	"backpack", "bb", "bolt_steel", "bbgun", "crossbow",
+	"backpack", "bb", "bolt_steel", "bbgun", "crossbow", "hand_crossbow",
 	"manual_knives", "manual_first_aid", "manual_traps", "lighter", "matches",
 	"sewing_kit", "thread", "hammer", "flashlight", "water_purifier",
 	"radio", "beartrap", "extinguisher", "string_36", "longbow",
@@ -507,7 +507,7 @@ void game::init_mapitems()
  setvector(
    &mapitems[mi_medieval],
 	"katana", "mace", "morningstar", "rapier", "broadsword",
-	"pike", "helmet_plate", "armor_plate", NULL);  
+	"pike", "helmet_plate", "armor_plate", "huge_crossbow", "rep_crossbow", NULL);  
 
  setvector(
    &mapitems[mi_art],
@@ -534,7 +534,7 @@ void game::init_mapitems()
 	"broadsword", "morningstar", "helmet_plate", "cot", "rollmat", "tent_kit",
     "bat_metal",  "lawnmower", "pickelhaube",
     "makeshift_machete", "picklocks", "rucksack", "puller", "press",
-    "vac_sealer", "gasoline_lantern", NULL);
+    "vac_sealer", "gasoline_lantern", "huge_crossbow", "rep_crossbow", NULL);
 
  setvector(
    &mapitems[mi_mil_surplus], // NOT food or armor!
@@ -1022,5 +1022,5 @@ void game::init_mapitems()
 	"dynamite_act", "firecracker_pack_act", "firecracker_act",
 	"mininuke_act", "UPS_on", "mp3_on", "c4armed", "apparatus",
 	"brazier", "rag_bloody", "candle_lit", "torch_lit",
-	"acidbomb_act", NULL);
+	"acidbomb_act", "huge_crossbow", "rep_crossbow", NULL);
 }
