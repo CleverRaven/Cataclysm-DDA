@@ -78,7 +78,7 @@ bool WinCreate()
 
 	atexit(SDL_Quit);
 
-	SDL_WM_SetCaption("Cataclysm: Dark Days Ahead - 0.6git", NULL);
+	SDL_WM_SetCaption("Cataclysm: Goon Days Ahead - 0.3 SDL", NULL);
 
 	video_info = SDL_GetVideoInfo();
 	nativeWidth = video_info->current_w;

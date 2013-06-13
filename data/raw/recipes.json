@@ -828,6 +828,42 @@
                           ]
         },
 
+		        {
+            "result": "funnel",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "mechanics",
+            "skill_sec": "surivial",
+            "difficulty": 2,
+            "time": 20000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hacksaw", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["hammer", -1],
+                             ["rock", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe", 1]
+                              ],
+                              [
+                                  ["2x4", 2]
+                              ]
+
+                          ]
+        },
+
 
         {
             "result": "flamethrower_simple",
@@ -1232,7 +1268,7 @@
             "skill_pri": "archery",
             "skill_sec": "survival",
             "difficulty": 1,
-            "time": 15000,
+            "time": 30000,
             "reversible": false,
             "autolearn": true,
             "tools": [
