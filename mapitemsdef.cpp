@@ -934,7 +934,7 @@ void game::init_mapitems()
 	"scar_h", "m249", "ftk93", "nx17", "m320", "mgl",
 	"suppressor", "clip", "brass_catcher", "lighter", "flashlight", 
 	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
-	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
+	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm", "flamethrower",
 	"binoculars", "u_shotgun", "beltrig", "power_armor_basic",
     "power_armor_helmet_basic", "power_armor_frame", "spare_mag",
     "canteen", "jerrycan", "rucksack", "heatpack", "LAW_Packed", NULL);
