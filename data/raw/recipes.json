@@ -659,6 +659,58 @@
 
 
         {
+		"result": "hand_crossbow",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 3,
+            "time": 30000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+			  [ 
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["toolset", -1]
+		          ],
+				
+                          [
+                             ["wrench", -1]
+                          ],
+                          [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                          ],
+			  [   
+			     ["screwdriver", -1],
+			     ["toolset", -1]
+		          ]
+				   
+                     ],
+            "components": [
+                              [
+                                  ["2x4", 1],
+                                  ["stick", 3]
+                              ],
+                              [
+                                  ["string_6", 1]
+                              ],
+			      [
+				  ["spring", 1]
+                              ]
+			      [
+				  ["scrap", 4]
+			      ],
+			      [
+				  ["nail", 10]
+			      ]
+			  ]
+        },
+
+
+        {
             "result": "crossbow",
             "category": "CC_WEAPON",
             "skill_pri": "mechanics",
@@ -684,6 +736,115 @@
                               [
                                   ["hose", 1]
                               ]
+                          ]
+        },
+
+
+	{
+            "result": "huge_crossbow",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "archery",
+            "difficulty": 6,
+            "time": 60000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [    
+			  [
+                             ["hatchet", -1],
+                             ["knife_butcher", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+		          ],
+				
+                          [
+                             ["wrench", -1]
+                          ],
+		          [
+			     ["saw", -1]
+		          ],
+			  [
+                             ["hacksaw", -1],
+                             ["toolset", -1]
+                          ],
+                          [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                          ],
+			  [   
+			     ["screwdriver", -1],
+			     ["toolset", -1]
+		          ]
+				   
+                     ],
+            "components": [
+                              [
+                                  ["2x4", 4],
+                                  ["stick", 16]
+                              ],
+                              [
+                                  ["rope_6", 2]
+                              ],
+			      
+			      [   
+				  ["foot_crank", 1]
+			      ],
+			      [
+				  ["spring", 4]
+			      ],
+			      [
+				  ["steel_chunk", 4]
+			      ],
+			      [
+				  ["nail", 60]
+			      ]			     
+                          ]
+        },
+
+
+	{
+            "result": "rep_crossbow",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "archery",
+            "difficulty": 3,
+            "time": 45000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+			 [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["2x4", 2],
+                                  ["stick", 8]
+                              ],
+                              [
+                                  ["spring", 1]
+                              ],
+			      [
+			          ["string_36", 1]
+			      ],
+			      [   ["nail", 20]
                           ]
         },
 
