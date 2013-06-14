@@ -6939,6 +6939,7 @@ fffffffffHHHHHHfffffffff\n\
        }
        }
      }
+     add_spawn(mon_eyebot, 1, rng(5,18), rng(12,18));
   if (t_north == ot_prison_5)
    rotate(0);
   else if (t_east == ot_prison_5)
@@ -7091,6 +7092,8 @@ bb| ss____________ss |bb\n\
          t_pavement, t_bookcase, t_desk, t_console_broken, t_toilet, t_bed, t_door_bar_locked, t_floor, t_bars, t_concrete_h,
          t_concrete_v, t_fence_barbed, t_chainfence_h, t_chainfence_v, t_sink),
      mapf::end() );
+     add_spawn(mon_secubot, rng(1, 2), 11, 7); 
+     add_spawn(mon_zombie_cop, rng(0, 3), rng(12,18), rng(4,19));
      place_items(mi_pistols,	30,  11,  1, 12,  1, false, 0);
      place_items(mi_ammo,	50,  11,  1, 12,  1, false, 0);
      for (int i = 0; i <= 23; i++) {
@@ -7272,9 +7275,9 @@ bb|o,,,,|,,,,,l|,,,,,|bb\n",
         if (this->ter(i,j) == t_sidewalk){
             if (one_in(200)){
                 if (!one_in(3))
-                    add_spawn(mon_zombie, rng(0, 1), i, j);
+                    add_spawn(mon_zombie, 1, i, j);
                 else
-                    add_spawn(mon_zombie_brute, rng(0, 1), i, j);
+                    add_spawn(mon_zombie_brute, 1, i, j);
             }
         }
         if (this->ter(i,j) == t_locker){
@@ -7550,12 +7553,14 @@ bb|,,,,,,,,,,,,,,,,,,|##\n\
          t_pavement, t_bookcase, t_desk, t_console_broken, t_toilet, t_bed, t_door_bar_locked, t_grass, t_floor, t_bars, t_concrete_h,
          t_concrete_v, t_fence_barbed, t_chainfence_h, t_chainfence_v, t_sink),
      mapf::end() );
+    add_spawn(mon_zombie_cop, rng(0, 2), 2, 0);
+    add_spawn(mon_zombie_cop, rng(0, 2), 2, 23);
     place_items(mi_pistols,	30,  11,  1, 12,  1, false, 0);
     place_items(mi_ammo,	40,  11,  1, 12,  1, false, 0);
      for (int i = 0; i <= 23; i++) {
        for (int j = 0; j <= 23; j++) {
         if (this->ter(i,j) == t_chair){
-            if (one_in(5)) {
+            if (one_in(4)) {
                     if (!one_in(3)) add_spawn(mon_zombie, 1, i, j);
                     else if (one_in(10)) add_spawn(mon_zombie_cop, 1, i, j);
                     else add_spawn(mon_zombie_brute, 1, i, j);
@@ -7695,6 +7700,7 @@ h,h,g,,,|###############\n\
          t_pavement, t_desk, t_console_broken, t_toilet, t_bed, t_door_metal_locked, t_grass, t_floor, t_bars, t_concrete_h,
          t_concrete_v, t_fence_barbed, t_chainfence_h, t_chainfence_v, t_sink),
      mapf::end() );
+    add_spawn(mon_zombie_cop, rng(0, 2), 12, 19);
     if (t_east != ot_prison_b)
         rotate(1);
     else if (t_south != ot_prison_b)
