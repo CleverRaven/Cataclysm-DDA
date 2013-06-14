@@ -929,49 +929,58 @@ int player::current_speed(game *g)
  return newmoves;
 }
 
-int player::run_cost(int base_cost)
+int player::run_cost(int base_cost, bool diag)
 {
- int movecost = base_cost;
- if (has_trait(PF_PARKOUR) && base_cost > 100) {
-  movecost *= .5;
-  if (movecost < 100)
-   movecost = 100;
- }
- if (hp_cur[hp_leg_l] == 0)
-  movecost += 50;
- else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40)
-  movecost += 25;
- if (hp_cur[hp_leg_r] == 0)
-  movecost += 50;
- else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40)
-  movecost += 25;
+    float movecost = float(base_cost);
+    if (diag)
+        movecost *= 0.7071; // because everything here assumes 100 is base
 
- if (has_trait(PF_FLEET) && base_cost == 100)
-  movecost = int(movecost * .85);
- if (has_trait(PF_FLEET2) && base_cost == 100)
-  movecost = int(movecost * .7);
- if (has_trait(PF_PADDED_FEET) && !wearing_something_on(bp_feet))
-  movecost = int(movecost * .9);
- if (has_trait(PF_LIGHT_BONES))
-  movecost = int(movecost * .9);
- if (has_trait(PF_HOLLOW_BONES))
-  movecost = int(movecost * .8);
- if (has_trait(PF_WINGS_INSECT))
-  movecost -= 15;
- if (has_trait(PF_LEG_TENTACLES))
-  movecost += 20;
- if (has_trait(PF_PONDEROUS1))
-  movecost = int(movecost * 1.1);
- if (has_trait(PF_PONDEROUS2))
-  movecost = int(movecost * 1.2);
- if (has_trait(PF_PONDEROUS3))
-  movecost = int(movecost * 1.3);
- movecost += encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
- if (!wearing_something_on(bp_feet) && !has_trait(PF_PADDED_FEET) &&
-     !has_trait(PF_HOOVES))
-  movecost += 15;
+    if (has_trait(PF_PARKOUR) && base_cost > 100) {
+        movecost *= .5;
+        if (movecost < 100)
+            movecost = 100;
+    }
 
- return movecost;
+    if (hp_cur[hp_leg_l] == 0)
+        movecost += 50;
+    else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40)
+        movecost += 25;
+    if (hp_cur[hp_leg_r] == 0)
+        movecost += 50;
+    else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40)
+        movecost += 25;
+
+    if (has_trait(PF_FLEET) && base_cost == 100)
+        movecost *= .85;
+    if (has_trait(PF_FLEET2) && base_cost == 100)
+        movecost *= .7;
+    if (has_trait(PF_PADDED_FEET) && !wearing_something_on(bp_feet))
+        movecost *= .9;
+    if (has_trait(PF_LIGHT_BONES))
+        movecost *= .9;
+    if (has_trait(PF_HOLLOW_BONES))
+        movecost *= .8;
+    if (has_trait(PF_WINGS_INSECT))
+        movecost -= 15;
+    if (has_trait(PF_LEG_TENTACLES))
+        movecost += 20;
+    if (has_trait(PF_PONDEROUS1))
+        movecost *= 1.1;
+    if (has_trait(PF_PONDEROUS2))
+        movecost *= 1.2;
+    if (has_trait(PF_PONDEROUS3))
+        movecost *= 1.3;
+
+    movecost += encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
+
+    if (!wearing_something_on(bp_feet) && !has_trait(PF_PADDED_FEET) &&
+            !has_trait(PF_HOOVES))
+        movecost += 15;
+
+    if (diag)
+        movecost *= 1.4142;
+
+    return int(movecost);
 }
 
 int player::swim_speed()
