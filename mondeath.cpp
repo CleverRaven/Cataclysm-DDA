@@ -427,7 +427,7 @@ void mdeath::zombie(game *g, monster *z)
         break;
 
         case mon_zombie_hulk:
-            g->m.spawn_item(z->posx, z->posy, item_controller->find_template("rag"), g->turn, 0, 0, rng(5,10));
+            g->m.spawn_item(z->posx, z->posy, "rag", g->turn, 0, 0, rng(5,10));
             g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             break;
 

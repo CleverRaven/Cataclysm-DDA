@@ -2864,7 +2864,7 @@ z.size(), active_npc.size(), events.size());
    artifact_natural_property prop =
     artifact_natural_property(rng(ARTPROP_NULL + 1, ARTPROP_MAX - 1));
    m.create_anomaly(center.x, center.y, prop);
-   m.spawn_item(center.x, center.y, new_natural_artifact(prop), 0);
+   m.spawn_artifact(center.x, center.y, new_natural_artifact(prop), 0);
   }
   break;
 
@@ -4809,17 +4809,17 @@ void game::explode_mon(int index)
     case MS_LARGE:  num_chunks =  8; break;
     case MS_HUGE:   num_chunks = 16; break;
    }
-   itype* meat;
+   itype_id meat;
    if (corpse->has_flag(MF_POISON)) {
     if (corpse->mat == "flesh")
-     meat = itypes["meat_tainted"];
+     meat = "meat_tainted";
     else
-     meat = itypes["veggy_tainted"];
+     meat = "veggy_tainted";
    } else {
     if (corpse->mat == "flesh")
-     meat = itypes["meat"];
+     meat = "meat";
     else
-     meat = itypes["veggy"];
+     meat = "veggy";
    }
 
    int posx = z[index].posx, posy = z[index].posy;
@@ -8726,20 +8726,20 @@ void game::complete_butcher(int index)
 
  if (bones > 0) {
   if (corpse->has_flag(MF_BONES)) {
-    m.spawn_item(u.posx, u.posy, itypes["bone"], age, bones);
+    m.spawn_item(u.posx, u.posy, "bone", age, bones);
    add_msg("You harvest some usable bones!");
   } else if (corpse->mat == "veggy") {
-    m.spawn_item(u.posx, u.posy, itypes["plant_sac"], age, bones);
+    m.spawn_item(u.posx, u.posy, "plant_sac", age, bones);
    add_msg("You harvest some fluid bladders!");
   }
  }
 
  if (sinews > 0) {
   if (corpse->has_flag(MF_BONES)) {
-    m.spawn_item(u.posx, u.posy, itypes["sinew"], age, sinews);
+    m.spawn_item(u.posx, u.posy, "sinew", age, sinews);
    add_msg("You harvest some usable sinews!");
   } else if (corpse->mat == "veggy") {
-    m.spawn_item(u.posx, u.posy, itypes["plant_fibre"], age, sinews);
+    m.spawn_item(u.posx, u.posy, "plant_fibre", age, sinews);
    add_msg("You harvest some plant fibres!");
   }
  }
@@ -8759,8 +8759,8 @@ void game::complete_butcher(int index)
    leather = pelts;
   }
 
-  if(fur) m.spawn_item(u.posx, u.posy, itypes["fur"], age, fur);
-  if(leather) m.spawn_item(u.posx, u.posy, itypes["leather"], age, leather);
+  if(fur) m.spawn_item(u.posx, u.posy, "fur", age, fur);
+  if(leather) m.spawn_item(u.posx, u.posy, "leather", age, leather);
  }
 
  //Add a chance of CBM recovery. For shocker and cyborg corpses.
@@ -8770,18 +8770,18 @@ void game::complete_butcher(int index)
    add_msg("You discover a CBM in the %s!", corpse->name.c_str());
    //To see if it spawns a battery
    if(rng(0,1) == 1){ //The battery works
-    m.spawn_item(u.posx, u.posy, itypes["bio_power_storage"], age);
+    m.spawn_item(u.posx, u.posy, "bio_power_storage", age);
    }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, itypes["burnt_out_bionic"], age);
+    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
    }
   }
   if(skill_shift >= 0){
    //To see if it spawns a random additional CBM
    if(rng(0,1) == 1){ //The CBM works
     int bio_index = rng(0, mapitems[mi_bionics].size()-1);
-    m.spawn_item(u.posx, u.posy, itypes[ mapitems[mi_bionics][bio_index] ], age);
+    m.spawn_item(u.posx, u.posy, mapitems[mi_bionics][bio_index], age);
    }else{//There is a burnt out CBM
-    m.spawn_item(u.posx, u.posy, itypes["burnt_out_bionic"], age);
+    m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
    }
   }
  }
@@ -8789,20 +8789,20 @@ void game::complete_butcher(int index)
  if (pieces <= 0)
   add_msg("Your clumsy butchering destroys the meat!");
  else {
-  itype* meat;
+  itype_id meat;
   if (corpse->has_flag(MF_POISON)) {
     if (corpse->mat == "flesh")
-     meat = itypes["meat_tainted"];
+     meat = "meat_tainted";
     else
-     meat = itypes["veggy_tainted"];
+     meat = "veggy_tainted";
   } else {
    if (corpse->mat == "flesh" || corpse->mat == "hflesh")
     if(corpse->has_flag(MF_HUMAN))
-     meat = itypes["human_flesh"];
+     meat = "human_flesh";
     else
-     meat = itypes["meat"];
+     meat = "meat";
    else
-    meat = itypes["veggy"];
+    meat = "veggy";
   }
   m.spawn_item(u.posx, u.posy, meat, age, pieces);
   add_msg("You butcher the corpse.");
@@ -8817,7 +8817,7 @@ void game::forage()
   {
     add_msg("You found some wild veggies!");
     u.practice(turn, "survival", 10);
-    m.spawn_item(u.activity.placement.x, u.activity.placement.y, this->itypes["veggy_wild"], turn, 0);
+    m.spawn_item(u.activity.placement.x, u.activity.placement.y, "veggy_wild", turn, 0);
     m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
   else
@@ -9466,7 +9466,7 @@ void game::plmove(int x, int y)
      if (query_yn("Deactivate the turret?")) {
       z.erase(z.begin() + mondex);
       u.moves -= 100;
-      m.spawn_item(z[mondex].posx, z[mondex].posy, itypes["bot_turret"], turn);
+      m.spawn_item(z[mondex].posx, z[mondex].posy, "bot_turret", turn);
      }
      return;
     } else {
@@ -9886,8 +9886,7 @@ void game::vertical_move(int movez, bool force)
  if (rope_ladder)
   m.ter_set(u.posx, u.posy, t_rope_up);
  if (m.ter(stairx, stairy) == t_manhole_cover) {
-  m.spawn_item(stairx + rng(-1, 1), stairy + rng(-1, 1),
-             itypes["manhole_cover"], 0);
+  m.spawn_item(stairx + rng(-1, 1), stairy + rng(-1, 1), "manhole_cover", 0);
   m.ter_set(stairx, stairy, t_manhole);
  }
 

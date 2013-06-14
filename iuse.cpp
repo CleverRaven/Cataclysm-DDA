@@ -72,7 +72,7 @@ void iuse::sewage(game *g, player *p, item *it, bool t)
 
 void iuse::honeycomb(game *g, player *p, item *it, bool t)
 {
-  g->m.spawn_item(p->posx, p->posy, g->itypes["wax"],0, 2);
+  g->m.spawn_item(p->posx, p->posy, "wax",0, 2);
 }
 
 void iuse::royal_jelly(game *g, player *p, item *it, bool t)
@@ -1249,8 +1249,8 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
         return;
     }
     p->moves -= 500;
-    g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
-    g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
+    g->m.spawn_item(p->posx, p->posy, "nail", 0, 0, nails);
+    g->m.spawn_item(p->posx, p->posy, "2x4", 0, boards);
     g->m.ter_set(x, y, newter);
 }
 
@@ -1894,8 +1894,8 @@ if (dirx == 0 && diry == 0) {
   if(p->skillLevel("carpentry") < 1)
    p->practice(g->turn, "carpentry", 1);
   p->moves -= 500;
-  g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
-  g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
+  g->m.spawn_item(p->posx, p->posy, "nail", 0, 0, nails);
+  g->m.spawn_item(p->posx, p->posy, "2x4", 0, boards);
   g->m.ter_set(dirx, diry, newter);
   return;
  }
@@ -3283,31 +3283,31 @@ if (dirx == 0 && diry == 0) {
   p->moves -= 500;
   g->m.ter_set(dirx, diry, t_dirt);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.spawn_item(dirx, diry, g->itypes["pipe"], 0, 6);
-  g->m.spawn_item(dirx, diry, g->itypes["wire"], 0, 20);
+  g->m.spawn_item(dirx, diry, "pipe", 0, 6);
+  g->m.spawn_item(dirx, diry, "wire", 0, 20);
  if (g->m.ter(dirx, diry) == t_chainfence_posts) {
   p->moves -= 500;
   g->m.ter_set(dirx, diry, t_dirt);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.spawn_item(dirx, diry, g->itypes["pipe"], 0, 6);
+  g->m.spawn_item(dirx, diry, "pipe", 0, 6);
  } else if (g->m.ter(dirx, diry) == t_rack) {
   p->moves -= 500;
   g->m.ter_set(dirx, diry, t_floor);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, rng(1, 3));
-  g->m.spawn_item(p->posx, p->posy, g->itypes["steel_chunk"], 0);
+  g->m.spawn_item(p->posx, p->posy, "pipe", 0, rng(1, 3));
+  g->m.spawn_item(p->posx, p->posy, "steel_chunk", 0);
  } else if (g->m.ter(dirx, diry) == t_bars &&
             (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
              g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage)) {
   g->m.ter_set(dirx, diry, t_sewage);
   p->moves -= 1000;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, 3);
+  g->m.spawn_item(p->posx, p->posy, "pipe", 0, 3);
  } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy)) {
   g->m.ter_set(dirx, diry, t_floor);
   p->moves -= 500;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, 3);
+  g->m.spawn_item(p->posx, p->posy, "pipe", 0, 3);
  } else {
   g->add_msg("You can't cut that.");
  }
@@ -3703,12 +3703,12 @@ if (dirx == 0 && diry == 0) {
   p->moves -= 100;
   g->m.ter_set(dirx, diry, t_chaingate_c);
   g->sound(dirx, diry, 5, "Gachunk!");
-  g->m.spawn_item(p->posx, p->posy, g->itypes["scrap"], 0, 3);
+  g->m.spawn_item(p->posx, p->posy, "scrap", 0, 3);
  } else if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h) {
   p->moves -= 500;
   g->m.ter_set(dirx, diry, t_chainfence_posts);
   g->sound(dirx, diry, 5,"Snick, snick, gachunk!");
-  g->m.spawn_item(dirx, diry, g->itypes["wire"], 0, 20);
+  g->m.spawn_item(dirx, diry, "wire", 0, 20);
  } else {
   g->add_msg("You can't cut that.");
  }
