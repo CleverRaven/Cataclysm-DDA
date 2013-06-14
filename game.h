@@ -46,6 +46,7 @@
 #define BLINK_SPEED 300
 #define BULLET_SPEED 10000000
 #define EXPLOSION_SPEED 70000000
+#define MAX_ITEM_IN_SQUARE 1024
 
 #define PICKUP_RANGE 2
 extern bool trigdist;

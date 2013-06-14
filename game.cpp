@@ -47,7 +47,6 @@
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-#define MAX_ITEM_IN_SQUARE 64
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
 
