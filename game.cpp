@@ -857,25 +857,25 @@ bool game::cancel_activity_or_ignore_query(const char* reason, ...) {
   std::string s(buff);
 
   bool force_uc = OPTIONS[OPT_FORCE_YN];
-  int ch=(int)' ';  
+  int ch=(int)' ';
 
   std::string verbs[13] = {
     "whatever",
-    "reloading", "reading", "waiting", "crafting", 
+    "reloading", "reading", "waiting", "crafting",
     "disassembly", "butchering", "foraging", "construction", "construction", "pumping gas",
     "training"
   };
   do {
-    ch=popup_getkey("%s Stop %s? (Y)es, (N)o, (I)gnore further distractions and finish.", 
+    ch=popup_getkey("%s Stop %s? (Y)es, (N)o, (I)gnore further distractions and finish.",
       s.c_str(), verbs[u.activity.type].c_str() );
   } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
-    ch != 'Y' && ch != 'N' && ch != 'I' && 
+    ch != 'Y' && ch != 'N' && ch != 'I' &&
     (force_uc || (ch != 'y' && ch != 'n' && ch != 'i'))
   );
   if (ch == 'Y' || ch == 'y') {
     u.cancel_activity();
   } else if (ch == 'I' || ch == 'i' ) {
-    return true;    
+    return true;
   }
   return false;
 }
@@ -1147,7 +1147,7 @@ bool game::mission_complete(int id, int npc_id)
     return true;
    return false;
   } break;
-  
+
   case MGOAL_GO_TO_TYPE: {
    oter_id cur_ter = cur_om->ter((levx + int (MAPSIZE / 2)) / 2, (levy + int (MAPSIZE / 2)) / 2, levz);
    if (cur_ter == miss->type->target_id){
@@ -1180,7 +1180,7 @@ bool game::mission_complete(int id, int npc_id)
 
   case MGOAL_KILL_MONSTER:
    return (miss->step >= 1);
-   
+
   case MGOAL_KILL_MONSTER_TYPE:
    debugmsg("%d kill count", kill_count(miss->monster_type));
    debugmsg("%d goal", miss->monster_kill_goal);
@@ -1343,7 +1343,7 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
             vMenu.push_back(iteminfo("MENU", "=", " reassign"));
             oThisItem.info(true, &vThisItem);
             compare_split_screen_popup(startx, width, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
-            cMenu = compare_split_screen_popup(startx+width, 14, 16, "", vMenu, vDummy, 
+            cMenu = compare_split_screen_popup(startx+width, 14, 16, "", vMenu, vDummy,
                 selected >= menustart && selected <= menuend ? selected : -1
             );
             switch(cMenu) {
@@ -1794,10 +1794,10 @@ bool game::handle_action()
    u.power_bionics(this);
    refresh_all();
    break;
-   
+
   case ACTION_SORT_ARMOR:
     u.sort_armor(this);
-    refresh_all();    
+    refresh_all();
     break;
 
   case ACTION_WAIT:
@@ -2106,7 +2106,7 @@ void game::death_screen()
     WIN32_FIND_DATA FindFileData;
     HANDLE hFind;
     TCHAR Buffer[MAX_PATH];
-    
+
     GetCurrentDirectory(MAX_PATH, Buffer);
     SetCurrentDirectory("save");
     std::stringstream playerfile;
@@ -3680,7 +3680,7 @@ unsigned char game::light_level()
   ret = 8;
  if(ret < 1)
   ret = 1;
-  
+
  latest_lightlevel = ret;
  latest_lightlevel_turn = turn;
  return ret;
@@ -4301,7 +4301,7 @@ void game::sound(int x, int y, int vol, std::string description)
  } else {
      u.volume += vol;
  }
- 
+
 // We need to figure out where it was coming from, relative to the player
  int dx = x - u.posx;
  int dy = y - u.posy;
@@ -5624,7 +5624,7 @@ struct advanced_inv_pane {
     int pos;
     int area, offx, offy, size, vstor;  // quick lookup later
     int index, max_page, max_index, page;
-    std::string area_string;        
+    std::string area_string;
     int sortby;
     int issrc;
     vehicle *veh;
@@ -5715,7 +5715,7 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
     if(isinventory) {
         mvwprintz( window, 4, rightcol, c_ltgreen, "%3d %3d", g->u.weight_carried(), g->u.volume_carried() );
     }
-    
+
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, "Name (charges)" );
     mvwprintz( window, 5, rightcol - 7, c_ltgray, "%s weight vol", ( isinventory ? "amt" : ( isall ? "src" : "   " ) ) );
 
@@ -5725,7 +5725,7 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
       } else {
         nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
         nc_color thiscolordark = c_dkgray;
-        
+
         if(active && selected_index == x)
         {
             thiscolor = hilite(thiscolor);
@@ -5802,7 +5802,7 @@ struct advanced_inv_sorter {
                 default: return d1.idx > d2.idx; break;
             };
         }
-        // secondary sort by name 
+        // secondary sort by name
         std::string n1=d1.name;
         std::string n2=d2.name;
         return std::lexicographical_compare( n1.begin(), n1.end(),
@@ -5963,7 +5963,7 @@ void game::advanced_inv()
     panes[left].area = uistate.adv_inv_leftarea;
     panes[right].area = uistate.adv_inv_rightarea;
     bool moved=( uistate.adv_inv_last_coords.x != u.posx || uistate.adv_inv_last_coords.y != u.posy );
-    if ( !moved || panes[left].area == isinventory ) { 
+    if ( !moved || panes[left].area == isinventory ) {
         panes[left].index = uistate.adv_inv_leftindex;
         panes[left].page = uistate.adv_inv_leftpage;
     }
@@ -5992,7 +5992,7 @@ void game::advanced_inv()
                 // calculate the offset.
                 getsquare(panes[i].area, panes[i].offx, panes[i].offy, panes[i].area_string, squares);
 
-                if(recalc) { 
+                if(recalc) {
 
                     panes[i].items.clear();
                     bool hascat[10]={false,false,false,false,false,false,false,false,false,false};
@@ -6032,7 +6032,7 @@ void game::advanced_inv()
                         int s1 = panes[i].area;
                         int s2 = panes[i].area;
                         if ( panes[i].area == isall ) {
-                            s1 = 1; 
+                            s1 = 1;
                             s2 = 9;
                         }
                         for(int s = s1; s <= s2; s++) {
@@ -6068,7 +6068,7 @@ void game::advanced_inv()
 
                             }
                         }
-                       
+
                     }
 
                     advanced_inv_update_area(squares[panes[i].area], this);
@@ -6084,7 +6084,7 @@ void game::advanced_inv()
                             }
                             break;
                         default:
-                            std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) ); 
+                            std::sort( panes[i].items.begin(), panes[i].items.end(), advanced_inv_sorter( panes[i].sortby ) );
                             break;
                     }
                 }
@@ -6111,7 +6111,7 @@ void game::advanced_inv()
 
 
                 advprintItems( panes[i], squares, (src == i), this );
-                
+
                 int sel=-1;
                 if ( panes[i].size > 0 ) sel = panes[i].items[panes[i].index].area;
 
@@ -6142,7 +6142,7 @@ void game::advanced_inv()
                        showmsg=true;
                     } else {
                        col = c_ltgray;
-                    } 
+                    }
                     if ( showmsg ) mvwprintz(head, line, 2, col, mes.c_str());
                     line++;
                   }
@@ -6152,7 +6152,7 @@ void game::advanced_inv()
                   mvwprintz(head,1,3, c_white, "hjkl or arrow keys to move cursor");
                   //wprintz(head, c_white, " %d %d/%d %d/%d",panes[src].size,panes[src].index,panes[src].max_index,panes[src].page,panes[src].max_page);
                   mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
-                  mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)"); 
+                  mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)");
                   mvwprintz(head,1,(w_width/2), c_white, "[m]ove item between screen.");
                   mvwprintz(head,2,(w_width/2), c_white, "[e]amine item.  [s]ort display.");
                   mvwprintz(head,3,(w_width/2), c_white, "[q]uit/exit this screen");
@@ -6169,7 +6169,7 @@ void game::advanced_inv()
 
         int list_pos = panes[src].index + (panes[src].page * itemsPerPage);
         int item_pos = panes[src].size > 0 ? panes[src].items[list_pos].idx : 0;
-        // todo move 
+        // todo move
         for (int i = 0; i < 2; i++) {
             if ( src == i ) {
                 wattron(panes[i].window, c_cyan);
@@ -6241,7 +6241,7 @@ void game::advanced_inv()
                 m.text="Select destination";
                 m.pad_left=9; /* free space for advanced_inv_menu_square */
                 char buf[1024];
-                
+
                 for(int i=1; i < 10; i++) {
                     buf[0]=0;
                     int safe=snprintf(buf,128, "%2d/%d%s", squares[i].size, MAX_ITEM_IN_SQUARE, (squares[i].size >= MAX_ITEM_IN_SQUARE ? " (FULL)" : "" ) );
@@ -6254,11 +6254,11 @@ void game::advanced_inv()
                         (squares[i].canputitems && i != panes[src].area), /* enabled */
                         i+48, /* hotkey */
                         prefix + " " +
-                          squares[i].name + " " + 
+                          squares[i].name + " " +
                           ( squares[i].vstor >= 0 ? squares[i].veh->name : "" ) /* entry text */
                     ) );
                 }
-                 
+
                 m.selected=uistate.adv_inv_last_popup_dest-1; // selected keyed to uimenu.entries, which starts at 0;
                 m.show(); // generate and show window.
                 while ( m.ret == UIMENU_INVALID && m.keypress != 'q' && m.keypress != KEY_ESCAPE ) {
@@ -6375,7 +6375,7 @@ void game::advanced_inv()
                 if ( s == destarea ) {
                     popup("Source area is the same as destination (%s).",squares[destarea].name.c_str());
                     continue;
-                } 
+                }
                 std::vector<item> src_items = squares[s].vstor >= 0 ?
                     squares[s].veh->parts[squares[s].vstor].items :
                     m.i_at(squares[s].x,squares[s].y);
@@ -6444,7 +6444,7 @@ void game::advanced_inv()
             checkshowmsg=false;
             redraw=true;
         } else if('s' == c) {
-            // int ch = uimenu(true, "Sort by... ", "Unsorted (recently added first)", "name", "weight", "volume", "charges", NULL ); 
+            // int ch = uimenu(true, "Sort by... ", "Unsorted (recently added first)", "name", "weight", "volume", "charges", NULL );
             redraw=true;
             uimenu sm; /* using new uimenu class */
             sm.text="Sort by... ";
@@ -6459,13 +6459,13 @@ void game::advanced_inv()
             if(sm.ret < 1) continue; /* didn't get a valid answer =[ */
             panes[src].sortby = sm.ret;
 
-            if ( src == left ) { 
+            if ( src == left ) {
                 uistate.adv_inv_leftsort=sm.ret;
             } else {
                 uistate.adv_inv_rightsort=sm.ret;
             }
             recalc = true;
-        }   
+        }
         else if('e' == c)
         {
             if(panes[src].size == 0) {
@@ -6478,7 +6478,7 @@ void game::advanced_inv()
             if(panes[src].area == isinventory ) {
                 char pleaseDeprecateMe=it->invlet;
                 ret=inventory_item_menu(pleaseDeprecateMe, 0, w_width/2
-                   // fixme: replace compare_split_screen_popup which requires y=0 for item menu to function right 
+                   // fixme: replace compare_split_screen_popup which requires y=0 for item menu to function right
                    // colstart + ( src == left ? w_width/2 : 0 ), 50
                 );
                 recalc=true;
@@ -6685,7 +6685,7 @@ point game::look_debug(point coords) {
     mvwputch(w_look, off, 2, terrain_type.color, terrain_type.sym);
     mvwprintw(w_look, off, 4, "%d: %s; movecost %d movestr %d", m.ter(lx, ly),
          m.tername(lx, ly).c_str(),
-         m.move_cost(lx, ly), 
+         m.move_cost(lx, ly),
          terrain_type.move_str_req
     );
     off++; // 2
@@ -6700,18 +6700,18 @@ point game::look_debug(point coords) {
 
     mvwprintw(w_look, off, 1, "%s %s", m.features(lx, ly).c_str(),extras.c_str());
     off++;
-    
+
     field curfield = m.field_at(lx, ly);
     if (curfield.type != fd_null) {
-       mvwprintz(w_look, off, 1, fieldlist[curfield.type].color[curfield.density-1], "field: %s (%d) density %d", 
+       mvwprintz(w_look, off, 1, fieldlist[curfield.type].color[curfield.density-1], "field: %s (%d) density %d",
            fieldlist[curfield.type].name[curfield.density-1].c_str(), curfield.type, curfield.density
        );
        off++; // 4
     }
 
     trap_id curtrap=m.tr_at(lx, ly);
-    if (curtrap != tr_null) { 
-       mvwprintz(w_look, off, 1, traps[curtrap]->color, "trap: %s (%d)", 
+    if (curtrap != tr_null) {
+       mvwprintz(w_look, off, 1, traps[curtrap]->color, "trap: %s (%d)",
            traps[curtrap]->name.c_str(), curtrap
        );
        off++; // 5
@@ -6754,7 +6754,7 @@ point game::look_debug(point coords) {
 
     wrefresh(w_look);
     wrefresh(w_terrain);
-    
+
     if(ch == 'g') {
       ///////////////////////////////////////////
       ///// tile edit
@@ -6780,7 +6780,7 @@ point game::look_debug(point coords) {
       point pterp=point(-1,-1);
       point lastpterp=point(-1,-1);
       point tterp=point(-1,-1);
-      
+
       do {
             cur_t=0;
             for (int y=2; y < pickh && cur_t < num_terrain_types; y+=2) {
@@ -6811,14 +6811,14 @@ point game::look_debug(point coords) {
             mvwputch(w_pickter, pterp.y-1, pterp.x+1, c_ltgreen, LINE_OOXX);
             mvwputch(w_pickter, pterp.y+1, pterp.x+1, c_ltgreen, LINE_XOOX);
             mvwputch(w_pickter, pterp.y-1, pterp.x-1, c_ltgreen, LINE_OXXO);
-            
+
             wborder(w_pickter, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
             ter_t pttype = terlist[pter];
 
             mvwprintz(w_pickter, 0, 2, c_white, "< %d: %s >-----------",pter,pttype.name.c_str());
-            int off=ymax*3; 
+            int off=ymax*3;
             for (int i=off;i < 3; i++) {
               mvwprintw(w_pickter, i, 1, "%s",padding.c_str());
             }
@@ -6828,10 +6828,10 @@ point game::look_debug(point coords) {
               if(pttype.flags & mfb(indoors)) extras+="[indoors] ";
               if(pttype.flags & mfb(supports_roof)) extras+="[roof] ";
               mvwprintw(w_pickter, off+2, 2, "%s", extras.c_str());
-            
+
             wrefresh(w_pickter);
             ///////////////////////
-            /// 0: 0 1 2 3 
+            /// 0: 0 1 2 3
             /// 1: 4 5 6 7
             /// 3: 8 9
             subch=(int)getch();
@@ -7170,7 +7170,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iSearchX, int iSearchY)
     {
         for (int iCol = (iSearchX * -1); iCol <= iSearchX; iCol++)
         {
-            if (u_see(u.posx + iCol, u.posy + iRow) && 
+            if (u_see(u.posx + iCol, u.posy + iRow) &&
                (!m.has_flag(container, u.posx + iCol, u.posy + iRow) ||
                (rl_dist(u.posx, u.posy, u.posx + iCol, u.posy + iRow) == 1 && !m.has_flag(sealed, u.posx + iCol, u.posy + iRow))))
             {
@@ -7800,7 +7800,7 @@ void game::pickup(int posx, int posy, int min)
    mvwprintw(w_pickup, maxitems + 2, pickupHeight, "            ");
   } else if ( ch == KEY_UP ) {
       selected--;
-      if ( selected < 0 ) { 
+      if ( selected < 0 ) {
           selected = here.size()-1;
           start = (int)( here.size() / maxitems ) * maxitems;
           if (start >= here.size()-1) start -= maxitems;
@@ -7815,9 +7815,9 @@ void game::pickup(int posx, int posy, int min)
       } else if ( selected >= start + maxitems ) {
           start+=maxitems;
       }
-  } else if ( selected >= 0 && ( 
-                 ( ch == KEY_RIGHT && !getitem[selected]) || 
-                 ( ch == KEY_LEFT && getitem[selected] ) 
+  } else if ( selected >= 0 && (
+                 ( ch == KEY_RIGHT && !getitem[selected]) ||
+                 ( ch == KEY_LEFT && getitem[selected] )
             ) ) {
       idx = selected;
   } else {
@@ -8687,17 +8687,17 @@ void game::complete_butcher(int index)
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
- int pieces, pelts, bones, sinews;
+ int pieces, pelts, bones, sinews, feathers;
  double skill_shift = 0.;
 
  int sSkillLevel = u.skillLevel("survival");
 
  switch (corpse->size) {
-  case MS_TINY:   pieces =  1; pelts =  1; bones = 1; sinews = 1; break;
-  case MS_SMALL:  pieces =  2; pelts =  3; bones = 4; sinews = 4; break;
-  case MS_MEDIUM: pieces =  4; pelts =  6; bones = 9; sinews = 9; break;
-  case MS_LARGE:  pieces =  8; pelts = 10; bones = 14;sinews = 14;break;
-  case MS_HUGE:   pieces = 16; pelts = 18; bones = 21;sinews = 21;break;
+  case MS_TINY:   pieces =  1; pelts =  1; bones = 1; sinews = 1; feathers = 2;  break;
+  case MS_SMALL:  pieces =  2; pelts =  3; bones = 4; sinews = 4; feathers = 6;  break;
+  case MS_MEDIUM: pieces =  4; pelts =  6; bones = 9; sinews = 9; feathers = 11; break;
+  case MS_LARGE:  pieces =  8; pelts = 10; bones = 14;sinews = 14; feathers = 17;break;
+  case MS_HUGE:   pieces = 16; pelts = 18; bones = 21;sinews = 21; feathers = 24;break;
  }
  if (sSkillLevel < 3)
   skill_shift -= rng(0, 8 - sSkillLevel);
@@ -8722,6 +8722,7 @@ void game::complete_butcher(int index)
   pelts += (skill_shift - 5);
   bones += (skill_shift - 2);
   sinews += (skill_shift - 8);
+  feathers += (skill_shift - 1);
  }
 
  if (bones > 0) {
@@ -8761,6 +8762,13 @@ void game::complete_butcher(int index)
 
   if(fur) m.spawn_item(u.posx, u.posy, "fur", age, fur);
   if(leather) m.spawn_item(u.posx, u.posy, "leather", age, leather);
+ }
+
+ if (feathers > 0) {
+  if (corpse->has_flag(MF_FEATHER)) {
+    m.spawn_item(u.posx, u.posy, itypes["feather"], age, feathers);
+   add_msg("You harvest some feathers!");
+  }
  }
 
  //Add a chance of CBM recovery. For shocker and cyborg corpses.
@@ -9106,7 +9114,7 @@ void game::unload(item& it)
 
  if (weapon->curammo != NULL) {
   newam = item(weapon->curammo, turn);
- } else { 
+ } else {
   newam = item(itypes[default_ammo(weapon->ammo_type())], turn);
  }
  newam.charges = weapon->charges;

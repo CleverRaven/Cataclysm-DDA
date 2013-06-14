@@ -129,7 +129,7 @@ mon("crow",	species_mammal, 'v',	c_dkgray,	MS_TINY,	"flesh",
 	&mdeath::normal,	&mattack::none, "\
 A small woodland animal."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FLIES, MF_VIS40, MF_BONES);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FLIES, MF_VIS40, MF_BONES, MF_FEATHER);
 CATEGORIES(MC_WILDLIFE);
 
 // DOMESICATED ANIMALS

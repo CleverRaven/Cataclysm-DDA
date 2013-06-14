@@ -5304,13 +5304,36 @@ bool player::wear_item(game *g, item *to_wear)
 
  // are we trying to put on power armor? If so, make sure we don't have any other gear on.
  if (armor->is_power_armor()) {
-   if (worn.size() && armor->covers & mfb(bp_torso)) {
-     g->add_msg("You can't wear power armor over other gear!");
-     return false;
-   } else if (!(armor->covers & mfb(bp_torso)) && (!worn.size() || !((it_armor *)worn[0].type)->is_power_armor())) {
-     g->add_msg("You can only wear power armor components with power armor!");
-     return false;
-   }
+     for (std::vector<item>::iterator it = worn.begin();
+          it != worn.end(); it++)
+     {
+         if ((dynamic_cast<it_armor*>(it->type))->covers & armor->covers)
+         {
+             g->add_msg("You can't wear power armor over other gear!");
+             return false;
+         }
+     }
+     if (!(armor->covers & mfb(bp_torso))) {
+         bool power_armor = false;
+         if (worn.size())
+         {
+             for (std::vector<item>::iterator it = worn.begin();
+                  it != worn.end(); it++)
+             {
+                 if (dynamic_cast<it_armor*>(it->type)->power_armor)
+                 {
+                     power_armor = true;
+                     break;
+                 }
+             }
+         }
+
+         if (!power_armor)
+         {
+             g->add_msg("You can only wear power armor components with power armor!");
+             return false;
+         }
+     }
 
    for (int i = 0; i < worn.size(); i++) {
      if (((it_armor *)worn[i].type)->is_power_armor() && worn[i].type == armor) {
