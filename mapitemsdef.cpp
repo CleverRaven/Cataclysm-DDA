@@ -244,7 +244,7 @@ void game::init_mapitems()
 	"bb", "bolt_steel", "bbgun", "crossbow", "hand_crossbow", "manual_knives","manual_survival",
 	"manual_first_aid", "manual_traps", "lighter", "matches", "sewing_kit", "thread",
 	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
- "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
+ "UPS_off", "string_36", "longbow", "compbow", "hand_crossbow" "arrow_wood",
  "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
  "heatpack", "glowstick", "emer_blanket", "cloak", "sleeping_bag", "gasoline_lantern", NULL);
 
@@ -257,7 +257,7 @@ void game::init_mapitems()
 	"goggles_ski", "hat_ball", "helmet_bike", "helmet_ball",
 	"manual_brawl", "rope_30", "hatchet", "pot", "pan",
 	"binoculars", "hotplate", "knife_combat", "machete", "vest",
-	"backpack", "bb", "bolt_steel", "bbgun", "crossbow", "hand_crossbow",
+	"backpack", "bb", "bolt_steel", "bbgun", "crossbow", "hand_crossbow", "hand_crossbow",
 	"manual_knives", "manual_first_aid", "manual_traps", "lighter", "matches",
 	"sewing_kit", "thread", "hammer", "flashlight", "water_purifier",
 	"radio", "beartrap", "extinguisher", "string_36", "longbow",
