@@ -2400,7 +2400,7 @@ void map::spawn_item(const int x, const int y, std::string type_id, const int bi
                      const int quantity, const int charges, const int damlevel)
 {
     item new_item = item_controller->create(type_id, birthday);
-    for(int i = 0; i < quantity; i++)
+    for(int i = 1; i < quantity; i++)
     {
         spawn_item(x, y, type_id, birthday, 0, charges);
     }

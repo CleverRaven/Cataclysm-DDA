@@ -1062,23 +1062,23 @@ void construct::done_deconstruct(game *g, point p)
     case t_makeshift_bed:
     case t_bed:
     case t_armchair:
-      g->m.spawn_item(p.x, p.y, "2x4", 0, 9);
-      g->m.spawn_item(p.x, p.y, "rag", 0, 9);
+      g->m.spawn_item(p.x, p.y, "2x4", 0, 10);
+      g->m.spawn_item(p.x, p.y, "rag", 0, rng(10,15));
       g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,8));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_door_c:
     case t_door_o:
-      g->m.spawn_item(p.x, p.y, "2x4", 0, 3);
+      g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
       g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,12));
       g->m.ter_set(p.x, p.y, t_door_frame);
     break;
     case t_window_domestic:
       g->m.spawn_item(p.x, p.y, "stick", 0);
-      g->m.spawn_item(p.x, p.y, "sheet", 0, 1);
+      g->m.spawn_item(p.x, p.y, "sheet", 0, 2);
       g->m.spawn_item(p.x, p.y, "glass_sheet", 0);
-      g->m.spawn_item(p.x, p.y, "nail", 0, 0, 3);
+      g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(3,4));
       g->m.spawn_item(p.x, p.y, "string_36", 0, 0, 1);
       g->m.ter_set(p.x, p.y, t_window_empty);
     break;
@@ -1119,7 +1119,7 @@ void construct::done_deconstruct(game *g, point p)
     break;
 
     case t_locker:
-      g->m.spawn_item(p.x, p.y, "sheet_metal", 0);
+      g->m.spawn_item(p.x, p.y, "sheet_metal", 0, rng(1,2));
       g->m.spawn_item(p.x, p.y, "pipe", 0, rng(4,8));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
