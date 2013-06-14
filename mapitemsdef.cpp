@@ -257,7 +257,7 @@ void game::init_mapitems()
 	"goggles_ski", "hat_ball", "helmet_bike", "helmet_ball",
 	"manual_brawl", "rope_30", "hatchet", "pot", "pan",
 	"binoculars", "hotplate", "knife_combat", "machete", "vest",
-	"backpack", "bb", "bolt_steel", "bbgun", "crossbow", "hand_crossbow", "hand_crossbow",
+	"backpack", "bb", "bolt_steel", "bbgun", "crossbow", "hand_crossbow",
 	"manual_knives", "manual_first_aid", "manual_traps", "lighter", "matches",
 	"sewing_kit", "thread", "hammer", "flashlight", "water_purifier",
 	"radio", "beartrap", "extinguisher", "string_36", "longbow",
