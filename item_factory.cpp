@@ -352,6 +352,7 @@ void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/comestibles.json");
     load_item_templates_from("data/raw/items/armor.json");
     load_item_templates_from("data/raw/items/books.json");
+	load_item_templates_from("data/raw/items/archery.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 
