@@ -8766,7 +8766,7 @@ void game::complete_butcher(int index)
 
  if (feathers > 0) {
   if (corpse->has_flag(MF_FEATHER)) {
-    m.spawn_item(u.posx, u.posy, itypes["feather"], age, feathers);
+    m.spawn_item(u.posx, u.posy, "feather", age, feathers);
    add_msg("You harvest some feathers!");
   }
  }
