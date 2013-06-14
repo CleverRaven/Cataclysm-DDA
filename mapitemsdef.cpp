@@ -507,7 +507,7 @@ void game::init_mapitems()
  setvector(
    &mapitems[mi_medieval],
 	"katana", "mace", "morningstar", "rapier", "broadsword",
-	"pike", "helmet_plate", "armor_plate", "huge_crossbow", "rep_crossbow", NULL);  
+	"pike", "helmet_plate", "armor_plate", "huge_crossbow", NULL);  
 
  setvector(
    &mapitems[mi_art],
@@ -534,7 +534,7 @@ void game::init_mapitems()
 	"broadsword", "morningstar", "helmet_plate", "cot", "rollmat", "tent_kit",
     "bat_metal",  "lawnmower", "pickelhaube",
     "makeshift_machete", "picklocks", "rucksack", "puller", "press",
-    "vac_sealer", "gasoline_lantern", "huge_crossbow", "rep_crossbow", NULL);
+    "vac_sealer", "gasoline_lantern", "huge_crossbow", NULL);
 
  setvector(
    &mapitems[mi_mil_surplus], // NOT food or armor!
