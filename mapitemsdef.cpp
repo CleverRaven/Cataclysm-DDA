@@ -241,7 +241,7 @@ void game::init_mapitems()
    &mapitems[mi_camping],
 	"rope_30", "hatchet", "pot", "pan", "binoculars", "firecracker_pack",
 	"hotplate", "knife_combat", "machete", "vest", "backpack",
-	"bb", "bolt_steel", "bbgun", "crossbow", "hand_crossbow", "manual_knives","manual_survival",
+	"bb", "bolt_steel", "bbgun", "crossbow", "manual_knives","manual_survival",
 	"manual_first_aid", "manual_traps", "lighter", "matches", "sewing_kit", "thread",
 	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
  "UPS_off", "string_36", "longbow", "compbow", "hand_crossbow" "arrow_wood",
