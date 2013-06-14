@@ -176,7 +176,7 @@
     "rarity": 2,
     "price": 1000,
     "material": ["iron", "wood"],
-    "flags": ["ALWAYS_TWOHAND", "STR10_DRAW"], 
+    "flags": ["ALWAYS_TWOHAND", "STR_RELOAD"], 
     "skill": "archery",
     "ammo": "bolt",
     "weight": 60,
