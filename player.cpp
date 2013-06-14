@@ -935,7 +935,7 @@ int player::run_cost(int base_cost, bool diag)
     if (diag)
         movecost *= 0.7071; // because everything here assumes 100 is base
 
-    if (has_trait(PF_PARKOUR) && base_cost > 100) {
+    if (has_trait(PF_PARKOUR) && movecost > 100 ) {
         movecost *= .5;
         if (movecost < 100)
             movecost = 100;
@@ -950,9 +950,9 @@ int player::run_cost(int base_cost, bool diag)
     else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40)
         movecost += 25;
 
-    if (has_trait(PF_FLEET) && base_cost == 100)
+    if (has_trait(PF_FLEET) && movecost < 105)
         movecost *= .85;
-    if (has_trait(PF_FLEET2) && base_cost == 100)
+    if (has_trait(PF_FLEET2) && movecost < 105)
         movecost *= .7;
     if (has_trait(PF_PADDED_FEET) && !wearing_something_on(bp_feet))
         movecost *= .9;
