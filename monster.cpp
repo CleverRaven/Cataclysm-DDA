@@ -724,7 +724,7 @@ void monster::drop_items_on_death(game *g)
             selected_item++;
             cur_chance -= g->itypes[mapit[selected_item]]->rarity;
         }
-        g->m.spawn_item(posx, posy, g->itypes[mapit[selected_item]], 0);
+        g->m.spawn_item(posx, posy, mapit[selected_item], 0);
         if (type->item_chance < 0)
         {
             animal_done = true; // Only drop ONE item.

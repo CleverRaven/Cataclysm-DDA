@@ -240,7 +240,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 if (one_in(250))
                 {
                     m->ter_set(i, j, t_tree_apple);
-                    m->spawn_item(i, j, item_controller->find_template("apple"), turn);
+                    m->spawn_item(i, j, "apple", turn);
                 }
                 else
                 {
@@ -365,6 +365,11 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
         }
     }
+
+    if (one_in(300)) {  //rare, very bad day for low level characters
+        m->add_spawn(mon_jabberwock, 1, SEEX, SEEY);
+    }
+
 
     if (one_in(100)) // One in 100 forests has a spider living in it :o
     {

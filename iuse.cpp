@@ -72,7 +72,7 @@ void iuse::sewage(game *g, player *p, item *it, bool t)
 
 void iuse::honeycomb(game *g, player *p, item *it, bool t)
 {
-  g->m.spawn_item(p->posx, p->posy, g->itypes["wax"],0, 2);
+  g->m.spawn_item(p->posx, p->posy, "wax",0, 2);
 }
 
 void iuse::royal_jelly(game *g, player *p, item *it, bool t)
@@ -329,7 +329,7 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
 
 void iuse::disinfectant(game *g, player *p, item *it, bool t)
 {
-    
+
     if (use_healing_item(g, p, it, 6, 5, 9, "Disinfectant", p->has_disease(DI_BITE) ? "Clean Wound" : ""))
     {
         g->add_msg_if_player(p,"You disinfect the bite wound.");
@@ -908,15 +908,23 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     {
         repair_item = "leather";
     }
+    else if (fix->made_of("plastic"))
+    {
+        repair_item = "plastic chunk";
+    }
+    else if (fix->made_of("kevlar"))
+    {
+        repair_item = "kevlar plate";
+    }
     else
 	{
-        g->add_msg_if_player(p,"Your %s is not made of cotton, wool or leather.", fix->tname().c_str());
+        g->add_msg_if_player(p,"Your %s is not made of cotton, wool, leather, plastic or kevlar.", fix->tname().c_str());
         it->charges++;
         return;
     }
-    
+
     int items_needed=(fix->damage>2||fix->damage==0)?1:0;
-    
+
     // this will cause issues if/when NPCs start being able to sew.
     // but, then again, it'll cause issues when they start crafting, too.
     inventory crafting_inv = g->crafting_inventory(p);
@@ -936,7 +944,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     std::vector<component> comps;
     comps.push_back(component(repair_item, items_needed));
     comps.back().available = true;
- 
+
 
     if (fix->damage == 0)
     {
@@ -953,7 +961,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 	    {
             g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
             fix->damage++;
-        } 
+        }
         else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT"))
 	    {
             g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
@@ -1025,7 +1033,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             fix->damage = 0;
         }
     }
-    
+
     //iuse::sew uses up 1 charge when called, if less than 1, set to 1, and use that one up.
     if (it->charges < 1)
         {it->charges = 1;}
@@ -1122,7 +1130,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     {
         count -= rng(1, 3);
     }
-    
+
     if (cut->damage>2 || cut->damage<0)
     {
         count-= cut->damage;
@@ -1167,7 +1175,7 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
  // they're going to need to figure out how to aim it.
  if (!g->choose_adjacent("Spray", x, y))
   return;
- 
+
  p->moves -= 140;
 
  if (g->m.field_at(x, y).type == fd_fire) {
@@ -1249,8 +1257,8 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
         return;
     }
     p->moves -= 500;
-    g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
-    g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
+    g->m.spawn_item(p->posx, p->posy, "nail", 0, 0, nails);
+    g->m.spawn_item(p->posx, p->posy, "2x4", 0, boards);
     g->m.ter_set(x, y, newter);
 }
 
@@ -1894,8 +1902,8 @@ if (dirx == 0 && diry == 0) {
   if(p->skillLevel("carpentry") < 1)
    p->practice(g->turn, "carpentry", 1);
   p->moves -= 500;
-  g->m.spawn_item(p->posx, p->posy, g->itypes["nail"], 0, 0, nails);
-  g->m.spawn_item(p->posx, p->posy, g->itypes["2x4"], 0, boards);
+  g->m.spawn_item(p->posx, p->posy, "nail", 0, 0, nails);
+  g->m.spawn_item(p->posx, p->posy, "2x4", 0, boards);
   g->m.ter_set(dirx, diry, newter);
   return;
  }
@@ -1977,7 +1985,7 @@ void iuse::siphon(game *g, player *p, item *it, bool t)
     // there's no self-tile check because the player could be in a vehicle
     posx += p->posx;
     posy += p->posy;
-    
+
     vehicle* veh = g->m.veh_at(posx, posy);
     if (veh == NULL)
     {
@@ -3145,7 +3153,7 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true,
-    "Using knife:", "Cut up fabric", "Carve wood", "Cauterize", "Cancel", NULL);
+    "Using knife:", "Cut up fabric", "Cut up plastic/kevlar", "Carve wood", "Cauterize", "Cancel", NULL);
     switch (choice)
     {
         if (choice == 4)
@@ -3156,6 +3164,94 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         }
         break;
         case 2:
+        {
+           char ch = g->inv("Chop up what?");
+           item* cut = &(p->i_at(ch));
+           int amount = 0;
+           if (cut->type->id == "null")
+            {
+                g->add_msg("You do not have that item!");
+                return;
+            }
+            if(cut->made_of("plastic"))
+            {
+                //if we're going to cut up a bottle, make sure it isn't full of liquid
+                amount = cut->volume();
+                if(cut->is_container())
+                {
+                    if(cut->is_food_container())
+                    {
+                        g->add_msg("That container has liquid in it!");
+                        break;
+                    }
+                }
+                if(amount == 0)
+                {
+                    g->add_msg("This object is too small to salvage a meaningful quantity of plastic from!");
+                    break;
+                }
+
+
+                g->add_msg("You cut the %s into %i plastic chunks.", cut->tname().c_str(), amount);
+                int count = amount;
+                item result(g->itypes["plastic_chunk"], int(g->turn), g->nextinv);
+                p->i_rem(ch);
+                bool drop = false;
+                for (int i = 0; i < count; i++)
+                {
+                    int iter = 0;
+                    while (p->has_item(result.invlet) && iter < inv_chars.size())
+                    {
+                        result.invlet = g->nextinv;
+                        g->advance_nextinv();
+                        iter++;
+                    }
+                    if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+                    drop = true;
+                    if (drop)
+                    g->m.add_item(p->posx, p->posy, result);
+                    else
+                    p->i_add(result);
+                }
+            }
+            else if(cut->made_of("kevlar"))
+            {
+                amount = cut->volume();
+                if(amount == 0)
+                {
+                    g->add_msg("This object is too small to salvage a meaningful quantity of kevlar from!");
+                    break;
+                }
+
+                g->add_msg("You cut some chunks from the %s.", cut->tname().c_str());
+                int count = amount;
+                item result(g->itypes["kevlar_plate"], int(g->turn), g->nextinv);
+                p->i_rem(ch);
+                bool drop = false;
+                for (int i = 0; i < count; i++)
+                {
+                    int iter = 0;
+                    while (p->has_item(result.invlet) && iter < inv_chars.size())
+                    {
+                        result.invlet = g->nextinv;
+                        g->advance_nextinv();
+                        iter++;
+                    }
+                    if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+                    drop = true;
+                    if (drop)
+                    g->m.add_item(p->posx, p->posy, result);
+                    else
+                    p->i_add(result);
+                }
+            }
+            else
+            {
+                g->add_msg("You can't carve that up!");
+            }
+        }
+        break;
+        case 3:
         {
             char ch = g->inv("Chop up what?");
             item* cut = &(p->i_at(ch));
@@ -3194,7 +3290,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
             }
         }
         break;
-        case 3:
+        case 4:
         {
             if (!p->has_disease(DI_BITE) && !p->has_disease(DI_BLEED))
                 g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
@@ -3283,31 +3379,31 @@ if (dirx == 0 && diry == 0) {
   p->moves -= 500;
   g->m.ter_set(dirx, diry, t_dirt);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.spawn_item(dirx, diry, g->itypes["pipe"], 0, 6);
-  g->m.spawn_item(dirx, diry, g->itypes["wire"], 0, 20);
+  g->m.spawn_item(dirx, diry, "pipe", 0, 6);
+  g->m.spawn_item(dirx, diry, "wire", 0, 20);
  if (g->m.ter(dirx, diry) == t_chainfence_posts) {
   p->moves -= 500;
   g->m.ter_set(dirx, diry, t_dirt);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.spawn_item(dirx, diry, g->itypes["pipe"], 0, 6);
+  g->m.spawn_item(dirx, diry, "pipe", 0, 6);
  } else if (g->m.ter(dirx, diry) == t_rack) {
   p->moves -= 500;
   g->m.ter_set(dirx, diry, t_floor);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, rng(1, 3));
-  g->m.spawn_item(p->posx, p->posy, g->itypes["steel_chunk"], 0);
+  g->m.spawn_item(p->posx, p->posy, "pipe", 0, rng(1, 3));
+  g->m.spawn_item(p->posx, p->posy, "steel_chunk", 0);
  } else if (g->m.ter(dirx, diry) == t_bars &&
             (g->m.ter(dirx + 1, diry) == t_sewage || g->m.ter(dirx, diry + 1) == t_sewage ||
              g->m.ter(dirx - 1, diry) == t_sewage || g->m.ter(dirx, diry - 1) == t_sewage)) {
   g->m.ter_set(dirx, diry, t_sewage);
   p->moves -= 1000;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, 3);
+  g->m.spawn_item(p->posx, p->posy, "pipe", 0, 3);
  } else if (g->m.ter(dirx, diry) == t_bars && g->m.ter(p->posx, p->posy)) {
   g->m.ter_set(dirx, diry, t_floor);
   p->moves -= 500;
   g->sound(dirx, diry, 15,"grnd grnd grnd");
-  g->m.spawn_item(p->posx, p->posy, g->itypes["pipe"], 0, 3);
+  g->m.spawn_item(p->posx, p->posy, "pipe", 0, 3);
  } else {
   g->add_msg("You can't cut that.");
  }
@@ -3703,12 +3799,12 @@ if (dirx == 0 && diry == 0) {
   p->moves -= 100;
   g->m.ter_set(dirx, diry, t_chaingate_c);
   g->sound(dirx, diry, 5, "Gachunk!");
-  g->m.spawn_item(p->posx, p->posy, g->itypes["scrap"], 0, 3);
+  g->m.spawn_item(p->posx, p->posy, "scrap", 0, 3);
  } else if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h) {
   p->moves -= 500;
   g->m.ter_set(dirx, diry, t_chainfence_posts);
   g->sound(dirx, diry, 5,"Snick, snick, gachunk!");
-  g->m.spawn_item(dirx, diry, g->itypes["wire"], 0, 20);
+  g->m.spawn_item(dirx, diry, "wire", 0, 20);
  } else {
   g->add_msg("You can't cut that.");
  }

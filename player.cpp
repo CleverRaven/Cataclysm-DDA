@@ -63,6 +63,7 @@ player::player()
  last_climate_control_ret=false;
  active_mission = -1;
  in_vehicle = false;
+ controlling_vehicle = false;
  style_selected = "null";
  focus_pool = 100;
  last_item = itype_id("null");
@@ -107,6 +108,7 @@ player& player::operator= (const player & rhs)
  view_offset_y = rhs.view_offset_y;
 
  in_vehicle = rhs.in_vehicle;
+ controlling_vehicle = rhs.controlling_vehicle;
  activity = rhs.activity;
  backlog = rhs.backlog;
 
@@ -933,49 +935,59 @@ int player::current_speed(game *g)
  return newmoves;
 }
 
-int player::run_cost(int base_cost)
+int player::run_cost(int base_cost, bool diag)
 {
- int movecost = base_cost;
- if (has_trait(PF_PARKOUR) && base_cost > 100) {
-  movecost *= .5;
-  if (movecost < 100)
-   movecost = 100;
- }
- if (hp_cur[hp_leg_l] == 0)
-  movecost += 50;
- else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40)
-  movecost += 25;
- if (hp_cur[hp_leg_r] == 0)
-  movecost += 50;
- else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40)
-  movecost += 25;
+    float movecost = float(base_cost);
+    if (diag)
+        movecost *= 0.7071; // because everything here assumes 100 is base
+    bool flatground = movecost < 105;
 
- if (has_trait(PF_FLEET) && base_cost == 100)
-  movecost = int(movecost * .85);
- if (has_trait(PF_FLEET2) && base_cost == 100)
-  movecost = int(movecost * .7);
- if (has_trait(PF_PADDED_FEET) && !wearing_something_on(bp_feet))
-  movecost = int(movecost * .9);
- if (has_trait(PF_LIGHT_BONES))
-  movecost = int(movecost * .9);
- if (has_trait(PF_HOLLOW_BONES))
-  movecost = int(movecost * .8);
- if (has_trait(PF_WINGS_INSECT))
-  movecost -= 15;
- if (has_trait(PF_LEG_TENTACLES))
-  movecost += 20;
- if (has_trait(PF_PONDEROUS1))
-  movecost = int(movecost * 1.1);
- if (has_trait(PF_PONDEROUS2))
-  movecost = int(movecost * 1.2);
- if (has_trait(PF_PONDEROUS3))
-  movecost = int(movecost * 1.3);
- movecost += encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
- if (!wearing_something_on(bp_feet) && !has_trait(PF_PADDED_FEET) &&
-     !has_trait(PF_HOOVES))
-  movecost += 15;
+    if (has_trait(PF_PARKOUR) && movecost > 100 ) {
+        movecost *= .5;
+        if (movecost < 100)
+            movecost = 100;
+    }
 
- return movecost;
+    if (hp_cur[hp_leg_l] == 0)
+        movecost += 50;
+    else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40)
+        movecost += 25;
+    if (hp_cur[hp_leg_r] == 0)
+        movecost += 50;
+    else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40)
+        movecost += 25;
+
+    if (has_trait(PF_FLEET) && flatground)
+        movecost *= .85;
+    if (has_trait(PF_FLEET2) && flatground)
+        movecost *= .7;
+    if (has_trait(PF_PADDED_FEET) && !wearing_something_on(bp_feet))
+        movecost *= .9;
+    if (has_trait(PF_LIGHT_BONES))
+        movecost *= .9;
+    if (has_trait(PF_HOLLOW_BONES))
+        movecost *= .8;
+    if (has_trait(PF_WINGS_INSECT))
+        movecost -= 15;
+    if (has_trait(PF_LEG_TENTACLES))
+        movecost += 20;
+    if (has_trait(PF_PONDEROUS1))
+        movecost *= 1.1;
+    if (has_trait(PF_PONDEROUS2))
+        movecost *= 1.2;
+    if (has_trait(PF_PONDEROUS3))
+        movecost *= 1.3;
+
+    movecost += encumb(bp_feet) * 5 + encumb(bp_legs) * 3;
+
+    if (!wearing_something_on(bp_feet) && !has_trait(PF_PADDED_FEET) &&
+            !has_trait(PF_HOOVES))
+        movecost += 15;
+
+    if (diag)
+        movecost *= 1.4142;
+
+    return int(movecost);
 }
 
 int player::swim_speed()
@@ -1023,7 +1035,7 @@ void player::load_info(game *g, std::string data)
 {
  std::stringstream dump;
  dump << data;
- int inveh;
+ int inveh, vctrl;
  itype_id styletmp;
  std::string prof_ident;
 
@@ -1031,9 +1043,9 @@ void player::load_info(game *g, std::string data)
          int_cur >> int_max >> per_cur >> per_max >> power_level >>
          max_power_level >> hunger >> thirst >> fatigue >> stim >>
          pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
-         inveh >> scent >> moves >> underwater >> dodges_left >> blocks_left >>
-         oxygen >> active_mission >> focus_pool >> male >> prof_ident >> health >>
-         styletmp;
+         inveh >> vctrl >> scent >> moves >> underwater >> dodges_left >>
+         blocks_left >> oxygen >> active_mission >> focus_pool >> male >>
+         prof_ident >> health >> styletmp;
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1046,6 +1058,7 @@ void player::load_info(game *g, std::string data)
  backlog.load_info(dump);
 
  in_vehicle = inveh != 0;
+ controlling_vehicle = vctrl != 0;
  style_selected = styletmp;
 
  for (int i = 0; i < PF_MAX2; i++)
@@ -1155,11 +1168,12 @@ std::string player::save_info()
          max_power_level << " " << hunger << " " << thirst << " " << fatigue <<
          " " << stim << " " << pain << " " << pkill << " " << radiation <<
          " " << cash << " " << recoil << " " << driving_recoil << " " <<
-         (in_vehicle? 1 : 0) << " " << scent << " " << moves << " " <<
-         underwater << " " << dodges_left << " " << blocks_left << " " <<
-         oxygen << " " << active_mission << " " << focus_pool << " " << male <<
-         " " << prof->ident() << " " << health << " " << style_selected <<
-         " " << activity.save_info() << " " << backlog.save_info() << " ";
+         (in_vehicle? 1 : 0) << " " << (controlling_vehicle? 1 : 0) << " " <<
+         scent << " " << moves << " " << underwater << " " << dodges_left <<
+         " " << blocks_left << " " << oxygen << " " << active_mission << " " <<
+         focus_pool << " " << male << " " << prof->ident() << " " << health <<
+         " " << style_selected << " " << activity.save_info() << " " <<
+         backlog.save_info() << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
@@ -5306,13 +5320,36 @@ bool player::wear_item(game *g, item *to_wear)
 
  // are we trying to put on power armor? If so, make sure we don't have any other gear on.
  if (armor->is_power_armor()) {
-   if (worn.size() && armor->covers & mfb(bp_torso)) {
-     g->add_msg("You can't wear power armor over other gear!");
-     return false;
-   } else if (!(armor->covers & mfb(bp_torso)) && (!worn.size() || !((it_armor *)worn[0].type)->is_power_armor())) {
-     g->add_msg("You can only wear power armor components with power armor!");
-     return false;
-   }
+     for (std::vector<item>::iterator it = worn.begin();
+          it != worn.end(); it++)
+     {
+         if ((dynamic_cast<it_armor*>(it->type))->covers & armor->covers)
+         {
+             g->add_msg("You can't wear power armor over other gear!");
+             return false;
+         }
+     }
+     if (!(armor->covers & mfb(bp_torso))) {
+         bool power_armor = false;
+         if (worn.size())
+         {
+             for (std::vector<item>::iterator it = worn.begin();
+                  it != worn.end(); it++)
+             {
+                 if (dynamic_cast<it_armor*>(it->type)->power_armor)
+                 {
+                     power_armor = true;
+                     break;
+                 }
+             }
+         }
+
+         if (!power_armor)
+         {
+             g->add_msg("You can only wear power armor components with power armor!");
+             return false;
+         }
+     }
 
    for (int i = 0; i < worn.size(); i++) {
      if (((it_armor *)worn[i].type)->is_power_armor() && worn[i].type == armor) {
@@ -5442,10 +5479,12 @@ bool player::takeoff(game *g, char let)
  } else {
   for (int i = 0; i < worn.size(); i++) {
    if (worn[i].invlet == let) {
-     if (i == 0 && (dynamic_cast<it_armor*>(worn[i].type))->is_power_armor()) {
+     if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
+         ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso))) {
        // We're trying to take off power armor, but cannot do that if we have a power armor component on!
-       for (int i = 1; i < worn.size(); i++) {
-         if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor()) {
+       for (int i = 0; i < worn.size(); i++) {
+         if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
+             (worn[i].invlet != let)) {
            g->add_msg("You can't take off power armor while wearing other power armor components.");
            return false;
          }

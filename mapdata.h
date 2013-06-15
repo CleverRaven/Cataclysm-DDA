@@ -736,6 +736,8 @@ enum field_id {
  fd_null = 0,
  fd_blood,
  fd_bile,
+ fd_gibs_flesh,
+ fd_gibs_veggy, 
  fd_web,
  fd_slime,
  fd_acid,
@@ -767,6 +769,12 @@ const field_t fieldlist[] = {
 {{"bile splatter", "bile stain", "puddle of bile"},	'%',
  {c_pink, c_pink, c_pink},	{true, true, true}, {false, false, false},2500},
 
+{{"scraps of flesh",	"bloody meat chunks",	"heap of gore"},			'~',
+ {c_brown, c_ltred, c_red},	{true, true, true}, {false, false, false},	   2500},
+ 
+{{"shredded leaves and twigs",	"shattered branches and leaves",	"broken vegetation tangle"},			'~',
+ {c_ltgreen, c_ltgreen, c_green},	{true, true, true}, {false, false, false},	   2500}, 
+ 
 {{"cobwebs","webs", "thick webs"},			'}',
  {c_white, c_white, c_white},	{true, true, false},{false, false, false},   0},
 

@@ -78,10 +78,7 @@ int rl_dist(int x1, int y1, int x2, int y2)
 
 int rl_dist(point a, point b)
 {
- int dx = abs(a.x - b.x), dy = abs(a.y - b.y);
- if (dx > dy)
-  return dx;
- return dy;
+ return rl_dist(a.x, a.y, b.x, b.y);
 }
 
 double slope_of(std::vector<point> line)

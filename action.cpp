@@ -232,7 +232,7 @@ std::string action_ident(action_id act)
         case ACTION_BIONICS:
             return "bionics";
         case ACTION_SORT_ARMOR:
-            return "sort_armor";            
+            return "sort_armor";
         case ACTION_WAIT:
             return "wait";
         case ACTION_CRAFT:
@@ -406,7 +406,7 @@ std::string action_name(action_id act)
         case ACTION_BIONICS:
             return "View/Activate Bionics";
         case ACTION_SORT_ARMOR:
-            return "Re-layer armour/clothing";             
+            return "Re-layer armour/clothing";
         case ACTION_WAIT:
             return "Wait for Several Minutes";
         case ACTION_CRAFT:
@@ -460,3 +460,4 @@ std::string action_name(action_id act)
     }
     return "Someone forgot to name an action.";
 }
+

@@ -32,7 +32,7 @@ void trapfunc::beartrap(game *g, int x, int y)
  g->u.hit(g, bp_legs, rng(0, 1), 10, 16);
  g->u.add_disease(DI_BEARTRAP, -1, g);
  g->m.tr_at(x, y) = tr_null;
- g->m.spawn_item(x, y, g->itypes["beartrap"], g->turn);
+ g->m.spawn_item(x, y, "beartrap", g->turn);
 }
 
 void trapfuncm::beartrap(game *g, monster *z, int x, int y)
@@ -44,7 +44,7 @@ void trapfuncm::beartrap(game *g, monster *z, int x, int y)
  g->sound(x, y, 8, "SNAP!");
  if (z->hurt(35)) {
   g->kill_mon(g->mon_at(x, y));
-  g->m.spawn_item(x, y, g->itypes["beartrap"], 0);
+  g->m.spawn_item(x, y, "beartrap", 0);
  } else {
   z->moves = 0;
   z->add_effect(ME_BEARTRAP, rng(8, 15));
@@ -133,10 +133,10 @@ void trapfunc::crossbow(game *g, int x, int y)
  } else
   g->add_msg("You dodge the shot!");
  g->m.tr_at(x, y) = tr_null;
- g->m.spawn_item(x, y, g->itypes["crossbow"], 0);
- g->m.spawn_item(x, y, g->itypes["string_6"], 0);
+ g->m.spawn_item(x, y, "crossbow", 0);
+ g->m.spawn_item(x, y, "string_6", 0);
  if (add_bolt)
-  g->m.spawn_item(x, y, g->itypes["bolt_steel"], 0, 0, 1);
+  g->m.spawn_item(x, y, "bolt_steel", 0, 0, 1);
 }
 
 void trapfuncm::crossbow(game *g, monster *z, int x, int y)
@@ -165,10 +165,10 @@ void trapfuncm::crossbow(game *g, monster *z, int x, int y)
     else if (seen)
         g->add_msg("A bolt shoots out, but misses the %s.", z->name().c_str());
     g->m.tr_at(x, y) = tr_null;
-    g->m.spawn_item(x, y, g->itypes["crossbow"], 0);
-    g->m.spawn_item(x, y, g->itypes["string_6"], 0);
+    g->m.spawn_item(x, y, "crossbow", 0);
+    g->m.spawn_item(x, y, "string_6", 0);
     if (add_bolt)
-    g->m.spawn_item(x, y, g->itypes["bolt_steel"], 0, 0, 1);
+    g->m.spawn_item(x, y, "bolt_steel", 0, 0, 1);
 }
 
 void trapfunc::shotgun(game *g, int x, int y)
@@ -197,8 +197,8 @@ void trapfunc::shotgun(game *g, int x, int y)
  } else
   g->add_msg("You dodge the shot!");
  if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
-  g->m.spawn_item(x, y, g->itypes["shotgun_sawn"], 0);
-  g->m.spawn_item(x, y, g->itypes["string_6"], 0);
+  g->m.spawn_item(x, y, "shotgun_sawn", 0);
+  g->m.spawn_item(x, y, "string_6", 0);
   g->m.tr_at(x, y) = tr_null;
  } else
   g->m.tr_at(x, y) = tr_shotgun_1;
@@ -224,10 +224,10 @@ void trapfuncm::shotgun(game *g, monster *z, int x, int y)
   g->kill_mon(g->mon_at(x, y));
  if (shots == 2 || g->m.tr_at(x, y) == tr_shotgun_1) {
   g->m.tr_at(x, y) = tr_null;
-  g->m.spawn_item(x, y, g->itypes["shotgun_sawn"], 0);
-  g->m.spawn_item(x, y, g->itypes["string_6"], 0);
-  g->m.spawn_item(x, y, g->itypes["shotgun_sawn"], 0);
-  g->m.spawn_item(x, y, g->itypes["string_6"], 0);
+  g->m.spawn_item(x, y, "shotgun_sawn", 0);
+  g->m.spawn_item(x, y, "string_6", 0);
+  g->m.spawn_item(x, y, "shotgun_sawn", 0);
+  g->m.spawn_item(x, y, "string_6", 0);
  } else
   g->m.tr_at(x, y) = tr_shotgun_1;
 }
@@ -259,8 +259,8 @@ void trapfunc::snare_light(game *g, int x, int y)
  g->add_msg("A snare closes on your leg.");
  g->u.add_disease(DI_LIGHTSNARE, rng(10, 20), g);
  g->m.tr_at(x, y) = tr_null;
- g->m.spawn_item(x, y, g->itypes["string_36"], 0);
- g->m.spawn_item(x, y, g->itypes["snare_trigger"], 0);
+ g->m.spawn_item(x, y, "string_36", 0);
+ g->m.spawn_item(x, y, "snare_trigger", 0);
 }
 
 void trapfuncm::snare_light(game *g, monster *z, int x, int y)
@@ -304,8 +304,8 @@ void trapfuncm::snare_light(game *g, monster *z, int x, int y)
    break;
  }
  g->m.tr_at(x, y) = tr_null;
- g->m.spawn_item(x, y, g->itypes["string_36"], 0);
- g->m.spawn_item(x, y, g->itypes["snare_trigger"], 0);
+ g->m.spawn_item(x, y, "string_36", 0);
+ g->m.spawn_item(x, y, "snare_trigger", 0);
 }
 
 void trapfunc::snare_heavy(game *g, int x, int y)
@@ -317,8 +317,8 @@ void trapfunc::snare_heavy(game *g, int x, int y)
  g->u.hit(g, bp_legs, side, 15, 20);
  g->u.add_disease(DI_HEAVYSNARE, rng(20, 30), g);
  g->m.tr_at(x, y) = tr_null;
- g->m.spawn_item(x, y, g->itypes["rope_6"], 0);
- g->m.spawn_item(x, y, g->itypes["snare_trigger"], 0);
+ g->m.spawn_item(x, y, "rope_6", 0);
+ g->m.spawn_item(x, y, "snare_trigger", 0);
 }
 
 void trapfuncm::snare_heavy(game *g, monster *z, int x, int y)
@@ -373,8 +373,8 @@ void trapfuncm::snare_heavy(game *g, monster *z, int x, int y)
    break;
  }
  g->m.tr_at(x, y) = tr_null;
- g->m.spawn_item(x, y, g->itypes["snare_trigger"], 0);
- g->m.spawn_item(x, y, g->itypes["rope_6"], 0);
+ g->m.spawn_item(x, y, "snare_trigger", 0);
+ g->m.spawn_item(x, y, "rope_6", 0);
 }
 
 void trapfunc::landmine(game *g, int x, int y)
@@ -561,8 +561,8 @@ void trapfunc::pit_spikes(game *g, int x, int y)
    g->m.tr_at(x, y) = tr_pit;
    for (int i = 0; i < 4; i++) { // 4 spears to a pit
     if (one_in(3))
-     g->m.spawn_item(x, y, g->itypes["spear_wood"], g->turn);
-     g->m.spawn_item(x, y, g->itypes["spear_wood"], g->turn);
+     g->m.spawn_item(x, y, "spear_wood", g->turn);
+     g->m.spawn_item(x, y, "spear_wood", g->turn);
    }
   }
  }
@@ -590,7 +590,7 @@ void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)
   g->m.tr_at(x, y) = tr_pit;
   for (int i = 0; i < 4; i++) { // 4 spears to a pit
    if (one_in(3))
-    g->m.spawn_item(x, y, g->itypes["spear_wood"], g->turn);
+    g->m.spawn_item(x, y, "spear_wood", g->turn);
   }
  }
 }
@@ -653,7 +653,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
      g->add_msg("There's nowhere to pull yourself to, and you sink!");
      g->u.use_amount("rope_30", 1);
      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
-                   g->itypes["rope_30"], g->turn);
+                     "rope_30", g->turn);
      g->m.tr_at(g->u.posx, g->u.posy) = tr_pit;
      g->vertical_move(-1, true);
     } else {
@@ -669,7 +669,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
     g->u.moves -= 100;
     g->u.use_amount("rope_30", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
-                  g->itypes["rope_30"], g->turn);
+                    "rope_30", g->turn);
     g->vertical_move(-1, true);
    }
   } else {
@@ -677,7 +677,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
    if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
     g->u.use_amount("rope_30", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
-                  g->itypes["rope_30"], g->turn);
+                    "rope_30", g->turn);
    }
    g->m.tr_at(g->u.posx, g->u.posy) = tr_pit;
    g->vertical_move(-1, true);

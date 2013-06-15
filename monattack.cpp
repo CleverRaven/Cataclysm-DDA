@@ -46,7 +46,7 @@ void mattack::antqueen(game *g, monster *z)
  } else if (egg_points.size() == 0) {	// There's no eggs nearby--lay one.
   if (g->u_see(z->posx, z->posy))
    g->add_msg("The %s lays an egg!", z->name().c_str());
-  g->m.spawn_item(z->posx, z->posy, g->itypes["ant_egg"], g->turn);
+  g->m.spawn_item(z->posx, z->posy, "ant_egg", g->turn);
  } else { // There are eggs nearby.  Let's hatch some.
   z->moves -= 20 * egg_points.size(); // It takes a while
   if (g->u_see(z->posx, z->posy))
@@ -1144,24 +1144,69 @@ void mattack::tazer(game *g, monster *z)
  g->u.moves -= shock * 20;
 }
 
+int coord2angle ( const int x, const int y, const int tgtx, const int tgty ) {
+  const double DBLRAD2DEG = 57.2957795130823f;
+  //const double PI = 3.14159265358979f;
+  const double DBLPI = 6.28318530717958f;
+  double rad = atan2 ( tgty - y, tgtx - x );
+  if ( rad < 0 ) rad = DBLPI - (0 - rad);
+  return int( rad * DBLRAD2DEG );
+}
+
 void mattack::smg(game *g, monster *z)
 {
  int t, fire_t;
- if (z->friendly != 0) { // Attacking monsters, not the player!
+ if (z->friendly != 0) {   // Attacking monsters, not the player!
   monster* target = NULL;
+  const int iff_dist=24;   // iff check triggers at this distance
+  const int iff_hangle=15; // iff safety margin (degrees). less accuracy, more paranoia
   int closest = 19;
+  int c=0;
+  int u_angle = 0;         // player angle relative to turret
+  int boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
+  bool iff_trig = false;   // player seen and within range of stray shots
+  if ( rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) < iff_dist && 
+      g->sees_u(z->posx, z->posy, t) ) {
+      iff_trig = true;
+      u_angle = coord2angle (z->posx, z->posy, g->u.posx, g->u.posy );
+  }
   for (int i = 0; i < g->z.size(); i++) {
-   int dist = rl_dist(z->posx, z->posy, g->z[i].posx, g->z[i].posy);
-   if (g->z[i].friendly == 0 && dist < closest &&
-       g->m.sees(z->posx, z->posy, g->z[i].posx, g->z[i].posy, 18, t)) {
-    target = &(g->z[i]);
-    closest = dist;
-    fire_t = t;
-   }
+    if ( g->m.sees(z->posx, z->posy, g->z[i].posx, g->z[i].posy, 18, t) ) {
+      int dist = rl_dist(z->posx, z->posy, g->z[i].posx, g->z[i].posy);
+      if (g->z[i].friendly == 0 ) {
+        bool safe_target=true;
+        if ( iff_trig ) {
+          int tangle = coord2angle (z->posx, z->posy, g->z[i].posx, g->z[i].posy );
+          int diff = abs ( u_angle - tangle );
+          if ( diff + iff_hangle > 360 || diff < iff_hangle ) {
+              safe_target=false;
+              boo_hoo++;
+          }
+          //mvprintw(c,VIEWX * 2 + 8,"tgt? %d <=> %d : %d",tangle, u_angle, diff);
+        }
+        if (dist < closest && safe_target ) {
+          target = &(g->z[i]);
+          closest = dist;
+          fire_t = t;
+        } 
+      } // else if ( advanced_software_upgrade ) {
+        // todo; make friendly && unfriendly lists, then select closest non-friendly fire target
+    }
+    c++;
   }
   z->sp_timeout = z->type->sp_freq;	// Reset timer
-  if (target == NULL) // Couldn't find any targets!
-   return;
+  if (target == NULL) {// Couldn't find any targets!
+    if(boo_hoo > 0 && g->u_see(z->posx, z->posy) ) { // because that stupid oaf was in the way!
+       if(boo_hoo > 1) {
+         g->add_msg("Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+           z->name().c_str(),boo_hoo);
+       } else {
+         g->add_msg("Pointed in your direction, the %s emits an IFF warning beep.",
+           z->name().c_str());
+       }
+    }
+    return;
+  }
   z->moves = -150;			// It takes a while
   if (g->u_see(z->posx, z->posy))
    g->add_msg("The %s fires its smg!", z->name().c_str());

@@ -602,9 +602,12 @@ inline int printstring(WINDOW *win, char *fmt)
     win->line[win->cursory].BG[win->cursorx]=win->BG;
     win->line[win->cursory].touched=true;
     addedchar(win);
-   } else
-   return 0; //if we try and write anything outside the window, abort completely
-} else // if the character is a newline, make sure to move down a line
+   } else if (win->cursory <= win->height - 1) {
+     // don't write outside the window, but don't abort if there are still lines to write.
+   } else {
+     return 0; //if we try and write anything outside the window, abort completely
+   }
+  } else // if the character is a newline, make sure to move down a line
   if (newline(win)==0){
       return 0;
       }

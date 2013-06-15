@@ -207,9 +207,9 @@ void map::board_vehicle(game *g, int x, int y, player *p)
   return;
  }
 
- const int seat_part = veh->part_with_feature (part, vpf_seat);
+ const int seat_part = veh->part_with_feature (part, vpf_boardable);
  if (part < 0) {
-  debugmsg ("map::board_vehicle: boarding %s (not seat)",
+  debugmsg ("map::board_vehicle: boarding %s (not boardable)",
             veh->part_info(part).name);
   return;
  }
@@ -240,9 +240,9 @@ void map::unboard_vehicle(game *g, const int x, const int y)
   debugmsg ("map::unboard_vehicle: vehicle not found");
   return;
  }
- const int seat_part = veh->part_with_feature (part, vpf_seat, false);
+ const int seat_part = veh->part_with_feature (part, vpf_boardable, false);
  if (part < 0) {
-  debugmsg ("map::unboard_vehicle: unboarding %s (not seat)",
+  debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
             veh->part_info(part).name);
   return;
  }
@@ -1059,7 +1059,7 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   if (str >= result && str >= rng(0, 50)) {
    sound += "clang!";
    ter_set(x, y, t_chainfence_posts);
-   spawn_item(x, y, (*itypes)["wire"], 0, rng(8, 20));
+   spawn_item(x, y, "wire", 0, rng(8, 20));
    return true;
   } else {
    sound += "clang!";
@@ -1074,9 +1074,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
    sound += "crunch!";
    ter_set(x, y, t_wall_wood_chipped);
    if(one_in(2))
-    spawn_item(x, y, (*itypes)["2x4"], 0);
-   spawn_item(x, y, (*itypes)["nail"], 0, 0, 2);
-   spawn_item(x, y, (*itypes)["splinter"], 0);
+    spawn_item(x, y, "2x4", 0);
+   spawn_item(x, y, "nail", 0, 0, 2);
+   spawn_item(x, y, "splinter", 0);
    return true;
   } else {
    sound += "whump!";
@@ -1090,9 +1090,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   if (str >= result && str >= rng(0, 100)) {
    sound += "crunch!";
    ter_set(x, y, t_wall_wood_broken);
-   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 4));
-   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(1, 3));
-   spawn_item(x, y, (*itypes)["splinter"], 0);
+   spawn_item(x, y, "2x4", 0, rng(1, 4));
+   spawn_item(x, y, "nail", 0, 0, rng(1, 3));
+   spawn_item(x, y, "splinter", 0);
    return true;
   } else {
    sound += "whump!";
@@ -1106,9 +1106,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   if (str >= result && str >= rng(0, 80)) {
    sound += "crash!";
    ter_set(x, y, t_dirt);
-   spawn_item(x, y, (*itypes)["2x4"], 0, rng(2, 5));
-   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(4, 10));
-   spawn_item(x, y, (*itypes)["splinter"], 0);
+   spawn_item(x, y, "2x4", 0, rng(2, 5));
+   spawn_item(x, y, "nail", 0, 0, rng(4, 10));
+   spawn_item(x, y, "splinter", 0);
    return true;
   } else {
    sound += "whump!";
@@ -1124,7 +1124,7 @@ case t_palisade_gate:
    sound += "crunch!";
    ter_set(x, y, t_pit);
    if(one_in(2))
-   spawn_item(x, y, (*itypes)["splinter"], 0, 20);
+   spawn_item(x, y, "splinter", 0, 20);
    return true;
   } else {
    sound += "whump!";
@@ -1139,7 +1139,7 @@ case t_wall_log:
    sound += "crunch!";
    ter_set(x, y, t_wall_log_chipped);
    if(one_in(2))
-   spawn_item(x, y, (*itypes)["splinter"], 0, 3);
+   spawn_item(x, y, "splinter", 0, 3);
    return true;
   } else {
    sound += "whump!";
@@ -1153,7 +1153,7 @@ case t_wall_log:
   if (str >= result && str >= rng(0, 100)) {
    sound += "crunch!";
    ter_set(x, y, t_wall_log_broken);
-   spawn_item(x, y, (*itypes)["splinter"], 0, 5);
+   spawn_item(x, y, "splinter", 0, 5);
    return true;
   } else {
    sound += "whump!";
@@ -1167,7 +1167,7 @@ case t_wall_log:
   if (str >= result && str >= rng(0, 80)) {
    sound += "crash!";
    ter_set(x, y, t_dirt);
-   spawn_item(x, y, (*itypes)["splinter"], 0, 5);
+   spawn_item(x, y, "splinter", 0, 5);
    return true;
   } else {
    sound += "whump!";
@@ -1183,8 +1183,8 @@ case t_wall_log:
   if (str >= result && str >= rng(0, 80)) {
    sound += "clang!";
    ter_set(x, y, t_dirt);
-   spawn_item(x, y, (*itypes)["wire"], 0, rng(8, 20));
-   spawn_item(x, y, (*itypes)["scrap"], 0, rng(0, 12));
+   spawn_item(x, y, "wire", 0, rng(8, 20));
+   spawn_item(x, y, "scrap", 0, rng(0, 12));
    return true;
   } else {
    sound += "whump!";
@@ -1198,9 +1198,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "crash!";
    ter_set(x, y, t_dirtfloor);
-   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 4));
-   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 12));
-   spawn_item(x, y, (*itypes)["splinter"], 0);
+   spawn_item(x, y, "2x4", 0, rng(1, 4));
+   spawn_item(x, y, "nail", 0, 0, rng(2, 12));
+   spawn_item(x, y, "splinter", 0);
    return true;
   } else {
    sound += "wham!";
@@ -1229,9 +1229,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "crash!";
    ter_set(x, y, t_door_frame);
-   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 6));
-   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 12));
-   spawn_item(x, y, (*itypes)["splinter"], 0);
+   spawn_item(x, y, "2x4", 0, rng(1, 6));
+   spawn_item(x, y, "nail", 0, 0, rng(2, 12));
+   spawn_item(x, y, "splinter", 0);
    return true;
   } else {
    sound += "wham!";
@@ -1247,9 +1247,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "glass breaking!";
    ter_set(x, y, t_window_frame);
-  spawn_item(x, y, (*itypes)["sheet"], 0, 1);
-  spawn_item(x, y, (*itypes)["stick"], 0);
-  spawn_item(x, y, (*itypes)["string_36"], 0);
+  spawn_item(x, y, "sheet", 0, 2);
+  spawn_item(x, y, "stick", 0);
+  spawn_item(x, y, "string_36", 0);
    return true;
   } else {
    sound += "whack!";
@@ -1279,9 +1279,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "crash!";
    ter_set(x, y, t_door_frame);
-   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 6));
-   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 12));
-   spawn_item(x, y, (*itypes)["splinter"], 0);
+   spawn_item(x, y, "2x4", 0, rng(1, 6));
+   spawn_item(x, y, "nail", 0, 0, rng(2, 12));
+   spawn_item(x, y, "splinter", 0);
    return true;
   } else {
    sound += "wham!";
@@ -1297,7 +1297,7 @@ case t_wall_log:
    ter_set(x, y, t_window_frame);
    const int num_boards = rng(0, 2) * rng(0, 1);
    for (int i = 0; i < num_boards; i++)
-    spawn_item(x, y, (*itypes)["splinter"], 0);
+    spawn_item(x, y, "splinter", 0);
    return true;
   } else {
    sound += "wham!";
@@ -1330,7 +1330,7 @@ case t_wall_log:
    for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++) {
      if (ter(tentx + i, tenty + j) == t_skin_groundsheet)
-      spawn_item(tentx + i, tenty + j, (*itypes)["damaged_shelter_kit"], 0);
+      spawn_item(tentx + i, tenty + j, "damaged_shelter_kit", 0);
      ter_set(tentx + i, tenty + j, t_dirt);
     }
 
@@ -1367,7 +1367,7 @@ case t_wall_log:
    for (int i = -1; i <= 1; i++)
     for (int j = -1; j <= 1; j++) {
      if (ter(tentx + i, tenty + j) == t_groundsheet)
-      spawn_item(tentx + i, tenty + j, (*itypes)["broketent"], 0);
+      spawn_item(tentx + i, tenty + j, "broketent", 0);
      ter_set(tentx + i, tenty + j, t_dirt);
     }
 
@@ -1399,11 +1399,11 @@ case t_wall_log:
   if (str >= result) {
    sound += "metal screeching!";
    ter_set(x, y, t_metal);
-   spawn_item(x, y, (*itypes)["scrap"], 0, rng(2, 8));
+   spawn_item(x, y, "scrap", 0, rng(2, 8));
    const int num_boards = rng(0, 3);
    for (int i = 0; i < num_boards; i++)
-    spawn_item(x, y, (*itypes)["steel_chunk"], 0);
-   spawn_item(x, y, (*itypes)["pipe"], 0);
+    spawn_item(x, y, "steel_chunk", 0);
+   spawn_item(x, y, "pipe", 0);
    return true;
   } else {
    sound += "clang!";
@@ -1418,11 +1418,11 @@ case t_wall_log:
   if (str >= result) {
    sound += "metal screeching!";
    ter_set(x, y, t_metal);
-   spawn_item(x, y, (*itypes)["scrap"], 0, rng(2, 8));
+   spawn_item(x, y, "scrap", 0, rng(2, 8));
    const int num_boards = rng(0, 3);
    for (int i = 0; i < num_boards; i++)
-    spawn_item(x, y, (*itypes)["steel_chunk"], 0);
-   spawn_item(x, y, (*itypes)["hose"], 0);
+    spawn_item(x, y, "steel_chunk", 0);
+   spawn_item(x, y, "hose", 0);
    return true;
   } else {
    sound += "clang!";
@@ -1456,9 +1456,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "smash!";
    ter_set(x, y, t_floor);
-   spawn_item(x, y, (*itypes)["2x4"], 0, rng(2, 6));
-   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(4, 12));
-   spawn_item(x, y, (*itypes)["splinter"], 0);
+   spawn_item(x, y, "2x4", 0, rng(2, 6));
+   spawn_item(x, y, "nail", 0, 0, rng(4, 12));
+   spawn_item(x, y, "splinter", 0);
    return true;
   } else {
    sound += "whump.";
@@ -1473,9 +1473,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "crak";
    ter_set(x, y, t_dirt);
-   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 3));
-   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 6));
-   spawn_item(x, y, (*itypes)["splinter"], 0);
+   spawn_item(x, y, "2x4", 0, rng(1, 3));
+   spawn_item(x, y, "nail", 0, 0, rng(2, 6));
+   spawn_item(x, y, "splinter", 0);
    return true;
   } else {
    sound += "whump.";
@@ -1489,7 +1489,7 @@ case t_wall_log:
   if (str >= result) {
    sound += "crak";
    ter_set(x, y, t_dirt);
-   spawn_item(x, y, (*itypes)["pointy_stick"], 0, 1);
+   spawn_item(x, y, "pointy_stick", 0, 1);
    return true;
   } else {
    sound += "whump.";
@@ -1506,9 +1506,9 @@ case t_wall_log:
   if (str >= result) {
    sound += "smash!";
    ter_set(x, y, t_floor);
-   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 3));
-   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 6));
-   spawn_item(x, y, (*itypes)["splinter"], 0);
+   spawn_item(x, y, "2x4", 0, rng(1, 3));
+   spawn_item(x, y, "nail", 0, 0, rng(2, 6));
+   spawn_item(x, y, "splinter", 0);
    return true;
   } else {
    sound += "whump.";
@@ -1555,7 +1555,7 @@ case t_wall_log:
    ter_set(x, y, t_underbrush);
    const int num_sticks = rng(0, 3);
    for (int i = 0; i < num_sticks; i++)
-    spawn_item(x, y, (*itypes)["stick"], 0);
+    spawn_item(x, y, "stick", 0);
    return true;
   } else {
    sound += "whack!";
@@ -1620,8 +1620,8 @@ case t_wall_log:
   if (str >= result) {
    sound += "smash";
    ter_set(x, y, t_dirt);
-   spawn_item(x, y, (*itypes)["2x4"], 0, rng(1, 5));
-   spawn_item(x, y, (*itypes)["nail"], 0, 0, rng(2, 10));
+   spawn_item(x, y, "2x4", 0, rng(1, 5));
+   spawn_item(x, y, "nail", 0, 0, rng(2, 10));
    return true;
   } else {
    sound += "wham!";
@@ -1648,8 +1648,8 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(3)) spawn_item(i, j, g->itypes["gasoline"], 0);
-       if (one_in(6)) spawn_item(i, j, g->itypes["steel_chunk"], 0, 0, 3);
+       if (one_in(3)) spawn_item(i, j, "gasoline", 0);
+       if (one_in(6)) spawn_item(i, j, "steel_chunk", 0, 0, 3);
     }
    }
   }
@@ -1664,8 +1664,8 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(6)) spawn_item(i, j, g->itypes["2x4"], 0);
-       if (one_in(6)) spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
+       if (one_in(6)) spawn_item(i, j, "2x4", 0);
+       if (one_in(6)) spawn_item(i, j, "nail", 0, 0, 3);
    }
   }
   break;
@@ -1676,7 +1676,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
     if (move_cost(i, j) > 0 && one_in(5))
-     spawn_item(i, j, g->itypes["rock"], 0);
+     spawn_item(i, j, "rock", 0);
     ter_set(x, y, t_rubble);
    }
   }
@@ -1687,8 +1687,8 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(5)) spawn_item(i, j, g->itypes["splinter"], 0);
-       if (one_in(6)) spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
+       if (one_in(5)) spawn_item(i, j, "splinter", 0);
+       if (one_in(6)) spawn_item(i, j, "nail", 0, 0, 3);
    }
   }
   ter_set(x, y, t_rubble);
@@ -1735,10 +1735,10 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
   for (int i = x - 2; i <= x + 2; i++) {
    for (int j = y - 2; j <= y + 2; j++) {
        if(move_cost(i, j) == 0) continue;
-       if (one_in(5)) spawn_item(i, j, g->itypes["rock"], 0);
-       if (one_in(4)) spawn_item(i, j, g->itypes["splinter"], 0);
-       if (one_in(3)) spawn_item(i, j, g->itypes["rebar"], 0);
-       if (one_in(6)) spawn_item(i, j, g->itypes["nail"], 0, 0, 3);
+       if (one_in(5)) spawn_item(i, j, "rock", 0);
+       if (one_in(4)) spawn_item(i, j, "splinter", 0);
+       if (one_in(3)) spawn_item(i, j, "rebar", 0);
+       if (one_in(6)) spawn_item(i, j, "nail", 0, 0, 3);
    }
   }
   ter_set(x, y, t_rubble);
@@ -1789,11 +1789,11 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
           for (int j = y - 1; j <= y + 1; j++)
           {
               if(move_cost(i, j) == 0) continue;
-              if (one_in(3)) spawn_item(i, j, g->itypes["rope_6"], 0);
-              if (one_in(2)) spawn_item(i, j, g->itypes["splinter"], 0);
-              if (one_in(3)) spawn_item(i, j, g->itypes["stick"], 0);
-              if (one_in(6)) spawn_item(i, j, g->itypes["2x4"], 0);
-              if (one_in(9)) spawn_item(i, j, g->itypes["log"], 0);
+              if (one_in(3)) spawn_item(i, j, "rope_6", 0);
+              if (one_in(2)) spawn_item(i, j, "splinter", 0);
+              if (one_in(3)) spawn_item(i, j, "stick", 0);
+              if (one_in(6)) spawn_item(i, j, "2x4", 0);
+              if (one_in(9)) spawn_item(i, j, "log", 0);
           }
       }
       ter_set(x, y, t_dirt);
@@ -1887,9 +1887,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                 {
                     g->sound(x, y, 16, "glass breaking!");
                     ter_set(x, y, t_window_frame);
-                    spawn_item(x, y, (*itypes)["sheet"], 0, 1);
-                    spawn_item(x, y, (*itypes)["stick"], 0);
-                    spawn_item(x, y, (*itypes)["string_36"], 0);
+                    spawn_item(x, y, "sheet", 0, 1);
+                    spawn_item(x, y, "stick", 0);
+                    spawn_item(x, y, "string_36", 0);
                 }
             }
         break;
@@ -1990,7 +1990,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                             for (int j = y - 2; j <= y + 2; j++)
                             {
                                 if (move_cost(i, j) > 0 && one_in(3))
-                                    spawn_item(i, j, g->itypes["gasoline"], 0);
+                                    spawn_item(i, j, "gasoline", 0);
                             }
                         }
                         g->sound(x, y, 10, "smash!");
@@ -2388,22 +2388,10 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
     add_item(x, y, new_item);
 }
 
-//Old spawn_item method
-//TODO: Deprecate
-// added argument to spawn at various damage levels
-void map::spawn_item(const int x, const int y, itype* type, const int birthday,
-                     const int quantity, const int charges, const int damlevel)
+void map::spawn_artifact(const int x, const int y, itype* type, const int bday)
 {
-    if (type->is_style())
-    {
-        return;
-    }
-    item new_item(type, birthday);
-    for(int i = 0; i < quantity; i++)
-    {
-        spawn_item(x, y, type, birthday, 0, charges);
-    }
-    spawn_item( x, y, new_item, birthday, quantity, charges, damlevel );
+    item newart(type, bday);
+    add_item(x, y, newart);
 }
 
 //New spawn_item method, using item factory
@@ -2412,7 +2400,7 @@ void map::spawn_item(const int x, const int y, std::string type_id, const int bi
                      const int quantity, const int charges, const int damlevel)
 {
     item new_item = item_controller->create(type_id, birthday);
-    for(int i = 0; i < quantity; i++)
+    for(int i = 1; i < quantity; i++)
     {
         spawn_item(x, y, type_id, birthday, 0, charges);
     }
@@ -2745,7 +2733,7 @@ void map::disarm_trap(game *g, const int x, const int y)
   std::vector<itype_id> comp = g->traps[tr_at(x, y)]->components;
   for (int i = 0; i < comp.size(); i++) {
    if (comp[i] != "null")
-    spawn_item(x, y, g->itypes[comp[i]], 0, 0, 1);
+    spawn_item(x, y, comp[i], 0, 0, 1);
   }
   if( tr_at(x, y) == tr_engine ) {
       for (int i = -1; i <= 1; i++) {
@@ -3419,7 +3407,7 @@ void map::shift(game *g, const int wx, const int wy, const int wz, const int sx,
   return;
  }
 
-// if player is driving vehicle, (s)he must be shifted with vehicle too
+// if player is in vehicle, (s)he must be shifted with vehicle too
  if (g->u.in_vehicle && (sx !=0 || sy != 0)) {
   g->u.posx -= sx * SEEX;
   g->u.posy -= sy * SEEY;

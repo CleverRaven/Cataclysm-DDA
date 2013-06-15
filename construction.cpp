@@ -967,7 +967,7 @@ bool construct::able_deconstruct(game *g, point p)
 
 void construct::done_window_pane(game *g, point p)
 {
- g->m.spawn_item(g->u.posx, g->u.posy, item_controller->find_template("glass_sheet"), 0);
+ g->m.spawn_item(g->u.posx, g->u.posy, "glass_sheet", 0);
 }
 
 void construct::done_furniture(game *g, point p)
@@ -1020,7 +1020,7 @@ void construct::done_tree(game *g, point p)
 
 void construct::done_log(game *g, point p)
 {
- g->m.spawn_item(p.x, p.y, item_controller->find_template("log"), int(g->turn), rng(5, 15));
+ g->m.spawn_item(p.x, p.y, "log", int(g->turn), rng(5, 15));
 }
 
 
@@ -1062,35 +1062,35 @@ void construct::done_deconstruct(game *g, point p)
     case t_makeshift_bed:
     case t_bed:
     case t_armchair:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 9);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("rag"), 0, 9);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,8));
+      g->m.spawn_item(p.x, p.y, "2x4", 0, 10);
+      g->m.spawn_item(p.x, p.y, "rag", 0, rng(10,15));
+      g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,8));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_door_c:
     case t_door_o:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 3);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,12));
+      g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
+      g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,12));
       g->m.ter_set(p.x, p.y, t_door_frame);
     break;
     case t_window_domestic:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("stick"), 0);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("sheet"), 0, 1);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("glass_sheet"), 0);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, 3);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("string_36"), 0, 0, 1);
+      g->m.spawn_item(p.x, p.y, "stick", 0);
+      g->m.spawn_item(p.x, p.y, "sheet", 0, 2);
+      g->m.spawn_item(p.x, p.y, "glass_sheet", 0);
+      g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(3,4));
+      g->m.spawn_item(p.x, p.y, "string_36", 0, 0, 1);
       g->m.ter_set(p.x, p.y, t_window_empty);
     break;
 
     case t_window:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("glass_sheet"), 0);
+      g->m.spawn_item(p.x, p.y, "glass_sheet", 0);
       g->m.ter_set(p.x, p.y, t_window_empty);
     break;
 
     case t_backboard:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 4);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
+      g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_pavement);
     break;
 
@@ -1098,8 +1098,8 @@ void construct::done_deconstruct(game *g, point p)
     case t_bench:
     case t_crate_o:
     case t_crate_c:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 4);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
+      g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
@@ -1107,58 +1107,58 @@ void construct::done_deconstruct(game *g, point p)
     case t_cupboard:
     case t_desk:
     case t_bulletin:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 4);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
+      g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_slide:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("sheet_metal"), 0);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("pipe"), 0, rng(4,8));
+      g->m.spawn_item(p.x, p.y, "sheet_metal", 0);
+      g->m.spawn_item(p.x, p.y, "pipe", 0, rng(4,8));
       g->m.ter_set(p.x, p.y, t_grass);
     break;
 
     case t_locker:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("sheet_metal"), 0);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("pipe"), 0, rng(4,8));
+      g->m.spawn_item(p.x, p.y, "sheet_metal", 0, rng(1,2));
+      g->m.spawn_item(p.x, p.y, "pipe", 0, rng(4,8));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_rack:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("pipe"), 0, rng(6,12));
+      g->m.spawn_item(p.x, p.y, "pipe", 0, rng(6,12));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_monkey_bars:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("pipe"), 0, rng(6,12));
+      g->m.spawn_item(p.x, p.y, "pipe", 0, rng(6,12));
       g->m.ter_set(p.x, p.y, t_grass);
     break;
 
     case t_fridge:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("scrap"), 0, rng(2,6));
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("steel_chunk"), 0, rng(2,3));
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("hose"), 0, 1);
+      g->m.spawn_item(p.x, p.y, "scrap", 0, rng(2,6));
+      g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
+      g->m.spawn_item(p.x, p.y, "hose", 0, 1);
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_counter:
     case t_dresser:
     case t_table:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 6);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,8));
+      g->m.spawn_item(p.x, p.y, "2x4", 0, 6);
+      g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,8));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_pool_table:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 4);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("rag"), 0, 4);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(6,10));
+      g->m.spawn_item(p.x, p.y, "2x4", 0, 4);
+      g->m.spawn_item(p.x, p.y, "rag", 0, 4);
+      g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(6,10));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
 
     case t_bookcase:
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("2x4"), 0, 12);
-      g->m.spawn_item(p.x, p.y, item_controller->find_template("nail"), 0, 0, rng(12,16));
+      g->m.spawn_item(p.x, p.y, "2x4", 0, 12);
+      g->m.spawn_item(p.x, p.y, "nail", 0, 0, rng(12,16));
       g->m.ter_set(p.x, p.y, t_floor);
     break;
   }
