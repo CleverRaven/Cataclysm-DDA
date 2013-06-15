@@ -2123,6 +2123,30 @@
     "use_action": "VORTEX"
   },
 
+   {
+    "id": "etched_skull",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "etched human skull",
+    "description": "A human skull with strange etchings covering it.",
+    "rarity": 0,
+    "price": 3000,
+    "material": "FLESH",
+    "weight": 2,
+    "volume": 2,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "none",
+    "revert_to": "null",
+    "use_action": "NONE"
+  },
+
   {
     "id": "dogfood",
     "type": "TOOL",
