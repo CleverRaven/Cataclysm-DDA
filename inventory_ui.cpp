@@ -638,7 +638,18 @@ std::vector<item> game::multidrop()
  }
 
  for (int i = 0; i < weapon_and_armor.size(); i++)
-  ret.push_back(u.i_rem(weapon_and_armor[i]));
+ {
+     if (!u.takeoff(this, weapon_and_armor[i]))
+     {
+         continue;
+     }
+
+     // Item could have been dropped after taking it off
+     if (&u.inv.item_by_letter(weapon_and_armor[i]) != &u.inv.nullitem)
+     {
+         ret.push_back(u.i_rem(weapon_and_armor[i]));
+     }
+ }
 
  return ret;
 }
