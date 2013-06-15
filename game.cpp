@@ -7936,6 +7936,15 @@ void game::pickup(int posx, int posy, int min)
                  ( ch == KEY_LEFT && getitem[selected] ) 
             ) ) {
       idx = selected;
+  } else if ( ch == '`' ) {
+      std::string ext = string_input_popup("Enter 2 letters (case sensitive):",2);
+      if(ext.size() == 2) {
+           int p1=pickup_chars.find(ext.at(0));
+           int p2=pickup_chars.find(ext.at(1));
+           if ( p1 != -1 && p2 != -1 ) {
+                idx=pickup_chars.size() + ( p1 * pickup_chars.size() ) + p2;
+           }
+      }
   } else {
       idx = pickup_chars.find(ch);
   }
@@ -7996,8 +8005,15 @@ void game::pickup(int posx, int posy, int min)
     if(cur_it == selected) {
         icolor=hilite(icolor);
     }
-    mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor,
-             char(pickup_chars[cur_it]));
+    
+    if (cur_it < pickup_chars.size() ) {
+       mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor, char(pickup_chars[cur_it]));
+    } else {
+       int p=cur_it - pickup_chars.size();
+       int p1=p / pickup_chars.size();
+       int p2=p % pickup_chars.size();
+       mvwprintz(w_pickup, 1 + (cur_it % maxitems), 0, icolor, "`%c%c",char(pickup_chars[p1]),char(pickup_chars[p2]));
+    }
     if (getitem[cur_it])
      wprintz(w_pickup, c_ltblue, " + ");
     else
