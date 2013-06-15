@@ -401,67 +401,69 @@ void mdeath::zombie(game *g, monster *z)
         return;
     }
 
+    int gibbed = 0;
+    if ((z->hp >= -50 || z->hp >= 0 - 2 * z->type->hp))  // zombie drops from gibbing are damaged
+    {
+        gibbed = 1;
+    }
+
     // now generate appropriate clothing
     switch(z->type->id)
     {
         case mon_zombie_cop:
-            g->m.put_items_from(mi_cop_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_cop_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_cop_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_cop_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
+            g->m.put_items_from(mi_cop_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
+            g->m.put_items_from(mi_cop_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
         break;
 
         case mon_zombie_scientist:
-            g->m.put_items_from(mi_lab_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_lab_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_lab_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_lab_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
+            g->m.put_items_from(mi_lab_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
+            g->m.put_items_from(mi_lab_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
         break;
 
         case mon_zombie_soldier:
-            g->m.put_items_from(mi_cop_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_mil_armor_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_mil_armor_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_cop_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
+            g->m.put_items_from(mi_mil_armor_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
+            g->m.put_items_from(mi_mil_armor_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
             if (one_in(4))
             {
-                g->m.put_items_from(mi_mil_armor_helmet, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from(mi_mil_armor_helmet, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
             }
         break;
 
         case mon_zombie_hulk:
-            g->m.spawn_item(z->posx, z->posy, item_controller->find_template("rag"), g->turn, 0, 0, rng(5,10));
-            g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.spawn_item(z->posx, z->posy, item_controller->find_template("rag"), g->turn, 0, 0, rng(5,10) + gibbed);
+            g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
             break;
 
         default:
-            g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_shirts, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
+            g->m.put_items_from(mi_shirts, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
             if (one_in(6))
             {
-                g->m.put_items_from(mi_jackets, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from(mi_jackets, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
             }
             if (one_in(15))
             {
-                g->m.put_items_from(mi_bags, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from(mi_bags, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4) + gibbed);
             }
         break;
     }
 
-    if ((z->hp >= -50 || z->hp >= 0 - 2 * z->type->hp))  // zombie drops from gibbing are damaged
+
+    for (int i = 0; i < g->m.i_at(z->posx, z->posy).size(); i++)
     {
-        for (int i = 0; i < g->m.i_at(z->posx, z->posy).size(); i++)
+        item *dropped_item = &(g->m.i_at(z->posx, z->posy)[i]);
+
+        if (dropped_item->damage >= 5 && dropped_item->is_armor())
         {
-            item *dropped_item = &(g->m.i_at(z->posx, z->posy)[i]);
-
-            dropped_item->damage++;
-
-            if (dropped_item->damage >= 5)
+            for (int j = 0; j < g->m.i_at(z->posx, z->posy)[i].contents.size(); j++)
             {
-                for (int j = 0; j < g->m.i_at(z->posx, z->posy)[i].contents.size(); j++)
-                {
-                    g->m.i_at(z->posx, z->posy).push_back(g->m.i_at(z->posx, z->posy)[i].contents[j] );
-                }
-                g->m.i_at(z->posx, z->posy).erase(g->m.i_at(z->posx, z->posy).begin() + i);
-                i--;
+                g->m.i_at(z->posx, z->posy).push_back(g->m.i_at(z->posx, z->posy)[i].contents[j] );
             }
+            g->m.i_at(z->posx, z->posy).erase(g->m.i_at(z->posx, z->posy).begin() + i);
+            i--;
         }
     }
 }
