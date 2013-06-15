@@ -5473,10 +5473,12 @@ bool player::takeoff(game *g, char let)
  } else {
   for (int i = 0; i < worn.size(); i++) {
    if (worn[i].invlet == let) {
-     if (i == 0 && (dynamic_cast<it_armor*>(worn[i].type))->is_power_armor()) {
+     if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
+         ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso))) {
        // We're trying to take off power armor, but cannot do that if we have a power armor component on!
-       for (int i = 1; i < worn.size(); i++) {
-         if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor()) {
+       for (int i = 0; i < worn.size(); i++) {
+         if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
+             (worn[i].invlet != let)) {
            g->add_msg("You can't take off power armor while wearing other power armor components.");
            return false;
          }
