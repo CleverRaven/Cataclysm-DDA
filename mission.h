@@ -20,22 +20,24 @@ enum mission_id {
  MISSION_RESCUE_DOG,
  MISSION_KILL_ZOMBIE_MOM,
  MISSION_REACH_SAFETY,
- MISSION_GET_FLAG,//patriot 1
- MISSION_GET_BLACK_BOX,//patriot 2
- MISSION_GET_BLACK_BOX_TRANSCRIPT,//patriot 3
- MISSION_EXPLORE_SARCOPHAGUS,//patriot 4
- MISSION_GET_RELIC,//martyr 1
- MISSION_RECOVER_PRIEST_DIARY,//martyr 2
- MISSION_GET_RECORD_WEATHER,
- MISSION_GET_RECORD_PATIENT,//humanitarian 1
- MISSION_REACH_FEMA_CAMP,//humanitarian 2
- MISSION_REACH_FARM_HOUSE,//humanitarian 3
- MISSION_GET_RECORD_ACCOUNTING,//vigilante 1
- MISSION_GET_SAFE_BOX,//vigilante 2
- MISSION_GET_DEPUTY_BADGE,//vigilante 3
- MISSION_KILL_JABBERWOCK,//demon slayer 1
- MISSION_KILL_100_Z,//demon slayer 2
- MISSION_KILL_HORDE_MASTER,//demon slayer 3
+ MISSION_GET_FLAG,                      //patriot 1
+ MISSION_GET_BLACK_BOX,                 //patriot 2
+ MISSION_GET_BLACK_BOX_TRANSCRIPT,      //patriot 3
+ MISSION_EXPLORE_SARCOPHAGUS,           //patriot 4
+ MISSION_GET_RELIC,                     //martyr 1
+ MISSION_RECOVER_PRIEST_DIARY,          //martyr 2
+ MISSION_INVESTIGATE_CULT,              //martyr 3 
+ MISSION_INVESTIGATE_PRISON_VISIONARY,  //martyr 4
+ MISSION_GET_RECORD_WEATHER,            //scientist 1
+ MISSION_GET_RECORD_PATIENT,            //humanitarian 1
+ MISSION_REACH_FEMA_CAMP,               //humanitarian 2
+ MISSION_REACH_FARM_HOUSE,              //humanitarian 3
+ MISSION_GET_RECORD_ACCOUNTING,         //vigilante 1
+ MISSION_GET_SAFE_BOX,                  //vigilante 2
+ MISSION_GET_DEPUTY_BADGE,              //vigilante 3
+ MISSION_KILL_JABBERWOCK,               //demon slayer 1
+ MISSION_KILL_100_Z,                    //demon slayer 2
+ MISSION_KILL_HORDE_MASTER,             //demon slayer 3
  NUM_MISSION_IDS
 };
 
@@ -93,6 +95,8 @@ struct mission_start {
  void oepn_sarcophagus (game *, mission *); // Reveal the sarcophagus and give access code acidia v
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
  void find_safety	(game *, mission *); // Goal is set to non-spawn area
+ void point_prison  (game *, mission *); // Point to prison entrance
+ void point_cabin_strange  (game *, mission *); // Point to strange cabin location
  void place_book	(game *, mission *); // Place a book to retrieve
 };
 
