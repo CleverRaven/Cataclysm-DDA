@@ -422,6 +422,30 @@ void mission_start::find_safety(game *g, mission *miss)
  }
 }
 
+void mission_start::point_prison(game *g, mission *miss)
+{
+ int dist = 0;
+ point place = g->cur_om->find_closest(g->om_location(), ot_prison_5, 1, dist,
+                                      false);
+ for (int x = place.x - 3; x <= place.x + 3; x++) {
+  for (int y = place.y - 3; y <= place.y + 3; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ miss->target = place;
+}
+
+void mission_start::point_cabin_strange(game *g, mission *miss)
+{
+ int dist = 0;
+ point place = g->cur_om->find_closest(g->om_location(), ot_cabin_strange, 1, dist,
+                                      false);
+ for (int x = place.x - 3; x <= place.x + 3; x++) {
+  for (int y = place.y - 3; y <= place.y + 3; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ miss->target = place;
+}
+
 void mission_start::place_book(game *g, mission *miss)
 {
 }
