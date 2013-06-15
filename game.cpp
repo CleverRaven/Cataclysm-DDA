@@ -7824,7 +7824,7 @@ void game::pickup(int posx, int posy, int min)
        veh->remove_item (veh_part, 0);
       else
        m.i_clear(posx, posy);
-      m.add_item(posx, posy, u.remove_weapon());
+      m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
       u.wield(this, u.i_add(newit, this).invlet);
       u.moves -= 100;
       add_msg("Wielding %c - %s", newit.invlet, newit.tname(this).c_str());
@@ -8107,7 +8107,7 @@ void game::pickup(int posx, int posy, int min)
          veh->remove_item (veh_part, curmit);
         else
          m.i_rem(posx, posy, curmit);
-        m.add_item(posx, posy, u.remove_weapon());
+        m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
         u.wield(this, u.i_add(here[i], this).invlet);
         curmit--;
         u.moves -= 100;
@@ -8209,7 +8209,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    // Ask to pour rotten liquid (milk!) from the get-go
   if (!from_ground && liquid.rotten(this) &&
       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
-   m.add_item(u.posx, u.posy, liquid);
+   m.add_item_or_charges(u.posx, u.posy, liquid, 1);
    return true;
   }
 
@@ -8221,7 +8221,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
     // we asked to pour rotten already
    if (!from_ground && !liquid.rotten(this) &&
        query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
-    m.add_item(u.posx, u.posy, liquid);
+    m.add_item_or_charges(u.posx, u.posy, liquid, 1);
     return true;
    }
    return false;
@@ -8233,7 +8233,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
     // we asked to pour rotten already
    if (!from_ground && !liquid.rotten(this) &&
        query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
-    m.add_item(u.posx, u.posy, liquid);
+    m.add_item_or_charges(u.posx, u.posy, liquid, 1);
     return true;
    }
    add_msg("Never mind.");
@@ -8466,13 +8466,13 @@ void game::drop(char chInput)
   for (int i = 0; i < dropped.size(); i++) {
    vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
    if (vh_overflow)
-    m.add_item(u.posx, u.posy, dropped[i]);
+    m.add_item_or_charges(u.posx, u.posy, dropped[i], 1);
   }
   if (vh_overflow)
    add_msg ("The trunk is full, so some items fall on the ground.");
  } else {
   for (int i = 0; i < dropped.size(); i++)
-   m.add_item_or_charges(u.posx, u.posy, dropped[i]);
+   m.add_item_or_charges(u.posx, u.posy, dropped[i], 1);
  }
 }
 
@@ -8537,13 +8537,13 @@ void game::drop_in_direction()
   for (int i = 0; i < dropped.size(); i++) {
    vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
    if (vh_overflow)
-    m.add_item(dirx, diry, dropped[i]);
+    m.add_item_or_charges(dirx, diry, dropped[i], 1);
   }
   if (vh_overflow)
    add_msg ("The trunk is full, so some items fall on the ground.");
  } else {
   for (int i = 0; i < dropped.size(); i++)
-   m.add_item_or_charges(dirx, diry, dropped[i]);
+   m.add_item_or_charges(dirx, diry, dropped[i], 1);
  }
 }
 
@@ -9205,7 +9205,7 @@ void game::unload(item& it)
                     u.i_add(content, this);
                 } else {
                     add_msg("You drop the %s on the ground.", content.tname(this).c_str());
-                    m.add_item_or_charges(u.posx, u.posy, content);
+                    m.add_item_or_charges(u.posx, u.posy, content, 1);
                 }
             }
             it.contents.erase(it.contents.begin());
@@ -9257,7 +9257,7 @@ void game::unload(item& it)
       u.volume_carried() + newam.volume() < u.volume_capacity() && iter < inv_chars.size()) {
    u.i_add(newam, this);
   } else {
-   m.add_item(u.posx, u.posy, newam);
+   m.add_item_or_charges(u.posx, u.posy, newam, 1);
   }
  }
  // null the curammo, but only if we did empty the item
