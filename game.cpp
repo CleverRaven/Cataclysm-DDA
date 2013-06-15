@@ -1836,33 +1836,57 @@ bool game::handle_action()
    break;
 
   case ACTION_SLEEP:
-   if (veh_ctrl) {
-     add_msg("Vehicle control has moved, new default binding is '^'.");
-   } else {
-     if (OPTIONS[OPT_SAVESLEEP] && (moves_since_last_save || item_exchanges_since_save) &&
-         !(u.in_vehicle)) {
-       if (query_yn("Do you want to save game before sleeping?")) {
-         //copied from autosave()
-         time_t now = time(NULL);
+     if (veh_ctrl) {
+       add_msg("Vehicle control has moved, %s",
+       press_x(ACTION_CONTROL_VEHICLE, "new binding is ",
+               "new default binding is '^'.").c_str());
+     } else {
+       uimenu as_m;
+       as_m.text="Are you sure you want to sleep?";
+       as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS[OPT_FORCE_YN]?'Y':'y'),
+           "Yes." ));
+       if (OPTIONS[OPT_SAVESLEEP]) {
+         as_m.entries.push_back(uimenu_entry(1, 
+             (moves_since_last_save || item_exchanges_since_save) && !u.in_vehicle,
+             (OPTIONS[OPT_FORCE_YN]?'S':'s'),
+             "Yes, and save game before sleeping." ));
+       }
+       as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS[OPT_FORCE_YN]?'N':'n'),
+           "No." ));
+       as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
+       switch (as_m.ret) {
+       case 1:  // Yes, I do want to save game before sleeping.
+         {  // Code copied from autosave()
+           time_t now = time(NULL);
 
-         add_msg("Saving game, this may take a while");
-         save();
+           add_msg("Saving game, this may take a while");
+           save();
 
-         save_factions_missions_npcs();
-         save_artifacts();
-         save_maps();
+           save_factions_missions_npcs();
+           save_artifacts();
+           save_maps();
 
-         moves_since_last_save = 0;
-         item_exchanges_since_save = 0;
-         last_save_timestamp = now;
+           moves_since_last_save = 0;
+           item_exchanges_since_save = 0;
+           last_save_timestamp = now;
+         }
+       case 0:  // Yes, I do want to sleep.
+         {
+           u.try_to_sleep(this);
+           u.moves = 0;
+           break;
+         }
+       default:  // No, I do not want to sleep.
+         {  /*// Do we tell the player if they could anyways?
+           if (u.can_sleep(this)) {
+             //add_msg("You could sleep now.");
+           } else {
+             add_msg("You can't sleep now.");
+           }*/
+         }
        }
      }
-     if (query_yn("Are you sure you want to sleep?")) {
-       u.try_to_sleep(this);
-       u.moves = 0;
-     }
-   }
-   break;
+     break;
 
   case ACTION_CONTROL_VEHICLE:
    control_vehicle();
