@@ -14,7 +14,7 @@
   "description":
 "Deployed to aid in city evacuations you gave up your seat on the chopper to a\nkid who needed it more. Starts with a full set of military gear.",
   "points": 12,
-  "items": ["helmet_army", "pants_army", "boots_steel", "polo_shirt", "kevlar", "rucksack", "gloves_fingerless", "m1911", "m4a1", "223", ".45", ".45"]
+  "items": ["helmet_army", "pants_army", "boots_steel", "polo_shirt", "kevlar", "rucksack", "gloves_fingerless", "m1911", "m4a1", "223", "45_acp","knife_combat"]
  },
 
  {

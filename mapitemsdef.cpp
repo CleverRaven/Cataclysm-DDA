@@ -506,17 +506,17 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_medieval],
-	"katana", "mace", "morningstar", "rapier", "broadsword",
+	"katana", "fakekatana", "mace", "morningstar", "rapier", "broadsword",
 	"pike", "helmet_plate", "armor_plate", NULL);  
 
  setvector(
    &mapitems[mi_art],
-	"fur", "katana", "petrified_eye", "spiral_stone", "rapier",
+	"fur", "katana", "fakekatana", "petrified_eye", "spiral_stone", "rapier",
 	"cane", "candlestick", "heels", "ring", "necklace", NULL);
 
  setvector(
    &mapitems[mi_pawn],
-	"cigar", "katana", "gold", "rapier", "cane", "suit",
+	"cigar", "katana", "fakekatana", "gold", "rapier", "cane", "suit",
 	"mask_gas", "goggles_welding", "goggles_nv", "glasses_monocle",
 	"tophat", "ruger_redhawk", "deagle_44", "m1911", "geiger_off",
 	"UPS_off", "tazer", "mp3", "fur", "leather", "string_36",
@@ -728,7 +728,7 @@ void game::init_mapitems()
  setvector(
    &mapitems[mi_weapons],
 	"chain", "hammer", "wrench", "hammer_sledge", "hatchet",
-	"ax", "knife_combat", "pipe", "bat", "machete", "katana",
+	"ax", "knife_combat", "pipe", "bat", "machete", "katana", "fakekatana",
 	"baton", "tazer", "rapier", "bat_metal", NULL);
 
  setvector(

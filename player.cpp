@@ -308,6 +308,12 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
  if (scent < rng(0, norm_scent))
    scent++;
 
+ //Hidden Fursuit punishment. Sorry if I offend any Furries. <3 you DDA team.
+ if(is_wearing("wolfsuit"))
+ {
+	 add_disease(DI_GBS, 3600, g);
+ }
+
  // Unusually high scent decreases steadily until it reaches normal levels.
  if (scent > norm_scent)
   scent--;

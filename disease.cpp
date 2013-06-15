@@ -98,6 +98,9 @@ void dis_msg(game *g, dis_type type)
  case DI_HEAVYSNARE:
   g->add_msg("You are snared.");
   break;
+ case DI_GBS:
+  g->add_msg("You feel a quake in your bowels.");
+  break;
  default:
   break;
  }

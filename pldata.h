@@ -43,7 +43,7 @@ enum dis_type {
  DI_BLISTERS_ARMS, DI_BLISTERS_HANDS, DI_BLISTERS_LEGS, DI_BLISTERS_FEET,
 // Diseases
  DI_INFECTION,
- DI_COMMON_COLD, DI_FLU, DI_RECOVER,
+ DI_COMMON_COLD, DI_FLU, DI_RECOVER, DI_GBS,
 // Fields
  DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
 // Monsters
@@ -612,11 +612,11 @@ a little more."},
 Iridescent feathers have grown to cover your entire body, providing a\n\
 marginal protection against attacks and minor protection from cold. They\n\
 also provide a natural waterproofing."},
-{"Lightly Furred", 1, 6, 2, "\
-Light fur has grown to coveryour entire body, providing slight protection\n\
+{"Lightly plated", 1, 6, 2, "\
+Light scale plates has grown to coveryour entire body, providing slight protection\n\
 from cold."},
-{"Furry", 2, 10, 3, "\
-Thick black fur has grown to cover your entire body, providing a marginal\n\
+{"Plated", 2, 10, 3, "\
+Thick scale plates has grown to cover your entire body, providing a marginal\n\
 protection against attacks, and considerable protection from cold."},
 {"Chitinous Skin", 2, 3, 2, "\
 Your epidermis has turned into a thin, flexible layer of chitin.  It provides\n\
@@ -723,11 +723,11 @@ flat surfaces."},
 You have a short, stubby tail, like a rabbit's.  It serves no purpose."},
 {"Tail Fin", 1, 4, 2, "\
 You have a fin-like tail.  It allows you to swim more quickly."},
-{"Long Tail", 2, 6, 2, "\
-You have a long, graceful tail, like that of a big cat.  It improves your\n\
+{"Plate Tail", 2, 6, 2, "\
+You have a long, graceful tail, like that of a big asshole.  It improves your\n\
 balance, making your ability to dodge higher."},
-{"Fluffy Tail", 2, 7, 0, "\
-You have a long, fluffy-furred tail.  It greatly improves your balance,\n\
+{"Long Plate Tail", 2, 7, 0, "\
+You have a long, plate tail.  It greatly improves your balance,\n\
 making your ability to dodge much higher."},
 {"Spiked Tail", 2, 6, 3, "\
 You have a long tail that ends in a vicious stinger, like that of a\n\

@@ -207,7 +207,7 @@ void mdeath::guilt(game *g, monster *z)
  }
  else if(z->type->id == mon_zombie_child)
  {
- g->u.add_morale(MORALE_KILLED_MONSTER, -5, -250);
+ g->u.add_morale(MORALE_KILLED_MONSTER, -1, -150);
  }
  else
  {

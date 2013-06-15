@@ -2445,6 +2445,32 @@
   },
 
   {
+    "id": "fakekatana",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_blue",
+    "name": "katana",
+    "description": "A rare sword from Japan...I think.",
+    "rarity": 5,
+    "price": 100,
+    "material": "steel",
+    "flags": "SLICE",
+    "techniques": ["RAPID", "WBLOCK_2"],
+    "weight": 7,
+    "volume": 10,
+    "bashing": 1,
+    "cutting": 10,
+    "to_hit": -4,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "none",
+    "revert_to": "null",
+    "use_action": "KNIFE"
+  },
+
+  {
     "id": "spear_knife",
     "type": "TOOL",
     "symbol": "/",
