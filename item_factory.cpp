@@ -311,7 +311,7 @@ const Item_tag Item_factory::id_from(const Item_tag group_tag){
 
 
 item Item_factory::create(Item_tag id, int created_at){
-    return item(find_template(id),0);
+    return item(find_template(id), created_at);
 }
 Item_list Item_factory::create(Item_tag id, int created_at, int quantity){
     Item_list new_items;
