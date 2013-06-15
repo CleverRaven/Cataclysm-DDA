@@ -1247,7 +1247,7 @@ case t_wall_log:
   if (str >= result) {
    sound += "glass breaking!";
    ter_set(x, y, t_window_frame);
-  spawn_item(x, y, "sheet", 0, 1);
+  spawn_item(x, y, "sheet", 0, 2);
   spawn_item(x, y, "stick", 0);
   spawn_item(x, y, "string_36", 0);
    return true;
