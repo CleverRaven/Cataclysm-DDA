@@ -910,11 +910,11 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     }
     else if (fix->made_of("plastic"))
     {
-        repair_item = "plastic chunk";
+        repair_item = "plastic_chunk";
     }
     else if (fix->made_of("kevlar"))
     {
-        repair_item = "kevlar plate";
+        repair_item = "kevlar_plate";
     }
     else
 	{
