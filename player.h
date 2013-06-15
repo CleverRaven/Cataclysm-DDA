@@ -69,7 +69,7 @@ public:
  int calc_focus_equilibrium();
  void update_bodytemp(game *g);  // Maintains body temperature
  int  current_speed(game *g = NULL); // Number of movement points we get a turn
- int  run_cost(int base_cost); // Adjust base_cost
+ int  run_cost(int base_cost, bool diag = false); // Adjust base_cost
  int  swim_speed();	// Our speed when swimming
 
  bool has_trait(int flag) const;
