@@ -5492,7 +5492,7 @@ hint_rating player::rate_action_takeoff(item *it) {
  return HINT_IFFY;
 }
 
-bool player::takeoff(game *g, char let)
+bool player::takeoff(game *g, char let, bool autodrop)
 {
  if (weapon.invlet == let) {
   return wield(g, -3);
@@ -5516,7 +5516,8 @@ bool player::takeoff(game *g, char let)
      worn.erase(worn.begin() + i);
      inv.unsort();
      return true;
-    } else if (query_yn("No room in inventory for your %s.  Drop it?",
+    } else if (autodrop ||
+               query_yn("No room in inventory for your %s.  Drop it?",
                         worn[i].tname(g).c_str())) {
      g->m.add_item(posx, posy, worn[i]);
      worn.erase(worn.begin() + i);

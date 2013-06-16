@@ -204,7 +204,7 @@ public:
  void pick_style(game *g); // Pick a style
  bool wear(game *g, char let);	// Wear item; returns false on fail
  bool wear_item(game *g, item *to_wear);
- bool takeoff(game *g, char let);// Take off item; returns false on fail
+ bool takeoff(game *g, char let, bool autodrop = false);// Take off item; returns false on fail
  void sort_armor(game *g);      // re-order armor layering
  void use(game *g, char let);	// Use a tool
  void use_wielded(game *g);
