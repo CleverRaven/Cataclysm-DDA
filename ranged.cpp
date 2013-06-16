@@ -893,7 +893,7 @@ double calculate_missed_by(player &p, int trange, item* weapon)
 
   deviation += rng(0, weapon->curammo->inaccuracy);
   // item::inaccuracy() doesn't support gunmods.
-  deviation += rng(0, p.weapon.inaccuracy());
+  deviation += rng(0, p.weapon.inaccuracy(false));
   int adj_recoil = p.recoil + p.driving_recoil;
   deviation += rng(int(adj_recoil / 4), adj_recoil);
 

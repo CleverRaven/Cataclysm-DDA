@@ -439,11 +439,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
  } else if (is_gun()) {
   it_gun* gun = dynamic_cast<it_gun*>(type);
-  int ammo_dam = 0, ammo_range = 0, ammo_recoil = 0;
+  int ammo_dam = 0, ammo_range = 0, ammo_inacc = 0, ammo_recoil = 0;
   bool has_ammo = (curammo != NULL && charges > 0);
   if (has_ammo) {
    ammo_dam = curammo->damage;
    ammo_range = curammo->range;
+   ammo_inacc = curammo->inaccuracy;
    ammo_recoil = curammo->recoil;
   }
 
@@ -475,7 +476,18 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
   dump->push_back(iteminfo("GUN", " Range: ", temp1.str(), int(gun->range), temp2.str()));
 
-  dump->push_back(iteminfo("GUN", " Accuracy: ", "", int(100 - inaccuracy())));
+  temp1.str("");
+  if (has_ammo) {
+   temp1 << (100 - ammo_inacc);
+  }
+  temp1 << (-inaccuracy() >= 0 ? "+" : "");
+
+  temp2.str("");
+  if (has_ammo) {
+   temp2 << " = " << (100 - inaccuracy(true));
+  }
+
+  dump->push_back(iteminfo("GUN", " Accuracy: ", temp1.str(), int(0 - inaccuracy(false)), temp2.str()));
 
 
   temp1.str("");
@@ -1734,12 +1746,14 @@ int item::clip_size()
  return ret;
 }
 
-int item::inaccuracy()
+int item::inaccuracy(bool with_ammo)
 {
  if (!is_gun())
   return 0;
  it_gun* gun = dynamic_cast<it_gun*>(type);
  int ret = gun->inaccuracy;
+ if (with_ammo && curammo != NULL)
+  ret += curammo->inaccuracy;
  for (int i = 0; i < contents.size(); i++) {
   if (contents[i].is_gunmod())
    ret += (dynamic_cast<it_gunmod*>(contents[i].type))->inaccuracy;
