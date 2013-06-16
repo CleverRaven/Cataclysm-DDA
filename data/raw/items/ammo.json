@@ -284,7 +284,7 @@
         "inaccuracy" : 2,
         "recoil" : 18,
         "count" : 25,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "LARGE_CONTACT_AREA"]
     },
     {   "type" : "AMMO",
         "id" : "shot_00",
@@ -307,7 +307,7 @@
         "inaccuracy" : 1,
         "recoil" : 26,
         "count" : 25,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF", "LARGE_CONTACT_AREA"]
     },
     {   "type" : "AMMO",
         "id" : "shot_slug",
@@ -1043,7 +1043,7 @@
         "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 4,
-        "effects" : ["EXPLOSIVE"]
+        "effects" : ["EXPLOSIVE", "LARGE_CONTACT_AREA"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_frag",
@@ -1066,7 +1066,7 @@
         "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 4,
-        "effects" : ["FRAG"]
+        "effects" : ["FRAG", "LARGE_CONTACT_AREA"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_incendiary",
@@ -1089,7 +1089,7 @@
         "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 4,
-        "effects" : ["NAPALM"]
+        "effects" : ["NAPALM", "LARGE_CONTACT_AREA"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_teargas",
@@ -1112,7 +1112,7 @@
         "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 4,
-        "effects" : ["TEARGAS"]
+        "effects" : ["TEARGAS", "LARGE_CONTACT_AREA"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_smoke",
@@ -1135,7 +1135,7 @@
         "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 6,
-        "effects" : ["SMOKE", "TRAIL"]
+        "effects" : ["SMOKE", "TRAIL", "LARGE_CONTACT_AREA"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_flashbang",
@@ -1158,7 +1158,7 @@
         "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 6,
-        "effects" : ["FLASHBANG"]
+        "effects" : ["FLASHBANG", "LARGE_CONTACT_AREA"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_acidbomb",
@@ -1181,7 +1181,7 @@
         "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 1,
-        "effects" : ["ACIDBOMB"]
+        "effects" : ["ACIDBOMB", "LARGE_CONTACT_AREA"]
     },
     {   "type" : "AMMO",
         "id" : "66mm_HEAT",
@@ -1204,7 +1204,7 @@
         "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 1,
-        "effects" : ["EXPLOSIVE_BIG", "TRAIL"]
+        "effects" : ["EXPLOSIVE_BIG", "TRAIL", "LARGE_CONTACT_AREA"]
     },
     {   "type" : "AMMO",
         "id" : "12mm",
@@ -1250,7 +1250,7 @@
         "inaccuracy" : 4,
         "recoil" : 0,
         "count" : 25,
-        "effects" : ["INCENDIARY"]
+        "effects" : ["INCENDIARY", "LARGE_CONTACT_AREA"]
     },
     {   "type" : "AMMO",
         "id" : "charge_shot",
