@@ -1428,28 +1428,26 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
                 return;
             }
             itype_id repair_item = "none";
-            std::string plural = "";
-            std::string repairitem_name = "";
+            std::vector<std::string> plurals;
+            std::vector<std::string> repairitem_names;
             std::vector<itype_id> repair_items;
             if (fix->made_of("kevlar"))
             {
                 repair_items.push_back("kevlar_plate");
-                //repair_item = "kevlar_plate";
-                repairitem_name = "kevlar";
-                plural = "s";
+                repairitem_names.push_back("kevlar plate");
+                plurals.push_back("s");
             }
             if (fix->made_of("plastic"))
             {
                 repair_items.push_back("plastic_chunk");
-                //repair_item = "plastic_chunk";
-                repairitem_name = "plastic chunk";
-                plural = "s";
+                repairitem_names.push_back("plastic chunk");
+                plurals.push_back("s");
             }
             if (fix->made_of("iron") || fix->made_of("steel"))
             {
-                repair_items.push_back("scrap_metal");
-                //repair_item = "scrap_metal";
-                repairitem_name = "metal";
+                repair_items.push_back("scrap");
+                repairitem_names.push_back("scrap metal");
+                plurals.push_back("");
             }
             if(repair_items.empty())
             {
@@ -1480,7 +1478,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
             {
                 for(unsigned int i = 0; i< repair_items.size(); i++)
                 {
-                    g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repair_items[i].c_str(), plural.c_str());
+                    g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repairitem_names[i].c_str(), plurals[i].c_str());
                 }
                 it->charges++;
                 return;
@@ -1552,7 +1550,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
                 }
                 else if (rn <= 6)
                 {
-                    g->add_msg_if_player(p,"You don't repair your %s, and you waste lots of charge.", fix->tname().c_str(), repairitem_name.c_str(),plural.c_str());
+                    g->add_msg_if_player(p,"You don't repair your %s, and you waste lots of charge.", fix->tname().c_str());
                     int waste = rng(1, 8);
                     if (waste > it->charges)
                         {it->charges = 1;}
@@ -1561,7 +1559,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
                 }
                 else if (rn <= 8)
                 {
-                    g->add_msg_if_player(p,"You repair your %s, but you waste lots of charge.", fix->tname().c_str(), repairitem_name.c_str(),plural.c_str());
+                    g->add_msg_if_player(p,"You repair your %s, but you waste lots of charge.", fix->tname().c_str());
                     if (fix->damage>=3) {g->consume_items(p, comps);}
                     fix->damage--;
                     int waste = rng(1, 8);
