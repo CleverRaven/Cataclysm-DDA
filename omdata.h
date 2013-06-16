@@ -88,7 +88,9 @@ enum oter_id {
   ot_s_restaurant_coffee_west,
  ot_sub_station_north, ot_sub_station_east, ot_sub_station_south,
   ot_sub_station_west,
- ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west, ot_cabin, ot_farm, ot_farm_field,
+ ot_s_garage_north, ot_s_garage_east, ot_s_garage_south, ot_s_garage_west, 
+ ot_cabin_strange, ot_cabin_strange_b, ot_cabin, 
+ ot_farm, ot_farm_field,
  ot_police_north, ot_police_east, ot_police_south, ot_police_west,
  ot_bank_north, ot_bank_east, ot_bank_south, ot_bank_west,
  ot_bar_north, ot_bar_east, ot_bar_south, ot_bar_west,
@@ -291,6 +293,8 @@ const oter_t oterlist[num_ter_types] = {
 {"garage",              'O',    c_white,       5, build_extras, false, false, 2},
 {"garage",              'O',    c_white,       5, build_extras, false, false, 2},
 {"garage",              'O',    c_white,       5, build_extras, false, false, 2},
+{"forest",              'F',	   c_green,	      5, field_extras, false, false, 0}, //lost cabin
+{"cabin basement",      'C',    i_green,       5, build_extras, false, false, 0},
 {"cabin",              'C',    i_green,       5, build_extras, false, false, 2},
 {"farm",              '^',    i_brown,       5, build_extras, false, false, 2},
 {"farm field",              '#',    i_brown,       5, field_extras, false, false, 2},
@@ -520,6 +524,7 @@ enum omspec_id
  OMSPEC_HOUSE,
  OMSPEC_GAS,
  OMSPEC_CABIN,
+ OMSPEC_CABIN_STRANGE,
  OMSPEC_LMOE,
  OMSPEC_FARM,
  OMSPEC_TEMPLE,
@@ -575,6 +580,9 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::by_highway, mfb(OMS_FLAG_ROTATE_ROAD) | mfb(OMS_FLAG_CLASSIC)},
 
 {ot_cabin,   0, 30, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Woods cabin
+ &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
+ 
+{ot_cabin_strange,   1, 1, 20, -1, "GROUP_NULL", 0, 0, 0, 0,  // Hidden cabin
  &omspec_place::forest, mfb(OMS_FLAG_CLASSIC)},
 
  {ot_lmoe,   0, 3, 20, -1, "GROUP_NULL", 0, 0, 0, 0,

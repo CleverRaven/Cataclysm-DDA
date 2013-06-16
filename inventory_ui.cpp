@@ -639,7 +639,7 @@ std::vector<item> game::multidrop()
 
  for (int i = 0; i < weapon_and_armor.size(); i++)
  {
-     if (!u.takeoff(this, weapon_and_armor[i]))
+     if (!u.takeoff(this, weapon_and_armor[i], true))
      {
          continue;
      }

@@ -1076,5 +1076,27 @@
         "rarity" : 0,
         "price" : 500,
         "required_level" : 0
+    },
+    {
+        "type" : "BOOK",
+        "id" : "visions_solitude",
+        "name" : "Visions in Solitude",
+        "max_level" : 0,
+        "description" : "A small book detailing 'visions' a prisoner had on death row.",
+        "weight" : 1,
+        "to_hit" : 1,
+        "color" : "blue",
+        "intelligence" : 0,
+        "symbol" : "?",
+        "material" : ["PAPER", "NULL"],
+        "volume" : 3,
+        "bashing" : 3,
+        "cutting" : 0,
+        "time" : 30,
+        "fun" : 2,
+        "skill" : "none",
+        "rarity" : 0,
+        "price" : 900,
+        "required_level" : 0
     }
 ]

@@ -2407,24 +2407,136 @@ void map::spawn_item(const int x, const int y, std::string type_id, const int bi
     spawn_item( x, y, new_item, birthday, quantity, charges, damlevel );
 }
 
-void map::add_item_or_charges(const int x, const int y, item new_item) {
-    if (new_item.is_style() || !INBOUNDS(x, y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) {
-     return;
+// stub for now, could vary by ter type
+int map::max_volume(const int x, const int y) {
+   return MAX_VOLUME_IN_SQUARE;
+}
+
+// total volume of all the things
+int map::stored_volume(const int x, const int y) {
+   if(!INBOUNDS(x, y)) return 0;
+   int cur_volume=0;
+   for (int n = 0; n < i_at(x, y).size(); n++) {
+       item* curit = &(i_at(x, y)[n]);
+       cur_volume += curit->volume();
+   }
+   return cur_volume;
+}
+
+// free space
+int map::free_volume(const int x, const int y) {
+   const int maxvolume = this->max_volume(x, y);
+   if(!INBOUNDS(x, y)) return 0;
+   return ( maxvolume - stored_volume(x, y) );
+}
+
+// returns true if full, modified by arguments:
+// (none):                            size >= max || volume >= max
+// (addvolume >= 0):                  size+1 > max || volume + addvolume > max
+// (addvolume >= 0, addnumber >= 0):  size + addnumber > max || volume + addvolume > max
+bool map::is_full(const int x, const int y, const int addvolume, const int addnumber ) {
+   const int maxitems = MAX_ITEM_IN_SQUARE; // (game.h) 1024
+   const int maxvolume = this->max_volume(x, y);
+
+   if( ! (INBOUNDS(x, y) && move_cost(x, y) > 0 && !has_flag(noitem, x, y) ) ) {
+       return true;
+   }
+
+   if ( addvolume == -1 ) {
+       if ( i_at(x, y).size() < maxitems ) return true;
+       int cur_volume=stored_volume(x, y);
+       return (cur_volume >= maxvolume ? true : false );
+   } else {
+       if ( i_at(x, y).size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
+       int cur_volume=stored_volume(x, y);
+       return ( cur_volume + addvolume > maxvolume ? true : false );
+   }
+
+}
+
+// adds an item to map point, or stacks charges.
+// returns false if item exceeds tile's weight limits or item count. This function is expensive, and meant for
+// user initiated actions, not mapgen!
+// overflow_radius > 0: if x,y is full, attempt to drop item up to overflow_radius squares away, if x,y is full
+// skip_checks == true: cheerfully ignore weight and item count, skip item and inbound checks. Use with caution
+bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius, bool skip_checks ) {
+    int cur_volume=0;
+    const int maxitems = MAX_ITEM_IN_SQUARE;
+    const int maxvolume = this->max_volume(x, y);
+    if ( skip_checks != true && ( new_item.is_style() || !INBOUNDS(x, y) || (new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) || has_flag(destroy_item, x, y) ) ) {
+        return false;
     }
-    if(new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo())) {
+
+    bool tryaddcharges = (new_item.charges  != -1 && (new_item.is_food() || new_item.is_ammo()));
+
+    int add_volume = new_item.volume();
+    itype_id add_type = new_item.type->id; // caching this here = ~25% speed increase
+
+    bool origin_full=false;
+    if ( skip_checks != true || tryaddcharges == true ) {
         for (int n = 0; n < i_at(x, y).size(); n++) {
             item* curit = &(i_at(x, y)[n]);
-            if(curit->type->id == new_item.type->id) {
-                curit->charges+= new_item.charges;
-                return;
+            if ( tryaddcharges == true && curit->type->id == add_type ) {
+                if ( skip_checks == true || ( curit->volume() + add_volume <= maxvolume ) ) { 
+                  curit->charges += new_item.charges;
+                  //mvprintz(5,5,c_ltred,"check2: added charges %d",curit->charges);
+                  return true;
+                }
             }
+            cur_volume += curit->volume();
         }
     }
-    add_item(x, y, new_item);
+
+    if ( skip_checks != true && ( i_at(x, y).size() >= maxitems || cur_volume + add_volume > maxvolume ) ) {
+        if ( overflow_radius < 1 ) {
+            return false;
+        } else {
+            origin_full=true;
+        }
+    }
+
+
+    if ( origin_full==false ) {
+        //mvprintz(7,5,c_ltred,"add(%d,%d,%d,%d)",x,y,new_item.volume(),maxitems);
+        add_item(x, y, new_item, maxitems );
+        return true;
+    } else {
+        //debugmsg("full %d,%d: %d <> %",x,y,new_item.volume(),maxitems);
+        int iter=0;
+        for ( int dist = 1 ; dist <= overflow_radius ; dist++ ) {
+
+            //mvprintz(7+dist,5,c_ltred,"%d <= %d",dist,overflow_radius);
+            for ( int tox = 0-dist; tox <= dist; tox++ ) {
+                for ( int toy = 0-dist; toy <= dist ; toy++ ) {
+                    if ( toy == 0-dist || toy == dist || tox == 0-dist || tox == dist ) { // speedup
+                        int tx=x+tox;
+                        int ty=y+toy;
+                        iter++;
+
+                        if( is_full(tx,ty,add_volume)==false ) { // speedup
+                            if(add_item_or_charges(tx,ty,new_item,0, true)) { // for charges, faster to spill into stacks
+                                //mvprintz(9,2,c_ltred,"Try %d / %d (%d %d): %d %d ",iter,dist,tox,toy,tx,ty);
+                                return true;
+                            } else {
+                                return false; // wat.
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }
+
 // Place an item on the map, despite the parameter name, this is not necessaraly a new item.
-void map::add_item(const int x, const int y, item new_item)
+// WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
+// map::add_item_or_charges
+void map::add_item(const int x, const int y, item new_item, const int maxitems)
 {
+
  if (new_item.is_style())
   return;
  if (!INBOUNDS(x, y))
@@ -2434,12 +2546,12 @@ void map::add_item(const int x, const int y, item new_item)
  if (has_flag(destroy_item, x, y))
      return;
 
- if (has_flag(noitem, x, y) || i_at(x, y).size() >= 64) {// Too many items there
+ if (has_flag(noitem, x, y) || i_at(x, y).size() >= maxitems) {// Too many items there
   std::vector<point> okay;
   for (int i = x - 1; i <= x + 1; i++) {
    for (int j = y - 1; j <= y + 1; j++) {
     if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
-        i_at(i, j).size() < 64)
+        i_at(i, j).size() < maxitems)
      okay.push_back(point(i, j));
    }
   }
@@ -2447,13 +2559,14 @@ void map::add_item(const int x, const int y, item new_item)
    for (int i = x - 2; i <= x + 2; i++) {
     for (int j = y - 2; j <= y + 2; j++) {
      if (INBOUNDS(i, j) && move_cost(i, j) > 0 && !has_flag(noitem, i, j) &&
-         i_at(i, j).size() < 64)
+         i_at(i, j).size() < maxitems)
       okay.push_back(point(i, j));
     }
    }
   }
-  if (okay.size() == 0)// STILL?
+  if (okay.size() == 0) { // STILL?
    return;
+  }
   const point choice = okay[rng(0, okay.size() - 1)];
   add_item(choice.x, choice.y, new_item);
   return;
