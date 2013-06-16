@@ -293,8 +293,8 @@ const oter_t oterlist[num_ter_types] = {
 {"garage",              'O',    c_white,       5, build_extras, false, false, 2},
 {"garage",              'O',    c_white,       5, build_extras, false, false, 2},
 {"garage",              'O',    c_white,       5, build_extras, false, false, 2},
-{"forest",              'F',	   c_green,	      5, field_extras, false, false}, //lost cabin
-{"cabin basement",      'C',    i_green,       5, build_extras, false, false},
+{"forest",              'F',	   c_green,	      5, field_extras, false, false, 0}, //lost cabin
+{"cabin basement",      'C',    i_green,       5, build_extras, false, false, 0},
 {"cabin",              'C',    i_green,       5, build_extras, false, false, 2},
 {"farm",              '^',    i_brown,       5, build_extras, false, false, 2},
 {"farm field",              '#',    i_brown,       5, field_extras, false, false, 2},

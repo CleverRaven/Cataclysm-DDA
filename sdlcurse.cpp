@@ -3,6 +3,7 @@
 #include "options.h"
 #include "output.h"
 #include "color.h"
+#include "debug.h"
 #include <cstdlib>
 #include <fstream>
 
@@ -24,6 +25,7 @@ static SDL_Color windowsPalette[256];
 static SDL_Surface *screen = NULL;
 static SDL_Surface *glyph_cache[128][16]; //cache ascii characters 
 TTF_Font* font;
+static int ttf_height_hack = 0;
 int nativeWidth;
 int nativeHeight;
 int WindowX;            //X pos of the actual window, not the curses window
@@ -40,6 +42,10 @@ int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
 int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
+
+static unsigned long lastupdate = 0;
+static unsigned long interval = 25;
+static bool needupdate = false;
 
 //***********************************
 //Non-curses, Window functions      *
@@ -131,6 +137,35 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
     SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, windowsPalette[color].r,windowsPalette[color].g,windowsPalette[color].b));
 };
 
+
+static void cache_glyphs()
+{
+    int top=999, bottom=-999;
+
+    start_color();
+    
+    for(int ch=0; ch<128; ch++)
+    {
+        for(int color=0; color<16; color++)
+        {
+            SDL_Surface * glyph = glyph_cache[ch][color] = TTF_RenderGlyph_Solid(font, ch, windowsPalette[color]);
+            int minx, maxx, miny, maxy, advance;
+            if(glyph!=NULL && color==0 && 0==TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) )
+            {
+               int t = TTF_FontAscent(font)-maxy;
+               int b = t + glyph->h;
+               if(t<top) top = t;
+               if(b>bottom) bottom = b;
+            }
+        }
+    }
+    
+    int height = bottom - top;
+    int delta = (fontheight-height)/2;
+
+    ttf_height_hack =  delta - top;
+}
+
 static void OutputChar(char t, int x, int y, int n, unsigned char color)
 {
     unsigned char ch = t & 0x7f;
@@ -138,23 +173,33 @@ static void OutputChar(char t, int x, int y, int n, unsigned char color)
 
     SDL_Surface * glyph = glyph_cache[ch][color];
 
-    if(glyph==NULL)
-    {
-        glyph = glyph_cache[ch][color] = TTF_RenderGlyph_Solid(font, ch, windowsPalette[color]);
-    }
-
     if(glyph)
     {
 		int minx=0, maxy=0, dx=0, dy = 0;
 		if( 0==TTF_GlyphMetrics(font, ch, &minx, NULL, NULL, &maxy, NULL))
 		{
 			dx = minx;
-			dy = TTF_FontAscent(font) - maxy;
+			dy = TTF_FontAscent(font)-maxy+ttf_height_hack;
 			SDL_Rect rect;
 			rect.x = x+dx; rect.y = y+dy; rect.w = fontwidth; rect.h = fontheight;
 			SDL_BlitSurface(glyph, NULL, screen, &rect);
 		}
     }
+}
+
+void try_update()
+{
+	unsigned long now=SDL_GetTicks();
+	if(now-lastupdate>=interval)
+	{
+		SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
+		needupdate = false;
+		lastupdate = now;
+	}
+	else
+	{
+		needupdate = true;
+	}
 }
 
 void DrawWindow(WINDOW *win)
@@ -165,6 +210,8 @@ void DrawWindow(WINDOW *win)
     for (j=0; j<win->height; j++){
         if (win->line[j].touched)
         {
+            needupdate = true;
+
             win->line[j].touched=false;
 
             for (i=0; i<win->width; i++){
@@ -234,10 +281,8 @@ void DrawWindow(WINDOW *win)
         }
     };// for (j=0;j<_windows[w].height;j++)
     win->draw=false;                //We drew the window, mark it as so
-    //if (update.top != -1)
-    //{
-		SDL_Flip(screen);
-    //}
+
+    if (needupdate) try_update();
 }
 
 //Check for any window messages (keypress, paint, mousemove, etc)
@@ -302,6 +347,7 @@ void CheckMessages()
 
 		}
 	}
+    if (needupdate) try_update();
     if(quit)
     {
         endwin();
@@ -312,6 +358,8 @@ void CheckMessages()
 //***********************************
 //Psuedo-Curses Functions           *
 //***********************************
+
+
 
 //Basic Init, create the font, backbuffer, etc
 WINDOW *initscr(void)
@@ -358,10 +406,17 @@ WINDOW *initscr(void)
     //if(!font) something went wrong
 
 	TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
-	TTF_SetFontOutline(font, 0);
-	TTF_SetFontKerning(font, 0);
-	TTF_SetFontHinting(font, TTF_HINTING_MONO);
- 
+	//TTF_SetFontOutline(font, 0);
+	//TTF_SetFontKerning(font, 0);
+	//TTF_SetFontHinting(font, TTF_HINTING_MONO);
+
+	// glyph height hack by utunnels 
+	// SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
+	// this causes baseline problems for certain fonts 
+	// I can only guess by check a certain tall character...
+    cache_glyphs();
+
+
     mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
@@ -608,12 +663,15 @@ inline int printstring(WINDOW *win, char *fmt)
     win->line[win->cursory].BG[win->cursorx]=win->BG;
     win->line[win->cursory].touched=true;
     addedchar(win);
-   } else
-   return 0; //if we try and write anything outside the window, abort completely
-} else // if the character is a newline, make sure to move down a line
+   } else if (win->cursory <= win->height - 1) {
+     // don't write outside the window, but don't abort if there are still lines to write.
+   } else {
+     return 0; //if we try and write anything outside the window, abort completely
+   }
+  } else // if the character is a newline, make sure to move down a line
   if (newline(win)==0){
-      return 0;
-      }
+   return 0;
+  }
  }
  win->draw=true;
  return 1;

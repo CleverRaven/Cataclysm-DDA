@@ -1575,7 +1575,7 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = "SNAP!";
             wreckit = true;
             g->m.tr_at(x, y) = tr_null;
-            g->m.spawn_item(x, y, g->itypes["beartrap"], 0);
+            g->m.spawn_item(x, y, "beartrap", 0);
             break;
         case tr_nailboard:
             wreckit = true;
@@ -1591,10 +1591,10 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = "Clank!";
             wreckit = true;
             g->m.tr_at(x, y) = tr_null;
-            g->m.spawn_item(x, y, g->itypes["crossbow"], 0);
-            g->m.spawn_item(x, y, g->itypes["string_6"], 0);
+            g->m.spawn_item(x, y, "crossbow", 0);
+            g->m.spawn_item(x, y, "string_6", 0);
             if (!one_in(10))
-                g->m.spawn_item(x, y, g->itypes["bolt_steel"], 0);
+                g->m.spawn_item(x, y, "bolt_steel", 0);
             break;
         case tr_shotgun_2:
         case tr_shotgun_1:
@@ -1607,8 +1607,8 @@ void vehicle::handle_trap (int x, int y, int part)
             else
             {
                 g->m.tr_at(x, y) = tr_null;
-                g->m.spawn_item(x, y, g->itypes["shotgun_sawn"], 0);
-                g->m.spawn_item(x, y, g->itypes["string_6"], 0);
+                g->m.spawn_item(x, y, "shotgun_sawn", 0);
+                g->m.spawn_item(x, y, "string_6", 0);
             }
             break;
         case tr_landmine:
@@ -1648,9 +1648,60 @@ void vehicle::handle_trap (int x, int y, int part)
         g->explosion(x, y, expl, shrap, false);
 }
 
+// total volume of all the things
+int vehicle::stored_volume(int part) {
+   const int max_volume = MAX_VOLUME_IN_VEHICLE_STORAGE;
+   if (!part_flag(part, vpf_cargo))
+        return 0;
+   int cur_volume=0;
+   for (int i = 0; i < parts[part].items.size(); i++) {
+       cur_volume += parts[part].items[i].volume();
+   }
+   return cur_volume;
+}
+// stub, pending per vpart limits
+int vehicle::max_volume(int part) {
+   return MAX_VOLUME_IN_VEHICLE_STORAGE; 
+}
+
+// free space
+int vehicle::free_volume(int part) {
+   const int maxvolume = this->max_volume(part);
+   return ( maxvolume - stored_volume(part) );
+}
+
+// returns true if full, modified by arguments:
+// (none):                            size >= max || volume >= max
+// (addvolume >= 0):                  size+1 > max || volume + addvolume > max
+// (addvolume >= 0, addnumber >= 0):  size + addnumber > max || volume + addvolume > max
+bool vehicle::is_full(const int part, const int addvolume, const int addnumber) {
+   const int maxitems = MAX_ITEM_IN_VEHICLE_STORAGE;
+   const int maxvolume = this->max_volume(part);
+
+   if ( addvolume == -1 ) {
+       if ( parts[part].items.size() < maxitems ) return true;
+       int cur_volume=stored_volume(part);
+       return (cur_volume >= maxvolume ? true : false );
+   } else {
+       if ( parts[part].items.size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
+       int cur_volume=stored_volume(part);
+       return ( cur_volume + addvolume > maxvolume ? true : false );
+   }
+
+}
+
 bool vehicle::add_item (int part, item itm)
 {
-    if (!part_flag(part, vpf_cargo) || parts[part].items.size() >= 64)
+    const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE; // (game.h)
+    const int maxvolume = this->max_volume(part);         // (game.h => vehicle::max_volume(part) ) in theory this could differ per vpart ( seat vs trunk )
+
+    // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
+    // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
+
+    if (!part_flag(part, vpf_cargo))
+        return false;
+    
+    if (parts[part].items.size() >= max_storage)
         return false;
     it_ammo *ammo = dynamic_cast<it_ammo*> (itm.type);
     if (part_flag(part, vpf_turret))
@@ -1658,16 +1709,21 @@ bool vehicle::add_item (int part, item itm)
                  ammo->type == AT_GAS ||
                  ammo->type == AT_PLASMA))
             return false;
-
-    if(itm.charges  != -1 && (itm.is_food() || itm.is_ammo())) {
+    int cur_volume = 0;
+    int add_volume = itm.volume();
+    bool tryaddcharges=(itm.charges  != -1 && (itm.is_food() || itm.is_ammo()));
+    // iterate anyway since we need a volume total
       for (int i = 0; i < parts[part].items.size(); i++) {
-        if(parts[part].items[i].type->id == itm.type->id ) {
+        cur_volume += parts[part].items[i].volume();
+        if( tryaddcharges && parts[part].items[i].type->id == itm.type->id ) {
           parts[part].items[i].charges+=itm.charges;
           return true;
         }
       }
+    
+    if ( cur_volume + add_volume > maxvolume ) {
+      return false;
     }
-
     parts[part].items.push_back (itm);
     return true;
 }
@@ -1932,9 +1988,9 @@ int vehicle::damage_direct (int p, int dmg, int type)
         else
         if (parts[p].hp <= 0 && part_flag(p, vpf_unmount_on_damage))
         {
-            g->m.spawn_item (global_x() + parts[p].precalc_dx[0],
+            g->m.spawn_item(global_x() + parts[p].precalc_dx[0],
                            global_y() + parts[p].precalc_dy[0],
-                           g->itypes[part_info(p).item], g->turn);
+                           part_info(p).item, g->turn);
             remove_part (p);
         }
     }
@@ -1961,8 +2017,8 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, g->itypes["gasoline"], 0);
-                    g->m.spawn_item(i, j, g->itypes["gasoline"], 0);
+                    g->m.spawn_item(i, j, "gasoline", 0);
+                    g->m.spawn_item(i, j, "gasoline", 0);
                     parts[p].amount -= 100;
                 }
     }

@@ -39,7 +39,7 @@ void game::init_mapitems()
 	"coke", "meth", "sneakers", "boots", "boots_winter",
 	"flip_flops", "dress_shoes", "heels", "coat_rain", "poncho",
 	"gloves_light", "mittens",
-	"armguard_soft", "armguard_hard",
+	"armguard_soft", "armguard_hard", "legguard_hard",
 	"gloves_wool", "gloves_winter", "gloves_liner", "gloves_leather",
 	"gloves_fingerless", "bandana", "scarf", "hat_cotton",
 	"hat_knit", "hat_fur", "helmet_bike", "helmet_motor",
@@ -101,7 +101,7 @@ void game::init_mapitems()
 	"sw_610", "ruger_redhawk", "deagle_44", "usp_45", "m1911",
 	"fn57", "mac_10", "shotgun_sawn", "suppressor", "grip",
 	"clip", "spare_mag", "grenade", "EMPbomb", "gasbomb", "tazer",
-	"longbow", "compbow", "arrow_wood", "arrow_cf", "u_shotgun", "shot_hull",
+	"longbow", "compbow", "compositebow", "shortbow", "recurbow", "reflexbow", "arrow_wood", "arrow_cf", "u_shotgun", "shot_hull",
         "9mm_casing", "38_casing", "40_casing", "44_casing", "45_casing",
         "57mm_casing", "46mm_casing", "762_casing", "223_casing",
         "3006_casing", "308_casing", "gunpowder",
@@ -233,7 +233,7 @@ void game::init_mapitems()
  setvector(
    &mapitems[mi_sports],
 	"bandages", "aspirin", "bat", "bat_metal", "sneakers", "socks", "tshirt",
-	"tank_top", "gloves_fingerless", "glasses_safety", "armguard_soft", "armguard_hard",
+	"tank_top", "gloves_fingerless", "glasses_safety", "armguard_soft", "armguard_hard", "legguard_hard",
 	"goggles_swim", "goggles_ski", "hat_ball", "helmet_bike",
 	"helmet_ball", "manual_brawl", "foot_crank", "glowstick", NULL);
 
@@ -244,24 +244,24 @@ void game::init_mapitems()
 	"bb", "bolt_steel", "bbgun", "crossbow", "manual_knives","manual_survival",
 	"manual_first_aid", "manual_traps", "lighter", "matches", "sewing_kit", "thread",
 	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
- "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
- "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
+ "UPS_off", "string_36", "longbow", "compbow", "compositebow", "shortbow", "recurbow", "reflexbow",
+ "hand_crossbow", "arrow_wood", "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
  "heatpack", "glowstick", "emer_blanket", "cloak", "sleeping_bag", "gasoline_lantern", NULL);
-
 
  setvector(
    &mapitems[mi_allsporting],
 	"aspirin", "bat", "bat_metal", "sneakers", "socks", "tshirt", "tank_top",
 	"gloves_fingerless", "glasses_safety", "goggles_swim",
-	"armguard_soft", "armguard_hard", "mag_firstaid", "mag_throwing", "mag_swimming",
+	"armguard_soft", "armguard_hard", "legguard_hard", "mag_firstaid", "mag_throwing", "mag_swimming",
 	"goggles_ski", "hat_ball", "helmet_bike", "helmet_ball",
 	"manual_brawl", "rope_30", "hatchet", "pot", "pan",
 	"binoculars", "hotplate", "knife_combat", "machete", "vest",
-	"backpack", "bb", "bolt_steel", "bbgun", "crossbow",
+	"backpack", "bb", "bolt_steel", "bbgun", "crossbow", "hand_crossbow",
 	"manual_knives", "manual_first_aid", "manual_traps", "lighter", "matches",
 	"sewing_kit", "thread", "hammer", "flashlight", "water_purifier",
 	"radio", "beartrap", "extinguisher", "string_36", "longbow",
-	"compbow", "arrow_wood", "arrow_cf", "rollmat", "tent_kit",
+	"compbow", "compositebow", "shortbow", "recurbow", "reflexbow",
+	"arrow_wood", "arrow_cf", "rollmat", "tent_kit",
     "foot_crank", "mag_archery", "heatpack", "glowstick", NULL);
 
  setvector(
@@ -423,8 +423,8 @@ void game::init_mapitems()
    &mapitems[mi_cop_weapons],
 	"baton", "kevlar", "vest", "gloves_leather", "mask_gas",
 	"goggles_nv", "helmet_riot", "holster", "bootstrap",
-	"armguard_hard",
-	"shot_00", "9mm", "usp_9mm", "remington_870", 
+	"armguard_hard", "legguard_hard",
+	"shot_00", "9mm", "usp_9mm", "remington_870",
 	"UPS_off", "tazer", NULL);
 
  setvector(
@@ -480,7 +480,7 @@ void game::init_mapitems()
 	"textbook_business", "manual_computers", "textbook_computers", "lighter", "matches", "extinguisher", "flashlight",
 	"radio", "bubblewrap", "coffee_raw", "usb_drive","rootbeer", "cig", "coat_rain", "poncho",
 	"mag_tv", "mag_news", "lighter", "matches", "extinguisher", "mp3", NULL);
-	
+
  setvector(
    &mapitems[mi_school],
     "glasses_reading", "purse", "mbag", "battery", "mag_news", "manual_computers",
@@ -489,7 +489,7 @@ void game::init_mapitems()
 	"manual_tailor", "manual_carpentry", "novel_romance", "novel_spy", "novel_scifi", "novel_drama",
         "novel_mystery", "novel_fantasy", "novel_horror", "chocolate", "candy", "backpack", "pockknife", "mag_comic",
 	NULL);
-	
+
  setvector(
    &mapitems[mi_church],
    "glasses_eye", "sunglasses", "glasses_reading", "glasses_bifocal", "lighter", "matches", "coat_rain", "cane", "candlestick",
@@ -507,7 +507,7 @@ void game::init_mapitems()
  setvector(
    &mapitems[mi_medieval],
 	"katana", "mace", "morningstar", "rapier", "broadsword",
-	"pike", "helmet_plate", "armor_plate", NULL);  
+	"pike", "helmet_plate", "armor_plate", "huge_crossbow", NULL);
 
  setvector(
    &mapitems[mi_art],
@@ -534,7 +534,7 @@ void game::init_mapitems()
 	"broadsword", "morningstar", "helmet_plate", "cot", "rollmat", "tent_kit",
     "bat_metal",  "lawnmower", "pickelhaube",
     "makeshift_machete", "picklocks", "rucksack", "puller", "press",
-    "vac_sealer", "gasoline_lantern", NULL);
+    "vac_sealer", "gasoline_lantern", "huge_crossbow", NULL);
 
  setvector(
    &mapitems[mi_mil_surplus], // NOT food or armor!
@@ -675,13 +675,13 @@ void game::init_mapitems()
    &mapitems[mi_mil_armor],
 	"pants_army", "kevlar", "vest", "mask_gas", "goggles_nv",
 	"helmet_army", "backpack", "UPS_off", "beltrig", "under_armor",
-    "boots", "armguard_hard", "power_armor_basic", "power_armor_frame",
+    "boots", "armguard_hard", "legguard_hard", "power_armor_basic", "power_armor_frame",
 	"helmet_army", "backpack", "UPS_off", "beltrig", "beret", NULL);
 
  setvector(
    &mapitems[mi_mil_accessories],
 	"mask_gas", "goggles_nv", "backpack", "UPS_off",
-    "armguard_hard", "power_armor_frame",
+    "armguard_hard", "legguard_hard", "power_armor_frame",
 	NULL);
 
  setvector(
@@ -736,7 +736,7 @@ void game::init_mapitems()
 	"boots_steel", "pants_cargo", "shorts_cargo", "pants_army", "jumpsuit",
 	"jacket_leather", "kevlar", "vest", "gloves_fingerless",
 	"mask_filter", "mask_gas", "goggles_ski", "helmet_skid",
-    "armguard_hard", "under_armor", "long_underpants",
+    "armguard_hard", "legguard_hard", "under_armor", "long_underpants",
 	"helmet_ball", "helmet_riot", "helmet_motor", "holster",
 	"bootstrap", "UPS_off", "beltrig", "rucksack",
     "emer_blanket", "cloak", NULL);
@@ -755,7 +755,7 @@ void game::init_mapitems()
 	"1st_aid", "motor", "hose", "screwdriver", "wrench", "pipe",
 	"boots", "jumpsuit", "coat_lab", "gloves_rubber",
 	"mask_filter", "glasses_safety", "hat_hard", "extinguisher",
-	"flashlight", "water_purifier", 
+	"flashlight", "water_purifier",
  "bio_tools", "bio_storage",  "bio_flashlight",
  "bio_lighter", "bio_magnet", "flyer",
  "bio_purifier", "bio_climate", "bio_heatsink", "bio_blood_filter", NULL);
@@ -775,7 +775,7 @@ void game::init_mapitems()
 	"water_clean", "1st_aid", "rope_30", "chain", "boots_steel",
 	"jumpsuit", "gloves_leather", "mask_filter", "mask_gas",
 	"glasses_safety", "goggles_welding", "goggles_nv", "hat_hard",
-	"backpack", "battery", "flashlight", 
+	"backpack", "battery", "flashlight",
 	"jackhammer", "jacqueshammer", "dynamite", "UPS_off",
    "bio_tools", "bio_flashlight", "bio_lighter", "bio_magnet",
    "bio_resonator", "bio_hydraulics",
@@ -925,16 +925,16 @@ void game::init_mapitems()
 	"iodine", "codeine", "cig", "knife_combat", "boots_steel",
 	"pants_army", "kevlar", "vest", "gloves_fingerless",
 	"mask_gas", "glasses_safety", "goggles_nv", "hat_boonie",
-	"armguard_hard",
+	"armguard_hard", "legguard_hard",
 	"helmet_army", "backpack", "holster", "bootstrap", "9mm",
 	"45_acp", "556", "556_incendiary", "762_51",
 	"762_51_incendiary", "laser_pack", "40mm_concussive",
 	"40mm_frag", "40mm_incendiary", "40mm_teargas", "40mm_smoke",
 	"40mm_flashbang", "usp_9mm", "usp_45", "m4a1", "scar_l",
 	"scar_h", "m249", "ftk93", "nx17", "m320", "mgl",
-	"suppressor", "clip", "brass_catcher", "lighter", "flashlight", 
+	"suppressor", "clip", "brass_catcher", "lighter", "flashlight",
 	"landmine", "grenade", "flashbang", "EMPbomb", "gasbomb",
-	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm",
+	"smokebomb", "UPS_off", "tazer", "c4", "hk_g80", "12mm", "flamethrower",
 	"binoculars", "u_shotgun", "beltrig", "power_armor_basic",
     "power_armor_helmet_basic", "power_armor_frame", "spare_mag",
     "canteen", "jerrycan", "rucksack", "heatpack", "LAW_Packed", NULL);
@@ -992,7 +992,7 @@ void game::init_mapitems()
 	"heroin", "syringe", "electrohack", "hatchet", "nailboard",
 	"knife_combat", "bat", "machete", "katana", "pants_cargo", "shorts_cargo",
 	"hoodie", "gloves_fingerless", "backpack", "holster",
-	"armguard_soft", "armguard_hard",
+	"armguard_soft", "armguard_hard", "legguard_hard",
 	"shot_00", "9mm", "45_acp", "glock_19", "shotgun_sawn",
 	"uzi", "tec9", "mac_10", "suppressor", "clip2", "autofire",
 	"mag_porn", "lighter", "matches", "crowbar", "pipebomb", "grenade",
@@ -1022,5 +1022,5 @@ void game::init_mapitems()
 	"dynamite_act", "firecracker_pack_act", "firecracker_act",
 	"mininuke_act", "UPS_on", "mp3_on", "c4armed", "apparatus",
 	"brazier", "rag_bloody", "candle_lit", "torch_lit",
-	"acidbomb_act", NULL);
+	"acidbomb_act", "huge_crossbow", "rep_crossbow", NULL);
 }

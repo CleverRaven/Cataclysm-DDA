@@ -998,7 +998,8 @@ void npc::move_to(game *g, int x, int y)
  else if (g->m.move_cost(x, y) > 0) {
   posx = x;
   posy = y;
-  moves -= run_cost(g->m.combined_movecost(posx, posy, x, y));
+  bool diag = trigdist && posx != x && posy != y;
+  moves -= run_cost(g->m.combined_movecost(posx, posy, x, y), diag);
  } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor)))
   moves -= 100;
  else if (g->m.has_flag(bashable, x, y)) {

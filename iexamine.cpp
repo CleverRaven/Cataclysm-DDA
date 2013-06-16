@@ -544,8 +544,8 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
   }
 
   m->ter_set(examx, examy, t_dirt);
-  m->spawn_item(examx, examy, g->itypes["poppy_flower"],0);
-  m->spawn_item(examx, examy, g->itypes["poppy_bud"],0);
+  m->spawn_item(examx, examy, "poppy_flower", 0);
+  m->spawn_item(examx, examy, "poppy_bud", 0);
 }
 
 void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std::string itemType, int new_ter) {
@@ -559,7 +559,7 @@ void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std:
   if (num_fruits > 12)
     num_fruits = 12;
 
-  m->spawn_item(examx, examy, g->itypes[itemType], g->turn, num_fruits - 1);
+  m->spawn_item(examx, examy, itemType, g->turn, num_fruits - 1);
 
   m->ter_set(examx, examy, (ter_id)new_ter);
 }
@@ -684,22 +684,22 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
 
     for (int i = 0; i < num_lumps; i++)
     {
-        m->spawn_item(p->posx, p->posy, item_controller->find_template("steel_lump"), 0);
+        m->spawn_item(p->posx, p->posy, "steel_lump", 0);
     }
 
     for (int i = 0; i < num_sheets; i++)
     {
-        m->spawn_item(p->posx, p->posy, item_controller->find_template("sheet_metal"), 0);
+        m->spawn_item(p->posx, p->posy, "sheet_metal", 0);
     }
 
     for (int i = 0; i < num_chunks; i++)
     {
-        m->spawn_item(p->posx, p->posy, item_controller->find_template("steel_chunk"), 0);
+        m->spawn_item(p->posx, p->posy, "steel_chunk", 0);
     }
 
     for (int i = 0; i < num_scraps; i++)
     {
-        m->spawn_item(p->posx, p->posy, item_controller->find_template("scrap"), 0);
+        m->spawn_item(p->posx, p->posy, "scrap", 0);
     }
 }
 

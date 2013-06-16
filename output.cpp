@@ -933,3 +933,17 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
     ts.tv_nsec = iTimeout * 1000 * 1000; //100ms
     nanosleep(&ts, NULL);*/
 }
+
+std::string from_sentence_case (const std::string &kingston)
+{
+    if (kingston.size()>0) {
+        std::string montreal = kingston;
+        if(montreal.empty()) {
+            return "";
+        } else {
+            montreal.replace(0,1,1,tolower(kingston.at(0)));
+            return montreal;
+        }
+    }
+    return "";
+}
