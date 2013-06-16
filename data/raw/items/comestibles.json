@@ -3992,7 +3992,7 @@
         "comestible_type" : "MED",
         "symbol" : "!",
         "quench" : 0,
-        "heal" : 3,
+        "heal" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
         "description" : "Take frequently to improve your immune system.",
