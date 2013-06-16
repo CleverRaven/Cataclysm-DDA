@@ -38,7 +38,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   tmpammo->damage = charges * charges;
   tmpammo->pierce = (charges >= 4 ? (charges - 3) * 2.5 : 0);
   tmpammo->range = 5 + charges * 5;
-  if (charges <= 4)
+  if (charges <= 4) // 12, 10, 8, 6
    tmpammo->inaccuracy = 14 - charges * 2;
   else // 5, 12, 21, 32
    tmpammo->inaccuracy = charges * (charges - 4);
@@ -897,6 +897,8 @@ double calculate_missed_by(player &p, int trange, item* weapon)
   int adj_recoil = p.recoil + p.driving_recoil;
   deviation += rng(int(adj_recoil / 4), adj_recoil);
 
+  if (deviation < 0)
+    return 0;
 // .013 * trange is a computationally cheap version of finding the tangent.
 // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
 //  of quarter-degrees)
@@ -925,7 +927,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
  bool u_see_mon = g->u_see(&(mon));
  if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(4) &&
      weapon->curammo->phase != LIQUID &&
-     weapon->curammo->inaccuracy >= 4) { // Buckshot hits anyway
+     weapon->curammo->inaccuracy >= 4) { // Buckshot hits anyway TODO FIXME
   if (u_see_mon)
    g->add_msg("The shot passes through the %s without hitting.",
            mon.name().c_str());

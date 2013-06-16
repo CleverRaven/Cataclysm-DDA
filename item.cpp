@@ -513,7 +513,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
 
   if (mod->inaccuracy != 0)
-   dump->push_back(iteminfo("GUNMOD", " Accuracy: ", ((mod->inaccuracy > 0) ? "+" : ""), int(mod->inaccuracy)));
+   dump->push_back(iteminfo("GUNMOD", " Accuracy: ", ((mod->inaccuracy < 0) ? "+" : ""), int(0 - mod->inaccuracy)));
   if (mod->damage != 0)
    dump->push_back(iteminfo("GUNMOD", " Damage: ", ((mod->damage > 0) ? "+" : ""), int(mod->damage)));
   if (mod->clip != 0)
@@ -1742,9 +1742,10 @@ int item::inaccuracy()
  int ret = gun->inaccuracy;
  for (int i = 0; i < contents.size(); i++) {
   if (contents[i].is_gunmod())
-   ret -= (dynamic_cast<it_gunmod*>(contents[i].type))->inaccuracy;
+   ret += (dynamic_cast<it_gunmod*>(contents[i].type))->inaccuracy;
  }
  ret += damage * 2;
+ if (ret < 0) ret = 0;
  return ret;
 }
 

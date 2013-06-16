@@ -2783,7 +2783,7 @@ int player::ranged_dex_mod(bool real_life)
  int deviation = 0;
  if (dex < 4)
   deviation = 4 * (8 - dex);
- if (dex < 6)
+ else if (dex < 6)
   deviation = 2 * (8 - dex);
  else
   deviation = 1.5 * (8 - dex);
