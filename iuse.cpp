@@ -898,22 +898,22 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     }
     //some items are made from more than one material. we should try to use both items if one type of repair item is missing
     itype_id repair_item = "none";
+    std::vector<std::string> plurals;
     std::vector<itype_id> repair_items;
     std::string plural = "";
     if (fix->made_of("cotton") || fix->made_of("wool"))
     {
         repair_items.push_back("rag");
-        //repair_item1 = "rag";
-        plural = "s";
+        plurals.push_back("s");
     }
     if (fix->made_of("leather"))
     {
-        //repair_item1 = "leather";
         repair_items.push_back("leather");
+        plurals.push_back("");
     }
     if (fix->made_of("fur"))
     {
-        //repair_item = "fur pelt";
+        plurals.push_back("");
         repair_items.push_back("fur");
     }
     if(repair_items.empty())
@@ -943,7 +943,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     {
         for(unsigned int i = 0; i< repair_items.size(); i++)
         {
-            g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repair_items[i].c_str(), plural.c_str());
+            g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repair_items[i].c_str(), plurals[i].c_str());
         }
         it->charges++;
         return;
