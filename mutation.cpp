@@ -392,6 +392,10 @@ void mutation_effect(game *g, player &p, pl_flag mut)
  std::vector<body_part> bps;
 
  switch (mut) {
+  case PF_TOUGH:
+  case PF_GLASSJAW:
+  case PF_HARDCORE:
+      p.recalc_hp();
 // Push off gloves
   case PF_WEBBED:
   case PF_ARM_TENTACLES:
@@ -510,6 +514,10 @@ void mutation_effect(game *g, player &p, pl_flag mut)
 void mutation_loss_effect(game *g, player &p, pl_flag mut)
 {
  switch (mut) {
+  case PF_TOUGH:
+  case PF_GLASSJAW:
+  case PF_HARDCORE:
+      p.recalc_hp();
   case PF_STR_UP:
    p.str_max--;
    p.recalc_hp();
