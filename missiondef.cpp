@@ -182,7 +182,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
  MISSION("Recruit Tracker",MGOAL_RECRUIT_NPC_CLASS, 5, 700, false,
 	&mission_place::always, &mission_start::recruit_tracker,
 	&mission_end::standard, &mission_fail::standard);
-  ORIGINS(ORIGIN_OPENER_NPC, ORIGIN_SECONDARY);
+  ORIGINS(ORIGIN_SECONDARY);
 
 //demon slayer mission 4b
  MISSION("Tracker", MGOAL_FIND_ITEM, 5, 0, true,
