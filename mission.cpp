@@ -692,7 +692,8 @@ alive under the rubble and ash.";
   break;
 
 
-// MISSION_RECRUIT_TRACKER,//demon slayer 4
+
+//demon slayer mission 4
    case MISSION_RECRUIT_TRACKER:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
@@ -716,7 +717,7 @@ target.";
    case TALK_MISSION_INQUIRE:
     return "Found a gunslinger?";
    case TALK_MISSION_SUCCESS:
-    return "Great, just let me know when you are ready to wade kneedeep in an ocean of blood.";
+    return "Great, just let me know when you are ready to wade knee-deep in an ocean of blood.";
    case TALK_MISSION_SUCCESS_LIE:
     return "I don't think so...";
    case TALK_MISSION_FAILURE:
@@ -724,7 +725,7 @@ target.";
   }
   break;
 
-// MISSION_JOIN_TRACKER, //demon slayer 4b
+//demon slayer mission 4b
    case MISSION_JOIN_TRACKER:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
