@@ -115,10 +115,11 @@ public:
  style_move style_data(technique_id tech);
  bool is_two_handed(player *u);
  bool made_of(std::string mat_ident) const;
+ std::string get_material(int m) const;
  bool made_of(phase_id phase) const;
  bool conductive() const; // Electricity
  bool flammable() const;
- 
+
  bool destroyed_at_zero_charges();
 // Most of the is_whatever() functions call the same function in our itype
  bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
@@ -147,7 +148,7 @@ public:
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
- 
+
  bool operator<(const item& other) const;
 
  itype_id typeId() const;
