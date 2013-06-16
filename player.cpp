@@ -3267,6 +3267,32 @@ int player::hp_percentage()
  return (100 * total_cur) / total_max;
 }
 
+void player::recalc_hp()
+{
+    int new_max_hp[num_hp_parts];
+    for (int i = 0; i < num_hp_parts; i++)
+    {
+        new_max_hp[i] = 60 + str_max * 3;
+        if (has_trait(PF_TOUGH))
+        {
+            new_max_hp[i] *= 1.2;
+        }
+        if (has_trait(PF_HARDCORE))
+        {
+            new_max_hp[i] *= 0.25;
+        }
+    }
+    if (has_trait(PF_GLASSJAW))
+    {
+        new_max_hp[hp_head] *= 0.8;
+    }
+    for (int i = 0; i < num_hp_parts; i++)
+    {
+        hp_cur[i] *= (float)new_max_hp[i]/(float)hp_max[i];
+        hp_max[i] = new_max_hp[i];
+    }
+}
+
 void player::get_sick(game *g)
 {
  if (health > 0 && rng(0, health + 10) < health)

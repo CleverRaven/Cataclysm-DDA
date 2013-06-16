@@ -174,6 +174,7 @@ public:
  void knock_back_from(game *g, int x, int y);
 
  int hp_percentage();	// % of HP remaining, overall
+ void recalc_hp(); // Change HP after a change to max strength
 
  void get_sick(game *g);	// Process diseases
 // infect() gives us a chance to save (mostly from armor)
