@@ -350,7 +350,7 @@ struct it_ammo : public itype
  unsigned char damage;	// Average damage done
  unsigned char pierce;	// Armor piercing; static reduction in armor
  unsigned char range;	// Maximum range
- signed char accuracy;	// Accuracy (low is good)
+ signed char inaccuracy;// Inaccuracy (low is good)
  unsigned char recoil;	// Recoil; modified by strength
  unsigned char count;	// Default charges
 
@@ -366,7 +366,7 @@ struct it_ammo : public itype
      damage = 0;
      pierce = 0;
      range = 0;
-     accuracy = 0;
+     inaccuracy = 0;
      recoil = 0;
      count = 0;
      ammo_effects = 0;
@@ -380,7 +380,7 @@ struct it_ammo : public itype
         unsigned effects,
 
         ammotype ptype, unsigned char pdamage, unsigned char ppierce,
-	signed char paccuracy, unsigned char precoil, unsigned char prange,
+	signed char pinaccuracy, unsigned char precoil, unsigned char prange,
         unsigned char pcount)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
@@ -388,7 +388,7 @@ struct it_ammo : public itype
   damage = pdamage;
   pierce = ppierce;
   range = prange;
-  accuracy = paccuracy;
+  inaccuracy = pinaccuracy;
   recoil = precoil;
   count = pcount;
   ammo_effects = effects;
@@ -401,7 +401,7 @@ struct it_gun : public itype
  Skill *skill_used;
  signed char dmg_bonus;
  signed char range;
- signed char accuracy;
+ signed char inaccuracy;
  signed char recoil;
  signed char durability;
  unsigned char burst;
@@ -417,7 +417,7 @@ struct it_gun : public itype
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
 	const char *pskill_used, ammotype pammo, signed char pdmg_bonus, signed char prange,
-	signed char paccuracy, signed char precoil, unsigned char pdurability,
+	signed char pinaccuracy, signed char precoil, unsigned char pdurability,
         unsigned char pburst, int pclip, int preload_time)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
@@ -425,7 +425,7 @@ struct it_gun : public itype
   ammo = pammo;
   dmg_bonus = pdmg_bonus;
   range = prange;
-  accuracy = paccuracy;
+  inaccuracy = pinaccuracy;
   recoil = precoil;
   durability = pdurability;
   burst = pburst;
@@ -438,7 +438,7 @@ struct it_gun : public itype
 
 struct it_gunmod : public itype
 {
- signed char accuracy, damage, loudness, clip, recoil, burst;
+ signed char inaccuracy, damage, loudness, clip, recoil, burst;
  ammotype newtype;
  unsigned acceptible_ammo_types : NUM_AMMO_TYPES;
  bool used_on_pistol;
@@ -455,14 +455,14 @@ struct it_gunmod : public itype
            signed char pmelee_dam, signed char pmelee_cut,
            signed char pm_to_hit,
 
-           signed char paccuracy, signed char pdamage, signed char ploudness,
+           signed char pinaccuracy, signed char pdamage, signed char ploudness,
            signed char pclip, signed char precoil, signed char pburst,
            ammotype pnewtype, long a_a_t, bool pistol,
            bool shotgun, bool smg, bool rifle)
 
  :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  accuracy = paccuracy;
+  inaccuracy = pinaccuracy;
   damage = pdamage;
   loudness = ploudness;
   clip = pclip;

@@ -17,7 +17,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 100
     },
@@ -39,7 +39,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 50
     },
@@ -61,7 +61,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 10
     },
@@ -83,7 +83,7 @@
         "damage" : 1,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 10
     },
@@ -105,7 +105,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -127,7 +127,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -149,7 +149,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 5
     },
@@ -171,7 +171,7 @@
         "damage" : 4,
         "pierce" : 3,
         "range" : 3,
-        "accuracy" : 40,
+        "inaccuracy" : 40,
         "recoil" : 4,
         "count" : 100
     },
@@ -193,7 +193,7 @@
         "damage" : 2,
         "pierce" : 0,
         "range" : 30,
-        "accuracy" : 20,
+        "inaccuracy" : 20,
         "recoil" : 0,
         "count" : 10
     },
@@ -215,7 +215,7 @@
         "damage" : 6,
         "pierce" : 1,
         "range" : 30,
-        "accuracy" : 20,
+        "inaccuracy" : 20,
         "recoil" : 0,
         "count" : 50
     },
@@ -237,7 +237,7 @@
         "damage" : 2,
         "pierce" : 0,
         "range" : 12,
-        "accuracy" : 20,
+        "inaccuracy" : 20,
         "recoil" : 0,
         "count" : 200
     },
@@ -259,7 +259,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 20
     },
@@ -281,7 +281,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 10
     },
@@ -303,7 +303,7 @@
         "damage" : 3,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 30,
+        "inaccuracy" : 30,
         "recoil" : 0,
         "count" : 10
     },
@@ -314,7 +314,7 @@
         "name" : "wood arrow",
         "symbol" : "=",
         "color" : "green",
-        "description" : "A sharpened arrow carved from wood. It's light-weight, does little damage, and is so-so on accuracy. Stands a good chance of remaining intact once fired.",
+        "description" : "A sharpened arrow carved from wood. It's light-weight, does little damage, and is so-so on inaccuracy. Stands a good chance of remaining intact once fired.",
         "material" : "wood",
         "volume" : 2,
         "weight" : 30,
@@ -325,7 +325,7 @@
         "damage" : 8,
         "pierce" : 1,
         "range" : 0,
-        "accuracy" : 18,
+        "inaccuracy" : 18,
         "recoil" : 0,
         "count" : 10
     },
@@ -347,7 +347,7 @@
         "damage" : 12,
         "pierce" : 2,
         "range" : 5,
-        "accuracy" : 14,
+        "inaccuracy" : 14,
         "recoil" : 0,
         "count" : 8
     },
@@ -369,7 +369,7 @@
         "damage" : 10,
         "pierce" : 1,
         "range" : 0,
-        "accuracy" : 16,
+        "inaccuracy" : 16,
         "recoil" : 0,
         "count" : 15
     },
@@ -391,7 +391,7 @@
         "damage" : 20,
         "pierce" : 3,
         "range" : 4,
-        "accuracy" : 12,
+        "inaccuracy" : 12,
         "recoil" : 0,
         "count" : 10
     },
@@ -413,7 +413,7 @@
         "damage" : 18,
         "pierce" : 0,
         "range" : 5,
-        "accuracy" : 2,
+        "inaccuracy" : 2,
         "recoil" : 18,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -436,7 +436,7 @@
         "damage" : 50,
         "pierce" : 0,
         "range" : 6,
-        "accuracy" : 1,
+        "inaccuracy" : 1,
         "recoil" : 26,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -459,7 +459,7 @@
         "damage" : 50,
         "pierce" : 8,
         "range" : 12,
-        "accuracy" : 10,
+        "inaccuracy" : 10,
         "recoil" : 28,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -482,7 +482,7 @@
         "damage" : 10,
         "pierce" : 0,
         "range" : 12,
-        "accuracy" : 12,
+        "inaccuracy" : 12,
         "recoil" : 20,
         "count" : 5,
         "effects" : ["EXPLOSIVE"]
@@ -505,7 +505,7 @@
         "damage" : 11,
         "pierce" : 0,
         "range" : 13,
-        "accuracy" : 14,
+        "inaccuracy" : 14,
         "recoil" : 6,
         "count" : 100,
         "effects" : ["COOKOFF"]
@@ -528,7 +528,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 10,
-        "accuracy" : 16,
+        "inaccuracy" : 16,
         "recoil" : 4,
         "count" : 100,
         "effects" : ["COOKOFF"]
@@ -551,7 +551,7 @@
         "damage" : 4,
         "pierce" : 0,
         "range" : 3,
-        "accuracy" : 2,
+        "inaccuracy" : 2,
         "recoil" : 4,
         "count" : 100,
         "effects" : ["COOKOFF"]
@@ -574,7 +574,7 @@
         "damage" : 18,
         "pierce" : 2,
         "range" : 14,
-        "accuracy" : 16,
+        "inaccuracy" : 16,
         "recoil" : 13,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -586,7 +586,7 @@
         "name" : "9mm +P",
         "symbol" : "=",
         "color" : "light_blue",
-        "description" : "Attempts to improve the ballistics of 9mm ammunition lead to high-pressure rounds. Increased velocity resullts in superior accuracy and damage.",
+        "description" : "Attempts to improve the ballistics of 9mm ammunition lead to high-pressure rounds. Increased velocity resullts in superior inaccuracy and damage.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 7,
@@ -597,7 +597,7 @@
         "damage" : 20,
         "pierce" : 4,
         "range" : 14,
-        "accuracy" : 15,
+        "inaccuracy" : 15,
         "recoil" : 14,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -620,7 +620,7 @@
         "damage" : 22,
         "pierce" : 12,
         "range" : 16,
-        "accuracy" : 14,
+        "inaccuracy" : 14,
         "recoil" : 15,
         "count" : 10,
         "effects" : ["COOKOFF"]
@@ -643,7 +643,7 @@
         "damage" : 15,
         "pierce" : 4,
         "range" : 12,
-        "accuracy" : 14,
+        "inaccuracy" : 14,
         "recoil" : 10,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -666,7 +666,7 @@
         "damage" : 20,
         "pierce" : 0,
         "range" : 14,
-        "accuracy" : 16,
+        "inaccuracy" : 16,
         "recoil" : 12,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -678,7 +678,7 @@
         "name" : ".38 Super",
         "symbol" : "=",
         "color" : "light_blue",
-        "description" : "The .38 Super is a high-pressure load of the .38 Special caliber. It is a popular choice in pistol competions for its high accuracy, while its stopping power keeps it popular for self-defense.",
+        "description" : "The .38 Super is a high-pressure load of the .38 Special caliber. It is a popular choice in pistol competions for its high inaccuracy, while its stopping power keeps it popular for self-defense.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 9,
@@ -689,7 +689,7 @@
         "damage" : 25,
         "pierce" : 4,
         "range" : 16,
-        "accuracy" : 14,
+        "inaccuracy" : 14,
         "recoil" : 14,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -712,7 +712,7 @@
         "damage" : 26,
         "pierce" : 10,
         "range" : 14,
-        "accuracy" : 18,
+        "inaccuracy" : 18,
         "recoil" : 20,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -735,7 +735,7 @@
         "damage" : 22,
         "pierce" : 2,
         "range" : 14,
-        "accuracy" : 15,
+        "inaccuracy" : 15,
         "recoil" : 16,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -758,7 +758,7 @@
         "damage" : 36,
         "pierce" : 2,
         "range" : 16,
-        "accuracy" : 16,
+        "inaccuracy" : 16,
         "recoil" : 22,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -770,7 +770,7 @@
         "name" : ".45 ACP",
         "symbol" : "=",
         "color" : "blue",
-        "description" : "The .45 round was one of the most popular and powerful handgun rounds through the 20th century. It features very good accuracy and stopping power, but suffers from moderate recoil and poor armor penetration.",
+        "description" : "The .45 round was one of the most popular and powerful handgun rounds through the 20th century. It features very good inaccuracy and stopping power, but suffers from moderate recoil and poor armor penetration.",
         "material" : "steel",
         "volume" : 2,
         "weight" : 10,
@@ -781,7 +781,7 @@
         "damage" : 32,
         "pierce" : 2,
         "range" : 16,
-        "accuracy" : 18,
+        "inaccuracy" : 18,
         "recoil" : 18,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -804,7 +804,7 @@
         "damage" : 26,
         "pierce" : 20,
         "range" : 16,
-        "accuracy" : 18,
+        "inaccuracy" : 18,
         "recoil" : 18,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -816,7 +816,7 @@
         "name" : ".45 Super",
         "symbol" : "=",
         "color" : "blue",
-        "description" : "The .45 Super round is an updated variant of .45 ACP. It is overloaded, resulting in a great increase in muzzle velocity. This translates to higher accuracy and range, a minor armor piercing capability, and greater recoil.",
+        "description" : "The .45 Super round is an updated variant of .45 ACP. It is overloaded, resulting in a great increase in muzzle velocity. This translates to higher inaccuracy and range, a minor armor piercing capability, and greater recoil.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 11,
@@ -827,7 +827,7 @@
         "damage" : 34,
         "pierce" : 8,
         "range" : 18,
-        "accuracy" : 16,
+        "inaccuracy" : 16,
         "recoil" : 20,
         "count" : 10,
         "effects" : ["COOKOFF"]
@@ -850,7 +850,7 @@
         "damage" : 14,
         "pierce" : 30,
         "range" : 14,
-        "accuracy" : 12,
+        "inaccuracy" : 12,
         "recoil" : 6,
         "count" : 100,
         "effects" : ["COOKOFF"]
@@ -873,7 +873,7 @@
         "damage" : 13,
         "pierce" : 35,
         "range" : 14,
-        "accuracy" : 12,
+        "inaccuracy" : 12,
         "recoil" : 6,
         "count" : 100,
         "effects" : ["COOKOFF"]
@@ -896,7 +896,7 @@
         "damage" : 25,
         "pierce" : 8,
         "range" : 30,
-        "accuracy" : 19,
+        "inaccuracy" : 19,
         "recoil" : 24,
         "count" : 80,
         "effects" : ["COOKOFF"]
@@ -919,7 +919,7 @@
         "damage" : 28,
         "pierce" : 10,
         "range" : 30,
-        "accuracy" : 17,
+        "inaccuracy" : 17,
         "recoil" : 25,
         "count" : 80,
         "effects" : ["COOKOFF"]
@@ -931,7 +931,7 @@
         "name" : ".223 Remington",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "The .223 rifle round is a civilian variant of the 5.56 NATO round. It is designed to tumble or fragment inside a target, dealing devastating damage. The lower pressure of the .223 compared to the 5.56 results in lower accuracy.",
+        "description" : "The .223 rifle round is a civilian variant of the 5.56 NATO round. It is designed to tumble or fragment inside a target, dealing devastating damage. The lower pressure of the .223 compared to the 5.56 results in lower inaccuracy.",
         "material" : "steel",
         "volume" : 2,
         "weight" : 2,
@@ -942,7 +942,7 @@
         "damage" : 36,
         "pierce" : 2,
         "range" : 36,
-        "accuracy" : 13,
+        "inaccuracy" : 13,
         "recoil" : 30,
         "count" : 40,
         "effects" : ["COOKOFF"]
@@ -965,7 +965,7 @@
         "damage" : 40,
         "pierce" : 8,
         "range" : 38,
-        "accuracy" : 10,
+        "inaccuracy" : 10,
         "recoil" : 32,
         "count" : 40,
         "effects" : ["COOKOFF"]
@@ -988,7 +988,7 @@
         "damage" : 28,
         "pierce" : 18,
         "range" : 36,
-        "accuracy" : 11,
+        "inaccuracy" : 11,
         "recoil" : 32,
         "count" : 30,
         "effects" : ["INCENDIARY"]
@@ -1011,7 +1011,7 @@
         "damage" : 42,
         "pierce" : 4,
         "range" : 80,
-        "accuracy" : 6,
+        "inaccuracy" : 6,
         "recoil" : 34,
         "count" : 20,
         "effects" : ["COOKOFF"]
@@ -1023,7 +1023,7 @@
         "name" : ".30-06 AP",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "The .30-06 is a very powerful rifle round designed for long-range use. Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
+        "description" : "The .30-06 is a very powerful rifle round designed for long-range use. Its stupendous inaccuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 12,
@@ -1034,7 +1034,7 @@
         "damage" : 50,
         "pierce" : 30,
         "range" : 90,
-        "accuracy" : 7,
+        "inaccuracy" : 7,
         "recoil" : 36,
         "count" : 10,
         "effects" : ["COOKOFF"]
@@ -1057,7 +1057,7 @@
         "damage" : 35,
         "pierce" : 50,
         "range" : 90,
-        "accuracy" : 8,
+        "inaccuracy" : 8,
         "recoil" : 35,
         "count" : 5,
         "effects" : ["INCENDIARY"]
@@ -1069,7 +1069,7 @@
         "name" : ".308 Winchester",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "The .308 Winchester is a rifle round, the commercial equivalent of the military 7.62x51mm round. Its high accuracy and phenominal damage have made it the most poplar hunting round in the world.",
+        "description" : "The .308 Winchester is a rifle round, the commercial equivalent of the military 7.62x51mm round. Its high inaccuracy and phenominal damage have made it the most poplar hunting round in the world.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 9,
@@ -1080,7 +1080,7 @@
         "damage" : 36,
         "pierce" : 2,
         "range" : 65,
-        "accuracy" : 7,
+        "inaccuracy" : 7,
         "recoil" : 33,
         "count" : 20,
         "effects" : ["COOKOFF"]
@@ -1092,7 +1092,7 @@
         "name" : "7.62x51mm",
         "symbol" : "=",
         "color" : "dark_gray",
-        "description" : "The 7.62x51mm largely replaced the .30-06 round as the standard military rifle round. It is lighter, but offers similar velocities, resulting in greater accuracy and reduced recoil.",
+        "description" : "The 7.62x51mm largely replaced the .30-06 round as the standard military rifle round. It is lighter, but offers similar velocities, resulting in greater inaccuracy and reduced recoil.",
         "material" : "steel",
         "volume" : 1,
         "weight" : 9,
@@ -1103,7 +1103,7 @@
         "damage" : 44,
         "pierce" : 8,
         "range" : 75,
-        "accuracy" : 6,
+        "inaccuracy" : 6,
         "recoil" : 34,
         "count" : 20,
         "effects" : ["COOKOFF"]
@@ -1126,7 +1126,7 @@
         "damage" : 30,
         "pierce" : 25,
         "range" : 75,
-        "accuracy" : 6,
+        "inaccuracy" : 6,
         "recoil" : 32,
         "count" : 10,
         "effects" : ["INCENDIARY"]
@@ -1149,7 +1149,7 @@
         "damage" : 12,
         "pierce" : 15,
         "range" : 30,
-        "accuracy" : 4,
+        "inaccuracy" : 4,
         "recoil" : 0,
         "count" : 20,
         "effects" : ["INCENDIARY", "LASER"]
@@ -1172,7 +1172,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "accuracy" : 8,
+        "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 4,
         "effects" : ["EXPLOSIVE"]
@@ -1195,7 +1195,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "accuracy" : 8,
+        "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 4,
         "effects" : ["FRAG"]
@@ -1218,7 +1218,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "accuracy" : 8,
+        "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 4,
         "effects" : ["NAPALM"]
@@ -1241,7 +1241,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "accuracy" : 8,
+        "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 4,
         "effects" : ["TEARGAS"]
@@ -1264,7 +1264,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "accuracy" : 8,
+        "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 6,
         "effects" : ["SMOKE", "TRAIL"]
@@ -1287,7 +1287,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "accuracy" : 8,
+        "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 6,
         "effects" : ["FLASHBANG"]
@@ -1310,7 +1310,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "accuracy" : 8,
+        "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 1,
         "effects" : ["ACIDBOMB"]
@@ -1333,7 +1333,7 @@
         "damage" : 5,
         "pierce" : 20,
         "range" : 80,
-        "accuracy" : 8,
+        "inaccuracy" : 8,
         "recoil" : 15,
         "count" : 1,
         "effects" : ["EXPLOSIVE_BIG", "TRAIL"]
@@ -1356,7 +1356,7 @@
         "damage" : 25,
         "pierce" : 12,
         "range" : 70,
-        "accuracy" : 9,
+        "inaccuracy" : 9,
         "recoil" : 7,
         "count" : 20,
         "effects" : ["COOKOFF"]
@@ -1379,7 +1379,7 @@
         "damage" : 35,
         "pierce" : 14,
         "range" : 12,
-        "accuracy" : 4,
+        "inaccuracy" : 4,
         "recoil" : 0,
         "count" : 25,
         "effects" : ["INCENDIARY"]
@@ -1402,7 +1402,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 30,
-        "accuracy" : 8,
+        "inaccuracy" : 8,
         "recoil" : 0,
         "count" : 1
     },
@@ -1424,7 +1424,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1446,7 +1446,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 100
     },
@@ -1468,7 +1468,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1490,7 +1490,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1512,7 +1512,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1534,7 +1534,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1556,7 +1556,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1578,7 +1578,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1600,7 +1600,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1622,7 +1622,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1644,7 +1644,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1666,7 +1666,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1688,7 +1688,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1710,7 +1710,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 20
     },
@@ -1732,7 +1732,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -1755,7 +1755,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -1778,7 +1778,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -1801,7 +1801,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -1824,7 +1824,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -1847,7 +1847,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -1870,7 +1870,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200
     },
@@ -1892,7 +1892,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -1916,7 +1916,7 @@
         "damage" : 5,
         "pierce" : 5,
         "range" : 4,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 200,
         "effects" : ["FLAME","STREAM"],
@@ -1940,7 +1940,7 @@
         "damage" : 0,
         "pierce" : 0,
         "range" : 0,
-        "accuracy" : 0,
+        "inaccuracy" : 0,
         "recoil" : 0,
         "count" : 35
     }	
