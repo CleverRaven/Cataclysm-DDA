@@ -36,6 +36,8 @@ enum mission_id {
  MISSION_KILL_JABBERWOCK,//demon slayer 1
  MISSION_KILL_100_Z,//demon slayer 2
  MISSION_KILL_HORDE_MASTER,//demon slayer 3
+ MISSION_RECRUIT_TRACKER,//demon slayer 4
+ MISSION_JOIN_TRACKER, //demon slayer 4b
  NUM_MISSION_IDS
 };
 
@@ -61,6 +63,8 @@ enum mission_goal {
  MGOAL_ASSASSINATE,	// Kill a given NPC
  MGOAL_KILL_MONSTER,	// Kill a particular hostile monster
  MGOAL_KILL_MONSTER_TYPE, // Kill a number of a given monster type
+ MGOAL_RECRUIT_NPC,  // Recruit a given NPC
+ MGOAL_RECRUIT_NPC_CLASS,  // Recruit an NPC class
  
  NUM_MGOAL
 };
@@ -93,6 +97,7 @@ struct mission_start {
  void oepn_sarcophagus (game *, mission *); // Reveal the sarcophagus and give access code acidia v
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
  void find_safety	(game *, mission *); // Goal is set to non-spawn area
+ void recruit_tracker (game *, mission *); // Recruit a tracker to help you
  void place_book	(game *, mission *); // Place a book to retrieve
 };
 
@@ -120,6 +125,8 @@ struct mission_type {
 
  std::vector<mission_origin> origins;	// Points of origin
  itype_id item_id;
+ npc_class recruit_class;  // The type of NPC you are to recruit
+ int recruit_npc_id;
  mon_id monster_type;
  int monster_kill_goal;
  oter_id target_id;
@@ -143,6 +150,8 @@ struct mission_type {
    deadline_high = 0;
    item_id = "null";
    target_id = ot_null;
+   recruit_class = NC_NONE;
+   recruit_npc_id = -1;
    monster_type = mon_null;
    monster_kill_goal = -1;
    follow_up = MISSION_NULL;
@@ -161,6 +170,8 @@ struct mission {
  point target;		// Marked on the player's map.  (-1,-1) for none
  itype_id item_id;	// Item that needs to be found (or whatever)
  oter_id target_id;   // Destination type to be reached
+ npc_class recruit_class;  // The type of NPC you are to recruit acidia
+ int recruit_npc_id;  // The ID of a specific NPC to recruit
  mon_id monster_type;  // Monster ID that are to be killed
  int monster_kill_goal;  // the kill count you wish to reach
  int count;		// How many of that item
@@ -184,6 +195,8 @@ struct mission {
   target = point(-1, -1);
   item_id = "null";
   target_id = ot_null;
+  recruit_class = NC_NONE;
+  recruit_npc_id = -1;
   monster_type = mon_null;
   monster_kill_goal = -1;
   count = 0;

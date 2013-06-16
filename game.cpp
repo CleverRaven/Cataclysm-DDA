@@ -1175,6 +1175,24 @@ bool game::mission_complete(int id, int npc_id)
    }
    return false;
 
+  case MGOAL_RECRUIT_NPC:
+   for (int i = 0; i < cur_om->npcs.size(); i++) {
+    if (cur_om->npcs[i]->getID() == miss->recruit_npc_id) {
+        if (cur_om->npcs[i]->attitude == NPCATT_FOLLOW)
+            return true;
+    }
+   }
+   return false;
+
+  case MGOAL_RECRUIT_NPC_CLASS:
+   for (int i = 0; i < cur_om->npcs.size(); i++) {
+    if (cur_om->npcs[i]->myclass == miss->recruit_class) {
+            if (cur_om->npcs[i]->attitude == NPCATT_FOLLOW)
+                return true;
+    }
+   }
+   return false;
+
   case MGOAL_FIND_NPC:
    return (miss->npc_id == npc_id);
 
