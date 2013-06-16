@@ -506,13 +506,9 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_medieval],
-<<<<<<< HEAD
+
 	"katana", "fakekatana", "mace", "morningstar", "rapier", "broadsword",
-	"pike", "helmet_plate", "armor_plate", NULL);  
-=======
-	"katana", "mace", "morningstar", "rapier", "broadsword",
-	"pike", "helmet_plate", "armor_plate", "huge_crossbow", NULL);
->>>>>>> d69d9de4c683df6179bc0369a1f70bf61d39ff97
+	"pike", "helmet_plate", "armor_plate","huge_crossbow", NULL);  
 
  setvector(
    &mapitems[mi_art],

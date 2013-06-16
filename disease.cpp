@@ -99,7 +99,7 @@ void dis_msg(game *g, dis_type type)
   g->add_msg("You are snared.");
   break;
  case DI_GBS:
-  g->add_msg("You feel a quake in your bowels.");
+  g->add_msg("You begin to feel victimized.");
   break;
  default:
   break;
@@ -320,6 +320,21 @@ void dis_effect(game *g, player &p, disease &dis)
     g->sound(p.posx, p.posy, 12, "loud coughing");
   }
   break;
+
+ case DI_GBS:
+	 
+   p.int_cur -= 3;
+  if (int(g->turn) % 300 == 0) 
+  {
+   p.moves -= 80;
+   if (!p.is_npc()) 
+   {
+    g->add_msg("You fart loudly. Nice.");
+    g->sound(p.posx, p.posy, 20, "");
+   } else
+    g->sound(p.posx, p.posy, 20, "loud farting");
+  }
+ break;
 
  case DI_FLU:
   if (int(g->turn) % 300 == 0)
@@ -1359,6 +1374,7 @@ std::string dis_name(disease dis)
  case DI_CIG:		return "Cigarette";
  case DI_HIGH:		return "High";
  case DI_VISUALS:	return "Hallucinating";
+ case DI_GBS:		return "The Raging Farts";
 
  case DI_ADRENALINE:
   if (dis.duration > 150) return "Adrenaline Rush";
@@ -1544,6 +1560,10 @@ std::string dis_description(disease dis)
 Increased thirst;  Frequent coughing\n\
 Strength - 3;  Dexterity - 1;  Intelligence - 2;  Perception - 1\n\
 Symptoms alleviated by medication (Dayquil or Nyquil).";
+
+ case DI_GBS:			return "\
+Your fursuit seems to be actively sapping your intelligence\n\
+It's also giving you a tummy ache. :(";
 
  case DI_FLU:		return "\
 Increased thirst;  Frequent coughing;  Occasional vomiting\n\

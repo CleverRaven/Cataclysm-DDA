@@ -317,11 +317,7 @@
         "description" : "A sharpened arrow carved from wood. It's light-weight, does little damage, and is so-so on accuracy. Stands a good chance of remaining intact once fired.",
         "material" : "wood",
         "volume" : 2,
-<<<<<<< HEAD
-        "weight" : 40,
-=======
         "weight" : 30,
->>>>>>> d69d9de4c683df6179bc0369a1f70bf61d39ff97
         "bashing" : 1,
         "cutting" : 0,
         "to_hit" : 0,

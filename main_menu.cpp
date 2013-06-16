@@ -60,7 +60,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "SA Edition: 0.30 ",getVersionString());
+        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "SA Edition: 0.35 ",getVersionString());
     }
 
     std::vector<std::string> vMenuItems;
