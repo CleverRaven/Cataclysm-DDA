@@ -434,15 +434,19 @@ void mutation_effect(game *g, player &p, pl_flag mut)
 
   case PF_STR_UP:
    p.str_max ++;
+   p.recalc_hp();
    break;
   case PF_STR_UP_2:
    p.str_max += 2;
+   p.recalc_hp();
    break;
   case PF_STR_UP_3:
    p.str_max += 4;
+   p.recalc_hp();
    break;
   case PF_STR_UP_4:
    p.str_max += 7;
+   p.recalc_hp();
    break;
 
   case PF_DEX_UP:
@@ -508,15 +512,19 @@ void mutation_loss_effect(game *g, player &p, pl_flag mut)
  switch (mut) {
   case PF_STR_UP:
    p.str_max--;
+   p.recalc_hp();
    break;
   case PF_STR_UP_2:
    p.str_max -= 2;
+   p.recalc_hp();
    break;
   case PF_STR_UP_3:
    p.str_max -= 4;
+   p.recalc_hp();
    break;
   case PF_STR_UP_4:
    p.str_max -= 7;
+   p.recalc_hp();
    break;
 
   case PF_DEX_UP:
