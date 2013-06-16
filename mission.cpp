@@ -733,7 +733,7 @@ target.";
    case TALK_MISSION_OFFER:
     return "I got the brief so I know what I'm getting into.  Let me be upfront, \
 treat me like shit and I'm going to cover my own hide.  Without a strong band a man doesn't \
-stand a chance in this world.  Let's get moving, shall we?";
+stand a chance in this world.  You ready to take charge boss?";
    case TALK_MISSION_ACCEPTED:
     return "\
 Before we get into a major fight just make sure we have the gear we need, boss.";
