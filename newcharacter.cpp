@@ -311,6 +311,18 @@ bool player::create(game *g, character_type type, std::string tempname)
      g->u.addictions.push_back(*iter);
  }
 
+ // Grab the skills from the profession, if there are any
+ profession::StartingSkillList prof_skills = g->u.prof->skills();
+ for (profession::StartingSkillList::const_iterator iter = prof_skills.begin(); 
+      iter != prof_skills.end(); ++iter)
+ {
+     assert(Skill::skill(iter->first));
+     if (Skill::skill(iter->first))
+     {
+        g->u.boost_skill_level(iter->first, iter->second);
+     }
+ }
+
 // The near-sighted get to start with glasses.
  if (has_trait(PF_MYOPIC) && !has_trait(PF_HYPEROPIC)) {
   tmp = item(g->itypes["glasses_eye"], 0, 'a' + worn.size());
@@ -1104,3 +1116,5 @@ void save_template(player *u)
  fout.open(playerfile.str().c_str());
  fout << u->save_info();
 }
+
+// vim:tw=80:sw=4:ts=4:et:fdm=marker:fdl=0:
