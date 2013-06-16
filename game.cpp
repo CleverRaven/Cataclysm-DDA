@@ -8975,8 +8975,12 @@ void game::forage()
   else
   {
     add_msg("You didn't find anything.");
-    if (!one_in(u.skillLevel("survival")))
-    m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+    if (u.skillLevel("survival") < 7)
+        u.practice(turn, "survival", rng(3, 6));
+    else
+        u.practice(turn, "survival", 1);
+    if (one_in(2))
+        m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
 }
 
