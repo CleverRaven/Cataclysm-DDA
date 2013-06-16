@@ -125,15 +125,15 @@ A large and very powerful 8-cylinder combustion engine.");
 //   80 health.  Headshots do 8x damage; vital hits do 2x-4x; glances do 0x-1x.
 // Weight and price is per 100 rounds.
 // AP is a reduction in the armor of the target.
-// Accuracy is in quarter-degrees, and measures the maximum this ammo will
-//   contribute to the angle of difference.  HIGH ACC IS BAD.
-// Recoil is cumulative between shots.  4 recoil = 1 accuracy.
+// Dispersion is in quarter-degrees, and measures the maximum this ammo will
+//   contribute to the angle of difference.
+// Recoil is cumulative between shots.  4 recoil = 1 dispersion.
 // IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
 //   at the end of this file.
 #define AMMO(id, name,rarity,price,ammo_type,color,mat,volume,wgt,dmg,AP,range,\
-accuracy,recoil,count,des,effects) \
+dispersion,recoil,count,des,effects) \
 itypes[id]=new it_ammo(id,rarity,price,name,des,'=',\
-color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count);
+color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,dispersion,recoil,range,count);
 
 // GUNS
 // ammo_type matches one of the ammo_types above.
@@ -144,9 +144,9 @@ color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,
 // clip is how many shots we get before reloading.
 
 #define GUN(id,name,rarity,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
-to_hit,dmg,range,accuracy,recoil,durability,burst,clip,reload_time,des) \
+to_hit,dmg,range,dispersion,recoil,durability,burst,clip,reload_time,des) \
 itypes[id]=new it_gun(id,rarity,price,name,des,'(',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,range,accuracy,\
+color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,range,dispersion,\
 recoil,durability,burst,clip,reload_time)
 
 // CONTAINERS
