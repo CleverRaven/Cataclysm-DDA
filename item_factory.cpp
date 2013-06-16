@@ -405,7 +405,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         gunmod_template->used_on_shotgun = is_mod_target(entry.get("mod_targets"), "shotgun");
                         gunmod_template->used_on_smg = is_mod_target(entry.get("mod_targets"), "smg");
                         gunmod_template->used_on_rifle = is_mod_target(entry.get("mod_targets"), "rifle");
-                        gunmod_template->accuracy = entry.get("accuracy_modifier").as_int();
+                        gunmod_template->inaccuracy = entry.get("inaccuracy_modifier").as_int();
                         gunmod_template->recoil = entry.get("recoil_modifier").as_int();
                         gunmod_template->burst = entry.get("burst_modifier").as_int();
                         gunmod_template->clip = entry.get("clip_size_modifier").as_int();
@@ -436,7 +436,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         gun_template->skill_used = Skill::skill(entry.get("skill").as_string());
                         gun_template->dmg_bonus = entry.get("ranged_damage").as_int();
                         gun_template->range = entry.get("range").as_int();
-                        gun_template->accuracy = entry.get("accuracy").as_int();
+                        gun_template->inaccuracy = entry.get("inaccuracy").as_int();
                         gun_template->recoil = entry.get("recoil").as_int();
                         gun_template->durability = entry.get("durability").as_int();
                         gun_template->burst = entry.get("burst").as_int();
@@ -466,8 +466,8 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         ammo_template->damage = entry.get("damage").as_int();
                         ammo_template->pierce = entry.get("pierce").as_int();
                         ammo_template->range = entry.get("range").as_int();
-                        ammo_template->accuracy =
-                            entry.get("accuracy").as_int();
+                        ammo_template->inaccuracy =
+                            entry.get("inaccuracy").as_int();
                         ammo_template->recoil = entry.get("recoil").as_int();
                         ammo_template->count = entry.get("count").as_int();
                         ammo_template->ammo_effects =
