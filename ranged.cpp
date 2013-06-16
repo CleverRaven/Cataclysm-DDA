@@ -927,7 +927,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
  bool u_see_mon = g->u_see(&(mon));
  if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(4) &&
      weapon->curammo->phase != LIQUID &&
-     weapon->curammo->inaccuracy >= 4) { // Buckshot hits anyway TODO FIXME
+     !(weapon->curammo->ammo_effects & mfb(AMMO_LARGE_CONTACT_AREA))) {
   if (u_see_mon)
    g->add_msg("The shot passes through the %s without hitting.",
            mon.name().c_str());
@@ -938,7 +938,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
   zarm -= weapon->curammo->pierce;
   if (weapon->curammo->phase == LIQUID)
    zarm = 0;
-  else if (weapon->curammo->inaccuracy < 4) // Shot doesn't penetrate armor well
+  else if (weapon->curammo->ammo_effects & mfb(AMMO_LARGE_CONTACT_AREA))
    zarm *= rng(2, 4);
   if (zarm > 0)
    dam -= zarm;

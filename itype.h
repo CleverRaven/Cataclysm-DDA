@@ -89,6 +89,7 @@ AMMO_FLASHBANG,		// Disorients and blinds
 AMMO_STREAM,		// Doesn't stop once it hits a monster
 AMMO_COOKOFF,  // Explodes when burned instead of just burning
 AMMO_LASER,      // laser effects
+AMMO_LARGE_CONTACT_AREA, // Hits HARDTOHIT monsters, but affected more by armor
 NUM_AMMO_EFFECTS
 };
 
