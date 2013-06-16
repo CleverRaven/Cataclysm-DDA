@@ -480,7 +480,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   if (has_ammo) {
    temp1 << (100 - ammo_inacc);
   }
-  temp1 << (-inaccuracy() >= 0 ? "+" : "");
+  temp1 << (-inaccuracy(false) >= 0 ? "+" : "");
 
   temp2.str("");
   if (has_ammo) {
