@@ -1650,10 +1650,9 @@ void vehicle::handle_trap (int x, int y, int part)
 
 // total volume of all the things
 int vehicle::stored_volume(int part) {
-   const int max_volume = MAX_VOLUME_IN_VEHICLE_STORAGE;
    if (!part_flag(part, vpf_cargo))
         return 0;
-   int cur_volume=0;
+   int cur_volume = 0;
    for (int i = 0; i < parts[part].items.size(); i++) {
        cur_volume += parts[part].items[i].volume();
    }
@@ -1661,7 +1660,7 @@ int vehicle::stored_volume(int part) {
 }
 // stub, pending per vpart limits
 int vehicle::max_volume(int part) {
-   return MAX_VOLUME_IN_VEHICLE_STORAGE; 
+   return MAX_VOLUME_IN_VEHICLE_STORAGE;
 }
 
 // free space
