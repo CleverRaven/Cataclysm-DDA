@@ -537,6 +537,23 @@ void iuse::vitamins(game *g, player *p, item *it, bool t)
     }
 }
 
+void iuse::vaccine(game *g, player *p, item *it, bool t)
+{
+    g->add_msg_if_player(p,"You inject the vaccine, and feel much healthier.");
+    if (p->health >= 100)
+    {
+        return;
+    }
+    else if (p->health >= 0)
+    {
+        p->health = 100;
+    }
+    else
+    {
+        p->health += 100;
+    }
+}
+
 void iuse::poison(game *g, player *p, item *it, bool t)
 {
  p->add_disease(DI_POISON, 600, g);

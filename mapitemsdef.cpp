@@ -163,7 +163,7 @@ void game::init_mapitems()
  setvector(
    &mapitems[mi_softdrugs],
 	"bandages", "1st_aid", "vitamins", "aspirin", "caffeine",
-   "pills_sleep", "iodine", "dayquil", "nyquil", "disinfectant", NULL);
+   "pills_sleep", "iodine", "dayquil", "nyquil", "disinfectant", "vaccine_shot", NULL);
 
  setvector(
    &mapitems[mi_harddrugs],
@@ -556,7 +556,7 @@ void game::init_mapitems()
 	"manual_first_aid", "manual_tailor", "manual_carpentry",
 	"lighter", "matches", "sewing_kit", "thread", "hammer", "extinguisher",
 	"flashlight", "hotplate", "water_purifier", "radio", "rollmat",
- "tent_kit", "canteen", "spray_can", "ax", "heatpack", "blanket", "emer_blanket", "flyer", "gasoline_lantern", NULL);
+ "tent_kit", "canteen", "spray_can", "ax", "heatpack", "blanket", "emer_blanket", "flyer", "gasoline_lantern", "vaccine_shot", NULL);
 
  setvector(
    &mapitems[mi_mechanics],
@@ -1022,5 +1022,5 @@ void game::init_mapitems()
 	"dynamite_act", "firecracker_pack_act", "firecracker_act",
 	"mininuke_act", "UPS_on", "mp3_on", "c4armed", "apparatus",
 	"brazier", "rag_bloody", "candle_lit", "torch_lit",
-	"acidbomb_act", "huge_crossbow", "rep_crossbow", NULL);
+	"acidbomb_act", "huge_crossbow", "rep_crossbow", "vaccine_shot", NULL);
 }
