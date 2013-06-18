@@ -430,7 +430,7 @@
       "accuracy" : 25,
       "recoil" : 0,
       "count" : 5,
-      "effects" : ["FLAME"]
+      "effects" : ["IGNITE"]
    },
    {
       "type" : "AMMO",
