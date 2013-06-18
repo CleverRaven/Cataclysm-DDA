@@ -554,12 +554,17 @@ void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std:
     return;
   }
 
-  int num_fruits = rng(1, p->skillLevel("survival"));
+  SkillLevel& survival = p->skillLevel("survival");
+  if (survival < 1)
+    p->practice(g->turn, "survival", rng(5, 12));
+  else if (survival < 6)
+    p->practice(g->turn, "survival", rng(1, 12 / survival));
 
+  int num_fruits = rng(1, survival);
   if (num_fruits > 12)
     num_fruits = 12;
 
-  m->spawn_item(examx, examy, itemType, g->turn, num_fruits - 1);
+  m->spawn_item(examx, examy, itemType, g->turn, num_fruits);
 
   m->ter_set(examx, examy, (ter_id)new_ter);
 }

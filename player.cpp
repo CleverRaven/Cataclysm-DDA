@@ -3267,6 +3267,32 @@ int player::hp_percentage()
  return (100 * total_cur) / total_max;
 }
 
+void player::recalc_hp()
+{
+    int new_max_hp[num_hp_parts];
+    for (int i = 0; i < num_hp_parts; i++)
+    {
+        new_max_hp[i] = 60 + str_max * 3;
+        if (has_trait(PF_TOUGH))
+        {
+            new_max_hp[i] *= 1.2;
+        }
+        if (has_trait(PF_HARDCORE))
+        {
+            new_max_hp[i] *= 0.25;
+        }
+    }
+    if (has_trait(PF_GLASSJAW))
+    {
+        new_max_hp[hp_head] *= 0.8;
+    }
+    for (int i = 0; i < num_hp_parts; i++)
+    {
+        hp_cur[i] *= (float)new_max_hp[i]/(float)hp_max[i];
+        hp_max[i] = new_max_hp[i];
+    }
+}
+
 void player::get_sick(game *g)
 {
  if (health > 0 && rng(0, health + 10) < health)
@@ -5466,7 +5492,7 @@ hint_rating player::rate_action_takeoff(item *it) {
  return HINT_IFFY;
 }
 
-bool player::takeoff(game *g, char let)
+bool player::takeoff(game *g, char let, bool autodrop)
 {
  if (weapon.invlet == let) {
   return wield(g, -3);
@@ -5490,7 +5516,8 @@ bool player::takeoff(game *g, char let)
      worn.erase(worn.begin() + i);
      inv.unsort();
      return true;
-    } else if (query_yn("No room in inventory for your %s.  Drop it?",
+    } else if (autodrop ||
+               query_yn("No room in inventory for your %s.  Drop it?",
                         worn[i].tname(g).c_str())) {
      g->m.add_item(posx, posy, worn[i]);
      worn.erase(worn.begin() + i);

@@ -18,6 +18,7 @@ CataclysmWin.layout
 *.user
 Cataclysm.sdf
 Release*/
+*.opensdf
 
 # Temporary and backup files
 *~

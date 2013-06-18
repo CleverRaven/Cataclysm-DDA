@@ -52,6 +52,7 @@ void Item_factory::init(){
     iuse_function_list["GRACK"] = &iuse::grack;
     iuse_function_list["METH"] = &iuse::meth;
     iuse_function_list["VITAMINS"] = &iuse::vitamins;
+    iuse_function_list["VACCINE"] = &iuse::vaccine;
     iuse_function_list["POISON"] = &iuse::poison;
     iuse_function_list["HALLU"] = &iuse::hallu;
     iuse_function_list["THORAZINE"] = &iuse::thorazine;
@@ -353,6 +354,7 @@ void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/comestibles.json");
     load_item_templates_from("data/raw/items/armor.json");
     load_item_templates_from("data/raw/items/books.json");
+	load_item_templates_from("data/raw/items/archery.json");
     load_item_groups_from("data/raw/item_groups.json");
 }
 

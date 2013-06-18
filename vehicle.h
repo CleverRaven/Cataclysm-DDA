@@ -322,7 +322,13 @@ public:
 // Process the trap beneath
     void handle_trap (int x, int y, int part);
 
-// add item to part's cargo. if false, then there's no cargo at this part or cargo is full
+    int max_volume(int part); // stub for per-vpart limit
+    int free_volume(int part);
+    int stored_volume(int part);
+    bool is_full(const int part, const int addvolume = -1, const int addnumber = -1 );
+
+// add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
+// *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
     bool add_item (int part, item itm);
 
 // remove item from part's cargo

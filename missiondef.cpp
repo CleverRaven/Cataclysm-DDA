@@ -83,7 +83,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   FOLLOWUP(MISSION_EXPLORE_SARCOPHAGUS);
   ITEM("black_box_transcript");
 
-//acidia mk v
+//patriot mission 4
  MISSION("Follow Sarcophagus Team", MGOAL_GO_TO_TYPE, 2, 500, false,
 	&mission_place::always, &mission_start::oepn_sarcophagus,
 	&mission_end::standard, &mission_fail::standard);
@@ -103,7 +103,23 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_place::always, &mission_start::place_priest_diary,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_INVESTIGATE_CULT);
   ITEM("priest_diary");
+
+//martyr mission 3
+ MISSION("Investigate Cult", MGOAL_FIND_ITEM, 2, 1500, false,
+	&mission_place::always, &mission_start::point_cabin_strange,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_INVESTIGATE_PRISON_VISIONARY);
+  ITEM("etched_skull");
+
+//martyr mission 4
+ MISSION("Prison Visionary", MGOAL_FIND_ITEM, 2, 1500, false,
+	&mission_place::always, &mission_start::point_prison,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("visions_solitude");
   
  MISSION("Find Weather Log", MGOAL_FIND_ITEM, 2, 500, false,
 	&mission_place::always, &mission_start::standard,

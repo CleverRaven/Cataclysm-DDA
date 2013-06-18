@@ -47,7 +47,6 @@
 #endif
 
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-#define MAX_ITEM_IN_SQUARE 64
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
 
@@ -5629,6 +5628,8 @@ struct advanced_inv_area {
     int vstor;
     int size;
     std::string desc;
+    int volume, weight;
+    int max_size, max_volume;
 };
 
 // for printing items in environment
@@ -5736,15 +5737,35 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
     nc_color norm = active ? c_white : c_dkgray;
     std::string spaces(getmaxx(window)-4, ' ');
     bool compact=(TERMX<=100);
+
     if(isinventory) {
         mvwprintz( window, 4, rightcol, c_ltgreen, "%3d %3d", g->u.weight_carried(), g->u.volume_carried() );
+    } else {
+        int hrightcol=rightcol; // intentionally -not- shifting rightcol since heavy items are rare, and we're stingy on screenspace
+        if ( squares[pane.area].weight > 999 ) { // this is potentially the total of 9 tiles
+          hrightcol--;
+          if ( squares[pane.area].weight > 9999 ) { // not uncommon
+            hrightcol--;
+            if ( squares[pane.area].weight > 99999 ) { // hohum. time to consider tile destruction and sinkholes elsewhere?
+              hrightcol--;
+            }
+          }
+        }
+        if ( squares[pane.area].volume > 999 ) { // pile 'o dead bears
+          hrightcol--;
+          if ( squares[pane.area].volume > 9999 ) { // theoretical limit; 1024*9
+            hrightcol--;
+          }
+        }
+
+        mvwprintz( window, 4, hrightcol, norm, "%3d %3d", squares[pane.area].weight, squares[pane.area].volume);
     }
 
     mvwprintz( window, 5, ( compact ? 1 : 4 ), c_ltgray, "Name (charges)" );
     mvwprintz( window, 5, rightcol - 7, c_ltgray, "%s weight vol", ( isinventory ? "amt" : ( isall ? "src" : "   " ) ) );
 
     for(int i = page * itemsPerPage , x = 0 ; i < items.size() && x < itemsPerPage ; i++ ,x++) {
-      if ( items[i].volume == -8 ) {
+      if ( items[i].volume == -8 ) { // I'm a header!
         mvwprintz(window,6+x,( columns - items[i].name.size()-6 )/2,c_cyan, "[%s]", items[i].name.c_str() );
       } else {
         nc_color thiscolor = active ? items[i].it->color(&g->u) : norm;
@@ -5774,13 +5795,28 @@ void advprintItems(advanced_inv_pane &pane, advanced_inv_area* squares, bool act
         } else if ( isall ) {
             mvwprintz(window, 6 + x, amount_column, thiscolor, "%s", squares[items[i].area].shortname.c_str());
         }
-
-        mvwprintz(window, 6 + x, rightcol, (items[i].weight > 0 ? thiscolor : thiscolordark),
+//mvwprintz(window, 6 + x, amount_column-3, thiscolor, "%d", items[i].cat);
+        int xrightcol=rightcol;
+        if ( items[i].weight > 999 ) { // rare. bear = 2000
+          xrightcol--;
+          if ( items[i].weight > 9999 ) { // anything beyond this is excessive. Enjoy your clear plastic bottle of neutronium
+            xrightcol--;
+          }
+        }
+        if ( items[i].volume > 999 ) { // does not exist, but can fit in 1024 tile limit
+          xrightcol--;
+          if ( items[i].volume > 9999 ) { // oh hey what about z levels. best give up now
+            xrightcol--;
+          }
+        }
+        mvwprintz(window, 6 + x, xrightcol, (items[i].weight > 0 ? thiscolor : thiscolordark),
             "%3d", items[i].weight );
 
         wprintz(window, (items[i].volume > 0 ? thiscolor : thiscolordark), " %3d", items[i].volume );
       }
     }
+
+
 }
 
 // should probably move to an adv_inv_pane class
@@ -5887,9 +5923,13 @@ void advanced_inv_update_area( advanced_inv_area &area, game *g ) {
             area.desc = area.veh->name;
             area.canputitems=true;
             area.size = area.veh->parts[area.vstor].items.size();
+            area.max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
+            area.max_volume = area.veh->max_volume(area.vstor);
         } else {
             area.canputitems=(!(g->m.has_flag(noitem,u.posx+area.offx,u.posy+area.offy)) && !(g->m.has_flag(sealed,u.posx+area.offx,u.posy+area.offy) ));
             area.size = g->m.i_at(u.posx+area.offx,u.posy+area.offy).size();
+            area.max_size = MAX_ITEM_IN_SQUARE;
+            area.max_volume = g->m.max_volume(u.posx+area.offx,u.posy+area.offy);
             if (g->m.graffiti_at(u.posx+area.offx,u.posy+area.offy).contents) {
                 area.desc = g->m.graffiti_at(u.posx+area.offx,u.posy+area.offy).contents->c_str();
             }
@@ -5901,6 +5941,8 @@ void advanced_inv_update_area( advanced_inv_area &area, game *g ) {
         area.desc = "All 9 squares";
         area.canputitems=true;
     }
+    area.volume=0; // must update in main function
+    area.weight=0; // must update in main function
 }
 
 int advanced_inv_getinvcat(item *it) {
@@ -5939,11 +5981,6 @@ void game::advanced_inv()
     int w_height = (TERMY<min_w_height+head_height) ? min_w_height : TERMY-head_height;
     int w_width = (TERMX<min_w_width) ? min_w_width : (TERMX>max_w_width) ? max_w_width : (int)TERMX;
 
-    if (u.in_vehicle)
-    {
-        add_msg("Exit vehicle first");
-        return;
-    }
     int headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
     int colstart = (TERMX > w_width) ? (TERMX - w_width)/2 : 0;
     WINDOW *head = newwin(head_height,w_width, headstart, colstart);
@@ -5958,17 +5995,17 @@ void game::advanced_inv()
     int lastCh = 0;
 
     advanced_inv_area squares[11] = {
-        {0, 2, 25, 0, 0, 0, 0, "Inventory", "IN", false, NULL, -1, 0, "" },
-        {1, 3, 30, -1, 1, 0, 0, "South West", "SW", false, NULL, -1, 0, "" },
-        {2, 3, 33, 0, 1, 0, 0, "South", "S", false, NULL, -1, 0, "" },
-        {3, 3, 36, 1, 1, 0, 0, "South East", "SE", false, NULL, -1, 0, "" },
-        {4, 2, 30, -1, 0, 0, 0, "West", "W", false, NULL, -1, 0, "" },
-        {5, 2, 33, 0, 0, 0, 0, "Directly below you", "DN", false, NULL, -1, 0, "" },
-        {6, 2, 36, 1, 0, 0, 0, "East", "E", false, NULL, -1, 0, "" },
-        {7, 1, 30, -1, -1, 0, 0, "North West", "NW", false, NULL, -1, 0, "" },
-        {8, 1, 33, 0, -1, 0, 0, "North", "N", false, NULL, -1, 0, "" },
-        {9, 1, 36, 1, -1, 0, 0, "North East", "NE", false, NULL, -1, 0, "" },
-        {10, 3, 25, 0, 0, 0, 0, "Surrounding area", "AL", false, NULL, -1, 0, "" }
+        {0, 2, 25, 0, 0, 0, 0, "Inventory", "IN", false, NULL, -1, 0, "", 0, 0, 0, 0 },
+        {1, 3, 30, -1, 1, 0, 0, "South West", "SW", false, NULL, -1, 0, "", 0, 0, 0, 0 },
+        {2, 3, 33, 0, 1, 0, 0, "South", "S", false, NULL, -1, 0, "", 0, 0, 0, 0 },
+        {3, 3, 36, 1, 1, 0, 0, "South East", "SE", false, NULL, -1, 0, "", 0, 0, 0, 0 },
+        {4, 2, 30, -1, 0, 0, 0, "West", "W", false, NULL, -1, 0, "", 0, 0, 0, 0 },
+        {5, 2, 33, 0, 0, 0, 0, "Directly below you", "DN", false, NULL, -1, 0, "", 0, 0, 0, 0 },
+        {6, 2, 36, 1, 0, 0, 0, "East", "E", false, NULL, -1, 0, "", 0, 0, 0, 0 },
+        {7, 1, 30, -1, -1, 0, 0, "North West", "NW", false, NULL, -1, 0, "", 0, 0, 0, 0 },
+        {8, 1, 33, 0, -1, 0, 0, "North", "N", false, NULL, -1, 0, "", 0, 0, 0, 0 },
+        {9, 1, 36, 1, -1, 0, 0, "North East", "NE", false, NULL, -1, 0, "", 0, 0, 0, 0 },
+        {10, 3, 25, 0, 0, 0, 0, "Surrounding area", "AL", false, NULL, -1, 0, "", 0, 0, 0, 0 }
     };
 
     for ( int i = 0; i < 11; i++ ) {
@@ -6021,6 +6058,8 @@ void game::advanced_inv()
                     panes[i].items.clear();
                     bool hascat[10]={false,false,false,false,false,false,false,false,false,false};
                     panes[i].numcats=0;
+                    int avolume=0;
+                    int aweight=0;
                     if(panes[i].area == isinventory) {
 
                         invslice stacks = u.inv.slice(0, u.inv.size());
@@ -6049,6 +6088,8 @@ void game::advanced_inv()
                                     panes[i].items.push_back(itc);
                                 }
                             }
+                            avolume+=it.volume;
+                            aweight+=it.weight;
                             panes[i].items.push_back(it);
                         }
                     } else {
@@ -6060,6 +6101,8 @@ void game::advanced_inv()
                             s2 = 9;
                         }
                         for(int s = s1; s <= s2; s++) {
+                            int savolume=0;
+                            int saweight=0;
                             advanced_inv_update_area(squares[s], this);
                             //mvprintw(s+(i*10), 0, "%d %d                                   ",i,s);
                             if( panes[idest].area != s && squares[s].canputitems ) {
@@ -6086,16 +6129,25 @@ void game::advanced_inv()
                                             panes[i].items.push_back(itc);
                                         }
                                     }
+
+                                    savolume+=it.volume;
+                                    saweight+=it.weight;
                                     panes[i].items.push_back(it);
 
-                                }
+                                } // for(int x = 0; x < items.size() ; x++)
 
-                            }
-                        }
+                            } // if( panes[idest].area != s && squares[s].canputitems )
+                            avolume+=savolume;
+                            aweight+=saweight;
+                        } // for(int s = s1; s <= s2; s++)
 
-                    }
+                    } // if(panes[i].area ?? isinventory)
 
                     advanced_inv_update_area(squares[panes[i].area], this);
+
+                    squares[panes[i].area].volume = avolume;
+                    squares[panes[i].area].weight = aweight;
+
                     panes[i].veh = squares[panes[i].area].veh; // <--v-- todo deprecate
                     panes[i].vstor = squares[panes[i].area].vstor;
                     panes[i].size = panes[i].items.size();
@@ -6251,8 +6303,7 @@ void game::advanced_inv()
         else if('m' == c || 'M' == c)
         {
             // If the active screen has no item.
-            if( panes[src].size == 0 )
-            {
+            if( panes[src].size == 0 ) {
                 continue;
             } else if ( item_pos == -8 ) {
                 continue; // category header
@@ -6302,88 +6353,142 @@ void game::advanced_inv()
                 }
                 if ( ! valid ) continue;
             }
-            if(panes[src].area == isinventory) // if the active screen is inventory.
-            {
-                if(squares[destarea].size >= MAX_ITEM_IN_SQUARE) {
-                    popup("Destination area is full. Remove some item first");
-                } else {
-                    //if target item has stack
-                    int max = (MAX_ITEM_IN_SQUARE - squares[destarea].size);
-                    // TODO figure out a better way to get the item. Without invlets.
-                    item* it = &u.inv.slice(item_pos, 1).front()->front();
-                    std::list<item>& stack = u.inv.stack_by_letter(it->invlet);
+// from inventory            
+            if(panes[src].area == isinventory) {
 
-                    if(stack.size() > 1) // if the item stack
-                    {
-                        // fixme / todo make popup take numbers only (m = accept, q = cancel)
-                        int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(stack.size())));
-                        if(amount != 0)
-                        {
-                            amount = stack.size() < amount ? stack.size() : amount;
-                            bool still_move = true;
-                            if(amount > max)
-                            {
-                                still_move = query_yn("Not enough space in destination. %d available, need %d Move as many as possible?", max, amount);
-                            }
-                            if(still_move)
-                            {
-                                amount = amount > max ? max : amount;
-                                std::list<item> moving_items = u.inv.remove_partial_stack(it->invlet,amount);
-                                for(std::list<item>::iterator iter = moving_items.begin();
-                                    iter != moving_items.end();
-                                    ++iter)
-                                {
-                                    if(squares[destarea].vstor >= 0) {
-                                        if(squares[destarea].veh->add_item(squares[destarea].vstor,*iter) == false) {
-                                          popup("Destination full. Please report a bug if items have vanished.");
-                                          continue;
-                                        }
-                                    } else {
-                                        m.add_item(squares[destarea].x, squares[destarea].y, *iter);
-                                    }
-                                }
-                                u.moves -= 100;
-                            }
-                        }
+                int max = (squares[destarea].max_size - squares[destarea].size);
+                int volmax = max;
+                int free_volume = ( squares[ destarea ].vstor >= 0 ? 
+                    squares[ destarea ].veh->free_volume( squares[ destarea ].vstor ) :
+                    m.free_volume ( squares[ destarea ].x, squares[ destarea ].y )
+                ) * 100;
+                // TODO figure out a better way to get the item. Without invlets.
+                item* it = &u.inv.slice(item_pos, 1).front()->front();
+                std::list<item>& stack = u.inv.stack_by_letter(it->invlet);
+
+                int amount = 1;
+                int volume = it->volume() * 100; // sigh
+                
+                bool askamount = false;
+                if ( stack.size() > 1) {
+                    amount = stack.size();
+                    askamount = true;
+                } else if ( it->count_by_charges() ) {
+                    amount = it->charges;
+                    volume = it->type->volume;
+                    askamount = true;
+                }
+ 
+                if ( volume > 0 && volume * amount > free_volume ) {
+                    volmax = int( free_volume / volume );
+                    if ( volmax == 0 ) {
+                        popup("Destination area is full. Remove some items first.");
+                        continue;
                     }
-                    else if(it->count_by_charges()) // if the item count by charges the prompt for amount
-                    {
-                        int amount = helper::to_int(string_input_popup("How many do you want to move ? (0 to cancel)",20,helper::to_string(it->charges)));
-                        amount = amount > it->charges ? it->charges : amount;
-                        if(amount != 0)
+                    if ( stack.size() > 1) {
+                        max = ( volmax < max ? volmax : max );
+                    } else if ( it->count_by_charges() ) {
+                        max = volmax;
+                    }
+                } else if ( it->count_by_charges() ) {
+                    max = amount;
+                }
+                if ( max == 0 ) {
+                    popup("Destination area has too many items. Remove some first.");
+                    continue;
+                }
+                if ( askamount ) {
+                    std::string popupmsg="How many do you want to move? (0 to cancel)";
+                    if(amount > max) {
+                        popupmsg="Destination can only hold " + helper::to_string(max) + "! Move how many? (0 to cancel) ";
+                    }
+                    // fixme / todo make popup take numbers only (m = accept, q = cancel)
+                    amount = helper::to_int( 
+                        string_input_popup( popupmsg, 20, 
+                             helper::to_string(
+                                 ( amount > max ? max : amount ) 
+                             )
+                        )
+                    );
+                }    
+                recalc=true;
+                if(stack.size() > 1) { // if the item is stacked
+                    if ( amount != 0 && amount <= stack.size() ) {
+                        amount = amount > max ? max : amount;
+                        std::list<item> moving_items = u.inv.remove_partial_stack(it->invlet,amount);
+                        bool chargeback=false;
+                        int moved=0;
+                        for(std::list<item>::iterator iter = moving_items.begin();
+                            iter != moving_items.end();
+                            ++iter)
                         {
-
-                            item moving_item = u.inv.remove_item_by_charges(it->invlet,amount);
-                            if(squares[destarea].vstor>=0) {
-                                if(squares[destarea].veh->add_item(squares[destarea].vstor,moving_item) == false) {
-                                   // fixme add item back (test)
-                                   popup("Destination full. Please report a bug if items have vanished.");
-                                   continue;
+                          
+                          if ( chargeback == true ) {
+                                u.i_add(*iter,this);
+                          } else {
+                            if(squares[destarea].vstor >= 0) {
+                                if(squares[destarea].veh->add_item(squares[destarea].vstor,*iter) == false) {
+                                    // testme
+                                    u.i_add(*iter,this);
+                                    popup("Destination full. %d / %d moved. Please report a bug if items have vanished.",moved,amount);
+                                    chargeback=true;
                                 }
                             } else {
-                              m.add_item_or_charges(squares[destarea].x, squares[destarea].y, moving_item);
-                            }
-                            u.moves -= 100;
-                        }
-                    }
-                    else // no stack / no charge just move it :D
-                    {
-                        item moving_item = u.inv.remove_item_by_letter(it->invlet);
-                            if(squares[destarea].vstor>=0) {
-                                if(squares[destarea].veh->add_item(squares[destarea].vstor, moving_item) == false) {
-                                   // fixme add item back (test)
-                                   popup("Destination full. Please report a bug if items have vanished.");
-                                   continue;
+                                if(m.add_item_or_charges(squares[destarea].x, squares[destarea].y, *iter, 0) == false) {
+                                    // testme
+                                    u.i_add(*iter,this);
+                                    popup("Destination full. %d / %d moved. Please report a bug if items have vanished.",moved,amount);
+                                    chargeback=true;
                                 }
-                            } else {
-                                m.add_item(squares[destarea].x, squares[destarea].y, moving_item);
                             }
+                            moved++;
+                          }
+                        }
+                        if ( moved != 0 ) u.moves -= 100;
+                    }
+                } else if(it->count_by_charges()) {
+                    if(amount != 0 && amount <= it->charges ) {
+
+                        item moving_item = u.inv.remove_item_by_charges(it->invlet,amount);
+
+                        if (squares[destarea].vstor>=0) {
+                            if(squares[destarea].veh->add_item(squares[destarea].vstor,moving_item) == false) {
+                                // fixme add item back
+                                u.i_add(moving_item,this);
+                                popup("Destination full. Please report a bug if items have vanished.");
+                                continue;
+                            }
+                        } else {
+                            if ( m.add_item_or_charges(squares[destarea].x, squares[destarea].y, moving_item, 0) == false ) {
+                                // fixme add item back
+                                u.i_add(moving_item,this);
+                                popup("Destination full. Please report a bug if items have vanished.");
+                                continue;
+                            }
+                        }
                         u.moves -= 100;
                     }
+                } else {
+                    item moving_item = u.inv.remove_item_by_letter(it->invlet);
+                    if(squares[destarea].vstor>=0) {
+                        if(squares[destarea].veh->add_item(squares[destarea].vstor, moving_item) == false) {
+                           // fixme add item back (test)
+                           u.i_add(moving_item,this);
+                           popup("Destination full. Please report a bug if items have vanished.");
+                           continue;
+                        }
+                    } else {
+                        if(m.add_item_or_charges(squares[destarea].x, squares[destarea].y, moving_item) == false) {
+                           // fixme add item back (test)
+                           u.i_add(moving_item,this);
+                           popup("Destination full. Please report a bug if items have vanished.");
+                           continue;
+                        }
+                    }
+                    u.moves -= 100;
                 }
-            }
-            else // moving item from square // todo eliminate redundancy
-            {
+// from map / vstor
+            } else {
                 int s;
                 if(panes[src].area == isall) {
                     s = panes[src].items[list_pos].area;
@@ -6400,15 +6505,16 @@ void game::advanced_inv()
                     popup("Source area is the same as destination (%s).",squares[destarea].name.c_str());
                     continue;
                 }
+
                 std::vector<item> src_items = squares[s].vstor >= 0 ?
                     squares[s].veh->parts[squares[s].vstor].items :
                     m.i_at(squares[s].x,squares[s].y);
                 if(src_items[item_pos].made_of(LIQUID))
                 {
-                    popup("You can't pick up liquid.");
+                    popup("You can't pick up a liquid.");
                     continue;
                 }
-                else
+                else // from veh/map
                 {
                     if ( destarea == isinventory ) // if destination is inventory
                     {
@@ -6428,41 +6534,34 @@ void game::advanced_inv()
                             continue;
                         }
                     }
-                    else //destination is also a square
-                    {
-                        if(squares[destarea].size >= MAX_ITEM_IN_SQUARE)
-                        {
-                            popup("Destination area is full. Remove some item first");
-                            continue;
-                        }
-                    }
+
+                    recalc=true;
+
                     item new_item = src_items[item_pos];
-                    if(destarea == isinventory)
-                    {
+
+                    if(destarea == isinventory) {
                         new_item.invlet = nextinv;
                         advance_nextinv();
                         u.i_add(new_item,this);
                         u.moves -= 100;
-                    }
-                    else if (squares[destarea].vstor >= 0)
-                    {
-                       if( squares[destarea].veh->add_item( squares[destarea].vstor, new_item ) == false) {
-                         popup("Destination area is full. Remove some item first");
-                         continue;
-                       }
-                    }
-                    else
-                    {
-                        m.add_item(squares[destarea].x, squares[destarea].y, new_item);//vfixme
+                    } else if (squares[destarea].vstor >= 0) {
+                        if( squares[destarea].veh->add_item( squares[destarea].vstor, new_item ) == false) {
+                            popup("Destination area is full. Remove some items first");
+                            continue;
+                        }
+                    } else {
+                        if ( m.add_item_or_charges(squares[destarea].x, squares[destarea].y, new_item, 0 ) == false ) {
+                            popup("Destination area is full. Remove some items first");
+                            continue;
+                        }
                     }
                     if(panes[src].vstor>=0) {
                         panes[src].veh->remove_item (panes[src].vstor, item_pos);
                     } else {
-                        m.i_rem(u.posx+panes[src].offx,u.posy+panes[src].offy, item_pos);//vfixme
+                        m.i_rem(u.posx+panes[src].offx,u.posy+panes[src].offy, item_pos);
                     }
                 }
             }
-            recalc = true;
         } else if('?' == c) {
             showmsg=(!showmsg);
             checkshowmsg=false;
@@ -7732,7 +7831,7 @@ void game::pickup(int posx, int posy, int min)
        veh->remove_item (veh_part, 0);
       else
        m.i_clear(posx, posy);
-      m.add_item(posx, posy, u.remove_weapon());
+      m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
       u.wield(this, u.i_add(newit, this).invlet);
       u.moves -= 100;
       add_msg("Wielding %c - %s", newit.invlet, newit.tname(this).c_str());
@@ -7844,6 +7943,15 @@ void game::pickup(int posx, int posy, int min)
                  ( ch == KEY_LEFT && getitem[selected] )
             ) ) {
       idx = selected;
+  } else if ( ch == '`' ) {
+      std::string ext = string_input_popup("Enter 2 letters (case sensitive):",2);
+      if(ext.size() == 2) {
+           int p1=pickup_chars.find(ext.at(0));
+           int p2=pickup_chars.find(ext.at(1));
+           if ( p1 != -1 && p2 != -1 ) {
+                idx=pickup_chars.size() + ( p1 * pickup_chars.size() ) + p2;
+           }
+      }
   } else {
       idx = pickup_chars.find(ch);
   }
@@ -7904,8 +8012,15 @@ void game::pickup(int posx, int posy, int min)
     if(cur_it == selected) {
         icolor=hilite(icolor);
     }
-    mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor,
-             char(pickup_chars[cur_it]));
+    
+    if (cur_it < pickup_chars.size() ) {
+       mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor, char(pickup_chars[cur_it]));
+    } else {
+       int p=cur_it - pickup_chars.size();
+       int p1=p / pickup_chars.size();
+       int p2=p % pickup_chars.size();
+       mvwprintz(w_pickup, 1 + (cur_it % maxitems), 0, icolor, "`%c%c",char(pickup_chars[p1]),char(pickup_chars[p2]));
+    }
     if (getitem[cur_it])
      wprintz(w_pickup, c_ltblue, " + ");
     else
@@ -7999,7 +8114,7 @@ void game::pickup(int posx, int posy, int min)
          veh->remove_item (veh_part, curmit);
         else
          m.i_rem(posx, posy, curmit);
-        m.add_item(posx, posy, u.remove_weapon());
+        m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
         u.wield(this, u.i_add(here[i], this).invlet);
         curmit--;
         u.moves -= 100;
@@ -8101,7 +8216,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
    // Ask to pour rotten liquid (milk!) from the get-go
   if (!from_ground && liquid.rotten(this) &&
       query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
-   m.add_item(u.posx, u.posy, liquid);
+   m.add_item_or_charges(u.posx, u.posy, liquid, 1);
    return true;
   }
 
@@ -8113,7 +8228,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
     // we asked to pour rotten already
    if (!from_ground && !liquid.rotten(this) &&
        query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
-    m.add_item(u.posx, u.posy, liquid);
+    m.add_item_or_charges(u.posx, u.posy, liquid, 1);
     return true;
    }
    return false;
@@ -8125,7 +8240,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
     // we asked to pour rotten already
    if (!from_ground && !liquid.rotten(this) &&
        query_yn("Pour %s on the ground?", liquid.tname(this).c_str())) {
-    m.add_item(u.posx, u.posy, liquid);
+    m.add_item_or_charges(u.posx, u.posy, liquid, 1);
     return true;
    }
    add_msg("Never mind.");
@@ -8358,13 +8473,13 @@ void game::drop(char chInput)
   for (int i = 0; i < dropped.size(); i++) {
    vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
    if (vh_overflow)
-    m.add_item(u.posx, u.posy, dropped[i]);
+    m.add_item_or_charges(u.posx, u.posy, dropped[i], 1);
   }
   if (vh_overflow)
    add_msg ("The trunk is full, so some items fall on the ground.");
  } else {
   for (int i = 0; i < dropped.size(); i++)
-   m.add_item_or_charges(u.posx, u.posy, dropped[i]);
+   m.add_item_or_charges(u.posx, u.posy, dropped[i], 1);
  }
 }
 
@@ -8429,13 +8544,13 @@ void game::drop_in_direction()
   for (int i = 0; i < dropped.size(); i++) {
    vh_overflow = vh_overflow || !veh->add_item (veh_part, dropped[i]);
    if (vh_overflow)
-    m.add_item(dirx, diry, dropped[i]);
+    m.add_item_or_charges(dirx, diry, dropped[i], 1);
   }
   if (vh_overflow)
    add_msg ("The trunk is full, so some items fall on the ground.");
  } else {
   for (int i = 0; i < dropped.size(); i++)
-   m.add_item_or_charges(dirx, diry, dropped[i]);
+   m.add_item_or_charges(dirx, diry, dropped[i], 1);
  }
 }
 
@@ -8855,9 +8970,12 @@ void game::forage()
   else
   {
     add_msg("You didn't find anything.");
-    u.practice(turn, "survival", rng(3,6));
-    if (!one_in(u.skillLevel("survival")))
-    m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+    if (u.skillLevel("survival") < 7)
+        u.practice(turn, "survival", rng(3, 6));
+    else
+        u.practice(turn, "survival", 1);
+    if (one_in(2))
+        m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
 }
 
@@ -9105,7 +9223,7 @@ void game::unload(item& it)
                     u.i_add(content, this);
                 } else {
                     add_msg("You drop the %s on the ground.", content.tname(this).c_str());
-                    m.add_item_or_charges(u.posx, u.posy, content);
+                    m.add_item_or_charges(u.posx, u.posy, content, 1);
                 }
             }
             it.contents.erase(it.contents.begin());
@@ -9157,7 +9275,7 @@ void game::unload(item& it)
       u.volume_carried() + newam.volume() < u.volume_capacity() && iter < inv_chars.size()) {
    u.i_add(newam, this);
   } else {
-   m.add_item(u.posx, u.posy, newam);
+   m.add_item_or_charges(u.posx, u.posy, newam, 1);
   }
  }
  // null the curammo, but only if we did empty the item
