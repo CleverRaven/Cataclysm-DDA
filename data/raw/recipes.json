@@ -536,7 +536,7 @@
         },
 
         {
-            "result": "reflexrecurvebox",
+            "result": "reflexrecurvebow",
             "category": "CC_WEAPON",
             "skill_pri": "archery",
             "skill_sec": "survival",
@@ -559,10 +559,10 @@
                      ],
             "components": [
                               [
-                                  ["stick", 3]                                  
+                                  ["stick", 3]
                               ],
                               [
-                                  ["bone", 3]                                  
+                                  ["bone", 3]
                               ],
                               [
                                   ["string_36", 2],
