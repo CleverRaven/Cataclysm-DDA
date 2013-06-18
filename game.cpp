@@ -5981,11 +5981,6 @@ void game::advanced_inv()
     int w_height = (TERMY<min_w_height+head_height) ? min_w_height : TERMY-head_height;
     int w_width = (TERMX<min_w_width) ? min_w_width : (TERMX>max_w_width) ? max_w_width : (int)TERMX;
 
-    if (u.in_vehicle)
-    {
-        add_msg("Exit vehicle first");
-        return;
-    }
     int headstart = 0; //(TERMY>w_height)?(TERMY-w_height)/2:0;
     int colstart = (TERMX > w_width) ? (TERMX - w_width)/2 : 0;
     WINDOW *head = newwin(head_height,w_width, headstart, colstart);
@@ -8975,9 +8970,12 @@ void game::forage()
   else
   {
     add_msg("You didn't find anything.");
-    u.practice(turn, "survival", rng(3,6));
-    if (!one_in(u.skillLevel("survival")))
-    m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
+    if (u.skillLevel("survival") < 7)
+        u.practice(turn, "survival", rng(3, 6));
+    else
+        u.practice(turn, "survival", 1);
+    if (one_in(2))
+        m.ter_set(u.activity.placement.x, u.activity.placement.y, t_dirt);
   }
 }
 
