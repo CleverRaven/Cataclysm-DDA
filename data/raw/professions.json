@@ -39,9 +39,15 @@
   "ident": "scoundrel",
   "name": "Scoundrel",
   "description":
-"Your flexible outlook on law has ensured your survival, but now what?\nYou start with cargo pants, a hoodie, and \"sundries\".",
+"Your flexible outlook on law has ensured your survival, but now what?\nYou start with cargo pants, a hoodie, \"sundries\", and one additional level of melee.",
   "points": 2,
-  "items": ["tank_top", "hoodie", "pants_cargo", "sneakers", "weed", "picklocks"]
+  "items": ["tank_top", "hoodie", "pants_cargo", "sneakers", "weed", "picklocks"],
+  "skills" : [
+     {
+      "name" : "melee",
+      "level" : 1
+     }
+  ]
  },
 
  {
