@@ -8,12 +8,8 @@
 #include "catajson.h"
 
 profession::profession()
+   : _id(0), _ident(""), _name("null"), _description("null"), _point_cost(0)
 {
-    _id = 0;
-    _ident = "";
-    _name = "null";
-    _description = "null";
-    _point_cost = 0;
 }
 
 profession::profession(unsigned int id, std::string ident, std::string name, std::string description, signed int points)
@@ -63,7 +59,20 @@ profmap profession::load_professions()
                 newProfession.add_addiction(type,intensity);
             }
         }
-
+        // Skills are optional as well
+        if (currProf.has("skills"))
+        {
+            catajson skills = currProf.get("skills");
+            for (skills.set_begin(); skills.has_curr(); skills.next())
+            {
+                catajson currSkill = skills.curr();
+                std::string skill_str = currSkill.get("name").as_string();
+                // Verifying this skill exists MUST happen later since the
+                // skills have not yet been loaded at this point.
+                int level = currSkill.get("level").as_int();
+                newProfession.add_skill(skill_str, level);
+            }
+        }
         allProfs[ident] = newProfession;
     }
 
@@ -123,6 +132,10 @@ void profession::add_addiction(add_type type,int intensity)
 {
     _starting_addictions.push_back(addiction(type,intensity));
 }
+void profession::add_skill(const std::string& skill_name, const int level)
+{
+    _starting_skills.push_back(StartingSkill(skill_name, level));
+}
 
 unsigned int profession::id() const
 {
@@ -158,3 +171,8 @@ std::vector<addiction> profession::addictions() const
 {
     return _starting_addictions;
 }
+const profession::StartingSkillList profession::skills() const
+{
+    return _starting_skills;
+}
+// vim:ts=4:sw=4:et:tw=0:fdm=marker:fdl=0:
