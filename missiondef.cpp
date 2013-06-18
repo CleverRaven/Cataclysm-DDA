@@ -192,6 +192,20 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_place::always, &mission_start::kill_horde_master,
 	&mission_end::leave, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
+  FOLLOWUP(MISSION_RECRUIT_TRACKER);
+
+//demon slayer mission 4
+ MISSION("Recruit Tracker",MGOAL_RECRUIT_NPC_CLASS, 5, 700, false,
+	&mission_place::always, &mission_start::recruit_tracker,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+
+//demon slayer mission 4b
+ MISSION("Tracker", MGOAL_FIND_ITEM, 5, 0, true,
+	&mission_place::always, &mission_start::join,
+	&mission_end::standard, &mission_fail::standard);
+  ORIGINS(ORIGIN_SECONDARY);
+  ITEM("badge_deputy");
 
  MISSION("Find a Book", MGOAL_FIND_ANY_ITEM, 2, 800, false,
 	&mission_place::always, &mission_start::place_book,

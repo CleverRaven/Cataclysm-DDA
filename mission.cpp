@@ -762,6 +762,67 @@ alive under the rubble and ash.";
   }
   break;
 
+
+
+//demon slayer mission 4
+   case MISSION_RECRUIT_TRACKER:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "You seem to know this new world better than most...";
+   case TALK_MISSION_OFFER:
+    return "We've got another problem to deal with but I don't think we can handle \
+it on our own.  So, I sent word out and found us a volunteer... of sorts.  He's vain \
+as hell but has a little skill with firearms.  He was supposed to collect whatever he \
+had of value and is going to meet us at a cabin in the woods.  Wasn't sure how long \
+we were going to be so I told him to just camp there until we picked him up.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Rodger, if he's a no-show then any other gunslinger will do... but I doubt he'll quit \
+before we even begin.";
+   case TALK_MISSION_REJECTED:
+    return "Hey, I know I wouldn't volunteer for it either... but then I remember that most of us survivors \
+won't make it unless someone decides to take the initiative.";
+   case TALK_MISSION_ADVICE:
+    return "I hope the bastard is packing heat... else we'll need to grab him a gun before we hit our next \
+target.";
+   case TALK_MISSION_INQUIRE:
+    return "Found a gunslinger?";
+   case TALK_MISSION_SUCCESS:
+    return "Great, just let me know when you are ready to wade knee-deep in an ocean of blood.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "I don't think so...";
+   case TALK_MISSION_FAILURE:
+    return "Quitting already?";
+  }
+  break;
+
+//demon slayer mission 4b
+   case MISSION_JOIN_TRACKER:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Well damn, you must be the guys here to pick me up...";
+   case TALK_MISSION_OFFER:
+    return "I got the brief so I know what I'm getting into.  Let me be upfront, \
+treat me like shit and I'm going to cover my own hide.  Without a strong band a man doesn't \
+stand a chance in this world.  You ready to take charge boss?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Before we get into a major fight just make sure we have the gear we need, boss.";
+   case TALK_MISSION_REJECTED:
+    return "I don't think you're going to find many other survivors who haven't taken up a faction yet.";
+   case TALK_MISSION_ADVICE:
+    return "I'm a pretty good shot with a rifle or pistol.";
+   case TALK_MISSION_INQUIRE:
+    return "Any problems boss?";
+   case TALK_MISSION_SUCCESS:
+    return "Wait... are you really making me a deputy?";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "I don't think so...";
+   case TALK_MISSION_FAILURE:
+    return "Quitting already?";
+  }
+  break;
+
  default:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
