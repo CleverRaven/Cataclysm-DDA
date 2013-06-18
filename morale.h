@@ -42,6 +42,7 @@ enum morale_type
  MORALE_PERM_MASOCHIST,
  MORALE_PERM_HOARDER,
  MORALE_PERM_OPTIMIST,
+ MORALE_PERM_PYROMANIA,
 
  NUM_MORALE_TYPES
 };
@@ -51,9 +52,12 @@ struct morale_point
  morale_type type;
  itype* item_type;
  int bonus;
+ int pos_decay;
+ int neg_decay;
+ int permanent;
 
- morale_point(morale_type T = MORALE_NULL, itype* I = NULL, int B = 0) :
-              type (T), item_type (I), bonus (B) {};
+ morale_point(morale_type T = MORALE_NULL, itype* I = NULL, int B = 0, int pos = 1, int neg = 1, int perm = 0) :
+              type (T), item_type (I), bonus (B), pos_decay (pos), neg_decay (neg), permanent (perm) {}; 
 
  std::string name(std::string morale_data[])
  {

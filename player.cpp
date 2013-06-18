@@ -341,17 +341,65 @@ void player::action_taken()
 
 void player::update_morale()
 {
- for (int i = 0; i < morale.size(); i++) {
-  if (morale[i].bonus < 0)
-   morale[i].bonus++;
-  else if (morale[i].bonus > 0)
-   morale[i].bonus--;
-
-  if (morale[i].bonus == 0) {
-   morale.erase(morale.begin() + i);
-   i--;
-  }
- }
+    for (int i = 0; i < morale.size(); i++)
+    {
+        if (morale[i].bonus < 0)
+        {
+            if (morale[i].neg_decay >= 0)
+            {
+                morale[i].bonus += morale[i].neg_decay;
+                if (morale[i].bonus > 0) {morale[i].bonus = 0;}
+            }
+            else
+            {
+                if (one_in(-morale[i].neg_decay)) {morale[i].bonus--;}
+            }
+        }
+        else if (morale[i].bonus > 0)
+        {
+            if (morale[i].pos_decay >= 0)
+            {
+                morale[i].bonus -= morale[i].pos_decay;
+                if (morale[i].bonus < 0) {morale[i].bonus = 0;}
+            }
+            else
+            {
+                if (one_in(-morale[i].pos_decay)) {morale[i].bonus++;}
+            }
+        }
+        if (morale[i].bonus == 0)
+        {
+            if (morale[i].permanent == 0)
+            {
+                morale.erase(morale.begin() + i);
+                i--;
+            }
+            else if (morale[i].permanent < 0)
+            {
+                if (morale[i].neg_decay >= 0)
+                {
+                    morale[i].bonus += morale[i].neg_decay;
+                    if (morale[i].bonus > 0) {morale[i].bonus = 0;}
+                }
+                else
+                {
+                    if (one_in(-morale[i].neg_decay)) {morale[i].bonus--;}
+                }
+            }
+            else
+            {
+                if (morale[i].pos_decay >= 0)
+                {
+                    morale[i].bonus -= morale[i].pos_decay;
+                    if (morale[i].bonus < 0) {morale[i].bonus = 0;}
+                }
+                else
+                {
+                    if (one_in(-morale[i].pos_decay)) {morale[i].bonus++;}
+                }
+            }
+        }
+    }
 }
 
 void player::update_mental_focus()
@@ -4045,15 +4093,15 @@ int player::morale_level()
  return ret;
 }
 
-void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        itype* item_type)
+void player::add_morale(morale_type type, int bonus, int max_bonus, itype* item_type,
+                        int pos_decay, int neg_decay, int permanent)
 {
  bool placed = false;
 
  for (int i = 0; i < morale.size() && !placed; i++) {
   if (morale[i].type == type && morale[i].item_type == item_type) {
    placed = true;
-   if (abs(morale[i].bonus) < abs(max_bonus) || max_bonus == 0) {
+   if (abs(morale[i].bonus) <= abs(max_bonus) || max_bonus == 0) {
     morale[i].bonus += bonus;
     if (abs(morale[i].bonus) > abs(max_bonus) && max_bonus != 0)
      morale[i].bonus = max_bonus;
@@ -4061,7 +4109,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
   }
  }
  if (!placed) { // Didn't increase an existing point, so add a new one
-  morale_point tmp(type, item_type, bonus);
+  morale_point tmp(type, item_type, bonus, pos_decay, neg_decay, permanent);
   morale.push_back(tmp);
  }
 }
@@ -6456,6 +6504,60 @@ bool player::try_study_recipe(game *g, it_book *book)
         }
     }
     return true; // "false" seems to mean "attempted and failed"
+}
+
+void player::pyromania_fire_call(game *g, int x, int y)
+{
+    if (rng(0,100) < -(morale_level()+10)/2)
+    {
+        if (has_disease(DI_TOOK_PROZAC) && one_in(2)) //50% chance reduction with Prozac
+        {
+            return;
+        }
+
+        int pyro_x = x;
+        int pyro_y = y;
+        for (int i = x - 1; i <= x + 1; i++)
+        {
+            for (int j = y - 1; j <= y + 1; j++)
+            {
+                if (g->m.flammable_items_at(i, j))
+                {
+                    if (pyro_x != x && pyro_y != y)
+                    {
+                        if (one_in(2))
+                        {
+                            pyro_x = i;
+                            pyro_y = j;
+                        }
+                    }
+                    else
+                    {
+                        pyro_x = i;
+                        pyro_y = j;
+                    }
+                }
+            }
+        }
+        if (pyro_x != x && pyro_y != y)
+        {
+            if (!use_charges_if_avail("fire", 1))
+            {
+                g->add_msg("You want to light a fire but can't");
+                add_morale(MORALE_PERM_PYROMANIA, -15, -100, NULL, 2, -45, -1);
+            }
+            else
+            {
+                if (g->m.add_field(g, pyro_x, pyro_y, fd_fire, 1))
+                {
+                    g->m.field_at(pyro_x, pyro_y).age = 30;
+                    g->add_msg("You successfully light a fire.");
+                    moves -= 15;
+                    add_morale(MORALE_PERM_PYROMANIA, 10, 100, NULL, 2, -45, -1);
+                }
+            }
+        }
+    }
 }
 
 void player::try_to_sleep(game *g)

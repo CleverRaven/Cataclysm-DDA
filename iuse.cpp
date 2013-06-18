@@ -865,6 +865,8 @@ void iuse::lighter(game *g, player *p, item *it, bool t)
     {
         p->moves -= 15;
         resolve_firestarter_use(g, p, it, dirx, diry);
+
+        if (p->has_trait(PF_PYROMANIA)) {p->add_morale(MORALE_PERM_PYROMANIA, 10, 100, NULL, 2, -45, -1);}
     }
 }
 
@@ -882,6 +884,8 @@ void iuse::primitive_fire(game *g, player *p, item *it, bool t)
         if (dice(skillLevel+base_dice, 10) >= difficulty)
         {
             resolve_firestarter_use(g, p, it, posx, posy);
+
+            if (p->has_trait(PF_PYROMANIA)) {p->add_morale(MORALE_PERM_PYROMANIA, 10, 100, NULL, 2, -45, -1);}
         }
         else
         {

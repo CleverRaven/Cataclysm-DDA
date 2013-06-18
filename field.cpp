@@ -90,6 +90,16 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
 // TODO-MATERIALS: use fire resistance
    case fd_fire: {
+    bool pyromaniac = false;
+    if (g->u.has_trait(PF_PYROMANIA) && g->u_see(x, y))
+    {
+        pyromaniac = true;
+    }
+    if (pyromaniac && one_in(10 - (cur->density * 2)))
+    {
+        g->u.add_morale(MORALE_PERM_PYROMANIA, 1, 100, NULL, 2, -45, -1);
+    }
+
 // Consume items as fuel to help us grow/last longer.
     bool destroyed = false;
     int vol = 0, smoke = 0, consumed = 0;
@@ -195,6 +205,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
        i_at(x, y).push_back( i_at(x, y)[i].contents[m] );
       i_at(x, y).erase(i_at(x, y).begin() + i);
       i--;
+	  if (pyromaniac) {g->u.add_morale(MORALE_PERM_PYROMANIA, 1, 100, NULL, 2, -45, -1);}
      }
     }
 
@@ -236,6 +247,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
     while (cur->density < 3 && cur->age < 0) {
      cur->age += 300;
      cur->density++;
+	 if (pyromaniac) {g->u.add_morale(MORALE_PERM_PYROMANIA, 1, 100, NULL, 2, -45, -1);}
     }
 
 // If the flames are in a pit, it can't spread to non-pit
@@ -283,6 +295,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
                     (has_flag(l_flammable, fx, fy) && one_in(10))) ||
                    flammable_items_at(fx, fy) ||
                    field_at(fx, fy).type == fd_web)) {
+        if (pyromaniac) {g->u.add_morale(MORALE_PERM_PYROMANIA, 1, 100, NULL, 2, -45, -1);}
         if (field_at(fx, fy).type == fd_smoke ||
             field_at(fx, fy).type == fd_web)
          field_at(fx, fy) = field(fd_fire, 1, 0);

@@ -247,8 +247,13 @@ public:
  bool can_pickVolume(int volume);
  bool can_pickWeight(int weight);
  int morale_level();	// Modified by traits, &c
+
+//Pos & Neg decay is the decay rate (x per minute) when bonus is positive or negative respectively. If decay rate
+//is negative, moral is added (positive morale for pos and negative for neg) at a rate of one_in(-(decay)) per minute
+//If permanent != 0 then use positive or negative decay for values of 1 or -1 respectively
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
-                 itype* item_type = NULL);
+                 itype* item_type = NULL, int pos_decay = 1, int neg_decay = 1,
+                 int permanent = 0);
 
  std::string weapname(bool charges = true);
 
@@ -294,6 +299,8 @@ public:
  bool can_study_recipe(it_book *book);
  bool studied_all_recipes(it_book *book);
  bool try_study_recipe(game *g, it_book *book);
+
+void pyromania_fire_call(game *g, int x, int y);
 
 // ---------------VALUES-----------------
  int posx, posy;

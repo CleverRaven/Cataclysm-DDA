@@ -231,6 +231,7 @@ enum pl_flag {
  PF_SCHIZOPHRENIC,// Random bad effects, variety
  PF_JITTERY,	// Get DI_SHAKES under some circumstances
  PF_HOARDER,	// Morale penalty when volume is less than max
+ PF_PYROMANIA,   // Morale bonuses&penalties involving fire, lights fires when morale is low
  PF_SAVANT,	// All skills except our best are trained more slowly
  PF_MOODSWINGS,	// Big random shifts in morale
  PF_WEAKSTOMACH,// More likely to throw up in all circumstances
@@ -550,6 +551,10 @@ find your hands shaking uncontrollably, severely reducing your dexterity."},
 You don't feel right unless you're carrying as much as you can.  You suffer\n\
 morale penalties for carrying less than maximum volume (weight is ignored).\n\
 Xanax can help control this anxiety."},
+{"Pyromaniac", -3, 0, 0, "\
+You are fascinated with fire and use it to calm yourself when stressed. You\n\
+gain morale while seeing or lighting fires and penalties without it. You may\n\
+light fires when especially stressed; Prozac can help control this problem."},
 {"Savant", -4, 0, 0, "\
 You tend to specialize in one skill and be poor at all others.  You advance\n\
 at half speed in all skills except your best one. Note that combining this\n\

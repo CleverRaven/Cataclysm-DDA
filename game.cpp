@@ -9646,6 +9646,7 @@ void game::plmove(int x, int y)
    z[mondex].move_to(this, u.posx, u.posy);
    add_msg("You displace the %s.", z[mondex].name().c_str());
   }
+
   if (x < SEEX * int(MAPSIZE / 2) || y < SEEY * int(MAPSIZE / 2) ||
       x >= SEEX * (1 + int(MAPSIZE / 2)) || y >= SEEY * (1 + int(MAPSIZE / 2)))
    update_map(x, y);
@@ -9669,6 +9670,11 @@ void game::plmove(int x, int y)
     (f.*(tr->act))(this, x, y);
    }
   }
+
+    if (u.has_trait(PF_PYROMANIA) && u.morale_level() <= -12)
+    {
+        u.pyromania_fire_call(this, x, y);
+    }
 
 // Some martial art styles have special effects that trigger when we move
   if(u.weapon.type->id == "style_capoeira"){
