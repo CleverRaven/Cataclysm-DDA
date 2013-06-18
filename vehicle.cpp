@@ -249,11 +249,13 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 std::string vehicle::use_controls()
 {
  std::vector<vehicle_controls> options_choice;
- std::vector<std::string> options_message;
-
+ std::vector<uimenu_entry> options_message;
  // Alway have this option
+ int curent=0;
+ int letgoent=0;
  options_choice.push_back(toggle_cruise_control);
- options_message.push_back((cruise_on) ? "Disable cruise control" : "Enable cruise control");
+ options_message.push_back(uimenu_entry((cruise_on) ? "Disable cruise control" : "Enable cruise control", 'c'));
+ curent++;
 
  bool has_lights = false;
  bool has_turrets = false;
@@ -267,13 +269,15 @@ std::string vehicle::use_controls()
  // Lights if they are there - Note you can turn them on even when damaged, they just don't work
  if (has_lights) {
   options_choice.push_back(toggle_lights);
-  options_message.push_back((lights_on) ? "Turn off headlights" : "Turn on headlights");
+  options_message.push_back(uimenu_entry((lights_on) ? "Turn off headlights" : "Turn on headlights", 'h'));
+  curent++;
  }
 
  // Turrents: off or burst mode
  if (has_turrets) {
   options_choice.push_back(toggle_turrets);
-  options_message.push_back((0 == turret_mode) ? "Switch turrets to burst mode" : "Disable turrets");
+  options_message.push_back(uimenu_entry((0 == turret_mode) ? "Switch turrets to burst mode" : "Disable turrets", 't'));
+  curent++;
  }
 
  // Exit vehicle, if we are in it.
@@ -281,16 +285,23 @@ std::string vehicle::use_controls()
  if (g->u.controlling_vehicle &&
      g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
   options_choice.push_back(release_control);
-  options_message.push_back("Let go of controls");
+  options_message.push_back(uimenu_entry("Let go of controls", 'l'));
+  letgoent=curent;
  }
 
  options_choice.push_back(control_cancel);
- options_message.push_back("Do nothing");
+ options_message.push_back(uimenu_entry("Do nothing", ' '));
 
- int select = menu_vec(true, "Vehicle controls", options_message);
+ uimenu selectmenu;
+ selectmenu.text="Vehicle controls";
+ selectmenu.entries=options_message;
+ selectmenu.selected=letgoent;
+ selectmenu.query();
+ int select=selectmenu.ret;
+// int select = menu_vec(true, "Vehicle controls", options_message);
 
  std::string message;
- switch(options_choice[select - 1]) {
+ switch(options_choice[select]) {
   case toggle_cruise_control:
    cruise_on = !cruise_on;
    message = (cruise_on) ? "Cruise control turned on" : "Cruise control turned off";
