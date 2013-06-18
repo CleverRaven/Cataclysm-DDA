@@ -481,7 +481,7 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "CAUTERIZE_ELEC"
+    "use_action": "SOLDER_WELD"
   },
 
   {
@@ -2313,7 +2313,7 @@
     "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "null",
-    "use_action": "NONE"
+    "use_action": "SOLDER_WELD"
   },
 
   {

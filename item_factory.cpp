@@ -87,6 +87,7 @@ void Item_factory::init(){
     iuse_function_list["DIRECTIONAL_ANTENNA"] = &iuse::directional_antenna;
     iuse_function_list["DEVAC"] = &iuse::devac;
     iuse_function_list["CAUTERIZE_ELEC"] = &iuse::cauterize_elec;
+    iuse_function_list["SOLDER_WELD"] = &iuse::solder_weld;
     iuse_function_list["WATER_PURIFIER"] = &iuse::water_purifier;
     iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
     iuse_function_list["RADIO_OFF"] = &iuse::radio_off;

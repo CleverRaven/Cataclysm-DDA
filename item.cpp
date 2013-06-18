@@ -1285,6 +1285,14 @@ bool item::made_of(std::string mat_ident) const
     return (type->m1 == mat_ident || type->m2 == mat_ident);
 }
 
+std::string item::get_material(int m) const
+{
+    if (typeId() == "corpse")
+        return corpse->mat;
+
+    return (m==2)?type->m2:type->m1;
+}
+
 bool item::made_of(phase_id phase) const
 {
     if( is_null() )

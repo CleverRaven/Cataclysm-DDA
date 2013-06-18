@@ -913,29 +913,29 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         it->charges++;
         return;
     }
-
+    //some items are made from more than one material. we should try to use both items if one type of repair item is missing
     itype_id repair_item = "none";
+    std::vector<std::string> plurals;
+    std::vector<itype_id> repair_items;
     std::string plural = "";
     if (fix->made_of("cotton") || fix->made_of("wool"))
     {
-        repair_item = "rag";
-        plural = "s";
+        repair_items.push_back("rag");
+        plurals.push_back("s");
     }
-    else if (fix->made_of("leather"))
+    if (fix->made_of("leather"))
     {
-        repair_item = "leather";
+        repair_items.push_back("leather");
+        plurals.push_back("");
     }
-    else if (fix->made_of("plastic"))
+    if (fix->made_of("fur"))
     {
-        repair_item = "plastic_chunk";
+        plurals.push_back("");
+        repair_items.push_back("fur");
     }
-    else if (fix->made_of("kevlar"))
-    {
-        repair_item = "kevlar_plate";
-    }
-    else
+    if(repair_items.empty())
 	{
-        g->add_msg_if_player(p,"Your %s is not made of cotton, wool, leather, plastic or kevlar.", fix->tname().c_str());
+        g->add_msg_if_player(p,"Your %s is not made of cotton, wool, leather or fur.", fix->tname().c_str());
         it->charges++;
         return;
     }
@@ -945,9 +945,23 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     // this will cause issues if/when NPCs start being able to sew.
     // but, then again, it'll cause issues when they start crafting, too.
     inventory crafting_inv = g->crafting_inventory(p);
-    if (!crafting_inv.has_amount(repair_item, items_needed))
+    bool bFound = false;
+    //go through all discovered repair items and see if we have any of them available
+    for(unsigned int i = 0; i< repair_items.size(); i++)
     {
-        g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repair_item.c_str(), plural.c_str());
+        if (crafting_inv.has_amount(repair_items[i], items_needed))
+        {
+           //we've found enough of a material, use this one
+           repair_item = repair_items[i];
+           bFound = true;
+        }
+    }
+    if (!bFound)
+    {
+        for(unsigned int i = 0; i< repair_items.size(); i++)
+        {
+            g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repair_items[i].c_str(), plurals[i].c_str());
+        }
         it->charges++;
         return;
     }
@@ -1397,6 +1411,205 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
         it->charges -= 1;
         p->cauterize(g);
     }
+}
+
+void iuse::solder_weld(game *g, player *p, item *it, bool t)
+{
+    int choice = menu(true,
+    "Using soldering item:", "Cauterize wound", "Repair plastic/metal/kevlar item", "Cancel", NULL);
+    switch (choice)
+    {
+        case 1:
+        {
+            iuse::cauterize_elec(g, p, it, t);
+        }
+        break;
+        case 2:
+        {
+            if(it->charges <= 0)
+            {
+                g->add_msg_if_player(p,"You don't have enough batteries!");
+                return;
+            }
+
+            char ch = g->inv_type("Repair what?", IC_ARMOR);
+            item* fix = &(p->i_at(ch));
+            if (fix == NULL || fix->is_null())
+            {
+                g->add_msg_if_player(p,"You do not have that item!");
+                return;
+            }
+            if (!fix->is_armor())
+            {
+                g->add_msg_if_player(p,"That isn't clothing!");
+                return;
+            }
+            itype_id repair_item = "none";
+            std::vector<std::string> plurals;
+            std::vector<std::string> repairitem_names;
+            std::vector<itype_id> repair_items;
+            if (fix->made_of("kevlar"))
+            {
+                repair_items.push_back("kevlar_plate");
+                repairitem_names.push_back("kevlar plate");
+                plurals.push_back("s");
+            }
+            if (fix->made_of("plastic"))
+            {
+                repair_items.push_back("plastic_chunk");
+                repairitem_names.push_back("plastic chunk");
+                plurals.push_back("s");
+            }
+            if (fix->made_of("iron") || fix->made_of("steel"))
+            {
+                repair_items.push_back("scrap");
+                repairitem_names.push_back("scrap metal");
+                plurals.push_back("");
+            }
+            if(repair_items.empty())
+            {
+                g->add_msg_if_player(p,"Your %s is not made of kevlar, plastic or metal.", fix->tname().c_str());
+                it->charges++;
+                return;
+            }
+
+            //repairing or modifying items requires at least 1 repair item, otherwise number is related to size of item
+            int items_needed=ceil( fix->volume() * 0.25);
+
+            // this will cause issues if/when NPCs start being able to sew.
+            // but, then again, it'll cause issues when they start crafting, too.
+            inventory crafting_inv = g->crafting_inventory(p);
+
+             bool bFound = false;
+            //go through all discovered repair items and see if we have any of them available
+            for(unsigned int i = 0; i< repair_items.size(); i++)
+            {
+                if (crafting_inv.has_amount(repair_items[i], items_needed))
+                {
+                   //we've found enough of a material, use this one
+                   repair_item = repair_items[i];
+                   bFound = true;
+                }
+            }
+            if (!bFound)
+            {
+                for(unsigned int i = 0; i< repair_items.size(); i++)
+                {
+                    g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repairitem_names[i].c_str(), plurals[i].c_str());
+                }
+                it->charges++;
+                return;
+            }
+            if (fix->damage < 0)
+            {
+                g->add_msg_if_player(p,"Your %s is already enhanced.", fix->tname().c_str());
+                return;
+            }
+
+            std::vector<component> comps;
+            comps.push_back(component(repair_item, items_needed));
+            comps.back().available = true;
+
+
+            if (fix->damage == 0)
+            {
+                p->moves -= 500 * p->fine_detail_vision_mod(g);
+                p->practice(g->turn, "mechanics", 10);
+                int rn = dice(4, 2 + p->skillLevel("mechanics"));
+                if (p->dex_cur < 8 && one_in(p->dex_cur))
+                    {rn -= rng(2, 6);}
+                if (p->dex_cur >= 16 || (p->dex_cur > 8 && one_in(16 - p->dex_cur)))
+                    {rn += rng(2, 6);}
+                if (p->dex_cur > 16)
+                    {rn += rng(0, p->dex_cur - 16);}
+                if (rn <= 4)
+                {
+                    g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
+                    fix->damage++;
+                }
+                else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT"))
+                {
+                    g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
+                    (p->i_at(ch).item_tags.insert("FIT"));
+                }
+                else if (rn >= 12 && (p->i_at(ch).has_flag("FIT") || !p->i_at(ch).has_flag("VARSIZE")))
+                {
+                    g->add_msg_if_player(p, "You make your %s extra sturdy.", fix->tname().c_str());
+                    fix->damage--;
+                    g->consume_items(p, comps);
+                }
+                else
+                {
+                    g->add_msg_if_player(p,"You practice your soldering.");
+                }
+            }
+            else
+            {
+                p->moves -= 500 * p->fine_detail_vision_mod(g);
+                p->practice(g->turn, "mechanics", 8);
+                int rn = dice(4, 2 + p->skillLevel("mechanics"));
+                rn -= rng(fix->damage, fix->damage * 2);
+                if (p->dex_cur < 8 && one_in(p->dex_cur))
+                    {rn -= rng(2, 6);}
+                if (p->dex_cur >= 8 && (p->dex_cur >= 16 || one_in(16 - p->dex_cur)))
+                    {rn += rng(2, 6);}
+                if (p->dex_cur > 16)
+                    {rn += rng(0, p->dex_cur - 16);}
+                if (rn <= 4)
+                {
+                    g->add_msg_if_player(p,"You damage your %s further!", fix->tname().c_str());
+                    fix->damage++;
+                    if (fix->damage >= 5)
+                    {
+                        g->add_msg_if_player(p,"You destroy it!");
+                        p->i_rem(ch);
+                    }
+                }
+                else if (rn <= 6)
+                {
+                    g->add_msg_if_player(p,"You don't repair your %s, and you waste lots of charge.", fix->tname().c_str());
+                    int waste = rng(1, 8);
+                    if (waste > it->charges)
+                        {it->charges = 1;}
+                    else
+                        {it->charges -= waste;}
+                }
+                else if (rn <= 8)
+                {
+                    g->add_msg_if_player(p,"You repair your %s, but you waste lots of charge.", fix->tname().c_str());
+                    if (fix->damage>=3) {g->consume_items(p, comps);}
+                    fix->damage--;
+                    int waste = rng(1, 8);
+                if (waste > it->charges)
+                    {it->charges = 1;}
+                else
+                    {it->charges -= waste;}
+                }
+                else if (rn <= 16)
+                {
+                    g->add_msg_if_player(p,"You repair your %s!", fix->tname().c_str());
+                    if (fix->damage>=3) {g->consume_items(p, comps);}
+                    fix->damage--;
+                }
+                else
+                {
+                    g->add_msg_if_player(p,"You repair your %s completely!", fix->tname().c_str());
+                    if (fix->damage>=3) {g->consume_items(p, comps);}
+                    fix->damage = 0;
+                }
+            }
+
+            it->charges -= 1;
+        }
+        break;
+        case 3:
+        {
+
+        }
+        break;
+        default:
+            break;
+    };
 }
 
 
@@ -3240,7 +3453,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                     break;
                 }
 
-                g->add_msg("You cut some chunks from the %s.", cut->tname().c_str());
+                g->add_msg("You cut the %s into %i plastic chunks.", cut->tname().c_str(), amount);
                 int count = amount;
                 item result(g->itypes["kevlar_plate"], int(g->turn), g->nextinv);
                 p->i_rem(ch);
