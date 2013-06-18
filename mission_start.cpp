@@ -444,6 +444,7 @@ void mission_start::point_cabin_strange(game *g, mission *miss)
    g->cur_om->seen(x, y, 0) = true;
  }
  miss->target = place;
+}
 
 void mission_start::recruit_tracker(game *g, mission *miss)
 {
