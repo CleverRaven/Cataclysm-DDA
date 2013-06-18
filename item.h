@@ -59,7 +59,7 @@ public:
 // Firearm specifics
  int reload_time(player &u);
  int clip_size();
- int accuracy();
+ int inaccuracy(bool with_ammo = true);
  int gun_damage(bool with_ammo = true);
  int noise() const;
  int burst_size();

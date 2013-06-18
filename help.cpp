@@ -682,7 +682,7 @@ ITEM TYPES:\n\
  fired%s. Some have automatic fire, which may be used%s at a\n\
  penalty to accuracy. The color refers to the type; handguns are gray,\n\
  shotguns are red, submachine guns are cyan, rifles are brown, assault rifles\n\
- are blue, and heavy machine guns are light red. Each has an accuracy rating,\n\
+ are blue, and heavy machine guns are light red. Each has an inaccuracy rating,\n\
  a bonus to damage, a rate of fire, and a maximum load. Note that most\n\
  firearms load fully in one action, while shotguns must be loaded one\n\
  shell at a time.\n\
@@ -690,7 +690,7 @@ ITEM TYPES:\n\
 =       Ammunition\n\
     Ammunition is worthless without a gun to load it into. Generally,\n\
  there are several variants for any particular calibre. Ammunition has\n\
- a damage rating, an accuracy, a range, and an armor-piercing quality.\n\
+ damage, inaccuracy, and range ratings, and an armor-piercing quality.\n\
 Press any key to continue...",
      press_x(ACTION_WEAR, " with the ", " key","").c_str(),
      press_x(ACTION_TAKE_OFF, " with the "," key","").c_str(),
