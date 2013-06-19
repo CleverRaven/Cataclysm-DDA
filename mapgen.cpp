@@ -11469,12 +11469,12 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir, int ve
  int smx = x / SEEX;
  int smy = y / SEEY;
  int nonant = smx + smy * my_MAPSIZE;
- x %= SEEX;
- y %= SEEY;
+ int lx = x % SEEX;
+ int ly = y % SEEY;
 // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
  vehicle * veh = new vehicle(g, type, veh_fuel, veh_status);
- veh->posx = x;
- veh->posy = y;
+ veh->posx = lx;
+ veh->posy = ly;
  veh->smx = smx;
  veh->smy = smy;
  veh->face.init(dir);
