@@ -3383,10 +3383,10 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true,
-    "Using knife:", "Cut up fabric", "Cut up plastic/kevlar", "Carve wood", "Cauterize", "Cancel", NULL);
+    "Using knife:", "Cut up fabric", "Cut up plastic/kevlar", "Carve wood", "Cauterize", "Carve writing on item", "Cancel", NULL);
     switch (choice)
     {
-        if (choice == 4)
+        if (choice == 5)
         break;
         case 1:
         {
@@ -3530,6 +3530,22 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 p->cauterize(g);
             break;
         }
+
+        case 5:
+        {
+            char ch = g->inv("Carve on what?");
+            item* cut = &(p->i_at(ch));
+            if (cut->type->id == "null")
+            {
+                g->add_msg("You do not have that item!");
+                return;
+            }
+            std::map<std::string, std::string>::iterator ent = cut->item_vars.find("carved_note");
+            std::string message = string_input_popup("Carve what?", 64, (ent != cut->item_vars.end() ? cut->item_vars["carved_note"] : "" ) );
+            if( message.size() > 0 ) cut->item_vars["carved_note"] = message;
+            break;
+        }
+
     }
 }
 
