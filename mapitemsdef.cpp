@@ -1023,5 +1023,5 @@ void game::init_mapitems()
 	"dynamite_act", "firecracker_pack_act", "firecracker_act",
 	"mininuke_act", "UPS_on", "mp3_on", "c4armed", "apparatus",
 	"brazier", "rag_bloody", "candle_lit", "torch_lit",
-	"acidbomb_act", "huge_crossbow", "rep_crossbow", "vaccine_shot", NULL);
+	"acidbomb_act", "huge_crossbow", "rep_crossbow", "vaccine_shot", "bio_claws_weapon", NULL);
 }

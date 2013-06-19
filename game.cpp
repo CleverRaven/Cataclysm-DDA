@@ -1863,7 +1863,7 @@ bool game::handle_action()
        as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS[OPT_FORCE_YN]?'Y':'y'),
            "Yes." ));
        if (OPTIONS[OPT_SAVESLEEP]) {
-         as_m.entries.push_back(uimenu_entry(1, 
+         as_m.entries.push_back(uimenu_entry(1,
              (moves_since_last_save || item_exchanges_since_save) && !u.in_vehicle,
              (OPTIONS[OPT_FORCE_YN]?'S':'s'),
              "Yes, and save game before sleeping." ));
@@ -6243,13 +6243,9 @@ void game::advanced_inv()
                 }
                 if ( ! showmsg ) {
                   mvwprintz(head,0,w_width-18,c_white,"< [?] show log >");
-                  mvwprintz(head,1,3, c_white, "hjkl or arrow keys to move cursor");
-                  //wprintz(head, c_white, " %d %d/%d %d/%d",panes[src].size,panes[src].index,panes[src].max_index,panes[src].page,panes[src].max_page);
-                  mvwprintz(head,2,3, c_white, "1-9 to select square for active tab. 0 for inventory");
-                  mvwprintz(head,3,3, c_white, "(or GHJKLYUBNI)");
-                  mvwprintz(head,1,(w_width/2), c_white, "[m]ove item between screen.");
-                  mvwprintz(head,2,(w_width/2), c_white, "[e]amine item.  [s]ort display.");
-                  mvwprintz(head,3,(w_width/2), c_white, "[q]uit/exit this screen");
+                  mvwprintz(head,1,2, c_white, "hjkl or arrow keys to move cursor, [m]ove item between panes,");
+                  mvwprintz(head,2,2, c_white, "1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,");
+                  mvwprintz(head,3,2, c_white, "[e]xamine item,  [s]ort display, [q]uit/exit this screen.");
                 } else {
                   mvwprintz(head,0,w_width-19,c_white,"< [?] show help >");
                 }
@@ -6371,12 +6367,12 @@ void game::advanced_inv()
                 }
                 if ( ! valid ) continue;
             }
-// from inventory            
+// from inventory
             if(panes[src].area == isinventory) {
 
                 int max = (squares[destarea].max_size - squares[destarea].size);
                 int volmax = max;
-                int free_volume = ( squares[ destarea ].vstor >= 0 ? 
+                int free_volume = ( squares[ destarea ].vstor >= 0 ?
                     squares[ destarea ].veh->free_volume( squares[ destarea ].vstor ) :
                     m.free_volume ( squares[ destarea ].x, squares[ destarea ].y )
                 ) * 100;
@@ -6386,7 +6382,7 @@ void game::advanced_inv()
 
                 int amount = 1;
                 int volume = it->volume() * 100; // sigh
-                
+
                 bool askamount = false;
                 if ( stack.size() > 1) {
                     amount = stack.size();
@@ -6396,7 +6392,7 @@ void game::advanced_inv()
                     volume = it->type->volume;
                     askamount = true;
                 }
- 
+
                 if ( volume > 0 && volume * amount > free_volume ) {
                     volmax = int( free_volume / volume );
                     if ( volmax == 0 ) {
@@ -6421,14 +6417,14 @@ void game::advanced_inv()
                         popupmsg="Destination can only hold " + helper::to_string(max) + "! Move how many? (0 to cancel) ";
                     }
                     // fixme / todo make popup take numbers only (m = accept, q = cancel)
-                    amount = helper::to_int( 
-                        string_input_popup( popupmsg, 20, 
+                    amount = helper::to_int(
+                        string_input_popup( popupmsg, 20,
                              helper::to_string(
-                                 ( amount > max ? max : amount ) 
+                                 ( amount > max ? max : amount )
                              )
                         )
                     );
-                }    
+                }
                 recalc=true;
                 if(stack.size() > 1) { // if the item is stacked
                     if ( amount != 0 && amount <= stack.size() ) {
@@ -6440,7 +6436,7 @@ void game::advanced_inv()
                             iter != moving_items.end();
                             ++iter)
                         {
-                          
+
                           if ( chargeback == true ) {
                                 u.i_add(*iter,this);
                           } else {
@@ -8032,7 +8028,7 @@ void game::pickup(int posx, int posy, int min)
     if(cur_it == selected) {
         icolor=hilite(icolor);
     }
-    
+
     if (cur_it < pickup_chars.size() ) {
        mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor, char(pickup_chars[cur_it]));
     } else {
@@ -8050,12 +8046,12 @@ void game::pickup(int posx, int posy, int min)
      wprintz(w_pickup, icolor, " (%d)", here[cur_it].charges);
    }
   }
-  mvwprintw(w_pickup, maxitems + 1, 0, "Mark [right]    [up/dn] Scroll    [left] Unmark");
+  mvwprintw(w_pickup, maxitems + 1, 0, "[left] Unmark    [up/dn] Scroll    [right] Mark");
   if (start > 0)
    mvwprintw(w_pickup, maxitems + 2, 0, "[pgup] Prev");
-  mvwprintw(w_pickup, maxitems + 2, 20, " [,] All");
+  mvwprintw(w_pickup, maxitems + 2, 20, "[,] All");
   if (cur_it < here.size())
-   mvwprintw(w_pickup, maxitems + 2, 36, "Next [pgdn]");
+   mvwprintw(w_pickup, maxitems + 2, 36, "[pgdn] Next");
   if (update) {		// Update weight & volume information
    update = false;
    mvwprintw(w_pickup, 0,  7, "                           ");
@@ -10890,14 +10886,14 @@ std::string game::press_x(action_id act, std::string act_desc)
                 if (z_ing) {
                     keyed.replace(1,1,1,act_desc.at(0));
                     if (key_after) {
-                        keyed += " or '"; 
-                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0)) 
-                                                          : tolower(act_desc.at(0))); 
+                        keyed += " or '";
+                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0))
+                                                          : tolower(act_desc.at(0)));
                         keyed += "'";
                     } else {
-                        keyed +=" ('"; 
-                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0)) 
-                                                          : tolower(act_desc.at(0))); 
+                        keyed +=" ('";
+                        keyed += (islower(act_desc.at(0)) ? toupper(act_desc.at(0))
+                                                          : tolower(act_desc.at(0)));
                         keyed += "'";
                         key_after=true;
                     }
