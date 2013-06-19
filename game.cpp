@@ -7230,6 +7230,7 @@ point game::look_around()
        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    } else if (m.has_flag(container, lx, ly)) {
        mvwprintw(w_look, 3, 1, "You cannot see what is inside of it.");
+       m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
    }
    else if (lx == u.posx + u.view_offset_x && ly == u.posy + u.view_offset_y)
    {
