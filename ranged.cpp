@@ -297,7 +297,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
    if (dam <= 0 && !(effects & mfb(AMMO_FLAME))) { // Ran out of momentum.
     ammo_effects(this, tx, ty, effects);
-    if (is_bolt &&
+    if (is_bolt && !(effects & mfb(AMMO_IGNITE)) && !(effects & mfb(AMMO_EXPLOSIVE)) &&
         ((curammo->m1 == "wood" && !one_in(4)) ||
          (curammo->m1 != "wood" && !one_in(15))))
      m.add_item(tx, ty, ammotmp);
@@ -354,7 +354,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       tx = px;
       ty = py;
   }
-  if (is_bolt &&
+  if (is_bolt && !(effects & mfb(AMMO_IGNITE)) && !(effects & mfb(AMMO_EXPLOSIVE)) &&
       ((curammo->m1 == "wood" && !one_in(5)) ||
        (curammo->m1 != "wood" && !one_in(15))  ))
     m.add_item(tx, ty, ammotmp);
