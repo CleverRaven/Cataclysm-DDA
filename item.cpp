@@ -1145,23 +1145,23 @@ int item::melee_value(player *p)
 int item::bash_resist() const
 {
     int ret = 0;
-    
+
     if (is_null())
         return 0;
 
     if (is_armor())
     {
-        // base resistance 
+        // base resistance
         it_armor* tmp = dynamic_cast<it_armor*>(type);
-        material_type* cur_mat1 = material_type::find_material(tmp->m1);        
-        material_type* cur_mat2 = material_type::find_material(tmp->m2);        
+        material_type* cur_mat1 = material_type::find_material(tmp->m1);
+        material_type* cur_mat2 = material_type::find_material(tmp->m2);
         int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
 
         // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
         if (cur_mat2->is_null())
         {
-            ret = eff_thickness * (3 * cur_mat1->bash_resist());      
-        } 
+            ret = eff_thickness * (3 * cur_mat1->bash_resist());
+        }
         else
         {
             ret = eff_thickness * (cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist());
@@ -1169,25 +1169,25 @@ int item::bash_resist() const
     }
     else // for non-armor, just bash_resist
     {
-        material_type* cur_mat1 = material_type::find_material(type->m1);        
+        material_type* cur_mat1 = material_type::find_material(type->m1);
         material_type* cur_mat2 = material_type::find_material(type->m2);
         if (cur_mat2->is_null())
         {
-            ret = 3 * cur_mat1->bash_resist();      
-        } 
+            ret = 3 * cur_mat1->bash_resist();
+        }
         else
         {
             ret = cur_mat1->bash_resist() + cur_mat1->bash_resist() + cur_mat2->bash_resist();
         }
     }
-    
-    return ret;    
+
+    return ret;
 }
 
 int item::cut_resist() const
 {
     int ret = 0;
-    
+
     if (is_null())
         return 0;
 
@@ -1195,15 +1195,15 @@ int item::cut_resist() const
         {
         it_armor* tmp = dynamic_cast<it_armor*>(type);
         material_type* cur_mat1 = material_type::find_material(tmp->m1);
-        material_type* cur_mat2 = material_type::find_material(tmp->m2);        
+        material_type* cur_mat2 = material_type::find_material(tmp->m2);
         int eff_thickness = ((tmp->thickness - damage <= 0) ? 1 : (tmp->thickness - damage));
-        
+
         // assumes weighted sum of materials for items with 2 materials, 66% material 1 and 33% material 2
         if (cur_mat2->is_null())
         {
             ret = eff_thickness * (3 * cur_mat1->cut_resist());
-            
-        } 
+
+        }
         else
         {
             ret = eff_thickness * (cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist());
@@ -1211,40 +1211,40 @@ int item::cut_resist() const
     }
     else // for non-armor
     {
-        material_type* cur_mat1 = material_type::find_material(type->m1);        
+        material_type* cur_mat1 = material_type::find_material(type->m1);
         material_type* cur_mat2 = material_type::find_material(type->m2);
         if (cur_mat2->is_null())
         {
-            ret = 3 * cur_mat1->cut_resist();      
-        } 
+            ret = 3 * cur_mat1->cut_resist();
+        }
         else
         {
             ret = cur_mat1->cut_resist() + cur_mat1->cut_resist() + cur_mat2->cut_resist();
         }
     }
-        
-    return ret;       
+
+    return ret;
 }
 
 int item::acid_resist() const
 {
     int ret = 0;
-    
+
     if (is_null())
         return 0;
-            
+
     // similar weighted sum of acid resistances
-    material_type* cur_mat1 = material_type::find_material(type->m1);        
+    material_type* cur_mat1 = material_type::find_material(type->m1);
     material_type* cur_mat2 = material_type::find_material(type->m2);
     if (cur_mat2->is_null())
     {
-        ret = 3 * cur_mat1->acid_resist();      
-    } 
+        ret = 3 * cur_mat1->acid_resist();
+    }
     else
     {
         ret = cur_mat1->acid_resist() + cur_mat1->acid_resist() + cur_mat2->acid_resist();
     }
-    
+
     return ret;
 }
 
@@ -1285,6 +1285,14 @@ bool item::made_of(std::string mat_ident) const
     return (type->m1 == mat_ident || type->m2 == mat_ident);
 }
 
+std::string item::get_material(int m) const
+{
+    if (typeId() == "corpse")
+        return corpse->mat;
+
+    return (m==2)?type->m2:type->m1;
+}
+
 bool item::made_of(phase_id phase) const
 {
     if( is_null() )
@@ -1299,7 +1307,7 @@ bool item::conductive() const
   return false;
 
     material_type* cur_mat1 = material_type::find_material(type->m1);
-    material_type* cur_mat2 = material_type::find_material(type->m2); 
+    material_type* cur_mat2 = material_type::find_material(type->m2);
 
     return (cur_mat1->elec_resist() <= 0 || cur_mat2->elec_resist() <= 0);
 }
@@ -1863,6 +1871,11 @@ int item::range(player *p)
    return 0;
   else if (p->str_cur < 10)
    ret -= 2 * (10 - p->str_cur);
+ } else if (has_flag("STR12_DRAW") && p) {
+   if (p->str_cur < 6)
+     return 0;
+   if (p->str_cur < 12)
+     ret -= 2 * (12 - p->str_cur);
  }
 
  return ret;
@@ -2116,9 +2129,9 @@ bool item::burn(int amount)
 bool item::flammable() const
 {
     material_type* cur_mat1 = material_type::find_material(type->m1);
-    material_type* cur_mat2 = material_type::find_material(type->m2); 
+    material_type* cur_mat2 = material_type::find_material(type->m2);
 
-    return ((cur_mat1->fire_resist() + cur_mat2->elec_resist()) <= 0);    
+    return ((cur_mat1->fire_resist() + cur_mat2->elec_resist()) <= 0);
 }
 
 std::string default_technique_name(technique_id tech)

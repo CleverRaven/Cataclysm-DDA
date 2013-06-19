@@ -422,6 +422,63 @@ void mission_start::find_safety(game *g, mission *miss)
  }
 }
 
+void mission_start::point_prison(game *g, mission *miss)
+{
+ int dist = 0;
+ point place = g->cur_om->find_closest(g->om_location(), ot_prison_5, 1, dist,
+                                      false);
+ for (int x = place.x - 3; x <= place.x + 3; x++) {
+  for (int y = place.y - 3; y <= place.y + 3; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ miss->target = place;
+}
+
+void mission_start::point_cabin_strange(game *g, mission *miss)
+{
+ int dist = 0;
+ point place = g->cur_om->find_closest(g->om_location(), ot_cabin_strange, 1, dist,
+                                      false);
+ for (int x = place.x - 3; x <= place.x + 3; x++) {
+  for (int y = place.y - 3; y <= place.y + 3; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ miss->target = place;
+}
+
+void mission_start::recruit_tracker(game *g, mission *miss)
+{
+ npc *p = g->find_npc(miss->npc_id);
+ p->attitude = NPCATT_FOLLOW;//npc joins you
+
+ int dist = 0;
+ point site = g->cur_om->find_closest(g->om_location(), ot_cabin, 1, dist, false);
+ miss->target = site;
+ miss->recruit_class = NC_COWBOY;
+
+// Make it seen on our map
+for (int x = site.x - 2; x <= site.x + 2; x++) {
+  for (int y = site.y - 2; y <= site.y + 2; y++)
+   g->cur_om->seen(x, y, 0) = true;
+ }
+ npc * temp = new npc();
+ temp->normalize(g);
+ temp->randomize(g, NC_COWBOY);
+ temp->omx = site.x*2;
+ temp->omy = site.y*2;
+ temp->mapx = site.x*2;
+ temp->mapy = site.y*2;
+ temp->posx = 11;
+ temp->posy = 11;
+ temp->attitude = NPCATT_TALK;
+ temp->mission = NPC_MISSION_SHOPKEEP;
+ temp->personality.aggression -= 1;
+ temp->op_of_u.owed = 10; int mission_index = g->reserve_mission(MISSION_JOIN_TRACKER, temp->getID());
+ if (mission_index != -1)
+    temp->chatbin.missions.push_back(mission_index);
+ g->cur_om->npcs.push_back(temp);
+}
+
 void mission_start::place_book(game *g, mission *miss)
 {
 }

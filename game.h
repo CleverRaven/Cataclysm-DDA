@@ -47,6 +47,11 @@
 #define BULLET_SPEED 10000000
 #define EXPLOSION_SPEED 70000000
 
+#define MAX_ITEM_IN_SQUARE 1024 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
+#define MAX_VOLUME_IN_SQUARE 1000 // 6.25 dead bears is enough for everybody!
+#define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
+#define MAX_VOLUME_IN_VEHICLE_STORAGE 500 // todo: variation. semi trailer square could hold more. the real limit would be weight
+
 #define PICKUP_RANGE 2
 extern bool trigdist;
 enum tut_type {

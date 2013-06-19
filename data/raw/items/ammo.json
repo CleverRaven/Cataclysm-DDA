@@ -263,6 +263,7 @@
         "recoil" : 0,
         "count" : 20
     },
+<<<<<<< HEAD
 	{   "type" : "AMMO",
         "id" : "arrowhead",
         "rarity" : 0,
@@ -395,6 +396,8 @@
         "recoil" : 0,
         "count" : 10
     },
+=======
+>>>>>>> c5816a06c24e67e7da381041ad90c482ef2c237c
     {   "type" : "AMMO",
         "id" : "shot_bird",
         "rarity" : 8,

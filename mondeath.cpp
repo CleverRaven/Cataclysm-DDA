@@ -444,26 +444,6 @@ void mdeath::zombie(game *g, monster *z)
             }
         break;
     }
-
-    if ((z->hp >= -50 || z->hp >= 0 - 2 * z->type->hp))  // zombie drops from gibbing are damaged
-    {
-        for (int i = 0; i < g->m.i_at(z->posx, z->posy).size(); i++)
-        {
-            item *dropped_item = &(g->m.i_at(z->posx, z->posy)[i]);
-
-            dropped_item->damage++;
-
-            if (dropped_item->damage >= 5)
-            {
-                for (int j = 0; j < g->m.i_at(z->posx, z->posy)[i].contents.size(); j++)
-                {
-                    g->m.i_at(z->posx, z->posy).push_back(g->m.i_at(z->posx, z->posy)[i].contents[j] );
-                }
-                g->m.i_at(z->posx, z->posy).erase(g->m.i_at(z->posx, z->posy).begin() + i);
-                i--;
-            }
-        }
-    }
 }
 
 void mdeath::gameover(game *g, monster *z)

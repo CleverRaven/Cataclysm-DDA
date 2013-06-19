@@ -48,9 +48,21 @@
   "ident": "mechanic",
   "name": "Wannabe Mechanic",
   "description":
+<<<<<<< HEAD
 "Although you never got your driver's license, you've always loved cars.\nYou start with a wrench, a toolbelt, and some car-related reading material.",
   "points": 2,
   "items": ["tank_top", "jeans", "boots", "beltrig", "wrench", "mag_cars", "manual_mechanics", "hacksaw"]
+=======
+"Your flexible outlook on law has ensured your survival, but now what?\nYou start with cargo pants, a hoodie, \"sundries\", and one additional level of melee.",
+  "points": 2,
+  "items": ["tank_top", "hoodie", "pants_cargo", "sneakers", "weed", "picklocks"],
+  "skills" : [
+     {
+      "name" : "melee",
+      "level" : 1
+     }
+  ]
+>>>>>>> c5816a06c24e67e7da381041ad90c482ef2c237c
  },
 
  {

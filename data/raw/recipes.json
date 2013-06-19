@@ -246,11 +246,11 @@
                               ]
                           ]
         },
-		
-		
-		{
+      
+      
+      {
             "result": "sling",
-			"category": "CC_WEAPON",
+         "category": "CC_WEAPON",
             "difficulty": 0,
             "time": 10000,
             "reversible": false,
@@ -277,11 +277,11 @@
                               ]
                           ]
         },
-		
-		
-		{
+      
+      
+      {
             "result": "slingshot",
-			"category": "CC_WEAPON",
+         "category": "CC_WEAPON",
             "difficulty": 0,
             "time": 15000,
             "reversible": false,
@@ -301,15 +301,15 @@
                      ],
             "components": [
                               [
-								  ["stick", 1]
+                          ["stick", 1]
                               ],
                               [
                                   ["hose", 1]
                               ]
                           ]
         },
-		
-		
+      
+      
         {
             "result": "spear_wood",
             "category": "CC_WEAPON",
@@ -438,8 +438,13 @@
             "category": "CC_WEAPON",
             "skill_pri": "archery",
             "skill_sec": "survival",
+<<<<<<< HEAD
             "difficulty": 2,
             "time": 120000,
+=======
+            "difficulty": 3,
+            "time": 15000,
+>>>>>>> c5816a06c24e67e7da381041ad90c482ef2c237c
             "reversible": true,
             "autolearn": true,
             "tools": [
@@ -470,7 +475,40 @@
                           ]
         },
 
-		
+        {
+            "result": "selfbow",
+            "category": "CC_WEAPON",
+            "skill_pri": "archery",
+            "skill_sec": "survival",
+            "difficulty": 0,
+            "time": 12000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["stick", 1]
+                              ],
+                              [
+                                  ["string_36", 2],
+                                  ["sinew", 200],
+                                  ["plant_fibre", 200]
+                              ]
+                          ]
+        },
+      
         {
             "result": "shortbow",
             "category": "CC_WEAPON",
@@ -505,6 +543,42 @@
                           ]
         },
 
+        {
+            "result": "reflexrecurvebow",
+            "category": "CC_WEAPON",
+            "skill_pri": "archery",
+            "skill_sec": "survival",
+            "difficulty": 9,
+            "time": 25000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["stick", 3]
+                              ],
+                              [
+                                  ["bone", 3]
+                              ],
+                              [
+                                  ["string_36", 2],
+                                  ["sinew", 200],
+                                  ["plant_fibre", 200]
+                              ]
+                          ]
+        },
 
         {
             "result": "nailboard",
@@ -1430,18 +1504,18 @@
                           ]
         },
 
-
-        {
+      
+      {
             "result": "pebble",
             "category": "CC_AMMO",
             "difficulty": 0,
             "time": 5000,
             "reversible": false,
             "autolearn": true,
-			"tools": [
+         "tools": [
                          [
                              ["rock", -1],
-							 ["primitive_hammer", -1],
+                      ["primitive_hammer", -1],
                              ["hammer", -1],
                              ["toolset", -1]
                          ]
@@ -1453,7 +1527,224 @@
                           ]
         },
 
+      
         {
+         "result" : "shaft_wood",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 0,
+         "time" : 1000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["stick", 1],
+               ["broom", 1],
+               ["mop", 1],
+               ["2x4", 1],
+               ["bee_sting", 1]
+            ]
+         ]
+        },
+        {
+         "result" : "shaft_wood_heavy",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 6,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["stick", 2],
+               ["broom", 2],
+               ["mop", 2],
+               ["2x4", 2],
+               ["bee_sting", 2]
+            ]
+         ]
+        },
+        {
+         "result" : "shaft_metal",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 5,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hacksaw", -1],
+               ["toolset", -1]
+            ],
+            [
+               ["hammer", -1],
+               ["toolset", -1],
+               ["primitive_hammer", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["scrap", 6],
+               ["steel_lump", 2]
+            ]
+         ]
+        },
+        {
+         "result" : "arrowhead",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 5,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["primitive_hammer", -1],
+               ["hammer", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["steel_chunk", 1],
+               ["scrap", 3]
+            ]
+         ]
+        },
+        {
+         "result" : "fletching",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 3,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["feather", 10],
+               ["duct_tape", 40],
+               ["bag_plastic", 1]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_fire_hardened",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 0,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ],
+            [
+               ["fire", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_wood", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_field_point",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 1,
+         "time" : 2000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ],
+            [
+               ["hammer", -1],
+               ["primitive_hammer", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_wood", 10]
+            ],
+            [
+               ["bone", 5],
+               ["rock", 1],
+               ["scrap", 2],
+               ["nail", 10]
+            ]
+         ]
+        },
+        
+        {
+<<<<<<< HEAD
             "result": "shaft_wood",
             "category": "CC_AMMO",
             "skill_pri": "archery",
@@ -1521,65 +1812,397 @@
         },
 
 
-        {
-            "result": "arrowhead",
-            "category": "CC_AMMO",
-            "skill_pri": "archery",
-            "skill_sec": "survival",
-            "difficulty": 1,
-            "time": 5000,
-            "reversible": false,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["steel_lump", 1],
-                                  ["scrap", 3]
-                              ]
-                          ]
+=======
+         "result" : "arrow_fire_hardened_fletched",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 3,
+         "time" : 3000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["arrow_fire_hardened", 10]
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
         },
-
         {
-            "result": "arrow_wood",
-            "category": "CC_AMMO",
-            "skill_pri": "archery",
-            "skill_sec": "survival",
-            "difficulty": 2,
-            "time": 5000,
-            "reversible": false,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["hatchet", -1],
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["shaft_wood", 10]
-                              ],
-                              [
-                                  ["arrowhead", 10]
-                              ],
-                              [
-                                  ["feather", 10],
-                                  ["duct_tape", 40],
-                                  ["bag_plastic", 1]
-                              ]
-                          ]
+         "result" : "arrow_field_point_fletched",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 3,
+         "time" : 3000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["arrow_field_point", 10]               
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_fire",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 3,
+         "time" : 3000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+         	[
+         		["arrow_field_point_fletched", 5],
+         		["arrow_fire_hardened_fletched", 5],
+         		["arrow_wood", 5],
+         		["arrow_heavy_fire_hardened_fletched", 5],
+         		["arrow_heavy_field_point_fletched", 5],
+         		["arrow_wood_heavy", 5],
+         		["arrow_metal", 5]
+         	],
+         	[
+         		["rag", 1]
+         	],
+         	[
+         		["whiskey", 5],
+         		["vodka", 5],
+         		["rum", 5],
+         		["tequila", 5],
+         		["gin", 5],
+         		["triple_sec", 5],
+         		["gasoline", 50]
+         	]
+         ]
+        },
+        
+>>>>>>> c5816a06c24e67e7da381041ad90c482ef2c237c
+        {
+         "result" : "arrow_wood",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 5,
+         "time" : 3000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+            	["hatchet", -1],
+            	["knife_steak", -1],
+            	["knife_combat", -1],
+            	["knife_butcher", -1],
+            	["pockknife", -1],
+            	["scalpel", -1],
+            	["machete", -1],
+            	["broadsword", -1],
+            	["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["arrowhead", 10]
+            ],
+            [
+               ["shaft_wood", 10]
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_metal_sharpened",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 5,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hacksaw", -1],
+               ["toolset", -1]
+            ],
+            [
+               ["hammer", -1],
+               ["toolset", -1],
+               ["primitive_hammer", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_metal", 10]
+            ]
+         ]
+        },
+        
+        {
+         "result" : "arrow_heavy_fire_hardened_fletched",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 6,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ],
+            [
+               ["fire", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_wood_heavy", 10]
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_heavy_field_point_fletched",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 6,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_wood_heavy", 10]               
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_wood_heavy",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 5,
+         "time" : 3000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+            	["hatchet", -1],
+            	["knife_steak", -1],
+            	["knife_combat", -1],
+            	["knife_butcher", -1],
+            	["pockknife", -1],
+            	["scalpel", -1],
+            	["machete", -1],
+            	["broadsword", -1],
+            	["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["arrowhead", 10]
+            ],
+            [
+               ["shaft_wood_heavy", 10]
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_metal",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 7,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+         	[
+         		["hatchet", -1],
+         		["knife_steak", -1],
+         		["knife_combat", -1],
+         		["knife_butcher", -1],
+         		["pockknife", -1],
+         		["scalpel", -1],
+         		["machete", -1],
+         		["broadsword", -1],
+         		["toolset", -1]
+         	],
+         	[
+         		["hacksaw", -1],
+         		["toolset", -1]
+         	],
+         	[
+         		["hammer", -1],
+         		["toolset", -1],
+         		["primitive_hammer", -1]
+         	]
+         ],
+         "components" : [
+         	[
+         		["shaft_metal", 10]
+         	],
+            [
+         		["arrowhead", 10]
+         	],
+            [
+         		["fletching", 10]
+         	]
+         ]
+         },
+        {
+         "result" : "arrow_exploding",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 9,
+         "time" : 7000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+         	[
+         		["screwdriver", -1],
+         		["toolset", -1]
+         	],
+         	[
+         		["hacksaw", -1],
+         		["toolset", -1]
+         	]
+         ],
+         "components" : [
+         	[
+         		["exploding_arrow_warhead", 5]
+         	],
+         	[
+         		["arrow_field_point_fletched", 5],
+         		["arrow_fire_hardened_fletched", 5],
+         		["arrow_wood", 5],
+         		["arrow_heavy_fire_hardened_fletched", 5],
+         		["arrow_heavy_field_point_fletched", 5],
+         		["arrow_wood_heavy", 5],
+         		["arrow_metal", 5]
+         	]
+         ]
+         },
+        {
+         "result" : "exploding_arrow_warhead",
+         "category" : "CC_MISC",
+         "skill_pri" : "mechanics",
+         "skill_sec" : "archery",
+         "difficulty" : 6,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+         		["soldering_iron", 10],
+         		["toolset", 1]
+         	],
+         	[
+         		["hammer", -1],
+         		["toolset", -1]
+         	],
+         	[
+         		["screwdriver", -1],
+         		["toolset", -1]
+         	]
+         ],
+         "components" : [
+            [
+               ["scrap", 2]
+            ],
+            [
+               ["superglue", 1],
+               ["string_36", 1]
+            ],
+            [
+               ["can_food", 1],
+               ["can_drink", 1],
+               ["canister_empty", 1]
+            ],
+            [
+               ["nail", 10],
+               ["bb", 30]
+            ],
+            [
+               ["gunpowder", 36]
+            ]
+         ]
         },
 
         {
@@ -1619,6 +2242,7 @@
                           ]
         },
 
+      
         {
             "result": "9mm",
             "category": "CC_AMMO",
@@ -2654,7 +3278,7 @@
                              ["rock_pot", -1],
                              ["spear_wood", -1],
                              ["pointy_stick", -1],
-                             ["javelin", -1]
+                             ["javelin", -1] 
                          ]
                      ],
             "components": [
@@ -6381,6 +7005,32 @@
                           ]
         },
 
+	  
+	   {
+            "result": "legguard_metal",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 5,
+            "time": 45000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["string_36", 4],
+                                  ["string_6", 16]
+                              ],
+                              [
+                                  ["steel_chunk", 6]
+                              ]
+                          ]
+        },
+
 
         {
             "result": "gauntlets_chitin",
@@ -7522,8 +8172,8 @@
             "components": [
                               [
                                   ["thread", 50],
-								  ["sinew", 50],
-								  ["plant_fibre", 50]
+                          ["sinew", 50],
+                          ["plant_fibre", 50]
                               ]
                           ]
         },
@@ -8662,7 +9312,7 @@
                           ]
         },
 
-	
+   
         {
             "result": "bag_bundle_10",
             "category": "CC_MISC",

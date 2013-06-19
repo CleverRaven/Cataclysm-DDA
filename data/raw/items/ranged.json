@@ -110,6 +110,7 @@
     "reload": 100
   },
 
+<<<<<<< HEAD
   {
     "id": "hand_crossbow",
     "type": "GUN",
@@ -389,6 +390,8 @@
     "clip_size": 1,
     "reload": 120
   },
+=======
+>>>>>>> c5816a06c24e67e7da381041ad90c482ef2c237c
 
   {
     "id": "rifle_22",

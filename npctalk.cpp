@@ -592,6 +592,12 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
      SUCCESS(TALK_MISSION_SUCCESS);
      SUCCESS_ACTION(&talk_function::mission_success);
     break;
+   case MGOAL_RECRUIT_NPC:
+   case MGOAL_RECRUIT_NPC_CLASS:
+    RESPONSE("I brought'em.");
+     SUCCESS(TALK_MISSION_SUCCESS);
+     SUCCESS_ACTION(&talk_function::mission_success);
+    break;
    default:
     RESPONSE("Mission success!  I don't know what else to say.");
      SUCCESS(TALK_MISSION_SUCCESS);

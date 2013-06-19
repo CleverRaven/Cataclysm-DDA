@@ -406,6 +406,77 @@ within his own home.";
   }
   break;
 
+//martyr mission 3
+   case MISSION_INVESTIGATE_CULT:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "St. Michael the archangel defend me in battle...";
+   case TALK_MISSION_OFFER:
+    return "You have no idea how interesting this diary is.  I have two \
+very promising leads...  First things first, the Catholic Church has been \
+performing its own investigations into global cult phenomenon and it appears \
+to have become very interested in a local cult as of recently.  Could you investigate \
+a location for me?  I'm not sure what was going on here but the priest seemed \
+fairly worried about it.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+I wish you the best of luck, may whatever god you please guide your path...  You may need it \
+this time more than the past excursions you have gone on.  There is a note about potential human \
+sacrifice in the days immediately before and after the outbreak.  The name of the cult is believed \
+to be the Church of Starry Wisdom but it is noted that accounts differ.";
+   case TALK_MISSION_REJECTED:
+    return "Ya, I guess the stress may just be getting to me...";
+   case TALK_MISSION_ADVICE:
+    return "I doubt the site is still occupied but I'd carry a firearm at least... I'm not sure what \
+you might be looking for but I'm positive you'll find something out of the ordinary if you look long \
+enough.";
+   case TALK_MISSION_INQUIRE:
+    return "I'm positive there is something there... there has to be, any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Thank you, your account of these... demonic creations proves the fears the churches \
+had were well founded.  Our priority should be routing out any survivors of this cult... I don't \
+known if they are responsible for the outbreak but they certainly know more about it than I do.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What good does this do us?";
+   case TALK_MISSION_FAILURE:
+    return "It was a lost cause anyways...";
+  }
+  break;
+
+//martyr mission 4
+   case MISSION_INVESTIGATE_PRISON_VISIONARY:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "St. Michael the archangel defend me in battle...";
+   case TALK_MISSION_OFFER:
+    return "I have another task if you are feeling up to it.  There is a prisoner that \
+the priest made special mention of.  I was wondering if you could see \
+what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather \
+unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm \
+not in a position to cast out the account just yet... it seems the man has prophesied  events accurately before \
+concerning the Church of Starry Wisdom.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+I wish you the best of luck, may whatever god you please guide your path...  I can only imagine that the prison \
+will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew \
+death was almost certain.  ";
+   case TALK_MISSION_REJECTED:
+    return "Ya, I guess the stress may just be getting to me...";
+   case TALK_MISSION_ADVICE:
+    return "The worst case scenario will probably be that the prisoners have escaped their cells and turned the \
+building into their own little fortress.  Best case, the building went into lock-down and secured the prisoners in \
+their cells.  Either way, navigating the building will pose its own difficulties.";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Thank you, I'm not sure what to make of this but I'll ponder your account.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What good does this do us?";
+   case TALK_MISSION_FAILURE:
+    return "It was a lost cause anyways...";
+  }
+  break;
+
    case MISSION_GET_RECORD_WEATHER:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
@@ -686,6 +757,67 @@ alive under the rubble and ash.";
     return "May that bastard never get up again.";
    case TALK_MISSION_SUCCESS_LIE:
     return "I don't think we got it yet.";
+   case TALK_MISSION_FAILURE:
+    return "Quitting already?";
+  }
+  break;
+
+
+
+//demon slayer mission 4
+   case MISSION_RECRUIT_TRACKER:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "You seem to know this new world better than most...";
+   case TALK_MISSION_OFFER:
+    return "We've got another problem to deal with but I don't think we can handle \
+it on our own.  So, I sent word out and found us a volunteer... of sorts.  He's vain \
+as hell but has a little skill with firearms.  He was supposed to collect whatever he \
+had of value and is going to meet us at a cabin in the woods.  Wasn't sure how long \
+we were going to be so I told him to just camp there until we picked him up.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Rodger, if he's a no-show then any other gunslinger will do... but I doubt he'll quit \
+before we even begin.";
+   case TALK_MISSION_REJECTED:
+    return "Hey, I know I wouldn't volunteer for it either... but then I remember that most of us survivors \
+won't make it unless someone decides to take the initiative.";
+   case TALK_MISSION_ADVICE:
+    return "I hope the bastard is packing heat... else we'll need to grab him a gun before we hit our next \
+target.";
+   case TALK_MISSION_INQUIRE:
+    return "Found a gunslinger?";
+   case TALK_MISSION_SUCCESS:
+    return "Great, just let me know when you are ready to wade knee-deep in an ocean of blood.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "I don't think so...";
+   case TALK_MISSION_FAILURE:
+    return "Quitting already?";
+  }
+  break;
+
+//demon slayer mission 4b
+   case MISSION_JOIN_TRACKER:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Well damn, you must be the guys here to pick me up...";
+   case TALK_MISSION_OFFER:
+    return "I got the brief so I know what I'm getting into.  Let me be upfront, \
+treat me like shit and I'm going to cover my own hide.  Without a strong band a man doesn't \
+stand a chance in this world.  You ready to take charge boss?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Before we get into a major fight just make sure we have the gear we need, boss.";
+   case TALK_MISSION_REJECTED:
+    return "I don't think you're going to find many other survivors who haven't taken up a faction yet.";
+   case TALK_MISSION_ADVICE:
+    return "I'm a pretty good shot with a rifle or pistol.";
+   case TALK_MISSION_INQUIRE:
+    return "Any problems boss?";
+   case TALK_MISSION_SUCCESS:
+    return "Wait... are you really making me a deputy?";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "I don't think so...";
    case TALK_MISSION_FAILURE:
     return "Quitting already?";
   }

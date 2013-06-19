@@ -1648,9 +1648,59 @@ void vehicle::handle_trap (int x, int y, int part)
         g->explosion(x, y, expl, shrap, false);
 }
 
+// total volume of all the things
+int vehicle::stored_volume(int part) {
+   if (!part_flag(part, vpf_cargo))
+        return 0;
+   int cur_volume = 0;
+   for (int i = 0; i < parts[part].items.size(); i++) {
+       cur_volume += parts[part].items[i].volume();
+   }
+   return cur_volume;
+}
+// stub, pending per vpart limits
+int vehicle::max_volume(int part) {
+   return MAX_VOLUME_IN_VEHICLE_STORAGE;
+}
+
+// free space
+int vehicle::free_volume(int part) {
+   const int maxvolume = this->max_volume(part);
+   return ( maxvolume - stored_volume(part) );
+}
+
+// returns true if full, modified by arguments:
+// (none):                            size >= max || volume >= max
+// (addvolume >= 0):                  size+1 > max || volume + addvolume > max
+// (addvolume >= 0, addnumber >= 0):  size + addnumber > max || volume + addvolume > max
+bool vehicle::is_full(const int part, const int addvolume, const int addnumber) {
+   const int maxitems = MAX_ITEM_IN_VEHICLE_STORAGE;
+   const int maxvolume = this->max_volume(part);
+
+   if ( addvolume == -1 ) {
+       if ( parts[part].items.size() < maxitems ) return true;
+       int cur_volume=stored_volume(part);
+       return (cur_volume >= maxvolume ? true : false );
+   } else {
+       if ( parts[part].items.size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
+       int cur_volume=stored_volume(part);
+       return ( cur_volume + addvolume > maxvolume ? true : false );
+   }
+
+}
+
 bool vehicle::add_item (int part, item itm)
 {
-    if (!part_flag(part, vpf_cargo) || parts[part].items.size() >= 64)
+    const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE; // (game.h)
+    const int maxvolume = this->max_volume(part);         // (game.h => vehicle::max_volume(part) ) in theory this could differ per vpart ( seat vs trunk )
+
+    // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
+    // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
+
+    if (!part_flag(part, vpf_cargo))
+        return false;
+    
+    if (parts[part].items.size() >= max_storage)
         return false;
     it_ammo *ammo = dynamic_cast<it_ammo*> (itm.type);
     if (part_flag(part, vpf_turret))
@@ -1658,16 +1708,21 @@ bool vehicle::add_item (int part, item itm)
                  ammo->type == AT_GAS ||
                  ammo->type == AT_PLASMA))
             return false;
-
-    if(itm.charges  != -1 && (itm.is_food() || itm.is_ammo())) {
+    int cur_volume = 0;
+    int add_volume = itm.volume();
+    bool tryaddcharges=(itm.charges  != -1 && (itm.is_food() || itm.is_ammo()));
+    // iterate anyway since we need a volume total
       for (int i = 0; i < parts[part].items.size(); i++) {
-        if(parts[part].items[i].type->id == itm.type->id ) {
+        cur_volume += parts[part].items[i].volume();
+        if( tryaddcharges && parts[part].items[i].type->id == itm.type->id ) {
           parts[part].items[i].charges+=itm.charges;
           return true;
         }
       }
+    
+    if ( cur_volume + add_volume > maxvolume ) {
+      return false;
     }
-
     parts[part].items.push_back (itm);
     return true;
 }

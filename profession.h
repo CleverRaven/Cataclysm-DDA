@@ -6,6 +6,7 @@
 #include <map>
 #include "pldata.h"
 #include "addiction.h"
+#include "skill.h"
 
 class profession;
 
@@ -13,6 +14,9 @@ typedef std::map<std::string, profession> profmap;
 
 class profession
 {
+public:
+    typedef std::pair<std::string, int> StartingSkill;
+    typedef std::vector<StartingSkill> StartingSkillList;
 private:
     unsigned int _id; // used when we care about precise order, starts at 1
     std::string _ident;
@@ -21,9 +25,13 @@ private:
     signed int _point_cost;
     std::vector<std::string> _starting_items;
     std::vector<addiction> _starting_addictions;
+    StartingSkillList  _starting_skills;
 
     void add_item(std::string item);
     void add_addiction(add_type, int);
+    // Starting skills will boost the players level in those skills by a 
+    // given amount.
+    void add_skill(const std::string& skill_name, const int level);
 public:
     //these three aren't meant for external use, but had to be made public regardless
     profession();
@@ -49,6 +57,8 @@ public:
     signed int point_cost() const;
     std::vector<std::string> items() const;
     std::vector<addiction> addictions() const;
+    const StartingSkillList skills() const;
+
 };
 
 #endif

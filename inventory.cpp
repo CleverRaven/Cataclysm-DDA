@@ -861,7 +861,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                 {
                     iter = items.erase(iter);
                     --iter;
-                    stack_iter = iter->begin();
+                    break;
                 }
                 else
                 {
@@ -877,7 +877,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                 {
                     iter = items.erase(iter);
                     --iter;
-                    stack_iter = iter->begin();
+                    break;
                 }
                 else
                 {

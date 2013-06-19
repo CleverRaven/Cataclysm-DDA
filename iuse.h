@@ -36,6 +36,7 @@ class iuse
   void grack		(game *g, player *p, item *it, bool t);
   void meth		(game *g, player *p, item *it, bool t);
   void vitamins		(game *g, player *p, item *it, bool t);
+  void vaccine		(game *g, player *p, item *it, bool t);
   void poison		(game *g, player *p, item *it, bool t);
   void hallu		(game *g, player *p, item *it, bool t);
   void thorazine	(game *g, player *p, item *it, bool t);
@@ -68,6 +69,7 @@ class iuse
   void glowstick		(game *g, player *p, item *it, bool t);
   void glowstick_active(game *g, player *p, item *it, bool t);
   void cauterize_elec	(game *g, player *p, item *it, bool t);
+  void solder_weld	    (game *g, player *p, item *it, bool t);
   void water_purifier	(game *g, player *p, item *it, bool t);
   void two_way_radio	(game *g, player *p, item *it, bool t);
   void directional_antenna	(game *g, player *p, item *it, bool t);

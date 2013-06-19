@@ -137,8 +137,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
         radius++) {
        for (std::vector<monster>::iterator it = z.begin(); it != z.end(); it++)
        {
-           if (radius == 1 && p.posx == it->posx && p.posy == it->posy) continue;
-           if (rl_dist(p.posx,p.posy,it->posx,it->posy) > radius)
+           if (rl_dist(p.posx,p.posy,it->posx,it->posy) != radius)
                continue;
            if (it->hp >0 && it->friendly == 0)
                new_targets.push_back(point(it->posx, it->posy));
