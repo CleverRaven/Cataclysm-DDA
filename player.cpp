@@ -2495,20 +2495,34 @@ bool player::has_trait(int flag) const
 {
  if (flag == PF_NULL)
   return true;
- return my_traits[flag];
+ if (my_traits[flag] || my_mutations [flag])
+  return true;
+ else
+  return false; //Looks both in mutations and base traits
 }
 
 bool player::has_mutation(int flag) const
 {
  if (flag == PF_NULL)
   return true;
- return my_mutations[flag];
+ return my_mutations[flag]; //Looks only at mutations
+}
+
+bool player::has_base_trait(int flag) const
+{
+ if (flag == PF_NULL)
+  return true;
+ return my_traits[flag]; //Looks only at base traits
 }
 
 void player::toggle_trait(int flag)
 {
- my_traits[flag] = !my_traits[flag];
- my_mutations[flag] = !my_mutations[flag];
+ my_traits[flag] = !my_traits[flag]; //Adds a base trait to the player
+}
+
+void player::toggle_mutation(int flag)
+{
+ my_mutations[flag] = !my_mutations[flag]; //Adds a mutation to the player
 }
 
 bool player::in_climate_control(game *g)

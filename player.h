@@ -74,8 +74,10 @@ public:
 
  bool has_trait(int flag) const;
  bool has_mutation(int flag) const;
+ bool has_base_trait(int flag) const;
  void toggle_trait(int flag);
-
+ void toggle_mutation(int flag);
+ 
  bool in_climate_control(game *g);
 
  bool has_bionic(bionic_id b) const;

@@ -92,7 +92,7 @@ void player::mutate(game *g)
                 }
             }
 
-            // ...consider wether its in our highest category
+            // ...consider whether its in our highest category
             if( has_mutation(base_mutation) ){ // don't remove starting traits
                 std::vector<pl_flag> group = mutations_from_category(cat);
                 bool in_cat = false;
@@ -105,7 +105,7 @@ void player::mutate(game *g)
                     }
                 }
                 // mark for removal
-                if(!in_cat && base_mutation_index > PF_MAX) downgrades.push_back(base_mutation);
+                if(!in_cat) downgrades.push_back(base_mutation);
             }
         }
     }
@@ -281,12 +281,12 @@ void player::mutate_towards(game *g, pl_flag mut)
   }
  }
 
- toggle_trait(mut);
+ toggle_mutation(mut);
  if (replacing != PF_NULL)
     {
         g->add_msg("Your %s mutation turns into %s!", traits[replacing].name.c_str(),
                    traits[mut].name.c_str());
-        toggle_trait(replacing);
+        toggle_mutation(replacing);
         mutation_loss_effect(g, *this, replacing);
         mutation_effect(g, *this, mut);
     }
@@ -347,11 +347,11 @@ void player::remove_mutation(game *g, pl_flag mut)
   }
  }
 
- toggle_trait(mut);
+ toggle_mutation(mut);
  if (replacing != PF_NULL) {
   g->add_msg("Your %s mutation turns into %s.", traits[mut].name.c_str(),
              traits[replacing].name.c_str());
-  toggle_trait(replacing);
+  toggle_mutation(replacing);
   mutation_loss_effect(g, *this, mut);
   mutation_effect(g, *this, replacing);
  } else {
