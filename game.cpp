@@ -9631,7 +9631,7 @@ void game::plmove(int x, int y)
      if (query_yn("Deactivate the turret?")) {
       z.erase(z.begin() + mondex);
       u.moves -= 100;
-      m.spawn_item(z[mondex].posx, z[mondex].posy, "bot_turret", turn);
+      m.spawn_item(x, y, "bot_turret", turn);
      }
      return;
     } else {
