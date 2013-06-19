@@ -200,7 +200,7 @@ public:
 
  char lookup_item(char let);
  bool eat(game *g, char invlet);	// Eat item; returns false on fail
- virtual bool wield(game *g, char invlet);// Wield item; returns false on fail
+ virtual bool wield(game *g, char invlet, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(game *g); // Pick a style
  bool wear(game *g, char let);	// Wear item; returns false on fail
  bool wear_item(game *g, item *to_wear);
