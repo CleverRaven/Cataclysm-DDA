@@ -7240,17 +7240,24 @@ point game::look_around()
    } else if (m.has_flag(container, lx, ly)) {
        mvwprintw(w_look, 3, 1, "You cannot see what is inside of it.");
    }
+   else if (lx == u.posx + u.view_offset_x && ly == u.posy + u.view_offset_y)
+   {
+       int x,y;
+       x = getmaxx(w_terrain)/2 - u.view_offset_x;
+       y = getmaxy(w_terrain)/2 - u.view_offset_y;
+       mvwputch_inv(w_terrain, y, x, u.color(), '@');
+
+       mvwprintw(w_look, 1, 1, "You (%s)", u.name.c_str());
+       if (veh) {
+           mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
+           veh->print_part_desc(w_look, 4, 48, veh_part);
+           m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+   }
+
+   }
    else
    {
        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   }
-  } else if (lx == u.posx && ly == u.posy) {
-   mvwputch_inv(w_terrain, VIEWX, VIEWY, u.color(), '@');
-   mvwprintw(w_look, 1, 1, "You (%s)", u.name.c_str());
-   if (veh) {
-    mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
-    veh->print_part_desc(w_look, 4, 48, veh_part);
-    m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    }
   } else if (u.sight_impaired() &&
               m.light_at(lx, ly) == LL_BRIGHT &&
