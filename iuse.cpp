@@ -1272,13 +1272,13 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
 
         case t_window_boarded:
         nails =  8;
-        boards = 3;
+        boards = 4;
         newter = t_window_empty;
         break;
 
         case t_door_boarded:
         nails = 12;
-        boards = 3;
+        boards = 4;
         newter = t_door_b;
         break;
 
@@ -2107,12 +2107,12 @@ if (dirx == 0 && diry == 0) {
   switch (g->m.ter(dirx, diry)) {
   case t_window_boarded:
    nails =  8;
-   boards = 3;
+   boards = 4;
    newter = t_window_empty;
    break;
   case t_door_boarded:
    nails = 12;
-   boards = 3;
+   boards = 4;
    newter = t_door_b;
    break;
   case t_fence_h:
