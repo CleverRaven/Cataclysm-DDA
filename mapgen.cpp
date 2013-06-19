@@ -12510,7 +12510,8 @@ void map::add_spawn(monster *mon)
            mon->faction_id, mon->mission_id, spawnname);
 }
 
-vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir, int veh_fuel, int veh_status)
+vehicle *map::add_vehicle(game *g, vhtype_id type, const int x, const int y, const int dir,
+                          const int veh_fuel, const int veh_status)
 {
  if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
   debugmsg("Bad add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
@@ -12518,15 +12519,13 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir, int ve
  }
 // debugmsg("add_vehicle t=%d d=%d x=%d y=%d", type, dir, x, y);
 
- int smx = x / SEEX;
- int smy = y / SEEY;
- int nonant = smx + smy * my_MAPSIZE;
- x %= SEEX;
- y %= SEEY;
+ const int smx = x / SEEX;
+ const int smy = y / SEEY;
+ const int nonant = smx + smy * my_MAPSIZE;
 // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
  vehicle * veh = new vehicle(g, type, veh_fuel, veh_status);
- veh->posx = x;
- veh->posy = y;
+ veh->posx = x % SEEX;
+ veh->posy = y % SEEY;
  veh->smx = smx;
  veh->smy = smy;
  veh->face.init(dir);
@@ -12538,8 +12537,8 @@ vehicle *map::add_vehicle(game *g, vhtype_id type, int x, int y, int dir, int ve
  for( std::vector<int>::const_iterator part = veh->external_parts.begin();
       part != veh->external_parts.end(); part++ )
  {
-     int px = veh->parts[*part].precalc_dx[0];
-     int py = veh->parts[*part].precalc_dy[0];
+     const int px = x + veh->parts[*part].precalc_dx[0];
+     const int py = y + veh->parts[*part].precalc_dy[0];
 
      // Don't spawn on top of another vehicle or other obstacle.
      if( veh_at(px, py) != NULL || terlist[ter(px, py)].movecost != 2 )
