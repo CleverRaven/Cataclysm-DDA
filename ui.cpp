@@ -9,6 +9,54 @@
 #define dprint(a,...)      void()
 #endif
 
+
+
+////////////////////////////////////
+std::vector<std::string> foldstring ( std::string str, int width ) {
+    std::vector<std::string> lines;
+    if ( width < 1 ) {
+        lines.push_back( str );
+        return lines;
+    }
+
+    int linepos = width;
+    int linestart = 0;
+
+    while( linepos < str.length() ) {
+        int crpos = str.find('\n', linestart);
+        if (crpos != -1 && crpos <= linepos) {
+            lines.push_back( str.substr( linestart, crpos-linestart ) );
+            linepos = crpos + width + 1;
+            linestart = crpos + 1;
+        } else {
+            int spacepos = str.rfind(' ', linepos);
+            if ( spacepos == -1 ) spacepos = str.find(' ', linepos);
+            if ( spacepos < linestart ) {
+                spacepos = linestart + width;
+                if( spacepos < str.length() ) {
+                    lines.push_back( str.substr( linestart, width ) );
+                    linepos = spacepos + width;
+                    linestart = spacepos;
+                }
+            } else {
+                lines.push_back( str.substr( linestart, spacepos-linestart ) );
+                linepos = spacepos + width + 1;
+                linestart = spacepos + 1;
+            }
+        }
+    }
+    lines.push_back( str.substr( linestart ) );
+    return lines;
+};
+
+int getfoldedwidth (std::vector<std::string> foldedstring) {
+    int ret=0;
+    for ( int i=0; i < foldedstring.size() ; i++ ) {
+        if ( foldedstring[i].size() > ret ) ret=foldedstring[i].size();
+    }
+    return ret;
+}
+////////////////////////////////////
 uimenu::uimenu() {
     init();
 }
@@ -27,7 +75,7 @@ uimenu::uimenu(bool cancancel, const char *mes, ...) {  // here we emulate the o
         tmp = va_arg(ap, char *);
         if (tmp != NULL) {
             std::string strtmp = tmp;
-            entries.push_back(uimenu_entry(i, true, -1, strtmp ));
+            entries.push_back(uimenu_entry(i, true, MENU_AUTOASSIGN, strtmp ));
         } else {
             done = true;
         }
@@ -47,7 +95,7 @@ uimenu::uimenu(bool cancelable, const char *mes, std::vector<std::string> option
         return_invalid = cancelable;
 
         for (int i = 0; i < options.size(); i++) {
-            entries.push_back(uimenu_entry(i, true, -1, options[i] ));
+            entries.push_back(uimenu_entry(i, true, MENU_AUTOASSIGN, options[i] ));
         }
         query();
     }
@@ -70,12 +118,15 @@ uimenu::operator int() const {
 }
 
 void uimenu::init() {
-    w_x = -1;              // starting position
-    w_y = -1;              // -1 = auto center
-    w_width = -1;          // -1 = autocalculate based on largest entry
-    w_height = -1;         // -1 = autocalculate based on number of entries // fixme: scrolling list with offset
+    w_x = MENU_AUTOASSIGN;              // starting position
+    w_y = MENU_AUTOASSIGN;              // -1 = auto center
+    w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text 
+    w_height = MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // fixme: scrolling list with offset
     ret = UIMENU_INVALID;  // return this unless a valid selection is made ( -1024 )
-    text = "-undefined-";  // header text
+    text = "";             // header text, after (maybe) folding, populates:
+    textformatted.clear(); // folded to textwidth
+    textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
+    textalign = MENU_ALIGN_LEFT; // todo
     keypress = 0;          // last keypress from (int)getch()
     window = NULL;         // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
@@ -98,14 +149,19 @@ void uimenu::init() {
 
 void uimenu::show() {
     if (!started) {
-        bool w_auto = (w_width == -1);
+        bool w_auto = (w_width == -1 || w_width == -2 );
+        bool w_autofold = ( w_width == -2);
+        int realtextwidth = 0;
+
         if ( w_auto ) {
-            w_width = text.size() + 4;
+            w_width = 4;
         }
+
         bool h_auto = (w_height == -1);
         if ( h_auto ) {
             w_height = 4;
         }
+
         std::vector<int> autoassign;
         autoassign.clear();
         int pad = pad_left + pad_right + 2;
@@ -146,13 +202,33 @@ void uimenu::show() {
             }
         }
 
-        if (h_auto) {
-            w_height = 3 + entries.size();
-        }
-
         if (w_auto && w_width > TERMX) {
             w_width = TERMX;
         }
+
+        if(text.size() > 0 ) {
+            if ( textwidth == -1 ) {
+                if ( w_autofold || !w_auto ) {
+                   realtextwidth = w_width - 4;
+                } else {
+                   realtextwidth = text.size();
+                   if ( text.size() + 4 > w_width ) {
+                       if ( realtextwidth + 4 > TERMX ) {
+                           realtextwidth = TERMX - 4;
+                       }
+                       w_width = realtextwidth + 4;
+                   }
+                }
+            } else if ( textwidth != -1 ) {
+                realtextwidth = textwidth;
+            }
+            textformatted = foldstring(text, realtextwidth);     
+        }
+
+        if (h_auto) {
+            w_height = 2 + textformatted.size() + entries.size();
+        }
+
         if (h_auto && w_height > TERMY) {
             w_height = TERMY;
         }
@@ -173,8 +249,10 @@ void uimenu::show() {
         started = true;
     }
     std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
-    mvwprintz(window, 1, 2, text_color, "%s", text.c_str());
-    int estart = 2; // todo fold text + get offset
+    for ( int i = 0; i < textformatted.size(); i++ ) {
+        mvwprintz(window, 1+i, 2, text_color, "%s", textformatted[i].c_str());
+    }
+    int estart = textformatted.size() + 1; // todo fold text + get offset
     for ( int i = 0; i < entries.size(); i++ ) {
         nc_color co = ( i == selected ? hilight_color : ( entries[ i ].enabled ? text_color : disabled_color ) );
         if ( hilight_full ) {
