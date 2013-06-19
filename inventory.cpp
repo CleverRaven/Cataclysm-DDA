@@ -452,12 +452,12 @@ void inventory::form_from_map(game *g, point origin, int range)
     if (!g->m.i_at(x, y)[i].made_of(LIQUID))
      add_item(g->m.i_at(x, y)[i]);
 // Kludges for now!
-   if (g->m.field_at(x, y).type == fd_fire) {
+   ter_id terrain_id = g->m.ter(x, y);
+   if ((g->m.field_at(x, y).type == fd_fire) || (terrain_id == t_lava)) {
     item fire(g->itypes["fire"], 0);
     fire.charges = 1;
     add_item(fire);
    }
-   ter_id terrain_id = g->m.ter(x, y);
    if (terrain_id == t_toilet || terrain_id == t_water_sh || terrain_id == t_water_dp){
     item water(g->itypes["water"], 0);
     water.charges = 50;
