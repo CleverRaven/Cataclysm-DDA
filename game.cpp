@@ -7148,15 +7148,6 @@ point game::look_around()
  mvwprintz(w_look, 3, 1, c_white, "to a nearby square.");
  wrefresh(w_look);
  do {
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
-  input = get_input();
-  if (!u_see(lx, ly))
-   mvwputch(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_black, ' ');
-  get_direction(mx, my, input);
-  if (mx != -2 && my != -2) {	// Directional key pressed
-   lx += mx;
-   ly += my;
-  }
   werase(w_terrain);
   draw_ter(lx, ly);
   for (int i = 1; i < 12; i++) {
@@ -7239,18 +7230,26 @@ point game::look_around()
        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    } else if (m.has_flag(container, lx, ly)) {
        mvwprintw(w_look, 3, 1, "You cannot see what is inside of it.");
+       m.drawsq(w_terrain, u, lx, ly, true, false, lx, ly);
+   }
+   else if (lx == u.posx + u.view_offset_x && ly == u.posy + u.view_offset_y)
+   {
+       int x,y;
+       x = getmaxx(w_terrain)/2 - u.view_offset_x;
+       y = getmaxy(w_terrain)/2 - u.view_offset_y;
+       mvwputch_inv(w_terrain, y, x, u.color(), '@');
+
+       mvwprintw(w_look, 1, 1, "You (%s)", u.name.c_str());
+       if (veh) {
+           mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
+           veh->print_part_desc(w_look, 4, 48, veh_part);
+           m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
+   }
+
    }
    else
    {
        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
-   }
-  } else if (lx == u.posx && ly == u.posy) {
-   mvwputch_inv(w_terrain, VIEWX, VIEWY, u.color(), '@');
-   mvwprintw(w_look, 1, 1, "You (%s)", u.name.c_str());
-   if (veh) {
-    mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
-    veh->print_part_desc(w_look, 4, 48, veh_part);
-    m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    }
   } else if (u.sight_impaired() &&
               m.light_at(lx, ly) == LL_BRIGHT &&
@@ -7269,6 +7268,16 @@ point game::look_around()
    mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
+  
+  DebugLog() << __FUNCTION__ << "calling get_input() \n";
+  input = get_input();
+  if (!u_see(lx, ly))
+   mvwputch(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_black, ' ');
+  get_direction(mx, my, input);
+  if (mx != -2 && my != -2) {	// Directional key pressed
+   lx += mx;
+   ly += my;
+  }
  } while (input != Close && input != Cancel && input != Confirm);
 
  werase(w_look);
