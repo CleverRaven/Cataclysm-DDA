@@ -1357,7 +1357,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  effect_win_size_y = effect_name.size()+1;
 
  for(int i = 0; i < PF_MAX2; i++) {
-  if(my_traits[i]) {
+  if(my_mutations[i]) {
    traitslist.push_back(pl_flag(i));
   }
  }
@@ -2495,17 +2495,7 @@ bool player::has_trait(int flag) const
 {
  if (flag == PF_NULL)
   return true;
- if (my_traits[flag] || my_mutations [flag])
-  return true;
- else
-  return false; //Looks both in mutations and base traits
-}
-
-bool player::has_mutation(int flag) const
-{
- if (flag == PF_NULL)
-  return true;
- return my_mutations[flag]; //Looks only at mutations
+ return my_mutations[flag]; //Looks for active mutations and traits
 }
 
 bool player::has_base_trait(int flag) const
@@ -2517,12 +2507,13 @@ bool player::has_base_trait(int flag) const
 
 void player::toggle_trait(int flag)
 {
- my_traits[flag] = !my_traits[flag]; //Adds a base trait to the player
+ my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player
+ my_mutations[flag] = !my_mutations[flag]; //Toggles corresponding trait in mutations list as well.
 }
 
 void player::toggle_mutation(int flag)
 {
- my_mutations[flag] = !my_mutations[flag]; //Adds a mutation to the player
+ my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
 }
 
 bool player::in_climate_control(game *g)

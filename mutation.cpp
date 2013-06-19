@@ -93,7 +93,7 @@ void player::mutate(game *g)
             }
 
             // ...consider whether its in our highest category
-            if( has_mutation(base_mutation) ){ // don't remove starting traits
+            if( has_trait(base_mutation) && !has_base_trait(base_mutation) ){ // Starting traits don't count toward categories
                 std::vector<pl_flag> group = mutations_from_category(cat);
                 bool in_cat = false;
                 for (int j = 0; j < group.size(); j++)
@@ -346,8 +346,7 @@ void player::remove_mutation(game *g, pl_flag mut)
     replacing = pre;
   }
  }
-
- toggle_mutation(mut);
+	toggle_mutation(mut);
  if (replacing != PF_NULL) {
   g->add_msg("Your %s mutation turns into %s.", traits[mut].name.c_str(),
              traits[replacing].name.c_str());
