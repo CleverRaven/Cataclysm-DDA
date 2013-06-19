@@ -7148,15 +7148,6 @@ point game::look_around()
  mvwprintz(w_look, 3, 1, c_white, "to a nearby square.");
  wrefresh(w_look);
  do {
- DebugLog() << __FUNCTION__ << "calling get_input() \n";
-  input = get_input();
-  if (!u_see(lx, ly))
-   mvwputch(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_black, ' ');
-  get_direction(mx, my, input);
-  if (mx != -2 && my != -2) {	// Directional key pressed
-   lx += mx;
-   ly += my;
-  }
   werase(w_terrain);
   draw_ter(lx, ly);
   for (int i = 1; i < 12; i++) {
@@ -7276,6 +7267,16 @@ point game::look_around()
    mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
+  
+  DebugLog() << __FUNCTION__ << "calling get_input() \n";
+  input = get_input();
+  if (!u_see(lx, ly))
+   mvwputch(w_terrain, ly - u.posy + VIEWY, lx - u.posx + VIEWX, c_black, ' ');
+  get_direction(mx, my, input);
+  if (mx != -2 && my != -2) {	// Directional key pressed
+   lx += mx;
+   ly += my;
+  }
  } while (input != Close && input != Cancel && input != Confirm);
 
  werase(w_look);
