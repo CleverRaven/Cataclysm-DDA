@@ -5106,7 +5106,7 @@ bool player::eat(game *g, char ch)
     return true;
 }
 
-bool player::wield(game *g, char ch)
+bool player::wield(game *g, char ch, bool autodrop)
 {
  if (weapon.has_flag("NO_UNWIELD")) {
   g->add_msg("You cannot unwield your %s!  Withdraw them with 'p'.",
@@ -5129,8 +5129,8 @@ bool player::wield(game *g, char ch)
    recoil = 0;
    if (!pickstyle)
     return true;
-  } else if (query_yn("No space in inventory for your %s.  Drop it?",
-                      weapon.tname(g).c_str())) {
+  } else if (autodrop || query_yn("No space in inventory for your %s.  Drop it?",
+                                  weapon.tname(g).c_str())) {
    g->m.add_item(posx, posy, remove_weapon());
    recoil = 0;
    if (!pickstyle)
@@ -5495,7 +5495,7 @@ hint_rating player::rate_action_takeoff(item *it) {
 bool player::takeoff(game *g, char let, bool autodrop)
 {
  if (weapon.invlet == let) {
-  return wield(g, -3);
+     return wield(g, -3, autodrop);
  } else {
   for (int i = 0; i < worn.size(); i++) {
    if (worn[i].invlet == let) {
