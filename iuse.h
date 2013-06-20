@@ -111,6 +111,7 @@ class iuse
   void smokebomb	(game *g, player *p, item *it, bool t);
   void smokebomb_act	(game *g, player *p, item *it, bool t);
   void acidbomb		(game *g, player *p, item *it, bool t);
+  void arrow_flamable (game *g, player *p, item *it, bool t);
   void acidbomb_act	(game *g, player *p, item *it, bool t);
   void molotov		(game *g, player *p, item *it, bool t);
   void molotov_lit	(game *g, player *p, item *it, bool t);

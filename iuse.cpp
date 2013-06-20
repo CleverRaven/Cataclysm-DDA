@@ -2851,6 +2851,18 @@ void iuse::acidbomb_act(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::arrow_flamable(game *g, player *p, item *it, bool t)
+{
+ if (!p->use_charges_if_avail("fire", 1))
+ {
+  g->add_msg_if_player(p,"You need a lighter!");
+  return;
+ }
+ g->add_msg_if_player(p,"You light the arrow!.");
+ p->moves -= 150;
+ it->make(g->itypes["arrow_flamming"]);
+}
+
 void iuse::molotov(game *g, player *p, item *it, bool t)
 {
  if (!p->use_charges_if_avail("fire", 1))
