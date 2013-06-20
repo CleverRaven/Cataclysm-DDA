@@ -479,7 +479,7 @@ public:
  void update_worst_item_value(); // Find the worst value in our inventory
  int  value(const item &it);
  bool wear_if_wanted(item it);
- virtual bool wield(game *g, char invlet);
+ virtual bool wield(game *g, signed char invlet);
  bool has_healing_item();
  bool has_painkiller();
  bool took_painkiller();
@@ -515,7 +515,7 @@ public:
  npc_action address_player	(game *g);
  npc_action long_term_goal_action(game *g);
  bool alt_attack_available(game *g);	// Do we have grenades, molotov, etc?
- char  choose_escape_item(); // Returns index of our best escape aid
+ signed char  choose_escape_item(); // Returns index of our best escape aid
 
 // Helper functions for ranged combat
  int  confident_range(char invlet = 0); // >= 50% chance to hit
@@ -544,7 +544,7 @@ public:
  void melee_player	(game *g, player &foe);
  void wield_best_melee	(game *g);
  void alt_attack	(game *g, int target);
- void use_escape_item	(game *g, char invlet, int target);
+ void use_escape_item	(game *g, signed char invlet, int target);
  void heal_player	(game *g, player &patient);
  void heal_self		(game *g);
  void take_painkiller	(game *g);

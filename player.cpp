@@ -2750,7 +2750,7 @@ void player::pause(game *g)
  }
 }
 
-int player::throw_range(char ch)
+int player::throw_range(signed char ch)
 {
  item tmp;
  if (ch == -1)
@@ -4781,7 +4781,7 @@ hint_rating player::rate_action_eat(item *it)
  return HINT_CANT;
 }
 
-bool player::eat(game *g, char ch)
+bool player::eat(game *g, signed char ch)
 {
     it_comest *comest = NULL;
     item *eaten = NULL;
@@ -5106,7 +5106,7 @@ bool player::eat(game *g, char ch)
     return true;
 }
 
-bool player::wield(game *g, char ch)
+bool player::wield(game *g, signed char ch)
 {
  if (weapon.has_flag("NO_UNWIELD")) {
   g->add_msg("You cannot unwield your %s!  Withdraw them with 'p'.",

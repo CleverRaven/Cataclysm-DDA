@@ -691,7 +691,7 @@ bool npc::alt_attack_available(game *g)
  return false;
 }
 
-char npc::choose_escape_item()
+signed char npc::choose_escape_item()
 {
  int best = -1, ret = -1;
  invslice slice = inv.slice(0, inv.size());
@@ -717,7 +717,7 @@ char npc::choose_escape_item()
  return slice[ret]->front().invlet;
 }
 
-void npc::use_escape_item(game *g, char invlet, int target)
+void npc::use_escape_item(game *g, signed char invlet, int target)
 {
  if (invlet == 0) {
   debugmsg("%s tried to use item with null invlet", name.c_str());

@@ -1132,7 +1132,7 @@ int overmap::dist_from_city(point p)
 }
 
 void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
-                   int &origx, int &origy, char &ch, bool blink,
+                   int &origx, int &origy, signed char &ch, bool blink,
                    overmap &hori, overmap &vert, overmap &diag)
 {
  bool note_here = false, npc_here = false;
@@ -1368,7 +1368,7 @@ point overmap::draw_overmap(game *g, int zlevel)
  int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
      cursy = (g->levy + int(MAPSIZE / 2)) / 2;
  int origx = cursx, origy = cursy, origz = zlevel;
- char ch = 0;
+ signed char ch = 0;
  point ret(-1, -1);
  overmap hori, vert, diag; // Adjacent maps
 
