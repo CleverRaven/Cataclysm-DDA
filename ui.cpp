@@ -21,9 +21,9 @@ std::vector<std::string> foldstring ( std::string str, int width ) {
 
     int linepos = width;
     int linestart = 0;
-
-    while( linepos < str.length() ) {
-        int crpos = str.find('\n', linestart);
+    int crpos = -2;
+    while( linepos < str.length() || crpos != -1 ) {
+        crpos = str.find('\n', linestart);
         if (crpos != -1 && crpos <= linepos) {
             lines.push_back( str.substr( linestart, crpos-linestart ) );
             linepos = crpos + width + 1;
@@ -222,7 +222,7 @@ void uimenu::show() {
             } else if ( textwidth != -1 ) {
                 realtextwidth = textwidth;
             }
-            textformatted = foldstring(text, realtextwidth);     
+            textformatted = foldstring(text, realtextwidth);
         }
 
         if (h_auto) {
