@@ -136,6 +136,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
  // Burst-fire weapons allow us to pick a new target after killing the first
      if ( curshot > 0 && (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0) ) {
        std::vector<point> new_targets;
+       new_targets.clear();
 
        if ( debug_retarget == true ) {
           mvprintz(curshot,5,c_red,"[%d] %s: retarget: mon_at(%d,%d)",curshot,p.name.c_str(),tarx,tary);
@@ -173,7 +174,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
        }
        if ( new_targets.empty() == false ) { /* new victim! or last victim moved */
           int target_picked = rng(0, new_targets.size() - 1); /* 1 victim list unless wildly spraying */
-          tarx = new_targets[target_picked].x; 
+          tarx = new_targets[target_picked].x;
           tary = new_targets[target_picked].y;
           if (m.sees(p.posx, p.posy, tarx, tary, 0, tart)) {
               trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
@@ -181,7 +182,9 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
               trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
           }
 
-          /* debug */ if (debug_retarget) printz(c_ltgreen, " NEW: %d,%d (%s)[%d] hp: %d", tarx, tary, z[mon_at(tarx, tary)].name().c_str(), mon_at(tarx, tary), z[mon_at(tarx, tary)].hp);
+          /* debug */ if (debug_retarget) printz(c_ltgreen, " NEW:(%d:%d,%d) %d,%d (%s)[%d] hp: %d",
+              target_picked, new_targets[target_picked].x, new_targets[target_picked].y,
+              tarx, tary, z[mon_at(tarx, tary)].name().c_str(), mon_at(tarx, tary), z[mon_at(tarx, tary)].hp);
 
        } else if ( 
           (
@@ -288,12 +291,12 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   if (missed_by >= 1.) {
 // We missed D:
 // Shoot a random nearby space?
-   tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-   tary += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+   int mtarx = tarx + rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+   int mtary = tary + rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
    if (m.sees(p.posx, p.posy, x, y, -1, tart))
-    trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
+    trajectory = line_to(p.posx, p.posy, mtarx, mtary, tart);
    else
-    trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
+    trajectory = line_to(p.posx, p.posy, mtarx, mtary, 0);
    missed = true;
    if (!burst) {
     if (&p == &u)
