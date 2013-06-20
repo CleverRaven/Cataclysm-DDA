@@ -5122,15 +5122,15 @@ bool player::wield(game *g, char ch, bool autodrop)
     g->add_msg("You are already wielding nothing.");
     return false;
    }
-  } else if (volume_carried() + weapon.volume() < volume_capacity()) {
+  } else if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
    inv.push_back(remove_weapon());
    inv.unsort();
    moves -= 20;
    recoil = 0;
    if (!pickstyle)
     return true;
-  } else if (autodrop || query_yn("No space in inventory for your %s.  Drop it?",
-                                  weapon.tname(g).c_str())) {
+  } else if (query_yn("No space in inventory for your %s.  Drop it?",
+                      weapon.tname(g).c_str())) {
    g->m.add_item(posx, posy, remove_weapon());
    recoil = 0;
    if (!pickstyle)
@@ -5510,14 +5510,13 @@ bool player::takeoff(game *g, char let, bool autodrop)
          }
        }
      }
-    if (volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
+    if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
         volume_carried() + worn[i].type->volume) {
      inv.push_back(worn[i]);
      worn.erase(worn.begin() + i);
      inv.unsort();
      return true;
-    } else if (autodrop ||
-               query_yn("No room in inventory for your %s.  Drop it?",
+    } else if (query_yn("No room in inventory for your %s.  Drop it?",
                         worn[i].tname(g).c_str())) {
      g->m.add_item(posx, posy, worn[i]);
      worn.erase(worn.begin() + i);
