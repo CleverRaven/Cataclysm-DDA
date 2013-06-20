@@ -133,6 +133,16 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   if (curshot > 0 &&
       (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {
    std::vector<point> new_targets;
+
+mvprintz(curshot,5,c_red,"[%d] %s: retarget: mon_at(%d,%d)",curshot,p.name.c_str(),tarx,tary);
+if(mon_at(tarx, tary) == -1) {
+  printz(c_red, " = -1");
+} else {
+  printz(c_red, ".hp=%d",
+    z[mon_at(tarx, tary)].hp
+  );
+}
+
    for (int radius = 1; radius <= 2 + p.skillLevel("gun") && radius <= p.weapon.range() && new_targets.empty();
         radius++) {
        for (std::vector<monster>::iterator it = z.begin(); it != z.end(); it++)
@@ -143,17 +153,31 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
                new_targets.push_back(point(it->posx, it->posy));
        }
    }
-   if (!new_targets.empty()) {
+   if (new_targets.empty()==false) {
     int target_picked = rng(0, new_targets.size() - 1);
     tarx = new_targets[target_picked].x;
     tary = new_targets[target_picked].y;
-    if (m.sees(p.posx, p.posy, tarx, tary, 0, tart))
+    if (m.sees(p.posx, p.posy, tarx, tary, 0, tart)) {
      trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
-    else
+    } else {
      trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
+    }
+printz(c_ltgreen, " NEW: %d,%d (%s)[%d] hp: %d",tarx,tary,
+z[mon_at(tarx, tary)].name().c_str(),
+mon_at(tarx, tary),
+z[mon_at(tarx, tary)].hp);
    } else if ((!p.has_trait(PF_TRIGGERHAPPY) || one_in(3)) &&
-              (p.skillLevel("gun") >= 7 || one_in(7 - p.skillLevel("gun"))))
+              (p.skillLevel("gun") >= 7 || one_in(7 - p.skillLevel("gun")))) {
     return; // No targets, so return
+   } else { 
+printz(c_red, " new targets.empty()!");
+   }
+  } else {
+mvprintz(curshot,5,c_red,"[%d] %s: target == mon_at(%d,%d)[%d] %s hp %d",curshot, p.name.c_str(), tarx ,tary,
+mon_at(tarx, tary),
+z[mon_at(tarx, tary)].name().c_str(),
+z[mon_at(tarx, tary)].hp);
+
   }
 
   // Drop a shell casing if appropriate.
