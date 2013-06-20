@@ -297,7 +297,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
    if (dam <= 0 && !(effects & mfb(AMMO_FLAME))) { // Ran out of momentum.
     ammo_effects(this, tx, ty, effects);
-    if (is_bolt &&
+    if (is_bolt && !(effects & mfb(AMMO_IGNITE)) && !(effects & mfb(AMMO_EXPLOSIVE)) &&
         ((curammo->m1 == "wood" && !one_in(4)) ||
          (curammo->m1 != "wood" && !one_in(15))))
      m.add_item(tx, ty, ammotmp);
@@ -354,7 +354,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       tx = px;
       ty = py;
   }
-  if (is_bolt &&
+  if (is_bolt && !(effects & mfb(AMMO_IGNITE)) && !(effects & mfb(AMMO_EXPLOSIVE)) &&
       ((curammo->m1 == "wood" && !one_in(5)) ||
        (curammo->m1 != "wood" && !one_in(15))  ))
     m.add_item(tx, ty, ammotmp);
@@ -758,6 +758,14 @@ void game::hit_monster_with_flags(monster &z, unsigned int effects)
    z.add_effect(ME_ONFIRE, rng(2, 6));
   else if (z.made_of("flesh") && one_in(4))
    z.add_effect(ME_ONFIRE, rng(1, 4));
+
+ } else if (effects & mfb(AMMO_IGNITE)) {
+  
+   if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
+      z.made_of("paper") || z.made_of("wood"))
+      z.add_effect(ME_ONFIRE, rng(6, 6));
+   else if (z.made_of("flesh"))
+   z.add_effect(ME_ONFIRE, rng(10, 10));
 
  }
 }
