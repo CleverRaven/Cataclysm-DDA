@@ -128,9 +128,10 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
  bool missed = false;
  int tart;
- bool debug_retarget = true;
- int weaponrange = p.weapon.range(); // this is expensive, let's cache
- bool wildly_spraying = false; // stub for now. later, rng based on stress/skill/etc at the start,
+
+ const bool debug_retarget = false;  // this will inevitably be needed
+ const bool wildly_spraying = false; // stub for now. later, rng based on stress/skill/etc at the start,
+ int weaponrange = p.weapon.range(); // this is expensive, let's cache. todo: figure out if we need p.weapon.range(&p);
 
  for (int curshot = 0; curshot < num_shots; curshot++) {
  // Burst-fire weapons allow us to pick a new target after killing the first
@@ -149,30 +150,32 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
           }
        }
 
-       for (int radius = 0; /* range from last target, not shooter! */
-           radius <= 2 + p.skillLevel("gun") && /* more skill: wider burst area? */
-           radius <= weaponrange && /* this seems redundant */
-           ( new_targets.empty() || /* got target? stop looking. However this breaks random selection, aka, wildly spraying, so: */
-              wildly_spraying == true ); /* lets set this based on rng && stress or whatever elsewhere */
-           radius++ ) {  /* iterate from last target's position: makes sense for burst fire.*/
+       for (
+         int radius = 0;                        /* range from last target, not shooter! */
+         radius <= 2 + p.skillLevel("gun") &&   /* more skill: wider burst area? */
+         radius <= weaponrange &&               /* this seems redundant */
+         ( new_targets.empty() ||               /* got target? stop looking. However this breaks random selection, aka, wildly spraying, so: */
+            wildly_spraying == true );          /* lets set this based on rng && stress or whatever elsewhere */
+         radius++
+       ) {                                      /* iterate from last target's position: makes sense for burst fire.*/
            
            for (std::vector<monster>::iterator it = z.begin(); it != z.end(); it++) {
                int nt_range_to_me = rl_dist(p.posx, p.posy, it->posx, it->posy);
                if (nt_range_to_me == 0 || nt_range_to_me > weaponrange ) {
-                   continue; /* reject out of range targets as well as MY FACE */
+                   continue;                    /* reject out of range targets as well as MY FACE */
                }
 
                int nt_range_to_lt = rl_dist(tarx,tary,it->posx,it->posy);
                /* debug*/ if ( debug_retarget && nt_range_to_lt <= 5 ) printz(c_red, " r:%d/l:%d/m:%d ..", radius, nt_range_to_lt, nt_range_to_me );
                if (nt_range_to_lt != radius) {
-                   continue; /* we're spiralling outward, catch you next iteration (maybe) */
+                   continue;                    /* we're spiralling outward, catch you next iteration (maybe) */
                }
                if (it->hp >0 && it->friendly == 0) {
                    new_targets.push_back(point(it->posx, it->posy)); /* oh you're not dead and I don't like you. Hello! */
                }
            }
        }
-       if ( new_targets.empty() == false ) { /* new victim! or last victim moved */
+       if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
           int target_picked = rng(0, new_targets.size() - 1); /* 1 victim list unless wildly spraying */
           tarx = new_targets[target_picked].x;
           tary = new_targets[target_picked].y;
@@ -188,13 +191,13 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
        } else if ( 
           (
-             !p.has_trait(PF_TRIGGERHAPPY) || /* double tap. TRIPLE TAP! wait, no... */
-             one_in(3) /* on second though...everyone double-taps at times. */
+             !p.has_trait(PF_TRIGGERHAPPY) ||   /* double tap. TRIPLE TAP! wait, no... */
+             one_in(3)                          /* on second though...everyone double-taps at times. */
           ) && (
-             p.skillLevel("gun") >= 7 || /* unless trained */
-             one_in(7 - p.skillLevel("gun")) /* ...sometimes */
+             p.skillLevel("gun") >= 7 ||        /* unless trained */
+             one_in(7 - p.skillLevel("gun"))    /* ...sometimes */
           ) ) {
-          return; // No targets, so return
+          return;                               // No targets, so return
        } else if (debug_retarget) {
           printz(c_red, " new targets.empty()!");
        }
