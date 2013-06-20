@@ -307,7 +307,7 @@ std::string item::save_info() const
      dump << *it << " ";
  }
 
- dump << int(burnt) << " " << poison << " " << ammotmp <<
+ dump << burnt << " " << poison << " " << ammotmp <<
         " " << owned << " " << int(bday) << " " << mode;
  if (active)
   dump << " 1";
@@ -334,7 +334,7 @@ void item::load_info(std::string data, game *g)
  std::stringstream dump;
  dump << data;
  std::string idtmp, ammotmp, item_tag;
- int lettmp, damtmp, burntmp, acttmp, corp, tag_count;
+ int lettmp, damtmp, acttmp, corp, tag_count;
  dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
 
  for( int i = 0; i < tag_count; ++i )
@@ -343,7 +343,7 @@ void item::load_info(std::string data, game *g)
      item_tags.insert( item_tag );
  }
 
- dump >> burntmp >> poison >> ammotmp >> owned >> bday >>
+ dump >> burnt >> poison >> ammotmp >> owned >> bday >>
         mode >> acttmp >> corp >> mission_id >> player_id;
  if (corp != -1)
   corpse = g->mtypes[corp];
@@ -363,7 +363,6 @@ void item::load_info(std::string data, game *g)
  make(g->itypes[idtmp]);
  invlet = char(lettmp);
  damage = damtmp;
- burnt = burntmp;
  active = false;
  if (acttmp == 1)
   active = true;
