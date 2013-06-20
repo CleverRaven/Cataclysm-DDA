@@ -704,8 +704,8 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
 void iuse::purifier(game *g, player *p, item *it, bool t)
 {
  std::vector<int> valid;	// Which flags the player has
- for (int i = PF_MAX+1; i < PF_MAX2; i++) {
-  if (p->has_trait(pl_flag(i)) && p->has_mutation(pl_flag(i)))
+ for (int i = PF_NULL+1; i < PF_MAX2; i++) {
+  if (p->has_trait(pl_flag(i)) && !p->has_base_trait(pl_flag(i)))  //Looks for active mutation
    valid.push_back(i);
  }
  if (valid.size() == 0) {
@@ -777,7 +777,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   p->vomit(g);
  } else if (!p->has_trait(PF_MARLOSS)) {
   g->add_msg_if_player(p,"You feel a strange warmth spreading throughout your body...");
-  p->toggle_trait(PF_MARLOSS);
+  p->toggle_mutation(PF_MARLOSS);
  }
  if (effect == 6)
   p->radiation = 0;
