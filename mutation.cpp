@@ -303,7 +303,7 @@ void player::mutate_towards(game *g, pl_flag mut)
  // If this new mutation cancels a base trait, remove it and add the mutation at the same time
    if (canceltrait != PF_NULL)
     {
-        g->add_msg("Your innate %s turns into %s!", traits[canceltrait].name.c_str(),
+        g->add_msg("Your innate %s trait turns into %s!", traits[canceltrait].name.c_str(),
                    traits[mut].name.c_str());
 		toggle_mutation(canceltrait);
 		mutation_loss_effect(g, *this, canceltrait);
