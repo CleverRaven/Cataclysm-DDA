@@ -67,13 +67,13 @@ void mattack::antqueen(game *g, monster *z)
 
 void mattack::shriek(game *g, monster *z)
 {
- int j;
- if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 4 ||
-     !g->sees_u(z->posx, z->posy, j))
-  return;	// Out of range
- z->moves = -240;			// It takes a while
- z->sp_timeout = z->type->sp_freq;	// Reset timer
- g->sound(z->posx, z->posy, 50, "a terrible shriek!");
+    int j;
+    if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 12 ||
+        !g->sees_u(z->posx, z->posy, j))
+    return;	// Out of range
+    z->moves = -240;			// It takes a while
+    z->sp_timeout = z->type->sp_freq;
+    g->sound(z->posx, z->posy, 200, "a loud horrifying shriek! your eardrums bleed!");
 }
 
 void mattack::acid(game *g, monster *z)
