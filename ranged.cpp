@@ -161,8 +161,11 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
            
            for (std::vector<monster>::iterator it = z.begin(); it != z.end(); it++) {
                int nt_range_to_me = rl_dist(p.posx, p.posy, it->posx, it->posy);
-               if (nt_range_to_me == 0 || nt_range_to_me > weaponrange ) {
-                   continue;                    /* reject out of range targets as well as MY FACE */
+               int dummy;
+               if (nt_range_to_me == 0 || nt_range_to_me > weaponrange ||
+                   !pl_sees(&p, &(*it), dummy)) {
+                   /* reject out of range and unseen targets as well as MY FACE */
+                   continue;
                }
 
                int nt_range_to_lt = rl_dist(tarx,tary,it->posx,it->posy);
