@@ -377,7 +377,7 @@ std::string option_desc(option_key key)
     case OPT_VIEWPORT_Y:          return "WINDOWS ONLY: Set the expansion of the\nviewport along the Y axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
     case OPT_MOVE_VIEW_OFFSET:    return "Move view by how many squares per\nkeypress.\nDefault is 1";
     case OPT_SEASON_LENGTH:       return "Season length, in days.\nDefault is 14";
-    case OPT_STATIC_SPAWN:        return "Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is false";
+    case OPT_STATIC_SPAWN:        return "Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is true";
     case OPT_CLASSIC_ZOMBIES:     return "Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false";
     case OPT_STATIC_NPC:          return "If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false";
     case OPT_RANDOM_NPC:          return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false";
