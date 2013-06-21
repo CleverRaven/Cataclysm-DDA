@@ -959,6 +959,8 @@ double calculate_missed_by(player &p, int trange, item* weapon)
   int adj_recoil = p.recoil + p.driving_recoil;
   deviation += rng(int(adj_recoil / 4), adj_recoil);
 
+  if (deviation < 0)
+    return 0;
 // .013 * trange is a computationally cheap version of finding the tangent.
 // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
 //  of quarter-degrees)
