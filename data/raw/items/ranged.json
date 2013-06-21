@@ -19,7 +19,7 @@
     "to_hit": 1,
     "ranged_damage": 0,
     "range": 0,
-    "accuracy": 20,
+    "accuracy": 40,
     "recoil": 0,
     "durability": 8,
     "burst": 5,
