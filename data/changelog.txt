@@ -4,19 +4,27 @@ Changelog will be a little light for the early entries due to me being really ba
 
 Highlights:
 ---
-* Some work to make vehicle collisions sane.
 * Zombies will revive after a time, if not butchered (or otherwise dealt with).
 * The Android trait now behaves the way that the description indicates.
 * Gasoline can be siphoned from vehicles. Requires a rubber hose for now - these are easier to acquire.
-* Sewing requires materials other than thread - rags for cloth, leather patches for leather.
-* Leather repair/reinforcement actually possible!
+* Sewing requires materials other than thread - rags for cloth, leather patches for leather, kevlar bricks, plastic chunks.
+* Leather/Kevlar/plastic/fur repair/reinforcement actually possible!
 * Inventory management UI improvements, and a new screen to organize worn items.
 * NPCs continue to be less buggy, but are still prone to crashes.
 * Weapon firing code reworked a bit. UI improvements, and you should now be able to fire at anything within range.
 * Reworked the armor/protection code.
 * Reworked the learning system: replaced XP with Focus. See the relevant help text.
-* Added a bunch of new missions, for those who play with the shelter NPC turned on.
+* Added a *bunch* of new multi-stage missions, for those who play with the shelter NPC turned on.
+* Many new buildings (See full changelong list)
 * Vehicle collision physics are now based on *actual* physics! Reduces collision insanity.
+* Option to use triginometric distance instead of roguelike distance. In other words light, line of sight are circular instead of square.
+* Zombie density in towns is based on nearby buildings instead of distance from town center.
+* Higher-performance (on windows) SDL-based rendering as an optional build type.
+* Movement on and around vehicles greatly streamlined.
+* Sound indicator lets you know how much noise you're making.
+* Turn cost indicator lets you know how long actions take.
+* Overkilled monsters now spray gibs around instead of disapearing.
+* Mostly remove limits on how many items fit in a tile of ground.
 * As usual, many bugfixes.
 
 Full list:
@@ -45,7 +53,7 @@ Optimized scentmap updates, hopefully this speeds up certain activities.
 Pit-requiring constructions have pit digging as their first two stages, to make it more obvious what the prereqs are.
 Some menus (notably, inventory) can be navigated with arrow keys and enter.
 Allowing sewing of leather items, make sewing require rags/patches.
-Cooking rotten food does not make it magically fresh any more (but it does make it slightly less rotten).
+Cooking rotten food does not make it magically fresh any more.
 Resolves an issue where destroying an item while tailoring would crash the game.
 New UI to sort clothing and automatically assign special characters to clothing (accessed via +)
 Footwear warmth values tweaked to be more flexible.
@@ -115,6 +123,56 @@ Vehicle headlight state is persistent after save-load.
 Being hot no longer increases thirst by an unreasonable amount
 Minor : temp_conv and dis.intensity are saved, fixing strange on-load inconsistencies
 Minor : Diseases that affect speed no longer overwrite eachother in the @ menu
+Clothing with pockets provides a bonus to hand warmth when not wielding a weapon.
+New large building with basement: Prison
+Basement level for hazardous waste sarcophagus.
+New building with basement: musterious cabin.
+Display recent log messages on player death.
+Radiation exposure is now more dangerous
+Mutations from radiation can be disabled.
+Mutation categories now more dominant.
+Added themed mutagens with recipes.
+New medical items.
+Bundle of plastic bags item for stowing bags.
+Rebalance chance of cutting weapons getting stuck, much less likely now.
+Smashing corpses prevents them from reviving.
+Burning corpses prevents them from reviving.
+Stopped players from leaving slime trails or webs while in a vehicle.
+Made vitamins have an effect again.
+Made multiple gasoline tanks drain properly.
+Added tiny pain effect to Acid Drizzle, raincoats now offer a bit of protection to acid rain/drizzle.
+Advanced inv: "e" pulls up inventory item menu. Help window displays feedback messages for actions taken. "?" toggles between help and msg viewer.
+Eliminate radiation dosage saturation, halving dosage rate to compensate. (radiation is slower, but more implacable)
+Fitting screen now shows storage and encumbrance in item columns.
+Added leather vest item and crafting recipe.
+avoid use of pow() in distance calculation, speeding them up an order of magnitude.
+Make blood filter remove all other drug based diseases.
+Make blood analysis detect all drugs.
+Behold, sharpie markers.
+Display actual keymapping instead of default one in most help text.
+Stopped bleeding, bites, and poison from applying when stopped by armor.
+Safely hop from slow-moving vehicles, get hurt from quick ones.
+Multidrop screen now shows a summary of what is about to be dropped.
+Sort inventory by item charges, use low-charge items first.
+Option to auto-save before sleep.
+Lava burns things and can be used for crafting.
+Multiple fixes to burst-fire targeting.
+Prevent turrets from shooting themselves.
+Prevent friendly turrets from trying to shoot through the player.
+Brasas catcher item to catch your brass for recrafting.
+More power armor variants.
+Make movement take half the cost of both the beginning and end tiles, instead of just taking the cost of the end tile.
+Made shooting interactions more realistic.
+Add radiation badge item and associated infrastructure.
+Automagically add new keybindings, so long as they don't conflict.
+Significantly reduces the number of giant worms.
+Adds strawberry bushes.
+Advanced inventory: Add [c]ategory sort.
+Large number of added archery items: Wide range of bows crossbows, and arrows, and a multitude of crafting recipes.
+Stop unnecessaraly saving adjacent overmaps every time they are potentially dirtied. (prevents periodic pauses!)
+Hard Leg Guards and Metal Leg guards.
+Picking berry bushes trains survival (at low levels).
+Added skill support into professions.
 
 
 ======
