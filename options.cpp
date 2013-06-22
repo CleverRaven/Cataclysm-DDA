@@ -563,7 +563,7 @@ gradual_night_light T\n\
 # If true, will display weather animations\n\
 rain_animation T\n\
 # If true, compute distance with real math\n\
-circledist T\n\
+circledist F\n\
 # If true, will query beefore disassembling items\n\
 query_disassemble T\n\
 # Player will automatically drop empty containers after use\n\
