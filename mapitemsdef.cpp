@@ -499,7 +499,7 @@ void game::init_mapitems()
    &mapitems[mi_vault],
 	"purifier", "plut_cell", "ftk93", "nx17", "canister_goo",
 	"UPS_off", "gold", "plasma_engine",
-  "bio_time_freeze", "bio_teleport",
+  "bio_time_freeze", "bio_teleport", "bio_probability_travel",
   "power_armor_basic",
   "power_armor_light", "power_armor_heavy",
   "minireactor", "alloy_plate", NULL);
@@ -635,7 +635,7 @@ void game::init_mapitems()
    "bio_nanobots", "bio_blood_anal",
    "bio_ads", "bio_ods",
    "bio_resonator", "bio_hydraulics",
-   "bio_time_freeze", "bio_teleport",
+   "bio_time_freeze", "bio_teleport", "bio_probability_travel",
    "bio_blaster", "bio_laser", "bio_emp",
    "bio_power_armor_interface",
 	NULL);
@@ -721,7 +721,7 @@ void game::init_mapitems()
    "bio_nanobots", "bio_blood_anal",
    "bio_ads", "bio_ods",
    "bio_blaster", "bio_laser", "bio_emp",
-   "bio_time_freeze", "bio_teleport",
+   "bio_time_freeze", "bio_teleport", "bio_probability_travel",
    "bio_power_armor_interface",
 	NULL);
 

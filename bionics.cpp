@@ -69,7 +69,7 @@ void player::power_bionics(game *g)
  show_power_level_in_titlebar(wBio, this);
 
  int HEADER_LINE_Y = START_Y + 2;
- int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - 1; 
+ int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - 1;
  for (int i = 1; i < 79; i++) {
   mvwputch(wBio, HEADER_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line under title
   mvwputch(wBio, DESCRIPTION_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line above description
@@ -1006,6 +1006,11 @@ Interfaces your power system with the internal charging port on suits of power a
 Interfaces your power system with the internal charging port on suits of power armor.\n\
 The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II\n\
 power armor series.");
+
+    bionics["bio_probability_travel"] = new bionic_data("Probability Travel", false, true, 1, 100, "\
+Increases your body's wavelength, allowing you to quantum tunnel through\n\
+walls, reappearing on the other side. Power drain in standby is minimal,\n\
+but each tile tunneled through costs 10 bionic power.");
 
     //Fault Bionics from here on out.
     bionics["bio_dis_shock"] = new bionic_data("Electrical Discharge", false, false, 0, 0, "\
