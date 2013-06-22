@@ -39,7 +39,7 @@ For example, from vi, set marks a and b around the block, then:
 
         $ cd Cataclysm-DDA
         # Changes the active directory in the prompt to the newly cloned "Cataclysm-DDA" directory
-        $ git remote add -f upstream https://github.com/TheDarklingWolf/Cataclysm-DDA.git
+        $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-DDA.git
         # Assigns the original repository to a remote called "upstream"
 
 #### Update your `master` branch
@@ -113,7 +113,7 @@ You can also set the tracking information at the same time as creating the branc
  * Note: Although this makes it easier to pull from `upstream/master`, it doesn't change anything with regards to pushing. `git push` fails because you don't have permission to push to `upstream/master`.
 
         $ git push
-        error: The requested URL returned error: 403 while accessing https://github.com/TheDarklingWolf/Cataclysm-DDA.git
+        error: The requested URL returned error: 403 while accessing https://github.com/CleverRaven/Cataclysm-DDA.git
         fatal: HTTP request failed
         $ git push origin
         ....
@@ -128,7 +128,7 @@ You can also set the tracking information at the same time as creating the branc
 If `git pull --ff-only` shows an error, it means that you've committed directly to your local `master` branch. To fix this, we create a new branch with these commits, find the point at which we diverged from `upstream/master`, and then reset `master` to that point.
 
     $ git pull --ff-only upstream master
-    From https://github.com/TheDarklingWolf/Cataclysm-DDA
+    From https://github.com/CleverRaven/Cataclysm-DDA
      * branch            master     -> FETCH_HEAD
     fatal: Not possible to fast-forward, aborting.
     $ git branch new_branch master          # mark the current commit with a tmp branch
