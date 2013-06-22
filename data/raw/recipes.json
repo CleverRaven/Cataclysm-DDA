@@ -8398,7 +8398,7 @@
             "result": "crowbar",
             "category": "CC_MISC",
             "skill_pri": "mechanics",
-            "difficulty": 1,
+            "difficulty": 0,
             "time": 1000,
             "reversible": false,
             "autolearn": true,
@@ -8413,6 +8413,30 @@
             "components": [
                               [
                                   ["pipe", 1]
+                              ]
+                          ]
+        },
+
+
+	   {
+            "result": "crude_picklock",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 0,
+            "time": 1000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["hammer", -1],
+                             ["rock", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 1]
                               ]
                           ]
         },
