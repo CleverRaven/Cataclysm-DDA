@@ -3598,6 +3598,53 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     }
 }
 
+void iuse::cut_log_into_planks(game *g, player *p, item *it)
+{
+    p->moves -= 300;
+    g->add_msg("You cut the log into planks.");
+    item plank(g->itypes["2x4"], int(g->turn), g->nextinv);
+    item scrap(g->itypes["splinter"], int(g->turn), g->nextinv);
+    bool drop = false;
+    int planks = (rng(1, 3) + (p->skillLevel("carpentry") * 2));
+    int scraps = 12 - planks;
+    if (planks >= 12) {
+        planks = 12;
+    }
+    if (scraps >= planks) {
+        g->add_msg("You waste a lot of the wood.");
+    }
+    for (int i = 0; i < planks; i++) {
+        int iter = 0;
+        while (p->has_item(plank.invlet)) {
+            plank.invlet = g->nextinv;
+            g->advance_nextinv();
+            iter++;
+        }
+        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity())) {
+            drop = true;
+        }
+        if (drop) {
+            g->m.add_item(p->posx, p->posy, plank);
+        } else {
+            p->i_add(plank);
+        }
+    }
+    for (int i = 0; i < scraps; i++) {
+        int iter = 0;
+        while (p->has_item(scrap.invlet)) {
+            scrap.invlet = g->nextinv;
+            g->advance_nextinv();
+            iter++;
+        }
+        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+            drop = true;
+        if (drop)
+            g->m.add_item(p->posx, p->posy, scrap);
+        else
+            p->i_add(scrap);
+    }
+}
+
 void iuse::lumber(game *g, player *p, item *it, bool t)
 {
  char ch = g->inv("Cut up what?");
@@ -3607,48 +3654,11 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
   return;
  }
  if (cut->type->id == "log") {
-  p->moves -= 300;
-  g->add_msg("You cut the log into planks.");
-  item plank(g->itypes["2x4"], int(g->turn), g->nextinv);
-  item scrap(g->itypes["splinter"], int(g->turn), g->nextinv);
-  p->i_rem(ch);
-  bool drop = false;
-  int planks = (rng(1, 3) + (p->skillLevel("carpentry") * 2));
-  int scraps = 12 - planks;
-   if (planks >= 12)
-    planks = 12;
-  if (scraps >= planks)
-   g->add_msg("You waste a lot of the wood.");
-  for (int i = 0; i < planks; i++) {
-   int iter = 0;
-   while (p->has_item(plank.invlet)) {
-    plank.invlet = g->nextinv;
-    g->advance_nextinv();
-    iter++;
-   }
-   if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-    drop = true;
-   if (drop)
-    g->m.add_item(p->posx, p->posy, plank);
-   else
-    p->i_add(plank);
-  }
- for (int i = 0; i < scraps; i++) {
-   int iter = 0;
-   while (p->has_item(scrap.invlet)) {
-    scrap.invlet = g->nextinv;
-    g->advance_nextinv();
-    iter++;
-   }
-   if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-    drop = true;
-   if (drop)
-    g->m.add_item(p->posx, p->posy, scrap);
-   else
-    p->i_add(scrap);
-  }
-  return;
-  } else { g->add_msg("You can't cut that up!");
+     p->i_rem(ch);
+     cut_log_into_planks(g, p, it);
+     return;
+ } else {
+     g->add_msg("You can't cut that up!");
  } return;
 }
 

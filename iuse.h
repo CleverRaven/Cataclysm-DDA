@@ -137,6 +137,7 @@ class iuse
   void dog_whistle	(game *g, player *p, item *it, bool t);
   void vacutainer	(game *g, player *p, item *it, bool t);
   void knife    	(game *g, player *p, item *it, bool t);
+  static void cut_log_into_planks(game *g, player *p, item *it);
   void lumber    	(game *g, player *p, item *it, bool t);
   void hacksaw          (game *g, player *p, item *it, bool t);
   void tent             (game *g, player *p, item *it, bool t);
