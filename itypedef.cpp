@@ -361,6 +361,7 @@ BIO_SINGLE("bio_hydraulics", 3, 4000, c_dkgray, 6);
 // super soldier
 BIO_SINGLE("bio_time_freeze", 1, 14000, c_white, 11);
 BIO_SINGLE("bio_teleport", 1, 7000, c_white, 7);
+BIO_SINGLE("bio_probability_travel", 1, 14000, c_white, 11);
 // ranged combat
 BIO_SINGLE("bio_blaster", 13, 2200, c_red, 3);
 BIO_SINGLE("bio_laser", 2, 7200, c_red, 5);
