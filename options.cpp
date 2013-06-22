@@ -303,6 +303,9 @@ option_key lookup_option_key(std::string id)
     if(id == "save_sleep") {
         return OPT_SAVESLEEP;
     }
+    if(id == "hide_cursor") {
+        return OPT_HIDE_CURSOR;
+    }
     return OPT_NULL;
 }
 
@@ -342,6 +345,7 @@ std::string option_string(option_key key)
     case OPT_RANDOM_NPC:          return "random_npc";
     case OPT_RAD_MUTATION:        return "rad_mutation";
     case OPT_SAVESLEEP:           return "save_sleep";
+    case OPT_HIDE_CURSOR:         return "hide_cursor";
     default:                      return "unknown_option";
     }
     return "unknown_option";
