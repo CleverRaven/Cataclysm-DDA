@@ -69,7 +69,7 @@ void game::init_construction()
    TOOLCONT("primitive_axe");
    TOOLCONT("chainsaw_on");
 
- CONSTRUCT("Chop Up Log", 0, &construct::able_log, &construct::done_log);
+ CONSTRUCT("Chop Tree trunk into logs", 0, &construct::able_trunk, &construct::done_trunk_log);
   STAGE(t_dirt, 20);
    TOOL("ax");
    TOOLCONT("primitive_axe");
@@ -853,9 +853,9 @@ bool construct::able_tree(game *g, point p)
  return (g->m.ter(p.x, p.y) == t_tree);
 }
 
-bool construct::able_log(game *g, point p)
+bool construct::able_trunk(game *g, point p)
 {
- return (g->m.ter(p.x, p.y) == t_log);
+ return (g->m.ter(p.x, p.y) == t_trunk);
 }
 
 bool construct::able_furniture(game *g, point p)
@@ -1015,11 +1015,11 @@ void construct::done_tree(game *g, point p)
  std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
  for (int i = 0; i < tree.size(); i++) {
   g->m.destroy(g, tree[i].x, tree[i].y, true);
-  g->m.ter_set(tree[i].x, tree[i].y, t_log);
+  g->m.ter_set(tree[i].x, tree[i].y, t_trunk);
  }
 }
 
-void construct::done_log(game *g, point p)
+void construct::done_trunk_log(game *g, point p)
 {
  g->m.spawn_item(p.x, p.y, "log", int(g->turn), rng(5, 15));
 }
