@@ -66,6 +66,10 @@ bool fexists(const char *filename)
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
+    if(OPTIONS[OPT_HIDE_CURSOR] > 0 && SDL_ShowCursor(-1))
+        SDL_ShowCursor(SDL_DISABLE);
+    else
+        SDL_ShowCursor(SDL_ENABLE);
 	const SDL_VideoInfo* video_info;
 	int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
 
@@ -296,7 +300,7 @@ void CheckMessages()
 		{
 			case SDL_KEYDOWN:
 			{
-			    if(OPTIONS[OPT_HIDE_CURSOR] > 0) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
+			    if(OPTIONS[OPT_HIDE_CURSOR] > 0 && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
 				Uint8 *keystate = SDL_GetKeyState(NULL);
 				// manually handle Alt+F4 for older SDL lib, no big deal
 				if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
@@ -343,7 +347,8 @@ void CheckMessages()
 			}
 			break;
 			case SDL_MOUSEMOTION:
-                if(OPTIONS[OPT_HIDE_CURSOR] == 0 || OPTIONS[OPT_HIDE_CURSOR] == 2) SDL_ShowCursor(SDL_ENABLE);
+                if((OPTIONS[OPT_HIDE_CURSOR] == 0 || OPTIONS[OPT_HIDE_CURSOR] == 2) &&
+                    !SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_ENABLE);
                 break;
 			case SDL_QUIT:
                 quit = true;
