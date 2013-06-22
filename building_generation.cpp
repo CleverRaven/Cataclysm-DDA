@@ -366,7 +366,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
         }
     }
 
-    if (one_in(300)) {  //rare, very bad day for low level characters
+    if (one_in(10000)) {  //1-2 per overmap, very bad day for low level characters
         m->add_spawn(mon_jabberwock, 1, SEEX, SEEY);
     }
 
