@@ -75,6 +75,13 @@ void game::init_construction()
    TOOLCONT("primitive_axe");
    TOOLCONT("chainsaw_on");
 
+ CONSTRUCT("Chop Tree trunk into plankss", 0, &construct::able_trunk, &construct::done_trunk_plank);
+  STAGE(t_dirt, 23);
+   TOOL("ax");
+   TOOLCONT("primitive_axe");
+   TOOLCONT("chainsaw_on");
+   TOOLCONT("saw");
+
  CONSTRUCT("Move Furniture", -1, &construct::able_furniture, &construct::done_furniture);
   STAGE(t_null, 1);
 
@@ -1021,7 +1028,16 @@ void construct::done_tree(game *g, point p)
 
 void construct::done_trunk_log(game *g, point p)
 {
- g->m.spawn_item(p.x, p.y, "log", int(g->turn), rng(5, 15));
+    g->m.spawn_item(p.x, p.y, "log", int(g->turn), rng(5, 15));
+}
+
+void construct::done_trunk_plank(game *g, point p)
+{
+    int num_logs = rng(5, 15);
+    for( int i = 0; i < num_logs; ++i ) {
+        item tmplog(g->itypes["log"], int(g->turn), g->nextinv);
+        iuse::cut_log_into_planks( g, &(g->u), &tmplog);
+    }
 }
 
 
