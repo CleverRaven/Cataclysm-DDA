@@ -498,6 +498,33 @@ void player::activate_bionic(int b, game *g)
    g->m.ter_set(dirx, diry, t_door_c);
   } else
    g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
+ } else if(bio.id == "bio_flashbang"){
+   int blind_duration = 0;
+   int blind_intensity = 0;
+   int deaf_duration = 0;
+   int deaf_intensity = 0;
+   if (disease_level(DI_BLIND))
+   {
+       blind_duration = disease_level(DI_BLIND);        // remember our blind/deaf status
+       blind_intensity = disease_intensity(DI_BLIND);
+   }
+   if (disease_level(DI_DEAF))
+   {
+       deaf_duration = disease_level(DI_DEAF);
+       deaf_intensity = disease_intensity(DI_DEAF);
+   }
+   g->add_msg("You activate your integrated flashbang generator!");
+   g->flashbang(posx, posy);
+   rem_disease(DI_BLIND);       // clear blind/deaf because CBM flashbang shouldn't affect the player
+   rem_disease(DI_DEAF);
+   if (blind_duration)
+   {
+       add_disease(DI_BLIND, blind_duration, g, blind_intensity, blind_intensity); //restore our blind/deaf status
+   }
+   if (deaf_duration)
+   {
+       add_disease(DI_DEAF, deaf_duration, g, deaf_intensity, deaf_intensity);
+   }
  }
 }
 
@@ -1006,6 +1033,11 @@ Interfaces your power system with the internal charging port on suits of power a
 Interfaces your power system with the internal charging port on suits of power armor.\n\
 The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II\n\
 power armor series.");
+
+    bionics["bio_flashbang"] = new bionic_data("Flashbang Generator", false, true, 5, 0, "\
+Light emitting diodes integrated into your skin can release a flash comparable\n\
+to a flashbang grenade, blinding nearby enemies. Speakers integrated into your\n\
+body mimic the loud sound, deafening those nearby.");
 
     bionics["bio_railgun"] = new bionic_data("Railgun", false, true, 1, 100, "\
 EM field generators in your arms double the range and damage of thrown\n\
