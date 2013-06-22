@@ -7268,7 +7268,7 @@ point game::look_around()
    mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
-  
+
   DebugLog() << __FUNCTION__ << "calling get_input() \n";
   input = get_input();
   if (!u_see(lx, ly))
@@ -9723,6 +9723,32 @@ void game::plmove(int x, int y)
   if (veh1 && veh1->part_with_feature(vpart1, vpf_controls) >= 0)
       add_msg("There are vehicle controls here.  %s to drive.",
               press_x(ACTION_CONTROL_VEHICLE).c_str() );
+
+ } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel")) { //probability travel through walls but not water
+  int tunneldist = 0;
+  while(m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&
+          !m.has_flag(swimmable, x + tunneldist*(x - u.posx), y + tunneldist*(x - u.posx)))
+  {
+      tunneldist += 1; //add 1 to tunnel distance for each impassable tile in the line
+      if(tunneldist * 10 > u.power_level) //oops, not enough energy! Tunneling costs 10 bionic power per impassable tile
+      {
+          tunneldist = 0; //we didn't tunnel anywhere
+          break;
+      }
+  }
+  if(tunneldist) //you tunneled
+  {
+    u.power_level -= (tunneldist * 10); //tunneling costs 10 bionic power per impassable tile
+    u.moves -= 100; //tunneling costs 100 moves
+    u.posx += (tunneldist + 1) * (x - u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
+    u.posy += (tunneldist + 1) * (y - u.posy); //ditto for y
+    add_msg("You quantum tunnel through the %d-tile wide barrier!", tunneldist);
+  }
+  else //or you couldn't tunnel due to lack of energy
+  {
+      add_msg("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!");
+      u.power_level -= 10; //failure is expensive!
+  }
 
  } else if (veh_closed_door) { // move_cost <= 0
   veh1->parts[dpart].open = 1;

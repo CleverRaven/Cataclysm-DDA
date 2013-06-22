@@ -2769,6 +2769,8 @@ int player::throw_range(signed char ch)
   return 0;
  int ret = int((str_cur * 8) / (tmp.weight() > 0 ? tmp.weight() : 10));
  ret -= int(tmp.volume() / 10);
+ if (has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel")))
+    ret *= 2;
  if (ret < 1)
   return 1;
 // Cap at double our strength + skill

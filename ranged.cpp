@@ -158,7 +158,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
             wildly_spraying == true );          /* lets set this based on rng && stress or whatever elsewhere */
          radius++
        ) {                                      /* iterate from last target's position: makes sense for burst fire.*/
-           
+
            for (std::vector<monster>::iterator it = z.begin(); it != z.end(); it++) {
                int nt_range_to_me = rl_dist(p.posx, p.posy, it->posx, it->posy);
                int dummy;
@@ -192,7 +192,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
               target_picked, new_targets[target_picked].x, new_targets[target_picked].y,
               tarx, tary, z[mon_at(tarx, tary)].name().c_str(), mon_at(tarx, tary), z[mon_at(tarx, tary)].hp);
 
-       } else if ( 
+       } else if (
           (
              !p.has_trait(PF_TRIGGERHAPPY) ||   /* double tap. TRIPLE TAP! wait, no... */
              one_in(3)                          /* on second though...everyone double-taps at times. */
@@ -485,6 +485,10 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                double(2 + double(thrown.volume() / 4));
     if (dam > thrown.weight() * 3)
         dam = thrown.weight() * 3;
+    if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel")))
+    {
+        dam *= 2;
+    }
 
     int i = 0, tx = 0, ty = 0;
     for (i = 0; i < trajectory.size() && dam >= 0; i++)
@@ -573,6 +577,10 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 ty = u.posy;
             }
             i = trajectory.size();
+        }
+        if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel")))
+        {
+            m.add_field(this, tx, ty, fd_electricity, rng(2,3));
         }
     }
     if (m.move_cost(tx, ty) == 0)
@@ -815,7 +823,7 @@ void game::hit_monster_with_flags(monster &z, unsigned int effects)
    z.add_effect(ME_ONFIRE, rng(1, 4));
 
  } else if (effects & mfb(AMMO_IGNITE)) {
-  
+
    if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
       z.add_effect(ME_ONFIRE, rng(6, 6));
