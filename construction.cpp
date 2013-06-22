@@ -75,7 +75,7 @@ void game::init_construction()
    TOOLCONT("primitive_axe");
    TOOLCONT("chainsaw_on");
 
- CONSTRUCT("Chop Tree trunk into plankss", 0, &construct::able_trunk, &construct::done_trunk_plank);
+ CONSTRUCT("Chop Tree trunk into planks", 0, &construct::able_trunk, &construct::done_trunk_plank);
   STAGE(t_dirt, 23);
    TOOL("ax");
    TOOLCONT("primitive_axe");
