@@ -421,7 +421,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("AMMO", " Damage: ", "", int(ammo->damage)));
   dump->push_back(iteminfo("AMMO", " Armor-pierce: ", "", int(ammo->pierce)));
   dump->push_back(iteminfo("AMMO", " Range: ", "", int(ammo->range)));
-  dump->push_back(iteminfo("AMMO", " Accuracy: ", "", int(100 - ammo->accuracy)));
+  dump->push_back(iteminfo("AMMO", " Dispersion: ", "", int(ammo->dispersion)));
   dump->push_back(iteminfo("AMMO", " Recoil: ", "", int(ammo->recoil), "", true, true));
   dump->push_back(iteminfo("AMMO", " Count: ", "", int(ammo->count)));
 
@@ -432,7 +432,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("AMMO", " Damage: ", "", int(ammo->damage)));
   dump->push_back(iteminfo("AMMO", " Armor-pierce: ", "", int(ammo->pierce)));
   dump->push_back(iteminfo("AMMO", " Range: ", "", int(ammo->range)));
-  dump->push_back(iteminfo("AMMO", " Accuracy: ", "", int(100 - ammo->accuracy)));
+  dump->push_back(iteminfo("AMMO", " Dispersion: ", "", int(ammo->dispersion)));
   dump->push_back(iteminfo("AMMO", " Recoil: ", "", int(ammo->recoil), "", true, true));
   dump->push_back(iteminfo("AMMO", " Count: ", "", int(contents[0].charges)));
 
@@ -474,7 +474,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
   dump->push_back(iteminfo("GUN", " Range: ", temp1.str(), int(gun->range), temp2.str()));
 
-  dump->push_back(iteminfo("GUN", " Accuracy: ", "", int(100 - accuracy())));
+  dump->push_back(iteminfo("GUN", " Dispersion: ", "", int(dispersion())));
 
 
   temp1.str("");
@@ -511,8 +511,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
  } else if (is_gunmod()) {
   it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
 
-  if (mod->accuracy != 0)
-   dump->push_back(iteminfo("GUNMOD", " Accuracy: ", ((mod->accuracy > 0) ? "+" : ""), int(mod->accuracy)));
+  if (mod->dispersion != 0)
+   dump->push_back(iteminfo("GUNMOD", " Dispersion: ", ((mod->dispersion > 0) ? "+" : ""), int(mod->dispersion)));
   if (mod->damage != 0)
    dump->push_back(iteminfo("GUNMOD", " Damage: ", ((mod->damage > 0) ? "+" : ""), int(mod->damage)));
   if (mod->clip != 0)
@@ -1104,7 +1104,7 @@ int item::weapon_value(player *p) const
   gun_value += gun->dmg_bonus;
   gun_value += int(gun->burst / 2);
   gun_value += int(gun->clip / 3);
-  gun_value -= int(gun->accuracy / 5);
+  gun_value -= int(gun->dispersion / 5);
   gun_value *= (.5 + (.3 * p->skillLevel("gun")));
   gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
   my_value += gun_value;
@@ -1741,15 +1741,15 @@ int item::clip_size()
  return ret;
 }
 
-int item::accuracy()
+int item::dispersion()
 {
  if (!is_gun())
   return 0;
  it_gun* gun = dynamic_cast<it_gun*>(type);
- int ret = gun->accuracy;
+ int ret = gun->dispersion;
  for (int i = 0; i < contents.size(); i++) {
   if (contents[i].is_gunmod())
-   ret -= (dynamic_cast<it_gunmod*>(contents[i].type))->accuracy;
+   ret += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
  }
  ret += damage * 2;
  return ret;
@@ -1971,7 +1971,7 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
     mvwprintw(w_ammo, i + 1, 27, "%d", ammo_def->damage);
     mvwprintw(w_ammo, i + 1, 38, "%d", ammo_def->pierce);
     mvwprintw(w_ammo, i + 1, 55, "%d", ammo_def->range);
-    mvwprintw(w_ammo, i + 1, 65, "%d", 100 - ammo_def->accuracy);
+    mvwprintw(w_ammo, i + 1, 65, "%d", 100 - ammo_def->dispersion);
    }
    refresh();
    wrefresh(w_ammo);
