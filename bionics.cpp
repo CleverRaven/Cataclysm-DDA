@@ -1007,6 +1007,11 @@ Interfaces your power system with the internal charging port on suits of power a
 The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II\n\
 power armor series.");
 
+    bionics["bio_railgun"] = new bionic_data("Railgun", false, true, 1, 100, "\
+EM field generators in your arms double the range and damage of thrown\n\
+iron and steel objects at a cost of 1 power per throw, causing them to\n\
+leave a trail of electricity that can cause additional damage.");
+
     bionics["bio_probability_travel"] = new bionic_data("Probability Travel", false, true, 1, 100, "\
 Increases your body's wavelength, allowing you to quantum tunnel through\n\
 walls, reappearing on the other side. Power drain in standby is minimal,\n\
