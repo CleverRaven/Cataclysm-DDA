@@ -1580,6 +1580,9 @@ Dexterity - 5;   Speed -30%\
 You are being slowed by climbing over a mountain of rubble";
   }
 
+ case DI_STEMCELL_TREATMENT: return "\
+Your insides are shifting in strange ways as the treatment takes effect.";
+
  case DI_BOOMERED:	return "\
 Perception - 5\n\
 Range of Sight: 1;     All sight is tinted magenta";

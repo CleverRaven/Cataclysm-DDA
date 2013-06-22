@@ -69,7 +69,7 @@ void player::power_bionics(game *g)
  show_power_level_in_titlebar(wBio, this);
 
  int HEADER_LINE_Y = START_Y + 2;
- int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - 1; 
+ int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - 1;
  for (int i = 1; i < 79; i++) {
   mvwputch(wBio, HEADER_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line under title
   mvwputch(wBio, DESCRIPTION_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line above description
@@ -498,6 +498,33 @@ void player::activate_bionic(int b, game *g)
    g->m.ter_set(dirx, diry, t_door_c);
   } else
    g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
+ } else if(bio.id == "bio_flashbang"){
+   int blind_duration = 0;
+   int blind_intensity = 0;
+   int deaf_duration = 0;
+   int deaf_intensity = 0;
+   if (disease_level(DI_BLIND))
+   {
+       blind_duration = disease_level(DI_BLIND);        // remember our blind/deaf status
+       blind_intensity = disease_intensity(DI_BLIND);
+   }
+   if (disease_level(DI_DEAF))
+   {
+       deaf_duration = disease_level(DI_DEAF);
+       deaf_intensity = disease_intensity(DI_DEAF);
+   }
+   g->add_msg("You activate your integrated flashbang generator!");
+   g->flashbang(posx, posy);
+   rem_disease(DI_BLIND);       // clear blind/deaf because CBM flashbang shouldn't affect the player
+   rem_disease(DI_DEAF);
+   if (blind_duration)
+   {
+       add_disease(DI_BLIND, blind_duration, g, blind_intensity, blind_intensity); //restore our blind/deaf status
+   }
+   if (deaf_duration)
+   {
+       add_disease(DI_DEAF, deaf_duration, g, deaf_intensity, deaf_intensity);
+   }
  }
 }
 
@@ -1006,6 +1033,21 @@ Interfaces your power system with the internal charging port on suits of power a
 Interfaces your power system with the internal charging port on suits of power armor.\n\
 The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II\n\
 power armor series.");
+
+    bionics["bio_flashbang"] = new bionic_data("Flashbang Generator", false, true, 5, 0, "\
+Light emitting diodes integrated into your skin can release a flash comparable\n\
+to a flashbang grenade, blinding nearby enemies. Speakers integrated into your\n\
+body mimic the loud sound, deafening those nearby.");
+
+    bionics["bio_railgun"] = new bionic_data("Railgun", false, true, 1, 100, "\
+EM field generators in your arms double the range and damage of thrown\n\
+iron and steel objects at a cost of 1 power per throw, causing them to\n\
+leave a trail of electricity that can cause additional damage.");
+
+    bionics["bio_probability_travel"] = new bionic_data("Probability Travel", false, true, 1, 100, "\
+Increases your body's wavelength, allowing you to quantum tunnel through\n\
+walls, reappearing on the other side. Power drain in standby is minimal,\n\
+but each tile tunneled through costs 10 bionic power.");
 
     //Fault Bionics from here on out.
     bionics["bio_dis_shock"] = new bionic_data("Electrical Discharge", false, false, 0, 0, "\

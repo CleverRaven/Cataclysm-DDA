@@ -23,6 +23,7 @@ OPT_RAIN_ANIMATION,      // Enable the rain and other weather animation
 OPT_CIRCLEDIST,          // Compute distance with pythagorean theorem
 OPT_QUERY_DISASSEMBLE,   // Query before disassembling items
 OPT_DROP_EMPTY,          // auto drop empty containers after use
+OPT_HIDE_CURSOR,         // hide mouse cursor
 OPT_SKILL_RUST,          // level of skill rust
 OPT_DELETE_WORLD,        // Delete workd every time New Character is created
 OPT_INITIAL_POINTS,   // Set the number of character points
