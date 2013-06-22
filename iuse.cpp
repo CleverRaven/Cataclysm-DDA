@@ -2095,7 +2095,7 @@ void iuse::improvised_picklock(game *g, player *p, item *it, bool t)
   p->practice(g->turn, "mechanics", 1);
   g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
   g->m.ter_set(dirx, diry, new_type);
- } else if (dice(8, 8) < dice(2, p->skillLevel("mechanics")) +
+ } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics")) +
                          dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
   it->damage++;
 
@@ -2110,7 +2110,7 @@ void iuse::improvised_picklock(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
  }
  if ( type == t_door_locked_alarm &&
-      dice(4, 7) <  dice(2, p->skillLevel("mechanics")) +
+      dice(8, 8) <  dice(2, p->skillLevel("mechanics")) +
       dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
   g->sound(p->posx, p->posy, 40, "An alarm sounds!");
   if (!g->event_queued(EVENT_WANTED)) {
