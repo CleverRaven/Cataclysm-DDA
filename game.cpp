@@ -9745,7 +9745,10 @@ void game::plmove(int x, int y)
     add_msg("You quantum tunnel through the %d-tile wide barrier!", tunneldist);
   }
   else //or you couldn't tunnel due to lack of energy
-    add_msg("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!");
+  {
+      add_msg("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!");
+      u.power_level -= 10; //failure is expensive!
+  }
 
  } else if (veh_closed_door) { // move_cost <= 0
   veh1->parts[dpart].open = 1;
