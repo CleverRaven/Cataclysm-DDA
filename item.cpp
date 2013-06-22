@@ -1752,6 +1752,7 @@ int item::accuracy()
    ret -= (dynamic_cast<it_gunmod*>(contents[i].type))->accuracy;
  }
  ret += damage * 2;
+ if (ret < 0) ret = 0;
  return ret;
 }
 
