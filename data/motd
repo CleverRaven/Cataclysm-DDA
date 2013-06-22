@@ -1,18 +1,18 @@
 # This message may be 16 lines long at maximum.
 # Max length of a line is 68 characters; the following line is for reference
 ####################################################################
-New features v0.5:
-* Todo
-* Fixes, fixes and more fixes.
+New features v0.6 Samedi:
+* Reviving Zombies.
+* Massive improvements to vehicle physics and UI.
+* Many new buildings and missions.
 
 For latest discussions and news on Cataclysm DDA, please visit:
-
 Homepage: http://www.cataclysmdda.com/
-Forum: http://www.cataclysmdda.com/smf/
+Forum: http://smf.cataclysmdda.com/
 Wiki: http://wiki.cataclysmdda.com/
 
-The game now has new configurable options:
-Customizeable Viewport, Spawntype: Classic/Static, Starting time
-Static NPCs, Randomly spawning NPCs, Seasons
+New configurable options:
+Autosave frequency, Trigonometric (circular) distance,
+Trait points cap, radiation lethality.
 
 Ingame you can access the options via the help menu (?2).
