@@ -81,6 +81,7 @@ class iuse
   void roadmap_a_target (game *g, player *p, item *it, bool t, int target);
   void roadmap_targets(game *g, player *p, item *it, bool t, int target, int target_range, int distance, int reveal_distance);
   void picklock         (game *g, player *p, item *it, bool t);
+  void improvised_picklock (game *g, player *p, item *it, bool t);
   void crowbar		(game *g, player *p, item *it, bool t);
   void makemound	(game *g, player *p, item *it, bool t);
   void dig		(game *g, player *p, item *it, bool t);

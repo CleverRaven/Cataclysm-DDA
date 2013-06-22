@@ -99,6 +99,7 @@ void Item_factory::init(){
     //iuse_function_list["ROADMAP_A_TARGET"] = &iuse::roadmap_a_target;
     //iuse_function_list["ROADMAP_TARGETS"] = &iuse::roadmap_targets;
     iuse_function_list["PICKLOCK"] = &iuse::picklock;
+    iuse_function_list["IMPROVISED_PICKLOCK"] = &iuse::improvised_picklock;
     iuse_function_list["CROWBAR"] = &iuse::crowbar;
     iuse_function_list["MAKEMOUND"] = &iuse::makemound;
     iuse_function_list["DIG"] = &iuse::dig;

@@ -5123,7 +5123,7 @@ void game::smash()
         if (m.has_flag(alarmed, smashx, smashy) &&
             !event_queued(EVENT_WANTED))
         {
-            sound(smashx, smashy, 30, "An alarm sounds!");
+            sound(smashx, smashy, 40, "An alarm sounds!");
             add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
         }
         u.moves -= move_cost;
@@ -5139,7 +5139,7 @@ void game::smash()
             {
                 m.add_item(u.posx, u.posy, u.weapon.contents[i]);
             }
-            sound(u.posx, u.posy, 16, "");
+            sound(u.posx, u.posy, 24, "");
             u.hit(this, bp_hands, 1, 0, rng(0, u.weapon.volume()));
             if (u.weapon.volume() > 20)
             {
