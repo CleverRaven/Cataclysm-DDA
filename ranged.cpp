@@ -1035,6 +1035,12 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
    dam = rng(0, dam);
   } else
    dam = 0;
+
+  if(item(weapon->curammo, 0).has_flag("NOGIB"))
+  {
+      dam = std::min(dam, mon.hp+10);
+  }
+
 // Find the zombie at (x, y) and hurt them, MAYBE kill them!
   if (dam > 0) {
    mon.moves -= dam * 5;
@@ -1042,7 +1048,6 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
     g->add_msg("%s You hit the %s for %d damage.", message.c_str(), mon.name().c_str(), dam);
    else if (u_see_mon)
     g->add_msg("%s %s shoots the %s.", message.c_str(), p.name.c_str(), mon.name().c_str());
-
    bool bMonDead = mon.hurt(dam);
    if( u_see_mon ) {
        hit_animation(mon.posx - g->u.posx + VIEWX - g->u.view_offset_x,
