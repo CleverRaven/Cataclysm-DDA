@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+#include <algorithm>
 
 option_table OPTIONS;
 
@@ -189,6 +190,10 @@ void load_options()
                 } else {
                     val = atoi(check.c_str());
                 }
+
+                // Sanitize option values that are out of range.
+                val = std::min(val, (double)option_max_options(key));
+                val = std::max(val, (double)option_min_options(key));
 
                 OPTIONS[key] = val;
             }
@@ -525,6 +530,10 @@ char option_min_options(option_key id)
         switch(id) {
         case OPT_MAX_TRAIT_POINTS:
             ret = 3;
+            break;
+        case OPT_VIEWPORT_X:
+        case OPT_VIEWPORT_Y:
+            ret = 12; // TODO Set up min/max values so weird numbers don't have to be used.
             break;
         default:
             ret = 0;
