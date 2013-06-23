@@ -1698,7 +1698,38 @@
             ]
          ]
         },
-        
+        {
+         "result" : "arrow_small_game",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 2,
+         "time" : 2000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_wood", 10]
+            ],
+            [
+               ["bone", 3],
+               ["rock", 1]
+            ]
+         ]
+        },
         {
          "result" : "arrow_fire_hardened_fletched",
          "category" : "CC_AMMO",
