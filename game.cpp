@@ -10233,6 +10233,31 @@ void game::update_overmap_seen()
  }
 }
 
+struct real_coords {
+  point rel_lev;
+  point rel_pos;
+  point sub;
+  point sub_pos;
+  real_coords(int lx, int ly, int px, int py) {
+    rel_lev.x=lx;
+    rel_lev.y=ly;
+    rel_pos.x=px;
+    rel_pos.y=py;
+    sub.x = lx + ( px / SEEX );
+    sub.y = ly + ( py / SEEX );
+    sub_pos.x = px % SEEX;
+    sub_pos.y = py % SEEY;
+    while( sub_pos.x < 0 ) {
+        sub.x--;
+        sub_pos.x += 12;
+    }
+    while( sub_pos.y < 0 ) {
+        sub.y--;
+        sub_pos.y += 12;
+    }
+  };
+};
+
 point game::om_location()
 {
  point ret;
@@ -10310,20 +10335,19 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
    int turns = z[i].turns_to_reach(this, u.posx, u.posy);
    if (turns < 999)
     coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
-  } else if (z[i].spawnmapx != -1) {
-   // Static spawn, create a new spawn here.
-   z[i].spawnmapx = levx + z[i].posx / SEEX;
-   z[i].spawnmapy = levy + z[i].posy / SEEY;
-   tinymap tmp(&itypes, &mapitems, &traps);
-   tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, levz, false);
-   tmp.add_spawn(&(z[i]));
-   tmp.save(cur_om, turn, z[i].spawnmapx, z[i].spawnmapy, levz);
-  } else if ((stairs || shiftx != 0 || shifty != 0) && z[i].friendly < 0) {
-   // Friendly, make it into a static spawn.
-   tinymap tmp(&itypes, &mapitems, &traps);
-   tmp.load(this, levx, levy, levz, false);
-   tmp.add_spawn(&(z[i]));
-   tmp.save(cur_om, turn, levx, levy, levz);
+  } else if ( (z[i].spawnmapx != -1) || 
+      ((stairs || shiftx != 0 || shifty != 0) && z[i].friendly != 0 ) ) {
+    // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
+    real_coords rc(levx, levy, z[i].posx, z[i].posy); // this is madness
+    z[i].spawnmapx = rc.sub.x;
+    z[i].spawnmapy = rc.sub.y;
+    z[i].spawnposx = rc.sub_pos.x;
+    z[i].spawnposy = rc.sub_pos.y;
+
+    tinymap tmp(&itypes, &mapitems, &traps);
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, levz, false);
+    tmp.add_spawn(&(z[i]));
+    tmp.save(cur_om, turn, z[i].spawnmapx, z[i].spawnmapy, levz);
   } else {
    	// No spawn site, so absorb them back into a group.
    int group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty, levz);
