@@ -28,7 +28,7 @@
 # WARNINGS will spam hundreds of warnings, mostly safe, if turned on
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
 # PROFILE is for use with gprof or a similar program -- don't bother generally
-WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter
+WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter -Wno-psabi
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUG = -g
@@ -52,7 +52,7 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_GAME
 
 
-VERSION = 0.5
+VERSION = 0.6
 
 
 TARGET = cataclysm

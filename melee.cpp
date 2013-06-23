@@ -192,7 +192,9 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
- hit_message(g, You.c_str(), verb.c_str(), target.c_str(), dam, critical_hit);
+ if( g->u_see( z ) ) {
+     hit_message(g, You.c_str(), verb.c_str(), target.c_str(), dam, critical_hit);
+ }
 
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
  bool cutting = (cut_dam >= 10);

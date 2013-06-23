@@ -1875,12 +1875,12 @@
          ]
         },
         {
-         "result" : "arrow_fire",
+         "result" : "flamable_arrow",
          "category" : "CC_AMMO",
          "skill_pri" : "archery",
          "skill_sec" : "survival",
          "difficulty" : 3,
-         "time" : 3000,
+         "time" : 5000,
          "reversible" : false,
          "autolearn" : true,
          "tools" : [
@@ -1916,7 +1916,7 @@
          		["tequila", 5],
          		["gin", 5],
          		["triple_sec", 5],
-         		["gasoline", 50]
+         		["gasoline", 200]
          	]
          ]
         },
@@ -2196,11 +2196,11 @@
                ["canister_empty", 1]
             ],
             [
-               ["nail", 10],
-               ["bb", 30]
+               ["nail", 20],
+               ["bb", 40]
             ],
             [
-               ["gunpowder", 36]
+               ["gunpowder", 60]
             ]
          ]
         },

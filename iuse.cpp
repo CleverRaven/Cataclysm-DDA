@@ -704,8 +704,8 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
 void iuse::purifier(game *g, player *p, item *it, bool t)
 {
  std::vector<int> valid;	// Which flags the player has
- for (int i = PF_MAX+1; i < PF_MAX2; i++) {
-  if (p->has_trait(pl_flag(i)) && p->has_mutation(pl_flag(i)))
+ for (int i = PF_NULL+1; i < PF_MAX2; i++) {
+  if (p->has_trait(pl_flag(i)) && !p->has_base_trait(pl_flag(i)))  //Looks for active mutation
    valid.push_back(i);
  }
  if (valid.size() == 0) {
@@ -777,7 +777,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   p->vomit(g);
  } else if (!p->has_trait(PF_MARLOSS)) {
   g->add_msg_if_player(p,"You feel a strange warmth spreading throughout your body...");
-  p->toggle_trait(PF_MARLOSS);
+  p->toggle_mutation(PF_MARLOSS);
  }
  if (effect == 6)
   p->radiation = 0;
@@ -1272,13 +1272,13 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
 
         case t_window_boarded:
         nails =  8;
-        boards = 3;
+        boards = 4;
         newter = t_window_empty;
         break;
 
         case t_door_boarded:
         nails = 12;
-        boards = 3;
+        boards = 4;
         newter = t_door_b;
         break;
 
@@ -2107,12 +2107,12 @@ if (dirx == 0 && diry == 0) {
   switch (g->m.ter(dirx, diry)) {
   case t_window_boarded:
    nails =  8;
-   boards = 3;
+   boards = 4;
    newter = t_window_empty;
    break;
   case t_door_boarded:
    nails = 12;
-   boards = 3;
+   boards = 4;
    newter = t_door_b;
    break;
   case t_fence_h:
@@ -2849,6 +2849,18 @@ void iuse::acidbomb_act(game *g, player *p, item *it, bool t)
     g->m.add_field(g, x, y, fd_acid, 3);
   }
  }
+}
+
+void iuse::arrow_flamable(game *g, player *p, item *it, bool t)
+{
+ if (!p->use_charges_if_avail("fire", 1))
+ {
+  g->add_msg_if_player(p,"You need a lighter!");
+  return;
+ }
+ g->add_msg_if_player(p,"You light the arrow!.");
+ p->moves -= 150;
+ it->make(g->itypes["arrow_flamming"]);
 }
 
 void iuse::molotov(game *g, player *p, item *it, bool t)

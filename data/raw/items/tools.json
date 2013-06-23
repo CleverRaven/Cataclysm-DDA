@@ -1595,6 +1595,29 @@
     "use_action": "SMOKEBOMB_ACT"
   },
 
+  {   "id" : "flamable_arrow",
+      "type" : "TOOL",
+      "symbol" : "=",
+      "color" : "green",
+      "description" : "This arrow has a rag soaked in a flammable liquid wrapped around the shaft near the head. You need to light it before shooting.",
+      "rarity" : 5,
+      "price" : 350,
+      "material" : "wood",
+      "name" : "flamable arrow",
+      "volume" : 2,
+      "weight" : 40,
+      "bashing" : 2,
+      "cutting" : 0,
+      "to_hit" : 0,
+      "max_charges": 5,
+      "initial_charges": 5,
+      "charges_per_use": 0,
+      "turns_per_charge": 0,
+      "ammo": "none",
+      "revert_to": "null",
+      "use_action": "ARROW_FLAMABLE"
+   },
+
   {
     "id": "molotov",
     "type": "TOOL",

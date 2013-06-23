@@ -1159,15 +1159,17 @@ void mattack::smg(game *g, monster *z)
  if (z->friendly != 0) {   // Attacking monsters, not the player!
   monster* target = NULL;
   const int iff_dist=24;   // iff check triggers at this distance
-  const int iff_hangle=15; // iff safety margin (degrees). less accuracy, more paranoia
+  int iff_hangle=15; // iff safety margin (degrees). less accuracy, more paranoia
   int closest = 19;
   int c=0;
   int u_angle = 0;         // player angle relative to turret
   int boo_hoo = 0;         // how many targets were passed due to IFF. Tragically.
   bool iff_trig = false;   // player seen and within range of stray shots
-  if ( rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) < iff_dist && 
+  int pldist=rl_dist(z->posx, z->posy, g->u.posx, g->u.posy);
+  if ( pldist < iff_dist && 
       g->sees_u(z->posx, z->posy, t) ) {
       iff_trig = true;
+      if ( pldist < 3 ) iff_hangle=( pldist == 2 ? 30 : 60 ); // granularity increases with proximity 
       u_angle = coord2angle (z->posx, z->posy, g->u.posx, g->u.posy );
   }
   for (int i = 0; i < g->z.size(); i++) {

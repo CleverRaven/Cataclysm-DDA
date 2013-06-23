@@ -1363,7 +1363,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  effect_win_size_y = effect_name.size()+1;
 
  for(int i = 0; i < PF_MAX2; i++) {
-  if(my_traits[i]) {
+  if(my_mutations[i]) {
    traitslist.push_back(pl_flag(i));
   }
  }
@@ -2501,20 +2501,25 @@ bool player::has_trait(int flag) const
 {
  if (flag == PF_NULL)
   return true;
- return my_traits[flag];
+ return my_mutations[flag]; //Looks for active mutations and traits
 }
 
-bool player::has_mutation(int flag) const
+bool player::has_base_trait(int flag) const
 {
  if (flag == PF_NULL)
   return true;
- return my_mutations[flag];
+ return my_traits[flag]; //Looks only at base traits
 }
 
 void player::toggle_trait(int flag)
 {
- my_traits[flag] = !my_traits[flag];
- my_mutations[flag] = !my_mutations[flag];
+ my_traits[flag] = !my_traits[flag]; //Toggles a base trait on the player
+ my_mutations[flag] = !my_mutations[flag]; //Toggles corresponding trait in mutations list as well.
+}
+
+void player::toggle_mutation(int flag)
+{
+ my_mutations[flag] = !my_mutations[flag]; //Toggles a mutation on the player
 }
 
 bool player::in_climate_control(game *g)
@@ -2756,7 +2761,7 @@ void player::pause(game *g)
  }
 }
 
-int player::throw_range(char ch)
+int player::throw_range(signed char ch)
 {
  item tmp;
  if (ch == -1)
@@ -2914,9 +2919,11 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  if (dam <= 0)
   return dam;
 
- hit_animation(this->posx - g->u.posx + VIEWX - g->u.view_offset_x,
-               this->posy - g->u.posy + VIEWY - g->u.view_offset_y,
-               red_background(this->color()), '@');
+ if( g->u_see( this->posx, this->posy ) ) {
+     hit_animation(this->posx - g->u.posx + VIEWX - g->u.view_offset_x,
+                   this->posy - g->u.posy + VIEWY - g->u.view_offset_y,
+                   red_background(this->color()), '@');
+ }
 
  rem_disease(DI_SPEED_BOOST);
  if (dam >= 6)
@@ -4787,7 +4794,7 @@ hint_rating player::rate_action_eat(item *it)
  return HINT_CANT;
 }
 
-bool player::eat(game *g, char ch)
+bool player::eat(game *g, signed char ch)
 {
     it_comest *comest = NULL;
     item *eaten = NULL;
@@ -5112,7 +5119,7 @@ bool player::eat(game *g, char ch)
     return true;
 }
 
-bool player::wield(game *g, char ch)
+bool player::wield(game *g, signed char ch, bool autodrop)
 {
  if (weapon.has_flag("NO_UNWIELD")) {
   g->add_msg("You cannot unwield your %s!  Withdraw them with 'p'.",
@@ -5128,7 +5135,7 @@ bool player::wield(game *g, char ch)
     g->add_msg("You are already wielding nothing.");
     return false;
    }
-  } else if (volume_carried() + weapon.volume() < volume_capacity()) {
+  } else if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
    inv.push_back(remove_weapon());
    inv.unsort();
    moves -= 20;
@@ -5501,7 +5508,7 @@ hint_rating player::rate_action_takeoff(item *it) {
 bool player::takeoff(game *g, char let, bool autodrop)
 {
  if (weapon.invlet == let) {
-  return wield(g, -3);
+     return wield(g, -3, autodrop);
  } else {
   for (int i = 0; i < worn.size(); i++) {
    if (worn[i].invlet == let) {
@@ -5516,14 +5523,13 @@ bool player::takeoff(game *g, char let, bool autodrop)
          }
        }
      }
-    if (volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
+    if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
         volume_carried() + worn[i].type->volume) {
      inv.push_back(worn[i]);
      worn.erase(worn.begin() + i);
      inv.unsort();
      return true;
-    } else if (autodrop ||
-               query_yn("No room in inventory for your %s.  Drop it?",
+    } else if (query_yn("No room in inventory for your %s.  Drop it?",
                         worn[i].tname(g).c_str())) {
      g->m.add_item(posx, posy, worn[i]);
      worn.erase(worn.begin() + i);

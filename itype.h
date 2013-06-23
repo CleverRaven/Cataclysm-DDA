@@ -77,6 +77,7 @@ NUM_SOFTWARE_TYPES
 enum ammo_effect {
 AMMO_FLAME,		// Sets fire to terrain and monsters
 AMMO_INCENDIARY,	// Sparks explosive terrain
+AMMO_IGNITE,         // Sets fire to some monsters
 AMMO_EXPLOSIVE,		// Small explosion
 AMMO_FRAG,		// Frag explosion
 AMMO_NAPALM,		// Firey explosion

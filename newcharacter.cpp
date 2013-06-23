@@ -343,7 +343,8 @@ bool player::create(game *g, character_type type, std::string tempname)
   inv.push_back(tmp);
 // make sure we have no mutations
  for (int i = 0; i < PF_MAX2; i++)
-  my_mutations[i] = false;
+  if (!has_base_trait(i))
+	my_mutations[i] = false;
  return true;
 }
 

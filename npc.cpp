@@ -1158,7 +1158,7 @@ bool npc::wear_if_wanted(item it)
  return false;
 }
 
-bool npc::wield(game *g, char invlet)
+bool npc::wield(game *g, signed char invlet)
 {
  if (invlet < 0) { // Wielding a style
   int index = 0 - invlet - 1;

@@ -984,8 +984,8 @@ point map::random_outdoor_tile()
 
 bool map::has_adjacent_furniture(const int x, const int y)
 {
-    const char cx[4] = { 0, -1, 0, 1};
-    const char cy[4] = {-1,  0, 1, 0};
+    const signed char cx[4] = { 0, -1, 0, 1};
+    const signed char cy[4] = {-1,  0, 1, 0};
 
     for (int i = 0; i < 4; i++)
     {

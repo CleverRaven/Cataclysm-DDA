@@ -163,7 +163,7 @@ public:
  int charges;
  bool active;           // If true, it has active effects to be processed
  signed char damage;    // How much damage it's sustained; generally, max is 5
- char burnt;	         // How badly we're burnt
+ int burnt;	         // How badly we're burnt
  unsigned int bday;     // The turn on which it was created
  int owned;	            // UID of NPC owner; 0 = player, -1 = unowned
  union{

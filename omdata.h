@@ -656,13 +656,13 @@ const overmap_special overmap_specials[NUM_OMSPECS] = {
  &omspec_place::wilderness, mfb(OMS_FLAG_PARKING_LOT)},
 
 // Terrain	 MIN MAX DISTANCE
-{ot_anthill,	   0, 30,  10, -1, "GROUP_ANT", 10, 30, 1000, 2000,
+{ot_anthill,	   0, 30,  10, -1, "GROUP_ANT", 1000, 2000, 10, 30,
  &omspec_place::wilderness, 0},
 
 {ot_spider_pit,	   0,500,  0, -1, "GROUP_NULL", 0, 0, 0, 0,
  &omspec_place::forest, 0},
 
-{ot_slimepit_down,	   0,  4,  0, -1, "GROUP_GOO", 2, 10, 100, 200,
+{ot_slimepit_down,	   0,  4,  0, -1, "GROUP_GOO", 100, 200, 2, 10,
  &omspec_place::land, 0},
 
 {ot_fungal_bloom,  0,  3,  5, -1, "GROUP_FUNGI", 600, 1200, 30, 50,

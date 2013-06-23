@@ -130,6 +130,7 @@ void Item_factory::init(){
     iuse_function_list["SMOKEBOMB_ACT"] = &iuse::smokebomb_act;
     iuse_function_list["ACIDBOMB"] = &iuse::acidbomb;
     iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
+    iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
     iuse_function_list["MOLOTOV"] = &iuse::molotov;
     iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
     iuse_function_list["DYNAMITE"] = &iuse::dynamite;
@@ -236,6 +237,7 @@ void Item_factory::init(){
 
     ammo_effects_list["FLAME"] = mfb(AMMO_FLAME);
     ammo_effects_list["INCENDIARY"] = mfb(AMMO_INCENDIARY);
+    ammo_effects_list["IGNITE"] = mfb(AMMO_IGNITE);
     ammo_effects_list["EXPLOSIVE"] = mfb(AMMO_EXPLOSIVE);
     ammo_effects_list["FRAG"] = mfb(AMMO_FRAG);
     ammo_effects_list["NAPALM"] = mfb(AMMO_NAPALM);

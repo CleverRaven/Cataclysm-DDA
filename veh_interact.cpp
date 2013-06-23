@@ -724,7 +724,7 @@ struct candidate_vpart {
     int mapy;
     union
     {
-        char invlet;
+        signed char invlet;
         int index;
     };
     item vpart_item;
