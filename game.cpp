@@ -8692,7 +8692,8 @@ void game::plfire(bool burst)
  }
 
  if ((u.weapon.has_flag("STR8_DRAW")  && u.str_cur <  4) ||
-     (u.weapon.has_flag("STR10_DRAW") && u.str_cur <  5)   ) {
+     (u.weapon.has_flag("STR10_DRAW") && u.str_cur <  5) ||
+     (u.weapon.has_flag("STR12_DRAW") && u.str_cur <  6)   ) {
   add_msg("You're not strong enough to draw the bow!");
   return;
  }
