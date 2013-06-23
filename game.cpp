@@ -3342,10 +3342,9 @@ void game::draw()
   col_temp = c_cyan;
  else if (temperature >  32)
   col_temp = c_ltblue;
- if (OPTIONS[OPT_USE_CELSIUS])
-  wprintz(w_location, col_temp, " %dC", int((temperature - 32) / 1.8));
- else
-  wprintz(w_location, col_temp, " %dF", temperature);
+
+ wprintz(w_location, col_temp, (std::string(" ") + print_temperature(temperature)).c_str());
+
  wrefresh(w_location);
 
  mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
@@ -4610,6 +4609,34 @@ void game::flashbang(int x, int y)
 
 void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player)
 {
+  //borrowed code from game::explosion()
+  timespec ts;	// Timespec for the animation of the explosion
+  ts.tv_sec = 0;
+  ts.tv_nsec = EXPLOSION_SPEED;
+    for (int i = 1; i <= radius; i++) {
+  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, c_blue, '/');
+  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, c_blue,'\\');
+  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, c_blue,'\\');
+  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, c_blue, '/');
+  for (int j = 1 - i; j < 0 + i; j++) {
+   mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, c_blue,'-');
+   mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, c_blue,'-');
+   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x - i + VIEWX - u.posx - u.view_offset_x, c_blue,'|');
+   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x + i + VIEWX - u.posx - u.view_offset_x, c_blue,'|');
+  }
+  wrefresh(w_terrain);
+  nanosleep(&ts, NULL);
+ }
+ // end borrowed code from game::explosion()
+ 
     sound(x, y, force*force*dam_mult/2, "Crack!");
     for (int i = 0; i < z.size(); i++)
     {
@@ -4733,6 +4760,8 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 else if (npc_at(traj.front().x, traj.front().y) != -1)
                     add_msg("%s collided with someone else and sent %s flying!", targ->name().c_str(),
                             active_npc[npc_at(traj.front().x, traj.front().y)]->male?"him":"her");
+                else if (u.posx == traj.front().x && u.posy == traj.front().y)
+                    add_msg("%s collided with you and sent you flying!", targ->name().c_str());
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
@@ -4810,6 +4839,8 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 else if (npc_at(traj.front().x, traj.front().y) != -1)
                     add_msg("%s collided with someone else and sent %s flying!", targ->name.c_str(),
                             active_npc[npc_at(traj.front().x, traj.front().y)]->male?"him":"her");
+                else if (u.posx == traj.front().x && u.posy == traj.front().y)
+                    add_msg("%s collided with you and sent you flying!", targ->name.c_str());
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
@@ -5641,7 +5672,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 // another is the gate.  There may be a handle on the other side, but this is optional.
 // The gate continues until it reaches a non-floor tile, so they can be arbitrary length.
 //
-//   |  !|!  -++-++-  !|++++- 
+//   |  !|!  -++-++-  !|++++-
 //   +   +      !      +
 //   +   +   -++-++-   +
 //   +   +             +
@@ -5706,10 +5737,10 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
 
  g->add_msg(pull_message);
  g->u.moves -= 900;
- 
+
  bool open = false;
  bool close = false;
- 
+
  for (int wall_x = -1; wall_x <= 1; wall_x++) {
    for (int wall_y = -1; wall_y <= 1; wall_y++) {
      for (int gate_x = -1; gate_x <= 1; gate_x++) {
@@ -5717,11 +5748,11 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
          if ((wall_x + wall_y == 1 || wall_x + wall_y == -1) &&  // make sure wall not diagonally opposite to handle
              (gate_x + gate_y == 1 || gate_x + gate_y == -1) &&  // same for gate direction
             ((wall_y != 0 && (g->m.ter(examx+wall_x, examy+wall_y) == h_wall_type)) ||  //horizontal orientation of the gate
-             (wall_x != 0 && (g->m.ter(examx+wall_x, examy+wall_y) == v_wall_type)))) { //vertical orientation of the gate   
-           
+             (wall_x != 0 && (g->m.ter(examx+wall_x, examy+wall_y) == v_wall_type)))) { //vertical orientation of the gate
+
            int cur_x = examx+wall_x+gate_x;
            int cur_y = examy+wall_y+gate_y;
-             
+
            if (!close && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == door_type)) {  //opening the gate...
              open = true;
              while (g->m.ter(cur_x, cur_y) == door_type) {
@@ -5730,8 +5761,8 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
                cur_y = cur_y+gate_y;
              }
            }
-           
-           if (!open && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == floor_type)) {  //closing the gate...              
+
+           if (!open && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == floor_type)) {  //closing the gate...
              close = true;
              while (g->m.ter(cur_x, cur_y) == floor_type) {
                g->m.ter_set(cur_x, cur_y, door_type);
@@ -5739,12 +5770,12 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
                cur_y = cur_y+gate_y;
              }
            }
-         } 
+         }
        }
      }
    }
  }
- 
+
  if(open){
    g->add_msg(open_message);
  } else if(close){
@@ -8923,7 +8954,8 @@ void game::plfire(bool burst)
  }
 
  if ((u.weapon.has_flag("STR8_DRAW")  && u.str_cur <  4) ||
-     (u.weapon.has_flag("STR10_DRAW") && u.str_cur <  5)   ) {
+     (u.weapon.has_flag("STR10_DRAW") && u.str_cur <  5) ||
+     (u.weapon.has_flag("STR12_DRAW") && u.str_cur <  6)   ) {
   add_msg("You're not strong enough to draw the bow!");
   return;
  }
