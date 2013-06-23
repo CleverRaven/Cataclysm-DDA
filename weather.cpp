@@ -1,4 +1,5 @@
 #include <vector>
+#include <sstream>
 #include "options.h"
 #include "game.h"
 #include "weather.h"
@@ -98,7 +99,7 @@ void weather_effect::acid(game *g)
             g->add_msg("Your raincoat protects you from the acid rain");
         }
     }
- 
+
  if (g->levz >= 0) {
   for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
    for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
@@ -159,15 +160,8 @@ std::string weather_forecast(game *g, radio_tower tower)
         weather_report << " in " << closest_city->name;
     }
     weather_report << ", it was " << weather_data[g->weather].name << ".  ";
-    weather_report << "The temperature was ";
-    if( OPTIONS[OPT_USE_CELSIUS] )
-    {
-        weather_report << (int)((g->temperature - 32.0) / 1.8) << "C";
-    }
-    else
-    {
-        weather_report << (int)g->temperature << "F";
-    }
+    weather_report << "The temperature was " << print_temperature(g->temperature);
+
     //weather_report << ", the dewpoint ???, and the relative humidity ???.  ";
     //weather_report << "The wind was <direction> at ? mi/km an hour.  ";
     //weather_report << "The pressure was ??? in/mm and steady/rising/falling.";
@@ -234,7 +228,7 @@ std::string weather_forecast(game *g, radio_tower tower)
             }
             // Print forecast
             weather_report << day << "..." << weather_data[predominant_weather].name << ".  ";
-            weather_report << "Highs of " << (int)high << ".  Lows of " << (int)low << ".  ";
+            weather_report << "Highs of " << print_temperature(high) << ".  Lows of " << print_temperature(low) << ".  ";
 
             low = period_temperature;
             high = period_temperature;
@@ -246,4 +240,24 @@ std::string weather_forecast(game *g, radio_tower tower)
         period_start = period_deadline;
     }
     return weather_report.str();
+}
+
+std::string print_temperature(float fahrenheit, int decimals)
+{
+    std::stringstream ret;
+
+    ret.precision(decimals);
+    ret << std::fixed;
+
+    if(OPTIONS[OPT_USE_CELSIUS])
+    {
+        ret << ((fahrenheit-32) * 5 / 9) << "C";
+    }
+    else
+    {
+        ret << fahrenheit << "F";
+    }
+
+    return ret.str();
+
 }

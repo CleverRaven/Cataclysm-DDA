@@ -3329,10 +3329,9 @@ void game::draw()
   col_temp = c_cyan;
  else if (temperature >  32)
   col_temp = c_ltblue;
- if (OPTIONS[OPT_USE_CELSIUS])
-  wprintz(w_location, col_temp, " %dC", int((temperature - 32) / 1.8));
- else
-  wprintz(w_location, col_temp, " %dF", temperature);
+
+ wprintz(w_location, col_temp, (std::string(" ") + print_temperature(temperature)).c_str());
+
  wrefresh(w_location);
 
  mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
@@ -5349,7 +5348,7 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 // another is the gate.  There may be a handle on the other side, but this is optional.
 // The gate continues until it reaches a non-floor tile, so they can be arbitrary length.
 //
-//   |  !|!  -++-++-  !|++++- 
+//   |  !|!  -++-++-  !|++++-
 //   +   +      !      +
 //   +   +   -++-++-   +
 //   +   +             +
@@ -5414,10 +5413,10 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
 
  g->add_msg(pull_message);
  g->u.moves -= 900;
- 
+
  bool open = false;
  bool close = false;
- 
+
  for (int wall_x = -1; wall_x <= 1; wall_x++) {
    for (int wall_y = -1; wall_y <= 1; wall_y++) {
      for (int gate_x = -1; gate_x <= 1; gate_x++) {
@@ -5425,11 +5424,11 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
          if ((wall_x + wall_y == 1 || wall_x + wall_y == -1) &&  // make sure wall not diagonally opposite to handle
              (gate_x + gate_y == 1 || gate_x + gate_y == -1) &&  // same for gate direction
             ((wall_y != 0 && (g->m.ter(examx+wall_x, examy+wall_y) == h_wall_type)) ||  //horizontal orientation of the gate
-             (wall_x != 0 && (g->m.ter(examx+wall_x, examy+wall_y) == v_wall_type)))) { //vertical orientation of the gate   
-           
+             (wall_x != 0 && (g->m.ter(examx+wall_x, examy+wall_y) == v_wall_type)))) { //vertical orientation of the gate
+
            int cur_x = examx+wall_x+gate_x;
            int cur_y = examy+wall_y+gate_y;
-             
+
            if (!close && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == door_type)) {  //opening the gate...
              open = true;
              while (g->m.ter(cur_x, cur_y) == door_type) {
@@ -5438,8 +5437,8 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
                cur_y = cur_y+gate_y;
              }
            }
-           
-           if (!open && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == floor_type)) {  //closing the gate...              
+
+           if (!open && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == floor_type)) {  //closing the gate...
              close = true;
              while (g->m.ter(cur_x, cur_y) == floor_type) {
                g->m.ter_set(cur_x, cur_y, door_type);
@@ -5447,12 +5446,12 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
                cur_y = cur_y+gate_y;
              }
            }
-         } 
+         }
        }
      }
    }
  }
- 
+
  if(open){
    g->add_msg(open_message);
  } else if(close){
