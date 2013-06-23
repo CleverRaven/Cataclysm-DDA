@@ -713,6 +713,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This tool has double the normal maximum charges."));
     }
+    std::map<std::string, std::string>::iterator carved_note = item_vars.find("carved_note");
+    if ( carved_note != item_vars.end() ) {
+        dump->push_back(iteminfo("DESCRIPTION", "\n" ));
+        dump->push_back(iteminfo("DESCRIPTION", "Carved into the " + type->name +
+                                 " is a note saying: " + carved_note->second ));
+    }
   if (contents.size() > 0) {
    if (is_gun()) {
     for (int i = 0; i < contents.size(); i++)
