@@ -2165,6 +2165,13 @@ bool item::reload(player &u, char ammo_invlet)
   if (single_load || max_load == 1) {	// Only insert one cartridge!
    reload_target->charges++;
    ammo_to_use->charges--;
+  }
+  else if (reload_target->typeId() == "adv_UPS_off" || reload_target->typeId() == "adv_UPS_on") {
+      int charges_per_plut = 500;
+      int max_plut = std::floor( (max_load - reload_target->charges) / charges_per_plut );
+      int charges_used = std::min(ammo_to_use->charges, max_plut);
+      reload_target->charges += (charges_used * charges_per_plut);
+      ammo_to_use->charges -= charges_used;
   } else {
    reload_target->charges += ammo_to_use->charges;
    ammo_to_use->charges = 0;

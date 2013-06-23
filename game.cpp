@@ -4636,7 +4636,7 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
   nanosleep(&ts, NULL);
  }
  // end borrowed code from game::explosion()
- 
+
     sound(x, y, force*force*dam_mult/2, "Crack!");
     for (int i = 0; i < z.size(); i++)
     {
@@ -4674,7 +4674,7 @@ void game::knockback(int sx, int sy, int tx, int ty, int force, int stun, int da
     traj.insert(traj.begin(), point(sx, sy)); // how annoying, line_to() doesn't include the originating point!
     traj = continue_line(traj, force);
     traj.insert(traj.begin(), point(tx, ty)); // how annoying, continue_line() doesn't either!
-    
+
     knockback(traj, force, stun, dam_mult);
     return;
 }
@@ -8961,7 +8961,8 @@ void game::plfire(bool burst)
   return;
  }
  if (u.weapon.has_flag("CHARGE") && !u.weapon.active) {
-  if (u.has_charges("UPS_on", 1) || u.has_charges("UPS_off", 1)) {
+  if (u.has_charges("UPS_on", 1) || u.has_charges("UPS_off", 1) ||
+      u.has_charges("adv_UPS_on", 1) || u.has_charges("adv_UPS_off", 1)) {
    add_msg("Your %s starts charging.", u.weapon.tname().c_str());
    u.weapon.charges = 0;
    u.weapon.curammo = dynamic_cast<it_ammo*>(itypes["charge_shot"]);
@@ -9001,8 +9002,9 @@ void game::plfire(bool burst)
   return;
  }
  if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
-     !u.has_charges("UPS_on", 5)) {
-  add_msg("You need a UPS with at least 5 charges to fire that!");
+     !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 53) &&
+     !u.has_charges("adv_UPS_on", 3)) {
+  add_msg("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charged to fire that!");
   return;
  }
 
@@ -9051,7 +9053,11 @@ void game::plfire(bool burst)
  }
 
  if (u.weapon.has_flag("USE_UPS")) {
-  if (u.has_charges("UPS_off", 5))
+  if (u.has_charges("adv_UPS_off", 3))
+   u.use_charges("adv_UPS_off", 3);
+  else if (u.has_charges("adv_UPS_on", 3))
+   u.use_charges("adv_UPS_on", 3);
+  else if (u.has_charges("UPS_off", 5))
    u.use_charges("UPS_off", 5);
   else if (u.has_charges("UPS_on", 5))
    u.use_charges("UPS_on", 5);
@@ -9581,12 +9587,27 @@ void game::unload(item& it)
  } else {
   newam = item(itypes[default_ammo(weapon->ammo_type())], turn);
  }
- newam.charges = weapon->charges;
- weapon->charges = 0;
+ if(weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on") {
+    int chargesPerPlutonium = 500;
+    int chargesRemoved = weapon->charges - (weapon-> charges % chargesPerPlutonium);;
+    int plutoniumRemoved = chargesRemoved / chargesPerPlutonium;
+    if(chargesRemoved < weapon->charges) {
+        add_msg("You can't remove partially depleted plutonium!");
+    }
+    if(plutoniumRemoved > 0) {
+        add_msg("You remove %i plutonium from the advanced UPS", plutoniumRemoved);
+        newam.charges = plutoniumRemoved;
+        weapon->charges -= chargesRemoved;
+    } else { return; }
+ } else {
+    newam.charges = weapon->charges;
+    weapon->charges = 0;
+ }
+
  if (newam.made_of(LIQUID)) {
   if (!handle_liquid(newam, false, false))
    weapon->charges += newam.charges;	// Put it back in
- } else {
+ } else if(newam.charges > 0) {
   int iter = 0;
   while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < inv_chars.size()) {
    newam.invlet = nextinv;
@@ -10670,7 +10691,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
    int turns = z[i].turns_to_reach(this, u.posx, u.posy);
    if (turns < 999)
     coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
-  } else if ( (z[i].spawnmapx != -1) || 
+  } else if ( (z[i].spawnmapx != -1) ||
       ((stairs || shiftx != 0 || shifty != 0) && z[i].friendly != 0 ) ) {
     // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
     real_coords rc(levx, levy, z[i].posx, z[i].posy); // this is madness

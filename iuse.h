@@ -130,6 +130,8 @@ class iuse
   void turret		(game *g, player *p, item *it, bool t);
   void UPS_off		(game *g, player *p, item *it, bool t);
   void UPS_on		(game *g, player *p, item *it, bool t);
+  void adv_UPS_off		(game *g, player *p, item *it, bool t);
+  void adv_UPS_on		(game *g, player *p, item *it, bool t);
   void tazer		(game *g, player *p, item *it, bool t);
   void mp3		(game *g, player *p, item *it, bool t);
   void mp3_on		(game *g, player *p, item *it, bool t);

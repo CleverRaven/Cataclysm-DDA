@@ -3248,6 +3248,40 @@ void iuse::UPS_on(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::adv_UPS_off(game *g, player *p, item *it, bool t)
+{
+ if (it->charges == 0)
+  g->add_msg_if_player(p,"The power supply has depleted the plutonium.");
+ else {
+  g->add_msg_if_player(p,"You turn the power supply on.");
+  if (p->is_wearing("goggles_nv"))
+   g->add_msg_if_player(p,"Your light amp goggles power on.");
+  if (p->worn.size() && p->worn[0].type->is_power_armor())
+    g->add_msg_if_player(p, "Your power armor engages.");
+  it->make(g->itypes["adv_UPS_on"]);
+  it->active = true;
+ }
+}
+
+void iuse::adv_UPS_on(game *g, player *p, item *it, bool t)
+{
+ if (t) {	// Normal use
+   if (p->worn.size() && p->worn[0].type->is_power_armor()) {
+     it->charges -= 2;
+
+     if (it->charges < 0) {
+       it->charges = 0;
+     }
+   }
+ } else {	// Turning it off
+  g->add_msg_if_player(p,"The advanced UPS powers off with a soft hum.");
+  if (p->worn.size() && p->worn[0].type->is_power_armor())
+    g->add_msg_if_player(p, "Your power armor disengages.");
+  it->make(g->itypes["adv_UPS_off"]);
+  it->active = false;
+ }
+}
+
 void iuse::tazer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
