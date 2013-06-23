@@ -1956,13 +1956,7 @@ bool game::handle_action()
   case ACTION_QUIT:
    if (query_yn("Commit suicide?")) {
     u.moves = 0;
-    std::vector<item *> tmp = u.inv_dump();
-    item your_body;
-    your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
-    your_body.name = u.name;
-    m.add_item(u.posx, u.posy, your_body);
-    for (int i = 0; i < tmp.size(); i++)
-        m.add_item(u.posx, u.posy, *(tmp[i]));
+    place_corpse();
     uquit = QUIT_SUICIDE;
    }
    break;
@@ -2121,14 +2115,7 @@ bool game::is_game_over()
   return true;
  for (int i = 0; i <= hp_torso; i++) {
   if (u.hp_cur[i] < 1) {
-   std::vector<item *> tmp = u.inv_dump();
-   item your_body;
-   your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
-   your_body.name = u.name;
-   m.add_item(u.posx, u.posy, your_body);
-   for (int j = 0; j < tmp.size(); j++) {
-       m.add_item(u.posx, u.posy, *(tmp[j]));
-   }
+   place_corpse();
    std::stringstream playerfile;
    playerfile << "save/" << u.name << ".sav";
    unlink(playerfile.str().c_str());
@@ -2137,6 +2124,32 @@ bool game::is_game_over()
   }
  }
  return false;
+}
+
+void game::place_corpse()
+{
+  std::vector<item *> tmp = u.inv_dump();
+  item your_body;
+  your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
+  your_body.name = u.name;
+  for (int i = 0; i < tmp.size(); i++)
+    m.add_item(u.posx, u.posy, *(tmp[i]));
+  for (int i = 0; i < u.my_bionics.size(); i++) {
+    if (itypes.find(u.my_bionics[i].id) != itypes.end()) {
+      your_body.contents.push_back(item(itypes[u.my_bionics[i].id], turn));
+    }
+  }
+  int pow = u.max_power_level;
+  while (pow >= 4) {
+    if (pow % 4 != 0 && pow >= 10){
+      pow -= 10;
+      your_body.contents.push_back(item(itypes["bio_power_storage_mkII"], turn));
+    } else {
+      pow -= 4;
+      your_body.contents.push_back(item(itypes["bio_power_storage"], turn));
+    }
+  }
+  m.add_item(u.posx, u.posy, your_body);
 }
 
 void game::death_screen()
@@ -4593,6 +4606,285 @@ void game::flashbang(int x, int y)
  }
  sound(x, y, 12, "a huge boom!");
 // TODO: Blind/deafen NPC
+}
+
+void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player)
+{
+    sound(x, y, force*force*dam_mult/2, "Crack!");
+    for (int i = 0; i < z.size(); i++)
+    {
+        if (rl_dist(z[i].posx, z[i].posy, x, y) <= radius)
+        {
+            add_msg("%s is caught in the shockwave!", z[i].name().c_str());
+            knockback(x, y, z[i].posx, z[i].posy, force, stun, dam_mult);
+        }
+    }
+    for (int i = 0; i < active_npc.size(); i++)
+    {
+        if (rl_dist(active_npc[i]->posx, active_npc[i]->posy, x, y) <= radius)
+        {
+            add_msg("%s is caught in the shockwave!", active_npc[i]->name.c_str());
+            knockback(x, y, active_npc[i]->posx, active_npc[i]->posy, force, stun, dam_mult);
+        }
+    }
+    if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player)
+    {
+        add_msg("You're caught in the shockwave!");
+        knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
+    }
+    return;
+}
+
+/* Knockback target at (tx,ty) by force number of tiles in direction from (sx,sy) to (tx,ty)
+   stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
+   dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
+
+void game::knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult)
+{
+    std::vector<point> traj;
+    traj.clear();
+    traj = line_to(sx, sy, tx, ty, 0);
+    traj.insert(traj.begin(), point(sx, sy)); // how annoying, line_to() doesn't include the originating point!
+    traj = continue_line(traj, force);
+    traj.insert(traj.begin(), point(tx, ty)); // how annoying, continue_line() doesn't either!
+    
+    knockback(traj, force, stun, dam_mult);
+    return;
+}
+
+/* Knockback target at traj.front() along line traj; traj should already have considered knockback distance.
+   stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
+   dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
+
+void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult)
+{
+    int tx = traj.front().x;
+    int ty = traj.front().y;
+    if (mon_at(tx, ty) == -1 && npc_at(tx, ty) == -1 && (u.posx != tx && u.posy != ty))
+    {
+        debugmsg("Nothing at (%d,%d) to knockback!", tx, ty);
+        return;
+    }
+    //add_msg("line from %d,%d to %d,%d",traj.front().x,traj.front().y,traj.back().x,traj.back().y);
+    std::string junk;
+    int force_remaining = 0;
+    if (mon_at(tx, ty) != -1)
+    {
+        monster *targ = &z[mon_at(tx, ty)];
+        if (stun > 0)
+        {
+            targ->add_effect(ME_STUNNED, stun);
+            add_msg("%s was stunned for %d turn%s!", targ->name().c_str(), stun, stun>1?"s":"");
+        }
+        for(int i = 1; i < traj.size(); i++)
+        {
+            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
+            {
+                targ->posx = traj[i-1].x;
+                targ->posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (targ->has_effect(ME_STUNNED))
+                    {
+                        targ->add_effect(ME_STUNNED, force_remaining);
+                        add_msg("%s was stunned AGAIN for %d turn%s!",
+                                targ->name().c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    else
+                    {
+                        targ->add_effect(ME_STUNNED, force_remaining);
+                        add_msg("%s was stunned for %d turn%s!",
+                                targ->name().c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    add_msg("%s took %d damage!", targ->name().c_str(), dam_mult*force_remaining);
+                    targ->hp -= dam_mult*force_remaining;
+                    if (targ->hp <= 0)
+                        targ->die(this);
+                }
+                m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
+                sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
+                break;
+            }
+            else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
+                      (u.posx == traj[i].x && u.posy == traj[i].y))
+            {
+                targ->posx = traj[i-1].x;
+                targ->posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (targ->has_effect(ME_STUNNED))
+                    {
+                        targ->add_effect(ME_STUNNED, force_remaining);
+                        add_msg("%s was stunned AGAIN for %d turn%s!",
+                                targ->name().c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    else
+                    {
+                        targ->add_effect(ME_STUNNED, force_remaining);
+                        add_msg("%s was stunned for %d turn%s!",
+                                targ->name().c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                }
+                traj.erase(traj.begin(), traj.begin()+i);
+                if (mon_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("%s collided with someTHING else and sent IT flying!", targ->name().c_str());
+                else if (npc_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("%s collided with someone else and sent %s flying!", targ->name().c_str(),
+                            active_npc[npc_at(traj.front().x, traj.front().y)]->male?"him":"her");
+                knockback(traj, force_remaining, stun, dam_mult);
+                break;
+            }
+            targ->posx = traj[i].x;
+            targ->posy = traj[i].y;
+        }
+    }
+    else if (npc_at(tx, ty) != -1)
+    {
+        npc *targ = active_npc[npc_at(tx, ty)];
+        if (stun > 0)
+        {
+            targ->add_disease(DI_STUNNED, stun, this);
+            add_msg("%s was stunned for %d turn%s!", targ->name.c_str(), stun, stun>1?"s":"");
+        }
+        for(int i = 1; i < traj.size(); i++)
+        {
+            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
+            {
+                targ->posx = traj[i-1].x;
+                targ->posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (targ->has_disease(DI_STUNNED))
+                    {
+                        targ->add_disease(DI_STUNNED, force_remaining, this);
+                        if (targ->has_disease(DI_STUNNED))
+                            add_msg("%s was stunned AGAIN for %d turn%s!",
+                                     targ->name.c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    else
+                    {
+                        targ->add_disease(DI_STUNNED, force_remaining, this);
+                        if (targ->has_disease(DI_STUNNED))
+                            add_msg("%s was stunned for %d turns!",
+                                     targ->name.c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    add_msg("%s took %d damage! (before armor)", targ->name.c_str(), dam_mult*force_remaining);
+                    if (one_in(2)) targ->hit(this, bp_arms, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_legs, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_torso, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_head, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_hands, 0, force_remaining*dam_mult, 0);
+                }
+                m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
+                sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
+                break;
+            }
+            else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
+                      (u.posx == traj[i].x && u.posy == traj[i].y))
+            {
+                targ->posx = traj[i-1].x;
+                targ->posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (targ->has_disease(DI_STUNNED))
+                    {
+                        add_msg("%s was stunned AGAIN for %d turn%s!",
+                                 targ->name.c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    else
+                    {
+                        add_msg("%s was stunned for %d turn%s!",
+                                 targ->name.c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    targ->add_disease(DI_STUNNED, force_remaining, this);
+                }
+                traj.erase(traj.begin(), traj.begin()+i);
+                if (mon_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("%s collided with someTHING else and sent IT flying!", targ->name.c_str());
+                else if (npc_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("%s collided with someone else and sent %s flying!", targ->name.c_str(),
+                            active_npc[npc_at(traj.front().x, traj.front().y)]->male?"him":"her");
+                knockback(traj, force_remaining, stun, dam_mult);
+                break;
+            }
+            targ->posx = traj[i].x;
+            targ->posy = traj[i].y;
+        }
+    }
+    else if (u.posx == tx && u.posy == ty)
+    {
+        if (stun > 0)
+        {
+            u.add_disease(DI_STUNNED, stun, this);
+            add_msg("You were stunned for %d turns!", stun);
+        }
+        for(int i = 1; i < traj.size(); i++)
+        {
+            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
+            {
+                u.posx = traj[i-1].x;
+                u.posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (u.has_disease(DI_STUNNED))
+                    {
+                        add_msg("You were stunned AGAIN for %d turns!", force_remaining);
+                    }
+                    else
+                    {
+                        add_msg("You were stunned for %d turns!", force_remaining);
+                    }
+                    u.add_disease(DI_STUNNED, force_remaining, this);
+                    if (one_in(2)) u.hit(this, bp_arms, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_legs, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_torso, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_head, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_hands, 0, force_remaining*dam_mult, 0);
+                }
+                m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
+                sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
+                break;
+            }
+            else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1)
+            {
+                u.posx = traj[i-1].x;
+                u.posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (u.has_disease(DI_STUNNED))
+                    {
+                        add_msg("You were stunned AGAIN for %d turns!", force_remaining);
+                    }
+                    else
+                    {
+                        add_msg("You were stunned for %d turns!", force_remaining);
+                    }
+                    u.add_disease(DI_STUNNED, force_remaining, this);
+                }
+                traj.erase(traj.begin(), traj.begin()+i);
+                if (mon_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("You collided with someTHING else and sent IT flying!");
+                else if (npc_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("You collided with someone else and sent %s flying!",
+                            active_npc[npc_at(traj.front().x, traj.front().y)]->male?"him":"her");
+                knockback(traj, force_remaining, stun, dam_mult);
+                break;
+            }
+            u.posx = traj[i].x;
+            u.posy = traj[i].y;
+        }
+    }
+    return;
 }
 
 void game::use_computer(int x, int y)
@@ -8785,6 +9077,7 @@ void game::complete_butcher(int index)
   return;
  }
  mtype* corpse = m.i_at(u.posx, u.posy)[index].corpse;
+ std::vector<item> contents = m.i_at(u.posx, u.posy)[index].contents;
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
@@ -8893,6 +9186,16 @@ void game::complete_butcher(int index)
     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
    }
   }
+ }
+
+ // Recover hidden items
+ for (int i = 0; i < contents.size(); i++) {
+   if ((skill_shift + 10) * 5 > rng(0,100)) {
+     add_msg("You discover a %s in the %s!", contents[i].tname().c_str(), corpse->name.c_str());
+     m.add_item(u.posx, u.posy, contents[i]);
+   } else if (contents[i].is_bionic()){
+     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
+   }
  }
 
  if (pieces <= 0)

@@ -498,14 +498,15 @@ void player::activate_bionic(int b, game *g)
    g->m.ter_set(dirx, diry, t_door_c);
   } else
    g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
- } else if(bio.id == "bio_flashbang"){
+ } else if(bio.id == "bio_flashbang") {
    int blind_duration = 0;
    int blind_intensity = 0;
    int deaf_duration = 0;
    int deaf_intensity = 0;
    if (disease_level(DI_BLIND))
    {
-       blind_duration = disease_level(DI_BLIND);        // remember our blind/deaf status
+       // remember our blind/deaf status
+       blind_duration = disease_level(DI_BLIND);
        blind_intensity = disease_intensity(DI_BLIND);
    }
    if (disease_level(DI_DEAF))
@@ -515,16 +516,21 @@ void player::activate_bionic(int b, game *g)
    }
    g->add_msg("You activate your integrated flashbang generator!");
    g->flashbang(posx, posy);
-   rem_disease(DI_BLIND);       // clear blind/deaf because CBM flashbang shouldn't affect the player
+   // clear blind/deaf because CBM flashbang shouldn't affect the player
+   rem_disease(DI_BLIND);
    rem_disease(DI_DEAF);
    if (blind_duration)
    {
-       add_disease(DI_BLIND, blind_duration, g, blind_intensity, blind_intensity); //restore our blind/deaf status
+       //restore our blind/deaf status
+       add_disease(DI_BLIND, blind_duration, g, blind_intensity, blind_intensity);
    }
    if (deaf_duration)
    {
        add_disease(DI_DEAF, deaf_duration, g, deaf_intensity, deaf_intensity);
    }
+ } else if(bio.id == "bio_shockwave") {
+   g->shockwave(posx, posy, 3, 4, 2, 8, true);
+   g->add_msg("You unleash a powerful shockwave!");
  }
 }
 
@@ -1021,6 +1027,11 @@ in computers is important, and a failed use may damage your circuits.");
 One of your fingers has an electronic lockpick embedded in it.  This auto-\n\
 matic system will quickly unlock all but the most advanced key locks without\n\
 any skill required on the part of the user.");
+
+    bionics["bio_shockwave"] = new bionic_data("Shockwave Generator", false, true, 10, 0, "\
+You generate a powerful shockwave, knocking back all nearby creatures.\n\
+Targets are stunned briefly, take damage and additional stun upon impact\n\
+with impassable terrain, and knockback any creatures they collide with.");
 
     bionics["bio_ground_sonar"] = new bionic_data("Terranian Sonar", false, true, 1, 5, "\
 Your feet are equipped with precision sonar equipment, allowing you to detect\n\
