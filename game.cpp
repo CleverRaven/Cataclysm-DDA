@@ -10233,31 +10233,6 @@ void game::update_overmap_seen()
  }
 }
 
-struct real_coords {
-  point rel_lev;
-  point rel_pos;
-  point sub;
-  point sub_pos;
-  real_coords(int lx, int ly, int px, int py) {
-    rel_lev.x=lx;
-    rel_lev.y=ly;
-    rel_pos.x=px;
-    rel_pos.y=py;
-    sub.x = lx + ( px / SEEX );
-    sub.y = ly + ( py / SEEX );
-    sub_pos.x = px % SEEX;
-    sub_pos.y = py % SEEY;
-    while( sub_pos.x < 0 ) {
-        sub.x--;
-        sub_pos.x += 12;
-    }
-    while( sub_pos.y < 0 ) {
-        sub.y--;
-        sub_pos.y += 12;
-    }
-  };
-};
-
 point game::om_location()
 {
  point ret;
