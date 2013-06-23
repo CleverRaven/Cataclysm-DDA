@@ -178,7 +178,7 @@ public:
  unsigned item_counter;	// generic counter to be used with item flags
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!
-
+ std::map<std::string, std::string> item_vars;
  static itype * nullitem();
 
  item clone();

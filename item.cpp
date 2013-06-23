@@ -199,6 +199,7 @@ void item::clear()
     // should we be clearing contents, as well?
     // Seems risky to - there aren't any reported content-clearing bugs
     item_tags.clear();
+    item_vars.clear();
 }
 
 bool item::is_null() const
@@ -275,6 +276,7 @@ void item::put_in(item payload)
 {
  contents.push_back(payload);
 }
+const char ivaresc=001;
 
 std::string item::save_info() const
 {
@@ -299,13 +301,32 @@ std::string item::save_info() const
  std::stringstream dump;
  dump << " " << int(invlet) << " " << typeId() << " " <<  int(charges) <<
      " " << int(damage) << " ";
-
- dump << item_tags.size() << " ";
+/////
+ int stags=item_tags.size() + item_vars.size();
+/////
+ dump << stags << " ";
  for( std::set<std::string>::const_iterator it = item_tags.begin();
       it != item_tags.end(); ++it )
  {
      dump << *it << " ";
  }
+/////
+ for( std::map<std::string, std::string>::const_iterator it = item_vars.begin(); it != item_vars.end(); ++it ) {
+    std::string itstr="";
+    std::string itval="";
+    dump << ivaresc << it->first << "=";
+    for(std::string::const_iterator sit = it->second.begin(); sit != it->second.end(); ++sit ) {
+       switch(*sit) {
+           case '\n': dump << ivaresc << "0A"; break;
+           case '\r': dump << ivaresc << "0D"; break;
+           case '\t': dump << ivaresc << "09"; break;
+           case ' ': dump << ivaresc << "20"; break;
+           default:  dump << *sit; break;
+       }
+    }
+    dump << " ";
+ }
+////
 
  dump << burnt << " " << poison << " " << ammotmp <<
         " " << owned << " " << int(bday) << " " << mode;
@@ -328,6 +349,39 @@ std::string item::save_info() const
  return dump.str();
 }
 
+bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
+   if(item_tag.at(0) == ivaresc && item_tag.find('=') != -1 && item_tag.find('=') >= 2 ) {
+     std::string var_name, val_decoded;
+     int svarlen, svarsep;
+     svarsep=item_tag.find('=');
+     svarlen=item_tag.size();
+     var_name="";
+     val_decoded="";
+     var_name=item_tag.substr(1,svarsep-1); // will assume sanity here for now
+     for(int s = svarsep+1; s < svarlen; s++ ) { // cheap and temporary, afaik stringstream IFS = [\r\n\t ];
+         if(item_tag[s] == ivaresc && s < svarlen-2 ){
+             if ( item_tag[s+1] == '0' && item_tag[s+2] == 'A' ) {
+                 s+=2; val_decoded.append(1, '\n');
+             } else if ( item_tag[s+1] == '0' && item_tag[s+2] == 'D' ) {
+                 s+=2; val_decoded.append(1, '\r');
+             } else if ( item_tag[s+1] == '0' && item_tag[s+2] == '6' ) {
+                 s+=2; val_decoded.append(1, '\t');
+             } else if ( item_tag[s+1] == '2' && item_tag[s+2] == '0' ) {
+                 s+=2; val_decoded.append(1, ' ');
+             } else {
+                 val_decoded.append(1, item_tag[s]); // hhrrrmmmmm should be passing \a?
+             }
+         } else {
+             val_decoded.append(1, item_tag[s]);
+         }
+     }
+     item_vars[var_name]=val_decoded;
+     return true;
+   } else {
+     return false;
+   }
+}
+
 void item::load_info(std::string data, game *g)
 {
  clear();
@@ -340,7 +394,9 @@ void item::load_info(std::string data, game *g)
  for( int i = 0; i < tag_count; ++i )
  {
      dump >> item_tag;
+   if( itag2ivar(item_tag, item_vars ) == false ) {
      item_tags.insert( item_tag );
+   }
  }
 
  dump >> burnt >> poison >> ammotmp >> owned >> bday >>
