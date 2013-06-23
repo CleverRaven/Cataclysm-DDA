@@ -631,7 +631,7 @@ void game::init_mapitems()
    "bio_face_mask", "bio_scent_mask", "bio_cloak", "bio_fingerhack",
    "bio_carbon", "bio_armor_head", "bio_armor_torso",
    "bio_armor_arms", "bio_armor_legs",
-   "bio_shock", "bio_heat_absorb", "bio_claws",
+   "bio_shock", "bio_heat_absorb", "bio_claws", "bio_shockwave",
    "bio_nanobots", "bio_blood_anal",
    "bio_ads", "bio_ods",
    "bio_resonator", "bio_hydraulics",

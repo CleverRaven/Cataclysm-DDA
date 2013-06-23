@@ -314,6 +314,20 @@ class game
 
  void load_artifacts(); // Load artifact data
                         // Needs to be called by main() before MAPBUFFER.load
+ 
+ // Knockback functions: knock target at (tx,ty) along a line, either calculated 
+ // from source position (sx,sy) using force parameter or passed as an argument;
+ // force determines how far target is knocked, if trajectory is calculated
+ // force also determines damage along with dam_mult;
+ // stun determines base number of turns target is stunned regardless of impact
+ // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
+ void knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult);
+ void knockback(std::vector<point>& traj, int force, int stun, int dam_mult);
+ 
+ // shockwave applies knockback to all targets within radius of (x,y)
+ // parameters force, stun, and dam_mult are passed to knockback()
+ // ignore_player determines if player is affected, useful for bionic, etc.
+ void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
 
  private:
 // Game-start procedures
