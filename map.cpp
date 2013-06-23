@@ -3662,6 +3662,27 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
     update_vehicle_cache(*it);
    }
   }
+
+  // check spoiled stuff 
+  for(int x = 0; x < 12; x++) {
+      for(int y = 0; y < 12; y++) {
+          for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin(),
+              end = tmpsub->itm[x][y].end(); it != end;) {
+                  bool removed = false;
+                  if(it->goes_bad()) {
+                      it_comest *food = dynamic_cast<it_comest*>(it->type);
+                      int maxShelfLife = it->bday + (food->spoils * 600)*2;
+                      if(g->turn >= maxShelfLife) {
+                          it = tmpsub->itm[x][y].erase(it);
+                          end = tmpsub->itm[x][y].end();
+                          removed = true;
+                      }
+                  }
+                  if(!removed) { ++it; }
+          }
+      }
+  }
+
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
   map tmp_map(itypes, mapitems, traps);
