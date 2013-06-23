@@ -1956,13 +1956,7 @@ bool game::handle_action()
   case ACTION_QUIT:
    if (query_yn("Commit suicide?")) {
     u.moves = 0;
-    std::vector<item *> tmp = u.inv_dump();
-    item your_body;
-    your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
-    your_body.name = u.name;
-    m.add_item(u.posx, u.posy, your_body);
-    for (int i = 0; i < tmp.size(); i++)
-        m.add_item(u.posx, u.posy, *(tmp[i]));
+    place_corpse();
     uquit = QUIT_SUICIDE;
    }
    break;
@@ -2121,14 +2115,7 @@ bool game::is_game_over()
   return true;
  for (int i = 0; i <= hp_torso; i++) {
   if (u.hp_cur[i] < 1) {
-   std::vector<item *> tmp = u.inv_dump();
-   item your_body;
-   your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
-   your_body.name = u.name;
-   m.add_item(u.posx, u.posy, your_body);
-   for (int j = 0; j < tmp.size(); j++) {
-       m.add_item(u.posx, u.posy, *(tmp[j]));
-   }
+   place_corpse();
    std::stringstream playerfile;
    playerfile << "save/" << u.name << ".sav";
    unlink(playerfile.str().c_str());
@@ -2137,6 +2124,32 @@ bool game::is_game_over()
   }
  }
  return false;
+}
+
+void game::place_corpse()
+{
+  std::vector<item *> tmp = u.inv_dump();
+  item your_body;
+  your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
+  your_body.name = u.name;
+  for (int i = 0; i < tmp.size(); i++)
+    m.add_item(u.posx, u.posy, *(tmp[i]));
+  for (int i = 0; i < u.my_bionics.size(); i++) {
+    if (itypes.find(u.my_bionics[i].id) != itypes.end()) {
+      your_body.contents.push_back(item(itypes[u.my_bionics[i].id], turn));
+    }
+  }
+  int pow = u.max_power_level;
+  while (pow >= 4) {
+    if (pow % 4 != 0 && pow >= 10){
+      pow -= 10;
+      your_body.contents.push_back(item(itypes["bio_power_storage_mkII"], turn));
+    } else {
+      pow -= 4;
+      your_body.contents.push_back(item(itypes["bio_power_storage"], turn));
+    }
+  }
+  m.add_item(u.posx, u.posy, your_body);
 }
 
 void game::death_screen()
@@ -8785,6 +8798,7 @@ void game::complete_butcher(int index)
   return;
  }
  mtype* corpse = m.i_at(u.posx, u.posy)[index].corpse;
+ std::vector<item> contents = m.i_at(u.posx, u.posy)[index].contents;
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
@@ -8893,6 +8907,16 @@ void game::complete_butcher(int index)
     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
    }
   }
+ }
+
+ // Recover hidden items
+ for (int i = 0; i < contents.size(); i++) {
+   if ((skill_shift + 10) * 5 > rng(0,100)) {
+     add_msg("You discover a %s in the %s!", contents[i].tname().c_str(), corpse->name.c_str());
+     m.add_item(u.posx, u.posy, contents[i]);
+   } else if (contents[i].is_bionic()){
+     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
+   }
  }
 
  if (pieces <= 0)
