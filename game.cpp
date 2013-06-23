@@ -4610,6 +4610,34 @@ void game::flashbang(int x, int y)
 
 void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player)
 {
+  //borrowed code from game::explosion()
+  timespec ts;	// Timespec for the animation of the explosion
+  ts.tv_sec = 0;
+  ts.tv_nsec = EXPLOSION_SPEED;
+    for (int i = 1; i <= radius; i++) {
+  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, c_blue, '/');
+  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, c_blue,'\\');
+  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, c_blue,'\\');
+  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, c_blue, '/');
+  for (int j = 1 - i; j < 0 + i; j++) {
+   mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, c_blue,'-');
+   mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, c_blue,'-');
+   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x - i + VIEWX - u.posx - u.view_offset_x, c_blue,'|');
+   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x + i + VIEWX - u.posx - u.view_offset_x, c_blue,'|');
+  }
+  wrefresh(w_terrain);
+  nanosleep(&ts, NULL);
+ }
+ // end borrowed code from game::explosion()
+ 
     sound(x, y, force*force*dam_mult/2, "Crack!");
     for (int i = 0; i < z.size(); i++)
     {
@@ -4733,6 +4761,8 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 else if (npc_at(traj.front().x, traj.front().y) != -1)
                     add_msg("%s collided with someone else and sent %s flying!", targ->name().c_str(),
                             active_npc[npc_at(traj.front().x, traj.front().y)]->male?"him":"her");
+                else if (u.posx == traj.front().x && u.posy == traj.front().y)
+                    add_msg("%s collided with you and sent you flying!", targ->name().c_str());
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
@@ -4810,6 +4840,8 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 else if (npc_at(traj.front().x, traj.front().y) != -1)
                     add_msg("%s collided with someone else and sent %s flying!", targ->name.c_str(),
                             active_npc[npc_at(traj.front().x, traj.front().y)]->male?"him":"her");
+                else if (u.posx == traj.front().x && u.posy == traj.front().y)
+                    add_msg("%s collided with you and sent you flying!", targ->name.c_str());
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
