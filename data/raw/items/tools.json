@@ -3178,7 +3178,7 @@
     "turns_per_charge": 0,
     "ammo": "none",
     "revert_to": "null",
-    "use_action": "IMPROVISED_PICKLOCK"
+    "use_action": "PICKLOCK"
   },
 
   {
