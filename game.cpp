@@ -10243,10 +10243,18 @@ struct real_coords {
     rel_lev.y=ly;
     rel_pos.x=px;
     rel_pos.y=py;
-    sub.x = lx + ( px / SEEX ) + ( px < 0 ? -1 : 0);
-    sub.y = ly + ( py / SEEX ) + ( py < 0 ? -1 : 0);
-    sub_pos.x = ( px % SEEX ) + ( px < 0 ? 12 : 0);
-    sub_pos.y = ( py % SEEY ) + ( py < 0 ? 12 : 0);
+    sub.x = lx + ( px / SEEX );
+    sub.y = ly + ( py / SEEX );
+    sub_pos.x = px % SEEX;
+    sub_pos.y = py % SEEY;
+    while( sub_pos.x < 0 ) {
+        sub.x--;
+        sub_pos.x += 12;
+    }
+    while( sub_pos.y < 0 ) {
+        sub.y--;
+        sub_pos.y += 12;
+    }
   };
 };
 
