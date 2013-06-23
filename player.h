@@ -197,6 +197,7 @@ public:
  void siphon_gas(game *g, vehicle *veh);
  void cauterize(game *g);
  void suffer(game *g);
+ void mend(game *g);
  void vomit(game *g);
 
  char lookup_item(char let);

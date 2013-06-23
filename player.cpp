@@ -3930,6 +3930,94 @@ void player::suffer(game *g)
   per_cur = 0;
  if (int_cur < 0)
   int_cur = 0;
+
+ // check for limb mending every 1000 turns (~1.6 hours)
+ if(g->turn.get_turn() % 1000 == 0) {
+  mend(g);
+ }
+}
+
+void player::mend(game *g)
+{
+ // Wearing splints can slowly mend a broken limb back to 1 hp.
+ // 2 weeks is faster than a fracture would heal IRL,
+ // but 3 weeks average (a generous estimate) was tedious and no fun.
+ for(int i = 0; i < num_hp_parts; i++) {
+  int broken = (hp_cur[i] <= 0);
+  if(broken) {
+   // g->add_msg("Checking if it's time to mend...");
+   double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
+   double healing_factor = 1.0;
+   // Studies have shown that alcohol and tobacco use delay fracture healing time
+   if(has_disease(DI_CIG) | addiction_level(ADD_CIG)) {
+    healing_factor *= 0.5;
+   }
+   if(has_disease(DI_DRUNK) | addiction_level(ADD_ALCOHOL)) {
+    healing_factor *= 0.5;
+   }
+
+   // Bed rest speeds up mending
+   if(has_disease(DI_SLEEP)) {
+    healing_factor *= 4.0;
+   } else if(fatigue > 383) {
+    // but being dead tired does not...
+    healing_factor *= 0.75;
+   }
+
+   // Being healthy helps.
+   if(health > 0) {
+    healing_factor *= 2.0;
+   }
+
+   // And being well fed...
+   if(hunger < 0) {
+    healing_factor *= 2.0;
+   }
+
+   if(thirst < 0) {
+    healing_factor *= 2.0;
+   }
+
+   // Mutagenic healing factor!
+   if(has_trait(PF_REGEN)) {
+    healing_factor *= 16.0;
+   } else if (has_trait(PF_FASTHEALER2)) {
+    healing_factor *= 4.0;
+   } else if (has_trait(PF_FASTHEALER)) {
+    healing_factor *= 2.0;
+   }
+
+   // g->add_msg("Mending odds are %.2f in %.0f, or %f", healing_factor, mending_odds, healing_factor / mending_odds);
+
+   bool mended = false;
+   int side = 0;
+   body_part part;
+   switch(i) {
+    case hp_arm_r:
+     side = 1;
+     // fall-through
+    case hp_arm_l:
+     part = bp_arms;
+     mended = is_wearing("arm_splint") && x_in_y(healing_factor, mending_odds);
+     break;
+    case hp_leg_r:
+     side = 1;
+     // fall-through
+    case hp_leg_l:
+     part = bp_legs;
+     mended = is_wearing("leg_splint") && x_in_y(healing_factor, mending_odds);
+     break;
+    default:
+     // No mending for you!
+     break;
+   }
+   if(mended) {
+    hp_cur[i] = 1;
+    g->add_msg("Your %s has started to mend!",
+      body_part_name(part, side).c_str());
+   }
+  }
+ }
 }
 
 void player::vomit(game *g)
