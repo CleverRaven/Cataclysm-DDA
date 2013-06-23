@@ -349,7 +349,6 @@ std::string item::save_info() const
  return dump.str();
 }
 
-///
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
    if(item_tag.at(0) == ivaresc && item_tag.find('=') != -1 && item_tag.find('=') >= 2 ) {
      std::string var_name, val_decoded;
@@ -377,14 +376,11 @@ bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_
          }
      }
      item_vars[var_name]=val_decoded;
-//     popup("item_tag '%s' => item_vars[%s]=%s                         ",item_tag.c_str(),var_name.c_str(),val_decoded.c_str() );
-
      return true;
    } else {
      return false;
    }
 }
-///
 
 void item::load_info(std::string data, game *g)
 {
