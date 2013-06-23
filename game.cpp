@@ -5123,7 +5123,7 @@ void game::smash()
         if (m.has_flag(alarmed, smashx, smashy) &&
             !event_queued(EVENT_WANTED))
         {
-            sound(smashx, smashy, 30, "An alarm sounds!");
+            sound(smashx, smashy, 40, "An alarm sounds!");
             add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
         }
         u.moves -= move_cost;
@@ -5139,7 +5139,7 @@ void game::smash()
             {
                 m.add_item(u.posx, u.posy, u.weapon.contents[i]);
             }
-            sound(u.posx, u.posy, 16, "");
+            sound(u.posx, u.posy, 24, "");
             u.hit(this, bp_hands, 1, 0, rng(0, u.weapon.volume()));
             if (u.weapon.volume() > 20)
             {
@@ -5349,12 +5349,12 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 // another is the gate.  There may be a handle on the other side, but this is optional.
 // The gate continues until it reaches a non-floor tile, so they can be arbitrary length.
 //
-//   |  !|!        !  !
-//   +   +   --++++-  -++++++++++++
-//   +   +   !     !
-//   +   +
-//   +   |!
-//  !|
+//   |  !|!  -++-++-  !|++++- 
+//   +   +      !      +
+//   +   +   -++-++-   +
+//   +   +             +
+//   +   +   !|++++-   +
+//  !|   |!        !   |
 //
 // The terrain type of the handle is passed in, and that is used to determine the type of
 // the wall and gate.
@@ -5403,7 +5403,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   v_wall_type = t_palisade;
   h_wall_type = t_palisade;
   door_type   = t_palisade_gate;
-  floor_type  = t_dirt;
+  floor_type  = t_palisade_gate_o;
   pull_message = "You pull the rope...";
   open_message = "The palisade gate swings open!";
   close_message = "The palisade gate swings closed with a crash!";
@@ -5414,112 +5414,51 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
 
  g->add_msg(pull_message);
  g->u.moves -= 900;
- if (((g->m.ter(examx-1, examy)==v_wall_type)&&
-      ((g->m.ter(examx-1, examy+1)==floor_type)||
-       (g->m.ter(examx-1, examy-1)==floor_type))&&
-      (!((g->m.ter(examx-1, examy-1)==door_type)||
-	 (g->m.ter(examx-1, examy+1)==door_type))))||
-     ((g->m.ter(examx+1, examy)==v_wall_type)&&
-      ((g->m.ter(examx+1, examy+1)==floor_type)||
-       (g->m.ter(examx+1, examy-1)==floor_type))&&
-      (!((g->m.ter(examx+1, examy-1)==door_type)||
-	 (g->m.ter(examx+1, examy+1)==door_type))))) {
-   //horizontal orientation of the gate
-   if ((g->m.ter(examx, examy-1)==h_wall_type)||
-       (g->m.ter(examx, examy+1)==h_wall_type)) {
-     int x_incr=0; int y_offst=0;
-     if (g->m.ter(examx, examy-1)==h_wall_type) y_offst = -1;
-     if (g->m.ter(examx, examy+1)==h_wall_type) y_offst = 1;
-     if (g->m.ter(examx+1, examy+y_offst) == floor_type) x_incr = 1;
-     if (g->m.ter(examx-1, examy+y_offst) == floor_type) x_incr = -1;
-     int cur_x = examx+x_incr;
-     while (g->m.ter(cur_x, examy+y_offst)== floor_type) {
-       g->m.ter_set(cur_x, examy+y_offst, door_type);
-       cur_x = cur_x+x_incr;
-     }
-     //vertical orientation of the gate
-   } else if ((g->m.ter(examx-1, examy)==v_wall_type)||
-	      (g->m.ter(examx+1, examy)==v_wall_type)) {
-     int x_offst = 0; int y_incr = 0;
-     if ((g->m.ter(examx-1, examy)==v_wall_type)) x_offst = -1;
-     if ((g->m.ter(examx+1, examy)==v_wall_type)) x_offst = 1;
-     if (g->m.ter(examx+x_offst, examy-1)== floor_type) y_incr = -1;
-     if (g->m.ter(examx+x_offst, examy+1)== floor_type) y_incr = 1;
-     int cur_y = examy+y_incr;
-     while (g->m.ter(examx+x_offst, cur_y)==floor_type) {
-       g->m.ter_set(examx+x_offst, cur_y, door_type);
-       cur_y = cur_y+y_incr;
-     }
-   }
-   g->add_msg(close_message);
- } else if (((g->m.ter(examx, examy-1)==h_wall_type)&&
-	   ((g->m.ter(examx+1, examy-1)==floor_type)||
-	    (g->m.ter(examx-1, examy-1)==floor_type)))||
-	  ((g->m.ter(examx, examy+1)==h_wall_type)&&
-	   ((g->m.ter(examx+1, examy+1)==floor_type)||
-	    (g->m.ter(examx-1, examy+1)==floor_type))))
- {
-   //horizontal orientation of the gate
-   if ((g->m.ter(examx, examy-1)==h_wall_type)||
-       (g->m.ter(examx, examy+1)==h_wall_type)) {
-     int x_incr=0; int y_offst=0;
-     if (g->m.ter(examx, examy-1)==h_wall_type) y_offst = -1;
-     if (g->m.ter(examx, examy+1)==h_wall_type) y_offst = 1;
-     if (g->m.ter(examx+1, examy+y_offst) == floor_type) x_incr = 1;
-     if (g->m.ter(examx-1, examy+y_offst) == floor_type) x_incr = -1;
-     int cur_x = examx+x_incr;
-     while (g->m.ter(cur_x, examy+y_offst)== floor_type) {
-       g->m.ter_set(cur_x, examy+y_offst, door_type);
-       cur_x = cur_x+x_incr;
-     }
- //vertical orientation of the gate
-   } else if ((g->m.ter(examx-1, examy)==v_wall_type)||
-	      (g->m.ter(examx+1, examy)==v_wall_type)) {
-     int x_offst = 0; int y_incr = 0;
-     if ((g->m.ter(examx-1, examy)==v_wall_type)) x_offst = -1;
-     if ((g->m.ter(examx+1, examy)==v_wall_type)) x_offst = 1;
-     if (g->m.ter(examx+x_offst, examy-1)== floor_type) y_incr = -1;
-     if (g->m.ter(examx+x_offst, examy+1)== floor_type) y_incr = 1;
-     int cur_y = examy+y_incr;
-     while (g->m.ter(examx+x_offst, cur_y)==floor_type) {
-       g->m.ter_set(examx+x_offst, cur_y, door_type);
-       cur_y = cur_y+y_incr;
+ 
+ bool open = false;
+ bool close = false;
+ 
+ for (int wall_x = -1; wall_x <= 1; wall_x++) {
+   for (int wall_y = -1; wall_y <= 1; wall_y++) {
+     for (int gate_x = -1; gate_x <= 1; gate_x++) {
+       for (int gate_y = -1; gate_y <= 1; gate_y++) {
+         if ((wall_x + wall_y == 1 || wall_x + wall_y == -1) &&  // make sure wall not diagonally opposite to handle
+             (gate_x + gate_y == 1 || gate_x + gate_y == -1) &&  // same for gate direction
+            ((wall_y != 0 && (g->m.ter(examx+wall_x, examy+wall_y) == h_wall_type)) ||  //horizontal orientation of the gate
+             (wall_x != 0 && (g->m.ter(examx+wall_x, examy+wall_y) == v_wall_type)))) { //vertical orientation of the gate   
+           
+           int cur_x = examx+wall_x+gate_x;
+           int cur_y = examy+wall_y+gate_y;
+             
+           if (!close && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == door_type)) {  //opening the gate...
+             open = true;
+             while (g->m.ter(cur_x, cur_y) == door_type) {
+               g->m.ter_set(cur_x, cur_y, floor_type);
+               cur_x = cur_x+gate_x;
+               cur_y = cur_y+gate_y;
+             }
+           }
+           
+           if (!open && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == floor_type)) {  //closing the gate...              
+             close = true;
+             while (g->m.ter(cur_x, cur_y) == floor_type) {
+               g->m.ter_set(cur_x, cur_y, door_type);
+               cur_x = cur_x+gate_x;
+               cur_y = cur_y+gate_y;
+             }
+           }
+         } 
+       }
      }
    }
-
-   //closing the gate...
-   g->add_msg(close_message);
  }
- else //opening the gate...
- {
-   //horizontal orientation of the gate
-   if ((g->m.ter(examx, examy-1)==h_wall_type)||
-       (g->m.ter(examx, examy+1)==h_wall_type)) {
-     int x_incr=0; int y_offst=0;
-     if (g->m.ter(examx, examy-1)==h_wall_type) y_offst = -1;
-     if (g->m.ter(examx, examy+1)==h_wall_type) y_offst = 1;
-     if (g->m.ter(examx+1, examy+y_offst) == door_type) x_incr = 1;
-     if (g->m.ter(examx-1, examy+y_offst) == door_type) x_incr = -1;
-     int cur_x = examx+x_incr;
-     while (g->m.ter(cur_x, examy+y_offst)==door_type) {
-       g->m.ter_set(cur_x, examy+y_offst, floor_type);
-       cur_x = cur_x+x_incr;
-     }
-     //vertical orientation of the gate
-   } else if ((g->m.ter(examx-1, examy)==v_wall_type)||
-              (g->m.ter(examx+1, examy)==v_wall_type)) {
-     int x_offst = 0; int y_incr = 0;
-     if ((g->m.ter(examx-1, examy)==v_wall_type)) x_offst = -1;
-     if ((g->m.ter(examx+1, examy)==v_wall_type)) x_offst = 1;
-     if (g->m.ter(examx+x_offst, examy-1)== door_type) y_incr = -1;
-     if (g->m.ter(examx+x_offst, examy+1)== door_type) y_incr = 1;
-     int cur_y = examy+y_incr;
-     while (g->m.ter(examx+x_offst, cur_y)==door_type) {
-       g->m.ter_set(examx+x_offst, cur_y, floor_type);
-       cur_y = cur_y+y_incr;
-     }
-   }
+ 
+ if(open){
    g->add_msg(open_message);
+ } else if(close){
+   g->add_msg(close_message);
+ } else {
+   add_msg("Nothing happens.");
  }
 }
 
@@ -7268,7 +7207,7 @@ point game::look_around()
    mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
-  
+
   DebugLog() << __FUNCTION__ << "calling get_input() \n";
   input = get_input();
   if (!u_see(lx, ly))
@@ -9723,6 +9662,32 @@ void game::plmove(int x, int y)
   if (veh1 && veh1->part_with_feature(vpart1, vpf_controls) >= 0)
       add_msg("There are vehicle controls here.  %s to drive.",
               press_x(ACTION_CONTROL_VEHICLE).c_str() );
+
+ } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel")) { //probability travel through walls but not water
+  int tunneldist = 0;
+  while(m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&
+          !m.has_flag(swimmable, x + tunneldist*(x - u.posx), y + tunneldist*(x - u.posx)))
+  {
+      tunneldist += 1; //add 1 to tunnel distance for each impassable tile in the line
+      if(tunneldist * 10 > u.power_level) //oops, not enough energy! Tunneling costs 10 bionic power per impassable tile
+      {
+          tunneldist = 0; //we didn't tunnel anywhere
+          break;
+      }
+  }
+  if(tunneldist) //you tunneled
+  {
+    u.power_level -= (tunneldist * 10); //tunneling costs 10 bionic power per impassable tile
+    u.moves -= 100; //tunneling costs 100 moves
+    u.posx += (tunneldist + 1) * (x - u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
+    u.posy += (tunneldist + 1) * (y - u.posy); //ditto for y
+    add_msg("You quantum tunnel through the %d-tile wide barrier!", tunneldist);
+  }
+  else //or you couldn't tunnel due to lack of energy
+  {
+      add_msg("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!");
+      u.power_level -= 10; //failure is expensive!
+  }
 
  } else if (veh_closed_door) { // move_cost <= 0
   veh1->parts[dpart].open = 1;

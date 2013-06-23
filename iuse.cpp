@@ -2001,6 +2001,15 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   return;
  }
 
+ int pick_quality = 1;
+ if( it->typeId() == "picklock" ) {
+     pick_quality = 5;
+ }
+ else if( it->typeId() == "crude_picklock" ) {
+     pick_quality = 2;
+ }
+
+
  const char *door_name;
  ter_id new_type;
  if (type == t_chaingate_l) {
@@ -2019,13 +2028,15 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  }
 
  p->practice(g->turn, "mechanics", 1);
- p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics")) * 5;
- if (dice(4, 6) < dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur) - it->damage / 2) {
+ p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel("mechanics")) * 5;
+ if (dice(3, 25) / pick_quality < dice(2, p->skillLevel("mechanics")) +
+     dice(2, p->dex_cur) - it->damage / 2) {
   p->practice(g->turn, "mechanics", 1);
   g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
   g->m.ter_set(dirx, diry, new_type);
- } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics")) +
-                         dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
+ } else if (dice(6, 30) / pick_quality < dice(2, p->skillLevel("mechanics")) +
+            dice(2, p->dex_cur) - it->damage / 2 &&
+            it->damage < 100) {
   it->damage++;
 
   std::string sStatus = "damage";
@@ -2039,14 +2050,15 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
  }
  if ( type == t_door_locked_alarm &&
-      dice(4, 7) <  dice(2, p->skillLevel("mechanics")) +
+      dice(5, 17) / pick_quality < dice(2, p->skillLevel("mechanics")) +
       dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
-  g->sound(p->posx, p->posy, 30, "An alarm sounds!");
+  g->sound(p->posx, p->posy, 40, "An alarm sounds!");
   if (!g->event_queued(EVENT_WANTED)) {
    g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
   }
  }
 }
+
 void iuse::crowbar(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
@@ -2145,9 +2157,9 @@ if (dirx == 0 && diry == 0) {
   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
   g->m.ter_set(dirx, diry, new_type);
   if (noisy)
-   g->sound(dirx, diry, 8, "crunch!");
+   g->sound(dirx, diry, 12, "crunch!");
   if ( type == t_door_locked_alarm ) {
-   g->sound(p->posx, p->posy, 30, "An alarm sounds!");
+   g->sound(p->posx, p->posy, 40, "An alarm sounds!");
    if (!g->event_queued(EVENT_WANTED)) {
     g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
    }
@@ -2157,7 +2169,7 @@ if (dirx == 0 && diry == 0) {
    //chance of breaking the glass if pry attempt fails
    if (dice(4, difficulty) > dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
     g->add_msg_if_player(p,"You break the glass.");
-    g->sound(dirx, diry, 16, "glass breaking!");
+    g->sound(dirx, diry, 24, "glass breaking!");
     g->m.ter_set(dirx, diry, t_window_frame);
     return;
    }

@@ -960,7 +960,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
    SUCCESS(TALK_NONE);
    SUCCESS_ACTION(&talk_function::start_trade);
   if (p->is_following() && g->m.camp_at(g->u.posx, g->u.posy)) {
-   RESPONSE("Wait at this base,");
+   RESPONSE("Wait at this base.");
     SUCCESS(TALK_DONE);
     SUCCESS_ACTION(&talk_function::assign_base);
   }

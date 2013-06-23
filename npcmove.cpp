@@ -798,10 +798,10 @@ int npc::confident_range(char invlet)
   if (weapon.curammo == NULL)	// This shouldn't happen, but it does sometimes
    debugmsg("%s has NULL curammo!", name.c_str()); // TODO: investigate this bug
   else {
-   deviation += .5 * weapon.curammo->accuracy;
+   deviation += .5 * weapon.curammo->dispersion;
    max = weapon.range();
   }
-  deviation += .5 * firing->accuracy;
+  deviation += .5 * firing->dispersion;
   deviation += 3 * recoil;
 
  } else { // We aren't firing a gun, we're throwing something!
