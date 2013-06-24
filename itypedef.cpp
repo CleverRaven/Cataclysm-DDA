@@ -350,6 +350,7 @@ BIO_SINGLE("bio_face_mask", 1, 8500, c_magenta, 5);
 BIO_SINGLE("bio_scent_mask", 1, 8500, c_magenta, 5);
 BIO_SINGLE("bio_cloak", 1, 8500, c_magenta, 5);
 BIO_SINGLE("bio_fingerhack", 1, 3500, c_magenta, 2);
+BIO_SINGLE("bio_night", 1, 8500, c_magenta, 5);
 // defensive
 BIO_SINGLE("bio_ads", 1, 9500, c_ltblue, 7);
 BIO_SINGLE("bio_ods", 1, 9500, c_ltblue, 7);

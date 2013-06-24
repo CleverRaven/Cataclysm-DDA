@@ -3700,6 +3700,8 @@ float game::natural_light_level() const
   ret = turn.sunlight();
   ret += weather_data[weather].light_modifier;
  }
+ if (u.has_active_bionic("bio_night"))
+    ret = 0;
 
  return std::max(0.0f, ret);
 }
@@ -3712,6 +3714,8 @@ unsigned char game::light_level()
 
  int ret;
  if (levz < 0)	// Underground!
+  ret = 1;
+ else if (u.has_active_bionic("bio_night"))
   ret = 1;
  else {
   ret = turn.sunlight();
