@@ -12,6 +12,8 @@ void addict_effect(game *g, addiction &add);
 
 std::string addiction_name(addiction cur);
 
+morale_type addiction_craving(add_type cur);
+
 add_type addiction_type(std::string name);
 
 std::string addiction_text(addiction cur);
