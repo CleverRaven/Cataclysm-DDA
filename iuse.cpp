@@ -3407,10 +3407,10 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true,
-    "Using knife:", "Cut up fabric", "Cut up plastic/kevlar", "Carve wood", "Cauterize", "Carve writing on item", "Cancel", NULL);
+    "Using knife:", "Cut up fabric", "Cut up plastic/kevlar", "Carve wood", "Cauterize", "Cancel", NULL);
     switch (choice)
     {
-        if (choice == 5)
+        if (choice == 4)
         break;
         case 1:
         {
@@ -3554,22 +3554,6 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 p->cauterize(g);
             break;
         }
-
-        case 5:
-        {
-            char ch = g->inv("Carve on what?");
-            item* cut = &(p->i_at(ch));
-            if (cut->type->id == "null")
-            {
-                g->add_msg("You do not have that item!");
-                return;
-            }
-            std::map<std::string, std::string>::iterator ent = cut->item_vars.find("carved_note");
-            std::string message = string_input_popup("Carve what?", 64, (ent != cut->item_vars.end() ? cut->item_vars["carved_note"] : "" ) );
-            if( message.size() > 0 ) cut->item_vars["carved_note"] = message;
-            break;
-        }
-
     }
 }
 
@@ -4524,15 +4508,34 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
  }
 }
 
-void iuse::spray_can(game *g, player *p, item *it, bool t)
-{
- std::string verb=( it->type->id ==  "permanent_marker" ? "Write" : "Spray" );
- std::string lcverb=( it->type->id ==  "permanent_marker" ? "write" : "spray" );
- std::string message = string_input_popup(verb + " what?");
- if(g->m.add_graffiti(g, p->posx, p->posy, message))
-  g->add_msg("You %s a message on the ground.",lcverb.c_str());
- else
-  g->add_msg("You fail to %s a message here.",lcverb.c_str());
+void iuse::spray_can(game *g, player *p, item *it, bool t) {
+     if ( it->type->id ==  "permanent_marker"  ) {
+        int ret=menu(true, "Write on what?", "The ground", "An item", "cancel", NULL );
+        if (ret == 2 ) {
+            char ch = g->inv("Write on what?");
+            item* cut = &(p->i_at(ch));
+            if (cut->type->id == "null")
+            {
+                g->add_msg("You do not have that item!");
+                return;
+            }
+            std::map<std::string, std::string>::iterator ent = cut->item_vars.find("item_note");
+            std::string message = string_input_popup("Write what?", 64, (ent != cut->item_vars.end() ? cut->item_vars["item_note"] : "" ) );
+            if( message.size() > 0 ) cut->item_vars["item_note"] = message;
+            return;
+        } else if ( ret != 1 ) {
+           return;
+        }
+     }
+     std::string verb=( it->type->id ==  "permanent_marker" ? "Write" : "Spray" );
+     std::string lcverb=( it->type->id ==  "permanent_marker" ? "write" : "spray" );
+
+     std::string message = string_input_popup(verb + " what?");
+     if(g->m.add_graffiti(g, p->posx, p->posy, message)) {
+       g->add_msg("You %s a message on the ground.",lcverb.c_str());
+     } else {
+       g->add_msg("You fail to %s a message here.",lcverb.c_str());
+     }
 }
 
 void iuse::heatpack(game *g, player *p, item *it, bool t)
