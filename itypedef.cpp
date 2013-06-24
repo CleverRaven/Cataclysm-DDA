@@ -369,6 +369,7 @@ BIO_SINGLE("bio_laser", 2, 7200, c_red, 5);
 BIO_SINGLE("bio_emp", 2, 7200, c_red, 5);
 BIO_SINGLE("bio_flashbang", 2, 7200, c_red, 5);
 BIO_SINGLE("bio_railgun", 5, 2200, c_red, 3);
+BIO_SINGLE("bio_chain_lightning", 5, 2200, c_red, 3);
 // power armor
 BIO_SINGLE("bio_power_armor_interface", 20, 1200, c_yellow, 1);
 BIO_SINGLE("bio_power_armor_interface_mkII", 8, 10000, c_yellow, 8);
@@ -418,7 +419,15 @@ GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	"steel",	"plastic",
 	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "");
 
-
+//  NAME		RARE	COLOR		MAT1	MAT2
+GUN("bio_lightning", "Chain Lightning",	 0,0,c_magenta,	"steel",	"plastic",
+//	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
+	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  1,  10, 500,
+"");
+//  NAME		RARE  TYPE	COLOR		MAT
+AMMO("bio_lightning_ammo", "Lightning",	 0,0, AT_FUSION,c_dkgray,	"null",
+//	VOL WGT DMG  AP RNG ACC REC COUNT
+	 0,  0, 6,  0, 10,  1,  0,  10, "", mfb(AMMO_BOUNCE) | mfb(AMMO_LIGHTNING));
 
 
 

@@ -404,6 +404,24 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   } // Done with the trajectory!
 
   ammo_effects(this, tx, ty, effects);
+  
+  if (effects & mfb(AMMO_BOUNCE))
+  {
+    for (int i = 0; i < z.size(); i++)
+    {
+        if (rl_dist(z[i].posx, z[i].posy, tx, ty) <= 4)     // search for monsters in radius 4 around impact site
+        {
+            if (!z[i].has_effect(ME_BOUNCED) && !z[i].dead)               // don't hit targets that have already been hit
+            {
+                add_msg("The attack bounced to %s!", z[i].name().c_str());
+                trajectory = line_to(tx, ty, z[i].posx, z[i].posy, 0);
+                if (weapon->charges > 0)
+                    fire(p, z[i].posx, z[i].posy, trajectory, false);
+                break;
+            }
+        }
+    }
+  }
 
   if (m.move_cost(tx, ty) == 0) {
       tx = px;
@@ -831,11 +849,15 @@ void game::hit_monster_with_flags(monster &z, unsigned int effects)
    z.add_effect(ME_ONFIRE, rng(10, 10));
 
  }
+ if (effects & mfb(AMMO_BOUNCE))
+    z.add_effect(ME_BOUNCED, 1);
 }
 
 int time_to_fire(player &p, it_gun* firing)
 {
  int time = 0;
+ if (p.weapon.curammo->ammo_effects & mfb(AMMO_BOUNCE))
+    return 0;
  if (firing->skill_used == Skill::skill("pistol")) {
    if (p.skillLevel("pistol") > 6)
      time = 10;
@@ -1206,4 +1228,12 @@ void ammo_effects(game *g, int x, int y, long effects) {
 
   if (effects & mfb(AMMO_FLAME))
     g->explosion(x, y, 4, 0, true);
+
+  if (effects & mfb(AMMO_LIGHTNING)) {
+    for (int i = x - 1; i <= x + 1; i++) {
+      for (int j = y - 1; j <= y + 1; j++) {
+        g->m.add_field(g, i, j, fd_electricity, 3);
+      }
+    }
+  }
 }
