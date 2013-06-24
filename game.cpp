@@ -1358,7 +1358,7 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
             vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
             vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
             vMenu.push_back(iteminfo("MENU", "=", " reassign"));
-            oThisItem.info(true, &vThisItem);
+            oThisItem.info(true, &vThisItem, this);
             compare_split_screen_popup(startx, width, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
             cMenu = compare_split_screen_popup(startx+width, 14, 16, "", vMenu, vDummy,
                 selected >= menustart && selected <= menuend ? selected : -1
@@ -6884,7 +6884,7 @@ void game::advanced_inv()
                 checkshowmsg=true;
             } else {
                 std::vector<iteminfo> vThisItem, vDummy, vMenu;
-                it->info(true, &vThisItem);
+                it->info(true, &vThisItem, this);
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n----------\n"));
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n\n\n\n\n [up / page up] previous\n [down / page down] next"));
                 ret=compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ),
@@ -9248,7 +9248,12 @@ void game::complete_butcher(int index)
    else
     meat = "veggy";
   }
-  m.spawn_item(u.posx, u.posy, meat, age, pieces);
+  item tmpitem=item_controller->create(meat, age);
+  tmpitem.corpse=dynamic_cast<mtype*>(corpse);
+  while ( pieces > 0 ) {
+    pieces--;
+    m.add_item(u.posx, u.posy, tmpitem);
+  }
   add_msg("You butcher the corpse.");
  }
 }
