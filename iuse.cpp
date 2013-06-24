@@ -3443,10 +3443,10 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true,
-    "Using knife:", "Cut up fabric", "Cut up plastic/kevlar", "Carve wood", "Cauterize", "Cancel", NULL);
+                      "Using knife:", "Cut up fabric", "Cut up plastic/kevlar", "Carve wood", "Cauterize", "Carve writing on item", "Cancel", NULL);
     switch (choice)
     {
-        if (choice == 4)
+        if (choice == 5)
         break;
         case 1:
         {
@@ -3588,6 +3588,11 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg_if_player(p,"You need a lighter with 4 charges before you can cauterize yourself.");
             else
                 p->cauterize(g);
+            break;
+        }
+        case 5:
+        {
+            inscribe_item( g, p, "Carve", "Carved", true );
             break;
         }
     }
