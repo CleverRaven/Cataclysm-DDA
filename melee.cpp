@@ -176,6 +176,9 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
 // Handles effects as well; not done in melee_affect_*
  perform_technique(technique, g, z, NULL, bash_dam, cut_dam, stab_dam, pain);
+ if (weapon.has_technique(TEC_FLAMING, this)) { // bypass technique selection, it's on FIRE after all
+   z->add_effect(ME_ONFIRE, rng(3, 4));
+ }
  z->speed -= int(pain / 2);
 
 // Mutation-based attacks
@@ -300,6 +303,9 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
 // Handles effects as well; not done in melee_affect_*
  perform_technique(technique, g, NULL, &p, bash_dam, cut_dam, stab_dam, pain);
+ if (weapon.has_technique(TEC_FLAMING, this)) { // bypass technique selection, it's on FIRE after all
+   p.add_disease(DI_ONFIRE, rng(2, 3), g);
+ }
  p.pain += pain;
 
 // Mutation-based attacks

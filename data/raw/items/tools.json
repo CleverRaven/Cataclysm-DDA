@@ -2851,6 +2851,7 @@
     "rarity": 95,
     "price": 0,
     "material": "wood",
+    "techniques": "FLAMING",
     "flags": "FIRE",
     "weight": 10,
     "volume": 6,
