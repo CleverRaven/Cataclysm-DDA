@@ -4705,7 +4705,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
             {
                 targ->posx = traj[i-1].x;
                 targ->posy = traj[i-1].y;
@@ -4767,6 +4767,19 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
             }
             targ->posx = traj[i].x;
             targ->posy = traj[i].y;
+            if(m.has_flag(liquid, targ->posx, targ->posy) && !targ->has_flag(MF_SWIMS) &&
+                !targ->has_flag(MF_AQUATIC) && !targ->has_flag(MF_FLIES))
+            {
+                targ->hurt(9999);
+                if (u_see(targ))
+                    add_msg("The %s drowns!", targ->name().c_str());
+            }
+            if(!m.has_flag(liquid, targ->posx, targ->posy) && targ->has_flag(MF_AQUATIC))
+            {
+                targ->hurt(9999);
+                if (u_see(targ))
+                    add_msg("The %s flops around and dies!", targ->name().c_str());
+            }
         }
     }
     else if (npc_at(tx, ty) != -1)
@@ -4779,7 +4792,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
             {
                 targ->posx = traj[i-1].x;
                 targ->posy = traj[i-1].y;
@@ -4857,7 +4870,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
             {
                 u.posx = traj[i-1].x;
                 u.posy = traj[i-1].y;
@@ -4911,8 +4924,15 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
-            u.posx = traj[i].x;
-            u.posy = traj[i].y;
+            if(m.has_flag(liquid, u.posx, u.posy) && force_remaining < 1)
+            {
+                plswim(u.posx, u.posy);
+            }
+            else
+            {
+                u.posx = traj[i].x;
+                u.posy = traj[i].y;
+            }
         }
     }
     return;
