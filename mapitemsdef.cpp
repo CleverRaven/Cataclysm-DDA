@@ -636,7 +636,7 @@ void game::init_mapitems()
    "bio_ads", "bio_ods",
    "bio_resonator", "bio_hydraulics",
    "bio_time_freeze", "bio_teleport", "bio_probability_travel",
-   "bio_blaster", "bio_laser", "bio_emp", "bio_railgun", "bio_flashbang",
+   "bio_blaster", "bio_laser", "bio_emp", "bio_railgun", "bio_flashbang", "bio_chain_lightning",
    "bio_power_armor_interface",
 	NULL);
 
@@ -720,7 +720,7 @@ void game::init_mapitems()
    "bio_face_mask", "bio_scent_mask", "bio_cloak", "bio_fingerhack",
    "bio_nanobots", "bio_blood_anal",
    "bio_ads", "bio_ods",
-   "bio_blaster", "bio_laser", "bio_emp", "bio_railgun", "bio_flashbang",
+   "bio_blaster", "bio_laser", "bio_emp", "bio_railgun", "bio_flashbang", "bio_chain_lightning",
    "bio_time_freeze", "bio_teleport", "bio_probability_travel",
    "bio_power_armor_interface",
 	NULL);

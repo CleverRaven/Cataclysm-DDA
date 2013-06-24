@@ -531,7 +531,15 @@ void player::activate_bionic(int b, game *g)
  } else if(bio.id == "bio_shockwave") {
    g->shockwave(posx, posy, 3, 4, 2, 8, true);
    g->add_msg("You unleash a powerful shockwave!");
- }
+ } else if(bio.id == "bio_chain_lightning"){
+  tmp_item = weapon;
+  weapon = item(g->itypes["bio_lightning"], 0);
+  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["bio_lightning_ammo"]);
+  weapon.charges = 10;
+  g->refresh_all();
+  g->plfire(false);
+  weapon = tmp_item;
+ } 
 }
 
 bool player::install_bionics(game *g, it_bionic* type)
@@ -1032,6 +1040,11 @@ any skill required on the part of the user.");
 You generate a powerful shockwave, knocking back all nearby creatures.\n\
 Targets are stunned briefly, take damage and additional stun upon impact\n\
 with impassable terrain, and knockback any creatures they collide with.");
+
+    bionics["bio_chain_lightning"] = new bionic_data("Chain Lightning", false, true, 5, 0, "\
+Your body is equipped with a chain lightning generator, allowing you to\n\
+emit a blast of lightning at a target, leaving a trail of lightning in\n\
+its wake, jumping to additional targets within 4 tiles of the previous target.");
 
     bionics["bio_ground_sonar"] = new bionic_data("Terranian Sonar", false, true, 1, 5, "\
 Your feet are equipped with precision sonar equipment, allowing you to detect\n\
