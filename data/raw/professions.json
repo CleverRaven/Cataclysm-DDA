@@ -39,7 +39,7 @@
   "ident": "scoundrel",
   "name": "Scoundrel",
   "description":
-"Your flexible outlook on law has ensured your survival, but now what?\nYou start with cargo pants, a hoodie, \"sundries\", and one additional level of melee.",
+"Your flexible outlook on law has ensured your survival, but now what?\nYou start with cargo pants, a hoodie, \"sundries\", \nand one additional level of melee.",
   "points": 2,
   "items": ["tank_top", "hoodie", "pants_cargo", "sneakers", "weed", "picklocks"],
   "skills" : [
@@ -49,7 +49,87 @@
      }
   ]
  },
+ 
+ {
+  "ident": "soldier",
+  "name": "Military Reserve",
+  "description":
+"Your a High school drop out with one goal in mind to join the military. \nNow you finally get in, and the whole world goes to shit.\nYou start out with some military gear.",
+  "points": 9,
+  "items": ["pants_army", "tank_top", "beltrig", "rucksack", "boots_steel", "knife_combat", "binoculars"],
+  "skills" : [
+     {
+      "name" : "survival",
+      "level" : 2
+     },
+    {
+      "name" : "gun",
+      "level" : 2
+     },
+    {
+      "name" : "melee",
+      "level" : 1
+     },
+	 {
+      "name" : "driving",
+      "level" : 2
+     }
+]
+ },
 
+ {
+  "ident": "medic",
+  "name": "Pre-Med Student",
+  "description":
+"You were a Pre-Med Student just starting out, \nYou start with some bandages and some first aid skills.",
+  "points": 6,
+  "items": ["pants", "dress_shirt", "dress_shoes", "mbag", "water_clean", "bandages","bandages","bandages"],
+   "skills" : [
+     {
+      "name" : "firstaid",
+      "level" : 3
+     }
+ ]
+ },
+ 
+ {
+  "ident": "thug",
+  "name": "Mafia Enforcer",
+  "description":
+"When it came to getting dirty, the boss knew you could be trusted to get\nthe job done, from performing hits to attitude adjustment, you were the best\nnow at the end of the world, you finally found your place in society.",
+  "points": 5,
+  "items": ["suit", "dress_shoes", "crowbar", "cig", "mag_porn"],
+   "skills" : [
+     {
+      "name" : "melee",
+      "level" : 1
+     },
+     {
+      "name" : "speech",
+      "level" : 1
+     }
+ ]
+  },
+ 
+ {
+  "ident": "riot",
+  "name": "Riot Police",
+  "description":
+"Assigned to a new district, to quell the recent rioting and looting, \nyou quickly realized you were in over your head,\nyou start out with some riot gear.",
+  "points": 7,
+  "items": ["pants_army", "tshirt", "boots", "holster", "mask_gas", "baton"],
+   "skills" : [
+     {
+      "name" : "survival",
+      "level" : 2
+     },
+    {
+      "name" : "melee",
+      "level" : 1
+     }
+]
+ },
+ 
  {
   "ident": "smoker",
   "name": "Chain Smoker",
@@ -63,5 +143,87 @@
 	  "intensity": 10
       }
   ]
- }
+ },
+
+{
+  "ident": "salesman",
+  "name": "Used Car Salesman",
+  "description":
+"You were a cheat before the apocalypse, and your a cheat now\nYou start with speech, bartering and some driving skills.",
+  "points": 5,
+  "items": ["suit","dress_shoes"],
+  "skills" : [
+     {
+      "name" : "barter",
+      "level" : 1
+     },
+     {
+      "name" : "driving",
+      "level" : 1
+     },
+     {
+      "name" : "speech",
+      "level" : 1
+     }
+	 ]
+ },
+
+  {
+  "ident": "homeless",
+  "name": "Hobo",
+  "description":
+"Before the cataclysm everyone thought you were a crazy homeless drunk bastard\nthey called you names, spit on you, some even urinated on you! but whos \nlaughing now, its the end of the world and your still cleaning their wallets.",
+  "points": -3,
+  "items": ["pants", "stick", "trenchcoat", "tshirt", "poncho", "whiskey"],
+  "addictions": [
+      {
+	  "type": "alcohol",
+	  "intensity": 20
+      }
+  ],
+"skills" : [
+     {
+      "name" : "survival",
+      "level" : 1
+     }  
+     ]
+ },
+
+ {
+  "ident": "hunter",
+  "name": "Hunter",
+  "description":
+"Never one for guns, you took a liking to the bow,\nhunting came naturally to you, just like your pa\nand his pa before him.",
+  "points": 7,
+  "items": ["tshirt", "boots_steel", "long_underpants", "jacket_light", "gloves_fingerless", "hat_hunting", "jeans", "arrow_metal", "compbow", "jerky", "water_clean"],
+   "skills" : [
+     {
+      "name" : "archery",
+      "level" : 1
+     },
+	      {
+      "name" : "survival",
+      "level" : 1
+     }  
+	 ]
+  },
+
+  {
+  "ident": "cworker",
+  "name": "Construction Worker",
+  "description":
+"They had you working on an underground facility during the cataclysm\nwhile your family were all eaten by wolves. protected from the disaster\nyou emerged to a new world, a world you must survive at any means necessary",
+  "points": 7,
+  "items": ["tank_top", "boots_steel", "jeans", "jerky", "beer", "hammer", "vest", "mask_dust", "glasses_safety", "hat_hard"],
+   "skills" : [
+     {
+      "name" : "carpentry",
+      "level" : 1
+     },
+	      {
+      "name" : "bashing",
+      "level" : 1
+     }  
+	 ]
+}
 ]
