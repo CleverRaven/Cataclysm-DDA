@@ -165,6 +165,20 @@ std::string addiction_name(addiction cur)
  }
 }
 
+morale_type addiction_craving(add_type cur)
+{
+ switch (cur) {
+  case ADD_CIG: return MORALE_CRAVING_NICOTINE;
+  case ADD_CAFFEINE:    return MORALE_CRAVING_CAFFEINE;
+  case ADD_ALCOHOL: return MORALE_CRAVING_ALCOHOL;
+  case ADD_PKILLER: return MORALE_CRAVING_OPIATE;
+  case ADD_SPEED:   return MORALE_CRAVING_SPEED;
+  case ADD_COKE:    return MORALE_CRAVING_COCAINE;
+  case ADD_CRACK:   return MORALE_CRAVING_CRACK;
+  default:  return MORALE_NULL;
+ }
+}
+
 add_type addiction_type(std::string name)
 {
     if (name == "nicotine")
