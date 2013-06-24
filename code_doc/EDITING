@@ -83,3 +83,31 @@ ADDITIONS
  8) If the armour is made from 2 materials types, then it takes a weighted average of the primary material (66%) and secondary material (33%).
  9) Materials resistance factors are given relative to PAPER as a material (this probably needs some fine-tuning for balance).
  
+1.5 Adding a bionic
+ 1) Edit data/raw/bionics.json and add your bionic near similar types.
+
+ 2) Add the required attributes
+
+    id          :   "bio_rocketlauncher"                        // Text string used as identifier in the code.
+    name        :   "CBM: Rocket Launcher"                      // The bionic's name, as showed to the player.
+    cost        :   10                                          // How many PUs it costs to use the bionic.
+    time        :   0                                           // How long, when activated, between drawing cost. If 0, it draws power once.
+    description :   "It's a rocket launcher, inside your arm!!" // A brief description of the bionic, as showed to the player.
+
+ 3) Add any otional attributes
+    
+    flags       :   ["ACTIVE"]                                  // Used to flag the bionic as a specific type.
+    
+                    Supported flags:
+
+                        "ACTIVE"    :   The bionic can be manually activated and deactivated.
+                        "POWER"     :   The bionic provides a source of power.
+                        "FAULTY"    :   The bionic is an unwanted one, will typically have negative effects.
+                        
+                    Flags can be combined like so: ["ACTIVE","POWER","FAULTY"] (Don't add all these at once)
+    
+ 4) If you want the bionic to be available in the gameworld as an item, add it to itypedef.cpp
+    
+    BIO_SINGLE(id, rarity, price, color, difficulty)
+    
+    See 1.1 for more information about adding items.
