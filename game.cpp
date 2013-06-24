@@ -4912,7 +4912,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
-            if(m.has_flag(liquid, u.posx, u.posy))
+            if(m.has_flag(liquid, u.posx, u.posy) && force_remaining < 1)
             {
                 plswim(u.posx, u.posy);
             }
