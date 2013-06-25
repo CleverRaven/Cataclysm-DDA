@@ -220,6 +220,9 @@ void player::activate_bionic(int b, game *g)
    pkill = pain;
  } else if (bio.id == "bio_nanobots"){
   healall(4);
+ } else if (bio.id == "bio_night"){
+  if (g->turn % 5)
+    g->add_msg("Artificial night generator active!");
  } else if (bio.id == "bio_resonator"){
   g->sound(posx, posy, 30, "VRRRRMP!");
   for (int i = posx - 1; i <= posx + 1; i++) {
