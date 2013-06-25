@@ -143,6 +143,19 @@
         "density"       :   10
     },
     {
+        "ident"         : "bone",
+        "name"          : "Bone",
+        "bash_resist"   :   2,
+        "cut_resist"    :   3,
+        "bash_dmg_verb" : "cracked",
+        "cut_dmg_verb"  : "chipped",
+        "dmg_adj"       : ["scratched", "cut", "cracked", "shattered"],        
+        "acid_resist"   :   1,
+        "elec_resist"   :   2,
+        "fire_resist"   :   4,
+        "density"       :   7
+    },
+    {
         "ident"         : "stone",
         "name"          : "Stone",
         "bash_resist"   :   6,
