@@ -108,7 +108,9 @@ class monster {
  int trigger_sum(game *g, std::vector<monster_trigger> *triggers);
  int  hit(game *g, player &p, body_part &bp_hit); // Returns a damage
  void hit_monster(game *g, int i);
- bool hurt(int dam); 	// Deals this dam damage; returns true if we dead
+ // Deals this dam damage; returns true if we dead
+ // If real_dam is provided, caps overkill at real_dam.
+ bool hurt(int dam, int real_dam = 0);
  int  armor_cut();	// Natural armor, plus any worn armor
  int  armor_bash();	// Natural armor, plus any worn armor
  int  dodge();		// Natural dodge, or 0 if we're occupied
