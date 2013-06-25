@@ -550,7 +550,12 @@ extremities from frostbite and to keep your distance from large fires.");
    getch();
    break;
 
+  // Keybindings
   case '1': {
+      
+   // Remember what the keybindings were originally so we can restore them if player cancels.
+   std::map<char, action_id> keymap_old = keymap;
+      
    werase(w_help);
    int offset = 1;
    char remapch = ' ';
@@ -626,8 +631,21 @@ extremities from frostbite and to keep your distance from large fires.");
      }
     }
    } while (remapch != 'q' && remapch != 'Q' && remapch != KEY_ESCAPE);
-   if (changed_keymap && query_yn("Save changes?"))
-    save_keymap();
+   
+   
+   if (changed_keymap)
+   {
+       if(query_yn("Save changes?"))
+       {
+           save_keymap();
+       }
+       else
+       {
+           // Player wants to keep the old keybindings. Revert!
+           keymap = keymap_old;
+       }
+   }
+    
    werase(w_help);
   } break;
 
