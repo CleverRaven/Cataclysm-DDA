@@ -696,7 +696,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
        // Just use the dynamic description
         dump->push_back( iteminfo("DESCRIPTION", SNIPPET.get(note)) );
     } else {
-       dump->push_back(iteminfo("DESCRIPTION", type->description));
+       // The description can get pretty long, rewrap it to terminal size before displaying.
+       dump->push_back(iteminfo("DESCRIPTION", word_rewrap(type->description, TERMX - 4)));
     }
 
     if (is_armor() && has_flag("FIT"))
