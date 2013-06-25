@@ -122,7 +122,7 @@ t_window_stained_green, t_window_stained_red, t_window_stained_blue,
 t_rock, t_fault,
 t_paper,
 // Tree
-t_tree, t_tree_young, t_tree_apple, t_tree_lemon, t_tree_orange, t_underbrush, t_shrub, t_indoor_plant, t_shrub_blueberry, t_shrub_strawberry, t_log,
+t_tree, t_tree_young, t_tree_apple, t_underbrush, t_shrub, t_indoor_plant, t_shrub_blueberry, t_shrub_strawberry, t_log,
 t_root_wall,
 t_wax, t_floor_wax,
 t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -167,6 +167,7 @@ t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
  t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
 // found at fields
  t_mutpoppy, //mutated poppy flower
+ t_tree_lemon, t_tree_orange,
 
 num_terrain_types
 };
