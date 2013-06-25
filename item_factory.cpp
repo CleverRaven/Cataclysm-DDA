@@ -147,6 +147,8 @@ void Item_factory::init(){
     iuse_function_list["TURRET"] = &iuse::turret;
     iuse_function_list["UPS_OFF"] = &iuse::UPS_off;
     iuse_function_list["UPS_ON"] = &iuse::UPS_on;
+    iuse_function_list["adv_UPS_OFF"] = &iuse::adv_UPS_off;
+    iuse_function_list["adv_UPS_ON"] = &iuse::adv_UPS_on;
     iuse_function_list["TAZER"] = &iuse::tazer;
     iuse_function_list["MP3"] = &iuse::mp3;
     iuse_function_list["MP3_ON"] = &iuse::mp3_on;
