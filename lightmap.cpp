@@ -39,16 +39,21 @@ void map::generate_lightmap(game* g)
                  // the lightmap  when in less than total sunlight.
                  lm[sx][sy] = natural_light;
              }
+             if (g->u.has_active_bionic("bio_night") && rl_dist(sx, sy, g->u.posx, g->u.posy) < 15)
+             {
+                 lm[sx][sy] = 0;
+             }
          }
      }
  }
 
  // Apply player light sources
- if (held_luminance > LIGHT_AMBIENT_LOW)
+ if (held_luminance > LIGHT_AMBIENT_LOW && !(g->u.has_active_bionic("bio_night")))
   apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
   int flood_basalt_check = 0; // does excessive lava need high quality lighting? Nope nope nope nope
   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
+   if (!(g->u.has_active_bionic("bio_night") && rl_dist(sx, sy, g->u.posx, g->u.posy) < 15)) {
     const ter_id terrain = g->m.ter(sx, sy);
     const std::vector<item> &items = g->m.i_at(sx, sy);
     const field &current_field = g->m.field_at(sx, sy);
@@ -59,7 +64,7 @@ void map::generate_lightmap(game* g)
       for(int i = 0; i < 4; ++i) {
        if (INBOUNDS(sx + dir_x[i], sy + dir_y[i]) &&
            g->m.is_outside(sx + dir_x[i], sy + dir_y[i])) {
-        if (INBOUNDS(sx, sy) && g->m.is_outside(0, 0))
+        if (INBOUNDS(sx, sy) && g->m.is_outside(0, 0) && !(g->u.has_active_bionic("bio_night") && rl_dist(sx, sy, g->u.posx, g->u.posy) < 15))
          lm[sx][sy] = natural_light;
 
         if (g->m.light_transparency(sx, sy) > LIGHT_TRANSPARENCY_SOLID)
@@ -112,12 +117,13 @@ void map::generate_lightmap(game* g)
      break;
    }
   }
+  }
  }
 
  for (int i = 0; i < g->z.size(); ++i) {
   int mx = g->z[i].posx;
   int my = g->z[i].posy;
-  if (INBOUNDS(mx, my)) {
+  if (INBOUNDS(mx, my) && !(g->u.has_active_bionic("bio_night") && rl_dist(mx, my, g->u.posx, g->u.posy) < 15)) {
    if (g->z[i].has_effect(ME_ONFIRE)) {
      apply_light_source(mx, my, 3, trigdist);
    }
@@ -161,7 +167,7 @@ void map::generate_lightmap(game* g)
             part != vehs[v].v->external_parts.end(); ++part) {
          int px = vehs[v].x + vehs[v].v->parts[*part].precalc_dx[0];
          int py = vehs[v].y + vehs[v].v->parts[*part].precalc_dy[0];
-         if(INBOUNDS(px, py)) {
+         if(INBOUNDS(px, py) && !(g->u.has_active_bionic("bio_night") && rl_dist(px, py, g->u.posx, g->u.posy) < 15)) {
            int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
 
            if (dpart >= 0) {

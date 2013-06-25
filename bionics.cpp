@@ -1045,9 +1045,8 @@ Interfaces your power system with the internal charging port on suits of power a
 The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II\n\
 power armor series.");
 
-    bionics["bio_night"] = new bionic_data("Artificial Night Satellite Uplink", false, true, 1, 2, "\
-Commands an orbiting geosynchronous satellite to deploy a large opaque surface,\n\
-blotting out the sun and casting all in your vicinity into darkness.");
+    bionics["bio_night"] = new bionic_data("Artificial Night Generator", false, true, 1, 2, "\
+Destructive interference eliminates all light within a 15 tile radius.");
 
     bionics["bio_flashbang"] = new bionic_data("Flashbang Generator", false, true, 5, 0, "\
 Light emitting diodes integrated into your skin can release a flash comparable\n\

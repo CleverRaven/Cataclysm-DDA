@@ -3700,8 +3700,6 @@ float game::natural_light_level() const
   ret = turn.sunlight();
   ret += weather_data[weather].light_modifier;
  }
- if (u.has_active_bionic("bio_night"))
-    ret = 0;
 
  return std::max(0.0f, ret);
 }
@@ -3714,8 +3712,6 @@ unsigned char game::light_level()
 
  int ret;
  if (levz < 0)	// Underground!
-  ret = 1;
- else if (u.has_active_bionic("bio_night"))
   ret = 1;
  else {
   ret = turn.sunlight();
@@ -3841,7 +3837,7 @@ bool game::sees_u(int x, int y, int &t)
  if( range <= 0)
   range = 1;
 
- return (!u.has_active_bionic("bio_cloak") &&
+ return ((!u.has_active_bionic("bio_cloak") || !u.has_active_bionic("bio_night")) &&
          !u.has_artifact_with(AEP_INVISIBLE) &&
          m.sees(x, y, u.posx, u.posy, range, t));
 }
@@ -3857,6 +3853,8 @@ bool game::u_see(int x, int y)
           (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
             m.light_at(x, y) >= LL_LOW))
      can_see = m.pl_sees(u.posx, u.posy, x, y, wanted_range);
+     if (u.has_active_bionic("bio_night") && wanted_range < 15 && wanted_range > u.sight_range(1))
+        return false;
 
  return can_see;
 }
