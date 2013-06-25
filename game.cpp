@@ -10860,7 +10860,7 @@ void game::wait()
 {
  char ch = menu(true, "Wait for how long?", "5 Minutes", "30 Minutes", "1 hour",
                 "2 hours", "3 hours", "6 hours", "Exit", NULL);
- int time;
+ int time = 0;
  if (ch == 7)
   return;
  switch (ch) {
