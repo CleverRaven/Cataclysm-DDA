@@ -20,6 +20,9 @@ std::string options_header();
 
 void game::show_options()
 {
+    // Remember what the options were originally so we can restore them if player cancels.
+    option_table OPTIONS_OLD = OPTIONS;
+    
     WINDOW* w_options_border = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
     WINDOW* w_options = newwin(23, 78, 1 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 1 + ((TERMX > 80) ? (TERMX-80)/2 : 0));
 
@@ -139,9 +142,18 @@ void game::show_options()
         if(changed_options && OPTIONS[OPT_SEASON_LENGTH] < 1) { OPTIONS[OPT_SEASON_LENGTH]=option_max_options(OPT_SEASON_LENGTH)-1; }
     } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
-    if(changed_options && query_yn("Save changes?")) {
-        save_options();
-        trigdist=(OPTIONS[OPT_CIRCLEDIST] ? true : false);
+    if(changed_options)
+    {
+        if(query_yn("Save changes?"))
+        {
+            save_options();
+            trigdist=(OPTIONS[OPT_CIRCLEDIST] ? true : false);
+        }
+        else
+        {
+            // Player wants to keep the old options. Revert!
+            OPTIONS = OPTIONS_OLD;
+        }
     }
     werase(w_options);
 }
