@@ -434,10 +434,12 @@ std::string item::info(bool showtext)
  return info(showtext, &dummy);
 }
 
-std::string item::info(bool showtext, std::vector<iteminfo> *dump)
+std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool debug)
 {
  std::stringstream temp1, temp2;
-
+ if ( g != NULL && debug == false && 
+   ( g->debugmon == true || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
+ ) debug=true;
  if( !is_null() )
  {
   dump->push_back(iteminfo("BASE", " Volume: ", "", int(volume()), "", false, true));
@@ -446,7 +448,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("BASE", (has_flag("SPEAR") ? "  Pierce: " : "  Cut: "), "", int(type->melee_cut), "", false));
   dump->push_back(iteminfo("BASE", "  To-hit bonus: ", ((type->m_to_hit > 0) ? "+" : ""), int(type->m_to_hit), ""));
   dump->push_back(iteminfo("BASE", " Moves per attack: ", "", int(attack_time()), "", true, true));
-
+  if ( debug == true ) {
+    if( g != NULL ) {
+      dump->push_back(iteminfo("BASE", " age: ", "",  (int(g->turn) - bday) / (10 * 60), "", true, true));
+    }
+    dump->push_back(iteminfo("BASE", " burn: ", "",  burnt, "", true, true));
+  }
  if (type->techniques != 0)
   for (int i = 1; i < NUM_TECHNIQUES; i++)
    if (type->techniques & mfb(i))
@@ -459,7 +466,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("FOOD", " Nutrition: ", "", int(food->nutr)));
   dump->push_back(iteminfo("FOOD", " Quench: ", "", int(food->quench)));
   dump->push_back(iteminfo("FOOD", " Enjoyability: ", "", int(food->fun)));
-
+  if (corpse != NULL && 
+    ( debug == true || 
+      ( g != NULL &&
+        ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait(PF_CARNIVORE) || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
+      )
+    )
+  ) {
+    dump->push_back(iteminfo("FOOD", " Smells like: " + corpse->name));
+  }
  } else if (is_food_container()) {
  // added charge display for debugging
   it_comest* food = dynamic_cast<it_comest*>(contents[0].type);

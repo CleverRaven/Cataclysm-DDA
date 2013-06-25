@@ -191,6 +191,7 @@ void Item_factory::init(){
     techniques_list["FEINT"] = mfb(TEC_FEINT);
     techniques_list["THROW"] = mfb(TEC_THROW);
     techniques_list["DISARM"] = mfb(TEC_DISARM);
+    techniques_list["FLAMING"] = mfb(TEC_FLAMING);
     // Defensive Techniques
     techniques_list["BLOCK"] = mfb(TEC_BLOCK);
     techniques_list["BLOCK_LEGS"] = mfb(TEC_BLOCK_LEGS);

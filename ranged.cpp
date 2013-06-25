@@ -404,14 +404,15 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   } // Done with the trajectory!
 
   ammo_effects(this, tx, ty, effects);
-  
   if (effects & mfb(AMMO_BOUNCE))
   {
     for (int i = 0; i < z.size(); i++)
     {
-        if (rl_dist(z[i].posx, z[i].posy, tx, ty) <= 4)     // search for monsters in radius 4 around impact site
+        // search for monsters in radius 4 around impact site
+        if (rl_dist(z[i].posx, z[i].posy, tx, ty) <= 4)
         {
-            if (!z[i].has_effect(ME_BOUNCED) && !z[i].dead)               // don't hit targets that have already been hit
+            // don't hit targets that have already been hit
+            if (!z[i].has_effect(ME_BOUNCED) && !z[i].dead)
             {
                 add_msg("The attack bounced to %s!", z[i].name().c_str());
                 trajectory = line_to(tx, ty, z[i].posx, z[i].posy, 0);

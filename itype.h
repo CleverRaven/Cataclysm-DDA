@@ -107,6 +107,7 @@ TEC_RAPID,	// Hits faster
 TEC_FEINT,	// Misses take less time
 TEC_THROW,	// Attacks may throw your opponent
 TEC_DISARM,	// Remove an NPC's weapon
+TEC_FLAMING,    // Sets victim on fire
 // Defensive Techniques
 TEC_BLOCK,	// Block attacks, reducing them to 25% damage
 TEC_BLOCK_LEGS, // Block attacks, but with your legs
