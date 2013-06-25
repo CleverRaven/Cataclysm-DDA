@@ -243,6 +243,18 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                     m->spawn_item(i, j, "apple", turn);
                 }
                 else
+                if (one_in(400))
+                {
+                    m->ter_set(i, j, t_tree_lemon);
+                    m->spawn_item(i, j, "lemon", turn);
+                }
+                else 
+                if (one_in(250))
+                {
+                    m->ter_set(i, j, t_tree_orange);
+                    m->spawn_item(i, j, "orange", turn);
+                }
+                else
                 {
                     m->ter_set(i, j, t_tree);
                 }

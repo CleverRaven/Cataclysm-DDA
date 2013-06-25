@@ -573,6 +573,14 @@ void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {
   pick_plant(g, p, m, examx, examy, "apple", t_tree);
 }
 
+void iexamine::tree_lemon(game *g, player *p, map *m, int examx, int examy) {
+  pick_plant(g, p, m, examx, examy, "lemon", t_tree);
+}
+
+void iexamine::tree_orange(game *g, player *p, map *m, int examx, int examy) {
+  pick_plant(g, p, m, examx, examy, "orange", t_tree);
+}
+
 void iexamine::shrub_blueberry(game *g, player *p, map *m, int examx, int examy) {
   pick_plant(g, p, m, examx, examy, "blueberries", t_shrub);
 }
