@@ -700,7 +700,7 @@
       "description" : "A bow that combines the traits from both the reflex and the recurve bows. Both the limbs and the tips curve away from the archer. This dramatically increases the power while increasing the strength to draw the bow significantly. It requires 12 strength to fire efficiently.",
       "rarity" : 2,
       "price" : 1200,
-      "material" : ["wood", "bone"],
+      "material" : ["wood", "steel"],
       "flags" : ["ALWAYS_TWOHAND", "STR12_DRAW", "RELOAD_AND_SHOOT"],
       "skill" : "archery",
       "ammo" : "arrow",
