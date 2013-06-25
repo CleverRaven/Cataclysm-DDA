@@ -167,6 +167,7 @@ t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
  t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
 // found at fields
  t_mutpoppy, //mutated poppy flower
+ t_tree_lemon, t_tree_orange,
 
 num_terrain_types
 };
@@ -403,8 +404,12 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
     mfb(flammable2)|mfb(noitem)|mfb(supports_roof), &iexamine::none},
 {"young tree",       '1', c_green,   4, -1, tr_null,
     mfb(transparent)|mfb(bashable)|mfb(flammable2)|mfb(noitem), &iexamine::none},
-{"apple tree", '7', c_ltgreen,   0, -1, tr_null,
+{"apple tree", '7', c_ltred,   0, -1, tr_null,
     mfb(flammable2)|mfb(noitem)|mfb(supports_roof), &iexamine::tree_apple},
+{"lemon tree", '7', c_yellow,   0, -1, tr_null,
+    mfb(flammable2)|mfb(noitem)|mfb(supports_roof), &iexamine::tree_lemon},
+{"orange tree", '7', c_ltred,   0, -1, tr_null,
+    mfb(flammable2)|mfb(noitem)|mfb(supports_roof), &iexamine::tree_orange},
 {"underbrush",       '#', c_ltgreen, 6, -1, tr_null,
     mfb(transparent)|mfb(bashable)|mfb(diggable)|mfb(container)|
     mfb(flammable2)|mfb(thin_obstacle)|mfb(place_item), &iexamine::shrub_wildveggies},

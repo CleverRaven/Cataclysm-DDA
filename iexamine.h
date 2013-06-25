@@ -44,6 +44,8 @@ public:
  void flower_poppy (game *g, player *p, map *m, int examx, int examy);
  void pick_plant(game *g, player *p, map *m, int examx, int examy, std::string itemType, int new_ter);
  void tree_apple (game *g, player *p, map *m, int examx, int examy);
+ void tree_lemon (game *g, player *p, map *m, int examx, int examy);
+ void tree_orange (game *g, player *p, map *m, int examx, int examy);
  void shrub_blueberry (game *g, player *p, map *m, int examx, int examy);
  void shrub_strawberry (game *g, player *p, map *m, int examx, int examy);
  void shrub_wildveggies (game *g, player *p, map *m, int examx, int examy);
