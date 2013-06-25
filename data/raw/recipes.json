@@ -1571,7 +1571,7 @@
          "components" : [
             [
                ["scrap", 6],
-               ["steel_lump", 2]
+               ["steel_chunk", 2]
             ]
          ]
         },
