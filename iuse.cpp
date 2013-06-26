@@ -56,21 +56,22 @@ static bool use_fire(game *g, player *p, item *it)
     return true;
 }
 
-static void inscribe_item( game *g, player *p, std::string verb, std::string gerund, bool carveable )
+// Returns false if the inscription failed or if the player canceled the action. Otherwise, returns true.
+static bool inscribe_item( game *g, player *p, std::string verb, std::string gerund, bool carveable )
 {
     char ch = g->inv(verb + " on what?");
     item* cut = &(p->i_at(ch));
     if (cut->type->id == "null")
     {
         g->add_msg("You do not have that item!");
-        return;
+        return false;
     }
     if (!cut->made_of(SOLID))
     {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
         g->add_msg("You can't %s an item that's not solid!", lower_verb.c_str());
-        return;
+        return false;
     }
     if(carveable && !(cut->made_of("wood") || cut->made_of("plastic") || cut->made_of("glass") ||
                       cut->made_of("chitin") || cut->made_of("iron") || cut->made_of("steel") ||
@@ -79,7 +80,7 @@ static void inscribe_item( game *g, player *p, std::string verb, std::string ger
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
         g->add_msg("You can't %s an item made of %s!",
                    lower_verb.c_str(), cut->get_material(1).c_str());
-        return;
+        return false;
     }
 
     std::map<std::string, std::string>::iterator ent = cut->item_vars.find("item_note");
@@ -88,7 +89,7 @@ static void inscribe_item( game *g, player *p, std::string verb, std::string ger
                                                        cut->item_vars["item_note"] : message ));
 
     if( message.size() > 0 ) { cut->item_vars["item_note"] = message; }
-    return;
+    return true;
 }
 
 void iuse::none(game *g, player *p, item *it, bool t)
@@ -3248,6 +3249,40 @@ void iuse::UPS_on(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::adv_UPS_off(game *g, player *p, item *it, bool t)
+{
+ if (it->charges == 0)
+  g->add_msg_if_player(p,"The power supply has depleted the plutonium.");
+ else {
+  g->add_msg_if_player(p,"You turn the power supply on.");
+  if (p->is_wearing("goggles_nv"))
+   g->add_msg_if_player(p,"Your light amp goggles power on.");
+  if (p->worn.size() && p->worn[0].type->is_power_armor())
+    g->add_msg_if_player(p, "Your power armor engages.");
+  it->make(g->itypes["adv_UPS_on"]);
+  it->active = true;
+ }
+}
+
+void iuse::adv_UPS_on(game *g, player *p, item *it, bool t)
+{
+ if (t) {	// Normal use
+   if (p->worn.size() && p->worn[0].type->is_power_armor()) {
+     it->charges -= 2;
+
+     if (it->charges < 0) {
+       it->charges = 0;
+     }
+   }
+ } else {	// Turning it off
+  g->add_msg_if_player(p,"The advanced UPS powers off with a soft hum.");
+  if (p->worn.size() && p->worn[0].type->is_power_armor())
+    g->add_msg_if_player(p, "Your power armor disengages.");
+  it->make(g->itypes["adv_UPS_off"]);
+  it->active = false;
+ }
+}
+
 void iuse::tazer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
@@ -3598,6 +3633,53 @@ void iuse::knife(game *g, player *p, item *it, bool t)
     }
 }
 
+void iuse::cut_log_into_planks(game *g, player *p, item *it)
+{
+    p->moves -= 300;
+    g->add_msg("You cut the log into planks.");
+    item plank(g->itypes["2x4"], int(g->turn), g->nextinv);
+    item scrap(g->itypes["splinter"], int(g->turn), g->nextinv);
+    bool drop = false;
+    int planks = (rng(1, 3) + (p->skillLevel("carpentry") * 2));
+    int scraps = 12 - planks;
+    if (planks >= 12) {
+        planks = 12;
+    }
+    if (scraps >= planks) {
+        g->add_msg("You waste a lot of the wood.");
+    }
+    for (int i = 0; i < planks; i++) {
+        int iter = 0;
+        while (p->has_item(plank.invlet)) {
+            plank.invlet = g->nextinv;
+            g->advance_nextinv();
+            iter++;
+        }
+        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity())) {
+            drop = true;
+        }
+        if (drop) {
+            g->m.add_item(p->posx, p->posy, plank);
+        } else {
+            p->i_add(plank);
+        }
+    }
+    for (int i = 0; i < scraps; i++) {
+        int iter = 0;
+        while (p->has_item(scrap.invlet)) {
+            scrap.invlet = g->nextinv;
+            g->advance_nextinv();
+            iter++;
+        }
+        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+            drop = true;
+        if (drop)
+            g->m.add_item(p->posx, p->posy, scrap);
+        else
+            p->i_add(scrap);
+    }
+}
+
 void iuse::lumber(game *g, player *p, item *it, bool t)
 {
  char ch = g->inv("Cut up what?");
@@ -3607,48 +3689,11 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
   return;
  }
  if (cut->type->id == "log") {
-  p->moves -= 300;
-  g->add_msg("You cut the log into planks.");
-  item plank(g->itypes["2x4"], int(g->turn), g->nextinv);
-  item scrap(g->itypes["splinter"], int(g->turn), g->nextinv);
-  p->i_rem(ch);
-  bool drop = false;
-  int planks = (rng(1, 3) + (p->skillLevel("carpentry") * 2));
-  int scraps = 12 - planks;
-   if (planks >= 12)
-    planks = 12;
-  if (scraps >= planks)
-   g->add_msg("You waste a lot of the wood.");
-  for (int i = 0; i < planks; i++) {
-   int iter = 0;
-   while (p->has_item(plank.invlet)) {
-    plank.invlet = g->nextinv;
-    g->advance_nextinv();
-    iter++;
-   }
-   if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-    drop = true;
-   if (drop)
-    g->m.add_item(p->posx, p->posy, plank);
-   else
-    p->i_add(plank);
-  }
- for (int i = 0; i < scraps; i++) {
-   int iter = 0;
-   while (p->has_item(scrap.invlet)) {
-    scrap.invlet = g->nextinv;
-    g->advance_nextinv();
-    iter++;
-   }
-   if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-    drop = true;
-   if (drop)
-    g->m.add_item(p->posx, p->posy, scrap);
-   else
-    p->i_add(scrap);
-  }
-  return;
-  } else { g->add_msg("You can't cut that up!");
+     p->i_rem(ch);
+     cut_log_into_planks(g, p, it);
+     return;
+ } else {
+     g->add_msg("You can't cut that up!");
  } return;
 }
 
@@ -4549,24 +4594,62 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
  }
 }
 
-void iuse::spray_can(game *g, player *p, item *it, bool t) {
-     if ( it->type->id ==  "permanent_marker"  ) {
-        int ret=menu(true, "Write on what?", "The ground", "An item", "cancel", NULL );
-        if (ret == 2 ) {
-            inscribe_item( g, p, "Write", "Written", false );
-        } else if ( ret != 1 ) {
-           return;
-        }
-     }
-     std::string verb=( it->type->id ==  "permanent_marker" ? "Write" : "Spray" );
-     std::string lcverb=( it->type->id ==  "permanent_marker" ? "write" : "spray" );
+void iuse::spray_can(game *g, player *p, item *it, bool t)
+{
+    // We have to access the actual it_tool class to figure out how many charges this thing uses.
+    // Because the charges have already been removed in player::use, we will have to refund the charges if the user cancels.
+    // This is a stupid hack, but it's the only way short of rewriting all of the iuse:: functions to draw their own charges as needed.
 
-     std::string message = string_input_popup(verb + " what?");
-     if(g->m.add_graffiti(g, p->posx, p->posy, message)) {
-       g->add_msg("You %s a message on the ground.",lcverb.c_str());
-     } else {
-       g->add_msg("You fail to %s a message here.",lcverb.c_str());
-     }
+    it_tool *tool = dynamic_cast<it_tool*>(it->type);
+    int charges_per_use = tool->charges_per_use;
+
+    if ( it->type->id ==  "permanent_marker"  )
+    {
+        int ret=menu(true, "Write on what?", "The ground", "An item", "cancel", NULL );
+
+        if (ret == 2 )
+        {
+            // inscribe_item returns false if the action fails or is canceled somehow.
+            bool canceled_inscription = !inscribe_item( g, p, "Write", "Written", false );
+            if( canceled_inscription )
+            {
+                //Refund the charges, because the inscription was never made.
+                it->charges += charges_per_use;
+            }
+            return;
+        }
+        else if ( ret != 1) // User chose cancel or some other undefined key.
+        {
+            //Refund the charges, because the player canceled the action.
+            it->charges += charges_per_use;
+            return;
+        }
+    }
+
+    std::string verb=( it->type->id     ==  "permanent_marker" ? "Write" : "Spray" );
+    std::string lcverb=( it->type->id   ==  "permanent_marker" ? "write" : "spray" );
+
+    std::string message = string_input_popup(verb + " what?");
+
+    if(message.empty())
+    {
+        //Refund the charges, because the player canceled the action.
+        it->charges += charges_per_use;
+    }
+    else
+    {
+        if(g->m.add_graffiti(g, p->posx, p->posy, message))
+        {
+            g->add_msg("You %s a message on the ground.",lcverb.c_str());
+        }
+        else
+        {
+            g->add_msg("You fail to %s a message here.",lcverb.c_str());
+
+            // Refuned the charges, because the grafitti failed.
+            it->charges += charges_per_use;
+        }
+    }
 }
 
 void iuse::heatpack(game *g, player *p, item *it, bool t)
