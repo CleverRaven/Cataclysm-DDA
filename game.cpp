@@ -708,10 +708,20 @@ void game::process_activity()
         }
     }
 
+    if (u.focus_pool<20)
+        {
+            add_msg("You too mentally exhausted to read");
+            break;
+        }
+
     if (u.skillLevel(reading->type) < (int)reading->level) {
      int originalSkillLevel = u.skillLevel(reading->type);
      int min_ex = reading->time / 10 + u.int_cur / 4,
          max_ex = reading->time /  5 + u.int_cur / 2 - originalSkillLevel;
+
+     min_ex=ceil(min_ex * ((double)u.focus_pool / (double)100) );
+     max_ex=ceil(max_ex * ((double)u.focus_pool / (double)100) );
+
      if (min_ex < 1)
      {
          min_ex = 1;
