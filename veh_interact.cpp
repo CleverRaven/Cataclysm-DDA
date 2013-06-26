@@ -245,9 +245,9 @@ void veh_interact::do_install(int reason)
         bool has_skill2 = !eng || (g->u.skillLevel("mechanics") >= dif_eng);
         if (engines && eng) // already has engine
         {
-            wprintz(w_msg, c_ltgray, " You also need level ");
+            wprintz(w_msg, c_ltgray, "\n You also need level ");
             wprintz(w_msg, has_skill2? c_ltgreen : c_red, "%d", dif_eng);
-            wprintz(w_msg, c_ltgray, " skill in mechanics to install additional engine.");
+            wprintz(w_msg, c_ltgray, " skill in mechanics to install an additional engine.");
         }
         wrefresh (w_msg);
         char ch = input(); // See keypress.h
