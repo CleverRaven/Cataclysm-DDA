@@ -2138,62 +2138,82 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
  erase();
 }
 
-void player::disp_morale(game* g)
+void player::disp_morale(game *g)
 {
- WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+    WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- int name_column_width = 18;
- for (int i = 0; i < morale.size(); i++) {
-  int length = morale[i].name(morale_data).length();
-  if ( length > name_column_width)
-   name_column_width = length;
- }
- if (name_column_width > 72)
-  name_column_width = 72;
- 
- mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
- mvwprintz(w, 2,  1, c_ltgray, "Name");
- mvwprintz(w, 2, name_column_width+2, c_ltgray, "Value");
+    int name_column_width = 18;
+    for (int i = 0; i < morale.size(); i++)
+    {
+        int length = morale[i].name(morale_data).length();
+        if ( length > name_column_width)
+        {
+            name_column_width = length;
+        }
+    }
+    if (name_column_width > 72)
+    {
+        name_column_width = 72;
+    }
 
- for (int i = 0; i < morale.size(); i++) {
-  int b = morale[i].bonus;
+    mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
+    mvwprintz(w, 2,  1, c_ltgray, "Name");
+    mvwprintz(w, 2, name_column_width+2, c_ltgray, "Value");
 
-  int bpos = name_column_width+6;
-  if (abs(b) >= 10)
-   bpos--;
-  if (abs(b) >= 100)
-   bpos--;
-  if (b < 0)
-   bpos--;
+    for (int i = 0; i < morale.size(); i++)
+    {
+        int b = morale[i].bonus;
 
-  std::string name = morale[i].name(morale_data);
-  if (name.length() > name_column_width)
-   name = name.erase(name_column_width-3, std::string::npos) + "...";
-  mvwprintz(w, i + 3,  1, (b < 0 ? c_red : c_green),
-            name.c_str());
-  mvwprintz(w, i + 3, bpos, (b < 0 ? c_red : c_green), "%d", b);
- }
+        int bpos = name_column_width+6;
+        if (abs(b) >= 10)
+        {
+            bpos--;
+        }
+        if (abs(b) >= 100)
+        {
+            bpos--;
+        }
+        if (b < 0)
+        {
+            bpos--;
+        }
 
- int mor = morale_level();
- int bpos = name_column_width+6;
-  if (abs(mor) >= 10)
-   bpos--;
-  if (abs(mor) >= 100)
-   bpos--;
-  if (mor < 0)
-   bpos--;
- mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), "Total:");
- mvwprintz(w, 20, bpos, (mor < 0 ? c_red : c_green), "%d", mor);
- int gain = calc_focus_equilibrium() - focus_pool;
- mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), "Focus gain:");
- mvwprintz(w, 22, bpos, (gain < 0 ? c_red : c_green), "%d.%.2d per minute", gain / 100, gain % 100);
+        std::string name = morale[i].name(morale_data);
+        if (name.length() > name_column_width)
+        {
+            name = name.erase(name_column_width-3, std::string::npos) + "...";
+        }
+        mvwprintz(w, i + 3,  1, (b < 0 ? c_red : c_green),
+                  name.c_str());
+        mvwprintz(w, i + 3, bpos, (b < 0 ? c_red : c_green), "%d", b);
+    }
 
- wrefresh(w);
- getch();
- werase(w);
- delwin(w);
+    int mor = morale_level();
+    int bpos = name_column_width+6;
+    if (abs(mor) >= 10)
+    {
+        bpos--;
+    }
+    if (abs(mor) >= 100)
+    {
+        bpos--;
+    }
+    if (mor < 0)
+    {
+        bpos--;
+    }
+    mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), "Total:");
+    mvwprintz(w, 20, bpos, (mor < 0 ? c_red : c_green), "%d", mor);
+    int gain = calc_focus_equilibrium() - focus_pool;
+    mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), "Focus gain:");
+    mvwprintz(w, 22, bpos, (gain < 0 ? c_red : c_green), "%d.%.2d per minute", gain / 100, gain % 100);
+
+    wrefresh(w);
+    getch();
+    werase(w);
+    delwin(w);
 }
 
 void player::disp_status(WINDOW *w, game *g)
