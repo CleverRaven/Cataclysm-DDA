@@ -326,17 +326,23 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
 
 void player::update_morale()
 {
- for (int i = 0; i < morale.size(); i++) {
-  if (morale[i].bonus < 0)
-   morale[i].bonus++;
-  else if (morale[i].bonus > 0)
-   morale[i].bonus--;
+    for (int i = 0; i < morale.size(); i++)
+    {
+        if (morale[i].bonus < 0)
+        {
+            morale[i].bonus++;
+        }
+        else if (morale[i].bonus > 0)
+        {
+            morale[i].bonus--;
+        }
 
-  if (morale[i].bonus == 0) {
-   morale.erase(morale.begin() + i);
-   i--;
-  }
- }
+        if (morale[i].bonus == 0)
+        {
+            morale.erase(morale.begin() + i);
+            i--;
+        }
+    }
 }
 
 void player::update_mental_focus()
