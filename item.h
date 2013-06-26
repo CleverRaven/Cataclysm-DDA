@@ -59,7 +59,7 @@ public:
 // Firearm specifics
  int reload_time(player &u);
  int clip_size();
- int accuracy();
+ int dispersion();
  int gun_damage(bool with_ammo = true);
  int noise() const;
  int burst_size();
@@ -74,7 +74,7 @@ public:
  void load_info(std::string data, game *g);
  //std::string info(bool showtext = false);	// Formatted for human viewing
  std::string info(bool showtext = false);
- std::string info(bool showtext, std::vector<iteminfo> *dump);
+ std::string info(bool showtext, std::vector<iteminfo> *dump, game *g = NULL, bool debug = false);
  char symbol() const;
  nc_color color() const;
  int price() const;
@@ -163,7 +163,7 @@ public:
  int charges;
  bool active;           // If true, it has active effects to be processed
  signed char damage;    // How much damage it's sustained; generally, max is 5
- char burnt;	         // How badly we're burnt
+ int burnt;	         // How badly we're burnt
  unsigned int bday;     // The turn on which it was created
  int owned;	            // UID of NPC owner; 0 = player, -1 = unowned
  union{
@@ -178,7 +178,7 @@ public:
  unsigned item_counter;	// generic counter to be used with item flags
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!
-
+ std::map<std::string, std::string> item_vars;
  static itype * nullitem();
 
  item clone();

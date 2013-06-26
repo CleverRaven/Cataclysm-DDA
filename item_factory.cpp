@@ -130,6 +130,7 @@ void Item_factory::init(){
     iuse_function_list["SMOKEBOMB_ACT"] = &iuse::smokebomb_act;
     iuse_function_list["ACIDBOMB"] = &iuse::acidbomb;
     iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
+    iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
     iuse_function_list["MOLOTOV"] = &iuse::molotov;
     iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
     iuse_function_list["DYNAMITE"] = &iuse::dynamite;
@@ -146,6 +147,8 @@ void Item_factory::init(){
     iuse_function_list["TURRET"] = &iuse::turret;
     iuse_function_list["UPS_OFF"] = &iuse::UPS_off;
     iuse_function_list["UPS_ON"] = &iuse::UPS_on;
+    iuse_function_list["adv_UPS_OFF"] = &iuse::adv_UPS_off;
+    iuse_function_list["adv_UPS_ON"] = &iuse::adv_UPS_on;
     iuse_function_list["TAZER"] = &iuse::tazer;
     iuse_function_list["MP3"] = &iuse::mp3;
     iuse_function_list["MP3_ON"] = &iuse::mp3_on;
@@ -190,6 +193,7 @@ void Item_factory::init(){
     techniques_list["FEINT"] = mfb(TEC_FEINT);
     techniques_list["THROW"] = mfb(TEC_THROW);
     techniques_list["DISARM"] = mfb(TEC_DISARM);
+    techniques_list["FLAMING"] = mfb(TEC_FLAMING);
     // Defensive Techniques
     techniques_list["BLOCK"] = mfb(TEC_BLOCK);
     techniques_list["BLOCK_LEGS"] = mfb(TEC_BLOCK_LEGS);
@@ -236,6 +240,7 @@ void Item_factory::init(){
 
     ammo_effects_list["FLAME"] = mfb(AMMO_FLAME);
     ammo_effects_list["INCENDIARY"] = mfb(AMMO_INCENDIARY);
+    ammo_effects_list["IGNITE"] = mfb(AMMO_IGNITE);
     ammo_effects_list["EXPLOSIVE"] = mfb(AMMO_EXPLOSIVE);
     ammo_effects_list["FRAG"] = mfb(AMMO_FRAG);
     ammo_effects_list["NAPALM"] = mfb(AMMO_NAPALM);
@@ -248,6 +253,8 @@ void Item_factory::init(){
     ammo_effects_list["STREAM"] = mfb(AMMO_STREAM);
     ammo_effects_list["COOKOFF"] = mfb(AMMO_COOKOFF);
     ammo_effects_list["LASER"] = mfb(AMMO_LASER);
+    ammo_effects_list["LIGHTNING"] = mfb(AMMO_LIGHTNING);
+    ammo_effects_list["BOUNCE"] = mfb(AMMO_BOUNCE);
 
     bodyparts_list["TORSO"] = mfb(bp_torso);
     bodyparts_list["HEAD"] = mfb(bp_head);
@@ -405,7 +412,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         gunmod_template->used_on_shotgun = is_mod_target(entry.get("mod_targets"), "shotgun");
                         gunmod_template->used_on_smg = is_mod_target(entry.get("mod_targets"), "smg");
                         gunmod_template->used_on_rifle = is_mod_target(entry.get("mod_targets"), "rifle");
-                        gunmod_template->accuracy = entry.get("accuracy_modifier").as_int();
+                        gunmod_template->dispersion = entry.get("dispersion_modifier").as_int();
                         gunmod_template->recoil = entry.get("recoil_modifier").as_int();
                         gunmod_template->burst = entry.get("burst_modifier").as_int();
                         gunmod_template->clip = entry.get("clip_size_modifier").as_int();
@@ -436,7 +443,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         gun_template->skill_used = Skill::skill(entry.get("skill").as_string());
                         gun_template->dmg_bonus = entry.get("ranged_damage").as_int();
                         gun_template->range = entry.get("range").as_int();
-                        gun_template->accuracy = entry.get("accuracy").as_int();
+                        gun_template->dispersion = entry.get("dispersion").as_int();
                         gun_template->recoil = entry.get("recoil").as_int();
                         gun_template->durability = entry.get("durability").as_int();
                         gun_template->burst = entry.get("burst").as_int();
@@ -466,8 +473,8 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         ammo_template->damage = entry.get("damage").as_int();
                         ammo_template->pierce = entry.get("pierce").as_int();
                         ammo_template->range = entry.get("range").as_int();
-                        ammo_template->accuracy =
-                            entry.get("accuracy").as_int();
+                        ammo_template->dispersion =
+                            entry.get("dispersion").as_int();
                         ammo_template->recoil = entry.get("recoil").as_int();
                         ammo_template->count = entry.get("count").as_int();
                         ammo_template->ammo_effects =

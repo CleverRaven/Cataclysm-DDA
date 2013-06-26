@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+#include <algorithm>
 
 option_table OPTIONS;
 
@@ -19,6 +20,9 @@ std::string options_header();
 
 void game::show_options()
 {
+    // Remember what the options were originally so we can restore them if player cancels.
+    option_table OPTIONS_OLD = OPTIONS;
+    
     WINDOW* w_options_border = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
     WINDOW* w_options = newwin(23, 78, 1 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 1 + ((TERMX > 80) ? (TERMX-80)/2 : 0));
 
@@ -138,9 +142,18 @@ void game::show_options()
         if(changed_options && OPTIONS[OPT_SEASON_LENGTH] < 1) { OPTIONS[OPT_SEASON_LENGTH]=option_max_options(OPT_SEASON_LENGTH)-1; }
     } while(ch != 'q' && ch != 'Q' && ch != KEY_ESCAPE);
 
-    if(changed_options && query_yn("Save changes?")) {
-        save_options();
-        trigdist=(OPTIONS[OPT_CIRCLEDIST] ? true : false);
+    if(changed_options)
+    {
+        if(query_yn("Save changes?"))
+        {
+            save_options();
+            trigdist=(OPTIONS[OPT_CIRCLEDIST] ? true : false);
+        }
+        else
+        {
+            // Player wants to keep the old options. Revert!
+            OPTIONS = OPTIONS_OLD;
+        }
     }
     werase(w_options);
 }
@@ -189,6 +202,10 @@ void load_options()
                 } else {
                     val = atoi(check.c_str());
                 }
+
+                // Sanitize option values that are out of range.
+                val = std::min(val, (double)option_max_options(key));
+                val = std::max(val, (double)option_min_options(key));
 
                 OPTIONS[key] = val;
             }
@@ -303,6 +320,9 @@ option_key lookup_option_key(std::string id)
     if(id == "save_sleep") {
         return OPT_SAVESLEEP;
     }
+    if(id == "hide_cursor") {
+        return OPT_HIDE_CURSOR;
+    }
     return OPT_NULL;
 }
 
@@ -342,6 +362,7 @@ std::string option_string(option_key key)
     case OPT_RANDOM_NPC:          return "random_npc";
     case OPT_RAD_MUTATION:        return "rad_mutation";
     case OPT_SAVESLEEP:           return "save_sleep";
+    case OPT_HIDE_CURSOR:         return "hide_cursor";
     default:                      return "unknown_option";
     }
     return "unknown_option";
@@ -377,12 +398,13 @@ std::string option_desc(option_key key)
     case OPT_VIEWPORT_Y:          return "WINDOWS ONLY: Set the expansion of the\nviewport along the Y axis.\nRequires restart.\nDefault is 12.\nPOSIX systems will use terminal size\nat startup.";
     case OPT_MOVE_VIEW_OFFSET:    return "Move view by how many squares per\nkeypress.\nDefault is 1";
     case OPT_SEASON_LENGTH:       return "Season length, in days.\nDefault is 14";
-    case OPT_STATIC_SPAWN:        return "Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is false";
+    case OPT_STATIC_SPAWN:        return "Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is true";
     case OPT_CLASSIC_ZOMBIES:     return "Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false";
     case OPT_STATIC_NPC:          return "If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false";
     case OPT_RANDOM_NPC:          return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false";
     case OPT_RAD_MUTATION:        return "If true, radiation causes the player\nto mutate.\nDefault is true";
     case OPT_SAVESLEEP:           return "If true, game will ask to save the map\nbefore sleeping. Default is false";
+    case OPT_HIDE_CURSOR:         return "If 0, cursor is always shown. If 1,\ncursor is hidden. If 2, cursor is\nhidden on keyboard input and\nunhidden on mouse movement.\nDefault is 0.";
     default:                      return " ";
     }
     return "Big ol Bug (options.cpp:option_desc)";
@@ -424,6 +446,7 @@ std::string option_name(option_key key)
     case OPT_RANDOM_NPC:          return "Random npcs";
     case OPT_RAD_MUTATION:        return "Mutations by radiation";
     case OPT_SAVESLEEP:           return "Ask to save before sleeping";
+    case OPT_HIDE_CURSOR:         return "Hide Mouse Cursor";
     default:                      return "Unknown Option (options.cpp:option_name)";
     }
     return "Big ol Bug (options.cpp:option_name)";
@@ -447,6 +470,7 @@ bool option_is_bool(option_key id)
     case OPT_MOVE_VIEW_OFFSET:
     case OPT_AUTOSAVE_TURNS:
     case OPT_AUTOSAVE_MINUTES:
+    case OPT_HIDE_CURSOR:
         return false;
         break;
     default:
@@ -499,6 +523,9 @@ char option_max_options(option_key id)
         case OPT_AUTOSAVE_MINUTES:
             ret = 127;
             break;
+        case OPT_HIDE_CURSOR:
+            ret = 3;
+            break;
         default:
             ret = 2;
             break;
@@ -515,6 +542,10 @@ char option_min_options(option_key id)
         switch(id) {
         case OPT_MAX_TRAIT_POINTS:
             ret = 3;
+            break;
+        case OPT_VIEWPORT_X:
+        case OPT_VIEWPORT_Y:
+            ret = 12; // TODO Set up min/max values so weird numbers don't have to be used.
             break;
         default:
             ret = 0;
@@ -563,12 +594,14 @@ gradual_night_light T\n\
 # If true, will display weather animations\n\
 rain_animation T\n\
 # If true, compute distance with real math\n\
-circledist T\n\
+circledist F\n\
 # If true, will query beefore disassembling items\n\
 query_disassemble T\n\
 # Player will automatically drop empty containers after use\n\
 # 0 - don't drop any, 1 - drop all except watertight containers, 2 - drop all containers\n\
 drop_empty 0\n\
+# Hide Mouse Cursor\n\
+# 0 - Cursor always shown, 1 - Cursor always hidden, 2 - Cursor shown on mouse input and hidden on keyboard input\n\
 # \n\
 # GAMEPLAY OPTIONS: CHANGING THESE OPTIONS WILL AFFECT GAMEPLAY DIFFICULTY! \n\
 # Level of skill rust: 0 - vanilla Cataclysm, 1 - capped at skill levels, 2 - none at all\n\

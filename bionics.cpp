@@ -6,6 +6,7 @@
 #include "item.h"
 #include "bionics.h"
 #include "line.h"
+#include "catajson.h"
 
 #define BATTERY_AMOUNT 4 // How much batteries increase your power
 
@@ -69,7 +70,7 @@ void player::power_bionics(game *g)
  show_power_level_in_titlebar(wBio, this);
 
  int HEADER_LINE_Y = START_Y + 2;
- int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - 1; 
+ int DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - 1;
  for (int i = 1; i < 79; i++) {
   mvwputch(wBio, HEADER_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line under title
   mvwputch(wBio, DESCRIPTION_LINE_Y, i, c_ltgray, LINE_OXOX); // Draw line above description
@@ -498,6 +499,47 @@ void player::activate_bionic(int b, game *g)
    g->m.ter_set(dirx, diry, t_door_c);
   } else
    g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
+ } else if(bio.id == "bio_flashbang") {
+   int blind_duration = 0;
+   int blind_intensity = 0;
+   int deaf_duration = 0;
+   int deaf_intensity = 0;
+   if (disease_level(DI_BLIND))
+   {
+       // remember our blind/deaf status
+       blind_duration = disease_level(DI_BLIND);
+       blind_intensity = disease_intensity(DI_BLIND);
+   }
+   if (disease_level(DI_DEAF))
+   {
+       deaf_duration = disease_level(DI_DEAF);
+       deaf_intensity = disease_intensity(DI_DEAF);
+   }
+   g->add_msg("You activate your integrated flashbang generator!");
+   g->flashbang(posx, posy);
+   // clear blind/deaf because CBM flashbang shouldn't affect the player
+   rem_disease(DI_BLIND);
+   rem_disease(DI_DEAF);
+   if (blind_duration)
+   {
+       //restore our blind/deaf status
+       add_disease(DI_BLIND, blind_duration, g, blind_intensity, blind_intensity);
+   }
+   if (deaf_duration)
+   {
+       add_disease(DI_DEAF, deaf_duration, g, deaf_intensity, deaf_intensity);
+   }
+ } else if(bio.id == "bio_shockwave") {
+   g->shockwave(posx, posy, 3, 4, 2, 8, true);
+   g->add_msg("You unleash a powerful shockwave!");
+ } else if(bio.id == "bio_chain_lightning"){
+  tmp_item = weapon;
+  weapon = item(g->itypes["bio_lightning"], 0);
+  weapon.curammo = dynamic_cast<it_ammo*>(g->itypes["bio_lightning_ammo"]);
+  weapon.charges = 10;
+  g->refresh_all();
+  g->plfire(false);
+  weapon = tmp_item;
  }
 }
 
@@ -772,269 +814,50 @@ void bionics_install_failure(game *g, player *u, int success)
 
 }
 
-void game::init_bionics(){
-    bionics["bio_null"] = new bionic_data("NULL bionics", false, false, 0, 0, "\
-If you're seeing this, it's a bug. (game::init_bionics)");
-    // NAME          ,PW_SRC, ACT ,COST, TIME,
-    bionics["bio_batteries"] = new bionic_data("Battery System", true, false, 0, 0, "\
-You have a battery draining attachment, and thus can make use of the energy\n\
-contained in normal, everyday batteries.  Use 'E' to consume batteries.");
-    power_source_bionics.push_back("bio_batteries");
-    bionics["bio_metabolics"] = new bionic_data("Metabolic Interchange", true, false, 0, 0, "\
-Your digestive system and power supply are interconnected.  Any drain on\n\
-energy instead increases your hunger.");
-    power_source_bionics.push_back("bio_metabolics");
-    bionics["bio_solar"] = new bionic_data("Solar Panels", true, false, 0, 0, "\
-You have a few solar panels installed.  While in direct sunlight, your power\n\
-level will slowly recharge.");
-    power_source_bionics.push_back("bio_solar");
-    bionics["bio_torsionratchet"] = new bionic_data("Joint Torsion Ratchet", true, false, 0, 0, "\
-Your joints have been equipped with torsion ratchets that generate power slowly\n\
-when you move.");
-    power_source_bionics.push_back("bio_torsionratchet");
-    bionics["bio_furnace"] = new bionic_data("Internal Furnace", true, false, 0, 0, "\
-You can burn nearly any organic material as fuel (use 'E'), recharging your\n\
-power level.  Some materials will burn better than others.");
-    power_source_bionics.push_back("bio_furnace");
-    bionics["bio_ethanol"] = new bionic_data("Ethanol Burner", true, false, 0, 0, "\
-You burn alcohol as fuel in an extremely efficient reaction.  However, you\n\
-will still suffer the inebriating effects of the substance.");
-    power_source_bionics.push_back("bio_ethanol");
-    bionics["bio_memory"] = new bionic_data("Enhanced Memory Banks", false, false, 1, 0, "\
-Your memory has been enhanced with small quantum storage drives.  Any time\n\
-you start to forget a skill, you have a chance at retaining all knowledge, at\n\
-the cost of a small amount of poweron.");
-    unpowered_bionics.push_back("bio_memory");
-    bionics["bio_ears"] = new bionic_data("Enhanced Hearing", false, false, 0, 0, "\
-Your hearing has been drastically improved, allowing you to hear ten times\n\
-better than the average person.  Additionally, high-intensity sounds will be\n\
-automatically dampened before they can damage your hearing.");
-    unpowered_bionics.push_back("bio_ears");
+void game::init_bionics()
+{
+    catajson bionics_file("data/raw/bionics.json");
 
-    bionics["bio_eye_enhancer"] = new bionic_data("Diamond Cornea", false, false, 0, 0, "\
-Your vision is greatly enhanced, giving you a +2 bonus to perception.");
-    unpowered_bionics.push_back("bio_eye_enhancer");
-    bionics["bio_membrane"] = new bionic_data("Nictating Membrane", false, false, 0, 0, "\
-Your eyes have a thin membrane that closes over your eyes while underwater,\n\
-negating any vision penalties.");
-    unpowered_bionics.push_back("bio_membrane");
-    bionics["bio_targeting"] = new bionic_data("Targeting System", false, false, 0, 0, "\
-Your eyes are equipped with range finders, and their movement is synced with\n\
-that of your arms, to a degree.  Shots you fire will be much more accurate,\n\
-particularly at long range.");
-    unpowered_bionics.push_back("bio_targeting");
-    bionics["bio_gills"] = new bionic_data("Membrane Oxygenator", false, false, 1, 0, "\
-An oxygen interchange system automatically switches on while underwater,\n\
-slowly draining your energy reserves but providing oxygen.");
-    unpowered_bionics.push_back("bio_gills");
-    bionics["bio_purifier"] = new bionic_data("Air Filtration System", false, false, 1, 0, "\
-Implanted in your trachea is an advanced filtration system.  If toxins find\n\
-their way into your windpipe, the filter will attempt to remove them.");
-    unpowered_bionics.push_back("bio_purifier");
-    bionics["bio_climate"] = new bionic_data("Internal Climate Control", false, true, 1, 30, "\
-Throughout your body lies a network of thermal piping which eases the effects\n\
-of high and low ambient temperatures.");
-    unpowered_bionics.push_back("bio_climate");
+    for(bionics_file.set_begin(); bionics_file.has_curr(); bionics_file.next())
+    {
+        catajson bio = bionics_file.curr();
 
-    bionics["bio_storage"] = new bionic_data("Internal Storage", false, false, 0, 0, "\
-Space inside your chest cavity has been converted into a storage area.  You\n\
-may carry an extra 8 units of volume.");
-    unpowered_bionics.push_back("bio_storage");
-    bionics["bio_recycler"] = new bionic_data("Recycler Unit", false, false, 0, 0, "\
-Your digestive system has been outfitted with a series of filters and\n\
-processors, allowing you to reclaim waste liquid and, to a lesser degree,\n\
-nutrients.  The net effect is a greatly reduced need to eat and drink.");
-    unpowered_bionics.push_back("bio_recycler");
-    bionics["bio_digestion"] = new bionic_data("Expanded Digestive System", false, false, 0, 0, "\
-You have been outfitted with three synthetic stomachs and industrial-grade\n\
-intestines.  Not only can you extract much more nutrition from food, but you\n\
-are highly resistant to foodborne illness, and can sometimes eat rotten food.");
-    unpowered_bionics.push_back("bio_digestion");
-    bionics["bio_tools"] = new bionic_data("Integrated Toolset", false, false, 0, 0, "\
-Implanted in your hands and fingers is a complete tool set - screwdriver,\n\
-hammer, wrench, and heating elements.  You can use this in place of many\n\
-tools when crafting.");
-    unpowered_bionics.push_back("bio_tools");
-    bionics["bio_shock"] = new bionic_data("Electroshock Unit", false, false, 1, 0, "\
-While fighting unarmed, or with a weapon that conducts electricity, there is\n\
-a chance that a successful hit will shock your opponent, inflicting extra\n\
-damage and disabling them temporarily at the cost of some energy.");
-    unpowered_bionics.push_back("bio_shock");
-    bionics["bio_heat_absorb"] = new bionic_data("Heat Drain", false, false, 1, 0, "\
-While fighting unarmed against a warm-blooded opponent, there is a chance\n\
-that a successful hit will drain body heat, inflicting a small amount of\n\
-extra damage, and increasing your power reserves slightly.");
-    unpowered_bionics.push_back("bio_heat_absorb");
-    bionics["bio_carbon"] = new bionic_data("Subdermal Carbon Filament", false, false, 0, 0, "\
-Lying just beneath your skin is a thin armor made of carbon nanotubes. This\n\
-reduces bashing damage by 2 and cutting damage by 4.");
-    unpowered_bionics.push_back("bio_carbon");
-    bionics["bio_armor_head"] = new bionic_data("Alloy Plating - Head", false, false, 0, 0, "\
-The flesh on your head has been replaced by a strong armor, protecting both\n\
-your head and jaw regions.");
-    unpowered_bionics.push_back("bio_armor_head");
-    bionics["bio_armor_torso"] = new bionic_data("Alloy Plating - Torso", false, false, 0, 0, "\
-The flesh on your torso has been replaced by a strong armor, protecting you\n\
-greatly.");
-    unpowered_bionics.push_back("bio_armor_torso");
-    bionics["bio_armor_arms"] = new bionic_data("Alloy Plating - Arms", false, false, 0, 0, "\
-The flesh on your arms has been replaced by a strong armor, protecting you\n\
-greatly.");
-    unpowered_bionics.push_back("bio_armor_arms");
-    bionics["bio_armor_legs"] = new bionic_data("Alloy Plating - Legs", false, false, 0, 0, "\
-The flesh on your legs has been replaced by a strong armor, protecting you\n\
-greatly.");
-    unpowered_bionics.push_back("bio_armor_legs");
+        std::set<std::string> tags;
 
-    bionics["bio_flashlight"] = new bionic_data("Cranial Flashlight", false, true, 1, 30, "\
-Mounted between your eyes is a small but powerful LED flashlight.");
-    bionics["bio_night_vision"] = new bionic_data("Implanted Night Vision", false, true, 1, 20, "\
-Your eyes have been modified to amplify existing light, allowing you to see\n\
-in the dark.");
-    bionics["bio_infrared"] = new bionic_data("Infrared Vision", false, true, 1, 4, "\
-Your range of vision extends into the infrared, allowing you to see warm-\n\
-blooded creatures in the dark, and even through walls.");
-    bionics["bio_face_mask"] = new bionic_data("Facial Distortion", false, true, 1, 10, "\
-Your face is actually made of a compound which may be molded by electrical\n\
-impulses, making you impossible to recognize.  While not powered, however,\n\
-the compound reverts to its default shape.");
-    bionics["bio_ads"] = new bionic_data("Active Defense System", false, true, 1, 7, "\
-A thin forcefield surrounds your body, continually draining power.  Anything\n\
-attempting to penetrate this field has a chance of being deflected at the\n\
-cost of more energy.  Melee attacks will be stopped more often than bullets.");
-    bionics["bio_ods"] = new bionic_data("Offensive Defense System", false, true, 1, 6, "\
-A thin forcefield surrounds your body, continually draining power.  This\n\
-field does not deflect penetration, but rather delivers a very strong shock,\n\
-damaging unarmed attackers and those with a conductive weapon.");
-    bionics["bio_scent_mask"] = new bionic_data("Olfactory Mask", false, true, 1, 8, "\
-While this system is powered, your body will produce very little odor, making\n\
-it nearly impossible for creatures to track you by scent.");
+        if(bio.has("flags"))
+        {
+            tags = bio.get("flags").as_tags();
+        }
 
-    bionics["bio_scent_vision"] = new bionic_data("Scent Vision", false, true, 1, 30, "\
-While this system is powered, you're able to visually sense your own scent,\n\
-making it possible for you to recognize your surroundings even if you can't\n\
-see it.");
-    bionics["bio_cloak"] = new bionic_data("Cloaking System", false, true, 2, 1, "\
-This high-power system uses a set of cameras and LEDs to make you blend into\n\
-your background, rendering you fully invisible to normal vision.  However,\n\
-you may be detected by infrared, sonar, etc.");
-    bionics["bio_painkiller"] = new bionic_data("Sensory Dulling", false, true, 2, 0, "\
-Your nervous system is wired to allow you to inhibit the signals of pain,\n\
-allowing you to dull your senses at will.  However, the use of this system\n\
-may cause delayed reaction time and drowsiness.");
-    bionics["bio_nanobots"] = new bionic_data("Repair Nanobots", false, true, 5, 0, "\
-Inside your body is a fleet of tiny dormant robots.  Once charged from your\n\
-energy banks, they will flit about your body, repairing any damage.");
-    bionics["bio_heatsink"] = new bionic_data("Thermal Dissipation", false, true, 1, 6, "\
-Powerful heatsinks supermaterials are woven into your flesh.  While powered,\n\
-this system will prevent heat damage up to 2000 degrees fahrenheit.  Note\n\
-that this does not affect your internal temperature.");
-    bionics["bio_resonator"] = new bionic_data("Sonic Resonator", false, true, 4, 0, "\
-Your entire body may resonate at very high power, creating a short-range\n\
-shockwave.  While it will not to much damage to flexible creatures, stiff\n\
-items such as walls, doors, and even robots will be severely damaged.");
+        // set up all the bionic parameters
+        std::string id          = bio.get("id").as_string();
+        std::string name        = bio.get("name").as_string();
+        int cost                = bio.get("cost").as_int();
+        int time                = bio.get("time").as_int();
+        std::string description = bio.get("description").as_string();
+        bool faulty             = (tags.find("FAULTY") != tags.end());
+        bool powersource        = (tags.find("POWER") != tags.end());
+        bool active             = (tags.find("ACTIVE") != tags.end());
 
-    bionics["bio_time_freeze"] = new bionic_data("Time Dilation", false, true, 3, 0, "\
-At an immense cost of power, you may increase your body speed and reactions\n\
-dramatically, essentially freezing time.  You are still delicate, however,\n\
-and violent or rapid movements may damage you due to friction.");
-    bionics["bio_teleport"] = new bionic_data("Teleportation Unit", false, true, 10, 0, "\
-This highly experimental unit folds space over short distances, instantly\n\
-transporting your body up to 25 feet at the cost of much power.  Note that\n\
-prolonged or frequent use may have dangerous side effects.");
-    bionics["bio_blood_anal"] = new bionic_data("Blood Analysis", false, true, 1, 0, "\
-Small sensors have been implanted in your heart, allowing you to analyse your\n\
-blood.  This will detect many illnesses, drugs, and other conditions.");
-    bionics["bio_blood_filter"] = new bionic_data("Blood Filter", false, true, 3, 0, "\
-A filtration system in your heart allows you to actively filter out chemical\n\
-impurities, primarily drugs.  It will have limited impact on viruses.  Note\n\
-that it is not a targeted filter; ALL drugs in your system will be affected.");
-    bionics["bio_alarm"] = new bionic_data("Alarm System", false, true, 1, 400, "\
-A motion-detecting alarm system will notice almost all movement within a\n\
-fifteen-foot radius, and will silently alert you.  This is very useful during\n\
-sleep, or if you suspect a cloaked pursuer.");
-    bionics["bio_evap"] = new bionic_data("Aero-Evaporator", false, true, 8, 0, "\
-This unit draws moisture from the surrounding air, which then is poured from\n\
-a fingertip in the form of water.  It may fail in very dry environments.");
-    bionics["bio_lighter"] = new bionic_data("Mini-Flamethrower", false, true, 3, 0, "\
-The index fingers of both hands have powerful fire starters which extend from\n\
-the tip.");
-    bionics["bio_claws"] = new bionic_data("Adamantium Claws", false, true, 3, 0, "\
-Your fingers can withdraw into your hands, allowing a set of vicious claws to\n\
-extend.  These do considerable cutting damage, but prevent you from holding\n\
-anything else.");
+        bionics[id] = new bionic_data(name, powersource, active, cost, time, description, faulty);
 
-    bionics["bio_blaster"] = new bionic_data("Fusion Blaster Arm", false, true, 2, 0, "\
-Your left arm has been replaced by a heavy-duty fusion blaster!  You may use\n\
-your energy banks to fire a damaging heat ray; however, you are unable to use\n\
-or carry two-handed items, and may only fire handguns.");
-    bionics["bio_laser"] = new bionic_data("Finger-Mounted Laser", false, true, 2, 0, "\
-One of your fingers has a small high-powered laser embedded in it.  This long\n\
-range weapon is not incredibly damaging, but is very accurate, and has the\n\
-potential to start fires.");
-    bionics["bio_emp"] = new bionic_data("Directional EMP", false, true, 4, 0, "\
-Mounted in the palms of your hand are small parabolic EMP field generators.\n\
-You may use power to fire a short-ranged blast which will disable electronics\n\
-and robots.");
-    bionics["bio_hydraulics"] = new bionic_data("Hydraulic Muscles", false, true, 1, 3, "\
-While activated, the muscles in your arms will be greatly enchanced,\n\
-increasing your strength by 20.");
-    bionics["bio_water_extractor"] = new bionic_data("Water Extraction Unit", false, true, 2, 0, "\
-Nanotubes embedded in the palm of your hand will pump any available fluid out\n\
-of a dead body, cleanse it of impurities and convert it into drinkable water.\n\
-You must, however, have a container to store the water in.");
-    bionics["bio_magnet"] = new bionic_data("Electromagnetic Unit", false, true, 2, 0, "\
-Embedded in your hand is a powerful electromagnet, allowing you to pull items\n\
-made of iron over short distances.");
-    bionics["bio_fingerhack"] = new bionic_data("Fingerhack", false, true, 1, 0, "\
-One of your fingers has an electrohack embedded in it; an all-purpose hacking\n\
-unit used to override control panels and the like (but not computers).  Skill\n\
-in computers is important, and a failed use may damage your circuits.");
-    bionics["bio_lockpick"] = new bionic_data("Fingerpick", false, true, 1, 0, "\
-One of your fingers has an electronic lockpick embedded in it.  This auto-\n\
-matic system will quickly unlock all but the most advanced key locks without\n\
-any skill required on the part of the user.");
+        // Don't add bio_null to any vectors.
+        if(id != "bio_null")
+        {
+            if(faulty)
+            {
+                faulty_bionics.push_back(id);
+            }
+            else if(powersource)
+            {
+                power_source_bionics.push_back(id);
+            }
+            else if(!active)
+            {
+                unpowered_bionics.push_back(id);
+            }
+        }
 
-    bionics["bio_ground_sonar"] = new bionic_data("Terranian Sonar", false, true, 1, 5, "\
-Your feet are equipped with precision sonar equipment, allowing you to detect\n\
-the movements of creatures below the ground.");
-
-    bionics["bio_power_armor_interface"] = new bionic_data("Power Armor Interface", false, true, 1, 10, "\
-Interfaces your power system with the internal charging port on suits of power armor.");
-
-    bionics["bio_power_armor_interface_mkII"] = new bionic_data("Power Armor Interface Mk. II", false, true, 1, 50, "\
-Interfaces your power system with the internal charging port on suits of power armor.\n\
-The Mk. II was designed by DoubleTech Inc., to meet the popularity of the Mk. II\n\
-power armor series.");
-
-    //Fault Bionics from here on out.
-    bionics["bio_dis_shock"] = new bionic_data("Electrical Discharge", false, false, 0, 0, "\
-A malfunctioning bionic which occasionally discharges electricity through\n\
-your body, causing pain and brief paralysis but no damage.",true);
-    faulty_bionics.push_back("bio_dis_shock");
-
-    bionics["bio_dis_acid"] = new bionic_data("Acidic Discharge", false, false, 0, 0, "\
-A malfunctioning bionic which occasionally discharges acid into your muscles,\n\
-causing sharp pain and minor damage.",true);
-    faulty_bionics.push_back("bio_dis_shock");
-
-    bionics["bio_drain"] = new bionic_data("Electrical Drain", false, false, 0, 0, "\
-A malfunctioning bionic.  It doesn't perform any useful function, but will\n\
-occasionally draw power from your batteries.",true);
-    faulty_bionics.push_back("bio_drain");
-
-    bionics["bio_noise"] = new bionic_data("Noisemaker", false, false, 0, 0, "\
-A malfunctioning bionic.  It will occasionally emit a loud burst of noise.",true);
-    faulty_bionics.push_back("bio_noise");
-    bionics["bio_power_weakness"] = new bionic_data("Power Overload", false, false, 0, 0, "\
-Damaged power circuits cause short-circuiting inside your muscles when your\n\
-batteries are above 75%%%% capacity, causing greatly reduced strength.  This\n\
-has no effect if you have no internal batteries.",true);
-    faulty_bionics.push_back("bio_power_weakness");
-
-    bionics["bio_stiff"] = new bionic_data("Wire-induced Stiffness", false, false, 0, 0, "\
-Improperly installed wires cause a physical stiffness in most of your body,\n\
-causing increased encumberance.",true);
-    faulty_bionics.push_back("bio_stiff");
+    }
 }
 

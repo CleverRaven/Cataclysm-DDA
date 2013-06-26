@@ -691,7 +691,7 @@ bool npc::alt_attack_available(game *g)
  return false;
 }
 
-char npc::choose_escape_item()
+signed char npc::choose_escape_item()
 {
  int best = -1, ret = -1;
  invslice slice = inv.slice(0, inv.size());
@@ -717,7 +717,7 @@ char npc::choose_escape_item()
  return slice[ret]->front().invlet;
 }
 
-void npc::use_escape_item(game *g, char invlet, int target)
+void npc::use_escape_item(game *g, signed char invlet, int target)
 {
  if (invlet == 0) {
   debugmsg("%s tried to use item with null invlet", name.c_str());
@@ -798,10 +798,10 @@ int npc::confident_range(char invlet)
   if (weapon.curammo == NULL)	// This shouldn't happen, but it does sometimes
    debugmsg("%s has NULL curammo!", name.c_str()); // TODO: investigate this bug
   else {
-   deviation += .5 * weapon.curammo->accuracy;
+   deviation += .5 * weapon.curammo->dispersion;
    max = weapon.range();
   }
-  deviation += .5 * firing->accuracy;
+  deviation += .5 * firing->dispersion;
   deviation += 3 * recoil;
 
  } else { // We aren't firing a gun, we're throwing something!

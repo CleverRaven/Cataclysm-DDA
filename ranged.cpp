@@ -39,10 +39,10 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   tmpammo->pierce = (charges >= 4 ? (charges - 3) * 2.5 : 0);
   tmpammo->range = 5 + charges * 5;
   if (charges <= 4)
-   tmpammo->accuracy = 14 - charges * 2;
+   tmpammo->dispersion = 14 - charges * 2;
   else // 5, 12, 21, 32
-   tmpammo->accuracy = charges * (charges - 4);
-  tmpammo->recoil = tmpammo->accuracy * .8;
+   tmpammo->dispersion = charges * (charges - 4);
+  tmpammo->recoil = tmpammo->dispersion * .8;
   tmpammo->ammo_effects = 0;
   if (charges == 8)
    tmpammo->ammo_effects |= mfb(AMMO_EXPLOSIVE_BIG);
@@ -128,32 +128,87 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
  bool missed = false;
  int tart;
+
+ const bool debug_retarget = false;  // this will inevitably be needed
+ const bool wildly_spraying = false; // stub for now. later, rng based on stress/skill/etc at the start,
+ int weaponrange = p.weapon.range(); // this is expensive, let's cache. todo: figure out if we need p.weapon.range(&p);
+
  for (int curshot = 0; curshot < num_shots; curshot++) {
-// Burst-fire weapons allow us to pick a new target after killing the first
-  if (curshot > 0 &&
-      (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0)) {
-   std::vector<point> new_targets;
-   for (int radius = 1; radius <= 2 + p.skillLevel("gun") && radius <= p.weapon.range() && new_targets.empty();
-        radius++) {
-       for (std::vector<monster>::iterator it = z.begin(); it != z.end(); it++)
-       {
-           if (rl_dist(p.posx,p.posy,it->posx,it->posy) != radius)
-               continue;
-           if (it->hp >0 && it->friendly == 0)
-               new_targets.push_back(point(it->posx, it->posy));
+ // Burst-fire weapons allow us to pick a new target after killing the first
+     if ( curshot > 0 && (mon_at(tarx, tary) == -1 || z[mon_at(tarx, tary)].hp <= 0) ) {
+       std::vector<point> new_targets;
+       new_targets.clear();
+
+       if ( debug_retarget == true ) {
+          mvprintz(curshot,5,c_red,"[%d] %s: retarget: mon_at(%d,%d)",curshot,p.name.c_str(),tarx,tary);
+          if(mon_at(tarx, tary) == -1) {
+            printz(c_red, " = -1");
+          } else {
+            printz(c_red, ".hp=%d",
+              z[mon_at(tarx, tary)].hp
+            );
+          }
        }
-   }
-   if (!new_targets.empty()) {
-    int target_picked = rng(0, new_targets.size() - 1);
-    tarx = new_targets[target_picked].x;
-    tary = new_targets[target_picked].y;
-    if (m.sees(p.posx, p.posy, tarx, tary, 0, tart))
-     trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
-    else
-     trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
-   } else if ((!p.has_trait(PF_TRIGGERHAPPY) || one_in(3)) &&
-              (p.skillLevel("gun") >= 7 || one_in(7 - p.skillLevel("gun"))))
-    return; // No targets, so return
+
+       for (
+         int radius = 0;                        /* range from last target, not shooter! */
+         radius <= 2 + p.skillLevel("gun") &&   /* more skill: wider burst area? */
+         radius <= weaponrange &&               /* this seems redundant */
+         ( new_targets.empty() ||               /* got target? stop looking. However this breaks random selection, aka, wildly spraying, so: */
+            wildly_spraying == true );          /* lets set this based on rng && stress or whatever elsewhere */
+         radius++
+       ) {                                      /* iterate from last target's position: makes sense for burst fire.*/
+
+           for (std::vector<monster>::iterator it = z.begin(); it != z.end(); it++) {
+               int nt_range_to_me = rl_dist(p.posx, p.posy, it->posx, it->posy);
+               int dummy;
+               if (nt_range_to_me == 0 || nt_range_to_me > weaponrange ||
+                   !pl_sees(&p, &(*it), dummy)) {
+                   /* reject out of range and unseen targets as well as MY FACE */
+                   continue;
+               }
+
+               int nt_range_to_lt = rl_dist(tarx,tary,it->posx,it->posy);
+               /* debug*/ if ( debug_retarget && nt_range_to_lt <= 5 ) printz(c_red, " r:%d/l:%d/m:%d ..", radius, nt_range_to_lt, nt_range_to_me );
+               if (nt_range_to_lt != radius) {
+                   continue;                    /* we're spiralling outward, catch you next iteration (maybe) */
+               }
+               if (it->hp >0 && it->friendly == 0) {
+                   new_targets.push_back(point(it->posx, it->posy)); /* oh you're not dead and I don't like you. Hello! */
+               }
+           }
+       }
+       if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
+          int target_picked = rng(0, new_targets.size() - 1); /* 1 victim list unless wildly spraying */
+          tarx = new_targets[target_picked].x;
+          tary = new_targets[target_picked].y;
+          if (m.sees(p.posx, p.posy, tarx, tary, 0, tart)) {
+              trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
+          } else {
+              trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
+          }
+
+          /* debug */ if (debug_retarget) printz(c_ltgreen, " NEW:(%d:%d,%d) %d,%d (%s)[%d] hp: %d",
+              target_picked, new_targets[target_picked].x, new_targets[target_picked].y,
+              tarx, tary, z[mon_at(tarx, tary)].name().c_str(), mon_at(tarx, tary), z[mon_at(tarx, tary)].hp);
+
+       } else if (
+          (
+             !p.has_trait(PF_TRIGGERHAPPY) ||   /* double tap. TRIPLE TAP! wait, no... */
+             one_in(3)                          /* on second though...everyone double-taps at times. */
+          ) && (
+             p.skillLevel("gun") >= 7 ||        /* unless trained */
+             one_in(7 - p.skillLevel("gun"))    /* ...sometimes */
+          ) ) {
+          return;                               // No targets, so return
+       } else if (debug_retarget) {
+          printz(c_red, " new targets.empty()!");
+       }
+  } else if (debug_retarget) {
+    mvprintz(curshot,5,c_red,"[%d] %s: target == mon_at(%d,%d)[%d] %s hp %d",curshot, p.name.c_str(), tarx ,tary,
+       mon_at(tarx, tary),
+       z[mon_at(tarx, tary)].name().c_str(),
+       z[mon_at(tarx, tary)].hp);
   }
 
   // Drop a shell casing if appropriate.
@@ -242,12 +297,12 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   if (missed_by >= 1.) {
 // We missed D:
 // Shoot a random nearby space?
-   tarx += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
-   tary += rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+   int mtarx = tarx + rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
+   int mtary = tary + rng(0 - int(sqrt(double(missed_by))), int(sqrt(double(missed_by))));
    if (m.sees(p.posx, p.posy, x, y, -1, tart))
-    trajectory = line_to(p.posx, p.posy, tarx, tary, tart);
+    trajectory = line_to(p.posx, p.posy, mtarx, mtary, tart);
    else
-    trajectory = line_to(p.posx, p.posy, tarx, tary, 0);
+    trajectory = line_to(p.posx, p.posy, mtarx, mtary, 0);
    missed = true;
    if (!burst) {
     if (&p == &u)
@@ -297,7 +352,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
    if (dam <= 0 && !(effects & mfb(AMMO_FLAME))) { // Ran out of momentum.
     ammo_effects(this, tx, ty, effects);
-    if (is_bolt &&
+    if (is_bolt && !(effects & mfb(AMMO_IGNITE)) && !(effects & mfb(AMMO_EXPLOSIVE)) &&
         ((curammo->m1 == "wood" && !one_in(4)) ||
          (curammo->m1 != "wood" && !one_in(15))))
      m.add_item(tx, ty, ammotmp);
@@ -349,12 +404,31 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   } // Done with the trajectory!
 
   ammo_effects(this, tx, ty, effects);
+  if (effects & mfb(AMMO_BOUNCE))
+  {
+    for (int i = 0; i < z.size(); i++)
+    {
+        // search for monsters in radius 4 around impact site
+        if (rl_dist(z[i].posx, z[i].posy, tx, ty) <= 4)
+        {
+            // don't hit targets that have already been hit
+            if (!z[i].has_effect(ME_BOUNCED) && !z[i].dead)
+            {
+                add_msg("The attack bounced to %s!", z[i].name().c_str());
+                trajectory = line_to(tx, ty, z[i].posx, z[i].posy, 0);
+                if (weapon->charges > 0)
+                    fire(p, z[i].posx, z[i].posy, trajectory, false);
+                break;
+            }
+        }
+    }
+  }
 
   if (m.move_cost(tx, ty) == 0) {
       tx = px;
       ty = py;
   }
-  if (is_bolt &&
+  if (is_bolt && !(effects & mfb(AMMO_IGNITE)) && !(effects & mfb(AMMO_EXPLOSIVE)) &&
       ((curammo->m1 == "wood" && !one_in(5)) ||
        (curammo->m1 != "wood" && !one_in(15))  ))
     m.add_item(tx, ty, ammotmp);
@@ -426,10 +500,15 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 
     std::string message;
-    int dam = (thrown.weight() / 4 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
+    int real_dam = (thrown.weight() / 4 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
                double(2 + double(thrown.volume() / 4));
-    if (dam > thrown.weight() * 3)
-        dam = thrown.weight() * 3;
+    if (real_dam > thrown.weight() * 3)
+        real_dam = thrown.weight() * 3;
+    if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel")))
+    {
+        real_dam *= 2;
+    }
+    int dam = real_dam;
 
     int i = 0, tx = 0, ty = 0;
     for (i = 0; i < trajectory.size() && dam >= 0; i++)
@@ -497,7 +576,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             else if (u_see(tx, ty))
                 add_msg("%s hits the %s for %d damage.", message.c_str(),
                         z[mon_at(tx, ty)].name().c_str(), dam);
-            if (z[mon_at(tx, ty)].hurt(dam))
+            if (z[mon_at(tx, ty)].hurt(dam, real_dam))
                 kill_mon(mon_at(tx, ty), !p.is_npc());
             return;
         }
@@ -518,6 +597,10 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 ty = u.posy;
             }
             i = trajectory.size();
+        }
+        if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel")))
+        {
+            m.add_field(this, tx, ty, fd_electricity, rng(2,3));
         }
     }
     if (m.move_cost(tx, ty) == 0)
@@ -759,12 +842,24 @@ void game::hit_monster_with_flags(monster &z, unsigned int effects)
   else if (z.made_of("flesh") && one_in(4))
    z.add_effect(ME_ONFIRE, rng(1, 4));
 
+ } else if (effects & mfb(AMMO_IGNITE)) {
+
+   if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
+      z.made_of("paper") || z.made_of("wood"))
+      z.add_effect(ME_ONFIRE, rng(6, 6));
+   else if (z.made_of("flesh"))
+   z.add_effect(ME_ONFIRE, rng(10, 10));
+
  }
+ if (effects & mfb(AMMO_BOUNCE))
+    z.add_effect(ME_BOUNCED, 1);
 }
 
 int time_to_fire(player &p, it_gun* firing)
 {
  int time = 0;
+ if (p.weapon.curammo->ammo_effects & mfb(AMMO_BOUNCE))
+    return 0;
  if (firing->skill_used == Skill::skill("pistol")) {
    if (p.skillLevel("pistol") > 6)
      time = 10;
@@ -890,12 +985,14 @@ double calculate_missed_by(player &p, int trange, item* weapon)
 
   deviation += rng(0, 2 * p.encumb(bp_arms)) + rng(0, 4 * p.encumb(bp_eyes));
 
-  deviation += rng(0, weapon->curammo->accuracy);
-  // item::accuracy() doesn't support gunmods.
-  deviation += rng(0, p.weapon.accuracy());
+  deviation += rng(0, weapon->curammo->dispersion);
+  // item::dispersion() doesn't support gunmods.
+  deviation += rng(0, p.weapon.dispersion());
   int adj_recoil = p.recoil + p.driving_recoil;
   deviation += rng(int(adj_recoil / 4), adj_recoil);
 
+  if (deviation < 0)
+    return 0;
 // .013 * trange is a computationally cheap version of finding the tangent.
 // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
 //  of quarter-degrees)
@@ -922,9 +1019,10 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
  std::string message;
  bool u_see_mon = g->u_see(&(mon));
+ int adjusted_damage = dam;
  if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(4) &&
      weapon->curammo->phase != LIQUID &&
-     weapon->curammo->accuracy >= 4) { // Buckshot hits anyway
+     weapon->curammo->dispersion >= 4) { // Buckshot hits anyway
   if (u_see_mon)
    g->add_msg("The shot passes through the %s without hitting.",
            mon.name().c_str());
@@ -935,54 +1033,62 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
   zarm -= weapon->curammo->pierce;
   if (weapon->curammo->phase == LIQUID)
    zarm = 0;
-  else if (weapon->curammo->accuracy < 4) // Shot doesn't penetrate armor well
+  else if (weapon->curammo->dispersion < 4) // Shot doesn't penetrate armor well
    zarm *= rng(2, 4);
   if (zarm > 0)
-   dam -= zarm;
-  if (dam <= 0) {
+   adjusted_damage -= zarm;
+  if (adjusted_damage <= 0) {
    if (u_see_mon)
     g->add_msg("The shot reflects off the %s!",
             mon.name_with_armor().c_str());
-   dam = 0;
+   adjusted_damage = 0;
    goodhit = 1;
   }
   if (goodhit < .1 && !mon.has_flag(MF_NOHEAD)) {
    message = "Headshot!";
-   dam = rng(5 * dam, 8 * dam);
+   adjusted_damage = rng(5 * adjusted_damage, 8 * adjusted_damage);
    p.practice(g->turn, firing->skill_used, 5);
   } else if (goodhit < .2) {
    message = "Critical!";
-   dam = rng(dam * 2, dam * 3);
+   adjusted_damage = rng(adjusted_damage * 2, adjusted_damage * 3);
    p.practice(g->turn, firing->skill_used, 2);
   } else if (goodhit < .4) {
-   dam = rng(int(dam * .9), int(dam * 1.5));
+   adjusted_damage = rng(int(adjusted_damage * .9), int(adjusted_damage * 1.5));
    p.practice(g->turn, firing->skill_used, rng(0, 2));
   } else if (goodhit <= .7) {
    message = "Grazing hit.";
-   dam = rng(0, dam);
+   adjusted_damage = rng(0, adjusted_damage);
   } else
-   dam = 0;
+   adjusted_damage = 0;
+
+  if(item(weapon->curammo, 0).has_flag("NOGIB"))
+  {
+      adjusted_damage = std::min(adjusted_damage, mon.hp+10);
+  }
+
 // Find the zombie at (x, y) and hurt them, MAYBE kill them!
-  if (dam > 0) {
-   mon.moves -= dam * 5;
+  if (adjusted_damage > 0) {
+   mon.moves -= adjusted_damage * 5;
    if (&p == &(g->u) && u_see_mon)
-    g->add_msg("%s You hit the %s for %d damage.", message.c_str(), mon.name().c_str(), dam);
+    g->add_msg("%s You hit the %s for %d damage.", message.c_str(), mon.name().c_str(), adjusted_damage);
    else if (u_see_mon)
     g->add_msg("%s %s shoots the %s.", message.c_str(), p.name.c_str(), mon.name().c_str());
-
-   bool bMonDead = mon.hurt(dam);
-   hit_animation(mon.posx - g->u.posx + VIEWX - g->u.view_offset_x,
-                 mon.posy - g->u.posy + VIEWY - g->u.view_offset_y,
-                 red_background(mon.type->color), (bMonDead) ? '%' : mon.symbol());
+   bool bMonDead = mon.hurt(adjusted_damage, dam);
+   if( u_see_mon ) {
+       hit_animation(mon.posx - g->u.posx + VIEWX - g->u.view_offset_x,
+                     mon.posy - g->u.posy + VIEWY - g->u.view_offset_y,
+                     red_background(mon.type->color), (bMonDead) ? '%' : mon.symbol());
+   }
 
    if (bMonDead)
     g->kill_mon(g->mon_at(mon.posx, mon.posy), (&p == &(g->u)));
    else if (weapon->curammo->ammo_effects != 0)
     g->hit_monster_with_flags(mon, weapon->curammo->ammo_effects);
 
-   dam = 0;
+   adjusted_damage = 0;
   }
  }
+ dam = adjusted_damage;
 }
 
 void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
@@ -1126,4 +1232,12 @@ void ammo_effects(game *g, int x, int y, long effects) {
 
   if (effects & mfb(AMMO_FLAME))
     g->explosion(x, y, 4, 0, true);
+
+  if (effects & mfb(AMMO_LIGHTNING)) {
+    for (int i = x - 1; i <= x + 1; i++) {
+      for (int j = y - 1; j <= y + 1; j++) {
+        g->m.add_field(g, i, j, fd_electricity, 3);
+      }
+    }
+  }
 }

@@ -8,6 +8,7 @@
 #include "mutation.h"
 #include "player.h"
 #include <sstream>
+#include <algorithm>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -52,6 +53,42 @@ static bool use_fire(game *g, player *p, item *it)
         g->add_msg_if_player(p, "You need a lighter!");
         return false;
     }
+    return true;
+}
+
+// Returns false if the inscription failed or if the player canceled the action. Otherwise, returns true.
+static bool inscribe_item( game *g, player *p, std::string verb, std::string gerund, bool carveable )
+{
+    char ch = g->inv(verb + " on what?");
+    item* cut = &(p->i_at(ch));
+    if (cut->type->id == "null")
+    {
+        g->add_msg("You do not have that item!");
+        return false;
+    }
+    if (!cut->made_of(SOLID))
+    {
+        std::string lower_verb = verb;
+        std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
+        g->add_msg("You can't %s an item that's not solid!", lower_verb.c_str());
+        return false;
+    }
+    if(carveable && !(cut->made_of("wood") || cut->made_of("plastic") || cut->made_of("glass") ||
+                      cut->made_of("chitin") || cut->made_of("iron") || cut->made_of("steel") ||
+                      cut->made_of("silver"))) {
+        std::string lower_verb = verb;
+        std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
+        g->add_msg("You can't %s an item made of %s!",
+                   lower_verb.c_str(), cut->get_material(1).c_str());
+        return false;
+    }
+
+    std::map<std::string, std::string>::iterator ent = cut->item_vars.find("item_note");
+    std::string message = gerund + " on this " + cut->type->name + " is a note saying: ";
+    message = string_input_popup(verb + " what?", 64, (ent != cut->item_vars.end() ?
+                                                       cut->item_vars["item_note"] : message ));
+
+    if( message.size() > 0 ) { cut->item_vars["item_note"] = message; }
     return true;
 }
 
@@ -704,8 +741,8 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
 void iuse::purifier(game *g, player *p, item *it, bool t)
 {
  std::vector<int> valid;	// Which flags the player has
- for (int i = PF_MAX+1; i < PF_MAX2; i++) {
-  if (p->has_trait(pl_flag(i)) && p->has_mutation(pl_flag(i)))
+ for (int i = PF_NULL+1; i < PF_MAX2; i++) {
+  if (p->has_trait(pl_flag(i)) && !p->has_base_trait(pl_flag(i)))  //Looks for active mutation
    valid.push_back(i);
  }
  if (valid.size() == 0) {
@@ -777,7 +814,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
   p->vomit(g);
  } else if (!p->has_trait(PF_MARLOSS)) {
   g->add_msg_if_player(p,"You feel a strange warmth spreading throughout your body...");
-  p->toggle_trait(PF_MARLOSS);
+  p->toggle_mutation(PF_MARLOSS);
  }
  if (effect == 6)
   p->radiation = 0;
@@ -1272,13 +1309,13 @@ void iuse::hammer(game *g, player *p, item *it, bool t)
 
         case t_window_boarded:
         nails =  8;
-        boards = 3;
+        boards = 4;
         newter = t_window_empty;
         break;
 
         case t_door_boarded:
         nails = 12;
-        boards = 3;
+        boards = 4;
         newter = t_door_b;
         break;
 
@@ -2001,6 +2038,15 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   return;
  }
 
+ int pick_quality = 1;
+ if( it->typeId() == "picklock" ) {
+     pick_quality = 5;
+ }
+ else if( it->typeId() == "crude_picklock" ) {
+     pick_quality = 2;
+ }
+
+
  const char *door_name;
  ter_id new_type;
  if (type == t_chaingate_l) {
@@ -2019,13 +2065,15 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  }
 
  p->practice(g->turn, "mechanics", 1);
- p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics")) * 5;
- if (dice(4, 6) < dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur) - it->damage / 2) {
+ p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel("mechanics")) * 5;
+ if (dice(3, 25) / pick_quality < dice(2, p->skillLevel("mechanics")) +
+     dice(2, p->dex_cur) - it->damage / 2) {
   p->practice(g->turn, "mechanics", 1);
   g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
   g->m.ter_set(dirx, diry, new_type);
- } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics")) +
-                         dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
+ } else if (dice(6, 30) / pick_quality < dice(2, p->skillLevel("mechanics")) +
+            dice(2, p->dex_cur) - it->damage / 2 &&
+            it->damage < 100) {
   it->damage++;
 
   std::string sStatus = "damage";
@@ -2039,14 +2087,15 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
  }
  if ( type == t_door_locked_alarm &&
-      dice(4, 7) <  dice(2, p->skillLevel("mechanics")) +
+      dice(5, 17) / pick_quality < dice(2, p->skillLevel("mechanics")) +
       dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
-  g->sound(p->posx, p->posy, 30, "An alarm sounds!");
+  g->sound(p->posx, p->posy, 40, "An alarm sounds!");
   if (!g->event_queued(EVENT_WANTED)) {
    g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
   }
  }
 }
+
 void iuse::crowbar(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
@@ -2107,12 +2156,12 @@ if (dirx == 0 && diry == 0) {
   switch (g->m.ter(dirx, diry)) {
   case t_window_boarded:
    nails =  8;
-   boards = 3;
+   boards = 4;
    newter = t_window_empty;
    break;
   case t_door_boarded:
    nails = 12;
-   boards = 3;
+   boards = 4;
    newter = t_door_b;
    break;
   case t_fence_h:
@@ -2145,9 +2194,9 @@ if (dirx == 0 && diry == 0) {
   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
   g->m.ter_set(dirx, diry, new_type);
   if (noisy)
-   g->sound(dirx, diry, 8, "crunch!");
+   g->sound(dirx, diry, 12, "crunch!");
   if ( type == t_door_locked_alarm ) {
-   g->sound(p->posx, p->posy, 30, "An alarm sounds!");
+   g->sound(p->posx, p->posy, 40, "An alarm sounds!");
    if (!g->event_queued(EVENT_WANTED)) {
     g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
    }
@@ -2157,7 +2206,7 @@ if (dirx == 0 && diry == 0) {
    //chance of breaking the glass if pry attempt fails
    if (dice(4, difficulty) > dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
     g->add_msg_if_player(p,"You break the glass.");
-    g->sound(dirx, diry, 16, "glass breaking!");
+    g->sound(dirx, diry, 24, "glass breaking!");
     g->m.ter_set(dirx, diry, t_window_frame);
     return;
    }
@@ -2851,6 +2900,18 @@ void iuse::acidbomb_act(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::arrow_flamable(game *g, player *p, item *it, bool t)
+{
+ if (!p->use_charges_if_avail("fire", 1))
+ {
+  g->add_msg_if_player(p,"You need a lighter!");
+  return;
+ }
+ g->add_msg_if_player(p,"You light the arrow!.");
+ p->moves -= 150;
+ it->make(g->itypes["arrow_flamming"]);
+}
+
 void iuse::molotov(game *g, player *p, item *it, bool t)
 {
  if (!p->use_charges_if_avail("fire", 1))
@@ -3188,6 +3249,40 @@ void iuse::UPS_on(game *g, player *p, item *it, bool t)
  }
 }
 
+void iuse::adv_UPS_off(game *g, player *p, item *it, bool t)
+{
+ if (it->charges == 0)
+  g->add_msg_if_player(p,"The power supply has depleted the plutonium.");
+ else {
+  g->add_msg_if_player(p,"You turn the power supply on.");
+  if (p->is_wearing("goggles_nv"))
+   g->add_msg_if_player(p,"Your light amp goggles power on.");
+  if (p->worn.size() && p->worn[0].type->is_power_armor())
+    g->add_msg_if_player(p, "Your power armor engages.");
+  it->make(g->itypes["adv_UPS_on"]);
+  it->active = true;
+ }
+}
+
+void iuse::adv_UPS_on(game *g, player *p, item *it, bool t)
+{
+ if (t) {	// Normal use
+   if (p->worn.size() && p->worn[0].type->is_power_armor()) {
+     it->charges -= 2;
+
+     if (it->charges < 0) {
+       it->charges = 0;
+     }
+   }
+ } else {	// Turning it off
+  g->add_msg_if_player(p,"The advanced UPS powers off with a soft hum.");
+  if (p->worn.size() && p->worn[0].type->is_power_armor())
+    g->add_msg_if_player(p, "Your power armor disengages.");
+  it->make(g->itypes["adv_UPS_off"]);
+  it->active = false;
+ }
+}
+
 void iuse::tazer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
@@ -3383,10 +3478,10 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true,
-    "Using knife:", "Cut up fabric", "Cut up plastic/kevlar", "Carve wood", "Cauterize", "Cancel", NULL);
+                      "Using knife:", "Cut up fabric", "Cut up plastic/kevlar", "Carve wood", "Cauterize", "Carve writing on item", "Cancel", NULL);
     switch (choice)
     {
-        if (choice == 4)
+        if (choice == 5)
         break;
         case 1:
         {
@@ -3530,6 +3625,58 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 p->cauterize(g);
             break;
         }
+        case 5:
+        {
+            inscribe_item( g, p, "Carve", "Carved", true );
+            break;
+        }
+    }
+}
+
+void iuse::cut_log_into_planks(game *g, player *p, item *it)
+{
+    p->moves -= 300;
+    g->add_msg("You cut the log into planks.");
+    item plank(g->itypes["2x4"], int(g->turn), g->nextinv);
+    item scrap(g->itypes["splinter"], int(g->turn), g->nextinv);
+    bool drop = false;
+    int planks = (rng(1, 3) + (p->skillLevel("carpentry") * 2));
+    int scraps = 12 - planks;
+    if (planks >= 12) {
+        planks = 12;
+    }
+    if (scraps >= planks) {
+        g->add_msg("You waste a lot of the wood.");
+    }
+    for (int i = 0; i < planks; i++) {
+        int iter = 0;
+        while (p->has_item(plank.invlet)) {
+            plank.invlet = g->nextinv;
+            g->advance_nextinv();
+            iter++;
+        }
+        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity())) {
+            drop = true;
+        }
+        if (drop) {
+            g->m.add_item(p->posx, p->posy, plank);
+        } else {
+            p->i_add(plank);
+        }
+    }
+    for (int i = 0; i < scraps; i++) {
+        int iter = 0;
+        while (p->has_item(scrap.invlet)) {
+            scrap.invlet = g->nextinv;
+            g->advance_nextinv();
+            iter++;
+        }
+        if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
+            drop = true;
+        if (drop)
+            g->m.add_item(p->posx, p->posy, scrap);
+        else
+            p->i_add(scrap);
     }
 }
 
@@ -3542,48 +3689,11 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
   return;
  }
  if (cut->type->id == "log") {
-  p->moves -= 300;
-  g->add_msg("You cut the log into planks.");
-  item plank(g->itypes["2x4"], int(g->turn), g->nextinv);
-  item scrap(g->itypes["splinter"], int(g->turn), g->nextinv);
-  p->i_rem(ch);
-  bool drop = false;
-  int planks = (rng(1, 3) + (p->skillLevel("carpentry") * 2));
-  int scraps = 12 - planks;
-   if (planks >= 12)
-    planks = 12;
-  if (scraps >= planks)
-   g->add_msg("You waste a lot of the wood.");
-  for (int i = 0; i < planks; i++) {
-   int iter = 0;
-   while (p->has_item(plank.invlet)) {
-    plank.invlet = g->nextinv;
-    g->advance_nextinv();
-    iter++;
-   }
-   if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-    drop = true;
-   if (drop)
-    g->m.add_item(p->posx, p->posy, plank);
-   else
-    p->i_add(plank);
-  }
- for (int i = 0; i < scraps; i++) {
-   int iter = 0;
-   while (p->has_item(scrap.invlet)) {
-    scrap.invlet = g->nextinv;
-    g->advance_nextinv();
-    iter++;
-   }
-   if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
-    drop = true;
-   if (drop)
-    g->m.add_item(p->posx, p->posy, scrap);
-   else
-    p->i_add(scrap);
-  }
-  return;
-  } else { g->add_msg("You can't cut that up!");
+     p->i_rem(ch);
+     cut_log_into_planks(g, p, it);
+     return;
+ } else {
+     g->add_msg("You can't cut that up!");
  } return;
 }
 
@@ -4486,13 +4596,60 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
 void iuse::spray_can(game *g, player *p, item *it, bool t)
 {
- std::string verb=( it->type->id ==  "permanent_marker" ? "Write" : "Spray" );
- std::string lcverb=( it->type->id ==  "permanent_marker" ? "write" : "spray" );
- std::string message = string_input_popup(verb + " what?");
- if(g->m.add_graffiti(g, p->posx, p->posy, message))
-  g->add_msg("You %s a message on the ground.",lcverb.c_str());
- else
-  g->add_msg("You fail to %s a message here.",lcverb.c_str());
+    // We have to access the actual it_tool class to figure out how many charges this thing uses.
+    // Because the charges have already been removed in player::use, we will have to refund the charges if the user cancels.
+    // This is a stupid hack, but it's the only way short of rewriting all of the iuse:: functions to draw their own charges as needed.
+
+    it_tool *tool = dynamic_cast<it_tool*>(it->type);
+    int charges_per_use = tool->charges_per_use;
+
+    if ( it->type->id ==  "permanent_marker"  )
+    {
+        int ret=menu(true, "Write on what?", "The ground", "An item", "cancel", NULL );
+
+        if (ret == 2 )
+        {
+            // inscribe_item returns false if the action fails or is canceled somehow.
+            bool canceled_inscription = !inscribe_item( g, p, "Write", "Written", false );
+            if( canceled_inscription )
+            {
+                //Refund the charges, because the inscription was never made.
+                it->charges += charges_per_use;
+            }
+            return;
+        }
+        else if ( ret != 1) // User chose cancel or some other undefined key.
+        {
+            //Refund the charges, because the player canceled the action.
+            it->charges += charges_per_use;
+            return;
+        }
+    }
+
+    std::string verb=( it->type->id     ==  "permanent_marker" ? "Write" : "Spray" );
+    std::string lcverb=( it->type->id   ==  "permanent_marker" ? "write" : "spray" );
+
+    std::string message = string_input_popup(verb + " what?");
+
+    if(message.empty())
+    {
+        //Refund the charges, because the player canceled the action.
+        it->charges += charges_per_use;
+    }
+    else
+    {
+        if(g->m.add_graffiti(g, p->posx, p->posy, message))
+        {
+            g->add_msg("You %s a message on the ground.",lcverb.c_str());
+        }
+        else
+        {
+            g->add_msg("You fail to %s a message here.",lcverb.c_str());
+
+            // Refuned the charges, because the grafitti failed.
+            it->charges += charges_per_use;
+        }
+    }
 }
 
 void iuse::heatpack(game *g, player *p, item *it, bool t)

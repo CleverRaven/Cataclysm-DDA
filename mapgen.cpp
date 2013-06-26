@@ -5652,8 +5652,8 @@ mapf::basic_bind("r d h 6 x g G , . - | + D t c ^ % = &",
     build_shaft = false;
    } else {
     bool okay = true;
-    for (int x = x1; x <= x2 && okay; x++) {
-     for (int y = y1; y <= y2 && okay; y++) {
+    for (int x = x1 - 1; x <= x2 + 1 && okay; x++) {
+     for (int y = y1 - 1; y <= y2 + 1 && okay; y++) {
       if (ter(x, y) != t_grass && ter(x, y) != t_dirt)
        okay = false;
      }

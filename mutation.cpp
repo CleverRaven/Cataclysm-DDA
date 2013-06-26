@@ -92,8 +92,8 @@ void player::mutate(game *g)
                 }
             }
 
-            // ...consider wether its in our highest category
-            if( has_mutation(base_mutation) ){ // don't remove starting traits
+            // ...consider whether its in our highest category
+            if( has_trait(base_mutation) && !has_base_trait(base_mutation) ){ // Starting traits don't count toward categories
                 std::vector<pl_flag> group = mutations_from_category(cat);
                 bool in_cat = false;
                 for (int j = 0; j < group.size(); j++)
@@ -105,7 +105,7 @@ void player::mutate(game *g)
                     }
                 }
                 // mark for removal
-                if(!in_cat && base_mutation_index > PF_MAX) downgrades.push_back(base_mutation);
+                if(!in_cat) downgrades.push_back(base_mutation);
             }
         }
     }
@@ -241,6 +241,7 @@ void player::mutate_towards(game *g, pl_flag mut)
   return;
  }
  bool has_prereqs = false;
+ pl_flag canceltrait = PF_NULL;
  std::vector<pl_flag> prereq = g->mutation_data[mut].prereqs;
  std::vector<pl_flag> cancel = g->mutation_data[mut].cancels;
 
@@ -248,7 +249,15 @@ void player::mutate_towards(game *g, pl_flag mut)
   if (!has_trait( cancel[i] )) {
    cancel.erase(cancel.begin() + i);
    i--;
+  } else {
+  //If we have the trait, but it's a base trait, don't allow it to be removed normally
+   if (has_base_trait( cancel[i] )) {
+    canceltrait = cancel[i];
+    cancel.erase(cancel.begin() + i);
+    i--;
+   }
   }
+  
  }
 
  if (!cancel.empty()) {
@@ -281,15 +290,25 @@ void player::mutate_towards(game *g, pl_flag mut)
   }
  }
 
- toggle_trait(mut);
+ toggle_mutation(mut);
  if (replacing != PF_NULL)
     {
         g->add_msg("Your %s mutation turns into %s!", traits[replacing].name.c_str(),
                    traits[mut].name.c_str());
-        toggle_trait(replacing);
+        toggle_mutation(replacing);
         mutation_loss_effect(g, *this, replacing);
         mutation_effect(g, *this, mut);
     }
+  else
+ // If this new mutation cancels a base trait, remove it and add the mutation at the same time
+   if (canceltrait != PF_NULL)
+    {
+        g->add_msg("Your innate %s trait turns into %s!", traits[canceltrait].name.c_str(),
+                   traits[mut].name.c_str());
+		toggle_mutation(canceltrait);
+		mutation_loss_effect(g, *this, canceltrait);
+		mutation_effect(g, *this, mut);
+	}
   else
     {
         g->add_msg("You gain a mutation called %s!", traits[mut].name.c_str());
@@ -346,12 +365,33 @@ void player::remove_mutation(game *g, pl_flag mut)
     replacing = pre;
   }
  }
-
- toggle_trait(mut);
+ 
+// See if this mutation is cancelled by a base trait
+//Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
+ if (replacing == PF_NULL) { 
+ 
+ //Check each mutation until we reach the end or find a trait to revert to
+ for (int i = 1; replacing == PF_NULL && i < PF_MAX2; i++) { 
+ 
+   //See if it's in our list of base traits but not active
+   if (has_base_trait(i) && !has_trait(i)) {
+    //See if that base trait cancels the mutation we are using
+    std::vector<pl_flag> traitcheck = g->mutation_data[i].cancels;
+	if (!traitcheck.empty()) {
+	 for (int j = 0; replacing == PF_NULL && j < traitcheck.size(); j++) {
+	  if (g->mutation_data[i].cancels[j] == mut)
+	   replacing = ((pl_flag)i);
+	 }
+	}
+   }
+  }
+ }
+// This should revert back to a removed base trait rather than simply removing the mutation
+	toggle_mutation(mut);
  if (replacing != PF_NULL) {
   g->add_msg("Your %s mutation turns into %s.", traits[mut].name.c_str(),
              traits[replacing].name.c_str());
-  toggle_trait(replacing);
+  toggle_mutation(replacing);
   mutation_loss_effect(g, *this, mut);
   mutation_effect(g, *this, replacing);
  } else {

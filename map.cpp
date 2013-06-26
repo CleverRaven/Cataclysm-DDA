@@ -984,8 +984,8 @@ point map::random_outdoor_tile()
 
 bool map::has_adjacent_furniture(const int x, const int y)
 {
-    const char cx[4] = { 0, -1, 0, 1};
-    const char cy[4] = {-1,  0, 1, 0};
+    const signed char cx[4] = { 0, -1, 0, 1};
+    const signed char cy[4] = {-1,  0, 1, 0};
 
     for (int i = 0; i < 4; i++)
     {
@@ -2020,6 +2020,9 @@ void map::shoot(game *g, const int x, const int y, int &dam,
 
     if (effects & mfb(AMMO_TRAIL) && !one_in(4))
         add_field(g, x, y, fd_smoke, rng(1, 2));
+
+    if (effects & mfb(AMMO_LIGHTNING))
+        add_field(g, x, y, fd_electricity, rng(2, 3));
 
     // Set damage to 0 if it's less
     if (dam < 0)
@@ -3662,6 +3665,23 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
     update_vehicle_cache(*it);
    }
   }
+
+  // check spoiled stuff
+  for(int x = 0; x < 12; x++) {
+      for(int y = 0; y < 12; y++) {
+          for(std::vector<item, std::allocator<item> >::iterator it = tmpsub->itm[x][y].begin();
+              it != tmpsub->itm[x][y].end();) {
+              if(it->goes_bad()) {
+                  it_comest *food = dynamic_cast<it_comest*>(it->type);
+                  int maxShelfLife = it->bday + (food->spoils * 600)*2;
+                  if(g->turn >= maxShelfLife) {
+                      it = tmpsub->itm[x][y].erase(it);
+                  } else { ++it; }
+              } else { ++it; }
+          }
+      }
+  }
+
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
   map tmp_map(itypes, mapitems, traps);

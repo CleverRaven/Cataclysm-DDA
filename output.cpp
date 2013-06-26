@@ -927,11 +927,6 @@ void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout)
     timeout(iTimeout);
     getch(); //useing this, because holding down a key with nanosleep can get yourself killed
     timeout(-1);
-
-    /*timespec ts;
-    ts.tv_sec = 0;
-    ts.tv_nsec = iTimeout * 1000 * 1000; //100ms
-    nanosleep(&ts, NULL);*/
 }
 
 std::string from_sentence_case (const std::string &kingston)
