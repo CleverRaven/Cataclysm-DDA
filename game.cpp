@@ -28,6 +28,7 @@
 #include <fstream>
 #include <sstream>
 #include <math.h>
+#include <vector>
 #ifndef _MSC_VER
 #include <unistd.h>
 #include <dirent.h>
@@ -4636,7 +4637,7 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
   nanosleep(&ts, NULL);
  }
  // end borrowed code from game::explosion()
- 
+
     sound(x, y, force*force*dam_mult/2, "Crack!");
     for (int i = 0; i < z.size(); i++)
     {
@@ -4674,7 +4675,7 @@ void game::knockback(int sx, int sy, int tx, int ty, int force, int stun, int da
     traj.insert(traj.begin(), point(sx, sy)); // how annoying, line_to() doesn't include the originating point!
     traj = continue_line(traj, force);
     traj.insert(traj.begin(), point(tx, ty)); // how annoying, continue_line() doesn't either!
-    
+
     knockback(traj, force, stun, dam_mult);
     return;
 }
@@ -8961,7 +8962,8 @@ void game::plfire(bool burst)
   return;
  }
  if (u.weapon.has_flag("CHARGE") && !u.weapon.active) {
-  if (u.has_charges("UPS_on", 1) || u.has_charges("UPS_off", 1)) {
+  if (u.has_charges("UPS_on", 1) || u.has_charges("UPS_off", 1) ||
+      u.has_charges("adv_UPS_on", 1) || u.has_charges("adv_UPS_off", 1)) {
    add_msg("Your %s starts charging.", u.weapon.tname().c_str());
    u.weapon.charges = 0;
    u.weapon.curammo = dynamic_cast<it_ammo*>(itypes["charge_shot"]);
@@ -9001,8 +9003,9 @@ void game::plfire(bool burst)
   return;
  }
  if (u.weapon.has_flag("USE_UPS") && !u.has_charges("UPS_off", 5) &&
-     !u.has_charges("UPS_on", 5)) {
-  add_msg("You need a UPS with at least 5 charges to fire that!");
+     !u.has_charges("UPS_on", 5) && !u.has_charges("adv_UPS_off", 53) &&
+     !u.has_charges("adv_UPS_on", 3)) {
+  add_msg("You need a UPS with at least 5 charges or an advanced UPS with at least 3 charged to fire that!");
   return;
  }
 
@@ -9051,7 +9054,11 @@ void game::plfire(bool burst)
  }
 
  if (u.weapon.has_flag("USE_UPS")) {
-  if (u.has_charges("UPS_off", 5))
+  if (u.has_charges("adv_UPS_off", 3))
+   u.use_charges("adv_UPS_off", 3);
+  else if (u.has_charges("adv_UPS_on", 3))
+   u.use_charges("adv_UPS_on", 3);
+  else if (u.has_charges("UPS_off", 5))
    u.use_charges("UPS_off", 5);
   else if (u.has_charges("UPS_on", 5))
    u.use_charges("UPS_on", 5);
@@ -9581,12 +9588,27 @@ void game::unload(item& it)
  } else {
   newam = item(itypes[default_ammo(weapon->ammo_type())], turn);
  }
- newam.charges = weapon->charges;
- weapon->charges = 0;
+ if(weapon->typeId() == "adv_UPS_off" || weapon->typeId() == "adv_UPS_on") {
+    int chargesPerPlutonium = 500;
+    int chargesRemoved = weapon->charges - (weapon-> charges % chargesPerPlutonium);;
+    int plutoniumRemoved = chargesRemoved / chargesPerPlutonium;
+    if(chargesRemoved < weapon->charges) {
+        add_msg("You can't remove partially depleted plutonium!");
+    }
+    if(plutoniumRemoved > 0) {
+        add_msg("You remove %i plutonium from the advanced UPS", plutoniumRemoved);
+        newam.charges = plutoniumRemoved;
+        weapon->charges -= chargesRemoved;
+    } else { return; }
+ } else {
+    newam.charges = weapon->charges;
+    weapon->charges = 0;
+ }
+
  if (newam.made_of(LIQUID)) {
   if (!handle_liquid(newam, false, false))
    weapon->charges += newam.charges;	// Put it back in
- } else {
+ } else if(newam.charges > 0) {
   int iter = 0;
   while ((newam.invlet == 0 || u.has_item(newam.invlet)) && iter < inv_chars.size()) {
    newam.invlet = nextinv;
@@ -9640,41 +9662,49 @@ void game::read()
 
 void game::chat()
 {
- if (active_npc.size() == 0) {
-  add_msg("You talk to yourself for a moment.");
-  return;
- }
- std::vector<npc*> available;
- for (int i = 0; i < active_npc.size(); i++) {
-  if (u_see(active_npc[i]->posx, active_npc[i]->posy) &&
-      rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
-   available.push_back(active_npc[i]);
- }
- if (available.size() == 0) {
-  add_msg("There's no-one close enough to talk to.");
-  return;
- } else if (available.size() == 1)
-  available[0]->talk_to_u(this);
- else {
-  WINDOW *w = newwin(available.size() + 3, 40, (TERMY-available.size() + 3)/2, (TERMX-40)/2);
-  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-  for (int i = 0; i < available.size(); i++)
-   mvwprintz(w, i + 1, 1, c_white, "%d: %s", i + 1, available[i]->name.c_str());
-  mvwprintz(w, available.size() + 1, 1, c_white, "%d: Cancel",
-            available.size() + 1);
-  wrefresh(w);
-  char ch;
-  do {
-   ch = getch();
-  } while (ch < '1' || ch > '1' + available.size());
-  ch -= '1';
-  if (ch == available.size())
-   return;
-  delwin(w);
-  available[ch]->talk_to_u(this);
- }
- u.moves -= 100;
+    if (active_npc.size() == 0)
+    {
+        add_msg("You talk to yourself for a moment.");
+        return;
+    }
+    
+    std::vector<npc*> available;
+    
+    for (int i = 0; i < active_npc.size(); i++)
+    {
+        if (u_see(active_npc[i]->posx, active_npc[i]->posy) && rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
+        {
+            available.push_back(active_npc[i]);
+        }
+    }
+    
+    if (available.size() == 0)
+    {
+        add_msg("There's no-one close enough to talk to.");
+        return;
+    }
+    else if (available.size() == 1)
+    {
+        available[0]->talk_to_u(this);
+    }
+    else
+    {
+        std::vector<std::string> npcs;
+        
+        for (int i = 0; i < available.size(); i++)
+        {
+            npcs.push_back(available[i]->name);
+        }
+        npcs.push_back("Cancel");
+        
+        int npc_choice = menu_vec(true, "Who do you want to talk to?", npcs) - 1;
+        
+        if(npc_choice >= 0 && npc_choice < available.size())
+        {
+            available[npc_choice]->talk_to_u(this);
+        }
+    }
+    u.moves -= 100;
 }
 
 void game::pldrive(int x, int y) {
@@ -10670,7 +10700,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
    int turns = z[i].turns_to_reach(this, u.posx, u.posy);
    if (turns < 999)
     coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
-  } else if ( (z[i].spawnmapx != -1) || 
+  } else if ( (z[i].spawnmapx != -1) ||
       ((stairs || shiftx != 0 || shifty != 0) && z[i].friendly != 0 ) ) {
     // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
     real_coords rc(levx, levy, z[i].posx, z[i].posy); // this is madness
@@ -10839,7 +10869,7 @@ void game::wait()
 {
  char ch = menu(true, "Wait for how long?", "5 Minutes", "30 Minutes", "1 hour",
                 "2 hours", "3 hours", "6 hours", "Exit", NULL);
- int time;
+ int time = 0;
  if (ch == 7)
   return;
  switch (ch) {
@@ -10849,6 +10879,7 @@ void game::wait()
   case 4: time = 120000; break;
   case 5: time = 180000; break;
   case 6: time = 360000; break;
+  default: return;
  }
  u.assign_activity(this, ACT_WAIT, time, 0);
  u.moves = 0;
