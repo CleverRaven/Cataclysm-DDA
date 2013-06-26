@@ -341,17 +341,74 @@ void player::action_taken()
 
 void player::update_morale()
 {
- for (int i = 0; i < morale.size(); i++) {
-  if (morale[i].bonus < 0)
-   morale[i].bonus++;
-  else if (morale[i].bonus > 0)
-   morale[i].bonus--;
+    // Decay existing morale entries.
+    for (int i = 0; i < morale.size(); i++)
+    {
+        if (morale[i].bonus < 0)
+        {
+            morale[i].bonus++;
+        }
+        else if (morale[i].bonus > 0)
+        {
+            morale[i].bonus--;
+        }
 
-  if (morale[i].bonus == 0) {
-   morale.erase(morale.begin() + i);
-   i--;
-  }
- }
+        if (morale[i].bonus == 0)
+        {
+            morale.erase(morale.begin() + i);
+            i--;
+        }
+    }
+
+    // We reapply persistent morale effects after every decay step, to keep them fresh.
+
+    // Hoarders get a morale penalty if they're not carrying a full inventory.
+    if (has_trait(PF_HOARDER))
+    {
+        int pen = int((volume_capacity()-volume_carried()) / 2);
+        if (pen > 70)
+        {
+            pen = 70;
+        }
+        if (pen <= 0)
+        {
+            pen = 0;
+        }
+        if (has_disease(DI_TOOK_XANAX))
+        {
+            pen = int(pen / 7);
+        }
+        else if (has_disease(DI_TOOK_PROZAC))
+        {
+            pen = int(pen / 2);
+        }
+        add_morale(MORALE_PERM_HOARDER, -pen, -pen);
+    }
+
+    // Masochists get a morale bonus from pain.
+    if (has_trait(PF_MASOCHIST))
+    {
+        int bonus = pain / 2.5;
+        if (bonus > 25)
+        {
+            bonus = 25;
+        }
+        if (has_disease(DI_TOOK_PROZAC))
+        {
+            bonus = int(bonus / 3);
+        }
+        if (bonus != 0)
+        {
+            add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
+        }
+    }
+
+    // Optimist gives a base +4 to morale.
+    // The +25% boost from optimist also applies here, for a net of +5.
+    if (has_trait(PF_OPTIMISTIC))
+    {
+        add_morale(MORALE_PERM_OPTIMIST, 4, 4);
+    }
 }
 
 void player::update_mental_focus()
@@ -2197,62 +2254,78 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
  erase();
 }
 
-void player::disp_morale(game* g)
+void player::disp_morale(game *g)
 {
- WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+    // Create and draw the window itself.
+    WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- int name_column_width = 18;
- for (int i = 0; i < morale.size(); i++) {
-  int length = morale[i].name(morale_data).length();
-  if ( length > name_column_width)
-   name_column_width = length;
- }
- if (name_column_width > 72)
-  name_column_width = 72;
- 
- mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
- mvwprintz(w, 2,  1, c_ltgray, "Name");
- mvwprintz(w, 2, name_column_width+2, c_ltgray, "Value");
+    // Figure out how wide the name column needs to be.
+    int name_column_width = 18;
+    for (int i = 0; i < morale.size(); i++)
+    {
+        int length = morale[i].name(morale_data).length();
+        if ( length > name_column_width)
+        {
+            name_column_width = length;
+        }
+    }
 
- for (int i = 0; i < morale.size(); i++) {
-  int b = morale[i].bonus;
+    // If it's too wide, truncate.
+    if (name_column_width > 72)
+    {
+        name_column_width = 72;
+    }
 
-  int bpos = name_column_width+6;
-  if (abs(b) >= 10)
-   bpos--;
-  if (abs(b) >= 100)
-   bpos--;
-  if (b < 0)
-   bpos--;
+    // Start printing the number right after the name column.
+    // We'll right-justify it later.
+    int number_pos = name_column_width + 1;
 
-  std::string name = morale[i].name(morale_data);
-  if (name.length() > name_column_width)
-   name = name.erase(name_column_width-3, std::string::npos) + "...";
-  mvwprintz(w, i + 3,  1, (b < 0 ? c_red : c_green),
-            name.c_str());
-  mvwprintz(w, i + 3, bpos, (b < 0 ? c_red : c_green), "%d", b);
- }
+    // Header
+    mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
+    mvwprintz(w, 2,  1, c_ltgray, "Name");
+    mvwprintz(w, 2, name_column_width+2, c_ltgray, "Value");
 
- int mor = morale_level();
- int bpos = name_column_width+6;
-  if (abs(mor) >= 10)
-   bpos--;
-  if (abs(mor) >= 100)
-   bpos--;
-  if (mor < 0)
-   bpos--;
- mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), "Total:");
- mvwprintz(w, 20, bpos, (mor < 0 ? c_red : c_green), "%d", mor);
- int gain = calc_focus_equilibrium() - focus_pool;
- mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), "Focus gain:");
- mvwprintz(w, 22, bpos, (gain < 0 ? c_red : c_green), "%d.%.2d per minute", gain / 100, gain % 100);
+    // Print out the morale entries.
+    for (int i = 0; i < morale.size(); i++)
+    {
+        std::string name = morale[i].name(morale_data);
+        int bonus = net_morale(morale[i]);
 
- wrefresh(w);
- getch();
- werase(w);
- delwin(w);
+        // Trim the name if need be.
+        if (name.length() > name_column_width)
+        {
+            name = name.erase(name_column_width-3, std::string::npos) + "...";
+        }
+
+        // Print out the name.
+        mvwprintz(w, i + 3,  1, (bonus < 0 ? c_red : c_green), name.c_str());
+
+        // Print out the number, right-justified.
+        mvwprintz(w, i + 3, number_pos, (bonus < 0 ? c_red : c_green),
+                  "% 6d", bonus);
+    }
+
+    // Print out the total morale, right-justified.
+    int mor = morale_level();
+    mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), "Total:");
+    mvwprintz(w, 20, number_pos, (mor < 0 ? c_red : c_green), "% 6d", mor);
+
+    // Print out the focus gain rate, right-justified.
+    int gain = calc_focus_equilibrium() - focus_pool;
+    mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), "Focus gain:");
+    mvwprintz(w, 22, number_pos-3, (gain < 0 ? c_red : c_green), "% 6d.%02d per minute", gain / 100, gain % 100);
+
+    // Make sure the changes are shown.
+    wrefresh(w);
+
+    // Wait for any keystroke.
+    getch();
+
+    // Close the window.
+    werase(w);
+    delwin(w);
 }
 
 void player::disp_status(WINDOW *w, game *g)
@@ -4103,44 +4176,44 @@ bool player::can_pickWeight(int weight)
 {
     return (weight_carried() + weight <= weight_capacity());
 }
+
+int player::net_morale(morale_point effect)
+{
+    int bonus = effect.bonus;
+
+    // Optimistic characters focus on the good things in life,
+    // and downplay the bad things.
+    if (has_trait(PF_OPTIMISTIC))
+    {
+        if (bonus >= 0)
+        {
+            bonus *= 1.25;
+        }
+        else
+        {
+            bonus *= 0.75;
+        }
+    }
+
+    return bonus;
+}
+
 int player::morale_level()
 {
- std::stringstream morale_text;
- int ret = 0;
- for (int i = 0; i < morale.size(); i++)
-  ret += morale[i].bonus;
+    // Add up all of the morale bonuses (and penalties).
+    int ret = 0;
+    for (int i = 0; i < morale.size(); i++)
+    {
+        ret += net_morale(morale[i]);
+    }
 
- if (has_trait(PF_HOARDER)) {
-  int pen = int((volume_capacity()-volume_carried()) / 2);
-  if (pen > 70)
-   pen = 70;
-  if (pen <= 0)
-   pen = 0;
-  if (has_disease(DI_TOOK_XANAX))
-   pen = int(pen / 7);
-  else if (has_disease(DI_TOOK_PROZAC))
-   pen = int(pen / 2);
-  add_morale(MORALE_PERM_HOARDER, -pen, -pen);
- }
+    // Prozac reduces negative morale by 75%.
+    if (has_disease(DI_TOOK_PROZAC) && ret < 0)
+    {
+        ret = int(ret / 4);
+    }
 
- if (has_trait(PF_MASOCHIST)) {
-  int bonus = pain / 2.5;
-  if (bonus > 25)
-   bonus = 25;
-  if (has_disease(DI_TOOK_PROZAC))
-   bonus = int(bonus / 3);
-  if (bonus != 0)
-   add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
- }
- // Optimist gives a straight +20 to morale.
- if (has_trait(PF_OPTIMISTIC)) {
-  add_morale(MORALE_PERM_OPTIMIST, 20, 20);
- }
-
- if (has_disease(DI_TOOK_PROZAC) && ret < 0)
-  ret = int(ret / 4);
-
- return ret;
+    return ret;
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
