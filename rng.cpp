@@ -2,9 +2,17 @@
 #include "rng.h"
 #include <stdlib.h>
 
-long rng(long low, long high)
+long rng(long val1, long val2)
 {
- return low + long((high - low + 1) * double(rand() / double(RAND_MAX + 1.0)));
+    // Input order of parameters doesn't matter, we just swap things around if val1 is higher than val2.
+    if(val1 <= val2)
+    {
+        return val1 + long((val2 - val1 + 1) * double(rand() / double(RAND_MAX + 1.0)));
+    }
+    else
+    {
+        return val2 + long((val1 - val2 + 1) * double(rand() / double(RAND_MAX + 1.0)));
+    }
 }
 
 bool one_in(int chance)
