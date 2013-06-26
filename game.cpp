@@ -28,6 +28,7 @@
 #include <fstream>
 #include <sstream>
 #include <math.h>
+#include <vector>
 #ifndef _MSC_VER
 #include <unistd.h>
 #include <dirent.h>
@@ -9661,41 +9662,49 @@ void game::read()
 
 void game::chat()
 {
- if (active_npc.size() == 0) {
-  add_msg("You talk to yourself for a moment.");
-  return;
- }
- std::vector<npc*> available;
- for (int i = 0; i < active_npc.size(); i++) {
-  if (u_see(active_npc[i]->posx, active_npc[i]->posy) &&
-      rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
-   available.push_back(active_npc[i]);
- }
- if (available.size() == 0) {
-  add_msg("There's no-one close enough to talk to.");
-  return;
- } else if (available.size() == 1)
-  available[0]->talk_to_u(this);
- else {
-  WINDOW *w = newwin(available.size() + 3, 40, (TERMY-available.size() + 3)/2, (TERMX-40)/2);
-  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-  for (int i = 0; i < available.size(); i++)
-   mvwprintz(w, i + 1, 1, c_white, "%d: %s", i + 1, available[i]->name.c_str());
-  mvwprintz(w, available.size() + 1, 1, c_white, "%d: Cancel",
-            available.size() + 1);
-  wrefresh(w);
-  char ch;
-  do {
-   ch = getch();
-  } while (ch < '1' || ch > '1' + available.size());
-  ch -= '1';
-  if (ch == available.size())
-   return;
-  delwin(w);
-  available[ch]->talk_to_u(this);
- }
- u.moves -= 100;
+    if (active_npc.size() == 0)
+    {
+        add_msg("You talk to yourself for a moment.");
+        return;
+    }
+    
+    std::vector<npc*> available;
+    
+    for (int i = 0; i < active_npc.size(); i++)
+    {
+        if (u_see(active_npc[i]->posx, active_npc[i]->posy) && rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
+        {
+            available.push_back(active_npc[i]);
+        }
+    }
+    
+    if (available.size() == 0)
+    {
+        add_msg("There's no-one close enough to talk to.");
+        return;
+    }
+    else if (available.size() == 1)
+    {
+        available[0]->talk_to_u(this);
+    }
+    else
+    {
+        std::vector<std::string> npcs;
+        
+        for (int i = 0; i < available.size(); i++)
+        {
+            npcs.push_back(available[i]->name);
+        }
+        npcs.push_back("Cancel");
+        
+        int npc_choice = menu_vec(true, "Who do you want to talk to?", npcs) - 1;
+        
+        if(npc_choice >= 0 && npc_choice < available.size())
+        {
+            available[npc_choice]->talk_to_u(this);
+        }
+    }
+    u.moves -= 100;
 }
 
 void game::pldrive(int x, int y) {
