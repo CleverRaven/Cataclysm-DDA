@@ -3860,44 +3860,66 @@ bool player::can_pickWeight(int weight)
 {
     return (weight_carried() + weight <= weight_capacity());
 }
+
 int player::morale_level()
 {
- std::stringstream morale_text;
- int ret = 0;
- for (int i = 0; i < morale.size(); i++)
-  ret += morale[i].bonus;
+    std::stringstream morale_text;
+    int ret = 0;
+    for (int i = 0; i < morale.size(); i++)
+    {
+        ret += morale[i].bonus;
+    }
 
- if (has_trait(PF_HOARDER)) {
-  int pen = int((volume_capacity()-volume_carried()) / 2);
-  if (pen > 70)
-   pen = 70;
-  if (pen <= 0)
-   pen = 0;
-  if (has_disease(DI_TOOK_XANAX))
-   pen = int(pen / 7);
-  else if (has_disease(DI_TOOK_PROZAC))
-   pen = int(pen / 2);
-  add_morale(MORALE_PERM_HOARDER, -pen, -pen);
- }
+    if (has_trait(PF_HOARDER))
+    {
+        int pen = int((volume_capacity()-volume_carried()) / 2);
+        if (pen > 70)
+        {
+            pen = 70;
+        }
+        if (pen <= 0)
+        {
+            pen = 0;
+        }
+        if (has_disease(DI_TOOK_XANAX))
+        {
+            pen = int(pen / 7);
+        }
+        else if (has_disease(DI_TOOK_PROZAC))
+        {
+            pen = int(pen / 2);
+        }
+        add_morale(MORALE_PERM_HOARDER, -pen, -pen);
+    }
 
- if (has_trait(PF_MASOCHIST)) {
-  int bonus = pain / 2.5;
-  if (bonus > 25)
-   bonus = 25;
-  if (has_disease(DI_TOOK_PROZAC))
-   bonus = int(bonus / 3);
-  if (bonus != 0)
-   add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
- }
- // Optimist gives a straight +20 to morale.
- if (has_trait(PF_OPTIMISTIC)) {
-  add_morale(MORALE_PERM_OPTIMIST, 20, 20);
- }
+    if (has_trait(PF_MASOCHIST))
+    {
+        int bonus = pain / 2.5;
+        if (bonus > 25)
+        {
+            bonus = 25;
+        }
+        if (has_disease(DI_TOOK_PROZAC))
+        {
+            bonus = int(bonus / 3);
+        }
+        if (bonus != 0)
+        {
+            add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
+        }
+    }
+// Optimist gives a straight +20 to morale.
+    if (has_trait(PF_OPTIMISTIC))
+    {
+        add_morale(MORALE_PERM_OPTIMIST, 20, 20);
+    }
 
- if (has_disease(DI_TOOK_PROZAC) && ret < 0)
-  ret = int(ret / 4);
+    if (has_disease(DI_TOOK_PROZAC) && ret < 0)
+    {
+        ret = int(ret / 4);
+    }
 
- return ret;
+    return ret;
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
