@@ -74,7 +74,7 @@ public:
  void load_info(std::string data, game *g);
  //std::string info(bool showtext = false);	// Formatted for human viewing
  std::string info(bool showtext = false);
- std::string info(bool showtext, std::vector<iteminfo> *dump);
+ std::string info(bool showtext, std::vector<iteminfo> *dump, game *g = NULL, bool debug = false);
  char symbol() const;
  nc_color color() const;
  int price() const;

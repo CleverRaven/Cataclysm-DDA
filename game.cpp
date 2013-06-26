@@ -28,6 +28,7 @@
 #include <fstream>
 #include <sstream>
 #include <math.h>
+#include <vector>
 #ifndef _MSC_VER
 #include <unistd.h>
 #include <dirent.h>
@@ -1358,7 +1359,7 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
             vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
             vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
             vMenu.push_back(iteminfo("MENU", "=", " reassign"));
-            oThisItem.info(true, &vThisItem);
+            oThisItem.info(true, &vThisItem, this);
             compare_split_screen_popup(startx, width, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
             cMenu = compare_split_screen_popup(startx+width, 14, 16, "", vMenu, vDummy,
                 selected >= menustart && selected <= menuend ? selected : -1
@@ -4705,7 +4706,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
             {
                 targ->posx = traj[i-1].x;
                 targ->posy = traj[i-1].y;
@@ -4767,6 +4768,19 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
             }
             targ->posx = traj[i].x;
             targ->posy = traj[i].y;
+            if(m.has_flag(liquid, targ->posx, targ->posy) && !targ->has_flag(MF_SWIMS) &&
+                !targ->has_flag(MF_AQUATIC) && !targ->has_flag(MF_FLIES))
+            {
+                targ->hurt(9999);
+                if (u_see(targ))
+                    add_msg("The %s drowns!", targ->name().c_str());
+            }
+            if(!m.has_flag(liquid, targ->posx, targ->posy) && targ->has_flag(MF_AQUATIC))
+            {
+                targ->hurt(9999);
+                if (u_see(targ))
+                    add_msg("The %s flops around and dies!", targ->name().c_str());
+            }
         }
     }
     else if (npc_at(tx, ty) != -1)
@@ -4779,7 +4793,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
             {
                 targ->posx = traj[i-1].x;
                 targ->posy = traj[i-1].y;
@@ -4857,7 +4871,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         }
         for(int i = 1; i < traj.size(); i++)
         {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0) // oops, we hit a wall!
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
             {
                 u.posx = traj[i-1].x;
                 u.posy = traj[i-1].y;
@@ -4911,8 +4925,15 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 knockback(traj, force_remaining, stun, dam_mult);
                 break;
             }
-            u.posx = traj[i].x;
-            u.posy = traj[i].y;
+            if(m.has_flag(liquid, u.posx, u.posy) && force_remaining < 1)
+            {
+                plswim(u.posx, u.posy);
+            }
+            else
+            {
+                u.posx = traj[i].x;
+                u.posy = traj[i].y;
+            }
         }
     }
     return;
@@ -6884,7 +6905,7 @@ void game::advanced_inv()
                 checkshowmsg=true;
             } else {
                 std::vector<iteminfo> vThisItem, vDummy, vMenu;
-                it->info(true, &vThisItem);
+                it->info(true, &vThisItem, this);
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n----------\n"));
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n\n\n\n\n [up / page up] previous\n [down / page down] next"));
                 ret=compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ),
@@ -9254,7 +9275,12 @@ void game::complete_butcher(int index)
    else
     meat = "veggy";
   }
-  m.spawn_item(u.posx, u.posy, meat, age, pieces);
+  item tmpitem=item_controller->create(meat, age);
+  tmpitem.corpse=dynamic_cast<mtype*>(corpse);
+  while ( pieces > 0 ) {
+    pieces--;
+    m.add_item(u.posx, u.posy, tmpitem);
+  }
   add_msg("You butcher the corpse.");
  }
 }
@@ -9636,41 +9662,49 @@ void game::read()
 
 void game::chat()
 {
- if (active_npc.size() == 0) {
-  add_msg("You talk to yourself for a moment.");
-  return;
- }
- std::vector<npc*> available;
- for (int i = 0; i < active_npc.size(); i++) {
-  if (u_see(active_npc[i]->posx, active_npc[i]->posy) &&
-      rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
-   available.push_back(active_npc[i]);
- }
- if (available.size() == 0) {
-  add_msg("There's no-one close enough to talk to.");
-  return;
- } else if (available.size() == 1)
-  available[0]->talk_to_u(this);
- else {
-  WINDOW *w = newwin(available.size() + 3, 40, (TERMY-available.size() + 3)/2, (TERMX-40)/2);
-  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-  for (int i = 0; i < available.size(); i++)
-   mvwprintz(w, i + 1, 1, c_white, "%d: %s", i + 1, available[i]->name.c_str());
-  mvwprintz(w, available.size() + 1, 1, c_white, "%d: Cancel",
-            available.size() + 1);
-  wrefresh(w);
-  char ch;
-  do {
-   ch = getch();
-  } while (ch < '1' || ch > '1' + available.size());
-  ch -= '1';
-  if (ch == available.size())
-   return;
-  delwin(w);
-  available[ch]->talk_to_u(this);
- }
- u.moves -= 100;
+    if (active_npc.size() == 0)
+    {
+        add_msg("You talk to yourself for a moment.");
+        return;
+    }
+    
+    std::vector<npc*> available;
+    
+    for (int i = 0; i < active_npc.size(); i++)
+    {
+        if (u_see(active_npc[i]->posx, active_npc[i]->posy) && rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
+        {
+            available.push_back(active_npc[i]);
+        }
+    }
+    
+    if (available.size() == 0)
+    {
+        add_msg("There's no-one close enough to talk to.");
+        return;
+    }
+    else if (available.size() == 1)
+    {
+        available[0]->talk_to_u(this);
+    }
+    else
+    {
+        std::vector<std::string> npcs;
+        
+        for (int i = 0; i < available.size(); i++)
+        {
+            npcs.push_back(available[i]->name);
+        }
+        npcs.push_back("Cancel");
+        
+        int npc_choice = menu_vec(true, "Who do you want to talk to?", npcs) - 1;
+        
+        if(npc_choice >= 0 && npc_choice < available.size())
+        {
+            available[npc_choice]->talk_to_u(this);
+        }
+    }
+    u.moves -= 100;
 }
 
 void game::pldrive(int x, int y) {
@@ -10835,7 +10869,7 @@ void game::wait()
 {
  char ch = menu(true, "Wait for how long?", "5 Minutes", "30 Minutes", "1 hour",
                 "2 hours", "3 hours", "6 hours", "Exit", NULL);
- int time;
+ int time = 0;
  if (ch == 7)
   return;
  switch (ch) {
@@ -10845,6 +10879,7 @@ void game::wait()
   case 4: time = 120000; break;
   case 5: time = 180000; break;
   case 6: time = 360000; break;
+  default: return;
  }
  u.assign_activity(this, ACT_WAIT, time, 0);
  u.moves = 0;
@@ -11058,12 +11093,27 @@ nc_color sev(int a)
 {
  switch (a) {
   case 0: return c_cyan;
-  case 1: return c_blue;
-  case 2: return c_green;
-  case 3: return c_yellow;
-  case 4: return c_ltred;
-  case 5: return c_red;
-  case 6: return c_magenta;
+  case 1: return c_ltcyan;
+  case 2: return c_ltblue;
+  case 3: return c_blue;
+  case 4: return c_ltgreen;
+  case 5: return c_green;
+  case 6: return c_yellow;
+  case 7: return c_pink;
+  case 8: return c_ltred;
+  case 9: return c_red;
+  case 10: return c_magenta;
+  case 11: return c_brown;
+  case 12: return c_cyan_red;
+  case 13: return c_ltcyan_red;
+  case 14: return c_ltblue_red;
+  case 15: return c_blue_red;
+  case 16: return c_ltgreen_red;
+  case 17: return c_green_red;
+  case 18: return c_yellow_red;
+  case 19: return c_pink_red;
+  case 20: return c_magenta_red;
+  case 21: return c_brown_red;
  }
  return c_dkgray;
 }
@@ -11075,7 +11125,7 @@ void game::display_scent()
  for (int x = u.posx - getmaxx(w_terrain)/2; x <= u.posx + getmaxx(w_terrain)/2; x++) {
   for (int y = u.posy - getmaxy(w_terrain)/2; y <= u.posy + getmaxy(w_terrain)/2; y++) {
    int sn = scent(x, y) / (div * 2);
-   mvwprintz(w_terrain, getmaxy(w_terrain)/2 + y - u.posy, getmaxx(w_terrain)/2 + x - u.posx, sev(sn), "%d",
+   mvwprintz(w_terrain, getmaxy(w_terrain)/2 + y - u.posy, getmaxx(w_terrain)/2 + x - u.posx, sev(sn/10), "%d",
              sn % 10);
   }
  }

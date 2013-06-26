@@ -2724,8 +2724,9 @@ bool player::has_nv()
 
     if( !nv_cached ) {
         nv_cached = true;
-        nv = (is_wearing("goggles_nv") && (has_active_item("UPS_on") || has_active_item("adv_UPS_on")) ||
-            has_active_bionic("bio_night_vision"));
+        nv = ((is_wearing("goggles_nv") && (has_active_item("UPS_on") ||
+                                            has_active_item("adv_UPS_on"))) ||
+              has_active_bionic("bio_night_vision"));
     }
 
     return nv;
@@ -4163,6 +4164,16 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
  }
 }
 
+void player::rem_morale(morale_type type, itype* item_type)
+{
+ for (int i = 0; i < morale.size(); i++) {
+  if (morale[i].type == type && morale[i].item_type == item_type) {
+    morale.erase(morale.begin() + i);
+    break;
+  }
+ }
+}
+
 item& player::i_add(item it, game *g)
 {
  itype_id item_type_id = "null";
@@ -5085,6 +5096,9 @@ bool player::eat(game *g, signed char ch)
             (use.*comest->use)(g, this, eaten, false);
         }
         add_addiction(comest->add, comest->addict);
+        if (addiction_craving(comest->add) != MORALE_NULL)
+            rem_morale(addiction_craving(comest->add));
+
         if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol)
             charge_power(rng(2, 8));
         if (has_bionic("bio_ethanol") && comest->use == &iuse::alcohol_weak)

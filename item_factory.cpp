@@ -193,6 +193,7 @@ void Item_factory::init(){
     techniques_list["FEINT"] = mfb(TEC_FEINT);
     techniques_list["THROW"] = mfb(TEC_THROW);
     techniques_list["DISARM"] = mfb(TEC_DISARM);
+    techniques_list["FLAMING"] = mfb(TEC_FLAMING);
     // Defensive Techniques
     techniques_list["BLOCK"] = mfb(TEC_BLOCK);
     techniques_list["BLOCK_LEGS"] = mfb(TEC_BLOCK_LEGS);
@@ -252,6 +253,8 @@ void Item_factory::init(){
     ammo_effects_list["STREAM"] = mfb(AMMO_STREAM);
     ammo_effects_list["COOKOFF"] = mfb(AMMO_COOKOFF);
     ammo_effects_list["LASER"] = mfb(AMMO_LASER);
+    ammo_effects_list["LIGHTNING"] = mfb(AMMO_LIGHTNING);
+    ammo_effects_list["BOUNCE"] = mfb(AMMO_BOUNCE);
 
     bodyparts_list["TORSO"] = mfb(bp_torso);
     bodyparts_list["HEAD"] = mfb(bp_head);
