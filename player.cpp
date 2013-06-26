@@ -4217,24 +4217,31 @@ int player::morale_level()
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        itype* item_type)
+                        itype *item_type)
 {
- bool placed = false;
+    bool placed = false;
 
- for (int i = 0; i < morale.size() && !placed; i++) {
-  if (morale[i].type == type && morale[i].item_type == item_type) {
-   placed = true;
-   if (abs(morale[i].bonus) < abs(max_bonus) || max_bonus == 0) {
-    morale[i].bonus += bonus;
-    if (abs(morale[i].bonus) > abs(max_bonus) && max_bonus != 0)
-     morale[i].bonus = max_bonus;
-   }
-  }
- }
- if (!placed) { // Didn't increase an existing point, so add a new one
-  morale_point tmp(type, item_type, bonus);
-  morale.push_back(tmp);
- }
+    for (int i = 0; i < morale.size() && !placed; i++)
+    {
+        if (morale[i].type == type && morale[i].item_type == item_type)
+        {
+            placed = true;
+            if (abs(morale[i].bonus) < abs(max_bonus) || max_bonus == 0)
+            {
+                morale[i].bonus += bonus;
+                if (abs(morale[i].bonus) > abs(max_bonus) && max_bonus != 0)
+                {
+                    morale[i].bonus = max_bonus;
+                }
+            }
+        }
+    }
+
+    if (!placed)   // Didn't increase an existing point, so add a new one
+    {
+        morale_point tmp(type, item_type, bonus);
+        morale.push_back(tmp);
+    }
 }
 
 void player::rem_morale(morale_type type, itype* item_type)
