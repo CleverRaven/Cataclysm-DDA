@@ -3919,12 +3919,14 @@ bool player::can_pickWeight(int weight)
 
 int player::morale_level()
 {
+    // Add up all of the morale bonuses (and penalties).
     int ret = 0;
     for (int i = 0; i < morale.size(); i++)
     {
         ret += morale[i].bonus;
     }
 
+    // Prozac reduces negative morale by 75%.
     if (has_disease(DI_TOOK_PROZAC) && ret < 0)
     {
         ret = int(ret / 4);
