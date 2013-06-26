@@ -2140,10 +2140,12 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
 
 void player::disp_morale(game *g)
 {
+    // Create and draw the window itself.
     WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
+    // Figure out how wide the name column needs to be.
     int name_column_width = 18;
     for (int i = 0; i < morale.size(); i++)
     {
@@ -2153,19 +2155,24 @@ void player::disp_morale(game *g)
             name_column_width = length;
         }
     }
+
+    // If it's too wide, truncate.
     if (name_column_width > 72)
     {
         name_column_width = 72;
     }
 
+    // Header
     mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
     mvwprintz(w, 2,  1, c_ltgray, "Name");
     mvwprintz(w, 2, name_column_width+2, c_ltgray, "Value");
 
+    // Print out the morale entries.
     for (int i = 0; i < morale.size(); i++)
     {
         int b = morale[i].bonus;
 
+        // Right-justify the number
         int bpos = name_column_width+6;
         if (abs(b) >= 10)
         {
@@ -2180,16 +2187,21 @@ void player::disp_morale(game *g)
             bpos--;
         }
 
+        // Trim the name if need be.
         std::string name = morale[i].name(morale_data);
         if (name.length() > name_column_width)
         {
             name = name.erase(name_column_width-3, std::string::npos) + "...";
         }
-        mvwprintz(w, i + 3,  1, (b < 0 ? c_red : c_green),
-                  name.c_str());
+
+        // Print out the name.
+        mvwprintz(w, i + 3,  1, (b < 0 ? c_red : c_green), name.c_str());
+
+        // Print out the number.
         mvwprintz(w, i + 3, bpos, (b < 0 ? c_red : c_green), "%d", b);
     }
 
+    // Right-justify the total morale.
     int mor = morale_level();
     int bpos = name_column_width+6;
     if (abs(mor) >= 10)
@@ -2204,14 +2216,23 @@ void player::disp_morale(game *g)
     {
         bpos--;
     }
+
+    // Print out the total morale.
     mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), "Total:");
     mvwprintz(w, 20, bpos, (mor < 0 ? c_red : c_green), "%d", mor);
+
+    // Print out the focus gain rate.
     int gain = calc_focus_equilibrium() - focus_pool;
     mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), "Focus gain:");
     mvwprintz(w, 22, bpos, (gain < 0 ? c_red : c_green), "%d.%.2d per minute", gain / 100, gain % 100);
 
+    // Make sure the changes are shown.
     wrefresh(w);
+
+    // Wait for any keystroke.
     getch();
+
+    // Close the window.
     werase(w);
     delwin(w);
 }
