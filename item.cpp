@@ -199,6 +199,7 @@ void item::clear()
     // should we be clearing contents, as well?
     // Seems risky to - there aren't any reported content-clearing bugs
     item_tags.clear();
+    item_vars.clear();
 }
 
 bool item::is_null() const
@@ -275,6 +276,7 @@ void item::put_in(item payload)
 {
  contents.push_back(payload);
 }
+const char ivaresc=001;
 
 std::string item::save_info() const
 {
@@ -299,13 +301,32 @@ std::string item::save_info() const
  std::stringstream dump;
  dump << " " << int(invlet) << " " << typeId() << " " <<  int(charges) <<
      " " << int(damage) << " ";
-
- dump << item_tags.size() << " ";
+/////
+ int stags=item_tags.size() + item_vars.size();
+/////
+ dump << stags << " ";
  for( std::set<std::string>::const_iterator it = item_tags.begin();
       it != item_tags.end(); ++it )
  {
      dump << *it << " ";
  }
+/////
+ for( std::map<std::string, std::string>::const_iterator it = item_vars.begin(); it != item_vars.end(); ++it ) {
+    std::string itstr="";
+    std::string itval="";
+    dump << ivaresc << it->first << "=";
+    for(std::string::const_iterator sit = it->second.begin(); sit != it->second.end(); ++sit ) {
+       switch(*sit) {
+           case '\n': dump << ivaresc << "0A"; break;
+           case '\r': dump << ivaresc << "0D"; break;
+           case '\t': dump << ivaresc << "09"; break;
+           case ' ': dump << ivaresc << "20"; break;
+           default:  dump << *sit; break;
+       }
+    }
+    dump << " ";
+ }
+////
 
  dump << burnt << " " << poison << " " << ammotmp <<
         " " << owned << " " << int(bday) << " " << mode;
@@ -328,6 +349,39 @@ std::string item::save_info() const
  return dump.str();
 }
 
+bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars ) {
+   if(item_tag.at(0) == ivaresc && item_tag.find('=') != -1 && item_tag.find('=') >= 2 ) {
+     std::string var_name, val_decoded;
+     int svarlen, svarsep;
+     svarsep=item_tag.find('=');
+     svarlen=item_tag.size();
+     var_name="";
+     val_decoded="";
+     var_name=item_tag.substr(1,svarsep-1); // will assume sanity here for now
+     for(int s = svarsep+1; s < svarlen; s++ ) { // cheap and temporary, afaik stringstream IFS = [\r\n\t ];
+         if(item_tag[s] == ivaresc && s < svarlen-2 ){
+             if ( item_tag[s+1] == '0' && item_tag[s+2] == 'A' ) {
+                 s+=2; val_decoded.append(1, '\n');
+             } else if ( item_tag[s+1] == '0' && item_tag[s+2] == 'D' ) {
+                 s+=2; val_decoded.append(1, '\r');
+             } else if ( item_tag[s+1] == '0' && item_tag[s+2] == '6' ) {
+                 s+=2; val_decoded.append(1, '\t');
+             } else if ( item_tag[s+1] == '2' && item_tag[s+2] == '0' ) {
+                 s+=2; val_decoded.append(1, ' ');
+             } else {
+                 val_decoded.append(1, item_tag[s]); // hhrrrmmmmm should be passing \a?
+             }
+         } else {
+             val_decoded.append(1, item_tag[s]);
+         }
+     }
+     item_vars[var_name]=val_decoded;
+     return true;
+   } else {
+     return false;
+   }
+}
+
 void item::load_info(std::string data, game *g)
 {
  clear();
@@ -340,7 +394,9 @@ void item::load_info(std::string data, game *g)
  for( int i = 0; i < tag_count; ++i )
  {
      dump >> item_tag;
+   if( itag2ivar(item_tag, item_vars ) == false ) {
      item_tags.insert( item_tag );
+   }
  }
 
  dump >> burnt >> poison >> ammotmp >> owned >> bday >>
@@ -378,10 +434,12 @@ std::string item::info(bool showtext)
  return info(showtext, &dummy);
 }
 
-std::string item::info(bool showtext, std::vector<iteminfo> *dump)
+std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool debug)
 {
  std::stringstream temp1, temp2;
-
+ if ( g != NULL && debug == false && 
+   ( g->debugmon == true || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
+ ) debug=true;
  if( !is_null() )
  {
   dump->push_back(iteminfo("BASE", " Volume: ", "", int(volume()), "", false, true));
@@ -390,7 +448,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("BASE", (has_flag("SPEAR") ? "  Pierce: " : "  Cut: "), "", int(type->melee_cut), "", false));
   dump->push_back(iteminfo("BASE", "  To-hit bonus: ", ((type->m_to_hit > 0) ? "+" : ""), int(type->m_to_hit), ""));
   dump->push_back(iteminfo("BASE", " Moves per attack: ", "", int(attack_time()), "", true, true));
-
+  if ( debug == true ) {
+    if( g != NULL ) {
+      dump->push_back(iteminfo("BASE", " age: ", "",  (int(g->turn) - bday) / (10 * 60), "", true, true));
+    }
+    dump->push_back(iteminfo("BASE", " burn: ", "",  burnt, "", true, true));
+  }
  if (type->techniques != 0)
   for (int i = 1; i < NUM_TECHNIQUES; i++)
    if (type->techniques & mfb(i))
@@ -403,7 +466,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("FOOD", " Nutrition: ", "", int(food->nutr)));
   dump->push_back(iteminfo("FOOD", " Quench: ", "", int(food->quench)));
   dump->push_back(iteminfo("FOOD", " Enjoyability: ", "", int(food->fun)));
-
+  if (corpse != NULL && 
+    ( debug == true || 
+      ( g != NULL &&
+        ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait(PF_CARNIVORE) || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
+      )
+    )
+  ) {
+    dump->push_back(iteminfo("FOOD", " Smells like: " + corpse->name));
+  }
  } else if (is_food_container()) {
  // added charge display for debugging
   it_comest* food = dynamic_cast<it_comest*>(contents[0].type);
@@ -421,7 +492,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("AMMO", " Damage: ", "", int(ammo->damage)));
   dump->push_back(iteminfo("AMMO", " Armor-pierce: ", "", int(ammo->pierce)));
   dump->push_back(iteminfo("AMMO", " Range: ", "", int(ammo->range)));
-  dump->push_back(iteminfo("AMMO", " Accuracy: ", "", int(100 - ammo->accuracy)));
+  dump->push_back(iteminfo("AMMO", " Dispersion: ", "", int(ammo->dispersion)));
   dump->push_back(iteminfo("AMMO", " Recoil: ", "", int(ammo->recoil), "", true, true));
   dump->push_back(iteminfo("AMMO", " Count: ", "", int(ammo->count)));
 
@@ -432,7 +503,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
   dump->push_back(iteminfo("AMMO", " Damage: ", "", int(ammo->damage)));
   dump->push_back(iteminfo("AMMO", " Armor-pierce: ", "", int(ammo->pierce)));
   dump->push_back(iteminfo("AMMO", " Range: ", "", int(ammo->range)));
-  dump->push_back(iteminfo("AMMO", " Accuracy: ", "", int(100 - ammo->accuracy)));
+  dump->push_back(iteminfo("AMMO", " Dispersion: ", "", int(ammo->dispersion)));
   dump->push_back(iteminfo("AMMO", " Recoil: ", "", int(ammo->recoil), "", true, true));
   dump->push_back(iteminfo("AMMO", " Count: ", "", int(contents[0].charges)));
 
@@ -474,7 +545,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
   dump->push_back(iteminfo("GUN", " Range: ", temp1.str(), int(gun->range), temp2.str()));
 
-  dump->push_back(iteminfo("GUN", " Accuracy: ", "", int(100 - accuracy())));
+  dump->push_back(iteminfo("GUN", " Dispersion: ", "", int(dispersion())));
 
 
   temp1.str("");
@@ -511,8 +582,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
  } else if (is_gunmod()) {
   it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
 
-  if (mod->accuracy != 0)
-   dump->push_back(iteminfo("GUNMOD", " Accuracy: ", ((mod->accuracy > 0) ? "+" : ""), int(mod->accuracy)));
+  if (mod->dispersion != 0)
+   dump->push_back(iteminfo("GUNMOD", " Dispersion: ", ((mod->dispersion > 0) ? "+" : ""), int(mod->dispersion)));
   if (mod->damage != 0)
    dump->push_back(iteminfo("GUNMOD", " Damage: ", ((mod->damage > 0) ? "+" : ""), int(mod->damage)));
   if (mod->clip != 0)
@@ -656,6 +727,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This tool has double the normal maximum charges."));
+    }
+    std::map<std::string, std::string>::iterator item_note = item_vars.find("item_note");
+    if ( item_note != item_vars.end() ) {
+        dump->push_back(iteminfo("DESCRIPTION", "\n" ));
+        dump->push_back(iteminfo("DESCRIPTION", item_note->second ));
     }
   if (contents.size() > 0) {
    if (is_gun()) {
@@ -1104,7 +1180,7 @@ int item::weapon_value(player *p) const
   gun_value += gun->dmg_bonus;
   gun_value += int(gun->burst / 2);
   gun_value += int(gun->clip / 3);
-  gun_value -= int(gun->accuracy / 5);
+  gun_value -= int(gun->dispersion / 5);
   gun_value *= (.5 + (.3 * p->skillLevel("gun")));
   gun_value *= (.3 + (.7 * p->skillLevel(gun->skill_used)));
   my_value += gun_value;
@@ -1741,17 +1817,18 @@ int item::clip_size()
  return ret;
 }
 
-int item::accuracy()
+int item::dispersion()
 {
  if (!is_gun())
   return 0;
  it_gun* gun = dynamic_cast<it_gun*>(type);
- int ret = gun->accuracy;
+ int ret = gun->dispersion;
  for (int i = 0; i < contents.size(); i++) {
   if (contents[i].is_gunmod())
-   ret -= (dynamic_cast<it_gunmod*>(contents[i].type))->accuracy;
+   ret += (dynamic_cast<it_gunmod*>(contents[i].type))->dispersion;
  }
  ret += damage * 2;
+ if (ret < 0) ret = 0;
  return ret;
 }
 
@@ -1971,7 +2048,7 @@ Choose ammo type:         Damage     Armor Pierce     Range     Accuracy");
     mvwprintw(w_ammo, i + 1, 27, "%d", ammo_def->damage);
     mvwprintw(w_ammo, i + 1, 38, "%d", ammo_def->pierce);
     mvwprintw(w_ammo, i + 1, 55, "%d", ammo_def->range);
-    mvwprintw(w_ammo, i + 1, 65, "%d", 100 - ammo_def->accuracy);
+    mvwprintw(w_ammo, i + 1, 65, "%d", 100 - ammo_def->dispersion);
    }
    refresh();
    wrefresh(w_ammo);

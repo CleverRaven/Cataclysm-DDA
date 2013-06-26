@@ -8,6 +8,7 @@
 #include "mutation.h"
 #include "player.h"
 #include <sstream>
+#include <algorithm>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -53,6 +54,41 @@ static bool use_fire(game *g, player *p, item *it)
         return false;
     }
     return true;
+}
+
+static void inscribe_item( game *g, player *p, std::string verb, std::string gerund, bool carveable )
+{
+    char ch = g->inv(verb + " on what?");
+    item* cut = &(p->i_at(ch));
+    if (cut->type->id == "null")
+    {
+        g->add_msg("You do not have that item!");
+        return;
+    }
+    if (!cut->made_of(SOLID))
+    {
+        std::string lower_verb = verb;
+        std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
+        g->add_msg("You can't %s an item that's not solid!", lower_verb.c_str());
+        return;
+    }
+    if(carveable && !(cut->made_of("wood") || cut->made_of("plastic") || cut->made_of("glass") ||
+                      cut->made_of("chitin") || cut->made_of("iron") || cut->made_of("steel") ||
+                      cut->made_of("silver"))) {
+        std::string lower_verb = verb;
+        std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
+        g->add_msg("You can't %s an item made of %s!",
+                   lower_verb.c_str(), cut->get_material(1).c_str());
+        return;
+    }
+
+    std::map<std::string, std::string>::iterator ent = cut->item_vars.find("item_note");
+    std::string message = gerund + " on this " + cut->type->name + " is a note saying: ";
+    message = string_input_popup(verb + " what?", 64, (ent != cut->item_vars.end() ?
+                                                       cut->item_vars["item_note"] : message ));
+
+    if( message.size() > 0 ) { cut->item_vars["item_note"] = message; }
+    return;
 }
 
 void iuse::none(game *g, player *p, item *it, bool t)
@@ -2001,6 +2037,15 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   return;
  }
 
+ int pick_quality = 1;
+ if( it->typeId() == "picklock" ) {
+     pick_quality = 5;
+ }
+ else if( it->typeId() == "crude_picklock" ) {
+     pick_quality = 2;
+ }
+
+
  const char *door_name;
  ter_id new_type;
  if (type == t_chaingate_l) {
@@ -2019,13 +2064,15 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  }
 
  p->practice(g->turn, "mechanics", 1);
- p->moves -= 500 - (p->dex_cur + p->skillLevel("mechanics")) * 5;
- if (dice(4, 6) < dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur) - it->damage / 2) {
+ p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel("mechanics")) * 5;
+ if (dice(3, 25) / pick_quality < dice(2, p->skillLevel("mechanics")) +
+     dice(2, p->dex_cur) - it->damage / 2) {
   p->practice(g->turn, "mechanics", 1);
   g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
   g->m.ter_set(dirx, diry, new_type);
- } else if (dice(4, 4) < dice(2, p->skillLevel("mechanics")) +
-                         dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
+ } else if (dice(6, 30) / pick_quality < dice(2, p->skillLevel("mechanics")) +
+            dice(2, p->dex_cur) - it->damage / 2 &&
+            it->damage < 100) {
   it->damage++;
 
   std::string sStatus = "damage";
@@ -2039,14 +2086,15 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
  }
  if ( type == t_door_locked_alarm &&
-      dice(4, 7) <  dice(2, p->skillLevel("mechanics")) +
+      dice(5, 17) / pick_quality < dice(2, p->skillLevel("mechanics")) +
       dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
-  g->sound(p->posx, p->posy, 30, "An alarm sounds!");
+  g->sound(p->posx, p->posy, 40, "An alarm sounds!");
   if (!g->event_queued(EVENT_WANTED)) {
    g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
   }
  }
 }
+
 void iuse::crowbar(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
@@ -2145,9 +2193,9 @@ if (dirx == 0 && diry == 0) {
   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
   g->m.ter_set(dirx, diry, new_type);
   if (noisy)
-   g->sound(dirx, diry, 8, "crunch!");
+   g->sound(dirx, diry, 12, "crunch!");
   if ( type == t_door_locked_alarm ) {
-   g->sound(p->posx, p->posy, 30, "An alarm sounds!");
+   g->sound(p->posx, p->posy, 40, "An alarm sounds!");
    if (!g->event_queued(EVENT_WANTED)) {
     g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
    }
@@ -2157,7 +2205,7 @@ if (dirx == 0 && diry == 0) {
    //chance of breaking the glass if pry attempt fails
    if (dice(4, difficulty) > dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
     g->add_msg_if_player(p,"You break the glass.");
-    g->sound(dirx, diry, 16, "glass breaking!");
+    g->sound(dirx, diry, 24, "glass breaking!");
     g->m.ter_set(dirx, diry, t_window_frame);
     return;
    }
@@ -3395,10 +3443,10 @@ void iuse::vacutainer(game *g, player *p, item *it, bool t)
 void iuse::knife(game *g, player *p, item *it, bool t)
 {
     int choice = menu(true,
-    "Using knife:", "Cut up fabric", "Cut up plastic/kevlar", "Carve wood", "Cauterize", "Cancel", NULL);
+                      "Using knife:", "Cut up fabric", "Cut up plastic/kevlar", "Carve wood", "Cauterize", "Carve writing on item", "Cancel", NULL);
     switch (choice)
     {
-        if (choice == 4)
+        if (choice == 5)
         break;
         case 1:
         {
@@ -3540,6 +3588,11 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg_if_player(p,"You need a lighter with 4 charges before you can cauterize yourself.");
             else
                 p->cauterize(g);
+            break;
+        }
+        case 5:
+        {
+            inscribe_item( g, p, "Carve", "Carved", true );
             break;
         }
     }
@@ -4496,15 +4549,24 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
  }
 }
 
-void iuse::spray_can(game *g, player *p, item *it, bool t)
-{
- std::string verb=( it->type->id ==  "permanent_marker" ? "Write" : "Spray" );
- std::string lcverb=( it->type->id ==  "permanent_marker" ? "write" : "spray" );
- std::string message = string_input_popup(verb + " what?");
- if(g->m.add_graffiti(g, p->posx, p->posy, message))
-  g->add_msg("You %s a message on the ground.",lcverb.c_str());
- else
-  g->add_msg("You fail to %s a message here.",lcverb.c_str());
+void iuse::spray_can(game *g, player *p, item *it, bool t) {
+     if ( it->type->id ==  "permanent_marker"  ) {
+        int ret=menu(true, "Write on what?", "The ground", "An item", "cancel", NULL );
+        if (ret == 2 ) {
+            inscribe_item( g, p, "Write", "Written", false );
+        } else if ( ret != 1 ) {
+           return;
+        }
+     }
+     std::string verb=( it->type->id ==  "permanent_marker" ? "Write" : "Spray" );
+     std::string lcverb=( it->type->id ==  "permanent_marker" ? "write" : "spray" );
+
+     std::string message = string_input_popup(verb + " what?");
+     if(g->m.add_graffiti(g, p->posx, p->posy, message)) {
+       g->add_msg("You %s a message on the ground.",lcverb.c_str());
+     } else {
+       g->add_msg("You fail to %s a message here.",lcverb.c_str());
+     }
 }
 
 void iuse::heatpack(game *g, player *p, item *it, bool t)

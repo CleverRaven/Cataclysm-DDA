@@ -197,6 +197,7 @@ public:
  void siphon_gas(game *g, vehicle *veh);
  void cauterize(game *g);
  void suffer(game *g);
+ void mend(game *g);
  void vomit(game *g);
 
  char lookup_item(char let);
@@ -250,6 +251,7 @@ public:
  int morale_level();	// Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
                  itype* item_type = NULL);
+ void rem_morale(morale_type type, itype* item_type = NULL);
 
  std::string weapname(bool charges = true);
 

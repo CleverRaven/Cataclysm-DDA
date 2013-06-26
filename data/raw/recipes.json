@@ -1742,7 +1742,38 @@
             ]
          ]
         },
-        
+        {
+         "result" : "arrow_small_game",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 2,
+         "time" : 2000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_wood", 10]
+            ],
+            [
+               ["bone", 3],
+               ["rock", 1]
+            ]
+         ]
+        },
         {
 <<<<<<< HEAD
             "result": "shaft_wood",
@@ -4106,8 +4137,7 @@
                               ]
                           ]
         },
-        
-        
+
         {
             "result": "spaghetti_bolognese",
             "category": "CC_FOOD",
@@ -8539,7 +8569,7 @@
             "result": "crowbar",
             "category": "CC_MISC",
             "skill_pri": "mechanics",
-            "difficulty": 1,
+            "difficulty": 0,
             "time": 1000,
             "reversible": false,
             "autolearn": true,
@@ -8554,6 +8584,30 @@
             "components": [
                               [
                                   ["pipe", 1]
+                              ]
+                          ]
+        },
+
+
+	   {
+            "result": "crude_picklock",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 0,
+            "time": 1000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["hammer", -1],
+                             ["rock", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 1]
                               ]
                           ]
         },
@@ -8863,6 +8917,59 @@
                           ]
         },
 
+        {
+            "result": "arm_splint",
+            "category": "CC_MISC",
+            "skill_pri": "survival",
+            "skill_sec": "firstaid",
+            "difficulty": 2,
+            "time": 1000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [
+                              [ ["rag", 5], ["medical_gauze", 2] ],
+                              [
+                                  ["string_6", 6],
+                                  ["string_36", 1],
+                                  ["duct_tape", 50],
+                                  ["medical_tape", 25]
+                              ],
+                              [
+                                  ["stick", 1],
+                                  ["broom", 1],
+                                  ["mop", 1],
+                                  ["2x4", 1],
+                                  ["pool_cue", 1]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "leg_splint",
+            "category": "CC_MISC",
+            "skill_pri": "survival",
+            "skill_sec": "firstaid",
+            "difficulty": 2,
+            "time": 1000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [
+                              [ ["rag", 10], ["medical_gauze", 4] ],
+                              [
+                                  ["string_6", 12],
+                                  ["string_36", 2],
+                                  ["duct_tape", 100],
+                                  ["medical_tape", 50]
+                              ],
+                              [
+                                  ["stick", 2],
+                                  ["broom", 2],
+                                  ["mop", 2],
+                                  ["2x4", 2],
+                                  ["pool_cue", 2]
+                              ]
+                          ]
+        },
 
         {
             "result": "suppressor",

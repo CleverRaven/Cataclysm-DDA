@@ -1358,7 +1358,7 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
             vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
             vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
             vMenu.push_back(iteminfo("MENU", "=", " reassign"));
-            oThisItem.info(true, &vThisItem);
+            oThisItem.info(true, &vThisItem, this);
             compare_split_screen_popup(startx, width, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
             cMenu = compare_split_screen_popup(startx+width, 14, 16, "", vMenu, vDummy,
                 selected >= menustart && selected <= menuend ? selected : -1
@@ -1956,13 +1956,7 @@ bool game::handle_action()
   case ACTION_QUIT:
    if (query_yn("Commit suicide?")) {
     u.moves = 0;
-    std::vector<item *> tmp = u.inv_dump();
-    item your_body;
-    your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
-    your_body.name = u.name;
-    m.add_item(u.posx, u.posy, your_body);
-    for (int i = 0; i < tmp.size(); i++)
-        m.add_item(u.posx, u.posy, *(tmp[i]));
+    place_corpse();
     uquit = QUIT_SUICIDE;
    }
    break;
@@ -2121,14 +2115,7 @@ bool game::is_game_over()
   return true;
  for (int i = 0; i <= hp_torso; i++) {
   if (u.hp_cur[i] < 1) {
-   std::vector<item *> tmp = u.inv_dump();
-   item your_body;
-   your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
-   your_body.name = u.name;
-   m.add_item(u.posx, u.posy, your_body);
-   for (int j = 0; j < tmp.size(); j++) {
-       m.add_item(u.posx, u.posy, *(tmp[j]));
-   }
+   place_corpse();
    std::stringstream playerfile;
    playerfile << "save/" << u.name << ".sav";
    unlink(playerfile.str().c_str());
@@ -2137,6 +2124,32 @@ bool game::is_game_over()
   }
  }
  return false;
+}
+
+void game::place_corpse()
+{
+  std::vector<item *> tmp = u.inv_dump();
+  item your_body;
+  your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
+  your_body.name = u.name;
+  for (int i = 0; i < tmp.size(); i++)
+    m.add_item(u.posx, u.posy, *(tmp[i]));
+  for (int i = 0; i < u.my_bionics.size(); i++) {
+    if (itypes.find(u.my_bionics[i].id) != itypes.end()) {
+      your_body.contents.push_back(item(itypes[u.my_bionics[i].id], turn));
+    }
+  }
+  int pow = u.max_power_level;
+  while (pow >= 4) {
+    if (pow % 4 != 0 && pow >= 10){
+      pow -= 10;
+      your_body.contents.push_back(item(itypes["bio_power_storage_mkII"], turn));
+    } else {
+      pow -= 4;
+      your_body.contents.push_back(item(itypes["bio_power_storage"], turn));
+    }
+  }
+  m.add_item(u.posx, u.posy, your_body);
 }
 
 void game::death_screen()
@@ -3329,10 +3342,9 @@ void game::draw()
   col_temp = c_cyan;
  else if (temperature >  32)
   col_temp = c_ltblue;
- if (OPTIONS[OPT_USE_CELSIUS])
-  wprintz(w_location, col_temp, " %dC", int((temperature - 32) / 1.8));
- else
-  wprintz(w_location, col_temp, " %dF", temperature);
+
+ wprintz(w_location, col_temp, (std::string(" ") + print_temperature(temperature)).c_str());
+
  wrefresh(w_location);
 
  mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
@@ -4595,6 +4607,337 @@ void game::flashbang(int x, int y)
 // TODO: Blind/deafen NPC
 }
 
+void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player)
+{
+  //borrowed code from game::explosion()
+  timespec ts;	// Timespec for the animation of the explosion
+  ts.tv_sec = 0;
+  ts.tv_nsec = EXPLOSION_SPEED;
+    for (int i = 1; i <= radius; i++) {
+  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, c_blue, '/');
+  mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, c_blue,'\\');
+  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x - i + VIEWX - u.posx - u.view_offset_x, c_blue,'\\');
+  mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                      x + i + VIEWX - u.posx - u.view_offset_x, c_blue, '/');
+  for (int j = 1 - i; j < 0 + i; j++) {
+   mvwputch(w_terrain, y - i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, c_blue,'-');
+   mvwputch(w_terrain, y + i + VIEWY - u.posy - u.view_offset_y,
+                       x + j + VIEWX - u.posx - u.view_offset_x, c_blue,'-');
+   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x - i + VIEWX - u.posx - u.view_offset_x, c_blue,'|');
+   mvwputch(w_terrain, y + j + VIEWY - u.posy - u.view_offset_y,
+                       x + i + VIEWX - u.posx - u.view_offset_x, c_blue,'|');
+  }
+  wrefresh(w_terrain);
+  nanosleep(&ts, NULL);
+ }
+ // end borrowed code from game::explosion()
+ 
+    sound(x, y, force*force*dam_mult/2, "Crack!");
+    for (int i = 0; i < z.size(); i++)
+    {
+        if (rl_dist(z[i].posx, z[i].posy, x, y) <= radius)
+        {
+            add_msg("%s is caught in the shockwave!", z[i].name().c_str());
+            knockback(x, y, z[i].posx, z[i].posy, force, stun, dam_mult);
+        }
+    }
+    for (int i = 0; i < active_npc.size(); i++)
+    {
+        if (rl_dist(active_npc[i]->posx, active_npc[i]->posy, x, y) <= radius)
+        {
+            add_msg("%s is caught in the shockwave!", active_npc[i]->name.c_str());
+            knockback(x, y, active_npc[i]->posx, active_npc[i]->posy, force, stun, dam_mult);
+        }
+    }
+    if (rl_dist(u.posx, u.posy, x, y) <= radius && !ignore_player)
+    {
+        add_msg("You're caught in the shockwave!");
+        knockback(x, y, u.posx, u.posy, force, stun, dam_mult);
+    }
+    return;
+}
+
+/* Knockback target at (tx,ty) by force number of tiles in direction from (sx,sy) to (tx,ty)
+   stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
+   dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
+
+void game::knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult)
+{
+    std::vector<point> traj;
+    traj.clear();
+    traj = line_to(sx, sy, tx, ty, 0);
+    traj.insert(traj.begin(), point(sx, sy)); // how annoying, line_to() doesn't include the originating point!
+    traj = continue_line(traj, force);
+    traj.insert(traj.begin(), point(tx, ty)); // how annoying, continue_line() doesn't either!
+    
+    knockback(traj, force, stun, dam_mult);
+    return;
+}
+
+/* Knockback target at traj.front() along line traj; traj should already have considered knockback distance.
+   stun > 0 indicates base stun duration, and causes impact stun; stun == -1 indicates only impact stun
+   dam_mult multiplies impact damage, bash effect on impact, and sound level on impact */
+
+void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult)
+{
+    int tx = traj.front().x;
+    int ty = traj.front().y;
+    if (mon_at(tx, ty) == -1 && npc_at(tx, ty) == -1 && (u.posx != tx && u.posy != ty))
+    {
+        debugmsg("Nothing at (%d,%d) to knockback!", tx, ty);
+        return;
+    }
+    //add_msg("line from %d,%d to %d,%d",traj.front().x,traj.front().y,traj.back().x,traj.back().y);
+    std::string junk;
+    int force_remaining = 0;
+    if (mon_at(tx, ty) != -1)
+    {
+        monster *targ = &z[mon_at(tx, ty)];
+        if (stun > 0)
+        {
+            targ->add_effect(ME_STUNNED, stun);
+            add_msg("%s was stunned for %d turn%s!", targ->name().c_str(), stun, stun>1?"s":"");
+        }
+        for(int i = 1; i < traj.size(); i++)
+        {
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
+            {
+                targ->posx = traj[i-1].x;
+                targ->posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (targ->has_effect(ME_STUNNED))
+                    {
+                        targ->add_effect(ME_STUNNED, force_remaining);
+                        add_msg("%s was stunned AGAIN for %d turn%s!",
+                                targ->name().c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    else
+                    {
+                        targ->add_effect(ME_STUNNED, force_remaining);
+                        add_msg("%s was stunned for %d turn%s!",
+                                targ->name().c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    add_msg("%s took %d damage!", targ->name().c_str(), dam_mult*force_remaining);
+                    targ->hp -= dam_mult*force_remaining;
+                    if (targ->hp <= 0)
+                        targ->die(this);
+                }
+                m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
+                sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
+                break;
+            }
+            else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
+                      (u.posx == traj[i].x && u.posy == traj[i].y))
+            {
+                targ->posx = traj[i-1].x;
+                targ->posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (targ->has_effect(ME_STUNNED))
+                    {
+                        targ->add_effect(ME_STUNNED, force_remaining);
+                        add_msg("%s was stunned AGAIN for %d turn%s!",
+                                targ->name().c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    else
+                    {
+                        targ->add_effect(ME_STUNNED, force_remaining);
+                        add_msg("%s was stunned for %d turn%s!",
+                                targ->name().c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                }
+                traj.erase(traj.begin(), traj.begin()+i);
+                if (mon_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("%s collided with someTHING else and sent IT flying!", targ->name().c_str());
+                else if (npc_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("%s collided with someone else and sent %s flying!", targ->name().c_str(),
+                            active_npc[npc_at(traj.front().x, traj.front().y)]->male?"him":"her");
+                else if (u.posx == traj.front().x && u.posy == traj.front().y)
+                    add_msg("%s collided with you and sent you flying!", targ->name().c_str());
+                knockback(traj, force_remaining, stun, dam_mult);
+                break;
+            }
+            targ->posx = traj[i].x;
+            targ->posy = traj[i].y;
+            if(m.has_flag(liquid, targ->posx, targ->posy) && !targ->has_flag(MF_SWIMS) &&
+                !targ->has_flag(MF_AQUATIC) && !targ->has_flag(MF_FLIES))
+            {
+                targ->hurt(9999);
+                if (u_see(targ))
+                    add_msg("The %s drowns!", targ->name().c_str());
+            }
+            if(!m.has_flag(liquid, targ->posx, targ->posy) && targ->has_flag(MF_AQUATIC))
+            {
+                targ->hurt(9999);
+                if (u_see(targ))
+                    add_msg("The %s flops around and dies!", targ->name().c_str());
+            }
+        }
+    }
+    else if (npc_at(tx, ty) != -1)
+    {
+        npc *targ = active_npc[npc_at(tx, ty)];
+        if (stun > 0)
+        {
+            targ->add_disease(DI_STUNNED, stun, this);
+            add_msg("%s was stunned for %d turn%s!", targ->name.c_str(), stun, stun>1?"s":"");
+        }
+        for(int i = 1; i < traj.size(); i++)
+        {
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
+            {
+                targ->posx = traj[i-1].x;
+                targ->posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (targ->has_disease(DI_STUNNED))
+                    {
+                        targ->add_disease(DI_STUNNED, force_remaining, this);
+                        if (targ->has_disease(DI_STUNNED))
+                            add_msg("%s was stunned AGAIN for %d turn%s!",
+                                     targ->name.c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    else
+                    {
+                        targ->add_disease(DI_STUNNED, force_remaining, this);
+                        if (targ->has_disease(DI_STUNNED))
+                            add_msg("%s was stunned for %d turns!",
+                                     targ->name.c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    add_msg("%s took %d damage! (before armor)", targ->name.c_str(), dam_mult*force_remaining);
+                    if (one_in(2)) targ->hit(this, bp_arms, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_legs, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_torso, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_head, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) targ->hit(this, bp_hands, 0, force_remaining*dam_mult, 0);
+                }
+                m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
+                sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
+                break;
+            }
+            else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1 ||
+                      (u.posx == traj[i].x && u.posy == traj[i].y))
+            {
+                targ->posx = traj[i-1].x;
+                targ->posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (targ->has_disease(DI_STUNNED))
+                    {
+                        add_msg("%s was stunned AGAIN for %d turn%s!",
+                                 targ->name.c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    else
+                    {
+                        add_msg("%s was stunned for %d turn%s!",
+                                 targ->name.c_str(), force_remaining, force_remaining>1?"s":"");
+                    }
+                    targ->add_disease(DI_STUNNED, force_remaining, this);
+                }
+                traj.erase(traj.begin(), traj.begin()+i);
+                if (mon_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("%s collided with someTHING else and sent IT flying!", targ->name.c_str());
+                else if (npc_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("%s collided with someone else and sent %s flying!", targ->name.c_str(),
+                            active_npc[npc_at(traj.front().x, traj.front().y)]->male?"him":"her");
+                else if (u.posx == traj.front().x && u.posy == traj.front().y)
+                    add_msg("%s collided with you and sent you flying!", targ->name.c_str());
+                knockback(traj, force_remaining, stun, dam_mult);
+                break;
+            }
+            targ->posx = traj[i].x;
+            targ->posy = traj[i].y;
+        }
+    }
+    else if (u.posx == tx && u.posy == ty)
+    {
+        if (stun > 0)
+        {
+            u.add_disease(DI_STUNNED, stun, this);
+            add_msg("You were stunned for %d turns!", stun);
+        }
+        for(int i = 1; i < traj.size(); i++)
+        {
+            if (m.move_cost(traj[i].x, traj[i].y) == 0 && !m.has_flag(liquid, traj[i].x, traj[i].y)) // oops, we hit a wall!
+            {
+                u.posx = traj[i-1].x;
+                u.posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (u.has_disease(DI_STUNNED))
+                    {
+                        add_msg("You were stunned AGAIN for %d turns!", force_remaining);
+                    }
+                    else
+                    {
+                        add_msg("You were stunned for %d turns!", force_remaining);
+                    }
+                    u.add_disease(DI_STUNNED, force_remaining, this);
+                    if (one_in(2)) u.hit(this, bp_arms, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_legs, 1, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_torso, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_head, 0, force_remaining*dam_mult, 0);
+                    if (one_in(2)) u.hit(this, bp_hands, 0, force_remaining*dam_mult, 0);
+                }
+                m.bash(traj[i].x, traj[i].y, 2*dam_mult*force_remaining, junk);
+                sound(traj[i].x, traj[i].y, dam_mult*force_remaining*force_remaining/2, junk);
+                break;
+            }
+            else if (mon_at(traj[i].x, traj[i].y) != -1 || npc_at(traj[i].x, traj[i].y) != -1)
+            {
+                u.posx = traj[i-1].x;
+                u.posy = traj[i-1].y;
+                force_remaining = traj.size() - i;
+                if (stun != 0)
+                {
+                    if (u.has_disease(DI_STUNNED))
+                    {
+                        add_msg("You were stunned AGAIN for %d turns!", force_remaining);
+                    }
+                    else
+                    {
+                        add_msg("You were stunned for %d turns!", force_remaining);
+                    }
+                    u.add_disease(DI_STUNNED, force_remaining, this);
+                }
+                traj.erase(traj.begin(), traj.begin()+i);
+                if (mon_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("You collided with someTHING else and sent IT flying!");
+                else if (npc_at(traj.front().x, traj.front().y) != -1)
+                    add_msg("You collided with someone else and sent %s flying!",
+                            active_npc[npc_at(traj.front().x, traj.front().y)]->male?"him":"her");
+                knockback(traj, force_remaining, stun, dam_mult);
+                break;
+            }
+            if(m.has_flag(liquid, u.posx, u.posy) && force_remaining < 1)
+            {
+                plswim(u.posx, u.posy);
+            }
+            else
+            {
+                u.posx = traj[i].x;
+                u.posy = traj[i].y;
+            }
+        }
+    }
+    return;
+}
+
 void game::use_computer(int x, int y)
 {
  if (u.has_trait(PF_ILLITERATE)) {
@@ -5123,7 +5466,7 @@ void game::smash()
         if (m.has_flag(alarmed, smashx, smashy) &&
             !event_queued(EVENT_WANTED))
         {
-            sound(smashx, smashy, 30, "An alarm sounds!");
+            sound(smashx, smashy, 40, "An alarm sounds!");
             add_event(EVENT_WANTED, int(turn) + 300, 0, levx, levy);
         }
         u.moves -= move_cost;
@@ -5139,7 +5482,7 @@ void game::smash()
             {
                 m.add_item(u.posx, u.posy, u.weapon.contents[i]);
             }
-            sound(u.posx, u.posy, 16, "");
+            sound(u.posx, u.posy, 24, "");
             u.hit(this, bp_hands, 1, 0, rng(0, u.weapon.volume()));
             if (u.weapon.volume() > 20)
             {
@@ -5349,12 +5692,12 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
 // another is the gate.  There may be a handle on the other side, but this is optional.
 // The gate continues until it reaches a non-floor tile, so they can be arbitrary length.
 //
-//   |  !|!        !  !
-//   +   +   --++++-  -++++++++++++
-//   +   +   !     !
-//   +   +
-//   +   |!
-//  !|
+//   |  !|!  -++-++-  !|++++-
+//   +   +      !      +
+//   +   +   -++-++-   +
+//   +   +             +
+//   +   +   !|++++-   +
+//  !|   |!        !   |
 //
 // The terrain type of the handle is passed in, and that is used to determine the type of
 // the wall and gate.
@@ -5403,7 +5746,7 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
   v_wall_type = t_palisade;
   h_wall_type = t_palisade;
   door_type   = t_palisade_gate;
-  floor_type  = t_dirt;
+  floor_type  = t_palisade_gate_o;
   pull_message = "You pull the rope...";
   open_message = "The palisade gate swings open!";
   close_message = "The palisade gate swings closed with a crash!";
@@ -5414,112 +5757,51 @@ void game::open_gate( game *g, const int examx, const int examy, const enum ter_
 
  g->add_msg(pull_message);
  g->u.moves -= 900;
- if (((g->m.ter(examx-1, examy)==v_wall_type)&&
-      ((g->m.ter(examx-1, examy+1)==floor_type)||
-       (g->m.ter(examx-1, examy-1)==floor_type))&&
-      (!((g->m.ter(examx-1, examy-1)==door_type)||
-	 (g->m.ter(examx-1, examy+1)==door_type))))||
-     ((g->m.ter(examx+1, examy)==v_wall_type)&&
-      ((g->m.ter(examx+1, examy+1)==floor_type)||
-       (g->m.ter(examx+1, examy-1)==floor_type))&&
-      (!((g->m.ter(examx+1, examy-1)==door_type)||
-	 (g->m.ter(examx+1, examy+1)==door_type))))) {
-   //horizontal orientation of the gate
-   if ((g->m.ter(examx, examy-1)==h_wall_type)||
-       (g->m.ter(examx, examy+1)==h_wall_type)) {
-     int x_incr=0; int y_offst=0;
-     if (g->m.ter(examx, examy-1)==h_wall_type) y_offst = -1;
-     if (g->m.ter(examx, examy+1)==h_wall_type) y_offst = 1;
-     if (g->m.ter(examx+1, examy+y_offst) == floor_type) x_incr = 1;
-     if (g->m.ter(examx-1, examy+y_offst) == floor_type) x_incr = -1;
-     int cur_x = examx+x_incr;
-     while (g->m.ter(cur_x, examy+y_offst)== floor_type) {
-       g->m.ter_set(cur_x, examy+y_offst, door_type);
-       cur_x = cur_x+x_incr;
-     }
-     //vertical orientation of the gate
-   } else if ((g->m.ter(examx-1, examy)==v_wall_type)||
-	      (g->m.ter(examx+1, examy)==v_wall_type)) {
-     int x_offst = 0; int y_incr = 0;
-     if ((g->m.ter(examx-1, examy)==v_wall_type)) x_offst = -1;
-     if ((g->m.ter(examx+1, examy)==v_wall_type)) x_offst = 1;
-     if (g->m.ter(examx+x_offst, examy-1)== floor_type) y_incr = -1;
-     if (g->m.ter(examx+x_offst, examy+1)== floor_type) y_incr = 1;
-     int cur_y = examy+y_incr;
-     while (g->m.ter(examx+x_offst, cur_y)==floor_type) {
-       g->m.ter_set(examx+x_offst, cur_y, door_type);
-       cur_y = cur_y+y_incr;
-     }
-   }
-   g->add_msg(close_message);
- } else if (((g->m.ter(examx, examy-1)==h_wall_type)&&
-	   ((g->m.ter(examx+1, examy-1)==floor_type)||
-	    (g->m.ter(examx-1, examy-1)==floor_type)))||
-	  ((g->m.ter(examx, examy+1)==h_wall_type)&&
-	   ((g->m.ter(examx+1, examy+1)==floor_type)||
-	    (g->m.ter(examx-1, examy+1)==floor_type))))
- {
-   //horizontal orientation of the gate
-   if ((g->m.ter(examx, examy-1)==h_wall_type)||
-       (g->m.ter(examx, examy+1)==h_wall_type)) {
-     int x_incr=0; int y_offst=0;
-     if (g->m.ter(examx, examy-1)==h_wall_type) y_offst = -1;
-     if (g->m.ter(examx, examy+1)==h_wall_type) y_offst = 1;
-     if (g->m.ter(examx+1, examy+y_offst) == floor_type) x_incr = 1;
-     if (g->m.ter(examx-1, examy+y_offst) == floor_type) x_incr = -1;
-     int cur_x = examx+x_incr;
-     while (g->m.ter(cur_x, examy+y_offst)== floor_type) {
-       g->m.ter_set(cur_x, examy+y_offst, door_type);
-       cur_x = cur_x+x_incr;
-     }
- //vertical orientation of the gate
-   } else if ((g->m.ter(examx-1, examy)==v_wall_type)||
-	      (g->m.ter(examx+1, examy)==v_wall_type)) {
-     int x_offst = 0; int y_incr = 0;
-     if ((g->m.ter(examx-1, examy)==v_wall_type)) x_offst = -1;
-     if ((g->m.ter(examx+1, examy)==v_wall_type)) x_offst = 1;
-     if (g->m.ter(examx+x_offst, examy-1)== floor_type) y_incr = -1;
-     if (g->m.ter(examx+x_offst, examy+1)== floor_type) y_incr = 1;
-     int cur_y = examy+y_incr;
-     while (g->m.ter(examx+x_offst, cur_y)==floor_type) {
-       g->m.ter_set(examx+x_offst, cur_y, door_type);
-       cur_y = cur_y+y_incr;
-     }
-   }
 
-   //closing the gate...
-   g->add_msg(close_message);
- }
- else //opening the gate...
- {
-   //horizontal orientation of the gate
-   if ((g->m.ter(examx, examy-1)==h_wall_type)||
-       (g->m.ter(examx, examy+1)==h_wall_type)) {
-     int x_incr=0; int y_offst=0;
-     if (g->m.ter(examx, examy-1)==h_wall_type) y_offst = -1;
-     if (g->m.ter(examx, examy+1)==h_wall_type) y_offst = 1;
-     if (g->m.ter(examx+1, examy+y_offst) == door_type) x_incr = 1;
-     if (g->m.ter(examx-1, examy+y_offst) == door_type) x_incr = -1;
-     int cur_x = examx+x_incr;
-     while (g->m.ter(cur_x, examy+y_offst)==door_type) {
-       g->m.ter_set(cur_x, examy+y_offst, floor_type);
-       cur_x = cur_x+x_incr;
-     }
-     //vertical orientation of the gate
-   } else if ((g->m.ter(examx-1, examy)==v_wall_type)||
-              (g->m.ter(examx+1, examy)==v_wall_type)) {
-     int x_offst = 0; int y_incr = 0;
-     if ((g->m.ter(examx-1, examy)==v_wall_type)) x_offst = -1;
-     if ((g->m.ter(examx+1, examy)==v_wall_type)) x_offst = 1;
-     if (g->m.ter(examx+x_offst, examy-1)== door_type) y_incr = -1;
-     if (g->m.ter(examx+x_offst, examy+1)== door_type) y_incr = 1;
-     int cur_y = examy+y_incr;
-     while (g->m.ter(examx+x_offst, cur_y)==door_type) {
-       g->m.ter_set(examx+x_offst, cur_y, floor_type);
-       cur_y = cur_y+y_incr;
+ bool open = false;
+ bool close = false;
+
+ for (int wall_x = -1; wall_x <= 1; wall_x++) {
+   for (int wall_y = -1; wall_y <= 1; wall_y++) {
+     for (int gate_x = -1; gate_x <= 1; gate_x++) {
+       for (int gate_y = -1; gate_y <= 1; gate_y++) {
+         if ((wall_x + wall_y == 1 || wall_x + wall_y == -1) &&  // make sure wall not diagonally opposite to handle
+             (gate_x + gate_y == 1 || gate_x + gate_y == -1) &&  // same for gate direction
+            ((wall_y != 0 && (g->m.ter(examx+wall_x, examy+wall_y) == h_wall_type)) ||  //horizontal orientation of the gate
+             (wall_x != 0 && (g->m.ter(examx+wall_x, examy+wall_y) == v_wall_type)))) { //vertical orientation of the gate
+
+           int cur_x = examx+wall_x+gate_x;
+           int cur_y = examy+wall_y+gate_y;
+
+           if (!close && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == door_type)) {  //opening the gate...
+             open = true;
+             while (g->m.ter(cur_x, cur_y) == door_type) {
+               g->m.ter_set(cur_x, cur_y, floor_type);
+               cur_x = cur_x+gate_x;
+               cur_y = cur_y+gate_y;
+             }
+           }
+
+           if (!open && (g->m.ter(examx+wall_x+gate_x, examy+wall_y+gate_y) == floor_type)) {  //closing the gate...
+             close = true;
+             while (g->m.ter(cur_x, cur_y) == floor_type) {
+               g->m.ter_set(cur_x, cur_y, door_type);
+               cur_x = cur_x+gate_x;
+               cur_y = cur_y+gate_y;
+             }
+           }
+         }
+       }
      }
    }
+ }
+
+ if(open){
    g->add_msg(open_message);
+ } else if(close){
+   g->add_msg(close_message);
+ } else {
+   add_msg("Nothing happens.");
  }
 }
 
@@ -6622,7 +6904,7 @@ void game::advanced_inv()
                 checkshowmsg=true;
             } else {
                 std::vector<iteminfo> vThisItem, vDummy, vMenu;
-                it->info(true, &vThisItem);
+                it->info(true, &vThisItem, this);
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n----------\n"));
                 vThisItem.push_back(iteminfo("DESCRIPTION", "\n\n\n\n\n [up / page up] previous\n [down / page down] next"));
                 ret=compare_split_screen_popup( 1 + colstart + ( src == isinventory ? w_width/2 : 0 ),
@@ -7007,9 +7289,7 @@ point game::look_debug(point coords) {
       int fshift=0;
       int subch=0;
       if ( fsel == -1 ) fsel=curfield.type;
-
-	  std::string fids[num_fields] = {(num_fields,"undef")};
-
+      std::string fids[num_fields];
       fids[0]="-clear-";
       fids[fd_fire_vent]="fire_vent";
       fids[fd_push_items]="push_items";
@@ -7270,7 +7550,7 @@ point game::look_around()
    mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
-  
+
   DebugLog() << __FUNCTION__ << "calling get_input() \n";
   input = get_input();
   if (!u_see(lx, ly))
@@ -8694,7 +8974,8 @@ void game::plfire(bool burst)
  }
 
  if ((u.weapon.has_flag("STR8_DRAW")  && u.str_cur <  4) ||
-     (u.weapon.has_flag("STR10_DRAW") && u.str_cur <  5)   ) {
+     (u.weapon.has_flag("STR10_DRAW") && u.str_cur <  5) ||
+     (u.weapon.has_flag("STR12_DRAW") && u.str_cur <  6)   ) {
   add_msg("You're not strong enough to draw the bow!");
   return;
  }
@@ -8848,6 +9129,7 @@ void game::complete_butcher(int index)
   return;
  }
  mtype* corpse = m.i_at(u.posx, u.posy)[index].corpse;
+ std::vector<item> contents = m.i_at(u.posx, u.posy)[index].contents;
  int age = m.i_at(u.posx, u.posy)[index].bday;
  m.i_rem(u.posx, u.posy, index);
  int factor = u.butcher_factor();
@@ -8958,6 +9240,16 @@ void game::complete_butcher(int index)
   }
  }
 
+ // Recover hidden items
+ for (int i = 0; i < contents.size(); i++) {
+   if ((skill_shift + 10) * 5 > rng(0,100)) {
+     add_msg("You discover a %s in the %s!", contents[i].tname().c_str(), corpse->name.c_str());
+     m.add_item(u.posx, u.posy, contents[i]);
+   } else if (contents[i].is_bionic()){
+     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
+   }
+ }
+
  if (pieces <= 0)
   add_msg("Your clumsy butchering destroys the meat!");
  else {
@@ -8976,7 +9268,12 @@ void game::complete_butcher(int index)
    else
     meat = "veggy";
   }
-  m.spawn_item(u.posx, u.posy, meat, age, pieces);
+  item tmpitem=item_controller->create(meat, age);
+  tmpitem.corpse=dynamic_cast<mtype*>(corpse);
+  while ( pieces > 0 ) {
+    pieces--;
+    m.add_item(u.posx, u.posy, tmpitem);
+  }
   add_msg("You butcher the corpse.");
  }
 }
@@ -9726,6 +10023,32 @@ void game::plmove(int x, int y)
       add_msg("There are vehicle controls here.  %s to drive.",
               press_x(ACTION_CONTROL_VEHICLE).c_str() );
 
+ } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel")) { //probability travel through walls but not water
+  int tunneldist = 0;
+  while(m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&
+          !m.has_flag(swimmable, x + tunneldist*(x - u.posx), y + tunneldist*(x - u.posx)))
+  {
+      tunneldist += 1; //add 1 to tunnel distance for each impassable tile in the line
+      if(tunneldist * 10 > u.power_level) //oops, not enough energy! Tunneling costs 10 bionic power per impassable tile
+      {
+          tunneldist = 0; //we didn't tunnel anywhere
+          break;
+      }
+  }
+  if(tunneldist) //you tunneled
+  {
+    u.power_level -= (tunneldist * 10); //tunneling costs 10 bionic power per impassable tile
+    u.moves -= 100; //tunneling costs 100 moves
+    u.posx += (tunneldist + 1) * (x - u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
+    u.posy += (tunneldist + 1) * (y - u.posy); //ditto for y
+    add_msg("You quantum tunnel through the %d-tile wide barrier!", tunneldist);
+  }
+  else //or you couldn't tunnel due to lack of energy
+  {
+      add_msg("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!");
+      u.power_level -= 10; //failure is expensive!
+  }
+
  } else if (veh_closed_door) { // move_cost <= 0
   veh1->parts[dpart].open = 1;
   veh1->insides_dirty = true;
@@ -10347,20 +10670,19 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
    int turns = z[i].turns_to_reach(this, u.posx, u.posy);
    if (turns < 999)
     coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
-  } else if (z[i].spawnmapx != -1) {
-   // Static spawn, create a new spawn here.
-   z[i].spawnmapx = levx + z[i].posx / SEEX;
-   z[i].spawnmapy = levy + z[i].posy / SEEY;
-   tinymap tmp(&itypes, &mapitems, &traps);
-   tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, levz, false);
-   tmp.add_spawn(&(z[i]));
-   tmp.save(cur_om, turn, z[i].spawnmapx, z[i].spawnmapy, levz);
-  } else if ((stairs || shiftx != 0 || shifty != 0) && z[i].friendly < 0) {
-   // Friendly, make it into a static spawn.
-   tinymap tmp(&itypes, &mapitems, &traps);
-   tmp.load(this, levx, levy, levz, false);
-   tmp.add_spawn(&(z[i]));
-   tmp.save(cur_om, turn, levx, levy, levz);
+  } else if ( (z[i].spawnmapx != -1) || 
+      ((stairs || shiftx != 0 || shifty != 0) && z[i].friendly != 0 ) ) {
+    // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
+    real_coords rc(levx, levy, z[i].posx, z[i].posy); // this is madness
+    z[i].spawnmapx = rc.sub.x;
+    z[i].spawnmapy = rc.sub.y;
+    z[i].spawnposx = rc.sub_pos.x;
+    z[i].spawnposy = rc.sub_pos.y;
+
+    tinymap tmp(&itypes, &mapitems, &traps);
+    tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, levz, false);
+    tmp.add_spawn(&(z[i]));
+    tmp.save(cur_om, turn, z[i].spawnmapx, z[i].spawnmapy, levz);
   } else {
    	// No spawn site, so absorb them back into a group.
    int group = valid_group((mon_id)(z[i].type->id), levx + shiftx, levy + shifty, levz);
@@ -10740,12 +11062,27 @@ nc_color sev(int a)
 {
  switch (a) {
   case 0: return c_cyan;
-  case 1: return c_blue;
-  case 2: return c_green;
-  case 3: return c_yellow;
-  case 4: return c_ltred;
-  case 5: return c_red;
-  case 6: return c_magenta;
+  case 1: return c_ltcyan;
+  case 2: return c_ltblue;
+  case 3: return c_blue;
+  case 4: return c_ltgreen;
+  case 5: return c_green;
+  case 6: return c_yellow;
+  case 7: return c_pink;
+  case 8: return c_ltred;
+  case 9: return c_red;
+  case 10: return c_magenta;
+  case 11: return c_brown;
+  case 12: return c_cyan_red;
+  case 13: return c_ltcyan_red;
+  case 14: return c_ltblue_red;
+  case 15: return c_blue_red;
+  case 16: return c_ltgreen_red;
+  case 17: return c_green_red;
+  case 18: return c_yellow_red;
+  case 19: return c_pink_red;
+  case 20: return c_magenta_red;
+  case 21: return c_brown_red;
  }
  return c_dkgray;
 }
@@ -10757,7 +11094,7 @@ void game::display_scent()
  for (int x = u.posx - getmaxx(w_terrain)/2; x <= u.posx + getmaxx(w_terrain)/2; x++) {
   for (int y = u.posy - getmaxy(w_terrain)/2; y <= u.posy + getmaxy(w_terrain)/2; y++) {
    int sn = scent(x, y) / (div * 2);
-   mvwprintz(w_terrain, getmaxy(w_terrain)/2 + y - u.posy, getmaxx(w_terrain)/2 + x - u.posx, sev(sn), "%d",
+   mvwprintz(w_terrain, getmaxy(w_terrain)/2 + y - u.posy, getmaxx(w_terrain)/2 + x - u.posx, sev(sn/10), "%d",
              sn % 10);
   }
  }

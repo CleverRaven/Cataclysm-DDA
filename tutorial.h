@@ -76,7 +76,7 @@ single-use items, and still others are reusable.",
 "\
 The item you just picked up is a firearm!  Guns are very powerful weapons but\n\
 they require ammunition.  Firearms have many special attributes.  Most\n\
-modify the damage done by their ammunition.  They also have an accuracy, which\n\
+modify the damage done by their ammunition.  They also have dispersion, which\n\
 affects their chance to hit.  Some guns are semi-automatic, while others can\n\
 fire a burst. Some firearms (mainly bows and other muscle-powered weapons)\n\
 have a range, which is added on top of the ammo's range when firing.",
@@ -86,7 +86,7 @@ special attributes.  The damage value is the maximum done on a standard hit;\n\
 a critical hit or headshot will do much more damage.  Some monsters or NPCs\n\
 will wear armor which reduces the damage from gunfire; a high Armor-pierce\n\
 value will reduce this effect.  The Range is the maximum range the ammo can\n\
-achieve, and the accuracy affects its chance to hit.",
+achieve, and the dispersion affects its chance to hit.",
 "\
 You just put on an article of clothing that provides physical protection.\n\
 There are two types of damage that clothing defends against, bashing, and\n\

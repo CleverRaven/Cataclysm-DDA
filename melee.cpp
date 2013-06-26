@@ -176,6 +176,9 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
 // Handles effects as well; not done in melee_affect_*
  perform_technique(technique, g, z, NULL, bash_dam, cut_dam, stab_dam, pain);
+ if (weapon.has_technique(TEC_FLAMING, this)) { // bypass technique selection, it's on FIRE after all
+   z->add_effect(ME_ONFIRE, rng(3, 4));
+ }
  z->speed -= int(pain / 2);
 
 // Mutation-based attacks
@@ -300,6 +303,9 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
 // Handles effects as well; not done in melee_affect_*
  perform_technique(technique, g, NULL, &p, bash_dam, cut_dam, stab_dam, pain);
+ if (weapon.has_technique(TEC_FLAMING, this)) { // bypass technique selection, it's on FIRE after all
+   p.add_disease(DI_ONFIRE, rng(2, 3), g);
+ }
  p.pain += pain;
 
 // Mutation-based attacks
@@ -881,6 +887,8 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
       int dam = roll_bash_damage(&(g->z[mondex]), false) +
                 roll_cut_damage (&(g->z[mondex]), false);
       g->z[mondex].hurt(dam);
+      if (weapon.has_technique(TEC_FLAMING, this)) // Add to wide attacks
+       g->z[mondex].add_effect(ME_ONFIRE, rng(3, 4));
       if (u_see)
        g->add_msg("%s hit%s %s for %d damage!", You.c_str(), s.c_str(),
                                                 target.c_str(), dam);
@@ -892,6 +900,8 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
       int dam = roll_bash_damage(NULL, false);
       int cut = roll_cut_damage (NULL, false);
       g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
+      if (weapon.has_technique(TEC_FLAMING, this)) // Add to wide attacks
+       g->active_npc[npcdex]->add_disease(DI_ONFIRE, rng(2, 3), g);
       if (u_see)
        g->add_msg("%s hit%s %s for %d damage!", You.c_str(), s.c_str(),
                   g->active_npc[npcdex]->name.c_str(), dam + cut);

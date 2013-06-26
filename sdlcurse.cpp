@@ -23,7 +23,7 @@
 WINDOW *mainwin;
 static SDL_Color windowsPalette[256];
 static SDL_Surface *screen = NULL;
-static SDL_Surface *glyph_cache[128][16]; //cache ascii characters 
+static SDL_Surface *glyph_cache[128][16]; //cache ascii characters
 TTF_Font* font;
 static int ttf_height_hack = 0;
 int nativeWidth;
@@ -66,6 +66,10 @@ bool fexists(const char *filename)
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
+    if(OPTIONS[OPT_HIDE_CURSOR] > 0 && SDL_ShowCursor(-1))
+        SDL_ShowCursor(SDL_DISABLE);
+    else
+        SDL_ShowCursor(SDL_ENABLE);
 	const SDL_VideoInfo* video_info;
 	int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
 
@@ -74,7 +78,7 @@ bool WinCreate()
 		return false;
 	}
 
-	if(TTF_Init()<0) 
+	if(TTF_Init()<0)
 	{
 		return false;
 	}
@@ -143,7 +147,7 @@ static void cache_glyphs()
     int top=999, bottom=-999;
 
     start_color();
-    
+
     for(int ch=0; ch<128; ch++)
     {
         for(int color=0; color<16; color++)
@@ -159,7 +163,7 @@ static void cache_glyphs()
             }
         }
     }
-    
+
     int height = bottom - top;
     int delta = (fontheight-height)/2;
 
@@ -296,6 +300,7 @@ void CheckMessages()
 		{
 			case SDL_KEYDOWN:
 			{
+			    if(OPTIONS[OPT_HIDE_CURSOR] > 0 && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
 				Uint8 *keystate = SDL_GetKeyState(NULL);
 				// manually handle Alt+F4 for older SDL lib, no big deal
 				if(ev.key.keysym.sym==SDLK_F4 && (keystate[SDLK_RALT] || keystate[SDLK_LALT]) )
@@ -303,8 +308,8 @@ void CheckMessages()
 					quit = true;
 					break;
 				}
-				else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT || 
-					ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || 
+				else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT ||
+					ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL ||
 					ev.key.keysym.sym==SDLK_RALT || ev.key.keysym.sym==SDLK_LALT)
 				{
 					break; // temporary fix for unwanted keys
@@ -337,10 +342,14 @@ void CheckMessages()
 				}
 				else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
 					lastchar = KEY_NPAGE;
-				  
+
 				}
 			}
 			break;
+			case SDL_MOUSEMOTION:
+                if((OPTIONS[OPT_HIDE_CURSOR] == 0 || OPTIONS[OPT_HIDE_CURSOR] == 2) &&
+                    !SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_ENABLE);
+                break;
 			case SDL_QUIT:
                 quit = true;
 				break;
@@ -391,7 +400,7 @@ WINDOW *initscr(void)
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
-    
+
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str()))
         typeface = "data/font/" + typeface + ".ttf";
@@ -410,9 +419,9 @@ WINDOW *initscr(void)
 	//TTF_SetFontKerning(font, 0);
 	//TTF_SetFontHinting(font, TTF_HINTING_MONO);
 
-	// glyph height hack by utunnels 
+	// glyph height hack by utunnels
 	// SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
-	// this causes baseline problems for certain fonts 
+	// this causes baseline problems for certain fonts
 	// I can only guess by check a certain tall character...
     cache_glyphs();
 
@@ -505,7 +514,7 @@ inline void addedchar(WINDOW *win){
 //Borders the window with fancy lines!
 int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br)
 {
-/* 
+/*
 ncurses does not do this, and this prevents: wattron(win, c_customBordercolor); wborder(win, ...); wattroff(win, c_customBorderColor);
     wattron(win, c_white);
 */
