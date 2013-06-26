@@ -2162,6 +2162,10 @@ void player::disp_morale(game *g)
         name_column_width = 72;
     }
 
+    // Start printing the number right after the name column.
+    // We'll right-justify it later.
+    int number_pos = name_column_width + 1;
+
     // Header
     mvwprintz(w, 1,  1, c_white, "Morale Modifiers:");
     mvwprintz(w, 2,  1, c_ltgray, "Name");
@@ -2170,61 +2174,32 @@ void player::disp_morale(game *g)
     // Print out the morale entries.
     for (int i = 0; i < morale.size(); i++)
     {
-        int b = morale[i].bonus;
-
-        // Right-justify the number
-        int bpos = name_column_width+6;
-        if (abs(b) >= 10)
-        {
-            bpos--;
-        }
-        if (abs(b) >= 100)
-        {
-            bpos--;
-        }
-        if (b < 0)
-        {
-            bpos--;
-        }
+        std::string name = morale[i].name(morale_data);
+        int bonus = morale[i].bonus;
 
         // Trim the name if need be.
-        std::string name = morale[i].name(morale_data);
         if (name.length() > name_column_width)
         {
             name = name.erase(name_column_width-3, std::string::npos) + "...";
         }
 
         // Print out the name.
-        mvwprintz(w, i + 3,  1, (b < 0 ? c_red : c_green), name.c_str());
+        mvwprintz(w, i + 3,  1, (bonus < 0 ? c_red : c_green), name.c_str());
 
-        // Print out the number.
-        mvwprintz(w, i + 3, bpos, (b < 0 ? c_red : c_green), "%d", b);
+        // Print out the number, right-justified.
+        mvwprintz(w, i + 3, number_pos, (bonus < 0 ? c_red : c_green),
+                  "% 6d", bonus);
     }
 
-    // Right-justify the total morale.
+    // Print out the total morale, right-justified.
     int mor = morale_level();
-    int bpos = name_column_width+6;
-    if (abs(mor) >= 10)
-    {
-        bpos--;
-    }
-    if (abs(mor) >= 100)
-    {
-        bpos--;
-    }
-    if (mor < 0)
-    {
-        bpos--;
-    }
-
-    // Print out the total morale.
     mvwprintz(w, 20, 1, (mor < 0 ? c_red : c_green), "Total:");
-    mvwprintz(w, 20, bpos, (mor < 0 ? c_red : c_green), "%d", mor);
+    mvwprintz(w, 20, number_pos, (mor < 0 ? c_red : c_green), "% 6d", mor);
 
-    // Print out the focus gain rate.
+    // Print out the focus gain rate, right-justified.
     int gain = calc_focus_equilibrium() - focus_pool;
     mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), "Focus gain:");
-    mvwprintz(w, 22, bpos, (gain < 0 ? c_red : c_green), "%d.%.2d per minute", gain / 100, gain % 100);
+    mvwprintz(w, 22, number_pos-3, (gain < 0 ? c_red : c_green), "% 6d.%02d per minute", gain / 100, gain % 100);
 
     // Make sure the changes are shown.
     wrefresh(w);
