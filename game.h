@@ -139,6 +139,7 @@ class game
   void explosion(int x, int y, int power, int shrapnel, bool fire);
 // Flashback at (x, y)
   void flashbang(int x, int y);
+  void flashbang(int x, int y, bool player_immune);
 // Move the player vertically, if (force) then they fell
   void vertical_move(int z, bool force);
   void use_computer(int x, int y);

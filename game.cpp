@@ -4608,6 +4608,30 @@ void game::flashbang(int x, int y)
 // TODO: Blind/deafen NPC
 }
 
+void game::flashbang(int x, int y, bool player_immune)
+{
+ int dist = rl_dist(u.posx, u.posy, x, y), t;
+ if (dist <= 8 && !player_immune) {
+  if (!u.has_bionic("bio_ears"))
+   u.add_disease(DI_DEAF, 40 - dist * 4, this);
+  if (m.sees(u.posx, u.posy, x, y, 8, t))
+   u.infect(DI_BLIND, bp_eyes, (12 - dist) / 2, 10 - dist, this);
+ }
+ for (int i = 0; i < z.size(); i++) {
+  dist = rl_dist(z[i].posx, z[i].posy, x, y);
+  if (dist <= 4)
+   z[i].add_effect(ME_STUNNED, 10 - dist);
+  if (dist <= 8) {
+   if (z[i].has_flag(MF_SEES) && m.sees(z[i].posx, z[i].posy, x, y, 8, t))
+    z[i].add_effect(ME_BLIND, 18 - dist);
+   if (z[i].has_flag(MF_HEARS))
+    z[i].add_effect(ME_DEAF, 60 - dist * 4);
+  }
+ }
+ sound(x, y, 12, "a huge boom!");
+// TODO: Blind/deafen NPC
+}
+
 void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player)
 {
   //borrowed code from game::explosion()
