@@ -8943,7 +8943,9 @@ void game::plthrow(char chInput)
   return;
  if (passtarget != -1)
   last_target = targetindices[passtarget];
-
+ if (u.weapon.invlet==ch) {
+  u.weapon = u.get_combat_style(this);
+ }
  u.i_rem(ch);
  u.moves -= 125;
  u.practice(turn, "throw", 10);
