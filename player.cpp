@@ -326,6 +326,7 @@ if (has_bionic("bio_metabolics") && power_level < max_power_level &&
 
 void player::update_morale()
 {
+    // Decay existing morale entries.
     for (int i = 0; i < morale.size(); i++)
     {
         if (morale[i].bonus < 0)
@@ -342,6 +343,55 @@ void player::update_morale()
             morale.erase(morale.begin() + i);
             i--;
         }
+    }
+
+    // We reapply persistent morale effects after every decay step, to keep them fresh.
+
+    // Hoarders get a morale penalty if they're not carrying a full inventory.
+    if (has_trait(PF_HOARDER))
+    {
+        int pen = int((volume_capacity()-volume_carried()) / 2);
+        if (pen > 70)
+        {
+            pen = 70;
+        }
+        if (pen <= 0)
+        {
+            pen = 0;
+        }
+        if (has_disease(DI_TOOK_XANAX))
+        {
+            pen = int(pen / 7);
+        }
+        else if (has_disease(DI_TOOK_PROZAC))
+        {
+            pen = int(pen / 2);
+        }
+        add_morale(MORALE_PERM_HOARDER, -pen, -pen);
+    }
+
+    // Masochists get a morale bonus from pain.
+    if (has_trait(PF_MASOCHIST))
+    {
+        int bonus = pain / 2.5;
+        if (bonus > 25)
+        {
+            bonus = 25;
+        }
+        if (has_disease(DI_TOOK_PROZAC))
+        {
+            bonus = int(bonus / 3);
+        }
+        if (bonus != 0)
+        {
+            add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
+        }
+    }
+
+    // Optimist gives a straight +20 to morale.
+    if (has_trait(PF_OPTIMISTIC))
+    {
+        add_morale(MORALE_PERM_OPTIMIST, 20, 20);
     }
 }
 
@@ -3869,50 +3919,6 @@ bool player::can_pickWeight(int weight)
 
 int player::morale_level()
 {
-    if (has_trait(PF_HOARDER))
-    {
-        int pen = int((volume_capacity()-volume_carried()) / 2);
-        if (pen > 70)
-        {
-            pen = 70;
-        }
-        if (pen <= 0)
-        {
-            pen = 0;
-        }
-        if (has_disease(DI_TOOK_XANAX))
-        {
-            pen = int(pen / 7);
-        }
-        else if (has_disease(DI_TOOK_PROZAC))
-        {
-            pen = int(pen / 2);
-        }
-        add_morale(MORALE_PERM_HOARDER, -pen, -pen);
-    }
-
-    if (has_trait(PF_MASOCHIST))
-    {
-        int bonus = pain / 2.5;
-        if (bonus > 25)
-        {
-            bonus = 25;
-        }
-        if (has_disease(DI_TOOK_PROZAC))
-        {
-            bonus = int(bonus / 3);
-        }
-        if (bonus != 0)
-        {
-            add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
-        }
-    }
-// Optimist gives a straight +20 to morale.
-    if (has_trait(PF_OPTIMISTIC))
-    {
-        add_morale(MORALE_PERM_OPTIMIST, 20, 20);
-    }
-
     int ret = 0;
     for (int i = 0; i < morale.size(); i++)
     {
