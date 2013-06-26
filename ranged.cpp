@@ -500,14 +500,15 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
     }
 
     std::string message;
-    int dam = (thrown.weight() / 4 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
+    int real_dam = (thrown.weight() / 4 + thrown.type->melee_dam / 2 + p.str_cur / 2) /
                double(2 + double(thrown.volume() / 4));
-    if (dam > thrown.weight() * 3)
-        dam = thrown.weight() * 3;
+    if (real_dam > thrown.weight() * 3)
+        real_dam = thrown.weight() * 3;
     if (p.has_active_bionic("bio_railgun") && (thrown.made_of("iron") || thrown.made_of("steel")))
     {
-        dam *= 2;
+        real_dam *= 2;
     }
+    int dam = real_dam;
 
     int i = 0, tx = 0, ty = 0;
     for (i = 0; i < trajectory.size() && dam >= 0; i++)
@@ -575,7 +576,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
             else if (u_see(tx, ty))
                 add_msg("%s hits the %s for %d damage.", message.c_str(),
                         z[mon_at(tx, ty)].name().c_str(), dam);
-            if (z[mon_at(tx, ty)].hurt(dam))
+            if (z[mon_at(tx, ty)].hurt(dam, real_dam))
                 kill_mon(mon_at(tx, ty), !p.is_npc());
             return;
         }
@@ -1018,6 +1019,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
  std::string message;
  bool u_see_mon = g->u_see(&(mon));
+ int adjusted_damage = dam;
  if (mon.has_flag(MF_HARDTOSHOOT) && !one_in(4) &&
      weapon->curammo->phase != LIQUID &&
      weapon->curammo->dispersion >= 4) { // Buckshot hits anyway
@@ -1034,44 +1036,44 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
   else if (weapon->curammo->dispersion < 4) // Shot doesn't penetrate armor well
    zarm *= rng(2, 4);
   if (zarm > 0)
-   dam -= zarm;
-  if (dam <= 0) {
+   adjusted_damage -= zarm;
+  if (adjusted_damage <= 0) {
    if (u_see_mon)
     g->add_msg("The shot reflects off the %s!",
             mon.name_with_armor().c_str());
-   dam = 0;
+   adjusted_damage = 0;
    goodhit = 1;
   }
   if (goodhit < .1 && !mon.has_flag(MF_NOHEAD)) {
    message = "Headshot!";
-   dam = rng(5 * dam, 8 * dam);
+   adjusted_damage = rng(5 * adjusted_damage, 8 * adjusted_damage);
    p.practice(g->turn, firing->skill_used, 5);
   } else if (goodhit < .2) {
    message = "Critical!";
-   dam = rng(dam * 2, dam * 3);
+   adjusted_damage = rng(adjusted_damage * 2, adjusted_damage * 3);
    p.practice(g->turn, firing->skill_used, 2);
   } else if (goodhit < .4) {
-   dam = rng(int(dam * .9), int(dam * 1.5));
+   adjusted_damage = rng(int(adjusted_damage * .9), int(adjusted_damage * 1.5));
    p.practice(g->turn, firing->skill_used, rng(0, 2));
   } else if (goodhit <= .7) {
    message = "Grazing hit.";
-   dam = rng(0, dam);
+   adjusted_damage = rng(0, adjusted_damage);
   } else
-   dam = 0;
+   adjusted_damage = 0;
 
   if(item(weapon->curammo, 0).has_flag("NOGIB"))
   {
-      dam = std::min(dam, mon.hp+10);
+      adjusted_damage = std::min(adjusted_damage, mon.hp+10);
   }
 
 // Find the zombie at (x, y) and hurt them, MAYBE kill them!
-  if (dam > 0) {
-   mon.moves -= dam * 5;
+  if (adjusted_damage > 0) {
+   mon.moves -= adjusted_damage * 5;
    if (&p == &(g->u) && u_see_mon)
-    g->add_msg("%s You hit the %s for %d damage.", message.c_str(), mon.name().c_str(), dam);
+    g->add_msg("%s You hit the %s for %d damage.", message.c_str(), mon.name().c_str(), adjusted_damage);
    else if (u_see_mon)
     g->add_msg("%s %s shoots the %s.", message.c_str(), p.name.c_str(), mon.name().c_str());
-   bool bMonDead = mon.hurt(dam);
+   bool bMonDead = mon.hurt(adjusted_damage, dam);
    if( u_see_mon ) {
        hit_animation(mon.posx - g->u.posx + VIEWX - g->u.view_offset_x,
                      mon.posy - g->u.posy + VIEWY - g->u.view_offset_y,
@@ -1083,9 +1085,10 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
    else if (weapon->curammo->ammo_effects != 0)
     g->hit_monster_with_flags(mon, weapon->curammo->ammo_effects);
 
-   dam = 0;
+   adjusted_damage = 0;
   }
  }
+ dam = adjusted_damage;
 }
 
 void shoot_player(game *g, player &p, player *h, int &dam, double goodhit)
