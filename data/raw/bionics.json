@@ -18,8 +18,8 @@
     "id"         :    "bio_metabolics",
     "name"       :    "Metabolic Interchange",
     "cost"       :    0,
-    "time"       :    0,
-    "flags"      :    ["POWER"],
+    "time"       :    100,
+    "flags"      :    ["POWER", "ACTIVE"],
     "description":    "Your digestive system and power supply are interconnected.  Any drain on\nenergy instead increases your hunger."
 },
 {
