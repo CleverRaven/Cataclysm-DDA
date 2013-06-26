@@ -252,7 +252,7 @@
             "result": "sling",
          "category": "CC_WEAPON",
             "difficulty": 0,
-            "time": 10000,
+            "time": 1000,
             "reversible": false,
             "autolearn": true,
             "tools": [
@@ -283,7 +283,7 @@
             "result": "slingshot",
          "category": "CC_WEAPON",
             "difficulty": 0,
-            "time": 15000,
+            "time": 3000,
             "reversible": false,
             "autolearn": true,
             "tools": [
@@ -438,13 +438,8 @@
             "category": "CC_WEAPON",
             "skill_pri": "archery",
             "skill_sec": "survival",
-<<<<<<< HEAD
-            "difficulty": 2,
-            "time": 120000,
-=======
             "difficulty": 3,
             "time": 15000,
->>>>>>> c5816a06c24e67e7da381041ad90c482ef2c237c
             "reversible": true,
             "autolearn": true,
             "tools": [
@@ -458,10 +453,7 @@
                              ["machete", -1],
                              ["broadsword", -1],
                              ["toolset", -1]
-                         ],
-						 [
-							 ["hacksaw", -1]
-						 ]
+                         ]
                      ],
             "components": [
                               [
@@ -1094,42 +1086,6 @@
                           ]
         },
 
-		        {
-            "result": "funnel",
-            "category": "CC_NONCRAFT",
-            "skill_pri": "mechanics",
-            "skill_sec": "surivial",
-            "difficulty": 2,
-            "time": 20000,
-            "reversible": true,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["hacksaw", -1],
-                             ["toolset", -1]
-                         ],
-                         [
-                             ["screwdriver", -1],
-                             ["toolset", -1]
-                         ],
-                         [
-                             ["hammer", -1],
-                             ["rock", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["pipe", 1]
-                              ],
-                              [
-                                  ["2x4", 2]
-                              ]
-
-                          ]
-        },
-
 
         {
             "result": "flamethrower_simple",
@@ -1509,7 +1465,7 @@
             "result": "pebble",
             "category": "CC_AMMO",
             "difficulty": 0,
-            "time": 5000,
+            "time": 1000,
             "reversible": false,
             "autolearn": true,
          "tools": [
@@ -1615,7 +1571,7 @@
          "components" : [
             [
                ["scrap", 6],
-               ["steel_lump", 2]
+               ["steel_chunk", 2]
             ]
          ]
         },
@@ -1775,75 +1731,6 @@
          ]
         },
         {
-<<<<<<< HEAD
-            "result": "shaft_wood",
-            "category": "CC_AMMO",
-            "skill_pri": "archery",
-            "skill_sec": "survival",
-            "difficulty": 1,
-            "time": 30000,
-            "reversible": false,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["hatchet", -1],
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1]
-                         ],
-						 [
-							 ["hacksaw", -1]
-						 ]
-                     ],
-            "components": [
-                              [
-                                  ["stick", 1],
-                                  ["broom", 1],
-                                  ["mop", 1],
-                                  ["2x4", 1],
-                                  ["bee_sting", 1]
-                              ]
-                          ]
-        },
-
-		{
-            "result": "arrow_cf",
-            "category": "CC_AMMO",
-            "skill_pri": "archery",
-            "skill_sec": "mechanics",
-            "difficulty": 2,
-            "time": 30000,
-            "reversible": false,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["hammer", -1],
-                             ["rock", -1],
-                             ["toolset", -1]
-						 ],
-
-						 [
-							 ["fire", 1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["steel_lump", 1]
-							  ],
-
-							  [
-                                  ["blade", 1]
-                              ]
-                          ]
-        },
-
-
-=======
          "result" : "arrow_fire_hardened_fletched",
          "category" : "CC_AMMO",
          "skill_pri" : "archery",
@@ -1952,7 +1839,6 @@
          ]
         },
         
->>>>>>> c5816a06c24e67e7da381041ad90c482ef2c237c
         {
          "result" : "arrow_wood",
          "category" : "CC_AMMO",
@@ -2084,7 +1970,7 @@
          "category" : "CC_AMMO",
          "skill_pri" : "archery",
          "skill_sec" : "mechanics",
-         "difficulty" : 5,
+         "difficulty" : 6,
          "time" : 3000,
          "reversible" : false,
          "autolearn" : true,
@@ -2256,11 +2142,7 @@
                              ["machete", -1],
                              ["broadsword", -1],
                              ["toolset", -1]
-                         ],
-
-						 [
-							 ["hacksaw", -1]
-						 ]
+                         ]
                      ],
             "components": [
                               [
@@ -5610,8 +5492,47 @@
                                   ["cable", 10]
                               ]
                           ]
+
         },
 
+        {
+           "result" : "adv_UPS_off",
+           "category" : "CC_ELECTRONIC",
+           "skill_pri" : "electronics",
+           "skill_sec" : "mechanics",
+           "difficulty" : 9,
+           "time" : 85000,
+           "reversible" : true,
+           "decomp_learn" : 4,
+           "autolearn" : true,
+           "tools" : [
+              [
+                 ["screwdriver", -1],
+                 ["toolset", -1]
+              ],
+              [
+                 ["soldering_iron", 24],
+                 ["toolset", 2]
+              ]
+           ],
+           "components" : [
+              [
+                 ["power_supply", 6]
+              ],
+              [
+                 ["amplifier", 5]
+              ],
+              [
+                 ["scrap", 4]
+              ],
+              [
+                 ["cable", 14]
+              ],
+              [
+                 ["plut_cell", 2]
+              ]
+           ]
+        },
 
         {
             "result": "bio_power_storage",
@@ -5671,7 +5592,8 @@
             "components": [
                               [
                                   ["power_supply", 10],
-                                  ["UPS_off", 2]
+                                  ["UPS_off", 2],
+                                  ["adv_UPS_off", 1]
                               ],
                               [
                                   ["amplifier", 6]
@@ -7500,29 +7422,6 @@
                               ],
                               [
                                   ["fur", 10]
-                              ]
-                          ]
-        },
-
-		 {
-            "result": "rollmat",
-            "category": "tool",
-            "skill_pri": "tailor",
-            "skill_sec": "survival",
-            "difficulty": 1,
-            "time": 75000,
-            "reversible": true,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["needle_bone", 30],
-                             ["sewing_kit", 30]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["rag", 10],
-                                  ["fur", 5]
                               ]
                           ]
         },
