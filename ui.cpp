@@ -234,8 +234,10 @@ void uimenu::show() {
         }
 
         vmax = entries.size();
-        if ( w_height > TERMY) {
+        if ( w_height > TERMY ) {
             w_height = TERMY;
+        }
+        if ( vmax + 2 + textformatted.size() > w_height ) {
             vmax = w_height - 2 - textformatted.size();
             if ( vmax < 1 ) {
                 popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
