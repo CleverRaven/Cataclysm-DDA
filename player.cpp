@@ -4221,14 +4221,21 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
 {
     bool placed = false;
 
+    // Search for a matching morale entry.
     for (int i = 0; i < morale.size() && !placed; i++)
     {
         if (morale[i].type == type && morale[i].item_type == item_type)
         {
+            // Found a match!
             placed = true;
+
+            // Is the current morale level for this entry below its cap, if any?
             if (abs(morale[i].bonus) < abs(max_bonus) || max_bonus == 0)
             {
+                // Add the requested morale boost.
                 morale[i].bonus += bonus;
+
+                // If we passed the cap, pull back to it.
                 if (abs(morale[i].bonus) > abs(max_bonus) && max_bonus != 0)
                 {
                     morale[i].bonus = max_bonus;
@@ -4237,7 +4244,8 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
         }
     }
 
-    if (!placed)   // Didn't increase an existing point, so add a new one
+    // No matching entry, so add a new one
+    if (!placed)
     {
         morale_point tmp(type, item_type, bonus);
         morale.push_back(tmp);
