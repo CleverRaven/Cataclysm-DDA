@@ -9,6 +9,33 @@
  },
 
  {
+  "ident": "soldier",
+  "name": "National Guard Grunt",
+  "description":
+"Deployed to aid in city evacuations you gave up your seat on the chopper to a\nkid who needed it more. Starts with a full set of military gear.",
+  "points": 12,
+  "items": ["helmet_army", "pants_army", "boots_steel", "polo_shirt", "kevlar", "rucksack", "gloves_fingerless", "m1911", "m4a1", "223", "45_acp","knife_combat"]
+ },
+
+ {
+  "ident": "scientist",
+  "name": "Abandoned Scientist",
+  "description":
+"The last remaining survivor of a secret military research facility.\nStarts with science ID, lab manuals, a water purifier, and safety gear.",
+  "points": 4,
+  "items": ["coat_lab", "glasses_safety", "dress_shoes", "pants", "gloves_rubber", "water_purifier", "water_clean", "textbook_computers", "id_science"]
+ },
+
+ {
+  "ident": "gangmember",
+  "name": "Gang Member",
+  "description":
+"Your flexible outlook on law has ensured your survival, but now what?\nYou start with cargo pants, a hoodie, and the standard Gang Banger arsonal.",
+  "points": 8,
+  "items": ["tank_top", "hoodie", "pants_cargo", "sneakers", "weed", "picklocks", "vodka", "whiskey", "nailbat", "uzi", "9mm"]
+ },
+
+ {
   "ident": "tailor",
   "name": "Tailor",
   "description":
@@ -18,36 +45,12 @@
  },
 
  {
-  "ident": "labtech",
-  "name": "Lab Technician",
-  "description":
-"It was your first day in the lab when the cataclysm hit. You were evacuated\nwith all the civilians, but at least you kept your lab gear.",
-  "points": 1,
-  "items": ["dress_shirt", "pants", "boots", "coat_lab", "gloves_rubber", "glasses_safety"]
- },
-
- {
   "ident": "mechanic",
   "name": "Wannabe Mechanic",
   "description":
 "Although you never got your driver's license, you've always loved cars.\nYou start with a wrench, a toolbelt, and some car-related reading material.",
   "points": 2,
-  "items": ["tank_top", "jeans", "boots", "beltrig", "wrench", "mag_cars", "manual_mechanics"]
- },
-
- {
-  "ident": "scoundrel",
-  "name": "Scoundrel",
-  "description":
-"Your flexible outlook on law has ensured your survival, but now what?\nYou start with cargo pants, a hoodie, \"sundries\", and one additional level of melee.",
-  "points": 2,
-  "items": ["tank_top", "hoodie", "pants_cargo", "sneakers", "weed", "picklocks"],
-  "skills" : [
-     {
-      "name" : "melee",
-      "level" : 1
-     }
-  ]
+  "items": ["tank_top", "jeans", "boots", "beltrig", "wrench", "mag_cars", "manual_mechanics", "hacksaw"]
  },
 
  {
