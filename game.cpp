@@ -4586,8 +4586,13 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
 
 void game::flashbang(int x, int y)
 {
+ flashbang(x, y, false);
+}
+
+void game::flashbang(int x, int y, bool player_immune)
+{
  int dist = rl_dist(u.posx, u.posy, x, y), t;
- if (dist <= 8) {
+ if (dist <= 8 && !player_immune) {
   if (!u.has_bionic("bio_ears"))
    u.add_disease(DI_DEAF, 40 - dist * 4, this);
   if (m.sees(u.posx, u.posy, x, y, 8, t))
