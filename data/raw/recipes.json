@@ -1970,7 +1970,7 @@
          "category" : "CC_AMMO",
          "skill_pri" : "archery",
          "skill_sec" : "mechanics",
-         "difficulty" : 5,
+         "difficulty" : 6,
          "time" : 3000,
          "reversible" : false,
          "autolearn" : true,
