@@ -240,6 +240,7 @@ public:
  int volume_capacity();
  bool can_pickVolume(int volume);
  bool can_pickWeight(int weight);
+ int net_morale(morale_point effect);
  int morale_level();	// Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
                  itype* item_type = NULL);

@@ -388,10 +388,11 @@ void player::update_morale()
         }
     }
 
-    // Optimist gives a straight +20 to morale.
+    // Optimist gives a base +4 to morale.
+    // The +25% boost from optimist also applies here, for a net of +5.
     if (has_trait(PF_OPTIMISTIC))
     {
-        add_morale(MORALE_PERM_OPTIMIST, 20, 20);
+        add_morale(MORALE_PERM_OPTIMIST, 4, 4);
     }
 }
 
@@ -2231,7 +2232,7 @@ void player::disp_morale(game *g)
     for (int i = 0; i < morale.size(); i++)
     {
         std::string name = morale[i].name(morale_data);
-        int bonus = morale[i].bonus;
+        int bonus = net_morale(morale[i]);
 
         // Trim the name if need be.
         if (name.length() > name_column_width)
@@ -3917,13 +3918,34 @@ bool player::can_pickWeight(int weight)
     return (weight_carried() + weight <= weight_capacity());
 }
 
+int player::net_morale(morale_point effect)
+{
+    int bonus = effect.bonus;
+
+    // Optimistic characters focus on the good things in life,
+    // and downplay the bad things.
+    if (has_trait(PF_OPTIMISTIC))
+    {
+        if (bonus >= 0)
+        {
+            bonus *= 1.25;
+        }
+        else
+        {
+            bonus *= 0.75;
+        }
+    }
+
+    return bonus;
+}
+
 int player::morale_level()
 {
     // Add up all of the morale bonuses (and penalties).
     int ret = 0;
     for (int i = 0; i < morale.size(); i++)
     {
-        ret += morale[i].bonus;
+        ret += net_morale(morale[i]);
     }
 
     // Prozac reduces negative morale by 75%.
