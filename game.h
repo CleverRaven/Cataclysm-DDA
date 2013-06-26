@@ -168,7 +168,7 @@ class game
                   std::vector<point> &trajectory);
   void cancel_activity();
   void cancel_activity_query(const char* message, ...);
-  bool cancel_activity_or_ignore_query(const char* reason, ...); 
+  bool cancel_activity_or_ignore_query(const char* reason, ...);
   void moving_vehicle_dismount(int tox, int toy);
   // Get input from the player to choose an adjacent tile (for examine() etc)
   bool choose_adjacent(std::string verb, int &x, int&y);
@@ -314,8 +314,8 @@ class game
 
  void load_artifacts(); // Load artifact data
                         // Needs to be called by main() before MAPBUFFER.load
- 
- // Knockback functions: knock target at (tx,ty) along a line, either calculated 
+
+ // Knockback functions: knock target at (tx,ty) along a line, either calculated
  // from source position (sx,sy) using force parameter or passed as an argument;
  // force determines how far target is knocked, if trajectory is calculated
  // force also determines damage along with dam_mult;
@@ -323,7 +323,7 @@ class game
  // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
  void knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult);
  void knockback(std::vector<point>& traj, int force, int stun, int dam_mult);
- 
+
  // shockwave applies knockback to all targets within radius of (x,y)
  // parameters force, stun, and dam_mult are passed to knockback()
  // ignore_player determines if player is affected, useful for bionic, etc.
@@ -471,7 +471,7 @@ class game
   bool handle_action();
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died
-  void place_corpse();     // Place player corpse 
+  void place_corpse();     // Place player corpse
   void death_screen();     // Display our stats, "GAME OVER BOO HOO"
   void gameover();         // Ends the game
   void write_msg();        // Prints the messages in the messages list

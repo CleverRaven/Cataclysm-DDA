@@ -707,10 +707,20 @@ void game::process_activity()
         }
     }
 
+    if (u.focus_pool<20)
+        {
+            add_msg("You too mentally exhausted to read");
+            break;
+        }
+
     if (u.skillLevel(reading->type) < (int)reading->level) {
      int originalSkillLevel = u.skillLevel(reading->type);
      int min_ex = reading->time / 10 + u.int_cur / 4,
          max_ex = reading->time /  5 + u.int_cur / 2 - originalSkillLevel;
+
+     min_ex=ceil(min_ex * ((double)u.focus_pool / (double)100) );
+     max_ex=ceil(max_ex * ((double)u.focus_pool / (double)100) );
+
      if (min_ex < 1)
      {
          min_ex = 1;
@@ -4636,7 +4646,7 @@ void game::shockwave(int x, int y, int radius, int force, int stun, int dam_mult
   nanosleep(&ts, NULL);
  }
  // end borrowed code from game::explosion()
- 
+
     sound(x, y, force*force*dam_mult/2, "Crack!");
     for (int i = 0; i < z.size(); i++)
     {
@@ -4674,7 +4684,7 @@ void game::knockback(int sx, int sy, int tx, int ty, int force, int stun, int da
     traj.insert(traj.begin(), point(sx, sy)); // how annoying, line_to() doesn't include the originating point!
     traj = continue_line(traj, force);
     traj.insert(traj.begin(), point(tx, ty)); // how annoying, continue_line() doesn't either!
-    
+
     knockback(traj, force, stun, dam_mult);
     return;
 }
@@ -10670,7 +10680,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
    int turns = z[i].turns_to_reach(this, u.posx, u.posy);
    if (turns < 999)
     coming_to_stairs.push_back( monster_and_count(z[i], 1 + turns) );
-  } else if ( (z[i].spawnmapx != -1) || 
+  } else if ( (z[i].spawnmapx != -1) ||
       ((stairs || shiftx != 0 || shifty != 0) && z[i].friendly != 0 ) ) {
     // translate shifty relative coordinates to submapx, submapy, subtilex, subtiley
     real_coords rc(levx, levy, z[i].posx, z[i].posy); // this is madness

@@ -76,7 +76,7 @@ public:
  bool has_base_trait(int flag) const;
  void toggle_trait(int flag);
  void toggle_mutation(int flag);
- 
+
  bool in_climate_control(game *g);
 
  bool has_bionic(bionic_id b) const;
@@ -345,6 +345,7 @@ public:
  std::vector<morale_point> morale;
 
  int focus_pool;
+ int focus_pool_frac; //fractional part +-100 gain +-1 to focus pool
 
  SkillLevel& skillLevel(Skill* _skill);
  SkillLevel& skillLevel(std::string ident);
