@@ -3863,13 +3863,6 @@ bool player::can_pickWeight(int weight)
 
 int player::morale_level()
 {
-    std::stringstream morale_text;
-    int ret = 0;
-    for (int i = 0; i < morale.size(); i++)
-    {
-        ret += morale[i].bonus;
-    }
-
     if (has_trait(PF_HOARDER))
     {
         int pen = int((volume_capacity()-volume_carried()) / 2);
@@ -3912,6 +3905,12 @@ int player::morale_level()
     if (has_trait(PF_OPTIMISTIC))
     {
         add_morale(MORALE_PERM_OPTIMIST, 20, 20);
+    }
+
+    int ret = 0;
+    for (int i = 0; i < morale.size(); i++)
+    {
+        ret += morale[i].bonus;
     }
 
     if (has_disease(DI_TOOK_PROZAC) && ret < 0)
