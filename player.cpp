@@ -2648,6 +2648,8 @@ int player::sight_range(int light_level)
   ret = 1;
  if (has_disease(DI_BLIND))
   ret = 0;
+ if (is_wearing ("blindfold"))
+  ret = 0;
  if (ret > 4 && has_trait(PF_MYOPIC) && !is_wearing("glasses_eye") &&
      !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal"))
   ret = 4;
@@ -2660,6 +2662,8 @@ int player::unimpaired_range()
  if (has_disease(DI_IN_PIT))
   ret = 1;
  if (has_disease(DI_BLIND))
+  ret = 0;
+ if (is_wearing ("blindfold"))
   ret = 0;
  return ret;
 }
