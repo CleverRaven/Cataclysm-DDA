@@ -387,7 +387,7 @@ void player::apply_persistent_morale()
         {
             pen = int(pen / 2);
         }
-        add_morale(MORALE_PERM_HOARDER, -pen, -pen);
+        add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
     }
 
     // Masochists get a morale bonus from pain.
@@ -404,7 +404,7 @@ void player::apply_persistent_morale()
         }
         if (bonus != 0)
         {
-            add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
+            add_morale(MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true);
         }
     }
 
@@ -412,7 +412,7 @@ void player::apply_persistent_morale()
     // The +25% boost from optimist also applies here, for a net of +5.
     if (has_trait(PF_OPTIMISTIC))
     {
-        add_morale(MORALE_PERM_OPTIMIST, 4, 4);
+        add_morale(MORALE_PERM_OPTIMIST, 4, 4, 5, 5, true);
     }
 }
 
@@ -900,11 +900,11 @@ void player::update_bodytemp(game *g)
     // Morale penalties, updated at the same rate morale is
     if (morale_pen < 0 && int(g->turn) % 10 == 0)
     {
-        add_morale(MORALE_COLD, -2, -abs(morale_pen));
+        add_morale(MORALE_COLD, -2, -abs(morale_pen), 10, 5, true);
     }
     if (morale_pen > 0 && int(g->turn) % 10 == 0)
     {
-        add_morale(MORALE_HOT,  -2, -abs(morale_pen));
+        add_morale(MORALE_HOT,  -2, -abs(morale_pen), 10, 5, true);
     }
 }
 
@@ -5313,14 +5313,14 @@ bool player::eat(game *g, signed char ch)
               add_morale(MORALE_CANNIBAL, 15, 100);
           } else {
               g->add_msg_if_player(this, "You feel horrible for eating a person..");
-              add_morale(MORALE_CANNIBAL, -60, -400);
+              add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
           }
         }
         if (has_trait(PF_VEGETARIAN) && (eaten->made_of("flesh") || eaten->made_of("hflesh")))
         {
             if (!is_npc())
                 g->add_msg("Almost instantly you feel a familiar pain in your stomach");
-            add_morale(MORALE_VEGETARIAN, -75, -400);
+            add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
         }
         if ((has_trait(PF_HERBIVORE) || has_trait(PF_RUMINANT)) &&
                 eaten->made_of("flesh"))
@@ -5337,9 +5337,9 @@ bool player::eat(game *g, signed char ch)
         if (has_trait(PF_GOURMAND))
         {
             if (comest->fun < -2)
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, comest);
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
             else if (comest->fun > 0)
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, comest);
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, comest);
             if (!is_npc() && (hunger < -60 || thirst < -60))
                 g->add_msg("You can't finish it all!");
             if (hunger < -60)
@@ -5350,9 +5350,9 @@ bool player::eat(game *g, signed char ch)
         else
         {
             if (comest->fun < 0)
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, comest);
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, comest);
             else if (comest->fun > 0)
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, comest);
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
             if (!is_npc() && (hunger < -20 || thirst < -20))
                 g->add_msg("You can't finish it all!");
             if (hunger < -20)

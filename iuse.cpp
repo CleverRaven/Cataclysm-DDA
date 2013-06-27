@@ -4543,7 +4543,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   case AEA_SCREAM:
    g->add_msg_if_player(p,"Your %s screams disturbingly.", it->tname().c_str());
    g->sound(p->posx, p->posy, 40, "");
-   p->add_morale(MORALE_SCREAM, -10);
+   p->add_morale(MORALE_SCREAM, -10, 0, 300, 5);
    break;
 
   case AEA_DIM:

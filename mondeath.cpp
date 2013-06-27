@@ -279,11 +279,11 @@ void mdeath::guilt(game *g, monster *z)
  g->add_msg("You feel terrible for killing %s!", z->name().c_str());
  if(z->type->id == mon_hallu_mom)
  {
- g->u.add_morale(MORALE_KILLED_MONSTER, -50, -250);
+ g->u.add_morale(MORALE_KILLED_MONSTER, -50, -250, 300, 30);
  }
  else if(z->type->id == mon_zombie_child)
  {
- g->u.add_morale(MORALE_KILLED_MONSTER, -5, -250);
+ g->u.add_morale(MORALE_KILLED_MONSTER, -5, -250, 300, 30);
  }
  else
  {

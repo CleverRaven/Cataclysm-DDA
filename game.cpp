@@ -684,7 +684,7 @@ void game::process_activity()
 
     if (reading->fun != 0) {
      std::stringstream morale_text;
-     u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, reading);
+     u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, 60, 30, false, reading);
     }
 
     no_recipes = true;
