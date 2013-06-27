@@ -75,6 +75,16 @@ enum quit_status {
  QUIT_DELETE_WORLD  // Quit and delete world
 };
 
+namespace std
+{
+ __inline__ string _to_string(int i)
+ {
+  char buf[10];
+  snprintf(buf,10, "%d", i);
+  return (string(buf));
+ }
+}
+
 struct monster_and_count
 {
  monster mon;
