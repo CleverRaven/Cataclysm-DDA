@@ -2138,10 +2138,9 @@ if (dirx == 0 && diry == 0) {
    new_type = t_manhole;
    noisy = false;
    difficulty = 12;
- } else if (g->m.ter(dirx, diry) == t_crate_c) {
+ } else if (g->m.furn(dirx, diry) == f_crate_c) {
    door_name = "crate";
    action_name = "pop open";
-   new_type = t_crate_o;
    noisy = true;
    difficulty = 6;
  } else if (type == t_window_domestic || type == t_curtains) {
@@ -2192,7 +2191,10 @@ if (dirx == 0 && diry == 0) {
  if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
   p->practice(g->turn, "mechanics", 1);
   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
-  g->m.ter_set(dirx, diry, new_type);
+  if (g->m.furn(dirx, diry) == f_crate_c)
+   g->m.furn_set(dirx, diry, f_crate_o);
+  else
+   g->m.ter_set(dirx, diry, new_type);
   if (noisy)
    g->sound(dirx, diry, 12, "crunch!");
   if ( type == t_door_locked_alarm ) {
@@ -3726,9 +3728,9 @@ if (dirx == 0 && diry == 0) {
   g->m.ter_set(dirx, diry, t_dirt);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(dirx, diry, "pipe", 0, 6);
- } else if (g->m.ter(dirx, diry) == t_rack) {
+ } else if (g->m.furn(dirx, diry) == f_rack) {
   p->moves -= 500;
-  g->m.ter_set(dirx, diry, t_floor);
+  g->m.furn_set(dirx, diry, f_null);
   g->sound(dirx, diry, 15,"grnd grnd grnd");
   g->m.spawn_item(p->posx, p->posy, "pipe", 0, rng(1, 3));
   g->m.spawn_item(p->posx, p->posy, "steel_chunk", 0);
@@ -3766,15 +3768,16 @@ void iuse::tent(game *g, player *p, item *it, bool t)
  posy += diry;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   if (!g->m.has_flag(tentable, posx + i, posy + j)) {
-    g->add_msg("You need a 3x3 diggable space to place a tent");
+   if (!g->m.has_flag(flat, posx + i, posy + j) ||
+        g->m.has_furn(posx + i, posy + j)) {
+    g->add_msg("You need a 3x3 flat space to place a tent");
     return;
    }
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-    g->m.ter_set(posx + i, posy + j, t_canvas_wall);
- g->m.ter_set(posx, posy, t_groundsheet);
- g->m.ter_set(posx - dirx, posy - diry, t_canvas_door);
+    g->m.furn_set(posx + i, posy + j, f_canvas_wall);
+ g->m.furn_set(posx, posy, f_groundsheet);
+ g->m.furn_set(posx - dirx, posy - diry, f_canvas_door);
  it->invlet = 0;
 }
 
@@ -3794,15 +3797,16 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
  posy += diry;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   if (!g->m.has_flag(tentable, posx + i, posy + j)) {
-    g->add_msg("You need a 3x3 diggable space to place a shelter");
+   if (!g->m.has_flag(flat, posx + i, posy + j) || 
+        g->m.has_furn(posx + i, posy + j)) {
+    g->add_msg("You need a 3x3 flat space to place a shelter");
     return;
    }
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-    g->m.ter_set(posx + i, posy + j, t_skin_wall);
- g->m.ter_set(posx, posy, t_skin_groundsheet);
- g->m.ter_set(posx - dirx, posy - diry, t_skin_door);
+    g->m.furn_set(posx + i, posy + j, f_skin_wall);
+ g->m.furn_set(posx, posy, f_skin_groundsheet);
+ g->m.furn_set(posx - dirx, posy - diry, f_skin_door);
  it->invlet = 0;
 }
 

@@ -187,11 +187,11 @@ void mission_start::place_npc_software(game *g, mission *miss)
   std::vector<point> valid;
   for (int x = 0; x < SEEX * 2; x++) {
    for (int y = 0; y < SEEY * 2; y++) {
-    if (compmap.ter(x, y) == t_floor) {
+    if (compmap.ter(x, y) == t_floor && compmap.furn(x, y) == f_null) {
      bool okay = false;
      for (int x2 = x - 1; x2 <= x + 1 && !okay; x2++) {
       for (int y2 = y - 1; y2 <= y + 1 && !okay; y2++) {
-       if (compmap.ter(x2, y2) == t_bed || compmap.ter(x2, y2) == t_dresser) {
+       if (compmap.furn(x2, y2) == f_bed || compmap.furn(x2, y2) == f_dresser) {
         okay = true;
         valid.push_back( point(x, y) );
        }
@@ -279,7 +279,7 @@ void mission_start::place_priest_diary(game *g, mission *miss)
   std::vector<point> valid;
   for (int x = 0; x < SEEX * 2; x++) {
    for (int y = 0; y < SEEY * 2; y++) {
-    if (compmap.ter(x, y) == t_bed || compmap.ter(x, y) == t_dresser || compmap.ter(x, y) == t_indoor_plant || compmap.ter(x, y) == t_cupboard) {
+    if (compmap.furn(x, y) == f_bed || compmap.furn(x, y) == f_dresser || compmap.furn(x, y) == f_indoor_plant || compmap.furn(x, y) == f_cupboard) {
       valid.push_back( point(x, y) );
     }
    }
