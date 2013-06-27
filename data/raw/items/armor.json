@@ -3523,5 +3523,30 @@
         "bashing" : -5,
         "coverage" : 70,
         "material_thickness" : 4
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "blindfold",
+        "name" : "black blindfold",
+        "weight" : 1,
+        "color" : "blue",
+        "covers" : ["EYES"],
+        "to_hit" : 1,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A black blindfold used to cover the eyes.",
+        "price" : 10,
+        "material" : ["cotton", "null"],
+        "volume" : 1,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "enviromental_protection" : 1,
+        "rarity" : 10,
+        "encumberance" : 10,
+        "bashing" : -5,
+        "flags" : ["BLINDFOLD"],
+        "coverage" : 100,
+        "material_thickness" : 2
     }
 ]
