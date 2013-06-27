@@ -344,20 +344,21 @@ void player::update_morale()
     // Decay existing morale entries.
     for (int i = 0; i < morale.size(); i++)
     {
-        if (morale[i].bonus < 0)
-        {
-            morale[i].bonus++;
-        }
-        else if (morale[i].bonus > 0)
-        {
-            morale[i].bonus--;
-        }
+        // Age the morale entry by one turn.
+        morale[i].age += 1;
 
-        if (morale[i].bonus == 0)
+        // If it's past its expiration date, remove it.
+        if (morale[i].age >= morale[i].duration)
         {
             morale.erase(morale.begin() + i);
             i--;
+
+            // Future-proofing.
+            continue;
         }
+
+        // We don't actually store the effective strength; it gets calculated when we
+        // need it.
     }
 
     // We reapply persistent morale effects after every decay step, to keep them fresh.
@@ -4177,9 +4178,61 @@ bool player::can_pickWeight(int weight)
     return (weight_carried() + weight <= weight_capacity());
 }
 
+// --- Library functions ---
+// This stuff could be moved elsewhere, but there
+// doesn't seem to be a good place to put it right now.
+
+// Basic logistic function.
+double logistic(double t)
+{
+    return 1 / (1 + exp(-t));
+}
+
+const double LOGI_MIN = logistic(-6);
+const double LOGI_MAX = logistic(+6);
+const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
+
+// Logistic curve [-6,6], flipped and scaled to
+// range from 1 to 0 as pos goes from min to max.
+double logistic_range(int min, int max, int pos)
+{
+    // Anything beyond [min,max] gets clamped.
+    if (pos < min)
+    {
+        return 1.0;
+    }
+    else if (pos > max)
+    {
+        return 0.0;
+    }
+
+    // Normalize the pos to [0,1]
+    double range = max - min;
+    double unit_pos = (pos - min) / range;
+
+    // Scale and flip it to [6,-6]
+    double scaled_pos = 6 - 12 * unit_pos;
+
+    // Get the raw logistic value.
+    double raw_logistic = logistic(scaled_pos);
+
+    // Scale the output to [0,1]
+    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
+}
+// --- End ---
+
+
 int player::net_morale(morale_point effect)
 {
-    int bonus = effect.bonus;
+    double bonus = effect.bonus;
+
+    // If the effect is old enough to have started decaying,
+    // reduce it appropriately.
+    if (effect.age > effect.decay_start)
+    {
+        bonus *= logistic_range(effect.decay_start,
+                                effect.duration, effect.age);
+    }
 
     // Optimistic characters focus on the good things in life,
     // and downplay the bad things.
@@ -4228,6 +4281,15 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
         {
             // Found a match!
             placed = true;
+
+            // Scale the morale bonus to its current level...
+            if (morale[i].age > morale[i].decay_start)
+            {
+                morale[i].bonus *= logistic_range(morale[i].decay_start,
+                                                  morale[i].duration, morale[i].age);
+            }
+            // ... and reset its age.
+            morale[i].age = 0;
 
             // Is the current morale level for this entry below its cap, if any?
             if (abs(morale[i].bonus) < abs(max_bonus) || max_bonus == 0)
