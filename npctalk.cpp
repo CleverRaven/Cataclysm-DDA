@@ -1949,7 +1949,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
   }
 // Do it in two passes, so removing items doesn't corrupt yours[]
   for (int i = 0; i < removing.size(); i++)
-   g->u.i_rem(removing[i]);
+   g->u.i_rem(g,removing[i]);
 
   for (int i = 0; i < theirs.size(); i++) {
    item tmp = *theirs[i];

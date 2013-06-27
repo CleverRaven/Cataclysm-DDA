@@ -4390,7 +4390,7 @@ void player::remove_mission_items(int mission_id)
  inv.remove_mission_items(mission_id);
 }
 
-item player::i_rem(char let)
+item player::i_rem(game* g, char let)
 {
  item tmp;
  if (weapon.invlet == let) {
@@ -4398,7 +4398,7 @@ item player::i_rem(char let)
    return ret_null;
   }
   tmp = weapon;
-  weapon = ret_null;
+  weapon = get_combat_style(g);
   return tmp;
  }
  for (int i = 0; i < worn.size(); i++) {
@@ -6341,7 +6341,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
   if (replace_item)
    gun->contents.push_back(copy);
   else
-   gun->contents.push_back(i_rem(let));
+   gun->contents.push_back(i_rem(g,let));
   return;
 
  } else if (used->is_bionic()) {
@@ -6349,7 +6349,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
   it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
   if (install_bionics(g, tmp)) {
    if (!replace_item)
-    i_rem(let);
+    i_rem(g,let);
   } else if (replace_item)
    inv.add_item(copy);
   return;

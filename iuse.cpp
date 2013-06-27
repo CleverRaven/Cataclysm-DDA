@@ -1065,7 +1065,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             if (fix->damage >= 5)
 		    {
                 g->add_msg_if_player(p,"You destroy it!");
-                p->i_rem(ch);
+                p->i_rem(g,ch);
             }
         }
 	    else if (rn <= 6)
@@ -1208,13 +1208,13 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     {
         g->add_msg_if_player(p,"You clumsily cut the %s into useless %s.",
                              cut->tname().c_str(), scrap_text.c_str());
-        p->i_rem(ch);
+        p->i_rem(g,ch);
         return;
     }
     g->add_msg_if_player(p,"You slice the %s into %d %s%s%s.", cut->tname().c_str(), count, pre_text.c_str(),
                          (count == 1 ? "" : "s"), post_text.c_str());
     item result(g->itypes[type], int(g->turn), g->nextinv);
-    p->i_rem(ch);
+    p->i_rem(g,ch);
     bool drop = false;
     for (int i = 0; i < count; i++)
     {
@@ -1599,7 +1599,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
                     if (fix->damage >= 5)
                     {
                         g->add_msg_if_player(p,"You destroy it!");
-                        p->i_rem(ch);
+                        p->i_rem(g,ch);
                     }
                 }
                 else if (rn <= 6)
@@ -3520,7 +3520,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You cut the %s into %i plastic chunks.", cut->tname().c_str(), amount);
                 int count = amount;
                 item result(g->itypes["plastic_chunk"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
+                p->i_rem(g,ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3551,7 +3551,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You cut the %s into %i plastic chunks.", cut->tname().c_str(), amount);
                 int count = amount;
                 item result(g->itypes["kevlar_plate"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
+                p->i_rem(g,ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3590,7 +3590,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You carve several skewers from the %s.", cut->tname().c_str());
                 int count = 12;
                 item skewer(g->itypes["skewer"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
+                p->i_rem(g,ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3689,7 +3689,7 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
   return;
  }
  if (cut->type->id == "log") {
-     p->i_rem(ch);
+     p->i_rem(g,ch);
      cut_log_into_planks(g, p, it);
      return;
  } else {
@@ -4065,7 +4065,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  }
  pull->charges = pull->charges - multiply;
  if (pull->charges == 0)
- p->i_rem(ch);
+ p->i_rem(g,ch);
  g->add_msg("You take apart the ammunition.");
  p->moves -= 500;
  if (casing.type->id != "null"){
