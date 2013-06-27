@@ -2327,17 +2327,9 @@ void player::disp_morale(game *g)
     mvwprintz(w, 20, number_pos, (mor < 0 ? c_red : c_green), "% 6d", mor);
 
     // Print out the focus gain rate, right-justified.
-    int gain = calc_focus_equilibrium() - focus_pool;
-    int gain_whole = gain / 100;
-    int gain_frac  = gain % 100;
-    // Fix the broken % operator.
-    if (gain_frac < 0)
-    {
-        gain_whole -= 1;
-        gain_frac  += 100;
-    }
+    double gain = (calc_focus_equilibrium() - focus_pool) / 100.0;
     mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), "Focus gain:");
-    mvwprintz(w, 22, number_pos-3, (gain < 0 ? c_red : c_green), "% 6d.%02d per minute", gain_whole, gain_frac);
+    mvwprintz(w, 22, number_pos-3, (gain < 0 ? c_red : c_green), "% 6.2f per minute", gain);
 
     // Make sure the changes are shown.
     wrefresh(w);
@@ -6728,6 +6720,12 @@ void player::read(game *g, char ch)
     
     activity = player_activity(ACT_READ, time, index, ch, "");
     moves = 0;
+
+    // Reinforce any existing morale bonus/penalty, so it doesn't decay
+    // away while you read more.
+    int minutes = time / 1000;
+    add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false,
+               tmp);
 }
 
 bool player::can_study_recipe(it_book* book)
