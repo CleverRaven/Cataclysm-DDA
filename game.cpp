@@ -8790,7 +8790,7 @@ void game::drop(char chInput)
   dropped = multidrop();
  else {
   if (u.inv.item_by_letter(chInput).is_null()) {
-   dropped.push_back(u.i_rem(chInput));
+   dropped.push_back(u.i_rem(this,chInput));
   } else {
    dropped.push_back(u.inv.remove_item_by_letter(chInput));
   }
@@ -9002,10 +9002,7 @@ void game::plthrow(char chInput)
   return;
  if (passtarget != -1)
   last_target = targetindices[passtarget];
- if (u.weapon.invlet==ch) {
-  u.weapon = u.get_combat_style(this);
- }
- u.i_rem(ch);
+ u.i_rem(this,ch);
  u.moves -= 125;
  u.practice(turn, "throw", 10);
 
