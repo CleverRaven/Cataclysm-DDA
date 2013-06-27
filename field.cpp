@@ -134,7 +134,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 
      } else if ((it->made_of("wood") || it->made_of("veggy"))) {
       if (vol <= cur->density * 10 || cur->density == 3) {
-       cur->age -= 4;
+       cur->age -= 100;
        destroyed = it->burn(cur->density);
        smoke++;
        consumed++;
