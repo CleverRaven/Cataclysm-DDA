@@ -96,7 +96,7 @@ bool WinCreate()
 	}
 
 	SDL_EnableUNICODE(1);
-	SDL_EnableKeyRepeat(500, 25);
+	SDL_EnableKeyRepeat(500, 60);
 
 	atexit(SDL_Quit);
 
@@ -835,7 +835,7 @@ inline int printstring(WINDOW *win, char *fmt)
             Uint32 ch = UTF8_getch(&utf8str, &len);
             int cw = mk_wcwidth((wchar_t)ch);
             len = ANY_LENGTH-len;
-            if (x+cw <= win->width && win->cursory <= win->height - 1) {
+            if (x+win->cursorx <= win->width && win->cursory <= win->height - 1) {
                 erease_utf8_by_cw(win->line[win->cursory].chars+x, cw, len);
                 for(i=0; i<len; i++)
                 {
