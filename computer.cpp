@@ -274,7 +274,7 @@ void computer::activate_function(game *g, computer_action action)
      if (g->m.ter(x, y) == t_sewage_pump) {
       for (int x1 = x - 1; x1 <= x + 1; x1++) {
        for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
-        if (g->m.ter(x1, y1) == t_counter) {
+        if (g->m.furn(x1, y1) == f_counter) {
          bool found_item = false;
          for (int i = 0; i < g->m.i_at(x1, y1).size(); i++) {
           item *it = &(g->m.i_at(x1, y1)[i]);

@@ -480,7 +480,7 @@ bool map::vehproceed(game* g){
             num_wheels++;
             const int px = x + veh->parts[p].precalc_dx[0];
             const int py = y + veh->parts[p].precalc_dy[0];
-            if(move_cost_ter_only(px, py) == 0) // deep water
+            if(move_cost_ter_furn(px, py) == 0) // deep water
                submerged_wheels++;
          }
       }
@@ -498,7 +498,7 @@ bool map::vehproceed(game* g){
    //  terrain cost is 1000 on roads.
    // This is stupid btw, it makes veh magically seem
    //  to accelerate when exiting rubble areas.
-   float ter_turn_cost = 500.0 * move_cost_ter_only (x,y) / abs(veh->velocity);
+   float ter_turn_cost = 500.0 * move_cost_ter_furn (x,y) / abs(veh->velocity);
 
    //can't afford it this turn?
    if(ter_turn_cost >= veh->of_turn){
@@ -751,7 +751,7 @@ bool map::vehproceed(game* g){
 
 bool map::displace_water (const int x, const int y)
 {
-    if (move_cost_ter_only(x, y) > 0 && has_flag(swimmable, x, y)) // shallow water
+    if (move_cost_ter_furn(x, y) > 0 && has_flag(swimmable, x, y)) // shallow water
     { // displace it
         int dis_places = 0, sel_place = 0;
         for (int pass = 0; pass < 2; pass++)
@@ -766,7 +766,7 @@ bool map::displace_water (const int x, const int y)
             for (int tx = -1; tx <= 1; tx++)
                 for (int ty = -1; ty <= 1; ty++)
                 {
-                    if ((!tx && !ty) || move_cost_ter_only(x + tx, y + ty) == 0)
+                    if ((!tx && !ty) || move_cost_ter_furn(x + tx, y + ty) == 0)
                         continue;
                     ter_id ter0 = ter (x + tx, y + ty);
                     if (ter0 == t_water_sh ||
@@ -783,6 +783,56 @@ bool map::displace_water (const int x, const int y)
         }
     }
     return false;
+}
+
+void map::set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture)
+{
+ if (!INBOUNDS(x, y)) {
+  return;
+ }
+
+ const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ grid[nonant]->ter[lx][ly] = new_terrain;
+ grid[nonant]->frn[lx][ly] = new_furniture;
+}
+
+bool map::has_furn(const int x, const int y)
+{
+  return furn(x, y) != f_null;
+}
+
+furn_id map::furn(const int x, const int y)
+{
+ if (!INBOUNDS(x, y)) {
+  return f_null;
+ }
+
+ const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ return grid[nonant]->frn[lx][ly];
+}
+
+void map::furn_set(const int x, const int y, const furn_id new_furniture)
+{
+ if (!INBOUNDS(x, y)) {
+  return;
+ }
+
+ const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+
+ const int lx = x % SEEX;
+ const int ly = y % SEEY;
+ grid[nonant]->frn[lx][ly] = new_furniture;
+}
+
+std::string map::furnname(const int x, const int y)
+{
+ return furnlist[furn(x, y)].name;
 }
 
 ter_id map::ter(const int x, const int y) const
@@ -829,6 +879,8 @@ std::string map::features(const int x, const int y)
   ret += "Rough. ";	// 28 chars
  if (has_flag(sharp, x, y))
   ret += "Sharp. ";	// 35 chars
+ if (has_flag(flat, x, y))
+  ret += "Flat. "; // 41
  return ret;
 }
 
@@ -842,19 +894,19 @@ int map::move_cost(const int x, const int y)
    return 0;
   } else {
     const int ipart = veh->part_with_feature(vpart, vpf_aisle);
-
     if (ipart >= 0)
       return 2;
-
    return 8;
   }
  }
- return terlist[ter(x, y)].movecost;
+ int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
+ return cost > 0 ? cost : 0;
 }
 
-int map::move_cost_ter_only(const int x, const int y)
+int map::move_cost_ter_furn(const int x, const int y)
 {
- return terlist[ter(x, y)].movecost;
+ int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
+ return cost > 0 ? cost : 0;
 }
 
 int map::combined_movecost(const int x1, const int y1,
@@ -906,12 +958,17 @@ bool map::has_flag(const t_flag flag, const int x, const int y)
     return true;
   }
  }
- return terlist[ter(x, y)].flags & mfb(flag);
+ return (terlist[ter(x, y)].flags & mfb(flag)) | (furnlist[furn(x, y)].flags & mfb(flag));
 }
 
-bool map::has_flag_ter_only(const t_flag flag, const int x, const int y) const
+bool map::has_flag_ter_or_furn(const t_flag flag, const int x, const int y)
 {
- return terlist[ter(x, y)].flags & mfb(flag);
+ return (terlist[ter(x, y)].flags & mfb(flag)) | (furnlist[furn(x, y)].flags & mfb(flag));
+}
+
+bool map::has_flag_ter_and_furn(const t_flag flag, const int x, const int y)
+{
+ return terlist[ter(x, y)].flags & furnlist[furn(x, y)].flags & mfb(flag);
 }
 
 bool map::is_destructable(const int x, const int y)
@@ -920,10 +977,10 @@ bool map::is_destructable(const int x, const int y)
          (move_cost(x, y) == 0 && !has_flag(liquid, x, y)));
 }
 
-bool map::is_destructable_ter_only(const int x, const int y)
+bool map::is_destructable_ter_furn(const int x, const int y)
 {
- return (has_flag_ter_only(bashable, x, y) ||
-         (move_cost_ter_only(x, y) == 0 && !has_flag(liquid, x, y)));
+ return (has_flag_ter_or_furn(bashable, x, y) ||
+         (move_cost_ter_furn(x, y) == 0 && !has_flag(liquid, x, y)));
 }
 
 bool map::is_outside(const int x, const int y)
@@ -992,14 +1049,14 @@ bool map::has_adjacent_furniture(const int x, const int y)
         const int adj_x = x + cx[i];
         const int adj_y = y + cy[i];
 
-        switch( ter(adj_x, adj_y) )
+        switch( furn(adj_x, adj_y) )
         {
-        case t_fridge:
-        case t_glass_fridge:
-        case t_dresser:
-        case t_rack:
-        case t_bookcase:
-        case t_locker:
+        case f_fridge:
+        case f_glass_fridge:
+        case f_dresser:
+        case f_rack:
+        case f_bookcase:
+        case f_locker:
             return true;
         }
     }
@@ -1050,8 +1107,163 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
   return true;
  }
 
- switch (ter(x, y)) {
+switch (furn(x, y)) {
+ case f_locker:
+ case f_rack:
+  result = rng(0, 30);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "metal screeching!";
+   furn_set(x, y, f_null);
+   spawn_item(x, y, "scrap", 0, rng(2, 8));
+   const int num_boards = rng(0, 3);
+   for (int i = 0; i < num_boards; i++)
+    spawn_item(x, y, "steel_chunk", 0);
+   spawn_item(x, y, "pipe", 0);
+   return true;
+  } else {
+   sound += "clang!";
+   return true;
+  }
+  break;
 
+ case f_sink:
+ case f_toilet:
+ case f_bathtub:
+  result = dice(8, 4) - 8;
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "porcelain breaking!";
+   furn_set(x, y, f_null);
+   return true;
+  } else {
+   sound += "whunk!";
+   return true;
+  }
+  break;
+
+ case f_pool_table:
+ case f_bulletin:
+ case f_dresser:
+ case f_bookcase:
+ case f_counter:
+ case f_table:
+  result = rng(0, 45);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "smash!";
+   furn_set(x, y, f_null);
+   spawn_item(x, y, "2x4", 0, rng(2, 6));
+   spawn_item(x, y, "nail", 0, 0, rng(4, 12));
+   spawn_item(x, y, "splinter", 0);
+   return true;
+  } else {
+   sound += "whump.";
+   return true;
+  }
+  break;
+
+ case f_fridge:
+ case f_glass_fridge:
+  result = rng(0, 30);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "metal screeching!";
+   furn_set(x, y, f_null);
+   spawn_item(x, y, "scrap", 0, rng(2, 8));
+   const int num_boards = rng(0, 3);
+   for (int i = 0; i < num_boards; i++)
+    spawn_item(x, y, "steel_chunk", 0);
+   spawn_item(x, y, "hose", 0);
+   return true;
+  } else {
+   sound += "clang!";
+   return true;
+  }
+  break;
+
+ case f_bench:
+ case f_chair:
+ case f_desk:
+ case f_cupboard:
+  result = rng(0, 30);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "smash!";
+   furn_set(x, y, f_null);
+   spawn_item(x, y, "2x4", 0, rng(1, 3));
+   spawn_item(x, y, "nail", 0, 0, rng(2, 6));
+   spawn_item(x, y, "splinter", 0);
+   return true;
+  } else {
+   sound += "whump.";
+   return true;
+  }
+  break;
+
+ case f_crate_c:
+ case f_crate_o:
+  result = dice(4, 20);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "smash";
+   furn_set(x, y, f_null);
+   spawn_item(x, y, "2x4", 0, rng(1, 5));
+   spawn_item(x, y, "nail", 0, 0, rng(2, 10));
+   return true;
+  } else {
+   sound += "wham!";
+   return true;
+  }
+  break;
+  
+ case f_skin_wall:
+ case f_skin_door:
+ case f_skin_door_o:
+ case f_skin_groundsheet:
+ case f_canvas_wall:
+ case f_canvas_door:
+ case f_canvas_door_o:
+ case f_groundsheet:
+  result = rng(0, 6);
+  if (res) *res = result;
+  if (str >= result)
+  {
+   // Special code to collapse the tent if destroyed
+   int tentx, tenty = -1;
+   // Find the center of the tent
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++)
+     if (furn(x + i, y + j) == f_groundsheet ||
+         furn(x + i, y + j) == f_fema_groundsheet ||
+         furn(x + i, y + j) == f_skin_groundsheet)  {
+       tentx = x + i;
+       tenty = y + j;
+       break;
+     }
+   // Never found tent center, bail out
+   if (tentx == -1 && tenty == -1)
+    break;
+   // Take the tent down
+   for (int i = -1; i <= 1; i++)
+    for (int j = -1; j <= 1; j++) {
+     if (furn(tentx + i, tenty + j) == f_groundsheet)
+      spawn_item(tentx + i, tenty + j, "broketent", 0);
+     if (furn(tentx + i, tenty + j) == f_skin_groundsheet)
+      spawn_item(tentx + i, tenty + j, "damaged_shelter_kit", 0);
+     furn_set(tentx + i, tenty + j, f_null);
+    }
+
+   sound += "rrrrip!";
+   return true;
+  } else {
+   sound += "slap!";
+   return true;
+  }
+  break;
+}
+
+switch (ter(x, y)) {
  case t_chainfence_v:
  case t_chainfence_h:
   result = rng(0, 50);
@@ -1305,80 +1517,6 @@ case t_wall_log:
   }
   break;
 
- case t_skin_wall:
- case t_skin_door:
- case t_skin_door_o:
- case t_skin_groundsheet:
-  result = rng(0, 6);
-  if (res) *res = result;
-  if (str >= result)
-  {
-   // Special code to collapse the tent if destroyed
-   int tentx, tenty = -1;
-   // Find the center of the tent
-   for (int i = -1; i <= 1; i++)
-    for (int j = -1; j <= 1; j++)
-     if (ter(x + i, y + j) == t_skin_groundsheet){
-       tentx = x + i;
-       tenty = y + j;
-       break;
-     }
-   // Never found tent center, bail out
-   if (tentx == -1 && tenty == -1)
-    break;
-   // Take the tent down
-   for (int i = -1; i <= 1; i++)
-    for (int j = -1; j <= 1; j++) {
-     if (ter(tentx + i, tenty + j) == t_skin_groundsheet)
-      spawn_item(tentx + i, tenty + j, "damaged_shelter_kit", 0);
-     ter_set(tentx + i, tenty + j, t_dirt);
-    }
-
-   sound += "rrrrip!";
-   return true;
-  } else {
-   sound += "slap!";
-   return true;
-  }
-  break;
-
- case t_canvas_wall:
- case t_canvas_door:
- case t_canvas_door_o:
- case t_groundsheet:
-  result = rng(0, 6);
-  if (res) *res = result;
-  if (str >= result)
-  {
-   // Special code to collapse the tent if destroyed
-   int tentx, tenty = -1;
-   // Find the center of the tent
-   for (int i = -1; i <= 1; i++)
-    for (int j = -1; j <= 1; j++)
-     if (ter(x + i, y + j) == t_groundsheet || ter(x + i, y + j) == t_fema_groundsheet)  {
-       tentx = x + i;
-       tenty = y + j;
-       break;
-     }
-   // Never found tent center, bail out
-   if (tentx == -1 && tenty == -1)
-    break;
-   // Take the tent down
-   for (int i = -1; i <= 1; i++)
-    for (int j = -1; j <= 1; j++) {
-     if (ter(tentx + i, tenty + j) == t_groundsheet)
-      spawn_item(tentx + i, tenty + j, "broketent", 0);
-     ter_set(tentx + i, tenty + j, t_dirt);
-    }
-
-   sound += "rrrrip!";
-   return true;
-  } else {
-   sound += "slap!";
-   return true;
-  }
-  break;
-
  case t_paper:
   result = dice(1, 6) - 2;
   if (res) *res = result;
@@ -1388,80 +1526,6 @@ case t_wall_log:
    return true;
   } else {
    sound += "slap!";
-   return true;
-  }
-  break;
-
- case t_locker:
- case t_rack:
-  result = rng(0, 30);
-  if (res) *res = result;
-  if (str >= result) {
-   sound += "metal screeching!";
-   ter_set(x, y, t_metal);
-   spawn_item(x, y, "scrap", 0, rng(2, 8));
-   const int num_boards = rng(0, 3);
-   for (int i = 0; i < num_boards; i++)
-    spawn_item(x, y, "steel_chunk", 0);
-   spawn_item(x, y, "pipe", 0);
-   return true;
-  } else {
-   sound += "clang!";
-   return true;
-  }
-  break;
-
- case t_fridge:
- case t_glass_fridge:
-  result = rng(0, 30);
-  if (res) *res = result;
-  if (str >= result) {
-   sound += "metal screeching!";
-   ter_set(x, y, t_metal);
-   spawn_item(x, y, "scrap", 0, rng(2, 8));
-   const int num_boards = rng(0, 3);
-   for (int i = 0; i < num_boards; i++)
-    spawn_item(x, y, "steel_chunk", 0);
-   spawn_item(x, y, "hose", 0);
-   return true;
-  } else {
-   sound += "clang!";
-   return true;
-  }
-  break;
-
- case t_sink:
- case t_bathtub:
- case t_toilet:
-  result = dice(8, 4) - 8;
-  if (res) *res = result;
-  if (str >= result) {
-   sound += "porcelain breaking!";
-   ter_set(x, y, t_rubble);
-   return true;
-  } else {
-   sound += "whunk!";
-   return true;
-  }
-  break;
-
- case t_dresser:
- case t_bookcase:
- case t_pool_table:
- case t_counter:
- case t_bulletin:
- case t_table:
-  result = rng(0, 45);
-  if (res) *res = result;
-  if (str >= result) {
-   sound += "smash!";
-   ter_set(x, y, t_floor);
-   spawn_item(x, y, "2x4", 0, rng(2, 6));
-   spawn_item(x, y, "nail", 0, 0, rng(4, 12));
-   spawn_item(x, y, "splinter", 0);
-   return true;
-  } else {
-   sound += "whump.";
    return true;
   }
   break;
@@ -1490,25 +1554,6 @@ case t_wall_log:
    sound += "crak";
    ter_set(x, y, t_dirt);
    spawn_item(x, y, "pointy_stick", 0, 1);
-   return true;
-  } else {
-   sound += "whump.";
-   return true;
-  }
-  break;
-
- case t_bench:
- case t_chair:
- case t_desk:
- case t_cupboard:
-  result = rng(0, 30);
-  if (res) *res = result;
-  if (str >= result) {
-   sound += "smash!";
-   ter_set(x, y, t_floor);
-   spawn_item(x, y, "2x4", 0, rng(1, 3));
-   spawn_item(x, y, "nail", 0, 0, rng(2, 6));
-   spawn_item(x, y, "splinter", 0);
    return true;
   } else {
    sound += "whump.";
@@ -1613,23 +1658,10 @@ case t_wall_log:
    sound += "plunk.";
    return true;
   }
- case t_crate_c:
- case t_crate_o:
-  result = dice(4, 20);
-  if (res) *res = result;
-  if (str >= result) {
-   sound += "smash";
-   ter_set(x, y, t_dirt);
-   spawn_item(x, y, "2x4", 0, rng(1, 5));
-   spawn_item(x, y, "nail", 0, 0, rng(2, 10));
-   return true;
-  } else {
-   sound += "wham!";
-   return true;
-  }
+  break;
  }
  if (res) *res = result;
- if (move_cost(x, y) == 0) {
+ if (move_cost(x, y) <= 0) {
   sound += "thump!";
   return true;
  }
@@ -1639,6 +1671,9 @@ case t_wall_log:
 // map::destroy is only called (?) if the terrain is NOT bashable.
 void map::destroy(game *g, const int x, const int y, const bool makesound)
 {
+ if (has_furn(x, y))
+  furn_set(x, y, f_null);
+
  switch (ter(x, y)) {
 
  case t_gas_pump:
@@ -2116,9 +2151,6 @@ bool map::hit_with_acid(game *g, const int x, const int y)
    ter_set(x, y, t_floor_wax);
    break;
 
-  case t_toilet:
-  case t_sink:
-  case t_bathtub:
   case t_gas_pump:
   case t_gas_pump_smashed:
   case t_gas_pump_empty:
@@ -2168,11 +2200,11 @@ bool map::open_door(const int x, const int y, const bool inside)
  if (ter(x, y) == t_door_c) {
   ter_set(x, y, t_door_o);
   return true;
- } else if (ter(x, y) == t_canvas_door) {
-  ter_set(x, y, t_canvas_door_o);
+ } else if (furn(x, y) == f_canvas_door) {
+  furn_set(x, y, f_canvas_door_o);
   return true;
- } else if (ter(x, y) == t_skin_door) {
-  ter_set(x, y, t_skin_door_o);
+ } else if (furn(x, y) == f_skin_door) {
+  furn_set(x, y, f_skin_door_o);
   return true;
  } else if (inside && ter(x, y) == t_curtains) {
   ter_set(x, y, t_window_domestic);
@@ -2246,11 +2278,11 @@ bool map::close_door(const int x, const int y, const bool inside)
  } else if (inside && ter(x, y) == t_window_domestic) {
   ter_set(x, y, t_curtains);
   return true;
- } else if (ter(x, y) == t_canvas_door_o) {
-  ter_set(x, y, t_canvas_door);
+ } else if (furn(x, y) == f_canvas_door_o) {
+  furn_set(x, y, f_canvas_door);
   return true;
- } else if (ter(x, y) == t_skin_door_o) {
-  ter_set(x, y, t_skin_door);
+ } else if (furn(x, y) == f_skin_door_o) {
+  furn_set(x, y, f_skin_door);
   return true;
  } else if (inside && ter(x, y) == t_window_open) {
   ter_set(x, y, t_window_domestic);
@@ -2316,7 +2348,7 @@ item map::water_from(const int x, const int y)
         ret.poison = rng(1, 4);
     else if (ter(x, y) == t_sewage)
         ret.poison = rng(1, 7);
-    else if (ter(x, y) == t_toilet && !one_in(3))
+    else if (furn(x, y) == f_toilet && !one_in(3))
         ret.poison = rng(1, 3);
     else if (tr_at(x, y) == tr_funnel)
         ret.poison = (one_in(10) == true) ? 1 : 0;
@@ -3137,13 +3169,21 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  const int j = y + getmaxy(w)/2 - cy;
  nc_color tercol;
  const ter_id curr_ter = ter(x,y);
+ const furn_id curr_furn = furn(x,y);
  const trap_id curr_trap = tr_at(x, y);
  const field curr_field = field_at(x, y);
  const std::vector<item> curr_items = i_at(x, y);
- long sym = terlist[curr_ter].sym;
+ long sym;
  bool hi = false;
  bool graf = false;
  bool normal_tercol = false, drew_field = false;
+ if (has_furn(x, y)) {
+  sym = furnlist[curr_furn].sym;
+  tercol = furnlist[curr_furn].color;
+ } else {
+  sym = terlist[curr_ter].sym;
+  tercol = terlist[curr_ter].color;
+ }
  if (u.has_disease(DI_BOOMERED))
   tercol = c_magenta;
  else if ( u.has_nv() )
@@ -3151,10 +3191,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  else if (low_light)
   tercol = c_dkgray;
  else
- {
   normal_tercol = true;
-  tercol = terlist[curr_ter].color;
- }
  if (move_cost(x, y) == 0 && has_flag(swimmable, x, y) && !u.underwater)
   show_items = false;	// Can only see underwater items if WE are underwater
 // If there's a trap here, and we have sufficient perception, draw that instead
@@ -3193,7 +3230,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  }
 // If there's items here, draw those instead
  if (show_items && !has_flag(container, x, y) && curr_items.size() > 0 && !drew_field) {
-  if ((terlist[curr_ter].sym != '.'))
+  if (sym != '.')
    hi = true;
   else {
    tercol = curr_items[curr_items.size() - 1].color();
@@ -3935,7 +3972,7 @@ void map::build_transparency_cache()
    // Default to fully transparent.
    transparency_cache[x][y] = LIGHT_TRANSPARENCY_CLEAR;
 
-   if (!(terlist[ter(x, y)].flags & mfb(transparent))) {
+   if (!has_flag_ter_and_furn(transparent, x, y)) {
     transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
     continue;
    }

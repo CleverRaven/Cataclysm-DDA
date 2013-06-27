@@ -96,7 +96,7 @@ void tutorial_game::per_turn(game *g)
    } else if (g->m.ter(x, y) == t_window) {
     add_message(g, LESSON_SMASH);
     showed_message = true;
-   } else if (g->m.ter(x, y) == t_rack && !g->m.i_at(x, y).empty()) {
+   } else if (g->m.furn(x, y) == f_rack && !g->m.i_at(x, y).empty()) {
     add_message(g, LESSON_EXAMINE);
     showed_message = true;
    } else if (g->m.ter(x, y) == t_stairs_down) {

@@ -113,6 +113,14 @@ void mapbuffer::save()
   }
   fout << std::endl;
 
+ // Furniture
+  for (int j = 0; j < SEEY; j++) {
+   for (int i = 0; i < SEEX; i++) {
+    if (sm->frn[i][j] != f_null)
+     fout << "f " << i << " " << j << " " << sm->frn[i][j] <<
+     std::endl;
+   }
+  }
  // Items section; designate it with an I.  Then check itm[][] for each square
  //   in the grid and print the coords and the item's details.
  // Designate it with a C if it's contained in the prior item.
@@ -220,6 +228,7 @@ void mapbuffer::load()
     int tmpter;
     fin >> tmpter;
     sm->ter[i][j] = ter_id(tmpter);
+    sm->frn[i][j] = f_null;
     sm->itm[i][j].clear();
     sm->trp[i][j] = tr_null;
     sm->fld[i][j] = field();
@@ -261,6 +270,9 @@ void mapbuffer::load()
    } else if (string_identifier == "T") {
     fin >> itx >> ity >> t;
     sm->trp[itx][ity] = trap_id(t);
+   } else if (string_identifier == "f") {
+    fin >> itx >> ity >> t;
+    sm->frn[itx][ity] = furn_id(t);
    } else if (string_identifier == "F") {
     fin >> itx >> ity >> t >> d >> a;
     sm->fld[itx][ity] = field(field_id(t), d, a);

@@ -151,7 +151,7 @@ void mapgen_field(map *m, int turn)
                 }
             }
             else
-            if (one_in(1000)) { m->ter_set(i,j, t_mutpoppy); }
+            if (one_in(1000)) { m->furn_set(i,j, f_mutpoppy); }
         }
     }
     m->place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);

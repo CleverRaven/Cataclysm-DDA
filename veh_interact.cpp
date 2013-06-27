@@ -517,7 +517,7 @@ void veh_interact::move_cursor (int dx, int dy)
     veh->coord_translate (vdx, vdy, vx, vy);
     int vehx = veh->global_x() + vx;
     int vehy = veh->global_y() + vy;
-    bool obstruct = g->m.move_cost_ter_only (vehx, vehy) == 0;
+    bool obstruct = g->m.move_cost_ter_furn (vehx, vehy) == 0;
     vehicle *oveh = g->m.veh_at (vehx, vehy);
     if (oveh && oveh != veh)
     {
