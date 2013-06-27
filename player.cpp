@@ -4284,8 +4284,8 @@ int player::morale_level()
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        itype *item_type, int duration,
-                        int decay_start, bool cap_existing)
+                        int duration, int decay_start,
+                        bool cap_existing, itype* item_type)
 {
     bool placed = false;
 
@@ -4362,7 +4362,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
     // No matching entry, so add a new one
     if (!placed)
     {
-        morale_point tmp(type, item_type, bonus);
+        morale_point tmp(type, item_type, bonus, duration, decay_start, 0);
         morale.push_back(tmp);
     }
 }

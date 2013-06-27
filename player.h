@@ -252,8 +252,8 @@ public:
  int net_morale(morale_point effect);
  int morale_level();	// Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
-                 itype* item_type = NULL, int duration = 60,
-                 int decay_start = 30, bool cap_existing = false);
+                 int duration = 60, int decay_start = 30,
+                 bool cap_existing = false, itype* item_type = NULL);
  void rem_morale(morale_type type, itype* item_type = NULL);
 
  std::string weapname(bool charges = true);
