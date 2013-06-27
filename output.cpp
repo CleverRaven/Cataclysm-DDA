@@ -13,6 +13,8 @@
 #include "keypress.h"
 #include "options.h"
 #include "cursesdef.h"
+#include "catacharset.h"
+#include "debug.h"
 
 #define LINE_XOXO 4194424
 #define LINE_OXOX 4194417
@@ -844,6 +846,55 @@ long special_symbol (long sym)
     }
 }
 
+#if 1
+// utf-8 version 
+// works differently, so keep the two versions in code for quick debug purpose
+std::string word_rewrap (const std::string &in, int width){
+    std::ostringstream o;
+	int lastwb = 0; //last word break
+	int lastout = 0;
+	int x=0; 
+	int j=0;
+	const char *instr = in.c_str();
+
+	while(j<in.size())
+	{
+		const char* ins = instr+j;
+		int len = ANY_LENGTH;
+		unsigned uc = UTF8_getch(&ins, &len);
+		int cw = mk_wcwidth((wchar_t)uc);
+		len = ANY_LENGTH-len;
+
+		j+=len;
+		x+=cw;
+		
+		if(x>width)
+		{
+			for(int k=lastout; k<lastwb; k++)
+				o << in[k];
+			o<<'\n';
+			x=0;
+			lastout=j=lastwb;
+		}
+		else if(uc==' '|| uc=='\n')
+		{
+			lastwb=j;
+		}
+		else if(uc>=0x2E80)
+		{
+			lastwb=j;
+		}
+	}
+	for(int k=lastout; k<in.size(); k++)
+		o << in[k];
+
+	std::string temp = o.str();
+	DebugLog log;
+	log << "\n@\n" << temp << "\n@\n";
+
+    return o.str();
+}
+#else
 // crawl through string, probing each word while treating spaces & newlines the same.
 std::string word_rewrap (const std::string &in, int width){
     std::ostringstream o;
@@ -879,6 +930,7 @@ std::string word_rewrap (const std::string &in, int width){
     }
     return o.str();
 }
+#endif
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
 {

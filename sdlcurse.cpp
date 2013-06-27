@@ -220,7 +220,7 @@ void try_update()
 void DrawWindow(WINDOW *win)
 {
     int i,j,w,drawx,drawy;
-    Uint32 tmp;
+    unsigned tmp;
 
     for (j=0; j<win->height; j++){
         if (win->line[j].touched)
@@ -234,7 +234,7 @@ void DrawWindow(WINDOW *win)
                 drawy=((win->y+j)*fontheight);//-j;
                 if (((drawx+fontwidth)<=WindowWidth) && ((drawy+fontheight)<=WindowHeight)){
 				const char* utf8str = win->line[j].chars+i;
-				size_t len = ANY_LENGTH;
+				int len = ANY_LENGTH;
                 tmp = UTF8_getch(&utf8str, &len);
                 int FG = win->line[j].FG[w];
                 int BG = win->line[j].BG[w];
@@ -691,15 +691,14 @@ inline int printstring(WINDOW *win, char *fmt)
     int size = strlen(fmt);
     int j, i;
     int x = cursorx_to_position(win->line[win->cursory].chars, win->cursorx);
-
     for (j=0; j<size; j++){
         if (!(fmt[j]==10)){//check that this isnt a newline char
             const char* utf8str = fmt+j;
-            size_t len = ANY_LENGTH;
-            Uint32 ch = UTF8_getch(&utf8str, &len);
+            int len = ANY_LENGTH;
+            unsigned ch = UTF8_getch(&utf8str, &len);
             int cw = mk_wcwidth((wchar_t)ch);
             len = ANY_LENGTH-len;
-            if (x+win->cursorx <= win->width && win->cursory <= win->height - 1) {
+            if (win->cursorx+cw <= win->width && win->cursory <= win->height - 1) {
                 erease_utf8_by_cw(win->line[win->cursory].chars+x, cw, len);
                 for(i=0; i<len; i++)
                 {
@@ -717,6 +716,8 @@ inline int printstring(WINDOW *win, char *fmt)
                 x+=len;
             } else if (win->cursory <= win->height - 1) {
                 // don't write outside the window, but don't abort if there are still lines to write.
+                j += len-1;
+                x+=len;
             } else {
                 return 0; //if we try and write anything outside the window, abort completely
             }

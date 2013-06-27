@@ -1,15 +1,16 @@
-
+#include "catacharset.h"
+#include <iostream>
 
 #include "wcwidth.c"
 
 //copied from SDL2_ttf code
-Uint32 UTF8_getch(const char **src, size_t *srclen)
+unsigned UTF8_getch(const char **src, int *srclen)
 {
-    const Uint8 *p = *(const Uint8**)src;
-    size_t left = 0;
-    SDL_bool overlong = SDL_FALSE;
-    SDL_bool underflow = SDL_FALSE;
-    Uint32 ch = UNKNOWN_UNICODE;
+    const unsigned char *p = *(const unsigned char**)src;
+    int left = 0;
+    bool overlong = false;
+    bool underflow = false;
+    unsigned ch = UNKNOWN_UNICODE;
 
     if (*srclen == 0) {
         return UNKNOWN_UNICODE;
@@ -17,46 +18,46 @@ Uint32 UTF8_getch(const char **src, size_t *srclen)
     if (p[0] >= 0xFC) {
         if ((p[0] & 0xFE) == 0xFC) {
             if (p[0] == 0xFC) {
-                overlong = SDL_TRUE;
+                overlong = true;
             }
-            ch = (Uint32) (p[0] & 0x01);
+            ch = (unsigned) (p[0] & 0x01);
             left = 5;
         }
     } else if (p[0] >= 0xF8) {
         if ((p[0] & 0xFC) == 0xF8) {
             if (p[0] == 0xF8) {
-                overlong = SDL_TRUE;
+                overlong = true;
             }
-            ch = (Uint32) (p[0] & 0x03);
+            ch = (unsigned) (p[0] & 0x03);
             left = 4;
         }
     } else if (p[0] >= 0xF0) {
         if ((p[0] & 0xF8) == 0xF0) {
             if (p[0] == 0xF0) {
-                overlong = SDL_TRUE;
+                overlong = true;
             }
-            ch = (Uint32) (p[0] & 0x07);
+            ch = (unsigned) (p[0] & 0x07);
             left = 3;
         }
     } else if (p[0] >= 0xE0) {
         if ((p[0] & 0xF0) == 0xE0) {
             if (p[0] == 0xE0) {
-                overlong = SDL_TRUE;
+                overlong = true;
             }
-            ch = (Uint32) (p[0] & 0x0F);
+            ch = (unsigned) (p[0] & 0x0F);
             left = 2;
         }
     } else if (p[0] >= 0xC0) {
         if ((p[0] & 0xE0) == 0xC0) {
             if ((p[0] & 0xDE) == 0xC0) {
-                overlong = SDL_TRUE;
+                overlong = true;
             }
-            ch = (Uint32) (p[0] & 0x1F);
+            ch = (unsigned) (p[0] & 0x1F);
             left = 1;
         }
     } else {
         if ((p[0] & 0x80) == 0x00) {
-            ch = (Uint32) p[0];
+            ch = (unsigned) p[0];
         }
     }
     ++*src;
@@ -74,7 +75,7 @@ Uint32 UTF8_getch(const char **src, size_t *srclen)
         --left;
     }
     if (left > 0) {
-        underflow = SDL_TRUE;
+        underflow = true;
     }
     if (overlong || underflow ||
         (ch >= 0xD800 && ch <= 0xDFFF) ||
@@ -91,8 +92,8 @@ int cursorx_to_position(const char* line, int cursorx)
 	while(c<cursorx)
 	{
 		const char* utf8str = line+i;
-		size_t len = ANY_LENGTH;
-		Uint32 ch = UTF8_getch(&utf8str, &len);
+		int len = ANY_LENGTH;
+		unsigned ch = UTF8_getch(&utf8str, &len);
 		int cw = mk_wcwidth((wchar_t)ch);
 		len = ANY_LENGTH-len;
         if(len<=0) len=1;
@@ -113,8 +114,8 @@ void erease_utf8_by_cw( char* t, int cw, int len)
     while(c<cw)
     {
 		const char* utf8str = t+i;
-		size_t len = ANY_LENGTH;
-		Uint32 ch = UTF8_getch(&utf8str, &len);
+		int len = ANY_LENGTH;
+		unsigned ch = UTF8_getch(&utf8str, &len);
 		int cw = mk_wcwidth((wchar_t)ch);
 		len = ANY_LENGTH-len;
         if(len<=0) len=1;
