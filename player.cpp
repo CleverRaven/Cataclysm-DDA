@@ -6528,6 +6528,7 @@ void player::read(game *g, char ch)
  
     it_book* tmp = dynamic_cast<it_book*>(it->type);
     int time; //Declare this here so that we can change the time depending on whats needed
+    bool study = false;
     if (tmp->intel > 0 && has_trait(PF_ILLITERATE)) 
     {
         g->add_msg("You're illiterate!");
@@ -6561,6 +6562,14 @@ void player::read(game *g, char ch)
     {
         return;
     }
+    else if (!activity.continuous && !query_yn("Study %s?", tmp->type->name().c_str()))
+    {
+        return;
+    }
+    else
+    {
+        study = true;
+    }
 
     if (tmp->recipes.size() > 0 && !(activity.continuous))
     {
@@ -6585,11 +6594,13 @@ void player::read(game *g, char ch)
         g->add_msg("This book is too complex for you to easily understand. It will take longer to read.");
         time += (tmp->time * (tmp->intel - int_cur) * 100); // Lower int characters can read, at a speed penalty
         activity = player_activity(ACT_READ, time, index, ch, "");
+        activity.continuous = study;
         moves = 0;
         return;
     }
     
     activity = player_activity(ACT_READ, time, index, ch, "");
+    activity.continuous = study;
     moves = 0;
 }
 
