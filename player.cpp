@@ -362,7 +362,11 @@ void player::update_morale()
     }
 
     // We reapply persistent morale effects after every decay step, to keep them fresh.
+    apply_persistent_morale();
+}
 
+void player::apply_persistent_morale()
+{
     // Hoarders get a morale penalty if they're not carrying a full inventory.
     if (has_trait(PF_HOARDER))
     {
@@ -2263,6 +2267,9 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
 
 void player::disp_morale(game *g)
 {
+    // Ensure the player's persistent morale effects are up-to-date.
+    apply_persistent_morale();
+
     // Create and draw the window itself.
     WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,

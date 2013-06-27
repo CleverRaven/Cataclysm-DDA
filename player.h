@@ -65,6 +65,7 @@ public:
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
  void action_taken(); // Called after every action, invalidates player caches.
  void update_morale();	// Ticks down morale counters and removes them
+ void apply_persistent_morale(); // Ensure persistent morale effects are up-to-date.
  void update_mental_focus();
  int calc_focus_equilibrium();
  void update_bodytemp(game *g);  // Maintains body temperature
