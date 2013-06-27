@@ -1181,14 +1181,18 @@ void player::load_info(game *g, std::string data)
  morale_point mortmp;
  dump >> nummor;
  for (int i = 0; i < nummor; i++) {
+  // Load morale properties in structure order.
   int mortype;
   std::string item_id;
-  dump >> mortmp.bonus >> mortype >> item_id;
+  dump >> mortype >> item_id;
   mortmp.type = morale_type(mortype);
   if (g->itypes.find(item_id) != g->itypes.end())
    mortmp.item_type = NULL;
   else
    mortmp.item_type = g->itypes[item_id];
+
+  dump >> mortmp.bonus >> mortmp.duration >> mortmp.decay_start
+       >> mortmp.age;
   morale.push_back(mortmp);
  }
 
@@ -1271,12 +1275,14 @@ std::string player::save_info()
 
  dump << morale.size() << " ";
  for (int i = 0; i < morale.size(); i++) {
-  dump << morale[i].bonus << " " << morale[i].type << " ";
+  // Output morale properties in structure order.
+  dump << morale[i].type << " ";
   if (morale[i].item_type == NULL)
    dump << "0";
   else
    dump << morale[i].item_type->id;
-  dump << " ";
+  dump << " " << morale[i].bonus << " " << morale[i].duration << " "
+       << morale[i].decay_start << " " << morale[i].age << " ";
  }
 
  dump << " " << active_missions.size() << " ";
