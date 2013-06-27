@@ -3085,7 +3085,8 @@ void map::draw(game *g, WINDOW* w, const point center)
     }
    }
 
-   if (dist > real_max_sight_range ||
+   if ((g->u.has_active_bionic("bio_night") && dist < 15 && dist > natural_sight_range) || // if bio_night active, blackout 15 tile radius around player
+       dist > real_max_sight_range ||
        (dist > light_sight_range &&
          (lit == LL_DARK ||
          (u_sight_impaired && lit != LL_BRIGHT) ||

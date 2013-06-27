@@ -564,13 +564,18 @@ void monster::hit_monster(game *g, int i)
 }
 
 
-bool monster::hurt(int dam)
+bool monster::hurt(int dam, int real_dam)
 {
  hp -= dam;
- if (hp < 1)
-  return true;
- if (dam > 0)
-  process_trigger(MTRIG_HURT, 1 + int(dam / 3));
+ if( real_dam > 0 ) {
+     hp = std::max( hp, -real_dam );
+ }
+ if (hp < 1) {
+     return true;
+ }
+ if (dam > 0) {
+     process_trigger(MTRIG_HURT, 1 + int(dam / 3));
+ }
  return false;
 }
 

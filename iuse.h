@@ -130,6 +130,8 @@ class iuse
   void turret		(game *g, player *p, item *it, bool t);
   void UPS_off		(game *g, player *p, item *it, bool t);
   void UPS_on		(game *g, player *p, item *it, bool t);
+  void adv_UPS_off		(game *g, player *p, item *it, bool t);
+  void adv_UPS_on		(game *g, player *p, item *it, bool t);
   void tazer		(game *g, player *p, item *it, bool t);
   void mp3		(game *g, player *p, item *it, bool t);
   void mp3_on		(game *g, player *p, item *it, bool t);
@@ -137,6 +139,7 @@ class iuse
   void dog_whistle	(game *g, player *p, item *it, bool t);
   void vacutainer	(game *g, player *p, item *it, bool t);
   void knife    	(game *g, player *p, item *it, bool t);
+  static void cut_log_into_planks(game *g, player *p, item *it);
   void lumber    	(game *g, player *p, item *it, bool t);
   void hacksaw          (game *g, player *p, item *it, bool t);
   void tent             (game *g, player *p, item *it, bool t);

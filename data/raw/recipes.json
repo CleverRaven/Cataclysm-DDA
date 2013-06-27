@@ -1571,7 +1571,7 @@
          "components" : [
             [
                ["scrap", 6],
-               ["steel_lump", 2]
+               ["steel_chunk", 2]
             ]
          ]
         },
@@ -1962,6 +1962,12 @@
             ],
             [
                ["fletching", 10]
+            ],
+            [
+               ["bone", 5],
+               ["rock", 1],
+               ["scrap", 2],
+               ["nail", 10]
             ]
          ]
         },
@@ -1970,7 +1976,7 @@
          "category" : "CC_AMMO",
          "skill_pri" : "archery",
          "skill_sec" : "mechanics",
-         "difficulty" : 5,
+         "difficulty" : 6,
          "time" : 3000,
          "reversible" : false,
          "autolearn" : true,
@@ -5492,8 +5498,47 @@
                                   ["cable", 10]
                               ]
                           ]
+
         },
 
+        {
+           "result" : "adv_UPS_off",
+           "category" : "CC_ELECTRONIC",
+           "skill_pri" : "electronics",
+           "skill_sec" : "mechanics",
+           "difficulty" : 9,
+           "time" : 85000,
+           "reversible" : true,
+           "decomp_learn" : 4,
+           "autolearn" : true,
+           "tools" : [
+              [
+                 ["screwdriver", -1],
+                 ["toolset", -1]
+              ],
+              [
+                 ["soldering_iron", 24],
+                 ["toolset", 2]
+              ]
+           ],
+           "components" : [
+              [
+                 ["power_supply", 6]
+              ],
+              [
+                 ["amplifier", 5]
+              ],
+              [
+                 ["scrap", 4]
+              ],
+              [
+                 ["cable", 14]
+              ],
+              [
+                 ["plut_cell", 2]
+              ]
+           ]
+        },
 
         {
             "result": "bio_power_storage",
@@ -5553,7 +5598,8 @@
             "components": [
                               [
                                   ["power_supply", 10],
-                                  ["UPS_off", 2]
+                                  ["UPS_off", 2],
+                                  ["adv_UPS_off", 1]
                               ],
                               [
                                   ["amplifier", 6]

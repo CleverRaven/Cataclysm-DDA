@@ -147,6 +147,8 @@ void Item_factory::init(){
     iuse_function_list["TURRET"] = &iuse::turret;
     iuse_function_list["UPS_OFF"] = &iuse::UPS_off;
     iuse_function_list["UPS_ON"] = &iuse::UPS_on;
+    iuse_function_list["adv_UPS_OFF"] = &iuse::adv_UPS_off;
+    iuse_function_list["adv_UPS_ON"] = &iuse::adv_UPS_on;
     iuse_function_list["TAZER"] = &iuse::tazer;
     iuse_function_list["MP3"] = &iuse::mp3;
     iuse_function_list["MP3_ON"] = &iuse::mp3_on;
@@ -590,6 +592,9 @@ void Item_factory::load_item_groups_from(const std::string file_name){
     //Crawl through once and create an entry for every definition
     const picojson::array& all_items = input_value.get<picojson::array>();
     for (picojson::array::const_iterator entry = all_items.begin(); entry != all_items.end(); ++entry) {
+        // TODO: Make sure we have at least an item or group child, as otherwise
+        //       later things will bug out.
+
         if( !(entry->is<picojson::object>()) ){
             std::cerr << "Invalid group definition, entry not a JSON object" << std::endl;
         }
@@ -611,7 +616,7 @@ void Item_factory::load_item_groups_from(const std::string file_name){
         const picojson::value::object& entry_body = entry->get<picojson::object>();
 
         Item_tag group_id = entry_body.find("id")->second.get<std::string>();
-        Item_group current_group = *m_template_groups.find(group_id)->second;
+        Item_group *current_group = m_template_groups.find(group_id)->second;
 
         //Add items
         picojson::value::object::const_iterator key_pair = entry_body.find("items");
@@ -633,7 +638,7 @@ void Item_factory::load_item_groups_from(const std::string file_name){
                         if(!item_frequency_array[0].is<std::string>() || !item_frequency_array[1].is<double>() ){
                             std::cerr << "Invalid item list for group definition '"+group_id+"', element is not a valid tag/frequency pair." << std::endl;
                         } else {
-                            current_group.add_entry(item_frequency_array[0].get<std::string>(), (int)item_frequency_array[1].get<double>());
+                            current_group->add_entry(item_frequency_array[0].get<std::string>(), (int)item_frequency_array[1].get<double>());
                         }
                     }
                 }
@@ -661,7 +666,7 @@ void Item_factory::load_item_groups_from(const std::string file_name){
                             std::cerr << "Invalid group list for group definition '"+group_id+"', element is not a valid tag/frequency pair." << std::endl;
                         } else {
                             Item_group* subgroup = m_template_groups.find(item_frequency_array[0].get<std::string>())->second;
-                            current_group.add_group(subgroup, (int)item_frequency_array[1].get<double>());
+                            current_group->add_group(subgroup, (int)item_frequency_array[1].get<double>());
                         }
                     }
                 }
