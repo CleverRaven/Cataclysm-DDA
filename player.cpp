@@ -4283,7 +4283,8 @@ int player::morale_level()
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        itype *item_type)
+                        itype *item_type, int duration,
+                        int decay_start, bool cap_existing)
 {
     bool placed = false;
 
@@ -4295,13 +4296,46 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
             // Found a match!
             placed = true;
 
-            // Scale the morale bonus to its current level...
+            // Scale the morale bonus to its current level.
             if (morale[i].age > morale[i].decay_start)
             {
                 morale[i].bonus *= logistic_range(morale[i].decay_start,
                                                   morale[i].duration, morale[i].age);
             }
-            // ... and reset its age.
+
+            // If we're capping the existing effect, we can use the new duration
+            // and decay start.
+            if (cap_existing)
+            {
+                morale[i].duration = duration;
+                morale[i].decay_start = decay_start;
+            }
+            else
+            {
+                // Otherwise, we need to figure out whether the existing effect had
+                // more remaining duration and decay-resistance than the new one does.
+                if (morale[i].duration - morale[i].age <= duration)
+                {
+                    morale[i].duration = duration;
+                }
+                else
+                {
+                    // This will give a longer duration than above.
+                    morale[i].duration -= morale[i].age;
+                }
+
+                if (morale[i].decay_start - morale[i].age <= decay_start)
+                {
+                    morale[i].decay_start = decay_start;
+                }
+                else
+                {
+                    // This will give a later decay start than above.
+                    morale[i].decay_start -= morale[i].age;
+                }
+            }
+
+            // Now that we've finished using it, reset the age to 0.
             morale[i].age = 0;
 
             // Is the current morale level for this entry below its cap, if any?
@@ -4315,6 +4349,11 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
                 {
                     morale[i].bonus = max_bonus;
                 }
+            }
+            else if (cap_existing)
+            {
+                // The existing bonus is above the new cap.  Reduce it.
+                morale[i].bonus = max_bonus;
             }
         }
     }
