@@ -4201,8 +4201,9 @@ double logistic(double t)
     return 1 / (1 + exp(-t));
 }
 
-const double LOGI_MIN = logistic(-6);
-const double LOGI_MAX = logistic(+6);
+const double LOGI_CUTOFF = 4;
+const double LOGI_MIN = logistic(-LOGI_CUTOFF);
+const double LOGI_MAX = logistic(+LOGI_CUTOFF);
 const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
 
 // Logistic curve [-6,6], flipped and scaled to
@@ -4223,8 +4224,8 @@ double logistic_range(int min, int max, int pos)
     double range = max - min;
     double unit_pos = (pos - min) / range;
 
-    // Scale and flip it to [6,-6]
-    double scaled_pos = 6 - 12 * unit_pos;
+    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
+    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
 
     // Get the raw logistic value.
     double raw_logistic = logistic(scaled_pos);
