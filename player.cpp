@@ -5373,7 +5373,7 @@ bool player::eat(game *g, signed char ch)
     if (eaten->charges <= 0)
     {
         if (which == -1)
-            weapon = ret_null;
+            weapon = get_combat_style(g);
         else if (which == -2)
         {
             weapon.contents.erase(weapon.contents.begin());
