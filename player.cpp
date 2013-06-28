@@ -4561,7 +4561,7 @@ item player::remove_weapon()
   weapon.active = false;
  }
  item tmp = weapon;
- weapon = ret_null;
+ weapon = get_combat_style(g);
 // We need to remove any boosts related to our style
  rem_disease(DI_ATTACK_BOOST);
  rem_disease(DI_DODGE_BOOST);
