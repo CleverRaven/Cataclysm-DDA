@@ -339,7 +339,7 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 3) {  // Delete world
-                if (query_yn("Delete the world and all saves?")) {
+                if (query_yn("删除所有地图和存档？")) {
                     delete_save();
                     savegames.clear();
                     MAPBUFFER.reset();

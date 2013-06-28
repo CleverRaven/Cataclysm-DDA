@@ -338,7 +338,7 @@ bool query_yn(const char *mes, ...)
  char buff[1024];
  vsprintf(buff, mes, ap);
  va_end(ap);
- int win_width = strlen(buff) + 26;
+ int win_width = utf8_width(buff) + 26;
 
  WINDOW *w = newwin(3, win_width, (TERMY-3)/2, (TERMX > win_width) ? (TERMX-win_width)/2 : 0);
 
@@ -366,7 +366,7 @@ int query_int(const char *mes, ...)
  char buff[1024];
  vsprintf(buff, mes, ap);
  va_end(ap);
- int win_width = strlen(buff) + 10;
+ int win_width = utf8_width(buff) + 10;
 
  WINDOW *w = newwin(3, win_width, (TERMY-3)/2, 11+((TERMX > win_width) ? (TERMX-win_width)/2 : 0));
 
@@ -391,7 +391,7 @@ std::string string_input_popup(std::string title, int max_length, std::string in
 {
  std::string ret = input;
 
- int startx = title.size() + 2;
+ int startx = utf8_width(title.c_str()) + 2;
  WINDOW *w = newwin(3, 80, (TERMY-3)/2, ((TERMX > 80) ? (TERMX-80)/2 : 0));
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -403,7 +403,7 @@ std::string string_input_popup(std::string title, int max_length, std::string in
  if (input != "")
   mvwprintz(w, 1, startx, c_magenta, "%s", input.c_str());
 
- int posx = startx + input.size();
+ int posx = startx + utf8_width(input.c_str());
  mvwputch(w, 1, posx, h_ltgray, '_');
  do {
   wrefresh(w);
