@@ -2039,7 +2039,7 @@ void game::update_scent()
 
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-   const int move_cost = m.move_cost_ter_only(x, y);
+   const int move_cost = m.move_cost_ter_furn(x, y);
    const field field_at = m.field_at(x, y);
    const bool is_bashable = m.has_flag(bashable, x, y);
    newscent[x][y] = 0;
@@ -3838,9 +3838,8 @@ bool game::sees_u(int x, int y, int &t)
  if( range <= 0)
   range = 1;
 
- return (!u.has_active_bionic("bio_cloak") &&
-         !u.has_artifact_with(AEP_INVISIBLE) &&
-         m.sees(x, y, u.posx, u.posy, range, t));
+ return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
+           u.has_artifact_with(AEP_INVISIBLE)) && m.sees(x, y, u.posx, u.posy, range, t));
 }
 
 bool game::u_see(int x, int y)
@@ -3854,6 +3853,8 @@ bool game::u_see(int x, int y)
           (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
             m.light_at(x, y) >= LL_LOW))
      can_see = m.pl_sees(u.posx, u.posy, x, y, wanted_range);
+     if (u.has_active_bionic("bio_night") && wanted_range < 15 && wanted_range > u.sight_range(1))
+        return false;
 
  return can_see;
 }
@@ -4584,10 +4585,10 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
  }
 }
 
-void game::flashbang(int x, int y)
+void game::flashbang(int x, int y, bool player_immune)
 {
  int dist = rl_dist(u.posx, u.posy, x, y), t;
- if (dist <= 8) {
+ if (dist <= 8 && !player_immune) {
   if (!u.has_bionic("bio_ears"))
    u.add_disease(DI_DEAF, 40 - dist * 4, this);
   if (m.sees(u.posx, u.posy, x, y, 8, t))
@@ -4769,13 +4770,13 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
             targ->posx = traj[i].x;
             targ->posy = traj[i].y;
             if(m.has_flag(liquid, targ->posx, targ->posy) && !targ->has_flag(MF_SWIMS) &&
-                !targ->has_flag(MF_AQUATIC) && !targ->has_flag(MF_FLIES))
+                !targ->has_flag(MF_AQUATIC) && !targ->has_flag(MF_FLIES) && !targ->dead)
             {
                 targ->hurt(9999);
                 if (u_see(targ))
                     add_msg("The %s drowns!", targ->name().c_str());
             }
-            if(!m.has_flag(liquid, targ->posx, targ->posy) && targ->has_flag(MF_AQUATIC))
+            if(!m.has_flag(liquid, targ->posx, targ->posy) && targ->has_flag(MF_AQUATIC) && !targ->dead)
             {
                 targ->hurt(9999);
                 if (u_see(targ))
@@ -5360,6 +5361,8 @@ void game::close()
     else if (m.ter(closex, closey) == t_window_domestic &&
              m.is_outside(u.posx, u.posy))  {
         add_msg("You cannot close the curtains from outside. You must be inside the building.");
+    } else if (m.has_furn(closex, closey)) {
+       add_msg("There's a %s in the way!", m.furnname(closex, closey).c_str());
     } else
         didit = m.close_door(closex, closey, true);
 
@@ -5890,10 +5893,14 @@ void game::examine()
   use_computer(examx, examy);
   return;
  }
+ const furn_t *xfurn_t = &furnlist[m.furn(examx,examy)];
  const ter_t *xter_t = &terlist[m.ter(examx,examy)];
  iexamine xmine;
 
- (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
+ if (m.has_furn(examx, examy))
+   (xmine.*xfurn_t->examine)(this,&u,&m,examx,examy);
+ else
+   (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 
     if (m.has_flag(sealed, examx, examy))
     {
@@ -5901,8 +5908,7 @@ void game::examine()
     }
     else {
    //examx,examy has no traps, is a container and doesn't have a special examination function
-  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) &&
-       xter_t->examine == &iexamine::none)
+  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy))
    add_msg("It is empty.");
   else
    if (!veh)pickup(examx, examy, 0);
@@ -7100,15 +7106,22 @@ point game::look_debug(point coords) {
 
     int tter=m.ter(lx, ly);
     ter_t terrain_type = terlist[m.ter(lx, ly)];
-
+    furn_t furniture_type = furnlist[m.furn(lx, ly)];
 
     mvwputch(w_look, off, 2, terrain_type.color, terrain_type.sym);
-    mvwprintw(w_look, off, 4, "%d: %s; movecost %d movestr %d", m.ter(lx, ly),
-         m.tername(lx, ly).c_str(),
-         m.move_cost(lx, ly),
-         terrain_type.move_str_req
+    mvwprintw(w_look, off, 4, "%d: %s; movecost %d", m.ter(lx, ly),
+         terrain_type.name.c_str(),
+         terrain_type.movecost
     );
     off++; // 2
+
+    mvwputch(w_look, off, 2, furniture_type.color, furniture_type.sym);
+    mvwprintw(w_look, off, 4, "%d: %s; movecost %d movestr %d", m.furn(lx, ly),
+         furniture_type.name.c_str(),
+         furniture_type.movecost,
+         furniture_type.move_str_req
+    );
+    off++; // 3
 
     mvwprintw(w_look, off, 2, "dist: %d u_see: %d light: %d v_in: %d", rl_dist(u.posx, u.posy, lx, ly), u_see(lx, ly), m.light_at(lx,ly), veh_in );
     off++; // 3
@@ -7242,7 +7255,7 @@ point game::look_debug(point coords) {
             for (int i=off;i < 3; i++) {
               mvwprintw(w_pickter, i, 1, "%s",padding.c_str());
             }
-              mvwprintz(w_pickter, off, 2, c_white, "movecost %d, move str %d",pttype.movecost,pttype.move_str_req);
+              mvwprintz(w_pickter, off, 2, c_white, "movecost %d",pttype.movecost);
               //mvwprintw(w_pickter, off+1, 2, "%s", m.features(lx, ly).c_str());
               std::string extras="";
               if(pttype.flags & mfb(indoors)) extras+="[indoors] ";
@@ -7444,10 +7457,14 @@ point game::look_around()
   int veh_part = 0;
   vehicle *veh = m.veh_at(lx, ly, veh_part);
   if (u_see(lx, ly)) {
+   std::string tile = m.tername(lx, ly);
+   if (m.has_furn(lx, ly))
+    tile += "; " + m.furnname(lx, ly);
+
    if (m.move_cost(lx, ly) == 0)
-    mvwprintw(w_look, 1, 1, "%s; Impassable", m.tername(lx, ly).c_str());
+    mvwprintw(w_look, 1, 1, "%s; Impassable", tile.c_str());
    else
-    mvwprintw(w_look, 1, 1, "%s; Movement cost %d", m.tername(lx, ly).c_str(),
+    mvwprintw(w_look, 1, 1, "%s; Movement cost %d", tile.c_str(),
                                                     m.move_cost(lx, ly) * 50);
    mvwprintw(w_look, 2, 1, "%s", m.features(lx, ly).c_str());
    field tmpfield = m.field_at(lx, ly);
@@ -9928,7 +9945,8 @@ void game::plmove(int x, int y)
    if (veh1 && m.move_cost(x,y) != 2)
     add_msg("Moving past this %s is slow!", veh1->part_info(vpart1).name);
    else
-    add_msg("Moving past this %s is slow!", m.tername(x, y).c_str());
+    add_msg("Moving past this %s is slow!", m.has_furn(x, y) ?
+             m.furnname(x, y).c_str() : m.tername(x, y).c_str());
   }
   if (m.has_flag(rough, x, y) && (!u.in_vehicle)) {
    if (one_in(5) && u.armor_bash(bp_feet) < rng(2, 5)) {
@@ -10099,7 +10117,8 @@ void game::plmove(int x, int y)
  } else { // Invalid move
   if (u.has_disease(DI_BLIND) || u.has_disease(DI_STUNNED)) {
 // Only lose movement if we're blind
-   add_msg("You bump into a %s!", m.tername(x, y).c_str());
+   add_msg("You bump into a %s!", m.has_furn(x, y) ?
+           m.furnname(x, y).c_str() : m.tername(x, y).c_str());
    u.moves -= 100;
   } else if (m.open_door(x, y, !m.is_outside(u.posx, u.posy)))
    u.moves -= 100;

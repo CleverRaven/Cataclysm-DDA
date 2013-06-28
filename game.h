@@ -138,7 +138,7 @@ class game
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
   void explosion(int x, int y, int power, int shrapnel, bool fire);
 // Flashback at (x, y)
-  void flashbang(int x, int y);
+  void flashbang(int x, int y, bool player_immune = false);
 // Move the player vertically, if (force) then they fell
   void vertical_move(int z, bool force);
   void use_computer(int x, int y);
@@ -471,7 +471,7 @@ class game
   bool handle_action();
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died
-  void place_corpse();     // Place player corpse 
+  void place_corpse();     // Place player corpse
   void death_screen();     // Display our stats, "GAME OVER BOO HOO"
   void gameover();         // Ends the game
   void write_msg();        // Prints the messages in the messages list

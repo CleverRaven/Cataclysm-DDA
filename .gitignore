@@ -25,6 +25,8 @@ Debug*/
 *~
 \#*
 *.bak
+*.cbTemp
+gmon.out
 
 # System Files
 Thumbs.db

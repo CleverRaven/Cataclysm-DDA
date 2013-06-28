@@ -463,8 +463,8 @@ int player::dodge(game *g)
     ret += int(current_speed(g) / 150); //Faster = small dodge advantage
 
     //Mutations
-    if (has_trait(PF_TAIL_LONG)) {ret += 4;}
-    if (has_trait(PF_TAIL_FLUFFY)) {ret += 8;}
+    if (has_trait(PF_TAIL_LONG)) {ret += 2;}
+    if (has_trait(PF_TAIL_FLUFFY)) {ret += 4;}
     if (has_trait(PF_WHISKERS)) {ret += 1;}
     if (has_trait(PF_WINGS_BAT)) {ret -= 3;}
 

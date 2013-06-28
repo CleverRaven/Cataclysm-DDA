@@ -517,7 +517,7 @@ void veh_interact::move_cursor (int dx, int dy)
     veh->coord_translate (vdx, vdy, vx, vy);
     int vehx = veh->global_x() + vx;
     int vehy = veh->global_y() + vy;
-    bool obstruct = g->m.move_cost_ter_only (vehx, vehy) == 0;
+    bool obstruct = g->m.move_cost_ter_furn (vehx, vehy) == 0;
     vehicle *oveh = g->m.veh_at (vehx, vehy);
     if (oveh && oveh != veh)
     {
@@ -875,7 +875,7 @@ void complete_vehicle (game *g)
         break;
     case 'o':
         for (int i = 0; i < veh->parts[part].items.size(); i++)
-            g->m.add_item (g->u.posx, g->u.posy, veh->parts[part].items[i]);
+            g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[part].items[i], 1, false);
         veh->parts[part].items.clear();
         itm = veh->part_info(part).item;
         broken = veh->parts[part].hp <= 0;

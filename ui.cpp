@@ -21,9 +21,9 @@ std::vector<std::string> foldstring ( std::string str, int width ) {
 
     int linepos = width;
     int linestart = 0;
-
-    while( linepos < str.length() ) {
-        int crpos = str.find('\n', linestart);
+    int crpos = -2;
+    while( linepos < str.length() || crpos != -1 ) {
+        crpos = str.find('\n', linestart);
         if (crpos != -1 && crpos <= linepos) {
             lines.push_back( str.substr( linestart, crpos-linestart ) );
             linepos = crpos + width + 1;
@@ -127,6 +127,7 @@ void uimenu::init() {
     textformatted.clear(); // folded to textwidth
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
     textalign = MENU_ALIGN_LEFT; // todo
+    title = "";            // Makes use of the top border, no folding or width checking
     keypress = 0;          // last keypress from (int)getch()
     window = NULL;         // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
@@ -138,6 +139,7 @@ void uimenu::init() {
     border = true;         // todo: always true
     border_color = c_magenta; // border color
     text_color = c_ltgray;  // text color
+    title_color = c_green;  // title color
     hilight_color = h_white; // highlight for up/down selection bar
     hotkey_color = c_ltgreen; // hotkey text to the right of menu entry's text
     disabled_color = c_dkgray; // disabled menu entry
@@ -145,6 +147,8 @@ void uimenu::init() {
     hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled = false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
     shift_retval = 0;        // for legacy menu/vec_menu
+    vshift = 0;              // scrolling menu offset
+    vmax = 0;                // max entries area rows
 }
 
 void uimenu::show() {
@@ -222,15 +226,24 @@ void uimenu::show() {
             } else if ( textwidth != -1 ) {
                 realtextwidth = textwidth;
             }
-            textformatted = foldstring(text, realtextwidth);     
+            textformatted = foldstring(text, realtextwidth);
         }
 
         if (h_auto) {
             w_height = 2 + textformatted.size() + entries.size();
         }
 
-        if (h_auto && w_height > TERMY) {
+        vmax = entries.size();
+        if ( w_height > TERMY ) {
             w_height = TERMY;
+        }
+        if ( vmax + 2 + textformatted.size() > w_height ) {
+            vmax = w_height - 2 - textformatted.size();
+            if ( vmax < 1 ) {
+                popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
+                   textformatted.size(),TERMY,textformatted[0].c_str(),textformatted[textformatted.size()-1].c_str()
+                );
+            }
         }
 
         if (w_x == -1) {
@@ -246,6 +259,11 @@ void uimenu::show() {
         wborder(window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
         wattroff(window, border_color);
+        if( title.size() > 0 ) {
+            mvwprintz(window, 0, 1, border_color, "< ");
+            wprintz(window, title_color, "%s", title.c_str() );
+            wprintz(window, border_color, " >");
+        }
         started = true;
     }
     std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
@@ -253,15 +271,25 @@ void uimenu::show() {
         mvwprintz(window, 1+i, 2, text_color, "%s", textformatted[i].c_str());
     }
     int estart = textformatted.size() + 1; // todo fold text + get offset
-    for ( int i = 0; i < entries.size(); i++ ) {
-        nc_color co = ( i == selected ? hilight_color : ( entries[ i ].enabled ? text_color : disabled_color ) );
-        if ( hilight_full ) {
-            mvwprintz(window, estart + i, pad_left + 1, co , "%s", padspaces.c_str());
+
+    if ( selected < vshift ) {
+        vshift=selected;
+    } else if ( selected >= vshift + vmax ) {
+        vshift=1+selected-vmax;
+    }
+    for ( int ei = vshift, si=0; si < vmax; ei++,si++ ) {
+        if ( ei < entries.size() ) {
+            nc_color co = ( ei == selected ? hilight_color : ( entries[ ei ].enabled ? text_color : disabled_color ) );
+            if ( hilight_full ) {
+               mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
+            }
+            if(entries[ ei ].enabled && entries[ ei ].hotkey > 33 && entries[ ei ].hotkey < 126 ) {
+               mvwprintz(window, estart + si, pad_left + 2, ( ei == selected ? hilight_color : hotkey_color ) , "%c", entries[ ei ].hotkey);
+            }
+            mvwprintz(window, estart + si, pad_left + 4, co, "%s", entries[ ei ].txt.c_str() );
+        } else {
+            mvwprintz(window, estart + si, pad_left + 1, c_ltgray , "%s", padspaces.c_str());
         }
-        if(entries[ i ].enabled && entries[ i ].hotkey > 33 && entries[ i ].hotkey < 126 ) {
-            mvwprintz(window, estart + i, pad_left + 2, ( i == selected ? hilight_color : hotkey_color ) , "%c", entries[ i ].hotkey);
-        }
-        mvwprintz(window, estart + i, pad_left + 4, co, "%s", entries[ i ].txt.c_str() );
     }
     wrefresh(window);
 }
