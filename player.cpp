@@ -1185,7 +1185,7 @@ void player::load_info(game *g, std::string data)
   std::string item_id;
   dump >> mortmp.bonus >> mortype >> item_id;
   mortmp.type = morale_type(mortype);
-  if (g->itypes.find(item_id) != g->itypes.end())
+  if (g->itypes.find(item_id) == g->itypes.end())
    mortmp.item_type = NULL;
   else
    mortmp.item_type = g->itypes[item_id];
