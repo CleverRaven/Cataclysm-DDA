@@ -721,19 +721,13 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
     line_num++;
    }
   } else if (vItemDisplay[i].sType == "DESCRIPTION") {
-   std::string sText = vItemDisplay[i].sName;
-   std::replace(sText.begin(), sText.end(), '\n', ' ');
-   while (1) {
-     line_num++;
-     if (sText.size() > iWidth-4) {
-      int iPos = sText.find_last_of(' ', iWidth-4);
-      mvwprintz(w, line_num, 2, c_white, (sText.substr(0, iPos)).c_str());
-      sText = sText.substr(iPos+1, sText.size());
-     } else {
-      mvwprintz(w, line_num, 2, c_white, (sText).c_str());
-      break;
-     }
-   }
+    std::string sText = word_rewrap(vItemDisplay[i].sName, iWidth-4);
+	std::stringstream ss(sText);
+	std::string l;
+    while (std::getline(ss, l, '\n')) {
+      line_num++;
+	  mvwprintz(w, line_num, 2, c_white, l.c_str());
+    }
   } else {
    if (bStartNewLine) {
     mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
@@ -849,8 +843,10 @@ long special_symbol (long sym)
 #if 1
 // utf-8 version 
 // works differently, so keep the two versions in code for quick debug purpose
-std::string word_rewrap (const std::string &in, int width){
+std::string word_rewrap (const std::string &ins, int width){
     std::ostringstream o;
+	std::string in = ins;
+	std::replace(in.begin(), in.end(), '\n', ' ');
 	int lastwb = 0; //last word break
 	int lastout = 0;
 	int x=0; 
@@ -887,10 +883,6 @@ std::string word_rewrap (const std::string &in, int width){
 	}
 	for(int k=lastout; k<in.size(); k++)
 		o << in[k];
-
-	std::string temp = o.str();
-	DebugLog log;
-	log << "\n@\n" << temp << "\n@\n";
 
     return o.str();
 }
