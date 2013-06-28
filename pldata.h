@@ -242,6 +242,7 @@ enum pl_flag {
  PF_MAX,
 // Below this point is mutations and other mid-game perks.
 // They are NOT available during character creation.
+ //But can be added to professions
  PF_SKIN_ROUGH,//
  PF_NIGHTVISION2,//
  PF_NIGHTVISION3,//
@@ -624,11 +625,11 @@ a little more."},
 Iridescent feathers have grown to cover your entire body, providing a\n\
 marginal protection against attacks and minor protection from cold. They\n\
 also provide a natural waterproofing."},
-{"Lightly plated", 1, 6, 2, "\
-Light scale plates has grown to coveryour entire body, providing slight protection\n\
+{"Lightly Furred", 1, 6, 2, "\
+Light fur has grown to coveryour entire body, providing slight protection\n\
 from cold."},
-{"Plated", 2, 10, 3, "\
-Thick scale plates has grown to cover your entire body, providing a marginal\n\
+{"Furry", 2, 10, 3, "\
+Thick black fur has grown to cover your entire body, providing a marginal\n\
 protection against attacks, and considerable protection from cold."},
 {"Chitinous Skin", 2, 3, 2, "\
 Your epidermis has turned into a thin, flexible layer of chitin.  It provides\n\

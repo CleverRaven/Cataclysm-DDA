@@ -234,7 +234,7 @@ void player::mutate_category(game *g, mutation_category cat)
     return;
 }
 
-void player::mutate_towards(game *g, pl_flag mut)
+void player::mutate_towards(game *g, pl_flag mut, bool force_disregard_prereqs)
 {
  if (has_child_flag(g, mut)) {
   remove_child_flag(g, mut);
@@ -257,7 +257,7 @@ void player::mutate_towards(game *g, pl_flag mut)
     i--;
    }
   }
-  
+
  }
 
  if (!cancel.empty()) {
@@ -270,7 +270,7 @@ void player::mutate_towards(game *g, pl_flag mut)
   if (has_trait(prereq[i]))
    has_prereqs = true;
  }
- if (!has_prereqs && !prereq.empty()) {
+ if (!has_prereqs && !prereq.empty() && !force_disregard_prereqs) {
   pl_flag devel = prereq[ rng(0, prereq.size() - 1) ];
   mutate_towards(g, devel);
   return;
@@ -365,14 +365,14 @@ void player::remove_mutation(game *g, pl_flag mut)
     replacing = pre;
   }
  }
- 
+
 // See if this mutation is cancelled by a base trait
 //Only if there's no prereq to shrink to, thus we're at the bottom of the trait line
- if (replacing == PF_NULL) { 
- 
+ if (replacing == PF_NULL) {
+
  //Check each mutation until we reach the end or find a trait to revert to
- for (int i = 1; replacing == PF_NULL && i < PF_MAX2; i++) { 
- 
+ for (int i = 1; replacing == PF_NULL && i < PF_MAX2; i++) {
+
    //See if it's in our list of base traits but not active
    if (has_base_trait(i) && !has_trait(i)) {
     //See if that base trait cancels the mutation we are using

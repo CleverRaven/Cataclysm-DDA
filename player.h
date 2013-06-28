@@ -76,7 +76,7 @@ public:
  bool has_base_trait(int flag) const;
  void toggle_trait(int flag);
  void toggle_mutation(int flag);
- 
+
  bool in_climate_control(game *g);
 
  bool has_bionic(bionic_id b) const;
@@ -90,7 +90,7 @@ public:
  bool mutation_ok(game *g, pl_flag mutation, bool force_good, bool force_bad);
  void mutate(game *g);
  void mutate_category(game *g, mutation_category);
- void mutate_towards(game *g, pl_flag mut);
+ void mutate_towards(game *g, pl_flag mut, bool force_disregard_prereqs = false);
  void remove_mutation(game *g, pl_flag mut);
  bool has_child_flag(game *g, pl_flag mut);
  void remove_child_flag(game *g, pl_flag mut);

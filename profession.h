@@ -25,13 +25,15 @@ private:
     signed int _point_cost;
     std::vector<std::string> _starting_items;
     std::vector<addiction> _starting_addictions;
+    std::vector<std::string> _starting_mutations;
     StartingSkillList  _starting_skills;
 
     void add_item(std::string item);
     void add_addiction(add_type, int);
-    // Starting skills will boost the players level in those skills by a 
+    // Starting skills will boost the players level in those skills by a
     // given amount.
     void add_skill(const std::string& skill_name, const int level);
+    void add_mutation(const std::string& skill_name);
 public:
     //these three aren't meant for external use, but had to be made public regardless
     profession();
@@ -57,6 +59,7 @@ public:
     signed int point_cost() const;
     std::vector<std::string> items() const;
     std::vector<addiction> addictions() const;
+    std::vector<std::string> mutations() const;
     const StartingSkillList skills() const;
 
 };

@@ -45,26 +45,51 @@
  },
 
  {
-  "ident": "mechanic",
-  "name": "Wannabe Mechanic",
-  "description":
-"Although you never got your driver's license, you've always loved cars.\nYou start with a wrench, a toolbelt, and some car-related reading material.",
-  "points": 2,
-  "items": ["tank_top", "jeans", "boots", "beltrig", "wrench", "mag_cars", "manual_mechanics", "hacksaw"]
- },
+	  "ident": "mechanic",
+	  "name": "Wannabe Mechanic",
+	  "description":
+	  "Although you never got your driver's license, you've always loved cars.\nYou start with a wrench, a toolbelt, and some car-related reading material.",
+	  "points": 2,
+	  "items": ["tank_top", "jeans", "boots", "beltrig", "wrench", "mag_cars", "manual_mechanics", "hacksaw"]
+	 },
 
  {
-  "ident": "smoker",
-  "name": "Chain Smoker",
-  "description":
-"Everyone at work knew you as the person who always had a cigarette or two\nin hand. Now, you're down to a single pack, and you hope you find more soon.\nYou start out with a strong nicotine addiction, and 10 cigarettes.",
-  "points": -1,
-  "items": ["pants", "dress_shirt", "dress_shoes", "cig"],
-  "addictions": [
-      {
-	  "type": "nicotine",
-	  "intensity": 10
-      }
-  ]
+	  "ident": "smoker",
+	  "name": "Chain Smoker",
+	  "description":
+	  "Everyone at work knew you as the person who always had a cigarette or two\nin hand. Now, you're down to a single pack, and you hope you find more soon.\nYou start out with a strong nicotine addiction, and 10 cigarettes.",
+	  "points": -1,
+	  "items": ["pants", "dress_shirt", "dress_shoes", "cig"],
+	  "addictions": [
+		  {
+		  "type": "nicotine",
+		  "intensity": 10
+		  }
+	  ]
+ },
+ 
+  {
+	  "ident": "junkie",
+	  "name": "Junkie",
+	  "description":
+	  "Before the Apocalypse, you turned to Heroin to soothe your many problems.\nNow, your habit is your only comfort and your only drive.",
+	  "points": -1,
+	  "items": ["pants", "dress_shirt", "dress_shoes", "heroin","syringe"],
+	  "addictions": [
+		  {
+		  "type": "opiate",
+		  "intensity": 10
+		  }
+	  ]
+ },
+ 
+ {
+	  "ident": "regenerator",
+	  "name": "Regenerator",
+	  "description":
+	  "The Cataclysm had a disruptive effect on your biology. Your wounds heal\nrapidly, but the pain of mutation meant you couldn't grab anything useful \nbefore leaving for the shelter.",
+	  "points": 12,
+	  "items": ["pants", "dress_shirt", "dress_shoes"],
+	  "mutations": ["PF_REGEN"]
  }
 ]

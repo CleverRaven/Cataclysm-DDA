@@ -302,9 +302,546 @@ bool player::create(game *g, character_type type, std::string tempname)
      g->u.addictions.push_back(*iter);
  }
 
+ std::vector<std::string> prof_mutations = g->u.prof->mutations();
+ for (std::vector<std::string>::const_iterator iter = prof_mutations.begin(); iter != prof_mutations.end(); ++iter)
+ {
+     if(*iter == "PF_SKIN_ROUGH")
+    {
+        g->u.mutate_towards(g,PF_SKIN_ROUGH,true);
+    }
+    if(*iter == "PF_NIGHTVISION2")
+    {
+        g->u.mutate_towards(g,PF_NIGHTVISION2,true);
+    }
+    if(*iter == "PF_NIGHTVISION3")
+    {
+        g->u.mutate_towards(g,PF_NIGHTVISION3,true);
+    }
+    if(*iter == "PF_INFRARED")
+    {
+        g->u.mutate_towards(g,PF_INFRARED,true);
+    }
+    if(*iter == "PF_FASTHEALER2")
+    {
+        g->u.mutate_towards(g,PF_FASTHEALER2,true);
+    }
+    if(*iter == "PF_REGEN")
+    {
+        g->u.mutate_towards(g,PF_REGEN,true);
+    }
+    if(*iter == "PF_FANGS")
+    {
+        g->u.mutate_towards(g,PF_FANGS,true);
+    }
+    if(*iter == "PF_MEMBRANE")
+    {
+        g->u.mutate_towards(g,PF_MEMBRANE,true);
+    }
+    if(*iter == "PF_GILLS")
+    {
+        g->u.mutate_towards(g,PF_GILLS,true);
+    }
+    if(*iter == "PF_SCALES")
+    {
+        g->u.mutate_towards(g,PF_SCALES,true);
+    }
+    if(*iter == "PF_THICK_SCALES")
+    {
+        g->u.mutate_towards(g,PF_THICK_SCALES,true);
+    }
+    if(*iter == "PF_SLEEK_SCALES")
+    {
+        g->u.mutate_towards(g,PF_SLEEK_SCALES,true);
+    }
+    if(*iter == "PF_LIGHT_BONES")
+    {
+        g->u.mutate_towards(g,PF_LIGHT_BONES,true);
+    }
+    if(*iter == "PF_FEATHERS")
+    {
+        g->u.mutate_towards(g,PF_FEATHERS,true);
+    }
+    if(*iter == "PF_LIGHTFUR")
+    {
+        g->u.mutate_towards(g,PF_LIGHTFUR,true);
+    }
+    if(*iter == "PF_FUR")
+    {
+        g->u.mutate_towards(g,PF_FUR,true);
+    }
+     if(*iter == "PF_CHITIN")
+    {
+        g->u.mutate_towards(g,PF_CHITIN,true);
+    }
+    if(*iter == "PF_CHITIN2")
+    {
+        g->u.mutate_towards(g,PF_CHITIN2,true);
+    }
+    if(*iter == "PF_CHITIN3")
+    {
+        g->u.mutate_towards(g,PF_CHITIN3,true);
+    }
+    if(*iter == "PF_SPINES")
+    {
+        g->u.mutate_towards(g,PF_SPINES,true);
+    }
+    if(*iter == "PF_QUILLS")
+    {
+        g->u.mutate_towards(g,PF_QUILLS,true);
+    }
+    if(*iter == "PF_PLANTSKIN")
+    {
+        g->u.mutate_towards(g,PF_PLANTSKIN,true);
+    }
+    if(*iter == "PF_BARK")
+    {
+        g->u.mutate_towards(g,PF_BARK,true);
+    }
+    if(*iter == "PF_THORNS")
+    {
+        g->u.mutate_towards(g,PF_THORNS,true);
+    }
+    if(*iter == "PF_LEAVES")
+    {
+        g->u.mutate_towards(g,PF_LEAVES,true);
+    }
+    if(*iter == "PF_NAILS")
+    {
+        g->u.mutate_towards(g,PF_NAILS,true);
+    }
+    if(*iter == "PF_CLAWS")
+    {
+        g->u.mutate_towards(g,PF_CLAWS,true);
+    }
+    if(*iter == "PF_TALONS")
+    {
+        g->u.mutate_towards(g,PF_TALONS,true);
+    }
+    if(*iter == "PF_RADIOGENIC")
+    {
+        g->u.mutate_towards(g,PF_RADIOGENIC,true);
+    }
+    if(*iter == "PF_MARLOSS")
+    {
+        g->u.mutate_towards(g,PF_MARLOSS,true);
+    }
+    if(*iter == "PF_PHEROMONE_INSECT")
+    {
+        g->u.mutate_towards(g,PF_PHEROMONE_INSECT,true);
+    }
+    if(*iter == "PF_PHEROMONE_MAMMAL")
+    {
+        g->u.mutate_towards(g,PF_PHEROMONE_MAMMAL,true);
+    }
+    if(*iter == "PF_DISIMMUNE")
+    {
+        g->u.mutate_towards(g,PF_DISIMMUNE,true);
+    }
+    if(*iter == "PF_POISONOUS")
+    {
+        g->u.mutate_towards(g,PF_POISONOUS,true);
+    }
+    if(*iter == "PF_SLIME_HANDS")
+    {
+        g->u.mutate_towards(g,PF_SLIME_HANDS,true);
+    }
+    if(*iter == "PF_COMPOUND_EYES")
+    {
+        g->u.mutate_towards(g,PF_COMPOUND_EYES,true);
+    }
+    if(*iter == "PF_PADDED_FEET")
+    {
+        g->u.mutate_towards(g,PF_PADDED_FEET,true);
+    }
+    if(*iter == "PF_HOOVES")
+    {
+        g->u.mutate_towards(g,PF_HOOVES,true);
+    }
+    if(*iter == "PF_SAPROVORE")
+    {
+        g->u.mutate_towards(g,PF_SAPROVORE,true);
+    }
+    if(*iter == "PF_RUMINANT")
+    {
+        g->u.mutate_towards(g,PF_RUMINANT,true);
+    }
+    if(*iter == "PF_HORNS")
+    {
+        g->u.mutate_towards(g,PF_HORNS,true);
+    }
+    if(*iter == "PF_HORNS_CURLED")
+    {
+        g->u.mutate_towards(g,PF_HORNS_CURLED,true);
+    }
+    if(*iter == "PF_HORNS_POINTED")
+    {
+        g->u.mutate_towards(g,PF_HORNS_POINTED,true);
+    }
+    if(*iter == "PF_ANTENNAE")
+    {
+        g->u.mutate_towards(g,PF_ANTENNAE,true);
+    }
+    if(*iter == "PF_FLEET2")
+    {
+        g->u.mutate_towards(g,PF_FLEET2,true);
+    }
+    if(*iter == "PF_TAIL_STUB")
+    {
+        g->u.mutate_towards(g,PF_TAIL_STUB,true);
+    }
+    if(*iter == "PF_TAIL_FIN")
+    {
+        g->u.mutate_towards(g,PF_TAIL_FIN,true);
+    }
+    if(*iter == "PF_TAIL_LONG")
+    {
+        g->u.mutate_towards(g,PF_TAIL_LONG,true);
+    }
+    if(*iter == "PF_TAIL_FLUFFY")
+    {
+        g->u.mutate_towards(g,PF_TAIL_FLUFFY,true);
+    }
+    if(*iter == "PF_TAIL_STING")
+    {
+        g->u.mutate_towards(g,PF_TAIL_STING,true);
+    }
+    if(*iter == "PF_TAIL_CLUB")
+    {
+        g->u.mutate_towards(g,PF_TAIL_CLUB,true);
+    }
+    if(*iter == "PF_PAINREC1")
+    {
+        g->u.mutate_towards(g,PF_PAINREC1,true);
+    }
+    if(*iter == "PF_PAINREC2")
+    {
+        g->u.mutate_towards(g,PF_PAINREC2,true);
+    }
+    if(*iter == "PF_PAINREC3")
+    {
+        g->u.mutate_towards(g,PF_PAINREC3,true);
+    }
+    if(*iter == "PF_WINGS_BIRD")
+    {
+        g->u.mutate_towards(g,PF_WINGS_BIRD,true);
+    }
+    if(*iter == "PF_WINGS_INSECT")
+    {
+        g->u.mutate_towards(g,PF_WINGS_INSECT,true);
+    }
+    if(*iter == "PF_MOUTH_TENTACLES")
+    {
+        g->u.mutate_towards(g,PF_MOUTH_TENTACLES,true);
+    }
+    if(*iter == "PF_MANDIBLES")
+    {
+        g->u.mutate_towards(g,PF_MANDIBLES,true);
+    }
+    if(*iter == "PF_CANINE_EARS")
+    {
+        g->u.mutate_towards(g,PF_CANINE_EARS,true);
+    }
+    if(*iter == "PF_WEB_WALKER")
+    {
+        g->u.mutate_towards(g,PF_WEB_WEAVER,true);
+    }
+    if(*iter == "PF_WHISKERS")
+    {
+        g->u.mutate_towards(g,PF_WHISKERS,true);
+    }
+    if(*iter == "PF_STR_UP")
+    {
+        g->u.mutate_towards(g,PF_STR_UP,true);
+    }
+    if(*iter == "PF_STR_UP_2")
+    {
+        g->u.mutate_towards(g,PF_STR_UP_2,true);
+    }
+    if(*iter == "PF_STR_UP_3")
+    {
+        g->u.mutate_towards(g,PF_STR_UP_3,true);
+    }
+    if(*iter == "PF_STR_UP_4")
+    {
+        g->u.mutate_towards(g,PF_STR_UP_4,true);
+    }
+    if(*iter == "PF_DEX_UP")
+    {
+        g->u.mutate_towards(g,PF_DEX_UP,true);
+    }
+    if(*iter == "PF_DEX_UP_2")
+    {
+        g->u.mutate_towards(g,PF_DEX_UP_2,true);
+    }
+    if(*iter == "PF_DEX_UP_3")
+    {
+        g->u.mutate_towards(g,PF_DEX_UP_3,true);
+    }
+    if(*iter == "PF_DEX_UP_4")
+    {
+        g->u.mutate_towards(g,PF_DEX_UP_4,true);
+    }
+    if(*iter == "PF_INT_UP")
+    {
+        g->u.mutate_towards(g,PF_INT_UP,true);
+    }
+    if(*iter == "PF_INT_UP_2")
+    {
+        g->u.mutate_towards(g,PF_INT_UP_2,true);
+    }
+    if(*iter == "PF_INT_UP_3")
+    {
+        g->u.mutate_towards(g,PF_INT_UP_3,true);
+    }
+    if(*iter == "PF_INT_UP_4")
+    {
+        g->u.mutate_towards(g,PF_INT_UP_4,true);
+    }
+    if(*iter == "PF_PER_UP")
+    {
+        g->u.mutate_towards(g,PF_PER_UP,true);
+    }
+    if(*iter == "PF_PER_UP_2")
+    {
+        g->u.mutate_towards(g,PF_PER_UP_2,true);
+    }
+    if(*iter == "PF_PER_UP_3")
+    {
+        g->u.mutate_towards(g,PF_PER_UP_3,true);
+    }
+    if(*iter == "PF_PER_UP_4")
+    {
+        g->u.mutate_towards(g,PF_PER_UP_4,true);
+    }
+    if(*iter == "PF_HEADBUMPS")
+    {
+        g->u.mutate_towards(g,PF_HEADBUMPS,true);
+    }
+    if(*iter == "PF_ANTLERS")
+    {
+        g->u.mutate_towards(g,PF_ANTLERS,true);
+    }
+    if(*iter == "PF_SLIT_NOSTRILS")
+    {
+        g->u.mutate_towards(g,PF_SLIT_NOSTRILS,true);
+    }
+    if(*iter == "PF_FORKED_TONGUE")
+    {
+        g->u.mutate_towards(g,PF_FORKED_TONGUE,true);
+    }
+    if(*iter == "PF_EYEBULGE")
+    {
+        g->u.mutate_towards(g,PF_EYEBULGE,true);
+    }
+    if(*iter == "PF_MOUTH_FLAPS")
+    {
+        g->u.mutate_towards(g,PF_MOUTH_FLAPS,true);
+    }
+    if(*iter == "PF_WINGS_STUB")
+    {
+        g->u.mutate_towards(g,PF_WINGS_STUB,true);
+    }
+    if(*iter == "PF_WINGS_BAT")
+    {
+        g->u.mutate_towards(g,PF_WINGS_BAT,true);
+    }
+    if(*iter == "PF_PALE")
+    {
+        g->u.mutate_towards(g,PF_PALE,true);
+    }
+    if(*iter == "PF_SPOTS")
+    {
+        g->u.mutate_towards(g,PF_SPOTS,true);
+    }
+    if(*iter == "PF_SMELLY2")
+    {
+        g->u.mutate_towards(g,PF_SMELLY2,true);
+    }
+    if(*iter == "PF_DEFORMED")
+    {
+        g->u.mutate_towards(g,PF_DEFORMED,true);
+    }
+    if(*iter == "PF_DEFORMED2")
+    {
+        g->u.mutate_towards(g,PF_DEFORMED2,true);
+    }
+    if(*iter == "PF_DEFORMED3")
+    {
+        g->u.mutate_towards(g,PF_DEFORMED3,true);
+    }
+    if(*iter == "PF_BEAUTIFUL")
+    {
+        g->u.mutate_towards(g,PF_BEAUTIFUL,true);
+    }
+    if(*iter == "PF_BEAUTIFUL2")
+    {
+        g->u.mutate_towards(g,PF_BEAUTIFUL2,true);
+    }
+    if(*iter == "PF_BEAUTIFUL3")
+    {
+        g->u.mutate_towards(g,PF_BEAUTIFUL3,true);
+    }
+    if(*iter == "PF_HOLLOW_BONES")
+    {
+        g->u.mutate_towards(g,PF_HOLLOW_BONES,true);
+    }
+    if(*iter == "PF_NAUSEA")
+    {
+        g->u.mutate_towards(g,PF_NAUSEA,true);
+    }
+    if(*iter == "PF_VOMITOUS")
+    {
+        g->u.mutate_towards(g,PF_VOMITOUS,true);
+    }
+    if(*iter == "PF_HUNGER")
+    {
+        g->u.mutate_towards(g,PF_HUNGER,true);
+    }
+    if(*iter == "PF_THIRST")
+    {
+        g->u.mutate_towards(g,PF_THIRST,true);
+    }
+    if(*iter == "PF_ROT1")
+    {
+        g->u.mutate_towards(g,PF_ROT1,true);
+    }
+    if(*iter == "PF_ROT2")
+    {
+        g->u.mutate_towards(g,PF_ROT2,true);
+    }
+    if(*iter == "PF_ROT3")
+    {
+        g->u.mutate_towards(g,PF_ROT3,true);
+    }
+    if(*iter == "PF_ALBINO")
+    {
+        g->u.mutate_towards(g,PF_ALBINO,true);
+    }
+    if(*iter == "PF_SORES")
+    {
+        g->u.mutate_towards(g,PF_SORES,true);
+    }
+    if(*iter == "PF_TROGLO")
+    {
+        g->u.mutate_towards(g,PF_TROGLO,true);
+    }
+    if(*iter == "PF_TROGLO2")
+    {
+        g->u.mutate_towards(g,PF_TROGLO2,true);
+    }
+    if(*iter == "PF_TROGLO3")
+    {
+        g->u.mutate_towards(g,PF_TROGLO3,true);
+    }
+    if(*iter == "PF_WEBBED")
+    {
+        g->u.mutate_towards(g,PF_WEBBED,true);
+    }
+    if(*iter == "PF_BEAK")
+    {
+        g->u.mutate_towards(g,PF_BEAK,true);
+    }
+    if(*iter == "PF_UNSTABLE")
+    {
+        g->u.mutate_towards(g,PF_UNSTABLE,true);
+    }
+    if(*iter == "PF_RADIOACTIVE1")
+    {
+        g->u.mutate_towards(g,PF_RADIOACTIVE1,true);
+    }
+    if(*iter == "PF_RADIOACTIVE2")
+    {
+        g->u.mutate_towards(g,PF_RADIOACTIVE2,true);
+    }
+    if(*iter == "PF_RADIOACTIVE3")
+    {
+        g->u.mutate_towards(g,PF_RADIOACTIVE3,true);
+    }
+    if(*iter == "PF_SLIMY")
+    {
+        g->u.mutate_towards(g,PF_SLIMY,true);
+    }
+    if(*iter == "PF_HERBIVORE")
+    {
+        g->u.mutate_towards(g,PF_HERBIVORE,true);
+    }
+    if(*iter == "PF_CARNIVORE")
+    {
+        g->u.mutate_towards(g,PF_CARNIVORE,true);
+    }
+    if(*iter == "PF_PONDEROUS1")
+    {
+        g->u.mutate_towards(g,PF_PONDEROUS1,true);
+    }
+    if(*iter == "PF_PONDEROUS2")
+    {
+        g->u.mutate_towards(g,PF_PONDEROUS2,true);
+    }
+    if(*iter == "PF_PONDEROUS3")
+    {
+        g->u.mutate_towards(g,PF_PONDEROUS3,true);
+    }
+    if(*iter == "PF_SUNLIGHT_DEPENDENT")
+    {
+        g->u.mutate_towards(g,PF_SUNLIGHT_DEPENDENT,true);
+    }
+    if(*iter == "PF_COLDBLOOD")
+    {
+        g->u.mutate_towards(g,PF_COLDBLOOD,true);
+    }
+    if(*iter == "PF_COLDBLOOD2")
+    {
+        g->u.mutate_towards(g,PF_COLDBLOOD2,true);
+    }
+    if(*iter == "PF_COLDBLOOD3")
+    {
+        g->u.mutate_towards(g,PF_COLDBLOOD3,true);
+    }
+    if(*iter == "PF_GROWL")
+    {
+        g->u.mutate_towards(g,PF_GROWL,true);
+    }
+    if(*iter == "PF_SNARL")
+    {
+        g->u.mutate_towards(g,PF_SNARL,true);
+    }
+    if(*iter == "PF_SHOUT1")
+    {
+        g->u.mutate_towards(g,PF_SHOUT1,true);
+    }
+    if(*iter == "PF_SHOUT2")
+    {
+        g->u.mutate_towards(g,PF_SHOUT2,true);
+    }
+    if(*iter == "PF_SHOUT3")
+    {
+        g->u.mutate_towards(g,PF_SHOUT3,true);
+    }
+    if(*iter == "PF_ARM_TENTACLES")
+    {
+        g->u.mutate_towards(g,PF_ARM_TENTACLES,true);
+    }
+    if(*iter == "PF_ARM_TENTACLES_4")
+    {
+        g->u.mutate_towards(g,PF_ARM_TENTACLES_4,true);
+    }
+    if(*iter == "PF_ARM_TENTACLES_8")
+    {
+        g->u.mutate_towards(g,PF_ARM_TENTACLES_8,true);
+    }
+    if(*iter == "PF_SHELL")
+    {
+        g->u.mutate_towards(g,PF_SHELL,true);
+    }
+    if(*iter == "PF_LEG_TENTACLES")
+    {
+        g->u.mutate_towards(g,PF_LEG_TENTACLES,true);
+    }
+ }
+
  // Grab the skills from the profession, if there are any
  profession::StartingSkillList prof_skills = g->u.prof->skills();
- for (profession::StartingSkillList::const_iterator iter = prof_skills.begin(); 
+ for (profession::StartingSkillList::const_iterator iter = prof_skills.begin();
       iter != prof_skills.end(); ++iter)
  {
      assert(Skill::skill(iter->first));
@@ -342,9 +879,9 @@ bool player::create(game *g, character_type type, std::string tempname)
  tmp = item(g->itypes["matches"], 0,'a' + worn.size());
   inv.push_back(tmp);
 // make sure we have no mutations
- for (int i = 0; i < PF_MAX2; i++)
-  if (!has_base_trait(i))
-	my_mutations[i] = false;
+ //for (int i = 0; i < PF_MAX2; i++)
+ // if (!has_base_trait(i))
+//	my_mutations[i] = false;
  return true;
 }
 

@@ -73,6 +73,15 @@ profmap profession::load_professions()
                 newProfession.add_skill(skill_str, level);
             }
         }
+        //optional mutations
+        if (currProf.has("mutations"))
+        {
+            catajson mutations = currProf.get("mutations");
+            for (mutations.set_begin(); mutations.has_curr(); mutations.next())
+            {
+                newProfession.add_mutation(mutations.curr().as_string());
+            }
+        }
         allProfs[ident] = newProfession;
     }
 
@@ -136,6 +145,10 @@ void profession::add_skill(const std::string& skill_name, const int level)
 {
     _starting_skills.push_back(StartingSkill(skill_name, level));
 }
+void profession::add_mutation(const std::string& mutation_name)
+{
+    _starting_mutations.push_back(mutation_name);
+}
 
 unsigned int profession::id() const
 {
@@ -170,6 +183,10 @@ std::vector<std::string> profession::items() const
 std::vector<addiction> profession::addictions() const
 {
     return _starting_addictions;
+}
+std::vector<std::string> profession::mutations() const
+{
+    return _starting_mutations;
 }
 const profession::StartingSkillList profession::skills() const
 {
