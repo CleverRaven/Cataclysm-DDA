@@ -789,7 +789,7 @@ item consume_vpart_item (game *g, vpart_id vpid){
     //remove item from inventory. or map.
     if(candidates[selection].in_inventory){
         if(candidates[selection].invlet == -1) //weapon
-            g->u.remove_weapon();
+            g->u.remove_weapon(g);
         else //non-weapon inventory
             g->u.inv.remove_item_by_letter(candidates[selection].invlet);
     } else { //map.

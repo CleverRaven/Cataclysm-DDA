@@ -1435,17 +1435,17 @@ void talk_function::player_leaving(game *g, npc *p)
 
 void talk_function::drop_weapon(game *g, npc *p)
 {
- g->m.add_item(p->posx, p->posy, p->remove_weapon());
+ g->m.add_item(p->posx, p->posy, p->remove_weapon(g));
 }
 
 void talk_function::player_weapon_away(game *g, npc *p)
 {
- g->u.i_add(g->u.remove_weapon());
+ g->u.i_add(g->u.remove_weapon(g));
 }
 
 void talk_function::player_weapon_drop(game *g, npc *p)
 {
- g->m.add_item(g->u.posx, g->u.posy, g->u.remove_weapon());
+ g->m.add_item(g->u.posx, g->u.posy, g->u.remove_weapon(g));
 }
 
 void talk_function::lead_to_safety(game *g, npc *p)

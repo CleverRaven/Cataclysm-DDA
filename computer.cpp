@@ -993,7 +993,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
     print_error("Access code required!");
     query_any("Press any key to continue...");}
    else{
-    g->u.use_amount("sarcophagus_access_code", 1);
+    g->u.use_amount(g,"sarcophagus_access_code", 1);
     reset_terminal();
     print_line("\nPower:         Backup Only\nRadion Level:  Very Dangerous\nOperational:   Overrided\n\n");
     query_any("Press any key to continue...");

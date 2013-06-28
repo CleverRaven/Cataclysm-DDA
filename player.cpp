@@ -3743,7 +3743,7 @@ void player::suffer(game *g)
    auto_use = false;
   }
   if (auto_use)
-   use_charges("inhaler", 1);
+   use_charges(g,"inhaler", 1);
   else {
    add_disease(DI_ASTHMA, 50 * rng(1, 4), g);
    if (!is_npc())
@@ -4225,9 +4225,9 @@ void player::process_active_items(game *g)
   if (weapon.has_flag("CHARGE")) { // We're chargin it up!
    if (weapon.charges == 8) {
     bool maintain = false;
-    if (use_charges_if_avail("adv_UPS_on", 2) || use_charges_if_avail("UPS_on", 4)) {
+    if (use_charges_if_avail(g,"adv_UPS_on", 2) || use_charges_if_avail(g,"UPS_on", 4)) {
      maintain = true;
-    } else if (use_charges_if_avail("adv_UPS_off", 2) || use_charges_if_avail("UPS_off", 4)) {
+    } else if (use_charges_if_avail(g,"adv_UPS_off", 2) || use_charges_if_avail(g,"UPS_off", 4)) {
      maintain = true;
     }
     if (maintain) {
@@ -4240,9 +4240,9 @@ void player::process_active_items(game *g)
       g->add_msg("Your %s beeps alarmingly.", weapon.tname().c_str());
     }
    } else {
-    if (use_charges_if_avail("adv_UPS_on", (1 + weapon.charges)/2) || use_charges_if_avail("UPS_on", 1 + weapon.charges)) {
+    if (use_charges_if_avail(g,"adv_UPS_on", (1 + weapon.charges)/2) || use_charges_if_avail(g,"UPS_on", 1 + weapon.charges)) {
      weapon.poison++;
-    } else if (use_charges_if_avail("adv_UPS_off", (1 + weapon.charges)/2) || use_charges_if_avail("UPS_off", 1 + weapon.charges)) {
+    } else if (use_charges_if_avail(g,"adv_UPS_off", (1 + weapon.charges)/2) || use_charges_if_avail(g,"UPS_off", 1 + weapon.charges)) {
      weapon.poison++;
     } else {
      g->add_msg("Your %s spins down.", weapon.tname().c_str());
@@ -4357,7 +4357,7 @@ bool player::process_single_active_item(game *g, item *it)
     return true;
 }
 
-item player::remove_weapon()
+item player::remove_weapon(game* g)
 {
  if (weapon.has_flag("CHARGE") && weapon.active) { //unwield a charged charge rifle.
   weapon.charges = 0;
@@ -4375,16 +4375,16 @@ item player::remove_weapon()
  return tmp;
 }
 
-void player::remove_mission_items(int mission_id)
+void player::remove_mission_items(game* g,int mission_id)
 {
  if (mission_id == -1)
   return;
  if (weapon.mission_id == mission_id) {
-  remove_weapon();
+  remove_weapon(g);
  } else {
   for (int i = 0; i < weapon.contents.size(); i++) {
    if (weapon.contents[i].mission_id == mission_id)
-    remove_weapon();
+    remove_weapon(g);
   }
  }
  inv.remove_mission_items(mission_id);
@@ -4413,12 +4413,12 @@ item player::i_rem(game* g, char let)
  return ret_null;
 }
 
-item player::i_rem(itype_id type)
+item player::i_rem(game* g, itype_id type)
 {
     item ret;
     if (weapon.type->id == type)
     {
-        return remove_weapon();
+        return remove_weapon(g);
     }
     return inv.remove_item_by_type(type);
 }
@@ -4478,7 +4478,7 @@ item player::i_remn(char invlet)
  return inv.remove_item_by_letter(invlet);
 }
 
-std::list<item> player::use_amount(itype_id it, int quantity, bool use_container)
+std::list<item> player::use_amount(game* g, itype_id it, int quantity, bool use_container)
 {
  std::list<item> ret;
  bool used_weapon_contents = false;
@@ -4492,11 +4492,11 @@ std::list<item> player::use_amount(itype_id it, int quantity, bool use_container
   }
  }
  if (use_container && used_weapon_contents)
-  remove_weapon();
+  remove_weapon(g);
 
  if (weapon.type->id == it) {
   quantity--;
-  ret.push_back(remove_weapon());
+  ret.push_back(remove_weapon(g));
  }
 
  std::list<item> tmp = inv.use_amount(it, quantity, use_container);
@@ -4504,11 +4504,11 @@ std::list<item> player::use_amount(itype_id it, int quantity, bool use_container
  return ret;
 }
 
-bool player::use_charges_if_avail(itype_id it, int quantity)
+bool player::use_charges_if_avail(game* g, itype_id it, int quantity)
 {
     if (has_charges(it, quantity))
     {
-        use_charges(it, quantity);
+        use_charges(g,it, quantity);
         return true;
     }
     return false;
@@ -4544,7 +4544,7 @@ bool player::has_fire(const int quantity)
     return false;
 }
 
-void player::use_fire(const int quantity)
+void player::use_fire(game* g,const int quantity)
 {
 //Ok, so checks for nearby fires first,
 //then held lit torch or candle, bio tool/lighter/laser
@@ -4563,28 +4563,28 @@ void player::use_fire(const int quantity)
     } else if (has_bionic("bio_laser")) {
         return;
     } else if (has_charges("matches", quantity)) {
-        use_charges("matches", quantity);
+        use_charges(g,"matches", quantity);
         return;
     } else if (has_charges("lighter", quantity)) {
-        use_charges("lighter", quantity);
+        use_charges(g,"lighter", quantity);
         return;
     } else if (has_charges("flamethrower", quantity)) {
-        use_charges("flamethrower", quantity);
+        use_charges(g,"flamethrower", quantity);
         return;
     } else if (has_charges("flamethrower_simple", quantity)) {
-        use_charges("flamethrower_simple", quantity);
+        use_charges(g,"flamethrower_simple", quantity);
         return;
     } else if (has_charges("hotplate", quantity)) {
-        use_charges("welder", quantity);
+        use_charges(g,"welder", quantity);
         return;
     } else if (has_charges("welder", quantity)) {
-        use_charges("welder", quantity);
+        use_charges(g,"welder", quantity);
         return;
     }
 }
 
 // does NOT return anything if the item is integrated toolset or fire!
-std::list<item> player::use_charges(itype_id it, int quantity)
+std::list<item> player::use_charges(game* g,itype_id it, int quantity)
 {
  std::list<item> ret;
  // the first two cases *probably* don't need to be tracked for now...
@@ -4596,7 +4596,7 @@ std::list<item> player::use_charges(itype_id it, int quantity)
  }
  if (it == "fire")
  {
-     use_fire(quantity);
+     use_fire(g,quantity);
      return ret;
  }
 
@@ -4629,7 +4629,7 @@ std::list<item> player::use_charges(itype_id it, int quantity)
    ret.push_back(weapon);
    quantity -= weapon.charges;
    if (weapon.destroyed_at_zero_charges())
-    remove_weapon();
+    remove_weapon(g);
    else
     weapon.charges = 0;
    if (quantity == 0)
@@ -5090,7 +5090,7 @@ bool player::eat(game *g, signed char ch)
             g->add_msg("%s eats a %s.", name.c_str(), eaten->tname(g).c_str());
 
         if (g->itypes[comest->tool]->is_tool())
-            use_charges(comest->tool, 1); // Tools like lighters get used
+            use_charges(g,comest->tool, 1); // Tools like lighters get used
         if (comest->stim > 0)
         {
             if (comest->stim < 10 && stim < comest->stim)
@@ -5240,14 +5240,14 @@ bool player::wield(game *g, signed char ch, bool autodrop)
  if (ch == -3) {
   bool pickstyle = (!styles.empty());
   if (weapon.is_style())
-   remove_weapon();
+   remove_weapon(g);
   else if (!is_armed()) {
    if (!pickstyle) {
     g->add_msg("You are already wielding nothing.");
     return false;
    }
   } else if (autodrop || volume_carried() + weapon.volume() < volume_capacity()) {
-   inv.push_back(remove_weapon());
+   inv.push_back(remove_weapon(g));
    inv.unsort();
    moves -= 20;
    recoil = 0;
@@ -5255,7 +5255,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
     return true;
   } else if (query_yn("No space in inventory for your %s.  Drop it?",
                       weapon.tname(g).c_str())) {
-   g->m.add_item(posx, posy, remove_weapon());
+   g->m.add_item(posx, posy, remove_weapon(g));
    recoil = 0;
    if (!pickstyle)
     return true;
@@ -5292,7 +5292,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   return true;
  } else if (volume_carried() + weapon.volume() - it.volume() <
             volume_capacity()) {
-  item tmpweap = remove_weapon();
+  item tmpweap = remove_weapon(g);
   weapon = inv.remove_item_by_letter(ch);
   inv.push_back(tmpweap);
   inv.unsort();
@@ -5305,7 +5305,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   return true;
  } else if (query_yn("No space in inventory for your %s.  Drop it?",
                      weapon.tname(g).c_str())) {
-  g->m.add_item(posx, posy, remove_weapon());
+  g->m.add_item(posx, posy, remove_weapon(g));
   weapon = it;
   inv.remove_item_by_letter(weapon.invlet);
   inv.unsort();
@@ -6217,7 +6217,7 @@ void player::use(game *g, char let)
   if (replace_item && used->invlet != 0)
    inv.add_item_keep_invlet(copy);
   else if (used->invlet == 0 && used == &weapon)
-   remove_weapon();
+   remove_weapon(g);
   return;
 
  } else if (used->is_gunmod()) {

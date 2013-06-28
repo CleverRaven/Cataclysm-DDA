@@ -1232,10 +1232,10 @@ void game::wrap_up_mission(int id)
  }
  switch (miss->type->goal) {
   case MGOAL_FIND_ITEM:
-   u.use_amount(miss->type->item_id, 1);
+   u.use_amount(this,miss->type->item_id, 1);
    break;
   case MGOAL_FIND_ANY_ITEM:
-   u.remove_mission_items(miss->uid);
+   u.remove_mission_items(this, miss->uid);
    break;
  }
  mission_end endfunc;
@@ -3898,7 +3898,7 @@ void game::remove_item(item *it)
 {
  point ret;
  if (it == &u.weapon) {
-  u.remove_weapon();
+  u.remove_weapon(this);
   return;
  }
  if (!u.inv.remove_item(it).is_null()) {
@@ -3921,7 +3921,7 @@ void game::remove_item(item *it)
  }
  for (int i = 0; i < active_npc.size(); i++) {
   if (it == &active_npc[i]->weapon) {
-   active_npc[i]->remove_weapon();
+   active_npc[i]->remove_weapon(this);
    return;
   }
   if (!active_npc[i]->inv.remove_item(it).is_null()) {
@@ -5490,7 +5490,7 @@ void game::smash()
                 // Hurt left arm too, if it was big
                 u.hit(this, bp_hands, 0, 0, rng(0, u.weapon.volume() * .5));
             }
-            u.remove_weapon();
+            u.remove_weapon(this);
         }
     }
     else
@@ -5633,7 +5633,7 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
         }
         else if (&u.weapon == it)
         {
-            u.remove_weapon();
+            u.remove_weapon(this);
         }
         else
         {
@@ -8137,7 +8137,7 @@ void game::pickup(int posx, int posy, int min)
        veh->remove_item (veh_part, 0);
       else
        m.i_clear(posx, posy);
-      m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
+      m.add_item_or_charges(posx, posy, u.remove_weapon(this), 1);
       u.wield(this, u.i_add(newit, this).invlet);
       u.moves -= 100;
       add_msg("Wielding %c - %s", newit.invlet, newit.tname(this).c_str());
@@ -8420,7 +8420,7 @@ void game::pickup(int posx, int posy, int min)
          veh->remove_item (veh_part, curmit);
         else
          m.i_rem(posx, posy, curmit);
-        m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
+        m.add_item_or_charges(posx, posy, u.remove_weapon(this), 1);
         u.wield(this, u.i_add(here[i], this).invlet);
         curmit--;
         u.moves -= 100;
@@ -9054,13 +9054,13 @@ void game::plfire(bool burst)
 
  if (u.weapon.has_flag("USE_UPS")) {
   if (u.has_charges("adv_UPS_off", 3))
-   u.use_charges("adv_UPS_off", 3);
+   u.use_charges(this,"adv_UPS_off", 3);
   else if (u.has_charges("adv_UPS_on", 3))
-   u.use_charges("adv_UPS_on", 3);
+   u.use_charges(this,"adv_UPS_on", 3);
   else if (u.has_charges("UPS_off", 5))
-   u.use_charges("UPS_off", 5);
+   u.use_charges(this,"UPS_off", 5);
   else if (u.has_charges("UPS_on", 5))
-   u.use_charges("UPS_on", 5);
+   u.use_charges(this,"UPS_on", 5);
  }
  if (u.weapon.mode == "MODE_BURST")
   burst = true;
@@ -10354,7 +10354,7 @@ void game::vertical_move(int movez, bool force)
     } else if (u.has_amount("rope_30", 1)) {
      if (query_yn("There is a sheer drop halfway down. Climb your rope down?")){
       rope_ladder = true;
-      u.use_amount("rope_30", 1);
+      u.use_amount(this,"rope_30", 1);
      } else
       return;
     } else if (!query_yn("There is a sheer drop halfway down.  Jump?"))

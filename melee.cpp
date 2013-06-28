@@ -207,7 +207,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  if (allow_grab && technique == TEC_GRAB) {
 // Move our weapon to a temp slot, if it's not unarmed
   if (!unarmed_attack()) {
-   item tmpweap = remove_weapon();
+   item tmpweap = remove_weapon(g);
    dam += hit_mon(g, z, false); // False means a second grab isn't allowed
    weapon = tmpweap;
   } else
@@ -340,7 +340,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
    if (is_u)
     g->add_msg("%s break%s the grab!", target.c_str(), (p.is_npc() ? "s" : ""));
   } else if (!unarmed_attack()) {
-   item tmpweap = remove_weapon();
+   item tmpweap = remove_weapon(g);
    hit_player(g, p, false); // False means a second grab isn't allowed
    weapon = tmpweap;
   } else
@@ -914,7 +914,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
  } break;
 
  case TEC_DISARM:
-  g->m.add_item(p->posx, p->posy, p->remove_weapon());
+  g->m.add_item(p->posx, p->posy, p->remove_weapon(g));
   if (u_see)
    g->add_msg("%s disarm%s %s!", You.c_str(), s.c_str(), target.c_str());
   break;
@@ -1071,7 +1071,7 @@ void player::perform_defensive_technique(
    break;
 
   case TEC_DEF_DISARM:
-   g->m.add_item(p->posx, p->posy, p->remove_weapon());
+   g->m.add_item(p->posx, p->posy, p->remove_weapon(g));
 // Re-roll damage, without our weapon
    bash_dam = p->roll_bash_damage(NULL, false);
    cut_dam  = p->roll_cut_damage(NULL, false);
@@ -1246,7 +1246,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   if (weapon.is_two_handed(this))// Hurt left arm too, if it was big
    hit(g, bp_arms, 0, 0, rng(0, weapon.volume()));
   cut_dam += rng(0, 5 + int(weapon.volume() * 1.5));// Hurt the monster extra
-  remove_weapon();
+  remove_weapon(g);
  }
 
 // Getting your weapon stuck
@@ -1274,9 +1274,9 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
     z->speed *= .7;
    else
     z->speed *= .85;
-   z->add_item(remove_weapon());
+   z->add_item(remove_weapon(g));
   } else
-   g->m.add_item(posx, posy, remove_weapon());
+   g->m.add_item(posx, posy, remove_weapon(g));
  } else {
   if (mon && (cut_dam >= z->hp || stab_dam >= z->hp)) {
    cutting_penalty /= 2;
