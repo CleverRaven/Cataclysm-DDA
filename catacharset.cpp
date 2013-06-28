@@ -86,6 +86,23 @@ unsigned UTF8_getch(const char **src, int *srclen)
 }
 
 
+int utf8_width(const char* s)
+{
+    int len = strlen(s);
+    const char* ptr = s;
+    int w = 0;
+    unsigned ch = 0;
+    while(len>0)
+    {
+        unsigned ch = UTF8_getch(&ptr, &len);
+        if(ch!=UNKNOWN_UNICODE)
+            w += mk_wcwidth((wchar_t)ch);
+        else break;
+    }
+    return w;
+}
+
+
 int cursorx_to_position(const char* line, int cursorx)
 {
 	int i=0, c=0;
@@ -134,4 +151,6 @@ void erease_utf8_by_cw( char* t, int cw, int clen, int maxlen)
     }
 
 }
+
+
 

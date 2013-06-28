@@ -934,7 +934,7 @@ std::string word_rewrap (const std::string &in, int width){
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
 {
- int iOffsetXRight = iOffsetX + sText.size() + 1;
+ int iOffsetXRight = iOffsetX + utf8_width(sText.c_str()) + 1;
 
  mvwputch(w, 0, iOffsetX,      c_ltgray, LINE_OXXO); // |^
  mvwputch(w, 0, iOffsetXRight, c_ltgray, LINE_OOXX); // ^|

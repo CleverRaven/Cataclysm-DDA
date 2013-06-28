@@ -363,7 +363,7 @@ void draw_tabs(WINDOW* w, std::string sTab)
 
  draw_tab(w, 7, "STATS", (sTab == "STATS") ? true : false);
  draw_tab(w, 18, "TRAITS", (sTab == "TRAITS") ? true : false);
- draw_tab(w, 30, "PROFESSION", (sTab == "PROFESSION") ? true : false);
+ draw_tab(w, 30, "职业", (sTab == "职业") ? true : false);
  draw_tab(w, 46, "SKILLS", (sTab == "SKILLS") ? true : false);
  draw_tab(w, 58, "DESCRIPTION", (sTab == "DESCRIPTION") ? true : false);
 
@@ -768,7 +768,7 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
 
 int set_profession(WINDOW* w, game* g, player *u, int &points)
 {
-    draw_tabs(w, "PROFESSION");
+    draw_tabs(w, "职业");
 
     WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
 

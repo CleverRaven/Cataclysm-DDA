@@ -12,5 +12,5 @@ int mk_wcwidth(wchar_t ucs);
 int cursorx_to_position(const char* line, int cursorx);
 //erease for characters insertion
 void erease_utf8_by_cw( char* t, int cw, int len, int maxlen);
-
+int utf8_width(const char* s);
 #endif
