@@ -415,8 +415,9 @@ pitch blackness."},
 {"Poison Resistant", 1, 0, 0, "\
 Your system is rather tolerant of poisons and toxins, and most will affect\n\
 you less."},
-{"Fast Reader", 1, 0, 0, "\
-You're a quick reader, and can get through books a lot faster than most."},
+{"Studious Nature", 2, 0, 0, "\
+You're the scholarly type, and can get through books a lot faster than most.\n\
+Gaining knowledge from reading boosts your morale, and also focuses your mind."},
 {"Tough", 3, 0, 0, "\
 It takes a lot to bring you down!  You get a 20%% bonus to all hit points."},
 {"Thick-Skinned", 2, 0, 0, "\
