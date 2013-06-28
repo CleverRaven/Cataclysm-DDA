@@ -4460,7 +4460,7 @@ void player::process_active_items(game *g)
   } // if (weapon.has_flag("CHARGE"))
   if (!process_single_active_item(g, &weapon))
   {
-   weapon = ret_null;
+   weapon = get_combat_style(g);
   }
  }
 
