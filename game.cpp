@@ -5361,7 +5361,9 @@ void game::close()
     else if (m.ter(closex, closey) == t_window_domestic &&
              m.is_outside(u.posx, u.posy))  {
         add_msg("You cannot close the curtains from outside. You must be inside the building.");
-    } else if (m.has_furn(closex, closey)) {
+    } else if (m.has_furn(closex, closey) &&
+               m.furn(closex, closey) != f_canvas_door_o &&
+               m.furn(closex, closey) != f_skin_door_o) {
        add_msg("There's a %s in the way!", m.furnname(closex, closey).c_str());
     } else
         didit = m.close_door(closex, closey, true);
