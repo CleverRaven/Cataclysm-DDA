@@ -14,6 +14,9 @@
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>
+#if (defined OSX_SDL)
+#include "SDL.h"
+#endif
 
 void exit_handler(int s);
 
