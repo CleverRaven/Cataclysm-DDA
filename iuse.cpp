@@ -884,7 +884,7 @@ void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
     {
         if (g->m.add_field(g, posx, posy, fd_fire, 1))
         {
-            g->m.field_at(posx, posy).age = 30;
+            g->m.field_at(posx, posy).findField(fd_fire)->setFieldAge(g->m.field_at(posx, posy).findField(fd_fire)->getFieldAge() + 30);
             g->add_msg_if_player(p, "You successfully light a fire.");
         }
     }
@@ -1245,11 +1245,11 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
 
  p->moves -= 140;
 
- if (g->m.field_at(x, y).type == fd_fire) {
-  g->m.field_at(x, y).density -= rng(2, 3);
-  if (g->m.field_at(x, y).density <= 0) {
-   g->m.field_at(x, y).density = 1;
-   g->m.remove_field(x, y);
+ if (g->m.field_at(x, y).findField(fd_fire)) {
+  g->m.field_at(x, y).findField(fd_fire)->setFieldDensity(g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() - rng(2, 3));
+  if (g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() <= 0) {
+   //g->m.field_at(x, y).density = 1;
+   g->m.remove_field(x, y, fd_fire);
   }
  }
  int mondex = g->mon_at(x, y);
@@ -1269,11 +1269,11 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
  if (g->m.move_cost(x, y) != 0) {
   x += (x - p->posx);
   y += (y - p->posy);
-  if (g->m.field_at(x, y).type == fd_fire) {
-   g->m.field_at(x, y).density -= rng(0, 1) + rng(0, 1);
-   if (g->m.field_at(x, y).density <= 0) {
-    g->m.field_at(x, y).density = 1;
-    g->m.remove_field(x, y);
+  if (g->m.field_at(x, y).findField(fd_fire)) {
+   g->m.field_at(x, y).findField(fd_fire)->setFieldDensity(g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() - rng(0, 1) + rng(0, 1));
+   if (g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() <= 0) {
+    //g->m.field_at(x, y).density = 1;
+    g->m.remove_field(x, y,fd_fire);
    }
   }
  }
@@ -4325,10 +4325,6 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   case AEA_FATIGUE: {
    g->add_msg_if_player(p,"The fabric of space seems to decay.");
    int x = rng(p->posx - 3, p->posx + 3), y = rng(p->posy - 3, p->posy + 3);
-   if (g->m.field_at(x, y).type == fd_fatigue &&
-       g->m.field_at(x, y).density < 3)
-    g->m.field_at(x, y).density++;
-   else
     g->m.add_field(g, x, y, fd_fatigue, rng(1, 2));
   } break;
 
@@ -4337,10 +4333,6 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    if (acidball.x != -1 && acidball.y != -1) {
     for (int x = acidball.x - 1; x <= acidball.x + 1; x++) {
      for (int y = acidball.y - 1; y <= acidball.y + 1; y++) {
-      if (g->m.field_at(x, y).type == fd_acid &&
-          g->m.field_at(x, y).density < 3)
-       g->m.field_at(x, y).density++;
-      else
        g->m.add_field(g, x, y, fd_acid, rng(2, 3));
      }
     }
@@ -4474,7 +4466,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
     for (int y = p->posy - 3; y <= p->posy + 3; y++) {
      if (!one_in(3)) {
       if (g->m.add_field(g, x, y, fd_fire, 1 + rng(0, 1) * rng(0, 1)))
-       g->m.field_at(x, y).age = 30;
+		  g->m.field_at(x, y).findField(fd_fire)->setFieldAge(g->m.field_at(x, y).findField(fd_fire)->getFieldAge() + 30);
      }
     }
    }

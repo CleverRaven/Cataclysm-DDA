@@ -233,7 +233,7 @@ class map
 // Fields
  field& field_at(const int x, const int y);
  bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
- void remove_field(const int x, const int y);
+ void remove_field(const int x, const int y, const field_id field_to_remove);
  bool process_fields(game *g);				// See fields.cpp
  bool process_fields_in_submap(game *g, const int gridn);	// See fields.cpp
  void step_in_field(const int x, const int y, game *g);		// See fields.cpp

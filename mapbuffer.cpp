@@ -143,10 +143,15 @@ void mapbuffer::save()
   field tmpf;
   for (int j = 0; j < SEEY; j++) {
    for (int i = 0; i < SEEX; i++) {
-    tmpf = sm->fld[i][j];
-    if (tmpf.type != fd_null)
-     fout << "F " << i << " " << j << " " << int(tmpf.type) << " " <<
-             int(tmpf.density) << " " << tmpf.age << std::endl;
+    sm->fld[i][j];
+	if (sm->fld[i][j].fieldCount() > 0){
+		for(std::vector<field_entry*>::iterator it = sm->fld[i][j].getFieldStart(); it != sm->fld[i][j].getFieldEnd(); ++it){
+			if((*it) != NULL){
+				fout << "F " << i << " " << j << " " << int((*it)->getFieldType()) << " " <<
+					int((*it)->getFieldDensity()) << " " << (*it)->getFieldAge() << std::endl;
+			}
+		}
+	}
    }
   }
  // Output the spawn points
@@ -222,7 +227,7 @@ void mapbuffer::load()
     sm->ter[i][j] = ter_id(tmpter);
     sm->itm[i][j].clear();
     sm->trp[i][j] = tr_null;
-    sm->fld[i][j] = field();
+    //sm->fld[i][j] = field(); //not needed now
     sm->graf[i][j] = graffiti();
    }
   }
@@ -263,7 +268,7 @@ void mapbuffer::load()
     sm->trp[itx][ity] = trap_id(t);
    } else if (string_identifier == "F") {
     fin >> itx >> ity >> t >> d >> a;
-    sm->fld[itx][ity] = field(field_id(t), d, a);
+    sm->fld[itx][ity].addField(field_id(t), d, a);
     sm->field_count++;
    } else if (string_identifier == "S") {
     char tmpfriend;

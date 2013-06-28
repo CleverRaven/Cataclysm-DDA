@@ -471,8 +471,8 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
      }
     }
     if (check_fire) {
-     if (g->m.field_at(x, y).type == fd_fire)
-      ret += 5 * g->m.field_at(x, y).density;
+     if (g->m.field_at(x, y).findField(fd_fire))
+      ret += 5 * g->m.field_at(x, y).findField(fd_fire)->getFieldDensity();
     }
    }
   }

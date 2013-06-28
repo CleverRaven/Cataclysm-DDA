@@ -2039,7 +2039,7 @@ void game::update_scent()
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    const int move_cost = m.move_cost_ter_only(x, y);
-   const field field_at = m.field_at(x, y);
+   field field_at = m.field_at(x, y);
    const bool is_bashable = m.has_flag(bashable, x, y);
    newscent[x][y] = 0;
    scale[x][y] = 1;
@@ -2076,9 +2076,9 @@ void game::update_scent()
     squares_used +=   grscent[x + 1] [y + 1] >= this_field;
 
     scale[x][y] += squares_used;
-    if (field_at.type == fd_slime && newscent[x][y] < 10 * field_at.density)
+    if (field_at.findField(fd_slime) && newscent[x][y] < 10 * field_at.findField(fd_slime)->getFieldDensity())
     {
-        newscent[x][y] = 10 * field_at.density;
+        newscent[x][y] = 10 * field_at.findField(fd_slime)->getFieldDensity();
     }
     if (newscent[x][y] > 10000)
     {
@@ -4500,8 +4500,8 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     u.hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
    }
    if (has_fire) {
-    if (m.field_at(i, j).type == fd_smoke)
-     m.field_at(i, j) = field(fd_fire, 1, 0);
+    if (m.field_at(i, j).findField(fd_smoke))
+     m.field_at(i, j).addField(fd_fire, 1, 0);
     m.add_field(this, i, j, fd_fire, dam / 10);
    }
   }
@@ -4979,8 +4979,8 @@ void game::resonance_cascade(int x, int y)
        case 6:
        case 7: type = fd_nuke_gas;
       }
-      if (m.field_at(k, l).type == fd_null || !one_in(3))
-       m.field_at(k, l) = field(type, 3, 0);
+      if (!one_in(3))
+       m.field_at(k, l).addField(type, 3, 0);
      }
     }
     break;
@@ -5201,10 +5201,7 @@ void game::explode_mon(int index)
       blood_type = fd_bile;
      else if (corpse->dies == &mdeath::acid)
       blood_type = fd_acid;
-     if (m.field_at(tarx, tary).type == blood_type &&
-         m.field_at(tarx, tary).density < 3)
-      m.field_at(tarx, tary).density++;
-     else
+
       m.add_field(this, tarx, tary, blood_type, 1);
 
      if (m.move_cost(tarx, tary) == 0) {
@@ -5416,12 +5413,7 @@ void game::smash()
                 for (int x = smashx - 1; x <= smashx + 1; x++) {
                     for (int y = smashy - 1; y <= smashy + 1; y++) {
                         if (!one_in(damage+1)) {
-                            if (m.field_at(x, y).type == fd_blood &&
-                                m.field_at(x, y).density < 3) {
-                                m.field_at(x, y).density++;
-                            } else {
-                                m.add_field(this, x, y, fd_blood, 1);
-                            }
+                             m.add_field(this, x, y, fd_blood, 1);
                         }
                     }
                 }
@@ -7101,11 +7093,16 @@ point game::look_debug(point coords) {
     off++;
 
     field curfield = m.field_at(lx, ly);
-    if (curfield.type != fd_null) {
-       mvwprintz(w_look, off, 1, fieldlist[curfield.type].color[curfield.density-1], "field: %s (%d) density %d",
-           fieldlist[curfield.type].name[curfield.density-1].c_str(), curfield.type, curfield.density
-       );
-       off++; // 4
+    if (curfield.fieldCount() > 0) {
+		field_entry *cur = NULL;
+		for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+			cur = (*field_list_it);
+			if(cur == NULL) continue;
+			mvwprintz(w_look, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], "field: %s (%d) density %d",
+				fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str(), cur->getFieldType(), cur->getFieldDensity()
+			);
+			off++; // 4ish
+		}
     }
 
     trap_id curtrap=m.tr_at(lx, ly);
@@ -7261,7 +7258,8 @@ point game::look_debug(point coords) {
     } else if ( ch == 'f' ) {
       ///////////////////////////////////////////
       ///// field edit
-      int pwh=lookHeight-1;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
+		///This needs some serious rework for the new system. Disabled for now.
+      /*int pwh=lookHeight-1;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
       WINDOW* w_pickfield = newwin(pwh, pww, pwy, pwx);
       wborder(w_pickfield, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -7326,7 +7324,7 @@ point game::look_debug(point coords) {
       delwin(w_pickfield);
       wrefresh(w_look);
       skip = true;
-
+	  */
     } else if ( ch == 't' ) {
       ///////////////////////////////////////////
       ///// trap edit
@@ -7421,6 +7419,7 @@ point game::look_around()
   //mvwprintw(w_look, 6, 1, "Items: %d", m.i_at(lx, ly).size() );
   int junk;
   int veh_part = 0;
+  int off = 4;
   vehicle *veh = m.veh_at(lx, ly, veh_part);
   if (u_see(lx, ly)) {
    if (m.move_cost(lx, ly) == 0)
@@ -7429,13 +7428,26 @@ point game::look_around()
     mvwprintw(w_look, 1, 1, "%s; Movement cost %d", m.tername(lx, ly).c_str(),
                                                     m.move_cost(lx, ly) * 50);
    mvwprintw(w_look, 2, 1, "%s", m.features(lx, ly).c_str());
+
    field tmpfield = m.field_at(lx, ly);
-   if (tmpfield.type != fd_null)
-    mvwprintz(w_look, 4, 1, fieldlist[tmpfield.type].color[tmpfield.density-1],
-              "%s", fieldlist[tmpfield.type].name[tmpfield.density-1].c_str());
+   
+   if (tmpfield.fieldCount() > 0) {
+		field_entry *cur = NULL;
+		for(std::vector<field_entry*>::iterator field_list_it = tmpfield.getFieldStart(); field_list_it != tmpfield.getFieldEnd(); ++field_list_it){
+			cur = (*field_list_it);
+			if(cur == NULL) continue;
+			mvwprintz(w_look, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], "%s",
+				fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str());
+			off++; // 4ish
+		}
+    }
+   //if (tmpfield.type != fd_null)
+   // mvwprintz(w_look, 4, 1, fieldlist[tmpfield.type].color[tmpfield.density-1],
+   //           "%s", fieldlist[tmpfield.type].name[tmpfield.density-1].c_str());
+
    if (m.tr_at(lx, ly) != tr_null &&
        u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(lx, ly)]->visibility)
-    mvwprintz(w_look, 5, 1, traps[m.tr_at(lx, ly)]->color, "%s",
+    mvwprintz(w_look, ++off, 1, traps[m.tr_at(lx, ly)]->color, "%s",
               traps[m.tr_at(lx, ly)]->name.c_str());
 
    int dex = mon_at(lx, ly);
@@ -7478,7 +7490,7 @@ point game::look_around()
    else if (veh)
    {
        mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
-       veh->print_part_desc(w_look, 4, 48, veh_part);
+       veh->print_part_desc(w_look, ++off, 48, veh_part);
        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    }
    else if (!m.has_flag(container, lx, ly) && m.i_at(lx, ly).size() > 0)
@@ -7487,7 +7499,7 @@ point game::look_around()
                  m.i_at(lx, ly)[0].tname(this).c_str());
        if (m.i_at(lx, ly).size() > 1)
        {
-           mvwprintw(w_look, 4, 1, "There are other items there as well.");
+           mvwprintw(w_look, ++off, 1, "There are other items there as well.");
        }
        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    } else if (m.has_flag(container, lx, ly)) {
@@ -7527,7 +7539,7 @@ point game::look_around()
    mvwprintw(w_look, 1, 1, "Unseen.");
   }
   if (m.graffiti_at(lx, ly).contents)
-   mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
+   mvwprintw(w_look, ++off + 1, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
 
@@ -9834,9 +9846,18 @@ void game::plmove(int x, int y)
   if (u.underwater)
    u.underwater = false;
 
-  if (m.field_at(x, y).is_dangerous() &&
-      !query_yn("Really step into that %s?", m.field_at(x, y).name().c_str()))
-   return;
+  //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
+  field_entry *cur = NULL;
+  field tmpfld = m.field_at(x, y);
+	for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it){
+		cur = (*field_list_it);
+		if(cur == NULL) continue;
+		if (cur->is_dangerous() &&
+			!query_yn("Really step into that %s?", cur->name().c_str()))
+			return;
+	}
+
+   
 
 // no need to query if stepping into 'benign' traps
 /*

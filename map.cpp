@@ -886,12 +886,21 @@ bool map::trans(const int x, const int y)
   tertr = terlist[ter(x, y)].flags & mfb(transparent);
  if( tertr ){
   // Fields may obscure the view, too
-  field & f(field_at(x, y));
-  if(f.type == 0 || fieldlist[f.type].transparent[f.density - 1]){
-   return true;
-  }
+	 field curfield = field_at(x,y);
+	 if(curfield.fieldCount() > 0){
+	 field_entry *cur = NULL;
+	   for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+			cur = (*field_list_it);
+			if(cur == NULL) continue;
+			//If ANY field blocks vision, the tile does.
+			if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]){
+				return true;
+			}
+	   }
+	 }
+	   return false; //no blockers found, this is transparent
  }
- return false;
+ return false; //failsafe block vision
 }
 
 bool map::has_flag(const t_flag flag, const int x, const int y)
@@ -1021,9 +1030,9 @@ bool map::bash(const int x, const int y, const int str, std::string &sound, int 
 {
  sound = "";
  bool smashed_web = false;
- if (field_at(x, y).type == fd_web) {
+ if (field_at(x, y).findField(fd_web)) {
   smashed_web = true;
-  remove_field(x, y);
+  remove_field(x, y, fd_web);
  }
 
  for (int i = 0; i < i_at(x, y).size(); i++) {	// Destroy glass items (maybe)
@@ -1698,7 +1707,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
      //debugmsg("1");
       if (!g->m.has_flag(noitem, x, y)) {
        //debugmsg("2");
-       if (g->m.field_at(i, j).type != fd_rubble) {
+       if (!(g->m.field_at(i, j).findField(fd_rubble))) {
         //debugmsg("Rubble spawned!");
         g->m.add_field(g, i, j, fd_rubble, rng(1,3));
         g->m.field_effect(i, j, g);
@@ -1748,7 +1757,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
      //debugmsg("1");
       if (!g->m.has_flag(noitem, x, y)) {
        //debugmsg("2");
-       if (g->m.field_at(i, j).type != fd_rubble) {
+       if (!(g->m.field_at(i, j).findField(fd_rubble))) {
         //debugmsg("Rubble spawned!");
         g->m.add_field(g, i, j, fd_rubble, rng(1,3));
         g->m.field_effect(i, j, g);
@@ -2026,19 +2035,22 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         dam = 0;
 
     // Check fields?
-    field *fieldhit = &(field_at(x, y));
-    switch (fieldhit->type)
-    {
-        case fd_web:
+    field_entry *fieldhit = field_at(x, y).findField(fd_web);
+   // switch (fieldhit->type)
+   // {
+        //case fd_web:
+	//Removed switch for now as web is the only relevant choice to avoid a currently redundant for loop declaration for all the field types.
+	if(fieldhit){
             if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
-                add_field(g, x, y, fd_fire, fieldhit->density - 1);
-            else if (dam > 5 + fieldhit->density * 5 && one_in(5 - fieldhit->density))
+                add_field(g, x, y, fd_fire, fieldhit->getFieldDensity() - 1);
+            else if (dam > 5 + fieldhit->getFieldDensity() * 5 && one_in(5 - fieldhit->getFieldDensity()))
             {
-                dam -= rng(1, 2 + fieldhit->density * 2);
-                remove_field(x, y);
+                dam -= rng(1, 2 + fieldhit->getFieldDensity() * 2);
+                remove_field(x, y,fd_web);
             }
-        break;
-    }
+	}
+        //break;
+    //}
 
     // Now, destroy items on that tile.
     if ((move_cost(x, y) == 2 && !hit_items) || !INBOUNDS(x, y))
@@ -2905,10 +2917,12 @@ bool map::add_field(game *g, const int x, const int y,
 
  if (!INBOUNDS(x, y))
   return false;
- if (field_at(x, y).type == fd_web && t == fd_fire)
+
+ if (field_at(x, y).findField(fd_web) && t == fd_fire)
   density++;
- else if (!field_at(x, y).is_null()) // Blood & bile are null too
-  return false;
+ //else if (!field_at(x, y).is_null()) // Blood & bile are null too
+  //return false;
+
  if (density > 3)
   density = 3;
  if (density <= 0)
@@ -2917,18 +2931,18 @@ bool map::add_field(game *g, const int x, const int y,
 
  const int lx = x % SEEX;
  const int ly = y % SEEY;
- if (grid[nonant]->fld[lx][ly].type == fd_null)
+ if (grid[nonant]->fld[lx][ly].fieldCount() == 0) //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
   grid[nonant]->field_count++;
- grid[nonant]->fld[lx][ly] = field(t, density, 0);
+ grid[nonant]->fld[lx][ly].addField(t, density, 0); //This will insert and/or update the field.
  if (g != NULL && lx == g->u.posx && ly == g->u.posy &&
-     grid[nonant]->fld[lx][ly].is_dangerous()) {
+     grid[nonant]->fld[lx][ly].findField(t)->is_dangerous()) {
   g->cancel_activity_query("You're in a %s!",
                            fieldlist[t].name[density - 1].c_str());
  }
  return true;
 }
 
-void map::remove_field(const int x, const int y)
+void map::remove_field(const int x, const int y, const field_id field_to_remove)
 {
  if (!INBOUNDS(x, y))
   return;
@@ -2936,9 +2950,9 @@ void map::remove_field(const int x, const int y)
 
  const int lx = x % SEEX;
  const int ly = y % SEEY;
- if (grid[nonant]->fld[lx][ly].type != fd_null)
+ if (grid[nonant]->fld[lx][ly].fieldCount() > 0) //same as checking for fd_null in the old system
   grid[nonant]->field_count--;
- grid[nonant]->fld[lx][ly] = field();
+ grid[nonant]->fld[lx][ly].removeField(field_to_remove);
 }
 
 computer* map::computer_at(const int x, const int y)
@@ -3134,7 +3148,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  nc_color tercol;
  const ter_id curr_ter = ter(x,y);
  const trap_id curr_trap = tr_at(x, y);
- const field curr_field = field_at(x, y);
+ field curr_field = field_at(x, y);
  const std::vector<item> curr_items = i_at(x, y);
  long sym = terlist[curr_ter].sym;
  bool hi = false;
@@ -3169,11 +3183,11 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
    sym = (*traps)[curr_trap]->sym;
  }
 // If there's a field here, draw that instead (unless its symbol is %)
- if (curr_field.type != fd_null &&
-     fieldlist[curr_field.type].sym != '&') {
-  tercol = fieldlist[curr_field.type].color[curr_field.density - 1];
+ if (curr_field.fieldCount() > 0 && curr_field.findField(curr_field.fieldSymbol()) &&
+     fieldlist[curr_field.fieldSymbol()].sym != '&') {
+		 tercol = fieldlist[curr_field.fieldSymbol()].color[curr_field.findField(curr_field.fieldSymbol())->getFieldDensity() - 1];
   drew_field = true;
-  if (fieldlist[curr_field.type].sym == '*') {
+  if (fieldlist[curr_field.fieldSymbol()].sym == '*') {
    switch (rng(1, 5)) {
     case 1: sym = '*'; break;
     case 2: sym = '0'; break;
@@ -3181,9 +3195,9 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
     case 4: sym = '&'; break;
     case 5: sym = '+'; break;
    }
-  } else if (fieldlist[curr_field.type].sym != '%' ||
+  } else if (fieldlist[curr_field.fieldSymbol()].sym != '%' ||
              curr_items.size() > 0) {
-   sym = fieldlist[curr_field.type].sym;
+   sym = fieldlist[curr_field.fieldSymbol()].sym;
    drew_field = false;
   }
  }
@@ -3936,29 +3950,36 @@ void map::build_transparency_cache()
     continue;
    }
 
-   field& f = field_at(x, y);
-   if(f.type > 0) {
-    if(!fieldlist[f.type].transparent[f.density - 1]) {
-     // Fields are either transparent or not, however we want some to be translucent
-     switch(f.type) {
-      case fd_smoke:
-      case fd_toxic_gas:
-      case fd_tear_gas:
-       if(f.density == 3)
-        transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-       if(f.density == 2)
-        transparency_cache[x][y] *= 0.5;
-       break;
-      case fd_nuke_gas:
-       transparency_cache[x][y] *= 0.5;
-       break;
-      default:
-       transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
-       break;
-     }
-    }
+   //Quoted to see if this works!
+   field curfield = field_at(x,y);
+   if(curfield.fieldCount() > 0){
+	   field_entry *cur = NULL;
+	   for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+		   cur = (*field_list_it);
+		   if(cur == NULL) continue;
 
-    // TODO: [lightmap] Have glass reduce light as well
+		   if(!fieldlist[cur->getFieldType()].transparent[cur->getFieldDensity() - 1]) {
+			   // Fields are either transparent or not, however we want some to be translucent
+			   switch(cur->getFieldType()) {
+			   case fd_smoke:
+			   case fd_toxic_gas:
+			   case fd_tear_gas:
+				   if(cur->getFieldDensity() == 3)
+					   transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+				   if(cur->getFieldDensity() == 2)
+					   transparency_cache[x][y] *= 0.5;
+				   break;
+			   case fd_nuke_gas:
+				   transparency_cache[x][y] *= 0.5;
+				   break;
+			   default:
+				   transparency_cache[x][y] = LIGHT_TRANSPARENCY_SOLID;
+				   break;
+			   }
+		   }
+
+		   // TODO: [lightmap] Have glass reduce light as well
+	   }
    }
   }
  }
