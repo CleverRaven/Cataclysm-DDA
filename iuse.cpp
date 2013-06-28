@@ -3373,8 +3373,8 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 void iuse::mp3_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-  if (!p->has_item(it))
-   return;	// We're not carrying it!
+  if (!p->has_item(it) || p->has_disease(DI_DEAF) )
+   return;	// We're not carrying it, or we're deaf.
   p->add_morale(MORALE_MUSIC, 1, 50);
 
   if (int(g->turn) % 10 == 0) {	// Every 10 turns, describe the music
