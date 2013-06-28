@@ -962,69 +962,86 @@ t   t\n\
    house_room(this, room_living,	mw, tw, rw, cw);
    house_room(this, room_kitchen,	lw, tw, mw, cw);
    ter_set(mw, rng(tw + 2, cw - 2), (one_in(3) ? t_door_c : t_floor));
-   rn = rng(lw + 1, cw - 2);
+   rn = rng(lw + 1, mw - 2);
    ter_set(rn    , tw, t_window_domestic);
    ter_set(rn + 1, tw, t_window_domestic);
-   rn = rng(cw + 1, rw - 2);
+   rn = rng(mw + 1, rw - 2);
    ter_set(rn    , tw, t_window_domestic);
    ter_set(rn + 1, tw, t_window_domestic);
-   mw = rng(lw + 3, rw - 3);
-   if (mw <= lw + 5) {	// Bedroom on right, bathroom on left
-    rn = rng(cw + 2, rw - 2);
-    if (bw - cw >= 10 && mw - lw >= 6) {
-     house_room(this, room_bathroom, lw, bw - 5, mw, bw);
-     house_room(this, room_bedroom, lw, cw, mw, bw - 5);
-     ter_set(mw - 1, cw, t_door_c);
+   rn = rng(lw + 3, rw - 3); // Bottom part mw
+   if (rn <= lw + 5) {	// Bedroom on right, bathroom on left
+    house_room(this, room_bedroom, rn, cw, rw, bw);
+    ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
+    if (bw - cw >= 10 && rn - lw >= 6) {
+     house_room(this, room_bathroom, lw, bw - 5, rn, bw);
+     ter_set(rn, rng(bw - 3, bw - 1), t_door_c);
+     house_room(this, room_bedroom, lw, cw, rn, bw - 5);
+     if (one_in(3))
+      ter_set(rn, rng(cw + 1, bw - 6), t_door_c);
+     else
+      ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
     } else {
      if (bw - cw > 4) {	// Too big for a bathroom, not big enough for 2nd bedrm
-      house_room(this, room_bathroom, lw, bw - 4, mw, bw);
-      for (int i = lw + 1; i <= mw - 1; i++)
-       ter_set(i, cw    , t_floor);
-     } else
-      house_room(this, room_bathroom, lw, cw, mw, bw);
+      house_room(this, room_bathroom, lw, bw - 4, rn, bw);
+      for (int i = lw + 1; i < mw && i < rn; i++)
+       ter_set(i, cw, t_floor);
+      ter_set(rng(lw + 1, rn - 1), bw - 4, t_door_c);
+      ter_set(rn, rng(cw + 1, bw - 5), t_door_c);
+     } else {
+      house_room(this, room_bathroom, lw, cw, rn, bw);
+      if (one_in(5))
+        ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
+      else
+        ter_set(rn, rng(cw + 1, bw - 1), t_door_c);
+     }
     }
-    house_room(this, room_bedroom, mw, cw, rw, bw);
-    ter_set(mw, rng(bw - 4, bw - 1), t_door_c);
+    rn = rng(rn + 2, rw - 2);
    } else {	// Bedroom on left, bathroom on right
-    rn = rng(lw + 2, cw - 2);
-    if (bw - cw >= 10 && rw - mw >= 6) {
-     house_room(this, room_bathroom, mw, bw - 5, rw, bw);
-     house_room(this, room_bedroom, mw, cw, rw, bw - 5);
-     ter_set(rw - 1, cw, t_door_c);
+    house_room(this, room_bedroom, lw, cw, rn, bw);
+    ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
+    if (bw - cw >= 10 && rw - rn >= 6) {
+     house_room(this, room_bathroom, rn, bw - 5, rw, bw);
+     ter_set(rn, rng(bw - 3, bw - 1), t_door_c);
+     house_room(this, room_bedroom, rn, cw, rw, bw - 5);
+     if (one_in(3))
+      ter_set(rn, rng(cw + 1, bw - 6), t_door_c);
+     else
+      ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
     } else {
      if (bw - cw > 4) {	// Too big for a bathroom, not big enough for 2nd bedrm
-      house_room(this, room_bathroom, mw, bw - 4, rw, bw);
-      for (int i = mw + 1; i <= rw - 1; i++)
-       ter_set(i, cw    , t_floor);
-     } else
-      house_room(this, room_bathroom, mw, cw, rw, bw);
+      house_room(this, room_bathroom, rn, bw - 4, rw, bw);
+      for (int i = rw - 1; i > rn && i > mw; i--)
+       ter_set(i, cw, t_floor);
+      ter_set(rng(rw - 1, rn + 1), bw - 4, t_door_c);
+      ter_set(rn, rng(cw + 1, bw - 5), t_door_c);
+     } else {
+      house_room(this, room_bathroom, rn, cw, rw, bw);
+      if (one_in(5))
+        ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
+      else
+        ter_set(rn, rng(cw + 1, bw - 1), t_door_c);
+     }
     }
-    house_room(this, room_bedroom, lw, cw, mw, bw);
-    ter_set(mw, rng(bw - 4, bw - 1), t_door_c);
+    rn = rng(lw + 2, rn - 2);
    }
    ter_set(rn    , bw, t_window_domestic);
    ter_set(rn + 1, bw, t_window_domestic);
-   if (!one_in(3)) {	// Potential side windows
-    rn = rng(tw + 2, bw - 5);
+   if (!one_in(3) && rw < SEEX * 2 - 1) {	// Potential side windows
+    rn = rng(tw + 2, bw - 6);
     ter_set(rw, rn    , t_window_domestic);
     ter_set(rw, rn + 4, t_window_domestic);
    }
-   if (!one_in(3)) {	// Potential side windows
-    rn = rng(tw + 2, bw - 5);
+   if (!one_in(3) && lw > 0) {	// Potential side windows
+    rn = rng(tw + 2, bw - 6);
     ter_set(lw, rn    , t_window_domestic);
     ter_set(lw, rn + 4, t_window_domestic);
    }
-   ter_set(rng(lw + 1, lw + 2), cw, t_door_c);
-   if (one_in(4))
-    ter_set(rw - 2, cw, t_door_c);
-   else
-    ter_set(mw, rng(cw + 1, bw - 1), t_door_c);
    if (one_in(2)) {	// Placement of the main door
-    ter_set(rng(lw + 2, cw - 1), tw, (one_in(6) ? t_door_c : t_door_locked));
+    ter_set(rng(lw + 2, mw - 1), tw, (one_in(6) ? t_door_c : t_door_locked));
     if (one_in(5))
      ter_set(rw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
    } else {
-    ter_set(rng(cw + 1, rw - 2), tw, (one_in(6) ? t_door_c : t_door_locked));
+    ter_set(rng(mw + 1, rw - 2), tw, (one_in(6) ? t_door_c : t_door_locked));
     if (one_in(5))
      ter_set(lw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
    }
@@ -1105,12 +1122,12 @@ t   t\n\
    rn = rng(mw + 3, rw - 2);
    ter_set(rn    , tw, t_window_domestic);
    ter_set(rn + 1, tw, t_window_domestic);
-   if (one_in(4)) {	// Side windows?
+   if (one_in(3) && lw > 0) {	// Side windows?
     rn = rng(tw + 1, cw - 2);
     ter_set(lw, rn    , t_window_domestic);
     ter_set(lw, rn + 1, t_window_domestic);
    }
-   if (one_in(4)) {	// Side windows?
+   if (one_in(3) && rw < SEEX * 2 - 1) {	// Side windows?
     rn = rng(tw + 1, cw - 2);
     ter_set(rw, rn    , t_window_domestic);
     ter_set(rw, rn + 1, t_window_domestic);
