@@ -225,6 +225,9 @@ void player::activate_bionic(int b, game *g)
    pkill = pain;
  } else if (bio.id == "bio_nanobots"){
   healall(4);
+ } else if (bio.id == "bio_night"){
+  if (g->turn % 5)
+    g->add_msg("Artificial night generator active!");
  } else if (bio.id == "bio_resonator"){
   g->sound(posx, posy, 30, "VRRRRMP!");
   for (int i = posx - 1; i <= posx + 1; i++) {
@@ -504,35 +507,8 @@ void player::activate_bionic(int b, game *g)
   } else
    g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
  } else if(bio.id == "bio_flashbang") {
-   int blind_duration = 0;
-   int blind_intensity = 0;
-   int deaf_duration = 0;
-   int deaf_intensity = 0;
-   if (disease_level(DI_BLIND))
-   {
-       // remember our blind/deaf status
-       blind_duration = disease_level(DI_BLIND);
-       blind_intensity = disease_intensity(DI_BLIND);
-   }
-   if (disease_level(DI_DEAF))
-   {
-       deaf_duration = disease_level(DI_DEAF);
-       deaf_intensity = disease_intensity(DI_DEAF);
-   }
    g->add_msg("You activate your integrated flashbang generator!");
-   g->flashbang(posx, posy);
-   // clear blind/deaf because CBM flashbang shouldn't affect the player
-   rem_disease(DI_BLIND);
-   rem_disease(DI_DEAF);
-   if (blind_duration)
-   {
-       //restore our blind/deaf status
-       add_disease(DI_BLIND, blind_duration, g, blind_intensity, blind_intensity);
-   }
-   if (deaf_duration)
-   {
-       add_disease(DI_DEAF, deaf_duration, g, deaf_intensity, deaf_intensity);
-   }
+   g->flashbang(posx, posy, true);
  } else if(bio.id == "bio_shockwave") {
    g->shockwave(posx, posy, 3, 4, 2, 8, true);
    g->add_msg("You unleash a powerful shockwave!");

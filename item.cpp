@@ -2239,6 +2239,7 @@ std::string default_technique_name(technique_id tech)
   case TEC_DISARM: return "Disarm";
   case TEC_DEF_THROW: return "Defensive throw";
   case TEC_DEF_DISARM: return "Defense disarm";
+  case TEC_FLAMING: return    "FLAMING";
   default: return "A BUG! (item.cpp:default_technique_name (default))";
  }
  return "A BUG! (item.cpp:default_technique_name)";

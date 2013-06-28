@@ -274,7 +274,7 @@ void computer::activate_function(game *g, computer_action action)
      if (g->m.ter(x, y) == t_sewage_pump) {
       for (int x1 = x - 1; x1 <= x + 1; x1++) {
        for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
-        if (g->m.ter(x1, y1) == t_counter) {
+        if (g->m.furn(x1, y1) == f_counter) {
          bool found_item = false;
          for (int i = 0; i < g->m.i_at(x1, y1).size(); i++) {
           item *it = &(g->m.i_at(x1, y1)[i]);
@@ -512,7 +512,7 @@ void computer::activate_function(game *g, computer_action action)
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
       if (g->m.i_at(x, y)[i].is_bionic()) {
-       if (names.size() < 9)
+       if (names.size() < TERMY - 8)
         names.push_back(g->m.i_at(x, y)[i].tname());
        else
         more++;
@@ -520,10 +520,22 @@ void computer::activate_function(game *g, computer_action action)
      }
     }
    }
+   
+   reset_terminal();
+   
+   print_line("");
+   print_line("Bionic access - Manifest:");
+   print_line("");
+   
    for (int i = 0; i < names.size(); i++)
     print_line(names[i].c_str());
    if (more > 0)
     print_line("%d OTHERS FOUND...", more);
+    
+    print_line("");
+    print_line("Press any key...");
+    getch();
+    
   } break;
 
   case COMPACT_ELEVATOR_ON:

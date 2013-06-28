@@ -37,11 +37,13 @@ class uimenu {
     std::vector<std::string> textformatted;
     int textwidth;
     int textalign;
+    std::string title;
     std::vector<uimenu_entry> entries;
     std::map<int, int> keymap;    
     bool border;
     nc_color border_color;
     nc_color text_color;
+    nc_color title_color;
     nc_color hilight_color;
     nc_color hotkey_color;
     nc_color disabled_color;
@@ -50,7 +52,8 @@ class uimenu {
     bool hilight_disabled;
     bool hilight_full;
     int shift_retval;
-
+    int vshift;
+    int vmax;
     uimenu(); // bare init
 
     uimenu(bool cancancel, const char * message, ...); // legacy menu()

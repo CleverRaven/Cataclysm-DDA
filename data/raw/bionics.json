@@ -485,6 +485,14 @@
     "description":    "Your body is equipped with a chain lightning generator, allowing you to\n emit a blast of lightning at a target, leaving a trail of lightning in\n its wake, jumping to additional targets within 4 tiles of the previous target."
 },
 {
+    "id"         :    "bio_night",
+    "name"       :    "Artificial Night Generator",
+    "cost"       :    1,
+    "time"       :    2,
+    "flags"      :    ["ACTIVE"],
+    "description":    "Destructive interference eliminates all light within a 15 tile radius."
+},
+{
     "id"         :    "bio_dis_shock",
     "name"       :    "Electrical Discharge",
     "cost"       :    0,
