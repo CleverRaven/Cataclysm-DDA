@@ -106,8 +106,7 @@ int cursorx_to_position(const char* line, int cursorx)
 
 //erase character by unicode char width
 //fill the character with spaces
-//return: bytes affected
-void erease_utf8_by_cw( char* t, int cw, int len)
+void erease_utf8_by_cw( char* t, int cw, int clen, int maxlen)
 {
     static char buf[8000]; //LOL
     int c=0,i=0;
@@ -123,15 +122,16 @@ void erease_utf8_by_cw( char* t, int cw, int len)
 		if(cw<=0) cw=1;
 		c+=cw;
     }
-    if(cw==c && len==i)
+    if(cw==c && clen==i)
     {
-        memset(t, ' ', len);
+        memset(t, ' ', clen);
     }
     else
     {
-        strcpy(buf, t+i);
-        memset(t, ' ', len+c-cw);
-        strcpy(t+len+c-cw, buf);
+        memcpy(buf, t+i, maxlen-i);
+        memset(t, ' ', clen+c-cw);
+        memcpy(t+clen+c-cw, buf, maxlen-clen-c+cw);
     }
+
 }
 

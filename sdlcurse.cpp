@@ -699,7 +699,7 @@ inline int printstring(WINDOW *win, char *fmt)
             int cw = mk_wcwidth((wchar_t)ch);
             len = ANY_LENGTH-len;
             if (win->cursorx+cw <= win->width && win->cursory <= win->height - 1) {
-                erease_utf8_by_cw(win->line[win->cursory].chars+x, cw, len);
+                erease_utf8_by_cw(win->line[win->cursory].chars+x, cw, len, win->width*4-x-1);
                 for(i=0; i<len; i++)
                 {
                     win->line[win->cursory].chars[x+i]=fmt[j+i];

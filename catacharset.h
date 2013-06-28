@@ -11,6 +11,6 @@ int mk_wcwidth(wchar_t ucs);
 // convert cursorx value to byte position
 int cursorx_to_position(const char* line, int cursorx);
 //erease for characters insertion
-void erease_utf8_by_cw( char* t, int cw, int len);
+void erease_utf8_by_cw( char* t, int cw, int len, int maxlen);
 
 #endif
