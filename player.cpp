@@ -459,7 +459,7 @@ int player::calc_focus_equilibrium()
             focus_gain_rate -= 50;
             if (has_trait(PF_STUDIOUS))
                 (
-                add_morale(MORALE_LEARNING, 5, 5)
+                add_morale(MORALE_LEARNING, 4, 20)
                 );
                 (
                  focus_gain_rate += 25
