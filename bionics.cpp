@@ -84,8 +84,7 @@ void player::power_bionics(game *g)
  mvwputch(wBio, DESCRIPTION_LINE_Y, 79, c_ltgray, LINE_XOXX); // -|
 
  for (int i = 0; i < my_bionics.size(); i++) {
-  if ( bionics[my_bionics[i].id]->power_source ||
-      !bionics[my_bionics[i].id]->activated      )
+  if (!bionics[my_bionics[i].id]->activated)
    passive.push_back(my_bionics[i]);
   else
    active.push_back(my_bionics[i]);
@@ -105,10 +104,15 @@ void player::power_bionics(game *g)
  if (active.size() > 0) {
   mvwprintz(wBio, 3, 33, c_ltblue, "Active:");
   for (int i = 0; i < active.size(); i++) {
-   if (active[i].powered)
+   if (active[i].powered && !bionics[active[i].id]->power_source)
     type = c_red;
+    else if (bionics[active[i].id]->power_source && !active[i].powered)
+    type = c_ltcyan;
+    else if (bionics[active[i].id]->power_source && active[i].powered)
+    type = c_ltgreen;
    else
     type = c_ltred;
+
    mvwputch(wBio, 4 + i, 33, type, active[i].invlet);
    mvwprintz(wBio, 4 + i, 35, type,
              (active[i].powered ? "%s - ON" : "%s - %d PU / %d trns"),
