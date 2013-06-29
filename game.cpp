@@ -10056,8 +10056,11 @@ void game::plmove(int x, int y)
 
  } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel")) { //probability travel through walls but not water
   int tunneldist = 0;
-  while(m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&
-          !m.has_flag(swimmable, x + tunneldist*(x - u.posx), y + tunneldist*(x - u.posx)))
+  while((m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&          // tile is impassable
+         !m.has_flag(swimmable, x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) ||    // but allow water tiles
+        ((mon_at(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) != -1 ||     // a monster is there
+          npc_at(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) != -1) &&    // so keep tunneling
+          tunneldist > 0)))                                                             // assuming we've already started
   {
       tunneldist += 1; //add 1 to tunnel distance for each impassable tile in the line
       if(tunneldist * 10 > u.power_level) //oops, not enough energy! Tunneling costs 10 bionic power per impassable tile
