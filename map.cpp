@@ -2911,30 +2911,32 @@ field& map::field_at(const int x, const int y)
 }
 
 bool map::add_field(game *g, const int x, const int y,
-                    const field_id t, const unsigned char new_density)
+					const field_id t, const unsigned char new_density)
 {
- unsigned int density = new_density;
+	unsigned int density = new_density;
 
- if (!INBOUNDS(x, y))
-  return false;
+	if (!INBOUNDS(x, y))
+		return false;
 
- if (density > 3)
-  density = 3;
- if (density <= 0)
-  return false;
- const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
+	if (density > 3)
+		density = 3;
+	if (density <= 0)
+		return false;
+	const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
 
- const int lx = x % SEEX;
- const int ly = y % SEEY;
- if (!grid[nonant]->fld[lx][ly].findField(t)) //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
-  grid[nonant]->field_count++; //Only adding it to the count if it doesn't exist.
- grid[nonant]->fld[lx][ly].addField(t, density, 0); //This will insert and/or update the field.
- if (g != NULL && lx == g->u.posx && ly == g->u.posy &&
-     grid[nonant]->fld[lx][ly].findField(t)->is_dangerous()) {
-  g->cancel_activity_query("You're in a %s!",
-                           fieldlist[t].name[density - 1].c_str());
- }
- return true;
+	const int lx = x % SEEX;
+	const int ly = y % SEEY;
+	if (!grid[nonant]->fld[lx][ly].findField(t)) //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
+		grid[nonant]->field_count++; //Only adding it to the count if it doesn't exist.
+	grid[nonant]->fld[lx][ly].addField(t, density, 0); //This will insert and/or update the field.
+	/*if (g != NULL && lx == g->u.posx && ly == g->u.posy &&
+		grid[nonant]->fld[lx][ly].findField(t)->is_dangerous()) {
+			g->cancel_activity_query("You're in a %s!",
+				fieldlist[t].name[density - 1].c_str());
+	}*/ //Ok, this section was in here before the field class update, and it can literaly never run. g->u.posx is the literal, not the translated like lx.
+	if(g != NULL && x == g->u.posx && y == g->u.posy)
+		step_in_field(x,y,g); //Hit the player with the field if it spawned on top of them.
+	return true;
 }
 
 void map::remove_field(const int x, const int y, const field_id field_to_remove)

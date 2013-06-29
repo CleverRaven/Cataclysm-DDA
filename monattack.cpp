@@ -124,10 +124,10 @@ void mattack::shockstorm(game *g, monster *z)
   if (!one_in(4))
    g->m.add_field(g, bolt[i].x, bolt[i].y, fd_electricity, rng(1, 3));
  }
-// 3x3 cloud of electricity at the square hit
- for (int i = tarx - 1; i <= tarx + 1; i++) {
-  for (int j = tary - 1; j <= tary + 1; j++) {
-   if (!one_in(6))
+// 5x5 cloud of electricity at the square hit
+ for (int i = tarx - 2; i <= tarx + 2; i++) {
+  for (int j = tary - 2; j <= tary + 2; j++) {
+   if (!one_in(4) || (i == 0 && j == 0))
     g->m.add_field(g, i, j, fd_electricity, rng(1, 3));
   }
  }
