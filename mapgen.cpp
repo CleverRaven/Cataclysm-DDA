@@ -969,59 +969,103 @@ t   t\n\
    ter_set(rn    , tw, t_window_domestic);
    ter_set(rn + 1, tw, t_window_domestic);
    rn = rng(lw + 3, rw - 3); // Bottom part mw
-   if (rn <= lw + 5) {	// Bedroom on right, bathroom on left
+   if (rn <= lw + 5) {
+    // Bedroom on right, bathroom on left
     house_room(this, room_bedroom, rn, cw, rw, bw);
+
+    // Put door between bedroom and living
     ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
+
     if (bw - cw >= 10 && rn - lw >= 6) {
+     // All fits, placing bathroom and 2nd bedroom
      house_room(this, room_bathroom, lw, bw - 5, rn, bw);
-     ter_set(rn, rng(bw - 3, bw - 1), t_door_c);
      house_room(this, room_bedroom, lw, cw, rn, bw - 5);
-     if (one_in(3))
+
+     // Put door between bathroom and bedroom
+     ter_set(rn, rng(bw - 4, bw - 1), t_door_c);
+
+     if (one_in(3)) {
+      // Put door between 2nd bedroom and 1st bedroom
       ter_set(rn, rng(cw + 1, bw - 6), t_door_c);
-     else
+     } else {
+      // ...Otherwise, between 2nd bedroom and kitchen
       ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
+     }
+    } else if (bw - cw > 4) {
+     // Too big for a bathroom, not big enough for 2nd bedroom
+     // Make it a bathroom anyway, but give the excess space back to
+     // the kitchen.
+     house_room(this, room_bathroom, lw, bw - 4, rn, bw);
+     for (int i = lw + 1; i < mw && i < rn; i++)
+      ter_set(i, cw, t_floor);
+
+     // Put door between excess space and bathroom
+     ter_set(rng(lw + 1, rn - 1), bw - 4, t_door_c);
+
+     // Put door between excess space and bedroom
+     ter_set(rn, rng(cw + 1, bw - 5), t_door_c);
     } else {
-     if (bw - cw > 4) {	// Too big for a bathroom, not big enough for 2nd bedrm
-      house_room(this, room_bathroom, lw, bw - 4, rn, bw);
-      for (int i = lw + 1; i < mw && i < rn; i++)
-       ter_set(i, cw, t_floor);
-      ter_set(rng(lw + 1, rn - 1), bw - 4, t_door_c);
-      ter_set(rn, rng(cw + 1, bw - 5), t_door_c);
+     // Small enough to be a bathroom; make it one.
+     house_room(this, room_bathroom, lw, cw, rn, bw);
+
+     if (one_in(5)) {
+      // Put door between batroom and kitchen with low chance
+      ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
      } else {
-      house_room(this, room_bathroom, lw, cw, rn, bw);
-      if (one_in(5))
-        ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
-      else
-        ter_set(rn, rng(cw + 1, bw - 1), t_door_c);
+      // ...Otherwise, between bathroom and bedroom
+      ter_set(rn, rng(cw + 1, bw - 1), t_door_c);
      }
     }
+    // Point on bedroom wall, for window
     rn = rng(rn + 2, rw - 2);
-   } else {	// Bedroom on left, bathroom on right
+   } else {
+    // Bedroom on left, bathroom on right
     house_room(this, room_bedroom, lw, cw, rn, bw);
+
+    // Put door between bedroom and kitchen
     ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
+
     if (bw - cw >= 10 && rw - rn >= 6) {
+     // All fits, placing bathroom and 2nd bedroom
      house_room(this, room_bathroom, rn, bw - 5, rw, bw);
-     ter_set(rn, rng(bw - 3, bw - 1), t_door_c);
      house_room(this, room_bedroom, rn, cw, rw, bw - 5);
-     if (one_in(3))
+
+     // Put door between bathroom and bedroom
+     ter_set(rn, rng(bw - 4, bw - 1), t_door_c);
+
+     if (one_in(3)) {
+      // Put door between 2nd bedroom and 1st bedroom
       ter_set(rn, rng(cw + 1, bw - 6), t_door_c);
-     else
-      ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
-    } else {
-     if (bw - cw > 4) {	// Too big for a bathroom, not big enough for 2nd bedrm
-      house_room(this, room_bathroom, rn, bw - 4, rw, bw);
-      for (int i = rw - 1; i > rn && i > mw; i--)
-       ter_set(i, cw, t_floor);
-      ter_set(rng(rw - 1, rn + 1), bw - 4, t_door_c);
-      ter_set(rn, rng(cw + 1, bw - 5), t_door_c);
      } else {
-      house_room(this, room_bathroom, rn, cw, rw, bw);
-      if (one_in(5))
-        ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
-      else
-        ter_set(rn, rng(cw + 1, bw - 1), t_door_c);
+      // ...Otherwise, between 2nd bedroom and living
+      ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
+     }
+    } else if (bw - cw > 4) {
+     // Too big for a bathroom, not big enough for 2nd bedroom
+     // Make it a bathroom anyway, but give the excess space back to
+     // the living.
+     house_room(this, room_bathroom, rn, bw - 4, rw, bw);
+     for (int i = rw - 1; i > rn && i > mw; i--)
+      ter_set(i, cw, t_floor);
+
+     // Put door between excess space and bathroom
+     ter_set(rng(rw - 1, rn + 1), bw - 4, t_door_c);
+
+     // Put door between excess space and bedroom
+     ter_set(rn, rng(cw + 1, bw - 5), t_door_c);
+    } else {
+     // Small enough to be a bathroom; make it one.
+     house_room(this, room_bathroom, rn, cw, rw, bw);
+
+     if (one_in(5)) {
+      // Put door between bathroom and living with low chance
+      ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
+     } else {
+      // ...Otherwise, between bathroom and bedroom
+      ter_set(rn, rng(cw + 1, bw - 1), t_door_c);
      }
     }
+    // Point on bedroom wall, for window
     rn = rng(lw + 2, rn - 2);
    }
    ter_set(rn    , bw, t_window_domestic);
@@ -1038,7 +1082,7 @@ t   t\n\
    }
    if (one_in(2)) {	// Placement of the main door
     ter_set(rng(lw + 2, mw - 1), tw, (one_in(6) ? t_door_c : t_door_locked));
-    if (one_in(5))
+    if (one_in(5)) // Placement of side door
      ter_set(rw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
    } else {
     ter_set(rng(mw + 1, rw - 2), tw, (one_in(6) ? t_door_c : t_door_locked));
