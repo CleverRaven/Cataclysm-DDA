@@ -8013,7 +8013,7 @@ void game::list_items()
                 wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
 
                 werase(w_item_info);
-                mvwprintz(w_item_info, 0, 0, c_white, "%s", activeItem.info().c_str());
+                mvwprintz(w_item_info, 0, 2, c_white, "%s", activeItem.info().c_str());
 
                 for (int j=0; j < iInfoHeight-1; j++)
                 {
@@ -8300,7 +8300,12 @@ void game::pickup(int posx, int posy, int min)
       last_selected = selected;
       werase(w_item_info);
       if ( selected >= 0 && selected <= here.size()-1 ) {
-          mvwprintw(w_item_info, 1, 0, here[selected].info().c_str());
+          std::vector<std::string> textformatted;
+          textformatted = foldstring(here[selected].info().c_str(), 48-3);
+          for (int line_num=0; line_num<textformatted.size(); line_num++)
+          {
+            mvwprintw(w_item_info, line_num+1, 2, textformatted[line_num].c_str());
+          }
       }
       wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );

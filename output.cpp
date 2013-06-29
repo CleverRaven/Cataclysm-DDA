@@ -691,10 +691,10 @@ void full_screen_popup(const char* mes, ...)
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  
- textformatted = foldstring(mes, 80-2);
+ textformatted = foldstring(mes, 80-3);
  for (int line_num=0; line_num<textformatted.size(); line_num++) 
  {
-  mvwprintz(w, line_num+1, 1, c_white, textformatted[line_num].c_str());
+  mvwprintz(w, line_num+1, 2, c_white, textformatted[line_num].c_str());
  }
  wrefresh(w);
  char ch;
