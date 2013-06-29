@@ -8013,7 +8013,12 @@ void game::list_items()
                 wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
 
                 werase(w_item_info);
-                mvwprintz(w_item_info, 0, 2, c_white, "%s", activeItem.info().c_str());
+                std::vector<std::string> textformatted;
+                textformatted = foldstring(activeItem.info().c_str(), 53-3);
+                for (int line_num=0; line_num<textformatted.size(); line_num++)
+                {
+                    mvwprintz(w_item_info, line_num+1, 1, c_white, "%s", textformatted[line_num].c_str());
+                }
 
                 for (int j=0; j < iInfoHeight-1; j++)
                 {
