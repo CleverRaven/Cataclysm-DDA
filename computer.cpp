@@ -70,7 +70,9 @@ void computer::shutdown_terminal()
 void computer::use(game *g)
 {
  if (w_terminal == NULL)
-  w_terminal = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+  w_terminal = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                      (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                      (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
  wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 

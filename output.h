@@ -22,6 +22,9 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
+#define FULL_SCREEN_WIDTH 80  // Width of full Screen popup
+#define FULL_SCREEN_HEIGHT 25 // Height of full Screen popup
+
 // Display data
 extern int TERMX;
 extern int TERMY;

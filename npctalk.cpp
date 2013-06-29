@@ -110,7 +110,9 @@ void npc::talk_to_u(game *g)
  moves -= 100;
  decide_needs();
 
- d.win = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ d.win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
  wborder(d.win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                 LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  for (int i = 1; i < 24; i++)
@@ -1749,9 +1751,12 @@ talk_topic special_talk(char ch)
 
 bool trade(game *g, npc *p, int cost, std::string deal)
 {
- WINDOW* w_head = newwin(4, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
- WINDOW* w_them = newwin(21, 40, 4+((TERMY > 25) ? (TERMY-25)/2 : 0), (TERMX > 80) ? (TERMX-80)/2 : 0);
- WINDOW* w_you = newwin(21, 40, 4+((TERMY > 25) ? (TERMY-25)/2 : 0), 40+((TERMX > 80) ? (TERMX-80)/2 : 0));
+ WINDOW* w_head = newwin(4, FULL_SCREEN_WIDTH, (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+ WINDOW* w_them = newwin(21, 40, 4+((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
+                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+ WINDOW* w_you = newwin(21, 40, 4+((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
+                        40+((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
 
  WINDOW* w_tmp;
  mvwprintz(w_head, 0, 0, c_white, "\
@@ -1760,7 +1765,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
 ? to get information on an item", p->name.c_str());
 
 // Set up line drawings
- for (int i = 0; i < 80; i++)
+ for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
   mvwputch(w_head,  3, i, c_white, LINE_OXOX);
  wrefresh(w_head);
 
@@ -1801,7 +1806,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
 // Draw borders, one of which is highlighted
    werase(w_them);
    werase(w_you);
-   for (int i = 1; i < 80; i++)
+   for (int i = 1; i < FULL_SCREEN_WIDTH; i++)
     mvwputch(w_head, 3, i, c_white, LINE_OXOX);
    mvwprintz(w_head, 3, 30, ((cash <  0 && g->u.cash >= cash * -1) ||
                              (cash >= 0 && p->cash  >= cash) ?
@@ -1883,7 +1888,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
    break;
   case '?':
    update = true;
-   w_tmp = newwin(3, 21, 1+(TERMY-25)/2, 30+(TERMX-80)/2);
+   w_tmp = newwin(3, 21, 1+(TERMY-FULL_SCREEN_HEIGHT)/2, 30+(TERMX-FULL_SCREEN_WIDTH)/2);
    mvwprintz(w_tmp, 1, 1, c_red, "Examine which item?");
    wborder(w_tmp, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );

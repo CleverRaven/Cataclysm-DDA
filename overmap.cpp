@@ -383,7 +383,9 @@ point overmap::display_notes(game* g, int const z) const
  }
 
  std::string title = "Notes:";
- WINDOW* w_notes = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW* w_notes = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                          (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                          (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  wborder(w_notes, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -394,7 +396,7 @@ point overmap::display_notes(game* g, int const z) const
  mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
  do{
   if (ch == '<' && start > 0) {
-   for (int i = 1; i < 25; i++)
+   for (int i = 1; i < FULL_SCREEN_HEIGHT; i++)
     mvwprintz(w_notes, i+1, 1, c_black, "                                                     ");
    start -= maxitems;
    if (start < 0)
@@ -404,7 +406,7 @@ point overmap::display_notes(game* g, int const z) const
   if (ch == '>' && cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
    start = cur_it;
    mvwprintw(w_notes, maxitems + 2, 13, "            ");
-   for (int i = 1; i < 25; i++)
+   for (int i = 1; i < FULL_SCREEN_HEIGHT; i++)
     mvwprintz(w_notes, i, 0, c_black, "                                                     ");
   }
   int cur_line = 3;
@@ -433,7 +435,7 @@ point overmap::display_notes(game* g, int const z) const
     return point(layer[z + OVERMAP_DEPTH].notes[start + chosen_line].x, layer[z + OVERMAP_DEPTH].notes[start + chosen_line].y);
   }
   mvwprintz(w_notes, 1, 40, c_white, "Press letter to center on note");
-  mvwprintz(w_notes, 23, 40, c_white, "Spacebar - Return to map  ");
+  mvwprintz(w_notes, FULL_SCREEN_HEIGHT-2, 40, c_white, "Spacebar - Return to map  ");
   wrefresh(w_notes);
   ch = getch();
  } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
