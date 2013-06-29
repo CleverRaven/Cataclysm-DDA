@@ -1371,6 +1371,10 @@ t   t\n\
    fill_background(this, t_grass);
    mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
              t          \n\
       t         ##      \n\
                 ##      \n\
@@ -1385,7 +1389,12 @@ t   t\n\
       -            t    \n\
      t-                 \n\
                t        \n\
-         t              \n",
+         t              \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n",
    mapf::basic_bind( "# m s t", t_sandbox, t_monkey_bars, t_slide, t_tree ),
    mapf::basic_bind( "-", f_bench));
    rotate(rng(0, 3));
@@ -1394,6 +1403,7 @@ t   t\n\
    fill_background(this, t_pavement);
    mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
 |-+------------------+-|\n\
 |     .  . 7 .  .      |\n\
 |     .  .   .  .      |\n\
@@ -1414,7 +1424,9 @@ t   t\n\
 |#    .  .....  .     #|\n\
 |     .  .   .  .      |\n\
 |     .  . 7 .  .      |\n\
-|-+------------------+-|\n",
+|-+------------------+-|\n\
+                        \n\
+                        \n",
   mapf::basic_bind(". 7 | - +", t_pavement_y, t_backboard, t_chainfence_v, t_chainfence_h, t_chaingate_l),
   mapf::basic_bind("#", f_bench));
   rotate(rng(0, 3));
@@ -6127,6 +6139,7 @@ ff.......|....|WWWWWWWW|\n\
 //Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.
    mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
         FffffffffffffF  \n\
         F____________F  \n\
    |----|______&&&&__F  \n\
@@ -6222,6 +6235,7 @@ case ot_public_works:{
     (t_south == ot_public_works && t_west == ot_public_works_entrance)){
      mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
  |---------------|FFFFFF\n\
  |....rrrrrrrr...|      \n\
  |r..............| _____\n\
@@ -6310,6 +6324,7 @@ ____sss                 \n",
   else {
      mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
 FFFFFFFFF|------------| \n\
          |..ll..rrr...| \n\
 __________............| \n\
@@ -8305,6 +8320,7 @@ tth.............^|..|###\n\
   fill_background(this, &grass_or_dirt);
   mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
    |---|----|--------|  \n\
    |..l|.T.S|..eccScc|  \n\
    |...+....+........D  \n\
@@ -8450,6 +8466,7 @@ case ot_haz_sar:{
     (t_south == ot_haz_sar && t_west == ot_haz_sar_entrance)){
      mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
  fFFFFFFFFFFFFFFFFFFFFFF\n\
  f                      \n\
  f                      \n\
@@ -8525,7 +8542,10 @@ ________,_________ss  f \n\
 ________,_________ss  f \n\
 ________,_________ss  f \n\
 ssssssssssssssssssss  f \n\
-FFFFFFFFFFFFFFFFFFFFFFf \n",
+FFFFFFFFFFFFFFFFFFFFFFf \n\
+                        \n\
+                        \n\
+                        \n",
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F V H 6 x $ ^ . - | # t + = D w T S e o h c d l s", t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass_h, t_wall_glass_v, t_sewage, t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_rock, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F V H 6 x $ ^ . - | # t + = D w T S e o h c d l s", f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,   f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,         f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
      spawn_item(1, 2, "id_military", 0);
@@ -8548,6 +8568,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n",
   else {
      mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
 FFFFFFFFFFFFFFFFFFFFFFf \n\
                       f \n\
                       f \n\

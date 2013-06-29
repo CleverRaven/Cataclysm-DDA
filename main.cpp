@@ -14,6 +14,7 @@
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>
+#include <clocale>
 
 void exit_handler(int s);
 
@@ -30,6 +31,9 @@ int main(int argc, char *argv[])
   setupDebug();
 #endif
  int seed = time(NULL);
+
+// set locale to system default
+ setlocale(LC_ALL, "");
 
 //args: world seeding only.
  argc--; argv++;
