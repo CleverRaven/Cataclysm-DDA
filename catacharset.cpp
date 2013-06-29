@@ -103,9 +103,11 @@ int utf8_width(const char* s)
 }
 
 
-int cursorx_to_position(const char* line, int cursorx)
+int cursorx_to_position(const char* line, int cursorx, int* prevpos)
 {
-	int i=0, c=0;
+	int dummy;
+	int i=0, c=0, *p=prevpos?prevpos:&dummy;
+	*p = 0;
 	while(c<cursorx)
 	{
 		const char* utf8str = line+i;
@@ -117,6 +119,7 @@ int cursorx_to_position(const char* line, int cursorx)
 		i+=len;
 		if(cw<=0) cw=1;
 		c+=cw;
+		if(c<=cursorx) *p = i;
 	}
 	return i;
 }

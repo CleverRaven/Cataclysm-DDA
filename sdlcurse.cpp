@@ -241,9 +241,8 @@ void DrawWindow(WINDOW *win)
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
 
                 if ( tmp != UNKNOWN_UNICODE){
-					len = ANY_LENGTH-len;
-					
 					int cw = mk_wcwidth((wchar_t)tmp);
+					len = ANY_LENGTH-len;
 					if(cw>1) 
 					{
 						FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
@@ -689,45 +688,59 @@ int getnstr(char *str, int size)
 inline int printstring(WINDOW *win, char *fmt)
 {
     int size = strlen(fmt);
-    int j, i;
-    int x = cursorx_to_position(win->line[win->cursory].chars, win->cursorx);
-    for (j=0; j<size; j++){
-        if (!(fmt[j]==10)){//check that this isnt a newline char
-            const char* utf8str = fmt+j;
-            int len = ANY_LENGTH;
-            unsigned ch = UTF8_getch(&utf8str, &len);
-            int cw = mk_wcwidth((wchar_t)ch);
-            len = ANY_LENGTH-len;
-            if (win->cursorx+cw <= win->width && win->cursory <= win->height - 1) {
-                erease_utf8_by_cw(win->line[win->cursory].chars+x, cw, len, win->width*4-x-1);
-                for(i=0; i<len; i++)
-                {
-                    win->line[win->cursory].chars[x+i]=fmt[j+i];
-                }
-                for(i=0; i<cw; i++)
-                {
-                    win->line[win->cursory].FG[win->cursorx+i]=win->FG;
-                    win->line[win->cursory].BG[win->cursorx+i]=win->BG;
-                }
-                win->line[win->cursory].touched=true;
-                j += len-1;
-                win->cursorx += cw-1;
-                addedchar(win);
-                x+=len;
-            } else if (win->cursory <= win->height - 1) {
-                // don't write outside the window, but don't abort if there are still lines to write.
-                j += len-1;
-                x+=len;
-            } else {
-                return 0; //if we try and write anything outside the window, abort completely
-            }
-        } else {// if the character is a newline, make sure to move down a line
-            if (newline(win)==0){
-                return 0;
-            }
-            x = 0;
-        }
-    }
+	if(size>0)
+	{
+		int j, i, p;
+		int x = cursorx_to_position(win->line[win->cursory].chars, win->cursorx, &p);
+		
+		if(p!=x)//so we start inside a wide character, erase it for good
+		{
+			const char* ts = win->line[win->cursory].chars+p;
+			int len = ANY_LENGTH;
+			unsigned tc = UTF8_getch(&ts, &len);
+			int tw = mk_wcwidth((wchar_t)tc);
+			erease_utf8_by_cw(win->line[win->cursory].chars+p, tw, tw, win->width*4-p-1);
+			x = p+tw-1;
+		}
+		for (j=0; j<size; j++){
+			if (!(fmt[j]==10)){//check that this isnt a newline char
+				const char* utf8str = fmt+j;
+				int len = ANY_LENGTH;
+				unsigned ch = UTF8_getch(&utf8str, &len);
+				int cw = mk_wcwidth((wchar_t)ch);
+				len = ANY_LENGTH-len;
+				if(cw<1) cw = 1;
+				if(len<1) len = 1;
+				if (win->cursorx+cw <= win->width && win->cursory <= win->height - 1) {
+					erease_utf8_by_cw(win->line[win->cursory].chars+x, cw, len, win->width*4-x-1);
+					for(i=0; i<len; i++)
+					{
+						win->line[win->cursory].chars[x+i]=fmt[j+i];
+					}
+					for(i=0; i<cw; i++)
+					{
+						win->line[win->cursory].FG[win->cursorx]=win->FG;
+						win->line[win->cursory].BG[win->cursorx]=win->BG;
+						addedchar(win);
+					}
+					win->line[win->cursory].touched=true;
+					j += len-1;
+					x+=len;
+				} else if (win->cursory <= win->height - 1) {
+					// don't write outside the window, but don't abort if there are still lines to write.
+					//j += len-1;
+					//x+=len;
+				} else {
+					return 0; //if we try and write anything outside the window, abort completely
+				}
+			} else {// if the character is a newline, make sure to move down a line
+				if (newline(win)==0){
+					return 0;
+				}
+				x = 0;
+			}
+		}
+	}
     win->draw=true;
     return 1;
 }
@@ -1031,8 +1044,19 @@ int waddch(WINDOW *win, const chtype ch)
         }
 
 
-int cury=win->cursory;
-int curx=cursorx_to_position(win->line[cury].chars, win->cursorx);
+	int cury=win->cursory;
+	int p;
+	int curx=cursorx_to_position(win->line[cury].chars, win->cursorx, &p);
+
+	if(curx!=p)
+	{
+		const char* ts = win->line[cury].chars+p;
+		int len = ANY_LENGTH;
+		unsigned tc = UTF8_getch(&ts, &len);
+		int tw = mk_wcwidth((wchar_t)tc);
+		erease_utf8_by_cw(win->line[cury].chars+p, tw, tw, win->width*4-p-1);
+		curx = p+tw-1;
+	}
 
 //if (win2 > -1){
    win->line[cury].chars[curx]=charcode;
@@ -1046,10 +1070,7 @@ int curx=cursorx_to_position(win->line[cury].chars, win->cursorx);
   //  else{
   //  win2=win2+1;
 
-};
-
-
-
+}
 
 //Move the cursor of windows 0 (stdscr)
 int move(int y, int x)
