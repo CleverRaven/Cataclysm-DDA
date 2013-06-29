@@ -1435,17 +1435,17 @@ void talk_function::player_leaving(game *g, npc *p)
 
 void talk_function::drop_weapon(game *g, npc *p)
 {
- g->m.add_item(p->posx, p->posy, p->remove_weapon());
+ g->m.add_item(p->posx, p->posy, p->remove_weapon(g));
 }
 
 void talk_function::player_weapon_away(game *g, npc *p)
 {
- g->u.i_add(g->u.remove_weapon());
+ g->u.i_add(g->u.remove_weapon(g));
 }
 
 void talk_function::player_weapon_drop(game *g, npc *p)
 {
- g->m.add_item(g->u.posx, g->u.posy, g->u.remove_weapon());
+ g->m.add_item(g->u.posx, g->u.posy, g->u.remove_weapon(g));
 }
 
 void talk_function::lead_to_safety(game *g, npc *p)
@@ -1949,7 +1949,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
   }
 // Do it in two passes, so removing items doesn't corrupt yours[]
   for (int i = 0; i < removing.size(); i++)
-   g->u.i_rem(removing[i]);
+   g->u.i_rem(g,removing[i]);
 
   for (int i = 0; i < theirs.size(); i++) {
    item tmp = *theirs[i];

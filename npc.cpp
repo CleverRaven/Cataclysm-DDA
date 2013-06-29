@@ -1167,10 +1167,10 @@ bool npc::wield(game *g, signed char invlet)
    return false;
   }
   if (volume_carried() + weapon.volume() <= volume_capacity()) {
-   i_add(remove_weapon());
+   i_add(remove_weapon(g));
    moves -= 15; // Extra penalty for putting weapon away
   } else // No room for weapon, so we drop it
-   g->m.add_item(posx, posy, remove_weapon());
+   g->m.add_item(posx, posy, remove_weapon(g));
   moves -= 15;
   weapon.make( g->itypes[styles[index]] );
   if (g->u_see(posx, posy))
@@ -1179,10 +1179,10 @@ bool npc::wield(game *g, signed char invlet)
  }
 
  if (volume_carried() + weapon.volume() <= volume_capacity()) {
-  i_add(remove_weapon());
+  i_add(remove_weapon(g));
   moves -= 15;
  } else // No room for weapon, so we drop it
-  g->m.add_item(posx, posy, remove_weapon());
+  g->m.add_item(posx, posy, remove_weapon(g));
  moves -= 15;
  weapon = inv.item_by_letter(invlet);
  i_remn(invlet);

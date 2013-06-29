@@ -1261,12 +1261,14 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         if (item_controller->find_template(player_use[i].type)->count_by_charges() &&
             player_use[i].count > 0)
         {
-            std::list<item> tmp = p->use_charges(player_use[i].type, player_use[i].count);
+            std::list<item> tmp = p->use_charges(this, player_use[i].type, 
+                                                 player_use[i].count);
             ret.splice(ret.end(), tmp);
         }
         else
         {
-            std::list<item> tmp = p->use_amount(player_use[i].type, abs(player_use[i].count),
+            std::list<item> tmp = p->use_amount(this, player_use[i].type, 
+                                                abs(player_use[i].count),
                                                (player_use[i].count < 0));
             ret.splice(ret.end(), tmp);
         }
@@ -1295,7 +1297,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
         {
             int from_map = mixed_use[i].count - p->charges_of(mixed_use[i].type);
             std::list<item> tmp;
-            tmp = p->use_charges(mixed_use[i].type, p->charges_of(mixed_use[i].type));
+            tmp = p->use_charges(this,mixed_use[i].type, p->charges_of(mixed_use[i].type));
             ret.splice(ret.end(), tmp);
             tmp = m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
                                 mixed_use[i].type, from_map);
@@ -1306,7 +1308,7 @@ std::list<item> game::consume_items(player *p, std::vector<component> components
             bool in_container = (mixed_use[i].count < 0);
             int from_map = abs(mixed_use[i].count) - p->amount_of(mixed_use[i].type);
             std::list<item> tmp;
-            tmp = p->use_amount(mixed_use[i].type, p->amount_of(mixed_use[i].type),
+            tmp = p->use_amount(this,mixed_use[i].type, p->amount_of(mixed_use[i].type),
                                in_container);
             ret.splice(ret.end(), tmp);
             tmp = m.use_amount(point(p->posx, p->posy), PICKUP_RANGE,
@@ -1344,7 +1346,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
   return; // Default to using a tool that doesn't require charges
 
  if (player_has.size() == 1 && map_has.size() == 0)
-  p->use_charges(player_has[0].type, player_has[0].count);
+  p->use_charges(this,player_has[0].type, player_has[0].count);
  else if (map_has.size() == 1 && player_has.size() == 0)
   m.use_charges(point(p->posx, p->posy), PICKUP_RANGE,
                    map_has[0].type, map_has[0].count);
@@ -1368,7 +1370,7 @@ void game::consume_tools(player *p, std::vector<component> tools, bool force_ava
                     map_has[selection].type, map_has[selection].count);
   else {
    selection -= map_has.size();
-   p->use_charges(player_has[selection].type, player_has[selection].count);
+   p->use_charges(this, player_has[selection].type, player_has[selection].count);
   }
  }
 }
@@ -1517,7 +1519,7 @@ void game::complete_disassemble()
       else
         m.add_item(u.posx, u.posy, ammodrop, MAX_ITEM_IN_SQUARE);
     }
-    u.i_rem(u.activity.values[0]);  // remove the item
+    u.i_rem(this,u.activity.values[0]);  // remove the item
 
   // consume tool charges
   for (int j = 0; j < dis->tools.size(); j++)

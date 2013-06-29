@@ -1679,14 +1679,14 @@ void npc::heal_player(game *g, player &patient)
     case hp_torso: amount_healed = 20 + 3   * skillLevel("firstaid"); break;
     default:       amount_healed = 15 + 2   * skillLevel("firstaid");
    }
-   use_charges("1st_aid", 1);
+   use_charges(g,"1st_aid", 1);
   } else if (has_amount("bandages", 1)) {
    switch (worst) {
     case hp_head:  amount_healed =  1 + 1.6 * skillLevel("firstaid"); break;
     case hp_torso: amount_healed =  4 + 3   * skillLevel("firstaid"); break;
     default:       amount_healed =  3 + 2   * skillLevel("firstaid");
    }
-   use_charges("bandages", 1);
+   use_charges(g,"bandages", 1);
   }
   patient.heal(worst, amount_healed);
   moves -= 250;
@@ -1729,14 +1729,14 @@ void npc::heal_self(game *g)
    case hp_torso: amount_healed = 20 + 3   * skillLevel("firstaid"); break;
    default:       amount_healed = 15 + 2   * skillLevel("firstaid");
   }
-  use_charges("1st_aid", 1);
+  use_charges(g,"1st_aid", 1);
  } else if (has_amount("bandages", 1)) {
   switch (worst) {
    case hp_head:  amount_healed =  1 + 1.6 * skillLevel("firstaid"); break;
    case hp_torso: amount_healed =  4 + 3   * skillLevel("firstaid"); break;
    default:       amount_healed =  3 + 2   * skillLevel("firstaid");
   }
-  use_charges("bandages", 1);
+  use_charges(g,"bandages", 1);
  } else {
   debugmsg("NPC tried to heal self, but has no bandages / first aid");
   move_pause();

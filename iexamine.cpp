@@ -75,7 +75,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
   }
   g->add_msg("You insert your ID card.");
   g->add_msg("The nearby doors slide into the floor.");
-  p->use_amount(card_type, 1);
+  p->use_amount(g,card_type, 1);
  } else {
   bool using_electrohack = (p->has_amount("electrohack", 1) &&
                             query_yn("Use electrohack on the reader?"));
@@ -98,7 +98,7 @@ void iexamine::cardreader(game *g, player *p, map *m, int examx, int examy) {
       if (success <= -5) {
        if (using_electrohack) {
         g->add_msg("Your electrohack is ruined!");
-        p->use_amount("electrohack", 1);
+        p->use_amount(g,"electrohack", 1);
        } else {
         g->add_msg("Your power is drained!");
         p->charge_power(0 - rng(0, p->power_level));
@@ -249,12 +249,12 @@ void iexamine::pit(game *g, player *p, map *m, int examx, int examy)
             }
             else
             {
-                p->use_amount("2x4", 1);
+                p->use_amount(g,"2x4", 1);
             }
         }
         else if (player_has && !map_has)    // only player has plank
         {
-            p->use_amount("2x4", 1);
+            p->use_amount(g,"2x4", 1);
         }
         else if (!player_has && map_has)    // only map has plank
         {
@@ -302,7 +302,7 @@ void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
  switch (ch){
   case 1:{
    if (p->has_amount("rope_6", 2)) {
-    p->use_amount("rope_6", 2);
+    p->use_amount(g,"rope_6", 2);
     m->ter_set(examx, examy, t_fence_rope);
     p->moves -= 200;
    } else
@@ -311,7 +311,7 @@ void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
 
   case 2:{
    if (p->has_amount("wire", 2)) {
-    p->use_amount("wire", 2);
+    p->use_amount(g,"wire", 2);
     m->ter_set(examx, examy, t_fence_wire);
     p->moves -= 200;
    } else
@@ -320,7 +320,7 @@ void iexamine::fence_post(game *g, player *p, map *m, int examx, int examy) {
 
   case 3:{
    if (p->has_amount("wire_barbed", 2)) {
-    p->use_amount("wire_barbed", 2);
+    p->use_amount(g,"wire_barbed", 2);
     m->ter_set(examx, examy, t_fence_barbed);
     p->moves -= 200;
    } else
@@ -449,7 +449,7 @@ void iexamine::pedestal_temple(game *g, player *p, map *m, int examx, int examy)
   g->add_event(EVENT_TEMPLE_OPEN, int(g->turn) + 4);
  } else if (p->has_amount("petrified_eye", 1) &&
             query_yn("Place your petrified eye on the pedestal?")) {
-  p->use_amount("petrified_eye", 1);
+  p->use_amount(g,"petrified_eye", 1);
   g->add_msg("The pedestal sinks into the ground...");
   m->ter_set(examx, examy, t_dirt);
   g->add_event(EVENT_TEMPLE_OPEN, int(g->turn) + 4);

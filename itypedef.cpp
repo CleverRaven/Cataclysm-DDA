@@ -434,6 +434,7 @@ AMMO("bio_lightning_ammo", "Lightning",	 0,0, AT_FUSION,c_dkgray,	"null",
 
 
 // Unarmed Styles
+// TODO: refactor handling of styles see #1771
 #define STYLE(id, name, dam, description, ...) \
 itypes[id]=new it_style(id, 0, 0, name, description, '$', \
                               c_white, "null", "null", 0, 0, dam, 0, 0); \

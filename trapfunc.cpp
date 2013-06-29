@@ -651,7 +651,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
     }
     if (safe.size() == 0) {
      g->add_msg("There's nowhere to pull yourself to, and you sink!");
-     g->u.use_amount("rope_30", 1);
+     g->u.use_amount(g,"rope_30", 1);
      g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
                      "rope_30", g->turn);
      g->m.tr_at(g->u.posx, g->u.posy) = tr_pit;
@@ -667,7 +667,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
    } else {
     g->add_msg("You're not strong enough to pull yourself out...");
     g->u.moves -= 100;
-    g->u.use_amount("rope_30", 1);
+    g->u.use_amount(g,"rope_30", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
                     "rope_30", g->turn);
     g->vertical_move(-1, true);
@@ -675,7 +675,7 @@ void trapfunc::sinkhole(game *g, int x, int y)
   } else {
    g->add_msg("Your throw misses completely, and you sink!");
    if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
-    g->u.use_amount("rope_30", 1);
+    g->u.use_amount(g,"rope_30", 1);
     g->m.spawn_item(g->u.posx + rng(-1, 1), g->u.posy + rng(-1, 1),
                     "rope_30", g->turn);
    }

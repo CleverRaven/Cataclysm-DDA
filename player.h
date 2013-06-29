@@ -263,13 +263,14 @@ public:
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);
  bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
- item i_rem(char let);	// Remove item from inventory; returns ret_null on fail
- item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
- item remove_weapon();
- void remove_mission_items(int mission_id);
+ item i_rem(game* g, char let);	// Remove item from inventory; returns ret_null on fail
+ item i_rem(game* g,itype_id type);// Remove first item w/ this type; fail is ret_null
+ item remove_weapon(game* g);
+ void remove_mission_items(game* g,int mission_id);
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let);	// Returns the item with inventory letter let
  item &i_of_type(itype_id type); // Returns the first item with this type
+ item get_combat_style(game *g); // Returns the combat style item
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor();	// Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
@@ -278,9 +279,9 @@ public:
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
- std::list<item> use_amount(itype_id it, int quantity, bool use_container = false);
- bool use_charges_if_avail(itype_id it, int quantity);// Uses up charges
- std::list<item> use_charges(itype_id it, int quantity);// Uses up charges
+ std::list<item> use_amount(game* g, itype_id it, int quantity, bool use_container = false);
+ bool use_charges_if_avail(game* g, itype_id it, int quantity);// Uses up charges
+ std::list<item> use_charges(game* g,itype_id it, int quantity);// Uses up charges
  bool has_amount(itype_id it, int quantity);
  bool has_charges(itype_id it, int quantity);
  int  amount_of(itype_id it);
@@ -379,7 +380,7 @@ protected:
     void setID (int i);
 private:
  bool has_fire(const int quantity);
- void use_fire(const int quantity);
+ void use_fire(game* g, const int quantity);
 
     int id;	// A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
     //NPCs also use this ID value. Values should never be reused.
