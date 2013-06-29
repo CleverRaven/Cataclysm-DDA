@@ -344,24 +344,29 @@ void player::update_morale()
     // Decay existing morale entries.
     for (int i = 0; i < morale.size(); i++)
     {
-        if (morale[i].bonus < 0)
-        {
-            morale[i].bonus++;
-        }
-        else if (morale[i].bonus > 0)
-        {
-            morale[i].bonus--;
-        }
+        // Age the morale entry by one turn.
+        morale[i].age += 1;
 
-        if (morale[i].bonus == 0)
+        // If it's past its expiration date, remove it.
+        if (morale[i].age >= morale[i].duration)
         {
             morale.erase(morale.begin() + i);
             i--;
+
+            // Future-proofing.
+            continue;
         }
+
+        // We don't actually store the effective strength; it gets calculated when we
+        // need it.
     }
 
     // We reapply persistent morale effects after every decay step, to keep them fresh.
+    apply_persistent_morale();
+}
 
+void player::apply_persistent_morale()
+{
     // Hoarders get a morale penalty if they're not carrying a full inventory.
     if (has_trait(PF_HOARDER))
     {
@@ -382,7 +387,7 @@ void player::update_morale()
         {
             pen = int(pen / 2);
         }
-        add_morale(MORALE_PERM_HOARDER, -pen, -pen);
+        add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
     }
 
     // Masochists get a morale bonus from pain.
@@ -399,7 +404,7 @@ void player::update_morale()
         }
         if (bonus != 0)
         {
-            add_morale(MORALE_PERM_MASOCHIST, bonus, bonus);
+            add_morale(MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true);
         }
     }
 
@@ -407,7 +412,7 @@ void player::update_morale()
     // The +25% boost from optimist also applies here, for a net of +5.
     if (has_trait(PF_OPTIMISTIC))
     {
-        add_morale(MORALE_PERM_OPTIMIST, 4, 4);
+        add_morale(MORALE_PERM_OPTIMIST, 4, 4, 5, 5, true);
     }
 }
 
@@ -896,11 +901,11 @@ void player::update_bodytemp(game *g)
     // Morale penalties, updated at the same rate morale is
     if (morale_pen < 0 && int(g->turn) % 10 == 0)
     {
-        add_morale(MORALE_COLD, -2, -abs(morale_pen));
+        add_morale(MORALE_COLD, -2, -abs(morale_pen), 10, 5, true);
     }
     if (morale_pen > 0 && int(g->turn) % 10 == 0)
     {
-        add_morale(MORALE_HOT,  -2, -abs(morale_pen));
+        add_morale(MORALE_HOT,  -2, -abs(morale_pen), 10, 5, true);
     }
 }
 
@@ -1181,14 +1186,18 @@ void player::load_info(game *g, std::string data)
  morale_point mortmp;
  dump >> nummor;
  for (int i = 0; i < nummor; i++) {
+  // Load morale properties in structure order.
   int mortype;
   std::string item_id;
-  dump >> mortmp.bonus >> mortype >> item_id;
+  dump >> mortype >> item_id;
   mortmp.type = morale_type(mortype);
   if (g->itypes.find(item_id) == g->itypes.end())
    mortmp.item_type = NULL;
   else
    mortmp.item_type = g->itypes[item_id];
+
+  dump >> mortmp.bonus >> mortmp.duration >> mortmp.decay_start
+       >> mortmp.age;
   morale.push_back(mortmp);
  }
 
@@ -1271,12 +1280,14 @@ std::string player::save_info()
 
  dump << morale.size() << " ";
  for (int i = 0; i < morale.size(); i++) {
-  dump << morale[i].bonus << " " << morale[i].type << " ";
+  // Output morale properties in structure order.
+  dump << morale[i].type << " ";
   if (morale[i].item_type == NULL)
    dump << "0";
   else
    dump << morale[i].item_type->id;
-  dump << " ";
+  dump << " " << morale[i].bonus << " " << morale[i].duration << " "
+       << morale[i].decay_start << " " << morale[i].age << " ";
  }
 
  dump << " " << active_missions.size() << " ";
@@ -2257,6 +2268,9 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
 
 void player::disp_morale(game *g)
 {
+    // Ensure the player's persistent morale effects are up-to-date.
+    apply_persistent_morale();
+
     // Create and draw the window itself.
     WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -2314,9 +2328,9 @@ void player::disp_morale(game *g)
     mvwprintz(w, 20, number_pos, (mor < 0 ? c_red : c_green), "% 6d", mor);
 
     // Print out the focus gain rate, right-justified.
-    int gain = calc_focus_equilibrium() - focus_pool;
+    double gain = (calc_focus_equilibrium() - focus_pool) / 100.0;
     mvwprintz(w, 22, 1, (gain < 0 ? c_red : c_green), "Focus gain:");
-    mvwprintz(w, 22, number_pos-3, (gain < 0 ? c_red : c_green), "% 6d.%02d per minute", gain / 100, gain % 100);
+    mvwprintz(w, 22, number_pos-3, (gain < 0 ? c_red : c_green), "% 6.2f per minute", gain);
 
     // Make sure the changes are shown.
     wrefresh(w);
@@ -4178,9 +4192,62 @@ bool player::can_pickWeight(int weight)
     return (weight_carried() + weight <= weight_capacity());
 }
 
+// --- Library functions ---
+// This stuff could be moved elsewhere, but there
+// doesn't seem to be a good place to put it right now.
+
+// Basic logistic function.
+double logistic(double t)
+{
+    return 1 / (1 + exp(-t));
+}
+
+const double LOGI_CUTOFF = 4;
+const double LOGI_MIN = logistic(-LOGI_CUTOFF);
+const double LOGI_MAX = logistic(+LOGI_CUTOFF);
+const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
+
+// Logistic curve [-6,6], flipped and scaled to
+// range from 1 to 0 as pos goes from min to max.
+double logistic_range(int min, int max, int pos)
+{
+    // Anything beyond [min,max] gets clamped.
+    if (pos < min)
+    {
+        return 1.0;
+    }
+    else if (pos > max)
+    {
+        return 0.0;
+    }
+
+    // Normalize the pos to [0,1]
+    double range = max - min;
+    double unit_pos = (pos - min) / range;
+
+    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
+    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
+
+    // Get the raw logistic value.
+    double raw_logistic = logistic(scaled_pos);
+
+    // Scale the output to [0,1]
+    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
+}
+// --- End ---
+
+
 int player::net_morale(morale_point effect)
 {
-    int bonus = effect.bonus;
+    double bonus = effect.bonus;
+
+    // If the effect is old enough to have started decaying,
+    // reduce it appropriately.
+    if (effect.age > effect.decay_start)
+    {
+        bonus *= logistic_range(effect.decay_start,
+                                effect.duration, effect.age);
+    }
 
     // Optimistic characters focus on the good things in life,
     // and downplay the bad things.
@@ -4218,24 +4285,87 @@ int player::morale_level()
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
-                        itype* item_type)
+                        int duration, int decay_start,
+                        bool cap_existing, itype* item_type)
 {
- bool placed = false;
+    bool placed = false;
 
- for (int i = 0; i < morale.size() && !placed; i++) {
-  if (morale[i].type == type && morale[i].item_type == item_type) {
-   placed = true;
-   if (abs(morale[i].bonus) < abs(max_bonus) || max_bonus == 0) {
-    morale[i].bonus += bonus;
-    if (abs(morale[i].bonus) > abs(max_bonus) && max_bonus != 0)
-     morale[i].bonus = max_bonus;
-   }
-  }
- }
- if (!placed) { // Didn't increase an existing point, so add a new one
-  morale_point tmp(type, item_type, bonus);
-  morale.push_back(tmp);
- }
+    // Search for a matching morale entry.
+    for (int i = 0; i < morale.size() && !placed; i++)
+    {
+        if (morale[i].type == type && morale[i].item_type == item_type)
+        {
+            // Found a match!
+            placed = true;
+
+            // Scale the morale bonus to its current level.
+            if (morale[i].age > morale[i].decay_start)
+            {
+                morale[i].bonus *= logistic_range(morale[i].decay_start,
+                                                  morale[i].duration, morale[i].age);
+            }
+
+            // If we're capping the existing effect, we can use the new duration
+            // and decay start.
+            if (cap_existing)
+            {
+                morale[i].duration = duration;
+                morale[i].decay_start = decay_start;
+            }
+            else
+            {
+                // Otherwise, we need to figure out whether the existing effect had
+                // more remaining duration and decay-resistance than the new one does.
+                if (morale[i].duration - morale[i].age <= duration)
+                {
+                    morale[i].duration = duration;
+                }
+                else
+                {
+                    // This will give a longer duration than above.
+                    morale[i].duration -= morale[i].age;
+                }
+
+                if (morale[i].decay_start - morale[i].age <= decay_start)
+                {
+                    morale[i].decay_start = decay_start;
+                }
+                else
+                {
+                    // This will give a later decay start than above.
+                    morale[i].decay_start -= morale[i].age;
+                }
+            }
+
+            // Now that we've finished using it, reset the age to 0.
+            morale[i].age = 0;
+
+            // Is the current morale level for this entry below its cap, if any?
+            if (abs(morale[i].bonus) < abs(max_bonus) || max_bonus == 0)
+            {
+                // Add the requested morale boost.
+                morale[i].bonus += bonus;
+
+                // If we passed the cap, pull back to it.
+                if (abs(morale[i].bonus) > abs(max_bonus) && max_bonus != 0)
+                {
+                    morale[i].bonus = max_bonus;
+                }
+            }
+            else if (cap_existing)
+            {
+                // The existing bonus is above the new cap.  Reduce it.
+                morale[i].bonus = max_bonus;
+            }
+        }
+    }
+
+    // No matching entry, so add a new one
+    if (!placed)
+    {
+        morale_point tmp(type, item_type, bonus, duration, decay_start, 0);
+        morale.push_back(tmp);
+    }
 }
 
 void player::rem_morale(morale_type type, itype* item_type)
@@ -5184,14 +5314,14 @@ bool player::eat(game *g, signed char ch)
               add_morale(MORALE_CANNIBAL, 15, 100);
           } else {
               g->add_msg_if_player(this, "You feel horrible for eating a person..");
-              add_morale(MORALE_CANNIBAL, -60, -400);
+              add_morale(MORALE_CANNIBAL, -60, -400, 600, 300);
           }
         }
         if (has_trait(PF_VEGETARIAN) && (eaten->made_of("flesh") || eaten->made_of("hflesh")))
         {
             if (!is_npc())
                 g->add_msg("Almost instantly you feel a familiar pain in your stomach");
-            add_morale(MORALE_VEGETARIAN, -75, -400);
+            add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
         }
         if ((has_trait(PF_HERBIVORE) || has_trait(PF_RUMINANT)) &&
                 eaten->made_of("flesh"))
@@ -5208,9 +5338,9 @@ bool player::eat(game *g, signed char ch)
         if (has_trait(PF_GOURMAND))
         {
             if (comest->fun < -2)
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, comest);
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
             else if (comest->fun > 0)
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, comest);
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, comest);
             if (!is_npc() && (hunger < -60 || thirst < -60))
                 g->add_msg("You can't finish it all!");
             if (hunger < -60)
@@ -5221,9 +5351,9 @@ bool player::eat(game *g, signed char ch)
         else
         {
             if (comest->fun < 0)
-                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, comest);
+                add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, comest);
             else if (comest->fun > 0)
-                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, comest);
+                add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
             if (!is_npc() && (hunger < -20 || thirst < -20))
                 g->add_msg("You can't finish it all!");
             if (hunger < -20)
@@ -6591,6 +6721,12 @@ void player::read(game *g, char ch)
     
     activity = player_activity(ACT_READ, time, index, ch, "");
     moves = 0;
+
+    // Reinforce any existing morale bonus/penalty, so it doesn't decay
+    // away while you read more.
+    int minutes = time / 1000;
+    add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false,
+               tmp);
 }
 
 bool player::can_study_recipe(it_book* book)
