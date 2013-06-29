@@ -3004,7 +3004,9 @@ void game::draw_overmap()
 
 void game::disp_kills()
 {
- WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -3069,7 +3071,9 @@ void game::disp_kills()
 
 void game::disp_NPCs()
 {
- WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  mvwprintz(w, 0, 0, c_white, "Your position: %d:%d", levx, levy);
  std::vector<npc*> closest;
@@ -3112,13 +3116,17 @@ faction* game::list_factions(std::string title)
   return NULL;
  }
 
- WINDOW *w_list = newwin(25, 80, ((TERMY > 25) ? (TERMY-25)/2 : 0), (TERMX > 80) ? (TERMX-80)/2 : 0);
- WINDOW *w_info = newwin(23, 79 - MAX_FAC_NAME_SIZE, 1 + ((TERMY > 25) ? (TERMY-25)/2 : 0), MAX_FAC_NAME_SIZE + ((TERMX > 80) ? (TERMX-80)/2 : 0));
+ WINDOW *w_list = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                         ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
+                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+ WINDOW *w_info = newwin(FULL_SCREEN_HEIGHT-2, FULL_SCREEN_WIDTH-1 - MAX_FAC_NAME_SIZE,
+                         1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
+                         MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
 
  wborder(w_list, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- int maxlength = 79 - MAX_FAC_NAME_SIZE;
+ int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
  int sel = 0;
 
 // Init w_list content
@@ -3202,7 +3210,9 @@ faction* game::list_factions(std::string title)
 
 void game::list_missions()
 {
- WINDOW *w_missions = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW *w_missions = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                              (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                              (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  int tab = 0, selection = 0;
  InputEvent input;
@@ -3216,14 +3226,14 @@ void game::list_missions()
    case 2: umissions = u.failed_missions;	break;
   }
 
-  for (int i = 1; i < 79; i++) {
+  for (int i = 1; i < FULL_SCREEN_WIDTH-1; i++) {
    mvwputch(w_missions, 2, i, c_ltgray, LINE_OXOX);
-   mvwputch(w_missions, 24, i, c_ltgray, LINE_OXOX);
+   mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, i, c_ltgray, LINE_OXOX);
 
-   if (i > 2 && i < 24) {
+   if (i > 2 && i < FULL_SCREEN_HEIGHT-1) {
     mvwputch(w_missions, i, 0, c_ltgray, LINE_XOXO);
     mvwputch(w_missions, i, 30, c_ltgray, LINE_XOXO);
-    mvwputch(w_missions, i, 79, c_ltgray, LINE_XOXO);
+    mvwputch(w_missions, i, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXO);
    }
   }
 
@@ -3232,13 +3242,13 @@ void game::list_missions()
   draw_tab(w_missions, 56, "FAILED MISSIONS", (tab == 2) ? true : false);
 
   mvwputch(w_missions, 2,  0, c_white, LINE_OXXO); // |^
-  mvwputch(w_missions, 2, 79, c_white, LINE_OOXX); // ^|
+  mvwputch(w_missions, 2, FULL_SCREEN_WIDTH-1, c_white, LINE_OOXX); // ^|
 
-  mvwputch(w_missions, 24, 0, c_ltgray, LINE_XXOO); // |_
-  mvwputch(w_missions, 24, 79, c_ltgray, LINE_XOOX); // _|
+  mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, 0, c_ltgray, LINE_XXOO); // |
+  mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOOX); // _|
 
   mvwputch(w_missions, 2, 30, c_white, (tab == 1) ? LINE_XOXX : LINE_XXXX); // + || -|
-  mvwputch(w_missions, 24, 30, c_white, LINE_XXOX); // _|_
+  mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, 30, c_white, LINE_XXOX); // _|_
 
   for (int i = 0; i < umissions.size(); i++) {
    mission *miss = find_mission(umissions[i]);
@@ -6275,7 +6285,7 @@ void game::advanced_inv()
 {
     const int head_height = 5;
     const int min_w_height = 10;
-    const int min_w_width = 80;
+    const int min_w_width = FULL_SCREEN_WIDTH;
     const int max_w_width = 120;
 
     const int left = 0;  // readability, should be #define..
@@ -10923,7 +10933,7 @@ bool game::game_quit() { return (uquit == QUIT_MENU); }
 void game::write_msg()
 {
  werase(w_messages);
- int maxlength = 80 - (SEEX * 2 + 10);	// Matches size of w_messages
+ int maxlength = FULL_SCREEN_WIDTH - (SEEX * 2 + 10);	// Matches size of w_messages
  int line = 7;
  for (int i = messages.size() - 1; i >= 0 && line < 8; i--) {
   std::string mes = messages[i].message;
@@ -10965,7 +10975,9 @@ void game::write_msg()
 
 void game::msg_buffer()
 {
- WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                     (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                     (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  int offset = 0;
  InputEvent input;
@@ -10973,12 +10985,12 @@ void game::msg_buffer()
   werase(w);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-  mvwprintz(w, 24, 32, c_red, "Press q to return");
+  mvwprintz(w, FULL_SCREEN_HEIGHT-1, 32, c_red, "Press q to return");
 
   int line = 1;
   int lasttime = -1;
   int i;
-  for (i = 1; i <= 20 && line <= 23 && offset + i <= messages.size(); i++) {
+  for (i = 1; i <= 20 && line <= FULL_SCREEN_HEIGHT-2 && offset + i <= messages.size(); i++) {
    game_message *mtmp = &(messages[ messages.size() - (offset + i) ]);
    calendar timepassed = turn - mtmp->turn;
 
@@ -10993,7 +11005,7 @@ void game::msg_buffer()
     lasttime = int(timepassed);
    }
 
-   if (line <= 23) { // Print the actual message... we may have to split it
+   if (line <= FULL_SCREEN_HEIGHT-2) { // Print the actual message... we may have to split it
     std::string mes = mtmp->message;
     if (mtmp->count > 1) {
      std::stringstream mesSS;
@@ -11002,24 +11014,24 @@ void game::msg_buffer()
     }
 // Split the message into many if we must!
     size_t split;
-    while (mes.length() > 78 && line <= 23) {
-     split = mes.find_last_of(' ', 78);
-     if (split > 78)
-      split = 78;
+    while (mes.length() > FULL_SCREEN_WIDTH-2 && line <= FULL_SCREEN_HEIGHT-2) {
+     split = mes.find_last_of(' ', FULL_SCREEN_WIDTH-2);
+     if (split > FULL_SCREEN_WIDTH-2)
+      split = FULL_SCREEN_WIDTH-2;
      mvwprintz(w, line, 1, c_ltgray, mes.substr(0, split).c_str());
      line++;
      mes = mes.substr(split);
     }
-    if (line <= 23) {
+    if (line <= FULL_SCREEN_HEIGHT-2) {
      mvwprintz(w, line, 1, col, mes.c_str());
      line++;
     }
    } // if (line <= 23)
   } //for (i = 1; i <= 10 && line <= 23 && offset + i <= messages.size(); i++)
   if (offset > 0)
-   mvwprintz(w, 24, 27, c_magenta, "^^^");
+   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 27, c_magenta, "^^^");
   if (offset + i < messages.size())
-   mvwprintz(w, 24, 51, c_magenta, "vvv");
+   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 51, c_magenta, "vvv");
   wrefresh(w);
 
   DebugLog() << __FUNCTION__ << "calling get_input() \n";
@@ -11217,14 +11229,15 @@ void intro()
 {
  int maxx, maxy;
  getmaxyx(stdscr, maxy, maxx);
- WINDOW* tmp = newwin(25, 80, 0, 0);
- while (maxy < 25 || maxx < 80) {
+ WINDOW* tmp = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0);
+ while (maxy < FULL_SCREEN_HEIGHT || maxx < FULL_SCREEN_WIDTH) {
   werase(tmp);
   wprintw(tmp, "\
-Whoa. Whoa. Hey. This game requires a minimum terminal size of 80x25. I'm\n\
+Whoa. Whoa. Hey. This game requires a minimum terminal size of %dx%d. I'm\n\
 sorry if your graphical terminal emulator went with the woefully-diminutive\n\
 %dx%d as its default size, but that just won't work here.  Now stretch the\n\
-window until you've got it at the right size (or bigger).\n", maxx, maxy);
+window until you've got it at the right size (or bigger).\n",
+          FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, maxx, maxy);
   wgetch(tmp);
   getmaxyx(stdscr, maxy, maxx);
  }

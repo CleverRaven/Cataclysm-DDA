@@ -23,8 +23,12 @@ void game::show_options()
     // Remember what the options were originally so we can restore them if player cancels.
     option_table OPTIONS_OLD = OPTIONS;
     
-    WINDOW* w_options_border = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
-    WINDOW* w_options = newwin(23, 78, 1 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 1 + ((TERMX > 80) ? (TERMX-80)/2 : 0));
+    WINDOW* w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                      (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                                      (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW* w_options = newwin(FULL_SCREEN_HEIGHT-2, FULL_SCREEN_WIDTH-2,
+                               1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
+                               1 + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
 
     int offset = 1;
     const int MAX_LINE = 22;
