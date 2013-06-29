@@ -107,7 +107,6 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
     grid[i]->ter[x][y] = t_null;
     grid[i]->frn[x][y] = f_null;
     grid[i]->trp[x][y] = tr_null;
-    grid[i]->fld[x][y] = field();
     grid[i]->rad[x][y] = 0;
     grid[i]->graf[x][y] = graffiti();
    }
@@ -1277,7 +1276,7 @@ t   t\n\
           add_field(NULL, x, y, fd_web, rng(2, 3));
         }
        }
-      } else if (move_cost(i, j) > 0 && field_at(i, j).is_null() && one_in(5))
+      } else if (move_cost(i, j) > 0 && one_in(5))
        add_field(NULL, x, y, fd_web, 1);
      }
     }

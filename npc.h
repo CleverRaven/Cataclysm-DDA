@@ -594,6 +594,7 @@ public:
  npc_combat_rules combat_rules;
  bool marked_for_death; // If true, we die as soon as we respawn!
  bool dead;		// If true, we need to be cleaned up
+ bool hit_by_player;
  std::vector<npc_need> needs;
  unsigned flags : NF_MAX;
 private:

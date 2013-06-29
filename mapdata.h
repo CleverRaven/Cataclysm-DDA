@@ -18,6 +18,7 @@
 class game;
 class monster;
 
+//More importantly: SEEX defines the size of a nonant, or grid. Same with SEEY.
 #ifndef SEEX 	// SEEX is how far the player can see in the X direction (at
 #define SEEX 12	// least, without scrolling).  All map segments will need to be
 #endif		// at least this wide. The map therefore needs to be 3x as wide.
@@ -32,6 +33,11 @@ class monster;
 #define mfb(n) long(1 << (n))
 #endif
 
+/*
+Enum: t_flag
+The terrain flag bitfield defines all of the metadata for a single tile of terrain.
+Use in conjunction with the mfb macro to test for existence.
+*/
 enum t_flag {
  transparent = 0,// Player & monsters can see through/past it
                  // Should be both on ter and furn to be transparent
@@ -69,16 +75,32 @@ enum t_flag {
  num_t_flags   // MUST be last
 };
 
+/*
+Struct ter_t:
+Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
+
+*/
 struct ter_t {
- std::string name;
+ std::string name; //The plaintext name of the terrain type the user would see (IE: dirt)
+
+ /*
+ The symbol drawn on the screen for the terrain. Please note that there are extensive rules as to which
+ possible object/field/entity in a single square gets drawn and that some symbols are "reserved" such as * and % to do programmatic behavior.
+ */
  long sym;
- nc_color color;
- unsigned char movecost;
- trap_id trap;
- unsigned long flags;// : num_t_flags;
- void (iexamine::*examine)(game *, player *, map *m, int examx, int examy);
+
+ nc_color color;//The color the sym will draw in on the GUI.
+ unsigned char movecost; //The amount of movement points required to pass this terrain by default.
+ trap_id trap; //The id of the trap located at this terrain. Limit one trap per tile currently.
+ unsigned long flags;// : num_t_flags; This refers to enum t_flag defined above.
+ void (iexamine::*examine)(game *, player *, map *m, int examx, int examy); //What should be examined
 };
 
+/*
+enum: ter_id
+Terrain id refers to a position in the terlist[] area describing, in the order of the enum, the terrain in question
+through the use of a ter_t struct.
+*/
 enum ter_id {
 t_null = 0,
 t_hole,	// Real nothingness; makes you fall a z-level
@@ -154,6 +176,10 @@ t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
 num_terrain_types
 };
 
+/*
+The terrain list contains the master list of  information and metadata for a given type of terrain.
+This is a good candidate for moving into JSON.
+*/
 const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"nothing",             ' ', c_white,   2, tr_null,
     mfb(transparent)|mfb(diggable), &iexamine::none},
@@ -534,8 +560,8 @@ struct furn_t {
  std::string name;
  long sym;
  nc_color color;
- char movecost; // Penalty to terrain 
- int move_str_req;
+ char movecost; // Penalty to terrain
+ int move_str_req; //The amount of strength requried to move through this terrain easily.
  unsigned long flags;// : num_t_flags;
  void (iexamine::*examine)(game *, player *, map *m, int examx, int examy);
 };
@@ -670,6 +696,10 @@ const furn_t furnlist[num_furniture_types] = { // MUST match enum furn_id above!
     mfb(transparent), &iexamine::flower_poppy}
 };
 
+/*
+enum: map_extra
+Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
+*/
 enum map_extra {
  mx_null = 0,
  mx_helicopter,
@@ -690,6 +720,7 @@ enum map_extra {
  num_map_extras
 };
 
+//Classic Extras is for when you have special zombies turned off.
 const int classic_extras =  mfb(mx_helicopter) | mfb(mx_military) |
   mfb(mx_stash) | mfb(mx_drugdeal) | mfb(mx_supplydrop) | mfb(mx_minefield) |
   mfb(mx_wolfpack) | mfb(mx_cougar) | mfb(mx_puddle) | mfb(mx_crater);
@@ -745,15 +776,31 @@ struct map_extras {
  }
 };
 
+/*
+struct field_t
+Used to store the master field effects list metadata. Not used to store a field, just queried to find out specifics
+of an existing field.
+*/
 struct field_t {
- std::string name[3];
- char sym;
- nc_color color[3];
+ std::string name[3]; //The display name of the given density (ie: light smoke, smoke, heavy smoke)
+ char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
+ nc_color color[3]; //The color the field will be drawn as on the screen, by density.
+
+ /*
+ If true, does not invoke a check to block line of sight. If false, may block line of sight.
+ Note that this does nothing by itself. You must go to the code block in lightmap.cpp and modify
+ transparancy code there with a case statement as well!
+ */
  bool transparent[3];
+
+ //Dangerous tiles ask you before you step in them.
  bool dangerous[3];
+
+ //Controls, albeit randomly, how long a field of a given type will last before going down in density.
  int halflife;	// In turns
 };
 
+//The master list of id's for a field, corresponding to the fieldlist array.
 enum field_id {
  fd_null = 0,
  fd_blood,
@@ -781,6 +828,9 @@ enum field_id {
  num_fields
 };
 
+/*
+Controls the master listing of all possible field effects, indexed by a field_id. Does not store active fields, just metadata.
+*/
 const field_t fieldlist[] = {
 {{"",	"",	""},					'%',
  {c_white, c_white, c_white},	{true, true, true}, {false, false, false},   0},
@@ -852,33 +902,183 @@ const field_t fieldlist[] = {
  {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0}
 };
 
-struct field {
- field_id type;
- signed char density;
- int age;
- field() { type = fd_null; density = 1; age = 0; };
- field(field_id t, unsigned char d, unsigned int a) {
+/*
+Class: field_entry
+An active or passive effect existing on a tile. Multiple different types can exist on one tile
+but there can be only one of each type (IE: one fire, one smoke cloud, etc). Each effect
+can vary in intensity (density) and age (usually used as a time to live).
+*/
+class field_entry {
+public:
+ field_entry() { type = fd_null; density = 1; age = 0; is_alive = false;};
+ field_entry(field_id t, unsigned char d, unsigned int a) {
   type = t;
   density = d;
   age = a;
+  is_alive = true;
  }
 
- bool is_null()
+ /*
+ Class: getFieldType
+ Returns the field_id of the current field entry.
+ */
+ field_id getFieldType() const;
+
+ /*
+ Class: getFieldDensity
+ Returns the current density (aka intensity) of the current field entry.
+ */
+ signed char getFieldDensity() const;
+
+ /*
+ Class: getFieldAge
+ Returns the age (usually turns to live) of the current field entry.
+ */
+ int getFieldAge() const;
+
+ /*
+ Class: setFieldType
+ Allows you to modify the field_id of the current field entry.
+ */
+ field_id setFieldType(const field_id new_field_id);
+
+ /*
+ Class: setFieldDensity
+ Allows you to modify the density of the current field entry.
+ */
+ signed char setFieldDensity(const signed char new_density);
+
+ /*
+ Class: setFieldAge
+ Allows you to modify the age of the current field entry.
+ */
+ int setFieldAge(const int new_age);
+
+ 
+ /*
+ DEPRECATED, DO NOT USE
+ This was originally so you could overwrite useless fields, but now they can all live together so... don't bother.
+ This is currently left in just for testing and reverse compatability purposes.
+ TODO: Remove
+ */
+ bool is_null() const
  {
   return (type == fd_null || type == fd_blood || type == fd_bile ||
           type == fd_slime);
- }
+ } //DEPRECATED
+ 
 
- bool is_dangerous()
+ /*
+ Returns if the current field is dangerous or not.
+ */
+ bool is_dangerous() const
  {
   return fieldlist[type].dangerous[density - 1];
  }
 
- std::string name()
+ /*
+ Returns the display name of the current field given its current density.
+ IE: light smoke, smoke, heavy smoke
+ */
+ std::string name() const
  {
   return fieldlist[type].name[density - 1];
  }
 
+ /*
+ Returns true if this is an active field, false if it should be removed.
+ */
+ bool isAlive(){
+	 return is_alive;
+ }
+
+private:
+ field_id type; //The field identifier.
+ signed char density; //The density, or intensity (higher is stronger), of the field entry.
+ int age; //The age, or time to live, of the field effect. 0 is permanent.
+ bool is_alive; //True if this is an active field, false if it should be destroyed next check.
+};
+
+/*
+Class: Field
+Purpose: Represents a variable sized collection of field entries on a given map square.
+*/
+class field {
+public:
+
+
+	/*
+	Field constructor
+	Does nothing currently.
+	*/
+	field();
+
+	/*
+	Field Deconstructor
+	Frees all memory assigned to the field's field_entry vector and general cleanup.
+	*/
+	~field();
+
+	/*
+	Function: findField
+	Returns a field entry corresponding to the field_id parameter passed in. If no fields are found then a field_entry with
+	type fd_null is returned.
+	*/
+	field_entry* findField(const field_id field_to_find);
+	const field_entry* findFieldc(const field_id field_to_find); //for when you want a const field_entry.
+
+	/*
+	Function: addfield
+	Inserts the given field_id into the field list for a given tile if it does not already exist.
+	Returns false if the field_id already exists, true otherwise.
+	If you wish to modify an already existing field use findField and modify the result.
+	Density defaults to 1, and age to 0 (permanent) if not specified.
+	*/
+	bool addField(const field_id field_to_add,const unsigned char new_density=1, const int new_age=0);
+
+	/*
+	Function: removeField
+	Removes the field entry with a type equal to the field_id parameter. Returns true if removed, false otherwise.
+	*/
+	bool removeField(const field_id field_to_remove);
+
+	/*
+	Function: fieldCount
+	Returns the number of fields existing on the current tile.
+	*/
+	unsigned int fieldCount() const;
+
+	/*
+	Function: fieldSymbol
+	Returns the last added field from the tile for drawing purposes.
+	This can be changed to return whatever you think the most important field to draw is.
+	*/
+	field_id fieldSymbol() const;
+
+	/*
+	Function: getFieldStart
+	Returns the vector iterator to begin searching through the list.
+	Never delete or free memory from these iterators. This class handles all that.
+	Note: If you are using "field_at" function, set the return to a temporary field variable! If you somehow
+	query an out of bounds field location it returns a different field every inquery. This means that
+	the start and end iterators won't match up and will crash the system.
+	*/
+	std::vector<field_entry*>::iterator getFieldStart();
+
+	/*
+	Function: getFieldEnd
+	Returns the vector iterator to end searching through the list.
+	Never delete or free memory from these iterators. This class handles all that.
+	*/
+	std::vector<field_entry*>::iterator getFieldEnd();
+
+private:
+	std::vector<field_entry*> field_list; //A listing of all field effects on the current tile.
+	/*
+	Draw_symbol currently is equal to the last field added to the square. You can modify this behavior in the class functions if you wish.
+	*/
+	field_id draw_symbol;
+	bool dirty; //true if this is a copy of the class, false otherwise.
 };
 
 struct spawn_point {

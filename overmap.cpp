@@ -1851,7 +1851,7 @@ bool overmap::build_lab(int x, int y, int z, int s)
  }
  if (generate_stairs && generated_lab.size() > 0)
  {
-     int v = rng(0,generated_lab.size());
+     int v = rng(0,generated_lab.size()-1);
      point p = generated_lab[v];
      ter(p.x, p.y, z+1) = ot_lab_stairs;
  }

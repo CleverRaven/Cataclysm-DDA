@@ -619,9 +619,9 @@ void player::update_bodytemp(game *g)
             for (int k = -6 ; k <= 6 ; k++)
             {
                 int heat_intensity = 0;
-                if(g->m.field_at(posx + j, posy + k).type == fd_fire)
+                if(g->m.field_at(posx + j, posy + k).findField(fd_fire))
                 {
-                    heat_intensity = g->m.field_at(posx + j, posy + k).density;
+					heat_intensity = g->m.field_at(posx + j, posy + k).findField(fd_fire)->getFieldDensity();
                 }
                 else if (g->m.tr_at(posx + j, posy + k) == tr_lava )
                 {
@@ -641,7 +641,7 @@ void player::update_bodytemp(game *g)
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
         if (has_disease(DI_ONFIRE)) { temp_cur[i] += 250; }
-        if ((g->m.field_at(posx, posy).type == fd_fire && g->m.field_at(posx, posy).density > 2)
+        if ((g->m.field_at(posx, posy).findField(fd_fire) && g->m.field_at(posx, posy).findField(fd_fire)->getFieldDensity() > 2)
             || trap_at_pos == tr_lava)
         {
             temp_cur[i] += 250;
@@ -3888,20 +3888,11 @@ void player::suffer(game *g)
  }
 
  if (has_trait(PF_SLIMY) && !in_vehicle) {
-  if (g->m.field_at(posx, posy).type == fd_null)
    g->m.add_field(g, posx, posy, fd_slime, 1);
-  else if (g->m.field_at(posx, posy).type == fd_slime &&
-           g->m.field_at(posx, posy).density < 3)
-   g->m.field_at(posx, posy).density++;
  }
 
  if (has_trait(PF_WEB_WEAVER) && !in_vehicle && one_in(3)) {
-  if (g->m.field_at(posx, posy).type == fd_null ||
-      g->m.field_at(posx, posy).type == fd_slime)
-   g->m.add_field(g, posx, posy, fd_web, 1);
-  else if (g->m.field_at(posx, posy).type == fd_web &&
-           g->m.field_at(posx, posy).density < 3)
-   g->m.field_at(posx, posy).density++;
+   g->m.add_field(g, posx, posy, fd_web, 1); //this adds density to if its not already there.
  }
 
  if (has_trait(PF_RADIOGENIC) && int(g->turn) % 50 == 0 && radiation >= 10) {
