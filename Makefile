@@ -156,7 +156,7 @@ ifdef TILES
 else
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(TARGETSYSTEM),LINUX)
-    LDFLAGS += -lncurses
+    LDFLAGS += -lncursesw
   endif
 endif
 
