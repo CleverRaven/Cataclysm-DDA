@@ -9753,22 +9753,26 @@ void game::plmove(int x, int y)
 // If not a monster, maybe there's an NPC there
  int npcdex = npc_at(x, y);
  if (npcdex != -1) {
-  if (!active_npc[npcdex]->is_enemy() &&
-      !query_yn("Really attack %s?", active_npc[npcdex]->name.c_str())) {
-   if (active_npc[npcdex]->is_friend()) {
-    add_msg("%s moves out of the way.", active_npc[npcdex]->name.c_str());
-    active_npc[npcdex]->move_away_from(this, u.posx, u.posy);
-   }
+	 if(!active_npc[npcdex]->is_enemy()){
+		if (!query_yn("Really attack %s?", active_npc[npcdex]->name.c_str())) {
+				if (active_npc[npcdex]->is_friend()) {
+					add_msg("%s moves out of the way.", active_npc[npcdex]->name.c_str());
+					active_npc[npcdex]->move_away_from(this, u.posx, u.posy);
+				}
 
-   return;	// Cancel the attack
-  }
-  u.hit_player(this, *active_npc[npcdex]);
-  active_npc[npcdex]->make_angry();
-  if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
-      active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
-   active_npc[npcdex]->die(this, true);
-  }
-  return;
+				return;	// Cancel the attack
+		} else {
+			active_npc[npcdex]->hit_by_player = true; //The NPC knows we started the fight, used for morale penalty.
+		}
+	 }
+	 
+	 u.hit_player(this, *active_npc[npcdex]);
+	 active_npc[npcdex]->make_angry();
+	 if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
+		 active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
+			 active_npc[npcdex]->die(this, true);
+	 }
+	 return;
  }
 
 // Otherwise, actual movement, zomg
