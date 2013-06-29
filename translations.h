@@ -1,5 +1,5 @@
 #ifndef _TRANSLATIONS_H_
-#define _TRANSLATIONS_H
+#define _TRANSLATIONS_H_
 
 #include <libintl.h>
 #define _(STRING) gettext(STRING)
