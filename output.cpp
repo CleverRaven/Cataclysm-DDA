@@ -139,6 +139,42 @@ nc_color rand_color()
  return c_dkgray;
 }
 
+std::vector<std::string> foldstring ( std::string str, int width ) {
+    std::vector<std::string> lines;
+    if ( width < 1 ) {
+        lines.push_back( str );
+        return lines;
+    }
+
+    int linepos = width;
+    int linestart = 0;
+    int crpos = -2;
+    while( linepos < str.length() || crpos != -1 ) {
+        crpos = str.find('\n', linestart);
+        if (crpos != -1 && crpos <= linepos) {
+            lines.push_back( str.substr( linestart, crpos-linestart ) );
+            linepos = crpos + width + 1;
+            linestart = crpos + 1;
+        } else {
+            int spacepos = str.rfind(' ', linepos);
+            if ( spacepos == -1 ) spacepos = str.find(' ', linepos);
+            if ( spacepos < linestart ) {
+                spacepos = linestart + width;
+                if( spacepos < str.length() ) {
+                    lines.push_back( str.substr( linestart, width ) );
+                    linepos = spacepos + width;
+                    linestart = spacepos;
+                }
+            } else {
+                lines.push_back( str.substr( linestart, spacepos-linestart ) );
+                linepos = spacepos + width + 1;
+                linestart = spacepos + 1;
+            }
+        }
+    }
+    lines.push_back( str.substr( linestart ) );
+    return lines;
+};
 
 void mvputch(int y, int x, nc_color FG, long ch)
 {
@@ -563,6 +599,8 @@ void popup(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
+ std::vector<std::string> textformatted;
+ 
  size_t pos = tmp.find_first_of('\n');
  while (pos != std::string::npos) {
   height++;
@@ -579,19 +617,12 @@ void popup(const char *mes, ...)
  WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- tmp = buff;
- pos = tmp.find_first_of('\n');
- int line_num = 0;
- while (pos != std::string::npos) {
-  std::string line = tmp.substr(0, pos);
-  line_num++;
-  mvwprintz(w, line_num, 1, c_white, line.c_str());
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
+ 
+ textformatted = foldstring(mes, width);
+ for (int line_num=0; line_num<textformatted.size(); line_num++) 
+ {
+    mvwprintz(w, line_num+1, 1, c_white, textformatted[line_num].c_str());
  }
- line_num++;
- mvwprintz(w, line_num, 1, c_white, tmp.c_str());
-
  wrefresh(w);
  char ch;
  do
@@ -654,21 +685,17 @@ void full_screen_popup(const char* mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
+ std::vector<std::string> textformatted;
 
  WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- size_t pos = tmp.find_first_of('\n');
- int line_num = 0;
- while (pos != std::string::npos) {
-  std::string line = tmp.substr(0, pos);
-  line_num++;
-  mvwprintz(w, line_num, 1, c_white, line.c_str());
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
+ 
+ textformatted = foldstring(mes, 80-2);
+ for (int line_num=0; line_num<textformatted.size(); line_num++) 
+ {
+  mvwprintz(w, line_num+1, 1, c_white, textformatted[line_num].c_str());
  }
- line_num++;
- mvwprintz(w, line_num, 1, c_white, tmp.c_str());
  wrefresh(w);
  char ch;
  do

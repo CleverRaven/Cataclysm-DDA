@@ -32,6 +32,7 @@ extern int VIEW_OFFSET_Y;
 extern int TERRAIN_WINDOW_WIDTH;
 extern int TERRAIN_WINDOW_HEIGHT;
 
+std::vector<std::string> foldstring ( std::string str, int width );
 void mvputch(int y, int x, nc_color FG, long ch);
 void wputch(WINDOW* w, nc_color FG, long ch);
 void mvwputch(WINDOW* w, int y, int x, nc_color FG, long ch);
