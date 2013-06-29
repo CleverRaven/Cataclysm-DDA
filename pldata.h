@@ -417,7 +417,7 @@ pitch blackness."},
 Your system is rather tolerant of poisons and toxins, and most will affect\n\
 you less."},
 {"Fast Reader", 1, 0, 0, "\
-You're a fast reader, and can get through books a lot faster than most."},
+You're a quick reader, and can get through books a lot faster than most."},
 ("Studious Nature", 1, 0, 0, "\
 Books are your friends. You enjoy learning new things from them, and lose\n\
 focus less quickly when doing so."),
