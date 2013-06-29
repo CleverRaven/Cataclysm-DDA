@@ -285,15 +285,10 @@ bool player::create(game *g, character_type type, std::string tempname)
  item tmp; //gets used several times
 
  std::vector<std::string> prof_items = g->u.prof->items();
- for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter) {
-  item tmp = item(item_controller->find_template(*iter), 0, 'a' + worn.size());
-  if (tmp.is_armor()) {
-   if (tmp.has_flag("VARSIZE"))
-    tmp.item_tags.insert("FIT");
-   worn.push_back(tmp);
-  } else {
-   inv.push_back(tmp);
-  }
+ for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter)
+ {
+    tmp = item(item_controller->find_template(*iter), 0);
+    inv.push_back(tmp);
  }
 
  std::vector<addiction> prof_addictions = g->u.prof->addictions();
@@ -314,37 +309,60 @@ bool player::create(game *g, character_type type, std::string tempname)
      }
  }
 
-// The near-sighted get to start with glasses.
- if (has_trait(PF_MYOPIC) && !has_trait(PF_HYPEROPIC)) {
-  tmp = item(g->itypes["glasses_eye"], 0, 'a' + worn.size());
-  worn.push_back(tmp);
- }
-// And the far-sighted get to start with reading glasses.
- if (has_trait(PF_HYPEROPIC) && !has_trait(PF_MYOPIC)) {
-  tmp = item(g->itypes["glasses_reading"], 0, 'a' + worn.size());
-  worn.push_back(tmp);
- }
-
+ // Those who are both near-sighted and far-sighted start with bifocal glasses.
  if (has_trait(PF_HYPEROPIC) && has_trait(PF_MYOPIC))
  {
-     tmp = item(g->itypes["glasses_bifocal"], 0, 'a' + worn.size());
-     worn.push_back(tmp);
+    tmp = item(g->itypes["glasses_bifocal"], 0);
+    inv.push_back(tmp);
+ }
+ // The near-sighted start with eyeglasses.
+ else if (has_trait(PF_MYOPIC))
+ {
+    tmp = item(g->itypes["glasses_eye"], 0);
+    inv.push_back(tmp);
+ }
+ // The far-sighted start with reading glasses.
+ else if (has_trait(PF_HYPEROPIC))
+ {
+    tmp = item(g->itypes["glasses_reading"], 0);
+    inv.push_back(tmp);
  }
 
 // Likewise, the asthmatic start with their medication.
  if (has_trait(PF_ASTHMA)) {
-  tmp = item(g->itypes["inhaler"], 0, 'a' + worn.size());
+  tmp = item(g->itypes["inhaler"], 0);
   inv.push_back(tmp);
  }
 // Basic starter gear, added independently of profession.
- tmp = item(g->itypes["pockknife"], 0,'a' + worn.size());
+ tmp = item(g->itypes["pockknife"], 0);
   inv.push_back(tmp);
- tmp = item(g->itypes["matches"], 0,'a' + worn.size());
+ tmp = item(g->itypes["matches"], 0);
   inv.push_back(tmp);
 // make sure we have no mutations
  for (int i = 0; i < PF_MAX2; i++)
   if (!has_base_trait(i))
 	my_mutations[i] = false;
+	
+	// Equip any armor from our inventory. This bypasses the normal wear() function, so there will be no
+	// checking for encumberment etc. This means that if the player starts with an unwearable amount of
+	// gear, he will not be able to take it off and put it back on.
+	// TODO: Make this go through something like wear() that fails silently and doesn't consume in-game turns.
+    std::vector<item*> tmp_inv;
+    inv.dump(tmp_inv);
+    
+    for(std::vector<item*>::iterator i = tmp_inv.begin(); i != tmp_inv.end(); ++i)
+    {
+        if( (*i)->is_armor())
+        {
+            if( (*i)->has_flag("VARSIZE"))
+            {
+                (*i)->item_tags.insert("FIT");
+            }
+            worn.push_back(**i);
+            inv.remove_item(*i);
+        }
+        
+    }
  return true;
 }
 
