@@ -684,6 +684,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
 
  } else if (is_style()) {
   it_style* style = dynamic_cast<it_style*>(type);
+  dump->push_back(iteminfo("STYLE", ""));
   for (int i = 0; i < style->moves.size(); i++) {
    dump->push_back(iteminfo("STYLE", default_technique_name(style->moves[i].tech), ". Requires Unarmed Skill of ", int(style->moves[i].level)));
   }
