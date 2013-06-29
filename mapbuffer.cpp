@@ -268,8 +268,9 @@ void mapbuffer::load()
     sm->trp[itx][ity] = trap_id(t);
    } else if (string_identifier == "F") {
     fin >> itx >> ity >> t >> d >> a;
+	if(!sm->fld[itx][ity].findField(field_id(t)))
+		sm->field_count++;
     sm->fld[itx][ity].addField(field_id(t), d, a);
-    sm->field_count++;
    } else if (string_identifier == "S") {
     char tmpfriend;
     int tmpfac = -1, tmpmis = -1;

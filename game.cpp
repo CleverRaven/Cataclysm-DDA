@@ -4500,8 +4500,6 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     u.hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
    }
    if (has_fire) {
-    if (m.field_at(i, j).findField(fd_smoke))
-     m.field_at(i, j).addField(fd_fire, 1, 0);
     m.add_field(this, i, j, fd_fire, dam / 10);
    }
   }
@@ -4980,7 +4978,7 @@ void game::resonance_cascade(int x, int y)
        case 7: type = fd_nuke_gas;
       }
       if (!one_in(3))
-       m.field_at(k, l).addField(type, 3, 0);
+	   m.add_field(this, k, l, type, 3);
      }
     }
     break;
@@ -7098,8 +7096,8 @@ point game::look_debug(point coords) {
 		for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
 			cur = (*field_list_it);
 			if(cur == NULL) continue;
-			mvwprintz(w_look, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], "field: %s (%d) density %d",
-				fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str(), cur->getFieldType(), cur->getFieldDensity()
+			mvwprintz(w_look, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], "field: %s (%d) density %d age %d",
+				fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str(), cur->getFieldType(), cur->getFieldDensity(), cur->getFieldAge()
 			);
 			off++; // 4ish
 		}

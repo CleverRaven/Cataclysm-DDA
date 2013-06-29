@@ -890,11 +890,12 @@ can vary in intensity (density) and age (usually used as a time to live).
 */
 class field_entry {
 public:
- field_entry() { type = fd_null; density = 1; age = 0; };
+ field_entry() { type = fd_null; density = 1; age = 0; is_alive = false;};
  field_entry(field_id t, unsigned char d, unsigned int a) {
   type = t;
   density = d;
   age = a;
+  is_alive = true;
  }
 
  /*
@@ -919,19 +920,19 @@ public:
  Class: setFieldType
  Allows you to modify the field_id of the current field entry.
  */
- const field_id setFieldType(const field_id new_field_id);
+ field_id setFieldType(const field_id new_field_id);
 
  /*
  Class: setFieldDensity
  Allows you to modify the density of the current field entry.
  */
- const signed char setFieldDensity(const signed char new_density);
+ signed char setFieldDensity(const signed char new_density);
 
  /*
  Class: setFieldAge
  Allows you to modify the age of the current field entry.
  */
- const int setFieldAge(const int new_age);
+ int setFieldAge(const int new_age);
 
  
  /*
@@ -964,11 +965,18 @@ public:
   return fieldlist[type].name[density - 1];
  }
 
+ /*
+ Returns true if this is an active field, false if it should be removed.
+ */
+ bool isAlive(){
+	 return is_alive;
+ }
+
 private:
  field_id type; //The field identifier.
  signed char density; //The density, or intensity (higher is stronger), of the field entry.
  int age; //The age, or time to live, of the field effect. 0 is permanent.
- 
+ bool is_alive; //True if this is an active field, false if it should be destroyed next check.
 };
 
 /*

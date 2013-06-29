@@ -2900,10 +2900,10 @@ field& map::field_at(const int x, const int y)
  cast_to_nonant(x, y, nonant);
 */
  const int nonant = int(x / SEEX) + int(y / SEEY) * my_MAPSIZE;
- if( grid[nonant]->field_count <= 0) {
+ /*if( grid[nonant]->field_count <= 0) {
     nulfield = field();
     return nulfield;
- }
+ }*/
 
  const int lx = x % SEEX;
  const int ly = y % SEEY;
@@ -2918,11 +2918,6 @@ bool map::add_field(game *g, const int x, const int y,
  if (!INBOUNDS(x, y))
   return false;
 
- if (field_at(x, y).findField(fd_web) && t == fd_fire)
-  density++;
- //else if (!field_at(x, y).is_null()) // Blood & bile are null too
-  //return false;
-
  if (density > 3)
   density = 3;
  if (density <= 0)
@@ -2931,8 +2926,8 @@ bool map::add_field(game *g, const int x, const int y,
 
  const int lx = x % SEEX;
  const int ly = y % SEEY;
- if (grid[nonant]->fld[lx][ly].fieldCount() == 0) //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
-  grid[nonant]->field_count++;
+ if (!grid[nonant]->fld[lx][ly].findField(t)) //TODO: Update overall field_count appropriately. This is the spirit of "fd_null" that it used to be.
+  grid[nonant]->field_count++; //Only adding it to the count if it doesn't exist.
  grid[nonant]->fld[lx][ly].addField(t, density, 0); //This will insert and/or update the field.
  if (g != NULL && lx == g->u.posx && ly == g->u.posy &&
      grid[nonant]->fld[lx][ly].findField(t)->is_dangerous()) {
@@ -2950,7 +2945,7 @@ void map::remove_field(const int x, const int y, const field_id field_to_remove)
 
  const int lx = x % SEEX;
  const int ly = y % SEEY;
- if (grid[nonant]->fld[lx][ly].fieldCount() > 0) //same as checking for fd_null in the old system
+ if (grid[nonant]->fld[lx][ly].findField(field_to_remove)) //same as checking for fd_null in the old system
   grid[nonant]->field_count--;
  grid[nonant]->fld[lx][ly].removeField(field_to_remove);
 }
