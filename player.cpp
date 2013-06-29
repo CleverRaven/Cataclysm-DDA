@@ -456,13 +456,13 @@ int player::calc_focus_equilibrium()
         // only apply a penalty when we're actually learning something
         if (skillLevel(reading->type) < (int)reading->level)
         {
-            focus_gain_rate -= 10;
-            if (has_trait(PF_FASTREADER))
+            focus_gain_rate -= 50;
+            if (has_trait(PF_STUDIOUS))
                 (
-                add_morale(MORALE_LEARNING, 4, 4)
+                add_morale(MORALE_LEARNING, 5, 5)
                 );
                 (
-                 focus_gain_rate += 20
+                 focus_gain_rate += 25
                 );
         }
     }
