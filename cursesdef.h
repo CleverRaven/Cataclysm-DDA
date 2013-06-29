@@ -6,7 +6,7 @@
 #elif (defined __CYGWIN__)
        #include "ncurses/curses.h"
 #else
-	#include <curses.h>
+	#include "ncursesw/curses.h"
 #endif
 
 #endif // CURSES_DEF_H
