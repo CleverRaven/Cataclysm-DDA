@@ -736,10 +736,10 @@ void game::process_activity()
 
      add_msg("You learn a little about %s! (%d%%%%)", reading->type->name().c_str(),
              u.skillLevel(reading->type).exercise());
-			 
-	 if (has_trait(PF_STUDIOUS))
+
+	 if (u.has_trait(PF_STUDIOUS))
         {
-         add_morale(MORALE_LEARNING, 5, 20);
+         u.add_morale(MORALE_LEARNING, 5, 20);
         }
 
      if (u.skillLevel(reading->type) == originalSkillLevel && (u.activity.continuous || query_yn("Study %s?", reading->type->name().c_str()))) {
@@ -9689,9 +9689,9 @@ void game::chat()
         add_msg("You talk to yourself for a moment.");
         return;
     }
-    
+
     std::vector<npc*> available;
-    
+
     for (int i = 0; i < active_npc.size(); i++)
     {
         if (u_see(active_npc[i]->posx, active_npc[i]->posy) && rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
@@ -9699,7 +9699,7 @@ void game::chat()
             available.push_back(active_npc[i]);
         }
     }
-    
+
     if (available.size() == 0)
     {
         add_msg("There's no-one close enough to talk to.");
@@ -9712,15 +9712,15 @@ void game::chat()
     else
     {
         std::vector<std::string> npcs;
-        
+
         for (int i = 0; i < available.size(); i++)
         {
             npcs.push_back(available[i]->name);
         }
         npcs.push_back("Cancel");
-        
+
         int npc_choice = menu_vec(true, "Who do you want to talk to?", npcs) - 1;
-        
+
         if(npc_choice >= 0 && npc_choice < available.size())
         {
             available[npc_choice]->talk_to_u(this);

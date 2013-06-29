@@ -418,9 +418,9 @@ Your system is rather tolerant of poisons and toxins, and most will affect\n\
 you less."},
 {"Fast Reader", 1, 0, 0, "\
 You're a quick reader, and can get through books a lot faster than most."},
-("Studious Nature", 1, 0, 0, "\
+{"Studious Nature", 1, 0, 0, "\
 Books are your friends. You enjoy learning new things from them, and lose\n\
-focus less quickly when doing so."),
+focus less quickly when doing so."},
 {"Tough", 3, 0, 0, "\
 It takes a lot to bring you down!  You get a 20%% bonus to all hit points."},
 {"Thick-Skinned", 2, 0, 0, "\
