@@ -5488,29 +5488,39 @@ hint_rating player::rate_action_wear(item *it)
 
 bool player::wear(game *g, char let)
 {
- item* to_wear = NULL;
- int index = -1;
- if (weapon.invlet == let) {
-  to_wear = &weapon;
-  index = -2;
- } else {
-  to_wear = &inv.item_by_letter(let);
- }
+    item* to_wear = NULL;
+    int index = -1;
+    if (weapon.invlet == let)
+    {
+        to_wear = &weapon;
+        index = -2;
+    } 
+    else
+    {
+        to_wear = &inv.item_by_letter(let);
+    }
 
- if (to_wear == NULL) {
-  g->add_msg("You don't have item '%c'.", let);
-  return false;
- }
+    if (to_wear == NULL)
+    {
+        g->add_msg("You don't have item '%c'.", let);
+        return false;
+    }
 
- if (!wear_item(g, to_wear))
-  return false;
+    if (!wear_item(g, to_wear, interactive))
+    {
+        return false;
+    }
 
- if (index == -2)
-  weapon = ret_null;
- else
-  inv.remove_item(to_wear);
+    if (index == -2)
+    {
+        weapon = ret_null;
+    }
+    else
+    {
+        inv.remove_item(to_wear);
+    }
 
- return true;
+    return true;
 }
 
 bool player::wear_item(game *g, item *to_wear)
