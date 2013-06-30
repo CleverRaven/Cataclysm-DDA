@@ -138,7 +138,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static -lgdi32 
+  LDFLAGS += -static -lgdi32 -lintl -liconv
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
 endif
 
@@ -146,7 +146,7 @@ ifdef TILES
   LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lgdi32 -ldxguid -lwinmm -lintl -liconv
+    LDFLAGS += -lgdi32 -ldxguid -lwinmm
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else
