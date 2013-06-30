@@ -345,10 +345,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   if (!has_base_trait(i))
 	my_mutations[i] = false;
 	
-	// Equip any armor from our inventory. This bypasses the normal wear() function, so there will be no
-	// checking for encumberment etc. This means that if the player starts with an unwearable amount of
-	// gear, he will not be able to take it off and put it back on.
-	// TODO: Make this go through something like wear() that fails silently and doesn't consume in-game turns.
+	// Equip any armor from our inventory. If we are unable to wear some of it due to encumberance, it will silently fail.
     std::vector<item*> tmp_inv;
     inv.dump(tmp_inv);
     
@@ -360,10 +357,9 @@ bool player::create(game *g, character_type type, std::string tempname)
             {
                 (*i)->item_tags.insert("FIT");
             }
-            worn.push_back(**i);
-            inv.remove_item(*i);
+            // It might be more elegant to use player::wear_item, but then we have to implement our own inventory removal.
+            wear(g, (*i)->invlet, false);
         }
-        
     }
 
  // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
