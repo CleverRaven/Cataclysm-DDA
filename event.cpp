@@ -82,31 +82,29 @@ void event::actualize(game *g)
     }
    }
    monster horror(g->mtypes[mon_amigara_horror]);
-   for (int i = 0; i < num_horrors; i++) {
-    int tries = 0;
-    int monx = -1, mony = -1;
-    do {
-     if (horizontal) {
-      monx = rng(faultx, faultx + 2 * SEEX - 8);
-      for (int n = -1; n <= 1; n++) {
-       if (g->m.ter(monx, faulty + n) == t_rock_floor)
-        mony = faulty + n;
-      }
-     } else { // Vertical fault
-      mony = rng(faulty, faulty + 2 * SEEY - 8);
-      for (int n = -1; n <= 1; n++) {
-       if (g->m.ter(faultx + n, mony) == t_rock_floor)
-        monx = faultx + n;
-      }
-     }
-     tries++;
-    } while ((monx == -1 || mony == -1 || g->is_empty(monx, mony)) &&
-             tries < 10);
-    if (tries < 10) {
-     horror.spawn(monx, mony);
-     g->z.push_back(horror);
-    }
-   }
+        for (int horrors_spawned = 0; horrors_spawned < num_horrors; horrors_spawned++) {
+            int spawning_point = 0;
+            if (horizontal) {
+                if (g->m.ter(faultx, faulty - 1) == t_rock_floor) {
+                    spawning_point = faulty - 1;
+                }
+                else {
+                    spawning_point = faulty + 1;
+                }
+                horror.spawn(faultx, spawning_point);
+                g->z.push_back(horror);
+            }
+            else {
+                if (g->m.ter(faultx - 1, faulty) == t_rock_floor) {
+                    spawning_point = faultx - 1;
+                }
+                else {
+                    spawning_point = faultx + 1;
+                }
+                horror.spawn(spawning_point, faulty);
+                g->z.push_back(horror);
+            }
+        }
   } break;
 
   case EVENT_ROOTS_DIE:
