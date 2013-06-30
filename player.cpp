@@ -6564,7 +6564,7 @@ void player::read(game *g, char ch)
     }
     else if (!activity.continuous && !query_yn("Study %s?", tmp->type->name().c_str()))
     {
-        return;
+        study = false;
     }
     else
     {
