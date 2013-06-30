@@ -2166,7 +2166,6 @@ bool map::hit_with_acid(game *g, const int x, const int y)
 
   case t_gas_pump:
   case t_gas_pump_smashed:
-  case t_gas_pump_empty:
    return false;
 
   case t_card_science:

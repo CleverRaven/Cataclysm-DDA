@@ -26,20 +26,32 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
- bool use_pump = false;
- item gas(g->itypes["gasoline"], g->turn);
- if (one_in(10 + p->dex_cur)) {
-  g->add_msg("You accidentally spill the gasoline.");
-  m->add_item(p->posx, p->posy, gas);
-  use_pump = true;
- } else {
-  p->moves -= 300;
-  use_pump = g->handle_liquid(gas, false, true);
+
+ for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
+  if (m->i_at(examx, examy)[i].made_of(LIQUID)) {
+   item* liq = &(m->i_at(examx, examy)[i]);
+
+   if (one_in(10 + p->dex_cur)) {
+    g->add_msg("You accidentally spill the %s.", liq->type->name.c_str());
+    item spill(liq->type, g->turn);
+    spill.charges = rng(dynamic_cast<it_ammo*>(liq->type)->count,
+                        dynamic_cast<it_ammo*>(liq->type)->count * (float)(8 / p->dex_cur));
+    m->add_item_or_charges(p->posx, p->posy, spill, 1);
+    liq->charges -= spill.charges;
+    if (liq->charges < 1) {
+     m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+    }
+   } else {
+    p->moves -= 300;
+    if (g->handle_liquid(*liq, true, false)) {
+     g->add_msg("With a clang and a shudder, the %s pump goes silent.", liq->type->name.c_str());
+     m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+    }
+   }
+   return;
+  }
  }
- if (use_pump && one_in(10)) {
-  g->add_msg("With a clang and a shudder, the gas pump goes silent.");
-  m->ter_set(examx, examy, t_gas_pump_empty);
- }
+ g->add_msg("Out of order.");
 }
 
 void iexamine::elevator(game *g, player *p, map *m, int examx, int examy){
