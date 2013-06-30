@@ -54,6 +54,8 @@ static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
 
+static bool fontblending = false;
+
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
@@ -159,7 +161,7 @@ static void cache_glyphs()
     {
         for(int color=0; color<16; color++)
         {
-            SDL_Surface * glyph = glyph_cache[ch][color] = TTF_RenderGlyph_Solid(font, ch, windowsPalette[color]);
+            SDL_Surface * glyph = glyph_cache[ch][color] = (fontblending?TTF_RenderGlyph_Blended:TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
             int minx, maxx, miny, maxy, advance;
             if(glyph!=NULL && color==0 && 0==TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) )
             {
@@ -449,6 +451,7 @@ WINDOW *initscr(void)
     inputdelay=-1;
 
     std::string typeface = "";
+	std::string blending = "solid";
 	std::ifstream fin;
     int fontsize = 0; //actuall size
 	fin.open("data/FONTDATA");
@@ -460,12 +463,15 @@ WINDOW *initscr(void)
         fin >> fontwidth;
         fin >> fontheight;
         fin >> fontsize;
+		fin >> blending;
         if ((fontwidth <= 4) || (fontheight <=4)){
             fontheight=16;
             fontwidth=8;
 		}
 		fin.close();
 	}
+
+	fontblending = (blending=="blended");
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
