@@ -1131,6 +1131,13 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(p.x, p.y, "hose", 0, 1);
         g->m.furn_set(p.x, p.y, f_null);
       break;
+      case f_glass_fridge:
+        g->m.spawn_item(p.x, p.y, "scrap", 0, rng(2,6));
+        g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
+        g->m.spawn_item(p.x, p.y, "hose", 0, 1);
+        g->m.spawn_item(p.x, p.y, "glass_sheet", 0, 1);
+        g->m.furn_set(p.x, p.y, f_null);
+      break;
       case f_counter:
       case f_dresser:
       case f_table:
