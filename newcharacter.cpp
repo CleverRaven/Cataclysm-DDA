@@ -214,6 +214,7 @@ bool player::create(game *g, character_type type, std::string tempname)
    full_screen_popup(tmpitem.info(true).c_str());
   } while (!query_yn("Use this style?"));
   styles.push_back(ma_type);
+  style_selected=ma_type;
  }
 
     if (has_trait(PF_MARTIAL_ARTS2)) {
@@ -235,6 +236,7 @@ bool player::create(game *g, character_type type, std::string tempname)
    full_screen_popup(tmpitem.info(true).c_str());
   } while (!query_yn("Use this style?"));
   styles.push_back(ma_type);
+  style_selected=ma_type;
  }
  if (has_trait(PF_MARTIAL_ARTS3)) {
   itype_id ma_type;
@@ -255,6 +257,7 @@ bool player::create(game *g, character_type type, std::string tempname)
    full_screen_popup(tmpitem.info(true).c_str());
   } while (!query_yn("Use this style?"));
   styles.push_back(ma_type);
+  style_selected=ma_type;
  }
  if (has_trait(PF_MARTIAL_ARTS4)) {
   itype_id ma_type;
@@ -275,13 +278,12 @@ bool player::create(game *g, character_type type, std::string tempname)
    full_screen_popup(tmpitem.info(true).c_str());
   } while (!query_yn("Use this style?"));
   styles.push_back(ma_type);
+  style_selected=ma_type;
  }
  ret_null = item(g->itypes["null"], 0);
- if (!styles.empty())
-  weapon = item(g->itypes[ styles[0] ], 0, ':');
- else
-  weapon   = item(g->itypes["null"], 0);
-
+ weapon = get_combat_style(g);
+ 
+ 
  item tmp; //gets used several times
 
  std::vector<std::string> prof_items = g->u.prof->items();
