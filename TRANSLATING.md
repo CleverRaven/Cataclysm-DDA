@@ -30,14 +30,19 @@ MAINTAINERS
 Step 1: Extract the translatable strings
 ----------------------------------------
 
-First we use "xgettext" to find all the translatable strings in the source code,
-and store them in the file "cataclysm-dda.pot",
-in the lang/po subdirectory.
+First we have to extract the translatable strings from the .json files.
+The python script lang/extract_json_strings.py will do this for us,
+storing them in an intermediate form in lang/json for "xgettext" to read.
+
+    python lang/extract_json_strings.py
+
+Now we can use xgettext to collate all the translatable strings,
+and store them in the file lang/po/cataclysm-dda.pot.
 
 This needs to be done every time translatable strings are added or modified.
 All of the translations depend on this file.
 
-    xgettext -d cataclysm-dda -s -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp
+    xgettext -d cataclysm-dda -s -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp lang/json/*.py
 
 
 Step 2(a): Initialize each language file
