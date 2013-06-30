@@ -7,6 +7,13 @@
 #include <cstdlib>
 #include <fstream>
 
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
+#else
+#include <dirent.h>
+#endif
+
 // SDL headers end up in different places depending on the OS, sadly
 #if (defined _WIN32 || defined WINDOWS)
 #include "SDL.h"
@@ -368,6 +375,71 @@ void CheckMessages()
 //Psuedo-Curses Functions           *
 //***********************************
 
+static std::string find_system_font(std::string path, std::string name)
+{
+	std::string fpath = "";
+
+	DIR *dir;
+	struct dirent *ent;
+	if ((dir = opendir (path.c_str())) != NULL) {
+		bool found = false;
+		while (!found && (ent = readdir (dir)) != NULL) {
+			std::string f = path + "/" + ent->d_name;
+			TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
+			long nfaces = 0;
+			if(fnt) 
+			{
+				nfaces = TTF_FontFaces(fnt);
+				TTF_CloseFont(fnt);
+			}
+			for(long i=0; i<nfaces; i++)
+			{
+				fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
+				if(fnt)
+				{
+					char *fami = TTF_FontFaceFamilyName(fnt);
+					char *style = TTF_FontFaceStyleName(fnt);
+					if(fami && (stricmp(name.c_str(), fami)==0 || (style && 0==stricmp(name.c_str(), (std::string(fami)+" "+style).c_str()))))
+					{
+						fpath = f;
+						found = true;
+						break;
+					}
+					TTF_CloseFont(fnt);
+				}
+			}
+		}
+		closedir (dir);
+	}
+
+
+	return fpath;
+}
+
+#if (defined _WIN32 || defined WINDOWS)
+#include <windows.h>
+#endif
+
+static std::string find_system_font(std::string name)
+{
+	std::string result = "";
+	char buf[256];
+	strcpy(buf, "data/font");
+	result = find_system_font(buf, name);
+	if(result!="") return result;
+
+#if (defined _WIN32 || defined WINDOWS)
+	//DebugLog log;
+	GetSystemWindowsDirectory(buf, 256);
+	strcat(buf, "/fonts");
+	result = find_system_font(buf, name);
+	if(result!="") return result;
+#endif
+	
+	//TODO: other systems
+
+	return result;
+}
 
 
 //Basic Init, create the font, backbuffer, etc
@@ -400,6 +472,9 @@ WINDOW *initscr(void)
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
+
+	std::string sysfnt = find_system_font(typeface);
+	if(sysfnt!="") typeface = sysfnt;
 
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str()))
