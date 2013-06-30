@@ -48,7 +48,7 @@ void show_power_level_in_titlebar(WINDOW* window, player* p)
 void player::power_bionics(game *g)
 {
     int HEIGHT = TERMY;
-    int WIDTH = 80;
+    int WIDTH = FULL_SCREEN_WIDTH;
     int START_X = (TERMX - WIDTH)/2;
     int START_Y = (TERMY - HEIGHT)/2;
  WINDOW* wBio = newwin(HEIGHT, WIDTH, START_Y, START_X);
@@ -84,8 +84,7 @@ void player::power_bionics(game *g)
  mvwputch(wBio, DESCRIPTION_LINE_Y, 79, c_ltgray, LINE_XOXX); // -|
 
  for (int i = 0; i < my_bionics.size(); i++) {
-  if ( bionics[my_bionics[i].id]->power_source ||
-      !bionics[my_bionics[i].id]->activated      )
+  if (!bionics[my_bionics[i].id]->activated)
    passive.push_back(my_bionics[i]);
   else
    active.push_back(my_bionics[i]);
@@ -105,10 +104,15 @@ void player::power_bionics(game *g)
  if (active.size() > 0) {
   mvwprintz(wBio, 3, 33, c_ltblue, "Active:");
   for (int i = 0; i < active.size(); i++) {
-   if (active[i].powered)
+   if (active[i].powered && !bionics[active[i].id]->power_source)
     type = c_red;
+    else if (bionics[active[i].id]->power_source && !active[i].powered)
+    type = c_ltcyan;
+    else if (bionics[active[i].id]->power_source && active[i].powered)
+    type = c_ltgreen;
    else
     type = c_ltred;
+
    mvwputch(wBio, 4 + i, 33, type, active[i].invlet);
    mvwprintz(wBio, 4 + i, 35, type,
              (active[i].powered ? "%s - ON" : "%s - %d PU / %d trns"),
@@ -221,6 +225,9 @@ void player::activate_bionic(int b, game *g)
    pkill = pain;
  } else if (bio.id == "bio_nanobots"){
   healall(4);
+ } else if (bio.id == "bio_night"){
+  if (g->turn % 5)
+    g->add_msg("Artificial night generator active!");
  } else if (bio.id == "bio_resonator"){
   g->sound(posx, posy, 30, "VRRRRMP!");
   for (int i = posx - 1; i <= posx + 1; i++) {
@@ -500,35 +507,8 @@ void player::activate_bionic(int b, game *g)
   } else
    g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
  } else if(bio.id == "bio_flashbang") {
-   int blind_duration = 0;
-   int blind_intensity = 0;
-   int deaf_duration = 0;
-   int deaf_intensity = 0;
-   if (disease_level(DI_BLIND))
-   {
-       // remember our blind/deaf status
-       blind_duration = disease_level(DI_BLIND);
-       blind_intensity = disease_intensity(DI_BLIND);
-   }
-   if (disease_level(DI_DEAF))
-   {
-       deaf_duration = disease_level(DI_DEAF);
-       deaf_intensity = disease_intensity(DI_DEAF);
-   }
    g->add_msg("You activate your integrated flashbang generator!");
-   g->flashbang(posx, posy);
-   // clear blind/deaf because CBM flashbang shouldn't affect the player
-   rem_disease(DI_BLIND);
-   rem_disease(DI_DEAF);
-   if (blind_duration)
-   {
-       //restore our blind/deaf status
-       add_disease(DI_BLIND, blind_duration, g, blind_intensity, blind_intensity);
-   }
-   if (deaf_duration)
-   {
-       add_disease(DI_DEAF, deaf_duration, g, deaf_intensity, deaf_intensity);
-   }
+   g->flashbang(posx, posy, true);
  } else if(bio.id == "bio_shockwave") {
    g->shockwave(posx, posy, 3, 4, 2, 8, true);
    g->add_msg("You unleash a powerful shockwave!");
@@ -551,8 +531,8 @@ bool player::install_bionics(game *g, it_bionic* type)
  }
  std::string bio_name = type->name.substr(5);	// Strip off "CBM: "
 
- WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
- WINDOW* w_description = newwin(3, 78, 21 + getbegy(w), 1 + getbegx(w));
+ WINDOW* w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+ WINDOW* w_description = newwin(3, FULL_SCREEN_WIDTH-2, 21 + getbegy(w), 1 + getbegx(w));
 
  werase(w);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,

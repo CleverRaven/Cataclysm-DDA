@@ -36,8 +36,8 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     winh1 = 3;
     winh2 = 12;
     winw12 = winw1 + winw2 + 1;
-    winw3 = 80 - winw1 - winw2 - 2;
-    winh3 = 25 - winh1 - winh2 - 2;
+    winw3 = FULL_SCREEN_WIDTH - winw1 - winw2 - 2;
+    winh3 = FULL_SCREEN_HEIGHT - winh1 - winh2 - 2;
     winh23 = winh2 + winh3 + 1;
     winx1 = winw1;
     winx2 = winw1 + winw2 + 1;
@@ -46,21 +46,21 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
 
     page_size = winh23;
     //               h   w    y     x
-    w_grid  = newwin(25, 80,  0,    0);
-    w_mode  = newwin(1,  80, 0,    0);
-    w_msg   = newwin(winh1 - 1, 80, 1,    0);
+    w_grid  = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,  0,    0);
+    w_mode  = newwin(1,  FULL_SCREEN_WIDTH, 0,    0);
+    w_msg   = newwin(winh1 - 1, FULL_SCREEN_WIDTH, 1,    0);
     w_disp  = newwin(winh2, winw1,  winy1 + 1, 0);
     w_parts = newwin(winh2, winw2,  winy1 + 1, winx1 + 1);
     w_stats = newwin(winh3, winw12, winy2 + 1, 0);
     w_list  = newwin(winh23, winw3, winy1 + 1, winx2 + 1);
 
-    for (int i = 0; i < 25; i++)
+    for (int i = 0; i < FULL_SCREEN_HEIGHT; i++)
     {
         mvwputch(w_grid, i, winx2, c_ltgray, i == winy1 || i == winy2? LINE_XOXX : LINE_XOXO);
         if (i >= winy1 && i < winy2)
             mvwputch(w_grid, i, winx1, c_ltgray, LINE_XOXO);
     }
-    for (int i = 0; i < 80; i++)
+    for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
     {
         mvwputch(w_grid, winy1, i, c_ltgray,
                  i == winx1? LINE_OXXX : (i == winx2? LINE_OXXX : LINE_OXOX));
@@ -517,7 +517,7 @@ void veh_interact::move_cursor (int dx, int dy)
     veh->coord_translate (vdx, vdy, vx, vy);
     int vehx = veh->global_x() + vx;
     int vehy = veh->global_y() + vy;
-    bool obstruct = g->m.move_cost_ter_only (vehx, vehy) == 0;
+    bool obstruct = g->m.move_cost_ter_furn (vehx, vehy) == 0;
     vehicle *oveh = g->m.veh_at (vehx, vehy);
     if (oveh && oveh != veh)
     {
@@ -875,7 +875,7 @@ void complete_vehicle (game *g)
         break;
     case 'o':
         for (int i = 0; i < veh->parts[part].items.size(); i++)
-            g->m.add_item (g->u.posx, g->u.posy, veh->parts[part].items[i]);
+            g->m.add_item_or_charges (g->u.posx, g->u.posy, veh->parts[part].items[i], 1, false);
         veh->parts[part].items.clear();
         itm = veh->part_info(part).item;
         broken = veh->parts[part].hp <= 0;

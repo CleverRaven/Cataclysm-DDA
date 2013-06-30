@@ -1318,7 +1318,8 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     bool is_body_collision = ph || mondex >= 0;
 
     veh_coll_type collision_type = veh_coll_nothing;
-    std::string obs_name = g->m.tername(x, y).c_str();
+    std::string obs_name = g->m.has_furn(x, y) ?
+        g->m.furnname(x, y).c_str() : g->m.tername(x, y).c_str();
 
     // vehicle collisions are a special case. just return the collision.
     // the map takes care of the dynamic stuff.
@@ -1368,26 +1369,26 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
             mass2 = 80;// player or NPC
     }
     else // if all above fails, go for terrain which might obstruct moving
-    if (g->m.has_flag_ter_only (thin_obstacle, x, y))
+    if (g->m.has_flag_ter_or_furn (thin_obstacle, x, y))
     {
         collision_type = veh_coll_thin_obstacle; // some fence
         mass2 = 20;
     }
     else
-    if (g->m.has_flag_ter_only(bashable, x, y))
+    if (g->m.has_flag_ter_or_furn(bashable, x, y))
     {
         collision_type = veh_coll_bashable; // (door, window)
         mass2 = 50;    // special case: instead of calculating absorb based on mass of obstacle later, we let
                        // map::bash function deside, how much absorb is
     }
     else
-    if (g->m.move_cost_ter_only(x, y) == 0 && g->m.is_destructable_ter_only(x, y))
+    if (g->m.move_cost_ter_furn(x, y) == 0 && g->m.is_destructable_ter_furn(x, y))
     {
         collision_type = veh_coll_destructable; // destructible (wall)
         mass2 = 200;
     }
     else
-    if (g->m.move_cost_ter_only(x, y) == 0 && !g->m.has_flag_ter_only(swimmable, x, y))
+    if (g->m.move_cost_ter_furn(x, y) == 0 && !g->m.has_flag_ter_or_furn(swimmable, x, y))
     {
         collision_type = veh_coll_other; // not destructible
         mass2 = 1000;
@@ -1419,7 +1420,10 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
             switch (collision_type) // destroy obstacle
             {
             case veh_coll_thin_obstacle:
-                g->m.ter_set(x, y, t_dirt);
+                if (g->m.has_furn(x, y))
+                    g->m.furn_set(x, y, f_null);
+                else
+                    g->m.ter_set(x, y, t_dirt);
                 break;
             case veh_coll_destructable:
                 g->m.destroy(g, x, y, false);
@@ -1507,9 +1511,9 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
 
         if (part_flag(part, vpf_sharp))
         {
-            if (g->m.field_at(x, y).type == fd_blood &&
-                g->m.field_at(x, y).density < 2)
-                g->m.field_at(x, y).density++;
+            if (g->m.field_at(x, y).findField(fd_blood) &&
+                g->m.field_at(x, y).findField(fd_blood)->getFieldDensity() < 2)
+                g->m.field_at(x, y).findField(fd_blood)->setFieldDensity(g->m.field_at(x,y).findField(fd_blood)->getFieldDensity() + 1);
             else
                 g->m.add_field(g, x, y, fd_blood, 1);
         }

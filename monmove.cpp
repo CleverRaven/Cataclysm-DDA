@@ -61,7 +61,7 @@ bool monster::can_move_to(game *g, int x, int y)
             return false;
 
         // don't enter fire or electricity ever
-        if (g->m.field_at(x, y).type == fd_fire || g->m.field_at(x, y).type == fd_electricity)
+        if (g->m.field_at(x, y).findField(fd_fire) || g->m.field_at(x, y).findField(fd_electricity))
             return false;
     }
     return true;

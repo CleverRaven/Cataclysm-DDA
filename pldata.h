@@ -402,7 +402,8 @@ as easy for you to move on as solid ground."},
 {"Quick", 3, 0, 0, "\
 You're just generally quick!  You get a 10%% bonus to action points."},
 {"Optimist", 2, 0, 0, "\
-Nothing gets you down!  Your morale will generally be higher than average."},
+Nothing gets you down!  You savor the joys of life, ignore its hardships, and\n\
+are generally happier than most people."},
 {"Fast Healer", 2, 0, 0, "\
 You heal a little faster than most; sleeping will heal more lost HP."},
 {"Light Eater", 3, 0, 0, "\

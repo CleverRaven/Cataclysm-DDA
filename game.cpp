@@ -684,7 +684,8 @@ void game::process_activity()
 
     if (reading->fun != 0) {
      std::stringstream morale_text;
-     u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, reading);
+     u.add_morale(MORALE_BOOK, reading->fun * 5, reading->fun * 15, 60, 30,
+                  true, reading);
     }
 
     no_recipes = true;
@@ -2039,8 +2040,8 @@ void game::update_scent()
 
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
-   const int move_cost = m.move_cost_ter_only(x, y);
-   const field field_at = m.field_at(x, y);
+   const int move_cost = m.move_cost_ter_furn(x, y);
+   field field_at = m.field_at(x, y);
    const bool is_bashable = m.has_flag(bashable, x, y);
    newscent[x][y] = 0;
    scale[x][y] = 1;
@@ -2077,9 +2078,9 @@ void game::update_scent()
     squares_used +=   grscent[x + 1] [y + 1] >= this_field;
 
     scale[x][y] += squares_used;
-    if (field_at.type == fd_slime && newscent[x][y] < 10 * field_at.density)
+    if (field_at.findField(fd_slime) && newscent[x][y] < 10 * field_at.findField(fd_slime)->getFieldDensity())
     {
-        newscent[x][y] = 10 * field_at.density;
+        newscent[x][y] = 10 * field_at.findField(fd_slime)->getFieldDensity();
     }
     if (newscent[x][y] > 10000)
     {
@@ -3003,7 +3004,9 @@ void game::draw_overmap()
 
 void game::disp_kills()
 {
- WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -3068,7 +3071,9 @@ void game::disp_kills()
 
 void game::disp_NPCs()
 {
- WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  mvwprintz(w, 0, 0, c_white, "Your position: %d:%d", levx, levy);
  std::vector<npc*> closest;
@@ -3111,13 +3116,17 @@ faction* game::list_factions(std::string title)
   return NULL;
  }
 
- WINDOW *w_list = newwin(25, 80, ((TERMY > 25) ? (TERMY-25)/2 : 0), (TERMX > 80) ? (TERMX-80)/2 : 0);
- WINDOW *w_info = newwin(23, 79 - MAX_FAC_NAME_SIZE, 1 + ((TERMY > 25) ? (TERMY-25)/2 : 0), MAX_FAC_NAME_SIZE + ((TERMX > 80) ? (TERMX-80)/2 : 0));
+ WINDOW *w_list = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                         ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
+                         (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+ WINDOW *w_info = newwin(FULL_SCREEN_HEIGHT-2, FULL_SCREEN_WIDTH-1 - MAX_FAC_NAME_SIZE,
+                         1 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
+                         MAX_FAC_NAME_SIZE + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
 
  wborder(w_list, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- int maxlength = 79 - MAX_FAC_NAME_SIZE;
+ int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
  int sel = 0;
 
 // Init w_list content
@@ -3201,7 +3210,9 @@ faction* game::list_factions(std::string title)
 
 void game::list_missions()
 {
- WINDOW *w_missions = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW *w_missions = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                              (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                              (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  int tab = 0, selection = 0;
  InputEvent input;
@@ -3215,14 +3226,14 @@ void game::list_missions()
    case 2: umissions = u.failed_missions;	break;
   }
 
-  for (int i = 1; i < 79; i++) {
+  for (int i = 1; i < FULL_SCREEN_WIDTH-1; i++) {
    mvwputch(w_missions, 2, i, c_ltgray, LINE_OXOX);
-   mvwputch(w_missions, 24, i, c_ltgray, LINE_OXOX);
+   mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, i, c_ltgray, LINE_OXOX);
 
-   if (i > 2 && i < 24) {
+   if (i > 2 && i < FULL_SCREEN_HEIGHT-1) {
     mvwputch(w_missions, i, 0, c_ltgray, LINE_XOXO);
     mvwputch(w_missions, i, 30, c_ltgray, LINE_XOXO);
-    mvwputch(w_missions, i, 79, c_ltgray, LINE_XOXO);
+    mvwputch(w_missions, i, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXO);
    }
   }
 
@@ -3231,13 +3242,13 @@ void game::list_missions()
   draw_tab(w_missions, 56, "FAILED MISSIONS", (tab == 2) ? true : false);
 
   mvwputch(w_missions, 2,  0, c_white, LINE_OXXO); // |^
-  mvwputch(w_missions, 2, 79, c_white, LINE_OOXX); // ^|
+  mvwputch(w_missions, 2, FULL_SCREEN_WIDTH-1, c_white, LINE_OOXX); // ^|
 
-  mvwputch(w_missions, 24, 0, c_ltgray, LINE_XXOO); // |_
-  mvwputch(w_missions, 24, 79, c_ltgray, LINE_XOOX); // _|
+  mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, 0, c_ltgray, LINE_XXOO); // |
+  mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOOX); // _|
 
   mvwputch(w_missions, 2, 30, c_white, (tab == 1) ? LINE_XOXX : LINE_XXXX); // + || -|
-  mvwputch(w_missions, 24, 30, c_white, LINE_XXOX); // _|_
+  mvwputch(w_missions, FULL_SCREEN_HEIGHT-1, 30, c_white, LINE_XXOX); // _|_
 
   for (int i = 0; i < umissions.size(); i++) {
    mission *miss = find_mission(umissions[i]);
@@ -3838,9 +3849,8 @@ bool game::sees_u(int x, int y, int &t)
  if( range <= 0)
   range = 1;
 
- return (!u.has_active_bionic("bio_cloak") &&
-         !u.has_artifact_with(AEP_INVISIBLE) &&
-         m.sees(x, y, u.posx, u.posy, range, t));
+ return (!(u.has_active_bionic("bio_cloak") || u.has_active_bionic("bio_night") ||
+           u.has_artifact_with(AEP_INVISIBLE)) && m.sees(x, y, u.posx, u.posy, range, t));
 }
 
 bool game::u_see(int x, int y)
@@ -3854,6 +3864,8 @@ bool game::u_see(int x, int y)
           (wanted_range <= u.sight_range(DAYLIGHT_LEVEL) &&
             m.light_at(x, y) >= LL_LOW))
      can_see = m.pl_sees(u.posx, u.posy, x, y, wanted_range);
+     if (u.has_active_bionic("bio_night") && wanted_range < 15 && wanted_range > u.sight_range(1))
+        return false;
 
  return can_see;
 }
@@ -4501,8 +4513,6 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     u.hit(this, bp_arms,  1, rng(dam / 3, dam),       0);
    }
    if (has_fire) {
-    if (m.field_at(i, j).type == fd_smoke)
-     m.field_at(i, j) = field(fd_fire, 1, 0);
     m.add_field(this, i, j, fd_fire, dam / 10);
    }
   }
@@ -4584,10 +4594,10 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
  }
 }
 
-void game::flashbang(int x, int y)
+void game::flashbang(int x, int y, bool player_immune)
 {
  int dist = rl_dist(u.posx, u.posy, x, y), t;
- if (dist <= 8) {
+ if (dist <= 8 && !player_immune) {
   if (!u.has_bionic("bio_ears"))
    u.add_disease(DI_DEAF, 40 - dist * 4, this);
   if (m.sees(u.posx, u.posy, x, y, 8, t))
@@ -4769,13 +4779,13 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
             targ->posx = traj[i].x;
             targ->posy = traj[i].y;
             if(m.has_flag(liquid, targ->posx, targ->posy) && !targ->has_flag(MF_SWIMS) &&
-                !targ->has_flag(MF_AQUATIC) && !targ->has_flag(MF_FLIES))
+                !targ->has_flag(MF_AQUATIC) && !targ->has_flag(MF_FLIES) && !targ->dead)
             {
                 targ->hurt(9999);
                 if (u_see(targ))
                     add_msg("The %s drowns!", targ->name().c_str());
             }
-            if(!m.has_flag(liquid, targ->posx, targ->posy) && targ->has_flag(MF_AQUATIC))
+            if(!m.has_flag(liquid, targ->posx, targ->posy) && targ->has_flag(MF_AQUATIC) && !targ->dead)
             {
                 targ->hurt(9999);
                 if (u_see(targ))
@@ -5000,8 +5010,8 @@ void game::resonance_cascade(int x, int y)
        case 6:
        case 7: type = fd_nuke_gas;
       }
-      if (m.field_at(k, l).type == fd_null || !one_in(3))
-       m.field_at(k, l) = field(type, 3, 0);
+      if (!one_in(3))
+	   m.add_field(this, k, l, type, 3);
      }
     }
     break;
@@ -5222,10 +5232,7 @@ void game::explode_mon(int index)
       blood_type = fd_bile;
      else if (corpse->dies == &mdeath::acid)
       blood_type = fd_acid;
-     if (m.field_at(tarx, tary).type == blood_type &&
-         m.field_at(tarx, tary).density < 3)
-      m.field_at(tarx, tary).density++;
-     else
+
       m.add_field(this, tarx, tary, blood_type, 1);
 
      if (m.move_cost(tarx, tary) == 0) {
@@ -5360,6 +5367,10 @@ void game::close()
     else if (m.ter(closex, closey) == t_window_domestic &&
              m.is_outside(u.posx, u.posy))  {
         add_msg("You cannot close the curtains from outside. You must be inside the building.");
+    } else if (m.has_furn(closex, closey) &&
+               m.furn(closex, closey) != f_canvas_door_o &&
+               m.furn(closex, closey) != f_skin_door_o) {
+       add_msg("There's a %s in the way!", m.furnname(closex, closey).c_str());
     } else
         didit = m.close_door(closex, closey, true);
 
@@ -5437,12 +5448,7 @@ void game::smash()
                 for (int x = smashx - 1; x <= smashx + 1; x++) {
                     for (int y = smashy - 1; y <= smashy + 1; y++) {
                         if (!one_in(damage+1)) {
-                            if (m.field_at(x, y).type == fd_blood &&
-                                m.field_at(x, y).density < 3) {
-                                m.field_at(x, y).density++;
-                            } else {
-                                m.add_field(this, x, y, fd_blood, 1);
-                            }
+                             m.add_field(this, x, y, fd_blood, 1);
                         }
                     }
                 }
@@ -5890,10 +5896,14 @@ void game::examine()
   use_computer(examx, examy);
   return;
  }
+ const furn_t *xfurn_t = &furnlist[m.furn(examx,examy)];
  const ter_t *xter_t = &terlist[m.ter(examx,examy)];
  iexamine xmine;
 
- (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
+ if (m.has_furn(examx, examy))
+   (xmine.*xfurn_t->examine)(this,&u,&m,examx,examy);
+ else
+   (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 
     if (m.has_flag(sealed, examx, examy))
     {
@@ -5901,8 +5911,7 @@ void game::examine()
     }
     else {
    //examx,examy has no traps, is a container and doesn't have a special examination function
-  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) &&
-       xter_t->examine == &iexamine::none)
+  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy))
    add_msg("It is empty.");
   else
    if (!veh)pickup(examx, examy, 0);
@@ -6264,9 +6273,12 @@ int advanced_inv_getinvcat(item *it) {
 
 void game::advanced_inv()
 {
+    u.inv.sort();
+    u.inv.restack(&u);
+    
     const int head_height = 5;
     const int min_w_height = 10;
-    const int min_w_width = 80;
+    const int min_w_width = FULL_SCREEN_WIDTH;
     const int max_w_width = 120;
 
     const int left = 0;  // readability, should be #define..
@@ -7057,10 +7069,10 @@ point game::look_debug(point coords) {
   bool skip=false;
 
   int pter=-1;
-
+/* variables used by currently inactive debug code.
   int fsel=-1;
   int fset=-1;
-
+*/
   int trsel=-1;
   int trset=-1;
   do {
@@ -7100,15 +7112,22 @@ point game::look_debug(point coords) {
 
     int tter=m.ter(lx, ly);
     ter_t terrain_type = terlist[m.ter(lx, ly)];
-
+    furn_t furniture_type = furnlist[m.furn(lx, ly)];
 
     mvwputch(w_look, off, 2, terrain_type.color, terrain_type.sym);
-    mvwprintw(w_look, off, 4, "%d: %s; movecost %d movestr %d", m.ter(lx, ly),
-         m.tername(lx, ly).c_str(),
-         m.move_cost(lx, ly),
-         terrain_type.move_str_req
+    mvwprintw(w_look, off, 4, "%d: %s; movecost %d", m.ter(lx, ly),
+         terrain_type.name.c_str(),
+         terrain_type.movecost
     );
     off++; // 2
+
+    mvwputch(w_look, off, 2, furniture_type.color, furniture_type.sym);
+    mvwprintw(w_look, off, 4, "%d: %s; movecost %d movestr %d", m.furn(lx, ly),
+         furniture_type.name.c_str(),
+         furniture_type.movecost,
+         furniture_type.move_str_req
+    );
+    off++; // 3
 
     mvwprintw(w_look, off, 2, "dist: %d u_see: %d light: %d v_in: %d", rl_dist(u.posx, u.posy, lx, ly), u_see(lx, ly), m.light_at(lx,ly), veh_in );
     off++; // 3
@@ -7122,11 +7141,16 @@ point game::look_debug(point coords) {
     off++;
 
     field curfield = m.field_at(lx, ly);
-    if (curfield.type != fd_null) {
-       mvwprintz(w_look, off, 1, fieldlist[curfield.type].color[curfield.density-1], "field: %s (%d) density %d",
-           fieldlist[curfield.type].name[curfield.density-1].c_str(), curfield.type, curfield.density
-       );
-       off++; // 4
+    if (curfield.fieldCount() > 0) {
+		field_entry *cur = NULL;
+		for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
+			cur = (*field_list_it);
+			if(cur == NULL) continue;
+			mvwprintz(w_look, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], "field: %s (%d) density %d age %d",
+				fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str(), cur->getFieldType(), cur->getFieldDensity(), cur->getFieldAge()
+			);
+			off++; // 4ish
+		}
     }
 
     trap_id curtrap=m.tr_at(lx, ly);
@@ -7242,7 +7266,7 @@ point game::look_debug(point coords) {
             for (int i=off;i < 3; i++) {
               mvwprintw(w_pickter, i, 1, "%s",padding.c_str());
             }
-              mvwprintz(w_pickter, off, 2, c_white, "movecost %d, move str %d",pttype.movecost,pttype.move_str_req);
+              mvwprintz(w_pickter, off, 2, c_white, "movecost %d",pttype.movecost);
               //mvwprintw(w_pickter, off+1, 2, "%s", m.features(lx, ly).c_str());
               std::string extras="";
               if(pttype.flags & mfb(indoors)) extras+="[indoors] ";
@@ -7282,7 +7306,8 @@ point game::look_debug(point coords) {
     } else if ( ch == 'f' ) {
       ///////////////////////////////////////////
       ///// field edit
-      int pwh=lookHeight-1;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
+		///This needs some serious rework for the new system. Disabled for now.
+      /*int pwh=lookHeight-1;int pww=48;int pwy=0;int pwx=VIEWX * 2 + 8+VIEW_OFFSET_X;
       WINDOW* w_pickfield = newwin(pwh, pww, pwy, pwx);
       wborder(w_pickfield, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -7347,7 +7372,7 @@ point game::look_debug(point coords) {
       delwin(w_pickfield);
       wrefresh(w_look);
       skip = true;
-
+	  */
     } else if ( ch == 't' ) {
       ///////////////////////////////////////////
       ///// trap edit
@@ -7442,21 +7467,39 @@ point game::look_around()
   //mvwprintw(w_look, 6, 1, "Items: %d", m.i_at(lx, ly).size() );
   int junk;
   int veh_part = 0;
+  int off = 4;
   vehicle *veh = m.veh_at(lx, ly, veh_part);
   if (u_see(lx, ly)) {
+   std::string tile = m.tername(lx, ly);
+   if (m.has_furn(lx, ly))
+    tile += "; " + m.furnname(lx, ly);
+
    if (m.move_cost(lx, ly) == 0)
-    mvwprintw(w_look, 1, 1, "%s; Impassable", m.tername(lx, ly).c_str());
+    mvwprintw(w_look, 1, 1, "%s; Impassable", tile.c_str());
    else
-    mvwprintw(w_look, 1, 1, "%s; Movement cost %d", m.tername(lx, ly).c_str(),
+    mvwprintw(w_look, 1, 1, "%s; Movement cost %d", tile.c_str(),
                                                     m.move_cost(lx, ly) * 50);
    mvwprintw(w_look, 2, 1, "%s", m.features(lx, ly).c_str());
+
    field tmpfield = m.field_at(lx, ly);
-   if (tmpfield.type != fd_null)
-    mvwprintz(w_look, 4, 1, fieldlist[tmpfield.type].color[tmpfield.density-1],
-              "%s", fieldlist[tmpfield.type].name[tmpfield.density-1].c_str());
+   
+   if (tmpfield.fieldCount() > 0) {
+		field_entry *cur = NULL;
+		for(std::vector<field_entry*>::iterator field_list_it = tmpfield.getFieldStart(); field_list_it != tmpfield.getFieldEnd(); ++field_list_it){
+			cur = (*field_list_it);
+			if(cur == NULL) continue;
+			mvwprintz(w_look, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity()-1], "%s",
+				fieldlist[cur->getFieldType()].name[cur->getFieldDensity()-1].c_str());
+			off++; // 4ish
+		}
+    }
+   //if (tmpfield.type != fd_null)
+   // mvwprintz(w_look, 4, 1, fieldlist[tmpfield.type].color[tmpfield.density-1],
+   //           "%s", fieldlist[tmpfield.type].name[tmpfield.density-1].c_str());
+
    if (m.tr_at(lx, ly) != tr_null &&
        u.per_cur - u.encumb(bp_eyes) >= traps[m.tr_at(lx, ly)]->visibility)
-    mvwprintz(w_look, 5, 1, traps[m.tr_at(lx, ly)]->color, "%s",
+    mvwprintz(w_look, ++off, 1, traps[m.tr_at(lx, ly)]->color, "%s",
               traps[m.tr_at(lx, ly)]->name.c_str());
 
    int dex = mon_at(lx, ly);
@@ -7499,7 +7542,7 @@ point game::look_around()
    else if (veh)
    {
        mvwprintw(w_look, 3, 1, "There is a %s there. Parts:", veh->name.c_str());
-       veh->print_part_desc(w_look, 4, 48, veh_part);
+       veh->print_part_desc(w_look, ++off, 48, veh_part);
        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    }
    else if (!m.has_flag(container, lx, ly) && m.i_at(lx, ly).size() > 0)
@@ -7508,7 +7551,7 @@ point game::look_around()
                  m.i_at(lx, ly)[0].tname(this).c_str());
        if (m.i_at(lx, ly).size() > 1)
        {
-           mvwprintw(w_look, 4, 1, "There are other items there as well.");
+           mvwprintw(w_look, ++off, 1, "There are other items there as well.");
        }
        m.drawsq(w_terrain, u, lx, ly, true, true, lx, ly);
    } else if (m.has_flag(container, lx, ly)) {
@@ -7548,7 +7591,7 @@ point game::look_around()
    mvwprintw(w_look, 1, 1, "Unseen.");
   }
   if (m.graffiti_at(lx, ly).contents)
-   mvwprintw(w_look, 6, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
+   mvwprintw(w_look, ++off + 1, 1, "Graffiti: %s", m.graffiti_at(lx, ly).contents->c_str());
   wrefresh(w_look);
   wrefresh(w_terrain);
 
@@ -9798,22 +9841,26 @@ void game::plmove(int x, int y)
 // If not a monster, maybe there's an NPC there
  int npcdex = npc_at(x, y);
  if (npcdex != -1) {
-  if (!active_npc[npcdex]->is_enemy() &&
-      !query_yn("Really attack %s?", active_npc[npcdex]->name.c_str())) {
-   if (active_npc[npcdex]->is_friend()) {
-    add_msg("%s moves out of the way.", active_npc[npcdex]->name.c_str());
-    active_npc[npcdex]->move_away_from(this, u.posx, u.posy);
-   }
+	 if(!active_npc[npcdex]->is_enemy()){
+		if (!query_yn("Really attack %s?", active_npc[npcdex]->name.c_str())) {
+				if (active_npc[npcdex]->is_friend()) {
+					add_msg("%s moves out of the way.", active_npc[npcdex]->name.c_str());
+					active_npc[npcdex]->move_away_from(this, u.posx, u.posy);
+				}
 
-   return;	// Cancel the attack
-  }
-  u.hit_player(this, *active_npc[npcdex]);
-  active_npc[npcdex]->make_angry();
-  if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
-      active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
-   active_npc[npcdex]->die(this, true);
-  }
-  return;
+				return;	// Cancel the attack
+		} else {
+			active_npc[npcdex]->hit_by_player = true; //The NPC knows we started the fight, used for morale penalty.
+		}
+	 }
+	 
+	 u.hit_player(this, *active_npc[npcdex]);
+	 active_npc[npcdex]->make_angry();
+	 if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
+		 active_npc[npcdex]->hp_cur[hp_torso] <= 0   ) {
+			 active_npc[npcdex]->die(this, true);
+	 }
+	 return;
  }
 
 // Otherwise, actual movement, zomg
@@ -9889,9 +9936,18 @@ void game::plmove(int x, int y)
   if (u.underwater)
    u.underwater = false;
 
-  if (m.field_at(x, y).is_dangerous() &&
-      !query_yn("Really step into that %s?", m.field_at(x, y).name().c_str()))
-   return;
+  //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
+  field_entry *cur = NULL;
+  field tmpfld = m.field_at(x, y);
+	for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it){
+		cur = (*field_list_it);
+		if(cur == NULL) continue;
+		if (cur->is_dangerous() &&
+			!query_yn("Really step into that %s?", cur->name().c_str()))
+			return;
+	}
+
+   
 
 // no need to query if stepping into 'benign' traps
 /*
@@ -9928,7 +9984,8 @@ void game::plmove(int x, int y)
    if (veh1 && m.move_cost(x,y) != 2)
     add_msg("Moving past this %s is slow!", veh1->part_info(vpart1).name);
    else
-    add_msg("Moving past this %s is slow!", m.tername(x, y).c_str());
+    add_msg("Moving past this %s is slow!", m.has_furn(x, y) ?
+             m.furnname(x, y).c_str() : m.tername(x, y).c_str());
   }
   if (m.has_flag(rough, x, y) && (!u.in_vehicle)) {
    if (one_in(5) && u.armor_bash(bp_feet) < rng(2, 5)) {
@@ -10055,8 +10112,16 @@ void game::plmove(int x, int y)
 
  } else if (!m.has_flag(swimmable, x, y) && u.has_active_bionic("bio_probability_travel")) { //probability travel through walls but not water
   int tunneldist = 0;
-  while(m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&
-          !m.has_flag(swimmable, x + tunneldist*(x - u.posx), y + tunneldist*(x - u.posx)))
+  // tile is impassable
+  while((m.move_cost(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) == 0 &&
+         // but allow water tiles
+         !m.has_flag(swimmable, x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy))) ||
+         // a monster is there
+         ((mon_at(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) != -1 ||
+           // so keep tunneling
+           npc_at(x + tunneldist*(x - u.posx), y + tunneldist*(y - u.posy)) != -1) &&
+          // assuming we've already started
+          tunneldist > 0))
   {
       tunneldist += 1; //add 1 to tunnel distance for each impassable tile in the line
       if(tunneldist * 10 > u.power_level) //oops, not enough energy! Tunneling costs 10 bionic power per impassable tile
@@ -10099,7 +10164,8 @@ void game::plmove(int x, int y)
  } else { // Invalid move
   if (u.has_disease(DI_BLIND) || u.has_disease(DI_STUNNED)) {
 // Only lose movement if we're blind
-   add_msg("You bump into a %s!", m.tername(x, y).c_str());
+   add_msg("You bump into a %s!", m.has_furn(x, y) ?
+           m.furnname(x, y).c_str() : m.tername(x, y).c_str());
    u.moves -= 100;
   } else if (m.open_door(x, y, !m.is_outside(u.posx, u.posy)))
    u.moves -= 100;
@@ -10898,7 +10964,7 @@ bool game::game_quit() { return (uquit == QUIT_MENU); }
 void game::write_msg()
 {
  werase(w_messages);
- int maxlength = 80 - (SEEX * 2 + 10);	// Matches size of w_messages
+ int maxlength = FULL_SCREEN_WIDTH - (SEEX * 2 + 10);	// Matches size of w_messages
  int line = 7;
  for (int i = messages.size() - 1; i >= 0 && line < 8; i--) {
   std::string mes = messages[i].message;
@@ -10940,7 +11006,9 @@ void game::write_msg()
 
 void game::msg_buffer()
 {
- WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                     (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                     (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  int offset = 0;
  InputEvent input;
@@ -10948,12 +11016,12 @@ void game::msg_buffer()
   werase(w);
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-  mvwprintz(w, 24, 32, c_red, "Press q to return");
+  mvwprintz(w, FULL_SCREEN_HEIGHT-1, 32, c_red, "Press q to return");
 
   int line = 1;
   int lasttime = -1;
   int i;
-  for (i = 1; i <= 20 && line <= 23 && offset + i <= messages.size(); i++) {
+  for (i = 1; i <= 20 && line <= FULL_SCREEN_HEIGHT-2 && offset + i <= messages.size(); i++) {
    game_message *mtmp = &(messages[ messages.size() - (offset + i) ]);
    calendar timepassed = turn - mtmp->turn;
 
@@ -10968,7 +11036,7 @@ void game::msg_buffer()
     lasttime = int(timepassed);
    }
 
-   if (line <= 23) { // Print the actual message... we may have to split it
+   if (line <= FULL_SCREEN_HEIGHT-2) { // Print the actual message... we may have to split it
     std::string mes = mtmp->message;
     if (mtmp->count > 1) {
      std::stringstream mesSS;
@@ -10977,24 +11045,24 @@ void game::msg_buffer()
     }
 // Split the message into many if we must!
     size_t split;
-    while (mes.length() > 78 && line <= 23) {
-     split = mes.find_last_of(' ', 78);
-     if (split > 78)
-      split = 78;
+    while (mes.length() > FULL_SCREEN_WIDTH-2 && line <= FULL_SCREEN_HEIGHT-2) {
+     split = mes.find_last_of(' ', FULL_SCREEN_WIDTH-2);
+     if (split > FULL_SCREEN_WIDTH-2)
+      split = FULL_SCREEN_WIDTH-2;
      mvwprintz(w, line, 1, c_ltgray, mes.substr(0, split).c_str());
      line++;
      mes = mes.substr(split);
     }
-    if (line <= 23) {
+    if (line <= FULL_SCREEN_HEIGHT-2) {
      mvwprintz(w, line, 1, col, mes.c_str());
      line++;
     }
    } // if (line <= 23)
   } //for (i = 1; i <= 10 && line <= 23 && offset + i <= messages.size(); i++)
   if (offset > 0)
-   mvwprintz(w, 24, 27, c_magenta, "^^^");
+   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 27, c_magenta, "^^^");
   if (offset + i < messages.size())
-   mvwprintz(w, 24, 51, c_magenta, "vvv");
+   mvwprintz(w, FULL_SCREEN_HEIGHT-1, 51, c_magenta, "vvv");
   wrefresh(w);
 
   DebugLog() << __FUNCTION__ << "calling get_input() \n";
@@ -11192,14 +11260,15 @@ void intro()
 {
  int maxx, maxy;
  getmaxyx(stdscr, maxy, maxx);
- WINDOW* tmp = newwin(25, 80, 0, 0);
- while (maxy < 25 || maxx < 80) {
+ WINDOW* tmp = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0);
+ while (maxy < FULL_SCREEN_HEIGHT || maxx < FULL_SCREEN_WIDTH) {
   werase(tmp);
   wprintw(tmp, "\
-Whoa. Whoa. Hey. This game requires a minimum terminal size of 80x25. I'm\n\
+Whoa. Whoa. Hey. This game requires a minimum terminal size of %dx%d. I'm\n\
 sorry if your graphical terminal emulator went with the woefully-diminutive\n\
 %dx%d as its default size, but that just won't work here.  Now stretch the\n\
-window until you've got it at the right size (or bigger).\n", maxx, maxy);
+window until you've got it at the right size (or bigger).\n",
+          FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, maxx, maxy);
   wgetch(tmp);
   getmaxyx(stdscr, maxy, maxx);
  }

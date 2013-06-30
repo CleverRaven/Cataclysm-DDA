@@ -138,7 +138,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static -lgdi32 
+  LDFLAGS += -static -lgdi32 -lintl -liconv
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
 endif
 
@@ -156,7 +156,11 @@ ifdef TILES
 else
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(TARGETSYSTEM),LINUX)
-    LDFLAGS += -lncurses
+    LDFLAGS += -lncursesw
+    # Work around Cygwin not including gettext support in glibc
+    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+      LDFLAGS += -lintl -liconv
+    endif
   endif
 endif
 

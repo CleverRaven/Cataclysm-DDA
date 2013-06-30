@@ -1256,10 +1256,6 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   for (int x = tarposx - 1; x <= tarposx + 1; x++) {
    for (int y = tarposy - 1; y <= tarposy + 1; y++) {
     if (!one_in(3)) {
-     if (g->m.field_at(x, y).type == fd_blood &&
-         g->m.field_at(x, y).density < 3)
-      g->m.field_at(x, y).density++;
-     else
       g->m.add_field(g, x, y, fd_blood, 1);
     }
    }

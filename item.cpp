@@ -2035,7 +2035,7 @@ char item::pick_reload_ammo(player &u, bool interactive)
  char am_invlet = 0;
 
  if (am.size() > 1 && interactive) {// More than one option; list 'em and pick
-   WINDOW* w_ammo = newwin(am.size() + 1, 80, VIEW_OFFSET_Y, VIEW_OFFSET_X);
+   WINDOW* w_ammo = newwin(am.size() + 1, FULL_SCREEN_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
    char ch;
    clear();
    it_ammo* ammo_def;
@@ -2239,6 +2239,7 @@ std::string default_technique_name(technique_id tech)
   case TEC_DISARM: return "Disarm";
   case TEC_DEF_THROW: return "Defensive throw";
   case TEC_DEF_DISARM: return "Defense disarm";
+  case TEC_FLAMING: return    "FLAMING";
   default: return "A BUG! (item.cpp:default_technique_name (default))";
  }
  return "A BUG! (item.cpp:default_technique_name)";

@@ -18,8 +18,12 @@
 
 void game::help()
 {
- WINDOW* w_help_border = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
- WINDOW* w_help = newwin(23, 78, 1 + (int)((TERMY > 25) ? (TERMY-25)/2 : 0), 1 + (int)((TERMX > 80) ? (TERMX-80)/2 : 0));
+ WINDOW* w_help_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                                (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+ WINDOW* w_help = newwin(FULL_SCREEN_HEIGHT-2, FULL_SCREEN_WIDTH-2,
+                         1 + (int)((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0),
+                         1 + (int)((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
 
  char ch;
  action_id movearray[] = {ACTION_MOVE_NW,ACTION_MOVE_N,ACTION_MOVE_NE,
@@ -578,10 +582,10 @@ extremities from frostbite and to keep your distance from large fires.");
      needs_refresh = false;
     }
 // Clear the lines
-    for (int i = 0; i < 23; i++)
+    for (int i = 0; i < FULL_SCREEN_HEIGHT-2; i++)
      mvwprintz(w_help, i, 0, c_black, "                                                ");
 
-    for (int i = 0; i < 23 && offset + i < NUM_ACTIONS; i++) {
+    for (int i = 0; i < FULL_SCREEN_HEIGHT-2 && offset + i < NUM_ACTIONS; i++) {
      std::vector<char> keys = keys_bound_to( action_id(offset + i) );
      nc_color col = (keys.empty() ? c_ltred : c_white);
      mvwprintz(w_help, i, 3, col, "%s: ", action_name( action_id(offset + i) ).c_str());
@@ -606,7 +610,7 @@ extremities from frostbite and to keep your distance from large fires.");
      offset++;
     if (remapch == '-' || remapch == '+') {
      needs_refresh = true;
-     for (int i = 0; i < 23 && i + offset < NUM_ACTIONS; i++) {
+     for (int i = 0; i < FULL_SCREEN_HEIGHT-2 && i + offset < NUM_ACTIONS; i++) {
       mvwprintz(w_help, i, 0, c_ltblue, "%c", 'a' + i);
       mvwprintz(w_help, i, 1, c_white, ":");
      }
@@ -824,7 +828,7 @@ one given enough Mechanics skill. Likewise, it is possible to make\n\
 wooden bolts from any number of wooden objects, though these are much\n\
 less effective than steel bolts.\n\
 Crossbows use the handgun skill.");
-   mvwprintz(w_help, 24, 0, c_white, "Press any key to continue...");
+   mvwprintz(w_help, FULL_SCREEN_HEIGHT-1, 0, c_white, "Press any key to continue...");
 
    wrefresh(w_help);
    refresh();
@@ -850,7 +854,7 @@ of bullets. However, they are more effective when firing single shots, so\n\
 use discretion. They mainly use the 9mm and .45 ammunition; however, other\n\
 SMGs exist. They reload moderately quickly, and are suitable for close or\n\
 medium-long range combat.");
-   mvwprintz(w_help, 22, 0, c_white, "Press any key to continue...");
+   mvwprintz(w_help, FULL_SCREEN_HEIGHT-3, 0, c_white, "Press any key to continue...");
 
    wrefresh(w_help);
    refresh();
@@ -876,7 +880,7 @@ fire, so save it for when you're highly skilled.\n\
 Assault rifles are an excellent choice for medium or long range combat, or\n\
 even close-range bursts again a large number of enemies. They are difficult\n\
 to use, and are best saved for skilled riflemen.");
-   mvwprintz(w_help, 24, 0, c_white, "Press any key to continue...");
+   mvwprintz(w_help, FULL_SCREEN_HEIGHT-1, 0, c_white, "Press any key to continue...");
 
    wrefresh(w_help);
    refresh();
@@ -901,7 +905,7 @@ Energy weapons have no recoil at all; they are nearly silent, have a long\n\
 range, and are fairly damaging. The biggest drawback to energy weapons is\n\
 scarcity of ammunition; it is wise to reserve the precious ammo for when\n\
 you really need it.");
-   mvwprintz(w_help, 24, 0, c_white, "Press any key to continue...");
+   mvwprintz(w_help, FULL_SCREEN_HEIGHT-1, 0, c_white, "Press any key to continue...");
 
    wrefresh(w_help);
    refresh();

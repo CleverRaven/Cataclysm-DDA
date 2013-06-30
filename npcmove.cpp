@@ -1009,8 +1009,8 @@ void npc::move_to(game *g, int x, int y)
   g->m.bash(x, y, smashskill, bashsound);
   g->sound(x, y, 18, bashsound);
  } else
- if (g->m.field_at(x, y).type == fd_rubble)
-  g->u.add_disease(DI_BOULDERING, 100, g, g->m.field_at(x,y).density, 3);
+ if (g->m.field_at(x, y).findField(fd_rubble))
+  g->u.add_disease(DI_BOULDERING, 100, g, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
  else
   g->u.rem_disease(DI_BOULDERING);
   moves -= 100;

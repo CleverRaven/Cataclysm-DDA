@@ -18,8 +18,8 @@
     "id"         :    "bio_metabolics",
     "name"       :    "Metabolic Interchange",
     "cost"       :    0,
-    "time"       :    0,
-    "flags"      :    ["POWER"],
+    "time"       :    100,
+    "flags"      :    ["POWER", "ACTIVE"],
     "description":    "Your digestive system and power supply are interconnected.  Any drain on\nenergy instead increases your hunger."
 },
 {
@@ -483,6 +483,14 @@
     "time"       :    0,
     "flags"      :    ["ACTIVE"],
     "description":    "Your body is equipped with a chain lightning generator, allowing you to\n emit a blast of lightning at a target, leaving a trail of lightning in\n its wake, jumping to additional targets within 4 tiles of the previous target."
+},
+{
+    "id"         :    "bio_night",
+    "name"       :    "Artificial Night Generator",
+    "cost"       :    1,
+    "time"       :    2,
+    "flags"      :    ["ACTIVE"],
+    "description":    "Destructive interference eliminates all light within a 15 tile radius."
 },
 {
     "id"         :    "bio_dis_shock",

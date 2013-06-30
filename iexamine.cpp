@@ -17,7 +17,8 @@
 #include <sstream>
 
 void iexamine::none	(game *g, player *p, map *m, int examx, int examy) {
- g->add_msg("That is a %s.", m->tername(examx, examy).c_str());
+ g->add_msg("That is a %s.", m->has_furn(examx, examy) ?
+            m->furnname(examx, examy).c_str() : m->tername(examx, examy).c_str());
 };
 
 void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
@@ -175,21 +176,21 @@ void iexamine::tent(game *g, player *p, map *m, int examx, int examy) {
  p->moves -= 200;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   m->ter_set(examx + i, examy + j, t_dirt);
+   m->furn_set(examx + i, examy + j, f_null);
  g->add_msg("You take down the tent");
  item dropped(g->itypes["tent_kit"], g->turn);
  m->add_item(examx, examy, dropped);
 }
 
 void iexamine::shelter(game *g, player *p, map *m, int examx, int examy) {
- if (!query_yn("Take down %s?",m->tername(examx, examy).c_str())) {
+ if (!query_yn("Take down %s?",m->furnname(examx, examy).c_str())) {
   none(g, p, m, examx, examy);
   return;
  }
  p->moves -= 200;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   m->ter_set(examx + i, examy + j, t_dirt);
+   m->furn_set(examx + i, examy + j, f_null);
  g->add_msg("You take down the shelter");
  item dropped(g->itypes["shelter_kit"], g->turn);
  m->add_item(examx, examy, dropped);

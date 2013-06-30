@@ -49,7 +49,7 @@ typedef std::vector<wrapped_vehicle> VehicleList;
 //
 //        real_coords( lx, ly, px, py, true ); // will precalculate overmap as .true_om (point)
 //
-struct real_coords { 
+struct real_coords {
   point rel_lev; // in: as in game.levx/y. The true coordinate of submap at pos 0,0 in playing area
                  // (Which is a 11x11 grid of submaps that shifts to ensure player remains in
                  // the center submap.)
@@ -85,7 +85,7 @@ struct real_coords {
         sub.y--;
         sub_pos.y += 12;
     }
-  
+
     if ( getom == true ) { // special case, thus optional
       true_om.x=int( (sub.x + int(MAPSIZE / 2)) / 2);
       true_om.y=int( (sub.y + int(MAPSIZE / 2)) / 2);
@@ -93,7 +93,7 @@ struct real_coords {
   };
   point overmap () {
     true_om.x=int( (sub.x + int(MAPSIZE / 2)) / 2);
-    true_om.y=int( (sub.y + int(MAPSIZE / 2)) / 2);    
+    true_om.y=int( (sub.y + int(MAPSIZE / 2)) / 2);
     return true_om;
   };
 };
@@ -128,7 +128,7 @@ class map
  // Cost to move through; 0 = impassible, 1 = 50 moves, 2 = 100 etc
  int move_cost(const int x, const int y);
  // Same as above, but don't take vehicles into account
- int move_cost_ter_only(const int x, const int y);
+ int move_cost_ter_furn(const int x, const int y);
  // Cost to move out of one tile and into the next,
  // returns player/monster moves (50, 75, 100, etc), unlike move_cost
  int combined_movecost(const int x1, const int y1, const int x2, const int y2);
@@ -171,15 +171,22 @@ class map
 // move water under wheels. true if moved
  bool displace_water (const int x, const int y);
 
+// Furniture
+ void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
+ bool has_furn(const int x, const int y);
+ furn_id furn(const int x, const int y); // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+ void furn_set(const int x, const int y, const furn_id new_furniture);
+ std::string furnname(const int x, const int y);
 // Terrain
  ter_id ter(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  void ter_set(const int x, const int y, const ter_id new_terrain);
  std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
  std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
- bool has_flag(const t_flag flag, const int x, const int y);  // checks terrain and vehicles
- bool has_flag_ter_only(const t_flag flag, const int x, const int y) const; // only checks terrain
+ bool has_flag(const t_flag flag, const int x, const int y);  // checks terrain, furniture and vehicles
+ bool has_flag_ter_or_furn(const t_flag flag, const int x, const int y); // checks terrain or furniture
+ bool has_flag_ter_and_furn(const t_flag flag, const int x, const int y); // checks terrain and furniture
  bool is_destructable(const int x, const int y);        // checks terrain and vehicles
- bool is_destructable_ter_only(const int x, const int y);       // only checks terrain
+ bool is_destructable_ter_furn(const int x, const int y);       // only checks terrain
  bool is_outside(const int x, const int y);
  bool flammable_items_at(const int x, const int y);
  bool moppable_items_at(const int x, const int y);
@@ -233,7 +240,7 @@ class map
 // Fields
  field& field_at(const int x, const int y);
  bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
- void remove_field(const int x, const int y);
+ void remove_field(const int x, const int y, const field_id field_to_remove);
  bool process_fields(game *g);				// See fields.cpp
  bool process_fields_in_submap(game *g, const int gridn);	// See fields.cpp
  void step_in_field(const int x, const int y, game *g);		// See fields.cpp
