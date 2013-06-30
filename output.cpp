@@ -390,7 +390,8 @@ std::string string_input_popup(std::string title, int max_length, std::string in
  std::string ret = input;
 
  int startx = title.size() + 2;
- WINDOW *w = newwin(3, 80, (TERMY-3)/2, ((TERMX > 80) ? (TERMX-80)/2 : 0));
+ WINDOW *w = newwin(3, FULL_SCREEN_WIDTH, (TERMY-3)/2,
+                    ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  for (int i = startx + 1; i < 79; i++)
@@ -456,8 +457,8 @@ char popup_getkey(const char *mes, ...)
  if (width == 0 || tmp.length() > width)
   width = tmp.length();
  width += 2;
- if (height > 25)
-  height = 25;
+ if (height > FULL_SCREEN_HEIGHT)
+  height = FULL_SCREEN_HEIGHT;
  WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -574,8 +575,8 @@ void popup(const char *mes, ...)
  if (width == 0 || tmp.length() > width)
   width = tmp.length();
  width += 2;
- if (height > 25)
-  height = 25;
+ if (height > FULL_SCREEN_HEIGHT)
+  height = FULL_SCREEN_HEIGHT;
  WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -624,8 +625,8 @@ void popup_nowait(const char *mes, ...)
  if (width == 0 || tmp.length() > width)
   width = tmp.length();
  width += 2;
- if (height > 25)
-  height = 25;
+ if (height > FULL_SCREEN_HEIGHT)
+  height = FULL_SCREEN_HEIGHT;
  WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -655,7 +656,9 @@ void full_screen_popup(const char* mes, ...)
  va_end(ap);
  std::string tmp = buff;
 
- WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  size_t pos = tmp.find_first_of('\n');

@@ -104,9 +104,11 @@ bool game::opening_screen()
     werase(w_background);
     wrefresh(w_background);
 
-    WINDOW* w_open = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+    WINDOW* w_open = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                            (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                            (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
     const int iMenuOffsetX = 2;
-    int iMenuOffsetY = 22;
+    int iMenuOffsetY = FULL_SCREEN_HEIGHT-3;
 
     std::vector<std::string> vSubItems;
     vSubItems.push_back("Custom Character");

@@ -50,7 +50,9 @@ bool player::create(game *g, character_type type, std::string tempname)
 
  g->u.prof = profession::generic();
 
- WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW* w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  int tab = 0, points = 38, max_trait_points = 12;
  if (type != PLTYPE_CUSTOM) {
