@@ -1121,6 +1121,11 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(p.x, p.y, "pipe", 0, rng(4,8));
         g->m.furn_set(p.x, p.y, f_null);
       break;
+      case f_oven:
+        g->m.spawn_item(p.x, p.y, "sheet_metal", 0, 1;
+        g->m.spawn_item(p.x, p.y, "pilot_light", 0, rng(1,3));
+        g->m.spawn_item(p.x, p.y, "pipe", 0, rng(1,2));
+      break
       case f_rack:
         g->m.spawn_item(p.x, p.y, "pipe", 0, rng(6,12));
         g->m.furn_set(p.x, p.y, f_null);
