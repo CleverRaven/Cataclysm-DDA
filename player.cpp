@@ -458,9 +458,9 @@ int player::calc_focus_equilibrium()
         {
             focus_gain_rate -= 50;
             if (has_trait(PF_STUDIOUS))
-                {
-                 focus_gain_rate += 25;
-                }
+            {
+                focus_gain_rate += 25;
+            }
         }
     }
 
@@ -6596,10 +6596,10 @@ void player::read(game *g, char ch)
     activity = player_activity(ACT_READ, time, index, ch, "");
     moves = 0;
 	
-		 if (has_trait(PF_STUDIOUS))
-        {
-         add_morale(MORALE_LEARNING, 0, 20);
-        }
+	if (has_trait(PF_STUDIOUS))
+    {
+        add_morale(MORALE_LEARNING, 0, 20);
+    }
 }
 
 bool player::can_study_recipe(it_book* book)
