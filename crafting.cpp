@@ -10,6 +10,7 @@
 #include "crafting.h"
 #include "inventory.h"
 #include "item_factory.h"
+#include "catacharset.h"
 
 //apparently we can't declare this in crafting.h? Complained about multiple definition.
 std::vector<craft_cat> craft_cat_list;
@@ -704,13 +705,13 @@ recipe* game::select_crafting_recipe()
                             toolinfo << "(" << charges << " charges) ";
                         }
                         std::string toolname = toolinfo.str();
-                        if (xpos + toolname.length() >= 80)
+                        if (xpos + utf8_width(toolname.c_str()) >= 80)
                         {
                             xpos = 32;
                             ypos++;
                         }
                         mvwprintz(w_data, ypos, xpos, toolcol, toolname.c_str());
-                        xpos += toolname.length();
+                        xpos += utf8_width(toolname.c_str());
                         if (j < current[line]->tools[i].size() - 1)
                         {
                             if (xpos >= 77)
@@ -758,13 +759,13 @@ recipe* game::select_crafting_recipe()
                     std::stringstream dump;
                     dump << abs(count) << "x " << item_controller->find_template(type)->name << " ";
                     std::string compname = dump.str();
-                    if (xpos + compname.length() >= 80)
+                    if (xpos + utf8_width(compname.c_str()) >= 80)
                     {
                         ypos++;
                         xpos = 32;
                     }
                     mvwprintz(w_data, ypos, xpos, compcol, compname.c_str());
-                    xpos += compname.length();
+                    xpos += utf8_width(compname.c_str());
                     if (j < current[line]->components[i].size() - 1)
                     {
                         if (xpos >= 77)
