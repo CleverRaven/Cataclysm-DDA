@@ -176,6 +176,25 @@ std::vector<std::string> foldstring ( std::string str, int width ) {
     return lines;
 };
 
+
+// returns number of printed lines
+int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...)
+{
+    va_list ap;
+    va_start(ap,mes);
+    char buff[6000];    //TODO replace Magic Number
+    vsprintf(buff, mes, ap);
+    va_end(ap);
+
+    std::vector<std::string> textformatted;
+    textformatted = foldstring(buff, width);
+    for (int line_num=0; line_num<textformatted.size(); line_num++)
+    {
+        mvwprintz(w, line_num+begin_y, begin_x, color, "%s", textformatted[line_num].c_str());
+    }
+    return textformatted.size();
+};
+
 void mvputch(int y, int x, nc_color FG, long ch)
 {
  attron(FG);
@@ -599,7 +618,6 @@ void popup(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- std::vector<std::string> textformatted;
  
  size_t pos = tmp.find_first_of('\n');
  while (pos != std::string::npos) {
@@ -618,11 +636,8 @@ void popup(const char *mes, ...)
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  
- textformatted = foldstring(mes, width);
- for (int line_num=0; line_num<textformatted.size(); line_num++) 
- {
-    mvwprintz(w, line_num+1, 1, c_white, textformatted[line_num].c_str());
- }
+ fold_and_print(w,1,1,width,c_white, "%s", mes);
+
  wrefresh(w);
  char ch;
  do
@@ -691,11 +706,7 @@ void full_screen_popup(const char* mes, ...)
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  
- textformatted = foldstring(mes, 80-3);
- for (int line_num=0; line_num<textformatted.size(); line_num++) 
- {
-  mvwprintz(w, line_num+1, 2, c_white, textformatted[line_num].c_str());
- }
+ fold_and_print(w,1,2,80-3,c_white,"%s",mes);
  wrefresh(w);
  char ch;
  do
