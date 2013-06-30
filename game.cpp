@@ -633,23 +633,32 @@ void game::process_activity()
     u.activity.moves_left = 0;
     return;
    }
-   veh->refill (AT_GAS, 200);
-   if(one_in(800)) {
-     // Scan for the gas pump we're refuelling from and deactivate it.
-    for(int i = -1; i <= 1; i++)
-     for(int j = -1; j <= 1; j++)
-      if(m.ter(u.posx + i, u.posy + j) == t_gas_pump) {
-       add_msg("With a clang and a shudder, the gas pump goes silent.");
-       m.ter_set(u.posx + i, u.posy + j, t_gas_pump_empty);
-       u.activity.moves_left = 0;
-       // Found it, break out of the loop.
-       i = 2;
-       j = 2;
-       break;
+   for(int i = -1; i <= 1; i++) {
+    for(int j = -1; j <= 1; j++) {
+     if(m.ter(u.posx + i, u.posy + j) == t_gas_pump) {
+      for (int n = 0; n < m.i_at(u.posx + i, u.posy + j).size(); n++) {
+       if (m.i_at(u.posx + i, u.posy + j)[n].type->id == "gasoline") {
+        item* gas = &(m.i_at(u.posx + i, u.posy + j)[n]);
+        int lack = (veh->fuel_capacity(AT_GAS) - veh->fuel_left(AT_GAS)) < 200 ?
+                   (veh->fuel_capacity(AT_GAS) - veh->fuel_left(AT_GAS)) : 200;
+        if (gas->charges > lack) {
+         veh->refill (AT_GAS, lack);
+         gas->charges -= lack;
+         u.activity.moves_left -= 100;
+        } else {
+         add_msg("With a clang and a shudder, the gasoline pump goes silent.");
+         veh->refill (AT_GAS, gas->charges);
+         m.i_at(u.posx + i, u.posy + j).erase(m.i_at(u.posx + i, u.posy + j).begin() + n);
+         u.activity.moves_left = 0;
+        }
+        i = 2; j = 2;
+        break;
+       }
       }
+     }
+    }
    }
    u.pause(this);
-   u.activity.moves_left -= 100;
   } else {
    u.activity.moves_left -= u.moves;
    u.moves = 0;
@@ -5906,13 +5915,16 @@ void game::examine()
  else
    (xmine.*xter_t->examine)(this,&u,&m,examx,examy);
 
-    if (m.has_flag(sealed, examx, examy))
-    {
-        add_msg("The %s is firmly sealed.", m.tername(examx, examy).c_str());
-    }
-    else {
+ bool none = true;
+ if (xter_t->examine != &iexamine::none || xfurn_t->examine != &iexamine::none)
+   none = false;
+
+ if (m.has_flag(sealed, examx, examy)) {
+   if (none) add_msg("The %s is firmly sealed.", m.has_furn(examx, examy) ?
+                     m.furnname(examx, examy).c_str() : m.tername(examx, examy).c_str());
+ } else {
    //examx,examy has no traps, is a container and doesn't have a special examination function
-  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy))
+  if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) && none)
    add_msg("It is empty.");
   else
    if (!veh)pickup(examx, examy, 0);
@@ -8545,10 +8557,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
      add_msg ("This vehicle doesn't use %s.", veh->fuel_name(ftype).c_str());
     else if (fuel_amnt == fuel_cap)
      add_msg ("Already full.");
-    else if (infinite && query_yn("Pump until full?")) {
+    else if (from_ground && query_yn("Pump until full?")) {
      u.assign_activity(this, ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
      u.activity.placement = point(vx, vy);
-    } else { // Not infinite
+    } else { // Not pump
      veh->refill (AT_GAS, liquid.charges);
      add_msg ("You refill %s with %s%s.", veh->name.c_str(),
               veh->fuel_name(ftype).c_str(),
