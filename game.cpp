@@ -6273,6 +6273,9 @@ int advanced_inv_getinvcat(item *it) {
 
 void game::advanced_inv()
 {
+    u.inv.sort();
+    u.inv.restack(&u);
+    
     const int head_height = 5;
     const int min_w_height = 10;
     const int min_w_width = FULL_SCREEN_WIDTH;
