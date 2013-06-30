@@ -647,9 +647,11 @@ const furn_t furnlist[num_furniture_types] = { // MUST match enum furn_id above!
 {"counter",	            '#', c_blue,    2, 10,
     mfb(transparent)|mfb(flammable)|mfb(deconstruct), &iexamine::none},
 {"refrigerator",        '{', c_ltcyan,  -10, 10,
-    mfb(container)|mfb(bashable)|mfb(place_item), &iexamine::none},
+    mfb(container)|mfb(bashable)|mfb(deconstruct)|mfb(place_item), 
+    &iexamine::none},
 {"glass door fridge",   '{', c_ltcyan,  -10, 10,
-    mfb(container)|mfb(bashable)|mfb(place_item), &iexamine::none},
+    mfb(container)|mfb(bashable)|mfb(deconstruct)|mfb(place_item), 
+    &iexamine::none},
 {"dresser",             '{', c_brown,   -10, 8,
     mfb(transparent)|mfb(container)|mfb(flammable)|mfb(bashable)|
     mfb(deconstruct)|mfb(place_item), &iexamine::none},
