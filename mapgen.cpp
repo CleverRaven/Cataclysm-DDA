@@ -1450,7 +1450,7 @@ t   t\n\
    for (int j = 0; j < SEEX * 2; j++) {
     if (j < tw && (tw - j) % 4 == 0 && i > lw && i < rw &&
         (i - (1 + lw)) % rn == 0)
-     ter_set(i, j, t_gas_pump);
+     place_gas_pump(i, j, rng(1000, 10000));
     else if ((j < 2 && i > 7 && i < 16) || (j < tw && i > lw && i < rw))
      ter_set(i, j, t_pavement);
     else if (j == tw && (i == lw+6 || i == lw+7 || i == rw-7 || i == rw-6))
@@ -3232,7 +3232,7 @@ C..C..C...|hhh|#########\n\
    ter_set(13, rng(16, 19), (one_in(3) ? t_door_c : t_door_locked));
   if (rn == 2) {
    if (one_in(5))
-    ter_set(rng(4, 10), 16, t_gas_pump);
+    place_gas_pump(rng(4, 10), 16, rng(500, 5000));
       else ter_set(rng(4, 10), 16, t_recycler);
    if (one_in(3)) {	// Place a dumpster
     int startx = rng(2, 11), starty = rng(18, 19);
@@ -11996,7 +11996,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
    }
   }
   furn_set(7, SEEY * 2 - 4, f_rack);
-  ter_set(SEEX * 2 - 2, SEEY * 2 - 4, t_gas_pump);
+  place_gas_pump(SEEX * 2 - 2, SEEY * 2 - 4, rng(500, 1000));
   if (t_above != ot_null) {
    ter_set(SEEX - 2, SEEY + 2, t_stairs_up);
    ter_set(2, 2, t_water_sh);
@@ -12287,6 +12287,13 @@ void map::place_spawns(game *g, std::string group, const int chance,
  }
 }
 
+void map::place_gas_pump(int x, int y, int charges)
+{
+ item gas((*itypes)["gasoline"], 0);
+ gas.charges = charges;
+ add_item(x, y, gas);
+ ter_set(x, y, t_gas_pump);
+}
 
 int map::place_items(items_location loc, int chance, int x1, int y1,
                       int x2, int y2, bool ongrass, int turn)
@@ -13458,11 +13465,11 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    if (door_side == NORTH || door_side == SOUTH) {
     int y = (door_side == NORTH ? y1 + 2 : y2 - 2);
     for (int x = x1 + 1; x <= x2 - 1; x += spacing)
-     m->ter_set(x, y, t_gas_pump);
+     m->place_gas_pump(x, y, rng(10000, 50000));
    } else {
     int x = (door_side == EAST ? x2 - 2 : x1 + 2);
     for (int y = y1 + 1; y <= y2 - 1; y += spacing)
-     m->ter_set(x, y, t_gas_pump);
+     m->place_gas_pump(x, y, rng(10000, 50000));
    }
   } break;
 
