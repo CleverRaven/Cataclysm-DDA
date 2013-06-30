@@ -1450,14 +1450,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  WINDOW* w_grid_trait  = newwin(trait_win_size_y + 1, 27, infooffsetybottom + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X);
  WINDOW* w_grid_effect = newwin(effect_win_size_y+ 1, 28, infooffsetybottom + VIEW_OFFSET_Y, 53 + VIEW_OFFSET_X);
 
- WINDOW* w_tip     = newwin(1, 80,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+ WINDOW* w_tip     = newwin(1, FULL_SCREEN_WIDTH,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
  WINDOW* w_stats   = newwin(9, 26,  1 + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
  WINDOW* w_traits  = newwin(trait_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y,  27 + VIEW_OFFSET_X);
  WINDOW* w_encumb  = newwin(9, 26,  1 + VIEW_OFFSET_Y, 27 + VIEW_OFFSET_X);
  WINDOW* w_effects = newwin(effect_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X);
  WINDOW* w_speed   = newwin(9, 26,  1 + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X);
  WINDOW* w_skills  = newwin(skill_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y, 0 + VIEW_OFFSET_X);
- WINDOW* w_info    = newwin(3, 80, infooffsetytop + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+ WINDOW* w_info    = newwin(3, FULL_SCREEN_WIDTH, infooffsetytop + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
 
  for (int i = 0; i < 81; i++) {
   //Horizontal line top grid
@@ -1468,7 +1468,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
   if (i <= infooffsetybottom) {
    mvwputch(w_grid_top, i, 26, c_ltgray, LINE_XOXO);
    mvwputch(w_grid_top, i, 53, c_ltgray, LINE_XOXO);
-   mvwputch(w_grid_top, i, 80, c_ltgray, LINE_XOXO);
+   mvwputch(w_grid_top, i, FULL_SCREEN_WIDTH, c_ltgray, LINE_XOXO);
   }
 
   //Horizontal line skills
@@ -1508,8 +1508,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  mvwputch(w_grid_top, 14, 53, c_ltgray, LINE_OXXX); // T
  mvwputch(w_grid_top, 10, 26, c_ltgray, LINE_XXOX); // _|_
  mvwputch(w_grid_top, 10, 53, c_ltgray, LINE_XXOX); // _|_
- mvwputch(w_grid_top, 10, 80, c_ltgray, LINE_XOXX); // -|
- mvwputch(w_grid_top, 14, 80, c_ltgray, LINE_XOXX); // -|
+ mvwputch(w_grid_top, 10, FULL_SCREEN_WIDTH, c_ltgray, LINE_XOXX); // -|
+ mvwputch(w_grid_top, 14, FULL_SCREEN_WIDTH, c_ltgray, LINE_XOXX); // -|
  wrefresh(w_grid_top);
 
  mvwputch(w_grid_skill, skill_win_size_y, 26, c_ltgray, LINE_XOOX); // _|
@@ -2272,7 +2272,9 @@ void player::disp_morale(game *g)
     apply_persistent_morale();
 
     // Create and draw the window itself.
-    WINDOW *w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+    WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -5877,8 +5879,8 @@ void player::sort_armor(game *g)
 
     int worn_win_x = 26;
 
-    WINDOW* w_info      = newwin(info_win_y, 80,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
-    WINDOW* w_arm_info  = newwin(arm_info_win_y, 80,  info_win_y + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);    
+    WINDOW* w_info      = newwin(info_win_y, FULL_SCREEN_WIDTH,  VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
+    WINDOW* w_arm_info  = newwin(arm_info_win_y, FULL_SCREEN_WIDTH,  info_win_y + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
     WINDOW* w_all_worn  = newwin(worn_win_y, worn_win_x,  arm_info_win_y + info_win_y + VIEW_OFFSET_Y,  0 + VIEW_OFFSET_X);
     WINDOW* w_torso_worn= newwin(torso_win_y, worn_win_x, arm_info_win_y + info_win_y + VIEW_OFFSET_Y, worn_win_x + VIEW_OFFSET_X);
     WINDOW* w_arms_worn = newwin(arms_win_y, worn_win_x, arm_info_win_y + info_win_y + torso_win_y + VIEW_OFFSET_Y, worn_win_x + VIEW_OFFSET_X);
