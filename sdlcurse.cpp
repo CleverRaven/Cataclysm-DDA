@@ -6,6 +6,9 @@
 #include "debug.h"
 #include <cstdlib>
 #include <fstream>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #ifdef _MSC_VER
 #include "wdirent.h"
@@ -390,7 +393,11 @@ static void font_folder_list(std::ofstream& fout, std::string path)
        continue;
    }
 			std::string f = path + "/" + ent->d_name;
-   if( ent->d_type == DT_DIR) {
+   struct stat stat_buffer;
+   if( stat( f.c_str(), &stat_buffer ) == -1 ) {
+       continue;
+   }
+   if( S_ISDIR(stat_buffer.st_mode) ) {
     font_folder_list( fout, f );
     continue;
    }
