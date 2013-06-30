@@ -5849,7 +5849,8 @@ void game::control_vehicle()
         std::string message = veh->use_controls();
         if (!message.empty())
             add_msg(message.c_str());
-    } else if (veh && veh->part_with_feature(veh_part, vpf_controls) >= 0) {
+    } else if (veh && veh->part_with_feature(veh_part, vpf_controls) >= 0
+                   && u.in_vehicle) {
         u.controlling_vehicle = true;
         add_msg("You take control of the %s.", veh->name.c_str());
     } else {
@@ -10106,7 +10107,8 @@ void game::plmove(int x, int y)
    add_msg(buff.c_str());
   } else if (m.i_at(x, y).size() != 0)
    add_msg("There are many items here.");
-  if (veh1 && veh1->part_with_feature(vpart1, vpf_controls) >= 0)
+  if (veh1 && veh1->part_with_feature(vpart1, vpf_controls) >= 0
+           && u.in_vehicle)
       add_msg("There are vehicle controls here.  %s to drive.",
               press_x(ACTION_CONTROL_VEHICLE).c_str() );
 

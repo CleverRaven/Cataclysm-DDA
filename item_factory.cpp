@@ -3,6 +3,7 @@
 #include "enums.h"
 #include "catajson.h"
 #include "addiction.h"
+#include "translations.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -20,8 +21,8 @@ Item_factory* item_controller = new Item_factory();
 Item_factory::Item_factory(){
     init();
     m_missing_item = new itype();
-    m_missing_item->name = "Error: Item Missing.";
-    m_missing_item->description = "There is only the space where an object should be, but isn't. No item template of this type exists.";
+    m_missing_item->name = _("Error: Item Missing.");
+    m_missing_item->description = _("There is only the space where an object should be, but isn't. No item template of this type exists.");
     m_templates["MISSING_ITEM"]=m_missing_item;
 }
 
@@ -526,10 +527,10 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 // And then proceed to assign the correct field
                 new_item_template->rarity = entry.get("rarity").as_int();
                 new_item_template->price = entry.get("price").as_int();
-                new_item_template->name = entry.get("name").as_string();
+                new_item_template->name = _(entry.get("name").as_string().c_str());
                 new_item_template->sym = entry.get("symbol").as_char();
                 new_item_template->color = color_from_string(entry.get("color").as_string());
-                new_item_template->description = entry.get("description").as_string();
+                new_item_template->description = _(entry.get("description").as_string().c_str());
                 if(entry.has("material")){
                   set_material_from_json(new_id, entry.get("material"));
                 } else {

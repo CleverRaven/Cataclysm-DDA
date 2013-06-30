@@ -7,6 +7,13 @@
 #include <cstdlib>
 #include <fstream>
 
+#ifdef _MSC_VER
+#include "wdirent.h"
+#include <direct.h>
+#else
+#include <dirent.h>
+#endif
+
 // SDL headers end up in different places depending on the OS, sadly
 #if (defined _WIN32 || defined WINDOWS)
 #include "SDL.h"
@@ -14,6 +21,7 @@
 #else
 #include "SDL/SDL.h"
 #include "SDL/SDL_ttf.h"
+#include <wordexp.h>
 #endif
 
 //***********************************
@@ -46,6 +54,8 @@ int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-n
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
+
+static bool fontblending = false;
 
 //***********************************
 //Non-curses, Window functions      *
@@ -152,7 +162,7 @@ static void cache_glyphs()
     {
         for(int color=0; color<16; color++)
         {
-            SDL_Surface * glyph = glyph_cache[ch][color] = TTF_RenderGlyph_Solid(font, ch, windowsPalette[color]);
+            SDL_Surface * glyph = glyph_cache[ch][color] = (fontblending?TTF_RenderGlyph_Blended:TTF_RenderGlyph_Solid)(font, ch, windowsPalette[color]);
             int minx, maxx, miny, maxy, advance;
             if(glyph!=NULL && color==0 && 0==TTF_GlyphMetrics(font, ch, &minx, &maxx, &miny, &maxy, &advance) )
             {
@@ -368,6 +378,130 @@ void CheckMessages()
 //Psuedo-Curses Functions           *
 //***********************************
 
+static void font_folder_list(std::ofstream& fout, std::string path)
+{
+	DIR *dir;
+	struct dirent *ent;
+	if ((dir = opendir (path.c_str())) != NULL) {
+		bool found = false;
+		while (!found && (ent = readdir (dir)) != NULL) {
+   if( 0 == strcmp( ent->d_name, "." ) ||
+       0 == strcmp( ent->d_name, ".." ) ) {
+       continue;
+   }
+			std::string f = path + "/" + ent->d_name;
+   if( ent->d_type == DT_DIR) {
+    font_folder_list( fout, f );
+    continue;
+   }
+			TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
+			long nfaces = 0;
+			if(fnt)
+			{
+				nfaces = TTF_FontFaces(fnt);
+				TTF_CloseFont(fnt);
+			}
+			for(long i=0; i<nfaces; i++)
+			{
+				fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
+				if(fnt)
+				{
+					char *fami = TTF_FontFaceFamilyName(fnt);
+					char *style = TTF_FontFaceStyleName(fnt);
+					if(fami)
+					{
+						fout << fami << std::endl;
+						fout << f << std::endl;
+						fout << i << std::endl;
+					}
+					if(fami && style)
+					{
+						fout << fami << " " << style << std::endl;
+						fout << f << std::endl;
+						fout << i << std::endl;
+					}
+					TTF_CloseFont(fnt);
+				}
+			}
+		}
+		closedir (dir);
+	}
+
+}
+
+#if (defined _WIN32 || defined WINDOWS)
+#include <windows.h>
+#elif (defined _APPLE_ && defined _MACH_)
+//#include <wordexp.h> //not tested
+#elif (defined linux || defined __linux)
+//#include <wordexp.h>
+#endif
+
+static void save_font_list()
+{
+	std::ofstream fout("data/fontlist.txt", std::ios_base::trunc);
+
+	font_folder_list(fout, "data/font");
+
+#if (defined _WIN32 || defined WINDOWS)
+	char buf[256];
+	//DebugLog log;
+	GetSystemWindowsDirectory(buf, 256);
+	strcat(buf, "\\fonts");
+	font_folder_list(fout, buf);
+#elif (defined _APPLE_ && defined _MACH_)
+
+	/*
+	// Well I don't know how osx actually works ....
+	font_folder_list(fout, "/System/Library/Fonts");
+	font_folder_list(fout, "/Library/Fonts");
+
+	wordexp_t exp;
+	wordexp("~/Library/Fonts", &exp, 0);
+	font_folder_list(fout, exp.we_wordv[0]);
+	wordfree(&exp);*/
+#elif (defined linux || defined __linux)
+	font_folder_list(fout, "/usr/share/fonts");
+	font_folder_list(fout, "/usr/local/share/fonts");
+	wordexp_t exp;
+	wordexp("~/.fonts", &exp, 0);
+	font_folder_list(fout, exp.we_wordv[0]);
+	wordfree(&exp);
+#endif
+	//TODO: other systems
+
+	fout << "end of list" << std::endl;
+
+}
+
+static std::string find_system_font(std::string name, int& faceIndex)
+{
+	if(!fexists("data/fontlist.txt")) save_font_list();
+
+	std::ifstream fin("data/fontlist.txt");
+	if(fin)
+	{
+		std::string fname;
+		std::string fpath;
+		std::string iline;
+		int index = 0;
+		do
+		{
+			getline(fin, fname);
+			if(fname=="end of list") break;
+			getline(fin, fpath);
+			getline(fin, iline);
+			index = atoi(iline.c_str());
+   if(0==strcasecmp(fname.c_str(), name.c_str()))
+			{
+				faceIndex = index;
+				return fpath;
+			}
+		}while(true);
+	}
+
+	return "";
+}
 
 
 //Basic Init, create the font, backbuffer, etc
@@ -377,7 +511,9 @@ WINDOW *initscr(void)
     inputdelay=-1;
 
     std::string typeface = "";
+	std::string blending = "solid";
 	std::ifstream fin;
+	int faceIndex = 0; 
     int fontsize = 0; //actuall size
 	fin.open("data/FONTDATA");
 	if (!fin.is_open()){
@@ -388,6 +524,7 @@ WINDOW *initscr(void)
         fin >> fontwidth;
         fin >> fontheight;
         fin >> fontsize;
+		fin >> blending;
         if ((fontwidth <= 4) || (fontheight <=4)){
             fontheight=16;
             fontwidth=8;
@@ -395,36 +532,41 @@ WINDOW *initscr(void)
 		fin.close();
 	}
 
+	fontblending = (blending=="blended");
+
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
 
+	std::string sysfnt = find_system_font(typeface, faceIndex);
+	if(sysfnt!="") typeface = sysfnt;
+
     //make fontdata compatible with wincurse
-    if(!fexists(typeface.c_str()))
+    if(!fexists(typeface.c_str())) {
+		faceIndex = 0;
         typeface = "data/font/" + typeface + ".ttf";
+	}
 
     //different default font with wincurse
-    if(!fexists(typeface.c_str()))
+    if(!fexists(typeface.c_str())) {
+		faceIndex = 0;
         typeface = "data/font/fixedsys.ttf";
+	}
 
     if(fontsize<=0) fontsize=fontheight-1;
-	font = TTF_OpenFont(typeface.c_str(), fontsize);
+	font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
 
     //if(!font) something went wrong
 
 	TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
-	//TTF_SetFontOutline(font, 0);
-	//TTF_SetFontKerning(font, 0);
-	//TTF_SetFontHinting(font, TTF_HINTING_MONO);
 
 	// glyph height hack by utunnels
 	// SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
 	// this causes baseline problems for certain fonts
 	// I can only guess by check a certain tall character...
     cache_glyphs();
-
 
     mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
