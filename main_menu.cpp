@@ -5,6 +5,7 @@
 #include "mapbuffer.h"
 #include "cursesdef.h"
 #include "overmapbuffer.h"
+#include "translations.h"
 
 #include <sys/stat.h>
 #ifdef _MSC_VER
@@ -26,7 +27,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     for (int i = 1; i < 79; i++)
         mvwputch(w_open, 23, i, c_white, LINE_OXOX);
 
-    mvwprintz(w_open, 24, 5, c_red, "Please report bugs to TheDarklingWolf@gmail.com or post on the forums.");
+    mvwprintz(w_open, 24, 5, c_red, _("Please report bugs to TheDarklingWolf@gmail.com or post on the forums."));
 
     int iLine = 0;
     const int iOffsetX1 = 3;
@@ -64,15 +65,15 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     }
 
     std::vector<std::string> vMenuItems;
-    vMenuItems.push_back("MOTD");
-    vMenuItems.push_back("New Game");
-    vMenuItems.push_back("Load");
-    vMenuItems.push_back("Reset");
-    vMenuItems.push_back("Special");
-    vMenuItems.push_back("Options");
-    vMenuItems.push_back("Help");
-    vMenuItems.push_back("Credits");
-    vMenuItems.push_back("Quit");
+    vMenuItems.push_back(_("MOTD"));
+    vMenuItems.push_back(_("New Game"));
+    vMenuItems.push_back(_("Load"));
+    vMenuItems.push_back(_("Reset"));
+    vMenuItems.push_back(_("Special"));
+    vMenuItems.push_back(_("Options"));
+    vMenuItems.push_back(_("Help"));
+    vMenuItems.push_back(_("Credits"));
+    vMenuItems.push_back(_("Quit"));
 
     print_menu_items(w_open, vMenuItems, iSel, iMenuOffsetY, iMenuOffsetX);
 
@@ -109,9 +110,9 @@ bool game::opening_screen()
     int iMenuOffsetY = 22;
 
     std::vector<std::string> vSubItems;
-    vSubItems.push_back("Custom Character");
-    vSubItems.push_back("Preset Character");
-    vSubItems.push_back("Random Character");
+    vSubItems.push_back(_("Custom Character"));
+    vSubItems.push_back(_("Preset Character"));
+    vSubItems.push_back(_("Random Character"));
 
     print_menu(w_open, 0, iMenuOffsetX, iMenuOffsetY);
 
@@ -155,7 +156,7 @@ bool game::opening_screen()
     std::ifstream motd_file;
     motd_file.open("data/motd");
     if (!motd_file.is_open())
-        motd.push_back("No message today.");
+        motd.push_back(_("No message today."));
     else {
         while (!motd_file.eof()) {
             std::string tmp;
@@ -170,7 +171,7 @@ bool game::opening_screen()
     std::ifstream credits_file;
     credits_file.open("data/credits");
     if (!credits_file.is_open())
-        credits.push_back("No message today.");
+        credits.push_back(_("No message today."));
     else {
         while (!credits_file.eof()) {
             std::string tmp;
@@ -305,7 +306,7 @@ bool game::opening_screen()
                 }
             } else if (sel1 == 2) {	// Load Character
                 if (savegames.size() == 0)
-                    mvwprintz(w_open, iMenuOffsetY - 2, 19 + iMenuOffsetX, c_red, "No save games found!");
+                    mvwprintz(w_open, iMenuOffsetY - 2, 19 + iMenuOffsetX, c_red, _("No save games found!"));
                 else {
                     for (int i = 0; i < savegames.size(); i++) {
                         int line = iMenuOffsetY - 2 - i;
@@ -339,7 +340,7 @@ bool game::opening_screen()
                     }
                 }
             } else if (sel1 == 3) {  // Delete world
-                if (query_yn("Delete the world and all saves?")) {
+                if (query_yn(_("Delete the world and all saves?"))) {
                     delete_save();
                     savegames.clear();
                     MAPBUFFER.reset();
@@ -386,7 +387,7 @@ bool game::opening_screen()
             }
         } else if (layer == 3) {	// Character Templates
             if (templates.size() == 0)
-                mvwprintz(w_open, iMenuOffsetY-4, iMenuOffsetX+27, c_red, "No templates found!");
+                mvwprintz(w_open, iMenuOffsetY-4, iMenuOffsetX+27, c_red, _("No templates found!"));
             else {
                 for (int i = 0; i < templates.size(); i++) {
                     int line = iMenuOffsetY - 4 - i;
