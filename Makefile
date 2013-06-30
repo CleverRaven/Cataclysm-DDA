@@ -146,7 +146,7 @@ ifdef TILES
   LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
-    LDFLAGS += -lgdi32 -ldxguid -lwinmm
+    LDFLAGS += -lgdi32 -ldxguid -lwinmm -lintl -liconv
     TARGET = $(W32TILESTARGET)
     ODIR = $(W32ODIRTILES)
   else
