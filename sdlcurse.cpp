@@ -186,7 +186,7 @@ static void OutputChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
 
-    SDL_Surface * glyph = t<0x7f?glyph_cache[t][color]:TTF_RenderGlyph_Solid(font, t, windowsPalette[color]);
+    SDL_Surface * glyph = t<0x80?glyph_cache[t][color]:TTF_RenderGlyph_Solid(font, t, windowsPalette[color]);
 
     if(glyph)
     {
@@ -199,6 +199,7 @@ static void OutputChar(Uint16 t, int x, int y, unsigned char color)
 			rect.x = x+dx; rect.y = y+dy; rect.w = fontwidth; rect.h = fontheight;
 			SDL_BlitSurface(glyph, NULL, screen, &rect);
 		}
+		if(t>=0x80) SDL_FreeSurface(glyph);
     }
 }
 
@@ -1056,6 +1057,10 @@ int waddch(WINDOW *win, const chtype ch)
 		int tw = mk_wcwidth((wchar_t)tc);
 		erease_utf8_by_cw(win->line[cury].chars+p, tw, tw, win->width*4-p-1);
 		curx = p+tw-1;
+	}
+	else
+	{
+		erease_utf8_by_cw(win->line[cury].chars+p, 1, 1, win->width*4-p-1);
 	}
 
 //if (win2 > -1){
