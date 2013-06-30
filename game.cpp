@@ -738,9 +738,9 @@ void game::process_activity()
              u.skillLevel(reading->type).exercise());
 
 	 if (u.has_trait(PF_STUDIOUS))
-        {
+     {
          u.add_morale(MORALE_LEARNING, 5, 20);
-        }
+     }
 
      if (u.skillLevel(reading->type) == originalSkillLevel && (u.activity.continuous || query_yn("Study %s?", reading->type->name().c_str()))) {
       u.cancel_activity();
