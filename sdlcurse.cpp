@@ -6,9 +6,7 @@
 #include "debug.h"
 #include <cstdlib>
 #include <fstream>
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 
 #ifdef _MSC_VER
 #include "wdirent.h"
