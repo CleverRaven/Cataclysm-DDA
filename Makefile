@@ -117,7 +117,8 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  CXXFLAGS += -mmacosx-version-min=10.5 -lintl
+  CXXFLAGS += -mmacosx-version-min=10.5
+  LDFLAGS += -lintl
   TARGETSYSTEM=LINUX
 endif
 
