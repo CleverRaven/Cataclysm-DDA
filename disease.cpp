@@ -831,9 +831,12 @@ void dis_effect(game *g, player &p, disease &dis)
    if (!p.is_npc()) {
     g->add_msg(_("You start scratching yourself all over!"));
     g->cancel_activity();
-   } else if (g->u_see(p.posx, p.posy))
-    g->add_msg(_("%s starts scratching %s all over!"), p.name.c_str(),
-               (p.male ? "himself" : "herself")); // FIXME i18n
+   } else if (g->u_see(p.posx, p.posy)) {
+    if (p.male)
+     g->add_msg(_("%s starts scratching himself all over!"), p.name.c_str());
+    else
+     g->add_msg(_("%s starts scratching herself all over!"), p.name.c_str());
+   }
    p.moves -= 150;
    p.hurt(g, bp_torso, 0, 1);
   }
@@ -1565,47 +1568,44 @@ Your clothing and other equipment may be consumed by the flames.");
  case DI_CRUSHED:   return "\
 If you're seeing this, there is a bug in disease.cpp!";
 
- // FIXME i18n: most of the following entries should be changed
- // to separate the text parts and the stat modification parts.
-
  case DI_BOULDERING:
   switch (dis.intensity){
   case 1:
-   return "\
+   return _("\
 Dexterity - 1;   Speed -10%\
-You are being slowed by climbing over a pile of rubble";
+You are being slowed by climbing over a pile of rubble");
   case 2:
-   return "\
+   return _("\
 Dexterity - 3;   Speed -20%\
-You are being slowed by climbing over a heap of rubble";
+You are being slowed by climbing over a heap of rubble");
   case 3:
-   return "\
+   return _("\
 Dexterity - 5;   Speed -30%\
-You are being slowed by climbing over a mountain of rubble";
+You are being slowed by climbing over a mountain of rubble");
   }
 
  case DI_STEMCELL_TREATMENT: return _("\
 Your insides are shifting in strange ways as the treatment takes effect.");
 
- case DI_BOOMERED:	return "\
+ case DI_BOOMERED:	return _("\
 Perception - 5\n\
-Range of Sight: 1;     All sight is tinted magenta";
+Range of Sight: 1;     All sight is tinted magenta");
 
- case DI_SAP:		return "\
-Dexterity - 3;   Speed - 25";
+ case DI_SAP:		return _("\
+Dexterity - 3;   Speed - 25");
 
- case DI_SPORES:	return "\
+ case DI_SPORES:	return _("\
 Speed -40%\
-You can feel the tiny spores sinking directly into your flesh.";
+You can feel the tiny spores sinking directly into your flesh.");
 
- case DI_SLIMED:	return "\
-Speed -40%;     Dexterity - 2";
+ case DI_SLIMED:	return _("\
+Speed -40%;     Dexterity - 2");
 
  case DI_DEAF:		return _("\
 Sounds will not be reported.  You cannot talk with NPCs.");
 
- case DI_BLIND:		return "\
-Range of Sight: 0";
+ case DI_BLIND:		return _("\
+Range of Sight: 0");
 
  case DI_STUNNED:	return _("\
 Your movement is randomized.");
@@ -1613,44 +1613,44 @@ Your movement is randomized.");
  case DI_DOWNED:	return _("\
 You're knocked to the ground.  You have to get up before you can move.");
 
- case DI_POISON:	return "\
+ case DI_POISON:	return _("\
 Perception - 1;    Dexterity - 1;   Strength - 2 IF not resistant\n\
-Occasional pain and/or damage.";
+Occasional pain and/or damage.");
 
  case DI_BLEED:	return _("\
  You are slowly losing blood.");
 
- case DI_BADPOISON:	return "\
+ case DI_BADPOISON:	return _("\
 Perception - 2;    Dexterity - 2;\n\
 Strength - 3 IF not resistant, -1 otherwise\n\
-Frequent pain and/or damage.";
+Frequent pain and/or damage.");
 
- case DI_FOODPOISON:	return "\
+ case DI_FOODPOISON:	return _("\
 Speed - 35%;     Strength - 3;     Dexterity - 1;     Perception - 1\n\
-Your stomach is extremely upset, and you keep having pangs of pain and nausea.";
+Your stomach is extremely upset, and you keep having pangs of pain and nausea.");
 
- case DI_SHAKES:	return "\
-Strength - 1;     Dexterity - 4;";
+ case DI_SHAKES:	return _("\
+Strength - 1;     Dexterity - 4;");
 
- case DI_FORMICATION:	return "\
+ case DI_FORMICATION:	return _("\
 Strength - 1;     Intelligence - 2;\n\
 You stop to scratch yourself frequently; high intelligence helps you resist\n\
-this urge.";
+this urge.");
 
- case DI_WEBBED:	return "\
-Strength - 1;     Dexterity - 4;    Speed - 25";
+ case DI_WEBBED:	return _("\
+Strength - 1;     Dexterity - 4;    Speed - 25");
 
  case DI_RAT:
   intpen = int(dis.duration / 20);
   perpen = int(dis.duration / 25);
   strpen = int(dis.duration / 50);
-  stream << "You feal nauseated and rat-like.\n";
+  stream << _("You feal nauseated and rat-like.\n");
   if (intpen > 0)
-   stream << "Intelligence - " << intpen << ";   ";
+   stream << _("Intelligence") << " - " << intpen << ";   ";
   if (perpen > 0)
-   stream << "Perception - " << perpen << ";   ";
+   stream << _("Perception") << " - " << perpen << ";   ";
   if (strpen > 0)
-   stream << "Strength - " << strpen << ";   ";
+   stream << _("Strength") << " - " << strpen;
   return stream.str();
 
  case DI_DRUNK:
@@ -1659,29 +1659,28 @@ Strength - 1;     Dexterity - 4;    Speed - 25";
   intpen = int(dis.duration /  700);
   strpen = int(dis.duration / 1500);
   if (strpen > 0)
-   stream << "Strength - " << strpen << ";    ";
+   stream << _("Strength") << " - " << strpen << ";    ";
   else if (dis.duration <= 600)
-   stream << "Strength + 1;    ";
+   stream << _("Strength") << " + 1;    ";
   if (dexpen > 0)
-   stream << "Dexterity - " << dexpen << ";    ";
+   stream << _("Dexterity") << " - " << dexpen << ";    ";
   if (intpen > 0)
-   stream << "Intelligence - " << intpen << ";    ";
+   stream << _("Intelligence") << " - " << intpen << ";    ";
   if (perpen > 0)
-   stream << "Perception - " << perpen;
-
+   stream << _("Perception") << " - " << perpen;
   return stream.str();
 
  case DI_CIG:
   if (dis.duration >= 600)
-   return "\
+   return _("\
 Strength - 1;     Dexterity - 1\n\
-You smoked too much.";
-  return "\
-Dexterity + 1;     Intelligence + 1;     Perception + 1";
+You smoked too much.");
+  return _("\
+Dexterity + 1;     Intelligence + 1;     Perception + 1");
 
  case DI_HIGH:
-  return "\
-Intelligence - 1;     Perception - 1";
+  return _("\
+Intelligence - 1;     Perception - 1");
 
  case DI_VISUALS:
   return _("\
@@ -1689,10 +1688,10 @@ You can't trust everything that you see.");
 
  case DI_ADRENALINE:
   if (dis.duration > 150)
-   return "\
-Speed +80;   Strength + 5;   Dexterity + 3;   Intelligence - 8;   Perception + 1";
-  return "\
-Strength - 2;     Dexterity - 1;     Intelligence - 1;     Perception - 1";
+   return _("\
+Speed +80;   Strength + 5;   Dexterity + 3;   Intelligence - 8;   Perception + 1");
+  return _("\
+Strength - 2;     Dexterity - 1;     Intelligence - 1;     Perception - 1");
 
  case DI_ASTHMA:
   stream<< "Speed - " << int(dis.duration / 5) << "%;     Strength - 2;     " <<
@@ -1705,10 +1704,10 @@ Unleashed the Gracken");
 
  case DI_METH:
   if (dis.duration > 600)
-   return "\
-Speed +50;  Strength + 2;  Dexterity + 2;  Intelligence + 3;  Perception + 3";
-   return "\
-Speed -40;   Strength - 3;   Dexterity - 2;   Intelligence - 2";
+   return _("\
+Speed +50;  Strength + 2;  Dexterity + 2;  Intelligence + 3;  Perception + 3");
+   return _("\
+Speed -40;   Strength - 3;   Dexterity - 2;   Intelligence - 2");
 
  case DI_IN_PIT:
   return _("\
