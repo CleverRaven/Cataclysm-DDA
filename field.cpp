@@ -354,6 +354,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
 											tmpfld->setFieldAge(100);
 											cur->setFieldAge(cur->getFieldAge() + 50);
 										}
+										if(field_at(fx,fy).findField(fd_web))
+											g->m.remove_field(fx,fy,fd_web);
 								} else {
 									bool nosmoke = true;
 									for (int ii = -1; ii <= 1; ii++) {
