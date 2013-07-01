@@ -22,6 +22,7 @@
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "mapdata.h"
+#include "translations.h"
 #include <map>
 #include <algorithm>
 #include <string>
@@ -1738,7 +1739,7 @@ bool game::handle_action()
    int cMenu = ' ';
    do {
      const std::string sSpaces = "                              ";
-     char chItem = inv();
+     char chItem = inv(_("Inventory:"));
      cMenu=inventory_item_menu(chItem);
    } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=' );
    refresh_all();
@@ -3354,7 +3355,7 @@ void game::draw()
   mvwprintz(w_location, 0, 18, c_ltgray, "Underground");
  else
   mvwprintz(w_location, 0, 18, weather_data[weather].color,
-                               weather_data[weather].name.c_str());
+                               _(weather_data[weather].name.c_str()));
  nc_color col_temp = c_blue;
  if (temperature >= 90)
   col_temp = c_red;
@@ -3371,8 +3372,8 @@ void game::draw()
 
  wrefresh(w_location);
 
- mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
-           season_name[turn.get_season()].c_str(), turn.days() + 1);
+ mvwprintz(w_status, 0, 41, c_white, _("%s, day %d"),
+           _(season_name[turn.get_season()].c_str()), turn.days() + 1);
  if (run_mode != 0 || autosafemode != 0) {
   int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
   mvwprintz(w_status, 1, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
@@ -3531,13 +3532,13 @@ void game::draw_HP()
             }
         }
     }
-    mvwprintz(w_HP,  0, 0, c_ltgray, "HEAD:  ");
-    mvwprintz(w_HP,  2, 0, c_ltgray, "TORSO: ");
-    mvwprintz(w_HP,  4, 0, c_ltgray, "L ARM: ");
-    mvwprintz(w_HP,  6, 0, c_ltgray, "R ARM: ");
-    mvwprintz(w_HP,  8, 0, c_ltgray, "L LEG: ");
-    mvwprintz(w_HP, 10, 0, c_ltgray, "R LEG: ");
-    mvwprintz(w_HP, 12, 0, c_ltgray, "POW:   ");
+    mvwprintz(w_HP,  0, 0, c_ltgray, _("HEAD:  "));
+    mvwprintz(w_HP,  2, 0, c_ltgray, _("TORSO: "));
+    mvwprintz(w_HP,  4, 0, c_ltgray, _("L ARM: "));
+    mvwprintz(w_HP,  6, 0, c_ltgray, _("R ARM: "));
+    mvwprintz(w_HP,  8, 0, c_ltgray, _("L LEG: "));
+    mvwprintz(w_HP, 10, 0, c_ltgray, _("R LEG: "));
+    mvwprintz(w_HP, 12, 0, c_ltgray, _("POW:   "));
     if (u.max_power_level == 0){
         mvwprintz(w_HP, 13, 0, c_ltgray, " --   ");
     } else {
@@ -4050,21 +4051,21 @@ void game::mon_info()
 // 6 8 2	0-7 are provide by direction_from()
 // 5 4 3	8 is used for local monsters (for when we explain them below)
  mvwprintz(w_moninfo,  0,  0, (unique_types[7].empty() ?
-           c_dkgray : (dangerous[7] ? c_ltred : c_ltgray)), "NW:");
+           c_dkgray : (dangerous[7] ? c_ltred : c_ltgray)), _("NW:"));
  mvwprintz(w_moninfo,  0, 15, (unique_types[0].empty() ?
-           c_dkgray : (dangerous[0] ? c_ltred : c_ltgray)), "North:");
+           c_dkgray : (dangerous[0] ? c_ltred : c_ltgray)), _("North:"));
  mvwprintz(w_moninfo,  0, 33, (unique_types[1].empty() ?
-           c_dkgray : (dangerous[1] ? c_ltred : c_ltgray)), "NE:");
+           c_dkgray : (dangerous[1] ? c_ltred : c_ltgray)), _("NE:"));
  mvwprintz(w_moninfo,  1,  0, (unique_types[6].empty() ?
-           c_dkgray : (dangerous[6] ? c_ltred : c_ltgray)), "West:");
+           c_dkgray : (dangerous[6] ? c_ltred : c_ltgray)), _("West:"));
  mvwprintz(w_moninfo,  1, 31, (unique_types[2].empty() ?
-           c_dkgray : (dangerous[2] ? c_ltred : c_ltgray)), "East:");
+           c_dkgray : (dangerous[2] ? c_ltred : c_ltgray)), _("East:"));
  mvwprintz(w_moninfo,  2,  0, (unique_types[5].empty() ?
-           c_dkgray : (dangerous[5] ? c_ltred : c_ltgray)), "SW:");
+           c_dkgray : (dangerous[5] ? c_ltred : c_ltgray)), _("SW:"));
  mvwprintz(w_moninfo,  2, 15, (unique_types[4].empty() ?
-           c_dkgray : (dangerous[4] ? c_ltred : c_ltgray)), "South:");
+           c_dkgray : (dangerous[4] ? c_ltred : c_ltgray)), _("South:"));
  mvwprintz(w_moninfo,  2, 33, (unique_types[3].empty() ?
-           c_dkgray : (dangerous[3] ? c_ltred : c_ltgray)), "SE:");
+           c_dkgray : (dangerous[3] ? c_ltred : c_ltgray)), _("SE:"));
 
  for (int i = 0; i < 8; i++) {
 
@@ -10972,7 +10973,7 @@ void game::gameover()
  erase();
  gamemode->game_over(this);
  mvprintw(0, 35, "GAME OVER");
- inv();
+ inv(_("Inventory:"));
 }
 
 bool game::game_quit() { return (uquit == QUIT_MENU); }
