@@ -3343,10 +3343,9 @@ void game::draw()
  oter_id cur_ter = cur_om->ter((levx + int(MAPSIZE / 2)) / 2,
                               (levy + int(MAPSIZE / 2)) / 2, levz);
  std::string tername = oterlist[cur_ter].name;
- if (tername.length() > 14)
-  tername = tername.substr(0, 14);
  werase(w_location);
  mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, tername.c_str());
+ mvwprintz(w_location, 0,  14, oterlist[cur_ter].color, "    ");
  if (levz < 0)
   mvwprintz(w_location, 0, 18, c_ltgray, "Underground");
  else
