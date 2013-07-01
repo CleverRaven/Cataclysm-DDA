@@ -35,7 +35,8 @@ void dis_msg(game *g, dis_type type)
         g->add_msg(_("The ceiling collapses on you!"));
         break;
     case DI_BOULDERING:
-        g->add_msg(_("You are slowed by the rubble.")); // FIXME missing break
+        g->add_msg(_("You are slowed by the rubble."));
+        break;
     case DI_BOOMERED:
         g->add_msg(_("You're covered in bile!"));
         break;
