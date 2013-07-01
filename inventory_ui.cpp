@@ -140,7 +140,7 @@ void print_inv_statics(game *g, WINDOW* w_inv, std::string title,
 // Display current inventory.
 char game::inv(std::string title)
 {
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? FULL_SCREEN_WIDTH : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int ch = (int)'.';
  int start = 0, cur_it, max_it;
@@ -258,7 +258,7 @@ char game::inv_type(std::string title, item_cat inv_item_type)
 // this function lists inventory objects by type
 // refer to enum item_cat in itype.h for list of categories
 
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? FULL_SCREEN_WIDTH : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.
  int ch = (int)'.';
  int start = 0, cur_it, max_it;
@@ -376,7 +376,7 @@ std::vector<item> game::multidrop()
 {
  u.inv.sort();
  u.inv.restack(&u);
- WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? 80 : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
+ WINDOW* w_inv = newwin(((VIEWY < 12) ? 25 : VIEWY*2+1), ((VIEWX < 12) ? FULL_SCREEN_WIDTH : VIEWX*2+56), VIEW_OFFSET_Y, VIEW_OFFSET_X);
  int drp_line_width=getmaxx(w_inv)-90;
  const std::string drp_line_padding = ( drp_line_width > 1 ? std::string(drp_line_width, ' ') : " ");
  const int maxitems = (VIEWY < 12) ? 20 : VIEWY*2-4;    // Number of items to show at one time.

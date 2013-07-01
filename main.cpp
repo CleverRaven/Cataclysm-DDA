@@ -14,6 +14,9 @@
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>
+#include <clocale>
+#include <libintl.h>
+#include "translations.h"
 
 void exit_handler(int s);
 
@@ -30,6 +33,11 @@ int main(int argc, char *argv[])
   setupDebug();
 #endif
  int seed = time(NULL);
+
+// set locale to system default
+ setlocale(LC_ALL, "");
+ bindtextdomain("cataclysm-dda", "lang/mo");
+ textdomain("cataclysm-dda");
 
 //args: world seeding only.
  argc--; argv++;
@@ -100,7 +108,7 @@ void exit_handler(int s) {
  bool bExit = false;
 
  if (s == 2) {
-  if (query_yn("Really Quit? All unsaved changes will be lost.")) {
+  if (query_yn(_("Really Quit? All unsaved changes will be lost."))) {
    bExit = true;
   }
  } else if (s == -999) {

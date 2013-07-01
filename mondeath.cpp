@@ -11,10 +11,6 @@ void mdeath::normal(game *g, monster *z)
  if (g->u_see(z))
   g->add_msg("The %s dies!", z->name().c_str());
  if (z->made_of("flesh") && z->has_flag(MF_WARM)) {
-  if (g->m.field_at(z->posx, z->posy).type == fd_blood &&
-      g->m.field_at(z->posx, z->posy).density < 3)
-   g->m.field_at(z->posx, z->posy).density++;
-  else
    g->m.add_field(g, z->posx, z->posy, fd_blood, 1);
  }
 
@@ -80,25 +76,17 @@ void mdeath::normal(game *g, monster *z)
     // leave gibs
     for (int i = 0; i < gib_amount; i++)
     {
-        int rand_posx = z->posx + rng(1,5) - 3;
-        int rand_posy = z->posx + rng(1,5) - 3;
+        const int rand_posx = z->posx + rng(1,5) - 3;
+        const int rand_posy = z->posx + rng(1,5) - 3;
+        const int rand_density = rng(1, 3);
 
-        if (((g->m.field_at(rand_posx, rand_posy).type == fd_gibs_flesh) ||
-            (g->m.field_at(rand_posx, rand_posy).type == fd_gibs_veggy)) &&
-            (g->m.field_at(rand_posx, rand_posy).density < 3))
+        if (z->made_of("flesh") || z->made_of("hflesh"))
         {
-            g->m.field_at(rand_posx, rand_posy).density++;
+            g->m.add_field(g, rand_posx, rand_posy, fd_gibs_flesh, rand_density);
         }
-        else if (g->m.field_at(rand_posx, rand_posy).is_null())
+        else if (z->made_of("veggy"))
         {
-            if (z->made_of("flesh") || z->made_of("hflesh"))
-            {
-                g->m.add_field(g, z->posx + rng(1,5) - 3, z->posy + rng(1,5) - 3, fd_gibs_flesh, rng(1,3));
-            }
-            else if (z->made_of("veggy"))
-            {
-                g->m.add_field(g, z->posx + rng(1,5) - 3, z->posy + rng(1,5) - 3, fd_gibs_veggy, rng(1,3));
-            }
+            g->m.add_field(g, rand_posx, rand_posy, fd_gibs_veggy, rand_density);
         }
     }
 }
@@ -117,10 +105,6 @@ void mdeath::boomer(game *g, monster *z)
  for (int i = -1; i <= 1; i++) {
   for (int j = -1; j <= 1; j++) {
    g->m.bash(z->posx + i, z->posy + j, 10, tmp);
-   if (g->m.field_at(z->posx + i, z->posy + j).type == fd_bile &&
-       g->m.field_at(z->posx + i, z->posy + j).density < 3)
-    g->m.field_at(z->posx + i, z->posy + j).density++;
-   else
     g->m.add_field(g, z->posx + i, z->posy + j, fd_bile, 1);
    int mondex = g->mon_at(z->posx + i, z->posy +j);
    if (mondex != -1) {
@@ -279,11 +263,11 @@ void mdeath::guilt(game *g, monster *z)
  g->add_msg("You feel terrible for killing %s!", z->name().c_str());
  if(z->type->id == mon_hallu_mom)
  {
- g->u.add_morale(MORALE_KILLED_MONSTER, -50, -250);
+ g->u.add_morale(MORALE_KILLED_MONSTER, -50, -250, 300, 30);
  }
  else if(z->type->id == mon_zombie_child)
  {
- g->u.add_morale(MORALE_KILLED_MONSTER, -5, -250);
+ g->u.add_morale(MORALE_KILLED_MONSTER, -5, -250, 300, 30);
  }
  else
  {

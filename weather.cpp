@@ -23,9 +23,9 @@ void weather_effect::wet(game *g)
  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
   for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
    if (g->m.is_outside(x, y)) {
-    field *fd = &(g->m.field_at(x, y));
-    if (fd->type == fd_fire)
-     fd->age += 15;
+    field_entry *fd = (g->m.field_at(x, y).findField(fd_fire));
+    if (fd)
+		fd->setFieldAge(fd->getFieldAge() + 15);
     if (g->scent(x, y) > 0)
      g->scent(x, y)--;
    }
@@ -42,9 +42,9 @@ void weather_effect::very_wet(game *g)
  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
   for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
    if (g->m.is_outside(x, y)) {
-    field *fd = &(g->m.field_at(x, y));
-    if (fd->type == fd_fire)
-     fd->age += 45;
+    field_entry *fd = g->m.field_at(x, y).findField(fd_fire);
+    if (fd)
+     fd->setFieldAge(fd->getFieldAge() + 45);
     if (g->scent(x, y) > 0)
      g->scent(x, y)--;
    }

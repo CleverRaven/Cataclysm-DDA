@@ -50,7 +50,9 @@ bool player::create(game *g, character_type type, std::string tempname)
 
  g->u.prof = profession::generic();
 
- WINDOW* w = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW* w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                    (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                    (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  int tab = 0, points = 38, max_trait_points = 12;
  if (type != PLTYPE_CUSTOM) {
@@ -285,15 +287,10 @@ bool player::create(game *g, character_type type, std::string tempname)
  item tmp; //gets used several times
 
  std::vector<std::string> prof_items = g->u.prof->items();
- for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter) {
-  item tmp = item(item_controller->find_template(*iter), 0, 'a' + worn.size());
-  if (tmp.is_armor()) {
-   if (tmp.has_flag("VARSIZE"))
-    tmp.item_tags.insert("FIT");
-   worn.push_back(tmp);
-  } else {
-   inv.push_back(tmp);
-  }
+ for (std::vector<std::string>::const_iterator iter = prof_items.begin(); iter != prof_items.end(); ++iter)
+ {
+    tmp = item(item_controller->find_template(*iter), 0);
+    inv.push_back(tmp);
  }
 
  std::vector<addiction> prof_addictions = g->u.prof->addictions();
@@ -314,37 +311,59 @@ bool player::create(game *g, character_type type, std::string tempname)
      }
  }
 
-// The near-sighted get to start with glasses.
- if (has_trait(PF_MYOPIC) && !has_trait(PF_HYPEROPIC)) {
-  tmp = item(g->itypes["glasses_eye"], 0, 'a' + worn.size());
-  worn.push_back(tmp);
- }
-// And the far-sighted get to start with reading glasses.
- if (has_trait(PF_HYPEROPIC) && !has_trait(PF_MYOPIC)) {
-  tmp = item(g->itypes["glasses_reading"], 0, 'a' + worn.size());
-  worn.push_back(tmp);
- }
-
+ // Those who are both near-sighted and far-sighted start with bifocal glasses.
  if (has_trait(PF_HYPEROPIC) && has_trait(PF_MYOPIC))
  {
-     tmp = item(g->itypes["glasses_bifocal"], 0, 'a' + worn.size());
-     worn.push_back(tmp);
+    tmp = item(g->itypes["glasses_bifocal"], 0);
+    inv.push_back(tmp);
+ }
+ // The near-sighted start with eyeglasses.
+ else if (has_trait(PF_MYOPIC))
+ {
+    tmp = item(g->itypes["glasses_eye"], 0);
+    inv.push_back(tmp);
+ }
+ // The far-sighted start with reading glasses.
+ else if (has_trait(PF_HYPEROPIC))
+ {
+    tmp = item(g->itypes["glasses_reading"], 0);
+    inv.push_back(tmp);
  }
 
 // Likewise, the asthmatic start with their medication.
  if (has_trait(PF_ASTHMA)) {
-  tmp = item(g->itypes["inhaler"], 0, 'a' + worn.size());
+  tmp = item(g->itypes["inhaler"], 0);
   inv.push_back(tmp);
  }
 // Basic starter gear, added independently of profession.
- tmp = item(g->itypes["pockknife"], 0,'a' + worn.size());
+ tmp = item(g->itypes["pockknife"], 0);
   inv.push_back(tmp);
- tmp = item(g->itypes["matches"], 0,'a' + worn.size());
+ tmp = item(g->itypes["matches"], 0);
   inv.push_back(tmp);
 // make sure we have no mutations
  for (int i = 0; i < PF_MAX2; i++)
   if (!has_base_trait(i))
 	my_mutations[i] = false;
+	
+	// Equip any armor from our inventory. If we are unable to wear some of it due to encumberance, it will silently fail.
+    std::vector<item*> tmp_inv;
+    inv.dump(tmp_inv);
+    
+    for(std::vector<item*>::iterator i = tmp_inv.begin(); i != tmp_inv.end(); ++i)
+    {
+        if( (*i)->is_armor())
+        {
+            if( (*i)->has_flag("VARSIZE"))
+            {
+                (*i)->item_tags.insert("FIT");
+            }
+            // It might be more elegant to use player::wear_item, but then we have to implement our own inventory removal.
+            wear(g, (*i)->invlet, false);
+        }
+    }
+
+ // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
+ apply_persistent_morale();
  return true;
 }
 

@@ -765,7 +765,7 @@
             "result": "hand_crossbow",
             "category": "CC_WEAPON",
             "skill_pri": "mechanics",
-            "skill_sec": "gun",
+            "skill_sec": "archery",
             "difficulty": 3,
             "time": 30000,
             "reversible": true,
