@@ -135,9 +135,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						{
 							ammo_type = dynamic_cast<it_ammo*>(it->type);
 						}
+						//Flame type ammo removed so gasoline isn't explosive, it just burns.
 						if(ammo_type != NULL &&
-							(ammo_type->ammo_effects & mfb(AMMO_FLAME) ||
-							ammo_type->ammo_effects & mfb(AMMO_INCENDIARY) ||
+							(ammo_type->ammo_effects & mfb(AMMO_INCENDIARY) ||
 							ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE) ||
 							ammo_type->ammo_effects & mfb(AMMO_FRAG) ||
 							ammo_type->ammo_effects & mfb(AMMO_NAPALM) ||
@@ -264,8 +264,11 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							//The fire feeds on the ground itself until max density.
 							cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 40);
 							smoke += 15;
-							if (cur->getFieldDensity() == 3)
+							if (cur->getFieldDensity() == 3){
 								ter_set(x, y, t_ash);
+								if(has_furn(x,y))
+									furn_set(x,y,f_null);
+							}
 
 						} else if (has_flag(l_flammable, x, y) && one_in(62 - cur->getFieldDensity() * 10)) {
 							//The fire feeds on the ground itself until max density.
