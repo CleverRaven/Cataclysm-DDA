@@ -4645,6 +4645,19 @@ item& player::i_of_type(itype_id type)
  return ret_null;
 }
 
+item player::get_combat_style(game *g)
+{
+ item tmp;
+ bool pickstyle = (!styles.empty());
+ if (pickstyle) {
+  tmp = item( g->itypes[style_selected], 0 );
+  tmp.invlet = ':';
+  return tmp;
+ } else {
+  return ret_null;
+ }
+}
+
 std::vector<item *> player::inv_dump()
 {
  std::vector<item *> ret;
@@ -5447,8 +5460,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
    return false;
 
   if (pickstyle) {
-   weapon = item( g->itypes[style_selected], 0 );
-   weapon.invlet = ':';
+   weapon = get_combat_style(g);
    return true;
   }
  }
@@ -5640,7 +5652,7 @@ bool player::wear(game *g, char let, bool interactive)
 
     if (index == -2)
     {
-        weapon = ret_null;
+        weapon = get_combat_style();
     }
     else
     {
