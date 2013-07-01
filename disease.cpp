@@ -1464,28 +1464,28 @@ std::string dis_description(disease dis)
  case DI_FROSTBITE_HANDS:
   switch (dis.intensity) {
    case 1: return _("\
-   Your hands are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
+Your hands are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
    case 2: return _("\
-   Your hands are frostbitten from the prolonged exposure to the cold. The tissues in your hands are frozen.");}
+Your hands are frostbitten from the prolonged exposure to the cold. The tissues in your hands are frozen.");}
  case DI_FROSTBITE_FEET:
   switch (dis.intensity) {
    case 1: return _("\
-   Your feet are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
+Your feet are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
    case 2: return _("\
-   Your feet are frostbitten from the prolonged exposure to the cold. The tissues in your feet are frozen.");}
+Your feet are frostbitten from the prolonged exposure to the cold. The tissues in your feet are frozen.");}
  case DI_FROSTBITE_MOUTH:
   switch (dis.intensity) {
    case 1: return _("\
-   Your face is frostnipped from the prolonged exposure to the cold and has gone numb. When the blood begins to flow, it will be painful.");
+Your face is frostnipped from the prolonged exposure to the cold and has gone numb. When the blood begins to flow, it will be painful.");
    case 2: return _("\
-   Your face is frostbitten from the prolonged exposure to the cold. The tissues in your face are frozen.");}
+Your face is frostbitten from the prolonged exposure to the cold. The tissues in your face are frozen.");}
 
  case DI_FROSTBITE_TORSO: return _("\
- Your torso is frostbitten from prolonged exposure to the cold. It is extremely painful.");
+Your torso is frostbitten from prolonged exposure to the cold. It is extremely painful.");
  case DI_FROSTBITE_ARMS: return _("\
- Your arms are frostbitten from prolonged exposure to the cold. It is extremely painful.");
+Your arms are frostbitten from prolonged exposure to the cold. It is extremely painful.");
  case DI_FROSTBITE_LEGS: return _("\
- Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.");
+Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.");
 
  case DI_HOT_HEAD:
   switch (dis.intensity) {
@@ -1530,17 +1530,17 @@ std::string dis_description(disease dis)
    case 3: return _("Your feet are painfully swollen due to the heat.");}
 
  case DI_BLISTERS_MOUTH: return _("\
- Your face is blistering from the intense heat. It is extremely painful.");
+Your face is blistering from the intense heat. It is extremely painful.");
  case DI_BLISTERS_TORSO: return _("\
- Your torso is blistering from the intense heat. It is extremely painful.");
+Your torso is blistering from the intense heat. It is extremely painful.");
  case DI_BLISTERS_ARMS: return _("\
- Your arms are blistering from the intense heat. It is extremely painful.");
+Your arms are blistering from the intense heat. It is extremely painful.");
  case DI_BLISTERS_HANDS: return _("\
- Your hands are blistering from the intense heat. It is extremely painful.");
+Your hands are blistering from the intense heat. It is extremely painful.");
  case DI_BLISTERS_LEGS: return _("\
- Your legs are blistering from the intense heat. It is extremely painful.");
+Your legs are blistering from the intense heat. It is extremely painful.");
  case DI_BLISTERS_FEET: return _("\
- Your feet are blistering from the intense heat. It is extremely painful.");
+Your feet are blistering from the intense heat. It is extremely painful.");
 
  case DI_COMMON_COLD:	return _("\
 Increased thirst;  Frequent coughing\n\
@@ -1619,7 +1619,7 @@ Perception - 1;    Dexterity - 1;   Strength - 2 IF not resistant\n\
 Occasional pain and/or damage.");
 
  case DI_BLEED:	return _("\
- You are slowly losing blood.");
+You are slowly losing blood.");
 
  case DI_BADPOISON:	return _("\
 Perception - 2;    Dexterity - 2;\n\
@@ -1751,7 +1751,7 @@ You have a nasty bite wound.");
 You have an infected wound.");
 
  case DI_RECOVER:	return _("\
- You are recovering from an infection.");
+You are recovering from an infection.");
 
  default:
   return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
