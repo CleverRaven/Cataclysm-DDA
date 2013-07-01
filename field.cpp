@@ -135,9 +135,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						{
 							ammo_type = dynamic_cast<it_ammo*>(it->type);
 						}
+						//Flame type ammo removed so gasoline isn't explosive, it just burns.
 						if(ammo_type != NULL &&
-							(ammo_type->ammo_effects & mfb(AMMO_FLAME) ||
-							ammo_type->ammo_effects & mfb(AMMO_INCENDIARY) ||
+							(ammo_type->ammo_effects & mfb(AMMO_INCENDIARY) ||
 							ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE) ||
 							ammo_type->ammo_effects & mfb(AMMO_FRAG) ||
 							ammo_type->ammo_effects & mfb(AMMO_NAPALM) ||
@@ -206,15 +206,18 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						} else if (it->made_of(LIQUID)) {
 							//Lots of smoke if alcohol, and LOTS of fire fueling power, kills a fire otherwise.
 							if(it->type->id == "tequila" || it->type->id == "whiskey" ||
-								it->type->id == "vodka" || it->type->id == "rum") {
+								it->type->id == "vodka" || it->type->id == "rum" || it->type->id == "gasoline") {
 									cur->setFieldAge(cur->getFieldAge() - 300);
 									smoke += 6;
 							} else {
 								cur->setFieldAge(cur->getFieldAge() + rng(80 * vol, 300 * vol));
 								smoke++;
 							}
-							destroyed = true;
-							consumed++;
+							it->charges -= cur->getFieldDensity();
+							if(it->charges <= 0){
+								destroyed = true;
+							}
+								consumed++;
 						} else if (it->made_of("powder")) {
 							//Any powder will fuel the fire as much as its volume but be immediately destroyed.
 							cur->setFieldAge(cur->getFieldAge() - vol);
@@ -264,8 +267,11 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							//The fire feeds on the ground itself until max density.
 							cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 40);
 							smoke += 15;
-							if (cur->getFieldDensity() == 3)
+							if (cur->getFieldDensity() == 3){
 								ter_set(x, y, t_ash);
+								if(has_furn(x,y))
+									furn_set(x,y,f_null);
+							}
 
 						} else if (has_flag(l_flammable, x, y) && one_in(62 - cur->getFieldDensity() * 10)) {
 							//The fire feeds on the ground itself until max density.
@@ -304,8 +310,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									if (tmpfld && tmpfld != cur && cur->getFieldAge() < 0 && tmpfld->getFieldDensity() < 3 &&
 										(in_pit == (ter(fx, fy) == t_pit))) {
 											tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
-											tmpfld->setFieldAge(30);
-											cur->setFieldAge(30);
+											//tmpfld->setFieldAge(0);
+											cur->setFieldAge(cur->getFieldAge() + 150);
 									}
 								}
 							}
@@ -329,21 +335,27 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != true ) ) {
 										ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
 										g->explosion(fx, fy, 40, 0, true); //Nearby explodables? blow em up.
-								} else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance && cur->getFieldAge() < 30 &&
+								} else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance && cur->getFieldAge() < 200 &&
 									tr_brazier != tr_at(x, y) &&
 									(has_flag(fire_container, x, y) != true )&&
 									(in_pit == (ter(fx, fy) == t_pit)) &&
-									((cur->getFieldDensity() == 3 &&
-									(has_flag(flammable, fx, fy) || one_in(20))) ||
-									(cur->getFieldDensity() == 3 &&
+									(
+									(cur->getFieldDensity() >= 2 &&
+									(has_flag(flammable, fx, fy) && one_in(20))) ||
+									(cur->getFieldDensity() >= 2  &&
+									(has_flag(flammable2, fx, fy) && one_in(10))) ||
+									(cur->getFieldDensity() == 3  &&
 									(has_flag(l_flammable, fx, fy) && one_in(10))) ||
 									flammable_items_at(fx, fy) ||
 									field_at(fx, fy).findField(fd_web))) {
 										add_field(g, fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
 										tmpfld = field_at(fx,fy).findField(fd_fire);
 										if(tmpfld){
-											tmpfld->setFieldAge(30);
+											tmpfld->setFieldAge(100);
+											cur->setFieldAge(cur->getFieldAge() + 50);
 										}
+										if(field_at(fx,fy).findField(fd_web))
+											g->m.remove_field(fx,fy,fd_web);
 								} else {
 									bool nosmoke = true;
 									for (int ii = -1; ii <= 1; ii++) {
@@ -351,6 +363,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
 											if (field_at(x+ii, y+jj).findField(fd_fire) &&
 												field_at(x+ii, y+jj).findField(fd_fire)->getFieldDensity() == 3)
 												smoke++; //The higher this gets, the more likely for smoke.
+											else if (field_at(x+ii, y+jj).findField(fd_fire) &&
+												field_at(x+ii, y+jj).findField(fd_fire)->getFieldDensity() == 2 && one_in(4))
+												smoke++;
 											else if (field_at(x+ii, y+jj).findField(fd_smoke))
 												nosmoke = false; //slightly, slightly, less likely to make smoke if there is already smoke
 										}
@@ -358,11 +373,11 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									// If we're not spreading, maybe we'll stick out some smoke, huh?
 									if(!(is_outside(fx, fy))){
 										//Lets make more smoke indoors since it doesn't dissipate
-										smoke += 10; //10 is just a magic number. To much smoke indoors? Lower it. To little, raise it.
+										smoke += 5; //10 is just a magic number. To much smoke indoors? Lower it. To little, raise it.
 									}
 									if (move_cost(fx, fy) > 0 &&
 										(!one_in(smoke) || (nosmoke && one_in(40))) &&
-										rng(3, 35) < cur->getFieldDensity() * 10 && cur->getFieldAge() < 1000 &&
+										rng(3, 35) < cur->getFieldDensity() * 5 && cur->getFieldAge() < 1000 &&
 										(has_flag(suppress_smoke, x, y) != true )) {
 											smoke--;
 											add_field(g, fx, fy, fd_smoke, rng(1, cur->getFieldDensity())); //Add smoke!
@@ -381,7 +396,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 					}
 					if (is_outside(x, y))
 						cur->setFieldAge(cur->getFieldAge() + 50); //Dissipiate faster outdoors.
-					if (one_in(2)) { //50% chance to spread around.
+					if (!one_in(5)) { //80% chance to spread around.
 						std::vector <point> spread;
 						for (int a = -1; a <= 1; a++) {
 							for (int b = -1; b <= 1; b++) {
@@ -392,17 +407,21 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							}
 						}
       // Spread if available and large.
-						if (cur->getFieldDensity() > 1 && cur->getFieldAge() > 0 && spread.size() > 0) {
-							point p = spread[rng(0, spread.size() - 1)];
-       field_entry *candidate_field = field_at(p.x, p.y).findField(fd_smoke);
-							if (candidate_field && candidate_field->getFieldDensity() < 3) {
+						while(spread.size() > 0 && cur->isAlive()){
+							if (cur->getFieldAge() >= 0 && spread.size() > 0) {
+								int random_point = rng(0, spread.size() - 1);
+								point p = spread[random_point];
+								field_entry *candidate_field = field_at(p.x, p.y).findField(fd_smoke);
+								if (candidate_field && candidate_field->getFieldDensity() < 3) {
 									candidate_field->setFieldDensity(candidate_field->getFieldDensity() + 1);
 									cur->setFieldDensity(cur->getFieldDensity() - 1);
-							} else if (cur->getFieldDensity() > 1 && move_cost(p.x, p.y) > 0 &&
-                  add_field(g, p.x, p.y, fd_smoke, 1)){
-								cur->setFieldDensity(cur->getFieldDensity() - 1);
-								if(field_at(p.x,p.y).findField(fd_smoke))
-							 	field_at(p.x, p.y).findField(fd_smoke)->setFieldAge(cur->getFieldAge());
+								} else if (move_cost(p.x, p.y) > 0 &&
+									add_field(g, p.x, p.y, fd_smoke, 1)){
+										cur->setFieldDensity(cur->getFieldDensity() - 1);
+										if(field_at(p.x,p.y).findField(fd_smoke))
+											field_at(p.x, p.y).findField(fd_smoke)->setFieldAge(cur->getFieldAge());
+								}
+								spread.erase(spread.begin() + random_point);
 							}
 						}
 					}
@@ -742,7 +761,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							}
 							cur->setFieldDensity(cur->getFieldDensity() - 1);
 					}
-					if (should_dissipate == true) { // Totally dissapated.
+					if (should_dissipate == true || !cur->isAlive()) { // Totally dissapated.
 						grid[gridn]->field_count--;
 						grid[gridn]->fld[locx][locy].removeField(cur->getFieldType());
 					}
