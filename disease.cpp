@@ -1597,13 +1597,13 @@ Your feet are blistering from the intense heat. It is extremely painful.");
         switch (dis.intensity){
         case 1:
             stream << _("Dexterity") << " - 1;   " << _("Speed") << " -10%\n"
-                   << _("You are being slowed by climbing over a pile of rubble");
+                   << _("You are being slowed by climbing over a pile of rubble.");
         case 2:
             stream << _("Dexterity") << " - 3;   " << _("Speed") << " -20%\n"
-                   << _("You are being slowed by climbing over a heap of rubble");
+                   << _("You are being slowed by climbing over a heap of rubble.");
         case 3:
             stream << _("Dexterity") << " - 5;   " << _("Speed") << " -30%\n"
-                   << _("You are being slowed by climbing over a mountain of rubble");
+                   << _("You are being slowed by climbing over a mountain of rubble.");
         }
         return stream.str();
 
@@ -1612,7 +1612,7 @@ Your insides are shifting in strange ways as the treatment takes effect.");
 
     case DI_BOOMERED:
         stream << _("Perception") << " - 5\n" << _("Range of Sight")
-               << ": 1;   " << _("All sight is tinted magenta");
+               << ": 1;   " << _("All sight is tinted magenta.");
         return stream.str();
 
     case DI_SAP:
@@ -1695,13 +1695,13 @@ this urge.");
         intpen = int(dis.duration /  700);
         strpen = int(dis.duration / 1500);
         if (strpen > 0)
-            stream << _("Strength") << " - " << strpen << ";    ";
+            stream << _("Strength") << " - " << strpen << ";   ";
         else if (dis.duration <= 600)
             stream << _("Strength") << " + 1;    ";
         if (dexpen > 0)
-            stream << _("Dexterity") << " - " << dexpen << ";    ";
+            stream << _("Dexterity") << " - " << dexpen << ";   ";
         if (intpen > 0)
-            stream << _("Intelligence") << " - " << intpen << ";    ";
+            stream << _("Intelligence") << " - " << intpen << ";   ";
         if (perpen > 0)
             stream << _("Perception") << " - " << perpen;
         return stream.str();
@@ -1737,7 +1737,7 @@ this urge.");
                << _("Strength") << " - 2;   " << _("Dexterity") << " - 3";
         return stream.str();
 
-    case DI_GRACK: return _("Unleashed the Gracken");
+    case DI_GRACK: return _("Unleashed the Gracken.");
 
     case DI_METH:
         if (dis.duration > 600)
