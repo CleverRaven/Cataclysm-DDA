@@ -869,7 +869,7 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
     }
     posx += p->posx;
     posy += p->posy;
-    if (!g->m.flammable_items_at(posx, posy))
+    if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy)))
     {
        g->add_msg_if_player(p,"There's nothing to light there.");
        it->charges++;
@@ -881,11 +881,11 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
 {
     // this should have already been checked, but double-check to make sure
-    if (g->m.flammable_items_at(posx, posy))
+	if (g->m.flammable_items_at(posx, posy) || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy))
     {
         if (g->m.add_field(g, posx, posy, fd_fire, 1))
         {
-            g->m.field_at(posx, posy).findField(fd_fire)->setFieldAge(g->m.field_at(posx, posy).findField(fd_fire)->getFieldAge() + 30);
+            g->m.field_at(posx, posy).findField(fd_fire)->setFieldAge(g->m.field_at(posx, posy).findField(fd_fire)->getFieldAge() + 100);
             g->add_msg_if_player(p, "You successfully light a fire.");
         }
     }
