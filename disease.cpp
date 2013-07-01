@@ -1409,352 +1409,360 @@ std::string dis_name(disease dis)
 
 std::string dis_description(disease dis)
 {
- int strpen, dexpen, intpen, perpen;
- std::stringstream stream;
- switch (dis.type) {
+    int strpen, dexpen, intpen, perpen;
+    std::stringstream stream;
+    switch (dis.type) {
 
- case DI_NULL:
-  return _("None");
+    case DI_NULL:
+        return _("None");
 
- case DI_GLARE:
-  return _("Perception - 1");
+    case DI_GLARE:
+        return _("Perception - 1");
 
- case DI_COLD_HEAD:
-  switch (dis.intensity) {
-   case 1: return _("Your head is exposed to the cold.");
-   case 2: return _("Your head is very exposed to the cold. It is hard to concentrate.");
-   case 3: return _("Your head is dangerously cold. Getting undressed sounds like a good idea.");}
+    case DI_COLD_HEAD:
+        switch (dis.intensity) {
+        case 1: return _("Your head is exposed to the cold.");
+        case 2: return _("Your head is very exposed to the cold. It is hard to concentrate.");
+        case 3: return _("Your head is dangerously cold. Getting undressed sounds like a good idea.");
+        }
 
- case DI_COLD_MOUTH:
-  switch (dis.intensity) {
-   case 1: return _("Your face is exposed to the cold.");
-   case 2: return _("Your face is very exposed to the cold.");
-   case 3: return _("Your face is dangerously cold.");}
+    case DI_COLD_MOUTH:
+        switch (dis.intensity) {
+        case 1: return _("Your face is exposed to the cold.");
+        case 2: return _("Your face is very exposed to the cold.");
+        case 3: return _("Your face is dangerously cold.");
+        }
 
- case DI_COLD_TORSO:
-  switch (dis.intensity) {
-   case 1: return _("Your torso is exposed to the cold.");
-   case 2: return _("Your torso is very exposed to the cold. Your actions are incoordinated.");
-   case 3: return _("Your torso is dangerously cold. Your actions are incredibly incoordinated.");}
+    case DI_COLD_TORSO:
+        switch (dis.intensity) {
+        case 1: return _("Your torso is exposed to the cold.");
+        case 2: return _("Your torso is very exposed to the cold. Your actions are incoordinated.");
+        case 3: return _("Your torso is dangerously cold. Your actions are incredibly incoordinated.");
+        }
 
- case DI_COLD_ARMS:
-  switch (dis.intensity) {
-   case 1: return _("Your arms are exposed to the cold.");
-   case 2: return _("Your arms are very exposed to the cold. Your arms are shivering.");
-   case 3: return _("Your arms are dangerously cold. Your arms are shivering uncontrollably");}
+    case DI_COLD_ARMS:
+        switch (dis.intensity) {
+        case 1: return _("Your arms are exposed to the cold.");
+        case 2: return _("Your arms are very exposed to the cold. Your arms are shivering.");
+        case 3: return _("Your arms are dangerously cold. Your arms are shivering uncontrollably");
+        }
 
- case DI_COLD_HANDS:
-  switch (dis.intensity) {
-   case 1: return _("Your hands are exposed to the cold.");
-   case 2: return _("Your hands are very exposed to the cold. Your hands are shivering.");
-   case 3: return _("Your hands are dangerously cold. Your hands are shivering uncontrollably");}
+    case DI_COLD_HANDS:
+        switch (dis.intensity) {
+        case 1: return _("Your hands are exposed to the cold.");
+        case 2: return _("Your hands are very exposed to the cold. Your hands are shivering.");
+        case 3: return _("Your hands are dangerously cold. Your hands are shivering uncontrollably");
+        }
 
- case DI_COLD_LEGS:
-  switch (dis.intensity) {
-   case 1: return _("Your legs are exposed to the cold.");
-   case 2: return _("Your legs are very exposed to the cold. Your strength is sapped.");
-   case 3: return _("Your legs are dangerously cold. Your strength is sapped.");}
+    case DI_COLD_LEGS:
+        switch (dis.intensity) {
+        case 1: return _("Your legs are exposed to the cold.");
+        case 2: return _("Your legs are very exposed to the cold. Your strength is sapped.");
+        case 3: return _("Your legs are dangerously cold. Your strength is sapped.");
+        }
 
- case DI_COLD_FEET:
-  switch (dis.intensity) {
-   case 1: return _("Your feet are exposed to the cold.");
-   case 2: return _("Your feet are very exposed to the cold. Your strength is sapped.");
-   case 3: return _("Your feet are dangerously cold. Your strength is sapped.");}
+    case DI_COLD_FEET:
+        switch (dis.intensity) {
+        case 1: return _("Your feet are exposed to the cold.");
+        case 2: return _("Your feet are very exposed to the cold. Your strength is sapped.");
+        case 3: return _("Your feet are dangerously cold. Your strength is sapped.");
+        }
 
- case DI_FROSTBITE_HANDS:
-  switch (dis.intensity) {
-   case 1: return _("\
+    case DI_FROSTBITE_HANDS:
+        switch (dis.intensity) {
+        case 1: return _("\
 Your hands are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
-   case 2: return _("\
-Your hands are frostbitten from the prolonged exposure to the cold. The tissues in your hands are frozen.");}
- case DI_FROSTBITE_FEET:
-  switch (dis.intensity) {
-   case 1: return _("\
-Your feet are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
-   case 2: return _("\
-Your feet are frostbitten from the prolonged exposure to the cold. The tissues in your feet are frozen.");}
- case DI_FROSTBITE_MOUTH:
-  switch (dis.intensity) {
-   case 1: return _("\
-Your face is frostnipped from the prolonged exposure to the cold and has gone numb. When the blood begins to flow, it will be painful.");
-   case 2: return _("\
-Your face is frostbitten from the prolonged exposure to the cold. The tissues in your face are frozen.");}
+        case 2: return _("\
+Your hands are frostbitten from the prolonged exposure to the cold. The tissues in your hands are frozen.");
+        }
 
- case DI_FROSTBITE_TORSO: return _("\
+    case DI_FROSTBITE_FEET:
+        switch (dis.intensity) {
+        case 1: return _("\
+Your feet are frostnipped from the prolonged exposure to the cold and have gone numb. When the blood begins to flow, it will be painful.");
+        case 2: return _("\
+Your feet are frostbitten from the prolonged exposure to the cold. The tissues in your feet are frozen.");
+        }
+
+    case DI_FROSTBITE_MOUTH:
+        switch (dis.intensity) {
+        case 1: return _("\
+Your face is frostnipped from the prolonged exposure to the cold and has gone numb. When the blood begins to flow, it will be painful.");
+        case 2: return _("\
+Your face is frostbitten from the prolonged exposure to the cold. The tissues in your face are frozen.");
+        }
+
+    case DI_FROSTBITE_TORSO: return _("\
 Your torso is frostbitten from prolonged exposure to the cold. It is extremely painful.");
- case DI_FROSTBITE_ARMS: return _("\
+    case DI_FROSTBITE_ARMS: return _("\
 Your arms are frostbitten from prolonged exposure to the cold. It is extremely painful.");
- case DI_FROSTBITE_LEGS: return _("\
+    case DI_FROSTBITE_LEGS: return _("\
 Your legs are frostbitten from prolonged exposure to the cold. It is extremely painful.");
 
- case DI_HOT_HEAD:
-  switch (dis.intensity) {
-   case 1: return _("Your head feels warm.");
-   case 2: return _("Your head is sweating from the heat. You feel nauseated. You have a headache.");
-   case 3: return _("Your head is sweating profusely. You feel very nauseated. You have a headache.");}
+    case DI_HOT_HEAD:
+        switch (dis.intensity) {
+        case 1: return _("Your head feels warm.");
+        case 2: return _("Your head is sweating from the heat. You feel nauseated. You have a headache.");
+        case 3: return _("Your head is sweating profusely. You feel very nauseated. You have a headache.");
+        }
 
- case DI_HOT_MOUTH:
-  switch (dis.intensity) {
-   case 1: return _("Your face feels warm.");
-   case 2: return _("Your face is sweating from the heat, making it hard to see.");
-   case 3: return _("Your face is sweating profusely, making it hard to see.");}
+    case DI_HOT_MOUTH:
+        switch (dis.intensity) {
+        case 1: return _("Your face feels warm.");
+        case 2: return _("Your face is sweating from the heat, making it hard to see.");
+        case 3: return _("Your face is sweating profusely, making it hard to see.");
+        }
 
- case DI_HOT_TORSO:
-  switch (dis.intensity) {
-   case 1: return _("Your torso feels warm.");
-   case 2: return _("Your torso is sweating from the heat. You feel weak.");
-   case 3: return _("Your torso is sweating profusely. You feel very weak.");}
+    case DI_HOT_TORSO:
+        switch (dis.intensity) {
+        case 1: return _("Your torso feels warm.");
+        case 2: return _("Your torso is sweating from the heat. You feel weak.");
+        case 3: return _("Your torso is sweating profusely. You feel very weak.");
+        }
 
- case DI_HOT_ARMS:
-  switch (dis.intensity) {
-   case 1: return _("Your arms feel warm.");
-   case 2: return _("Your arms are sweating from the heat.");
-   case 3: return _("Your arms are sweating profusely. Your muscles are in pain due to cramps.");}
+    case DI_HOT_ARMS:
+        switch (dis.intensity) {
+        case 1: return _("Your arms feel warm.");
+        case 2: return _("Your arms are sweating from the heat.");
+        case 3: return _("Your arms are sweating profusely. Your muscles are in pain due to cramps.");
+        }
 
- case DI_HOT_HANDS:
-  switch (dis.intensity) {
-   case 1: return _("Your hands feel warm.");
-   case 2: return _("Your hands feel hot and incoordinated.");
-   case 3: return _("Your hands feel disgustinly hot and are very incoordinated.");}
+    case DI_HOT_HANDS:
+        switch (dis.intensity) {
+        case 1: return _("Your hands feel warm.");
+        case 2: return _("Your hands feel hot and incoordinated.");
+        case 3: return _("Your hands feel disgustinly hot and are very incoordinated.");
+        }
 
- case DI_HOT_LEGS:
-  switch (dis.intensity) {
-   case 1: return _("Your legs feel warm.");
-   case 2: return _("Your legs are sweating from the heat.");
-   case 3: return _("Your legs are sweating profusely. Your muscles are in pain due to cramps.");}
+    case DI_HOT_LEGS:
+        switch (dis.intensity) {
+        case 1: return _("Your legs feel warm.");
+        case 2: return _("Your legs are sweating from the heat.");
+        case 3: return _("Your legs are sweating profusely. Your muscles are in pain due to cramps.");
+        }
 
- case DI_HOT_FEET:
-  switch (dis.intensity) {
-   case 1: return _("Your feet feel warm.");
-   case 2: return _("Your feet are painfully swollen due to the heat.");
-   case 3: return _("Your feet are painfully swollen due to the heat.");}
+    case DI_HOT_FEET:
+        switch (dis.intensity) {
+        case 1: return _("Your feet feel warm.");
+        case 2: return _("Your feet are painfully swollen due to the heat.");
+        case 3: return _("Your feet are painfully swollen due to the heat.");
+        }
 
- case DI_BLISTERS_MOUTH: return _("\
+    case DI_BLISTERS_MOUTH: return _("\
 Your face is blistering from the intense heat. It is extremely painful.");
- case DI_BLISTERS_TORSO: return _("\
+    case DI_BLISTERS_TORSO: return _("\
 Your torso is blistering from the intense heat. It is extremely painful.");
- case DI_BLISTERS_ARMS: return _("\
+    case DI_BLISTERS_ARMS: return _("\
 Your arms are blistering from the intense heat. It is extremely painful.");
- case DI_BLISTERS_HANDS: return _("\
+    case DI_BLISTERS_HANDS: return _("\
 Your hands are blistering from the intense heat. It is extremely painful.");
- case DI_BLISTERS_LEGS: return _("\
+    case DI_BLISTERS_LEGS: return _("\
 Your legs are blistering from the intense heat. It is extremely painful.");
- case DI_BLISTERS_FEET: return _("\
+    case DI_BLISTERS_FEET: return _("\
 Your feet are blistering from the intense heat. It is extremely painful.");
 
- case DI_COMMON_COLD:	return _("\
+    case DI_COMMON_COLD: return _("\
 Increased thirst;  Frequent coughing\n\
 Strength - 3;  Dexterity - 1;  Intelligence - 2;  Perception - 1\n\
 Symptoms alleviated by medication (Dayquil or Nyquil).");
 
- case DI_FLU:		return _("\
+    case DI_FLU: return _("\
 Increased thirst;  Frequent coughing;  Occasional vomiting\n\
 Strength - 4;  Dexterity - 2;  Intelligence - 2;  Perception - 1\n\
 Symptoms alleviated by medication (Dayquil or Nyquil).");
 
- case DI_SMOKE:		return _("\
+    case DI_SMOKE: return _("\
 Strength - 1;     Dexterity - 1;\n\
 Occasionally you will cough, costing movement and creating noise.\n\
 Loss of health - Torso");
 
- case DI_TEARGAS:	return _("\
+    case DI_TEARGAS: return _("\
 Strength - 2;     Dexterity - 2;    Intelligence - 1;    Perception - 4\n\
 Occasionally you will cough, costing movement and creating noise.\n\
 Loss of health - Torso");
 
- case DI_ONFIRE:	return _("\
+    case DI_ONFIRE: return _("\
 Loss of health - Entire Body\n\
 Your clothing and other equipment may be consumed by the flames.");
 
- case DI_CRUSHED:   return "\
+    case DI_CRUSHED: return "\
 If you're seeing this, there is a bug in disease.cpp!";
 
- case DI_BOULDERING:
-  switch (dis.intensity){
-  case 1:
-   return _("\
+    case DI_BOULDERING:
+        switch (dis.intensity){
+        case 1: return _("\
 Dexterity - 1;   Speed -10%\
 You are being slowed by climbing over a pile of rubble");
-  case 2:
-   return _("\
+        case 2: return _("\
 Dexterity - 3;   Speed -20%\
 You are being slowed by climbing over a heap of rubble");
-  case 3:
-   return _("\
+        case 3: return _("\
 Dexterity - 5;   Speed -30%\
 You are being slowed by climbing over a mountain of rubble");
-  }
+        }
 
- case DI_STEMCELL_TREATMENT: return _("\
+    case DI_STEMCELL_TREATMENT: return _("\
 Your insides are shifting in strange ways as the treatment takes effect.");
 
- case DI_BOOMERED:	return _("\
+    case DI_BOOMERED: return _("\
 Perception - 5\n\
 Range of Sight: 1;     All sight is tinted magenta");
 
- case DI_SAP:		return _("\
+    case DI_SAP: return _("\
 Dexterity - 3;   Speed - 25");
 
- case DI_SPORES:	return _("\
+    case DI_SPORES: return _("\
 Speed -40%\
 You can feel the tiny spores sinking directly into your flesh.");
 
- case DI_SLIMED:	return _("\
+    case DI_SLIMED: return _("\
 Speed -40%;     Dexterity - 2");
 
- case DI_DEAF:		return _("\
+    case DI_DEAF: return _("\
 Sounds will not be reported.  You cannot talk with NPCs.");
 
- case DI_BLIND:		return _("\
+    case DI_BLIND: return _("\
 Range of Sight: 0");
 
- case DI_STUNNED:	return _("\
+    case DI_STUNNED: return _("\
 Your movement is randomized.");
 
- case DI_DOWNED:	return _("\
+    case DI_DOWNED: return _("\
 You're knocked to the ground.  You have to get up before you can move.");
 
- case DI_POISON:	return _("\
+    case DI_POISON: return _("\
 Perception - 1;    Dexterity - 1;   Strength - 2 IF not resistant\n\
 Occasional pain and/or damage.");
 
- case DI_BLEED:	return _("\
+    case DI_BLEED: return _("\
 You are slowly losing blood.");
 
- case DI_BADPOISON:	return _("\
+    case DI_BADPOISON: return _("\
 Perception - 2;    Dexterity - 2;\n\
 Strength - 3 IF not resistant, -1 otherwise\n\
 Frequent pain and/or damage.");
 
- case DI_FOODPOISON:	return _("\
+    case DI_FOODPOISON:	return _("\
 Speed - 35%;     Strength - 3;     Dexterity - 1;     Perception - 1\n\
 Your stomach is extremely upset, and you keep having pangs of pain and nausea.");
 
- case DI_SHAKES:	return _("\
+    case DI_SHAKES:	return _("\
 Strength - 1;     Dexterity - 4;");
 
- case DI_FORMICATION:	return _("\
+    case DI_FORMICATION:	return _("\
 Strength - 1;     Intelligence - 2;\n\
 You stop to scratch yourself frequently; high intelligence helps you resist\n\
 this urge.");
 
- case DI_WEBBED:	return _("\
+    case DI_WEBBED:	return _("\
 Strength - 1;     Dexterity - 4;    Speed - 25");
 
- case DI_RAT:
-  intpen = int(dis.duration / 20);
-  perpen = int(dis.duration / 25);
-  strpen = int(dis.duration / 50);
-  stream << _("You feal nauseated and rat-like.\n");
-  if (intpen > 0)
-   stream << _("Intelligence") << " - " << intpen << ";   ";
-  if (perpen > 0)
-   stream << _("Perception") << " - " << perpen << ";   ";
-  if (strpen > 0)
-   stream << _("Strength") << " - " << strpen;
-  return stream.str();
+    case DI_RAT:
+        intpen = int(dis.duration / 20);
+        perpen = int(dis.duration / 25);
+        strpen = int(dis.duration / 50);
+        stream << _("You feal nauseated and rat-like.\n");
+        if (intpen > 0)
+            stream << _("Intelligence") << " - " << intpen << ";   ";
+        if (perpen > 0)
+            stream << _("Perception") << " - " << perpen << ";   ";
+        if (strpen > 0)
+            stream << _("Strength") << " - " << strpen;
+        return stream.str();
 
- case DI_DRUNK:
-  perpen = int(dis.duration / 1000);
-  dexpen = int(dis.duration / 1000);
-  intpen = int(dis.duration /  700);
-  strpen = int(dis.duration / 1500);
-  if (strpen > 0)
-   stream << _("Strength") << " - " << strpen << ";    ";
-  else if (dis.duration <= 600)
-   stream << _("Strength") << " + 1;    ";
-  if (dexpen > 0)
-   stream << _("Dexterity") << " - " << dexpen << ";    ";
-  if (intpen > 0)
-   stream << _("Intelligence") << " - " << intpen << ";    ";
-  if (perpen > 0)
-   stream << _("Perception") << " - " << perpen;
-  return stream.str();
+    case DI_DRUNK:
+        perpen = int(dis.duration / 1000);
+        dexpen = int(dis.duration / 1000);
+        intpen = int(dis.duration /  700);
+        strpen = int(dis.duration / 1500);
+        if (strpen > 0)
+            stream << _("Strength") << " - " << strpen << ";    ";
+        else if (dis.duration <= 600)
+            stream << _("Strength") << " + 1;    ";
+        if (dexpen > 0)
+            stream << _("Dexterity") << " - " << dexpen << ";    ";
+        if (intpen > 0)
+            stream << _("Intelligence") << " - " << intpen << ";    ";
+        if (perpen > 0)
+            stream << _("Perception") << " - " << perpen;
+        return stream.str();
 
- case DI_CIG:
-  if (dis.duration >= 600)
-   return _("\
+    case DI_CIG:
+        if (dis.duration >= 600)
+            return _("\
 Strength - 1;     Dexterity - 1\n\
 You smoked too much.");
-  return _("\
+        return _("\
 Dexterity + 1;     Intelligence + 1;     Perception + 1");
 
- case DI_HIGH:
-  return _("\
+    case DI_HIGH: return _("\
 Intelligence - 1;     Perception - 1");
 
- case DI_VISUALS:
-  return _("\
+    case DI_VISUALS: return _("\
 You can't trust everything that you see.");
 
- case DI_ADRENALINE:
-  if (dis.duration > 150)
-   return _("\
+    case DI_ADRENALINE:
+        if (dis.duration > 150)
+            return _("\
 Speed +80;   Strength + 5;   Dexterity + 3;   Intelligence - 8;   Perception + 1");
-  return _("\
+        return _("\
 Strength - 2;     Dexterity - 1;     Intelligence - 1;     Perception - 1");
 
- case DI_ASTHMA:
-  stream<< "Speed - " << int(dis.duration / 5) << "%;     Strength - 2;     " <<
-           "Dexterity - 3";
-  return stream.str();
+    case DI_ASTHMA:
+        stream << "Speed - " << int(dis.duration / 5) << "%;     Strength - 2;     " << "Dexterity - 3";
+        return stream.str();
 
- case DI_GRACK:
-  return _("\
+    case DI_GRACK: return _("\
 Unleashed the Gracken");
 
- case DI_METH:
-  if (dis.duration > 600)
-   return _("\
+    case DI_METH:
+        if (dis.duration > 600)
+            return _("\
 Speed +50;  Strength + 2;  Dexterity + 2;  Intelligence + 3;  Perception + 3");
-   return _("\
+        return _("\
 Speed -40;   Strength - 3;   Dexterity - 2;   Intelligence - 2");
 
- case DI_IN_PIT:
-  return _("\
+    case DI_IN_PIT: return _("\
 You're stuck in a pit.  Sight distance is limited and you have to climb out.");
 
- case DI_ATTACK_BOOST:
-  stream << "To-hit bonus + " << dis.intensity;
-  return stream.str();
+    case DI_ATTACK_BOOST:
+        stream << "To-hit bonus + " << dis.intensity;
+        return stream.str();
 
- case DI_DAMAGE_BOOST:
-  stream << "Damage bonus + " << dis.intensity;
-  return stream.str();
+    case DI_DAMAGE_BOOST:
+        stream << "Damage bonus + " << dis.intensity;
+        return stream.str();
 
- case DI_DODGE_BOOST:
-  stream << "Dodge bonus + " << dis.intensity;
-  return stream.str();
+    case DI_DODGE_BOOST:
+        stream << "Dodge bonus + " << dis.intensity;
+        return stream.str();
 
- case DI_ARMOR_BOOST:
-  stream << "Armor bonus + " << dis.intensity;
-  return stream.str();
+    case DI_ARMOR_BOOST:
+        stream << "Armor bonus + " << dis.intensity;
+        return stream.str();
 
- case DI_SPEED_BOOST:
-  stream << "Attack speed + " << dis.intensity;
-  return stream.str();
+    case DI_SPEED_BOOST:
+        stream << "Attack speed + " << dis.intensity;
+        return stream.str();
 
- case DI_VIPER_COMBO:
-  switch (dis.intensity) {
-   case 1: return _("\
+    case DI_VIPER_COMBO:
+        switch (dis.intensity) {
+        case 1: return _("\
 Your next strike will be a Snakebite, using your hand in a cone shape.  This\n\
 will deal piercing damage.");
-   case 2: return _("\
+        case 2: return _("\
 Your next strike will be a Viper Strike.  It requires both arms to be in good\n\
 condition, and deals massive damage.");
-  }
- case DI_BITE:
-  return _("\
-You have a nasty bite wound.");
- case DI_INFECTED:
-  return _("\
-You have an infected wound.");
+        }
 
- case DI_RECOVER:	return _("\
+    case DI_BITE: return _("\
+You have a nasty bite wound.");
+    case DI_INFECTED: return _("\
+You have an infected wound.");
+    case DI_RECOVER: return _("\
 You are recovering from an infection.");
 
- default:
-  return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
- }
+    default: return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
+    }
 }
 
