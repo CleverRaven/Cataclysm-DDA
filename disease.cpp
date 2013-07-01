@@ -1417,7 +1417,8 @@ std::string dis_description(disease dis)
         return _("None");
 
     case DI_GLARE:
-        return _("Perception - 1");
+        stream << _("Perception") << " - 1";
+        return stream.str();
 
     case DI_COLD_HEAD:
         switch (dis.intensity) {
@@ -1561,101 +1562,123 @@ Your legs are blistering from the intense heat. It is extremely painful.");
     case DI_BLISTERS_FEET: return _("\
 Your feet are blistering from the intense heat. It is extremely painful.");
 
-    case DI_COMMON_COLD: return _("\
-Increased thirst;  Frequent coughing\n\
-Strength - 3;  Dexterity - 1;  Intelligence - 2;  Perception - 1\n\
-Symptoms alleviated by medication (Dayquil or Nyquil).");
+    case DI_COMMON_COLD:
+        stream << _("Increased thirst") << ";   " << _("Frequent coughing")
+               << "\n" << _("Strength") << " - 3;   " << _("Dexterity")
+               << " - 1;   " << _("Intelligence") << " - 2;   "
+               << _("Perception") << " - 1" << "\n"
+               << _("Symptoms alleviated by medication (Dayquil or Nyquil).");
+        return stream.str();
 
-    case DI_FLU: return _("\
-Increased thirst;  Frequent coughing;  Occasional vomiting\n\
-Strength - 4;  Dexterity - 2;  Intelligence - 2;  Perception - 1\n\
-Symptoms alleviated by medication (Dayquil or Nyquil).");
+    case DI_FLU:
+        stream << _("Increased thirst") << ";   " << _("Frequent coughing")
+               << ";   " << _("Occasional vomiting") << "\n"
+               << _("Strength") << " - 4;   " << _("Dexterity") << " - 2;   "
+               << _("Intelligence") << " - 2;   " << _("Perception") << " - 1\n"
+               << _("Symptoms alleviated by medication (Dayquil or Nyquil).");
+        return stream.str();
 
-    case DI_SMOKE: return _("\
-Strength - 1;     Dexterity - 1;\n\
-Occasionally you will cough, costing movement and creating noise.\n\
-Loss of health - Torso");
+    case DI_SMOKE:
+        stream << _("Strength") << " - 1;   " << _("Dexterity") << " - 1;\n"
+               << _("Occasionally you will cough, costing movement and creating noise.")
+               << "\n" << _("Loss of health - Torso");
+        return stream.str();
 
-    case DI_TEARGAS: return _("\
-Strength - 2;     Dexterity - 2;    Intelligence - 1;    Perception - 4\n\
-Occasionally you will cough, costing movement and creating noise.\n\
-Loss of health - Torso");
+    case DI_TEARGAS:
+        stream << _("Strength") << " - 2;   " << _("Dexterity") << " - 2;   "
+               << _("Intelligence") << " - 1;   " << _("Perception")
+               << " - 4\n" << _("Occasionally you will cough, costing movement and creating noise.")
+               << "\n" << _("Loss of health - Torso");
+        return stream.str();
 
-    case DI_ONFIRE: return _("\
-Loss of health - Entire Body\n\
-Your clothing and other equipment may be consumed by the flames.");
+    case DI_ONFIRE:
+        stream << _("Loss of health - Entire Body") << "\n"
+               << _("Your clothing and other equipment may be consumed by the flames.");
 
-    case DI_CRUSHED: return "\
-If you're seeing this, there is a bug in disease.cpp!";
+    case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
     case DI_BOULDERING:
         switch (dis.intensity){
-        case 1: return _("\
-Dexterity - 1;   Speed -10%\
-You are being slowed by climbing over a pile of rubble");
-        case 2: return _("\
-Dexterity - 3;   Speed -20%\
-You are being slowed by climbing over a heap of rubble");
-        case 3: return _("\
-Dexterity - 5;   Speed -30%\
-You are being slowed by climbing over a mountain of rubble");
+        case 1:
+            stream << _("Dexterity") << " - 1;   " << _("Speed") << " -10%\n"
+                   << _("You are being slowed by climbing over a pile of rubble");
+        case 2:
+            stream << _("Dexterity") << " - 3;   " << _("Speed") << " -20%\n"
+                   << _("You are being slowed by climbing over a heap of rubble");
+        case 3:
+            stream << _("Dexterity") << " - 5;   " << _("Speed") << " -30%\n"
+                   << _("You are being slowed by climbing over a mountain of rubble");
         }
+        return stream.str();
 
     case DI_STEMCELL_TREATMENT: return _("\
 Your insides are shifting in strange ways as the treatment takes effect.");
 
-    case DI_BOOMERED: return _("\
-Perception - 5\n\
-Range of Sight: 1;     All sight is tinted magenta");
+    case DI_BOOMERED:
+        stream << _("Perception") << " - 5\n" << _("Range of Sight")
+               << ": 1;   " << _("All sight is tinted magenta");
+        return stream.str();
 
-    case DI_SAP: return _("\
-Dexterity - 3;   Speed - 25");
+    case DI_SAP:
+        stream << _("Dexterity") << " - 3;   " << _("Speed") << " - 25";
+        return stream.str();
 
-    case DI_SPORES: return _("\
-Speed -40%\
-You can feel the tiny spores sinking directly into your flesh.");
+    case DI_SPORES:
+        stream << _("Speed") << " -40%\n"
+               << _("You can feel the tiny spores sinking directly into your flesh.");
+        return stream.str();
 
-    case DI_SLIMED: return _("\
-Speed -40%;     Dexterity - 2");
+    case DI_SLIMED:
+        stream << _("Speed") << " -40%;   " << _("Dexterity") << " - 2";
+        return stream.str();
 
     case DI_DEAF: return _("\
 Sounds will not be reported.  You cannot talk with NPCs.");
 
-    case DI_BLIND: return _("\
-Range of Sight: 0");
+    case DI_BLIND:
+        stream << _("Range of Sight") << ": 0";
+        return stream.str();
 
-    case DI_STUNNED: return _("\
-Your movement is randomized.");
+    case DI_STUNNED: return _("Your movement is randomized.");
 
     case DI_DOWNED: return _("\
 You're knocked to the ground.  You have to get up before you can move.");
 
-    case DI_POISON: return _("\
-Perception - 1;    Dexterity - 1;   Strength - 2 IF not resistant\n\
-Occasional pain and/or damage.");
+    case DI_POISON:
+        stream << _("Perception") << " - 1;   " << _("Dexterity") << " - 1;   "
+               << _("Strength") << " - 2 IF not resistant\n"
+               << _("Occasional pain and/or damage.");
+        return stream.str();
 
-    case DI_BLEED: return _("\
-You are slowly losing blood.");
+    case DI_BLEED: return _("You are slowly losing blood.");
 
-    case DI_BADPOISON: return _("\
-Perception - 2;    Dexterity - 2;\n\
-Strength - 3 IF not resistant, -1 otherwise\n\
-Frequent pain and/or damage.");
+    case DI_BADPOISON:
+        stream << _("Perception") << " - 2;   " << _("Dexterity") << " - 2;\n"
+               << _("Strength") << _(" - 3 IF not resistant, -1 otherwise\n")
+               << _("Frequent pain and/or damage.");
+        return stream.str();
 
-    case DI_FOODPOISON:	return _("\
-Speed - 35%;     Strength - 3;     Dexterity - 1;     Perception - 1\n\
-Your stomach is extremely upset, and you keep having pangs of pain and nausea.");
+    case DI_FOODPOISON:
+        stream << _("Speed") << " - 35%;   " << _("Strength") << " - 3;   "
+               << _("Dexterity") << " - 1;   " << _("Perception") << " - 1\n"
+               << _("Your stomach is extremely upset, and you keep having pangs of pain and nausea.");
+        return stream.str();
 
-    case DI_SHAKES:	return _("\
-Strength - 1;     Dexterity - 4;");
+    case DI_SHAKES:
+        stream << _("Strength") << " - 1;   " << _("Dexterity") << " - 4";
+        return stream.str();
 
-    case DI_FORMICATION:	return _("\
-Strength - 1;     Intelligence - 2;\n\
+    case DI_FORMICATION:
+        stream << _("Strength") << " - 1;   " << _("Intelligence") << " - 2\n"
+               << _("\
 You stop to scratch yourself frequently; high intelligence helps you resist\n\
 this urge.");
+        return stream.str();
 
-    case DI_WEBBED:	return _("\
-Strength - 1;     Dexterity - 4;    Speed - 25");
+    case DI_WEBBED:
+        stream << _("Strength") << " - 1;   " << _("Dexterity") << " - 4;   "
+               << _("Speed") << " - 25";
+        return stream.str();
 
     case DI_RAT:
         intpen = int(dis.duration / 20);
@@ -1689,60 +1712,69 @@ Strength - 1;     Dexterity - 4;    Speed - 25");
 
     case DI_CIG:
         if (dis.duration >= 600)
-            return _("\
-Strength - 1;     Dexterity - 1\n\
-You smoked too much.");
-        return _("\
-Dexterity + 1;     Intelligence + 1;     Perception + 1");
+            stream << _("Strength") << " - 1;   " << _("Dexterity") << " - 1\n"
+                   << _("You smoked too much.");
+        else
+            stream << _("Dexterity") << " + 1;   " << _("Intelligence")
+                   << " + 1;   " << _("Perception") << " + 1";
+        return stream.str();
 
-    case DI_HIGH: return _("\
-Intelligence - 1;     Perception - 1");
+    case DI_HIGH:
+        stream << _("Intelligence") << " - 1;   " << _("Perception") << " - 1";
+        return stream.str();
 
-    case DI_VISUALS: return _("\
-You can't trust everything that you see.");
+    case DI_VISUALS: return _("You can't trust everything that you see.");
 
     case DI_ADRENALINE:
         if (dis.duration > 150)
-            return _("\
-Speed +80;   Strength + 5;   Dexterity + 3;   Intelligence - 8;   Perception + 1");
-        return _("\
-Strength - 2;     Dexterity - 1;     Intelligence - 1;     Perception - 1");
-
-    case DI_ASTHMA:
-        stream << "Speed - " << int(dis.duration / 5) << "%;     Strength - 2;     " << "Dexterity - 3";
+            stream << _("Speed") << " +80;   " << _("Strength") << " + 5;   "
+                   << _("Dexterity") << " + 3;\n" << _("Intelligence")
+                   << " - 8;   " << _("Perception") << " + 1";
+        else
+            stream << _("Strength") << " - 2;   " << _("Dexterity")
+                   << " - 1;   " << _("Intelligence") << " - 1;   "
+                   << _("Perception") << " - 1";
         return stream.str();
 
-    case DI_GRACK: return _("\
-Unleashed the Gracken");
+    case DI_ASTHMA:
+        stream << _("Speed") << " - " << int(dis.duration / 5) << "%;   "
+               << _("Strength") << " - 2;   " << _("Dexterity") << " - 3";
+        return stream.str();
+
+    case DI_GRACK: return _("Unleashed the Gracken");
 
     case DI_METH:
         if (dis.duration > 600)
-            return _("\
-Speed +50;  Strength + 2;  Dexterity + 2;  Intelligence + 3;  Perception + 3");
-        return _("\
-Speed -40;   Strength - 3;   Dexterity - 2;   Intelligence - 2");
+            stream << _("Speed") << " +50;   " << _("Strength") << " + 2;   "
+                   << _("Dexterity") << " + 2;\n" << _("Intelligence")
+                   << " + 3;   " << _("Perception") << " + 3";
+        else
+            stream << _("Speed") << " -40;   " << _("Strength") << " - 3;   "
+                   << _("Dexterity") << " - 2;   " << _("Intelligence")
+                   << " - 2";
+        return stream.str();
 
     case DI_IN_PIT: return _("\
 You're stuck in a pit.  Sight distance is limited and you have to climb out.");
 
     case DI_ATTACK_BOOST:
-        stream << "To-hit bonus + " << dis.intensity;
+        stream << _("To-hit bonus") << " + " << dis.intensity;
         return stream.str();
 
     case DI_DAMAGE_BOOST:
-        stream << "Damage bonus + " << dis.intensity;
+        stream << _("Damage bonus") << " + " << dis.intensity;
         return stream.str();
 
     case DI_DODGE_BOOST:
-        stream << "Dodge bonus + " << dis.intensity;
+        stream << _("Dodge bonus") << " + " << dis.intensity;
         return stream.str();
 
     case DI_ARMOR_BOOST:
-        stream << "Armor bonus + " << dis.intensity;
+        stream << _("Armor bonus") << " + " << dis.intensity;
         return stream.str();
 
     case DI_SPEED_BOOST:
-        stream << "Attack speed + " << dis.intensity;
+        stream << _("Attack speed") << " + " << dis.intensity;
         return stream.str();
 
     case DI_VIPER_COMBO:
@@ -1755,12 +1787,9 @@ Your next strike will be a Viper Strike.  It requires both arms to be in good\n\
 condition, and deals massive damage.");
         }
 
-    case DI_BITE: return _("\
-You have a nasty bite wound.");
-    case DI_INFECTED: return _("\
-You have an infected wound.");
-    case DI_RECOVER: return _("\
-You are recovering from an infection.");
+    case DI_BITE: return _("You have a nasty bite wound.");
+    case DI_INFECTED: return _("You have an infected wound.");
+    case DI_RECOVER: return _("You are recovering from an infection.");
 
     default: return "Who knows?  This is probably a bug. (disease.cpp:dis_description)";
     }
