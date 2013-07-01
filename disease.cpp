@@ -9,99 +9,99 @@
 
 void dis_msg(game *g, dis_type type)
 {
- switch (type) {
- case DI_GLARE:
-  g->add_msg(_("The sunlight's glare makes it hard to see."));
-  break;
- case DI_WET:
-  g->add_msg(_("You're getting soaked!"));
-  break;
- case DI_COMMON_COLD:
-  g->add_msg(_("You feel a cold coming on..."));
-  break;
- case DI_FLU:
-  g->add_msg(_("You feel a flu coming on..."));
-  break;
- case DI_ONFIRE:
-  g->add_msg(_("You're on fire!"));
-  break;
- case DI_SMOKE:
-  g->add_msg(_("You inhale a lungful of thick smoke."));
-  break;
- case DI_TEARGAS:
-  g->add_msg(_("You inhale a lungful of tear gas."));
-  break;
- case DI_CRUSHED:
-  g->add_msg(_("The ceiling collapses on you!"));
-  break;
- case DI_BOULDERING:
-  g->add_msg(_("You are slowed by the rubble."));
- case DI_BOOMERED:
-  g->add_msg(_("You're covered in bile!"));
-  break;
- case DI_SAP:
-  g->add_msg(_("You're coated in sap!"));
-  break;
- case DI_SPORES:
-  g->add_msg(_("You're covered in tiny spores!"));
-  break;
- case DI_SLIMED:
-  g->add_msg(_("You're covered in thick goo!"));
-  break;
- case DI_LYING_DOWN:
-  g->add_msg(_("You lie down to go to sleep..."));
-  break;
- case DI_FORMICATION:
-  g->add_msg(_("There's bugs crawling under your skin!"));
-  break;
- case DI_WEBBED:
-  g->add_msg(_("You're covered in webs!"));
-  break;
- case DI_DRUNK:
- case DI_HIGH:
-  g->add_msg(_("You feel lightheaded."));
-  break;
- case DI_ADRENALINE:
-  g->add_msg(_("You feel a surge of adrenaline!"));
-  g->u.moves += 800;
-  break;
- case DI_ASTHMA:
-  g->add_msg(_("You can't breathe... asthma attack!"));
-  break;
- case DI_DEAF:
-  g->add_msg(_("You're deafened!"));
-  break;
- case DI_BLIND:
-  g->add_msg(_("You're blinded!"));
-  break;
- case DI_STUNNED:
-  g->add_msg(_("You're stunned!"));
-  break;
- case DI_DOWNED:
-  g->add_msg(_("You're knocked to the floor!"));
-  break;
- case DI_AMIGARA:
-  g->add_msg(_("You can't look away from the faultline..."));
-  break;
- case DI_STEMCELL_TREATMENT:
-  g->add_msg(_("You receive a pureed bone & enamel injection into your eyeball."));
-  g->add_msg(_("It is excruciating."));
-  break;
- case DI_BITE:
-  g->add_msg(_("The bite wound feels really deep..."));
-  break;
- case DI_INFECTED:
-  g->add_msg(_("Your bite wound feels infected"));
-  break;
- case DI_LIGHTSNARE:
-  g->add_msg(_("You are snared."));
-  break;
- case DI_HEAVYSNARE:
-  g->add_msg(_("You are snared."));
-  break;
- default:
-  break;
- }
+    switch (type) {
+    case DI_GLARE:
+        g->add_msg(_("The sunlight's glare makes it hard to see."));
+        break;
+    case DI_WET:
+        g->add_msg(_("You're getting soaked!"));
+        break;
+    case DI_COMMON_COLD:
+        g->add_msg(_("You feel a cold coming on..."));
+        break;
+    case DI_FLU:
+        g->add_msg(_("You feel a flu coming on..."));
+        break;
+    case DI_ONFIRE:
+        g->add_msg(_("You're on fire!"));
+        break;
+    case DI_SMOKE:
+        g->add_msg(_("You inhale a lungful of thick smoke."));
+        break;
+    case DI_TEARGAS:
+        g->add_msg(_("You inhale a lungful of tear gas."));
+        break;
+    case DI_CRUSHED:
+        g->add_msg(_("The ceiling collapses on you!"));
+        break;
+    case DI_BOULDERING:
+        g->add_msg(_("You are slowed by the rubble.")); // FIXME missing break
+    case DI_BOOMERED:
+        g->add_msg(_("You're covered in bile!"));
+        break;
+    case DI_SAP:
+        g->add_msg(_("You're coated in sap!"));
+        break;
+    case DI_SPORES:
+        g->add_msg(_("You're covered in tiny spores!"));
+        break;
+    case DI_SLIMED:
+        g->add_msg(_("You're covered in thick goo!"));
+        break;
+    case DI_LYING_DOWN:
+        g->add_msg(_("You lie down to go to sleep..."));
+        break;
+    case DI_FORMICATION:
+        g->add_msg(_("There's bugs crawling under your skin!"));
+        break;
+    case DI_WEBBED:
+        g->add_msg(_("You're covered in webs!"));
+        break;
+    case DI_DRUNK:
+    case DI_HIGH:
+        g->add_msg(_("You feel lightheaded."));
+        break;
+    case DI_ADRENALINE:
+        g->add_msg(_("You feel a surge of adrenaline!"));
+        g->u.moves += 800; // FIXME this should not be here
+        break;
+    case DI_ASTHMA:
+        g->add_msg(_("You can't breathe... asthma attack!"));
+        break;
+    case DI_DEAF:
+        g->add_msg(_("You're deafened!"));
+        break;
+    case DI_BLIND:
+        g->add_msg(_("You're blinded!"));
+        break;
+    case DI_STUNNED:
+        g->add_msg(_("You're stunned!"));
+        break;
+    case DI_DOWNED:
+        g->add_msg(_("You're knocked to the floor!"));
+        break;
+    case DI_AMIGARA:
+        g->add_msg(_("You can't look away from the faultline..."));
+        break;
+    case DI_STEMCELL_TREATMENT:
+        g->add_msg(_("You receive a pureed bone & enamel injection into your eyeball."));
+        g->add_msg(_("It is excruciating."));
+        break;
+    case DI_BITE:
+        g->add_msg(_("The bite wound feels really deep..."));
+        break;
+    case DI_INFECTED:
+        g->add_msg(_("Your bite wound feels infected"));
+        break;
+    case DI_LIGHTSNARE:
+        g->add_msg(_("You are snared."));
+        break;
+    case DI_HEAVYSNARE:
+        g->add_msg(_("You are snared."));
+        break;
+    default:
+        break;
+    }
 }
 
 void dis_effect(game *g, player &p, disease &dis)
