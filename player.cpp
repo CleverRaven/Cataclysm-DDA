@@ -4460,7 +4460,7 @@ void player::process_active_items(game *g)
   } // if (weapon.has_flag("CHARGE"))
   if (!process_single_active_item(g, &weapon))
   {
-   weapon = get_combat_style(g);
+   weapon = get_combat_style();
   }
  }
 
@@ -4561,7 +4561,7 @@ item player::remove_weapon()
   weapon.active = false;
  }
  item tmp = weapon;
- weapon = get_combat_style(g);
+ weapon = get_combat_style();
 // We need to remove any boosts related to our style
  rem_disease(DI_ATTACK_BOOST);
  rem_disease(DI_DODGE_BOOST);
@@ -4595,7 +4595,7 @@ item player::i_rem(game* g, char let)
    return ret_null;
   }
   tmp = weapon;
-  weapon = get_combat_style(g);
+  weapon = get_combat_style();
   return tmp;
  }
  for (int i = 0; i < worn.size(); i++) {
@@ -4645,7 +4645,7 @@ item& player::i_of_type(itype_id type)
  return ret_null;
 }
 
-item player::get_combat_style(game *g)
+item player::get_combat_style()
 {
  item tmp;
  bool pickstyle = (!styles.empty());
@@ -5373,7 +5373,7 @@ bool player::eat(game *g, signed char ch)
     if (eaten->charges <= 0)
     {
         if (which == -1)
-            weapon = get_combat_style(g);
+            weapon = get_combat_style();
         else if (which == -2)
         {
             weapon.contents.erase(weapon.contents.begin());
@@ -5460,7 +5460,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
    return false;
 
   if (pickstyle) {
-   weapon = get_combat_style(g);
+   weapon = get_combat_style();
    return true;
   }
  }

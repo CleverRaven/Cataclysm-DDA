@@ -283,7 +283,7 @@ bool player::create(game *g, character_type type, std::string tempname)
   style_selected=ma_type;
  }
  ret_null = item(g->itypes["null"], 0);
- weapon = get_combat_style(g);
+ weapon = get_combat_style();
  
  
  item tmp; //gets used several times
