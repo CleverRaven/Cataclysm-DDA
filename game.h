@@ -52,6 +52,9 @@
 #define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
 #define MAX_VOLUME_IN_VEHICLE_STORAGE 500 // todo: variation. semi trailer square could hold more. the real limit would be weight
 
+// The reference to the one and only game instance.
+extern game *g;
+
 #define PICKUP_RANGE 2
 extern bool trigdist;
 enum tut_type {

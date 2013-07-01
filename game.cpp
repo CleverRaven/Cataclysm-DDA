@@ -51,6 +51,9 @@
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
 
+//The one and only game instance
+game *g;
+
 uistatedata uistate;
 
 // This is the main game set-up process.
