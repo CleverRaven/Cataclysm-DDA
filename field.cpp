@@ -206,7 +206,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						} else if (it->made_of(LIQUID)) {
 							//Lots of smoke if alcohol, and LOTS of fire fueling power, kills a fire otherwise.
 							if(it->type->id == "tequila" || it->type->id == "whiskey" ||
-								it->type->id == "vodka" || it->type->id == "rum") {
+								it->type->id == "vodka" || it->type->id == "rum" || it->type->id == "gasoline") {
 									cur->setFieldAge(cur->getFieldAge() - 300);
 									smoke += 6;
 							} else {
