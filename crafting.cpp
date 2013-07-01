@@ -508,8 +508,8 @@ recipe* game::select_crafting_recipe()
     const int dataLines=(int)(dataHalfLines*2);      // old: 18
     const int dataHeight=dataLines+4;                // old: 22
 
-	WINDOW *w_head = newwin( 3, 80, 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
-    WINDOW *w_data = newwin(dataHeight, 80, 3, (TERMX  > 80) ? (TERMX -80)/2 : 0);
+    WINDOW *w_head = newwin( 3, FULL_SCREEN_WIDTH, 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW *w_data = newwin(dataHeight, FULL_SCREEN_WIDTH, 3, (TERMX  > FULL_SCREEN_WIDTH) ? (TERMX -FULL_SCREEN_WIDTH)/2 : 0);
 
 
     craft_cat tab = "CC_WEAPON";
@@ -547,18 +547,18 @@ recipe* game::select_crafting_recipe()
             mvwprintz(w_data, dataLines+1, 5, c_white, "[?/E]: Describe, [F]ind");
         }
         mvwprintz(w_data, dataLines+2, 5, c_white, "Press <ENTER> to attempt to craft object.");
-        for (int i = 0; i < 80; i++)
+        for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
         {
             mvwputch(w_data, dataHeight-1, i, c_ltgray, LINE_OXOX);
             if (i < dataHeight-1)
             {
                 mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
-                mvwputch(w_data, i, 79, c_ltgray, LINE_XOXO);
+                mvwputch(w_data, i, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXO);
             }
         }
 
         mvwputch(w_data, dataHeight-1,  0, c_ltgray, LINE_XXOO); // _|
-        mvwputch(w_data, dataHeight-1, 79, c_ltgray, LINE_XOOX); // |_
+        mvwputch(w_data, dataHeight-1, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOOX); // |_
 
         int recmin = 0, recmax = current.size();
         if(recmax > dataLines)
@@ -704,7 +704,7 @@ recipe* game::select_crafting_recipe()
                             toolinfo << "(" << charges << " charges) ";
                         }
                         std::string toolname = toolinfo.str();
-                        if (xpos + toolname.length() >= 80)
+                        if (xpos + toolname.length() >= FULL_SCREEN_WIDTH)
                         {
                             xpos = 32;
                             ypos++;
@@ -713,7 +713,7 @@ recipe* game::select_crafting_recipe()
                         xpos += toolname.length();
                         if (j < current[line]->tools[i].size() - 1)
                         {
-                            if (xpos >= 77)
+                            if (xpos >= FULL_SCREEN_WIDTH-3)
                             {
                             xpos = 32;
                             ypos++;
@@ -758,7 +758,7 @@ recipe* game::select_crafting_recipe()
                     std::stringstream dump;
                     dump << abs(count) << "x " << item_controller->find_template(type)->name << " ";
                     std::string compname = dump.str();
-                    if (xpos + compname.length() >= 80)
+                    if (xpos + compname.length() >= FULL_SCREEN_WIDTH)
                     {
                         ypos++;
                         xpos = 32;
@@ -767,7 +767,7 @@ recipe* game::select_crafting_recipe()
                     xpos += compname.length();
                     if (j < current[line]->components[i].size() - 1)
                     {
-                        if (xpos >= 77)
+                        if (xpos >= FULL_SCREEN_WIDTH-3)
                         {
                             ypos++;
                             xpos = 32;
@@ -879,7 +879,7 @@ recipe* game::select_crafting_recipe()
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 {
     werase(w);
-    for (int i = 0; i < 80; i++)
+    for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
     {
         mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
     }

@@ -9,9 +9,9 @@
 
 void game::wish()
 {
- WINDOW* w_search = newwin(2, 80, 0, 0);
- WINDOW* w_list = newwin(23, 30, 2,  0);
- WINDOW* w_info = newwin(23, 50, 2, 30);
+ WINDOW* w_search = newwin(2, FULL_SCREEN_WIDTH, 0, 0);
+ WINDOW* w_list = newwin(FULL_SCREEN_HEIGHT-2, 30, 2,  0);
+ WINDOW* w_info = newwin(FULL_SCREEN_HEIGHT-2, 50, 2, 30);
  int a = 0, shift = 0, result_selected = 0;
  int ch = '.';
  bool search = false;

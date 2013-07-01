@@ -107,7 +107,6 @@ void map::generate(game *g, overmap *om, const int x, const int y, const int z, 
     grid[i]->ter[x][y] = t_null;
     grid[i]->frn[x][y] = f_null;
     grid[i]->trp[x][y] = tr_null;
-    grid[i]->fld[x][y] = field();
     grid[i]->rad[x][y] = 0;
     grid[i]->graf[x][y] = graffiti();
    }
@@ -962,69 +961,130 @@ t   t\n\
    house_room(this, room_living,	mw, tw, rw, cw);
    house_room(this, room_kitchen,	lw, tw, mw, cw);
    ter_set(mw, rng(tw + 2, cw - 2), (one_in(3) ? t_door_c : t_floor));
-   rn = rng(lw + 1, cw - 2);
+   rn = rng(lw + 1, mw - 2);
    ter_set(rn    , tw, t_window_domestic);
    ter_set(rn + 1, tw, t_window_domestic);
-   rn = rng(cw + 1, rw - 2);
+   rn = rng(mw + 1, rw - 2);
    ter_set(rn    , tw, t_window_domestic);
    ter_set(rn + 1, tw, t_window_domestic);
-   mw = rng(lw + 3, rw - 3);
-   if (mw <= lw + 5) {	// Bedroom on right, bathroom on left
-    rn = rng(cw + 2, rw - 2);
-    if (bw - cw >= 10 && mw - lw >= 6) {
-     house_room(this, room_bathroom, lw, bw - 5, mw, bw);
-     house_room(this, room_bedroom, lw, cw, mw, bw - 5);
-     ter_set(mw - 1, cw, t_door_c);
+   rn = rng(lw + 3, rw - 3); // Bottom part mw
+   if (rn <= lw + 5) {
+    // Bedroom on right, bathroom on left
+    house_room(this, room_bedroom, rn, cw, rw, bw);
+
+    // Put door between bedroom and living
+    ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
+
+    if (bw - cw >= 10 && rn - lw >= 6) {
+     // All fits, placing bathroom and 2nd bedroom
+     house_room(this, room_bathroom, lw, bw - 5, rn, bw);
+     house_room(this, room_bedroom, lw, cw, rn, bw - 5);
+
+     // Put door between bathroom and bedroom
+     ter_set(rn, rng(bw - 4, bw - 1), t_door_c);
+
+     if (one_in(3)) {
+      // Put door between 2nd bedroom and 1st bedroom
+      ter_set(rn, rng(cw + 1, bw - 6), t_door_c);
+     } else {
+      // ...Otherwise, between 2nd bedroom and kitchen
+      ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
+     }
+    } else if (bw - cw > 4) {
+     // Too big for a bathroom, not big enough for 2nd bedroom
+     // Make it a bathroom anyway, but give the excess space back to
+     // the kitchen.
+     house_room(this, room_bathroom, lw, bw - 4, rn, bw);
+     for (int i = lw + 1; i < mw && i < rn; i++)
+      ter_set(i, cw, t_floor);
+
+     // Put door between excess space and bathroom
+     ter_set(rng(lw + 1, rn - 1), bw - 4, t_door_c);
+
+     // Put door between excess space and bedroom
+     ter_set(rn, rng(cw + 1, bw - 5), t_door_c);
     } else {
-     if (bw - cw > 4) {	// Too big for a bathroom, not big enough for 2nd bedrm
-      house_room(this, room_bathroom, lw, bw - 4, mw, bw);
-      for (int i = lw + 1; i <= mw - 1; i++)
-       ter_set(i, cw    , t_floor);
-     } else
-      house_room(this, room_bathroom, lw, cw, mw, bw);
+     // Small enough to be a bathroom; make it one.
+     house_room(this, room_bathroom, lw, cw, rn, bw);
+
+     if (one_in(5)) {
+      // Put door between batroom and kitchen with low chance
+      ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
+     } else {
+      // ...Otherwise, between bathroom and bedroom
+      ter_set(rn, rng(cw + 1, bw - 1), t_door_c);
+     }
     }
-    house_room(this, room_bedroom, mw, cw, rw, bw);
-    ter_set(mw, rng(bw - 4, bw - 1), t_door_c);
-   } else {	// Bedroom on left, bathroom on right
-    rn = rng(lw + 2, cw - 2);
-    if (bw - cw >= 10 && rw - mw >= 6) {
-     house_room(this, room_bathroom, mw, bw - 5, rw, bw);
-     house_room(this, room_bedroom, mw, cw, rw, bw - 5);
-     ter_set(rw - 1, cw, t_door_c);
+    // Point on bedroom wall, for window
+    rn = rng(rn + 2, rw - 2);
+   } else {
+    // Bedroom on left, bathroom on right
+    house_room(this, room_bedroom, lw, cw, rn, bw);
+
+    // Put door between bedroom and kitchen
+    ter_set(rng(lw + 1, rn > mw ? mw - 1 : rn - 1), cw, t_door_c);
+
+    if (bw - cw >= 10 && rw - rn >= 6) {
+     // All fits, placing bathroom and 2nd bedroom
+     house_room(this, room_bathroom, rn, bw - 5, rw, bw);
+     house_room(this, room_bedroom, rn, cw, rw, bw - 5);
+
+     // Put door between bathroom and bedroom
+     ter_set(rn, rng(bw - 4, bw - 1), t_door_c);
+
+     if (one_in(3)) {
+      // Put door between 2nd bedroom and 1st bedroom
+      ter_set(rn, rng(cw + 1, bw - 6), t_door_c);
+     } else {
+      // ...Otherwise, between 2nd bedroom and living
+      ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
+     }
+    } else if (bw - cw > 4) {
+     // Too big for a bathroom, not big enough for 2nd bedroom
+     // Make it a bathroom anyway, but give the excess space back to
+     // the living.
+     house_room(this, room_bathroom, rn, bw - 4, rw, bw);
+     for (int i = rw - 1; i > rn && i > mw; i--)
+      ter_set(i, cw, t_floor);
+
+     // Put door between excess space and bathroom
+     ter_set(rng(rw - 1, rn + 1), bw - 4, t_door_c);
+
+     // Put door between excess space and bedroom
+     ter_set(rn, rng(cw + 1, bw - 5), t_door_c);
     } else {
-     if (bw - cw > 4) {	// Too big for a bathroom, not big enough for 2nd bedrm
-      house_room(this, room_bathroom, mw, bw - 4, rw, bw);
-      for (int i = mw + 1; i <= rw - 1; i++)
-       ter_set(i, cw    , t_floor);
-     } else
-      house_room(this, room_bathroom, mw, cw, rw, bw);
+     // Small enough to be a bathroom; make it one.
+     house_room(this, room_bathroom, rn, cw, rw, bw);
+
+     if (one_in(5)) {
+      // Put door between bathroom and living with low chance
+      ter_set(rng(rw - 1, rn > mw ? rn + 1 : mw + 1), cw, t_door_c);
+     } else {
+      // ...Otherwise, between bathroom and bedroom
+      ter_set(rn, rng(cw + 1, bw - 1), t_door_c);
+     }
     }
-    house_room(this, room_bedroom, lw, cw, mw, bw);
-    ter_set(mw, rng(bw - 4, bw - 1), t_door_c);
+    // Point on bedroom wall, for window
+    rn = rng(lw + 2, rn - 2);
    }
    ter_set(rn    , bw, t_window_domestic);
    ter_set(rn + 1, bw, t_window_domestic);
-   if (!one_in(3)) {	// Potential side windows
-    rn = rng(tw + 2, bw - 5);
+   if (!one_in(3) && rw < SEEX * 2 - 1) {	// Potential side windows
+    rn = rng(tw + 2, bw - 6);
     ter_set(rw, rn    , t_window_domestic);
     ter_set(rw, rn + 4, t_window_domestic);
    }
-   if (!one_in(3)) {	// Potential side windows
-    rn = rng(tw + 2, bw - 5);
+   if (!one_in(3) && lw > 0) {	// Potential side windows
+    rn = rng(tw + 2, bw - 6);
     ter_set(lw, rn    , t_window_domestic);
     ter_set(lw, rn + 4, t_window_domestic);
    }
-   ter_set(rng(lw + 1, lw + 2), cw, t_door_c);
-   if (one_in(4))
-    ter_set(rw - 2, cw, t_door_c);
-   else
-    ter_set(mw, rng(cw + 1, bw - 1), t_door_c);
    if (one_in(2)) {	// Placement of the main door
-    ter_set(rng(lw + 2, cw - 1), tw, (one_in(6) ? t_door_c : t_door_locked));
-    if (one_in(5))
+    ter_set(rng(lw + 2, mw - 1), tw, (one_in(6) ? t_door_c : t_door_locked));
+    if (one_in(5)) // Placement of side door
      ter_set(rw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
    } else {
-    ter_set(rng(cw + 1, rw - 2), tw, (one_in(6) ? t_door_c : t_door_locked));
+    ter_set(rng(mw + 1, rw - 2), tw, (one_in(6) ? t_door_c : t_door_locked));
     if (one_in(5))
      ter_set(lw, rng(tw + 2, cw - 2), (one_in(6) ? t_door_c : t_door_locked));
    }
@@ -1105,12 +1165,12 @@ t   t\n\
    rn = rng(mw + 3, rw - 2);
    ter_set(rn    , tw, t_window_domestic);
    ter_set(rn + 1, tw, t_window_domestic);
-   if (one_in(4)) {	// Side windows?
+   if (one_in(3) && lw > 0) {	// Side windows?
     rn = rng(tw + 1, cw - 2);
     ter_set(lw, rn    , t_window_domestic);
     ter_set(lw, rn + 1, t_window_domestic);
    }
-   if (one_in(4)) {	// Side windows?
+   if (one_in(3) && rw < SEEX * 2 - 1) {	// Side windows?
     rn = rng(tw + 1, cw - 2);
     ter_set(rw, rn    , t_window_domestic);
     ter_set(rw, rn + 1, t_window_domestic);
@@ -1216,7 +1276,7 @@ t   t\n\
           add_field(NULL, x, y, fd_web, rng(2, 3));
         }
        }
-      } else if (move_cost(i, j) > 0 && field_at(i, j).is_null() && one_in(5))
+      } else if (move_cost(i, j) > 0 && one_in(5))
        add_field(NULL, x, y, fd_web, 1);
      }
     }
@@ -1310,6 +1370,10 @@ t   t\n\
    fill_background(this, t_grass);
    mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
              t          \n\
       t         ##      \n\
                 ##      \n\
@@ -1324,7 +1388,12 @@ t   t\n\
       -            t    \n\
      t-                 \n\
                t        \n\
-         t              \n",
+         t              \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n\
+                        \n",
    mapf::basic_bind( "# m s t", t_sandbox, t_monkey_bars, t_slide, t_tree ),
    mapf::basic_bind( "-", f_bench));
    rotate(rng(0, 3));
@@ -1333,6 +1402,7 @@ t   t\n\
    fill_background(this, t_pavement);
    mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
 |-+------------------+-|\n\
 |     .  . 7 .  .      |\n\
 |     .  .   .  .      |\n\
@@ -1353,7 +1423,9 @@ t   t\n\
 |#    .  .....  .     #|\n\
 |     .  .   .  .      |\n\
 |     .  . 7 .  .      |\n\
-|-+------------------+-|\n",
+|-+------------------+-|\n\
+                        \n\
+                        \n",
   mapf::basic_bind(". 7 | - +", t_pavement_y, t_backboard, t_chainfence_v, t_chainfence_h, t_chaingate_l),
   mapf::basic_bind("#", f_bench));
   rotate(rng(0, 3));
@@ -1378,7 +1450,7 @@ t   t\n\
    for (int j = 0; j < SEEX * 2; j++) {
     if (j < tw && (tw - j) % 4 == 0 && i > lw && i < rw &&
         (i - (1 + lw)) % rn == 0)
-     ter_set(i, j, t_gas_pump);
+     place_gas_pump(i, j, rng(1000, 10000));
     else if ((j < 2 && i > 7 && i < 16) || (j < tw && i > lw && i < rw))
      ter_set(i, j, t_pavement);
     else if (j == tw && (i == lw+6 || i == lw+7 || i == rw-7 || i == rw-6))
@@ -3160,7 +3232,7 @@ C..C..C...|hhh|#########\n\
    ter_set(13, rng(16, 19), (one_in(3) ? t_door_c : t_door_locked));
   if (rn == 2) {
    if (one_in(5))
-    ter_set(rng(4, 10), 16, t_gas_pump);
+    place_gas_pump(rng(4, 10), 16, rng(500, 5000));
       else ter_set(rng(4, 10), 16, t_recycler);
    if (one_in(3)) {	// Place a dumpster
     int startx = rng(2, 11), starty = rng(18, 19);
@@ -6066,6 +6138,7 @@ ff.......|....|WWWWWWWW|\n\
 //Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.
    mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
         FffffffffffffF  \n\
         F____________F  \n\
    |----|______&&&&__F  \n\
@@ -6161,6 +6234,7 @@ case ot_public_works:{
     (t_south == ot_public_works && t_west == ot_public_works_entrance)){
      mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
  |---------------|FFFFFF\n\
  |....rrrrrrrr...|      \n\
  |r..............| _____\n\
@@ -6249,6 +6323,7 @@ ____sss                 \n",
   else {
      mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
 FFFFFFFFF|------------| \n\
          |..ll..rrr...| \n\
 __________............| \n\
@@ -8244,6 +8319,7 @@ tth.............^|..|###\n\
   fill_background(this, &grass_or_dirt);
   mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
    |---|----|--------|  \n\
    |..l|.T.S|..eccScc|  \n\
    |...+....+........D  \n\
@@ -8389,6 +8465,7 @@ case ot_haz_sar:{
     (t_south == ot_haz_sar && t_west == ot_haz_sar_entrance)){
      mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
  fFFFFFFFFFFFFFFFFFFFFFF\n\
  f                      \n\
  f                      \n\
@@ -8464,7 +8541,10 @@ ________,_________ss  f \n\
 ________,_________ss  f \n\
 ________,_________ss  f \n\
 ssssssssssssssssssss  f \n\
-FFFFFFFFFFFFFFFFFFFFFFf \n",
+FFFFFFFFFFFFFFFFFFFFFFf \n\
+                        \n\
+                        \n\
+                        \n",
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F V H 6 x $ ^ . - | # t + = D w T S e o h c d l s", t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass_h, t_wall_glass_v, t_sewage, t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h, t_wall_glass_v, t_wall_glass_h, t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall_h, t_wall_v, t_rock, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
      mapf::basic_bind("1 & V C G 5 % Q E , _ r X f F V H 6 x $ ^ . - | # t + = D w T S e o h c d l s", f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,   f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,         f_null,         f_null,         f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table, f_null,   f_null,              f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
      spawn_item(1, 2, "id_military", 0);
@@ -8487,6 +8567,7 @@ FFFFFFFFFFFFFFFFFFFFFFf \n",
   else {
      mapf::formatted_set_simple(this, 0, 0,
 "\
+                        \n\
 FFFFFFFFFFFFFFFFFFFFFFf \n\
                       f \n\
                       f \n\
@@ -11915,7 +11996,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
    }
   }
   furn_set(7, SEEY * 2 - 4, f_rack);
-  ter_set(SEEX * 2 - 2, SEEY * 2 - 4, t_gas_pump);
+  place_gas_pump(SEEX * 2 - 2, SEEY * 2 - 4, rng(500, 1000));
   if (t_above != ot_null) {
    ter_set(SEEX - 2, SEEY + 2, t_stairs_up);
    ter_set(2, 2, t_water_sh);
@@ -12206,6 +12287,13 @@ void map::place_spawns(game *g, std::string group, const int chance,
  }
 }
 
+void map::place_gas_pump(int x, int y, int charges)
+{
+ item gas((*itypes)["gasoline"], 0);
+ gas.charges = charges;
+ add_item(x, y, gas);
+ ter_set(x, y, t_gas_pump);
+}
 
 int map::place_items(items_location loc, int chance, int x1, int y1,
                       int x2, int y2, bool ongrass, int turn)
@@ -13377,11 +13465,11 @@ void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    if (door_side == NORTH || door_side == SOUTH) {
     int y = (door_side == NORTH ? y1 + 2 : y2 - 2);
     for (int x = x1 + 1; x <= x2 - 1; x += spacing)
-     m->ter_set(x, y, t_gas_pump);
+     m->place_gas_pump(x, y, rng(10000, 50000));
    } else {
     int x = (door_side == EAST ? x2 - 2 : x1 + 2);
     for (int y = y1 + 1; y <= y2 - 1; y += spacing)
-     m->ter_set(x, y, t_gas_pump);
+     m->place_gas_pump(x, y, rng(10000, 50000));
    }
   } break;
 

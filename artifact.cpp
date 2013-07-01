@@ -845,11 +845,11 @@ void game::process_artifact(item *it, player *p, bool wielded)
   case AEP_EXTINGUISH:
    for (int x = p->posx - 1; x <= p->posx + 1; x++) {
     for (int y = p->posy - 1; y <= p->posy + 1; y++) {
-     if (m.field_at(x, y).type == fd_fire) {
-      if (m.field_at(x, y).density == 0)
-       m.remove_field(x, y);
+		if (m.field_at(x, y).findField(fd_fire)) {
+			if (m.field_at(x, y).findField(fd_fire)->getFieldDensity() == 0)
+       m.remove_field(x, y, fd_fire);
       else
-       m.field_at(x, y).density--;
+		  m.field_at(x, y).findField(fd_fire)->setFieldDensity(m.field_at(x, y).findField(fd_fire)->getFieldDensity() - 1);
      }
     }
    }

@@ -51,7 +51,7 @@ void map::generate_lightmap(game* g)
    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
     const ter_id terrain = g->m.ter(sx, sy);
     const std::vector<item> &items = g->m.i_at(sx, sy);
-    const field &current_field = g->m.field_at(sx, sy);
+    field current_field = g->m.field_at(sx, sy);
     // When underground natural_light is 0, if this changes we need to revisit
     if (natural_light > LIGHT_AMBIENT_LOW) {
      if (!g->m.is_outside(sx, sy)) {
@@ -88,12 +88,16 @@ void map::generate_lightmap(game* g)
    if(terrain == t_emergency_light)
     apply_light_source(sx, sy, 3, false);
 
+   field_entry *cur = NULL;
+	for(std::vector<field_entry*>::iterator field_list_it = current_field.getFieldStart(); field_list_it != current_field.getFieldEnd(); ++field_list_it){
+		cur = (*field_list_it);
+		if(cur == NULL) continue;
    // TODO: [lightmap] Attach light brightness to fields
-  switch(current_field.type) {
+		switch(cur->getFieldType()) {
     case fd_fire:
-     if (3 == current_field.density)
+		if (3 == cur->getFieldDensity())
       apply_light_source(sx, sy, 160, trigdist);
-     else if (2 == current_field.density)
+     else if (2 == cur->getFieldDensity())
       apply_light_source(sx, sy, 60, trigdist);
      else
       apply_light_source(sx, sy, 16, trigdist);
@@ -103,14 +107,15 @@ void map::generate_lightmap(game* g)
      apply_light_source(sx, sy, 8, trigdist);
      break;
     case fd_electricity:
-     if (3 == current_field.density)
+     if (3 == cur->getFieldDensity())
       apply_light_source(sx, sy, 8, trigdist);
-     else if (2 == current_field.density)
+     else if (2 == cur->getFieldDensity())
       apply_light_source(sx, sy, 1, trigdist);
      else
       apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL, trigdist);  // kinda a hack as the square will still get marked
      break;
    }
+	}
   }
  }
 

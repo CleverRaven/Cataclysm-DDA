@@ -869,7 +869,7 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
     }
     posx += p->posx;
     posy += p->posy;
-    if (!g->m.flammable_items_at(posx, posy))
+    if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy)))
     {
        g->add_msg_if_player(p,"There's nothing to light there.");
        it->charges++;
@@ -881,11 +881,11 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
 {
     // this should have already been checked, but double-check to make sure
-    if (g->m.flammable_items_at(posx, posy))
+	if (g->m.flammable_items_at(posx, posy) || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy))
     {
         if (g->m.add_field(g, posx, posy, fd_fire, 1))
         {
-            g->m.field_at(posx, posy).age = 30;
+            g->m.field_at(posx, posy).findField(fd_fire)->setFieldAge(g->m.field_at(posx, posy).findField(fd_fire)->getFieldAge() + 100);
             g->add_msg_if_player(p, "You successfully light a fire.");
         }
     }
@@ -1246,11 +1246,11 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
 
  p->moves -= 140;
 
- if (g->m.field_at(x, y).type == fd_fire) {
-  g->m.field_at(x, y).density -= rng(2, 3);
-  if (g->m.field_at(x, y).density <= 0) {
-   g->m.field_at(x, y).density = 1;
-   g->m.remove_field(x, y);
+ if (g->m.field_at(x, y).findField(fd_fire)) {
+  g->m.field_at(x, y).findField(fd_fire)->setFieldDensity(g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() - rng(2, 3));
+  if (g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() <= 0) {
+   //g->m.field_at(x, y).density = 1;
+   g->m.remove_field(x, y, fd_fire);
   }
  }
  int mondex = g->mon_at(x, y);
@@ -1270,11 +1270,11 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
  if (g->m.move_cost(x, y) != 0) {
   x += (x - p->posx);
   y += (y - p->posy);
-  if (g->m.field_at(x, y).type == fd_fire) {
-   g->m.field_at(x, y).density -= rng(0, 1) + rng(0, 1);
-   if (g->m.field_at(x, y).density <= 0) {
-    g->m.field_at(x, y).density = 1;
-    g->m.remove_field(x, y);
+  if (g->m.field_at(x, y).findField(fd_fire)) {
+   g->m.field_at(x, y).findField(fd_fire)->setFieldDensity(g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() - rng(0, 1) + rng(0, 1));
+   if (g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() <= 0) {
+    //g->m.field_at(x, y).density = 1;
+    g->m.remove_field(x, y,fd_fire);
    }
   }
  }
@@ -3373,8 +3373,8 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 void iuse::mp3_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-  if (!p->has_item(it))
-   return;	// We're not carrying it!
+  if (!p->has_item(it) || p->has_disease(DI_DEAF) )
+   return;	// We're not carrying it, or we're deaf.
   p->add_morale(MORALE_MUSIC, 1, 50);
 
   if (int(g->turn) % 10 == 0) {	// Every 10 turns, describe the music
@@ -4374,10 +4374,6 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   case AEA_FATIGUE: {
    g->add_msg_if_player(p,"The fabric of space seems to decay.");
    int x = rng(p->posx - 3, p->posx + 3), y = rng(p->posy - 3, p->posy + 3);
-   if (g->m.field_at(x, y).type == fd_fatigue &&
-       g->m.field_at(x, y).density < 3)
-    g->m.field_at(x, y).density++;
-   else
     g->m.add_field(g, x, y, fd_fatigue, rng(1, 2));
   } break;
 
@@ -4386,10 +4382,6 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    if (acidball.x != -1 && acidball.y != -1) {
     for (int x = acidball.x - 1; x <= acidball.x + 1; x++) {
      for (int y = acidball.y - 1; y <= acidball.y + 1; y++) {
-      if (g->m.field_at(x, y).type == fd_acid &&
-          g->m.field_at(x, y).density < 3)
-       g->m.field_at(x, y).density++;
-      else
        g->m.add_field(g, x, y, fd_acid, rng(2, 3));
      }
     }
@@ -4523,7 +4515,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
     for (int y = p->posy - 3; y <= p->posy + 3; y++) {
      if (!one_in(3)) {
       if (g->m.add_field(g, x, y, fd_fire, 1 + rng(0, 1) * rng(0, 1)))
-       g->m.field_at(x, y).age = 30;
+		  g->m.field_at(x, y).findField(fd_fire)->setFieldAge(g->m.field_at(x, y).findField(fd_fire)->getFieldAge() + 30);
      }
     }
    }
@@ -4547,7 +4539,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   case AEA_SCREAM:
    g->add_msg_if_player(p,"Your %s screams disturbingly.", it->tname().c_str());
    g->sound(p->posx, p->posy, 40, "");
-   p->add_morale(MORALE_SCREAM, -10);
+   p->add_morale(MORALE_SCREAM, -10, 0, 300, 5);
    break;
 
   case AEA_DIM:
