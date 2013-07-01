@@ -1240,171 +1240,167 @@ int disease_speed_boost(disease dis)
 
 std::string dis_name(disease dis)
 {
- switch (dis.type) {
- case DI_NULL:		return "";
- case DI_GLARE:		return _("Glare");
- case DI_COLD_HEAD:
-  switch (dis.intensity) {
-   case 1: return _("Chilly head");
-   case 2: return _("Cold head!");
-   case 3: return _("Freezing head!!");}
-  case DI_COLD_MOUTH:
-  switch (dis.intensity) {
-   case 1: return _("Chilly face");
-   case 2: return _("Cold face!");
-   case 3: return _("Freezing face!!");}
- case DI_COLD_TORSO:
-  switch (dis.intensity) {
-   case 1: return _("Chilly torso");
-   case 2: return _("Cold torso!");
-   case 3: return _("Freezing torso!!");}
- case DI_COLD_ARMS:
-  switch (dis.intensity) {
-   case 1: return _("Chilly arms");
-   case 2: return _("Cold arms!");
-   case 3: return _("Freezing arms!!");}
- case DI_COLD_HANDS:
-  switch (dis.intensity) {
-   case 1: return _("Chilly hands");
-   case 2: return _("Cold hands!");
-   case 3: return _("Freezing hands!!");}
- case DI_COLD_LEGS:
-  switch (dis.intensity) {
-   case 1: return _("Chilly legs");
-   case 2: return _("Cold legs!");
-   case 3: return _("Freezing legs!!");}
- case DI_COLD_FEET:
-  switch (dis.intensity) {
-   case 1: return _("Chilly feet");
-   case 2: return _("Cold feet!");
-   case 3: return _("Freezing feet!!");}
- case DI_FROSTBITE_HANDS:
-  switch (dis.intensity) {
-   case 1: return _("Frostnip - hands");
-   case 2: return _("Frostbite - hands");}
- case DI_FROSTBITE_FEET:
-  switch (dis.intensity) {
-   case 1: return _("Frostnip - feet");
-   case 2: return _("Frostbite - feet");}
- case DI_FROSTBITE_MOUTH:
-  switch (dis.intensity) {
-   case 1: return _("Frostnip - face");
-   case 2: return _("Frostbite - face");}
- case DI_HOT_HEAD:
-  switch (dis.intensity) {
-   case 1: return _("Warm head");
-   case 2: return _("Hot head!");
-   case 3: return _("Scorching head!!");}
- case DI_HOT_MOUTH:
-  switch (dis.intensity) {
-   case 1: return _("Warm face");
-   case 2: return _("Hot face!");
-   case 3: return _("Scorching face!!");}
- case DI_HOT_TORSO:
-  switch (dis.intensity) {
-   case 1: return _("Warm torso");
-   case 2: return _("Hot torso!");
-   case 3: return _("Scorching torso!!");}
- case DI_HOT_ARMS:
-  switch (dis.intensity) {
-   case 1: return _("Warm arms");
-   case 2: return _("Hot arms!");
-   case 3: return _("Scorching arms!!");}
- case DI_HOT_HANDS:
-  switch (dis.intensity) {
-   case 1: return _("Warm hands");
-   case 2: return _("Hot hands!");
-   case 3: return _("Scorching hands!!");}
- case DI_HOT_LEGS:
-  switch (dis.intensity) {
-   case 1: return _("Warm legs");
-   case 2: return _("Hot legs!");
-   case 3: return _("Scorching legs!!");}
- case DI_HOT_FEET:
-  switch (dis.intensity) {
-   case 1: return _("Warm feet");
-   case 2: return _("Hot feet!");
-   case 3: return _("Scorching feet!!");}
- case DI_BLISTERS_MOUTH: return _("Blisters - face");
- case DI_BLISTERS_TORSO: return _("Blisters - torso");
- case DI_BLISTERS_ARMS: return _("Blisters - arms");
- case DI_BLISTERS_HANDS: return _("Blisters - hands");
- case DI_BLISTERS_LEGS: return _("Blisters - legs");
- case DI_BLISTERS_FEET: return _("Blisters - feet");
- case DI_COMMON_COLD:	return _("Common Cold");
- case DI_FLU:		return _("Influenza");
- case DI_SMOKE:		return _("Smoke");
- case DI_TEARGAS:	return _("Tear gas");
- case DI_ONFIRE:	return _("On Fire");
- case DI_BOOMERED:	return _("Boomered");
- case DI_SAP:		return _("Sap-coated");
- case DI_SPORES:	return _("Spores");
- case DI_SLIMED:	return _("Slimed");
- case DI_DEAF:		return _("Deaf");
- case DI_BLIND:		return _("Blind");
- case DI_STUNNED:	return _("Stunned");
- case DI_DOWNED:	return _("Downed");
- case DI_POISON:	return _("Poisoned");
- case DI_BLEED:	        return _("Bleeding");
- case DI_BADPOISON:	return _("Badly Poisoned");
- case DI_FOODPOISON:	return _("Food Poisoning");
- case DI_SHAKES:	return _("Shakes");
- case DI_FORMICATION:	return _("Bugs Under Skin");
- case DI_WEBBED:	return _("Webbed");
- case DI_RAT:		return _("Ratting");
- case DI_DRUNK:
-  if (dis.duration > 2200) return _("Wasted");
-  if (dis.duration > 1400) return _("Trashed");
-  if (dis.duration > 800)  return _("Drunk");
-                           return _("Tipsy");
+    switch (dis.type) {
+    case DI_NULL: return "";
+    case DI_GLARE: return _("Glare");
+    case DI_COLD_HEAD:
+        switch (dis.intensity) {
+        case 1: return _("Chilly head");
+        case 2: return _("Cold head!");
+        case 3: return _("Freezing head!!");}
+    case DI_COLD_MOUTH:
+        switch (dis.intensity) {
+        case 1: return _("Chilly face");
+        case 2: return _("Cold face!");
+        case 3: return _("Freezing face!!");}
+    case DI_COLD_TORSO:
+        switch (dis.intensity) {
+        case 1: return _("Chilly torso");
+        case 2: return _("Cold torso!");
+        case 3: return _("Freezing torso!!");}
+    case DI_COLD_ARMS:
+        switch (dis.intensity) {
+        case 1: return _("Chilly arms");
+        case 2: return _("Cold arms!");
+        case 3: return _("Freezing arms!!");}
+    case DI_COLD_HANDS:
+        switch (dis.intensity) {
+        case 1: return _("Chilly hands");
+        case 2: return _("Cold hands!");
+        case 3: return _("Freezing hands!!");}
+    case DI_COLD_LEGS:
+        switch (dis.intensity) {
+        case 1: return _("Chilly legs");
+        case 2: return _("Cold legs!");
+        case 3: return _("Freezing legs!!");}
+    case DI_COLD_FEET:
+        switch (dis.intensity) {
+        case 1: return _("Chilly feet");
+        case 2: return _("Cold feet!");
+        case 3: return _("Freezing feet!!");}
+    case DI_FROSTBITE_HANDS:
+        switch (dis.intensity) {
+        case 1: return _("Frostnip - hands");
+        case 2: return _("Frostbite - hands");}
+    case DI_FROSTBITE_FEET:
+        switch (dis.intensity) {
+        case 1: return _("Frostnip - feet");
+        case 2: return _("Frostbite - feet");}
+    case DI_FROSTBITE_MOUTH:
+        switch (dis.intensity) {
+        case 1: return _("Frostnip - face");
+        case 2: return _("Frostbite - face");}
+    case DI_HOT_HEAD:
+        switch (dis.intensity) {
+        case 1: return _("Warm head");
+        case 2: return _("Hot head!");
+        case 3: return _("Scorching head!!");}
+    case DI_HOT_MOUTH:
+        switch (dis.intensity) {
+        case 1: return _("Warm face");
+        case 2: return _("Hot face!");
+        case 3: return _("Scorching face!!");}
+    case DI_HOT_TORSO:
+        switch (dis.intensity) {
+        case 1: return _("Warm torso");
+        case 2: return _("Hot torso!");
+        case 3: return _("Scorching torso!!");}
+    case DI_HOT_ARMS:
+        switch (dis.intensity) {
+        case 1: return _("Warm arms");
+        case 2: return _("Hot arms!");
+        case 3: return _("Scorching arms!!");}
+    case DI_HOT_HANDS:
+        switch (dis.intensity) {
+        case 1: return _("Warm hands");
+        case 2: return _("Hot hands!");
+        case 3: return _("Scorching hands!!");}
+    case DI_HOT_LEGS:
+        switch (dis.intensity) {
+        case 1: return _("Warm legs");
+        case 2: return _("Hot legs!");
+        case 3: return _("Scorching legs!!");}
+    case DI_HOT_FEET:
+        switch (dis.intensity) {
+        case 1: return _("Warm feet");
+        case 2: return _("Hot feet!");
+        case 3: return _("Scorching feet!!");}
+    case DI_BLISTERS_MOUTH: return _("Blisters - face");
+    case DI_BLISTERS_TORSO: return _("Blisters - torso");
+    case DI_BLISTERS_ARMS: return _("Blisters - arms");
+    case DI_BLISTERS_HANDS: return _("Blisters - hands");
+    case DI_BLISTERS_LEGS: return _("Blisters - legs");
+    case DI_BLISTERS_FEET: return _("Blisters - feet");
+    case DI_COMMON_COLD: return _("Common Cold");
+    case DI_FLU: return _("Influenza");
+    case DI_SMOKE: return _("Smoke");
+    case DI_TEARGAS: return _("Tear gas");
+    case DI_ONFIRE: return _("On Fire");
+    case DI_BOOMERED: return _("Boomered");
+    case DI_SAP: return _("Sap-coated");
+    case DI_SPORES: return _("Spores");
+    case DI_SLIMED: return _("Slimed");
+    case DI_DEAF: return _("Deaf");
+    case DI_BLIND: return _("Blind");
+    case DI_STUNNED: return _("Stunned");
+    case DI_DOWNED: return _("Downed");
+    case DI_POISON: return _("Poisoned");
+    case DI_BLEED: return _("Bleeding");
+    case DI_BADPOISON: return _("Badly Poisoned");
+    case DI_FOODPOISON: return _("Food Poisoning");
+    case DI_SHAKES: return _("Shakes");
+    case DI_FORMICATION: return _("Bugs Under Skin");
+    case DI_WEBBED: return _("Webbed");
+    case DI_RAT: return _("Ratting");
+    case DI_DRUNK:
+        if (dis.duration > 2200) return _("Wasted");
+        if (dis.duration > 1400) return _("Trashed");
+        if (dis.duration > 800)  return _("Drunk");
+        else return _("Tipsy");
 
- case DI_CIG:		return _("Cigarette");
- case DI_HIGH:		return _("High");
- case DI_VISUALS:	return _("Hallucinating");
+    case DI_CIG: return _("Cigarette");
+    case DI_HIGH: return _("High");
+    case DI_VISUALS: return _("Hallucinating");
 
- case DI_ADRENALINE:
-  if (dis.duration > 150) return _("Adrenaline Rush");
-                          return _("Adrenaline Comedown");
+    case DI_ADRENALINE:
+        if (dis.duration > 150) return _("Adrenaline Rush");
+        else return _("Adrenaline Comedown");
 
- case DI_ASTHMA:
-  if (dis.duration > 800) return _("Heavy Asthma");
-                          return _("Asthma");
+    case DI_ASTHMA:
+        if (dis.duration > 800) return _("Heavy Asthma");
+        else return _("Asthma");
 
- case DI_GRACK:         return _("RELEASE THE GRACKEN!!!!");
+    case DI_GRACK: return _("RELEASE THE GRACKEN!!!!");
 
- case DI_METH:
-  if (dis.duration > 600) return _("High on Meth");
-                          return _("Meth Comedown");
+    case DI_METH:
+        if (dis.duration > 600) return _("High on Meth");
+        else return _("Meth Comedown");
 
- case DI_IN_PIT:	return _("Stuck in Pit");
- case DI_BOULDERING: return _("Clambering Over Rubble");
+    case DI_IN_PIT: return _("Stuck in Pit");
+    case DI_BOULDERING: return _("Clambering Over Rubble");
 
- case DI_STEMCELL_TREATMENT: return _("Stem cell treatment");
+    case DI_STEMCELL_TREATMENT: return _("Stem cell treatment");
+    case DI_ATTACK_BOOST: return _("Hit Bonus");
+    case DI_DAMAGE_BOOST: return _("Damage Bonus");
+    case DI_DODGE_BOOST: return _("Dodge Bonus");
+    case DI_ARMOR_BOOST: return _("Armor Bonus");
+    case DI_SPEED_BOOST: return _("Attack Speed Bonus");
+    case DI_VIPER_COMBO:
+        switch (dis.intensity) {
+        case 1: return _("Snakebite Unlocked!");
+        case 2: return _("Viper Strike Unlocked!");
+        default: return "Viper combo bug. (in disease.cpp:dis_name)";}
+    case DI_BITE:
+        if (dis.duration > 3000) return _("Bite Wound");
+        else return _("Painful Bite Wound");
+    case DI_INFECTED:
+        if (dis.duration > 10800) return _("Infected Wound");
+        if (dis.duration > 7200) return _("Painful Infected Wound");
+        else return _("Pus Filled Wound");
+    case DI_RECOVER: return _("Recovering From Infection");
 
- case DI_ATTACK_BOOST:  return _("Hit Bonus");
- case DI_DAMAGE_BOOST:  return _("Damage Bonus");
- case DI_DODGE_BOOST:   return _("Dodge Bonus");
- case DI_ARMOR_BOOST:   return _("Armor Bonus");
- case DI_SPEED_BOOST:   return _("Attack Speed Bonus");
- case DI_VIPER_COMBO:
-  switch (dis.intensity) {
-   case 1: return _("Snakebite Unlocked!");
-   case 2: return _("Viper Strike Unlocked!");
-   default: return "Viper combo bug. (in disease.cpp:dis_name)";
-  }
-  case DI_BITE:
-  if (dis.duration > 3000) return _("Bite Wound");
-                           return _("Painful Bite Wound");
-  case DI_INFECTED:
-  if (dis.duration > 10800) return _("Infected Wound");
-  if (dis.duration > 7200) return _("Painful Infected Wound");
-  return _("Pus Filled Wound");
-  case DI_RECOVER:	return _("Recovering From Infection");
-
-  break;
-
- default:		return "";
- }
+    default: return "";
+    }
 }
 
 std::string dis_description(disease dis)
