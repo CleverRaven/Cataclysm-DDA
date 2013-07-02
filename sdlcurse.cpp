@@ -381,56 +381,61 @@ void CheckMessages()
 
 static void font_folder_list(std::ofstream& fout, std::string path)
 {
-	DIR *dir;
-	struct dirent *ent;
-	if ((dir = opendir (path.c_str())) != NULL) {
-		bool found = false;
-		while (!found && (ent = readdir (dir)) != NULL) {
-   if( 0 == strcmp( ent->d_name, "." ) ||
-       0 == strcmp( ent->d_name, ".." ) ) {
-       continue;
-   }
-			std::string f = path + "/" + ent->d_name;
-   struct stat stat_buffer;
-   if( stat( f.c_str(), &stat_buffer ) == -1 ) {
-       continue;
-   }
-   if( S_ISDIR(stat_buffer.st_mode) ) {
-    font_folder_list( fout, f );
-    continue;
-   }
-			TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
-			long nfaces = 0;
-			if(fnt)
-			{
-				nfaces = TTF_FontFaces(fnt);
-				TTF_CloseFont(fnt);
-			}
-			for(long i=0; i<nfaces; i++)
-			{
-				fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
-				if(fnt)
-				{
-					char *fami = TTF_FontFaceFamilyName(fnt);
-					char *style = TTF_FontFaceStyleName(fnt);
-					if(fami)
-					{
-						fout << fami << std::endl;
-						fout << f << std::endl;
-						fout << i << std::endl;
-					}
-					if(fami && style)
-					{
-						fout << fami << " " << style << std::endl;
-						fout << f << std::endl;
-						fout << i << std::endl;
-					}
-					TTF_CloseFont(fnt);
-				}
-			}
-		}
-		closedir (dir);
-	}
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir (path.c_str())) != NULL) {
+        bool found = false;
+        while (!found && (ent = readdir (dir)) != NULL) {
+            if( 0 == strcmp( ent->d_name, "." ) ||
+                0 == strcmp( ent->d_name, ".." ) ) {
+                continue;
+            }
+            std::string f = path + "/" + ent->d_name;
+            struct stat stat_buffer;
+            if( stat( f.c_str(), &stat_buffer ) == -1 ) {
+                continue;
+            }
+            if( S_ISDIR(stat_buffer.st_mode) ) {
+                font_folder_list( fout, f );
+                continue;
+            }
+            TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
+            long nfaces = 0;
+            if(fnt)
+            {
+                nfaces = TTF_FontFaces(fnt);
+                TTF_CloseFont(fnt);
+            }
+            for(long i=0; i<nfaces; i++)
+            {
+                fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
+                if(fnt)
+                {
+                    char *fami = TTF_FontFaceFamilyName(fnt);
+                    char *style = TTF_FontFaceStyleName(fnt);
+                    bool isbitmap = (0==stricmp(".fon", f.substr(f.length()-4).c_str()));
+                    std::vector<std::string> styles;
+                    if(fami && (!isbitmap || i==0) )
+                    {
+                        fout << fami << std::endl;
+                        fout << f << std::endl;
+                        fout << i << std::endl;
+                    }
+                    if(fami && style && 0!=stricmp(style, "Regular"))
+                    {
+                        if(!isbitmap || std::find(styles.begin(), styles.end(), std::string(style))==styles.end())
+                        {
+                            fout << fami << " " << style << std::endl;
+                            fout << f << std::endl;
+                            fout << i << std::endl;
+                        }
+                    }
+                    TTF_CloseFont(fnt);
+                }
+            }
+        }
+        closedir (dir);
+    }
 
 }
 
@@ -497,7 +502,7 @@ static std::string find_system_font(std::string name, int& faceIndex)
 			getline(fin, fpath);
 			getline(fin, iline);
 			index = atoi(iline.c_str());
-   if(0==strcasecmp(fname.c_str(), name.c_str()))
+            if(0==strcasecmp(fname.c_str(), name.c_str()))
 			{
 				faceIndex = index;
 				return fpath;
@@ -508,6 +513,38 @@ static std::string find_system_font(std::string name, int& faceIndex)
 	return "";
 }
 
+// bitmap font font size test
+// return face index that has this size or below
+static int test_face_size(std::string f, int size, int faceIndex)
+{
+    TTF_Font* fnt = TTF_OpenFontIndex(f.c_str(), size, faceIndex);
+    if(fnt)
+    {
+        char* style = TTF_FontFaceStyleName(fnt);
+        if(style!=NULL)
+        {
+            int faces = TTF_FontFaces(fnt);
+            bool found = false;
+            for(int i=faces-1; i>=0 && !found; i--)
+            {
+                TTF_Font* tf = TTF_OpenFontIndex(f.c_str(), size, i);
+                char* ts = "";
+                if(NULL!=tf && NULL!=(ts = TTF_FontFaceStyleName(tf)))
+                {
+                    if(0==stricmp(ts, style) && TTF_FontHeight(tf)<=size)
+                    {
+                        faceIndex = i;
+                        found = true;
+                    }
+                }
+                TTF_CloseFont(tf);
+            }
+        }
+        TTF_CloseFont(fnt);
+    }
+
+    return faceIndex;
+}
 
 //Basic Init, create the font, backbuffer, etc
 WINDOW *initscr(void)
@@ -561,6 +598,11 @@ WINDOW *initscr(void)
 	}
 
     if(fontsize<=0) fontsize=fontheight-1;
+
+    // STL_ttf handles bitmap fonts size incorrectly
+    if(0==stricmp(typeface.substr(typeface.length()-4).c_str(), ".fon"))
+        faceIndex = test_face_size(typeface, fontsize, faceIndex);
+
 	font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
 
     //if(!font) something went wrong
