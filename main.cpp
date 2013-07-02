@@ -17,6 +17,9 @@
 #include <clocale>
 #include <libintl.h>
 #include "translations.h"
+#if (defined OSX_SDL)
+#include "SDL.h"
+#endif
 
 void exit_handler(int s);
 
