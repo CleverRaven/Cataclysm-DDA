@@ -57,7 +57,7 @@ bool is_river(oter_id ter)
 
 bool is_building(oter_id ter)
 {
- if (ter == ot_null || (ter >= ot_house_north))
+ if (ter == ot_null || ter >= ot_ants_ns || (ter >= ot_house_north && ter <= ot_basement && ter != ot_rock))
   return true;
  return false;
 }
@@ -2042,6 +2042,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
  int dx[4]={1, 0, -1, 0};
  int dy[4]={0, 1, 0, -1};
  int i = 0;
+ int disp = (base == ot_road_null) ? 5 : 2;
 
  nodes[i].push(node(x1, y1, 5, 1000));
  open[x1][y1] = 1000;
@@ -2080,7 +2081,7 @@ void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
         (is_river(ter(mn.x, mn.y, z)) && mn.d != d) ||
         (is_river(ter(x,    y,    z)) && mn.d != d) )) { // Dont turn on river
     node cn = node(x, y, d, 0);
-    cn.p += ((abs(x2 - x) + abs(y2 - y)) / 5); // Distanse to target.
+    cn.p += ((abs(x2 - x) + abs(y2 - y)) / disp); // Distanse to target.
     cn.p += is_road(base, x, y, z) ? 0 : 3; // Prefer exist roads.
     cn.p += !is_river(ter(x, y, z)) ? 0 : 2; // ...And briges.
     //cn.p += (mn.d == d) ? 0 : 1; // Try to keep direction;
