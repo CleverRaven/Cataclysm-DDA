@@ -556,7 +556,7 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
     p->moves-=50;
   }
 
-  m->ter_set(examx, examy, t_dirt);
+  m->furn_set(examx, examy, f_null);
   m->spawn_item(examx, examy, "poppy_flower", 0);
   m->spawn_item(examx, examy, "poppy_bud", 0);
 }
