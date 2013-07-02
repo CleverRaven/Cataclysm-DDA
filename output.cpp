@@ -139,6 +139,61 @@ nc_color rand_color()
  return c_dkgray;
 }
 
+std::vector<std::string> foldstring ( std::string str, int width ) {
+    std::vector<std::string> lines;
+    if ( width < 1 ) {
+        lines.push_back( str );
+        return lines;
+    }
+
+    int linepos = width;
+    int linestart = 0;
+    int crpos = -2;
+    while( linepos < str.length() || crpos != -1 ) {
+        crpos = str.find('\n', linestart);
+        if (crpos != -1 && crpos <= linepos) {
+            lines.push_back( str.substr( linestart, crpos-linestart ) );
+            linepos = crpos + width + 1;
+            linestart = crpos + 1;
+        } else {
+            int spacepos = str.rfind(' ', linepos);
+            if ( spacepos == -1 ) spacepos = str.find(' ', linepos);
+            if ( spacepos < linestart ) {
+                spacepos = linestart + width;
+                if( spacepos < str.length() ) {
+                    lines.push_back( str.substr( linestart, width ) );
+                    linepos = spacepos + width;
+                    linestart = spacepos;
+                }
+            } else {
+                lines.push_back( str.substr( linestart, spacepos-linestart ) );
+                linepos = spacepos + width + 1;
+                linestart = spacepos + 1;
+            }
+        }
+    }
+    lines.push_back( str.substr( linestart ) );
+    return lines;
+};
+
+
+// returns number of printed lines
+int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...)
+{
+    va_list ap;
+    va_start(ap,mes);
+    char buff[6000];    //TODO replace Magic Number
+    vsprintf(buff, mes, ap);
+    va_end(ap);
+
+    std::vector<std::string> textformatted;
+    textformatted = foldstring(buff, width);
+    for (int line_num=0; line_num<textformatted.size(); line_num++)
+    {
+        mvwprintz(w, line_num+begin_y, begin_x, color, "%s", textformatted[line_num].c_str());
+    }
+    return textformatted.size();
+};
 
 void mvputch(int y, int x, nc_color FG, long ch)
 {
@@ -564,6 +619,7 @@ void popup(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
+ 
  size_t pos = tmp.find_first_of('\n');
  while (pos != std::string::npos) {
   height++;
@@ -580,18 +636,8 @@ void popup(const char *mes, ...)
  WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- tmp = buff;
- pos = tmp.find_first_of('\n');
- int line_num = 0;
- while (pos != std::string::npos) {
-  std::string line = tmp.substr(0, pos);
-  line_num++;
-  mvwprintz(w, line_num, 1, c_white, line.c_str());
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
- }
- line_num++;
- mvwprintz(w, line_num, 1, c_white, tmp.c_str());
+ 
+ fold_and_print(w,1,1,width,c_white, "%s", mes);
 
  wrefresh(w);
  char ch;
@@ -655,23 +701,15 @@ void full_screen_popup(const char* mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  std::string tmp = buff;
+ std::vector<std::string> textformatted;
 
  WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                     (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                     (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- size_t pos = tmp.find_first_of('\n');
- int line_num = 0;
- while (pos != std::string::npos) {
-  std::string line = tmp.substr(0, pos);
-  line_num++;
-  mvwprintz(w, line_num, 1, c_white, line.c_str());
-  tmp = tmp.substr(pos + 1);
-  pos = tmp.find_first_of('\n');
- }
- line_num++;
- mvwprintz(w, line_num, 1, c_white, tmp.c_str());
+ 
+ fold_and_print(w,1,2,80-3,c_white,"%s",mes);
  wrefresh(w);
  char ch;
  do
@@ -845,42 +883,6 @@ long special_symbol (long sym)
     case 'b': return LINE_XXOO;
     default: return sym;
     }
-}
-
-// crawl through string, probing each word while treating spaces & newlines the same.
-std::string word_rewrap (const std::string &in, int width){
-    std::ostringstream o;
-    int i_ok = 0; // pos in string of next char probe
-    int x_ok = 0; // ditto for column pos
-    while (i_ok <= in.size()){
-        bool fit = false;
-        int j=0; // j = word probe counter.
-        while(x_ok + j <= width){
-           if (i_ok + j >= in.size()){
-              fit = true;
-              break;
-           }
-           char c = in[i_ok+j];
-           if (c == '\n' || c == ' '){ //whitespace detected. copy word.
-              fit = true;
-              break;
-           }
-           j++;
-        }
-        if(fit == false){
-           o << '\n';
-           x_ok = 0;
-        }
-        else {
-           o << ' ';
-           for (int k=i_ok; k < i_ok+j; k++){
-              o << in[k];
-           }
-           i_ok += j+1;
-           x_ok += j+1;
-        }
-    }
-    return o.str();
 }
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
