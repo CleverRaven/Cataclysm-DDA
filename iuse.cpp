@@ -87,6 +87,7 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
 /*  disabled until todo: better string_input_popup with header positioning.
     std::string message = gerund + " on this " + cut->type->name + " is a note saying: ";
 */
+    std::string message;
     message = string_input_popup(verb + " what?", 64, (ent != cut->item_vars.end() ?
                                                        cut->item_vars["item_note"] : message ));
 
