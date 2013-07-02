@@ -85,7 +85,9 @@ unsigned UTF8_getch(const char **src, int *srclen)
     return ch;
 }
 
-
+//Calculate width of a unicode string
+//Latin characters have a width of 1
+//CJK characters have a width of 2, etc
 int utf8_width(const char* s)
 {
     int len = strlen(s);
@@ -94,14 +96,20 @@ int utf8_width(const char* s)
     while(len>0)
     {
         unsigned ch = UTF8_getch(&ptr, &len);
-        if(ch!=UNKNOWN_UNICODE)
+        if(ch!=UNKNOWN_UNICODE) {
             w += mk_wcwidth((wchar_t)ch);
-        else break;
+        } else {
+			break;
+		}
     }
     return w;
 }
 
-
+//Convert cursor position to byte offset
+//returns the first character position in bytes behind the cursor position.
+//If the cursor is not on the first half of the character, 
+//prevpos (which points to the first byte of the cursor located char)
+// should be a different value.
 int cursorx_to_position(const char* line, int cursorx, int* prevpos)
 {
 	int dummy;
@@ -123,8 +131,8 @@ int cursorx_to_position(const char* line, int cursorx, int* prevpos)
 	return i;
 }
 
-//erase character by unicode char width
-//fill the character with spaces
+//Erase character by unicode char width.
+//Fill the characters with spaces.
 void erease_utf8_by_cw( char* t, int cw, int clen, int maxlen)
 {
     static char buf[8000]; //LOL

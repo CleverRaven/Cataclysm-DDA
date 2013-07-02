@@ -141,6 +141,25 @@ nc_color rand_color()
  return c_dkgray;
 }
 
+#if 1
+// utf8 version
+std::vector<std::string> foldstring ( std::string str, int width ) {
+    std::vector<std::string> lines;
+    if ( width < 1 ) {
+        lines.push_back( str );
+        return lines;
+    }
+
+	std::string wrapped = word_rewrap(str, width);
+	std::stringstream ss(wrapped);
+	std::string l;
+    while (std::getline(ss, l, '\n')) {
+        lines.push_back(l);
+    }
+	return lines;
+}
+#else
+//original foldstring
 std::vector<std::string> foldstring ( std::string str, int width ) {
     std::vector<std::string> lines;
     if ( width < 1 ) {
@@ -176,8 +195,8 @@ std::vector<std::string> foldstring ( std::string str, int width ) {
     }
     lines.push_back( str.substr( linestart ) );
     return lines;
-};
-
+}
+#endif
 
 // returns number of printed lines
 int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...)
