@@ -18,6 +18,7 @@
 #include "options.h"
 #include "options.h"
 #include "overmapbuffer.h"
+#include <queue>
 
 #ifdef _MSC_VER
 // MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
@@ -714,9 +715,6 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
   road_points.push_back(cities[i]);
 // And finally connect them via "highways"
  place_hiways(road_points, 0, ot_road_null);
-// Make the roads out road points;
- for (int i = 0; i < roads_out.size(); i++)
-  ter(roads_out[i].x, roads_out[i].y, 0) = ot_road_nesw;
 // Place specials
  place_specials();
 // Clean up our roads and rivers
@@ -2035,126 +2033,85 @@ void overmap::place_rifts(int const z)
 void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
 {
  if (x1 == x2 && y1 == y2)
-     return;
+  return;
 
- std::vector<point> next;
- int dir = 0;
- int x = x1, y = y1;
- int xdir, ydir;
- int tmp = 0;
- bool bridge_is_okay = false;
- bool found_road = false;
- do {
-  next.clear(); // Clear list of valid points
-  // Add valid points -- step in the right x-direction
-  if (x2 > x)
-   next.push_back(point(x + 1, y));
-  else if (x2 < x)
-   next.push_back(point(x - 1, y));
-  else
-   next.push_back(point(-1, -1)); // X is right--don't change it!
-  // Add valid points -- step in the right y-direction
-  if (y2 > y)
-   next.push_back(point(x, y + 1));
-  else if (y2 < y)
-   next.push_back(point(x, y - 1));
-  for (int i = 0; i < next.size(); i++) { // Take an existing road if we can
-   if (next[i].x != -1 && is_road(base, next[i].x, next[i].y, z)) {
-    x = next[i].x;
-    y = next[i].y;
-    dir = i; // We are moving... whichever way that highway is moving
-// If we're closer to the destination than to the origin, this highway is done!
-    if (dist(x, y, x1, y1) > dist(x, y, x2, y2))
-     return;
-    next.clear();
-   }
-  }
-  if (!next.empty()) { // Assuming we DIDN'T take an existing road...
-   if (next[0].x == -1) { // X is correct, so we're taking the y-change
-    dir = 1; // We are moving vertically
-    x = next[1].x;
-    y = next[1].y;
-    if (is_river(ter(x, y, z)))
-     ter(x, y, z) = ot_bridge_ns;
-    else if (!is_road(base, x, y, z))
-     ter(x, y, z) = base;
-   } else if (next.size() == 1) { // Y must be correct, take the x-change
-    if (dir == 1)
-     ter(x, y, z) = base;
-    dir = 0; // We are moving horizontally
-    x = next[0].x;
-    y = next[0].y;
-    if (is_river(ter(x, y, z)))
-     ter(x, y, z) = ot_bridge_ew;
-    else if (!is_road(base, x, y, z))
-     ter(x, y, z) = base;
-   } else {	// More than one eligable route; pick one randomly
-    //Don't switch directions if there is a building there and we don't have to...
-    if (one_in(12) &&
-       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)) && !is_building(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
-     dir = (dir + 1) % 2; // Switch the direction (hori/vert) in which we move
-    //If our current path has a building in it and there is another possible path, we should take it
-    else if (is_building(ter(next[dir].x, next[dir].y, z)) &&
-       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)) && !is_building(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
-     dir = (dir + 1) % 2; // Switch the direction (hori/vert) in which we move
-    x = next[dir].x;
-    y = next[dir].y;
-    if (dir == 0) {	// Moving horizontally
-     if (is_river(ter(x, y, z))) {
-      xdir = -1;
-      bridge_is_okay = true;
-      if (x2 > x)
-       xdir = 1;
-      tmp = x;
-      while (tmp >= 0 && tmp < OMAPX && is_river(ter(tmp, y, z))) {
-       if (is_road(base, tmp, y, z))
-        bridge_is_okay = false;	// Collides with another bridge!
-       tmp += xdir;
-      }
-      if (bridge_is_okay) {
-       while(tmp >= 0 && x < OMAPX && is_river(ter(x, y, z))) {
-        ter(x, y, z) = ot_bridge_ew;
-        x += xdir;
-       }
-       ter(x, y, z) = base;
-      }
-     } else if (!is_road(base, x, y, z))
+ std::priority_queue<node> nodes[2];
+ bool closed[OMAPX][OMAPY] = {false};
+ int open[OMAPX][OMAPY] = {0};
+ int dirs[OMAPX][OMAPY] = {0};
+ int dx[4]={1, 0, -1, 0};
+ int dy[4]={0, 1, 0, -1};
+ int i = 0;
+
+ nodes[i].push(node(x1, y1, 5, 1000));
+ open[x1][y1] = 1000;
+
+ while (!nodes[i].empty()) { //A*
+  node mn = nodes[i].top();
+  nodes[i].pop();
+  closed[mn.x][mn.y] = true;
+
+  if(mn.x == x2 && mn.y == y2) {
+   int x = mn.x;
+   int y = mn.y;
+   while (x != x1 || y != y1) {
+    int d = dirs[x][y];
+    x += dx[d];
+    y += dy[d];
+    if (!is_building(ter(x, y, z))) {
+     if (is_river(ter(x, y, z))){
+      if (d == 1 || d == 3)
+       ter(x, y, z) = ot_bridge_ns;
+      else
+       ter(x, y, z) = ot_bridge_ew;
+     } else {
       ter(x, y, z) = base;
-    } else {		// Moving vertically
-     if (is_river(ter(x, y, z))) {
-      ydir = -1;
-      bridge_is_okay = true;
-      if (y2 > y)
-       ydir = 1;
-      tmp = y;
-      while (tmp >= 0 && tmp < OMAPY && is_river(ter(x, tmp, z))) {
-       if (is_road(base, x, tmp, z))
-        bridge_is_okay = false;	// Collides with another bridge!
-       tmp += ydir;
-      }
-      if (bridge_is_okay) {
-       while (tmp >= 0 && y < OMAPY && is_river(ter(x, y, z))) {
-        ter(x, y, z) = ot_bridge_ns;
-        y += ydir;
-       }
-       ter(x, y, z) = base;
-      }
-     } else if (!is_road(base, x, y, z))
-      ter(x, y, z) = base;
+     }
     }
    }
-/*
-   if (one_in(50) && loc.z == 0)
-    building_on_hiway(x, y, dir);
-*/
+   return;
   }
-  found_road = (
-        ((ter(x, y - 1, z) > ot_road_null && ter(x, y - 1, z) < ot_river_center) ||
-         (ter(x, y + 1, z) > ot_road_null && ter(x, y + 1, z) < ot_river_center) ||
-         (ter(x - 1, y, z) > ot_road_null && ter(x - 1, y, z) < ot_river_center) ||
-         (ter(x + 1, y, z) > ot_road_null && ter(x + 1, y, z) < ot_river_center)  ) &&
-        rl_dist(x, y, x1, y2) > rl_dist(x, y, x2, y2));
- } while ((x != x2 || y != y2) && !found_road);
+
+  for(int d = 0; d < 4; d++) {
+   int x = mn.x + dx[d];
+   int y = mn.y + dy[d];
+   if (!(x < 1 || x > OMAPX - 2 || y < 1 || y > OMAPY - 2 ||
+         closed[x][y] || is_building(ter(x, y, z)) || // Dont collade buildings
+        (is_river(ter(mn.x, mn.y, z)) && mn.d != d) ||
+        (is_river(ter(x,    y,    z)) && mn.d != d) )) { // Dont turn on river
+    node cn = node(x, y, d, 0);
+    cn.p += ((abs(x2 - x) + abs(y2 - y)) / 5); // Distanse to target.
+    cn.p += is_road(base, x, y, z) ? 0 : 3; // Prefer exist roads.
+    cn.p += !is_river(ter(x, y, z)) ? 0 : 2; // ...And briges.
+    //cn.p += (mn.d == d) ? 0 : 1; // Try to keep direction;
+
+    if (open[x][y] == 0) {
+     dirs[x][y] = (d + 2) % 4;
+     open[x][y] = cn.p;
+     nodes[i].push(cn);
+    }
+    else if (open[x][y] > cn.p) {
+     dirs[x][y] = (d + 2) % 4;
+     open[x][y] = cn.p;
+
+     while (nodes[i].top().x != x || nodes[i].top().y != y){
+      nodes[1 - i].push(nodes[i].top());
+      nodes[i].pop();
+     }
+     nodes[i].pop();
+
+     if (nodes[i].size() > nodes[1-i].size())
+      i = 1 - i;
+     while (!nodes[i].empty()) {
+      nodes[1 - i].push(nodes[i].top());
+      nodes[i].pop();
+     }
+     i = 1 - i;
+     nodes[i].push(cn);
+    }
+   }
+  }
+ }
 }
 
 void overmap::building_on_hiway(int x, int y, int dir)
