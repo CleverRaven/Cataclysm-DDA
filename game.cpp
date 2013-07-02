@@ -22,6 +22,7 @@
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "mapdata.h"
+#include "translations.h"
 #include <map>
 #include <algorithm>
 #include <string>
@@ -50,6 +51,9 @@
 #define dbg(x) dout((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 void intro();
 nc_color sev(int a);	// Right now, ONLY used for scent debugging....
+
+//The one and only game instance
+game *g;
 
 uistatedata uistate;
 
@@ -1735,7 +1739,7 @@ bool game::handle_action()
    int cMenu = ' ';
    do {
      const std::string sSpaces = "                              ";
-     char chItem = inv();
+     char chItem = inv(_("Inventory:"));
      cMenu=inventory_item_menu(chItem);
    } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' || cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=' );
    refresh_all();
@@ -3350,7 +3354,7 @@ void game::draw()
   mvwprintz(w_location, 0, 18, c_ltgray, "Underground");
  else
   mvwprintz(w_location, 0, 18, weather_data[weather].color,
-                               weather_data[weather].name.c_str());
+                               _(weather_data[weather].name.c_str()));
  nc_color col_temp = c_blue;
  if (temperature >= 90)
   col_temp = c_red;
@@ -3367,8 +3371,8 @@ void game::draw()
 
  wrefresh(w_location);
 
- mvwprintz(w_status, 0, 41, c_white, "%s, day %d",
-           season_name[turn.get_season()].c_str(), turn.days() + 1);
+ mvwprintz(w_status, 0, 41, c_white, _("%s, day %d"),
+           _(season_name[turn.get_season()].c_str()), turn.days() + 1);
  if (run_mode != 0 || autosafemode != 0) {
   int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
   mvwprintz(w_status, 1, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
@@ -3527,13 +3531,13 @@ void game::draw_HP()
             }
         }
     }
-    mvwprintz(w_HP,  0, 0, c_ltgray, "HEAD:  ");
-    mvwprintz(w_HP,  2, 0, c_ltgray, "TORSO: ");
-    mvwprintz(w_HP,  4, 0, c_ltgray, "L ARM: ");
-    mvwprintz(w_HP,  6, 0, c_ltgray, "R ARM: ");
-    mvwprintz(w_HP,  8, 0, c_ltgray, "L LEG: ");
-    mvwprintz(w_HP, 10, 0, c_ltgray, "R LEG: ");
-    mvwprintz(w_HP, 12, 0, c_ltgray, "POW:   ");
+    mvwprintz(w_HP,  0, 0, c_ltgray, _("HEAD:  "));
+    mvwprintz(w_HP,  2, 0, c_ltgray, _("TORSO: "));
+    mvwprintz(w_HP,  4, 0, c_ltgray, _("L ARM: "));
+    mvwprintz(w_HP,  6, 0, c_ltgray, _("R ARM: "));
+    mvwprintz(w_HP,  8, 0, c_ltgray, _("L LEG: "));
+    mvwprintz(w_HP, 10, 0, c_ltgray, _("R LEG: "));
+    mvwprintz(w_HP, 12, 0, c_ltgray, _("POW:   "));
     if (u.max_power_level == 0){
         mvwprintz(w_HP, 13, 0, c_ltgray, " --   ");
     } else {
@@ -4046,21 +4050,21 @@ void game::mon_info()
 // 6 8 2	0-7 are provide by direction_from()
 // 5 4 3	8 is used for local monsters (for when we explain them below)
  mvwprintz(w_moninfo,  0,  0, (unique_types[7].empty() ?
-           c_dkgray : (dangerous[7] ? c_ltred : c_ltgray)), "NW:");
+           c_dkgray : (dangerous[7] ? c_ltred : c_ltgray)), _("NW:"));
  mvwprintz(w_moninfo,  0, 15, (unique_types[0].empty() ?
-           c_dkgray : (dangerous[0] ? c_ltred : c_ltgray)), "North:");
+           c_dkgray : (dangerous[0] ? c_ltred : c_ltgray)), _("North:"));
  mvwprintz(w_moninfo,  0, 33, (unique_types[1].empty() ?
-           c_dkgray : (dangerous[1] ? c_ltred : c_ltgray)), "NE:");
+           c_dkgray : (dangerous[1] ? c_ltred : c_ltgray)), _("NE:"));
  mvwprintz(w_moninfo,  1,  0, (unique_types[6].empty() ?
-           c_dkgray : (dangerous[6] ? c_ltred : c_ltgray)), "West:");
+           c_dkgray : (dangerous[6] ? c_ltred : c_ltgray)), _("West:"));
  mvwprintz(w_moninfo,  1, 31, (unique_types[2].empty() ?
-           c_dkgray : (dangerous[2] ? c_ltred : c_ltgray)), "East:");
+           c_dkgray : (dangerous[2] ? c_ltred : c_ltgray)), _("East:"));
  mvwprintz(w_moninfo,  2,  0, (unique_types[5].empty() ?
-           c_dkgray : (dangerous[5] ? c_ltred : c_ltgray)), "SW:");
+           c_dkgray : (dangerous[5] ? c_ltred : c_ltgray)), _("SW:"));
  mvwprintz(w_moninfo,  2, 15, (unique_types[4].empty() ?
-           c_dkgray : (dangerous[4] ? c_ltred : c_ltgray)), "South:");
+           c_dkgray : (dangerous[4] ? c_ltred : c_ltgray)), _("South:"));
  mvwprintz(w_moninfo,  2, 33, (unique_types[3].empty() ?
-           c_dkgray : (dangerous[3] ? c_ltred : c_ltgray)), "SE:");
+           c_dkgray : (dangerous[3] ? c_ltred : c_ltgray)), _("SE:"));
 
  for (int i = 0; i < 8; i++) {
 
@@ -8051,7 +8055,7 @@ void game::list_items()
                 wprintz(w_items, c_white, " / %*d ", ((iItemNum - iFilter > 9) ? 2 : 1), iItemNum - iFilter);
 
                 werase(w_item_info);
-                mvwprintz(w_item_info, 0, 0, c_white, "%s", activeItem.info().c_str());
+                fold_and_print(w_item_info,1,1,53-3, c_white, "%s", activeItem.info().c_str());
 
                 for (int j=0; j < iInfoHeight-1; j++)
                 {
@@ -8338,7 +8342,7 @@ void game::pickup(int posx, int posy, int min)
       last_selected = selected;
       werase(w_item_info);
       if ( selected >= 0 && selected <= here.size()-1 ) {
-          mvwprintw(w_item_info, 1, 0, here[selected].info().c_str());
+          fold_and_print(w_item_info,1,2,48-3, c_ltgray, "%s",  here[selected].info().c_str());
       }
       wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -8786,7 +8790,7 @@ void game::drop(char chInput)
   dropped = multidrop();
  else {
   if (u.inv.item_by_letter(chInput).is_null()) {
-   dropped.push_back(u.i_rem(chInput));
+   dropped.push_back(u.i_rem(this,chInput));
   } else {
    dropped.push_back(u.inv.remove_item_by_letter(chInput));
   }
@@ -8998,8 +9002,7 @@ void game::plthrow(char chInput)
   return;
  if (passtarget != -1)
   last_target = targetindices[passtarget];
-
- u.i_rem(ch);
+ u.i_rem(this,ch);
  u.moves -= 125;
  u.practice(turn, "throw", 10);
 
@@ -10969,7 +10972,7 @@ void game::gameover()
  erase();
  gamemode->game_over(this);
  mvprintw(0, 35, "GAME OVER");
- inv();
+ inv(_("Inventory:"));
 }
 
 bool game::game_quit() { return (uquit == QUIT_MENU); }

@@ -12,42 +12,7 @@
 
 
 ////////////////////////////////////
-std::vector<std::string> foldstring ( std::string str, int width ) {
-    std::vector<std::string> lines;
-    if ( width < 1 ) {
-        lines.push_back( str );
-        return lines;
-    }
 
-    int linepos = width;
-    int linestart = 0;
-    int crpos = -2;
-    while( linepos < str.length() || crpos != -1 ) {
-        crpos = str.find('\n', linestart);
-        if (crpos != -1 && crpos <= linepos) {
-            lines.push_back( str.substr( linestart, crpos-linestart ) );
-            linepos = crpos + width + 1;
-            linestart = crpos + 1;
-        } else {
-            int spacepos = str.rfind(' ', linepos);
-            if ( spacepos == -1 ) spacepos = str.find(' ', linepos);
-            if ( spacepos < linestart ) {
-                spacepos = linestart + width;
-                if( spacepos < str.length() ) {
-                    lines.push_back( str.substr( linestart, width ) );
-                    linepos = spacepos + width;
-                    linestart = spacepos;
-                }
-            } else {
-                lines.push_back( str.substr( linestart, spacepos-linestart ) );
-                linepos = spacepos + width + 1;
-                linestart = spacepos + 1;
-            }
-        }
-    }
-    lines.push_back( str.substr( linestart ) );
-    return lines;
-};
 
 int getfoldedwidth (std::vector<std::string> foldedstring) {
     int ret=0;
@@ -304,8 +269,12 @@ void uimenu::query(bool loop) {
     do {
         show();
         keypress = getch();
-        if ( keypress == KEY_UP ) {
-            selected--;
+        if ( keypress == KEY_UP || keypress == KEY_PPAGE ) {
+            if ( keypress == KEY_PPAGE ) {
+                selected += ( -vmax + 1 );
+            } else {
+                selected--;
+            }
             int iter = ( hilight_disabled ? 1 : entries.size() );
             while ( iter > 0 ) {
                 iter--;
@@ -319,8 +288,12 @@ void uimenu::query(bool loop) {
                 }
             }
             // todo: scroll_callback(this, selected, last_selected );
-        } else if ( keypress == KEY_DOWN ) {
-            selected++;
+        } else if ( keypress == KEY_DOWN || keypress == KEY_NPAGE ) {
+            if ( keypress == KEY_NPAGE ) {
+                selected += ( vmax - 1 );
+            } else {
+                selected++;
+            }
             int iter = entries.size();
             if ( hilight_disabled == true ) {
                 iter = 1;

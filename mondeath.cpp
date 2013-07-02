@@ -77,7 +77,7 @@ void mdeath::normal(game *g, monster *z)
     for (int i = 0; i < gib_amount; i++)
     {
         const int rand_posx = z->posx + rng(1,5) - 3;
-        const int rand_posy = z->posx + rng(1,5) - 3;
+        const int rand_posy = z->posy + rng(1,5) - 3;
         const int rand_density = rng(1, 3);
 
         if (z->made_of("flesh") || z->made_of("hflesh"))

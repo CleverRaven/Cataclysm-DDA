@@ -1,5 +1,5 @@
 #include "catacharset.h"
-#include <iostream>
+#include <string.h>
 
 #include "wcwidth.c"
 
@@ -91,7 +91,6 @@ int utf8_width(const char* s)
     int len = strlen(s);
     const char* ptr = s;
     int w = 0;
-    unsigned ch = 0;
     while(len>0)
     {
         unsigned ch = UTF8_getch(&ptr, &len);

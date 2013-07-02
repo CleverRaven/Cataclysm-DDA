@@ -144,7 +144,20 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
 endif
 
 ifdef TILES
-  LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+  ifeq ($(NATIVE),osx)
+    DEFINES += -DOSX_SDL
+    OSX_INC = -F/Library/Frameworks \
+	      -F$(HOME)/Library/Frameworks \
+	      -I/Library/Frameworks/SDL.framework/Headers \
+	      -I$(HOME)/Library/Frameworks/SDL.framework/Headers \
+	      -I/Library/Frameworks/SDL_ttf.framework/Headers \
+	      -I$(HOME)/Library/Frameworks/SDL_ttf.framework/Headers
+    LDFLAGS += -F/Library/Frameworks \
+	       -F$(HOME)/Library/Frameworks \
+	       -framework SDL -framework SDL_ttf -framework Cocoa
+  else
+    LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+  endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -lgdi32 -ldxguid -lwinmm
@@ -174,11 +187,17 @@ HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
+ifdef TILES
+  ifeq ($(NATIVE),osx)
+    OBJS += $(ODIR)/SDLMain.o
+  endif
+endif
+
 all: version $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
+	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) $(OSX_INC) \
           $(OBJS) $(LDFLAGS)
 
 .PHONY: version
@@ -196,7 +215,10 @@ $(DDIR):
 	@mkdir $(DDIR)
 
 $(ODIR)/%.o: %.cpp
-	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(DEFINES) $(CXXFLAGS) $(OSX_INC) -c $< -o $@
+
+$(ODIR)/SDLMain.o: SDLMain.m
+	$(CC) -c $(OSX_INC) $< -o $@
 
 version.cpp: version
 
