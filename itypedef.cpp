@@ -264,7 +264,7 @@ color, "steel", "plastic", 10, 18, 8, 0, 0, difficulty)
 
 #define BIO_SINGLE(id,rarity,price,color,difficulty) \
      BIO(id, std::string("CBM: ")+bionics[id]->name, rarity,price,color,difficulty, \
-           word_rewrap(bionics[id]->description, 50)) \
+           bionics[id]->description) \
 
 //  Name                     RAR PRICE    COLOR   DIFFICULTY
 BIO("bio_power_storage", "CBM: Power Storage",	24, 3800,	c_green,	 1, "\
