@@ -21,8 +21,12 @@
 #include "SDL_ttf.h"
 #else
 #include "SDL/SDL.h"
+#if (defined OSX_SDL)
+#include "SDL_ttf/SDL_ttf.h"
+#else
 #include "SDL/SDL_ttf.h"
 #include <wordexp.h>
+#endif
 #endif
 
 //***********************************
@@ -381,56 +385,60 @@ void CheckMessages()
 
 static void font_folder_list(std::ofstream& fout, std::string path)
 {
-	DIR *dir;
-	struct dirent *ent;
-	if ((dir = opendir (path.c_str())) != NULL) {
-		bool found = false;
-		while (!found && (ent = readdir (dir)) != NULL) {
-   if( 0 == strcmp( ent->d_name, "." ) ||
-       0 == strcmp( ent->d_name, ".." ) ) {
-       continue;
-   }
-			std::string f = path + "/" + ent->d_name;
-   struct stat stat_buffer;
-   if( stat( f.c_str(), &stat_buffer ) == -1 ) {
-       continue;
-   }
-   if( S_ISDIR(stat_buffer.st_mode) ) {
-    font_folder_list( fout, f );
-    continue;
-   }
-			TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
-			long nfaces = 0;
-			if(fnt)
-			{
-				nfaces = TTF_FontFaces(fnt);
-				TTF_CloseFont(fnt);
-			}
-			for(long i=0; i<nfaces; i++)
-			{
-				fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
-				if(fnt)
-				{
-					char *fami = TTF_FontFaceFamilyName(fnt);
-					char *style = TTF_FontFaceStyleName(fnt);
-					if(fami)
-					{
-						fout << fami << std::endl;
-						fout << f << std::endl;
-						fout << i << std::endl;
-					}
-					if(fami && style)
-					{
-						fout << fami << " " << style << std::endl;
-						fout << f << std::endl;
-						fout << i << std::endl;
-					}
-					TTF_CloseFont(fnt);
-				}
-			}
-		}
-		closedir (dir);
-	}
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir (path.c_str())) != NULL) {
+        bool found = false;
+        while (!found && (ent = readdir (dir)) != NULL) {
+            if( 0 == strcmp( ent->d_name, "." ) ||
+                0 == strcmp( ent->d_name, ".." ) ) {
+                continue;
+            }
+            std::string f = path + "/" + ent->d_name;
+            struct stat stat_buffer;
+            if( stat( f.c_str(), &stat_buffer ) == -1 ) {
+                continue;
+            }
+            if( S_ISDIR(stat_buffer.st_mode) ) {
+                font_folder_list( fout, f );
+                continue;
+            }
+            TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
+            long nfaces = 0;
+            if(fnt)
+            {
+                nfaces = TTF_FontFaces(fnt);
+                TTF_CloseFont(fnt);
+            }
+            for(long i = 0; i < nfaces; i++)
+            {
+                fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
+                if(fnt)
+                {
+                    char *fami = TTF_FontFaceFamilyName(fnt);
+                    char *style = TTF_FontFaceStyleName(fnt);
+                    bool isbitmap = (0 == strcasecmp(".fon", f.substr(f.length() - 4).c_str()) );
+                    if(fami && (!isbitmap || i==0) )
+                    {
+                        fout << fami << std::endl;
+                        fout << f << std::endl;
+                        fout << i << std::endl;
+                    }
+                    if(fami && style && 0 != strcasecmp(style, "Regular"))
+                    {
+                        if(!isbitmap)
+                        {
+                            fout << fami << " " << style << std::endl;
+                            fout << f << std::endl;
+                            fout << i << std::endl;
+                        }
+                    }
+                    TTF_CloseFont(fnt);
+                }
+            }
+        }
+        closedir (dir);
+    }
 
 }
 
@@ -497,7 +505,7 @@ static std::string find_system_font(std::string name, int& faceIndex)
 			getline(fin, fpath);
 			getline(fin, iline);
 			index = atoi(iline.c_str());
-   if(0==strcasecmp(fname.c_str(), name.c_str()))
+            if(0==strcasecmp(fname.c_str(), name.c_str()))
 			{
 				faceIndex = index;
 				return fpath;
@@ -508,6 +516,38 @@ static std::string find_system_font(std::string name, int& faceIndex)
 	return "";
 }
 
+// bitmap font font size test
+// return face index that has this size or below
+static int test_face_size(std::string f, int size, int faceIndex)
+{
+    TTF_Font* fnt = TTF_OpenFontIndex(f.c_str(), size, faceIndex);
+    if(fnt)
+    {
+        char* style = TTF_FontFaceStyleName(fnt);
+        if(style != NULL)
+        {
+            int faces = TTF_FontFaces(fnt);
+            bool found = false;
+            for(int i = faces - 1; i >= 0 && !found; i--)
+            {
+                TTF_Font* tf = TTF_OpenFontIndex(f.c_str(), size, i);
+                char* ts = NULL;
+                if(NULL != tf && NULL != (ts = TTF_FontFaceStyleName(tf)))
+                {
+                    if(0 == strcasecmp(ts, style) && TTF_FontHeight(tf) <= size)
+                    {
+                        faceIndex = i;
+                        found = true;
+                    }
+                }
+                TTF_CloseFont(tf);
+            }
+        }
+        TTF_CloseFont(fnt);
+    }
+
+    return faceIndex;
+}
 
 //Basic Init, create the font, backbuffer, etc
 WINDOW *initscr(void)
@@ -516,28 +556,28 @@ WINDOW *initscr(void)
     inputdelay=-1;
 
     std::string typeface = "";
-	std::string blending = "solid";
-	std::ifstream fin;
-	int faceIndex = 0; 
+    std::string blending = "solid";
+    std::ifstream fin;
+    int faceIndex = 0;
     int fontsize = 0; //actuall size
-	fin.open("data/FONTDATA");
-	if (!fin.is_open()){
+    fin.open("data/FONTDATA");
+    if (!fin.is_open()){
         fontheight=16;
         fontwidth=8;
-	} else {
+    } else {
         getline(fin, typeface);
         fin >> fontwidth;
         fin >> fontheight;
         fin >> fontsize;
-		fin >> blending;
-        if ((fontwidth <= 4) || (fontheight <=4)){
+        fin >> blending;
+        if ((fontwidth <= 4) || (fontheight <= 4)) {
             fontheight=16;
             fontwidth=8;
-		}
-		fin.close();
-	}
+        }
+        fin.close();
+    }
 
-	fontblending = (blending=="blended");
+    fontblending = (blending=="blended");
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
@@ -545,32 +585,37 @@ WINDOW *initscr(void)
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
     if(!WinCreate()) {}// do something here
 
-	std::string sysfnt = find_system_font(typeface, faceIndex);
-	if(sysfnt!="") typeface = sysfnt;
+    std::string sysfnt = find_system_font(typeface, faceIndex);
+    if(sysfnt!="") typeface = sysfnt;
 
     //make fontdata compatible with wincurse
     if(!fexists(typeface.c_str())) {
-		faceIndex = 0;
+        faceIndex = 0;
         typeface = "data/font/" + typeface + ".ttf";
-	}
+    }
 
     //different default font with wincurse
     if(!fexists(typeface.c_str())) {
-		faceIndex = 0;
+        faceIndex = 0;
         typeface = "data/font/fixedsys.ttf";
-	}
+    }
 
-    if(fontsize<=0) fontsize=fontheight-1;
-	font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
+    if(fontsize <= 0) fontsize = fontheight - 1;
+
+    // STL_ttf handles bitmap fonts size incorrectly
+    if(0 == strcasecmp(typeface.substr(typeface.length() - 4).c_str(), ".fon"))
+        faceIndex = test_face_size(typeface, fontsize, faceIndex);
+
+    font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
 
     //if(!font) something went wrong
 
-	TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+    TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
 
-	// glyph height hack by utunnels
-	// SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
-	// this causes baseline problems for certain fonts
-	// I can only guess by check a certain tall character...
+    // glyph height hack by utunnels
+    // SDL_ttf doesn't use FT_HAS_VERTICAL for function TTF_GlyphMetrics
+    // this causes baseline problems for certain fonts
+    // I can only guess by check a certain tall character...
     cache_glyphs();
 
     mainwin = newwin((OPTIONS[OPT_VIEWPORT_Y] * 2 + 1),(55 + (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1)),0,0);
