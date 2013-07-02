@@ -23,6 +23,7 @@
 #include "mutation.h"
 #include "gamemode.h"
 #include "action.h"
+#include "translations.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -242,8 +243,8 @@ class game
   std::string sFilter; // this is a member so that it's remembered over time
   std::string list_item_upvote;
   std::string list_item_downvote;
-  char inv(std::string title = "Inventory:");
-  char inv_type(std::string title = "Inventory:", item_cat inv_item_type = IC_NULL);
+  char inv(std::string title);
+  char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
   int inventory_item_menu(char chItem, int startx = 0, int width = 50);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");

@@ -304,8 +304,12 @@ void uimenu::query(bool loop) {
     do {
         show();
         keypress = getch();
-        if ( keypress == KEY_UP ) {
-            selected--;
+        if ( keypress == KEY_UP || keypress == KEY_PPAGE ) {
+            if ( keypress == KEY_PPAGE ) {
+                selected += ( -vmax + 1 );
+            } else {
+                selected--;
+            }
             int iter = ( hilight_disabled ? 1 : entries.size() );
             while ( iter > 0 ) {
                 iter--;
@@ -319,8 +323,12 @@ void uimenu::query(bool loop) {
                 }
             }
             // todo: scroll_callback(this, selected, last_selected );
-        } else if ( keypress == KEY_DOWN ) {
-            selected++;
+        } else if ( keypress == KEY_DOWN || keypress == KEY_NPAGE ) {
+            if ( keypress == KEY_NPAGE ) {
+                selected += ( vmax - 1 );
+            } else {
+                selected++;
+            }
             int iter = entries.size();
             if ( hilight_disabled == true ) {
                 iter = 1;

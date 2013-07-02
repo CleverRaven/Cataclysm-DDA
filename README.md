@@ -39,4 +39,4 @@ Press the `?` key, followed by the `1` key to see the full list of key commands.
 
 #### I've found a bug / I would like to make a suggestion. What should I do?
 
-Please submit an issue on [our GitHub page](https://github.com/TheDarklingWolf/Cataclysm-DDA/issues/). If you're not able to, send an email to `TheDarklingWolf@gmail.com`.
+Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/). If you're not able to, send an email to `TheDarklingWolf@gmail.com`.

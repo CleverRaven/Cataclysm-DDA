@@ -1452,6 +1452,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 
 void iuse::solder_weld(game *g, player *p, item *it, bool t)
 {
+    it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
     int choice = menu(true,
     "Using soldering item:", "Cauterize wound", "Repair plastic/metal/kevlar item", "Cancel", NULL);
     switch (choice)
@@ -1506,7 +1507,6 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
             if(repair_items.empty())
             {
                 g->add_msg_if_player(p,"Your %s is not made of kevlar, plastic or metal.", fix->tname().c_str());
-                it->charges++;
                 return;
             }
 
@@ -1534,7 +1534,6 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
                 {
                     g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repairitem_names[i].c_str(), plurals[i].c_str());
                 }
-                it->charges++;
                 return;
             }
             if (fix->damage < 0)
