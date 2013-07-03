@@ -9237,7 +9237,7 @@ case ot_s_garage_north:
 	line(this, t_window_domestic, 13, 9, 14, 9);
 	square(this, t_rock, 5, 10, 7, 11);
 	line(this, t_rock_floor, 5, 12, 7, 12);
-	furn_set(6, 11, f_woodstove);
+	set(6, 11, t_rock_floor, f_woodstove);
 	line(this, f_dresser, 16, 10, 19, 10);
 	square(this, f_bed, 17, 10, 18, 11);
 	line(this, t_window_domestic, 3, 14, 3, 15);

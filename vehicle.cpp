@@ -1318,8 +1318,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     bool is_body_collision = ph || mondex >= 0;
 
     veh_coll_type collision_type = veh_coll_nothing;
-    std::string obs_name = g->m.has_furn(x, y) ?
-        g->m.furnname(x, y).c_str() : g->m.tername(x, y).c_str();
+    std::string obs_name = g->m.name(x, y).c_str();
 
     // vehicle collisions are a special case. just return the collision.
     // the map takes care of the dynamic stuff.

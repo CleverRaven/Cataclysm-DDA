@@ -5924,8 +5924,7 @@ void game::examine()
    none = false;
 
  if (m.has_flag(sealed, examx, examy)) {
-   if (none) add_msg("The %s is firmly sealed.", m.has_furn(examx, examy) ?
-                     m.furnname(examx, examy).c_str() : m.tername(examx, examy).c_str());
+   if (none) add_msg("The %s is firmly sealed.", m.name(examx, examy).c_str());
  } else {
    //examx,examy has no traps, is a container and doesn't have a special examination function
   if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) && none)
@@ -8896,14 +8895,14 @@ void game::drop_in_direction()
    add_msg("You %s your %s%s %s the %s.", verb.c_str(),
            dropped[0].tname(this).c_str(),
            (dropped.size() == 1 ? "" : "s"), prep.c_str(),
-           m.tername(dirx, diry).c_str());
+           m.name(dirx, diry).c_str());
  } else {
   if (to_veh)
    add_msg("You put several items in the %s's %s.", veh->name.c_str(),
            veh->part_info(veh_part).name);
   else
    add_msg("You %s several items %s the %s.", verb.c_str(), prep.c_str(),
-           m.tername(dirx, diry).c_str());
+           m.name(dirx, diry).c_str());
  }
  if (to_veh) {
   bool vh_overflow = false;
@@ -10000,8 +9999,7 @@ void game::plmove(int x, int y)
    if (veh1 && m.move_cost(x,y) != 2)
     add_msg("Moving past this %s is slow!", veh1->part_info(vpart1).name);
    else
-    add_msg("Moving past this %s is slow!", m.has_furn(x, y) ?
-             m.furnname(x, y).c_str() : m.tername(x, y).c_str());
+    add_msg("Moving past this %s is slow!", m.name(x, y).c_str());
   }
   if (m.has_flag(rough, x, y) && (!u.in_vehicle)) {
    if (one_in(5) && u.armor_bash(bp_feet) < rng(2, 5)) {
@@ -10181,8 +10179,7 @@ void game::plmove(int x, int y)
  } else { // Invalid move
   if (u.has_disease(DI_BLIND) || u.has_disease(DI_STUNNED)) {
 // Only lose movement if we're blind
-   add_msg("You bump into a %s!", m.has_furn(x, y) ?
-           m.furnname(x, y).c_str() : m.tername(x, y).c_str());
+   add_msg("You bump into a %s!", m.name(x, y).c_str());
    u.moves -= 100;
   } else if (m.open_door(x, y, !m.is_outside(u.posx, u.posy)))
    u.moves -= 100;
@@ -11122,7 +11119,7 @@ void game::teleport(player *p)
   if (m.move_cost(newx, newy) == 0) {	// TODO: If we land in water, swim
    if (can_see)
     add_msg("%s teleport%s into the middle of a %s!", You.c_str(),
-            (is_u ? "" : "s"), m.tername(newx, newy).c_str());
+            (is_u ? "" : "s"), m.name(newx, newy).c_str());
    p->hurt(this, bp_torso, 0, 500);
   } else if (mon_at(newx, newy) != -1) {
    int i = mon_at(newx, newy);
