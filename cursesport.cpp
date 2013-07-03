@@ -1,3 +1,4 @@
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
 #include "output.h"
 #include "color.h"
@@ -598,3 +599,4 @@ int noecho()
     echoOn = 0;
     return 0;
 }
+#endif
