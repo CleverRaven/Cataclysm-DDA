@@ -7,7 +7,7 @@ This worked for me, your mileage may vary.
 
 (The font looks a little weird in the SDL version. Not sure why).
 
-## Prerequisites:
+#### Prerequisites:
 
 - ncursesw and gettext. Use fink, homebrew, or macports, or build them (see below).
 - SDL framework: http://www.libsdl.org/release/SDL-1.2.15.dmg  
@@ -41,7 +41,7 @@ From the gettext source folder:
 
 - You may see prompts asking if you want to install Java; dismiss them.
 
-## Build Cataclysm-DDA
+#### Build Cataclysm-DDA
 
 From the Cataclysm-DDA source folder:
 11
