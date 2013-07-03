@@ -52,9 +52,8 @@
 
  {
   "ident": "smoker",
-  "name": "chain smoker",
-  "description":
-"everyone at work knew you as the person who always had a cigarette or two\nin hand. now, you're down to a single pack, and you hope you find more soon.\nyou start out with a strong nicotine addiction, and 10 cigarettes.",
+  "name": "Chain Smoker",
+  "description": "Everyone at work knew you as the person who always had a cigarette or two in hand. now, you're down to a single pack, and you hope you find more soon. You start out with a strong nicotine addiction, and 10 cigarettes.",
   "points": -1,
   "items": ["pants", "dress_shirt", "dress_shoes", "cig"],
   "addictions": [
