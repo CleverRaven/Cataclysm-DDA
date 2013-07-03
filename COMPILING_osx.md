@@ -20,8 +20,8 @@ or /Users/name/Library/Frameworks.
 
 #### Build ncurses and gettext
 
-The --prefix=$HOME/opt/catdda paths below are just examples.  
-If --prefix= is omitted, the prefix will be /usr/local, and 'make install' should be replaced with 'sudo make install'. 
+The `--prefix=$HOME/opt/catdda` paths below are just examples.  
+If `--prefix=` is omitted, the prefix will be /usr/local, and 'make install' should be replaced with 'sudo make install'. 
 
 ncurses: http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz
 
@@ -52,20 +52,21 @@ From the Cataclysm-DDA source folder:
 
 Options:
 
-    NATIVE=osx
+`NATIVE=osx`
 Build for os x.
 
-    TILES=1
+`TILES=1`
 Build the SDL version, omit for ncurses/console version.
 
-    RELEASE=1
+`RELEASE=1`
 Build an optimized 'release' version.
 
-    OSX_MIN=version
-Setxs -mmacosx-version-min= (mine needs to be 10.6 to compile), omit for 10.5.
+`OSX_MIN=version`
+Sets -mmacosx-version-min= (mine needs to be 10.6 to compile), omit for 10.5.
 
-    LIBEXT=1
+`LIBEXT=1`
 Search for libs somewhere else (defaults to /usr/local)
 
-    LIBEXT_DIR=~/opt/catdda
-Path to search for libs. This should be where ncursesw and gettext are installed. I use ~/opt/catdda to keep it out of the way of other stuff.
+`LIBEXT_DIR=~/opt/catdda`
+Path to search for libs. This should be where ncursesw and gettext are installed.  
+I use ~/opt/catdda to keep it out of the way of other stuff.
