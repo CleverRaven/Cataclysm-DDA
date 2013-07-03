@@ -779,7 +779,7 @@
                              ["toolset", -1]
                           ],
                           [
-                             ["wrench", -1]
+                             ["wrench", -1],
                              ["toolset", -1]
                           ],
                           [
@@ -823,7 +823,7 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["wrench", -1]
+                             ["wrench", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -862,7 +862,7 @@
                          ],
 
                          [
-                             ["wrench", -1]
+                             ["wrench", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -1292,7 +1292,7 @@
                          ],
                          [
                              ["hammer", -1],
-                             ["hatchet", -1]
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
