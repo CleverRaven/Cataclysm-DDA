@@ -17,8 +17,7 @@
 #include <sstream>
 
 void iexamine::none	(game *g, player *p, map *m, int examx, int examy) {
- g->add_msg("That is a %s.", m->has_furn(examx, examy) ?
-            m->furnname(examx, examy).c_str() : m->tername(examx, examy).c_str());
+ g->add_msg("That is a %s.", m->name(examx, examy).c_str());
 };
 
 void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
@@ -534,7 +533,7 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
-  if(!query_yn("Pick %s?",m->tername(examx, examy).c_str())) {
+  if(!query_yn("Pick %s?",m->furnname(examx, examy).c_str())) {
     none(g, p, m, examx, examy);
     return;
   }
