@@ -46,7 +46,8 @@ From the gettext source folder:
 From the Cataclysm-DDA source folder:
 
     $ make NATIVE=osx TILES=1 RELEASE=1 OSX_MIN=10.6 LIBEXT=1 LIBEXT_DIR=~/opt/catdda
-    `$ ./cataclysm` (or) `$ ./cataclysm-tiles`
+    $ ./cataclysm
+    $ ./cataclysm-tiles
 
 **Options:**
 
