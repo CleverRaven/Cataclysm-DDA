@@ -1,26 +1,28 @@
-### Building Cataclysm-DDA w/ OSX and SDL frameworks
+Instructions for compiling on Mac OSX with SDL frameworks
 
 Tested with OS X 10.8.4, Xcode 4.6.2.  
 I haven't played it extensively but it builds and runs.  
 Not sure if it compiles with older OS/XCode versions.
 
-The font looks a little weird in the SDL version.
+This worked for me, your mileage may vary.
 
-#### Prerequisites:
+(The font looks a little weird in the SDL version. Not sure why).
+
+## Prerequisites:
 
 - ncursesw and gettext. Use fink, homebrew, or macports, or build them (see below).
 - SDL framework: http://www.libsdl.org/download-1.2.php  
 - SDL\_ttf framework: http://www.libsdl.org/projects/SDL_ttf/
 
-#### Install frameworks
+### Install frameworks
 
-Install SDL.framework and SDL\_ttf.framework in /Library/Frameworks
+Copy SDL.framework and SDL\_ttf.framework to /Library/Frameworks
 or /Users/name/Library/Frameworks.
 
-#### Build ncurses and gettext:
+### Build ncurses and gettext:
 
-This worked for me, your mileage may vary. The --prefix=$(HOME)/opt/catdda paths below are just examples.  
-If --prefix= is omitted, the prefix will be /usr/local, and 'make install' should be replaced with 'sudo make install'.  
+The --prefix=$HOME/opt/catdda paths below are just examples.  
+If --prefix= is omitted, the prefix will be /usr/local, and 'make install' should be replaced with 'sudo make install'. 
 I use ~/opt/catdda at the moment so it stays out of the way of other stuff.
 
 ncurses - latest is 5.9: http://ftp.gnu.org/pub/gnu/ncurses/
@@ -37,7 +39,7 @@ From the gettext source folder:
     $ make
     $ make install
 
-#### Build Cataclysm-DDA:
+## Build Cataclysm-DDA:
 
     $ make NATIVE=osx TILES=1 RELEASE=1 OSX_MIN=10.6 LIBEXT=1 LIBEXT_DIR=~/opt/catdda
     $ ./cataclysm
@@ -45,15 +47,20 @@ From the gettext source folder:
 
 Options:
 
-NATIVE=osx
-    Build cataclysm-dda for os x.
-TILES=1
-    Builds the SDL version, omit this for ncurses/console version.
-RELEASE=1
-    Builds an optimized 'release' version, omit for debug version.
-OSX_MIN=version
-    Sets -mmacosx-version-min= (mine needs to be 10.6 to compile), omit for 10.5.
-LIBEXT=1
-    Search for libs somewhere else (defaults to /usr/local)
-LIBEXT_DIR=~/opt/catdda
-    Path to search for libs. This should be where ncursesw/gettext is installed. I use ~/opt/catdda to keep it out of the way of other stuff.
+NATIVE=osx  
+Build for os x.
+
+TILES=1  
+Build the SDL version, omit for ncurses/console version.
+
+RELEASE=1  
+Build an optimized 'release' version, omit for debug version.
+
+OSX_MIN=version  
+Setxs -mmacosx-version-min= (mine needs to be 10.6 to compile), omit for 10.5.
+
+LIBEXT=1  
+Search for libs somewhere else (defaults to /usr/local)
+
+LIBEXT_DIR=~/opt/catdda  
+Path to search for libs. This should be where ncursesw/gettext is installed. I use ~/opt/catdda to keep it out of the way of other stuff.
