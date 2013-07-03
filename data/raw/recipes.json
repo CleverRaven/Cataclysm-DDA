@@ -780,6 +780,7 @@
                           ],
                           [
                              ["wrench", -1]
+                             ["toolset", -1]
                           ],
                           [
                              ["hammer", -1],
@@ -823,6 +824,7 @@
             "tools": [
                          [
                              ["wrench", -1]
+                             ["toolset", -1]
                          ],
                          [
                              ["screwdriver", -1],
@@ -861,6 +863,7 @@
 
                          [
                              ["wrench", -1]
+                             ["toolset", -1]
                          ],
                          [
                              ["saw", -1]
@@ -1290,6 +1293,7 @@
                          [
                              ["hammer", -1],
                              ["hatchet", -1]
+                             ["toolset", -1]
                          ],
                          [
                              ["wrench", -1],
