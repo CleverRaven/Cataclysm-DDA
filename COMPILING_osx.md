@@ -5,7 +5,9 @@ Not sure if it compiles with older OS/XCode versions.
 
 This worked for me, your mileage may vary.
 
-- (The font looks a little weird in the SDL version. Not sure why).
+(The font looks a little weird in the SDL version. Not sure why).
+
+todo: make it work with sdl libs, i.e. non-framework sdl installed via macports, homebrew... this would be most similar to the linux build, just different locations for search paths.
 
 #### Prerequisites:
 
