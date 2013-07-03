@@ -779,7 +779,8 @@
                              ["toolset", -1]
                           ],
                           [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                           ],
                           [
                              ["hammer", -1],
@@ -822,7 +823,8 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["screwdriver", -1],
@@ -860,7 +862,8 @@
                          ],
 
                          [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["saw", -1]
@@ -1289,7 +1292,8 @@
                          ],
                          [
                              ["hammer", -1],
-                             ["hatchet", -1]
+                             ["hatchet", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["wrench", -1],
@@ -7446,7 +7450,8 @@
                          [
                              ["rock", -1],
                              ["hammer", -1],
-                             ["toolset", -1]
+                             ["toolset", -1],
+                             ["primitive_hammer", -1]
                          ]
                      ],
             "components": [
@@ -8482,6 +8487,7 @@
                          [
                              ["hatchet", -1],
                              ["hammer", -1],
+                             ["primitive_hammer", -1],
                              ["rock", -1],
                              ["toolset", -1]
                          ]
@@ -8764,7 +8770,8 @@
                              ["hatchet", -1],
                              ["hammer", -1],
                              ["rock", -1],
-                             ["toolset", -1]
+                             ["toolset", -1],
+                             ["primitive_hammer", -1]
                          ]
                      ],
             "components": [
@@ -8788,7 +8795,8 @@
                              ["hatchet", -1],
                              ["hammer", -1],
                              ["rock", -1],
-                             ["toolset", -1]
+                             ["toolset", -1],
+                             ["primitive_hammer", -1]
                          ],
                          [
                              ["goggles_welding", -1]
