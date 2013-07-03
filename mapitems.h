@@ -1,5 +1,6 @@
 #ifndef _MAPITEMS_H_
 #define _MAPITEMS_H_
+
 enum items_location {
  mi_none, mi_child_items,
  mi_field, mi_forest, mi_hive, mi_hive_center,
@@ -57,13 +58,16 @@ enum items_location {
  num_itloc
 };
 
+// From item_factory.h
+typedef std::string Item_tag;
+
 // This is used only for monsters; they get a list of items_locations, and
 // a chance that each one will be used.
 struct items_location_and_chance
 {
- items_location loc;
+ Item_tag loc;
  int chance;
- items_location_and_chance (items_location l, int c) {
+ items_location_and_chance (Item_tag l, int c) {
   loc = l;
   chance = c;
  };

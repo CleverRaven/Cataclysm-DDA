@@ -24,11 +24,11 @@ void setvector(std::vector<items_location_and_chance> *vec, ... )
 {
  va_list ap;
  va_start(ap, vec);
- items_location tmploc;
+ const char* tmploc;
  int tmpchance;
- while ((tmploc = (items_location)va_arg(ap, int))) {
+ while ((tmploc = va_arg(ap, const char*))) {
   tmpchance = (int)va_arg(ap, int);
-  vec->push_back(items_location_and_chance(tmploc, tmpchance));
+  vec->push_back(items_location_and_chance(std::string(tmploc), tmpchance));
  }
  va_end(ap);
 }
