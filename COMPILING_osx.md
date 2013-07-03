@@ -5,7 +5,7 @@ Not sure if it compiles with older OS/XCode versions.
 
 This worked for me, your mileage may vary.
 
-(The font looks a little weird in the SDL version. Not sure why).
+- (The font looks a little weird in the SDL version. Not sure why).
 
 #### Prerequisites:
 
