@@ -3,7 +3,6 @@
 #include "options.h"
 #include "output.h"
 #include "color.h"
-#include "debug.h"
 #include "catacharset.h"
 #include <fstream>
 #include <sys/stat.h>
@@ -17,15 +16,16 @@
 
 // SDL headers end up in different places depending on the OS, sadly
 #if (defined _WIN32 || defined WINDOWS)
+#include <windows.h>
 #include "SDL.h"
 #include "SDL_ttf.h"
 #else
+#include <wordexp.h>
 #include "SDL/SDL.h"
 #if (defined OSX_SDL)
 #include "SDL_ttf/SDL_ttf.h"
 #else
 #include "SDL/SDL_ttf.h"
-#include <wordexp.h>
 #endif
 #endif
 
@@ -38,10 +38,6 @@ static SDL_Surface *screen = NULL;
 static SDL_Surface *glyph_cache[128][16]; //cache ascii characters
 TTF_Font* font;
 static int ttf_height_hack = 0;
-int nativeWidth;
-int nativeHeight;
-int WindowX;            //X pos of the actual window, not the curses window
-int WindowY;            //Y pos of the actual window, not the curses window
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
@@ -101,10 +97,6 @@ bool WinCreate()
 	atexit(SDL_Quit);
 
 	SDL_WM_SetCaption("Cataclysm: Dark Days Ahead - 0.6git", NULL);
-
-	video_info = SDL_GetVideoInfo();
-	nativeWidth = video_info->current_w;
-	nativeHeight = video_info->current_h;
 
     char center_string[] = "SDL_VIDEO_CENTERED=center"; // indirection needed to avoid a warning
     SDL_putenv(center_string);
@@ -449,14 +441,6 @@ static void font_folder_list(std::ofstream& fout, std::string path)
 
 }
 
-#if (defined _WIN32 || defined WINDOWS)
-#include <windows.h>
-#elif (defined _APPLE_ && defined _MACH_)
-//#include <wordexp.h> //not tested
-#elif (defined linux || defined __linux)
-//#include <wordexp.h>
-#endif
-
 static void save_font_list()
 {
 	std::ofstream fout("data/fontlist.txt", std::ios_base::trunc);
@@ -466,7 +450,6 @@ static void save_font_list()
 
 #if (defined _WIN32 || defined WINDOWS)
 	char buf[256];
-	//DebugLog log;
 	GetSystemWindowsDirectory(buf, 256);
 	strcat(buf, "\\fonts");
 	font_folder_list(fout, buf);
