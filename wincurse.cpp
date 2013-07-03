@@ -216,7 +216,7 @@ void curses_drawwindow(WINDOW *win)
 					{
 						i+=len-1;
 					}
-                    ExtTextOutW (backbuffer,drawx,drawy,0,NULL,(WCHAR*)&tmp,1,NULL);
+                    if(tmp) ExtTextOutW (backbuffer,drawx,drawy,0,NULL,(WCHAR*)&tmp,1,NULL);
                 } else {
                     switch ((unsigned char)win->line[j].chars[i]) {
                     case LINE_OXOX_C://box bottom/top side (horizontal line)
