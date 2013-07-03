@@ -28,6 +28,7 @@ I use ~/opt/catdda at the moment so it stays out of the way of other stuff.
 ncurses - latest is 5.9: http://ftp.gnu.org/pub/gnu/ncurses/
 
 From the ncurses source folder:
+
     $ ./configure --prefix=$HOME/opt/catdda --enable-widec --enable-ext-colors --enable-sigwinch
     $ make
     $ make install
@@ -35,11 +36,14 @@ From the ncurses source folder:
 gettext - latest is 0.18.2: http://www.gnu.org/software/gettext/
 
 From the gettext source folder:
+
     $ ./configure --prefix=$HOME/opt/catdda --with-libncurses-prefix=$HOME/opt/catdda
     $ make
     $ make install
 
 ## Build Cataclysm-DDA:
+
+From the Cataclysm-DDA source folder:
 
     $ make NATIVE=osx TILES=1 RELEASE=1 OSX_MIN=10.6 LIBEXT=1 LIBEXT_DIR=~/opt/catdda
     $ ./cataclysm
