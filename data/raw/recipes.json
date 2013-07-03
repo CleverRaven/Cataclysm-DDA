@@ -7450,7 +7450,8 @@
                          [
                              ["rock", -1],
                              ["hammer", -1],
-                             ["toolset", -1]
+                             ["toolset", -1],
+                             ["primitive_hammer", -1]
                          ]
                      ],
             "components": [
@@ -8486,6 +8487,7 @@
                          [
                              ["hatchet", -1],
                              ["hammer", -1],
+                             ["primitive_hammer", -1],
                              ["rock", -1],
                              ["toolset", -1]
                          ]
@@ -8768,7 +8770,8 @@
                              ["hatchet", -1],
                              ["hammer", -1],
                              ["rock", -1],
-                             ["toolset", -1]
+                             ["toolset", -1],
+                             ["primitive_hammer", -1]
                          ]
                      ],
             "components": [
@@ -8792,7 +8795,8 @@
                              ["hatchet", -1],
                              ["hammer", -1],
                              ["rock", -1],
-                             ["toolset", -1]
+                             ["toolset", -1],
+                             ["primitive_hammer", -1]
                          ],
                          [
                              ["goggles_welding", -1]
