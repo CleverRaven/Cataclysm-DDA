@@ -9298,8 +9298,8 @@ void game::complete_butcher(int index)
   if(skill_shift >= 0){
    //To see if it spawns a random additional CBM
    if(rng(0,1) == 1){ //The CBM works
-    int bio_index = rng(0, mapitems[mi_bionics].size()-1);
-    m.spawn_item(u.posx, u.posy, mapitems[mi_bionics][bio_index], age);
+    Item_tag bionic_item = item_controller->id_from("bionics");
+    m.spawn_item(u.posx, u.posy, bionic_item, age);
    }else{//There is a burnt out CBM
     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
    }
