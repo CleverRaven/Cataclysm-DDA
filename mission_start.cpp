@@ -355,7 +355,7 @@ void mission_start::reveal_lab_black_box(game *g, mission *miss)
  miss->target = place;
 }
 
-void mission_start::oepn_sarcophagus(game *g, mission *miss)
+void mission_start::open_sarcophagus(game *g, mission *miss)
 {
  npc *p = g->find_npc(miss->npc_id);
  p->attitude = NPCATT_FOLLOW;
