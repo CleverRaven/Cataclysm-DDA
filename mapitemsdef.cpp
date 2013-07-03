@@ -96,17 +96,18 @@ void game::init_mapitems()
 
  setvector(
    &mapitems[mi_homeguns],
-	"22_lr", "9mm", "crossbow", "sig_mosquito", "sw_22",
-	"glock_19", "usp_9mm", "sw_619", "taurus_38", "sig_40",
-	"sw_610", "ruger_redhawk", "deagle_44", "usp_45", "m1911",
-	"fn57", "mac_10", "shotgun_sawn", "suppressor", "grip",
-	"clip", "spare_mag", "grenade", "EMPbomb", "gasbomb", "tazer",
-	"longbow", "compbow", "compositebow", "shortbow", "recurbow", "reflexbow", "arrow_wood", "arrow_cf", "u_shotgun", "shot_hull",
-        "9mm_casing", "38_casing", "40_casing", "44_casing", "45_casing",
-        "57mm_casing", "46mm_casing", "762_casing", "223_casing",
-        "3006_casing", "308_casing", "gunpowder",
-        "shotgun_primer", "smpistol_primer", "lgpistol_primer",
-        "smrifle_primer", "lgrifle_primer", "lead", "puller", "press", NULL);
+   "22_lr", "9mm", "crossbow", "sig_mosquito", "sw_22",
+   "glock_19", "usp_9mm", "sw_619", "taurus_38", "sig_40",
+   "sw_610", "ruger_redhawk", "deagle_44", "usp_45", "m1911",
+   "fn57", "raging_bull", "sw_500", "mac_10", "shotgun_sawn", "suppressor",
+   "grip", "clip", "spare_mag", "grenade", "EMPbomb",
+   "gasbomb", "tazer", "longbow", "compbow", "compositebow", "shortbow",
+   "recurbow", "reflexbow","arrow_wood", "arrow_cf", "u_shotgun",
+   "shot_hull","9mm_casing", "38_casing", "40_casing", 
+   "44_casing","45_casing", ".454_Casull_casing", ".500_S&W_Magnum_casing", 
+   "57mm_casing", "46mm_casing", "762_casing", "223_casing", "3006_casing", "308_casing",
+   "gunpowder", "shotgun_primer", "smpistol_primer", "lgpistol_primer",
+   "smrifle_primer", "lgrifle_primer", "lead", "puller", "press", NULL);
 
  setvector(
    &mapitems[mi_dresser],
@@ -286,14 +287,14 @@ void game::init_mapitems()
 	"shot_bird", "shot_00", "shot_slug", "22_lr", "22_cb",
 	"22_ratshot", "9mm", "9mmP", "9mmP2", "38_special",
 	"38_super", "10mm", "40sw", "44magnum", "45_acp", "45_jhp",
-	"45_super", "57mm", "46mm", "762_m43", "762_m87", "223",
-	"556", "270", "3006", "308", "762_51", NULL);
+	"45_super", ".454_Casull", ".500_S&W_Magnum", "57mm", "46mm", 
+        "762_m43", "762_m87", "223","556", "270", "3006", "308", "762_51", NULL);
 
  setvector(
    &mapitems[mi_pistols],
 	"sig_mosquito", "sw_22", "glock_19", "usp_9mm", "sw_619",
 	"taurus_38", "sig_40", "sw_610", "ruger_redhawk", "deagle_44",
-	"usp_45", "m1911", "fn57", "hk_ucp", NULL);
+	"usp_45", "m1911", "fn57", "hk_ucp", "raging_bull", "sw_500", NULL);
 
  setvector(
    &mapitems[mi_shotguns],
@@ -319,7 +320,7 @@ void game::init_mapitems()
    &mapitems[mi_allguns],
 	"sig_mosquito", "sw_22", "glock_19", "usp_9mm", "sw_619",
 	"taurus_38", "sig_40", "sw_610", "ruger_redhawk", "deagle_44",
-	"usp_45", "m1911", "fn57", "hk_ucp", "shotgun_s",
+	"usp_45", "m1911", "fn57", "hk_ucp", "raging_bull", "sw_500", "shotgun_s",
 	"shotgun_d", "remington_870", "mossberg_500", "saiga_12",
 	"american_180", "uzi", "tec9", "calico", "hk_mp5", "mac_10",
 	"hk_ump45", "TDI", "fn_p90", "hk_mp7", "marlin_9a",
@@ -336,7 +337,8 @@ void game::init_mapitems()
 	"clip2", "stabilizer", "blowback", "autofire", "retool_45",
 	"retool_9mm", "retool_22", "retool_57", "retool_46",
 	"retool_308", "retool_223", "brass_catcher", "tazer","shot_hull",
-        "9mm_casing", "38_casing", "40_casing", "44_casing", "45_casing",
+        "9mm_casing", "38_casing", "40_casing", "44_casing","45_casing",
+        ".454_Casull_casing", ".500_S&W_Magnum_casing",
         "57mm_casing", "46mm_casing", "762_casing", "223_casing",
         "3006_casing", "308_casing", "gunpowder",
         "shotgun_primer", "smpistol_primer", "lgpistol_primer",
@@ -534,7 +536,7 @@ void game::init_mapitems()
 	"broadsword", "morningstar", "helmet_plate", "cot", "rollmat", "tent_kit",
     "bat_metal",  "lawnmower", "pickelhaube",
     "makeshift_machete", "picklocks", "rucksack", "puller", "press",
-    "vac_sealer", "gasoline_lantern", "huge_crossbow", NULL);
+    "vac_sealer", "gasoline_lantern", "huge_crossbow", "raging_bull", "sw_500", NULL);
 
  setvector(
    &mapitems[mi_mil_surplus], // NOT food or armor!
@@ -959,7 +961,7 @@ void game::init_mapitems()
 	"id_military", "electrohack", "processor", "armor_chitin",
 	"plut_cell", "laser_pack", "m249", "v29", "ftk93", "nx17",
 	"conversion_battle", "conversion_sniper", "canister_goo",
-	"mininuke", "portal", "c4", "12mm", "hk_g80",
+	"mininuke", "portal", "c4", "12mm", "hk_g80", "raging_bull", "sw_500",
   "power_armor_basic", "power_armor_helmet_basic", "power_armor_frame",
   "power_armor_light", "power_armor_helmet_light",
   "power_armor_heavy", "power_armor_helmet_heavy",
@@ -1022,5 +1024,5 @@ void game::init_mapitems()
 	"dynamite_act", "firecracker_pack_act", "firecracker_act",
 	"mininuke_act", "UPS_on", "mp3_on", "c4armed", "apparatus",
 	"brazier", "rag_bloody", "candle_lit", "torch_lit",
-	"acidbomb_act", "huge_crossbow", "rep_crossbow", "vaccine_shot", "bio_claws_weapon", NULL);
+	"acidbomb_act", "huge_crossbow", "rep_crossbow", "vaccine_shot", "bio_claws_weapon", ".454_Casull", "raging_bull", ".500_S&W_Magnum", "sw_500",  NULL);
 }

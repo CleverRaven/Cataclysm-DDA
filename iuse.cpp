@@ -3968,26 +3968,40 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  gunpowder.charges = 10*multiply;
  lead.charges = 10*multiply;
  }
- else if (pull->type->id == "45_acp" || pull->type->id == "45_jhp") {
+ else if (pull->type->id == "45_acp") {
  casing.make(g->itypes["45_casing"]);
  primer.make(g->itypes["lgpistol_primer"]);
  gunpowder.make(g->itypes["gunpowder"]);
  gunpowder.charges = 10*multiply;
  lead.charges = 8*multiply;
  }
-// else if (pull->type->id == "45_jhp") {
-// casing.make(g->itypes["45_casing"]);
-// primer.make(g->itypes["lgpistol_primer"]);
-// gunpowder.make(g->itypes["gunpowder"]);
-// gunpowder.charges = 10*multiply;
-// lead.charges = 8*multiply;
-// }
+ else if (pull->type->id == "45_jhp") {
+ casing.make(g->itypes["45_casing"]);
+ primer.make(g->itypes["lgpistol_primer"]);
+ gunpowder.make(g->itypes["gunpowder"]);
+ gunpowder.charges = 10*multiply;
+ lead.charges = 20*multiply;
+ }
  else if (pull->type->id == "45_super") {
  casing.make(g->itypes["45_casing"]);
  primer.make(g->itypes["lgpistol_primer"]);
  gunpowder.make(g->itypes["gunpowder"]);
  gunpowder.charges = 12*multiply;
  lead.charges = 10*multiply;
+ }
+ else if (pull->type->id == ".454_Casull") {
+ casing.make(g->itypes[".454_Casull_casing"]);
+ primer.make(g->itypes["smrifle_primer"]);
+ gunpowder.make(g->itypes["gunpowder"]);
+ gunpowder.charges = 20*multiply;
+ lead.charges = 20*multiply;
+ }
+ else if (pull->type->id == ".500_S&W_Magnum") {
+ casing.make(g->itypes[".500_S&W_Magnum_casing"]);
+ primer.make(g->itypes["lgpistol_primer"]);
+ gunpowder.make(g->itypes["gunpowder"]);
+ gunpowder.charges = 24*multiply;
+ lead.charges = 24*multiply;
  }
  else if (pull->type->id == "57mm") {
  casing.make(g->itypes["57mm_casing"]);

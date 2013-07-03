@@ -2517,6 +2517,111 @@
 
 
         {
+            "result": "45_jhp",
+            "category": "CC_AMMO",
+            "skill_pri": "gun",
+            "skill_sec": "mechanics",
+            "difficulty": 6,
+            "time": 25000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["press", -1]
+                         ],
+                         [
+                             ["fire", -1],
+                             ["toolset", 1],
+                             ["press", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["45_casing", 25]
+                              ],
+                              [
+                                  ["lgpistol_primer", 25]
+                              ],
+                              [
+                                  ["gunpowder", 250]
+                              ],
+                              [
+                                  ["lead", 500]
+                              ]
+                          ]
+        },
+
+        {
+            "result": ".454_Casull",
+            "category": "CC_AMMO",
+            "skill_pri": "gun",
+            "skill_sec": "mechanics",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["press", -1]
+                         ],
+                         [
+                             ["fire", -1],
+                             ["toolset", 1],
+                             ["press", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  [".454_Casull_casing", 10]
+                              ],
+                              [
+                                  ["smrifle_primer", 10]
+                              ],
+                              [
+                                  ["gunpowder", 200]
+                              ],
+                              [
+                                  ["lead", 200]
+                              ]
+                          ]
+        },
+
+        {
+            "result": ".500_S&W_Magnum",
+            "category": "CC_AMMO",
+            "skill_pri": "gun",
+            "skill_sec": "mechanics",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["press", -1]
+                         ],
+                         [
+                             ["fire", -1],
+                             ["toolset", 1],
+                             ["press", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  [".500_S&W_Magnum_casing", 10]
+                              ],
+                              [
+                                  ["lgrifle_primer", 10]
+                              ],
+                              [
+                                  ["gunpowder", 240]
+                              ],
+                              [
+                                  ["lead", 240]
+                              ]
+                          ]
+        },
+
+        {
             "result": "57mm",
             "category": "CC_AMMO",
             "skill_pri": "gun",

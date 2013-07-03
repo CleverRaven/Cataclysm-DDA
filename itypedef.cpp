@@ -668,6 +668,8 @@ std::string ammo_name(ammotype t)
   case AT_40:	  return ".40";
   case AT_44:	  return ".44";
   case AT_45:	  return ".45";
+  case AT_454:	  return ".454 Casull";
+  case AT_500:	  return ".500 S&W Magnum";
   case AT_57:	  return "5.7mm";
   case AT_46:	  return "4.6mm";
   case AT_762:	  return "7.62x39mm";
@@ -705,6 +707,8 @@ itype_id default_ammo(ammotype guntype)
  case AT_40:	return "10mm";
  case AT_44:	return "44magnum";
  case AT_45:	return "45_acp";
+ case AT_454:   return ".454 Casull";
+ case AT_500:   return ".500 S&W Magnum";
  case AT_57:	return "57mm";
  case AT_46:	return "46mm";
  case AT_762:	return "762_m43";

@@ -221,6 +221,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   case AT_40: casing_type = "40_casing"; break;
   case AT_44: casing_type = "44_casing"; break;
   case AT_45: casing_type = "45_casing"; break;
+  case AT_454: casing_type = ".454_Casull_casing"; break;
+  case AT_500: casing_type = ".500_S&W_Magnum_casing"; break;
   case AT_57: casing_type = "57mm_casing"; break;
   case AT_46: casing_type = "46mm_casing"; break;
   case AT_762: casing_type = "762_casing"; break;
@@ -1221,8 +1223,8 @@ void ammo_effects(game *g, int x, int y, long effects) {
   }
 
   if (effects & mfb(AMMO_SMOKE)) {
-    for (int i = -1; i <= 1; i++) {
-      for (int j = -1; j <= 1; j++)
+    for (int i = -2; i <= 2; i++) {
+      for (int j = -2; j <= 2; j++)
         g->m.add_field(g, x + i, y + j, fd_smoke, 3);
     }
   }

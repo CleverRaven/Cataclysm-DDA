@@ -222,6 +222,8 @@ void Item_factory::init(){
     ammo_flags_list["40"] = mfb(AT_40);
     ammo_flags_list["44"] = mfb(AT_44);
     ammo_flags_list["45"] = mfb(AT_45);
+    ammo_flags_list["454"] = mfb(AT_454);
+    ammo_flags_list["500"] = mfb(AT_500);
     ammo_flags_list["57"] = mfb(AT_57);
     ammo_flags_list["46"] = mfb(AT_46);
     ammo_flags_list["762"] = mfb(AT_762);
@@ -737,6 +739,10 @@ ammotype Item_factory::ammo_from_string(std::string new_ammo){
         return AT_44;
     } else if (".45" == new_ammo) {
         return AT_45;
+    } else if (".454" == new_ammo) {
+        return AT_454;
+    } else if (".500" == new_ammo) {
+        return AT_500;
     } else if ("5.7mm" == new_ammo) {
         return AT_57;
     } else if ("4.6mm" == new_ammo) {
