@@ -427,6 +427,7 @@ void player::activate_bionic(int b, game *g)
         eat(g, water.invlet);
         moves -= 350;
     }
+    extracted = true;
     break;
    }
    if (!extracted)
