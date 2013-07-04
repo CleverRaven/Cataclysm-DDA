@@ -799,6 +799,11 @@ void map::set(const int x, const int y, const ter_id new_terrain, const furn_id 
  grid[nonant]->frn[lx][ly] = new_furniture;
 }
 
+std::string map::name(const int x, const int y)
+{
+ return has_furn(x, y) ? furnlist[furn(x, y)].name : terlist[ter(x, y)].name;
+}
+
 bool map::has_furn(const int x, const int y)
 {
   return furn(x, y) != f_null;

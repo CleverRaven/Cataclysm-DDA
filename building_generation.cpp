@@ -124,7 +124,7 @@ void mapgen_crater(map *m, mapgendata dat)
            }
        }
     }
-    m->place_items(mi_wreckage, 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+    m->place_items("wreckage", 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
 void mapgen_field(map *m, int turn)
@@ -154,7 +154,7 @@ void mapgen_field(map *m, int turn)
             if (one_in(1000)) { m->furn_set(i,j, f_mutpoppy); }
         }
     }
-    m->place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
+    m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
 }
 
 void mapgen_dirtlot(map *m, game *g)
@@ -268,7 +268,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
         }
     }
-    m->place_items(mi_forest, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
+    m->place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
 
     if (terrain_type == ot_forest_water)
     {
