@@ -333,37 +333,21 @@ void player::activate_bionic(int b, game *g)
   pkill = 0;
   stim = 0;
  } else if(bio.id == "bio_evap"){
-  if (query_yn("Drink directly? Otherwise you will need a container.")) {
-   tmp_item = item(g->itypes["water_clean"], 0);
-   thirst -= 50;
-   if (has_trait(PF_GOURMAND) && thirst < -60) {
-     g->add_msg("You can't finish it all!");
-     thirst = -60;
-   } else if (!has_trait(PF_GOURMAND) && thirst < -20) {
-     g->add_msg("You can't finish it all!");
-     thirst = -20;
-   }
-  } else {
-   t = g->inv("Choose a container:");
-   if (i_at(t).type == 0) {
-    g->add_msg("You don't have that item!");
+  item water = item(g->itypes["water_clean"], 0);
+  if (g->handle_liquid(water, true, true))
+  {
+      moves -= 100;
+  }
+  else if (query_yn("Drink from your hands?"))
+  {
+      inv.push_back(water);
+      water = inv.item_by_type(water.typeId());
+      eat(g, water.invlet);
+      moves -= 350;
+  }
+  else
+  {
     power_level += bionics["bio_evap"]->power_cost;
-   } else if (!i_at(t).is_container()) {
-    g->add_msg("That %s isn't a container!", i_at(t).tname().c_str());
-    power_level += bionics["bio_evap"]->power_cost;
-   } else {
-    it_container *cont = dynamic_cast<it_container*>(i_at(t).type);
-    if (i_at(t).volume_contained() + 1 > cont->contains) {
-     g->add_msg("There's no space left in your %s.", i_at(t).tname().c_str());
-     power_level += bionics["bio_evap"]->power_cost;
-    } else if (!(cont->flags & con_wtight)) {
-     g->add_msg("Your %s isn't watertight!", i_at(t).tname().c_str());
-     power_level += bionics["bio_evap"]->power_cost;
-    } else {
-     g->add_msg("You pour water into your %s.", i_at(t).tname().c_str());
-     i_at(t).put_in(item(g->itypes["water_clean"], 0));
-    }
-   }
   }
  } else if(bio.id == "bio_lighter"){
   g->draw();
@@ -426,30 +410,26 @@ void player::activate_bionic(int b, game *g)
  } else if (bio.id == "bio_hydraulics"){
   g->add_msg("Your muscles hiss as hydraulic strength fills them!");
  } else if (bio.id == "bio_water_extractor"){
+  bool extracted = false;
   for (int i = 0; i < g->m.i_at(posx, posy).size(); i++) {
    item tmp = g->m.i_at(posx, posy)[i];
    if (tmp.type->id == "corpse" && query_yn("Extract water from the %s",
                                               tmp.tname().c_str())) {
-    i = g->m.i_at(posx, posy).size() + 1;	// Loop is finished
-    t = g->inv("Choose a container:");
-    if (i_at(t).type == 0) {
-     g->add_msg("You don't have that item!");
-     power_level += bionics["bio_water_extractor"]->power_cost;
-    } else if (!i_at(t).is_container()) {
-     g->add_msg("That %s isn't a container!", i_at(t).tname().c_str());
-     power_level += bionics["bio_water_extractor"]->power_cost;
-    } else {
-     it_container *cont = dynamic_cast<it_container*>(i_at(t).type);
-     if (i_at(t).volume_contained() + 1 > cont->contains) {
-      g->add_msg("There's no space left in your %s.", i_at(t).tname().c_str());
-      power_level += bionics["bio_water_extractor"]->power_cost;
-     } else {
-      g->add_msg("You pour water into your %s.", i_at(t).tname().c_str());
-      i_at(t).put_in(item(g->itypes["water"], 0));
-     }
+    item water = item(g->itypes["water_clean"], 0);
+    if (g->handle_liquid(water, true, true))
+    {
+        moves -= 100;
     }
+    else if (query_yn("Drink directly from the condensor?"))
+    {
+        inv.push_back(water);
+        water = inv.item_by_type(water.typeId());
+        eat(g, water.invlet);
+        moves -= 350;
+    }
+    break;
    }
-   if (i == g->m.i_at(posx, posy).size() - 1)	// We never chose a corpse
+   if (!extracted)
     power_level += bionics["bio_water_extractor"]->power_cost;
   }
  } else if(bio.id == "bio_magnet"){
