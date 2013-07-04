@@ -109,7 +109,7 @@ int color_to_int(nc_color col)
   case c_ltcyan_red : return 60;
   case c_pink_red   : return 61;
   case c_yellow_red : return 62;
-
+  case c_unset      : return 63;
  }
  return 0;
 }
@@ -183,6 +183,8 @@ nc_color int_to_color(int key)
   case 60: return c_ltcyan_red ;
   case 61: return c_pink_red   ;
   case 62: return c_yellow_red ;
+
+  case 63: return c_unset;
  }
  return c_black;
 }
