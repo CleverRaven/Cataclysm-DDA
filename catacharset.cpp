@@ -1,6 +1,5 @@
 #include "catacharset.h"
 #include <string.h>
-
 #include "wcwidth.c"
 
 //copied from SDL2_ttf code
@@ -162,5 +161,43 @@ void erease_utf8_by_cw( char* t, int cw, int clen, int maxlen)
 
 }
 
+//cut ut8 string by character size
+//utf8_substr("正正正正", 1, 4) returns
+// " 正 "
+// Broken characters will be filled with space
+std::string utf8_substr(std::string s, int start, int size)
+{
+    static char buf[8000];
+    int len = strlen(s.c_str());
+    int pos;
+    strcpy(buf, s.c_str());
+    int begin = cursorx_to_position(buf, start, &pos);
+    if(begin!=pos)
+    {
+		const char* ts = buf+pos;
+		int l = ANY_LENGTH;
+		unsigned tc = UTF8_getch(&ts, &l);
+		int tw = mk_wcwidth((wchar_t)tc);
+		erease_utf8_by_cw(buf+pos, tw, tw, len-pos-1);
+		begin = pos+tw-1;
+    }
+
+    if(size>0) 
+    {
+        int end = cursorx_to_position(buf, start+size-1, &pos);
+        if(end!=pos)
+        {
+            const char* ts = buf+pos;
+            int l = ANY_LENGTH;
+            unsigned tc = UTF8_getch(&ts, &l);
+            int tw = mk_wcwidth((wchar_t)tc);
+            erease_utf8_by_cw(buf+pos, tw, tw, len-pos-1);
+            end = pos+tw-1;
+        }
+        buf[end+1] = '\0';
+    }
+    
+    return std::string(buf+start);
+}
 
 

@@ -178,7 +178,7 @@ static void OutputChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
 
-    SDL_Surface * glyph = t<0x80?glyph_cache[t][color]:TTF_RenderGlyph_Solid(font, t, windowsPalette[color]);
+    SDL_Surface * glyph = t<0x80?glyph_cache[t][color]:(fontblending?TTF_RenderGlyph_Blended:TTF_RenderGlyph_Solid)(font, t, windowsPalette[color]);
 
     if(glyph)
     {
