@@ -187,6 +187,9 @@ void uimenu::show() {
                     w_width = entries[ i ].txt.size() + pad + 4;    // todo: or +5 if header
                 }
             }
+            if ( entries[ i ].text_color == c_unset ) {
+                entries[ i ].text_color = text_color;
+            }
         }
         if ( autoassign.size() > 0 ) {
             for ( int a = 0; a < autoassign.size(); a++ ) {
@@ -211,6 +214,7 @@ void uimenu::show() {
         }
 
         if(text.size() > 0 ) {
+            bool formattxt=true;
             if ( textwidth == -1 ) {
                 if ( w_autofold || !w_auto ) {
                    realtextwidth = w_width - 4;
@@ -220,13 +224,25 @@ void uimenu::show() {
                        if ( realtextwidth + 4 > TERMX ) {
                            realtextwidth = TERMX - 4;
                        }
-                       w_width = realtextwidth + 4;
+                       textformatted = foldstring(text, realtextwidth);
+                       formattxt=false;
+                       realtextwidth = 10;
+                       for ( int l=0; l < textformatted.size(); l++ ) {
+                           if ( textformatted[l].size() > realtextwidth ) {
+                               realtextwidth = textformatted[l].size();
+                           }
+                       }
+                       if ( realtextwidth + 4 > w_width ) {
+                           w_width = realtextwidth + 4;
+                       }
                    }
                 }
             } else if ( textwidth != -1 ) {
                 realtextwidth = textwidth;
             }
-            textformatted = foldstring(text, realtextwidth);
+            if ( formattxt == true ) {
+                textformatted = foldstring(text, realtextwidth);
+            }
         }
 
         if (h_auto) {
@@ -279,7 +295,12 @@ void uimenu::show() {
     }
     for ( int ei = vshift, si=0; si < vmax; ei++,si++ ) {
         if ( ei < entries.size() ) {
-            nc_color co = ( ei == selected ? hilight_color : ( entries[ ei ].enabled ? text_color : disabled_color ) );
+            nc_color co = ( ei == selected ?
+               hilight_color :
+               ( entries[ ei ].enabled ?
+                  entries[ ei ].text_color :
+               disabled_color )
+            );
             if ( hilight_full ) {
                mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
             }
