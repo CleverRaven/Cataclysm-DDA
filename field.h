@@ -131,7 +131,7 @@ const field_t fieldlist[] = {
     {
         {"thin sludge trail", "sludge trail", "thick sludge trail"},	'5',
         {c_ltgray, c_dkgray, c_black},	{true, true, true}, {false, false, false}, 900,
-        {200,400,500}
+        {0,0,0}
     },
 
     {
