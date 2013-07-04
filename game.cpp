@@ -1359,7 +1359,8 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
         do {
             item oThisItem = u.i_at(chItem);
             std::vector<iteminfo> vThisItem, vDummy, vMenu;
-            vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 2));
+            int iOffsetX = 2;
+            vMenu.push_back(iteminfo("MENU", "", "iOffsetX", iOffsetX));
             vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
             vMenu.push_back(iteminfo("MENU", "a", "ctivate", u.rate_action_use(&oThisItem)));
             vMenu.push_back(iteminfo("MENU", "R", "ead", u.rate_action_read(&oThisItem, this)));
@@ -1375,7 +1376,7 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
             vMenu.push_back(iteminfo("MENU", "=", " reassign"));
             oThisItem.info(true, &vThisItem, this);
             compare_split_screen_popup(startx, width, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
-            cMenu = compare_split_screen_popup(startx+width, 14, 16, "", vMenu, vDummy,
+            cMenu = compare_split_screen_popup(startx+width, 14, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
                 selected >= menustart && selected <= menuend ? selected : -1
             );
             switch(cMenu) {
@@ -6290,7 +6291,7 @@ void game::advanced_inv()
 {
     u.inv.sort();
     u.inv.restack(&u);
-    
+
     const int head_height = 5;
     const int min_w_height = 10;
     const int min_w_width = FULL_SCREEN_WIDTH;
@@ -7497,7 +7498,7 @@ point game::look_around()
    mvwprintw(w_look, 2, 1, "%s", m.features(lx, ly).c_str());
 
    field tmpfield = m.field_at(lx, ly);
-   
+
    if (tmpfield.fieldCount() > 0) {
 		field_entry *cur = NULL;
 		for(std::vector<field_entry*>::iterator field_list_it = tmpfield.getFieldStart(); field_list_it != tmpfield.getFieldEnd(); ++field_list_it){
@@ -9724,9 +9725,9 @@ void game::chat()
         add_msg("You talk to yourself for a moment.");
         return;
     }
-    
+
     std::vector<npc*> available;
-    
+
     for (int i = 0; i < active_npc.size(); i++)
     {
         if (u_see(active_npc[i]->posx, active_npc[i]->posy) && rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
@@ -9734,7 +9735,7 @@ void game::chat()
             available.push_back(active_npc[i]);
         }
     }
-    
+
     if (available.size() == 0)
     {
         add_msg("There's no-one close enough to talk to.");
@@ -9747,15 +9748,15 @@ void game::chat()
     else
     {
         std::vector<std::string> npcs;
-        
+
         for (int i = 0; i < available.size(); i++)
         {
             npcs.push_back(available[i]->name);
         }
         npcs.push_back("Cancel");
-        
+
         int npc_choice = menu_vec(true, "Who do you want to talk to?", npcs) - 1;
-        
+
         if(npc_choice >= 0 && npc_choice < available.size())
         {
             available[npc_choice]->talk_to_u(this);
@@ -9867,7 +9868,7 @@ void game::plmove(int x, int y)
 			active_npc[npcdex]->hit_by_player = true; //The NPC knows we started the fight, used for morale penalty.
 		}
 	 }
-	 
+
 	 u.hit_player(this, *active_npc[npcdex]);
 	 active_npc[npcdex]->make_angry();
 	 if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
@@ -9961,7 +9962,7 @@ void game::plmove(int x, int y)
 			return;
 	}
 
-   
+
 
 // no need to query if stepping into 'benign' traps
 /*
