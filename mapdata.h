@@ -683,7 +683,7 @@ const furn_t furnlist[num_furniture_types] = { // MUST match enum furn_id above!
 {"groundsheet",         ';', c_green,   0, -1,
     mfb(transparent)|mfb(indoors), &iexamine::tent},
 {"groundsheet",         ';', c_green,   0, -1,
-    mfb(transparent), &iexamine::none},
+    mfb(transparent)|mfb(indoors), &iexamine::none},
 {"animalskin wall",     '#', c_brown,   -10, -1,
     mfb(l_flammable)|mfb(bashable)|mfb(noitem), &iexamine::none},
 {"animalskin flap",     '+', c_white,   -10, -1,
@@ -806,7 +806,7 @@ enum field_id {
  fd_blood,
  fd_bile,
  fd_gibs_flesh,
- fd_gibs_veggy, 
+ fd_gibs_veggy,
  fd_web,
  fd_slime,
  fd_acid,
@@ -1043,7 +1043,7 @@ public:
 	bool removeField(const field_id field_to_remove);
 
 	/*
-	Function: fieldCount
+   map	Function: fieldCount
 	Returns the number of fields existing on the current tile.
 	*/
 	unsigned int fieldCount() const;

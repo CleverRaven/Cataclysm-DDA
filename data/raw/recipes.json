@@ -781,7 +781,8 @@
                              ["toolset", -1]
                           ],
                           [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                           ],
                           [
                              ["rock", -1],
@@ -827,7 +828,8 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["screwdriver", -1],
@@ -865,7 +867,8 @@
                          ],
 
                          [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["saw", -1]
@@ -1580,11 +1583,11 @@
                ["toolset", -1]
             ],
             [
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
+               ["rock", -1],
+               ["primitive_hammer", -1],
+               ["hammer", -1],
+               ["hatchet", -1],
+               ["toolset", -1]
             ]
          ],
          "components" : [
@@ -1702,11 +1705,11 @@
                ["toolset", -1]
             ],
             [
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
+               ["rock", -1],
+               ["primitive_hammer", -1],
+               ["hammer", -1],
+               ["hatchet", -1],
+               ["toolset", -1]
             ]
          ],
          "components" : [
@@ -1911,11 +1914,11 @@
                ["toolset", -1]
             ],
             [
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
+               ["rock", -1],
+               ["primitive_hammer", -1],
+               ["hammer", -1],
+               ["hatchet", -1],
+               ["toolset", -1]
             ]
          ],
          "components" : [
@@ -2056,11 +2059,11 @@
          		["toolset", -1]
          	],
          	[
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
+                ["rock", -1],
+                ["primitive_hammer", -1],
+                ["hammer", -1],
+                ["hatchet", -1],
+                ["toolset", -1]
          	]
          ],
          "components" : [
@@ -8554,11 +8557,11 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
+                            ["rock", -1],
+                            ["primitive_hammer", -1],
+                            ["hammer", -1],
+                            ["hatchet", -1],
+                            ["toolset", -1]
                          ]
                      ],
             "components": [
@@ -9505,7 +9508,6 @@
             ],
             "components": [
                               [
-                                  ["string_6", 4],
                                   ["duct_tape", 40],
                                   ["medical_tape", 20]
                               ],
@@ -9518,11 +9520,7 @@
                               [
                                   ["bandages", 2]
                               ],
-                              [
-                                  ["antibiotics", 2]
-                              ]
                           ]
         }
-       
     ]
 }

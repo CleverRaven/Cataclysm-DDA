@@ -1,4 +1,5 @@
 #include "ui.h"
+#include "catacharset.h"
 #include "output.h"
 #include <sstream>
 #include <stdlib.h>
@@ -17,7 +18,10 @@
 int getfoldedwidth (std::vector<std::string> foldedstring) {
     int ret=0;
     for ( int i=0; i < foldedstring.size() ; i++ ) {
-        if ( foldedstring[i].size() > ret ) ret=foldedstring[i].size();
+		int width = utf8_width(foldedstring[i].c_str());
+        if ( width > ret ) {
+			ret=width;
+		}
     }
     return ret;
 }
@@ -135,6 +139,7 @@ void uimenu::show() {
         autoassign.clear();
         int pad = pad_left + pad_right + 2;
         for ( int i = 0; i < entries.size(); i++ ) {
+			int txtwidth = utf8_width(entries[ i ].txt.c_str());
             if(entries[ i ].enabled) {
                 if( entries[ i ].hotkey > 0 ) {
                     keymap[ entries[ i ].hotkey ] = i;
@@ -144,12 +149,12 @@ void uimenu::show() {
                 if ( entries[ i ].retval == -1 ) {
                     entries[ i ].retval = i;
                 }
-                if ( w_auto && w_width < entries[ i ].txt.size() + pad + 4 ) {
-                    w_width = entries[ i ].txt.size() + pad + 4;
+                if ( w_auto && w_width < txtwidth + pad + 4 ) {
+                    w_width = txtwidth + pad + 4;
                 }
             } else {
-                if ( w_auto && w_width < entries[ i ].txt.size() + pad + 4 ) {
-                    w_width = entries[ i ].txt.size() + pad + 4;    // todo: or +5 if header
+                if ( w_auto && w_width < txtwidth + pad + 4 ) {
+                    w_width = txtwidth + pad + 4;    // todo: or +5 if header
                 }
             }
         }
@@ -176,12 +181,13 @@ void uimenu::show() {
         }
 
         if(text.size() > 0 ) {
+			int twidth = utf8_width(text.c_str());
             if ( textwidth == -1 ) {
                 if ( w_autofold || !w_auto ) {
                    realtextwidth = w_width - 4;
                 } else {
-                   realtextwidth = text.size();
-                   if ( text.size() + 4 > w_width ) {
+                   realtextwidth = twidth;
+                   if ( twidth + 4 > w_width ) {
                        if ( realtextwidth + 4 > TERMX ) {
                            realtextwidth = TERMX - 4;
                        }

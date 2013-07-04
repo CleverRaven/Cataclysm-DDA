@@ -22,6 +22,7 @@
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "mapdata.h"
+#include "catacharset.h"
 #include "translations.h"
 #include <map>
 #include <algorithm>
@@ -81,7 +82,6 @@ game::game() :
  init_mtypes();	      // Set up monster types             (SEE mtypedef.cpp)
  init_monitems();     // Set up the items monsters carry  (SEE monitemsdef.cpp)
  init_traps();	      // Set up the trap types            (SEE trapdef.cpp)
- init_mapitems();     // Set up which items appear where  (SEE mapitemsdef.cpp)
  init_recipes();      // Set up crafting reciptes         (SEE crafting.cpp)
  init_mongroups();    // Set up monster groupings         (SEE mongroupdef.cpp)
  init_missions();     // Set up mission templates         (SEE missiondef.cpp)
@@ -188,7 +188,7 @@ void game::init_ui(){
 void game::setup()
 {
  u = player();
- m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
+ m = map(&itypes, &traps); // Init the root map with our vectors
  z.reserve(1000); // Reserve some space
 
 // Even though we may already have 'd', nextinv will be incremented as needed
@@ -1359,7 +1359,8 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
         do {
             item oThisItem = u.i_at(chItem);
             std::vector<iteminfo> vThisItem, vDummy, vMenu;
-            vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 2));
+            int iOffsetX = 2;
+            vMenu.push_back(iteminfo("MENU", "", "iOffsetX", iOffsetX));
             vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
             vMenu.push_back(iteminfo("MENU", "a", "ctivate", u.rate_action_use(&oThisItem)));
             vMenu.push_back(iteminfo("MENU", "R", "ead", u.rate_action_read(&oThisItem, this)));
@@ -1375,7 +1376,7 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
             vMenu.push_back(iteminfo("MENU", "=", " reassign"));
             oThisItem.info(true, &vThisItem, this);
             compare_split_screen_popup(startx, width, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
-            cMenu = compare_split_screen_popup(startx+width, 14, 16, "", vMenu, vDummy,
+            cMenu = compare_split_screen_popup(startx+width, 14, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
                 selected >= menustart && selected <= menuend ? selected : -1
             );
             switch(cMenu) {
@@ -3155,16 +3156,7 @@ faction* game::list_factions(std::string title)
           "Ranking: %s", fac_ranking_text(valfac[0].likes_u).c_str());
  mvwprintz(w_info, 1, 0, c_white,
           "Respect: %s", fac_respect_text(valfac[0].respects_u).c_str());
- std::string desc = valfac[0].describe();
- int linenum = 3;
- while (desc.length() > maxlength) {
-  size_t split = desc.find_last_of(' ', maxlength);
-  std::string line = desc.substr(0, split);
-  mvwprintz(w_info, linenum, 0, c_white, line.c_str());
-  desc = desc.substr(split + 1);
-  linenum++;
- }
- mvwprintz(w_info, linenum, 0, c_white, desc.c_str());
+ fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[0].describe().c_str());
  wrefresh(w_info);
  InputEvent input;
  do {
@@ -3198,16 +3190,7 @@ faction* game::list_factions(std::string title)
             "Ranking: %s", fac_ranking_text(valfac[sel].likes_u).c_str());
    mvwprintz(w_info, 1, 0, c_white,
             "Respect: %s", fac_respect_text(valfac[sel].respects_u).c_str());
-   std::string inner_desc = valfac[sel].describe();
-   int inner_linenum = 3;
-   while (inner_desc.length() > maxlength) {
-    size_t split = inner_desc.find_last_of(' ', maxlength);
-    std::string line = inner_desc.substr(0, split);
-    mvwprintz(w_info, inner_linenum, 0, c_white, line.c_str());
-    inner_desc = inner_desc.substr(split + 1);
-    inner_linenum++;
-   }
-   mvwprintz(w_info, inner_linenum, 0, c_white, inner_desc.c_str());
+   fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe().c_str());
    wrefresh(w_info);
   }
  } while (input != Cancel && input != Confirm && input != Close);
@@ -3347,10 +3330,8 @@ void game::draw()
  oter_id cur_ter = cur_om->ter((levx + int(MAPSIZE / 2)) / 2,
                               (levy + int(MAPSIZE / 2)) / 2, levz);
  std::string tername = oterlist[cur_ter].name;
- if (tername.length() > 14)
-  tername = tername.substr(0, 14);
  werase(w_location);
- mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, tername.c_str());
+ mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, utf8_substr(tername, 0, 14).c_str());
  if (levz < 0)
   mvwprintz(w_location, 0, 18, c_ltgray, "Underground");
  else
@@ -3387,7 +3368,7 @@ void game::draw()
  if ( w_void_lines > 0 ) {
      if (m.graffiti_at(u.posx, u.posy).contents) {
          mvwprintz(w_void, 0, 1, c_white,"Written here: ");
-         wprintz(w_void, c_magenta,"%s", m.graffiti_at(u.posx, u.posy).contents->substr(0, STATUS_WIDTH-15 ).c_str() );
+         wprintz(w_void, c_magenta,"%s", utf8_substr(*m.graffiti_at(u.posx, u.posy).contents, 0, STATUS_WIDTH-15 ).c_str() );
      } else {
          mvwprintw(w_void, 0, 0,"%s", std::string(STATUS_WIDTH, ' ').c_str());
      }
@@ -5924,8 +5905,7 @@ void game::examine()
    none = false;
 
  if (m.has_flag(sealed, examx, examy)) {
-   if (none) add_msg("The %s is firmly sealed.", m.has_furn(examx, examy) ?
-                     m.furnname(examx, examy).c_str() : m.tername(examx, examy).c_str());
+   if (none) add_msg("The %s is firmly sealed.", m.name(examx, examy).c_str());
  } else {
    //examx,examy has no traps, is a container and doesn't have a special examination function
   if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) && none)
@@ -6292,7 +6272,7 @@ void game::advanced_inv()
 {
     u.inv.sort();
     u.inv.restack(&u);
-    
+
     const int head_height = 5;
     const int min_w_height = 10;
     const int min_w_width = FULL_SCREEN_WIDTH;
@@ -7499,7 +7479,7 @@ point game::look_around()
    mvwprintw(w_look, 2, 1, "%s", m.features(lx, ly).c_str());
 
    field tmpfield = m.field_at(lx, ly);
-   
+
    if (tmpfield.fieldCount() > 0) {
 		field_entry *cur = NULL;
 		for(std::vector<field_entry*>::iterator field_list_it = tmpfield.getFieldStart(); field_list_it != tmpfield.getFieldEnd(); ++field_list_it){
@@ -8896,14 +8876,14 @@ void game::drop_in_direction()
    add_msg("You %s your %s%s %s the %s.", verb.c_str(),
            dropped[0].tname(this).c_str(),
            (dropped.size() == 1 ? "" : "s"), prep.c_str(),
-           m.tername(dirx, diry).c_str());
+           m.name(dirx, diry).c_str());
  } else {
   if (to_veh)
    add_msg("You put several items in the %s's %s.", veh->name.c_str(),
            veh->part_info(veh_part).name);
   else
    add_msg("You %s several items %s the %s.", verb.c_str(), prep.c_str(),
-           m.tername(dirx, diry).c_str());
+           m.name(dirx, diry).c_str());
  }
  if (to_veh) {
   bool vh_overflow = false;
@@ -9298,8 +9278,8 @@ void game::complete_butcher(int index)
   if(skill_shift >= 0){
    //To see if it spawns a random additional CBM
    if(rng(0,1) == 1){ //The CBM works
-    int bio_index = rng(0, mapitems[mi_bionics].size()-1);
-    m.spawn_item(u.posx, u.posy, mapitems[mi_bionics][bio_index], age);
+    Item_tag bionic_item = item_controller->id_from("bionics");
+    m.spawn_item(u.posx, u.posy, bionic_item, age);
    }else{//There is a burnt out CBM
     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
    }
@@ -9726,9 +9706,9 @@ void game::chat()
         add_msg("You talk to yourself for a moment.");
         return;
     }
-    
+
     std::vector<npc*> available;
-    
+
     for (int i = 0; i < active_npc.size(); i++)
     {
         if (u_see(active_npc[i]->posx, active_npc[i]->posy) && rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
@@ -9736,7 +9716,7 @@ void game::chat()
             available.push_back(active_npc[i]);
         }
     }
-    
+
     if (available.size() == 0)
     {
         add_msg("There's no-one close enough to talk to.");
@@ -9749,15 +9729,15 @@ void game::chat()
     else
     {
         std::vector<std::string> npcs;
-        
+
         for (int i = 0; i < available.size(); i++)
         {
             npcs.push_back(available[i]->name);
         }
         npcs.push_back("Cancel");
-        
+
         int npc_choice = menu_vec(true, "Who do you want to talk to?", npcs) - 1;
-        
+
         if(npc_choice >= 0 && npc_choice < available.size())
         {
             available[npc_choice]->talk_to_u(this);
@@ -9869,7 +9849,7 @@ void game::plmove(int x, int y)
 			active_npc[npcdex]->hit_by_player = true; //The NPC knows we started the fight, used for morale penalty.
 		}
 	 }
-	 
+
 	 u.hit_player(this, *active_npc[npcdex]);
 	 active_npc[npcdex]->make_angry();
 	 if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
@@ -9963,7 +9943,7 @@ void game::plmove(int x, int y)
 			return;
 	}
 
-   
+
 
 // no need to query if stepping into 'benign' traps
 /*
@@ -10000,8 +9980,7 @@ void game::plmove(int x, int y)
    if (veh1 && m.move_cost(x,y) != 2)
     add_msg("Moving past this %s is slow!", veh1->part_info(vpart1).name);
    else
-    add_msg("Moving past this %s is slow!", m.has_furn(x, y) ?
-             m.furnname(x, y).c_str() : m.tername(x, y).c_str());
+    add_msg("Moving past this %s is slow!", m.name(x, y).c_str());
   }
   if (m.has_flag(rough, x, y) && (!u.in_vehicle)) {
    if (one_in(5) && u.armor_bash(bp_feet) < rng(2, 5)) {
@@ -10181,8 +10160,7 @@ void game::plmove(int x, int y)
  } else { // Invalid move
   if (u.has_disease(DI_BLIND) || u.has_disease(DI_STUNNED)) {
 // Only lose movement if we're blind
-   add_msg("You bump into a %s!", m.has_furn(x, y) ?
-           m.furnname(x, y).c_str() : m.tername(x, y).c_str());
+   add_msg("You bump into a %s!", m.name(x, y).c_str());
    u.moves -= 100;
   } else if (m.open_door(x, y, !m.is_outside(u.posx, u.posy)))
    u.moves -= 100;
@@ -10406,7 +10384,7 @@ void game::vertical_move(int movez, bool force)
   return;
  }
 
- map tmpmap(&itypes, &mapitems, &traps);
+ map tmpmap(&itypes, &traps);
  tmpmap.load(this, levx, levy, levz + movez, false);
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
@@ -10792,7 +10770,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
     z[i].spawnposx = rc.sub_pos.x;
     z[i].spawnposy = rc.sub_pos.y;
 
-    tinymap tmp(&itypes, &mapitems, &traps);
+    tinymap tmp(&itypes, &traps);
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, levz, false);
     tmp.add_spawn(&(z[i]));
     tmp.save(cur_om, turn, z[i].spawnmapx, z[i].spawnmapy, levz);
@@ -10991,30 +10969,14 @@ void game::write_msg()
    mes = mesSS.str();
   }
 // Split the message into many if we must!
-  size_t split;
-  while (mes.length() > maxlength && line >= 0) {
-   split = mes.find_last_of(' ', maxlength);
-   if (split > maxlength)
-    split = maxlength;
-   nc_color col = c_dkgray;
-   if (int(messages[i].turn) >= curmes)
+  nc_color col = c_dkgray;
+  if (int(messages[i].turn) >= curmes)
     col = c_ltred;
-   else if (int(messages[i].turn) + 5 >= curmes)
+  else if (int(messages[i].turn) + 5 >= curmes)
     col = c_ltgray;
-   //mvwprintz(w_messages, line, 0, col, mes.substr(0, split).c_str());
-   mvwprintz(w_messages, line, 0, col, mes.substr(split + 1).c_str());
-   mes = mes.substr(0, split);
-   line--;
-   //mes = mes.substr(split + 1);
-  }
-  if (line >= 0) {
-   nc_color col = c_dkgray;
-   if (int(messages[i].turn) >= curmes)
-    col = c_ltred;
-   else if (int(messages[i].turn) + 5 >= curmes)
-    col = c_ltgray;
-   mvwprintz(w_messages, line, 0, col, mes.c_str());
-   line--;
+  std::vector<std::string> folded = foldstring(mes, maxlength);
+  for(int j=folded.size()-1; j>=0 && line>=0; j--, line--) {
+    mvwprintz(w_messages, line, 0, col, folded[j].c_str());
   }
  }
  curmes = int(turn);
@@ -11061,18 +11023,9 @@ void game::msg_buffer()
      mes = mesSS.str();
     }
 // Split the message into many if we must!
-    size_t split;
-    while (mes.length() > FULL_SCREEN_WIDTH-2 && line <= FULL_SCREEN_HEIGHT-2) {
-     split = mes.find_last_of(' ', FULL_SCREEN_WIDTH-2);
-     if (split > FULL_SCREEN_WIDTH-2)
-      split = FULL_SCREEN_WIDTH-2;
-     mvwprintz(w, line, 1, c_ltgray, mes.substr(0, split).c_str());
-     line++;
-     mes = mes.substr(split);
-    }
-    if (line <= FULL_SCREEN_HEIGHT-2) {
-     mvwprintz(w, line, 1, col, mes.c_str());
-     line++;
+    std::vector<std::string> folded = foldstring(mes, FULL_SCREEN_WIDTH-2);
+    for(int j=0; j<folded.size() && line <= FULL_SCREEN_HEIGHT-2; j++, line++) {
+     mvwprintz(w, line, 1, c_ltgray, folded[j].c_str());
     }
    } // if (line <= 23)
   } //for (i = 1; i <= 10 && line <= 23 && offset + i <= messages.size(); i++)
@@ -11122,7 +11075,7 @@ void game::teleport(player *p)
   if (m.move_cost(newx, newy) == 0) {	// TODO: If we land in water, swim
    if (can_see)
     add_msg("%s teleport%s into the middle of a %s!", You.c_str(),
-            (is_u ? "" : "s"), m.tername(newx, newy).c_str());
+            (is_u ? "" : "s"), m.name(newx, newy).c_str());
    p->hurt(this, bp_torso, 0, 500);
   } else if (mon_at(newx, newy) != -1) {
    int i = mon_at(newx, newy);
@@ -11142,7 +11095,7 @@ void game::nuke(int x, int y)
     if (x < 0 || y < 0 || x >= OMAPX || y >= OMAPY)
         return;
     int mapx = x * 2, mapy = y * 2;
-    map tmpmap(&itypes, &mapitems, &traps);
+    map tmpmap(&itypes, &traps);
     tmpmap.load(this, mapx, mapy, 0, false);
     for (int i = 0; i < SEEX * 2; i++)
     {

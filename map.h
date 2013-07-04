@@ -105,8 +105,7 @@ class map
 
 // Constructors & Initialization
  map();
- map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
-     std::vector<trap*> *trptr);
+ map(std::map<std::string, itype*>* itptr, std::vector<trap*> *trptr);
  ~map();
 
 // Visual Output
@@ -173,6 +172,7 @@ class map
 
 // Furniture
  void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
+ std::string name(const int x, const int y);
  bool has_furn(const int x, const int y);
  furn_id furn(const int x, const int y); // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  void furn_set(const int x, const int y, const furn_id new_furniture);
@@ -319,7 +319,6 @@ protected:
  int nulrad;	// OOB &radiation()
 
  std::vector <trap*> *traps;
- std::vector <itype_id> (*mapitems)[num_itloc];
 
  bool veh_in_active_range;
 
@@ -344,8 +343,7 @@ class tinymap : public map
 {
 public:
  tinymap();
- tinymap(std::map<std::string, itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
-     std::vector<trap*> *trptr);
+ tinymap(std::map<std::string, itype*> *itptr, std::vector<trap*> *trptr);
  ~tinymap();
 
 protected:

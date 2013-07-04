@@ -35,13 +35,11 @@ map::map()
  veh_in_active_range = true;
 }
 
-map::map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
-         std::vector<trap*> *trptr)
+map::map(std::map<std::string, itype*>* itptr, std::vector<trap*> *trptr)
 {
  nulter = t_null;
  nultrap = tr_null;
  itypes = itptr;
- mapitems = miptr;
  traps = trptr;
  if (is_tiny())
   my_MAPSIZE = 2;
@@ -49,7 +47,7 @@ map::map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[nu
   my_MAPSIZE = MAPSIZE;
  for (int n = 0; n < my_MAPSIZE * my_MAPSIZE; n++)
   grid[n] = NULL;
- dbg(D_INFO) << "map::map( itptr["<<itptr<<"], miptr["<<miptr<<"], trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
+ dbg(D_INFO) << "map::map( itptr["<<itptr<<"], trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
  veh_in_active_range = true;
  memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
@@ -797,6 +795,11 @@ void map::set(const int x, const int y, const ter_id new_terrain, const furn_id 
  const int ly = y % SEEY;
  grid[nonant]->ter[lx][ly] = new_terrain;
  grid[nonant]->frn[lx][ly] = new_furniture;
+}
+
+std::string map::name(const int x, const int y)
+{
+ return has_furn(x, y) ? furnlist[furn(x, y)].name : terlist[ter(x, y)].name;
 }
 
 bool map::has_furn(const int x, const int y)
@@ -3718,7 +3721,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
-  map tmp_map(itypes, mapitems, traps);
+  map tmp_map(itypes, traps);
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at
 //  squares divisible by 2.
@@ -3942,7 +3945,7 @@ void map::build_outside_cache(const game *g)
     {
         for(int y = 0; y < SEEY * my_MAPSIZE; y++)
         {
-            if( terlist[ter(x, y)].flags & mfb(indoors) )
+            if( terlist[ter(x, y)].flags & mfb(indoors) || furnlist[furn(x, y)].flags & mfb(indoors))
             {
                 for( int dx = -1; dx <= 1; dx++ )
                 {
@@ -4059,13 +4062,10 @@ tinymap::tinymap()
 }
 
 tinymap::tinymap(std::map<std::string, itype*> *itptr,
-                 std::vector<itype_id> (*miptr)[num_itloc],
                  std::vector<trap*> *trptr)
 {
  nulter = t_null;
  nultrap = tr_null;
- itypes = itptr;
- mapitems = miptr;
  traps = trptr;
  my_MAPSIZE = 2;
  for (int n = 0; n < 4; n++)

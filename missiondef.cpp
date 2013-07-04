@@ -85,7 +85,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
 
 //patriot mission 4
  MISSION("Follow Sarcophagus Team", MGOAL_GO_TO_TYPE, 2, 500, false,
-	&mission_place::always, &mission_start::oepn_sarcophagus,
+	&mission_place::always, &mission_start::open_sarcophagus,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   DESTINATION(ot_haz_sar_b1);
@@ -120,7 +120,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("visions_solitude");
-  
+
  MISSION("Find Weather Log", MGOAL_FIND_ITEM, 2, 500, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
@@ -150,7 +150,7 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
   ORIGINS(ORIGIN_SECONDARY);
   DESTINATION(ot_farm);
 
-//vigilante mission 1 
+//vigilante mission 1
  MISSION("Find Corporate Accounts", MGOAL_FIND_ITEM, 2, 1400, false,
 	&mission_place::always, &mission_start::standard,
 	&mission_end::standard, &mission_fail::standard);
@@ -172,8 +172,8 @@ MISSION("Find Flag", MGOAL_FIND_ITEM, 2, 1000, false,
 	&mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
   ITEM("badge_deputy");
-  
- //demon slayer mission 1 
+
+ //demon slayer mission 1
  MISSION("Kill Jabberwock", MGOAL_KILL_MONSTER, 5, 2000, true,
 	&mission_place::always, &mission_start::place_jabberwock,
 	&mission_end::standard, &mission_fail::standard);
