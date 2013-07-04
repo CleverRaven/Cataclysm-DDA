@@ -42,8 +42,7 @@ enum oter_id {
  ot_null = 0,
  ot_crater,
 // Wild terrain
- ot_field, ot_forest, ot_forest_thick, ot_forest_water, ot_hive, ot_spider_pit,
-  ot_fungal_bloom,
+ ot_field, ot_forest, ot_forest_thick, ot_forest_water,
 // Roads
  ot_hiway_ns, ot_hiway_ew,
  ot_road_null,
@@ -125,14 +124,14 @@ enum oter_id {
  ot_toxic_dump,
  ot_haz_sar_entrance, ot_haz_sar,
  ot_haz_sar_entrance_b1, ot_haz_sar_b1,
- ot_cave, ot_cave_rat,
+ ot_cave, ot_cave_rat, ot_hive, ot_fungal_bloom, ot_spider_pit,
 // Underground terrain
  ot_spider_pit_under,
  ot_anthill,
- ot_rock, ot_rift, ot_hellmouth,
  ot_slimepit, ot_slimepit_down,
  ot_triffid_grove, ot_triffid_roots, ot_triffid_finale,
  ot_basement,
+ ot_cavern, ot_rock, ot_rift, ot_hellmouth,
  ot_subway_station,
  ot_subway_ns, ot_subway_ew,
  ot_subway_ne, ot_subway_es, ot_subway_sw, ot_subway_wn,
@@ -144,7 +143,6 @@ enum oter_id {
  ot_ants_ne, ot_ants_es, ot_ants_sw, ot_ants_wn,
  ot_ants_nes, ot_ants_new, ot_ants_nsw, ot_ants_esw, ot_ants_nesw,
  ot_ants_food, ot_ants_larvae, ot_ants_queen,
- ot_cavern,
 
  ot_tutorial,
  num_ter_types
@@ -164,10 +162,6 @@ const oter_t oterlist[num_ter_types] = {
 {"forest",		'F',	c_green,	3, field_extras, false, false, 0},
 {"forest",		'F',	c_green,	4, field_extras, false, false, 0},
 {"swamp",		'F',	c_cyan,		4, field_extras, false, false, 0},
-{"bee hive",		'8',	c_yellow,	3, field_extras, false, false, 0},
-{"forest",		'F',	c_green,	3, field_extras, false, false, 0},
-/* The tile above is a spider pit. */
-{"fungal bloom",	'T',	c_ltgray,	2, field_extras, false, false, 0},
 {"highway",		'H',	c_dkgray,	2, road_extras, false, false, 0},
 {"highway",		'=',	c_dkgray,	2, road_extras, false, false, 0},
 {"BUG (omdata.h:oterlist)",			'%',	c_magenta,	0, no_extras, false, false, 0},
@@ -408,17 +402,21 @@ const oter_t oterlist[num_ter_types] = {
 {"hazardous waste sarcophagus",	'X',	c_pink,		5, no_extras, false, false, 0},
 {"cave",		'C',	c_brown,	2, field_extras, false, false, 0},
 {"rat cave",		'C',	c_dkgray,	2, no_extras, true, false, 0},
-{"cavern",		'0',	c_ltgray,	2, no_extras, false, false, 0},
+{"bee hive",		'8',	c_yellow,	3, field_extras, false, false, 0},
+{"fungal bloom",	'T',	c_ltgray,	2, field_extras, false, false, 0},
+{"forest",		'F',	c_green,	3, field_extras, false, false, 0}, // Spider pit
+{"cavern",		'0',	c_ltgray,	5, no_extras, false, false, 0}, // Spider pit
 {"anthill",		'%',	c_brown,	2, no_extras, true, false, 0},
-{"solid rock",		'%',	c_dkgray,	5, no_extras, false, false, 0},
-{"rift",		'^',	c_red,		2, no_extras, false, false, 0},
-{"hellmouth",		'^',	c_ltred,	2, no_extras, true, false, 0},
 {"slime pit",		'~',	c_ltgreen,	2, no_extras, false, false, 0},
 {"slime pit",		'~',	c_ltgreen,	2, no_extras, true, false, 0},
 {"triffid grove",	'T',	c_ltred,	5, no_extras, true, false, 0},
 {"triffid roots",	'T',	c_ltred,	5, no_extras, true, true, 0},
 {"triffid heart",	'T',	c_red,		5, no_extras, false, true, 0},
 {"basement",		'O',	c_dkgray,	5, no_extras, false, true, 0},
+{"cavern",		'0',	c_ltgray,	5, no_extras, false, false, 0},
+{"solid rock",		'%',	c_dkgray,	5, no_extras, false, false, 0},
+{"rift",		'^',	c_red,		2, no_extras, false, false, 0},
+{"hellmouth",		'^',	c_ltred,	2, no_extras, true, false, 0},
 {"subway station",	'S',	c_yellow,	5, subway_extras, false, true, 0},
 {"subway",        LINE_XOXO,	c_dkgray,	5, subway_extras, false, false, 0},
 {"subway",        LINE_OXOX,	c_dkgray,	5, subway_extras, false, false, 0},
@@ -456,7 +454,6 @@ const oter_t oterlist[num_ter_types] = {
 {"ant food storage",	'O',	c_green,	5, no_extras, false, false, 0},
 {"ant larva chamber",	'O',	c_white,	5, no_extras, false, false, 0},
 {"ant queen chamber",	'O',	c_red,		5, no_extras, false, false, 0},
-{"cavern",		'0',	c_ltgray,	5, no_extras, false, false, 0},
 {"tutorial room",	'O',	c_cyan,		5, no_extras, false, false, 0}
 };
 
@@ -490,13 +487,13 @@ NUM_OMS_FLAGS
 struct omspec_place
 {
 // Able functions - true if p is valid
- bool never      (overmap *om, tripoint p) { return false; }
- bool always     (overmap *om, tripoint p) { return true;  }
- bool water      (overmap *om, tripoint p); // Only on rivers
- bool land       (overmap *om, tripoint p); // Only on land (no rivers)
- bool forest     (overmap *om, tripoint p); // Forest
- bool wilderness (overmap *om, tripoint p); // Forest or fields
- bool by_highway (overmap *om, tripoint p); // Next to existing highways
+ bool never      (overmap *om, unsigned long f, tripoint p) { return false; }
+ bool always     (overmap *om, unsigned long f, tripoint p) { return true;  }
+ bool water      (overmap *om, unsigned long f, tripoint p); // Only on rivers
+ bool land       (overmap *om, unsigned long f, tripoint p); // Only on land (no rivers)
+ bool forest     (overmap *om, unsigned long f, tripoint p); // Forest
+ bool wilderness (overmap *om, unsigned long f, tripoint p); // Forest or fields
+ bool by_highway (overmap *om, unsigned long f, tripoint p); // Next to existing highways
 };
 
 struct overmap_special
@@ -513,8 +510,8 @@ struct overmap_special
  int monster_rad_min;   // Minimum monster radius
  int monster_rad_max;   // Maximum monster radius
 
- bool (omspec_place::*able) (overmap *om, tripoint p); // See above
- unsigned flags : NUM_OMS_FLAGS; // See above
+ bool (omspec_place::*able) (overmap *om, unsigned long f, tripoint p); // See above
+ unsigned long flags : NUM_OMS_FLAGS; // See above
 };
 
 enum omspec_id
