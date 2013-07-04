@@ -330,6 +330,7 @@ static int add_alt_code(char c)
 
 static int end_alt_code()
 {
+    alt_down = false;
     return atoi(alt_buffer);
 }
 
@@ -344,6 +345,7 @@ void CheckMessages()
 		{
 			case SDL_KEYDOWN:
 			{
+                int lc = 0;
 			    if(OPTIONS[OPT_HIDE_CURSOR] > 0 && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
 				Uint8 *keystate = SDL_GetKeyState(NULL);
 				// manually handle Alt+F4 for older SDL lib, no big deal
@@ -363,37 +365,40 @@ void CheckMessages()
                     break;
                 }
 				else if (ev.key.keysym.unicode != 0) {
-					lastchar = ev.key.keysym.unicode;
-					switch (lastchar){
+					lc = ev.key.keysym.unicode;
+					switch (lc){
 						case 13:            //Reroute ENTER key for compatilbity purposes
-							lastchar=10;
+							lc=10;
 							break;
 						case 8:             //Reroute BACKSPACE key for compatilbity purposes
-							lastchar=127;
+							lc=127;
 							break;
 					}
 				}
 				if(ev.key.keysym.sym==SDLK_LEFT) {
-					lastchar = KEY_LEFT;
+					lc = KEY_LEFT;
 				}
 				else if(ev.key.keysym.sym==SDLK_RIGHT) {
-					lastchar = KEY_RIGHT;
+					lc = KEY_RIGHT;
 				}
 				else if(ev.key.keysym.sym==SDLK_UP) {
-					lastchar = KEY_UP;
+					lc = KEY_UP;
 				}
 				else if(ev.key.keysym.sym==SDLK_DOWN) {
-					lastchar = KEY_DOWN;
+					lc = KEY_DOWN;
 				}
 				else if(ev.key.keysym.sym==SDLK_PAGEUP) {
-					lastchar = KEY_PPAGE;
+					lc = KEY_PPAGE;
 				}
 				else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
-					lastchar = KEY_NPAGE;
+					lc = KEY_NPAGE;
 
 				}
+                if(!lc) break;
                 if(alt_down) {
-                    add_alt_code(lastchar);
+                    add_alt_code(lc);
+                }else {
+                    lastchar = lc;
                 }
 			}
 			break;
