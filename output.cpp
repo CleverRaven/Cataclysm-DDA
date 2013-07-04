@@ -13,18 +13,8 @@
 #include "keypress.h"
 #include "options.h"
 #include "cursesdef.h"
-
-#define LINE_XOXO 4194424
-#define LINE_OXOX 4194417
-#define LINE_XXOO 4194413
-#define LINE_OXXO 4194412
-#define LINE_OOXX 4194411
-#define LINE_XOOX 4194410
-#define LINE_XXXO 4194420
-#define LINE_XXOX 4194422
-#define LINE_XOXX 4194421
-#define LINE_OXXX 4194423
-#define LINE_XXXX 4194414
+#include "catacharset.h"
+#include "debug.h"
 
 // Display data
 int TERMX;
@@ -139,6 +129,7 @@ nc_color rand_color()
  return c_dkgray;
 }
 
+// utf8 version
 std::vector<std::string> foldstring ( std::string str, int width ) {
     std::vector<std::string> lines;
     if ( width < 1 ) {
@@ -146,36 +137,14 @@ std::vector<std::string> foldstring ( std::string str, int width ) {
         return lines;
     }
 
-    int linepos = width;
-    int linestart = 0;
-    int crpos = -2;
-    while( linepos < str.length() || crpos != -1 ) {
-        crpos = str.find('\n', linestart);
-        if (crpos != -1 && crpos <= linepos) {
-            lines.push_back( str.substr( linestart, crpos-linestart ) );
-            linepos = crpos + width + 1;
-            linestart = crpos + 1;
-        } else {
-            int spacepos = str.rfind(' ', linepos);
-            if ( spacepos == -1 ) spacepos = str.find(' ', linepos);
-            if ( spacepos < linestart ) {
-                spacepos = linestart + width;
-                if( spacepos < str.length() ) {
-                    lines.push_back( str.substr( linestart, width ) );
-                    linepos = spacepos + width;
-                    linestart = spacepos;
-                }
-            } else {
-                lines.push_back( str.substr( linestart, spacepos-linestart ) );
-                linepos = spacepos + width + 1;
-                linestart = spacepos + 1;
-            }
-        }
+	std::string wrapped = word_rewrap(str, width);
+	std::stringstream ss(wrapped);
+	std::string l;
+    while (std::getline(ss, l, '\n')) {
+        lines.push_back(l);
     }
-    lines.push_back( str.substr( linestart ) );
-    return lines;
-};
-
+	return lines;
+}
 
 // returns number of printed lines
 int fold_and_print(WINDOW* w, int begin_y, int begin_x, int width, nc_color color, const char *mes, ...)
@@ -391,7 +360,7 @@ bool query_yn(const char *mes, ...)
  char buff[1024];
  vsprintf(buff, mes, ap);
  va_end(ap);
- int win_width = strlen(buff) + 26;
+ int win_width = utf8_width(buff) + 26;
 
  WINDOW *w = newwin(3, win_width, (TERMY-3)/2, (TERMX > win_width) ? (TERMX-win_width)/2 : 0);
 
@@ -419,7 +388,7 @@ int query_int(const char *mes, ...)
  char buff[1024];
  vsprintf(buff, mes, ap);
  va_end(ap);
- int win_width = strlen(buff) + 10;
+ int win_width = utf8_width(buff) + 10;
 
  WINDOW *w = newwin(3, win_width, (TERMY-3)/2, 11+((TERMX > win_width) ? (TERMX-win_width)/2 : 0));
 
@@ -444,9 +413,10 @@ std::string string_input_popup(std::string title, int max_length, std::string in
 {
  std::string ret = input;
 
- int startx = title.size() + 2;
+ int startx = utf8_width(title.c_str()) + 2;
  WINDOW *w = newwin(3, FULL_SCREEN_WIDTH, (TERMY-3)/2,
                     ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
+
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
  for (int i = startx + 1; i < 79; i++)
@@ -457,7 +427,7 @@ std::string string_input_popup(std::string title, int max_length, std::string in
  if (input != "")
   mvwprintz(w, 1, startx, c_magenta, "%s", input.c_str());
 
- int posx = startx + input.size();
+ int posx = startx + utf8_width(input.c_str());
  mvwputch(w, 1, posx, h_ltgray, '_');
  do {
   wrefresh(w);
@@ -760,19 +730,13 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
     line_num++;
    }
   } else if (vItemDisplay[i].sType == "DESCRIPTION") {
-   std::string sText = vItemDisplay[i].sName;
-   std::replace(sText.begin(), sText.end(), '\n', ' ');
-   while (1) {
-     line_num++;
-     if (sText.size() > iWidth-4) {
-      int iPos = sText.find_last_of(' ', iWidth-4);
-      mvwprintz(w, line_num, 2, c_white, (sText.substr(0, iPos)).c_str());
-      sText = sText.substr(iPos+1, sText.size());
-     } else {
-      mvwprintz(w, line_num, 2, c_white, (sText).c_str());
-      break;
-     }
-   }
+    std::string sText = word_rewrap(vItemDisplay[i].sName, iWidth-4);
+	std::stringstream ss(sText);
+	std::string l;
+    while (std::getline(ss, l, '\n')) {
+      line_num++;
+	  mvwprintz(w, line_num, 2, c_white, l.c_str());
+    }
   } else {
    if (bStartNewLine) {
     mvwprintz(w, line_num, 2, c_white, "%s", (vItemDisplay[i].sName).c_str());
@@ -885,9 +849,55 @@ long special_symbol (long sym)
     }
 }
 
+// utf-8 version
+// works differently, so keep the two versions in code for quick debug purpose
+std::string word_rewrap (const std::string &ins, int width){
+    std::ostringstream o;
+	std::string in = ins;
+	std::replace(in.begin(), in.end(), '\n', ' ');
+	int lastwb = 0; //last word break
+	int lastout = 0;
+	int x=0;
+	int j=0;
+	const char *instr = in.c_str();
+
+	while(j<in.size())
+	{
+		const char* ins = instr+j;
+		int len = ANY_LENGTH;
+		unsigned uc = UTF8_getch(&ins, &len);
+		int cw = mk_wcwidth((wchar_t)uc);
+		len = ANY_LENGTH-len;
+
+		j+=len;
+		x+=cw;
+
+		if(x>width)
+		{
+			for(int k=lastout; k<lastwb; k++)
+				o << in[k];
+			o<<'\n';
+			x=0;
+			lastout=j=lastwb;
+		}
+		else if(uc==' '|| uc=='\n')
+		{
+			lastwb=j;
+		}
+		else if(uc>=0x2E80)
+		{
+			lastwb=j;
+		}
+	}
+	for(int k=lastout; k<in.size(); k++)
+		o << in[k];
+
+    return o.str();
+}
+
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
 {
- int iOffsetXRight = iOffsetX + sText.size() + 1;
+ int iOffsetXRight = iOffsetX + utf8_width(sText.c_str()) + 1;
 
  mvwputch(w, 0, iOffsetX,      c_ltgray, LINE_OXXO); // |^
  mvwputch(w, 0, iOffsetXRight, c_ltgray, LINE_OOXX); // ^|

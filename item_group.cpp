@@ -86,3 +86,13 @@ bool Item_group_group::check(int value) const{
 const Item_tag Item_group_group::get(std::vector<Item_tag> recursion_list){
     return m_group->get_id(recursion_list);
 }
+
+bool Item_group::has_item(const Item_tag item_id) {
+    for(int i=0; i<m_entries.size(); i++) {
+        if(m_entries[i]->get() == item_id) {
+            return 1;
+        }
+    }
+
+    return 0;
+}

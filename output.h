@@ -22,6 +22,18 @@
 #define LINE_OXXX 4194423
 #define LINE_XXXX 4194414
 
+#define LINE_XOXO_C 0xa0
+#define LINE_OXOX_C 0xa1
+#define LINE_XXOO_C 0xa2
+#define LINE_OXXO_C 0xa3
+#define LINE_OOXX_C 0xa4
+#define LINE_XOOX_C 0xa5
+#define LINE_XXXO_C 0xa6
+#define LINE_XXOX_C 0xa7
+#define LINE_XOXX_C 0xa8
+#define LINE_OXXX_C 0xa9
+#define LINE_XXXX_C 0xaa
+
 #define FULL_SCREEN_WIDTH 80  // Width of full Screen popup
 #define FULL_SCREEN_HEIGHT 25 // Height of full Screen popup
 
@@ -48,6 +60,7 @@ void mvprintz(int y, int x, nc_color FG, const char *mes, ...);
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
+std::string word_rewrap (const std::string &ins, int width);
 void draw_tabs(WINDOW *w, int active_tab, ...);
 
 #define STRING2(x) #x

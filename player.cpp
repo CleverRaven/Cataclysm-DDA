@@ -633,7 +633,7 @@ void player::update_bodytemp(game *g)
                     int fire_dist = std::max(1, std::max(j, k));
                     if (frostbite_timer[i] > 0)
                         { frostbite_timer[i] -= heat_intensity - fire_dist / 2;}
-                    temp_conv[i] +=  200 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
+                    temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist * fire_dist);
                     blister_count += heat_intensity / (fire_dist * fire_dist);
                 }
             }

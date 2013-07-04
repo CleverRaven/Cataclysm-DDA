@@ -8,6 +8,7 @@
 #include "skill.h"
 #include "crafting.h" // For the use_comps use_tools functions
 #include "item_factory.h"
+#include "catacharset.h"
 
 bool will_flood_stop(map *m, bool (&fill)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                      int x, int y);
@@ -530,7 +531,7 @@ void game::construction_menu()
        has_tool[i] = true;
        col = c_green;
       }
-      int length = item_controller->find_template(tool)->name.length();
+      int length = utf8_width(item_controller->find_template(tool)->name.c_str());
       if (posx + length > 79) {
        posy++;
        posx = 33;
@@ -575,7 +576,7 @@ void game::construction_menu()
        has_component[i] = true;
        col = c_green;
       }
-      int length = item_controller->find_template(comp.type)->name.length();
+      int length = utf8_width(item_controller->find_template(comp.type)->name.c_str());
       if (posx + length > 79) {
        posy++;
        posx = 33;
