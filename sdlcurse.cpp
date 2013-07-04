@@ -245,7 +245,7 @@ void curses_drawwindow(WINDOW *win)
 					{
 						i+=len-1;
 					}
-                    OutputChar(tmp, drawx,drawy,FG);
+                    if(tmp) OutputChar(tmp, drawx,drawy,FG);
                 } else {
                     switch ((unsigned char)win->line[j].chars[i]) {
                     case LINE_OXOX_C://box bottom/top side (horizontal line)

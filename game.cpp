@@ -3190,7 +3190,6 @@ faction* game::list_factions(std::string title)
             "Ranking: %s", fac_ranking_text(valfac[sel].likes_u).c_str());
    mvwprintz(w_info, 1, 0, c_white,
             "Respect: %s", fac_respect_text(valfac[sel].respects_u).c_str());
-   std::string inner_desc = valfac[sel].describe();
    fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe().c_str());
    wrefresh(w_info);
   }
