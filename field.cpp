@@ -115,8 +115,11 @@ bool map::process_fields_in_submap(game *g, int gridn)
 					}
 					break;
 
-				case fd_sap:
-					break; // It doesn't do anything special over time.
+        case fd_sap:
+            break;
+
+        case fd_sludge:
+            break;
 
 					// TODO-MATERIALS: use fire resistance
 				case fd_fire: {
@@ -858,6 +861,10 @@ void map::step_in_field(int x, int y, game *g)
 	  cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
   break;
 
+  case fd_sludge:
+      g->add_msg("The sludge is thick and sticky.");
+      break;
+
   case fd_fire:
 	  //Burn the player. Less so if you are in a car or ON a car.
    adjusted_intensity = cur->getFieldDensity();
@@ -1048,6 +1055,10 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    else
     cur->setFieldDensity(cur->getFieldDensity() - 1);
    break;
+
+  case fd_sludge:
+      break;
+
 
 // MATERIALS-TODO: Use fire resistance
   case fd_fire:

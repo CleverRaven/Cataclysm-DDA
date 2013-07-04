@@ -811,6 +811,7 @@ enum field_id {
  fd_slime,
  fd_acid,
  fd_sap,
+ fd_sludge,
  fd_fire,
  fd_rubble,
  fd_smoke,
@@ -858,6 +859,9 @@ const field_t fieldlist[] = {
 
 {{"sap splatter", "glob of sap", "pool of sap"},	'5',
  {c_yellow, c_brown, c_brown},	{true, true, true}, {true, true, true},     20},
+
+{{"thin sludge trail", "sludge trail", "thick sludge trail"},	'5',
+ {c_ltgray, c_dkgray, c_black},	{true, true, true}, {true, true, true},     20},
 
 {{"small fire",	"fire",	"raging fire"},			'4',
  {c_yellow, c_ltred, c_red},	{true, true, true}, {true, true, true},	   800},
