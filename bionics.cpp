@@ -430,9 +430,9 @@ void player::activate_bionic(int b, game *g)
     extracted = true;
     break;
    }
-   if (!extracted)
-    power_level += bionics["bio_water_extractor"]->power_cost;
   }
+  if (!extracted)
+   power_level += bionics["bio_water_extractor"]->power_cost;
  } else if(bio.id == "bio_magnet"){
   for (int i = posx - 10; i <= posx + 10; i++) {
    for (int j = posy - 10; j <= posy + 10; j++) {
