@@ -825,6 +825,22 @@ void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, 
     }
 }
 
+void Item_factory::tags_from_json(catajson tag_list, std::set<std::string> &tags)
+{
+    if (tag_list.is_array())
+    {
+        for (tag_list.set_begin(); tag_list.has_curr(); tag_list.next())
+        {
+            tags.insert( tag_list.curr().as_string() );
+        }
+    }
+    else
+    {
+        //we should have gotten a string, if not an array, and catajson will do error checking
+        tags.insert( tag_list.as_string() );
+    }
+}
+
 unsigned Item_factory::flags_from_json(catajson flag_list, std::string flag_type){
     //If none is found, just use the standard none action
     unsigned flag = 0;
