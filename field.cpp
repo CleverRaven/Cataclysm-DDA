@@ -1,5 +1,6 @@
 #include "rng.h"
 #include "map.h"
+#include "field.h"
 #include "game.h"
 
 #define INBOUNDS(x, y) \
