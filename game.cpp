@@ -22,6 +22,7 @@
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "mapdata.h"
+#include "catacharset.h"
 #include "translations.h"
 #include <map>
 #include <algorithm>
@@ -3155,16 +3156,7 @@ faction* game::list_factions(std::string title)
           "Ranking: %s", fac_ranking_text(valfac[0].likes_u).c_str());
  mvwprintz(w_info, 1, 0, c_white,
           "Respect: %s", fac_respect_text(valfac[0].respects_u).c_str());
- std::string desc = valfac[0].describe();
- int linenum = 3;
- while (desc.length() > maxlength) {
-  size_t split = desc.find_last_of(' ', maxlength);
-  std::string line = desc.substr(0, split);
-  mvwprintz(w_info, linenum, 0, c_white, line.c_str());
-  desc = desc.substr(split + 1);
-  linenum++;
- }
- mvwprintz(w_info, linenum, 0, c_white, desc.c_str());
+ fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[0].describe().c_str());
  wrefresh(w_info);
  InputEvent input;
  do {
@@ -3198,16 +3190,7 @@ faction* game::list_factions(std::string title)
             "Ranking: %s", fac_ranking_text(valfac[sel].likes_u).c_str());
    mvwprintz(w_info, 1, 0, c_white,
             "Respect: %s", fac_respect_text(valfac[sel].respects_u).c_str());
-   std::string inner_desc = valfac[sel].describe();
-   int inner_linenum = 3;
-   while (inner_desc.length() > maxlength) {
-    size_t split = inner_desc.find_last_of(' ', maxlength);
-    std::string line = inner_desc.substr(0, split);
-    mvwprintz(w_info, inner_linenum, 0, c_white, line.c_str());
-    inner_desc = inner_desc.substr(split + 1);
-    inner_linenum++;
-   }
-   mvwprintz(w_info, inner_linenum, 0, c_white, inner_desc.c_str());
+   fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe().c_str());
    wrefresh(w_info);
   }
  } while (input != Cancel && input != Confirm && input != Close);
@@ -3348,8 +3331,7 @@ void game::draw()
                               (levy + int(MAPSIZE / 2)) / 2, levz);
  std::string tername = oterlist[cur_ter].name;
  werase(w_location);
- mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, tername.c_str());
- mvwprintz(w_location, 0,  14, oterlist[cur_ter].color, "    ");
+ mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, utf8_substr(tername, 0, 14).c_str());
  if (levz < 0)
   mvwprintz(w_location, 0, 18, c_ltgray, "Underground");
  else
@@ -3386,7 +3368,7 @@ void game::draw()
  if ( w_void_lines > 0 ) {
      if (m.graffiti_at(u.posx, u.posy).contents) {
          mvwprintz(w_void, 0, 1, c_white,"Written here: ");
-         wprintz(w_void, c_magenta,"%s", m.graffiti_at(u.posx, u.posy).contents->substr(0, STATUS_WIDTH-15 ).c_str() );
+         wprintz(w_void, c_magenta,"%s", utf8_substr(*m.graffiti_at(u.posx, u.posy).contents, 0, STATUS_WIDTH-15 ).c_str() );
      } else {
          mvwprintw(w_void, 0, 0,"%s", std::string(STATUS_WIDTH, ' ').c_str());
      }
@@ -10987,30 +10969,14 @@ void game::write_msg()
    mes = mesSS.str();
   }
 // Split the message into many if we must!
-  size_t split;
-  while (mes.length() > maxlength && line >= 0) {
-   split = mes.find_last_of(' ', maxlength);
-   if (split > maxlength)
-    split = maxlength;
-   nc_color col = c_dkgray;
-   if (int(messages[i].turn) >= curmes)
+  nc_color col = c_dkgray;
+  if (int(messages[i].turn) >= curmes)
     col = c_ltred;
-   else if (int(messages[i].turn) + 5 >= curmes)
+  else if (int(messages[i].turn) + 5 >= curmes)
     col = c_ltgray;
-   //mvwprintz(w_messages, line, 0, col, mes.substr(0, split).c_str());
-   mvwprintz(w_messages, line, 0, col, mes.substr(split + 1).c_str());
-   mes = mes.substr(0, split);
-   line--;
-   //mes = mes.substr(split + 1);
-  }
-  if (line >= 0) {
-   nc_color col = c_dkgray;
-   if (int(messages[i].turn) >= curmes)
-    col = c_ltred;
-   else if (int(messages[i].turn) + 5 >= curmes)
-    col = c_ltgray;
-   mvwprintz(w_messages, line, 0, col, mes.c_str());
-   line--;
+  std::vector<std::string> folded = foldstring(mes, maxlength);
+  for(int j=folded.size()-1; j>=0 && line>=0; j--, line--) {
+    mvwprintz(w_messages, line, 0, col, folded[j].c_str());
   }
  }
  curmes = int(turn);
@@ -11057,18 +11023,9 @@ void game::msg_buffer()
      mes = mesSS.str();
     }
 // Split the message into many if we must!
-    size_t split;
-    while (mes.length() > FULL_SCREEN_WIDTH-2 && line <= FULL_SCREEN_HEIGHT-2) {
-     split = mes.find_last_of(' ', FULL_SCREEN_WIDTH-2);
-     if (split > FULL_SCREEN_WIDTH-2)
-      split = FULL_SCREEN_WIDTH-2;
-     mvwprintz(w, line, 1, c_ltgray, mes.substr(0, split).c_str());
-     line++;
-     mes = mes.substr(split);
-    }
-    if (line <= FULL_SCREEN_HEIGHT-2) {
-     mvwprintz(w, line, 1, col, mes.c_str());
-     line++;
+    std::vector<std::string> folded = foldstring(mes, FULL_SCREEN_WIDTH-2);
+    for(int j=0; j<folded.size() && line <= FULL_SCREEN_HEIGHT-2; j++, line++) {
+     mvwprintz(w, line, 1, c_ltgray, folded[j].c_str());
     }
    } // if (line <= 23)
   } //for (i = 1; i <= 10 && line <= 23 && offset + i <= messages.size(); i++)

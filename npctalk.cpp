@@ -6,6 +6,7 @@
 #include "line.h"
 #include "keypress.h"
 #include "debug.h"
+#include "catacharset.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -1601,14 +1602,11 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
 
 // Number of lines to highlight
  int hilight_lines = 1;
- size_t split;
- while (challenge.length() > 40) {
+ std::vector<std::string> folded = foldstring(challenge, 40);
+ for(int i=0; i<folded.size(); i++){
+  history.push_back(folded[i]);
   hilight_lines++;
-  split = challenge.find_last_of(' ', 40);
-  history.push_back(challenge.substr(0, split));
-  challenge = challenge.substr(split);
  }
- history.push_back(challenge);
 
  std::vector<std::string> options;
  std::vector<nc_color>    colors;
@@ -1652,14 +1650,11 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
 
  curline = 3;
  for (int i = 0; i < options.size(); i++) {
-  while (options[i].size() > 36) {
-   split = options[i].find_last_of(' ', 36);
-   mvwprintz(win, curline, 42, colors[i], options[i].substr(0, split).c_str());
-   options[i] = "  " + options[i].substr(split);
+  folded = foldstring(options[i], 36);
+  for(int j=0; j<folded.size(); j++) {
+   mvwprintz(win, curline, 42, colors[i], ((j==0?"":"   ") + folded[j]).c_str());
    curline++;
   }
-  mvwprintz(win, curline, 42, colors[i], options[i].c_str());
-  curline++;
  }
  mvwprintz(win, curline + 2, 42, c_magenta, "L: Look at");
  mvwprintz(win, curline + 3, 42, c_magenta, "S: Size up stats");
@@ -1690,13 +1685,11 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   return special_talk(ch);
 
  std::string response_printed = "You: " + responses[ch].text;
- while (response_printed.length() > 40) {
-  hilight_lines++;
-  split = response_printed.find_last_of(' ', 40);
-  history.push_back(response_printed.substr(0, split));
-  response_printed = response_printed.substr(split);
+ folded = foldstring(response_printed, 40);
+ for(int i=0; i<folded.size(); i++){
+   history.push_back(folded[i]);
+   hilight_lines++;
  }
- history.push_back(response_printed);
 
  talk_response chosen = responses[ch];
  if (chosen.mission_index != -1)
@@ -1833,7 +1826,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     mvwprintz(w_them, i - them_off + 1, 1,
               (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s - $%d",
               char(i + 'a'), (getting_theirs[i] ? '+' : '-'),
-              theirs[i + them_off]->tname().substr( 0,25).c_str(),
+              utf8_substr(theirs[i + them_off]->tname(), 0, 25).c_str(),
               their_price[i + them_off]);
    if (them_off > 0)
     mvwprintw(w_them, 19, 1, "< Back");
@@ -1844,7 +1837,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     mvwprintz(w_you, i - you_off + 1, 1,
               (getting_yours[i] ? c_white : c_ltgray), "%c %c %s - $%d",
               char(i + 'a'), (getting_yours[i] ? '+' : '-'),
-              yours[i + you_off]->tname().substr( 0,25).c_str(),
+              utf8_substr(yours[i + you_off]->tname(), 0,25).c_str(),
               your_price[i + you_off]);
    if (you_off > 0)
     mvwprintw(w_you, 19, 1, "< Back");
