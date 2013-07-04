@@ -9495,8 +9495,37 @@
                                   ["scrap", 3]
                               ]
                           ]
+        },
+        {
+            "result": "1st_aid",
+            "category": "CC_MISC",
+            "skill_pri": "firstaid",
+            "difficulty": 3,
+            "time": 20000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+            ],
+            "components": [
+                              [
+                                  ["string_6", 4],
+                                  ["duct_tape", 40],
+                                  ["medical_tape", 20]
+                              ],
+                              [
+                                  ["aspirin", 8]
+                              ],
+                              [
+                                  ["disinfectant", 2]
+                              ],
+                              [
+                                  ["bandages", 2]
+                              ],
+                              [
+                                  ["antibiotics", 2]
+                              ]
+                          ]
         }
-
-        
+       
     ]
 }
