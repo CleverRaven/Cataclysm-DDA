@@ -239,24 +239,6 @@ void Item_factory::init(){
     ammo_flags_list["WATER"] = mfb(AT_WATER);
     ammo_flags_list["PEBBLE"] = mfb(AT_PEBBLE);
 
-    ammo_effects_list["FLAME"] = mfb(AMMO_FLAME);
-    ammo_effects_list["INCENDIARY"] = mfb(AMMO_INCENDIARY);
-    ammo_effects_list["IGNITE"] = mfb(AMMO_IGNITE);
-    ammo_effects_list["EXPLOSIVE"] = mfb(AMMO_EXPLOSIVE);
-    ammo_effects_list["FRAG"] = mfb(AMMO_FRAG);
-    ammo_effects_list["NAPALM"] = mfb(AMMO_NAPALM);
-    ammo_effects_list["ACIDBOMB"] = mfb(AMMO_ACIDBOMB);
-    ammo_effects_list["EXPLOSIVE_BIG"] = mfb(AMMO_EXPLOSIVE_BIG);
-    ammo_effects_list["TEARGAS"] = mfb(AMMO_TEARGAS);
-    ammo_effects_list["SMOKE"] = mfb(AMMO_SMOKE);
-    ammo_effects_list["TRAIL"] = mfb(AMMO_TRAIL);
-    ammo_effects_list["FLASHBANG"] = mfb(AMMO_FLASHBANG);
-    ammo_effects_list["STREAM"] = mfb(AMMO_STREAM);
-    ammo_effects_list["COOKOFF"] = mfb(AMMO_COOKOFF);
-    ammo_effects_list["LASER"] = mfb(AMMO_LASER);
-    ammo_effects_list["LIGHTNING"] = mfb(AMMO_LIGHTNING);
-    ammo_effects_list["BOUNCE"] = mfb(AMMO_BOUNCE);
-
     bodyparts_list["TORSO"] = mfb(bp_torso);
     bodyparts_list["HEAD"] = mfb(bp_head);
     bodyparts_list["EYES"] = mfb(bp_eyes);
@@ -478,10 +460,9 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                             entry.get("dispersion").as_int();
                         ammo_template->recoil = entry.get("recoil").as_int();
                         ammo_template->count = entry.get("count").as_int();
-                        ammo_template->ammo_effects =
-                            (!entry.has("effects") ? 0 :
-                             flags_from_json(entry.get("effects"),
-                                             "ammo_effects"));
+                        if( entry.has("effects") ) {
+                            tags_from_json(entry.get("effects"), ammo_template->ammo_effects);
+                        }
 
                         new_item_template = ammo_template;
                     }
@@ -803,8 +784,6 @@ void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag,
       flag_map = ammo_flags_list;
     } else if(flag_type=="techniques"){
       flag_map = techniques_list;
-    } else if(flag_type=="ammo_effects"){
-        flag_map = ammo_effects_list;
     } else if(flag_type=="bodyparts"){
         flag_map = bodyparts_list;
     }
