@@ -683,7 +683,7 @@ const furn_t furnlist[num_furniture_types] = { // MUST match enum furn_id above!
 {"groundsheet",         ';', c_green,   0, -1,
     mfb(transparent)|mfb(indoors), &iexamine::tent},
 {"groundsheet",         ';', c_green,   0, -1,
-    mfb(transparent), &iexamine::none},
+    mfb(transparent)|mfb(indoors), &iexamine::none},
 {"animalskin wall",     '#', c_brown,   -10, -1,
     mfb(l_flammable)|mfb(bashable)|mfb(noitem), &iexamine::none},
 {"animalskin flap",     '+', c_white,   -10, -1,
