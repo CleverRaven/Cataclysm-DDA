@@ -105,8 +105,7 @@ class map
 
 // Constructors & Initialization
  map();
- map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
-     std::vector<trap*> *trptr);
+ map(std::map<std::string, itype*>* itptr, std::vector<trap*> *trptr);
  ~map();
 
 // Visual Output
@@ -320,7 +319,6 @@ protected:
  int nulrad;	// OOB &radiation()
 
  std::vector <trap*> *traps;
- std::vector <itype_id> (*mapitems)[num_itloc];
 
  bool veh_in_active_range;
 
@@ -345,8 +343,7 @@ class tinymap : public map
 {
 public:
  tinymap();
- tinymap(std::map<std::string, itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
-     std::vector<trap*> *trptr);
+ tinymap(std::map<std::string, itype*> *itptr, std::vector<trap*> *trptr);
  ~tinymap();
 
 protected:
