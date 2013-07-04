@@ -22,7 +22,7 @@ void game::show_options()
 {
     // Remember what the options were originally so we can restore them if player cancels.
     option_table OPTIONS_OLD = OPTIONS;
-    
+
     WINDOW* w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
@@ -327,6 +327,10 @@ option_key lookup_option_key(std::string id)
     if(id == "hide_cursor") {
         return OPT_HIDE_CURSOR;
     }
+    if(id == "auto_pickup") {
+        return OPT_AUTO_PICKUP;
+    }
+
     return OPT_NULL;
 }
 
@@ -367,6 +371,7 @@ std::string option_string(option_key key)
     case OPT_RAD_MUTATION:        return "rad_mutation";
     case OPT_SAVESLEEP:           return "save_sleep";
     case OPT_HIDE_CURSOR:         return "hide_cursor";
+    case OPT_AUTO_PICKUP:         return "auto_pickup";
     default:                      return "unknown_option";
     }
     return "unknown_option";
@@ -409,6 +414,7 @@ std::string option_desc(option_key key)
     case OPT_RAD_MUTATION:        return "If true, radiation causes the player\nto mutate.\nDefault is true";
     case OPT_SAVESLEEP:           return "If true, game will ask to save the map\nbefore sleeping. Default is false";
     case OPT_HIDE_CURSOR:         return "If 0, cursor is always shown. If 1,\ncursor is hidden. If 2, cursor is\nhidden on keyboard input and\nunhidden on mouse movement.\nDefault is 0.";
+    case OPT_AUTO_PICKUP:         return "Auto Pickup items with Volume and Weight 0";
     default:                      return " ";
     }
     return "Big ol Bug (options.cpp:option_desc)";
@@ -451,6 +457,7 @@ std::string option_name(option_key key)
     case OPT_RAD_MUTATION:        return "Mutations by radiation";
     case OPT_SAVESLEEP:           return "Ask to save before sleeping";
     case OPT_HIDE_CURSOR:         return "Hide Mouse Cursor";
+    case OPT_AUTO_PICKUP:         return "Auto Pickup items";
     default:                      return "Unknown Option (options.cpp:option_name)";
     }
     return "Big ol Bug (options.cpp:option_name)";
@@ -637,6 +644,8 @@ random_npc F\n\
 # Radiation causes mutations.\n\
 rad_mutation T\n\
 # Ask to save before sleeping.\n\
+save_sleep F\n\
+# Auto Pickup items with Volume and Weight 0\n\
 save_sleep F\n\
 ";
     fout.close();

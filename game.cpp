@@ -8274,7 +8274,34 @@ void game::pickup(int posx, int posy, int min)
  int selected=0;
  int last_selected=-1;
 
- if (min != -1) {
+ if (min == -1) {
+    //Auto Pickup, select matching items
+    //TODO: pickup items with matching text
+    //      a way to add/edit/delete those texts
+
+    if (OPTIONS[OPT_AUTO_PICKUP]) {
+        //Loop through Items lowest Volume first
+        bool bPickup = false;
+        for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
+            for (int i = 0; i < here.size(); i++) {
+                bPickup = false;
+                if (here[i].volume() == iVol) {
+                    iNumChecked++;
+
+                    //Pickup Rules in here
+                    if (here[i].volume() == 0 && here[i].weight() == 0) { //Auto Pickup all items with 0 Volume and Weight
+                        bPickup = true;
+                    }
+                }
+
+                if (bPickup) {
+                    getitem[i] = bPickup;
+                    add_msg(("You pick up " + here[i].tname(this)).c_str());
+                }
+            }
+        }
+    }
+ } else {
  // Now print the two lists; those on the ground and about to be added to inv
  // Continue until we hit return or space
   do {
@@ -8436,26 +8463,6 @@ void game::pickup(int posx, int posy, int min)
    add_msg("Never mind.");
    return;
   }
- } else if (min == -1) {
-    //Autopickup, mark matching items
-    //std::vector <item> here = m.i_at(posx, posy);
-    //here[i].weight();
-    //here[i].volume();
-
-    //Loop through Items lowest Volume first
-    for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
-        for (int i = 0; i < here.size(); i++) {
-            if (here[i].volume() == iVol) {
-                iNumChecked++;
-
-                //Pickup Rules in here
-                if (here[i].volume() == 0) { //Pickup all 0 Volume Items
-                    getitem[i] = true;
-                    add_msg(("Autopickup: " + here[i].tname(this)).c_str());
-                }
-            }
-        }
-    }
  }
 
  // At this point we've selected our items, now we add them to our inventory
