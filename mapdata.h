@@ -798,6 +798,9 @@ struct field_t {
 
  //Controls, albeit randomly, how long a field of a given type will last before going down in density.
  int halflife;	// In turns
+
+ //cost of moving into and out of this field
+ int move_cost[3];
 };
 
 //The master list of id's for a field, corresponding to the fieldlist array.
@@ -833,77 +836,148 @@ enum field_id {
 Controls the master listing of all possible field effects, indexed by a field_id. Does not store active fields, just metadata.
 */
 const field_t fieldlist[] = {
-{{"",	"",	""},					'%',
- {c_white, c_white, c_white},	{true, true, true}, {false, false, false},   0},
+    {
+        {"", "", ""}, '%',
+        {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0}
+    },
 
-{{"blood splatter", "blood stain", "puddle of blood"},	'%',
- {c_red, c_red, c_red},		{true, true, true}, {false, false, false},2500},
+    {
+        {"blood splatter", "blood stain", "puddle of blood"}, '%',
+        {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, 2500,
+        {0,0,0}
+    },
+    {
+        {"bile splatter", "bile stain", "puddle of bile"},	'%',
+        {c_pink, c_pink, c_pink},	{true, true, true}, {false, false, false},2500,
+        {0,0,0}
+    },
 
-{{"bile splatter", "bile stain", "puddle of bile"},	'%',
- {c_pink, c_pink, c_pink},	{true, true, true}, {false, false, false},2500},
+    {
+        {"scraps of flesh",	"bloody meat chunks",	"heap of gore"},			'~',
+        {c_brown, c_ltred, c_red},	{true, true, true}, {false, false, false},	   2500,
+        {0,0,0}
+    },
+     
+    {
+        {"shredded leaves and twigs",	"shattered branches and leaves",	"broken vegetation tangle"},			'~',
+        {c_ltgreen, c_ltgreen, c_green},	{true, true, true}, {false, false, false},	   2500,
+        {0,0,0}
+    },
+     
+    {
+        {"cobwebs","webs", "thick webs"},			'}',
+        {c_white, c_white, c_white},	{true, true, false},{false, false, false},   0,
+        {0,0,0}
+    },
 
-{{"scraps of flesh",	"bloody meat chunks",	"heap of gore"},			'~',
- {c_brown, c_ltred, c_red},	{true, true, true}, {false, false, false},	   2500},
- 
-{{"shredded leaves and twigs",	"shattered branches and leaves",	"broken vegetation tangle"},			'~',
- {c_ltgreen, c_ltgreen, c_green},	{true, true, true}, {false, false, false},	   2500}, 
- 
-{{"cobwebs","webs", "thick webs"},			'}',
- {c_white, c_white, c_white},	{true, true, false},{false, false, false},   0},
+    {
+        {"slime trail", "slime stain", "puddle of slime"},	'%',
+        {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false},2500,
+        {0,0,0}
+    },
 
-{{"slime trail", "slime stain", "puddle of slime"},	'%',
- {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false},2500},
+    {
+        {"acid splatter", "acid streak", "pool of acid"},	'5',
+        {c_ltgreen, c_green, c_green},	{true, true, true}, {true, true, true},	    10,
+        {0,0,0}
+    },
 
-{{"acid splatter", "acid streak", "pool of acid"},	'5',
- {c_ltgreen, c_green, c_green},	{true, true, true}, {true, true, true},	    10},
+    {
+        {"sap splatter", "glob of sap", "pool of sap"},	'5',
+        {c_yellow, c_brown, c_brown},	{true, true, true}, {true, true, true},     20,
+        {0,0,0}
+    },
 
-{{"sap splatter", "glob of sap", "pool of sap"},	'5',
- {c_yellow, c_brown, c_brown},	{true, true, true}, {true, true, true},     20},
+    {
+        {"thin sludge trail", "sludge trail", "thick sludge trail"},	'5',
+        {c_ltgray, c_dkgray, c_black},	{true, true, true}, {false, false, false}, 900,
+        {200,400,500}
+    },
 
-{{"thin sludge trail", "sludge trail", "thick sludge trail"},	'5',
- {c_ltgray, c_dkgray, c_black},	{true, true, true}, {true, true, true},     20},
+    {
+        {"small fire",	"fire",	"raging fire"},			'4',
+        {c_yellow, c_ltred, c_red},	{true, true, true}, {true, true, true},	   800,
+        {0,0,0}
+    },
 
-{{"small fire",	"fire",	"raging fire"},			'4',
- {c_yellow, c_ltred, c_red},	{true, true, true}, {true, true, true},	   800},
+    {
+        {"rubble heap",	"rubble pile", "mountain of rubble"},		'#',
+        {c_dkgray, c_dkgray, c_dkgray},	{true, true, false},{false, false, false},  0,
+        {0,0,0}
+    },
 
-{{"rubble heap",	"rubble pile", "mountain of rubble"},		'#',
- {c_dkgray, c_dkgray, c_dkgray},	{true, true, false},{false, false, false},  0},
+    {
+        {"thin smoke",	"smoke", "thick smoke"},		'8',
+        {c_white, c_ltgray, c_dkgray},	{true, false, false},{false, true, true},  300,
+        {0,0,0}
+    },
 
-{{"thin smoke",	"smoke", "thick smoke"},		'8',
- {c_white, c_ltgray, c_dkgray},	{true, false, false},{false, true, true},  300},
+    {
+        {"hazy cloud","toxic gas","thick toxic gas"},		'8',
+        {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true},  900,
+        {0,0,0}
+    },
 
-{{"hazy cloud","toxic gas","thick toxic gas"},		'8',
- {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true},  900},
+    {
+        {"hazy cloud","tear gas","thick tear gas"},		'8',
+        {c_white, c_yellow, c_brown},	{true, false, false},{true, true, true},   600,
+        {0,0,0}
+    },
 
-{{"hazy cloud","tear gas","thick tear gas"},		'8',
- {c_white, c_yellow, c_brown},	{true, false, false},{true, true, true},   600},
+    {
+        {"hazy cloud","radioactive gas", "thick radioactive gas"}, '8',
+        {c_white, c_ltgreen, c_green},	{true, true, false}, {true, true, true},  1000,
+        {0,0,0}
+    },
 
-{{"hazy cloud","radioactive gas", "thick radioactive gas"}, '8',
- {c_white, c_ltgreen, c_green},	{true, true, false}, {true, true, true},  1000},
+    {
+        {"gas vent", "gas vent", "gas vent"}, '%',
+        {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0}
+    },
 
-{{"gas vent", "gas vent", "gas vent"}, '%',
- {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0},
+    { // Fire Vents
+        {"", "", ""}, '&',
+        {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0}
+    },
 
-{{"", "", ""}, '&', // fire vents
- {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0},
+    {
+        {"fire", "fire", "fire"}, '5',
+        {c_red, c_red, c_red}, {true, true, true}, {true, true, true}, 0,
+        {0,0,0}
+    },
 
-{{"fire", "fire", "fire"}, '5',
- {c_red, c_red, c_red}, {true, true, true}, {true, true, true}, 0},
+    {
+        {"sparks", "electric crackle", "electric cloud"},	'9',
+        {c_white, c_cyan, c_blue},	{true, true, true}, {true, true, true},	     2,
+        {0,0,0}
+    },
 
-{{"sparks", "electric crackle", "electric cloud"},	'9',
- {c_white, c_cyan, c_blue},	{true, true, true}, {true, true, true},	     2},
+    {
+        {"odd ripple", "swirling air", "tear in reality"},	'*',
+        {c_ltgray, c_dkgray, c_magenta},{true, true, false},{false, false, false},  0,
+        {0,0,0}
+    },
 
-{{"odd ripple", "swirling air", "tear in reality"},	'*',
- {c_ltgray, c_dkgray, c_magenta},{true, true, false},{false, false, false},  0},
+    { //Push Items
+        {"", "", ""}, '&',
+        {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0}
+    },
 
-{{"", "", ""}, '&', // push items
- {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0},
+    { // shock vents
+        {"", "", ""}, '&',
+        {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0}
+    },
 
-{{"", "", ""}, '&', // shock vents
- {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0},
-
-{{"", "", ""}, '&', // acid vents
- {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0}
+    { // acid vents
+        {"", "", ""}, '&',
+        {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0}
+    }
 };
 
 /*
@@ -921,6 +995,9 @@ public:
   age = a;
   is_alive = true;
  }
+
+ //returns the move cost of this field
+ int move_cost() const;
 
  /*
  Class: getFieldType
@@ -958,6 +1035,8 @@ public:
  */
  int setFieldAge(const int new_age);
 
+ //Get the move cost for this field
+ int getFieldMoveCost();
  
  /*
  DEPRECATED, DO NOT USE
@@ -1075,6 +1154,9 @@ public:
 	Never delete or free memory from these iterators. This class handles all that.
 	*/
 	std::vector<field_entry*>::iterator getFieldEnd();
+
+  //Returns the total move cost from all fields
+  int move_cost() const;
 
 private:
 	std::vector<field_entry*> field_list; //A listing of all field effects on the current tile.

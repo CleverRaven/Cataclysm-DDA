@@ -1307,6 +1307,10 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
  }
 }
 
+int field_entry::move_cost() const{
+  return fieldlist[type].move_cost[getFieldDensity()-1];
+}
+
 field_id field_entry::getFieldType() const{
 	return type;
 }
@@ -1487,4 +1491,17 @@ Returns the last added field from the tile for drawing purposes.
 */
 field_id field::fieldSymbol() const{
 	return draw_symbol;
+}
+
+int field::move_cost() const{
+    if(fieldCount() < 1){
+        return 0;
+    }
+    int current_cost = 0;
+    for( std::vector<field_entry*>::const_iterator current_field = field_list.begin();
+         current_field != field_list.end(); 
+         ++current_field){
+        current_cost += (*current_field)->move_cost();
+    }
+    return current_cost;
 }

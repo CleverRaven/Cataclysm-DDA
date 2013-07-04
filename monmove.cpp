@@ -774,6 +774,12 @@ void monster::move_to(game *g, int x, int y)
   if (has_flag(MF_ACIDTRAIL)){
    g->m.add_field(g, posx, posy, fd_acid, 1);
   }
+  if (has_flag(MF_ACIDTRAIL)){
+   g->m.add_field(g, posx, posy, fd_acid, 1);
+  }
+  if (has_flag(MF_ACIDTRAIL)){
+   g->m.add_field(g, posx, posy, fd_acid, 1);
+  }
 
  } else if (has_flag(MF_ATTACKMON) || g->z[mondex].friendly != 0)
 // If there IS a monster there, and we fight monsters, fight it!
