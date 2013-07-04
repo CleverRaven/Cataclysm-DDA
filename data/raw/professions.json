@@ -191,7 +191,7 @@
 
  {
   "ident": "hunter",
-  "name": "Hunter",
+  "name": "Bow Hunter",
   "description":
 "Never one for guns, you took a liking to the bow,\nhunting came naturally to you, just like your pa\nand his pa before him.",
   "points": 7,
@@ -212,7 +212,7 @@
   "ident": "cworker",
   "name": "Construction Worker",
   "description":
-"They had you working on an underground facility during the cataclysm\nwhile your family were all eaten by wolves. protected from the disaster\nyou emerged to a new world, a world you must survive at any means necessary",
+"They had you working on a evacuation shelter during the cataclysm\nwhile your family were all eaten by wolves. protected from the disaster\nyou emerged to a new world, a world you must survive at any means necessary",
   "points": 7,
   "items": ["tank_top", "boots_steel", "jeans", "jerky", "beer", "hammer", "vest", "mask_dust", "glasses_safety", "hat_hard"],
    "skills" : [
@@ -230,7 +230,7 @@
 {  
 "ident": "lumberjack",  
 "name": "Lumberjack",  
-"description":"You're the definition of a man, a grizzly beard and bear-like stature.\nthe only thing keeping the zombies at bay is that mighty ax.",  
+"description":"You're the definition of a man, a grizzly beard and bear-like stature.\nthe only thing keeping the zombies at the door is that mighty ax.",  
 "points": 4, 
 "items": ["jeans", "long_underpants", "boots", "hat_hunting", "jacket_jean", "ax"]  
 }, 
@@ -257,6 +257,21 @@
       "name" : "cooking",
       "level" : 1
      }
+    ]
+  },
+
+  {
+  "ident": "survivalist",
+  "name": "Survivalist",
+  "description":
+"You traveled to the most extreme places on earth, from the rocky mountains of \nKilimanjaro to the scorching Sahara Desert to survive to prove that you could.\nYou start with a water purifier, a hatchet and some survival skills.",
+  "points": 5,
+  "items": ["shorts_cargo", "sneakers", "tshirt", "socks", "water_purifier", "hatchet"],
+  "skills" : [
+	 {
+      "name" : "survival",
+      "level" : 3
+     }  
     ]
   }
 ]
