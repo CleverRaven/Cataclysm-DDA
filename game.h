@@ -265,7 +265,6 @@ class game
   recipe_map recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions
 
-  std::vector <itype_id> mapitems[num_itloc]; // Items at various map types
   std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
   mutation_branch mutation_data[PF_MAX2]; // Mutation data
@@ -354,7 +353,6 @@ class game
   void init_itypes();       // Initializes item types
   void init_skills();
   void init_bionics();      // Initializes bionics... for now.
-  void init_mapitems();     // Initializes item placement
   void init_mtypes();       // Initializes monster types
   void init_mongroups();    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection

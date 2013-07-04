@@ -472,7 +472,7 @@ void computer::activate_function(game *g, computer_action action)
         // For each level between here and the surface, remove the missile
         for (int level = g->levz; level <= 0; level++)
         {
-            map tmpmap(&g->itypes, &g->mapitems, &g->traps);
+            map tmpmap(&g->itypes, &g->traps);
             tmpmap.load(g, g->levx, g->levy, level, false);
 
             if(level < 0)

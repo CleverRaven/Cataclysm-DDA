@@ -37,7 +37,7 @@ bool tutorial_game::init(game *g)
 // Init the starting map at g location.
  for (int i = 0; i <= MAPSIZE; i += 2) {
   for (int j = 0; j <= MAPSIZE; j += 2) {
-   tinymap tm(&g->itypes, &g->mapitems, &g->traps);
+   tinymap tm(&g->itypes, &g->traps);
    tm.generate(g, g->cur_om, g->levx + i - 1, g->levy + j - 1, 0, int(g->turn));
   }
  }
