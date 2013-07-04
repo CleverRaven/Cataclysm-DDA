@@ -4679,7 +4679,7 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
 void iuse::dejar(game *g, player *p, item *it, bool t)
 {
 	g->add_msg_if_player(p,"You open the jar, exposing it to the atmosphere.");
-	itype_id ujfood = (it->type->id).substr(4,-1);  // assumes "jar_" is at front of itype_id and removes it
+	itype_id ujfood = (it->type->id).substr(4);  // assumes "jar_" is at front of itype_id and removes it
 	item ujitem(g->itypes[ujfood],0);  // temp create item to discover container
 	itype_id ujcont = (dynamic_cast<it_comest*>(ujitem.type))->container;  //discovering container
 	it->make(g->itypes[ujcont]);  //turning "sealed jar of xxx" into container for "xxx"
@@ -4690,7 +4690,7 @@ void iuse::dejar(game *g, player *p, item *it, bool t)
 void iuse::devac(game *g, player *p, item *it, bool t)
 {
 	g->add_msg_if_player(p,"You open the vacuum pack, exposing it to the atmosphere.");
-	itype_id uvfood = (it->type->id).substr(4,-1);  // assumes "bag_" is at front of itype_id and removes it
+	itype_id uvfood = (it->type->id).substr(4);  // assumes "bag_" is at front of itype_id and removes it
 	item uvitem(g->itypes[uvfood],0);  // temp create item to discover container
 	itype_id uvcont = (dynamic_cast<it_comest*>(uvitem.type))->container;  //discovering container
 	it->make(g->itypes[uvcont]);  //turning "vacuum packed xxx" into container for "xxx"

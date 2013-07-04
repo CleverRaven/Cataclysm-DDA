@@ -178,7 +178,7 @@ static void OutputChar(Uint16 t, int x, int y, unsigned char color)
 {
     color &= 0xf;
 
-    SDL_Surface * glyph = t<0x80?glyph_cache[t][color]:TTF_RenderGlyph_Solid(font, t, windowsPalette[color]);
+    SDL_Surface * glyph = t<0x80?glyph_cache[t][color]:(fontblending?TTF_RenderGlyph_Blended:TTF_RenderGlyph_Solid)(font, t, windowsPalette[color]);
 
     if(glyph)
     {
@@ -245,7 +245,7 @@ void curses_drawwindow(WINDOW *win)
 					{
 						i+=len-1;
 					}
-                    OutputChar(tmp, drawx,drawy,FG);
+                    if(tmp) OutputChar(tmp, drawx,drawy,FG);
                 } else {
                     switch ((unsigned char)win->line[j].chars[i]) {
                     case LINE_OXOX_C://box bottom/top side (horizontal line)
@@ -303,6 +303,37 @@ void curses_drawwindow(WINDOW *win)
     if (needupdate) try_update();
 }
 
+#define ALT_BUFFER_SIZE 8
+static char alt_buffer[ALT_BUFFER_SIZE];
+static int alt_buffer_len = 0;
+static bool alt_down = false;
+
+static void begin_alt_code()
+{
+    alt_buffer[0] = '\0';
+    alt_down = true;
+    alt_buffer_len = 0;
+}
+
+static int add_alt_code(char c)
+{
+    // not exactly how it works, but acceptable
+    if(c>='0' && c<='9')
+    {
+        if(alt_buffer_len<ALT_BUFFER_SIZE-1)
+        {
+            alt_buffer[alt_buffer_len] = c;
+            alt_buffer[++alt_buffer_len] = '\0';
+        }
+    }
+}
+
+static int end_alt_code()
+{
+    alt_down = false;
+    return atoi(alt_buffer);
+}
+
 //Check for any window messages (keypress, paint, mousemove, etc)
 void CheckMessages()
 {
@@ -314,6 +345,7 @@ void CheckMessages()
 		{
 			case SDL_KEYDOWN:
 			{
+                int lc = 0;
 			    if(OPTIONS[OPT_HIDE_CURSOR] > 0 && SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_DISABLE); //hide mouse cursor on keyboard input
 				Uint8 *keystate = SDL_GetKeyState(NULL);
 				// manually handle Alt+F4 for older SDL lib, no big deal
@@ -323,43 +355,61 @@ void CheckMessages()
 					break;
 				}
 				else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT ||
-					ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL ||
-					ev.key.keysym.sym==SDLK_RALT || ev.key.keysym.sym==SDLK_LALT)
+					ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL )
 				{
 					break; // temporary fix for unwanted keys
 				}
+                else if(ev.key.keysym.sym==SDLK_RALT || ev.key.keysym.sym==SDLK_LALT)
+                {
+                    begin_alt_code();
+                    break;
+                }
 				else if (ev.key.keysym.unicode != 0) {
-					lastchar = ev.key.keysym.unicode;
-					switch (lastchar){
+					lc = ev.key.keysym.unicode;
+					switch (lc){
 						case 13:            //Reroute ENTER key for compatilbity purposes
-							lastchar=10;
+							lc=10;
 							break;
 						case 8:             //Reroute BACKSPACE key for compatilbity purposes
-							lastchar=127;
+							lc=127;
 							break;
 					}
 				}
 				if(ev.key.keysym.sym==SDLK_LEFT) {
-					lastchar = KEY_LEFT;
+					lc = KEY_LEFT;
 				}
 				else if(ev.key.keysym.sym==SDLK_RIGHT) {
-					lastchar = KEY_RIGHT;
+					lc = KEY_RIGHT;
 				}
 				else if(ev.key.keysym.sym==SDLK_UP) {
-					lastchar = KEY_UP;
+					lc = KEY_UP;
 				}
 				else if(ev.key.keysym.sym==SDLK_DOWN) {
-					lastchar = KEY_DOWN;
+					lc = KEY_DOWN;
 				}
 				else if(ev.key.keysym.sym==SDLK_PAGEUP) {
-					lastchar = KEY_PPAGE;
+					lc = KEY_PPAGE;
 				}
 				else if(ev.key.keysym.sym==SDLK_PAGEDOWN) {
-					lastchar = KEY_NPAGE;
+					lc = KEY_NPAGE;
 
 				}
+                if(!lc) break;
+                if(alt_down) {
+                    add_alt_code(lc);
+                }else {
+                    lastchar = lc;
+                }
 			}
 			break;
+            case SDL_KEYUP:
+            {
+                if(ev.key.keysym.sym==SDLK_RALT || ev.key.keysym.sym==SDLK_LALT) {
+                    int code = end_alt_code();
+                    if(code) lastchar = code;
+                }
+            }
+            break;
 			case SDL_MOUSEMOTION:
                 if((OPTIONS[OPT_HIDE_CURSOR] == 0 || OPTIONS[OPT_HIDE_CURSOR] == 2) &&
                     !SDL_ShowCursor(-1)) SDL_ShowCursor(SDL_ENABLE);
