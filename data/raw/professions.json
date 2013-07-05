@@ -150,7 +150,7 @@
   "name": "Used Car Salesman",
   "description":
 "You were a cheat before the apocalypse, and your a cheat now\nYou start with speech, bartering and some driving skills.",
-  "points": 5,
+  "points": 4,
   "items": ["suit","dress_shoes"],
   "skills" : [
      {
@@ -174,19 +174,14 @@
   "description":
 "Before the cataclysm everyone thought you were a crazy homeless drunk bastard\nthey called you names, spit on you, some even urinated on you! but whos \nlaughing now, its the end of the world and your still cleaning their wallets.",
   "points": -3,
-  "items": ["pants", "stick", "trenchcoat", "tshirt", "poncho", "whiskey"],
+  "items": ["pants", "poncho", "whiskey"],
   "addictions": [
       {
 	  "type": "alcohol",
 	  "intensity": 20
       }
-  ],
-"skills" : [
-     {
-      "name" : "survival",
-      "level" : 1
-     }  
-     ]
+  ]
+
  },
 
  {
@@ -265,8 +260,8 @@
   "name": "Survivalist",
   "description":
 "You traveled to the most extreme places on earth, from the rocky mountains of \nKilimanjaro to the scorching Sahara Desert to survive to prove that you could.\nYou start with a water purifier, a hatchet and some survival skills.",
-  "points": 5,
-  "items": ["shorts_cargo", "sneakers", "tshirt", "socks", "water_purifier", "hatchet"],
+  "points": 9,
+  "items": ["shorts_cargo", "sneakers", "tshirt", "socks", "hatchet"],
   "skills" : [
 	 {
       "name" : "survival",
