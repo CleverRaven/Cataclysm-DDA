@@ -257,7 +257,7 @@ void defense_game::init_map(game *g)
 // Round down to the nearest even number
    mx -= mx % 2;
    my -= my % 2;
-   tinymap tm(&g->itypes, &g->traps);
+   tinymap tm(&g->traps);
    tm.generate(g, g->cur_om, mx, my, 0, int(g->turn));
    tm.clear_spawns();
    tm.clear_traps();
