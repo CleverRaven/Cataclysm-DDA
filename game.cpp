@@ -188,7 +188,7 @@ void game::init_ui(){
 void game::setup()
 {
  u = player();
- m = map(&itypes, &traps); // Init the root map with our vectors
+ m = map(&traps); // Init the root map with our vectors
  z.reserve(1000); // Reserve some space
 
 // Even though we may already have 'd', nextinv will be incremented as needed
@@ -10384,7 +10384,7 @@ void game::vertical_move(int movez, bool force)
   return;
  }
 
- map tmpmap(&itypes, &traps);
+ map tmpmap(&traps);
  tmpmap.load(this, levx, levy, levz + movez, false);
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
@@ -10770,7 +10770,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
     z[i].spawnposx = rc.sub_pos.x;
     z[i].spawnposy = rc.sub_pos.y;
 
-    tinymap tmp(&itypes, &traps);
+    tinymap tmp(&traps);
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, levz, false);
     tmp.add_spawn(&(z[i]));
     tmp.save(cur_om, turn, z[i].spawnmapx, z[i].spawnmapy, levz);
@@ -11095,7 +11095,7 @@ void game::nuke(int x, int y)
     if (x < 0 || y < 0 || x >= OMAPX || y >= OMAPY)
         return;
     int mapx = x * 2, mapy = y * 2;
-    map tmpmap(&itypes, &traps);
+    map tmpmap(&traps);
     tmpmap.load(this, mapx, mapy, 0, false);
     for (int i = 0; i < SEEX * 2; i++)
     {

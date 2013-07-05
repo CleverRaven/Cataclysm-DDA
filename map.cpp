@@ -35,11 +35,10 @@ map::map()
  veh_in_active_range = true;
 }
 
-map::map(std::map<std::string, itype*>* itptr, std::vector<trap*> *trptr)
+map::map(std::vector<trap*> *trptr)
 {
  nulter = t_null;
  nultrap = tr_null;
- itypes = itptr;
  traps = trptr;
  if (is_tiny())
   my_MAPSIZE = 2;
@@ -47,7 +46,7 @@ map::map(std::map<std::string, itype*>* itptr, std::vector<trap*> *trptr)
   my_MAPSIZE = MAPSIZE;
  for (int n = 0; n < my_MAPSIZE * my_MAPSIZE; n++)
   grid[n] = NULL;
- dbg(D_INFO) << "map::map( itptr["<<itptr<<"], trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
+ dbg(D_INFO) << "map::map( trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
  veh_in_active_range = true;
  memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
@@ -2412,7 +2411,7 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item.charges = charges;
     }
-    new_item = new_item.in_its_container(itypes);
+    new_item = new_item.in_its_container(&(g->itypes));
     if ((new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ||
         has_flag(destroy_item, x, y))
     {
@@ -3721,7 +3720,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
-  map tmp_map(itypes, traps);
+  map tmp_map(traps);
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at
 //  squares divisible by 2.
@@ -4061,8 +4060,7 @@ tinymap::tinymap()
  nultrap = tr_null;
 }
 
-tinymap::tinymap(std::map<std::string, itype*> *itptr,
-                 std::vector<trap*> *trptr)
+tinymap::tinymap(std::vector<trap*> *trptr)
 {
  nulter = t_null;
  nultrap = tr_null;
