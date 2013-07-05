@@ -10125,6 +10125,7 @@ void game::plmove(int x, int y)
           tunneldist = 0; //we didn't tunnel anywhere
           break;
       }
+      if(tunneldist > 24) break;    //limit maximum tunneling distance
   }
   if(tunneldist) //you tunneled
   {
