@@ -10122,10 +10122,16 @@ void game::plmove(int x, int y)
       tunneldist += 1; //add 1 to tunnel distance for each impassable tile in the line
       if(tunneldist * 10 > u.power_level) //oops, not enough energy! Tunneling costs 10 bionic power per impassable tile
       {
+          add_msg("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!");
           tunneldist = 0; //we didn't tunnel anywhere
           break;
       }
-      if(tunneldist > 24) break;    //limit maximum tunneling distance
+      if(tunneldist > 24) 
+      {
+          add_msg("It's too dangerous to tunnel that far!");
+          tunneldist = 0;
+          break;    //limit maximum tunneling distance
+      }
   }
   if(tunneldist) //you tunneled
   {
@@ -10137,7 +10143,6 @@ void game::plmove(int x, int y)
   }
   else //or you couldn't tunnel due to lack of energy
   {
-      add_msg("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!");
       u.power_level -= 10; //failure is expensive!
   }
 
