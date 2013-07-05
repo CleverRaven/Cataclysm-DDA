@@ -9522,7 +9522,69 @@
                                   ["antibiotics", 2]
                               ]
                           ]
+        },
+       {
+            "result": "jerrycan",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 1,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1],
+                             ["screwdriver", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["string_36", 1]
+                              ],
+                              [
+                                  ["duct_tape", 50]
+                              ],
+                              [
+                                  ["jug_plastic", 4]
+                              ]
+                          ]
+        },
+      {
+            "result": "jerrycan_big",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 2,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["toolset", -1],
+                             ["screwdriver", -1]
+                         ],
+                         [
+                             ["toolset", -1],
+                             ["hacksaw", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["string_36", 1]
+                              ],
+                              [
+                                  ["metal_tank", 1]
+                              ],
+                              [
+                                  ["scrap", 1]
+                              ]
+                          ]
         }
-       
     ]
 }
