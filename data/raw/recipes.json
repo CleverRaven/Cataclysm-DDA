@@ -15,6 +15,35 @@
 
     "recipes":
     [
+	    {
+            "result": "cell_phone",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "difficulty": 0,
+            "time": 500,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 1]
+                              ],
+                              [
+                                  ["RAM", 1]
+                              ],
+                              [
+                                  ["processor", 1]
+                              ],
+                              [
+                                  ["battery", 200]
+                              ]
+                          ]
+        },
         {
             "result": "knife_steak",
             "id_suffix": "uncraft",
