@@ -330,6 +330,9 @@ option_key lookup_option_key(std::string id)
     if(id == "auto_pickup") {
         return OPT_AUTO_PICKUP;
     }
+    if(id == "auto_pickup_zero") {
+        return OPT_AUTO_PICKUP_ZERO;
+    }
 
     return OPT_NULL;
 }
@@ -372,6 +375,7 @@ std::string option_string(option_key key)
     case OPT_SAVESLEEP:           return "save_sleep";
     case OPT_HIDE_CURSOR:         return "hide_cursor";
     case OPT_AUTO_PICKUP:         return "auto_pickup";
+    case OPT_AUTO_PICKUP_ZERO:    return "auto_pickup_zero";
     default:                      return "unknown_option";
     }
     return "unknown_option";
@@ -414,7 +418,8 @@ std::string option_desc(option_key key)
     case OPT_RAD_MUTATION:        return "If true, radiation causes the player\nto mutate.\nDefault is true";
     case OPT_SAVESLEEP:           return "If true, game will ask to save the map\nbefore sleeping. Default is false";
     case OPT_HIDE_CURSOR:         return "If 0, cursor is always shown. If 1,\ncursor is hidden. If 2, cursor is\nhidden on keyboard input and\nunhidden on mouse movement.\nDefault is 0.";
-    case OPT_AUTO_PICKUP:         return "Auto Pickup items with Volume and Weight 0";
+    case OPT_AUTO_PICKUP:         return "Enable item auto pickup\nChange rules with Auto\nPickup Manager in the Help\nMenu ?3";
+    case OPT_AUTO_PICKUP_ZERO:    return "Auto pickup items with\n0 Volume and Weight";
     default:                      return " ";
     }
     return "Big ol Bug (options.cpp:option_desc)";
@@ -457,7 +462,8 @@ std::string option_name(option_key key)
     case OPT_RAD_MUTATION:        return "Mutations by radiation";
     case OPT_SAVESLEEP:           return "Ask to save before sleeping";
     case OPT_HIDE_CURSOR:         return "Hide Mouse Cursor";
-    case OPT_AUTO_PICKUP:         return "Auto Pickup items";
+    case OPT_AUTO_PICKUP:         return "Enable item Auto Pickup";
+    case OPT_AUTO_PICKUP_ZERO:    return "Auto Pickup 0 Vol/Weight";
     default:                      return "Unknown Option (options.cpp:option_name)";
     }
     return "Big ol Bug (options.cpp:option_name)";

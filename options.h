@@ -39,7 +39,8 @@ OPT_STATIC_NPC,          // Spawn static npcs
 OPT_RANDOM_NPC,          // Spawn random npcs
 OPT_RAD_MUTATION,        // Radiation mutates
 OPT_SAVESLEEP,           // Ask to save before sleeping
-OPT_AUTO_PICKUP,         // Auto Pickup items
+OPT_AUTO_PICKUP,         // Enable Item Auto Pickup
+OPT_AUTO_PICKUP_ZERO,    // Auto Pickup 0 Volume and Weith items
 NUM_OPTION_KEYS
 };
 

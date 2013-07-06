@@ -437,7 +437,7 @@ std::string item::info(bool showtext)
 std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool debug)
 {
  std::stringstream temp1, temp2;
- if ( g != NULL && debug == false && 
+ if ( g != NULL && debug == false &&
    ( g->debugmon == true || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
  ) debug=true;
  if( !is_null() )
@@ -466,8 +466,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   dump->push_back(iteminfo("FOOD", "Nutrition: ", "", int(food->nutr)));
   dump->push_back(iteminfo("FOOD", "Quench: ", "", int(food->quench)));
   dump->push_back(iteminfo("FOOD", "Enjoyability: ", "", int(food->fun)));
-  if (corpse != NULL && 
-    ( debug == true || 
+  if (corpse != NULL &&
+    ( debug == true ||
       ( g != NULL &&
         ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait(PF_CARNIVORE) || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) )
       )
@@ -641,8 +641,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     {
         dump->push_back(iteminfo("ARMOR", "Encumberment: ", "", int(armor->encumber), "", true, true));
     }
-  dump->push_back(iteminfo("ARMOR", "Protection: Bash: ", "", int(bash_resist()), "", false, true));
-  dump->push_back(iteminfo("ARMOR", "   Cut: ", "", int(cut_resist()), "", true, true));
+  dump->push_back(iteminfo("ARMOR", "Protection: Bash: ", "", int(bash_resist()), "", false));
+  dump->push_back(iteminfo("ARMOR", "   Cut: ", "", int(cut_resist()), "", true));
   dump->push_back(iteminfo("ARMOR", "Environmental protection: ", "", int(armor->env_resist)));
   dump->push_back(iteminfo("ARMOR", "Warmth: ", "", int(armor->warmth)));
   dump->push_back(iteminfo("ARMOR", "Storage: ", "", int(armor->storage)));

@@ -8,6 +8,7 @@
 #include "computer.h"
 #include "veh_interact.h"
 #include "options.h"
+#include "auto_pickup.h"
 #include "mapbuffer.h"
 #include "debug.h"
 #include "bodypart.h"
@@ -118,6 +119,7 @@ void game::init_skills()
 void game::init_ui(){
     clear();	// Clear the screen
     intro();	// Print an intro screen, make sure we're at least 80x25
+    load_auto_pickup(); // Load auto pickup rules
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = 55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1);
@@ -7928,14 +7930,14 @@ void game::list_items()
             }
             else if(ch == '+')
             {
-                std::string temp = string_input_popup("High Priority : ",55,list_item_upvote);
+                std::string temp = string_input_popup("High Priority:", 55, list_item_upvote);
                 list_item_upvote = temp;
                 refilter = true;
                 reset = true;
             }
             else if(ch == '-')
             {
-                std::string temp = string_input_popup("Low Priority : ",55,list_item_downvote);
+                std::string temp = string_input_popup("Low Priority:", 55, list_item_downvote);
                 list_item_downvote = temp;
                 refilter = true;
                 reset = true;
@@ -8277,7 +8279,6 @@ void game::pickup(int posx, int posy, int min)
  if (min == -1) {
     //Auto Pickup, select matching items
     //TODO: pickup items with matching text
-    //      a way to add/edit/delete those texts
 
     if (OPTIONS[OPT_AUTO_PICKUP]) {
         //Loop through Items lowest Volume first
@@ -8289,8 +8290,24 @@ void game::pickup(int posx, int posy, int min)
                     iNumChecked++;
 
                     //Pickup Rules in here
-                    if (here[i].volume() == 0 && here[i].weight() == 0) { //Auto Pickup all items with 0 Volume and Weight
-                        bPickup = true;
+                    if (OPTIONS[OPT_AUTO_PICKUP_ZERO]) {
+                        if (here[i].volume() == 0 && here[i].weight() == 0) { //Auto Pickup all items with 0 Volume and Weight
+                            bPickup = true;
+                        }
+                    }
+
+                    //Check the Pickup Rules
+                    for (int j=0; j < vAutoPickupRules.size(); j++) {
+                        if (vAutoPickupRules[i].bActive && vAutoPickupRules[i].sRule != "") {
+                            if (here[i].tname(this).find(vAutoPickupRules[j].sRule) != std::string::npos) {
+                                bPickup = true;
+
+                                if (vAutoPickupRules[i].bExclude) {
+                                    bPickup = false;
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -8341,7 +8358,7 @@ void game::pickup(int posx, int posy, int min)
              ) ) {
        idx = selected;
    } else if ( ch == '`' ) {
-       std::string ext = string_input_popup("Enter 2 letters (case sensitive):",2);
+       std::string ext = string_input_popup("Enter 2 letters (case sensitive):", 2);
        if(ext.size() == 2) {
             int p1=pickup_chars.find(ext.at(0));
             int p2=pickup_chars.find(ext.at(1));
