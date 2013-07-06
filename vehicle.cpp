@@ -384,6 +384,13 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
         return res; // can be mounted if first and external
     }
 
+    // Override for replacing a tire.
+    if( vpart_list[id].flags & mfb(vpf_wheel) &&
+        -1 != part_with_feature(parts_here[0], vpf_wheel, false) )
+    {
+        return true;
+    }
+
     int flags1 = part_info(parts_here[0]).flags;
     if ((vpart_list[id].flags & mfb(vpf_armor)) && flags1 & mfb(vpf_no_reinforce))
     {
@@ -537,6 +544,20 @@ void vehicle::remove_part (int p)
     insides_dirty = true;
 }
 
+item vehicle::item_from_part( int part )
+{
+    itype_id itm = part_info(part).item;
+    int bigness = parts[part].bigness;
+    itype* parttype = g->itypes[itm];
+    item tmp(parttype, g->turn);
+
+    //transfer damage, etc.
+    give_part_properties_to_item(g, part, tmp);
+    if( parttype->is_var_veh_part() ) {
+        tmp.bigness = bigness;
+    }
+    return tmp;
+}
 
 std::vector<int> vehicle::parts_at_relative (int dx, int dy)
 {

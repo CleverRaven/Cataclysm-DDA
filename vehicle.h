@@ -185,6 +185,10 @@ public:
 
     void remove_part (int p);
 
+// Generate the corresponding item from a vehicle part.
+// Still needs to be removed.
+    item item_from_part( int part );
+
 // translate item health to part health
     void get_part_properties_from_item (game* g, int partnum, item& i);
 // translate part health to item health (very lossy.)
