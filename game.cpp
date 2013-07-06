@@ -22,6 +22,7 @@
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "mapdata.h"
+#include "catacharset.h"
 #include "translations.h"
 #include <map>
 #include <algorithm>
@@ -81,7 +82,6 @@ game::game() :
  init_mtypes();	      // Set up monster types             (SEE mtypedef.cpp)
  init_monitems();     // Set up the items monsters carry  (SEE monitemsdef.cpp)
  init_traps();	      // Set up the trap types            (SEE trapdef.cpp)
- init_mapitems();     // Set up which items appear where  (SEE mapitemsdef.cpp)
  init_recipes();      // Set up crafting reciptes         (SEE crafting.cpp)
  init_mongroups();    // Set up monster groupings         (SEE mongroupdef.cpp)
  init_missions();     // Set up mission templates         (SEE missiondef.cpp)
@@ -188,7 +188,7 @@ void game::init_ui(){
 void game::setup()
 {
  u = player();
- m = map(&itypes, &mapitems, &traps); // Init the root map with our vectors
+ m = map(&traps); // Init the root map with our vectors
  z.reserve(1000); // Reserve some space
 
 // Even though we may already have 'd', nextinv will be incremented as needed
@@ -1359,7 +1359,8 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
         do {
             item oThisItem = u.i_at(chItem);
             std::vector<iteminfo> vThisItem, vDummy, vMenu;
-            vMenu.push_back(iteminfo("MENU", "", "iOffsetX", 2));
+            int iOffsetX = 2;
+            vMenu.push_back(iteminfo("MENU", "", "iOffsetX", iOffsetX));
             vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
             vMenu.push_back(iteminfo("MENU", "a", "ctivate", u.rate_action_use(&oThisItem)));
             vMenu.push_back(iteminfo("MENU", "R", "ead", u.rate_action_read(&oThisItem, this)));
@@ -1375,7 +1376,7 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
             vMenu.push_back(iteminfo("MENU", "=", " reassign"));
             oThisItem.info(true, &vThisItem, this);
             compare_split_screen_popup(startx, width, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
-            cMenu = compare_split_screen_popup(startx+width, 14, 16, "", vMenu, vDummy,
+            cMenu = compare_split_screen_popup(startx+width, 14, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
                 selected >= menustart && selected <= menuend ? selected : -1
             );
             switch(cMenu) {
@@ -3155,16 +3156,7 @@ faction* game::list_factions(std::string title)
           "Ranking: %s", fac_ranking_text(valfac[0].likes_u).c_str());
  mvwprintz(w_info, 1, 0, c_white,
           "Respect: %s", fac_respect_text(valfac[0].respects_u).c_str());
- std::string desc = valfac[0].describe();
- int linenum = 3;
- while (desc.length() > maxlength) {
-  size_t split = desc.find_last_of(' ', maxlength);
-  std::string line = desc.substr(0, split);
-  mvwprintz(w_info, linenum, 0, c_white, line.c_str());
-  desc = desc.substr(split + 1);
-  linenum++;
- }
- mvwprintz(w_info, linenum, 0, c_white, desc.c_str());
+ fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[0].describe().c_str());
  wrefresh(w_info);
  InputEvent input;
  do {
@@ -3198,16 +3190,7 @@ faction* game::list_factions(std::string title)
             "Ranking: %s", fac_ranking_text(valfac[sel].likes_u).c_str());
    mvwprintz(w_info, 1, 0, c_white,
             "Respect: %s", fac_respect_text(valfac[sel].respects_u).c_str());
-   std::string inner_desc = valfac[sel].describe();
-   int inner_linenum = 3;
-   while (inner_desc.length() > maxlength) {
-    size_t split = inner_desc.find_last_of(' ', maxlength);
-    std::string line = inner_desc.substr(0, split);
-    mvwprintz(w_info, inner_linenum, 0, c_white, line.c_str());
-    inner_desc = inner_desc.substr(split + 1);
-    inner_linenum++;
-   }
-   mvwprintz(w_info, inner_linenum, 0, c_white, inner_desc.c_str());
+   fold_and_print(w_info, 3, 0, maxlength, c_white, valfac[sel].describe().c_str());
    wrefresh(w_info);
   }
  } while (input != Cancel && input != Confirm && input != Close);
@@ -3347,10 +3330,8 @@ void game::draw()
  oter_id cur_ter = cur_om->ter((levx + int(MAPSIZE / 2)) / 2,
                               (levy + int(MAPSIZE / 2)) / 2, levz);
  std::string tername = oterlist[cur_ter].name;
- if (tername.length() > 14)
-  tername = tername.substr(0, 14);
  werase(w_location);
- mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, tername.c_str());
+ mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, utf8_substr(tername, 0, 14).c_str());
  if (levz < 0)
   mvwprintz(w_location, 0, 18, c_ltgray, "Underground");
  else
@@ -3387,7 +3368,7 @@ void game::draw()
  if ( w_void_lines > 0 ) {
      if (m.graffiti_at(u.posx, u.posy).contents) {
          mvwprintz(w_void, 0, 1, c_white,"Written here: ");
-         wprintz(w_void, c_magenta,"%s", m.graffiti_at(u.posx, u.posy).contents->substr(0, STATUS_WIDTH-15 ).c_str() );
+         wprintz(w_void, c_magenta,"%s", utf8_substr(*m.graffiti_at(u.posx, u.posy).contents, 0, STATUS_WIDTH-15 ).c_str() );
      } else {
          mvwprintw(w_void, 0, 0,"%s", std::string(STATUS_WIDTH, ' ').c_str());
      }
@@ -5924,8 +5905,7 @@ void game::examine()
    none = false;
 
  if (m.has_flag(sealed, examx, examy)) {
-   if (none) add_msg("The %s is firmly sealed.", m.has_furn(examx, examy) ?
-                     m.furnname(examx, examy).c_str() : m.tername(examx, examy).c_str());
+   if (none) add_msg("The %s is firmly sealed.", m.name(examx, examy).c_str());
  } else {
    //examx,examy has no traps, is a container and doesn't have a special examination function
   if (m.tr_at(examx, examy) == tr_null && m.i_at(examx, examy).size() == 0 && m.has_flag(container, examx, examy) && none)
@@ -6292,7 +6272,7 @@ void game::advanced_inv()
 {
     u.inv.sort();
     u.inv.restack(&u);
-    
+
     const int head_height = 5;
     const int min_w_height = 10;
     const int min_w_width = FULL_SCREEN_WIDTH;
@@ -7499,7 +7479,7 @@ point game::look_around()
    mvwprintw(w_look, 2, 1, "%s", m.features(lx, ly).c_str());
 
    field tmpfield = m.field_at(lx, ly);
-   
+
    if (tmpfield.fieldCount() > 0) {
 		field_entry *cur = NULL;
 		for(std::vector<field_entry*>::iterator field_list_it = tmpfield.getFieldStart(); field_list_it != tmpfield.getFieldEnd(); ++field_list_it){
@@ -8118,6 +8098,8 @@ void game::list_items()
 // Pick up items at (posx, posy).
 void game::pickup(int posx, int posy, int min)
 {
+ //min == -1 is Autopickup
+
  item_exchanges_since_save += 1; // Keeping this simple.
  write_msg();
  if (u.weapon.type->id == "bio_claws_weapon") {
@@ -8156,7 +8138,7 @@ void game::pickup(int posx, int posy, int min)
      return;
  }
  // Not many items, just grab them
- if ((from_veh ? veh->parts[veh_part].items.size() : m.i_at(posx, posy).size() ) <= min)
+ if ((from_veh ? veh->parts[veh_part].items.size() : m.i_at(posx, posy).size() ) <= min && min != -1)
  {
   int iter = 0;
   item newit = from_veh ? veh->parts[veh_part].items[0] : m.i_at(posx, posy)[0];
@@ -8243,13 +8225,14 @@ void game::pickup(int posx, int posy, int min)
   }
   return;
  }
-// Otherwise, we have 2 or more items and should list them, etc.
-#ifdef MAXLISTHEIGHT
- int maxmaxitems=TERMY-15;
-#else
- int maxmaxitems=MONINFO_HEIGHT+MESSAGES_HEIGHT - 3;
-#endif
- if(maxmaxitems > TERMY - 15) maxmaxitems=TERMY - 15;
+
+ // Otherwise, we have Autopickup, 2 or more items and should list them, etc.
+ #ifdef MAXLISTHEIGHT
+  int maxmaxitems=TERMY-15;
+ #else
+  int maxmaxitems=MONINFO_HEIGHT+MESSAGES_HEIGHT - 3;
+ #endif
+  if(maxmaxitems > TERMY - 15) maxmaxitems=TERMY - 15;
 
  const int minmaxitems=9;
 
@@ -8271,175 +8254,206 @@ void game::pickup(int posx, int posy, int min)
  mvwprintw(w_pickup, 0,  0, "PICK UP (, = all)");
  int selected=0;
  int last_selected=-1;
-// Now print the two lists; those on the ground and about to be added to inv
-// Continue until we hit return or space
- do {
-  static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;";
-  size_t idx=-1;
-  for (int i = 1; i < pickupHeight; i++) {
-    mvwprintw(w_pickup, i, 0, "                                                ");
-  }
-  if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
-   start -= maxitems;
-   selected = start;
-   mvwprintw(w_pickup, maxitems + 2, 0, "         ");
-  } else if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
-   start += maxitems;
-   selected = start;
-   mvwprintw(w_pickup, maxitems + 2, pickupHeight, "            ");
-  } else if ( ch == KEY_UP ) {
-      selected--;
-      if ( selected < 0 ) {
-          selected = here.size()-1;
-          start = (int)( here.size() / maxitems ) * maxitems;
-          if (start >= here.size()-1) start -= maxitems;
-      } else if ( selected < start ) {
-          start -= maxitems;
-      }
-  } else if ( ch == KEY_DOWN ) {
-      selected++;
-      if ( selected >= here.size() ) {
-          selected=0;
-          start=0;
-      } else if ( selected >= start + maxitems ) {
-          start+=maxitems;
-      }
-  } else if ( selected >= 0 && (
-                 ( ch == KEY_RIGHT && !getitem[selected]) ||
-                 ( ch == KEY_LEFT && getitem[selected] )
-            ) ) {
-      idx = selected;
-  } else if ( ch == '`' ) {
-      std::string ext = string_input_popup("Enter 2 letters (case sensitive):",2);
-      if(ext.size() == 2) {
-           int p1=pickup_chars.find(ext.at(0));
-           int p2=pickup_chars.find(ext.at(1));
-           if ( p1 != -1 && p2 != -1 ) {
-                idx=pickup_chars.size() + ( p1 * pickup_chars.size() ) + p2;
-           }
-      }
-  } else {
-      idx = pickup_chars.find(ch);
-  }
 
-  if ( idx < here.size()) {
-   getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
-   if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
-      selected = idx;
-      start = (int)( idx / maxitems ) * maxitems;
+ if (min == -1) {
+    //Auto Pickup, select matching items
+    //TODO: pickup items with matching text
+    //      a way to add/edit/delete those texts
+
+    if (OPTIONS[OPT_AUTO_PICKUP]) {
+        //Loop through Items lowest Volume first
+        bool bPickup = false;
+        for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
+            for (int i = 0; i < here.size(); i++) {
+                bPickup = false;
+                if (here[i].volume() == iVol) {
+                    iNumChecked++;
+
+                    //Pickup Rules in here
+                    if (here[i].volume() == 0 && here[i].weight() == 0) { //Auto Pickup all items with 0 Volume and Weight
+                        bPickup = true;
+                    }
+                }
+
+                if (bPickup) {
+                    getitem[i] = bPickup;
+                    add_msg(("You pick up " + here[i].tname(this)).c_str());
+                }
+            }
+        }
+    }
+ } else {
+ // Now print the two lists; those on the ground and about to be added to inv
+ // Continue until we hit return or space
+  do {
+   static const std::string pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;";
+   size_t idx=-1;
+   for (int i = 1; i < pickupHeight; i++) {
+     mvwprintw(w_pickup, i, 0, "                                                ");
    }
-
-   if (getitem[idx]) {
-       new_weight += here[idx].weight();
-       new_volume += here[idx].volume();
+   if ((ch == '<' || ch == KEY_PPAGE) && start > 0) {
+    start -= maxitems;
+    selected = start;
+    mvwprintw(w_pickup, maxitems + 2, 0, "         ");
+   } else if ((ch == '>' || ch == KEY_NPAGE) && start + maxitems < here.size()) {
+    start += maxitems;
+    selected = start;
+    mvwprintw(w_pickup, maxitems + 2, pickupHeight, "            ");
+   } else if ( ch == KEY_UP ) {
+       selected--;
+       if ( selected < 0 ) {
+           selected = here.size()-1;
+           start = (int)( here.size() / maxitems ) * maxitems;
+           if (start >= here.size()-1) start -= maxitems;
+       } else if ( selected < start ) {
+           start -= maxitems;
+       }
+   } else if ( ch == KEY_DOWN ) {
+       selected++;
+       if ( selected >= here.size() ) {
+           selected=0;
+           start=0;
+       } else if ( selected >= start + maxitems ) {
+           start+=maxitems;
+       }
+   } else if ( selected >= 0 && (
+                  ( ch == KEY_RIGHT && !getitem[selected]) ||
+                  ( ch == KEY_LEFT && getitem[selected] )
+             ) ) {
+       idx = selected;
+   } else if ( ch == '`' ) {
+       std::string ext = string_input_popup("Enter 2 letters (case sensitive):",2);
+       if(ext.size() == 2) {
+            int p1=pickup_chars.find(ext.at(0));
+            int p2=pickup_chars.find(ext.at(1));
+            if ( p1 != -1 && p2 != -1 ) {
+                 idx=pickup_chars.size() + ( p1 * pickup_chars.size() ) + p2;
+            }
+       }
    } else {
-       new_weight -= here[idx].weight();
-       new_volume -= here[idx].volume();
+       idx = pickup_chars.find(ch);
    }
-   update = true;
-  }
 
-  if ( selected != last_selected ) {
-      last_selected = selected;
-      werase(w_item_info);
-      if ( selected >= 0 && selected <= here.size()-1 ) {
-          fold_and_print(w_item_info,1,2,48-3, c_ltgray, "%s",  here[selected].info().c_str());
-      }
-      wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-                           LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-      mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].tname(this).c_str() );
-      wrefresh(w_item_info);
-  }
-
-  if (ch == ',') {
-   int count = 0;
-   for (int i = 0; i < here.size(); i++) {
-    if (getitem[i])
-     count++;
-    else {
-     new_weight += here[i].weight();
-     new_volume += here[i].volume();
-    }
-    getitem[i] = true;
-   }
-   if (count == here.size()) {
-    for (int i = 0; i < here.size(); i++)
-     getitem[i] = false;
-    new_weight = u.weight_carried();
-    new_volume = u.volume_carried();
-   }
-   update = true;
-  }
-  for (cur_it = start; cur_it < start + maxitems; cur_it++) {
-   mvwprintw(w_pickup, 1 + (cur_it % maxitems), 0,
-             "                                        ");
-   if (cur_it < here.size()) {
-    nc_color icolor=here[cur_it].color(&u);
-    if(cur_it == selected) {
-        icolor=hilite(icolor);
+   if ( idx < here.size()) {
+    getitem[idx] = ( ch == KEY_RIGHT ? true : ( ch == KEY_LEFT ? false : !getitem[idx] ) );
+    if ( ch != KEY_RIGHT && ch != KEY_LEFT) {
+       selected = idx;
+       start = (int)( idx / maxitems ) * maxitems;
     }
 
-    if (cur_it < pickup_chars.size() ) {
-       mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor, char(pickup_chars[cur_it]));
+    if (getitem[idx]) {
+        new_weight += here[idx].weight();
+        new_volume += here[idx].volume();
     } else {
-       int p=cur_it - pickup_chars.size();
-       int p1=p / pickup_chars.size();
-       int p2=p % pickup_chars.size();
-       mvwprintz(w_pickup, 1 + (cur_it % maxitems), 0, icolor, "`%c%c",char(pickup_chars[p1]),char(pickup_chars[p2]));
+        new_weight -= here[idx].weight();
+        new_volume -= here[idx].volume();
     }
-    if (getitem[cur_it])
-     wprintz(w_pickup, c_ltblue, " + ");
-    else
-     wprintw(w_pickup, " - ");
-    wprintz(w_pickup, icolor, here[cur_it].tname(this).c_str());
-    if (here[cur_it].charges > 0)
-     wprintz(w_pickup, icolor, " (%d)", here[cur_it].charges);
+    update = true;
    }
-  }
-  mvwprintw(w_pickup, maxitems + 1, 0, "[left] Unmark    [up/dn] Scroll    [right] Mark");
-  if (start > 0)
-   mvwprintw(w_pickup, maxitems + 2, 0, "[pgup] Prev");
-  mvwprintw(w_pickup, maxitems + 2, 20, "[,] All");
-  if (cur_it < here.size())
-   mvwprintw(w_pickup, maxitems + 2, 36, "[pgdn] Next");
-  if (update) {		// Update weight & volume information
-   update = false;
-   mvwprintw(w_pickup, 0,  7, "                           ");
-   mvwprintz(w_pickup, 0,  9,
-             (new_weight >= u.weight_capacity() * .25 ? c_red : c_white),
-             "Wgt %d", new_weight);
-   wprintz(w_pickup, c_white, "/%d", int(u.weight_capacity() * .25));
-   mvwprintz(w_pickup, 0, 22,
-             (new_volume > u.volume_capacity() - 2 ? c_red : c_white),
-             "Vol %d", new_volume);
-   wprintz(w_pickup, c_white, "/%d", u.volume_capacity() - 2);
-  }
-  wrefresh(w_pickup);
-/* No longer using
-  ch = input();
-   because it pulls a: case KEY_DOWN:  return 'j';
-*/
-  ch = (int)getch();
 
- } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
- if (ch != '\n') {
-  werase(w_pickup);
-  wrefresh(w_pickup);
-  werase(w_item_info);
-  wrefresh(w_item_info);
-  delwin(w_pickup);
-  delwin(w_item_info);
-  add_msg("Never mind.");
-  return;
+   if ( selected != last_selected ) {
+       last_selected = selected;
+       werase(w_item_info);
+       if ( selected >= 0 && selected <= here.size()-1 ) {
+           fold_and_print(w_item_info,1,2,48-3, c_ltgray, "%s",  here[selected].info().c_str());
+       }
+       wborder(w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+       mvwprintw(w_item_info, 0, 2, "< %s >", here[selected].tname(this).c_str() );
+       wrefresh(w_item_info);
+   }
+
+   if (ch == ',') {
+    int count = 0;
+    for (int i = 0; i < here.size(); i++) {
+     if (getitem[i])
+      count++;
+     else {
+      new_weight += here[i].weight();
+      new_volume += here[i].volume();
+     }
+     getitem[i] = true;
+    }
+    if (count == here.size()) {
+     for (int i = 0; i < here.size(); i++)
+      getitem[i] = false;
+     new_weight = u.weight_carried();
+     new_volume = u.volume_carried();
+    }
+    update = true;
+   }
+   for (cur_it = start; cur_it < start + maxitems; cur_it++) {
+    mvwprintw(w_pickup, 1 + (cur_it % maxitems), 0,
+              "                                        ");
+    if (cur_it < here.size()) {
+     nc_color icolor=here[cur_it].color(&u);
+     if(cur_it == selected) {
+         icolor=hilite(icolor);
+     }
+
+     if (cur_it < pickup_chars.size() ) {
+        mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor, char(pickup_chars[cur_it]));
+     } else {
+        int p=cur_it - pickup_chars.size();
+        int p1=p / pickup_chars.size();
+        int p2=p % pickup_chars.size();
+        mvwprintz(w_pickup, 1 + (cur_it % maxitems), 0, icolor, "`%c%c",char(pickup_chars[p1]),char(pickup_chars[p2]));
+     }
+     if (getitem[cur_it])
+      wprintz(w_pickup, c_ltblue, " + ");
+     else
+      wprintw(w_pickup, " - ");
+     wprintz(w_pickup, icolor, here[cur_it].tname(this).c_str());
+     if (here[cur_it].charges > 0)
+      wprintz(w_pickup, icolor, " (%d)", here[cur_it].charges);
+    }
+   }
+   mvwprintw(w_pickup, maxitems + 1, 0, "[left] Unmark    [up/dn] Scroll    [right] Mark");
+   if (start > 0)
+    mvwprintw(w_pickup, maxitems + 2, 0, "[pgup] Prev");
+   mvwprintw(w_pickup, maxitems + 2, 20, "[,] All");
+   if (cur_it < here.size())
+    mvwprintw(w_pickup, maxitems + 2, 36, "[pgdn] Next");
+   if (update) {		// Update weight & volume information
+    update = false;
+    mvwprintw(w_pickup, 0,  7, "                           ");
+    mvwprintz(w_pickup, 0,  9,
+              (new_weight >= u.weight_capacity() * .25 ? c_red : c_white),
+              "Wgt %d", new_weight);
+    wprintz(w_pickup, c_white, "/%d", int(u.weight_capacity() * .25));
+    mvwprintz(w_pickup, 0, 22,
+              (new_volume > u.volume_capacity() - 2 ? c_red : c_white),
+              "Vol %d", new_volume);
+    wprintz(w_pickup, c_white, "/%d", u.volume_capacity() - 2);
+   }
+   wrefresh(w_pickup);
+ /* No longer using
+   ch = input();
+    because it pulls a: case KEY_DOWN:  return 'j';
+ */
+   ch = (int)getch();
+
+  } while (ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
+  if (ch != '\n') {
+   werase(w_pickup);
+   wrefresh(w_pickup);
+   werase(w_item_info);
+   wrefresh(w_item_info);
+   delwin(w_pickup);
+   delwin(w_item_info);
+   add_msg("Never mind.");
+   return;
+  }
  }
-// At this point we've selected our items, now we add them to our inventory
+
+ // At this point we've selected our items, now we add them to our inventory
  int curmit = 0;
  bool got_water = false;	// Did we try to pick up water?
  bool offered_swap = false;
  for (int i = 0; i < here.size(); i++) {
   iter = 0;
-// This while loop guarantees the inventory letter won't be a repeat. If it
-// tries all 52 letters, it fails and we don't pick it up.
+  // This while loop guarantees the inventory letter won't be a repeat. If it
+  // tries all 52 letters, it fails and we don't pick it up.
   if (getitem[i] && here[i].made_of(LIQUID))
    got_water = true;
   else if (getitem[i]) {
@@ -8896,14 +8910,14 @@ void game::drop_in_direction()
    add_msg("You %s your %s%s %s the %s.", verb.c_str(),
            dropped[0].tname(this).c_str(),
            (dropped.size() == 1 ? "" : "s"), prep.c_str(),
-           m.tername(dirx, diry).c_str());
+           m.name(dirx, diry).c_str());
  } else {
   if (to_veh)
    add_msg("You put several items in the %s's %s.", veh->name.c_str(),
            veh->part_info(veh_part).name);
   else
    add_msg("You %s several items %s the %s.", verb.c_str(), prep.c_str(),
-           m.tername(dirx, diry).c_str());
+           m.name(dirx, diry).c_str());
  }
  if (to_veh) {
   bool vh_overflow = false;
@@ -9298,8 +9312,8 @@ void game::complete_butcher(int index)
   if(skill_shift >= 0){
    //To see if it spawns a random additional CBM
    if(rng(0,1) == 1){ //The CBM works
-    int bio_index = rng(0, mapitems[mi_bionics].size()-1);
-    m.spawn_item(u.posx, u.posy, mapitems[mi_bionics][bio_index], age);
+    Item_tag bionic_item = item_controller->id_from("bionics");
+    m.spawn_item(u.posx, u.posy, bionic_item, age);
    }else{//There is a burnt out CBM
     m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
    }
@@ -9726,9 +9740,9 @@ void game::chat()
         add_msg("You talk to yourself for a moment.");
         return;
     }
-    
+
     std::vector<npc*> available;
-    
+
     for (int i = 0; i < active_npc.size(); i++)
     {
         if (u_see(active_npc[i]->posx, active_npc[i]->posy) && rl_dist(u.posx, u.posy, active_npc[i]->posx, active_npc[i]->posy) <= 24)
@@ -9736,7 +9750,7 @@ void game::chat()
             available.push_back(active_npc[i]);
         }
     }
-    
+
     if (available.size() == 0)
     {
         add_msg("There's no-one close enough to talk to.");
@@ -9749,15 +9763,15 @@ void game::chat()
     else
     {
         std::vector<std::string> npcs;
-        
+
         for (int i = 0; i < available.size(); i++)
         {
             npcs.push_back(available[i]->name);
         }
         npcs.push_back("Cancel");
-        
+
         int npc_choice = menu_vec(true, "Who do you want to talk to?", npcs) - 1;
-        
+
         if(npc_choice >= 0 && npc_choice < available.size())
         {
             available[npc_choice]->talk_to_u(this);
@@ -9869,7 +9883,7 @@ void game::plmove(int x, int y)
 			active_npc[npcdex]->hit_by_player = true; //The NPC knows we started the fight, used for morale penalty.
 		}
 	 }
-	 
+
 	 u.hit_player(this, *active_npc[npcdex]);
 	 active_npc[npcdex]->make_angry();
 	 if (active_npc[npcdex]->hp_cur[hp_head]  <= 0 ||
@@ -9963,7 +9977,7 @@ void game::plmove(int x, int y)
 			return;
 	}
 
-   
+
 
 // no need to query if stepping into 'benign' traps
 /*
@@ -10000,8 +10014,7 @@ void game::plmove(int x, int y)
    if (veh1 && m.move_cost(x,y) != 2)
     add_msg("Moving past this %s is slow!", veh1->part_info(vpart1).name);
    else
-    add_msg("Moving past this %s is slow!", m.has_furn(x, y) ?
-             m.furnname(x, y).c_str() : m.tername(x, y).c_str());
+    add_msg("Moving past this %s is slow!", m.name(x, y).c_str());
   }
   if (m.has_flag(rough, x, y) && (!u.in_vehicle)) {
    if (one_in(5) && u.armor_bash(bp_feet) < rng(2, 5)) {
@@ -10064,6 +10077,9 @@ void game::plmove(int x, int y)
 // Move the player
   u.posx = x;
   u.posy = y;
+
+  //Autopickup
+  pickup(u.posx, u.posy, -1);
 
 // If the new tile is a boardable part, board it
   if (veh1 && veh1->part_with_feature(vpart1, vpf_boardable) >= 0)
@@ -10143,8 +10159,15 @@ void game::plmove(int x, int y)
       tunneldist += 1; //add 1 to tunnel distance for each impassable tile in the line
       if(tunneldist * 10 > u.power_level) //oops, not enough energy! Tunneling costs 10 bionic power per impassable tile
       {
+          add_msg("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!");
           tunneldist = 0; //we didn't tunnel anywhere
           break;
+      }
+      if(tunneldist > 24) 
+      {
+          add_msg("It's too dangerous to tunnel that far!");
+          tunneldist = 0;
+          break;    //limit maximum tunneling distance
       }
   }
   if(tunneldist) //you tunneled
@@ -10157,7 +10180,6 @@ void game::plmove(int x, int y)
   }
   else //or you couldn't tunnel due to lack of energy
   {
-      add_msg("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!");
       u.power_level -= 10; //failure is expensive!
   }
 
@@ -10181,8 +10203,7 @@ void game::plmove(int x, int y)
  } else { // Invalid move
   if (u.has_disease(DI_BLIND) || u.has_disease(DI_STUNNED)) {
 // Only lose movement if we're blind
-   add_msg("You bump into a %s!", m.has_furn(x, y) ?
-           m.furnname(x, y).c_str() : m.tername(x, y).c_str());
+   add_msg("You bump into a %s!", m.name(x, y).c_str());
    u.moves -= 100;
   } else if (m.open_door(x, y, !m.is_outside(u.posx, u.posy)))
    u.moves -= 100;
@@ -10406,7 +10427,7 @@ void game::vertical_move(int movez, bool force)
   return;
  }
 
- map tmpmap(&itypes, &mapitems, &traps);
+ map tmpmap(&traps);
  tmpmap.load(this, levx, levy, levz + movez, false);
 // Find the corresponding staircase
  int stairx = -1, stairy = -1;
@@ -10792,7 +10813,7 @@ void game::despawn_monsters(const bool stairs, const int shiftx, const int shift
     z[i].spawnposx = rc.sub_pos.x;
     z[i].spawnposy = rc.sub_pos.y;
 
-    tinymap tmp(&itypes, &mapitems, &traps);
+    tinymap tmp(&traps);
     tmp.load(this, z[i].spawnmapx, z[i].spawnmapy, levz, false);
     tmp.add_spawn(&(z[i]));
     tmp.save(cur_om, turn, z[i].spawnmapx, z[i].spawnmapy, levz);
@@ -10991,30 +11012,14 @@ void game::write_msg()
    mes = mesSS.str();
   }
 // Split the message into many if we must!
-  size_t split;
-  while (mes.length() > maxlength && line >= 0) {
-   split = mes.find_last_of(' ', maxlength);
-   if (split > maxlength)
-    split = maxlength;
-   nc_color col = c_dkgray;
-   if (int(messages[i].turn) >= curmes)
+  nc_color col = c_dkgray;
+  if (int(messages[i].turn) >= curmes)
     col = c_ltred;
-   else if (int(messages[i].turn) + 5 >= curmes)
+  else if (int(messages[i].turn) + 5 >= curmes)
     col = c_ltgray;
-   //mvwprintz(w_messages, line, 0, col, mes.substr(0, split).c_str());
-   mvwprintz(w_messages, line, 0, col, mes.substr(split + 1).c_str());
-   mes = mes.substr(0, split);
-   line--;
-   //mes = mes.substr(split + 1);
-  }
-  if (line >= 0) {
-   nc_color col = c_dkgray;
-   if (int(messages[i].turn) >= curmes)
-    col = c_ltred;
-   else if (int(messages[i].turn) + 5 >= curmes)
-    col = c_ltgray;
-   mvwprintz(w_messages, line, 0, col, mes.c_str());
-   line--;
+  std::vector<std::string> folded = foldstring(mes, maxlength);
+  for(int j=folded.size()-1; j>=0 && line>=0; j--, line--) {
+    mvwprintz(w_messages, line, 0, col, folded[j].c_str());
   }
  }
  curmes = int(turn);
@@ -11061,18 +11066,9 @@ void game::msg_buffer()
      mes = mesSS.str();
     }
 // Split the message into many if we must!
-    size_t split;
-    while (mes.length() > FULL_SCREEN_WIDTH-2 && line <= FULL_SCREEN_HEIGHT-2) {
-     split = mes.find_last_of(' ', FULL_SCREEN_WIDTH-2);
-     if (split > FULL_SCREEN_WIDTH-2)
-      split = FULL_SCREEN_WIDTH-2;
-     mvwprintz(w, line, 1, c_ltgray, mes.substr(0, split).c_str());
-     line++;
-     mes = mes.substr(split);
-    }
-    if (line <= FULL_SCREEN_HEIGHT-2) {
-     mvwprintz(w, line, 1, col, mes.c_str());
-     line++;
+    std::vector<std::string> folded = foldstring(mes, FULL_SCREEN_WIDTH-2);
+    for(int j=0; j<folded.size() && line <= FULL_SCREEN_HEIGHT-2; j++, line++) {
+     mvwprintz(w, line, 1, c_ltgray, folded[j].c_str());
     }
    } // if (line <= 23)
   } //for (i = 1; i <= 10 && line <= 23 && offset + i <= messages.size(); i++)
@@ -11122,7 +11118,7 @@ void game::teleport(player *p)
   if (m.move_cost(newx, newy) == 0) {	// TODO: If we land in water, swim
    if (can_see)
     add_msg("%s teleport%s into the middle of a %s!", You.c_str(),
-            (is_u ? "" : "s"), m.tername(newx, newy).c_str());
+            (is_u ? "" : "s"), m.name(newx, newy).c_str());
    p->hurt(this, bp_torso, 0, 500);
   } else if (mon_at(newx, newy) != -1) {
    int i = mon_at(newx, newy);
@@ -11142,7 +11138,7 @@ void game::nuke(int x, int y)
     if (x < 0 || y < 0 || x >= OMAPX || y >= OMAPY)
         return;
     int mapx = x * 2, mapy = y * 2;
-    map tmpmap(&itypes, &mapitems, &traps);
+    map tmpmap(&traps);
     tmpmap.load(this, mapx, mapy, 0, false);
     for (int i = 0; i < SEEX * 2; i++)
     {

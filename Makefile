@@ -51,6 +51,9 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
+# extra search path for libs
+#LIBEXT = 1
+#LIBEXT_DIR = /usr/local
 
 VERSION = 0.6
 
@@ -62,6 +65,14 @@ W32TARGET = cataclysm.exe
 BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
 
+ifdef LIBEXT
+  ifndef $(LIBEXT_DIR)
+    LIBEXT_DIR = /usr/local
+  endif
+  OTHERS += -I$(LIBEXT_DIR)/include
+  LDFLAGS += -L$(LIBEXT_DIR)/lib
+endif
+
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
 ODIR = obj
@@ -71,8 +82,8 @@ W32ODIRTILES = objwin/tiles
 DDIR = .deps
 
 OS  = $(shell uname -o)
-CXX = $(CROSS)g++
-LD  = $(CROSS)g++
+CXX ?= $(CROSS)g++
+LD  ?= $(CROSS)g++
 
 # enable optimizations. slow to build
 ifdef RELEASE
@@ -106,18 +117,22 @@ endif
 # Linux 64-bit
 ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
+  LDFLAGS += -m64
   TARGETSYSTEM=LINUX
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
+    LDFLAGS += -m32
     TARGETSYSTEM=LINUX
   endif
 endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  CXXFLAGS += -mmacosx-version-min=10.5
+  OSX_MIN = 10.5
+  DEFINES += -DMACOSX
+  CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
   LDFLAGS += -lintl
   TARGETSYSTEM=LINUX
 endif
@@ -155,6 +170,7 @@ ifdef TILES
     LDFLAGS += -F/Library/Frameworks \
 	       -F$(HOME)/Library/Frameworks \
 	       -framework SDL -framework SDL_ttf -framework Cocoa
+    CXXFLAGS += $(OSX_INC)
   else
     LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
   endif
@@ -197,8 +213,8 @@ all: version $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) $(OSX_INC) \
-          $(OBJS) $(LDFLAGS)
+	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(LDFLAGS) \
+          $(OBJS)
 
 .PHONY: version
 version:
@@ -215,7 +231,7 @@ $(DDIR):
 	@mkdir $(DDIR)
 
 $(ODIR)/%.o: %.cpp
-	$(CXX) $(DEFINES) $(CXXFLAGS) $(OSX_INC) -c $< -o $@
+	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 $(ODIR)/SDLMain.o: SDLMain.m
 	$(CC) -c $(OSX_INC) $< -o $@
@@ -224,7 +240,7 @@ version.cpp: version
 
 clean: clean-tests
 	rm -rf $(TARGET) $(W32TARGET) $(ODIR) $(W32ODIR) $(W32BINDIST) \
-	$(BINDIST)
+	$(BINDIST) #$(TILESTARGET) $(W32TILESTARGET)
 	rm -rf $(BINDIST_DIR)
 	rm -f version.h
 

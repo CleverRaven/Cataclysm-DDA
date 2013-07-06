@@ -138,7 +138,6 @@
 		<Unit filename="mondeath.h" />
 		<Unit filename="mongroup.h" />
 		<Unit filename="mongroupdef.cpp" />
-		<Unit filename="monitemsdef.cpp" />
 		<Unit filename="monmove.cpp" />
 		<Unit filename="monster.cpp" />
 		<Unit filename="monster.h" />

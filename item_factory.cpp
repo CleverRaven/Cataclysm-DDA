@@ -349,6 +349,15 @@ Item_list Item_factory::create_random(int created_at, int quantity){
     return new_items;
 }
 
+bool Item_factory::group_contains_item(Item_tag group_tag, Item_tag item) {
+	Item_group *current_group = m_template_groups.find(group_tag)->second;
+	if(current_group) {
+		return current_group->has_item(item);
+	} else {
+		return 0;
+	}
+}
+
 ///////////////////////
 // DATA FILE READING //
 ///////////////////////

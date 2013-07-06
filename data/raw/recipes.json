@@ -15,6 +15,35 @@
 
     "recipes":
     [
+	    {
+            "result": "cell_phone",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "difficulty": 0,
+            "time": 500,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 1]
+                              ],
+                              [
+                                  ["RAM", 1]
+                              ],
+                              [
+                                  ["processor", 1]
+                              ],
+                              [
+                                  ["battery", 200]
+                              ]
+                          ]
+        },
         {
             "result": "knife_steak",
             "id_suffix": "uncraft",
@@ -781,7 +810,8 @@
                              ["toolset", -1]
                           ],
                           [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                           ],
                           [
                              ["rock", -1],
@@ -827,7 +857,8 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["screwdriver", -1],
@@ -865,7 +896,8 @@
                          ],
 
                          [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["saw", -1]
@@ -1580,11 +1612,11 @@
                ["toolset", -1]
             ],
             [
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
+               ["rock", -1],
+               ["primitive_hammer", -1],
+               ["hammer", -1],
+               ["hatchet", -1],
+               ["toolset", -1]
             ]
          ],
          "components" : [
@@ -1702,11 +1734,11 @@
                ["toolset", -1]
             ],
             [
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
+               ["rock", -1],
+               ["primitive_hammer", -1],
+               ["hammer", -1],
+               ["hatchet", -1],
+               ["toolset", -1]
             ]
          ],
          "components" : [
@@ -1911,11 +1943,11 @@
                ["toolset", -1]
             ],
             [
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
+               ["rock", -1],
+               ["primitive_hammer", -1],
+               ["hammer", -1],
+               ["hatchet", -1],
+               ["toolset", -1]
             ]
          ],
          "components" : [
@@ -2056,11 +2088,11 @@
          		["toolset", -1]
          	],
          	[
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
+                ["rock", -1],
+                ["primitive_hammer", -1],
+                ["hammer", -1],
+                ["hatchet", -1],
+                ["toolset", -1]
          	]
          ],
          "components" : [
@@ -8554,11 +8586,11 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["rock", -1],
-                             ["primitive_hammer", -1],
-                             ["hammer", -1],
-                             ["hatchet", -1],
-                             ["toolset", -1]
+                            ["rock", -1],
+                            ["primitive_hammer", -1],
+                            ["hammer", -1],
+                            ["hatchet", -1],
+                            ["toolset", -1]
                          ]
                      ],
             "components": [
@@ -9505,7 +9537,6 @@
             ],
             "components": [
                               [
-                                  ["string_6", 4],
                                   ["duct_tape", 40],
                                   ["medical_tape", 20]
                               ],
@@ -9517,9 +9548,6 @@
                               ],
                               [
                                   ["bandages", 2]
-                              ],
-                              [
-                                  ["antibiotics", 2]
                               ]
                           ]
         },
