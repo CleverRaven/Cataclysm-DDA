@@ -886,7 +886,8 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
       count_hit++;
       int dam = roll_bash_damage(&(g->z[mondex]), false) +
                 roll_cut_damage (&(g->z[mondex]), false);
-      g->z[mondex].hurt(dam);
+      if (g->z[mondex].hurt(dam))
+       g->z[mondex].die(g);
       if (weapon.has_technique(TEC_FLAMING, this)) // Add to wide attacks
        g->z[mondex].add_effect(ME_ONFIRE, rng(3, 4));
       if (u_see)
