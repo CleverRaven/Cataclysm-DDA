@@ -1318,8 +1318,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     bool is_body_collision = ph || mondex >= 0;
 
     veh_coll_type collision_type = veh_coll_nothing;
-    std::string obs_name = g->m.has_furn(x, y) ?
-        g->m.furnname(x, y).c_str() : g->m.tername(x, y).c_str();
+    std::string obs_name = g->m.name(x, y).c_str();
 
     // vehicle collisions are a special case. just return the collision.
     // the map takes care of the dynamic stuff.
@@ -1511,9 +1510,9 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
 
         if (part_flag(part, vpf_sharp))
         {
-            if (g->m.field_at(x, y).type == fd_blood &&
-                g->m.field_at(x, y).density < 2)
-                g->m.field_at(x, y).density++;
+            if (g->m.field_at(x, y).findField(fd_blood) &&
+                g->m.field_at(x, y).findField(fd_blood)->getFieldDensity() < 2)
+                g->m.field_at(x, y).findField(fd_blood)->setFieldDensity(g->m.field_at(x,y).findField(fd_blood)->getFieldDensity() + 1);
             else
                 g->m.add_field(g, x, y, fd_blood, 1);
         }

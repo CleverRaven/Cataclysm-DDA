@@ -869,7 +869,7 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
     }
     posx += p->posx;
     posy += p->posy;
-    if (!g->m.flammable_items_at(posx, posy))
+    if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy)))
     {
        g->add_msg_if_player(p,"There's nothing to light there.");
        it->charges++;
@@ -881,11 +881,11 @@ bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
 {
     // this should have already been checked, but double-check to make sure
-    if (g->m.flammable_items_at(posx, posy))
+	if (g->m.flammable_items_at(posx, posy) || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy))
     {
         if (g->m.add_field(g, posx, posy, fd_fire, 1))
         {
-            g->m.field_at(posx, posy).age = 30;
+            g->m.field_at(posx, posy).findField(fd_fire)->setFieldAge(g->m.field_at(posx, posy).findField(fd_fire)->getFieldAge() + 100);
             g->add_msg_if_player(p, "You successfully light a fire.");
         }
     }
@@ -1065,7 +1065,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             if (fix->damage >= 5)
 		    {
                 g->add_msg_if_player(p,"You destroy it!");
-                p->i_rem(ch);
+                p->i_rem(g,ch);
             }
         }
 	    else if (rn <= 6)
@@ -1208,13 +1208,13 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     {
         g->add_msg_if_player(p,"You clumsily cut the %s into useless %s.",
                              cut->tname().c_str(), scrap_text.c_str());
-        p->i_rem(ch);
+        p->i_rem(g,ch);
         return;
     }
     g->add_msg_if_player(p,"You slice the %s into %d %s%s%s.", cut->tname().c_str(), count, pre_text.c_str(),
                          (count == 1 ? "" : "s"), post_text.c_str());
     item result(g->itypes[type], int(g->turn), g->nextinv);
-    p->i_rem(ch);
+    p->i_rem(g,ch);
     bool drop = false;
     for (int i = 0; i < count; i++)
     {
@@ -1246,11 +1246,11 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
 
  p->moves -= 140;
 
- if (g->m.field_at(x, y).type == fd_fire) {
-  g->m.field_at(x, y).density -= rng(2, 3);
-  if (g->m.field_at(x, y).density <= 0) {
-   g->m.field_at(x, y).density = 1;
-   g->m.remove_field(x, y);
+ if (g->m.field_at(x, y).findField(fd_fire)) {
+  g->m.field_at(x, y).findField(fd_fire)->setFieldDensity(g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() - rng(2, 3));
+  if (g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() <= 0) {
+   //g->m.field_at(x, y).density = 1;
+   g->m.remove_field(x, y, fd_fire);
   }
  }
  int mondex = g->mon_at(x, y);
@@ -1270,11 +1270,11 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
  if (g->m.move_cost(x, y) != 0) {
   x += (x - p->posx);
   y += (y - p->posy);
-  if (g->m.field_at(x, y).type == fd_fire) {
-   g->m.field_at(x, y).density -= rng(0, 1) + rng(0, 1);
-   if (g->m.field_at(x, y).density <= 0) {
-    g->m.field_at(x, y).density = 1;
-    g->m.remove_field(x, y);
+  if (g->m.field_at(x, y).findField(fd_fire)) {
+   g->m.field_at(x, y).findField(fd_fire)->setFieldDensity(g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() - rng(0, 1) + rng(0, 1));
+   if (g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() <= 0) {
+    //g->m.field_at(x, y).density = 1;
+    g->m.remove_field(x, y,fd_fire);
    }
   }
  }
@@ -1452,6 +1452,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 
 void iuse::solder_weld(game *g, player *p, item *it, bool t)
 {
+    it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
     int choice = menu(true,
     "Using soldering item:", "Cauterize wound", "Repair plastic/metal/kevlar item", "Cancel", NULL);
     switch (choice)
@@ -1506,7 +1507,6 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
             if(repair_items.empty())
             {
                 g->add_msg_if_player(p,"Your %s is not made of kevlar, plastic or metal.", fix->tname().c_str());
-                it->charges++;
                 return;
             }
 
@@ -1534,7 +1534,6 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
                 {
                     g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repairitem_names[i].c_str(), plurals[i].c_str());
                 }
-                it->charges++;
                 return;
             }
             if (fix->damage < 0)
@@ -1599,7 +1598,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
                     if (fix->damage >= 5)
                     {
                         g->add_msg_if_player(p,"You destroy it!");
-                        p->i_rem(ch);
+                        p->i_rem(g,ch);
                     }
                 }
                 else if (rn <= 6)
@@ -3373,8 +3372,8 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 void iuse::mp3_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-  if (!p->has_item(it))
-   return;	// We're not carrying it!
+  if (!p->has_item(it) || p->has_disease(DI_DEAF) )
+   return;	// We're not carrying it, or we're deaf.
   p->add_morale(MORALE_MUSIC, 1, 50);
 
   if (int(g->turn) % 10 == 0) {	// Every 10 turns, describe the music
@@ -3522,7 +3521,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You cut the %s into %i plastic chunks.", cut->tname().c_str(), amount);
                 int count = amount;
                 item result(g->itypes["plastic_chunk"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
+                p->i_rem(g,ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3553,7 +3552,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You cut the %s into %i plastic chunks.", cut->tname().c_str(), amount);
                 int count = amount;
                 item result(g->itypes["kevlar_plate"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
+                p->i_rem(g,ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3592,7 +3591,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You carve several skewers from the %s.", cut->tname().c_str());
                 int count = 12;
                 item skewer(g->itypes["skewer"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
+                p->i_rem(g,ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3691,7 +3690,7 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
   return;
  }
  if (cut->type->id == "log") {
-     p->i_rem(ch);
+     p->i_rem(g,ch);
      cut_log_into_planks(g, p, it);
      return;
  } else {
@@ -4069,7 +4068,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  }
  pull->charges = pull->charges - multiply;
  if (pull->charges == 0)
- p->i_rem(ch);
+ p->i_rem(g,ch);
  g->add_msg("You take apart the ammunition.");
  p->moves -= 500;
  if (casing.type->id != "null"){
@@ -4374,10 +4373,6 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   case AEA_FATIGUE: {
    g->add_msg_if_player(p,"The fabric of space seems to decay.");
    int x = rng(p->posx - 3, p->posx + 3), y = rng(p->posy - 3, p->posy + 3);
-   if (g->m.field_at(x, y).type == fd_fatigue &&
-       g->m.field_at(x, y).density < 3)
-    g->m.field_at(x, y).density++;
-   else
     g->m.add_field(g, x, y, fd_fatigue, rng(1, 2));
   } break;
 
@@ -4386,10 +4381,6 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
    if (acidball.x != -1 && acidball.y != -1) {
     for (int x = acidball.x - 1; x <= acidball.x + 1; x++) {
      for (int y = acidball.y - 1; y <= acidball.y + 1; y++) {
-      if (g->m.field_at(x, y).type == fd_acid &&
-          g->m.field_at(x, y).density < 3)
-       g->m.field_at(x, y).density++;
-      else
        g->m.add_field(g, x, y, fd_acid, rng(2, 3));
      }
     }
@@ -4523,7 +4514,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
     for (int y = p->posy - 3; y <= p->posy + 3; y++) {
      if (!one_in(3)) {
       if (g->m.add_field(g, x, y, fd_fire, 1 + rng(0, 1) * rng(0, 1)))
-       g->m.field_at(x, y).age = 30;
+		  g->m.field_at(x, y).findField(fd_fire)->setFieldAge(g->m.field_at(x, y).findField(fd_fire)->getFieldAge() + 30);
      }
     }
    }
@@ -4547,7 +4538,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
   case AEA_SCREAM:
    g->add_msg_if_player(p,"Your %s screams disturbingly.", it->tname().c_str());
    g->sound(p->posx, p->posy, 40, "");
-   p->add_morale(MORALE_SCREAM, -10);
+   p->add_morale(MORALE_SCREAM, -10, 0, 300, 5);
    break;
 
   case AEA_DIM:
@@ -4688,7 +4679,7 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
 void iuse::dejar(game *g, player *p, item *it, bool t)
 {
 	g->add_msg_if_player(p,"You open the jar, exposing it to the atmosphere.");
-	itype_id ujfood = (it->type->id).substr(4,-1);  // assumes "jar_" is at front of itype_id and removes it
+	itype_id ujfood = (it->type->id).substr(4);  // assumes "jar_" is at front of itype_id and removes it
 	item ujitem(g->itypes[ujfood],0);  // temp create item to discover container
 	itype_id ujcont = (dynamic_cast<it_comest*>(ujitem.type))->container;  //discovering container
 	it->make(g->itypes[ujcont]);  //turning "sealed jar of xxx" into container for "xxx"
@@ -4699,7 +4690,7 @@ void iuse::dejar(game *g, player *p, item *it, bool t)
 void iuse::devac(game *g, player *p, item *it, bool t)
 {
 	g->add_msg_if_player(p,"You open the vacuum pack, exposing it to the atmosphere.");
-	itype_id uvfood = (it->type->id).substr(4,-1);  // assumes "bag_" is at front of itype_id and removes it
+	itype_id uvfood = (it->type->id).substr(4);  // assumes "bag_" is at front of itype_id and removes it
 	item uvitem(g->itypes[uvfood],0);  // temp create item to discover container
 	itype_id uvcont = (dynamic_cast<it_comest*>(uvitem.type))->container;  //discovering container
 	it->make(g->itypes[uvcont]);  //turning "vacuum packed xxx" into container for "xxx"

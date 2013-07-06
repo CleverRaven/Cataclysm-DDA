@@ -70,7 +70,9 @@ void computer::shutdown_terminal()
 void computer::use(game *g)
 {
  if (w_terminal == NULL)
-  w_terminal = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+  w_terminal = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                      (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                      (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
  wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -470,7 +472,7 @@ void computer::activate_function(game *g, computer_action action)
         // For each level between here and the surface, remove the missile
         for (int level = g->levz; level <= 0; level++)
         {
-            map tmpmap(&g->itypes, &g->mapitems, &g->traps);
+            map tmpmap(&g->itypes, &g->traps);
             tmpmap.load(g, g->levx, g->levy, level, false);
 
             if(level < 0)
@@ -512,7 +514,7 @@ void computer::activate_function(game *g, computer_action action)
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
       if (g->m.i_at(x, y)[i].is_bionic()) {
-       if (names.size() < 9)
+       if (names.size() < TERMY - 8)
         names.push_back(g->m.i_at(x, y)[i].tname());
        else
         more++;
@@ -520,10 +522,22 @@ void computer::activate_function(game *g, computer_action action)
      }
     }
    }
+   
+   reset_terminal();
+   
+   print_line("");
+   print_line("Bionic access - Manifest:");
+   print_line("");
+   
    for (int i = 0; i < names.size(); i++)
     print_line(names[i].c_str());
    if (more > 0)
     print_line("%d OTHERS FOUND...", more);
+    
+    print_line("");
+    print_line("Press any key...");
+    getch();
+    
   } break;
 
   case COMPACT_ELEVATOR_ON:

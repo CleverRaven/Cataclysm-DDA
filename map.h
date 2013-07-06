@@ -49,7 +49,7 @@ typedef std::vector<wrapped_vehicle> VehicleList;
 //
 //        real_coords( lx, ly, px, py, true ); // will precalculate overmap as .true_om (point)
 //
-struct real_coords { 
+struct real_coords {
   point rel_lev; // in: as in game.levx/y. The true coordinate of submap at pos 0,0 in playing area
                  // (Which is a 11x11 grid of submaps that shifts to ensure player remains in
                  // the center submap.)
@@ -85,7 +85,7 @@ struct real_coords {
         sub.y--;
         sub_pos.y += 12;
     }
-  
+
     if ( getom == true ) { // special case, thus optional
       true_om.x=int( (sub.x + int(MAPSIZE / 2)) / 2);
       true_om.y=int( (sub.y + int(MAPSIZE / 2)) / 2);
@@ -93,7 +93,7 @@ struct real_coords {
   };
   point overmap () {
     true_om.x=int( (sub.x + int(MAPSIZE / 2)) / 2);
-    true_om.y=int( (sub.y + int(MAPSIZE / 2)) / 2);    
+    true_om.y=int( (sub.y + int(MAPSIZE / 2)) / 2);
     return true_om;
   };
 };
@@ -105,8 +105,7 @@ class map
 
 // Constructors & Initialization
  map();
- map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
-     std::vector<trap*> *trptr);
+ map(std::map<std::string, itype*>* itptr, std::vector<trap*> *trptr);
  ~map();
 
 // Visual Output
@@ -173,6 +172,7 @@ class map
 
 // Furniture
  void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
+ std::string name(const int x, const int y);
  bool has_furn(const int x, const int y);
  furn_id furn(const int x, const int y); // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  void furn_set(const int x, const int y, const furn_id new_furniture);
@@ -240,7 +240,7 @@ class map
 // Fields
  field& field_at(const int x, const int y);
  bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
- void remove_field(const int x, const int y);
+ void remove_field(const int x, const int y, const field_id field_to_remove);
  bool process_fields(game *g);				// See fields.cpp
  bool process_fields_in_submap(game *g, const int gridn);	// See fields.cpp
  void step_in_field(const int x, const int y, game *g);		// See fields.cpp
@@ -264,6 +264,7 @@ class map
  void post_process(game *g, unsigned zones);
  void place_spawns(game *g, std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
+ void place_gas_pump(const int x, const int y, const int charges);
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
@@ -318,7 +319,6 @@ protected:
  int nulrad;	// OOB &radiation()
 
  std::vector <trap*> *traps;
- std::vector <itype_id> (*mapitems)[num_itloc];
 
  bool veh_in_active_range;
 
@@ -343,8 +343,7 @@ class tinymap : public map
 {
 public:
  tinymap();
- tinymap(std::map<std::string, itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
-     std::vector<trap*> *trptr);
+ tinymap(std::map<std::string, itype*> *itptr, std::vector<trap*> *trptr);
  ~tinymap();
 
 protected:

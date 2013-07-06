@@ -51,6 +51,9 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
+# extra search path for libs
+#LIBEXT = 1
+#LIBEXT_DIR = /usr/local
 
 VERSION = 0.6
 
@@ -61,6 +64,14 @@ W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
 BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
+
+ifdef LIBEXT
+  ifndef $(LIBEXT_DIR)
+    LIBEXT_DIR = /usr/local
+  endif
+  OTHERS += -I$(LIBEXT_DIR)/include
+  LDFLAGS += -L$(LIBEXT_DIR)/lib
+endif
 
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
@@ -117,7 +128,10 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  CXXFLAGS += -mmacosx-version-min=10.6
+  OSX_MIN = 10.5
+  DEFINES += -DMACOSX
+  CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  LDFLAGS += -lintl
   TARGETSYSTEM=LINUX
 endif
 
@@ -138,12 +152,26 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static -lgdi32 
+  LDFLAGS += -static -lgdi32 -lintl -liconv
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
 endif
 
 ifdef TILES
-  LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+  ifeq ($(NATIVE),osx)
+    DEFINES += -DOSX_SDL
+    OSX_INC = -F/Library/Frameworks \
+	      -F$(HOME)/Library/Frameworks \
+	      -I/Library/Frameworks/SDL.framework/Headers \
+	      -I$(HOME)/Library/Frameworks/SDL.framework/Headers \
+	      -I/Library/Frameworks/SDL_ttf.framework/Headers \
+	      -I$(HOME)/Library/Frameworks/SDL_ttf.framework/Headers
+    LDFLAGS += -F/Library/Frameworks \
+	       -F$(HOME)/Library/Frameworks \
+	       -framework SDL -framework SDL_ttf -framework Cocoa
+    CXXFLAGS += $(OSX_INC)
+  else
+    LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+  endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -lgdi32 -ldxguid -lwinmm
@@ -156,7 +184,11 @@ ifdef TILES
 else
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(TARGETSYSTEM),LINUX)
-    LDFLAGS += -lncurses
+    LDFLAGS += -lncursesw
+    # Work around Cygwin not including gettext support in glibc
+    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+      LDFLAGS += -lintl -liconv
+    endif
   endif
 endif
 
@@ -168,6 +200,12 @@ SOURCES = $(wildcard *.cpp)
 HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
+
+ifdef TILES
+  ifeq ($(NATIVE),osx)
+    OBJS += $(ODIR)/SDLMain.o
+  endif
+endif
 
 all: version $(TARGET)
 	@
@@ -193,11 +231,14 @@ $(DDIR):
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
+$(ODIR)/SDLMain.o: SDLMain.m
+	$(CC) -c $(OSX_INC) $< -o $@
+
 version.cpp: version
 
 clean: clean-tests
 	rm -rf $(TARGET) $(W32TARGET) $(ODIR) $(W32ODIR) $(W32BINDIST) \
-	$(BINDIST)
+	$(BINDIST) #$(TILESTARGET) $(W32TILESTARGET)
 	rm -rf $(BINDIST_DIR)
 	rm -f version.h
 

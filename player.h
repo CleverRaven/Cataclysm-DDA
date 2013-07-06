@@ -65,6 +65,7 @@ public:
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
  void action_taken(); // Called after every action, invalidates player caches.
  void update_morale();	// Ticks down morale counters and removes them
+ void apply_persistent_morale(); // Ensure persistent morale effects are up-to-date.
  void update_mental_focus();
  int calc_focus_equilibrium();
  void update_bodytemp(game *g);  // Maintains body temperature
@@ -204,8 +205,8 @@ public:
  bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(game *g); // Pick a style
- bool wear(game *g, char let);	// Wear item; returns false on fail
- bool wear_item(game *g, item *to_wear);
+ bool wear(game *g, char let, bool interactive = true);	// Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+ bool wear_item(game *g, item *to_wear, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
  bool takeoff(game *g, char let, bool autodrop = false);// Take off item; returns false on fail
  void sort_armor(game *g);      // re-order armor layering
  void use(game *g, char let);	// Use a tool
@@ -251,7 +252,8 @@ public:
  int net_morale(morale_point effect);
  int morale_level();	// Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
-                 itype* item_type = NULL);
+                 int duration = 60, int decay_start = 30,
+                 bool cap_existing = false, itype* item_type = NULL);
  void rem_morale(morale_type type, itype* item_type = NULL);
 
  std::string weapname(bool charges = true);
@@ -261,13 +263,14 @@ public:
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);
  bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
- item i_rem(char let);	// Remove item from inventory; returns ret_null on fail
+ item i_rem(game* g, char let);	// Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
  void remove_mission_items(int mission_id);
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let);	// Returns the item with inventory letter let
  item &i_of_type(itype_id type); // Returns the first item with this type
+ item get_combat_style(); // Returns the combat style item
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor();	// Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters

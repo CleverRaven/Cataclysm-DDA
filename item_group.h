@@ -17,6 +17,9 @@ public:
     const Item_tag get_id(std::vector<Item_tag> recursion_list);
     void add_entry(const Item_tag item_id, int chance);
     void add_group(Item_group*, int chance);
+
+    // Does this item group contain the given item?
+    bool has_item(const Item_tag item_id);
 private:
     const Item_tag m_id;
     int m_max_odds;

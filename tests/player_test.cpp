@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
  dummy.normalize( &fakeworld );
 
  dummy.name = "dummy";
- fakeworld.m = map( &fakeworld.itypes, &fakeworld.mapitems, &fakeworld.traps );
+ fakeworld.m = map( &fakeworld.itypes, &fakeworld.traps );
  fakeworld.u = dummy;
  fakeworld.cur_om = &overmap_buffer.get(&fakeworld, 0, 0);
  fakeworld.m.load( &fakeworld, fakeworld.levx, fakeworld.levy, fakeworld.levz );

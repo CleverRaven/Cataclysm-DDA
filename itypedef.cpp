@@ -264,7 +264,7 @@ color, "steel", "plastic", 10, 18, 8, 0, 0, difficulty)
 
 #define BIO_SINGLE(id,rarity,price,color,difficulty) \
      BIO(id, std::string("CBM: ")+bionics[id]->name, rarity,price,color,difficulty, \
-           word_rewrap(bionics[id]->description, 50)) \
+           bionics[id]->description) \
 
 //  Name                     RAR PRICE    COLOR   DIFFICULTY
 BIO("bio_power_storage", "CBM: Power Storage",	24, 3800,	c_green,	 1, "\
@@ -434,6 +434,7 @@ AMMO("bio_lightning_ammo", "Lightning",	 0,0, AT_FUSION,c_dkgray,	"null",
 
 
 // Unarmed Styles
+// TODO: refactor handling of styles see #1771
 #define STYLE(id, name, dam, description, ...) \
 itypes[id]=new it_style(id, 0, 0, name, description, '$', \
                               c_white, "null", "null", 0, 0, dam, 0, 0); \

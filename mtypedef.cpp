@@ -66,13 +66,15 @@ A large buck, fast-moving and strong."
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BONES);
 CATEGORIES(MC_WILDLIFE);
 
-mon("moose",	species_mammal, 'M',	c_brown,	MS_LARGE,	"flesh",
+mon("moose", species_mammal, 'M',	c_brown,	MS_LARGE,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  1,-50, -5,200,  10,  3,  4,  0,  1,  3,  1,  0, 100, 0,
+	  1,-10, 30,200,  10,  3,  4,  0,  1,  4,  1,  0, 100, 0,
 	&mdeath::normal,	&mattack::none, "\
 A buck of the largest deer species."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BONES);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BLEED, MF_VIS40, MF_BONES);
+ANGER(MTRIG_PLAYER_CLOSE, MTRIG_HURT);
+FEARS(MTRIG_FIRE);
 CATEGORIES(MC_WILDLIFE);
 
 mon("wolf",	species_mammal, 'w',	c_ltgray,	MS_MEDIUM,	"flesh",
@@ -493,8 +495,8 @@ parts that have become fused in this golem\n\
 of flesh.  The eyes of all the heads dart\n\
 rapidly and the mouths scream or groan."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES,
-      MF_DESTROYS, MF_ATTACKMON, MF_LEATHER, MF_BONES, MF_VIS50);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_DESTROYS,
+      MF_ATTACKMON, MF_LEATHER, MF_BONES, MF_VIS50, MF_POISON);
 
 // PLANTS & FUNGI
 mon("triffid",	species_plant, 'F',	c_ltgreen,	MS_MEDIUM,	"veggy",

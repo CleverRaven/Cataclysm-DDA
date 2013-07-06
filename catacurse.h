@@ -157,8 +157,13 @@ void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
 int echo(void);
 int noecho(void);
 //non-curses functions, Do not call these in the main game code
-void WinDestroy();
-bool WinCreate(bool initgl);
-void CheckMessages();
-int FindWin(WINDOW *wnd);
+extern WINDOW* mainwin;
+extern pairs *colorpairs;
+WINDOW* curses_init();
+int curses_destroy();
+void curses_drawwindow(WINDOW* win);
+void curses_delay(int delay);
+void curses_timeout(int t);
+int curses_getch(WINDOW* win);
+int curses_start_color();
 #endif

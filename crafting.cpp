@@ -10,6 +10,7 @@
 #include "crafting.h"
 #include "inventory.h"
 #include "item_factory.h"
+#include "catacharset.h"
 
 //apparently we can't declare this in crafting.h? Complained about multiple definition.
 std::vector<craft_cat> craft_cat_list;
@@ -508,8 +509,8 @@ recipe* game::select_crafting_recipe()
     const int dataLines=(int)(dataHalfLines*2);      // old: 18
     const int dataHeight=dataLines+4;                // old: 22
 
-	WINDOW *w_head = newwin( 3, 80, 0, (TERMX > 80) ? (TERMX -80)/2 : 0);
-    WINDOW *w_data = newwin(dataHeight, 80, 3, (TERMX  > 80) ? (TERMX -80)/2 : 0);
+    WINDOW *w_head = newwin( 3, FULL_SCREEN_WIDTH, 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    WINDOW *w_data = newwin(dataHeight, FULL_SCREEN_WIDTH, 3, (TERMX  > FULL_SCREEN_WIDTH) ? (TERMX -FULL_SCREEN_WIDTH)/2 : 0);
 
 
     craft_cat tab = "CC_WEAPON";
@@ -547,18 +548,18 @@ recipe* game::select_crafting_recipe()
             mvwprintz(w_data, dataLines+1, 5, c_white, "[?/E]: Describe, [F]ind");
         }
         mvwprintz(w_data, dataLines+2, 5, c_white, "Press <ENTER> to attempt to craft object.");
-        for (int i = 0; i < 80; i++)
+        for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
         {
             mvwputch(w_data, dataHeight-1, i, c_ltgray, LINE_OXOX);
             if (i < dataHeight-1)
             {
                 mvwputch(w_data, i, 0, c_ltgray, LINE_XOXO);
-                mvwputch(w_data, i, 79, c_ltgray, LINE_XOXO);
+                mvwputch(w_data, i, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOXO);
             }
         }
 
         mvwputch(w_data, dataHeight-1,  0, c_ltgray, LINE_XXOO); // _|
-        mvwputch(w_data, dataHeight-1, 79, c_ltgray, LINE_XOOX); // |_
+        mvwputch(w_data, dataHeight-1, FULL_SCREEN_WIDTH-1, c_ltgray, LINE_XOOX); // |_
 
         int recmin = 0, recmax = current.size();
         if(recmax > dataLines)
@@ -704,16 +705,16 @@ recipe* game::select_crafting_recipe()
                             toolinfo << "(" << charges << " charges) ";
                         }
                         std::string toolname = toolinfo.str();
-                        if (xpos + toolname.length() >= 80)
+                        if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH)
                         {
                             xpos = 32;
                             ypos++;
                         }
                         mvwprintz(w_data, ypos, xpos, toolcol, toolname.c_str());
-                        xpos += toolname.length();
+                        xpos += utf8_width(toolname.c_str());
                         if (j < current[line]->tools[i].size() - 1)
                         {
-                            if (xpos >= 77)
+                            if (xpos >= FULL_SCREEN_WIDTH-3)
                             {
                             xpos = 32;
                             ypos++;
@@ -758,16 +759,16 @@ recipe* game::select_crafting_recipe()
                     std::stringstream dump;
                     dump << abs(count) << "x " << item_controller->find_template(type)->name << " ";
                     std::string compname = dump.str();
-                    if (xpos + compname.length() >= 80)
+                    if (xpos + utf8_width(compname.c_str()) >= FULL_SCREEN_WIDTH)
                     {
                         ypos++;
                         xpos = 32;
                     }
                     mvwprintz(w_data, ypos, xpos, compcol, compname.c_str());
-                    xpos += compname.length();
+                    xpos += utf8_width(compname.c_str());
                     if (j < current[line]->components[i].size() - 1)
                     {
-                        if (xpos >= 77)
+                        if (xpos >= FULL_SCREEN_WIDTH-3)
                         {
                             ypos++;
                             xpos = 32;
@@ -879,7 +880,7 @@ recipe* game::select_crafting_recipe()
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered)
 {
     werase(w);
-    for (int i = 0; i < 80; i++)
+    for (int i = 0; i < FULL_SCREEN_WIDTH; i++)
     {
         mvwputch(w, 2, i, c_ltgray, LINE_OXOX);
     }
@@ -1517,7 +1518,7 @@ void game::complete_disassemble()
       else
         m.add_item(u.posx, u.posy, ammodrop, MAX_ITEM_IN_SQUARE);
     }
-    u.i_rem(u.activity.values[0]);  // remove the item
+    u.i_rem(this,u.activity.values[0]);  // remove the item
 
   // consume tool charges
   for (int j = 0; j < dis->tools.size(); j++)

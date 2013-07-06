@@ -8,6 +8,7 @@
 #include "skill.h"
 #include "crafting.h" // For the use_comps use_tools functions
 #include "item_factory.h"
+#include "catacharset.h"
 
 bool will_flood_stop(map *m, bool (&fill)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                      int x, int y);
@@ -530,7 +531,7 @@ void game::construction_menu()
        has_tool[i] = true;
        col = c_green;
       }
-      int length = item_controller->find_template(tool)->name.length();
+      int length = utf8_width(item_controller->find_template(tool)->name.c_str());
       if (posx + length > 79) {
        posy++;
        posx = 33;
@@ -575,7 +576,7 @@ void game::construction_menu()
        has_component[i] = true;
        col = c_green;
       }
-      int length = item_controller->find_template(comp.type)->name.length();
+      int length = utf8_width(item_controller->find_template(comp.type)->name.c_str());
       if (posx + length > 79) {
        posy++;
        posx = 33;
@@ -1129,6 +1130,13 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(p.x, p.y, "scrap", 0, rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
         g->m.spawn_item(p.x, p.y, "hose", 0, 1);
+        g->m.furn_set(p.x, p.y, f_null);
+      break;
+      case f_glass_fridge:
+        g->m.spawn_item(p.x, p.y, "scrap", 0, rng(2,6));
+        g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
+        g->m.spawn_item(p.x, p.y, "hose", 0, 1);
+        g->m.spawn_item(p.x, p.y, "glass_sheet", 0, 1);
         g->m.furn_set(p.x, p.y, f_null);
       break;
       case f_counter:
