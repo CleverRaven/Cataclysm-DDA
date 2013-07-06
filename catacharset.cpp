@@ -98,8 +98,8 @@ int utf8_width(const char* s)
         if(ch!=UNKNOWN_UNICODE) {
             w += mk_wcwidth((wchar_t)ch);
         } else {
-			break;
-		}
+            continue;
+        }
     }
     return w;
 }
