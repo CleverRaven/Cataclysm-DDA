@@ -4735,14 +4735,8 @@ void iuse::boots(game *g, player *p, item *it, bool t)
    g->add_msg_if_player(p, "That isn't knife!");
    return;
   }
-  item knife;
-  if (put == &p->weapon) {
-   knife = p->remove_weapon();
-  } else {
-   knife = p->inv.remove_item_by_letter(ch);
-  }
   p->moves -= 30;
-  it->put_in(knife);
-  g->add_msg_if_player(p, "You put the %s in your boot.", knife.tname().c_str());
+  g->add_msg_if_player(p, "You put the %s in your boot.", put->tname().c_str());
+  it->put_in(p->i_rem(g, ch));
  }
 }

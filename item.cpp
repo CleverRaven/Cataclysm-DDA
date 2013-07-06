@@ -863,7 +863,7 @@ std::string item::tname(game *g)
   for (int i = 0; i < contents.size(); i++)
    ret << "+";
  } else if (contents.size() == 1)
-  ret << type->name << " of " << contents[0].tname();
+  ret << type->name << (contents[0].made_of(LIQUID) ? " of " : " with ") << contents[0].tname();
  else if (contents.size() > 0)
   ret << type->name << ", full";
  else
