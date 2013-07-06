@@ -41,7 +41,9 @@ void init_colors()
  init_pair(28, COLOR_MAGENTA, COLOR_RED);
  init_pair(29, COLOR_YELLOW,  COLOR_RED);
 
- init_pair(30, COLOR_BLACK,   COLOR_BLACK  );
+ init_pair(30, COLOR_BLACK,   COLOR_BLACK);
+ init_pair(31, COLOR_WHITE,   COLOR_BLACK  );
+
 }
 
 int color_to_int(nc_color col)
