@@ -428,7 +428,7 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
     const char clear[] = "                                              ";
 
     do {
-        mvwprintz(w, 3, 2, c_ltgray, _("Points left: %3d"), points);
+        mvwprintz(w, 3, 2, c_ltgray, _("Points left:%3d"), points);
         mvwprintz(w, 3, 33, c_black, clear);
         for (int i = 6; i < 15; i++) {
             mvwprintz(w, i, 33, c_black, clear);
@@ -602,7 +602,7 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
 			// selecting disadvantages
 
  do {
-  mvwprintz(w,  3, 2, c_ltgray, _("Points left: %3d"), points);
+  mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
   mvwprintz(w,  3,18, c_ltgreen, "%2d/%d", num_good, max_trait_points);
   mvwprintz(w,  3,25, c_ltred, "%2d/%d", num_bad, max_trait_points);
 // Clear the bottom of the screen.
@@ -755,14 +755,14 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
       else
        num_bad += traits[cur_trait].points;
      } else
-      mvwprintz(w,  3, 2, c_red, "Points left: %d  ", points);
+      mvwprintz(w,  3, 2, c_red, _("Points left:%3d"), points);
     } else if (using_adv && num_good + traits[cur_trait].points >
                             max_trait_points)
-     popup("Sorry, but you can only take %d points of advantages.",
+     popup(_("Sorry, but you can only take %d points of advantages."),
            max_trait_points);
     else if (!using_adv && num_bad - traits[cur_trait].points >
                            max_trait_points)
-     popup("Sorry, but you can only take %d points of disadvantages.",
+     popup(_("Sorry, but you can only take %d points of disadvantages."),
            max_trait_points);
     else if (points >= traits[cur_trait].points) {
      u->toggle_trait(cur_trait);
@@ -801,7 +801,7 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
     do
     {
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
-        mvwprintz(w,  3, 2, c_ltgray, _("Points left: %3d"), points);
+        mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w,  3, 40, c_ltgray, "                                      ");
@@ -900,7 +900,7 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
  Skill *currentSkill = Skill::skill(cur_sk);
 
  do {
-  mvwprintz(w,  3, 2, c_ltgray, _("Points left: %3d"), points);
+  mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
   // Clear the bottom of the screen.
   werase(w_description);
   mvwprintz(w,  3, 40, c_ltgray, "                                    ");
@@ -1000,7 +1000,7 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
 {
  draw_tabs(w, "DESCRIPTION");
 
- mvwprintz(w,  3, 2, c_ltgray, _("Points left: %3d"), points);
+ mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
 
  unsigned namebar_pos, male_pos, female_pos;
  mvwprintz(w, 6, 2, c_ltgray, _("Name:"));

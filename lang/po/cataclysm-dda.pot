@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-06 18:05+1200\n"
+"POT-Creation-Date: 2013-07-06 23:19+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5965,10 +5965,10 @@ msgstr ""
 msgid "Pointed Horns"
 msgstr ""
 
-#: newcharacter.cpp:431 newcharacter.cpp:605 newcharacter.cpp:804
-#: newcharacter.cpp:903 newcharacter.cpp:1003
+#: newcharacter.cpp:431 newcharacter.cpp:605 newcharacter.cpp:758
+#: newcharacter.cpp:804 newcharacter.cpp:903 newcharacter.cpp:1003
 #, c-format
-msgid "Points left: %3d"
+msgid "Points left:%3d"
 msgstr ""
 
 #: pldata.h:414
@@ -6636,6 +6636,16 @@ msgstr ""
 
 #: pldata.h:889
 msgid "Sores"
+msgstr ""
+
+#: newcharacter.cpp:761
+#, c-format
+msgid "Sorry, but you can only take %d points of advantages."
+msgstr ""
+
+#: newcharacter.cpp:765
+#, c-format
+msgid "Sorry, but you can only take %d points of disadvantages."
 msgstr ""
 
 #: player.cpp:2441
