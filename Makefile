@@ -82,8 +82,8 @@ W32ODIRTILES = objwin/tiles
 DDIR = .deps
 
 OS  = $(shell uname -o)
-CXX = $(CROSS)g++
-LD  = $(CROSS)g++
+CXX ?= $(CROSS)g++
+LD  ?= $(CROSS)g++
 
 # enable optimizations. slow to build
 ifdef RELEASE
@@ -211,8 +211,8 @@ all: version $(TARGET)
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(CXXFLAGS) \
-          $(OBJS) $(LDFLAGS)
+	$(CXX) $(W32FLAGS) -o $(TARGET) $(DEFINES) $(LDFLAGS) \
+          $(OBJS)
 
 .PHONY: version
 version:
