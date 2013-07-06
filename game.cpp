@@ -8805,7 +8805,7 @@ void game::drop(char chInput)
   dropped = multidrop();
  else {
   if (u.inv.item_by_letter(chInput).is_null()) {
-   dropped.push_back(u.i_rem(this,chInput));
+   dropped.push_back(u.i_rem(chInput));
   } else {
    dropped.push_back(u.inv.remove_item_by_letter(chInput));
   }
@@ -9017,7 +9017,7 @@ void game::plthrow(char chInput)
   return;
  if (passtarget != -1)
   last_target = targetindices[passtarget];
- u.i_rem(this,ch);
+ u.i_rem(ch);
  u.moves -= 125;
  u.practice(turn, "throw", 10);
 
