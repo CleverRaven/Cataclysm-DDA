@@ -9521,6 +9521,37 @@
                                   ["bandages", 2]
                               ]
                           ]
-        }
+        },
+            {
+                "result": "nailrifle",
+                "category": "CC_WEAPON",
+                "skill_pri": "mechanics",
+                "skill_sec": "gun",
+                "difficulty": 2,
+                "time": 12000,
+                "reversible": true,
+                "autolearn": true,
+                "tools": [
+                             [
+                                 ["hacksaw", -1],
+                                 ["toolset", -1]
+                             ],
+                             [
+                                 ["screwdriver", -1],
+                                 ["toolset", -1]
+                             ]
+                         ],
+                "components": [
+                                  [
+                                      ["pipe", 1]
+                                  ],
+                                  [
+                                      ["2x4", 2]
+                                  ],
+                                  [
+                                      ["nailgun", 1]
+                                  ]
+                              ]
+            }
     ]
 }
