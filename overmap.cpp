@@ -2886,7 +2886,7 @@ void overmap::save()
 
  for (int i = 0; i < zg.size(); i++)
   fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " << zg[i].posz << " " <<
-    int(zg[i].radius) << " " << zg[i].population << " " << zg[i].diffuse <<
+    int(zg[i].radius) << " " << zg[i].population << " " << zg[i].diffuse << " " << zg[i].dying <<
     std::endl;
  for (int i = 0; i < cities.size(); i++)
   fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s <<
@@ -2911,7 +2911,7 @@ void overmap::open(game *g)
  std::string const terfilename = terrain_filename(loc.x, loc.y);
  std::ifstream fin;
  char datatype;
- int cx, cy, cz, cs, cp, cd;
+ int cx, cy, cz, cs, cp, cd, cdying;
  std::string cstr;
  city tmp;
  std::list<item> npc_inventory;
@@ -2942,9 +2942,10 @@ void overmap::open(game *g)
      debugmsg("Loaded z level out of range (z: %d)", z);
     }
    } else if (datatype == 'Z') {	// Monster group
-    fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd;
+    fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
     zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
     zg.back().diffuse = cd;
+    zg.back().dying = cdying;
     nummg++;
    } else if (datatype == 't') {	// City
     fin >> cx >> cy >> cs;

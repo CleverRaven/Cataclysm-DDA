@@ -902,6 +902,7 @@ int map::move_cost(const int x, const int y)
   }
  }
  int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
+ cost+= field_at(x,y).move_cost();
  return cost > 0 ? cost : 0;
 }
 
