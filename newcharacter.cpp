@@ -201,8 +201,9 @@ bool player::create(game *g, character_type type, std::string tempname)
  if (has_trait(PF_MARTIAL_ARTS)) {
   itype_id ma_type;
   do {
-   int choice = menu(false, "Pick your style:",
-                     "Karate", "Judo", "Aikido", "Tai Chi", "Taekwondo", NULL);
+   int choice = menu(false, _("Pick your style:"),
+                     _("Karate"), _("Judo"), _("Aikido"), _("Tai Chi"),
+                     _("Taekwondo"), NULL);
    if (choice == 1)
     ma_type = "style_karate";
    if (choice == 2)
@@ -215,7 +216,7 @@ bool player::create(game *g, character_type type, std::string tempname)
     ma_type = "style_taekwondo";
    item tmpitem = item(g->itypes[ma_type], 0);
    full_screen_popup(tmpitem.info(true).c_str());
-  } while (!query_yn("Use this style?"));
+  } while (!query_yn(_("Use this style?")));
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
@@ -223,8 +224,9 @@ bool player::create(game *g, character_type type, std::string tempname)
     if (has_trait(PF_MARTIAL_ARTS2)) {
   itype_id ma_type;
   do {
-   int choice = menu(false, "Pick your style:",
-                     "Capoeira", "Krav Maga", "Muay Thai", "Ninjutsu", "Zui Quan", NULL);
+   int choice = menu(false, _("Pick your style:"),
+                     _("Capoeira"), _("Krav Maga"), _("Muay Thai"),
+                     _("Ninjutsu"), _("Zui Quan"), NULL);
    if (choice == 1)
     ma_type = "style_capoeira";
    if (choice == 2)
@@ -237,15 +239,16 @@ bool player::create(game *g, character_type type, std::string tempname)
     ma_type = "style_zui_quan";
    item tmpitem = item(g->itypes[ma_type], 0);
    full_screen_popup(tmpitem.info(true).c_str());
-  } while (!query_yn("Use this style?"));
+  } while (!query_yn(_("Use this style?")));
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
  if (has_trait(PF_MARTIAL_ARTS3)) {
   itype_id ma_type;
   do {
-   int choice = menu(false, "Pick your style:",
-                     "Tiger", "Crane", "Leopard", "Snake", "Dragon", NULL);
+   int choice = menu(false, _("Pick your style:"),
+                     _("Tiger"), _("Crane"), _("Leopard"), _("Snake"),
+                     _("Dragon"), NULL);
    if (choice == 1)
     ma_type = "style_tiger";
    if (choice == 2)
@@ -258,15 +261,16 @@ bool player::create(game *g, character_type type, std::string tempname)
     ma_type = "style_dragon";
    item tmpitem = item(g->itypes[ma_type], 0);
    full_screen_popup(tmpitem.info(true).c_str());
-  } while (!query_yn("Use this style?"));
+  } while (!query_yn(_("Use this style?")));
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
  if (has_trait(PF_MARTIAL_ARTS4)) {
   itype_id ma_type;
   do {
-   int choice = menu(false, "Pick your style:",
-                     "Centipede", "Viper", "Scorpion", "Lizard", "Toad", NULL);
+   int choice = menu(false, _("Pick your style:"),
+                     _("Centipede"), _("Viper"), _("Scorpion"), _("Lizard"),
+                     _("Toad"), NULL);
    if (choice == 1)
     ma_type = "style_centipede";
    if (choice == 2)
@@ -279,7 +283,7 @@ bool player::create(game *g, character_type type, std::string tempname)
     ma_type = "style_toad";
    item tmpitem = item(g->itypes[ma_type], 0);
    full_screen_popup(tmpitem.info(true).c_str());
-  } while (!query_yn("Use this style?"));
+  } while (!query_yn(_("Use this style?")));
   styles.push_back(ma_type);
   style_selected=ma_type;
  }
@@ -585,11 +589,12 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
   else
    mvwprintz(w, 5 + i, 40, COL_TR_BAD_OFF_PAS, _(traits[PF_SPLIT + 1 + i].name.c_str()));
  }
- mvwprintz(w,11,32, c_ltgray, "h   l");
- mvwprintz(w,12,32, c_ltgray, "<   >");
- mvwprintz(w,13,32, c_ltgray, "4   6");
- mvwprintz(w,15,32, c_ltgray, "Space");
- mvwprintz(w,16,31, c_ltgray,"Toggles");
+ // TODO: actually display these somewhere? this wasn't working.
+ //mvwprintz(w,11,32, c_ltgray, "h   l");
+ //mvwprintz(w,12,32, c_ltgray, "<   >");
+ //mvwprintz(w,13,32, c_ltgray, "4   6");
+ //mvwprintz(w,15,32, c_ltgray, "Space");
+ //mvwprintz(w,16,31, c_ltgray,"Toggles");
 
  int cur_adv = 1, cur_dis = PF_SPLIT + 1, cur_trait, traitmin, traitmax, xoff;
  nc_color col_on_act, col_off_act, col_on_pas, col_off_pas, hi_on, hi_off;
@@ -799,7 +804,7 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
         mvwprintz(w,  3, 2, c_ltgray, _("Points left: %3d"), points);
         // Clear the bottom of the screen.
         werase(w_description);
-        mvwprintz(w,  3, 40, c_ltgray, "                                    ");
+        mvwprintz(w,  3, 40, c_ltgray, "                                      ");
         if (points >= netPointCost)
         {
             mvwprintz(w,  3, 20, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
@@ -1123,7 +1128,7 @@ int calc_HP(int strength, bool tough)
 
 void save_template(player *u)
 {
- std::string name = string_input_popup("Name of template:");
+ std::string name = string_input_popup(_("Name of template:"));
  if (name.length() == 0)
   return;
  std::stringstream playerfile;
