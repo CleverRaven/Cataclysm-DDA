@@ -363,6 +363,7 @@ class game
   void init_mutations();    // Initializes mutation "tech tree"
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
+  void init_diseases();     // Initializes disease lookup table.
 
   void load_keyboard_settings(); // Load keybindings from disk
 

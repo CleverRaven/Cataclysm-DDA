@@ -16,7 +16,7 @@ unsigned UTF8_getch(const char **src, int *srclen)
     }
     if (p[0] >= 0xFC) {
         if ((p[0] & 0xFE) == 0xFC) {
-            if (p[0] == 0xFC) {
+            if (p[0] == 0xFC && (p[1] & 0xFC) == 0x80) {
                 overlong = true;
             }
             ch = (unsigned) (p[0] & 0x01);
@@ -24,7 +24,7 @@ unsigned UTF8_getch(const char **src, int *srclen)
         }
     } else if (p[0] >= 0xF8) {
         if ((p[0] & 0xFC) == 0xF8) {
-            if (p[0] == 0xF8) {
+            if (p[0] == 0xF8 && (p[1] & 0xF8) == 0x80) {
                 overlong = true;
             }
             ch = (unsigned) (p[0] & 0x03);
@@ -32,7 +32,7 @@ unsigned UTF8_getch(const char **src, int *srclen)
         }
     } else if (p[0] >= 0xF0) {
         if ((p[0] & 0xF8) == 0xF0) {
-            if (p[0] == 0xF0) {
+            if (p[0] == 0xF0 && (p[1] & 0xF0) == 0x80) {
                 overlong = true;
             }
             ch = (unsigned) (p[0] & 0x07);
@@ -40,7 +40,7 @@ unsigned UTF8_getch(const char **src, int *srclen)
         }
     } else if (p[0] >= 0xE0) {
         if ((p[0] & 0xF0) == 0xE0) {
-            if (p[0] == 0xE0) {
+            if (p[0] == 0xE0 && (p[1] & 0xE0) == 0x80) {
                 overlong = true;
             }
             ch = (unsigned) (p[0] & 0x0F);
@@ -98,8 +98,8 @@ int utf8_width(const char* s)
         if(ch!=UNKNOWN_UNICODE) {
             w += mk_wcwidth((wchar_t)ch);
         } else {
-			break;
-		}
+            continue;
+        }
     }
     return w;
 }
