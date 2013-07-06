@@ -581,9 +581,9 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
   mvwprintz(w, 5 + i, 40, c_dkgray, "\
                                      ");
   if (u->has_trait(PF_SPLIT + 1 + i))//highlight disadvantages
-   mvwprintz(w, 5 + i, 40, COL_TR_BAD_ON_PAS, traits[PF_SPLIT + 1 + i].name.c_str());
+   mvwprintz(w, 5 + i, 40, COL_TR_BAD_ON_PAS, _(traits[PF_SPLIT + 1 + i].name.c_str()));
   else
-   mvwprintz(w, 5 + i, 40, COL_TR_BAD_OFF_PAS, traits[PF_SPLIT + 1 + i].name.c_str());
+   mvwprintz(w, 5 + i, 40, COL_TR_BAD_OFF_PAS, _(traits[PF_SPLIT + 1 + i].name.c_str()));
  }
  mvwprintz(w,11,32, c_ltgray, "h   l");
  mvwprintz(w,12,32, c_ltgray, "<   >");
@@ -597,15 +597,11 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
 			// selecting disadvantages
 
  do {
-  mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
-  mvwprintz(w,  3,18, c_ltgreen, "%s%d/%d", (num_good < 10 ? " " : ""),
-                                 num_good, max_trait_points);
-  mvwprintz(w,  3,25, c_ltred, "%s%d/%d", (num_bad < 10 ? " " : ""),
-                               num_bad, max_trait_points);
+  mvwprintz(w,  3, 2, c_ltgray, _("Points left: %3d"), points);
+  mvwprintz(w,  3,18, c_ltgreen, "%2d/%d", num_good, max_trait_points);
+  mvwprintz(w,  3,25, c_ltred, "%2d/%d", num_bad, max_trait_points);
 // Clear the bottom of the screen.
-  mvwprintz(w_description, 0, 0, c_ltgray, "                                                                             ");
-  mvwprintz(w_description, 1, 0, c_ltgray, "                                                                             ");
-  mvwprintz(w_description, 2, 0, c_ltgray, "                                                                             ");
+  werase(w_description);
   if (using_adv) {//Traits costs note and traits description
    col_on_act  = COL_TR_GOOD_ON_ACT;
    col_off_act = COL_TR_GOOD_OFF_ACT;
@@ -618,9 +614,9 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
    traitmin = 1;
    traitmax = PF_SPLIT;
    mvwprintz(w,  3, 33, c_ltgray, "                                              ");
-   mvwprintz(w,  3, 33, COL_TR_GOOD, "%s costs %d points",
-             traits[cur_adv].name.c_str(), traits[cur_adv].points);
-   mvwprintz(w_description, 0, 0, COL_TR_GOOD, "%s", traits[cur_adv].description.c_str());
+   mvwprintz(w,  3, 33, COL_TR_GOOD, _("%s costs %d points"),
+             _(traits[cur_adv].name.c_str()), traits[cur_adv].points);
+   fold_and_print(w_description, 0, 0, 78, COL_TR_GOOD, "%s", _(traits[cur_adv].description.c_str()));
   } else {
    col_on_act  = COL_TR_BAD_ON_ACT;
    col_off_act = COL_TR_BAD_OFF_ACT;
@@ -633,9 +629,9 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
    traitmin = PF_SPLIT + 1;
    traitmax = PF_MAX;
    mvwprintz(w,  3, 33, c_ltgray, "                                              ");
-   mvwprintz(w,  3, 33, COL_TR_BAD, "%s earns %d points",
-             traits[cur_dis].name.c_str(), traits[cur_dis].points * -1);
-   mvwprintz(w_description, 0, 0, COL_TR_BAD, "%s", traits[cur_dis].description.c_str());
+   mvwprintz(w,  3, 33, COL_TR_BAD, _("%s earns %d points"),
+             _(traits[cur_dis].name.c_str()), traits[cur_dis].points * -1);
+   fold_and_print(w_description, 0, 0, 78, COL_TR_BAD, "%s", _(traits[cur_dis].description.c_str()));
   }
 
   if (cur_trait <= traitmin + 7) {//draw list
@@ -644,14 +640,14 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
                                       ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_on, traits[i].name.c_str());
+      mvwprintz(w, 5 + i - traitmin, xoff, hi_on, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 5 + i - traitmin, xoff, hi_off, traits[i].name.c_str());
+      mvwprintz(w, 5 + i - traitmin, xoff, hi_off, _(traits[i].name.c_str()));
     } else {
      if (u->has_trait(i))
-      mvwprintz(w, 5 + i - traitmin, xoff, col_on_act, traits[i].name.c_str());
+      mvwprintz(w, 5 + i - traitmin, xoff, col_on_act, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 5 + i - traitmin, xoff, col_off_act, traits[i].name.c_str());
+      mvwprintz(w, 5 + i - traitmin, xoff, col_off_act, _(traits[i].name.c_str()));
     }
    }
   } else if (cur_trait >= traitmax - 9) {
@@ -660,14 +656,14 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
                                       ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_on, traits[i].name.c_str());
+      mvwprintz(w, 21 + i - traitmax, xoff, hi_on, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 21 + i - traitmax, xoff, hi_off, traits[i].name.c_str());
+      mvwprintz(w, 21 + i - traitmax, xoff, hi_off, _(traits[i].name.c_str()));
     } else {
      if (u->has_trait(i))
-      mvwprintz(w, 21 + i - traitmax, xoff, col_on_act, traits[i].name.c_str());
+      mvwprintz(w, 21 + i - traitmax, xoff, col_on_act, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 21 + i - traitmax, xoff, col_off_act, traits[i].name.c_str());
+      mvwprintz(w, 21 + i - traitmax, xoff, col_off_act, _(traits[i].name.c_str()));
     }
    }
   } else {
@@ -676,14 +672,14 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
                                      ");	// Clear the line
     if (i == cur_trait) {
      if (u->has_trait(i))
-      mvwprintz(w, 12 + i - cur_trait, xoff, hi_on, traits[i].name.c_str());
+      mvwprintz(w, 12 + i - cur_trait, xoff, hi_on, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 12 + i - cur_trait, xoff, hi_off, traits[i].name.c_str());
+      mvwprintz(w, 12 + i - cur_trait, xoff, hi_off, _(traits[i].name.c_str()));
     } else {
      if (u->has_trait(i))
-      mvwprintz(w, 12 + i - cur_trait, xoff, col_on_act, traits[i].name.c_str());
+      mvwprintz(w, 12 + i - cur_trait, xoff, col_on_act, _(traits[i].name.c_str()));
      else
-      mvwprintz(w, 12 + i - cur_trait, xoff, col_off_act, traits[i].name.c_str());
+      mvwprintz(w, 12 + i - cur_trait, xoff, col_off_act, _(traits[i].name.c_str()));
     }
    }
   }
@@ -699,27 +695,27 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
       mvwprintz(w, 5 + i - traitmin, xoff, c_ltgray, "\
                                      ");	// Clear the line
       if (u->has_trait(i))
-       mvwprintz(w, 5 + i - traitmin, xoff, col_on_pas, traits[i].name.c_str());
+       mvwprintz(w, 5 + i - traitmin, xoff, col_on_pas, _(traits[i].name.c_str()));
       else
-       mvwprintz(w, 5 + i - traitmin, xoff, col_off_pas, traits[i].name.c_str());
+       mvwprintz(w, 5 + i - traitmin, xoff, col_off_pas, _(traits[i].name.c_str()));
      }
     } else if (cur_trait >= traitmax - 9) {
      for (int i = traitmax - 16; i < traitmax; i++) {
       mvwprintz(w, 21 + i - traitmax, xoff, c_ltgray, "\
                                      ");	// Clear the line
       if (u->has_trait(i))
-       mvwprintz(w, 21 + i - traitmax, xoff, col_on_pas, traits[i].name.c_str());
+       mvwprintz(w, 21 + i - traitmax, xoff, col_on_pas, _(traits[i].name.c_str()));
       else
-       mvwprintz(w, 21 + i - traitmax, xoff, col_off_pas, traits[i].name.c_str());
+       mvwprintz(w, 21 + i - traitmax, xoff, col_off_pas, _(traits[i].name.c_str()));
      }
     } else {
      for (int i = cur_trait - 7; i < cur_trait + 9; i++) {
       mvwprintz(w, 12 + i - cur_trait, xoff, c_ltgray, "\
                                      ");	// Clear the line
       if (u->has_trait(i))
-       mvwprintz(w, 12 + i - cur_trait, xoff, col_on_pas, traits[i].name.c_str());
+       mvwprintz(w, 12 + i - cur_trait, xoff, col_on_pas, _(traits[i].name.c_str()));
       else
-       mvwprintz(w, 12 + i - cur_trait, xoff, col_off_pas, traits[i].name.c_str());
+       mvwprintz(w, 12 + i - cur_trait, xoff, col_off_pas, _(traits[i].name.c_str()));
      }
     }
     using_adv = !using_adv;
