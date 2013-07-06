@@ -4708,9 +4708,9 @@ void iuse::boots(game *g, player *p, item *it, bool t)
 {
  int choice = -1;
  if (it->contents.size() == 0)
-  choice = menu(true, "Using boots:", "Put a knife in the boot.", "Cancel", NULL);
+  choice = menu(true, "Using boots:", "Put a knife in the boot", "Cancel", NULL);
  else if (it->contents.size() == 1)
-  choice = menu(true, "Take what:", it->contents[0].tname().c_str(), "Put a knife in the boot.", "Cancel", NULL);
+  choice = menu(true, "Take what:", it->contents[0].tname().c_str(), "Put a knife in the boot", "Cancel", NULL);
  else
   choice = menu(true, "Take what:", it->contents[0].tname().c_str(), it->contents[1].tname().c_str(), "Cancel", NULL);
 
@@ -4733,6 +4733,10 @@ void iuse::boots(game *g, player *p, item *it, bool t)
   }
   if (put->type->use != &iuse::knife) {
    g->add_msg_if_player(p, "That isn't knife!");
+   return;
+  }
+  if (put->type->volume > 5) {
+   g->add_msg_if_player(p, "That item does not fit in your boot!");
    return;
   }
   p->moves -= 30;
