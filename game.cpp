@@ -2526,6 +2526,8 @@ void game::load(std::string name)
     tmpinv.back().contents.push_back(item(itemdata, this));
    else if (item_place == 'W')
     u.worn.push_back(item(itemdata, this));
+   else if (item_place == 'S')
+    u.worn.back().contents.push_back(item(itemdata, this));
    else if (item_place == 'w')
     u.weapon = item(itemdata, this);
    else if (item_place == 'c')

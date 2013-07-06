@@ -1306,8 +1306,11 @@ std::string player::save_info()
 
  dump << inv.save_str_no_quant();
 
- for (int i = 0; i < worn.size(); i++)
+ for (int i = 0; i < worn.size(); i++) {
   dump << "W " << worn[i].save_info() << std::endl;
+  for (int j = 0; j < worn[i].contents.size(); j++)
+   dump << "S " << worn[i].contents[j].save_info() << std::endl;
+ }
  if (!weapon.is_null())
   dump << "w " << weapon.save_info() << std::endl;
  for (int j = 0; j < weapon.contents.size(); j++)
@@ -6522,6 +6525,13 @@ void player::use(game *g, char let)
    remove_weapon();
   return;
 
+ } else if (used->type->use != &iuse::none) {
+
+   iuse use;
+   (use.*used->type->use)(g, this, used, false);
+   if (replace_item)
+    inv.add_item_keep_invlet(copy);
+   return;
  } else if (used->is_gunmod()) {
 
    if (skillLevel("gun") == 0) {
