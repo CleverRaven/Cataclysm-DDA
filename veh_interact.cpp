@@ -146,7 +146,7 @@ int veh_interact::cant_do (char mode)
     switch (mode)
     {
     case 'i': // install mode
-        valid_target = can_mount.size() > 0;
+        valid_target = can_mount.size() > 0 && 0 == veh->tags.count("convertible");
         has_tools = has_wrench && ((wheel < 0 && has_welder) || (wheel > 0 && has_jack));
         break;
     case 'r': // repair mode
@@ -158,7 +158,7 @@ int veh_interact::cant_do (char mode)
         has_tools = has_fuel;
         break;
     case 'o': // remove mode
-        valid_target = cpart >= 0;
+        valid_target = cpart >= 0 && 0 == veh->tags.count("convertible");
         has_tools = has_wrench && (( wheel > 0 && has_jack ) || ( wheel < 0 && has_hacksaw));
         part_free = parts_here.size() < 2 || veh->can_unmount(cpart);
         has_skill = g->u.skillLevel("mechanics") >= 2 || wheel > 0;

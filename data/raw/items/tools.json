@@ -3949,5 +3949,28 @@
     "ammo": "none",
     "revert_to": "null",
     "use_action": "RAG"
+  },
+  {
+    "id": "folding_bicycle",
+    "type": "TOOL",
+    "symbol": "0",
+    "color": "white",
+    "name": "folding bicycle",
+    "description": "A bicycle folded into a relatively portable package.",
+    "rarity": 2,
+    "price": 3500,
+    "material": "steel",
+    "weight": 88,
+    "volume": 86,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -5,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "none",
+    "revert_to": "null",
+    "use_action": "UNFOLD_BICYCLE"
   }
 ]

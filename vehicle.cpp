@@ -12,7 +12,8 @@ enum vehicle_controls {
  toggle_lights,
  toggle_turrets,
  release_control,
- control_cancel
+ control_cancel,
+ convert_vehicle
 };
 
 vehicle::vehicle(game *ag, vhtype_id type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
@@ -296,6 +297,12 @@ std::string vehicle::use_controls()
   curent++;
  }
 
+ if( !g->u.controlling_vehicle && tags.count("convertible") ) {
+  options_choice.push_back(convert_vehicle);
+  options_message.push_back(uimenu_entry("Fold bicycle", 'f'));
+  curent++;
+ }
+
  // Exit vehicle, if we are in it.
  int vpart;
  if (g->u.controlling_vehicle &&
@@ -335,6 +342,29 @@ std::string vehicle::use_controls()
    g->u.controlling_vehicle = false;
    g->add_msg("You let go of the controls.");
    break;
+  case convert_vehicle:
+  {
+   g->add_msg("You painstakingly pack the bicycle into a portable configuration.");
+   // create a folding bicycle item
+   item bicycle;
+   bicycle.make(g->itypes["folding_bicycle"]);
+
+   std::ostringstream part_hps;
+   // Stash part HP in item
+   for (int p = 0; p < parts.size(); p++)
+   {
+       part_hps << parts[p].hp << " ";
+   }
+   bicycle.item_vars["folding_bicycle_parts"] = part_hps.str();
+
+   g->m.add_item(g->u.posx, g->u.posy, bicycle);
+   // Remove vehicle
+   unboard_all();
+   g->m.destroy_vehicle(this);
+
+   g->u.moves -= 500;
+   break;
+  }
   case control_cancel:
    break;
  }

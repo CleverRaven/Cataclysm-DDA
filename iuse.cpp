@@ -7,6 +7,7 @@
 #include "line.h"
 #include "mutation.h"
 #include "player.h"
+#include "vehicle.h"
 #include <sstream>
 #include <algorithm>
 
@@ -4702,4 +4703,27 @@ void iuse::rad_badge(game *g, player *p, item *it, bool t)
 {
     g->add_msg_if_player(p,"You remove the badge from its wrapper, exposing it to ambient radiation.");
     it->make(g->itypes["rad_badge"]);
+}
+
+void iuse::unfold_bicycle(game *g, player *p, item *it, bool t)
+{
+    vehicle *bicycle = g->m.add_vehicle( g, veh_bicycle, p->posx, p->posy, 0, 0, 0);
+    if( bicycle ) {
+        // Mark the vehicle as foldable.
+        bicycle->tags.insert("convertible");
+        // Restore HP of parts if we stashed them previously.
+        if( it->item_vars.count("folding_bicycle_parts") ) {
+            std::istringstream part_hps;
+            part_hps.str(it->item_vars["folding_bicycle_parts"]);
+            for (int p = 0; p < bicycle->parts.size(); p++)
+            {
+                part_hps >> bicycle->parts[p].hp;
+            }
+        }
+        g->add_msg_if_player(p, "You painstakingly unfold the bicycle and make it ready to ride.");
+        p->moves -= 500;
+        it->invlet = 0;
+    } else {
+        g->add_msg_if_player(p, "There's no room to unfold the bicycle.");
+    }
 }
