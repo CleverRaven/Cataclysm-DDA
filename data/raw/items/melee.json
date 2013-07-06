@@ -1970,7 +1970,11 @@
         "material" : ["paper", "null"],
         "volume" : 3,
         "bashing" : -8,
-        "cutting" : 0,
+        "max_charges": 20,
+        "initial_charges": 20,
+        "charges_per_use": 1,
+        "turns_per_charge": 0,
+		"cutting" : 0,
         "rarity" : 50,
         "price" : 0
     }
