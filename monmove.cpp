@@ -606,7 +606,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     g->add_msg("You're poisoned!");
                 }
-                p.add_disease(DI_POISON, 30, g);
+                p.add_disease("poison", 30, g);
             }
             else if (dam > 0 && has_flag(MF_BADVENOM))
             {
@@ -614,7 +614,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     g->add_msg("You feel poison flood your body, wracking you with pain...");
                 }
-                p.add_disease(DI_BADPOISON, 40, g);
+                p.add_disease("badpoison", 40, g);
             }
             if (has_flag(MF_BLEED) && dam > 6 && cut > 0)
             {
@@ -622,7 +622,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     g->add_msg("You're Bleeding!");
                 }
-                p.add_disease(DI_BLEED, 60, g);
+                p.add_disease("bleed", 60, g);
             }
 
             //Same as monster's chance to not miss

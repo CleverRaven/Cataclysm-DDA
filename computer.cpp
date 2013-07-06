@@ -638,11 +638,11 @@ INITIATING STANDARD TREMOR TEST...");
   case COMPACT_AMIGARA_START:
    g->add_event(EVENT_AMIGARA, int(g->turn) + 10, 0, 0, 0);
    if (!g->u.has_artifact_with(AEP_PSYSHIELD))
-    g->u.add_disease(DI_AMIGARA, 20, g);
+    g->u.add_disease("amigara", 20, g);
    break;
 
   case COMPACT_STEMCELL_TREATMENT:
-   g->u.add_disease(DI_STEMCELL_TREATMENT, 120, g);
+   g->u.add_disease("stemcell_treatment", 120, g);
    print_line("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD.");
    g->u.pain += rng(40,90);
@@ -1139,7 +1139,7 @@ void computer::activate_failure(game *g, computer_failure fail)
 
   case COMPFAIL_AMIGARA:
    g->add_event(EVENT_AMIGARA, int(g->turn) + 5, 0, 0, 0);
-   g->u.add_disease(DI_AMIGARA, 20, g);
+   g->u.add_disease("amigara", 20, g);
    g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
    g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
    break;

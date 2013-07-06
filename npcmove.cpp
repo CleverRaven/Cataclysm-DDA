@@ -93,7 +93,7 @@ void npc::move(game *g)
   if (g->debugmon)
    debugmsg("address_player %s", npc_action_name(action).c_str());
   if (action == npc_undecided) {
-   if (mission == NPC_MISSION_SHELTER || has_disease(DI_INFECTION))
+   if (mission == NPC_MISSION_SHELTER || has_disease("infection"))
     action = npc_pause;
    else if (has_new_items)
     action = scan_new_items(g, target);
@@ -182,7 +182,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 /* TODO: Open a dialogue with the player, allowing us to ask if it's alright if
  * we get some sleep, how long watch shifts should be, etc.
  */
-  //add_disease(DI_LYING_DOWN, 300, g);
+  //add_disease("lying_down", 300, g);
   if (is_friend() && g->u_see(posx, posy))
    say(g, "I'm going to sleep.");
   break;
@@ -641,14 +641,14 @@ npc_action npc::address_player(game *g)
  if (attitude == NPCATT_LEAD) {
   if (rl_dist(posx, posy, g->u.posx, g->u.posy) >= 12 ||
       !g->sees_u(posx, posy, linet)) {
-   int intense = disease_intensity(DI_CATCH_UP);
+   int intense = disease_intensity("catch_up");
    if (intense < 10) {
     say(g, "<keep_up>");
-    add_disease(DI_CATCH_UP, 5, g, 1, 15);
+    add_disease("catch_up", 5, g, 1, 15);
     return npc_pause;
    } else if (intense == 10) {
     say(g, "<im_leaving_you>");
-    add_disease(DI_CATCH_UP, 5, g, 1, 15);
+    add_disease("catch_up", 5, g, 1, 15);
     return npc_pause;
    } else
     return npc_goto_destination;
@@ -949,11 +949,11 @@ void npc::move_to(game *g, int x, int y)
   g->m.unboard_vehicle(g, posx, posy);
  }
 
- if (has_disease(DI_DOWNED)) {
+ if (has_disease("downed")) {
   moves -= 100;
   return;
  }
- if (has_disease(DI_BOULDERING)) {
+ if (has_disease("bouldering")) {
   moves -= 20;
   if (moves < 0)
    moves = 0;
@@ -966,7 +966,7 @@ void npc::move_to(game *g, int x, int y)
    recoil = int(recoil / 2);
   }
  }
- if (has_disease(DI_STUNNED)) {
+ if (has_disease("stunned")) {
   x = rng(posx - 1, posx + 1);
   y = rng(posy - 1, posy + 1);
  }
@@ -1010,9 +1010,9 @@ void npc::move_to(game *g, int x, int y)
   g->sound(x, y, 18, bashsound);
  } else
  if (g->m.field_at(x, y).findField(fd_rubble))
-  g->u.add_disease(DI_BOULDERING, 100, g, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
+  g->u.add_disease("bouldering", 100, g, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
  else
-  g->u.rem_disease(DI_BOULDERING);
+  g->u.rem_disease("bouldering");
   moves -= 100;
 }
 
