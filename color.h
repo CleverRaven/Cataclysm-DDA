@@ -80,8 +80,8 @@ c_ltgreen_red = COLOR_PAIR(25) | A_BOLD,
 c_ltblue_red  = COLOR_PAIR(26) | A_BOLD,
 c_ltcyan_red  = COLOR_PAIR(27) | A_BOLD,
 c_pink_red    = COLOR_PAIR(28) | A_BOLD,
-c_yellow_red  = COLOR_PAIR(29) | A_BOLD
-
+c_yellow_red  = COLOR_PAIR(29) | A_BOLD,
+c_unset       = COLOR_PAIR(31)
 };
 
 int color_to_int(nc_color col);
