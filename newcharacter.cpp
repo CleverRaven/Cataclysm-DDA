@@ -995,20 +995,23 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
 {
  draw_tabs(w, "DESCRIPTION");
 
- mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
+ mvwprintz(w,  3, 2, c_ltgray, _("Points left: %3d"), points);
 
- mvwprintz(w, 6, 2, c_ltgray, "\
-Name: ______________________________     (Press TAB to move off this line)");
- mvwprintz(w, 8, 2, c_ltgray, "\
-Gender: Male Female                      (Press spacebar to toggle)");
- mvwprintz(w,10, 2, c_ltgray, "\
-When your character is finished and you're ready to start playing, press >");
- mvwprintz(w,12, 2, c_ltgray, "\
-To go back and review your character, press <");
- mvwprintz(w, 14, 2, c_green, "\
-To pick a random name for your character, press ?.");
- mvwprintz(w, 16, 2, c_green, "\
-To save this character as a template, press !.");
+ unsigned namebar_pos, male_pos, female_pos;
+ mvwprintz(w, 6, 2, c_ltgray, _("Name:"));
+ namebar_pos = 3 + utf8_width(_("Name:"));
+ mvwprintz(w, 6, namebar_pos, c_ltgray, "______________________________");
+ mvwprintz(w, 6, namebar_pos + 31, c_ltgray, _("(Press TAB to move off this line)"));
+ mvwprintz(w, 8, 2, c_ltgray, _("Gender:"));
+ male_pos = 3 + utf8_width(_("Gender:"));
+ mvwprintz(w, 8, male_pos, c_ltgray, _("Male"));
+ female_pos = 1 + male_pos + utf8_width(_("Male"));
+ mvwprintz(w, 8, female_pos, c_ltgray, _("Female"));
+ mvwprintz(w, 8, namebar_pos + 31, c_ltgray, _("(Press spacebar to toggle)"));
+ fold_and_print(w, 10, 2, 76, c_ltgray, _("When your character is finished and you're ready to start playing, press >"));
+ fold_and_print(w, 12, 2, 76, c_ltgray, _("To go back and review your character, press <"));
+ fold_and_print(w, 14, 2, 76, c_green, _("To pick a random name for your character, press ?."));
+ fold_and_print(w, 16, 2, 76, c_green, _("To save this character as a template, press !."));
 
  int line = 1;
  bool noname = false;
@@ -1016,11 +1019,11 @@ To save this character as a template, press !.");
 
  do {
   if (u->male) {
-   mvwprintz(w, 8, 10, c_ltred, "Male");
-   mvwprintz(w, 8, 15, c_ltgray, "Female");
+   mvwprintz(w, 8, male_pos, c_ltred, _("Male"));
+   mvwprintz(w, 8, female_pos, c_ltgray, _("Female"));
   } else {
-   mvwprintz(w, 8, 10, c_ltgray, "Male");
-   mvwprintz(w, 8, 15, c_ltred, "Female");
+   mvwprintz(w, 8, male_pos, c_ltgray, _("Male"));
+   mvwprintz(w, 8, female_pos, c_ltred, _("Female"));
   }
 
   if (!noname) {
@@ -1029,14 +1032,14 @@ To save this character as a template, press !.");
     wprintz(w, h_ltgray, "_");
   }
   if (line == 2)
-   mvwprintz(w, 8, 2, h_ltgray, "Gender:");
+   mvwprintz(w, 8, 2, h_ltgray, _("Gender:"));
   else
-   mvwprintz(w, 8, 2, c_ltgray, "Gender:");
+   mvwprintz(w, 8, 2, c_ltgray, _("Gender:"));
 
   wrefresh(w);
   ch = input();
   if (noname) {
-   mvwprintz(w, 6, 8, c_ltgray, "______________________________");
+   mvwprintz(w, 6, namebar_pos, c_ltgray, "______________________________");
    noname = false;
   }
 
@@ -1044,16 +1047,16 @@ To save this character as a template, press !.");
    if (points > 0 && !query_yn("Remaining points will be discarded, are you sure you want to proceed?")) {
     continue;
    } else if (u->name.size() == 0) {
-    mvwprintz(w, 6, 8, h_ltgray, "______NO NAME ENTERED!!!!_____");
+    mvwprintz(w, 6, namebar_pos, h_ltgray, _("______NO NAME ENTERED!!!!_____"));
     noname = true;
     wrefresh(w);
-    if (!query_yn("Are you SURE you're finished? Your name will be randomly generated.")) {
+    if (!query_yn(_("Are you SURE you're finished? Your name will be randomly generated."))) {
      continue;
     } else {
      u->pick_name();
      return 1;
     }
-   } else if (query_yn("Are you SURE you're finished?")) {
+   } else if (query_yn(_("Are you SURE you're finished?"))) {
     return 1;
    } else {
     continue;
@@ -1062,25 +1065,25 @@ To save this character as a template, press !.");
    return -1;
   } else if (ch == '!') {
    if (points > 0) {
-    popup("You cannot save a template with unused points!");
+    popup(_("You cannot save a template with unused points!"));
    } else
     save_template(u);
-   mvwprintz(w,12, 2, c_ltgray,"To go back and review your character, press <");
+   mvwprintz(w,12, 2, c_ltgray, _("To go back and review your character, press <"));
    wrefresh(w);
   } else if (ch == '?') {
-   mvwprintz(w, 6, 8, c_ltgray, "______________________________");
+   mvwprintz(w, 6, namebar_pos, c_ltgray, "______________________________");
    u->pick_name();
   } else {
    switch (line) {
     case 1:
      if (ch == KEY_BACKSPACE || ch == 127) {
       if (u->name.size() > 0) {
-       mvwprintz(w, 6, 8 + u->name.size(), c_ltgray, "_");
+       mvwprintz(w, 6, namebar_pos + u->name.size(), c_ltgray, "_");
        u->name.erase(u->name.end() - 1);
       }
      } else if (ch == '\t') {
       line = 2;
-      mvwprintz(w, 6, 8 + u->name.size(), c_ltgray, "_");
+      mvwprintz(w, 6, namebar_pos + u->name.size(), c_ltgray, "_");
      } else if (((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') ||
                   ch == ' ') && u->name.size() < 30) {
       u->name.push_back(ch);
@@ -1091,7 +1094,6 @@ To save this character as a template, press !.");
       u->male = !u->male;
      else if (ch == 'k' || ch == '\t') {
       line = 1;
-      mvwprintz(w, 8, 8, c_ltgray, ":");
      }
      break;
    }
