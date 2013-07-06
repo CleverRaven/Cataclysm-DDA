@@ -392,6 +392,7 @@ public:
     int type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     std::vector<int> external_parts;   // List of external parts indeces
+    std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
     int exhaust_dy;
 

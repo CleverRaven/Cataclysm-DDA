@@ -61,7 +61,8 @@ bool vehicle::player_in_control (player *p)
 void vehicle::load (std::ifstream &stin)
 {
     int t;
-    int fdir, mdir, skd, prts, cr_on, li_on;
+    int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
+    std::string vehicle_tag;
     stin >>
         t >>
         posx >>
@@ -124,6 +125,14 @@ void vehicle::load (std::ifstream &stin)
     find_exhaust ();
     insides_dirty = true;
     precalc_mounts (0, face.dir());
+
+    stin >> tag_count;
+    for( int i = 0; i < tag_count; ++i )
+    {
+        stin >> vehicle_tag;
+        tags.insert( vehicle_tag );
+    }
+    getline(stin, databuff); // Clear EoL
 }
 
 void vehicle::save (std::ofstream &stout)
@@ -164,6 +173,13 @@ void vehicle::save (std::ofstream &stout)
                     stout << parts[p].items[i].contents[l].save_info() << std::endl; // contents info
             }
     }
+
+    stout << tags.size() << ' ';
+    for( std::set<std::string>::const_iterator it = tags.begin(); it != tags.end(); ++it )
+    {
+        stout << *it << " ";
+    }
+    stout << std::endl;
 }
 
 void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
