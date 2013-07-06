@@ -796,28 +796,23 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
     do
     {
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
-        mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
+        mvwprintz(w,  3, 2, c_ltgray, _("Points left: %3d"), points);
         // Clear the bottom of the screen.
-        mvwprintz(w_description, 0, 0, c_ltgray, "\
-                                                                             ");
-        mvwprintz(w_description, 1, 0, c_ltgray, "\
-                                                                             ");
-        mvwprintz(w_description, 2, 0, c_ltgray, "\
-                                                                             ");
+        werase(w_description);
         mvwprintz(w,  3, 40, c_ltgray, "                                    ");
         if (points >= netPointCost)
         {
-            mvwprintz(w,  3, 20, c_green, "Profession %s costs %d points (net: %d)",
-                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
+            mvwprintz(w,  3, 20, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
+                      _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
         else
         {
-            mvwprintz(w,  3, 20, c_ltred, "Profession %s costs %d points (net: %d)",
-                      sorted_profs[cur_id]->name().c_str(), sorted_profs[cur_id]->point_cost(),
+            mvwprintz(w,  3, 20, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
+                      _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
-        mvwprintz(w_description, 0, 0, c_green, sorted_profs[cur_id]->description().c_str());
+        fold_and_print(w_description, 0, 0, 78, c_green, _(sorted_profs[cur_id]->description().c_str()));
 
         for (int i = 1; i < 17; ++i)
         {
@@ -845,13 +840,13 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
             if (u->prof != sorted_profs[id])
             {
                 mvwprintz(w, 4 + i, 2, (sorted_profs[id] == sorted_profs[cur_id] ? h_ltgray : c_ltgray),
-                          sorted_profs[id]->name().c_str());
+                          _(sorted_profs[id]->name().c_str()));
             }
             else
             {
                 mvwprintz(w, 4 + i, 2,
                           (sorted_profs[id] == sorted_profs[cur_id] ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                          sorted_profs[id]->name().c_str());
+                          _(sorted_profs[id]->name().c_str()));
             }
         }
 
