@@ -1859,7 +1859,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
 }
 
 void map::shoot(game *g, const int x, const int y, int &dam,
-                const bool hit_items, const unsigned effects)
+                const bool hit_items, const std::set<std::string>& ammo_effects)
 {
     if (dam < 0)
     {
@@ -1876,7 +1876,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     vehicle *veh = veh_at(x, y, vpart);
     if (veh)
     {
-        const bool inc = (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME));
+        const bool inc = (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"));
         dam = veh->damage (vpart, dam, inc? 2 : 0, hit_items);
     }
 
@@ -1923,10 +1923,10 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         // Fall-through intended
         case t_window_domestic_taped:
         case t_curtains:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
                 dam -= rng(1, 5);
         case t_window_domestic:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
                 dam -= rng(0, 5);
             else
             {
@@ -1945,11 +1945,11 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         // Fall-through intended
         case t_window_taped:
         case t_window_alarm_taped:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
                 dam -= rng(1, 5);
         case t_window:
         case t_window_alarm:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
                 dam -= rng(0, 5);
             else
             {
@@ -1975,7 +1975,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         case t_wall_glass_v:
         case t_wall_glass_h_alarm:
         case t_wall_glass_v_alarm:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
                 dam -= rng(0,5);
             else
             {
@@ -1993,7 +1993,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         // laser beams are attenuated
         case t_reinforced_glass_v:
         case t_reinforced_glass_h:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
             {
                 dam -= rng(0, 8);
             }
@@ -2020,7 +2020,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                 g->sound(x, y, 8, "rrrrip!");
                 ter_set(x, y, t_dirt);
             }
-            if (effects & mfb(AMMO_INCENDIARY))
+            if (ammo_effects.count("INCENDIARY"))
                 add_field(g, x, y, fd_fire, 1);
         break;
 
@@ -2029,7 +2029,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
             {
                 if (dam > 15)
                 {
-                    if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
+                    if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"))
                         g->explosion(x, y, 40, 0, true);
                     else
                     {
@@ -2066,10 +2066,10 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                 dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
     }
 
-    if (effects & mfb(AMMO_TRAIL) && !one_in(4))
+    if (ammo_effects.count("TRAIL") && !one_in(4))
         add_field(g, x, y, fd_smoke, rng(1, 2));
 
-    if (effects & mfb(AMMO_LIGHTNING))
+    if (ammo_effects.count("LIGHTNING"))
         add_field(g, x, y, fd_electricity, rng(2, 3));
 
     // Set damage to 0 if it's less
@@ -2083,9 +2083,10 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         //case fd_web:
 	//Removed switch for now as web is the only relevant choice to avoid a currently redundant for loop declaration for all the field types.
 	if(fieldhit){
-            if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
+            if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"))
                 add_field(g, x, y, fd_fire, fieldhit->getFieldDensity() - 1);
-            else if (dam > 5 + fieldhit->getFieldDensity() * 5 && one_in(5 - fieldhit->getFieldDensity()))
+            else if (dam > 5 + fieldhit->getFieldDensity() * 5 &&
+                     one_in(5 - fieldhit->getFieldDensity()))
             {
                 dam -= rng(1, 2 + fieldhit->getFieldDensity() * 2);
                 remove_field(x, y,fd_web);

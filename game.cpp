@@ -25,6 +25,7 @@
 #include "catacharset.h"
 #include "translations.h"
 #include <map>
+#include <set>
 #include <algorithm>
 #include <string>
 #include <fstream>
@@ -4582,8 +4583,10 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     int side = rng(0, 1);
     add_msg("Shrapnel hits your %s!", body_part_name(hit, side).c_str());
     u.hit(this, hit, rng(0, 1), 0, dam);
-   } else
-    m.shoot(this, tx, ty, dam, j == traj.size() - 1, 0);
+   } else {
+       std::set<std::string> shrapnel_effects;
+       m.shoot(this, tx, ty, dam, j == traj.size() - 1, shrapnel_effects );
+   }
   }
  }
 }

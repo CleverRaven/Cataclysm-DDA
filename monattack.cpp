@@ -501,6 +501,7 @@ void mattack::spit_sap(game *g, monster *z)
  int dist = rl_dist(z->posx, z->posy, g->u.posx, g->u.posy);
  int deviation = rng(1, 10);
  double missed_by = (.0325 * deviation * dist);
+ std::set<std::string> no_effects;
 
  if (missed_by > 1.) {
   if (g->u_see(z->posx, z->posy))
@@ -511,7 +512,7 @@ void mattack::spit_sap(game *g, monster *z)
   std::vector<point> line = line_to(z->posx, z->posy, hitx, hity, 0);
   int dam = 5;
   for (int i = 0; i < line.size() && dam > 0; i++) {
-   g->m.shoot(g, line[i].x, line[i].y, dam, false, 0);
+   g->m.shoot(g, line[i].x, line[i].y, dam, false, no_effects);
    if (dam == 0 && g->u_see(line[i].x, line[i].y)) {
     g->add_msg("A glob of sap hits the %s!",
                g->m.tername(line[i].x, line[i].y).c_str());
@@ -528,7 +529,7 @@ void mattack::spit_sap(game *g, monster *z)
  std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
  int dam = 5;
  for (int i = 0; i < line.size() && dam > 0; i++) {
-  g->m.shoot(g, line[i].x, line[i].y, dam, false, 0);
+  g->m.shoot(g, line[i].x, line[i].y, dam, false, no_effects);
   if (dam == 0 && g->u_see(line[i].x, line[i].y)) {
    g->add_msg("A glob of sap hits the %s!",
               g->m.tername(line[i].x, line[i].y).c_str());
@@ -864,24 +865,25 @@ void mattack::tentacle(game *g, monster *z)
 {
     int t;
     if (!g->sees_u(z->posx, z->posy, t))
-	{
+    {
         return;
-	}
+    }
     g->add_msg("The %s lashes its tentacle at you!", z->name().c_str());
     z->moves -= 100;
     z->sp_timeout = z->type->sp_freq;	// Reset timer
 
     std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
+    std::set<std::string> no_effects;
     for (int i = 0; i < line.size(); i++)
-	{
+    {
         int tmpdam = 20;
-        g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, 0);
+        g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, no_effects);
     }
 
-	// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
- int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
- if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
-	{
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
+    {
         g->add_msg("You dodge it!");
         g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
         return;
@@ -913,6 +915,8 @@ void mattack::vortex(game *g, monster *z)
    g->sound(x, y, 8, sound);
   }
  }
+ std::set<std::string> no_effects;
+
  for (int x = z->posx - 2; x <= z->posx + 2; x++) {
   for (int y = z->posx - 2; y <= z->posy + 2; y++) {
    if (x == z->posx && y == z->posy) // Don't throw us!
@@ -926,7 +930,7 @@ void mattack::vortex(game *g, monster *z)
      int dam = thrown.weight() / double(3 + double(thrown.volume() / 6));
      std::vector<point> traj = continue_line(from_monster, distance);
      for (int i = 0; i < traj.size() && dam > 0; i++) {
-      g->m.shoot(g, traj[i].x, traj[i].y, dam, false, 0);
+      g->m.shoot(g, traj[i].x, traj[i].y, dam, false, no_effects);
       int mondex = g->mon_at(traj[i].x, traj[i].y);
       if (mondex != -1) {
        if (g->z[mondex].hurt(dam))
@@ -999,7 +1003,7 @@ void mattack::vortex(game *g, monster *z)
        thrown->posy = traj[i - 1].y;
       }
       int damage_copy = damage;
-      g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, 0);
+      g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, no_effects);
       if (damage_copy < damage)
        thrown->hurt(damage - damage_copy);
      }
@@ -1037,7 +1041,7 @@ void mattack::vortex(game *g, monster *z)
       g->u.posy = traj[i - 1].y;
      }
      int damage_copy = damage;
-     g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, 0);
+     g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, no_effects);
      if (damage_copy < damage)
       g->u.hit(g, bp_torso, 0, damage - damage_copy, 0);
     }
