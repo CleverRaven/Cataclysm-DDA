@@ -42,7 +42,7 @@ and store them in the file lang/po/cataclysm-dda.pot.
 This needs to be done every time translatable strings are added or modified.
 All of the translations depend on this file.
 
-    xgettext -d cataclysm-dda -s -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp lang/json/*.py
+    xgettext -d cataclysm-dda -s -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp *.h lang/json/*.py
 
 
 Step 2(a): Initialize each language file
