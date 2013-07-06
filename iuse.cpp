@@ -4703,3 +4703,46 @@ void iuse::rad_badge(game *g, player *p, item *it, bool t)
     g->add_msg_if_player(p,"You remove the badge from its wrapper, exposing it to ambient radiation.");
     it->make(g->itypes["rad_badge"]);
 }
+
+void iuse::boots(game *g, player *p, item *it, bool t)
+{
+ int choice = -1;
+ if (it->contents.size() == 0)
+  choice = menu(true, "Using boots:", "Put a knife in the boot.", "Cancel", NULL);
+ else if (it->contents.size() == 1)
+  choice = menu(true, "Take what:", it->contents[0].tname().c_str(), "Put a knife in the boot.", "Cancel", NULL);
+ else
+  choice = menu(true, "Take what:", it->contents[0].tname().c_str(), it->contents[1].tname().c_str(), "Cancel", NULL);
+
+ if ((it->contents.size() > 0 && choice == 1) || // Pull 1st
+     (it->contents.size() > 1 && choice == 2)) {  // Pull 2nd
+  p->moves -= 15;
+  item knife = it->contents[choice - 1];
+  if (!p->is_armed() || p->wield(g, -3)) {
+   p->i_add(knife);
+   p->wield(g, knife.invlet);
+   it->contents.erase(it->contents.begin() + choice - 1);
+  }
+ } else if ((it->contents.size() == 0 && choice == 1) || // Put 1st
+            (it->contents.size() == 1 && choice == 2)) { // Put 2st
+  char ch = g->inv_type("Put what?", IC_TOOL);
+  item* put = &(p->i_at(ch));
+  if (put == NULL || put->is_null()) {
+   g->add_msg_if_player(p, "You do not have that item!");
+   return;
+  }
+  if (put->type->use != &iuse::knife) {
+   g->add_msg_if_player(p, "That isn't knife!");
+   return;
+  }
+  item knife;
+  if (put == &p->weapon) {
+   knife = p->remove_weapon();
+  } else {
+   knife = p->inv.remove_item_by_letter(ch);
+  }
+  p->moves -= 30;
+  it->put_in(knife);
+  g->add_msg_if_player(p, "You put the %s in your boot.", knife.tname().c_str());
+ }
+}

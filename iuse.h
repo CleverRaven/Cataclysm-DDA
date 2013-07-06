@@ -160,6 +160,7 @@ class iuse
   void dejar            (game *g, player *p, item *it, bool t);
   void devac            (game *g, player *p, item *it, bool t);
   void rad_badge        (game *g, player *p, item *it, bool t);
+  void boots            (game *g, player *p, item *it, bool t);
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
 // ARTIFACTS
