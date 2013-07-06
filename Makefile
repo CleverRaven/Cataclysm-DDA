@@ -83,7 +83,7 @@ DDIR = .deps
 
 OS  = $(shell uname -o)
 CXX ?= $(CROSS)g++
-LD  ?= $(CROSS)g++
+LD  = $(CROSS)g++
 
 # enable optimizations. slow to build
 ifdef RELEASE
