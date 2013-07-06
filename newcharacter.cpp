@@ -895,22 +895,17 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
  Skill *currentSkill = Skill::skill(cur_sk);
 
  do {
-  mvwprintz(w,  3, 2, c_ltgray, "Points left: %d  ", points);
-// Clear the bottom of the screen.
-  mvwprintz(w_description, 0, 0, c_ltgray, "\
-                                                                             ");
-  mvwprintz(w_description, 1, 0, c_ltgray, "\
-                                                                             ");
-  mvwprintz(w_description, 2, 0, c_ltgray, "\
-                                                                             ");
+  mvwprintz(w,  3, 2, c_ltgray, _("Points left: %3d"), points);
+  // Clear the bottom of the screen.
+  werase(w_description);
   mvwprintz(w,  3, 40, c_ltgray, "                                    ");
   if (points >= u->skillLevel(currentSkill) + 1)
-   mvwprintz(w,  3, 30, COL_SKILL_USED, "Upgrading %s costs %d points",
-             currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
+   mvwprintz(w,  3, 30, COL_SKILL_USED, _("Upgrading %s costs %d points"),
+             _(currentSkill->name().c_str()), u->skillLevel(currentSkill) + 1);
   else
-   mvwprintz(w,  3, 30, c_ltred, "Upgrading %s costs %d points",
-             currentSkill->name().c_str(), u->skillLevel(currentSkill) + 1);
-  mvwprintz(w_description, 0, 0, COL_SKILL_USED, currentSkill->description().c_str());
+   mvwprintz(w,  3, 30, c_ltred, _("Upgrading %s costs %d points"),
+             _(currentSkill->name().c_str()), u->skillLevel(currentSkill) + 1);
+  fold_and_print(w_description, 0, 0, 78, COL_SKILL_USED, _(currentSkill->description().c_str()));
 
   if (cur_sk <= 7) {
    for (int i = 0; i < 17; i++) {
@@ -920,11 +915,11 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 5 + i, 2, (i == cur_sk ? h_ltgray : c_ltgray),
-               thisSkill->name().c_str());
+               _(thisSkill->name().c_str()));
     } else {
      mvwprintz(w, 5 + i, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-               "%s ", thisSkill->name().c_str());
+               "%s ", _(thisSkill->name().c_str()));
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
@@ -936,11 +931,11 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 21 + i - Skill::skills.size(), 2,
-               (i == cur_sk ? h_ltgray : c_ltgray), thisSkill->name().c_str());
+               (i == cur_sk ? h_ltgray : c_ltgray), _(thisSkill->name().c_str()));
     } else {
      mvwprintz(w, 21 + i - Skill::skills.size(), 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "%s ",
-               thisSkill->name().c_str());
+               _(thisSkill->name().c_str()));
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
@@ -952,11 +947,11 @@ int set_skills(WINDOW* w, game* g, player *u, int &points)
                                              ");	// Clear the line
     if (u->skillLevel(thisSkill) == 0) {
      mvwprintz(w, 12 + i - cur_sk, 2, (i == cur_sk ? h_ltgray : c_ltgray),
-               thisSkill->name().c_str());
+               _(thisSkill->name().c_str()));
     } else {
      mvwprintz(w, 12 + i - cur_sk, 2,
                (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-               "%s ", thisSkill->name().c_str());
+               "%s ", _(thisSkill->name().c_str()));
      for (int j = 0; j < u->skillLevel(thisSkill); j++)
       wprintz(w, (i == cur_sk ? hilite(COL_SKILL_USED) : COL_SKILL_USED), "*");
     }
