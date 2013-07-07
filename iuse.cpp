@@ -846,36 +846,30 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
 }
 
 
-
 // TOOLS below this point!
 
 bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 {
-    g->draw();
-    mvprintw(0, 0, "Light where?");
-    get_direction(g, posx, posy, input());
-    if (posx == -2)
+    if (g->choose_adjacent("Light",posx,posy) && posx != 0 && posy != 0)
     {
-        g->add_msg_if_player(p,"Invalid direction.");
-        it->charges++;
-        return false;
+      posx += p->posx;
+      posy += p->posy;
+      if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy)))
+      {
+         g->add_msg_if_player(p,"There's nothing to light there.");
+      }
+      else
+      {
+         return true;
+      }
     }
     if (posx == 0 && posy == 0)
     {
         g->add_msg_if_player(p, "You would set yourself on fire.");
         g->add_msg_if_player(p, "But you're already smokin' hot.");
-        it->charges++;
-        return false;
     }
-    posx += p->posx;
-    posy += p->posy;
-    if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy)))
-    {
-       g->add_msg_if_player(p,"There's nothing to light there.");
-       it->charges++;
-       return false;
-    }
-    return true;
+    it->charges++;
+    return false;
 }
 
 void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
@@ -2098,122 +2092,116 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
 void iuse::crowbar(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Pry where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Pry", dirx,diry))
   return;
- }
-if (dirx == 0 && diry == 0) {
-   g->add_msg_if_player(p, "You attempt to pry open your wallet");
-   g->add_msg_if_player(p, "but alas. You are just too miserly.");
-   return;
- }
- dirx += p->posx;
- diry += p->posy;
- ter_id type = g->m.ter(dirx, diry);
- const char *door_name;
- const char *action_name;
- ter_id new_type;
- bool noisy;
- int difficulty;
 
- if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
-   door_name = "door";
-   action_name = "pry open";
-   new_type = t_door_o;
-   noisy = true;
-   difficulty = 6;
- } else if (type == t_door_bar_locked) {
-   door_name = "door";
-   action_name = "pry open";
-   new_type = t_door_bar_o;
-   noisy = false;
-   difficulty = 10;
- } else if (type == t_manhole_cover) {
-   door_name = "manhole cover";
-   action_name = "lift";
-   new_type = t_manhole;
-   noisy = false;
-   difficulty = 12;
- } else if (g->m.furn(dirx, diry) == f_crate_c) {
-   door_name = "crate";
-   action_name = "pop open";
-   noisy = true;
-   difficulty = 6;
- } else if (type == t_window_domestic || type == t_curtains) {
-   door_name = "window";
-   action_name = "pry open";
-   new_type = t_window_open;
-   noisy = true;
-   difficulty = 6;
- } else {
-  int nails = 0, boards = 0;
-  ter_id newter;
-  switch (g->m.ter(dirx, diry)) {
-  case t_window_boarded:
-   nails =  8;
-   boards = 4;
-   newter = t_window_empty;
-   break;
-  case t_door_boarded:
-   nails = 12;
-   boards = 4;
-   newter = t_door_b;
-   break;
-  case t_fence_h:
-   nails = 6;
-   boards = 3;
-   newter = t_fence_post;
-   break;
-  case t_fence_v:
-   nails = 6;
-   boards = 3;
-   newter = t_fence_post;
-   break;
-  default:
-   g->add_msg_if_player(p,"There's nothing to pry there.");
-   return;
+ if (dirx == 0 && diry == 0) {
+    g->add_msg_if_player(p, "You attempt to pry open your wallet");
+    g->add_msg_if_player(p, "but alas. You are just too miserly.");
+    return;
   }
-  if(p->skillLevel("carpentry") < 1)
-   p->practice(g->turn, "carpentry", 1);
-  p->moves -= 500;
-  g->m.spawn_item(p->posx, p->posy, "nail", 0, 0, nails);
-  g->m.spawn_item(p->posx, p->posy, "2x4", 0, boards);
-  g->m.ter_set(dirx, diry, newter);
-  return;
- }
+  ter_id type = g->m.ter(dirx, diry);
+  const char *door_name;
+  const char *action_name;
+  ter_id new_type;
+  bool noisy;
+  int difficulty;
 
- p->practice(g->turn, "mechanics", 1);
- p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics")) * 5);
- if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
-  p->practice(g->turn, "mechanics", 1);
-  g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
-  if (g->m.furn(dirx, diry) == f_crate_c)
-   g->m.furn_set(dirx, diry, f_crate_o);
-  else
-   g->m.ter_set(dirx, diry, new_type);
-  if (noisy)
-   g->sound(dirx, diry, 12, "crunch!");
-  if ( type == t_door_locked_alarm ) {
-   g->sound(p->posx, p->posy, 40, "An alarm sounds!");
-   if (!g->event_queued(EVENT_WANTED)) {
-    g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
-   }
-  }
- } else {
-  if (type == t_window_domestic || type == t_curtains) {
-   //chance of breaking the glass if pry attempt fails
-   if (dice(4, difficulty) > dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
-    g->add_msg_if_player(p,"You break the glass.");
-    g->sound(dirx, diry, 24, "glass breaking!");
-    g->m.ter_set(dirx, diry, t_window_frame);
+  if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
+    door_name = "door";
+    action_name = "pry open";
+    new_type = t_door_o;
+    noisy = true;
+    difficulty = 6;
+  } else if (type == t_door_bar_locked) {
+    door_name = "door";
+    action_name = "pry open";
+    new_type = t_door_bar_o;
+    noisy = false;
+    difficulty = 10;
+  } else if (type == t_manhole_cover) {
+    door_name = "manhole cover";
+    action_name = "lift";
+    new_type = t_manhole;
+    noisy = false;
+    difficulty = 12;
+  } else if (g->m.furn(dirx, diry) == f_crate_c) {
+    door_name = "crate";
+    action_name = "pop open";
+    noisy = true;
+    difficulty = 6;
+  } else if (type == t_window_domestic || type == t_curtains) {
+    door_name = "window";
+    action_name = "pry open";
+    new_type = t_window_open;
+    noisy = true;
+    difficulty = 6;
+  } else {
+   int nails = 0, boards = 0;
+   ter_id newter;
+   switch (g->m.ter(dirx, diry)) {
+   case t_window_boarded:
+    nails =  8;
+    boards = 4;
+    newter = t_window_empty;
+    break;
+   case t_door_boarded:
+    nails = 12;
+    boards = 4;
+    newter = t_door_b;
+    break;
+   case t_fence_h:
+    nails = 6;
+    boards = 3;
+    newter = t_fence_post;
+    break;
+   case t_fence_v:
+    nails = 6;
+    boards = 3;
+    newter = t_fence_post;
+    break;
+   default:
+    g->add_msg_if_player(p,"There's nothing to pry there.");
     return;
    }
+   if(p->skillLevel("carpentry") < 1)
+    p->practice(g->turn, "carpentry", 1);
+   p->moves -= 500;
+   g->m.spawn_item(p->posx, p->posy, "nail", 0, 0, nails);
+   g->m.spawn_item(p->posx, p->posy, "2x4", 0, boards);
+   g->m.ter_set(dirx, diry, newter);
+   return;
   }
-  g->add_msg_if_player(p,"You pry, but cannot %s the %s.", action_name, door_name);
- }
+
+  p->practice(g->turn, "mechanics", 1);
+  p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics")) * 5);
+  if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
+   p->practice(g->turn, "mechanics", 1);
+   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
+   if (g->m.furn(dirx, diry) == f_crate_c)
+    g->m.furn_set(dirx, diry, f_crate_o);
+   else
+    g->m.ter_set(dirx, diry, new_type);
+   if (noisy)
+    g->sound(dirx, diry, 12, "crunch!");
+   if ( type == t_door_locked_alarm ) {
+    g->sound(p->posx, p->posy, 40, "An alarm sounds!");
+    if (!g->event_queued(EVENT_WANTED)) {
+     g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+    }
+   }
+  } else {
+   if (type == t_window_domestic || type == t_curtains) {
+    //chance of breaking the glass if pry attempt fails
+    if (dice(4, difficulty) > dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
+     g->add_msg_if_player(p,"You break the glass.");
+     g->sound(dirx, diry, 24, "glass breaking!");
+     g->m.ter_set(dirx, diry, t_window_frame);
+     return;
+    }
+   }
+   g->add_msg_if_player(p,"You pry, but cannot %s the %s.", action_name, door_name);
+   }
 }
 
 void iuse::makemound(game *g, player *p, item *it, bool t)
@@ -2226,45 +2214,18 @@ void iuse::makemound(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You can't churn up this ground.");
 }
 
+//TODO remove this?
 void iuse::dig(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You can dig a pit via the construction menu--hit *");
-/*
- int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Dig where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
-  return;
- }
- if (g->m.has_flag(diggable, p->posx + dirx, p->posy + diry)) {
-  p->moves -= 300;
-  g->add_msg_if_player(p,"You dig a pit.");
-  g->m.ter     (p->posx + dirx, p->posy + diry) = t_pit;
-  g->m.add_trap(p->posx + dirx, p->posy + diry, tr_pit);
-  p->practice(g->turn, "traps", 1);
- } else
-  g->add_msg_if_player(p,"You can't dig through %s!",
-             g->m.tername(p->posx + dirx, p->posy + diry).c_str());
-*/
 }
 
 void iuse::siphon(game *g, player *p, item *it, bool t)
 {
     int posx = 0;
     int posy = 0;
-    g->draw();
-    mvprintw(0, 0, "Siphon where?");
-    get_direction(g, posx, posy, input());
-    if (posx == -2)
-    {
-        g->add_msg_if_player(p,"Invalid direction.");
-        return;
-    }
-    // there's no self-tile check because the player could be in a vehicle
-    posx += p->posx;
-    posy += p->posy;
+    if(!g->choose_adjacent("Siphon from", posx, posy))
+      return;
 
     vehicle* veh = g->m.veh_at(posx, posy);
     if (veh == NULL)
@@ -2404,13 +2365,9 @@ void iuse::pickaxe(game *g, player *p, item *it, bool t)
 void iuse::set_trap(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Place where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Place",dirx,diry))
   return;
- }
+
  if (dirx == 0 && diry == 0) {
   g->add_msg_if_player(p,"Yeah. Place the %s at your feet.", it->tname().c_str());
   g->add_msg_if_player(p,"Real damn smart move.");
@@ -3192,16 +3149,10 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
 void iuse::turret(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Place where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Place the turret", dirx, diry))
   return;
- }
+ 
  p->moves -= 100;
- dirx += p->posx;
- diry += p->posy;
  if (!g->is_empty(dirx, diry)) {
   g->add_msg_if_player(p,"You cannot place a turret there.");
   return;
@@ -3702,14 +3653,10 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
 void iuse::hacksaw(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Cut up metal where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg("Invalid direction.");
+ if(!g->choose_adjacent("Cut up metal", dirx, diry))
   return;
- }
-if (dirx == 0 && diry == 0) {
+ 
+if (dirx == p->posx && diry == p->posy) {
   g->add_msg("Why would you do that?");
   g->add_msg("You're not even chained to a boiler.");
   return;
@@ -3754,17 +3701,19 @@ if (dirx == 0 && diry == 0) {
 void iuse::tent(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Put up tent where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2 || (dirx == 0 && diry == 0)) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Pitch the tent", dirx, diry))
+  return;
+ 
+ //must place the center of the tent two spaces away from player
+ //dirx and diry will be integratined with the player's position
+ int posx = dirx - p->posx;
+ int posy = diry - p->posy;
+ if(posx == 0 || posy == 0){
+  g->add_msg_if_player(p,"Invalid Direction");
   return;
  }
- int posx = dirx + p->posx;
- int posy = diry + p->posy;
- posx += dirx;
- posy += diry;
+ posx = posx*2 + p->posx;
+ posy = posy*2 + p->posy;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
    if (!g->m.has_flag(flat, posx + i, posy + j) ||
@@ -3783,17 +3732,19 @@ void iuse::tent(game *g, player *p, item *it, bool t)
 void iuse::shelter(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Put up shelter where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2 || (dirx == 0 && diry == 0)) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Put up the shelter", dirx, diry))
+  return;
+ 
+ //must place the center of the tent two spaces away from player
+ //dirx and diry will be integratined with the player's position
+ int posx = dirx - p->posx;
+ int posy = diry - p->posy;
+ if(posx == 0 || posy == 0){
+  g->add_msg_if_player(p,"Invalid Direction");
   return;
  }
- int posx = dirx + p->posx;
- int posy = diry + p->posy;
- posx += dirx;
- posy += diry;
+ posx = posx*2 + p->posx;
+ posy = posy*2 + p->posy;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
    if (!g->m.has_flag(flat, posx + i, posy + j) || 
@@ -4122,22 +4073,15 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
 void iuse::boltcutters(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Cut up metal where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg("Invalid direction.");
+ if(!g->choose_adjacent("Cut up metal",dirx,diry))
   return;
- }
-if (dirx == 0 && diry == 0) {
+ 
+if (dirx == p->posx && diry == p->posy) {
   g->add_msg_if_player(p, "You neatly sever all of the veins");
   g->add_msg_if_player(p, "and arteries in your body. Oh wait,");
   g->add_msg_if_player(p, "Never mind.");
   return;
 }
- dirx += p->posx;
- diry += p->posy;
-
  if (g->m.ter(dirx, diry) == t_chaingate_l) {
   p->moves -= 100;
   g->m.ter_set(dirx, diry, t_chaingate_c);
@@ -4156,21 +4100,15 @@ if (dirx == 0 && diry == 0) {
 void iuse::mop(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Mop where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Mop",dirx,diry))
   return;
- }
- if (dirx == 0 && diry == 0) {
+ 
+ if (dirx == p->posx && diry == p->posy) {
    g->add_msg_if_player(p,"You mop yourself up.");
    g->add_msg_if_player(p,"The universe implodes and reforms around you.");
    return;
 }
  p->moves -= 15;
- dirx += p->posx;
- diry += p->posy;
   if (g->m.moppable_items_at(dirx, diry)) {
    g->m.mop_spills(dirx, diry);
    g->add_msg("You mop up the spill");
@@ -4192,7 +4130,6 @@ void iuse::rag(game *g, player *p, item *it, bool t)
  } else {
   g->add_msg_if_player(p,"You're not bleeding enough to need your %s.", it->type->name.c_str());
  }
-
 }
 
 void iuse::pda(game *g, player *p, item *it, bool t)
