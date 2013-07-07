@@ -218,7 +218,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   return "I don't know, look for supplies and other survivors I guess.";
 
  case TALK_SHARE_EQUIPMENT:
-  if (p->has_disease(DI_ASKED_FOR_ITEM))
+  if (p->has_disease("asked_for_item"))
    return "You just asked me for stuff; ask later.";
   return "Why should I share my equipment with you?";
 
@@ -253,9 +253,9 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   return "Alright, let's begin.";
 
  case TALK_SUGGEST_FOLLOW:
-  if (p->has_disease(DI_INFECTION))
+  if (p->has_disease("infection"))
    return "Not until I get some antibiotics...";
-  if (p->has_disease(DI_ASKED_TO_FOLLOW))
+  if (p->has_disease("asked_to_follow"))
    return "You asked me recently; ask again later.";
   return "Why should I travel with you?";
 
@@ -680,7 +680,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   break;
 
  case TALK_SHARE_EQUIPMENT:
-  if (p->has_disease(DI_ASKED_FOR_ITEM)) {
+  if (p->has_disease("asked_for_item")) {
    RESPONSE("Okay, fine.");
     SUCCESS(TALK_NONE);
   } else {
@@ -833,10 +833,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   break;
 
  case TALK_SUGGEST_FOLLOW:
-  if (p->has_disease(DI_INFECTION)) {
+  if (p->has_disease("infection")) {
    RESPONSE("Understood.  I'll get those antibiotics.");
     SUCCESS(TALK_NONE);
-  } else if (p->has_disease(DI_ASKED_TO_FOLLOW)) {
+  } else if (p->has_disease("asked_to_follow")) {
    RESPONSE("Right, right, I'll ask later.");
     SUCCESS(TALK_NONE);
   } else {
@@ -901,7 +901,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   }
   RESPONSE("I'm going to go my own way for a while.");
    SUCCESS(TALK_LEAVE);
-  if (!p->has_disease(DI_ASKED_TO_LEAD)) {
+  if (!p->has_disease("asked_to_lead")) {
    RESPONSE("I'd like to lead for a while.");
     TRIAL(TALK_TRIAL_PERSUADE, persuade);
     SUCCESS(TALK_PLAYER_LEADS);
@@ -1382,7 +1382,7 @@ void talk_function::give_equipment(game *g, npc *p)
        it->tname().c_str());
  g->u.i_add( p->i_remn(it->invlet) );
  p->op_of_u.owed -= prices[chosen];
- p->add_disease(DI_ASKED_FOR_ITEM, 1800, g);
+ p->add_disease("asked_for_item", 1800, g);
 }
 
 void talk_function::follow(game *g, npc *p)
@@ -1392,17 +1392,17 @@ void talk_function::follow(game *g, npc *p)
 
 void talk_function::deny_follow(game *g, npc *p)
 {
- p->add_disease(DI_ASKED_TO_FOLLOW, 3600, g);
+ p->add_disease("asked_to_follow", 3600, g);
 }
 
 void talk_function::deny_lead(game *g, npc *p)
 {
- p->add_disease(DI_ASKED_TO_LEAD, 3600, g);
+ p->add_disease("asked_to_lead", 3600, g);
 }
 
 void talk_function::deny_equipment(game *g, npc *p)
 {
- p->add_disease(DI_ASKED_FOR_ITEM, 600, g);
+ p->add_disease("asked_for_item", 600, g);
 }
 
 void talk_function::hostile(game *g, npc *p)

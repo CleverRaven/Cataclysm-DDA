@@ -28,7 +28,7 @@ void addict_effect(game *g, addiction &add)
     g->u.stim--;
    if (rng(8, 400) < in) {
     g->add_msg("Your hands start shaking... you need it bad!");
-    g->u.add_disease(DI_SHAKES, 20, g);
+    g->u.add_disease("shakes", 20, g);
    }
   }
   break;
@@ -46,9 +46,9 @@ void addict_effect(game *g, addiction &add)
    g->add_msg("Your hands start shaking... you need a drink bad!");
    g->cancel_activity_query("You have an alcohol craving.");
    g->u.add_morale(MORALE_CRAVING_ALCOHOL, -35, -120);
-   g->u.add_disease(DI_SHAKES, 50, g);
-  } else if (!g->u.has_disease(DI_HALLU) && rng(10, 1600) < in)
-   g->u.add_disease(DI_HALLU, 3600, g);
+   g->u.add_disease("shakes", 50, g);
+  } else if (!g->u.has_disease("hallu") && rng(10, 1600) < in)
+   g->u.add_disease("hallu", 3600, g);
   break;
 
  case ADD_SLEEP:
@@ -75,7 +75,7 @@ void addict_effect(game *g, addiction &add)
     g->add_msg("Your hands start shaking... you need some painkillers.");
     g->cancel_activity_query("You have an opiate craving.");
     g->u.add_morale(MORALE_CRAVING_OPIATE, -40, -200);
-    g->u.add_disease(DI_SHAKES, 20 + in * 5, g);
+    g->u.add_disease("shakes", 20 + in * 5, g);
    } else if (one_in(20) && dice(2, 30) < in) {
     g->add_msg("You feel anxious.  You need your painkillers!");
     g->u.add_morale(MORALE_CRAVING_OPIATE, -30, -200);
@@ -107,14 +107,14 @@ void addict_effect(game *g, addiction &add)
    g->add_msg("Your hands start shaking... you need a pick-me-up.");
    g->cancel_activity_query("You have a speed craving.");
    g->u.add_morale(MORALE_CRAVING_SPEED, -25, -200);
-   g->u.add_disease(DI_SHAKES, in * 20, g);
+   g->u.add_disease("shakes", in * 20, g);
   } else if (one_in(50) && dice(2, 100) < in) {
    g->add_msg("You stop suddenly, feeling bewildered.");
    g->cancel_activity();
    g->u.moves -= 300;
-  } else if (!g->u.has_disease(DI_HALLU) && one_in(20) &&
+  } else if (!g->u.has_disease("hallu") && one_in(20) &&
              8 + dice(2, 80) < in)
-   g->u.add_disease(DI_HALLU, 3600, g);
+   g->u.add_disease("hallu", 3600, g);
  } break;
 
  case ADD_COKE:

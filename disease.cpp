@@ -7,8 +7,263 @@
 #include <stdlib.h>
 #include <sstream>
 
-void dis_msg(game *g, dis_type type)
+// Used only internally for fast lookups.
+enum dis_type_enum {
+ DI_NULL,
+// Weather
+ DI_GLARE, DI_WET,
+// Temperature, the order is important (dependant on bodypart.h)
+ DI_COLD,
+ DI_COLD_TORSO, DI_COLD_HEAD, DI_COLD_EYES, DI_COLD_MOUTH,
+ DI_COLD_ARMS, DI_COLD_HANDS, DI_COLD_LEGS, DI_COLD_FEET,
+ DI_FROSTBITE,
+ DI_FROSTBITE_TORSO, DI_FROSTBITE_HEAD, DI_FROSTBITE_EYES, DI_FROSTBITE_MOUTH,
+ DI_FROSTBITE_ARMS, DI_FROSTBITE_HANDS, DI_FROSTBITE_LEGS, DI_FROSTBITE_FEET,
+ DI_HOT,
+ DI_HOT_TORSO, DI_HOT_HEAD, DI_HOT_EYES, DI_HOT_MOUTH,
+ DI_HOT_ARMS, DI_HOT_HANDS, DI_HOT_LEGS, DI_HOT_FEET,
+ DI_BLISTERS,
+ DI_BLISTERS_TORSO, DI_BLISTERS_HEAD, DI_BLISTERS_EYES, DI_BLISTERS_MOUTH,
+ DI_BLISTERS_ARMS, DI_BLISTERS_HANDS, DI_BLISTERS_LEGS, DI_BLISTERS_FEET,
+// Diseases
+ DI_INFECTION,
+ DI_COMMON_COLD, DI_FLU, DI_RECOVER,
+// Fields
+ DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
+// Monsters
+ DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
+ DI_DEAF, DI_BLIND,
+ DI_LYING_DOWN, DI_SLEEP,
+ DI_POISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
+ DI_DERMATIK, DI_FORMICATION,
+ DI_WEBBED,
+ DI_RAT, DI_BITE,
+// Food & Drugs
+ DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH,
+  DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
+  DI_TOOK_FLUMED, DI_ADRENALINE, DI_ASTHMA, DI_GRACK, DI_METH,
+// Traps
+ DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
+// Martial Arts
+ DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
+  DI_SPEED_BOOST, DI_VIPER_COMBO,
+// Other
+ DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_INFECTED,
+// Inflicted by an NPC
+ DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
+// NPC-only
+ DI_CATCH_UP
+};
+
+std::map<std::string, dis_type_enum> disease_type_lookup;
+
+void game::init_diseases() {
+    // Initialize the disease lookup table.
+    
+    disease_type_lookup["null"] = DI_NULL;
+    disease_type_lookup["glare"] = DI_GLARE;
+    disease_type_lookup["wet"] = DI_WET;
+    disease_type_lookup["cold"] = DI_COLD;
+    disease_type_lookup["cold_torso"] = DI_COLD_TORSO;
+    disease_type_lookup["cold_head"] = DI_COLD_HEAD;
+    disease_type_lookup["cold_eyes"] = DI_COLD_EYES;
+    disease_type_lookup["cold_mouth"] = DI_COLD_MOUTH;
+    disease_type_lookup["cold_arms"] = DI_COLD_ARMS;
+    disease_type_lookup["cold_hands"] = DI_COLD_HANDS;
+    disease_type_lookup["cold_legs"] = DI_COLD_LEGS;
+    disease_type_lookup["cold_feet"] = DI_COLD_FEET;
+    disease_type_lookup["frostbite"] = DI_FROSTBITE;
+    disease_type_lookup["frostbite_torso"] = DI_FROSTBITE_TORSO;
+    disease_type_lookup["frostbite_head"] = DI_FROSTBITE_HEAD;
+    disease_type_lookup["frostbite_eyes"] = DI_FROSTBITE_EYES;
+    disease_type_lookup["frostbite_mouth"] = DI_FROSTBITE_MOUTH;
+    disease_type_lookup["frostbite_arms"] = DI_FROSTBITE_ARMS;
+    disease_type_lookup["frostbite_hands"] = DI_FROSTBITE_HANDS;
+    disease_type_lookup["frostbite_legs"] = DI_FROSTBITE_LEGS;
+    disease_type_lookup["frostbite_feet"] = DI_FROSTBITE_FEET;
+    disease_type_lookup["hot"] = DI_HOT;
+    disease_type_lookup["hot_torso"] = DI_HOT_TORSO;
+    disease_type_lookup["hot_head"] = DI_HOT_HEAD;
+    disease_type_lookup["hot_eyes"] = DI_HOT_EYES;
+    disease_type_lookup["hot_mouth"] = DI_HOT_MOUTH;
+    disease_type_lookup["hot_arms"] = DI_HOT_ARMS;
+    disease_type_lookup["hot_hands"] = DI_HOT_HANDS;
+    disease_type_lookup["hot_legs"] = DI_HOT_LEGS;
+    disease_type_lookup["hot_feet"] = DI_HOT_FEET;
+    disease_type_lookup["blisters"] = DI_BLISTERS;
+    disease_type_lookup["blisters_torso"] = DI_BLISTERS_TORSO;
+    disease_type_lookup["blisters_head"] = DI_BLISTERS_HEAD;
+    disease_type_lookup["blisters_eyes"] = DI_BLISTERS_EYES;
+    disease_type_lookup["blisters_mouth"] = DI_BLISTERS_MOUTH;
+    disease_type_lookup["blisters_arms"] = DI_BLISTERS_ARMS;
+    disease_type_lookup["blisters_hands"] = DI_BLISTERS_HANDS;
+    disease_type_lookup["blisters_legs"] = DI_BLISTERS_LEGS;
+    disease_type_lookup["blisters_feet"] = DI_BLISTERS_FEET;
+    disease_type_lookup["infection"] = DI_INFECTION;
+    disease_type_lookup["common_cold"] = DI_COMMON_COLD;
+    disease_type_lookup["flu"] = DI_FLU;
+    disease_type_lookup["recover"] = DI_RECOVER;
+    disease_type_lookup["smoke"] = DI_SMOKE;
+    disease_type_lookup["onfire"] = DI_ONFIRE;
+    disease_type_lookup["teargas"] = DI_TEARGAS;
+    disease_type_lookup["crushed"] = DI_CRUSHED;
+    disease_type_lookup["bouldering"] = DI_BOULDERING;
+    disease_type_lookup["boomered"] = DI_BOOMERED;
+    disease_type_lookup["sap"] = DI_SAP;
+    disease_type_lookup["spores"] = DI_SPORES;
+    disease_type_lookup["fungus"] = DI_FUNGUS;
+    disease_type_lookup["slimed"] = DI_SLIMED;
+    disease_type_lookup["deaf"] = DI_DEAF;
+    disease_type_lookup["blind"] = DI_BLIND;
+    disease_type_lookup["lying_down"] = DI_LYING_DOWN;
+    disease_type_lookup["sleep"] = DI_SLEEP;
+    disease_type_lookup["poison"] = DI_POISON;
+    disease_type_lookup["bleed"] = DI_BLEED;
+    disease_type_lookup["badpoison"] = DI_BADPOISON;
+    disease_type_lookup["foodpoison"] = DI_FOODPOISON;
+    disease_type_lookup["shakes"] = DI_SHAKES;
+    disease_type_lookup["dermatik"] = DI_DERMATIK;
+    disease_type_lookup["formication"] = DI_FORMICATION;
+    disease_type_lookup["webbed"] = DI_WEBBED;
+    disease_type_lookup["rat"] = DI_RAT;
+    disease_type_lookup["bite"] = DI_BITE;
+    disease_type_lookup["pkill1"] = DI_PKILL1;
+    disease_type_lookup["pkill2"] = DI_PKILL2;
+    disease_type_lookup["pkill3"] = DI_PKILL3;
+    disease_type_lookup["pkill_l"] = DI_PKILL_L;
+    disease_type_lookup["drunk"] = DI_DRUNK;
+    disease_type_lookup["cig"] = DI_CIG;
+    disease_type_lookup["high"] = DI_HIGH;
+    disease_type_lookup["hallu"] = DI_HALLU;
+    disease_type_lookup["visuals"] = DI_VISUALS;
+    disease_type_lookup["iodine"] = DI_IODINE;
+    disease_type_lookup["took_xanax"] = DI_TOOK_XANAX;
+    disease_type_lookup["took_prozac"] = DI_TOOK_PROZAC;
+    disease_type_lookup["took_flumed"] = DI_TOOK_FLUMED;
+    disease_type_lookup["adrenaline"] = DI_ADRENALINE;
+    disease_type_lookup["asthma"] = DI_ASTHMA;
+    disease_type_lookup["grack"] = DI_GRACK;
+    disease_type_lookup["meth"] = DI_METH;
+    disease_type_lookup["beartrap"] = DI_BEARTRAP;
+    disease_type_lookup["lightsnare"] = DI_LIGHTSNARE;
+    disease_type_lookup["heavysnare"] = DI_HEAVYSNARE;
+    disease_type_lookup["in_pit"] = DI_IN_PIT;
+    disease_type_lookup["stunned"] = DI_STUNNED;
+    disease_type_lookup["downed"] = DI_DOWNED;
+    disease_type_lookup["attack_boost"] = DI_ATTACK_BOOST;
+    disease_type_lookup["damage_boost"] = DI_DAMAGE_BOOST;
+    disease_type_lookup["dodge_boost"] = DI_DODGE_BOOST;
+    disease_type_lookup["armor_boost"] = DI_ARMOR_BOOST;
+    disease_type_lookup["speed_boost"] = DI_SPEED_BOOST;
+    disease_type_lookup["viper_combo"] = DI_VIPER_COMBO;
+    disease_type_lookup["amigara"] = DI_AMIGARA;
+    disease_type_lookup["stemcell_treatment"] = DI_STEMCELL_TREATMENT;
+    disease_type_lookup["teleglow"] = DI_TELEGLOW;
+    disease_type_lookup["attention"] = DI_ATTENTION;
+    disease_type_lookup["evil"] = DI_EVIL;
+    disease_type_lookup["infected"] = DI_INFECTED;
+    disease_type_lookup["asked_to_follow"] = DI_ASKED_TO_FOLLOW;
+    disease_type_lookup["asked_to_lead"] = DI_ASKED_TO_LEAD;
+    disease_type_lookup["asked_for_item"] = DI_ASKED_FOR_ITEM;
+    disease_type_lookup["catch_up"] = DI_CATCH_UP;
+}
+
+dis_type disease_for_body_part(dis_type base, int body_part) {
+    if(base == "hot") {
+        switch(body_part) {
+        case 0:
+            return "hot_torso";
+        case 1:
+            return "hot_head";
+        case 2:
+            return "hot_eyes";
+        case 3:
+            return "hot_mouth";
+        case 4:
+            return "hot_arms";
+        case 5:
+            return "hot_hands";
+        case 6:
+            return "hot_legs";
+        case 7:
+            return "hot_feet";
+        default:
+            return "none";
+        }
+    }
+    else if(base == "cold") {
+        switch(body_part) {
+        case 0:
+            return "cold_torso";
+        case 1:
+            return "cold_head";
+        case 2:
+            return "cold_eyes";
+        case 3:
+            return "cold_mouth";
+        case 4:
+            return "cold_arms";
+        case 5:
+            return "cold_hands";
+        case 6:
+            return "cold_legs";
+        case 7:
+            return "cold_feet";
+        default:
+            return "none";
+        }
+    }
+    else if(base == "blisters") {
+        switch(body_part) {
+        case 0:
+            return "blisters_torso";
+        case 1:
+            return "blisters_head";
+        case 2:
+            return "blisters_eyes";
+        case 3:
+            return "blisters_mouth";
+        case 4:
+            return "blisters_arms";
+        case 5:
+            return "blisters_hands";
+        case 6:
+            return "blisters_legs";
+        case 7:
+            return "blisters_feet";
+        default:
+            return "none";
+        }
+    }
+    else if(base == "frostbite") {
+        switch(body_part) {
+        case 0:
+            return "frostbite_torso";
+        case 1:
+            return "frostbite_head";
+        case 2:
+            return "frostbite_eyes";
+        case 3:
+            return "frostbite_mouth";
+        case 4:
+            return "frostbite_arms";
+        case 5:
+            return "frostbite_hands";
+        case 6:
+            return "frostbite_legs";
+        case 7:
+            return "frostbite_feet";
+        default:
+            return "none";
+        }
+    }
+
+    return "none";
+}
+
+void dis_msg(game *g, dis_type type_string)
 {
+    dis_type_enum type = disease_type_lookup[type_string];
     switch (type) {
     case DI_GLARE:
         g->add_msg(_("The sunlight's glare makes it hard to see."));
@@ -108,7 +363,8 @@ void dis_msg(game *g, dis_type type)
 void dis_effect(game *g, player &p, disease &dis)
 {
  int bonus;
- switch (dis.type) {
+ dis_type_enum type = disease_type_lookup[dis.type];
+ switch (type) {
  case DI_GLARE:
   p.per_cur -= 1;
   break;
@@ -119,21 +375,21 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_COLD_HEAD:
   switch (dis.intensity) {
-   case 3 : p.int_cur -= 3; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg(_("Your thoughts are unclear."));
+   case 3 : p.int_cur -= 3; if (!p.has_disease("sleep") && one_in(400)) g->add_msg(_("Your thoughts are unclear."));
    case 2 : p.int_cur--;
   }
   break;
 
   case DI_COLD_MOUTH:
   switch (dis.intensity) {
-   case 3 : p.per_cur -= 3; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg(_("Your face is stiff from the cold."));
+   case 3 : p.per_cur -= 3; if (!p.has_disease("sleep") && one_in(400)) g->add_msg(_("Your face is stiff from the cold."));
    case 2 : p.per_cur--;
   }
   break;
 
  case DI_COLD_TORSO:
   switch (dis.intensity) {
-   case 3 : p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg(_("Your torso is burning up. You should remove some layers."));
+   case 3 : p.dex_cur -= 2; if (!p.has_disease("sleep") && one_in(400)) g->add_msg(_("Your torso is burning up. You should remove some layers."));
    // Speed -20
    case 2 :	p.dex_cur -= 1;
    // Speed -5
@@ -144,20 +400,20 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_COLD_ARMS:
   switch (dis.intensity) {
    case 3 : p.dex_cur -= 2;
-   case 2 :	p.dex_cur--; if (!p.has_disease(DI_SLEEP) && one_in(800)) g->add_msg(_("Your arms are shivering."));
+   case 2 :	p.dex_cur--; if (!p.has_disease("sleep") && one_in(800)) g->add_msg(_("Your arms are shivering."));
   }
   break;
 
  case DI_COLD_HANDS:
   switch (dis.intensity) {
    case 3 :	p.dex_cur -= 2;
-   case 2 :	p.dex_cur -= 2; if (!p.has_disease(DI_SLEEP) && one_in(800)) g->add_msg(_("Your hands are shivering."));
+   case 2 :	p.dex_cur -= 2; if (!p.has_disease("sleep") && one_in(800)) g->add_msg(_("Your hands are shivering."));
   }
   break;
 
  case DI_COLD_LEGS:
   switch (dis.intensity) {
-   case 3 :	p.str_cur--; if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg(_("Your legs are seizing from the incredible cold."));
+   case 3 :	p.str_cur--; if (!p.has_disease("sleep") && one_in(400)) g->add_msg(_("Your legs are seizing from the incredible cold."));
    // Speed -20
    case 2 :	p.str_cur--;
    // Speed -5
@@ -177,7 +433,7 @@ void dis_effect(game *g, player &p, disease &dis)
    case 2 : p.dex_cur -= 3;
    case 1 :
     if (p.temp_cur[bp_hands] > BODYTEMP_COLD && p.pain < 40) p.pain++;
-    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg(_("Your hands feel numb."));
+    if (!p.has_disease("sleep") && one_in(400)) g->add_msg(_("Your hands feel numb."));
   }
  break;
 
@@ -186,7 +442,7 @@ void dis_effect(game *g, player &p, disease &dis)
    case 2 : // -4 speed
    case 1 :
     if (p.temp_cur[bp_feet] > BODYTEMP_COLD && p.pain < 40) p.pain++;
-	if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg(_("Your feet feel numb."));
+	if (!p.has_disease("sleep") && one_in(400)) g->add_msg(_("Your feet feel numb."));
   }
  break;
 
@@ -195,7 +451,7 @@ void dis_effect(game *g, player &p, disease &dis)
    case 2 : p.per_cur -= 3;
    case 1 :
     if (p.temp_cur[bp_mouth] > BODYTEMP_COLD && p.pain < 40) p.pain++;
-	if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg(_("Your face feels numb."));
+	if (!p.has_disease("sleep") && one_in(400)) g->add_msg(_("Your face feels numb."));
   }
  break;
 
@@ -225,7 +481,7 @@ void dis_effect(game *g, player &p, disease &dis)
     if (int(g->turn) % 150 == 0)
      p.thirst++;
 	if (p.pain < 40) p.pain++;
-    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg(_("Your head is pounding from the heat."));
+    if (!p.has_disease("sleep") && one_in(400)) g->add_msg(_("Your head is pounding from the heat."));
     // Speed -20
    case 2 :
     if (int(g->turn) % 300 == 0)
@@ -233,7 +489,7 @@ void dis_effect(game *g, player &p, disease &dis)
     // Hallucinations handled in game.cpp
     if (one_in(std::min(14500,15000-p.temp_cur[bp_head]))) p.vomit(g);
 	if (p.pain < 20) p.pain++;
-    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg(_("The heat is making you see things."));
+    if (!p.has_disease("sleep") && one_in(400)) g->add_msg(_("The heat is making you see things."));
     // Speed -5
     // case 1 : Speed -2
   }
@@ -252,7 +508,7 @@ void dis_effect(game *g, player &p, disease &dis)
    case 3 :
     if (int(g->turn) % 150 == 0) p.thirst++;
     p.str_cur--;
-    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg(_("You are sweating profusely."));
+    if (!p.has_disease("sleep") && one_in(400)) g->add_msg(_("You are sweating profusely."));
     // Speed -20
    case 2 :
     if (int(g->turn) % 300 == 0) p.thirst++;
@@ -292,7 +548,7 @@ void dis_effect(game *g, player &p, disease &dis)
   switch (dis.intensity) {
    case 3 :
     if (p.pain < 30) p.pain++;
-    if (!p.has_disease(DI_SLEEP) && one_in(400)) g->add_msg(_("Your feet are swelling in the heat."));
+    if (!p.has_disease("sleep") && one_in(400)) g->add_msg(_("Your feet are swelling in the heat."));
   }
   break;
 
@@ -301,7 +557,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.thirst++;
   if (int(g->turn) % 50 == 0)
    p.fatigue++;
-  if (p.has_disease(DI_TOOK_FLUMED)) {
+  if (p.has_disease("took_flumed")) {
    p.str_cur--;
    p.int_cur--;
   } else {
@@ -323,7 +579,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_FLU:
   if (int(g->turn) % 300 == 0)
    p.thirst++;
-  if (p.has_disease(DI_TOOK_FLUMED)) {
+  if (p.has_disease("took_flumed")) {
    p.str_cur -= 2;
    p.int_cur--;
   } else {
@@ -342,7 +598,7 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   if (one_in(3600) || (p.has_trait(PF_WEAKSTOMACH) && one_in(3000)) ||
       (p.has_trait(PF_NAUSEA) && one_in(2400))) {
-   if (!p.has_disease(DI_TOOK_FLUMED) || one_in(2))
+   if (!p.has_disease("took_flumed") || one_in(2))
     p.vomit(g);
   }
   break;
@@ -404,7 +660,7 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_BOULDERING:
-  switch(g->u.disease_intensity(DI_BOULDERING)){
+  switch(g->u.disease_intensity("bouldering")){
    case 1:
     p.dex_cur -= 1;
     break;
@@ -432,7 +688,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_SPORES:
   if (one_in(30))
-   p.add_disease(DI_FUNGUS, -1, g);
+   p.add_disease("fungus", -1, g);
   break;
 
  case DI_FUNGUS:
@@ -525,9 +781,9 @@ void dis_effect(game *g, player &p, disease &dis)
    dis.duration = 1;
    if (!p.is_npc())
     g->add_msg(_("You fall asleep."));
-   p.add_disease(DI_SLEEP, 6000, g);
+   p.add_disease("sleep", 6000, g);
   }
-  if (dis.duration == 1 && !p.has_disease(DI_SLEEP))
+  if (dis.duration == 1 && !p.has_disease("sleep"))
    if (!p.is_npc())
     g->add_msg(_("You try to sleep, but can't..."));
   break;
@@ -659,11 +915,11 @@ void dis_effect(game *g, player &p, disease &dis)
   if (dis.duration > 2000 + 100 * dice(2, 100) &&
       (p.has_trait(PF_WEAKSTOMACH) || p.has_trait(PF_NAUSEA) || one_in(20)))
    p.vomit(g);
-  if (!p.has_disease(DI_SLEEP) && dis.duration >= 4500 &&
+  if (!p.has_disease("sleep") && dis.duration >= 4500 &&
       one_in(500 - int(dis.duration / 80))) {
    if (!p.is_npc())
     g->add_msg(_("You pass out."));
-   p.add_disease(DI_SLEEP, dis.duration / 2, g);
+   p.add_disease("sleep", dis.duration / 2, g);
   }
   break;
 
@@ -758,7 +1014,7 @@ void dis_effect(game *g, player &p, disease &dis)
   if (dis.duration > -2400 && dis.duration < 0)
    formication_chance = 2400 + dis.duration;
   if (one_in(formication_chance))
-   p.add_disease(DI_FORMICATION, 1200, g);
+   p.add_disease("formication", 1200, g);
 
   if (dis.duration < -2400 && one_in(2400))
    p.vomit(g);
@@ -777,7 +1033,7 @@ void dis_effect(game *g, player &p, disease &dis)
     }
    }
    if (valid_spawns.size() >= 1) {
-    p.rem_disease(DI_DERMATIK); // No more infection!  yay.
+    p.rem_disease("dermatik"); // No more infection!  yay.
     if (!p.is_npc())
      g->add_msg(_("Insects erupt from your skin!"));
     else if (g->u_see(p.posx, p.posy))
@@ -865,7 +1121,7 @@ void dis_effect(game *g, player &p, disease &dis)
      g->add_msg(_("Of course... it's all fractals!"));
    }
   } else if (dis.duration == 2400)	// Visuals start
-   p.add_disease(DI_VISUALS, 2400, g);
+   p.add_disease("visuals", 2400, g);
   else {	// Full symptoms
    p.per_cur -= 2;
    p.int_cur -= 1;
@@ -946,14 +1202,14 @@ void dis_effect(game *g, player &p, disease &dis)
      g->add_msg(_("Glowing lights surround you, and you teleport."));
     g->teleport();
     if (one_in(10))
-     p.rem_disease(DI_TELEGLOW);
+     p.rem_disease("teleglow");
    }
    if (one_in(1200 - ((dis.duration - 6000) / 5)) && one_in(20)) {
     if (!p.is_npc())
      g->add_msg(_("You pass out."));
-    p.add_disease(DI_SLEEP, 1200, g);
+    p.add_disease("sleep", 1200, g);
     if (one_in(6))
-     p.rem_disease(DI_TELEGLOW);
+     p.rem_disease("teleglow");
    }
   }
   if (dis.duration > 3600) { // 12 teles
@@ -977,7 +1233,7 @@ void dis_effect(game *g, player &p, disease &dis)
       g->add_msg(_("A portal opens nearby, and a monster crawls through!"));
      }
      if (one_in(2))
-      p.rem_disease(DI_TELEGLOW);
+      p.rem_disease("teleglow");
     }
    }
    if (one_in(3500 - int(.25 * (dis.duration - 3600)))) {
@@ -985,35 +1241,35 @@ void dis_effect(game *g, player &p, disease &dis)
      g->add_msg(_("You shudder suddenly."));
     p.mutate(g);
     if (one_in(4))
-     p.rem_disease(DI_TELEGLOW);
+     p.rem_disease("teleglow");
    }
   }
   if (dis.duration > 2400) {	// 8 teleports
    if (one_in(10000 - dis.duration))
-    p.add_disease(DI_SHAKES, rng(40, 80), g);
+    p.add_disease("shakes", rng(40, 80), g);
    if (one_in(12000 - dis.duration)) {
     if (!p.is_npc())
      g->add_msg(_("Your vision is filled with bright lights..."));
-    p.add_disease(DI_BLIND, rng(10, 20), g);
+    p.add_disease("blind", rng(10, 20), g);
     if (one_in(8))
-     p.rem_disease(DI_TELEGLOW);
+     p.rem_disease("teleglow");
    }
-   if (one_in(5000) && !p.has_disease(DI_HALLU)) {
-    p.add_disease(DI_HALLU, 3600, g);
+   if (one_in(5000) && !p.has_disease("hallu")) {
+    p.add_disease("hallu", 3600, g);
     if (one_in(5))
-     p.rem_disease(DI_TELEGLOW);
+     p.rem_disease("teleglow");
    }
   }
   if (one_in(4000)) {
    if (!p.is_npc())
     g->add_msg(_("You're suddenly covered in ectoplasm."));
-   p.add_disease(DI_BOOMERED, 100, g);
+   p.add_disease("boomered", 100, g);
    if (one_in(4))
-    p.rem_disease(DI_TELEGLOW);
+    p.rem_disease("teleglow");
   }
   if (one_in(10000)) {
-   p.add_disease(DI_FUNGUS, -1, g);
-   p.rem_disease(DI_TELEGLOW);
+   p.add_disease("fungus", -1, g);
+   p.rem_disease("teleglow");
   }
   break;
 
@@ -1092,8 +1348,8 @@ void dis_effect(game *g, player &p, disease &dis)
   } else if (dis.duration > 1200) {	//Pain at 4 hours in
    if (one_in(100)) {
     if (!p.is_npc())
-     if (p.has_disease(DI_SLEEP)) {
-      p.rem_disease(DI_SLEEP);
+     if (p.has_disease("sleep")) {
+      p.rem_disease("sleep");
       g->add_msg(_("You wake up."));
      }
      g->add_msg(_("Your bite wound feels swollen and painful."));
@@ -1103,8 +1359,8 @@ void dis_effect(game *g, player &p, disease &dis)
 
    p.dex_cur-= 1;
   } else {	// Infection starts
-   p.rem_disease(DI_BITE);
-   p.add_disease(DI_INFECTED, 14400, g); // 1 day of timer
+   p.rem_disease("bite");
+   p.add_disease("infected", 14400, g); // 1 day of timer
   }
   break;
 
@@ -1127,8 +1383,8 @@ void dis_effect(game *g, player &p, disease &dis)
   if (dis.duration > 10800) {	// Infection Symptoms 6 hours into infection
    if (one_in(300)) {
     if (!p.is_npc()) {
-     if (p.has_disease(DI_SLEEP)) {
-      p.rem_disease(DI_SLEEP);
+     if (p.has_disease("sleep")) {
+      p.rem_disease("sleep");
       g->add_msg(_("You wake up."));
      }
      g->add_msg(_("Your infected wound is incredibly painful."));
@@ -1142,8 +1398,8 @@ void dis_effect(game *g, player &p, disease &dis)
   } else if (dis.duration > 7200) {	//Infection Symptoms 12 hours into infection
    if (one_in(100)) {
     if (!p.is_npc()) {
-     if (p.has_disease(DI_SLEEP)) {
-      p.rem_disease(DI_SLEEP);
+     if (p.has_disease("sleep")) {
+      p.rem_disease("sleep");
       g->add_msg(_("You wake up."));
      }
      g->add_msg(_("You feel feverish and nauseous, your wound has begun to turn green."));
@@ -1158,8 +1414,8 @@ void dis_effect(game *g, player &p, disease &dis)
   } else if (dis.duration > 3600) {	//Infection Symptoms 18 hours into infection
    if (one_in(100)) {
        if (!p.is_npc()) {
-           if (p.has_disease(DI_SLEEP)) {
-               p.rem_disease(DI_SLEEP);
+           if (p.has_disease("sleep")) {
+               p.rem_disease("sleep");
                g->add_msg(_("You wake up."));
                g->add_msg(_("You feel terribly weak, standing up is nearly impossible."));
            } else {
@@ -1176,14 +1432,14 @@ void dis_effect(game *g, player &p, disease &dis)
    p.dex_cur-= 2;
 
    if(one_in(10)) {
-    if (p.has_disease(DI_SLEEP))
-     p.rem_disease(DI_SLEEP);
+    if (p.has_disease("sleep"))
+     p.rem_disease("sleep");
     g->add_msg(_("You pass out."));
-    p.add_disease(DI_SLEEP, 60, g);
+    p.add_disease("sleep", 60, g);
    }
   } else {	// You die. 24 hours after infection Total time, 30 hours including bite.
-   if (p.has_disease(DI_SLEEP))
-    p.rem_disease(DI_SLEEP);
+   if (p.has_disease("sleep"))
+    p.rem_disease("sleep");
    g->add_msg(_("You succumb to the infection."));
    p.hurtall(500);
   }
@@ -1198,7 +1454,8 @@ void dis_effect(game *g, player &p, disease &dis)
 
 int disease_speed_boost(disease dis)
 {
- switch (dis.type) {
+ dis_type_enum type = disease_type_lookup[dis.type];
+ switch (type) {
  case DI_COLD_TORSO:
   switch (dis.intensity) {
    case 1 : return  -2;
@@ -1240,7 +1497,8 @@ int disease_speed_boost(disease dis)
 
 std::string dis_name(disease dis)
 {
-    switch (dis.type) {
+    dis_type_enum type = disease_type_lookup[dis.type];
+    switch (type) {
     case DI_NULL: return "";
     case DI_GLARE: return _("Glare");
     case DI_COLD_HEAD:
@@ -1407,7 +1665,9 @@ std::string dis_description(disease dis)
 {
     int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
-    switch (dis.type) {
+    
+    dis_type_enum type = disease_type_lookup[dis.type];
+    switch (type) {
 
     case DI_NULL:
         return _("None");
