@@ -172,7 +172,7 @@ class game
                   std::vector<point> &trajectory);
   void cancel_activity();
   void cancel_activity_query(const char* message, ...);
-  bool cancel_activity_or_ignore_query(const char* reason, ...); 
+  bool cancel_activity_or_ignore_query(const char* reason, ...);
   void moving_vehicle_dismount(int tox, int toy);
   // Get input from the player to choose an adjacent tile (for examine() etc)
   bool choose_adjacent(std::string verb, int &x, int&y);
@@ -317,8 +317,8 @@ class game
 
  void load_artifacts(); // Load artifact data
                         // Needs to be called by main() before MAPBUFFER.load
- 
- // Knockback functions: knock target at (tx,ty) along a line, either calculated 
+
+ // Knockback functions: knock target at (tx,ty) along a line, either calculated
  // from source position (sx,sy) using force parameter or passed as an argument;
  // force determines how far target is knocked, if trajectory is calculated
  // force also determines damage along with dam_mult;
@@ -326,7 +326,7 @@ class game
  // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
  void knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult);
  void knockback(std::vector<point>& traj, int force, int stun, int dam_mult);
- 
+
  // shockwave applies knockback to all targets within radius of (x,y)
  // parameters force, stun, and dam_mult are passed to knockback()
  // ignore_player determines if player is affected, useful for bionic, etc.
@@ -363,6 +363,7 @@ class game
   void init_mutations();    // Initializes mutation "tech tree"
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
+  void init_diseases();     // Initializes disease lookup table.
 
   void load_keyboard_settings(); // Load keybindings from disk
 
@@ -442,7 +443,8 @@ class game
   void chat();    // Talk to a nearby NPC	'C'
   void plthrow(char chInput = '.'); // Throw an item		't'
   void help();    // Help screen		'?'
-  void show_options();    // Options screen		'?'
+  void show_options();    // Options screen		'?1'
+  void show_auto_pickup();    // Auto pickup manage screen		'?3'
 
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also

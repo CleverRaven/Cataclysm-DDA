@@ -95,7 +95,8 @@
         "bashing" : 1,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
-        "material_thickness" : 4
+        "material_thickness" : 4,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -120,7 +121,8 @@
         "bashing" : 1,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
-        "material_thickness" : 6
+        "material_thickness" : 6,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -145,7 +147,8 @@
         "bashing" : 4,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
-        "material_thickness" : 4
+        "material_thickness" : 4,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -170,7 +173,8 @@
         "bashing" : 0,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
-        "material_thickness" : 8
+        "material_thickness" : 8,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -2930,7 +2934,7 @@
         "ammo": "none",
         "revert_to": "null",
         "phase" : "solid",
-	"use_action" : "RAD_BADGE"
+        "use_action" : "RAD_BADGE"
     },
     {
         "type" : "ARMOR",

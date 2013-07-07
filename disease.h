@@ -20,4 +20,6 @@ std::string dis_name(disease dis);
 
 std::string dis_description(disease dis);
 
+dis_type disease_for_body_part(dis_type base, int body_part);
+
 #endif
