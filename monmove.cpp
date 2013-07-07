@@ -581,14 +581,16 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     g->add_msg("%s offensive defense system shocks it!", Your.c_str());
                 }
-                hurt(rng(10, 40));
+                if (hurt(rng(10, 40)))
+                    die(g);
             }
             if (p.encumb(bphit) == 0 &&(p.has_trait(PF_SPINES) || p.has_trait(PF_QUILLS)))
             {
                 int spine = rng(1, (p.has_trait(PF_QUILLS) ? 20 : 8));
                 g->add_msg("%s %s puncture it!", Your.c_str(),
                            (g->u.has_trait(PF_QUILLS) ? "quills" : "spines"));
-                hurt(spine);
+                if (hurt(spine))
+                    die(g);
             }
 
             if (dam + cut <= 0)

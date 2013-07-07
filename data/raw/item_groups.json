@@ -217,7 +217,7 @@
       ["foot_crank", 10],
       ["boltcutters", 5],
       ["spray_can", 50],
-      ["jar_glass", 10],
+      ["jar_glass", 50],
       ["bearing", 1]
     ]
   },
