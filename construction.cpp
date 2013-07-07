@@ -1057,12 +1057,12 @@ void construct::done_trunk_plank(game *g, point p)
 
 void construct::done_vehicle(game *g, point p)
 {
-    std::string name = string_input_popup("Enter new vehicle name", 20);
+    std::string name = string_input_popup("Enter new vehicle name:", 20);
     if(name.empty())
     {
         name = "Car";
     }
-    
+
     vehicle *veh = g->m.add_vehicle (g, veh_custom, p.x, p.y, 270, 0, 0);
     if (!veh)
     {
@@ -1071,7 +1071,7 @@ void construct::done_vehicle(game *g, point p)
     }
     veh->name = name;
     veh->install_part (0, 0, vp_frame_v2);
-    
+
     //Update the vehicle cache immediately, or the vehicle will be invisible for the first couple of turns.
     g->m.update_vehicle_cache(veh, true);
 

@@ -50,10 +50,11 @@ h: Radioactivity and Mutation\n\
 \n\
 1: List of all commands (you can change key commands here)\n\
 2: List of all options  (you can change options here)\n\
-3: List of item types and data\n\
-4: Description of map symbols\n\
-5: Description of gun types\n\
-6: Frequently Asked Questions (Some spoilers!)\n\
+3: Auto pickup manager\n\
+4: List of item types and data\n\
+5: Description of map symbols\n\
+6: Description of gun types\n\
+7: Frequently Asked Questions (Some spoilers!)\n\
 \n\
 q: Return to game");
 
@@ -556,10 +557,10 @@ extremities from frostbite and to keep your distance from large fires.");
 
   // Keybindings
   case '1': {
-      
+
    // Remember what the keybindings were originally so we can restore them if player cancels.
    std::map<char, action_id> keymap_old = keymap;
-      
+
    werase(w_help);
    int offset = 1;
    char remapch = ' ';
@@ -635,8 +636,8 @@ extremities from frostbite and to keep your distance from large fires.");
      }
     }
    } while (remapch != 'q' && remapch != 'Q' && remapch != KEY_ESCAPE);
-   
-   
+
+
    if (changed_keymap)
    {
        if(query_yn("Save changes?"))
@@ -649,7 +650,7 @@ extremities from frostbite and to keep your distance from large fires.");
            keymap = keymap_old;
        }
    }
-    
+
    werase(w_help);
   } break;
 
@@ -658,7 +659,12 @@ extremities from frostbite and to keep your distance from large fires.");
    werase(w_help);
   } break;
 
-  case '3':
+  case '3': {
+   show_auto_pickup();
+   werase(w_help);
+  } break;
+
+  case '4':
    werase(w_help);
    mvwprintz(w_help, 0, 0, c_white, "\
 ITEM TYPES:\n\
@@ -744,7 +750,7 @@ ITEM TYPES:\n\
    getch();
    break;
 
-  case '4':
+  case '5':
    werase(w_help);
    mvwprintz(w_help,  0, 0, c_ltgray,  "MAP SYMBOLS:");
    mvwprintz(w_help,  1, 0, c_brown,   "\
@@ -802,7 +808,7 @@ O           Parking lot - Empty lot, few items. Mostly useless.");
    getch();
    break;
 
-  case '5':
+  case '6':
    werase(w_help);
    mvwprintz(w_help, 0, 0, c_white, "Gun types:");
    mvwprintz(w_help, 2, 0, c_ltgray, "( Handguns");
@@ -912,7 +918,7 @@ you really need it.");
    getch();
    break;
 
-  case '6':
+  case '7':
    werase(w_help);
    mvwprintz(w_help, 0, 0, c_white, "\
 Q: What is Safe Mode, and why does it prevent me from moving?\n\
