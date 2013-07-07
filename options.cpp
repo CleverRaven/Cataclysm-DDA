@@ -652,7 +652,7 @@ rad_mutation T\n\
 # Ask to save before sleeping.\n\
 save_sleep F\n\
 # Auto Pickup items with Volume and Weight 0\n\
-save_sleep F\n\
+auto_pickup F\n\
 ";
     fout.close();
 }

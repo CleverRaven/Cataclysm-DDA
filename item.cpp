@@ -59,6 +59,7 @@ item::item(itype* it, unsigned int turn)
  player_id = -1;
  if (it == NULL)
   return;
+ name = it->name;
  if (it->is_gun())
   charges = 0;
  else if (it->is_ammo()) {
@@ -104,7 +105,7 @@ item::item(itype *it, unsigned int turn, char let)
   type = it;
  }
  bday = turn;
- name = "";
+ name = it->name;
  damage = 0;
  burnt = 0;
  poison = 0;

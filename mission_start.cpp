@@ -49,7 +49,7 @@ void mission_start::place_dog(game *g, mission *miss)
    g->cur_om->seen(x, y, 0) = true;
  }
 
- tinymap doghouse(&(g->itypes), &(g->mapitems), &(g->traps));
+ tinymap doghouse(&(g->traps));
  doghouse.load(g, house.x * 2, house.y * 2, 0, false);
  doghouse.add_spawn(mon_dog, 1, SEEX, SEEY, true, -1, miss->uid);
  doghouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
@@ -67,7 +67,7 @@ void mission_start::place_zombie_mom(game *g, mission *miss)
    g->cur_om->seen(x, y, 0) = true;
  }
 
- tinymap zomhouse(&(g->itypes), &(g->mapitems), &(g->traps));
+ tinymap zomhouse(&(g->traps));
  zomhouse.load(g, house.x * 2, house.y * 2,  0, false);
  zomhouse.add_spawn(mon_zombie, 1, SEEX, SEEY, false, -1, miss->uid, Name::get(nameIsFemaleName | nameIsGivenName));
  zomhouse.save(g->cur_om, int(g->turn), house.x * 2, house.y * 2, 0);
@@ -83,7 +83,7 @@ void mission_start::place_jabberwock(game *g, mission *miss)
   for (int y = site.y - 6; y <= site.y + 6; y++)
    g->cur_om->seen(x, y, 0) = true;
  }
- tinymap grove(&(g->itypes), &(g->mapitems), &(g->traps));
+ tinymap grove(&(g->traps));
  grove.load(g, site.x * 2, site.y * 2,  0, false);
  grove.add_spawn(mon_jabberwock, 1, SEEX, SEEY, false, -1, miss->uid, "NONE");
  grove.save(g->cur_om, int(g->turn), site.x * 2, site.y * 2, 0);
@@ -117,7 +117,7 @@ void mission_start::kill_horde_master(game *g, mission *miss)
   for (int y = site.y - 6; y <= site.y + 6; y++)
    g->cur_om->seen(x, y, 0) = true;
  }
- tinymap tile(&(g->itypes), &(g->mapitems), &(g->traps));
+ tinymap tile(&(g->traps));
  tile.load(g, site.x * 2, site.y * 2,  0, false);
  tile.add_spawn(mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul");
  tile.add_spawn(mon_zombie_brute,3,SEEX,SEEY);
@@ -175,7 +175,7 @@ void mission_start::place_npc_software(game *g, mission *miss)
   for (int y = place.y - 6; y <= place.y + 6; y++)
    g->cur_om->seen(x, y, 0) = true;
  }
- tinymap compmap(&(g->itypes), &(g->mapitems), &(g->traps));
+ tinymap compmap(&(g->traps));
  compmap.load(g, place.x * 2, place.y * 2, 0, false);
  point comppoint;
 
@@ -272,7 +272,7 @@ void mission_start::place_priest_diary(game *g, mission *miss)
   for (int y = place.y - 2; y <= place.y + 2; y++)
    g->cur_om->seen(x, y, 0) = true;
  }
- tinymap compmap(&(g->itypes), &(g->mapitems), &(g->traps));
+ tinymap compmap(&(g->traps));
  compmap.load(g, place.x * 2, place.y * 2, 0, false);
  point comppoint;
 
@@ -311,7 +311,7 @@ void mission_start::place_deposit_box(game *g, mission *miss)
   for (int y = site.y - 2; y <= site.y + 2; y++)
    g->cur_om->seen(x, y, 0) = true;
  }
- tinymap compmap(&(g->itypes), &(g->mapitems), &(g->traps));
+ tinymap compmap(&(g->traps));
  compmap.load(g, site.x * 2, site.y * 2, 0, false);
  point comppoint;
   std::vector<point> valid;
