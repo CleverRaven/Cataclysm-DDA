@@ -117,11 +117,13 @@ endif
 # Linux 64-bit
 ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
+  LDFLAGS += -m64
   TARGETSYSTEM=LINUX
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
+    LDFLAGS += -m32
     TARGETSYSTEM=LINUX
   endif
 endif

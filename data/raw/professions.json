@@ -62,13 +62,5 @@
     "intensity": 10
       }
   ]
- },
-
- {
-  "ident": "patriot",
-  "name": "Patriot",
-  "description": "It's the fourth of July, and you're fully prepared to celebrate the end of the world in style.",
-  "points": 0,
-  "items": ["jeans","flag_shirt","backpack","sneakers","wine_noir","wine_riesling","beer","beer","beer","beer","beer","beer","firecracker_pack","firecracker_pack","firecracker_pack","firecracker_pack","firecracker_pack","firecracker","firecracker","firecracker","firecracker","firecracker","mininuke","c4","dynamite","LAW_Packed", "american_flag"]
  }
 ]

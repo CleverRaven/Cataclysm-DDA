@@ -99,7 +99,8 @@
       ["extinguisher", 20],
       ["mp3", 18],
       ["usb_drive", 5],
-      ["beer", 60]
+      ["beer", 60],
+      ["cell_phone", 50]
     ]
   },
   { "id":"kitchen",
@@ -147,7 +148,10 @@
       ["ravioli", 25],
       ["sauce_red", 20],
       ["sauce_pesto", 15],
-      ["bread", 14]
+      ["bread", 14],
+      ["mayonnaise", 35],
+      ["ketchup", 35],
+      ["mustard", 35]
     ]
   },
   { "id":"knifeblock",
@@ -271,7 +275,9 @@
       ["wolfsuit", 4],
       ["glowstick", 60],
       ["blanket", 20],
-      ["house_coat", 25]
+      ["house_coat", 25],
+      ["talking_doll", 65],
+      ["money_bundle", 30]
     ]
   },
   { "id":"homeguns",
@@ -427,7 +433,10 @@
       ["pizza_meat", 8],
       ["pie", 20],
       ["chips", 65],
-      ["candy", 80]
+      ["candy", 80],
+      ["mayonnaise", 60],
+      ["ketchup", 60],
+      ["mustard", 60]
     ]
   },
   { "id":"coffee_shop",
@@ -467,7 +476,8 @@
       ["extinguisher", 20],
       ["tazer", 3],
       ["mp3", 18],
-      ["roadmap", 40]
+      ["roadmap", 40],
+      ["money_bundle", 55]
     ]
   },
   { "id":"magazines",
@@ -886,7 +896,8 @@
       ["spray_can", 50],
       ["keg", 10],
       ["jar_glass", 10],
-      ["flyer", 10]
+      ["flyer", 10],
+      ["talking_doll", 60]
     ]
   },
   { "id":"ammo",
@@ -1511,7 +1522,8 @@
       ["power_armor_light", 3],
       ["power_armor_heavy", 3],
       ["minireactor", 1],
-      ["alloy_plate", 10]
+      ["alloy_plate", 10],
+      ["money_bundle", 90]
     ]
   },
   { "id":"medieval",

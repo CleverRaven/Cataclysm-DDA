@@ -272,6 +272,19 @@ A portion of a giant worm that is still alive."
 );
 FLAGS(MF_DIGS, MF_HEARS, MF_GOODHEARING, MF_WARM, MF_LEATHER);
 
+// Wild Mutants
+mon("sludge crawler",species_none, 'S',	c_dkgray,		MS_LARGE,	"none",
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  15, 100, 100, 60,  7,  3,  5,  0,  12,  4,  0,  0, 300,  0,
+	&mdeath::melt,	&mattack::none, "\
+A sluglike creature, eight feet long and the width of a refrigerator, it's black \
+body glistens as it oozes it's way along the ground. Eye stalks occassionally push their \
+way out of the oily mass and look around."
+);
+FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30, 
+MF_SLUDGEPROOF, MF_SLUDGETRAIL, MF_SWIMS, MF_FLAMMABLE);
+
+
 // ZOMBIES
 mon("zombie",	species_zombie, 'Z',	c_ltgreen,	MS_MEDIUM,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
