@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -115,6 +115,7 @@
     <ClCompile Include="..\action.cpp" />
     <ClCompile Include="..\addiction.cpp" />
     <ClCompile Include="..\artifact.cpp" />
+    <ClCompile Include="..\auto_pickup.cpp" />
     <ClCompile Include="..\basecamp.cpp" />
     <ClCompile Include="..\bionics.cpp" />
     <ClCompile Include="..\bodypart.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="..\addiction.h" />
     <ClInclude Include="..\artifact.h" />
     <ClInclude Include="..\artifactdata.h" />
+    <ClInclude Include="..\auto_pickup.h" />
     <ClInclude Include="..\basecamp.h" />
     <ClInclude Include="..\bionics.h" />
     <ClInclude Include="..\bodypart.h" />
