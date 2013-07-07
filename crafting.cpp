@@ -356,7 +356,7 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
             }
             ++comp_it;
         }
-        
+
         if (!atleast_one_available)
         // this set doesn't have any components available, so the recipe can't be crafted
         {
@@ -365,7 +365,7 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
         ++comp_set_it;
     }
 
-    
+
     std::vector<std::vector<component> > &tools = r->tools;
     std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
     while (tool_set_it != tools.end())
@@ -435,7 +435,7 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
             }
             ++tool_it;
         }
-        
+
         if (!atleast_one_available)
             // this set doesn't have any tools available, so the recipe can't be crafted
         {
@@ -443,7 +443,7 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
         }
         ++tool_set_it;
     }
-    
+
     return RET_VAL;
 }
 
@@ -544,7 +544,7 @@ recipe* game::select_crafting_recipe()
             mvwprintz(w_data, dataLines+1, 5, c_white, "[?/E]: Describe, [F]ind , [R]eset");
         }
         else
-        {   
+        {
             mvwprintz(w_data, dataLines+1, 5, c_white, "[?/E]: Describe, [F]ind");
         }
         mvwprintz(w_data, dataLines+2, 5, c_white, "Press <ENTER> to attempt to craft object.");
@@ -683,7 +683,7 @@ recipe* game::select_crafting_recipe()
                         itype_id type = current[line]->tools[i][j].type;
                         int charges = current[line]->tools[i][j].count;
                         nc_color toolcol = c_red;
-                        
+
                         if (current[line]->tools[i][j].available == 0)
                         {
                             toolcol = c_brown;
@@ -849,7 +849,7 @@ recipe* game::select_crafting_recipe()
                 redraw = true;
                 break;
             case Filter:
-                filterstring = string_input_popup("Search :",55,filterstring);
+                filterstring = string_input_popup("Search:", 55, filterstring);
                 redraw = true;
                 break;
             case Reset:
@@ -1037,12 +1037,12 @@ void game::complete_craft()
  if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
   add_msg("You fail to make the %s, and waste some materials.",
           item_controller->find_template(making->result)->name.c_str());
-    for (int i = 0; i < making->components.size(); i++) 
+    for (int i = 0; i < making->components.size(); i++)
     {
         if (making->components[i].size() > 0)
         consume_items(&u, making->components[i]);
-    }  
-  
+    }
+
   for (int i = 0; i < making->tools.size(); i++) {
    if (making->tools[i].size() > 0)
     consume_tools(&u, making->tools[i], false);
@@ -1471,7 +1471,7 @@ void game::disassemble(char ch)
                 // all tools present, so assign the activity
                 if (have_all_tools)
                 {
-                 
+
                   if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
                   {
                    return;

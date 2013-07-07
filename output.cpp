@@ -252,7 +252,7 @@ void printz(nc_color FG, const char *mes, ...)
  vsprintf(buff, mes, ap);
  va_end(ap);
  attron(FG);
- printw("%s", buff); 
+ printw("%s", buff);
  attroff(FG);
 }
 
@@ -414,12 +414,18 @@ std::string string_input_popup(std::string title, int max_length, std::string in
  std::string ret = input;
 
  int startx = utf8_width(title.c_str()) + 2;
- WINDOW *w = newwin(3, FULL_SCREEN_WIDTH, (TERMY-3)/2,
-                    ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0));
+ int iPopupWidth = (max_length == 0) ? FULL_SCREEN_WIDTH : max_length + title.size() + 4;
+ if (iPopupWidth > FULL_SCREEN_WIDTH) {
+     iPopupWidth = FULL_SCREEN_WIDTH;
+     max_length = FULL_SCREEN_WIDTH - title.size() - 4;
+ }
+
+ WINDOW *w = newwin(3, iPopupWidth, (TERMY-3)/2,
+                    ((TERMX > iPopupWidth) ? (TERMX-iPopupWidth)/2 : 0));
 
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- for (int i = startx + 1; i < 79; i++)
+ for (int i = startx + 1; i < iPopupWidth-1; i++)
   mvwputch(w, 1, i, c_ltgray, '_');
 
  mvwprintz(w, 1, 1, c_ltred, "%s", title.c_str());
@@ -589,7 +595,7 @@ void popup(const char *mes, ...)
  std::string tmp = buff;
  int width = 0;
  int height = 2;
- 
+
  size_t pos = tmp.find_first_of('\n');
  while (pos != std::string::npos) {
   height++;
@@ -606,7 +612,7 @@ void popup(const char *mes, ...)
  WINDOW *w = newwin(height+1, width, (TERMY-(height+1))/2, (TERMX > width) ? (TERMX-width)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- 
+
  fold_and_print(w,1,1,width,c_white, "%s", mes);
 
  wrefresh(w);
@@ -678,7 +684,7 @@ void full_screen_popup(const char* mes, ...)
                     (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
- 
+
  fold_and_print(w,1,2,80-3,c_white,"%s",mes);
  wrefresh(w);
  char ch;
