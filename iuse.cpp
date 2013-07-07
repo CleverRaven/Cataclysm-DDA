@@ -3708,7 +3708,7 @@ void iuse::tent(game *g, player *p, item *it, bool t)
  //dirx and diry will be integratined with the player's position
  int posx = dirx - p->posx;
  int posy = diry - p->posy;
- if(posx == 0 || posy == 0){
+ if(posx == 0 && posy == 0){
   g->add_msg_if_player(p,"Invalid Direction");
   return;
  }
@@ -3739,7 +3739,7 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
  //dirx and diry will be integratined with the player's position
  int posx = dirx - p->posx;
  int posy = diry - p->posy;
- if(posx == 0 || posy == 0){
+ if(posx == 0 && posy == 0){
   g->add_msg_if_player(p,"Invalid Direction");
   return;
  }
