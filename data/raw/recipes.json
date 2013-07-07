@@ -15,6 +15,35 @@
 
     "recipes":
     [
+	    {
+            "result": "cell_phone",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "difficulty": 0,
+            "time": 500,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 1]
+                              ],
+                              [
+                                  ["RAM", 1]
+                              ],
+                              [
+                                  ["processor", 1]
+                              ],
+                              [
+                                  ["battery", 200]
+                              ]
+                          ]
+        },
         {
             "result": "knife_steak",
             "id_suffix": "uncraft",
@@ -988,6 +1017,55 @@
                               ],
                               [
                                   ["2x4", 1]
+                              ]
+                          ]
+        },
+				        {
+            "result": "pipe_shotgun",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 2,
+            "time": 12000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hacksaw", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe", 1]
+                              ],
+                              [
+                                  ["2x4", 1]
+                              ]
+                          ]
+        },
+		{
+		    "result": "pipe_shotgunsawn",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 2,
+            "time": 12000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hacksaw", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe_shotgun", 1]
                               ]
                           ]
         },
@@ -3509,7 +3587,45 @@
                               ]
                           ]
         },
-
+        
+        {
+            "result": "kompot",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["blueberries", 3],
+                                  ["apple", 1],
+                                  ["apple_canned", 1],
+                                  ["apple_vac", 1],
+                                  ["strawberries", 3],
+                                  ["orange", 1],
+                                  ["lemon", 1]
+                              ],
+                              [
+                                  ["sugar", 1]
+                              ],
+                              [
+                                  ["water", 5],
+                                  ["water_clean", 5]
+                              ]
+                          ]
+        },
 
         {
             "result": "coffee",
@@ -3869,7 +3985,40 @@
                               ]
                           ]
         },
-
+        
+        {
+            "result": "soup_woods",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["broth", 2],
+                                  ["broth_bone", 2]
+                              ],
+                              [
+                                  ["meat", 2]
+                              ],
+                              [
+                                  ["veggy_wild", 2],
+                                  ["veggy", 2]
+                              ]
+                          ]
+        },
 
         {
             "result": "soup_human",
@@ -9521,6 +9670,100 @@
                                   ["bandages", 2]
                               ]
                           ]
-        }
+        },
+       {
+            "result": "jerrycan",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 1,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1],
+                             ["screwdriver", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["string_36", 1]
+                              ],
+                              [
+                                  ["duct_tape", 50]
+                              ],
+                              [
+                                  ["jug_plastic", 4]
+                              ]
+                          ]
+        },
+      {
+            "result": "jerrycan_big",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 2,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["toolset", -1],
+                             ["screwdriver", -1]
+                         ],
+                         [
+                             ["toolset", -1],
+                             ["hacksaw", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["string_36", 1]
+                              ],
+                              [
+                                  ["metal_tank", 1]
+                              ],
+                              [
+                                  ["scrap", 1]
+                              ]
+                          ]
+        },
+            {
+                "result": "nailrifle",
+                "category": "CC_WEAPON",
+                "skill_pri": "mechanics",
+                "skill_sec": "gun",
+                "difficulty": 2,
+                "time": 12000,
+                "reversible": true,
+                "autolearn": true,
+                "tools": [
+                             [
+                                 ["hacksaw", -1],
+                                 ["toolset", -1]
+                             ],
+                             [
+                                 ["screwdriver", -1],
+                                 ["toolset", -1]
+                             ]
+                         ],
+                "components": [
+                                  [
+                                      ["pipe", 1]
+                                  ],
+                                  [
+                                      ["2x4", 2]
+                                  ],
+                                  [
+                                      ["nailgun", 1]
+                                  ]
+                              ]
+            }
     ]
 }

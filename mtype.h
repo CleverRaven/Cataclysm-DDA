@@ -40,6 +40,8 @@ mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, mon_ant_fungus,
 mon_fly, mon_bee, mon_wasp,
 // Worms
 mon_graboid, mon_worm, mon_halfworm,
+// Wild Mutants
+mon_sludge_crawler,
 // Zombies
  mon_zombie, mon_zombie_cop, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
  mon_zombie_smoker,
@@ -158,6 +160,8 @@ MF_SUNDEATH,	// Dies in full sunlight
 MF_ELECTRIC,	// Shocks unarmed attackers
 MF_ACIDPROOF,	// Immune to acid
 MF_ACIDTRAIL,	// Leaves a trail of acid
+MF_SLUDGEPROOF, // Ignores the effect of sludge trails
+MF_SLUDGETRAIL, // Causes monster to leave a sludge trap trail when moving
 MF_FIREY,	// Burns stuff and is immune to fire
 MF_QUEEN,	// When it dies, local populations start to die off too
 MF_ELECTRONIC,	// e.g. a robot; affected by emp blasts, and other stuff
@@ -172,6 +176,8 @@ MF_HIT_AND_RUN,	// Flee for several turns after a melee attack
 MF_GUILT,	// You feel guilty for killing it
 MF_HUMAN,	// It's a live human
 MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and poison
+MF_REGENERATES_50, // Monster regenerates very quickly over time
+MF_FLAMMABLE, // Monster catches fire, burns, and passes the fire on to nearby objects
 MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
 
