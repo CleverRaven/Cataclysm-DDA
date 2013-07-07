@@ -3898,7 +3898,40 @@
                               ]
                           ]
         },
-
+        
+        {
+            "result": "soup_woods",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["broth", 2],
+                                  ["broth_bone", 2]
+                              ],
+                              [
+                                  ["meat", 2]
+                              ],
+                              [
+                                  ["veggy_wild", 2],
+                                  ["veggy", 2]
+                              ]
+                          ]
+        },
 
         {
             "result": "soup_human",
