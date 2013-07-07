@@ -30,7 +30,7 @@ void trapfunc::beartrap(game *g, int x, int y)
  g->add_msg("A bear trap closes on your foot!");
  g->sound(x, y, 8, "SNAP!");
  g->u.hit(g, bp_legs, rng(0, 1), 10, 16);
- g->u.add_disease("beartrap", -1, g);
+ g->u.add_disease("beartrap", -1);
  g->m.tr_at(x, y) = tr_null;
  g->m.spawn_item(x, y, "beartrap", g->turn);
 }
@@ -257,7 +257,7 @@ void trapfunc::snare_light(game *g, int x, int y)
 {
  g->sound(x, y, 2, "Snap!");
  g->add_msg("A snare closes on your leg.");
- g->u.add_disease("lightsnare", rng(10, 20), g);
+ g->u.add_disease("lightsnare", rng(10, 20));
  g->m.tr_at(x, y) = tr_null;
  g->m.spawn_item(x, y, "string_36", 0);
  g->m.spawn_item(x, y, "snare_trigger", 0);
@@ -315,7 +315,7 @@ void trapfunc::snare_heavy(game *g, int x, int y)
  g->sound(x, y, 4, "Snap!");
  g->add_msg("A snare closes on your %s.", body_part_name(hit, side).c_str());
  g->u.hit(g, bp_legs, side, 15, 20);
- g->u.add_disease("heavysnare", rng(20, 30), g);
+ g->u.add_disease("heavysnare", rng(20, 30));
  g->m.tr_at(x, y) = tr_null;
  g->m.spawn_item(x, y, "rope_6", 0);
  g->m.spawn_item(x, y, "snare_trigger", 0);
@@ -512,7 +512,7 @@ void trapfunc::pit(game *g, int x, int y)
   } else
    g->add_msg("You land nimbly.");
  }
- g->u.add_disease("in_pit", -1, g);
+ g->u.add_disease("in_pit", -1);
 }
 
 void trapfuncm::pit(game *g, monster *z, int x, int y)
@@ -566,7 +566,7 @@ void trapfunc::pit_spikes(game *g, int x, int y)
    }
   }
  }
- g->u.add_disease("in_pit", -1, g);
+ g->u.add_disease("in_pit", -1);
 }
 
 void trapfuncm::pit_spikes(game *g, monster *z, int x, int y)

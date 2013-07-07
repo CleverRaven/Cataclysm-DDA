@@ -182,7 +182,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 /* TODO: Open a dialogue with the player, allowing us to ask if it's alright if
  * we get some sleep, how long watch shifts should be, etc.
  */
-  //add_disease("lying_down", 300, g);
+  //add_disease("lying_down", 300);
   if (is_friend() && g->u_see(posx, posy))
    say(g, "I'm going to sleep.");
   break;
@@ -644,11 +644,11 @@ npc_action npc::address_player(game *g)
    int intense = disease_intensity("catch_up");
    if (intense < 10) {
     say(g, "<keep_up>");
-    add_disease("catch_up", 5, g, 1, 15);
+    add_disease("catch_up", 5, 1, 15);
     return npc_pause;
    } else if (intense == 10) {
     say(g, "<im_leaving_you>");
-    add_disease("catch_up", 5, g, 1, 15);
+    add_disease("catch_up", 5, 1, 15);
     return npc_pause;
    } else
     return npc_goto_destination;
@@ -1010,7 +1010,7 @@ void npc::move_to(game *g, int x, int y)
   g->sound(x, y, 18, bashsound);
  } else
  if (g->m.field_at(x, y).findField(fd_rubble))
-  g->u.add_disease("bouldering", 100, g, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
+  g->u.add_disease("bouldering", 100, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
  else
   g->u.rem_disease("bouldering");
   moves -= 100;

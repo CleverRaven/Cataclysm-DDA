@@ -539,7 +539,7 @@ void mattack::spit_sap(game *g, monster *z)
   return;
  g->add_msg("A glob of sap hits you!");
  g->u.hit(g, bp_torso, 0, dam, 0);
- g->u.add_disease("sap", dam, g);
+ g->u.add_disease("sap", dam);
 }
 
 void mattack::triffid_heartbeat(game *g, monster *z)
@@ -769,7 +769,7 @@ void mattack::dermatik(game *g, monster *z)
 // Success!
  z->moves -= 500; // Successful laying takes a long time
  g->add_msg("The %s sinks its ovipositor into you!", z->name().c_str());
- g->u.add_disease("dermatik", -1, g); // -1 = infinite
+ g->u.add_disease("dermatik", -1); // -1 = infinite
 }
 
 void mattack::plant(game *g, monster *z)
@@ -799,7 +799,7 @@ void mattack::formblob(game *g, monster *z)
    if (g->u.posx == z->posx + i && g->u.posy == z->posy + i) {
 // If we hit the player, cover them with slime
     didit = true;
-    g->u.add_disease("slimed", rng(0, z->hp), g);
+    g->u.add_disease("slimed", rng(0, z->hp));
    } else if (thatmon != -1) {
 // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
     if (z->speed > 20 && g->z[thatmon].type->id == mon_blob &&
@@ -1074,7 +1074,7 @@ void mattack::stare(game *g, monster *z)
  int j;
  if (g->sees_u(z->posx, z->posy, j)) {
   g->add_msg("The %s stares at you, and you shudder.", z->name().c_str());
-  g->u.add_disease("teleglow", 800, g);
+  g->u.add_disease("teleglow", 800);
  } else {
   g->add_msg("A piercing beam of light bursts forth!");
   std::vector<point> sight = line_to(z->posx, z->posy, g->u.posx, g->u.posy, 0);
@@ -1282,7 +1282,7 @@ void mattack::flamethrower(game *g, monster *z)
         }
         g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
     }
-    g->u.add_disease("onfire", 8, g);
+    g->u.add_disease("onfire", 8);
 
 }
 
@@ -1346,7 +1346,7 @@ void mattack::ratking(game *g, monster *z)
   case 5: g->add_msg("\"FOUL INTERLOPER...\""); break;
  }
 
- g->u.add_disease("rat", 20, g);
+ g->u.add_disease("rat", 20);
 }
 
 void mattack::generator(game *g, monster *z)
@@ -1459,7 +1459,7 @@ void mattack::bite(game *g, monster *z) {
     g->add_msg("Your %s is bitten!", body_part_name(hit, side).c_str());
 
     if(one_in(14 - dam)) {
-      g->u.add_disease("bite", 3600, g);
+      g->u.add_disease("bite", 3600);
     }
   } else {
     g->add_msg("Your %s is bitten, but your armor protects you.", body_part_name(hit, side).c_str());
@@ -1501,7 +1501,7 @@ void mattack::flesh_golem(game *g, monster *z)
     g->u.hit(g, hit, side, dam, 0);
     if(one_in(6))
 	{
-        g->u.add_disease("downed", 30, g);
+        g->u.add_disease("downed", 30);
     }
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }
