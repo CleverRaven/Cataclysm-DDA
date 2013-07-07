@@ -965,39 +965,35 @@ int calculate_range(player &p, int tarx, int tary)
 
 double calculate_missed_by(player &p, int trange, item* weapon)
 {
- // No type for gunmods,so use player weapon.
- it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
-// Calculate deviation from intended target (assuming we shoot for the head)
-  double deviation = 0.; // Measured in quarter-degrees
-// Up to 1.5 degrees for each skill point < 4; up to 1.25 for each point > 4
-  if (p.skillLevel(firing->skill_used) < 4)
-    deviation += rng(0, 6 * (4 - p.skillLevel(firing->skill_used)));
-  else if (p.skillLevel(firing->skill_used) > 4)
-    deviation -= rng(0, 5 * (p.skillLevel(firing->skill_used) - 4));
+    // No type for gunmods,so use player weapon.
+    it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
+    // Calculate deviation from intended target (assuming we shoot for the head)
+    double deviation = 0.; // Measured in quarter-degrees.
+    // Up to 0.75 degrees for each skill point < 8.
+    if (p.skillLevel(firing->skill_used) < 8) {
+        deviation += rng(0, 3 * (8 - p.skillLevel(firing->skill_used)));
+    }
 
-  if (p.skillLevel("gun") < 3)
-    deviation += rng(0, 3 * (3 - p.skillLevel("gun")));
-  else
-    deviation -= rng(0, 2 * (p.skillLevel("gun") - 3));
+    // Up to 0.25 deg per each skill point < 9.
+    if (p.skillLevel("gun") < 9) { deviation += rng(0, 9 - p.skillLevel("gun")); }
 
-  deviation += p.ranged_dex_mod();
-  deviation += p.ranged_per_mod();
+    deviation += rng(0, p.ranged_dex_mod());
+    deviation += rng(0, p.ranged_per_mod());
 
-  deviation += rng(0, 2 * p.encumb(bp_arms)) + rng(0, 4 * p.encumb(bp_eyes));
+    deviation += rng(0, 2 * p.encumb(bp_arms)) + rng(0, 4 * p.encumb(bp_eyes));
 
-  deviation += rng(0, weapon->curammo->dispersion);
-  // item::dispersion() doesn't support gunmods.
-  deviation += rng(0, p.weapon.dispersion());
-  int adj_recoil = p.recoil + p.driving_recoil;
-  deviation += rng(int(adj_recoil / 4), adj_recoil);
+    deviation += rng(0, weapon->curammo->dispersion);
+    // item::dispersion() doesn't support gunmods.
+    deviation += rng(0, p.weapon.dispersion());
+    int adj_recoil = p.recoil + p.driving_recoil;
+    deviation += rng(int(adj_recoil / 4), adj_recoil);
 
-  if (deviation < 0)
-    return 0;
-// .013 * trange is a computationally cheap version of finding the tangent.
-// (note that .00325 * 4 = .013; .00325 is used because deviation is a number
-//  of quarter-degrees)
-// It's also generous; missed_by will be rather short.
-  return (.00325 * deviation * trange);
+    if (deviation < 0) { return 0; }
+    // .013 * trange is a computationally cheap version of finding the tangent.
+    // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
+    //  of quarter-degrees)
+    // It's also generous; missed_by will be rather short.
+    return (.00325 * deviation * trange);
 }
 
 int recoil_add(player &p)
