@@ -823,16 +823,9 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
 void iuse::dogfood(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Which direction?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Put the dog food",dirx,diry))
   return;
- }
  p->moves -= 15;
- dirx += p->posx;
- diry += p->posy;
  int mon_dex = g->mon_at(dirx,diry);
  if (mon_dex != -1) {
   if (g->z[mon_dex].type->id == mon_dog) {
@@ -842,7 +835,6 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
    g->add_msg_if_player(p,"The %s seems quite unimpressed!",g->z[mon_dex].type->name.c_str());
  } else
   g->add_msg_if_player(p,"You spill the dogfood all over the ground.");
-
 }
 
 
@@ -850,26 +842,29 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
 
 bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 {
-    if (g->choose_adjacent("Light",posx,posy) && posx != 0 && posy != 0)
-    {
-      posx += p->posx;
-      posy += p->posy;
-      if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy)))
-      {
-         g->add_msg_if_player(p,"There's nothing to light there.");
-      }
-      else
-      {
-         return true;
-      }
-    }
-    if (posx == 0 && posy == 0)
-    {
-        g->add_msg_if_player(p, "You would set yourself on fire.");
-        g->add_msg_if_player(p, "But you're already smokin' hot.");
-    }
-    it->charges++;
-    return false;
+   if (!g->choose_adjacent("Light",posx,posy))
+   {
+     it->charges++;
+     return false;
+   }
+   if (posx == p->posx && posy == p->posy)
+   {
+     g->add_msg_if_player(p, "You would set yourself on fire.");
+     g->add_msg_if_player(p, "But you're already smokin' hot.");
+     it->charges++;
+     return false;
+   }
+
+   if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy)))
+   {
+     g->add_msg_if_player(p,"There's nothing to light there.");
+     it->charges++;
+     return false;
+   }
+   else
+   {
+     return true;
+   }
 }
 
 void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
@@ -2010,18 +2005,12 @@ void iuse::roadmap_targets(game *g, player *p, item *it, bool t, int target, int
 void iuse::picklock(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Pick which lock?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Use your pick lock", dirx, diry))
   return;
- } else if (dirx == 0 && diry == 0) {
+ if (dirx == p->posx && diry == p->posy) {
   g->add_msg_if_player(p, "You pick your nose and your sinuses swing open.");
   return;
  }
- dirx += p->posx;
- diry += p->posy;
  ter_id type = g->m.ter(dirx, diry);
  int npcdex = g->npc_at(dirx, diry);
  if (npcdex != -1) {
@@ -2095,7 +2084,7 @@ void iuse::crowbar(game *g, player *p, item *it, bool t)
  if(!g->choose_adjacent("Pry", dirx,diry))
   return;
 
- if (dirx == 0 && diry == 0) {
+ if (dirx == p->posx && diry == p->posy) {
     g->add_msg_if_player(p, "You attempt to pry open your wallet");
     g->add_msg_if_player(p, "but alas. You are just too miserly.");
     return;
@@ -2270,20 +2259,14 @@ void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
 void iuse::jackhammer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Drill in which direction?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Drill",dirx,diry))
   return;
- }
- if (dirx == 0 && diry == 0) {
+
+ if (dirx == p->posx && diry == p->posy) {
   g->add_msg_if_player(p,"My god! Let's talk it over OK?");
   g->add_msg_if_player(p,"Don't do anything rash..");
   return;
  }
- dirx += p->posx;
- diry += p->posy;
  if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
@@ -2335,29 +2318,6 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
 
 void iuse::pickaxe(game *g, player *p, item *it, bool t)
 {
-/* int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Drill in which direction?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
-  return;
- }
- dirx += p->posx;
- diry += p->posy;
- if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
-     g->m.ter(dirx, diry) != t_tree) {
-  g->m.destroy(g, dirx, diry, false);
-  p->moves -= 500;
-  g->sound(dirx, diry, 12, "CHNK! CHNK! CHNK!");
- } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
-            g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-  g->m.destroy(g, dirx, diry, false);
-  p->moves -= 500;
-  g->sound(dirx, diry, 12, CHNK! CHNK! CHNK!");
- } else {
-  g->add_msg_if_player(p,"You can't mine there.");
-*/
   g->add_msg_if_player(p,"Whoa buddy! You can't go cheating in items and");
   g->add_msg_if_player(p,"just expect them to work! Now put the pickaxe");
   g->add_msg_if_player(p,"down and go play the game.");
@@ -2365,16 +2325,16 @@ void iuse::pickaxe(game *g, player *p, item *it, bool t)
 void iuse::set_trap(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent("Place",dirx,diry))
+ if(!g->choose_adjacent("Place trap",dirx,diry))
   return;
 
- if (dirx == 0 && diry == 0) {
+ if (dirx == p->posx && diry == p->posy) {
   g->add_msg_if_player(p,"Yeah. Place the %s at your feet.", it->tname().c_str());
   g->add_msg_if_player(p,"Real damn smart move.");
   return;
  }
- int posx = dirx + p->posx;
- int posy = diry + p->posy;
+ int posx = dirx;
+ int posy = diry;
  if (g->m.move_cost(posx, posy) != 2) {
   g->add_msg_if_player(p,"You can't place a %s there.", it->tname().c_str());
   return;
@@ -3151,12 +3111,12 @@ void iuse::turret(game *g, player *p, item *it, bool t)
  int dirx, diry;
  if(!g->choose_adjacent("Place the turret", dirx, diry))
   return;
- 
- p->moves -= 100;
  if (!g->is_empty(dirx, diry)) {
   g->add_msg_if_player(p,"You cannot place a turret there.");
   return;
  }
+
+ p->moves -= 100;
  it->invlet = 0; // Remove the turret from the player's inv
  monster mturret(g->mtypes[mon_turret], dirx, diry);
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
@@ -3238,22 +3198,18 @@ void iuse::adv_UPS_on(game *g, player *p, item *it, bool t)
 void iuse::tazer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Shock in which direction?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Shock",dirx,diry)){
   it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
   return;
  }
- else if (dirx == 0 && diry == 0) {
+
+ if (dirx == p->posx && diry == p->posy) {
   g->add_msg_if_player(p,"Umm. No.");
   it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
   return;
  }
- int sx = dirx + p->posx, sy = diry + p->posy;
- int mondex = g->mon_at(sx, sy);
- int npcdex = g->npc_at(sx, sy);
+ int mondex = g->mon_at(dirx, diry);
+ int npcdex = g->npc_at(dirx, diry);
  if (mondex == -1 && npcdex == -1) {
   g->add_msg_if_player(p,"Your tazer crackles in the air.");
   return;
@@ -3661,8 +3617,6 @@ if (dirx == p->posx && diry == p->posy) {
   g->add_msg("You're not even chained to a boiler.");
   return;
  }
- dirx += p->posx;
- diry += p->posy;
  if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h || g->m.ter(dirx, diry) == t_chaingate_c) {
   p->moves -= 500;
   g->m.ter_set(dirx, diry, t_dirt);
@@ -3725,7 +3679,7 @@ void iuse::tent(game *g, player *p, item *it, bool t)
   for (int j = -1; j <= 1; j++)
     g->m.furn_set(posx + i, posy + j, f_canvas_wall);
  g->m.furn_set(posx, posy, f_groundsheet);
- g->m.furn_set(posx - dirx, posy - diry, f_canvas_door);
+ g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_canvas_door);
  it->invlet = 0;
 }
 
@@ -3756,7 +3710,7 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
   for (int j = -1; j <= 1; j++)
     g->m.furn_set(posx + i, posy + j, f_skin_wall);
  g->m.furn_set(posx, posy, f_skin_groundsheet);
- g->m.furn_set(posx - dirx, posy - diry, f_skin_door);
+ g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_skin_door);
  it->invlet = 0;
 }
 
@@ -4108,10 +4062,10 @@ void iuse::mop(game *g, player *p, item *it, bool t)
    g->add_msg_if_player(p,"The universe implodes and reforms around you.");
    return;
 }
- p->moves -= 15;
   if (g->m.moppable_items_at(dirx, diry)) {
    g->m.mop_spills(dirx, diry);
    g->add_msg("You mop up the spill");
+   p->moves -= 15;
  } else {
   g->add_msg_if_player(p,"There's nothing to mop there.");
  }
