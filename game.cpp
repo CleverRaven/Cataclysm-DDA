@@ -11050,10 +11050,6 @@ void game::msg_buffer()
    game_message *mtmp = &(messages[ messages.size() - (offset + i) ]);
    calendar timepassed = turn - mtmp->turn;
 
-   int tp = int(timepassed);
-   nc_color col = (tp <=  2 ? c_ltred : (tp <=  7 ? c_white :
-                   (tp <= 12 ? c_ltgray : c_dkgray)));
-
    if (int(timepassed) > lasttime) {
     mvwprintz(w, line, 3, c_ltblue, "%s ago:",
               timepassed.textify_period().c_str());
