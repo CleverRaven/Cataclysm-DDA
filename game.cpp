@@ -8267,6 +8267,8 @@ void game::pickup(int posx, int posy, int min)
     if (OPTIONS[OPT_AUTO_PICKUP]) {
         //Loop through Items lowest Volume first
         bool bPickup = false;
+        std::string sAddMsg = "";
+
         for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
             for (int i = 0; i < here.size(); i++) {
                 bPickup = false;
@@ -8281,12 +8283,12 @@ void game::pickup(int posx, int posy, int min)
                     }
 
                     //Check the Pickup Rules
-                    for (int j=0; j < vAutoPickupRules.size(); j++) {
-                        if (vAutoPickupRules[i].bActive && vAutoPickupRules[i].sRule != "") {
-                            if (here[i].tname(this).find(vAutoPickupRules[j].sRule) != std::string::npos) {
+                    for (int j=0; j < vAutoPickupRules[0].size(); j++) {
+                        if (vAutoPickupRules[0][i].bActive && vAutoPickupRules[0][i].sRule != "") {
+                            if (here[i].tname(this).find(vAutoPickupRules[0][j].sRule) != std::string::npos) {
                                 bPickup = true;
 
-                                if (vAutoPickupRules[i].bExclude) {
+                                if (vAutoPickupRules[0][i].bExclude) {
                                     bPickup = false;
                                     break;
                                 }
@@ -8297,9 +8299,17 @@ void game::pickup(int posx, int posy, int min)
 
                 if (bPickup) {
                     getitem[i] = bPickup;
-                    add_msg(("You pick up " + here[i].tname(this)).c_str());
+                    if (sAddMsg != "") {
+                        sAddMsg += ", ";
+                    }
+
+                    sAddMsg += here[i].tname(this);
                 }
             }
+        }
+
+        if (sAddMsg != "") {
+            add_msg(("You pick up: " + sAddMsg).c_str());
         }
     }
  } else {
@@ -10183,7 +10193,7 @@ void game::plmove(int x, int y)
           tunneldist = 0; //we didn't tunnel anywhere
           break;
       }
-      if(tunneldist > 24) 
+      if(tunneldist > 24)
       {
           add_msg("It's too dangerous to tunnel that far!");
           tunneldist = 0;
