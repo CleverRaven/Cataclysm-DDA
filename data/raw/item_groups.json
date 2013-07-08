@@ -183,7 +183,8 @@
       ["pizza_veggy", 8],
       ["orange", 65],
       ["lemon", 50],
-      ["potato_raw", 10]
+      ["potato_raw", 10],
+	  ["pickle", 40]
     ]
   },
   { "id":"home_hw",
@@ -427,7 +428,8 @@
       ["pizza_meat", 8],
       ["pie", 20],
       ["chips", 65],
-      ["candy", 80]
+      ["candy", 80],
+	  ["pickle", 40]
     ]
   },
   { "id":"coffee_shop",
