@@ -379,11 +379,11 @@ void player::apply_persistent_morale()
         {
             pen = 0;
         }
-        if (has_disease(DI_TOOK_XANAX))
+        if (has_disease("took_xanax"))
         {
             pen = int(pen / 7);
         }
-        else if (has_disease(DI_TOOK_PROZAC))
+        else if (has_disease("took_prozac"))
         {
             pen = int(pen / 2);
         }
@@ -398,7 +398,7 @@ void player::apply_persistent_morale()
         {
             bonus = 25;
         }
-        if (has_disease(DI_TOOK_PROZAC))
+        if (has_disease("took_prozac"))
         {
             bonus = int(bonus / 3);
         }
@@ -551,7 +551,7 @@ void player::update_bodytemp(game *g)
     int Ctemperature = 100*(g->temperature - 32) * 5/9;
     // Temperature norms
     // Ambient normal temperature is lower while asleep
-    int ambient_norm = (has_disease(DI_SLEEP) ? 3100 : 1900);
+    int ambient_norm = (has_disease("sleep") ? 3100 : 1900);
     // This adjusts the temperature scale to match the bodytemp scale
     int adjusted_temp = (Ctemperature - ambient_norm);
     // This gets incremented in the for loop and used in the morale calculation
@@ -569,14 +569,14 @@ void player::update_bodytemp(game *g)
         float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
         // Disease name shorthand
-        int blister_pen = dis_type(DI_BLISTERS) + 1 + i, hot_pen  = dis_type(DI_HOT) + 1 + i;
-        int cold_pen = dis_type(DI_COLD)+ 1 + i, frost_pen = dis_type(DI_FROSTBITE) + 1 + i;
+        dis_type blister_pen = disease_for_body_part("blisters", i), hot_pen  = disease_for_body_part("hot", i);
+        dis_type cold_pen = disease_for_body_part("cold", i), frost_pen = disease_for_body_part("frostbite", i);
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
         temp_conv[i] = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
         // HUNGER
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
-        if (!has_disease(DI_SLEEP)) { temp_conv[i] -= 1.5*fatigue; }
+        if (!has_disease("sleep")) { temp_conv[i] -= 1.5*fatigue; }
         else
         {
             int vpart = -1;
@@ -640,7 +640,7 @@ void player::update_bodytemp(game *g)
         }
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
-        if (has_disease(DI_ONFIRE)) { temp_cur[i] += 250; }
+        if (has_disease("onfire")) { temp_cur[i] += 250; }
         if ((g->m.field_at(posx, posy).findField(fd_fire) && g->m.field_at(posx, posy).findField(fd_fire)->getFieldDensity() > 2)
             || trap_at_pos == tr_lava)
         {
@@ -656,8 +656,8 @@ void player::update_bodytemp(game *g)
             temp_conv[i] += 500;
         }
         // DISEASES
-        if (has_disease(DI_FLU) && i == bp_head) { temp_conv[i] += 1500; }
-        if (has_disease(DI_COMMON_COLD)) { temp_conv[i] -= 750; }
+        if (has_disease("flu") && i == bp_head) { temp_conv[i] += 1500; }
+        if (has_disease("common_cold")) { temp_conv[i] -= 750; }
         // BIONICS
         // Bionic "Internal Climate Control" says it eases the effects of high and low ambient temps
         const int variation = BODYTEMP_NORM*0.5;
@@ -813,7 +813,7 @@ void player::update_bodytemp(game *g)
         }
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
         {
-            // If body temp rises over 15000, disease.cpp (DI_HOT_HEAD) acts weird and the player will die
+            // If body temp rises over 15000, disease.cpp ("hot_head") acts weird and the player will die
             add_disease(dis_type(hot_pen),  1, g, 3, 3);
         }
         else if (temp_cur[i] > BODYTEMP_VERY_HOT)
@@ -1075,11 +1075,11 @@ int player::swim_speed()
 
 nc_color player::color()
 {
- if (has_disease(DI_ONFIRE))
+ if (has_disease("onfire"))
   return c_red;
- if (has_disease(DI_STUNNED))
+ if (has_disease("stunned"))
   return c_ltblue;
- if (has_disease(DI_BOOMERED))
+ if (has_disease("boomered"))
   return c_pink;
  if (underwater)
   return c_blue;
@@ -1154,16 +1154,15 @@ void player::load_info(game *g, std::string data)
  }
 
  int numill;
- int typetmp;
  disease illtmp;
  dump >> numill;
  for (int i = 0; i < numill; i++) {
-  dump >> typetmp >> illtmp.duration >> illtmp.intensity;
-  illtmp.type = dis_type(typetmp);
+  dump >> illtmp.type >> illtmp.duration >> illtmp.intensity;
   illness.push_back(illtmp);
  }
 
  int numadd = 0;
+ int typetmp;
  addiction addtmp;
  dump >> numadd;
  for (int i = 0; i < numadd; i++) {
@@ -1266,7 +1265,7 @@ std::string player::save_info()
 
  dump << illness.size() << " ";
  for (int i = 0; i < illness.size();  i++)
-  dump << int(illness[i].type) << " " << illness[i].duration << " " << illness[i].intensity << " " ;
+  dump << illness[i].type << " " << illness[i].duration << " " << illness[i].intensity << " " ;
 
  dump << addictions.size() << " ";
  for (int i = 0; i < addictions.size(); i++)
@@ -1306,8 +1305,11 @@ std::string player::save_info()
 
  dump << inv.save_str_no_quant();
 
- for (int i = 0; i < worn.size(); i++)
+ for (int i = 0; i < worn.size(); i++) {
   dump << "W " << worn[i].save_info() << std::endl;
+  for (int j = 0; j < worn[i].contents.size(); j++)
+   dump << "S " << worn[i].contents[j].save_info() << std::endl;
+ }
  if (!weapon.is_null())
   dump << "w " << weapon.save_info() << std::endl;
  for (int j = 0; j < weapon.contents.size(); j++)
@@ -2732,11 +2734,11 @@ int player::sight_range(int light_level)
  if (underwater && !has_bionic("bio_membrane") && !has_trait(PF_MEMBRANE) &&
      !is_wearing("goggles_swim"))
   ret = 1;
- if (has_disease(DI_BOOMERED))
+ if (has_disease("boomered"))
   ret = 1;
- if (has_disease(DI_IN_PIT))
+ if (has_disease("in_pit"))
   ret = 1;
- if (has_disease(DI_BLIND))
+ if (has_disease("blind"))
   ret = 0;
  if (ret > 4 && has_trait(PF_MYOPIC) && !is_wearing("glasses_eye") &&
      !is_wearing("glasses_monocle") && !is_wearing("glasses_bifocal"))
@@ -2747,9 +2749,9 @@ int player::sight_range(int light_level)
 int player::unimpaired_range()
 {
  int ret = DAYLIGHT_LEVEL;
- if (has_disease(DI_IN_PIT))
+ if (has_disease("in_pit"))
   ret = 1;
- if (has_disease(DI_BLIND))
+ if (has_disease("blind"))
   ret = 0;
  return ret;
 }
@@ -2778,7 +2780,7 @@ int player::clairvoyance()
 
 bool player::sight_impaired()
 {
- return has_disease(DI_BOOMERED) ||
+ return has_disease("boomered") ||
   (underwater && !has_bionic("bio_membrane") && !has_trait(PF_MEMBRANE)
               && !is_wearing("goggles_swim")) ||
   (has_trait(PF_MYOPIC) && !is_wearing("glasses_eye")
@@ -2842,7 +2844,7 @@ void player::pause(game *g)
    arm_amount = 3;
   if (arm_max > 20)
    arm_max = 20;
-  add_disease(DI_ARMOR_BOOST, 2, g, arm_amount, arm_max);
+  add_disease("armor_boost", 2, g, arm_amount, arm_max);
  }
 }
 
@@ -2985,7 +2987,7 @@ int player::intimidation()
   ret -= 4;
  if (stim > 20)
   ret += 2;
- if (has_disease(DI_DRUNK))
+ if (has_disease("drunk"))
   ret -= 4;
 
  return ret;
@@ -2994,11 +2996,11 @@ int player::intimidation()
 int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 {
  int painadd = 0;
- if (has_disease(DI_SLEEP)) {
+ if (has_disease("sleep")) {
   g->add_msg("You wake up!");
-  rem_disease(DI_SLEEP);
- } else if (has_disease(DI_LYING_DOWN))
-  rem_disease(DI_LYING_DOWN);
+  rem_disease("sleep");
+ } else if (has_disease("lying_down"))
+  rem_disease("lying_down");
 
  absorb(g, bphurt, dam, cut);
 
@@ -3012,9 +3014,9 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
                    red_background(this->color()), '@');
  }
 
- rem_disease(DI_SPEED_BOOST);
+ rem_disease("speed_boost");
  if (dam >= 6)
-  rem_disease(DI_ARMOR_BOOST);
+  rem_disease("armor_boost");
 
  if (!is_npc())
   g->cancel_activity_query("You were hurt!");
@@ -3061,7 +3063,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
    int maxblind = int((dam + cut) /  4);
    if (maxblind > 5)
     maxblind = 5;
-   add_disease(DI_BLIND, rng(minblind, maxblind), g);
+   add_disease("blind", rng(minblind, maxblind), g);
   }
 
  case bp_mouth: // Fall through to head damage
@@ -3108,9 +3110,9 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  default:
   debugmsg("Wacky body part hit!");
  }
- if (has_trait(PF_ADRENALINE) && !has_disease(DI_ADRENALINE) &&
+ if (has_trait(PF_ADRENALINE) && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
-  add_disease(DI_ADRENALINE, 200, g);
+  add_disease("adrenaline", 200, g);
 
  return dam;
 }
@@ -3118,11 +3120,11 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
 void player::hurt(game *g, body_part bphurt, int side, int dam)
 {
  int painadd = 0;
- if (has_disease(DI_SLEEP) && rng(0, dam) > 2) {
+ if (has_disease("sleep") && rng(0, dam) > 2) {
   g->add_msg("You wake up!");
-  rem_disease(DI_SLEEP);
- } else if (has_disease(DI_LYING_DOWN))
-  rem_disease(DI_LYING_DOWN);
+  rem_disease("sleep");
+ } else if (has_disease("lying_down"))
+  rem_disease("lying_down");
 
  if (dam <= 0)
   return;
@@ -3179,9 +3181,9 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  default:
   debugmsg("Wacky body part hurt!");
  }
- if (has_trait(PF_ADRENALINE) && !has_disease(DI_ADRENALINE) &&
+ if (has_trait(PF_ADRENALINE) && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
-  add_disease(DI_ADRENALINE, 200, g);
+  add_disease("adrenaline", 200, g);
 }
 
 void player::heal(body_part healed, int side, int dam)
@@ -3258,11 +3260,11 @@ void player::hurtall(int dam)
 
 void player::hitall(game *g, int dam, int vary)
 {
- if (has_disease(DI_SLEEP)) {
+ if (has_disease("sleep")) {
   g->add_msg("You wake up!");
-  rem_disease(DI_SLEEP);
- } else if (has_disease(DI_LYING_DOWN))
-  rem_disease(DI_LYING_DOWN);
+  rem_disease("sleep");
+ } else if (has_disease("lying_down"))
+  rem_disease("lying_down");
 
  for (int i = 0; i < num_hp_parts; i++) {
   int ddam = vary? dam * rng (100 - vary, 100) / 100 : dam;
@@ -3304,7 +3306,7 @@ void player::knock_back_from(game *g, int x, int y)
  if (mondex != -1) {
   monster *z = &(g->z[mondex]);
   hit(g, bp_torso, 0, z->type->size, 0);
-  add_disease(DI_STUNNED, 1, g);
+  add_disease("stunned", 1, g);
   if ((str_max - 6) / 4 > z->type->size) {
    z->knock_back_from(g, posx, posy); // Chain reaction!
    z->hurt((str_max - 6) / 4);
@@ -3325,7 +3327,7 @@ void player::knock_back_from(game *g, int x, int y)
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
   hit(g, bp_torso, 0, 3, 0);
-  add_disease(DI_STUNNED, 1, g);
+  add_disease("stunned", 1, g);
   p->hit(g, bp_torso, 0, 3, 0);
   if (u_see)
    g->add_msg("%s bounce%s off %s!", You.c_str(), s.c_str(), p->name.c_str());
@@ -3342,7 +3344,7 @@ void player::knock_back_from(game *g, int x, int y)
 // TODO: NPCs can't swim!
   } else { // It's some kind of wall.
    hurt(g, bp_torso, 0, 3);
-   add_disease(DI_STUNNED, 2, g);
+   add_disease("stunned", 2, g);
    if (u_see)
     g->add_msg("%s bounce%s off a %s.", name.c_str(), s.c_str(),
                                         g->m.tername(to.x, to.y).c_str());
@@ -3408,12 +3410,12 @@ void player::get_sick(game *g)
  if (has_trait(PF_DISIMMUNE))
   return;
 
- if (!has_disease(DI_FLU) && !has_disease(DI_COMMON_COLD) &&
+ if (!has_disease("flu") && !has_disease("common_cold") &&
      one_in(900 + 10 * health + (has_trait(PF_DISRESISTANT) ? 300 : 0))) {
   if (one_in(6))
-   infect(DI_FLU, bp_mouth, 3, rng(40000, 80000), g);
+   infect("flu", bp_mouth, 3, rng(40000, 80000), g);
   else
-   infect(DI_COMMON_COLD, bp_mouth, 3, rng(20000, 60000), g);
+   infect("common_cold", bp_mouth, 3, rng(20000, 60000), g);
  }
 }
 
@@ -3553,8 +3555,8 @@ void player::siphon_gas(game *g, vehicle *veh)
 }
 
 void player::cauterize(game *g) {
- rem_disease(DI_BLEED);
- rem_disease(DI_BITE);
+ rem_disease("bleed");
+ rem_disease("bite");
  pain += 15;
  if (!is_npc()) {
   g->add_msg("You cauterize yourself. It hurts like hell!");
@@ -3604,7 +3606,7 @@ void player::suffer(game *g)
             i--;
         }
     }
-    if (!has_disease(DI_SLEEP))
+    if (!has_disease("sleep"))
     {
         int timer = -3600;
         if (has_trait(PF_ADDICTIVE))
@@ -3744,10 +3746,10 @@ void player::suffer(game *g)
             switch(rng(0, 11))
             {
                 case 0:
-                    add_disease(DI_HALLU, 3600, g);
+                    add_disease("hallu", 3600, g);
                     break;
                 case 1:
-                    add_disease(DI_VISUALS, rng(15, 60), g);
+                    add_disease("visuals", rng(15, 60), g);
                     break;
                 case 2:
                     g->add_msg("From the south you hear glass breaking.");
@@ -3767,7 +3769,7 @@ void player::suffer(game *g)
                     break;
                 case 6:
                     g->add_msg("You start to shake uncontrollably.");
-                    add_disease(DI_SHAKES, 10 * rng(2, 5), g);
+                    add_disease("shakes", 10 * rng(2, 5), g);
                     break;
                 case 7:
                     for (i = 0; i < 10; i++)
@@ -3780,7 +3782,7 @@ void player::suffer(game *g)
                     break;
                 case 8:
                     g->add_msg("It's a good time to lie down and sleep.");
-                    add_disease(DI_LYING_DOWN, 200, g);
+                    add_disease("lying_down", 200, g);
                     break;
                 case 9:
                     g->add_msg("You have the sudden urge to SCREAM!");
@@ -3792,15 +3794,15 @@ void player::suffer(game *g)
                         name + name + name + name + name + name).c_str());
                     break;
                 case 11:
-                    add_disease(DI_FORMICATION, 600, g);
+                    add_disease("formication", 600, g);
                     break;
             }
         }
-  if (has_trait(PF_JITTERY) && !has_disease(DI_SHAKES)) {
+  if (has_trait(PF_JITTERY) && !has_disease("shakes")) {
    if (stim > 50 && one_in(300 - stim))
-    add_disease(DI_SHAKES, 300 + stim, g);
+    add_disease("shakes", 300 + stim, g);
    else if (hunger > 80 && one_in(500 - hunger))
-    add_disease(DI_SHAKES, 400, g);
+    add_disease("shakes", 400, g);
   }
 
   if (has_trait(PF_MOODSWINGS) && one_in(3600)) {
@@ -3827,15 +3829,15 @@ void player::suffer(game *g)
    oxygen = int(oxygen / 2);
    auto_use = false;
   }
-  if (has_disease(DI_SLEEP)) {
-   rem_disease(DI_SLEEP);
+  if (has_disease("sleep")) {
+   rem_disease("sleep");
    g->add_msg("Your asthma wakes you up!");
    auto_use = false;
   }
   if (auto_use)
    use_charges("inhaler", 1);
   else {
-   add_disease(DI_ASTHMA, 50 * rng(1, 4), g);
+   add_disease("asthma", 50 * rng(1, 4), g);
    if (!is_npc())
     g->cancel_activity_query("You have an asthma attack!");
   }
@@ -3855,8 +3857,8 @@ void player::suffer(game *g)
 
  if (has_trait(PF_ALBINO) && g->is_in_sunlight(posx, posy) && one_in(20)) {
   g->add_msg("The sunlight burns your skin!");
-  if (has_disease(DI_SLEEP)) {
-   rem_disease(DI_SLEEP);
+  if (has_disease("sleep")) {
+   rem_disease("sleep");
    g->add_msg("You wake up!");
   }
   hurtall(1);
@@ -4004,7 +4006,7 @@ void player::suffer(game *g)
 
 // Artifact effects
  if (has_artifact_with(AEP_ATTENTION))
-  add_disease(DI_ATTENTION, 3, g);
+  add_disease("attention", 3, g);
 
  if (dex_cur < 0)
   dex_cur = 0;
@@ -4033,15 +4035,15 @@ void player::mend(game *g)
    double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
    double healing_factor = 1.0;
    // Studies have shown that alcohol and tobacco use delay fracture healing time
-   if(has_disease(DI_CIG) | addiction_level(ADD_CIG)) {
+   if(has_disease("cig") | addiction_level(ADD_CIG)) {
     healing_factor *= 0.5;
    }
-   if(has_disease(DI_DRUNK) | addiction_level(ADD_ALCOHOL)) {
+   if(has_disease("drunk") | addiction_level(ADD_ALCOHOL)) {
     healing_factor *= 0.5;
    }
 
    // Bed rest speeds up mending
-   if(has_disease(DI_SLEEP)) {
+   if(has_disease("sleep")) {
     healing_factor *= 4.0;
    } else if(fatigue > 383) {
     // but being dead tired does not...
@@ -4111,20 +4113,20 @@ void player::vomit(game *g)
  thirst += rng(30, 50);
  moves -= 100;
  for (int i = 0; i < illness.size(); i++) {
-  if (illness[i].type == DI_FOODPOISON) {
+  if (illness[i].type == "foodpoison") {
    illness[i].duration -= 300;
    if (illness[i].duration < 0)
     rem_disease(illness[i].type);
-  } else if (illness[i].type == DI_DRUNK) {
+  } else if (illness[i].type == "drunk") {
    illness[i].duration -= rng(1, 5) * 100;
    if (illness[i].duration < 0)
     rem_disease(illness[i].type);
   }
  }
- rem_disease(DI_PKILL1);
- rem_disease(DI_PKILL2);
- rem_disease(DI_PKILL3);
- rem_disease(DI_SLEEP);
+ rem_disease("pkill1");
+ rem_disease("pkill2");
+ rem_disease("pkill3");
+ rem_disease("sleep");
 }
 
 int player::weight_carried()
@@ -4269,7 +4271,7 @@ int player::morale_level()
     }
 
     // Prozac reduces negative morale by 75%.
-    if (has_disease(DI_TOOK_PROZAC) && ret < 0)
+    if (has_disease("took_prozac") && ret < 0)
     {
         ret = int(ret / 4);
     }
@@ -4563,12 +4565,12 @@ item player::remove_weapon()
  item tmp = weapon;
  weapon = get_combat_style();
 // We need to remove any boosts related to our style
- rem_disease(DI_ATTACK_BOOST);
- rem_disease(DI_DODGE_BOOST);
- rem_disease(DI_DAMAGE_BOOST);
- rem_disease(DI_SPEED_BOOST);
- rem_disease(DI_ARMOR_BOOST);
- rem_disease(DI_VIPER_COMBO);
+ rem_disease("attack_boost");
+ rem_disease("dodge_boost");
+ rem_disease("damage_boost");
+ rem_disease("speed_boost");
+ rem_disease("armor_boost");
+ rem_disease("viper_combo");
  return tmp;
 }
 
@@ -5245,7 +5247,7 @@ bool player::eat(game *g, signed char ch)
                 return false;
             g->add_msg("Ick, this %s doesn't taste so good...",eaten->tname(g).c_str());
             if (!has_trait(PF_SAPROVORE) && (!has_bionic("bio_digestion") || one_in(3)))
-                add_disease(DI_FOODPOISON, rng(60, (comest->nutr + 1) * 60), g);
+                add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60), g);
             hunger -= rng(0, comest->nutr);
             thirst -= comest->quench;
             if (!has_trait(PF_SAPROVORE) && !has_bionic("bio_digestion"))
@@ -5271,9 +5273,9 @@ bool player::eat(game *g, signed char ch)
             moves -= 250;
         // If it's poisonous... poison us.  TODO: More several poison effects
         if (eaten->poison >= rng(2, 4))
-            add_disease(DI_POISON, eaten->poison * 100, g);
+            add_disease("poison", eaten->poison * 100, g);
         if (eaten->poison > 0)
-            add_disease(DI_FOODPOISON, eaten->poison * 300, g);
+            add_disease("foodpoison", eaten->poison * 300, g);
 
         // Descriptive text
         if (!is_npc())
@@ -6522,6 +6524,13 @@ void player::use(game *g, char let)
    remove_weapon();
   return;
 
+ } else if (used->type->use != &iuse::none) {
+
+   iuse use;
+   (use.*used->type->use)(g, this, used, false);
+   if (replace_item)
+    inv.add_item_keep_invlet(copy);
+   return;
  } else if (used->is_gunmod()) {
 
    if (skillLevel("gun") == 0) {
@@ -6905,7 +6914,7 @@ void player::try_to_sleep(game *g)
   g->add_msg("It's %shard to get to sleep on this %s.",
              terlist[ter_at_pos].movecost <= 2 ? "a little " : "",
              terlist[ter_at_pos].name.c_str());
- add_disease(DI_LYING_DOWN, 300, g);
+ add_disease("lying_down", 300, g);
 }
 
 bool player::can_sleep(game *g)
@@ -6948,7 +6957,7 @@ bool player::can_sleep(game *g)
 // 2.5 is enough light for detail work.
 float player::fine_detail_vision_mod(game *g)
 {
-    if (has_disease(DI_BLIND) || has_disease(DI_BOOMERED))
+    if (has_disease("blind") || has_disease("boomered"))
     {
         return 5;
     }
@@ -7138,7 +7147,7 @@ int player::armor_bash(body_part bp)
   ret += 2;
  if (has_trait(PF_SHELL) && bp == bp_torso)
   ret += 6;
- ret += rng(0, disease_intensity(DI_ARMOR_BOOST));
+ ret += rng(0, disease_intensity("armor_boost"));
  return ret;
 }
 
@@ -7177,7 +7186,7 @@ int player::armor_cut(body_part bp)
   ret += 8;
  if (has_trait(PF_SHELL) && bp == bp_torso)
   ret += 14;
- ret += rng(0, disease_intensity(DI_ARMOR_BOOST));
+ ret += rng(0, disease_intensity("armor_boost"));
  return ret;
 }
 
@@ -7559,23 +7568,23 @@ std::string player::weapname(bool charges)
   dump << weapon.tname();
 
   if(weapon.typeId() == "style_capoeira"){
-   if (has_disease(DI_DODGE_BOOST))
+   if (has_disease("dodge_boost"))
     dump << " +Dodge";
-   if (has_disease(DI_ATTACK_BOOST))
+   if (has_disease("attack_boost"))
     dump << " +Attack";
   } else if(weapon.typeId() == "style_ninjutsu"){
   } else if(weapon.typeId() == "style_leopard"){
-   if (has_disease(DI_ATTACK_BOOST))
+   if (has_disease("attack_boost"))
     dump << " +Attack";
   } else if(weapon.typeId() == "style_crane"){
-   if (has_disease(DI_DODGE_BOOST))
+   if (has_disease("dodge_boost"))
     dump << " +Dodge";
   } else if(weapon.typeId() == "style_dragon"){
-   if (has_disease(DI_DAMAGE_BOOST))
+   if (has_disease("damage_boost"))
     dump << " +Damage";
   } else if(weapon.typeId() == "style_tiger"){
    dump << " [";
-   int intensity = disease_intensity(DI_DAMAGE_BOOST);
+   int intensity = disease_intensity("damage_boost");
    for (int i = 1; i <= 5; i++) {
     if (intensity >= i * 2)
      dump << "*";
@@ -7585,7 +7594,7 @@ std::string player::weapname(bool charges)
    dump << "]";
   } else if(weapon.typeId() == "style_centipede"){
    dump << " [";
-   int intensity = disease_intensity(DI_SPEED_BOOST);
+   int intensity = disease_intensity("speed_boost");
    for (int i = 1; i <= 8; i++) {
     if (intensity >= i * 4)
      dump << "*";
@@ -7595,7 +7604,7 @@ std::string player::weapname(bool charges)
    dump << "]";
   } else if(weapon.typeId() == "style_venom_snake"){
    dump << " [";
-   int intensity = disease_intensity(DI_VIPER_COMBO);
+   int intensity = disease_intensity("viper_combo");
    for (int i = 1; i <= 2; i++) {
     if (intensity >= i)
      dump << "C";
@@ -7605,7 +7614,7 @@ std::string player::weapname(bool charges)
    dump << "]";
   } else if(weapon.typeId() == "style_lizard"){
    dump << " [";
-   int intensity = disease_intensity(DI_ATTACK_BOOST);
+   int intensity = disease_intensity("attack_boost");
    for (int i = 1; i <= 4; i++) {
     if (intensity >= i)
      dump << "*";
@@ -7615,7 +7624,7 @@ std::string player::weapname(bool charges)
    dump << "]";
   } else if(weapon.typeId() == "style_toad"){
    dump << " [";
-   int intensity = disease_intensity(DI_ARMOR_BOOST);
+   int intensity = disease_intensity("armor_boost");
    for (int i = 1; i <= 5; i++) {
     if (intensity >= 5 + i)
      dump << "!";

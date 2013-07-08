@@ -2,6 +2,7 @@
 #define _PLDATA_H_
 
 #include "enums.h"
+#include "translations.h"
 #include <sstream>
 #include <vector>
 
@@ -16,60 +17,13 @@ const std::string pltype_name[PLTYPE_MAX] = {
 "Custom Character", "Random Character", "Template Character"};
 
 const std::string pltype_desc[PLTYPE_MAX] = { "\
-A custom character you design yourself.  A pool of points is used for\n\
+A custom character you design yourself.  A pool of points is used for \
 statistics, traits, and skills.",
-"\
-A character with stats, traits, and skills chosen randomly.",
-"\
-A character loaded from a template file.",
+"A character with stats, traits, and skills chosen randomly.",
+"A character loaded from a template file.",
 };
 
-enum dis_type {
- DI_NULL,
-// Weather
- DI_GLARE, DI_WET,
-// Temperature, the order is important (dependant on bodypart.h)
- DI_COLD,
- DI_COLD_TORSO, DI_COLD_HEAD, DI_COLD_EYES, DI_COLD_MOUTH,
- DI_COLD_ARMS, DI_COLD_HANDS, DI_COLD_LEGS, DI_COLD_FEET,
- DI_FROSTBITE,
- DI_FROSTBITE_TORSO, DI_FROSTBITE_HEAD, DI_FROSTBITE_EYES, DI_FROSTBITE_MOUTH,
- DI_FROSTBITE_ARMS, DI_FROSTBITE_HANDS, DI_FROSTBITE_LEGS, DI_FROSTBITE_FEET,
- DI_HOT,
- DI_HOT_TORSO, DI_HOT_HEAD, DI_HOT_EYES, DI_HOT_MOUTH,
- DI_HOT_ARMS, DI_HOT_HANDS, DI_HOT_LEGS, DI_HOT_FEET,
- DI_BLISTERS,
- DI_BLISTERS_TORSO, DI_BLISTERS_HEAD, DI_BLISTERS_EYES, DI_BLISTERS_MOUTH,
- DI_BLISTERS_ARMS, DI_BLISTERS_HANDS, DI_BLISTERS_LEGS, DI_BLISTERS_FEET,
-// Diseases
- DI_INFECTION,
- DI_COMMON_COLD, DI_FLU, DI_RECOVER,
-// Fields
- DI_SMOKE, DI_ONFIRE, DI_TEARGAS, DI_CRUSHED, DI_BOULDERING,
-// Monsters
- DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
- DI_DEAF, DI_BLIND,
- DI_LYING_DOWN, DI_SLEEP,
- DI_POISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
- DI_DERMATIK, DI_FORMICATION,
- DI_WEBBED,
- DI_RAT, DI_BITE,
-// Food & Drugs
- DI_PKILL1, DI_PKILL2, DI_PKILL3, DI_PKILL_L, DI_DRUNK, DI_CIG, DI_HIGH,
-  DI_HALLU, DI_VISUALS, DI_IODINE, DI_TOOK_XANAX, DI_TOOK_PROZAC,
-  DI_TOOK_FLUMED, DI_ADRENALINE, DI_ASTHMA, DI_GRACK, DI_METH,
-// Traps
- DI_BEARTRAP, DI_LIGHTSNARE, DI_HEAVYSNARE, DI_IN_PIT, DI_STUNNED, DI_DOWNED,
-// Martial Arts
- DI_ATTACK_BOOST, DI_DAMAGE_BOOST, DI_DODGE_BOOST, DI_ARMOR_BOOST,
-  DI_SPEED_BOOST, DI_VIPER_COMBO,
-// Other
- DI_AMIGARA, DI_STEMCELL_TREATMENT, DI_TELEGLOW, DI_ATTENTION, DI_EVIL, DI_INFECTED,
-// Inflicted by an NPC
- DI_ASKED_TO_FOLLOW, DI_ASKED_TO_LEAD, DI_ASKED_FOR_ITEM,
-// NPC-only
- DI_CATCH_UP
-};
+typedef std::string dis_type;
 
 enum add_type {
  ADD_NULL,
@@ -82,7 +36,7 @@ struct disease
  dis_type type;
  int intensity;
  int duration;
- disease() { type = DI_NULL; duration = 0; intensity = 0; }
+ disease() { type = "null"; duration = 0; intensity = 0; }
  disease(dis_type t, int d, int i = 0) { type = t; duration = d; intensity = i;}
 };
 
@@ -392,185 +346,185 @@ struct trait {
 const trait traits[] = {
 {"NULL trait!", 0, 0, 0, "\
 This is a bug.  Weird. (pldata.h:traits)"},
-{"Fleet-Footed", 3, 0, 0, "\
-You can run more quickly than most, resulting in a 15%% speed bonus on sure\n\
-footing."},
-{"Parkour Expert", 2, 0, 0, "\
-You're skilled at clearing obstacles; terrain like railings or counters are\n\
-as easy for you to move on as solid ground."},
-{"Quick", 3, 0, 0, "\
-You're just generally quick!  You get a 10%% bonus to action points."},
-{"Optimist", 2, 0, 0, "\
-Nothing gets you down!  You savor the joys of life, ignore its hardships, and\n\
-are generally happier than most people."},
-{"Fast Healer", 2, 0, 0, "\
-You heal a little faster than most; sleeping will heal more lost HP."},
-{"Light Eater", 3, 0, 0, "\
-Your metabolism is a little slower, and you require less food than most."},
-{"Pain Resistant", 2, 0, 0, "\
-You have a high tolerance for pain."},
-{"Night Vision", 1, 0, 0, "\
-You possess natural night vision, and can see two squares instead of one in\n\
-pitch blackness."},
-{"Poison Resistant", 1, 0, 0, "\
-Your system is rather tolerant of poisons and toxins, and most will affect\n\
-you less."},
-{"Fast Reader", 1, 0, 0, "\
-You're a quick reader, and can get through books a lot faster than most."},
-{"Tough", 3, 0, 0, "\
-It takes a lot to bring you down!  You get a 20%% bonus to all hit points."},
-{"Thick-Skinned", 2, 0, 0, "\
-Your skin is tough.  Cutting damage is slightly reduced for you."},
-{"Packmule", 3, 0, 0, "\
-You can manage to find space for anything!  You can carry 40%% more volume."},
-{"Fast Learner", 3, 0, 0, "\
-You have a flexible mind, allowing you to learn skills much faster than\n\
-others.  Note that this only applies to real-world experience, not to skill\n\
-gain from other sources like books."},
-{"Deft", 2, 0, 0, "\
-While you're not any better at melee combat, you are better at recovering\n\
-from a miss, and will be able to attempt another strike faster."},
-{"Drunken Master", 2, 0, 0, "\
-The ancient arts of drunken brawling come naturally to you! While under the\n\
-influence of alcohol, your melee skill will rise considerably, especially\n\
-unarmed combat."},
-{"Gourmand", 2, 0, 0, "\
-You eat faster, and can eat and drink more, than anyone else!  You also enjoy\n\
-food more; delicious food is better for your morale, and you don't mind some\n\
-unsavory meals."},
-{"Animal Empathy", 1, 0, 0, "\
-Peaceful animals will not run away from you, and even aggressive animals are\n\
-less likely to attack.  This only applies to natural animals such as woodland\n\
-creatures."},
-{"Terrifying", 2, 0, 0, "\
-There's something about you that creatures find frightening, and they are\n\
-more likely to try to flee."},
-{"Disease Resistant", 1, 0, 0, "\
-It's very unlikely that you will catch ambient diseases like a cold or the\n\
-flu."},
-{"High Adrenaline", 3, 0, 0, "\
-If you are in a very dangerous situation, you may experience a temporary rush\n\
-which increases your speed and strength significantly."},
-{"Self-aware", 1, 0, 0, "\
-You get to see your exact amount of HP remaining, instead of only having a\n\
-vague idea of whether you're in good condition or not."},
-{"Inconspicuous", 2, 0, 0, "\
-While sleeping or staying still, it is less likely that monsters will wander\n\
-close to you."},
-{"Masochist", 2, 0, 0, "\
-Although you still suffer the negative effects of pain, it also brings a\n\
-unique pleasure to you."},
-{"Light Step", 1, 0, 0, "\
-You make less noise while walking.  You're also less likely to set off traps."},
-{"Android", 4, 0, 0, "\
-At some point in the past you had a bionic upgrade installed in your body.\n\
-You start the game with a power system, and one random bionic enhancement."},
-{"Robust Genetics", 2, 0, 0, "\
-You have a very strong genetic base.  If you mutate, the odds that the\n\
-mutation will be beneficial are greatly increased."},
-{"Cannibal", 3, 0, 0, "\
-For your whole life you've been forbidden from indulging in your peculiar\n\
-tastes. Now the world's ended, and you'll be damned if anyone is going to\n\
-tell you you can't eat people."},
-{"Martial Arts Training", 3, 0, 0, "\
-You have received some martial arts training at a local dojo.\n\
-You start with your choice of karate, judo, aikido, tai chi, or taekwondo."},
-{"Self-Defense Classes", 3, 0, 0, "\
-You have taken some self-defense classes at a nearby gym. You start\n\
-with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan."},
-{"Shaolin Adept", 3, 0, 0, "\
-You have studied the arts of the Shaolin monks.  You start with one\n\
-of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon."},
-{"Venom Mob Protoge", 3, 0, 0, "\
-You are a pupil of the Venom Clan.  You start with one of the\n\
-five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad."},
-{"Skilled Liar", 2, 0, 0, "\
-You have no qualms about bending the truth, and have practically no tells.\n\
-Telling lies and otherwise bluffing will be much easier for you."},
-{"Pretty", 1, 0, -2, "\
-You are a sight to behold. NPCs who care about such thing will react more\n\
-kindly to you."},
+{_("Fleet-Footed"), 3, 0, 0, _("\
+You can run more quickly than most, resulting in a 15%% speed bonus on sure \
+footing.")},
+{_("Parkour Expert"), 2, 0, 0, _("\
+You're skilled at clearing obstacles; terrain like railings or counters are \
+as easy for you to move on as solid ground.")},
+{_("Quick"), 3, 0, 0, _("\
+You're just generally quick!  You get a 10%% bonus to action points.")},
+{_("Optimist"), 2, 0, 0, _("\
+Nothing gets you down!  You savor the joys of life, ignore its hardships, and \
+are generally happier than most people.")},
+{_("Fast Healer"), 2, 0, 0, _("\
+You heal a little faster than most; sleeping will heal more lost HP.")},
+{_("Light Eater"), 3, 0, 0, _("\
+Your metabolism is a little slower, and you require less food than most.")},
+{_("Pain Resistant"), 2, 0, 0, _("\
+You have a high tolerance for pain.")},
+{_("Night Vision"), 1, 0, 0, _("\
+You possess natural night vision, and can see two squares instead of one in \
+pitch blackness.")},
+{_("Poison Resistant"), 1, 0, 0, _("\
+Your system is rather tolerant of poisons and toxins, and most will affect \
+you less.")},
+{_("Fast Reader"), 1, 0, 0, _("\
+You're a quick reader, and can get through books a lot faster than most.")},
+{_("Tough"), 3, 0, 0, _("\
+It takes a lot to bring you down!  You get a 20%% bonus to all hit points.")},
+{_("Thick-Skinned"), 2, 0, 0, _("\
+Your skin is tough.  Cutting damage is slightly reduced for you.")},
+{_("Packmule"), 3, 0, 0, _("\
+You can manage to find space for anything!  You can carry 40%% more volume.")},
+{_("Fast Learner"), 3, 0, 0, _("\
+You have a flexible mind, allowing you to learn skills much faster than \
+others.  Note that this only applies to real-world experience, not to skill \
+gain from other sources like books.")},
+{_("Deft"), 2, 0, 0, _("\
+While you're not any better at melee combat, you are better at recovering \
+from a miss, and will be able to attempt another strike faster.")},
+{_("Drunken Master"), 2, 0, 0, _("\
+The ancient arts of drunken brawling come naturally to you! While under the \
+influence of alcohol, your melee skill will rise considerably, especially \
+unarmed combat.")},
+{_("Gourmand"), 2, 0, 0, _("\
+You eat faster, and can eat and drink more, than anyone else!  You also enjoy \
+food more; delicious food is better for your morale, and you don't mind some \
+unsavory meals.")},
+{_("Animal Empathy"), 1, 0, 0, _("\
+Peaceful animals will not run away from you, and even aggressive animals are \
+less likely to attack.  This only applies to natural animals such as woodland \
+creatures.")},
+{_("Terrifying"), 2, 0, 0, _("\
+There's something about you that creatures find frightening, and they are \
+more likely to try to flee.")},
+{_("Disease Resistant"), 1, 0, 0, _("\
+It's very unlikely that you will catch ambient diseases like a cold or the \
+flu.")},
+{_("High Adrenaline"), 3, 0, 0, _("\
+If you are in a very dangerous situation, you may experience a temporary rush \
+which increases your speed and strength significantly.")},
+{_("Self-aware"), 1, 0, 0, _("\
+You get to see your exact amount of HP remaining, instead of only having a \
+vague idea of whether you're in good condition or not.")},
+{_("Inconspicuous"), 2, 0, 0, _("\
+While sleeping or staying still, it is less likely that monsters will wander \
+close to you.")},
+{_("Masochist"), 2, 0, 0, _("\
+Although you still suffer the negative effects of pain, it also brings a \
+unique pleasure to you.")},
+{_("Light Step"), 1, 0, 0, _("\
+You make less noise while walking.  You're also less likely to set off traps.")},
+{_("Android"), 4, 0, 0, _("\
+At some point in the past you had a bionic upgrade installed in your body. \
+You start the game with a power system, and one random bionic enhancement.")},
+{_("Robust Genetics"), 2, 0, 0, _("\
+You have a very strong genetic base.  If you mutate, the odds that the \
+mutation will be beneficial are greatly increased.")},
+{_("Cannibal"), 3, 0, 0, _("\
+For your whole life you've been forbidden from indulging in your peculiar \
+tastes. Now the world's ended, and you'll be damned if anyone is going to \
+tell you you can't eat people.")},
+{_("Martial Arts Training"), 3, 0, 0, _("\
+You have received some martial arts training at a local dojo. \
+You start with your choice of karate, judo, aikido, tai chi, or taekwondo.")},
+{_("Self-Defense Classes"), 3, 0, 0, _("\
+You have taken some self-defense classes at a nearby gym. You start \
+with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan.")},
+{_("Shaolin Adept"), 3, 0, 0, _("\
+You have studied the arts of the Shaolin monks.  You start with one \
+of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.")},
+{_("Venom Mob Protoge"), 3, 0, 0, _("\
+You are a pupil of the Venom Clan.  You start with one of the \
+five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.")},
+{_("Skilled Liar"), 2, 0, 0, _("\
+You have no qualms about bending the truth, and have practically no tells. \
+Telling lies and otherwise bluffing will be much easier for you.")},
+{_("Pretty"), 1, 0, -2, _("\
+You are a sight to behold. NPCs who care about such thing will react more \
+kindly to you.")},
 
 {"NULL", 0, 0, 0, " -------------------------------------------------- "},
 
-{"Near-Sighted", -2, 0, 0, "\
-Without your glasses, your seeing radius is severely reduced!  However, while\n\
-wearing glasses this trait has no effect, and you are guaranteed to start\n\
-with a pair."},
-{"Far-Sighted", -2, 0, 0, "\
-Without reading glasses, you are unable to read anything, and take penalities\n\
-on melee accuracy and electronics/tailoring crafting. However, you are\n\
-guaranteed to start with a pair of reading glasses."},
-{"Heavy Sleeper", -1, 0, 0, "\
-You're quite the heavy sleeper.  Noises are unlikely to wake you up."},
-{"Asthmatic", -4, 0, 0, "\
-You will occasionally need to use an inhaler, or else suffer severe physical\n\
-limitations.  However, you are guaranteed to start with an inhaler."},
-{"Bad Back", -3, 0, 0, "\
-You simply can not carry as much as people with a similar strength could.\n\
-Your maximum weight carried is reduced by 35%%."},
-{"Illiterate", -5, 0, 0, "\
-You never learned to read!  Books and computers are off-limits to you."},
-{"Poor Hearing", -2, 0, 0, "\
-Your hearing is poor, and you may not hear quiet or far-off noises."},
-{"Insomniac", -2, 0, 0, "\
-You have a hard time falling asleep, even under the best circumstances!"},
-{"Meat Intolerance", -3, 0, 0, "\
-You have problems with eating meat, it's possible for you to eat it but\n\
-you will suffer morale penalties due to nausea."},
-{"Glass Jaw", -3, 0, 0, "\
-Your head can't take much abuse.  Its maximum HP is 20%% lower than usual."},
-{"Forgetful", -3, 0, 0, "\
-You have a hard time remembering things.  Your skills will erode slightly\n\
-faster than usual."},
-{"Lightweight", -1, 0, 0, "\
-Alcohol and drugs go straight to your head.  You suffer the negative effects\n\
-of these for longer."},
-{"Addictive Personality", -3, 0, 0, "\
-It's easier for you to become addicted to substances, and harder to rid\n\
-yourself of these addictions."},
-{"Trigger Happy", -2, 0, 0, "\
-On rare occasion, you will go full-auto when you intended to fire a single\n\
-shot.  This has no effect when firing handguns or other semi-automatic\n\
-firearms."},
-{"Smelly", -1, 0, 0, "\
-Your scent is particularly strong.  It's not offensive to humans, but animals\n\
-that track your scent will do so more easily."},
-{"Chemical Imbalance", -2, 0, 0, "\
-You suffer from a minor chemical imbalance, whether mental or physical. Minor\n\
-changes to your internal chemistry will manifest themselves on occasion,\n\
-such as hunger, sleepiness, narcotic effects, etc."},
-{"Schizophrenic", -5, 0, 0, "\
-You will periodically suffer from delusions, ranging from minor effects to\n\
-full visual hallucinations.  Some of these effects may be controlled through\n\
-the use of Thorazine."},
-{"Jittery", -3, 0, 0, "\
-During moments of great stress or under the effects of stimulants, you may\n\
-find your hands shaking uncontrollably, severely reducing your dexterity."},
-{"Hoarder", -4, 0, 0, "\
-You don't feel right unless you're carrying as much as you can.  You suffer\n\
-morale penalties for carrying less than maximum volume (weight is ignored).\n\
-Xanax can help control this anxiety."},
-{"Savant", -4, 0, 0, "\
-You tend to specialize in one skill and be poor at all others.  You advance\n\
-at half speed in all skills except your best one. Note that combining this\n\
-with Fast Learner will come out to a slower rate of learning for all skills."},
-{"Mood Swings", -1, 0, 0, "\
-Your morale will shift up and down at random, often dramatically."},
-{"Weak Stomach", -1, 0, 0, "\
-You are more likely to throw up from food poisoning, alcohol, etc."},
-{"Wool Allergy", -1, 0, 0, "\
-You are badly allergic to wool, and can not wear any clothing made of the\n\
-substance."},
-{"Truth Teller", -2, 0, 0, "\
-When you try to tell a lie, you blush, stammer, and get all shifty-eyed.\n\
-Telling lies and otherwise bluffing will be much more difficult for you."},
-{"Ugly", -1, 0, 2, "\
-You're not much to look at.  NPCs who care about such things will react\n\
-poorly to you."},
-{"Hardcore", -6, 0, 0, "\
-Your whole body can't take much abuse.  Its maximum HP is 75%% points lower\n\
-than usual. Stacks with Glass Jaw. Not for casuals."},
+{_("Near-Sighted"), -2, 0, 0, _("\
+Without your glasses, your seeing radius is severely reduced!  However, while \
+wearing glasses this trait has no effect, and you are guaranteed to start \
+with a pair.")},
+{_("Far-Sighted"), -2, 0, 0, _("\
+Without reading glasses, you are unable to read anything, and take penalities \
+on melee accuracy and electronics/tailoring crafting. However, you are \
+guaranteed to start with a pair of reading glasses.")},
+{_("Heavy Sleeper"), -1, 0, 0, _("\
+You're quite the heavy sleeper.  Noises are unlikely to wake you up.")},
+{_("Asthmatic"), -4, 0, 0, _("\
+You will occasionally need to use an inhaler, or else suffer severe physical \
+limitations.  However, you are guaranteed to start with an inhaler.")},
+{_("Bad Back"), -3, 0, 0, _("\
+You simply can not carry as much as people with a similar strength could. \
+Your maximum weight carried is reduced by 35%%.")},
+{_("Illiterate"), -5, 0, 0, _("\
+You never learned to read!  Books and computers are off-limits to you.")},
+{_("Poor Hearing"), -2, 0, 0, _("\
+Your hearing is poor, and you may not hear quiet or far-off noises.")},
+{_("Insomniac"), -2, 0, 0, _("\
+You have a hard time falling asleep, even under the best circumstances!")},
+{_("Meat Intolerance"), -3, 0, 0, _("\
+You have problems with eating meat, it's possible for you to eat it but \
+you will suffer morale penalties due to nausea.")},
+{_("Glass Jaw"), -3, 0, 0, _("\
+Your head can't take much abuse.  Its maximum HP is 20%% lower than usual.")},
+{_("Forgetful"), -3, 0, 0, _("\
+You have a hard time remembering things.  Your skills will erode slightly \
+faster than usual.")},
+{_("Lightweight"), -1, 0, 0, _("\
+Alcohol and drugs go straight to your head.  You suffer the negative effects \
+of these for longer.")},
+{_("Addictive Personality"), -3, 0, 0, _("\
+It's easier for you to become addicted to substances, and harder to rid \
+yourself of these addictions.")},
+{_("Trigger Happy"), -2, 0, 0, _("\
+On rare occasion, you will go full-auto when you intended to fire a single \
+shot.  This has no effect when firing handguns or other semi-automatic \
+firearms.")},
+{_("Smelly"), -1, 0, 0, _("\
+Your scent is particularly strong.  It's not offensive to humans, but animals \
+that track your scent will do so more easily.")},
+{_("Chemical Imbalance"), -2, 0, 0, _("\
+You suffer from a minor chemical imbalance, whether mental or physical. Minor \
+changes to your internal chemistry will manifest themselves on occasion, \
+such as hunger, sleepiness, narcotic effects, etc.")},
+{_("Schizophrenic"), -5, 0, 0, _("\
+You will periodically suffer from delusions, ranging from minor effects to \
+full visual hallucinations.  Some of these effects may be controlled through \
+the use of Thorazine.")},
+{_("Jittery"), -3, 0, 0, _("\
+During moments of great stress or under the effects of stimulants, you may \
+find your hands shaking uncontrollably, severely reducing your dexterity.")},
+{_("Hoarder"), -4, 0, 0, _("\
+You don't feel right unless you're carrying as much as you can.  You suffer \
+morale penalties for carrying less than maximum volume (weight is ignored). \
+Xanax can help control this anxiety.")},
+{_("Savant"), -4, 0, 0, _("\
+You tend to specialize in one skill and be poor at all others.  You advance \
+at half speed in all skills except your best one. Note that combining this \
+with Fast Learner will come out to a slower rate of learning for all skills.")},
+{_("Mood Swings"), -1, 0, 0, _("\
+Your morale will shift up and down at random, often dramatically.")},
+{_("Weak Stomach"), -1, 0, 0, _("\
+You are more likely to throw up from food poisoning, alcohol, etc.")},
+{_("Wool Allergy"), -1, 0, 0, _("\
+You are badly allergic to wool, and can not wear any clothing made of the \
+substance.")},
+{_("Truth Teller"), -2, 0, 0, _("\
+When you try to tell a lie, you blush, stammer, and get all shifty-eyed. \
+Telling lies and otherwise bluffing will be much more difficult for you.")},
+{_("Ugly"), -1, 0, 2, _("\
+You're not much to look at.  NPCs who care about such things will react \
+poorly to you.")},
+{_("Hardcore"), -6, 0, 0, _("\
+Your whole body can't take much abuse.  Its maximum HP is 75%% points lower \
+than usual. Stacks with Glass Jaw. Not for casuals.")},
 
 {"Bug - PF_MAX", 0, 0, 0, "\
 This shouldn't be here!  You have the trait PF_MAX toggled.  Weird."},
@@ -586,400 +540,400 @@ This shouldn't be here!  You have the trait PF_MAX toggled.  Weird."},
  *  the NPC is a mutant-lover.
  */
 
-{"Rough Skin", 0, 2, 1, "\
-Your skin is slightly rough.  This has no gameplay effect."},
-{"High Night Vision", 3, 0, 0, "\
-You can see incredibly well in the dark!"},
-{"Full Night Vision", 5, 0, 0, "\
-You can see in pitch blackness as if you were wearing night-vision goggles."},
-{"Infrared Vision", 5, 0, 0, "\
-Your eyes have mutated to pick up radiation in the infrared spectrum."},
-{"Very Fast Healer", 5, 0, 0, "\
-Your flesh regenerates slowly, and you will regain HP even when not sleeping."},
-{"Regeneration", 10, 0, 0, "\
-Your flesh regenerates from wounds incredibly quickly."},
-{"Fangs", 2, 2, 2, "\
-Your teeth have grown into two-inch-long fangs, allowing you to make an extra\n\
-attack when conditions favor it."},
-{"Nictitating Membrane", 1, 1, 2, "\
-You have a second set of clear eyelids which lower while underwater, allowing\n\
-you to see as though you were wearing goggles."},
-{"Gills", 3, 5, 3, "\
-You've grown a set of gills in your neck, allowing you to breathe underwater."},
-{"Scales", 6, 10, 3, "\
-A set of flexible green scales have grown to cover your body, acting as a\n\
-natural armor."},
-{"Thick Scales", 6, 10, 4, "\
-A set of heavy green scales have grown to cover your body, acting as a\n\
-natural armor.  It is very difficult to penetrate, but also limits your\n\
-flexibility, resulting in a -2 penalty to Dexterity."},
-{"Sleek Scales", 6, 10, 4, "\
-A set of very flexible and slick scales have grown to cover your body.  These\n\
-act as a weak set of armor, improve your ability to swim, and make you\n\
-difficult to grab."},
-{"Light Bones", 2, 0, 0, "\
-Your bones are very light.  This enables you to run and attack 10%% faster,\n\
-but also reduces your carrying weight by 20%% and makes bashing attacks hurt\n\
-a little more."},
-{"Feathers", 2, 10, 3, "\
-Iridescent feathers have grown to cover your entire body, providing a\n\
-marginal protection against attacks and minor protection from cold. They\n\
-also provide a natural waterproofing."},
-{"Lightly Furred", 1, 6, 2, "\
-Light fur has grown to coveryour entire body, providing slight protection\n\
-from cold."},
-{"Furry", 2, 10, 3, "\
-Thick black fur has grown to cover your entire body, providing a marginal\n\
-protection against attacks, and considerable protection from cold."},
-{"Chitinous Skin", 2, 3, 2, "\
-Your epidermis has turned into a thin, flexible layer of chitin.  It provides\n\
-minor protection from cutting wounds."},
-{"Chitinous Armor", 2, 6, 3, "\
-You've grown a chitin exoskeleton, much like that of an insect.  It provides\n\
-considerable physical protection, but reduces your dexterity by 1."},
-{"Chitinous Plate", 2, 8, 5, "\
-You've grown a chitin exoskeleton made of thick, stiff plates, like that of\n\
-a beetle.  It provides excellent physical protection, but reduces your\n\
-dexterity by 1 and encumbers all body parts but your eyes and mouth."},
-{"Spines", 1, 0, 0, "\
-Your skin is covered with fine spines.  Whenever an unarmed opponent strikes\n\
-a part of your body that is not covered by clothing, they will receive\n\
-moderate damage."},
-{"Quills", 3, 0, 0, "\
-Your body is covered with large quills.  Whenever an unarmed opponent strikes\n\
-a part of your body that is not covered by clothing, they will receive\n\
-significant damage."},
-{"Phelloderm", 3, 3, 2, "\
-Your skin is light green and has a slightly woody quality to it.  This\n\
-provides a weak armor, and helps you retain moisture, resulting in less\n\
-thirst."},
-{"Bark", 5, 10, 3, "\
-Your skin is coated in a light bark, like that of a tree.  This provides\n\
-resistance to bashing and cutting damage and minor protection from fire."},
-{"Thorns", 6, 8, 4, "\
-Your skin is covered in small, woody thorns.  Whenever an unarmed opponent\n\
-strikes a part of your body that is not covered by clothing, they will\n\
-receive minor damage.  Your punches may also deal extra damage."},
-{"Leaves", 6, 8, 3, "\
-All the hair on your body has turned to long, grass-like leaves.  Apart from\n\
-being physically striking, these provide you with a minor amount of nutrition\n\
-while in sunlight."},
-{"Long Fingernails", 1, 1, 0, "\
-Your fingernails are long and sharp.  If you aren't wearing gloves, your\n\
-unarmed attacks deal a minor amount of cutting damage."},
-{"Claws", 2, 3, 2, "\
-You have claws on the ends of your fingers.  If you aren't wearing gloves,\n\
-your unarmed attacks deal a minor amount of cutting damage."},
-{"Large Talons", 2, 4, 3, "\
-Your index fingers have grown into huge talons.  After a bit of practice, you\n\
-find that this does not affect your dexterity, but allows for a deadly\n\
-unarmed attack.  They also prevent you from wearing gloves."},
-{"Radiogenic", 3, 0, 0, "\
-Your system has adapted to radiation.  While irradiated, you will actually\n\
-heal slowly, converting the radiation into hit points."},
-{"Marloss Carrier", 4, 0, 0, "\
-Ever since you ate that Marloss berry, you can't get its scent out of your\n\
-nose, and you have a strong desire to eat more."},
-{"Insect Pheromones", 8, 0, 0, "\
-Your body produces low-level pheromones, identifying you as a friend to many\n\
-species of insects.  Insects will attack you much less."},
-{"Mammal Pheromones", 8, 0, 0, "\
-Your body produces low-level pheromones which puts mammals at ease.  They\n\
-will be less likely to attack or flee from you."},
-{"Disease Immune", 6, 0, 0, "\
-Your body is simply immune to diseases.  You will never catch an ambient\n\
-disease."},
-{"Poisonous", 8, 0, 0, "\
-Your body produces a potent venom.  Any special attacks from mutatations\n\
-have a chance to poison your target."},
-{"Slime Hands", 4, 5, 4, "\
-The skin on your hands is a mucous membrane and produces a thick, acrid\n\
-slime.  Attacks using your hand will cause minor acid damage."},
-{"Compound Eyes", 2, 9, 5, "\
-Your eyes are compound, like those of an insect.  This increases your\n\
-perception by 2 so long as you aren't wearing eyewear."},
-{"Padded Feet", 1, 1, 0, "\
-The bottoms of your feet are strongly padded.  You receive no movement\n\
-penalty for not wearing shoes, and even receive a 10%% bonus when running\n\
-barefoot."},
-{"Hooves", -4, 2, 2, "\
-Your feet have fused into hooves.  This allows kicking attacks to do much\n\
-more damage, provides natural armor, and removes the need to wear shoes;\n\
-however, you can not wear shoes of any kind."},
-{"Saprovore", 4, 0, 0, "\
-Your digestive system is specialized to allow you to consume decaying\n\
-material.  You can eat rotten food, albeit for less nutrition than\n\
-usual."},
-{"Ruminant", 5, 0, 0, "\
-Your digestive system is capable of digesting cellulose and other rough\n\
-plant material.  You can eat underbrush by standing over it and pressing\n\
-E."},
-{"Horns", 2, 3, 1, "\
-You have a pair of small horns on your head.  They allow you to make a weak\n\
-piercing headbutt attack."},
-{"Curled Horns", 1, 8, 2, "\
-You have a pair of large curled horns, like those of a ram.  They allow you\n\
-to make a strong bashing headbutt attack, but prevent you from wearing any\n\
-headwear."},
-{"Pointed Horns", 2, 8, 2, "\
-You have a pair of long, pointed horns, like those of an antelope.  They\n\
-allow you to make a strong piercing headbutt attack, but prevent you from\n\
-wearing any headwear the is not made of fabric."},
-{"Antennae", 1, 9, 4, "\
-You have a pair of antennae.  They allow you to detect the presence of\n\
-monsters up to a few tiles away, even if you can't see or hear them, but\n\
-prevent you from wearing headwear that is not made of fabric."},
-{"Road-Runner", 4, 0, 0, "\
-Your legs are extremely limber and fast-moving.  You run 30%% faster on\n\
-flat surfaces."},
-{"Stubby Tail", 0, 1, 2, "\
-You have a short, stubby tail, like a rabbit's.  It serves no purpose."},
-{"Tail Fin", 1, 4, 2, "\
-You have a fin-like tail.  It allows you to swim more quickly."},
-{"Long Tail", 2, 6, 2, "\
-You have a long, graceful tail, like that of a big cat.  It improves your\n\
-balance, making your ability to dodge higher."},
-{"Fluffy Tail", 2, 7, 0, "\
-You have a long, fluffy-furred tail.  It greatly improves your balance,\n\
-making your ability to dodge much higher."},
-{"Spiked Tail", 2, 6, 3, "\
-You have a long tail that ends in a vicious stinger, like that of a\n\
-scorpion.  It does not improve your balance at all, but allows for a\n\
-powerful piercing attack."},
-{"Club Tail", 2, 7, 2, "\
-You have a long tail that ends in a heavy, bony club.  It does not improve\n\
-your balance at all, but alows for a powerful bashing attack."},
-{"Pain Recovery", 3, 0, 0, "\
-You recover from pain slightly faster than normal."},
-{"Quick Pain Recovery", 5, 0, 0, "\
-You recover from pain faster than normal."},
-{"Very Quick Pain Reovery", 8, 0, 0, "\
-You recover from pain much faster than normal."},
-{"Bird Wings", 2, 4, 2, "\
-You have a pair of large, feathered wings.  Your body is too heavy to be able\n\
-to fly, but you can use them to slow your descent during a fall, and will not\n\
-take falling damage under any circumstances."},
-{"Insect Wings", 3, 4, 4, "\
-You have a pair of large, translucent wings.  You buzz them as you run,\n\
-enabling you to run faster."},
-{"Mouth Tentacles", 1, 8, 5, "\
-A set of tentacles surrounds your mouth.  They allow you to eat twice as\n\
-fast."},
-{"Mandibles", 2, 8, 6, "\
-A set of insect-like mandibles have grown around your mouth.  They allow you\n\
-to eat faster and provide a slicing unarmed attack, but prevent you from\n\
-wearing mouthwear."},
-{"Canine Ears", 2, 4, 1, "\
-Your ears have extended into long, pointed ones, like those of a canine.\n\
-They enhance your hearing, allowing you to hear at greater distances."},
-{"Web Walker", 3, 0, 0, "\
-Your body excretes very fine amounts of a chemcial which prevents you from\n\
-sticking to webs.  Walking through webs does not affect you at all."},
-{"Web Weaver", 3, 0, 0, "\
-Your body produces webs.  As you move, there is a chance that you will\n\
-leave webs in your wake."},
-{"Whiskers", 1, 3, 1, "\
-You have a set of prominent rodent-like whiskers around your mouth.  These\n\
-make you more aware of vibrations in the air, and improve your ability to\n\
-dodge very slightly."},
-{"Strong", 1, 0, 0, "\
-Your muscles are a little stronger.  Strength + 1"},
-{"Very Strong", 2, 0, 0, "\
-Your muscles are stronger.  Strength + 2"},
-{"Extremely Strong", 4, 1, 0, "\
-Your muscles are much stronger.  Strength + 4"},
-{"Insanely Strong", 7, 2, 2, "\
-Your muscles are noticably bulging.  Strength + 7"},
-{"Dextrous", 1, 0, 0, "\
-You are a little nimbler.  Dexterity + 1"},
-{"Very Dextrous", 2, 0, 0, "\
-You are nimbler.  Dexterity + 2"},
-{"Extremely Dextrous", 3, 0, 0, "\
-You are nimble and quick.  Dexterity + 4"},
-{"Insanely Dextrous", 4, 0, 0, "\
-You are much nimbler than before.  Dexterity + 7"},
-{"Smart", 1, 0, 0, "\
-You are a little smarter.  Intelligence + 1"},
-{"Very Smart", 2, 0, 0, "\
-You are smarter.  Intelligence + 2"},
-{"Extremely Smart", 3, 1, 1, "\
-You are much smarter, and your skull bulges slightly.  Intelligence + 4"},
-{"Insanely Smart", 4, 3, 3, "\
-Your skull bulges noticably with your impressive brain.  Intelligence + 7"},
-{"Perceptive", 1, 0, 0, "\
-Your senses are a little keener.  Perception + 1"},
-{"Very Perceptive", 2, 0, 0, "\
-Your senses are keener.  Perception + 2"},
-{"Extremely Perceptive", 3, 0, 0, "\
-Your senses are much keener.  Perception + 4"},
-{"Insanely Perceptive", 4, 0, 0, "\
-You can sense things you never imagined.  Perception + 7"},
+{_("Rough Skin"), 0, 2, 1, _("\
+Your skin is slightly rough.  This has no gameplay effect.")},
+{_("High Night Vision"), 3, 0, 0, _("\
+You can see incredibly well in the dark!")},
+{_("Full Night Vision"), 5, 0, 0, _("\
+You can see in pitch blackness as if you were wearing night-vision goggles.")},
+{_("Infrared Vision"), 5, 0, 0, _("\
+Your eyes have mutated to pick up radiation in the infrared spectrum.")},
+{_("Very Fast Healer"), 5, 0, 0, _("\
+Your flesh regenerates slowly, and you will regain HP even when not sleeping.")},
+{_("Regeneration"), 10, 0, 0, _("\
+Your flesh regenerates from wounds incredibly quickly.")},
+{_("Fangs"), 2, 2, 2, _("\
+Your teeth have grown into two-inch-long fangs, allowing you to make an extra \
+attack when conditions favor it.")},
+{_("Nictitating Membrane"), 1, 1, 2, _("\
+You have a second set of clear eyelids which lower while underwater, allowing \
+you to see as though you were wearing goggles.")},
+{_("Gills"), 3, 5, 3, _("\
+You've grown a set of gills in your neck, allowing you to breathe underwater.")},
+{_("Scales"), 6, 10, 3, _("\
+A set of flexible green scales have grown to cover your body, acting as a \
+natural armor.")},
+{_("Thick Scales"), 6, 10, 4, _("\
+A set of heavy green scales have grown to cover your body, acting as a \
+natural armor.  It is very difficult to penetrate, but also limits your \
+flexibility, resulting in a -2 penalty to Dexterity.")},
+{_("Sleek Scales"), 6, 10, 4, _("\
+A set of very flexible and slick scales have grown to cover your body.  These \
+act as a weak set of armor, improve your ability to swim, and make you \
+difficult to grab.")},
+{_("Light Bones"), 2, 0, 0, _("\
+Your bones are very light.  This enables you to run and attack 10%% faster, \
+but also reduces your carrying weight by 20%% and makes bashing attacks hurt \
+a little more.")},
+{_("Feathers"), 2, 10, 3, _("\
+Iridescent feathers have grown to cover your entire body, providing a \
+marginal protection against attacks and minor protection from cold. They \
+also provide a natural waterproofing.")},
+{_("Lightly Furred"), 1, 6, 2, _("\
+Light fur has grown to coveryour entire body, providing slight protection \
+from cold.")},
+{_("Furry"), 2, 10, 3, _("\
+Thick black fur has grown to cover your entire body, providing a marginal \
+protection against attacks, and considerable protection from cold.")},
+{_("Chitinous Skin"), 2, 3, 2, _("\
+Your epidermis has turned into a thin, flexible layer of chitin.  It provides \
+minor protection from cutting wounds.")},
+{_("Chitinous Armor"), 2, 6, 3, _("\
+You've grown a chitin exoskeleton, much like that of an insect.  It provides \
+considerable physical protection, but reduces your dexterity by 1.")},
+{_("Chitinous Plate"), 2, 8, 5, _("\
+You've grown a chitin exoskeleton made of thick, stiff plates, like that of \
+a beetle.  It provides excellent physical protection, but reduces your \
+dexterity by 1 and encumbers all body parts but your eyes and mouth.")},
+{_("Spines"), 1, 0, 0, _("\
+Your skin is covered with fine spines.  Whenever an unarmed opponent strikes \
+a part of your body that is not covered by clothing, they will receive \
+moderate damage.")},
+{_("Quills"), 3, 0, 0, _("\
+Your body is covered with large quills.  Whenever an unarmed opponent strikes \
+a part of your body that is not covered by clothing, they will receive \
+significant damage.")},
+{_("Phelloderm"), 3, 3, 2, _("\
+Your skin is light green and has a slightly woody quality to it.  This \
+provides a weak armor, and helps you retain moisture, resulting in less \
+thirst.")},
+{_("Bark"), 5, 10, 3, _("\
+Your skin is coated in a light bark, like that of a tree.  This provides \
+resistance to bashing and cutting damage and minor protection from fire.")},
+{_("Thorns"), 6, 8, 4, _("\
+Your skin is covered in small, woody thorns.  Whenever an unarmed opponent \
+strikes a part of your body that is not covered by clothing, they will \
+receive minor damage.  Your punches may also deal extra damage.")},
+{_("Leaves"), 6, 8, 3, _("\
+All the hair on your body has turned to long, grass-like leaves.  Apart from \
+being physically striking, these provide you with a minor amount of nutrition \
+while in sunlight.")},
+{_("Long Fingernails"), 1, 1, 0, _("\
+Your fingernails are long and sharp.  If you aren't wearing gloves, your \
+unarmed attacks deal a minor amount of cutting damage.")},
+{_("Claws"), 2, 3, 2, _("\
+You have claws on the ends of your fingers.  If you aren't wearing gloves, \
+your unarmed attacks deal a minor amount of cutting damage.")},
+{_("Large Talons"), 2, 4, 3, _("\
+Your index fingers have grown into huge talons.  After a bit of practice, you \
+find that this does not affect your dexterity, but allows for a deadly \
+unarmed attack.  They also prevent you from wearing gloves.")},
+{_("Radiogenic"), 3, 0, 0, _("\
+Your system has adapted to radiation.  While irradiated, you will actually \
+heal slowly, converting the radiation into hit points.")},
+{_("Marloss Carrier"), 4, 0, 0, _("\
+Ever since you ate that Marloss berry, you can't get its scent out of your \
+nose, and you have a strong desire to eat more.")},
+{_("Insect Pheromones"), 8, 0, 0, _("\
+Your body produces low-level pheromones, identifying you as a friend to many \
+species of insects.  Insects will attack you much less.")},
+{_("Mammal Pheromones"), 8, 0, 0, _("\
+Your body produces low-level pheromones which puts mammals at ease.  They \
+will be less likely to attack or flee from you.")},
+{_("Disease Immune"), 6, 0, 0, _("\
+Your body is simply immune to diseases.  You will never catch an ambient \
+disease.")},
+{_("Poisonous"), 8, 0, 0, _("\
+Your body produces a potent venom.  Any special attacks from mutatations \
+have a chance to poison your target.")},
+{_("Slime Hands"), 4, 5, 4, _("\
+The skin on your hands is a mucous membrane and produces a thick, acrid \
+slime.  Attacks using your hand will cause minor acid damage.")},
+{_("Compound Eyes"), 2, 9, 5, _("\
+Your eyes are compound, like those of an insect.  This increases your \
+perception by 2 so long as you aren't wearing eyewear.")},
+{_("Padded Feet"), 1, 1, 0, _("\
+The bottoms of your feet are strongly padded.  You receive no movement \
+penalty for not wearing shoes, and even receive a 10%% bonus when running \
+barefoot.")},
+{_("Hooves"), -4, 2, 2, _("\
+Your feet have fused into hooves.  This allows kicking attacks to do much \
+more damage, provides natural armor, and removes the need to wear shoes; \
+however, you can not wear shoes of any kind.")},
+{_("Saprovore"), 4, 0, 0, _("\
+Your digestive system is specialized to allow you to consume decaying \
+material.  You can eat rotten food, albeit for less nutrition than \
+usual.")},
+{_("Ruminant"), 5, 0, 0, _("\
+Your digestive system is capable of digesting cellulose and other rough \
+plant material.  You can eat underbrush by standing over it and pressing \
+E.")},
+{_("Horns"), 2, 3, 1, _("\
+You have a pair of small horns on your head.  They allow you to make a weak \
+piercing headbutt attack.")},
+{_("Curled Horns"), 1, 8, 2, _("\
+You have a pair of large curled horns, like those of a ram.  They allow you \
+to make a strong bashing headbutt attack, but prevent you from wearing any \
+headwear.")},
+{_("Pointed Horns"), 2, 8, 2, _("\
+You have a pair of long, pointed horns, like those of an antelope.  They \
+allow you to make a strong piercing headbutt attack, but prevent you from \
+wearing any headwear the is not made of fabric.")},
+{_("Antennae"), 1, 9, 4, _("\
+You have a pair of antennae.  They allow you to detect the presence of \
+monsters up to a few tiles away, even if you can't see or hear them, but \
+prevent you from wearing headwear that is not made of fabric.")},
+{_("Road-Runner"), 4, 0, 0, _("\
+Your legs are extremely limber and fast-moving.  You run 30%% faster on \
+flat surfaces.")},
+{_("Stubby Tail"), 0, 1, 2, _("\
+You have a short, stubby tail, like a rabbit's.  It serves no purpose.")},
+{_("Tail Fin"), 1, 4, 2, _("\
+You have a fin-like tail.  It allows you to swim more quickly.")},
+{_("Long Tail"), 2, 6, 2, _("\
+You have a long, graceful tail, like that of a big cat.  It improves your \
+balance, making your ability to dodge higher.")},
+{_("Fluffy Tail"), 2, 7, 0, _("\
+You have a long, fluffy-furred tail.  It greatly improves your balance, \
+making your ability to dodge much higher.")},
+{_("Spiked Tail"), 2, 6, 3, _("\
+You have a long tail that ends in a vicious stinger, like that of a \
+scorpion.  It does not improve your balance at all, but allows for a \
+powerful piercing attack.")},
+{_("Club Tail"), 2, 7, 2, _("\
+You have a long tail that ends in a heavy, bony club.  It does not improve \
+your balance at all, but alows for a powerful bashing attack.")},
+{_("Pain Recovery"), 3, 0, 0, _("\
+You recover from pain slightly faster than normal.")},
+{_("Quick Pain Recovery"), 5, 0, 0, _("\
+You recover from pain faster than normal.")},
+{_("Very Quick Pain Reovery"), 8, 0, 0, _("\
+You recover from pain much faster than normal.")},
+{_("Bird Wings"), 2, 4, 2, _("\
+You have a pair of large, feathered wings.  Your body is too heavy to be able \
+to fly, but you can use them to slow your descent during a fall, and will not \
+take falling damage under any circumstances.")},
+{_("Insect Wings"), 3, 4, 4, _("\
+You have a pair of large, translucent wings.  You buzz them as you run, \
+enabling you to run faster.")},
+{_("Mouth Tentacles"), 1, 8, 5, _("\
+A set of tentacles surrounds your mouth.  They allow you to eat twice as \
+fast.")},
+{_("Mandibles"), 2, 8, 6, _("\
+A set of insect-like mandibles have grown around your mouth.  They allow you \
+to eat faster and provide a slicing unarmed attack, but prevent you from \
+wearing mouthwear.")},
+{_("Canine Ears"), 2, 4, 1, _("\
+Your ears have extended into long, pointed ones, like those of a canine. \
+They enhance your hearing, allowing you to hear at greater distances.")},
+{_("Web Walker"), 3, 0, 0, _("\
+Your body excretes very fine amounts of a chemcial which prevents you from \
+sticking to webs.  Walking through webs does not affect you at all.")},
+{_("Web Weaver"), 3, 0, 0, _("\
+Your body produces webs.  As you move, there is a chance that you will \
+leave webs in your wake.")},
+{_("Whiskers"), 1, 3, 1, _("\
+You have a set of prominent rodent-like whiskers around your mouth.  These \
+make you more aware of vibrations in the air, and improve your ability to \
+dodge very slightly.")},
+{_("Strong"), 1, 0, 0, _("\
+Your muscles are a little stronger.  Strength + 1")},
+{_("Very Strong"), 2, 0, 0, _("\
+Your muscles are stronger.  Strength + 2")},
+{_("Extremely Strong"), 4, 1, 0, _("\
+Your muscles are much stronger.  Strength + 4")},
+{_("Insanely Strong"), 7, 2, 2, _("\
+Your muscles are noticably bulging.  Strength + 7")},
+{_("Dextrous"), 1, 0, 0, _("\
+You are a little nimbler.  Dexterity + 1")},
+{_("Very Dextrous"), 2, 0, 0, _("\
+You are nimbler.  Dexterity + 2")},
+{_("Extremely Dextrous"), 3, 0, 0, _("\
+You are nimble and quick.  Dexterity + 4")},
+{_("Insanely Dextrous"), 4, 0, 0, _("\
+You are much nimbler than before.  Dexterity + 7")},
+{_("Smart"), 1, 0, 0, _("\
+You are a little smarter.  Intelligence + 1")},
+{_("Very Smart"), 2, 0, 0, _("\
+You are smarter.  Intelligence + 2")},
+{_("Extremely Smart"), 3, 1, 1, _("\
+You are much smarter, and your skull bulges slightly.  Intelligence + 4")},
+{_("Insanely Smart"), 4, 3, 3, _("\
+Your skull bulges noticably with your impressive brain.  Intelligence + 7")},
+{_("Perceptive"), 1, 0, 0, _("\
+Your senses are a little keener.  Perception + 1")},
+{_("Very Perceptive"), 2, 0, 0, _("\
+Your senses are keener.  Perception + 2")},
+{_("Extremely Perceptive"), 3, 0, 0, _("\
+Your senses are much keener.  Perception + 4")},
+{_("Insanely Perceptive"), 4, 0, 0, _("\
+You can sense things you never imagined.  Perception + 7")},
 
-{"Head Bumps", 0, 3, 3, "\
-You have a pair of bumps on your skull."},
-{"Antlers", -2, 10, 3, "\
-You have a huge rack of antlers, like those of a moose.  They prevent you\n\
-from hearing headwear that is not made of fabric, but provide a weak\n\
-headbutt attack."},
-{"Slit Nostrils", -2, 7, 4, "\
-You have a flattened nose and thin slits for nostrils, giving you a lizard-\n\
-like appearance.  This makes breathing slightly difficult and increases\n\
-mouth encumbrance by 1."},
-{"Forked Tongue", 0, 1, 3, "\
-Your tongue is forked, like that of a reptile.  This has no effect."},
-{"Bulging Eyes", 0, 8, 4, "\
-Your eyes bulge out several inches from your skull.  This does not affect\n\
-your vision in any way."},
-{"Mouth Flaps", -1, 7, 6, "\
-Skin tabs and odd flaps of skin surround your mouth.  They don't affect your\n\
-eating, but are unpleasant to look at."},
-{"Wing Stubs", 0, 2, 2, "\
-You have a pair of stubby little wings projecting from your shoulderblades.\n\
-They can be wiggled at will, but are useless."},
-{"Bat Wings", -1, 9, 4, "\
-You have a pair of large, leathery wings.  You can move them a little, but\n\
-they are useless, and in fact put you off balance, reducing your ability to\n\
-dodge slightly."},
-{"Pale Skin", 0, 3, 1, "\
-Your skin is rather pale."},
-{"Spots", 0, 6, 2, "\
-Your skin is covered in a pattern of red spots."},
-{"Very Smelly", -4, 4, 5, "\
-You smell awful.  Monsters that track scent will find you very easily, and\n\
-humans will react poorly."},
-{"Deformed", -2, 4, 4, "\
-You're minorly deformed.  Some people will react badly to your appearance."},
-{"Badly Deformed", -4, 7, 7, "\
-You're hideously deformed.  Some people will have a strong negative reaction\n\
-to your appearance."},
-{"Grotesque", -7, 10, 10, "\
-Your visage is disgusting and liable to induce vomiting.  People will not\n\
-want to interact with you unless they have a very good reason to."},
-{"Beautiful", 2, -4, -4, "\
-You're a real head-turner. Some people will react well to your appearance,\n\
-and most people have an easier time trusting you."},
-{"Very Beautiful", 4, -7, -7, "\
-You are a vision of beauty. Some people will react very well to your looks,\n\
-and most people will trust you immediately."},
-{"Glorious", 7, -10, -10, "\
-You are inredibly beautiful. People cannot help themselves for your charms,\n\
-and will do whatever they can to please you."},
-{"Hollow Bones", -6, 0, 0, "\
-You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is\n\
-very light as a result, enabling you to run and attack 20%% faster, but\n\
-also frail; you can carry 40%% less, and bashing attacks injure you more."},
-{"Nausea", -3, 0, 0, "\
-You feel nauseous almost constantly, and are more liable to throw up from\n\
-food poisoning, alcohol, etc."},
-{"Vomitous", -8, 0, 0, "\
-You have a major digestive disorder, which causes you to vomit frequently."},
-{"Fast Metabolism", -2, 0, 0, "\
-You require more food than most people."},
-{"High Thirst", -3, 0, 0, "\
-Your body dries out easily; you need to drink a lot more water."},
-{"Weakening", -6, 0, 0, "\
-You feel as though you are slowly weakening, but it's so slight a feeling\n\
-that it does not affect you at all."},
-{"Deterioration", -8, 0, 0, "\
-Your body is very slowly wasting away."},
-{"Disintegration", -10, 0, 0, "\
-Your body is slowly wasting away!"},
-{"Albino", -2, 0, 0, "\
-Your skin lacks pigment, and is nearly transparent.  You suffer serious burns\n\
-in direct sunlight."},
-{"Sores", -2, 5, 6, "\
-Your body is covered in painful sores.  The pain is worse when they are\n\
-covered in clothing."},
-{"Light Sensitive", -2, 0, 0, "\
-Sunlight makes you uncomfortable.  If you are outdoors and the weather is\n\
-Sunny, you suffer -1 to all stats."},
-{"Very Light Sensitive", -3, 0, 0, "\
-Sunlight makes you very uncomfortable.  If you are outdoors during the day,\n\
-you suffer -1 to all stats; -2 if the weather is Sunny."},
-{"Troglobite", -5, 0, 0, "\
-Sunlight makes you extremely uncomfortable, resulting in large penalties to\n\
-all stats."},
-{"Webbed Hands", -1, 3, 2, "\
-Your hands and feet are heavily webbed, reducing your dexterity by 1 and\n\
-preventing you from wearing gloves.  However, you can swim much faster."},
-{"Beak", -1, 8, 4, "\
-You have a beak for a mouth.  You can occasionally use it to peck at your\n\
-enemies, but it is impossible for you to wear mouthgear."},
-{"Genetically Unstable", -4, 0, 0, "\
-Your DNA has been damaged in a way that causes you to continually develop\n\
-more mutations."},
-{"Minor Radioactivity", -4, 0, 0, "\
-Your body has become radioactive!  You continuously emit low levels of\n\
-radiation, some of which will be absorbed by you, and some of which will\n\
-contaminate the world around you."},
-{"Radioactivity", -4, 0, 0, "\
-Your body has become radioactive!  You continuously emit moderate levels of\n\
-radiation, some of which will be absorbed by you, and some of which will\n\
-contaminate the world around you."},
-{"Severe Radioactivity", -4, 0, 0, "\
-Your body has become radioactive!  You continuously emit heavy levels of\n\
-radiation, some of which will be absorbed by you, and some of which will\n\
-contaminate the world around you."},
-{"Slimy", -1, 7, 6, "\
-Your body is coated with a fine slime, which oozes off of you, leaving a\n\
-trail."},
-{"Herbivore", -3, 0, 0, "\
-Your body's ability to digest meat is severely hampered.  Eating meat has a\n\
-good chance of making you vomit it back up; even if you manage to keep it\n\
-down, its nutritional value is greatly reduced."},
-{"Carnivore", -3, 0, 0, "\
-Your body's ability to digest fruits, vegetables and grains is severely\n\
-hampered.  You cannot eat anything besides meat."},
-{"Ponderous", -3, 0, 0, "\
-Your muscles are generally slow to move.  You run 10%% slower."},
-{"Very Ponderous", -5, 0, 0, "\
-Your muscles are quite slow to move.  You run 20%% slower."},
-{"Extremely Ponderous", -8, 0, 0, "\
-Your muscles are very slow to move.  You run 30%% slower."},
-{"Sunlight dependent", -5, 0, 0, "\
-You feel very sluggish when not in direct sunlight.  You suffer a 5%% drop in\n\
-speed when in shade, and a 10%% drop in speed when in the dark."},
-{"Heat dependent", -2, 0, 0, "\
-Your muscle response is dependent on ambient temperatures.  You lose 1%% of\n\
-your speed for every 5 degrees below 65 F."},
-{"Very Heat dependent", -3, 0, 0, "\
-Your muscle response is highly dependent on ambient temperatures.  You lose\n\
-1%% of your speed for every 3 degrees below 65 F."},
-{"Cold Blooded", -5, 0, 0, "\
-You are cold-blooded and rely on heat to keep moving.  Your lose 1%% of your\n\
-speed for every 2 degrees below 65 F."},
-{"Growling Voice", -1, 0, 0, "\
-You have a growling, rough voice.  Persuading NPCs will be more difficult,\n\
-but threatening them will be easier."},
-{"Snarling Voice", -2, 0, 0, "\
-You have a threatening snarl in your voice.  Persuading NPCs will be near\n\
-impossible, but threatening them will be much easier."},
-{"Shouter", -2, 0, 0, "\
-You occasionally shout uncontrollably."},
-{"Screamer", -3, 0, 0, "\
-You sometimes scream uncontrollably."},
-{"Howler", -5, 0, 0, "\
-You frequently let out a piercing howl."},
-{"Tentacle Arms", -5, 7, 4, "\
-Your arms have transformed into tentacles.  Though they are flexible and\n\
-increase your dexterity by 1, the lack of fingers results in a permanent\n\
-hand encumbrance of 3, and prevents the wearing of gloves."},
-{"4 Tentacles", -3, 8, 5, "\
-Your arms have transformed into four tentacles, resulting in a bonus of 1 to\n\
-dexterity, permanent hand encumbrance of 3, and preventing you from wearing\n\
-gloves.  You can make up to 3 extra attacks with them."},
-{"8 Tentacles", -2, 9, 6, "\
-Your arms have transformed into eight tentacles, resulting in a bonus of 1 to\n\
-dexterity, permanent hand encumbrance of 3, and preventing you from wearing\n\
-gloves.  You can make up to 7 extra attacks with them."},
-{"Shell", -6, 8, 3, "\
-You have grown a thick shell over your torso, providing excellent armor.  You\n\
-find you can use the empty space as 16 storage space, but cannot wear\n\
-anything on your torso."},
-{"Leg Tentacles", -3, 8, 4, "\
-Your legs have transformed into six tentacles.  This decreases your speed on\n\
-land by 20%, but makes your movement silent.  However, they also increase\n\
-your swimming speed."}
+{_("Head Bumps"), 0, 3, 3, _("\
+You have a pair of bumps on your skull.")},
+{_("Antlers"), -2, 10, 3, _("\
+You have a huge rack of antlers, like those of a moose.  They prevent you \
+from hearing headwear that is not made of fabric, but provide a weak \
+headbutt attack.")},
+{_("Slit Nostrils"), -2, 7, 4, _("\
+You have a flattened nose and thin slits for nostrils, giving you a lizard- \
+like appearance.  This makes breathing slightly difficult and increases \
+mouth encumbrance by 1.")},
+{_("Forked Tongue"), 0, 1, 3, _("\
+Your tongue is forked, like that of a reptile.  This has no effect.")},
+{_("Bulging Eyes"), 0, 8, 4, _("\
+Your eyes bulge out several inches from your skull.  This does not affect \
+your vision in any way.")},
+{_("Mouth Flaps"), -1, 7, 6, _("\
+Skin tabs and odd flaps of skin surround your mouth.  They don't affect your \
+eating, but are unpleasant to look at.")},
+{_("Wing Stubs"), 0, 2, 2, _("\
+You have a pair of stubby little wings projecting from your shoulderblades. \
+They can be wiggled at will, but are useless.")},
+{_("Bat Wings"), -1, 9, 4, _("\
+You have a pair of large, leathery wings.  You can move them a little, but \
+they are useless, and in fact put you off balance, reducing your ability to \
+dodge slightly.")},
+{_("Pale Skin"), 0, 3, 1, _("\
+Your skin is rather pale.")},
+{_("Spots"), 0, 6, 2, _("\
+Your skin is covered in a pattern of red spots.")},
+{_("Very Smelly"), -4, 4, 5, _("\
+You smell awful.  Monsters that track scent will find you very easily, and \
+humans will react poorly.")},
+{_("Deformed"), -2, 4, 4, _("\
+You're minorly deformed.  Some people will react badly to your appearance.")},
+{_("Badly Deformed"), -4, 7, 7, _("\
+You're hideously deformed.  Some people will have a strong negative reaction \
+to your appearance.")},
+{_("Grotesque"), -7, 10, 10, _("\
+Your visage is disgusting and liable to induce vomiting.  People will not \
+want to interact with you unless they have a very good reason to.")},
+{_("Beautiful"), 2, -4, -4, _("\
+You're a real head-turner. Some people will react well to your appearance, \
+and most people have an easier time trusting you.")},
+{_("Very Beautiful"), 4, -7, -7, _("\
+You are a vision of beauty. Some people will react very well to your looks, \
+and most people will trust you immediately.")},
+{_("Glorious"), 7, -10, -10, _("\
+You are inredibly beautiful. People cannot help themselves for your charms, \
+and will do whatever they can to please you.")},
+{_("Hollow Bones"), -6, 0, 0, _("\
+You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is \
+very light as a result, enabling you to run and attack 20%% faster, but \
+also frail; you can carry 40%% less, and bashing attacks injure you more.")},
+{_("Nausea"), -3, 0, 0, _("\
+You feel nauseous almost constantly, and are more liable to throw up from \
+food poisoning, alcohol, etc.")},
+{_("Vomitous"), -8, 0, 0, _("\
+You have a major digestive disorder, which causes you to vomit frequently.")},
+{_("Fast Metabolism"), -2, 0, 0, _("\
+You require more food than most people.")},
+{_("High Thirst"), -3, 0, 0, _("\
+Your body dries out easily; you need to drink a lot more water.")},
+{_("Weakening"), -6, 0, 0, _("\
+You feel as though you are slowly weakening, but it's so slight a feeling \
+that it does not affect you at all.")},
+{_("Deterioration"), -8, 0, 0, _("\
+Your body is very slowly wasting away.")},
+{_("Disintegration"), -10, 0, 0, _("\
+Your body is slowly wasting away!")},
+{_("Albino"), -2, 0, 0, _("\
+Your skin lacks pigment, and is nearly transparent.  You suffer serious burns \
+in direct sunlight.")},
+{_("Sores"), -2, 5, 6, _("\
+Your body is covered in painful sores.  The pain is worse when they are \
+covered in clothing.")},
+{_("Light Sensitive"), -2, 0, 0, _("\
+Sunlight makes you uncomfortable.  If you are outdoors and the weather is \
+Sunny, you suffer -1 to all stats.")},
+{_("Very Light Sensitive"), -3, 0, 0, _("\
+Sunlight makes you very uncomfortable.  If you are outdoors during the day, \
+you suffer -1 to all stats; -2 if the weather is Sunny.")},
+{_("Troglobite"), -5, 0, 0, _("\
+Sunlight makes you extremely uncomfortable, resulting in large penalties to \
+all stats.")},
+{_("Webbed Hands"), -1, 3, 2, _("\
+Your hands and feet are heavily webbed, reducing your dexterity by 1 and \
+preventing you from wearing gloves.  However, you can swim much faster.")},
+{_("Beak"), -1, 8, 4, _("\
+You have a beak for a mouth.  You can occasionally use it to peck at your \
+enemies, but it is impossible for you to wear mouthgear.")},
+{_("Genetically Unstable"), -4, 0, 0, _("\
+Your DNA has been damaged in a way that causes you to continually develop \
+more mutations.")},
+{_("Minor Radioactivity"), -4, 0, 0, _("\
+Your body has become radioactive!  You continuously emit low levels of \
+radiation, some of which will be absorbed by you, and some of which will \
+contaminate the world around you.")},
+{_("Radioactivity"), -4, 0, 0, _("\
+Your body has become radioactive!  You continuously emit moderate levels of \
+radiation, some of which will be absorbed by you, and some of which will \
+contaminate the world around you.")},
+{_("Severe Radioactivity"), -4, 0, 0, _("\
+Your body has become radioactive!  You continuously emit heavy levels of \
+radiation, some of which will be absorbed by you, and some of which will \
+contaminate the world around you.")},
+{_("Slimy"), -1, 7, 6, _("\
+Your body is coated with a fine slime, which oozes off of you, leaving a \
+trail.")},
+{_("Herbivore"), -3, 0, 0, _("\
+Your body's ability to digest meat is severely hampered.  Eating meat has a \
+good chance of making you vomit it back up; even if you manage to keep it \
+down, its nutritional value is greatly reduced.")},
+{_("Carnivore"), -3, 0, 0, _("\
+Your body's ability to digest fruits, vegetables and grains is severely \
+hampered.  You cannot eat anything besides meat.")},
+{_("Ponderous"), -3, 0, 0, _("\
+Your muscles are generally slow to move.  You run 10%% slower.")},
+{_("Very Ponderous"), -5, 0, 0, _("\
+Your muscles are quite slow to move.  You run 20%% slower.")},
+{_("Extremely Ponderous"), -8, 0, 0, _("\
+Your muscles are very slow to move.  You run 30%% slower.")},
+{_("Sunlight dependent"), -5, 0, 0, _("\
+You feel very sluggish when not in direct sunlight.  You suffer a 5%% drop in \
+speed when in shade, and a 10%% drop in speed when in the dark.")},
+{_("Heat dependent"), -2, 0, 0, _("\
+Your muscle response is dependent on ambient temperatures.  You lose 1%% of \
+your speed for every 5 degrees below 65 F.")},
+{_("Very Heat dependent"), -3, 0, 0, _("\
+Your muscle response is highly dependent on ambient temperatures.  You lose \
+1%% of your speed for every 3 degrees below 65 F.")},
+{_("Cold Blooded"), -5, 0, 0, _("\
+You are cold-blooded and rely on heat to keep moving.  Your lose 1%% of your \
+speed for every 2 degrees below 65 F.")},
+{_("Growling Voice"), -1, 0, 0, _("\
+You have a growling, rough voice.  Persuading NPCs will be more difficult, \
+but threatening them will be easier.")},
+{_("Snarling Voice"), -2, 0, 0, _("\
+You have a threatening snarl in your voice.  Persuading NPCs will be near \
+impossible, but threatening them will be much easier.")},
+{_("Shouter"), -2, 0, 0, _("\
+You occasionally shout uncontrollably.")},
+{_("Screamer"), -3, 0, 0, _("\
+You sometimes scream uncontrollably.")},
+{_("Howler"), -5, 0, 0, _("\
+You frequently let out a piercing howl.")},
+{_("Tentacle Arms"), -5, 7, 4, _("\
+Your arms have transformed into tentacles.  Though they are flexible and \
+increase your dexterity by 1, the lack of fingers results in a permanent \
+hand encumbrance of 3, and prevents the wearing of gloves.")},
+{_("4 Tentacles"), -3, 8, 5, _("\
+Your arms have transformed into four tentacles, resulting in a bonus of 1 to \
+dexterity, permanent hand encumbrance of 3, and preventing you from wearing \
+gloves.  You can make up to 3 extra attacks with them.")},
+{_("8 Tentacles"), -2, 9, 6, _("\
+Your arms have transformed into eight tentacles, resulting in a bonus of 1 to \
+dexterity, permanent hand encumbrance of 3, and preventing you from wearing \
+gloves.  You can make up to 7 extra attacks with them.")},
+{_("Shell"), -6, 8, 3, _("\
+You have grown a thick shell over your torso, providing excellent armor.  You \
+find you can use the empty space as 16 storage space, but cannot wear \
+anything on your torso.")},
+{_("Leg Tentacles"), -3, 8, 4, _("\
+Your legs have transformed into six tentacles.  This decreases your speed on \
+land by 20%, but makes your movement silent.  However, they also increase \
+your swimming speed.")}
 };
 
 enum hp_part {

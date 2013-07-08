@@ -51,10 +51,6 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-# extra search path for libs
-#LIBEXT = 1
-#LIBEXT_DIR = /usr/local
-
 VERSION = 0.6
 
 
@@ -64,14 +60,6 @@ W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
 BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
-
-ifdef LIBEXT
-  ifndef $(LIBEXT_DIR)
-    LIBEXT_DIR = /usr/local
-  endif
-  OTHERS += -I$(LIBEXT_DIR)/include
-  LDFLAGS += -L$(LIBEXT_DIR)/lib
-endif
 
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
@@ -135,6 +123,9 @@ ifeq ($(NATIVE), osx)
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
   LDFLAGS += -lintl
   TARGETSYSTEM=LINUX
+  ifneq ($(OS), GNU/Linux)
+    BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
+  endif
 endif
 
 # Win32 (mingw32?)
@@ -239,9 +230,9 @@ $(ODIR)/SDLMain.o: SDLMain.m
 version.cpp: version
 
 clean: clean-tests
-	rm -rf $(TARGET) $(W32TARGET) $(ODIR) $(W32ODIR) $(W32BINDIST) \
-	$(BINDIST) #$(TILESTARGET) $(W32TILESTARGET)
-	rm -rf $(BINDIST_DIR)
+	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
+	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
+	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -f version.h
 
 bindist: $(BINDIST)

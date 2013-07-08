@@ -25,10 +25,11 @@ class cPickupRules {
         ~cPickupRules() {};
 };
 
-extern std::vector<cPickupRules> vAutoPickupRules;
+extern std::vector<cPickupRules> vAutoPickupRules[3];
 
+void merge_vector();
 void show_auto_pickup();
-void load_auto_pickup();
+void load_auto_pickup(bool bLoadCharacter = false);
 void save_auto_pickup();
 std::string auto_pickup_header();
 void create_default_auto_pickup();

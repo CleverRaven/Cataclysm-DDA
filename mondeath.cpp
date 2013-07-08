@@ -114,7 +114,7 @@ void mdeath::boomer(game *g, monster *z)
   }
  }
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) == 1)
-  g->u.infect(DI_BOOMERED, bp_eyes, 2, 24, g);
+  g->u.infect("boomered", bp_eyes, 2, 24, g);
 }
 
 void mdeath::kill_vines(game *g, monster *z)
@@ -197,7 +197,7 @@ void mdeath::fungus(game *g, monster *z)
      if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
       g->kill_mon(g->mon_at(sporex, sporey), (z->friendly != 0));
     } else if (g->u.posx == sporex && g->u.posy == sporey)
-     g->u.infect(DI_SPORES, bp_mouth, 4, 30, g);
+     g->u.infect("spores", bp_mouth, 4, 30, g);
     else {
      spore.spawn(sporex, sporey);
      g->z.push_back(spore);
@@ -316,14 +316,14 @@ void mdeath::melt(game *g, monster *z)
 
 void mdeath::amigara(game *g, monster *z)
 {
- if (g->u.has_disease(DI_AMIGARA)) {
+ if (g->u.has_disease("amigara")) {
   int count = 0;
   for (int i = 0; i < g->z.size(); i++) {
    if (g->z[i].type->id == mon_amigara_horror)
     count++;
   }
   if (count <= 1) { // We're the last!
-   g->u.rem_disease(DI_AMIGARA);
+   g->u.rem_disease("amigara");
    g->add_msg("Your obsession with the fault fades away...");
    item art(g->new_artifact(), g->turn);
    g->m.add_item(z->posx, z->posy, art);
@@ -354,7 +354,7 @@ void mdeath::explode(game *g, monster *z)
 
 void mdeath::ratking(game *g, monster *z)
 {
- g->u.rem_disease(DI_RAT);
+ g->u.rem_disease("rat");
 }
 
 void mdeath::smokeburst(game *g, monster *z)

@@ -174,7 +174,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						} else if ((it->made_of("wood") || it->made_of("veggy"))) {
 							//Wood or vegy items burn slowly.
 							if (vol <= cur->getFieldDensity() * 10 || cur->getFieldDensity() == 3) {
-								cur->setFieldAge(cur->getFieldAge() - 10);
+								cur->setFieldAge(cur->getFieldAge() - 20);
 								destroyed = it->burn(cur->getFieldDensity());
 								smoke++;
 								consumed++;
@@ -820,9 +820,9 @@ void map::step_in_field(int x, int y, game *g)
 	  //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
 	  //Moving through multiple webs stacks the effect.
    if (!g->u.has_trait(PF_WEB_WALKER) && !g->u.in_vehicle) {
-    int web = cur->getFieldDensity() * 5 - g->u.disease_level(DI_WEBBED); //between 5 and 15 minus your current web level.
+    int web = cur->getFieldDensity() * 5 - g->u.disease_level("webbed"); //between 5 and 15 minus your current web level.
     if (web > 0)
-     g->u.add_disease(DI_WEBBED, web, g);
+     g->u.add_disease("webbed", web, g);
     remove_field(x, y, fd_web); //Its spent.
    } else if (g->u.in_vehicle){ //If you are in a vehicle destroy the web. It should of been destroyed when you ran over it anyway.
 	   remove_field(x, y, fd_web);
@@ -855,7 +855,7 @@ void map::step_in_field(int x, int y, game *g)
 	 //Sap causes the player to get sap disease, slowing them down.
   if( g->u.in_vehicle ) break; //sap does nothing to cars.
   g->add_msg("The sap sticks to you!");
-  g->u.add_disease(DI_SAP, cur->getFieldDensity() * 2, g);
+  g->u.add_disease("sap", cur->getFieldDensity() * 2, g);
   if (cur->getFieldDensity() == 1)
    remove_field(x, y, fd_sap);
   else
@@ -897,29 +897,29 @@ void map::step_in_field(int x, int y, game *g)
      g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
      g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
      g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
-     g->u.add_disease(DI_ONFIRE, 5, g); //lasting fire damage only from the strongest fires.
+     g->u.add_disease("onfire", 5, g); //lasting fire damage only from the strongest fires.
     }
     /*if (adjusted_intensity == 2)
-     g->u.infect(DI_SMOKE, bp_mouth, 5, 20, g);
+     g->u.infect("smoke", bp_mouth, 5, 20, g);
     else if (adjusted_intensity == 3)
-     g->u.infect(DI_SMOKE, bp_mouth, 7, 30, g);*/ //Removed from here since smoke now exists on fire tiles as its own effect.
+     g->u.infect("smoke", bp_mouth, 7, 30, g);*/ //Removed from here since smoke now exists on fire tiles as its own effect.
    }
    break;
 
   case fd_rubble:
 	  //You are walking on rubble. Slow down.
-   g->u.add_disease(DI_BOULDERING, 0, g, cur->getFieldDensity(), 3);
+   g->u.add_disease("bouldering", 0, g, cur->getFieldDensity(), 3);
    break;
 
   case fd_smoke:
 	  //Get smoke disease from standing in smoke.
       if (cur->getFieldDensity() == 3 && !inside)
       {
-          g->u.infect(DI_SMOKE, bp_mouth, 4, 15, g);
+          g->u.infect("smoke", bp_mouth, 4, 15, g);
       } else if (cur->getFieldDensity() == 2 && !inside){
-		  g->u.infect(DI_SMOKE, bp_mouth, 2, 7, g);
+		  g->u.infect("smoke", bp_mouth, 2, 7, g);
 	  } else if (cur->getFieldDensity() == 1 && !inside){
-		  g->u.infect(DI_SMOKE, bp_mouth, 1, 3, g);
+		  g->u.infect("smoke", bp_mouth, 1, 3, g);
 	  }
       break;
 
@@ -927,11 +927,11 @@ void map::step_in_field(int x, int y, game *g)
 	  //Tear gas will both give you teargas disease and/or blind you.
       if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
       {
-          g->u.infect(DI_TEARGAS, bp_mouth, 5, 20, g);
+          g->u.infect("teargas", bp_mouth, 5, 20, g);
       }
       if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
       {
-          g->u.infect(DI_BLIND, bp_eyes, cur->getFieldDensity() * 2, 10, g);
+          g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10, g);
       }
       break;
 
@@ -939,14 +939,14 @@ void map::step_in_field(int x, int y, game *g)
 	  //Toxic gas at low levels poisons you, toxic gas at high levels will cause very nasty poison.
       if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside)))
       {
-          g->u.infect(DI_POISON, bp_mouth, 5, 30, g);
+          g->u.infect("poison", bp_mouth, 5, 30, g);
       }
       else if (cur->getFieldDensity() == 3 && !inside)
       {
-          g->u.infect(DI_BADPOISON, bp_mouth, 5, 30, g);
+          g->u.infect("badpoison", bp_mouth, 5, 30, g);
       } else if (cur->getFieldDensity() == 1 && (!inside))
       {
-          g->u.infect(DI_POISON, bp_mouth, 2, 10, g);
+          g->u.infect("poison", bp_mouth, 2, 10, g);
       }
       break;
 
@@ -1009,7 +1009,7 @@ void map::step_in_field(int x, int y, game *g)
 
  if(no_rubble){
 	 //After iterating through all fields, if we found no rubble, remove the rubble disease.
-	 g->u.rem_disease(DI_BOULDERING);
+	 g->u.rem_disease("bouldering");
  }
 }
 
@@ -1257,19 +1257,19 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
       g->add_msg("You are hit by the falling debris!");
      }
      if (one_in(g->u.dex_cur)) {
-      g->u.add_disease(DI_DOWNED, 2, g);
+      g->u.add_disease("downed", 2, g);
      }
      if (one_in(g->u.str_cur)) {
-      g->u.add_disease(DI_STUNNED, 2, g);
+      g->u.add_disease("stunned", 2, g);
      }
     }
     else if (one_in(g->u.str_cur)) {
      g->add_msg("You trip as you evade the falling debris!");
-     g->u.add_disease(DI_DOWNED, 1, g);
+     g->u.add_disease("downed", 1, g);
     }
                         //Avoiding disease system for the moment, since I was having trouble with it.
-//    g->u.add_disease(DI_CRUSHED, 42, g);    //Using a disease allows for easy modification without messing with field code
- //   g->u.rem_disease(DI_CRUSHED);           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
+//    g->u.add_disease("crushed", 42, g);    //Using a disease allows for easy modification without messing with field code
+ //   g->u.rem_disease("crushed");           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
    }
    if (fdmon != -1 && fdmon < g->z.size()) {  //If there's a monster at (x,y)...
     monster* monhit = &(g->z[fdmon]);
@@ -1285,14 +1285,14 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
        me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       }
       if (one_in(me->dex_cur)) {
-       me->add_disease(DI_DOWNED, 2, g);
+       me->add_disease("downed", 2, g);
       }
       if (one_in(me->str_cur)) {
-       me->add_disease(DI_STUNNED, 2, g);
+       me->add_disease("stunned", 2, g);
       }
      }
      else if (one_in(me->str_cur)) {
-      me->add_disease(DI_DOWNED, 1, g);
+      me->add_disease("downed", 1, g);
      }
     }
     if (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0) {

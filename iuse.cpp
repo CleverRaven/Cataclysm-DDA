@@ -117,29 +117,29 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 // TODO: Add other diseases here; royal jelly is a cure-all!
  p->pkill += 5;
  std::string message;
- if (p->has_disease(DI_FUNGUS)) {
+ if (p->has_disease("fungus")) {
   message = "You feel cleansed inside!";
-  p->rem_disease(DI_FUNGUS);
+  p->rem_disease("fungus");
  }
- if (p->has_disease(DI_BLIND)) {
+ if (p->has_disease("blind")) {
   message = "Your sight returns!";
-  p->rem_disease(DI_BLIND);
+  p->rem_disease("blind");
  }
- if (p->has_disease(DI_POISON) || p->has_disease(DI_FOODPOISON) ||
-     p->has_disease(DI_BADPOISON)) {
+ if (p->has_disease("poison") || p->has_disease("foodpoison") ||
+     p->has_disease("badpoison")) {
   message = "You feel much better!";
-  p->rem_disease(DI_POISON);
-  p->rem_disease(DI_BADPOISON);
-  p->rem_disease(DI_FOODPOISON);
+  p->rem_disease("poison");
+  p->rem_disease("badpoison");
+  p->rem_disease("foodpoison");
  }
- if (p->has_disease(DI_ASTHMA)) {
+ if (p->has_disease("asthma")) {
   message = "Your breathing clears up!";
-  p->rem_disease(DI_ASTHMA);
+  p->rem_disease("asthma");
  }
- if (p->has_disease(DI_COMMON_COLD) || p->has_disease(DI_FLU)) {
+ if (p->has_disease("common_cold") || p->has_disease("flu")) {
   message = "You feel healthier!";
-  p->rem_disease(DI_COMMON_COLD);
-  p->rem_disease(DI_FLU);
+  p->rem_disease("common_cold");
+  p->rem_disease("flu");
  }
  g->add_msg_if_player(p,message.c_str());
 }
@@ -348,29 +348,29 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 3, 1, 4, "Bandage", p->has_disease(DI_BLEED) ? "Stop Bleeding" : ""))
+    if (use_healing_item(g, p, it, 3, 1, 4, "Bandage", p->has_disease("bleed") ? "Stop Bleeding" : ""))
     {
         g->add_msg_if_player(p,"You stopped the bleeding.");
-        p->rem_disease(DI_BLEED);
+        p->rem_disease("bleed");
     }
 }
 
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 14, 10, 18, "First Aid", p->has_disease(DI_BITE) ? "Clean Wound" : ""))
+    if (use_healing_item(g, p, it, 14, 10, 18, "First Aid", p->has_disease("bite") ? "Clean Wound" : ""))
     {
         g->add_msg_if_player(p,"You clean the bite wound.");
-        p->rem_disease(DI_BITE);
+        p->rem_disease("bite");
     }
 }
 
 void iuse::disinfectant(game *g, player *p, item *it, bool t)
 {
 
-    if (use_healing_item(g, p, it, 6, 5, 9, "Disinfectant", p->has_disease(DI_BITE) ? "Clean Wound" : ""))
+    if (use_healing_item(g, p, it, 6, 5, 9, "Disinfectant", p->has_disease("bite") ? "Clean Wound" : ""))
     {
         g->add_msg_if_player(p,"You disinfect the bite wound.");
-        p->rem_disease(DI_BITE);
+        p->rem_disease("bite");
     }
 }
 
@@ -379,11 +379,11 @@ void iuse::pkill_1(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- if (!p->has_disease(DI_PKILL1))
-  p->add_disease(DI_PKILL1, 120, g);
+ if (!p->has_disease("pkill1"))
+  p->add_disease("pkill1", 120, g);
  else {
   for (int i = 0; i < p->illness.size(); i++) {
-   if (p->illness[i].type == DI_PKILL1) {
+   if (p->illness[i].type == "pkill1") {
     p->illness[i].duration = 120;
     i = p->illness.size();
    }
@@ -396,40 +396,40 @@ void iuse::pkill_2(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- p->add_disease(DI_PKILL2, 180, g);
+ p->add_disease("pkill2", 180, g);
 }
 
 void iuse::pkill_3(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- p->add_disease(DI_PKILL3, 20, g);
- p->add_disease(DI_PKILL2, 200, g);
+ p->add_disease("pkill3", 20, g);
+ p->add_disease("pkill2", 200, g);
 }
 
 void iuse::pkill_4(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You shoot up.");
 
- p->add_disease(DI_PKILL3, 80, g);
- p->add_disease(DI_PKILL2, 200, g);
+ p->add_disease("pkill3", 80, g);
+ p->add_disease("pkill2", 200, g);
 }
 
 void iuse::pkill_l(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- p->add_disease(DI_PKILL_L, rng(12, 18) * 300, g);
+ p->add_disease("pkill_l", rng(12, 18) * 300, g);
 }
 
 void iuse::xanax(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- if (!p->has_disease(DI_TOOK_XANAX))
-  p->add_disease(DI_TOOK_XANAX, 900, g);
+ if (!p->has_disease("took_xanax"))
+  p->add_disease("took_xanax", 900, g);
  else
-  p->add_disease(DI_TOOK_XANAX, 200, g);
+  p->add_disease("took_xanax", 200, g);
 }
 
 void iuse::caff(game *g, player *p, item *it, bool t)
@@ -444,7 +444,7 @@ void iuse::alcohol(game *g, player *p, item *it, bool t)
  if (p->has_trait(PF_LIGHTWEIGHT))
   duration += 300;
  p->pkill += 8;
- p->add_disease(DI_DRUNK, duration, g);
+ p->add_disease("drunk", duration, g);
 }
 
 void iuse::alcohol_weak(game *g, player *p, item *it, bool t)
@@ -453,7 +453,7 @@ void iuse::alcohol_weak(game *g, player *p, item *it, bool t)
  if (p->has_trait(PF_LIGHTWEIGHT))
   duration += 120;
  p->pkill += 4;
- p->add_disease(DI_DRUNK, duration, g);
+ p->add_disease("drunk", duration, g);
 }
 
 void iuse::cig(game *g, player *p, item *it, bool t)
@@ -463,9 +463,9 @@ void iuse::cig(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You light a cigarette and smoke it.");
  else //cigar
   g->add_msg_if_player(p,"You take a few puffs from your cigar.");
- p->add_disease(DI_CIG, 200, g);
+ p->add_disease("cig", 200, g);
  for (int i = 0; i < p->illness.size(); i++) {
-  if (p->illness[i].type == DI_CIG && p->illness[i].duration > 600 &&
+  if (p->illness[i].type == "cig" && p->illness[i].duration > 600 &&
       !p->is_npc())
    g->add_msg_if_player(p,"Ugh, too much smoke... you feel gross.");
  }
@@ -473,10 +473,10 @@ void iuse::cig(game *g, player *p, item *it, bool t)
 
 void iuse::antibiotic(game *g, player *p, item *it, bool t)
 {
-if (p->has_disease(DI_INFECTED)){
+if (p->has_disease("infected")){
   g->add_msg_if_player(p,"You took some antibiotics.");
-  p->rem_disease(DI_INFECTED);
-  p->add_disease(DI_RECOVER, 1200, g);
+  p->rem_disease("infected");
+  p->add_disease("recover", 1200, g);
   }
    else {
  g->add_msg_if_player(p,"You took some antibiotics.");
@@ -494,7 +494,7 @@ void iuse::weed(game *g, player *p, item *it, bool t)
  p->hunger += 8;
  if (p->pkill < 15)
   p->pkill += 5;
- p->add_disease(DI_HIGH, duration, g);
+ p->add_disease("high", duration, g);
 }
 
 void iuse::coke(game *g, player *p, item *it, bool t)
@@ -505,7 +505,7 @@ void iuse::coke(game *g, player *p, item *it, bool t)
  if (p->has_trait(PF_LIGHTWEIGHT))
   duration += 20;
  p->hunger -= 8;
- p->add_disease(DI_HIGH, duration, g);
+ p->add_disease("high", duration, g);
 }
 
 void iuse::crack(game *g, player *p, item *it, bool t)
@@ -519,7 +519,7 @@ void iuse::crack(game *g, player *p, item *it, bool t)
     duration += 10;
   }
   p->hunger -= 8;
-  p->add_disease(DI_HIGH, duration, g);
+  p->add_disease("high", duration, g);
 }
 
 void iuse::grack(game *g, player *p, item *it, bool t)
@@ -531,7 +531,7 @@ void iuse::grack(game *g, player *p, item *it, bool t)
   if (p->has_trait(PF_LIGHTWEIGHT))
     duration += 10;
   p->hunger -= 8;
-  p->add_disease(DI_GRACK, duration, g);
+  p->add_disease("grack", duration, g);
 }
 
 
@@ -548,12 +548,12 @@ void iuse::meth(game *g, player *p, item *it, bool t)
     {
         g->add_msg_if_player(p,"You snort some crystals.");
     }
-    if (!p->has_disease(DI_METH)) {duration += 600;}
+    if (!p->has_disease("meth")) {duration += 600;}
     if (duration > 0)
     {
         int hungerpen = (p->str_cur < 10 ? 20 : 30 - p->str_cur);
         p->hunger -= hungerpen;
-        p->add_disease(DI_METH, duration, g);
+        p->add_disease("meth", duration, g);
     }
 }
 
@@ -593,30 +593,30 @@ void iuse::vaccine(game *g, player *p, item *it, bool t)
 
 void iuse::poison(game *g, player *p, item *it, bool t)
 {
- p->add_disease(DI_POISON, 600, g);
- p->add_disease(DI_FOODPOISON, 1800, g);
+ p->add_disease("poison", 600, g);
+ p->add_disease("foodpoison", 1800, g);
 }
 
 void iuse::hallu(game *g, player *p, item *it, bool t)
 {
- p->add_disease(DI_HALLU, 2400, g);
+ p->add_disease("hallu", 2400, g);
 }
 
 void iuse::thorazine(game *g, player *p, item *it, bool t)
 {
  p->fatigue += 15;
- p->rem_disease(DI_HALLU);
- p->rem_disease(DI_VISUALS);
- p->rem_disease(DI_HIGH);
- if (!p->has_disease(DI_DERMATIK))
-  p->rem_disease(DI_FORMICATION);
+ p->rem_disease("hallu");
+ p->rem_disease("visuals");
+ p->rem_disease("high");
+ if (!p->has_disease("dermatik"))
+  p->rem_disease("formication");
  g->add_msg_if_player(p,"You feel somewhat sedated.");
 }
 
 void iuse::prozac(game *g, player *p, item *it, bool t)
 {
- if (!p->has_disease(DI_TOOK_PROZAC) && p->morale_level() < 0)
-  p->add_disease(DI_TOOK_PROZAC, 7200, g);
+ if (!p->has_disease("took_prozac") && p->morale_level() < 0)
+  p->add_disease("took_prozac", 7200, g);
  else
   p->stim += 3;
 }
@@ -629,26 +629,26 @@ void iuse::sleep(game *g, player *p, item *it, bool t)
 
 void iuse::iodine(game *g, player *p, item *it, bool t)
 {
- p->add_disease(DI_IODINE, 1200, g);
+ p->add_disease("iodine", 1200, g);
  g->add_msg_if_player(p,"You take an iodine tablet.");
 }
 
 void iuse::flumed(game *g, player *p, item *it, bool t)
 {
- p->add_disease(DI_TOOK_FLUMED, 6000, g);
+ p->add_disease("took_flumed", 6000, g);
  g->add_msg_if_player(p,"You take some %s", it->tname().c_str());
 }
 
 void iuse::flusleep(game *g, player *p, item *it, bool t)
 {
- p->add_disease(DI_TOOK_FLUMED, 7200, g);
+ p->add_disease("took_flumed", 7200, g);
  p->fatigue += 30;
  g->add_msg_if_player(p,"You feel very sleepy...");
 }
 
 void iuse::inhaler(game *g, player *p, item *it, bool t)
 {
- p->rem_disease(DI_ASTHMA);
+ p->rem_disease("asthma");
  g->add_msg_if_player(p,"You take a puff from your inhaler.");
 }
 
@@ -1440,7 +1440,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
     if (it->charges == 0)
     g->add_msg_if_player(p,"You need batteries to cauterize wounds.");
 
-    else if (!p->has_disease(DI_BITE) && !p->has_disease(DI_BLEED))
+    else if (!p->has_disease("bite") && !p->has_disease("bleed"))
     g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
 
     else if (p->is_npc() || query_yn("Cauterize any open wounds?"))
@@ -3372,7 +3372,7 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 void iuse::mp3_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-  if (!p->has_item(it) || p->has_disease(DI_DEAF) )
+  if (!p->has_item(it) || p->has_disease("deaf") )
    return;	// We're not carrying it, or we're deaf.
   p->add_morale(MORALE_MUSIC, 1, 50);
 
@@ -3618,7 +3618,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         break;
         case 4:
         {
-            if (!p->has_disease(DI_BITE) && !p->has_disease(DI_BLEED))
+            if (!p->has_disease("bite") && !p->has_disease("bleed"))
                 g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
             else if (!p->use_charges_if_avail("fire", 4))
                 g->add_msg_if_player(p,"You need a lighter with 4 charges before you can cauterize yourself.");
@@ -4180,10 +4180,10 @@ void iuse::mop(game *g, player *p, item *it, bool t)
 }
 void iuse::rag(game *g, player *p, item *it, bool t)
 {
- if (p->has_disease(DI_BLEED)){
+ if (p->has_disease("bleed")){
   if (one_in(2)){
    g->add_msg_if_player(p,"You managed to stop the bleeding.");
-   p->rem_disease(DI_BLEED);
+   p->rem_disease("bleed");
   } else {
    g->add_msg_if_player(p,"You couldn't stop the bleeding.");
   }
@@ -4338,7 +4338,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
   case AEA_ADRENALINE:
    g->add_msg_if_player(p,"You're filled with a roaring energy!");
-   p->add_disease(DI_ADRENALINE, rng(200, 250), g);
+   p->add_disease("adrenaline", rng(200, 250), g);
    break;
 
   case AEA_MAP: {
@@ -4522,12 +4522,12 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
   case AEA_ATTENTION:
    g->add_msg_if_player(p,"You feel like your action has attracted attention.");
-   p->add_disease(DI_ATTENTION, 600 * rng(1, 3), g);
+   p->add_disease("attention", 600 * rng(1, 3), g);
    break;
 
   case AEA_TELEGLOW:
    g->add_msg_if_player(p,"You feel unhinged.");
-   p->add_disease(DI_TELEGLOW, 100 * rng(3, 12), g);
+   p->add_disease("teleglow", 100 * rng(3, 12), g);
    break;
 
   case AEA_NOISE:
@@ -4702,4 +4702,45 @@ void iuse::rad_badge(game *g, player *p, item *it, bool t)
 {
     g->add_msg_if_player(p,"You remove the badge from its wrapper, exposing it to ambient radiation.");
     it->make(g->itypes["rad_badge"]);
+}
+
+void iuse::boots(game *g, player *p, item *it, bool t)
+{
+ int choice = -1;
+ if (it->contents.size() == 0)
+  choice = menu(true, "Using boots:", "Put a knife in the boot", "Cancel", NULL);
+ else if (it->contents.size() == 1)
+  choice = menu(true, "Take what:", it->contents[0].tname().c_str(), "Put a knife in the boot", "Cancel", NULL);
+ else
+  choice = menu(true, "Take what:", it->contents[0].tname().c_str(), it->contents[1].tname().c_str(), "Cancel", NULL);
+
+ if ((it->contents.size() > 0 && choice == 1) || // Pull 1st
+     (it->contents.size() > 1 && choice == 2)) {  // Pull 2nd
+  p->moves -= 15;
+  item knife = it->contents[choice - 1];
+  if (!p->is_armed() || p->wield(g, -3)) {
+   p->i_add(knife);
+   p->wield(g, knife.invlet);
+   it->contents.erase(it->contents.begin() + choice - 1);
+  }
+ } else if ((it->contents.size() == 0 && choice == 1) || // Put 1st
+            (it->contents.size() == 1 && choice == 2)) { // Put 2st
+  char ch = g->inv_type("Put what?", IC_TOOL);
+  item* put = &(p->i_at(ch));
+  if (put == NULL || put->is_null()) {
+   g->add_msg_if_player(p, "You do not have that item!");
+   return;
+  }
+  if (put->type->use != &iuse::knife) {
+   g->add_msg_if_player(p, "That isn't knife!");
+   return;
+  }
+  if (put->type->volume > 5) {
+   g->add_msg_if_player(p, "That item does not fit in your boot!");
+   return;
+  }
+  p->moves -= 30;
+  g->add_msg_if_player(p, "You put the %s in your boot.", put->tname().c_str());
+  it->put_in(p->i_rem(g, ch));
+ }
 }

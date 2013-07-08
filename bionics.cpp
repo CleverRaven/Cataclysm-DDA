@@ -252,51 +252,51 @@ void player::activate_bionic(int b, game *g)
    hurt(g, bp_torso, 0, rng(5, 15));
   }
   if (one_in(5))
-   add_disease(DI_TELEGLOW, rng(50, 400), g);
+   add_disease("teleglow", rng(50, 400), g);
  } else if (bio.id == "bio_teleport"){
   g->teleport();
-  add_disease(DI_TELEGLOW, 300, g);
+  add_disease("teleglow", 300, g);
  }
 // TODO: More stuff here (and bio_blood_filter)
  else if(bio.id == "bio_blood_anal"){
   w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY-25)/2 : 0), 10+((TERMX > 80) ? (TERMX-80)/2 : 0));
   wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
              LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-  if (has_disease(DI_FUNGUS))
+  if (has_disease("fungus"))
    bad.push_back("Fungal Parasite");
-  if (has_disease(DI_DERMATIK))
+  if (has_disease("dermatik"))
    bad.push_back("Insect Parasite");
-  if (has_disease(DI_POISON))
+  if (has_disease("poison"))
    bad.push_back("Poison");
   if (radiation > 0)
    bad.push_back("Irradiated");
-  if (has_disease(DI_PKILL1))
+  if (has_disease("pkill1"))
    good.push_back("Minor Painkiller");
-  if (has_disease(DI_PKILL2))
+  if (has_disease("pkill2"))
    good.push_back("Moderate Painkiller");
-  if (has_disease(DI_PKILL3))
+  if (has_disease("pkill3"))
    good.push_back("Heavy Painkiller");
-  if (has_disease(DI_PKILL_L))
+  if (has_disease("pkill_l"))
    good.push_back("Slow-Release Painkiller");
-  if (has_disease(DI_DRUNK))
+  if (has_disease("drunk"))
    good.push_back("Alcohol");
-  if (has_disease(DI_CIG))
+  if (has_disease("cig"))
    good.push_back("Nicotine");
-  if (has_disease(DI_METH))
+  if (has_disease("meth"))
     good.push_back("Methamphetamines");
-  if (has_disease(DI_HIGH))
+  if (has_disease("high"))
    good.push_back("Intoxicant: Other");
-  if (has_disease(DI_HALLU) || has_disease(DI_VISUALS))
+  if (has_disease("hallu") || has_disease("visuals"))
    bad.push_back("Magic Mushroom");
-  if (has_disease(DI_IODINE))
+  if (has_disease("iodine"))
    good.push_back("Iodine");
-  if (has_disease(DI_TOOK_XANAX))
+  if (has_disease("took_xanax"))
    good.push_back("Xanax");
-  if (has_disease(DI_TOOK_PROZAC))
+  if (has_disease("took_prozac"))
    good.push_back("Prozac");
-  if (has_disease(DI_TOOK_FLUMED))
+  if (has_disease("took_flumed"))
    good.push_back("Antihistamines");
-  if (has_disease(DI_ADRENALINE))
+  if (has_disease("adrenaline"))
    good.push_back("Adrenaline Spike");
   if (good.size() == 0 && bad.size() == 0)
    mvwprintz(w, 1, 1, c_white, "No effects.");
@@ -313,23 +313,23 @@ void player::activate_bionic(int b, game *g)
   getch();
   delwin(w);
  } else if(bio.id == "bio_blood_filter"){
-  rem_disease(DI_FUNGUS);
-  rem_disease(DI_POISON);
-  rem_disease(DI_PKILL1);
-  rem_disease(DI_PKILL2);
-  rem_disease(DI_PKILL3);
-  rem_disease(DI_PKILL_L);
-  rem_disease(DI_DRUNK);
-  rem_disease(DI_CIG);
-  rem_disease(DI_HIGH);
-  rem_disease(DI_HALLU);
-  rem_disease(DI_VISUALS);
-  rem_disease(DI_IODINE);
-  rem_disease(DI_TOOK_XANAX);
-  rem_disease(DI_TOOK_PROZAC);
-  rem_disease(DI_TOOK_FLUMED);
-  rem_disease(DI_ADRENALINE);
-  rem_disease(DI_METH);
+  rem_disease("fungus");
+  rem_disease("poison");
+  rem_disease("pkill1");
+  rem_disease("pkill2");
+  rem_disease("pkill3");
+  rem_disease("pkill_l");
+  rem_disease("drunk");
+  rem_disease("cig");
+  rem_disease("high");
+  rem_disease("hallu");
+  rem_disease("visuals");
+  rem_disease("iodine");
+  rem_disease("took_xanax");
+  rem_disease("took_prozac");
+  rem_disease("took_flumed");
+  rem_disease("adrenaline");
+  rem_disease("meth");
   pkill = 0;
   stim = 0;
  } else if(bio.id == "bio_evap"){
