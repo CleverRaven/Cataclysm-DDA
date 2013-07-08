@@ -380,7 +380,7 @@ void iuse::pkill_1(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
  if (!p->has_disease("pkill1"))
-  p->add_disease("pkill1", 120, g);
+  p->add_disease("pkill1", 120);
  else {
   for (int i = 0; i < p->illness.size(); i++) {
    if (p->illness[i].type == "pkill1") {
@@ -396,30 +396,30 @@ void iuse::pkill_2(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- p->add_disease("pkill2", 180, g);
+ p->add_disease("pkill2", 180);
 }
 
 void iuse::pkill_3(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- p->add_disease("pkill3", 20, g);
- p->add_disease("pkill2", 200, g);
+ p->add_disease("pkill3", 20);
+ p->add_disease("pkill2", 200);
 }
 
 void iuse::pkill_4(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You shoot up.");
 
- p->add_disease("pkill3", 80, g);
- p->add_disease("pkill2", 200, g);
+ p->add_disease("pkill3", 80);
+ p->add_disease("pkill2", 200);
 }
 
 void iuse::pkill_l(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- p->add_disease("pkill_l", rng(12, 18) * 300, g);
+ p->add_disease("pkill_l", rng(12, 18) * 300);
 }
 
 void iuse::xanax(game *g, player *p, item *it, bool t)
@@ -427,9 +427,9 @@ void iuse::xanax(game *g, player *p, item *it, bool t)
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
  if (!p->has_disease("took_xanax"))
-  p->add_disease("took_xanax", 900, g);
+  p->add_disease("took_xanax", 900);
  else
-  p->add_disease("took_xanax", 200, g);
+  p->add_disease("took_xanax", 200);
 }
 
 void iuse::caff(game *g, player *p, item *it, bool t)
@@ -444,7 +444,7 @@ void iuse::alcohol(game *g, player *p, item *it, bool t)
  if (p->has_trait(PF_LIGHTWEIGHT))
   duration += 300;
  p->pkill += 8;
- p->add_disease("drunk", duration, g);
+ p->add_disease("drunk", duration);
 }
 
 void iuse::alcohol_weak(game *g, player *p, item *it, bool t)
@@ -453,7 +453,7 @@ void iuse::alcohol_weak(game *g, player *p, item *it, bool t)
  if (p->has_trait(PF_LIGHTWEIGHT))
   duration += 120;
  p->pkill += 4;
- p->add_disease("drunk", duration, g);
+ p->add_disease("drunk", duration);
 }
 
 void iuse::cig(game *g, player *p, item *it, bool t)
@@ -463,7 +463,7 @@ void iuse::cig(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You light a cigarette and smoke it.");
  else //cigar
   g->add_msg_if_player(p,"You take a few puffs from your cigar.");
- p->add_disease("cig", 200, g);
+ p->add_disease("cig", 200);
  for (int i = 0; i < p->illness.size(); i++) {
   if (p->illness[i].type == "cig" && p->illness[i].duration > 600 &&
       !p->is_npc())
@@ -476,7 +476,7 @@ void iuse::antibiotic(game *g, player *p, item *it, bool t)
 if (p->has_disease("infected")){
   g->add_msg_if_player(p,"You took some antibiotics.");
   p->rem_disease("infected");
-  p->add_disease("recover", 1200, g);
+  p->add_disease("recover", 1200);
   }
    else {
  g->add_msg_if_player(p,"You took some antibiotics.");
@@ -494,7 +494,7 @@ void iuse::weed(game *g, player *p, item *it, bool t)
  p->hunger += 8;
  if (p->pkill < 15)
   p->pkill += 5;
- p->add_disease("high", duration, g);
+ p->add_disease("high", duration);
 }
 
 void iuse::coke(game *g, player *p, item *it, bool t)
@@ -505,7 +505,7 @@ void iuse::coke(game *g, player *p, item *it, bool t)
  if (p->has_trait(PF_LIGHTWEIGHT))
   duration += 20;
  p->hunger -= 8;
- p->add_disease("high", duration, g);
+ p->add_disease("high", duration);
 }
 
 void iuse::crack(game *g, player *p, item *it, bool t)
@@ -519,7 +519,7 @@ void iuse::crack(game *g, player *p, item *it, bool t)
     duration += 10;
   }
   p->hunger -= 8;
-  p->add_disease("high", duration, g);
+  p->add_disease("high", duration);
 }
 
 void iuse::grack(game *g, player *p, item *it, bool t)
@@ -531,7 +531,7 @@ void iuse::grack(game *g, player *p, item *it, bool t)
   if (p->has_trait(PF_LIGHTWEIGHT))
     duration += 10;
   p->hunger -= 8;
-  p->add_disease("grack", duration, g);
+  p->add_disease("grack", duration);
 }
 
 
@@ -553,7 +553,7 @@ void iuse::meth(game *g, player *p, item *it, bool t)
     {
         int hungerpen = (p->str_cur < 10 ? 20 : 30 - p->str_cur);
         p->hunger -= hungerpen;
-        p->add_disease("meth", duration, g);
+        p->add_disease("meth", duration);
     }
 }
 
@@ -593,13 +593,13 @@ void iuse::vaccine(game *g, player *p, item *it, bool t)
 
 void iuse::poison(game *g, player *p, item *it, bool t)
 {
- p->add_disease("poison", 600, g);
- p->add_disease("foodpoison", 1800, g);
+ p->add_disease("poison", 600);
+ p->add_disease("foodpoison", 1800);
 }
 
 void iuse::hallu(game *g, player *p, item *it, bool t)
 {
- p->add_disease("hallu", 2400, g);
+ p->add_disease("hallu", 2400);
 }
 
 void iuse::thorazine(game *g, player *p, item *it, bool t)
@@ -616,7 +616,7 @@ void iuse::thorazine(game *g, player *p, item *it, bool t)
 void iuse::prozac(game *g, player *p, item *it, bool t)
 {
  if (!p->has_disease("took_prozac") && p->morale_level() < 0)
-  p->add_disease("took_prozac", 7200, g);
+  p->add_disease("took_prozac", 7200);
  else
   p->stim += 3;
 }
@@ -629,19 +629,19 @@ void iuse::sleep(game *g, player *p, item *it, bool t)
 
 void iuse::iodine(game *g, player *p, item *it, bool t)
 {
- p->add_disease("iodine", 1200, g);
+ p->add_disease("iodine", 1200);
  g->add_msg_if_player(p,"You take an iodine tablet.");
 }
 
 void iuse::flumed(game *g, player *p, item *it, bool t)
 {
- p->add_disease("took_flumed", 6000, g);
+ p->add_disease("took_flumed", 6000);
  g->add_msg_if_player(p,"You take some %s", it->tname().c_str());
 }
 
 void iuse::flusleep(game *g, player *p, item *it, bool t)
 {
- p->add_disease("took_flumed", 7200, g);
+ p->add_disease("took_flumed", 7200);
  p->fatigue += 30;
  g->add_msg_if_player(p,"You feel very sleepy...");
 }
@@ -4338,7 +4338,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
   case AEA_ADRENALINE:
    g->add_msg_if_player(p,"You're filled with a roaring energy!");
-   p->add_disease("adrenaline", rng(200, 250), g);
+   p->add_disease("adrenaline", rng(200, 250));
    break;
 
   case AEA_MAP: {
@@ -4522,12 +4522,12 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
   case AEA_ATTENTION:
    g->add_msg_if_player(p,"You feel like your action has attracted attention.");
-   p->add_disease("attention", 600 * rng(1, 3), g);
+   p->add_disease("attention", 600 * rng(1, 3));
    break;
 
   case AEA_TELEGLOW:
    g->add_msg_if_player(p,"You feel unhinged.");
-   p->add_disease("teleglow", 100 * rng(3, 12), g);
+   p->add_disease("teleglow", 100 * rng(3, 12));
    break;
 
   case AEA_NOISE:
