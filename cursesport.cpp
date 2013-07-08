@@ -557,7 +557,7 @@ int waddch(WINDOW *win, const chtype ch)
 		win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars+p, tw, tw, win->width*4-p-1);
 		curx = p+tw-1;
 	}
-	else
+	else if(win->line[cury].width_in_bytes!=win->width)
 	{
 		win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars+p, 1, 1, win->width*4-p-1);
 	}
