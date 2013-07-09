@@ -54,7 +54,7 @@
   "ident": "soldier",
   "name": "Military Reserve",
   "description":
-"Your a High school drop out with one goal in mind to join the military. \nNow you finally get in, and the whole world goes to shit.\nYou start out with some military gear.",
+"You're a High school drop out with one goal in mind to join the military. \nNow you finally get in, and the whole world goes to shit.\nYou start out with some military gear.",
   "points": 3,
   "items": ["pants_army", "tank_top","boots_steel", "knife_combat", "binoculars"],
   "skills" : [
@@ -102,7 +102,7 @@
   "ident": "riot",
   "name": "Riot Police",
   "description":
-"Assigned to quell the recent rioting and looting, \nyou quickly realized you were in over your head,\nyou start out with some military clothing, but lost all your gear in the escape.",
+"Assigned to quell the recent rioting and looting, \nyou quickly realized you were in over your head.\nYou start out with some military clothing, but lost all your gear in the escape.",
   "points": 7,
   "items": ["pants_army", "tshirt", "boots", "holster"],
    "skills" : [
@@ -132,7 +132,7 @@
   "ident": "salesman",
   "name": "Used Car Salesman",
   "description":
-"You would have sold your own mother for a dollar, and not feel guilty.\nin fact you sold her a broken down beater right before the cataclysm.\nYou start with speech, bartering and some driving skills.",
+"You would have sold your own mother for a dollar, and not feel guilty.\nin fact you sold her a broken down beater right before the cataclysm.\nYou start with bartering skills.",
   "points": 1,
   "items": ["suit","dress_shoes"],
   "skills" : [
@@ -147,9 +147,9 @@
   "ident": "homeless",
   "name": "Hobo",
   "description":
-"Before the cataclysm everyone thought you were a crazy homeless drunk bastard\nthey called you names, spit on you, some even urinated on you! but whos \nlaughing now, its the end of the world and your still cleaning their wallets.",
+"Before the cataclysm everyone thought you were a crazy homeless drunk bastard.\nThey called you names, spit on you, some even urinated on you! but whos \nlaughing now, its the end of the world and your still cleaning their wallets.",
   "points": -2,
-  "items": ["pants", "poncho"],
+  "items": ["pants", "bottle_glass"],
   "addictions": [
       {
 	  "type": "alcohol",
@@ -180,9 +180,9 @@
 
   {
   "ident": "cworker",
-  "name": "Construction Worker",
+  "name": "Handy Man",
   "description":
-"They had you working on a evacuation shelter during the cataclysm\nwhile your family were all eaten by wolves. protected from the disaster\nyou emerged to a new world, a world you must survive at any means necessary",
+"You used to work at the home depot, while building Evac shelters for the city,\nLuckily you were working on one during the cataclysm.",
   "points": 3,
   "items": ["tank_top", "boots_steel", "jeans","hammer", "vest"],
    "skills" : [
