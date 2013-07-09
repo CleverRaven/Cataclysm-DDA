@@ -337,8 +337,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   if (p.weapon.has_technique(TEC_BREAK, &p) &&
       dice(p.dex_cur + p.skillLevel("melee"), 12) >
       dice(dex_cur + skillLevel("melee"), 10)) {
-   if (is_u)
-    g->add_msg("%s break%s the grab!", target.c_str(), (p.is_npc() ? "s" : ""));
+   g->add_msg_if_player(&p,"%s break%s the grab!", target.c_str(), (p.is_npc() ? "s" : ""));
   } else if (!unarmed_attack()) {
    item tmpweap = remove_weapon();
    hit_player(g, p, false); // False means a second grab isn't allowed
@@ -347,8 +346,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
    hit_player(g, p, false); // False means a second grab isn't allowed
  }
  if (tech_def == TEC_COUNTER) {
-  if (!p.is_npc())
-   g->add_msg("Counter-attack!");
+  g->add_msg_if_player(&p,"Counter-attack!");
   p.hit_player(g, *this);
  }
 }
@@ -890,9 +888,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
        g->z[mondex].die(g);
       if (weapon.has_technique(TEC_FLAMING, this)) // Add to wide attacks
        g->z[mondex].add_effect(ME_ONFIRE, rng(3, 4));
-      if (u_see)
-       g->add_msg("%s hit%s %s for %d damage!", You.c_str(), s.c_str(),
-                                                target.c_str(), dam);
+      g->add_msg_action(p," hit"," hits","%s for %d damage!", target.c_str(), dam);
      }
      int npcdex = g->npc_at(x, y);
      if (npcdex != -1 &&
@@ -903,21 +899,17 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
       g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
       if (weapon.has_technique(TEC_FLAMING, this)) // Add to wide attacks
        g->active_npc[npcdex]->add_disease("onfire", rng(2, 3), g);
-      if (u_see)
-       g->add_msg("%s hit%s %s for %d damage!", You.c_str(), s.c_str(),
-                  g->active_npc[npcdex]->name.c_str(), dam + cut);
+      g->add_msg_action(p," hit"," hits","%s for %d damage!", target.c_str(), dam);
      }
     }
    }
   }
-  if (!is_npc())
-   g->add_msg("%d enemies hit!", count_hit);
+   g->add_msg_if_player(p,"%d enemies hit!", count_hit);
  } break;
 
  case TEC_DISARM:
   g->m.add_item(p->posx, p->posy, p->remove_weapon());
-  if (u_see)
-   g->add_msg("%s disarm%s %s!", You.c_str(), s.c_str(), target.c_str());
+  g->add_msg_action(p," disarm"," disarms",target.c_str(),"!");
   break;
 
  } // switch (tech)
@@ -1023,9 +1015,7 @@ void player::perform_defensive_technique(
     else
      side = 1;
    }
-   if (u_see)
-    g->add_msg("%s block%s with %s %s.", You.c_str(), (is_npc() ? "s" : ""),
-               your.c_str(), body_part_name(bp_hit, side).c_str());
+   g->add_msg_action(p," block with your", " blocks with their", body_part_name(bp_hit, side).c_str());
    bash_dam *= .5;
    double reduction = 1.0;
 // Special reductions for certain styles
@@ -1048,17 +1038,13 @@ void player::perform_defensive_technique(
    bash_dam = 0;
    cut_dam = 0;
    stab_dam = 0;
-   if (u_see)
-    g->add_msg("%s block%s with %s %s.", You.c_str(), (is_npc() ? "s" : ""),
-               your.c_str(), weapon.tname().c_str());
+   g->add_msg_action(p," block with your", " blocks with their", weapon.tname().c_str());
 
   case TEC_COUNTER:
    break; // Handled elsewhere
 
   case TEC_DEF_THROW:
-   if (u_see)
-    g->add_msg("%s throw%s %s!", You.c_str(), (is_npc() ? "s" : ""),
-               target.c_str());
+   g->add_msg_action(p," throw", " throws", target.c_str());
    bash_dam = 0;
    cut_dam  = 0;
    stab_dam = 0;
@@ -1077,9 +1063,7 @@ void player::perform_defensive_technique(
    bash_dam = p->roll_bash_damage(NULL, false);
    cut_dam  = p->roll_cut_damage(NULL, false);
    stab_dam = p->roll_stab_damage(NULL, false);
-   if (u_see)
-    g->add_msg("%s disarm%s %s!", You.c_str(), (is_npc() ? "s" : ""),
-                                  target.c_str());
+   g->add_msg_action(p," disarm", " disarms", target.c_str());
    break;
 
  } // switch (technique)
@@ -1119,12 +1103,12 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
 
  if (can_poison && has_trait(PF_POISONOUS)) {
   if (z != NULL) {
-   if (!is_npc() && !z->has_effect(ME_POISONED))
-    g->add_msg("You poison the %s!", z->name().c_str());
+   if (!z->has_effect(ME_POISONED))
+    g->add_msg_if_player(p,"You poison the %s!", z->name().c_str());
    z->add_effect(ME_POISONED, 6);
   } else if (p != NULL) {
-   if (!is_npc() && !p->has_disease("poison"))
-    g->add_msg("You poison %s!", p->name.c_str());
+   if (!p->has_disease("poison"))
+    g->add_msg_if_player(p,"You poison %s!", p->name.c_str());
    p->add_disease("poison", 6, g);
   }
  }
@@ -1171,9 +1155,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  if (crit)
   stab_moves *= 1.5;
  if (stab_moves >= 150) {
-  if (can_see)
-   g->add_msg("%s force%s the %s to the ground!", You.c_str(),
-              (is_u ? "" : "s"), target.c_str());
+  g->add_msg_action(p," force"," forces","the %s to the ground!", target.c_str());
   if (mon) {
    z->add_effect(ME_DOWNED, 1);
    z->moves -= stab_moves / 2;
@@ -1204,9 +1186,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   if (mon) {
    z->hurt( shock * rng(1, 3) );
    z->moves -= shock * 180;
-   if (can_see)
-    g->add_msg("%s shock%s %s!", You.c_str(), (is_u ? "" : "s"),
-               target.c_str());
+   g->add_msg_action(p," shock"," shocks",target.c_str());
   } else {
    p->hurt(g, bp_torso, 0, shock * rng(1, 3));
    p->moves -= shock * 80;
@@ -1215,9 +1195,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
 
  if (drain_them) {
   charge_power(rng(0, 4));
-  if (can_see)
-   g->add_msg("%s drain%s %s body heat!", You.c_str(), (is_u ? "" : "s"),
-               target_possessive.c_str());
+  g->add_msg_action(p," drain"," drains","%s body heat!", target_possessive.c_str());
   if (mon) {
    z->moves -= rng(80, 120);
    z->speed -= rng(4, 6);
@@ -1237,8 +1215,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
 // Glass weapons shatter sometimes
  if (weapon.made_of("glass") &&
      rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
-  if (can_see)
-   g->add_msg("%s %s shatters!", Your.c_str(), weapon.tname(g).c_str());
+  g->add_msg_action(p,"r","'s","%s shatters!", weapon.tname(g).c_str());
   g->sound(posx, posy, 16, "");
 // Dump its contents on the ground
   for (int i = 0; i < weapon.contents.size(); i++)
@@ -1263,8 +1240,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   }
  }
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20)) {
-  if (is_u)
-   g->add_msg("Your %s gets stuck in %s, pulling it out of your hands!",
+   g->add_msg_if_player(p,"Your %s gets stuck in %s, pulling it out of your hands!",
               weapon.tname().c_str(), target.c_str());
   if (mon) {
    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
@@ -1281,8 +1257,8 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   }
   if (cutting_penalty > 0)
    moves -= cutting_penalty;
-  if (cutting_penalty >= 50 && is_u)
-   g->add_msg("Your %s gets stuck in %s, but you yank it free.",
+  if (cutting_penalty >= 50)
+   g->add_msg_if_player(p,"Your %s gets stuck in %s, but you yank it free.",
               weapon.tname().c_str(), target.c_str());
   if (mon && (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")))
    z->speed *= .9;
@@ -1307,8 +1283,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  } else if(weapon.typeId() == "style_venom_snake"){
    if (has_disease("viper_combo")) {
     if (disease_intensity("viper_combo") == 1) {
-     if (is_u)
-      g->add_msg("Snakebite!");
+     g->add_msg_if_player(p,"Snakebite!");
      int dambuf = bash_dam;
      bash_dam = stab_dam;
      stab_dam = dambuf;
@@ -1316,23 +1291,20 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
     } else if (disease_intensity("viper_combo") == 2) {
      if (hp_cur[hp_arm_l] >= hp_max[hp_arm_l] * .75 &&
          hp_cur[hp_arm_r] >= hp_max[hp_arm_r] * .75   ) {
-      if (is_u)
-       g->add_msg("Viper STRIKE!");
+      g->add_msg_if_player(p,"Viper STRIKE!");
       bash_dam *= 3;
-     } else if (is_u)
-      g->add_msg("Your injured arms prevent a viper strike!");
+     } else
+      g->add_msg_if_player(p,"Your injured arms prevent a viper strike!");
      rem_disease("viper_combo");
     }
    } else if (crit) {
-    if (is_u)
-     g->add_msg("Tail whip!  Viper Combo Intiated!");
+    g->add_msg_if_player(p,"Tail whip!  Viper Combo Intiated!");
     bash_dam += 5;
     add_disease("viper_combo", 2, g, 1, 2);
    }
  } else if(weapon.typeId() == "style_scorpion"){
    if (crit) {
-    if (!is_npc())
-     g->add_msg("Stinger Strike!");
+    g->add_msg_if_player(p,"Stinger Strike!");
     if (mon) {
      z->add_effect(ME_STUNNED, 3);
      int zposx = z->posx, zposy = z->posy;
