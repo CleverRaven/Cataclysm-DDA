@@ -55,39 +55,30 @@
   "name": "Military Reserve",
   "description":
 "Your a High school drop out with one goal in mind to join the military. \nNow you finally get in, and the whole world goes to shit.\nYou start out with some military gear.",
-  "points": 9,
-  "items": ["pants_army", "tank_top", "beltrig", "rucksack", "boots_steel", "knife_combat", "binoculars"],
+  "points": 3,
+  "items": ["pants_army", "tank_top","boots_steel", "knife_combat", "binoculars"],
   "skills" : [
      {
       "name" : "survival",
-      "level" : 2
+      "level" : 1
      },
     {
       "name" : "gun",
       "level" : 1
-     },
-    {
-      "name" : "melee",
-      "level" : 1
-     },
-	 {
-      "name" : "driving",
-      "level" : 2
      }
-]
  },
 
  {
   "ident": "medic",
   "name": "Pre-Med Student",
   "description":
-"You were a Pre-Med Student just starting out, \nYou start with some bandages and some first aid skills.",
-  "points": 6,
-  "items": ["pants", "dress_shirt", "dress_shoes", "mbag", "water_clean", "bandages","bandages","bandages"],
+"You were a Pre-Med Student just starting out in your medical career, \nYou start with some bandages and some first aid skills.",
+  "points": 1,
+  "items": ["pants", "dress_shirt", "dress_shoes","water_clean", "bandages","bandages"],
    "skills" : [
      {
       "name" : "firstaid",
-      "level" : 3
+      "level" : 1
      }
  ]
  },
@@ -97,15 +88,11 @@
   "name": "Mafia Enforcer",
   "description":
 "When it came to getting dirty, the boss knew you could be trusted to get\nthe job done, from performing hits to attitude adjustment, you were the best\nnow at the end of the world, you finally found your place in society.",
-  "points": 5,
-  "items": ["suit", "dress_shoes", "crowbar", "cig", "mag_porn"],
+  "points": 2,
+  "items": ["suit", "dress_shoes","cig", "mag_porn"],
    "skills" : [
      {
-      "name" : "melee",
-      "level" : 1
-     },
-     {
-      "name" : "speech",
+      "name" : "unarmed",
       "level" : 1
      }
  ]
@@ -115,16 +102,12 @@
   "ident": "riot",
   "name": "Riot Police",
   "description":
-"Assigned to quell the recent rioting and looting, \nyou quickly realized you were in over your head,\nyou start out with some riot gear, but you lost your kevlar trying to escape.",
+"Assigned to quell the recent rioting and looting, \nyou quickly realized you were in over your head,\nyou start out with some military clothing, but lost all your gear in the escape.",
   "points": 7,
-  "items": ["pants_army", "tshirt", "boots", "holster", "mask_gas", "baton"],
+  "items": ["pants_army", "tshirt", "boots", "holster"],
    "skills" : [
-     {
-      "name" : "survival",
-      "level" : 2
-     },
     {
-      "name" : "melee",
+      "name" : "guns",
       "level" : 1
      }
 ]
@@ -149,20 +132,12 @@
   "ident": "salesman",
   "name": "Used Car Salesman",
   "description":
-"You were a cheat before the apocalypse, and your a cheat now\nYou start with speech, bartering and some driving skills.",
-  "points": 4,
+"You would have sold your own mother for a dollar, and not feel guilty.\nin fact you sold her a broken down beater right before the cataclysm.\nYou start with speech, bartering and some driving skills.",
+  "points": 1,
   "items": ["suit","dress_shoes"],
   "skills" : [
      {
       "name" : "barter",
-      "level" : 1
-     },
-     {
-      "name" : "driving",
-      "level" : 1
-     },
-     {
-      "name" : "speech",
       "level" : 1
      }
 	 ]
@@ -173,8 +148,8 @@
   "name": "Hobo",
   "description":
 "Before the cataclysm everyone thought you were a crazy homeless drunk bastard\nthey called you names, spit on you, some even urinated on you! but whos \nlaughing now, its the end of the world and your still cleaning their wallets.",
-  "points": -3,
-  "items": ["pants", "poncho", "whiskey"],
+  "points": -2,
+  "items": ["pants", "poncho"],
   "addictions": [
       {
 	  "type": "alcohol",
@@ -188,9 +163,9 @@
   "ident": "hunter",
   "name": "Bow Hunter",
   "description":
-"Never one for guns, you took a liking to the bow,\nhunting came naturally to you, just like your pa\nand his pa before him.",
-  "points": 7,
-  "items": ["tshirt", "boots_steel", "long_underpants", "jacket_light", "gloves_fingerless", "hat_hunting", "jeans", "arrow_metal", "compbow", "jerky", "water_clean"],
+"Never one for guns you took a liking to the bow, and hunting came naturally to you\n you start with a point in archery, and a point in survival.",
+  "points": 2,
+  "items": ["tshirt", "boots_steel", "jeans"],
    "skills" : [
      {
       "name" : "archery",
@@ -208,8 +183,8 @@
   "name": "Construction Worker",
   "description":
 "They had you working on a evacuation shelter during the cataclysm\nwhile your family were all eaten by wolves. protected from the disaster\nyou emerged to a new world, a world you must survive at any means necessary",
-  "points": 7,
-  "items": ["tank_top", "boots_steel", "jeans", "jerky", "beer", "hammer", "vest", "mask_dust", "glasses_safety", "hat_hard"],
+  "points": 3,
+  "items": ["tank_top", "boots_steel", "jeans","hammer", "vest"],
    "skills" : [
      {
       "name" : "carpentry",
@@ -226,16 +201,16 @@
 "ident": "lumberjack",  
 "name": "Lumberjack",  
 "description":"You're the definition of a man, a grizzly beard and bear-like stature.\nthe only thing keeping the zombies at the door is that mighty ax.",  
-"points": 4, 
-"items": ["jeans", "long_underpants", "boots", "hat_hunting", "jacket_jean", "ax"]  
+"points": 3, 
+"items": ["jeans", "boots", "hat_hunting", "jacket_jean", "ax"]  
 }, 
 
  {
   "ident": "backpacker",
   "name": "Backpacker",
   "description":
-"You traveled for a living, seeing here and there, living off \nyour parents trust fund but now they're all gone and\n the only thing between you and death is the open road, and your backpack.",
-  "points": 3,
+"You traveled for a living seeing here and there living off \nyour parents trust fund, but now they're all gone and\n the only thing between you and death, is the open road and your backpack.",
+  "points": 2,
   "items": ["backpack", "shorts_cargo", "sneakers", "tshirt", "socks"]
  },
  
@@ -244,7 +219,7 @@
   "name": "Fast Food Cook",
   "description":
 "You used to work at a fancy fast food joint a week ago but now\nyou show the meaning of \"fast\" food by running for your life.",
-  "points": 3,
+  "points": 1,
   "items": ["pants", "sneakers", "tshirt", "socks"],
   "skills" : 
     [
@@ -259,13 +234,13 @@
   "ident": "survivalist",
   "name": "Survivalist",
   "description":
-"You traveled to the most extreme places on earth, from the rocky mountains of \nKilimanjaro to the scorching Sahara Desert to survive to prove that you could.\nYou start with a water purifier, a hatchet and some survival skills.",
-  "points": 9,
-  "items": ["shorts_cargo", "sneakers", "tshirt", "socks", "hatchet"],
+"You were one of those guys who watched one to many survivalist shows.\nYou start with a backpack and some survival skills.",
+  "points": 3,
+  "items": ["shorts_cargo", "sneakers", "tshirt", "socks", "backpack"],
   "skills" : [
 	 {
       "name" : "survival",
-      "level" : 3
+      "level" : 1
      }  
     ]
   },
