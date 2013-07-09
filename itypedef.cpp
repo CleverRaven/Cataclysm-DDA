@@ -119,23 +119,6 @@ VAR_VEH_PART("v8_combustion", "V8 engine",  2, 250, ':', c_ltcyan,  "iron",   "n
     25,  600,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, "\
 A large and very powerful 8-cylinder combustion engine.");
 
-// AMMUNITION
-// Material should be the wrapper--even though shot is made of iron, because
-//   it can survive a dip in water and be okay, its material here is "plastic".
-// dmg is damage done, in an average hit.  Note that the average human has
-//   80 health.  Headshots do 8x damage; vital hits do 2x-4x; glances do 0x-1x.
-// Weight and price is per 100 rounds.
-// AP is a reduction in the armor of the target.
-// Dispersion is in quarter-degrees, and measures the maximum this ammo will
-//   contribute to the angle of difference.
-// Recoil is cumulative between shots.  4 recoil = 1 dispersion.
-// IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
-//   at the end of this file.
-#define AMMO(id, name,rarity,price,ammo_type,color,mat,volume,wgt,dmg,AP,range,\
-dispersion,recoil,count,des,effects) \
-itypes[id]=new it_ammo(id,rarity,price,name,des,'=',\
-color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,dispersion,recoil,range,count);
-
 // GUNS
 // ammo_type matches one of the ammo_types above.
 // dmg is ADDED to the damage of the corresponding ammo.  +/-, should be small.
@@ -410,11 +393,6 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
     }
 }
 
-//  NAME		RARE  TYPE	COLOR		MAT
-AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	"null",
-//	VOL WGT DMG  AP RNG ACC REC COUNT
-	 0,  0, 40,  0, 10,  1,  0,  5, "", mfb(AMMO_INCENDIARY));
-
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
@@ -426,12 +404,6 @@ GUN("bio_lightning", "Chain Lightning",	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  1,  10, 500,
 "");
-//  NAME		RARE  TYPE	COLOR		MAT
-AMMO("bio_lightning_ammo", "Lightning",	 0,0, AT_FUSION,c_dkgray,	"null",
-//	VOL WGT DMG  AP RNG ACC REC COUNT
-	 0,  0, 6,  0, 10,  1,  0,  10, "", mfb(AMMO_BOUNCE) | mfb(AMMO_LIGHTNING));
-
-
 
 
 // Unarmed Styles

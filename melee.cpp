@@ -304,7 +304,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 // Handles effects as well; not done in melee_affect_*
  perform_technique(technique, g, NULL, &p, bash_dam, cut_dam, stab_dam, pain);
  if (weapon.has_technique(TEC_FLAMING, this)) { // bypass technique selection, it's on FIRE after all
-   p.add_disease("onfire", rng(2, 3), g);
+   p.add_disease("onfire", rng(2, 3));
  }
  p.pain += pain;
 
@@ -840,7 +840,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
    z->add_effect(ME_DOWNED, rng(1, 2));
    bash_dam += z->fall_damage();
   } else if (p != NULL && p->weapon.typeId() != "style_judo") {
-   p->add_disease("downed", rng(1, 2), g);
+   p->add_disease("downed", rng(1, 2));
    bash_dam += 3;
   }
   break;
@@ -849,7 +849,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
   if (z != NULL)
    z->add_effect(ME_STUNNED, rng(1, 4));
   else if (p != NULL)
-   p->add_disease("stunned", rng(1, 2), g);
+   p->add_disease("stunned", rng(1, 2));
   pain += rng(5, 8);
   break;
 
@@ -858,7 +858,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
    z->add_effect(ME_STUNNED, 1);
    z->knock_back_from(g, posx, posy);
   } else if (p != NULL) {
-   p->add_disease("stunned", 1, g);
+   p->add_disease("stunned", 1);
    p->knock_back_from(g, posy, posy);
   }
   break;
@@ -872,7 +872,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
   } else if (p != NULL) {
    p->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
    if (p->weapon.typeId() != "style_judo")
-    p->add_disease("downed", rng(1, 2), g);
+    p->add_disease("downed", rng(1, 2));
   }
   break;
 
@@ -902,7 +902,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
       int cut = roll_cut_damage (NULL, false);
       g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
       if (weapon.has_technique(TEC_FLAMING, this)) // Add to wide attacks
-       g->active_npc[npcdex]->add_disease("onfire", rng(2, 3), g);
+       g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
       if (u_see)
        g->add_msg("%s hit%s %s for %d damage!", You.c_str(), s.c_str(),
                   g->active_npc[npcdex]->name.c_str(), dam + cut);
@@ -1066,7 +1066,7 @@ void player::perform_defensive_technique(
     z->add_effect(ME_DOWNED, rng(1, 2));
     z->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
    } else {
-    p->add_disease("downed", rng(1, 2), g);
+    p->add_disease("downed", rng(1, 2));
     p->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
    }
    break;
@@ -1125,7 +1125,7 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
   } else if (p != NULL) {
    if (!is_npc() && !p->has_disease("poison"))
     g->add_msg("You poison %s!", p->name.c_str());
-   p->add_disease("poison", 6, g);
+   p->add_disease("poison", 6);
   }
  }
 }
@@ -1162,7 +1162,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
    if (mon)
     z->add_effect(ME_STUNNED, turns_stunned);
    else
-    p->add_disease("stunned", 1 + turns_stunned / 2, g);
+    p->add_disease("stunned", 1 + turns_stunned / 2);
   }
  }
 
@@ -1178,7 +1178,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
    z->add_effect(ME_DOWNED, 1);
    z->moves -= stab_moves / 2;
   } else {
-   p->add_disease("downed", 1, g);
+   p->add_disease("downed", 1);
    p->moves -= stab_moves / 2;
   }
  } else if (mon)
@@ -1295,15 +1295,15 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  } else if(weapon.typeId() == "style_aikido"){
    bash_dam /= 2;
  } else if(weapon.typeId() == "style_capoeira"){
-   add_disease("dodge_boost", 2, g, 2);
+   add_disease("dodge_boost", 2, 2);
  } else if(weapon.typeId() == "style_muay_thai"){
    if ((mon && z->type->size >= MS_LARGE) || (!mon && p->str_max >= 12))
     bash_dam += rng((mon ? z->type->size : (p->str_max - 8) / 4),
                     3 * (mon ? z->type->size : (p->str_max - 8) / 4));
  } else if(weapon.typeId() == "style_tiger"){
-   add_disease("damage_boost", 2, g, 2, 10);
+   add_disease("damage_boost", 2, 2, 10);
  } else if(weapon.typeId() == "style_centipede"){
-   add_disease("speed_boost", 2, g, 4, 40);
+   add_disease("speed_boost", 2, 4, 40);
  } else if(weapon.typeId() == "style_venom_snake"){
    if (has_disease("viper_combo")) {
     if (disease_intensity("viper_combo") == 1) {
@@ -1312,7 +1312,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
      int dambuf = bash_dam;
      bash_dam = stab_dam;
      stab_dam = dambuf;
-     add_disease("viper_combo", 2, g, 1, 2); // Upgrade to Viper Strike
+     add_disease("viper_combo", 2, 1, 2); // Upgrade to Viper Strike
     } else if (disease_intensity("viper_combo") == 2) {
      if (hp_cur[hp_arm_l] >= hp_max[hp_arm_l] * .75 &&
          hp_cur[hp_arm_r] >= hp_max[hp_arm_r] * .75   ) {
@@ -1327,7 +1327,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
     if (is_u)
      g->add_msg("Tail whip!  Viper Combo Intiated!");
     bash_dam += 5;
-    add_disease("viper_combo", 2, g, 1, 2);
+    add_disease("viper_combo", 2, 1, 2);
    }
  } else if(weapon.typeId() == "style_scorpion"){
    if (crit) {
@@ -1340,7 +1340,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
      if (z->posx != zposx || z->posy != zposy)
       z->knock_back_from(g, posx, posy); // Knock a 2nd time if the first worked
     } else {
-     p->add_disease("stunned", 2, g);
+     p->add_disease("stunned", 2);
      int pposx = p->posx, pposy = p->posy;
      p->knock_back_from(g, posx, posy);
      if (p->posx != pposx || p->posy != pposy)
