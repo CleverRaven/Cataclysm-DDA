@@ -14,7 +14,7 @@ bool map::process_fields(game *g)
  for (int x = 0; x < my_MAPSIZE; x++) {
   for (int y = 0; y < my_MAPSIZE; y++) {
    if (grid[x + y * my_MAPSIZE]->field_count > 0)
-    found_field |= process_fields_in_submap(g, x + y * my_MAPSIZE);
+    found_field |= process_fields_in_submap(grid[x + y * my_MAPSIZE], x * SEEX, y * SEEY);
   }
  }
  return found_field;
@@ -22,11 +22,11 @@ bool map::process_fields(game *g)
 
 /*
 Function: process_fields_in_submap
-Iterates over every field on every tile of the given submap indicated by NONANT parameter gridn.
+Iterates over every field on every tile of the given submap.
 This is the general update function for field effects. This should only be called once per game turn.
 If you need to insert a new field behavior per unit time add a case statement in the switch below.
 */
-bool map::process_fields_in_submap(game *g, int gridn)
+bool map::process_fields_in_submap(submap *sm, tile_coordinate submap_x, tile_coordinate submap_y)
 {
  // Realistically this is always true, this function only gets called if fields exist.
 	bool found_field = false;
@@ -46,16 +46,16 @@ bool map::process_fields_in_submap(game *g, int gridn)
 		for (int locy = 0; locy < SEEY; locy++) {
    // get a copy of the field variable from the submap;
    // contains all the pointers to the real field effects.
-			curfield = grid[gridn]->fld[locx][locy];
+			curfield = sm->fld[locx][locy];
 			for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart();
        field_list_it != curfield.getFieldEnd(); ++field_list_it){
 				//Iterating through all field effects in the submap's field.
 				cur = (*field_list_it); //dereferencing the iterator to a field_effect pointer.
 				if(cur == NULL) continue; //This shouldn't happen ever, but pointer safety is number one.
-    // This is a translation from local coordinates to submap coords.
-    // All submaps are in one long 1d array.
-				int x = locx + SEEX * (gridn % my_MAPSIZE);
-    int y = locy + SEEY * int(gridn / my_MAPSIZE);
+
+                // locx, locx are the coordinates relative to the submap, x, y are the absolute coordinates
+				int x = submap_x + locx;
+                int y = submap_y + locy;
 
 				curtype = cur->getFieldType();
     //Setting our return value. fd_null really doesn't exist anymore, its there for legacy support.
@@ -766,8 +766,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							cur->setFieldDensity(cur->getFieldDensity() - 1);
 					}
 					if (should_dissipate == true || !cur->isAlive()) { // Totally dissapated.
-						grid[gridn]->field_count--;
-						grid[gridn]->fld[locx][locy].removeField(cur->getFieldType());
+						sm->field_count--;
+						sm->fld[locx][locy].removeField(cur->getFieldType());
 					}
 				}
 			}
