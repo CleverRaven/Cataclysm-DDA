@@ -252,10 +252,10 @@ void player::activate_bionic(int b, game *g)
    hurt(g, bp_torso, 0, rng(5, 15));
   }
   if (one_in(5))
-   add_disease("teleglow", rng(50, 400), g);
+   add_disease("teleglow", rng(50, 400));
  } else if (bio.id == "bio_teleport"){
   g->teleport();
-  add_disease("teleglow", 300, g);
+  add_disease("teleglow", 300);
  }
 // TODO: More stuff here (and bio_blood_filter)
  else if(bio.id == "bio_blood_anal"){

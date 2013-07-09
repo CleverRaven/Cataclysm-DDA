@@ -45,6 +45,7 @@ typedef struct
 typedef struct{
 bool touched;
 char *chars;
+int width_in_bytes;
 char *FG;
 char *BG;
 //cursechar chars [80];

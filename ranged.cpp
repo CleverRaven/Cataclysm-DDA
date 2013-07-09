@@ -20,7 +20,7 @@ void shoot_player(game *g, player &p, player *h, int &dam, double goodhit);
 void splatter(game *g, std::vector<point> trajectory, int dam,
               monster* mon = NULL);
 
-void ammo_effects(game *g, int x, int y, long flags);
+void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects);
 
 void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
                 bool burst)
@@ -43,15 +43,11 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
   else // 5, 12, 21, 32
    tmpammo->dispersion = charges * (charges - 4);
   tmpammo->recoil = tmpammo->dispersion * .8;
-  tmpammo->ammo_effects = 0;
-  if (charges == 8)
-   tmpammo->ammo_effects |= mfb(AMMO_EXPLOSIVE_BIG);
-  else if (charges >= 6)
-   tmpammo->ammo_effects |= mfb(AMMO_EXPLOSIVE);
-  if (charges >= 5)
-   tmpammo->ammo_effects |= mfb(AMMO_FLAME);
-  else if (charges >= 4)
-   tmpammo->ammo_effects |= mfb(AMMO_INCENDIARY);
+  if (charges == 8) { tmpammo->ammo_effects.insert("EXPLOSIVE_BIG"); }
+  else if (charges >= 6) { tmpammo->ammo_effects.insert("EXPLOSIVE"); }
+
+  if (charges >= 5){ tmpammo->ammo_effects.insert("FLAME"); }
+  else if (charges >= 4) { tmpammo->ammo_effects.insert("INCENDIARY"); }
 
   if (gunmod != NULL) {
    weapon = gunmod;
@@ -80,8 +76,8 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  }
 
  bool is_bolt = false;
- unsigned int effects = curammo->ammo_effects;
-// Bolts and arrows are silent
+ std::set<std::string> *effects = &curammo->ammo_effects;
+ // Bolts and arrows are silent
  if (curammo->type == AT_BOLT || curammo->type == AT_ARROW)
   is_bolt = true;
 
@@ -317,7 +313,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   int px = trajectory[0].x;
   int py = trajectory[0].y;
   for (int i = 0; i < trajectory.size() &&
-         (dam > 0 || (effects & mfb(AMMO_FLAME))); i++) {
+         (dam > 0 || (effects->count("FLAME"))); i++) {
       px = tx;
       py = ty;
       tx = trajectory[i].x;
@@ -331,7 +327,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
                  true, u.posx + u.view_offset_x, u.posy + u.view_offset_y);
     }
     char bullet = '*';
-    if (effects & mfb(AMMO_FLAME))
+    if (effects->count("FLAME"))
      bullet = '#';
     mvwputch(w_terrain, ty + VIEWY - u.posy - u.view_offset_y,
              tx + VIEWX - u.posx - u.view_offset_x, c_red, bullet);
@@ -340,9 +336,10 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
      nanosleep(&ts, NULL);
    }
 
-   if (dam <= 0 && !(effects & mfb(AMMO_FLAME))) { // Ran out of momentum.
-    ammo_effects(this, tx, ty, effects);
-    if (is_bolt && !(effects & mfb(AMMO_IGNITE)) && !(effects & mfb(AMMO_EXPLOSIVE)) &&
+   if (dam <= 0 && !(effects->count("FLAME"))) { // Ran out of momentum.
+    ammo_effects(this, tx, ty, *effects);
+    if (is_bolt && !(effects->count("IGNITE")) &&
+        !(effects->count("EXPLOSIVE")) &&
         ((curammo->m1 == "wood" && !one_in(4)) ||
          (curammo->m1 != "wood" && !one_in(15))))
      m.add_item(tx, ty, ammotmp);
@@ -390,11 +387,11 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
     shoot_player(this, p, h, dam, goodhit);
 
    } else
-    m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, effects);
+    m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, *effects);
   } // Done with the trajectory!
 
-  ammo_effects(this, tx, ty, effects);
-  if (effects & mfb(AMMO_BOUNCE))
+  ammo_effects(this, tx, ty, *effects);
+  if (effects->count("BOUNCE"))
   {
     for (int i = 0; i < z.size(); i++)
     {
@@ -418,7 +415,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       tx = px;
       ty = py;
   }
-  if (is_bolt && !(effects & mfb(AMMO_IGNITE)) && !(effects & mfb(AMMO_EXPLOSIVE)) &&
+  if (is_bolt && !(effects->count("IGNITE")) &&
+      !(effects->count("EXPLOSIVE")) &&
       ((curammo->m1 == "wood" && !one_in(5)) ||
        (curammo->m1 != "wood" && !one_in(15))  ))
     m.add_item(tx, ty, ammotmp);
@@ -434,6 +432,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
 {
     int deviation = 0;
     int trange = 1.5 * rl_dist(p.posx, p.posy, tarx, tary);
+    std::set<std::string> no_effects;
 
     // Throwing attempts below "Basic Competency" level are extra-bad
     int skillLevel = p.skillLevel("throw");
@@ -569,7 +568,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         }
         else // No monster hit, but the terrain might be.
         {
-            m.shoot(this, tx, ty, dam, false, 0);
+            m.shoot(this, tx, ty, dam, false, no_effects);
         }
         if (m.move_cost(tx, ty) == 0)
         {
@@ -812,16 +811,16 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
 }
 
 // MATERIALS-TODO: use fire resistance
-void game::hit_monster_with_flags(monster &z, unsigned int effects)
+void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effects)
 {
- if (effects & mfb(AMMO_FLAME)) {
+ if (effects.count("FLAME")) {
 
   if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
    z.add_effect(ME_ONFIRE, rng(8, 20));
   else if (z.made_of("flesh"))
    z.add_effect(ME_ONFIRE, rng(5, 10));
- } else if (effects & mfb(AMMO_INCENDIARY)) {
+ } else if (effects.count("INCENDIARY")) {
 
   if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
@@ -829,7 +828,7 @@ void game::hit_monster_with_flags(monster &z, unsigned int effects)
   else if (z.made_of("flesh") && one_in(4))
    z.add_effect(ME_ONFIRE, rng(1, 4));
 
- } else if (effects & mfb(AMMO_IGNITE)) {
+ } else if (effects.count("IGNITE")) {
 
    if (z.made_of("veggy") || z.made_of("cotton") || z.made_of("wool") ||
       z.made_of("paper") || z.made_of("wood"))
@@ -838,14 +837,14 @@ void game::hit_monster_with_flags(monster &z, unsigned int effects)
    z.add_effect(ME_ONFIRE, rng(10, 10));
 
  }
- if (effects & mfb(AMMO_BOUNCE))
+ if (effects.count("BOUNCE"))
     z.add_effect(ME_BOUNCED, 1);
 }
 
 int time_to_fire(player &p, it_gun* firing)
 {
  int time = 0;
- if (p.weapon.curammo->ammo_effects & mfb(AMMO_BOUNCE))
+ if (p.weapon.curammo->ammo_effects.count("BOUNCE"))
     return 0;
  if (firing->skill_used == Skill::skill("pistol")) {
    if (p.skillLevel("pistol") > 6)
@@ -1069,7 +1068,7 @@ void shoot_monster(game *g, player &p, monster &mon, int &dam, double goodhit, i
 
    if (bMonDead)
     g->kill_mon(g->mon_at(mon.posx, mon.posy), (&p == &(g->u)));
-   else if (weapon->curammo->ammo_effects != 0)
+   else if (!weapon->curammo->ammo_effects.empty())
     g->hit_monster_with_flags(mon, weapon->curammo->ammo_effects);
 
    adjusted_damage = 0;
@@ -1169,17 +1168,18 @@ void splatter(game *g, std::vector<point> trajectory, int dam, monster* mon)
  }
 }
 
-void ammo_effects(game *g, int x, int y, long effects) {
-  if (effects & mfb(AMMO_EXPLOSIVE))
+void ammo_effects(game *g, int x, int y, const std::set<std::string> &effects)
+{
+  if (effects.count("EXPLOSIVE"))
     g->explosion(x, y, 24, 0, false);
 
-  if (effects & mfb(AMMO_FRAG))
+  if (effects.count("FRAG"))
     g->explosion(x, y, 12, 28, false);
 
-  if (effects & mfb(AMMO_NAPALM))
+  if (effects.count("NAPALM"))
     g->explosion(x, y, 18, 0, true);
 
-  if (effects & mfb(AMMO_ACIDBOMB)) {
+  if (effects.count("ACIDBOMB")) {
     for (int i = x - 1; i <= x + 1; i++) {
       for (int j = y - 1; j <= y + 1; j++) {
         g->m.add_field(g, i, j, fd_acid, 3);
@@ -1187,30 +1187,30 @@ void ammo_effects(game *g, int x, int y, long effects) {
     }
   }
 
-  if (effects & mfb(AMMO_EXPLOSIVE_BIG))
+  if (effects.count("EXPLOSIVE_BIG"))
     g->explosion(x, y, 40, 0, false);
 
-  if (effects & mfb(AMMO_TEARGAS)) {
+  if (effects.count("TEARGAS")) {
     for (int i = -2; i <= 2; i++) {
       for (int j = -2; j <= 2; j++)
         g->m.add_field(g, x + i, y + j, fd_tear_gas, 3);
     }
   }
 
-  if (effects & mfb(AMMO_SMOKE)) {
+  if (effects.count("SMOKE")) {
     for (int i = -1; i <= 1; i++) {
       for (int j = -1; j <= 1; j++)
         g->m.add_field(g, x + i, y + j, fd_smoke, 3);
     }
   }
 
-  if (effects & mfb(AMMO_FLASHBANG))
+  if (effects.count("FLASHBANG"))
     g->flashbang(x, y);
 
-  if (effects & mfb(AMMO_FLAME))
+  if (effects.count("FLAME"))
     g->explosion(x, y, 4, 0, true);
 
-  if (effects & mfb(AMMO_LIGHTNING)) {
+  if (effects.count("LIGHTNING")) {
     for (int i = x - 1; i <= x + 1; i++) {
       for (int j = y - 1; j <= y + 1; j++) {
         g->m.add_field(g, i, j, fd_electricity, 3);

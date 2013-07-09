@@ -141,15 +141,15 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						}
 						//Flame type ammo removed so gasoline isn't explosive, it just burns.
 						if(ammo_type != NULL &&
-							(ammo_type->ammo_effects & mfb(AMMO_INCENDIARY) ||
-							ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE) ||
-							ammo_type->ammo_effects & mfb(AMMO_FRAG) ||
-							ammo_type->ammo_effects & mfb(AMMO_NAPALM) ||
-							ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE_BIG) ||
-							ammo_type->ammo_effects & mfb(AMMO_TEARGAS) ||
-							ammo_type->ammo_effects & mfb(AMMO_SMOKE) ||
-							ammo_type->ammo_effects & mfb(AMMO_FLASHBANG) ||
-							ammo_type->ammo_effects & mfb(AMMO_COOKOFF)))
+         (ammo_type->ammo_effects.count("INCENDIARY") ||
+          ammo_type->ammo_effects.count("EXPLOSIVE") ||
+          ammo_type->ammo_effects.count("FRAG") ||
+          ammo_type->ammo_effects.count("NAPALM") ||
+          ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
+          ammo_type->ammo_effects.count("TEARGAS") ||
+          ammo_type->ammo_effects.count("SMOKE") ||
+          ammo_type->ammo_effects.count("FLASHBANG") ||
+          ammo_type->ammo_effects.count("COOKOFF")))
 						{
 							//Any kind of explosive ammo (IE: not arrows and pebbles and such)
 							const int rounds_exploded = rng(1, it->charges);
@@ -822,7 +822,7 @@ void map::step_in_field(int x, int y, game *g)
    if (!g->u.has_trait(PF_WEB_WALKER) && !g->u.in_vehicle) {
     int web = cur->getFieldDensity() * 5 - g->u.disease_level("webbed"); //between 5 and 15 minus your current web level.
     if (web > 0)
-     g->u.add_disease("webbed", web, g);
+     g->u.add_disease("webbed", web);
     remove_field(x, y, fd_web); //Its spent.
    } else if (g->u.in_vehicle){ //If you are in a vehicle destroy the web. It should of been destroyed when you ran over it anyway.
 	   remove_field(x, y, fd_web);
@@ -855,7 +855,7 @@ void map::step_in_field(int x, int y, game *g)
 	 //Sap causes the player to get sap disease, slowing them down.
   if( g->u.in_vehicle ) break; //sap does nothing to cars.
   g->add_msg("The sap sticks to you!");
-  g->u.add_disease("sap", cur->getFieldDensity() * 2, g);
+  g->u.add_disease("sap", cur->getFieldDensity() * 2);
   if (cur->getFieldDensity() == 1)
    remove_field(x, y, fd_sap);
   else
@@ -897,7 +897,7 @@ void map::step_in_field(int x, int y, game *g)
      g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
      g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
      g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
-     g->u.add_disease("onfire", 5, g); //lasting fire damage only from the strongest fires.
+     g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
     }
     /*if (adjusted_intensity == 2)
      g->u.infect("smoke", bp_mouth, 5, 20, g);
@@ -908,7 +908,7 @@ void map::step_in_field(int x, int y, game *g)
 
   case fd_rubble:
 	  //You are walking on rubble. Slow down.
-   g->u.add_disease("bouldering", 0, g, cur->getFieldDensity(), 3);
+   g->u.add_disease("bouldering", 0, cur->getFieldDensity(), 3);
    break;
 
   case fd_smoke:
@@ -1257,15 +1257,15 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
       g->add_msg("You are hit by the falling debris!");
      }
      if (one_in(g->u.dex_cur)) {
-      g->u.add_disease("downed", 2, g);
+      g->u.add_disease("downed", 2);
      }
      if (one_in(g->u.str_cur)) {
-      g->u.add_disease("stunned", 2, g);
+      g->u.add_disease("stunned", 2);
      }
     }
     else if (one_in(g->u.str_cur)) {
      g->add_msg("You trip as you evade the falling debris!");
-     g->u.add_disease("downed", 1, g);
+     g->u.add_disease("downed", 1);
     }
                         //Avoiding disease system for the moment, since I was having trouble with it.
 //    g->u.add_disease("crushed", 42, g);    //Using a disease allows for easy modification without messing with field code
@@ -1285,14 +1285,14 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
        me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       }
       if (one_in(me->dex_cur)) {
-       me->add_disease("downed", 2, g);
+       me->add_disease("downed", 2);
       }
       if (one_in(me->str_cur)) {
-       me->add_disease("stunned", 2, g);
+       me->add_disease("stunned", 2);
       }
      }
      else if (one_in(me->str_cur)) {
-      me->add_disease("downed", 1, g);
+      me->add_disease("downed", 1);
      }
     }
     if (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0) {

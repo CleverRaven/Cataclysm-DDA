@@ -183,7 +183,7 @@ public:
  void infect(dis_type type, body_part vector, int strength, int duration,
              game *g);
 // add_disease() does NOT give us a chance to save
- void add_disease(dis_type type, int duration, game *g, int intensity = 0,
+ void add_disease(dis_type type, int duration, int intensity = 0,
                   int max_intensity = -1);
  void rem_disease(dis_type type);
  bool has_disease(dis_type type) const;
@@ -276,6 +276,7 @@ public:
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
  bool is_wearing(itype_id it);	// Are we wearing a specific itype?
  bool has_artifact_with(art_effect_passive effect);
+ bool worn_with_flag( std::string flag ) const;
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.

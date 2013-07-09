@@ -26,6 +26,7 @@
 #include "catacharset.h"
 #include "translations.h"
 #include <map>
+#include <set>
 #include <algorithm>
 #include <string>
 #include <fstream>
@@ -4374,7 +4375,7 @@ void game::sound(int x, int y, int vol, std::string description)
   int duration = (vol - dist - 130) / 4;
   if (duration > 40)
    duration = 40;
-  u.add_disease("deaf", duration, this);
+  u.add_disease("deaf", duration);
  }
  if (x != u.posx || y != u.posy) {
   if(u.activity.ignore_trivial != true) {
@@ -4607,8 +4608,10 @@ void game::explosion(int x, int y, int power, int shrapnel, bool has_fire)
     int side = rng(0, 1);
     add_msg("Shrapnel hits your %s!", body_part_name(hit, side).c_str());
     u.hit(this, hit, rng(0, 1), 0, dam);
-   } else
-    m.shoot(this, tx, ty, dam, j == traj.size() - 1, 0);
+   } else {
+       std::set<std::string> shrapnel_effects;
+       m.shoot(this, tx, ty, dam, j == traj.size() - 1, shrapnel_effects );
+   }
   }
  }
 }
@@ -4618,7 +4621,7 @@ void game::flashbang(int x, int y, bool player_immune)
  int dist = rl_dist(u.posx, u.posy, x, y), t;
  if (dist <= 8 && !player_immune) {
   if (!u.has_bionic("bio_ears"))
-   u.add_disease("deaf", 40 - dist * 4, this);
+   u.add_disease("deaf", 40 - dist * 4);
   if (m.sees(u.posx, u.posy, x, y, 8, t))
    u.infect("blind", bp_eyes, (12 - dist) / 2, 10 - dist, this);
  }
@@ -4817,7 +4820,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
         npc *targ = active_npc[npc_at(tx, ty)];
         if (stun > 0)
         {
-            targ->add_disease("stunned", stun, this);
+            targ->add_disease("stunned", stun);
             add_msg("%s was stunned for %d turn%s!", targ->name.c_str(), stun, stun>1?"s":"");
         }
         for(int i = 1; i < traj.size(); i++)
@@ -4831,14 +4834,14 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                 {
                     if (targ->has_disease("stunned"))
                     {
-                        targ->add_disease("stunned", force_remaining, this);
+                        targ->add_disease("stunned", force_remaining);
                         if (targ->has_disease("stunned"))
                             add_msg("%s was stunned AGAIN for %d turn%s!",
                                      targ->name.c_str(), force_remaining, force_remaining>1?"s":"");
                     }
                     else
                     {
-                        targ->add_disease("stunned", force_remaining, this);
+                        targ->add_disease("stunned", force_remaining);
                         if (targ->has_disease("stunned"))
                             add_msg("%s was stunned for %d turns!",
                                      targ->name.c_str(), force_remaining, force_remaining>1?"s":"");
@@ -4874,7 +4877,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                         add_msg("%s was stunned for %d turn%s!",
                                  targ->name.c_str(), force_remaining, force_remaining>1?"s":"");
                     }
-                    targ->add_disease("stunned", force_remaining, this);
+                    targ->add_disease("stunned", force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin()+i);
                 if (mon_at(traj.front().x, traj.front().y) != -1)
@@ -4895,7 +4898,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
     {
         if (stun > 0)
         {
-            u.add_disease("stunned", stun, this);
+            u.add_disease("stunned", stun);
             add_msg("You were stunned for %d turns!", stun);
         }
         for(int i = 1; i < traj.size(); i++)
@@ -4915,7 +4918,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     {
                         add_msg("You were stunned for %d turns!", force_remaining);
                     }
-                    u.add_disease("stunned", force_remaining, this);
+                    u.add_disease("stunned", force_remaining);
                     if (one_in(2)) u.hit(this, bp_arms, 0, force_remaining*dam_mult, 0);
                     if (one_in(2)) u.hit(this, bp_arms, 1, force_remaining*dam_mult, 0);
                     if (one_in(2)) u.hit(this, bp_legs, 0, force_remaining*dam_mult, 0);
@@ -4943,7 +4946,7 @@ void game::knockback(std::vector<point>& traj, int force, int stun, int dam_mult
                     {
                         add_msg("You were stunned for %d turns!", force_remaining);
                     }
-                    u.add_disease("stunned", force_remaining, this);
+                    u.add_disease("stunned", force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin()+i);
                 if (mon_at(traj.front().x, traj.front().y) != -1)
@@ -5004,7 +5007,7 @@ void game::resonance_cascade(int x, int y)
  if (minglow < 0)
   minglow = 0;
  if (maxglow > 0)
-  u.add_disease("teleglow", rng(minglow, maxglow) * 100, this);
+  u.add_disease("teleglow", rng(minglow, maxglow) * 100);
  int startx = (x < 8 ? 0 : x - 8), endx = (x+8 >= SEEX*3 ? SEEX*3 - 1 : x + 8);
  int starty = (y < 8 ? 0 : y - 8), endy = (y+8 >= SEEY*3 ? SEEY*3 - 1 : y + 8);
  for (int i = startx; i <= endx; i++) {
@@ -5547,6 +5550,7 @@ void game::use_wielded_item()
 
 bool game::choose_adjacent(std::string verb, int &x, int &y)
 {
+    refresh_all();
     std::string query_text = verb + " where? (Direction button)";
     mvwprintw(w_terrain, 0, 0, query_text.c_str());
     wrefresh(w_terrain);
@@ -10136,19 +10140,19 @@ void game::plmove(int x, int y)
 // Some martial art styles have special effects that trigger when we move
   if(u.weapon.type->id == "style_capoeira"){
     if (u.disease_level("attack_boost") < 2)
-     u.add_disease("attack_boost", 2, this, 2, 2);
+     u.add_disease("attack_boost", 2, 2, 2);
     if (u.disease_level("dodge_boost") < 2)
-     u.add_disease("dodge_boost", 2, this, 2, 2);
+     u.add_disease("dodge_boost", 2, 2, 2);
   } else if(u.weapon.type->id == "style_ninjutsu"){
-    u.add_disease("attack_boost", 2, this, 1, 3);
+    u.add_disease("attack_boost", 2, 1, 3);
   } else if(u.weapon.type->id == "style_crane"){
     if (!u.has_disease("dodge_boost"))
-     u.add_disease("dodge_boost", 1, this, 3, 3);
+     u.add_disease("dodge_boost", 1, 3, 3);
   } else if(u.weapon.type->id == "style_leopard"){
-    u.add_disease("attack_boost", 2, this, 1, 4);
+    u.add_disease("attack_boost", 2, 1, 4);
   } else if(u.weapon.type->id == "style_dragon"){
     if (!u.has_disease("damage_boost"))
-     u.add_disease("damage_boost", 2, this, 3, 3);
+     u.add_disease("damage_boost", 2, 3, 3);
   } else if(u.weapon.type->id == "style_lizard"){
     bool wall = false;
     for (int wallx = x - 1; wallx <= x + 1 && !wall; wallx++) {
@@ -10158,7 +10162,7 @@ void game::plmove(int x, int y)
      }
     }
     if (wall)
-     u.add_disease("attack_boost", 2, this, 2, 8);
+     u.add_disease("attack_boost", 2, 2, 8);
     else
      u.rem_disease("attack_boost");
   }
@@ -10444,6 +10448,10 @@ void game::vertical_move(int movez, bool force)
   if (movez == -1) {
    if (u.underwater) {
     add_msg("You are already underwater!");
+    return;
+   }
+   if (u.worn_with_flag("FLOTATION")) {
+    add_msg("You can't dive while wearing a flotation device.");
     return;
    }
    u.underwater = true;
@@ -11138,7 +11146,7 @@ void game::teleport(player *p)
  int newx, newy, tries = 0;
  bool is_u = (p == &u);
 
- p->add_disease("teleglow", 300, this);
+ p->add_disease("teleglow", 300);
  do {
   newx = p->posx + rng(0, SEEX * 2) - SEEX;
   newy = p->posy + rng(0, SEEY * 2) - SEEY;

@@ -1382,7 +1382,7 @@ void talk_function::give_equipment(game *g, npc *p)
        it->tname().c_str());
  g->u.i_add( p->i_remn(it->invlet) );
  p->op_of_u.owed -= prices[chosen];
- p->add_disease("asked_for_item", 1800, g);
+ p->add_disease("asked_for_item", 1800);
 }
 
 void talk_function::follow(game *g, npc *p)
@@ -1392,17 +1392,17 @@ void talk_function::follow(game *g, npc *p)
 
 void talk_function::deny_follow(game *g, npc *p)
 {
- p->add_disease("asked_to_follow", 3600, g);
+ p->add_disease("asked_to_follow", 3600);
 }
 
 void talk_function::deny_lead(game *g, npc *p)
 {
- p->add_disease("asked_to_lead", 3600, g);
+ p->add_disease("asked_to_lead", 3600);
 }
 
 void talk_function::deny_equipment(game *g, npc *p)
 {
- p->add_disease("asked_for_item", 600, g);
+ p->add_disease("asked_for_item", 600);
 }
 
 void talk_function::hostile(game *g, npc *p)

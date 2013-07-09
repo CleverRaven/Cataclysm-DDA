@@ -688,7 +688,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_SPORES:
   if (one_in(30))
-   p.add_disease("fungus", -1, g);
+   p.add_disease("fungus", -1);
   break;
 
  case DI_FUNGUS:
@@ -996,7 +996,7 @@ void dis_effect(game *g, player &p, disease &dis)
   if (dis.duration > -2400 && dis.duration < 0)
    formication_chance = 2400 + dis.duration;
   if (one_in(formication_chance))
-   p.add_disease("formication", 1200, g);
+   p.add_disease("formication", 1200);
 
   if (dis.duration < -2400 && one_in(2400))
    p.vomit(g);
@@ -1098,7 +1098,7 @@ void dis_effect(game *g, player &p, disease &dis)
      g->add_msg(_("Of course... it's all fractals!"));
    }
   } else if (dis.duration == 2400)	// Visuals start
-   p.add_disease("visuals", 2400, g);
+   p.add_disease("visuals", 2400);
   else {	// Full symptoms
    p.per_cur -= 2;
    p.int_cur -= 1;
@@ -1183,7 +1183,7 @@ void dis_effect(game *g, player &p, disease &dis)
    if (one_in(1200 - ((dis.duration - 6000) / 5)) && one_in(20)) {
     if (!p.is_npc())
      g->add_msg(_("You pass out."));
-    p.add_disease("sleep", 1200, g);
+    p.add_disease("sleep", 1200);
     if (one_in(6))
      p.rem_disease("teleglow");
    }
@@ -1221,27 +1221,27 @@ void dis_effect(game *g, player &p, disease &dis)
   }
   if (dis.duration > 2400) {	// 8 teleports
    if (one_in(10000 - dis.duration))
-    p.add_disease("shakes", rng(40, 80), g);
+    p.add_disease("shakes", rng(40, 80));
    if (one_in(12000 - dis.duration)) {
     g->add_msg_if_player(&p,_("Your vision is filled with bright lights..."));
-    p.add_disease("blind", rng(10, 20), g);
+    p.add_disease("blind", rng(10, 20));
     if (one_in(8))
      p.rem_disease("teleglow");
    }
    if (one_in(5000) && !p.has_disease("hallu")) {
-    p.add_disease("hallu", 3600, g);
+    p.add_disease("hallu", 3600);
     if (one_in(5))
      p.rem_disease("teleglow");
    }
   }
   if (one_in(4000)) {
    g->add_msg_if_player(&p,_("You're suddenly covered in ectoplasm."));
-   p.add_disease("boomered", 100, g);
+   p.add_disease("boomered", 100);
    if (one_in(4))
     p.rem_disease("teleglow");
   }
   if (one_in(10000)) {
-   p.add_disease("fungus", -1, g);
+   p.add_disease("fungus", -1);
    p.rem_disease("teleglow");
   }
   break;
@@ -1331,7 +1331,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.dex_cur-= 1;
   } else {	// Infection starts
    p.rem_disease("bite");
-   p.add_disease("infected", 14400, g); // 1 day of timer
+   p.add_disease("infected", 14400); // 1 day of timer
   }
   break;
 
@@ -1400,7 +1400,7 @@ void dis_effect(game *g, player &p, disease &dis)
     if (p.has_disease("sleep"))
      p.rem_disease("sleep");
     g->add_msg(_("You pass out."));
-    p.add_disease("sleep", 60, g);
+    p.add_disease("sleep", 60);
    }
   } else {	// You die. 24 hours after infection Total time, 30 hours including bite.
    if (p.has_disease("sleep"))
