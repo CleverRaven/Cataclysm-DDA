@@ -2741,7 +2741,7 @@ void game::add_msg_action(player *p, const char* player_str, const char* npc_str
     {
      add_msg("%s%s %s",p->name.c_str(),npc_str,shared_str,ap);
     }
-    else if (p)
+    else if (p && !p->is_npc())
     {
      add_msg("You%s %s",player_str, shared_str,ap);
     }
