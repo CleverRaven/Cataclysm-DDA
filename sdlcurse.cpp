@@ -21,10 +21,11 @@
 #include "SDL_ttf.h"
 #else
 #include <wordexp.h>
-#include "SDL/SDL.h"
-#if (defined OSX_SDL)
+#if (defined OSX_SDL_FW)
+#include "SDL.h"
 #include "SDL_ttf/SDL_ttf.h"
 #else
+#include "SDL/SDL.h"
 #include "SDL/SDL_ttf.h"
 #endif
 #endif

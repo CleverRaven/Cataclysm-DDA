@@ -151,17 +151,23 @@ endif
 
 ifdef TILES
   ifeq ($(NATIVE),osx)
-    DEFINES += -DOSX_SDL
-    OSX_INC = -F/Library/Frameworks \
-	      -F$(HOME)/Library/Frameworks \
-	      -I/Library/Frameworks/SDL.framework/Headers \
-	      -I$(HOME)/Library/Frameworks/SDL.framework/Headers \
-	      -I/Library/Frameworks/SDL_ttf.framework/Headers \
-	      -I$(HOME)/Library/Frameworks/SDL_ttf.framework/Headers
-    LDFLAGS += -F/Library/Frameworks \
-	       -F$(HOME)/Library/Frameworks \
-	       -framework SDL -framework SDL_ttf -framework Cocoa
-    CXXFLAGS += $(OSX_INC)
+    ifdef FRAMEWORK
+      DEFINES += -DOSX_SDL_FW
+      OSX_INC = -F/Library/Frameworks \
+		-F$(HOME)/Library/Frameworks \
+		-I/Library/Frameworks/SDL.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL.framework/Headers \
+		-I/Library/Frameworks/SDL_ttf.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL_ttf.framework/Headers
+      LDFLAGS += -F/Library/Frameworks \
+		 -F$(HOME)/Library/Frameworks \
+		 -framework SDL -framework SDL_ttf -framework Cocoa
+      CXXFLAGS += $(OSX_INC)
+    else
+      DEFINES += -DOSX_SDL_LIBS
+      CXXFLAGS += $(shell sdl-config --cflags)
+      LDFLAGS += $(shell sdl-config --libs) -lSDL_ttf
+    endif
   else
     LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
   endif
