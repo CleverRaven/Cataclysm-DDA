@@ -10187,7 +10187,7 @@ void game::plmove(int x, int y)
           tunneldist = 0; //we didn't tunnel anywhere
           break;
       }
-      if(tunneldist > 24) 
+      if(tunneldist > 24)
       {
           add_msg("It's too dangerous to tunnel that far!");
           tunneldist = 0;
@@ -10430,7 +10430,7 @@ void game::vertical_move(int movez, bool force)
     add_msg("You are already underwater!");
     return;
    }
-   if (u.worn_with_flag("FLOTATION")) {
+   if (u.worn_with_flag("FLOATATION")) {
     add_msg("You can't dive while wearing a flotation device.");
     return;
    }
