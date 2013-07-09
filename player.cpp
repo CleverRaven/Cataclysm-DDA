@@ -3296,11 +3296,6 @@ void player::knock_back_from(game *g, int x, int y)
  if (y > posy)
   to.y--;
 
- bool u_see = (!is_npc() || g->u_see(to.x, to.y));
-
- std::string You = (is_npc() ? name : "You");
- std::string s = (is_npc() ? "s" : "");
-
 // First, see if we hit a monster
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
@@ -3316,9 +3311,7 @@ void player::knock_back_from(game *g, int x, int y)
    z->add_effect(ME_STUNNED, 1);
   }
 
-  if (u_see)
-   g->add_msg("%s bounce%s off a %s!",
-              You.c_str(), s.c_str(), z->name().c_str());
+  g->add_msg_action(this," bounce off a", " bounces off a", z->name().c_str());
 
   return;
  }
@@ -3329,9 +3322,7 @@ void player::knock_back_from(game *g, int x, int y)
   hit(g, bp_torso, 0, 3, 0);
   add_disease("stunned", 1, g);
   p->hit(g, bp_torso, 0, 3, 0);
-  if (u_see)
-   g->add_msg("%s bounce%s off %s!", You.c_str(), s.c_str(), p->name.c_str());
-
+  g->add_msg_action(this," bounce off a", " bounces off a", p->name.c_str());
   return;
  }
 
@@ -3345,9 +3336,7 @@ void player::knock_back_from(game *g, int x, int y)
   } else { // It's some kind of wall.
    hurt(g, bp_torso, 0, 3);
    add_disease("stunned", 2, g);
-   if (u_see)
-    g->add_msg("%s bounce%s off a %s.", name.c_str(), s.c_str(),
-                                        g->m.tername(to.x, to.y).c_str());
+   g->add_msg_action(this,"bounce off a %s!", g->m.tername(to.x, to.y).c_str());
   }
 
  } else { // It's no wall
@@ -5277,16 +5266,11 @@ bool player::eat(game *g, signed char ch)
         if (eaten->poison > 0)
             add_disease("foodpoison", eaten->poison * 300, g);
 
-        // Descriptive text
-        if (!is_npc())
-        {
-            if (comest->comesttype == "DRINK")
-                g->add_msg("You drink your %s.", eaten->tname(g).c_str());
-            else if (comest->comesttype == "FOOD")
-                g->add_msg("You eat your %s.", eaten->tname(g).c_str());
+        if (comest->comesttype == "DRINK")
+            g->add_msg_action(this," drink your"," drinks a", eaten->tname(g).c_str());
+        else if (comest->comesttype == "FOOD")
+            g->add_msg_action(this," eat your"," eats a", eaten->tname(g).c_str());
         }
-        else if (g->u_see(posx, posy))
-            g->add_msg("%s eats a %s.", name.c_str(), eaten->tname(g).c_str());
 
         if (g->itypes[comest->tool]->is_tool())
             use_charges(comest->tool, 1); // Tools like lighters get used
