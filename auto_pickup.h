@@ -27,6 +27,7 @@ class cPickupRules {
 
 extern std::vector<cPickupRules> vAutoPickupRules[5];
 
+void test_rule(int iCurrentPage, int iCurrentLine);
 void merge_vector();
 void save_reset_changes(bool bReset);
 void show_auto_pickup();

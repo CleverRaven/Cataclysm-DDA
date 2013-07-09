@@ -3,6 +3,7 @@
 #include "output.h"
 #include "debug.h"
 #include "keypress.h"
+#include "item_factory.h"
 
 #include <stdlib.h>
 #include <fstream>
@@ -66,6 +67,9 @@ void game::show_auto_pickup()
     wprintz(w_auto_pickup_header, c_ltgreen, "D");
     wprintz(w_auto_pickup_header, c_white, "isable  ");
 
+    wprintz(w_auto_pickup_header, c_ltgreen, "T");
+    wprintz(w_auto_pickup_header, c_white, "est  ");
+
     mvwprintz(w_auto_pickup_header, 1, 0, c_ltgreen, " +");
     wprintz(w_auto_pickup_header, c_white, "/");
     wprintz(w_auto_pickup_header, c_ltgreen, "-");
@@ -113,9 +117,9 @@ void game::show_auto_pickup()
         wprintz(w_auto_pickup_header, (iCurrentPage == 2) ? hilite(c_white) : c_white, "Charakter");
         wprintz(w_auto_pickup_header, c_white, "]");
 
-        /*mvwprintz(w_auto_pickup_header, 2, 12 + 21, c_white, "[");
+        mvwprintz(w_auto_pickup_header, 2, 12 + 21, c_white, "[");
         wprintz(w_auto_pickup_header, (iCurrentPage == 3) ? hilite(c_white) : c_white, "Options");
-        wprintz(w_auto_pickup_header, c_white, "]");*/
+        wprintz(w_auto_pickup_header, c_white, "]");
 
         wrefresh(w_auto_pickup_header);
 
@@ -242,7 +246,7 @@ void game::show_auto_pickup()
                         break;
                     case '\t': //Switch to next Page
                         iCurrentPage++;
-                        if (iCurrentPage > 2) {
+                        if (iCurrentPage > 3) {
                             iCurrentPage = 1;
                             iCurrentLine = 0;
                         }
@@ -305,6 +309,10 @@ void game::show_auto_pickup()
                             iCurrentCol = 1;
                         }
                         break;
+                    case 't': //test rule
+                    case 'T':
+                        test_rule(iCurrentPage, iCurrentLine);
+                        break;
                 }
             }
         }
@@ -327,6 +335,99 @@ void game::show_auto_pickup()
     werase(w_auto_pickup_header);
     werase(w_auto_pickup_options);
     werase(w_auto_pickup_help);
+}
+
+void test_rule(int iCurrentPage, int iCurrentLine)
+{
+    std::vector<std::string> vMatchingItems;
+
+    std::string sItemName = "";
+    for (int i = 0; i < standard_itype_ids.size(); i++) {
+        sItemName = item_controller->find_template(standard_itype_ids[i])->name;
+        if (auto_pickup_match(sItemName, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule)) {
+            vMatchingItems.push_back(sItemName);
+        }
+    }
+
+    const int iOffsetX = 15 + ((TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
+    const int iOffsetY = 5 + ((TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0);
+
+    int iStartPos = 0;
+    const int iContentHeight = FULL_SCREEN_HEIGHT - 8;
+    const int iContentWidth = FULL_SCREEN_WIDTH - 30;
+    char ch;
+    std::stringstream sTemp;
+
+    WINDOW* w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
+    WINDOW* w_test_rule_content = newwin(iContentHeight, iContentWidth - 2, 1 + iOffsetY, 1 + iOffsetX);
+
+    wborder(w_test_rule_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+
+    sTemp << vMatchingItems.size() << " items match: " << vAutoPickupRules[iCurrentPage][iCurrentLine].sRule;
+    mvwprintz(w_test_rule_border, 0, iContentWidth/2 - (sTemp.str()).length()/2, hilite(c_white), sTemp.str().c_str());
+
+    wrefresh(w_test_rule_border);
+
+    do {
+        // Clear the lines
+        for (int i = 0; i < iContentHeight; i++) {
+            for (int j = 0; j < 79; j++) {
+                mvwputch(w_test_rule_content, i, j, c_black, ' ');
+            }
+        }
+
+        if (vMatchingItems.size() > iContentHeight) {
+            iStartPos = iCurrentLine - (iContentHeight - 1) / 2;
+
+            if (iStartPos < 0) {
+                iStartPos = 0;
+            } else if (iStartPos + iContentHeight > vMatchingItems.size()) {
+                iStartPos = vMatchingItems.size() - iContentHeight;
+            }
+        }
+
+        // display auto pickup
+        for (int i = iStartPos; i < vMatchingItems.size(); i++) {
+            if (i >= iStartPos && i < iStartPos + ((iContentHeight > vMatchingItems.size()) ? vMatchingItems.size() : iContentHeight)) {
+                nc_color cLineColor =  c_white;
+
+                sTemp.str("");
+                sTemp << i + 1;
+                mvwprintz(w_test_rule_content, i - iStartPos, 0, cLineColor, sTemp.str().c_str());
+                mvwprintz(w_test_rule_content, i - iStartPos, 4, cLineColor, "");
+
+                if (iCurrentLine == i) {
+                    wprintz(w_test_rule_content, c_yellow, ">> ");
+                } else {
+                    wprintz(w_test_rule_content, c_yellow, "   ");
+                }
+
+                wprintz(w_test_rule_content, (iCurrentLine == i) ? hilite(cLineColor) : cLineColor, vMatchingItems[i].c_str());
+            }
+        }
+
+        wrefresh(w_test_rule_content);
+
+        ch = input();
+
+        switch(ch) {
+            case 'j': //move down
+                iCurrentLine++;
+                if (iCurrentLine >= vMatchingItems.size()) {
+                    iCurrentLine = 0;
+                }
+                break;
+            case 'k': //move up
+                iCurrentLine--;
+                if (iCurrentLine < 0) {
+                    iCurrentLine = vMatchingItems.size()-1;
+                }
+                break;
+        }
+    } while(ch == 'j' || ch == 'k');
+
+    werase(w_test_rule_border);
+    werase(w_test_rule_content);
 }
 
 void load_auto_pickup(bool bCharacter)
