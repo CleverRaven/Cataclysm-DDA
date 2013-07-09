@@ -3,7 +3,7 @@
   "ident": "unemployed",
   "name": "Unemployed",
   "description":
-"They say you don't have any 'useful skills', but at least your clothes fit\nwell.",
+"They say you don't have any 'useful skills', but at least your clothes fit well.",
   "points": 0,
   "items": ["jeans", "tshirt", "sneakers"]
  },
@@ -12,7 +12,7 @@
   "ident": "tailor",
   "name": "Tailor",
   "description":
-"You've made and adjusted clothing for some of the biggest names in town.\nNow, their undead bodies are trying to eat your brains. At least you'll be\nable to keep your own clothing repaired.",
+"You've made and adjusted clothing for some of the biggest names in town. Now, their undead bodies are trying to eat your brains. At least you'll be able to keep your own clothing repaired.",
   "points": 1,
   "items": ["polo_shirt", "blazer", "pants", "dress_shoes", "sewing_kit", "scissors", "manual_tailor"]
  },
@@ -21,7 +21,7 @@
   "ident": "labtech",
   "name": "Lab Technician",
   "description":
-"It was your first day in the lab when the cataclysm hit. You were evacuated\nwith all the civilians, but at least you kept your lab gear.",
+"It was your first day in the lab when the cataclysm hit. You were evacuated with all the civilians, but at least you kept your lab gear.",
   "points": 1,
   "items": ["dress_shirt", "pants", "boots", "coat_lab", "gloves_rubber", "glasses_safety"]
  },
@@ -30,7 +30,7 @@
   "ident": "mechanic",
   "name": "Wannabe Mechanic",
   "description":
-"Although you never got your driver's license, you've always loved cars.\nYou start with a wrench, a toolbelt, and some car-related reading material.",
+"Although you never got your driver's license, you've always loved cars. You start with a wrench, a toolbelt, and some car-related reading material.",
   "points": 2,
   "items": ["tank_top", "jeans", "boots", "beltrig", "wrench", "mag_cars", "manual_mechanics"]
  },
@@ -39,7 +39,7 @@
   "ident": "scoundrel",
   "name": "Scoundrel",
   "description":
-"Your flexible outlook on law has ensured your survival, but now what?\nYou start with cargo pants, a hoodie, \"sundries\", and one additional level of melee.",
+"Your flexible outlook on law has ensured your survival, but now what? You start with cargo pants, a hoodie, \"sundries\", and one additional level of melee.",
   "points": 2,
   "items": ["tank_top", "hoodie", "pants_cargo", "sneakers", "weed", "picklocks"],
   "skills" : [

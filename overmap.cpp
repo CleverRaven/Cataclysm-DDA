@@ -830,7 +830,7 @@ bool overmap::generate_sub(int const z)
 
    else if (ter(i, j, z + 1) == ot_lmoe)
     lmoe_points.push_back( point(i, j) );
-    
+
    else if (ter(i, j, z + 1) == ot_cabin_strange)
     cabin_strange_points.push_back( point(i, j) );
 
@@ -939,7 +939,7 @@ bool overmap::generate_sub(int const z)
 
  for (int i = 0; i < lmoe_points.size(); i++)
   ter(lmoe_points[i].x, lmoe_points[i].y, z) = ot_lmoe_under;
-  
+
  for (int i = 0; i < cabin_strange_points.size(); i++)
   ter(cabin_strange_points[i].x, cabin_strange_points[i].y, z) = ot_cabin_strange_b;
 
@@ -1399,7 +1399,7 @@ point overmap::draw_overmap(game *g, int zlevel)
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
-   add_note(cursx, cursy, zlevel, string_input_popup("Note (X:TEXT for custom symbol):", 49, note(cursx, cursy, zlevel))); // 49 char max
+   add_note(cursx, cursy, zlevel, string_input_popup("Note (X:TEXT for custom symbol):", 45, note(cursx, cursy, zlevel))); // 45 char max
    timeout(BLINK_SPEED);
   } else if(ch == 'D'){
    timeout(-1);

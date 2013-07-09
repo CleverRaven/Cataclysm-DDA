@@ -39,6 +39,7 @@ void game::init_itypes ()
  itypes["corpse"]=
   new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
             0, 0, 1, 0);
+ itypes["corpse"]->item_tags.insert("NO_UNLOAD");
 // Fire - only appears in crafting recipes
  itypes["fire"]=
   new itype("fire", 0, 0, "nearby fire",

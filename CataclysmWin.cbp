@@ -42,6 +42,8 @@
 		<Unit filename="artifact.cpp" />
 		<Unit filename="artifact.h" />
 		<Unit filename="artifactdata.h" />
+		<Unit filename="auto_pickup.cpp" />
+		<Unit filename="auto_pickup.h" />
 		<Unit filename="basecamp.cpp" />
 		<Unit filename="basecamp.h" />
 		<Unit filename="bionics.cpp" />
