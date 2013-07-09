@@ -1,50 +1,57 @@
-# Building on Mac OS X with SDL
+# Building Cataclysm-DDA on Mac OS X
 
-Tested with OS X 10.8.4, Xcode 4.6.2. I haven't played it extensively but it builds and runs.  
+Tested with OS X 10.8.4, Xcode 4.6.2.
+I haven't played it extensively but it builds and runs.
+
 Not sure if it compiles with older OS/XCode versions.
-
 This worked for me, your mileage may vary.
 
 ## Requirements
 
-Cataclysm-DDA uses SDL, SDL\_ttf, ncurses, and gettext libraries.
+Cataclysm-DDA uses SDL, SDL\_ttf, ncurses, and gettext.
 
-On OS X, SDL can be installed as frameworks or as libraries.
-Each framework is a single folder; download them, copy them to your system, done.
-SDL libraries are installed most easily via a package manager
-(Fink, Homebrew, MacPorts, or pkgsrc).
+SDL can be installed as frameworks or shared libraries.
 
-### Use a package manager
+### SDL Frameworks
 
-The most straightforward way to install the requirements is using a package manager.
-Both the libraries and frameworks available to install.
+[**SDL framework**](http://www.libsdl.org/download-1.2.php)  
+http://www.libsdl.org/release/SDL-1.2.15.dmg
 
-Use [Fink](http://fink.thetis.ig42.org), [Homebrew](http://mxcl.github.io/homebrew/),
+[**SDL\_image framework**](http://www.libsdl.org/projects/SDL_ttf/)  
+http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.11.dmg
+
+Copy `SDL.framework` and `SDL_ttf.framework` to `/Library/Frameworks`
+or `/Users/name/Library/Frameworks`.
+
+### ncurses, gettext, libsdl, lib\_ttf
+
+Using a package manager:  
+[Fink](http://fink.thetis.ig42.org), [Homebrew](http://mxcl.github.io/homebrew/),
 [MacPorts](http://www.macports.org), or [pkgsrc](http://www.pkgsrc.org/).
 
-An example, after installing [MacPorts](http://www.macports.org/):
+Install gettext and ncurses. Also install libsdl and libsdl\_ttf if you're
+not using frameworks as above.
 
-    $ sudo port -v selfupdate
-    $ sudo port install gettext
-    $ sudo port install libsdl
-    $ sudo port install libsdl_ttf
+Without a package manager, building from source isn't too difficult;
+follow instructions in the source archives.
 
-Then you should have the necessary requirements to build Cataclysm-DDA.
-Using other package managers should be similar. See 'No package manager' for some
-advice on building requirements from source, without a package manager.
-
-## Build Cataclysm-DDA
+## Build
 
 From the Cataclysm-DDA source folder:
 
     $ export CXXFLAGS="-I/path/to/include" LDFLAGS="-L/path/to/lib"
     
-This adds search paths for where to find ncurses, gettext, and also -lSDL and -lSDL\_ttf
-if you are using sdl libraries instead of frameworks. Following the above example,
-I would use `export CXXFLAGS="-I$HOME/opt/catdda/include" LDFLAGS="-L$HOME/opt/catdda/lib"`.
+This adds search paths to find shared libraries outside of /usr and /usr/local.
+Multiple `-I/...` or `-L/...` paths can be specified.
 
     $ make NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 OSX_MIN=10.6
+
+## Run
+
     $ ./cataclysm
+
+or
+
     $ ./cataclysm-tiles
 
 ### Options
@@ -53,9 +60,9 @@ I would use `export CXXFLAGS="-I$HOME/opt/catdda/include" LDFLAGS="-L$HOME/opt/c
 
 `RELEASE=1` builds an optimized 'release' version.
 
-`TILES=1` builds the SDL version; omit for ncurses/console version.
+`TILES=1` builds the SDL version; omit to build the ncurses/console version.
 
-`FRAMEWORK=1` uses .framework bundles in /Library/Frameworks; omit for SDL libs.
+`FRAMEWORK=1` uses frameworks; omit for libsdl, libsdl\_ttf.
 
 `OSX_MIN=version` sets `-mmacosx-version-min=` (mine needs to be 10.6); omit for 10.5.
 
@@ -63,74 +70,4 @@ I would use `export CXXFLAGS="-I$HOME/opt/catdda/include" LDFLAGS="-L$HOME/opt/c
 
     $ make bindist NATIVE=osx TILES=1
 
-Create a .tar.gz archive of the build; omit `TILES=1` if you built the console version.
-
-## Misc
-
-### Fonts
-
-Something in sdlcurse.cpp is making the font look a bit funny in the SDL version -
-the baseline seems to vary a bit for certain letters, making the lines look wobbly.
-
-Here are a few ways to fix it (not sure these are actual solutions, but they seem to help):
-
-Replace the line `typeface = "data/font/fixedsys.ttf";` with `typeface = "data/termfont";`.
-
-Or, replace the line `fontblending = (blending=="blended");` with `fontblending = (blending=="solid");`.
-
-Or, if you've already compiled - it's a hack - but you can create a symlink to the font you want to use:
-
-    $ cd data/fonts
-    $ mv fixedsys.ttf fixedsys.ttf~
-    $ ln -s ../termfont fixedsys.ttf
-
-### No package manager
-
-Instead of using a package manager, it is relatively easy to install the requirements
-without a package manager.
-
-#### SDL
-
-Use the frameworks, or build either the frameworks or libraries.
-
-[**SDL framework**](http://www.libsdl.org/download-1.2.php)  
-http://www.libsdl.org/release/SDL-1.2.15.dmg
-
-[**SDL\_ttf framework**](http://www.libsdl.org/projects/SDL_ttf/)  
-http://www.libsdl.org/projects/SDL_ttf/release/SDL_ttf-2.0.11.dmg
-
-Copy `SDL.framework` and `SDL_ttf.framework` to `/Library/Frameworks`
-or `/Users/name/Library/Frameworks`.
-
-To build SDL from source, see `README.MacOSX` in
-the [**SDL source archive**](http://www.libsdl.org/release/SDL-1.2.15.tar.gz).
-
-#### ncurses and gettext
-
-[**ncurses**](http://www.gnu.org/software/ncurses/) with wide character support  
-http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz
-
-[**gettext**](http://www.gnu.org/software/gettext/)  
-http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.2.tar.gz
-
-From the ncurses source folder:
-
-    $ ./configure --prefix=$HOME/opt/catdda --enable-widec --enable-ext-colors --enable-sigwinch
-    $ make
-    $ make install
-
-From the gettext source folder:
-
-    $ ./configure --prefix=$HOME/opt/catdda --with-libncurses-prefix=$HOME/opt/catdda
-    $ make
-    $ make install
-    
-`--prefix=$HOME/opt/catdda` is just an example. If `--prefix=/install/path` is omitted,
-it defaults to `/usr/local`and you may need to use `sudo make install` instead of `make install`
-
-`--with-libncurses-prefix=` is where ncurses was installed above, or already installed elsewhere,
-as long as it has wide character support.
-
-* You may see prompts asking to install Java; dismiss them.
-
-See **Build Cataclysm-DDA** above after the requirements are installed.
+Create a .tar.gz archive of the build; omit `TILES=1` for the console version.
