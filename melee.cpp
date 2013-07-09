@@ -820,8 +820,6 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
  std::string s = (is_npc() ? "s" : "");
  int tarx = (mon ? z->posx : p->posx), tary = (mon ? z->posy : p->posy);
 
- bool u_see = (!is_npc() || g->u_see(posx, posy));
-
  if (technique == TEC_RAPID) {
   moves += int( attack_speed(*this, false) / 2);
   return;
@@ -898,7 +896,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
       int cut = roll_cut_damage (NULL, false);
       g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
       if (weapon.has_technique(TEC_FLAMING, this)) // Add to wide attacks
-       g->active_npc[npcdex]->add_disease("onfire", rng(2, 3), g);
+       g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
       g->add_msg_action(p," hit"," hits","%s for %d damage!", target.c_str(), dam + cut);
        g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
      }
@@ -998,7 +996,6 @@ void player::perform_defensive_technique(
  std::string You = (is_npc() ? name : "You");
  std::string your = (is_npc() ? (male ? "his" : "her") : "your");
  std::string target = (mon ? "the " + z->name() : p->name);
- bool u_see = (!is_npc() || g->u_see(posx, posy));
 
  switch (technique) {
   case TEC_BLOCK:
@@ -1122,7 +1119,6 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   return;
  bool mon = (z != NULL);
  bool is_u = (!is_npc());
- bool can_see = (is_u || g->u_see(posx, posy));
  std::string You = (is_u ? "You" : name);
  std::string Your = (is_u ? "Your" : name + "'s");
  std::string your = (is_u ? "your" : name + "'s");
@@ -1209,8 +1205,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  if (mon && z->has_flag(MF_ELECTRIC) && conductive) {
   hurtall(rng(0, 1));
   moves -= rng(0, 50);
-  if (is_u)
-   g->add_msg("Contact with the %s shocks you!", z->name().c_str());
+  g->add_msg_if_player(p,"Contact with the %s shocks you!", z->name().c_str());
  }
 
 // Glass weapons shatter sometimes

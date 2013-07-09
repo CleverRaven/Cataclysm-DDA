@@ -768,7 +768,7 @@ void dis_effect(game *g, player &p, disease &dis)
   if (p.can_sleep(g)) {
    dis.duration = 1;
    g->add_msg_if_player(&p,_("You fall asleep."));
-   p.add_disease("sleep", 6000, g);
+   p.add_disease("sleep", 6000);
   }
   if (dis.duration == 1 && !p.has_disease("sleep"))
    g->add_msg_if_player(&p,_("You try to sleep, but can't..."));
@@ -904,7 +904,7 @@ void dis_effect(game *g, player &p, disease &dis)
   if (!p.has_disease("sleep") && dis.duration >= 4500 &&
       one_in(500 - int(dis.duration / 80))) {
    g->add_msg_if_player(&p,_("You pass out."));
-   p.add_disease("sleep", dis.duration / 2, g);
+   p.add_disease("sleep", dis.duration / 2);
   }
   break;
 
