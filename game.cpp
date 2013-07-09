@@ -8283,11 +8283,11 @@ void game::pickup(int posx, int posy, int min)
 
                     //Check the Pickup Rules
                     for (int j=0; j < vAutoPickupRules.size(); j++) {
-                        if (vAutoPickupRules[i].bActive && vAutoPickupRules[i].sRule != "") {
+                        if (vAutoPickupRules[j].bActive && vAutoPickupRules[j].sRule != "") {
                             if (here[i].tname(this).find(vAutoPickupRules[j].sRule) != std::string::npos) {
                                 bPickup = true;
 
-                                if (vAutoPickupRules[i].bExclude) {
+                                if (vAutoPickupRules[j].bExclude) {
                                     bPickup = false;
                                     break;
                                 }
