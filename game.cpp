@@ -2732,16 +2732,19 @@ void game::add_msg_if_player(player *p, const char* msg, ...)
  }
 }
 
-void game::add_msg_action(player *p, const char* player_str, const char* npc_str, const char* shared_str)
+void game::add_msg_action(player *p, const char* player_str, const char* npc_str, const char* shared_str, ...)
 {
+    va_list ap;
+    va_start(ap, shared_str);
     if (p && p->is_npc() && u_see(p))
     {
-     add_msg("%s%s %s",p->name.c_str(),npc_str,shared_str);
+     add_msg("%s%s %s",p->name.c_str(),npc_str,shared_str,ap);
     }
     else if (p)
     {
-     add_msg("You%s %s",player_str, shared_str);
+     add_msg("You%s %s",player_str, shared_str,ap);
     }
+    va_end(ap);
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
