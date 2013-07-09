@@ -37,7 +37,7 @@ bool tutorial_game::init(game *g)
 // Init the starting map at g location.
  for (int i = 0; i <= MAPSIZE; i += 2) {
   for (int j = 0; j <= MAPSIZE; j += 2) {
-   tinymap tm(&g->itypes, &g->mapitems, &g->traps);
+   tinymap tm(&g->traps);
    tm.generate(g, g->cur_om, g->levx + i - 1, g->levy + j - 1, 0, int(g->turn));
   }
  }
@@ -96,7 +96,7 @@ void tutorial_game::per_turn(game *g)
    } else if (g->m.ter(x, y) == t_window) {
     add_message(g, LESSON_SMASH);
     showed_message = true;
-   } else if (g->m.ter(x, y) == t_rack && !g->m.i_at(x, y).empty()) {
+   } else if (g->m.furn(x, y) == f_rack && !g->m.i_at(x, y).empty()) {
     add_message(g, LESSON_EXAMINE);
     showed_message = true;
    } else if (g->m.ter(x, y) == t_stairs_down) {

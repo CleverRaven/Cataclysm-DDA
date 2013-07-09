@@ -9,9 +9,9 @@
 
 void game::wish()
 {
- WINDOW* w_search = newwin(2, 80, 0, 0);
- WINDOW* w_list = newwin(23, 30, 2,  0);
- WINDOW* w_info = newwin(23, 50, 2, 30);
+ WINDOW* w_search = newwin(2, FULL_SCREEN_WIDTH, 0, 0);
+ WINDOW* w_list = newwin(FULL_SCREEN_HEIGHT-2, 30, 2,  0);
+ WINDOW* w_info = newwin(FULL_SCREEN_HEIGHT-2, 50, 2, 30);
  int a = 0, shift = 0, result_selected = 0;
  int ch = '.';
  bool search = false;
@@ -493,6 +493,8 @@ void game::mutation_wish()
    nc_color col = c_white;
    if (i == a + 1)
     col = h_white;
+   if (i-1+shift > PF_MAX2)
+       break;
    mvwprintz(w_list, i, 0, col, traits[i-1+shift].name.c_str());
   }
   mvwprintw(w_info, 1, 0, mutation_data[a+shift].valid ? "Valid" : "Nonvalid");

@@ -11,7 +11,7 @@ enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
  toggle_turrets,
- exit_vehicle,
+ release_control,
  control_cancel
 };
 
@@ -55,7 +55,7 @@ bool vehicle::player_in_control (player *p)
     vehicle *veh = g->m.veh_at (p->posx, p->posy, veh_part);
     if (veh && veh != this)
         return false;
-    return part_with_feature(veh_part, vpf_controls, false) >= 0 && p->in_vehicle;
+    return part_with_feature(veh_part, vpf_controls, false) >= 0 && p->controlling_vehicle;
 }
 
 void vehicle::load (std::ifstream &stin)
@@ -213,7 +213,7 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 
         if (part_flag(p, vpf_openable))    // doors are closed
             parts[p].open = 0;
-        if (part_flag(p, vpf_seat))        // no passengers
+        if (part_flag(p, vpf_boardable))        // no passengers
             parts[p].remove_flag(vehicle_part::passenger_flag);
 
         // initial vehicle damage
@@ -249,11 +249,13 @@ void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
 std::string vehicle::use_controls()
 {
  std::vector<vehicle_controls> options_choice;
- std::vector<std::string> options_message;
-
+ std::vector<uimenu_entry> options_message;
  // Alway have this option
+ int curent=0;
+ int letgoent=0;
  options_choice.push_back(toggle_cruise_control);
- options_message.push_back((cruise_on) ? "Disable cruise control" : "Enable cruise control");
+ options_message.push_back(uimenu_entry((cruise_on) ? "Disable cruise control" : "Enable cruise control", 'c'));
+ curent++;
 
  bool has_lights = false;
  bool has_turrets = false;
@@ -267,29 +269,39 @@ std::string vehicle::use_controls()
  // Lights if they are there - Note you can turn them on even when damaged, they just don't work
  if (has_lights) {
   options_choice.push_back(toggle_lights);
-  options_message.push_back((lights_on) ? "Turn off headlights" : "Turn on headlights");
+  options_message.push_back(uimenu_entry((lights_on) ? "Turn off headlights" : "Turn on headlights", 'h'));
+  curent++;
  }
 
  // Turrents: off or burst mode
  if (has_turrets) {
   options_choice.push_back(toggle_turrets);
-  options_message.push_back((0 == turret_mode) ? "Switch turrets to burst mode" : "Disable turrets");
+  options_message.push_back(uimenu_entry((0 == turret_mode) ? "Switch turrets to burst mode" : "Disable turrets", 't'));
+  curent++;
  }
 
  // Exit vehicle, if we are in it.
  int vpart;
- if (g->u.in_vehicle && g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
-  options_choice.push_back(exit_vehicle);
-  options_message.push_back("Exit vehicle");
+ if (g->u.controlling_vehicle &&
+     g->m.veh_at(g->u.posx, g->u.posy, vpart) == this) {
+  options_choice.push_back(release_control);
+  options_message.push_back(uimenu_entry("Let go of controls", 'l'));
+  letgoent=curent;
  }
 
  options_choice.push_back(control_cancel);
- options_message.push_back("Do nothing");
+ options_message.push_back(uimenu_entry("Do nothing", ' '));
 
- int select = menu_vec(true, "Vehicle controls", options_message);
+ uimenu selectmenu;
+ selectmenu.text="Vehicle controls";
+ selectmenu.entries=options_message;
+ selectmenu.selected=letgoent;
+ selectmenu.query();
+ int select=selectmenu.ret;
+// int select = menu_vec(true, "Vehicle controls", options_message);
 
  std::string message;
- switch(options_choice[select - 1]) {
+ switch(options_choice[select]) {
   case toggle_cruise_control:
    cruise_on = !cruise_on;
    message = (cruise_on) ? "Cruise control turned on" : "Cruise control turned off";
@@ -303,8 +315,9 @@ std::string vehicle::use_controls()
     turret_mode = 0;
    message = (0 == turret_mode) ? "Turrets: Disabled" : "Turrets: Burst mode";
    break;
-  case exit_vehicle:
-   g->exit_vehicle();
+  case release_control:
+   g->u.controlling_vehicle = false;
+   g->add_msg("You let go of the controls.");
    break;
   case control_cancel:
    break;
@@ -734,7 +747,7 @@ std::vector<int> vehicle::boarded_parts()
 {
     std::vector<int> res;
     for (int p = 0; p < parts.size(); p++)
-        if (part_flag (p, vpf_seat) &&
+        if (part_flag (p, vpf_boardable) &&
                 parts[p].has_flag(vehicle_part::passenger_flag))
             res.push_back (p);
     return res;
@@ -743,7 +756,7 @@ std::vector<int> vehicle::boarded_parts()
 int vehicle::free_seat()
 {
  for (int p = 0; p < parts.size(); p++)
-  if (part_flag (p, vpf_seat) && !parts[p].has_flag(vehicle_part::passenger_flag))
+  if (part_flag (p, vpf_boardable) && !parts[p].has_flag(vehicle_part::passenger_flag))
    return p;
 
  return -1;
@@ -751,7 +764,7 @@ int vehicle::free_seat()
 
 player *vehicle::get_passenger (int p)
 {
-    p = part_with_feature (p, vpf_seat, false);
+    p = part_with_feature (p, vpf_boardable, false);
     if (p >= 0 && parts[p].has_flag(vehicle_part::passenger_flag))
     {
      const int player_id = parts[p].passenger_id;
@@ -782,7 +795,7 @@ int vehicle::total_mass ()
         m += g->itypes[part_info(i).item]->weight;
         for (int j = 0; j < parts[i].items.size(); j++)
             m += parts[i].items[j].type->weight;
-        if (part_flag(i,vpf_seat) && parts[i].has_flag(vehicle_part::passenger_flag))
+        if (part_flag(i,vpf_boardable) && parts[i].has_flag(vehicle_part::passenger_flag))
             m += 520; // TODO: get real weight
     }
     return m;
@@ -1305,7 +1318,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     bool is_body_collision = ph || mondex >= 0;
 
     veh_coll_type collision_type = veh_coll_nothing;
-    std::string obs_name = g->m.tername(x, y).c_str();
+    std::string obs_name = g->m.name(x, y).c_str();
 
     // vehicle collisions are a special case. just return the collision.
     // the map takes care of the dynamic stuff.
@@ -1355,26 +1368,26 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
             mass2 = 80;// player or NPC
     }
     else // if all above fails, go for terrain which might obstruct moving
-    if (g->m.has_flag_ter_only (thin_obstacle, x, y))
+    if (g->m.has_flag_ter_or_furn (thin_obstacle, x, y))
     {
         collision_type = veh_coll_thin_obstacle; // some fence
         mass2 = 20;
     }
     else
-    if (g->m.has_flag_ter_only(bashable, x, y))
+    if (g->m.has_flag_ter_or_furn(bashable, x, y))
     {
         collision_type = veh_coll_bashable; // (door, window)
         mass2 = 50;    // special case: instead of calculating absorb based on mass of obstacle later, we let
                        // map::bash function deside, how much absorb is
     }
     else
-    if (g->m.move_cost_ter_only(x, y) == 0 && g->m.is_destructable_ter_only(x, y))
+    if (g->m.move_cost_ter_furn(x, y) == 0 && g->m.is_destructable_ter_furn(x, y))
     {
         collision_type = veh_coll_destructable; // destructible (wall)
         mass2 = 200;
     }
     else
-    if (g->m.move_cost_ter_only(x, y) == 0 && !g->m.has_flag_ter_only(swimmable, x, y))
+    if (g->m.move_cost_ter_furn(x, y) == 0 && !g->m.has_flag_ter_or_furn(swimmable, x, y))
     {
         collision_type = veh_coll_other; // not destructible
         mass2 = 1000;
@@ -1406,7 +1419,10 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
             switch (collision_type) // destroy obstacle
             {
             case veh_coll_thin_obstacle:
-                g->m.ter_set(x, y, t_dirt);
+                if (g->m.has_furn(x, y))
+                    g->m.furn_set(x, y, f_null);
+                else
+                    g->m.ter_set(x, y, t_dirt);
                 break;
             case veh_coll_destructable:
                 g->m.destroy(g, x, y, false);
@@ -1494,9 +1510,9 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
 
         if (part_flag(part, vpf_sharp))
         {
-            if (g->m.field_at(x, y).type == fd_blood &&
-                g->m.field_at(x, y).density < 2)
-                g->m.field_at(x, y).density++;
+            if (g->m.field_at(x, y).findField(fd_blood) &&
+                g->m.field_at(x, y).findField(fd_blood)->getFieldDensity() < 2)
+                g->m.field_at(x, y).findField(fd_blood)->setFieldDensity(g->m.field_at(x,y).findField(fd_blood)->getFieldDensity() + 1);
             else
                 g->m.add_field(g, x, y, fd_blood, 1);
         }
@@ -1573,7 +1589,7 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = "SNAP!";
             wreckit = true;
             g->m.tr_at(x, y) = tr_null;
-            g->m.spawn_item(x, y, g->itypes["beartrap"], 0);
+            g->m.spawn_item(x, y, "beartrap", 0);
             break;
         case tr_nailboard:
             wreckit = true;
@@ -1589,10 +1605,10 @@ void vehicle::handle_trap (int x, int y, int part)
             snd = "Clank!";
             wreckit = true;
             g->m.tr_at(x, y) = tr_null;
-            g->m.spawn_item(x, y, g->itypes["crossbow"], 0);
-            g->m.spawn_item(x, y, g->itypes["string_6"], 0);
+            g->m.spawn_item(x, y, "crossbow", 0);
+            g->m.spawn_item(x, y, "string_6", 0);
             if (!one_in(10))
-                g->m.spawn_item(x, y, g->itypes["bolt_steel"], 0);
+                g->m.spawn_item(x, y, "bolt_steel", 0);
             break;
         case tr_shotgun_2:
         case tr_shotgun_1:
@@ -1605,8 +1621,8 @@ void vehicle::handle_trap (int x, int y, int part)
             else
             {
                 g->m.tr_at(x, y) = tr_null;
-                g->m.spawn_item(x, y, g->itypes["shotgun_sawn"], 0);
-                g->m.spawn_item(x, y, g->itypes["string_6"], 0);
+                g->m.spawn_item(x, y, "shotgun_sawn", 0);
+                g->m.spawn_item(x, y, "string_6", 0);
             }
             break;
         case tr_landmine:
@@ -1646,9 +1662,59 @@ void vehicle::handle_trap (int x, int y, int part)
         g->explosion(x, y, expl, shrap, false);
 }
 
+// total volume of all the things
+int vehicle::stored_volume(int part) {
+   if (!part_flag(part, vpf_cargo))
+        return 0;
+   int cur_volume = 0;
+   for (int i = 0; i < parts[part].items.size(); i++) {
+       cur_volume += parts[part].items[i].volume();
+   }
+   return cur_volume;
+}
+// stub, pending per vpart limits
+int vehicle::max_volume(int part) {
+   return MAX_VOLUME_IN_VEHICLE_STORAGE;
+}
+
+// free space
+int vehicle::free_volume(int part) {
+   const int maxvolume = this->max_volume(part);
+   return ( maxvolume - stored_volume(part) );
+}
+
+// returns true if full, modified by arguments:
+// (none):                            size >= max || volume >= max
+// (addvolume >= 0):                  size+1 > max || volume + addvolume > max
+// (addvolume >= 0, addnumber >= 0):  size + addnumber > max || volume + addvolume > max
+bool vehicle::is_full(const int part, const int addvolume, const int addnumber) {
+   const int maxitems = MAX_ITEM_IN_VEHICLE_STORAGE;
+   const int maxvolume = this->max_volume(part);
+
+   if ( addvolume == -1 ) {
+       if ( parts[part].items.size() < maxitems ) return true;
+       int cur_volume=stored_volume(part);
+       return (cur_volume >= maxvolume ? true : false );
+   } else {
+       if ( parts[part].items.size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
+       int cur_volume=stored_volume(part);
+       return ( cur_volume + addvolume > maxvolume ? true : false );
+   }
+
+}
+
 bool vehicle::add_item (int part, item itm)
 {
-    if (!part_flag(part, vpf_cargo) || parts[part].items.size() >= 64)
+    const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE; // (game.h)
+    const int maxvolume = this->max_volume(part);         // (game.h => vehicle::max_volume(part) ) in theory this could differ per vpart ( seat vs trunk )
+
+    // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
+    // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
+
+    if (!part_flag(part, vpf_cargo))
+        return false;
+    
+    if (parts[part].items.size() >= max_storage)
         return false;
     it_ammo *ammo = dynamic_cast<it_ammo*> (itm.type);
     if (part_flag(part, vpf_turret))
@@ -1656,16 +1722,21 @@ bool vehicle::add_item (int part, item itm)
                  ammo->type == AT_GAS ||
                  ammo->type == AT_PLASMA))
             return false;
-
-    if(itm.charges  != -1 && (itm.is_food() || itm.is_ammo())) {
+    int cur_volume = 0;
+    int add_volume = itm.volume();
+    bool tryaddcharges=(itm.charges  != -1 && (itm.is_food() || itm.is_ammo()));
+    // iterate anyway since we need a volume total
       for (int i = 0; i < parts[part].items.size(); i++) {
-        if(parts[part].items[i].type->id == itm.type->id ) {
+        cur_volume += parts[part].items[i].volume();
+        if( tryaddcharges && parts[part].items[i].type->id == itm.type->id ) {
           parts[part].items[i].charges+=itm.charges;
           return true;
         }
       }
+    
+    if ( cur_volume + add_volume > maxvolume ) {
+      return false;
     }
-
     parts[part].items.push_back (itm);
     return true;
 }
@@ -1930,9 +2001,9 @@ int vehicle::damage_direct (int p, int dmg, int type)
         else
         if (parts[p].hp <= 0 && part_flag(p, vpf_unmount_on_damage))
         {
-            g->m.spawn_item (global_x() + parts[p].precalc_dx[0],
+            g->m.spawn_item(global_x() + parts[p].precalc_dx[0],
                            global_y() + parts[p].precalc_dy[0],
-                           g->itypes[part_info(p).item], g->turn);
+                           part_info(p).item, g->turn);
             remove_part (p);
         }
     }
@@ -1959,8 +2030,8 @@ void vehicle::leak_fuel (int p)
                         parts[p].amount = 0;
                         return;
                     }
-                    g->m.spawn_item(i, j, g->itypes["gasoline"], 0);
-                    g->m.spawn_item(i, j, g->itypes["gasoline"], 0);
+                    g->m.spawn_item(i, j, "gasoline", 0);
+                    g->m.spawn_item(i, j, "gasoline", 0);
                     parts[p].amount -= 100;
                 }
     }

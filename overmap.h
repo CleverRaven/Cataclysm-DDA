@@ -68,6 +68,17 @@ struct map_layer {
  map_layer() : terrain(), visible(), notes() {}
 };
 
+struct node
+{
+ int x;
+ int y;
+ int d;
+ int p;
+
+ node(int xp, int yp, int dir, int pri) {x = xp; y = yp; d = dir; p = pri;}
+ bool operator< (const node &n) const { return this->p > n.p; }
+};
+
 class overmap
 {
  public:
@@ -151,7 +162,7 @@ class overmap
 
   //Drawing
   void draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
-            int &origx, int &origy, char &ch, bool blink,
+            int &origx, int &origy, signed char &ch, bool blink,
             overmap &hori, overmap &vert, overmap &diag);
   // Overall terrain
   void place_river(point pa, point pb);

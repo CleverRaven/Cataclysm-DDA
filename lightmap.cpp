@@ -2,6 +2,7 @@
 #include "map.h"
 #include "game.h"
 #include "lightmap.h"
+#include "options.h"
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * MAPSIZE && y >= 0 && y < SEEY * MAPSIZE)
@@ -44,13 +45,13 @@ void map::generate_lightmap(game* g)
 
  // Apply player light sources
  if (held_luminance > LIGHT_AMBIENT_LOW)
-  apply_light_source(g->u.posx, g->u.posy, held_luminance);
+  apply_light_source(g->u.posx, g->u.posy, held_luminance, trigdist);
   int flood_basalt_check = 0; // does excessive lava need high quality lighting? Nope nope nope nope
   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx) {
    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy) {
     const ter_id terrain = g->m.ter(sx, sy);
-    const std::vector<item> items = g->m.i_at(sx, sy);
-    const field current_field = g->m.field_at(sx, sy);
+    const std::vector<item> &items = g->m.i_at(sx, sy);
+    field current_field = g->m.field_at(sx, sy);
     // When underground natural_light is 0, if this changes we need to revisit
     if (natural_light > LIGHT_AMBIENT_LOW) {
      if (!g->m.is_outside(sx, sy)) {
@@ -87,29 +88,34 @@ void map::generate_lightmap(game* g)
    if(terrain == t_emergency_light)
     apply_light_source(sx, sy, 3, false);
 
+   field_entry *cur = NULL;
+	for(std::vector<field_entry*>::iterator field_list_it = current_field.getFieldStart(); field_list_it != current_field.getFieldEnd(); ++field_list_it){
+		cur = (*field_list_it);
+		if(cur == NULL) continue;
    // TODO: [lightmap] Attach light brightness to fields
-  switch(current_field.type) {
+		switch(cur->getFieldType()) {
     case fd_fire:
-     if (3 == current_field.density)
-      apply_light_source(sx, sy, 160);
-     else if (2 == current_field.density)
-      apply_light_source(sx, sy, 60);
+		if (3 == cur->getFieldDensity())
+      apply_light_source(sx, sy, 160, trigdist);
+     else if (2 == cur->getFieldDensity())
+      apply_light_source(sx, sy, 60, trigdist);
      else
-      apply_light_source(sx, sy, 16);
+      apply_light_source(sx, sy, 16, trigdist);
      break;
     case fd_fire_vent:
     case fd_flame_burst:
-     apply_light_source(sx, sy, 8);
+     apply_light_source(sx, sy, 8, trigdist);
      break;
     case fd_electricity:
-     if (3 == current_field.density)
-      apply_light_source(sx, sy, 8);
-     else if (2 == current_field.density)
-      apply_light_source(sx, sy, 1);
+     if (3 == cur->getFieldDensity())
+      apply_light_source(sx, sy, 8, trigdist);
+     else if (2 == cur->getFieldDensity())
+      apply_light_source(sx, sy, 1, trigdist);
      else
-      apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL);  // kinda a hack as the square will still get marked
+      apply_light_source(sx, sy, LIGHT_SOURCE_LOCAL, trigdist);  // kinda a hack as the square will still get marked
      break;
    }
+	}
   }
  }
 
@@ -118,23 +124,23 @@ void map::generate_lightmap(game* g)
   int my = g->z[i].posy;
   if (INBOUNDS(mx, my)) {
    if (g->z[i].has_effect(ME_ONFIRE)) {
-    apply_light_source(mx, my, 3);
+     apply_light_source(mx, my, 3, trigdist);
    }
    // TODO: [lightmap] Attach natural light brightness to creatures
    // TODO: [lightmap] Allow creatures to have light attacks (ie: eyebot)
    // TODO: [lightmap] Allow creatures to have facing and arc lights
    switch (g->z[i].type->id) {
     case mon_zombie_electric:
-     apply_light_source(mx, my, 1);
+     apply_light_source(mx, my, 1, trigdist);
      break;
     case mon_turret:
-     apply_light_source(mx, my, 2);
+     apply_light_source(mx, my, 2, trigdist);
      break;
     case mon_flaming_eye:
-     apply_light_source(mx, my, LIGHT_SOURCE_BRIGHT);
+     apply_light_source(mx, my, LIGHT_SOURCE_BRIGHT, trigdist);
      break;
     case mon_manhack:
-     apply_light_source(mx, my, LIGHT_SOURCE_LOCAL);
+     apply_light_source(mx, my, LIGHT_SOURCE_LOCAL, trigdist);
      break;
    }
   }
@@ -170,6 +176,16 @@ void map::generate_lightmap(game* g)
        }
      }
    }
+ }
+ for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx)
+ {
+    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy)
+    {
+        if (g->u.has_active_bionic("bio_night") && rl_dist(sx, sy, g->u.posx, g->u.posy) < 15)
+        {
+            lm[sx][sy] = 0;
+        }
+    }
  }
 }
 
@@ -211,6 +227,8 @@ bool map::pl_sees(int fx, int fy, int tx, int ty, int max_range)
 void map::cache_seen(int fx, int fy, int tx, int ty, int max_range)
 {
    if (!INBOUNDS(fx, fy) || !INBOUNDS(tx, ty)) return;
+
+   seen_cache[fx][fy] = true;
 
    const int ax = abs(tx - fx) << 1;
    const int ay = abs(ty - fy) << 1;
@@ -304,7 +322,7 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
  luminance=luminance*lum_mult;
 
  int range = LIGHT_RANGE(luminance);
- apply_light_source(x, y, LIGHT_SOURCE_LOCAL);
+ apply_light_source(x, y, LIGHT_SOURCE_LOCAL, trigdist);
 
  // Normalise (should work with negative values too)
 
@@ -314,31 +332,65 @@ void map::apply_light_arc(int x, int y, int angle, float luminance, int wideangl
 
  int nangle = angle % 360;
 
+ int endx, endy;
  double rad = PI * (double)nangle / 180;
- int endx = x + range * cos(rad);
- int endy = y + range * sin(rad);
- apply_light_ray(lit, x, y, endx, endy , luminance, true);
+ calc_ray_end(nangle, range, x, y, &endx, &endy);
+ apply_light_ray(lit, x, y, endx, endy , luminance, trigdist);
 
- double testrad = ( PI * wangle / 180 ) + rad;
- int testx = x + range * cos(testrad);
- int testy = y + range * sin(testrad);
+ int testx, testy;
+ calc_ray_end(wangle + nangle, range, x, y, &testx, &testy);
 
- double wdist=sqrt(double((endx - testx) * (endx - testx) + (endy - testy) * (endy - testy))); // distance between center and widest endpoints
+ double wdist=sqrt(double((endx - testx) * (endx - testx) + (endy - testy) * (endy - testy)));
  if(wdist > 0.5) {
    double wstep = ( wangle / ( wdist * 1.42 ) ); // attempt to determine beam density required to cover all squares
 
    for (double ao=wstep; ao <= wangle; ao+=wstep) {
-     double fdist=(ao * HALFPI) / wangle;
-     double orad = ( PI * ao / 180.0 );
-     endx = int( x + ( (double)range - fdist * 2.0) * cos(rad+orad) );
-     endy = int( y + ( (double)range - fdist * 2.0) * sin(rad+orad) );
-     apply_light_ray(lit, x, y, endx, endy , luminance, true);
+     if ( trigdist ) {
+       double fdist=(ao * HALFPI) / wangle;
+       double orad = ( PI * ao / 180.0 );
+       endx = int( x + ( (double)range - fdist * 2.0) * cos(rad+orad) );
+       endy = int( y + ( (double)range - fdist * 2.0) * sin(rad+orad) );
+       apply_light_ray(lit, x, y, endx, endy , luminance, true);
 
-     endx = int( x + ( (double)range - fdist * 2.0) * cos(rad-orad) );
-     endy = int( y + ( (double)range - fdist * 2.0) * sin(rad-orad) );
-     apply_light_ray(lit, x, y, endx, endy , luminance, true);
+       endx = int( x + ( (double)range - fdist * 2.0) * cos(rad-orad) );
+       endy = int( y + ( (double)range - fdist * 2.0) * sin(rad-orad) );
+       apply_light_ray(lit, x, y, endx, endy , luminance, true);
+     } else {
+       calc_ray_end(nangle + ao, range, x, y, &endx, &endy);
+       apply_light_ray(lit, x, y, endx, endy , luminance, false);
+       calc_ray_end(nangle - ao, range, x, y, &endx, &endy);
+       apply_light_ray(lit, x, y, endx, endy , luminance, false);
+     }
    }
  }
+}
+
+void map::calc_ray_end(int angle, int range, int x, int y, int* outx, int* outy)
+{
+    const double PI = 3.14159265358979f;
+    double rad = (PI * angle) / 180;
+    if (trigdist)
+    {
+        *outx = x + range * cos(rad);
+        *outy = y + range * sin(rad);
+    } else {
+        int mult = 0;
+        if (angle >= 135 && angle <= 315)
+        {
+            mult = -1;
+        } else {
+            mult = 1;
+        }
+
+        if (angle <= 45 || (135 <= angle && angle <= 215) || 315 < angle)
+        {
+            *outx = x + range * mult;
+            *outy = y + range * tan(rad) * mult;
+        } else {
+            *outx = x + range * 1/tan(rad) * mult;
+            *outy = y + range * mult;
+        }
+    }
 }
 
 void map::apply_light_ray(bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],

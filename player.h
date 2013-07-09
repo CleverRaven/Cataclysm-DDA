@@ -63,18 +63,21 @@ public:
  void disp_status(WINDOW* w, game *g = NULL);// On-screen data
 
  void reset(game *g = NULL);// Resets movement points, stats, applies effects
+ void action_taken(); // Called after every action, invalidates player caches.
  void update_morale();	// Ticks down morale counters and removes them
+ void apply_persistent_morale(); // Ensure persistent morale effects are up-to-date.
  void update_mental_focus();
  int calc_focus_equilibrium();
  void update_bodytemp(game *g);  // Maintains body temperature
  int  current_speed(game *g = NULL); // Number of movement points we get a turn
- int  run_cost(int base_cost); // Adjust base_cost
+ int  run_cost(int base_cost, bool diag = false); // Adjust base_cost
  int  swim_speed();	// Our speed when swimming
 
  bool has_trait(int flag) const;
- bool has_mutation(int flag) const;
+ bool has_base_trait(int flag) const;
  void toggle_trait(int flag);
-
+ void toggle_mutation(int flag);
+ 
  bool in_climate_control(game *g);
 
  bool has_bionic(bionic_id b) const;
@@ -87,6 +90,7 @@ public:
 
  bool mutation_ok(game *g, pl_flag mutation, bool force_good, bool force_bad);
  void mutate(game *g);
+ void mutate_category(game *g, mutation_category);
  void mutate_towards(game *g, pl_flag mut);
  void remove_mutation(game *g, pl_flag mut);
  bool has_child_flag(game *g, pl_flag mut);
@@ -102,6 +106,8 @@ public:
  bool is_armed();	// True if we're wielding something; true for bionics
  bool unarmed_attack(); // False if we're wielding something; true for bionics
  bool avoid_trap(trap *tr);
+
+ bool has_nv();
 
  void pause(game *g); // '.' command; pauses & reduces recoil
 
@@ -142,7 +148,7 @@ public:
  int  dodge_roll(game *g);// For comparison to hit_roll()
 
 // ranged.cpp
- int throw_range(char invlet); // Range of throwing item; -1:ERR 0:Can't throw
+ int throw_range(signed char invlet); // Range of throwing item; -1:ERR 0:Can't throw
  int ranged_dex_mod	(bool real_life = true);
  int ranged_per_mod	(bool real_life = true);
  int throw_dex_mod	(bool real_life = true);
@@ -170,13 +176,14 @@ public:
  void knock_back_from(game *g, int x, int y);
 
  int hp_percentage();	// % of HP remaining, overall
+ void recalc_hp(); // Change HP after a change to max strength
 
  void get_sick(game *g);	// Process diseases
 // infect() gives us a chance to save (mostly from armor)
  void infect(dis_type type, body_part vector, int strength, int duration,
              game *g);
 // add_disease() does NOT give us a chance to save
- void add_disease(dis_type type, int duration, game *g, int intensity = 0,
+ void add_disease(dis_type type, int duration, int intensity = 0,
                   int max_intensity = -1);
  void rem_disease(dis_type type);
  bool has_disease(dis_type type) const;
@@ -191,15 +198,16 @@ public:
  void siphon_gas(game *g, vehicle *veh);
  void cauterize(game *g);
  void suffer(game *g);
+ void mend(game *g);
  void vomit(game *g);
 
  char lookup_item(char let);
- bool eat(game *g, char invlet);	// Eat item; returns false on fail
- virtual bool wield(game *g, char invlet);// Wield item; returns false on fail
+ bool eat(game *g, signed char invlet);	// Eat item; returns false on fail
+ virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(game *g); // Pick a style
- bool wear(game *g, char let);	// Wear item; returns false on fail
- bool wear_item(game *g, item *to_wear);
- bool takeoff(game *g, char let);// Take off item; returns false on fail
+ bool wear(game *g, char let, bool interactive = true);	// Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+ bool wear_item(game *g, item *to_wear, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+ bool takeoff(game *g, char let, bool autodrop = false);// Take off item; returns false on fail
  void sort_armor(game *g);      // re-order armor layering
  void use(game *g, char let);	// Use a tool
  void use_wielded(game *g);
@@ -226,6 +234,7 @@ public:
  int armor_cut(body_part bp);	// Cutting  resistance
  int resist(body_part bp);	// Infection &c resistance
  bool wearing_something_on(body_part bp); // True if wearing something on bp
+ bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
 
  int adjust_for_focus(int amount);
  void practice(const calendar& turn, Skill *s, int amount);
@@ -240,9 +249,12 @@ public:
  int volume_capacity();
  bool can_pickVolume(int volume);
  bool can_pickWeight(int weight);
+ int net_morale(morale_point effect);
  int morale_level();	// Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
-                 itype* item_type = NULL);
+                 int duration = 60, int decay_start = 30,
+                 bool cap_existing = false, itype* item_type = NULL);
+ void rem_morale(morale_type type, itype* item_type = NULL);
 
  std::string weapname(bool charges = true);
 
@@ -251,18 +263,20 @@ public:
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);
  bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
- item i_rem(char let);	// Remove item from inventory; returns ret_null on fail
+ item i_rem(game* g, char let);	// Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
  void remove_mission_items(int mission_id);
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let);	// Returns the item with inventory letter let
  item &i_of_type(itype_id type); // Returns the first item with this type
- std::vector<item> inv_dump(); // Inventory + weapon + worn (for death, etc)
+ item get_combat_style(); // Returns the combat style item
+ std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor();	// Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
  bool is_wearing(itype_id it);	// Are we wearing a specific itype?
  bool has_artifact_with(art_effect_passive effect);
+ bool worn_with_flag( std::string flag ) const;
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
@@ -293,6 +307,7 @@ public:
  int posx, posy;
  int view_offset_x, view_offset_y;
  bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
+ bool controlling_vehicle;  // Is currently in control of a vehicle
  player_activity activity;
  player_activity backlog;
 // _missions vectors are of mission IDs
@@ -300,6 +315,7 @@ public:
  std::vector<int> completed_missions;
  std::vector<int> failed_missions;
  int active_mission;
+ int volume;
 
  std::string name;
  bool male;
@@ -325,9 +341,11 @@ public:
  int stim, pain, pkill, radiation;
  int cash;
  int moves;
+ int movecounter;
  int hp_cur[num_hp_parts], hp_max[num_hp_parts];
  signed int temp_cur[num_bp], frostbite_timer[num_bp], temp_conv[num_bp];
  void temp_equalizer(body_part bp1, body_part bp2); // Equalizes heat between body parts
+ bool nv_cached;
 
  std::vector<morale_point> morale;
 

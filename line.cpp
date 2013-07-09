@@ -68,7 +68,7 @@ int trig_dist(int x1, int y1, int x2, int y2)
 int rl_dist(int x1, int y1, int x2, int y2)
 {
  if(trigdist) {
-   return int( sqrt( double( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) ) ) );
+     return trig_dist( x1, y1, x2, y2 );
  }
  int dx = abs(x1 - x2), dy = abs(y1 - y2);
  if (dx > dy)
@@ -78,10 +78,7 @@ int rl_dist(int x1, int y1, int x2, int y2)
 
 int rl_dist(point a, point b)
 {
- int dx = abs(a.x - b.x), dy = abs(a.y - b.y);
- if (dx > dy)
-  return dx;
- return dy;
+ return rl_dist(a.x, a.y, b.x, b.y);
 }
 
 double slope_of(std::vector<point> line)

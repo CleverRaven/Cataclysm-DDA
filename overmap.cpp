@@ -18,6 +18,7 @@
 #include "options.h"
 #include "options.h"
 #include "overmapbuffer.h"
+#include <queue>
 
 #ifdef _MSC_VER
 // MSVC doesn't have c99-compatible "snprintf", so do what picojson does and use _snprintf_s instead
@@ -56,7 +57,7 @@ bool is_river(oter_id ter)
 
 bool is_building(oter_id ter)
 {
- if (ter == ot_null || (ter >= ot_house_north))
+ if (ter == ot_null || (ter >= ot_house_north && ter <= ot_basement) || ter >= ot_ants_ns)
   return true;
  return false;
 }
@@ -383,7 +384,9 @@ point overmap::display_notes(game* g, int const z) const
  }
 
  std::string title = "Notes:";
- WINDOW* w_notes = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+ WINDOW* w_notes = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                          (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                          (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
 
  wborder(w_notes, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                   LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -394,7 +397,7 @@ point overmap::display_notes(game* g, int const z) const
  mvwprintz(w_notes, 1, 1, c_ltgray, title.c_str());
  do{
   if (ch == '<' && start > 0) {
-   for (int i = 1; i < 25; i++)
+   for (int i = 1; i < FULL_SCREEN_HEIGHT; i++)
     mvwprintz(w_notes, i+1, 1, c_black, "                                                     ");
    start -= maxitems;
    if (start < 0)
@@ -404,7 +407,7 @@ point overmap::display_notes(game* g, int const z) const
   if (ch == '>' && cur_it < layer[z + OVERMAP_DEPTH].notes.size()) {
    start = cur_it;
    mvwprintw(w_notes, maxitems + 2, 13, "            ");
-   for (int i = 1; i < 25; i++)
+   for (int i = 1; i < FULL_SCREEN_HEIGHT; i++)
     mvwprintz(w_notes, i, 0, c_black, "                                                     ");
   }
   int cur_line = 3;
@@ -433,7 +436,7 @@ point overmap::display_notes(game* g, int const z) const
     return point(layer[z + OVERMAP_DEPTH].notes[start + chosen_line].x, layer[z + OVERMAP_DEPTH].notes[start + chosen_line].y);
   }
   mvwprintz(w_notes, 1, 40, c_white, "Press letter to center on note");
-  mvwprintz(w_notes, 23, 40, c_white, "Spacebar - Return to map  ");
+  mvwprintz(w_notes, FULL_SCREEN_HEIGHT-2, 40, c_white, "Spacebar - Return to map  ");
   wrefresh(w_notes);
   ch = getch();
  } while(ch != ' ' && ch != '\n' && ch != KEY_ESCAPE);
@@ -712,9 +715,6 @@ void overmap::generate(game *g, overmap* north, overmap* east, overmap* south,
   road_points.push_back(cities[i]);
 // And finally connect them via "highways"
  place_hiways(road_points, 0, ot_road_null);
-// Make the roads out road points;
- for (int i = 0; i < roads_out.size(); i++)
-  ter(roads_out[i].x, roads_out[i].y, 0) = ot_road_nesw;
 // Place specials
  place_specials();
 // Clean up our roads and rivers
@@ -748,10 +748,15 @@ bool overmap::generate_sub(int const z)
  std::vector<point> bunker_points;
  std::vector<point> shelter_points;
  std::vector<point> lmoe_points;
+ std::vector<point> cabin_strange_points;
  std::vector<point> triffid_points;
  std::vector<point> temple_points;
  std::vector<point> office_entrance_points;
  std::vector<point> office_points;
+ std::vector<point> prison_points;
+ std::vector<point> prison_entrance_points;
+ std::vector<point> haz_sar_entrance_points;
+ std::vector<point> haz_sar_points;
  std::vector<point> cathedral_entrance_points;
  std::vector<point> cathedral_points;
  std::vector<point> hotel_tower_1_points;
@@ -826,6 +831,9 @@ bool overmap::generate_sub(int const z)
    else if (ter(i, j, z + 1) == ot_lmoe)
     lmoe_points.push_back( point(i, j) );
 
+   else if (ter(i, j, z + 1) == ot_cabin_strange)
+    cabin_strange_points.push_back( point(i, j) );
+
    else if (ter(i, j, z + 1) == ot_mine_entrance)
     shaft_points.push_back( point(i, j) );
 
@@ -855,6 +863,16 @@ bool overmap::generate_sub(int const z)
     office_entrance_points.push_back( point(i, j) );
    else if (ter(i, j, z + 1) == ot_office_tower_1)
     office_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_prison_1 || ter(i, j, z + 1) == ot_prison_3 ||
+            ter(i, j, z + 1) == ot_prison_4 || ter(i, j, z + 1) == ot_prison_5 || ter(i, j, z + 1) == ot_prison_6 ||
+            ter(i, j, z + 1) == ot_prison_7 || ter(i, j, z + 1) == ot_prison_8 || ter(i, j, z + 1) == ot_prison_9)
+    prison_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_prison_2)
+    prison_entrance_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_haz_sar_entrance)
+    haz_sar_entrance_points.push_back( point(i, j) );
+   else if (ter(i, j, z + 1) == ot_haz_sar)
+    haz_sar_points.push_back( point(i, j) );
    else if (ter(i, j, z + 1) == ot_cathedral_1_entrance)
     cathedral_entrance_points.push_back( point(i, j) );
    else if (ter(i, j, z + 1) == ot_cathedral_1)
@@ -922,6 +940,9 @@ bool overmap::generate_sub(int const z)
  for (int i = 0; i < lmoe_points.size(); i++)
   ter(lmoe_points[i].x, lmoe_points[i].y, z) = ot_lmoe_under;
 
+ for (int i = 0; i < cabin_strange_points.size(); i++)
+  ter(cabin_strange_points[i].x, cabin_strange_points[i].y, z) = ot_cabin_strange_b;
+
  for (int i = 0; i < triffid_points.size(); i++) {
   if (z == -1) {
    ter( triffid_points[i].x, triffid_points[i].y, z ) = ot_triffid_roots;
@@ -943,6 +964,14 @@ bool overmap::generate_sub(int const z)
   ter(office_entrance_points[i].x, office_entrance_points[i].y, z) = ot_office_tower_b_entrance;
  for (int i = 0; i < office_points.size(); i++)
   ter(office_points[i].x, office_points[i].y, z) = ot_office_tower_b;
+ for (int i = 0; i < prison_points.size(); i++)
+  ter(prison_points[i].x, prison_points[i].y, z) = ot_prison_b;
+ for (int i = 0; i < prison_entrance_points.size(); i++)
+  ter(prison_entrance_points[i].x, prison_entrance_points[i].y, z) = ot_prison_b_entrance;
+ for (int i = 0; i < haz_sar_entrance_points.size(); i++){
+    ter(haz_sar_entrance_points[i].x, haz_sar_entrance_points[i].y, z-1) = ot_haz_sar_entrance_b1;}
+ for (int i = 0; i < haz_sar_points.size(); i++){
+    ter(haz_sar_points[i].x, haz_sar_points[i].y, z-1) = ot_haz_sar_b1;}
  for (int i = 0; i < cathedral_entrance_points.size(); i++)
   ter(cathedral_entrance_points[i].x, cathedral_entrance_points[i].y, z) = ot_cathedral_b_entrance;
  for (int i = 0; i < cathedral_points.size(); i++)
@@ -1103,7 +1132,7 @@ int overmap::dist_from_city(point p)
 }
 
 void overmap::draw(WINDOW *w, game *g, int z, int &cursx, int &cursy,
-                   int &origx, int &origy, char &ch, bool blink,
+                   int &origx, int &origy, signed char &ch, bool blink,
                    overmap &hori, overmap &vert, overmap &diag)
 {
  bool note_here = false, npc_here = false;
@@ -1339,7 +1368,7 @@ point overmap::draw_overmap(game *g, int zlevel)
  int cursx = (g->levx + int(MAPSIZE / 2)) / 2,
      cursy = (g->levy + int(MAPSIZE / 2)) / 2;
  int origx = cursx, origy = cursy, origz = zlevel;
- char ch = 0;
+ signed char ch = 0;
  point ret(-1, -1);
  overmap hori, vert, diag; // Adjacent maps
 
@@ -1370,7 +1399,7 @@ point overmap::draw_overmap(game *g, int zlevel)
    ret = point(-1, -1);
   else if (ch == 'N') {
    timeout(-1);
-   add_note(cursx, cursy, zlevel, string_input_popup("Note (X:TEXT for custom symbol):", 49, note(cursx, cursy, zlevel))); // 49 char max
+   add_note(cursx, cursy, zlevel, string_input_popup("Note (X:TEXT for custom symbol):", 45, note(cursx, cursy, zlevel))); // 45 char max
    timeout(BLINK_SPEED);
   } else if(ch == 'D'){
    timeout(-1);
@@ -1822,7 +1851,7 @@ bool overmap::build_lab(int x, int y, int z, int s)
  }
  if (generate_stairs && generated_lab.size() > 0)
  {
-     int v = rng(0,generated_lab.size());
+     int v = rng(0,generated_lab.size()-1);
      point p = generated_lab[v];
      ter(p.x, p.y, z+1) = ot_lab_stairs;
  }
@@ -2004,126 +2033,86 @@ void overmap::place_rifts(int const z)
 void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, oter_id base)
 {
  if (x1 == x2 && y1 == y2)
-     return;
+  return;
 
- std::vector<point> next;
- int dir = 0;
- int x = x1, y = y1;
- int xdir, ydir;
- int tmp = 0;
- bool bridge_is_okay = false;
- bool found_road = false;
- do {
-  next.clear(); // Clear list of valid points
-  // Add valid points -- step in the right x-direction
-  if (x2 > x)
-   next.push_back(point(x + 1, y));
-  else if (x2 < x)
-   next.push_back(point(x - 1, y));
-  else
-   next.push_back(point(-1, -1)); // X is right--don't change it!
-  // Add valid points -- step in the right y-direction
-  if (y2 > y)
-   next.push_back(point(x, y + 1));
-  else if (y2 < y)
-   next.push_back(point(x, y - 1));
-  for (int i = 0; i < next.size(); i++) { // Take an existing road if we can
-   if (next[i].x != -1 && is_road(base, next[i].x, next[i].y, z)) {
-    x = next[i].x;
-    y = next[i].y;
-    dir = i; // We are moving... whichever way that highway is moving
-// If we're closer to the destination than to the origin, this highway is done!
-    if (dist(x, y, x1, y1) > dist(x, y, x2, y2))
-     return;
-    next.clear();
-   }
-  }
-  if (!next.empty()) { // Assuming we DIDN'T take an existing road...
-   if (next[0].x == -1) { // X is correct, so we're taking the y-change
-    dir = 1; // We are moving vertically
-    x = next[1].x;
-    y = next[1].y;
-    if (is_river(ter(x, y, z)))
-     ter(x, y, z) = ot_bridge_ns;
-    else if (!is_road(base, x, y, z))
-     ter(x, y, z) = base;
-   } else if (next.size() == 1) { // Y must be correct, take the x-change
-    if (dir == 1)
-     ter(x, y, z) = base;
-    dir = 0; // We are moving horizontally
-    x = next[0].x;
-    y = next[0].y;
-    if (is_river(ter(x, y, z)))
-     ter(x, y, z) = ot_bridge_ew;
-    else if (!is_road(base, x, y, z))
-     ter(x, y, z) = base;
-   } else {	// More than one eligable route; pick one randomly
-    //Don't switch directions if there is a building there and we don't have to...
-    if (one_in(12) &&
-       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)) && !is_building(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
-     dir = (dir + 1) % 2; // Switch the direction (hori/vert) in which we move
-    //If our current path has a building in it and there is another possible path, we should take it
-    else if (is_building(ter(next[dir].x, next[dir].y, z)) &&
-       !is_river(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)) && !is_building(ter(next[(dir + 1) % 2].x, next[(dir + 1) % 2].y, z)))
-     dir = (dir + 1) % 2; // Switch the direction (hori/vert) in which we move
-    x = next[dir].x;
-    y = next[dir].y;
-    if (dir == 0) {	// Moving horizontally
-     if (is_river(ter(x, y, z))) {
-      xdir = -1;
-      bridge_is_okay = true;
-      if (x2 > x)
-       xdir = 1;
-      tmp = x;
-      while (tmp >= 0 && tmp < OMAPX && is_river(ter(tmp, y, z))) {
-       if (is_road(base, tmp, y, z))
-        bridge_is_okay = false;	// Collides with another bridge!
-       tmp += xdir;
-      }
-      if (bridge_is_okay) {
-       while(tmp >= 0 && x < OMAPX && is_river(ter(x, y, z))) {
-        ter(x, y, z) = ot_bridge_ew;
-        x += xdir;
-       }
-       ter(x, y, z) = base;
-      }
-     } else if (!is_road(base, x, y, z))
+ std::priority_queue<node> nodes[2];
+ bool closed[OMAPX][OMAPY] = {false};
+ int open[OMAPX][OMAPY] = {0};
+ int dirs[OMAPX][OMAPY] = {0};
+ int dx[4]={1, 0, -1, 0};
+ int dy[4]={0, 1, 0, -1};
+ int i = 0;
+ int disp = (base == ot_road_null) ? 5 : 2;
+
+ nodes[i].push(node(x1, y1, 5, 1000));
+ open[x1][y1] = 1000;
+
+ while (!nodes[i].empty()) { //A*
+  node mn = nodes[i].top();
+  nodes[i].pop();
+  closed[mn.x][mn.y] = true;
+
+  if(mn.x == x2 && mn.y == y2) {
+   int x = mn.x;
+   int y = mn.y;
+   while (x != x1 || y != y1) {
+    int d = dirs[x][y];
+    x += dx[d];
+    y += dy[d];
+    if (!is_building(ter(x, y, z))) {
+     if (is_river(ter(x, y, z))){
+      if (d == 1 || d == 3)
+       ter(x, y, z) = ot_bridge_ns;
+      else
+       ter(x, y, z) = ot_bridge_ew;
+     } else {
       ter(x, y, z) = base;
-    } else {		// Moving vertically
-     if (is_river(ter(x, y, z))) {
-      ydir = -1;
-      bridge_is_okay = true;
-      if (y2 > y)
-       ydir = 1;
-      tmp = y;
-      while (tmp >= 0 && tmp < OMAPY && is_river(ter(x, tmp, z))) {
-       if (is_road(base, x, tmp, z))
-        bridge_is_okay = false;	// Collides with another bridge!
-       tmp += ydir;
-      }
-      if (bridge_is_okay) {
-       while (tmp >= 0 && y < OMAPY && is_river(ter(x, y, z))) {
-        ter(x, y, z) = ot_bridge_ns;
-        y += ydir;
-       }
-       ter(x, y, z) = base;
-      }
-     } else if (!is_road(base, x, y, z))
-      ter(x, y, z) = base;
+     }
     }
    }
-/*
-   if (one_in(50) && loc.z == 0)
-    building_on_hiway(x, y, dir);
-*/
+   return;
   }
-  found_road = (
-        ((ter(x, y - 1, z) > ot_road_null && ter(x, y - 1, z) < ot_river_center) ||
-         (ter(x, y + 1, z) > ot_road_null && ter(x, y + 1, z) < ot_river_center) ||
-         (ter(x - 1, y, z) > ot_road_null && ter(x - 1, y, z) < ot_river_center) ||
-         (ter(x + 1, y, z) > ot_road_null && ter(x + 1, y, z) < ot_river_center)  ) &&
-        rl_dist(x, y, x1, y2) > rl_dist(x, y, x2, y2));
- } while ((x != x2 || y != y2) && !found_road);
+
+  for(int d = 0; d < 4; d++) {
+   int x = mn.x + dx[d];
+   int y = mn.y + dy[d];
+   if (!(x < 1 || x > OMAPX - 2 || y < 1 || y > OMAPY - 2 ||
+         closed[x][y] || is_building(ter(x, y, z)) || // Dont collade buildings
+        (is_river(ter(mn.x, mn.y, z)) && mn.d != d) ||
+        (is_river(ter(x,    y,    z)) && mn.d != d) )) { // Dont turn on river
+    node cn = node(x, y, d, 0);
+    cn.p += ((abs(x2 - x) + abs(y2 - y)) / disp); // Distanse to target.
+    cn.p += is_road(base, x, y, z) ? 0 : 3; // Prefer exist roads.
+    cn.p += !is_river(ter(x, y, z)) ? 0 : 2; // ...And briges.
+    //cn.p += (mn.d == d) ? 0 : 1; // Try to keep direction;
+
+    if (open[x][y] == 0) {
+     dirs[x][y] = (d + 2) % 4;
+     open[x][y] = cn.p;
+     nodes[i].push(cn);
+    }
+    else if (open[x][y] > cn.p) {
+     dirs[x][y] = (d + 2) % 4;
+     open[x][y] = cn.p;
+
+     while (nodes[i].top().x != x || nodes[i].top().y != y){
+      nodes[1 - i].push(nodes[i].top());
+      nodes[i].pop();
+     }
+     nodes[i].pop();
+
+     if (nodes[i].size() > nodes[1-i].size())
+      i = 1 - i;
+     while (!nodes[i].empty()) {
+      nodes[1 - i].push(nodes[i].top());
+      nodes[i].pop();
+     }
+     i = 1 - i;
+     nodes[i].push(cn);
+    }
+   }
+  }
+ }
 }
 
 void overmap::building_on_hiway(int x, int y, int dir)
@@ -2473,13 +2462,13 @@ void overmap::place_specials()
     if ((placed[ omspec_id(i) ] < special.max_appearances || special.max_appearances <= 0) &&
         (min == -1 || dist_from_city(pt) >= min) &&
         (max == -1 || dist_from_city(pt) <= max) &&
-        (place.*special.able)(this, p))
+        (place.*special.able)(this, special.flags, p))
      valid.push_back( omspec_id(i) );
    }
    tries++;
-  } while (valid.empty() && tries < 15); // Done looking for valid spot
+  } while (valid.empty() && tries < 20); // Done looking for valid spot
 
-  if (tries < 15) { // We found a valid spot!
+  if (!valid.empty()) { // We found a valid spot!
 // Place the MUST HAVE ones first, to try and guarantee that they appear
    std::vector<omspec_id> must_place;
    for (int i = 0; i < valid.size(); i++) {
@@ -2505,6 +2494,7 @@ void overmap::place_specials()
 void overmap::place_special(overmap_special special, tripoint p)
 {
  bool rotated = false;
+ int city = -1;
 // First, place terrain...
  ter(p.x, p.y, p.z) = special.ter;
 // Next, obey any special effects the flags might have
@@ -2526,39 +2516,46 @@ void overmap::place_special(overmap_special special, tripoint p)
  if (!rotated && special.flags & mfb(OMS_FLAG_ROTATE_RANDOM))
   ter(p.x, p.y, p.z) = oter_id( int(ter(p.x, p.y, p.z)) + rng(0, 3) );
 
+  if (special.flags & mfb(OMS_FLAG_ROAD)) {
+  int closest = -1, distance = 999;
+  for (int i = 0; i < cities.size(); i++) {
+   int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
+   if (dist < distance) {
+    closest = i;
+    distance = dist;
+   }
+  }
+  if (special.flags & (mfb(OMS_FLAG_2X2_SECOND) | mfb(OMS_FLAG_3X3_FIXED)))
+   city = closest;
+  else
+   make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, ot_road_null);
+ }
+
  if (special.flags & mfb(OMS_FLAG_3X3)) {
-  for (int x = -1; x <= 1; x++) {
-   for (int y = -1; y <= 1; y++) {
-    if (x == 0 && y == 0)
+  for (int x = p.x; x < p.x + 3; x++) {
+   for (int y = p.y; y < p.y + 3; y++) {
+    if (x == p.x && y == p.y)
      y++; // Already handled
-    point np(p.x + x, p.y + y);
-    ter(np.x, np.y, p.z) = special.ter;
+    ter(x, y, p.z) = special.ter;
    }
   }
  }
 
  if (special.flags & mfb(OMS_FLAG_3X3_SECOND)) {
-  int startx = p.x - 1, starty = p.y;
-  if (is_road(p.x, p.y - 1, p.z)) { // Road to north
-   startx = p.x - 1;
-   starty = p.y;
-  } else if (is_road(p.x + 1, p.y, p.z)) { // Road to east
-   startx = p.x - 2;
-   starty = p.y - 1;
-  } else if (is_road(p.x, p.y + 1, p.z)) { // Road to south
-   startx = p.x - 1;
-   starty = p.y - 2;
-  } else if (is_road(p.x - 1, p.y, p.z)) { // Road to west
-   startx = p.x;
-   starty = p.y - 1;
-  }
-  if (startx != -1) {
-   for (int x = startx; x < startx + 3; x++) {
-    for (int y = starty; y < starty + 3; y++)
-     ter(x, y, p.z) = oter_id(special.ter + 1);
+  for (int x = p.x; x < p.x + 3; x++) {
+   for (int y = p.y; y < p.y + 3; y++) {
+    ter(x, y, p.z) = oter_id(special.ter + 1);
    }
-   ter(p.x, p.y, p.z) = special.ter;
   }
+
+  if (is_road(p.x + 3, p.y + 1, p.z)) // Road to east
+   ter(p.x + 2, p.y + 1, p.z) = special.ter;
+  else if (is_road(p.x + 1, p.y + 3, p.z)) // Road to south
+   ter(p.x + 1, p.y + 2, p.z) = special.ter;
+  else if (is_road(p.x - 1, p.y + 1, p.z)) // Road to west
+   ter(p.x, p.y + 1, p.z) = special.ter;
+  else // Road to north, or no roads
+   ter(p.x + 1, p.y, p.z) = special.ter;
  }
 
  if (special.flags & mfb(OMS_FLAG_BLOB)) {
@@ -2568,7 +2565,7 @@ void overmap::place_special(overmap_special special, tripoint p)
      y++; // Already handled
     omspec_place place;
     tripoint np(p.x + x, p.y + y, p.z);
-    if (one_in(1 + abs(x) + abs(y)) && (place.*special.able)(this, np))
+    if (one_in(1 + abs(x) + abs(y)) && (place.*special.able)(this, special.flags, np))
      ter(p.x + x, p.y + y, p.z) = special.ter;
    }
   }
@@ -2581,99 +2578,115 @@ void overmap::place_special(overmap_special special, tripoint p)
      y++; // Already handled
     omspec_place place;
     tripoint np(p.x + x, p.y + y, p.z);
-    if ((place.*special.able)(this, np))
+    if ((place.*special.able)(this, special.flags, np))
      ter(p.x + x, p.y + y, p.z) = special.ter;
      ter(p.x + x, p.y + y, p.z) = special.ter;
    }
   }
  }
 
- if (special.flags & mfb(OMS_FLAG_ROAD)) {
-  int closest = -1, distance = 999;
-  for (int i = 0; i < cities.size(); i++) {
-   int dist = rl_dist(p.x, p.y, cities[i].x, cities[i].y);
-   if (dist < distance) {
-    closest = i;
-    distance = dist;
-   }
-  }
-  make_hiway(p.x, p.y, cities[closest].x, cities[closest].y, p.z, ot_road_null);
- }
+ if (special.flags & mfb(OMS_FLAG_3X3_FIXED)) {
+  //                 |
+  // 963  789  147  321
+  // 852- 456 -258  654
+  // 741  123  369  789
+  //       |
+  int dir = 0;
+  if (is_road(p.x + 1, p.y - 1, p.z)) // Road to north
+   dir = 0;
+  else if (is_road(p.x + 3, p.y + 1, p.z))  // Road to east
+   dir = 1;
+  else if (is_road(p.x + 1, p.y + 3, p.z)) // Road to south
+   dir = 2;
+  else if (is_road(p.x - 1, p.y + 1, p.z)) // Road to west
+   dir = 3;
+  else
+   dir = rng(0, 3); // Random direction;
 
-  if (special.flags & mfb(OMS_FLAG_3X3_FIXED)) {
-  if (is_road(p.x, p.y - 1, p.z)) { // Road to north
-   ter(p.x+1, p.y, p.z) = oter_id(special.ter - 1);//1
-   ter(p.x, p.y, p.z) = special.ter;//2
-   ter(p.x-1, p.y, p.z) = oter_id(special.ter + 1);//3
-   ter(p.x+1, p.y+1, p.z) = oter_id(special.ter + 2);//4
-   ter(p.x, p.y+1, p.z) = oter_id(special.ter + 3);//5
-   ter(p.x-1, p.y+1, p.z) = oter_id(special.ter + 4);//6
-   ter(p.x+1, p.y+2, p.z) = oter_id(special.ter + 5);//7
-   ter(p.x, p.y+2, p.z) = oter_id(special.ter + 6);//8
-   ter(p.x-1, p.y+2, p.z) = oter_id(special.ter + 7);//9
+  if (dir == 0) {
+   for (int i = -1, y = p.y; y <= p.y + 2; y++){
+    for (int x = p.x + 2; x >= p.x; x--, i++){
+     ter(x, y, p.z) = oter_id(special.ter + i);
+    }
+   }
    if (special.ter == ot_school_2)
-    make_hiway(p.x, p.y-1, p.x-1, p.y-1, p.z, ot_road_null);
-  } else if (is_road(p.x + 1, p.y, p.z)) { // Road to east
-   ter(p.x, p.y+1, p.z) = oter_id(special.ter - 1);//1
-   ter(p.x, p.y, p.z) = special.ter;//2
-   ter(p.x, p.y-1, p.z) = oter_id(special.ter + 1);//3
-   ter(p.x-1, p.y+1, p.z) = oter_id(special.ter + 2);//4
-   ter(p.x-1, p.y, p.z) = oter_id(special.ter + 3);//5
-   ter(p.x-1, p.y-1, p.z) = oter_id(special.ter + 4);//6
-   ter(p.x-2, p.y+1, p.z) = oter_id(special.ter + 5);//7
-   ter(p.x-2, p.y, p.z) = oter_id(special.ter + 6);//8
-   ter(p.x-2, p.y-1, p.z) = oter_id(special.ter + 7);//9
+    make_hiway(p.x, p.y - 1, p.x + 1, p.y - 1, p.z, ot_road_null);
+  } else if (dir == 1) {
+   for (int i = -1, x = p.x + 2; x >= p.x; x--){
+    for (int y = p.y + 2; y >= p.y; y--, i++){
+     ter(x, y, p.z) = oter_id(special.ter + i);
+    }
+   }
    if (special.ter == ot_school_2)
-    make_hiway(p.x+1, p.y, p.x+1, p.y-1, p.z, ot_road_null);
-  } else if (is_road(p.x, p.y + 1, p.z)) { // Road to south
-   ter(p.x-1, p.y, p.z) = oter_id(special.ter - 1);//1
-   ter(p.x, p.y, p.z) = special.ter;//2
-   ter(p.x+1, p.y, p.z) = oter_id(special.ter + 1);//3
-   ter(p.x-1, p.y-1, p.z) = oter_id(special.ter + 2);//4
-   ter(p.x, p.y-1, p.z) = oter_id(special.ter + 3);//5
-   ter(p.x+1, p.y-1, p.z) = oter_id(special.ter + 4);//6
-   ter(p.x-1, p.y-2, p.z) = oter_id(special.ter + 5);//7
-   ter(p.x, p.y-2, p.z) = oter_id(special.ter + 6);//8
-   ter(p.x+1, p.y-2, p.z) = oter_id(special.ter + 7);//9
+    make_hiway(p.x + 3, p.y, p.x + 3, p.y + 1, p.z, ot_road_null);
+  } else if (dir == 2) {
+   for (int i = -1, y = p.y + 2; y >= p.y; y--){
+    for (int x = p.x; x <= p.x + 2; x++, i++){
+     ter(x, y, p.z) = oter_id(special.ter + i);
+    }
+   }
    if (special.ter == ot_school_2)
-    make_hiway(p.x, p.y+1, p.x+1, p.y+1, p.z, ot_road_null);
-  } else if (is_road(p.x - 1, p.y, p.z)) { // Road to west
-   ter(p.x, p.y-1, p.z) = oter_id(special.ter - 1);//1
-   ter(p.x, p.y, p.z) = special.ter;//2
-   ter(p.x, p.y+1, p.z) = oter_id(special.ter + 1);//3
-   ter(p.x+1, p.y-1, p.z) = oter_id(special.ter + 2);//4
-   ter(p.x+1, p.y, p.z) = oter_id(special.ter + 3);//5
-   ter(p.x+1, p.y+1, p.z) = oter_id(special.ter + 4);//6
-   ter(p.x+2, p.y-1, p.z) = oter_id(special.ter + 5);//7
-   ter(p.x+2, p.y, p.z) = oter_id(special.ter + 6);//8
-   ter(p.x+2, p.y+1, p.z) = oter_id(special.ter + 7);//9
+    make_hiway(p.x + 2, p.y + 3, p.x + 1, p.y + 3, p.z, ot_road_null);
+  } else if (dir == 3) {
+   for (int i = -1, x = p.x; x <= p.x + 2; x++){
+    for (int y = p.y; y <= p.y + 2; y++, i++){
+     ter(x, y, p.z) = oter_id(special.ter + i);
+    }
+   }
    if (special.ter == ot_school_2)
-    make_hiway(p.x-1, p.y, p.x-1, p.y+1, p.z, ot_road_null);
+    make_hiway(p.x - 1, p.y + 2, p.x - 1, p.y + 1, p.z, ot_road_null);
+  }
+
+  if (special.flags & mfb(OMS_FLAG_ROAD)) {
+   if (dir == 0)
+    make_hiway(p.x + 1, p.y - 1, cities[city].x, cities[city].y, p.z, ot_road_null);
+   else if (dir == 1)
+    make_hiway(p.x + 3, p.y + 1, cities[city].x, cities[city].y, p.z, ot_road_null);
+   else if (dir == 2)
+    make_hiway(p.x + 1, p.y + 3, cities[city].x, cities[city].y, p.z, ot_road_null);
+   else if (dir == 3)
+    make_hiway(p.x - 1, p.y + 1, cities[city].x, cities[city].y, p.z, ot_road_null);
   }
  }
 
  //Buildings should be designed with the entrance at the southwest corner and open to the street on the south.
  if (special.flags & mfb(OMS_FLAG_2X2_SECOND)) {
-  int startx = p.x-3, starty = p.y-3; // Acts as an error message, way offset from ideal
-  if (is_road(p.x, p.y - 1, p.z)) { // Road to north
-   startx = p.x - 1;
-   starty = p.y;
-  } else if (is_road(p.x + 1, p.y, p.z)) { // Road to east
-   startx = p.x - 1;
-   starty = p.y-1;
-  } else if (is_road(p.x, p.y + 1, p.z)) { // Road to south
-   startx = p.x;
-   starty = p.y - 1;
-  } else if (is_road(p.x - 1, p.y, p.z)) { // Road to west
-   startx = p.x;
-   starty = p.y;
-  }
-  if (startx != -1) {
-   for (int x = startx; x <= startx+1; x++) {
-    for (int y = starty; y <= starty+1; y++)
-     ter(x, y, p.z) = oter_id(special.ter+1);
+  for (int x = p.x; x < p.x + 2; x++) {
+   for (int y = p.y; y < p.y + 2; y++) {
+    ter(x, y, p.z) = oter_id(special.ter + 1);
    }
+  }
+
+  int dir = 0;
+  if (is_road(p.x + 1, p.y - 1, p.z)) // Road to north
+   dir = 0;
+  else if (is_road(p.x + 2, p.y + 1, p.z))  // Road to east
+   dir = 1;
+  else if (is_road(p.x, p.y + 2, p.z)) // Road to south
+   dir = 2;
+  else if (is_road(p.x - 1, p.y, p.z)) // Road to west
+   dir = 3;
+  else
+   dir = rng(0, 3); // Random direction;
+
+  if (dir == 0)
+   ter(p.x + 1, p.y, p.z) = oter_id(special.ter);
+  else if (dir == 1)
+   ter(p.x + 1, p.y + 1, p.z) = oter_id(special.ter);
+  else if (dir == 2)
+   ter(p.x, p.y + 1, p.z) = oter_id(special.ter);
+  else if (dir == 3)
    ter(p.x, p.y, p.z) = oter_id(special.ter);
+
+  if (special.flags & mfb(OMS_FLAG_ROAD)) {
+   if (dir == 0)
+    make_hiway(p.x + 1, p.y - 1, cities[city].x, cities[city].y, p.z, ot_road_null);
+   else if (dir == 1)
+    make_hiway(p.x + 2, p.y + 1, cities[city].x, cities[city].y, p.z, ot_road_null);
+   else if (dir == 2)
+    make_hiway(p.x, p.y + 2, cities[city].x, cities[city].y, p.z, ot_road_null);
+   else if (dir == 3)
+    make_hiway(p.x - 1, p.y, cities[city].x, cities[city].y, p.z, ot_road_null);
   }
  }
 
@@ -2686,9 +2699,15 @@ void overmap::place_special(overmap_special special, tripoint p)
     distance = dist;
    }
   }
-  ter(p.x, p.y - 1, p.z) = ot_s_lot;
-  make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
+  if (special.flags & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND))) {
+   ter(p.x + 1, p.y - 1, p.z) = ot_s_lot;
+   make_hiway(p.x + 1, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
+  } else {
+   ter(p.x, p.y - 1, p.z) = ot_s_lot;
+   make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
+  }
  }
+
  if (special.flags & mfb(OMS_FLAG_DIRT_LOT)) {
   int closest = -1, distance = 999;
   for (int i = 0; i < cities.size(); i++) {
@@ -2698,8 +2717,13 @@ void overmap::place_special(overmap_special special, tripoint p)
     distance = dist;
    }
   }
-  ter(p.x, p.y - 1, p.z) = ot_dirtlot;
-  make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
+  if (special.flags & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND))) {
+   ter(p.x + 1, p.y - 1, p.z) = ot_dirtlot;
+   make_hiway(p.x + 1, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
+  } else {
+   ter(p.x, p.y - 1, p.z) = ot_dirtlot;
+   make_hiway(p.x, p.y - 1, cities[closest].x, cities[closest].y, p.z, ot_road_null);
+  }
  }
 
 // Finally, place monsters if applicable
@@ -2757,7 +2781,7 @@ void overmap::place_mongroups()
   for (int i = 0; i < numgroups; i++) {
    zg.push_back(
 	 mongroup("GROUP_WORM", rng(0, OMAPX * 2 - 1), rng(0, OMAPY * 2 - 1), 0,
-	          rng(20, 40), rng(500, 1000)));
+	          rng(20, 40), rng(30, 50)));
   }
  }
 
@@ -2862,7 +2886,7 @@ void overmap::save()
 
  for (int i = 0; i < zg.size(); i++)
   fout << "Z " << zg[i].type << " " << zg[i].posx << " " << zg[i].posy << " " << zg[i].posz << " " <<
-    int(zg[i].radius) << " " << zg[i].population << " " << zg[i].diffuse <<
+    int(zg[i].radius) << " " << zg[i].population << " " << zg[i].diffuse << " " << zg[i].dying <<
     std::endl;
  for (int i = 0; i < cities.size(); i++)
   fout << "t " << cities[i].x << " " << cities[i].y << " " << cities[i].s <<
@@ -2887,7 +2911,7 @@ void overmap::open(game *g)
  std::string const terfilename = terrain_filename(loc.x, loc.y);
  std::ifstream fin;
  char datatype;
- int cx, cy, cz, cs, cp, cd;
+ int cx, cy, cz, cs, cp, cd, cdying;
  std::string cstr;
  city tmp;
  std::list<item> npc_inventory;
@@ -2918,9 +2942,10 @@ void overmap::open(game *g)
      debugmsg("Loaded z level out of range (z: %d)", z);
     }
    } else if (datatype == 'Z') {	// Monster group
-    fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd;
+    fin >> cstr >> cx >> cy >> cz >> cs >> cp >> cd >> cdying;
     zg.push_back(mongroup(cstr, cx, cy, cz, cs, cp));
     zg.back().diffuse = cd;
+    zg.back().dying = cdying;
     nummg++;
    } else if (datatype == 't') {	// City
     fin >> cx >> cy >> cs;
@@ -3065,39 +3090,113 @@ std::string overmap::player_filename(int const x, int const y) const
 
 // Overmap special placement functions
 
-bool omspec_place::water(overmap *om, tripoint p)
+bool omspec_place::water(overmap *om, unsigned long f, tripoint p)
 {
- oter_id ter = om->ter(p.x, p.y, p.z);
- return (ter >= ot_river_center && ter <= ot_river_nw);
+ int size = 1;
+ if (f & (mfb(OMS_FLAG_2X2) | mfb(OMS_FLAG_2X2_SECOND)))
+     size = 2;
+ else if (f & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND)))
+     size = 3;
+
+ for (int x = p.x; x < p.x + size; x++){
+  for (int y = p.y; y < p.y + size; y++){
+   oter_id ter = om->ter(x, y, p.z);
+   if (ter < ot_river_center || ter > ot_river_nw)
+    return false;
+  }
+ }
+ return true;
 }
 
-bool omspec_place::land(overmap *om, tripoint p)
+bool omspec_place::land(overmap *om, unsigned long f, tripoint p)
 {
- oter_id ter = om->ter(p.x, p.y, p.z);
- return (ter < ot_river_center || ter > ot_river_nw);
+ int size = 1;
+ if (f & (mfb(OMS_FLAG_2X2) | mfb(OMS_FLAG_2X2_SECOND)))
+     size = 2;
+ else if (f & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND)))
+     size = 3;
+
+ for (int x = p.x; x < p.x + size; x++){
+  for (int y = p.y; y < p.y + size; y++){
+   oter_id ter = om->ter(x, y, p.z);
+   if (ter >= ot_river_center && ter <= ot_river_nw)
+    return false;
+  }
+ }
+ return true;
 }
 
-bool omspec_place::forest(overmap *om, tripoint p)
+bool omspec_place::forest(overmap *om, unsigned long f, tripoint p)
 {
- oter_id ter = om->ter(p.x, p.y, p.z);
- return (ter == ot_forest || ter == ot_forest_thick || ter == ot_forest_water);
+ int size = 1;
+ if (f & (mfb(OMS_FLAG_2X2) | mfb(OMS_FLAG_2X2_SECOND)))
+     size = 2;
+ else if (f & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND)))
+     size = 3;
+
+ for (int x = p.x; x < p.x + size; x++){
+  for (int y = p.y; y < p.y + size; y++){
+   oter_id ter = om->ter(x, y, p.z);
+   if (ter != ot_forest && ter != ot_forest_thick && ter != ot_forest_water)
+    return false;
+  }
+ }
+ return true;
 }
 
-bool omspec_place::wilderness(overmap *om, tripoint p)
+bool omspec_place::wilderness(overmap *om, unsigned long f, tripoint p)
 {
- oter_id ter = om->ter(p.x, p.y, p.z);
- return (ter == ot_forest || ter == ot_forest_thick || ter == ot_forest_water ||
-         ter == ot_field);
+ int size = 1;
+ if (f & (mfb(OMS_FLAG_2X2) | mfb(OMS_FLAG_2X2_SECOND)))
+     size = 2;
+ else if (f & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND)))
+     size = 3;
+
+ for (int x = p.x; x < p.x + size; x++){
+  for (int y = p.y; y < p.y + size; y++){
+   oter_id ter = om->ter(x, y, p.z);
+   if (ter != ot_forest && ter != ot_forest_thick &&
+       ter != ot_forest_water && ter != ot_field)
+    return false;
+  }
+ }
+ return true;
 }
 
-bool omspec_place::by_highway(overmap *om, tripoint p)
+bool omspec_place::by_highway(overmap *om, unsigned long f, tripoint p)
 {
- oter_id ter = om->ter(p.x, p.y, p.z);
- return ((om->is_road_or_highway(p.x, p.y-1, p.z))||
-           (om->is_road_or_highway(p.x, p.y+1, p.z))||
-           (om->is_road_or_highway(p.x+1, p.y, p.z))||
-           (om->is_road_or_highway(p.x-1, p.y, p.z)))
-           &&
-           (ter == ot_forest || ter == ot_forest_thick || ter == ot_forest_water ||
-         ter == ot_field);
+ int size = 1;
+ if (f & (mfb(OMS_FLAG_2X2) | mfb(OMS_FLAG_2X2_SECOND)))
+     size = 2;
+ else if (f & (mfb(OMS_FLAG_3X3) | mfb(OMS_FLAG_3X3_FIXED) | mfb(OMS_FLAG_3X3_SECOND)))
+     size = 3;
+
+ for (int x = p.x; x < p.x + size; x++){
+  for (int y = p.y; y < p.y + size; y++){
+   oter_id ter = om->ter(x, y, p.z);
+   if (ter != ot_forest && ter != ot_forest_thick &&
+       ter != ot_forest_water && ter != ot_field)
+    return false;
+  }
+ }
+
+ if (size == 3 &&
+     !om->is_road_or_highway(p.x + 1, p.y - 1, p.z) &&
+     !om->is_road_or_highway(p.x + 3, p.y + 1, p.z) &&
+     !om->is_road_or_highway(p.x + 1, p.y + 3, p.z) &&
+     !om->is_road_or_highway(p.x - 1, p.y + 1, p.z))
+  return false;
+ else if (size == 2 &&
+          !om->is_road_or_highway(p.x + 1, p.y - 1, p.z) &&
+          !om->is_road_or_highway(p.x + 2, p.y + 1, p.z) &&
+          !om->is_road_or_highway(p.x, p.y + 2, p.z) &&
+          !om->is_road_or_highway(p.x - 1, p.y, p.z))
+  return false;
+ else if (size == 1 &&
+          !om->is_road_or_highway(p.x, p.y - 1, p.z) &&
+          !om->is_road_or_highway(p.x, p.y + 1, p.z) &&
+          !om->is_road_or_highway(p.x - 1, p.y, p.z) &&
+          !om->is_road_or_highway(p.x + 1, p.y, p.z))
+  return false;
+ return true;
 }

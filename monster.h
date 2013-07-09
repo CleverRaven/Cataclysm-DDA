@@ -25,6 +25,7 @@ ME_DOCILE,		// Don't attack other monsters--for tame monster
 ME_HIT_BY_PLAYER,	// We shot or hit them
 ME_RUN,			// For hit-and-run monsters; we're running for a bit;
 ME_BOULDERING,  // Monster is moving over rubble
+ME_BOUNCED,
 NUM_MONSTER_EFFECTS
 };
 
@@ -93,6 +94,7 @@ class monster {
  point scent_move(game *g);
  point sound_move(game *g);
  void hit_player(game *g, player &p, bool can_grab = true);
+ int calc_movecost(game *g, int x1, int y1, int x2, int y2);
  void move_to(game *g, int x, int y);
  void stumble(game *g, bool moved);
  void knock_back_from(game *g, int posx, int posy);
@@ -106,7 +108,9 @@ class monster {
  int trigger_sum(game *g, std::vector<monster_trigger> *triggers);
  int  hit(game *g, player &p, body_part &bp_hit); // Returns a damage
  void hit_monster(game *g, int i);
- bool hurt(int dam); 	// Deals this dam damage; returns true if we dead
+ // Deals this dam damage; returns true if we dead
+ // If real_dam is provided, caps overkill at real_dam.
+ bool hurt(int dam, int real_dam = 0);
  int  armor_cut();	// Natural armor, plus any worn armor
  int  armor_bash();	// Natural armor, plus any worn armor
  int  dodge();		// Natural dodge, or 0 if we're occupied

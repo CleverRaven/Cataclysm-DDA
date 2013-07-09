@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -50,7 +50,19 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='x64'" Label="Configuration">
-    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -103,6 +115,7 @@
     <ClCompile Include="..\action.cpp" />
     <ClCompile Include="..\addiction.cpp" />
     <ClCompile Include="..\artifact.cpp" />
+    <ClCompile Include="..\auto_pickup.cpp" />
     <ClCompile Include="..\basecamp.cpp" />
     <ClCompile Include="..\bionics.cpp" />
     <ClCompile Include="..\bodypart.cpp" />
@@ -184,6 +197,7 @@
     <ClCompile Include="..\trapdef.cpp" />
     <ClCompile Include="..\trapfunc.cpp" />
     <ClCompile Include="..\tutorial.cpp" />
+    <ClCompile Include="..\ui.cpp" />
     <ClCompile Include="..\vehicle.cpp" />
     <ClCompile Include="..\veh_interact.cpp" />
     <ClCompile Include="..\veh_typedef.cpp" />
@@ -198,6 +212,7 @@
     <ClInclude Include="..\addiction.h" />
     <ClInclude Include="..\artifact.h" />
     <ClInclude Include="..\artifactdata.h" />
+    <ClInclude Include="..\auto_pickup.h" />
     <ClInclude Include="..\basecamp.h" />
     <ClInclude Include="..\bionics.h" />
     <ClInclude Include="..\bodypart.h" />
@@ -267,6 +282,7 @@
     <ClInclude Include="..\tileray.h" />
     <ClInclude Include="..\trap.h" />
     <ClInclude Include="..\tutorial.h" />
+    <ClInclude Include="..\ui.h" />
     <ClInclude Include="..\vehicle.h" />
     <ClInclude Include="..\veh_interact.h" />
     <ClInclude Include="..\veh_type.h" />

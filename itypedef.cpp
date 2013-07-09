@@ -39,6 +39,7 @@ void game::init_itypes ()
  itypes["corpse"]=
   new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
             0, 0, 1, 0);
+ itypes["corpse"]->item_tags.insert("NO_UNLOAD");
 // Fire - only appears in crafting recipes
  itypes["fire"]=
   new itype("fire", 0, 0, "nearby fire",
@@ -118,23 +119,6 @@ VAR_VEH_PART("v8_combustion", "V8 engine",  2, 250, ':', c_ltcyan,  "iron",   "n
     25,  600,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, "\
 A large and very powerful 8-cylinder combustion engine.");
 
-// AMMUNITION
-// Material should be the wrapper--even though shot is made of iron, because
-//   it can survive a dip in water and be okay, its material here is "plastic".
-// dmg is damage done, in an average hit.  Note that the average human has
-//   80 health.  Headshots do 8x damage; vital hits do 2x-4x; glances do 0x-1x.
-// Weight and price is per 100 rounds.
-// AP is a reduction in the armor of the target.
-// Accuracy is in quarter-degrees, and measures the maximum this ammo will
-//   contribute to the angle of difference.  HIGH ACC IS BAD.
-// Recoil is cumulative between shots.  4 recoil = 1 accuracy.
-// IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
-//   at the end of this file.
-#define AMMO(id, name,rarity,price,ammo_type,color,mat,volume,wgt,dmg,AP,range,\
-accuracy,recoil,count,des,effects) \
-itypes[id]=new it_ammo(id,rarity,price,name,des,'=',\
-color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,count);
-
 // GUNS
 // ammo_type matches one of the ammo_types above.
 // dmg is ADDED to the damage of the corresponding ammo.  +/-, should be small.
@@ -144,9 +128,9 @@ color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,accuracy,recoil,range,
 // clip is how many shots we get before reloading.
 
 #define GUN(id,name,rarity,price,color,mat1,mat2,skill,ammo,volume,wgt,melee_dam,\
-to_hit,dmg,range,accuracy,recoil,durability,burst,clip,reload_time,des) \
+to_hit,dmg,range,dispersion,recoil,durability,burst,clip,reload_time,des) \
 itypes[id]=new it_gun(id,rarity,price,name,des,'(',\
-color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,range,accuracy,\
+color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,range,dispersion,\
 recoil,durability,burst,clip,reload_time)
 
 // CONTAINERS
@@ -264,7 +248,7 @@ color, "steel", "plastic", 10, 18, 8, 0, 0, difficulty)
 
 #define BIO_SINGLE(id,rarity,price,color,difficulty) \
      BIO(id, std::string("CBM: ")+bionics[id]->name, rarity,price,color,difficulty, \
-           word_rewrap(bionics[id]->description, 50)) \
+           bionics[id]->description) \
 
 //  Name                     RAR PRICE    COLOR   DIFFICULTY
 BIO("bio_power_storage", "CBM: Power Storage",	24, 3800,	c_green,	 1, "\
@@ -338,6 +322,7 @@ BIO_SINGLE("bio_water_extractor", 3, 5500, c_green, 5);
 BIO_SINGLE("bio_shock", 2, 5500, c_red, 5);
 BIO_SINGLE("bio_heat_absorb", 2, 5500, c_red, 5);
 BIO_SINGLE("bio_claws", 2, 5500, c_red, 5);
+BIO_SINGLE("bio_shockwave", 2, 5500, c_red, 5);
 // armor:
 BIO_SINGLE("bio_carbon", 3, 7500, c_cyan, 9);
 BIO_SINGLE("bio_armor_head", 3, 3500, c_cyan, 5);
@@ -349,6 +334,7 @@ BIO_SINGLE("bio_face_mask", 1, 8500, c_magenta, 5);
 BIO_SINGLE("bio_scent_mask", 1, 8500, c_magenta, 5);
 BIO_SINGLE("bio_cloak", 1, 8500, c_magenta, 5);
 BIO_SINGLE("bio_fingerhack", 1, 3500, c_magenta, 2);
+BIO_SINGLE("bio_night", 1, 8500, c_magenta, 5);
 // defensive
 BIO_SINGLE("bio_ads", 1, 9500, c_ltblue, 7);
 BIO_SINGLE("bio_ods", 1, 9500, c_ltblue, 7);
@@ -361,12 +347,17 @@ BIO_SINGLE("bio_hydraulics", 3, 4000, c_dkgray, 6);
 // super soldier
 BIO_SINGLE("bio_time_freeze", 1, 14000, c_white, 11);
 BIO_SINGLE("bio_teleport", 1, 7000, c_white, 7);
+BIO_SINGLE("bio_probability_travel", 1, 14000, c_white, 11);
 // ranged combat
 BIO_SINGLE("bio_blaster", 13, 2200, c_red, 3);
 BIO_SINGLE("bio_laser", 2, 7200, c_red, 5);
 BIO_SINGLE("bio_emp", 2, 7200, c_red, 5);
+BIO_SINGLE("bio_flashbang", 2, 7200, c_red, 5);
+BIO_SINGLE("bio_railgun", 5, 2200, c_red, 3);
+BIO_SINGLE("bio_chain_lightning", 5, 2200, c_red, 3);
 // power armor
 BIO_SINGLE("bio_power_armor_interface", 20, 1200, c_yellow, 1);
+BIO_SINGLE("bio_power_armor_interface_mkII", 8, 10000, c_yellow, 8);
 
 SOFTWARE("software_useless", "misc software", 300, SW_USELESS, 0, "\
 A miscellaneous piece of hobby software. Probably useless.");
@@ -402,23 +393,21 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
     }
 }
 
-//  NAME		RARE  TYPE	COLOR		MAT
-AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	"null",
-//	VOL WGT DMG  AP RNG ACC REC COUNT
-	 0,  0, 40,  0, 10,  1,  0,  5, "", mfb(AMMO_INCENDIARY));
-
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "");
 
-
-
-
+//  NAME		RARE	COLOR		MAT1	MAT2
+GUN("bio_lightning", "Chain Lightning",	 0,0,c_magenta,	"steel",	"plastic",
+//	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
+	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  1,  10, 500,
+"");
 
 
 // Unarmed Styles
+// TODO: refactor handling of styles see #1771
 #define STYLE(id, name, dam, description, ...) \
 itypes[id]=new it_style(id, 0, 0, name, description, '$', \
                               c_white, "null", "null", 0, 0, dam, 0, 0); \

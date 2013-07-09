@@ -590,8 +590,10 @@ It may have unknown powers; use 'a' to activate them.";
    art->effects_worn.push_back(passive_tmp);
   }
 
-  art->id = itypes.size();
-  itypes[art->id]=art;
+  std::stringstream artid;
+  artid << "artifact" << artifact_itype_ids.size();
+  art->id = artid.str();
+  itypes[art->id] = art;
   artifact_itype_ids.push_back(art->id);
   return art;
  }
@@ -704,9 +706,11 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
   art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
  }
 
- art->id = itypes.size();
+ std::stringstream artid;
+ artid << "artifact" << artifact_itype_ids.size();
+ art->id = artid.str();
  artifact_itype_ids.push_back(art->id);
- itypes[art->id]=art;
+ itypes[art->id] = art;
  return art;
 }
 
@@ -841,11 +845,11 @@ void game::process_artifact(item *it, player *p, bool wielded)
   case AEP_EXTINGUISH:
    for (int x = p->posx - 1; x <= p->posx + 1; x++) {
     for (int y = p->posy - 1; y <= p->posy + 1; y++) {
-     if (m.field_at(x, y).type == fd_fire) {
-      if (m.field_at(x, y).density == 0)
-       m.remove_field(x, y);
+		if (m.field_at(x, y).findField(fd_fire)) {
+			if (m.field_at(x, y).findField(fd_fire)->getFieldDensity() == 0)
+       m.remove_field(x, y, fd_fire);
       else
-       m.field_at(x, y).density--;
+		  m.field_at(x, y).findField(fd_fire)->setFieldDensity(m.field_at(x, y).findField(fd_fire)->getFieldDensity() - 1);
      }
     }
    }
@@ -863,7 +867,7 @@ void game::process_artifact(item *it, player *p, bool wielded)
 
   case AEP_EVIL:
    if (one_in(150)) { // Once every 15 minutes, on average
-    p->add_disease(DI_EVIL, 300, this);
+    p->add_disease("evil", 300);
     if (!wielded && !it->is_armor())
      add_msg("You have an urge to %s the %s.",
              (it->is_armor() ? "wear" : "wield"), it->tname().c_str());

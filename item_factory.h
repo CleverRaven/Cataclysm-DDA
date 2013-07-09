@@ -35,6 +35,7 @@ public:
     itype* template_from(Item_tag group_tag);
     const Item_tag random_id();
     const Item_tag id_from(Item_tag group_tag);
+    bool group_contains_item(Item_tag group_tag, Item_tag item);
 
     //Production methods
     item create(Item_tag id, int created_at);
@@ -56,6 +57,7 @@ private:
 
     nc_color color_from_string(std::string color);
     Use_function use_from_string(std::string name);
+    void tags_from_json(catajson tag_list, std::set<std::string> &tags);
     unsigned flags_from_json(catajson flags, std::string flag_type="");
     void set_material_from_json(Item_tag new_id, catajson mats);
     bool is_mod_target(catajson targets, std::string weapon);
@@ -74,8 +76,6 @@ private:
     std::map<Item_tag, unsigned> techniques_list;
     //ammo stuff
     std::map<Item_tag, unsigned> ammo_flags_list;
-    //ammo effects
-    std::map<Item_tag, unsigned> ammo_effects_list;
     //bodyparts
     std::map<Item_tag, unsigned> bodyparts_list;
 };

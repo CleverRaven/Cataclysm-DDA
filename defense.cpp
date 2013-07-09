@@ -257,7 +257,7 @@ void defense_game::init_map(game *g)
 // Round down to the nearest even number
    mx -= mx % 2;
    my -= my % 2;
-   tinymap tm(&g->itypes, &g->mapitems, &g->traps);
+   tinymap tm(&g->traps);
    tm.generate(g, g->cur_om, mx, my, 0, int(g->turn));
    tm.clear_spawns();
    tm.clear_traps();
@@ -440,7 +440,7 @@ void defense_game::init_to_style(defense_style new_style)
 
 void defense_game::setup()
 {
- WINDOW* w = newwin(25, 80, 0, 0);
+ WINDOW* w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0);
  int selection = 1;
  refresh_setup(w, selection);
 
@@ -801,7 +801,7 @@ void defense_game::caravan(game *g)
 
  int total_price = 0;
 
- WINDOW *w = newwin(25, 80, 0, 0);
+ WINDOW *w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, 0, 0);
 
  int offset = 0, item_selected = 0, category_selected = 0;
 
@@ -1117,25 +1117,25 @@ void draw_caravan_borders(WINDOW *w, int current_window)
   mvwputch(w, i, 39, col,      LINE_XOXO);
  }
  for (int i = 1; i <= 38; i++)
-  mvwputch(w, 24, i, c_ltgray, LINE_OXOX);
+  mvwputch(w, FULL_SCREEN_HEIGHT-1, i, c_ltgray, LINE_OXOX);
 
- mvwputch(w, 24,  0, c_ltgray, LINE_XXOO);
- mvwputch(w, 24, 39, c_ltgray, LINE_XXOX);
+ mvwputch(w, FULL_SCREEN_HEIGHT-1,  0, c_ltgray, LINE_XXOO);
+ mvwputch(w, FULL_SCREEN_HEIGHT-1, 39, c_ltgray, LINE_XXOX);
 
 // Finally, draw the item section borders
- for (int i = 40; i <= 78; i++) {
+ for (int i = 40; i <= FULL_SCREEN_WIDTH-2; i++) {
   mvwputch(w,  0, i, col, LINE_OXOX);
-  mvwputch(w, 24, i, col, LINE_OXOX);
+  mvwputch(w, FULL_SCREEN_HEIGHT-1, i, col, LINE_OXOX);
  }
- for (int i = 1; i <= 23; i++)
-  mvwputch(w, i, 79, col, LINE_XOXO);
+ for (int i = 1; i <= FULL_SCREEN_HEIGHT-2; i++)
+  mvwputch(w, i, FULL_SCREEN_WIDTH-1, col, LINE_XOXO);
 
- mvwputch(w, 24, 39, col, LINE_XXOX);
- mvwputch(w,  0, 79, col, LINE_OOXX);
- mvwputch(w, 24, 79, col, LINE_XOOX);
+ mvwputch(w, FULL_SCREEN_HEIGHT-1, 39, col, LINE_XXOX);
+ mvwputch(w,  0, FULL_SCREEN_WIDTH-1, col, LINE_OOXX);
+ mvwputch(w, FULL_SCREEN_HEIGHT-1, FULL_SCREEN_WIDTH-1, col, LINE_XOOX);
 
 // Quick reminded about help.
- mvwprintz(w, 24, 2, c_red, "Press ? for help.");
+ mvwprintz(w, FULL_SCREEN_HEIGHT-1, 2, c_red, "Press ? for help.");
  wrefresh(w);
 }
 
@@ -1165,7 +1165,7 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
 // will corrupt the item list.
 
 // Actually, clear the item info first.
- for (int i = 12; i <= 23; i++)
+ for (int i = 12; i <= FULL_SCREEN_HEIGHT-2; i++)
   mvwprintz(w, i, 1, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 // THEN print it--if item_selected is valid
  if (item_selected < items->size()) {
@@ -1173,10 +1173,10 @@ void draw_caravan_items(WINDOW *w, game *g, std::vector<itype_id> *items,
   mvwprintz(w, 12, 0, c_white, tmp.info().c_str());
  }
 // Next, clear the item list on the right
- for (int i = 1; i <= 23; i++)
+ for (int i = 1; i <= FULL_SCREEN_HEIGHT-2; i++)
   mvwprintz(w, i, 40, c_black, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 // Finally, print the item list on the right
- for (int i = offset; i <= offset + 23 && i < items->size(); i++) {
+ for (int i = offset; i <= offset + FULL_SCREEN_HEIGHT-2 && i < items->size(); i++) {
   mvwprintz(w, i - offset + 1, 40, (item_selected == i ? h_white : c_white),
             g->itypes[ (*items)[i] ]->name.c_str());
   wprintz(w, c_white, " x %s%d", ((*counts)[i] >= 10 ? "" : " "), (*counts)[i]);

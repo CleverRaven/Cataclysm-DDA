@@ -74,24 +74,6 @@ SW_DATA,
 NUM_SOFTWARE_TYPES
 };
 
-enum ammo_effect {
-AMMO_FLAME,		// Sets fire to terrain and monsters
-AMMO_INCENDIARY,	// Sparks explosive terrain
-AMMO_EXPLOSIVE,		// Small explosion
-AMMO_FRAG,		// Frag explosion
-AMMO_NAPALM,		// Firey explosion
-AMMO_ACIDBOMB, // Acid bomb ammo
-AMMO_EXPLOSIVE_BIG,	// Big explosion!
-AMMO_TEARGAS,		// Teargas burst
-AMMO_SMOKE,  		// Smoke burst
-AMMO_TRAIL,		// Leaves a trail of smoke
-AMMO_FLASHBANG,		// Disorients and blinds
-AMMO_STREAM,		// Doesn't stop once it hits a monster
-AMMO_COOKOFF,  // Explodes when burned instead of just burning
-AMMO_LASER,      // laser effects
-NUM_AMMO_EFFECTS
-};
-
 enum technique_id {
 TEC_NULL,
 // Offensive Techniques
@@ -104,6 +86,7 @@ TEC_RAPID,	// Hits faster
 TEC_FEINT,	// Misses take less time
 TEC_THROW,	// Attacks may throw your opponent
 TEC_DISARM,	// Remove an NPC's weapon
+TEC_FLAMING,    // Sets victim on fire
 // Defensive Techniques
 TEC_BLOCK,	// Block attacks, reducing them to 25% damage
 TEC_BLOCK_LEGS, // Block attacks, but with your legs
@@ -350,11 +333,11 @@ struct it_ammo : public itype
  unsigned char damage;	// Average damage done
  unsigned char pierce;	// Armor piercing; static reduction in armor
  unsigned char range;	// Maximum range
- signed char accuracy;	// Accuracy (low is good)
+ signed char dispersion;// Dispersion (low is good)
  unsigned char recoil;	// Recoil; modified by strength
  unsigned char count;	// Default charges
 
- unsigned ammo_effects : NUM_AMMO_EFFECTS;
+ std::set<std::string> ammo_effects;
 
  virtual bool is_ammo() { return true; }
 // virtual bool count_by_charges() { return id != "gasoline"; }
@@ -366,10 +349,9 @@ struct it_ammo : public itype
      damage = 0;
      pierce = 0;
      range = 0;
-     accuracy = 0;
+     dispersion = 0;
      recoil = 0;
      count = 0;
-     ammo_effects = 0;
  }
 
  it_ammo(std::string pid, unsigned char prarity, unsigned int pprice,
@@ -377,10 +359,10 @@ struct it_ammo : public itype
         char psym, nc_color pcolor, std::string pm1, phase_id pphase,
         unsigned short pvolume, unsigned short pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-        unsigned effects,
+         std::set<std::string> effects,
 
         ammotype ptype, unsigned char pdamage, unsigned char ppierce,
-	signed char paccuracy, unsigned char precoil, unsigned char prange,
+	signed char pdispersion, unsigned char precoil, unsigned char prange,
         unsigned char pcount)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit, 0) {
@@ -388,7 +370,7 @@ struct it_ammo : public itype
   damage = pdamage;
   pierce = ppierce;
   range = prange;
-  accuracy = paccuracy;
+  dispersion = pdispersion;
   recoil = precoil;
   count = pcount;
   ammo_effects = effects;
@@ -401,7 +383,7 @@ struct it_gun : public itype
  Skill *skill_used;
  signed char dmg_bonus;
  signed char range;
- signed char accuracy;
+ signed char dispersion;
  signed char recoil;
  signed char durability;
  unsigned char burst;
@@ -417,7 +399,7 @@ struct it_gun : public itype
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
 
 	const char *pskill_used, ammotype pammo, signed char pdmg_bonus, signed char prange,
-	signed char paccuracy, signed char precoil, unsigned char pdurability,
+	signed char pdispersion, signed char precoil, unsigned char pdurability,
         unsigned char pburst, int pclip, int preload_time)
 :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
        pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
@@ -425,7 +407,7 @@ struct it_gun : public itype
   ammo = pammo;
   dmg_bonus = pdmg_bonus;
   range = prange;
-  accuracy = paccuracy;
+  dispersion = pdispersion;
   recoil = precoil;
   durability = pdurability;
   burst = pburst;
@@ -438,7 +420,7 @@ struct it_gun : public itype
 
 struct it_gunmod : public itype
 {
- signed char accuracy, damage, loudness, clip, recoil, burst;
+ signed char dispersion, damage, loudness, clip, recoil, burst;
  ammotype newtype;
  unsigned acceptible_ammo_types : NUM_AMMO_TYPES;
  bool used_on_pistol;
@@ -455,14 +437,14 @@ struct it_gunmod : public itype
            signed char pmelee_dam, signed char pmelee_cut,
            signed char pm_to_hit,
 
-           signed char paccuracy, signed char pdamage, signed char ploudness,
+           signed char pdispersion, signed char pdamage, signed char ploudness,
            signed char pclip, signed char precoil, signed char pburst,
            ammotype pnewtype, long a_a_t, bool pistol,
            bool shotgun, bool smg, bool rifle)
 
  :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
         pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  accuracy = paccuracy;
+  dispersion = pdispersion;
   damage = pdamage;
   loudness = ploudness;
   clip = pclip;

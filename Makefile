@@ -51,8 +51,7 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-
-VERSION = 0.5
+VERSION = 0.6
 
 
 TARGET = cataclysm
@@ -60,6 +59,7 @@ TILESTARGET = cataclysm-tiles
 W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
 BINDIST_DIR = bindist
+BUILD_DIR = $(CURDIR)
 
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
@@ -81,11 +81,11 @@ endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
-BINDIST_EXTRAS = README data cataclysm-launcher
+BINDIST_EXTRAS = README data
 BINDIST    = cataclysmdda-$(VERSION).tar.gz
 W32BINDIST = cataclysmdda-$(VERSION).zip
-BINDIST_CMD    = tar -czvf $(BINDIST) $(BINDIST_DIR)
-W32BINDIST_CMD = zip -r $(W32BINDIST) $(BINDIST_DIR)
+BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
+W32BINDIST_CMD = cd $(BINDIST_DIR) && zip -r ../$(W32BINDIST) * && cd $(BUILD_DIR)
 
 # is this section even being used anymore?
 # SOMEBODY PLEASE CHECK
@@ -105,19 +105,27 @@ endif
 # Linux 64-bit
 ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
+  LDFLAGS += -m64
   TARGETSYSTEM=LINUX
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
+    LDFLAGS += -m32
     TARGETSYSTEM=LINUX
   endif
 endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  CXXFLAGS += -mmacosx-version-min=10.6
+  OSX_MIN = 10.5
+  DEFINES += -DMACOSX
+  CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  LDFLAGS += -lintl
   TARGETSYSTEM=LINUX
+  ifneq ($(OS), GNU/Linux)
+    BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
+  endif
 endif
 
 # Win32 (mingw32?)
@@ -137,12 +145,26 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
   ODIR = $(W32ODIR)
-  LDFLAGS += -static -lgdi32 
+  LDFLAGS += -static -lgdi32 -lintl -liconv
   W32FLAGS += -Wl,-stack,12000000,-subsystem,windows
 endif
 
 ifdef TILES
-  LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+  ifeq ($(NATIVE),osx)
+    DEFINES += -DOSX_SDL
+    OSX_INC = -F/Library/Frameworks \
+	      -F$(HOME)/Library/Frameworks \
+	      -I/Library/Frameworks/SDL.framework/Headers \
+	      -I$(HOME)/Library/Frameworks/SDL.framework/Headers \
+	      -I/Library/Frameworks/SDL_ttf.framework/Headers \
+	      -I$(HOME)/Library/Frameworks/SDL_ttf.framework/Headers
+    LDFLAGS += -F/Library/Frameworks \
+	       -F$(HOME)/Library/Frameworks \
+	       -framework SDL -framework SDL_ttf -framework Cocoa
+    CXXFLAGS += $(OSX_INC)
+  else
+    LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+  endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -lgdi32 -ldxguid -lwinmm
@@ -155,15 +177,28 @@ ifdef TILES
 else
   # Link to ncurses if we're using a non-tiles, Linux build
   ifeq ($(TARGETSYSTEM),LINUX)
-    LDFLAGS += -lncurses
+    LDFLAGS += -lncursesw
+    # Work around Cygwin not including gettext support in glibc
+    ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+      LDFLAGS += -lintl -liconv
+    endif
   endif
 endif
 
+ifeq ($(TARGETSYSTEM),LINUX)
+  BINDIST_EXTRAS += cataclysm-launcher
+endif
 
 SOURCES = $(wildcard *.cpp)
 HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
+
+ifdef TILES
+  ifeq ($(NATIVE),osx)
+    OBJS += $(ODIR)/SDLMain.o
+  endif
+endif
 
 all: version $(TARGET)
 	@
@@ -189,12 +224,15 @@ $(DDIR):
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
+$(ODIR)/SDLMain.o: SDLMain.m
+	$(CC) -c $(OSX_INC) $< -o $@
+
 version.cpp: version
 
 clean: clean-tests
-	rm -rf $(TARGET) $(W32TARGET) $(ODIR) $(W32ODIR) $(W32BINDIST) \
-	$(BINDIST)
-	rm -rf $(BINDIST_DIR)
+	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
+	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
+	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -f version.h
 
 bindist: $(BINDIST)

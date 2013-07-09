@@ -62,7 +62,7 @@ int player::hit_roll()
    stat = (per_cur + dex_cur) / 2;
  }
  int numdice = base_to_hit(stat) + weapon.type->m_to_hit +
-               disease_intensity(DI_ATTACK_BOOST);
+               disease_intensity("attack_boost");
  int sides = 10 - encumb(bp_torso);
  int best_bonus = 0;
  if (sides < 2)
@@ -101,9 +101,9 @@ int player::hit_roll()
 // Drunken master makes us hit better
  if (has_trait(PF_DRUNKEN)) {
   if (unarmed_attack())
-   numdice += int(disease_level(DI_DRUNK) / 300);
+   numdice += int(disease_level("drunk") / 300);
   else
-   numdice += int(disease_level(DI_DRUNK) / 400);
+   numdice += int(disease_level("drunk") / 400);
  }
 
 // Farsightedness makes us hit worse
@@ -176,6 +176,9 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
 // Handles effects as well; not done in melee_affect_*
  perform_technique(technique, g, z, NULL, bash_dam, cut_dam, stab_dam, pain);
+ if (weapon.has_technique(TEC_FLAMING, this)) { // bypass technique selection, it's on FIRE after all
+   z->add_effect(ME_ONFIRE, rng(3, 4));
+ }
  z->speed -= int(pain / 2);
 
 // Mutation-based attacks
@@ -192,7 +195,9 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
- hit_message(g, You.c_str(), verb.c_str(), target.c_str(), dam, critical_hit);
+ if( g->u_see( z ) ) {
+     hit_message(g, You.c_str(), verb.c_str(), target.c_str(), dam, critical_hit);
+ }
 
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
  bool cutting = (cut_dam >= 10);
@@ -289,7 +294,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   return; // Defensive technique canceled our attack!
 
  if (critical_hit) // Crits cancel out Toad Style's armor boost
-  p.rem_disease(DI_ARMOR_BOOST);
+  p.rem_disease("armor_boost");
 
  int pain = 0; // Boost to pain; required for perform_technique
 
@@ -298,6 +303,9 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
 // Handles effects as well; not done in melee_affect_*
  perform_technique(technique, g, NULL, &p, bash_dam, cut_dam, stab_dam, pain);
+ if (weapon.has_technique(TEC_FLAMING, this)) { // bypass technique selection, it's on FIRE after all
+   p.add_disease("onfire", rng(2, 3));
+ }
  p.pain += pain;
 
 // Mutation-based attacks
@@ -377,7 +385,7 @@ bool player::scored_crit(int target_dodge)
   for (int i = 0; i > weapon.type->m_to_hit; i--)
    chance /= 2;
  }
- if (rng(0, 99) < chance + 4 * disease_intensity(DI_ATTACK_BOOST))
+ if (rng(0, 99) < chance + 4 * disease_intensity("attack_boost"))
   num_crits++;
 
 // Dexterity to-hit roll
@@ -429,7 +437,7 @@ bool player::scored_crit(int target_dodge)
   for (int i = 3; i > best_skill; i--)
    chance /= 2;
  }
- if (rng(0, 99) < chance + 4 * disease_intensity(DI_ATTACK_BOOST))
+ if (rng(0, 99) < chance + 4 * disease_intensity("attack_boost"))
   num_crits++;
 
  if (num_crits == 3)
@@ -445,18 +453,18 @@ int player::dodge(game *g)
 //Return numbers range from around 4 (starting player, no boosts) to 29 (20 DEX, 10 dodge, +9 mutations)
 {
     //If we're asleep or busy we can't dodge
-    if (has_disease(DI_SLEEP) || has_disease(DI_LYING_DOWN)) {return 0;}
+    if (has_disease("sleep") || has_disease("lying_down")) {return 0;}
     if (activity.type != ACT_NULL) {return 0;}
 
     int ret = (dex_cur / 2);
     ret += skillLevel("dodge");
-    ret += disease_intensity(DI_DODGE_BOOST);
+    ret += disease_intensity("dodge_boost");
     ret -= (encumb(bp_legs) / 2) + encumb(bp_torso);
     ret += int(current_speed(g) / 150); //Faster = small dodge advantage
 
     //Mutations
-    if (has_trait(PF_TAIL_LONG)) {ret += 4;}
-    if (has_trait(PF_TAIL_FLUFFY)) {ret += 8;}
+    if (has_trait(PF_TAIL_LONG)) {ret += 2;}
+    if (has_trait(PF_TAIL_FLUFFY)) {ret += 4;}
     if (has_trait(PF_WHISKERS)) {ret += 1;}
     if (has_trait(PF_WINGS_BAT)) {ret -= 3;}
 
@@ -517,15 +525,15 @@ int player::roll_bash_damage(monster *z, bool crit)
  ret = base_damage(true, stat);
 
 // Drunken Master damage bonuses
- if (has_trait(PF_DRUNKEN) && has_disease(DI_DRUNK)) {
-// Remember, a single drink gives 600 levels of DI_DRUNK
+ if (has_trait(PF_DRUNKEN) && has_disease("drunk")) {
+// Remember, a single drink gives 600 levels of "drunk"
   int mindrunk, maxdrunk;
   if (unarmed_attack()) {
-   mindrunk = disease_level(DI_DRUNK) / 600;
-   maxdrunk = disease_level(DI_DRUNK) / 250;
+   mindrunk = disease_level("drunk") / 600;
+   maxdrunk = disease_level("drunk") / 250;
   } else {
-   mindrunk = disease_level(DI_DRUNK) / 900;
-   maxdrunk = disease_level(DI_DRUNK) / 400;
+   mindrunk = disease_level("drunk") / 900;
+   maxdrunk = disease_level("drunk") / 400;
   }
   ret += rng(mindrunk, maxdrunk);
  }
@@ -556,7 +564,7 @@ int player::roll_bash_damage(monster *z, bool crit)
 
  ret += bash_dam;
 
- ret += disease_intensity(DI_DAMAGE_BOOST);
+ ret += disease_intensity("damage_boost");
 
 // Finally, extra crit effects
  if (crit) {
@@ -723,7 +731,7 @@ technique_id player::pick_technique(game *g, monster *z, player *p,
 
  std::vector<technique_id> possible;
  bool downed = ((z && !z->has_effect(ME_DOWNED)) ||
-                (p && !p->has_disease(DI_DOWNED))  );
+                (p && !p->has_disease("downed"))  );
  int base_str_req = 0;
 
  if (z)
@@ -832,7 +840,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
    z->add_effect(ME_DOWNED, rng(1, 2));
    bash_dam += z->fall_damage();
   } else if (p != NULL && p->weapon.typeId() != "style_judo") {
-   p->add_disease(DI_DOWNED, rng(1, 2), g);
+   p->add_disease("downed", rng(1, 2));
    bash_dam += 3;
   }
   break;
@@ -841,7 +849,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
   if (z != NULL)
    z->add_effect(ME_STUNNED, rng(1, 4));
   else if (p != NULL)
-   p->add_disease(DI_STUNNED, rng(1, 2), g);
+   p->add_disease("stunned", rng(1, 2));
   pain += rng(5, 8);
   break;
 
@@ -850,7 +858,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
    z->add_effect(ME_STUNNED, 1);
    z->knock_back_from(g, posx, posy);
   } else if (p != NULL) {
-   p->add_disease(DI_STUNNED, 1, g);
+   p->add_disease("stunned", 1);
    p->knock_back_from(g, posy, posy);
   }
   break;
@@ -864,7 +872,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
   } else if (p != NULL) {
    p->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
    if (p->weapon.typeId() != "style_judo")
-    p->add_disease(DI_DOWNED, rng(1, 2), g);
+    p->add_disease("downed", rng(1, 2));
   }
   break;
 
@@ -878,7 +886,10 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
       count_hit++;
       int dam = roll_bash_damage(&(g->z[mondex]), false) +
                 roll_cut_damage (&(g->z[mondex]), false);
-      g->z[mondex].hurt(dam);
+      if (g->z[mondex].hurt(dam))
+       g->z[mondex].die(g);
+      if (weapon.has_technique(TEC_FLAMING, this)) // Add to wide attacks
+       g->z[mondex].add_effect(ME_ONFIRE, rng(3, 4));
       if (u_see)
        g->add_msg("%s hit%s %s for %d damage!", You.c_str(), s.c_str(),
                                                 target.c_str(), dam);
@@ -890,6 +901,8 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
       int dam = roll_bash_damage(NULL, false);
       int cut = roll_cut_damage (NULL, false);
       g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
+      if (weapon.has_technique(TEC_FLAMING, this)) // Add to wide attacks
+       g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
       if (u_see)
        g->add_msg("%s hit%s %s for %d damage!", You.c_str(), s.c_str(),
                   g->active_npc[npcdex]->name.c_str(), dam + cut);
@@ -1053,7 +1066,7 @@ void player::perform_defensive_technique(
     z->add_effect(ME_DOWNED, rng(1, 2));
     z->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
    } else {
-    p->add_disease(DI_DOWNED, rng(1, 2), g);
+    p->add_disease("downed", rng(1, 2));
     p->knock_back_from(g, posx + rng(-1, 1), posy + rng(-1, 1));
    }
    break;
@@ -1110,9 +1123,9 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
     g->add_msg("You poison the %s!", z->name().c_str());
    z->add_effect(ME_POISONED, 6);
   } else if (p != NULL) {
-   if (!is_npc() && !p->has_disease(DI_POISON))
+   if (!is_npc() && !p->has_disease("poison"))
     g->add_msg("You poison %s!", p->name.c_str());
-   p->add_disease(DI_POISON, 6, g);
+   p->add_disease("poison", 6);
   }
  }
 }
@@ -1149,7 +1162,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
    if (mon)
     z->add_effect(ME_STUNNED, turns_stunned);
    else
-    p->add_disease(DI_STUNNED, 1 + turns_stunned / 2, g);
+    p->add_disease("stunned", 1 + turns_stunned / 2);
   }
  }
 
@@ -1165,7 +1178,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
    z->add_effect(ME_DOWNED, 1);
    z->moves -= stab_moves / 2;
   } else {
-   p->add_disease(DI_DOWNED, 1, g);
+   p->add_disease("downed", 1);
    p->moves -= stab_moves / 2;
   }
  } else if (mon)
@@ -1244,10 +1257,6 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   for (int x = tarposx - 1; x <= tarposx + 1; x++) {
    for (int y = tarposy - 1; y <= tarposy + 1; y++) {
     if (!one_in(3)) {
-     if (g->m.field_at(x, y).type == fd_blood &&
-         g->m.field_at(x, y).density < 3)
-      g->m.field_at(x, y).density++;
-     else
       g->m.add_field(g, x, y, fd_blood, 1);
     }
    }
@@ -1286,25 +1295,25 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  } else if(weapon.typeId() == "style_aikido"){
    bash_dam /= 2;
  } else if(weapon.typeId() == "style_capoeira"){
-   add_disease(DI_DODGE_BOOST, 2, g, 2);
+   add_disease("dodge_boost", 2, 2);
  } else if(weapon.typeId() == "style_muay_thai"){
    if ((mon && z->type->size >= MS_LARGE) || (!mon && p->str_max >= 12))
     bash_dam += rng((mon ? z->type->size : (p->str_max - 8) / 4),
                     3 * (mon ? z->type->size : (p->str_max - 8) / 4));
  } else if(weapon.typeId() == "style_tiger"){
-   add_disease(DI_DAMAGE_BOOST, 2, g, 2, 10);
+   add_disease("damage_boost", 2, 2, 10);
  } else if(weapon.typeId() == "style_centipede"){
-   add_disease(DI_SPEED_BOOST, 2, g, 4, 40);
+   add_disease("speed_boost", 2, 4, 40);
  } else if(weapon.typeId() == "style_venom_snake"){
-   if (has_disease(DI_VIPER_COMBO)) {
-    if (disease_intensity(DI_VIPER_COMBO) == 1) {
+   if (has_disease("viper_combo")) {
+    if (disease_intensity("viper_combo") == 1) {
      if (is_u)
       g->add_msg("Snakebite!");
      int dambuf = bash_dam;
      bash_dam = stab_dam;
      stab_dam = dambuf;
-     add_disease(DI_VIPER_COMBO, 2, g, 1, 2); // Upgrade to Viper Strike
-    } else if (disease_intensity(DI_VIPER_COMBO) == 2) {
+     add_disease("viper_combo", 2, 1, 2); // Upgrade to Viper Strike
+    } else if (disease_intensity("viper_combo") == 2) {
      if (hp_cur[hp_arm_l] >= hp_max[hp_arm_l] * .75 &&
          hp_cur[hp_arm_r] >= hp_max[hp_arm_r] * .75   ) {
       if (is_u)
@@ -1312,13 +1321,13 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
       bash_dam *= 3;
      } else if (is_u)
       g->add_msg("Your injured arms prevent a viper strike!");
-     rem_disease(DI_VIPER_COMBO);
+     rem_disease("viper_combo");
     }
    } else if (crit) {
     if (is_u)
      g->add_msg("Tail whip!  Viper Combo Intiated!");
     bash_dam += 5;
-    add_disease(DI_VIPER_COMBO, 2, g, 1, 2);
+    add_disease("viper_combo", 2, 1, 2);
    }
  } else if(weapon.typeId() == "style_scorpion"){
    if (crit) {
@@ -1331,7 +1340,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
      if (z->posx != zposx || z->posy != zposy)
       z->knock_back_from(g, posx, posy); // Knock a 2nd time if the first worked
     } else {
-     p->add_disease(DI_STUNNED, 2, g);
+     p->add_disease("stunned", 2);
      int pposx = p->posx, pposy = p->posy;
      p->knock_back_from(g, posx, posy);
      if (p->posx != pposx || p->posy != pposy)
@@ -1631,7 +1640,7 @@ int attack_speed(player &u, bool missed)
  if (u.has_trait(PF_HOLLOW_BONES))
   move_cost *= .8;
 
- move_cost -= u.disease_intensity(DI_SPEED_BOOST);
+ move_cost -= u.disease_intensity("speed_boost");
 
  if (move_cost < 25)
   return 25;

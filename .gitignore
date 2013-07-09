@@ -1,4 +1,5 @@
 cataclysm
+cataclysm-tiles
 data/*.template
 save/
 obj/
@@ -18,3 +19,16 @@ CataclysmWin.layout
 *.user
 Cataclysm.sdf
 Release*/
+Debug*/
+*.opensdf
+
+# Temporary and backup files
+*~
+\#*
+*.bak
+*.cbTemp
+gmon.out
+
+# System Files
+Thumbs.db
+.DS_Store

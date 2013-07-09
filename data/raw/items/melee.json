@@ -272,6 +272,22 @@
   },
 
   {
+    "id": "lens",
+    "symbol": ".",
+    "color": "light_cyan",
+    "name": "high-quality lens",
+    "description": "A high-quality lens, useful for focusing or diffusing light.",
+    "rarity": 1,
+    "price": 1200,
+    "material": "glass",
+    "weight": 0,
+    "volume": 0,
+    "bashing": -8,
+    "cutting": 0,
+    "to_hit": -3
+  },
+
+  {
     "id": "burnt_out_bionic",
     "symbol": ",",
     "color": "light_red",
@@ -1551,12 +1567,12 @@
         "id" : "spike",
         "name" : "spike",
         "description" : "A large and slightly misshapen spike, could do some damage mounted on a vehicle.",
-        "weight" : 2,
+        "weight" : 1,
         "to_hit" : -2,
         "color" : "cyan",
         "symbol" : ";",
         "material" : ["steel", "null"],
-        "volume" : 2,
+        "volume" : 1,
         "bashing" : 2,
         "cutting" : 10,
         "flags" : ["STAB"],
@@ -1822,6 +1838,21 @@
         "price" : 185
     },
     {
+        "id" : "alloy_sheet",
+        "name" : "superalloy sheet",
+        "description" : "A sheet sturdy superalloy, incredibly hard, yet incredibly malleable.",
+        "weight" : 50,
+        "to_hit" : -2,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["steel", "null"],
+        "volume" : 2,
+        "bashing" : -2,
+        "cutting" : 0,
+        "rarity" : 20,
+        "price" : 85
+    },
+    {
         "id" : "spiked_plate",
         "name" : "spiked plating",
         "description" : "A piece of armor plating made of steel. It is covered by menacing spikes.",
@@ -1927,5 +1958,40 @@
     "bashing": -20,
     "cutting": 0,
     "to_hit": 1
-  }
+  },
+    {
+        "id" : "money_bundle",
+        "name" : "money bundle",
+        "description" : "A bundle holding many 20 dollar bills, pretty useless now though",
+        "weight" : 3,
+        "to_hit" : -3,
+        "color" : "green",
+        "symbol" : ",",
+        "material" : ["paper", "null"],
+        "volume" : 3,
+        "bashing" : -8,
+                "cutting": -3,
+        "max_charges": 20,
+        "initial_charges": 20,
+        "charges_per_use": 1,
+        "turns_per_charge": 0,
+                "cutting" : 0,
+        "rarity" : 50,
+        "price" : 0
+    },
+	{
+	        "id" : "cell_phone",
+        "name" : "cell phone",
+        "description" : "A broken cell phone only useful for parts now.",
+        "weight" : 0,
+        "to_hit" : -3,
+        "color" : "light_gray",
+        "symbol" : ",",
+        "material" : ["plastic", "steel"],
+        "volume" : 1,
+        "bashing" : -8,
+        "cutting" : 0,
+        "rarity" : 50,
+        "price" : 100
+    }
 ]

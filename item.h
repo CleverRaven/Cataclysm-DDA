@@ -10,6 +10,10 @@
 class player;
 class npc;
 
+// Thresholds for radiation dosage for the radiation film badge.
+const int rad_dosage_thresholds[] = { 0, 30, 60, 120, 240, 500};
+const std::string rad_threshold_colors[] = { "green", "blue", "yellow", "orange", "red", "black"};
+
 struct iteminfo{
  public:
   std::string sType; //Itemtype
@@ -46,7 +50,7 @@ public:
 // returns the default container of this item, with this item in it
  item in_its_container(std::map<std::string, itype*> *itypes);
 
- nc_color color(player *u);
+ nc_color color(player *u) const;
  nc_color color_in_inventory(player *u);
  std::string tname(game *g = NULL); // g needed for rotten-test
  void use(player &u);
@@ -55,7 +59,7 @@ public:
 // Firearm specifics
  int reload_time(player &u);
  int clip_size();
- int accuracy();
+ int dispersion();
  int gun_damage(bool with_ammo = true);
  int noise() const;
  int burst_size();
@@ -70,9 +74,9 @@ public:
  void load_info(std::string data, game *g);
  //std::string info(bool showtext = false);	// Formatted for human viewing
  std::string info(bool showtext = false);
- std::string info(bool showtext, std::vector<iteminfo> *dump);
- char symbol();
- nc_color color();
+ std::string info(bool showtext, std::vector<iteminfo> *dump, game *g = NULL, bool debug = false);
+ char symbol() const;
+ nc_color color() const;
  int price() const;
 
  bool invlet_is_okay();
@@ -111,10 +115,11 @@ public:
  style_move style_data(technique_id tech);
  bool is_two_handed(player *u);
  bool made_of(std::string mat_ident) const;
+ std::string get_material(int m) const;
  bool made_of(phase_id phase) const;
  bool conductive() const; // Electricity
  bool flammable() const;
- 
+
  bool destroyed_at_zero_charges();
 // Most of the is_whatever() functions call the same function in our itype
  bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
@@ -143,7 +148,7 @@ public:
  bool is_other() const; // Doesn't belong in other categories
  bool is_var_veh_part() const;
  bool is_artifact() const;
- 
+
  bool operator<(const item& other) const;
 
  itype_id typeId() const;
@@ -158,7 +163,7 @@ public:
  int charges;
  bool active;           // If true, it has active effects to be processed
  signed char damage;    // How much damage it's sustained; generally, max is 5
- char burnt;	         // How badly we're burnt
+ int burnt;	         // How badly we're burnt
  unsigned int bday;     // The turn on which it was created
  int owned;	            // UID of NPC owner; 0 = player, -1 = unowned
  union{
@@ -166,13 +171,14 @@ public:
    int bigness;         // engine power, wheel size
    int frequency;       // Radio frequency
    int note;            // Associated dynamic text snippet.
+   int irridation;      // Tracks radiation dosage.
  };
  std::string mode;    // Mode of operation, can be changed by the player.
  std::set<std::string> item_tags;		// generic item specific flags
  unsigned item_counter;	// generic counter to be used with item flags
  int mission_id;// Refers to a mission in game's master list
  int player_id;	// Only give a mission to the right player!
-
+ std::map<std::string, std::string> item_vars;
  static itype * nullitem();
 
  item clone();

@@ -17,7 +17,7 @@
 #include <sstream>
 
 void iexamine::none	(game *g, player *p, map *m, int examx, int examy) {
- g->add_msg("That is a %s.", m->tername(examx, examy).c_str());
+ g->add_msg("That is a %s.", m->name(examx, examy).c_str());
 };
 
 void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
@@ -25,35 +25,38 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
- item gas(g->itypes["gasoline"], g->turn);
- if (one_in(10 + p->dex_cur)) {
-  g->add_msg("You accidentally spill the gasoline.");
-  m->add_item(p->posx, p->posy, gas);
- } else {
-  p->moves -= 300;
-  g->handle_liquid(gas, false, true);
+
+ for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
+  if (m->i_at(examx, examy)[i].made_of(LIQUID)) {
+   item* liq = &(m->i_at(examx, examy)[i]);
+
+   if (one_in(10 + p->dex_cur)) {
+    g->add_msg("You accidentally spill the %s.", liq->type->name.c_str());
+    item spill(liq->type, g->turn);
+    spill.charges = rng(dynamic_cast<it_ammo*>(liq->type)->count,
+                        dynamic_cast<it_ammo*>(liq->type)->count * (float)(8 / p->dex_cur));
+    m->add_item_or_charges(p->posx, p->posy, spill, 1);
+    liq->charges -= spill.charges;
+    if (liq->charges < 1) {
+     m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+    }
+   } else {
+    p->moves -= 300;
+    if (g->handle_liquid(*liq, true, false)) {
+     g->add_msg("With a clang and a shudder, the %s pump goes silent.", liq->type->name.c_str());
+     m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+    }
+   }
+   return;
+  }
  }
- if (one_in(10)) {
-  g->add_msg("With a clang and a shudder, the gas pump goes silent.");
-  m->ter_set(examx, examy, t_gas_pump_empty);
- }
+ g->add_msg("Out of order.");
 }
 
 void iexamine::elevator(game *g, player *p, map *m, int examx, int examy){
  if (!query_yn("Use the %s?",m->tername(examx, examy).c_str())) return;
  int movez = (g->levz < 0 ? 2 : -2);
- g->levz += movez;
- m->load(g, g->levx, g->levy, g->levz);
- g->update_map(p->posx, p->posy);
- for (int x = 0; x < SEEX * MAPSIZE; x++) {
-  for (int y = 0; y < SEEY * MAPSIZE; y++) {
-   if (m->ter(x, y) == t_elevator) {
-    p->posx = x;
-    p->posy = y;
-   }
-  }
- }
- g->refresh_all();
+ g->vertical_move( movez, false );
 }
 
 void iexamine::controls_gate(game *g, player *p, map *m, int examx, int examy) {
@@ -184,21 +187,21 @@ void iexamine::tent(game *g, player *p, map *m, int examx, int examy) {
  p->moves -= 200;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   m->ter_set(examx + i, examy + j, t_dirt);
+   m->furn_set(examx + i, examy + j, f_null);
  g->add_msg("You take down the tent");
  item dropped(g->itypes["tent_kit"], g->turn);
  m->add_item(examx, examy, dropped);
 }
 
 void iexamine::shelter(game *g, player *p, map *m, int examx, int examy) {
- if (!query_yn("Take down %s?",m->tername(examx, examy).c_str())) {
+ if (!query_yn("Take down %s?",m->furnname(examx, examy).c_str())) {
   none(g, p, m, examx, examy);
   return;
  }
  p->moves -= 200;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   m->ter_set(examx + i, examy + j, t_dirt);
+   m->furn_set(examx + i, examy + j, f_null);
  g->add_msg("You take down the shelter");
  item dropped(g->itypes["shelter_kit"], g->turn);
  m->add_item(examx, examy, dropped);
@@ -530,52 +533,64 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Pick %s?",m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
-  return;
- }
+  if(!query_yn("Pick %s?",m->furnname(examx, examy).c_str())) {
+    none(g, p, m, examx, examy);
+    return;
+  }
 
- g->add_msg("This flower has a heady aroma");
- if (!(p->is_wearing("mask_filter")||p->is_wearing("mask_gas") ||
-       one_in(3)))  {
-  g->add_msg("You fall asleep...");
-  p->add_disease(DI_SLEEP, 1200, g);
-  g->add_msg("Your legs are covered by flower's roots!");
-  p->hurt(g,bp_legs, 0, 4);
-  p->moves-=50;
- }
- m->ter_set(examx, examy, t_dirt);
- m->spawn_item(examx, examy, g->itypes["poppy_flower"],0);
- m->spawn_item(examx, examy, g->itypes["poppy_bud"],0);
+  int resist = p->resist(bp_mouth);
+
+  if (resist < 10) {
+    // Can't smell the flowers with a gas mask on!
+    g->add_msg("This flower has a heady aroma");
+  }
+
+  if (one_in(3) && resist < 5)  {
+    // Should user player::infect, but can't!
+    // player::infect needs to be restructured to return a bool indicating success.
+    g->add_msg("You fall asleep...");
+    p->add_disease("sleep", 1200);
+    g->add_msg("Your legs are covered by flower's roots!");
+    p->hurt(g,bp_legs, 0, 4);
+    p->moves-=50;
+  }
+
+  m->furn_set(examx, examy, f_null);
+  m->spawn_item(examx, examy, "poppy_flower", 0);
+  m->spawn_item(examx, examy, "poppy_bud", 0);
+}
+
+void iexamine::pick_plant(game *g, player *p, map *m, int examx, int examy, std::string itemType, int new_ter) {
+  if (!query_yn("Pick %s?", m->tername(examx, examy).c_str())) {
+    none(g, p, m, examx, examy);
+    return;
+  }
+
+  SkillLevel& survival = p->skillLevel("survival");
+  if (survival < 1)
+    p->practice(g->turn, "survival", rng(5, 12));
+  else if (survival < 6)
+    p->practice(g->turn, "survival", rng(1, 12 / survival));
+
+  int num_fruits = rng(1, survival);
+  if (num_fruits > 12)
+    num_fruits = 12;
+
+  m->spawn_item(examx, examy, itemType, g->turn, num_fruits);
+
+  m->ter_set(examx, examy, (ter_id)new_ter);
 }
 
 void iexamine::tree_apple(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Pick %s?",m->tername(examx, examy).c_str())) return;
-
- int num_apples = rng(1, p->skillLevel("survival"));
- if (num_apples >= 12)
-  num_apples = 12;
- for (int i = 0; i < num_apples; i++)
-  m->spawn_item(examx, examy, g->itypes["apple"], g->turn, 0);
-
- m->ter_set(examx, examy, t_tree);
-
+  pick_plant(g, p, m, examx, examy, "apple", t_tree);
 }
 
 void iexamine::shrub_blueberry(game *g, player *p, map *m, int examx, int examy) {
- if(!query_yn("Pick %s?",m->tername(examx, examy).c_str())) {
-  none(g, p, m, examx, examy);
-  return;
- }
+  pick_plant(g, p, m, examx, examy, "blueberries", t_shrub);
+}
 
- int num_blueberries = rng(1, p->skillLevel("survival"));
-
- if (num_blueberries >= 12)
-  num_blueberries = 12;
- for (int i = 0; i < num_blueberries; i++)
-  m->spawn_item(examx, examy, g->itypes["blueberries"], g->turn, 0);
-
- m->ter_set(examx, examy, t_shrub);
+void iexamine::shrub_strawberry(game *g, player *p, map *m, int examx, int examy) {
+  pick_plant(g, p, m, examx, examy, "strawberries", t_shrub);
 }
 
 void iexamine::shrub_wildveggies(game *g, player *p, map *m, int examx, int examy) {
@@ -633,16 +648,21 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
 
     g->sound(examx, examy, 80, "Ka-klunk!");
 
+    int lump_weight = item_controller->find_template("steel_lump")->weight;
+    int sheet_weight = item_controller->find_template("sheet_metal")->weight;
+    int chunk_weight = item_controller->find_template("steel_chunk")->weight;
+    int scrap_weight = item_controller->find_template("scrap")->weight;
+
     switch(ch)
     {
         case 1: // 1 steel lump = weight 80
-            num_lumps = steel_weight / (item_controller->find_template("steel_lump")->weight);
-            steel_weight -= num_lumps * (item_controller->find_template("steel_lump")->weight);
-            num_sheets = steel_weight / (item_controller->find_template("sheet_metal")->weight);
-            steel_weight -= num_sheets * (item_controller->find_template("sheet_metal")->weight);
-            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
-            steel_weight -= num_chunks * (item_controller->find_template("steel_chunk")->weight);
-            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            num_lumps = steel_weight / (lump_weight);
+            steel_weight -= num_lumps * (lump_weight);
+            num_sheets = steel_weight / (sheet_weight);
+            steel_weight -= num_sheets * (sheet_weight);
+            num_chunks = steel_weight / (chunk_weight);
+            steel_weight -= num_chunks * (chunk_weight);
+            num_scraps = steel_weight / (scrap_weight);
             if (num_lumps == 0)
             {
                 g->add_msg("The recycler beeps: \"Insufficient steel!\"");
@@ -651,11 +671,11 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             break;
 
         case 2: // 1 metal sheet = weight 20
-            num_sheets = steel_weight / (item_controller->find_template("sheet_metal")->weight);
-            steel_weight -= num_sheets * (item_controller->find_template("sheet_metal")->weight);
-            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
-            steel_weight -= num_chunks * (item_controller->find_template("sheet_chunk")->weight);
-            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            num_sheets = steel_weight / (sheet_weight);
+            steel_weight -= num_sheets * (sheet_weight);
+            num_chunks = steel_weight / (chunk_weight);
+            steel_weight -= num_chunks * (chunk_weight);
+            num_scraps = steel_weight / (scrap_weight);
             if (num_sheets == 0)
             {
                 g->add_msg("The recycler beeps: \"Insufficient steel!\"");
@@ -664,9 +684,9 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             break;
 
         case 3: // 1 steel chunk = weight 6
-            num_chunks = steel_weight / (item_controller->find_template("steel_chunk")->weight);
-            steel_weight -= num_chunks * (item_controller->find_template("steel_chunk")->weight);
-            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            num_chunks = steel_weight / (chunk_weight);
+            steel_weight -= num_chunks * (chunk_weight);
+            num_scraps = steel_weight / (scrap_weight);
             if (num_chunks == 0)
             {
                 g->add_msg("The recycler beeps: \"Insufficient steel!\"");
@@ -675,28 +695,28 @@ void iexamine::recycler(game *g, player *p, map *m, int examx, int examy) {
             break;
 
         case 4: // 1 metal scrap = weight 1
-            num_scraps = steel_weight / (item_controller->find_template("scrap")->weight);
+            num_scraps = steel_weight / (scrap_weight);
             break;
     }
 
     for (int i = 0; i < num_lumps; i++)
     {
-        m->spawn_item(p->posx, p->posy, item_controller->find_template("steel_lump"), 0);
+        m->spawn_item(p->posx, p->posy, "steel_lump", 0);
     }
 
     for (int i = 0; i < num_sheets; i++)
     {
-        m->spawn_item(p->posx, p->posy, item_controller->find_template("sheet_metal"), 0);
+        m->spawn_item(p->posx, p->posy, "sheet_metal", 0);
     }
 
     for (int i = 0; i < num_chunks; i++)
     {
-        m->spawn_item(p->posx, p->posy, item_controller->find_template("steel_chunk"), 0);
+        m->spawn_item(p->posx, p->posy, "steel_chunk", 0);
     }
 
     for (int i = 0; i < num_scraps; i++)
     {
-        m->spawn_item(p->posx, p->posy, item_controller->find_template("scrap"), 0);
+        m->spawn_item(p->posx, p->posy, "scrap", 0);
     }
 }
 

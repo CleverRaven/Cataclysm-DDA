@@ -70,7 +70,9 @@ void computer::shutdown_terminal()
 void computer::use(game *g)
 {
  if (w_terminal == NULL)
-  w_terminal = newwin(25, 80, (TERMY > 25) ? (TERMY-25)/2 : 0, (TERMX > 80) ? (TERMX-80)/2 : 0);
+  w_terminal = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                      (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
+                      (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
  wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -274,7 +276,7 @@ void computer::activate_function(game *g, computer_action action)
      if (g->m.ter(x, y) == t_sewage_pump) {
       for (int x1 = x - 1; x1 <= x + 1; x1++) {
        for (int y1 = y - 1; y1 <= y + 1; y1++ ) {
-        if (g->m.ter(x1, y1) == t_counter) {
+        if (g->m.furn(x1, y1) == f_counter) {
          bool found_item = false;
          for (int i = 0; i < g->m.i_at(x1, y1).size(); i++) {
           item *it = &(g->m.i_at(x1, y1)[i]);
@@ -470,7 +472,7 @@ void computer::activate_function(game *g, computer_action action)
         // For each level between here and the surface, remove the missile
         for (int level = g->levz; level <= 0; level++)
         {
-            map tmpmap(&g->itypes, &g->mapitems, &g->traps);
+            map tmpmap(&g->traps);
             tmpmap.load(g, g->levx, g->levy, level, false);
 
             if(level < 0)
@@ -512,7 +514,7 @@ void computer::activate_function(game *g, computer_action action)
     for (int y = 0; y < SEEY * MAPSIZE; y++) {
      for (int i = 0; i < g->m.i_at(x, y).size(); i++) {
       if (g->m.i_at(x, y)[i].is_bionic()) {
-       if (names.size() < 9)
+       if (names.size() < TERMY - 8)
         names.push_back(g->m.i_at(x, y)[i].tname());
        else
         more++;
@@ -520,10 +522,22 @@ void computer::activate_function(game *g, computer_action action)
      }
     }
    }
+   
+   reset_terminal();
+   
+   print_line("");
+   print_line("Bionic access - Manifest:");
+   print_line("");
+   
    for (int i = 0; i < names.size(); i++)
     print_line(names[i].c_str());
    if (more > 0)
     print_line("%d OTHERS FOUND...", more);
+    
+    print_line("");
+    print_line("Press any key...");
+    getch();
+    
   } break;
 
   case COMPACT_ELEVATOR_ON:
@@ -624,11 +638,11 @@ INITIATING STANDARD TREMOR TEST...");
   case COMPACT_AMIGARA_START:
    g->add_event(EVENT_AMIGARA, int(g->turn) + 10, 0, 0, 0);
    if (!g->u.has_artifact_with(AEP_PSYSHIELD))
-    g->u.add_disease(DI_AMIGARA, 20, g);
+    g->u.add_disease("amigara", 20);
    break;
 
   case COMPACT_STEMCELL_TREATMENT:
-   g->u.add_disease(DI_STEMCELL_TREATMENT, 120, g);
+   g->u.add_disease("stemcell_treatment", 120);
    print_line("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD.");
    g->u.pain += rng(40,90);
@@ -987,6 +1001,26 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
     }
    }
    break;
+
+  case COMPACT_SRCF_ELEVATOR:
+   if (!g->u.has_amount("sarcophagus_access_code", 1)){
+    print_error("Access code required!");
+    query_any("Press any key to continue...");}
+   else{
+    g->u.use_amount("sarcophagus_access_code", 1);
+    reset_terminal();
+    print_line("\nPower:         Backup Only\nRadion Level:  Very Dangerous\nOperational:   Overrided\n\n");
+    query_any("Press any key to continue...");
+    for (int x = 0; x < SEEX * MAPSIZE; x++) {
+        for (int y = 0; y < SEEY * MAPSIZE; y++) {
+            if (g->m.ter(x, y) == t_elevator_control_off) {
+                g->m.ter_set(x, y, t_elevator_control);
+
+            }
+        }
+    }
+   }
+   break;
   
  } // switch (action)
 }
@@ -1105,7 +1139,7 @@ void computer::activate_failure(game *g, computer_failure fail)
 
   case COMPFAIL_AMIGARA:
    g->add_event(EVENT_AMIGARA, int(g->turn) + 5, 0, 0, 0);
-   g->u.add_disease(DI_AMIGARA, 20, g);
+   g->u.add_disease("amigara", 20);
    g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
    g->explosion(rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), 10, 10, false);
    break;

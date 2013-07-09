@@ -124,7 +124,7 @@ void mapgen_crater(map *m, mapgendata dat)
            }
        }
     }
-    m->place_items(mi_wreckage, 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+    m->place_items("wreckage", 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
 void mapgen_field(map *m, int turn)
@@ -134,7 +134,6 @@ void mapgen_field(map *m, int turn)
         for (int j = 0; j < SEEY * 2; j++)
         {
             m->ter_set(i, j, grass_or_dirt());
-            //------Jovan's-----
             if (one_in(120))
             {
                 if (one_in(30))
@@ -142,16 +141,20 @@ void mapgen_field(map *m, int turn)
                     m->ter_set(i, j, t_shrub_blueberry);
                 }
                 else
+                if (one_in(30))
+                {
+                    m->ter_set(i, j, t_shrub_strawberry);
+                }
+                else
                 {
                     m->ter_set(i, j, t_shrub);
                 }
             }
             else
-            if (one_in(1000)) { m->ter_set(i,j, t_mutpoppy); }
-            //------------------
+            if (one_in(1000)) { m->furn_set(i,j, f_mutpoppy); }
         }
     }
-    m->place_items(mi_field, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
+    m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
 }
 
 void mapgen_dirtlot(map *m, game *g)
@@ -237,7 +240,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                 if (one_in(250))
                 {
                     m->ter_set(i, j, t_tree_apple);
-                    m->spawn_item(i, j, item_controller->find_template("apple"), turn);
+                    m->spawn_item(i, j, "apple", turn);
                 }
                 else
                 {
@@ -265,7 +268,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
         }
     }
-    m->place_items(mi_forest, 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
+    m->place_items("forest", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn);
 
     if (terrain_type == ot_forest_water)
     {
@@ -362,6 +365,11 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
         }
     }
+
+    if (one_in(10000)) {  //1-2 per overmap, very bad day for low level characters
+        m->add_spawn(mon_jabberwock, 1, SEEX, SEEY);
+    }
+
 
     if (one_in(100)) // One in 100 forests has a spider living in it :o
     {

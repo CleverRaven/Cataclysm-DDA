@@ -23,6 +23,7 @@
 #include "mutation.h"
 #include "gamemode.h"
 #include "action.h"
+#include "translations.h"
 #include <vector>
 #include <map>
 #include <list>
@@ -46,6 +47,14 @@
 #define BLINK_SPEED 300
 #define BULLET_SPEED 10000000
 #define EXPLOSION_SPEED 70000000
+
+#define MAX_ITEM_IN_SQUARE 1024 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
+#define MAX_VOLUME_IN_SQUARE 1000 // 6.25 dead bears is enough for everybody!
+#define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
+#define MAX_VOLUME_IN_VEHICLE_STORAGE 500 // todo: variation. semi trailer square could hold more. the real limit would be weight
+
+// The reference to the one and only game instance.
+extern game *g;
 
 #define PICKUP_RANGE 2
 extern bool trigdist;
@@ -113,6 +122,12 @@ class game
   void vadd_msg(const char* msg, va_list ap );
   void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
+  std::string press_x(action_id act);	// (Press X (or Y)|Try) to Z
+  std::string press_x(action_id act, std::string key_bound,
+                                     std::string key_unbound);
+  std::string press_x(action_id act, std::string key_bound_pre,
+          std::string key_bound_suf, std::string key_unbound);
+  std::string press_x(action_id act, std::string act_desc);	// ('Z'ing|zing) (X( or Y)))
   void add_event(event_type type, int on_turn, int faction_id = -1,
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
@@ -127,7 +142,7 @@ class game
 // Explosion at (x, y) of intensity (power), with (shrapnel) chunks of shrapnel
   void explosion(int x, int y, int power, int shrapnel, bool fire);
 // Flashback at (x, y)
-  void flashbang(int x, int y);
+  void flashbang(int x, int y, bool player_immune = false);
 // Move the player vertically, if (force) then they fell
   void vertical_move(int z, bool force);
   void use_computer(int x, int y);
@@ -148,7 +163,7 @@ class game
   void revive_corpse(int x, int y, int n); // revives a corpse from an item pile
   void revive_corpse(int x, int y, item *it); // revives a corpse by item pointer, caller handles item deletion
 // hit_monster_with_flags processes ammo flags (e.g. incendiary, etc)
-  void hit_monster_with_flags(monster &z, unsigned int flags);
+  void hit_monster_with_flags(monster &z, const std::set<std::string> &effects);
   void plfire(bool burst);	// Player fires a gun (target selection)...
 // ... a gun is fired, maybe by an NPC (actual damage, etc.).
   void fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
@@ -157,8 +172,10 @@ class game
                   std::vector<point> &trajectory);
   void cancel_activity();
   void cancel_activity_query(const char* message, ...);
-  bool cancel_activity_or_ignore_query(const char* reason, ...); 
-  void exit_vehicle();
+  bool cancel_activity_or_ignore_query(const char* reason, ...);
+  void moving_vehicle_dismount(int tox, int toy);
+  // Get input from the player to choose an adjacent tile (for examine() etc)
+  bool choose_adjacent(std::string verb, int &x, int&y);
 
   int assign_mission_id(); // Just returns the next available one
   void give_mission(mission_id type); // Create the mission and assign it
@@ -170,6 +187,7 @@ class game
   int reserve_random_mission(mission_origin origin, point p = point(-1, -1),
                              int npc_id = -1);
   npc* find_npc(int id);
+  int kill_count(mon_id mon);       // Return the number of kills of a given mon_id
   mission* find_mission(int id); // Mission with UID=id; NULL if non-existant
   mission_type* find_mission_type(int id); // Same, but returns its type
   bool mission_complete(int id, int npc_id); // True if we made it
@@ -211,6 +229,7 @@ class game
   void add_artifact_messages(std::vector<art_effect_passive> effects);
 
   void peek();
+  point look_debug(point pnt=point(-256,-256));
   point look_around();// Look at nearby terrain	';'
   void list_items(); //List all items around the player
   bool list_items_match(std::string sText, std::string sPattern);
@@ -224,8 +243,8 @@ class game
   std::string sFilter; // this is a member so that it's remembered over time
   std::string list_item_upvote;
   std::string list_item_downvote;
-  char inv(std::string title = "Inventory:");
-  char inv_type(std::string title = "Inventory:", item_cat inv_item_type = IC_NULL);
+  char inv(std::string title);
+  char inv_type(std::string title, item_cat inv_item_type = IC_NULL);
   int inventory_item_menu(char chItem, int startx = 0, int width = 50);
   std::vector<item> multidrop();
   faction* list_factions(std::string title = "FACTIONS:");
@@ -246,11 +265,11 @@ class game
   recipe_map recipes;	// The list of valid recipes
   std::vector<constructable*> constructions; // The list of constructions
 
-  std::vector <itype_id> mapitems[num_itloc]; // Items at various map types
   std::vector <items_location_and_chance> monitems[num_monsters];
   std::vector <mission_type> mission_types; // The list of mission templates
   mutation_branch mutation_data[PF_MAX2]; // Mutation data
   std::map<char, action_id> keymap;
+  std::map<char, action_id> default_keymap;
 
   calendar turn;
   signed char temperature;              // The air temperature
@@ -299,6 +318,20 @@ class game
  void load_artifacts(); // Load artifact data
                         // Needs to be called by main() before MAPBUFFER.load
 
+ // Knockback functions: knock target at (tx,ty) along a line, either calculated
+ // from source position (sx,sy) using force parameter or passed as an argument;
+ // force determines how far target is knocked, if trajectory is calculated
+ // force also determines damage along with dam_mult;
+ // stun determines base number of turns target is stunned regardless of impact
+ // stun == 0 means no stun, stun == -1 indicates only impact stun (wall or npc/monster)
+ void knockback(int sx, int sy, int tx, int ty, int force, int stun, int dam_mult);
+ void knockback(std::vector<point>& traj, int force, int stun, int dam_mult);
+
+ // shockwave applies knockback to all targets within radius of (x,y)
+ // parameters force, stun, and dam_mult are passed to knockback()
+ // ignore_player determines if player is affected, useful for bionic, etc.
+ void shockwave(int x, int y, int radius, int force, int stun, int dam_mult, bool ignore_player);
+
  private:
 // Game-start procedures
   bool opening_screen();// Warn about screen size, then present the main menu
@@ -320,7 +353,6 @@ class game
   void init_itypes();       // Initializes item types
   void init_skills();
   void init_bionics();      // Initializes bionics... for now.
-  void init_mapitems();     // Initializes item placement
   void init_mtypes();       // Initializes monster types
   void init_mongroups();    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
@@ -331,6 +363,7 @@ class game
   void init_mutations();    // Initializes mutation "tech tree"
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
+  void init_diseases();     // Initializes disease lookup table.
 
   void load_keyboard_settings(); // Load keybindings from disk
 
@@ -376,11 +409,9 @@ class game
   void construction_menu();            // See construction.cpp
   bool player_can_build(player &p, inventory inv, constructable* con,
                         const int level = -1, bool cont = false,
-			bool exact_level=false);
+                        bool exact_level=false);
   void place_construction(constructable *con); // See construction.cpp
   void complete_construction();               // See construction.cpp
-  // Get input from the player to choose an adjacent tile (for examine() etc)
-  bool choose_adjacent(std::string verb, int &x, int&y);
   bool vehicle_near ();
   void handbrake ();
   void control_vehicle(); // Use vehicle controls  '^'
@@ -412,7 +443,8 @@ class game
   void chat();    // Talk to a nearby NPC	'C'
   void plthrow(char chInput = '.'); // Throw an item		't'
   void help();    // Help screen		'?'
-  void show_options();    // Options screen		'?'
+  void show_options();    // Options screen		'?1'
+  void show_auto_pickup();    // Auto pickup manage screen		'?3'
 
 // Target is an interactive function which allows the player to choose a nearby
 // square.  It display information on any monster/NPC on that square, and also
@@ -443,6 +475,7 @@ class game
   bool handle_action();
   void update_scent();     // Updates the scent map
   bool is_game_over();     // Returns true if the player quit or died
+  void place_corpse();     // Place player corpse
   void death_screen();     // Display our stats, "GAME OVER BOO HOO"
   void gameover();         // Ends the game
   void write_msg();        // Prints the messages in the messages list

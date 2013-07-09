@@ -15,6 +15,35 @@
 
     "recipes":
     [
+	    {
+            "result": "cell_phone",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "difficulty": 0,
+            "time": 500,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 1]
+                              ],
+                              [
+                                  ["RAM", 1]
+                              ],
+                              [
+                                  ["processor", 1]
+                              ],
+                              [
+                                  ["battery", 200]
+                              ]
+                          ]
+        },
         {
             "result": "knife_steak",
             "id_suffix": "uncraft",
@@ -94,7 +123,6 @@
                               ]
                           ]
         },
-        
 
         {
             "result": "lighter",
@@ -247,11 +275,11 @@
                               ]
                           ]
         },
-		
-		
-		{
+      
+      
+      {
             "result": "sling",
-			"category": "CC_WEAPON",
+         "category": "CC_WEAPON",
             "difficulty": 0,
             "time": 1000,
             "reversible": false,
@@ -278,11 +306,11 @@
                               ]
                           ]
         },
-		
-		
-		{
+      
+      
+      {
             "result": "slingshot",
-			"category": "CC_WEAPON",
+         "category": "CC_WEAPON",
             "difficulty": 0,
             "time": 3000,
             "reversible": false,
@@ -302,15 +330,15 @@
                      ],
             "components": [
                               [
-								  ["stick", 1]
+                          ["stick", 1]
                               ],
                               [
                                   ["hose", 1]
                               ]
                           ]
         },
-		
-		
+      
+      
         {
             "result": "spear_wood",
             "category": "CC_WEAPON",
@@ -439,6 +467,74 @@
             "category": "CC_WEAPON",
             "skill_pri": "archery",
             "skill_sec": "survival",
+            "difficulty": 3,
+            "time": 15000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["stick", 1]
+                              ],
+                              [
+                                  ["string_36", 2],
+                                  ["sinew", 200],
+                                  ["plant_fibre", 200]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "selfbow",
+            "category": "CC_WEAPON",
+            "skill_pri": "archery",
+            "skill_sec": "survival",
+            "difficulty": 0,
+            "time": 12000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["stick", 1]
+                              ],
+                              [
+                                  ["string_36", 2],
+                                  ["sinew", 200],
+                                  ["plant_fibre", 200]
+                              ]
+                          ]
+        },
+      
+        {
+            "result": "shortbow",
+            "category": "CC_WEAPON",
+            "skill_pri": "archery",
+            "skill_sec": "survival",
             "difficulty": 2,
             "time": 15000,
             "reversible": true,
@@ -468,6 +564,42 @@
                           ]
         },
 
+        {
+            "result": "reflexrecurvebow",
+            "category": "CC_WEAPON",
+            "skill_pri": "archery",
+            "skill_sec": "survival",
+            "difficulty": 9,
+            "time": 25000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["stick", 3]
+                              ],
+                              [
+                                  ["bone", 3]
+                              ],
+                              [
+                                  ["string_36", 2],
+                                  ["sinew", 200],
+                                  ["plant_fibre", 200]
+                              ]
+                          ]
+        },
 
         {
             "result": "nailboard",
@@ -478,9 +610,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -505,9 +638,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -659,6 +793,60 @@
 
 
         {
+            "result": "hand_crossbow",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "archery",
+            "difficulty": 3,
+            "time": 30000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+			  [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["toolset", -1]
+                          ],
+                          [
+                             ["wrench", -1],
+                             ["toolset", -1]
+                          ],
+                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                          ],
+                          [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                          ]
+                     ],
+            "components": [
+                              [
+                                  ["2x4", 1],
+                                  ["stick", 3]
+                              ],
+                              [
+                                  ["string_6", 1]
+                              ],
+                              [
+                                  ["spring", 1]
+                              ],
+                              [
+                                  ["scrap", 4]
+                              ],
+                              [
+                                  ["nail", 10]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "crossbow",
             "category": "CC_WEAPON",
             "skill_pri": "mechanics",
@@ -669,7 +857,8 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["screwdriver", -1],
@@ -685,6 +874,121 @@
                                   ["hose", 1]
                               ]
                           ]
+        },
+
+
+	{
+            "result": "huge_crossbow",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "archery",
+            "difficulty": 6,
+            "time": 60000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_butcher", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ],
+
+                         [
+                             ["wrench", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["saw", -1]
+                         ],
+                         [
+                             ["hacksaw", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["2x4", 4],
+                                  ["stick", 16]
+                              ],
+                              [
+                                  ["rope_6", 2]
+                              ],
+                              [
+                                  ["foot_crank", 1]
+			      ],
+			      [
+				  ["spring", 4]
+			      ],
+			      [
+				  ["steel_chunk", 4]
+			      ],
+			      [
+				  ["nail", 60]
+			      ]
+                          ]
+        },
+
+
+	{
+            "result": "rep_crossbow",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "archery",
+            "difficulty": 3,
+            "time": 45000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hatchet", -1],
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["2x4", 2],
+                                  ["stick", 8]
+                              ],
+                              [
+                                  ["spring", 1]
+                              ],
+			      [
+			          ["string_36", 1]
+			      ],
+			      [   ["nail", 20]
+                          ]
+				 ]
         },
 
 
@@ -713,6 +1017,55 @@
                               ],
                               [
                                   ["2x4", 1]
+                              ]
+                          ]
+        },
+				        {
+            "result": "pipe_shotgun",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 2,
+            "time": 12000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hacksaw", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe", 1]
+                              ],
+                              [
+                                  ["2x4", 1]
+                              ]
+                          ]
+        },
+		{
+		    "result": "pipe_shotgunsawn",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 2,
+            "time": 12000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hacksaw", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe_shotgun", 1]
                               ]
                           ]
         },
@@ -767,8 +1120,9 @@
                              ["toolset", -1]
                          ],
                          [
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
                              ["hatchet", -1],
                              ["toolset", -1]
                          ]
@@ -806,8 +1160,9 @@
                              ["toolset", -1]
                          ],
                          [
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
                              ["hatchet", -1],
                              ["toolset", -1]
                          ]
@@ -1027,8 +1382,11 @@
                              ["toolset", -1]
                          ],
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
-                             ["hatchet", -1]
+                             ["hatchet", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["wrench", -1],
@@ -1199,19 +1557,20 @@
                           ]
         },
 
-		
-		{
+      
+      {
             "result": "pebble",
             "category": "CC_AMMO",
             "difficulty": 0,
             "time": 1000,
             "reversible": false,
             "autolearn": true,
-			"tools": [
+         "tools": [
                          [
                              ["rock", -1],
-							 ["primitive_hammer", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -1222,40 +1581,663 @@
                           ]
         },
 
-		
+      
         {
-            "result": "arrow_wood",
-            "category": "CC_AMMO",
-            "skill_pri": "archery",
-            "skill_sec": "survival",
-            "difficulty": 1,
-            "time": 5000,
-            "reversible": false,
-            "autolearn": true,
-            "tools": [
-                         [
-                             ["hatchet", -1],
-                             ["knife_steak", -1],
-                             ["knife_combat", -1],
-                             ["knife_butcher", -1],
-                             ["pockknife", -1],
-                             ["scalpel", -1],
-                             ["machete", -1],
-                             ["broadsword", -1],
-                             ["toolset", -1]
-                         ]
-                     ],
-            "components": [
-                              [
-                                  ["stick", 1],
-                                  ["broom", 1],
-                                  ["mop", 1],
-                                  ["2x4", 1],
-                                  ["bee_sting", 1]
-                              ]
-                          ]
+         "result" : "shaft_wood",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 0,
+         "time" : 1000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["stick", 1],
+               ["broom", 1],
+               ["mop", 1],
+               ["2x4", 1],
+               ["bee_sting", 1]
+            ]
+         ]
         },
-
+        {
+         "result" : "shaft_wood_heavy",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 6,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["stick", 2],
+               ["broom", 2],
+               ["mop", 2],
+               ["2x4", 2],
+               ["bee_sting", 2]
+            ]
+         ]
+        },
+        {
+         "result" : "shaft_metal",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 5,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hacksaw", -1],
+               ["toolset", -1]
+            ],
+            [
+               ["rock", -1],
+               ["primitive_hammer", -1],
+               ["hammer", -1],
+               ["hatchet", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["scrap", 6],
+               ["steel_chunk", 2]
+            ]
+         ]
+        },
+        {
+         "result" : "arrowhead",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 5,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["steel_chunk", 1],
+               ["scrap", 3]
+            ]
+         ]
+        },
+        {
+         "result" : "fletching",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 3,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["feather", 10],
+               ["duct_tape", 40],
+               ["bag_plastic", 1]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_fire_hardened",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 0,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ],
+            [
+               ["fire", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_wood", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_field_point",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 1,
+         "time" : 2000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ],
+            [
+               ["rock", -1],
+               ["primitive_hammer", -1],
+               ["hammer", -1],
+               ["hatchet", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_wood", 10]
+            ],
+            [
+               ["bone", 5],
+               ["rock", 1],
+               ["scrap", 2],
+               ["nail", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_small_game",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 2,
+         "time" : 2000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_wood", 10]
+            ],
+            [
+               ["bone", 3],
+               ["rock", 1]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_fire_hardened_fletched",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 3,
+         "time" : 3000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["arrow_fire_hardened", 10]
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_field_point_fletched",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 3,
+         "time" : 3000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["arrow_field_point", 10]               
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "flamable_arrow",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 3,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+         	[
+         		["arrow_field_point_fletched", 5],
+         		["arrow_fire_hardened_fletched", 5],
+         		["arrow_wood", 5],
+         		["arrow_heavy_fire_hardened_fletched", 5],
+         		["arrow_heavy_field_point_fletched", 5],
+         		["arrow_wood_heavy", 5],
+         		["arrow_metal", 5]
+         	],
+         	[
+         		["rag", 1]
+         	],
+         	[
+         		["whiskey", 5],
+         		["vodka", 5],
+         		["rum", 5],
+         		["tequila", 5],
+         		["gin", 5],
+         		["triple_sec", 5],
+         		["gasoline", 200]
+         	]
+         ]
+        },
+        
+        {
+         "result" : "arrow_wood",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 5,
+         "time" : 3000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+            	["hatchet", -1],
+            	["knife_steak", -1],
+            	["knife_combat", -1],
+            	["knife_butcher", -1],
+            	["pockknife", -1],
+            	["scalpel", -1],
+            	["machete", -1],
+            	["broadsword", -1],
+            	["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["arrowhead", 10]
+            ],
+            [
+               ["shaft_wood", 10]
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_metal_sharpened",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 5,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hacksaw", -1],
+               ["toolset", -1]
+            ],
+            [
+               ["rock", -1],
+               ["primitive_hammer", -1],
+               ["hammer", -1],
+               ["hatchet", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_metal", 10]
+            ]
+         ]
+        },
+        
+        {
+         "result" : "arrow_heavy_fire_hardened_fletched",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 6,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ],
+            [
+               ["fire", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_wood_heavy", 10]
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_heavy_field_point_fletched",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "survival",
+         "difficulty" : 6,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+               ["hatchet", -1],
+               ["knife_steak", -1],
+               ["knife_combat", -1],
+               ["knife_butcher", -1],
+               ["pockknife", -1],
+               ["scalpel", -1],
+               ["machete", -1],
+               ["broadsword", -1],
+               ["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["shaft_wood_heavy", 10]               
+            ],
+            [
+               ["fletching", 10]
+            ],
+            [
+               ["bone", 5],
+               ["rock", 1],
+               ["scrap", 2],
+               ["nail", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_wood_heavy",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 6,
+         "time" : 3000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+            	["hatchet", -1],
+            	["knife_steak", -1],
+            	["knife_combat", -1],
+            	["knife_butcher", -1],
+            	["pockknife", -1],
+            	["scalpel", -1],
+            	["machete", -1],
+            	["broadsword", -1],
+            	["toolset", -1]
+            ]
+         ],
+         "components" : [
+            [
+               ["arrowhead", 10]
+            ],
+            [
+               ["shaft_wood_heavy", 10]
+            ],
+            [
+               ["fletching", 10]
+            ]
+         ]
+        },
+        {
+         "result" : "arrow_metal",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 7,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+         	[
+         		["hatchet", -1],
+         		["knife_steak", -1],
+         		["knife_combat", -1],
+         		["knife_butcher", -1],
+         		["pockknife", -1],
+         		["scalpel", -1],
+         		["machete", -1],
+         		["broadsword", -1],
+         		["toolset", -1]
+         	],
+         	[
+         		["hacksaw", -1],
+         		["toolset", -1]
+         	],
+         	[
+                ["rock", -1],
+                ["primitive_hammer", -1],
+                ["hammer", -1],
+                ["hatchet", -1],
+                ["toolset", -1]
+         	]
+         ],
+         "components" : [
+         	[
+         		["shaft_metal", 10]
+         	],
+            [
+         		["arrowhead", 10]
+         	],
+            [
+         		["fletching", 10]
+         	]
+         ]
+         },
+        {
+         "result" : "arrow_exploding",
+         "category" : "CC_AMMO",
+         "skill_pri" : "archery",
+         "skill_sec" : "mechanics",
+         "difficulty" : 9,
+         "time" : 7000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+         	[
+         		["screwdriver", -1],
+         		["toolset", -1]
+         	],
+         	[
+         		["hacksaw", -1],
+         		["toolset", -1]
+         	]
+         ],
+         "components" : [
+         	[
+         		["exploding_arrow_warhead", 5]
+         	],
+         	[
+         		["arrow_field_point_fletched", 5],
+         		["arrow_fire_hardened_fletched", 5],
+         		["arrow_wood", 5],
+         		["arrow_heavy_fire_hardened_fletched", 5],
+         		["arrow_heavy_field_point_fletched", 5],
+         		["arrow_wood_heavy", 5],
+         		["arrow_metal", 5]
+         	]
+         ]
+         },
+        {
+         "result" : "exploding_arrow_warhead",
+         "category" : "CC_MISC",
+         "skill_pri" : "mechanics",
+         "skill_sec" : "archery",
+         "difficulty" : 6,
+         "time" : 5000,
+         "reversible" : false,
+         "autolearn" : true,
+         "tools" : [
+            [
+         		["soldering_iron", 10],
+         		["toolset", 1]
+         	],
+         	[
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+         	],
+         	[
+         		["screwdriver", -1],
+         		["toolset", -1]
+         	]
+         ],
+         "components" : [
+            [
+               ["scrap", 2]
+            ],
+            [
+               ["superglue", 1],
+               ["string_36", 1]
+            ],
+            [
+               ["can_food", 1],
+               ["can_drink", 1],
+               ["canister_empty", 1]
+            ],
+            [
+               ["nail", 20],
+               ["bb", 40]
+            ],
+            [
+               ["gunpowder", 60]
+            ]
+         ]
+        },
 
         {
             "result": "bolt_wood",
@@ -1290,7 +2272,7 @@
                           ]
         },
 
-		
+      
         {
             "result": "9mm",
             "category": "CC_AMMO",
@@ -1321,7 +2303,7 @@
                                   ["gunpowder", 200]
                               ],
                               [
-                                  ["lead", 200]
+                                  ["lead", 200], ["gold_small", 200]
                               ]
                           ]
         },
@@ -1357,7 +2339,7 @@
                                   ["gunpowder", 125]
                               ],
                               [
-                                  ["lead", 100]
+                                  ["lead", 100], ["gold_small", 100]
                               ]
                           ]
         },
@@ -1393,7 +2375,7 @@
                                   ["gunpowder", 60]
                               ],
                               [
-                                  ["lead", 40]
+                                  ["lead", 40], ["gold_small", 40]
                               ]
                           ]
         },
@@ -1429,7 +2411,7 @@
                                   ["gunpowder", 250]
                               ],
                               [
-                                  ["lead", 250]
+                                  ["lead", 250], ["gold_small", 250]
                               ]
                           ]
         },
@@ -1465,7 +2447,7 @@
                                   ["gunpowder", 175]
                               ],
                               [
-                                  ["lead", 125]
+                                  ["lead", 125], ["gold_small", 125]
                               ]
                           ]
         },
@@ -1501,7 +2483,7 @@
                                   ["gunpowder", 300]
                               ],
                               [
-                                  ["lead", 300]
+                                  ["lead", 300], ["gold_small", 300]
                               ]
                           ]
         },
@@ -1537,7 +2519,7 @@
                                   ["gunpowder", 400]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -1573,7 +2555,7 @@
                                   ["gunpowder", 500]
                               ],
                               [
-                                  ["lead", 500]
+                                  ["lead", 500], ["gold_small", 500]
                               ]
                           ]
         },
@@ -1609,7 +2591,7 @@
                                   ["gunpowder", 500]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -1645,7 +2627,7 @@
                                   ["gunpowder", 120]
                               ],
                               [
-                                  ["lead", 100]
+                                  ["lead", 100], ["gold_small", 100]
                               ]
                           ]
         },
@@ -1681,7 +2663,7 @@
                                   ["gunpowder", 400]
                               ],
                               [
-                                  ["lead", 200]
+                                  ["lead", 200], ["gold_small", 200]
                               ]
                           ]
         },
@@ -1717,7 +2699,7 @@
                                   ["gunpowder", 400]
                               ],
                               [
-                                  ["lead", 200]
+                                  ["lead", 200], ["gold_small", 200]
                               ]
                           ]
         },
@@ -1753,7 +2735,7 @@
                                   ["gunpowder", 560]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -1789,7 +2771,7 @@
                                   ["gunpowder", 640]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -1825,7 +2807,7 @@
                                   ["gunpowder", 160]
                               ],
                               [
-                                  ["lead", 80]
+                                  ["lead", 80], ["gold_small", 80]
                               ]
                           ]
         },
@@ -1861,7 +2843,7 @@
                                   ["gunpowder", 240]
                               ],
                               [
-                                  ["lead", 80]
+                                  ["lead", 80], ["gold_small", 80]
                               ]
                           ]
         },
@@ -1933,7 +2915,7 @@
                                   ["gunpowder", 200]
                               ],
                               [
-                                  ["lead", 100]
+                                  ["lead", 100], ["gold_small", 100]
                               ]
                           ]
         },
@@ -1969,7 +2951,7 @@
                                   ["gunpowder", 120]
                               ],
                               [
-                                  ["lead", 80]
+                                  ["lead", 80], ["gold_small", 80]
                               ]
                           ]
         },
@@ -2041,7 +3023,7 @@
                                   ["gunpowder", 160]
                               ],
                               [
-                                  ["lead", 120]
+                                  ["lead", 120], ["gold_small", 120]
                               ]
                           ]
         },
@@ -2077,7 +3059,7 @@
                                   ["gunpowder", 200]
                               ],
                               [
-                                  ["lead", 120]
+                                  ["lead", 120], ["gold_small", 120]
                               ]
                           ]
         },
@@ -2149,7 +3131,7 @@
                                   ["gunpowder", 300]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -2185,7 +3167,7 @@
                                   ["gunpowder", 600]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -2221,7 +3203,7 @@
                                   ["gunpowder", 600]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -2326,7 +3308,7 @@
                              ["rock_pot", -1],
                              ["spear_wood", -1],
                              ["pointy_stick", -1],
-                             ["javelin", -1]	
+                             ["javelin", -1] 
                          ]
                      ],
             "components": [
@@ -2605,7 +3587,45 @@
                               ]
                           ]
         },
-
+        
+        {
+            "result": "kompot",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["blueberries", 3],
+                                  ["apple", 1],
+                                  ["apple_canned", 1],
+                                  ["apple_vac", 1],
+                                  ["strawberries", 3],
+                                  ["orange", 1],
+                                  ["lemon", 1]
+                              ],
+                              [
+                                  ["sugar", 1]
+                              ],
+                              [
+                                  ["water", 5],
+                                  ["water_clean", 5]
+                              ]
+                          ]
+        },
 
         {
             "result": "coffee",
@@ -2965,7 +3985,40 @@
                               ]
                           ]
         },
-
+        
+        {
+            "result": "soup_woods",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["broth", 2],
+                                  ["broth_bone", 2]
+                              ],
+                              [
+                                  ["meat", 2]
+                              ],
+                              [
+                                  ["veggy_wild", 2],
+                                  ["veggy", 2]
+                              ]
+                          ]
+        },
 
         {
             "result": "soup_human",
@@ -3154,8 +4207,7 @@
                               ]
                           ]
         },
-        
-        
+
         {
             "result": "spaghetti_bolognese",
             "category": "CC_FOOD",
@@ -3224,9 +4276,11 @@
                              ["fire", -1]
                          ],
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
-                             ["toolset", -1],
-                             ["rock", -1]
+                             ["hatchet", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["pot", -1],
@@ -3472,6 +4526,368 @@
 
 
         {
+            "result": "mutagen_plant",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["veggy_tainted", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_insect",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["honeycomb", 3],
+                                  ["bee_sting", 3],
+                                  ["wasp_sting", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_spider",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["chitin_piece", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_slime",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["sewage", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_fish",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["can_sardine", 1],
+                                  ["can_tuna", 1]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_rat",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat_tainted", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_beast",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_cattle",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_cephalopod",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat_tainted", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_bird",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_lizard",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "mutagen_troglobite",
+            "category": "CC_CHEM",
+            "skill_pri": "cooking",
+            "skill_sec": "firstaid",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 25],
+                             ["toolset", 2],
+                             ["fire", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["mutagen", 1]
+                              ],
+                              [
+                                  ["meat", 3]
+                              ],
+                              [
+                                  ["ammonia", 1]
+                              ]
+                          ]
+        },
+
+        {
             "result": "purifier",
             "category": "CC_CHEM",
             "skill_pri": "cooking",
@@ -3526,13 +4942,20 @@
         {
             "result": "directional_antenna",
             "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
             "difficulty": 4,
             "time": 5000,
             "reversible": true,
             "autolearn": true,
             "tools": [
                        [["hacksaw", -1], ["toolset", -1]],
-                       [["hammer", -1], ["toolset", -1], ["rock", -1]]
+                       [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+					   ]
                      ],
             "components": [
                             [["amplifier", 1]],
@@ -4052,7 +5475,7 @@
             "difficulty": 4,
             "time": 30000,
             "reversible": true,
-            "autolearn": true,
+            "autolearn": false,
             "tools": [
                          [
                              ["screwdriver", -1],
@@ -4266,8 +5689,47 @@
                                   ["cable", 10]
                               ]
                           ]
+
         },
 
+        {
+           "result" : "adv_UPS_off",
+           "category" : "CC_ELECTRONIC",
+           "skill_pri" : "electronics",
+           "skill_sec" : "mechanics",
+           "difficulty" : 9,
+           "time" : 85000,
+           "reversible" : true,
+           "decomp_learn" : 4,
+           "autolearn" : true,
+           "tools" : [
+              [
+                 ["screwdriver", -1],
+                 ["toolset", -1]
+              ],
+              [
+                 ["soldering_iron", 24],
+                 ["toolset", 2]
+              ]
+           ],
+           "components" : [
+              [
+                 ["power_supply", 6]
+              ],
+              [
+                 ["amplifier", 5]
+              ],
+              [
+                 ["scrap", 4]
+              ],
+              [
+                 ["cable", 14]
+              ],
+              [
+                 ["plut_cell", 2]
+              ]
+           ]
+        },
 
         {
             "result": "bio_power_storage",
@@ -4327,7 +5789,8 @@
             "components": [
                               [
                                   ["power_supply", 10],
-                                  ["UPS_off", 2]
+                                  ["UPS_off", 2],
+                                  ["adv_UPS_off", 1]
                               ],
                               [
                                   ["amplifier", 6]
@@ -4380,6 +5843,39 @@
 
 
         {
+            "result": "bio_batteries",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 2]
+                              ],
+                              [
+                                  ["amplifier", 2]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
             "result": "bio_power_armor_interface",
             "category": "CC_ELECTRONIC",
             "skill_pri": "electronics",
@@ -4407,6 +5903,536 @@
                               [
                                   ["burnt_out_bionic", 1],
                                   ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_power_armor_interface_mkII",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 9,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 5]
+                              ],
+                              [
+                                  ["amplifier", 3]
+                              ],
+                              [
+                                  ["plut_cell", 5]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_evap",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 2]
+                              ],
+                              [
+                                  ["hose", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_laser",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 9,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "decomp_learn": 7,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 2]
+                              ],
+                              [
+                                  ["amplifier", 2]
+                              ],
+                              [
+                                  ["lens", 2]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_flashlight",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 6,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 1]
+                              ],
+                              [
+                                  ["amplifier", 1]
+                              ],
+                              [
+                                  ["lens", 2]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_water_extractor",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["power_supply", 2]
+                              ],
+                              [
+                                  ["element", 1]
+                              ],
+                              [
+                                  ["hose", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1],
+                                  ["processor", 2]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_armor_head",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 6,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["wrench", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["alloy_sheet", 4],
+                                  ["alloy_plate", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_armor_arms",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 6,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["wrench", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["alloy_sheet", 4],
+                                  ["alloy_plate", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_armor_torso",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 6,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["wrench", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["alloy_sheet", 4],
+                                  ["alloy_plate", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_armor_legs",
+            "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
+            "difficulty": 6,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": true,
+            "decomp_learn": 5,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["wrench", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["alloy_sheet", 4],
+                                  ["alloy_plate", 1]
+                              ],
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_recycler",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_digestion",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_face_mask",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", 20],
+                             ["toolset", 2]
+                         ],
+                         [
+                             ["soldering_iron", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_nanobots",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_ground_sonar",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_metabolics",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
+                              ]
+                          ]
+        },
+
+
+        {
+            "result": "bio_blood_filter",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "electronics",
+            "difficulty": 7,
+            "time": 50000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["soldering_iron", 20],
+                             ["toolset", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["burnt_out_bionic", 1]
                               ]
                           ]
         },
@@ -5117,7 +7143,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -5128,6 +7157,35 @@
                               ],
                               [
                                   ["steel_chunk", 2]
+                              ]
+                          ]
+        },
+
+	  
+	   {
+            "result": "legguard_metal",
+            "category": "CC_ARMOR",
+            "skill_pri": "tailor",
+            "difficulty": 5,
+            "time": 45000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["string_36", 4],
+                                  ["string_6", 16]
+                              ],
+                              [
+                                  ["steel_chunk", 6]
                               ]
                           ]
         },
@@ -5588,7 +7646,9 @@
             "tools": [
                          [
                              ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -5733,8 +7793,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hammer", -1],
+                             ["rock", -1],
                              ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -5762,8 +7824,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
                              ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -5794,8 +7858,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
                              ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -6009,7 +8075,10 @@
                              ["toolset", -1]
                          ],
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -6059,7 +8128,10 @@
                              ["toolset", -1]
                          ],
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -6087,7 +8159,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -6211,7 +8286,10 @@
                              ["toolset", -1]
                          ],
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -6250,8 +8328,8 @@
             "components": [
                               [
                                   ["thread", 50],
-								  ["sinew", 50],
-								  ["plant_fibre", 50]
+                          ["sinew", 50],
+                          ["plant_fibre", 50]
                               ]
                           ]
         },
@@ -6372,7 +8450,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -6395,7 +8476,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -6617,21 +8701,47 @@
             "result": "crowbar",
             "category": "CC_MISC",
             "skill_pri": "mechanics",
-            "difficulty": 1,
+            "difficulty": 0,
             "time": 1000,
             "reversible": false,
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
-                             ["rock", -1],
-                             ["toolset", -1]
+                            ["rock", -1],
+                            ["primitive_hammer", -1],
+                            ["hammer", -1],
+                            ["hatchet", -1],
+                            ["toolset", -1]
                          ]
                      ],
             "components": [
                               [
                                   ["pipe", 1]
+                              ]
+                          ]
+        },
+
+
+	   {
+            "result": "crude_picklock",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 0,
+            "time": 1000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 1]
                               ]
                           ]
         },
@@ -6685,9 +8795,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -6880,9 +8991,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -6904,9 +9016,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -6941,6 +9054,59 @@
                           ]
         },
 
+        {
+            "result": "arm_splint",
+            "category": "CC_MISC",
+            "skill_pri": "survival",
+            "skill_sec": "firstaid",
+            "difficulty": 2,
+            "time": 1000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [
+                              [ ["rag", 5], ["medical_gauze", 2] ],
+                              [
+                                  ["string_6", 6],
+                                  ["string_36", 1],
+                                  ["duct_tape", 50],
+                                  ["medical_tape", 25]
+                              ],
+                              [
+                                  ["stick", 1],
+                                  ["broom", 1],
+                                  ["mop", 1],
+                                  ["2x4", 1],
+                                  ["pool_cue", 1]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "leg_splint",
+            "category": "CC_MISC",
+            "skill_pri": "survival",
+            "skill_sec": "firstaid",
+            "difficulty": 2,
+            "time": 1000,
+            "reversible": false,
+            "autolearn": true,
+            "components": [
+                              [ ["rag", 10], ["medical_gauze", 4] ],
+                              [
+                                  ["string_6", 12],
+                                  ["string_36", 2],
+                                  ["duct_tape", 100],
+                                  ["medical_tape", 50]
+                              ],
+                              [
+                                  ["stick", 2],
+                                  ["broom", 2],
+                                  ["mop", 2],
+                                  ["2x4", 2],
+                                  ["pool_cue", 2]
+                              ]
+                          ]
+        },
 
         {
             "result": "suppressor",
@@ -6967,6 +9133,17 @@
                           ]
         },
 
+        {
+            "result": "brass_catcher",
+            "category": "CC_MISC",
+            "skill_pri": "tailor",
+            "difficulty": 3,
+            "time": 65000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [ [ ["needle_bone", 4], ["sewing_kit", 4] ] ],
+            "components": [ [ ["rag", 4] ] ]
+        },
 
         {
             "result": "pheromone",
@@ -7379,7 +9556,7 @@
                           ]
         },
 
-	
+   
         {
             "result": "bag_bundle_10",
             "category": "CC_MISC",
@@ -7468,8 +9645,150 @@
                                   ["scrap", 3]
                               ]
                           ]
-        }
+        },
+        {
+            "result": "1st_aid",
+            "category": "CC_MISC",
+            "skill_pri": "firstaid",
+            "difficulty": 3,
+            "time": 20000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+            ],
+            "components": [
+                              [
+                                  ["duct_tape", 40],
+                                  ["medical_tape", 20]
+                              ],
+                              [
+                                  ["aspirin", 8]
+                              ],
+                              [
+                                  ["disinfectant", 2]
+                              ],
+                              [
+                                  ["bandages", 2]
+                              ]
+                          ]
+        },
+       {
+            "result": "jerrycan",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 1,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1],
+                             ["screwdriver", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["string_36", 1]
+                              ],
+                              [
+                                  ["duct_tape", 50]
+                              ],
+                              [
+                                  ["jug_plastic", 4]
+                              ]
+                          ]
+        },
+      {
+            "result": "jerrycan_big",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 2,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["toolset", -1],
+                             ["screwdriver", -1]
+                         ],
+                         [
+                             ["toolset", -1],
+                             ["hacksaw", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["string_36", 1]
+                              ],
+                              [
+                                  ["metal_tank", 1]
+                              ],
+                              [
+                                  ["scrap", 1]
+                              ]
+                          ]
+        },
+            {
+                "result": "nailrifle",
+                "category": "CC_WEAPON",
+                "skill_pri": "mechanics",
+                "skill_sec": "gun",
+                "difficulty": 2,
+                "time": 12000,
+                "reversible": true,
+                "autolearn": true,
+                "tools": [
+                             [
+                                 ["hacksaw", -1],
+                                 ["toolset", -1]
+                             ],
+                             [
+                                 ["screwdriver", -1],
+                                 ["toolset", -1]
+                             ]
+                         ],
+                "components": [
+                                  [
+                                      ["pipe", 1]
+                                  ],
+                                  [
+                                      ["2x4", 2]
+                                  ],
+                                  [
+                                      ["nailgun", 1]
+                                  ]
+                              ]
+            },
 
-        
+        {
+            "result": "gold",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "difficulty": 0,
+            "time": 2000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["gold_small", 800]
+                              ]
+                          ]
+        }
     ]
 }

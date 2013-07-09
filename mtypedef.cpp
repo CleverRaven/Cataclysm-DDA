@@ -66,13 +66,15 @@ A large buck, fast-moving and strong."
 FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BONES);
 CATEGORIES(MC_WILDLIFE);
 
-mon("moose",	species_mammal, 'M',	c_brown,	MS_LARGE,	"flesh",
+mon("moose", species_mammal, 'M',	c_brown,	MS_LARGE,	"flesh",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	  1,-50, -5,200,  10,  3,  4,  0,  1,  3,  1,  0, 100, 0,
+	  1,-10, 30,200,  10,  3,  4,  0,  1,  4,  1,  0, 100, 0,
 	&mdeath::normal,	&mattack::none, "\
 A buck of the largest deer species."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BONES);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FUR, MF_BLEED, MF_VIS40, MF_BONES);
+ANGER(MTRIG_PLAYER_CLOSE, MTRIG_HURT);
+FEARS(MTRIG_FIRE);
 CATEGORIES(MC_WILDLIFE);
 
 mon("wolf",	species_mammal, 'w',	c_ltgray,	MS_MEDIUM,	"flesh",
@@ -129,7 +131,7 @@ mon("crow",	species_mammal, 'v',	c_dkgray,	MS_TINY,	"flesh",
 	&mdeath::normal,	&mattack::none, "\
 A small woodland animal."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FLIES, MF_VIS40, MF_BONES);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_ANIMAL, MF_WARM, MF_FLIES, MF_VIS40, MF_BONES, MF_FEATHER);
 CATEGORIES(MC_WILDLIFE);
 
 // DOMESICATED ANIMALS
@@ -269,6 +271,19 @@ mon("half worm",species_worm, 's',	c_pink,		MS_MEDIUM,	"flesh",
 A portion of a giant worm that is still alive."
 );
 FLAGS(MF_DIGS, MF_HEARS, MF_GOODHEARING, MF_WARM, MF_LEATHER);
+
+// Wild Mutants
+mon("sludge crawler",species_none, 'S',	c_dkgray,		MS_LARGE,	"none",
+//	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+	  15, 100, 100, 60,  7,  3,  5,  0,  12,  4,  0,  0, 300,  0,
+	&mdeath::melt,	&mattack::none, "\
+A sluglike creature, eight feet long and the width of a refrigerator, it's black \
+body glistens as it oozes it's way along the ground. Eye stalks occassionally push their \
+way out of the oily mass and look around."
+);
+FLAGS(MF_NOHEAD, MF_SEES, MF_POISON, MF_HEARS, MF_REGENERATES_50, MF_SMELLS, MF_VIS30, 
+MF_SLUDGEPROOF, MF_SLUDGETRAIL, MF_SWIMS, MF_FLAMMABLE);
+
 
 // ZOMBIES
 mon("zombie",	species_zombie, 'Z',	c_ltgreen,	MS_MEDIUM,	"flesh",
@@ -493,8 +508,8 @@ parts that have become fused in this golem\n\
 of flesh.  The eyes of all the heads dart\n\
 rapidly and the mouths scream or groan."
 );
-FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES,
-      MF_DESTROYS, MF_ATTACKMON, MF_LEATHER, MF_BONES, MF_VIS50);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_STUMBLES, MF_WARM, MF_BASHES, MF_DESTROYS,
+      MF_ATTACKMON, MF_LEATHER, MF_BONES, MF_VIS50, MF_POISON);
 
 // PLANTS & FUNGI
 mon("triffid",	species_plant, 'F',	c_ltgreen,	MS_MEDIUM,	"veggy",
@@ -1096,6 +1111,50 @@ mon("shadow snake",species_none, 's',	c_dkgray,	MS_SMALL,	"flesh",
 A large snake, translucent black.");
 FLAGS(MF_SEES, MF_SMELLS, MF_WARM, MF_SWIMS, MF_LEATHER, MF_PLASTIC,
       MF_SUNDEATH);
+
+// CULT
+
+mon("dementia",    species_zombie, 'd',    c_red,    MS_MEDIUM,    "flesh",
+//    dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+      3,100,100, 105,  5,  1,  5,  2,  1,  0,  0, 0, 80,  0,
+    &mdeath::zombie,    &mattack::none, "\
+An insane individual with many bloody holes\n\
+on the sides of their shaved head.  Some form\n\
+of lobotomy has left it with a partially re-\n\
+animated brain."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_BLEED, MF_HUMAN, MF_POISON);
+
+mon("homunculus",    species_zombie, 'h',    c_white,    MS_MEDIUM,    "flesh",
+//    dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+      3,100,100, 110,  8,  1,  5,  2,  4,  3,  3, 0, 110,  0,
+    &mdeath::zombie,    &mattack::none, "\
+A pale white man with a physically flawless athletic\n\
+body and shaved head.  His eyes are completely black\n\
+as bloody tears pour forth from them."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BASHES, MF_BLEED, MF_HUMAN);
+
+mon("blood sacrifice",    species_zombie, 'S',    c_red,    MS_MEDIUM,    "flesh",
+//    dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+      0,100,100, 200,  0,  1,  5,  2,  0,  0,  0, 0, 40,  0,
+    &mdeath::zombie,    &mattack::fear_paralyze, "\
+This poor victim was sliced open and bled to\n\
+death long ago.  Yet, chained down it thrashes\n\
+in eternal misery from its tortures."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BLEED, MF_IMMOBILE, MF_GUILT, MF_POISON);
+
+mon("flesh angel",    species_zombie, 'A',    c_red,    MS_LARGE,    "flesh",
+//    dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
+      20,100,100, 120, 10,  3,  4,  0,  2,  0,  0,  0, 200, 0,
+    &mdeath::zombie,    &mattack::fear_paralyze, "\
+Slender and terrifying, this gigantic man lacks\n\
+any skin yet moves swiftly and gracefully without\n\
+it.  Wings of flesh protrude uselessly from his\n\
+back and a third eye dominates his forehead."
+);
+FLAGS(MF_SEES, MF_HEARS, MF_SMELLS, MF_WARM, MF_BLEED, MF_HARDTOSHOOT, MF_HUMAN, MF_POISON);
 
 // ROBOTS
 mon("eyebot",	species_robot, 'r',	c_ltblue,	MS_SMALL,	"steel",

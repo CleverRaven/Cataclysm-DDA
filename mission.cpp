@@ -245,7 +245,7 @@ Hell ya!  Find me one of those big ol' American flags.";
    case TALK_MISSION_SUCCESS_LIE:
     return "What?!  You liar!";
    case TALK_MISSION_FAILURE:
-    return "You give up?  This country fell apart becuase no one could find a\
+    return "You give up?  This country fell apart because no one could find a\
 good man to rely on... might as well give up, I guess.";
   }
   break;
@@ -314,13 +314,46 @@ Fuck ya, America!";
   }
   break;
 
+//patriot mission 4
+ case MISSION_EXPLORE_SARCOPHAGUS:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "You wouldn't believe what I found...";
+   case TALK_MISSION_OFFER:
+    return "Holy hell, the crash you recovered the black box from wasn't as old as I thought.  \
+Check this out, it was on its approach to pick up a team sent to secure and destroy something called a \
+'Hazardous Waste Sarcophagus' in the middle of nowhere.  If the bird never picked up the team then we \
+may still have a chance to meet up with them.  It includes an access code for the elevator and an encoded \
+message for the team leader, I guess.  If we want to join up with what remains of the government then now \
+may be our only chance.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Fuck ya, America!";
+   case TALK_MISSION_REJECTED:
+    return "Are you going to forfeit your duty when the country needs you the most?";
+   case TALK_MISSION_ADVICE:
+    return "If there is a military team down there then we better go in prepared if we want to \
+impress them.  Carry as much ammo as you can and prepare to ditch this place if they have a second \
+bird coming to pick them up.";
+   case TALK_MISSION_INQUIRE:
+    return "Having any trouble following the map?";
+   case TALK_MISSION_SUCCESS:
+    return "We got this shit!";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What?!  I out'ta whip your ass.";
+   case TALK_MISSION_FAILURE:
+    return "Damn, we were so close.";
+  }
+  break;
+
+//martyr mission 1
    case MISSION_GET_RELIC:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
     return "St. Michael the archangel defend me in battle...";
    case TALK_MISSION_OFFER:
     return "As the world seems to abandon the reality that we once knew, it \
-becomes plausable that the old superstitions that were cast aside may \
+becomes plausible that the old superstitions that were cast aside may \
 have had some truth to them.  Please go and find me a religious relic...\
 I doubt it will be of much use but I've got to hope in something.";
    case TALK_MISSION_ACCEPTED:
@@ -333,7 +366,110 @@ I wish you the best of luck, may whatever god you please guide your path.";
    case TALK_MISSION_INQUIRE:
     return "Any luck?";
    case TALK_MISSION_SUCCESS:
-    return "Thankyou, I need some time alone now...";
+    return "Thank you, I need some time alone now...";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What good does this do us?";
+   case TALK_MISSION_FAILURE:
+    return "It was a lost cause anyways...";
+  }
+  break;
+
+//martyr mission 2
+   case MISSION_RECOVER_PRIEST_DIARY:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "St. Michael the archangel defend me in battle...";
+   case TALK_MISSION_OFFER:
+    return "From what I understand, the creatures you encountered \
+surrounding this relic were unlike anything I've heard of.  It is \
+laughable that I now consider the living dead to be part of our \
+ordinary reality.  Never-the-less, the church must have some explanation \
+for these events.  I have located the residence of a local clergy man, \
+could you go to this address and recover any items that may reveal what \
+the church's stance is on these events?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+I wish you the best of luck, may whatever god you please guide your path.";
+   case TALK_MISSION_REJECTED:
+    return "Ya, I guess the stress may just be getting to me...";
+   case TALK_MISSION_ADVICE:
+    return "If the information is confidential the priest must have it hidden \
+within his own home.";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Thank you, a diary is exactly what I was looking for.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What good does this do us?";
+   case TALK_MISSION_FAILURE:
+    return "It was a lost cause anyways...";
+  }
+  break;
+
+//martyr mission 3
+   case MISSION_INVESTIGATE_CULT:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "St. Michael the archangel defend me in battle...";
+   case TALK_MISSION_OFFER:
+    return "You have no idea how interesting this diary is.  I have two \
+very promising leads...  First things first, the Catholic Church has been \
+performing its own investigations into global cult phenomenon and it appears \
+to have become very interested in a local cult as of recently.  Could you investigate \
+a location for me?  I'm not sure what was going on here but the priest seemed \
+fairly worried about it.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+I wish you the best of luck, may whatever god you please guide your path...  You may need it \
+this time more than the past excursions you have gone on.  There is a note about potential human \
+sacrifice in the days immediately before and after the outbreak.  The name of the cult is believed \
+to be the Church of Starry Wisdom but it is noted that accounts differ.";
+   case TALK_MISSION_REJECTED:
+    return "Ya, I guess the stress may just be getting to me...";
+   case TALK_MISSION_ADVICE:
+    return "I doubt the site is still occupied but I'd carry a firearm at least... I'm not sure what \
+you might be looking for but I'm positive you'll find something out of the ordinary if you look long \
+enough.";
+   case TALK_MISSION_INQUIRE:
+    return "I'm positive there is something there... there has to be, any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Thank you, your account of these... demonic creations proves the fears the churches \
+had were well founded.  Our priority should be routing out any survivors of this cult... I don't \
+known if they are responsible for the outbreak but they certainly know more about it than I do.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "What good does this do us?";
+   case TALK_MISSION_FAILURE:
+    return "It was a lost cause anyways...";
+  }
+  break;
+
+//martyr mission 4
+   case MISSION_INVESTIGATE_PRISON_VISIONARY:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "St. Michael the archangel defend me in battle...";
+   case TALK_MISSION_OFFER:
+    return "I have another task if you are feeling up to it.  There is a prisoner that \
+the priest made special mention of.  I was wondering if you could see \
+what may have happened to him or if he left anything in his cell.  The priest admits the individual is rather \
+unstable, to put it lightly, but the priest personally believed the man was some kind of repentant visionary.  I'm \
+not in a position to cast out the account just yet... it seems the man has prophesied  events accurately before \
+concerning the Church of Starry Wisdom.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+I wish you the best of luck, may whatever god you please guide your path...  I can only imagine that the prison \
+will be a little slice of hell.  I'm not sure what they would have decided to do with the inmates when they knew \
+death was almost certain.  ";
+   case TALK_MISSION_REJECTED:
+    return "Ya, I guess the stress may just be getting to me...";
+   case TALK_MISSION_ADVICE:
+    return "The worst case scenario will probably be that the prisoners have escaped their cells and turned the \
+building into their own little fortress.  Best case, the building went into lock-down and secured the prisoners in \
+their cells.  Either way, navigating the building will pose its own difficulties.";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Thank you, I'm not sure what to make of this but I'll ponder your account.";
    case TALK_MISSION_SUCCESS_LIE:
     return "What good does this do us?";
    case TALK_MISSION_FAILURE:
@@ -350,7 +486,7 @@ I wish you the best of luck, may whatever god you please guide your path.";
 is causing this it must be airborne to have infected everyone.  I believe that \
 if that is the case then there should be regions that were not downwind from \
 where-ever the disease was released.  We need to find a record of all the \
-weather paterns leading up to the outbreak.";
+weather patterns leading up to the outbreak.";
    case TALK_MISSION_ACCEPTED:
     return "\
 Thanks so much, you may save both of us yet.";
@@ -453,12 +589,13 @@ ought to be safe for now.  You'll always be welcome here.";
   }
   break;
 
+//vigilante mission 1
    case MISSION_GET_RECORD_ACCOUNTING:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
     return "Those twisted snakes...";
    case TALK_MISSION_OFFER:
-    return "Our world fell apart because our leaders were as crooked as the conmen that \
+    return "Our world fell apart because our leaders were as crooked as the con-men that \
 paid for their elections.  Just find me one of those corporate accounting books and I'll \
 show you and the rest of the world just who is at fault.";
    case TALK_MISSION_ACCEPTED:
@@ -477,14 +614,71 @@ will prove their guilt if we get an expert to examine it.";
    case TALK_MISSION_SUCCESS_LIE:
     return "Thanks for trying... I guess.";
    case TALK_MISSION_FAILURE:
-    return "The day of reconing will come for the corporations if it hasn't already.";
+    return "The day of reckoning will come for the corporations if it hasn't already.";
+  }
+  break;
+  
+//vigilante mission 2
+  case MISSION_GET_SAFE_BOX:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Those twisted snakes...";
+   case TALK_MISSION_OFFER:
+    return "Now I don't mean to upset you but I'm not sure what I can do with the accounting ledger at the \
+moment.  We do have a new lead though, the ledger has a safe deposit box under the regional manager's name.  \
+Guess what, dumb sucker wrote down his combination.  Come with me to retrieve the box and you can keep any \
+of the goodies in it that I can't use to press charges against these bastards.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+You may make a tidy profit from this.";
+   case TALK_MISSION_REJECTED:
+    return "I know it isn't pressing but the world is going to be just as corrupt when we start rebuilding unless \
+we take measure to stop those who seek to rule over us.";
+   case TALK_MISSION_ADVICE:
+    return "This shouldn't be hard unless we run into a horde.";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Great, anything I can't use to prosecute the bastards is yours, as promised.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "Thanks for trying... I guess.";
+   case TALK_MISSION_FAILURE:
+    return "The day of reckoning will come for the corporations if it hasn't already.";
   }
   break;
 
+//vigilante mission 3
+  case MISSION_GET_DEPUTY_BADGE:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Those twisted snakes...";
+   case TALK_MISSION_OFFER:
+    return "I hope you will find use from what you got out of the deposit box but I also have another job for you \
+that might lead you to an opportunity to deal out justice for those who cannot.  First things first, we can't just \
+look like ruffians.  Find us a deputy badge, easy enough?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+I'd check the police station.";
+   case TALK_MISSION_REJECTED:
+    return "We're also official... just hang in there and I'll show you what we can really do.";
+   case TALK_MISSION_ADVICE:
+    return "They shouldn't be that hard to find... should they?";
+   case TALK_MISSION_INQUIRE:
+    return "Any luck?";
+   case TALK_MISSION_SUCCESS:
+    return "Great work, Deputy.  We're in business.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "Thanks for trying... I guess.";
+   case TALK_MISSION_FAILURE:
+    return "The day of reckoning will come for the criminals if it hasn't already.";
+  }
+  break;
+
+//demon slayer mission 1
    case MISSION_KILL_JABBERWOCK:
   switch (state) {
    case TALK_MISSION_DESCRIBE:
-    return "The eater of the dead... something was ripping zombies to shreads and only leaving a few scattered limbs...";
+    return "The eater of the dead... something was ripping zombies to shreds and only leaving a few scattered limbs...";
    case TALK_MISSION_OFFER:
     return "A few days ago another survivor and I were trying to avoid the cities by staying in the woods \
 during the day and foraging for gear at night. It worked well against the normal zed's but one night something \
@@ -505,6 +699,127 @@ Thanks, make sure you're ready for whatever the beast is.";
     return "Something in the shadows still seems to stare at me when I look at the woods.";
    case TALK_MISSION_FAILURE:
     return "I'm glad you came back alive... I wasn't sure if I had sent you to your death.";
+  }
+  break;
+
+//demon slayer mission 2
+  case MISSION_KILL_100_Z:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "You seem to know this new world better than most...";
+   case TALK_MISSION_OFFER:
+    return "You're kitted out better than most... would you be interested in making this world a \
+little better for the rest of us?  The towns have enough supplies for us survivors to \
+start securing a foothold but we don't have anyone with the skills and equipment to thin the masses \
+of undead.  I'll lend you a hand to the best of my ability but you really \
+showed promise taking out that other beast.  You, I, and a 100 regular zombies laid to rest, what do you say?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Hell ya, we may get ourselves killed but we'll be among the first legends of the apocalypse.";
+   case TALK_MISSION_REJECTED:
+    return "Hey, I know I wouldn't volunteer for it either... but then I remember that most of us survivors \
+won't make it unless someone decides to take the initiative.";
+   case TALK_MISSION_ADVICE:
+    return "I'd secure an ammo cache and try to sweep a town in multiple passes.";
+   case TALK_MISSION_INQUIRE:
+    return "Got this knocked out?";
+   case TALK_MISSION_SUCCESS:
+    return "Man... you're a goddamn machine.  It was a pleasure working with you.  You know, you may just change \
+our little neck of the world if you keep this up.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "I don't think that was quite a hundred dead zeds.";
+   case TALK_MISSION_FAILURE:
+    return "Quitting already?";
+  }
+  break;
+
+//demon slayer mission 3
+  case MISSION_KILL_HORDE_MASTER:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "I've heard some bad rumors so I hope you are up for another challenge...";
+   case TALK_MISSION_OFFER:
+    return "Apparently one of the other survivors picked up on an unusually dense horde of undead \
+moving into the area.  At the center of this throng there was a 'leader' of some sort.  The short of it is, \
+kill the son of a bitch.  We don't know what it is capable of or why it is surrounded by other zombies but \
+this thing reeks of trouble.  Do whatever it takes but we can't risk it getting away.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+I'll lend you a hand but I'd try and recruit another gunslinger if you can.";
+   case TALK_MISSION_REJECTED:
+    return "What's the use of walking away, they'll track you down eventually.";
+   case TALK_MISSION_ADVICE:
+    return "Don't risk torching the building it may be hiding in if it has a basement.  The sucker may still be \
+alive under the rubble and ash.";
+   case TALK_MISSION_INQUIRE:
+    return "Got this knocked out?";
+   case TALK_MISSION_SUCCESS:
+    return "May that bastard never get up again.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "I don't think we got it yet.";
+   case TALK_MISSION_FAILURE:
+    return "Quitting already?";
+  }
+  break;
+
+
+
+//demon slayer mission 4
+   case MISSION_RECRUIT_TRACKER:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "You seem to know this new world better than most...";
+   case TALK_MISSION_OFFER:
+    return "We've got another problem to deal with but I don't think we can handle \
+it on our own.  So, I sent word out and found us a volunteer... of sorts.  He's vain \
+as hell but has a little skill with firearms.  He was supposed to collect whatever he \
+had of value and is going to meet us at a cabin in the woods.  Wasn't sure how long \
+we were going to be so I told him to just camp there until we picked him up.";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Rodger, if he's a no-show then any other gunslinger will do... but I doubt he'll quit \
+before we even begin.";
+   case TALK_MISSION_REJECTED:
+    return "Hey, I know I wouldn't volunteer for it either... but then I remember that most of us survivors \
+won't make it unless someone decides to take the initiative.";
+   case TALK_MISSION_ADVICE:
+    return "I hope the bastard is packing heat... else we'll need to grab him a gun before we hit our next \
+target.";
+   case TALK_MISSION_INQUIRE:
+    return "Found a gunslinger?";
+   case TALK_MISSION_SUCCESS:
+    return "Great, just let me know when you are ready to wade knee-deep in an ocean of blood.";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "I don't think so...";
+   case TALK_MISSION_FAILURE:
+    return "Quitting already?";
+  }
+  break;
+
+//demon slayer mission 4b
+   case MISSION_JOIN_TRACKER:
+  switch (state) {
+   case TALK_MISSION_DESCRIBE:
+    return "Well damn, you must be the guys here to pick me up...";
+   case TALK_MISSION_OFFER:
+    return "I got the brief so I know what I'm getting into.  Let me be upfront, \
+treat me like shit and I'm going to cover my own hide.  Without a strong band a man doesn't \
+stand a chance in this world.  You ready to take charge boss?";
+   case TALK_MISSION_ACCEPTED:
+    return "\
+Before we get into a major fight just make sure we have the gear we need, boss.";
+   case TALK_MISSION_REJECTED:
+    return "I don't think you're going to find many other survivors who haven't taken up a faction yet.";
+   case TALK_MISSION_ADVICE:
+    return "I'm a pretty good shot with a rifle or pistol.";
+   case TALK_MISSION_INQUIRE:
+    return "Any problems boss?";
+   case TALK_MISSION_SUCCESS:
+    return "Wait... are you really making me a deputy?";
+   case TALK_MISSION_SUCCESS_LIE:
+    return "I don't think so...";
+   case TALK_MISSION_FAILURE:
+    return "Quitting already?";
   }
   break;
 

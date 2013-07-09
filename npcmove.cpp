@@ -93,7 +93,7 @@ void npc::move(game *g)
   if (g->debugmon)
    debugmsg("address_player %s", npc_action_name(action).c_str());
   if (action == npc_undecided) {
-   if (mission == NPC_MISSION_SHELTER || has_disease(DI_INFECTION))
+   if (mission == NPC_MISSION_SHELTER || has_disease("infection"))
     action = npc_pause;
    else if (has_new_items)
     action = scan_new_items(g, target);
@@ -182,7 +182,7 @@ void npc::execute_action(game *g, npc_action action, int target)
 /* TODO: Open a dialogue with the player, allowing us to ask if it's alright if
  * we get some sleep, how long watch shifts should be, etc.
  */
-  //add_disease(DI_LYING_DOWN, 300, g);
+  //add_disease("lying_down", 300);
   if (is_friend() && g->u_see(posx, posy))
    say(g, "I'm going to sleep.");
   break;
@@ -641,14 +641,14 @@ npc_action npc::address_player(game *g)
  if (attitude == NPCATT_LEAD) {
   if (rl_dist(posx, posy, g->u.posx, g->u.posy) >= 12 ||
       !g->sees_u(posx, posy, linet)) {
-   int intense = disease_intensity(DI_CATCH_UP);
+   int intense = disease_intensity("catch_up");
    if (intense < 10) {
     say(g, "<keep_up>");
-    add_disease(DI_CATCH_UP, 5, g, 1, 15);
+    add_disease("catch_up", 5, 1, 15);
     return npc_pause;
    } else if (intense == 10) {
     say(g, "<im_leaving_you>");
-    add_disease(DI_CATCH_UP, 5, g, 1, 15);
+    add_disease("catch_up", 5, 1, 15);
     return npc_pause;
    } else
     return npc_goto_destination;
@@ -691,7 +691,7 @@ bool npc::alt_attack_available(game *g)
  return false;
 }
 
-char npc::choose_escape_item()
+signed char npc::choose_escape_item()
 {
  int best = -1, ret = -1;
  invslice slice = inv.slice(0, inv.size());
@@ -717,7 +717,7 @@ char npc::choose_escape_item()
  return slice[ret]->front().invlet;
 }
 
-void npc::use_escape_item(game *g, char invlet, int target)
+void npc::use_escape_item(game *g, signed char invlet, int target)
 {
  if (invlet == 0) {
   debugmsg("%s tried to use item with null invlet", name.c_str());
@@ -798,10 +798,10 @@ int npc::confident_range(char invlet)
   if (weapon.curammo == NULL)	// This shouldn't happen, but it does sometimes
    debugmsg("%s has NULL curammo!", name.c_str()); // TODO: investigate this bug
   else {
-   deviation += .5 * weapon.curammo->accuracy;
+   deviation += .5 * weapon.curammo->dispersion;
    max = weapon.range();
   }
-  deviation += .5 * firing->accuracy;
+  deviation += .5 * firing->dispersion;
   deviation += 3 * recoil;
 
  } else { // We aren't firing a gun, we're throwing something!
@@ -949,11 +949,11 @@ void npc::move_to(game *g, int x, int y)
   g->m.unboard_vehicle(g, posx, posy);
  }
 
- if (has_disease(DI_DOWNED)) {
+ if (has_disease("downed")) {
   moves -= 100;
   return;
  }
- if (has_disease(DI_BOULDERING)) {
+ if (has_disease("bouldering")) {
   moves -= 20;
   if (moves < 0)
    moves = 0;
@@ -966,7 +966,7 @@ void npc::move_to(game *g, int x, int y)
    recoil = int(recoil / 2);
   }
  }
- if (has_disease(DI_STUNNED)) {
+ if (has_disease("stunned")) {
   x = rng(posx - 1, posx + 1);
   y = rng(posy - 1, posy + 1);
  }
@@ -996,10 +996,10 @@ void npc::move_to(game *g, int x, int y)
 // TODO: Determine if it's an enemy NPC (hit them), or a friendly in the way
   moves -= 100;
  else if (g->m.move_cost(x, y) > 0) {
-  bool diagonal = ( posx != x && posy != y );
   posx = x;
   posy = y;
-  moves -= run_cost(g->m.move_cost(x, y) * 50) * ( trigdist && diagonal ? 1.41 : 1 );
+  bool diag = trigdist && posx != x && posy != y;
+  moves -= run_cost(g->m.combined_movecost(posx, posy, x, y), diag);
  } else if (g->m.open_door(x, y, (g->m.ter(posx, posy) == t_floor)))
   moves -= 100;
  else if (g->m.has_flag(bashable, x, y)) {
@@ -1009,10 +1009,10 @@ void npc::move_to(game *g, int x, int y)
   g->m.bash(x, y, smashskill, bashsound);
   g->sound(x, y, 18, bashsound);
  } else
- if (g->m.field_at(x, y).type == fd_rubble)
-  g->u.add_disease(DI_BOULDERING, 100, g, g->m.field_at(x,y).density, 3);
+ if (g->m.field_at(x, y).findField(fd_rubble))
+  g->u.add_disease("bouldering", 100, g->m.field_at(x,y).findField(fd_rubble)->getFieldDensity(), 3);
  else
-  g->u.rem_disease(DI_BOULDERING);
+  g->u.rem_disease("bouldering");
   moves -= 100;
 }
 

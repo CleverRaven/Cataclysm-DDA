@@ -45,6 +45,7 @@ typedef struct
 typedef struct{
 bool touched;
 char *chars;
+int width_in_bytes;
 char *FG;
 char *BG;
 //cursechar chars [80];
@@ -101,6 +102,7 @@ typedef struct {
 #define    KEY_BACKSPACE  0x107    /* Backspace */                  //<---------not used
 #define    KEY_NPAGE      0x152    /* page down */
 #define    KEY_PPAGE      0x153    /* page up */
+#define    KEY_ENTER      0x157    /* enter */
 
 /* Curses external declarations. */
 
@@ -156,8 +158,13 @@ void set_escdelay(int delay);//PORTABILITY, DUMMY FUNCTION
 int echo(void);
 int noecho(void);
 //non-curses functions, Do not call these in the main game code
-void WinDestroy();
-bool WinCreate(bool initgl);
-void CheckMessages();
-int FindWin(WINDOW *wnd);
+extern WINDOW* mainwin;
+extern pairs *colorpairs;
+WINDOW* curses_init();
+int curses_destroy();
+void curses_drawwindow(WINDOW* win);
+void curses_delay(int delay);
+void curses_timeout(int t);
+int curses_getch(WINDOW* win);
+int curses_start_color();
 #endif

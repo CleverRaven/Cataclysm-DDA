@@ -5,6 +5,7 @@
 #include "game.h"
 #include "rng.h"
 #include "item.h"
+#include "item_factory.h"
 #include <sstream>
 #include <fstream>
 #include <stdlib.h>
@@ -286,6 +287,7 @@ void monster::load_info(std::string data, std::vector <mtype*> *mtypes)
          no_extra_death_drops >> dead >> anger >> morale;
  type = (*mtypes)[idtmp];
  point ptmp;
+ plans.clear();
  for (int i = 0; i < plansize; i++) {
   dump >> ptmp.x >> ptmp.y;
   plans.push_back(ptmp);
@@ -470,8 +472,8 @@ int monster::trigger_sum(game *g, std::vector<monster_trigger> *triggers)
      }
     }
     if (check_fire) {
-     if (g->m.field_at(x, y).type == fd_fire)
-      ret += 5 * g->m.field_at(x, y).density;
+     if (g->m.field_at(x, y).findField(fd_fire))
+      ret += 5 * g->m.field_at(x, y).findField(fd_fire)->getFieldDensity();
     }
    }
   }
@@ -534,6 +536,7 @@ int monster::hit(game *g, player &p, body_part &bp_hit) {
 void monster::hit_monster(game *g, int i)
 {
  monster* target = &(g->z[i]);
+ moves -= 100;
 
  if (this == target) {
   debugmsg("stopped monster from hitting itself");
@@ -562,13 +565,18 @@ void monster::hit_monster(game *g, int i)
 }
 
 
-bool monster::hurt(int dam)
+bool monster::hurt(int dam, int real_dam)
 {
  hp -= dam;
- if (hp < 1)
-  return true;
- if (dam > 0)
-  process_trigger(MTRIG_HURT, 1 + int(dam / 3));
+ if( real_dam > 0 ) {
+     hp = std::max( hp, -real_dam );
+ }
+ if (hp < 1) {
+     return true;
+ }
+ if (dam > 0) {
+     process_trigger(MTRIG_HURT, 1 + int(dam / 3));
+ }
  return false;
 }
 
@@ -637,11 +645,19 @@ void monster::die(game *g)
  if (has_flag(MF_QUEEN)) {
 // Do it for overmap above/below too
   for(int z = 0; z >= -1; --z) {
-   std::vector<mongroup*> groups = g->cur_om->monsters_at(g->levx, g->levy, z);
-   for (int i = 0; i < groups.size(); i++) {
-   if (MonsterGroupManager::IsMonsterInGroup(groups[i]->type, mon_id(type->id)))
-    groups[i]->dying = true;
-   }
+      for (int x = -MAPSIZE/2; x <= MAPSIZE/2; x++)
+      {
+          for (int y = -MAPSIZE/2; y <= MAPSIZE/2; y++)
+          {
+                 std::vector<mongroup*> groups =
+                     g->cur_om->monsters_at(g->levx+x, g->levy+y, z);
+                 for (int i = 0; i < groups.size(); i++) {
+                     if (MonsterGroupManager::IsMonsterInGroup
+                         (groups[i]->type, mon_id(type->id)))
+                         groups[i]->dying = true;
+                 }
+          }
+      }
   }
  }
 // If we're a mission monster, update the mission
@@ -683,11 +699,9 @@ void monster::die(game *g)
 
 void monster::drop_items_on_death(game *g)
 {
-    int total_chance = 0, total_it_chance, cur_chance, selected_location,
-        selected_item;
+    int total_chance = 0, cur_chance, selected_location;
     bool animal_done = false;
     std::vector<items_location_and_chance> it = g->monitems[type->id];
-    std::vector<itype_id> mapit;
     if (type->item_chance != 0 && it.size() == 0)
     {
         debugmsg("Type %s has item_chance %d but no items assigned!",
@@ -709,20 +723,12 @@ void monster::drop_items_on_death(game *g)
             selected_location++;
             cur_chance -= it[selected_location].chance;
         }
-        total_it_chance = 0;
-        mapit = g->mapitems[it[selected_location].loc];
-        for (int i = 0; i < mapit.size(); i++)
-        {
-            total_it_chance += g->itypes[mapit[i]]->rarity;
-        }
-        cur_chance = rng(1, total_it_chance);
-        selected_item = -1;
-        while (cur_chance > 0)
-        {
-            selected_item++;
-            cur_chance -= g->itypes[mapit[selected_item]]->rarity;
-        }
-        g->m.spawn_item(posx, posy, g->itypes[mapit[selected_item]], 0);
+
+        // We have selected a string representing an item group, now
+        // get a random item tag from it and spawn it.
+        Item_tag selected_item = item_controller->id_from(it[selected_location].loc);
+        g->m.spawn_item(posx, posy, selected_item, 0);
+
         if (type->item_chance < 0)
         {
             animal_done = true; // Only drop ONE item.

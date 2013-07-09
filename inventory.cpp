@@ -448,17 +448,20 @@ void inventory::form_from_map(game *g, point origin, int range)
  items.clear();
  for (int x = origin.x - range; x <= origin.x + range; x++) {
   for (int y = origin.y - range; y <= origin.y + range; y++) {
+   if (g->m.has_flag(sealed, x, y))
+     continue;
    for (int i = 0; i < g->m.i_at(x, y).size(); i++)
     if (!g->m.i_at(x, y)[i].made_of(LIQUID))
      add_item(g->m.i_at(x, y)[i]);
 // Kludges for now!
-   if (g->m.field_at(x, y).type == fd_fire) {
+   ter_id terrain_id = g->m.ter(x, y);
+   furn_id furniture_id = g->m.furn(x, y);
+   if ((g->m.field_at(x, y).findField(fd_fire)) || (terrain_id == t_lava)) {
     item fire(g->itypes["fire"], 0);
     fire.charges = 1;
     add_item(fire);
    }
-   ter_id terrain_id = g->m.ter(x, y);
-   if (terrain_id == t_toilet || terrain_id == t_water_sh || terrain_id == t_water_dp){
+   if (furniture_id == f_toilet || terrain_id == t_water_sh || terrain_id == t_water_dp){
     item water(g->itypes["water"], 0);
     water.charges = 50;
     add_item(water);
@@ -650,14 +653,14 @@ std::vector<item> inventory::remove_mission_items(int mission_id)
     return ret;
 }
 
-void inventory::dump(std::vector<item>& dest) const
+void inventory::dump(std::vector<item *>& dest)
 {
-    for (invstack::const_iterator iter = items.begin(); iter != items.end(); ++iter)
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
-        for (std::list<item>::const_iterator stack_iter = iter->begin();
+        for (std::list<item>::iterator stack_iter = iter->begin();
              stack_iter != iter->end(); ++stack_iter)
         {
-            dest.push_back(*stack_iter);
+            dest.push_back(&(*stack_iter));
         }
     }
 }
@@ -861,7 +864,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                 {
                     iter = items.erase(iter);
                     --iter;
-                    stack_iter = iter->begin();
+                    break;
                 }
                 else
                 {
@@ -877,7 +880,7 @@ std::list<item> inventory::use_amount(itype_id it, int quantity, bool use_contai
                 {
                     iter = items.erase(iter);
                     --iter;
-                    stack_iter = iter->begin();
+                    break;
                 }
                 else
                 {

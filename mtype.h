@@ -40,6 +40,8 @@ mon_ant_larva, mon_ant, mon_ant_soldier, mon_ant_queen, mon_ant_fungus,
 mon_fly, mon_bee, mon_wasp,
 // Worms
 mon_graboid, mon_worm, mon_halfworm,
+// Wild Mutants
+mon_sludge_crawler,
 // Zombies
  mon_zombie, mon_zombie_cop, mon_zombie_shrieker, mon_zombie_spitter, mon_zombie_electric,
  mon_zombie_smoker,
@@ -76,6 +78,8 @@ mon_human_snail, mon_twisted_body, mon_vortex,
 mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg, mon_gelatin,
  mon_flaming_eye, mon_kreck, mon_gracke, mon_blank, mon_gozu, mon_shadow, mon_breather_hub,
  mon_breather, mon_shadow_snake,
+// Cult, lobotomized creatures that are human/undead hybrids
+mon_dementia, mon_homunculus, mon_blood_sacrifice, mon_flesh_angel,
 // Robots
 mon_eyebot, mon_manhack, mon_skitterbot, mon_secubot, mon_hazmatbot, mon_copbot, mon_molebot,
  mon_tripod, mon_chickenbot, mon_tankbot, mon_turret, mon_exploder,
@@ -156,11 +160,14 @@ MF_SUNDEATH,	// Dies in full sunlight
 MF_ELECTRIC,	// Shocks unarmed attackers
 MF_ACIDPROOF,	// Immune to acid
 MF_ACIDTRAIL,	// Leaves a trail of acid
+MF_SLUDGEPROOF, // Ignores the effect of sludge trails
+MF_SLUDGETRAIL, // Causes monster to leave a sludge trap trail when moving
 MF_FIREY,	// Burns stuff and is immune to fire
 MF_QUEEN,	// When it dies, local populations start to die off too
 MF_ELECTRONIC,	// e.g. a robot; affected by emp blasts, and other stuff
-MF_FUR,		// May produce fur when butchered.
+MF_FUR,		// May produce fur when butchered
 MF_LEATHER,	// May produce leather when butchered
+MF_FEATHER, // May produce feather when butchered
 MF_CBM, // May produce a cbm or two when butchered
 MF_BONES, // May produce bones and sinews when butchered
 MF_IMMOBILE,	// Doesn't move (e.g. turrets)
@@ -169,6 +176,8 @@ MF_HIT_AND_RUN,	// Flee for several turns after a melee attack
 MF_GUILT,	// You feel guilty for killing it
 MF_HUMAN,	// It's a live human
 MF_NO_BREATHE, //Provides immunity to inhalation effects from gas, smoke, and poison
+MF_REGENERATES_50, // Monster regenerates very quickly over time
+MF_FLAMMABLE, // Monster catches fire, burns, and passes the fire on to nearby objects
 MF_MAX		// Sets the length of the flags - obviously MUST be last
 };
 
