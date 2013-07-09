@@ -11,13 +11,12 @@ Cataclysm-DDA uses SDL, SDL\_ttf, ncurses, and gettext libraries.
 
 On OS X, SDL can be installed as frameworks or as libraries.
 Each framework is a single folder; download them, copy them to your system, done.
-SDL libraries are installed most easily via a package manager
-(Fink, Homebrew, MacPorts, or pkgsrc).
+SDL libraries are installed most easily via a package manager.
 
-### Use a package manager
+### Installing libraries via a package manager
 
-The most straightforward way to install the requirements is using a package manager.
-Both the libraries and frameworks available to install.
+The most straightforward way to install the libraries is by using a package manager.
+Both the SDL libraries and frameworks should be available.
 
 Use [Fink](http://fink.thetis.ig42.org), [Homebrew](http://mxcl.github.io/homebrew/),
 [MacPorts](http://www.macports.org), or [pkgsrc](http://www.pkgsrc.org/).
@@ -30,7 +29,7 @@ An example, after installing [MacPorts](http://www.macports.org/):
     $ sudo port install libsdl_ttf
 
 Then you should have the necessary requirements to build Cataclysm-DDA.
-Using other package managers should be similar. See 'No package manager' for some
+Using other package managers should be similar. See **No package manager** for some
 advice on building requirements from source, without a package manager.
 
 ## Build Cataclysm-DDA
@@ -40,8 +39,8 @@ From the Cataclysm-DDA source folder:
     $ export CXXFLAGS="-I/path/to/include" LDFLAGS="-L/path/to/lib"
     
 This adds search paths for where to find ncurses, gettext, and also -lSDL and -lSDL\_ttf
-if you are using sdl libraries instead of frameworks. Following the above example,
-I would use `export CXXFLAGS="-I$HOME/opt/catdda/include" LDFLAGS="-L$HOME/opt/catdda/lib"`.
+if you are using sdl libraries instead of frameworks. Multiple `-I/path/to/...` paths can
+be specified.
 
     $ make NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 OSX_MIN=10.6
     $ ./cataclysm
@@ -65,31 +64,12 @@ I would use `export CXXFLAGS="-I$HOME/opt/catdda/include" LDFLAGS="-L$HOME/opt/c
 
 Create a .tar.gz archive of the build; omit `TILES=1` if you built the console version.
 
-## Misc
-
-### Fonts
-
-Something in sdlcurse.cpp is making the font look a bit funny in the SDL version -
-the baseline seems to vary a bit for certain letters, making the lines look wobbly.
-
-Here are a few ways to fix it (not sure these are actual solutions, but they seem to help):
-
-Replace the line `typeface = "data/font/fixedsys.ttf";` with `typeface = "data/termfont";`.
-
-Or, replace the line `fontblending = (blending=="blended");` with `fontblending = (blending=="solid");`.
-
-Or, if you've already compiled - it's a hack - but you can create a symlink to the font you want to use:
-
-    $ cd data/fonts
-    $ mv fixedsys.ttf fixedsys.ttf~
-    $ ln -s ../termfont fixedsys.ttf
-
-### No package manager
+## No package manager
 
 Instead of using a package manager, it is relatively easy to install the requirements
 without a package manager.
 
-#### SDL
+### SDL
 
 Use the frameworks, or build either the frameworks or libraries.
 
@@ -105,7 +85,7 @@ or `/Users/name/Library/Frameworks`.
 To build SDL from source, see `README.MacOSX` in
 the [**SDL source archive**](http://www.libsdl.org/release/SDL-1.2.15.tar.gz).
 
-#### ncurses and gettext
+### ncurses and gettext
 
 [**ncurses**](http://www.gnu.org/software/ncurses/) with wide character support  
 http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.9.tar.gz
