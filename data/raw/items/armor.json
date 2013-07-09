@@ -1174,8 +1174,8 @@
     },
     {
         "type" : "ARMOR",
-        "id" : "floatatation_vest",
-        "name" : "floatation vest",
+        "id" : "flotatation_vest",
+        "name" : "flotation vest",
         "weight" : 8,
         "color" : "cyan",
         "covers" : ["TORSO"],
@@ -1193,7 +1193,7 @@
         "rarity" : 30,
         "encumberance" : 1,
         "bashing" : 2,
-        "flags" : ["FLOATATION"],
+        "flags" : ["FLOTATION"],
         "coverage" : 40,
         "material_thickness" : 5
     },
