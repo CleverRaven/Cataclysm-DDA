@@ -9,10 +9,12 @@
 #include <string>
 #include <algorithm>
 
-std::vector<cPickupRules> vAutoPickupRules[3];
+std::vector<cPickupRules> vAutoPickupRules[5];
 
 void game::show_auto_pickup()
 {
+    save_reset_changes(false);
+
     const int iHeaderHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT-2-iHeaderHeight;
 
@@ -29,6 +31,7 @@ void game::show_auto_pickup()
     const int iTotalCols = mapLines.size()-1;
 
     WINDOW* w_auto_pickup_options = newwin(FULL_SCREEN_HEIGHT/2, FULL_SCREEN_WIDTH/2, iOffsetY + (FULL_SCREEN_HEIGHT/2)/2, iOffsetX + (FULL_SCREEN_WIDTH/2)/2);
+    WINDOW* w_auto_pickup_help = newwin((FULL_SCREEN_HEIGHT/2)-2, FULL_SCREEN_WIDTH * 3/4, 8 + iOffsetY + (FULL_SCREEN_HEIGHT/2)/2, iOffsetX + 19/2);
 
     WINDOW* w_auto_pickup_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
     WINDOW* w_auto_pickup_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY, 1 + iOffsetX);
@@ -247,6 +250,17 @@ void game::show_auto_pickup()
                     case '\n': //Edit Col in current line
                         bStuffChanged = true;
                         if (iCurrentCol == 1) {
+                            mvwprintz(w_auto_pickup_help, 1, 1, c_white, "No special characters allowed! Except Space and *");
+                            mvwprintz(w_auto_pickup_help, 2, 1, c_white, "* is used as a Wildcard. A few Examples:");
+                            mvwprintz(w_auto_pickup_help, 3, 1, c_white, "");
+                            mvwprintz(w_auto_pickup_help, 4, 1, c_white, "wood arrow    matches the itemname exactly");
+                            mvwprintz(w_auto_pickup_help, 5, 1, c_white, "wood ar*      matches items beginning with wood ar");
+                            mvwprintz(w_auto_pickup_help, 6, 1, c_white, "*rrow         matches items ending with rrow");
+                            mvwprintz(w_auto_pickup_help, 7, 1, c_white, "*avy fle*fi*arrow     multible * are allowed");
+                            mvwprintz(w_auto_pickup_help, 8, 1, c_white, "");
+
+                            wborder(w_auto_pickup_help, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+                            wrefresh(w_auto_pickup_help);
                             vAutoPickupRules[iCurrentPage][iCurrentLine].sRule = string_input_popup("Pickup Rule:", 30, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule);
 
                         } else if (iCurrentCol == 2) {
@@ -298,37 +312,38 @@ void game::show_auto_pickup()
 
     if (bStuffChanged) {
         if(query_yn("Save changes?")) {
-            save_auto_pickup();
+            save_auto_pickup(false);
+
+            if (g->u.name != "") {
+                save_auto_pickup(true);
+            }
         } else {
-            load_auto_pickup();
+            save_reset_changes(true);
         }
     }
 
     werase(w_auto_pickup);
     werase(w_auto_pickup_border);
+    werase(w_auto_pickup_header);
+    werase(w_auto_pickup_options);
+    werase(w_auto_pickup_help);
 }
 
-void load_auto_pickup(bool bLoadCharacter)
+void load_auto_pickup(bool bCharacter)
 {
-    /*
-    if (g->u.name == "") {
-        debugmsg("No character loaded.");
-    } else {
-        debugmsg(("Character " + g->u.name + " loaded.").c_str());
-    }
-    */
-
     std::ifstream fin;
     std::string sFile = "data/auto_pickup.txt";
 
-    if (bLoadCharacter) {
+    if (bCharacter) {
         sFile = "save/" + g->u.name + ".apu.txt";
     }
 
     fin.open(sFile.c_str());
     if(!fin.is_open()) {
         fin.close();
-        create_default_auto_pickup();
+
+        create_default_auto_pickup(bCharacter);
+
         fin.open(sFile.c_str());
         if(!fin.is_open()) {
             DebugLog() << "Could neither read nor create " << sFile << "\n";
@@ -336,7 +351,7 @@ void load_auto_pickup(bool bLoadCharacter)
         }
     }
 
-    vAutoPickupRules[(bLoadCharacter) ? 2 : 1].clear();
+    vAutoPickupRules[(bCharacter) ? 2 : 1].clear();
 
     while(!fin.eof()) {
         std::string sLine;
@@ -391,7 +406,7 @@ void load_auto_pickup(bool bLoadCharacter)
 
                 } while(iPos != std::string::npos);
 
-                vAutoPickupRules[(bLoadCharacter) ? 2 : 1].push_back(cPickupRules(sRule, bActive, bExclude));
+                vAutoPickupRules[(bCharacter) ? 2 : 1].push_back(cPickupRules(sRule, bActive, bExclude));
             }
         }
 
@@ -409,16 +424,33 @@ void merge_vector()
 {
     vAutoPickupRules[0].clear();
 
-    for (int i=1; i <= 2; i++) {
+    for (int i=1; i <= 2; i++) { //Loop through global 1 and character 2
         for (int j=0; j < vAutoPickupRules[i].size(); j++) {
-            vAutoPickupRules[0].push_back(cPickupRules(vAutoPickupRules[i][j].sRule, vAutoPickupRules[i][j].bActive, vAutoPickupRules[i][j].bExclude));
+            if (vAutoPickupRules[i][j].sRule != "") {
+                vAutoPickupRules[0].push_back(cPickupRules(vAutoPickupRules[i][j].sRule, vAutoPickupRules[i][j].bActive, vAutoPickupRules[i][j].bExclude));
+            }
         }
     }
 }
 
-std::string auto_pickup_header()
+void save_reset_changes(bool bReset)
 {
-    return "# This is the auto pickup rules file. The format is\n\
+    for (int i=1; i <= 2; i++) { //Loop through global 1 and character 2
+        vAutoPickupRules[i + ((bReset) ? 0: 2)].clear();
+        for (int j=0; j < vAutoPickupRules[i + ((bReset) ? 2: 0)].size(); j++) {
+            if (vAutoPickupRules[i + ((bReset) ? 2: 0)][j].sRule != "") {
+                vAutoPickupRules[i + ((bReset) ? 0: 2)].push_back(cPickupRules(vAutoPickupRules[i + ((bReset) ? 2: 0)][j].sRule, vAutoPickupRules[i + ((bReset) ? 2: 0)][j].bActive, vAutoPickupRules[i + ((bReset) ? 2: 0)][j].bExclude));
+            }
+        }
+    }
+
+    merge_vector();
+}
+
+std::string auto_pickup_header(bool bCharacter)
+{
+    std::string sTemp = (bCharacter) ? "character": "global";
+    return "# This is the " + sTemp + " auto pickup rules file. The format is\n\
 # <pickup rule>;<dis/enabled>;<in/exclude>\n\n\
 # <pickup rule> Simple text. No other special characters except spaces and *\n\
 # <dis/enabled> Can be T(rue) of F(alse)\n\
@@ -432,33 +464,138 @@ std::string auto_pickup_header()
 \n\n";
 }
 
-void save_auto_pickup()
+void save_auto_pickup(bool bCharacter)
 {
     std::ofstream fout;
-    fout.open("data/auto_pickup.txt");
+    std::string sFile = "data/auto_pickup.txt";
+
+    if (bCharacter) {
+        sFile = "save/" + g->u.name + ".apu.txt";
+        std::ifstream fin;
+
+        fin.open(("save/" + g->u.name + ".sav").c_str());
+        if(!fin.is_open()) {
+            return;
+        }
+        fin.close();
+    }
+
+    fout.open(sFile.c_str());
+
     if(!fout.is_open()) {
         return;
     }
 
-    fout << auto_pickup_header() << std::endl;
-    for(int i = 0; i < vAutoPickupRules[1].size(); i++) {
-        fout << vAutoPickupRules[1][i].sRule << ";";
-        fout << (vAutoPickupRules[1][i].bActive ? "T" : "F") << ";";
-        fout << (vAutoPickupRules[1][i].bExclude ? "T" : "F");
+    fout << auto_pickup_header(bCharacter) << std::endl;
+    for(int i = 0; i < vAutoPickupRules[(bCharacter) ? 2 : 1].size(); i++) {
+        fout << vAutoPickupRules[(bCharacter) ? 2 : 1][i].sRule << ";";
+        fout << (vAutoPickupRules[(bCharacter) ? 2 : 1][i].bActive ? "T" : "F") << ";";
+        fout << (vAutoPickupRules[(bCharacter) ? 2 : 1][i].bExclude ? "T" : "F");
         fout << "\n";
     }
 
-    merge_vector();
+    if (!bCharacter) {
+        merge_vector();
+    }
 }
 
-void create_default_auto_pickup()
+void create_default_auto_pickup(bool bCharacter)
 {
     std::ofstream fout;
-    fout.open("data/auto_pickup.txt");
+    std::string sFile = "data/auto_pickup.txt";
+
+    if (bCharacter) {
+        sFile = "save/" + g->u.name + ".apu.txt";
+    }
+
+    fout.open(sFile.c_str());
     if(!fout.is_open()) {
         return;
     }
 
-    fout << auto_pickup_header();
+    fout << auto_pickup_header(bCharacter);
     fout.close();
+}
+
+bool auto_pickup_match(std::string sText, std::string sPattern)
+{
+    //With regular expressions available this would have been sooooo much easier ... :(
+
+    /* Possible patterns
+    *
+    wood
+    wood*
+    *wood
+    wood*arrow
+    wood*arrow*
+    *wood*arrow
+    *wood*hard* *x*y*z*arrow*
+    */
+
+    if (sText == "") {
+        return false;
+    } else if (sText == "*") {
+        return true;
+    }
+
+    size_t iPos;
+    std::vector<std::string> vPattern;
+
+    //Remove all double ** in pattern
+    while((iPos = sPattern.find("**")) != std::string::npos) {
+        sPattern = sPattern.substr(0, iPos) + sPattern.substr(iPos+1, sPattern.length()-iPos-1);
+    }
+
+    split(sPattern, '*', vPattern);
+    size_t iNum = vPattern.size();
+
+    if (iNum == 0) { //should never happen
+        return false;
+    } else if (iNum == 1) { // no * found
+        if (sText == vPattern[0]) {
+            return true;
+        }
+
+        return false;
+    }
+
+    for (int i=0; i < vPattern.size(); i++) {
+        if (i==0 && vPattern[i] != "") { //beginning: ^vPat[i]
+            if (sText.substr(0, vPattern[i].length()) != vPattern[i]) {
+                //debugmsg(("1: sText: " + sText + " | sPattern: ^" + vPattern[i] + " | no match").c_str());
+                return false;
+            }
+
+            sText = sText.substr(vPattern[i].length(), sText.length()-vPattern[i].length());
+        } else if (i==vPattern.size()-1 && vPattern[i] != "") { //linenend: vPat[i]$
+            if (sText.substr(sText.length()-vPattern[i].length(), vPattern[i].length()) != vPattern[i]) {
+                //debugmsg(("2: sText: " + sText + " | sPattern: " + vPattern[i] + "$ | no match").c_str());
+                return false;
+            }
+        } else { //inbetween: vPat[i]
+            if ((iPos = sText.find(vPattern[i])) == std::string::npos) {
+                //debugmsg(("3: sText: " + sText + " | sPattern: " + vPattern[i] + " | no match").c_str());
+                return false;
+            }
+
+            sText = sText.substr(iPos+vPattern[i].length(), sText.length()-iPos);
+        }
+    }
+
+    return true;
+}
+
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+    std::stringstream ss(s);
+    std::string item;
+    elems.clear();
+    while (std::getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+
+    if ( s.substr(s.length()-1, 1) == "*") {
+        elems.push_back("");
+    }
+
+    return elems;
 }

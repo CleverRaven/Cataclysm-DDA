@@ -120,7 +120,6 @@ void game::init_skills()
 void game::init_ui(){
     clear();	// Clear the screen
     intro();	// Print an intro screen, make sure we're at least 80x25
-    load_auto_pickup(); // Load auto pickup rules
 
     #if (defined TILES || defined _WIN32 || defined __WIN32__)
         TERMX = 55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1);
@@ -235,6 +234,9 @@ void game::setup()
   for (int j = 0; j < SEEX * MAPSIZE; j++)
    grscent[i][j] = 0;
  }
+
+ load_auto_pickup(false); // Load global auto pickup rules
+
  if (opening_screen()) {// Opening menu
 // Finally, draw the screen!
   refresh_all();
@@ -283,6 +285,8 @@ void game::start_game()
  u.next_climate_control_check=0;  // Force recheck at startup
  u.last_climate_control_ret=false;
 
+ //Reset character pickup rules
+ vAutoPickupRules[2].clear();
  //Load NPCs. Set nearby npcs to active.
  load_npcs();
  //spawn the monsters
@@ -2540,6 +2544,7 @@ void game::load(std::string name)
 // Now dump tmpinv into the player's inventory
  u.inv.add_stack(tmpinv);
  fin.close();
+ load_auto_pickup(true); // Load character auto pickup rules
 // Now load up the master game data; factions (and more?)
  load_master();
  update_map(u.posx, u.posy);
@@ -2646,6 +2651,7 @@ void game::save()
  fout << std::endl;
  fout.close();
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()
+ save_auto_pickup(true); // Save character auto pickup rules
 }
 
 void game::delete_save()
@@ -8267,7 +8273,7 @@ void game::pickup(int posx, int posy, int min)
     if (OPTIONS[OPT_AUTO_PICKUP]) {
         //Loop through Items lowest Volume first
         bool bPickup = false;
-        std::string sAddMsg = "";
+        std::map<std::string, int> mapPickup;
 
         for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
             for (int i = 0; i < here.size(); i++) {
@@ -8284,32 +8290,39 @@ void game::pickup(int posx, int posy, int min)
 
                     //Check the Pickup Rules
                     for (int j=0; j < vAutoPickupRules[0].size(); j++) {
-                        if (vAutoPickupRules[0][i].bActive && vAutoPickupRules[0][i].sRule != "") {
-                            if (here[i].tname(this).find(vAutoPickupRules[0][j].sRule) != std::string::npos) {
-                                bPickup = true;
-
-                                if (vAutoPickupRules[0][i].bExclude) {
+                        if (vAutoPickupRules[0][j].bActive && vAutoPickupRules[0][j].sRule != "") {
+                            if (auto_pickup_match(here[i].tname(this), vAutoPickupRules[0][j].sRule)) {
+                                if (vAutoPickupRules[0][j].bExclude) { //Maybe we find an exclusion rule
                                     bPickup = false;
                                     break;
                                 }
+
+                                bPickup = true;
                             }
                         }
                     }
                 }
 
+
                 if (bPickup) {
                     getitem[i] = bPickup;
-                    if (sAddMsg != "") {
-                        sAddMsg += ", ";
-                    }
-
-                    sAddMsg += here[i].tname(this);
+                    mapPickup[here[i].tname(this)]++;
                 }
             }
         }
 
-        if (sAddMsg != "") {
-            add_msg(("You pick up: " + sAddMsg).c_str());
+        if (mapPickup.size() > 0) {
+            std::stringstream sTemp;
+
+            for (std::map<std::string, int>::iterator iter = mapPickup.begin(); iter != mapPickup.end(); ++iter) {
+                if (sTemp.str() != "") {
+                    sTemp << ", ";
+                }
+
+                sTemp << iter->second << " " << iter->first;
+            }
+
+            add_msg(("You pick up: " + sTemp.str()).c_str());
         }
     }
  } else {
