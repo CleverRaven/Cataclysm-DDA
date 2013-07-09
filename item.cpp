@@ -709,6 +709,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
     {
         dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
         dump->push_back(iteminfo("DESCRIPTION", "This piece of clothing has pockets to warm your hands."));
+    } 
+    if (is_armor() && has_flag("BLINDFOLD"))
+    {
+        dump->push_back(iteminfo("DESCRIPTION", "\n\n"));
+        dump->push_back(iteminfo("DESCRIPTION", "This Blindfold will make your sight see only darkness."));
     }
     if (is_armor() && type->id == "rad_badge")
     {
