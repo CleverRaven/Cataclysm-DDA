@@ -1065,6 +1065,10 @@ int player::swim_speed()
     ret += (worn[i].volume() * (10 - skillLevel("swimming"))) / 2;
  }
  ret -= str_cur * 6 + dex_cur * 4;
+ if( worn_with_flag("FLOTATION") ) {
+     ret = std::max(ret, 400);
+     ret = std::min(ret, 200);
+ }
 // If (ret > 500), we can not swim; so do not apply the underwater bonus.
  if (underwater && ret < 500)
   ret -= 50;
@@ -4890,6 +4894,16 @@ bool player::is_wearing(itype_id it)
    return true;
  }
  return false;
+}
+
+bool player::worn_with_flag( std::string flag ) const
+{
+    for (int i = 0; i < worn.size(); i++) {
+        if (worn[i].has_flag( flag )) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool player::has_artifact_with(art_effect_passive effect)

@@ -219,6 +219,7 @@
       ["boltcutters", 5],
       ["spray_can", 50],
       ["jar_glass", 50],
+      ["floatation_vest", 1],
       ["bearing", 1]
     ]
   },
@@ -729,6 +730,7 @@
       ["helmet_ball", 45],
       ["manual_brawl", 30],
       ["foot_crank", 10],
+      ["floatation_vest", 10],
       ["glowstick", 60]
     ]
   },
@@ -784,6 +786,7 @@
       ["emer_blanket", 20],
       ["cloak", 5],
       ["sleeping_bag", 10],
+      ["floatation_vest", 7],
       ["gasoline_lantern", 5]
     ]
   },
@@ -852,6 +855,7 @@
       ["foot_crank", 10],
       ["mag_archery", 20],
       ["heatpack", 60],
+      ["floatation_vest", 3],
       ["glowstick", 60]
     ]
   },
@@ -1228,6 +1232,7 @@
       ["trenchcoat_leather", 25],
       ["cloak", 5],
       ["house_coat", 25],
+      ["floatation_vest", 1],
       ["jedi_cloak", 1]
     ]
   },
@@ -1655,6 +1660,7 @@
       ["press", 5],
       ["vac_sealer", 10],
       ["gasoline_lantern", 5],
+      ["floatation_vest", 1],
       ["huge_crossbow", 2]
     ]
   },
@@ -1743,6 +1749,7 @@
       ["emer_blanket", 20],
       ["flyer", 10],
       ["gasoline_lantern", 5],
+      ["floatation_vest", 1],
       ["vaccine_shot", 10]
     ]
   },
@@ -2217,6 +2224,7 @@
       ["beltrig", 10],
       ["rucksack", 20],
       ["emer_blanket", 20],
+      ["floatation_vest", 1],
       ["cloak", 5]
     ]
   },

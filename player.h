@@ -276,6 +276,7 @@ public:
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
  bool is_wearing(itype_id it);	// Are we wearing a specific itype?
  bool has_artifact_with(art_effect_passive effect);
+ bool worn_with_flag( std::string flag ) const;
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.
