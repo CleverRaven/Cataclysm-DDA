@@ -1065,7 +1065,7 @@ int player::swim_speed()
     ret += (worn[i].volume() * (10 - skillLevel("swimming"))) / 2;
  }
  ret -= str_cur * 6 + dex_cur * 4;
- if( worn_with_flag("FLOTATION") ) {
+ if( worn_with_flag("FLOATATION") ) {
      ret = std::max(ret, 400);
      ret = std::min(ret, 200);
  }
