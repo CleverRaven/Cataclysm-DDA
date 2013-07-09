@@ -141,15 +141,15 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						}
 						//Flame type ammo removed so gasoline isn't explosive, it just burns.
 						if(ammo_type != NULL &&
-							(ammo_type->ammo_effects & mfb(AMMO_INCENDIARY) ||
-							ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE) ||
-							ammo_type->ammo_effects & mfb(AMMO_FRAG) ||
-							ammo_type->ammo_effects & mfb(AMMO_NAPALM) ||
-							ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE_BIG) ||
-							ammo_type->ammo_effects & mfb(AMMO_TEARGAS) ||
-							ammo_type->ammo_effects & mfb(AMMO_SMOKE) ||
-							ammo_type->ammo_effects & mfb(AMMO_FLASHBANG) ||
-							ammo_type->ammo_effects & mfb(AMMO_COOKOFF)))
+         (ammo_type->ammo_effects.count("INCENDIARY") ||
+          ammo_type->ammo_effects.count("EXPLOSIVE") ||
+          ammo_type->ammo_effects.count("FRAG") ||
+          ammo_type->ammo_effects.count("NAPALM") ||
+          ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
+          ammo_type->ammo_effects.count("TEARGAS") ||
+          ammo_type->ammo_effects.count("SMOKE") ||
+          ammo_type->ammo_effects.count("FLASHBANG") ||
+          ammo_type->ammo_effects.count("COOKOFF")))
 						{
 							//Any kind of explosive ammo (IE: not arrows and pebbles and such)
 							const int rounds_exploded = rng(1, it->charges);
