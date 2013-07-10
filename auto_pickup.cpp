@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
-#include <algorithm>
 
 std::vector<cPickupRules> vAutoPickupRules[5];
 
@@ -117,9 +116,11 @@ void game::show_auto_pickup()
         wprintz(w_auto_pickup_header, (iCurrentPage == 2) ? hilite(c_white) : c_white, "Charakter");
         wprintz(w_auto_pickup_header, c_white, "]");
 
+        /*
         mvwprintz(w_auto_pickup_header, 2, 12 + 21, c_white, "[");
         wprintz(w_auto_pickup_header, (iCurrentPage == 3) ? hilite(c_white) : c_white, "Options");
         wprintz(w_auto_pickup_header, c_white, "]");
+        */
 
         wrefresh(w_auto_pickup_header);
 
@@ -176,6 +177,9 @@ void game::show_auto_pickup()
 
         } else if (iCurrentPage == 3) {
             wborder(w_auto_pickup_options, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
+
+            mvwprintz(w_auto_pickup_options, 5, 10, c_white, "Under construction!");
+
             wrefresh(w_auto_pickup);
             wrefresh(w_auto_pickup_options);
         }
@@ -246,7 +250,7 @@ void game::show_auto_pickup()
                         break;
                     case '\t': //Switch to next Page
                         iCurrentPage++;
-                        if (iCurrentPage > 3) {
+                        if (iCurrentPage > 2) {
                             iCurrentPage = 1;
                             iCurrentLine = 0;
                         }
@@ -254,19 +258,18 @@ void game::show_auto_pickup()
                     case '\n': //Edit Col in current line
                         bStuffChanged = true;
                         if (iCurrentCol == 1) {
-                            mvwprintz(w_auto_pickup_help, 1, 1, c_white, "No special characters allowed! Except Space and *");
-                            mvwprintz(w_auto_pickup_help, 2, 1, c_white, "* is used as a Wildcard. A few Examples:");
-                            mvwprintz(w_auto_pickup_help, 3, 1, c_white, "");
-                            mvwprintz(w_auto_pickup_help, 4, 1, c_white, "wood arrow    matches the itemname exactly");
-                            mvwprintz(w_auto_pickup_help, 5, 1, c_white, "wood ar*      matches items beginning with wood ar");
-                            mvwprintz(w_auto_pickup_help, 6, 1, c_white, "*rrow         matches items ending with rrow");
-                            mvwprintz(w_auto_pickup_help, 7, 1, c_white, "*avy fle*fi*arrow     multible * are allowed");
+                            mvwprintz(w_auto_pickup_help, 1, 1, c_white, "* is used as a Wildcard. A few Examples:");
+                            mvwprintz(w_auto_pickup_help, 2, 1, c_white, "");
+                            mvwprintz(w_auto_pickup_help, 3, 1, c_white, "wood arrow    matches the itemname exactly");
+                            mvwprintz(w_auto_pickup_help, 4, 1, c_white, "wood ar*      matches items beginning with wood ar");
+                            mvwprintz(w_auto_pickup_help, 5, 1, c_white, "*rrow         matches items ending with rrow");
+                            mvwprintz(w_auto_pickup_help, 6, 1, c_white, "*avy fle*fi*arrow     multible * are allowed");
+                            mvwprintz(w_auto_pickup_help, 7, 1, c_white, "heAVY*woOD*arrOW      case insesitive serarch");
                             mvwprintz(w_auto_pickup_help, 8, 1, c_white, "");
 
                             wborder(w_auto_pickup_help, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX);
                             wrefresh(w_auto_pickup_help);
-                            vAutoPickupRules[iCurrentPage][iCurrentLine].sRule = string_input_popup("Pickup Rule:", 30, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule);
-
+                            vAutoPickupRules[iCurrentPage][iCurrentLine].sRule = trim_rule(string_input_popup("Pickup Rule:", 30, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule));
                         } else if (iCurrentCol == 2) {
                             vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude = !vAutoPickupRules[iCurrentPage][iCurrentLine].bExclude;
                         }
@@ -340,8 +343,9 @@ void game::show_auto_pickup()
 void test_rule(int iCurrentPage, int iCurrentLine)
 {
     std::vector<std::string> vMatchingItems;
-
     std::string sItemName = "";
+
+    //Loop through all itemfactory items
     for (int i = 0; i < standard_itype_ids.size(); i++) {
         sItemName = item_controller->find_template(standard_itype_ids[i])->name;
         if (auto_pickup_match(sItemName, vAutoPickupRules[iCurrentPage][iCurrentLine].sRule)) {
@@ -389,7 +393,7 @@ void test_rule(int iCurrentPage, int iCurrentLine)
         // display auto pickup
         for (int i = iStartPos; i < vMatchingItems.size(); i++) {
             if (i >= iStartPos && i < iStartPos + ((iContentHeight > vMatchingItems.size()) ? vMatchingItems.size() : iContentHeight)) {
-                nc_color cLineColor =  c_white;
+                nc_color cLineColor = c_white;
 
                 sTemp.str("");
                 sTemp << i + 1;
@@ -618,16 +622,28 @@ void create_default_auto_pickup(bool bCharacter)
     fout.close();
 }
 
+std::string trim_rule(std::string sPattern)
+{
+    size_t iPos = 0;
+
+    //Remove all double ** in pattern
+    while((iPos = sPattern.find("**")) != std::string::npos) {
+        sPattern = sPattern.substr(0, iPos) + sPattern.substr(iPos+1, sPattern.length()-iPos-1);
+    }
+
+    return sPattern;
+}
+
 bool auto_pickup_match(std::string sText, std::string sPattern)
 {
-    //With regular expressions available this would have been sooooo much easier ... :(
+    //case insenitive search
 
     /* Possible patterns
     *
-    wood
+    wooD
     wood*
     *wood
-    wood*arrow
+    Wood*aRrOW
     wood*arrow*
     *wood*arrow
     *wood*hard* *x*y*z*arrow*
@@ -642,10 +658,7 @@ bool auto_pickup_match(std::string sText, std::string sPattern)
     size_t iPos;
     std::vector<std::string> vPattern;
 
-    //Remove all double ** in pattern
-    while((iPos = sPattern.find("**")) != std::string::npos) {
-        sPattern = sPattern.substr(0, iPos) + sPattern.substr(iPos+1, sPattern.length()-iPos-1);
-    }
+    sPattern = trim_rule(sPattern);
 
     split(sPattern, '*', vPattern);
     size_t iNum = vPattern.size();
@@ -653,7 +666,7 @@ bool auto_pickup_match(std::string sText, std::string sPattern)
     if (iNum == 0) { //should never happen
         return false;
     } else if (iNum == 1) { // no * found
-        if (sText == vPattern[0]) {
+        if (sText.length() == vPattern[0].length() && ci_find_substr(sText, vPattern[0]) != -1) {
             return true;
         }
 
@@ -662,19 +675,19 @@ bool auto_pickup_match(std::string sText, std::string sPattern)
 
     for (int i=0; i < vPattern.size(); i++) {
         if (i==0 && vPattern[i] != "") { //beginning: ^vPat[i]
-            if (sText.substr(0, vPattern[i].length()) != vPattern[i]) {
+            if (sText.length() < vPattern[i].length() || ci_find_substr(sText.substr(0, vPattern[i].length()), vPattern[i]) == -1) {
                 //debugmsg(("1: sText: " + sText + " | sPattern: ^" + vPattern[i] + " | no match").c_str());
                 return false;
             }
 
             sText = sText.substr(vPattern[i].length(), sText.length()-vPattern[i].length());
         } else if (i==vPattern.size()-1 && vPattern[i] != "") { //linenend: vPat[i]$
-            if (sText.substr(sText.length()-vPattern[i].length(), vPattern[i].length()) != vPattern[i]) {
+            if (sText.length() < vPattern[i].length() || ci_find_substr(sText.substr(sText.length()-vPattern[i].length(), vPattern[i].length()), vPattern[i]) == -1) {
                 //debugmsg(("2: sText: " + sText + " | sPattern: " + vPattern[i] + "$ | no match").c_str());
                 return false;
             }
         } else { //inbetween: vPat[i]
-            if ((iPos = sText.find(vPattern[i])) == std::string::npos) {
+            if ((iPos = ci_find_substr(sText, vPattern[i])) == -1) {
                 //debugmsg(("3: sText: " + sText + " | sPattern: " + vPattern[i] + " | no match").c_str());
                 return false;
             }
@@ -699,4 +712,38 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
     }
 
     return elems;
+}
+
+/*
+    // string test
+    std::string str1 = "FIRST HELLO";
+    std::string str2 = "hello";
+    int f1 = ci_find_substr( str1, str2 );
+
+    // wstring test
+    std::wstring wstr1 = L"ОПЯТЬ ПРИВЕТ";
+    std::wstring wstr2 = L"привет";
+    int f2 = ci_find_substr( wstr1, wstr2 );
+*/
+
+// templated version of my_equal so it could work with both char and wchar_t
+template<typename charT>
+struct my_equal {
+    public:
+        my_equal( const std::locale& loc ) : loc_(loc) {}
+
+        bool operator()(charT ch1, charT ch2) {
+            return std::toupper(ch1, loc_) == std::toupper(ch2, loc_);
+        }
+    private:
+        const std::locale& loc_;
+};
+
+// find substring (case insensitive)
+template<typename charT>
+int ci_find_substr( const charT& str1, const charT& str2, const std::locale& loc = std::locale() )
+{
+    typename charT::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(), my_equal<typename charT::value_type>(loc) );
+    if ( it != str1.end() ) return it - str1.begin();
+    else return -1; // not found
 }

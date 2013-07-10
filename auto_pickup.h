@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <locale>
+#include <algorithm>
 
 class cPickupRules {
     public:
@@ -28,6 +30,7 @@ class cPickupRules {
 extern std::vector<cPickupRules> vAutoPickupRules[5];
 
 void test_rule(int iCurrentPage, int iCurrentLine);
+std::string trim_rule(std::string sPattern);
 void merge_vector();
 void save_reset_changes(bool bReset);
 void show_auto_pickup();
@@ -37,5 +40,7 @@ std::string auto_pickup_header(bool bCharacter);
 void create_default_auto_pickup(bool bCharacter);
 bool auto_pickup_match(std::string sText, std::string sPattern);
 std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
+template<typename charT>
+int ci_find_substr( const charT& str1, const charT& str2, const std::locale& loc = std::locale() );
 
 #endif
