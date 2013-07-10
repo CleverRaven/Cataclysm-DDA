@@ -8775,12 +8775,12 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
       }
       else  // pouring into an empty container
       {
-        if (!(container->flags & mfb(con_wtight)))  // invalid container types
+        if (!cont->has_flag("WATERTIGHT"))  // invalid container types
         {
           add_msg("That %s isn't water-tight.", cont->tname(this).c_str());
           return false;
         }
-        else if (!(container->flags & mfb(con_seals)))
+        else if (!(cont->has_flag("SEALS")))
         {
           add_msg("You can't seal that %s!", cont->tname(this).c_str());
           return false;
