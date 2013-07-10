@@ -56,7 +56,7 @@
   "description":
 "You're a High school drop out with one goal in mind to join the military. \nNow you finally get in, and the whole world goes to shit.\nYou start out with some military gear.",
   "points": 3,
-  "items": ["pants_army", "tank_top","boots_steel", "knife_combat", "binoculars"],
+  "items": ["pants_army", "army_top", "boots_steel", "knife_combat", "binoculars"],
   "skills" : [
      {
       "name" : "survival",
@@ -66,6 +66,7 @@
       "name" : "gun",
       "level" : 1
      }
+ ]
  },
 
  {
@@ -74,13 +75,13 @@
   "description":
 "You were a Pre-Med Student just starting out in your medical career, \nYou start with some bandages and some first aid skills.",
   "points": 1,
-  "items": ["pants", "dress_shirt", "dress_shoes","water_clean", "bandages","bandages"],
+  "items": ["pants", "dress_shirt", "dress_shoes","water_clean", "bandages", "bandages"],
    "skills" : [
      {
       "name" : "firstaid",
       "level" : 1
      }
- ]
+	]
  },
  
  {
@@ -89,28 +90,28 @@
   "description":
 "When it came to getting dirty, the boss knew you could be trusted to get\nthe job done, from performing hits to attitude adjustment, you were the best\nnow at the end of the world, you finally found your place in society.",
   "points": 2,
-  "items": ["suit", "dress_shoes","cig", "mag_porn"],
+  "items": ["suit", "bowhat", "dress_shoes", "cig", "mag_porn"],
    "skills" : [
      {
       "name" : "unarmed",
       "level" : 1
      }
- ]
+	]
   },
  
  {
-  "ident": "riot",
-  "name": "Riot Police",
+  "ident": "sheriff",
+  "name": "Local Sheriff",
   "description":
-"Assigned to quell the recent rioting and looting, \nyou quickly realized you were in over your head.\nYou start out with some military clothing, but lost all your gear in the escape.",
-  "points": 7,
-  "items": ["pants_army", "tshirt", "boots", "holster"],
+"When you got the call about the disturbances, you came to the rescue\nyou quickly realized you were in over your head, and needed rescuing yourself.\nYou start out with some military clothing, but lost all your gear in the escape.",
+  "points": 2,
+  "items": ["pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "holster"],
    "skills" : [
     {
       "name" : "guns",
       "level" : 1
      }
-]
+	]
  },
  
  {
@@ -140,7 +141,7 @@
       "name" : "barter",
       "level" : 1
      }
-	 ]
+   ]
  },
 
   {
@@ -155,8 +156,7 @@
 	  "type": "alcohol",
 	  "intensity": 20
       }
-  ]
-
+	]
  },
 
  {
@@ -165,7 +165,7 @@
   "description":
 "Never one for guns you took a liking to the bow, and hunting came naturally to you\n you start with a point in archery, and a point in survival.",
   "points": 2,
-  "items": ["tshirt", "boots_steel", "jeans"],
+  "items": ["army_top", "boots_steel", "jeans"],
    "skills" : [
      {
       "name" : "archery",
@@ -184,13 +184,13 @@
   "description":
 "You used to work at the home depot, while building Evac shelters for the city,\nLuckily you were working on one during the cataclysm.",
   "points": 3,
-  "items": ["tank_top", "boots_steel", "jeans","hammer", "vest"],
+  "items": ["tank_top", "boots_steel", "jeans", "hammer", "tool_belt"],
    "skills" : [
      {
       "name" : "carpentry",
       "level" : 1
      },
-	      {
+	 {
       "name" : "bashing",
       "level" : 1
      }  
@@ -202,14 +202,14 @@
 "name": "Lumberjack",  
 "description":"You're the definition of a man, a grizzly beard and bear-like stature.\nthe only thing keeping the zombies at the door is that mighty ax.",  
 "points": 3, 
-"items": ["jeans", "boots", "hat_hunting", "jacket_jean", "ax"]  
+"items": ["jeans", "boots", "hat_hunting", "jacket_flannel"]  
 }, 
 
  {
   "ident": "backpacker",
   "name": "Backpacker",
   "description":
-"You traveled for a living seeing here and there living off \nyour parents trust fund, but now they're all gone and\n the only thing between you and death, is the open road and your backpack.",
+"You've traveled for a living seeing here and there living off\nyour parents trust fund, but now they're all gone and\nthe only thing between you and death, is the open road and your backpack.",
   "points": 2,
   "items": ["backpack", "shorts_cargo", "sneakers", "tshirt", "socks"]
  },
@@ -243,14 +243,5 @@
       "level" : 1
      }  
     ]
-  },
-  
- {
-  "ident": "patriot",
-  "name": "Patriot",
-  "description": "It's the fourth of July, and you're fully prepared to celebrate the end of the world in style.",
-  "points": 0,
-  "items": ["jeans","flag_shirt","backpack","sneakers","wine_noir","wine_riesling","beer","beer","beer","beer","beer","beer","firecracker_pack","firecracker_pack","firecracker_pack","firecracker_pack","firecracker_pack","firecracker","firecracker","firecracker","firecracker","firecracker","mininuke","c4","dynamite","LAW_Packed", "american_flag"]
- }
-]
+  }
 ]
