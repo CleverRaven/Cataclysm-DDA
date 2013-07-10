@@ -75,10 +75,6 @@ bool fexists(const char *filename)
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
-    if(OPTIONS[OPT_HIDE_CURSOR] > 0 && SDL_ShowCursor(-1))
-        SDL_ShowCursor(SDL_DISABLE);
-    else
-        SDL_ShowCursor(SDL_ENABLE);
 	const SDL_VideoInfo* video_info;
 	int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
 
@@ -107,6 +103,11 @@ bool WinCreate()
 	if(screen==NULL) return false;
 
 	ClearScreen();
+
+    if(OPTIONS[OPT_HIDE_CURSOR] > 0 && SDL_ShowCursor(-1))
+        SDL_ShowCursor(SDL_DISABLE);
+    else
+        SDL_ShowCursor(SDL_ENABLE);
 
     return true;
 };

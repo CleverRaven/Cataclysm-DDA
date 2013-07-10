@@ -659,31 +659,17 @@ std::vector<item> game::multidrop()
 void game::compare(int iCompareX, int iCompareY)
 {
  int examx, examy;
+ std::vector <item> grounditems;
  int ch = (int)'.';
 
  if (iCompareX != -999 && iCompareX != -999) {
   examx = iCompareX;
   examy = iCompareY;
- } else {
-  mvwprintw(w_terrain, 0, 0, "Compare where? (Direction button)");
-  wrefresh(w_terrain);
-
-  ch = input();
-  last_action += ch;
-  if (ch == KEY_ESCAPE || ch == 'q')
-   return;
-  if (ch == '\n' || ch == 'I')
-   ch = '.';
-  get_direction(this, examx, examy, ch);
-  if (examx == -2 || examy == -2) {
-   add_msg("Invalid direction.");
-   return;
-  }
  }
- examx += u.posx;
- examy += u.posy;
+ if (!choose_adjacent("Compare",examx,examy))
+     return;
+
  std::vector <item> here = m.i_at(examx, examy);
- std::vector <item> grounditems;
  //Filter out items with the same name (keep only one of them)
  std::map <std::string, bool> dups;
  for (int i = 0; i < here.size(); i++) {

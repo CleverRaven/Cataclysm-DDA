@@ -187,7 +187,8 @@
       ["pizza_veggy", 8],
       ["orange", 65],
       ["lemon", 50],
-      ["potato_raw", 10]
+      ["potato_raw", 10],
+	  ["pickle", 40]
     ]
   },
   { "id":"home_hw",
@@ -218,6 +219,7 @@
       ["boltcutters", 5],
       ["spray_can", 50],
       ["jar_glass", 50],
+      ["floatation_vest", 1],
       ["bearing", 1]
     ]
   },
@@ -283,7 +285,9 @@
   { "id":"homeguns",
     "items":[
       ["22_lr", 9],
+      ["22_fmj", 1],
       ["9mm", 8],
+      ["9mmfmj", 2],
       ["crossbow", 2],
       ["sig_mosquito", 5],
       ["sw_22", 5],
@@ -436,7 +440,8 @@
       ["candy", 80],
       ["mayonnaise", 60],
       ["ketchup", 60],
-      ["mustard", 60]
+      ["mustard", 60],
+      ["pickle", 40]
     ]
   },
   { "id":"coffee_shop",
@@ -725,6 +730,7 @@
       ["helmet_ball", 45],
       ["manual_brawl", 30],
       ["foot_crank", 10],
+      ["floatation_vest", 10],
       ["glowstick", 60]
     ]
   },
@@ -780,6 +786,7 @@
       ["emer_blanket", 20],
       ["cloak", 5],
       ["sleeping_bag", 10],
+      ["floatation_vest", 7],
       ["gasoline_lantern", 5]
     ]
   },
@@ -848,6 +855,7 @@
       ["foot_crank", 10],
       ["mag_archery", 20],
       ["heatpack", 60],
+      ["floatation_vest", 3],
       ["glowstick", 60]
     ]
   },
@@ -905,16 +913,20 @@
       ["shot_bird", 8],
       ["shot_00", 8],
       ["shot_slug", 6],
+      ["22_fmj", 3],
       ["22_lr", 9],
       ["22_cb", 8],
       ["22_ratshot", 2],
       ["9mm", 8],
       ["9mmP", 8],
       ["9mmP2", 8],
+      ["9mmfmj", 4],
       ["38_special", 7],
       ["38_super", 7],
+      ["38_fmj", 3],
       ["10mm", 4],
       ["40sw", 7],
+      ["40fmj", 5],
       ["44magnum", 7],
       ["45_acp", 7],
       ["45_jhp", 4],
@@ -923,12 +935,16 @@
       ["46mm", 2],
       ["762_m43", 6],
       ["762_m87", 7],
+      ["762_fmj", 3],
       ["223", 8],
       ["556", 6],
+      ["556fmj", 3],
       ["270", 8],
       ["3006", 4],
+      ["3006fmj", 2],
       ["308", 7],
-      ["762_51", 6]
+      ["762_51", 6],
+      ["762_51fmj", 3]
     ]
   },
   { "id":"pistols",
@@ -1216,6 +1232,7 @@
       ["trenchcoat_leather", 25],
       ["cloak", 5],
       ["house_coat", 25],
+      ["floatation_vest", 1],
       ["jedi_cloak", 1]
     ]
   },
@@ -1643,6 +1660,7 @@
       ["press", 5],
       ["vac_sealer", 10],
       ["gasoline_lantern", 5],
+      ["floatation_vest", 1],
       ["huge_crossbow", 2]
     ]
   },
@@ -1731,6 +1749,7 @@
       ["emer_blanket", 20],
       ["flyer", 10],
       ["gasoline_lantern", 5],
+      ["floatation_vest", 1],
       ["vaccine_shot", 10]
     ]
   },
@@ -2205,6 +2224,7 @@
       ["beltrig", 10],
       ["rucksack", 20],
       ["emer_blanket", 20],
+      ["floatation_vest", 1],
       ["cloak", 5]
     ]
   },
@@ -2454,10 +2474,13 @@
       ["bolt_steel", 7],
       ["shot_00", 8],
       ["762_m87", 7],
+      ["762_fmj", 3],
       ["556", 6],
+      ["556fmj", 3],
       ["556_incendiary", 2],
       ["3006_incendiary", 1],
       ["762_51", 6],
+      ["762_51fmj", 3],
       ["762_51_incendiary", 6],
       ["saiga_12", 3],
       ["hk_mp5", 12],
@@ -2678,10 +2701,14 @@
       ["holster", 8],
       ["bootstrap", 3],
       ["9mm", 8],
+      ["9mmfmj", 4],
       ["45_acp", 7],
+      ["45_jhp", 3],
       ["556", 6],
+      ["556fmj", 3],
       ["556_incendiary", 2],
       ["762_51", 6],
+      ["762_51fmj", 3],
       ["762_51_incendiary", 6],
       ["laser_pack", 2],
       ["40mm_concussive", 10],
@@ -2835,16 +2862,25 @@
       ["shot_slug", 6],
       ["22_lr", 9],
       ["9mm", 8],
+      ["9mmfmj", 4],
       ["38_super", 7],
+      ["38_special", 7],
+      ["38_fmj", 3],
       ["10mm", 4],
       ["44magnum", 7],
+      ["44fmj", 3],
       ["45_acp", 7],
+      ["45_jhp", 7],
       ["57mm", 3],
       ["46mm", 2],
       ["762_m87", 7],
+      ["762_fmj", 3],
       ["556", 6],
+      ["556fmj", 3],
       ["3006", 4],
+      ["3006fmj", 3],
       ["762_51", 6],
+      ["762_51fmj", 3],
       ["arrow_cf", 5],
       ["press", 5],
       ["puller", 5]

@@ -59,6 +59,7 @@ WINDOW *newwin(int nlines, int ncols, int begin_y, int begin_x)
         newwindow->line[j].FG= new char[ncols];
         newwindow->line[j].BG= new char[ncols];
         newwindow->line[j].touched=true;//Touch them all !?
+        newwindow->line[j].width_in_bytes = ncols;
         for (i=0; i<ncols; i++)
         {
           newwindow->line[j].chars[i]=0;
@@ -227,8 +228,8 @@ inline int printstring(WINDOW *win, char *fmt)
     int size = strlen(fmt);
 	if(size>0)
 	{
-		int j, i, p;
-		int x = cursorx_to_position(win->line[win->cursory].chars, win->cursorx, &p);
+		int j, i, p=win->cursorx;
+		int x = (win->line[win->cursory].width_in_bytes==win->width)?win->cursorx:cursorx_to_position(win->line[win->cursory].chars, win->cursorx, &p);
 		
 		if(p!=x)//so we start inside a wide character, erase it for good
 		{
@@ -249,7 +250,7 @@ inline int printstring(WINDOW *win, char *fmt)
 				if(cw<1) cw = 1;
 				if(len<1) len = 1;
 				if (win->cursorx+cw <= win->width && win->cursory <= win->height - 1) {
-					erease_utf8_by_cw(win->line[win->cursory].chars+x, cw, len, win->width*4-x-1);
+					win->line[win->cursory].width_in_bytes += erease_utf8_by_cw(win->line[win->cursory].chars+x, cw, len, win->width*4-x-1);
 					for(i=0; i<len; i++)
 					{
 						win->line[win->cursory].chars[x+i]=fmt[j+i];
@@ -343,6 +344,7 @@ int werase(WINDOW *win)
      win->line[j].BG[i]=0;
      }
         win->line[j].touched=true;
+        win->line[j].width_in_bytes = win->width;
     }
     win->draw=true;
     wmove(win,0,0);
@@ -543,8 +545,8 @@ int waddch(WINDOW *win, const chtype ch)
 
 
 	int cury=win->cursory;
-	int p;
-	int curx=cursorx_to_position(win->line[cury].chars, win->cursorx, &p);
+	int p = win->cursorx;
+	int curx=(win->line[cury].width_in_bytes==win->width)?win->cursorx:cursorx_to_position(win->line[cury].chars, win->cursorx, &p);
 
 	if(curx!=p)
 	{
@@ -552,12 +554,12 @@ int waddch(WINDOW *win, const chtype ch)
 		int len = ANY_LENGTH;
 		unsigned tc = UTF8_getch(&ts, &len);
 		int tw = mk_wcwidth((wchar_t)tc);
-		erease_utf8_by_cw(win->line[cury].chars+p, tw, tw, win->width*4-p-1);
+		win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars+p, tw, tw, win->width*4-p-1);
 		curx = p+tw-1;
 	}
-	else
+	else if(win->line[cury].width_in_bytes!=win->width)
 	{
-		erease_utf8_by_cw(win->line[cury].chars+p, 1, 1, win->width*4-p-1);
+		win->line[cury].width_in_bytes += erease_utf8_by_cw(win->line[cury].chars+p, 1, 1, win->width*4-p-1);
 	}
 
 //if (win2 > -1){

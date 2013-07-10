@@ -199,7 +199,8 @@ class map
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
  bool bash(const int x, const int y, const int str, std::string &sound, int *res = 0);
  void destroy(game *g, const int x, const int y, const bool makesound);
- void shoot(game *g, const int x, const int y, int &dam, const bool hit_items, const unsigned flags);
+ void shoot(game *g, const int x, const int y, int &dam, const bool hit_items,
+            const std::set<std::string>& ammo_effects);
  bool hit_with_acid(game *g, const int x, const int y);
  bool hit_with_fire(game *g, const int x, const int y);
  void marlossify(const int x, const int y);

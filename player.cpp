@@ -698,7 +698,7 @@ void player::update_bodytemp(game *g)
         // BLISTERS : Skin gets blisters from intense heat exposure.
         if (blister_count - 10*resist(body_part(i)) > 20)
         {
-            add_disease(dis_type(blister_pen), 1, g);
+            add_disease(dis_type(blister_pen), 1);
         }
         // BLOOD LOSS : Loss of blood results in loss of body heat
         int blood_loss = 0;
@@ -800,29 +800,29 @@ void player::update_bodytemp(game *g)
         // PENALTIES
         if      (temp_cur[i] < BODYTEMP_FREEZING)
         {
-            add_disease(dis_type(cold_pen), 1, g, 3, 3); frostbite_timer[i] += 3;
+            add_disease(dis_type(cold_pen), 1, 3, 3); frostbite_timer[i] += 3;
         }
         else if (temp_cur[i] < BODYTEMP_VERY_COLD)
         {
-            add_disease(dis_type(cold_pen), 1, g, 2, 3); frostbite_timer[i] += 2;
+            add_disease(dis_type(cold_pen), 1, 2, 3); frostbite_timer[i] += 2;
         }
         else if (temp_cur[i] < BODYTEMP_COLD)
         {
             // Frostbite timer does not go down if you are still cold.
-            add_disease(dis_type(cold_pen), 1, g, 1, 3); frostbite_timer[i] += 1;
+            add_disease(dis_type(cold_pen), 1, 1, 3); frostbite_timer[i] += 1;
         }
         else if (temp_cur[i] > BODYTEMP_SCORCHING)
         {
             // If body temp rises over 15000, disease.cpp ("hot_head") acts weird and the player will die
-            add_disease(dis_type(hot_pen),  1, g, 3, 3);
+            add_disease(dis_type(hot_pen),  1, 3, 3);
         }
         else if (temp_cur[i] > BODYTEMP_VERY_HOT)
         {
-            add_disease(dis_type(hot_pen),  1, g, 2, 3);
+            add_disease(dis_type(hot_pen),  1, 2, 3);
         }
         else if (temp_cur[i] > BODYTEMP_HOT)
         {
-            add_disease(dis_type(hot_pen),  1, g, 1, 3);
+            add_disease(dis_type(hot_pen),  1, 1, 3);
         }
         // MORALE : a negative morale_pen means the player is cold
         // Intensity multiplier is negative for cold, positive for hot
@@ -848,7 +848,7 @@ void player::update_bodytemp(game *g)
         }
         if      (frostbite_timer[i] >= 240 && g->temperature < 32)
         {
-            add_disease(dis_type(frost_pen), 1, g, 2, 2);
+            add_disease(dis_type(frost_pen), 1, 2, 2);
             // Warning message for the player
             if (disease_intensity(dis_type(frost_pen)) < 2
                 &&  (i == bp_mouth || i == bp_hands || i == bp_feet))
@@ -857,7 +857,7 @@ void player::update_bodytemp(game *g)
             }
             else if (frostbite_timer[i] >= 120 && g->temperature < 32)
             {
-                add_disease(dis_type(frost_pen), 1, g, 1, 2);
+                add_disease(dis_type(frost_pen), 1, 1, 2);
                 // Warning message for the player
                 if (!has_disease(dis_type(frost_pen)))
                 {
@@ -1065,6 +1065,10 @@ int player::swim_speed()
     ret += (worn[i].volume() * (10 - skillLevel("swimming"))) / 2;
  }
  ret -= str_cur * 6 + dex_cur * 4;
+ if( worn_with_flag("FLOATATION") ) {
+     ret = std::max(ret, 400);
+     ret = std::min(ret, 200);
+ }
 // If (ret > 500), we can not swim; so do not apply the underwater bonus.
  if (underwater && ret < 500)
   ret -= 50;
@@ -2844,7 +2848,7 @@ void player::pause(game *g)
    arm_amount = 3;
   if (arm_max > 20)
    arm_max = 20;
-  add_disease("armor_boost", 2, g, arm_amount, arm_max);
+  add_disease("armor_boost", 2, arm_amount, arm_max);
  }
 }
 
@@ -3063,7 +3067,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
    int maxblind = int((dam + cut) /  4);
    if (maxblind > 5)
     maxblind = 5;
-   add_disease("blind", rng(minblind, maxblind), g);
+   add_disease("blind", rng(minblind, maxblind));
   }
 
  case bp_mouth: // Fall through to head damage
@@ -3112,7 +3116,7 @@ int player::hit(game *g, body_part bphurt, int side, int dam, int cut)
  }
  if (has_trait(PF_ADRENALINE) && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
-  add_disease("adrenaline", 200, g);
+  add_disease("adrenaline", 200);
 
  return dam;
 }
@@ -3183,7 +3187,7 @@ void player::hurt(game *g, body_part bphurt, int side, int dam)
  }
  if (has_trait(PF_ADRENALINE) && !has_disease("adrenaline") &&
      (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15))
-  add_disease("adrenaline", 200, g);
+  add_disease("adrenaline", 200);
 }
 
 void player::heal(body_part healed, int side, int dam)
@@ -3306,7 +3310,7 @@ void player::knock_back_from(game *g, int x, int y)
  if (mondex != -1) {
   monster *z = &(g->z[mondex]);
   hit(g, bp_torso, 0, z->type->size, 0);
-  add_disease("stunned", 1, g);
+  add_disease("stunned", 1);
   if ((str_max - 6) / 4 > z->type->size) {
    z->knock_back_from(g, posx, posy); // Chain reaction!
    z->hurt((str_max - 6) / 4);
@@ -3327,7 +3331,7 @@ void player::knock_back_from(game *g, int x, int y)
  if (npcdex != -1) {
   npc *p = g->active_npc[npcdex];
   hit(g, bp_torso, 0, 3, 0);
-  add_disease("stunned", 1, g);
+  add_disease("stunned", 1);
   p->hit(g, bp_torso, 0, 3, 0);
   if (u_see)
    g->add_msg("%s bounce%s off %s!", You.c_str(), s.c_str(), p->name.c_str());
@@ -3344,7 +3348,7 @@ void player::knock_back_from(game *g, int x, int y)
 // TODO: NPCs can't swim!
   } else { // It's some kind of wall.
    hurt(g, bp_torso, 0, 3);
-   add_disease("stunned", 2, g);
+   add_disease("stunned", 2);
    if (u_see)
     g->add_msg("%s bounce%s off a %s.", name.c_str(), s.c_str(),
                                         g->m.tername(to.x, to.y).c_str());
@@ -3423,10 +3427,10 @@ void player::infect(dis_type type, body_part vector, int strength,
                     int duration, game *g)
 {
  if (dice(strength, 3) > dice(resist(vector), 3))
-  add_disease(type, duration, g);
+  add_disease(type, duration);
 }
 
-void player::add_disease(dis_type type, int duration, game *g,
+void player::add_disease(dis_type type, int duration,
                          int intensity, int max_intensity)
 {
  if (duration == 0)
@@ -3746,10 +3750,10 @@ void player::suffer(game *g)
             switch(rng(0, 11))
             {
                 case 0:
-                    add_disease("hallu", 3600, g);
+                    add_disease("hallu", 3600);
                     break;
                 case 1:
-                    add_disease("visuals", rng(15, 60), g);
+                    add_disease("visuals", rng(15, 60));
                     break;
                 case 2:
                     g->add_msg("From the south you hear glass breaking.");
@@ -3769,7 +3773,7 @@ void player::suffer(game *g)
                     break;
                 case 6:
                     g->add_msg("You start to shake uncontrollably.");
-                    add_disease("shakes", 10 * rng(2, 5), g);
+                    add_disease("shakes", 10 * rng(2, 5));
                     break;
                 case 7:
                     for (i = 0; i < 10; i++)
@@ -3782,7 +3786,7 @@ void player::suffer(game *g)
                     break;
                 case 8:
                     g->add_msg("It's a good time to lie down and sleep.");
-                    add_disease("lying_down", 200, g);
+                    add_disease("lying_down", 200);
                     break;
                 case 9:
                     g->add_msg("You have the sudden urge to SCREAM!");
@@ -3794,15 +3798,15 @@ void player::suffer(game *g)
                         name + name + name + name + name + name).c_str());
                     break;
                 case 11:
-                    add_disease("formication", 600, g);
+                    add_disease("formication", 600);
                     break;
             }
         }
   if (has_trait(PF_JITTERY) && !has_disease("shakes")) {
    if (stim > 50 && one_in(300 - stim))
-    add_disease("shakes", 300 + stim, g);
+    add_disease("shakes", 300 + stim);
    else if (hunger > 80 && one_in(500 - hunger))
-    add_disease("shakes", 400, g);
+    add_disease("shakes", 400);
   }
 
   if (has_trait(PF_MOODSWINGS) && one_in(3600)) {
@@ -3837,7 +3841,7 @@ void player::suffer(game *g)
   if (auto_use)
    use_charges("inhaler", 1);
   else {
-   add_disease("asthma", 50 * rng(1, 4), g);
+   add_disease("asthma", 50 * rng(1, 4));
    if (!is_npc())
     g->cancel_activity_query("You have an asthma attack!");
   }
@@ -4006,7 +4010,7 @@ void player::suffer(game *g)
 
 // Artifact effects
  if (has_artifact_with(AEP_ATTENTION))
-  add_disease("attention", 3, g);
+  add_disease("attention", 3);
 
  if (dex_cur < 0)
   dex_cur = 0;
@@ -4892,6 +4896,16 @@ bool player::is_wearing(itype_id it)
  return false;
 }
 
+bool player::worn_with_flag( std::string flag ) const
+{
+    for (int i = 0; i < worn.size(); i++) {
+        if (worn[i].has_flag( flag )) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool player::has_artifact_with(art_effect_passive effect)
 {
  if (weapon.is_artifact() && weapon.is_tool()) {
@@ -4993,8 +5007,7 @@ bool player::has_watertight_container()
   return true;
  }
  if (weapon.is_container() && weapon.contents.empty()) {
-   it_container* cont = dynamic_cast<it_container*>(weapon.type);
-   if (cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals))
+   if (weapon.has_flag("WATERTIGHT") && weapon.has_flag("SEALS"))
     return true;
  }
 
@@ -5247,7 +5260,7 @@ bool player::eat(game *g, signed char ch)
                 return false;
             g->add_msg("Ick, this %s doesn't taste so good...",eaten->tname(g).c_str());
             if (!has_trait(PF_SAPROVORE) && (!has_bionic("bio_digestion") || one_in(3)))
-                add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60), g);
+                add_disease("foodpoison", rng(60, (comest->nutr + 1) * 60));
             hunger -= rng(0, comest->nutr);
             thirst -= comest->quench;
             if (!has_trait(PF_SAPROVORE) && !has_bionic("bio_digestion"))
@@ -5273,9 +5286,9 @@ bool player::eat(game *g, signed char ch)
             moves -= 250;
         // If it's poisonous... poison us.  TODO: More several poison effects
         if (eaten->poison >= rng(2, 4))
-            add_disease("poison", eaten->poison * 100, g);
+            add_disease("poison", eaten->poison * 100);
         if (eaten->poison > 0)
-            add_disease("foodpoison", eaten->poison * 300, g);
+            add_disease("foodpoison", eaten->poison * 300);
 
         // Descriptive text
         if (!is_npc())
@@ -5399,8 +5412,7 @@ bool player::eat(game *g, signed char ch)
                 case 1:
                     if (it.is_container())
                     {
-                        it_container* cont = dynamic_cast<it_container*>(it.type);
-                        if (!(cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals)))
+                        if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS")))
                         {
                             g->add_msg("You drop the empty %s.", it.tname(g).c_str());
                             g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
@@ -6914,7 +6926,7 @@ void player::try_to_sleep(game *g)
   g->add_msg("It's %shard to get to sleep on this %s.",
              terlist[ter_at_pos].movecost <= 2 ? "a little " : "",
              terlist[ter_at_pos].name.c_str());
- add_disease("lying_down", 300, g);
+ add_disease("lying_down", 300);
 }
 
 bool player::can_sleep(game *g)

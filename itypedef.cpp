@@ -119,23 +119,6 @@ VAR_VEH_PART("v8_combustion", "V8 engine",  2, 250, ':', c_ltcyan,  "iron",   "n
     25,  600,  15,  0,  -5, 0,    380,     700, BIGNESS_ENGINE_DISPLACEMENT, "\
 A large and very powerful 8-cylinder combustion engine.");
 
-// AMMUNITION
-// Material should be the wrapper--even though shot is made of iron, because
-//   it can survive a dip in water and be okay, its material here is "plastic".
-// dmg is damage done, in an average hit.  Note that the average human has
-//   80 health.  Headshots do 8x damage; vital hits do 2x-4x; glances do 0x-1x.
-// Weight and price is per 100 rounds.
-// AP is a reduction in the armor of the target.
-// Dispersion is in quarter-degrees, and measures the maximum this ammo will
-//   contribute to the angle of difference.
-// Recoil is cumulative between shots.  4 recoil = 1 dispersion.
-// IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
-//   at the end of this file.
-#define AMMO(id, name,rarity,price,ammo_type,color,mat,volume,wgt,dmg,AP,range,\
-dispersion,recoil,count,des,effects) \
-itypes[id]=new it_ammo(id,rarity,price,name,des,'=',\
-color,mat,SOLID,volume,wgt,1,0,0,effects,ammo_type,dmg,AP,dispersion,recoil,range,count);
-
 // GUNS
 // ammo_type matches one of the ammo_types above.
 // dmg is ADDED to the damage of the corresponding ammo.  +/-, should be small.
@@ -149,23 +132,6 @@ to_hit,dmg,range,dispersion,recoil,durability,burst,clip,reload_time,des) \
 itypes[id]=new it_gun(id,rarity,price,name,des,'(',\
 color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,skill,ammo,dmg,range,dispersion,\
 recoil,durability,burst,clip,reload_time)
-
-// CONTAINERS
-// These are containers you hold in your hand--ones you wear are _armor_!
-// These only have two attributes; contains, which is the volume it holds, and
-//  the flags. There are only three flags, con_rigid, con_wtight and con_seals.
-// con_rigid is used if the item's total volume is constant.
-//  Otherwise, its volume is calculated as VOL + volume of the contents
-// con_wtight is used if you can store liquids in this container
-// con_seals is used if it seals--this has many implications
-//  * Won't spill
-//  * Can be used as an icebox
-//  * Others??
-#define CONT(id, name,rarity,price,color,mat1,mat2,volume,wgt,melee_dam,to_hit,\
-contains,flags,des) \
-itypes[id]=new it_container(id,rarity,price,name,des,\
-')',color,mat1,mat2,volume,wgt,melee_dam,0,to_hit,contains,flags)
-// NAME		RAR PRC	COLOR		MAT1	MAT2
 
 /* TOOLS
  * MAX is the maximum number of charges help.
@@ -188,67 +154,6 @@ revert,func,des) \
 itypes[id]=new it_tool(id,rarity,price,name,des,sym,\
 color,mat1,mat2,SOLID,volume,wgt,melee_dam,melee_cut,to_hit,max_charge,\
 def_charge,charge_per_use,charge_per_sec,fuel,revert,func)
-
-CONT("bag_plastic", "plastic bag",	50,  1,	c_ltgray,	"plastic","null",
-// VOL WGT DAM HIT	VOL	FLAGS
-    1,  0, -8, -4,	24,	0, "\
-A small, open plastic bag. Essentially trash.");
-
-CONT("bottle_plastic", "plastic bottle",	70,  8,	c_ltcyan,	"plastic","null",
-    2,  0, -8,  1,	 2,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A resealable plastic bottle, holds 500mls of liquid.");
-
-CONT("bottle_glass", "glass bottle",	70, 12,	c_cyan,		"glass",	"null",
-    3,  2,  8,  1,	 3,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A resealable glass bottle, holds 750mls of liquid.");
-
-CONT("can_drink", "aluminum can",	70,  1,	c_ltblue,	"steel",	"null",
-    1,  0,  0,  0,	 1,	mfb(con_rigid)|mfb(con_wtight), "\
-An aluminum can, like what soda comes in.");
-
-CONT("can_food", "tin can",		65,  2,	c_blue,		"iron",	"null",
-    1,  0, -1,  1,	 1,	mfb(con_rigid)|mfb(con_wtight), "\
-A tin can, like what beans come in.");
-
-CONT("box_small", "sm. cardboard box",50, 0,	c_brown,	"paper",	"null",
-    4,  0, -5,  1,	 4,	mfb(con_rigid), "\
-A small cardboard box. No bigger than a foot in any dimension.");
-
-CONT("canteen", "plastic canteen",	20,  1000,	c_green,	"plastic","null",
-    6,  2, -8,  1,	 6,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A large military-style water canteen, with a 1.5 liter capacity and strap.");
-
-CONT("jerrycan", "plastic jerrycan",	10,  2500,	c_green,	"plastic","null",
-    40,  4, -2,  -2,	 40,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A bulky plastic jerrycan, meant to carry fuel, but can carry other liquids\n\
-in a pinch. It has a capacity of 10 liters.");
-
-CONT("jug_plastic", "gallon jug",	10,  2500,	c_ltcyan,	"plastic","null",
-    10,  2, -8,  1,	 10,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A standard plastic jug used for household cleaning chemicals.");
-
-CONT("flask_glass", "glass flask",	10,  2500,	c_ltcyan,	"glass","null",
-    1,  0, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A 250 ml laboratory conical flask, with a rubber bung.");
-
-CONT("waterskin", "waterskin",   0,  0, c_brown, "leather", "null",
-// VOL WGT DAM HIT	VOL	FLAGS
-    6, 4,  -8, -5,   6, mfb(con_wtight)|mfb(con_seals), "\
-A watertight leather bag, can hold 1.5 liters of water.");
-
-CONT("jerrycan_big", "steel jerrycan", 20, 5000, c_green, "steel", "null",
-    100, 7, -3, -3, 100, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A steel jerrycan, meant to carry fuel, but can carry other liquds\n\
-in a pinch. It has a capacity of 25 liters.");
-
-CONT("keg", "aluminum keg", 20, 6000, c_ltcyan, "steel", "null",
-    200, 12, -4, -4, 200, mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A reusable aluminum keg, used for shipping beer.\n\
-It has a capcity of 50 liters.");
-
-CONT("jar_glass", "glass jar",	50,  2500,	c_ltcyan,	"glass","null",
-    1,  1, 8,  1,	 1,	mfb(con_rigid)|mfb(con_wtight)|mfb(con_seals),"\
-A half-litre glass jar with a metal screw top lid, used for canning.");
 
 TOOL("jack", "jack",		30, 86, ';', c_ltgray,	"iron",	"null",
 //	VOL WGT DAM CUT HIT FLAGS
@@ -410,11 +315,6 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
     }
 }
 
-//  NAME		RARE  TYPE	COLOR		MAT
-AMMO("bio_fusion_ammo", "Fusion blast",	 0,0, AT_FUSION,c_dkgray,	"null",
-//	VOL WGT DMG  AP RNG ACC REC COUNT
-	 0,  0, 40,  0, 10,  1,  0,  5, "", mfb(AMMO_INCENDIARY));
-
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
@@ -426,12 +326,6 @@ GUN("bio_lightning", "Chain Lightning",	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  1,  10, 500,
 "");
-//  NAME		RARE  TYPE	COLOR		MAT
-AMMO("bio_lightning_ammo", "Lightning",	 0,0, AT_FUSION,c_dkgray,	"null",
-//	VOL WGT DMG  AP RNG ACC REC COUNT
-	 0,  0, 6,  0, 10,  1,  0,  10, "", mfb(AMMO_BOUNCE) | mfb(AMMO_LIGHTNING));
-
-
 
 
 // Unarmed Styles

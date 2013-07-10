@@ -24,6 +24,7 @@ std::string morale_data[NUM_MORALE_TYPES] = {
 "Ate Human Flesh",
 "Ate Meat",
 "Wet",
+"Dried Off",
 "Cold",
 "Hot",
 "Bad Feeling",
