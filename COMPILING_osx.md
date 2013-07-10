@@ -45,7 +45,13 @@ This adds search paths to find shared libraries outside of /usr and /usr/local.
 Multiple `-I/...` or `-L/...` paths can be specified.
 
     $ make NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 OSX_MIN=10.6
+
+## Run
+
     $ ./cataclysm
+
+or
+
     $ ./cataclysm-tiles
 
 ### Options
