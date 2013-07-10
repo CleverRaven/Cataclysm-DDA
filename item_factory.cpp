@@ -351,6 +351,7 @@ void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/ammo.json");
     load_item_templates_from("data/raw/items/mods.json");
     load_item_templates_from("data/raw/items/tools.json");
+    load_item_templates_from("data/raw/items/containers.json");
     load_item_templates_from("data/raw/items/comestibles.json");
     load_item_templates_from("data/raw/items/armor.json");
     load_item_templates_from("data/raw/items/books.json");
@@ -505,6 +506,14 @@ void Item_factory::load_item_templates_from(const std::string file_name){
 
                         new_item_template = book_template;
                     }
+                    else if (type_label == "CONTAINER")
+                    {
+                        it_container* container_template = new it_container();
+
+                        container_template->contains = entry.get("contains").as_int();
+
+                        new_item_template = container_template;
+                    }
                     else
                     {
                         debugmsg("Item definition for %s skipped, unrecognized type: %s", new_id.c_str(),
@@ -549,6 +558,11 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     OVERSIZE - Can always be worn no matter encumberance/mutations/bionics/etc
                     HOOD - Will increase warmth for head if head is cold and player is not wearing a helmet (headwear of material that is not wool or cotton)
                     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
+
+                    Container-only flags:
+                    SEALS
+                    RIGID
+                    WATERTIGHT
                     */
                 }
 

@@ -1157,8 +1157,7 @@ item& inventory::watertight_container()
         item& it = iter->front();
         if (it.is_container() && it.contents.empty())
         {
-            it_container* cont = dynamic_cast<it_container*>(it.type);
-            if (cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals))
+            if (it.has_flag("WATERTIGHT") && it.has_flag("SEALS"))
             {
                 return it;
             }

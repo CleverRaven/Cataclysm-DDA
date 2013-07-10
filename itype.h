@@ -554,31 +554,11 @@ struct it_book : public itype
  }
 };
 
-enum container_flags {
- con_rigid,
- con_wtight,
- con_seals,
- num_con_flags
-};
-
 struct it_container : public itype
 {
  unsigned char contains;	// Internal volume
- unsigned flags : num_con_flags;
  virtual bool is_container() { return true; }
- it_container(std::string pid, unsigned char prarity, unsigned int pprice,
-              std::string pname, std::string pdes,
-              char psym, nc_color pcolor, std::string pm1, std::string pm2,
-              unsigned short pvolume, unsigned short pweight,
-              signed char pmelee_dam, signed char pmelee_cut,
-              signed char pm_to_hit,
-
-              unsigned char pcontains, unsigned pflags)
-:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  contains = pcontains;
-  flags = pflags;
- }
+ it_container() {};
 };
 
 struct it_tool : public itype
