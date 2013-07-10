@@ -16,7 +16,7 @@
     "dispersion_modifier": 2,
     "damage_modifier": 0,
     "loudness_modifier": 0,
-    "ammo_modifier": ".45",
+    "ammo_modifier": "45",
     "recoil_modifier": 2,
     "burst_modifier": 0,
     "clip_size_modifier": 0,
@@ -30,7 +30,7 @@
         "clip_size_modifier" : 0,
         "dispersion_modifier" : 1,
         "damage_modifier" : -4,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "Using a suppressor is almost an imperative in zombie-infested regions. Gunfire is very noisy, and will attract predators. Its only drawback is a reduced muzzle velocity, resulting in less accuracy and damage.",
         "weight" : 1,
         "to_hit" : 2,
@@ -54,7 +54,7 @@
         "clip_size_modifier" : 0,
         "dispersion_modifier" : -2,
         "damage_modifier" : 0,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "A grip placed forward on the barrel allows for greater control and accuracy. Aside from increased weight, there are no drawbacks.",
         "weight" : 1,
         "to_hit" : -1,
@@ -78,7 +78,7 @@
         "clip_size_modifier" : 0,
         "dispersion_modifier" : -6,
         "damage_modifier" : 1,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "A longer barrel increases the muzzle velocity of a firearm, contributing to both accuracy and damage.  However, the longer barrel tends to vibrate after firing, greatly increasing recoil.",
         "weight" : 1,
         "to_hit" : 2,
@@ -102,7 +102,7 @@
         "clip_size_modifier" : 0,
         "dispersion_modifier" : 5,
         "damage_modifier" : 0,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "A shortened barrel results in markedly reduced accuracy, and a minor increase in noise, but also reduces recoil greatly as a result of the improved managability of the firearm.",
         "weight" : 1,
         "to_hit" : -1,
@@ -126,7 +126,7 @@
         "clip_size_modifier" : 0,
         "dispersion_modifier" : -10,
         "damage_modifier" : -20,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "Rifling a shotgun barrel is mainly done in order to improve its accuracy when firing slugs. The rifling makes the gun less suitable for shot, however.",
         "weight" : 1,
         "to_hit" : 1,
@@ -150,7 +150,7 @@
         "clip_size_modifier" : 50,
         "dispersion_modifier" : 1,
         "damage_modifier" : 0,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "Increases the ammunition capacity of your firearm by 50%, but the added bulk reduces accuracy slightly.",
         "weight" : 1,
         "to_hit" : -1,
@@ -174,7 +174,7 @@
         "clip_size_modifier" : 100,
         "dispersion_modifier" : 2,
         "damage_modifier" : 0,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "Completely doubles the ammunition capacity of your firearm, but the added bulk reduces accuracy and increases recoil.",
         "weight" : 2,
         "to_hit" : 0,
@@ -198,7 +198,7 @@
         "clip_size_modifier" : 0,
         "dispersion_modifier" : 0,
         "damage_modifier" : 0,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "A spare magazine you can keep on hand to make reloads faster, but must itself  be reloaded before it can be used again.",
         "weight" : 1,
         "to_hit" : 0,
@@ -222,7 +222,7 @@
         "clip_size_modifier" : 0,
         "dispersion_modifier" : 0,
         "damage_modifier" : 0,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "A bag that hangs off the side of your gun and catches ejected casings so you don't have to pick them up.",
         "weight" : 1,
         "to_hit" : 0,
@@ -246,7 +246,7 @@
         "clip_size_modifier" : -10,
         "dispersion_modifier" : -2,
         "damage_modifier" : -2,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "An advanced unit that straps onto the side of your firearm and reduces vibration, greatly reducing recoil and increasing accuracy.  However, it also takes up space in the magazine slot, reducing ammo capacity.",
         "weight" : 2,
         "to_hit" : -3,
@@ -270,7 +270,7 @@
         "clip_size_modifier" : 0,
         "dispersion_modifier" : 3,
         "damage_modifier" : 0,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "An improved blowback mechanism makes your firearm's automatic fire faster, at the cost of reduced accuracy and increased noise.",
         "weight" : 1,
         "to_hit" : 0,
@@ -310,7 +310,7 @@
         "mod_targets" : ["pistol"],
         "rarity" : 2,
         "bashing" : 2,
-        "ammo_modifier" : "none"
+        "ammo_modifier" : "NULL"
     },
     {
         "type" : "GUNMOD",
@@ -335,7 +335,7 @@
         "mod_targets" : ["pistol", "smg"],
         "rarity" : 3,
         "bashing" : 0,
-        "ammo_modifier" : "9mm"
+        "ammo_modifier" : "9MM"
     },
     {
         "type" : "GUNMOD",
@@ -360,7 +360,7 @@
         "mod_targets" : ["pistol", "smg", "rifle"],
         "rarity" : 2,
         "bashing" : -2,
-        "ammo_modifier" : ".22"
+        "ammo_modifier" : "22"
     },
     {
         "type" : "GUNMOD",
@@ -385,7 +385,7 @@
         "mod_targets" : ["pistol", "smg"],
         "rarity" : 1,
         "bashing" : -3,
-        "ammo_modifier" : "5.7mm"
+        "ammo_modifier" : "57"
     },
     {
         "type" : "GUNMOD",
@@ -410,7 +410,7 @@
         "mod_targets" : ["pistol", "smg"],
         "rarity" : 1,
         "bashing" : -3,
-        "ammo_modifier" : "4.6mm"
+        "ammo_modifier" : "46"
     },
     {
         "type" : "GUNMOD",
@@ -435,7 +435,7 @@
         "mod_targets" : ["shotgun", "rifle"],
         "rarity" : 2,
         "bashing" : 4,
-        "ammo_modifier" : ".308"
+        "ammo_modifier" : "308"
     },
     {
         "type" : "GUNMOD",
@@ -460,7 +460,7 @@
         "mod_targets" : ["shotgun", "rifle"],
         "rarity" : 2,
         "bashing" : 4,
-        "ammo_modifier" : ".223"
+        "ammo_modifier" : "223"
     },
     {
         "type" : "GUNMOD",
@@ -469,7 +469,7 @@
         "clip_size_modifier" : 20,
         "dispersion_modifier" : 6,
         "damage_modifier" : 6,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "This is a complete conversion kit, designed to turn a rifle into a powerful battle rifle. It reduces accuracy, and increases noise and recoil, but also increases damage, ammo capacity, and fire rate.",
         "weight" : 3,
         "to_hit" : -1,
@@ -493,7 +493,7 @@
         "clip_size_modifier" : -15,
         "dispersion_modifier" : -10,
         "damage_modifier" : 8,
-        "ammo_modifier" : "none",
+        "ammo_modifier" : "NULL",
         "description" : "This is a complete conversion kit, designed to turn a rifle into a deadly sniper rifle. It decreases ammo capacity, and removes any automatic fire capabilities, but also increases accuracy and damage.",
         "weight" : 2,
         "to_hit" : -1,
@@ -533,7 +533,7 @@
         "rarity" : 2,
         "bashing" : 2,
         "flags" : ["MODE_AUX"],
-        "ammo_modifier" : "40mm"
+        "ammo_modifier" : "40MM"
     },
     {
         "type" : "GUNMOD",
@@ -558,7 +558,7 @@
         "rarity" : 6,
         "bashing" : 0,
         "flags" : ["STAB"],
-        "ammo_modifier" : "none"
+        "ammo_modifier" : "NULL"
     },
     {
         "type" : "GUNMOD",
@@ -583,7 +583,7 @@
         "rarity" : 2,
         "bashing" : 2,
         "flags" : ["MODE_AUX"],
-        "ammo_modifier" : "shot"
+        "ammo_modifier" : "SHOT"
     },
     {
         "type" : "GUNMOD",
@@ -608,6 +608,6 @@
         "rarity" : 2,
         "bashing" : 2,
         "flags" : ["MODE_AUX", "STR_RELOAD"],
-        "ammo_modifier" : "bolt"
+        "ammo_modifier" : "BOLT"
     }
 ]

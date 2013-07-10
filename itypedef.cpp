@@ -157,7 +157,7 @@ itypes[id]=new it_container(id,rarity,price,name,des,\
  * USE is how many charges are used up when 'a'pplying the object.
  * SEC is how many turns will pass before a charge is drained if the item is
  *  active; generally only used in the "<whatever> (on)" forms
- * FUEL is the type of charge the tool uses; set to AT_NULL if the item is
+ * FUEL is the type of charge the tool uses; set to "NULL" if the item is
  *  unable to be recharged.
  * REVERT is the item type that the tool will revert to once its charges are
  *  drained
@@ -235,7 +235,7 @@ A half-litre glass jar with a metal screw top lid, used for canning.");
 
 TOOL("jack", "jack",		30, 86, ';', c_ltgray,	"iron",	"null",
 //	VOL WGT DAM CUT HIT FLAGS
-	 5,  10, 11,  0,  2, 0, 0, 0, 0, AT_NULL, "null", &iuse::none, "\
+	 5,  10, 11,  0,  2, 0, 0, 0, 0, "NULL", "null", &iuse::none, "\
 A common hydraulic jack, used when changing tires.");
 
 // BIONICS
@@ -396,13 +396,13 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
-	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
+	"rifle",	"FUSION", 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "");
 
 //  NAME		RARE	COLOR		MAT1	MAT2
 GUN("bio_lightning", "Chain Lightning",	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
-	"rifle",	AT_FUSION, 12,  0,  0,  0,  0,  0,  4,  0, 10,  1,  10, 500,
+	"rifle",	"FUSION", 12,  0,  0,  0,  0,  0,  4,  0, 10,  1,  10, 500,
 "");
 
 
@@ -629,73 +629,69 @@ attacks with no penalty.",
 
 std::string ammo_name(ammotype t)
 {
- switch (t) {
-  case AT_NAIL:   return "nails";
-  case AT_BB:	  return "BBs";
-  case AT_BOLT:	  return "bolts";
-  case AT_ARROW:  return "arrows";
-  case AT_PEBBLE: return "pebbles";
-  case AT_SHOT:	  return "shot";
-  case AT_22:	  return ".22";
-  case AT_9MM:	  return "9mm";
-  case AT_762x25: return "7.62x25mm";
-  case AT_38:	  return ".38";
-  case AT_40:	  return ".40";
-  case AT_44:	  return ".44";
-  case AT_45:	  return ".45";
-  case AT_57:	  return "5.7mm";
-  case AT_46:	  return "4.6mm";
-  case AT_762:	  return "7.62x39mm";
-  case AT_223:	  return ".223";
-  case AT_3006:   return ".30-06";
-  case AT_308:	  return ".308";
-  case AT_40MM:   return "40mm grenade";
-  case AT_66MM:   return "High Explosive Anti Tank Warhead";
-  case AT_GAS:	  return "gasoline";
-  case AT_THREAD: return "thread";
-  case AT_BATT:   return "batteries";
-  case AT_PLUT:   return "plutonium";
-  case AT_MUSCLE: return "Muscle";
-  case AT_FUSION: return "fusion cell";
-  case AT_12MM:   return "12mm slugs";
-  case AT_PLASMA: return "hydrogen";
-  case AT_WATER: return "clean water";
-  default:	  return "XXX";
- }
+    if( t == "NAIL")   return "nails";
+    if( t == "BB" )	   return "BBs";
+    if( t == "BOLT" )	 return "bolts";
+    if( t == "ARROW" ) return "arrows";
+    if( t == "PEBBLE" )return "pebbles";
+    if( t == "SHOT" )	 return "shot";
+    if( t == "22" )	   return ".22";
+    if( t == "9MM" )	  return "9mm";
+    if( t == "762x25" )return "7.62x25mm";
+    if( t == "38" )	   return ".38";
+    if( t == "40" )	   return ".40";
+    if( t == "44" )	   return ".44";
+    if( t == "45" )	   return ".45";
+    if( t == "57" )	   return "5.7mm";
+    if( t == "46" )	   return "4.6mm";
+    if( t == "762" )	  return "7.62x39mm";
+    if( t == "223" )	  return ".223";
+    if( t == "3006" )  return ".30-06";
+    if( t == "308" )	  return ".308";
+    if( t == "40MM" )  return "40mm grenade";
+    if( t == "66MM" )  return "High Explosive Anti Tank Warhead";
+    if( t == "GAS" )	  return "gasoline";
+    if( t == "THREAD" )return "thread";
+    if( t == "BATT" )  return "batteries";
+    if( t == "PLUT" )  return "plutonium";
+    if( t == "MUSCLE" )return "Muscle";
+    if( t == "FUSION" )return "fusion cell";
+    if( t == "12MM" )  return "12mm slugs";
+    if( t == "PLASMA" )return "hydrogen";
+    if( t == "WATER"  )return "clean water";
+    return "XXX";
 }
 
 itype_id default_ammo(ammotype guntype)
 {
- switch (guntype) {
- case AT_NAIL:	return "nail";
- case AT_BB:	return "bb";
- case AT_BOLT:	return "bolt_wood";
- case AT_ARROW: return "arrow_wood";
- case AT_PEBBLE:return "pebble";
- case AT_SHOT:	return "shot_00";
- case AT_22:	return "22_lr";
- case AT_9MM:	return "9mm";
- case AT_762x25:return "762_25";
- case AT_38:	return "38_special";
- case AT_40:	return "10mm";
- case AT_44:	return "44magnum";
- case AT_45:	return "45_acp";
- case AT_57:	return "57mm";
- case AT_46:	return "46mm";
- case AT_762:	return "762_m43";
- case AT_223:	return "223";
- case AT_308:	return "308";
- case AT_3006:	return "270";
- case AT_40MM:  return "40mm_concussive";
- case AT_66MM:  return "66mm_HEAT";
- case AT_BATT:	return "battery";
- case AT_FUSION:return "laser_pack";
- case AT_12MM:  return "12mm";
- case AT_PLASMA:return "plasma";
- case AT_PLUT:	return "plut_cell";
- case AT_GAS:	return "gasoline";
- case AT_THREAD:return "thread";
- case AT_WATER:return "water_clean";
- }
- return "null";
+    if( guntype == "NAIL" )	 return "nail";
+    if( guntype == "BB" )	   return "bb";
+    if( guntype == "BOLT" )	 return "bolt_wood";
+    if( guntype == "ARROW" ) return "arrow_wood";
+    if( guntype == "PEBBLE" )return "pebble";
+    if( guntype == "SHOT" )	 return "shot_00";
+    if( guntype == "22" )	   return "22_lr";
+    if( guntype == "9MM" )	  return "9mm";
+    if( guntype == "762x25" )return "762_25";
+    if( guntype == "38" )	   return "38_special";
+    if( guntype == "40" )	   return "10mm";
+    if( guntype == "44" )	   return "44magnum";
+    if( guntype == "45" )	   return "45_acp";
+    if( guntype == "57" )	   return "57mm";
+    if( guntype == "46" )	   return "46mm";
+    if( guntype == "762" )	  return "762_m43";
+    if( guntype == "223" )	  return "223";
+    if( guntype == "308" )	  return "308";
+    if( guntype == "3006" )	 return "270";
+    if( guntype == "40MM" )  return "40mm_concussive";
+    if( guntype == "66MM" )  return "66mm_HEAT";
+    if( guntype == "BATT" )	 return "battery";
+    if( guntype == "FUSION" )return "laser_pack";
+    if( guntype == "12MM" )  return "12mm";
+    if( guntype == "PLASMA" )return "plasma";
+    if( guntype == "PLUT" )	 return "plut_cell";
+    if( guntype == "GAS" )	  return "gasoline";
+    if( guntype == "THREAD" )return "thread";
+    if( guntype == "WATER" ) return "water_clean";
+    return "null";
 }

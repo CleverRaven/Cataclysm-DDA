@@ -42,27 +42,7 @@ extern std::vector<std::string> artifact_itype_ids;
 extern std::vector<std::string> standard_itype_ids;
 extern std::vector<std::string> pseudo_itype_ids;
 
-// IMPORTANT: If adding a new AT_*** ammotype, add it to the ammo_name function
-//  at the end of itypedef.cpp
-enum ammotype {
-AT_NULL, AT_THREAD,
-AT_BATT, AT_PLUT,
-AT_NAIL, AT_BB, AT_BOLT, AT_ARROW,
-AT_SHOT,
-AT_22, AT_9MM, AT_762x25, AT_38, AT_40, AT_44, AT_45,
-AT_57, AT_46,
-AT_762, AT_223, AT_3006, AT_308,
-AT_40MM,
-AT_66MM,
-AT_GAS,
-AT_FUSION,
-AT_MUSCLE,
-AT_12MM,
-AT_PLASMA,
-AT_WATER,
-AT_PEBBLE,
-NUM_AMMO_TYPES
-};
+typedef std::string ammotype;
 
 enum software_type {
 SW_NULL,
@@ -345,7 +325,7 @@ struct it_ammo : public itype
 
  it_ammo() : itype()
  {
-     type = AT_NULL;
+     type = "NULL";
      damage = 0;
      pierce = 0;
      range = 0;
@@ -422,7 +402,7 @@ struct it_gunmod : public itype
 {
  signed char dispersion, damage, loudness, clip, recoil, burst;
  ammotype newtype;
- unsigned acceptible_ammo_types : NUM_AMMO_TYPES;
+ std::set<std::string> acceptible_ammo_types;
  bool used_on_pistol;
  bool used_on_shotgun;
  bool used_on_smg;
@@ -439,7 +419,7 @@ struct it_gunmod : public itype
 
            signed char pdispersion, signed char pdamage, signed char ploudness,
            signed char pclip, signed char precoil, signed char pburst,
-           ammotype pnewtype, long a_a_t, bool pistol,
+           ammotype pnewtype, std::set<std::string> a_a_t, bool pistol,
            bool shotgun, bool smg, bool rifle)
 
  :itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
@@ -466,7 +446,7 @@ struct it_armor : public itype
  unsigned char covers; // Bitfield of enum body_part
  signed char encumber;
  unsigned char coverage;
- unsigned char thickness; 
+ unsigned char thickness;
  unsigned char env_resist; // Resistance to environmental effects
  signed char warmth;
  unsigned char storage;
@@ -596,7 +576,7 @@ struct it_tool : public itype
 
  it_tool() :itype()
  {
-  ammo = AT_NULL;
+  ammo = "NULL";
   max_charges = 0;
   def_charges = 0;
   charges_per_use = 0;
@@ -814,7 +794,7 @@ struct it_artifact_tool : public it_tool
  }
 
  it_artifact_tool() :it_tool(){
-  ammo = AT_NULL;
+  ammo = "NULL";
   price = 0;
   def_charges = 0;
   charges_per_use = 1;
