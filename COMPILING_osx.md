@@ -42,7 +42,7 @@ From the Cataclysm-DDA source folder:
     $ export CXXFLAGS="-I/path/to/include" LDFLAGS="-L/path/to/lib"
     
 This adds search paths to find shared libraries outside of /usr and /usr/local.
-Multiple `-I/...` or `-L/...' paths can be specified.
+Multiple `-I/...` or `-L/...` paths can be specified.
 
     $ make NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 OSX_MIN=10.6
     $ ./cataclysm
@@ -54,7 +54,7 @@ Multiple `-I/...` or `-L/...' paths can be specified.
 
 `RELEASE=1` builds an optimized 'release' version.
 
-`TILES=1` builds the SDL version; omit for ncurses/console version.
+`TILES=1` builds the SDL version; omit to build the ncurses/console version.
 
 `FRAMEWORK=1` uses frameworks; omit for libsdl, libsdl\_ttf.
 
@@ -64,4 +64,4 @@ Multiple `-I/...` or `-L/...' paths can be specified.
 
     $ make bindist NATIVE=osx TILES=1
 
-Create a .tar.gz archive of the build; omit `TILES=1` if you built the console version.
+Create a .tar.gz archive of the build; omit `TILES=1` for the console version.
