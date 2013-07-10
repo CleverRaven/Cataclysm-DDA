@@ -3611,7 +3611,7 @@ void iuse::hacksaw(game *g, player *p, item *it, bool t)
  int dirx, diry;
  if(!g->choose_adjacent("Cut up metal", dirx, diry))
   return;
- 
+
 if (dirx == p->posx && diry == p->posy) {
   g->add_msg("Why would you do that?");
   g->add_msg("You're not even chained to a boiler.");
@@ -3657,7 +3657,7 @@ void iuse::tent(game *g, player *p, item *it, bool t)
  int dirx, diry;
  if(!g->choose_adjacent("Pitch the tent", dirx, diry))
   return;
- 
+
  //must place the center of the tent two spaces away from player
  //dirx and diry will be integratined with the player's position
  int posx = dirx - p->posx;
@@ -3688,7 +3688,7 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
  int dirx, diry;
  if(!g->choose_adjacent("Put up the shelter", dirx, diry))
   return;
- 
+
  //must place the center of the tent two spaces away from player
  //dirx and diry will be integratined with the player's position
  int posx = dirx - p->posx;
@@ -3701,7 +3701,7 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
  posy = posy*2 + p->posy;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   if (!g->m.has_flag(flat, posx + i, posy + j) || 
+   if (!g->m.has_flag(flat, posx + i, posy + j) ||
         g->m.has_furn(posx + i, posy + j)) {
     g->add_msg("You need a 3x3 flat space to place a shelter");
     return;
@@ -4029,7 +4029,7 @@ void iuse::boltcutters(game *g, player *p, item *it, bool t)
  int dirx, diry;
  if(!g->choose_adjacent("Cut up metal",dirx,diry))
   return;
- 
+
 if (dirx == p->posx && diry == p->posy) {
   g->add_msg_if_player(p, "You neatly sever all of the veins");
   g->add_msg_if_player(p, "and arteries in your body. Oh wait,");
@@ -4634,4 +4634,22 @@ void iuse::boots(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p, "You put the %s in your boot.", put->tname().c_str());
   it->put_in(p->i_rem(g, ch));
  }
+}
+
+void iuse::towel(game *g, player *p, item *it, bool t)
+{
+    // check if player is wet
+    if (p->has_disease("wet"))
+    {
+        // remove wetness
+        p->rem_disease("wet");
+        // add a morale bonus for being dry now, but do not remove the wet morale penalty because player was recently wet.
+        // pretty much the inverse of WET morale penalty. Can be tweaked later if the morale increase for becoming dry is too great.
+        p.add_morale(MORALE_DRY, 1, 50, 60, 10, true);
+        g->add_msg_if_player(p,"You use the %s to dry off!", it->name);
+    }
+    else
+    {
+        g->add_msg_if_player(p,"You are already dry, %s has no effect", it->name);
+    }
 }
