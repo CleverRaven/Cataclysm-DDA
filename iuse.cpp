@@ -4646,10 +4646,10 @@ void iuse::towel(game *g, player *p, item *it, bool t)
         // add a morale bonus for being dry now, but do not remove the wet morale penalty because player was recently wet.
         // pretty much the inverse of WET morale penalty. Can be tweaked later if the morale increase for becoming dry is too great.
         p.add_morale(MORALE_DRIED_OFF, 1, 50, 60, 10, true);
-        g->add_msg_if_player(p,"You use the %s to dry off!", it->name);
+        g->add_msg_if_player(p,"You use the %s to dry off!", it->name.c_str());
     }
     else
     {
-        g->add_msg_if_player(p,"You are already dry, %s has no effect", it->name);
+        g->add_msg_if_player(p,"You are already dry, %s has no effect", it->name.c_str());
     }
 }
