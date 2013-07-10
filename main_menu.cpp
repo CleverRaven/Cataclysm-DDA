@@ -221,7 +221,7 @@ bool game::opening_screen()
             } else if (chInput == 'o' || chInput == 'O') {
                 sel1 = 5;
                 chInput = '\n';
-            } else if (chInput == 'H') {
+            } else if (chInput == 'H' || chInput == '?') {
                 sel1 = 6;
                 chInput = '\n';
             } else if (chInput == 'c' || chInput == 'C') {
