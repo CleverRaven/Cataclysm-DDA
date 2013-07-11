@@ -621,7 +621,7 @@ void player::update_bodytemp(game *g)
                 int heat_intensity = 0;
                 if(g->m.field_at(posx + j, posy + k).findField(fd_fire))
                 {
-					heat_intensity = g->m.field_at(posx + j, posy + k).findField(fd_fire)->getFieldDensity();
+                    heat_intensity = g->m.field_at(posx + j, posy + k).findField(fd_fire)->getFieldDensity();
                 }
                 else if (g->m.tr_at(posx + j, posy + k) == tr_lava )
                 {
@@ -3551,7 +3551,7 @@ int player::addiction_level(add_type type)
 
 void player::siphon_gas(game *g, vehicle *veh)
 {
-    int fuel_amount = veh->drain(AT_GAS, veh->fuel_capacity(AT_GAS));
+    int fuel_amount = veh->drain("gasoline", veh->fuel_capacity("gasoline"));
     item used_item(g->itypes["gasoline"], g->turn);
     used_item.charges = fuel_amount;
     g->add_msg("Siphoned %d units of gasoline from the vehicle.", fuel_amount);
@@ -6351,7 +6351,7 @@ void player::use_wielded(game *g) {
 
 hint_rating player::rate_action_reload(item *it) {
  if (it->is_gun()) {
-  if (it->has_flag("RELOAD_AND_SHOOT") || it->ammo_type() == AT_NULL) {
+  if (it->has_flag("RELOAD_AND_SHOOT") || it->ammo_type() == "NULL") {
    return HINT_CANT;
   }
   if (it->charges == it->clip_size()) {
@@ -6374,7 +6374,7 @@ hint_rating player::rate_action_reload(item *it) {
   return HINT_GOOD;
  } else if (it->is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(it->type);
-  if (tool->ammo == AT_NULL) {
+  if (tool->ammo == "NULL") {
    return HINT_CANT;
   }
   return HINT_GOOD;
@@ -6384,7 +6384,7 @@ hint_rating player::rate_action_reload(item *it) {
 
 hint_rating player::rate_action_unload(item *it) {
  if (!it->is_gun() && !it->is_container() &&
-     (!it->is_tool() || it->ammo_type() == AT_NULL)) {
+     (!it->is_tool() || it->ammo_type() == "NULL")) {
   return HINT_CANT;
  }
  int spare_mag = -1;
@@ -6597,8 +6597,7 @@ void player::use(game *g, char let)
    if (replace_item)
     inv.add_item(copy);
    return;
-  } else if (mod->acceptible_ammo_types != 0 &&
-             !(mfb(guntype->ammo) & mod->acceptible_ammo_types)) {
+  } else if ( mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
    g->add_msg("That %s cannot be used on a %s gun.", used->tname(g).c_str(),
               ammo_name(guntype->ammo).c_str());
    if (replace_item)
@@ -6633,9 +6632,9 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     if (replace_item)
      inv.add_item(copy);
     return;
-   } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != AT_NULL &&
+   } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
 	      !gun->contents[i].has_flag("MODE_AUX") &&
-	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != AT_NULL) {
+	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
     g->add_msg("Your %s's caliber has already been modified.",
                gun->tname(g).c_str());
     if (replace_item)

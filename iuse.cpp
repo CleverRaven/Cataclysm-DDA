@@ -1113,7 +1113,7 @@ void iuse::extra_battery(game *g, player *p, item *it, bool t)
     }
 
     it_tool *tool = dynamic_cast<it_tool*>(modded->type);
-    if (tool->ammo != AT_BATT)
+    if (tool->ammo != "battery")
     {
         g->add_msg_if_player(p,"That item does not use batteries!");
         return;
@@ -2222,7 +2222,7 @@ void iuse::siphon(game *g, player *p, item *it, bool t)
         g->add_msg_if_player(p,"There's no vehicle there.");
         return;
     }
-    if (veh->fuel_left(AT_GAS) == 0)
+    if (veh->fuel_left("gasoline") == 0)
     {
         g->add_msg_if_player(p, "That vehicle has no fuel to siphon.");
         return;
