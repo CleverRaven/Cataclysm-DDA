@@ -526,7 +526,7 @@ bool player::install_bionics(game *g, it_bionic* type)
 
  int chance_of_success = int((100 * pl_skill) /
                              (pl_skill + 4 * type->difficulty));
- if (!query_yn("WARNING: %i%% chance of genetic damage, blood loss, or damage to existing bionics! Install anyways?", 100 - chance_of_success))
+ if (!query_yn("WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyways?", 100 - chance_of_success))
      return false;
  int pow_up = 0;
  if (type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII") {
