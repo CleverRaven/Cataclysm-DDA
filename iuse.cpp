@@ -465,8 +465,7 @@ void iuse::cig(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You take a few puffs from your cigar.");
  p->add_disease("cig", 200);
  for (int i = 0; i < p->illness.size(); i++) {
-  if (p->illness[i].type == "cig" && p->illness[i].duration > 600 &&
-      !p->is_npc())
+  if (p->illness[i].type == "cig" && p->illness[i].duration > 600)
    g->add_msg_if_player(p,"Ugh, too much smoke... you feel gross.");
  }
 }
@@ -1427,10 +1426,10 @@ void iuse::glowstick_active(game *g, player *p, item *it, bool t)
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)
-    g->add_msg_if_player(p,"You need batteries to cauterize wounds.");
+        g->add_msg_if_player(p,"You need batteries to cauterize wounds.");
 
     else if (!p->has_disease("bite") && !p->has_disease("bleed"))
-    g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
+        g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
 
     else if (p->is_npc() || query_yn("Cauterize any open wounds?"))
     {
@@ -3043,14 +3042,10 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
 {
  point pos(p->posx, p->posy);
 
- bool is_u = !p->is_npc(), can_see = (is_u || g->u_see(p->posx, p->posy));
  if (pos.x == -999 || pos.y == -999)
   return;
 
- if (is_u)
-  g->add_msg("You squeeze the pheromone ball...");
- else if (can_see)
-  g->add_msg("%s squeezes a pheromone ball...", p->name.c_str());
+ g->add_msg_action(p," squeeze the"," squeezes a","pheromone ball...");
  p->moves -= 15;
 
  int converts = 0;
@@ -3065,7 +3060,7 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
   }
  }
 
- if (can_see) {
+ if (g->u_see(p)) {
   if (converts == 0)
    g->add_msg("...but nothing happens.");
   else if (converts == 1)
