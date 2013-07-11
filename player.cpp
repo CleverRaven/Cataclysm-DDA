@@ -1065,7 +1065,7 @@ int player::swim_speed()
     ret += (worn[i].volume() * (10 - skillLevel("swimming"))) / 2;
  }
  ret -= str_cur * 6 + dex_cur * 4;
- if( worn_with_flag("FLOTATION") ) {
+ if( worn_with_flag("FLOATATION") ) {
      ret = std::max(ret, 400);
      ret = std::min(ret, 200);
  }
@@ -5007,8 +5007,7 @@ bool player::has_watertight_container()
   return true;
  }
  if (weapon.is_container() && weapon.contents.empty()) {
-   it_container* cont = dynamic_cast<it_container*>(weapon.type);
-   if (cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals))
+   if (weapon.has_flag("WATERTIGHT") && weapon.has_flag("SEALS"))
     return true;
  }
 
@@ -5413,8 +5412,7 @@ bool player::eat(game *g, signed char ch)
                 case 1:
                     if (it.is_container())
                     {
-                        it_container* cont = dynamic_cast<it_container*>(it.type);
-                        if (!(cont->flags & mfb(con_wtight) && cont->flags & mfb(con_seals)))
+                        if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS")))
                         {
                             g->add_msg("You drop the empty %s.", it.tname(g).c_str());
                             g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));

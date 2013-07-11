@@ -5,7 +5,11 @@
     Feel free to customize this file to suit your needs
 */
 
+#if (defined OSX_SDL_FW)
 #include "SDL.h"
+#else
+#include "SDL/SDL.h"
+#endif
 #include "SDLMain.h"
 #include <sys/param.h> /* for MAXPATHLEN */
 #include <unistd.h>

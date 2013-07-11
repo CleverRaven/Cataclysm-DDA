@@ -8775,12 +8775,12 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
       }
       else  // pouring into an empty container
       {
-        if (!(container->flags & mfb(con_wtight)))  // invalid container types
+        if (!cont->has_flag("WATERTIGHT"))  // invalid container types
         {
           add_msg("That %s isn't water-tight.", cont->tname(this).c_str());
           return false;
         }
-        else if (!(container->flags & mfb(con_seals)))
+        else if (!(cont->has_flag("SEALS")))
         {
           add_msg("You can't seal that %s!", cont->tname(this).c_str());
           return false;
@@ -10187,7 +10187,7 @@ void game::plmove(int x, int y)
           tunneldist = 0; //we didn't tunnel anywhere
           break;
       }
-      if(tunneldist > 24) 
+      if(tunneldist > 24)
       {
           add_msg("It's too dangerous to tunnel that far!");
           tunneldist = 0;
@@ -10430,7 +10430,7 @@ void game::vertical_move(int movez, bool force)
     add_msg("You are already underwater!");
     return;
    }
-   if (u.worn_with_flag("FLOTATION")) {
+   if (u.worn_with_flag("FLOATATION")) {
     add_msg("You can't dive while wearing a flotation device.");
     return;
    }
