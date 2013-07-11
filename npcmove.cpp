@@ -948,6 +948,13 @@ void npc::move_to(game *g, int x, int y)
   // TODO: handle this nicely - npcs should not jump from moving vehicles
   g->m.unboard_vehicle(g, posx, posy);
  }
+ else
+ {
+     vehicle *tmp = g->m.veh_at(x, y);
+     if(tmp->velocity > 0)
+         moves -=100;
+     return;
+ }
 
  if (has_disease("downed")) {
   moves -= 100;
