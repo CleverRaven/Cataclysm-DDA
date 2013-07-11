@@ -1004,25 +1004,31 @@ bool map::is_outside(const int x, const int y)
  return outside_cache[x][y];
 }
 
-// MATERIALS-TODO: Use fire resistance
 bool map::flammable_items_at(const int x, const int y)
 {
  for (int i = 0; i < i_at(x, y).size(); i++) {
   item *it = &(i_at(x, y)[i]);
-  int vol = it->volume();
-  if (it->made_of("paper") || it->made_of("powder") ||
-      it->type->id == "whiskey" || it->type->id == "vodka" ||
-      it->type->id == "rum" || it->type->id == "tequila")
+  if(it->is_drink()) {
+    if(it->type->id == "whiskey" || it->type->id == "vodka" ||
+       it->type->id == "rum" || it->type->id == "tequila")
+   	 return true;
+  }
+  else {
+  if(it->is_ammo())
+   if (it->ammo_type() != AT_BATT && it->ammo_type() != AT_NAIL &&
+   	   it->ammo_type() != AT_BB && it->ammo_type() != AT_BOLT &&
+       it->ammo_type() != AT_ARROW && it->ammo_type() != AT_PEBBLE &&
+       it->ammo_type() != AT_NULL)
     return true;
-  if ((it->made_of("wood") || it->made_of("veggy")) && (it->burnt < 1 || vol <= 10))
-    return true;
-  if (it->made_of("cotton") && (vol <= 5 || it->burnt < 1))
-    return true;
-  if (it->is_ammo() && it->ammo_type() != AT_BATT &&
-      it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
-      it->ammo_type() != AT_BOLT && it->ammo_type() != AT_ARROW &&
-      it->ammo_type() != AT_PEBBLE && it->ammo_type() != AT_NULL)
-    return true;
+    if(it->flammable()) {
+     if(it->made_of("cotton") || it->made_of("wood") || it->made_of("veggy")) {
+   	  if(it->burnt < 1)
+       return true;
+     }
+     else
+      return true;
+    }
+  }
  }
  return false;
 }
