@@ -21,7 +21,7 @@
     "burst_modifier": 0,
     "clip_size_modifier": 0,
     "mod_targets": ["pistol", "smg"],
-    "acceptable_ammo": ["9MM", "38", "40", "44"]
+    "acceptable_ammo": ["9mm", "38", "40", "44"]
   },
     {
         "type" : "GUNMOD",
@@ -306,7 +306,7 @@
         "cutting" : 0,
         "recoil_modifier" : 2,
         "damage_modifier" : 0,
-        "acceptable_ammo" : ["22", "9MM", "38", "40", "57", "46"],
+        "acceptable_ammo" : ["22", "9mm", "38", "40", "57", "46"],
         "mod_targets" : ["pistol"],
         "rarity" : 2,
         "bashing" : 2,
@@ -335,7 +335,7 @@
         "mod_targets" : ["pistol", "smg"],
         "rarity" : 3,
         "bashing" : 0,
-        "ammo_modifier" : "9MM"
+        "ammo_modifier" : "9mm"
     },
     {
         "type" : "GUNMOD",
@@ -356,7 +356,7 @@
         "cutting" : 0,
         "recoil_modifier" : 0,
         "damage_modifier" : 0,
-        "acceptable_ammo" : ["9MM", "38", "40", "57", "46", "762", "223"],
+        "acceptable_ammo" : ["9mm", "38", "40", "57", "46", "762", "223"],
         "mod_targets" : ["pistol", "smg", "rifle"],
         "rarity" : 2,
         "bashing" : -2,
@@ -381,7 +381,7 @@
         "cutting" : 0,
         "recoil_modifier" : 0,
         "damage_modifier" : 0,
-        "acceptable_ammo" : ["22", "9MM", "38"],
+        "acceptable_ammo" : ["22", "9mm", "38"],
         "mod_targets" : ["pistol", "smg"],
         "rarity" : 1,
         "bashing" : -3,
@@ -406,7 +406,7 @@
         "cutting" : 0,
         "recoil_modifier" : 0,
         "damage_modifier" : 0,
-        "acceptable_ammo" : ["22", "9MM", "38"],
+        "acceptable_ammo" : ["22", "9mm", "38"],
         "mod_targets" : ["pistol", "smg"],
         "rarity" : 1,
         "bashing" : -3,
@@ -431,7 +431,7 @@
         "cutting" : 0,
         "recoil_modifier" : 0,
         "damage_modifier" : 0,
-        "acceptable_ammo" : ["SHOT", "762", "223", "3006"],
+        "acceptable_ammo" : ["shot", "762", "223", "3006"],
         "mod_targets" : ["shotgun", "rifle"],
         "rarity" : 2,
         "bashing" : 4,
@@ -456,7 +456,7 @@
         "cutting" : 0,
         "recoil_modifier" : 0,
         "damage_modifier" : 0,
-        "acceptable_ammo" : ["SHOT", "762", "3006", "308"],
+        "acceptable_ammo" : ["shot", "762", "3006", "308"],
         "mod_targets" : ["shotgun", "rifle"],
         "rarity" : 2,
         "bashing" : 4,
@@ -533,7 +533,7 @@
         "rarity" : 2,
         "bashing" : 2,
         "flags" : ["MODE_AUX"],
-        "ammo_modifier" : "40MM"
+        "ammo_modifier" : "40mm"
     },
     {
         "type" : "GUNMOD",
@@ -583,7 +583,7 @@
         "rarity" : 2,
         "bashing" : 2,
         "flags" : ["MODE_AUX"],
-        "ammo_modifier" : "SHOT"
+        "ammo_modifier" : "shot"
     },
     {
         "type" : "GUNMOD",
@@ -608,6 +608,6 @@
         "rarity" : 2,
         "bashing" : 2,
         "flags" : ["MODE_AUX", "STR_RELOAD"],
-        "ammo_modifier" : "BOLT"
+        "ammo_modifier" : "bolt"
     }
 ]

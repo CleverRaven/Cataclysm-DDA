@@ -807,7 +807,7 @@ int vehicle::fuel_left (ammotype ftype, bool for_engine)
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_fuel_tank) &&
             (ftype == part_info(p).fuel_type ||
-            (for_engine && ftype == "BATT" && part_info(p).fuel_type == "PLUT")))
+            (for_engine && ftype == "battery" && part_info(p).fuel_type == "plutonium")))
             fl += parts[p].amount;
     return fl;
 }
@@ -866,8 +866,8 @@ int vehicle::drain (ammotype ftype, int amount) {
 
 int vehicle::basic_consumption (ammotype ftype)
 {
-    if (ftype == "PLUT")
-      ftype = "BATT";
+    if (ftype == "plutonium")
+      ftype = "battery";
     int cnt = 0;
     int fcon = 0;
     for (int p = 0; p < parts.size(); p++)
@@ -890,7 +890,7 @@ int vehicle::total_power (bool fueled)
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_engine) &&
             (fuel_left (part_info(p).fuel_type, true) || !fueled ||
-             part_info(p).fuel_type == "MUSCLE") &&
+             part_info(p).fuel_type == "muscle") &&
             parts[p].hp > 0)
         {
             pwr += part_power(p);
@@ -927,15 +927,15 @@ int vehicle::safe_velocity (bool fueled)
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_engine) &&
             (fuel_left (part_info(p).fuel_type, true) || !fueled ||
-             part_info(p).fuel_type == "MUSCLE") &&
+             part_info(p).fuel_type == "muscle") &&
             parts[p].hp > 0)
         {
             int m2c = 100;
 
-            if( part_info(p).fuel_type == "GAS" )    m2c = 60;
-            else if( part_info(p).fuel_type == "PLASMA" ) m2c = 75;
-            else if( part_info(p).fuel_type == "BATT" )   m2c = 90;
-            else if( part_info(p).fuel_type == "MUSCLE" ) m2c = 45;
+            if( part_info(p).fuel_type == "gasoline" )    m2c = 60;
+            else if( part_info(p).fuel_type == "plasma" ) m2c = 75;
+            else if( part_info(p).fuel_type == "battery" )   m2c = 90;
+            else if( part_info(p).fuel_type == "muscle" ) m2c = 45;
 
             pwrs += part_power(p) * m2c / 100;
             cnt++;
@@ -957,21 +957,21 @@ int vehicle::noise (bool fueled, bool gas_only)
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_engine) &&
             (fuel_left (part_info(p).fuel_type, true) || !fueled ||
-             part_info(p).fuel_type == "MUSCLE") &&
+             part_info(p).fuel_type == "muscle") &&
             parts[p].hp > 0)
         {
             int nc = 10;
 
-            if( part_info(p).fuel_type == "GAS" )    nc = 25;
-            else if( part_info(p).fuel_type == "PLASMA" ) nc = 10;
-            else if( part_info(p).fuel_type == "BATT" )   nc = 3;
-            else if( part_info(p).fuel_type == "MUSCLE" ) nc = 5;
+            if( part_info(p).fuel_type == "gasoline" )    nc = 25;
+            else if( part_info(p).fuel_type == "plasma" ) nc = 10;
+            else if( part_info(p).fuel_type == "battery" )   nc = 3;
+            else if( part_info(p).fuel_type == "muscle" ) nc = 5;
 
-            if (!gas_only || part_info(p).fuel_type == "GAS")
+            if (!gas_only || part_info(p).fuel_type == "gasoline")
             {
                 int pwr = part_power(p) * nc / 100;
-                if (muffle < 100 && (part_info(p).fuel_type == "GAS" ||
-                    part_info(p).fuel_type == "PLASMA"))
+                if (muffle < 100 && (part_info(p).fuel_type == "gasoline" ||
+                    part_info(p).fuel_type == "plasma"))
                     pwr = pwr * muffle / 100;
                 pwrs += pwr;
                 cnt++;
@@ -1108,15 +1108,15 @@ bool vehicle::valid_wheel_config ()
 
 void vehicle::consume_fuel ()
 {
-    ammotype ftypes[3] = { "GAS", "BATT", "PLASMA" };
+    ammotype ftypes[3] = { "gasoline", "battery", "plasma" };
     for (int ft = 0; ft < 3; ft++)
     {
         float st = strain() * 10;
         int amnt = (int) (basic_consumption (ftypes[ft]) * (1.0 + st * st) /
-                          (ftypes[ft] == "BATT" ? 1 : 100));
+                          (ftypes[ft] == "battery" ? 1 : 100));
         if (!amnt)
             continue; // no engines of that type
-        bool elec = ftypes[ft] == "BATT";
+        bool elec = ftypes[ft] == "battery";
         bool found = false;
         for (int j = 0; j < (elec? 2 : 1); j++)
         {
@@ -1127,7 +1127,7 @@ void vehicle::consume_fuel ()
                 //  - if j is 0, then we're looking for plutonium (it's first)
                 //  - otherwise we're looking for batteries (second)
                 if (part_flag(p, vpf_fuel_tank) &&
-                    (part_info(p).fuel_type == (elec? (j ? "BATT" : "PLUT") : ftypes[ft])) &&
+                    (part_info(p).fuel_type == (elec? (j ? "battery" : "plutonium") : ftypes[ft])) &&
                     parts[p].amount > 0)
                 {
                     parts[p].amount -= amnt / ((elec && !j)?100:1);
@@ -1698,8 +1698,8 @@ bool vehicle::add_item (int part, item itm)
     it_ammo *ammo = dynamic_cast<it_ammo*> (itm.type);
     if (part_flag(part, vpf_turret))
         if (!ammo || (ammo->type != part_info(part).fuel_type ||
-                 ammo->type == "GAS" ||
-                 ammo->type == "PLASMA"))
+                 ammo->type == "gasoline" ||
+                 ammo->type == "plasma"))
             return false;
     int cur_volume = 0;
     int add_volume = itm.volume();
@@ -1750,12 +1750,12 @@ void vehicle::gain_moves (int mp)
     }
 
     if (g->is_in_sunlight(global_x(), global_y())) {
-      refill ("BATT", solar_power());
+      refill ("battery", solar_power());
     }
 
     // If the vehicle is moving, trickle-charge storage batteries.
     if (velocity && one_in(10)) {
-      refill ("BATT", abs(velocity) / 100);
+      refill ("battery", abs(velocity) / 100);
     }
 
     // check for smoking parts
@@ -1803,7 +1803,7 @@ void vehicle::find_exhaust ()
 {
     int en = -1;
     for (int p = 0; p < parts.size(); p++)
-        if (part_flag(p, vpf_engine) && part_info(p).fuel_type == "GAS")
+        if (part_flag(p, vpf_engine) && part_info(p).fuel_type == "gasoline")
         {
             en = p;
             break;
@@ -1962,17 +1962,17 @@ int vehicle::damage_direct (int p, int dmg, int type)
         if (part_flag(p, vpf_fuel_tank))
         {
             ammotype ft = part_info(p).fuel_type;
-            if (ft == "GAS" || ft == "PLASMA")
+            if (ft == "gasoline" || ft == "plasma")
             {
                 int pow = parts[p].amount / 40;
     //            debugmsg ("damage check dmg=%d pow=%d", dmg, pow);
                 if (parts[p].hp <= 0)
                     leak_fuel (p);
                 if (type == 2 ||
-                    (one_in (ft == "GAS" ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
+                    (one_in (ft == "gasoline" ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
                 {
                     g->explosion (global_x() + parts[p].precalc_dx[0], global_y() + parts[p].precalc_dy[0],
-                                pow, 0, ft == "GAS");
+                                pow, 0, ft == "gasoline");
                     parts[p].hp = 0;
                 }
             }
@@ -1996,7 +1996,7 @@ void vehicle::leak_fuel (int p)
     if (!part_flag(p, vpf_fuel_tank))
         return;
     ammotype ft = part_info(p).fuel_type;
-    if (ft == "GAS")
+    if (ft == "gasoline")
     {
         int x = global_x();
         int y = global_y();
@@ -2028,19 +2028,19 @@ void vehicle::fire_turret (int p, bool burst)
     if (!charges)
         charges = 1;
     ammotype amt = part_info (p).fuel_type;
-    if (amt == "GAS" || amt == "PLASMA")
+    if (amt == "gasoline" || amt == "plasma")
     {
-        if (amt == "GAS")
+        if (amt == "gasoline")
             charges = 20; // hacky
         int fleft = fuel_left (amt);
         if (fleft < 1)
             return;
-        it_ammo *ammo = dynamic_cast<it_ammo*>(g->itypes[amt == "GAS" ? "gasoline" : "plasma"]);
+        it_ammo *ammo = dynamic_cast<it_ammo*>(g->itypes[amt == "gasoline" ? "gasoline" : "plasma"]);
         if (!ammo)
             return;
         if (fire_turret_internal (p, *gun, *ammo, charges))
         { // consume fuel
-            if (amt == "PLASMA")
+            if (amt == "plasma")
                 charges *= 10; // hacky, too
             for (int p = 0; p < parts.size(); p++)
             {
@@ -2083,7 +2083,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     // code copied form mattack::smg, mattack::flamethrower
     int t, fire_t;
     monster *target = 0;
-    int range = ammo.type == "GAS" ? 5 : 12;
+    int range = ammo.type == "gasoline" ? 5 : 12;
     int closest = range + 1;
     for (int i = 0; i < g->z.size(); i++)
     {
@@ -2120,7 +2120,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
     g->fire(tmp, target->posx, target->posy, traj, true);
-    if (ammo.type == "GAS")
+    if (ammo.type == "gasoline")
     {
         for (int i = 0; i < traj.size(); i++)
             g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);

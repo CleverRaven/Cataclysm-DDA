@@ -78,7 +78,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  bool is_bolt = false;
  std::set<std::string> *effects = &curammo->ammo_effects;
  // Bolts and arrows are silent
- if (curammo->type == "BOLT" || curammo->type == "ARROW")
+ if (curammo->type == "bolt" || curammo->type == "arrow")
   is_bolt = true;
 
  int x = p.posx, y = p.posy;
@@ -110,7 +110,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  // Use up some ammunition
 int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
- if (trange < int(firing->volume / 3) && firing->ammo != "SHOT")
+ if (trange < int(firing->volume / 3) && firing->ammo != "shot")
   trange = int(firing->volume / 3);
  else if (p.has_bionic("bio_targeting")) {
   if (trange > LONG_RANGE)
@@ -209,8 +209,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
   // Drop a shell casing if appropriate.
   itype_id casing_type = "null";
-  if( curammo->type == "SHOT" ) casing_type = "shot_hull";
-  else if( curammo->type == "9MM" ) casing_type = "9mm_casing";
+  if( curammo->type == "shot" ) casing_type = "shot_hull";
+  else if( curammo->type == "9mm" ) casing_type = "9mm_casing";
   else if( curammo->type == "22" ) casing_type = "22_casing";
   else if( curammo->type == "38" ) casing_type = "38_casing";
   else if( curammo->type == "40" ) casing_type = "40_casing";
@@ -222,7 +222,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   else if( curammo->type == "223" ) casing_type = "223_casing";
   else if( curammo->type == "3006" ) casing_type = "3006_casing";
   else if( curammo->type == "308" ) casing_type = "308_casing";
-  else if( curammo->type == "40MM" ) casing_type = "40mm_casing";
+  else if( curammo->type == "40mm" ) casing_type = "40mm_casing";
 
   if (casing_type != "null") {
    int x = p.posx - 1 + rng(0, 2);
@@ -928,16 +928,16 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   else
    gunsound = "kerblam!";
  }
- if (weapon->curammo->type == "FUSION" || weapon->curammo->type == "BATT" ||
-     weapon->curammo->type == "PLUT")
+ if (weapon->curammo->type == "fusion" || weapon->curammo->type == "battery" ||
+     weapon->curammo->type == "plutonium")
   g->sound(p.posx, p.posy, 8, "Fzzt!");
- else if (weapon->curammo->type == "40MM")
+ else if (weapon->curammo->type == "40mm")
   g->sound(p.posx, p.posy, 8, "Thunk!");
- else if (weapon->curammo->type == "GAS" || weapon->curammo->type == "66MM")
+ else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm")
   g->sound(p.posx, p.posy, 4, "Fwoosh!");
- else if (weapon->curammo->type != "BOLT" &&
-          weapon->curammo->type != "ARROW" &&
-          weapon->curammo->type != "PEBBLE")
+ else if (weapon->curammo->type != "bolt" &&
+          weapon->curammo->type != "arrow" &&
+          weapon->curammo->type != "pebble")
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 
@@ -945,7 +945,7 @@ int calculate_range(player &p, int tarx, int tary)
 {
  int trange = rl_dist(p.posx, p.posy, tarx, tary);
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
- if (trange < int(firing->volume / 3) && firing->ammo != "SHOT")
+ if (trange < int(firing->volume / 3) && firing->ammo != "shot")
   trange = int(firing->volume / 3);
  else if (p.has_bionic("bio_targeting")) {
   if (trange > LONG_RANGE)

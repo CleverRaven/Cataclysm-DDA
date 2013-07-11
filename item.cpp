@@ -1417,9 +1417,9 @@ bool item::is_silent() const
  // So far only gun code uses this check
  return type->is_gun() && (
    noise() < 5 ||              // almost silent
-   curammo->type == "BOLT" || // crossbows
-   curammo->type == "ARROW" ||// bows
-   curammo->type == "PEBBLE"  // sling[shot]
+   curammo->type == "bolt" || // crossbows
+   curammo->type == "arrow" ||// bows
+   curammo->type == "pebble"  // sling[shot]
  );
 }
 
@@ -1459,7 +1459,7 @@ bool item::is_food(player const*u) const
   return true;
 
  if (u->has_bionic("bio_batteries") && is_ammo() &&
-     (dynamic_cast<it_ammo*>(type))->type == "BATT")
+     (dynamic_cast<it_ammo*>(type))->type == "battery")
   return true;
  if (u->has_bionic("bio_furnace") && flammable() && typeId() != "corpse")
   return true;

@@ -3551,7 +3551,7 @@ int player::addiction_level(add_type type)
 
 void player::siphon_gas(game *g, vehicle *veh)
 {
-    int fuel_amount = veh->drain("GAS", veh->fuel_capacity("GAS"));
+    int fuel_amount = veh->drain("gasoline", veh->fuel_capacity("gasoline"));
     item used_item(g->itypes["gasoline"], g->turn);
     used_item.charges = fuel_amount;
     g->add_msg("Siphoned %d units of gasoline from the vehicle.", fuel_amount);

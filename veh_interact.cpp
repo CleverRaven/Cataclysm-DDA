@@ -162,7 +162,7 @@ int veh_interact::cant_do (char mode)
              )
             );
     case 's': // siphon mode
-        return veh->fuel_left("GAS") > 0 ? (!has_siphon? 2 : 0) : 1;
+        return veh->fuel_left("gasoline") > 0 ? (!has_siphon? 2 : 0) : 1;
     default:
         return -1;
     }
@@ -647,7 +647,7 @@ void veh_interact::display_stats ()
     mvwprintz(w_stats, 5, 11, conf? c_ltgreen : c_ltred, conf? "enough" : "  lack");
     mvwprintz(w_stats, 6, 1, c_ltgray,  "Fuel usage (safe):        ");
     int xfu = 20;
-    ammotype ftypes[3] = { "GAS", "BATT", "PLASMA" };
+    ammotype ftypes[3] = { "gasoline", "battery", "plasma" };
     nc_color fcs[3] = { c_ltred, c_yellow, c_ltblue };
     bool first = true;
     for (int i = 0; i < 3; i++)

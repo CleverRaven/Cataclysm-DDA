@@ -15,7 +15,7 @@ class player;
 class game;
 
 const int num_fuel_types = 5;
-const ammotype fuel_types[num_fuel_types] = { "GAS", "BATT", "PLUT", "PLAS", "WATER" };
+const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "PLAS", "water" };
 const int k_mvel = 200;
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
@@ -239,7 +239,7 @@ public:
     int global_y ();
 
 // Checks how much certain fuel left in tanks. If for_engine == true that means
-// ftype == "BATT" is also takes in account "PLUT" fuel (electric motors can use both)
+// ftype == "battery" is also takes in account "plutonium" fuel (electric motors can use both)
     int fuel_left (ammotype ftype, bool for_engine = false);
     int fuel_capacity (ammotype ftype);
 

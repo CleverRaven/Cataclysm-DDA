@@ -647,15 +647,15 @@ void game::process_activity()
       for (int n = 0; n < m.i_at(u.posx + i, u.posy + j).size(); n++) {
        if (m.i_at(u.posx + i, u.posy + j)[n].type->id == "gasoline") {
         item* gas = &(m.i_at(u.posx + i, u.posy + j)[n]);
-        int lack = (veh->fuel_capacity("GAS") - veh->fuel_left("GAS")) < 200 ?
-                   (veh->fuel_capacity("GAS") - veh->fuel_left("GAS")) : 200;
+        int lack = (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) < 200 ?
+                   (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) : 200;
         if (gas->charges > lack) {
-         veh->refill ("GAS", lack);
+         veh->refill ("gasoline", lack);
          gas->charges -= lack;
          u.activity.moves_left -= 100;
         } else {
          add_msg("With a clang and a shudder, the gasoline pump goes silent.");
-         veh->refill ("GAS", gas->charges);
+         veh->refill ("gasoline", gas->charges);
          m.i_at(u.posx + i, u.posy + j).erase(m.i_at(u.posx + i, u.posy + j).begin() + n);
          u.activity.moves_left = 0;
         }
@@ -5109,7 +5109,7 @@ void game::emp_blast(int x, int y)
 // Drain any items of their battery charge
  for (int i = 0; i < m.i_at(x, y).size(); i++) {
   if (m.i_at(x, y)[i].is_tool() &&
-      (dynamic_cast<it_tool*>(m.i_at(x, y)[i].type))->ammo == "BATT")
+      (dynamic_cast<it_tool*>(m.i_at(x, y)[i].type))->ammo == "battery")
    m.i_at(x, y)[i].charges = 0;
  }
 // TODO: Drain NPC energy reserves
@@ -5609,8 +5609,8 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
         return true;
 
     int fuel_per_charge = 1;
-    if( ftype == "PLUT" ) { fuel_per_charge = 1000; }
-    else if( ftype == "PLASMA" ) { fuel_per_charge = 100; }
+    if( ftype == "plutonium" ) { fuel_per_charge = 1000; }
+    else if( ftype == "plasma" ) { fuel_per_charge = 100; }
     int max_fuel = veh.part_info(part).size;
     int dch = (max_fuel - veh.parts[part].amount) / fuel_per_charge;
     if (dch < 1)
@@ -5621,8 +5621,8 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
     if (veh.parts[part].amount > max_fuel)
         veh.parts[part].amount = max_fuel;
 
-    add_msg ("You %s %s's %s%s.", ftype == "BATT" ? "recharge" : "refill", veh.name.c_str(),
-             ftype == "BATT" ? "battery" : (ftype == "PLUT" ? "reactor" : "fuel tank"),
+    add_msg ("You %s %s's %s%s.", ftype == "battery" ? "recharge" : "refill", veh.name.c_str(),
+             ftype == "battery" ? "battery" : (ftype == "plutonium" ? "reactor" : "fuel tank"),
              veh.parts[part].amount == max_fuel? " to its maximum" : "");
 
     p_itm->charges -= used_charges;
@@ -8121,9 +8121,9 @@ void game::pickup(int posx, int posy, int min)
              query_yn("Get items from %s?", veh->part_info(veh_part).name);
 
   if (!from_veh && k_part >= 0) {
-    if (veh->fuel_left("WATER")) {
+    if (veh->fuel_left("water")) {
       if (query_yn("Have a drink?")) {
-        veh->drain("WATER", 1);
+        veh->drain("water", 1);
 
         item water(itypes["water_clean"], 0);
         u.eat(this, u.inv.add_item(water).invlet);
@@ -8584,7 +8584,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
   if (choose_adjacent("Refill vehicle", vx, vy)) {
    vehicle *veh = m.veh_at (vx, vy);
    if (veh) {
-    ammotype ftype = "GAS";
+    ammotype ftype = "gasoline";
     int fuel_cap = veh->fuel_capacity(ftype);
     int fuel_amnt = veh->fuel_left(ftype);
     if (fuel_cap < 1)
@@ -8595,7 +8595,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
      u.assign_activity(this, ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
      u.activity.placement = point(vx, vy);
     } else { // Not pump
-     veh->refill ("GAS", liquid.charges);
+     veh->refill ("gasoline", liquid.charges);
      add_msg ("You refill %s with %s%s.", veh->name.c_str(),
               ammo_name(ftype).c_str(),
               veh->fuel_left(ftype) >= fuel_cap? " to its maximum" : "");
@@ -9163,10 +9163,10 @@ void game::plfire(bool burst)
  if (num_shots > u.weapon.num_charges())
    num_shots = u.weapon.num_charges();
  if (u.skillLevel(firing->skill_used) == 0 ||
-     (firing->ammo != "BB" && firing->ammo != "NAIL"))
+     (firing->ammo != "BB" && firing->ammo != "nail"))
      u.practice(turn, firing->skill_used, 4 + (num_shots / 2));
  if (u.skillLevel("gun") == 0 ||
-     (firing->ammo != "BB" && firing->ammo != "NAIL"))
+     (firing->ammo != "BB" && firing->ammo != "nail"))
      u.practice(turn, "gun", 5);
 
  fire(u, x, y, trajectory, burst);

@@ -1018,10 +1018,10 @@ bool map::flammable_items_at(const int x, const int y)
     return true;
   if (it->made_of("cotton") && (vol <= 5 || it->burnt < 1))
     return true;
-  if (it->is_ammo() && it->ammo_type() != "BATT" &&
-      it->ammo_type() != "NAIL" && it->ammo_type() != "BB" &&
-      it->ammo_type() != "BOLT" && it->ammo_type() != "ARROW" &&
-      it->ammo_type() != "PEBBLE" && it->ammo_type() != "NULL")
+  if (it->is_ammo() && it->ammo_type() != "battery" &&
+      it->ammo_type() != "nail" && it->ammo_type() != "BB" &&
+      it->ammo_type() != "bolt" && it->ammo_type() != "arrow" &&
+      it->ammo_type() != "pebble" && it->ammo_type() != "NULL")
     return true;
  }
  return false;
@@ -2776,9 +2776,9 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
           ammotype ftype = "NULL";
 
           if (type == "water_clean")
-            ftype = "WATER";
+            ftype = "water";
           else if (type == "hotplate")
-            ftype = "BATT";
+            ftype = "battery";
 
           item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
           tmp.charges = veh->drain(ftype, quantity);
