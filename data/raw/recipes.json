@@ -3308,7 +3308,8 @@
                              ["rock_pot", -1],
                              ["spear_wood", -1],
                              ["pointy_stick", -1],
-                             ["javelin", -1] 
+                             ["skewer", -1],
+                             ["javelin", -1]
                          ]
                      ],
             "components": [
@@ -3340,6 +3341,7 @@
                              ["rock_pot", -1],
                              ["spear_wood", -1],
                              ["pointy_stick", -1],
+                             ["skewer", -1],
                              ["javelin", -1]
                          ]
                      ],
@@ -3406,6 +3408,7 @@
                              ["rock_pot", -1],
                              ["spear_wood", -1],
                              ["pointy_stick", -1],
+                             ["skewer", -1],
                              ["javelin", -1]
                          ]
                      ],
