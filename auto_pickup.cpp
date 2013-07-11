@@ -741,7 +741,7 @@ struct my_equal {
 
 // find substring (case insensitive)
 template<typename charT>
-int ci_find_substr( const charT& str1, const charT& str2, const std::locale& loc = std::locale() )
+int ci_find_substr( const charT& str1, const charT& str2, const std::locale& loc )
 {
     typename charT::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(), my_equal<typename charT::value_type>(loc) );
     if ( it != str1.end() ) return it - str1.begin();
