@@ -506,186 +506,52 @@ void player::activate_bionic(int b, game *g)
 
 bool player::install_bionics(game *g, it_bionic* type)
 {
+
  if (type == NULL) {
   debugmsg("Tried to install NULL bionic");
   return false;
  }
+ if (has_bionic(type->id)){
+     if (!(type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII")){
+         popup("You already have installed this bionic.");
+         return false;
+     }
+ }
+
  std::string bio_name = type->name.substr(5);	// Strip off "CBM: "
-
- WINDOW* w = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0, (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
- WINDOW* w_description = newwin(3, FULL_SCREEN_WIDTH-2, 21 + getbegy(w), 1 + getbegx(w));
-
- werase(w);
- wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-
  int pl_skill = int_cur +
    skillLevel("electronics") * 4 +
    skillLevel("firstaid")    * 3 +
    skillLevel("mechanics")   * 2;
 
- int skint = int(pl_skill / 4);
- int skdec = int((pl_skill * 10) / 4) % 10;
-
-// Header text
- mvwprintz(w, 1,  1, c_white, "Installing bionics:");
- mvwprintz(w, 1, 21, type->color, bio_name.c_str());
-
-// Dividing bars
- for (int i = 1; i < 79; i++) {
-  mvwputch(w,  2, i, c_ltgray, LINE_OXOX);
-  mvwputch(w, 20, i, c_ltgray, LINE_OXOX);
- }
-
- mvwputch(w, 2,  0, c_ltgray, LINE_XXXO); // |-
- mvwputch(w, 2, 79, c_ltgray, LINE_XOXX); // -|
-
- mvwputch(w, 20,  0, c_ltgray, LINE_XXXO); // |-
- mvwputch(w, 20, 79, c_ltgray, LINE_XOXX); // -|
-
-// Init the list of bionics
- for (int i = 1; i < type->options.size(); i++) {
-  bionic_id bio_id = type->options[i];
-  mvwprintz(w, i + 3, 1, (has_bionic(bio_id) ? c_ltred : c_ltblue),
-            bionics[bio_id]->name.c_str());
- }
-// Helper text
- mvwprintz(w, 3, 39, c_white,        "Difficulty of this module: %d",
-           type->difficulty);
- mvwprintz(w, 4, 39, c_white,        "Your installation skill:   %d.%d",
-           skint, skdec);
- mvwprintz(w, 5, 39, c_white,       "Installation requires high intelligence,");
- mvwprintz(w, 6, 39, c_white,       "and skill in electronics, first aid, and");
- mvwprintz(w, 7, 39, c_white,       "mechanics (in that order of importance).");
-
  int chance_of_success = int((100 * pl_skill) /
                              (pl_skill + 4 * type->difficulty));
-
- mvwprintz(w, 9, 39, c_white,        "Chance of success:");
-
- nc_color col_suc;
- if (chance_of_success >= 95)
-  col_suc = c_green;
- else if (chance_of_success >= 80)
-  col_suc = c_ltgreen;
- else if (chance_of_success >= 60)
-  col_suc = c_yellow;
- else if (chance_of_success >= 35)
-  col_suc = c_ltred;
- else
-  col_suc = c_red;
-
- mvwprintz(w, 9, 59, col_suc, "%d%%%%", chance_of_success);
-
- mvwprintz(w, 11, 39, c_white,       "Failure may result in crippling damage,");
- mvwprintz(w, 12, 39, c_white,       "loss of existing bionics, genetic damage");
- mvwprintz(w, 13, 39, c_white,       "or faulty installation.");
- wrefresh(w);
-
- if (type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII") { // No selection list; just confirm
-   int pow_up = BATTERY_AMOUNT;
-
+ if (!query_yn("WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyways?", 100 - chance_of_success))
+     return false;
+ int pow_up = 0;
+ if (type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII") {
+   pow_up = BATTERY_AMOUNT;
    if (type->id == "bio_power_storage_mkII") {
      pow_up = 10;
    }
-
-  mvwprintz(w, 3, 1, h_ltblue, "Power Storage +%d", pow_up);
-  mvwprintz(w_description, 0, 0, c_ltblue, "\
-Installing this bionic will increase your total power storage by %d.\n\
-Power is necessary for most bionics to function. You also require a\n\
-charge mechanism, which must be installed from another CBM.", pow_up);
-
-  InputEvent input;
-  wrefresh(w_description);
-  wrefresh(w);
-  do
-   input = get_input();
-  while (input != Confirm && input != Cancel);
-  if (input == Confirm) {
-   practice(g->turn, "electronics", (100 - chance_of_success) * 1.5);
-   practice(g->turn, "firstaid", (100 - chance_of_success) * 1.0);
-   practice(g->turn, "mechanics", (100 - chance_of_success) * 0.5);
-   int success = chance_of_success - rng(1, 100);
-   if (success > 0) {
-    g->add_msg("Successfully installed batteries.");
-    max_power_level += pow_up;
-   } else
-    bionics_install_failure(g, this, success);
-   werase(w);
-   delwin(w);
-   g->refresh_all();
-   return true;
-  }
-  werase(w);
-  delwin(w);
-  g->refresh_all();
-  return false;
  }
 
- int selection = 0;
- InputEvent input;
-
- do {
-
-  bionic_id bio_id = type->options[selection];
-  mvwprintz(w, 3 + selection, 1, (has_bionic(bio_id) ? h_ltred : h_ltblue),
-            bionics[bio_id]->name.c_str());
-
-// Clear the bottom three lines...
-  werase(w_description);
-// ...and then fill them with the description of the selected bionic
-  mvwprintz(w_description, 0, 0, c_ltblue, bionics[bio_id]->description.c_str());
-
-  wrefresh(w_description);
-  wrefresh(w);
-  input = get_input();
-  switch (input) {
-
-  case DirectionS:
-   mvwprintz(w, 2 + selection, 0, (has_bionic(bio_id) ? c_ltred : c_ltblue),
-             bionics[bio_id]->name.c_str());
-   if (selection == type->options.size() - 1)
-    selection = 0;
-   else
-    selection++;
-   break;
-
-  case DirectionN:
-   mvwprintz(w, 2 + selection, 0, (has_bionic(bio_id) ? c_ltred : c_ltblue),
-             bionics[bio_id]->name.c_str());
-   if (selection == 0)
-    selection = type->options.size() - 1;
-   else
-    selection--;
-   break;
-
-  }
-  if (input == Confirm && has_bionic(bio_id)) {
-   popup("You already have a %s!", bionics[bio_id]->name.c_str());
-   input = Nothing;
-  }
- } while (input != Cancel && input != Confirm);
-
- if (input == Confirm) {
-   practice(g->turn, "electronics", (100 - chance_of_success) * 1.5);
-   practice(g->turn, "firstaid", (100 - chance_of_success) * 1.0);
-   practice(g->turn, "mechanics", (100 - chance_of_success) * 0.5);
-  bionic_id bio_id = type->options[selection];
-  int success = chance_of_success - rng(1, 100);
-  if (success > 0) {
-   g->add_msg("Successfully installed %s.", bionics[bio_id]->name.c_str());
-   add_bionic(bio_id);
-  } else
-   bionics_install_failure(g, this, success);
-  werase(w);
-  delwin(w);
-  g->refresh_all();
-  return true;
- }
- werase(w);
- delwin(w);
+ practice(g->turn, "electronics", (100 - chance_of_success) * 1.5);
+ practice(g->turn, "firstaid", (100 - chance_of_success) * 1.0);
+ practice(g->turn, "mechanics", (100 - chance_of_success) * 0.5);
+ int success = chance_of_success - rng(1, 100);
+ if (success > 0) {
+     if (pow_up) {
+         max_power_level += pow_up;
+         g->add_msg_if_player(this, "Increased storage capacity by %i", pow_up);
+     } else{
+         g->add_msg("Successfully installed %s.", bionics[type->id]->name.c_str());
+         add_bionic(type->id);
+     }
+ } else
+  bionics_install_failure(g, this, success);
  g->refresh_all();
- return false;
+ return true;
 }
 
 void bionics_install_failure(game *g, player *u, int success)
