@@ -50,7 +50,7 @@ h: Radioactivity and Mutation\n\
 \n\
 1: List of all commands (you can change key commands here)\n\
 2: List of all options  (you can change options here)\n\
-3: Auto pickup manager\n\
+3: Auto pickup manager  (you can change pickup rules here)\n\
 4: List of item types and data\n\
 5: Description of map symbols\n\
 6: Description of gun types\n\
