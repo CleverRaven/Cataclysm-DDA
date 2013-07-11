@@ -528,9 +528,9 @@ bool player::install_bionics(game *g, it_bionic* type)
                              (pl_skill + 4 * type->difficulty));
  if (!query_yn("WARNING: %i%% chance of genetic damage, blood loss, or damage to existing bionics! Install anyways?", 100 - chance_of_success))
      return false;
-
+ int pow_up = 0;
  if (type->id == "bio_power_storage" || type->id == "bio_power_storage_mkII") {
-   int pow_up = BATTERY_AMOUNT;
+   pow_up = BATTERY_AMOUNT;
    if (type->id == "bio_power_storage_mkII") {
      pow_up = 10;
    }
@@ -541,8 +541,13 @@ bool player::install_bionics(game *g, it_bionic* type)
  practice(g->turn, "mechanics", (100 - chance_of_success) * 0.5);
  int success = chance_of_success - rng(1, 100);
  if (success > 0) {
-  g->add_msg("Successfully installed %s.", bionics[type->id]->name.c_str());
-  add_bionic(type->id);
+     if (pow_up) {
+         max_power_level += pow_up;
+         g->add_msg_if_player(this, "Increased storage capacity by %i", pow_up);
+     } else{
+         g->add_msg("Successfully installed %s.", bionics[type->id]->name.c_str());
+         add_bionic(type->id);
+     }
  } else
   bionics_install_failure(g, this, success);
  g->refresh_all();
