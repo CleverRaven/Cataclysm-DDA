@@ -5676,6 +5676,25 @@ bool player::wear(game *g, char let, bool interactive)
     return true;
 }
 
+// Check if a specific inventory letter is assigned to either an inventory item or something worn.
+bool player::is_letter_assigned(char invlet) {
+    if(!inv.item_by_letter(invlet).is_null()) {
+        return true;
+    }
+
+    for(int i=0; i<worn.size(); i++) {
+        if(worn[i].invlet == invlet) {
+            return true;
+        }
+    }
+
+    if(weapon.invlet == invlet) {
+        return true;
+    }
+
+    return false;
+}
+
 bool player::wear_item(game *g, item *to_wear, bool interactive)
 {
     it_armor* armor = NULL;
