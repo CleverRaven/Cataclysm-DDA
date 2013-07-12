@@ -6536,7 +6536,7 @@ void player::use(game *g, char let)
    remove_weapon();
   return;
 
- } else if (used->type->use != &iuse::none) {
+ } else if (used->type->use == &iuse::boots) {
 
    iuse use;
    (use.*used->type->use)(g, this, used, false);
