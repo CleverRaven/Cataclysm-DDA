@@ -6500,9 +6500,12 @@ hint_rating player::rate_action_use(item *it)
 
 void player::use(game *g, char let)
 {
+    //get a pointer to the item at the specified letter
  item* used = &i_at(let);
  item copy;
  bool replace_item = false;
+
+ //if the item at this letter is not null...
  if (!inv.item_by_letter(let).is_null()) {
   copy = inv.remove_item_by_letter(let);
   copy.invlet = let;
@@ -6542,6 +6545,7 @@ void player::use(game *g, char let)
    (use.*used->type->use)(g, this, used, false);
    if (replace_item)
     inv.add_item_keep_invlet(copy);
+    inv.remove_item_by_charges(let,1);
    return;
  } else if (used->is_gunmod()) {
 

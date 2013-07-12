@@ -1194,7 +1194,23 @@ switch (furn(x, y)) {
    return true;
   }
   break;
-
+ case f_oven:
+    result = rng(0, 30);
+    if (res) *res = result;
+    if (str >= result)
+    {
+       sound += "metal screeching!";
+       furn_set(x, y, f_null);
+       spawn_item(x, y, "element", 0, rng(1, 3));
+       spawn_item(x, y, "sheet_metal", 0, 0, rng(2, 6));
+       return true;
+    }
+    else
+    {
+       sound += "clang!";
+       return true;
+    }
+      break;
  case f_bench:
  case f_chair:
  case f_desk:
@@ -1229,7 +1245,7 @@ switch (furn(x, y)) {
    return true;
   }
   break;
-  
+
  case f_skin_wall:
  case f_skin_door:
  case f_skin_door_o:
@@ -2103,7 +2119,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     {
         bool destroyed = false;
         int chance = (i_at(x, y)[i].volume() > 0 ? i_at(x, y)[i].volume() : 1);   // volume dependent chance
-  
+
         if (dam > i_at(x, y)[i].bash_resist() && one_in(chance))
         {
             i_at(x, y)[i].damage++;
@@ -2112,7 +2128,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         {
             destroyed = true;
         }
-  
+
         if (destroyed)
         {
             for (int j = 0; j < i_at(x, y)[i].contents.size(); j++)
@@ -2528,7 +2544,7 @@ bool map::add_item_or_charges(const int x, const int y, item new_item, int overf
         for (int n = 0; n < i_at(x, y).size(); n++) {
             item* curit = &(i_at(x, y)[n]);
             if ( tryaddcharges == true && curit->type->id == add_type ) {
-                if ( skip_checks == true || ( curit->volume() + add_volume <= maxvolume ) ) { 
+                if ( skip_checks == true || ( curit->volume() + add_volume <= maxvolume ) ) {
                   curit->charges += new_item.charges;
                   //mvprintz(5,5,c_ltred,"check2: added charges %d",curit->charges);
                   return true;
