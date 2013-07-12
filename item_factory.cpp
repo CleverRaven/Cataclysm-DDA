@@ -177,6 +177,7 @@ void Item_factory::init(){
     iuse_function_list["DEJAR"] = &iuse::dejar;
     iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
     iuse_function_list["BOOTS"] = &iuse::boots;
+    iuse_function_list["ABSORBANT"] = &iuse::towel;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
