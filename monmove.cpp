@@ -581,14 +581,16 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     g->add_msg("%s offensive defense system shocks it!", Your.c_str());
                 }
-                hurt(rng(10, 40));
+                if (hurt(rng(10, 40)))
+                    die(g);
             }
             if (p.encumb(bphit) == 0 &&(p.has_trait(PF_SPINES) || p.has_trait(PF_QUILLS)))
             {
                 int spine = rng(1, (p.has_trait(PF_QUILLS) ? 20 : 8));
                 g->add_msg("%s %s puncture it!", Your.c_str(),
                            (g->u.has_trait(PF_QUILLS) ? "quills" : "spines"));
-                hurt(spine);
+                if (hurt(spine))
+                    die(g);
             }
 
             if (dam + cut <= 0)
@@ -606,7 +608,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     g->add_msg("You're poisoned!");
                 }
-                p.add_disease(DI_POISON, 30, g);
+                p.add_disease("poison", 30);
             }
             else if (dam > 0 && has_flag(MF_BADVENOM))
             {
@@ -614,7 +616,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     g->add_msg("You feel poison flood your body, wracking you with pain...");
                 }
-                p.add_disease(DI_BADPOISON, 40, g);
+                p.add_disease("badpoison", 40);
             }
             if (has_flag(MF_BLEED) && dam > 6 && cut > 0)
             {
@@ -622,7 +624,7 @@ void monster::hit_player(game *g, player &p, bool can_grab)
                 {
                     g->add_msg("You're Bleeding!");
                 }
-                p.add_disease(DI_BLEED, 60, g);
+                p.add_disease("bleed", 60);
             }
 
             //Same as monster's chance to not miss
@@ -743,6 +745,14 @@ void monster::move_to(game *g, int x, int y)
 
   moves -= calc_movecost(g, posx, posy, x, y);
 
+  if (has_flag(MF_SLUDGETRAIL)){
+   g->m.add_field(g, posx, posy, fd_sludge, 3);
+   g->m.add_field(g, posx+1, posy, fd_sludge, 2);
+   g->m.add_field(g, posx, posy+1, fd_sludge, 2);
+   g->m.add_field(g, posx-1, posy, fd_sludge, 2);
+   g->m.add_field(g, posx, posy-1, fd_sludge, 2);
+  }
+
   posx = x;
   posy = y;
   footsteps(g, x, y);
@@ -759,11 +769,20 @@ void monster::move_to(game *g, int x, int y)
    }
   }
 // Diggers turn the dirt into dirtmound
-  if (has_flag(MF_DIGS))
+  if (has_flag(MF_DIGS)){
    g->m.ter_set(posx, posy, t_dirtmound);
+  }
 // Acid trail monsters leave... a trail of acid
-  if (has_flag(MF_ACIDTRAIL))
+  if (has_flag(MF_ACIDTRAIL)){
    g->m.add_field(g, posx, posy, fd_acid, 1);
+  }
+  if (has_flag(MF_ACIDTRAIL)){
+   g->m.add_field(g, posx, posy, fd_acid, 1);
+  }
+  if (has_flag(MF_ACIDTRAIL)){
+   g->m.add_field(g, posx, posy, fd_acid, 1);
+  }
+
  } else if (has_flag(MF_ATTACKMON) || g->z[mondex].friendly != 0)
 // If there IS a monster there, and we fight monsters, fight it!
   hit_monster(g, mondex);

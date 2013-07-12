@@ -3,6 +3,7 @@
 #include "enums.h"
 #include "catajson.h"
 #include "addiction.h"
+#include "translations.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -20,8 +21,8 @@ Item_factory* item_controller = new Item_factory();
 Item_factory::Item_factory(){
     init();
     m_missing_item = new itype();
-    m_missing_item->name = "Error: Item Missing.";
-    m_missing_item->description = "There is only the space where an object should be, but isn't. No item template of this type exists.";
+    m_missing_item->name = _("Error: Item Missing.");
+    m_missing_item->description = _("There is only the space where an object should be, but isn't. No item template of this type exists.");
     m_templates["MISSING_ITEM"]=m_missing_item;
 }
 
@@ -175,6 +176,7 @@ void Item_factory::init(){
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["DEJAR"] = &iuse::dejar;
     iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
+    iuse_function_list["BOOTS"] = &iuse::boots;
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
     // ARTIFACTS
@@ -237,24 +239,6 @@ void Item_factory::init(){
     ammo_flags_list["PLASMA"] = mfb(AT_PLASMA);
     ammo_flags_list["WATER"] = mfb(AT_WATER);
     ammo_flags_list["PEBBLE"] = mfb(AT_PEBBLE);
-
-    ammo_effects_list["FLAME"] = mfb(AMMO_FLAME);
-    ammo_effects_list["INCENDIARY"] = mfb(AMMO_INCENDIARY);
-    ammo_effects_list["IGNITE"] = mfb(AMMO_IGNITE);
-    ammo_effects_list["EXPLOSIVE"] = mfb(AMMO_EXPLOSIVE);
-    ammo_effects_list["FRAG"] = mfb(AMMO_FRAG);
-    ammo_effects_list["NAPALM"] = mfb(AMMO_NAPALM);
-    ammo_effects_list["ACIDBOMB"] = mfb(AMMO_ACIDBOMB);
-    ammo_effects_list["EXPLOSIVE_BIG"] = mfb(AMMO_EXPLOSIVE_BIG);
-    ammo_effects_list["TEARGAS"] = mfb(AMMO_TEARGAS);
-    ammo_effects_list["SMOKE"] = mfb(AMMO_SMOKE);
-    ammo_effects_list["TRAIL"] = mfb(AMMO_TRAIL);
-    ammo_effects_list["FLASHBANG"] = mfb(AMMO_FLASHBANG);
-    ammo_effects_list["STREAM"] = mfb(AMMO_STREAM);
-    ammo_effects_list["COOKOFF"] = mfb(AMMO_COOKOFF);
-    ammo_effects_list["LASER"] = mfb(AMMO_LASER);
-    ammo_effects_list["LIGHTNING"] = mfb(AMMO_LIGHTNING);
-    ammo_effects_list["BOUNCE"] = mfb(AMMO_BOUNCE);
 
     bodyparts_list["TORSO"] = mfb(bp_torso);
     bodyparts_list["HEAD"] = mfb(bp_head);
@@ -348,6 +332,15 @@ Item_list Item_factory::create_random(int created_at, int quantity){
     return new_items;
 }
 
+bool Item_factory::group_contains_item(Item_tag group_tag, Item_tag item) {
+	Item_group *current_group = m_template_groups.find(group_tag)->second;
+	if(current_group) {
+		return current_group->has_item(item);
+	} else {
+		return 0;
+	}
+}
+
 ///////////////////////
 // DATA FILE READING //
 ///////////////////////
@@ -358,6 +351,7 @@ void Item_factory::load_item_templates(){
     load_item_templates_from("data/raw/items/ammo.json");
     load_item_templates_from("data/raw/items/mods.json");
     load_item_templates_from("data/raw/items/tools.json");
+    load_item_templates_from("data/raw/items/containers.json");
     load_item_templates_from("data/raw/items/comestibles.json");
     load_item_templates_from("data/raw/items/armor.json");
     load_item_templates_from("data/raw/items/books.json");
@@ -477,10 +471,9 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                             entry.get("dispersion").as_int();
                         ammo_template->recoil = entry.get("recoil").as_int();
                         ammo_template->count = entry.get("count").as_int();
-                        ammo_template->ammo_effects =
-                            (!entry.has("effects") ? 0 :
-                             flags_from_json(entry.get("effects"),
-                                             "ammo_effects"));
+                        if( entry.has("effects") ) {
+                            tags_from_json(entry.get("effects"), ammo_template->ammo_effects);
+                        }
 
                         new_item_template = ammo_template;
                     }
@@ -513,6 +506,14 @@ void Item_factory::load_item_templates_from(const std::string file_name){
 
                         new_item_template = book_template;
                     }
+                    else if (type_label == "CONTAINER")
+                    {
+                        it_container* container_template = new it_container();
+
+                        container_template->contains = entry.get("contains").as_int();
+
+                        new_item_template = container_template;
+                    }
                     else
                     {
                         debugmsg("Item definition for %s skipped, unrecognized type: %s", new_id.c_str(),
@@ -526,10 +527,10 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 // And then proceed to assign the correct field
                 new_item_template->rarity = entry.get("rarity").as_int();
                 new_item_template->price = entry.get("price").as_int();
-                new_item_template->name = entry.get("name").as_string();
+                new_item_template->name = _(entry.get("name").as_string().c_str());
                 new_item_template->sym = entry.get("symbol").as_char();
                 new_item_template->color = color_from_string(entry.get("color").as_string());
-                new_item_template->description = entry.get("description").as_string();
+                new_item_template->description = _(entry.get("description").as_string().c_str());
                 if(entry.has("material")){
                   set_material_from_json(new_id, entry.get("material"));
                 } else {
@@ -557,6 +558,11 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     OVERSIZE - Can always be worn no matter encumberance/mutations/bionics/etc
                     HOOD - Will increase warmth for head if head is cold and player is not wearing a helmet (headwear of material that is not wool or cotton)
                     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
+
+                    Container-only flags:
+                    SEALS
+                    RIGID
+                    WATERTIGHT
                     */
                 }
 
@@ -802,8 +808,6 @@ void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag,
       flag_map = ammo_flags_list;
     } else if(flag_type=="techniques"){
       flag_map = techniques_list;
-    } else if(flag_type=="ammo_effects"){
-        flag_map = ammo_effects_list;
     } else if(flag_type=="bodyparts"){
         flag_map = bodyparts_list;
     }
@@ -821,6 +825,22 @@ void Item_factory::set_bitmask_by_string(std::map<Item_tag, unsigned> flag_map, 
     else
     {
         debugmsg("Invalid item flag (etc.): %s", new_flag.c_str());
+    }
+}
+
+void Item_factory::tags_from_json(catajson tag_list, std::set<std::string> &tags)
+{
+    if (tag_list.is_array())
+    {
+        for (tag_list.set_begin(); tag_list.has_curr(); tag_list.next())
+        {
+            tags.insert( tag_list.curr().as_string() );
+        }
+    }
+    else
+    {
+        //we should have gotten a string, if not an array, and catajson will do error checking
+        tags.insert( tag_list.as_string() );
     }
 }
 

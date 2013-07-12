@@ -175,7 +175,7 @@ void mattack::boomer(game *g, monster *z)
   }
  }
  if (rng(0, 10) > g->u.dodge(g) || one_in(g->u.dodge(g)))
-  g->u.infect(DI_BOOMERED, bp_eyes, 3, 12, g);
+  g->u.infect("boomered", bp_eyes, 3, 12, g);
  else if (u_see)
   g->add_msg("You dodge it!");
   g->u.practice(g->turn, "dodge", 10);
@@ -501,6 +501,7 @@ void mattack::spit_sap(game *g, monster *z)
  int dist = rl_dist(z->posx, z->posy, g->u.posx, g->u.posy);
  int deviation = rng(1, 10);
  double missed_by = (.0325 * deviation * dist);
+ std::set<std::string> no_effects;
 
  if (missed_by > 1.) {
   if (g->u_see(z->posx, z->posy))
@@ -511,7 +512,7 @@ void mattack::spit_sap(game *g, monster *z)
   std::vector<point> line = line_to(z->posx, z->posy, hitx, hity, 0);
   int dam = 5;
   for (int i = 0; i < line.size() && dam > 0; i++) {
-   g->m.shoot(g, line[i].x, line[i].y, dam, false, 0);
+   g->m.shoot(g, line[i].x, line[i].y, dam, false, no_effects);
    if (dam == 0 && g->u_see(line[i].x, line[i].y)) {
     g->add_msg("A glob of sap hits the %s!",
                g->m.tername(line[i].x, line[i].y).c_str());
@@ -528,7 +529,7 @@ void mattack::spit_sap(game *g, monster *z)
  std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
  int dam = 5;
  for (int i = 0; i < line.size() && dam > 0; i++) {
-  g->m.shoot(g, line[i].x, line[i].y, dam, false, 0);
+  g->m.shoot(g, line[i].x, line[i].y, dam, false, no_effects);
   if (dam == 0 && g->u_see(line[i].x, line[i].y)) {
    g->add_msg("A glob of sap hits the %s!",
               g->m.tername(line[i].x, line[i].y).c_str());
@@ -539,7 +540,7 @@ void mattack::spit_sap(game *g, monster *z)
   return;
  g->add_msg("A glob of sap hits you!");
  g->u.hit(g, bp_torso, 0, dam, 0);
- g->u.add_disease(DI_SAP, dam, g);
+ g->u.add_disease("sap", dam);
 }
 
 void mattack::triffid_heartbeat(game *g, monster *z)
@@ -624,7 +625,7 @@ void mattack::fungus(game *g, monster *z)
      if (!g->z[mondex].make_fungus(g))
       g->kill_mon(mondex, (z->friendly != 0));
     } else if (g->u.posx == sporex && g->u.posy == sporey)
-     g->u.infect(DI_SPORES, bp_mouth, 4, 30, g); // Spores hit the player
+     g->u.infect("spores", bp_mouth, 4, 30, g); // Spores hit the player
     else { // Spawn a spore
      spore.spawn(sporex, sporey);
      g->z.push_back(spore);
@@ -721,7 +722,7 @@ void mattack::leap(game *g, monster *z)
 void mattack::dermatik(game *g, monster *z)
 {
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) > 1 ||
-     g->u.has_disease(DI_DERMATIK))
+     g->u.has_disease("dermatik"))
   return; // Too far to implant, or the player's already incubating bugs
 
  z->sp_timeout = z->type->sp_freq;	// Reset timer
@@ -769,7 +770,7 @@ void mattack::dermatik(game *g, monster *z)
 // Success!
  z->moves -= 500; // Successful laying takes a long time
  g->add_msg("The %s sinks its ovipositor into you!", z->name().c_str());
- g->u.add_disease(DI_DERMATIK, -1, g); // -1 = infinite
+ g->u.add_disease("dermatik", -1); // -1 = infinite
 }
 
 void mattack::plant(game *g, monster *z)
@@ -799,7 +800,7 @@ void mattack::formblob(game *g, monster *z)
    if (g->u.posx == z->posx + i && g->u.posy == z->posy + i) {
 // If we hit the player, cover them with slime
     didit = true;
-    g->u.add_disease(DI_SLIMED, rng(0, z->hp), g);
+    g->u.add_disease("slimed", rng(0, z->hp));
    } else if (thatmon != -1) {
 // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
     if (z->speed > 20 && g->z[thatmon].type->id == mon_blob &&
@@ -864,24 +865,25 @@ void mattack::tentacle(game *g, monster *z)
 {
     int t;
     if (!g->sees_u(z->posx, z->posy, t))
-	{
+    {
         return;
-	}
+    }
     g->add_msg("The %s lashes its tentacle at you!", z->name().c_str());
     z->moves -= 100;
     z->sp_timeout = z->type->sp_freq;	// Reset timer
 
     std::vector<point> line = line_to(z->posx, z->posy, g->u.posx, g->u.posy, t);
+    std::set<std::string> no_effects;
     for (int i = 0; i < line.size(); i++)
-	{
+    {
         int tmpdam = 20;
-        g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, 0);
+        g->m.shoot(g, line[i].x, line[i].y, tmpdam, true, no_effects);
     }
 
-	// Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
- int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
- if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
-	{
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    int dodge_check = std::max(g->u.dodge(g) - rng(0, z->type->melee_skill), 0L);
+    if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge_check))))
+    {
         g->add_msg("You dodge it!");
         g->u.practice(g->turn, "dodge", z->type->melee_skill*2);
         return;
@@ -913,6 +915,8 @@ void mattack::vortex(game *g, monster *z)
    g->sound(x, y, 8, sound);
   }
  }
+ std::set<std::string> no_effects;
+
  for (int x = z->posx - 2; x <= z->posx + 2; x++) {
   for (int y = z->posx - 2; y <= z->posy + 2; y++) {
    if (x == z->posx && y == z->posy) // Don't throw us!
@@ -926,7 +930,7 @@ void mattack::vortex(game *g, monster *z)
      int dam = thrown.weight() / double(3 + double(thrown.volume() / 6));
      std::vector<point> traj = continue_line(from_monster, distance);
      for (int i = 0; i < traj.size() && dam > 0; i++) {
-      g->m.shoot(g, traj[i].x, traj[i].y, dam, false, 0);
+      g->m.shoot(g, traj[i].x, traj[i].y, dam, false, no_effects);
       int mondex = g->mon_at(traj[i].x, traj[i].y);
       if (mondex != -1) {
        if (g->z[mondex].hurt(dam))
@@ -999,7 +1003,7 @@ void mattack::vortex(game *g, monster *z)
        thrown->posy = traj[i - 1].y;
       }
       int damage_copy = damage;
-      g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, 0);
+      g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, no_effects);
       if (damage_copy < damage)
        thrown->hurt(damage - damage_copy);
      }
@@ -1037,7 +1041,7 @@ void mattack::vortex(game *g, monster *z)
       g->u.posy = traj[i - 1].y;
      }
      int damage_copy = damage;
-     g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, 0);
+     g->m.shoot(g, traj[i].x, traj[i].y, damage_copy, false, no_effects);
      if (damage_copy < damage)
       g->u.hit(g, bp_torso, 0, damage - damage_copy, 0);
     }
@@ -1074,7 +1078,7 @@ void mattack::stare(game *g, monster *z)
  int j;
  if (g->sees_u(z->posx, z->posy, j)) {
   g->add_msg("The %s stares at you, and you shudder.", z->name().c_str());
-  g->u.add_disease(DI_TELEGLOW, 800, g);
+  g->u.add_disease("teleglow", 800);
  } else {
   g->add_msg("A piercing beam of light bursts forth!");
   std::vector<point> sight = line_to(z->posx, z->posy, g->u.posx, g->u.posy, 0);
@@ -1282,7 +1286,7 @@ void mattack::flamethrower(game *g, monster *z)
         }
         g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);
     }
-    g->u.add_disease(DI_ONFIRE, 8, g);
+    g->u.add_disease("onfire", 8);
 
 }
 
@@ -1346,7 +1350,7 @@ void mattack::ratking(game *g, monster *z)
   case 5: g->add_msg("\"FOUL INTERLOPER...\""); break;
  }
 
- g->u.add_disease(DI_RAT, 20, g);
+ g->u.add_disease("rat", 20);
 }
 
 void mattack::generator(game *g, monster *z)
@@ -1459,7 +1463,7 @@ void mattack::bite(game *g, monster *z) {
     g->add_msg("Your %s is bitten!", body_part_name(hit, side).c_str());
 
     if(one_in(14 - dam)) {
-      g->u.add_disease(DI_BITE, 3600, g);
+      g->u.add_disease("bite", 3600);
     }
   } else {
     g->add_msg("Your %s is bitten, but your armor protects you.", body_part_name(hit, side).c_str());
@@ -1501,7 +1505,7 @@ void mattack::flesh_golem(game *g, monster *z)
     g->u.hit(g, hit, side, dam, 0);
     if(one_in(6))
 	{
-        g->u.add_disease(DI_DOWNED, 30, g);
+        g->u.add_disease("downed", 30);
     }
     g->u.practice(g->turn, "dodge", z->type->melee_skill);
 }

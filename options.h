@@ -26,19 +26,21 @@ OPT_DROP_EMPTY,          // auto drop empty containers after use
 OPT_HIDE_CURSOR,         // hide mouse cursor
 OPT_SKILL_RUST,          // level of skill rust
 OPT_DELETE_WORLD,        // Delete workd every time New Character is created
-OPT_INITIAL_POINTS,   // Set the number of character points
-OPT_MAX_TRAIT_POINTS, // Set the number of trait points
-OPT_INITIAL_TIME,     // Sets the starting hour (0-24)
-OPT_VIEWPORT_X,       // Set the width of the terrain window, in characters
-OPT_VIEWPORT_Y,       // Set the height of the terrain window, in characters
-OPT_MOVE_VIEW_OFFSET, // Sensitivity of shift+(movement)
-OPT_STATIC_SPAWN,     // Makes zombies spawn using the new static system
-OPT_CLASSIC_ZOMBIES,  // Only spawn the more classic zombies and buildings.
-OPT_SEASON_LENGTH,    // Season length, in days
-OPT_STATIC_NPC,       // Spawn static npcs
-OPT_RANDOM_NPC,       // Spawn random npcs
-OPT_RAD_MUTATION,     // Radiation mutates
-OPT_SAVESLEEP,        // Ask to save before sleeping
+OPT_INITIAL_POINTS,      // Set the number of character points
+OPT_MAX_TRAIT_POINTS,    // Set the number of trait points
+OPT_INITIAL_TIME,        // Sets the starting hour (0-24)
+OPT_VIEWPORT_X,          // Set the width of the terrain window, in characters
+OPT_VIEWPORT_Y,          // Set the height of the terrain window, in characters
+OPT_MOVE_VIEW_OFFSET,    // Sensitivity of shift+(movement)
+OPT_STATIC_SPAWN,        // Makes zombies spawn using the new static system
+OPT_CLASSIC_ZOMBIES,     // Only spawn the more classic zombies and buildings.
+OPT_SEASON_LENGTH,       // Season length, in days
+OPT_STATIC_NPC,          // Spawn static npcs
+OPT_RANDOM_NPC,          // Spawn random npcs
+OPT_RAD_MUTATION,        // Radiation mutates
+OPT_SAVESLEEP,           // Ask to save before sleeping
+OPT_AUTO_PICKUP,         // Enable Item Auto Pickup
+OPT_AUTO_PICKUP_ZERO,    // Auto Pickup 0 Volume and Weith items
 NUM_OPTION_KEYS
 };
 

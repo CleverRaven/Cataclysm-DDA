@@ -3950,5 +3950,28 @@
     "ammo": "none",
     "revert_to": "null",
     "use_action": "RAG"
+  },
+  {
+    "id": "talking_doll",
+    "type": "TOOL",
+    "symbol": "|",
+    "color": "brown",
+    "name": "talking doll",
+    "description": "A talking doll for children, luckily it still works.",
+    "rarity": 70,
+    "price": 20,
+    "material": "plastic",
+    "weight": 0,
+    "volume": 4,
+    "bashing": -3,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 100,
+    "initial_charges": 20,
+    "charges_per_use": 1,
+    "turns_per_charge": 20,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "NONE"
   }
 ]

@@ -2,9 +2,10 @@
 #define _WEATHER_DATA_H_
 
 #include "weather.h"
+#include "translations.h"
 
 std::string season_name[4] = {
-"Spring", "Summer", "Autumn", "Winter"
+_("Spring"), _("Summer"), _("Autumn"), _("Winter")
 };
 
 /* Name, color in UI, {seasonal temperatures}, ranged penalty, sight penalty,
@@ -18,40 +19,40 @@ weather_datum weather_data[] = {
 {"NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta,
  {0, 0, 0, 0}, 0, 0, 0, 0, 0, false,
  &weather_effect::none},
-{"Clear", c_cyan,
+{_("Clear"), c_cyan,
  {55, 85, 60, 30}, 0, 0, 0, 30, 120, false,
  &weather_effect::none},
-{"Sunny", c_ltcyan,
+{_("Sunny"), c_ltcyan,
  {70, 100, 70, 40}, 0, 0, 20, 60, 300, false,
  &weather_effect::glare},
-{"Cloudy", c_ltgray,
+{_("Cloudy"), c_ltgray,
  {50, 75, 60, 20}, 0, 2, -20, 60, 300, false,
  &weather_effect::none},
-{"Drizzle", c_ltblue,
+{_("Drizzle"), c_ltblue,
  {45, 70, 45, 35}, 1, 3, -30, 10, 60, true,
  &weather_effect::wet},
-{"Rain", c_blue,
+{_("Rain"), c_blue,
  {42, 65, 40, 30}, 3, 5, -40, 30, 180, true,
  &weather_effect::very_wet},
-{"Thunder Storm", c_dkgray,
+{_("Thunder Storm"), c_dkgray,
  {42, 70, 40, 30}, 4, 7, -50, 30, 120, true,
  &weather_effect::thunder},
-{"Lightning Storm", c_yellow,
+{_("Lightning Storm"), c_yellow,
  {45, 52, 42, 32}, 4, 8, -50, 10, 30, true,
  &weather_effect::lightning},
-{"Acidic Drizzle", c_ltgreen,
+{_("Acidic Drizzle"), c_ltgreen,
  {45, 70, 45, 35}, 2, 3, -30, 10, 30, true,
  &weather_effect::light_acid},
-{"Acid Rain", c_green,
+{_("Acid Rain"), c_green,
  {45, 70, 45, 30}, 4, 6, -40, 10, 30, true,
  &weather_effect::acid},
-{"Flurries", c_white,
+{_("Flurries"), c_white,
  {30, 30, 30, 20}, 2, 4, -30, 10, 60, true,
  &weather_effect::flurry},
-{"Snowing", c_white,
+{_("Snowing"), c_white,
  {25, 25, 20, 10}, 4, 7, -30, 30, 360, true,
  &weather_effect::snow},
-{"Snowstorm", c_white,
+{_("Snowstorm"), c_white,
  {20, 20, 20,  5}, 6, 10, -55, 60, 180, true,
  &weather_effect::snowstorm}
 };

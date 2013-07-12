@@ -117,29 +117,29 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
 // TODO: Add other diseases here; royal jelly is a cure-all!
  p->pkill += 5;
  std::string message;
- if (p->has_disease(DI_FUNGUS)) {
+ if (p->has_disease("fungus")) {
   message = "You feel cleansed inside!";
-  p->rem_disease(DI_FUNGUS);
+  p->rem_disease("fungus");
  }
- if (p->has_disease(DI_BLIND)) {
+ if (p->has_disease("blind")) {
   message = "Your sight returns!";
-  p->rem_disease(DI_BLIND);
+  p->rem_disease("blind");
  }
- if (p->has_disease(DI_POISON) || p->has_disease(DI_FOODPOISON) ||
-     p->has_disease(DI_BADPOISON)) {
+ if (p->has_disease("poison") || p->has_disease("foodpoison") ||
+     p->has_disease("badpoison")) {
   message = "You feel much better!";
-  p->rem_disease(DI_POISON);
-  p->rem_disease(DI_BADPOISON);
-  p->rem_disease(DI_FOODPOISON);
+  p->rem_disease("poison");
+  p->rem_disease("badpoison");
+  p->rem_disease("foodpoison");
  }
- if (p->has_disease(DI_ASTHMA)) {
+ if (p->has_disease("asthma")) {
   message = "Your breathing clears up!";
-  p->rem_disease(DI_ASTHMA);
+  p->rem_disease("asthma");
  }
- if (p->has_disease(DI_COMMON_COLD) || p->has_disease(DI_FLU)) {
+ if (p->has_disease("common_cold") || p->has_disease("flu")) {
   message = "You feel healthier!";
-  p->rem_disease(DI_COMMON_COLD);
-  p->rem_disease(DI_FLU);
+  p->rem_disease("common_cold");
+  p->rem_disease("flu");
  }
  g->add_msg_if_player(p,message.c_str());
 }
@@ -348,29 +348,29 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 3, 1, 4, "Bandage", p->has_disease(DI_BLEED) ? "Stop Bleeding" : ""))
+    if (use_healing_item(g, p, it, 3, 1, 4, "Bandage", p->has_disease("bleed") ? "Stop Bleeding" : ""))
     {
         g->add_msg_if_player(p,"You stopped the bleeding.");
-        p->rem_disease(DI_BLEED);
+        p->rem_disease("bleed");
     }
 }
 
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 14, 10, 18, "First Aid", p->has_disease(DI_BITE) ? "Clean Wound" : ""))
+    if (use_healing_item(g, p, it, 14, 10, 18, "First Aid", p->has_disease("bite") ? "Clean Wound" : ""))
     {
         g->add_msg_if_player(p,"You clean the bite wound.");
-        p->rem_disease(DI_BITE);
+        p->rem_disease("bite");
     }
 }
 
 void iuse::disinfectant(game *g, player *p, item *it, bool t)
 {
 
-    if (use_healing_item(g, p, it, 6, 5, 9, "Disinfectant", p->has_disease(DI_BITE) ? "Clean Wound" : ""))
+    if (use_healing_item(g, p, it, 6, 5, 9, "Disinfectant", p->has_disease("bite") ? "Clean Wound" : ""))
     {
         g->add_msg_if_player(p,"You disinfect the bite wound.");
-        p->rem_disease(DI_BITE);
+        p->rem_disease("bite");
     }
 }
 
@@ -379,11 +379,11 @@ void iuse::pkill_1(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- if (!p->has_disease(DI_PKILL1))
-  p->add_disease(DI_PKILL1, 120, g);
+ if (!p->has_disease("pkill1"))
+  p->add_disease("pkill1", 120);
  else {
   for (int i = 0; i < p->illness.size(); i++) {
-   if (p->illness[i].type == DI_PKILL1) {
+   if (p->illness[i].type == "pkill1") {
     p->illness[i].duration = 120;
     i = p->illness.size();
    }
@@ -396,40 +396,40 @@ void iuse::pkill_2(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- p->add_disease(DI_PKILL2, 180, g);
+ p->add_disease("pkill2", 180);
 }
 
 void iuse::pkill_3(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- p->add_disease(DI_PKILL3, 20, g);
- p->add_disease(DI_PKILL2, 200, g);
+ p->add_disease("pkill3", 20);
+ p->add_disease("pkill2", 200);
 }
 
 void iuse::pkill_4(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You shoot up.");
 
- p->add_disease(DI_PKILL3, 80, g);
- p->add_disease(DI_PKILL2, 200, g);
+ p->add_disease("pkill3", 80);
+ p->add_disease("pkill2", 200);
 }
 
 void iuse::pkill_l(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- p->add_disease(DI_PKILL_L, rng(12, 18) * 300, g);
+ p->add_disease("pkill_l", rng(12, 18) * 300);
 }
 
 void iuse::xanax(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
 
- if (!p->has_disease(DI_TOOK_XANAX))
-  p->add_disease(DI_TOOK_XANAX, 900, g);
+ if (!p->has_disease("took_xanax"))
+  p->add_disease("took_xanax", 900);
  else
-  p->add_disease(DI_TOOK_XANAX, 200, g);
+  p->add_disease("took_xanax", 200);
 }
 
 void iuse::caff(game *g, player *p, item *it, bool t)
@@ -444,7 +444,7 @@ void iuse::alcohol(game *g, player *p, item *it, bool t)
  if (p->has_trait(PF_LIGHTWEIGHT))
   duration += 300;
  p->pkill += 8;
- p->add_disease(DI_DRUNK, duration, g);
+ p->add_disease("drunk", duration);
 }
 
 void iuse::alcohol_weak(game *g, player *p, item *it, bool t)
@@ -453,7 +453,7 @@ void iuse::alcohol_weak(game *g, player *p, item *it, bool t)
  if (p->has_trait(PF_LIGHTWEIGHT))
   duration += 120;
  p->pkill += 4;
- p->add_disease(DI_DRUNK, duration, g);
+ p->add_disease("drunk", duration);
 }
 
 void iuse::cig(game *g, player *p, item *it, bool t)
@@ -463,9 +463,9 @@ void iuse::cig(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You light a cigarette and smoke it.");
  else //cigar
   g->add_msg_if_player(p,"You take a few puffs from your cigar.");
- p->add_disease(DI_CIG, 200, g);
+ p->add_disease("cig", 200);
  for (int i = 0; i < p->illness.size(); i++) {
-  if (p->illness[i].type == DI_CIG && p->illness[i].duration > 600 &&
+  if (p->illness[i].type == "cig" && p->illness[i].duration > 600 &&
       !p->is_npc())
    g->add_msg_if_player(p,"Ugh, too much smoke... you feel gross.");
  }
@@ -473,10 +473,10 @@ void iuse::cig(game *g, player *p, item *it, bool t)
 
 void iuse::antibiotic(game *g, player *p, item *it, bool t)
 {
-if (p->has_disease(DI_INFECTED)){
+if (p->has_disease("infected")){
   g->add_msg_if_player(p,"You took some antibiotics.");
-  p->rem_disease(DI_INFECTED);
-  p->add_disease(DI_RECOVER, 1200, g);
+  p->rem_disease("infected");
+  p->add_disease("recover", 1200);
   }
    else {
  g->add_msg_if_player(p,"You took some antibiotics.");
@@ -494,7 +494,7 @@ void iuse::weed(game *g, player *p, item *it, bool t)
  p->hunger += 8;
  if (p->pkill < 15)
   p->pkill += 5;
- p->add_disease(DI_HIGH, duration, g);
+ p->add_disease("high", duration);
 }
 
 void iuse::coke(game *g, player *p, item *it, bool t)
@@ -505,7 +505,7 @@ void iuse::coke(game *g, player *p, item *it, bool t)
  if (p->has_trait(PF_LIGHTWEIGHT))
   duration += 20;
  p->hunger -= 8;
- p->add_disease(DI_HIGH, duration, g);
+ p->add_disease("high", duration);
 }
 
 void iuse::crack(game *g, player *p, item *it, bool t)
@@ -519,7 +519,7 @@ void iuse::crack(game *g, player *p, item *it, bool t)
     duration += 10;
   }
   p->hunger -= 8;
-  p->add_disease(DI_HIGH, duration, g);
+  p->add_disease("high", duration);
 }
 
 void iuse::grack(game *g, player *p, item *it, bool t)
@@ -531,7 +531,7 @@ void iuse::grack(game *g, player *p, item *it, bool t)
   if (p->has_trait(PF_LIGHTWEIGHT))
     duration += 10;
   p->hunger -= 8;
-  p->add_disease(DI_GRACK, duration, g);
+  p->add_disease("grack", duration);
 }
 
 
@@ -548,12 +548,12 @@ void iuse::meth(game *g, player *p, item *it, bool t)
     {
         g->add_msg_if_player(p,"You snort some crystals.");
     }
-    if (!p->has_disease(DI_METH)) {duration += 600;}
+    if (!p->has_disease("meth")) {duration += 600;}
     if (duration > 0)
     {
         int hungerpen = (p->str_cur < 10 ? 20 : 30 - p->str_cur);
         p->hunger -= hungerpen;
-        p->add_disease(DI_METH, duration, g);
+        p->add_disease("meth", duration);
     }
 }
 
@@ -593,30 +593,30 @@ void iuse::vaccine(game *g, player *p, item *it, bool t)
 
 void iuse::poison(game *g, player *p, item *it, bool t)
 {
- p->add_disease(DI_POISON, 600, g);
- p->add_disease(DI_FOODPOISON, 1800, g);
+ p->add_disease("poison", 600);
+ p->add_disease("foodpoison", 1800);
 }
 
 void iuse::hallu(game *g, player *p, item *it, bool t)
 {
- p->add_disease(DI_HALLU, 2400, g);
+ p->add_disease("hallu", 2400);
 }
 
 void iuse::thorazine(game *g, player *p, item *it, bool t)
 {
  p->fatigue += 15;
- p->rem_disease(DI_HALLU);
- p->rem_disease(DI_VISUALS);
- p->rem_disease(DI_HIGH);
- if (!p->has_disease(DI_DERMATIK))
-  p->rem_disease(DI_FORMICATION);
+ p->rem_disease("hallu");
+ p->rem_disease("visuals");
+ p->rem_disease("high");
+ if (!p->has_disease("dermatik"))
+  p->rem_disease("formication");
  g->add_msg_if_player(p,"You feel somewhat sedated.");
 }
 
 void iuse::prozac(game *g, player *p, item *it, bool t)
 {
- if (!p->has_disease(DI_TOOK_PROZAC) && p->morale_level() < 0)
-  p->add_disease(DI_TOOK_PROZAC, 7200, g);
+ if (!p->has_disease("took_prozac") && p->morale_level() < 0)
+  p->add_disease("took_prozac", 7200);
  else
   p->stim += 3;
 }
@@ -629,26 +629,26 @@ void iuse::sleep(game *g, player *p, item *it, bool t)
 
 void iuse::iodine(game *g, player *p, item *it, bool t)
 {
- p->add_disease(DI_IODINE, 1200, g);
+ p->add_disease("iodine", 1200);
  g->add_msg_if_player(p,"You take an iodine tablet.");
 }
 
 void iuse::flumed(game *g, player *p, item *it, bool t)
 {
- p->add_disease(DI_TOOK_FLUMED, 6000, g);
+ p->add_disease("took_flumed", 6000);
  g->add_msg_if_player(p,"You take some %s", it->tname().c_str());
 }
 
 void iuse::flusleep(game *g, player *p, item *it, bool t)
 {
- p->add_disease(DI_TOOK_FLUMED, 7200, g);
+ p->add_disease("took_flumed", 7200);
  p->fatigue += 30;
  g->add_msg_if_player(p,"You feel very sleepy...");
 }
 
 void iuse::inhaler(game *g, player *p, item *it, bool t)
 {
- p->rem_disease(DI_ASTHMA);
+ p->rem_disease("asthma");
  g->add_msg_if_player(p,"You take a puff from your inhaler.");
 }
 
@@ -823,16 +823,9 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
 void iuse::dogfood(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Which direction?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Put the dog food",dirx,diry))
   return;
- }
  p->moves -= 15;
- dirx += p->posx;
- diry += p->posy;
  int mon_dex = g->mon_at(dirx,diry);
  if (mon_dex != -1) {
   if (g->z[mon_dex].type->id == mon_dog) {
@@ -842,50 +835,46 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
    g->add_msg_if_player(p,"The %s seems quite unimpressed!",g->z[mon_dex].type->name.c_str());
  } else
   g->add_msg_if_player(p,"You spill the dogfood all over the ground.");
-
 }
-
 
 
 // TOOLS below this point!
 
 bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 {
-    g->draw();
-    mvprintw(0, 0, "Light where?");
-    get_direction(g, posx, posy, input());
-    if (posx == -2)
-    {
-        g->add_msg_if_player(p,"Invalid direction.");
-        it->charges++;
-        return false;
-    }
-    if (posx == 0 && posy == 0)
-    {
-        g->add_msg_if_player(p, "You would set yourself on fire.");
-        g->add_msg_if_player(p, "But you're already smokin' hot.");
-        it->charges++;
-        return false;
-    }
-    posx += p->posx;
-    posy += p->posy;
-    if (!g->m.flammable_items_at(posx, posy))
-    {
-       g->add_msg_if_player(p,"There's nothing to light there.");
-       it->charges++;
-       return false;
-    }
-    return true;
+   if (!g->choose_adjacent("Light",posx,posy))
+   {
+     it->charges++;
+     return false;
+   }
+   if (posx == p->posx && posy == p->posy)
+   {
+     g->add_msg_if_player(p, "You would set yourself on fire.");
+     g->add_msg_if_player(p, "But you're already smokin' hot.");
+     it->charges++;
+     return false;
+   }
+
+   if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy)))
+   {
+     g->add_msg_if_player(p,"There's nothing to light there.");
+     it->charges++;
+     return false;
+   }
+   else
+   {
+     return true;
+   }
 }
 
 void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
 {
     // this should have already been checked, but double-check to make sure
-    if (g->m.flammable_items_at(posx, posy))
+	if (g->m.flammable_items_at(posx, posy) || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy))
     {
         if (g->m.add_field(g, posx, posy, fd_fire, 1))
         {
-            g->m.field_at(posx, posy).findField(fd_fire)->setFieldAge(g->m.field_at(posx, posy).findField(fd_fire)->getFieldAge() + 30);
+            g->m.field_at(posx, posy).findField(fd_fire)->setFieldAge(g->m.field_at(posx, posy).findField(fd_fire)->getFieldAge() + 100);
             g->add_msg_if_player(p, "You successfully light a fire.");
         }
     }
@@ -1065,7 +1054,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             if (fix->damage >= 5)
 		    {
                 g->add_msg_if_player(p,"You destroy it!");
-                p->i_rem(ch);
+                p->i_rem(g,ch);
             }
         }
 	    else if (rn <= 6)
@@ -1208,13 +1197,13 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     {
         g->add_msg_if_player(p,"You clumsily cut the %s into useless %s.",
                              cut->tname().c_str(), scrap_text.c_str());
-        p->i_rem(ch);
+        p->i_rem(g,ch);
         return;
     }
     g->add_msg_if_player(p,"You slice the %s into %d %s%s%s.", cut->tname().c_str(), count, pre_text.c_str(),
                          (count == 1 ? "" : "s"), post_text.c_str());
     item result(g->itypes[type], int(g->turn), g->nextinv);
-    p->i_rem(ch);
+    p->i_rem(g,ch);
     bool drop = false;
     for (int i = 0; i < count; i++)
     {
@@ -1440,7 +1429,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
     if (it->charges == 0)
     g->add_msg_if_player(p,"You need batteries to cauterize wounds.");
 
-    else if (!p->has_disease(DI_BITE) && !p->has_disease(DI_BLEED))
+    else if (!p->has_disease("bite") && !p->has_disease("bleed"))
     g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
 
     else if (p->is_npc() || query_yn("Cauterize any open wounds?"))
@@ -1452,6 +1441,7 @@ void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 
 void iuse::solder_weld(game *g, player *p, item *it, bool t)
 {
+    it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
     int choice = menu(true,
     "Using soldering item:", "Cauterize wound", "Repair plastic/metal/kevlar item", "Cancel", NULL);
     switch (choice)
@@ -1506,7 +1496,6 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
             if(repair_items.empty())
             {
                 g->add_msg_if_player(p,"Your %s is not made of kevlar, plastic or metal.", fix->tname().c_str());
-                it->charges++;
                 return;
             }
 
@@ -1534,7 +1523,6 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
                 {
                     g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repairitem_names[i].c_str(), plurals[i].c_str());
                 }
-                it->charges++;
                 return;
             }
             if (fix->damage < 0)
@@ -1599,7 +1587,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
                     if (fix->damage >= 5)
                     {
                         g->add_msg_if_player(p,"You destroy it!");
-                        p->i_rem(ch);
+                        p->i_rem(g,ch);
                     }
                 }
                 else if (rn <= 6)
@@ -2017,18 +2005,12 @@ void iuse::roadmap_targets(game *g, player *p, item *it, bool t, int target, int
 void iuse::picklock(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Pick which lock?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Use your pick lock", dirx, diry))
   return;
- } else if (dirx == 0 && diry == 0) {
+ if (dirx == p->posx && diry == p->posy) {
   g->add_msg_if_player(p, "You pick your nose and your sinuses swing open.");
   return;
  }
- dirx += p->posx;
- diry += p->posy;
  ter_id type = g->m.ter(dirx, diry);
  int npcdex = g->npc_at(dirx, diry);
  if (npcdex != -1) {
@@ -2099,122 +2081,116 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
 void iuse::crowbar(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Pry where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Pry", dirx,diry))
   return;
- }
-if (dirx == 0 && diry == 0) {
-   g->add_msg_if_player(p, "You attempt to pry open your wallet");
-   g->add_msg_if_player(p, "but alas. You are just too miserly.");
-   return;
- }
- dirx += p->posx;
- diry += p->posy;
- ter_id type = g->m.ter(dirx, diry);
- const char *door_name;
- const char *action_name;
- ter_id new_type;
- bool noisy;
- int difficulty;
 
- if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
-   door_name = "door";
-   action_name = "pry open";
-   new_type = t_door_o;
-   noisy = true;
-   difficulty = 6;
- } else if (type == t_door_bar_locked) {
-   door_name = "door";
-   action_name = "pry open";
-   new_type = t_door_bar_o;
-   noisy = false;
-   difficulty = 10;
- } else if (type == t_manhole_cover) {
-   door_name = "manhole cover";
-   action_name = "lift";
-   new_type = t_manhole;
-   noisy = false;
-   difficulty = 12;
- } else if (g->m.furn(dirx, diry) == f_crate_c) {
-   door_name = "crate";
-   action_name = "pop open";
-   noisy = true;
-   difficulty = 6;
- } else if (type == t_window_domestic || type == t_curtains) {
-   door_name = "window";
-   action_name = "pry open";
-   new_type = t_window_open;
-   noisy = true;
-   difficulty = 6;
- } else {
-  int nails = 0, boards = 0;
-  ter_id newter;
-  switch (g->m.ter(dirx, diry)) {
-  case t_window_boarded:
-   nails =  8;
-   boards = 4;
-   newter = t_window_empty;
-   break;
-  case t_door_boarded:
-   nails = 12;
-   boards = 4;
-   newter = t_door_b;
-   break;
-  case t_fence_h:
-   nails = 6;
-   boards = 3;
-   newter = t_fence_post;
-   break;
-  case t_fence_v:
-   nails = 6;
-   boards = 3;
-   newter = t_fence_post;
-   break;
-  default:
-   g->add_msg_if_player(p,"There's nothing to pry there.");
-   return;
+ if (dirx == p->posx && diry == p->posy) {
+    g->add_msg_if_player(p, "You attempt to pry open your wallet");
+    g->add_msg_if_player(p, "but alas. You are just too miserly.");
+    return;
   }
-  if(p->skillLevel("carpentry") < 1)
-   p->practice(g->turn, "carpentry", 1);
-  p->moves -= 500;
-  g->m.spawn_item(p->posx, p->posy, "nail", 0, 0, nails);
-  g->m.spawn_item(p->posx, p->posy, "2x4", 0, boards);
-  g->m.ter_set(dirx, diry, newter);
-  return;
- }
+  ter_id type = g->m.ter(dirx, diry);
+  const char *door_name;
+  const char *action_name;
+  ter_id new_type;
+  bool noisy;
+  int difficulty;
 
- p->practice(g->turn, "mechanics", 1);
- p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics")) * 5);
- if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
-  p->practice(g->turn, "mechanics", 1);
-  g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
-  if (g->m.furn(dirx, diry) == f_crate_c)
-   g->m.furn_set(dirx, diry, f_crate_o);
-  else
-   g->m.ter_set(dirx, diry, new_type);
-  if (noisy)
-   g->sound(dirx, diry, 12, "crunch!");
-  if ( type == t_door_locked_alarm ) {
-   g->sound(p->posx, p->posy, 40, "An alarm sounds!");
-   if (!g->event_queued(EVENT_WANTED)) {
-    g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
-   }
-  }
- } else {
-  if (type == t_window_domestic || type == t_curtains) {
-   //chance of breaking the glass if pry attempt fails
-   if (dice(4, difficulty) > dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
-    g->add_msg_if_player(p,"You break the glass.");
-    g->sound(dirx, diry, 24, "glass breaking!");
-    g->m.ter_set(dirx, diry, t_window_frame);
+  if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
+    door_name = "door";
+    action_name = "pry open";
+    new_type = t_door_o;
+    noisy = true;
+    difficulty = 6;
+  } else if (type == t_door_bar_locked) {
+    door_name = "door";
+    action_name = "pry open";
+    new_type = t_door_bar_o;
+    noisy = false;
+    difficulty = 10;
+  } else if (type == t_manhole_cover) {
+    door_name = "manhole cover";
+    action_name = "lift";
+    new_type = t_manhole;
+    noisy = false;
+    difficulty = 12;
+  } else if (g->m.furn(dirx, diry) == f_crate_c) {
+    door_name = "crate";
+    action_name = "pop open";
+    noisy = true;
+    difficulty = 6;
+  } else if (type == t_window_domestic || type == t_curtains) {
+    door_name = "window";
+    action_name = "pry open";
+    new_type = t_window_open;
+    noisy = true;
+    difficulty = 6;
+  } else {
+   int nails = 0, boards = 0;
+   ter_id newter;
+   switch (g->m.ter(dirx, diry)) {
+   case t_window_boarded:
+    nails =  8;
+    boards = 4;
+    newter = t_window_empty;
+    break;
+   case t_door_boarded:
+    nails = 12;
+    boards = 4;
+    newter = t_door_b;
+    break;
+   case t_fence_h:
+    nails = 6;
+    boards = 3;
+    newter = t_fence_post;
+    break;
+   case t_fence_v:
+    nails = 6;
+    boards = 3;
+    newter = t_fence_post;
+    break;
+   default:
+    g->add_msg_if_player(p,"There's nothing to pry there.");
     return;
    }
+   if(p->skillLevel("carpentry") < 1)
+    p->practice(g->turn, "carpentry", 1);
+   p->moves -= 500;
+   g->m.spawn_item(p->posx, p->posy, "nail", 0, 0, nails);
+   g->m.spawn_item(p->posx, p->posy, "2x4", 0, boards);
+   g->m.ter_set(dirx, diry, newter);
+   return;
   }
-  g->add_msg_if_player(p,"You pry, but cannot %s the %s.", action_name, door_name);
- }
+
+  p->practice(g->turn, "mechanics", 1);
+  p->moves -= (difficulty * 25) - ((p->str_cur + p->skillLevel("mechanics")) * 5);
+  if (dice(4, difficulty) < dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
+   p->practice(g->turn, "mechanics", 1);
+   g->add_msg_if_player(p,"You %s the %s.", action_name, door_name);
+   if (g->m.furn(dirx, diry) == f_crate_c)
+    g->m.furn_set(dirx, diry, f_crate_o);
+   else
+    g->m.ter_set(dirx, diry, new_type);
+   if (noisy)
+    g->sound(dirx, diry, 12, "crunch!");
+   if ( type == t_door_locked_alarm ) {
+    g->sound(p->posx, p->posy, 40, "An alarm sounds!");
+    if (!g->event_queued(EVENT_WANTED)) {
+     g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
+    }
+   }
+  } else {
+   if (type == t_window_domestic || type == t_curtains) {
+    //chance of breaking the glass if pry attempt fails
+    if (dice(4, difficulty) > dice(2, p->skillLevel("mechanics")) + dice(2, p->str_cur)) {
+     g->add_msg_if_player(p,"You break the glass.");
+     g->sound(dirx, diry, 24, "glass breaking!");
+     g->m.ter_set(dirx, diry, t_window_frame);
+     return;
+    }
+   }
+   g->add_msg_if_player(p,"You pry, but cannot %s the %s.", action_name, door_name);
+   }
 }
 
 void iuse::makemound(game *g, player *p, item *it, bool t)
@@ -2227,45 +2203,18 @@ void iuse::makemound(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,"You can't churn up this ground.");
 }
 
+//TODO remove this?
 void iuse::dig(game *g, player *p, item *it, bool t)
 {
  g->add_msg_if_player(p,"You can dig a pit via the construction menu--hit *");
-/*
- int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Dig where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
-  return;
- }
- if (g->m.has_flag(diggable, p->posx + dirx, p->posy + diry)) {
-  p->moves -= 300;
-  g->add_msg_if_player(p,"You dig a pit.");
-  g->m.ter     (p->posx + dirx, p->posy + diry) = t_pit;
-  g->m.add_trap(p->posx + dirx, p->posy + diry, tr_pit);
-  p->practice(g->turn, "traps", 1);
- } else
-  g->add_msg_if_player(p,"You can't dig through %s!",
-             g->m.tername(p->posx + dirx, p->posy + diry).c_str());
-*/
 }
 
 void iuse::siphon(game *g, player *p, item *it, bool t)
 {
     int posx = 0;
     int posy = 0;
-    g->draw();
-    mvprintw(0, 0, "Siphon where?");
-    get_direction(g, posx, posy, input());
-    if (posx == -2)
-    {
-        g->add_msg_if_player(p,"Invalid direction.");
-        return;
-    }
-    // there's no self-tile check because the player could be in a vehicle
-    posx += p->posx;
-    posy += p->posy;
+    if(!g->choose_adjacent("Siphon from", posx, posy))
+      return;
 
     vehicle* veh = g->m.veh_at(posx, posy);
     if (veh == NULL)
@@ -2310,20 +2259,14 @@ void iuse::chainsaw_on(game *g, player *p, item *it, bool t)
 void iuse::jackhammer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Drill in which direction?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Drill",dirx,diry))
   return;
- }
- if (dirx == 0 && diry == 0) {
+
+ if (dirx == p->posx && diry == p->posy) {
   g->add_msg_if_player(p,"My god! Let's talk it over OK?");
   g->add_msg_if_player(p,"Don't do anything rash..");
   return;
  }
- dirx += p->posx;
- diry += p->posy;
  if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
      g->m.ter(dirx, diry) != t_tree) {
   g->m.destroy(g, dirx, diry, false);
@@ -2375,29 +2318,6 @@ void iuse::jacqueshammer(game *g, player *p, item *it, bool t)
 
 void iuse::pickaxe(game *g, player *p, item *it, bool t)
 {
-/* int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Drill in which direction?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
-  return;
- }
- dirx += p->posx;
- diry += p->posy;
- if (g->m.is_destructable(dirx, diry) && g->m.has_flag(supports_roof, dirx, diry) &&
-     g->m.ter(dirx, diry) != t_tree) {
-  g->m.destroy(g, dirx, diry, false);
-  p->moves -= 500;
-  g->sound(dirx, diry, 12, "CHNK! CHNK! CHNK!");
- } else if (g->m.move_cost(dirx, diry) == 2 && g->levz != -1 &&
-            g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
-  g->m.destroy(g, dirx, diry, false);
-  p->moves -= 500;
-  g->sound(dirx, diry, 12, CHNK! CHNK! CHNK!");
- } else {
-  g->add_msg_if_player(p,"You can't mine there.");
-*/
   g->add_msg_if_player(p,"Whoa buddy! You can't go cheating in items and");
   g->add_msg_if_player(p,"just expect them to work! Now put the pickaxe");
   g->add_msg_if_player(p,"down and go play the game.");
@@ -2405,20 +2325,16 @@ void iuse::pickaxe(game *g, player *p, item *it, bool t)
 void iuse::set_trap(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Place where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Place trap",dirx,diry))
   return;
- }
- if (dirx == 0 && diry == 0) {
+
+ if (dirx == p->posx && diry == p->posy) {
   g->add_msg_if_player(p,"Yeah. Place the %s at your feet.", it->tname().c_str());
   g->add_msg_if_player(p,"Real damn smart move.");
   return;
  }
- int posx = dirx + p->posx;
- int posy = diry + p->posy;
+ int posx = dirx;
+ int posy = diry;
  if (g->m.move_cost(posx, posy) != 2) {
   g->add_msg_if_player(p,"You can't place a %s there.", it->tname().c_str());
   return;
@@ -3193,20 +3109,14 @@ void iuse::manhack(game *g, player *p, item *it, bool t)
 void iuse::turret(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Place where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Place the turret", dirx, diry))
   return;
- }
- p->moves -= 100;
- dirx += p->posx;
- diry += p->posy;
  if (!g->is_empty(dirx, diry)) {
   g->add_msg_if_player(p,"You cannot place a turret there.");
   return;
  }
+
+ p->moves -= 100;
  it->invlet = 0; // Remove the turret from the player's inv
  monster mturret(g->mtypes[mon_turret], dirx, diry);
  if (rng(0, p->int_cur / 2) + p->skillLevel("electronics") / 2 +
@@ -3288,22 +3198,18 @@ void iuse::adv_UPS_on(game *g, player *p, item *it, bool t)
 void iuse::tazer(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Shock in which direction?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Shock",dirx,diry)){
   it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
   return;
  }
- else if (dirx == 0 && diry == 0) {
+
+ if (dirx == p->posx && diry == p->posy) {
   g->add_msg_if_player(p,"Umm. No.");
   it->charges += (dynamic_cast<it_tool*>(it->type))->charges_per_use;
   return;
  }
- int sx = dirx + p->posx, sy = diry + p->posy;
- int mondex = g->mon_at(sx, sy);
- int npcdex = g->npc_at(sx, sy);
+ int mondex = g->mon_at(dirx, diry);
+ int npcdex = g->npc_at(dirx, diry);
  if (mondex == -1 && npcdex == -1) {
   g->add_msg_if_player(p,"Your tazer crackles in the air.");
   return;
@@ -3373,7 +3279,7 @@ void iuse::mp3(game *g, player *p, item *it, bool t)
 void iuse::mp3_on(game *g, player *p, item *it, bool t)
 {
  if (t) {	// Normal use
-  if (!p->has_item(it) || p->has_disease(DI_DEAF) )
+  if (!p->has_item(it) || p->has_disease("deaf") )
    return;	// We're not carrying it, or we're deaf.
   p->add_morale(MORALE_MUSIC, 1, 50);
 
@@ -3522,7 +3428,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You cut the %s into %i plastic chunks.", cut->tname().c_str(), amount);
                 int count = amount;
                 item result(g->itypes["plastic_chunk"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
+                p->i_rem(g,ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3553,7 +3459,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You cut the %s into %i plastic chunks.", cut->tname().c_str(), amount);
                 int count = amount;
                 item result(g->itypes["kevlar_plate"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
+                p->i_rem(g,ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3592,7 +3498,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You carve several skewers from the %s.", cut->tname().c_str());
                 int count = 12;
                 item skewer(g->itypes["skewer"], int(g->turn), g->nextinv);
-                p->i_rem(ch);
+                p->i_rem(g,ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3619,7 +3525,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
         break;
         case 4:
         {
-            if (!p->has_disease(DI_BITE) && !p->has_disease(DI_BLEED))
+            if (!p->has_disease("bite") && !p->has_disease("bleed"))
                 g->add_msg_if_player(p,"You are not bleeding or bitten, there is no need to cauterize yourself.");
             else if (!p->use_charges_if_avail("fire", 4))
                 g->add_msg_if_player(p,"You need a lighter with 4 charges before you can cauterize yourself.");
@@ -3691,7 +3597,7 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
   return;
  }
  if (cut->type->id == "log") {
-     p->i_rem(ch);
+     p->i_rem(g,ch);
      cut_log_into_planks(g, p, it);
      return;
  } else {
@@ -3703,20 +3609,14 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
 void iuse::hacksaw(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Cut up metal where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg("Invalid direction.");
+ if(!g->choose_adjacent("Cut up metal", dirx, diry))
   return;
- }
-if (dirx == 0 && diry == 0) {
+
+if (dirx == p->posx && diry == p->posy) {
   g->add_msg("Why would you do that?");
   g->add_msg("You're not even chained to a boiler.");
   return;
  }
- dirx += p->posx;
- diry += p->posy;
  if (g->m.ter(dirx, diry) == t_chainfence_v || g->m.ter(dirx, diry) == t_chainfence_h || g->m.ter(dirx, diry) == t_chaingate_c) {
   p->moves -= 500;
   g->m.ter_set(dirx, diry, t_dirt);
@@ -3755,17 +3655,19 @@ if (dirx == 0 && diry == 0) {
 void iuse::tent(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Put up tent where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2 || (dirx == 0 && diry == 0)) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Pitch the tent", dirx, diry))
+  return;
+
+ //must place the center of the tent two spaces away from player
+ //dirx and diry will be integratined with the player's position
+ int posx = dirx - p->posx;
+ int posy = diry - p->posy;
+ if(posx == 0 && posy == 0){
+  g->add_msg_if_player(p,"Invalid Direction");
   return;
  }
- int posx = dirx + p->posx;
- int posy = diry + p->posy;
- posx += dirx;
- posy += diry;
+ posx = posx*2 + p->posx;
+ posy = posy*2 + p->posy;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
    if (!g->m.has_flag(flat, posx + i, posy + j) ||
@@ -3777,27 +3679,29 @@ void iuse::tent(game *g, player *p, item *it, bool t)
   for (int j = -1; j <= 1; j++)
     g->m.furn_set(posx + i, posy + j, f_canvas_wall);
  g->m.furn_set(posx, posy, f_groundsheet);
- g->m.furn_set(posx - dirx, posy - diry, f_canvas_door);
+ g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_canvas_door);
  it->invlet = 0;
 }
 
 void iuse::shelter(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Put up shelter where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2 || (dirx == 0 && diry == 0)) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Put up the shelter", dirx, diry))
+  return;
+
+ //must place the center of the tent two spaces away from player
+ //dirx and diry will be integratined with the player's position
+ int posx = dirx - p->posx;
+ int posy = diry - p->posy;
+ if(posx == 0 && posy == 0){
+  g->add_msg_if_player(p,"Invalid Direction");
   return;
  }
- int posx = dirx + p->posx;
- int posy = diry + p->posy;
- posx += dirx;
- posy += diry;
+ posx = posx*2 + p->posx;
+ posy = posy*2 + p->posy;
  for (int i = -1; i <= 1; i++)
   for (int j = -1; j <= 1; j++)
-   if (!g->m.has_flag(flat, posx + i, posy + j) || 
+   if (!g->m.has_flag(flat, posx + i, posy + j) ||
         g->m.has_furn(posx + i, posy + j)) {
     g->add_msg("You need a 3x3 flat space to place a shelter");
     return;
@@ -3806,7 +3710,7 @@ void iuse::shelter(game *g, player *p, item *it, bool t)
   for (int j = -1; j <= 1; j++)
     g->m.furn_set(posx + i, posy + j, f_skin_wall);
  g->m.furn_set(posx, posy, f_skin_groundsheet);
- g->m.furn_set(posx - dirx, posy - diry, f_skin_door);
+ g->m.furn_set(posx - (dirx - p->posx), posy - (diry - p->posy), f_skin_door);
  it->invlet = 0;
 }
 
@@ -4069,7 +3973,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  }
  pull->charges = pull->charges - multiply;
  if (pull->charges == 0)
- p->i_rem(ch);
+ p->i_rem(g,ch);
  g->add_msg("You take apart the ammunition.");
  p->moves -= 500;
  if (casing.type->id != "null"){
@@ -4123,22 +4027,15 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
 void iuse::boltcutters(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Cut up metal where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg("Invalid direction.");
+ if(!g->choose_adjacent("Cut up metal",dirx,diry))
   return;
- }
-if (dirx == 0 && diry == 0) {
+
+if (dirx == p->posx && diry == p->posy) {
   g->add_msg_if_player(p, "You neatly sever all of the veins");
   g->add_msg_if_player(p, "and arteries in your body. Oh wait,");
   g->add_msg_if_player(p, "Never mind.");
   return;
 }
- dirx += p->posx;
- diry += p->posy;
-
  if (g->m.ter(dirx, diry) == t_chaingate_l) {
   p->moves -= 100;
   g->m.ter_set(dirx, diry, t_chaingate_c);
@@ -4157,34 +4054,28 @@ if (dirx == 0 && diry == 0) {
 void iuse::mop(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- g->draw();
- mvprintw(0, 0, "Mop where?");
- get_direction(g, dirx, diry, input());
- if (dirx == -2) {
-  g->add_msg_if_player(p,"Invalid direction.");
+ if(!g->choose_adjacent("Mop",dirx,diry))
   return;
- }
- if (dirx == 0 && diry == 0) {
+
+ if (dirx == p->posx && diry == p->posy) {
    g->add_msg_if_player(p,"You mop yourself up.");
    g->add_msg_if_player(p,"The universe implodes and reforms around you.");
    return;
 }
- p->moves -= 15;
- dirx += p->posx;
- diry += p->posy;
   if (g->m.moppable_items_at(dirx, diry)) {
    g->m.mop_spills(dirx, diry);
    g->add_msg("You mop up the spill");
+   p->moves -= 15;
  } else {
   g->add_msg_if_player(p,"There's nothing to mop there.");
  }
 }
 void iuse::rag(game *g, player *p, item *it, bool t)
 {
- if (p->has_disease(DI_BLEED)){
+ if (p->has_disease("bleed")){
   if (one_in(2)){
    g->add_msg_if_player(p,"You managed to stop the bleeding.");
-   p->rem_disease(DI_BLEED);
+   p->rem_disease("bleed");
   } else {
    g->add_msg_if_player(p,"You couldn't stop the bleeding.");
   }
@@ -4193,7 +4084,6 @@ void iuse::rag(game *g, player *p, item *it, bool t)
  } else {
   g->add_msg_if_player(p,"You're not bleeding enough to need your %s.", it->type->name.c_str());
  }
-
 }
 
 void iuse::pda(game *g, player *p, item *it, bool t)
@@ -4339,7 +4229,7 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
   case AEA_ADRENALINE:
    g->add_msg_if_player(p,"You're filled with a roaring energy!");
-   p->add_disease(DI_ADRENALINE, rng(200, 250), g);
+   p->add_disease("adrenaline", rng(200, 250));
    break;
 
   case AEA_MAP: {
@@ -4523,12 +4413,12 @@ void iuse::artifact(game *g, player *p, item *it, bool t)
 
   case AEA_ATTENTION:
    g->add_msg_if_player(p,"You feel like your action has attracted attention.");
-   p->add_disease(DI_ATTENTION, 600 * rng(1, 3), g);
+   p->add_disease("attention", 600 * rng(1, 3));
    break;
 
   case AEA_TELEGLOW:
    g->add_msg_if_player(p,"You feel unhinged.");
-   p->add_disease(DI_TELEGLOW, 100 * rng(3, 12), g);
+   p->add_disease("teleglow", 100 * rng(3, 12));
    break;
 
   case AEA_NOISE:
@@ -4680,7 +4570,7 @@ void iuse::heatpack(game *g, player *p, item *it, bool t)
 void iuse::dejar(game *g, player *p, item *it, bool t)
 {
 	g->add_msg_if_player(p,"You open the jar, exposing it to the atmosphere.");
-	itype_id ujfood = (it->type->id).substr(4,-1);  // assumes "jar_" is at front of itype_id and removes it
+	itype_id ujfood = (it->type->id).substr(4);  // assumes "jar_" is at front of itype_id and removes it
 	item ujitem(g->itypes[ujfood],0);  // temp create item to discover container
 	itype_id ujcont = (dynamic_cast<it_comest*>(ujitem.type))->container;  //discovering container
 	it->make(g->itypes[ujcont]);  //turning "sealed jar of xxx" into container for "xxx"
@@ -4691,7 +4581,7 @@ void iuse::dejar(game *g, player *p, item *it, bool t)
 void iuse::devac(game *g, player *p, item *it, bool t)
 {
 	g->add_msg_if_player(p,"You open the vacuum pack, exposing it to the atmosphere.");
-	itype_id uvfood = (it->type->id).substr(4,-1);  // assumes "bag_" is at front of itype_id and removes it
+	itype_id uvfood = (it->type->id).substr(4);  // assumes "bag_" is at front of itype_id and removes it
 	item uvitem(g->itypes[uvfood],0);  // temp create item to discover container
 	itype_id uvcont = (dynamic_cast<it_comest*>(uvitem.type))->container;  //discovering container
 	it->make(g->itypes[uvcont]);  //turning "vacuum packed xxx" into container for "xxx"
@@ -4703,4 +4593,63 @@ void iuse::rad_badge(game *g, player *p, item *it, bool t)
 {
     g->add_msg_if_player(p,"You remove the badge from its wrapper, exposing it to ambient radiation.");
     it->make(g->itypes["rad_badge"]);
+}
+
+void iuse::boots(game *g, player *p, item *it, bool t)
+{
+ int choice = -1;
+ if (it->contents.size() == 0)
+  choice = menu(true, "Using boots:", "Put a knife in the boot", "Cancel", NULL);
+ else if (it->contents.size() == 1)
+  choice = menu(true, "Take what:", it->contents[0].tname().c_str(), "Put a knife in the boot", "Cancel", NULL);
+ else
+  choice = menu(true, "Take what:", it->contents[0].tname().c_str(), it->contents[1].tname().c_str(), "Cancel", NULL);
+
+ if ((it->contents.size() > 0 && choice == 1) || // Pull 1st
+     (it->contents.size() > 1 && choice == 2)) {  // Pull 2nd
+  p->moves -= 15;
+  item knife = it->contents[choice - 1];
+  if (!p->is_armed() || p->wield(g, -3)) {
+   p->i_add(knife);
+   p->wield(g, knife.invlet);
+   it->contents.erase(it->contents.begin() + choice - 1);
+  }
+ } else if ((it->contents.size() == 0 && choice == 1) || // Put 1st
+            (it->contents.size() == 1 && choice == 2)) { // Put 2st
+  char ch = g->inv_type("Put what?", IC_TOOL);
+  item* put = &(p->i_at(ch));
+  if (put == NULL || put->is_null()) {
+   g->add_msg_if_player(p, "You do not have that item!");
+   return;
+  }
+  if (put->type->use != &iuse::knife) {
+   g->add_msg_if_player(p, "That isn't knife!");
+   return;
+  }
+  if (put->type->volume > 5) {
+   g->add_msg_if_player(p, "That item does not fit in your boot!");
+   return;
+  }
+  p->moves -= 30;
+  g->add_msg_if_player(p, "You put the %s in your boot.", put->tname().c_str());
+  it->put_in(p->i_rem(g, ch));
+ }
+}
+
+void iuse::towel(game *g, player *p, item *it, bool t)
+{
+    // check if player is wet
+    if (p->has_disease("wet"))
+    {
+        // remove wetness
+        p->rem_disease("wet");
+        // add a morale bonus for being dry now, but do not remove the wet morale penalty because player was recently wet.
+        // pretty much the inverse of WET morale penalty. Can be tweaked later if the morale increase for becoming dry is too great.
+        p->add_morale(MORALE_DRIED_OFF, 1, 50, 60, 10, true);
+        g->add_msg_if_player(p,"You use the %s to dry off!", it->name.c_str());
+    }
+    else
+    {
+        g->add_msg_if_player(p,"You are already dry, %s has no effect", it->name.c_str());
+    }
 }

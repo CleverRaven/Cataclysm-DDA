@@ -30,14 +30,19 @@ MAINTAINERS
 Step 1: Extract the translatable strings
 ----------------------------------------
 
-First we use "xgettext" to find all the translatable strings in the source code,
-and store them in the file "cataclysm-dda.pot",
-in the lang/po subdirectory.
+First we have to extract the translatable strings from the .json files.
+The python script lang/extract_json_strings.py will do this for us,
+storing them in an intermediate form in lang/json for "xgettext" to read.
+
+    python lang/extract_json_strings.py
+
+Now we can use xgettext to collate all the translatable strings,
+and store them in the file lang/po/cataclysm-dda.pot.
 
 This needs to be done every time translatable strings are added or modified.
 All of the translations depend on this file.
 
-    xgettext -d cataclysm-dda -s -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp
+    xgettext -d cataclysm-dda -s -o lang/po/cataclysm-dda.pot --keyword=_ *.cpp *.h lang/json/*.py
 
 
 Step 2(a): Initialize each language file
@@ -45,10 +50,10 @@ Step 2(a): Initialize each language file
 
 If we're starting a new translation from scratch,
 we have to initialize the translation file.
-In this example the translation is into British English (en_UK).
-For other languages change "en_UK" to the relevant language identifier.
+In this example the translation is into New Zealand English (en_NZ).
+For other languages change "en_NZ" to the relevant language identifier.
 
-    msginit -l en_UK.utf8 -o lang/po/en_UK.po -i lang/po/cataclysm-dda.pot
+    msginit -l en_NZ.utf8 -o lang/po/en_NZ.po -i lang/po/cataclysm-dda.pot
 
 
 Step 2(b): Update an already existing language file
@@ -58,7 +63,7 @@ If we just want to update a translation,
 we'll want to keep all the messages that have already been translated.
 In this case we use "msgmerge" in stead of "msginit".
 
-    msgmerge -s -U lang/po/en_UK.po lang/po/cataclysm-dda.pot
+    msgmerge -s -U lang/po/en_NZ.po lang/po/cataclysm-dda.pot
 
 
 Step 3: Translate
@@ -77,11 +82,11 @@ you will need to create a subdirectory in lang/mo for it,
 and then a subdirectory called "LC_MESSAGES" inside that.
 For example:
 
-    mkdir lang/mo/en_UK/LC_MESSAGES
+    mkdir -p lang/mo/en_NZ/LC_MESSAGES
 
 Now run the "msgfmt" program to compile the translations for use in game.
 
-    msgfmt -c -o lang/mo/en_UK/LC_MESSAGES/cataclysm-dda.mo lang/po/en_UK.po
+    msgfmt -c -o lang/mo/en_NZ/LC_MESSAGES/cataclysm-dda.mo lang/po/en_NZ.po
 
 Hooray, that's it :).
 

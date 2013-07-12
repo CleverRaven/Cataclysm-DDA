@@ -1,0 +1,13 @@
+# This is the global auto pickup rules file. The format is
+# <pickup rule>;<dis/enabled>;<in/exclude>
+
+# <pickup rule> Simple text. No other special characters except spaces and *
+# <dis/enabled> Can be T(rue) of F(alse)
+# <in/exclude> Can be T(rue) of F(alse)
+#
+# If # is at the start of a line, it is considered a comment and is ignored.
+# In-line commenting is not allowed. I think.
+#
+# If you want to restore the default auto pickup rules file, simply delete this file.
+# A new auto_pickup.txt will be created next time you play.
+

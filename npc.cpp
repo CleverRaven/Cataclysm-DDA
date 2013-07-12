@@ -170,7 +170,7 @@ std::string npc::save_info()
 
  dump << illness.size() << " ";
  for (int i = 0; i < illness.size();  i++)
-  dump << int(illness[i].type) << " " << illness[i].duration << " ";
+  dump << illness[i].type << " " << illness[i].duration << " ";
 
  dump << addictions.size() << " ";
  for (int i = 0; i < addictions.size(); i++)
@@ -261,12 +261,13 @@ void npc::load_info(game *g, std::string data)
  }
 
  int typetmp;
+ std::string disease_type_tmp;
  int numill;
  dump >> numill;
  disease illtmp;
  for (int i = 0; i < numill; i++) {
-  dump >> typetmp >> illtmp.duration;
-  illtmp.type = dis_type(typetmp);
+  dump >> disease_type_tmp >> illtmp.duration;
+  illtmp.type = disease_type_tmp;
   illness.push_back(illtmp);
  }
  int numadd;
@@ -938,14 +939,12 @@ std::list<item> starting_inv(npc *me, npc_class type, game *g)
    }
   }
  }
- int index;
  items_location from;
  if (type == NC_HACKER) {
-  from = mi_npc_hacker;
+  from = "npc_hacker";
   while(total_space > 0 && !one_in(10)) {
-   index = rng(0, g->mapitems[from].size() - 1);
-   tmp = g->mapitems[from][index];
-   item tmpit(g->itypes[tmp], 0);
+   Item_tag selected_item = item_controller->id_from(from);
+   item tmpit = item_controller->create(selected_item, 0);
    tmpit = tmpit.in_its_container(&g->itypes);
    if (total_space >= tmpit.volume()) {
     ret.push_back(tmpit);
@@ -956,12 +955,11 @@ std::list<item> starting_inv(npc *me, npc_class type, game *g)
  if (type == NC_DOCTOR) {
   while(total_space > 0 && !one_in(10)) {
    if (one_in(3))
-    from = mi_softdrugs;
+    from = "softdrugs";
    else
-    from = mi_harddrugs;
-   index = rng(0, g->mapitems[from].size() - 1);
-   tmp = g->mapitems[from][index];
-   item tmpit(g->itypes[tmp], 0);
+    from = "harddrugs";
+   Item_tag selected_item = item_controller->id_from(from);
+   item tmpit = item_controller->create(selected_item, 0);
    tmpit = tmpit.in_its_container(&g->itypes);
    if (total_space >= tmpit.volume()) {
     ret.push_back(tmpit);
@@ -981,12 +979,9 @@ std::list<item> starting_inv(npc *me, npc_class type, game *g)
  }
 
  for (std::list<item>::iterator iter = ret.begin(); iter != ret.end(); ++iter) {
-  for (int j = 0; j < g->mapitems[mi_trader_avoid].size(); j++) {
-   if (iter->type->id == g->mapitems[mi_trader_avoid][j]) {
-    iter = ret.erase(iter);
-    --iter;
-    j = 0;
-   }
+  if(item_controller->group_contains_item("trader_avoid", iter->type->id)) {
+   iter = ret.erase(iter);
+   --iter;
   }
  }
 
@@ -1086,23 +1081,23 @@ void npc::starting_weapon(game *g)
     }
     else if (best->ident() == "pistol")
     {
-        int index = rng(0, g->mapitems[mi_pistols].size() - 1);
-        possible_items.push_back(g->mapitems[mi_pistols][index]);
+        Item_tag selected_item = item_controller->id_from("pistols");
+        possible_items.push_back(selected_item);
     }
     else if (best->ident() == "shotgun")
     {
-        int index = rng(0, g->mapitems[mi_shotguns].size() - 1);
-        possible_items.push_back(g->mapitems[mi_shotguns][index]);
+        Item_tag selected_item = item_controller->id_from("shotguns");
+        possible_items.push_back(selected_item);
     }
     else if (best->ident() == "smg")
     {
-        int index = rng(0, g->mapitems[mi_smg].size() - 1);
-        possible_items.push_back(g->mapitems[mi_smg][index]);
+        Item_tag selected_item = item_controller->id_from("smg");
+        possible_items.push_back(selected_item);
     }
     else if (best->ident() == "rifle")
     {
-        int index = rng(0, g->mapitems[mi_rifles].size() - 1);
-        possible_items.push_back(g->mapitems[mi_rifles][index]);
+        Item_tag selected_item = item_controller->id_from("rifles");
+        possible_items.push_back(selected_item);
     }
 
     if (possible_items.size() > 0)
@@ -1269,7 +1264,7 @@ void npc::form_opinion(player *u)
  if (u->stim > 20)
   op_of_u.fear++;
 
- if (u->has_disease(DI_DRUNK))
+ if (u->has_disease("drunk"))
   op_of_u.fear -= 2;
 
 // TRUST
@@ -1283,9 +1278,9 @@ void npc::form_opinion(player *u)
  else if (u->unarmed_attack())
   op_of_u.trust += 2;
 
- if (u->has_disease(DI_HIGH))
+ if (u->has_disease("high"))
   op_of_u.trust -= 1;
- if (u->has_disease(DI_DRUNK))
+ if (u->has_disease("drunk"))
   op_of_u.trust -= 2;
  if (u->stim > 20 || u->stim < -20)
   op_of_u.trust -= 1;
@@ -1387,7 +1382,7 @@ int npc::player_danger(player *u)
  if (u->stim > 20)
   ret++;
 
- if (u->has_disease(DI_DRUNK))
+ if (u->has_disease("drunk"))
   ret -= 2;
 
  return ret;
@@ -1722,8 +1717,8 @@ bool npc::has_painkiller()
 
 bool npc::took_painkiller()
 {
- return (has_disease(DI_PKILL1) || has_disease(DI_PKILL2) ||
-         has_disease(DI_PKILL3) || has_disease(DI_PKILL_L));
+ return (has_disease("pkill1") || has_disease("pkill2") ||
+         has_disease("pkill3") || has_disease("pkill_l"));
 }
 
 bool npc::is_friend()

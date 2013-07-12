@@ -95,7 +95,8 @@
         "bashing" : 1,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
-        "material_thickness" : 4
+        "material_thickness" : 4,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -120,7 +121,8 @@
         "bashing" : 1,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
-        "material_thickness" : 6
+        "material_thickness" : 6,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -145,7 +147,8 @@
         "bashing" : 4,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
-        "material_thickness" : 4
+        "material_thickness" : 4,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -170,7 +173,8 @@
         "bashing" : 0,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
-        "material_thickness" : 8
+        "material_thickness" : 8,
+        "use_action" : "BOOTS"
     },
     {
         "type" : "ARMOR",
@@ -770,6 +774,31 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "flag_shirt",
+        "name" : "flag shirt",
+        "weight" : 2,
+        "color" : "light_red",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A t-shirt embroided with the pattern of an American flag.",
+        "price" : 300,
+        "material" : ["cotton", "null"],
+        "volume" : 3,
+        "cutting" : 0,
+        "warmth" : 10,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "rarity" : 80,
+        "encumberance" : 1,
+        "bashing" : -5,
+        "flags" : ["VARSIZE"],
+        "coverage" : 80,
+        "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
         "id" : "polo_shirt",
         "name" : "polo shirt",
         "weight" : 2,
@@ -1142,6 +1171,31 @@
         "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 3
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "floatation_vest",
+        "name" : "floataion vest",
+        "weight" : 8,
+        "color" : "cyan",
+        "covers" : ["TORSO"],
+        "to_hit" : -3,
+        "storage" : 0,
+        "symbol" : "[",
+        "description" : "A brightly-colored vest designed to keep you upright and floating in water.",
+        "price" : 100,
+        "material" : ["plastic", "cotton"],
+        "volume" : 20,
+        "cutting" : 0,
+        "warmth" : 5,
+        "phase" : "solid",
+        "enviromental_protection" : 0,
+        "rarity" : 30,
+        "encumberance" : 1,
+        "bashing" : 2,
+        "flags" : ["FLOATATION"],
+        "coverage" : 40,
+        "material_thickness" : 5
     },
     {
         "type" : "ARMOR",
@@ -2905,7 +2959,7 @@
         "ammo": "none",
         "revert_to": "null",
         "phase" : "solid",
-	"use_action" : "RAD_BADGE"
+        "use_action" : "RAD_BADGE"
     },
     {
         "type" : "ARMOR",

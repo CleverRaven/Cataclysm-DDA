@@ -10,6 +10,7 @@
 #include "crafting.h"
 #include "inventory.h"
 #include "item_factory.h"
+#include "catacharset.h"
 
 //apparently we can't declare this in crafting.h? Complained about multiple definition.
 std::vector<craft_cat> craft_cat_list;
@@ -355,7 +356,7 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
             }
             ++comp_it;
         }
-        
+
         if (!atleast_one_available)
         // this set doesn't have any components available, so the recipe can't be crafted
         {
@@ -364,7 +365,7 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
         ++comp_set_it;
     }
 
-    
+
     std::vector<std::vector<component> > &tools = r->tools;
     std::vector<std::vector<component> >::iterator tool_set_it = tools.begin();
     while (tool_set_it != tools.end())
@@ -434,7 +435,7 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
             }
             ++tool_it;
         }
-        
+
         if (!atleast_one_available)
             // this set doesn't have any tools available, so the recipe can't be crafted
         {
@@ -442,7 +443,7 @@ bool game::check_enough_materials(recipe *r, inventory crafting_inv)
         }
         ++tool_set_it;
     }
-    
+
     return RET_VAL;
 }
 
@@ -543,7 +544,7 @@ recipe* game::select_crafting_recipe()
             mvwprintz(w_data, dataLines+1, 5, c_white, "[?/E]: Describe, [F]ind , [R]eset");
         }
         else
-        {   
+        {
             mvwprintz(w_data, dataLines+1, 5, c_white, "[?/E]: Describe, [F]ind");
         }
         mvwprintz(w_data, dataLines+2, 5, c_white, "Press <ENTER> to attempt to craft object.");
@@ -682,7 +683,7 @@ recipe* game::select_crafting_recipe()
                         itype_id type = current[line]->tools[i][j].type;
                         int charges = current[line]->tools[i][j].count;
                         nc_color toolcol = c_red;
-                        
+
                         if (current[line]->tools[i][j].available == 0)
                         {
                             toolcol = c_brown;
@@ -704,13 +705,13 @@ recipe* game::select_crafting_recipe()
                             toolinfo << "(" << charges << " charges) ";
                         }
                         std::string toolname = toolinfo.str();
-                        if (xpos + toolname.length() >= FULL_SCREEN_WIDTH)
+                        if (xpos + utf8_width(toolname.c_str()) >= FULL_SCREEN_WIDTH)
                         {
                             xpos = 32;
                             ypos++;
                         }
                         mvwprintz(w_data, ypos, xpos, toolcol, toolname.c_str());
-                        xpos += toolname.length();
+                        xpos += utf8_width(toolname.c_str());
                         if (j < current[line]->tools[i].size() - 1)
                         {
                             if (xpos >= FULL_SCREEN_WIDTH-3)
@@ -758,13 +759,13 @@ recipe* game::select_crafting_recipe()
                     std::stringstream dump;
                     dump << abs(count) << "x " << item_controller->find_template(type)->name << " ";
                     std::string compname = dump.str();
-                    if (xpos + compname.length() >= FULL_SCREEN_WIDTH)
+                    if (xpos + utf8_width(compname.c_str()) >= FULL_SCREEN_WIDTH)
                     {
                         ypos++;
                         xpos = 32;
                     }
                     mvwprintz(w_data, ypos, xpos, compcol, compname.c_str());
-                    xpos += compname.length();
+                    xpos += utf8_width(compname.c_str());
                     if (j < current[line]->components[i].size() - 1)
                     {
                         if (xpos >= FULL_SCREEN_WIDTH-3)
@@ -848,7 +849,7 @@ recipe* game::select_crafting_recipe()
                 redraw = true;
                 break;
             case Filter:
-                filterstring = string_input_popup("Search :",55,filterstring);
+                filterstring = string_input_popup("Search:", 55, filterstring);
                 redraw = true;
                 break;
             case Reset:
@@ -1036,12 +1037,12 @@ void game::complete_craft()
  if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
   add_msg("You fail to make the %s, and waste some materials.",
           item_controller->find_template(making->result)->name.c_str());
-    for (int i = 0; i < making->components.size(); i++) 
+    for (int i = 0; i < making->components.size(); i++)
     {
         if (making->components[i].size() > 0)
         consume_items(&u, making->components[i]);
-    }  
-  
+    }
+
   for (int i = 0; i < making->tools.size(); i++) {
    if (making->tools[i].size() > 0)
     consume_tools(&u, making->tools[i], false);
@@ -1470,7 +1471,7 @@ void game::disassemble(char ch)
                 // all tools present, so assign the activity
                 if (have_all_tools)
                 {
-                 
+
                   if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Really disassemble your %s?", dis_item->tname(this).c_str())))
                   {
                    return;
@@ -1517,7 +1518,7 @@ void game::complete_disassemble()
       else
         m.add_item(u.posx, u.posy, ammodrop, MAX_ITEM_IN_SQUARE);
     }
-    u.i_rem(u.activity.values[0]);  // remove the item
+    u.i_rem(this,u.activity.values[0]);  // remove the item
 
   // consume tool charges
   for (int j = 0; j < dis->tools.size(); j++)

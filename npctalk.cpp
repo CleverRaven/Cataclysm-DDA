@@ -6,6 +6,7 @@
 #include "line.h"
 #include "keypress.h"
 #include "debug.h"
+#include "catacharset.h"
 #include <vector>
 #include <string>
 #include <sstream>
@@ -217,7 +218,7 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   return "I don't know, look for supplies and other survivors I guess.";
 
  case TALK_SHARE_EQUIPMENT:
-  if (p->has_disease(DI_ASKED_FOR_ITEM))
+  if (p->has_disease("asked_for_item"))
    return "You just asked me for stuff; ask later.";
   return "Why should I share my equipment with you?";
 
@@ -252,9 +253,9 @@ std::string dynamic_line(talk_topic topic, game *g, npc *p)
   return "Alright, let's begin.";
 
  case TALK_SUGGEST_FOLLOW:
-  if (p->has_disease(DI_INFECTION))
+  if (p->has_disease("infection"))
    return "Not until I get some antibiotics...";
-  if (p->has_disease(DI_ASKED_TO_FOLLOW))
+  if (p->has_disease("asked_to_follow"))
    return "You asked me recently; ask again later.";
   return "Why should I travel with you?";
 
@@ -679,7 +680,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   break;
 
  case TALK_SHARE_EQUIPMENT:
-  if (p->has_disease(DI_ASKED_FOR_ITEM)) {
+  if (p->has_disease("asked_for_item")) {
    RESPONSE("Okay, fine.");
     SUCCESS(TALK_NONE);
   } else {
@@ -832,10 +833,10 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   break;
 
  case TALK_SUGGEST_FOLLOW:
-  if (p->has_disease(DI_INFECTION)) {
+  if (p->has_disease("infection")) {
    RESPONSE("Understood.  I'll get those antibiotics.");
     SUCCESS(TALK_NONE);
-  } else if (p->has_disease(DI_ASKED_TO_FOLLOW)) {
+  } else if (p->has_disease("asked_to_follow")) {
    RESPONSE("Right, right, I'll ask later.");
     SUCCESS(TALK_NONE);
   } else {
@@ -900,7 +901,7 @@ std::vector<talk_response> gen_responses(talk_topic topic, game *g, npc *p)
   }
   RESPONSE("I'm going to go my own way for a while.");
    SUCCESS(TALK_LEAVE);
-  if (!p->has_disease(DI_ASKED_TO_LEAD)) {
+  if (!p->has_disease("asked_to_lead")) {
    RESPONSE("I'd like to lead for a while.");
     TRIAL(TALK_TRIAL_PERSUADE, persuade);
     SUCCESS(TALK_PLAYER_LEADS);
@@ -1381,7 +1382,7 @@ void talk_function::give_equipment(game *g, npc *p)
        it->tname().c_str());
  g->u.i_add( p->i_remn(it->invlet) );
  p->op_of_u.owed -= prices[chosen];
- p->add_disease(DI_ASKED_FOR_ITEM, 1800, g);
+ p->add_disease("asked_for_item", 1800);
 }
 
 void talk_function::follow(game *g, npc *p)
@@ -1391,17 +1392,17 @@ void talk_function::follow(game *g, npc *p)
 
 void talk_function::deny_follow(game *g, npc *p)
 {
- p->add_disease(DI_ASKED_TO_FOLLOW, 3600, g);
+ p->add_disease("asked_to_follow", 3600);
 }
 
 void talk_function::deny_lead(game *g, npc *p)
 {
- p->add_disease(DI_ASKED_TO_LEAD, 3600, g);
+ p->add_disease("asked_to_lead", 3600);
 }
 
 void talk_function::deny_equipment(game *g, npc *p)
 {
- p->add_disease(DI_ASKED_FOR_ITEM, 600, g);
+ p->add_disease("asked_for_item", 600);
 }
 
 void talk_function::hostile(game *g, npc *p)
@@ -1601,14 +1602,11 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
 
 // Number of lines to highlight
  int hilight_lines = 1;
- size_t split;
- while (challenge.length() > 40) {
+ std::vector<std::string> folded = foldstring(challenge, 40);
+ for(int i=0; i<folded.size(); i++){
+  history.push_back(folded[i]);
   hilight_lines++;
-  split = challenge.find_last_of(' ', 40);
-  history.push_back(challenge.substr(0, split));
-  challenge = challenge.substr(split);
  }
- history.push_back(challenge);
 
  std::vector<std::string> options;
  std::vector<nc_color>    colors;
@@ -1652,14 +1650,11 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
 
  curline = 3;
  for (int i = 0; i < options.size(); i++) {
-  while (options[i].size() > 36) {
-   split = options[i].find_last_of(' ', 36);
-   mvwprintz(win, curline, 42, colors[i], options[i].substr(0, split).c_str());
-   options[i] = "  " + options[i].substr(split);
+  folded = foldstring(options[i], 36);
+  for(int j=0; j<folded.size(); j++) {
+   mvwprintz(win, curline, 42, colors[i], ((j==0?"":"   ") + folded[j]).c_str());
    curline++;
   }
-  mvwprintz(win, curline, 42, colors[i], options[i].c_str());
-  curline++;
  }
  mvwprintz(win, curline + 2, 42, c_magenta, "L: Look at");
  mvwprintz(win, curline + 3, 42, c_magenta, "S: Size up stats");
@@ -1690,13 +1685,11 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
   return special_talk(ch);
 
  std::string response_printed = "You: " + responses[ch].text;
- while (response_printed.length() > 40) {
-  hilight_lines++;
-  split = response_printed.find_last_of(' ', 40);
-  history.push_back(response_printed.substr(0, split));
-  response_printed = response_printed.substr(split);
+ folded = foldstring(response_printed, 40);
+ for(int i=0; i<folded.size(); i++){
+   history.push_back(folded[i]);
+   hilight_lines++;
  }
- history.push_back(response_printed);
 
  talk_response chosen = responses[ch];
  if (chosen.mission_index != -1)
@@ -1833,7 +1826,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     mvwprintz(w_them, i - them_off + 1, 1,
               (getting_theirs[i] ? c_white : c_ltgray), "%c %c %s - $%d",
               char(i + 'a'), (getting_theirs[i] ? '+' : '-'),
-              theirs[i + them_off]->tname().substr( 0,25).c_str(),
+              utf8_substr(theirs[i + them_off]->tname(), 0, 25).c_str(),
               their_price[i + them_off]);
    if (them_off > 0)
     mvwprintw(w_them, 19, 1, "< Back");
@@ -1844,7 +1837,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
     mvwprintz(w_you, i - you_off + 1, 1,
               (getting_yours[i] ? c_white : c_ltgray), "%c %c %s - $%d",
               char(i + 'a'), (getting_yours[i] ? '+' : '-'),
-              yours[i + you_off]->tname().substr( 0,25).c_str(),
+              utf8_substr(yours[i + you_off]->tname(), 0,25).c_str(),
               your_price[i + you_off]);
    if (you_off > 0)
     mvwprintw(w_you, 19, 1, "< Back");
@@ -1954,7 +1947,7 @@ Tab key to switch lists, letters to pick items, Enter to finalize, Esc to quit\n
   }
 // Do it in two passes, so removing items doesn't corrupt yours[]
   for (int i = 0; i < removing.size(); i++)
-   g->u.i_rem(removing[i]);
+   g->u.i_rem(g,removing[i]);
 
   for (int i = 0; i < theirs.size(); i++) {
    item tmp = *theirs[i];

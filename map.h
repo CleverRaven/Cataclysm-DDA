@@ -105,8 +105,7 @@ class map
 
 // Constructors & Initialization
  map();
- map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
-     std::vector<trap*> *trptr);
+ map(std::vector<trap*> *trptr);
  ~map();
 
 // Visual Output
@@ -173,6 +172,7 @@ class map
 
 // Furniture
  void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
+ std::string name(const int x, const int y);
  bool has_furn(const int x, const int y);
  furn_id furn(const int x, const int y); // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
  void furn_set(const int x, const int y, const furn_id new_furniture);
@@ -199,7 +199,8 @@ class map
  // bash: if res pointer is supplied, res will contain absorbed impact or -1
  bool bash(const int x, const int y, const int str, std::string &sound, int *res = 0);
  void destroy(game *g, const int x, const int y, const bool makesound);
- void shoot(game *g, const int x, const int y, int &dam, const bool hit_items, const unsigned flags);
+ void shoot(game *g, const int x, const int y, int &dam, const bool hit_items,
+            const std::set<std::string>& ammo_effects);
  bool hit_with_acid(game *g, const int x, const int y);
  bool hit_with_fire(game *g, const int x, const int y);
  void marlossify(const int x, const int y);
@@ -264,6 +265,7 @@ class map
  void post_process(game *g, unsigned zones);
  void place_spawns(game *g, std::string group, const int chance,
                    const int x1, const int y1, const int x2, const int y2, const float density);
+ void place_gas_pump(const int x, const int y, const int charges);
  int place_items(items_location loc, const int chance, const int x1, const int y1,
                   const int x2, const int y2, bool ongrass, const int turn);
 // put_items_from puts exactly num items, based on chances
@@ -284,7 +286,6 @@ class map
  float ambient_light_at(int dx, int dy); // Raw values for tilesets
  bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
 
- std::map<std::string, itype*>* itypes;
  std::set<vehicle*> vehicle_list;
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];
@@ -318,7 +319,6 @@ protected:
  int nulrad;	// OOB &radiation()
 
  std::vector <trap*> *traps;
- std::vector <itype_id> (*mapitems)[num_itloc];
 
  bool veh_in_active_range;
 
@@ -343,8 +343,7 @@ class tinymap : public map
 {
 public:
  tinymap();
- tinymap(std::map<std::string, itype*> *itptr, std::vector<itype_id> (*miptr)[num_itloc],
-     std::vector<trap*> *trptr);
+ tinymap(std::vector<trap*> *trptr);
  ~tinymap();
 
 protected:

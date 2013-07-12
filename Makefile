@@ -51,7 +51,6 @@ DEBUG = -g
 #DEFINES += -DDEBUG_ENABLE_MAP_GEN
 #DEFINES += -DDEBUG_ENABLE_GAME
 
-
 VERSION = 0.6
 
 
@@ -106,19 +105,27 @@ endif
 # Linux 64-bit
 ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
+  LDFLAGS += -m64
   TARGETSYSTEM=LINUX
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
+    LDFLAGS += -m32
     TARGETSYSTEM=LINUX
   endif
 endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  CXXFLAGS += -mmacosx-version-min=10.6
+  OSX_MIN = 10.5
+  DEFINES += -DMACOSX
+  CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  LDFLAGS += -lintl
   TARGETSYSTEM=LINUX
+  ifneq ($(OS), GNU/Linux)
+    BINDIST_CMD = tar -s"@^$(BINDIST_DIR)@cataclysmdda-$(VERSION)@" -czvf $(BINDIST) $(BINDIST_DIR)
+  endif
 endif
 
 # Win32 (mingw32?)
@@ -143,7 +150,27 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
 endif
 
 ifdef TILES
-  LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+  ifeq ($(NATIVE),osx)
+    ifdef FRAMEWORK
+      DEFINES += -DOSX_SDL_FW
+      OSX_INC = -F/Library/Frameworks \
+		-F$(HOME)/Library/Frameworks \
+		-I/Library/Frameworks/SDL.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL.framework/Headers \
+		-I/Library/Frameworks/SDL_ttf.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL_ttf.framework/Headers
+      LDFLAGS += -F/Library/Frameworks \
+		 -F$(HOME)/Library/Frameworks \
+		 -framework SDL -framework SDL_ttf -framework Cocoa
+      CXXFLAGS += $(OSX_INC)
+    else
+      DEFINES += -DOSX_SDL_LIBS
+      CXXFLAGS += $(shell sdl-config --cflags)
+      LDFLAGS += $(shell sdl-config --libs) -lSDL_ttf
+    endif
+  else
+    LDFLAGS += -lSDL -lSDL_ttf -lfreetype -lz
+  endif
   DEFINES += -DTILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -lgdi32 -ldxguid -lwinmm
@@ -173,6 +200,12 @@ HEADERS = $(wildcard *.h)
 _OBJS = $(SOURCES:.cpp=.o)
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
+ifdef TILES
+  ifeq ($(NATIVE),osx)
+    OBJS += $(ODIR)/SDLMain.o
+  endif
+endif
+
 all: version $(TARGET)
 	@
 
@@ -197,12 +230,15 @@ $(DDIR):
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
+$(ODIR)/SDLMain.o: SDLMain.m
+	$(CC) -c $(OSX_INC) $< -o $@
+
 version.cpp: version
 
 clean: clean-tests
-	rm -rf $(TARGET) $(W32TARGET) $(ODIR) $(W32ODIR) $(W32BINDIST) \
-	$(BINDIST)
-	rm -rf $(BINDIST_DIR)
+	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET)
+	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
+	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -f version.h
 
 bindist: $(BINDIST)

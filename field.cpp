@@ -1,5 +1,6 @@
 #include "rng.h"
 #include "map.h"
+#include "field.h"
 #include "game.h"
 
 #define INBOUNDS(x, y) \
@@ -115,8 +116,11 @@ bool map::process_fields_in_submap(game *g, int gridn)
 					}
 					break;
 
-				case fd_sap:
-					break; // It doesn't do anything special over time.
+        case fd_sap:
+            break;
+
+        case fd_sludge:
+            break;
 
 					// TODO-MATERIALS: use fire resistance
 				case fd_fire: {
@@ -135,17 +139,17 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						{
 							ammo_type = dynamic_cast<it_ammo*>(it->type);
 						}
+						//Flame type ammo removed so gasoline isn't explosive, it just burns.
 						if(ammo_type != NULL &&
-							(ammo_type->ammo_effects & mfb(AMMO_FLAME) ||
-							ammo_type->ammo_effects & mfb(AMMO_INCENDIARY) ||
-							ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE) ||
-							ammo_type->ammo_effects & mfb(AMMO_FRAG) ||
-							ammo_type->ammo_effects & mfb(AMMO_NAPALM) ||
-							ammo_type->ammo_effects & mfb(AMMO_EXPLOSIVE_BIG) ||
-							ammo_type->ammo_effects & mfb(AMMO_TEARGAS) ||
-							ammo_type->ammo_effects & mfb(AMMO_SMOKE) ||
-							ammo_type->ammo_effects & mfb(AMMO_FLASHBANG) ||
-							ammo_type->ammo_effects & mfb(AMMO_COOKOFF)))
+         (ammo_type->ammo_effects.count("INCENDIARY") ||
+          ammo_type->ammo_effects.count("EXPLOSIVE") ||
+          ammo_type->ammo_effects.count("FRAG") ||
+          ammo_type->ammo_effects.count("NAPALM") ||
+          ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
+          ammo_type->ammo_effects.count("TEARGAS") ||
+          ammo_type->ammo_effects.count("SMOKE") ||
+          ammo_type->ammo_effects.count("FLASHBANG") ||
+          ammo_type->ammo_effects.count("COOKOFF")))
 						{
 							//Any kind of explosive ammo (IE: not arrows and pebbles and such)
 							const int rounds_exploded = rng(1, it->charges);
@@ -170,7 +174,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						} else if ((it->made_of("wood") || it->made_of("veggy"))) {
 							//Wood or vegy items burn slowly.
 							if (vol <= cur->getFieldDensity() * 10 || cur->getFieldDensity() == 3) {
-								cur->setFieldAge(cur->getFieldAge() - 4);
+								cur->setFieldAge(cur->getFieldAge() - 20);
 								destroyed = it->burn(cur->getFieldDensity());
 								smoke++;
 								consumed++;
@@ -206,15 +210,18 @@ bool map::process_fields_in_submap(game *g, int gridn)
 						} else if (it->made_of(LIQUID)) {
 							//Lots of smoke if alcohol, and LOTS of fire fueling power, kills a fire otherwise.
 							if(it->type->id == "tequila" || it->type->id == "whiskey" ||
-								it->type->id == "vodka" || it->type->id == "rum") {
+								it->type->id == "vodka" || it->type->id == "rum" || it->type->id == "gasoline") {
 									cur->setFieldAge(cur->getFieldAge() - 300);
 									smoke += 6;
 							} else {
 								cur->setFieldAge(cur->getFieldAge() + rng(80 * vol, 300 * vol));
 								smoke++;
 							}
-							destroyed = true;
-							consumed++;
+							it->charges -= cur->getFieldDensity();
+							if(it->charges <= 0){
+								destroyed = true;
+							}
+								consumed++;
 						} else if (it->made_of("powder")) {
 							//Any powder will fuel the fire as much as its volume but be immediately destroyed.
 							cur->setFieldAge(cur->getFieldAge() - vol);
@@ -264,8 +271,11 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							//The fire feeds on the ground itself until max density.
 							cur->setFieldAge(cur->getFieldAge() - cur->getFieldDensity() * cur->getFieldDensity() * 40);
 							smoke += 15;
-							if (cur->getFieldDensity() == 3)
+							if (cur->getFieldDensity() == 3){
 								ter_set(x, y, t_ash);
+								if(has_furn(x,y))
+									furn_set(x,y,f_null);
+							}
 
 						} else if (has_flag(l_flammable, x, y) && one_in(62 - cur->getFieldDensity() * 10)) {
 							//The fire feeds on the ground itself until max density.
@@ -304,8 +314,8 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									if (tmpfld && tmpfld != cur && cur->getFieldAge() < 0 && tmpfld->getFieldDensity() < 3 &&
 										(in_pit == (ter(fx, fy) == t_pit))) {
 											tmpfld->setFieldDensity(tmpfld->getFieldDensity() + 1);
-											tmpfld->setFieldAge(30);
-											cur->setFieldAge(30);
+											//tmpfld->setFieldAge(0);
+											cur->setFieldAge(cur->getFieldAge() + 150);
 									}
 								}
 							}
@@ -329,21 +339,27 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									tr_brazier != tr_at(x, y) && (has_flag(fire_container, x, y) != true ) ) {
 										ter_set(fx, fy, ter_id(int(ter(fx, fy)) + 1));
 										g->explosion(fx, fy, 40, 0, true); //Nearby explodables? blow em up.
-								} else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance && cur->getFieldAge() < 30 &&
+								} else if ((i != 0 || j != 0) && rng(1, 100) < spread_chance && cur->getFieldAge() < 200 &&
 									tr_brazier != tr_at(x, y) &&
 									(has_flag(fire_container, x, y) != true )&&
 									(in_pit == (ter(fx, fy) == t_pit)) &&
-									((cur->getFieldDensity() == 3 &&
-									(has_flag(flammable, fx, fy) || one_in(20))) ||
-									(cur->getFieldDensity() == 3 &&
+									(
+									(cur->getFieldDensity() >= 2 &&
+									(has_flag(flammable, fx, fy) && one_in(20))) ||
+									(cur->getFieldDensity() >= 2  &&
+									(has_flag(flammable2, fx, fy) && one_in(10))) ||
+									(cur->getFieldDensity() == 3  &&
 									(has_flag(l_flammable, fx, fy) && one_in(10))) ||
 									flammable_items_at(fx, fy) ||
 									field_at(fx, fy).findField(fd_web))) {
 										add_field(g, fx, fy, fd_fire, 1); //Nearby open flammable ground? Set it on fire.
 										tmpfld = field_at(fx,fy).findField(fd_fire);
 										if(tmpfld){
-											tmpfld->setFieldAge(30);
+											tmpfld->setFieldAge(100);
+											cur->setFieldAge(cur->getFieldAge() + 50);
 										}
+										if(field_at(fx,fy).findField(fd_web))
+											g->m.remove_field(fx,fy,fd_web);
 								} else {
 									bool nosmoke = true;
 									for (int ii = -1; ii <= 1; ii++) {
@@ -351,6 +367,9 @@ bool map::process_fields_in_submap(game *g, int gridn)
 											if (field_at(x+ii, y+jj).findField(fd_fire) &&
 												field_at(x+ii, y+jj).findField(fd_fire)->getFieldDensity() == 3)
 												smoke++; //The higher this gets, the more likely for smoke.
+											else if (field_at(x+ii, y+jj).findField(fd_fire) &&
+												field_at(x+ii, y+jj).findField(fd_fire)->getFieldDensity() == 2 && one_in(4))
+												smoke++;
 											else if (field_at(x+ii, y+jj).findField(fd_smoke))
 												nosmoke = false; //slightly, slightly, less likely to make smoke if there is already smoke
 										}
@@ -358,11 +377,11 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									// If we're not spreading, maybe we'll stick out some smoke, huh?
 									if(!(is_outside(fx, fy))){
 										//Lets make more smoke indoors since it doesn't dissipate
-										smoke += 10; //10 is just a magic number. To much smoke indoors? Lower it. To little, raise it.
+										smoke += 5; //10 is just a magic number. To much smoke indoors? Lower it. To little, raise it.
 									}
 									if (move_cost(fx, fy) > 0 &&
 										(!one_in(smoke) || (nosmoke && one_in(40))) &&
-										rng(3, 35) < cur->getFieldDensity() * 10 && cur->getFieldAge() < 1000 &&
+										rng(3, 35) < cur->getFieldDensity() * 5 && cur->getFieldAge() < 1000 &&
 										(has_flag(suppress_smoke, x, y) != true )) {
 											smoke--;
 											add_field(g, fx, fy, fd_smoke, rng(1, cur->getFieldDensity())); //Add smoke!
@@ -381,7 +400,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 					}
 					if (is_outside(x, y))
 						cur->setFieldAge(cur->getFieldAge() + 50); //Dissipiate faster outdoors.
-					if (one_in(2)) { //50% chance to spread around.
+					if (!one_in(5)) { //80% chance to spread around.
 						std::vector <point> spread;
 						for (int a = -1; a <= 1; a++) {
 							for (int b = -1; b <= 1; b++) {
@@ -392,17 +411,21 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							}
 						}
       // Spread if available and large.
-						if (cur->getFieldDensity() > 1 && cur->getFieldAge() > 0 && spread.size() > 0) {
-							point p = spread[rng(0, spread.size() - 1)];
-       field_entry *candidate_field = field_at(p.x, p.y).findField(fd_smoke);
-							if (candidate_field && candidate_field->getFieldDensity() < 3) {
+						while(spread.size() > 0 && cur->isAlive()){
+							if (cur->getFieldAge() >= 0 && spread.size() > 0) {
+								int random_point = rng(0, spread.size() - 1);
+								point p = spread[random_point];
+								field_entry *candidate_field = field_at(p.x, p.y).findField(fd_smoke);
+								if (candidate_field && candidate_field->getFieldDensity() < 3) {
 									candidate_field->setFieldDensity(candidate_field->getFieldDensity() + 1);
 									cur->setFieldDensity(cur->getFieldDensity() - 1);
-							} else if (cur->getFieldDensity() > 1 && move_cost(p.x, p.y) > 0 &&
-                  add_field(g, p.x, p.y, fd_smoke, 1)){
-								cur->setFieldDensity(cur->getFieldDensity() - 1);
-								if(field_at(p.x,p.y).findField(fd_smoke))
-							 	field_at(p.x, p.y).findField(fd_smoke)->setFieldAge(cur->getFieldAge());
+								} else if (move_cost(p.x, p.y) > 0 &&
+									add_field(g, p.x, p.y, fd_smoke, 1)){
+										cur->setFieldDensity(cur->getFieldDensity() - 1);
+										if(field_at(p.x,p.y).findField(fd_smoke))
+											field_at(p.x, p.y).findField(fd_smoke)->setFieldAge(cur->getFieldAge());
+								}
+								spread.erase(spread.begin() + random_point);
 							}
 						}
 					}
@@ -742,7 +765,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 							}
 							cur->setFieldDensity(cur->getFieldDensity() - 1);
 					}
-					if (should_dissipate == true) { // Totally dissapated.
+					if (should_dissipate == true || !cur->isAlive()) { // Totally dissapated.
 						grid[gridn]->field_count--;
 						grid[gridn]->fld[locx][locy].removeField(cur->getFieldType());
 					}
@@ -797,9 +820,9 @@ void map::step_in_field(int x, int y, game *g)
 	  //If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
 	  //Moving through multiple webs stacks the effect.
    if (!g->u.has_trait(PF_WEB_WALKER) && !g->u.in_vehicle) {
-    int web = cur->getFieldDensity() * 5 - g->u.disease_level(DI_WEBBED); //between 5 and 15 minus your current web level.
+    int web = cur->getFieldDensity() * 5 - g->u.disease_level("webbed"); //between 5 and 15 minus your current web level.
     if (web > 0)
-     g->u.add_disease(DI_WEBBED, web, g);
+     g->u.add_disease("webbed", web);
     remove_field(x, y, fd_web); //Its spent.
    } else if (g->u.in_vehicle){ //If you are in a vehicle destroy the web. It should of been destroyed when you ran over it anyway.
 	   remove_field(x, y, fd_web);
@@ -832,12 +855,16 @@ void map::step_in_field(int x, int y, game *g)
 	 //Sap causes the player to get sap disease, slowing them down.
   if( g->u.in_vehicle ) break; //sap does nothing to cars.
   g->add_msg("The sap sticks to you!");
-  g->u.add_disease(DI_SAP, cur->getFieldDensity() * 2, g);
+  g->u.add_disease("sap", cur->getFieldDensity() * 2);
   if (cur->getFieldDensity() == 1)
    remove_field(x, y, fd_sap);
   else
 	  cur->setFieldDensity(cur->getFieldDensity() - 1); //Use up sap.
   break;
+
+  case fd_sludge:
+      g->add_msg("The sludge is thick and sticky.");
+      break;
 
   case fd_fire:
 	  //Burn the player. Less so if you are in a car or ON a car.
@@ -870,29 +897,29 @@ void map::step_in_field(int x, int y, game *g)
      g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
      g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
      g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
-     g->u.add_disease(DI_ONFIRE, 5, g); //lasting fire damage only from the strongest fires.
+     g->u.add_disease("onfire", 5); //lasting fire damage only from the strongest fires.
     }
     /*if (adjusted_intensity == 2)
-     g->u.infect(DI_SMOKE, bp_mouth, 5, 20, g);
+     g->u.infect("smoke", bp_mouth, 5, 20, g);
     else if (adjusted_intensity == 3)
-     g->u.infect(DI_SMOKE, bp_mouth, 7, 30, g);*/ //Removed from here since smoke now exists on fire tiles as its own effect.
+     g->u.infect("smoke", bp_mouth, 7, 30, g);*/ //Removed from here since smoke now exists on fire tiles as its own effect.
    }
    break;
 
   case fd_rubble:
 	  //You are walking on rubble. Slow down.
-   g->u.add_disease(DI_BOULDERING, 0, g, cur->getFieldDensity(), 3);
+   g->u.add_disease("bouldering", 0, cur->getFieldDensity(), 3);
    break;
 
   case fd_smoke:
 	  //Get smoke disease from standing in smoke.
       if (cur->getFieldDensity() == 3 && !inside)
       {
-          g->u.infect(DI_SMOKE, bp_mouth, 4, 15, g);
+          g->u.infect("smoke", bp_mouth, 4, 15, g);
       } else if (cur->getFieldDensity() == 2 && !inside){
-		  g->u.infect(DI_SMOKE, bp_mouth, 2, 7, g);
+		  g->u.infect("smoke", bp_mouth, 2, 7, g);
 	  } else if (cur->getFieldDensity() == 1 && !inside){
-		  g->u.infect(DI_SMOKE, bp_mouth, 1, 3, g);
+		  g->u.infect("smoke", bp_mouth, 1, 3, g);
 	  }
       break;
 
@@ -900,11 +927,11 @@ void map::step_in_field(int x, int y, game *g)
 	  //Tear gas will both give you teargas disease and/or blind you.
       if ((cur->getFieldDensity() > 1 || !one_in(3)) && (!inside || (inside && one_in(3))))
       {
-          g->u.infect(DI_TEARGAS, bp_mouth, 5, 20, g);
+          g->u.infect("teargas", bp_mouth, 5, 20, g);
       }
       if (cur->getFieldDensity() > 1 && (!inside || (inside && one_in(3))))
       {
-          g->u.infect(DI_BLIND, bp_eyes, cur->getFieldDensity() * 2, 10, g);
+          g->u.infect("blind", bp_eyes, cur->getFieldDensity() * 2, 10, g);
       }
       break;
 
@@ -912,14 +939,14 @@ void map::step_in_field(int x, int y, game *g)
 	  //Toxic gas at low levels poisons you, toxic gas at high levels will cause very nasty poison.
       if (cur->getFieldDensity() == 2 && (!inside || (cur->getFieldDensity() == 3 && inside)))
       {
-          g->u.infect(DI_POISON, bp_mouth, 5, 30, g);
+          g->u.infect("poison", bp_mouth, 5, 30, g);
       }
       else if (cur->getFieldDensity() == 3 && !inside)
       {
-          g->u.infect(DI_BADPOISON, bp_mouth, 5, 30, g);
+          g->u.infect("badpoison", bp_mouth, 5, 30, g);
       } else if (cur->getFieldDensity() == 1 && (!inside))
       {
-          g->u.infect(DI_POISON, bp_mouth, 2, 10, g);
+          g->u.infect("poison", bp_mouth, 2, 10, g);
       }
       break;
 
@@ -982,7 +1009,7 @@ void map::step_in_field(int x, int y, game *g)
 
  if(no_rubble){
 	 //After iterating through all fields, if we found no rubble, remove the rubble disease.
-	 g->u.rem_disease(DI_BOULDERING);
+	 g->u.rem_disease("bouldering");
  }
 }
 
@@ -1029,6 +1056,10 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
    else
     cur->setFieldDensity(cur->getFieldDensity() - 1);
    break;
+
+  case fd_sludge:
+      break;
+
 
 // MATERIALS-TODO: Use fire resistance
   case fd_fire:
@@ -1226,19 +1257,19 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
       g->add_msg("You are hit by the falling debris!");
      }
      if (one_in(g->u.dex_cur)) {
-      g->u.add_disease(DI_DOWNED, 2, g);
+      g->u.add_disease("downed", 2);
      }
      if (one_in(g->u.str_cur)) {
-      g->u.add_disease(DI_STUNNED, 2, g);
+      g->u.add_disease("stunned", 2);
      }
     }
     else if (one_in(g->u.str_cur)) {
      g->add_msg("You trip as you evade the falling debris!");
-     g->u.add_disease(DI_DOWNED, 1, g);
+     g->u.add_disease("downed", 1);
     }
                         //Avoiding disease system for the moment, since I was having trouble with it.
-//    g->u.add_disease(DI_CRUSHED, 42, g);    //Using a disease allows for easy modification without messing with field code
- //   g->u.rem_disease(DI_CRUSHED);           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
+//    g->u.add_disease("crushed", 42, g);    //Using a disease allows for easy modification without messing with field code
+ //   g->u.rem_disease("crushed");           //For instance, if we wanted to easily add a chance of limb mangling or a stun effect later
    }
    if (fdmon != -1 && fdmon < g->z.size()) {  //If there's a monster at (x,y)...
     monster* monhit = &(g->z[fdmon]);
@@ -1254,14 +1285,14 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
        me->hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
       }
       if (one_in(me->dex_cur)) {
-       me->add_disease(DI_DOWNED, 2, g);
+       me->add_disease("downed", 2);
       }
       if (one_in(me->str_cur)) {
-       me->add_disease(DI_STUNNED, 2, g);
+       me->add_disease("stunned", 2);
       }
      }
      else if (one_in(me->str_cur)) {
-      me->add_disease(DI_DOWNED, 1, g);
+      me->add_disease("downed", 1);
      }
     }
     if (me->hp_cur[hp_head]  <= 0 || me->hp_cur[hp_torso] <= 0) {
@@ -1275,6 +1306,10 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
     }	
  }
  }
+}
+
+int field_entry::move_cost() const{
+  return fieldlist[type].move_cost[getFieldDensity()-1];
 }
 
 field_id field_entry::getFieldType() const{
@@ -1457,4 +1492,17 @@ Returns the last added field from the tile for drawing purposes.
 */
 field_id field::fieldSymbol() const{
 	return draw_symbol;
+}
+
+int field::move_cost() const{
+    if(fieldCount() < 1){
+        return 0;
+    }
+    int current_cost = 0;
+    for( std::vector<field_entry*>::const_iterator current_field = field_list.begin();
+         current_field != field_list.end(); 
+         ++current_field){
+        current_cost += (*current_field)->move_cost();
+    }
+    return current_cost;
 }

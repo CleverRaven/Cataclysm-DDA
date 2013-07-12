@@ -1,4 +1,5 @@
 #include "ui.h"
+#include "catacharset.h"
 #include "output.h"
 #include <sstream>
 #include <stdlib.h>
@@ -12,47 +13,15 @@
 
 
 ////////////////////////////////////
-std::vector<std::string> foldstring ( std::string str, int width ) {
-    std::vector<std::string> lines;
-    if ( width < 1 ) {
-        lines.push_back( str );
-        return lines;
-    }
 
-    int linepos = width;
-    int linestart = 0;
-    int crpos = -2;
-    while( linepos < str.length() || crpos != -1 ) {
-        crpos = str.find('\n', linestart);
-        if (crpos != -1 && crpos <= linepos) {
-            lines.push_back( str.substr( linestart, crpos-linestart ) );
-            linepos = crpos + width + 1;
-            linestart = crpos + 1;
-        } else {
-            int spacepos = str.rfind(' ', linepos);
-            if ( spacepos == -1 ) spacepos = str.find(' ', linepos);
-            if ( spacepos < linestart ) {
-                spacepos = linestart + width;
-                if( spacepos < str.length() ) {
-                    lines.push_back( str.substr( linestart, width ) );
-                    linepos = spacepos + width;
-                    linestart = spacepos;
-                }
-            } else {
-                lines.push_back( str.substr( linestart, spacepos-linestart ) );
-                linepos = spacepos + width + 1;
-                linestart = spacepos + 1;
-            }
-        }
-    }
-    lines.push_back( str.substr( linestart ) );
-    return lines;
-};
 
 int getfoldedwidth (std::vector<std::string> foldedstring) {
     int ret=0;
     for ( int i=0; i < foldedstring.size() ; i++ ) {
-        if ( foldedstring[i].size() > ret ) ret=foldedstring[i].size();
+		int width = utf8_width(foldedstring[i].c_str());
+        if ( width > ret ) {
+			ret=width;
+		}
     }
     return ret;
 }
@@ -170,6 +139,7 @@ void uimenu::show() {
         autoassign.clear();
         int pad = pad_left + pad_right + 2;
         for ( int i = 0; i < entries.size(); i++ ) {
+			int txtwidth = utf8_width(entries[ i ].txt.c_str());
             if(entries[ i ].enabled) {
                 if( entries[ i ].hotkey > 0 ) {
                     keymap[ entries[ i ].hotkey ] = i;
@@ -179,12 +149,12 @@ void uimenu::show() {
                 if ( entries[ i ].retval == -1 ) {
                     entries[ i ].retval = i;
                 }
-                if ( w_auto && w_width < entries[ i ].txt.size() + pad + 4 ) {
-                    w_width = entries[ i ].txt.size() + pad + 4;
+                if ( w_auto && w_width < txtwidth + pad + 4 ) {
+                    w_width = txtwidth + pad + 4;
                 }
             } else {
-                if ( w_auto && w_width < entries[ i ].txt.size() + pad + 4 ) {
-                    w_width = entries[ i ].txt.size() + pad + 4;    // todo: or +5 if header
+                if ( w_auto && w_width < txtwidth + pad + 4 ) {
+                    w_width = txtwidth + pad + 4;    // todo: or +5 if header
                 }
             }
         }
@@ -211,12 +181,13 @@ void uimenu::show() {
         }
 
         if(text.size() > 0 ) {
+			int twidth = utf8_width(text.c_str());
             if ( textwidth == -1 ) {
                 if ( w_autofold || !w_auto ) {
                    realtextwidth = w_width - 4;
                 } else {
-                   realtextwidth = text.size();
-                   if ( text.size() + 4 > w_width ) {
+                   realtextwidth = twidth;
+                   if ( twidth + 4 > w_width ) {
                        if ( realtextwidth + 4 > TERMX ) {
                            realtextwidth = TERMX - 4;
                        }
@@ -304,8 +275,12 @@ void uimenu::query(bool loop) {
     do {
         show();
         keypress = getch();
-        if ( keypress == KEY_UP ) {
-            selected--;
+        if ( keypress == KEY_UP || keypress == KEY_PPAGE ) {
+            if ( keypress == KEY_PPAGE ) {
+                selected += ( -vmax + 1 );
+            } else {
+                selected--;
+            }
             int iter = ( hilight_disabled ? 1 : entries.size() );
             while ( iter > 0 ) {
                 iter--;
@@ -319,8 +294,12 @@ void uimenu::query(bool loop) {
                 }
             }
             // todo: scroll_callback(this, selected, last_selected );
-        } else if ( keypress == KEY_DOWN ) {
-            selected++;
+        } else if ( keypress == KEY_DOWN || keypress == KEY_NPAGE ) {
+            if ( keypress == KEY_NPAGE ) {
+                selected += ( vmax - 1 );
+            } else {
+                selected++;
+            }
             int iter = entries.size();
             if ( hilight_disabled == true ) {
                 iter = 1;

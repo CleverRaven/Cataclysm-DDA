@@ -35,13 +35,10 @@ map::map()
  veh_in_active_range = true;
 }
 
-map::map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[num_itloc],
-         std::vector<trap*> *trptr)
+map::map(std::vector<trap*> *trptr)
 {
  nulter = t_null;
  nultrap = tr_null;
- itypes = itptr;
- mapitems = miptr;
  traps = trptr;
  if (is_tiny())
   my_MAPSIZE = 2;
@@ -49,7 +46,7 @@ map::map(std::map<std::string, itype*>* itptr, std::vector<itype_id> (*miptr)[nu
   my_MAPSIZE = MAPSIZE;
  for (int n = 0; n < my_MAPSIZE * my_MAPSIZE; n++)
   grid[n] = NULL;
- dbg(D_INFO) << "map::map( itptr["<<itptr<<"], miptr["<<miptr<<"], trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
+ dbg(D_INFO) << "map::map( trptr["<<trptr<<"] ): my_MAPSIZE: " << my_MAPSIZE;
  veh_in_active_range = true;
  memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
@@ -799,6 +796,11 @@ void map::set(const int x, const int y, const ter_id new_terrain, const furn_id 
  grid[nonant]->frn[lx][ly] = new_furniture;
 }
 
+std::string map::name(const int x, const int y)
+{
+ return has_furn(x, y) ? furnlist[furn(x, y)].name : terlist[ter(x, y)].name;
+}
+
 bool map::has_furn(const int x, const int y)
 {
   return furn(x, y) != f_null;
@@ -900,6 +902,7 @@ int map::move_cost(const int x, const int y)
   }
  }
  int cost = terlist[ter(x, y)].movecost + furnlist[furn(x, y)].movecost;
+ cost+= field_at(x,y).move_cost();
  return cost > 0 ? cost : 0;
 }
 
@@ -1856,7 +1859,7 @@ void map::destroy(game *g, const int x, const int y, const bool makesound)
 }
 
 void map::shoot(game *g, const int x, const int y, int &dam,
-                const bool hit_items, const unsigned effects)
+                const bool hit_items, const std::set<std::string>& ammo_effects)
 {
     if (dam < 0)
     {
@@ -1873,7 +1876,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
     vehicle *veh = veh_at(x, y, vpart);
     if (veh)
     {
-        const bool inc = (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME));
+        const bool inc = (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"));
         dam = veh->damage (vpart, dam, inc? 2 : 0, hit_items);
     }
 
@@ -1920,10 +1923,10 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         // Fall-through intended
         case t_window_domestic_taped:
         case t_curtains:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
                 dam -= rng(1, 5);
         case t_window_domestic:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
                 dam -= rng(0, 5);
             else
             {
@@ -1942,11 +1945,11 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         // Fall-through intended
         case t_window_taped:
         case t_window_alarm_taped:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
                 dam -= rng(1, 5);
         case t_window:
         case t_window_alarm:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
                 dam -= rng(0, 5);
             else
             {
@@ -1972,7 +1975,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         case t_wall_glass_v:
         case t_wall_glass_h_alarm:
         case t_wall_glass_v_alarm:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
                 dam -= rng(0,5);
             else
             {
@@ -1990,7 +1993,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         // laser beams are attenuated
         case t_reinforced_glass_v:
         case t_reinforced_glass_h:
-            if (effects & mfb(AMMO_LASER))
+            if (ammo_effects.count("LASER"))
             {
                 dam -= rng(0, 8);
             }
@@ -2017,7 +2020,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                 g->sound(x, y, 8, "rrrrip!");
                 ter_set(x, y, t_dirt);
             }
-            if (effects & mfb(AMMO_INCENDIARY))
+            if (ammo_effects.count("INCENDIARY"))
                 add_field(g, x, y, fd_fire, 1);
         break;
 
@@ -2026,7 +2029,7 @@ void map::shoot(game *g, const int x, const int y, int &dam,
             {
                 if (dam > 15)
                 {
-                    if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
+                    if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"))
                         g->explosion(x, y, 40, 0, true);
                     else
                     {
@@ -2063,10 +2066,10 @@ void map::shoot(game *g, const int x, const int y, int &dam,
                 dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
     }
 
-    if (effects & mfb(AMMO_TRAIL) && !one_in(4))
+    if (ammo_effects.count("TRAIL") && !one_in(4))
         add_field(g, x, y, fd_smoke, rng(1, 2));
 
-    if (effects & mfb(AMMO_LIGHTNING))
+    if (ammo_effects.count("LIGHTNING"))
         add_field(g, x, y, fd_electricity, rng(2, 3));
 
     // Set damage to 0 if it's less
@@ -2080,9 +2083,10 @@ void map::shoot(game *g, const int x, const int y, int &dam,
         //case fd_web:
 	//Removed switch for now as web is the only relevant choice to avoid a currently redundant for loop declaration for all the field types.
 	if(fieldhit){
-            if (effects & mfb(AMMO_INCENDIARY) || effects & mfb(AMMO_FLAME))
+            if (ammo_effects.count("INCENDIARY") || ammo_effects.count("FLAME"))
                 add_field(g, x, y, fd_fire, fieldhit->getFieldDensity() - 1);
-            else if (dam > 5 + fieldhit->getFieldDensity() * 5 && one_in(5 - fieldhit->getFieldDensity()))
+            else if (dam > 5 + fieldhit->getFieldDensity() * 5 &&
+                     one_in(5 - fieldhit->getFieldDensity()))
             {
                 dam -= rng(1, 2 + fieldhit->getFieldDensity() * 2);
                 remove_field(x, y,fd_web);
@@ -2166,7 +2170,6 @@ bool map::hit_with_acid(game *g, const int x, const int y)
 
   case t_gas_pump:
   case t_gas_pump_smashed:
-  case t_gas_pump_empty:
    return false;
 
   case t_card_science:
@@ -2410,7 +2413,7 @@ void map::spawn_item(const int x, const int y, item new_item, const int birthday
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item.charges = charges;
     }
-    new_item = new_item.in_its_container(itypes);
+    new_item = new_item.in_its_container(&(g->itypes));
     if ((new_item.made_of(LIQUID) && has_flag(swimmable, x, y)) ||
         has_flag(destroy_item, x, y))
     {
@@ -3055,7 +3058,7 @@ void map::draw(game *g, WINDOW* w, const point center)
  const int light_sight_range = g->u.sight_range(g_light_level);
  const int lowlight_sight_range = std::max(g_light_level / 2, natural_sight_range);
  const int max_sight_range = g->u.unimpaired_range();
- const bool u_is_boomered = g->u.has_disease(DI_BOOMERED);
+ const bool u_is_boomered = g->u.has_disease("boomered");
  const int u_clairvoyance = g->u.clairvoyance();
  const bool u_sight_impaired = g->u.sight_impaired();
 
@@ -3181,7 +3184,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
   sym = terlist[curr_ter].sym;
   tercol = terlist[curr_ter].color;
  }
- if (u.has_disease(DI_BOOMERED))
+ if (u.has_disease("boomered"))
   tercol = c_magenta;
  else if ( u.has_nv() )
   tercol = (bright_light) ? c_white : c_ltgreen;
@@ -3227,7 +3230,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  }
 // If there's items here, draw those instead
  if (show_items && !has_flag(container, x, y) && curr_items.size() > 0 && !drew_field) {
-  if (sym != '.')
+  if (terlist[curr_ter].sym != '.')
    hi = true;
   else {
    tercol = curr_items[curr_items.size() - 1].color();
@@ -3719,7 +3722,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
-  map tmp_map(itypes, mapitems, traps);
+  map tmp_map(traps);
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at
 //  squares divisible by 2.
@@ -3943,7 +3946,7 @@ void map::build_outside_cache(const game *g)
     {
         for(int y = 0; y < SEEY * my_MAPSIZE; y++)
         {
-            if( terlist[ter(x, y)].flags & mfb(indoors) )
+            if( terlist[ter(x, y)].flags & mfb(indoors) || furnlist[furn(x, y)].flags & mfb(indoors))
             {
                 for( int dx = -1; dx <= 1; dx++ )
                 {
@@ -4059,14 +4062,10 @@ tinymap::tinymap()
  nultrap = tr_null;
 }
 
-tinymap::tinymap(std::map<std::string, itype*> *itptr,
-                 std::vector<itype_id> (*miptr)[num_itloc],
-                 std::vector<trap*> *trptr)
+tinymap::tinymap(std::vector<trap*> *trptr)
 {
  nulter = t_null;
  nultrap = tr_null;
- itypes = itptr;
- mapitems = miptr;
  traps = trptr;
  my_MAPSIZE = 2;
  for (int n = 0; n < 4; n++)

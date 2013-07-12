@@ -15,6 +15,35 @@
 
     "recipes":
     [
+	    {
+            "result": "cell_phone",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "difficulty": 0,
+            "time": 500,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["scrap", 1]
+                              ],
+                              [
+                                  ["RAM", 1]
+                              ],
+                              [
+                                  ["processor", 1]
+                              ],
+                              [
+                                  ["battery", 200]
+                              ]
+                          ]
+        },
         {
             "result": "knife_steak",
             "id_suffix": "uncraft",
@@ -581,9 +610,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -608,9 +638,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -779,10 +810,14 @@
                              ["toolset", -1]
                           ],
                           [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                           ],
                           [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                           ],
                           [
@@ -822,7 +857,8 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["screwdriver", -1],
@@ -860,7 +896,8 @@
                          ],
 
                          [
-                             ["wrench", -1]
+                             ["wrench", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["saw", -1]
@@ -870,7 +907,10 @@
                              ["toolset", -1]
                          ],
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -927,8 +967,11 @@
                              ["screwdriver", -1],
                              ["toolset", -1]
                          ],
-			 [
+                         [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -974,6 +1017,55 @@
                               ],
                               [
                                   ["2x4", 1]
+                              ]
+                          ]
+        },
+				        {
+            "result": "pipe_shotgun",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 2,
+            "time": 12000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hacksaw", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe", 1]
+                              ],
+                              [
+                                  ["2x4", 1]
+                              ]
+                          ]
+        },
+		{
+		    "result": "pipe_shotgunsawn",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 2,
+            "time": 12000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hacksaw", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe_shotgun", 1]
                               ]
                           ]
         },
@@ -1028,8 +1120,9 @@
                              ["toolset", -1]
                          ],
                          [
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
                              ["hatchet", -1],
                              ["toolset", -1]
                          ]
@@ -1067,8 +1160,9 @@
                              ["toolset", -1]
                          ],
                          [
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
                              ["hatchet", -1],
                              ["toolset", -1]
                          ]
@@ -1288,8 +1382,11 @@
                              ["toolset", -1]
                          ],
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
-                             ["hatchet", -1]
+                             ["hatchet", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["wrench", -1],
@@ -1471,8 +1568,9 @@
          "tools": [
                          [
                              ["rock", -1],
-                      ["primitive_hammer", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -1563,9 +1661,11 @@
                ["toolset", -1]
             ],
             [
+               ["rock", -1],
+               ["primitive_hammer", -1],
                ["hammer", -1],
-               ["toolset", -1],
-               ["primitive_hammer", -1]
+               ["hatchet", -1],
+               ["toolset", -1]
             ]
          ],
          "components" : [
@@ -1586,9 +1686,11 @@
          "autolearn" : true,
          "tools" : [
             [
-               ["primitive_hammer", -1],
-               ["hammer", -1],
-               ["toolset", -1]
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
             ]
          ],
          "components" : [
@@ -1681,8 +1783,10 @@
                ["toolset", -1]
             ],
             [
-               ["hammer", -1],
+               ["rock", -1],
                ["primitive_hammer", -1],
+               ["hammer", -1],
+               ["hatchet", -1],
                ["toolset", -1]
             ]
          ],
@@ -1888,9 +1992,11 @@
                ["toolset", -1]
             ],
             [
+               ["rock", -1],
+               ["primitive_hammer", -1],
                ["hammer", -1],
-               ["toolset", -1],
-               ["primitive_hammer", -1]
+               ["hatchet", -1],
+               ["toolset", -1]
             ]
          ],
          "components" : [
@@ -2031,9 +2137,11 @@
          		["toolset", -1]
          	],
          	[
-         		["hammer", -1],
-         		["toolset", -1],
-         		["primitive_hammer", -1]
+                ["rock", -1],
+                ["primitive_hammer", -1],
+                ["hammer", -1],
+                ["hatchet", -1],
+                ["toolset", -1]
          	]
          ],
          "components" : [
@@ -2097,8 +2205,11 @@
          		["toolset", 1]
          	],
          	[
-         		["hammer", -1],
-         		["toolset", -1]
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
          	],
          	[
          		["screwdriver", -1],
@@ -2192,7 +2303,7 @@
                                   ["gunpowder", 200]
                               ],
                               [
-                                  ["lead", 200]
+                                  ["lead", 200], ["gold_small", 200]
                               ]
                           ]
         },
@@ -2228,7 +2339,7 @@
                                   ["gunpowder", 125]
                               ],
                               [
-                                  ["lead", 100]
+                                  ["lead", 100], ["gold_small", 100]
                               ]
                           ]
         },
@@ -2264,7 +2375,7 @@
                                   ["gunpowder", 60]
                               ],
                               [
-                                  ["lead", 40]
+                                  ["lead", 40], ["gold_small", 40]
                               ]
                           ]
         },
@@ -2300,7 +2411,7 @@
                                   ["gunpowder", 250]
                               ],
                               [
-                                  ["lead", 250]
+                                  ["lead", 250], ["gold_small", 250]
                               ]
                           ]
         },
@@ -2336,7 +2447,7 @@
                                   ["gunpowder", 175]
                               ],
                               [
-                                  ["lead", 125]
+                                  ["lead", 125], ["gold_small", 125]
                               ]
                           ]
         },
@@ -2372,7 +2483,7 @@
                                   ["gunpowder", 300]
                               ],
                               [
-                                  ["lead", 300]
+                                  ["lead", 300], ["gold_small", 300]
                               ]
                           ]
         },
@@ -2408,7 +2519,7 @@
                                   ["gunpowder", 400]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -2444,7 +2555,7 @@
                                   ["gunpowder", 500]
                               ],
                               [
-                                  ["lead", 500]
+                                  ["lead", 500], ["gold_small", 500]
                               ]
                           ]
         },
@@ -2480,7 +2591,7 @@
                                   ["gunpowder", 500]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -2516,7 +2627,7 @@
                                   ["gunpowder", 120]
                               ],
                               [
-                                  ["lead", 100]
+                                  ["lead", 100], ["gold_small", 100]
                               ]
                           ]
         },
@@ -2552,7 +2663,7 @@
                                   ["gunpowder", 400]
                               ],
                               [
-                                  ["lead", 200]
+                                  ["lead", 200], ["gold_small", 200]
                               ]
                           ]
         },
@@ -2588,7 +2699,7 @@
                                   ["gunpowder", 400]
                               ],
                               [
-                                  ["lead", 200]
+                                  ["lead", 200], ["gold_small", 200]
                               ]
                           ]
         },
@@ -2624,7 +2735,7 @@
                                   ["gunpowder", 560]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -2660,7 +2771,7 @@
                                   ["gunpowder", 640]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -2696,7 +2807,7 @@
                                   ["gunpowder", 160]
                               ],
                               [
-                                  ["lead", 80]
+                                  ["lead", 80], ["gold_small", 80]
                               ]
                           ]
         },
@@ -2732,7 +2843,7 @@
                                   ["gunpowder", 240]
                               ],
                               [
-                                  ["lead", 80]
+                                  ["lead", 80], ["gold_small", 80]
                               ]
                           ]
         },
@@ -2804,7 +2915,7 @@
                                   ["gunpowder", 200]
                               ],
                               [
-                                  ["lead", 100]
+                                  ["lead", 100], ["gold_small", 100]
                               ]
                           ]
         },
@@ -2840,7 +2951,7 @@
                                   ["gunpowder", 120]
                               ],
                               [
-                                  ["lead", 80]
+                                  ["lead", 80], ["gold_small", 80]
                               ]
                           ]
         },
@@ -2912,7 +3023,7 @@
                                   ["gunpowder", 160]
                               ],
                               [
-                                  ["lead", 120]
+                                  ["lead", 120], ["gold_small", 120]
                               ]
                           ]
         },
@@ -2948,7 +3059,7 @@
                                   ["gunpowder", 200]
                               ],
                               [
-                                  ["lead", 120]
+                                  ["lead", 120], ["gold_small", 120]
                               ]
                           ]
         },
@@ -3020,7 +3131,7 @@
                                   ["gunpowder", 300]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -3056,7 +3167,7 @@
                                   ["gunpowder", 600]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -3092,7 +3203,7 @@
                                   ["gunpowder", 600]
                               ],
                               [
-                                  ["lead", 400]
+                                  ["lead", 400], ["gold_small", 400]
                               ]
                           ]
         },
@@ -3197,7 +3308,8 @@
                              ["rock_pot", -1],
                              ["spear_wood", -1],
                              ["pointy_stick", -1],
-                             ["javelin", -1] 
+                             ["skewer", -1],
+                             ["javelin", -1]
                          ]
                      ],
             "components": [
@@ -3229,6 +3341,7 @@
                              ["rock_pot", -1],
                              ["spear_wood", -1],
                              ["pointy_stick", -1],
+                             ["skewer", -1],
                              ["javelin", -1]
                          ]
                      ],
@@ -3295,6 +3408,7 @@
                              ["rock_pot", -1],
                              ["spear_wood", -1],
                              ["pointy_stick", -1],
+                             ["skewer", -1],
                              ["javelin", -1]
                          ]
                      ],
@@ -3476,7 +3590,45 @@
                               ]
                           ]
         },
-
+        
+        {
+            "result": "kompot",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["blueberries", 3],
+                                  ["apple", 1],
+                                  ["apple_canned", 1],
+                                  ["apple_vac", 1],
+                                  ["strawberries", 3],
+                                  ["orange", 1],
+                                  ["lemon", 1]
+                              ],
+                              [
+                                  ["sugar", 1]
+                              ],
+                              [
+                                  ["water", 5],
+                                  ["water_clean", 5]
+                              ]
+                          ]
+        },
 
         {
             "result": "coffee",
@@ -3836,7 +3988,40 @@
                               ]
                           ]
         },
-
+        
+        {
+            "result": "soup_woods",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 3,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["broth", 2],
+                                  ["broth_bone", 2]
+                              ],
+                              [
+                                  ["meat", 2]
+                              ],
+                              [
+                                  ["veggy_wild", 2],
+                                  ["veggy", 2]
+                              ]
+                          ]
+        },
 
         {
             "result": "soup_human",
@@ -4094,9 +4279,11 @@
                              ["fire", -1]
                          ],
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
-                             ["toolset", -1],
-                             ["rock", -1]
+                             ["hatchet", -1],
+                             ["toolset", -1]
                          ],
                          [
                              ["pot", -1],
@@ -4758,13 +4945,20 @@
         {
             "result": "directional_antenna",
             "category": "CC_ELECTRONIC",
+            "skill_pri": "electronics",
             "difficulty": 4,
             "time": 5000,
             "reversible": true,
             "autolearn": true,
             "tools": [
                        [["hacksaw", -1], ["toolset", -1]],
-                       [["hammer", -1], ["toolset", -1], ["rock", -1]]
+                       [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
+                             ["toolset", -1]
+					   ]
                      ],
             "components": [
                             [["amplifier", 1]],
@@ -5918,6 +6112,7 @@
                          ],
                          [
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -5957,6 +6152,7 @@
                          ],
                          [
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -5996,6 +6192,7 @@
                          ],
                          [
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -6035,6 +6232,7 @@
                          ],
                          [
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -6948,7 +7146,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -6974,7 +7175,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -7445,7 +7649,9 @@
             "tools": [
                          [
                              ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -7590,8 +7796,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hammer", -1],
+                             ["rock", -1],
                              ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -7619,8 +7827,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
                              ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -7651,8 +7861,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
                              ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -7866,7 +8078,10 @@
                              ["toolset", -1]
                          ],
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -7916,7 +8131,10 @@
                              ["toolset", -1]
                          ],
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -7944,7 +8162,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -8068,7 +8289,10 @@
                              ["toolset", -1]
                          ],
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -8229,7 +8453,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -8252,7 +8479,10 @@
             "autolearn": true,
             "tools": [
                          [
+                             ["rock", -1],
+                             ["primitive_hammer", -1],
                              ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -8480,10 +8710,11 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
-                             ["rock", -1],
-                             ["toolset", -1]
+                            ["rock", -1],
+                            ["primitive_hammer", -1],
+                            ["hammer", -1],
+                            ["hatchet", -1],
+                            ["toolset", -1]
                          ]
                      ],
             "components": [
@@ -8504,9 +8735,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -8566,9 +8798,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -8761,9 +8994,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ]
                      ],
@@ -8785,9 +9019,10 @@
             "autolearn": true,
             "tools": [
                          [
-                             ["hatchet", -1],
-                             ["hammer", -1],
                              ["rock", -1],
+                             ["primitive_hammer", -1],
+                             ["hammer", -1],
+                             ["hatchet", -1],
                              ["toolset", -1]
                          ],
                          [
@@ -9413,8 +9648,150 @@
                                   ["scrap", 3]
                               ]
                           ]
-        }
+        },
+        {
+            "result": "1st_aid",
+            "category": "CC_MISC",
+            "skill_pri": "firstaid",
+            "difficulty": 3,
+            "time": 20000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+            ],
+            "components": [
+                              [
+                                  ["duct_tape", 40],
+                                  ["medical_tape", 20]
+                              ],
+                              [
+                                  ["aspirin", 8]
+                              ],
+                              [
+                                  ["disinfectant", 2]
+                              ],
+                              [
+                                  ["bandages", 2]
+                              ]
+                          ]
+        },
+       {
+            "result": "jerrycan",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 1,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1],
+                             ["screwdriver", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["string_36", 1]
+                              ],
+                              [
+                                  ["duct_tape", 50]
+                              ],
+                              [
+                                  ["jug_plastic", 4]
+                              ]
+                          ]
+        },
+      {
+            "result": "jerrycan_big",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 2,
+            "time": 30000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["toolset", -1],
+                             ["screwdriver", -1]
+                         ],
+                         [
+                             ["toolset", -1],
+                             ["hacksaw", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["string_36", 1]
+                              ],
+                              [
+                                  ["metal_tank", 1]
+                              ],
+                              [
+                                  ["scrap", 1]
+                              ]
+                          ]
+        },
+            {
+                "result": "nailrifle",
+                "category": "CC_WEAPON",
+                "skill_pri": "mechanics",
+                "skill_sec": "gun",
+                "difficulty": 2,
+                "time": 12000,
+                "reversible": true,
+                "autolearn": true,
+                "tools": [
+                             [
+                                 ["hacksaw", -1],
+                                 ["toolset", -1]
+                             ],
+                             [
+                                 ["screwdriver", -1],
+                                 ["toolset", -1]
+                             ]
+                         ],
+                "components": [
+                                  [
+                                      ["pipe", 1]
+                                  ],
+                                  [
+                                      ["2x4", 2]
+                                  ],
+                                  [
+                                      ["nailgun", 1]
+                                  ]
+                              ]
+            },
 
-        
+        {
+            "result": "gold",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "difficulty": 0,
+            "time": 2000,
+            "reversible": true,
+            "autolearn": false,
+            "tools": [
+                         [
+                             ["hammer", -1],
+                             ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["gold_small", 800]
+                              ]
+                          ]
+        }
     ]
 }

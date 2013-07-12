@@ -183,7 +183,7 @@ public:
  void infect(dis_type type, body_part vector, int strength, int duration,
              game *g);
 // add_disease() does NOT give us a chance to save
- void add_disease(dis_type type, int duration, game *g, int intensity = 0,
+ void add_disease(dis_type type, int duration, int intensity = 0,
                   int max_intensity = -1);
  void rem_disease(dis_type type);
  bool has_disease(dis_type type) const;
@@ -263,18 +263,20 @@ public:
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);
  bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
- item i_rem(char let);	// Remove item from inventory; returns ret_null on fail
+ item i_rem(game* g, char let);	// Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
  void remove_mission_items(int mission_id);
  item i_remn(char invlet);// Remove item from inventory; returns ret_null on fail
  item &i_at(char let);	// Returns the item with inventory letter let
  item &i_of_type(itype_id type); // Returns the first item with this type
+ item get_combat_style(); // Returns the combat style item
  std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
  int  butcher_factor();	// Automatically picks our best butchering tool
  item*  pick_usb(); // Pick a usb drive, interactively if it matters
  bool is_wearing(itype_id it);	// Are we wearing a specific itype?
  bool has_artifact_with(art_effect_passive effect);
+ bool worn_with_flag( std::string flag ) const;
 
 // has_amount works ONLY for quantity.
 // has_charges works ONLY for charges.

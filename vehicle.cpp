@@ -923,9 +923,16 @@ int vehicle::total_power (bool fueled)
 int vehicle::solar_power ()
 {
     int pwr = 0;
-    for (int p = 0; p < parts.size(); p++)
-        if (part_flag(p, vpf_solar_panel) && parts[p].hp > 0)
-            pwr += part_power(p);
+    for (int p = 0; p < parts.size(); p++) {
+        if (part_flag(p, vpf_solar_panel) && parts[p].hp > 0) {
+            int part_x = global_x() + parts[p].precalc_dx[0];
+            int part_y = global_y() + parts[p].precalc_dy[0];
+            // Can't use g->in_sunlight() because it factors in vehicle roofs.
+            if( !g->m.has_flag_ter_or_furn( indoors, part_x, part_y ) ) {
+                pwr += (part_power(p) * g->natural_light_level()) / DAYLIGHT_LEVEL;
+            }
+        }
+    }
     return pwr;
 }
 
@@ -1318,8 +1325,7 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
     bool is_body_collision = ph || mondex >= 0;
 
     veh_coll_type collision_type = veh_coll_nothing;
-    std::string obs_name = g->m.has_furn(x, y) ?
-        g->m.furnname(x, y).c_str() : g->m.tername(x, y).c_str();
+    std::string obs_name = g->m.name(x, y).c_str();
 
     // vehicle collisions are a special case. just return the collision.
     // the map takes care of the dynamic stuff.
@@ -1771,14 +1777,7 @@ void vehicle::gain_moves (int mp)
             thrust (cruise_velocity > velocity? 1 : -1);
     }
 
-    if (g->is_in_sunlight(global_x(), global_y())) {
-      refill (AT_BATT, solar_power());
-    }
-
-    // If the vehicle is moving, trickle-charge storage batteries.
-    if (velocity && one_in(10)) {
-      refill (AT_BATT, abs(velocity) / 100);
-    }
+    refill (AT_BATT, solar_power());
 
     // check for smoking parts
     for (int ep = 0; ep < external_parts.size(); ep++)

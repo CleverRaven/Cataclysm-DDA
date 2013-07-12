@@ -17,6 +17,11 @@
 #include <clocale>
 #include <libintl.h>
 #include "translations.h"
+#if (defined OSX_SDL_FW)
+#include "SDL.h"
+#elif (defined OSX_SDL_LIBS)
+#include "SDL/SDL.h"
+#endif
 
 void exit_handler(int s);
 
@@ -37,6 +42,7 @@ int main(int argc, char *argv[])
 // set locale to system default
  setlocale(LC_ALL, "");
  bindtextdomain("cataclysm-dda", "lang/mo");
+ bind_textdomain_codeset("cataclysm-dda", "UTF-8");
  textdomain("cataclysm-dda");
 
 //args: world seeding only.
@@ -67,7 +73,7 @@ int main(int argc, char *argv[])
 
  bool quit_game = false;
  bool delete_world = false;
- game *g = new game;
+ g = new game;
  g->init_ui();
  MAPBUFFER.set_game(g);
  g->load_artifacts(); //artifacts have to be loaded before any items are created

@@ -22,7 +22,7 @@ void game::show_options()
 {
     // Remember what the options were originally so we can restore them if player cancels.
     option_table OPTIONS_OLD = OPTIONS;
-    
+
     WINDOW* w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                       (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0,
                                       (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0);
@@ -327,6 +327,13 @@ option_key lookup_option_key(std::string id)
     if(id == "hide_cursor") {
         return OPT_HIDE_CURSOR;
     }
+    if(id == "auto_pickup") {
+        return OPT_AUTO_PICKUP;
+    }
+    if(id == "auto_pickup_zero") {
+        return OPT_AUTO_PICKUP_ZERO;
+    }
+
     return OPT_NULL;
 }
 
@@ -367,6 +374,8 @@ std::string option_string(option_key key)
     case OPT_RAD_MUTATION:        return "rad_mutation";
     case OPT_SAVESLEEP:           return "save_sleep";
     case OPT_HIDE_CURSOR:         return "hide_cursor";
+    case OPT_AUTO_PICKUP:         return "auto_pickup";
+    case OPT_AUTO_PICKUP_ZERO:    return "auto_pickup_zero";
     default:                      return "unknown_option";
     }
     return "unknown_option";
@@ -379,7 +388,7 @@ std::string option_desc(option_key key)
     case OPT_USE_METRIC_SYS:      return "If true, use Km/h not mph.\nDefault is mph";
     case OPT_FORCE_YN:            return "If true, y/n prompts are case-\nsensitive and y and n\nare not accepted.\nDefault is true";
     case OPT_NO_CBLINK:           return "If true, bright backgrounds are not\nused--some consoles are not\ncompatible.\nDefault is false";
-    case OPT_24_HOUR:             return "12h/24h Time:\n0 - AM/PM (default)\n1 - 24h military\n2 - 24h normal";
+    case OPT_24_HOUR:             return "12h/24h Time:\n0 - AM/PM (default)  eg: 7:31 AM\n1 - 24h military     eg: 0731\n2 - 24h normal       eg: 7:31";
     case OPT_SNAP_TO_TARGET:      return "If true, automatically follow the\ncrosshair when firing/throwing.\nDefault is false";
     case OPT_SAFEMODE:            return "If true, safemode will be on after\nstarting a new game or loading.\nDefault is true";
     case OPT_SAFEMODEPROXIMITY:   return "If safemode is enabled,\ndistance to hostiles when safemode\nshould show a warning.\n0=Viewdistance, and the default";
@@ -409,6 +418,8 @@ std::string option_desc(option_key key)
     case OPT_RAD_MUTATION:        return "If true, radiation causes the player\nto mutate.\nDefault is true";
     case OPT_SAVESLEEP:           return "If true, game will ask to save the map\nbefore sleeping. Default is false";
     case OPT_HIDE_CURSOR:         return "If 0, cursor is always shown. If 1,\ncursor is hidden. If 2, cursor is\nhidden on keyboard input and\nunhidden on mouse movement.\nDefault is 0.";
+    case OPT_AUTO_PICKUP:         return "Enable item auto pickup. Change\npickup rules with the Auto Pickup\nManager in the Help Menu ?3";
+    case OPT_AUTO_PICKUP_ZERO:    return "Auto pickup items with\n0 Volume and Weight";
     default:                      return " ";
     }
     return "Big ol Bug (options.cpp:option_desc)";
@@ -451,6 +462,8 @@ std::string option_name(option_key key)
     case OPT_RAD_MUTATION:        return "Mutations by radiation";
     case OPT_SAVESLEEP:           return "Ask to save before sleeping";
     case OPT_HIDE_CURSOR:         return "Hide Mouse Cursor";
+    case OPT_AUTO_PICKUP:         return "Enable item Auto Pickup";
+    case OPT_AUTO_PICKUP_ZERO:    return "Auto Pickup 0 Vol/Weight";
     default:                      return "Unknown Option (options.cpp:option_name)";
     }
     return "Big ol Bug (options.cpp:option_name)";
@@ -638,6 +651,8 @@ random_npc F\n\
 rad_mutation T\n\
 # Ask to save before sleeping.\n\
 save_sleep F\n\
+# Auto Pickup items with Volume and Weight 0\n\
+auto_pickup F\n\
 ";
     fout.close();
 }

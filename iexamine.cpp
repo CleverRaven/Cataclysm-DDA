@@ -17,8 +17,7 @@
 #include <sstream>
 
 void iexamine::none	(game *g, player *p, map *m, int examx, int examy) {
- g->add_msg("That is a %s.", m->has_furn(examx, examy) ?
-            m->furnname(examx, examy).c_str() : m->tername(examx, examy).c_str());
+ g->add_msg("That is a %s.", m->name(examx, examy).c_str());
 };
 
 void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
@@ -26,20 +25,32 @@ void iexamine::gaspump(game *g, player *p, map *m, int examx, int examy) {
   none(g, p, m, examx, examy);
   return;
  }
- bool use_pump = false;
- item gas(g->itypes["gasoline"], g->turn);
- if (one_in(10 + p->dex_cur)) {
-  g->add_msg("You accidentally spill the gasoline.");
-  m->add_item(p->posx, p->posy, gas);
-  use_pump = true;
- } else {
-  p->moves -= 300;
-  use_pump = g->handle_liquid(gas, false, true);
+
+ for (int i = 0; i < m->i_at(examx, examy).size(); i++) {
+  if (m->i_at(examx, examy)[i].made_of(LIQUID)) {
+   item* liq = &(m->i_at(examx, examy)[i]);
+
+   if (one_in(10 + p->dex_cur)) {
+    g->add_msg("You accidentally spill the %s.", liq->type->name.c_str());
+    item spill(liq->type, g->turn);
+    spill.charges = rng(dynamic_cast<it_ammo*>(liq->type)->count,
+                        dynamic_cast<it_ammo*>(liq->type)->count * (float)(8 / p->dex_cur));
+    m->add_item_or_charges(p->posx, p->posy, spill, 1);
+    liq->charges -= spill.charges;
+    if (liq->charges < 1) {
+     m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+    }
+   } else {
+    p->moves -= 300;
+    if (g->handle_liquid(*liq, true, false)) {
+     g->add_msg("With a clang and a shudder, the %s pump goes silent.", liq->type->name.c_str());
+     m->i_at(examx, examy).erase(m->i_at(examx, examy).begin() + i);
+    }
+   }
+   return;
+  }
  }
- if (use_pump && one_in(10)) {
-  g->add_msg("With a clang and a shudder, the gas pump goes silent.");
-  m->ter_set(examx, examy, t_gas_pump_empty);
- }
+ g->add_msg("Out of order.");
 }
 
 void iexamine::elevator(game *g, player *p, map *m, int examx, int examy){
@@ -522,7 +533,7 @@ void iexamine::fswitch(game *g, player *p, map *m, int examx, int examy) {
 }
 
 void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
-  if(!query_yn("Pick %s?",m->tername(examx, examy).c_str())) {
+  if(!query_yn("Pick %s?",m->furnname(examx, examy).c_str())) {
     none(g, p, m, examx, examy);
     return;
   }
@@ -538,13 +549,13 @@ void iexamine::flower_poppy(game *g, player *p, map *m, int examx, int examy) {
     // Should user player::infect, but can't!
     // player::infect needs to be restructured to return a bool indicating success.
     g->add_msg("You fall asleep...");
-    p->add_disease(DI_SLEEP, 1200, g);
+    p->add_disease("sleep", 1200);
     g->add_msg("Your legs are covered by flower's roots!");
     p->hurt(g,bp_legs, 0, 4);
     p->moves-=50;
   }
 
-  m->ter_set(examx, examy, t_dirt);
+  m->furn_set(examx, examy, f_null);
   m->spawn_item(examx, examy, "poppy_flower", 0);
   m->spawn_item(examx, examy, "poppy_bud", 0);
 }

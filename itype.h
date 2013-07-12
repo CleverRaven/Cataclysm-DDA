@@ -74,27 +74,6 @@ SW_DATA,
 NUM_SOFTWARE_TYPES
 };
 
-enum ammo_effect {
-AMMO_FLAME,		// Sets fire to terrain and monsters
-AMMO_INCENDIARY,	// Sparks explosive terrain
-AMMO_IGNITE,         // Sets fire to some monsters
-AMMO_EXPLOSIVE,		// Small explosion
-AMMO_FRAG,		// Frag explosion
-AMMO_NAPALM,		// Firey explosion
-AMMO_ACIDBOMB, // Acid bomb ammo
-AMMO_EXPLOSIVE_BIG,	// Big explosion!
-AMMO_TEARGAS,		// Teargas burst
-AMMO_SMOKE,  		// Smoke burst
-AMMO_TRAIL,		// Leaves a trail of smoke
-AMMO_FLASHBANG,		// Disorients and blinds
-AMMO_STREAM,		// Doesn't stop once it hits a monster
-AMMO_COOKOFF,  // Explodes when burned instead of just burning
-AMMO_LASER,      // laser effects
-AMMO_BOUNCE,
-AMMO_LIGHTNING,
-NUM_AMMO_EFFECTS
-};
-
 enum technique_id {
 TEC_NULL,
 // Offensive Techniques
@@ -358,7 +337,7 @@ struct it_ammo : public itype
  unsigned char recoil;	// Recoil; modified by strength
  unsigned char count;	// Default charges
 
- unsigned ammo_effects : NUM_AMMO_EFFECTS;
+ std::set<std::string> ammo_effects;
 
  virtual bool is_ammo() { return true; }
 // virtual bool count_by_charges() { return id != "gasoline"; }
@@ -373,7 +352,6 @@ struct it_ammo : public itype
      dispersion = 0;
      recoil = 0;
      count = 0;
-     ammo_effects = 0;
  }
 
  it_ammo(std::string pid, unsigned char prarity, unsigned int pprice,
@@ -381,7 +359,7 @@ struct it_ammo : public itype
         char psym, nc_color pcolor, std::string pm1, phase_id pphase,
         unsigned short pvolume, unsigned short pweight,
         signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-        unsigned effects,
+         std::set<std::string> effects,
 
         ammotype ptype, unsigned char pdamage, unsigned char ppierce,
 	signed char pdispersion, unsigned char precoil, unsigned char prange,
@@ -576,31 +554,11 @@ struct it_book : public itype
  }
 };
 
-enum container_flags {
- con_rigid,
- con_wtight,
- con_seals,
- num_con_flags
-};
-
 struct it_container : public itype
 {
  unsigned char contains;	// Internal volume
- unsigned flags : num_con_flags;
  virtual bool is_container() { return true; }
- it_container(std::string pid, unsigned char prarity, unsigned int pprice,
-              std::string pname, std::string pdes,
-              char psym, nc_color pcolor, std::string pm1, std::string pm2,
-              unsigned short pvolume, unsigned short pweight,
-              signed char pmelee_dam, signed char pmelee_cut,
-              signed char pm_to_hit,
-
-              unsigned char pcontains, unsigned pflags)
-:itype(pid, prarity, pprice, pname, pdes, psym, pcolor, pm1, pm2, SOLID,
-       pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit) {
-  contains = pcontains;
-  flags = pflags;
- }
+ it_container() {};
 };
 
 struct it_tool : public itype

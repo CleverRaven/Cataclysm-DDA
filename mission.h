@@ -67,7 +67,7 @@ enum mission_goal {
  MGOAL_KILL_MONSTER_TYPE, // Kill a number of a given monster type
  MGOAL_RECRUIT_NPC,  // Recruit a given NPC
  MGOAL_RECRUIT_NPC_CLASS,  // Recruit an NPC class
- 
+
  NUM_MGOAL
 };
 
@@ -96,7 +96,7 @@ struct mission_start {
  void place_priest_diary (game *, mission *); // Hides the priest's diary in a local house
  void place_deposit_box (game *, mission *); // Place a safe deposit box in a nearby bank
  void reveal_lab_black_box (game *, mission *); // Reveal the nearest lab and give black box
- void oepn_sarcophagus (game *, mission *); // Reveal the sarcophagus and give access code acidia v
+ void open_sarcophagus (game *, mission *); // Reveal the sarcophagus and give access code acidia v
  void reveal_hospital	(game *, mission *); // Reveal the nearest hospital
  void find_safety	(game *, mission *); // Goal is set to non-spawn area
  void point_prison  (game *, mission *); // Point to prison entrance

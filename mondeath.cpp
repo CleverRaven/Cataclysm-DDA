@@ -77,7 +77,7 @@ void mdeath::normal(game *g, monster *z)
     for (int i = 0; i < gib_amount; i++)
     {
         const int rand_posx = z->posx + rng(1,5) - 3;
-        const int rand_posy = z->posx + rng(1,5) - 3;
+        const int rand_posy = z->posy + rng(1,5) - 3;
         const int rand_density = rng(1, 3);
 
         if (z->made_of("flesh") || z->made_of("hflesh"))
@@ -114,7 +114,7 @@ void mdeath::boomer(game *g, monster *z)
   }
  }
  if (rl_dist(z->posx, z->posy, g->u.posx, g->u.posy) == 1)
-  g->u.infect(DI_BOOMERED, bp_eyes, 2, 24, g);
+  g->u.infect("boomered", bp_eyes, 2, 24, g);
 }
 
 void mdeath::kill_vines(game *g, monster *z)
@@ -197,7 +197,7 @@ void mdeath::fungus(game *g, monster *z)
      if (!g->z[g->mon_at(sporex, sporey)].make_fungus(g))
       g->kill_mon(g->mon_at(sporex, sporey), (z->friendly != 0));
     } else if (g->u.posx == sporex && g->u.posy == sporey)
-     g->u.infect(DI_SPORES, bp_mouth, 4, 30, g);
+     g->u.infect("spores", bp_mouth, 4, 30, g);
     else {
      spore.spawn(sporex, sporey);
      g->z.push_back(spore);
@@ -316,14 +316,14 @@ void mdeath::melt(game *g, monster *z)
 
 void mdeath::amigara(game *g, monster *z)
 {
- if (g->u.has_disease(DI_AMIGARA)) {
+ if (g->u.has_disease("amigara")) {
   int count = 0;
   for (int i = 0; i < g->z.size(); i++) {
    if (g->z[i].type->id == mon_amigara_horror)
     count++;
   }
   if (count <= 1) { // We're the last!
-   g->u.rem_disease(DI_AMIGARA);
+   g->u.rem_disease("amigara");
    g->add_msg("Your obsession with the fault fades away...");
    item art(g->new_artifact(), g->turn);
    g->m.add_item(z->posx, z->posy, art);
@@ -354,7 +354,7 @@ void mdeath::explode(game *g, monster *z)
 
 void mdeath::ratking(game *g, monster *z)
 {
- g->u.rem_disease(DI_RAT);
+ g->u.rem_disease("rat");
 }
 
 void mdeath::smokeburst(game *g, monster *z)
@@ -389,42 +389,42 @@ void mdeath::zombie(game *g, monster *z)
     switch(z->type->id)
     {
         case mon_zombie_cop:
-            g->m.put_items_from(mi_cop_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_cop_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_cop_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("cop_shoes", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("cop_torso", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("cop_pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
         break;
 
         case mon_zombie_scientist:
-            g->m.put_items_from(mi_lab_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_lab_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_lab_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("lab_shoes", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("lab_torso", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("lab_pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
         break;
 
         case mon_zombie_soldier:
-            g->m.put_items_from(mi_cop_shoes, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_mil_armor_torso, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_mil_armor_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("cop_shoes", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("mil_armor_torso", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("mil_armor_pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             if (one_in(4))
             {
-                g->m.put_items_from(mi_mil_armor_helmet, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("mil_armor_helmet", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             }
         break;
 
         case mon_zombie_hulk:
             g->m.spawn_item(z->posx, z->posy, "rag", g->turn, 0, 0, rng(5,10));
-            g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             break;
 
         default:
-            g->m.put_items_from(mi_pants, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
-            g->m.put_items_from(mi_shirts, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("pants", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+            g->m.put_items_from("shirts", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             if (one_in(6))
             {
-                g->m.put_items_from(mi_jackets, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("jackets", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             }
             if (one_in(15))
             {
-                g->m.put_items_from(mi_bags, 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
+                g->m.put_items_from("bags", 1, z->posx, z->posy, g->turn, 0, 0, rng(1,4));
             }
         break;
     }
