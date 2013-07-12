@@ -122,7 +122,7 @@ class game
   void vadd_msg(const char* msg, va_list ap );
   void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
-  void add_msg_action(player *p, const char* player_str, const char* npc_str, const char* shared_str, ...);
+  void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
   std::string press_x(action_id act);	// (Press X (or Y)|Try) to Z
   std::string press_x(action_id act, std::string key_bound,
                                      std::string key_unbound);

@@ -2739,18 +2739,19 @@ void game::add_msg_if_player(player *p, const char* msg, ...)
  }
 }
 
-void game::add_msg_action(player *p, const char* player_str, const char* npc_str, const char* shared_str, ...)
+void game::add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...)
 {
     va_list ap;
-    va_start(ap, shared_str);
-    if (p && p->is_npc() && u_see(p))
-    {
-     add_msg("%s%s %s",p->name.c_str(),npc_str,shared_str,ap);
+    if( !p ) {return; }
+
+    va_start( ap, npc_str );
+
+    if( !p->is_npc() ) {
+        add_msg( player_str, ap );
+    } else if( u_see( p ) ) {
+        add_msg( npc_str, p->name.c_str(), ap );
     }
-    else if (p && !p->is_npc())
-    {
-     add_msg("You%s %s",player_str, shared_str,ap);
-    }
+
     va_end(ap);
 }
 

@@ -261,7 +261,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       // Current guns have a durability between 5 and 9.
       // Misfire chance is between 1/64 and 1/1024.
       if (one_in(2 << firing->durability)) {
-          add_msg_action(&p,"r","'s","weapon misfired!");
+          add_msg_player_or_npc( &p, _("Your weapon misfires!"),
+                                 _("%s's weapon misfires!") );
           return;
       }
   }
@@ -296,13 +297,13 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
     trajectory = line_to(p.posx, p.posy, mtarx, mtary, 0);
    missed = true;
    if (!burst) {
-     add_msg_action(&p," miss!"," misses!","");
+       add_msg_player_or_npc( &p, _("You miss!"), _("%s misses!") );
    }
   } else if (missed_by >= .7 / monster_speed_penalty) {
 // Hit the space, but not necessarily the monster there
    missed = true;
    if (!burst) {
-    add_msg_action(&p," barely miss!"," barely misses!","");
+       add_msg_player_or_npc( &p, _("You barely miss!"), _("%s barely misses!") );
    }
   }
 

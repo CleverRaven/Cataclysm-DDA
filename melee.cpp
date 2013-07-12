@@ -879,26 +879,30 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
     if (x != tarx || y != tary) { // Don't double-hit our target
      int mondex = g->mon_at(x, y);
      if (mondex != -1 && hit_roll() >= rng(0, 5) + g->z[mondex].dodge_roll()) {
-      count_hit++;
-      int dam = roll_bash_damage(&(g->z[mondex]), false) +
-                roll_cut_damage (&(g->z[mondex]), false);
-      if (g->z[mondex].hurt(dam))
-       g->z[mondex].die(g);
-      if (weapon.has_technique(TEC_FLAMING, this)) // Add to wide attacks
-       g->z[mondex].add_effect(ME_ONFIRE, rng(3, 4));
-      g->add_msg_action(p," hit"," hits","%s for %d damage!", target.c_str(), dam);
+         count_hit++;
+         int dam = roll_bash_damage(&(g->z[mondex]), false) +
+             roll_cut_damage (&(g->z[mondex]), false);
+         if (g->z[mondex].hurt(dam)) {
+             g->z[mondex].die(g);
+         }
+         if (weapon.has_technique(TEC_FLAMING, this))  { // Add to wide attacks
+             g->z[mondex].add_effect(ME_ONFIRE, rng(3, 4));
+         }
+         g->add_msg_player_or_npc( this, _("You hit %s!"), _("%s hits %s!"), target.c_str() );
      }
      int npcdex = g->npc_at(x, y);
      if (npcdex != -1 &&
          hit_roll() >= rng(0, 5) + g->active_npc[npcdex]->dodge_roll(g)) {
-      count_hit++;
-      int dam = roll_bash_damage(NULL, false);
-      int cut = roll_cut_damage (NULL, false);
-      g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
-      if (weapon.has_technique(TEC_FLAMING, this)) // Add to wide attacks
-       g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
-      g->add_msg_action(p," hit"," hits","%s for %d damage!", target.c_str(), dam + cut);
-       g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
+         count_hit++;
+         int dam = roll_bash_damage(NULL, false);
+         int cut = roll_cut_damage (NULL, false);
+         g->active_npc[npcdex]->hit(g, bp_legs, 3, dam, cut);
+         if (weapon.has_technique(TEC_FLAMING, this)) {// Add to wide attacks
+             g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
+         }
+         g->add_msg_player_or_npc( this, _("You hit %s!"), _("%s hits %s!"), target.c_str() );
+
+         g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
      }
     }
    }
@@ -908,7 +912,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
 
  case TEC_DISARM:
   g->m.add_item(p->posx, p->posy, p->remove_weapon());
-  g->add_msg_action(p," disarm"," disarms",target.c_str(),"!");
+  g->add_msg_player_or_npc( this, _("You disarm %s!"), _("%s disarms %s!"), target.c_str() );
   break;
 
  } // switch (tech)
@@ -1013,7 +1017,9 @@ void player::perform_defensive_technique(
     else
      side = 1;
    }
-   g->add_msg_action(p," block with your", " blocks with their", body_part_name(bp_hit, side).c_str());
+   g->add_msg_player_or_npc( this, _("You block with your %s!"), _("%s blocks with their %s!"),
+                             body_part_name(bp_hit, side).c_str() );
+
    bash_dam *= .5;
    double reduction = 1.0;
 // Special reductions for certain styles
@@ -1036,13 +1042,14 @@ void player::perform_defensive_technique(
    bash_dam = 0;
    cut_dam = 0;
    stab_dam = 0;
-   g->add_msg_action(p," block with your", " blocks with their", weapon.tname().c_str());
+   g->add_msg_player_or_npc( this, _("You block with your %s!"), _("%s blocks with their %s!"),
+                             weapon.tname().c_str() );
 
   case TEC_COUNTER:
    break; // Handled elsewhere
 
   case TEC_DEF_THROW:
-   g->add_msg_action(p," throw", " throws", target.c_str());
+   g->add_msg_player_or_npc( this, _("You throw %s."), _("%s throws %s."), target.c_str() );
    bash_dam = 0;
    cut_dam  = 0;
    stab_dam = 0;
@@ -1061,7 +1068,8 @@ void player::perform_defensive_technique(
    bash_dam = p->roll_bash_damage(NULL, false);
    cut_dam  = p->roll_cut_damage(NULL, false);
    stab_dam = p->roll_stab_damage(NULL, false);
-   g->add_msg_action(p," disarm", " disarms", target.c_str());
+   g->add_msg_player_or_npc( this, _("You disarm %s."), _("%s disarms %s."), target.c_str() );
+
    break;
 
  } // switch (technique)
@@ -1152,18 +1160,21 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  if (crit)
   stab_moves *= 1.5;
  if (stab_moves >= 150) {
-  g->add_msg_action(p," force"," forces","the %s to the ground!", target.c_str());
-  if (mon) {
-   z->add_effect(ME_DOWNED, 1);
-   z->moves -= stab_moves / 2;
-  } else {
-   p->add_disease("downed", 1);
-   p->moves -= stab_moves / 2;
-  }
- } else if (mon)
-  z->moves -= stab_moves;
- else
-  p->moves -= stab_moves;
+     g->add_msg_player_or_npc( p, _("You force the %s to the ground!"),
+                               _("%s forces %s to the ground!"), target.c_str() );
+
+     if (mon) {
+         z->add_effect(ME_DOWNED, 1);
+         z->moves -= stab_moves / 2;
+     } else {
+         p->add_disease("downed", 1);
+         p->moves -= stab_moves / 2;
+     }
+ } else if (mon) {
+     z->moves -= stab_moves;
+ } else {
+     p->moves -= stab_moves;
+ }
 
 // Bonus attacks!
  bool shock_them = (has_bionic("bio_shock") && power_level >= 2 &&
@@ -1183,7 +1194,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   if (mon) {
    z->hurt( shock * rng(1, 3) );
    z->moves -= shock * 180;
-   g->add_msg_action(p," shock"," shocks",target.c_str());
+   g->add_msg_player_or_npc( p, _("You shock %s."), _("%s shocks %s."), target.c_str() );
   } else {
    p->hurt(g, bp_torso, 0, shock * rng(1, 3));
    p->moves -= shock * 80;
@@ -1192,7 +1203,8 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
 
  if (drain_them) {
   charge_power(rng(0, 4));
-  g->add_msg_action(p," drain"," drains","%s body heat!", target_possessive.c_str());
+  g->add_msg_player_or_npc( p, _("You drain %s body heat!"), _("%s drains %s body heat!"),
+                            target_possessive.c_str() );
   if (mon) {
    z->moves -= rng(80, 120);
    z->speed -= rng(4, 6);
@@ -1211,7 +1223,9 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
 // Glass weapons shatter sometimes
  if (weapon.made_of("glass") &&
      rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
-  g->add_msg_action(p,"r","'s","%s shatters!", weapon.tname(g).c_str());
+     g->add_msg_player_or_npc( p, _("Your %s shatters!"), _("%s's %s shatters!"),
+                               weapon.tname(g).c_str() );
+
   g->sound(posx, posy, 16, "");
 // Dump its contents on the ground
   for (int i = 0; i < weapon.contents.size(); i++)

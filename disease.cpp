@@ -722,14 +722,18 @@ void dis_effect(game *g, player &p, disease &dis)
    if ((p.has_trait(PF_WEAKSTOMACH) && one_in(1600 + bonus *  8)) ||
        (p.has_trait(PF_NAUSEA) && one_in(800 + bonus * 6)) ||
        one_in(2000 + bonus * 10)) {
-    g->add_msg_action(&p," vomit"," vomits","a thick, grey goop.");
-    p.moves = -200;
-    p.hunger += 50;
-    p.thirst += 68;
+       g->add_msg_player_or_npc( &p, _("You vomit a thick, gray goop."),
+                                 _("%s vomits a thick, grey goop.") );
+
+       p.moves = -200;
+       p.hunger += 50;
+       p.thirst += 68;
    }
   } else {	// Full symptoms
    if (one_in(1000 + bonus * 8)) {
-    g->add_msg_action(&p," vomit"," vomits", "thousnds of live spores!");
+    g->add_msg_player_or_npc( &p, _("You vomit thousands of live spores!"),
+                              _("%s vomits thousands of live spores!") );
+
     p.moves = -500;
     int sporex, sporey;
     monster spore(g->mtypes[mon_spore]);
@@ -752,9 +756,10 @@ void dis_effect(game *g, player &p, disease &dis)
      }
     }
    } else if (one_in(6000 + bonus * 20)) {
-    g->add_msg_action(&p,"r","'s"," hands bulge. Fungus stalks burst through the bulge!");
-    p.hurt(g, bp_arms, 0, 60);
-    p.hurt(g, bp_arms, 1, 60);
+       g->add_msg_player_or_npc( &p, _("Your hands bulge. Fungus stalks burst through the bulge!"),
+                                 _("%s's hands bulge. Fungus stalks burst through the bulge!") );
+       p.hurt(g, bp_arms, 0, 60);
+       p.hurt(g, bp_arms, 1, 60);
    }
   }
   break;
@@ -943,12 +948,13 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_BLEED:
   if (one_in(6)) {
-   g->add_msg_action(&p," lose"," losses","some blood.");
-   p.pain++;
-   p.hurt(g, bp_torso, 0, 1);
-   p.per_cur--;
-   p.str_cur --;
-   g->m.add_field(g, p.posx, p.posy, fd_blood, 1);
+      g->add_msg_player_or_npc( &p, _("You lose some blood."), _("%s loses some blood.") );
+
+      p.pain++;
+      p.hurt(g, bp_torso, 0, 1);
+      p.per_cur--;
+      p.str_cur --;
+      g->m.add_field(g, p.posx, p.posy, fd_blood, 1);
   }
   break;
 
@@ -1016,7 +1022,10 @@ void dis_effect(game *g, player &p, disease &dis)
    }
    if (valid_spawns.size() >= 1) {
     p.rem_disease("dermatik"); // No more infection!  yay.
-    g->add_msg_action(&p,"r","'s","flesh crawls. Insects tear through the flesh and begin to emerge!");
+    g->add_msg_player_or_npc( &p,
+        _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
+        _("Insects begin to emerge from %s's skin!") );
+
     p.moves -= 600;
     monster grub(g->mtypes[mon_dermatik_larva]);
     while (valid_spawns.size() > 0 && num_insects > 0) {

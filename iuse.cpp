@@ -3045,7 +3045,9 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
  if (pos.x == -999 || pos.y == -999)
   return;
 
- g->add_msg_action(p," squeeze the"," squeezes a","pheromone ball...");
+ g->add_msg_player_or_npc( p, _("You squeeze the pheremone ball.."),
+                           _("%s squeezes the pheremone ball...") );
+
  p->moves -= 15;
 
  int converts = 0;
