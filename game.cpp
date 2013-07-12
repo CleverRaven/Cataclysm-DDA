@@ -75,7 +75,6 @@ game::game() :
  gamemode(NULL)
 {
  dout() << "Game initialized.";
-
  try {
  if(!json_good())
   throw (std::string)"Failed to initialize a static variable";
@@ -83,6 +82,7 @@ game::game() :
  init_fields();
  init_faction_data();
  init_traits();
+ init_lua();          // Set up lua                       (SEE catalua.cpp)
  init_skills();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	              // Set up item types                (SEE itypedef.cpp)

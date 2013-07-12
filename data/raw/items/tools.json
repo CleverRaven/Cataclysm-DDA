@@ -19,7 +19,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "LIGHTER"
+    "use_action": "TELLSTUFF"
   },
 
   {
@@ -67,7 +67,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "PRIMITIVE_FIRE"
+    "use_action": "CUSTOM_PROZAC"
   },
 
   {
@@ -91,7 +91,7 @@
     "turns_per_charge": 0,
     "ammo": "THREAD",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": "CUSTOM_FLUMED"
   },
 
   {
