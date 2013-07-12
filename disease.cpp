@@ -59,7 +59,7 @@ std::map<std::string, dis_type_enum> disease_type_lookup;
 
 void game::init_diseases() {
     // Initialize the disease lookup table.
-    
+
     disease_type_lookup["null"] = DI_NULL;
     disease_type_lookup["glare"] = DI_GLARE;
     disease_type_lookup["wet"] = DI_WET;
@@ -355,9 +355,6 @@ void dis_msg(game *g, dis_type type_string)
     case DI_HEAVYSNARE:
         g->add_msg(_("You are snared."));
         break;
-	 case DI_GBS:
- 		 g->add_msg("You begin to feel victimized.");
- 		 break;
     default:
         break;
     }
@@ -578,21 +575,6 @@ void dis_effect(game *g, player &p, disease &dis)
     g->sound(p.posx, p.posy, 12, "loud coughing");
   }
   break;
-
- case DI_GBS:
-	 
-   p.int_cur -= 3;
-  if (int(g->turn) % 300 == 0) 
-  {
-   p.moves -= 80;
-   if (!p.is_npc()) 
-   {
-    g->add_msg("You fart loudly. Nice.");
-    g->sound(p.posx, p.posy, 20, "");
-   } else
-    g->sound(p.posx, p.posy, 20, "loud farting");
-  }
- break;
 
  case DI_FLU:
   if (int(g->turn) % 300 == 0)
@@ -1637,8 +1619,6 @@ std::string dis_name(disease dis)
     case DI_CIG: return _("Cigarette");
     case DI_HIGH: return _("High");
     case DI_VISUALS: return _("Hallucinating");
- case DI_GBS:		return "The Raging Farts";
-
     case DI_ADRENALINE:
         if (dis.duration > 150) return _("Adrenaline Rush");
         else return _("Adrenaline Comedown");
@@ -1684,7 +1664,7 @@ std::string dis_description(disease dis)
 {
     int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
-    
+
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
 
@@ -1836,14 +1816,6 @@ Your hands are blistering from the intense heat. It is extremely painful.");
 Your legs are blistering from the intense heat. It is extremely painful.");
     case DI_BLISTERS_FEET: return _("\
 Your feet are blistering from the intense heat. It is extremely painful.");
- case DI_GBS:			return "\
-Your fursuit seems to be actively sapping your intelligence\n\
-It's also giving you a tummy ache. :(";
-
- case DI_FLU:		return "\
-Increased thirst;  Frequent coughing;  Occasional vomiting\n\
-Strength - 4;  Dexterity - 2;  Intelligence - 2;  Perception - 1\n\
-Symptoms alleviated by medication (Dayquil or Nyquil).";
 
     case DI_COMMON_COLD:
         stream << _("Increased thirst") << ";   " << _("Frequent coughing")
