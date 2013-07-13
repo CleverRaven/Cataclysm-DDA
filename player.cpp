@@ -2878,48 +2878,18 @@ int player::throw_range(signed char ch)
 
 int player::ranged_dex_mod(bool real_life)
 {
- int dex = (real_life ? dex_cur : dex_max);
- if (dex == 8)
-  return 0;
- if (dex > 8)
-  return (real_life ? (0 - rng(0, dex - 8)) : (8 - dex));
+    const int dex = (real_life ? dex_cur : dex_max);
 
- int deviation = 0;
- if (dex < 4)
-  deviation = 4 * (8 - dex);
- else if (dex < 6)
-  deviation = 2 * (8 - dex);
- else
-  deviation = 1.5 * (8 - dex);
-
- return (real_life ? rng(0, deviation) : deviation);
+    if (dex >= 12) { return 0; }
+    return 12 - dex;
 }
 
 int player::ranged_per_mod(bool real_life)
 {
- int per = (real_life ? per_cur : per_max);
- if (per == 8)
-  return 0;
- int deviation = 0;
+ const int per = (real_life ? per_cur : per_max);
 
- if (per < 4) {
-  deviation = 5 * (8 - per);
-  if (real_life)
-   deviation = rng(0, deviation);
- } else if (per < 6) {
-  deviation = 2.5 * (8 - per);
-  if (real_life)
-   deviation = rng(0, deviation);
- } else if (per < 8) {
-  deviation = 2 * (8 - per);
-  if (real_life)
-   deviation = rng(0, deviation);
- } else {
-  deviation = 3 * (0 - (per > 16 ? 8 : per - 8));
-  if (real_life && one_in(per - 8))
-   deviation = 0 - rng(0, abs(deviation));
- }
- return deviation;
+ if (per >= 12) { return 0; }
+ return 12 - per;
 }
 
 int player::throw_dex_mod(bool real_life)
