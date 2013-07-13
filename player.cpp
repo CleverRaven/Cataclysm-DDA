@@ -6538,7 +6538,7 @@ void player::use(game *g, char let)
    g->add_msg("You need to be at least level 1 in the firearms skill before you\
  can modify guns.");
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   char gunlet = g->inv("Select gun to modify:");
@@ -6547,56 +6547,56 @@ void player::use(game *g, char let)
   if (gun->is_null()) {
    g->add_msg("You do not have that item.");
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (!gun->is_gun()) {
    g->add_msg("That %s is not a gun.", gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   it_gun* guntype = dynamic_cast<it_gun*>(gun->type);
   if (guntype->skill_used == Skill::skill("archery") || guntype->skill_used == Skill::skill("launcher")) {
    g->add_msg("You cannot mod your %s.", gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   if (guntype->skill_used == Skill::skill("pistol") && !mod->used_on_pistol) {
    g->add_msg("That %s cannot be attached to a handgun.",
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (guntype->skill_used == Skill::skill("shotgun") && !mod->used_on_shotgun) {
    g->add_msg("That %s cannot be attached to a shotgun.",
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (guntype->skill_used == Skill::skill("smg") && !mod->used_on_smg) {
    g->add_msg("That %s cannot be attached to a submachine gun.",
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (guntype->skill_used == Skill::skill("rifle") && !mod->used_on_rifle) {
    g->add_msg("That %s cannot be attached to a rifle.",
               used->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if ( mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
    g->add_msg("That %s cannot be used on a %s gun.", used->tname(g).c_str(),
               ammo_name(guntype->ammo).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   } else if (gun->contents.size() >= 4) {
    g->add_msg("Your %s already has 4 mods installed!  To remove the mods,\
 press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   if ((mod->id == "clip" || mod->id == "clip2" || mod->id == "spare_mag") &&
@@ -6604,14 +6604,14 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
    g->add_msg("You can not extend the ammo capacity of your %s.",
               gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   if (mod->id == "spare_mag" && gun->has_flag("RELOAD_ONE")) {
    g->add_msg("You can not use a spare magazine with your %s.",
               gun->tname(g).c_str());
    if (replace_item)
-    inv.add_item(copy);
+    inv.add_item_keep_invlet(copy);
    return;
   }
   for (int i = 0; i < gun->contents.size(); i++) {
@@ -6619,7 +6619,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     g->add_msg("Your %s already has a %s.", gun->tname(g).c_str(),
                used->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
 	      !gun->contents[i].has_flag("MODE_AUX") &&
@@ -6627,7 +6627,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     g->add_msg("Your %s's caliber has already been modified.",
                gun->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    } else if ((mod->id == "barrel_big" || mod->id == "barrel_small") &&
               (gun->contents[i].type->id == "barrel_big" ||
@@ -6635,7 +6635,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     g->add_msg("Your %s already has a barrel replacement.",
                gun->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    } else if ((mod->id == "clip" || mod->id == "clip2") &&
               (gun->contents[i].type->id == "clip" ||
@@ -6643,7 +6643,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     g->add_msg("Your %s already has its magazine size extended.",
                gun->tname(g).c_str());
     if (replace_item)
-     inv.add_item(copy);
+     inv.add_item_keep_invlet(copy);
     return;
    }
   }
@@ -6662,22 +6662,22 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
    if (!replace_item)
     i_rem(let);
   } else if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   return;
 
  } else if (used->is_food() || used->is_food_container()) {
   if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   eat(g, lookup_item(let));
   return;
  } else if (used->is_book()) {
   if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   read(g, let);
   return;
  } else if (used->is_armor()) {
   if (replace_item)
-   inv.add_item(copy);
+   inv.add_item_keep_invlet(copy);
   wear(g, let);
   return;
  } else
@@ -6685,7 +6685,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
              used->tname(g).c_str());
 
  if (replace_item)
-  inv.add_item(copy);
+  inv.add_item_keep_invlet(copy);
 }
 
 hint_rating player::rate_action_read(item *it, game *g)
