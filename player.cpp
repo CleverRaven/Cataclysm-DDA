@@ -6470,6 +6470,8 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
             }
         }
     }
+    if(it->is_book())
+        return HINT_GOOD;
     // no recipe exists, or the item cannot be disassembled
     return HINT_CANT;
 }

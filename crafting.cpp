@@ -1486,6 +1486,20 @@ void game::disassemble(char ch)
             }
         }
     }
+    //if we're trying to disassemble a book or magazine
+    if(dis_item->is_book())
+    {
+       if (OPTIONS[OPT_QUERY_DISASSEMBLE] && !(query_yn("Do you want to tear %s into pages?", dis_item->tname(this).c_str())))
+             return;
+        else
+        {
+            //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
+            int num_pages = (dis_item->volume() *2) * 10;
+            m.spawn_item(u.posx,u.posy,"paper", 0, 1, num_pages);
+            u.inv.remove_item(dis_item);
+        }
+        return;
+    }
     // no recipe exists, or the item cannot be disassembled
     add_msg("This item cannot be disassembled!");
 }
