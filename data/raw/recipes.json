@@ -8383,7 +8383,21 @@
                               ]
                           ]
         },
-
+        {
+            "result": "wire_barbed",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "skill_sec": "construction",
+            "difficulty": 2,
+            "time": 8000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                     [ ["boltcutters", -1], ["toolset", -1] ],
+                     [ ["hammer", -1], ["hatchet", -1] ]
+                 ],
+            "components": [ [ ["wire", 2] ] ]
+        },
 
         {
             "result": "torch",
@@ -8494,8 +8508,19 @@
                               ]
                           ]
         },
+        {
+            "result": "screwdriver",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 0,
+            "time": 2000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [ [ ["hammer", -1], ["toolset", -1], ["hatchet", -1] ] ],
+            "components": [ [ ["steel_chunk", 2] ],
+                            [ ["duct_tape", 30] ] ]
 
-
+        },
         {
             "result": "superglue",
             "category": "CC_MISC",
