@@ -650,7 +650,10 @@ void monster::hit_player(game *g, player &p, bool can_grab)
             if (tech == TEC_COUNTER && !is_npc)
             {
                 g->add_msg("Counter-attack!");
+                // A counterattack is a free action to avoid stunlocking the player.
+                int player_moves = p.moves;
                 hurt( p.hit_mon(g, this) );
+                p.moves = player_moves;
             }
         }
     }
