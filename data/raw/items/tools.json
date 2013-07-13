@@ -3951,7 +3951,6 @@
     "use_action": "RAG"
   },
   {
-<<<<<<< HEAD
     "id": "talking_doll",
     "type": "TOOL",
     "symbol": "|",

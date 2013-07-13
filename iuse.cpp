@@ -4596,7 +4596,6 @@ void iuse::rad_badge(game *g, player *p, item *it, bool t)
     it->make(g->itypes["rad_badge"]);
 }
 
-<<<<<<< HEAD
 void iuse::boots(game *g, player *p, item *it, bool t)
 {
  int choice = -1;
@@ -4634,7 +4633,7 @@ void iuse::boots(game *g, player *p, item *it, bool t)
   }
   p->moves -= 30;
   g->add_msg_if_player(p, "You put the %s in your boot.", put->tname().c_str());
-  it->put_in(p->i_rem(g, ch));
+  it->put_in(p->i_rem(ch));
  }
 }
 
