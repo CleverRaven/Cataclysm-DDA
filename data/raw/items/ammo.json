@@ -385,7 +385,7 @@
         "name" : ".22 FMJ",
         "symbol" : "=",
         "color" : "light_blue",
-        "description" : "A brass-jacketed .22 calibre round sith surperior penetration capacity.",
+        "description" : "A brass-jacketed .22 calibre round with surperior penetration capacity.",
         "material" : "steel",
         "volume" : 2,
         "weight" : 3,
