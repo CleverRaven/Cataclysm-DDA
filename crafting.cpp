@@ -1518,7 +1518,7 @@ void game::complete_disassemble()
       else
         m.add_item(u.posx, u.posy, ammodrop, MAX_ITEM_IN_SQUARE);
     }
-    u.i_rem(this,u.activity.values[0]);  // remove the item
+    u.i_rem(u.activity.values[0]);  // remove the item
 
   // consume tool charges
   for (int j = 0; j < dis->tools.size(); j++)

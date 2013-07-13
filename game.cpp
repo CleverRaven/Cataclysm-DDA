@@ -5689,7 +5689,8 @@ void game::exam_vehicle(vehicle &veh, int examx, int examy, int cx, int cy)
     if (vehint.sel_cmd != ' ')
     {                                                        // TODO: different activity times
         u.activity = player_activity(ACT_VEHICLE,
-                                     vehint.sel_cmd == 'f' || vehint.sel_cmd == 's' ? 200 : 20000,
+                                     vehint.sel_cmd == 'f' || vehint.sel_cmd == 's' ||
+                                     vehint.sel_cmd == 'c' ? 200 : 20000,
                                      (int) vehint.sel_cmd, 0, "");
         u.activity.values.push_back (veh.global_x());    // values[0]
         u.activity.values.push_back (veh.global_y());    // values[1]
@@ -8852,7 +8853,7 @@ void game::drop(char chInput)
   dropped = multidrop();
  else {
   if (u.inv.item_by_letter(chInput).is_null()) {
-   dropped.push_back(u.i_rem(this,chInput));
+   dropped.push_back(u.i_rem(chInput));
   } else {
    dropped.push_back(u.inv.remove_item_by_letter(chInput));
   }
@@ -9064,7 +9065,7 @@ void game::plthrow(char chInput)
   return;
  if (passtarget != -1)
   last_target = targetindices[passtarget];
- u.i_rem(this,ch);
+ u.i_rem(ch);
  u.moves -= 125;
  u.practice(turn, "throw", 10);
 

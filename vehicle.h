@@ -185,6 +185,10 @@ public:
 
     void remove_part (int p);
 
+// Generate the corresponding item from a vehicle part.
+// Still needs to be removed.
+    item item_from_part( int part );
+
 // translate item health to part health
     void get_part_properties_from_item (game* g, int partnum, item& i);
 // translate part health to item health (very lossy.)
@@ -388,6 +392,7 @@ public:
     int type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     std::vector<int> external_parts;   // List of external parts indeces
+    std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
     int exhaust_dy;
 

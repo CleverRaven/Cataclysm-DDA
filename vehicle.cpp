@@ -12,7 +12,8 @@ enum vehicle_controls {
  toggle_lights,
  toggle_turrets,
  release_control,
- control_cancel
+ control_cancel,
+ convert_vehicle
 };
 
 vehicle::vehicle(game *ag, vhtype_id type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
@@ -61,7 +62,8 @@ bool vehicle::player_in_control (player *p)
 void vehicle::load (std::ifstream &stin)
 {
     int t;
-    int fdir, mdir, skd, prts, cr_on, li_on;
+    int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
+    std::string vehicle_tag;
     stin >>
         t >>
         posx >>
@@ -124,6 +126,14 @@ void vehicle::load (std::ifstream &stin)
     find_exhaust ();
     insides_dirty = true;
     precalc_mounts (0, face.dir());
+
+    stin >> tag_count;
+    for( int i = 0; i < tag_count; ++i )
+    {
+        stin >> vehicle_tag;
+        tags.insert( vehicle_tag );
+    }
+    getline(stin, databuff); // Clear EoL
 }
 
 void vehicle::save (std::ofstream &stout)
@@ -164,6 +174,13 @@ void vehicle::save (std::ofstream &stout)
                     stout << parts[p].items[i].contents[l].save_info() << std::endl; // contents info
             }
     }
+
+    stout << tags.size() << ' ';
+    for( std::set<std::string>::const_iterator it = tags.begin(); it != tags.end(); ++it )
+    {
+        stout << *it << " ";
+    }
+    stout << std::endl;
 }
 
 void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
@@ -280,6 +297,12 @@ std::string vehicle::use_controls()
   curent++;
  }
 
+ if( !g->u.controlling_vehicle && tags.count("convertible") ) {
+  options_choice.push_back(convert_vehicle);
+  options_message.push_back(uimenu_entry("Fold bicycle", 'f'));
+  curent++;
+ }
+
  // Exit vehicle, if we are in it.
  int vpart;
  if (g->u.controlling_vehicle &&
@@ -319,6 +342,29 @@ std::string vehicle::use_controls()
    g->u.controlling_vehicle = false;
    g->add_msg("You let go of the controls.");
    break;
+  case convert_vehicle:
+  {
+   g->add_msg("You painstakingly pack the bicycle into a portable configuration.");
+   // create a folding bicycle item
+   item bicycle;
+   bicycle.make(g->itypes["folding_bicycle"]);
+
+   std::ostringstream part_hps;
+   // Stash part HP in item
+   for (int p = 0; p < parts.size(); p++)
+   {
+       part_hps << parts[p].hp << " ";
+   }
+   bicycle.item_vars["folding_bicycle_parts"] = part_hps.str();
+
+   g->m.add_item(g->u.posx, g->u.posy, bicycle);
+   // Remove vehicle
+   unboard_all();
+   g->m.destroy_vehicle(this);
+
+   g->u.moves -= 500;
+   break;
+  }
   case control_cancel:
    break;
  }
@@ -382,6 +428,13 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
     {
         int res = vpart_list[id].flags & mfb(vpf_external);
         return res; // can be mounted if first and external
+    }
+
+    // Override for replacing a tire.
+    if( vpart_list[id].flags & mfb(vpf_wheel) &&
+        -1 != part_with_feature(parts_here[0], vpf_wheel, false) )
+    {
+        return true;
     }
 
     int flags1 = part_info(parts_here[0]).flags;
@@ -537,6 +590,20 @@ void vehicle::remove_part (int p)
     insides_dirty = true;
 }
 
+item vehicle::item_from_part( int part )
+{
+    itype_id itm = part_info(part).item;
+    int bigness = parts[part].bigness;
+    itype* parttype = g->itypes[itm];
+    item tmp(parttype, g->turn);
+
+    //transfer damage, etc.
+    give_part_properties_to_item(g, part, tmp);
+    if( parttype->is_var_veh_part() ) {
+        tmp.bigness = bigness;
+    }
+    return tmp;
+}
 
 std::vector<int> vehicle::parts_at_relative (int dx, int dy)
 {
