@@ -4639,13 +4639,9 @@ void iuse::boots(game *g, player *p, item *it, bool t)
 void iuse::towel(game *g, player *p, item *it, bool t)
 {
     // check if player is wet
-    if (p->has_disease("wet"))
+    if( abs(p->has_morale(MORALE_WET)) )
     {
-        // remove wetness
-        p->rem_disease("wet");
-        // add a morale bonus for being dry now, but do not remove the wet morale penalty because player was recently wet.
-        // pretty much the inverse of WET morale penalty. Can be tweaked later if the morale increase for becoming dry is too great.
-        p->add_morale(MORALE_DRIED_OFF, 1, 50, 60, 10, true);
+        p->rem_morale(MORALE_WET);
         g->add_msg_if_player(p,"You use the %s to dry off!", it->name.c_str());
     }
     else

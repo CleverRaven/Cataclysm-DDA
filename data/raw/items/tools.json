@@ -3995,6 +3995,6 @@
     "turns_per_charge": 0,
     "ammo": "none",
     "revert_to": "null",
-    "use_action": "ABSORBANT"
+    "use_action": "ABSORBENT"
   }
 ]

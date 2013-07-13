@@ -4367,6 +4367,16 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
     }
 }
 
+int player::has_morale( morale_type type ) const
+{
+    for( int i = 0; i < morale.size(); i++ ) {
+        if( morale[i].type == type ) {
+            return morale[i].bonus;
+        }
+    }
+    return 0;
+}
+
 void player::rem_morale(morale_type type, itype* item_type)
 {
  for (int i = 0; i < morale.size(); i++) {
