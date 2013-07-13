@@ -979,30 +979,32 @@ void npc::move_to(game *g, int x, int y)
   x = newpath[0].x;
   y = newpath[0].y;
  }
- if (x == posx && y == posy)	// We're just pausing!
+ if (x == posx && y == posy)	{ // We're just pausing!
   moves -= 100;
- else if (g->mon_at(x, y) != -1) {	// Shouldn't happen, but it might.
+ } else if (g->mon_at(x, y) != -1) {	// Shouldn't happen, but it might.
   //monster *m = &(g->z[g->mon_at(x, y)]);
   //debugmsg("Bumped into a monster, %d, a %s",g->mon_at(x, y),m->name().c_str());
   melee_monster(g, g->mon_at(x, y));
  } else if (g->u.posx == x && g->u.posy == y) {
   say(g, "<let_me_pass>");
   moves -= 100;
- } else if (g->npc_at(x, y) != -1)
+ } else if (g->npc_at(x, y) != -1) {
 // TODO: Determine if it's an enemy NPC (hit them), or a friendly in the way
   moves -= 100;
- else {
+ } else {
   if (in_vehicle) {
-  // TODO: handle this nicely - npcs should not jump from moving vehicles
-  g->m.unboard_vehicle(g, posx, posy);
+      // TODO: handle this nicely - npcs should not jump from moving vehicles
+      g->m.unboard_vehicle(g, posx, posy);
   }
   else
   {
      vehicle *tmp = g->m.veh_at(x, y);
-     if(tmp != NULL)
-      if(tmp->velocity > 0)
-       moves -=100;
-     return;
+     if(tmp != NULL) {
+         if(tmp->velocity > 0) {
+             moves -= 100;
+             return;
+         }
+     }
  }
   if (g->m.move_cost(x, y) > 0) {
   posx = x;
