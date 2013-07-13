@@ -280,6 +280,7 @@
     <ClInclude Include="..\skill.h" />
     <ClInclude Include="..\text_snippets.h" />
     <ClInclude Include="..\tileray.h" />
+    <ClInclude Include="..\translations.h" />
     <ClInclude Include="..\trap.h" />
     <ClInclude Include="..\tutorial.h" />
     <ClInclude Include="..\ui.h" />
