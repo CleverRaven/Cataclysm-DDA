@@ -27,7 +27,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     for (int i = 1; i < 79; i++)
         mvwputch(w_open, 23, i, c_white, LINE_OXOX);
 
-    mvwprintz(w_open, 24, 5, c_red, "Please report bugs to Jon93 NOT the DDA team.");
+    mvwprintz(w_open, 24, 5, c_red, "Please report bugs to Jon93 or PiCroft NOT the DDA team.");
 
     int iLine = 0;
     const int iOffsetX1 = 3;
@@ -61,7 +61,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "/    |    \\|   Y  \\\\  ___/  / __ \\_/ /_/ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "\\____|__  /|___|  / \\___  >(____  /\\____ | ");
         mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "        \\/      \\/      \\/      \\/      \\/ ");
-        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "SA Edition: 0.4.1 -The UnFuckening",getVersionString());
+        mvwprintz(w_open, iLine++, iOffsetX3, cColor3, "SA Edition: 0.4.3",getVersionString());
     }
 
     std::vector<std::string> vMenuItems;

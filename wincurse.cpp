@@ -50,7 +50,7 @@ bool WinCreate()
     int WinBorderWidth;
     int WinTitleSize;
     unsigned int WindowStyle;
-    const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.6git");
+    const WCHAR *szTitle=  (L"Cataclysm: Goon Days Ahead - 0.4.3");
     WinTitleSize = GetSystemMetrics(SM_CYCAPTION);      //These lines ensure
     WinBorderWidth = GetSystemMetrics(SM_CXDLGFRAME) * 2;  //that our window will
     WinBorderHeight = GetSystemMetrics(SM_CYDLGFRAME) * 2; // be a perfect size
@@ -207,7 +207,7 @@ void curses_drawwindow(WINDOW *win)
 
 					int cw = mk_wcwidth((wchar_t)tmp);
 					len = ANY_LENGTH-len;
-					if(cw>1) 
+					if(cw>1)
 					{
 						FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
 						w+=cw-1;
