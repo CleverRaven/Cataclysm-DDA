@@ -10973,8 +10973,8 @@ void game::spawn_mon(int shiftx, int shifty)
       iter++;
 
      } while ((!zom.can_move_to(this, monx, mony) || !is_empty(monx, mony) ||
-                m.sees(u.posx, u.posy, monx, mony, SEEX, t) ||
-                rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
+               m.sees(u.posx, u.posy, monx, mony, SEEX, t) || !m.is_outside(monx, mony) ||
+               rl_dist(u.posx, u.posy, monx, mony) < 8) && iter < 50);
      if (iter < 50) {
       zom.spawn(monx, mony);
       z.push_back(zom);
