@@ -1894,9 +1894,10 @@ gun for ranged combat, and enhances many actions that require finesse.");
  // display player current INT effects
    mvwprintz(w_stats, 6, 2, c_magenta, "Read times: %d%%%%           ",
              read_speed(false));
-   mvwprintz(w_stats, 7, 2, c_magenta, "Crafting Bonus: %d          ",
+   mvwprintz(w_stats, 7, 2, c_magenta, "Skill rust: %d%%%%           ",
+             rust_rate(false));
+   mvwprintz(w_stats, 8, 2, c_magenta, "Crafting Bonus: %d          ",
              int_cur);
-   mvwprintz(w_stats, 8, 2, c_magenta, "                             ");
 
     mvwprintz(w_info, 0, 0, c_magenta, "\
 Intelligence is less important in most situations, but it is vital for more\n\
@@ -2949,6 +2950,18 @@ int player::read_speed(bool real_life)
   ret *= .8;
  if (ret < 100)
   ret = 100;
+ return (real_life ? ret : ret / 10);
+}
+
+int player::rust_rate(bool real_life)
+{
+ if (OPTIONS[OPT_SKILL_RUST] == 4) return 0;
+ int intel = (real_life ? int_cur : int_max);
+ int ret = (OPTIONS[OPT_SKILL_RUST] < 2 ? 500 : 500 - 35 * (intel - 8));
+ if (has_trait(PF_FORGETFUL))
+  ret *= 1.33;
+ if (ret < 0)
+  ret = 0;
  return (real_life ? ret : ret / 10);
 }
 

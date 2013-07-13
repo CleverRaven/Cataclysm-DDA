@@ -155,6 +155,7 @@ public:
 
 // Mental skills and stats
  int read_speed		(bool real_life = true);
+ int rust_rate		(bool real_life = true);
  int talk_skill(); // Skill at convincing NPCs of stuff
  int intimidation(); // Physical intimidation
 
