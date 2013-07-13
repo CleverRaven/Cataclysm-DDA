@@ -604,6 +604,10 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_SMOKE:
+  // A hard limit on the duration of the smoke disease.
+  if(dis.duration >= 600) {
+    dis.duration = 600;
+  }
   p.str_cur--;
   p.dex_cur--;
   if (one_in(5)) {

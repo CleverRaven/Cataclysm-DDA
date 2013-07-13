@@ -944,10 +944,6 @@ bool npc::can_move_to(game *g, int x, int y)
 
 void npc::move_to(game *g, int x, int y)
 {
- if (in_vehicle) {
-  // TODO: handle this nicely - npcs should not jump from moving vehicles
-  g->m.unboard_vehicle(g, posx, posy);
- }
 
  if (has_disease("downed")) {
   moves -= 100;
@@ -995,7 +991,20 @@ void npc::move_to(game *g, int x, int y)
  } else if (g->npc_at(x, y) != -1)
 // TODO: Determine if it's an enemy NPC (hit them), or a friendly in the way
   moves -= 100;
- else if (g->m.move_cost(x, y) > 0) {
+ else {
+  if (in_vehicle) {
+  // TODO: handle this nicely - npcs should not jump from moving vehicles
+  g->m.unboard_vehicle(g, posx, posy);
+  }
+  else
+  {
+     vehicle *tmp = g->m.veh_at(x, y);
+     if(tmp != NULL)
+      if(tmp->velocity > 0)
+       moves -=100;
+     return;
+ }
+  if (g->m.move_cost(x, y) > 0) {
   posx = x;
   posy = y;
   bool diag = trigdist && posx != x && posy != y;
@@ -1014,6 +1023,7 @@ void npc::move_to(game *g, int x, int y)
  else
   g->u.rem_disease("bouldering");
   moves -= 100;
+ }
 }
 
 void npc::move_to_next(game *g)
