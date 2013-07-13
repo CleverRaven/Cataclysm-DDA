@@ -7909,7 +7909,7 @@ void game::list_items()
                 reset = true;
                 refilter = true;
             }
-            else if (ch == 'e' || ch == 'E')
+            else if ((ch == 'e' || ch == 'E') && filtered_items.size())
             {
                 item oThisItem = filtered_items[iActive].example;
                 std::vector<iteminfo> vThisItem, vDummy;
