@@ -2782,6 +2782,9 @@ bool game::event_queued(event_type type)
   return false;
 }
 
+// Defined in catalua.cpp
+void lua_command();
+
 void game::debug()
 {
  int action = menu(true, // cancelable
@@ -2802,7 +2805,8 @@ void game::debug()
                    _("Spawn Artifact"),         // 14
                    _("Spawn Clarivoyance Artifact"), //15
                    _("Map editor"), // 16
-                   _("Cancel"),                 // 17
+                   _("Lua Command"), // 17
+                   _("Cancel"),                 // 18
                    NULL);
  int veh_num;
  std::vector<std::string> opts;
@@ -3012,6 +3016,10 @@ z.size(), active_npc.size(), events.size());
 
   case 16: {
       point coord = look_debug();
+  }
+
+  case 17: {
+      lua_command();
   }
   break;
  }

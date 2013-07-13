@@ -7112,7 +7112,7 @@ void player::use(game *g, char let)
   else if (used->invlet == 0 && used == &weapon)
    remove_weapon();
   return;
- } else if (used->type->use != &iuse::boots) {
+ } else if (used->type->use == &iuse::boots) {
    used->type->use.call(g, this, used, false);
    if (replace_item)
     inv.add_item_keep_invlet(copy);

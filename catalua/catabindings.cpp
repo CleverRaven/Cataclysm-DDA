@@ -8,32 +8,34 @@ static int player_get_str_cur(lua_State *L) {
     lua_pushnumber(L, (*player_instance)->str_cur);
     return 1;  // 1 return value
 }
-static int player_get_dex_cur(lua_State *L) {
+static int player_get_int_cur(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
 
     if(!player_instance) {
-        return luaL_error(L, "First argument to player_get_dex_cur is not a player");
+        return luaL_error(L, "First argument to player_get_int_cur is not a player");
     }
-    lua_pushnumber(L, (*player_instance)->dex_cur);
+    lua_pushnumber(L, (*player_instance)->int_cur);
     return 1;  // 1 return value
 }
-static int player_get_health(lua_State *L) {
+static int player_get_fatigue(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
 
     if(!player_instance) {
-        return luaL_error(L, "First argument to player_get_health is not a player");
+        return luaL_error(L, "First argument to player_get_fatigue is not a player");
     }
-    lua_pushnumber(L, (*player_instance)->health);
+    lua_pushnumber(L, (*player_instance)->fatigue);
     return 1;  // 1 return value
 }
-static int player_get_int_max(lua_State *L) {
+static int player_set_fatigue(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
 
     if(!player_instance) {
-        return luaL_error(L, "First argument to player_get_int_max is not a player");
+        return luaL_error(L, "First argument to player_set_fatigue is not a player");
     }
-    lua_pushnumber(L, (*player_instance)->int_max);
-    return 1;  // 1 return value
+    luaL_checktype(L, 2, LUA_TNUMBER);
+    int value = (int) lua_tonumber(L, 2);
+    (*player_instance)->fatigue = value;
+    return 0;  // 0 return values
 }
 static int player_get_name(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
@@ -42,6 +44,24 @@ static int player_get_name(lua_State *L) {
         return luaL_error(L, "First argument to player_get_name is not a player");
     }
     lua_pushstring(L, (*player_instance)->name.c_str());
+    return 1;  // 1 return value
+}
+static int player_get_per_cur(lua_State *L) {
+    player** player_instance = (player**) lua_touserdata(L, 1);
+
+    if(!player_instance) {
+        return luaL_error(L, "First argument to player_get_per_cur is not a player");
+    }
+    lua_pushnumber(L, (*player_instance)->per_cur);
+    return 1;  // 1 return value
+}
+static int player_get_per_max(lua_State *L) {
+    player** player_instance = (player**) lua_touserdata(L, 1);
+
+    if(!player_instance) {
+        return luaL_error(L, "First argument to player_get_per_max is not a player");
+    }
+    lua_pushnumber(L, (*player_instance)->per_max);
     return 1;  // 1 return value
 }
 static int player_get_hunger(lua_State *L) {
@@ -64,22 +84,13 @@ static int player_set_hunger(lua_State *L) {
     (*player_instance)->hunger = value;
     return 0;  // 0 return values
 }
-static int player_get_int_cur(lua_State *L) {
+static int player_get_dex_max(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
 
     if(!player_instance) {
-        return luaL_error(L, "First argument to player_get_int_cur is not a player");
+        return luaL_error(L, "First argument to player_get_dex_max is not a player");
     }
-    lua_pushnumber(L, (*player_instance)->int_cur);
-    return 1;  // 1 return value
-}
-static int player_get_per_cur(lua_State *L) {
-    player** player_instance = (player**) lua_touserdata(L, 1);
-
-    if(!player_instance) {
-        return luaL_error(L, "First argument to player_get_per_cur is not a player");
-    }
-    lua_pushnumber(L, (*player_instance)->per_cur);
+    lua_pushnumber(L, (*player_instance)->dex_max);
     return 1;  // 1 return value
 }
 static int player_get_str_max(lua_State *L) {
@@ -91,43 +102,23 @@ static int player_get_str_max(lua_State *L) {
     lua_pushnumber(L, (*player_instance)->str_max);
     return 1;  // 1 return value
 }
-static int player_get_dex_max(lua_State *L) {
+static int player_get_dex_cur(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
 
     if(!player_instance) {
-        return luaL_error(L, "First argument to player_get_dex_max is not a player");
+        return luaL_error(L, "First argument to player_get_dex_cur is not a player");
     }
-    lua_pushnumber(L, (*player_instance)->dex_max);
+    lua_pushnumber(L, (*player_instance)->dex_cur);
     return 1;  // 1 return value
 }
-static int player_get_per_max(lua_State *L) {
+static int player_get_int_max(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
 
     if(!player_instance) {
-        return luaL_error(L, "First argument to player_get_per_max is not a player");
+        return luaL_error(L, "First argument to player_get_int_max is not a player");
     }
-    lua_pushnumber(L, (*player_instance)->per_max);
+    lua_pushnumber(L, (*player_instance)->int_max);
     return 1;  // 1 return value
-}
-static int player_get_stim(lua_State *L) {
-    player** player_instance = (player**) lua_touserdata(L, 1);
-
-    if(!player_instance) {
-        return luaL_error(L, "First argument to player_get_stim is not a player");
-    }
-    lua_pushnumber(L, (*player_instance)->stim);
-    return 1;  // 1 return value
-}
-static int player_set_stim(lua_State *L) {
-    player** player_instance = (player**) lua_touserdata(L, 1);
-
-    if(!player_instance) {
-        return luaL_error(L, "First argument to player_set_stim is not a player");
-    }
-    luaL_checktype(L, 2, LUA_TNUMBER);
-    int value = (int) lua_tonumber(L, 2);
-    (*player_instance)->stim = value;
-    return 0;  // 0 return values
 }
 static int player_get_thirst(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
@@ -149,25 +140,34 @@ static int player_set_thirst(lua_State *L) {
     (*player_instance)->thirst = value;
     return 0;  // 0 return values
 }
-static int player_get_fatigue(lua_State *L) {
+static int player_get_stim(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
 
     if(!player_instance) {
-        return luaL_error(L, "First argument to player_get_fatigue is not a player");
+        return luaL_error(L, "First argument to player_get_stim is not a player");
     }
-    lua_pushnumber(L, (*player_instance)->fatigue);
+    lua_pushnumber(L, (*player_instance)->stim);
     return 1;  // 1 return value
 }
-static int player_set_fatigue(lua_State *L) {
+static int player_set_stim(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
 
     if(!player_instance) {
-        return luaL_error(L, "First argument to player_set_fatigue is not a player");
+        return luaL_error(L, "First argument to player_set_stim is not a player");
     }
     luaL_checktype(L, 2, LUA_TNUMBER);
     int value = (int) lua_tonumber(L, 2);
-    (*player_instance)->fatigue = value;
+    (*player_instance)->stim = value;
     return 0;  // 0 return values
+}
+static int player_get_health(lua_State *L) {
+    player** player_instance = (player**) lua_touserdata(L, 1);
+
+    if(!player_instance) {
+        return luaL_error(L, "First argument to player_get_health is not a player");
+    }
+    lua_pushnumber(L, (*player_instance)->health);
+    return 1;  // 1 return value
 }
 static int player_get_male(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
@@ -177,16 +177,6 @@ static int player_get_male(lua_State *L) {
     }
     lua_pushboolean(L, (*player_instance)->male);
     return 1;  // 1 return value
-}
-static int player_rem_disease(lua_State *L) {
-    player** player_instance = (player**) lua_touserdata(L, 1);
-
-    if(!player_instance) {
-        return luaL_error(L, "First argument to rem_disease is not a player");
-    }
-    std::string parameter1 = (std::string) lua_tostring(L, 2);
-    (*player_instance)->rem_disease(parameter1);
-    return 0; // 0 return values
 }
 static int player_has_disease(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
@@ -198,6 +188,16 @@ static int player_has_disease(lua_State *L) {
     int rval = (*player_instance)->has_disease(parameter1);
     lua_pushboolean(L, rval);
     return 1; // 1 return values
+}
+static int player_rem_disease(lua_State *L) {
+    player** player_instance = (player**) lua_touserdata(L, 1);
+
+    if(!player_instance) {
+        return luaL_error(L, "First argument to rem_disease is not a player");
+    }
+    std::string parameter1 = (std::string) lua_tostring(L, 2);
+    (*player_instance)->rem_disease(parameter1);
+    return 0; // 0 return values
 }
 static int player_add_disease(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
@@ -212,16 +212,6 @@ static int player_add_disease(lua_State *L) {
     (*player_instance)->add_disease(parameter1, parameter2, parameter3, parameter4);
     return 0; // 0 return values
 }
-static int player_morale_level(lua_State *L) {
-    player** player_instance = (player**) lua_touserdata(L, 1);
-
-    if(!player_instance) {
-        return luaL_error(L, "First argument to morale_level is not a player");
-    }
-    int rval = (*player_instance)->morale_level();
-    lua_pushnumber(L, rval);
-    return 1; // 1 return values
-}
 static int player_is_npc(lua_State *L) {
     player** player_instance = (player**) lua_touserdata(L, 1);
 
@@ -230,6 +220,16 @@ static int player_is_npc(lua_State *L) {
     }
     int rval = (*player_instance)->is_npc();
     lua_pushboolean(L, rval);
+    return 1; // 1 return values
+}
+static int player_morale_level(lua_State *L) {
+    player** player_instance = (player**) lua_touserdata(L, 1);
+
+    if(!player_instance) {
+        return luaL_error(L, "First argument to morale_level is not a player");
+    }
+    int rval = (*player_instance)->morale_level();
+    lua_pushnumber(L, rval);
     return 1; // 1 return values
 }
 static int item_tname(lua_State *L) {
@@ -249,29 +249,29 @@ static int add_msg(lua_State *L) {
 }
 static const struct luaL_Reg gamelib [] = {
     {"player_get_str_cur", player_get_str_cur},
-    {"player_get_dex_cur", player_get_dex_cur},
-    {"player_get_health", player_get_health},
-    {"player_get_int_max", player_get_int_max},
-    {"player_get_name", player_get_name},
-    {"player_get_hunger", player_get_hunger},
-    {"player_set_hunger", player_set_hunger},
     {"player_get_int_cur", player_get_int_cur},
-    {"player_get_per_cur", player_get_per_cur},
-    {"player_get_str_max", player_get_str_max},
-    {"player_get_dex_max", player_get_dex_max},
-    {"player_get_per_max", player_get_per_max},
-    {"player_get_stim", player_get_stim},
-    {"player_set_stim", player_set_stim},
-    {"player_get_thirst", player_get_thirst},
-    {"player_set_thirst", player_set_thirst},
     {"player_get_fatigue", player_get_fatigue},
     {"player_set_fatigue", player_set_fatigue},
+    {"player_get_name", player_get_name},
+    {"player_get_per_cur", player_get_per_cur},
+    {"player_get_per_max", player_get_per_max},
+    {"player_get_hunger", player_get_hunger},
+    {"player_set_hunger", player_set_hunger},
+    {"player_get_dex_max", player_get_dex_max},
+    {"player_get_str_max", player_get_str_max},
+    {"player_get_dex_cur", player_get_dex_cur},
+    {"player_get_int_max", player_get_int_max},
+    {"player_get_thirst", player_get_thirst},
+    {"player_set_thirst", player_set_thirst},
+    {"player_get_stim", player_get_stim},
+    {"player_set_stim", player_set_stim},
+    {"player_get_health", player_get_health},
     {"player_get_male", player_get_male},
-    {"player_rem_disease", player_rem_disease},
     {"player_has_disease", player_has_disease},
+    {"player_rem_disease", player_rem_disease},
     {"player_add_disease", player_add_disease},
-    {"player_morale_level", player_morale_level},
     {"player_is_npc", player_is_npc},
+    {"player_morale_level", player_morale_level},
     {"item_tname", item_tname},
     {"add_msg", add_msg},
     {NULL, NULL}

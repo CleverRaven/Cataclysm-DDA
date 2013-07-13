@@ -51,24 +51,10 @@ void Use_function::call(game* game, player* player_instance, item* item_instance
     } else {
         // If it's a lua function, the arguments have to be wrapped in
         // lua userdata's and passed on the lua stack.
-        // We will now call the function f(player, item, active)
+        // We will now call the function f(item, active)
         
         // Push the lua function on top of the stack
         lua_rawgeti(L, LUA_REGISTRYINDEX, lua_function_index);
-
-        // Push the player object on top of the stack
-        int player_in_registry;
-        {
-            player** player_userdata = (player**) lua_newuserdata(L, sizeof(player*));
-            *player_userdata = player_instance;
-
-            // Save a reference to the player in the registry so that we can deallocate it
-            // once the function call is done.
-            player_in_registry = luah_store_in_registry(L, -1);
-
-            // Set the metatable for the player.
-            luah_setmetatable(L, "player_metatable");
-        }
 
         // Push the item on top of the stack.
         int item_in_registry;
@@ -87,8 +73,20 @@ void Use_function::call(game* game, player* player_instance, item* item_instance
         // Push the "active" parameter on top of the stack.
         lua_pushboolean(g->lua_state, active);
 
+        // Make sure the player global is up-to-date.
+        {
+            player** player_userdata = (player**) lua_newuserdata(g->lua_state, sizeof(player*));
+            *player_userdata = &(g->u);
+
+            // Set the metatable for the player.
+            luah_setmetatable(g->lua_state, "player_metatable");
+            
+            // Store the player as global and back them up in the registry.
+            lua_setglobal(g->lua_state, "player");
+        }
+
         // Call the iuse function
-        int err = lua_pcall(g->lua_state, 3, 0, 0);
+        int err = lua_pcall(g->lua_state, 2, 0, 0);
         if(err) {
             // Error handling.
             const char* error = lua_tostring(L, -1);
@@ -100,9 +98,30 @@ void Use_function::call(game* game, player* player_instance, item* item_instance
         // access.
         luah_remove_from_registry(L, item_in_registry);
         luah_setmetatable(L, "outdated_metatable");
+    }
+}
 
-        luah_remove_from_registry(L, player_in_registry);
-        luah_setmetatable(L, "outdated_metatable");
+// Popup a text input to enter arbitrary scripts and execute it.
+void lua_command() {
+    std::string command = string_input_popup("Lua:", 70, "");
+
+    // Make sure the player global is up-to-date.
+    {
+        player** player_userdata = (player**) lua_newuserdata(g->lua_state, sizeof(player*));
+        *player_userdata = &(g->u);
+
+        // Set the metatable for the player.
+        luah_setmetatable(g->lua_state, "player_metatable");
+        
+        // Store the player as global and back them up in the registry.
+        lua_setglobal(g->lua_state, "player");
+    }
+    
+    int err = luaL_dostring(g->lua_state, command.c_str());
+    if(err) {
+        // Error handling.
+        const char* error = lua_tostring(g->lua_state, -1);
+        debugmsg("Error in lua command: %s", error);
     }
 }
 

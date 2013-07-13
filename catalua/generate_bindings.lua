@@ -192,8 +192,8 @@ function generate_accessors(class, name)
     end
 end
 
-generate_accessors(player.attributes, "player")
-generate_accessors(item.attributes, "item")
+generate_accessors(__player_metatable.attributes, "player")
+generate_accessors(__item_metatable.attributes, "item")
 
 function generate_class_function_wrappers(functions, class)
     for name, func in pairs(functions) do
@@ -201,8 +201,8 @@ function generate_class_function_wrappers(functions, class)
     end
 end
 
-generate_class_function_wrappers(player.functions, "player")
-generate_class_function_wrappers(item.functions, "item")
+generate_class_function_wrappers(__player_metatable.functions, "player")
+generate_class_function_wrappers(__item_metatable.functions, "item")
 
 for name, func in pairs(global_functions) do
     cpp_output = cpp_output .. generate_global_function_wrapper(name, func.cpp_name, func.args, func.rval)
@@ -227,8 +227,8 @@ function generate_registry(class, name)
     end
 end
 
-generate_registry(player, "player")
-generate_registry(item, "item")
+generate_registry(__player_metatable, "player")
+generate_registry(__item_metatable, "item")
 
 for name, func in pairs(global_functions) do
     cpp_output = cpp_output .. tab .. '{"'..name..'", '..name..'},'..br

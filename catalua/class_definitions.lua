@@ -1,6 +1,6 @@
 -- Defines which attributes are exported by our C++ classes.
 
-player = {
+__player_metatable = {
     attributes = {
         hunger = {
             type = "int",
@@ -126,7 +126,7 @@ player = {
 
 ]]
 
-item = {
+__item_metatable = {
     attributes = {
     },
     functions = {

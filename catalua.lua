@@ -7,10 +7,10 @@ item_metatable = {
         end
 
     
-        local attribute = item.attributes[key]
+        local attribute = __item_metatable.attributes[key]
         if attribute then
             return game["item_get_"..key](userdata)
-        elseif item.functions[key] then
+        elseif __item_metatable.functions[key] then
             return game["item_"..key]
         else
             error("Unknown item attribute: "..key)
@@ -18,7 +18,7 @@ item_metatable = {
     end,
 
     __newindex = function(userdata, key, value)
-        local attribute = item.attributes[key]
+        local attribute = __item_metatable.attributes[key]
         if attribute then
             if not attribute.writable then
                 error("Attempting to set read-only item attribute: "..key)
@@ -32,10 +32,10 @@ item_metatable = {
 
 player_metatable = {
     __index = function(userdata, key)
-        local attribute = player.attributes[key]
+        local attribute = __player_metatable.attributes[key]
         if attribute then
             return game["player_get_"..key](userdata)
-        elseif player.functions[key] then
+        elseif __player_metatable.functions[key] then
             return game["player_"..key]
         else
             error("Unknown player attribute: "..key)
@@ -43,7 +43,7 @@ player_metatable = {
     end,
 
     __newindex = function(userdata, key, value)
-        local attribute = player.attributes[key]
+        local attribute = __player_metatable.attributes[key]
         if attribute then
             if not attribute.writable then
                 error("Attempting to set read-only player attribute: "..key)
