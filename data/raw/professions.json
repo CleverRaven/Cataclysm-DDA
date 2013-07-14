@@ -54,7 +54,7 @@
   "ident": "soldier",
   "name": "Military Reserve",
   "description":
-"You're a High school drop out with one goal in mind to join the military. \nNow you finally get in, and the whole world goes to shit.\nYou start out with some military gear.",
+"You're a High school drop out with one goal in mind: to join the military. \nNow you finally get in, and it's hell on Earth in cataclysmic proportions.\nYou start out with some military gear, and a point in survival and firearms.",
   "points": 3,
   "items": ["pants_army", "army_top", "boots_steel", "knife_combat", "binoculars"],
   "skills" : [
@@ -73,7 +73,7 @@
   "ident": "medic",
   "name": "Pre-Med Student",
   "description":
-"You were a Pre-Med Student just starting out in your medical career, \nYou start with some bandages and some first aid skills.",
+"You were a Pre-Med Student just starting out in your medical career, \nYou start with some bandages and a point in first aid.",
   "points": 1,
   "items": ["pants", "dress_shirt", "dress_shoes","water_clean", "bandages", "bandages"],
    "skills" : [
@@ -88,7 +88,7 @@
   "ident": "thug",
   "name": "Mafia Enforcer",
   "description":
-"When it came to getting dirty, the boss knew you could be trusted to get\nthe job done, from performing hits to attitude adjustment, you were the best\nnow at the end of the world, you finally found your place in society.",
+"When it came to getting dirty, the boss knew you could be trusted to get\nthe job done, from performing hits to attitude adjustment you were the best,\nnow at the end of the world, you finally found your place in society.",
   "points": 2,
   "items": ["suit", "bowhat", "dress_shoes", "cig", "mag_porn"],
    "skills" : [
@@ -103,14 +103,14 @@
   "ident": "sheriff",
   "name": "Local Sheriff",
   "description":
-"When you got the call about the disturbances, you came to the rescue\nyou quickly realized you were in over your head, and needed rescuing yourself.\nYou start out with some military clothing, but lost all your gear in the escape.",
+"When you got the call about the disturbances, you came to the rescue you\nand quickly realized you were in over your head,and needed rescuing\nyourself. You start with a point in firearms .",
   "points": 2,
   "items": ["pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "holster"],
    "skills" : [
     {
       "name" : "guns",
       "level" : 1
-     }
+    }
 	]
  },
  
@@ -148,7 +148,7 @@
   "ident": "homeless",
   "name": "Hobo",
   "description":
-"Before the cataclysm everyone thought you were a crazy homeless drunk bastard.\nThey called you names, spit on you, some even urinated on you! but whos \nlaughing now, its the end of the world and your still cleaning their wallets.",
+"You lived on the streets your whole life because you would rather\na bottle of whiskey than a roof over your head, you start with a strong \nalcohol addiction and a pair of pants.",
   "points": -2,
   "items": ["pants", "bottle_glass"],
   "addictions": [
@@ -163,7 +163,7 @@
   "ident": "hunter",
   "name": "Bow Hunter",
   "description":
-"Never one for guns you took a liking to the bow, and hunting came naturally to you\n you start with a point in archery, and a point in survival.",
+"Ever since you were a boy you loved hunting,and you loved the challenge\nof hunting with a bow even more.\nYou start with a point in archery, and a point in survival.",
   "points": 2,
   "items": ["army_top", "boots_steel", "jeans"],
    "skills" : [
@@ -182,7 +182,7 @@
   "ident": "cworker",
   "name": "Handy Man",
   "description":
-"You used to work at the home depot, while building Evac shelters for the city,\nLuckily you were working on one during the cataclysm.",
+"You used to work at the home depot, and you did alot of\nhome renovations yourself. You start with steel toe boots, \na tool belt and a hammer.",
   "points": 3,
   "items": ["tank_top", "boots_steel", "jeans", "hammer", "tool_belt"],
    "skills" : [
@@ -200,7 +200,7 @@
 {  
 "ident": "lumberjack",  
 "name": "Lumberjack",  
-"description":"You're the definition of a man, a grizzly beard and bear-like stature.\nthe only thing keeping the zombies at the door is that mighty ax.",  
+"description":"You worked in the woods your whole life,\nand start with some woodsman gear.",  
 "points": 3, 
 "items": ["jeans", "boots", "hat_hunting", "jacket_flannel"]  
 }, 
@@ -211,14 +211,14 @@
   "description":
 "You've traveled for a living seeing here and there living off\nyour parents trust fund, but now they're all gone and\nthe only thing between you and death, is the open road and your backpack.",
   "points": 2,
-  "items": ["backpack", "shorts_cargo", "sneakers", "tshirt", "socks"]
+  "items": ["backpack", "jeans", "sneakers", "tshirt", "socks"]
  },
  
   {
   "ident": "fastfoodcook",
   "name": "Fast Food Cook",
   "description":
-"You used to work at a fancy fast food joint a week ago but now\nyou show the meaning of \"fast\" food by running for your life.",
+"You used to work at a fancy fast food joint a week ago, but now\nyou show the meaning of \"fast\" food by running for your life.",
   "points": 1,
   "items": ["pants", "sneakers", "tshirt", "socks"],
   "skills" : 
@@ -234,14 +234,62 @@
   "ident": "survivalist",
   "name": "Survivalist",
   "description":
-"You were one of those guys who watched one to many survivalist shows.\nYou start with a backpack and some survival skills.",
+"You were one of those guys who watched one to many survivalist shows.\nYou start with a backpack, blazer and some survival skills.",
   "points": 3,
-  "items": ["shorts_cargo", "sneakers", "tshirt", "socks", "backpack"],
+  "items": ["shorts_cargo", "boots", "blazer", "tshirt", "socks", "backpack"],
   "skills" : [
-	 {
+     {
       "name" : "survival",
       "level" : 1
      }  
     ]
+  },
+
+  {
+  "ident": "electrician",
+  "name": "Electrician",
+  "description":
+"You used to work for some small time business owner\ndoing minor electrical work you just so happened\nto be working on an Evac shelter when the cataclysm struck.",
+  "points": 3,
+  "items": ["jumpsuit", "boots", "tool_belt"],
+   "skills" : [
+     {
+      "name" : "electronics",
+      "level" : 1
+     }
+	 ]
+},
+
+  {
+  "ident": "hacker",
+  "name": "Computer Hacker",
+  "description":
+    "Caffeine pills and all nighters in front of a computer screen\ngave you quite the hacking skills, you start with a point in computers.",
+    "points": 1,
+    "items": ["pants", "tshirt", "sneakers"],
+    "skills" : [
+     {
+      "name" : "computer",
+      "level" : 1
+     }
+	 ]
+    },
+
+  {
+  "ident": "student",
+  "name": "Student",
+  "description":
+"You were a high school student until the teachers literally tried to pick your brains.\nYou start with a backpack and a zombie survival guide.",
+  "points": 2,
+  "items": ["pants", "tshirt", "sneakers", "ZSG", "backpack"]
+},
+
+  {
+  "ident": "SVictim",
+  "name": "Shower Victim",
+  "description":
+"You were in the middle of a nice shower when the cataclysm\nstruck, you start buck naked.",
+  "points": -1,
+  "items": []
   }
 ]
