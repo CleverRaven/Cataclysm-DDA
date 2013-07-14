@@ -102,6 +102,6 @@ void game::init_monitems()
            "robots",4, "tankbot", 1, NULL);
 
  setvector(&monitems[mon_turret],
-           "robots",4, "turret", 1, NULL);
+           "robots",10, "turret", 1, NULL);
 
 }
