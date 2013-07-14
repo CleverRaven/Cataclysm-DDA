@@ -12356,6 +12356,11 @@ void map::add_spawn(mon_id type, int count, int x, int y, bool friendly,
             type, count, x, y);
   return;
  }
+ if( OPTIONS[OPT_CLASSIC_ZOMBIES] && !g->mtypes[type]->in_category(MC_CLASSIC) &&
+     !g->mtypes[type]->in_category(MC_WILDLIFE) ) {
+     // Don't spawn non-classic monsters in classic zombie mode.
+     return;
+ }
  x %= SEEX;
  y %= SEEY;
  spawn_point tmp(type, count, x, y, faction_id, mission_id, friendly, name);
