@@ -1091,6 +1091,7 @@ void game::init_vehicles()
     PART (-5, -1, vp_kitchen_unit);
     PART (-5,  2, vp_board_v);
     PART (-5, -2, vp_board_v);
+    PART (-5, -2, vp_fuel_tank_gas);
 
     PART (-6,  0, vp_board_h);
     PART (-6,  1, vp_board_h);
