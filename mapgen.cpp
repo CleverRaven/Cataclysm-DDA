@@ -12803,10 +12803,9 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    m->place_items("fridge", 82, x1 + 2, y1 + 1, x1 + 2, y1 + 1, false, 0);
    m->furn_set(x1+1, y1+1, f_sink);
    if (x1+4<x2) {
-       oven_x = x1 + 3;
-       oven_y = y1 + 1;
-       cupboard_x = x1 + 3;
-       cupboard_y = y1 + 1;
+       oven_x     = x1 + 3;
+       cupboard_x = x1 + 4;
+       oven_y = cupboard_y = y1 + 1;
 	}
 
    break;
@@ -12815,10 +12814,9 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    m->place_items("fridge", 82, x2 - 2, y1 + 1, x2 - 2, y1 + 1, false, 0);
    m->furn_set(x2-1, y1+1, f_sink);
    if (x2-4>x1) {
-       oven_x = x2 - 3;
-       oven_y = y1 + 1;
+       oven_x     = x2 - 3;
        cupboard_x = x2 - 4;
-       cupboard_y = y1 + 1;
+       oven_y = cupboard_y = y1 + 1;
    }
    break;
   case 3:
@@ -12826,10 +12824,9 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    m->place_items("fridge", 82, x1 + 2, y2 - 1, x1 + 2, y2 - 1, false, 0);
    m->furn_set(x1+1, y2-1, f_sink);
    if (x1+4<x2) {
-       oven_x = x1 + 4;
-       oven_y = y2 - 1;
-       cupboard_x = x1 + 3;
-       cupboard_y = y2 - 1;
+       oven_x     = x1 + 3;
+       cupboard_x = x1 + 4;
+       oven_y = cupboard_y = y2 - 1;
    }
    break;
   case 4:
@@ -12837,10 +12834,9 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
    m->place_items("fridge", 82, x2 - 2, y2 - 1, x2 - 2, y2 - 1, false, 0);
    m->furn_set(x2-1, y2-1, f_sink);
    if (x2-4>x1) {
-       oven_x = x2 - 3;
-       oven_y = y2 - 1;
+       oven_x     = x2 - 3;
        cupboard_x = x2 - 4;
-       cupboard_y = y2 - 1;
+       oven_y = cupboard_y = y2 - 1;
    }
    break;
   }
