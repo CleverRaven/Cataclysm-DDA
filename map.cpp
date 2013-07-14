@@ -1129,6 +1129,8 @@ switch (furn(x, y)) {
    sound += "metal screeching!";
    furn_set(x, y, f_null);
    spawn_item(x, y, "scrap", 0, rng(2, 8));
+   spawn_item(x, y, "screwdriver", 0, rng(2, 8));
+   spawn_item(x, y, "backpack", 0, rng(2, 8));
    const int num_boards = rng(0, 3);
    for (int i = 0; i < num_boards; i++)
     spawn_item(x, y, "steel_chunk", 0);
@@ -1139,6 +1141,22 @@ switch (furn(x, y)) {
    return true;
   }
   break;
+
+ case f_oven:
+  result = rng(0, 30);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "metal screeching!";
+   furn_set(x, y, f_null);
+   spawn_item(x, y, "scrap",       0, rng(0, 6));
+   spawn_item(x, y, "steel_chunk", 0, rng(0, 3));
+   spawn_item(x, y, "element",     0, rng(0, 4));
+   return true;
+  } else {
+   sound += "clang!";
+   return true;
+  }
+ break;
 
  case f_sink:
  case f_toilet:
