@@ -24,6 +24,8 @@
 #define CAMPSIZE 1
 #define CAMPCHECK 3
 
+typedef int tile_coordinate;
+
 class player;
 class item;
 struct itype;
@@ -243,7 +245,7 @@ class map
  bool add_field(game *g, const int x, const int y, const field_id t, const unsigned char density);
  void remove_field(const int x, const int y, const field_id field_to_remove);
  bool process_fields(game *g);				// See fields.cpp
- bool process_fields_in_submap(game *g, const int gridn);	// See fields.cpp
+ bool process_fields_in_submap(submap *sm, tile_coordinate submap_x, tile_coordinate submap_y);	// See fields.cpp
  void step_in_field(const int x, const int y, game *g);		// See fields.cpp
  void mon_in_field(const int x, const int y, game *g, monster *z);	// See fields.cpp
  void field_effect(int x, int y, game *g); //See fields.cpp
