@@ -2878,48 +2878,18 @@ int player::throw_range(signed char ch)
 
 int player::ranged_dex_mod(bool real_life)
 {
- int dex = (real_life ? dex_cur : dex_max);
- if (dex == 8)
-  return 0;
- if (dex > 8)
-  return (real_life ? (0 - rng(0, dex - 8)) : (8 - dex));
+    const int dex = (real_life ? dex_cur : dex_max);
 
- int deviation = 0;
- if (dex < 4)
-  deviation = 4 * (8 - dex);
- else if (dex < 6)
-  deviation = 2 * (8 - dex);
- else
-  deviation = 1.5 * (8 - dex);
-
- return (real_life ? rng(0, deviation) : deviation);
+    if (dex >= 12) { return 0; }
+    return 12 - dex;
 }
 
 int player::ranged_per_mod(bool real_life)
 {
- int per = (real_life ? per_cur : per_max);
- if (per == 8)
-  return 0;
- int deviation = 0;
+ const int per = (real_life ? per_cur : per_max);
 
- if (per < 4) {
-  deviation = 5 * (8 - per);
-  if (real_life)
-   deviation = rng(0, deviation);
- } else if (per < 6) {
-  deviation = 2.5 * (8 - per);
-  if (real_life)
-   deviation = rng(0, deviation);
- } else if (per < 8) {
-  deviation = 2 * (8 - per);
-  if (real_life)
-   deviation = rng(0, deviation);
- } else {
-  deviation = 3 * (0 - (per > 16 ? 8 : per - 8));
-  if (real_life && one_in(per - 8))
-   deviation = 0 - rng(0, abs(deviation));
- }
- return deviation;
+ if (per >= 12) { return 0; }
+ return 12 - per;
 }
 
 int player::throw_dex_mod(bool real_life)
@@ -4367,6 +4337,16 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
     }
 }
 
+int player::has_morale( morale_type type ) const
+{
+    for( int i = 0; i < morale.size(); i++ ) {
+        if( morale[i].type == type ) {
+            return morale[i].bonus;
+        }
+    }
+    return 0;
+}
+
 void player::rem_morale(morale_type type, itype* item_type)
 {
  for (int i = 0; i < morale.size(); i++) {
@@ -4593,7 +4573,7 @@ void player::remove_mission_items(int mission_id)
  inv.remove_mission_items(mission_id);
 }
 
-item player::i_rem(game* g, char let)
+item player::i_rem(char let)
 {
  item tmp;
  if (weapon.invlet == let) {
@@ -6683,7 +6663,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
   if (replace_item)
    gun->contents.push_back(copy);
   else
-   gun->contents.push_back(i_rem(g,let));
+   gun->contents.push_back(i_rem(let));
   return;
 
  } else if (used->is_bionic()) {
@@ -6691,7 +6671,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
   it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
   if (install_bionics(g, tmp)) {
    if (!replace_item)
-    i_rem(g,let);
+    i_rem(let);
   } else if (replace_item)
    inv.add_item(copy);
   return;

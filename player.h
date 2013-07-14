@@ -255,6 +255,7 @@ public:
  void add_morale(morale_type type, int bonus, int max_bonus = 0,
                  int duration = 60, int decay_start = 30,
                  bool cap_existing = false, itype* item_type = NULL);
+ int has_morale( morale_type type ) const;
  void rem_morale(morale_type type, itype* item_type = NULL);
 
  std::string weapname(bool charges = true);
@@ -264,7 +265,7 @@ public:
  int  active_item_charges(itype_id id);
  void process_active_items(game *g);
  bool process_single_active_item(game *g, item *it); // returns false if it needs to be removed
- item i_rem(game* g, char let);	// Remove item from inventory; returns ret_null on fail
+ item i_rem(char let);	// Remove item from inventory; returns ret_null on fail
  item i_rem(itype_id type);// Remove first item w/ this type; fail is ret_null
  item remove_weapon();
  void remove_mission_items(int mission_id);
