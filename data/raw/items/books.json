@@ -1098,5 +1098,27 @@
         "rarity" : 0,
         "price" : 900,
         "required_level" : 0
+    },
+        {
+        "type" : "BOOK",
+        "id" : "ZSG",
+        "name" : "Zombie Survival Guide",
+        "max_level" : 1,
+        "description" : "A book written by Max Brooks. Can train your survival skill to 2.",
+        "weight" : 1,
+        "to_hit" : 1,
+        "color" : "blue",
+        "intelligence" : 0,
+        "symbol" : "?",
+        "material" : ["PAPER", "NULL"],
+        "volume" : 3,
+        "bashing" : 3,
+        "cutting" : 0,
+        "time" : 30,
+        "fun" : 2,
+        "skill" : "survival",
+        "rarity" : 0,
+        "price" : 900,
+        "required_level" : 0
     }
 ]
