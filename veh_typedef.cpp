@@ -995,7 +995,7 @@ void game::init_vehicles()
     //   │"""│
     //   +#=#+
     //   │─+─│
-    //   │oH=+
+    //   │#H=+
     //   │OHO│
     //   │OHO│
     //   │#H&│
@@ -1051,31 +1051,39 @@ void game::init_vehicles()
     PART (-2,  1, vp_board_v);
     PART (-2,  1, vp_roof);
     PART (-2,  1, vp_aisle_h2);
+    PART (-2,  1, vp_floor_trunk);
     PART (-2, -1, vp_board_v);
     PART (-2, -1, vp_roof);
-    PART (-2, -1, vp_floor_trunk);
+    PART (-2, -1, vp_seat);
     PART (-2,  2, vp_door);
     PART (-2, -2, vp_board_v);
 
     PART (-3,  0, vp_board_v);
     PART (-3,  0, vp_roof);
     PART (-3,  0, vp_aisle_v2);
+    PART (-3,  0, vp_floor_trunk);
     PART (-3,  1, vp_wheel_wide);
+    PART (-3,  1, vp_cargo_trunk);
     PART (-3, -1, vp_wheel_wide);
+    PART (-3, -1, vp_cargo_trunk);
     PART (-3,  2, vp_board_v);
     PART (-3, -2, vp_board_v);
 
     PART (-4,  0, vp_board_v);
     PART (-4,  0, vp_roof);
     PART (-4,  0, vp_aisle_v2);
+    PART (-4,  0, vp_floor_trunk);
     PART (-4,  1, vp_wheel_wide);
+    PART (-4,  1, vp_cargo_trunk);
     PART (-4, -1, vp_wheel_wide);
+    PART (-4, -1, vp_cargo_trunk);
     PART (-4,  2, vp_board_v);
     PART (-4, -2, vp_board_v);
 
     PART (-5,  0, vp_board_v);
     PART (-5,  0, vp_roof);
     PART (-5,  0, vp_aisle_v2);
+    PART (-5,  0, vp_floor_trunk);
     PART (-5,  1, vp_board_v);
     PART (-5,  1, vp_roof);
     PART (-5,  1, vp_bed);
