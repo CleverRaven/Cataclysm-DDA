@@ -206,6 +206,7 @@ public:
  virtual bool wield(game *g, signed char invlet, bool autodrop = false);// Wield item; returns false on fail
  void pick_style(game *g); // Pick a style
  bool wear(game *g, char let, bool interactive = true);	// Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+ bool is_letter_assigned(char invlet);
  bool wear_item(game *g, item *to_wear, bool interactive = true); // Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
  bool takeoff(game *g, char let, bool autodrop = false);// Take off item; returns false on fail
  void sort_armor(game *g);      // re-order armor layering

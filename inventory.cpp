@@ -295,17 +295,75 @@ void inventory::push_back(std::list<item> newits)
  add_stack(newits);
 }
 
-item& inventory::add_item(item newit, bool keep_invlet)
-{
-    if (keep_invlet && !newit.invlet_is_okay())
-    {
-        assign_empty_invlet(newit); // Keep invlet is true, but invlet is invalid!
+// This function keeps the invlet cache updated when a new item is added.
+void inventory::update_cache_with_item(item& newit) {
+    // This function does two things:
+    // 1. It adds newit's invlet to the list of favorite letters for newit's item type.
+    // 2. It removes newit's invlet from the list of favorite letters for all other item types.
+    
+    // Iterator over all the keys of the map.
+    std::map<std::string, std::vector<char> >::iterator i;
+    for(i=invlet_cache.begin(); i!=invlet_cache.end(); i++) {
+        std::string type = i->first;
+        std::vector<char>& preferred_invlets = i->second;
+
+        // Erase the used invlet from all caches.
+        for(int ind=0; ind < preferred_invlets.size(); ind++) {
+            if(preferred_invlets[ind] == newit.invlet) {
+                preferred_invlets.erase(preferred_invlets.begin()+ind);
+                ind--;
+            }
+        }
     }
 
+    // Append the selected invlet to the list of preferred invlets of this item type.
+    std::vector<char>& preferred_invlets = invlet_cache[newit.typeId()];
+    preferred_invlets.push_back(newit.invlet);
+}
+
+item& inventory::add_item(item newit, bool keep_invlet)
+{
     if (newit.is_style())
     {
         return nullitem; // Styles never belong in our inventory.
     }
+
+    bool reuse_cached_letter = false;
+    
+    // Check how many stacks of this type already are in our inventory.
+    int stacks_of_same_type = 0;
+    for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
+    {
+        std::list<item>::iterator it_ref = iter->begin();
+        if(it_ref->typeId() == newit.typeId()) {
+            stacks_of_same_type++;
+        }
+    }
+    
+    if(!keep_invlet) {
+        // Do we have this item in our inventory favourites cache?
+        if(invlet_cache.count(newit.typeId())) {
+            std::vector<char>& preferred_invlets = invlet_cache[newit.typeId()];
+
+            // Say we already have 2 items of this type in the inventory, then
+            // we'd want to use the third favourite letter for this item type.
+            if(preferred_invlets.size() > stacks_of_same_type) {
+                newit.invlet = preferred_invlets[stacks_of_same_type];
+                reuse_cached_letter = true;
+            }
+        // If it's not in our cache and not a lowercase letter, try to give it a low letter.
+        } else if(newit.invlet < 'a' || newit.invlet > 'z') {
+            assign_empty_invlet(newit);
+        }
+
+        // Make sure the assigned invlet doesn't exist already.
+        if(g->u.is_letter_assigned(newit.invlet)) {
+            assign_empty_invlet(newit);
+        }
+    }
+
+    
+    // See if we can't stack this item.
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter)
     {
         std::list<item>::iterator it_ref = iter->begin();
@@ -329,16 +387,19 @@ item& inventory::add_item(item newit, bool keep_invlet)
                 return iter->back();
             }
         }
+        // If keep_invlet is true, we'll be forcing other items out of their current invlet.
         else if (keep_invlet && it_ref->invlet == newit.invlet)
         {
             assign_empty_invlet(*it_ref);
+            update_cache_with_item(newit);
         }
     }
-    if (!newit.invlet_is_okay() || !item_by_letter(newit.invlet).is_null())
-    {
-        assign_empty_invlet(newit);
-    }
 
+    // Couldn't stack the item, proceed.
+    if(!reuse_cached_letter) {
+        update_cache_with_item(newit);
+    }
+    
     std::list<item> newstack;
     newstack.push_back(newit);
     items.push_back(newstack);
@@ -1355,7 +1416,7 @@ void inventory::assign_empty_invlet(item &it, player *p)
   for (std::string::const_iterator newinvlet = inv_chars.begin();
        newinvlet != inv_chars.end();
        newinvlet++) {
-   if (item_by_letter(*newinvlet).is_null() && (!p || !p->has_weapon_or_armor(*newinvlet))) {
+   if (!g->u.is_letter_assigned(*newinvlet) && (!p || !p->has_weapon_or_armor(*newinvlet))) {
     it.invlet = *newinvlet;
     return;
    }

@@ -45,6 +45,7 @@ class inventory
   void add_stack(std::list<item> newits);
   void push_back(std::list<item> newits);
   item& add_item (item newit, bool keep_invlet = false); //returns a ref to the added item
+  void update_cache_with_item(item& newit);
   void add_item_by_type(itype_id type, int count = 1, int charges = -1);
   void add_item_keep_invlet(item newit);
   void push_back(item newit);
@@ -119,6 +120,9 @@ class inventory
 
   item nullitem;
   std::list<item> nullstack;
+
+  // For each item ID, store a set of "favorite" inventory letters.
+  std::map<std::string, std::vector<char> > invlet_cache;
  private:
   item remove_item(invstack::iterator iter);
   void assign_empty_invlet(item &it, player *p = NULL);
