@@ -1668,6 +1668,8 @@ case ot_apartments_con_tower_1_entrance:{
             place_items("jackets",	60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
             place_items("fridge",	70,  i,  j, i,  j, false, 0);
+        else if (this->furn(i,j) == f_oven)
+            place_items("oven",	70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
             place_items("cleaning",	50,  i,  j, i,  j, false, 0);
             place_items("home_hw",	30,  i,  j, i,  j, false, 0);
@@ -1736,6 +1738,8 @@ case ot_apartments_con_tower_1:{
             place_items("jackets",	60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
             place_items("fridge",	70,  i,  j, i,  j, false, 0);
+        else if (this->furn(i,j) == f_oven)
+            place_items("oven",	70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
             place_items("cleaning",	50,  i,  j, i,  j, false, 0);
             place_items("home_hw",	30,  i,  j, i,  j, false, 0);
@@ -1799,6 +1803,8 @@ ss                      \n",
             place_items("jackets",	60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
             place_items("fridge",	70,  i,  j, i,  j, false, 0);
+        else if (this->furn(i,j) == f_oven)
+            place_items("oven",	70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
             place_items("cleaning",	50,  i,  j, i,  j, false, 0);
             place_items("home_hw",	30,  i,  j, i,  j, false, 0);
@@ -1863,6 +1869,8 @@ ss                      \n",
             place_items("jackets",	60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
             place_items("fridge",	70,  i,  j, i,  j, false, 0);
+        else if (this->furn(i,j) == f_oven)
+            place_items("oven",	70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
             place_items("cleaning",	50,  i,  j, i,  j, false, 0);
             place_items("home_hw",	30,  i,  j, i,  j, false, 0);
@@ -1927,6 +1935,8 @@ case ot_apartments_mod_tower_1_entrance:{
             place_items("jackets",	60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
             place_items("fridge",	70,  i,  j, i,  j, false, 0);
+        else if (this->furn(i,j) == f_oven)
+            place_items("oven",	70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
             place_items("cleaning",	50,  i,  j, i,  j, false, 0);
             place_items("home_hw",	30,  i,  j, i,  j, false, 0);
@@ -1995,6 +2005,8 @@ case ot_apartments_mod_tower_1:{
             place_items("jackets",	60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
             place_items("fridge",	70,  i,  j, i,  j, false, 0);
+        else if (this->furn(i,j) == f_oven)
+            place_items("oven",	70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
             place_items("cleaning",	50,  i,  j, i,  j, false, 0);
             place_items("home_hw",	30,  i,  j, i,  j, false, 0);
@@ -2058,6 +2070,8 @@ ss                      \n",
             place_items("jackets",	60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
             place_items("fridge",	70,  i,  j, i,  j, false, 0);
+        else if (this->furn(i,j) == f_oven)
+            place_items("oven",	70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
             place_items("cleaning",	50,  i,  j, i,  j, false, 0);
             place_items("home_hw",	30,  i,  j, i,  j, false, 0);
@@ -2122,6 +2136,8 @@ EE|.+..........e|ssR    \n\
             place_items("jackets",	60,  i,  j, i,  j, false, 0);}
         else if (this->furn(i,j) == f_fridge)
             place_items("fridge",	70,  i,  j, i,  j, false, 0);
+        else if (this->furn(i,j) == f_oven)
+            place_items("oven",	70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_cupboard){
             place_items("cleaning",	50,  i,  j, i,  j, false, 0);
             place_items("home_hw",	30,  i,  j, i,  j, false, 0);
@@ -3009,6 +3025,8 @@ case ot_cathedral_b:{
        for (int j = 0; j <= 23; j++) {
         if (this->furn(i,j) == f_fridge)
             place_items("fridge",	70,  i,  j, i,  j, false, 0);
+        else if (this->furn(i,j) == f_oven)
+            place_items("oven",	70,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_table)
             place_items("fridgesnacks",	40,  i,  j, i,  j, false, 0);
         else if (this->furn(i,j) == f_rack)
@@ -12772,39 +12790,72 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
 
 
   break;
- case room_kitchen:
+ case room_kitchen: {
   placed = "kitchen";
   chance = 75;
   m->place_items("cleaning",  58, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
   m->place_items("home_hw",   40, x1 + 1, y1 + 1, x2 - 1, y2 - 2, false, 0);
+  int oven_x = -1, oven_y = -1, cupboard_x = -1, cupboard_y = -1;
+  
   switch (rng(1, 4)) { //fridge, sink, oven and some cupboards near them
   case 1:
    m->furn_set(x1 + 2, y1 + 1, f_fridge);
    m->place_items("fridge", 82, x1 + 2, y1 + 1, x1 + 2, y1 + 1, false, 0);
    m->furn_set(x1+1, y1+1, f_sink);
-   if (x1+4<x2) { m->furn_set(x1+3,y1+1,f_oven);  m->furn_set(x1+4,y1+1, f_cupboard);}
+   if (x1+4<x2) {
+       oven_x     = x1 + 3;
+       cupboard_x = x1 + 4;
+       oven_y = cupboard_y = y1 + 1;
+	}
 
    break;
   case 2:
    m->furn_set(x2 - 2, y1 + 1, f_fridge);
    m->place_items("fridge", 82, x2 - 2, y1 + 1, x2 - 2, y1 + 1, false, 0);
    m->furn_set(x2-1, y1+1, f_sink);
-   if (x2-4>x1) { m->furn_set(x2-3,y1+1, f_oven);  m->furn_set(x2-4,y1+1, f_cupboard);}
-
+   if (x2-4>x1) {
+       oven_x     = x2 - 3;
+       cupboard_x = x2 - 4;
+       oven_y = cupboard_y = y1 + 1;
+   }
    break;
   case 3:
    m->furn_set(x1 + 2, y2 - 1, f_fridge);
    m->place_items("fridge", 82, x1 + 2, y2 - 1, x1 + 2, y2 - 1, false, 0);
-      m->furn_set(x1+1, y2-1, f_sink);
-      if (x1+4<x2) { m->furn_set(x1+3,y2-1, f_oven);  m->furn_set(x1+4,y2-1, f_cupboard);}
+   m->furn_set(x1+1, y2-1, f_sink);
+   if (x1+4<x2) {
+       oven_x     = x1 + 3;
+       cupboard_x = x1 + 4;
+       oven_y = cupboard_y = y2 - 1;
+   }
    break;
   case 4:
    m->furn_set(x2 - 2, y2 - 1, f_fridge);
    m->place_items("fridge", 82, x2 - 2, y2 - 1, x2 - 2, y2 - 1, false, 0);
-      m->furn_set(x2-1, y2-1, f_sink);
-      if (x2-4>x1) { m->furn_set(x2-3,y2-1, f_oven);  m->furn_set(x2-4,y2-1, f_cupboard);}
+   m->furn_set(x2-1, y2-1, f_sink);
+   if (x2-4>x1) {
+       oven_x     = x2 - 3;
+       cupboard_x = x2 - 4;
+       oven_y = cupboard_y = y2 - 1;
+   }
    break;
   }
+
+  // oven and it's contents
+  if ( oven_x != -1 && oven_y != -1 ) {
+    m->furn_set(oven_x, oven_y, f_oven);
+    m->place_items("oven",       70, oven_x, oven_y, oven_x, oven_y, false, 0);
+  }
+
+  // cupboard and it's contents
+  if ( cupboard_x != -1 && cupboard_y != -1 ) {
+    m->furn_set(cupboard_x, cupboard_y, f_cupboard);
+    m->place_items("cleaning",   30, cupboard_x, cupboard_y, cupboard_x, cupboard_y, false, 0);
+    m->place_items("home_hw",    30, cupboard_x, cupboard_y, cupboard_x, cupboard_y, false, 0);
+    m->place_items("cannedfood", 30, cupboard_x, cupboard_y, cupboard_x, cupboard_y, false, 0);
+    m->place_items("pasta",      30, cupboard_x, cupboard_y, cupboard_x, cupboard_y, false, 0);
+  }
+
     if (one_in(2)) { //dining table in the kitchen
     square(m, f_table, int((x1+x2) / 2)-1, int((y1+y2) / 2)-1, int((x1+x2) / 2), int((y1+y2) / 2) ); }
     if (one_in(2)) {
@@ -12815,6 +12866,7 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2)
         }
     }              }
 
+}
   break;
  case room_bedroom:
   placed = "bedroom";

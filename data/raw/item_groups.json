@@ -191,6 +191,12 @@
 	  ["pickle", 40]
     ]
   },
+  { "id":"oven",
+    "items":[
+      ["pan", 80],
+      ["pot", 80]
+    ]
+  },
   { "id":"home_hw",
     "items":[
       ["superglue", 30],
