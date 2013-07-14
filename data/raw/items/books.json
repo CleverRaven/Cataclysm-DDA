@@ -1104,7 +1104,7 @@
         "id" : "ZSG",
         "name" : "Zombie Survival Guide",
         "max_level" : 1,
-        "description" : "A book written by Max Brooks. Can train your survival skill to 2.",
+        "description" : "A a generic comedy survival book. Can train your survival skill to 2.",
         "weight" : 1,
         "to_hit" : 1,
         "color" : "blue",
