@@ -292,7 +292,12 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
  if (bash_dam + cut_dam + stab_dam <= 0)
   return; // Defensive technique canceled our attack!
-
+  
+ if (p.power_level >= 3 && p.has_active_bionic("bio_uncanny_dodge") && p.uncanny_dodge()) {
+  p.power_level -= 3;
+  return;
+ }
+    
  if (critical_hit) // Crits cancel out Toad Style's armor boost
   p.rem_disease("armor_boost");
 

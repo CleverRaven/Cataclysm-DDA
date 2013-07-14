@@ -146,6 +146,9 @@ public:
 
  int  dodge(game *g);     // Returns the players's dodge, modded by clothing etc
  int  dodge_roll(game *g);// For comparison to hit_roll()
+ 
+ bool uncanny_dodge();      // Move us to an adjacent_tile() and set dam
+ point adjacent_tile();     // Returns an unoccupied, safe adjacent point. If none exists, returns player position.
 
 // ranged.cpp
  int throw_range(signed char invlet); // Range of throwing item; -1:ERR 0:Can't throw

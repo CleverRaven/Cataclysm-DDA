@@ -552,105 +552,116 @@ void monster::hit_player(game *g, player &p, bool can_grab)
         else if (dam > 0)
         {
             p.practice(g->turn, "dodge", type->melee_skill);
-            if (u_see && tech != TEC_BLOCK)
+            if (p.power_level >= 3 && p.has_active_bionic("bio_uncanny_dodge"))     // If we have bio_uncanny_dodge and enough energy to use it
             {
-                g->add_msg("The %s hits %s %s.", name().c_str(), your.c_str(),
-                           body_part_name(bphit, side).c_str());
-            }
-
-            // Attempt defensive moves
-            if (!is_npc)
-            {
-                if (g->u.activity.type == ACT_RELOAD)
+                if (p.uncanny_dodge())                                              // If we dodged
                 {
-                    g->add_msg("You stop reloading.");
-                }
-                else if (g->u.activity.type == ACT_READ)
-                {
-                    g->add_msg("You stop reading.");
-                }
-                else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
-                {
-                    g->add_msg("You stop crafting.");
-                    g->u.activity.type = ACT_NULL;
+                    p.power_level -= 3;                                              // Deduct power
                 }
             }
-            if (p.has_active_bionic("bio_ods"))
+            else
             {
-                if (u_see)
+                if (u_see && tech != TEC_BLOCK)
                 {
-                    g->add_msg("%s offensive defense system shocks it!", Your.c_str());
+                    g->add_msg("The %s hits %s %s.", name().c_str(), your.c_str(),
+                            body_part_name(bphit, side).c_str());
                 }
-                if (hurt(rng(10, 40)))
-                    die(g);
-            }
-            if (p.encumb(bphit) == 0 &&(p.has_trait(PF_SPINES) || p.has_trait(PF_QUILLS)))
-            {
-                int spine = rng(1, (p.has_trait(PF_QUILLS) ? 20 : 8));
-                g->add_msg("%s %s puncture it!", Your.c_str(),
-                           (g->u.has_trait(PF_QUILLS) ? "quills" : "spines"));
-                if (hurt(spine))
-                    die(g);
-            }
 
-            if (dam + cut <= 0)
-            {
-                return; // Defensive technique canceled damage.
-            }
-
-            //Hurt the player
-            dam = p.hit(g, bphit, side, dam, cut);
-
-            //Monster effects
-            if (dam > 0 && has_flag(MF_VENOM))
-            {
+                // Attempt defensive moves
                 if (!is_npc)
                 {
-                    g->add_msg("You're poisoned!");
+                    if (g->u.activity.type == ACT_RELOAD)
+                    {
+                        g->add_msg("You stop reloading.");
+                    }
+                    else if (g->u.activity.type == ACT_READ)
+                    {
+                        g->add_msg("You stop reading.");
+                    }
+                    else if (g->u.activity.type == ACT_CRAFT || g->u.activity.type == ACT_LONGCRAFT)
+                    {
+                        g->add_msg("You stop crafting.");
+                        g->u.activity.type = ACT_NULL;
+                    }
                 }
-                p.add_disease("poison", 30);
-            }
-            else if (dam > 0 && has_flag(MF_BADVENOM))
-            {
-                if (!is_npc)
-                {
-                    g->add_msg("You feel poison flood your body, wracking you with pain...");
-                }
-                p.add_disease("badpoison", 40);
-            }
-            if (has_flag(MF_BLEED) && dam > 6 && cut > 0)
-            {
-                if (!is_npc)
-                {
-                    g->add_msg("You're Bleeding!");
-                }
-                p.add_disease("bleed", 60);
-            }
 
-            //Same as monster's chance to not miss
-            if (can_grab && has_flag(MF_GRABS) && (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill)))
-            {
-                if (!is_npc)
+                if (p.has_active_bionic("bio_ods"))
                 {
-                    g->add_msg("The %s grabs you!", name().c_str());
+                    if (u_see)
+                    {
+                        g->add_msg("%s offensive defense system shocks it!", Your.c_str());
+                    }
+                    if (hurt(rng(10, 40)))
+                        die(g);
                 }
-                if (p.weapon.has_technique(TEC_BREAK, &p) &&
-                    dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
+                if (p.encumb(bphit) == 0 &&(p.has_trait(PF_SPINES) || p.has_trait(PF_QUILLS)))
+                {
+                    int spine = rng(1, (p.has_trait(PF_QUILLS) ? 20 : 8));
+                    g->add_msg("%s %s puncture it!", Your.c_str(),
+                            (g->u.has_trait(PF_QUILLS) ? "quills" : "spines"));
+                    if (hurt(spine))
+                        die(g);
+                }
+
+                if (dam + cut <= 0)
+                {
+                    return; // Defensive technique canceled damage.
+                }
+
+                //Hurt the player
+                dam = p.hit(g, bphit, side, dam, cut);
+
+                //Monster effects
+                if (dam > 0 && has_flag(MF_VENOM))
                 {
                     if (!is_npc)
                     {
-                        g->add_msg("You break the grab!");
+                        g->add_msg("You're poisoned!");
                     }
+                    p.add_disease("poison", 30);
                 }
-                else
-                    hit_player(g, p, false); //We grabed, so hit them again
-            }
+                else if (dam > 0 && has_flag(MF_BADVENOM))
+                {
+                    if (!is_npc)
+                    {
+                        g->add_msg("You feel poison flood your body, wracking you with pain...");
+                    }
+                    p.add_disease("badpoison", 40);
+                }
+                if (has_flag(MF_BLEED) && dam > 6 && cut > 0)
+                {
+                    if (!is_npc)
+                    {
+                        g->add_msg("You're Bleeding!");
+                    }
+                    p.add_disease("bleed", 60);
+                }
 
-            //Counter-attack?
-            if (tech == TEC_COUNTER && !is_npc)
-            {
-                g->add_msg("Counter-attack!");
-                hurt( p.hit_mon(g, this) );
+                //Same as monster's chance to not miss
+                if (can_grab && has_flag(MF_GRABS) && (rng(0, 10000) > 11000 * exp(-.3 * type->melee_skill)))
+                {
+                    if (!is_npc)
+                    {
+                        g->add_msg("The %s grabs you!", name().c_str());
+                    }
+                    if (p.weapon.has_technique(TEC_BREAK, &p) &&
+                        dice(p.dex_cur + p.skillLevel("melee"), 12) > dice(type->melee_dice, 10))
+                    {
+                        if (!is_npc)
+                        {
+                            g->add_msg("You break the grab!");
+                        }
+                    }
+                    else
+                        hit_player(g, p, false); //We grabed, so hit them again
+                }
+
+                //Counter-attack?
+                if (tech == TEC_COUNTER && !is_npc)
+                {
+                    g->add_msg("Counter-attack!");
+                    hurt( p.hit_mon(g, this) );
+                }
             }
         }
     }
