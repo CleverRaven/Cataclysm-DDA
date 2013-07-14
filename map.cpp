@@ -250,6 +250,7 @@ void map::unboard_vehicle(game *g, const int x, const int y)
  }
  psg->in_vehicle = false;
  psg->driving_recoil = 0;
+ psg->controlling_vehicle = false;
  veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
  veh->skidding = true;
 }
