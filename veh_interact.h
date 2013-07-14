@@ -54,6 +54,7 @@ private:
     bool has_hacksaw;
     bool has_jack;
     bool has_siphon;
+    bool has_wheel;
     inventory crafting_inv;
 
     int part_at (int dx, int dy);
@@ -66,6 +67,7 @@ private:
     void do_remove(int reason);
     void do_rename(int reason);
     void do_siphon(int reason);
+    void do_tirechange(int reason);
 
     void display_veh ();
     void display_stats ();
