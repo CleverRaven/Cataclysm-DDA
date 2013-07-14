@@ -353,41 +353,62 @@ void monster::footsteps(game *g, int x, int y)
  return;
 }
 
+/*
+Function: friendly_move
+The per-turn movement and action calculation of any friendly monsters.
+*/
 void monster::friendly_move(game *g)
 {
- point next;
- bool moved = false;
- if (plans.size() > 0 && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
-     (can_move_to(g, plans[0].x, plans[0].y) ||
-     (g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
-  next = plans[0];
-  plans.erase(plans.begin());
-  moved = true;
- } else {
-  moves -= 100;
-  stumble(g, moved);
- }
- if (moved) {
-  int mondex = g->mon_at(next.x, next.y);
-  int npcdex = g->npc_at(next.x, next.y);
-  if (mondex != -1 && g->z[mondex].friendly == 0 && type->melee_dice > 0)
-   hit_monster(g, mondex);
-  else if (npcdex != -1 && type->melee_dice > 0)
-   hit_player(g, *g->active_npc[g->npc_at(next.x, next.y)]);
-  else if (mondex == -1 && npcdex == -1 && can_move_to(g, next.x, next.y))
-   move_to(g, next.x, next.y);
-  else if ((!can_move_to(g, next.x, next.y) || one_in(3)) &&
-           g->m.has_flag(bashable, next.x, next.y) && has_flag(MF_BASHES)) {
-   std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
-   int bashskill = int(type->melee_dice * type->melee_sides);
-   g->m.bash(next.x, next.y, bashskill, bashsound);
-   g->sound(next.x, next.y, 18, bashsound);
-   moves -= 100;
-  } else if (g->m.move_cost(next.x, next.y) == 0 && has_flag(MF_DESTROYS)) {
-   g->m.destroy(g, next.x, next.y, true);
-   moves -= 250;
-  }
- }
+	point next;
+	bool moved = false;
+	//If we sucessfully calculated a plan in the generic monster movement function, begin executing it.
+	if (plans.size() > 0 && (plans[0].x != g->u.posx || plans[0].y != g->u.posy) &&
+		(can_move_to(g, plans[0].x, plans[0].y) ||
+		(g->m.has_flag(bashable, plans[0].x, plans[0].y) && has_flag(MF_BASHES)))){
+			next = plans[0];
+			plans.erase(plans.begin());
+			moved = true;
+	} else {
+		//Otherwise just stumble around randomly until we formulate a plan.
+		moves -= 100;
+		stumble(g, moved);
+	}
+	if (moved) {
+		//We have a plan.
+		int mondex = g->mon_at(next.x, next.y);
+		int npcdex = g->npc_at(next.x, next.y);
+		//If there is an unfriendly mosnter in the target square we want to move into, hit them if we have a melee attack.
+		if (mondex != -1 && g->z[mondex].friendly == 0 && type->melee_dice > 0){
+			hit_monster(g, mondex);
+		}
+		//If there is an npc (any npc?) we hit them assuming we have a melee attack.
+		else if (npcdex != -1 && type->melee_dice > 0){
+			hit_player(g, *g->active_npc[g->npc_at(next.x, next.y)]);
+		}
+		//If no one is there and its a walkable square, walk there.
+		else if (mondex == -1 && npcdex == -1 && can_move_to(g, next.x, next.y)){
+			move_to(g, next.x, next.y);
+		}
+		//If there is a bashable object in our way, bash it down.
+		else if ((!can_move_to(g, next.x, next.y) || one_in(3)) &&
+			g->m.has_flag(bashable, next.x, next.y) && has_flag(MF_BASHES)) {
+				std::string bashsound = "NOBASH"; // If we hear "NOBASH" it's time to debug!
+				int bashskill = int(type->melee_dice * type->melee_sides);
+				g->m.bash(next.x, next.y, bashskill, bashsound);
+				g->sound(next.x, next.y, 18, bashsound);
+				moves -= 100;
+		}
+		//If there is a destroyable object in our way, destroy it.
+		else if (g->m.move_cost(next.x, next.y) == 0 && has_flag(MF_DESTROYS)) {
+			g->m.destroy(g, next.x, next.y, true);
+			moves -= 250;
+		}
+		//If all else fails in our plan (an issue with pathfinding maybe) stumble around instead.
+		else {
+			stumble(g, moved);
+			moves -= 100;
+		}
+	}
 }
 
 point monster::scent_move(game *g)
