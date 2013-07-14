@@ -552,12 +552,9 @@ void monster::hit_player(game *g, player &p, bool can_grab)
         else if (dam > 0)
         {
             p.practice(g->turn, "dodge", type->melee_skill);
-            if (p.power_level >= 3 && p.has_active_bionic("bio_uncanny_dodge"))     // If we have bio_uncanny_dodge and enough energy to use it
+            if (p.power_level >= 3 && p.has_active_bionic("bio_uncanny_dodge") && p.uncanny_dodge())     // If we have bio_uncanny_dodge and enough energy and room to use it
             {
-                if (p.uncanny_dodge())                                              // If we dodged
-                {
-                    p.power_level -= 3;                                              // Deduct power
-                }
+                p.power_level -= 3;                                              // Deduct power
             }
             else
             {
