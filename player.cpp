@@ -2061,7 +2061,7 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
                traits[traitslist[i]].name.c_str());
    }
    if (line >= 0 && line < traitslist.size()) {
-     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, traits[traitslist[line]].description.c_str());
+     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", traits[traitslist[line]].description.c_str());
    }
    wrefresh(w_traits);
    wrefresh(w_info);
@@ -2122,7 +2122,7 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
      mvwprintz(w_effects, 1 + i - min, 1, c_ltgray, effect_name[i].c_str());
    }
    if (line >= 0 && line < effect_text.size()) {
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, effect_text[line].c_str());
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", effect_text[line].c_str());
    }
    wrefresh(w_effects);
    wrefresh(w_info);
@@ -2199,7 +2199,7 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
    }
    werase(w_info);
    if (line >= 0 && line < skillslist.size()) {
-    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, selectedSkill->description().c_str());
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", selectedSkill->description().c_str());
    }
    wrefresh(w_skills);
    wrefresh(w_info);
