@@ -39,11 +39,7 @@ void Item_factory::init(){
     iuse_function_list["CAFF"] = &iuse::caff;
     iuse_function_list["ALCOHOL"] = &iuse::alcohol;
     iuse_function_list["ALCOHOL_WEAK"] = &iuse::alcohol_weak;
-    iuse_function_list["PKILL_1"] = &iuse::pkill_1;
-    iuse_function_list["PKILL_2"] = &iuse::pkill_2;
-    iuse_function_list["PKILL_3"] = &iuse::pkill_3;
-    iuse_function_list["PKILL_4"] = &iuse::pkill_4;
-    iuse_function_list["PKILL_L"] = &iuse::pkill_l;
+    iuse_function_list["PKILL"] = &iuse::pkill;
     iuse_function_list["XANAX"] = &iuse::xanax;
     iuse_function_list["CIG"] = &iuse::cig;
     iuse_function_list["ANTIBIOTIC"] = &iuse::antibiotic;
