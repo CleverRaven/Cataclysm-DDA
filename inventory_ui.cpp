@@ -174,7 +174,7 @@ char game::inv(std::string title)
    mvwprintw(w_inv, maxitems + 4, 12, "            ");
    for (int i = 1; i < maxitems+4; i++)
     mvwprintz(w_inv, i, 0, c_black, "                                             ");
-   if ( selected < start && selected > -1 ) selected = start;  
+   if ( selected < start && selected > -1 ) selected = start;
   }
   int cur_line = 2;
   max_it = 0;
@@ -239,7 +239,7 @@ char game::inv(std::string title)
          start = 0;
         mvwprintw(w_inv, maxitems + 4, 0, "         ");
       }
-    } 
+    }
   } else if ( ch == '\n' || ch == KEY_RIGHT ) {
 //    if ( uistate.last_inv_start > -2 && uistate.last_inv_sel > -2 ) {
       uistate.last_inv_start=start;
@@ -361,7 +361,7 @@ char game::inv_type(std::string title, item_cat inv_item_type)
          start = 0;
         mvwprintw(w_inv, maxitems + 4, 0, "         ");
       }
-    } 
+    }
   } else if ( ch == '\n' || ch == KEY_RIGHT ) {
     ch = selected_char;
   }
@@ -634,7 +634,7 @@ std::vector<item> game::multidrop()
   else if (it->second && u.inv.item_by_letter( it->first).count_by_charges()) {
    int charges = u.inv.item_by_letter( it->first).charges;// >= it->second ? : it->second;
    ret.push_back( u.inv.remove_item_by_charges( it->first, it->second > charges ? charges : it->second));
-  } else if (it->second) 
+  } else if (it->second)
    for (int j = it->second; j > 0; j--)
     ret.push_back( u.inv.remove_item_by_letter( it->first));
  }
@@ -663,11 +663,11 @@ void game::compare(int iCompareX, int iCompareY)
  int ch = (int)'.';
 
  if (iCompareX != -999 && iCompareX != -999) {
-  examx = iCompareX;
-  examy = iCompareY;
- }
- if (!choose_adjacent("Compare",examx,examy))
+  examx = u.posx + iCompareX;
+  examy = u.posy + iCompareY;
+ } else if (!choose_adjacent("Compare",examx,examy)) {
      return;
+ }
 
  std::vector <item> here = m.i_at(examx, examy);
  //Filter out items with the same name (keep only one of them)
@@ -682,7 +682,7 @@ void game::compare(int iCompareX, int iCompareY)
  const int groundsize = (grounditems.size() > 10 ? 10 : grounditems.size());
  u.inv.sort();
  u.inv.restack(&u);
- 
+
  invslice stacks = u.inv.slice(0, u.inv.size());
 
  WINDOW* w_inv = newwin(TERMY-VIEW_OFFSET_Y*2, TERMX-VIEW_OFFSET_X*2, VIEW_OFFSET_Y, VIEW_OFFSET_X);
