@@ -1140,6 +1140,22 @@ switch (furn(x, y)) {
   }
   break;
 
+ case f_oven:
+  result = rng(0, 30);
+  if (res) *res = result;
+  if (str >= result) {
+   sound += "metal screeching!";
+   furn_set(x, y, f_null);
+   spawn_item(x, y, "scrap",       0, rng(0, 6));
+   spawn_item(x, y, "steel_chunk", 0, rng(0, 3));
+   spawn_item(x, y, "element",     0, rng(0, 4));
+   return true;
+  } else {
+   sound += "clang!";
+   return true;
+  }
+ break;
+
  case f_sink:
  case f_toilet:
  case f_bathtub:

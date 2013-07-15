@@ -119,9 +119,9 @@
       ["whiskey", 16],
       ["bleach", 20],
       ["ammonia", 24],
-      ["flour", 20],
-      ["sugar", 20],
-      ["salt", 20],
+      ["flour", 40],
+      ["sugar", 40],
+      ["salt", 40],
       ["tea_raw", 10],
       ["coffee_raw", 15],
       ["funnel", 50],
@@ -189,6 +189,12 @@
       ["lemon", 50],
       ["potato_raw", 10],
 	  ["pickle", 40]
+    ]
+  },
+  { "id":"oven",
+    "items":[
+      ["pan", 80],
+      ["pot", 80]
     ]
   },
   { "id":"home_hw",
@@ -405,7 +411,8 @@
       ["tea_raw", 10],
       ["coffee_raw", 15],
       ["chips2", 65],
-      ["chips3", 65]
+      ["chips3", 65],
+      ["salt", 10]
     ]
   },
   { "id":"fridgesnacks",
@@ -441,7 +448,8 @@
       ["mayonnaise", 60],
       ["ketchup", 60],
       ["mustard", 60],
-      ["pickle", 40]
+      ["pickle", 40],
+      ["salt", 20]
     ]
   },
   { "id":"coffee_shop",
@@ -463,7 +471,8 @@
       ["coffee_raw", 15],
       ["coffee_raw", 15],
       ["coffee_raw", 15],
-      ["coffee_raw", 15]
+      ["coffee_raw", 15],
+      ["salt", 10]
     ]
   },
   { "id":"behindcounter",
@@ -2852,7 +2861,8 @@
       ["ravioli", 25],
       ["can_beans", 40],
       ["can_corn", 35],
-      ["can_spam", 30]
+      ["can_spam", 30],
+      ["salt", 10]
     ]
   },
   { "id":"stash_ammo",
