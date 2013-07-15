@@ -482,8 +482,9 @@ class game
   void msg_buffer();       // Opens a window with old messages in it
   void draw_minimap();     // Draw the 5x5 minimap
   void draw_HP();          // Draws the player's HP and Power level
-  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
-  void autosave();         // Saves map
+//  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
+  void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
+  void quicksave();        // Saves the game without quitting
 
 // On-request draw functions
   void draw_overmap();     // Draws the overmap, allows note-taking etc.
