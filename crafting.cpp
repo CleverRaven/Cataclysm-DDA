@@ -1513,6 +1513,9 @@ void game::complete_disassemble()
       item ammodrop;
       ammodrop = item(item_controller->find_template(default_ammo(dis_item->ammo_type())), turn);
       ammodrop.charges = dis_item->charges;
+      if (dis_item->typeId() == "adv_UPS_off" || dis_item->typeId() == "adv_UPS_on") {
+          ammodrop.charges /= 500;
+      }
       if (ammodrop.made_of(LIQUID))
         handle_liquid(ammodrop, false, false);
       else
