@@ -8271,14 +8271,10 @@ void game::pickup(int posx, int posy, int min)
  int selected=0;
  int last_selected=-1;
 
- if (min == -1) {
-    //Auto Pickup, select matching items
-    //TODO: pickup items with matching text
-
-    if (OPTIONS[OPT_AUTO_PICKUP]) {
+ if (min == -1) { //Auto Pickup, select matching items
+    if (OPTIONS[OPT_AUTO_PICKUP] && (!OPTIONS[OPT_AUTO_PICKUP_SAFEMODE] || mostseen == 0)) {
         //Loop through Items lowest Volume first
         bool bPickup = false;
-        std::map<std::string, int> mapPickup;
 
         for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
             for (int i = 0; i < here.size(); i++) {
@@ -8286,9 +8282,9 @@ void game::pickup(int posx, int posy, int min)
                 if (here[i].volume() == iVol) {
                     iNumChecked++;
 
-                    //Pickup Rules in here
+                    //Auto Pickup all items with 0 Volume and Weight
                     if (OPTIONS[OPT_AUTO_PICKUP_ZERO]) {
-                        if (here[i].volume() == 0 && here[i].weight() == 0) { //Auto Pickup all items with 0 Volume and Weight
+                        if (here[i].volume() == 0 && here[i].weight() == 0) {
                             bPickup = true;
                         }
                     }
@@ -8311,23 +8307,9 @@ void game::pickup(int posx, int posy, int min)
 
                 if (bPickup) {
                     getitem[i] = bPickup;
-                    mapPickup[here[i].tname(this)]++;
+                    //mapPickup[here[i].tname(this)]++;
                 }
             }
-        }
-
-        if (mapPickup.size() > 0) {
-            std::stringstream sTemp;
-
-            for (std::map<std::string, int>::iterator iter = mapPickup.begin(); iter != mapPickup.end(); ++iter) {
-                if (sTemp.str() != "") {
-                    sTemp << ", ";
-                }
-
-                sTemp << iter->second << " " << iter->first;
-            }
-
-            add_msg(("You pick up: " + sTemp.str()).c_str());
         }
     }
  } else {
@@ -8498,6 +8480,7 @@ void game::pickup(int posx, int posy, int min)
  int curmit = 0;
  bool got_water = false;	// Did we try to pick up water?
  bool offered_swap = false;
+ std::map<std::string, int> mapPickup;
  for (int i = 0; i < here.size(); i++) {
   iter = 0;
   // This while loop guarantees the inventory letter won't be a repeat. If it
@@ -8544,6 +8527,7 @@ void game::pickup(int posx, int posy, int min)
          m.i_rem(posx, posy, curmit);
         m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
         u.wield(this, u.i_add(here[i], this).invlet);
+        mapPickup[here[i].tname(this)]++;
         curmit--;
         u.moves -= 100;
         add_msg("Wielding %c - %s", u.weapon.invlet, u.weapon.tname(this).c_str());
@@ -8558,6 +8542,7 @@ void game::pickup(int posx, int posy, int min)
      }
     } else {
      u.wield(this, u.i_add(here[i], this).invlet);
+     mapPickup[here[i].tname(this)]++;
      if (from_veh)
       veh->remove_item (veh_part, curmit);
      else
@@ -8577,6 +8562,7 @@ void game::pickup(int posx, int posy, int min)
     curmit--;
    } else {
     u.i_add(here[i], this);
+    mapPickup[here[i].tname(this)]++;
     if (from_veh)
      veh->remove_item (veh_part, curmit);
     else
@@ -8587,6 +8573,23 @@ void game::pickup(int posx, int posy, int min)
   }
   curmit++;
  }
+
+ if (min == -1) { //Auto pickup item message
+     if (mapPickup.size() > 0) {
+        std::stringstream sTemp;
+
+        for (std::map<std::string, int>::iterator iter = mapPickup.begin(); iter != mapPickup.end(); ++iter) {
+            if (sTemp.str() != "") {
+                sTemp << ", ";
+            }
+
+            sTemp << iter->second << " " << iter->first;
+        }
+
+        add_msg(("You pick up: " + sTemp.str()).c_str());
+     }
+ }
+
  if (got_water)
   add_msg("You can't pick up a liquid!");
  if (weight_is_okay && u.weight_carried() >= u.weight_capacity() * .25)

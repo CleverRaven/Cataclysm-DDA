@@ -41,6 +41,7 @@ OPT_RAD_MUTATION,        // Radiation mutates
 OPT_SAVESLEEP,           // Ask to save before sleeping
 OPT_AUTO_PICKUP,         // Enable Item Auto Pickup
 OPT_AUTO_PICKUP_ZERO,    // Auto Pickup 0 Volume and Weith items
+OPT_AUTO_PICKUP_SAFEMODE,// Auto Pickup Safemode
 NUM_OPTION_KEYS
 };
 
