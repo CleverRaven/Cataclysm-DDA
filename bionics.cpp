@@ -350,19 +350,12 @@ void player::activate_bionic(int b, game *g)
     power_level += bionics["bio_evap"]->power_cost;
   }
  } else if(bio.id == "bio_lighter"){
-  g->draw();
-  mvprintw(0, 0, "Torch in which direction?");
-  input = get_input();
-  get_direction(dirx, diry, input);
-  if (dirx == -2) {
-   g->add_msg("Invalid direction.");
-   power_level += bionics["bio_lighter"]->power_cost;
-   return;
+  if(!g->choose_adjacent("Start a fire", dirx, diry) || 
+    (!g->m.add_field(g, dirx, diry, fd_fire, 1))){
+       g->add_msg_if_player(this,"You can't light a fire there.");
+       power_level += bionics["bio_lighter"]->power_cost;
   }
-  dirx += posx;
-  diry += posy;
-  if (!g->m.add_field(g, dirx, diry, fd_fire, 1))	// Unsuccessful.
-   g->add_msg("You can't light a fire there.");
+
  } else if(bio.id == "bio_claws"){
   if (weapon.type->id == "bio_claws_weapon") {
    g->add_msg("You withdraw your claws.");
@@ -395,18 +388,12 @@ void player::activate_bionic(int b, game *g)
   g->plfire(false);
   weapon = tmp_item;
  } else if (bio.id == "bio_emp"){
-  g->draw();
-  mvprintw(0, 0, "Fire EMP in which direction?");
-  input = get_input();
-  get_direction(dirx, diry, input);
-  if (dirx == -2) {
-   g->add_msg("Invalid direction.");
+  if(g->choose_adjacent("create an EMP", dirx, diry))
+   g->emp_blast(dirx, diry);
+  else{
    power_level += bionics["bio_emp"]->power_cost;
-   return;
   }
-  dirx += posx;
-  diry += posy;
-  g->emp_blast(dirx, diry);
+
  } else if (bio.id == "bio_hydraulics"){
   g->add_msg("Your muscles hiss as hydraulic strength fills them!");
  } else if (bio.id == "bio_water_extractor"){
@@ -470,29 +457,22 @@ void player::activate_bionic(int b, game *g)
    }
   }
  } else if(bio.id == "bio_lockpick"){
-  g->draw();
-  mvprintw(0, 0, "Unlock in which direction?");
-  input = get_input();
-  get_direction(dirx, diry, input);
-  if (dirx == -2) {
-   g->add_msg("Invalid direction.");
+  if(!g->choose_adjacent("Activate your bio lockpick", dirx, diry)){
    power_level += bionics["bio_lockpick"]->power_cost;
    return;
   }
-  dirx += posx;
-  diry += posy;
   if (g->m.ter(dirx, diry) == t_door_locked) {
    moves -= 40;
-   g->add_msg("You unlock the door.");
+   g->add_msg_if_player(this,"You unlock the door.");
    g->m.ter_set(dirx, diry, t_door_c);
   } else
-   g->add_msg("You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
+   g->add_msg_if_player(this,"You can't unlock that %s.", g->m.tername(dirx, diry).c_str());
  } else if(bio.id == "bio_flashbang") {
-   g->add_msg("You activate your integrated flashbang generator!");
+   g->add_msg_if_player(this,"You activate your integrated flashbang generator!");
    g->flashbang(posx, posy, true);
  } else if(bio.id == "bio_shockwave") {
    g->shockwave(posx, posy, 3, 4, 2, 8, true);
-   g->add_msg("You unleash a powerful shockwave!");
+   g->add_msg_if_player(this,"You unleash a powerful shockwave!");
  } else if(bio.id == "bio_chain_lightning"){
   tmp_item = weapon;
   weapon = item(g->itypes["bio_lightning"], 0);
