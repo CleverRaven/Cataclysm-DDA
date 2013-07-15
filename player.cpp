@@ -4124,7 +4124,7 @@ int player::volume_carried()
 int player::weight_capacity(bool real_life)
 {
  int str = (real_life ? str_cur : str_max);
- int ret = 400 + str * 35;
+ int ret = 120 + str * 35;
  if (has_trait(PF_BADBACK))
   ret = int(ret * .65);
  if (has_trait(PF_LIGHT_BONES))
