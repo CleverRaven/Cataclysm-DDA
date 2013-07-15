@@ -1897,19 +1897,8 @@ bool game::handle_action()
        as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
        switch (as_m.ret) {
        case 1:  // Yes, I do want to save game before sleeping.
-         {  // Code copied from autosave()
-           time_t now = time(NULL);
-
-           add_msg("Saving game, this may take a while");
-           save();
-
-           save_factions_missions_npcs();
-           save_artifacts();
-           save_maps();
-
-           moves_since_last_save = 0;
-           item_exchanges_since_save = 0;
-           last_save_timestamp = now;
+         {
+           quicksave();
          }
        case 0:  // Yes, I do want to sleep.
          {
@@ -1977,6 +1966,15 @@ bool game::handle_action()
   } else {
   add_msg("Saving in vehicles is buggy, stop and get out of the vehicle first");
  } break;
+
+  case ACTION_QUICKSAVE:
+    if(u.in_vehicle){
+        add_msg("Saving in vehicles is buggy, stop and get out of the vehicle first");
+    }else{
+        quicksave();
+    }
+    return false;
+
   case ACTION_QUIT:
    if (query_yn("Commit suicide?")) {
     u.moves = 0;
@@ -11261,7 +11259,7 @@ void game::init_autosave()
  last_save_timestamp = time(NULL);
 }
 
-// Currently unused.
+/* Currently unused.
 int game::autosave_timeout()
 {
  if (!OPTIONS[OPT_AUTOSAVE])
@@ -11287,26 +11285,31 @@ int game::autosave_timeout()
  double ret = lower_limit + (range * move_multiplier * changes_multiplier);
  return ret;
 }
+*/
 
-void game::autosave()
-{
-    time_t now = time(NULL);
-    // Don't autosave while driving, if the player's done nothing, or if it's been less than 5 real minutes.
-    if (u.in_vehicle || (!moves_since_last_save && !item_exchanges_since_save) ||
-        now < last_save_timestamp + (60 * OPTIONS[OPT_AUTOSAVE_MINUTES]))
-    {
-        return;
-    }
+void game::quicksave(){
+    if(u.in_vehicle){return;}//Avoid saving whilst driving, as it is buggy.
+    if(!moves_since_last_save && !item_exchanges_since_save){return;}//Don't autosave if the player hasn't done anything since the last autosave/quicksave,
     add_msg("Saving game, this may take a while");
-    save();
 
+    time_t now = time(NULL);    //timestamp for start of saving procedure
+
+    //perform save
+    save();
     save_factions_missions_npcs();
     save_artifacts();
     save_maps();
 
+    //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;
     last_save_timestamp = now;
+}
+
+void game::autosave(){
+    //Don't autosave if the min-autosave interval has not passed since the last autosave/quicksave.
+    if(time(NULL) < last_save_timestamp + (60 * OPTIONS[OPT_AUTOSAVE_MINUTES])){return;}
+    quicksave();    //Driving checks are handled by quicksave()
 }
 
 void intro()
