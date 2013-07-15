@@ -22,11 +22,7 @@ class iuse
   void caff		(game *g, player *p, item *it, bool t);
   void alcohol		(game *g, player *p, item *it, bool t);
   void alcohol_weak (game *g, player *p, item *it, bool t);
-  void pkill_1		(game *g, player *p, item *it, bool t);
-  void pkill_2		(game *g, player *p, item *it, bool t);
-  void pkill_3		(game *g, player *p, item *it, bool t);
-  void pkill_4		(game *g, player *p, item *it, bool t);
-  void pkill_l		(game *g, player *p, item *it, bool t);
+  void pkill		(game *g, player *p, item *it, bool t);
   void xanax		(game *g, player *p, item *it, bool t);
   void cig		(game *g, player *p, item *it, bool t);
   void antibiotic		(game *g, player *p, item *it, bool t);

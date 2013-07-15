@@ -34,6 +34,7 @@ OPT_VIEWPORT_Y,          // Set the height of the terrain window, in characters
 OPT_MOVE_VIEW_OFFSET,    // Sensitivity of shift+(movement)
 OPT_STATIC_SPAWN,        // Makes zombies spawn using the new static system
 OPT_CLASSIC_ZOMBIES,     // Only spawn the more classic zombies and buildings.
+OPT_REVIVE_ZOMBIES,      // Allow Zombies to revive after a certain amount of time.
 OPT_SEASON_LENGTH,       // Season length, in days
 OPT_STATIC_NPC,          // Spawn static npcs
 OPT_RANDOM_NPC,          // Spawn random npcs
@@ -41,6 +42,7 @@ OPT_RAD_MUTATION,        // Radiation mutates
 OPT_SAVESLEEP,           // Ask to save before sleeping
 OPT_AUTO_PICKUP,         // Enable Item Auto Pickup
 OPT_AUTO_PICKUP_ZERO,    // Auto Pickup 0 Volume and Weith items
+OPT_AUTO_PICKUP_SAFEMODE,// Auto Pickup Safemode
 NUM_OPTION_KEYS
 };
 
