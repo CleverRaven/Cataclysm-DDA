@@ -4772,7 +4772,7 @@
         "addiction_type" : "opiate",
         "spoils_in" : 0,
         "use_action" : "PKILL",
-        "uflags" : "PKILL_4",
+        "flags" : "PKILL_4",
         "stim" : -10,
         "container" : "null",
         "to_hit" : 0,
