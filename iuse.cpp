@@ -375,52 +375,40 @@ void iuse::disinfectant(game *g, player *p, item *it, bool t)
     }
 }
 
-// Aspirin
-void iuse::pkill_1(game *g, player *p, item *it, bool t)
+void iuse::pkill(game *g, player *p, item *it, bool t)
 {
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+    // Aspirin
+    if (it->has_flag("PKILL_1")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        if (!p->has_disease("pkill1")) {
+            p->add_disease("pkill1", 120);
+        } else {
+            for (int i = 0; i < p->illness.size(); i++) {
+                if (p->illness[i].type == "pkill1") {
+                    p->illness[i].duration = 120;
+                    i = p->illness.size();
+                }
+            }
+        }
+    // Codeine
+    } else if (it->has_flag("PKILL_2")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        p->add_disease("pkill2", 180);
 
- if (!p->has_disease("pkill1"))
-  p->add_disease("pkill1", 120);
- else {
-  for (int i = 0; i < p->illness.size(); i++) {
-   if (p->illness[i].type == "pkill1") {
-    p->illness[i].duration = 120;
-    i = p->illness.size();
-   }
-  }
- }
-}
+    } else if (it->has_flag("PKILL_3")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        p->add_disease("pkill3", 20);
+        p->add_disease("pkill2", 200);
 
-// Codeine
-void iuse::pkill_2(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+    } else if (it->has_flag("PKILL_4")) {
+        g->add_msg_if_player(p,"You shoot up.");
+        p->add_disease("pkill3", 80);
+        p->add_disease("pkill2", 200);
 
- p->add_disease("pkill2", 180);
-}
-
-void iuse::pkill_3(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
-
- p->add_disease("pkill3", 20);
- p->add_disease("pkill2", 200);
-}
-
-void iuse::pkill_4(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You shoot up.");
-
- p->add_disease("pkill3", 80);
- p->add_disease("pkill2", 200);
-}
-
-void iuse::pkill_l(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
-
- p->add_disease("pkill_l", rng(12, 18) * 300);
+    } else if (it->has_flag("PKILL_L")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        p->add_disease("pkill_l", rng(12, 18) * 300);
+    }
 }
 
 void iuse::xanax(game *g, player *p, item *it, bool t)
