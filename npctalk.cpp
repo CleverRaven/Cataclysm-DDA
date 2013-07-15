@@ -1378,8 +1378,12 @@ void talk_function::give_equipment(game *g, npc *p)
  if (chosen == -1)
   chosen = 0;
  item* it = giving[chosen];
- popup("%s gives you a %s.", p->name.c_str(),
-       it->tname().c_str());
+
+ std::stringstream popstream;
+ popstream << p->name << " gives you a " << it->tname() << ".";
+
+ popup(popstream.str().c_str());
+
  g->u.i_add( p->i_remn(it->invlet) );
  p->op_of_u.owed -= prices[chosen];
  p->add_disease("asked_for_item", 1800);
