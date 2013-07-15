@@ -1966,7 +1966,6 @@ bool game::handle_action()
    break;
 
   case ACTION_SAVE:
-  if (!u.in_vehicle) {
    if (query_yn("Save and quit?")) {
     save();
     u.moves = 0;
@@ -1974,9 +1973,6 @@ bool game::handle_action()
     MAPBUFFER.make_volatile();
    }
    break;
-  } else {
-  add_msg("Saving in vehicles is buggy, stop and get out of the vehicle first");
- } break;
   case ACTION_QUIT:
    if (query_yn("Commit suicide?")) {
     u.moves = 0;
