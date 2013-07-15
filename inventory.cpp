@@ -242,7 +242,7 @@ inventory inventory::filter_by_category(item_cat cat, const player& u) const
         case IC_CONTAINER: // containers for liquid handling
             if (it.is_tool() || it.is_gun())
             {
-                if (it.ammo_type() == AT_GAS)
+                if (it.ammo_type() == "gasoline")
                 {
                     reduced_inv += *iter;
                 }
@@ -475,11 +475,11 @@ void inventory::form_from_map(game *g, point origin, int range)
 
      if (kpart >= 0) {
        item hotplate(g->itypes["hotplate"], 0);
-       hotplate.charges = veh->fuel_left(AT_BATT, true);
+       hotplate.charges = veh->fuel_left("battery", true);
        add_item(hotplate);
 
        item water(g->itypes["water_clean"], 0);
-       water.charges = veh->fuel_left(AT_WATER);
+       water.charges = veh->fuel_left("water");
        add_item(water);
 
        item pot(g->itypes["pot"], 0);
@@ -746,7 +746,7 @@ std::vector<item*> inventory::all_ammo(ammotype type)
 
             }
             // Handle gasoline nested in containers
-            else if (type == AT_GAS && stack_iter->is_container() &&
+            else if (type == "gasoline" && stack_iter->is_container() &&
 	                 !stack_iter->contents.empty() && stack_iter->contents[0].is_ammo() &&
 	                 dynamic_cast<it_ammo*>(stack_iter->contents[0].type)->type == type)
 	        {

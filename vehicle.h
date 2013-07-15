@@ -15,7 +15,7 @@ class player;
 class game;
 
 const int num_fuel_types = 5;
-const int fuel_types[num_fuel_types] = { AT_GAS, AT_BATT, AT_PLUT, AT_PLASMA, AT_WATER };
+const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "PLAS", "water" };
 const int k_mvel = 200;
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
@@ -243,23 +243,20 @@ public:
     int global_y ();
 
 // Checks how much certain fuel left in tanks. If for_engine == true that means
-// ftype == AT_BATT is also takes in account AT_PLUT fuel (electric motors can use both)
-    int fuel_left (int ftype, bool for_engine = false);
-    int fuel_capacity (int ftype);
+// ftype == "battery" is also takes in account "plutonium" fuel (electric motors can use both)
+    int fuel_left (ammotype ftype, bool for_engine = false);
+    int fuel_capacity (ammotype ftype);
 
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
-    int refill (int ftype, int amount);
+    int refill (ammotype ftype, int amount);
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
-    int drain (int ftype, int amount);
-
-// vehicle's fuel type name
-    std::string fuel_name(int ftype);
+    int drain (ammotype ftype, int amount);
 
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
-    int basic_consumption (int ftype);
+    int basic_consumption (ammotype ftype);
 
     void consume_fuel ();
 

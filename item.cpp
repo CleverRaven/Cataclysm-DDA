@@ -77,7 +77,7 @@ item::item(itype* it, unsigned int turn)
    charges = -1;
   } else {
    charges = tool->def_charges;
-   if (tool->ammo != AT_NULL) {
+   if (tool->ammo != "NULL") {
     curammo = dynamic_cast<it_ammo*>(item_controller->find_template(default_ammo(tool->ammo)));
    }
   }
@@ -594,7 +594,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
   if (mod->burst != 0)
    dump->push_back(iteminfo("GUNMOD", "Burst: ", (mod->burst > 0 ? "+" : ""), int(mod->burst)));
 
-  if (mod->newtype != AT_NULL)
+  if (mod->newtype != "NULL")
    dump->push_back(iteminfo("GUNMOD", "" + ammo_name(mod->newtype)));
 
   temp1.str("");
@@ -677,9 +677,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump, game *g, bool
 
   if ((tool->max_charges)!=0) {
    if (has_flag("DOUBLE_AMMO")) {
-    dump->push_back(iteminfo("TOOL", "Maximum ", "", int(tool->max_charges*2), " charges (doubled)" + ((tool->ammo == AT_NULL) ? "" : (" of " + ammo_name(tool->ammo))) + "."));
+    dump->push_back(iteminfo("TOOL", "Maximum ", "", int(tool->max_charges*2), " charges (doubled)" + ((tool->ammo == "NULL") ? "" : (" of " + ammo_name(tool->ammo))) + "."));
    } else {
-    dump->push_back(iteminfo("TOOL", "Maximum ", "", int(tool->max_charges), " charges" + ((tool->ammo == AT_NULL) ? "" : (" of " + ammo_name(tool->ammo))) + "."));
+    dump->push_back(iteminfo("TOOL", "Maximum ", "", int(tool->max_charges), " charges" + ((tool->ammo == "NULL") ? "" : (" of " + ammo_name(tool->ammo))) + "."));
    }
   }
 
@@ -1147,7 +1147,7 @@ bool item::craft_has_charges()
 {
  if (count_by_charges())
   return true;
- else if (ammo_type() == AT_NULL)
+ else if (ammo_type() == "NULL")
   return true;
 
  return false;
@@ -1417,9 +1417,9 @@ bool item::is_silent() const
  // So far only gun code uses this check
  return type->is_gun() && (
    noise() < 5 ||              // almost silent
-   curammo->type == AT_BOLT || // crossbows
-   curammo->type == AT_ARROW ||// bows
-   curammo->type == AT_PEBBLE  // sling[shot]
+   curammo->type == "bolt" || // crossbows
+   curammo->type == "arrow" ||// bows
+   curammo->type == "pebble"  // sling[shot]
  );
 }
 
@@ -1459,7 +1459,7 @@ bool item::is_food(player const*u) const
   return true;
 
  if (u->has_bionic("bio_batteries") && is_ammo() &&
-     (dynamic_cast<it_ammo*>(type))->type == AT_BATT)
+     (dynamic_cast<it_ammo*>(type))->type == "battery")
   return true;
  if (u->has_bionic("bio_furnace") && flammable() && typeId() != "corpse")
   return true;
@@ -1967,7 +1967,7 @@ ammotype item::ammo_type() const
   for (int i = 0; i < contents.size(); i++) {
    if (contents[i].is_gunmod() && !contents[i].has_flag("MODE_AUX")) {
     it_gunmod* mod = dynamic_cast<it_gunmod*>(contents[i].type);
-    if (mod->newtype != AT_NULL)
+    if (mod->newtype != "NULL")
      ret = mod->newtype;
    }
   }
@@ -1982,7 +1982,7 @@ ammotype item::ammo_type() const
   it_gunmod* mod = dynamic_cast<it_gunmod*>(type);
   return mod->newtype;
  }
- return AT_NULL;
+ return "NULL";
 }
 
 char item::pick_reload_ammo(player &u, bool interactive)

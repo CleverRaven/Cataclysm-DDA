@@ -651,15 +651,15 @@ void game::process_activity()
       for (int n = 0; n < m.i_at(u.posx + i, u.posy + j).size(); n++) {
        if (m.i_at(u.posx + i, u.posy + j)[n].type->id == "gasoline") {
         item* gas = &(m.i_at(u.posx + i, u.posy + j)[n]);
-        int lack = (veh->fuel_capacity(AT_GAS) - veh->fuel_left(AT_GAS)) < 200 ?
-                   (veh->fuel_capacity(AT_GAS) - veh->fuel_left(AT_GAS)) : 200;
+        int lack = (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) < 200 ?
+                   (veh->fuel_capacity("gasoline") - veh->fuel_left("gasoline")) : 200;
         if (gas->charges > lack) {
-         veh->refill (AT_GAS, lack);
+         veh->refill ("gasoline", lack);
          gas->charges -= lack;
          u.activity.moves_left -= 100;
         } else {
          add_msg("With a clang and a shudder, the gasoline pump goes silent.");
-         veh->refill (AT_GAS, gas->charges);
+         veh->refill ("gasoline", gas->charges);
          m.i_at(u.posx + i, u.posy + j).erase(m.i_at(u.posx + i, u.posy + j).begin() + n);
          u.activity.moves_left = 0;
         }
@@ -2316,8 +2316,7 @@ void game::load_artifacts()
 		artifact.get(std::string("charges_per_use")).as_int();
 	    unsigned char turns_per_charge =
 		artifact.get(std::string("turns_per_charge")).as_int();
-	    ammotype ammo =
-		(ammotype)artifact.get(std::string("ammo")).as_int();
+	    ammotype ammo = artifact.get(std::string("ammo")).as_string();
 	    std::string revert_to =
 		artifact.get(std::string("revert_to")).as_string();
 
@@ -5116,7 +5115,7 @@ void game::emp_blast(int x, int y)
 // Drain any items of their battery charge
  for (int i = 0; i < m.i_at(x, y).size(); i++) {
   if (m.i_at(x, y)[i].is_tool() &&
-      (dynamic_cast<it_tool*>(m.i_at(x, y)[i].type))->ammo == AT_BATT)
+      (dynamic_cast<it_tool*>(m.i_at(x, y)[i].type))->ammo == "battery")
    m.i_at(x, y)[i].charges = 0;
  }
 // TODO: Drain NPC energy reserves
@@ -5576,9 +5575,10 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
     int min_charges = -1;
     bool i_cont = false;
 
-    int ftype = veh.part_info(part).fuel_type;
-    itype_id itid = default_ammo((ammotype)ftype);
-    if (u.weapon.is_container() && u.weapon.contents.size() > 0 && u.weapon.contents[0].type->id == itid)
+    std::string ftype = veh.part_info(part).fuel_type;
+    itype_id itid = default_ammo(ftype);
+    if (u.weapon.is_container() && u.weapon.contents.size() > 0 &&
+        u.weapon.contents[0].type->id == itid)
     {
         it = &u.weapon;
         p_itm = &u.weapon.contents[0];
@@ -5615,16 +5615,8 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
         return true;
 
     int fuel_per_charge = 1;
-    switch (ftype)
-    {
-    case AT_PLUT:
-        fuel_per_charge = 1000;
-        break;
-    case AT_PLASMA:
-        fuel_per_charge = 100;
-        break;
-    default:;
-    }
+    if( ftype == "plutonium" ) { fuel_per_charge = 1000; }
+    else if( ftype == "plasma" ) { fuel_per_charge = 100; }
     int max_fuel = veh.part_info(part).size;
     int dch = (max_fuel - veh.parts[part].amount) / fuel_per_charge;
     if (dch < 1)
@@ -5635,8 +5627,8 @@ bool game::pl_refill_vehicle (vehicle &veh, int part, bool test)
     if (veh.parts[part].amount > max_fuel)
         veh.parts[part].amount = max_fuel;
 
-    add_msg ("You %s %s's %s%s.", ftype == AT_BATT? "recharge" : "refill", veh.name.c_str(),
-             ftype == AT_BATT? "battery" : (ftype == AT_PLUT? "reactor" : "fuel tank"),
+    add_msg ("You %s %s's %s%s.", ftype == "battery" ? "recharge" : "refill", veh.name.c_str(),
+             ftype == "battery" ? "battery" : (ftype == "plutonium" ? "reactor" : "fuel tank"),
              veh.parts[part].amount == max_fuel? " to its maximum" : "");
 
     p_itm->charges -= used_charges;
@@ -8136,9 +8128,9 @@ void game::pickup(int posx, int posy, int min)
              query_yn("Get items from %s?", veh->part_info(veh_part).name);
 
   if (!from_veh && k_part >= 0) {
-    if (veh->fuel_left(AT_WATER)) {
+    if (veh->fuel_left("water")) {
       if (query_yn("Have a drink?")) {
-        veh->drain(AT_WATER, 1);
+        veh->drain("water", 1);
 
         item water(itypes["water_clean"], 0);
         u.eat(this, u.inv.add_item(water).invlet);
@@ -8616,20 +8608,20 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
   if (choose_adjacent("Refill vehicle", vx, vy)) {
    vehicle *veh = m.veh_at (vx, vy);
    if (veh) {
-    int ftype = AT_GAS;
+    ammotype ftype = "gasoline";
     int fuel_cap = veh->fuel_capacity(ftype);
     int fuel_amnt = veh->fuel_left(ftype);
     if (fuel_cap < 1)
-     add_msg ("This vehicle doesn't use %s.", veh->fuel_name(ftype).c_str());
+     add_msg ("This vehicle doesn't use %s.", ammo_name(ftype).c_str());
     else if (fuel_amnt == fuel_cap)
      add_msg ("Already full.");
     else if (from_ground && query_yn("Pump until full?")) {
      u.assign_activity(this, ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
      u.activity.placement = point(vx, vy);
     } else { // Not pump
-     veh->refill (AT_GAS, liquid.charges);
+     veh->refill ("gasoline", liquid.charges);
      add_msg ("You refill %s with %s%s.", veh->name.c_str(),
-              veh->fuel_name(ftype).c_str(),
+              ammo_name(ftype).c_str(),
               veh->fuel_left(ftype) >= fuel_cap? " to its maximum" : "");
      u.moves -= 100;
      return true;
@@ -8676,7 +8668,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite)
 
   } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
 // for filling up chainsaws, jackhammers and flamethrowers
-   ammotype ammo = AT_NULL;
+   ammotype ammo = "NULL";
    int max = 0;
 
    if (cont->is_tool()) {
@@ -9195,10 +9187,10 @@ void game::plfire(bool burst)
  if (num_shots > u.weapon.num_charges())
    num_shots = u.weapon.num_charges();
  if (u.skillLevel(firing->skill_used) == 0 ||
-     (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
+     (firing->ammo != "BB" && firing->ammo != "nail"))
      u.practice(turn, firing->skill_used, 4 + (num_shots / 2));
  if (u.skillLevel("gun") == 0 ||
-     (firing->ammo != AT_BB && firing->ammo != AT_NAIL))
+     (firing->ammo != "BB" && firing->ammo != "nail"))
      u.practice(turn, "gun", 5);
 
  fire(u, x, y, trajectory, burst);
@@ -9526,7 +9518,7 @@ void game::reload()
 single action.", u.weapon.tname().c_str());
    return;
   }
-  if (u.weapon.ammo_type() == AT_NULL) {
+  if (u.weapon.ammo_type() == "NULL") {
    add_msg("Your %s does not reload normally.", u.weapon.tname().c_str());
    return;
   }
@@ -9557,7 +9549,7 @@ single action.", u.weapon.tname().c_str());
   u.moves = 0;
  } else if (u.weapon.is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(u.weapon.type);
-  if (tool->ammo == AT_NULL) {
+  if (tool->ammo == "NULL") {
    add_msg("You can't reload a %s!", u.weapon.tname(this).c_str());
    return;
   }
@@ -9612,7 +9604,7 @@ void game::unload(char chInput)
 void game::unload(item& it)
 {
     if ( it.has_flag("NO_UNLOAD") ||
-         (!it.is_gun() && it.contents.size() == 0 && (!it.is_tool() || it.ammo_type() == AT_NULL)) )
+         (!it.is_gun() && it.contents.size() == 0 && (!it.is_tool() || it.ammo_type() == "NULL")) )
     {
         add_msg("You can't unload a %s!", it.tname(this).c_str());
         return;

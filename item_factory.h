@@ -62,7 +62,6 @@ private:
     void set_material_from_json(Item_tag new_id, catajson mats);
     bool is_mod_target(catajson targets, std::string weapon);
     phase_id phase_from_tag(Item_tag name);
-    ammotype ammo_from_string(std::string ammo);
 
     //two convenience functions that just call into set_bitmask_by_string
     void set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type);
@@ -74,8 +73,6 @@ private:
     std::map<Item_tag, Use_function> iuse_function_list;
     //techniques stuff
     std::map<Item_tag, unsigned> techniques_list;
-    //ammo stuff
-    std::map<Item_tag, unsigned> ammo_flags_list;
     //bodyparts
     std::map<Item_tag, unsigned> bodyparts_list;
 };

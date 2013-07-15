@@ -209,39 +209,6 @@ void Item_factory::init(){
     techniques_list["DEF_THROW"] = mfb(TEC_DEF_THROW);
     techniques_list["DEF_DISARM"] = mfb(TEC_DEF_DISARM);
 
-    //Ammo lists
-    ammo_flags_list["NULL"] = mfb(AT_NULL);
-    ammo_flags_list["THREAD"] = mfb(AT_THREAD);
-    ammo_flags_list["BATT"] = mfb(AT_BATT);
-    ammo_flags_list["PLUT"] = mfb(AT_PLUT);
-    ammo_flags_list["NAIL"] = mfb(AT_NAIL);
-    ammo_flags_list["BB"] = mfb(AT_BB);
-    ammo_flags_list["BOLT"] = mfb(AT_BOLT);
-    ammo_flags_list["ARROW"] = mfb(AT_ARROW);
-    ammo_flags_list["SHOT"] = mfb(AT_SHOT);
-    ammo_flags_list["22"] = mfb(AT_22);
-    ammo_flags_list["9MM"] = mfb(AT_9MM);
-    ammo_flags_list["762x25"] = mfb(AT_762x25);
-    ammo_flags_list["38"] = mfb(AT_38);
-    ammo_flags_list["40"] = mfb(AT_40);
-    ammo_flags_list["44"] = mfb(AT_44);
-    ammo_flags_list["45"] = mfb(AT_45);
-    ammo_flags_list["57"] = mfb(AT_57);
-    ammo_flags_list["46"] = mfb(AT_46);
-    ammo_flags_list["762"] = mfb(AT_762);
-    ammo_flags_list["223"] = mfb(AT_223);
-    ammo_flags_list["3006"] = mfb(AT_3006);
-    ammo_flags_list["308"] = mfb(AT_308);
-    ammo_flags_list["40MM"] = mfb(AT_40MM);
-    ammo_flags_list["66MM"] = mfb(AT_66MM);
-    ammo_flags_list["GAS"] = mfb(AT_GAS);
-    ammo_flags_list["FUSION"] = mfb(AT_FUSION);
-    ammo_flags_list["MUSCLE"] = mfb(AT_MUSCLE);
-    ammo_flags_list["12MM"] = mfb(AT_12MM);
-    ammo_flags_list["PLASMA"] = mfb(AT_PLASMA);
-    ammo_flags_list["WATER"] = mfb(AT_WATER);
-    ammo_flags_list["PEBBLE"] = mfb(AT_PEBBLE);
-
     bodyparts_list["TORSO"] = mfb(bp_torso);
     bodyparts_list["HEAD"] = mfb(bp_head);
     bodyparts_list["EYES"] = mfb(bp_eyes);
@@ -403,7 +370,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         it_gunmod* gunmod_template = new it_gunmod();
                         gunmod_template->damage = entry.get("damage_modifier").as_int();;
                         gunmod_template->loudness = entry.get("loudness_modifier").as_int();
-                        gunmod_template->newtype = ammo_from_string(entry.get("ammo_modifier").as_string());
+                        gunmod_template->newtype = entry.get("ammo_modifier").as_string();
                         gunmod_template->used_on_pistol = is_mod_target(entry.get("mod_targets"), "pistol");
                         gunmod_template->used_on_shotgun = is_mod_target(entry.get("mod_targets"), "shotgun");
                         gunmod_template->used_on_smg = is_mod_target(entry.get("mod_targets"), "smg");
@@ -412,7 +379,10 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                         gunmod_template->recoil = entry.get("recoil_modifier").as_int();
                         gunmod_template->burst = entry.get("burst_modifier").as_int();
                         gunmod_template->clip = entry.get("clip_size_modifier").as_int();
-                        gunmod_template->acceptible_ammo_types = (!entry.has("acceptable_ammo") ? 0 : flags_from_json(entry.get("acceptable_ammo"), "ammo"));
+                        if( entry.has("acceptable_ammo") ) {
+                            tags_from_json( entry.get("acceptable_ammo"),
+                                            gunmod_template->acceptible_ammo_types );
+                        }
                         new_item_template = gunmod_template;
                     }
                     else if (type_label == "COMESTIBLE")
@@ -435,7 +405,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     else if (type_label == "GUN")
                     {
                         it_gun* gun_template = new it_gun();
-                        gun_template->ammo = ammo_from_string(entry.get("ammo").as_string());
+                        gun_template->ammo = entry.get("ammo").as_string();
                         gun_template->skill_used = Skill::skill(entry.get("skill").as_string());
                         gun_template->dmg_bonus = entry.get("ranged_damage").as_int();
                         gun_template->range = entry.get("range").as_int();
@@ -451,7 +421,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     else if (type_label == "TOOL")
                     {
                         it_tool* tool_template = new it_tool();
-                        tool_template->ammo = ammo_from_string(entry.get("ammo").as_string());
+                        tool_template->ammo = entry.get("ammo").as_string();
                         tool_template->max_charges = entry.get("max_charges").as_int();
                         tool_template->def_charges = entry.get("initial_charges").as_int();
                         tool_template->charges_per_use = entry.get("charges_per_use").as_int();
@@ -463,9 +433,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     else if (type_label == "AMMO")
                     {
                         it_ammo* ammo_template = new it_ammo();
-                        ammo_template->type =
-                            ammo_from_string(
-                                entry.get("ammo_type").as_string());
+                        ammo_template->type = entry.get("ammo_type").as_string();
                         ammo_template->damage = entry.get("damage").as_int();
                         ammo_template->pierce = entry.get("pierce").as_int();
                         ammo_template->range = entry.get("range").as_int();
@@ -721,75 +689,6 @@ nc_color Item_factory::color_from_string(std::string new_color){
     }
 }
 
-ammotype Item_factory::ammo_from_string(std::string new_ammo){
-    if("nail"==new_ammo){
-        return AT_NAIL;
-    } else if ("BB" == new_ammo) {
-        return AT_BB;
-    } else if ("pebble" == new_ammo) {
-        return AT_PEBBLE;
-    } else if ("bolt" == new_ammo) {
-        return AT_BOLT;
-    } else if ("arrow" == new_ammo) {
-        return AT_ARROW;
-    } else if ("shot" == new_ammo) {
-        return AT_SHOT;
-    } else if (".22" == new_ammo) {
-        return AT_22;
-    } else if ("9mm" == new_ammo) {
-        return AT_9MM;
-    } else if ("7.62x25mm" == new_ammo) {
-        return AT_762x25;
-    } else if (".38" == new_ammo) {
-        return AT_38;
-    } else if (".40" == new_ammo) {
-        return AT_40;
-    } else if (".44" == new_ammo) {
-        return AT_44;
-    } else if (".45" == new_ammo) {
-        return AT_45;
-    } else if ("5.7mm" == new_ammo) {
-        return AT_57;
-    } else if ("4.6mm" == new_ammo) {
-        return AT_46;
-    } else if ("7.62x39mm" == new_ammo) {
-        return AT_762;
-    } else if (".223" == new_ammo) {
-        return AT_223;
-    } else if (".30-06" == new_ammo) {
-        return AT_3006;
-    } else if (".308" == new_ammo) {
-        return AT_308;
-    } else if ("40mm" == new_ammo) {
-        return AT_40MM;
-    } else if ("66mm" == new_ammo) {
-        return AT_66MM;
-    } else if ("gasoline" == new_ammo) {
-        return AT_GAS;
-    } else if ("thread" == new_ammo) {
-        return AT_THREAD;
-    } else if ("battery" == new_ammo) {
-        return AT_BATT;
-    } else if ("plutonium" == new_ammo) {
-        return AT_PLUT;
-    } else if ("muscle" == new_ammo) {
-        return AT_MUSCLE;
-    } else if ("fusion" == new_ammo) {
-        return AT_FUSION;
-    } else if ("12mm" == new_ammo) {
-        return AT_12MM;
-    } else if ("plasma" == new_ammo) {
-        return AT_PLASMA;
-    } else if ("water" == new_ammo) {
-        return AT_WATER;
-    } else if ("none" == new_ammo) {
-        return AT_NULL; // NX17 and other special weapons
-    } else {
-        debugmsg("Read invalid ammo %s.", new_ammo.c_str());
-        return AT_NULL;
-    }
-}
-
 Use_function Item_factory::use_from_string(std::string function_name){
     std::map<Item_tag, Use_function>::iterator found_function = iuse_function_list.find(function_name);
 
@@ -806,9 +705,7 @@ Use_function Item_factory::use_from_string(std::string function_name){
 void Item_factory::set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type)
 {
     std::map<Item_tag, unsigned> flag_map;
-    if(flag_type=="ammo"){
-      flag_map = ammo_flags_list;
-    } else if(flag_type=="techniques"){
+    if(flag_type=="techniques"){
       flag_map = techniques_list;
     } else if(flag_type=="bodyparts"){
         flag_map = bodyparts_list;

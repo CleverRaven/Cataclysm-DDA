@@ -171,7 +171,7 @@ int veh_interact::cant_do (char mode)
         has_skill = g->u.skillLevel("mechanics") >= 2;
         break;
     case 's': // siphon mode
-        valid_target = veh->fuel_left(AT_GAS) > 0;
+        valid_target = veh->fuel_left("gasoline") > 0;
         has_tools = has_siphon;
         break;
     case 'c': // Change tire
@@ -384,8 +384,8 @@ void veh_interact::do_refill(int reason)
         return;
     case 2:
         mvwprintz(w_msg, 0, 1, c_ltgray, "You need %s.",
-                  veh->fuel_name(veh->part_info(ptank).fuel_type).c_str());
-        mvwprintz(w_msg, 0, 10, c_red, veh->fuel_name(veh->part_info(ptank).fuel_type).c_str());
+                  ammo_name(veh->part_info(ptank).fuel_type).c_str());
+        mvwprintz(w_msg, 0, 10, c_red, ammo_name(veh->part_info(ptank).fuel_type).c_str());
         wrefresh (w_msg);
         return;
     default:;
@@ -732,7 +732,7 @@ void veh_interact::display_stats ()
     mvwprintz(w_stats, 5, 11, conf? c_ltgreen : c_ltred, conf? "enough" : "  lack");
     mvwprintz(w_stats, 6, 1, c_ltgray,  "Fuel usage (safe):        ");
     int xfu = 20;
-    int ftypes[3] = { AT_GAS, AT_BATT, AT_PLASMA };
+    ammotype ftypes[3] = { "gasoline", "battery", "plasma" };
     nc_color fcs[3] = { c_ltred, c_yellow, c_ltblue };
     bool first = true;
     for (int i = 0; i < 3; i++)

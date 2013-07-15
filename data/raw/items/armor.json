@@ -2956,7 +2956,7 @@
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "none",
+        "ammo": "NULL",
         "revert_to": "null",
         "phase" : "solid",
         "use_action" : "RAD_BADGE"

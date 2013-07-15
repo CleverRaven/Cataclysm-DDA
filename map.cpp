@@ -1019,10 +1019,10 @@ bool map::flammable_items_at(const int x, const int y)
     return true;
   if (it->made_of("cotton") && (vol <= 5 || it->burnt < 1))
     return true;
-  if (it->is_ammo() && it->ammo_type() != AT_BATT &&
-      it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
-      it->ammo_type() != AT_BOLT && it->ammo_type() != AT_ARROW &&
-      it->ammo_type() != AT_PEBBLE && it->ammo_type() != AT_NULL)
+  if (it->is_ammo() && it->ammo_type() != "battery" &&
+      it->ammo_type() != "nail" && it->ammo_type() != "BB" &&
+      it->ammo_type() != "bolt" && it->ammo_type() != "arrow" &&
+      it->ammo_type() != "pebble" && it->ammo_type() != "NULL")
     return true;
  }
  return false;
@@ -2790,12 +2790,12 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
         const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
 
         if (kpart >= 0) { // we have a kitchen, now to see what to drain
-          int ftype = -1;
+          ammotype ftype = "NULL";
 
           if (type == "water_clean")
-            ftype = AT_WATER;
+            ftype = "water";
           else if (type == "hotplate")
-            ftype = AT_BATT;
+            ftype = "battery";
 
           item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
           tmp.charges = veh->drain(ftype, quantity);
