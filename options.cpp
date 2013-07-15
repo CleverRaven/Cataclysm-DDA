@@ -333,6 +333,9 @@ option_key lookup_option_key(std::string id)
     if(id == "auto_pickup_zero") {
         return OPT_AUTO_PICKUP_ZERO;
     }
+    if(id == "auto_pickup_safemode") {
+        return OPT_AUTO_PICKUP_SAFEMODE;
+    }
 
     return OPT_NULL;
 }
@@ -376,6 +379,7 @@ std::string option_string(option_key key)
     case OPT_HIDE_CURSOR:         return "hide_cursor";
     case OPT_AUTO_PICKUP:         return "auto_pickup";
     case OPT_AUTO_PICKUP_ZERO:    return "auto_pickup_zero";
+    case OPT_AUTO_PICKUP_SAFEMODE:return "auto_pickup_safemode";
     default:                      return "unknown_option";
     }
     return "unknown_option";
@@ -419,7 +423,8 @@ std::string option_desc(option_key key)
     case OPT_SAVESLEEP:           return "If true, game will ask to save the map\nbefore sleeping. Default is false";
     case OPT_HIDE_CURSOR:         return "If 0, cursor is always shown. If 1,\ncursor is hidden. If 2, cursor is\nhidden on keyboard input and\nunhidden on mouse movement.\nDefault is 0.";
     case OPT_AUTO_PICKUP:         return "Enable item auto pickup. Change\npickup rules with the Auto Pickup\nManager in the Help Menu ?3";
-    case OPT_AUTO_PICKUP_ZERO:    return "Auto pickup items with\n0 Volume and Weight";
+    case OPT_AUTO_PICKUP_ZERO:    return "Auto pickup items with\n0 Volume or Weight";
+    case OPT_AUTO_PICKUP_SAFEMODE:return "Auto pickup is disabled\nas long as you can see\nmonsters nearby.\n\nThis is affected by\nSafemode proximity distance.";
     default:                      return " ";
     }
     return "Big ol Bug (options.cpp:option_desc)";
@@ -464,6 +469,7 @@ std::string option_name(option_key key)
     case OPT_HIDE_CURSOR:         return "Hide Mouse Cursor";
     case OPT_AUTO_PICKUP:         return "Enable item Auto Pickup";
     case OPT_AUTO_PICKUP_ZERO:    return "Auto Pickup 0 Vol/Weight";
+    case OPT_AUTO_PICKUP_SAFEMODE:return "Auto Pickup Safemode";
     default:                      return "Unknown Option (options.cpp:option_name)";
     }
     return "Big ol Bug (options.cpp:option_name)";
@@ -651,8 +657,12 @@ random_npc F\n\
 rad_mutation T\n\
 # Ask to save before sleeping.\n\
 save_sleep F\n\
-# Auto Pickup items with Volume and Weight 0\n\
+# Enable Auto Pickup. Manage pickup rules in the help menu. ?3\n\
 auto_pickup F\n\
+# Auto pickup items with 0 Volume or Weight\n\
+auto_pickup_zero F\n\
+# Auto pickup is disabled as long as you can see monsters nearby.\n\
+auto_pickup_safemode F\n\
 ";
     fout.close();
 }
