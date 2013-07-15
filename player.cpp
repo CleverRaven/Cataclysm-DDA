@@ -5928,12 +5928,24 @@ bool player::takeoff(game *g, char let, bool autodrop)
      if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
          ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso))) {
        // We're trying to take off power armor, but cannot do that if we have a power armor component on!
-       for (int i = 0; i < worn.size(); i++) {
-         if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
-             (worn[i].invlet != let)) {
-           g->add_msg("You can't take off power armor while wearing other power armor components.");
-           return false;
+       bool removed_armor = false;
+       for (int j = 0; j < worn.size(); j++) {
+         if ((dynamic_cast<it_armor*>(worn[j].type))->is_power_armor() &&
+             (worn[j].invlet != let)) {
+             if( autodrop ) {
+                 g->m.add_item(posx, posy, worn[j]);
+                 worn.erase(worn.begin() + j);
+                 removed_armor = true;
+             } else {
+                 g->add_msg("You can't take off power armor while wearing other power armor components.");
+                 return false;
+             }
          }
+       }
+       if( removed_armor ) {
+           // We've invalidated our index into worn[], so rescan from the beginning.
+           i = -1;
+           continue;
        }
      }
     if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
