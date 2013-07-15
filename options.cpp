@@ -309,6 +309,9 @@ option_key lookup_option_key(std::string id)
     if(id == "classic_zombies") {
         return OPT_CLASSIC_ZOMBIES;
     }
+    if(id == "revive_zombies") {
+        return OPT_REVIVE_ZOMBIES;
+    }
     if(id == "season_length") {
         return OPT_SEASON_LENGTH;
     }
@@ -368,6 +371,7 @@ std::string option_string(option_key key)
     case OPT_MOVE_VIEW_OFFSET:    return "move_view_offset";
     case OPT_STATIC_SPAWN:        return "static_spawn";
     case OPT_CLASSIC_ZOMBIES:     return "classic_zombies";
+    case OPT_REVIVE_ZOMBIES:      return "revive_zombies";
     case OPT_SEASON_LENGTH:       return "season_length";
     case OPT_STATIC_NPC:          return "static_npc";
     case OPT_RANDOM_NPC:          return "random_npc";
@@ -413,6 +417,7 @@ std::string option_desc(option_key key)
     case OPT_SEASON_LENGTH:       return "Season length, in days.\nDefault is 14";
     case OPT_STATIC_SPAWN:        return "Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is true";
     case OPT_CLASSIC_ZOMBIES:     return "Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false";
+    case OPT_REVIVE_ZOMBIES:      return "Allow zombies to revive after\na certain amount of time.\nDefault is true";
     case OPT_STATIC_NPC:          return "If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false";
     case OPT_RANDOM_NPC:          return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false";
     case OPT_RAD_MUTATION:        return "If true, radiation causes the player\nto mutate.\nDefault is true";
@@ -456,6 +461,7 @@ std::string option_name(option_key key)
     case OPT_MOVE_VIEW_OFFSET:    return "Move view offset";
     case OPT_STATIC_SPAWN:        return "Static spawn";
     case OPT_CLASSIC_ZOMBIES:     return "Classic zombies";
+    case OPT_REVIVE_ZOMBIES:      return "Revive zombies";
     case OPT_SEASON_LENGTH:       return "Season length";
     case OPT_STATIC_NPC:          return "Static npcs";
     case OPT_RANDOM_NPC:          return "Random npcs";
@@ -641,6 +647,8 @@ move_view_offset 1\n\
 static_spawn T\n\
 # Only spawn classic zombies and natural wildlife.  You must create a new world after changing\n\
 classic_zombies F\n\
+# Allow zombies to revive after a certain amount of time.\n\
+revive_zombies T\n\
 # Season length in days\n\
 season_length 14\n\
 # Spawn static NPCs at start. Requires reset after changing.\n\
