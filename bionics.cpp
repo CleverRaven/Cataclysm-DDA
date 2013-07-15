@@ -215,7 +215,6 @@ void player::activate_bionic(int b, game *g)
  std::vector<std::string> bad;
  WINDOW* w;
  int dirx, diry, t, l, index;
- InputEvent input;
  item tmp_item;
 
  if(bio.id == "bio_painkiller"){
