@@ -3963,7 +3963,7 @@ void map::build_outside_cache(const game *g)
     {
         for(int y = 0; y < SEEY * my_MAPSIZE; y++)
         {
-            if( terlist[ter(x, y)].flags & mfb(indoors) || furnlist[furn(x, y)].flags & mfb(indoors))
+            if( has_flag_ter_or_furn(indoors, x, y))
             {
                 for( int dx = -1; dx <= 1; dx++ )
                 {
