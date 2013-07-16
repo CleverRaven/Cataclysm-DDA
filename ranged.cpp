@@ -216,6 +216,8 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   else if( curammo->type == "40" ) casing_type = "40_casing";
   else if( curammo->type == "44" ) casing_type = "44_casing";
   else if( curammo->type == "45" ) casing_type = "45_casing";
+  else if( curammo->type == "454" ) casing_type = "454_casing";
+  else if( curammo->type == "500" ) casing_type = "500_casing";
   else if( curammo->type == "57" ) casing_type = "57mm_casing";
   else if( curammo->type == "46" ) casing_type = "46mm_casing";
   else if( curammo->type == "762" ) casing_type = "762_casing";

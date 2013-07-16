@@ -108,11 +108,11 @@ void game::show_auto_pickup()
     std::stringstream sTemp;
 
     do {
-        mvwprintz(w_auto_pickup_header, 2, 12 + 0, c_white, "[");
+        mvwprintz(w_auto_pickup_header, 2, 17 + 0, c_white, "[");
         wprintz(w_auto_pickup_header, (iCurrentPage == 1) ? hilite(c_white) : c_white, "Global");
         wprintz(w_auto_pickup_header, c_white, "]");
 
-        mvwprintz(w_auto_pickup_header, 2, 12 + 9, c_white, "[");
+        mvwprintz(w_auto_pickup_header, 2, 17 + 9, c_white, "[");
         wprintz(w_auto_pickup_header, (iCurrentPage == 2) ? hilite(c_white) : c_white, "Character");
         wprintz(w_auto_pickup_header, c_white, "]");
 
@@ -314,7 +314,7 @@ void game::show_auto_pickup()
                         break;
                     case 't': //test rule
                     case 'T':
-                        test_rule(iCurrentPage, iCurrentLine);
+                        test_pattern(iCurrentPage, iCurrentLine);
                         break;
                 }
             }
@@ -340,10 +340,14 @@ void game::show_auto_pickup()
     werase(w_auto_pickup_help);
 }
 
-void test_rule(int iCurrentPage, int iCurrentLine)
+void test_pattern(int iCurrentPage, int iCurrentLine)
 {
     std::vector<std::string> vMatchingItems;
     std::string sItemName = "";
+
+    if (vAutoPickupRules[iCurrentPage][iCurrentLine].sRule == "") {
+        return;
+    }
 
     //Loop through all itemfactory items
     for (int i = 0; i < standard_itype_ids.size(); i++) {
@@ -371,6 +375,8 @@ void test_rule(int iCurrentPage, int iCurrentLine)
     mvwprintz(w_test_rule_border, 0, iContentWidth/2 - (sTemp.str()).length()/2, hilite(c_white), sTemp.str().c_str());
 
     wrefresh(w_test_rule_border);
+
+    iCurrentLine = 0;
 
     do {
         // Clear the lines

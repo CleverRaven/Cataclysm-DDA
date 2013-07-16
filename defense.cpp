@@ -111,7 +111,7 @@ void defense_game::pre_action(game *g, action_id &act)
   g->add_msg("You don't need to sleep!");
   act = ACTION_NULL;
  }
- if (act == ACTION_SAVE) {
+ if (act == ACTION_SAVE || act == ACTION_QUICKSAVE) {
   g->add_msg("You cannot save in defense mode!");
   act = ACTION_NULL;
  }
