@@ -4176,10 +4176,18 @@ bool player::can_pickVolume(int volume)
 {
     return (volume_carried() + volume <= volume_capacity());
 }
-bool player::can_pickWeight(int weight)
+bool player::can_pickWeight(int weight, bool safe)
 {
-    //Player can carry up to double their maximum weight
-    return (weight_carried() + weight <= weight_capacity()/2);
+    if (!safe)
+    {
+        //Player can carry up to four times their maximum weight
+        return (weight_carried() + weight <= weight_capacity());
+    }
+    else
+    {
+        //But only double without harming themselves
+        return (weight_carried() + weight <= weight_capacity() / 2);
+    }
 }
 
 // --- Library functions ---

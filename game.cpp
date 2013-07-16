@@ -6837,7 +6837,7 @@ void game::advanced_inv()
                             popup("There's no room in your inventory.");
                             continue;
                         }
-                        else if(!u.can_pickWeight(src_items[item_pos].weight()))
+                        else if(!u.can_pickWeight(src_items[item_pos].weight(), false))
                         {
                             popup("This is too heavy!");
                             continue;
@@ -8167,7 +8167,7 @@ void game::pickup(int posx, int posy, int min)
   if (iter > inv_chars.size()) {
    add_msg("You're carrying too many items!");
    return;
-  } else if (!u.can_pickWeight(newit.weight())) {
+  } else if (!u.can_pickWeight(newit.weight(), false)) {
    add_msg("The %s is too heavy!", newit.tname(this).c_str());
    decrease_nextinv();
   } else if (!u.can_pickVolume(newit.volume())) {
@@ -8511,7 +8511,7 @@ void game::pickup(int posx, int posy, int min)
     wrefresh(w_pickup);
     delwin(w_pickup);
     return;
-   } else if (!u.can_pickWeight(here[i].weight())) {
+   } else if (!u.can_pickWeight(here[i].weight(), false)) {
     add_msg("The %s is too heavy!", here[i].tname(this).c_str());
     decrease_nextinv();
    } else if (!u.can_pickVolume(here[i].volume())) {
@@ -9657,7 +9657,7 @@ void game::unload(item& it)
                     new_contents.push_back(content);// Put it back in (we canceled)
                 }
             } else {
-                if (u.can_pickVolume(content.volume()) && u.can_pickWeight(content.weight()) &&
+                if (u.can_pickVolume(content.volume()) && u.can_pickWeight(content.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS]) &&
                     iter < inv_chars.size())
                 {
                     add_msg("You put the %s in your inventory.", content.tname(this).c_str());
@@ -9727,7 +9727,7 @@ void game::unload(item& it)
    advance_nextinv();
    iter++;
   }
-  if (u.can_pickWeight(newam.weight()) &&
+  if (u.can_pickWeight(newam.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS]) &&
       u.can_pickVolume(newam.volume()) && iter < inv_chars.size()) {
    u.i_add(newam, this);
   } else {

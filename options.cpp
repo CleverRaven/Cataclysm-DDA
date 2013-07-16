@@ -333,7 +333,9 @@ option_key lookup_option_key(std::string id)
     if(id == "auto_pickup_zero") {
         return OPT_AUTO_PICKUP_ZERO;
     }
-
+    if(id == "dangerous_pickups") {
+        return OPT_DANGEROUS_PICKUPS;
+    }
     return OPT_NULL;
 }
 
@@ -376,6 +378,7 @@ std::string option_string(option_key key)
     case OPT_HIDE_CURSOR:         return "hide_cursor";
     case OPT_AUTO_PICKUP:         return "auto_pickup";
     case OPT_AUTO_PICKUP_ZERO:    return "auto_pickup_zero";
+    case OPT_DANGEROUS_PICKUPS:   return "dangerous_pickups";
     default:                      return "unknown_option";
     }
     return "unknown_option";
@@ -420,6 +423,7 @@ std::string option_desc(option_key key)
     case OPT_HIDE_CURSOR:         return "If 0, cursor is always shown. If 1,\ncursor is hidden. If 2, cursor is\nhidden on keyboard input and\nunhidden on mouse movement.\nDefault is 0.";
     case OPT_AUTO_PICKUP:         return "Enable item auto pickup. Change\npickup rules with the Auto Pickup\nManager in the Help Menu ?3";
     case OPT_AUTO_PICKUP_ZERO:    return "Auto pickup items with\n0 Volume and Weight";
+    case OPT_DANGEROUS_PICKUPS:   return "If false will cause player to drop \nnew items that cause them to exceed \nthe weight limit. \nDefault is false.";
     default:                      return " ";
     }
     return "Big ol Bug (options.cpp:option_desc)";
@@ -464,6 +468,7 @@ std::string option_name(option_key key)
     case OPT_HIDE_CURSOR:         return "Hide Mouse Cursor";
     case OPT_AUTO_PICKUP:         return "Enable item Auto Pickup";
     case OPT_AUTO_PICKUP_ZERO:    return "Auto Pickup 0 Vol/Weight";
+    case OPT_DANGEROUS_PICKUPS:   return "Dangerous pickups";
     default:                      return "Unknown Option (options.cpp:option_name)";
     }
     return "Big ol Bug (options.cpp:option_name)";
@@ -653,6 +658,8 @@ rad_mutation T\n\
 save_sleep F\n\
 # Auto Pickup items with Volume and Weight 0\n\
 auto_pickup F\n\
+# Pickup items that exceed dangerous weight limit 0\n\
+dangerous_pickups F\n\
 ";
     fout.close();
 }

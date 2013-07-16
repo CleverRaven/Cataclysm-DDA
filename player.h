@@ -248,7 +248,7 @@ public:
  int weight_capacity(bool real_life = true);
  int volume_capacity();
  bool can_pickVolume(int volume);
- bool can_pickWeight(int weight);
+ bool can_pickWeight(int weight, bool safe = true);
  int net_morale(morale_point effect);
  int morale_level();	// Modified by traits, &c
  void add_morale(morale_type type, int bonus, int max_bonus = 0,

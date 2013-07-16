@@ -1124,7 +1124,7 @@ void game::complete_craft()
    add_msg("There's no room in your inventory for the %s, so you drop it.",
              newit.tname().c_str());
    m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
-  } else if (!u.can_pickWeight(newit.weight())) {
+  } else if (!u.can_pickWeight(newit.weight(), !OPTIONS[OPT_DANGEROUS_PICKUPS])) {
    add_msg("The %s is too heavy to carry, so you drop it.",
            newit.tname().c_str());
    m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
