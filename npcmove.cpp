@@ -1225,8 +1225,7 @@ void npc::find_item(game *g)
      int wgt = g->m.i_at(x, y)[i].weight(), vol = g->m.i_at(x, y)[i].volume();
      if (itval > best_value &&
          //(itval > worst_item_value ||
-          (weight_carried() + wgt <= weight_capacity() / 4 &&
-           volume_carried() + vol <= volume_capacity()       )) {
+          (can_pickWeight(wgt) && can_pickVolume(vol))) {
       itx = x;
       ity = y;
       index = i;
@@ -1268,8 +1267,8 @@ void npc::pick_up_item(game *g)
   int itval = value((*items)[i]), vol = (*items)[i].volume(),
       wgt = (*items)[i].weight();
   if (itval >= minimum_item_value() &&// (itval >= worst_item_value ||
-      (volume_carried() + total_volume + vol <= volume_capacity() &&
-       weight_carried() + total_weight + wgt <= weight_capacity() / 4)) {
+      (can_pickVolume(total_volume + vol) &&
+       can_pickWeight(total_weight + wgt))) {
    pickup.push_back(i);
    total_volume += vol;
    total_weight += wgt;
@@ -1856,8 +1855,8 @@ void npc::mug_player(game *g, player &mark)
    invslice slice = mark.inv.slice(0, mark.inv.size());
    for (int i = 0; i < slice.size(); i++) {
     if (value(slice[i]->front()) >= best_value &&
-        volume_carried() + slice[i]->front().volume() <= volume_capacity() &&
-        weight_carried() + slice[i]->front().weight() <= weight_capacity()   ) {
+        can_pickVolume(slice[i]->front().volume()) &&
+        can_pickWeight(slice[i]->front().weight())) {
      best_value = value(slice[i]->front());
      invlet = slice[i]->front().invlet;
     }

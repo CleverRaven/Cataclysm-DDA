@@ -3984,8 +3984,8 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     casing.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
-    if (p->weight_carried() + casing.weight() < p->weight_capacity() &&
-      p->volume_carried() + casing.volume() < p->volume_capacity() && iter < inv_chars.size()) {
+    if (p->can_pickWeight(casing.weight()) &&
+      p->can_pickVolume(casing.volume()) && iter < inv_chars.size()) {
     p->i_add(casing);}
     else
    g->m.add_item(p->posx, p->posy, casing);}
@@ -3996,8 +3996,8 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     primer.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
-    if (p->weight_carried() + primer.weight() < p->weight_capacity() &&
-      p->volume_carried() + primer.volume() < p->volume_capacity() && iter < inv_chars.size()) {
+    if (p->can_pickWeight(primer.weight()) &&
+      p->can_pickVolume(primer.volume()) && iter < inv_chars.size()) {
     p->i_add(primer);}
     else
    g->m.add_item(p->posx, p->posy, primer);}
@@ -4006,8 +4006,8 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     gunpowder.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
-    if (p->weight_carried() + gunpowder.weight() < p->weight_capacity() &&
-      p->volume_carried() + gunpowder.volume() < p->volume_capacity() && iter < inv_chars.size()) {
+    if (p->can_pickWeight(gunpowder.weight()) &&
+      p->can_pickVolume(gunpowder.volume()) && iter < inv_chars.size()) {
     p->i_add(gunpowder);}
     else
    g->m.add_item(p->posx, p->posy, gunpowder);
@@ -4016,8 +4016,8 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
     lead.invlet = g->nextinv;
     g->advance_nextinv();
     iter++;}
-    if (p->weight_carried() + lead.weight() < p->weight_capacity() &&
-      p->volume_carried() + lead.volume() < p->volume_capacity() && iter < inv_chars.size()) {
+    if (p->can_pickWeight(lead.weight()) &&
+      p->can_pickVolume(lead.volume()) && iter < inv_chars.size()) {
     p->i_add(lead);}
     else
    g->m.add_item(p->posx, p->posy, lead);
