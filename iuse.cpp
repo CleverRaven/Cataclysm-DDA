@@ -2333,8 +2333,6 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
   return;
  }
 
-
-
  trap_id type = tr_null;
  ter_id ter;
  bool buried = false;
@@ -2404,8 +2402,8 @@ if(it->type->id == "cot"){
   type = tr_shotgun_2;
   practice = 5;
  } else if(it->type->id == "blade_trap"){
-  posx += dirx;
-  posy += diry;
+  posx = (dirx - p->posx)*2 + p->posx; //math correction for blade trap
+  posy = (diry - p->posy)*2 + p->posy;
   for (int i = -1; i <= 1; i++) {
    for (int j = -1; j <= 1; j++) {
     if (g->m.move_cost(posx + i, posy + j) != 2) {
