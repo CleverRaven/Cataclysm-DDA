@@ -3577,5 +3577,30 @@
         "bashing" : -5,
         "coverage" : 70,
         "material_thickness" : 4
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "wristwatch",
+        "name" : "wrist watch",
+        "covers" : ["ARMS"],
+        "volume" : 0,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A simple wristwatch.",
+        "weight" : 0,
+        "to_hit" : -1,
+        "color" : "white",
+        "encumberance" : 0,
+        "price" : 50,
+        "material" : ["plastic", "steel"],
+        "flags" : ["WATCH", "ALARM"],
+        "coverage" : 1,
+        "rarity" : 5,
+        "symbol" : "[",
+        "bashing" : 0,
+        "cutting" : 0,
+        "warmth" : 0,
+        "enviromental_protection" : 0,
+        "phase" : "solid"
     }
 ]

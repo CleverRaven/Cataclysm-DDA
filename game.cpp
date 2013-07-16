@@ -3335,54 +3335,59 @@ void game::draw()
     werase(w_status);
     u.disp_status(w_status, this);
 
-
-    //mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
-    std::vector<std::pair<char, nc_color> > vGlyphs;
-    vGlyphs.push_back(std::make_pair('_', c_red));
-    vGlyphs.push_back(std::make_pair('_', c_blue));
-    vGlyphs.push_back(std::make_pair('.', c_brown));
-    vGlyphs.push_back(std::make_pair(',', c_cyan));
-    vGlyphs.push_back(std::make_pair('+', c_yellow));
-    vGlyphs.push_back(std::make_pair('c', c_ltblue));
-    vGlyphs.push_back(std::make_pair('*', c_yellow));
-    vGlyphs.push_back(std::make_pair('C', c_white));
-    vGlyphs.push_back(std::make_pair('+', c_yellow));
-    vGlyphs.push_back(std::make_pair('c', c_ltblue));
-    vGlyphs.push_back(std::make_pair('.', c_brown));
-    vGlyphs.push_back(std::make_pair(',', c_cyan));
-    vGlyphs.push_back(std::make_pair('_', c_red));
-    vGlyphs.push_back(std::make_pair('_', c_blue));
-
-    //int iHour = turn.getHour();
-
-    for (int j=0; j < 24; j++) {
-        for (int iHour=0; iHour < 24; iHour++) {
-            mvwprintz(w_status, 1, 37, c_white, "[");
-
-            for (int i=0; i < 14; i+=2) {
-                if (iHour >= 0+i && iHour <= 5+i) {
-                    wputch(w_status, hilite(c_white), ' ');
-                /*} else if (iHour >= 8+i && iHour <= 13-(i/2)+i) {
-                    wputch(w_status, hilite(c_white), ' ');*/
-                } else if (iHour >= 6+i && iHour <= 7+i) {
-                    wputch(w_status, hilite(vGlyphs[i].second), vGlyphs[i].first);
-                } else if (iHour >= (18+i)%24 && iHour <= (19+i)%24) {
-                    wputch(w_status, vGlyphs[i+1].second, vGlyphs[i+1].first);
-                } else {
-                    wputch(w_status, c_white, ' ');
-                }
+    bool bWearsWatch = false;
+    for (int i = 0; i < u.worn.size(); i++) {
+        if ((dynamic_cast<it_armor*>(u.worn[i].type))->covers & mfb(bp_arms)) {
+            if (u.worn[i].has_flag("WATCH")) {
+                bWearsWatch = true;
+                break;
             }
-
-            std::stringstream sTemp;
-            sTemp.str("");
-            sTemp << iHour;
-
-            wprintz(w_status, c_white, "] ");
-            wprintz(w_status, c_white, sTemp.str().c_str());
-
-            wrefresh(w_status);
-            debugmsg("");
         }
+    }
+
+    if (bWearsWatch) {
+        mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
+    } else {
+        std::vector<std::pair<char, nc_color> > vGlyphs;
+        vGlyphs.push_back(std::make_pair('_', c_red));
+        vGlyphs.push_back(std::make_pair('_', c_cyan));
+        vGlyphs.push_back(std::make_pair('.', c_brown));
+        vGlyphs.push_back(std::make_pair(',', c_blue));
+        vGlyphs.push_back(std::make_pair('+', c_yellow));
+        vGlyphs.push_back(std::make_pair('c', c_ltblue));
+        vGlyphs.push_back(std::make_pair('*', c_yellow));
+        vGlyphs.push_back(std::make_pair('C', c_white));
+        vGlyphs.push_back(std::make_pair('+', c_yellow));
+        vGlyphs.push_back(std::make_pair('c', c_ltblue));
+        vGlyphs.push_back(std::make_pair('.', c_brown));
+        vGlyphs.push_back(std::make_pair(',', c_blue));
+        vGlyphs.push_back(std::make_pair('_', c_red));
+        vGlyphs.push_back(std::make_pair('_', c_cyan));
+
+        int iHour = turn.getHour();
+        mvwprintz(w_status, 1, 41, c_white, "[");
+        bool bAddTrail = false;
+
+        for (int i=0; i < 14; i+=2) {
+            if (iHour >= 8+i && iHour <= 13+(i/2)) {
+                wputch(w_status, hilite(c_white), ' ');
+
+            } else if (iHour >= 6+i && iHour <= 7+i) {
+                wputch(w_status, hilite(vGlyphs[i].second), vGlyphs[i].first);
+                bAddTrail = true;
+
+            } else if (iHour >= (18+i)%24 && iHour <= (19+i)%24) {
+                wputch(w_status, vGlyphs[i+1].second, vGlyphs[i+1].first);
+
+            } else if (bAddTrail && iHour >= 6+(i/2)) {
+                wputch(w_status, hilite(c_white), ' ');
+
+            } else {
+                wputch(w_status, c_white, ' ');
+            }
+        }
+
+        wprintz(w_status, c_white, "]");
     }
 
     oter_id cur_ter = cur_om->ter((levx + int(MAPSIZE / 2)) / 2, (levy + int(MAPSIZE / 2)) / 2, levz);
