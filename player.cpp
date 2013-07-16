@@ -6996,7 +6996,6 @@ int player::warmth(body_part bp)
 {
     int bodywetness = 0;
     int ret = 0, warmth = 0;
-    int pocket_check = 0;
     it_armor* armor = NULL;
 
     // Fetch the morale value of wetness for bodywetness
@@ -7010,16 +7009,9 @@ int player::warmth(body_part bp)
     }
 
     // If the player is not wielding anything, check if hands can be put in pockets
-    if (bp == bp_hands && !is_armed())
+    if(bp == bp_hands && !is_armed() && worn_with_flag("POCKETS"))
     {
-        for (int i = 0; i < worn.size(); i++)
-        {
-            if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso) && worn[i].has_flag("POCKETS") && pocket_check == 0)
-            {
-                ret += 10;
-                pocket_check++;
-            }
-        }
+        ret += 10;
     }
 
     for (int i = 0; i < worn.size(); i++)

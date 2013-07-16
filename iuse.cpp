@@ -375,52 +375,40 @@ void iuse::disinfectant(game *g, player *p, item *it, bool t)
     }
 }
 
-// Aspirin
-void iuse::pkill_1(game *g, player *p, item *it, bool t)
+void iuse::pkill(game *g, player *p, item *it, bool t)
 {
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+    // Aspirin
+    if (it->has_flag("PKILL_1")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        if (!p->has_disease("pkill1")) {
+            p->add_disease("pkill1", 120);
+        } else {
+            for (int i = 0; i < p->illness.size(); i++) {
+                if (p->illness[i].type == "pkill1") {
+                    p->illness[i].duration = 120;
+                    i = p->illness.size();
+                }
+            }
+        }
+    // Codeine
+    } else if (it->has_flag("PKILL_2")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        p->add_disease("pkill2", 180);
 
- if (!p->has_disease("pkill1"))
-  p->add_disease("pkill1", 120);
- else {
-  for (int i = 0; i < p->illness.size(); i++) {
-   if (p->illness[i].type == "pkill1") {
-    p->illness[i].duration = 120;
-    i = p->illness.size();
-   }
-  }
- }
-}
+    } else if (it->has_flag("PKILL_3")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        p->add_disease("pkill3", 20);
+        p->add_disease("pkill2", 200);
 
-// Codeine
-void iuse::pkill_2(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+    } else if (it->has_flag("PKILL_4")) {
+        g->add_msg_if_player(p,"You shoot up.");
+        p->add_disease("pkill3", 80);
+        p->add_disease("pkill2", 200);
 
- p->add_disease("pkill2", 180);
-}
-
-void iuse::pkill_3(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
-
- p->add_disease("pkill3", 20);
- p->add_disease("pkill2", 200);
-}
-
-void iuse::pkill_4(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You shoot up.");
-
- p->add_disease("pkill3", 80);
- p->add_disease("pkill2", 200);
-}
-
-void iuse::pkill_l(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
-
- p->add_disease("pkill_l", rng(12, 18) * 300);
+    } else if (it->has_flag("PKILL_L")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        p->add_disease("pkill_l", rng(12, 18) * 300);
+    }
 }
 
 void iuse::xanax(game *g, player *p, item *it, bool t)
@@ -3877,26 +3865,34 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  gunpowder.charges = 10*multiply;
  lead.charges = 10*multiply;
  }
- else if (pull->type->id == "45_acp" || pull->type->id == "45_jhp") {
+ else if (pull->type->id == "45_acp" ||
+          pull->type->id == "45_jhp") {
  casing.make(g->itypes["45_casing"]);
  primer.make(g->itypes["lgpistol_primer"]);
  gunpowder.make(g->itypes["gunpowder"]);
  gunpowder.charges = 10*multiply;
  lead.charges = 8*multiply;
  }
-// else if (pull->type->id == "45_jhp") {
-// casing.make(g->itypes["45_casing"]);
-// primer.make(g->itypes["lgpistol_primer"]);
-// gunpowder.make(g->itypes["gunpowder"]);
-// gunpowder.charges = 10*multiply;
-// lead.charges = 8*multiply;
-// }
  else if (pull->type->id == "45_super") {
  casing.make(g->itypes["45_casing"]);
  primer.make(g->itypes["lgpistol_primer"]);
  gunpowder.make(g->itypes["gunpowder"]);
  gunpowder.charges = 12*multiply;
  lead.charges = 10*multiply;
+ }
+ else if (pull->type->id == "454_Casull") {
+ casing.make(g->itypes["454_casing"]);
+ primer.make(g->itypes["smrifle_primer"]);
+ gunpowder.make(g->itypes["gunpowder"]);
+ gunpowder.charges = 20*multiply;
+ lead.charges = 20*multiply;
+ }
+ else if (pull->type->id == "500_Magnum") {
+ casing.make(g->itypes["500_casing"]);
+ primer.make(g->itypes["lgpistol_primer"]);
+ gunpowder.make(g->itypes["gunpowder"]);
+ gunpowder.charges = 24*multiply;
+ lead.charges = 24*multiply;
  }
  else if (pull->type->id == "57mm") {
  casing.make(g->itypes["57mm_casing"]);

@@ -44,15 +44,29 @@ void veh_interact::exec (game *gm, vehicle *v, int x, int y)
     winy1 = winh1;
     winy2 = winh1 + winh2 + 1;
 
+    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH)/2 : 0;
+    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT)/2 : 0;
+
     page_size = winh23;
     //               h   w    y     x
-    w_grid  = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,  0,    0);
-    w_mode  = newwin(1,  FULL_SCREEN_WIDTH, 0,    0);
-    w_msg   = newwin(winh1 - 1, FULL_SCREEN_WIDTH, 1,    0);
-    w_disp  = newwin(winh2, winw1,  winy1 + 1, 0);
-    w_parts = newwin(winh2, winw2,  winy1 + 1, winx1 + 1);
-    w_stats = newwin(winh3, winw12, winy2 + 1, 0);
-    w_list  = newwin(winh23, winw3, winy1 + 1, winx2 + 1);
+    WINDOW *w_border= newwin(FULL_SCREEN_HEIGHT+2, FULL_SCREEN_WIDTH+2,  -1 + iOffsetY,    -1 + iOffsetX);
+    w_grid  = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,  0 + iOffsetY,    0 + iOffsetX);
+    w_mode  = newwin(1,  FULL_SCREEN_WIDTH, 0 + iOffsetY,    0 + iOffsetX);
+    w_msg   = newwin(winh1 - 1, FULL_SCREEN_WIDTH, 1 + iOffsetY,    0 + iOffsetX);
+    w_disp  = newwin(winh2, winw1,  winy1 + 1 + iOffsetY, 0 + iOffsetX);
+    w_parts = newwin(winh2, winw2,  winy1 + 1 + iOffsetY, winx1 + 1 + iOffsetX);
+    w_stats = newwin(winh3, winw12, winy2 + 1 + iOffsetY, 0 + iOffsetX);
+    w_list  = newwin(winh23, winw3, winy1 + 1 + iOffsetY, winx2 + 1 + iOffsetX);
+
+    wborder(w_border, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+                      LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+
+    mvwputch(w_border, 17, 0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_border, 4, 0, c_ltgray, LINE_XXXO); // |-
+    mvwputch(w_border, 4, FULL_SCREEN_WIDTH+1, c_ltgray, LINE_XOXX); // -|
+    mvwputch(w_border, 26, 49, c_ltgray, LINE_XXOX);
+
+    wrefresh(w_border);
 
     for (int i = 0; i < FULL_SCREEN_HEIGHT; i++)
     {

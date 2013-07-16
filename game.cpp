@@ -1897,19 +1897,8 @@ bool game::handle_action()
        as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
        switch (as_m.ret) {
        case 1:  // Yes, I do want to save game before sleeping.
-         {  // Code copied from autosave()
-           time_t now = time(NULL);
-
-           add_msg("Saving game, this may take a while");
-           save();
-
-           save_factions_missions_npcs();
-           save_artifacts();
-           save_maps();
-
-           moves_since_last_save = 0;
-           item_exchanges_since_save = 0;
-           last_save_timestamp = now;
+         {
+           quicksave();
          }
        case 0:  // Yes, I do want to sleep.
          {
@@ -1977,6 +1966,15 @@ bool game::handle_action()
   } else {
   add_msg("Saving in vehicles is buggy, stop and get out of the vehicle first");
  } break;
+
+  case ACTION_QUICKSAVE:
+    if(u.in_vehicle){
+        add_msg("Saving in vehicles is buggy, stop and get out of the vehicle first");
+    }else{
+        quicksave();
+    }
+    return false;
+
   case ACTION_QUIT:
    if (query_yn("Commit suicide?")) {
     u.moves = 0;
@@ -8263,14 +8261,10 @@ void game::pickup(int posx, int posy, int min)
  int selected=0;
  int last_selected=-1;
 
- if (min == -1) {
-    //Auto Pickup, select matching items
-    //TODO: pickup items with matching text
-
-    if (OPTIONS[OPT_AUTO_PICKUP]) {
+ if (min == -1) { //Auto Pickup, select matching items
+    if (OPTIONS[OPT_AUTO_PICKUP] && (!OPTIONS[OPT_AUTO_PICKUP_SAFEMODE] || mostseen == 0)) {
         //Loop through Items lowest Volume first
         bool bPickup = false;
-        std::map<std::string, int> mapPickup;
 
         for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
             for (int i = 0; i < here.size(); i++) {
@@ -8278,9 +8272,9 @@ void game::pickup(int posx, int posy, int min)
                 if (here[i].volume() == iVol) {
                     iNumChecked++;
 
-                    //Pickup Rules in here
+                    //Auto Pickup all items with 0 Volume and Weight
                     if (OPTIONS[OPT_AUTO_PICKUP_ZERO]) {
-                        if (here[i].volume() == 0 && here[i].weight() == 0) { //Auto Pickup all items with 0 Volume and Weight
+                        if (here[i].volume() == 0 && here[i].weight() == 0) {
                             bPickup = true;
                         }
                     }
@@ -8303,23 +8297,9 @@ void game::pickup(int posx, int posy, int min)
 
                 if (bPickup) {
                     getitem[i] = bPickup;
-                    mapPickup[here[i].tname(this)]++;
+                    //mapPickup[here[i].tname(this)]++;
                 }
             }
-        }
-
-        if (mapPickup.size() > 0) {
-            std::stringstream sTemp;
-
-            for (std::map<std::string, int>::iterator iter = mapPickup.begin(); iter != mapPickup.end(); ++iter) {
-                if (sTemp.str() != "") {
-                    sTemp << ", ";
-                }
-
-                sTemp << iter->second << " " << iter->first;
-            }
-
-            add_msg(("You pick up: " + sTemp.str()).c_str());
         }
     }
  } else {
@@ -8490,6 +8470,7 @@ void game::pickup(int posx, int posy, int min)
  int curmit = 0;
  bool got_water = false;	// Did we try to pick up water?
  bool offered_swap = false;
+ std::map<std::string, int> mapPickup;
  for (int i = 0; i < here.size(); i++) {
   iter = 0;
   // This while loop guarantees the inventory letter won't be a repeat. If it
@@ -8536,6 +8517,7 @@ void game::pickup(int posx, int posy, int min)
          m.i_rem(posx, posy, curmit);
         m.add_item_or_charges(posx, posy, u.remove_weapon(), 1);
         u.wield(this, u.i_add(here[i], this).invlet);
+        mapPickup[here[i].tname(this)]++;
         curmit--;
         u.moves -= 100;
         add_msg("Wielding %c - %s", u.weapon.invlet, u.weapon.tname(this).c_str());
@@ -8550,6 +8532,7 @@ void game::pickup(int posx, int posy, int min)
      }
     } else {
      u.wield(this, u.i_add(here[i], this).invlet);
+     mapPickup[here[i].tname(this)]++;
      if (from_veh)
       veh->remove_item (veh_part, curmit);
      else
@@ -8569,6 +8552,7 @@ void game::pickup(int posx, int posy, int min)
     curmit--;
    } else {
     u.i_add(here[i], this);
+    mapPickup[here[i].tname(this)]++;
     if (from_veh)
      veh->remove_item (veh_part, curmit);
     else
@@ -8579,6 +8563,23 @@ void game::pickup(int posx, int posy, int min)
   }
   curmit++;
  }
+
+ if (min == -1) { //Auto pickup item message
+     if (mapPickup.size() > 0) {
+        std::stringstream sTemp;
+
+        for (std::map<std::string, int>::iterator iter = mapPickup.begin(); iter != mapPickup.end(); ++iter) {
+            if (sTemp.str() != "") {
+                sTemp << ", ";
+            }
+
+            sTemp << iter->second << " " << iter->first;
+        }
+
+        add_msg(("You pick up: " + sTemp.str()).c_str());
+     }
+ }
+
  if (got_water)
   add_msg("You can't pick up a liquid!");
  if (weight_is_okay && u.weight_carried() >= u.weight_capacity() * .25)
@@ -11261,7 +11262,7 @@ void game::init_autosave()
  last_save_timestamp = time(NULL);
 }
 
-// Currently unused.
+/* Currently unused.
 int game::autosave_timeout()
 {
  if (!OPTIONS[OPT_AUTOSAVE])
@@ -11287,26 +11288,31 @@ int game::autosave_timeout()
  double ret = lower_limit + (range * move_multiplier * changes_multiplier);
  return ret;
 }
+*/
 
-void game::autosave()
-{
-    time_t now = time(NULL);
-    // Don't autosave while driving, if the player's done nothing, or if it's been less than 5 real minutes.
-    if (u.in_vehicle || (!moves_since_last_save && !item_exchanges_since_save) ||
-        now < last_save_timestamp + (60 * OPTIONS[OPT_AUTOSAVE_MINUTES]))
-    {
-        return;
-    }
+void game::quicksave(){
+    if(u.in_vehicle){return;}//Avoid saving whilst driving, as it is buggy.
+    if(!moves_since_last_save && !item_exchanges_since_save){return;}//Don't autosave if the player hasn't done anything since the last autosave/quicksave,
     add_msg("Saving game, this may take a while");
-    save();
 
+    time_t now = time(NULL);    //timestamp for start of saving procedure
+
+    //perform save
+    save();
     save_factions_missions_npcs();
     save_artifacts();
     save_maps();
 
+    //Now reset counters for autosaving, so we don't immediately autosave after a quicksave or autosave.
     moves_since_last_save = 0;
     item_exchanges_since_save = 0;
     last_save_timestamp = now;
+}
+
+void game::autosave(){
+    //Don't autosave if the min-autosave interval has not passed since the last autosave/quicksave.
+    if(time(NULL) < last_save_timestamp + (60 * OPTIONS[OPT_AUTOSAVE_MINUTES])){return;}
+    quicksave();    //Driving checks are handled by quicksave()
 }
 
 void intro()

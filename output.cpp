@@ -613,7 +613,7 @@ void popup(const char *mes, ...)
  wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
- fold_and_print(w,1,1,width,c_white, "%s", mes);
+ fold_and_print(w,1,1,width,c_white, "%s", buff);
 
  wrefresh(w);
  char ch;
