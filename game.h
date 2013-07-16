@@ -250,6 +250,7 @@ class game
   faction* list_factions(std::string title = "FACTIONS:");
   point find_item(item *it);
   void remove_item(item *it);
+  double convert_weight(int weight);
 
   inventory crafting_inventory(player *p);  // inv_from_map, inv, & 'weapon'
   std::list<item> consume_items(player *p, std::vector<component> components);

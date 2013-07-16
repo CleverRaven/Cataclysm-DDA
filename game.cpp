@@ -2296,8 +2296,8 @@ void game::load_artifacts()
 	    int_to_color(artifact.get(std::string("color")).as_int());
 	std::string m1 = artifact.get(std::string("m1")).as_string();
 	std::string m2 = artifact.get(std::string("m2")).as_string();
-	unsigned short volume = artifact.get(std::string("volume")).as_int();
-	unsigned short weight = artifact.get(std::string("weight")).as_int();
+	unsigned int volume = artifact.get(std::string("volume")).as_int();
+	unsigned int weight = artifact.get(std::string("weight")).as_int();
  signed char melee_dam = artifact.get(std::string("melee_dam")).as_int();
  signed char melee_cut = artifact.get(std::string("melee_cut")).as_int();
 	signed char m_to_hit = artifact.get(std::string("m_to_hit")).as_int();
@@ -3949,6 +3949,17 @@ void game::remove_item(item *it)
    }
   }
  }
+}
+
+double convert_weight(int weight)
+{
+    double(weight);
+    if (OPTIONS[OPT_USE_METRIC_WEIGHT]) {
+        weight /= 1000;
+    } else {
+        weight /= 453.6;
+    }
+    return weight;
 }
 
 bool vector_has(std::vector<int> vec, int test)
@@ -8112,7 +8123,7 @@ void game::pickup(int posx, int posy, int min)
   add_msg("You cannot pick up items with your claws out!");
   return;
  }
- bool weight_is_okay = (u.weight_carried() <= u.weight_capacity() * .25);
+ bool weight_is_okay = (u.weight_carried() <= u.weight_capacity());
  bool volume_is_okay = (u.volume_carried() <= u.volume_capacity() -  2);
  bool from_veh = false;
  int veh_part = 0;
@@ -8224,7 +8235,7 @@ void game::pickup(int posx, int posy, int min)
    u.moves -= 100;
    add_msg("%c - %s", newit.invlet, newit.tname(this).c_str());
   }
-  if (weight_is_okay && u.weight_carried() >= u.weight_capacity() * .25)
+  if (weight_is_okay && u.weight_carried() >= u.weight_capacity())
    add_msg("You're overburdened!");
   if (volume_is_okay && u.volume_carried() > u.volume_capacity() - 2) {
    add_msg("You struggle to carry such a large volume!");
@@ -8438,7 +8449,7 @@ void game::pickup(int posx, int posy, int min)
     update = false;
     mvwprintw(w_pickup, 0,  7, "                           ");
     mvwprintz(w_pickup, 0,  9,
-              (new_weight >= u.weight_capacity() * .25 ? c_red : c_white),
+              (new_weight >= u.weight_capacity() ? c_red : c_white),
               "Wgt %d", new_weight);
     wprintz(w_pickup, c_white, "/%d", int(u.weight_capacity() * .25));
     mvwprintz(w_pickup, 0, 22,

@@ -4143,7 +4143,7 @@ int player::volume_carried()
 int player::weight_capacity(bool real_life)
 {
  int str = (real_life ? str_cur : str_max);
- int ret = 120 + str * 35;
+ int ret = 13000 + str * 4000;
  if (has_trait(PF_BADBACK))
   ret = int(ret * .65);
  if (has_trait(PF_LIGHT_BONES))
@@ -4151,7 +4151,7 @@ int player::weight_capacity(bool real_life)
  if (has_trait(PF_HOLLOW_BONES))
   ret = int(ret * .60);
  if (has_artifact_with(AEP_CARRY_MORE))
-  ret += 200;
+  ret += 22500;
  return ret;
 }
 
@@ -4181,12 +4181,12 @@ bool player::can_pickWeight(int weight, bool safe)
     if (!safe)
     {
         //Player can carry up to four times their maximum weight
-        return (weight_carried() + weight <= weight_capacity());
+        return (weight_carried() + weight <= weight_capacity() * 4);
     }
     else
     {
         //But only double without harming themselves
-        return (weight_carried() + weight <= weight_capacity() / 2);
+        return (weight_carried() + weight <= weight_capacity() * 2);
     }
 }
 
