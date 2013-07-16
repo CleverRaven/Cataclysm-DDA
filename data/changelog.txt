@@ -1,4 +1,68 @@
-Changelog will be a little light for the early entries due to me being really bad at documenting things.
+0.7
+
+Highlights:
+---
+Use ncursesw and gettext for i18n support and expanded character palette.
+Configurable Autopickup feature.
+Configurable item spawning lists, now with more configurable spawn frequencies.
+New advanced bionics.
+
+Features:
+---
+Use ncursesw and gettext for i18n support and expanded character palette.
+Configurable Autopickup feature.
+Configurable item spawning lists, now with more configurable spawn frequencies.
+Probability Travel Bionic (walk through walls!)
+Railgun Bionic (throw metal items at the speed of electricity!)
+Flashbang bionic.
+Shockwave Generator bionic.
+Chain Lightning bionic.
+Artificial Night bionic.
+Streamlined lumberjacking tasks.
+Splints are now craftable and (slowly!) heal broken limbs.
+Recover CBMs from butchered player corpses
+Small game arrow.
+Spoiled (rotten) items will now be removed from the map after twice the time it takes to spoil.
+Lit torches set enemies on fire.
+Toggled Metabolic Interchange bionic, active power sources.
+Changed Optimist to be more thematic and balanced.
+Morale effects have more flexible durations.
+Extensively reworked fire handling, e.g. campfires should last a more reasonable duration.
+Preserve martial art style selection across wielding/unwielding weapons.
+Simulate alt+number input for SDL version.
+Quicksave command.
+Added basic sludge crawler monster
+More crafting recipes.
+Stash knives in your boots.
+Folding bicycle you can stash in a trunk.
+New improvised guns.
+More survival-ish foods.
+Added some more heavy pistols and ammunition.
+New Improvised lockpick!
+Floatation Vest.
+Added wine and a new shirt.
+Towels.
+
+Bugfixes:
+---
+Multiple gates near one handle work correctly.
+Made wild Jabberwocks much more rare.
+Fix turrets shuffing around when off map.
+Prevent gibbing from low-damage sources.
+House generation fixes.
+Allow deconstruction of refrigerators.
+More consistent road placement.
+Make mongroups die propperly, even if the queen dies at a distance
+Monsters killed by wide attacks drop corpses/loot
+Fix solar panel power production on vehicles.
+Cleanup tire changing activity.
+Fix stunlock caused by counterattacks.
+Keep Jabberwocks from spawning in classic mode.
+Fix turret drops.
+Extensive text handling fixes.
+Menu beautification.
+
+======
 
 0.6
 
