@@ -171,7 +171,7 @@
         "damage" : 4,
         "pierce" : 3,
         "range" : 3,
-        "dispersion" : 40,
+        "dispersion" : 34,
         "recoil" : 4,
         "count" : 100
     },
@@ -193,7 +193,7 @@
         "damage" : 2,
         "pierce" : 0,
         "range" : 30,
-        "dispersion" : 20,
+        "dispersion" : 14,
         "recoil" : 0,
         "count" : 10
     },
@@ -215,7 +215,7 @@
         "damage" : 6,
         "pierce" : 1,
         "range" : 30,
-        "dispersion" : 20,
+        "dispersion" : 14,
         "recoil" : 0,
         "count" : 50
     },
@@ -237,7 +237,7 @@
         "damage" : 2,
         "pierce" : 0,
         "range" : 12,
-        "dispersion" : 20,
+        "dispersion" : 11,
         "recoil" : 0,
         "count" : 200
     },
@@ -281,7 +281,7 @@
         "damage" : 18,
         "pierce" : 0,
         "range" : 5,
-        "dispersion" : 2,
+        "dispersion" : 0,
         "recoil" : 18,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -304,7 +304,7 @@
         "damage" : 50,
         "pierce" : 0,
         "range" : 6,
-        "dispersion" : 1,
+        "dispersion" : 0,
         "recoil" : 26,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -327,7 +327,7 @@
         "damage" : 50,
         "pierce" : 8,
         "range" : 12,
-        "dispersion" : 10,
+        "dispersion" : 4,
         "recoil" : 28,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -350,7 +350,7 @@
         "damage" : 10,
         "pierce" : 0,
         "range" : 12,
-        "dispersion" : 12,
+        "dispersion" : 6,
         "recoil" : 20,
         "count" : 5,
         "effects" : ["EXPLOSIVE"]
@@ -373,7 +373,7 @@
         "damage" : 11,
         "pierce" : 0,
         "range" : 13,
-        "dispersion" : 14,
+        "dispersion" : 8,
         "recoil" : 6,
         "count" : 100,
         "effects" : ["COOKOFF"]
@@ -396,7 +396,7 @@
         "damage" : 14,
         "pierce" : 6,
         "range" : 13,
-        "dispersion" : 14,
+        "dispersion" : 8,
         "recoil" : 6,
         "count" : 100,
         "effects" : ["COOKOFF"]
@@ -419,7 +419,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 10,
-        "dispersion" : 16,
+        "dispersion" : 10,
         "recoil" : 4,
         "count" : 100,
         "effects" : ["COOKOFF"]
@@ -442,7 +442,7 @@
         "damage" : 4,
         "pierce" : 0,
         "range" : 3,
-        "dispersion" : 2,
+        "dispersion" : 0,
         "recoil" : 4,
         "count" : 100,
         "effects" : ["COOKOFF"]
@@ -465,7 +465,7 @@
         "damage" : 18,
         "pierce" : 2,
         "range" : 14,
-        "dispersion" : 16,
+        "dispersion" : 10,
         "recoil" : 13,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -488,7 +488,7 @@
         "damage" : 20,
         "pierce" : 4,
         "range" : 14,
-        "dispersion" : 15,
+        "dispersion" : 9,
         "recoil" : 14,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -511,7 +511,7 @@
         "damage" : 22,
         "pierce" : 12,
         "range" : 16,
-        "dispersion" : 14,
+        "dispersion" : 8,
         "recoil" : 15,
         "count" : 10,
         "effects" : ["COOKOFF"]
@@ -535,7 +535,7 @@
         "damage" : 20,
         "pierce" : 14,
         "range" : 14,
-        "dispersion" : 16,
+        "dispersion" : 10,
         "recoil" : 13,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -559,7 +559,7 @@
         "damage" : 15,
         "pierce" : 4,
         "range" : 12,
-        "dispersion" : 14,
+        "dispersion" : 8,
         "recoil" : 10,
         "count" : 200,
         "effects" : ["COOKOFF"]
@@ -582,7 +582,7 @@
         "damage" : 20,
         "pierce" : 0,
         "range" : 14,
-        "dispersion" : 16,
+        "dispersion" : 10,
         "recoil" : 12,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -605,7 +605,7 @@
         "damage" : 25,
         "pierce" : 4,
         "range" : 16,
-        "dispersion" : 14,
+        "dispersion" : 8,
         "recoil" : 14,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -628,7 +628,7 @@
         "damage" : 20,
         "pierce" : 8,
         "range" : 14,
-        "dispersion" : 16,
+        "dispersion" : 10,
         "recoil" : 12,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -651,7 +651,7 @@
         "damage" : 26,
         "pierce" : 10,
         "range" : 14,
-        "dispersion" : 18,
+        "dispersion" : 12,
         "recoil" : 20,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -674,7 +674,7 @@
         "damage" : 22,
         "pierce" : 2,
         "range" : 14,
-        "dispersion" : 15,
+        "dispersion" : 9,
         "recoil" : 16,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -697,7 +697,7 @@
         "damage" : 22,
         "pierce" : 15,
         "range" : 14,
-        "dispersion" : 18,
+        "dispersion" : 12,
         "recoil" : 20,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -720,7 +720,7 @@
         "damage" : 36,
         "pierce" : 2,
         "range" : 16,
-        "dispersion" : 16,
+        "dispersion" : 10,
         "recoil" : 22,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -743,7 +743,7 @@
         "damage" : 36,
         "pierce" : 8,
         "range" : 16,
-        "dispersion" : 16,
+        "dispersion" : 10,
         "recoil" : 22,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -766,7 +766,7 @@
         "damage" : 32,
         "pierce" : 2,
         "range" : 16,
-        "dispersion" : 18,
+        "dispersion" : 12,
         "recoil" : 18,
         "count" : 50,
         "effects" : ["COOKOFF"]
@@ -789,7 +789,7 @@
         "damage" : 26,
         "pierce" : 20,
         "range" : 16,
-        "dispersion" : 18,
+        "dispersion" : 12,
         "recoil" : 18,
         "count" : 25,
         "effects" : ["COOKOFF"]
@@ -812,7 +812,7 @@
         "damage" : 34,
         "pierce" : 8,
         "range" : 18,
-        "dispersion" : 16,
+        "dispersion" : 10,
         "recoil" : 20,
         "count" : 10,
         "effects" : ["COOKOFF"]
@@ -835,7 +835,7 @@
         "damage" : 34,
         "pierce" : 15,
         "range" : 20,
-        "dispersion" : 14,
+        "dispersion" : 8,
         "recoil" : 34,
         "count" : 10,
         "effects" : ["COOKOFF"]
@@ -858,7 +858,7 @@
         "damage" : 36,
         "pierce" : 20,
         "range" : 22,
-        "dispersion" : 12,
+        "dispersion" : 6,
         "recoil" : 30,
         "count" : 10,
         "effects" : ["COOKOFF"]
@@ -881,7 +881,7 @@
         "damage" : 14,
         "pierce" : 30,
         "range" : 14,
-        "dispersion" : 12,
+        "dispersion" : 6,
         "recoil" : 6,
         "count" : 100,
         "effects" : ["COOKOFF"]
@@ -904,7 +904,7 @@
         "damage" : 13,
         "pierce" : 35,
         "range" : 14,
-        "dispersion" : 12,
+        "dispersion" : 6,
         "recoil" : 6,
         "count" : 100,
         "effects" : ["COOKOFF"]
@@ -927,7 +927,7 @@
         "damage" : 25,
         "pierce" : 8,
         "range" : 30,
-        "dispersion" : 19,
+        "dispersion" : 13,
         "recoil" : 24,
         "count" : 80,
         "effects" : ["COOKOFF"]
@@ -950,7 +950,7 @@
         "damage" : 28,
         "pierce" : 10,
         "range" : 30,
-        "dispersion" : 17,
+        "dispersion" : 11,
         "recoil" : 25,
         "count" : 80,
         "effects" : ["COOKOFF"]
@@ -973,7 +973,7 @@
         "damage" : 36,
         "pierce" : 2,
         "range" : 36,
-        "dispersion" : 13,
+        "dispersion" : 7,
         "recoil" : 30,
         "count" : 40,
         "effects" : ["COOKOFF"]
@@ -996,7 +996,7 @@
         "damage" : 40,
         "pierce" : 8,
         "range" : 38,
-        "dispersion" : 10,
+        "dispersion" : 4,
         "recoil" : 32,
         "count" : 40,
         "effects" : ["COOKOFF"]
@@ -1019,7 +1019,7 @@
         "damage" : 28,
         "pierce" : 18,
         "range" : 36,
-        "dispersion" : 11,
+        "dispersion" : 5,
         "recoil" : 32,
         "count" : 30,
         "effects" : ["INCENDIARY"]
@@ -1042,7 +1042,7 @@
         "damage" : 42,
         "pierce" : 4,
         "range" : 80,
-        "dispersion" : 6,
+        "dispersion" : 0,
         "recoil" : 34,
         "count" : 20,
         "effects" : ["COOKOFF"]
@@ -1065,7 +1065,7 @@
         "damage" : 50,
         "pierce" : 30,
         "range" : 90,
-        "dispersion" : 7,
+        "dispersion" : 1,
         "recoil" : 36,
         "count" : 10,
         "effects" : ["COOKOFF"]
@@ -1088,7 +1088,7 @@
         "damage" : 60,
         "pierce" : 20,
         "range" : 90,
-        "dispersion" : 7,
+        "dispersion" : 1,
         "recoil" : 36,
         "count" : 10,
         "effects" : ["COOKOFF"]
@@ -1111,7 +1111,7 @@
         "damage" : 35,
         "pierce" : 50,
         "range" : 90,
-        "dispersion" : 8,
+        "dispersion" : 2,
         "recoil" : 35,
         "count" : 5,
         "effects" : ["INCENDIARY"]
@@ -1134,7 +1134,7 @@
         "damage" : 36,
         "pierce" : 2,
         "range" : 65,
-        "dispersion" : 7,
+        "dispersion" : 1,
         "recoil" : 33,
         "count" : 20,
         "effects" : ["COOKOFF"]
@@ -1157,7 +1157,7 @@
         "damage" : 44,
         "pierce" : 8,
         "range" : 75,
-        "dispersion" : 6,
+        "dispersion" : 0,
         "recoil" : 34,
         "count" : 20,
         "effects" : ["COOKOFF"]
@@ -1180,7 +1180,7 @@
         "damage" : 30,
         "pierce" : 25,
         "range" : 75,
-        "dispersion" : 6,
+        "dispersion" : 0,
         "recoil" : 32,
         "count" : 10,
         "effects" : ["INCENDIARY"]
@@ -1203,7 +1203,7 @@
         "damage" : 12,
         "pierce" : 15,
         "range" : 30,
-        "dispersion" : 4,
+        "dispersion" : 0,
         "recoil" : 0,
         "count" : 20,
         "effects" : ["INCENDIARY", "LASER"]
@@ -1226,7 +1226,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "dispersion" : 8,
+        "dispersion" : 2,
         "recoil" : 15,
         "count" : 4,
         "effects" : ["EXPLOSIVE"]
@@ -1249,7 +1249,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "dispersion" : 8,
+        "dispersion" : 2,
         "recoil" : 15,
         "count" : 4,
         "effects" : ["FRAG"]
@@ -1272,7 +1272,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "dispersion" : 8,
+        "dispersion" : 2,
         "recoil" : 15,
         "count" : 4,
         "effects" : ["NAPALM"]
@@ -1295,7 +1295,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "dispersion" : 8,
+        "dispersion" : 2,
         "recoil" : 15,
         "count" : 4,
         "effects" : ["TEARGAS"]
@@ -1318,7 +1318,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "dispersion" : 8,
+        "dispersion" : 2,
         "recoil" : 15,
         "count" : 6,
         "effects" : ["SMOKE", "TRAIL"]
@@ -1341,7 +1341,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "dispersion" : 8,
+        "dispersion" : 2,
         "recoil" : 15,
         "count" : 6,
         "effects" : ["FLASHBANG"]
@@ -1364,7 +1364,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 40,
-        "dispersion" : 8,
+        "dispersion" : 2,
         "recoil" : 15,
         "count" : 1,
         "effects" : ["ACIDBOMB"]
@@ -1387,7 +1387,7 @@
         "damage" : 5,
         "pierce" : 20,
         "range" : 80,
-        "dispersion" : 8,
+        "dispersion" : 2,
         "recoil" : 15,
         "count" : 1,
         "effects" : ["EXPLOSIVE_BIG", "TRAIL"]
@@ -1410,7 +1410,7 @@
         "damage" : 25,
         "pierce" : 12,
         "range" : 70,
-        "dispersion" : 9,
+        "dispersion" : 3,
         "recoil" : 7,
         "count" : 20,
         "effects" : ["COOKOFF"]
@@ -1433,7 +1433,7 @@
         "damage" : 35,
         "pierce" : 14,
         "range" : 12,
-        "dispersion" : 4,
+        "dispersion" : 0,
         "recoil" : 0,
         "count" : 25,
         "effects" : ["INCENDIARY"]
@@ -1456,7 +1456,7 @@
         "damage" : 5,
         "pierce" : 0,
         "range" : 30,
-        "dispersion" : 8,
+        "dispersion" : 2,
         "recoil" : 0,
         "count" : 1
     },
@@ -2083,7 +2083,7 @@
         "damage" : 40,
         "pierce" : 0,
         "range" : 10,
-        "dispersion" : 1,
+        "dispersion" : 0,
         "recoil" : 0,
         "count" : 5
     },

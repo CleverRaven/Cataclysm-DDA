@@ -1877,9 +1877,7 @@ which require brute force.");
     mvwprintz(w_stats, 6, 2, c_magenta, "Melee to-hit bonus: +%d                      ",
              base_to_hit(false));
     mvwprintz(w_stats, 7, 2, c_magenta, "                                            ");
-    mvwprintz(w_stats, 7, 2, c_magenta, "Ranged %s: %s%d",
-              (ranged_dex_mod(false) <= 0 ? "bonus" : "penalty"),
-             (ranged_dex_mod(false) <= 0 ? "+" : "-"),
+    mvwprintz(w_stats, 7, 2, c_magenta, "Ranged penalty: -%d",
              abs(ranged_dex_mod(false)));
     mvwprintz(w_stats, 8, 2, c_magenta, "                                            ");
     mvwprintz(w_stats, 8, 2, c_magenta, "Throwing %s: %s%d",
@@ -1905,9 +1903,7 @@ can pick up from reading a book.");
    } else if (line == 3) {
     mvwprintz(w_stats, 5, 2, h_ltgray, "Perception:");
 
-       mvwprintz(w_stats, 6, 2,  c_magenta, "Ranged %s: %s%d",
-             (ranged_per_mod(false) <= 0 ? "bonus" : "penalty"),
-             (ranged_per_mod(false) <= 0 ? "+" : "-"),
+       mvwprintz(w_stats, 6, 2,  c_magenta, "Ranged penalty: -%d",
              abs(ranged_per_mod(false)),"          ");
     mvwprintz(w_stats, 7, 2, c_magenta, "Trap dection level: %d       ",
              per_cur);
