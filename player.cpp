@@ -3583,6 +3583,25 @@ void player::suffer(game *g)
     }
     if (!has_disease("sleep"))
     {
+        if (weight_carried() > weight_capacity() / 2)
+        {
+            // one in 10 with it reducing by 1 for every additional 20%
+            if (one_in(10 - ((weight_carried() - weight_capacity() / 2) / (weight_capacity() / 20))))
+            {
+                g->add_msg_if_player(this,"Your body strains under the weight!");
+                if (one_in(2)) {
+                    hurt(g, bp_legs, 0, 1);
+                } if (one_in(2)) {
+                    hurt(g, bp_legs, 1, 1);
+                } if (one_in(4)) {
+                    hurt(g, bp_torso, 0, 1);
+                } if (one_in(6)) {
+                    hurt(g, bp_arms, 0, 1);
+                } if (one_in(6)) {
+                    hurt(g, bp_arms, 1, 1);
+                }
+            }
+        }
         int timer = -3600;
         if (has_trait(PF_ADDICTIVE))
         {
