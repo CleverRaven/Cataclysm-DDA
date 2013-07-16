@@ -11,6 +11,17 @@ public:
     catajson(std::string path, bool is_static = false);
     catajson(picojson::value val, std::string path_msg);
 
+    // Load the JSON from the specified path. If compiled with savefile
+    // compression, compression=true will append ".bz2" to the path name
+    // and uncompress the file using the bzip2 algorithm.
+    // Returns 0 on error, 1 on success.
+    int load(std::string path, bool compression);
+    // Store the JSON to the specified path. If compiled with savefile
+    // compression, compression=true will append ".bz2" to the path name
+    // and compress the file using the bzip2 algorithm.
+    // Returns 0 on error, 1 on success.
+    int save(std::string path, bool compression);
+
     // accessors for picojson values containing simple types
     char as_char() const;
     std::string as_string() const;
