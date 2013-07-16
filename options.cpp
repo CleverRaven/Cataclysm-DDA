@@ -228,8 +228,11 @@ option_key lookup_option_key(std::string id)
     if(id == "use_celsius") {
         return OPT_USE_CELSIUS;
     }
-    if(id == "use_metric_system") {
-        return OPT_USE_METRIC_SYS;
+    if(id == "use_metric_speeds") {
+        return OPT_USE_METRIC_SPEED;
+    }
+    if(id == "use_metric_weights") {
+        return OPT_USE_METRIC_WEIGHT;
     }
     if(id == "force_capital_yn") {
         return OPT_FORCE_YN;
@@ -349,7 +352,8 @@ std::string option_string(option_key key)
 {
     switch(key) {
     case OPT_USE_CELSIUS:         return "use_celsius";
-    case OPT_USE_METRIC_SYS:      return "use_metric_system";
+    case OPT_USE_METRIC_SPEED:    return "use_metric_speeds";
+    case OPT_USE_METRIC_WEIGHT:   return "use_metric_weights";
     case OPT_FORCE_YN:            return "force_capital_yn";
     case OPT_NO_CBLINK:           return "no_bright_backgrounds";
     case OPT_24_HOUR:             return "24_hour";
@@ -396,7 +400,8 @@ std::string option_desc(option_key key)
 {
     switch(key) {
     case OPT_USE_CELSIUS:         return "If true, use Celcius not Fahrenheit.\nDefault is fahrenheit";
-    case OPT_USE_METRIC_SYS:      return "If true, use Km/h not mph.\nDefault is mph";
+    case OPT_USE_METRIC_SPEED:    return "If true, use Km/h not mph.\nDefault is mph";
+    case OPT_USE_METRIC_WEIGHT:   return "If true, use kg not lbs.\nDefault is lbs";
     case OPT_FORCE_YN:            return "If true, y/n prompts are case-\nsensitive and y and n\nare not accepted.\nDefault is true";
     case OPT_NO_CBLINK:           return "If true, bright backgrounds are not\nused--some consoles are not\ncompatible.\nDefault is false";
     case OPT_24_HOUR:             return "12h/24h Time:\n0 - AM/PM (default)  eg: 7:31 AM\n1 - 24h military     eg: 0731\n2 - 24h normal       eg: 7:31";
@@ -443,7 +448,8 @@ std::string option_name(option_key key)
 {
     switch(key) {
     case OPT_USE_CELSIUS:         return "Use Celsius";
-    case OPT_USE_METRIC_SYS:      return "Use Metric System";
+    case OPT_USE_METRIC_SPEED:    return "Use Metric Speeds";
+    case OPT_USE_METRIC_WEIGHT:   return "Use Metric Weights";
     case OPT_FORCE_YN:            return "Force Y/N in prompts";
     case OPT_NO_CBLINK:           return "No Bright Backgrounds";
     case OPT_24_HOUR:             return "24 Hour Time";
@@ -600,7 +606,9 @@ void create_default_options()
 # If true, use C not F\n\
 use_celsius F\n\
 # If true, use Km/h not mph\
-use_metric_system F\n\
+use_metric_speeds F\n\
+# If true, use kg not lbs\
+use_metric_speeds F\n\
 # If true, y/n prompts are case-sensitive, y and n are not accepted\n\
 force_capital_yn T\n\
 # If true, bright backgrounds are not used--some consoles are not compatible\n\
@@ -636,8 +644,7 @@ query_disassemble T\n\
 drop_empty 0\n\
 # Hide Mouse Cursor\n\
 # 0 - Cursor always shown, 1 - Cursor always hidden, 2 - Cursor shown on mouse input and hidden on keyboard input\n\
-# \n\
-# GAMEPLAY OPTIONS: CHANGING THESE OPTIONS WILL AFFECT GAMEPLAY DIFFICULTY! \n\
+hide_cursor \n\
 # Level of skill rust: 0 - vanilla Cataclysm, 1 - capped at skill levels, 2 - none at all\n\
 skill_rust 0\n\
 # Delete world after player death: 0 - no, 1 - yes, 2 - query\n\

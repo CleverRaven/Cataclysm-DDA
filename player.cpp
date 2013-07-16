@@ -2526,7 +2526,7 @@ void player::disp_status(WINDOW *w, game *g)
   }
 
   if (veh->cruise_on) {
-   if(OPTIONS[OPT_USE_METRIC_SYS]) {
+   if(OPTIONS[OPT_USE_METRIC_SPEED]) {
     mvwprintz(w, 3, 33, col_indf1, "{Km/h....>....}");
     mvwprintz(w, 3, 38, col_vel, "%4d", int(veh->velocity * 0.0161f));
     mvwprintz(w, 3, 43, c_ltgreen, "%4d", int(veh->cruise_velocity * 0.0161f));
@@ -2537,7 +2537,7 @@ void player::disp_status(WINDOW *w, game *g)
     mvwprintz(w, 3, 43, c_ltgreen, "%4d", veh->cruise_velocity / 100);
    }
   } else {
-   if(OPTIONS[OPT_USE_METRIC_SYS]) {
+   if(OPTIONS[OPT_USE_METRIC_SPEED]) {
     mvwprintz(w, 3, 33, col_indf1, "  {Km/h....}  ");
     mvwprintz(w, 3, 40, col_vel, "%4d", int(veh->velocity * 0.0161f));
    }
