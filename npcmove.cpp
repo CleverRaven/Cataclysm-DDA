@@ -774,16 +774,16 @@ int npc::confident_range(char invlet)
 // See game::fire (ranged.cpp) for where these computations come from
 
   if (skillLevel(firing->skill_used) < 8) {
-    deviation += 3 * (8 - p.skillLevel(firing->skill_used));
+    deviation += 3 * (8 - skillLevel(firing->skill_used));
   }
   if (skillLevel("gun") < 9) {
-    deviation += 9 - p.skillLevel("gun"); 
+    deviation += 9 - skillLevel("gun"); 
   }
 
   deviation += ranged_dex_mod();
   deviation += ranged_per_mod();
 
-  deviation += 2 * p.encumb(bp_arms)) + 4 * p.encumb(bp_eyes));
+  deviation += 2 * encumb(bp_arms) + 4 * encumb(bp_eyes);
 
   if (weapon.curammo == NULL)	// This shouldn't happen, but it does sometimes
    debugmsg("%s has NULL curammo!", name.c_str()); // TODO: investigate this bug
@@ -800,7 +800,7 @@ int npc::confident_range(char invlet)
   max = throw_range(invlet); // The max distance we can throw
   int deviation = 0;
   if (skillLevel("throw") < 8)
-   deviation += 8 - skillLevel("throw"));
+   deviation += 8 - skillLevel("throw");
   else
    deviation -= skillLevel("throw") - 6;
 
@@ -820,7 +820,7 @@ int npc::confident_range(char invlet)
   deviation += 1 + abs(str_cur - thrown->weight());
  }
  //Account for rng's, *.5 for 50%
- deviation /= 2
+ deviation /= 2;
 
 // Using 180 for now for extra-confident NPCs.
  int ret = (max > int(180 / deviation) ? max : int(180 / deviation));
