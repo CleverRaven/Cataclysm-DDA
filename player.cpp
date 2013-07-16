@@ -922,9 +922,9 @@ int player::current_speed(game *g)
  int newmoves = 100; // Start with 100 movement points...
 // Minus some for weight...
  int carry_penalty = 0;
- if (weight_carried() > int(weight_capacity() * .25))
-  carry_penalty = 75 * double((weight_carried() - int(weight_capacity() * .25))/
-                              (weight_capacity() * .75));
+ if (weight_carried() > int(weight_capacity() / 4))
+  carry_penalty = 150 * (weight_carried() - weight_capacity() / 4)/
+                              (weight_capacity() * .75);
 
  newmoves -= carry_penalty;
 
@@ -1741,9 +1741,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Dexterity - 4");
  int newmoves = current_speed(g);
  int pen = 0;
  line = 3;
- if (weight_carried() > int(weight_capacity() * .25)) {
-  pen = 75 * double((weight_carried() - int(weight_capacity() * .25)) /
-                    (weight_capacity() * .75));
+ if (weight_carried() > int(weight_capacity() / 4)) {
+  pen = 150 * (weight_carried() - weight_capacity() / 4) /
+                    (weight_capacity() * .75);
   mvwprintz(w_speed, line, 1, c_red, "Overburdened        -%s%d%%%%",
             (pen < 10 ? " " : ""), pen);
   line++;
@@ -4159,7 +4159,8 @@ bool player::can_pickVolume(int volume)
 }
 bool player::can_pickWeight(int weight)
 {
-    return (weight_carried() + weight <= weight_capacity());
+    //Player can carry up to double their maximum weight
+    return (weight_carried() + weight <= weight_capacity()/2);
 }
 
 // --- Library functions ---
