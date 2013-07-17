@@ -354,6 +354,12 @@ std::string vehicle::use_controls()
    for (int p = 0; p < parts.size(); p++)
    {
        part_hps << parts[p].hp << " ";
+       if( part_flag( p, vpf_cargo ) ) {
+           for( std::vector<item>::iterator it = parts[p].items.begin();
+                it != parts[p].items.end(); ++it) {
+               g->m.add_item( g->u.posx, g->u.posy, *it );
+           }
+       }
    }
    bicycle.item_vars["folding_bicycle_parts"] = part_hps.str();
 
