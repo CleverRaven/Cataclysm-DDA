@@ -1,7 +1,7 @@
 #include "game.h"
-#include "input.h"
 #include "keypress.h"
 #include "debug.h"
+#include "input.h"
 #include "mapbuffer.h"
 #include "cursesdef.h"
 #include "overmapbuffer.h"
