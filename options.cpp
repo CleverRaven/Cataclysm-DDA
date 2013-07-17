@@ -576,6 +576,9 @@ char option_min_options(option_key id)
         case OPT_VIEWPORT_Y:
             ret = 12; // TODO Set up min/max values so weird numbers don't have to be used.
             break;
+        case OPT_AUTOSAVE_TURNS:
+            ret = 1;
+            break;
         default:
             ret = 0;
             break;
