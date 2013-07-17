@@ -54,7 +54,7 @@
   "ident": "soldier",
   "name": "Military Reserve",
   "description":
-"You're a High school drop out with one goal in mind: to join the military. \nNow you finally get in, and it's hell on Earth in cataclysmic proportions.\nYou start out with some military gear, and a point in survival and firearms.",
+"You're a High school drop out with one goal in mind: to join the military. \nNow you finally get in, and it's hell on Earth in cataclysmic proportions.\nYou start out with some military gear, and a level in survival and firearms.",
   "points": 3,
   "items": ["pants_army", "army_top", "boots_steel", "knife_combat", "binoculars"],
   "skills" : [
@@ -73,7 +73,7 @@
   "ident": "medic",
   "name": "Pre-Med Student",
   "description":
-"You were a Pre-Med Student just starting out in your medical career, \nYou start with some bandages and a point in first aid.",
+"You were a Pre-Med Student just starting out in your medical career, \nYou start with some bandages and a level in first aid.",
   "points": 1,
   "items": ["pants", "dress_shirt", "dress_shoes","water_clean", "bandages", "bandages"],
    "skills" : [
@@ -103,7 +103,7 @@
   "ident": "sheriff",
   "name": "Local Sheriff",
   "description":
-"When you got the call about the disturbances, you came to the rescue you\nand quickly realized you were in over your head,and needed rescuing\nyourself. You start with a point in firearms .",
+"When you got the call about the disturbances, you came to the rescue you\nand quickly realized you were in over your head,and needed rescuing\nyourself. You start with a level in firearms .",
   "points": 2,
   "items": ["pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "holster"],
    "skills" : [
@@ -163,7 +163,7 @@
   "ident": "hunter",
   "name": "Bow Hunter",
   "description":
-"Ever since you were a boy you loved hunting,and you loved the challenge\nof hunting with a bow even more.\nYou start with a point in archery, and a point in survival.",
+"Ever since you were a boy you loved hunting,and you loved the challenge\nof hunting with a bow even more.\nYou start with a level in archery, and survival.",
   "points": 2,
   "items": ["army_top", "boots_steel", "jeans"],
    "skills" : [
@@ -182,18 +182,14 @@
   "ident": "cworker",
   "name": "Handy Man",
   "description":
-"You used to work at the home depot, and you did alot of\nhome renovations yourself. You start with steel toe boots, \na tool belt and a hammer.",
-  "points": 3,
+"You used to work at the home depot, and you did alot of\nhome renovations yourself. You start with steel toe boots, \na tool belt, a hammer, and a level in construction.",
+  "points": 2,
   "items": ["tank_top", "boots_steel", "jeans", "hammer", "tool_belt"],
    "skills" : [
      {
       "name" : "carpentry",
       "level" : 1
-     },
-	 {
-      "name" : "bashing",
-      "level" : 1
-     }  
+     }
 	 ]
 },
 
@@ -218,7 +214,7 @@
   "ident": "fastfoodcook",
   "name": "Fast Food Cook",
   "description":
-"You used to work at a fancy fast food joint a week ago, but now\nyou show the meaning of \"fast\" food by running for your life.",
+"You used to work at a fancy fast food joint a week ago, but now\nyou show the meaning of \"fast\" food by running for your life\nyou start with a level in cooking.",
   "points": 1,
   "items": ["pants", "sneakers", "tshirt", "socks"],
   "skills" : 
@@ -264,7 +260,7 @@
   "ident": "hacker",
   "name": "Computer Hacker",
   "description":
-    "Caffeine pills and all nighters in front of a computer screen\ngave you quite the hacking skills, you start with a point in computers.",
+    "Caffeine pills and all nighters in front of a computer screen\ngave you quite the hacking skills, you start with a level in computers.",
     "points": 1,
     "items": ["pants", "tshirt", "sneakers"],
     "skills" : [
@@ -285,11 +281,26 @@
 },
 
   {
-  "ident": "SVictim",
+  "ident": "svictim",
   "name": "Shower Victim",
   "description":
 "You were in the middle of a nice shower when the cataclysm\nstruck, you start buck naked.",
   "points": -1,
   "items": []
+  },
+  
+    {
+  "ident": "dancer",
+  "name": "Ballroom Dancer",
+  "description":
+"You used to be a ballroom dancer before the cataclysm,\nnow you use your skills to save your life.\nYou start with a tuxedo and a level in dodging.",
+  "points": 1,
+  "items": ["tux", "dress_shoes"],
+      "skills" : [
+     {
+      "name" : "dodge",
+      "level" : 1
+     }
+	 ]
   }
 ]
