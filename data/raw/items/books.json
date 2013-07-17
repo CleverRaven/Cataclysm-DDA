@@ -1103,7 +1103,7 @@
         "type" : "BOOK",
         "id" : "ZSG",
         "name" : "Zombie Survival Guide",
-        "max_level" : 1,
+        "max_level" : 2,
         "description" : "A a generic comedy survival book. Can train your survival skill to 2.",
         "weight" : 1,
         "to_hit" : 1,
