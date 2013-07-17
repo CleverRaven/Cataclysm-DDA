@@ -1,10 +1,10 @@
 # This message may be 16 lines long at maximum.
 # Max length of a line is 68 characters; the following line is for reference
 ####################################################################
-New features v0.6 Samedi:
-* Reviving Zombies.
-* Massive improvements to vehicle physics and UI.
-* Many new buildings and missions.
+New features v0.7 Lindqvist:
+* Preliminary i18n support.
+* More advanced bionics.
+* Autopickup
 
 For latest discussions and news on Cataclysm DDA, please visit:
 Homepage: http://www.cataclysmdda.com/
