@@ -437,6 +437,10 @@ void game::cleanup_at_end(){
     overmap_buffer.clear();
 }
 
+// Defined in catalua.cpp
+void lua_command();
+void lua_tick();
+
 // MAIN GAME LOOP
 // Returns true if game is over (death, saved, quit, etc)
 bool game::do_turn()
@@ -614,6 +618,7 @@ bool game::do_turn()
  rustCheck();
  if (turn % 10 == 0)
   u.update_morale();
+ lua_tick(); // Allow lua to process things, too.
  return false;
 }
 
@@ -2781,9 +2786,6 @@ bool game::event_queued(event_type type)
   }
   return false;
 }
-
-// Defined in catalua.cpp
-void lua_command();
 
 void game::debug()
 {

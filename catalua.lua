@@ -1,59 +1,34 @@
 dofile("catalua/class_definitions.lua")
 
-item_metatable = {
-    __index = function(userdata, key)
-        if key == "name" then
-            return game.item_tname(userdata)
-        end
-
-    
-        local attribute = __item_metatable.attributes[key]
-        if attribute then
-            return game["item_get_"..key](userdata)
-        elseif __item_metatable.functions[key] then
-            return game["item_"..key]
-        else
-            error("Unknown item attribute: "..key)
-        end
-    end,
-
-    __newindex = function(userdata, key, value)
-        local attribute = __item_metatable.attributes[key]
-        if attribute then
-            if not attribute.writable then
-                error("Attempting to set read-only item attribute: "..key)
+function create_metatable(classname, class)
+    return {
+        __index = function(userdata, key)
+            local attribute = class.attributes[key]
+            if attribute then
+                return game[classname.."_get_"..key](userdata)
+            elseif class.functions[key] then
+                return game[classname.."_"..key]
+            else
+                error("Unknown "..classname.." attribute: "..key)
             end
-            return game["item_set_"..key](userdata, value)
-        else
-            error("Unknown item attribute: "..key)
-        end
-    end
-}
+        end,
 
-player_metatable = {
-    __index = function(userdata, key)
-        local attribute = __player_metatable.attributes[key]
-        if attribute then
-            return game["player_get_"..key](userdata)
-        elseif __player_metatable.functions[key] then
-            return game["player_"..key]
-        else
-            error("Unknown player attribute: "..key)
-        end
-    end,
-
-    __newindex = function(userdata, key, value)
-        local attribute = __player_metatable.attributes[key]
-        if attribute then
-            if not attribute.writable then
-                error("Attempting to set read-only player attribute: "..key)
+        __newindex = function(userdata, key, value)
+            local attribute = class.attributes[key]
+            if attribute then
+                if not attribute.writable then
+                    error("Attempting to set read-only "..classname.." attribute: "..key)
+                end
+                return game[classname.."_set_"..key](userdata, value)
+            else
+                error("Unknown "..classname.." attribute: "..key)
             end
-            return game["player_set_"..key](userdata, value)
-        else
-            error("Unknown player attribute: "..key)
         end
-    end
-}
+    }
+end
+
+item_metatable = create_metatable("item", __metatables.item)
+player_metatable = create_metatable("player", __metatables.player)
 
 outdated_metatable = {
     __index = function(userdata, key)

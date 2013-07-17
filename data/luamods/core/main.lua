@@ -54,3 +54,40 @@ game.register_iuse("TELLSTUFF", tellstuff)
 game.register_iuse("CUSTOM_PROZAC", custom_prozac)
 game.register_iuse("CUSTOM_SLEEP", custom_sleep)
 game.register_iuse("CUSTOM_FLUMED", custom_flumed)
+
+local oxygen = 100
+-- Will be called every game tick.
+function game.tick()
+    -- Use up oxygen
+    oxygen = oxygen - 3
+
+    -- Breathe
+    if player.underwater then
+        -- Do nothing, can't breathe
+    elseif player:has_disease("smoke") then
+        if game.rng(1, 10) < 3 then
+            oxygen = oxygen + 3
+        end
+    else
+        oxygen = oxygen + 4
+        if oxygen > 100 then
+            oxygen = 100
+        end
+    end
+
+    -- If we're low on oxygen alert the player.
+    if oxygen < 10 then
+        if game.rng(1, 10) == 1 then
+            game.add_msg("You're choking to death!")
+        end
+        player.pain = player.pain + 5
+    elseif oxygen < 50 then
+        if game.rng(1, 10) == 1 then
+            game.add_msg("There's no air, you're going to suffocate!")
+        end
+    elseif oxygen < 90 then
+        if game.rng(1, 10) == 10 then
+            game.add_msg("You can hardly breathe!")
+        end
+    end
+end

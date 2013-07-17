@@ -66,6 +66,30 @@ __player_metatable = {
         stim = {
             type = "int",
             writable = true
+        },
+        dodges_left = {
+            type = "int",
+            writable = true
+        },
+        blocks_left = {
+            type = "int",
+            writable = true
+        },
+        pain = {
+            type = "int",
+            writable = true
+        },
+        radiation = {
+            type = "int",
+            writable = true
+        },
+        cash = {
+            type = "bool",
+            writable = true
+        },
+        underwater = {
+            type = "bool",
+            writable = false
         }
     },
     functions = {
@@ -94,8 +118,6 @@ __player_metatable = {
 
 --[[
 
- std::string name;
- bool male;
  profession* prof;
  bool my_traits[PF_MAX2];
  bool my_mutations[PF_MAX2];
@@ -106,9 +128,7 @@ __player_metatable = {
 // Current--i.e. modified by disease, pain, etc.
  int str_cur, dex_cur, int_cur, per_cur;
 // Maximum--i.e. unmodified by disease
- int str_max, dex_max, int_max, per_max;
  int power_level, max_power_level;
- int hunger, thirst, fatigue, health;
  bool underwater;
  int oxygen;
  unsigned int recoil;
@@ -142,5 +162,12 @@ global_functions = {
         cpp_name = "g->add_msg",
         args = { "cstring" },
         rval = nil
+    },
+    rng = {
+        cpp_name = "rng",
+        args = { "int", "int" },
+        rval = "int"
     }
 }
+
+__metatables = { item = __item_metatable, player = __player_metatable }

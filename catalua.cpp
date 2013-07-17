@@ -125,6 +125,49 @@ void lua_command() {
     }
 }
 
+// Call a "lua tick" function that will be called once per game-tick.
+void lua_tick() {
+    lua_State *L = g->lua_state;
+    lua_getglobal(L, "game");
+    if(!lua_istable(L, -1)) {
+        debugmsg("LUA ERROR: Lua global 'game' is not a table. Please do not modify the game global.");
+        return;
+    }
+
+    // We want to call game.tick()
+    lua_pushstring(L, "tick");
+    lua_rawget(L, -2);
+
+    // Now our function is at the top of the stack.
+    if(lua_isnil(L, -1)) {
+        // Tick function may be undefined.
+        return;
+    }
+    if(!lua_isfunction(L, -1)) {
+        debugmsg("LUA ERROR: Lua global 'game.tick' is not a function. Please make sure to define it as function.");
+        return;
+    }
+
+    // Make sure the player global is up-to-date.
+    {
+        player** player_userdata = (player**) lua_newuserdata(g->lua_state, sizeof(player*));
+        *player_userdata = &(g->u);
+
+        // Set the metatable for the player.
+        luah_setmetatable(g->lua_state, "player_metatable");
+        
+        // Store the player as global and back them up in the registry.
+        lua_setglobal(g->lua_state, "player");
+    }
+    
+    int err = lua_pcall(L, 0, 0, 0);
+    if(err) {
+        // Error handling.
+        const char* error = lua_tostring(L, -1);
+        debugmsg("Error in lua game.tick function: %s", error);
+    }
+}
+
 // game.register_iuse(string, function_object)
 static int game_register_iuse(lua_State *L) {
     // Make sure the first argument is a string.
@@ -170,6 +213,11 @@ void game::init_lua() {
     luaL_dofile(lua_state,"catalua.lua");
 
     // Load main lua mod
-    luaL_dofile(lua_state,"data/luamods/core/main.lua");
+    int err = luaL_dofile(lua_state,"data/luamods/core/main.lua");
+    if(err) {
+        // Error handling.
+        const char* error = lua_tostring(lua_state, -1);
+        debugmsg("Error in lua main module: %s", error);
+    }
 }
 

@@ -81,10 +81,7 @@ function generate_setter(class, member_name, member_type)
 
     text = text .. tab .. "luaL_checktype(L, 2, "..member_type_to_lua_type(member_type)..");"..br
 
-
-    if member_type == "int" or member_type == "float" then
-        text = text .. tab .. retrieve_lua_value("value", member_type, 2) ..br
-    end
+    text = text .. tab .. retrieve_lua_value("value", member_type, 2) ..br
 
     text = text .. tab .. "(*"..class.."_instance)->"..member_name.." = value;"..br
 
@@ -192,8 +189,9 @@ function generate_accessors(class, name)
     end
 end
 
-generate_accessors(__player_metatable.attributes, "player")
-generate_accessors(__item_metatable.attributes, "item")
+for key, metatable in pairs(__metatables) do
+    generate_accessors(metatable.attributes, key)
+end
 
 function generate_class_function_wrappers(functions, class)
     for name, func in pairs(functions) do
@@ -227,8 +225,9 @@ function generate_registry(class, name)
     end
 end
 
-generate_registry(__player_metatable, "player")
-generate_registry(__item_metatable, "item")
+for key, metatable in pairs(__metatables) do
+    generate_registry(metatable, key)
+end
 
 for name, func in pairs(global_functions) do
     cpp_output = cpp_output .. tab .. '{"'..name..'", '..name..'},'..br
