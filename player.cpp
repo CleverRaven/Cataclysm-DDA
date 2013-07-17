@@ -461,7 +461,7 @@ int player::calc_focus_equilibrium()
         // only apply a penalty when we're actually learning something
         if (skillLevel(reading->type) < (int)reading->level)
         {
-            focus_gain_rate -= 100;
+            focus_gain_rate -= 50;
         }
     }
 
