@@ -524,6 +524,8 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     OVERSIZE - Can always be worn no matter encumberance/mutations/bionics/etc
                     HOOD - Will increase warmth for head if head is cold and player is not wearing a helmet (headwear of material that is not wool or cotton)
                     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
+                    WATCH - Shows the current time, instead of sun/moon position
+                    ALARM - Has a alarmclock feature
 
                     Container-only flags:
                     SEALS

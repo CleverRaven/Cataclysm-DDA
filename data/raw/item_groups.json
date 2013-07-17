@@ -100,7 +100,8 @@
       ["mp3", 18],
       ["usb_drive", 5],
       ["beer", 60],
-      ["cell_phone", 50]
+      ["cell_phone", 50],
+      ["wristwatch", 15]
     ]
   },
   { "id":"kitchen",
@@ -285,7 +286,8 @@
       ["blanket", 20],
       ["house_coat", 25],
       ["talking_doll", 65],
-      ["money_bundle", 30]
+      ["money_bundle", 30],
+      ["wristwatch", 15]
     ]
   },
   { "id":"homeguns",
@@ -392,7 +394,8 @@
       ["snuggie", 5],
       ["flyer", 10],
       ["socks", 70],
-      ["socks_wool", 30]
+      ["socks_wool", 30],
+      ["wristwatch", 15]
     ]
   },
   { "id":"dining",
@@ -716,7 +719,8 @@
       ["usb_drive", 5],
       ["manual_electronics", 20],
       ["cable", 60],
-      ["vac_sealer", 10]
+      ["vac_sealer", 10],
+      ["wristwatch", 15]
     ]
   },
   { "id":"sports",
@@ -1682,7 +1686,8 @@
       ["floatation_vest", 1],
       ["huge_crossbow", 2],
       ["raging_bull", 1],
-      ["sw_500", 1]
+      ["sw_500", 1],
+      ["wristwatch", 15]
     ]
   },
   { "id":"mil_surplus",

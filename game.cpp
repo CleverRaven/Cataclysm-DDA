@@ -3324,65 +3324,121 @@ void game::list_missions()
 
 void game::draw()
 {
- // Draw map
- werase(w_terrain);
- draw_ter();
- draw_footsteps();
- mon_info();
- // Draw Status
- draw_HP();
- werase(w_status);
- u.disp_status(w_status, this);
-// TODO: Allow for a 24-hour option--already supported by calendar turn
- mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
+    // Draw map
+    werase(w_terrain);
+    draw_ter();
+    draw_footsteps();
+    mon_info();
 
- oter_id cur_ter = cur_om->ter((levx + int(MAPSIZE / 2)) / 2,
-                              (levy + int(MAPSIZE / 2)) / 2, levz);
- std::string tername = oterlist[cur_ter].name;
- werase(w_location);
- mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, utf8_substr(tername, 0, 14).c_str());
- if (levz < 0)
-  mvwprintz(w_location, 0, 18, c_ltgray, "Underground");
- else
-  mvwprintz(w_location, 0, 18, weather_data[weather].color,
-                               _(weather_data[weather].name.c_str()));
- nc_color col_temp = c_blue;
- if (temperature >= 90)
-  col_temp = c_red;
- else if (temperature >= 75)
-  col_temp = c_yellow;
- else if (temperature >= 60)
-  col_temp = c_ltgreen;
- else if (temperature >= 50)
-  col_temp = c_cyan;
- else if (temperature >  32)
-  col_temp = c_ltblue;
+    // Draw Status
+    draw_HP();
+    werase(w_status);
+    u.disp_status(w_status, this);
 
- wprintz(w_location, col_temp, (std::string(" ") + print_temperature(temperature)).c_str());
+    bool bWearsWatch = false;
+    for (int i = 0; i < u.worn.size(); i++) {
+        if ((dynamic_cast<it_armor*>(u.worn[i].type))->covers & mfb(bp_arms)) {
+            if (u.worn[i].has_flag("WATCH")) {
+                bWearsWatch = true;
+                break;
+            }
+        }
+    }
 
- wrefresh(w_location);
+    if (bWearsWatch) {
+        mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
+    } else {
+        std::vector<std::pair<char, nc_color> > vGlyphs;
+        vGlyphs.push_back(std::make_pair('_', c_red));
+        vGlyphs.push_back(std::make_pair('_', c_cyan));
+        vGlyphs.push_back(std::make_pair('.', c_brown));
+        vGlyphs.push_back(std::make_pair(',', c_blue));
+        vGlyphs.push_back(std::make_pair('+', c_yellow));
+        vGlyphs.push_back(std::make_pair('c', c_ltblue));
+        vGlyphs.push_back(std::make_pair('*', c_yellow));
+        vGlyphs.push_back(std::make_pair('C', c_white));
+        vGlyphs.push_back(std::make_pair('+', c_yellow));
+        vGlyphs.push_back(std::make_pair('c', c_ltblue));
+        vGlyphs.push_back(std::make_pair('.', c_brown));
+        vGlyphs.push_back(std::make_pair(',', c_blue));
+        vGlyphs.push_back(std::make_pair('_', c_red));
+        vGlyphs.push_back(std::make_pair('_', c_cyan));
 
- mvwprintz(w_status, 0, 41, c_white, _("%s, day %d"),
-           _(season_name[turn.get_season()].c_str()), turn.days() + 1);
- if (run_mode != 0 || autosafemode != 0) {
-  int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
-  mvwprintz(w_status, 1, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
-  wprintz(w_status, (run_mode == 0) ? ((iPercent >= 50) ? c_green : c_red): c_green, "A");
-  wprintz(w_status, (run_mode == 0) ? ((iPercent >= 75) ? c_green : c_red): c_green, "F");
-  wprintz(w_status, (run_mode == 0) ? ((iPercent == 100) ? c_green : c_red): c_green, "E");
- }
- wrefresh(w_status);
- // Draw messages
- write_msg();
- if ( w_void_lines > 0 ) {
-     if (m.graffiti_at(u.posx, u.posy).contents) {
-         mvwprintz(w_void, 0, 1, c_white,"Written here: ");
-         wprintz(w_void, c_magenta,"%s", utf8_substr(*m.graffiti_at(u.posx, u.posy).contents, 0, STATUS_WIDTH-15 ).c_str() );
-     } else {
-         mvwprintw(w_void, 0, 0,"%s", std::string(STATUS_WIDTH, ' ').c_str());
-     }
-     wrefresh(w_void);
- }
+        int iHour = turn.getHour();
+        mvwprintz(w_status, 1, 41, c_white, "[");
+        bool bAddTrail = false;
+
+        for (int i=0; i < 14; i+=2) {
+            if (iHour >= 8+i && iHour <= 13+(i/2)) {
+                wputch(w_status, hilite(c_white), ' ');
+
+            } else if (iHour >= 6+i && iHour <= 7+i) {
+                wputch(w_status, hilite(vGlyphs[i].second), vGlyphs[i].first);
+                bAddTrail = true;
+
+            } else if (iHour >= (18+i)%24 && iHour <= (19+i)%24) {
+                wputch(w_status, vGlyphs[i+1].second, vGlyphs[i+1].first);
+
+            } else if (bAddTrail && iHour >= 6+(i/2)) {
+                wputch(w_status, hilite(c_white), ' ');
+
+            } else {
+                wputch(w_status, c_white, ' ');
+            }
+        }
+
+        wprintz(w_status, c_white, "]");
+    }
+
+    oter_id cur_ter = cur_om->ter((levx + int(MAPSIZE / 2)) / 2, (levy + int(MAPSIZE / 2)) / 2, levz);
+    std::string tername = oterlist[cur_ter].name;
+    werase(w_location);
+    mvwprintz(w_location, 0,  0, oterlist[cur_ter].color, utf8_substr(tername, 0, 14).c_str());
+
+    if (levz < 0) {
+        mvwprintz(w_location, 0, 18, c_ltgray, "Underground");
+    } else {
+        mvwprintz(w_location, 0, 18, weather_data[weather].color, _(weather_data[weather].name.c_str()));
+    }
+
+    nc_color col_temp = c_blue;
+    if (temperature >= 90) {
+        col_temp = c_red;
+    } else if (temperature >= 75) {
+        col_temp = c_yellow;
+    } else if (temperature >= 60) {
+        col_temp = c_ltgreen;
+    } else if (temperature >= 50) {
+        col_temp = c_cyan;
+    } else if (temperature >  32) {
+        col_temp = c_ltblue;
+    }
+
+    wprintz(w_location, col_temp, (std::string(" ") + print_temperature(temperature)).c_str());
+    wrefresh(w_location);
+
+    //Safemode coloring
+    mvwprintz(w_status, 0, 41, c_white, _("%s, day %d"), _(season_name[turn.get_season()].c_str()), turn.days() + 1);
+    if (run_mode != 0 || autosafemode != 0) {
+        int iPercent = ((turnssincelastmon*100)/OPTIONS[OPT_AUTOSAFEMODETURNS]);
+        mvwprintz(w_status, 1, 51, (run_mode == 0) ? ((iPercent >= 25) ? c_green : c_red): c_green, "S");
+        wprintz(w_status, (run_mode == 0) ? ((iPercent >= 50) ? c_green : c_red): c_green, "A");
+        wprintz(w_status, (run_mode == 0) ? ((iPercent >= 75) ? c_green : c_red): c_green, "F");
+        wprintz(w_status, (run_mode == 0) ? ((iPercent == 100) ? c_green : c_red): c_green, "E");
+    }
+    wrefresh(w_status);
+
+    // Draw messages
+    write_msg();
+    if ( w_void_lines > 0 ) {
+        if (m.graffiti_at(u.posx, u.posy).contents) {
+            mvwprintz(w_void, 0, 1, c_white,"Written here: ");
+            wprintz(w_void, c_magenta,"%s", utf8_substr(*m.graffiti_at(u.posx, u.posy).contents, 0, STATUS_WIDTH-15 ).c_str() );
+        } else {
+            mvwprintw(w_void, 0, 0,"%s", std::string(STATUS_WIDTH, ' ').c_str());
+        }
+        wrefresh(w_void);
+    }
 }
 
 bool game::isBetween(int test, int down, int up)
