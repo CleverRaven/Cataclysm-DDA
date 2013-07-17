@@ -197,7 +197,7 @@
 "ident": "lumberjack",  
 "name": "Lumberjack",  
 "description":"You worked in the woods your whole life,\nand start with some woodsman gear.",  
-"points": 3, 
+"points": 1, 
 "items": ["jeans", "boots", "hat_hunting", "jacket_flannel"]  
 }, 
 
@@ -289,6 +289,14 @@
   "items": []
   },
   
+  {  
+"ident": "biker",  
+"name": "Biker",  
+"description":"You spent most of your life on a Harley,\nand its only natural you spend the rest of it\nriding one, you start with some biker clothes.",  
+"points": 2, 
+"items": ["jeans", "tanktop", "chaps_leather", "boots", "bandana", "jacket_leather"]  
+}, 
+
     {
   "ident": "dancer",
   "name": "Ballroom Dancer",
