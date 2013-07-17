@@ -8425,6 +8425,27 @@
                           ]
         },
 
+        {
+            "result": "folding_bicycle",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 5,
+            "time": 120000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [ ["wrench", -1], ["toolset", -1] ],
+                         [ ["goggles_welding", -1] ],
+                         [ ["welder", 300], ["toolset", 12] ]
+                     ],
+            "components": [
+                              [ ["frame", 2] ],
+                              [ ["saddle", 1] ],
+                              [ ["vehicle_controls", 1] ],
+                              [ ["foot_crank", 1] ],
+                              [ ["wheel_bicycle", 2] ]
+                          ]
+        },
 
         {
             "result": "string_6",

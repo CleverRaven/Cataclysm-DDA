@@ -802,7 +802,8 @@
       ["cloak", 5],
       ["sleeping_bag", 10],
       ["floatation_vest", 7],
-      ["gasoline_lantern", 5]
+      ["gasoline_lantern", 5],
+      ["folding_bicycle", 1]
     ]
   },
   { "id":"allsporting",
@@ -871,7 +872,8 @@
       ["mag_archery", 20],
       ["heatpack", 60],
       ["floatation_vest", 3],
-      ["glowstick", 60]
+      ["glowstick", 60],
+      ["folding_bicycle", 1]
     ]
   },
   { "id":"alcohol",
