@@ -3335,17 +3335,7 @@ void game::draw()
     werase(w_status);
     u.disp_status(w_status, this);
 
-    bool bWearsWatch = false;
-    for (int i = 0; i < u.worn.size(); i++) {
-        if ((dynamic_cast<it_armor*>(u.worn[i].type))->covers & mfb(bp_arms)) {
-            if (u.worn[i].has_flag("WATCH")) {
-                bWearsWatch = true;
-                break;
-            }
-        }
-    }
-
-    if (bWearsWatch) {
+    if ( u.worn_with_flag("WATCH") ) {
         mvwprintz(w_status, 1, 41, c_white, turn.print_time().c_str());
     } else {
         std::vector<std::pair<char, nc_color> > vGlyphs;
