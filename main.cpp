@@ -138,6 +138,9 @@ void exit_handler(int s) {
    system("clear"); // Tell the terminal to clear itself
   #endif
 
+  if(g != NULL)
+   if(g->game_error())
+    exit(1);
   exit(0);
  }
 }
