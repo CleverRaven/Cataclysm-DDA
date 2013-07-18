@@ -75,6 +75,7 @@ struct vehicle_part
     {
         int amount;         // amount of fuel for tank
         int open;           // door is open
+        int direction;      // direction the part is facing
     };
     std::vector<item> items;// inventory
 
