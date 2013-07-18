@@ -78,26 +78,26 @@ game::game() :
 // Gee, it sure is init-y around here!
  if(!init_skills())
   {uquit = QUIT_ERROR; debugmsg("Failed to initialize skills"); return;}
- if(!init_bionics())      // Set up bionics                   (SEE bionics.cpp)
+ if(!init_bionics())              // Set up bionics                   (SEE bionics.cpp)
   {uquit = QUIT_ERROR; debugmsg("Failed to initialize bionics"); return;}
- init_itypes();	      // Set up item types                (SEE itypedef.cpp)
+ init_itypes();	                  // Set up item types                (SEE itypedef.cpp)
  if(!SNIPPET.load())
   {uquit = QUIT_ERROR; debugmsg("Failed to load SNIPPET"); return;}
  if(!item_controller->init(this)) //Item manager
   {uquit = QUIT_ERROR; debugmsg("Failed to initialize item_controller"); return;}
- init_mtypes();	      // Set up monster types             (SEE mtypedef.cpp)
- init_monitems();     // Set up the items monsters carry  (SEE monitemsdef.cpp)
- init_traps();        // Set up the trap types            (SEE trapdef.cpp)
- if(!init_recipes())      // Set up crafting reciptes         (SEE crafting.cpp)
+ init_mtypes();	                  // Set up monster types             (SEE mtypedef.cpp)
+ init_monitems();                 // Set up the items monsters carry  (SEE monitemsdef.cpp)
+ init_traps();                    // Set up the trap types            (SEE trapdef.cpp)
+ if(!init_recipes())              // Set up crafting reciptes         (SEE crafting.cpp)
   {uquit = QUIT_ERROR; debugmsg("Failed to initialize crafting"); return;}
- if(!init_mongroups())    // Set up monster groupings         (SEE mongroupdef.cpp)
+ if(!init_mongroups())            // Set up monster groupings         (SEE mongroupdef.cpp)
   {uquit = QUIT_ERROR; debugmsg("Failed to initialize monster groups"); return;}
- init_missions();     // Set up mission templates         (SEE missiondef.cpp)
- init_construction(); // Set up constructables            (SEE construction.cpp)
+ init_missions();                 // Set up mission templates         (SEE missiondef.cpp)
+ init_construction();             // Set up constructables            (SEE construction.cpp)
  init_mutations();
- init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
- init_autosave();     // Set up autosave
- init_diseases();     // Set up disease lookup table
+ init_vehicles();                 // Set up vehicles                  (SEE veh_typedef.cpp)
+ init_autosave();                 // Set up autosave
+ init_diseases();                 // Set up disease lookup table
  load_keyboard_settings();
  moveCount = 0;
 
