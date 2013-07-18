@@ -731,8 +731,7 @@
       ["manual_brawl", 30],
       ["foot_crank", 10],
       ["floatation_vest", 10],
-      ["glowstick", 60],
-      ["kevlarI", 10]
+      ["glowstick", 60]
 	  ]
   },
   { "id":"camping",
@@ -857,8 +856,7 @@
       ["mag_archery", 20],
       ["heatpack", 60],
       ["floatation_vest", 3],
-      ["glowstick", 60],
-      ["kevlarI", 10]
+      ["glowstick", 60]
 	  ]
   },
   { "id":"alcohol",
@@ -1310,8 +1308,7 @@
   { "id":"cop_weapons",
     "items":[
       ["baton", 8],
-      ["kevlarI", 30],
-      ["kevlarII", 20],
+      ["kevlar", 30],
       ["vest", 15],
       ["gloves_leather", 45],
       ["mask_gas", 10],
@@ -2063,8 +2060,7 @@
   { "id":"mil_armor",
     "items":[
       ["pants_army", 30],
-      ["kevlarIIIa", 10],
-      ["kevlarII", 20],
+      ["kevlar", 30],
       ["vest", 15],
       ["mask_gas", 10],
       ["goggles_nv", 1],
@@ -2101,7 +2097,7 @@
   },
   { "id":"mil_armor_torso",
     "items":[
-      ["kevlarIIIa", 10],
+      ["kevlr", 30],
       ["vest", 15],
       ["beltrig", 10],
       ["under_armor", 20],
@@ -2218,7 +2214,6 @@
       ["pants_army", 30],
       ["jumpsuit", 20],
       ["jacket_leather", 30],
-      ["kevlarI", 40],
       ["vest", 15],
       ["gloves_fingerless", 20],
       ["mask_filter", 30],
@@ -2673,8 +2668,6 @@
       ["hose", 15],
       ["pants_army", 30],
       ["jumpsuit", 20],
-      ["kevlarIIIa", 10],
-      ["kevlarII", 20],
       ["mask_gas", 10],
       ["helmet_army", 40],
       ["battery", 50],
@@ -2703,7 +2696,6 @@
       ["knife_combat", 14],
       ["boots_steel", 50],
       ["pants_army", 30],
-      ["kevlarIIIa", 10],
       ["vest", 15],
       ["gloves_fingerless", 20],
       ["mask_gas", 10],
