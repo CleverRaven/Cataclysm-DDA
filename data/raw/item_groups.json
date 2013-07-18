@@ -1,15 +1,4 @@
 [
-  { "id":"TEST",
-    "items":[
-      ["GUITAR", 400],
-      ["DRUM", 300],
-      ["HATCHET", 200]
-    ],
-    "groups":[
-      ["NOTHING", 200]
-    ]
-  },
-  { "id":"NOTHING",[
   { "id":"child_items",
     "items":[
       ["chocolate", 50],
@@ -199,7 +188,7 @@
       ["orange", 65],
       ["lemon", 50],
       ["potato_raw", 10],
-    ["pickle", 40]
+	  ["pickle", 40]
     ]
   },
   { "id":"home_hw",
@@ -3067,8 +3056,4 @@
       ["bio_claws_weapon", 0]
     ]
   }
-]
-    "default_item": "MISSING_ITEM"
-  }
-
 ]
