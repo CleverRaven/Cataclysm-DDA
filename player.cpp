@@ -6930,11 +6930,12 @@ bool player::can_sleep(game *g)
  const trap_id trap_at_pos = g->m.tr_at(posx, posy);
  const ter_id ter_at_pos = g->m.ter(posx, posy);
  const furn_id furn_at_pos = g->m.furn(posx, posy);
- if ((veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
+ if ((veh && veh->part_with_feature (vpart, vpf_bed) >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
      furn_at_pos == f_sofa)
   sleepy += 4;
- else if (trap_at_pos == tr_rollmat || furn_at_pos == f_armchair)
+ else if ((veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
+      trap_at_pos == tr_rollmat || furn_at_pos == f_armchair)
   sleepy += 3;
  else if (furn_at_pos == f_bed)
   sleepy += 5;

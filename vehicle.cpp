@@ -91,8 +91,8 @@ void vehicle::load (std::ifstream &stin)
     int itms = 0;
     for (int p = 0; p < prts; p++)
     {
-        int pid, pdx, pdy, php, pam, pbld, pbig, pnit;
-        stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pnit;
+        int pid, pdx, pdy, php, pam, pbld, pbig, pflag, pass, pnit;
+        stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pflag >> pass >> pnit;
         getline(stin, databuff); // Clear EoL
         vehicle_part new_part;
         new_part.id = (vpart_id) pid;
@@ -101,6 +101,8 @@ void vehicle::load (std::ifstream &stin)
         new_part.hp = php;
         new_part.blood = pbld;
         new_part.bigness = pbig;
+        new_part.flags = pflag;
+        new_part.passenger_id = pass;
         new_part.amount = pam;
         for (int j = 0; j < pnit; j++)
         {
@@ -164,7 +166,9 @@ void vehicle::save (std::ofstream &stout)
             parts[p].hp << " " <<
             parts[p].amount << " " <<
             parts[p].blood << " " <<
-            parts[p].bigness<< " " <<
+            parts[p].bigness << " " <<
+            parts[p].flags << " " <<
+            parts[p].passenger_id << " " <<
             parts[p].items.size() << std::endl;
             for (int i = 0; i < parts[p].items.size(); i++)
             {
@@ -354,6 +358,12 @@ std::string vehicle::use_controls()
    for (int p = 0; p < parts.size(); p++)
    {
        part_hps << parts[p].hp << " ";
+       if( part_flag( p, vpf_cargo ) ) {
+           for( std::vector<item>::iterator it = parts[p].items.begin();
+                it != parts[p].items.end(); ++it) {
+               g->m.add_item( g->u.posx, g->u.posy, *it );
+           }
+       }
    }
    bicycle.item_vars["folding_bicycle_parts"] = part_hps.str();
 

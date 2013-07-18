@@ -42,6 +42,7 @@ New Improvised lockpick!
 Floatation Vest.
 Added wine and a new shirt.
 Towels.
+Fuzzy time display, and precise time with wristwatch item.
 
 Bugfixes:
 ---
@@ -61,6 +62,8 @@ Keep Jabberwocks from spawning in classic mode.
 Fix turret drops.
 Extensive text handling fixes.
 Menu beautification.
+Allow saving while in a vehicle.
+Fix div0 on bad option setting.
 
 ======
 

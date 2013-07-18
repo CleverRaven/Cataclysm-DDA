@@ -1888,7 +1888,7 @@ bool game::handle_action()
            "Yes." ));
        if (OPTIONS[OPT_SAVESLEEP]) {
          as_m.entries.push_back(uimenu_entry(1,
-             (moves_since_last_save || item_exchanges_since_save) && !u.in_vehicle,
+             (moves_since_last_save || item_exchanges_since_save),
              (OPTIONS[OPT_FORCE_YN]?'S':'s'),
              "Yes, and save game before sleeping." ));
        }
@@ -1955,7 +1955,6 @@ bool game::handle_action()
    break;
 
   case ACTION_SAVE:
-  if (!u.in_vehicle) {
    if (query_yn("Save and quit?")) {
     save();
     u.moves = 0;
@@ -1963,16 +1962,9 @@ bool game::handle_action()
     MAPBUFFER.make_volatile();
    }
    break;
-  } else {
-  add_msg("Saving in vehicles is buggy, stop and get out of the vehicle first");
- } break;
 
   case ACTION_QUICKSAVE:
-    if(u.in_vehicle){
-        add_msg("Saving in vehicles is buggy, stop and get out of the vehicle first");
-    }else{
-        quicksave();
-    }
+    quicksave();
     return false;
 
   case ACTION_QUIT:
@@ -11337,7 +11329,6 @@ int game::autosave_timeout()
 */
 
 void game::quicksave(){
-    if(u.in_vehicle){return;}//Avoid saving whilst driving, as it is buggy.
     if(!moves_since_last_save && !item_exchanges_since_save){return;}//Don't autosave if the player hasn't done anything since the last autosave/quicksave,
     add_msg("Saving game, this may take a while");
 

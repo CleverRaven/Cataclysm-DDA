@@ -1,7 +1,7 @@
 #include "game.h"
-#include "input.h"
 #include "keypress.h"
 #include "debug.h"
+#include "input.h"
 #include "mapbuffer.h"
 #include "cursesdef.h"
 #include "overmapbuffer.h"
@@ -27,7 +27,7 @@ void game::print_menu(WINDOW* w_open, int iSel, const int iMenuOffsetX, int iMen
     for (int i = 1; i < 79; i++)
         mvwputch(w_open, 23, i, c_white, LINE_OXOX);
 
-    mvwprintz(w_open, 24, 5, c_red, _("Please report bugs to TheDarklingWolf@gmail.com or post on the forums."));
+    mvwprintz(w_open, 24, 5, c_red, _("Please report bugs to kevin.granade@gmail.com or post on the forums."));
 
     int iLine = 0;
     const int iOffsetX1 = 3;
