@@ -620,9 +620,12 @@ void bionics_install_failure(game *g, player *u, int success)
 
 }
 
-void game::init_bionics()
+bool game::init_bionics()
 {
     catajson bionics_file("data/raw/bionics.json");
+
+    if(!json_good())
+    	return false;
 
     for(bionics_file.set_begin(); bionics_file.has_curr(); bionics_file.next())
     {
@@ -665,5 +668,6 @@ void game::init_bionics()
         }
 
     }
+    return json_good();
 }
 

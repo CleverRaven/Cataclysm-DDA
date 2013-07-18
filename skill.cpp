@@ -1,4 +1,3 @@
-#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <algorithm>    // std::min
@@ -7,9 +6,10 @@
 #include "skill.h"
 #include "rng.h"
 
-#include "picojson.h"
+#include "catajson.h"
 
 #include "options.h"
+#include "output.h"
 
 Skill::Skill() {
   _ident = std::string("null");
@@ -38,6 +38,12 @@ std::vector<Skill*> Skill::loadSkills() {
 
   skillsFile.open("data/raw/skills.json");
 
+  if(!skillsFile.good())
+  {
+	  debugmsg("Unable to read data/raw/skills.json");
+	  return allSkills;
+  }
+
   skillsFile >> skillsRaw;
 
   if (skillsRaw.is<picojson::array>()) {
@@ -62,10 +68,9 @@ std::vector<Skill*> Skill::loadSkills() {
       allSkills.push_back(newSkill);
     }
   } else {
-    std::cout << skillsRaw << std::endl;
-    exit(1);
+	debugmsg("data/raw/skills.json is not an array");
+    return allSkills;
   }
-
   return allSkills;
 }
 

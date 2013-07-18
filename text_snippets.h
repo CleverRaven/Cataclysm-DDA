@@ -9,7 +9,7 @@ class snippet_library
 public:
     snippet_library();
 
-    void load();
+    bool load();
     int assign( const std::string category ) const;
     std::string get( const int index ) const;
 

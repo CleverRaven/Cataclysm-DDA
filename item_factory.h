@@ -27,7 +27,7 @@ public:
     //Setup
     Item_factory();
     void init();
-    void init(game* main_game);
+    bool init(game* main_game);
 
     //Intermediary Methods - Will probably be removed at final stage
     itype* find_template(Item_tag id);
@@ -51,9 +51,9 @@ private:
     std::map<Item_tag, Item_group*> m_template_groups;
 
     //json data handlers
-    void load_item_templates();
-    void load_item_templates_from(const std::string file_name);
-    void load_item_groups_from(const std::string file_name);
+    bool load_item_templates();
+    bool load_item_templates_from(const std::string file_name);
+    bool load_item_groups_from(const std::string file_name);
 
     nc_color color_from_string(std::string color);
     Use_function use_from_string(std::string name);
