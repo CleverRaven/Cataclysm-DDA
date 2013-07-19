@@ -91,7 +91,9 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
  bool u_see_shooter = u_see(p.posx, p.posy);
 // Use different amounts of time depending on the type of gun and our skill
- p.moves -= time_to_fire(p, firing);
+ if (!effects->count("BOUNCE")) {
+     p.moves -= time_to_fire(p, firing);
+ }
 // Decide how many shots to fire
  int num_shots = 1;
  if (burst)
@@ -857,8 +859,6 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
 int time_to_fire(player &p, it_gun* firing)
 {
  int time = 0;
- if (p.weapon.curammo->ammo_effects.count("BOUNCE"))
-    return 0;
  if (firing->skill_used == Skill::skill("pistol")) {
    if (p.skillLevel("pistol") > 6)
      time = 10;
