@@ -944,6 +944,43 @@ void complete_vehicle (game *g)
         tools.push_back(component("welder", welder_charges));
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
+
+        if ( part == vp_head_light ) {
+            int choice = menu(true, "Choose facing direction:", "N", "NW", "W", "SW", "S", "SE", "E", "NE", NULL);
+            int dir;
+            switch(choice) {
+                    case 1:
+                        dir = 0;
+                        break;
+                    case 2:
+                        dir = 45;
+                        break;
+                    case 3:
+                        dir = 90;
+                        break;
+                    case 4:
+                        dir = 135;
+                        break;
+                    case 5:
+                        dir = 180;
+                        break;
+                    case 6:
+                        dir = 225;
+                        break;
+                    case 7:
+                        dir = 270;
+                        break;
+                    case 8:
+                        dir = 315;
+                        break;
+                    default:
+                        dir = 0;
+                        break;
+            }
+
+            veh->parts[partnum].direction = dir;
+        }
+
         g->add_msg ("You install a %s into the %s.",
                     vpart_list[part].name, veh->name.c_str());
         g->u.practice (g->turn, "mechanics", vpart_list[part].difficulty * 5 + 20);
