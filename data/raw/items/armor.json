@@ -3582,7 +3582,6 @@
         "type" : "ARMOR",
         "id" : "wristwatch",
         "name" : "wrist watch",
-        "covers" : ["ARMS"],
         "volume" : 0,
         "material_thickness" : 0,
         "storage" : 0,
