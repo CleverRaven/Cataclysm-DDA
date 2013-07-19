@@ -9585,6 +9585,82 @@
                                   ["scrap", 1]
                               ]
                           ]
+        },
+		
+        {
+            "result": "sweater",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "tailor",
+            "difficulty": 0,
+            "time": 500,
+            "reversible": true,
+            "autolearn": false,
+            "components": [
+                              [
+                                  ["thread", 50]
+                              ]
+                          ]
+        },
+        {
+            "result": "socks_wool",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "tailor",
+            "difficulty": 0,
+            "time": 300,
+            "reversible": true,
+            "autolearn": false,
+            "components": [
+                              [
+                                  ["thread", 30]
+                              ]
+                          ]
+        },
+        {
+            "result": "blazer",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "tailor",
+            "difficulty": 0,
+            "time": 700,
+            "reversible": true,
+            "autolearn": false,
+            "components": [
+                              [
+                                  ["thread", 70]
+                              ]
+                          ]
+        },
+        {
+            "result": "gloves_wool",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "tailor",
+            "difficulty": 0,
+            "time": 300,
+            "reversible": true,
+            "autolearn": false,
+            "components": [
+                              [
+                                  ["thread", 30]
+                              ]
+                          ]
+        },
+        {
+            "result": "poncho",
+            "id_suffix": "uncraft",
+            "category": "CC_NONCRAFT",
+            "skill_pri": "tailor",
+            "difficulty": 0,
+            "time": 500,
+            "reversible": true,
+            "autolearn": false,
+            "components": [
+                              [
+                                  ["thread", 50]
+                              ]
+                          ]
         }
     ]
 }
