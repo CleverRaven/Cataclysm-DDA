@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include "setvector.h"
-#include "picojson.h"
+#include "catajson.h"
 #include "options.h"
 
 // Default start time, this is the only place it's still used.
@@ -23,7 +23,7 @@
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
-void game::init_mongroups() { MonsterGroupManager::LoadJSONGroups(); }
+bool game::init_mongroups() { return MonsterGroupManager::LoadJSONGroups(); }
 
 mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
                                                  int *quantity, int turn )
@@ -142,31 +142,31 @@ MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
     return g;
 }
 
-void MonsterGroupManager::LoadJSONGroups()
+bool MonsterGroupManager::LoadJSONGroups()
 {
     //open the file
     std::ifstream file;
     file.open(monGroupFilePath);
     if(!file.good())
     {
-        printf("Unable to load file %s\n",monGroupFilePath); return;
+        debugmsg("Unable to load file %s\n",monGroupFilePath); return false;
     }
 
     //load the data
     picojson::value groupsRaw;
     file >> groupsRaw;
 
-    std::string error = picojson::get_last_error();
+    /*std::string error = picojson::get_last_error();
     if(! error.empty())
     {
         printf("'%s' : %s", monGroupFilePath, error.c_str());
         return;
-    }
+    }*/
 
     //check the data
     if (! groupsRaw.is<picojson::array>()) {
-        printf("The monster group file '%s' does not contain the expected JSON data", monGroupFilePath);
-        return;
+        debugmsg("The monster group file '%s' does not contain the expected JSON data", monGroupFilePath);
+        return false;
     }
 
     init_translation();
@@ -180,6 +180,7 @@ void MonsterGroupManager::LoadJSONGroups()
         g = GetMGroupFromJSON(&jsonobj);
         monsterGroupMap[g.name] = g;
     }
+    return json_good();
 }
 
 

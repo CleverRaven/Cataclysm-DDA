@@ -18,13 +18,16 @@ std::vector<craft_cat> craft_cat_list;
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 
 // This function just defines the recipes used throughout the game.
-void game::init_recipes()
+bool game::init_recipes()
 {
     int id = -1;
     int tl, cl;
     recipe* last_rec = NULL;
 
     catajson recipeRaw("data/raw/recipes.json");
+
+    if(!json_good())
+    	return false;
 
     catajson craftCats = recipeRaw.get("categories");
     for (craftCats.set_begin(); craftCats.has_curr(); craftCats.next())
@@ -126,6 +129,7 @@ void game::init_recipes()
 
         recipes[category].push_back(last_rec);
     }
+    return json_good();
 }
 
 bool game::crafting_allowed()

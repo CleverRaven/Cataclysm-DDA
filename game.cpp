@@ -76,22 +76,28 @@ game::game() :
 {
  dout() << "Game initialized.";
 // Gee, it sure is init-y around here!
- init_skills();
- init_bionics();      // Set up bionics                   (SEE bionics.cpp)
- init_itypes();	      // Set up item types                (SEE itypedef.cpp)
- SNIPPET.load();
- item_controller->init(this); //Item manager
- init_mtypes();	      // Set up monster types             (SEE mtypedef.cpp)
- init_monitems();     // Set up the items monsters carry  (SEE monitemsdef.cpp)
- init_traps();	      // Set up the trap types            (SEE trapdef.cpp)
- init_recipes();      // Set up crafting reciptes         (SEE crafting.cpp)
- init_mongroups();    // Set up monster groupings         (SEE mongroupdef.cpp)
- init_missions();     // Set up mission templates         (SEE missiondef.cpp)
- init_construction(); // Set up constructables            (SEE construction.cpp)
+ if(!init_skills())
+  {uquit = QUIT_ERROR; debugmsg("Failed to initialize skills"); return;}
+ if(!init_bionics())              // Set up bionics                   (SEE bionics.cpp)
+  {uquit = QUIT_ERROR; debugmsg("Failed to initialize bionics"); return;}
+ init_itypes();	                  // Set up item types                (SEE itypedef.cpp)
+ if(!SNIPPET.load())
+  {uquit = QUIT_ERROR; debugmsg("Failed to load SNIPPET"); return;}
+ if(!item_controller->init(this)) //Item manager
+  {uquit = QUIT_ERROR; debugmsg("Failed to initialize item_controller"); return;}
+ init_mtypes();	                  // Set up monster types             (SEE mtypedef.cpp)
+ init_monitems();                 // Set up the items monsters carry  (SEE monitemsdef.cpp)
+ init_traps();                    // Set up the trap types            (SEE trapdef.cpp)
+ if(!init_recipes())              // Set up crafting reciptes         (SEE crafting.cpp)
+  {uquit = QUIT_ERROR; debugmsg("Failed to initialize crafting"); return;}
+ if(!init_mongroups())            // Set up monster groupings         (SEE mongroupdef.cpp)
+  {uquit = QUIT_ERROR; debugmsg("Failed to initialize monster groups"); return;}
+ init_missions();                 // Set up mission templates         (SEE missiondef.cpp)
+ init_construction();             // Set up constructables            (SEE construction.cpp)
  init_mutations();
- init_vehicles();     // Set up vehicles                  (SEE veh_typedef.cpp)
- init_autosave();     // Set up autosave
- init_diseases();     // Set up disease lookup table
+ init_vehicles();                 // Set up vehicles                  (SEE veh_typedef.cpp)
+ init_autosave();                 // Set up autosave
+ init_diseases();                 // Set up disease lookup table
  load_keyboard_settings();
  moveCount = 0;
 
@@ -113,9 +119,10 @@ game::~game()
  delwin(w_status);
 }
 
-void game::init_skills()
+bool game::init_skills()
 {
     Skill::skills = Skill::loadSkills();
+    return !Skill::skills.empty();
 }
 
 void game::init_ui(){
@@ -2265,15 +2272,22 @@ bool game::load_master()
 
 void game::load_artifacts()
 {
-    // check if artifacts.gsav exists
-    std::ifstream test;
-    test.open("save/artifacts.gsav");
-    if (test.is_open())
-        test.close();
-    else
-        return;
+    std::ifstream file_test("save/artifacts.gsav");
+    if(!file_test.good())
+    {
+    	file_test.close();
+    	return;
+    }
+    file_test.close();
 
     catajson artifact_list(std::string("save/artifacts.gsav"));
+
+    if(!json_good())
+    {
+        uquit = QUIT_ERROR;
+        return;
+    }
+
     artifact_list.set_begin();
     while (artifact_list.has_curr())
     {
@@ -2407,6 +2421,9 @@ void game::load_artifacts()
 
 	artifact_list.next();
     }
+
+    if(!json_good())
+    	uquit = QUIT_ERROR;
 }
 
 void game::load_weather(std::ifstream &fin)
@@ -11081,6 +11098,8 @@ void game::gameover()
 }
 
 bool game::game_quit() { return (uquit == QUIT_MENU); }
+
+bool game::game_error() { return (uquit == QUIT_ERROR); }
 
 void game::write_msg()
 {

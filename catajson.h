@@ -50,4 +50,6 @@ private:
     std::string path_msg; // used for error messages
 };
 
+#define json_good() picojson::get_last_error().empty()
+
 #endif

@@ -6,9 +6,12 @@ snippet_library SNIPPET;
 
 snippet_library::snippet_library() {}
 
-void snippet_library::load()
+bool snippet_library::load()
 {
     catajson snippetRaw("data/raw/snippets.json");
+
+    if(!json_good())
+    	return false;
 
     catajson snippetList = snippetRaw.get("snippets");
     for( snippetList.set_begin(); snippetList.has_curr(); snippetList.next() )
@@ -22,6 +25,7 @@ void snippet_library::load()
         snippets.insert( std::pair<int, std::string>(hash, text) );
         categories.insert( std::pair<std::string, int>(category, hash) );
     }
+    return json_good();
 }
 
 int snippet_library::assign( const std::string category ) const
