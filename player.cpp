@@ -6586,7 +6586,7 @@ void player::use(game *g, char let)
    if (replace_item)
     inv.add_item(copy);
    return;
-  } else if ( mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
+  } else if ( mod->acceptible_ammo_types.size() && mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
    g->add_msg("That %s cannot be used on a %s gun.", used->tname(g).c_str(),
               ammo_name(guntype->ammo).c_str());
    if (replace_item)
