@@ -907,7 +907,7 @@
         "to_hit" : 0,
         "storage" : 2,
         "symbol" : "[",
-        "description" : "A tan button-down shirt with long sleeves. Reminds you of that guy on The Walking Dead!",
+        "description" : "A tan button-down shirt with long sleeves.",
         "price" : 115,
         "material" : ["cotton", "null"],
         "volume" : 3,
