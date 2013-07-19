@@ -8156,7 +8156,7 @@ void game::pickup(int posx, int posy, int min)
  int veh_part = 0;
  int k_part = 0;
  vehicle *veh = m.veh_at (posx, posy, veh_part);
- if (veh) {
+ if (min != -1 && veh) {
   k_part = veh->part_with_feature(veh_part, vpf_kitchen);
   veh_part = veh->part_with_feature(veh_part, vpf_cargo, false);
   from_veh = veh && veh_part >= 0 &&
