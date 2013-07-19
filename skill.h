@@ -18,7 +18,7 @@ class Skill {
 
  public:
   static std::vector<Skill*> skills;
-  static std::vector<Skill*> loadSkills();
+  static std::vector<Skill*> loadSkills() throw (std::string);
   static Skill* skill(std::string ident);
   static Skill* skill(size_t id);
 

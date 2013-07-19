@@ -29,7 +29,7 @@ Skill::Skill(size_t id, std::string ident, std::string name, std::string descrip
 
 std::vector<Skill*> Skill::skills;
 
-std::vector<Skill*> Skill::loadSkills() {
+std::vector<Skill*> Skill::loadSkills() throw (std::string) {
   std::vector<Skill*> allSkills;
 
   picojson::value skillsRaw;
@@ -40,7 +40,7 @@ std::vector<Skill*> Skill::loadSkills() {
 
   if(!skillsFile.good())
   {
-	  debugmsg("Unable to read data/raw/skills.json");
+	  throw "Unable to read data/raw/skills.json";
 	  return allSkills;
   }
 
@@ -68,7 +68,7 @@ std::vector<Skill*> Skill::loadSkills() {
       allSkills.push_back(newSkill);
     }
   } else {
-	debugmsg("data/raw/skills.json is not an array");
+	throw "data/raw/skills.json is not an array";
     return allSkills;
   }
   return allSkills;

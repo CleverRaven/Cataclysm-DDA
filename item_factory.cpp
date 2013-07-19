@@ -216,9 +216,13 @@ void Item_factory::init(){
 }
 
 //Will eventually be deprecated - Loads existing item format into the item factory, and vice versa
-bool Item_factory::init(game* main_game){
-    if(!load_item_templates()) // this one HAS to be called after game is created
-        return false;
+void Item_factory::init(game* main_game) throw(std::string){
+    try {
+        load_item_templates(); // this one HAS to be called after game is created
+    }
+    catch (std::string &error_message) {
+        throw;
+    }
     // Make a copy of our items loaded from JSON
     std::map<Item_tag, itype*> new_templates = m_templates;
     //Copy the hardcoded template pointers to the factory list
@@ -229,7 +233,6 @@ bool Item_factory::init(game* main_game){
     for(std::map<Item_tag, itype*>::iterator iter = new_templates.begin(); iter != new_templates.end(); ++iter) {
       standard_itype_ids.push_back(iter->first);
     }
-    return true;
 }
 
 //Returns the template with the given identification tag
@@ -312,43 +315,34 @@ bool Item_factory::group_contains_item(Item_tag group_tag, Item_tag item) {
 // DATA FILE READING //
 ///////////////////////
 
-bool Item_factory::load_item_templates(){
-    if(!load_item_templates_from("data/raw/items/melee.json"))
-    	return false;
-    if(!load_item_templates_from("data/raw/items/ranged.json"))
-    	return false;
-    if(!load_item_templates_from("data/raw/items/ammo.json"))
-    	return false;
-    if(!load_item_templates_from("data/raw/items/mods.json"))
-    	return false;
-    if(!load_item_templates_from("data/raw/items/tools.json"))
-    	return false;
-    if(!load_item_templates_from("data/raw/items/containers.json"))
-    	return false;
-    if(!load_item_templates_from("data/raw/items/comestibles.json"))
-    	return false;
-    if(!load_item_templates_from("data/raw/items/armor.json"))
-    	return false;
-    if(!load_item_templates_from("data/raw/items/books.json"))
-    	return false;
-	if(!load_item_templates_from("data/raw/items/archery.json"))
-		return false;
-    if(!load_item_groups_from("data/raw/item_groups.json"))
-    	return false;
-    return true;
+void Item_factory::load_item_templates() throw(std::string){
+    try {
+    load_item_templates_from("data/raw/items/melee.json");
+    load_item_templates_from("data/raw/items/ranged.json");
+    load_item_templates_from("data/raw/items/ammo.json");
+    load_item_templates_from("data/raw/items/mods.json");
+    load_item_templates_from("data/raw/items/tools.json");
+    load_item_templates_from("data/raw/items/containers.json");
+    load_item_templates_from("data/raw/items/comestibles.json");
+    load_item_templates_from("data/raw/items/armor.json");
+    load_item_templates_from("data/raw/items/books.json");
+    load_item_templates_from("data/raw/items/archery.json");
+    load_item_groups_from("data/raw/item_groups.json");
+    }
+    catch (std::string &error_message) {
+        throw;
+    }
 }
 
 // Load values from this data file into m_templates
-bool Item_factory::load_item_templates_from(const std::string file_name){
+void Item_factory::load_item_templates_from(const std::string file_name) throw (std::string){
     catajson all_items(file_name);
 
     if(! json_good())
-    	return false;
+    	throw (std::string)"Could not open " + file_name;
 
-    if (! all_items.is_array()) {
-        debugmsg("%s is not an array of item_templates", file_name.c_str());
-        return false;
-    }
+    if (! all_items.is_array())
+        throw file_name + (std::string)"is not an array of item_templates";
 
     //Crawl through and extract the items
     for (all_items.set_begin(); all_items.has_curr(); all_items.next()) {
@@ -558,29 +552,29 @@ bool Item_factory::load_item_templates_from(const std::string file_name){
             }
         }
     }
-    return json_good();
+    if(!json_good())
+        throw "There was an error reading " + file_name;
 }
 
 // Load values from this data file into m_template_groups
-bool Item_factory::load_item_groups_from(const std::string file_name){
+void Item_factory::load_item_groups_from(const std::string file_name) throw (std::string){
     std::ifstream data_file;
     picojson::value input_value;
 
     data_file.open(file_name.c_str());
-    if(!data_file.good())
-    	return false;
+
+    if(! data_file.good()) {
+    	throw "Could not read " + file_name;
+    }
+
     data_file >> input_value;
     data_file.close();
 
-    //Handle any obvious errors on file load
-    /*std::string err = picojson::get_last_error();
-    if (! err.empty()) {
-        std::cerr << "In JSON file \"" << file_name << "\"" << data_file << ":" << err << std::endl;
-        exit(1);
-    }*/
+    if(! json_good()) {
+        throw "The data in " + file_name + " is not an array";
+    }
     if (! input_value.is<picojson::array>()) {
-        debugmsg("%s is not an array of item groups",file_name.c_str());
-        return false;
+        throw file_name + "is not an array of item groups";
     }
 
     //Crawl through once and create an entry for every definition
@@ -667,7 +661,8 @@ bool Item_factory::load_item_groups_from(const std::string file_name){
             }
         }
     }
-    return json_good();
+    if(!json_good())
+        throw "There was an error reading " + file_name;
 }
 
 //Grab color, with appropriate error handling

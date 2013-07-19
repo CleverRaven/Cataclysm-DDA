@@ -23,7 +23,17 @@
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
-bool game::init_mongroups() { return MonsterGroupManager::LoadJSONGroups(); }
+void game::init_mongroups() throw (std::string)
+{
+   try
+   {
+       MonsterGroupManager::LoadJSONGroups();
+   }
+   catch(std::string &error_message)
+   {
+       throw;
+   }
+}
 
 mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
                                                  int *quantity, int turn )
@@ -142,14 +152,14 @@ MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
     return g;
 }
 
-bool MonsterGroupManager::LoadJSONGroups()
+void MonsterGroupManager::LoadJSONGroups() throw (std::string)
 {
     //open the file
     std::ifstream file;
     file.open(monGroupFilePath);
     if(!file.good())
     {
-        debugmsg("Unable to load file %s\n",monGroupFilePath); return false;
+        throw (std::string)"Unable to load file " + monGroupFilePath;
     }
 
     //load the data
@@ -165,8 +175,8 @@ bool MonsterGroupManager::LoadJSONGroups()
 
     //check the data
     if (! groupsRaw.is<picojson::array>()) {
-        debugmsg("The monster group file '%s' does not contain the expected JSON data", monGroupFilePath);
-        return false;
+        throw (std::string)"The monster group file " + monGroupFilePath +
+              (std::string)" does not contain the expected JSON data";
     }
 
     init_translation();
@@ -180,7 +190,10 @@ bool MonsterGroupManager::LoadJSONGroups()
         g = GetMGroupFromJSON(&jsonobj);
         monsterGroupMap[g.name] = g;
     }
-    return json_good();
+    if(!json_good())
+    {
+        throw (std::string)"There was an error reading " + monGroupFilePath;
+    }
 }
 
 

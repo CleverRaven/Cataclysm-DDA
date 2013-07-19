@@ -353,13 +353,13 @@ void load_artifacts(); // Load artifact data
 
 // Data Initialization
   void init_itypes();       // Initializes item types
-  bool init_skills();
-  bool init_bionics();      // Initializes bionics... for now.
+  void init_skills() throw (std::string);
+  void init_bionics() throw (std::string);      // Initializes bionics... for now.
   void init_mtypes();       // Initializes monster types
-  bool init_mongroups();    // Initualizes monster groups
+  void init_mongroups() throw (std::string);    // Initualizes monster groups
   void init_monitems();     // Initializes monster inventory selection
   void init_traps();        // Initializes trap types
-  bool init_recipes();      // Initializes crafting recipes
+  void init_recipes() throw (std::string);      // Initializes crafting recipes
   void init_construction(); // Initializes construction "recipes"
   void init_missions();     // Initializes mission templates
   void init_mutations();    // Initializes mutation "tech tree"
