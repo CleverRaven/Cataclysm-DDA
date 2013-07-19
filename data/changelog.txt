@@ -1,3 +1,16 @@
+0.7.1 (bugfix point release)
+
+Vehicle bed sleepiness fix.
+Made coughing from smoke wake you up.
+Update version for MSVC project builds.
+Remove coverage property from wristwatch to prevent ensumberance.
+Supress pickup from vehicle when doing autopickup.
+Fix typo in spawn list.
+Don't draw item glyphs on top of furniture glyphs.
+Strip out references to a removed ammunition in spawn lists.
+Change in how Vehicle Examination window is displayed so it works in 12x12 View Screens
+Fix for weapon mods with no ammo types.
+
 0.7
 
 Highlights:
