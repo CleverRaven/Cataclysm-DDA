@@ -8,7 +8,7 @@ class catajson
 {
 public:
     catajson();
-    catajson(std::string path);
+    catajson(std::string path, bool is_static = false);
     catajson(picojson::value val, std::string path_msg);
 
     // accessors for picojson values containing simple types

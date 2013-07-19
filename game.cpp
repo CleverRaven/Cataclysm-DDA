@@ -75,8 +75,11 @@ game::game() :
  gamemode(NULL)
 {
  dout() << "Game initialized.";
-// Gee, it sure is init-y around here!
+
  try {
+ if(!json_good())
+  {debugmsg("test");throw (std::string)"Failed to initialize a static variable";}
+ // Gee, it sure is init-y around here!
  init_skills();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	              // Set up item types                (SEE itypedef.cpp)
