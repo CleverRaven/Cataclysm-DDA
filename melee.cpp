@@ -1187,7 +1187,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   p->moves -= stab_moves;
 
 // Bonus attacks!
- bool shock_them = (has_bionic("bio_shock") && power_level >= 2 &&
+ bool shock_them = (has_active_bionic("bio_shock") && power_level >= 2 &&
                     unarmed_attack() && (!mon || !z->has_flag(MF_ELECTRIC)) &&
                     one_in(3));
 

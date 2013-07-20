@@ -142,8 +142,9 @@
 {
     "id"         :    "bio_shock",
     "name"       :    "Electroshock Unit",
-    "cost"       :    1,
-    "time"       :    0,
+    "cost"       :    0,
+    "time"       :    1,
+    "flags"      :    ["ACTIVE"],
     "description":    "While fighting unarmed, or with a weapon that conducts electricity, there is\na chance that a successful hit will shock your opponent, inflicting extra\ndamage and disabling them temporarily at the cost of some energy."
 },
 {
