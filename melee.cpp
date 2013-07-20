@@ -1191,7 +1191,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
                     unarmed_attack() && (!mon || !z->has_flag(MF_ELECTRIC)) &&
                     one_in(3));
 
- bool drain_them = (has_bionic("bio_heat_absorb") && power_level >= 1 &&
+ bool drain_them = (has_active_bionic("bio_heat_absorb") && power_level >= 1 &&
                     !is_armed() && (!mon || z->has_flag(MF_WARM)));
 
  drain_them &= one_in(2);	// Only works half the time
