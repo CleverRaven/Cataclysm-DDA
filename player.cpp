@@ -619,9 +619,10 @@ void player::update_bodytemp(game *g)
             for (int k = -6 ; k <= 6 ; k++)
             {
                 int heat_intensity = 0;
-                if(g->m.field_at(posx + j, posy + k).findField(fd_fire))
+                field &local_field = g->m.field_at(posx + j, posy + k);
+                if(local_field.findField(fd_fire))
                 {
-                    heat_intensity = g->m.field_at(posx + j, posy + k).findField(fd_fire)->getFieldDensity();
+                    heat_intensity = local_field.findField(fd_fire)->getFieldDensity();
                 }
                 else if (g->m.tr_at(posx + j, posy + k) == tr_lava )
                 {
@@ -641,7 +642,8 @@ void player::update_bodytemp(game *g)
         // TILES
         // Being on fire affects temp_cur (not temp_conv): this is super dangerous for the player
         if (has_disease("onfire")) { temp_cur[i] += 250; }
-        if ((g->m.field_at(posx, posy).findField(fd_fire) && g->m.field_at(posx, posy).findField(fd_fire)->getFieldDensity() > 2)
+        field &local_field = g->m.field_at(posx, posy);
+        if ((local_field.findField(fd_fire) && local_field.findField(fd_fire)->getFieldDensity() > 2)
             || trap_at_pos == tr_lava)
         {
             temp_cur[i] += 250;
