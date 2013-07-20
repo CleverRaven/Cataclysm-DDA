@@ -16,7 +16,9 @@
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,-stack,12000000,-subsystem,windows" />
-					<Add option="-static -lgdi32" />
+					<Add option="-static -lgdi32 -lintl -llibiconv" />
+					<Add library="..\..\Libraries\GetText\lib\intl.lib" />
+					<Add library="..\..\..\..\..\GnuWin32\lib\libiconv.lib" />
 				</Linker>
 			</Target>
 			<Target title="Debug">
@@ -31,10 +33,13 @@
 				<Linker>
 					<Add option="-pg -lgmon" />
 					<Add option="-Wl,-stack,12000000,-subsystem,windows" />
-					<Add option="-static -lgdi32" />
+					<Add option="-static -lgdi32 -lintl -llibiconv" />
+					<Add library="..\..\Libraries\GetText\lib\intl.lib" />
+					<Add library="..\..\..\..\..\GnuWin32\lib\libiconv.lib" />
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="SDLMain.h" />
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
 		<Unit filename="addiction.cpp" />
@@ -54,6 +59,8 @@
 		<Unit filename="building_generation.h" />
 		<Unit filename="calendar.cpp" />
 		<Unit filename="calendar.h" />
+		<Unit filename="catacharset.cpp" />
+		<Unit filename="catacharset.h" />
 		<Unit filename="catacurse.h" />
 		<Unit filename="catajson.cpp" />
 		<Unit filename="catajson.h" />
@@ -66,6 +73,7 @@
 		<Unit filename="crafting.cpp" />
 		<Unit filename="crafting.h" />
 		<Unit filename="cursesdef.h" />
+		<Unit filename="cursesport.cpp" />
 		<Unit filename="debug.cpp" />
 		<Unit filename="debug.h" />
 		<Unit filename="defense.cpp" />
@@ -79,6 +87,7 @@
 		<Unit filename="faction.cpp" />
 		<Unit filename="faction.h" />
 		<Unit filename="field.cpp" />
+		<Unit filename="field.h" />
 		<Unit filename="game.cpp" />
 		<Unit filename="game.h" />
 		<Unit filename="gamemode.cpp" />
@@ -123,7 +132,6 @@
 		<Unit filename="mapgenformat.cpp" />
 		<Unit filename="mapgenformat.h" />
 		<Unit filename="mapitems.h" />
-		<Unit filename="mapitemsdef.cpp" />
 		<Unit filename="material.cpp" />
 		<Unit filename="material.h" />
 		<Unit filename="melee.cpp" />
@@ -140,6 +148,7 @@
 		<Unit filename="mondeath.h" />
 		<Unit filename="mongroup.h" />
 		<Unit filename="mongroupdef.cpp" />
+		<Unit filename="monitemsdef.cpp" />
 		<Unit filename="monmove.cpp" />
 		<Unit filename="monster.cpp" />
 		<Unit filename="monster.h" />
@@ -180,6 +189,7 @@
 		</Unit>
 		<Unit filename="rng.cpp" />
 		<Unit filename="rng.h" />
+		<Unit filename="sdlcurse.cpp" />
 		<Unit filename="settlement.cpp" />
 		<Unit filename="settlement.h" />
 		<Unit filename="setvector.cpp" />
@@ -197,6 +207,7 @@
 		<Unit filename="tutorial.h" />
 		<Unit filename="ui.cpp" />
 		<Unit filename="ui.h" />
+		<Unit filename="uistate.h" />
 		<Unit filename="veh_interact.cpp" />
 		<Unit filename="veh_interact.h" />
 		<Unit filename="veh_type.h" />
@@ -204,7 +215,10 @@
 		<Unit filename="vehicle.cpp" />
 		<Unit filename="vehicle.h" />
 		<Unit filename="version.cpp" />
-		<Unit filename="version.h" />
+		<Unit filename="wcwidth.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="wdirent.h" />
 		<Unit filename="weather.cpp" />
 		<Unit filename="weather.h" />
 		<Unit filename="weather_data.cpp" />
