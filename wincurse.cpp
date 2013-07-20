@@ -15,8 +15,6 @@ const WCHAR *szWindowClass = (L"CataCurseWindow");    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
 HDC WindowDC;           //Device Context of the window, used for backbuffer
-int WindowX;            //X pos of the actual window, not the curses window
-int WindowY;            //Y pos of the actual window, not the curses window
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
@@ -65,8 +63,8 @@ bool WinCreate()
         return false;
 
     // Center window
-    WindowX = GetSystemMetrics(SM_CXSCREEN)/2 - WindowWidth/2;
-    WindowY = GetSystemMetrics(SM_CYSCREEN)/2 - WindowHeight/2;
+    int WindowX = GetSystemMetrics(SM_CXSCREEN)/2 - WindowWidth/2;
+    int WindowY = GetSystemMetrics(SM_CYSCREEN)/2 - WindowHeight/2;
 
     // Adjust window size
     uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_VISIBLE; // Basic window, show on creation
@@ -77,7 +75,7 @@ bool WinCreate()
     AdjustWindowRect(&WndRect, WndStyle, false);
 
     // Magic
-    WindowHandle = CreateWindowExW(NULL, szWindowClass , szTitle, WndStyle,
+    WindowHandle = CreateWindowExW(0, szWindowClass , szTitle, WndStyle,
                                    WindowX, WindowY,
                                    WndRect.right - WndRect.left,
                                    WndRect.bottom - WndRect.top,
