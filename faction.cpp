@@ -194,14 +194,14 @@ void faction::randomize()
  char buf[128], buf2[256];
  if (one_in(4)) {
   do{
-   sprintf(buf, _("The %s of %s"), noun.c_str(), invent_name().c_str());
+   libintl_sprintf(buf, _("The %1$s of %2$s"), noun.c_str(), invent_name().c_str());
    name = buf;
   }
   while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
  else if (one_in(2)) {
   do{
-   sprintf(buf, _("The %s %s"), invent_adj().c_str(), noun.c_str());
+   libintl_sprintf(buf, _("The %1$s %2$s"), invent_adj().c_str(), noun.c_str());
    name = buf;
   }
   while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
@@ -215,9 +215,9 @@ void faction::randomize()
     adj = faction_adj_bad[rng(0, 14)];
    else
     adj = faction_adj_neu[rng(0, 14)];
-   sprintf(buf, _("The %s %s"), adj.c_str(), noun.c_str());
+   libintl_sprintf(buf, _("The %1$s %2$s"), adj.c_str(), noun.c_str());
    if (one_in(4)){
-    sprintf(buf2, _("%s of %s"), buf, invent_name().c_str());
+    libintl_sprintf(buf2, _("%1$s of %2$s"), buf, invent_name().c_str());
     name=buf2;
    }else{
     name=buf;
@@ -317,7 +317,7 @@ std::string faction::describe()
  if (job2 == FACJOB_NULL)
   ret += _(".");
  else
-  ret += _(", but they are also involved in ") + facjob_data[job2].name + ".";
+  ret += _(", but they are also involved in ") + facjob_data[job2].name + _(".");
  if (values != 0) {
   ret += _(" They are known for ");
   for (int i = 0; i < NUM_FACVALS; i++) {
@@ -325,10 +325,10 @@ std::string faction::describe()
     ret += facval_data[i].name + _(", ");
   }
  }
- size_t pos = ret.find_last_of(_(", "));
+ size_t pos = ret.rfind(_(", "));
  if (pos != std::string::npos) {
   ret.replace(pos, std::string(_(", ")).length(), _("."));
-  pos = ret.find_last_of(_(", "));
+  pos = ret.rfind(_(", "));
   if (pos != std::string::npos)
    ret.replace(pos, std::string(_(", ")).length(), _(", and "));
  }

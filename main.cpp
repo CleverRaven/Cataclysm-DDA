@@ -14,8 +14,6 @@
 #include <sys/stat.h>
 #include <cstdlib>
 #include <signal.h>
-#include <clocale>
-#include <libintl.h>
 #include "translations.h"
 #if (defined OSX_SDL_FW)
 #include "SDL.h"

@@ -1,6 +1,13 @@
 #include <string>
 #include "translations.h"
 
+
+// set locale to system default
+const char* dummy_locale =  setlocale(LC_ALL, "");
+const char* dummy_domain_path = bindtextdomain("cataclysm-dda", "lang/mo");
+const char* dummy_codeset = bind_textdomain_codeset("cataclysm-dda", "UTF-8");
+const char* dummy_domain = textdomain("cataclysm-dda");
+
 std::string faction_adj_pos[15] = {
 _("Shining"), _("Sacred"), _("Golden"), _("Holy"), _("Righteous"), _("Devoted"), _("Virtuous"),
 _("Splendid"), _("Divine"), _("Radiant"), _("Noble"), _("Venerable"), _("Immaculate"),
