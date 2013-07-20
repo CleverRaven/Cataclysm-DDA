@@ -196,6 +196,7 @@ public:
  int  addiction_level(add_type type);
 
  void siphon_gas(game *g, vehicle *veh);
+ void siphon_water(game *g, vehicle *veh);
  void cauterize(game *g);
  void suffer(game *g);
  void mend(game *g);

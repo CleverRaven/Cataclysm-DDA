@@ -3558,6 +3558,15 @@ void player::siphon_gas(game *g, vehicle *veh)
     while (!g->handle_liquid(used_item, false, false)) { } // handle the gas until it's all gone
 }
 
+void player::siphon_water(game *g, vehicle *veh)
+{
+    int water_amount = veh->drain(AT_WATER, veh->fuel_capacity(AT_WATER));
+    item used_item(g->itypes["water"], g->turn);
+    used_item.charges = water_amount;
+    g->add_msg("Siphoned %d units of water from the vehicle.", water_amount);
+    while (!g->handle_liquid(used_item, false, false)) { } // handle the gas until it's all gone
+}
+
 void player::cauterize(game *g) {
  rem_disease("bleed");
  rem_disease("bite");
