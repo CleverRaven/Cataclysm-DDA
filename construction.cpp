@@ -1126,6 +1126,11 @@ void construct::done_deconstruct(game *g, point p)
         g->m.spawn_item(p.x, p.y, "pipe", 0, rng(6,12));
         g->m.furn_set(p.x, p.y, f_null);
       break;
+      case f_oven:
+        g->m.spawn_item(p.x, p.y, "scrap",       0, rng(2,6));
+        g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));
+        g->m.spawn_item(p.x, p.y, "element",     0, rng(1,4));
+        g->m.furn_set(p.x, p.y, f_null);
       case f_fridge:
         g->m.spawn_item(p.x, p.y, "scrap", 0, rng(2,6));
         g->m.spawn_item(p.x, p.y, "steel_chunk", 0, rng(2,3));

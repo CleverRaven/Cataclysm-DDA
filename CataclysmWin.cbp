@@ -200,6 +200,7 @@
 		<Unit filename="text_snippets.h" />
 		<Unit filename="tileray.cpp" />
 		<Unit filename="tileray.h" />
+		<Unit filename="translations.h" />
 		<Unit filename="trap.h" />
 		<Unit filename="trapdef.cpp" />
 		<Unit filename="trapfunc.cpp" />

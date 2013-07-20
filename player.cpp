@@ -621,7 +621,7 @@ void player::update_bodytemp(game *g)
                 int heat_intensity = 0;
                 if(g->m.field_at(posx + j, posy + k).findField(fd_fire))
                 {
-					heat_intensity = g->m.field_at(posx + j, posy + k).findField(fd_fire)->getFieldDensity();
+                    heat_intensity = g->m.field_at(posx + j, posy + k).findField(fd_fire)->getFieldDensity();
                 }
                 else if (g->m.tr_at(posx + j, posy + k) == tr_lava )
                 {
@@ -1877,9 +1877,7 @@ which require brute force.");
     mvwprintz(w_stats, 6, 2, c_magenta, "Melee to-hit bonus: +%d                      ",
              base_to_hit(false));
     mvwprintz(w_stats, 7, 2, c_magenta, "                                            ");
-    mvwprintz(w_stats, 7, 2, c_magenta, "Ranged %s: %s%d",
-              (ranged_dex_mod(false) <= 0 ? "bonus" : "penalty"),
-             (ranged_dex_mod(false) <= 0 ? "+" : "-"),
+    mvwprintz(w_stats, 7, 2, c_magenta, "Ranged penalty: -%d",
              abs(ranged_dex_mod(false)));
     mvwprintz(w_stats, 8, 2, c_magenta, "                                            ");
     mvwprintz(w_stats, 8, 2, c_magenta, "Throwing %s: %s%d",
@@ -1905,9 +1903,7 @@ can pick up from reading a book.");
    } else if (line == 3) {
     mvwprintz(w_stats, 5, 2, h_ltgray, "Perception:");
 
-       mvwprintz(w_stats, 6, 2,  c_magenta, "Ranged %s: %s%d",
-             (ranged_per_mod(false) <= 0 ? "bonus" : "penalty"),
-             (ranged_per_mod(false) <= 0 ? "+" : "-"),
+       mvwprintz(w_stats, 6, 2,  c_magenta, "Ranged penalty: -%d",
              abs(ranged_per_mod(false)),"          ");
     mvwprintz(w_stats, 7, 2, c_magenta, "Trap dection level: %d       ",
              per_cur);
@@ -2060,9 +2056,9 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
      mvwprintz(w_traits, 1 + i - min, 1, status,
                traits[traitslist[i]].name.c_str());
    }
-   if (line >= 0 && line < traitslist.size())
-    mvwprintz(w_info, 0, 0, c_magenta, "%s",
-              traits[traitslist[line]].description.c_str());
+   if (line >= 0 && line < traitslist.size()) {
+     fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", traits[traitslist[line]].description.c_str());
+   }
    wrefresh(w_traits);
    wrefresh(w_info);
    switch (input()) {
@@ -2121,8 +2117,9 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
     else
      mvwprintz(w_effects, 1 + i - min, 1, c_ltgray, effect_name[i].c_str());
    }
-   if (line >= 0 && line < effect_text.size())
-    mvwprintz(w_info, 0, 0, c_magenta, effect_text[line].c_str());
+   if (line >= 0 && line < effect_text.size()) {
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", effect_text[line].c_str());
+   }
    wrefresh(w_effects);
    wrefresh(w_info);
    switch (input()) {
@@ -2197,9 +2194,9 @@ Running costs %+d movement points", encumb(bp_feet) * 5);
     mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%%%)", (int)level, (exercise <  0 ? 0 : exercise));
    }
    werase(w_info);
-   if (line >= 0 && line < skillslist.size())
-    mvwprintz(w_info, 0, 0, c_magenta,
-              selectedSkill->description().c_str());
+   if (line >= 0 && line < skillslist.size()) {
+    fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, "%s", selectedSkill->description().c_str());
+   }
    wrefresh(w_skills);
    wrefresh(w_info);
    switch (input()) {
@@ -2878,48 +2875,18 @@ int player::throw_range(signed char ch)
 
 int player::ranged_dex_mod(bool real_life)
 {
- int dex = (real_life ? dex_cur : dex_max);
- if (dex == 8)
-  return 0;
- if (dex > 8)
-  return (real_life ? (0 - rng(0, dex - 8)) : (8 - dex));
+    const int dex = (real_life ? dex_cur : dex_max);
 
- int deviation = 0;
- if (dex < 4)
-  deviation = 4 * (8 - dex);
- else if (dex < 6)
-  deviation = 2 * (8 - dex);
- else
-  deviation = 1.5 * (8 - dex);
-
- return (real_life ? rng(0, deviation) : deviation);
+    if (dex >= 12) { return 0; }
+    return 12 - dex;
 }
 
 int player::ranged_per_mod(bool real_life)
 {
- int per = (real_life ? per_cur : per_max);
- if (per == 8)
-  return 0;
- int deviation = 0;
+ const int per = (real_life ? per_cur : per_max);
 
- if (per < 4) {
-  deviation = 5 * (8 - per);
-  if (real_life)
-   deviation = rng(0, deviation);
- } else if (per < 6) {
-  deviation = 2.5 * (8 - per);
-  if (real_life)
-   deviation = rng(0, deviation);
- } else if (per < 8) {
-  deviation = 2 * (8 - per);
-  if (real_life)
-   deviation = rng(0, deviation);
- } else {
-  deviation = 3 * (0 - (per > 16 ? 8 : per - 8));
-  if (real_life && one_in(per - 8))
-   deviation = 0 - rng(0, abs(deviation));
- }
- return deviation;
+ if (per >= 12) { return 0; }
+ return 12 - per;
 }
 
 int player::throw_dex_mod(bool real_life)
@@ -3551,7 +3518,7 @@ int player::addiction_level(add_type type)
 
 void player::siphon_gas(game *g, vehicle *veh)
 {
-    int fuel_amount = veh->drain(AT_GAS, veh->fuel_capacity(AT_GAS));
+    int fuel_amount = veh->drain("gasoline", veh->fuel_capacity("gasoline"));
     item used_item(g->itypes["gasoline"], g->turn);
     used_item.charges = fuel_amount;
     g->add_msg("Siphoned %d units of gasoline from the vehicle.", fuel_amount);
@@ -4367,6 +4334,16 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
     }
 }
 
+int player::has_morale( morale_type type ) const
+{
+    for( int i = 0; i < morale.size(); i++ ) {
+        if( morale[i].type == type ) {
+            return morale[i].bonus;
+        }
+    }
+    return 0;
+}
+
 void player::rem_morale(morale_type type, itype* item_type)
 {
  for (int i = 0; i < morale.size(); i++) {
@@ -4593,7 +4570,7 @@ void player::remove_mission_items(int mission_id)
  inv.remove_mission_items(mission_id);
 }
 
-item player::i_rem(game* g, char let)
+item player::i_rem(char let)
 {
  item tmp;
  if (weapon.invlet == let) {
@@ -5947,12 +5924,24 @@ bool player::takeoff(game *g, char let, bool autodrop)
      if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
          ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso))) {
        // We're trying to take off power armor, but cannot do that if we have a power armor component on!
-       for (int i = 0; i < worn.size(); i++) {
-         if ((dynamic_cast<it_armor*>(worn[i].type))->is_power_armor() &&
-             (worn[i].invlet != let)) {
-           g->add_msg("You can't take off power armor while wearing other power armor components.");
-           return false;
+       bool removed_armor = false;
+       for (int j = 0; j < worn.size(); j++) {
+         if ((dynamic_cast<it_armor*>(worn[j].type))->is_power_armor() &&
+             (worn[j].invlet != let)) {
+             if( autodrop ) {
+                 g->m.add_item(posx, posy, worn[j]);
+                 worn.erase(worn.begin() + j);
+                 removed_armor = true;
+             } else {
+                 g->add_msg("You can't take off power armor while wearing other power armor components.");
+                 return false;
+             }
          }
+       }
+       if( removed_armor ) {
+           // We've invalidated our index into worn[], so rescan from the beginning.
+           i = -1;
+           continue;
        }
      }
     if (autodrop || volume_capacity() - (dynamic_cast<it_armor*>(worn[i].type))->storage >
@@ -6351,7 +6340,7 @@ void player::use_wielded(game *g) {
 
 hint_rating player::rate_action_reload(item *it) {
  if (it->is_gun()) {
-  if (it->has_flag("RELOAD_AND_SHOOT") || it->ammo_type() == AT_NULL) {
+  if (it->has_flag("RELOAD_AND_SHOOT") || it->ammo_type() == "NULL") {
    return HINT_CANT;
   }
   if (it->charges == it->clip_size()) {
@@ -6374,7 +6363,7 @@ hint_rating player::rate_action_reload(item *it) {
   return HINT_GOOD;
  } else if (it->is_tool()) {
   it_tool* tool = dynamic_cast<it_tool*>(it->type);
-  if (tool->ammo == AT_NULL) {
+  if (tool->ammo == "NULL") {
    return HINT_CANT;
   }
   return HINT_GOOD;
@@ -6384,7 +6373,7 @@ hint_rating player::rate_action_reload(item *it) {
 
 hint_rating player::rate_action_unload(item *it) {
  if (!it->is_gun() && !it->is_container() &&
-     (!it->is_tool() || it->ammo_type() == AT_NULL)) {
+     (!it->is_tool() || it->ammo_type() == "NULL")) {
   return HINT_CANT;
  }
  int spare_mag = -1;
@@ -6536,7 +6525,7 @@ void player::use(game *g, char let)
    remove_weapon();
   return;
 
- } else if (used->type->use != &iuse::none) {
+ } else if (used->type->use == &iuse::boots) {
 
    iuse use;
    (use.*used->type->use)(g, this, used, false);
@@ -6597,8 +6586,7 @@ void player::use(game *g, char let)
    if (replace_item)
     inv.add_item(copy);
    return;
-  } else if (mod->acceptible_ammo_types != 0 &&
-             !(mfb(guntype->ammo) & mod->acceptible_ammo_types)) {
+  } else if ( mod->acceptible_ammo_types.size() && mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
    g->add_msg("That %s cannot be used on a %s gun.", used->tname(g).c_str(),
               ammo_name(guntype->ammo).c_str());
    if (replace_item)
@@ -6633,9 +6621,9 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
     if (replace_item)
      inv.add_item(copy);
     return;
-   } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != AT_NULL &&
+   } else if (!(mod->item_tags.count("MODE_AUX")) && mod->newtype != "NULL" &&
 	      !gun->contents[i].has_flag("MODE_AUX") &&
-	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != AT_NULL) {
+	      (dynamic_cast<it_gunmod*>(gun->contents[i].type))->newtype != "NULL") {
     g->add_msg("Your %s's caliber has already been modified.",
                gun->tname(g).c_str());
     if (replace_item)
@@ -6664,7 +6652,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
   if (replace_item)
    gun->contents.push_back(copy);
   else
-   gun->contents.push_back(i_rem(g,let));
+   gun->contents.push_back(i_rem(let));
   return;
 
  } else if (used->is_bionic()) {
@@ -6672,7 +6660,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
   it_bionic* tmp = dynamic_cast<it_bionic*>(used->type);
   if (install_bionics(g, tmp)) {
    if (!replace_item)
-    i_rem(g,let);
+    i_rem(let);
   } else if (replace_item)
    inv.add_item(copy);
   return;
@@ -6942,11 +6930,12 @@ bool player::can_sleep(game *g)
  const trap_id trap_at_pos = g->m.tr_at(posx, posy);
  const ter_id ter_at_pos = g->m.ter(posx, posy);
  const furn_id furn_at_pos = g->m.furn(posx, posy);
- if ((veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
+ if ((veh && veh->part_with_feature (vpart, vpf_bed) >= 0) ||
      furn_at_pos == f_makeshift_bed || trap_at_pos == tr_cot ||
      furn_at_pos == f_sofa)
   sleepy += 4;
- else if (trap_at_pos == tr_rollmat || furn_at_pos == f_armchair)
+ else if ((veh && veh->part_with_feature (vpart, vpf_seat) >= 0) ||
+      trap_at_pos == tr_rollmat || furn_at_pos == f_armchair)
   sleepy += 3;
  else if (furn_at_pos == f_bed)
   sleepy += 5;
@@ -7008,7 +6997,6 @@ int player::warmth(body_part bp)
 {
     int bodywetness = 0;
     int ret = 0, warmth = 0;
-    int pocket_check = 0;
     it_armor* armor = NULL;
 
     // Fetch the morale value of wetness for bodywetness
@@ -7022,16 +7010,9 @@ int player::warmth(body_part bp)
     }
 
     // If the player is not wielding anything, check if hands can be put in pockets
-    if (bp == bp_hands && !is_armed())
+    if(bp == bp_hands && !is_armed() && worn_with_flag("POCKETS"))
     {
-        for (int i = 0; i < worn.size(); i++)
-        {
-            if ((dynamic_cast<it_armor*>(worn[i].type))->covers & mfb(bp_torso) && worn[i].has_flag("POCKETS") && pocket_check == 0)
-            {
-                ret += 10;
-                pocket_check++;
-            }
-        }
+        ret += 10;
     }
 
     for (int i = 0; i < worn.size(); i++)

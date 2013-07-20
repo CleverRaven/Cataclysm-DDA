@@ -78,7 +78,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  bool is_bolt = false;
  std::set<std::string> *effects = &curammo->ammo_effects;
  // Bolts and arrows are silent
- if (curammo->type == AT_BOLT || curammo->type == AT_ARROW)
+ if (curammo->type == "bolt" || curammo->type == "arrow")
   is_bolt = true;
 
  int x = p.posx, y = p.posy;
@@ -91,7 +91,9 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
 
  bool u_see_shooter = u_see(p.posx, p.posy);
 // Use different amounts of time depending on the type of gun and our skill
- p.moves -= time_to_fire(p, firing);
+ if (!effects->count("BOUNCE")) {
+     p.moves -= time_to_fire(p, firing);
+ }
 // Decide how many shots to fire
  int num_shots = 1;
  if (burst)
@@ -110,7 +112,7 @@ void game::fire(player &p, int tarx, int tary, std::vector<point> &trajectory,
  // Use up some ammunition
 int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
- if (trange < int(firing->volume / 3) && firing->ammo != AT_SHOT)
+ if (trange < int(firing->volume / 3) && firing->ammo != "shot")
   trange = int(firing->volume / 3);
  else if (p.has_bionic("bio_targeting")) {
   if (trange > LONG_RANGE)
@@ -209,23 +211,23 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
 
   // Drop a shell casing if appropriate.
   itype_id casing_type = "null";
-  switch(curammo->type) {
-  case AT_SHOT: casing_type = "shot_hull"; break;
-  case AT_9MM: casing_type = "9mm_casing"; break;
-  case AT_22: casing_type = "22_casing"; break;
-  case AT_38: casing_type = "38_casing"; break;
-  case AT_40: casing_type = "40_casing"; break;
-  case AT_44: casing_type = "44_casing"; break;
-  case AT_45: casing_type = "45_casing"; break;
-  case AT_57: casing_type = "57mm_casing"; break;
-  case AT_46: casing_type = "46mm_casing"; break;
-  case AT_762: casing_type = "762_casing"; break;
-  case AT_223: casing_type = "223_casing"; break;
-  case AT_3006: casing_type = "3006_casing"; break;
-  case AT_308: casing_type = "308_casing"; break;
-  case AT_40MM: casing_type = "40mm_casing"; break;
-  default: /*No casing for other ammo types.*/ break;
-  }
+  if( curammo->type == "shot" ) casing_type = "shot_hull";
+  else if( curammo->type == "9mm" ) casing_type = "9mm_casing";
+  else if( curammo->type == "22" ) casing_type = "22_casing";
+  else if( curammo->type == "38" ) casing_type = "38_casing";
+  else if( curammo->type == "40" ) casing_type = "40_casing";
+  else if( curammo->type == "44" ) casing_type = "44_casing";
+  else if( curammo->type == "45" ) casing_type = "45_casing";
+  else if( curammo->type == "454" ) casing_type = "454_casing";
+  else if( curammo->type == "500" ) casing_type = "500_casing";
+  else if( curammo->type == "57" ) casing_type = "57mm_casing";
+  else if( curammo->type == "46" ) casing_type = "46mm_casing";
+  else if( curammo->type == "762" ) casing_type = "762_casing";
+  else if( curammo->type == "223" ) casing_type = "223_casing";
+  else if( curammo->type == "3006" ) casing_type = "3006_casing";
+  else if( curammo->type == "308" ) casing_type = "308_casing";
+  else if( curammo->type == "40mm" ) casing_type = "40mm_casing";
+
   if (casing_type != "null") {
    int x = p.posx - 1 + rng(0, 2);
    int y = p.posy - 1 + rng(0, 2);
@@ -857,8 +859,6 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
 int time_to_fire(player &p, it_gun* firing)
 {
  int time = 0;
- if (p.weapon.curammo->ammo_effects.count("BOUNCE"))
-    return 0;
  if (firing->skill_used == Skill::skill("pistol")) {
    if (p.skillLevel("pistol") > 6)
      time = 10;
@@ -930,16 +930,16 @@ void make_gun_sound_effect(game *g, player &p, bool burst, item* weapon)
   else
    gunsound = "kerblam!";
  }
- if (weapon->curammo->type == AT_FUSION || weapon->curammo->type == AT_BATT ||
-     weapon->curammo->type == AT_PLUT)
+ if (weapon->curammo->type == "fusion" || weapon->curammo->type == "battery" ||
+     weapon->curammo->type == "plutonium")
   g->sound(p.posx, p.posy, 8, "Fzzt!");
- else if (weapon->curammo->type == AT_40MM)
+ else if (weapon->curammo->type == "40mm")
   g->sound(p.posx, p.posy, 8, "Thunk!");
- else if (weapon->curammo->type == AT_GAS || weapon->curammo->type == AT_66MM)
+ else if (weapon->curammo->type == "gasoline" || weapon->curammo->type == "66mm")
   g->sound(p.posx, p.posy, 4, "Fwoosh!");
- else if (weapon->curammo->type != AT_BOLT &&
-          weapon->curammo->type != AT_ARROW &&
-          weapon->curammo->type != AT_PEBBLE)
+ else if (weapon->curammo->type != "bolt" &&
+          weapon->curammo->type != "arrow" &&
+          weapon->curammo->type != "pebble")
   g->sound(p.posx, p.posy, noise, gunsound);
 }
 
@@ -947,7 +947,7 @@ int calculate_range(player &p, int tarx, int tary)
 {
  int trange = rl_dist(p.posx, p.posy, tarx, tary);
  it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
- if (trange < int(firing->volume / 3) && firing->ammo != AT_SHOT)
+ if (trange < int(firing->volume / 3) && firing->ammo != "shot")
   trange = int(firing->volume / 3);
  else if (p.has_bionic("bio_targeting")) {
   if (trange > LONG_RANGE)
@@ -964,39 +964,35 @@ int calculate_range(player &p, int tarx, int tary)
 
 double calculate_missed_by(player &p, int trange, item* weapon)
 {
- // No type for gunmods,so use player weapon.
- it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
-// Calculate deviation from intended target (assuming we shoot for the head)
-  double deviation = 0.; // Measured in quarter-degrees
-// Up to 1.5 degrees for each skill point < 4; up to 1.25 for each point > 4
-  if (p.skillLevel(firing->skill_used) < 4)
-    deviation += rng(0, 6 * (4 - p.skillLevel(firing->skill_used)));
-  else if (p.skillLevel(firing->skill_used) > 4)
-    deviation -= rng(0, 5 * (p.skillLevel(firing->skill_used) - 4));
+    // No type for gunmods,so use player weapon.
+    it_gun* firing = dynamic_cast<it_gun*>(p.weapon.type);
+    // Calculate deviation from intended target (assuming we shoot for the head)
+    double deviation = 0.; // Measured in quarter-degrees.
+    // Up to 0.75 degrees for each skill point < 8.
+    if (p.skillLevel(firing->skill_used) < 8) {
+        deviation += rng(0, 3 * (8 - p.skillLevel(firing->skill_used)));
+    }
 
-  if (p.skillLevel("gun") < 3)
-    deviation += rng(0, 3 * (3 - p.skillLevel("gun")));
-  else
-    deviation -= rng(0, 2 * (p.skillLevel("gun") - 3));
+    // Up to 0.25 deg per each skill point < 9.
+    if (p.skillLevel("gun") < 9) { deviation += rng(0, 9 - p.skillLevel("gun")); }
 
-  deviation += p.ranged_dex_mod();
-  deviation += p.ranged_per_mod();
+    deviation += rng(0, p.ranged_dex_mod());
+    deviation += rng(0, p.ranged_per_mod());
 
-  deviation += rng(0, 2 * p.encumb(bp_arms)) + rng(0, 4 * p.encumb(bp_eyes));
+    deviation += rng(0, 2 * p.encumb(bp_arms)) + rng(0, 4 * p.encumb(bp_eyes));
 
-  deviation += rng(0, weapon->curammo->dispersion);
-  // item::dispersion() doesn't support gunmods.
-  deviation += rng(0, p.weapon.dispersion());
-  int adj_recoil = p.recoil + p.driving_recoil;
-  deviation += rng(int(adj_recoil / 4), adj_recoil);
+    deviation += rng(0, weapon->curammo->dispersion);
+    // item::dispersion() doesn't support gunmods.
+    deviation += rng(0, p.weapon.dispersion());
+    int adj_recoil = p.recoil + p.driving_recoil;
+    deviation += rng(int(adj_recoil / 4), adj_recoil);
 
-  if (deviation < 0)
-    return 0;
-// .013 * trange is a computationally cheap version of finding the tangent.
-// (note that .00325 * 4 = .013; .00325 is used because deviation is a number
-//  of quarter-degrees)
-// It's also generous; missed_by will be rather short.
-  return (.00325 * deviation * trange);
+    if (deviation < 0) { return 0; }
+    // .013 * trange is a computationally cheap version of finding the tangent.
+    // (note that .00325 * 4 = .013; .00325 is used because deviation is a number
+    //  of quarter-degrees)
+    // It's also generous; missed_by will be rather short.
+    return (.00325 * deviation * trange);
 }
 
 int recoil_add(player &p)

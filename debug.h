@@ -94,6 +94,11 @@ struct DebugLog
 		fout << t;
 		return *this;
 	}
+	template <class T>
+	DebugLog& operator<<(const T& t){
+        fout << t;
+        return *this;
+	}
 
 private:
 	std::ofstream fout;

@@ -460,13 +460,8 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
             }
             mvwprintz(w, 6, 33, COL_STAT_ACT, _("Melee to-hit bonus: +%d"),
                       u->base_to_hit(false));
-            if (u->ranged_dex_mod(false) <= 0) {
-                mvwprintz(w, 7, 33, COL_STAT_ACT, _("Ranged bonus: +%d"),
-                          abs(u->ranged_dex_mod(false)));
-            } else {
-                mvwprintz(w, 7, 33, COL_STAT_ACT, _("Ranged penalty: -%d"),
-                          abs(u->ranged_dex_mod(false)));
-            }
+            mvwprintz(w, 7, 33, COL_STAT_ACT, _("Ranged penalty: -%d"),
+                      abs(u->ranged_dex_mod(false)));
             if (u->throw_dex_mod(false) <= 0) {
                 mvwprintz(w, 8, 33, COL_STAT_ACT, _("Throwing bonus: +%d"),
                           abs(u->throw_dex_mod(false)));
@@ -492,13 +487,8 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
             if (u->per_max >= HIGH_STAT) {
                 mvwprintz(w, 3, 33, c_ltred, _("Increasing Per further costs 2 points."));
             }
-            if (u->ranged_per_mod(false) <= 0) {
-                mvwprintz(w, 6, 33, COL_STAT_ACT, _("Ranged bonus: +%d"),
-                          abs(u->ranged_per_mod(false)));
-            } else {
                 mvwprintz(w, 6, 33, COL_STAT_ACT, _("Ranged penalty: -%d"),
-                          abs(u->ranged_per_mod(false)));
-            }
+                      abs(u->ranged_per_mod(false)));
             fold_and_print(w, 8, 33, 45, COL_STAT_ACT, _("Perception is also used for detecting traps and other things of interest."));
             break;
         }
