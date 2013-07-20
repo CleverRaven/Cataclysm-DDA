@@ -797,7 +797,7 @@ If you wish for a field effect to do something over time (propagate, interact wi
 */
 void map::step_in_field(int x, int y, game *g)
 {
-	field curfield = field_at(x, y); //A copy of the current field for reference. Do not add fields to it, use map::add_field
+	field &curfield = field_at(x, y); //A copy of the current field for reference. Do not add fields to it, use map::add_field
  field_entry *cur = NULL; //The current field effect.
  int veh_part; //vehicle part existing on this tile.
  vehicle *veh = NULL; //Vehicle reference if there is one.
@@ -1028,7 +1028,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
 {
  if (z->has_flag(MF_DIGS))
   return;	// Digging monsters are immune to fields
-	field curfield = field_at(x, y);
+	field &curfield = field_at(x, y);
 	field_entry *cur = NULL;
 
   for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
@@ -1235,7 +1235,7 @@ bool vector_has(std::vector <item> vec, itype_id type)
 void map::field_effect(int x, int y, game *g) //Applies effect of field immediately
 {
 	field_entry *cur = NULL;
- field curfield = field_at(x, y);
+ field &curfield = field_at(x, y);
  for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
 	   cur = (*field_list_it);
 	   if(cur == NULL) continue;
