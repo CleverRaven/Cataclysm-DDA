@@ -98,7 +98,27 @@ struct real_coords {
   };
 };
 
-
+/**
+ * Manage and cache data about a part of the map.
+ *
+ * Despite the name, this class isn't actually responsible for managing the map as a whole. For that function,
+ * see \ref mapbuffer. Instead, this class loads a part of the mapbuffer into a cache, and adds certain temporary
+ * information such as lighting calculations to it.
+ *
+ * To understand the following descriptions better, you should also read \ref map_management
+ *
+ * The map coordinates always start at (0, 0) for the top-left and end at (map_width-1, map_height-1) for the bottom-right.
+ *
+ * The actual map data is stored in `submap` instances. These instances are managed by `mapbuffer`.
+ * References to the currently active submaps are stored in `map::grid`:
+ *     0 1 2
+ *     3 4 5
+ *     6 7 8
+ * In this example, the top-right submap would be at `grid[2]`.
+ *
+ * When the player moves between submaps, the whole map is shifted, so that if the player moves one submap to the right,
+ * (0, 0) now points to a tile one submap to the right from before
+ */
 class map
 {
  public:
@@ -109,8 +129,25 @@ class map
  ~map();
 
 // Visual Output
- void draw(game *g, WINDOW* w, const point center);
  void debug();
+ 
+ /** Draw a visible part of the map into `w`.
+  *
+  * This method uses `g->u.posx/posy` for visibility calculations, so it can
+  * not be used for anything but the player's viewport. Likewise, only
+  * `g->m` and maps with equivalent coordinates can be used, as other maps
+  * would have coordinate systems incompatible with `g->u.posx`
+  *
+  * @param center The coordinate of the center of the viewport, this can
+  *               be different from the player coordinate.
+  */
+ void draw(game *g, WINDOW* w, const point center);
+ 
+ /** Draw the map tile at the given coordinate. Called by `map::draw()`.
+  *
+  * @param x, y The tile on this map to draw.
+  * @param cx, cy The center of the viewport to be rendered, see `center` in `map::draw()`
+  */
  void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
              const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
@@ -285,7 +322,6 @@ class map
  lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
  float ambient_light_at(int dx, int dy); // Raw values for tilesets
  bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
-
  std::set<vehicle*> vehicle_list;
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];

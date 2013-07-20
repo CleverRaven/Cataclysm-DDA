@@ -3247,7 +3247,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  }
 // If there's items here, draw those instead
  if (show_items && !has_flag(container, x, y) && curr_items.size() > 0 && !drew_field) {
-  if (terlist[curr_ter].sym != '.')
+  if (sym != '.')
    hi = true;
   else {
    tercol = curr_items[curr_items.size() - 1].color();

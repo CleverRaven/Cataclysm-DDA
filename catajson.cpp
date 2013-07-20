@@ -10,7 +10,7 @@ catajson::catajson()
     path_msg = "";
 }
 
-catajson::catajson(std::string path)
+catajson::catajson(std::string path, bool is_static)
 {
     std::ifstream file;
     file.open(path.c_str());
@@ -21,7 +21,13 @@ catajson::catajson(std::string path)
 
     std::string err = picojson::get_last_error();
     if (! err.empty()) {
-        debugmsg("Parse error in %s.\n\nERROR: %s\n", path.c_str(), err.c_str());
+        if(is_static)
+        {
+            std::cout << "Parse error in " << path << std::endl << "ERROR: " << err;
+            exit(1);
+        }
+        else
+            debugmsg("Parse error in %s.\n\nERROR: %s", path.c_str(), err.c_str());
     }
 }
 

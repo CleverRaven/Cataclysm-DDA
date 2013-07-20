@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include "setvector.h"
-#include "picojson.h"
+#include "catajson.h"
 #include "options.h"
 
 // Default start time, this is the only place it's still used.
@@ -23,7 +23,17 @@
 
 std::map<std::string, MonsterGroup> MonsterGroupManager::monsterGroupMap;
 
-void game::init_mongroups() { MonsterGroupManager::LoadJSONGroups(); }
+void game::init_mongroups() throw (std::string)
+{
+   try
+   {
+       MonsterGroupManager::LoadJSONGroups();
+   }
+   catch(std::string &error_message)
+   {
+       throw;
+   }
+}
 
 mon_id MonsterGroupManager::GetMonsterFromGroup( std::string group, std::vector <mtype*> *mtypes,
                                                  int *quantity, int turn )
@@ -142,31 +152,31 @@ MonsterGroup GetMGroupFromJSON(picojson::object *jsonobj)
     return g;
 }
 
-void MonsterGroupManager::LoadJSONGroups()
+void MonsterGroupManager::LoadJSONGroups() throw (std::string)
 {
     //open the file
     std::ifstream file;
     file.open(monGroupFilePath);
     if(!file.good())
     {
-        printf("Unable to load file %s\n",monGroupFilePath); return;
+        throw (std::string)"Unable to load file " + monGroupFilePath;
     }
 
     //load the data
     picojson::value groupsRaw;
     file >> groupsRaw;
 
-    std::string error = picojson::get_last_error();
+    /*std::string error = picojson::get_last_error();
     if(! error.empty())
     {
         printf("'%s' : %s", monGroupFilePath, error.c_str());
         return;
-    }
+    }*/
 
     //check the data
     if (! groupsRaw.is<picojson::array>()) {
-        printf("The monster group file '%s' does not contain the expected JSON data", monGroupFilePath);
-        return;
+        throw (std::string)"The monster group file " + monGroupFilePath +
+              (std::string)" does not contain the expected JSON data";
     }
 
     init_translation();
@@ -179,6 +189,10 @@ void MonsterGroupManager::LoadJSONGroups()
         jsonobj = it_groups->get<picojson::object>();
         g = GetMGroupFromJSON(&jsonobj);
         monsterGroupMap[g.name] = g;
+    }
+    if(!json_good())
+    {
+        throw (std::string)"There was an error reading " + monGroupFilePath;
     }
 }
 
