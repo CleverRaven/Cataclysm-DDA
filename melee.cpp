@@ -1194,9 +1194,10 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  bool drain_them = (has_bionic("bio_heat_absorb") && power_level >= 1 &&
                     !is_armed() && (!mon || z->has_flag(MF_WARM)));
 
+ drain_them &= one_in(2);	// Only works half the time
+
  if (drain_them)
   power_level--;
- drain_them &= one_in(2);	// Only works half the time
 
  if (shock_them) {
   power_level -= 2;
@@ -1214,7 +1215,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  }
 
  if (drain_them) {
-  charge_power(rng(0, 4));
+  charge_power(rng(0, 2));
   if (can_see)
    g->add_msg("%s drain%s %s body heat!", You.c_str(), (is_u ? "" : "s"),
                target_possessive.c_str());
