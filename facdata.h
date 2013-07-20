@@ -1,4 +1,5 @@
 #include <string>
+#include "translations.h"
 
 std::string faction_adj_pos[15] = {
 _("Shining"), _("Sacred"), _("Golden"), _("Holy"), _("Righteous"), _("Devoted"), _("Virtuous"),
