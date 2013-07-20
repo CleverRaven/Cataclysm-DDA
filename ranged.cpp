@@ -530,7 +530,7 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 if (!p.is_npc())
                 {
                     char buf[128];
-                    sprintf(_(" You cut the %s!"), z[mon_at(tx, ty)].name().c_str());
+                    sprintf(buf, _(" You cut the %s!"), z[mon_at(tx, ty)].name().c_str());
                     message += buf;
                 }
                 if (thrown.type->melee_cut > z[mon_at(tx, ty)].armor_cut())

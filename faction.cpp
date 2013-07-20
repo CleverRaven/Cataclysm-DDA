@@ -5,6 +5,7 @@
 #include "output.h"
 #include "omdata.h"
 #include "game.h"
+#include "catacharset.h"
 
 #include <sstream>
 
@@ -196,14 +197,14 @@ void faction::randomize()
    sprintf(buf, _("The %s of %s"), noun.c_str(), invent_name().c_str());
    name = buf;
   }
-  while (name.length() > MAX_FAC_NAME_SIZE);
+  while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
  else if (one_in(2)) {
   do{
    sprintf(buf, _("The %s %s"), invent_adj().c_str(), noun.c_str());
    name = buf;
   }
-  while (name.length() > MAX_FAC_NAME_SIZE);
+  while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
  else {
   do {
@@ -221,7 +222,7 @@ void faction::randomize()
    }else{
     name=buf;
    }
-  } while (name.length() > MAX_FAC_NAME_SIZE);
+  } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
 }
 
