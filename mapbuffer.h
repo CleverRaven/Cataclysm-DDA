@@ -19,6 +19,9 @@ struct pointcomp
  };
 };
 
+/**
+ * Store, buffer, save and load the entire world map.
+ */
 class mapbuffer
 {
  public:
@@ -27,18 +30,40 @@ class mapbuffer
 
   void set_game(game *g);
 
-  //help save_if_dirty() know to save as many times as it's supposed to.
+  /** Tells the mapbuffer that there is some unsaved change.
+   *
+   *  The next time save_if_dirty is called, the mapbuffer will be saved.
+   */
   void set_dirty();
+
+  /** Clears the dirty flag. **/
   void make_volatile();
 
+  /** Load the entire world from savefiles into submaps in this instance. **/
   void load();
+
+  /** Store all submaps in this instance into savefiles. **/
   void save();
+
+  /** Save only if the dirty flag is set. **/
   void save_if_dirty();
+
+  /** Delete all buffered submaps. **/
   void reset();
 
+  /** Add a new submap to the buffer.
+   * 
+   * @param x, y, z The absolute world position in submap coordinates.
+   */
   bool add_submap(int x, int y, int z, submap *sm);
+
+  /** Get a submap stored in this buffer.
+   *
+   * @param x, y, z The absolute world position in submap coordinates.
+   */
   submap* lookup_submap(int x, int y, int z);
 
+  /** Returns the amount of buffered submaps. **/
   int size();
 
  private:

@@ -317,7 +317,7 @@ void uimenu::query(bool loop) {
             }
             // todo: scroll_callback(this, selected, last_selected );
         } else if ( keypress == '\n' || keypress == KEY_ENTER || keymap.find(keypress) != keymap.end() ) {
-            if ( keymap.find(keypress) != keymap.end() ) { //!( keypress == '\n' || keypress == KEY_RIGHT || keypress == KEY_ENTER) ) {
+            if ( keymap.find(keypress) != keymap.end() ) {
                 selected = keymap[ keypress ];
             }
             if( entries[ selected ].enabled ) {

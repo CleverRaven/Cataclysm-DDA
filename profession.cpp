@@ -26,10 +26,10 @@ profmap profession::_all_profs(profession::load_professions());
 profmap profession::load_professions()
 {
     profmap allProfs;
-    catajson profsRaw("data/raw/professions.json");
+    catajson profsRaw("data/raw/professions.json",true);
 
     unsigned int id = 0;
-    for (profsRaw.set_begin(); profsRaw.has_curr(); profsRaw.next())
+    for (profsRaw.set_begin(); profsRaw.has_curr() && json_good(); profsRaw.next())
     {
         ++id;
         catajson currProf = profsRaw.curr();
@@ -75,6 +75,9 @@ profmap profession::load_professions()
         }
         allProfs[ident] = newProfession;
     }
+
+    if(!json_good())
+        exit(1);
 
     return allProfs;
 }

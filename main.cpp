@@ -74,9 +74,13 @@ int main(int argc, char *argv[])
  bool quit_game = false;
  bool delete_world = false;
  g = new game;
+ if(g->game_error())
+  exit_handler(-999);
  g->init_ui();
  MAPBUFFER.set_game(g);
  g->load_artifacts(); //artifacts have to be loaded before any items are created
+ if(g->game_error())
+  exit_handler(-999);
  MAPBUFFER.load();
 
  curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
@@ -94,7 +98,7 @@ int main(int argc, char *argv[])
   while (!g->do_turn()) ;
   if (g->uquit == QUIT_DELETE_WORLD)
     delete_world = true;
-  if (g->game_quit())
+  if (g->game_quit() || g->game_error())
    quit_game = true;
  } while (!quit_game);
 
@@ -134,6 +138,9 @@ void exit_handler(int s) {
    system("clear"); // Tell the terminal to clear itself
   #endif
 
+  if(g != NULL)
+   if(g->game_error())
+    exit(1);
   exit(0);
  }
 }

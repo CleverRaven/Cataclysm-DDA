@@ -620,9 +620,14 @@ void bionics_install_failure(game *g, player *u, int success)
 
 }
 
-void game::init_bionics()
+void game::init_bionics() throw (std::string)
 {
     catajson bionics_file("data/raw/bionics.json");
+
+    if(!json_good())
+    {
+        throw (std::string)"data/raw/bionics.json was not found";
+    }
 
     for(bionics_file.set_begin(); bionics_file.has_curr(); bionics_file.next())
     {
@@ -665,5 +670,7 @@ void game::init_bionics()
         }
 
     }
+    if(!json_good())
+        throw (std::string)"There was an error reading data/raw/bionics.json";
 }
 
