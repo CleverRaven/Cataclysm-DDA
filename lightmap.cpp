@@ -177,16 +177,18 @@ void map::generate_lightmap(game* g)
      }
    }
  }
- for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx)
- {
-    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy)
-    {
-        if (g->u.has_active_bionic("bio_night") && rl_dist(sx, sy, g->u.posx, g->u.posy) < 15)
-        {
-            lm[sx][sy] = 0;
-        }
-    }
- }
+if (g->u.has_active_bionic("bio_night") ) {
+   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx)
+   {
+      for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy)
+      {
+          if (rl_dist(sx, sy, g->u.posx, g->u.posy) < 15)
+          {
+              lm[sx][sy] = 0;
+          }
+      }
+   }
+  }
 }
 
 lit_level map::light_at(int dx, int dy)
