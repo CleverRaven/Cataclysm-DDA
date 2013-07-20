@@ -2131,7 +2131,7 @@
         "dispersion" : 8,
         "recoil" : 20,
         "count" : 25,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF","BEANBAG"]
     },
     {   "type" : "AMMO",
         "id" : "40mm_beanbag",
@@ -2154,6 +2154,6 @@
         "dispersion" : 2,
         "recoil" : 15,
         "count" : 4,
-        "effects" : ["COOKOFF"]
+        "effects" : ["COOKOFF","LARGE_BEANBAG"]
     }
 ]

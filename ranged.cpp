@@ -852,8 +852,37 @@ void game::hit_monster_with_flags(monster &z, const std::set<std::string> &effec
    z.add_effect(ME_ONFIRE, rng(10, 10));
 
  }
- if (effects.count("BOUNCE"))
-    z.add_effect(ME_BOUNCED, 1);
+ if (effects.count("BOUNCE")) {
+     z.add_effect(ME_BOUNCED, 1);
+ }
+ int stun_strength = 0;
+ if (effects.count("BEANBAG")) {
+     stun_strength = 4;
+ }
+ if (effects.count("LARGE_BEANBAG")) {
+     stun_strength = 16;
+ }
+ if( stun_strength > 0 ) {
+     switch( z.type->size )
+     {
+     case MS_TINY:
+         stun_strength *= 4;
+         break;
+     case MS_SMALL:
+         stun_strength *= 2;
+         break;
+     case MS_MEDIUM:
+     default:
+         break;
+     case MS_LARGE:
+         stun_strength /= 2;
+         break;
+     case MS_HUGE:
+         stun_strength /= 4;
+         break;
+     }
+     z.add_effect( ME_STUNNED, rng(stun_strength / 2, stun_strength) );
+ }
 }
 
 int time_to_fire(player &p, it_gun* firing)
