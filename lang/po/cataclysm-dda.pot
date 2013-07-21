@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-21 16:19+0800\n"
+"POT-Creation-Date: 2013-07-21 17:49+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1710,7 +1710,7 @@ msgstr ""
 msgid "Nefarious"
 msgstr ""
 
-#: faction.cpp:96 pldata.h:646
+#: faction.cpp:96 player.cpp:330
 msgid "Poisonous"
 msgstr ""
 
@@ -2225,7 +2225,7 @@ msgstr ""
 msgid ". Their primary concern is "
 msgstr ""
 
-#: faction.cpp:446 faction.cpp:448 faction.cpp:458 game.cpp:10213
+#: faction.cpp:446 faction.cpp:448 faction.cpp:458 game.cpp:10215
 msgid "."
 msgstr ""
 
@@ -2238,11 +2238,11 @@ msgid " They are known for "
 msgstr ""
 
 #: faction.cpp:453 faction.cpp:456 faction.cpp:458 faction.cpp:459
-#: faction.cpp:461 game.cpp:10209
+#: faction.cpp:461 game.cpp:10211
 msgid ", "
 msgstr ""
 
-#: faction.cpp:461 game.cpp:10211
+#: faction.cpp:461 game.cpp:10213
 msgid ", and "
 msgstr ""
 
@@ -2710,442 +2710,722 @@ msgstr ""
 msgid "Laughingstock"
 msgstr ""
 
-#: game.cpp:274
+#: field.cpp:24
+msgid "blood splatter"
+msgstr ""
+
+#: field.cpp:24
+msgid "blood stain"
+msgstr ""
+
+#: field.cpp:24
+msgid "puddle of blood"
+msgstr ""
+
+#: field.cpp:29
+msgid "bile splatter"
+msgstr ""
+
+#: field.cpp:29
+msgid "bile stain"
+msgstr ""
+
+#: field.cpp:29
+msgid "puddle of bile"
+msgstr ""
+
+#: field.cpp:35
+msgid "bloody meat chunks"
+msgstr ""
+
+#: field.cpp:35
+msgid "heap of gore"
+msgstr ""
+
+#: field.cpp:35
+msgid "scraps of flesh"
+msgstr ""
+
+#: field.cpp:41
+msgid "broken vegetation tangle"
+msgstr ""
+
+#: field.cpp:41
+msgid "shattered branches and leaves"
+msgstr ""
+
+#: field.cpp:41
+msgid "shredded leaves and twigs"
+msgstr ""
+
+#: field.cpp:47
+msgid "cobwebs"
+msgstr ""
+
+#: field.cpp:47
+msgid "thick webs"
+msgstr ""
+
+#: field.cpp:47
+msgid "webs"
+msgstr ""
+
+#: field.cpp:53
+msgid "puddle of slime"
+msgstr ""
+
+#: field.cpp:53
+msgid "slime stain"
+msgstr ""
+
+#: field.cpp:53
+msgid "slime trail"
+msgstr ""
+
+#: field.cpp:59
+msgid "acid splatter"
+msgstr ""
+
+#: field.cpp:59
+msgid "acid streak"
+msgstr ""
+
+#: field.cpp:59
+msgid "pool of acid"
+msgstr ""
+
+#: field.cpp:65
+msgid "glob of sap"
+msgstr ""
+
+#: field.cpp:65
+msgid "pool of sap"
+msgstr ""
+
+#: field.cpp:65
+msgid "sap splatter"
+msgstr ""
+
+#: field.cpp:71
+msgid "sludge trail"
+msgstr ""
+
+#: field.cpp:71
+msgid "thick sludge trail"
+msgstr ""
+
+#: field.cpp:71
+msgid "thin sludge trail"
+msgstr ""
+
+#: field.cpp:77 field.cpp:125
+msgid "fire"
+msgstr ""
+
+#: field.cpp:77
+msgid "raging fire"
+msgstr ""
+
+#: field.cpp:77
+msgid "small fire"
+msgstr ""
+
+#: field.cpp:83
+msgid "mountain of rubble"
+msgstr ""
+
+#: field.cpp:83
+msgid "rubble heap"
+msgstr ""
+
+#: field.cpp:83
+msgid "rubble pile"
+msgstr ""
+
+#: field.cpp:89
+msgid "smoke"
+msgstr ""
+
+#: field.cpp:89
+msgid "thick smoke"
+msgstr ""
+
+#: field.cpp:89
+msgid "thin smoke"
+msgstr ""
+
+#: field.cpp:95 field.cpp:101 field.cpp:107
+msgid "hazy cloud"
+msgstr ""
+
+#: field.cpp:95
+msgid "thick toxic gas"
+msgstr ""
+
+#: field.cpp:95
+msgid "toxic gas"
+msgstr ""
+
+#: field.cpp:101
+msgid "tear gas"
+msgstr ""
+
+#: field.cpp:101
+msgid "thick tear gas"
+msgstr ""
+
+#: field.cpp:107
+msgid "radioactive gas"
+msgstr ""
+
+#: field.cpp:107
+msgid "thick radioactive gas"
+msgstr ""
+
+#: field.cpp:113
+msgid "gas vent"
+msgstr ""
+
+#: field.cpp:131
+msgid "electric cloud"
+msgstr ""
+
+#: field.cpp:131
+msgid "electric crackle"
+msgstr ""
+
+#: field.cpp:131
+msgid "sparks"
+msgstr ""
+
+#: field.cpp:137
+msgid "odd ripple"
+msgstr ""
+
+#: field.cpp:137
+msgid "swirling air"
+msgstr ""
+
+#: field.cpp:137
+msgid "tear in reality"
+msgstr ""
+
+#: field.cpp:826
+#, c-format
+msgid "A %s hits you!"
+msgstr ""
+
+#: field.cpp:836
+#, c-format
+msgid "A %s hits %s!"
+msgstr ""
+
+#: field.cpp:843
+#, c-format
+msgid "A %s hits the %s!"
+msgstr ""
+
+#: field.cpp:990
+msgid "The acid burns your legs and feet!"
+msgstr ""
+
+#: field.cpp:1011
+msgid "The sap sticks to you!"
+msgstr ""
+
+#: field.cpp:1020
+msgid "The sludge is thick and sticky."
+msgstr ""
+
+#: field.cpp:1039
+msgid "You burn your legs and feet!"
+msgstr ""
+
+#: field.cpp:1045
+msgid "You're burning up!"
+msgstr ""
+
+#: field.cpp:1050
+msgid "You're set ablaze!"
+msgstr ""
+
+#: field.cpp:1111
+msgid "This radioactive gas burns!"
+msgstr ""
+
+#: field.cpp:1120
+msgid "You're torched by flames!"
+msgstr ""
+
+#: field.cpp:1125
+msgid "These flames do not burn you."
+msgstr ""
+
+#: field.cpp:1130
+msgid "The electricity flows around you."
+msgstr ""
+
+#: field.cpp:1132
+msgid "You're electrocuted!"
+msgstr ""
+
+#: field.cpp:1135 monattack.cpp:267
+msgid "You're paralyzed!"
+msgstr ""
+
+#: field.cpp:1144
+msgid "You're violently teleported!"
+msgstr ""
+
+#: field.cpp:1351
+#, c-format
+msgid "The %s teleports into a %s, killing them both!"
+msgstr ""
+
+#: field.cpp:1411
+msgid "You are hit by the falling debris!"
+msgstr ""
+
+#: field.cpp:1421
+msgid "You trip as you evade the falling debris!"
+msgstr ""
+
+#: game.cpp:276
 msgid "Please wait as we build your world"
 msgstr ""
 
-#: game.cpp:417
+#: game.cpp:419
 msgid "Game over! Press spacebar..."
 msgstr ""
 
-#: game.cpp:423
+#: game.cpp:425
 msgid "Delete saved world?"
 msgstr ""
 
-#: game.cpp:456
+#: game.cpp:458
 msgid "You have a sudden heart attack!"
 msgstr ""
 
-#: game.cpp:459
+#: game.cpp:461
 msgid "Your breathing stops completely."
 msgstr ""
 
-#: game.cpp:466
+#: game.cpp:468
 msgid "You haven't eaten in over a week!"
 msgstr ""
 
-#: game.cpp:468
+#: game.cpp:470
 msgid "You are STARVING!"
 msgstr ""
 
-#: game.cpp:470
+#: game.cpp:472
 msgid "Food..."
 msgstr ""
 
-#: game.cpp:472
+#: game.cpp:474
 msgid "You have starved to death."
 msgstr ""
 
-#: game.cpp:481
+#: game.cpp:483
 msgid "You haven't had anything to drink in 2 days!"
 msgstr ""
 
-#: game.cpp:483
+#: game.cpp:485
 msgid "You are THIRSTY!"
 msgstr ""
 
-#: game.cpp:485
+#: game.cpp:487
 msgid "4 days... no water.."
 msgstr ""
 
-#: game.cpp:487
+#: game.cpp:489
 msgid "You have died of dehydration."
 msgstr ""
 
-#: game.cpp:496
+#: game.cpp:498
 msgid "You haven't slept in 2 days!"
 msgstr ""
 
-#: game.cpp:498
+#: game.cpp:500
 msgid "Anywhere would be a good place to sleep..."
 msgstr ""
 
-#: game.cpp:500
+#: game.cpp:502
 msgid "Surivor sleep now."
 msgstr ""
 
-#: game.cpp:518
+#: game.cpp:520
 #, c-format
 msgid "You're feeling tired.  %s to lie down for sleep."
 msgstr ""
 
-#: game.cpp:521
+#: game.cpp:523
 msgid "You're feeling tired."
 msgstr ""
 
-#: game.cpp:633
+#: game.cpp:635
 #, c-format
 msgid "Your skill in %s has reduced to %d!"
 msgstr ""
 
-#: game.cpp:680
+#: game.cpp:682
 msgid "With a clang and a shudder, the gasoline pump goes silent."
 msgstr ""
 
-#: game.cpp:705
+#: game.cpp:707
 #, c-format
 msgid "You insert a cartridge into your %s."
 msgstr ""
 
-#: game.cpp:712
+#: game.cpp:714
 #, c-format
 msgid "You reload your %s."
 msgstr ""
 
-#: game.cpp:716
+#: game.cpp:718
 #, c-format
 msgid "Can't reload your %s."
 msgstr ""
 
-#: game.cpp:747
+#: game.cpp:749
 msgid "The rest of the book is currently still beyond your understanding."
 msgstr ""
 
-#: game.cpp:778
+#: game.cpp:780
 #, c-format
 msgid "You learn a little about %s! (%d%%%%)"
 msgstr ""
 
-#: game.cpp:781
+#: game.cpp:783
 #, c-format
 msgid "Study %s?"
 msgstr ""
 
-#: game.cpp:797
+#: game.cpp:799
 #, c-format
 msgid "You increase %s to level %d."
 msgstr ""
 
-#: game.cpp:803
+#: game.cpp:805
 #, c-format
 msgid "You can no longer learn from %s."
 msgstr ""
 
-#: game.cpp:805
+#: game.cpp:807
 #, c-format
 msgid "Your skill level won't improve, but %s has more recipes for you."
 msgstr ""
 
-#: game.cpp:812
+#: game.cpp:814
 msgid "You finish waiting."
 msgstr ""
 
-#: game.cpp:838
+#: game.cpp:840
 #, c-format
 msgid "You learn %s."
 msgstr ""
 
-#: game.cpp:844
+#: game.cpp:846
 #, c-format
 msgid "You finish training %s to level %d."
 msgstr ""
 
-#: game.cpp:904 game.cpp:935
+#: game.cpp:906 game.cpp:937
 msgid "whatever"
 msgstr ""
 
-#: game.cpp:905 game.cpp:936
+#: game.cpp:907 game.cpp:938
 msgid "crafting"
 msgstr ""
 
-#: game.cpp:905 game.cpp:936
+#: game.cpp:907 game.cpp:938
 msgid "reading"
 msgstr ""
 
-#: game.cpp:905 game.cpp:936
+#: game.cpp:907 game.cpp:938
 msgid "reloading"
 msgstr ""
 
-#: game.cpp:905 game.cpp:936
+#: game.cpp:907 game.cpp:938
 msgid "waiting"
 msgstr ""
 
-#: game.cpp:906 game.cpp:937
+#: game.cpp:908 game.cpp:939
 msgid "butchering"
 msgstr ""
 
-#: game.cpp:906 game.cpp:937 lang/json/json_skills.py:37
+#: game.cpp:908 game.cpp:939 lang/json/json_skills.py:37
 msgid "construction"
 msgstr ""
 
-#: game.cpp:906 game.cpp:937
+#: game.cpp:908 game.cpp:939
 msgid "disassembly"
 msgstr ""
 
-#: game.cpp:906 game.cpp:937
+#: game.cpp:908 game.cpp:939
 msgid "foraging"
 msgstr ""
 
-#: game.cpp:906 game.cpp:937
+#: game.cpp:908 game.cpp:939
 msgid "pumping gas"
 msgstr ""
 
-#: game.cpp:907 game.cpp:938
+#: game.cpp:909 game.cpp:940
 msgid "training"
 msgstr ""
 
-#: game.cpp:910
+#: game.cpp:912
 #, c-format
 msgid "%s Stop %s? (Y)es, (N)o, (I)gnore further distractions and finish."
 msgstr ""
 
-#: game.cpp:947
+#: game.cpp:949
 #, c-format
 msgid "%s Stop %s?"
 msgstr ""
 
-#: game.cpp:1046
+#: game.cpp:1048
 #, c-format
 msgid "The weather changed to %s!"
 msgstr ""
 
-#: game.cpp:1323
+#: game.cpp:1325
 msgid "Confirm:"
 msgstr ""
 
-#: game.cpp:1358
+#: game.cpp:1360
 msgid "iOffsetX"
 msgstr ""
 
-#: game.cpp:1359
+#: game.cpp:1361
 msgid "iOffsetY"
 msgstr ""
 
-#: game.cpp:1360
+#: game.cpp:1362
 msgid "ctivate"
 msgstr ""
 
-#: game.cpp:1361
+#: game.cpp:1363
 msgid "ead"
 msgstr ""
 
-#: game.cpp:1362
+#: game.cpp:1364
 msgid "at  "
 msgstr ""
 
-#: game.cpp:1363
+#: game.cpp:1365
 msgid "ear  "
 msgstr ""
 
-#: game.cpp:1364
+#: game.cpp:1366
 msgid "ield"
 msgstr ""
 
-#: game.cpp:1365
+#: game.cpp:1367
 msgid "hrow"
 msgstr ""
 
-#: game.cpp:1366
+#: game.cpp:1368
 msgid "ake off"
 msgstr ""
 
-#: game.cpp:1367
+#: game.cpp:1369
 msgid "rop"
 msgstr ""
 
-#: game.cpp:1368
+#: game.cpp:1370
 msgid "nload"
 msgstr ""
 
-#: game.cpp:1369
+#: game.cpp:1371
 msgid "eload"
 msgstr ""
 
-#: game.cpp:1370
+#: game.cpp:1372
 msgid "isassemble"
 msgstr ""
 
-#: game.cpp:1371
+#: game.cpp:1373
 msgid " reassign"
 msgstr ""
 
-#: game.cpp:1536
+#: game.cpp:1538
 #, c-format
 msgid "Unknown command: '%c'"
 msgstr ""
 
-#: game.cpp:1558
+#: game.cpp:1560
 #, c-format
 msgid "Monster spotted--safe mode is on! (%s to turn it off.)"
 msgstr ""
 
-#: game.cpp:1738 game.cpp:11077
+#: game.cpp:1740 game.cpp:11079
 msgid "Inventory:"
 msgstr ""
 
-#: game.cpp:1854
+#: game.cpp:1856
 msgid "You can't disassemble items while in vehicle."
 msgstr ""
 
-#: game.cpp:1861
+#: game.cpp:1863
 msgid "You can't construct while in vehicle."
 msgstr ""
 
-#: game.cpp:1868
+#: game.cpp:1870
 #, c-format
 msgid "Vehicle control has moved, %s"
 msgstr ""
 
-#: game.cpp:1869
+#: game.cpp:1871
 msgid "new binding is "
 msgstr ""
 
-#: game.cpp:1870
+#: game.cpp:1872
 msgid "new default binding is '^'."
 msgstr ""
 
-#: game.cpp:1873
+#: game.cpp:1875
 msgid "Are you sure you want to sleep?"
 msgstr ""
 
-#: game.cpp:1875
+#: game.cpp:1877
 msgid "Yes."
 msgstr ""
 
-#: game.cpp:1880
+#: game.cpp:1882
 msgid "Yes, and save game before sleeping."
 msgstr ""
 
-#: game.cpp:1883
+#: game.cpp:1885
 msgid "No."
 msgstr ""
 
-#: game.cpp:1916
+#: game.cpp:1918
 msgid "Safe mode ON!"
 msgstr ""
 
-#: game.cpp:1921
+#: game.cpp:1923
 msgid "Safe mode OFF! (Auto safe mode still enabled!)"
 msgstr ""
 
-#: game.cpp:1923
+#: game.cpp:1925
 msgid "Safe mode OFF!"
 msgstr ""
 
-#: game.cpp:1929
+#: game.cpp:1931
 msgid "Auto safe mode OFF!"
 msgstr ""
 
-#: game.cpp:1932
+#: game.cpp:1934
 msgid "Auto safe mode ON"
 msgstr ""
 
-#: game.cpp:1939
+#: game.cpp:1941
 msgid "Ignoring enemy!"
 msgstr ""
 
-#: game.cpp:1945
+#: game.cpp:1947
 msgid "Save and quit?"
 msgstr ""
 
-#: game.cpp:1958
+#: game.cpp:1960
 msgid "Commit suicide?"
 msgstr ""
 
-#: game.cpp:2010
+#: game.cpp:2012
 #, c-format
 msgid "Debug messages %s!"
 msgstr ""
 
-#: game.cpp:2010
+#: game.cpp:2012
 msgid "OFF"
 msgstr ""
 
-#: game.cpp:2010
+#: game.cpp:2012
 msgid "ON"
 msgstr ""
 
-#: game.cpp:2197
+#: game.cpp:2199
 msgid "GAME OVER - Press Spacebar to Quit"
 msgstr ""
 
-#: game.cpp:2746
+#: game.cpp:2748
 msgid "Debug Functions - Using these is CHEATING!"
 msgstr ""
 
-#: game.cpp:2747
+#: game.cpp:2749
 msgid "Wish for an item"
 msgstr ""
 
-#: game.cpp:2748
+#: game.cpp:2750
 msgid "Teleport - Short Range"
 msgstr ""
 
-#: game.cpp:2749
+#: game.cpp:2751
 msgid "Teleport - Long Range"
 msgstr ""
 
-#: game.cpp:2750
+#: game.cpp:2752
 msgid "Reveal map"
 msgstr ""
 
-#: game.cpp:2751
+#: game.cpp:2753
 msgid "Spawn NPC"
 msgstr ""
 
-#: game.cpp:2752
+#: game.cpp:2754
 msgid "Spawn Monster"
 msgstr ""
 
-#: game.cpp:2753
+#: game.cpp:2755
 msgid "Check game state..."
 msgstr ""
 
-#: game.cpp:2754
+#: game.cpp:2756
 msgid "Kill NPCs"
 msgstr ""
 
-#: game.cpp:2755
+#: game.cpp:2757
 msgid "Mutate"
 msgstr ""
 
-#: game.cpp:2756
+#: game.cpp:2758
 msgid "Spawn a vehicle"
 msgstr ""
 
-#: game.cpp:2757
+#: game.cpp:2759
 msgid "Increase all skills"
 msgstr ""
 
-#: game.cpp:2758
+#: game.cpp:2760
 msgid "Learn all melee styles"
 msgstr ""
 
-#: game.cpp:2759
+#: game.cpp:2761
 msgid "Check NPC"
 msgstr ""
 
-#: game.cpp:2760
+#: game.cpp:2762
 msgid "Spawn Artifact"
 msgstr ""
 
-#: game.cpp:2761
+#: game.cpp:2763
 msgid "Spawn Clarivoyance Artifact"
 msgstr ""
 
-#: game.cpp:2762
+#: game.cpp:2764
 msgid "Map editor"
 msgstr ""
 
-#: game.cpp:2763 game.cpp:2875 game.cpp:9847
+#: game.cpp:2765 game.cpp:2877 game.cpp:9849
 msgid "Cancel"
 msgstr ""
 
-#: game.cpp:2810
+#: game.cpp:2812
 msgid "Current overmap revealed."
 msgstr ""
 
-#: game.cpp:2835
+#: game.cpp:2837
 #, c-format
 msgid ""
 "Location %d:%d in %d:%d, %s\n"
@@ -3156,894 +3436,894 @@ msgid ""
 "%d events planned."
 msgstr ""
 
-#: game.cpp:2843
+#: game.cpp:2845
 msgid "NOT going to"
 msgstr ""
 
-#: game.cpp:2843
+#: game.cpp:2845
 msgid "going to"
 msgstr ""
 
-#: game.cpp:2849
+#: game.cpp:2851
 #, c-format
 msgid "%s: map (%d:%d) pos (%d:%d)"
 msgstr ""
 
-#: game.cpp:2852
+#: game.cpp:2854
 #, c-format
 msgid "(you: %d:%d)"
 msgstr ""
 
-#: game.cpp:2858
+#: game.cpp:2860
 #, c-format
 msgid "%s's head implodes!"
 msgstr ""
 
-#: game.cpp:2876
+#: game.cpp:2878
 msgid "Choose vehicle to spawn"
 msgstr ""
 
-#: game.cpp:2886
+#: game.cpp:2888
 msgid "Skils increased."
 msgstr ""
 
-#: game.cpp:2894
+#: game.cpp:2896
 msgid "Martial arts gained."
 msgstr ""
 
-#: game.cpp:2901
+#: game.cpp:2903
 msgid "No NPC there."
 msgstr ""
 
-#: game.cpp:2905 newcharacter.cpp:1004 newcharacter.cpp:1018
+#: game.cpp:2907 newcharacter.cpp:1004 newcharacter.cpp:1018
 #: newcharacter.cpp:1021
 msgid "Female"
 msgstr ""
 
-#: game.cpp:2905 newcharacter.cpp:1002 newcharacter.cpp:1003
+#: game.cpp:2907 newcharacter.cpp:1002 newcharacter.cpp:1003
 #: newcharacter.cpp:1017 newcharacter.cpp:1020
 msgid "Male"
 msgstr ""
 
-#: game.cpp:2909
+#: game.cpp:2911
 msgid "Destination: "
 msgstr ""
 
-#: game.cpp:2913
+#: game.cpp:2915
 msgid "No destination."
 msgstr ""
 
-#: game.cpp:2914
+#: game.cpp:2916
 msgid " Fear: "
 msgstr ""
 
-#: game.cpp:2914
+#: game.cpp:2916
 msgid "Trust: "
 msgstr ""
 
-#: game.cpp:2915
+#: game.cpp:2917
 msgid " Anger: "
 msgstr ""
 
-#: game.cpp:2915
+#: game.cpp:2917
 msgid " Value: "
 msgstr ""
 
-#: game.cpp:2916
+#: game.cpp:2918
 msgid " Owed: "
 msgstr ""
 
-#: game.cpp:2917
+#: game.cpp:2919
 msgid " Bravery: "
 msgstr ""
 
-#: game.cpp:2917
+#: game.cpp:2919
 msgid "Aggression: "
 msgstr ""
 
-#: game.cpp:2918
+#: game.cpp:2920
 msgid " Collector: "
 msgstr ""
 
-#: game.cpp:2919
+#: game.cpp:2921
 msgid " Altruism: "
 msgstr ""
 
-#: game.cpp:2961
+#: game.cpp:2963
 msgid "The architect's cube."
 msgstr ""
 
-#: game.cpp:3038
+#: game.cpp:3040
 msgid "You haven't killed any monsters yet!"
 msgstr ""
 
-#: game.cpp:3090
+#: game.cpp:3092
 #, c-format
 msgid "Your position: %d:%d"
 msgstr ""
 
-#: game.cpp:3127
+#: game.cpp:3129
 msgid "You don't know of any factions.  Press Spacebar..."
-msgstr ""
-
-#: game.cpp:3154 game.cpp:3188
-#, c-format
-msgid "Ranking: %s"
 msgstr ""
 
 #: game.cpp:3156 game.cpp:3190
 #, c-format
+msgid "Ranking: %s"
+msgstr ""
+
+#: game.cpp:3158 game.cpp:3192
+#, c-format
 msgid "Respect: %s"
 msgstr ""
 
-#: game.cpp:3234
+#: game.cpp:3236
 msgid "ACTIVE MISSIONS"
 msgstr ""
 
-#: game.cpp:3235
+#: game.cpp:3237
 msgid "COMPLETED MISSIONS"
-msgstr ""
-
-#: game.cpp:3263
-#, c-format
-msgid "Deadline: %d (%d)"
 msgstr ""
 
 #: game.cpp:3265
 #, c-format
+msgid "Deadline: %d (%d)"
+msgstr ""
+
+#: game.cpp:3267
+#, c-format
 msgid "Target: (%d, %d)   You: (%d, %d)"
 msgstr ""
 
-#: game.cpp:3271
+#: game.cpp:3273
 msgid "You have no active missions!"
 msgstr ""
 
-#: game.cpp:3272
+#: game.cpp:3274
 msgid "You haven't completed any missions!"
 msgstr ""
 
-#: game.cpp:3273
+#: game.cpp:3275
 msgid "You haven't failed any missions!"
 msgstr ""
 
-#: game.cpp:3378
+#: game.cpp:3380
 msgid "Underground"
 msgstr ""
 
-#: game.cpp:3400
+#: game.cpp:3402
 #, c-format
 msgid "%s, day %d"
 msgstr ""
 
-#: game.cpp:3414
+#: game.cpp:3416
 msgid "Written here: "
 msgstr ""
 
-#: game.cpp:3560
+#: game.cpp:3562
 msgid "HEAD:  "
 msgstr ""
 
-#: game.cpp:3561
+#: game.cpp:3563
 msgid "TORSO: "
 msgstr ""
 
-#: game.cpp:3562
+#: game.cpp:3564
 msgid "L ARM: "
 msgstr ""
 
-#: game.cpp:3563
+#: game.cpp:3565
 msgid "R ARM: "
 msgstr ""
 
-#: game.cpp:3564
+#: game.cpp:3566
 msgid "L LEG: "
 msgstr ""
 
-#: game.cpp:3565
+#: game.cpp:3567
 msgid "R LEG: "
 msgstr ""
 
-#: game.cpp:3566
+#: game.cpp:3568
 msgid "POW:   "
 msgstr ""
 
-#: game.cpp:4056
+#: game.cpp:4058
 msgid "Monster Spotted!"
 msgstr ""
 
-#: game.cpp:4058
+#: game.cpp:4060
 msgid "Monster spotted!"
 msgstr ""
 
-#: game.cpp:4079
+#: game.cpp:4081
 msgid "NW:"
 msgstr ""
 
-#: game.cpp:4081
+#: game.cpp:4083
 msgid "North:"
 msgstr ""
 
-#: game.cpp:4083
+#: game.cpp:4085
 msgid "NE:"
 msgstr ""
 
-#: game.cpp:4085
+#: game.cpp:4087
 msgid "West:"
 msgstr ""
 
-#: game.cpp:4087
+#: game.cpp:4089
 msgid "East:"
 msgstr ""
 
-#: game.cpp:4089
+#: game.cpp:4091
 msgid "SW:"
 msgstr ""
 
-#: game.cpp:4091
+#: game.cpp:4093
 msgid "South:"
 msgstr ""
 
-#: game.cpp:4093
+#: game.cpp:4095
 msgid "SE:"
 msgstr ""
 
-#: game.cpp:4290 game.cpp:4291
+#: game.cpp:4292 game.cpp:4293
 msgid "Your motion alarm goes off!"
 msgstr ""
 
-#: game.cpp:4335
+#: game.cpp:4337
 #, c-format
 msgid "%s's brain explodes!"
 msgstr ""
 
-#: game.cpp:4389
+#: game.cpp:4391
 msgid "You're woken up by a noise."
 msgstr ""
 
-#: game.cpp:4400
+#: game.cpp:4402
 #, c-format
 msgid "Heard %s!"
 msgstr ""
 
-#: game.cpp:4401
+#: game.cpp:4403
 msgid "a noise"
 msgstr ""
 
-#: game.cpp:4420
+#: game.cpp:4422
 #, c-format
 msgid "From the %s you hear %s"
 msgstr ""
 
-#: game.cpp:4502
+#: game.cpp:4504
 msgid "a huge explosion!"
 msgstr ""
 
-#: game.cpp:4504
+#: game.cpp:4506
 msgid "an explosion!"
 msgstr ""
 
-#: game.cpp:4545
+#: game.cpp:4547
 msgid "You're caught in the explosion!"
 msgstr ""
 
-#: game.cpp:4627
+#: game.cpp:4629
 #, c-format
 msgid "Shrapnel hits your %s!"
 msgstr ""
 
-#: game.cpp:4657
+#: game.cpp:4659
 msgid "a huge boom!"
 msgstr ""
 
-#: game.cpp:4691
+#: game.cpp:4693
 msgid "Crack!"
 msgstr ""
 
-#: game.cpp:4696 game.cpp:4704
+#: game.cpp:4698 game.cpp:4706
 #, c-format
 msgid "%s is caught in the shockwave!"
 msgstr ""
 
-#: game.cpp:4710
+#: game.cpp:4712
 msgid "You're caught in the shockwave!"
 msgstr ""
 
-#: game.cpp:4743
+#: game.cpp:4745
 #, c-format
 msgid "Nothing at (%d,%d) to knockback!"
 msgstr ""
 
-#: game.cpp:4755 game.cpp:4775 game.cpp:4804 game.cpp:4842 game.cpp:4895
+#: game.cpp:4757 game.cpp:4777 game.cpp:4806 game.cpp:4844 game.cpp:4897
 #, c-format
 msgid "%s was stunned for %d turn%s!"
 msgstr ""
 
-#: game.cpp:4769 game.cpp:4798 game.cpp:4857 game.cpp:4890
+#: game.cpp:4771 game.cpp:4800 game.cpp:4859 game.cpp:4892
 #, c-format
 msgid "%s was stunned AGAIN for %d turn%s!"
 msgstr ""
 
-#: game.cpp:4770 game.cpp:4776 game.cpp:4799 game.cpp:4805 game.cpp:4842
-#: game.cpp:4858 game.cpp:4865 game.cpp:4891 game.cpp:4896 game.cpp:5444
-#: game.cpp:8914 game.cpp:8918 game.cpp:8983 game.cpp:8988 game.cpp:11199
-#: game.cpp:11205
+#: game.cpp:4772 game.cpp:4778 game.cpp:4801 game.cpp:4807 game.cpp:4844
+#: game.cpp:4860 game.cpp:4867 game.cpp:4893 game.cpp:4898 game.cpp:5446
+#: game.cpp:8916 game.cpp:8920 game.cpp:8985 game.cpp:8990 game.cpp:11201
+#: game.cpp:11207
 msgid "s"
 msgstr ""
 
-#: game.cpp:4778
+#: game.cpp:4780
 #, c-format
 msgid "%s took %d damage!"
 msgstr ""
 
-#: game.cpp:4810 game.cpp:4902
+#: game.cpp:4812 game.cpp:4904
 #, c-format
 msgid "%s collided with someTHING else and sent IT flying!"
 msgstr ""
 
-#: game.cpp:4812 game.cpp:4904
+#: game.cpp:4814 game.cpp:4906
 #, c-format
 msgid "%s collided with someone else and sent %s flying!"
 msgstr ""
 
-#: game.cpp:4813 game.cpp:4905 game.cpp:4974
+#: game.cpp:4815 game.cpp:4907 game.cpp:4976
 msgid "her"
 msgstr ""
 
-#: game.cpp:4813 game.cpp:4905 game.cpp:4974
+#: game.cpp:4815 game.cpp:4907 game.cpp:4976
 msgid "him"
 msgstr ""
 
-#: game.cpp:4815 game.cpp:4907
+#: game.cpp:4817 game.cpp:4909
 #, c-format
 msgid "%s collided with you and sent you flying!"
 msgstr ""
 
-#: game.cpp:4826
+#: game.cpp:4828
 #, c-format
 msgid "The %s drowns!"
 msgstr ""
 
-#: game.cpp:4832
+#: game.cpp:4834
 #, c-format
 msgid "The %s flops around and dies!"
 msgstr ""
 
-#: game.cpp:4864
+#: game.cpp:4866
 #, c-format
 msgid "%s was stunned for %d turns!"
 msgstr ""
 
-#: game.cpp:4867
+#: game.cpp:4869
 #, c-format
 msgid "%s took %d damage! (before armor)"
 msgstr ""
 
-#: game.cpp:4920 game.cpp:4937 game.cpp:4965
+#: game.cpp:4922 game.cpp:4939 game.cpp:4967
 #, c-format
 msgid "You were stunned for %d turns!"
 msgstr ""
 
-#: game.cpp:4933 game.cpp:4961
+#: game.cpp:4935 game.cpp:4963
 #, c-format
 msgid "You were stunned AGAIN for %d turns!"
 msgstr ""
 
-#: game.cpp:4971
+#: game.cpp:4973
 msgid "You collided with someTHING else and sent IT flying!"
 msgstr ""
 
-#: game.cpp:4973
+#: game.cpp:4975
 #, c-format
 msgid "You collided with someone else and sent %s flying!"
 msgstr ""
 
-#: game.cpp:4995
+#: game.cpp:4997
 msgid "You can not read a computer screen!"
 msgstr ""
 
-#: game.cpp:5001
+#: game.cpp:5003
 msgid "You'll need to put on reading glasses before you can see the screen."
 msgstr ""
 
-#: game.cpp:5095
+#: game.cpp:5097
 #, c-format
 msgid "The %s sparks and begins searching for a target!"
 msgstr ""
 
-#: game.cpp:5102
+#: game.cpp:5104
 #, c-format
 msgid "The %s is rendered non-functional!"
 msgstr ""
 
-#: game.cpp:5112
+#: game.cpp:5114
 msgid "The card reader is rendered non-functional."
 msgstr ""
 
-#: game.cpp:5116
+#: game.cpp:5118
 msgid "The nearby doors slide open!"
 msgstr ""
 
-#: game.cpp:5125 game.cpp:5846
+#: game.cpp:5127 game.cpp:5848
 msgid "Nothing happens."
 msgstr ""
 
-#: game.cpp:5131
+#: game.cpp:5133
 #, c-format
 msgid "The EMP blast fries the %s!"
 msgstr ""
 
-#: game.cpp:5138
+#: game.cpp:5140
 #, c-format
 msgid "The %s is unaffected by the EMP blast."
 msgstr ""
 
-#: game.cpp:5142
+#: game.cpp:5144
 msgid "The EMP blast drains your power."
 msgstr ""
 
-#: game.cpp:5341
+#: game.cpp:5343
 msgid "Open"
 msgstr ""
 
-#: game.cpp:5351 game.cpp:5374
+#: game.cpp:5353 game.cpp:5376
 msgid "That door is already open."
 msgstr ""
 
-#: game.cpp:5371
+#: game.cpp:5373
 msgid "The door is locked!"
 msgstr ""
 
-#: game.cpp:5378
+#: game.cpp:5380
 msgid "No door there."
 msgstr ""
 
-#: game.cpp:5387
+#: game.cpp:5389
 msgid "Close"
 msgstr ""
 
-#: game.cpp:5395 game.cpp:5413
+#: game.cpp:5397 game.cpp:5415
 #, c-format
 msgid "There's a %s in the way!"
 msgstr ""
 
-#: game.cpp:5403
+#: game.cpp:5405
 #, c-format
 msgid "There's %s in the way!"
 msgstr ""
 
-#: game.cpp:5404
+#: game.cpp:5406
 msgid "some stuff"
 msgstr ""
 
-#: game.cpp:5406
+#: game.cpp:5408
 msgid "There's some buffoon in the way!"
 msgstr ""
 
-#: game.cpp:5409
+#: game.cpp:5411
 msgid ""
 "You cannot close the curtains from outside. You must be inside the building."
 msgstr ""
 
-#: game.cpp:5429
+#: game.cpp:5431
 msgid "Smash"
 msgstr ""
 
-#: game.cpp:5444
+#: game.cpp:5446
 #, c-format
 msgid "You swing at the corpse%s."
 msgstr ""
 
-#: game.cpp:5479
+#: game.cpp:5481
 #, c-format
 msgid "You %sdamage the %s!"
 msgstr ""
 
-#: game.cpp:5479
+#: game.cpp:5481
 msgid "greatly "
 msgstr ""
 
-#: game.cpp:5483
+#: game.cpp:5485
 msgid "The corpse is now thoroughly pulped."
 msgstr ""
 
-#: game.cpp:5516
+#: game.cpp:5518
 msgid "An alarm sounds!"
 msgstr ""
 
-#: game.cpp:5527
+#: game.cpp:5529
 #, c-format
 msgid "Your %s shatters!"
 msgstr ""
 
-#: game.cpp:5544
+#: game.cpp:5546
 msgid "There's nothing there!"
 msgstr ""
 
-#: game.cpp:5552
+#: game.cpp:5554
 msgid "Use item:"
 msgstr ""
 
-#: game.cpp:5557 game.cpp:8499 game.cpp:8702 game.cpp:8891 game.cpp:8967
-#: game.cpp:9019 game.cpp:9477 game.cpp:9497
+#: game.cpp:5559 game.cpp:8501 game.cpp:8704 game.cpp:8893 game.cpp:8969
+#: game.cpp:9021 game.cpp:9479 game.cpp:9499
 msgid "Never mind."
 msgstr ""
 
-#: game.cpp:5572
+#: game.cpp:5574
 msgid " where? (Direction button)"
 msgstr ""
 
-#: game.cpp:5583
+#: game.cpp:5585
 msgid "Invalid direction."
 msgstr ""
 
-#: game.cpp:5663
+#: game.cpp:5665
 #, c-format
 msgid "You %s %s's %s%s."
 msgstr ""
 
-#: game.cpp:5663
+#: game.cpp:5665
 msgid "recharge"
 msgstr ""
 
-#: game.cpp:5663
+#: game.cpp:5665
 msgid "refill"
 msgstr ""
 
-#: game.cpp:5664
+#: game.cpp:5666
 msgid "battery"
 msgstr ""
 
-#: game.cpp:5664
+#: game.cpp:5666
 msgid "fuel tank"
 msgstr ""
 
-#: game.cpp:5664
+#: game.cpp:5666
 msgid "reactor"
 msgstr ""
 
-#: game.cpp:5665 game.cpp:8661
+#: game.cpp:5667 game.cpp:8663
 msgid " to its maximum"
 msgstr ""
 
-#: game.cpp:5691
+#: game.cpp:5693
 msgid "You pull a handbrake."
 msgstr ""
 
-#: game.cpp:5695
+#: game.cpp:5697
 #, c-format
 msgid "You lose control of %s."
 msgstr ""
 
-#: game.cpp:5762 game.cpp:5772
+#: game.cpp:5764 game.cpp:5774
 msgid "You turn the handle..."
 msgstr ""
 
-#: game.cpp:5763 game.cpp:5773
+#: game.cpp:5765 game.cpp:5775
 msgid "The gate is opened!"
 msgstr ""
 
-#: game.cpp:5764 game.cpp:5774
+#: game.cpp:5766 game.cpp:5776
 msgid "The gate is closed!"
 msgstr ""
 
-#: game.cpp:5782 game.cpp:5792
+#: game.cpp:5784 game.cpp:5794
 msgid "You pull the rope..."
 msgstr ""
 
-#: game.cpp:5783
+#: game.cpp:5785
 msgid "The barn doors opened!"
 msgstr ""
 
-#: game.cpp:5784
+#: game.cpp:5786
 msgid "The barn doors closed!"
 msgstr ""
 
-#: game.cpp:5793
+#: game.cpp:5795
 msgid "The palisade gate swings open!"
 msgstr ""
 
-#: game.cpp:5794
+#: game.cpp:5796
 msgid "The palisade gate swings closed with a crash!"
 msgstr ""
 
-#: game.cpp:5863
+#: game.cpp:5865
 #, c-format
 msgid "You dive from the %s."
 msgstr ""
 
-#: game.cpp:5890
+#: game.cpp:5892
 #, c-format
 msgid "You take control of the %s."
 msgstr ""
 
-#: game.cpp:5893
+#: game.cpp:5895
 msgid "Control vehicle"
 msgstr ""
 
-#: game.cpp:5897
+#: game.cpp:5899
 msgid "No vehicle there."
 msgstr ""
 
-#: game.cpp:5901
+#: game.cpp:5903
 msgid "No controls there."
 msgstr ""
 
-#: game.cpp:5913
+#: game.cpp:5915
 msgid "Examine"
 msgstr ""
 
-#: game.cpp:5924
+#: game.cpp:5926
 msgid "You can't do that while onboard."
 msgstr ""
 
-#: game.cpp:5926
+#: game.cpp:5928
 msgid "You can't do that on moving vehicle."
 msgstr ""
 
-#: game.cpp:5949
+#: game.cpp:5951
 #, c-format
 msgid "The %s is firmly sealed."
 msgstr ""
 
-#: game.cpp:5953
+#: game.cpp:5955
 msgid "It is empty."
 msgstr ""
 
-#: game.cpp:6112
+#: game.cpp:6114
 msgid "Name (charges)"
 msgstr ""
 
-#: game.cpp:6113
+#: game.cpp:6115
 #, c-format
 msgid "%s weight vol"
 msgstr ""
 
-#: game.cpp:6113
+#: game.cpp:6115
 msgid "amt"
 msgstr ""
 
-#: game.cpp:6113
+#: game.cpp:6115
 msgid "src"
 msgstr ""
 
-#: game.cpp:6289
+#: game.cpp:6291
 msgid "All 9 squares"
 msgstr ""
 
-#: game.cpp:6326
+#: game.cpp:6328
 msgid "category"
 msgstr ""
 
-#: game.cpp:6326
+#: game.cpp:6328
 msgid "charges"
 msgstr ""
 
-#: game.cpp:6326
+#: game.cpp:6328
 msgid "name"
 msgstr ""
 
-#: game.cpp:6326
+#: game.cpp:6328
 msgid "none"
 msgstr ""
 
-#: game.cpp:6326
+#: game.cpp:6328
 msgid "volume"
 msgstr ""
 
-#: game.cpp:6326
+#: game.cpp:6328
 msgid "weight"
 msgstr ""
 
-#: game.cpp:6327
+#: game.cpp:6329
 msgid "ammo"
 msgstr ""
 
-#: game.cpp:6327
+#: game.cpp:6329
 msgid "books"
 msgstr ""
 
-#: game.cpp:6327
+#: game.cpp:6329
 msgid "clothing"
 msgstr ""
 
-#: game.cpp:6327
+#: game.cpp:6329
 msgid "drugs"
 msgstr ""
 
-#: game.cpp:6327
+#: game.cpp:6329
 msgid "food"
 msgstr ""
 
-#: game.cpp:6327
+#: game.cpp:6329
 msgid "guns"
 msgstr ""
 
-#: game.cpp:6327
+#: game.cpp:6329
 msgid "mods"
 msgstr ""
 
-#: game.cpp:6327
+#: game.cpp:6329
 msgid "other"
 msgstr ""
 
-#: game.cpp:6327
+#: game.cpp:6329
 msgid "tools"
 msgstr ""
 
-#: game.cpp:6327
+#: game.cpp:6329
 msgid "weapons"
 msgstr ""
 
-#: game.cpp:6349
+#: game.cpp:6351
 msgid "Inventory"
 msgstr ""
 
-#: game.cpp:6350
+#: game.cpp:6352
 msgid "South West"
 msgstr ""
 
-#: game.cpp:6351
+#: game.cpp:6353
 msgid "South"
 msgstr ""
 
-#: game.cpp:6352
+#: game.cpp:6354
 msgid "South East"
 msgstr ""
 
-#: game.cpp:6353
+#: game.cpp:6355
 msgid "West"
 msgstr ""
 
-#: game.cpp:6354
+#: game.cpp:6356
 msgid "Directly below you"
 msgstr ""
 
-#: game.cpp:6355
+#: game.cpp:6357
 msgid "East"
 msgstr ""
 
-#: game.cpp:6356
+#: game.cpp:6358
 msgid "North West"
 msgstr ""
 
-#: game.cpp:6357
+#: game.cpp:6359
 msgid "North"
 msgstr ""
 
-#: game.cpp:6358
+#: game.cpp:6360
 msgid "North East"
 msgstr ""
 
-#: game.cpp:6359
+#: game.cpp:6361
 msgid "Surrounding area"
 msgstr ""
 
-#: game.cpp:6369 game.cpp:6370
+#: game.cpp:6371 game.cpp:6372
 msgid "Initializing..."
 msgstr ""
 
-#: game.cpp:6578
+#: game.cpp:6580
 msgid "< [?] show log >"
 msgstr ""
 
-#: game.cpp:6579
+#: game.cpp:6581
 msgid "hjkl or arrow keys to move cursor, [m]ove item between panes,"
 msgstr ""
 
-#: game.cpp:6580
+#: game.cpp:6582
 msgid "1-9 (or GHJKLYUBNI) to select square for active tab, 0 for inventory,"
 msgstr ""
 
-#: game.cpp:6581
+#: game.cpp:6583
 msgid "[e]xamine item,  [s]ort display, [q]uit/exit this screen."
 msgstr ""
 
-#: game.cpp:6588
+#: game.cpp:6590
 #, c-format
 msgid "[<] page %d of %d [>]"
 msgstr ""
 
-#: game.cpp:6601
+#: game.cpp:6603
 #, c-format
 msgid "< [s]ort: %s >"
 msgstr ""
 
-#: game.cpp:6635
+#: game.cpp:6637
 msgid "same square!"
 msgstr ""
 
-#: game.cpp:6646
+#: game.cpp:6648
 msgid "You can't put items there"
 msgstr ""
 
-#: game.cpp:6663
+#: game.cpp:6665
 msgid "Select destination"
 msgstr ""
 
-#: game.cpp:6669
+#: game.cpp:6671
 msgid " (FULL)"
 msgstr ""
 
-#: game.cpp:6671
+#: game.cpp:6673
 msgid ":-O this shouldn't happen (BUG)"
 msgstr ""
 
-#: game.cpp:6692
+#: game.cpp:6694
 msgid "Can't move stuff to the same place."
 msgstr ""
 
-#: game.cpp:6694
+#: game.cpp:6696
 msgid "Invalid. Like the menu said."
 msgstr ""
 
-#: game.cpp:6732
+#: game.cpp:6734
 msgid "Destination area is full. Remove some items first."
 msgstr ""
 
-#: game.cpp:6744
+#: game.cpp:6746
 msgid "Destination area has too many items. Remove some first."
 msgstr ""
 
-#: game.cpp:6748
+#: game.cpp:6750
 msgid "How many do you want to move? (0 to cancel)"
 msgstr ""
 
-#: game.cpp:6750
+#: game.cpp:6752
 msgid "! Move how many? (0 to cancel) "
 msgstr ""
 
-#: game.cpp:6750
+#: game.cpp:6752
 msgid "Destination can only hold "
 msgstr ""
 
-#: game.cpp:6780 game.cpp:6787
+#: game.cpp:6782 game.cpp:6789
 #, c-format
 msgid ""
 "Destination full. %d / %d moved. Please report a bug if items have vanished."
 msgstr ""
 
-#: game.cpp:6805 game.cpp:6812 game.cpp:6824 game.cpp:6831
+#: game.cpp:6807 game.cpp:6814 game.cpp:6826 game.cpp:6833
 msgid "Destination full. Please report a bug if items have vanished."
 msgstr ""
 
-#: game.cpp:6852
+#: game.cpp:6854
 #, c-format
 msgid "Source area is the same as destination (%s)."
 msgstr ""
 
-#: game.cpp:6861
+#: game.cpp:6863
 msgid "You can't pick up a liquid."
 msgstr ""
 
-#: game.cpp:6870
+#: game.cpp:6872
 msgid "There's no room in your inventory."
 msgstr ""
 
-#: game.cpp:6875
+#: game.cpp:6877
 msgid "This is too heavy!"
 msgstr ""
 
-#: game.cpp:6880
+#: game.cpp:6882
 msgid "Too many itens"
 msgstr ""
 
-#: game.cpp:6896 game.cpp:6901
+#: game.cpp:6898 game.cpp:6903
 msgid "Destination area is full. Remove some items first"
 msgstr ""
 
-#: game.cpp:6920
+#: game.cpp:6922
 msgid "Sort by... "
 msgstr ""
 
-#: game.cpp:6921
+#: game.cpp:6923
 msgid "Unsorted (recently added first)"
 msgstr ""
 
-#: game.cpp:6959 game.cpp:6960 newcharacter.cpp:400
+#: game.cpp:6961 game.cpp:6962 newcharacter.cpp:400
 msgid "DESCRIPTION"
 msgstr ""
 
-#: game.cpp:6960
+#: game.cpp:6962
 msgid ""
 "\n"
 "\n"
@@ -4054,1055 +4334,1055 @@ msgid ""
 " [down / page down] next"
 msgstr ""
 
-#: game.cpp:7074
+#: game.cpp:7076
 msgid "Peek"
 msgstr ""
 
-#: game.cpp:7105 game.cpp:7492
+#: game.cpp:7107 game.cpp:7494
 msgid "Looking Around"
 msgstr ""
 
-#: game.cpp:7156
+#: game.cpp:7158
 #, c-format
 msgid "%d: %s; movecost %d"
 msgstr ""
 
-#: game.cpp:7163
+#: game.cpp:7165
 #, c-format
 msgid "%d: %s; movecost %d movestr %d"
 msgstr ""
 
-#: game.cpp:7170
+#: game.cpp:7172
 #, c-format
 msgid "dist: %d u_see: %d light: %d v_in: %d"
 msgstr ""
 
-#: game.cpp:7174
+#: game.cpp:7176
 msgid " [vehicle]"
 msgstr ""
 
-#: game.cpp:7175
+#: game.cpp:7177
 msgid " [indoors]"
 msgstr ""
 
-#: game.cpp:7176
+#: game.cpp:7178
 msgid " [roof]"
 msgstr ""
 
-#: game.cpp:7187
+#: game.cpp:7189
 #, c-format
 msgid "field: %s (%d) density %d age %d"
 msgstr ""
 
-#: game.cpp:7196
+#: game.cpp:7198
 #, c-format
 msgid "trap: %s (%d)"
 msgstr ""
 
-#: game.cpp:7212 game.cpp:7582 game.cpp:7608
+#: game.cpp:7214 game.cpp:7584 game.cpp:7610
 #, c-format
 msgid "There is a %s there. Parts:"
 msgstr ""
 
-#: game.cpp:7223 game.cpp:7588
+#: game.cpp:7225 game.cpp:7590
 #, c-format
 msgid "There is a %s there."
 msgstr ""
 
-#: game.cpp:7226
+#: game.cpp:7228
 #, c-format
 msgid "There are %d other items there as well."
 msgstr ""
 
-#: game.cpp:7232 game.cpp:7632
+#: game.cpp:7234 game.cpp:7634
 #, c-format
 msgid "Graffiti: %s"
 msgstr ""
 
-#: game.cpp:7234
+#: game.cpp:7236
 msgid "[t] add trap, [f] add field effect"
 msgstr ""
 
-#: game.cpp:7235
+#: game.cpp:7237
 msgid "[g] edit m_ter"
 msgstr ""
 
-#: game.cpp:7307
+#: game.cpp:7309
 #, c-format
 msgid "movecost %d"
 msgstr ""
 
-#: game.cpp:7310
+#: game.cpp:7312
 msgid "[indoors] "
 msgstr ""
 
-#: game.cpp:7311
+#: game.cpp:7313
 msgid "[roof] "
 msgstr ""
 
-#: game.cpp:7428
+#: game.cpp:7430
 msgid "-clear-"
 msgstr ""
 
-#: game.cpp:7493
+#: game.cpp:7495
 msgid "Use directional keys to move the cursor"
 msgstr ""
 
-#: game.cpp:7494
+#: game.cpp:7496
 msgid "to a nearby square."
-msgstr ""
-
-#: game.cpp:7516
-#, c-format
-msgid "%s; Impassable"
 msgstr ""
 
 #: game.cpp:7518
 #, c-format
+msgid "%s; Impassable"
+msgstr ""
+
+#: game.cpp:7520
+#, c-format
 msgid "%s; Movement cost %d"
 msgstr ""
 
-#: game.cpp:7552 game.cpp:7570
+#: game.cpp:7554 game.cpp:7572
 msgid "There are several items there."
 msgstr ""
 
-#: game.cpp:7556 game.cpp:7574
+#: game.cpp:7558 game.cpp:7576
 msgid "There is an item there."
 msgstr ""
 
-#: game.cpp:7559 game.cpp:7577 game.cpp:7596
+#: game.cpp:7561 game.cpp:7579 game.cpp:7598
 msgid "You cannot see what is inside of it."
 msgstr ""
 
-#: game.cpp:7592
+#: game.cpp:7594
 msgid "There are other items there as well."
 msgstr ""
 
-#: game.cpp:7606
+#: game.cpp:7608
 #, c-format
 msgid "You (%s)"
 msgstr ""
 
-#: game.cpp:7626
+#: game.cpp:7628
 msgid "Bright light."
 msgstr ""
 
-#: game.cpp:7629
+#: game.cpp:7631
 msgid "Unseen."
 msgstr ""
 
-#: game.cpp:7747
+#: game.cpp:7749
 msgid "How to use the filter:"
 msgstr ""
 
-#: game.cpp:7748
+#: game.cpp:7750
 msgid "Example: pi  will match any itemname with pi in it."
 msgstr ""
 
-#: game.cpp:7749
+#: game.cpp:7751
 msgid "Seperate multiple items with ,"
 msgstr ""
 
-#: game.cpp:7750
+#: game.cpp:7752
 msgid "Example: back,flash,aid, ,band"
 msgstr ""
 
-#: game.cpp:7753
+#: game.cpp:7755
 msgid "To exclude certain items, place a - in front"
 msgstr ""
 
-#: game.cpp:7754
+#: game.cpp:7756
 msgid "Example: -pipe,chunk,steel"
 msgstr ""
 
-#: game.cpp:7810
+#: game.cpp:7812
 msgid "eset "
 msgstr ""
 
-#: game.cpp:7814
+#: game.cpp:7816
 msgid "xamine "
 msgstr ""
 
-#: game.cpp:7817
+#: game.cpp:7819
 msgid "ompare "
 msgstr ""
 
-#: game.cpp:7820
+#: game.cpp:7822
 msgid "ilter "
 msgstr ""
 
-#: game.cpp:7823
+#: game.cpp:7825
 msgid ":Priority "
 msgstr ""
 
-#: game.cpp:7953
+#: game.cpp:7955
 msgid "High Priority:"
 msgstr ""
 
-#: game.cpp:7960
+#: game.cpp:7962
 msgid "Low Priority:"
 msgstr ""
 
-#: game.cpp:8120
+#: game.cpp:8122
 msgid "You dont see any items around you!"
 msgstr ""
 
-#: game.cpp:8147
+#: game.cpp:8149
 msgid "You cannot pick up items with your claws out!"
 msgstr ""
 
-#: game.cpp:8161
+#: game.cpp:8163
 #, c-format
 msgid "Get items from %s?"
 msgstr ""
 
-#: game.cpp:8165
+#: game.cpp:8167
 msgid "Have a drink?"
 msgstr ""
 
-#: game.cpp:8173
+#: game.cpp:8175
 msgid "The water tank is empty."
 msgstr ""
 
-#: game.cpp:8187 game.cpp:8619
+#: game.cpp:8189 game.cpp:8621
 msgid "You can't pick up a liquid!"
 msgstr ""
 
-#: game.cpp:8201 game.cpp:8525
+#: game.cpp:8203 game.cpp:8527
 msgid "You're carrying too many items!"
 msgstr ""
 
-#: game.cpp:8204 game.cpp:8531
+#: game.cpp:8206 game.cpp:8533
 #, c-format
 msgid "The %s is too heavy!"
 msgstr ""
 
-#: game.cpp:8210 game.cpp:8537
+#: game.cpp:8212 game.cpp:8539
 #, c-format
 msgid "Put on the %s?"
 msgstr ""
 
-#: game.cpp:8217 game.cpp:8547
+#: game.cpp:8219 game.cpp:8549
 #, c-format
 msgid "Drop your %s and pick up %s?"
 msgstr ""
 
-#: game.cpp:8226 game.cpp:8241 game.cpp:8252 game.cpp:8558
+#: game.cpp:8228 game.cpp:8243 game.cpp:8254 game.cpp:8560
 #, c-format
 msgid "Wielding %c - %s"
 msgstr ""
 
-#: game.cpp:8230
+#: game.cpp:8232
 #, c-format
 msgid ""
 "There's no room in your inventory for the %s, and you can't unwield your %s."
 msgstr ""
 
-#: game.cpp:8263 game.cpp:8621
+#: game.cpp:8265 game.cpp:8623
 msgid "You're overburdened!"
 msgstr ""
 
-#: game.cpp:8265 game.cpp:8623
+#: game.cpp:8267 game.cpp:8625
 msgid "You struggle to carry such a large volume!"
 msgstr ""
 
-#: game.cpp:8295
+#: game.cpp:8297
 msgid "PICK UP (, = all)"
 msgstr ""
 
-#: game.cpp:8380
+#: game.cpp:8382
 msgid "Enter 2 letters (case sensitive):"
 msgstr ""
 
-#: game.cpp:8466
+#: game.cpp:8468
 msgid "[left] Unmark    [up/dn] Scroll    [right] Mark"
 msgstr ""
 
-#: game.cpp:8468
+#: game.cpp:8470
 msgid "[pgup] Prev"
 msgstr ""
 
-#: game.cpp:8469
+#: game.cpp:8471
 msgid "[,] All"
 msgstr ""
 
-#: game.cpp:8471
+#: game.cpp:8473
 msgid "[pgdn] Next"
 msgstr ""
 
-#: game.cpp:8477
+#: game.cpp:8479
 #, c-format
 msgid "Wgt %d"
 msgstr ""
 
-#: game.cpp:8481
+#: game.cpp:8483
 #, c-format
 msgid "Vol %d"
 msgstr ""
 
-#: game.cpp:8564
+#: game.cpp:8566
 #, c-format
 msgid ""
 "There's no room in your inventory for the %s, and you can't  unwield your %s."
 msgstr ""
 
-#: game.cpp:8614
+#: game.cpp:8616
 msgid "You pick up: "
 msgstr ""
 
-#: game.cpp:8641
+#: game.cpp:8643
 msgid "Refill vehicle?"
 msgstr ""
 
-#: game.cpp:8644
+#: game.cpp:8646
 msgid "Refill vehicle"
 msgstr ""
 
-#: game.cpp:8651
+#: game.cpp:8653
 #, c-format
 msgid "This vehicle doesn't use %s."
 msgstr ""
 
-#: game.cpp:8653
+#: game.cpp:8655
 msgid "Already full."
 msgstr ""
 
-#: game.cpp:8654
+#: game.cpp:8656
 msgid "Pump until full?"
 msgstr ""
 
-#: game.cpp:8659
+#: game.cpp:8661
 #, c-format
 msgid "You refill %s with %s%s."
 msgstr ""
 
-#: game.cpp:8666
+#: game.cpp:8668
 msgid "There isn't any vehicle there."
 msgstr ""
 
-#: game.cpp:8674 game.cpp:8686 game.cpp:8698
+#: game.cpp:8676 game.cpp:8688 game.cpp:8700
 #, c-format
 msgid "Pour %s on the ground?"
 msgstr ""
 
-#: game.cpp:8680
+#: game.cpp:8682
 msgid "Container for "
 msgstr ""
 
-#: game.cpp:8723
+#: game.cpp:8725
 #, c-format
 msgid "Your %s won't hold %s."
 msgstr ""
 
-#: game.cpp:8729 game.cpp:8797
+#: game.cpp:8731 game.cpp:8799
 #, c-format
 msgid "Your %s can't hold any more %s."
 msgstr ""
 
-#: game.cpp:8735 game.cpp:8767
+#: game.cpp:8737 game.cpp:8769
 #, c-format
 msgid "You can't mix loads in your %s."
 msgstr ""
 
-#: game.cpp:8739 game.cpp:8807 game.cpp:8813
+#: game.cpp:8741 game.cpp:8809 game.cpp:8815
 #, c-format
 msgid "You pour %s into your %s."
 msgstr ""
 
-#: game.cpp:8750 game.cpp:8821
+#: game.cpp:8752 game.cpp:8823
 msgid "There's some left over!"
 msgstr ""
 
-#: game.cpp:8757
+#: game.cpp:8759
 #, c-format
 msgid "That %s won't hold %s."
 msgstr ""
 
-#: game.cpp:8832
+#: game.cpp:8834
 #, c-format
 msgid "That %s isn't water-tight."
 msgstr ""
 
-#: game.cpp:8837
+#: game.cpp:8839
 #, c-format
 msgid "You can't seal that %s!"
 msgstr ""
 
-#: game.cpp:8858
+#: game.cpp:8860
 #, c-format
 msgid "You fill your %s with some of the %s."
 msgstr ""
 
-#: game.cpp:8913 game.cpp:8982
+#: game.cpp:8915 game.cpp:8984
 #, c-format
 msgid "You put your %s%s in the %s's %s."
 msgstr ""
 
-#: game.cpp:8921 game.cpp:8992
+#: game.cpp:8923 game.cpp:8994
 #, c-format
 msgid "You put several items in the %s's %s."
 msgstr ""
 
-#: game.cpp:8924
+#: game.cpp:8926
 msgid "You drop several items."
 msgstr ""
 
-#: game.cpp:8935 game.cpp:9006
+#: game.cpp:8937 game.cpp:9008
 msgid "The trunk is full, so some items fall on the ground."
 msgstr ""
 
-#: game.cpp:8945
+#: game.cpp:8947
 msgid "Drop"
 msgstr ""
 
-#: game.cpp:8957
+#: game.cpp:8959
 msgid "You can't place items there!"
 msgstr ""
 
-#: game.cpp:8961
+#: game.cpp:8963
 msgid "drop"
 msgstr ""
 
-#: game.cpp:8961
+#: game.cpp:8963
 msgid "put"
 msgstr ""
 
-#: game.cpp:8962
+#: game.cpp:8964
 msgid "in"
 msgstr ""
 
-#: game.cpp:8962
+#: game.cpp:8964
 msgid "on"
 msgstr ""
 
-#: game.cpp:8986
+#: game.cpp:8988
 #, c-format
 msgid "You %s your %s%s %s the %s."
 msgstr ""
 
-#: game.cpp:8995
+#: game.cpp:8997
 #, c-format
 msgid "You %s several items %s the %s."
 msgstr ""
 
-#: game.cpp:9016
+#: game.cpp:9018
 msgid "Reassign item:"
 msgstr ""
 
-#: game.cpp:9023
+#: game.cpp:9025
 msgid "You do not have that item."
 msgstr ""
 
-#: game.cpp:9026
+#: game.cpp:9028
 #, c-format
 msgid "%c - %s; enter new letter."
 msgstr ""
 
-#: game.cpp:9029
+#: game.cpp:9031
 #, c-format
 msgid "%c is not a valid inventory letter."
 msgstr ""
 
-#: game.cpp:9049
+#: game.cpp:9051
 msgid "Throw item:"
 msgstr ""
 
-#: game.cpp:9054
+#: game.cpp:9056
 msgid "You don't have that item."
 msgstr ""
 
-#: game.cpp:9057
+#: game.cpp:9059
 msgid "That is too heavy to throw."
 msgstr ""
 
-#: game.cpp:9063
+#: game.cpp:9065
 msgid "That's part of your body, you can't throw that!"
 msgstr ""
 
-#: game.cpp:9110
+#: game.cpp:9112
 msgid "You need a free arm to drive!"
 msgstr ""
 
-#: game.cpp:9116
+#: game.cpp:9118
 #, c-format
 msgid "Your %s starts charging."
 msgstr ""
 
-#: game.cpp:9122
+#: game.cpp:9124
 msgid "You need a charged UPS."
 msgstr ""
 
-#: game.cpp:9130
+#: game.cpp:9132
 msgid "You're not strong enough to draw the bow!"
 msgstr ""
 
-#: game.cpp:9137 game.cpp:9581
+#: game.cpp:9139 game.cpp:9583
 msgid "Out of ammo!"
 msgstr ""
 
-#: game.cpp:9147
+#: game.cpp:9149
 msgid "You need to reload!"
 msgstr ""
 
-#: game.cpp:9151
+#: game.cpp:9153
 #, c-format
 msgid "Your %s needs 100 charges to fire!"
 msgstr ""
 
-#: game.cpp:9157
+#: game.cpp:9159
 msgid ""
 "You need a UPS with at least 5 charges or an advanced UPS with at least 3 "
 "charged to fire that!"
 msgstr ""
 
-#: game.cpp:9239
+#: game.cpp:9241
 msgid "You can't butcher while driving!"
 msgstr ""
 
-#: game.cpp:9248
+#: game.cpp:9250
 msgid "There are no corpses here to butcher."
 msgstr ""
 
-#: game.cpp:9253
+#: game.cpp:9255
 msgid "You don't have a sharp item to butcher with."
 msgstr ""
 
-#: game.cpp:9260
+#: game.cpp:9262
 #, c-format
 msgid "Butcher the %s corpse?"
 msgstr ""
 
-#: game.cpp:9284
+#: game.cpp:9286
 msgid "There's no corpse to butcher!"
 msgstr ""
 
-#: game.cpp:9333
+#: game.cpp:9335
 msgid "You harvest some usable bones!"
 msgstr ""
 
-#: game.cpp:9336
+#: game.cpp:9338
 msgid "You harvest some fluid bladders!"
 msgstr ""
 
-#: game.cpp:9343
+#: game.cpp:9345
 msgid "You harvest some usable sinews!"
 msgstr ""
 
-#: game.cpp:9346
+#: game.cpp:9348
 msgid "You harvest some plant fibres!"
 msgstr ""
 
-#: game.cpp:9352
+#: game.cpp:9354
 #, c-format
 msgid "You manage to skin the %s!"
 msgstr ""
 
-#: game.cpp:9372
+#: game.cpp:9374
 msgid "You harvest some feathers!"
 msgstr ""
 
-#: game.cpp:9380
+#: game.cpp:9382
 #, c-format
 msgid "You discover a CBM in the %s!"
 msgstr ""
 
-#: game.cpp:9402
+#: game.cpp:9404
 #, c-format
 msgid "You discover a %s in the %s!"
 msgstr ""
 
-#: game.cpp:9410
+#: game.cpp:9412
 msgid "Your clumsy butchering destroys the meat!"
 msgstr ""
 
-#: game.cpp:9433
+#: game.cpp:9435
 msgid "You butcher the corpse."
 msgstr ""
 
-#: game.cpp:9443
+#: game.cpp:9445
 msgid "You found some wild veggies!"
 msgstr ""
 
-#: game.cpp:9450
+#: game.cpp:9452
 msgid "You didn't find anything."
 msgstr ""
 
-#: game.cpp:9464
+#: game.cpp:9466
 msgid "Eat underbrush?"
 msgstr ""
 
-#: game.cpp:9468
+#: game.cpp:9470
 msgid "You eat the underbrush."
 msgstr ""
 
-#: game.cpp:9472
+#: game.cpp:9474
 msgid "Consume item:"
 msgstr ""
 
-#: game.cpp:9482
+#: game.cpp:9484
 #, c-format
 msgid "You don't have item '%c'!"
 msgstr ""
 
-#: game.cpp:9492
+#: game.cpp:9494
 msgid "Wear item:"
 msgstr ""
 
-#: game.cpp:9507
+#: game.cpp:9509
 msgid "Take off item:"
 msgstr ""
 
-#: game.cpp:9514
+#: game.cpp:9516
 msgid "Invalid selection."
 msgstr ""
 
-#: game.cpp:9553
+#: game.cpp:9555
 #, c-format
 msgid ""
 "Your %s does not need to be reloaded; it reloads and fires in a single "
 "action."
 msgstr ""
 
-#: game.cpp:9558
+#: game.cpp:9560
 #, c-format
 msgid "Your %s does not reload normally."
 msgstr ""
 
-#: game.cpp:9575
+#: game.cpp:9577
 #, c-format
 msgid "Your %s is fully loaded!"
 msgstr ""
 
-#: game.cpp:9589 game.cpp:9603
+#: game.cpp:9591 game.cpp:9605
 #, c-format
 msgid "You can't reload a %s!"
 msgstr ""
 
-#: game.cpp:9595
+#: game.cpp:9597
 #, c-format
 msgid "Out of %s!"
 msgstr ""
 
-#: game.cpp:9601
+#: game.cpp:9603
 msgid "You're not wielding anything."
 msgstr ""
 
-#: game.cpp:9645
+#: game.cpp:9647
 #, c-format
 msgid "You can't unload a %s!"
 msgstr ""
 
-#: game.cpp:9666
+#: game.cpp:9668
 #, c-format
 msgid "Your %s isn't loaded, and is not modified."
 msgstr ""
 
-#: game.cpp:9671
+#: game.cpp:9673
 #, c-format
 msgid "Your %s isn't charged."
 msgstr ""
 
-#: game.cpp:9700
+#: game.cpp:9702
 #, c-format
 msgid "You put the %s in your inventory."
 msgstr ""
 
-#: game.cpp:9703
+#: game.cpp:9705
 #, c-format
 msgid "You drop the %s on the ground."
 msgstr ""
 
-#: game.cpp:9745
+#: game.cpp:9747
 msgid "You can't remove partially depleted plutonium!"
 msgstr ""
 
-#: game.cpp:9748
+#: game.cpp:9750
 #, c-format
 msgid "You remove %i plutonium from the advanced UPS"
 msgstr ""
 
-#: game.cpp:9784
+#: game.cpp:9786
 #, c-format
 msgid "You cannot unwield your %s."
 msgstr ""
 
-#: game.cpp:9790
+#: game.cpp:9792
 msgid "Wield item:"
 msgstr ""
 
-#: game.cpp:9792
+#: game.cpp:9794
 msgid "Wield item: Press - to choose a style"
 msgstr ""
 
-#: game.cpp:9808
+#: game.cpp:9810
 msgid "Read:"
 msgstr ""
 
-#: game.cpp:9816
+#: game.cpp:9818
 msgid "You talk to yourself for a moment."
 msgstr ""
 
-#: game.cpp:9832
+#: game.cpp:9834
 msgid "There's no-one close enough to talk to."
 msgstr ""
 
-#: game.cpp:9849
+#: game.cpp:9851
 msgid "Who do you want to talk to?"
 msgstr ""
 
-#: game.cpp:9861
+#: game.cpp:9863
 #, c-format
 msgid ""
 "Monster spotted--run mode is on! (%s to turn it off or %s to ignore monster.)"
 msgstr ""
 
-#: game.cpp:9877
+#: game.cpp:9879
 msgid "You can't drive the vehicle from here. You need controls!"
 msgstr ""
 
-#: game.cpp:9890
+#: game.cpp:9892
 #, c-format
 msgid "You regain control of the %s."
 msgstr ""
 
-#: game.cpp:9906
+#: game.cpp:9908
 #, c-format
 msgid ""
 "Monster spotted--safe mode is on! (%s to turn it off or %s to ignore "
 "monster.)"
 msgstr ""
 
-#: game.cpp:9951
+#: game.cpp:9953
 #, c-format
 msgid "Really attack %s?"
 msgstr ""
 
-#: game.cpp:9953
+#: game.cpp:9955
 #, c-format
 msgid "%s moves out of the way."
 msgstr ""
 
-#: game.cpp:9988
+#: game.cpp:9990
 msgid "You cannot pull yourself away from the faultline..."
 msgstr ""
 
-#: game.cpp:9995
+#: game.cpp:9997
 msgid "You try to escape the pit, but slip back in."
 msgstr ""
 
-#: game.cpp:9999
+#: game.cpp:10001
 msgid "You escape the pit!"
 msgstr ""
 
-#: game.cpp:10005
+#: game.cpp:10007
 msgid "You struggle to stand."
 msgstr ""
 
-#: game.cpp:10009
+#: game.cpp:10011
 msgid "You stand up."
 msgstr ""
 
-#: game.cpp:10027
+#: game.cpp:10029
 msgid "Dive from moving vehicle?"
 msgstr ""
 
-#: game.cpp:10032
+#: game.cpp:10034
 msgid "There is another vehicle in the way."
 msgstr ""
 
-#: game.cpp:10035
+#: game.cpp:10037
 msgid "That part of the vehicle is currently unsafe."
 msgstr ""
 
-#: game.cpp:10052
+#: game.cpp:10054
 #, c-format
 msgid "Really step into that %s?"
 msgstr ""
 
-#: game.cpp:10070
+#: game.cpp:10072
 #, c-format
 msgid "Really step onto that %s?"
 msgstr ""
 
-#: game.cpp:10091 game.cpp:10093
+#: game.cpp:10093 game.cpp:10095
 #, c-format
 msgid "Moving past this %s is slow!"
 msgstr ""
 
-#: game.cpp:10097
+#: game.cpp:10099
 #, c-format
 msgid "You hurt your feet on the %s!"
 msgstr ""
 
-#: game.cpp:10107
+#: game.cpp:10109
 #, c-format
 msgid "You cut your %s on the %s!"
 msgstr ""
 
-#: game.cpp:10118
+#: game.cpp:10120
 msgid "You emit a rattling sound."
 msgstr ""
 
-#: game.cpp:10121 game.cpp:10312
+#: game.cpp:10123 game.cpp:10314
 msgid "The water puts out the flames!"
 msgstr ""
 
-#: game.cpp:10131
+#: game.cpp:10133
 msgid "Deactivate the turret?"
 msgstr ""
 
-#: game.cpp:10138
+#: game.cpp:10140
 #, c-format
 msgid "You can't displace your %s."
 msgstr ""
 
-#: game.cpp:10143
+#: game.cpp:10145
 #, c-format
 msgid "You displace the %s."
 msgstr ""
 
-#: game.cpp:10205
+#: game.cpp:10207
 msgid "You see here "
 msgstr ""
 
-#: game.cpp:10216
+#: game.cpp:10218
 msgid "There are many items here."
 msgstr ""
 
-#: game.cpp:10219
+#: game.cpp:10221
 #, c-format
 msgid "There are vehicle controls here.  %s to drive."
 msgstr ""
 
-#: game.cpp:10238
+#: game.cpp:10240
 msgid ""
 "You try to quantum tunnel through the barrier but are reflected! Try again "
 "with more energy!"
 msgstr ""
 
-#: game.cpp:10244
+#: game.cpp:10246
 msgid "It's too dangerous to tunnel that far!"
 msgstr ""
 
-#: game.cpp:10255
+#: game.cpp:10257
 #, c-format
 msgid "You quantum tunnel through the %d-tile wide barrier!"
 msgstr ""
 
-#: game.cpp:10266
+#: game.cpp:10268
 #, c-format
 msgid "You open the %s's %s."
 msgstr ""
 
-#: game.cpp:10272
+#: game.cpp:10274
 msgid "Dive into the water?"
 msgstr ""
 
-#: game.cpp:10274
+#: game.cpp:10276
 #, c-format
 msgid "You start swimming.  %s to dive underwater."
 msgstr ""
 
-#: game.cpp:10282
+#: game.cpp:10284
 #, c-format
 msgid "You bump into a %s!"
 msgstr ""
 
-#: game.cpp:10288
+#: game.cpp:10290
 msgid "That door is locked!"
 msgstr ""
 
-#: game.cpp:10292
+#: game.cpp:10294
 msgid "You rattle the bars but the door is locked!"
 msgstr ""
 
-#: game.cpp:10319
+#: game.cpp:10321
 msgid " like a rock"
 msgstr ""
 
-#: game.cpp:10319
+#: game.cpp:10321
 #, c-format
 msgid "You sink%s!"
 msgstr ""
 
-#: game.cpp:10326
+#: game.cpp:10328
 #, c-format
 msgid "You need to breathe! (%s to surface.)"
 msgstr ""
 
-#: game.cpp:10329
+#: game.cpp:10331
 msgid "You need to breathe but you can't swim!  Get to dry land, quick!"
 msgstr ""
 
-#: game.cpp:10360
+#: game.cpp:10362
 msgid "You are"
 msgstr ""
 
-#: game.cpp:10362 game.cpp:10365
+#: game.cpp:10364 game.cpp:10367
 msgid " is"
 msgstr ""
 
-#: game.cpp:10404
+#: game.cpp:10406
 #, c-format
 msgid "You hear a %s"
 msgstr ""
 
-#: game.cpp:10412
+#: game.cpp:10414
 #, c-format
 msgid "%s slammed against the %s for %d damage!"
 msgstr ""
 
-#: game.cpp:10461
+#: game.cpp:10463
 #, c-format
 msgid "You fall on the ground for %d damage."
 msgstr ""
 
-#: game.cpp:10463
+#: game.cpp:10465
 msgid "You land on the ground."
 msgstr ""
 
-#: game.cpp:10470
+#: game.cpp:10472
 msgid "You dive into water."
 msgstr ""
 
-#: game.cpp:10472
+#: game.cpp:10474
 msgid "You fall into water."
 msgstr ""
 
-#: game.cpp:10482
+#: game.cpp:10484
 msgid "You are already underwater!"
 msgstr ""
 
-#: game.cpp:10486
+#: game.cpp:10488
 msgid "You can't dive while wearing a flotation device."
 msgstr ""
 
-#: game.cpp:10491
+#: game.cpp:10493
 msgid "You dive underwater!"
 msgstr ""
 
-#: game.cpp:10495
+#: game.cpp:10497
 msgid "You surface."
 msgstr ""
 
-#: game.cpp:10497
+#: game.cpp:10499
 msgid "You can't surface!"
 msgstr ""
 
-#: game.cpp:10506
+#: game.cpp:10508
 #, c-format
 msgid "You can't go %s here!"
 msgstr ""
 
-#: game.cpp:10506 game.cpp:10854
+#: game.cpp:10508 game.cpp:10856
 msgid "down"
 msgstr ""
 
-#: game.cpp:10506 game.cpp:10854
+#: game.cpp:10508 game.cpp:10856
 msgid "up"
 msgstr ""
 
-#: game.cpp:10537
+#: game.cpp:10539
 msgid "Halfway down, the way down becomes blocked off."
 msgstr ""
 
-#: game.cpp:10540
+#: game.cpp:10542
 msgid "There is a sheer drop halfway down. Climb your rope down?"
 msgstr ""
 
-#: game.cpp:10545
+#: game.cpp:10547
 msgid "There is a sheer drop halfway down.  Jump?"
 msgstr ""
 
-#: game.cpp:10586
+#: game.cpp:10588
 msgid "AUTO: goes down"
 msgstr ""
 
-#: game.cpp:10589
+#: game.cpp:10591
 msgid "AUTO: goes up"
 msgstr ""
 
-#: game.cpp:10613
+#: game.cpp:10615
 msgid "You flap your wings and flutter down gracefully."
 msgstr ""
 
-#: game.cpp:10618
+#: game.cpp:10620
 msgid "You fall expertly and take no damage."
 msgstr ""
 
-#: game.cpp:10620
+#: game.cpp:10622
 #, c-format
 msgid "You fall heavily, taking %d damage."
 msgstr ""
 
-#: game.cpp:10853
+#: game.cpp:10855
 #, c-format
 msgid "A %s comes %s the %s!"
 msgstr ""
 
-#: game.cpp:11054
+#: game.cpp:11056
 msgid "1 hour"
 msgstr ""
 
-#: game.cpp:11054
+#: game.cpp:11056
 msgid "30 Minutes"
 msgstr ""
 
-#: game.cpp:11054
+#: game.cpp:11056
 msgid "5 Minutes"
 msgstr ""
 
-#: game.cpp:11054
+#: game.cpp:11056
 msgid "Wait for how long?"
 msgstr ""
 
-#: game.cpp:11055
+#: game.cpp:11057
 msgid "2 hours"
 msgstr ""
 
-#: game.cpp:11055
+#: game.cpp:11057
 msgid "3 hours"
 msgstr ""
 
-#: game.cpp:11055
+#: game.cpp:11057
 msgid "6 hours"
 msgstr ""
 
-#: game.cpp:11055
+#: game.cpp:11057
 msgid "Exit"
 msgstr ""
 
-#: game.cpp:11076
+#: game.cpp:11078
 msgid "GAME OVER"
 msgstr ""
 
-#: game.cpp:11123
+#: game.cpp:11125
 msgid "Press q to return"
 msgstr ""
 
-#: game.cpp:11133
+#: game.cpp:11135
 #, c-format
 msgid "%s ago:"
 msgstr ""
 
-#: game.cpp:11190
+#: game.cpp:11192
 msgid "You"
 msgstr ""
 
-#: game.cpp:11198 game.cpp:11204
+#: game.cpp:11200 game.cpp:11206
 #, c-format
 msgid "%s teleport%s into the middle of a %s!"
 msgstr ""
 
-#: game.cpp:11282
+#: game.cpp:11284
 msgid "Sensitivity"
 msgstr ""
 
-#: game.cpp:11332
+#: game.cpp:11334
 msgid "Saving game, this may take a while"
 msgstr ""
 
-#: game.cpp:11361
+#: game.cpp:11363
 #, c-format
 msgid ""
 "Whoa. Whoa. Hey. This game requires a minimum terminal size of %dx%d. I'm\n"
@@ -5111,39 +5391,39 @@ msgid ""
 "window until you've got it at the right size (or bigger).\n"
 msgstr ""
 
-#: game.cpp:11379
+#: game.cpp:11381
 msgid "Press "
 msgstr ""
 
-#: game.cpp:11379
+#: game.cpp:11381
 msgid "Try"
 msgstr ""
 
-#: game.cpp:11395 game.cpp:11460 help.cpp:599
+#: game.cpp:11397 game.cpp:11462 help.cpp:599
 msgid " or "
 msgstr ""
 
-#: game.cpp:11401
+#: game.cpp:11403
 msgid "' or "
 msgstr ""
 
-#: game.cpp:11404
+#: game.cpp:11406
 msgid "'_' (underscore)"
 msgstr ""
 
-#: game.cpp:11430 game.cpp:11464
+#: game.cpp:11432 game.cpp:11466
 msgid " or '"
 msgstr ""
 
-#: game.cpp:11452
+#: game.cpp:11454
 msgid " (underscore)"
 msgstr ""
 
-#: game.cpp:11462
+#: game.cpp:11464
 msgid "or '_' (underscore)"
 msgstr ""
 
-#: game.cpp:11470
+#: game.cpp:11472
 msgid " ('_' (underscore)"
 msgstr ""
 
@@ -6533,7 +6813,7 @@ msgid ""
 "in the dark."
 msgstr ""
 
-#: lang/json/json_bionics.py:57 pldata.h:549
+#: lang/json/json_bionics.py:57 player.cpp:233
 msgid "Infrared Vision"
 msgstr ""
 
@@ -15975,10 +16255,6 @@ msgstr ""
 msgid "The %s shocks you!"
 msgstr ""
 
-#: monattack.cpp:267
-msgid "You're paralyzed!"
-msgstr ""
-
 #: monattack.cpp:272
 #, c-format
 msgid "The %s opens it's mouth and a beam shoots towards you!"
@@ -16783,882 +17059,711 @@ msgstr ""
 msgid "Name of template:"
 msgstr ""
 
-#: player.cpp:2353
-#, c-format
-msgid "Weapon: %s"
-msgstr ""
-
-#: player.cpp:2357 player.cpp:2359 player.cpp:2361 player.cpp:2363
-msgid "Recoil"
-msgstr ""
-
-#: player.cpp:2368
-msgid "Normal"
-msgstr ""
-
-#: player.cpp:2370
-msgid "Burst"
-msgstr ""
-
-#: player.cpp:2378
-msgid "Starving!"
-msgstr ""
-
-#: player.cpp:2380
-msgid "Near starving"
-msgstr ""
-
-#: player.cpp:2382
-msgid "Famished"
-msgstr ""
-
-#: player.cpp:2384
-msgid "Very hungry"
-msgstr ""
-
-#: player.cpp:2386
-msgid "Hungry"
-msgstr ""
-
-#: player.cpp:2388
-msgid "Full"
-msgstr ""
-
-#: player.cpp:2421
-msgid " (Rising!!)"
-msgstr ""
-
-#: player.cpp:2422
-msgid " (Rising!)"
-msgstr ""
-
-#: player.cpp:2423
-msgid " (Rising)"
-msgstr ""
-
-#: player.cpp:2425
-msgid " (Falling)"
-msgstr ""
-
-#: player.cpp:2426
-msgid " (Falling!)"
-msgstr ""
-
-#: player.cpp:2427
-msgid " (Falling!!)"
-msgstr ""
-
-#: player.cpp:2430
-#, c-format
-msgid "Scorching!%s"
-msgstr ""
-
-#: player.cpp:2432
-#, c-format
-msgid "Very hot!%s"
-msgstr ""
-
-#: player.cpp:2434
-#, c-format
-msgid "Warm%s"
-msgstr ""
-
-#: player.cpp:2436
-#, c-format
-msgid "Comfortable%s"
-msgstr ""
-
-#: player.cpp:2438
-#, c-format
-msgid "Chilly%s"
-msgstr ""
-
-#: player.cpp:2440
-#, c-format
-msgid "Very cold!%s"
-msgstr ""
-
-#: player.cpp:2442
-#, c-format
-msgid "Freezing!%s"
-msgstr ""
-
-#: player.cpp:2444
-#, c-format
-msgid "Sound:%d"
-msgstr ""
-
-#: player.cpp:2448
-msgid "Parched"
-msgstr ""
-
-#: player.cpp:2450
-msgid "Dehydrated"
-msgstr ""
-
-#: player.cpp:2452
-msgid "Very thirsty"
-msgstr ""
-
-#: player.cpp:2454
-msgid "Thirsty"
-msgstr ""
-
-#: player.cpp:2456
-msgid "Slaked"
-msgstr ""
-
-#: player.cpp:2459
-msgid "Exhausted"
-msgstr ""
-
-#: player.cpp:2461
-msgid "Dead tired"
-msgstr ""
-
-#: player.cpp:2463
-msgid "Tired"
-msgstr ""
-
-#: player.cpp:2465
-msgid "Focus: "
-msgstr ""
-
-#: player.cpp:2479
-#, c-format
-msgid "Pain: %d"
-msgstr ""
-
-#: player.cpp:2578
-#, c-format
-msgid "Str %s%d"
-msgstr ""
-
-#: player.cpp:2579
-#, c-format
-msgid "Dex %s%d"
-msgstr ""
-
-#: player.cpp:2580
-#, c-format
-msgid "Int %s%d"
-msgstr ""
-
-#: player.cpp:2581
-#, c-format
-msgid "Per %s%d"
-msgstr ""
-
-#: player.cpp:2582
-#, c-format
-msgid "Spd %s%d"
-msgstr ""
-
-#: pldata.h:349
+#: player.cpp:33
 msgid "Fleet-Footed"
 msgstr ""
 
-#: pldata.h:349
+#: player.cpp:33
 #, c-format
 msgid ""
 "You can run more quickly than most, resulting in a 15%% speed bonus on sure "
 "footing."
 msgstr ""
 
-#: pldata.h:352
+#: player.cpp:36
 msgid "Parkour Expert"
 msgstr ""
 
-#: pldata.h:352
+#: player.cpp:36
 msgid ""
 "You're skilled at clearing obstacles; terrain like railings or counters are "
 "as easy for you to move on as solid ground."
 msgstr ""
 
-#: pldata.h:355
+#: player.cpp:39
 msgid "Quick"
 msgstr ""
 
-#: pldata.h:355
+#: player.cpp:39
 #, c-format
 msgid "You're just generally quick!  You get a 10%% bonus to action points."
 msgstr ""
 
-#: pldata.h:357
+#: player.cpp:41
 msgid ""
 "Nothing gets you down!  You savor the joys of life, ignore its hardships, "
 "and are generally happier than most people."
 msgstr ""
 
-#: pldata.h:357
+#: player.cpp:41
 msgid "Optimist"
 msgstr ""
 
-#: pldata.h:360
+#: player.cpp:44
 msgid "Fast Healer"
 msgstr ""
 
-#: pldata.h:360
+#: player.cpp:44
 msgid "You heal a little faster than most; sleeping will heal more lost HP."
 msgstr ""
 
-#: pldata.h:362
+#: player.cpp:46
 msgid "Light Eater"
 msgstr ""
 
-#: pldata.h:362
+#: player.cpp:46
 msgid ""
 "Your metabolism is a little slower, and you require less food than most."
 msgstr ""
 
-#: pldata.h:364
+#: player.cpp:48
 msgid "Pain Resistant"
 msgstr ""
 
-#: pldata.h:364
+#: player.cpp:48
 msgid "You have a high tolerance for pain."
 msgstr ""
 
-#: pldata.h:366
+#: player.cpp:50
 msgid "Night Vision"
 msgstr ""
 
-#: pldata.h:366
+#: player.cpp:50
 msgid ""
 "You possess natural night vision, and can see two squares instead of one in "
 "pitch blackness."
 msgstr ""
 
-#: pldata.h:369
+#: player.cpp:53
 msgid "Poison Resistant"
 msgstr ""
 
-#: pldata.h:369
+#: player.cpp:53
 msgid ""
 "Your system is rather tolerant of poisons and toxins, and most will affect "
 "you less."
 msgstr ""
 
-#: pldata.h:372
+#: player.cpp:56
 msgid "Fast Reader"
 msgstr ""
 
-#: pldata.h:372
+#: player.cpp:56
 msgid ""
 "You're a quick reader, and can get through books a lot faster than most."
 msgstr ""
 
-#: pldata.h:374
+#: player.cpp:58
 #, c-format
 msgid ""
 "It takes a lot to bring you down!  You get a 20%% bonus to all hit points."
 msgstr ""
 
-#: pldata.h:374
+#: player.cpp:58
 msgid "Tough"
 msgstr ""
 
-#: pldata.h:376
+#: player.cpp:60
 msgid "Thick-Skinned"
 msgstr ""
 
-#: pldata.h:376
+#: player.cpp:60
 msgid "Your skin is tough.  Cutting damage is slightly reduced for you."
 msgstr ""
 
-#: pldata.h:378
+#: player.cpp:62
 msgid "Packmule"
 msgstr ""
 
-#: pldata.h:378
+#: player.cpp:62
 #, c-format
 msgid ""
 "You can manage to find space for anything!  You can carry 40%% more volume."
 msgstr ""
 
-#: pldata.h:380
+#: player.cpp:64
 msgid "Fast Learner"
 msgstr ""
 
-#: pldata.h:380
+#: player.cpp:64
 msgid ""
 "You have a flexible mind, allowing you to learn skills much faster than "
 "others.  Note that this only applies to real-world experience, not to skill "
 "gain from other sources like books."
 msgstr ""
 
-#: pldata.h:384
+#: player.cpp:68
 msgid "Deft"
 msgstr ""
 
-#: pldata.h:384
+#: player.cpp:68
 msgid ""
 "While you're not any better at melee combat, you are better at recovering "
 "from a miss, and will be able to attempt another strike faster."
 msgstr ""
 
-#: pldata.h:387
+#: player.cpp:71
 msgid "Drunken Master"
 msgstr ""
 
-#: pldata.h:387
+#: player.cpp:71
 msgid ""
 "The ancient arts of drunken brawling come naturally to you! While under the "
 "influence of alcohol, your melee skill will rise considerably, especially "
 "unarmed combat."
 msgstr ""
 
-#: pldata.h:391
+#: player.cpp:75
 msgid "Gourmand"
 msgstr ""
 
-#: pldata.h:391
+#: player.cpp:75
 msgid ""
 "You eat faster, and can eat and drink more, than anyone else!  You also "
 "enjoy food more; delicious food is better for your morale, and you don't "
 "mind some unsavory meals."
 msgstr ""
 
-#: pldata.h:395
+#: player.cpp:79
 msgid "Animal Empathy"
 msgstr ""
 
-#: pldata.h:395
+#: player.cpp:79
 msgid ""
 "Peaceful animals will not run away from you, and even aggressive animals are "
 "less likely to attack.  This only applies to natural animals such as "
 "woodland creatures."
 msgstr ""
 
-#: pldata.h:399
+#: player.cpp:83
 msgid "Terrifying"
 msgstr ""
 
-#: pldata.h:399
+#: player.cpp:83
 msgid ""
 "There's something about you that creatures find frightening, and they are "
 "more likely to try to flee."
 msgstr ""
 
-#: pldata.h:402
+#: player.cpp:86
 msgid "Disease Resistant"
 msgstr ""
 
-#: pldata.h:402
+#: player.cpp:86
 msgid ""
 "It's very unlikely that you will catch ambient diseases like a cold or the "
 "flu."
 msgstr ""
 
-#: pldata.h:405
+#: player.cpp:89
 msgid "High Adrenaline"
 msgstr ""
 
-#: pldata.h:405
+#: player.cpp:89
 msgid ""
 "If you are in a very dangerous situation, you may experience a temporary "
 "rush which increases your speed and strength significantly."
 msgstr ""
 
-#: pldata.h:408
+#: player.cpp:92
 msgid "Self-aware"
 msgstr ""
 
-#: pldata.h:408
+#: player.cpp:92
 msgid ""
 "You get to see your exact amount of HP remaining, instead of only having a "
 "vague idea of whether you're in good condition or not."
 msgstr ""
 
-#: pldata.h:411
+#: player.cpp:95
 msgid "Inconspicuous"
 msgstr ""
 
-#: pldata.h:411
+#: player.cpp:95
 msgid ""
 "While sleeping or staying still, it is less likely that monsters will wander "
 "close to you."
 msgstr ""
 
-#: pldata.h:414
+#: player.cpp:98
 msgid ""
 "Although you still suffer the negative effects of pain, it also brings a "
 "unique pleasure to you."
 msgstr ""
 
-#: pldata.h:414
+#: player.cpp:98
 msgid "Masochist"
 msgstr ""
 
-#: pldata.h:417
+#: player.cpp:101
 msgid "Light Step"
 msgstr ""
 
-#: pldata.h:417
+#: player.cpp:101
 msgid ""
 "You make less noise while walking.  You're also less likely to set off traps."
 msgstr ""
 
-#: pldata.h:419
+#: player.cpp:103
 msgid "Android"
 msgstr ""
 
-#: pldata.h:419
+#: player.cpp:103
 msgid ""
 "At some point in the past you had a bionic upgrade installed in your body. "
 "You start the game with a power system, and one random bionic enhancement."
 msgstr ""
 
-#: pldata.h:422
+#: player.cpp:106
 msgid "Robust Genetics"
 msgstr ""
 
-#: pldata.h:422
+#: player.cpp:106
 msgid ""
 "You have a very strong genetic base.  If you mutate, the odds that the "
 "mutation will be beneficial are greatly increased."
 msgstr ""
 
-#: pldata.h:425
+#: player.cpp:109
 msgid "Cannibal"
 msgstr ""
 
-#: pldata.h:425
+#: player.cpp:109
 msgid ""
 "For your whole life you've been forbidden from indulging in your peculiar "
 "tastes. Now the world's ended, and you'll be damned if anyone is going to "
 "tell you you can't eat people."
 msgstr ""
 
-#: pldata.h:429
+#: player.cpp:113
 msgid "Martial Arts Training"
 msgstr ""
 
-#: pldata.h:429
+#: player.cpp:113
 msgid ""
 "You have received some martial arts training at a local dojo. You start with "
 "your choice of karate, judo, aikido, tai chi, or taekwondo."
 msgstr ""
 
-#: pldata.h:432
+#: player.cpp:116
 msgid "Self-Defense Classes"
 msgstr ""
 
-#: pldata.h:432
+#: player.cpp:116
 msgid ""
 "You have taken some self-defense classes at a nearby gym. You start with "
 "your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan."
 msgstr ""
 
-#: pldata.h:435
+#: player.cpp:119
 msgid "Shaolin Adept"
 msgstr ""
 
-#: pldata.h:435
+#: player.cpp:119
 msgid ""
 "You have studied the arts of the Shaolin monks.  You start with one of the "
 "five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon."
 msgstr ""
 
-#: pldata.h:438
+#: player.cpp:122
 msgid "Venom Mob Protoge"
 msgstr ""
 
-#: pldata.h:438
+#: player.cpp:122
 msgid ""
 "You are a pupil of the Venom Clan.  You start with one of the five deadly "
 "venoms: Centipede, Viper, Scorpion, Lizard, or Toad."
 msgstr ""
 
-#: pldata.h:441
+#: player.cpp:125
 msgid "Skilled Liar"
 msgstr ""
 
-#: pldata.h:441
+#: player.cpp:125
 msgid ""
 "You have no qualms about bending the truth, and have practically no tells. "
 "Telling lies and otherwise bluffing will be much easier for you."
 msgstr ""
 
-#: pldata.h:444
+#: player.cpp:128
 msgid "Pretty"
 msgstr ""
 
-#: pldata.h:444
+#: player.cpp:128
 msgid ""
 "You are a sight to behold. NPCs who care about such thing will react more "
 "kindly to you."
 msgstr ""
 
-#: pldata.h:450
+#: player.cpp:134
 msgid "Near-Sighted"
 msgstr ""
 
-#: pldata.h:450
+#: player.cpp:134
 msgid ""
 "Without your glasses, your seeing radius is severely reduced!  However, "
 "while wearing glasses this trait has no effect, and you are guaranteed to "
 "start with a pair."
 msgstr ""
 
-#: pldata.h:454
+#: player.cpp:138
 msgid "Far-Sighted"
 msgstr ""
 
-#: pldata.h:454
+#: player.cpp:138
 msgid ""
 "Without reading glasses, you are unable to read anything, and take "
 "penalities on melee accuracy and electronics/tailoring crafting. However, "
 "you are guaranteed to start with a pair of reading glasses."
 msgstr ""
 
-#: pldata.h:458
+#: player.cpp:142
 msgid "Heavy Sleeper"
 msgstr ""
 
-#: pldata.h:458
+#: player.cpp:142
 msgid "You're quite the heavy sleeper.  Noises are unlikely to wake you up."
 msgstr ""
 
-#: pldata.h:460
+#: player.cpp:144
 msgid "Asthmatic"
 msgstr ""
 
-#: pldata.h:460
+#: player.cpp:144
 msgid ""
 "You will occasionally need to use an inhaler, or else suffer severe physical "
 "limitations.  However, you are guaranteed to start with an inhaler."
 msgstr ""
 
-#: pldata.h:463
+#: player.cpp:147
 msgid "Bad Back"
 msgstr ""
 
-#: pldata.h:463
+#: player.cpp:147
 #, c-format
 msgid ""
 "You simply can not carry as much as people with a similar strength could. "
 "Your maximum weight carried is reduced by 35%%."
 msgstr ""
 
-#: pldata.h:466
+#: player.cpp:150
 msgid "Illiterate"
 msgstr ""
 
-#: pldata.h:466
+#: player.cpp:150
 msgid "You never learned to read!  Books and computers are off-limits to you."
 msgstr ""
 
-#: pldata.h:468
+#: player.cpp:152
 msgid "Poor Hearing"
 msgstr ""
 
-#: pldata.h:468
+#: player.cpp:152
 msgid "Your hearing is poor, and you may not hear quiet or far-off noises."
 msgstr ""
 
-#: pldata.h:470
+#: player.cpp:154
 msgid "Insomniac"
 msgstr ""
 
-#: pldata.h:470
+#: player.cpp:154
 msgid "You have a hard time falling asleep, even under the best circumstances!"
 msgstr ""
 
-#: pldata.h:472
+#: player.cpp:156
 msgid "Meat Intolerance"
 msgstr ""
 
-#: pldata.h:472
+#: player.cpp:156
 msgid ""
 "You have problems with eating meat, it's possible for you to eat it but you "
 "will suffer morale penalties due to nausea."
 msgstr ""
 
-#: pldata.h:475
+#: player.cpp:159
 msgid "Glass Jaw"
 msgstr ""
 
-#: pldata.h:475
+#: player.cpp:159
 #, c-format
 msgid ""
 "Your head can't take much abuse.  Its maximum HP is 20%% lower than usual."
 msgstr ""
 
-#: pldata.h:477
+#: player.cpp:161
 msgid "Forgetful"
 msgstr ""
 
-#: pldata.h:477
+#: player.cpp:161
 msgid ""
 "You have a hard time remembering things.  Your skills will erode slightly "
 "faster than usual."
 msgstr ""
 
-#: pldata.h:480
+#: player.cpp:164
 msgid ""
 "Alcohol and drugs go straight to your head.  You suffer the negative effects "
 "of these for longer."
 msgstr ""
 
-#: pldata.h:480
+#: player.cpp:164
 msgid "Lightweight"
 msgstr ""
 
-#: pldata.h:483
+#: player.cpp:167
 msgid "Addictive Personality"
 msgstr ""
 
-#: pldata.h:483
+#: player.cpp:167
 msgid ""
 "It's easier for you to become addicted to substances, and harder to rid "
 "yourself of these addictions."
 msgstr ""
 
-#: pldata.h:486
+#: player.cpp:170
 msgid ""
 "On rare occasion, you will go full-auto when you intended to fire a single "
 "shot.  This has no effect when firing handguns or other semi-automatic "
 "firearms."
 msgstr ""
 
-#: pldata.h:486
+#: player.cpp:170
 msgid "Trigger Happy"
 msgstr ""
 
-#: pldata.h:490
+#: player.cpp:174
 msgid "Smelly"
 msgstr ""
 
-#: pldata.h:490
+#: player.cpp:174
 msgid ""
 "Your scent is particularly strong.  It's not offensive to humans, but "
 "animals that track your scent will do so more easily."
 msgstr ""
 
-#: pldata.h:493
+#: player.cpp:177
 msgid "Chemical Imbalance"
 msgstr ""
 
-#: pldata.h:493
+#: player.cpp:177
 msgid ""
 "You suffer from a minor chemical imbalance, whether mental or physical. "
 "Minor changes to your internal chemistry will manifest themselves on "
 "occasion, such as hunger, sleepiness, narcotic effects, etc."
 msgstr ""
 
-#: pldata.h:497
+#: player.cpp:181
 msgid "Schizophrenic"
 msgstr ""
 
-#: pldata.h:497
+#: player.cpp:181
 msgid ""
 "You will periodically suffer from delusions, ranging from minor effects to "
 "full visual hallucinations.  Some of these effects may be controlled through "
 "the use of Thorazine."
 msgstr ""
 
-#: pldata.h:501
+#: player.cpp:185
 msgid ""
 "During moments of great stress or under the effects of stimulants, you may "
 "find your hands shaking uncontrollably, severely reducing your dexterity."
 msgstr ""
 
-#: pldata.h:501
+#: player.cpp:185
 msgid "Jittery"
 msgstr ""
 
-#: pldata.h:504
+#: player.cpp:188
 msgid "Hoarder"
 msgstr ""
 
-#: pldata.h:504
+#: player.cpp:188
 msgid ""
 "You don't feel right unless you're carrying as much as you can.  You suffer "
 "morale penalties for carrying less than maximum volume (weight is ignored). "
 "Xanax can help control this anxiety."
 msgstr ""
 
-#: pldata.h:508
+#: player.cpp:192
 msgid "Savant"
 msgstr ""
 
-#: pldata.h:508
+#: player.cpp:192
 msgid ""
 "You tend to specialize in one skill and be poor at all others.  You advance "
 "at half speed in all skills except your best one. Note that combining this "
 "with Fast Learner will come out to a slower rate of learning for all skills."
 msgstr ""
 
-#: pldata.h:512
+#: player.cpp:196
 msgid "Mood Swings"
 msgstr ""
 
-#: pldata.h:512
+#: player.cpp:196
 msgid "Your morale will shift up and down at random, often dramatically."
 msgstr ""
 
-#: pldata.h:514
+#: player.cpp:198
 msgid "Weak Stomach"
 msgstr ""
 
-#: pldata.h:514
+#: player.cpp:198
 msgid "You are more likely to throw up from food poisoning, alcohol, etc."
 msgstr ""
 
-#: pldata.h:516
+#: player.cpp:200
 msgid "Wool Allergy"
 msgstr ""
 
-#: pldata.h:516
+#: player.cpp:200
 msgid ""
 "You are badly allergic to wool, and can not wear any clothing made of the "
 "substance."
 msgstr ""
 
-#: pldata.h:519
+#: player.cpp:203
 msgid "Truth Teller"
 msgstr ""
 
-#: pldata.h:519
+#: player.cpp:203
 msgid ""
 "When you try to tell a lie, you blush, stammer, and get all shifty-eyed. "
 "Telling lies and otherwise bluffing will be much more difficult for you."
 msgstr ""
 
-#: pldata.h:522
+#: player.cpp:206
 msgid "Ugly"
 msgstr ""
 
-#: pldata.h:522
+#: player.cpp:206
 msgid ""
 "You're not much to look at.  NPCs who care about such things will react "
 "poorly to you."
 msgstr ""
 
-#: pldata.h:525
+#: player.cpp:209
 msgid "Hardcore"
 msgstr ""
 
-#: pldata.h:525
+#: player.cpp:209
 #, c-format
 msgid ""
 "Your whole body can't take much abuse.  Its maximum HP is 75%% points lower "
 "than usual. Stacks with Glass Jaw. Not for casuals."
 msgstr ""
 
-#: pldata.h:543
+#: player.cpp:227
 msgid "Rough Skin"
 msgstr ""
 
-#: pldata.h:543
+#: player.cpp:227
 msgid "Your skin is slightly rough.  This has no gameplay effect."
 msgstr ""
 
-#: pldata.h:545
+#: player.cpp:229
 msgid "High Night Vision"
 msgstr ""
 
-#: pldata.h:545
+#: player.cpp:229
 msgid "You can see incredibly well in the dark!"
 msgstr ""
 
-#: pldata.h:547
+#: player.cpp:231
 msgid "Full Night Vision"
 msgstr ""
 
-#: pldata.h:547
+#: player.cpp:231
 msgid ""
 "You can see in pitch blackness as if you were wearing night-vision goggles."
 msgstr ""
 
-#: pldata.h:549
+#: player.cpp:233
 msgid "Your eyes have mutated to pick up radiation in the infrared spectrum."
 msgstr ""
 
-#: pldata.h:551
+#: player.cpp:235
 msgid "Very Fast Healer"
 msgstr ""
 
-#: pldata.h:551
+#: player.cpp:235
 msgid ""
 "Your flesh regenerates slowly, and you will regain HP even when not sleeping."
 msgstr ""
 
-#: pldata.h:553
+#: player.cpp:237
 msgid "Regeneration"
 msgstr ""
 
-#: pldata.h:553
+#: player.cpp:237
 msgid "Your flesh regenerates from wounds incredibly quickly."
 msgstr ""
 
-#: pldata.h:555
+#: player.cpp:239
 msgid "Fangs"
 msgstr ""
 
-#: pldata.h:555
+#: player.cpp:239
 msgid ""
 "Your teeth have grown into two-inch-long fangs, allowing you to make an "
 "extra attack when conditions favor it."
 msgstr ""
 
-#: pldata.h:558
+#: player.cpp:242
 msgid "Nictitating Membrane"
 msgstr ""
 
-#: pldata.h:558
+#: player.cpp:242
 msgid ""
 "You have a second set of clear eyelids which lower while underwater, "
 "allowing you to see as though you were wearing goggles."
 msgstr ""
 
-#: pldata.h:561
+#: player.cpp:245
 msgid "Gills"
 msgstr ""
 
-#: pldata.h:561
+#: player.cpp:245
 msgid ""
 "You've grown a set of gills in your neck, allowing you to breathe underwater."
 msgstr ""
 
-#: pldata.h:563
+#: player.cpp:247
 msgid ""
 "A set of flexible green scales have grown to cover your body, acting as a "
 "natural armor."
 msgstr ""
 
-#: pldata.h:563
+#: player.cpp:247
 msgid "Scales"
 msgstr ""
 
-#: pldata.h:566
+#: player.cpp:250
 msgid ""
 "A set of heavy green scales have grown to cover your body, acting as a "
 "natural armor.  It is very difficult to penetrate, but also limits your "
 "flexibility, resulting in a -2 penalty to Dexterity."
 msgstr ""
 
-#: pldata.h:566
+#: player.cpp:250
 msgid "Thick Scales"
 msgstr ""
 
-#: pldata.h:570
+#: player.cpp:254
 msgid ""
 "A set of very flexible and slick scales have grown to cover your body.  "
 "These act as a weak set of armor, improve your ability to swim, and make you "
 "difficult to grab."
 msgstr ""
 
-#: pldata.h:570
+#: player.cpp:254
 msgid "Sleek Scales"
 msgstr ""
 
-#: pldata.h:574
+#: player.cpp:258
 msgid "Light Bones"
 msgstr ""
 
-#: pldata.h:574
+#: player.cpp:258
 #, c-format
 msgid ""
 "Your bones are very light.  This enables you to run and attack 10%% faster, "
@@ -17666,245 +17771,245 @@ msgid ""
 "a little more."
 msgstr ""
 
-#: pldata.h:578
+#: player.cpp:262
 msgid "Feathers"
 msgstr ""
 
-#: pldata.h:578
+#: player.cpp:262
 msgid ""
 "Iridescent feathers have grown to cover your entire body, providing a "
 "marginal protection against attacks and minor protection from cold. They "
 "also provide a natural waterproofing."
 msgstr ""
 
-#: pldata.h:582
+#: player.cpp:266
 msgid ""
 "Light fur has grown to coveryour entire body, providing slight protection "
 "from cold."
 msgstr ""
 
-#: pldata.h:582
+#: player.cpp:266
 msgid "Lightly Furred"
 msgstr ""
 
-#: pldata.h:585
+#: player.cpp:269
 msgid "Furry"
 msgstr ""
 
-#: pldata.h:585
+#: player.cpp:269
 msgid ""
 "Thick black fur has grown to cover your entire body, providing a marginal "
 "protection against attacks, and considerable protection from cold."
 msgstr ""
 
-#: pldata.h:588
+#: player.cpp:272
 msgid "Chitinous Skin"
 msgstr ""
 
-#: pldata.h:588
+#: player.cpp:272
 msgid ""
 "Your epidermis has turned into a thin, flexible layer of chitin.  It "
 "provides minor protection from cutting wounds."
 msgstr ""
 
-#: pldata.h:591
+#: player.cpp:275
 msgid "Chitinous Armor"
 msgstr ""
 
-#: pldata.h:591
+#: player.cpp:275
 msgid ""
 "You've grown a chitin exoskeleton, much like that of an insect.  It provides "
 "considerable physical protection, but reduces your dexterity by 1."
 msgstr ""
 
-#: pldata.h:594
+#: player.cpp:278
 msgid "Chitinous Plate"
 msgstr ""
 
-#: pldata.h:594
+#: player.cpp:278
 msgid ""
 "You've grown a chitin exoskeleton made of thick, stiff plates, like that of "
 "a beetle.  It provides excellent physical protection, but reduces your "
 "dexterity by 1 and encumbers all body parts but your eyes and mouth."
 msgstr ""
 
-#: pldata.h:598
+#: player.cpp:282
 msgid "Spines"
 msgstr ""
 
-#: pldata.h:598
+#: player.cpp:282
 msgid ""
 "Your skin is covered with fine spines.  Whenever an unarmed opponent strikes "
 "a part of your body that is not covered by clothing, they will receive "
 "moderate damage."
 msgstr ""
 
-#: pldata.h:602
+#: player.cpp:286
 msgid "Quills"
 msgstr ""
 
-#: pldata.h:602
+#: player.cpp:286
 msgid ""
 "Your body is covered with large quills.  Whenever an unarmed opponent "
 "strikes a part of your body that is not covered by clothing, they will "
 "receive significant damage."
 msgstr ""
 
-#: pldata.h:606
+#: player.cpp:290
 msgid "Phelloderm"
 msgstr ""
 
-#: pldata.h:606
+#: player.cpp:290
 msgid ""
 "Your skin is light green and has a slightly woody quality to it.  This "
 "provides a weak armor, and helps you retain moisture, resulting in less "
 "thirst."
 msgstr ""
 
-#: pldata.h:610
+#: player.cpp:294
 msgid "Bark"
 msgstr ""
 
-#: pldata.h:610
+#: player.cpp:294
 msgid ""
 "Your skin is coated in a light bark, like that of a tree.  This provides "
 "resistance to bashing and cutting damage and minor protection from fire."
 msgstr ""
 
-#: pldata.h:613
+#: player.cpp:297
 msgid "Thorns"
 msgstr ""
 
-#: pldata.h:613
+#: player.cpp:297
 msgid ""
 "Your skin is covered in small, woody thorns.  Whenever an unarmed opponent "
 "strikes a part of your body that is not covered by clothing, they will "
 "receive minor damage.  Your punches may also deal extra damage."
 msgstr ""
 
-#: pldata.h:617
+#: player.cpp:301
 msgid ""
 "All the hair on your body has turned to long, grass-like leaves.  Apart from "
 "being physically striking, these provide you with a minor amount of "
 "nutrition while in sunlight."
 msgstr ""
 
-#: pldata.h:617
+#: player.cpp:301
 msgid "Leaves"
 msgstr ""
 
-#: pldata.h:621
+#: player.cpp:305
 msgid "Long Fingernails"
 msgstr ""
 
-#: pldata.h:621
+#: player.cpp:305
 msgid ""
 "Your fingernails are long and sharp.  If you aren't wearing gloves, your "
 "unarmed attacks deal a minor amount of cutting damage."
 msgstr ""
 
-#: pldata.h:624
+#: player.cpp:308
 msgid "Claws"
 msgstr ""
 
-#: pldata.h:624
+#: player.cpp:308
 msgid ""
 "You have claws on the ends of your fingers.  If you aren't wearing gloves, "
 "your unarmed attacks deal a minor amount of cutting damage."
 msgstr ""
 
-#: pldata.h:627
+#: player.cpp:311
 msgid "Large Talons"
 msgstr ""
 
-#: pldata.h:627
+#: player.cpp:311
 msgid ""
 "Your index fingers have grown into huge talons.  After a bit of practice, "
 "you find that this does not affect your dexterity, but allows for a deadly "
 "unarmed attack.  They also prevent you from wearing gloves."
 msgstr ""
 
-#: pldata.h:631
+#: player.cpp:315
 msgid "Radiogenic"
 msgstr ""
 
-#: pldata.h:631
+#: player.cpp:315
 msgid ""
 "Your system has adapted to radiation.  While irradiated, you will actually "
 "heal slowly, converting the radiation into hit points."
 msgstr ""
 
-#: pldata.h:634
+#: player.cpp:318
 msgid ""
 "Ever since you ate that Marloss berry, you can't get its scent out of your "
 "nose, and you have a strong desire to eat more."
 msgstr ""
 
-#: pldata.h:634
+#: player.cpp:318
 msgid "Marloss Carrier"
 msgstr ""
 
-#: pldata.h:637
+#: player.cpp:321
 msgid "Insect Pheromones"
 msgstr ""
 
-#: pldata.h:637
+#: player.cpp:321
 msgid ""
 "Your body produces low-level pheromones, identifying you as a friend to many "
 "species of insects.  Insects will attack you much less."
 msgstr ""
 
-#: pldata.h:640
+#: player.cpp:324
 msgid "Mammal Pheromones"
 msgstr ""
 
-#: pldata.h:640
+#: player.cpp:324
 msgid ""
 "Your body produces low-level pheromones which puts mammals at ease.  They "
 "will be less likely to attack or flee from you."
 msgstr ""
 
-#: pldata.h:643
+#: player.cpp:327
 msgid "Disease Immune"
 msgstr ""
 
-#: pldata.h:643
+#: player.cpp:327
 msgid ""
 "Your body is simply immune to diseases.  You will never catch an ambient "
 "disease."
 msgstr ""
 
-#: pldata.h:646
+#: player.cpp:330
 msgid ""
 "Your body produces a potent venom.  Any special attacks from mutatations "
 "have a chance to poison your target."
 msgstr ""
 
-#: pldata.h:649
+#: player.cpp:333
 msgid "Slime Hands"
 msgstr ""
 
-#: pldata.h:649
+#: player.cpp:333
 msgid ""
 "The skin on your hands is a mucous membrane and produces a thick, acrid "
 "slime.  Attacks using your hand will cause minor acid damage."
 msgstr ""
 
-#: pldata.h:652
+#: player.cpp:336
 msgid "Compound Eyes"
 msgstr ""
 
-#: pldata.h:652
+#: player.cpp:336
 msgid ""
 "Your eyes are compound, like those of an insect.  This increases your "
 "perception by 2 so long as you aren't wearing eyewear."
 msgstr ""
 
-#: pldata.h:655
+#: player.cpp:339
 msgid "Padded Feet"
 msgstr ""
 
-#: pldata.h:655
+#: player.cpp:339
 #, c-format
 msgid ""
 "The bottoms of your feet are strongly padded.  You receive no movement "
@@ -17912,553 +18017,553 @@ msgid ""
 "barefoot."
 msgstr ""
 
-#: pldata.h:659
+#: player.cpp:343
 msgid "Hooves"
 msgstr ""
 
-#: pldata.h:659
+#: player.cpp:343
 msgid ""
 "Your feet have fused into hooves.  This allows kicking attacks to do much "
 "more damage, provides natural armor, and removes the need to wear shoes; "
 "however, you can not wear shoes of any kind."
 msgstr ""
 
-#: pldata.h:663
+#: player.cpp:347
 msgid "Saprovore"
 msgstr ""
 
-#: pldata.h:663
+#: player.cpp:347
 msgid ""
 "Your digestive system is specialized to allow you to consume decaying "
 "material.  You can eat rotten food, albeit for less nutrition than usual."
 msgstr ""
 
-#: pldata.h:667
+#: player.cpp:351
 msgid "Ruminant"
 msgstr ""
 
-#: pldata.h:667
+#: player.cpp:351
 msgid ""
 "Your digestive system is capable of digesting cellulose and other rough "
 "plant material.  You can eat underbrush by standing over it and pressing E."
 msgstr ""
 
-#: pldata.h:671
+#: player.cpp:355
 msgid "Horns"
 msgstr ""
 
-#: pldata.h:671
+#: player.cpp:355
 msgid ""
 "You have a pair of small horns on your head.  They allow you to make a weak "
 "piercing headbutt attack."
 msgstr ""
 
-#: pldata.h:674
+#: player.cpp:358
 msgid "Curled Horns"
 msgstr ""
 
-#: pldata.h:674
+#: player.cpp:358
 msgid ""
 "You have a pair of large curled horns, like those of a ram.  They allow you "
 "to make a strong bashing headbutt attack, but prevent you from wearing any "
 "headwear."
 msgstr ""
 
-#: pldata.h:678
+#: player.cpp:362
 msgid "Pointed Horns"
 msgstr ""
 
-#: pldata.h:678
+#: player.cpp:362
 msgid ""
 "You have a pair of long, pointed horns, like those of an antelope.  They "
 "allow you to make a strong piercing headbutt attack, but prevent you from "
 "wearing any headwear the is not made of fabric."
 msgstr ""
 
-#: pldata.h:682
+#: player.cpp:366
 msgid "Antennae"
 msgstr ""
 
-#: pldata.h:682
+#: player.cpp:366
 msgid ""
 "You have a pair of antennae.  They allow you to detect the presence of "
 "monsters up to a few tiles away, even if you can't see or hear them, but "
 "prevent you from wearing headwear that is not made of fabric."
 msgstr ""
 
-#: pldata.h:686
+#: player.cpp:370
 msgid "Road-Runner"
 msgstr ""
 
-#: pldata.h:686
+#: player.cpp:370
 #, c-format
 msgid ""
 "Your legs are extremely limber and fast-moving.  You run 30%% faster on flat "
 "surfaces."
 msgstr ""
 
-#: pldata.h:689
+#: player.cpp:373
 msgid "Stubby Tail"
 msgstr ""
 
-#: pldata.h:689
+#: player.cpp:373
 msgid "You have a short, stubby tail, like a rabbit's.  It serves no purpose."
 msgstr ""
 
-#: pldata.h:691
+#: player.cpp:375
 msgid "Tail Fin"
 msgstr ""
 
-#: pldata.h:691
+#: player.cpp:375
 msgid "You have a fin-like tail.  It allows you to swim more quickly."
 msgstr ""
 
-#: pldata.h:693
+#: player.cpp:377
 msgid "Long Tail"
 msgstr ""
 
-#: pldata.h:693
+#: player.cpp:377
 msgid ""
 "You have a long, graceful tail, like that of a big cat.  It improves your "
 "balance, making your ability to dodge higher."
 msgstr ""
 
-#: pldata.h:696
+#: player.cpp:380
 msgid "Fluffy Tail"
 msgstr ""
 
-#: pldata.h:696
+#: player.cpp:380
 msgid ""
 "You have a long, fluffy-furred tail.  It greatly improves your balance, "
 "making your ability to dodge much higher."
 msgstr ""
 
-#: pldata.h:699
+#: player.cpp:383
 msgid "Spiked Tail"
 msgstr ""
 
-#: pldata.h:699
+#: player.cpp:383
 msgid ""
 "You have a long tail that ends in a vicious stinger, like that of a "
 "scorpion.  It does not improve your balance at all, but allows for a "
 "powerful piercing attack."
 msgstr ""
 
-#: pldata.h:703
+#: player.cpp:387
 msgid "Club Tail"
 msgstr ""
 
-#: pldata.h:703
+#: player.cpp:387
 msgid ""
 "You have a long tail that ends in a heavy, bony club.  It does not improve "
 "your balance at all, but alows for a powerful bashing attack."
 msgstr ""
 
-#: pldata.h:706
+#: player.cpp:390
 msgid "Pain Recovery"
 msgstr ""
 
-#: pldata.h:706
+#: player.cpp:390
 msgid "You recover from pain slightly faster than normal."
 msgstr ""
 
-#: pldata.h:708
+#: player.cpp:392
 msgid "Quick Pain Recovery"
 msgstr ""
 
-#: pldata.h:708
+#: player.cpp:392
 msgid "You recover from pain faster than normal."
 msgstr ""
 
-#: pldata.h:710
+#: player.cpp:394
 msgid "Very Quick Pain Reovery"
 msgstr ""
 
-#: pldata.h:710
+#: player.cpp:394
 msgid "You recover from pain much faster than normal."
 msgstr ""
 
-#: pldata.h:712
+#: player.cpp:396
 msgid "Bird Wings"
 msgstr ""
 
-#: pldata.h:712
+#: player.cpp:396
 msgid ""
 "You have a pair of large, feathered wings.  Your body is too heavy to be "
 "able to fly, but you can use them to slow your descent during a fall, and "
 "will not take falling damage under any circumstances."
 msgstr ""
 
-#: pldata.h:716
+#: player.cpp:400
 msgid "Insect Wings"
 msgstr ""
 
-#: pldata.h:716
+#: player.cpp:400
 msgid ""
 "You have a pair of large, translucent wings.  You buzz them as you run, "
 "enabling you to run faster."
 msgstr ""
 
-#: pldata.h:719
+#: player.cpp:403
 msgid ""
 "A set of tentacles surrounds your mouth.  They allow you to eat twice as "
 "fast."
 msgstr ""
 
-#: pldata.h:719
+#: player.cpp:403
 msgid "Mouth Tentacles"
 msgstr ""
 
-#: pldata.h:722
+#: player.cpp:406
 msgid ""
 "A set of insect-like mandibles have grown around your mouth.  They allow you "
 "to eat faster and provide a slicing unarmed attack, but prevent you from "
 "wearing mouthwear."
 msgstr ""
 
-#: pldata.h:722
+#: player.cpp:406
 msgid "Mandibles"
 msgstr ""
 
-#: pldata.h:726
+#: player.cpp:410
 msgid "Canine Ears"
 msgstr ""
 
-#: pldata.h:726
+#: player.cpp:410
 msgid ""
 "Your ears have extended into long, pointed ones, like those of a canine. "
 "They enhance your hearing, allowing you to hear at greater distances."
 msgstr ""
 
-#: pldata.h:729
+#: player.cpp:413
 msgid "Web Walker"
 msgstr ""
 
-#: pldata.h:729
+#: player.cpp:413
 msgid ""
 "Your body excretes very fine amounts of a chemcial which prevents you from "
 "sticking to webs.  Walking through webs does not affect you at all."
 msgstr ""
 
-#: pldata.h:732
+#: player.cpp:416
 msgid "Web Weaver"
 msgstr ""
 
-#: pldata.h:732
+#: player.cpp:416
 msgid ""
 "Your body produces webs.  As you move, there is a chance that you will leave "
 "webs in your wake."
 msgstr ""
 
-#: pldata.h:735
+#: player.cpp:419
 msgid "Whiskers"
 msgstr ""
 
-#: pldata.h:735
+#: player.cpp:419
 msgid ""
 "You have a set of prominent rodent-like whiskers around your mouth.  These "
 "make you more aware of vibrations in the air, and improve your ability to "
 "dodge very slightly."
 msgstr ""
 
-#: pldata.h:739
+#: player.cpp:423
 msgid "Strong"
 msgstr ""
 
-#: pldata.h:739
+#: player.cpp:423
 msgid "Your muscles are a little stronger.  Strength + 1"
 msgstr ""
 
-#: pldata.h:741
+#: player.cpp:425
 msgid "Very Strong"
 msgstr ""
 
-#: pldata.h:741
+#: player.cpp:425
 msgid "Your muscles are stronger.  Strength + 2"
 msgstr ""
 
-#: pldata.h:743
+#: player.cpp:427
 msgid "Extremely Strong"
 msgstr ""
 
-#: pldata.h:743
+#: player.cpp:427
 msgid "Your muscles are much stronger.  Strength + 4"
 msgstr ""
 
-#: pldata.h:745
+#: player.cpp:429
 msgid "Insanely Strong"
 msgstr ""
 
-#: pldata.h:745
+#: player.cpp:429
 msgid "Your muscles are noticably bulging.  Strength + 7"
 msgstr ""
 
-#: pldata.h:747
+#: player.cpp:431
 msgid "Dextrous"
 msgstr ""
 
-#: pldata.h:747
+#: player.cpp:431
 msgid "You are a little nimbler.  Dexterity + 1"
 msgstr ""
 
-#: pldata.h:749
+#: player.cpp:433
 msgid "Very Dextrous"
 msgstr ""
 
-#: pldata.h:749
+#: player.cpp:433
 msgid "You are nimbler.  Dexterity + 2"
 msgstr ""
 
-#: pldata.h:751
+#: player.cpp:435
 msgid "Extremely Dextrous"
 msgstr ""
 
-#: pldata.h:751
+#: player.cpp:435
 msgid "You are nimble and quick.  Dexterity + 4"
 msgstr ""
 
-#: pldata.h:753
+#: player.cpp:437
 msgid "Insanely Dextrous"
 msgstr ""
 
-#: pldata.h:753
+#: player.cpp:437
 msgid "You are much nimbler than before.  Dexterity + 7"
 msgstr ""
 
-#: pldata.h:755
+#: player.cpp:439
 msgid "Smart"
 msgstr ""
 
-#: pldata.h:755
+#: player.cpp:439
 msgid "You are a little smarter.  Intelligence + 1"
 msgstr ""
 
-#: pldata.h:757
+#: player.cpp:441
 msgid "Very Smart"
 msgstr ""
 
-#: pldata.h:757
+#: player.cpp:441
 msgid "You are smarter.  Intelligence + 2"
 msgstr ""
 
-#: pldata.h:759
+#: player.cpp:443
 msgid "Extremely Smart"
 msgstr ""
 
-#: pldata.h:759
+#: player.cpp:443
 msgid "You are much smarter, and your skull bulges slightly.  Intelligence + 4"
 msgstr ""
 
-#: pldata.h:761
+#: player.cpp:445
 msgid "Insanely Smart"
 msgstr ""
 
-#: pldata.h:761
+#: player.cpp:445
 msgid ""
 "Your skull bulges noticably with your impressive brain.  Intelligence + 7"
 msgstr ""
 
-#: pldata.h:763
+#: player.cpp:447
 msgid "Perceptive"
 msgstr ""
 
-#: pldata.h:763
+#: player.cpp:447
 msgid "Your senses are a little keener.  Perception + 1"
 msgstr ""
 
-#: pldata.h:765
+#: player.cpp:449
 msgid "Very Perceptive"
 msgstr ""
 
-#: pldata.h:765
+#: player.cpp:449
 msgid "Your senses are keener.  Perception + 2"
 msgstr ""
 
-#: pldata.h:767
+#: player.cpp:451
 msgid "Extremely Perceptive"
 msgstr ""
 
-#: pldata.h:767
+#: player.cpp:451
 msgid "Your senses are much keener.  Perception + 4"
 msgstr ""
 
-#: pldata.h:769
+#: player.cpp:453
 msgid "Insanely Perceptive"
 msgstr ""
 
-#: pldata.h:769
+#: player.cpp:453
 msgid "You can sense things you never imagined.  Perception + 7"
 msgstr ""
 
-#: pldata.h:772
+#: player.cpp:456
 msgid "Head Bumps"
 msgstr ""
 
-#: pldata.h:772
+#: player.cpp:456
 msgid "You have a pair of bumps on your skull."
 msgstr ""
 
-#: pldata.h:774
+#: player.cpp:458
 msgid "Antlers"
 msgstr ""
 
-#: pldata.h:774
+#: player.cpp:458
 msgid ""
 "You have a huge rack of antlers, like those of a moose.  They prevent you "
 "from hearing headwear that is not made of fabric, but provide a weak "
 "headbutt attack."
 msgstr ""
 
-#: pldata.h:778
+#: player.cpp:462
 msgid "Slit Nostrils"
 msgstr ""
 
-#: pldata.h:778
+#: player.cpp:462
 msgid ""
 "You have a flattened nose and thin slits for nostrils, giving you a lizard- "
 "like appearance.  This makes breathing slightly difficult and increases "
 "mouth encumbrance by 1."
 msgstr ""
 
-#: pldata.h:782
+#: player.cpp:466
 msgid "Forked Tongue"
 msgstr ""
 
-#: pldata.h:782
+#: player.cpp:466
 msgid "Your tongue is forked, like that of a reptile.  This has no effect."
 msgstr ""
 
-#: pldata.h:784
+#: player.cpp:468
 msgid "Bulging Eyes"
 msgstr ""
 
-#: pldata.h:784
+#: player.cpp:468
 msgid ""
 "Your eyes bulge out several inches from your skull.  This does not affect "
 "your vision in any way."
 msgstr ""
 
-#: pldata.h:787
+#: player.cpp:471
 msgid "Mouth Flaps"
 msgstr ""
 
-#: pldata.h:787
+#: player.cpp:471
 msgid ""
 "Skin tabs and odd flaps of skin surround your mouth.  They don't affect your "
 "eating, but are unpleasant to look at."
 msgstr ""
 
-#: pldata.h:790
+#: player.cpp:474
 msgid "Wing Stubs"
 msgstr ""
 
-#: pldata.h:790
+#: player.cpp:474
 msgid ""
 "You have a pair of stubby little wings projecting from your shoulderblades. "
 "They can be wiggled at will, but are useless."
 msgstr ""
 
-#: pldata.h:793
+#: player.cpp:477
 msgid "Bat Wings"
 msgstr ""
 
-#: pldata.h:793
+#: player.cpp:477
 msgid ""
 "You have a pair of large, leathery wings.  You can move them a little, but "
 "they are useless, and in fact put you off balance, reducing your ability to "
 "dodge slightly."
 msgstr ""
 
-#: pldata.h:797
+#: player.cpp:481
 msgid "Pale Skin"
 msgstr ""
 
-#: pldata.h:797
+#: player.cpp:481
 msgid "Your skin is rather pale."
 msgstr ""
 
-#: pldata.h:799
+#: player.cpp:483
 msgid "Spots"
 msgstr ""
 
-#: pldata.h:799
+#: player.cpp:483
 msgid "Your skin is covered in a pattern of red spots."
 msgstr ""
 
-#: pldata.h:801
+#: player.cpp:485
 msgid "Very Smelly"
 msgstr ""
 
-#: pldata.h:801
+#: player.cpp:485
 msgid ""
 "You smell awful.  Monsters that track scent will find you very easily, and "
 "humans will react poorly."
 msgstr ""
 
-#: pldata.h:804
+#: player.cpp:488
 msgid "Deformed"
 msgstr ""
 
-#: pldata.h:804
+#: player.cpp:488
 msgid ""
 "You're minorly deformed.  Some people will react badly to your appearance."
 msgstr ""
 
-#: pldata.h:806
+#: player.cpp:490
 msgid "Badly Deformed"
 msgstr ""
 
-#: pldata.h:806
+#: player.cpp:490
 msgid ""
 "You're hideously deformed.  Some people will have a strong negative reaction "
 "to your appearance."
 msgstr ""
 
-#: pldata.h:809
+#: player.cpp:493
 msgid "Grotesque"
 msgstr ""
 
-#: pldata.h:809
+#: player.cpp:493
 msgid ""
 "Your visage is disgusting and liable to induce vomiting.  People will not "
 "want to interact with you unless they have a very good reason to."
 msgstr ""
 
-#: pldata.h:812
+#: player.cpp:496
 msgid "Beautiful"
 msgstr ""
 
-#: pldata.h:812
+#: player.cpp:496
 msgid ""
 "You're a real head-turner. Some people will react well to your appearance, "
 "and most people have an easier time trusting you."
 msgstr ""
 
-#: pldata.h:815
+#: player.cpp:499
 msgid "Very Beautiful"
 msgstr ""
 
-#: pldata.h:815
+#: player.cpp:499
 msgid ""
 "You are a vision of beauty. Some people will react very well to your looks, "
 "and most people will trust you immediately."
 msgstr ""
 
-#: pldata.h:818
+#: player.cpp:502
 msgid "Glorious"
 msgstr ""
 
-#: pldata.h:818
+#: player.cpp:502
 msgid ""
 "You are inredibly beautiful. People cannot help themselves for your charms, "
 "and will do whatever they can to please you."
 msgstr ""
 
-#: pldata.h:821
+#: player.cpp:505
 msgid "Hollow Bones"
 msgstr ""
 
-#: pldata.h:821
+#: player.cpp:505
 #, c-format
 msgid ""
 "You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is "
@@ -18466,379 +18571,550 @@ msgid ""
 "frail; you can carry 40%% less, and bashing attacks injure you more."
 msgstr ""
 
-#: pldata.h:825
+#: player.cpp:509
 msgid "Nausea"
 msgstr ""
 
-#: pldata.h:825
+#: player.cpp:509
 msgid ""
 "You feel nauseous almost constantly, and are more liable to throw up from "
 "food poisoning, alcohol, etc."
 msgstr ""
 
-#: pldata.h:828
+#: player.cpp:512
 msgid "Vomitous"
 msgstr ""
 
-#: pldata.h:828
+#: player.cpp:512
 msgid ""
 "You have a major digestive disorder, which causes you to vomit frequently."
 msgstr ""
 
-#: pldata.h:830
+#: player.cpp:514
 msgid "Fast Metabolism"
 msgstr ""
 
-#: pldata.h:830
+#: player.cpp:514
 msgid "You require more food than most people."
 msgstr ""
 
-#: pldata.h:832
+#: player.cpp:516
 msgid "High Thirst"
 msgstr ""
 
-#: pldata.h:832
+#: player.cpp:516
 msgid "Your body dries out easily; you need to drink a lot more water."
 msgstr ""
 
-#: pldata.h:834
+#: player.cpp:518
 msgid "Weakening"
 msgstr ""
 
-#: pldata.h:834
+#: player.cpp:518
 msgid ""
 "You feel as though you are slowly weakening, but it's so slight a feeling "
 "that it does not affect you at all."
 msgstr ""
 
-#: pldata.h:837
+#: player.cpp:521
 msgid "Deterioration"
 msgstr ""
 
-#: pldata.h:837
+#: player.cpp:521
 msgid "Your body is very slowly wasting away."
 msgstr ""
 
-#: pldata.h:839
+#: player.cpp:523
 msgid "Disintegration"
 msgstr ""
 
-#: pldata.h:839
+#: player.cpp:523
 msgid "Your body is slowly wasting away!"
 msgstr ""
 
-#: pldata.h:841
+#: player.cpp:525
 msgid "Albino"
 msgstr ""
 
-#: pldata.h:841
+#: player.cpp:525
 msgid ""
 "Your skin lacks pigment, and is nearly transparent.  You suffer serious "
 "burns in direct sunlight."
 msgstr ""
 
-#: pldata.h:844
+#: player.cpp:528
 msgid "Sores"
 msgstr ""
 
-#: pldata.h:844
+#: player.cpp:528
 msgid ""
 "Your body is covered in painful sores.  The pain is worse when they are "
 "covered in clothing."
 msgstr ""
 
-#: pldata.h:847
+#: player.cpp:531
 msgid "Light Sensitive"
 msgstr ""
 
-#: pldata.h:847
+#: player.cpp:531
 msgid ""
 "Sunlight makes you uncomfortable.  If you are outdoors and the weather is "
 "Sunny, you suffer -1 to all stats."
 msgstr ""
 
-#: pldata.h:850
+#: player.cpp:534
 msgid ""
 "Sunlight makes you very uncomfortable.  If you are outdoors during the day, "
 "you suffer -1 to all stats; -2 if the weather is Sunny."
 msgstr ""
 
-#: pldata.h:850
+#: player.cpp:534
 msgid "Very Light Sensitive"
 msgstr ""
 
-#: pldata.h:853
+#: player.cpp:537
 msgid ""
 "Sunlight makes you extremely uncomfortable, resulting in large penalties to "
 "all stats."
 msgstr ""
 
-#: pldata.h:853
+#: player.cpp:537
 msgid "Troglobite"
 msgstr ""
 
-#: pldata.h:856
+#: player.cpp:540
 msgid "Webbed Hands"
 msgstr ""
 
-#: pldata.h:856
+#: player.cpp:540
 msgid ""
 "Your hands and feet are heavily webbed, reducing your dexterity by 1 and "
 "preventing you from wearing gloves.  However, you can swim much faster."
 msgstr ""
 
-#: pldata.h:859
+#: player.cpp:543
 msgid "Beak"
 msgstr ""
 
-#: pldata.h:859
+#: player.cpp:543
 msgid ""
 "You have a beak for a mouth.  You can occasionally use it to peck at your "
 "enemies, but it is impossible for you to wear mouthgear."
 msgstr ""
 
-#: pldata.h:862
+#: player.cpp:546
 msgid "Genetically Unstable"
 msgstr ""
 
-#: pldata.h:862
+#: player.cpp:546
 msgid ""
 "Your DNA has been damaged in a way that causes you to continually develop "
 "more mutations."
 msgstr ""
 
-#: pldata.h:865
+#: player.cpp:549
 msgid "Minor Radioactivity"
 msgstr ""
 
-#: pldata.h:865
+#: player.cpp:549
 msgid ""
 "Your body has become radioactive!  You continuously emit low levels of "
 "radiation, some of which will be absorbed by you, and some of which will "
 "contaminate the world around you."
 msgstr ""
 
-#: pldata.h:869
+#: player.cpp:553
 msgid "Radioactivity"
 msgstr ""
 
-#: pldata.h:869
+#: player.cpp:553
 msgid ""
 "Your body has become radioactive!  You continuously emit moderate levels of "
 "radiation, some of which will be absorbed by you, and some of which will "
 "contaminate the world around you."
 msgstr ""
 
-#: pldata.h:873
+#: player.cpp:557
 msgid "Severe Radioactivity"
 msgstr ""
 
-#: pldata.h:873
+#: player.cpp:557
 msgid ""
 "Your body has become radioactive!  You continuously emit heavy levels of "
 "radiation, some of which will be absorbed by you, and some of which will "
 "contaminate the world around you."
 msgstr ""
 
-#: pldata.h:877
+#: player.cpp:561
 msgid "Slimy"
 msgstr ""
 
-#: pldata.h:877
+#: player.cpp:561
 msgid ""
 "Your body is coated with a fine slime, which oozes off of you, leaving a "
 "trail."
 msgstr ""
 
-#: pldata.h:880
+#: player.cpp:564
 msgid "Herbivore"
 msgstr ""
 
-#: pldata.h:880
+#: player.cpp:564
 msgid ""
 "Your body's ability to digest meat is severely hampered.  Eating meat has a "
 "good chance of making you vomit it back up; even if you manage to keep it "
 "down, its nutritional value is greatly reduced."
 msgstr ""
 
-#: pldata.h:884
+#: player.cpp:568
 msgid "Carnivore"
 msgstr ""
 
-#: pldata.h:884
+#: player.cpp:568
 msgid ""
 "Your body's ability to digest fruits, vegetables and grains is severely "
 "hampered.  You cannot eat anything besides meat."
 msgstr ""
 
-#: pldata.h:887
+#: player.cpp:571
 msgid "Ponderous"
 msgstr ""
 
-#: pldata.h:887
+#: player.cpp:571
 #, c-format
 msgid "Your muscles are generally slow to move.  You run 10%% slower."
 msgstr ""
 
-#: pldata.h:889
+#: player.cpp:573
 msgid "Very Ponderous"
 msgstr ""
 
-#: pldata.h:889
+#: player.cpp:573
 #, c-format
 msgid "Your muscles are quite slow to move.  You run 20%% slower."
 msgstr ""
 
-#: pldata.h:891
+#: player.cpp:575
 msgid "Extremely Ponderous"
 msgstr ""
 
-#: pldata.h:891
+#: player.cpp:575
 #, c-format
 msgid "Your muscles are very slow to move.  You run 30%% slower."
 msgstr ""
 
-#: pldata.h:893
+#: player.cpp:577
 msgid "Sunlight dependent"
 msgstr ""
 
-#: pldata.h:893
+#: player.cpp:577
 #, c-format
 msgid ""
 "You feel very sluggish when not in direct sunlight.  You suffer a 5%% drop "
 "in speed when in shade, and a 10%% drop in speed when in the dark."
 msgstr ""
 
-#: pldata.h:896
+#: player.cpp:580
 msgid "Heat dependent"
 msgstr ""
 
-#: pldata.h:896
+#: player.cpp:580
 #, c-format
 msgid ""
 "Your muscle response is dependent on ambient temperatures.  You lose 1%% of "
 "your speed for every 5 degrees below 65 F."
 msgstr ""
 
-#: pldata.h:899
+#: player.cpp:583
 msgid "Very Heat dependent"
 msgstr ""
 
-#: pldata.h:899
+#: player.cpp:583
 #, c-format
 msgid ""
 "Your muscle response is highly dependent on ambient temperatures.  You lose "
 "1%% of your speed for every 3 degrees below 65 F."
 msgstr ""
 
-#: pldata.h:902
+#: player.cpp:586
 msgid "Cold Blooded"
 msgstr ""
 
-#: pldata.h:902
+#: player.cpp:586
 #, c-format
 msgid ""
 "You are cold-blooded and rely on heat to keep moving.  Your lose 1%% of your "
 "speed for every 2 degrees below 65 F."
 msgstr ""
 
-#: pldata.h:905
+#: player.cpp:589
 msgid "Growling Voice"
 msgstr ""
 
-#: pldata.h:905
+#: player.cpp:589
 msgid ""
 "You have a growling, rough voice.  Persuading NPCs will be more difficult, "
 "but threatening them will be easier."
 msgstr ""
 
-#: pldata.h:908
+#: player.cpp:592
 msgid "Snarling Voice"
 msgstr ""
 
-#: pldata.h:908
+#: player.cpp:592
 msgid ""
 "You have a threatening snarl in your voice.  Persuading NPCs will be near "
 "impossible, but threatening them will be much easier."
 msgstr ""
 
-#: pldata.h:911
+#: player.cpp:595
 msgid "Shouter"
 msgstr ""
 
-#: pldata.h:911
+#: player.cpp:595
 msgid "You occasionally shout uncontrollably."
 msgstr ""
 
-#: pldata.h:913
+#: player.cpp:597
 msgid "Screamer"
 msgstr ""
 
-#: pldata.h:913
+#: player.cpp:597
 msgid "You sometimes scream uncontrollably."
 msgstr ""
 
-#: pldata.h:915
+#: player.cpp:599
 msgid "Howler"
 msgstr ""
 
-#: pldata.h:915
+#: player.cpp:599
 msgid "You frequently let out a piercing howl."
 msgstr ""
 
-#: pldata.h:917
+#: player.cpp:601
 msgid "Tentacle Arms"
 msgstr ""
 
-#: pldata.h:917
+#: player.cpp:601
 msgid ""
 "Your arms have transformed into tentacles.  Though they are flexible and "
 "increase your dexterity by 1, the lack of fingers results in a permanent "
 "hand encumbrance of 3, and prevents the wearing of gloves."
 msgstr ""
 
-#: pldata.h:921
+#: player.cpp:605
 msgid "4 Tentacles"
 msgstr ""
 
-#: pldata.h:921
+#: player.cpp:605
 msgid ""
 "Your arms have transformed into four tentacles, resulting in a bonus of 1 to "
 "dexterity, permanent hand encumbrance of 3, and preventing you from wearing "
 "gloves.  You can make up to 3 extra attacks with them."
 msgstr ""
 
-#: pldata.h:925
+#: player.cpp:609
 msgid "8 Tentacles"
 msgstr ""
 
-#: pldata.h:925
+#: player.cpp:609
 msgid ""
 "Your arms have transformed into eight tentacles, resulting in a bonus of 1 "
 "to dexterity, permanent hand encumbrance of 3, and preventing you from "
 "wearing gloves.  You can make up to 7 extra attacks with them."
 msgstr ""
 
-#: pldata.h:929
+#: player.cpp:613
 msgid "Shell"
 msgstr ""
 
-#: pldata.h:929
+#: player.cpp:613
 msgid ""
 "You have grown a thick shell over your torso, providing excellent armor.  "
 "You find you can use the empty space as 16 storage space, but cannot wear "
 "anything on your torso."
 msgstr ""
 
-#: pldata.h:933
+#: player.cpp:617
 msgid "Leg Tentacles"
 msgstr ""
 
-#: pldata.h:933
+#: player.cpp:617
 msgid ""
 "Your legs have transformed into six tentacles.  This decreases your speed on "
 "land by 20%, but makes your movement silent.  However, they also increase "
 "your swimming speed."
+msgstr ""
+
+#: player.cpp:2955
+#, c-format
+msgid "Weapon: %s"
+msgstr ""
+
+#: player.cpp:2959 player.cpp:2961 player.cpp:2963 player.cpp:2965
+msgid "Recoil"
+msgstr ""
+
+#: player.cpp:2970
+msgid "Normal"
+msgstr ""
+
+#: player.cpp:2972
+msgid "Burst"
+msgstr ""
+
+#: player.cpp:2980
+msgid "Starving!"
+msgstr ""
+
+#: player.cpp:2982
+msgid "Near starving"
+msgstr ""
+
+#: player.cpp:2984
+msgid "Famished"
+msgstr ""
+
+#: player.cpp:2986
+msgid "Very hungry"
+msgstr ""
+
+#: player.cpp:2988
+msgid "Hungry"
+msgstr ""
+
+#: player.cpp:2990
+msgid "Full"
+msgstr ""
+
+#: player.cpp:3023
+msgid " (Rising!!)"
+msgstr ""
+
+#: player.cpp:3024
+msgid " (Rising!)"
+msgstr ""
+
+#: player.cpp:3025
+msgid " (Rising)"
+msgstr ""
+
+#: player.cpp:3027
+msgid " (Falling)"
+msgstr ""
+
+#: player.cpp:3028
+msgid " (Falling!)"
+msgstr ""
+
+#: player.cpp:3029
+msgid " (Falling!!)"
+msgstr ""
+
+#: player.cpp:3032
+#, c-format
+msgid "Scorching!%s"
+msgstr ""
+
+#: player.cpp:3034
+#, c-format
+msgid "Very hot!%s"
+msgstr ""
+
+#: player.cpp:3036
+#, c-format
+msgid "Warm%s"
+msgstr ""
+
+#: player.cpp:3038
+#, c-format
+msgid "Comfortable%s"
+msgstr ""
+
+#: player.cpp:3040
+#, c-format
+msgid "Chilly%s"
+msgstr ""
+
+#: player.cpp:3042
+#, c-format
+msgid "Very cold!%s"
+msgstr ""
+
+#: player.cpp:3044
+#, c-format
+msgid "Freezing!%s"
+msgstr ""
+
+#: player.cpp:3046
+#, c-format
+msgid "Sound:%d"
+msgstr ""
+
+#: player.cpp:3050
+msgid "Parched"
+msgstr ""
+
+#: player.cpp:3052
+msgid "Dehydrated"
+msgstr ""
+
+#: player.cpp:3054
+msgid "Very thirsty"
+msgstr ""
+
+#: player.cpp:3056
+msgid "Thirsty"
+msgstr ""
+
+#: player.cpp:3058
+msgid "Slaked"
+msgstr ""
+
+#: player.cpp:3061
+msgid "Exhausted"
+msgstr ""
+
+#: player.cpp:3063
+msgid "Dead tired"
+msgstr ""
+
+#: player.cpp:3065
+msgid "Tired"
+msgstr ""
+
+#: player.cpp:3067
+msgid "Focus: "
+msgstr ""
+
+#: player.cpp:3081
+#, c-format
+msgid "Pain: %d"
+msgstr ""
+
+#: player.cpp:3180
+#, c-format
+msgid "Str %s%d"
+msgstr ""
+
+#: player.cpp:3181
+#, c-format
+msgid "Dex %s%d"
+msgstr ""
+
+#: player.cpp:3182
+#, c-format
+msgid "Int %s%d"
+msgstr ""
+
+#: player.cpp:3183
+#, c-format
+msgid "Per %s%d"
+msgstr ""
+
+#: player.cpp:3184
+#, c-format
+msgid "Spd %s%d"
 msgstr ""
 
 #: ranged.cpp:268
