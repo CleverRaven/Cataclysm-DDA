@@ -2,8 +2,8 @@
 #define _TRANSLATIONS_H_
 
 #include <cstdio>
-#include <clocale>
 #include <libintl.h>
+#include <clocale>
 #define _(STRING) gettext(STRING)
 
 #endif // _TRANSLATIONS_H_
