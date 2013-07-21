@@ -37,11 +37,11 @@ int main(int argc, char *argv[])
 #endif
  int seed = time(NULL);
 
-// set locale to system default
- setlocale(LC_ALL, "");
- bindtextdomain("cataclysm-dda", "lang/mo");
- bind_textdomain_codeset("cataclysm-dda", "UTF-8");
- textdomain("cataclysm-dda");
+    // set locale to system default
+    setlocale(LC_ALL, "");
+    bindtextdomain("cataclysm-dda", "lang/mo");
+    bind_textdomain_codeset("cataclysm-dda", "UTF-8");
+    textdomain("cataclysm-dda");
 
 //args: world seeding only.
  argc--; argv++;
