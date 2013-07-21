@@ -9300,14 +9300,9 @@ void game::complete_butcher(int index)
   case MS_LARGE:  pieces =  8; pelts = 10; bones = 14;sinews = 14; feathers = 17;break;
   case MS_HUGE:   pieces = 16; pelts = 18; bones = 21;sinews = 21; feathers = 24;break;
  }
- if (sSkillLevel < 3)
-  skill_shift -= rng(0, 8 - sSkillLevel);
- else
-  skill_shift += rng(0, sSkillLevel);
- if (u.dex_cur < 8)
-  skill_shift -= rng(0, 8 - u.dex_cur) / 4;
- else
-  skill_shift += rng(0, u.dex_cur - 8) / 4;
+
+ skill_shift += rng(0, sSkillLevel - 3);
+ skill_shift += rng(0, u.dex_cur - 8) / 4;
  if (u.str_cur < 4)
   skill_shift -= rng(0, 5 * (4 - u.str_cur)) / 4;
  if (factor > 0)
