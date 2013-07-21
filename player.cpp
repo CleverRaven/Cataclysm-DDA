@@ -3315,7 +3315,7 @@ void player::knock_back_from(game *g, int x, int y)
    z->add_effect(ME_STUNNED, 1);
   }
 
-  g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("%s bounces off a %s!"),
+  g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                             z->name().c_str() );
 
   return;
@@ -3327,7 +3327,7 @@ void player::knock_back_from(game *g, int x, int y)
   hit(g, bp_torso, 0, 3, 0);
   add_disease("stunned", 1);
   p->hit(g, bp_torso, 0, 3, 0);
-  g->add_msg_player_or_npc( this, _("You bounce off %s!"), _("%s bounces off %s!"), p->name.c_str() );
+  g->add_msg_player_or_npc( this, _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
  }
 
@@ -3341,7 +3341,7 @@ void player::knock_back_from(game *g, int x, int y)
   } else { // It's some kind of wall.
    hurt(g, bp_torso, 0, 3);
    add_disease("stunned", 2);
-   g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("%s bounces off a %s!"),
+   g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
                              g->m.tername(to.x, to.y).c_str() );
   }
 
@@ -5268,11 +5268,11 @@ bool player::eat(game *g, signed char ch)
             add_disease("foodpoison", eaten->poison * 300);
 
         if (comest->comesttype == "DRINK") {
-            g->add_msg_player_or_npc( this, _("You drink your %s."), _("%s drinks a %s."),
+            g->add_msg_player_or_npc( this, _("You drink your %s."), _("<npcname> drinks a %s."),
                                       eaten->tname(g).c_str());
         }
         else if (comest->comesttype == "FOOD") {
-            g->add_msg_player_or_npc( this, _("You eat your %s."), _("%s eats a %s."),
+            g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                       eaten->tname(g).c_str());
         }
     }
@@ -7273,7 +7273,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     if (worn[i].damage >= 5)
                     {
                         g->add_msg_player_or_npc( this, _("Your %s is completely destroyed!"),
-                                                  _("%s's %s is completely destroyed!"),
+                                                  _("<npcname>'s %s is completely destroyed!"),
                                                   worn[i].tname(g).c_str() );
                         worn.erase(worn.begin() + i);
                     } else if (armor_damaged) {

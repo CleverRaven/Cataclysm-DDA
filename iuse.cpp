@@ -3046,7 +3046,7 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
   return;
 
  g->add_msg_player_or_npc( p, _("You squeeze the pheremone ball.."),
-                           _("%s squeezes the pheremone ball...") );
+                           _("<npcname> squeezes the pheremone ball...") );
 
  p->moves -= 15;
 

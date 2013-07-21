@@ -723,7 +723,7 @@ void dis_effect(game *g, player &p, disease &dis)
        (p.has_trait(PF_NAUSEA) && one_in(800 + bonus * 6)) ||
        one_in(2000 + bonus * 10)) {
        g->add_msg_player_or_npc( &p, _("You vomit a thick, gray goop."),
-                                 _("%s vomits a thick, grey goop.") );
+                                 _("<npcname> vomits a thick, grey goop.") );
 
        p.moves = -200;
        p.hunger += 50;
@@ -732,7 +732,7 @@ void dis_effect(game *g, player &p, disease &dis)
   } else {	// Full symptoms
    if (one_in(1000 + bonus * 8)) {
     g->add_msg_player_or_npc( &p, _("You vomit thousands of live spores!"),
-                              _("%s vomits thousands of live spores!") );
+                              _("<npcname> vomits thousands of live spores!") );
 
     p.moves = -500;
     int sporex, sporey;
@@ -757,7 +757,7 @@ void dis_effect(game *g, player &p, disease &dis)
     }
    } else if (one_in(6000 + bonus * 20)) {
        g->add_msg_player_or_npc( &p, _("Your hands bulge. Fungus stalks burst through the bulge!"),
-                                 _("%s's hands bulge. Fungus stalks burst through the bulge!") );
+                                 _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!") );
        p.hurt(g, bp_arms, 0, 60);
        p.hurt(g, bp_arms, 1, 60);
    }
@@ -948,7 +948,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_BLEED:
   if (one_in(6)) {
-      g->add_msg_player_or_npc( &p, _("You lose some blood."), _("%s loses some blood.") );
+      g->add_msg_player_or_npc( &p, _("You lose some blood."), _("<npcname> loses some blood.") );
 
       p.pain++;
       p.hurt(g, bp_torso, 0, 1);
@@ -1024,7 +1024,7 @@ void dis_effect(game *g, player &p, disease &dis)
     p.rem_disease("dermatik"); // No more infection!  yay.
     g->add_msg_player_or_npc( &p,
         _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
-        _("Insects begin to emerge from %s's skin!") );
+        _("Insects begin to emerge from <npcname>'s skin!") );
 
     p.moves -= 600;
     monster grub(g->mtypes[mon_dermatik_larva]);

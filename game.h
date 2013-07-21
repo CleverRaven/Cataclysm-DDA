@@ -120,6 +120,7 @@ class game
   void advance_nextinv();	// Increment the next inventory letter
   void decrease_nextinv();	// Decrement the next inventory letter
   void vadd_msg(const char* msg, va_list ap );
+  void add_msg_string(const std::string &s);
   void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
   void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
