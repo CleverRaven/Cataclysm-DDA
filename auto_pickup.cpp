@@ -464,17 +464,11 @@ void load_auto_pickup(bool bCharacter)
 
     vAutoPickupRules[(bCharacter) ? 2 : 1].clear();
 
+    std::string sLine;
     while(!fin.eof()) {
-        std::string sLine;
-        fin >> sLine;
+        getline(fin, sLine);
 
-        if(sLine == "") { // Empty line, chomp it
-            getline(fin, sLine);
-
-        } else if(sLine[0] == '#') { // # indicates a comment
-            getline(fin, sLine);
-
-        } else {
+        if(sLine != "" && sLine[0] != '#') {
             int iNum = std::count(sLine.begin(), sLine.end(), ';');
 
             if(iNum != 2) {
@@ -484,7 +478,6 @@ void load_auto_pickup(bool bCharacter)
 
                 } else {*/
                     DebugLog() << "Bad Rule: " << sLine << "\n";
-                    getline(fin, sLine);
                 //}
 
             } else {
@@ -519,10 +512,6 @@ void load_auto_pickup(bool bCharacter)
 
                 vAutoPickupRules[(bCharacter) ? 2 : 1].push_back(cPickupRules(sRule, bActive, bExclude));
             }
-        }
-
-        if(fin.peek() == '\n') {
-            getline(fin, sLine);    // Chomp
         }
     }
 

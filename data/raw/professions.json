@@ -39,7 +39,7 @@
   "ident": "scoundrel",
   "name": "Scoundrel",
   "description":
-"Your flexible outlook on law has ensured your survival, but now what? You start with cargo pants, a hoodie, \"sundries\", and one additional level of melee.",
+"Your flexible outlook on law has ensured your survival, but now what? You start with cargo pants, a hoodie, \"sundries\", \nand one additional level of melee.",
   "points": 2,
   "items": ["tank_top", "hoodie", "pants_cargo", "sneakers", "weed", "picklocks"],
   "skills" : [
@@ -49,18 +49,309 @@
      }
   ]
  },
+ 
+ {
+  "ident": "soldier",
+  "name": "Military Recruit",
+  "description":
+"You're a High school drop out with one goal in mind: to join the military. Now you finally get in, and it's hell on Earth in cataclysmic proportions. You start out with some military gear, and a level in survival and firearms.",
+  "points": 3,
+  "items": ["pants_army", "army_top", "boots_steel", "knife_combat", "binoculars"],
+  "skills" : [
+     {
+      "name" : "survival",
+      "level" : 1
+     },
+    {
+      "name" : "gun",
+      "level" : 1
+     }
+ ]
+ },
 
+ {
+  "ident": "medic",
+  "name": "Pre-Med Student",
+  "description":
+"You were a Pre-Med Student just starting out in your medical career, You start with some bandages and a level in first aid.",
+  "points": 1,
+  "items": ["pants", "dress_shirt", "dress_shoes","water_clean", "bandages", "bandages"],
+   "skills" : [
+     {
+      "name" : "firstaid",
+      "level" : 1
+     }
+	]
+ },
+ 
+ {
+  "ident": "thug",
+  "name": "Mafia Enforcer",
+  "description":
+"When it came to getting dirty, the boss knew you could be trusted to get the job done, from performing hits to attitude adjustment you were the best, now at the end of the world, you finally found your place in society.",
+  "points": 2,
+  "items": ["suit", "bowhat", "dress_shoes", "cig", "mag_porn"],
+   "skills" : [
+     {
+      "name" : "unarmed",
+      "level" : 1
+     }
+	]
+  },
+ 
+ {
+  "ident": "sheriff",
+  "name": "Local Sheriff",
+  "description":
+"When you got the call about the disturbances, you came to the rescue you and quickly realized you were in over your head,and needed rescuing yourself. You start with a level in firearms .",
+  "points": 2,
+  "items": ["pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "holster"],
+   "skills" : [
+    {
+      "name" : "guns",
+      "level" : 1
+    }
+	]
+ },
+ 
  {
   "ident": "smoker",
   "name": "Chain Smoker",
-  "description": "Everyone at work knew you as the person who always had a cigarette or two in hand. now, you're down to a single pack, and you hope you find more soon. You start out with a strong nicotine addiction, and 10 cigarettes.",
+  "description":
+"Everyone at work knew you as the person who always had a cigarette or two in hand. Now, you're down to a single pack, and you hope you find more soon. You start out with a strong nicotine addiction, and 10 cigarettes.",
   "points": -1,
   "items": ["pants", "dress_shirt", "dress_shoes", "cig"],
   "addictions": [
       {
-    "type": "nicotine",
-    "intensity": 10
+	  "type": "nicotine",
+	  "intensity": 10
       }
   ]
- }
+ },
+
+{
+  "ident": "salesman",
+  "name": "Used Car Salesman",
+  "description":
+"You would have sold your own mother for a dollar, and not feel guilty. in fact you sold her a broken down beater right before the cataclysm. You start with bartering skills.",
+  "points": 1,
+  "items": ["suit","dress_shoes"],
+  "skills" : [
+     {
+      "name" : "barter",
+      "level" : 1
+     }
+   ]
+ },
+
+  {
+  "ident": "homeless",
+  "name": "Hobo",
+  "description":
+"You lived on the streets your whole life because you would rather a bottle of whiskey than a roof over your head, you start with a strong alcohol addiction and a pair of pants.",
+  "points": -2,
+  "items": ["pants", "bottle_glass"],
+  "addictions": [
+      {
+	  "type": "alcohol",
+	  "intensity": 20
+      }
+	]
+ },
+
+ {
+  "ident": "hunter",
+  "name": "Bow Hunter",
+  "description":
+"Ever since you were a boy you loved hunting,and you loved the challenge of hunting with a bow even more. You start with a level in archery, and survival.",
+  "points": 2,
+  "items": ["army_top", "boots_steel", "jeans"],
+   "skills" : [
+     {
+      "name" : "archery",
+      "level" : 1
+     },
+	      {
+      "name" : "survival",
+      "level" : 1
+     }  
+	 ]
+  },
+
+  {
+  "ident": "cworker",
+  "name": "Handy Man",
+  "description":
+"You used to work at the home depot, and you did alot of home renovations yourself. You start with steel toe boots, a tool belt, a hammer, and a level in construction.",
+  "points": 2,
+  "items": ["tank_top", "boots_steel", "jeans", "hammer", "tool_belt"],
+   "skills" : [
+     {
+      "name" : "carpentry",
+      "level" : 1
+     }
+	 ]
+},
+
+{  
+"ident": "lumberjack",  
+"name": "Lumberjack",  
+"description":"You worked in the woods your whole life, and start with some woodsman gear.",  
+"points": 1, 
+"items": ["jeans", "boots", "hat_hunting", "jacket_flannel"]  
+}, 
+
+ {
+  "ident": "backpacker",
+  "name": "Backpacker",
+  "description":
+"You've traveled for a living seeing here and there living off your parents trust fund, but now they're all gone and the only thing between you and death, is the open road and your backpack.",
+  "points": 2,
+  "items": ["backpack", "jeans", "sneakers", "tshirt", "socks"]
+ },
+ 
+  {
+  "ident": "fastfoodcook",
+  "name": "Fast Food Cook",
+  "description":
+"You used to work at a fancy fast food joint a week ago, but now you show the meaning of \"fast\" food by running for your life you start with a level in cooking.",
+  "points": 1,
+  "items": ["pants", "sneakers", "tshirt", "socks"],
+  "skills" : 
+    [
+     {
+      "name" : "cooking",
+      "level" : 1
+     }
+    ]
+  },
+
+  {
+  "ident": "survivalist",
+  "name": "Survivalist",
+  "description":
+"You were one of those guys who watched one to many survivalist shows. You start with a backpack, blazer and some survival skills.",
+  "points": 3,
+  "items": ["shorts_cargo", "boots", "blazer", "tshirt", "socks", "backpack"],
+  "skills" : [
+     {
+      "name" : "survival",
+      "level" : 1
+     }  
+    ]
+  },
+
+  {
+  "ident": "electrician",
+  "name": "Electrician",
+  "description":
+"You used to work for some small time business owner doing minor electrical work you just so happened to be working on an Evac shelter when the cataclysm struck.",
+  "points": 3,
+  "items": ["jumpsuit", "boots", "tool_belt"],
+   "skills" : [
+     {
+      "name" : "electronics",
+      "level" : 1
+     }
+	 ]
+},
+
+{
+  "ident": "hacker",
+  "name": "Computer Hacker",
+  "description":
+    "Caffeine pills and all nighters in front of a computer screen gave you quite the hacking skills, you start with a level in computers.",
+  "points": 1,
+  "items": ["pants", "tshirt", "sneakers"],
+  "skills" : [
+    {
+      "name" : "computer",
+      "level" : 1
+     }
+  ]
+},
+
+{
+  "ident": "student",
+  "name": "Student",
+  "description":
+"You were a high school student until the teachers literally tried to pick your brains. You start with a backpack and a zombie survival guide.",
+  "points": 2,
+  "items": ["pants", "tshirt", "sneakers", "ZSG", "backpack"]
+},
+
+{
+  "ident": "svictim",
+  "name": "Shower Victim",
+  "description":
+"You were in the middle of a nice shower when the cataclysm struck, you start buck naked.",
+  "points": -1,
+  "items": []
+},
+
+{
+  "ident": "biker",
+  "name": "Biker",
+  "description":"You spent most of your life on a Harley, and its only natural you spend the rest of it riding one, you start with some biker clothes.",
+  "points": 2,
+  "items": ["jeans", "tanktop", "chaps_leather", "boots", "bandana", "jacket_leather"]
+},
+
+{
+  "ident": "dancer",
+  "name": "Ballroom Dancer",
+  "description":
+"You used to be a ballroom dancer before the cataclysm, now you use your skills to save your life. You start with a tuxedo and a level in dodging.",
+  "points": 1,
+  "items": ["tux", "dress_shoes"],
+  "skills" : [
+    {
+      "name" : "dodge",
+      "level" : 1
+    }
+  ]
+},
+
+{
+  "ident": "security",
+  "name": "Security Guard",
+  "description":"You worked for a small time security company guarding local businesses, and you start wi  th a security outfit and a flashlight.",
+  "points": 1,
+  "items": ["pants", "poncho", "boots", "flashlight"]
+},
+
+{
+  "ident": "tinkerer",
+  "name": "Tinkerer",
+  "description":
+"You've always loved tinkering with stuff. Now this may increase your chances to survive",
+  "points": 3,
+  "items": ["pants", "tshirt", "tool_belt"],
+  "skills" : [
+    {
+      "name" : "mechanics",
+      "level" : 1
+    },
+    {
+      "name" : "tailoring",
+      "level" : 1
+    },
+    {
+      "name" : "electronics",
+      "level" : 1
+    },
+    {
+      "name" : "construction",
+      "level" : 1
+    }
+  ]
+},
+
+{
+  "ident": "ddealer",
+  "name": "Drug Dealer",
+  "description":"You worked the streets since you were a kid, now you used your street skills to survive.",
+  "points": 1,
+  "items": ["jeans", "tshirt", "hoodie", "sneakers", "glock_19", "coke"]
+}
 ]
