@@ -3267,11 +3267,6 @@ void player::knock_back_from(game *g, int x, int y)
  if (y > posy)
   to.y--;
 
- bool u_see = (!is_npc() || g->u_see(to.x, to.y));
-
- std::string You = (is_npc() ? name : "You");
- std::string s = (is_npc() ? "s" : "");
-
 // First, see if we hit a monster
  int mondex = g->mon_at(to.x, to.y);
  if (mondex != -1) {
@@ -3287,9 +3282,8 @@ void player::knock_back_from(game *g, int x, int y)
    z->add_effect(ME_STUNNED, 1);
   }
 
-  if (u_see)
-   g->add_msg("%s bounce%s off a %s!",
-              You.c_str(), s.c_str(), z->name().c_str());
+  g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
+                            z->name().c_str() );
 
   return;
  }
@@ -3300,9 +3294,7 @@ void player::knock_back_from(game *g, int x, int y)
   hit(g, bp_torso, 0, 3, 0);
   add_disease("stunned", 1);
   p->hit(g, bp_torso, 0, 3, 0);
-  if (u_see)
-   g->add_msg("%s bounce%s off %s!", You.c_str(), s.c_str(), p->name.c_str());
-
+  g->add_msg_player_or_npc( this, _("You bounce off %s!"), _("<npcname> bounces off %s!"), p->name.c_str() );
   return;
  }
 
@@ -3316,9 +3308,8 @@ void player::knock_back_from(game *g, int x, int y)
   } else { // It's some kind of wall.
    hurt(g, bp_torso, 0, 3);
    add_disease("stunned", 2);
-   if (u_see)
-    g->add_msg("%s bounce%s off a %s.", name.c_str(), s.c_str(),
-                                        g->m.tername(to.x, to.y).c_str());
+   g->add_msg_player_or_npc( this, _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
+                             g->m.tername(to.x, to.y).c_str() );
   }
 
  } else { // It's no wall
@@ -3529,9 +3520,7 @@ void player::cauterize(game *g) {
  rem_disease("bleed");
  rem_disease("bite");
  pain += 15;
- if (!is_npc()) {
-  g->add_msg("You cauterize yourself. It hurts like hell!");
- }
+ g->add_msg_if_player(this,"You cauterize yourself. It hurts like hell!");
 }
 
 void player::suffer(game *g)
@@ -4002,7 +3991,6 @@ void player::mend(game *g)
  for(int i = 0; i < num_hp_parts; i++) {
   int broken = (hp_cur[i] <= 0);
   if(broken) {
-   // g->add_msg("Checking if it's time to mend...");
    double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
    double healing_factor = 1.0;
    // Studies have shown that alcohol and tobacco use delay fracture healing time
@@ -4043,8 +4031,6 @@ void player::mend(game *g)
    } else if (has_trait(PF_FASTHEALER)) {
     healing_factor *= 2.0;
    }
-
-   // g->add_msg("Mending odds are %.2f in %.0f, or %f", healing_factor, mending_odds, healing_factor / mending_odds);
 
    bool mended = false;
    int side = 0;
@@ -5119,9 +5105,8 @@ bool player::eat(game *g, signed char ch)
         }
         else
         {
-            if (!is_npc())
-                g->add_msg("You can't eat your %s.", weapon.tname(g).c_str());
-            else
+            g->add_msg_if_player(this,"You can't eat your %s.", weapon.tname(g).c_str());
+            if(is_npc())
                 debugmsg("%s tried to eat a %s", name.c_str(), weapon.tname(g).c_str());
             return false;
         }
@@ -5145,13 +5130,11 @@ bool player::eat(game *g, signed char ch)
         }
         else
         {
-            if (!is_npc())
-                g->add_msg("You can't eat your %s.", it.tname(g).c_str());
-            else
+            g->add_msg_if_player(this,"You can't eat your %s.", it.tname(g).c_str());
+            if(is_npc())
                 debugmsg("%s tried to eat a %s", name.c_str(), it.tname(g).c_str());
             return false;
         }
-    }
     if (eaten == NULL)
         return false;
 
@@ -5159,10 +5142,8 @@ bool player::eat(game *g, signed char ch)
     {
         const int factor = 20;
         int max_change = max_power_level - power_level;
-        if (max_change == 0 && !is_npc())
-        {
-            g->add_msg("Your internal power storage is fully powered.");
-        }
+        if (max_change == 0)
+            g->add_msg_if_player(this,"Your internal power storage is fully powered.");
         charge_power(eaten->charges / factor);
         eaten->charges -= max_change * factor; //negative charges seem to be okay
         eaten->charges++; //there's a flat subtraction later
@@ -5196,10 +5177,9 @@ bool player::eat(game *g, signed char ch)
             if (g->itypes[comest->tool]->count_by_charges())
                 has = has_charges(comest->tool, 1);
             if (!has) {
-                if (!is_npc())
-                    g->add_msg("You need a %s to consume that!",
-                               g->itypes[comest->tool]->name.c_str());
-                return false;
+                g->add_msg_if_player(this,"You need a %s to consume that!",
+                           g->itypes[comest->tool]->name.c_str());
+            return false;
             }
         }
         bool overeating = (!has_trait(PF_GOURMAND) && hunger < 0 &&
@@ -5214,10 +5194,7 @@ bool player::eat(game *g, signed char ch)
 
         if (has_trait(PF_CARNIVORE) && eaten->made_of("veggy") && comest->nutr > 0)
         {
-            if (!is_npc())
-                g->add_msg("You can only eat meat!");
-            else
-                g->add_msg("Carnivore %s tried to eat meat!", name.c_str());
+            g->add_msg_if_player(this, "You can't stand the thought of eating veggies.");
             return false;
         }
         if (!has_trait(PF_CANNIBAL) && eaten->made_of("hflesh")&& !is_npc() &&
@@ -5267,16 +5244,15 @@ bool player::eat(game *g, signed char ch)
         if (eaten->poison > 0)
             add_disease("foodpoison", eaten->poison * 300);
 
-        // Descriptive text
-        if (!is_npc())
-        {
-            if (comest->comesttype == "DRINK")
-                g->add_msg("You drink your %s.", eaten->tname(g).c_str());
-            else if (comest->comesttype == "FOOD")
-                g->add_msg("You eat your %s.", eaten->tname(g).c_str());
+        if (comest->comesttype == "DRINK") {
+            g->add_msg_player_or_npc( this, _("You drink your %s."), _("<npcname> drinks a %s."),
+                                      eaten->tname(g).c_str());
         }
-        else if (g->u_see(posx, posy))
-            g->add_msg("%s eats a %s.", name.c_str(), eaten->tname(g).c_str());
+        else if (comest->comesttype == "FOOD") {
+            g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
+                                      eaten->tname(g).c_str());
+        }
+    }
 
         if (g->itypes[comest->tool]->is_tool())
             use_charges(comest->tool, 1); // Tools like lighters get used
@@ -5317,8 +5293,7 @@ bool player::eat(game *g, signed char ch)
         }
         if (has_trait(PF_VEGETARIAN) && (eaten->made_of("flesh") || eaten->made_of("hflesh")))
         {
-            if (!is_npc())
-                g->add_msg("Almost instantly you feel a familiar pain in your stomach");
+            g->add_msg_if_player(this,"Almost instantly you feel a familiar pain in your stomach");
             add_morale(MORALE_VEGETARIAN, -75, -400, 300, 240);
         }
         if ((has_trait(PF_HERBIVORE) || has_trait(PF_RUMINANT)) &&
@@ -5339,8 +5314,8 @@ bool player::eat(game *g, signed char ch)
                 add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
             else if (comest->fun > 0)
                 add_morale(MORALE_FOOD_GOOD, comest->fun * 3, comest->fun * 6, 60, 30, comest);
-            if (!is_npc() && (hunger < -60 || thirst < -60))
-                g->add_msg("You can't finish it all!");
+            if (hunger < -60 || thirst < -60)
+                g->add_msg_if_player(this,"You can't finish it all!");
             if (hunger < -60)
                 hunger = -60;
             if (thirst < -60)
@@ -5352,8 +5327,8 @@ bool player::eat(game *g, signed char ch)
                 add_morale(MORALE_FOOD_BAD, comest->fun * 2, comest->fun * 6, 60, 30, comest);
             else if (comest->fun > 0)
                 add_morale(MORALE_FOOD_GOOD, comest->fun * 2, comest->fun * 4, 60, 30, comest);
-            if (!is_npc() && (hunger < -20 || thirst < -20))
-                g->add_msg("You can't finish it all!");
+            if (hunger < -20 || thirst < -20)
+                g->add_msg_if_player(this,"You can't finish it all!");
             if (hunger < -20)
                 hunger = -20;
             if (thirst < -20)
@@ -5369,8 +5344,7 @@ bool player::eat(game *g, signed char ch)
         else if (which == -2)
         {
             weapon.contents.erase(weapon.contents.begin());
-            if (!is_npc())
-                g->add_msg("You are now wielding an empty %s.", weapon.tname(g).c_str());
+            g->add_msg_if_player(this,"You are now wielding an empty %s.", weapon.tname(g).c_str());
         }
         else if (which == 0)
             inv.remove_item_by_letter(ch);
@@ -7238,8 +7212,7 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                 {
                     if (cut > arm_cut * 2 || dam > arm_bash * 2)
                     {
-                        if (!is_npc())
-                        g->add_msg("Your %s is damaged!", worn[i].tname(g).c_str());
+                        g->add_msg_if_player(this,"Your %s is damaged!", worn[i].tname(g).c_str());
                         worn[i].damage++;
                     }
                 }
@@ -7280,11 +7253,9 @@ void player::absorb(game *g, body_part bp, int &dam, int &cut)
                     // now check if armour was completely destroyed and display relevant messages
                     if (worn[i].damage >= 5)
                     {
-                        if (!is_npc())
-                            g->add_msg("Your %s is completely destroyed!", worn[i].tname(g).c_str());
-                        else if (g->u_see(posx, posy))
-                            g->add_msg("%s's %s is destroyed!", name.c_str(),
-                             worn[i].tname(g).c_str());
+                        g->add_msg_player_or_npc( this, _("Your %s is completely destroyed!"),
+                                                  _("<npcname>'s %s is completely destroyed!"),
+                                                  worn[i].tname(g).c_str() );
                         worn.erase(worn.begin() + i);
                     } else if (armor_damaged) {
                         std::string damage_verb = diff_bash > diff_cut ? tmp->bash_dmg_verb() :
