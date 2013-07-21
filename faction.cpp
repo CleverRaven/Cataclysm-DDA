@@ -1,3 +1,5 @@
+#include <sstream>
+
 #include "faction.h"
 #include "facdata.h"
 #include "rng.h"
@@ -7,7 +9,6 @@
 #include "game.h"
 #include "catacharset.h"
 
-#include <sstream>
 
 std::string invent_name();
 std::string invent_adj();
@@ -194,14 +195,14 @@ void faction::randomize()
  char buf[128], buf2[256];
  if (one_in(4)) {
   do{
-   libintl_sprintf(buf, _("The %1$s of %2$s"), noun.c_str(), invent_name().c_str());
+   sprintf(buf, _("The %1$s of %2$s"), noun.c_str(), invent_name().c_str());
    name = buf;
   }
   while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
  else if (one_in(2)) {
   do{
-   libintl_sprintf(buf, _("The %1$s %2$s"), invent_adj().c_str(), noun.c_str());
+   sprintf(buf, _("The %1$s %2$s"), invent_adj().c_str(), noun.c_str());
    name = buf;
   }
   while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
@@ -215,9 +216,9 @@ void faction::randomize()
     adj = faction_adj_bad[rng(0, 14)];
    else
     adj = faction_adj_neu[rng(0, 14)];
-   libintl_sprintf(buf, _("The %1$s %2$s"), adj.c_str(), noun.c_str());
+   sprintf(buf, _("The %1$s %2$s"), adj.c_str(), noun.c_str());
    if (one_in(4)){
-    libintl_sprintf(buf2, _("%1$s of %2$s"), buf, invent_name().c_str());
+    sprintf(buf2, _("%1$s of %2$s"), buf, invent_name().c_str());
     name=buf2;
    }else{
     name=buf;
