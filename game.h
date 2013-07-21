@@ -352,8 +352,11 @@ void load_artifacts(); // Load artifact data
   std::string save_weather() const;
 
 // Data Initialization
+  void init_fields();
+  void init_traits();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
+  void init_faction_data();
   void init_bionics() throw (std::string);      // Initializes bionics... for now.
   void init_mtypes();       // Initializes monster types
   void init_mongroups() throw (std::string);    // Initualizes monster groups
