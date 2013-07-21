@@ -68,12 +68,33 @@ enum faction_value {
  NUM_FACVALS
 };
 
+struct faction_value_datum {
+ std::string name;
+ int good;	// A measure of how "good" the value is (naming purposes &c)
+ int strength;
+ int sneak;
+ int crime;
+ int cult;
+};
 
 struct faction {
+    static std::string faction_adj_pos[15];
+    static std::string faction_adj_neu[15];
+    static std::string faction_adj_bad[15];
+    static std::string faction_noun_strong[15];
+    static std::string faction_noun_sneak[15];
+    static std::string faction_noun_crime[15];
+    static std::string faction_noun_cult[15];
+    static std::string faction_noun_none[15];
+
+    // See faction.cpp
+    static faction_value_datum facgoal_data[NUM_FACGOALS];
+    static faction_value_datum facjob_data[NUM_FACJOBS];
+    static faction_value_datum facval_data[NUM_FACVALS];
+
  faction();
  faction(int uid);
  ~faction();
-
  std::string save_info();
  void load_info(std::string data);
 

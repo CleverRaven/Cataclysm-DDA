@@ -136,14 +136,17 @@ std::vector<std::string> foldstring ( std::string str, int width ) {
         lines.push_back( str );
         return lines;
     }
-
-	std::string wrapped = word_rewrap(str, width);
-	std::stringstream ss(wrapped);
-	std::string l;
-    while (std::getline(ss, l, '\n')) {
-        lines.push_back(l);
+    std::stringstream sstr(str);
+    std::string strline;
+    while (std::getline(sstr, strline, '\n')) {
+        std::string wrapped = word_rewrap(strline, width);
+        std::stringstream swrapped(wrapped);
+        std::string wline;
+        while (std::getline(swrapped, wline, '\n')) {
+            lines.push_back(wline);
+        }
     }
-	return lines;
+    return lines;
 }
 
 // returns number of printed lines
