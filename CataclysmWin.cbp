@@ -31,7 +31,10 @@
 		</Build>
 		<Linker>
 			<Add option="-Wl,-stack,12000000,-subsystem,windows" />
-			<Add option="-static -lgdi32" />
+			<Add option="-static" />
+			<Add library="gdi32" />
+			<Add library="intl" />
+			<Add library="iconv" />
 		</Linker>
 		<Unit filename="action.cpp" />
 		<Unit filename="action.h" />
@@ -123,7 +126,6 @@
 		<Unit filename="mapgenformat.cpp" />
 		<Unit filename="mapgenformat.h" />
 		<Unit filename="mapitems.h" />
-		<Unit filename="mapitemsdef.cpp" />
 		<Unit filename="material.cpp" />
 		<Unit filename="material.h" />
 		<Unit filename="melee.cpp" />
