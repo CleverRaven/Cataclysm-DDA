@@ -352,6 +352,7 @@ void load_artifacts(); // Load artifact data
   std::string save_weather() const;
 
 // Data Initialization
+  void init_fields();
   void init_traits();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
