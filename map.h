@@ -130,7 +130,7 @@ class map
 
 // Visual Output
  void debug();
- 
+
  /** Draw a visible part of the map into `w`.
   *
   * This method uses `g->u.posx/posy` for visibility calculations, so it can
@@ -142,7 +142,7 @@ class map
   *               be different from the player coordinate.
   */
  void draw(game *g, WINDOW* w, const point center);
- 
+
  /** Draw the map tile at the given coordinate. Called by `map::draw()`.
   *
   * @param x, y The tile on this map to draw.
@@ -161,23 +161,71 @@ class map
  void clear_traps();
 
 // Movement and LOS
- // Cost to move through; 0 = impassible, 1 = 50 moves, 2 = 100 etc
+
+ /**
+  * Calculate the cost to move past the tile at (x, y).
+  *
+  * The move cost is determined by various obstacles, such
+  * as terrain, vehicles and furniture.
+  *
+  * @note Movement costs for players and zombies both use this function.
+  *
+  * @return The return value is interpreted as follows:
+  * Move Cost | Meaning
+  * --------- | -------
+  * 0         | Impassable
+  * n > 0     | x*n turns to move past this
+  */
  int move_cost(const int x, const int y);
- // Same as above, but don't take vehicles into account
+
+
+ /**
+  * Similar behavior to `move_cost()`, but ignores vehicles.
+  */
  int move_cost_ter_furn(const int x, const int y);
- // Cost to move out of one tile and into the next,
- // returns player/monster moves (50, 75, 100, etc), unlike move_cost
+
+ /**
+  * Cost to move out of one tile and into the next.
+  *
+  * @return The cost in turns to move out of `(x1, y1)` and into `(x2, y2)`
+  */
  int combined_movecost(const int x1, const int y1, const int x2, const int y2);
+
+ /**
+  * Returns whether the tile at `(x, y)` is transparent(you can look past it).
+  */
  bool trans(const int x, const int y); // Transparent?
- // (Fx, Fy) sees (Tx, Ty), within a range of (range)?
- // tc indicates the Bresenham line used to connect the two points, and may
- //  subsequently be used to form a path between them
+
+ /**
+  * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
+  *
+  * @param tc Indicates the Bresenham line used to connect the two points, and may
+  *           subsequently be used to form a path between them
+  */
  bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
            const int range, int &tc);
-// clear_path is the same idea, but uses cost_min <= move_cost <= cost_max
+
+ /**
+  * Check whether there's a direct line of sight between `(Fx, Fy)` and
+  * `(Tx, Ty)` with the additional movecost restraints.
+  *
+  * Checks two things:
+  * 1. The `sees()` algorithm between `(Fx, Fy)` and `(Tx, Ty)`
+  * 2. That moving over the line of sight would have a move_cost between
+  *    `cost_min` and `cost_max`.
+  */
  bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                  const int range, const int cost_min, const int cost_max, int &tc);
-// route() generates an A* best path; if bash is true, we can bash through doors
+
+ /**
+  * Calculate a best path using A*
+  *
+  * @param Fx, Fy The source location from which to path.
+  * @param Tx, Ty The destination to which to path.
+  *
+  * @param bash Whether we should path through terrain that's impassable, but can
+  *             be destroyed(closed windows, doors, etc.)
+  */
  std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty,
                           const bool bash = true);
 
@@ -185,9 +233,19 @@ class map
  VehicleList get_vehicles();
  VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
 
-// checks, if tile is occupied by vehicle and by which part
+ /**
+  * Checks if tile is occupied by vehicle and by which part.
+  *
+  * @param part_num The part number of the part at this tile will be returned in this parameter.
+  * @return A pointer to the vehicle in this tile.
+  */
  vehicle* veh_at(const int x, const int y, int &part_num);
+
+ /**
+  * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
+  */
  vehicle* veh_at(const int x, const int y);// checks, if tile is occupied by vehicle
+
  // put player on vehicle at x,y
  void board_vehicle(game *g, int x, int y, player *p);
  void unboard_vehicle(game *g, const int x, const int y);//remove player from vehicle at x,y

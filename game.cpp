@@ -78,7 +78,7 @@ game::game() :
 
  try {
  if(!json_good())
-  {debugmsg("test");throw (std::string)"Failed to initialize a static variable";}
+  throw (std::string)"Failed to initialize a static variable";
  // Gee, it sure is init-y around here!
  init_skills();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
