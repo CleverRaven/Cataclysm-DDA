@@ -7444,7 +7444,7 @@ bool player::can_study_recipe(it_book* book)
     for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
     {
         if (!knows_recipe(iter->first) &&
-            (iter->first->sk_primary == NULL || skillLevel(iter->first->sk_primary) >= iter->second))
+            (iter->first->trained_skill == NULL || skillLevel(iter->first->trained_skill) >= iter->second))
         {
             return true;
         }
@@ -7469,9 +7469,9 @@ bool player::try_study_recipe(game *g, it_book *book)
     for (std::map<recipe*, int>::iterator iter = book->recipes.begin(); iter != book->recipes.end(); ++iter)
     {
         if (!knows_recipe(iter->first) &&
-            (iter->first->sk_primary == NULL || skillLevel(iter->first->sk_primary) >= iter->second))
+            (iter->first->trained_skill == NULL || skillLevel(iter->first->trained_skill) >= iter->second))
         {
-            if (iter->first->sk_primary == NULL || rng(0, 4) <= skillLevel(iter->first->sk_primary) - iter->second)
+            if (iter->first->trained_skill == NULL || rng(0, 4) <= skillLevel(iter->first->trained_skill) - iter->second)
             {
                 learn_recipe(iter->first);
                 g->add_msg("Learned a recipe for %s from the %s.",
@@ -8082,10 +8082,20 @@ bool player::knows_recipe(recipe *rec)
     // do we know the recipe by virtue of it being autolearned?
     if (rec->autolearn)
     {
-        if( (rec->sk_primary == NULL ||
-             skillLevel(rec->sk_primary) >= rec->difficulty) &&
-            (rec->sk_secondary == NULL || skillLevel(rec->sk_secondary) > 0) )
-        {
+        // Can the skill being trained can handle the difficulty of the task
+        bool meets_requirements = false;
+        if(rec->trained_skill == NULL || skillLevel(rec->trained_skill) >= rec->difficulty){
+            meets_requirements = true;
+            //If there are required skills, insure their requirements are met, or we can't craft
+            if(rec->required_skills.size()){
+                for(std::map<Skill*,int>::iterator iter=rec->required_skills.begin(); iter!=rec->required_skills.end();iter++){
+                    if(skillLevel(iter->first) < iter->second){
+                        meets_requirements = false;
+                    }
+                }
+            }
+        }
+        if(meets_requirements){
             return true;
         }
     }
