@@ -8,6 +8,160 @@
 
 bool vector_has(std::vector <item> vec, itype_id type);
 
+field_t fieldlist[num_fields];
+
+void game::init_fields()
+{
+    field_t tmp_fields[num_fields] =
+    {
+        {
+            {"", "", ""}, '%',
+            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+            {0,0,0}
+        },
+
+        {
+            {_("blood splatter"), _("blood stain"), _("puddle of blood")}, '%',
+            {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, 2500,
+            {0,0,0}
+        },
+        {
+            {_("bile splatter"), _("bile stain"), _("puddle of bile")},	'%',
+            {c_pink, c_pink, c_pink},	{true, true, true}, {false, false, false},2500,
+            {0,0,0}
+        },
+
+        {
+            {_("scraps of flesh"),	_("bloody meat chunks"),	_("heap of gore")},			'~',
+            {c_brown, c_ltred, c_red},	{true, true, true}, {false, false, false},	   2500,
+            {0,0,0}
+        },
+         
+        {
+            {_("shredded leaves and twigs"),	_("shattered branches and leaves"),	_("broken vegetation tangle")},			'~',
+            {c_ltgreen, c_ltgreen, c_green},	{true, true, true}, {false, false, false},	   2500,
+            {0,0,0}
+        },
+         
+        {
+            {_("cobwebs"),_("webs"), _("thick webs")},			'}',
+            {c_white, c_white, c_white},	{true, true, false},{false, false, false},   0,
+            {0,0,0}
+        },
+
+        {
+            {_("slime trail"), _("slime stain"), _("puddle of slime")},	'%',
+            {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false},2500,
+            {0,0,0}
+        },
+
+        {
+            {_("acid splatter"), _("acid streak"), _("pool of acid")},	'5',
+            {c_ltgreen, c_green, c_green},	{true, true, true}, {true, true, true},	    10,
+            {0,0,0}
+        },
+
+        {
+            {_("sap splatter"), _("glob of sap"), _("pool of sap")},	'5',
+            {c_yellow, c_brown, c_brown},	{true, true, true}, {true, true, true},     20,
+            {0,0,0}
+        },
+
+        {
+            {_("thin sludge trail"), _("sludge trail"), _("thick sludge trail")},	'5',
+            {c_ltgray, c_dkgray, c_black},	{true, true, true}, {false, false, false}, 900,
+            {0,0,0}
+        },
+
+        {
+            {_("small fire"),	_("fire"),	_("raging fire")},			'4',
+            {c_yellow, c_ltred, c_red},	{true, true, true}, {true, true, true},	   800,
+            {0,0,0}
+        },
+
+        {
+            {_("rubble heap"),	_("rubble pile"), _("mountain of rubble")},		'#',
+            {c_dkgray, c_dkgray, c_dkgray},	{true, true, false},{false, false, false},  0,
+            {0,0,0}
+        },
+
+        {
+            {_("thin smoke"),	_("smoke"), _("thick smoke")},		'8',
+            {c_white, c_ltgray, c_dkgray},	{true, false, false},{false, true, true},  300,
+            {0,0,0}
+        },
+
+        {
+            {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")},		'8',
+            {c_white, c_ltgreen, c_green}, {true, false, false},{false, true, true},  900,
+            {0,0,0}
+        },
+
+        {
+            {_("hazy cloud"),_("tear gas"),_("thick tear gas")},		'8',
+            {c_white, c_yellow, c_brown},	{true, false, false},{true, true, true},   600,
+            {0,0,0}
+        },
+
+        {
+            {_("hazy cloud"),_("radioactive gas"), _("thick radioactive gas")}, '8',
+            {c_white, c_ltgreen, c_green},	{true, true, false}, {true, true, true},  1000,
+            {0,0,0}
+        },
+
+        {
+            {_("gas vent"), _("gas vent"), _("gas vent")}, '%',
+            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+            {0,0,0}
+        },
+
+        { // Fire Vents
+            {"", "", ""}, '&',
+            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+            {0,0,0}
+        },
+
+        {
+            {_("fire"), _("fire"), _("fire")}, '5',
+            {c_red, c_red, c_red}, {true, true, true}, {true, true, true}, 0,
+            {0,0,0}
+        },
+
+        {
+            {_("sparks"), _("electric crackle"), _("electric cloud")},	'9',
+            {c_white, c_cyan, c_blue},	{true, true, true}, {true, true, true},	     2,
+            {0,0,0}
+        },
+
+        {
+            {_("odd ripple"), _("swirling air"), _("tear in reality")},	'*',
+            {c_ltgray, c_dkgray, c_magenta},{true, true, false},{false, false, false},  0,
+            {0,0,0}
+        },
+
+        { //Push Items
+            {"", "", ""}, '&',
+            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+            {0,0,0}
+        },
+
+        { // shock vents
+            {"", "", ""}, '&',
+            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+            {0,0,0}
+        },
+
+        { // acid vents
+            {"", "", ""}, '&',
+            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
+            {0,0,0}
+        }
+    };
+    for(int i=0; i<num_fields; i++) {
+        fieldlist[i] = tmp_fields[i];
+    }
+}
+
 bool map::process_fields(game *g)
 {
  bool found_field = false;
@@ -669,7 +823,7 @@ bool map::process_fields_in_submap(game *g, int gridn)
 								point newp = valid[rng(0, valid.size() - 1)];
 								add_item(newp.x, newp.y, tmp);
 								if (g->u.posx == newp.x && g->u.posy == newp.y) {
-									g->add_msg("A %s hits you!", tmp.tname().c_str());
+									g->add_msg(_("A %s hits you!"), tmp.tname().c_str());
 									g->u.hit(g, random_body_part(), rng(0, 1), 6, 0);
 								}
 								int npcdex = g->npc_at(newp.x, newp.y),
@@ -679,14 +833,14 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									npc *p = g->active_npc[npcdex];
 									p->hit(g, random_body_part(), rng(0, 1), 6, 0);
 									if (g->u_see(newp.x, newp.y))
-										g->add_msg("A %s hits %s!", tmp.tname().c_str(), p->name.c_str());
+										g->add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
 								}
 
 								if (mondex != -1) {
 									monster *mon = &(g->z[mondex]);
 									mon->hurt(6 - mon->armor_bash());
 									if (g->u_see(newp.x, newp.y))
-										g->add_msg("A %s hits the %s!", tmp.tname().c_str(),
+										g->add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
 										mon->name().c_str());
 								}
 							}
@@ -833,7 +987,7 @@ void map::step_in_field(int x, int y, game *g)
 	  //Acid deals damage at all levels now; the inside refers to inside a vehicle.
 	  //TODO: Add resistance to this with rubber shoes or something?
    if (cur->getFieldDensity() == 3 && !inside) {
-    g->add_msg("The acid burns your legs and feet!");
+    g->add_msg(_("The acid burns your legs and feet!"));
     g->u.hit(g, bp_feet, 0, 0, rng(4, 10));
     g->u.hit(g, bp_feet, 1, 0, rng(4, 10));
     g->u.hit(g, bp_legs, 0, 0, rng(2,  8));
@@ -854,7 +1008,7 @@ void map::step_in_field(int x, int y, game *g)
  case fd_sap:
 	 //Sap causes the player to get sap disease, slowing them down.
   if( g->u.in_vehicle ) break; //sap does nothing to cars.
-  g->add_msg("The sap sticks to you!");
+  g->add_msg(_("The sap sticks to you!"));
   g->u.add_disease("sap", cur->getFieldDensity() * 2);
   if (cur->getFieldDensity() == 1)
    remove_field(x, y, fd_sap);
@@ -863,7 +1017,7 @@ void map::step_in_field(int x, int y, game *g)
   break;
 
   case fd_sludge:
-      g->add_msg("The sludge is thick and sticky.");
+      g->add_msg(_("The sludge is thick and sticky."));
       break;
 
   case fd_fire:
@@ -882,18 +1036,18 @@ void map::step_in_field(int x, int y, game *g)
    }
    if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink prevents ALL fire damage.
     if (adjusted_intensity == 1) {
-     g->add_msg("You burn your legs and feet!");
+     g->add_msg(_("You burn your legs and feet!"));
      g->u.hit(g, bp_feet, 0, 0, rng(2, 6));
      g->u.hit(g, bp_feet, 1, 0, rng(2, 6));
      g->u.hit(g, bp_legs, 0, 0, rng(1, 4));
      g->u.hit(g, bp_legs, 1, 0, rng(1, 4));
     } else if (adjusted_intensity == 2) {
-     g->add_msg("You're burning up!");
+     g->add_msg(_("You're burning up!"));
      g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
      g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
      g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
     } else if (adjusted_intensity == 3) {
-     g->add_msg("You're set ablaze!");
+     g->add_msg(_("You're set ablaze!"));
      g->u.hit(g, bp_legs, 0, 0, rng(2, 6));
      g->u.hit(g, bp_legs, 1, 0, rng(2, 6));
      g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
@@ -954,7 +1108,7 @@ void map::step_in_field(int x, int y, game *g)
 	  //Get irradiated by the nuclear fallout.
    g->u.radiation += rng(cur->getFieldDensity(), cur->getFieldDensity() * (cur->getFieldDensity() + 1)); //changed to min of density, not 0.
    if (cur->getFieldDensity() == 3) {
-    g->add_msg("This radioactive gas burns!");
+    g->add_msg(_("This radioactive gas burns!"));
     g->u.hurtall(rng(1, 3));
    }
    break;
@@ -963,22 +1117,22 @@ void map::step_in_field(int x, int y, game *g)
 	  //A burst of flame? Only hits the legs and torso.
    if (inside) break; //fireballs can't touch you inside a car.
    if (!g->u.has_active_bionic("bio_heatsink")) { //heatsink stops fire.
-    g->add_msg("You're torched by flames!");
+    g->add_msg(_("You're torched by flames!"));
     g->u.hit(g, bp_legs, 0, 0,  rng(2, 6));
     g->u.hit(g, bp_legs, 1, 0,  rng(2, 6));
     g->u.hit(g, bp_torso, 0, 4, rng(4, 9));
    } else
-    g->add_msg("These flames do not burn you.");
+    g->add_msg(_("These flames do not burn you."));
    break;
 
   case fd_electricity:
    if (g->u.has_artifact_with(AEP_RESIST_ELECTRICITY)) //Artifact stops electricity.
-    g->add_msg("The electricity flows around you.");
+    g->add_msg(_("The electricity flows around you."));
    else {
-    g->add_msg("You're electrocuted!");
+    g->add_msg(_("You're electrocuted!"));
     g->u.hurtall(rng(1, cur->getFieldDensity())); //small universal damage based on density.
     if (one_in(8 - cur->getFieldDensity()) && !one_in(30 - g->u.str_cur)) { //str of 30 stops this from happening.
-     g->add_msg("You're paralyzed!");
+     g->add_msg(_("You're paralyzed!"));
      g->u.moves -= rng(cur->getFieldDensity() * 150, cur->getFieldDensity() * 200); //roughly doubled duration.
     }
    }
@@ -987,7 +1141,7 @@ void map::step_in_field(int x, int y, game *g)
   case fd_fatigue:
 	  //Teleports you... somewhere.
    if (rng(0, 2) < cur->getFieldDensity()) {
-    g->add_msg("You're violently teleported!");
+    g->add_msg(_("You're violently teleported!"));
     g->u.hurtall(cur->getFieldDensity());
     g->teleport();
    }
@@ -1194,7 +1348,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
      int mon_hit = g->mon_at(newposx, newposy);
      if (mon_hit != -1) {
       if (g->u_see(z))
-       g->add_msg("The %s teleports into a %s, killing them both!",
+       g->add_msg(_("The %s teleports into a %s, killing them both!"),
                   z->name().c_str(), g->z[mon_hit].name().c_str());
       g->explode_mon(mon_hit);
      } else {
@@ -1254,7 +1408,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
      int how_many_limbs_hit = rng(0, num_hp_parts);
      for ( int i = 0 ; i < how_many_limbs_hit ; i++ ) {
       g->u.hp_cur[rng(0, num_hp_parts)] -= rng(0, 10);
-      g->add_msg("You are hit by the falling debris!");
+      g->add_msg(_("You are hit by the falling debris!"));
      }
      if (one_in(g->u.dex_cur)) {
       g->u.add_disease("downed", 2);
@@ -1264,7 +1418,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
      }
     }
     else if (one_in(g->u.str_cur)) {
-     g->add_msg("You trip as you evade the falling debris!");
+     g->add_msg(_("You trip as you evade the falling debris!"));
      g->u.add_disease("downed", 1);
     }
                         //Avoiding disease system for the moment, since I was having trouble with it.
