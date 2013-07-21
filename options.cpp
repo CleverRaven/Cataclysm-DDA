@@ -410,7 +410,7 @@ std::string option_desc(option_key key)
     case OPT_CIRCLEDIST:          return "If true, the game will calculate\nrange in a realistic way:\nlight sources will be circles\ndiagonal movement will\ncover more ground and take\nlonger.\nIf disabled, everything is\nsquare: moving to the northwest\ncorner of a building\ntakes as long as moving\nto the north wall.";
     case OPT_QUERY_DISASSEMBLE:   return "If true, will query before\ndisassembling items.\nDefault is true";
     case OPT_DROP_EMPTY:          return "Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers";
-    case OPT_SKILL_RUST:          return "Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - none at all";
+    case OPT_SKILL_RUST:          return "Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - vanilla, capped at skill levels\n2 - intelligence dependent\n3 - intelligence dependent, capped\n4 - none at all";
     case OPT_DELETE_WORLD:        return "Delete saves upon player death.\n0 - no (default)\n1 - yes\n2 - query";
     case OPT_INITIAL_POINTS:      return "Initial points available on character\ngeneration.\nDefault is 6";
     case OPT_MAX_TRAIT_POINTS:    return "Maximum trait points available for\ncharacter generation.\nDefault is 12";
@@ -535,8 +535,10 @@ char option_max_options(option_key id)
             break;
         case OPT_DELETE_WORLD:
         case OPT_DROP_EMPTY:
-        case OPT_SKILL_RUST:
             ret = 3;
+            break;
+        case OPT_SKILL_RUST:
+            ret = 5;
             break;
         case OPT_VIEWPORT_X:
         case OPT_VIEWPORT_Y:
@@ -636,7 +638,7 @@ drop_empty 0\n\
 # 0 - Cursor always shown, 1 - Cursor always hidden, 2 - Cursor shown on mouse input and hidden on keyboard input\n\
 # \n\
 # GAMEPLAY OPTIONS: CHANGING THESE OPTIONS WILL AFFECT GAMEPLAY DIFFICULTY! \n\
-# Level of skill rust: 0 - vanilla Cataclysm, 1 - capped at skill levels, 2 - none at all\n\
+# Level of skill rust: 0 - vanilla Cataclysm; 1 - vanilla, capped at skill levels; 2 - intelligence dependent; 3 - intelligence dependent, capped; 4 - none at all\n\
 skill_rust 0\n\
 # Delete world after player death: 0 - no, 1 - yes, 2 - query\n\
 delete_world 0\n\
