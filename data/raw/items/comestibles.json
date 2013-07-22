@@ -4103,7 +4103,7 @@
         "type" : "COMESTIBLE",
         "id" : "bandages",
         "name" : "bandages",
-        "weight" : 151,
+        "weight" : 100,
         "color" : "white",
         "addiction_type" : "none",
         "spoils_in" : 0,
