@@ -2752,7 +2752,7 @@ void game::add_msg_player_or_npc(player *p, const char* player_str, const char* 
     va_start( ap, npc_str );
 
     if( !p->is_npc() ) {
-        add_msg( player_str, ap );
+        vadd_msg( player_str, ap );
     } else if( u_see( p ) ) {
         char buff[1024];
         vsprintf(buff, npc_str, ap);
