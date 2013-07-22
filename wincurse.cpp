@@ -403,7 +403,6 @@ int curses_getch(WINDOW* win)
     {
         CheckMessages();
     };
-    Sleep(25);
     return lastchar;
 }
 
