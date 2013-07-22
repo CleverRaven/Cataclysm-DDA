@@ -983,7 +983,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     {
         for(unsigned int i = 0; i< repair_items.size(); i++)
         {
-            g->add_msg_if_player(p,_("You don't have enough %s to do that."), plurals[i].substring(8).c_str()); // remove <plural> tag
+            g->add_msg_if_player(p,_("You don't have enough %s to do that."), plurals[i].substr(8).c_str()); // remove <plural> tag
         }
         it->charges++;
         return;
@@ -1157,13 +1157,13 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     std::string scrap_text, pre_text, post_text, type;
     if (cut->made_of("cotton"))
     {
-        scrap_text = "ribbons";
+        scrap_text = _("<scrap>ribbons");
         pre_text = "rag";
         type = "rag";
     }
     else
     {
-        scrap_text = "scraps";
+        scrap_text = _("<scrap>scraps");
         pre_text = "piece";
         post_text = " of leather";
         type = "leather";
@@ -1192,8 +1192,8 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
 
     if (count <= 0)
     {
-        g->add_msg_if_player(p,"You clumsily cut the %s into useless %s.",
-                             cut->tname().c_str(), scrap_text.c_str());
+        g->add_msg_if_player(p,_("You clumsily cut the %1$s into useless %2$s."),
+                             cut->tname().c_str(), scrap_text.substr(7).c_str());
         p->i_rem(ch);
         return;
     }
