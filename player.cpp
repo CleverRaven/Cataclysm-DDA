@@ -7694,7 +7694,7 @@ int player::getID ()
     return this->id;
 }
 
-bool player::uncanny_dodge()
+bool player::uncanny_dodge(bool is_u)
 {
     point adjacent = adjacent_tile();
     power_level -= 3;
@@ -7702,10 +7702,14 @@ bool player::uncanny_dodge()
     {
         posx = adjacent.x;
         posy = adjacent.y;
-        g->add_msg("Time seems to slow down and you instinctively dodge!");
+        if (is_u)
+            g->add_msg("Time seems to slow down and you instinctively dodge!");
+        else
+            g->add_msg("Your target dodges... so fast!");
         return true;
     }
-    g->add_msg("You try to dodge but there's no room!");
+    if (is_u)
+        g->add_msg("You try to dodge but there's no room!");
     return false;
 }
 // adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
