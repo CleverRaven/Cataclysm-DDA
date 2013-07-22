@@ -14,16 +14,16 @@
 				<Compiler>
 					<Add option="-Os" />
 					<Add directory="../gettext-tools/include" />
-					<Add directory="include/gettext-tools" />
+					<Add directory="../gettext-runtime/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,-stack,12000000,-subsystem,windows" />
 					<Add option="-static -lgdi32 -I -L -MD" />
-					<Add library="libs\gettext-runtime\intl.lib" />
-					<Add library="libs\gettext-runtime\asprintf.lib" />
-					<Add library="libs\gettext-tools\gettextpo.lib" />
+					<Add library="..\gettext-runtime\lib\intl.lib" />
+					<Add library="..\gettext-runtime\lib\asprintf.lib" />
+					<Add library="..\gettext-tools\lib\gettextpo.lib" />
 					<Add directory="../gettext-tools/lib" />
-					<Add directory="libs/gettext-tools" />
+					<Add directory="../gettext-runtime/lib" />
 				</Linker>
 			</Target>
 			<Target title="Debug">
