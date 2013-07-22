@@ -1342,40 +1342,45 @@ void game::handle_key_blocking_activity() {
     }
 }
 //// item submenu for 'i' and '/'
-int game::inventory_item_menu(char chItem, int startx, int width) {
+int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
     bool has = false;
     const std::string sSpaces = "                              ";
     int cMenu = (int)'+';
     has = u.has_item(chItem);
 
-    const int menustart=2;  // lightbar constraints
-    const int menuend=12;
-    int selected=1;         // default 'parked' hidden above 'activate'
-
     if (has) {
+        item oThisItem = u.i_at(chItem);
+        std::vector<iteminfo> vThisItem, vDummy, vMenu;
+
+        const int iOffsetX = 2;
+
+        vMenu.push_back(iteminfo("MENU", "", _("iOffsetX"), iOffsetX));
+        vMenu.push_back(iteminfo("MENU", "", _("iOffsetY"), 0));
+        vMenu.push_back(iteminfo("MENU", "a", _("ctivate"), u.rate_action_use(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "R", _("ead"), u.rate_action_read(&oThisItem, this)));
+        vMenu.push_back(iteminfo("MENU", "E", _("at  "), u.rate_action_eat(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "W", _("ear  "), u.rate_action_wear(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "w", _("ield")));
+        vMenu.push_back(iteminfo("MENU", "t", _("hrow")));
+        vMenu.push_back(iteminfo("MENU", "T", _("ake off"), u.rate_action_takeoff(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "d", _("rop")));
+        vMenu.push_back(iteminfo("MENU", "U", _("nload"), u.rate_action_unload(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "r", _("eload"), u.rate_action_reload(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "D", _("isassemble"), u.rate_action_disassemble(&oThisItem, this)));
+        vMenu.push_back(iteminfo("MENU", "=", _(" reassign")));
+
+        oThisItem.info(true, &vThisItem, this);
+        compare_split_screen_popup(iStartX,iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
+
+        const int iMenuStart = iOffsetX;  // lightbar constraints
+        const int iMenuItems = vMenu.size() - 1;
+        int iSelected = 1;         // default 'parked' hidden above 'activate'
+
         do {
-            item oThisItem = u.i_at(chItem);
-            std::vector<iteminfo> vThisItem, vDummy, vMenu;
-            int iOffsetX = 2;
-            vMenu.push_back(iteminfo("MENU", "", _("iOffsetX"), iOffsetX));
-            vMenu.push_back(iteminfo("MENU", "", _("iOffsetY"), 0));
-            vMenu.push_back(iteminfo("MENU", "a", _("ctivate"), u.rate_action_use(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "R", _("ead"), u.rate_action_read(&oThisItem, this)));
-            vMenu.push_back(iteminfo("MENU", "E", _("at  "), u.rate_action_eat(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "W", _("ear  "), u.rate_action_wear(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "w", _("ield")));
-            vMenu.push_back(iteminfo("MENU", "t", _("hrow")));
-            vMenu.push_back(iteminfo("MENU", "T", _("ake off"), u.rate_action_takeoff(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "d", _("rop")));
-            vMenu.push_back(iteminfo("MENU", "U", _("nload"), u.rate_action_unload(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "r", _("eload"), u.rate_action_reload(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "D", _("isassemble"), u.rate_action_disassemble(&oThisItem, this)));
-            vMenu.push_back(iteminfo("MENU", "=", _(" reassign")));
-            oThisItem.info(true, &vThisItem, this);
-            compare_split_screen_popup(startx, width, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
-            cMenu = compare_split_screen_popup(startx+width, 14, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
-                selected >= menustart && selected <= menuend ? selected : -1
+            cMenu = compare_split_screen_popup(iStartX + iWidth, iMenuItems + iOffsetX, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
+                iSelected >= iOffsetX && iSelected <= iMenuItems ? iSelected : -1
             );
+
             switch(cMenu) {
                 case 'a':
                  use_item(chItem);
@@ -1414,18 +1419,18 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
                  reassign_item(chItem);
                  break;
                 case KEY_UP:
-                 selected--;
+                 iSelected--;
                  break;
                 case KEY_DOWN:
-                 selected++;
+                 iSelected++;
                  break;
                 default:
                  break;
             }
-            if( selected < menustart-1 ) { // wraparound, but can be hidden
-                selected = menuend;
-            } else if ( selected > menuend + 1 ) {
-                selected = menustart;
+            if( iSelected < iMenuStart-1 ) { // wraparound, but can be hidden
+                iSelected = iMenuItems;
+            } else if ( iSelected > iMenuItems + 1 ) {
+                iSelected = iMenuStart;
             }
         } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
     }
@@ -8146,7 +8151,8 @@ void game::pickup(int posx, int posy, int min)
  item_exchanges_since_save += 1; // Keeping this simple.
  write_msg();
  if (u.weapon.type->id == "bio_claws_weapon") {
-  add_msg(_("You cannot pick up items with your claws out!"));
+  if (min != -1)
+   add_msg(_("You cannot pick up items with your claws out!"));
   return;
  }
  bool weight_is_okay = (u.weight_carried() <= u.weight_capacity() * .25);
@@ -8299,45 +8305,39 @@ void game::pickup(int posx, int posy, int min)
  int last_selected=-1;
 
  if (min == -1) { //Auto Pickup, select matching items
-    if (OPTIONS[OPT_AUTO_PICKUP] && (!OPTIONS[OPT_AUTO_PICKUP_SAFEMODE] || mostseen == 0)) {
-        //Loop through Items lowest Volume first
-        bool bPickup = false;
+    bool bFoundSomething = false;
 
-        for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
-            for (int i = 0; i < here.size(); i++) {
-                bPickup = false;
-                if (here[i].volume() == iVol) {
-                    iNumChecked++;
+    //Loop through Items lowest Volume first
+    bool bPickup = false;
 
-                    //Auto Pickup all items with 0 Volume and Weight
-                    if (OPTIONS[OPT_AUTO_PICKUP_ZERO]) {
-                        if (here[i].volume() == 0 && here[i].weight() == 0) {
-                            bPickup = true;
-                        }
-                    }
+    for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
+        for (int i = 0; i < here.size(); i++) {
+            bPickup = false;
+            if (here[i].volume() == iVol) {
+                iNumChecked++;
 
-                    //Check the Pickup Rules
-                    for (int j=0; j < vAutoPickupRules[0].size(); j++) {
-                        if (vAutoPickupRules[0][j].bActive && vAutoPickupRules[0][j].sRule != "") {
-                            if (auto_pickup_match(here[i].tname(this), vAutoPickupRules[0][j].sRule)) {
-                                if (vAutoPickupRules[0][j].bExclude) { //Maybe we find an exclusion rule
-                                    bPickup = false;
-                                    break;
-                                }
-
-                                bPickup = true;
-                            }
-                        }
+                //Auto Pickup all items with 0 Volume and Weight
+                if (OPTIONS[OPT_AUTO_PICKUP_ZERO]) {
+                    if (here[i].volume() == 0 && here[i].weight() == 0) {
+                        bPickup = true;
                     }
                 }
 
-
-                if (bPickup) {
-                    getitem[i] = bPickup;
-                    //mapPickup[here[i].tname(this)]++;
+                //Check the Pickup Rules
+                if ( mapAutoPickupItems[here[i].tname(this)] ) {
+                    bPickup = true;
                 }
             }
+
+            if (bPickup) {
+                getitem[i] = bPickup;
+                bFoundSomething = true;
+            }
         }
+    }
+
+    if (!bFoundSomething) {
+        return;
     }
  } else {
  // Now print the two lists; those on the ground and about to be added to inv
@@ -10152,7 +10152,9 @@ void game::plmove(int x, int y)
   u.posy = y;
 
   //Autopickup
-  pickup(u.posx, u.posy, -1);
+  if (OPTIONS[OPT_AUTO_PICKUP] && (!OPTIONS[OPT_AUTO_PICKUP_SAFEMODE] || mostseen == 0) && (m.i_at(u.posx, u.posy)).size() > 0) {
+   pickup(u.posx, u.posy, -1);
+  }
 
 // If the new tile is a boardable part, board it
   if (veh1 && veh1->part_with_feature(vpart1, vpf_boardable) >= 0)
