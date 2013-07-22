@@ -82,8 +82,8 @@ void computer::use(game *g)
     wborder(w_terminal, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
+    // Login
     print_line("Logging into %s...", name.c_str());
-
     if (security > 0)
     {
         print_error("ERROR!  Access denied!");
@@ -96,8 +96,7 @@ void computer::use(game *g)
 
         case 'n':
         case 'N':
-            print_line("Shutting down... press any key.");
-            getch();
+            query_any("Shutting down... press any key.");
             shutdown_terminal();
             return;
 
@@ -107,8 +106,7 @@ void computer::use(game *g)
             {
                 if (failures.size() == 0)
                 {
-                    print_line("Maximum login attempts exceeded. Press any key...");
-                    getch();
+                    query_any("Maximum login attempts exceeded. Press any key...");
                     shutdown_terminal();
                     return;
                 }
@@ -116,26 +114,22 @@ void computer::use(game *g)
                 shutdown_terminal();
                 return;
             }
-            else     // Successful hack attempt
+            else // Successful hack attempt
             {
                 security = 0;
-                print_line("Login successful.  Press any key...");
-                getch();
+                query_any("Login successful.  Press any key...");
                 reset_terminal();
             }
         }
     }
-    else     // No security
+    else // No security
     {
-        print_line("Login successful.  Press any key...");
-        getch();
+        query_any("Login successful.  Press any key...");
         reset_terminal();
     }
 
-// Main computer loop
-
-    bool done = false; // Are we done using the computer?
-    do
+    // Main computer loop
+    for (bool InUse = true; InUse; )
     {
         //reset_terminal();
         print_line("");
@@ -155,7 +149,7 @@ void computer::use(game *g)
         while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= options.size()));
         if (ch == 'q' || ch == 'Q')
         {
-            done = true;
+            InUse = false;
         }
         else   // We selected an option other than quit.
         {
@@ -173,9 +167,9 @@ void computer::use(game *g)
                         return;
                     }
                     else
-                    {
+                    { // Succesfully hacked function
+                        options[ch].security = 0;
                         activate_function(g, current.action);
-                        reset_terminal();
                     }
                 }
             }
@@ -186,7 +180,6 @@ void computer::use(game *g)
             reset_terminal();
         } // Done processing a selected option.
     }
-    while (!done);   // Done with main terminal loop
 
     shutdown_terminal(); // This should have been done by now, but just in case.
 }
@@ -194,9 +187,7 @@ void computer::use(game *g)
 bool computer::hack_attempt(game *g, player *p, int Security)
 {
     if (Security == -1)
-    {
-        Security = security;    // Set to main system security if no value passed
-    }
+        Security = security; // Set to main system security if no value passed
 
     p->practice(g->turn, "computer", 5 + Security * 2);
     int player_roll = p->skillLevel("computer");
@@ -252,7 +243,8 @@ void computer::load_data(std::string data)
     std::stringstream dump;
     std::string buffer;
     dump << data;
-// Pull in name and security
+
+    // Pull in name and security
     dump >> name >> security >> mission_id;
     size_t found = name.find("_");
     while (found != std::string::npos)
@@ -260,7 +252,8 @@ void computer::load_data(std::string data)
         name.replace(found, 1, " ");
         found = name.find("_");
     }
-// Pull in options
+
+    // Pull in options
     int optsize;
     dump >> optsize;
     for (int n = 0; n < optsize; n++)
@@ -276,7 +269,8 @@ void computer::load_data(std::string data)
         }
         add_option(tmpname, computer_action(tmpaction), tmpsec);
     }
-// Pull in failures
+
+    // Pull in failures
     int failsize, tmpfail;
     dump >> failsize;
     for (int n = 0; n < failsize; n++)
@@ -296,7 +290,7 @@ void computer::activate_function(game *g, computer_action action)
 
     case COMPACT_OPEN:
         g->m.translate(t_door_metal_locked, t_floor);
-        print_line("Doors opened.");
+        query_any("Doors opened.  Press any key...");
         break;
 
         //LOCK AND UNLOCK are used to build more complex buildings that can have multiple doors that can be locked and
@@ -304,12 +298,12 @@ void computer::activate_function(game *g, computer_action action)
         //to determine which terrain tiles to edit.
     case COMPACT_LOCK:
         g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.posx, g->u.posy);
-        print_line("Lock enabled.");
+        query_any("Lock enabled.  Press any key...");
         break;
 
     case COMPACT_UNLOCK:
         g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.posx, g->u.posy);
-        print_line("Lock disabled.");
+        query_any("Lock disabled.  Press any key...");
         break;
 
         //Toll is required for the church computer/mechanism to function
@@ -357,7 +351,7 @@ void computer::activate_function(game *g, computer_action action)
         g->sound(g->u.posx, g->u.posy, 40, "An alarm sounds!");
         g->m.translate(t_reinforced_glass_h, t_floor);
         g->m.translate(t_reinforced_glass_v, t_floor);
-        print_line("Containment shields opened.");
+        query_any("Containment shields opened.  Press any key...");
         break;
 
     case COMPACT_TERMINATE:
@@ -376,7 +370,7 @@ void computer::activate_function(game *g, computer_action action)
                 }
             }
         }
-        print_line("Subjects terminated.");
+        query_any("Subjects terminated.  Press any key...");
         break;
 
     case COMPACT_PORTAL:
@@ -487,9 +481,7 @@ void computer::activate_function(game *g, computer_action action)
             while(tmp.find_first_of('%') != 0 && getline(fin, tmp));
         }
         print_line(" %s", log.c_str());
-        print_line("Press any key...");
-        getch();
-        reset_terminal();
+        query_any("Press any key...");
     }
     break;
 
@@ -522,9 +514,7 @@ void computer::activate_function(game *g, computer_action action)
                 g->cur_om->seen(i, j, 0) = true;
             }
         }
-        print_line("Surface map data downloaded.");
-        query_any("Press any key to continue...");
-        reset_terminal();
+        query_any("Surface map data downloaded.  Press any key...");
     }
     break;
 
@@ -561,7 +551,7 @@ void computer::activate_function(game *g, computer_action action)
                     g->cur_om->seen(i, j, g->levz) = true;
                 }
         }
-        print_line("Sewage map data downloaded.");
+        query_any("Sewage map data downloaded.  Press any key...");
     }
     break;
 
@@ -686,9 +676,7 @@ void computer::activate_function(game *g, computer_action action)
         }
 
         print_line("");
-        print_line("Press any key...");
-        getch();
-
+        query_any("Press any key...");
     }
     break;
 
@@ -703,7 +691,7 @@ void computer::activate_function(game *g, computer_action action)
                 }
             }
         }
-        print_line("Elevator activated.");
+        query_any("Elevator activated.  Press any key...");
         break;
 
     case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
@@ -813,6 +801,7 @@ INITIATING STANDARD TREMOR TEST...");
         g->u.add_disease("stemcell_treatment", 120);
         print_line("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD.");
+        query_any("Press any key...");
         g->u.pain += rng(40,90);
         break;
 
@@ -836,6 +825,7 @@ of pureed bone & LSD.");
             usb->put_in(software);
             print_line("Software downloaded.");
         }
+        getch();
         break;
 
     case COMPACT_BLOOD_ANAL:
@@ -865,7 +855,7 @@ of pureed bone & LSD.");
                     {
                         print_error("ERROR: Please only use blood samples.");
                     }
-                    else   // Success!
+                    else // Success!
                     {
                         item *blood = &(g->m.i_at(x, y)[0].contents[0]);
                         if (blood->corpse == NULL || blood->corpse->id == mon_null)
@@ -896,12 +886,11 @@ of pureed bone & LSD.");
                         {
                             print_line("Result: Unknown blood type.  Test nonconclusive.");
                         }
-                        print_line("Press any key...");
-                        getch();
                     }
                 }
             }
         }
+        query_any("Press any key...");
         break;
 
     case COMPACT_DATA_ANAL:
@@ -915,34 +904,28 @@ of pureed bone & LSD.");
                     if (g->m.i_at(x, y).empty())
                     {
                         print_error("ERROR: Please place memory bank in scan area.");
-                        query_any("Press any key to continue...");
                     }
                     else if (g->m.i_at(x, y).size() > 1)
                     {
                         print_error("ERROR: Please only scan one item at a time.");
-                        query_any("Press any key to continue...");
                     }
                     else if (g->m.i_at(x, y)[0].type->id != "usb_drive" && g->m.i_at(x, y)[0].type->id != "black_box")
                     {
                         print_error("ERROR: Memory bank destroyed or not present.");
-                        query_any("Press any key to continue...");
                     }
                     else if (g->m.i_at(x, y)[0].type->id == "usb_drive" && g->m.i_at(x, y)[0].contents.empty())
                     {
                         print_error("ERROR: Memory bank is empty.");
-                        query_any("Press any key to continue...");
                     }
-                    else   // Success!
+                    else // Success!
                     {
                         if (g->m.i_at(x, y)[0].type->id == "usb_drive")
                         {
                             print_line("Memory Bank:  Unencrypted\nNothing of interest.");
-                            query_any("Press any key to continue...");
                         }
                         if (g->m.i_at(x, y)[0].type->id == "black_box")
                         {
                             print_line("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n");
-                            query_any("Press any key to continue...");
                             item transcript(g->itypes["black_box_transcript"], g->turn);
                             g->m.add_item(g->u.posx, g->u.posy, transcript);
                         }
@@ -950,12 +933,12 @@ of pureed bone & LSD.");
                         {
                             print_line("Memory Bank:  Unencrypted\nNothing of interest.\n");
                         }
-                        query_any("Press any key to continue...");
-                        reset_terminal();
+
                     }
                 }
             }
         }
+        query_any("Press any key...");
         break;
 
     case COMPACT_DISCONNECT:
@@ -966,7 +949,6 @@ UNABLE TO REACH NETWORK ROUTER OR PROXY.  PLEASE CONTACT YOUR\n\
 SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n\
   \n");
         query_any("Press any key to continue...");
-        reset_terminal();
         break;
 
     case COMPACT_EMERG_MESS:
@@ -983,7 +965,6 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 \n\
   \n");
         query_any("Press any key to continue...");
-        reset_terminal();
         break;
 
     case COMPACT_TOWER_UNRESPONSIVE:
@@ -996,7 +977,6 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   \n\
   \n");
         query_any("Press any key to continue...");
-        reset_terminal();
         break;
 
     case COMPACT_SR1_MESS:
@@ -1014,7 +994,6 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   and highly toxic. Take full precautions!\n\
   \n");
         query_any("Press any key to continue...");
-        reset_terminal();
         break;
 
     case COMPACT_SR2_MESS:
@@ -1033,7 +1012,6 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   at once.\n\
   ");
         query_any("Press any key to continue...");
-        reset_terminal();
         break;
 
     case COMPACT_SR3_MESS:
@@ -1049,7 +1027,6 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   to your SRCF administrator at once.\n\
   ");
         query_any("Press any key to continue...");
-        reset_terminal();
         break;
 
     case COMPACT_SR4_MESS:
@@ -1065,7 +1042,6 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   medical evaluation and security debriefing.\n\
   ");
         query_any("Press any key to continue...");
-        reset_terminal();
         break;
 
     case COMPACT_SRCF_1_MESS:
@@ -1097,7 +1073,6 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   Robert Shane\n\
   \n");
         query_any("Press any key to continue...");
-        reset_terminal();
         break;
 
     case COMPACT_SRCF_2_MESS:
@@ -1143,7 +1118,6 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   Robert Shane\n\
   \n");
         query_any("Press any key to continue...");
-        reset_terminal();
         break;
 
     case COMPACT_SRCF_3_MESS:
@@ -1169,7 +1143,6 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   Ellen Grimes\n\
   \n");
         query_any("Press any key to continue...");
-        reset_terminal();
         break;
 
     case COMPACT_SRCF_SEAL_ORDER:
@@ -1193,7 +1166,6 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
   Commander of the 10th Mountain Division\n\
   \n");
         query_any("Press any key to continue...");
-        reset_terminal();
         break;
 
     case COMPACT_SRCF_SEAL:
@@ -1228,14 +1200,12 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
         if (!g->u.has_amount("sarcophagus_access_code", 1))
         {
             print_error("Access code required!");
-            query_any("Press any key to continue...");
         }
         else
         {
             g->u.use_amount("sarcophagus_access_code", 1);
             reset_terminal();
             print_line("\nPower:         Backup Only\nRadion Level:  Very Dangerous\nOperational:   Overrided\n\n");
-            query_any("Press any key to continue...");
             for (int x = 0; x < SEEX * MAPSIZE; x++)
             {
                 for (int y = 0; y < SEEY * MAPSIZE; y++)
@@ -1248,6 +1218,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 }
             }
         }
+        query_any("Press any key...");
         break;
 
     } // switch (action)
