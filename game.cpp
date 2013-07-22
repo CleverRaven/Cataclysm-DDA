@@ -1982,7 +1982,7 @@ bool game::handle_action()
    break;
 
   case ACTION_FACTIONS:
-   list_factions();
+   list_factions(_("FACTIONS:"));
    break;
 
   case ACTION_MORALE:

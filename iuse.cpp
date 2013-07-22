@@ -51,7 +51,7 @@ static bool use_fire(game *g, player *p, item *it)
     if (!p->use_charges_if_avail("fire", 1))
     {
         add_or_drop_item(g, p, it);
-        g->add_msg_if_player(p, "You need a lighter!");
+        g->add_msg_if_player(p, _("You need a lighter!"));
         return false;
     }
     return true;
@@ -60,18 +60,23 @@ static bool use_fire(game *g, player *p, item *it)
 // Returns false if the inscription failed or if the player canceled the action. Otherwise, returns true.
 static bool inscribe_item( game *g, player *p, std::string verb, std::string gerund, bool carveable )
 {
-    char ch = g->inv(verb + " on what?");
+    //Note: this part still strongly relies on English grammar. 
+    //Although it can be easily worked around in language like Chinese,
+    //but might need to be reworked for some European languages that have more verb forms
+    char buf[512];
+    sprintf(buf, _("%s on what?"), verb.c_str());
+    char ch = g->inv(buf);
     item* cut = &(p->i_at(ch));
     if (cut->type->id == "null")
     {
-        g->add_msg("You do not have that item!");
+        g->add_msg(_("You do not have that item!"));
         return false;
     }
     if (!cut->made_of(SOLID))
     {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
-        g->add_msg("You can't %s an item that's not solid!", lower_verb.c_str());
+        g->add_msg(_("You can't %s an item that's not solid!"), lower_verb.c_str());
         return false;
     }
     if(carveable && !(cut->made_of("wood") || cut->made_of("plastic") || cut->made_of("glass") ||
@@ -79,14 +84,16 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
                       cut->made_of("silver"))) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
-        g->add_msg("You can't %s an item made of %s!",
+        g->add_msg(_("You can't %1$s an item made of %2$s!"),
                    lower_verb.c_str(), cut->get_material(1).c_str());
         return false;
     }
 
     std::map<std::string, std::string>::iterator ent = cut->item_vars.find("item_note");
-    std::string message = gerund + " on this " + cut->type->name + " is a note saying: ";
-    message = string_input_popup(verb + " what?", 64, (ent != cut->item_vars.end() ?
+    sprintf(buf, _("%1$s on this %2$s is a note saying: "), gerund.c_str(), cut->type->name.c_str());
+    std::string message = buf;
+    sprintf(buf, _("%s what?"), verb.c_str()); 
+    message = string_input_popup(buf, 64, (ent != cut->item_vars.end() ?
                                                        cut->item_vars["item_note"] : message ));
 
     if( message.size() > 0 ) { cut->item_vars["item_note"] = message; }
@@ -95,7 +102,7 @@ static bool inscribe_item( game *g, player *p, std::string verb, std::string ger
 
 void iuse::none(game *g, player *p, item *it, bool t)
 {
-  g->add_msg("You can't do anything interesting with your %s.",
+  g->add_msg(_("You can't do anything interesting with your %s."),
              it->tname(g).c_str());
 }
 /* To mark an item as "removed from inventory", set its invlet to 0
@@ -119,26 +126,26 @@ void iuse::royal_jelly(game *g, player *p, item *it, bool t)
  p->pkill += 5;
  std::string message;
  if (p->has_disease("fungus")) {
-  message = "You feel cleansed inside!";
+  message = _("You feel cleansed inside!");
   p->rem_disease("fungus");
  }
  if (p->has_disease("blind")) {
-  message = "Your sight returns!";
+  message = _("Your sight returns!");
   p->rem_disease("blind");
  }
  if (p->has_disease("poison") || p->has_disease("foodpoison") ||
      p->has_disease("badpoison")) {
-  message = "You feel much better!";
+  message = _("You feel much better!");
   p->rem_disease("poison");
   p->rem_disease("badpoison");
   p->rem_disease("foodpoison");
  }
  if (p->has_disease("asthma")) {
-  message = "Your breathing clears up!";
+  message = _("Your breathing clears up!");
   p->rem_disease("asthma");
  }
  if (p->has_disease("common_cold") || p->has_disease("flu")) {
-  message = "You feel healthier!";
+  message = _("You feel healthier!");
   p->rem_disease("common_cold");
   p->rem_disease("flu");
  }
@@ -170,36 +177,36 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
         wborder(hp_window, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
-        mvwprintz(hp_window, 1, 1, c_ltred,  "Use %s:", item_name.c_str());
+        mvwprintz(hp_window, 1, 1, c_ltred,  _("Use %s:"), item_name.c_str());
         if(p->hp_cur[hp_head] < p->hp_max[hp_head])
         {
-            mvwprintz(hp_window, 2, 1, c_ltgray, "1: Head");
+            mvwprintz(hp_window, 2, 1, c_ltgray, _("1: Head"));
         }
         if(p->hp_cur[hp_torso] < p->hp_max[hp_torso])
         {
-            mvwprintz(hp_window, 3, 1, c_ltgray, "2: Torso");
+            mvwprintz(hp_window, 3, 1, c_ltgray, _("2: Torso"));
         }
         if(p->hp_cur[hp_arm_l] < p->hp_max[hp_arm_l])
         {
-            mvwprintz(hp_window, 4, 1, c_ltgray, "3: Left Arm");
+            mvwprintz(hp_window, 4, 1, c_ltgray, _("3: Left Arm"));
         }
         if(p->hp_cur[hp_arm_r] < p->hp_max[hp_arm_r])
         {
-            mvwprintz(hp_window, 5, 1, c_ltgray, "4: Right Arm");
+            mvwprintz(hp_window, 5, 1, c_ltgray, _("4: Right Arm"));
         }
         if(p->hp_cur[hp_leg_l] < p->hp_max[hp_leg_l])
         {
-            mvwprintz(hp_window, 6, 1, c_ltgray, "5: Left Leg");
+            mvwprintz(hp_window, 6, 1, c_ltgray, _("5: Left Leg"));
         }
         if(p->hp_cur[hp_leg_r] < p->hp_max[hp_leg_r])
         {
-            mvwprintz(hp_window, 7, 1, c_ltgray, "6: Right Leg");
+            mvwprintz(hp_window, 7, 1, c_ltgray, _("6: Right Leg"));
         }
         if(special_action != "")
         {
-            mvwprintz(hp_window, 8, 1, c_ltgray, "7: %s", special_action.c_str());
+            mvwprintz(hp_window, 8, 1, c_ltgray, _("7: %s"), special_action.c_str());
         }
-        mvwprintz(hp_window, 9, 1, c_ltgray, "8: Exit");
+        mvwprintz(hp_window, 9, 1, c_ltgray, _("8: Exit"));
         nc_color color;
         std::string asterisks = "";
         for (int i = 0; i < num_hp_parts; i++)
@@ -290,7 +297,7 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
                 healed = hp_torso;
             } else if (ch == '3') {
                 if (p->hp_cur[hp_arm_l] == 0) {
-                    g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
+                    g->add_msg_if_player(p,_("That arm is broken.  It needs surgical attention."));
                     add_or_drop_item(g, p, it);
                     return false;
                 } else {
@@ -298,7 +305,7 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
                 }
             } else if (ch == '4') {
                 if (p->hp_cur[hp_arm_r] == 0) {
-                    g->add_msg_if_player(p,"That arm is broken.  It needs surgical attention.");
+                    g->add_msg_if_player(p,_("That arm is broken.  It needs surgical attention."));
                     add_or_drop_item(g, p, it);
                     return false;
                 } else {
@@ -306,7 +313,7 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
                 }
             } else if (ch == '5') {
                 if (p->hp_cur[hp_leg_l] == 0) {
-                    g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
+                    g->add_msg_if_player(p,_("That leg is broken.  It needs surgical attention."));
                     add_or_drop_item(g, p, it);
                     return false;
                 } else {
@@ -314,14 +321,14 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
                 }
             } else if (ch == '6') {
                 if (p->hp_cur[hp_leg_r] == 0) {
-                    g->add_msg_if_player(p,"That leg is broken.  It needs surgical attention.");
+                    g->add_msg_if_player(p,_("That leg is broken.  It needs surgical attention."));
                     add_or_drop_item(g, p, it);
                     return false;
                 } else {
                     healed = hp_leg_r;
                 }
             } else if (ch == '8' || special_action == "") {
-                g->add_msg_if_player(p,"Never mind.");
+                g->add_msg_if_player(p,_("Never mind."));
                 add_or_drop_item(g, p, it);
                 return false;
             } else if (ch == '7') {
@@ -349,18 +356,18 @@ bool use_healing_item(game *g, player *p, item *it, int normal_power, int head_p
 
 void iuse::bandage(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 3, 1, 4, "Bandage", p->has_disease("bleed") ? "Stop Bleeding" : ""))
+    if (use_healing_item(g, p, it, 3, 1, 4, _("Bandage"), p->has_disease("bleed") ? _("Stop Bleeding") : ""))
     {
-        g->add_msg_if_player(p,"You stopped the bleeding.");
+        g->add_msg_if_player(p,_("You stopped the bleeding."));
         p->rem_disease("bleed");
     }
 }
 
 void iuse::firstaid(game *g, player *p, item *it, bool t)
 {
-    if (use_healing_item(g, p, it, 14, 10, 18, "First Aid", p->has_disease("bite") ? "Clean Wound" : ""))
+    if (use_healing_item(g, p, it, 14, 10, 18, _("First Aid"), p->has_disease("bite") ? _("Clean Wound") : ""))
     {
-        g->add_msg_if_player(p,"You clean the bite wound.");
+        g->add_msg_if_player(p,_("You clean the bite wound."));
         p->rem_disease("bite");
     }
 }
@@ -368,9 +375,9 @@ void iuse::firstaid(game *g, player *p, item *it, bool t)
 void iuse::disinfectant(game *g, player *p, item *it, bool t)
 {
 
-    if (use_healing_item(g, p, it, 6, 5, 9, "Disinfectant", p->has_disease("bite") ? "Clean Wound" : ""))
+    if (use_healing_item(g, p, it, 6, 5, 9, _("Disinfectant"), p->has_disease("bite") ? _("Clean Wound") : ""))
     {
-        g->add_msg_if_player(p,"You disinfect the bite wound.");
+        g->add_msg_if_player(p,_("You disinfect the bite wound."));
         p->rem_disease("bite");
     }
 }
@@ -379,7 +386,7 @@ void iuse::pkill(game *g, player *p, item *it, bool t)
 {
     // Aspirin
     if (it->has_flag("PKILL_1")) {
-        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
         if (!p->has_disease("pkill1")) {
             p->add_disease("pkill1", 120);
         } else {
@@ -392,28 +399,28 @@ void iuse::pkill(game *g, player *p, item *it, bool t)
         }
     // Codeine
     } else if (it->has_flag("PKILL_2")) {
-        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
         p->add_disease("pkill2", 180);
 
     } else if (it->has_flag("PKILL_3")) {
-        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
         p->add_disease("pkill3", 20);
         p->add_disease("pkill2", 200);
 
     } else if (it->has_flag("PKILL_4")) {
-        g->add_msg_if_player(p,"You shoot up.");
+        g->add_msg_if_player(p,_("You shoot up."));
         p->add_disease("pkill3", 80);
         p->add_disease("pkill2", 200);
 
     } else if (it->has_flag("PKILL_L")) {
-        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
         p->add_disease("pkill_l", rng(12, 18) * 300);
     }
 }
 
 void iuse::xanax(game *g, player *p, item *it, bool t)
 {
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+ g->add_msg_if_player(p,_("You take some %s."), it->tname().c_str());
 
  if (!p->has_disease("took_xanax"))
   p->add_disease("took_xanax", 900);
@@ -449,33 +456,33 @@ void iuse::cig(game *g, player *p, item *it, bool t)
 {
  if (!use_fire(g, p, it)) return;
  if (it->type->id == "cig")
-  g->add_msg_if_player(p,"You light a cigarette and smoke it.");
+  g->add_msg_if_player(p,_("You light a cigarette and smoke it."));
  else //cigar
-  g->add_msg_if_player(p,"You take a few puffs from your cigar.");
+  g->add_msg_if_player(p,_("You take a few puffs from your cigar."));
  p->add_disease("cig", 200);
  for (int i = 0; i < p->illness.size(); i++) {
   if (p->illness[i].type == "cig" && p->illness[i].duration > 600 &&
       !p->is_npc())
-   g->add_msg_if_player(p,"Ugh, too much smoke... you feel gross.");
+   g->add_msg_if_player(p,_("Ugh, too much smoke... you feel gross."));
  }
 }
 
 void iuse::antibiotic(game *g, player *p, item *it, bool t)
 {
 if (p->has_disease("infected")){
-  g->add_msg_if_player(p,"You took some antibiotics.");
+  g->add_msg_if_player(p,_("You took some antibiotics."));
   p->rem_disease("infected");
   p->add_disease("recover", 1200);
   }
    else {
- g->add_msg_if_player(p,"You took some antibiotics.");
+ g->add_msg_if_player(p,_("You took some antibiotics."));
  }
 }
 
 void iuse::weed(game *g, player *p, item *it, bool t)
 {
  if (!use_fire(g, p, it)) return;
- g->add_msg_if_player(p,"Good stuff, man!");
+ g->add_msg_if_player(p,_("Good stuff, man!"));
 
  int duration = 60;
  if (p->has_trait(PF_LIGHTWEIGHT))
@@ -488,7 +495,7 @@ void iuse::weed(game *g, player *p, item *it, bool t)
 
 void iuse::coke(game *g, player *p, item *it, bool t)
 {
- g->add_msg_if_player(p,"You snort a bump.");
+ g->add_msg_if_player(p,_("You snort a bump."));
 
  int duration = 21 - p->str_cur;
  if (p->has_trait(PF_LIGHTWEIGHT))
@@ -501,7 +508,7 @@ void iuse::crack(game *g, player *p, item *it, bool t)
 {
   // Crack requires a fire source AND a pipe.
   if (!use_fire(g, p, it)) return;
-  g->add_msg_if_player(p,"You smoke some rocks.");
+  g->add_msg_if_player(p,_("You smoke some rocks."));
   int duration = 10;
   if (p->has_trait(PF_LIGHTWEIGHT))
   {
@@ -515,7 +522,7 @@ void iuse::grack(game *g, player *p, item *it, bool t)
 {
   // Grack requires a fire source AND a pipe.
   if (!use_fire(g, p, it)) return;
-  g->add_msg_if_player(p,"You smoke some Grack Cocaine. Time seems to stop.");
+  g->add_msg_if_player(p,_("You smoke some Grack Cocaine. Time seems to stop."));
   int duration = 1000;
   if (p->has_trait(PF_LIGHTWEIGHT))
     duration += 10;
@@ -530,12 +537,12 @@ void iuse::meth(game *g, player *p, item *it, bool t)
     if (p->has_amount("apparatus", 1) &&
         p->use_charges_if_avail("fire", 1))
     {
-        g->add_msg_if_player(p,"You smoke some crystals.");
+        g->add_msg_if_player(p,_("You smoke some crystals."));
         duration *= 1.5;
     }
     else
     {
-        g->add_msg_if_player(p,"You snort some crystals.");
+        g->add_msg_if_player(p,_("You snort some crystals."));
     }
     if (!p->has_disease("meth")) {duration += 600;}
     if (duration > 0)
@@ -548,7 +555,7 @@ void iuse::meth(game *g, player *p, item *it, bool t)
 
 void iuse::vitamins(game *g, player *p, item *it, bool t)
 {
-    g->add_msg_if_player(p,"You take some vitamins.");
+    g->add_msg_if_player(p,_("You take some vitamins."));
     if (p->health >= 10)
     {
         return;
@@ -565,7 +572,7 @@ void iuse::vitamins(game *g, player *p, item *it, bool t)
 
 void iuse::vaccine(game *g, player *p, item *it, bool t)
 {
-    g->add_msg_if_player(p,"You inject the vaccine, and feel much healthier.");
+    g->add_msg_if_player(p,_("You inject the vaccine, and feel much healthier."));
     if (p->health >= 100)
     {
         return;
@@ -599,7 +606,7 @@ void iuse::thorazine(game *g, player *p, item *it, bool t)
  p->rem_disease("high");
  if (!p->has_disease("dermatik"))
   p->rem_disease("formication");
- g->add_msg_if_player(p,"You feel somewhat sedated.");
+ g->add_msg_if_player(p,_("You feel somewhat sedated."));
 }
 
 void iuse::prozac(game *g, player *p, item *it, bool t)
@@ -613,38 +620,38 @@ void iuse::prozac(game *g, player *p, item *it, bool t)
 void iuse::sleep(game *g, player *p, item *it, bool t)
 {
  p->fatigue += 40;
- g->add_msg_if_player(p,"You feel very sleepy...");
+ g->add_msg_if_player(p,_("You feel very sleepy..."));
 }
 
 void iuse::iodine(game *g, player *p, item *it, bool t)
 {
  p->add_disease("iodine", 1200);
- g->add_msg_if_player(p,"You take an iodine tablet.");
+ g->add_msg_if_player(p,_("You take an iodine tablet."));
 }
 
 void iuse::flumed(game *g, player *p, item *it, bool t)
 {
  p->add_disease("took_flumed", 6000);
- g->add_msg_if_player(p,"You take some %s", it->tname().c_str());
+ g->add_msg_if_player(p,_("You take some %s"), it->tname().c_str());
 }
 
 void iuse::flusleep(game *g, player *p, item *it, bool t)
 {
  p->add_disease("took_flumed", 7200);
  p->fatigue += 30;
- g->add_msg_if_player(p,"You feel very sleepy...");
+ g->add_msg_if_player(p,_("You feel very sleepy..."));
 }
 
 void iuse::inhaler(game *g, player *p, item *it, bool t)
 {
  p->rem_disease("asthma");
- g->add_msg_if_player(p,"You take a puff from your inhaler.");
+ g->add_msg_if_player(p,_("You take a puff from your inhaler."));
 }
 
 void iuse::blech(game *g, player *p, item *it, bool t)
 {
 // TODO: Add more effects?
- g->add_msg_if_player(p,"Blech, that burns your throat!");
+ g->add_msg_if_player(p,_("Blech, that burns your throat!"));
  p->vomit(g);
 }
 
@@ -660,62 +667,62 @@ void iuse::mutagen(game *g, player *p, item *it, bool t)
     }
     else if( it->has_flag("MUTAGEN_PLANT") )
     {
-        g->add_msg_if_player(p, "You feel much closer to nature.");
+        g->add_msg_if_player(p, _("You feel much closer to nature."));
         p->mutate_category(g, MUTCAT_PLANT);
     }
     else if( it->has_flag("MUTAGEN_INSECT") )
     {
-        g->add_msg_if_player(p, "You hear buzzing, and feel your body harden.");
+        g->add_msg_if_player(p, _("You hear buzzing, and feel your body harden."));
         p->mutate_category(g, MUTCAT_INSECT);
     }
     else if( it->has_flag("MUTAGEN_SPIDER") )
     {
-        g->add_msg_if_player(p, "You feel insidious.");
+        g->add_msg_if_player(p, _("You feel insidious."));
         p->mutate_category(g, MUTCAT_SPIDER);
     }
     else if( it->has_flag("MUTAGEN_SLIME") )
     {
-        g->add_msg_if_player(p, "Your body loses all rigidity for a moment.");
+        g->add_msg_if_player(p, _("Your body loses all rigidity for a moment."));
         p->mutate_category(g, MUTCAT_SLIME);
     }
     else if( it->has_flag("MUTAGEN_FISH") )
     {
-        g->add_msg_if_player(p, "You are overcome by an overwhelming longing for the ocean.");
+        g->add_msg_if_player(p, _("You are overcome by an overwhelming longing for the ocean."));
         p->mutate_category(g, MUTCAT_FISH);
     }
     else if( it->has_flag("MUTAGEN_RAT") )
     {
-        g->add_msg_if_player(p, "You feel a momentary nausea.");
+        g->add_msg_if_player(p, _("You feel a momentary nausea."));
         p->mutate_category(g, MUTCAT_RAT);
     }
     else if( it->has_flag("MUTAGEN_BEAST") )
     {
-        g->add_msg_if_player(p, "Your heart races and you see blood for a moment.");
+        g->add_msg_if_player(p, _("Your heart races and you see blood for a moment."));
         p->mutate_category(g, MUTCAT_BEAST);
     }
     else if( it->has_flag("MUTAGEN_CATTLE") )
     {
-        g->add_msg_if_player(p, "Your mind and body slow down. You feel peaceful.");
+        g->add_msg_if_player(p, _("Your mind and body slow down. You feel peaceful."));
         p->mutate_category(g, MUTCAT_CATTLE);
     }
     else if( it->has_flag("MUTAGEN_CEPHALOPOD") )
     {
-        g->add_msg_if_player(p, "Your mind is overcome by images of eldritch horrors...and then they pass.");
+        g->add_msg_if_player(p, _("Your mind is overcome by images of eldritch horrors...and then they pass."));
         p->mutate_category(g, MUTCAT_CEPHALOPOD);
     }
     else if( it->has_flag("MUTAGEN_BIRD") )
     {
-        g->add_msg_if_player(p, "Your body lightens and you long for the sky.");
+        g->add_msg_if_player(p, _("Your body lightens and you long for the sky."));
         p->mutate_category(g, MUTCAT_BIRD);
     }
     else if( it->has_flag("MUTAGEN_LIZARD") )
     {
-        g->add_msg_if_player(p, "For a heartbeat, your body cools down.");
+        g->add_msg_if_player(p, _("For a heartbeat, your body cools down."));
         p->mutate_category(g, MUTCAT_LIZARD);
     }
     else if( it->has_flag("MUTAGEN_TROGLOBITE") )
     {
-        g->add_msg_if_player(p, "You yearn for a cool, dark place to hide.");
+        g->add_msg_if_player(p, _("You yearn for a cool, dark place to hide."));
         p->mutate_category(g, MUTCAT_TROGLO);
     }
     else
@@ -735,7 +742,7 @@ void iuse::purifier(game *g, player *p, item *it, bool t)
    valid.push_back(i);
  }
  if (valid.size() == 0) {
-  g->add_msg_if_player(p,"You feel cleansed.");
+  g->add_msg_if_player(p,_("You feel cleansed."));
   return;
  }
  int num_cured = rng(1, valid.size());
@@ -755,7 +762,7 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
 // If we have the marloss in our veins, we are a "breeder" and will spread
 // alien lifeforms.
  if (p->has_trait(PF_MARLOSS)) {
-  g->add_msg_if_player(p,"As you eat the berry, you have a near-religious experience, feeling at one with your surroundings...");
+  g->add_msg_if_player(p,_("As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."));
   p->add_morale(MORALE_MARLOSS, 100, 1000);
   p->hunger = -100;
   monster goo(g->mtypes[mon_blob]);
@@ -789,20 +796,20 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
  */
  int effect = rng(1, 9);
  if (effect <= 3) {
-  g->add_msg_if_player(p,"This berry tastes extremely strange!");
+  g->add_msg_if_player(p,_("This berry tastes extremely strange!"));
   p->mutate(g);
  } else if (effect <= 6) { // Radiation cleanse is below
-  g->add_msg_if_player(p,"This berry makes you feel better all over.");
+  g->add_msg_if_player(p,_("This berry makes you feel better all over."));
   p->pkill += 30;
   this->purifier(g, p, it, t);
  } else if (effect == 7) {
-  g->add_msg_if_player(p,"This berry is delicious, and very filling!");
+  g->add_msg_if_player(p,_("This berry is delicious, and very filling!"));
   p->hunger = -100;
  } else if (effect == 8) {
-  g->add_msg_if_player(p,"You take one bite, and immediately vomit!");
+  g->add_msg_if_player(p,_("You take one bite, and immediately vomit!"));
   p->vomit(g);
  } else if (!p->has_trait(PF_MARLOSS)) {
-  g->add_msg_if_player(p,"You feel a strange warmth spreading throughout your body...");
+  g->add_msg_if_player(p,_("You feel a strange warmth spreading throughout your body..."));
   p->toggle_mutation(PF_MARLOSS);
  }
  if (effect == 6)
@@ -812,18 +819,18 @@ void iuse::marloss(game *g, player *p, item *it, bool t)
 void iuse::dogfood(game *g, player *p, item *it, bool t)
 {
  int dirx, diry;
- if(!g->choose_adjacent("Put the dog food",dirx,diry))
+ if(!g->choose_adjacent(_("Put the dog food"),dirx,diry))
   return;
  p->moves -= 15;
  int mon_dex = g->mon_at(dirx,diry);
  if (mon_dex != -1) {
   if (g->z[mon_dex].type->id == mon_dog) {
-   g->add_msg_if_player(p,"The dog seems to like you!");
+   g->add_msg_if_player(p,_("The dog seems to like you!"));
    g->z[mon_dex].friendly = -1;
   } else
-   g->add_msg_if_player(p,"The %s seems quite unimpressed!",g->z[mon_dex].type->name.c_str());
+   g->add_msg_if_player(p,_("The %s seems quite unimpressed!"),g->z[mon_dex].type->name.c_str());
  } else
-  g->add_msg_if_player(p,"You spill the dogfood all over the ground.");
+  g->add_msg_if_player(p,_("You spill the dogfood all over the ground."));
 }
 
 
@@ -831,22 +838,22 @@ void iuse::dogfood(game *g, player *p, item *it, bool t)
 
 bool prep_firestarter_use(game *g, player *p, item *it, int &posx, int &posy)
 {
-   if (!g->choose_adjacent("Light",posx,posy))
+   if (!g->choose_adjacent(_("Light"),posx,posy))
    {
      it->charges++;
      return false;
    }
    if (posx == p->posx && posy == p->posy)
    {
-     g->add_msg_if_player(p, "You would set yourself on fire.");
-     g->add_msg_if_player(p, "But you're already smokin' hot.");
+     g->add_msg_if_player(p, _("You would set yourself on fire."));
+     g->add_msg_if_player(p, _("But you're already smokin' hot."));
      it->charges++;
      return false;
    }
 
    if (!(g->m.flammable_items_at(posx, posy)  || g->m.has_flag(flammable, posx, posy) || g->m.has_flag(flammable2, posx, posy)))
    {
-     g->add_msg_if_player(p,"There's nothing to light there.");
+     g->add_msg_if_player(p,_("There's nothing to light there."));
      it->charges++;
      return false;
    }
@@ -864,12 +871,12 @@ void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
         if (g->m.add_field(g, posx, posy, fd_fire, 1))
         {
             g->m.field_at(posx, posy).findField(fd_fire)->setFieldAge(g->m.field_at(posx, posy).findField(fd_fire)->getFieldAge() + 100);
-            g->add_msg_if_player(p, "You successfully light a fire.");
+            g->add_msg_if_player(p, _("You successfully light a fire."));
         }
     }
     else
     {
-        debugmsg("Flammable items disappeared while lighting a fire!");
+        debugmsg(_("Flammable items disappeared while lighting a fire!"));
     }
 }
 
@@ -900,7 +907,7 @@ void iuse::primitive_fire(game *g, player *p, item *it, bool t)
         }
         else
         {
-            g->add_msg_if_player(p, "You try to light a fire, but fail.");
+            g->add_msg_if_player(p, _("You try to light a fire, but fail."));
         }
         p->practice(g->turn, "survival", 10);
     }
@@ -910,21 +917,21 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 {
     if(p->fine_detail_vision_mod(g) > 2.5)
 	{
-        g->add_msg("You can't see to sew!");
+        g->add_msg(_("You can't see to sew!"));
         it->charges++;
         return;
     }
-    char ch = g->inv_type("Repair what?", IC_ARMOR);
+    char ch = g->inv_type(_("Repair what?"), IC_ARMOR);
     item* fix = &(p->i_at(ch));
     if (fix == NULL || fix->is_null())
 	{
-        g->add_msg_if_player(p,"You do not have that item!");
+        g->add_msg_if_player(p,_("You do not have that item!"));
         it->charges++;
         return;
     }
     if (!fix->is_armor())
 	{
-        g->add_msg_if_player(p,"That isn't clothing!");
+        g->add_msg_if_player(p,_("That isn't clothing!"));
         it->charges++;
         return;
     }
@@ -933,24 +940,25 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     std::vector<std::string> plurals;
     std::vector<itype_id> repair_items;
     std::string plural = "";
+    //translation note: add <plural> tag to keep them unique
     if (fix->made_of("cotton") || fix->made_of("wool"))
     {
         repair_items.push_back("rag");
-        plurals.push_back("s");
+        plurals.push_back(_("<plural>rags"));
     }
     if (fix->made_of("leather"))
     {
         repair_items.push_back("leather");
-        plurals.push_back("");
+        plurals.push_back(_("<plural>leather"));
     }
     if (fix->made_of("fur"))
     {
-        plurals.push_back("");
         repair_items.push_back("fur");
+        plurals.push_back(_("<plural>fur"));
     }
     if(repair_items.empty())
 	{
-        g->add_msg_if_player(p,"Your %s is not made of cotton, wool, leather or fur.", fix->tname().c_str());
+        g->add_msg_if_player(p,_("Your %s is not made of cotton, wool, leather or fur."), fix->tname().c_str());
         it->charges++;
         return;
     }
@@ -975,14 +983,14 @@ void iuse::sew(game *g, player *p, item *it, bool t)
     {
         for(unsigned int i = 0; i< repair_items.size(); i++)
         {
-            g->add_msg_if_player(p,"You don't have enough %s%s to do that.", repair_items[i].c_str(), plurals[i].c_str());
+            g->add_msg_if_player(p,_("You don't have enough %s to do that."), plurals[i].substring(8).c_str()); // remove <plural> tag
         }
         it->charges++;
         return;
     }
     if (fix->damage < 0)
 	{
-        g->add_msg_if_player(p,"Your %s is already enhanced.", fix->tname().c_str());
+        g->add_msg_if_player(p,_("Your %s is already enhanced."), fix->tname().c_str());
         it->charges++;
         return;
     }
@@ -1005,23 +1013,23 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             {rn += rng(0, p->dex_cur - 16);}
         if (rn <= 4)
 	    {
-            g->add_msg_if_player(p,"You damage your %s!", fix->tname().c_str());
+            g->add_msg_if_player(p,_("You damage your %s!"), fix->tname().c_str());
             fix->damage++;
         }
         else if (rn >= 12 && p->i_at(ch).has_flag("VARSIZE") && !p->i_at(ch).has_flag("FIT"))
 	    {
-            g->add_msg_if_player(p,"You take your %s in, improving the fit.", fix->tname().c_str());
+            g->add_msg_if_player(p,_("You take your %s in, improving the fit."), fix->tname().c_str());
             (p->i_at(ch).item_tags.insert("FIT"));
         }
         else if (rn >= 12 && (p->i_at(ch).has_flag("FIT") || !p->i_at(ch).has_flag("VARSIZE")))
 	    {
-            g->add_msg_if_player(p, "You make your %s extra sturdy.", fix->tname().c_str());
+            g->add_msg_if_player(p, _("You make your %s extra sturdy."), fix->tname().c_str());
             fix->damage--;
             g->consume_items(p, comps);
         }
         else
 		{
-            g->add_msg_if_player(p,"You practice your sewing.");
+            g->add_msg_if_player(p,_("You practice your sewing."));
 		}
     }
     else
@@ -1038,17 +1046,17 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             {rn += rng(0, p->dex_cur - 16);}
         if (rn <= 4)
 	    {
-            g->add_msg_if_player(p,"You damage your %s further!", fix->tname().c_str());
+            g->add_msg_if_player(p,_("You damage your %s further!"), fix->tname().c_str());
             fix->damage++;
             if (fix->damage >= 5)
 		    {
-                g->add_msg_if_player(p,"You destroy it!");
+                g->add_msg_if_player(p,_("You destroy it!"));
                 p->i_rem(ch);
             }
         }
 	    else if (rn <= 6)
 	    {
-            g->add_msg_if_player(p,"You don't repair your %s, but you waste lots of thread.", fix->tname().c_str());
+            g->add_msg_if_player(p,_("You don't repair your %s, but you waste lots of thread."), fix->tname().c_str());
             int waste = rng(1, 8);
             if (waste > it->charges)
                 {it->charges = 1;}
@@ -1057,7 +1065,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         }
         else if (rn <= 8)
 	    {
-            g->add_msg_if_player(p,"You repair your %s, but waste lots of thread.", fix->tname().c_str());
+            g->add_msg_if_player(p,_("You repair your %s, but waste lots of thread."), fix->tname().c_str());
             if (fix->damage>=3) {g->consume_items(p, comps);}
             fix->damage--;
             int waste = rng(1, 8);
@@ -1068,13 +1076,13 @@ void iuse::sew(game *g, player *p, item *it, bool t)
         }
 	    else if (rn <= 16)
 	    {
-            g->add_msg_if_player(p,"You repair your %s!", fix->tname().c_str());
+            g->add_msg_if_player(p,_("You repair your %s!"), fix->tname().c_str());
             if (fix->damage>=3) {g->consume_items(p, comps);}
             fix->damage--;
         }
 	    else
 	    {
-            g->add_msg_if_player(p,"You repair your %s completely!", fix->tname().c_str());
+            g->add_msg_if_player(p,_("You repair your %s completely!"), fix->tname().c_str());
             if (fix->damage>=3) {g->consume_items(p, comps);}
             fix->damage = 0;
         }
@@ -1087,60 +1095,60 @@ void iuse::sew(game *g, player *p, item *it, bool t)
 
 void iuse::extra_battery(game *g, player *p, item *it, bool t)
 {
-    char ch = g->inv_type("Modify what?", IC_TOOL);
+    char ch = g->inv_type(_("Modify what?"), IC_TOOL);
     item* modded = &(p->i_at(ch));
 
     if (modded == NULL || modded->is_null())
     {
-        g->add_msg_if_player(p,"You do not have that item!");
+        g->add_msg_if_player(p,_("You do not have that item!"));
         return;
     }
     if (!modded->is_tool())
     {
-        g->add_msg_if_player(p,"You can only mod tools with this battery mod.");
+        g->add_msg_if_player(p,_("You can only mod tools with this battery mod."));
         return;
     }
 
     it_tool *tool = dynamic_cast<it_tool*>(modded->type);
     if (tool->ammo != "battery")
     {
-        g->add_msg_if_player(p,"That item does not use batteries!");
+        g->add_msg_if_player(p,_("That item does not use batteries!"));
         return;
     }
 
     if (modded->has_flag("DOUBLE_AMMO"))
     {
-        g->add_msg_if_player(p,"That item has already had its battery capacity doubled.");
+        g->add_msg_if_player(p,_("That item has already had its battery capacity doubled."));
         return;
     }
 
     modded->item_tags.insert("DOUBLE_AMMO");
-    g->add_msg_if_player(p,"You double the battery capacity of your %s!", tool->name.c_str());
+    g->add_msg_if_player(p,_("You double the battery capacity of your %s!"), tool->name.c_str());
     it->invlet = 0;
 }
 
 void iuse::scissors(game *g, player *p, item *it, bool t)
 {
-    char ch = g->inv("Chop up what?");
+    char ch = g->inv(_("Chop up what?"));
     item* cut = &(p->i_at(ch));
     if (cut->type->id == "null")
     {
-        g->add_msg_if_player(p,"You do not have that item!");
+        g->add_msg_if_player(p,_("You do not have that item!"));
         return;
     }
     if (cut->type->id == "string_6" || cut->type->id == "string_36" || cut->type->id == "rope_30" || cut->type->id == "rope_6")
     {
-        g->add_msg("You cannot cut that, you must disassemble it using the disassemble key");
+        g->add_msg(_("You cannot cut that, you must disassemble it using the disassemble key"));
         return;
     }
     if (cut->type->id == "rag" || cut->type->id == "rag_bloody" || cut->type->id == "leather")
     {
-        g->add_msg_if_player(p, "There's no point in cutting a %s.", cut->type->name.c_str());
+        g->add_msg_if_player(p, _("There's no point in cutting a %s."), cut->type->name.c_str());
         return;
     }
     if (!cut->made_of("cotton") && !cut->made_of("leather"))
     {
-        g->add_msg("You can only slice items made of cotton or leather.");
+        g->add_msg(_("You can only slice items made of cotton or leather."));
         return;
     }
 
@@ -1672,7 +1680,7 @@ void iuse::two_way_radio(game *g, player *p, item *it, bool t)
  char ch = getch();
  if (ch == '1') {
   p->moves -= 300;
-  faction* fac = g->list_factions("Call for help...");
+  faction* fac = g->list_factions(_("Call for help..."));
   if (fac == NULL) {
    it->charges++;
    return;
