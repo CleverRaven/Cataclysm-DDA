@@ -391,7 +391,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
     else
      h = active_npc[npc_at(tx, ty)];
     if (h->power_level >= 10 && h->has_active_bionic("bio_uncanny_dodge") && h->uncanny_dodge()) {
-     h->power_level -= 10;
+     h->power_level -= 7; // dodging bullets costs extra
     }
     else {
      std::vector<point> blood_traj = trajectory;

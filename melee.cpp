@@ -294,7 +294,6 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   return; // Defensive technique canceled our attack!
   
  if (p.power_level >= 3 && p.has_active_bionic("bio_uncanny_dodge") && p.uncanny_dodge()) {
-  p.power_level -= 3;
   return;
  }
     

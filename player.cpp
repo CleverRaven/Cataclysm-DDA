@@ -7697,6 +7697,7 @@ int player::getID ()
 bool player::uncanny_dodge()
 {
     point adjacent = adjacent_tile();
+    power_level -= 3;
     if (adjacent.x != posx || adjacent.y != posy)
     {
         posx = adjacent.x;

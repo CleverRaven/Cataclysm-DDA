@@ -531,33 +531,29 @@ void monster::hit_player(game *g, player &p, bool can_grab)
     }
     else
     {
-        //Reduce player's ability to dodge by monster's ability to hit
-        int dodge_ii = p.dodge(g) - rng(0, type->melee_skill);
-        if (dodge_ii < 0)
+        if (!p.power_level >= 3 || !p.has_active_bionic("bio_uncanny_dodge") || !p.uncanny_dodge())
         {
-            dodge_ii = 0;
-        }
-
-        // 100/(1+99*e^(-.6*[dodge() return modified by monster's skill])) = % chance to dodge
-        // *100 to track .01%'s
-        // 1% minimum, scales slowly to 16% at 5, then rapidly to 80% at 10,
-        // then returns less with each additional point, reaching 99% at 16
-        if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
-        {
-            g->add_msg("%s dodge the %s.", You.c_str(), name().c_str());
-            p.practice(g->turn, "dodge", type->melee_skill * 2); //Better monster = more skill gained
-        }
-
-        //Successful hit with damage
-        else if (dam > 0)
-        {
-            p.practice(g->turn, "dodge", type->melee_skill);
-            if (p.power_level >= 3 && p.has_active_bionic("bio_uncanny_dodge") && p.uncanny_dodge())     // If we have bio_uncanny_dodge and enough energy and room to use it
+            //Reduce player's ability to dodge by monster's ability to hit
+            int dodge_ii = p.dodge(g) - rng(0, type->melee_skill);
+            if (dodge_ii < 0)
             {
-                p.power_level -= 3;                                              // Deduct power
+                dodge_ii = 0;
             }
-            else
+
+            // 100/(1+99*e^(-.6*[dodge() return modified by monster's skill])) = % chance to dodge
+            // *100 to track .01%'s
+            // 1% minimum, scales slowly to 16% at 5, then rapidly to 80% at 10,
+            // then returns less with each additional point, reaching 99% at 16
+            if (rng(0, 10000) < 10000/(1 + 99 * exp(-.6 * dodge_ii)))
             {
+                g->add_msg("%s dodge the %s.", You.c_str(), name().c_str());
+                p.practice(g->turn, "dodge", type->melee_skill * 2); //Better monster = more skill gained
+            }
+
+            //Successful hit with damage
+            else if (dam > 0)
+            {
+                p.practice(g->turn, "dodge", type->melee_skill);
                 if (u_see && tech != TEC_BLOCK)
                 {
                     g->add_msg("The %s hits %s %s.", name().c_str(), your.c_str(),
