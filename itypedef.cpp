@@ -564,6 +564,8 @@ std::string ammo_name(ammotype t)
     if( t == "40" )	   return ".40";
     if( t == "44" )	   return ".44";
     if( t == "45" )	   return ".45";
+    if( t == "454" )	  return ".454";
+    if( t == "500" )	  return ".500";
     if( t == "57" )	   return "5.7mm";
     if( t == "46" )	   return "4.6mm";
     if( t == "762" )	  return "7.62x39mm";
@@ -599,6 +601,8 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "40" )	   return "10mm";
     if( guntype == "44" )	   return "44magnum";
     if( guntype == "45" )	   return "45_acp";
+    if( guntype == "454" )   return "454_Casull";
+    if( guntype == "500" )   return "500_Magnum";
     if( guntype == "57" )	   return "57mm";
     if( guntype == "46" )	   return "46mm";
     if( guntype == "762" )	  return "762_m43";
