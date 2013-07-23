@@ -102,7 +102,7 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
   part_num = it->second.second;
   return it->second.first;
  }
- debugmsg ("vehicle part cache cache indicated vehicle not found :/");
+ debugmsg ("vehicle part cache cache indicated vehicle not found: %d %d, me= size %d abs %d %d",x,y,my_MAPSIZE,grid[0]->x,grid[0]->y);
  return NULL;
 }
 
@@ -4087,6 +4087,8 @@ tinymap::tinymap(std::vector<trap*> *trptr)
  my_MAPSIZE = 2;
  for (int n = 0; n < 4; n++)
   grid[n] = NULL;
+ veh_in_active_range = true;
+ memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
 
 tinymap::~tinymap()
