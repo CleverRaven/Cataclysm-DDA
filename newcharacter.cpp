@@ -479,7 +479,9 @@ int set_stats(WINDOW* w, game* g, player *u, int &points)
             }
             mvwprintz(w, 6, 33, COL_STAT_ACT, _("Read times: %d%%%%"),
                       u->read_speed(false));
-            fold_and_print(w, 8, 33, 45, COL_STAT_ACT, _("Intelligence is also used when crafting, installing bionics, and interacting with NPCs."));
+            mvwprintz(w, 7, 33, COL_STAT_ACT, _("Skill rust: %d%%%%"),
+                      u->rust_rate(false));
+            fold_and_print(w, 9, 33, 45, COL_STAT_ACT, _("Intelligence is also used when crafting, installing bionics, and interacting with NPCs."));
             break;
 
         case 4:

@@ -9,6 +9,7 @@
 #include <fstream>
 #include <string>
 
+std::map<std::string, bool> mapAutoPickupItems;
 std::vector<cPickupRules> vAutoPickupRules[5];
 
 void game::show_auto_pickup()
@@ -518,6 +519,7 @@ void load_auto_pickup(bool bCharacter)
     fin.close();
 
     merge_vector();
+    createPickupRules();
 }
 
 void merge_vector()
@@ -528,6 +530,35 @@ void merge_vector()
         for (int j=0; j < vAutoPickupRules[i].size(); j++) {
             if (vAutoPickupRules[i][j].sRule != "") {
                 vAutoPickupRules[0].push_back(cPickupRules(vAutoPickupRules[i][j].sRule, vAutoPickupRules[i][j].bActive, vAutoPickupRules[i][j].bExclude));
+            }
+        }
+    }
+}
+
+void createPickupRules()
+{
+    mapAutoPickupItems.clear();
+    std::string sItemName = "";
+
+    for (int iPattern = 0; iPattern < vAutoPickupRules[0].size(); iPattern++) { //Includes only
+        if (!vAutoPickupRules[0][iPattern].bExclude) {
+            //Check include paterns against all itemfactory items
+            for (int i = 0; i < standard_itype_ids.size(); i++) {
+                sItemName = item_controller->find_template(standard_itype_ids[i])->name;
+                if (auto_pickup_match(sItemName, vAutoPickupRules[0][iPattern].sRule)) {
+                    mapAutoPickupItems[sItemName] = true;
+                }
+            }
+        }
+    }
+
+    for (int iPattern = 0; iPattern < vAutoPickupRules[0].size(); iPattern++) { //Excludes only
+        if (vAutoPickupRules[0][iPattern].bExclude) {
+            //Check exclude paterns against all included items
+            for (std::map<std::string, bool>::iterator iter = mapAutoPickupItems.begin(); iter != mapAutoPickupItems.end(); ++iter) {
+                if (auto_pickup_match(iter->first, vAutoPickupRules[0][iPattern].sRule)) {
+                    mapAutoPickupItems[iter->first] = false;
+                }
             }
         }
     }
@@ -596,6 +627,7 @@ void save_auto_pickup(bool bCharacter)
 
     if (!bCharacter) {
         merge_vector();
+        createPickupRules();
     }
 }
 
@@ -682,12 +714,14 @@ bool auto_pickup_match(std::string sText, std::string sPattern)
                 return false;
             }
         } else { //inbetween: vPat[i]
-            if ((iPos = ci_find_substr(sText, vPattern[i])) == -1) {
-                //debugmsg(("3: sText: " + sText + " | sPattern: " + vPattern[i] + " | no match").c_str());
-                return false;
-            }
+            if (vPattern[i] != "") {
+                if ((iPos = ci_find_substr(sText, vPattern[i])) == -1) {
+                    //debugmsg(("3: sText: " + sText + " | sPattern: " + vPattern[i] + " | no match").c_str());
+                    return false;
+                }
 
-            sText = sText.substr(iPos+vPattern[i].length(), sText.length()-iPos);
+                sText = sText.substr(iPos+vPattern[i].length(), sText.length()-iPos);
+            }
         }
     }
 

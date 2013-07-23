@@ -15,8 +15,6 @@ const WCHAR *szWindowClass = (L"CataCurseWindow");    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
 HDC WindowDC;           //Device Context of the window, used for backbuffer
-int WindowX;            //X pos of the actual window, not the curses window
-int WindowY;            //Y pos of the actual window, not the curses window
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
@@ -44,42 +42,47 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,u_int32_t Msg,WPARAM wParam, LPARA
 //Registers, creates, and shows the Window!!
 bool WinCreate()
 {
-    int success;
-    WNDCLASSEXW WindowClassType;
-    int WinBorderHeight;
-    int WinBorderWidth;
-    int WinTitleSize;
-    unsigned int WindowStyle;
+    WindowINST = GetModuleHandle(0); // Get current process handle
     const WCHAR *szTitle=  (L"Cataclysm: Dark Days Ahead - 0.6git");
-    WinTitleSize = GetSystemMetrics(SM_CYCAPTION);      //These lines ensure
-    WinBorderWidth = GetSystemMetrics(SM_CXDLGFRAME) * 2;  //that our window will
-    WinBorderHeight = GetSystemMetrics(SM_CYDLGFRAME) * 2; // be a perfect size
-    WindowClassType.cbSize = sizeof(WNDCLASSEXW);
-    WindowClassType.style = 0;//No point in having a custom style, no mouse, etc
-    WindowClassType.lpfnWndProc = ProcessMessages;//the procedure that gets msgs
-    WindowClassType.cbClsExtra = 0;
-    WindowClassType.cbWndExtra = 0;
-    WindowClassType.hInstance = WindowINST;// hInstance
-    WindowClassType.hIcon = LoadIcon(WindowINST, IDI_APPLICATION);//Default Icon
-    WindowClassType.hIconSm = LoadIcon(WindowINST, IDI_APPLICATION);//Default Icon
-    WindowClassType.hCursor = LoadCursor(NULL, IDC_ARROW);//Default Pointer
-    WindowClassType.lpszMenuName = NULL;
+
+    // Register window class
+    WNDCLASSEXW WindowClassType;
+    WindowClassType.cbSize        = sizeof(WNDCLASSEXW);
+    WindowClassType.style         = 0;//No point in having a custom style, no mouse, etc
+    WindowClassType.lpfnWndProc   = ProcessMessages;//the procedure that gets msgs
+    WindowClassType.cbClsExtra    = 0;
+    WindowClassType.cbWndExtra    = 0;
+    WindowClassType.hInstance     = WindowINST;// hInstance
+    WindowClassType.hIcon         = LoadIcon(WindowINST, MAKEINTRESOURCE(0)); // Get first resource
+    WindowClassType.hIconSm       = LoadIcon(WindowINST, MAKEINTRESOURCE(0));
+    WindowClassType.hCursor       = LoadCursor(NULL, IDC_ARROW);
+    WindowClassType.lpszMenuName  = NULL;
     WindowClassType.hbrBackground = 0;//Thanks jday! Remove background brush
     WindowClassType.lpszClassName = szWindowClass;
-    success = RegisterClassExW(&WindowClassType);
-    if ( success== 0){
+    if (!RegisterClassExW(&WindowClassType))
         return false;
-    }
-    WindowStyle = WS_OVERLAPPEDWINDOW & ~(WS_THICKFRAME) & ~(WS_MAXIMIZEBOX);
-    WindowHandle = CreateWindowExW(WS_EX_APPWINDOW || WS_EX_TOPMOST * 0,
-                                   szWindowClass , szTitle,WindowStyle, WindowX,
-                                   WindowY, WindowWidth + (WinBorderWidth) * 1,
-                                   WindowHeight + (WinBorderHeight +
-                                   WinTitleSize) * 1, 0, 0, WindowINST, NULL);
-    if (WindowHandle == 0){
+
+    // Center window
+    int WindowX = GetSystemMetrics(SM_CXSCREEN)/2 - WindowWidth/2;
+    int WindowY = GetSystemMetrics(SM_CYSCREEN)/2 - WindowHeight/2;
+
+    // Adjust window size
+    uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_VISIBLE; // Basic window, show on creation
+    RECT WndRect;
+    WndRect.left   = WndRect.top = 0;
+    WndRect.right  = WindowWidth;
+    WndRect.bottom = WindowHeight;
+    AdjustWindowRect(&WndRect, WndStyle, false);
+
+    // Magic
+    WindowHandle = CreateWindowExW(0, szWindowClass , szTitle, WndStyle,
+                                   WindowX, WindowY,
+                                   WndRect.right - WndRect.left,
+                                   WndRect.bottom - WndRect.top,
+                                   0, 0, WindowINST, NULL);
+    if (WindowHandle == 0)
         return false;
-    }
-    ShowWindow(WindowHandle,5);
+
     return true;
 };
 
@@ -207,7 +210,7 @@ void curses_drawwindow(WINDOW *win)
 
 					int cw = mk_wcwidth((wchar_t)tmp);
 					len = ANY_LENGTH-len;
-					if(cw>1) 
+					if(cw>1)
 					{
 						FillRectDIB(drawx+fontwidth*(cw-1),drawy,fontwidth,fontheight,BG);
 						w+=cw-1;
@@ -324,8 +327,6 @@ fin.open("data\\FONTDATA");
     halfheight=fontheight / 2;
     WindowWidth= (55 + (OPTIONS[OPT_VIEWPORT_X] * 2 + 1)) * fontwidth;
     WindowHeight= (OPTIONS[OPT_VIEWPORT_Y] * 2 + 1) *fontheight;
-    WindowX=(GetSystemMetrics(SM_CXSCREEN) / 2)-WindowWidth/2;    //center this
-    WindowY=(GetSystemMetrics(SM_CYSCREEN) / 2)-WindowHeight/2;   //sucker
     WinCreate();    //Create the actual window, register it, etc
     CheckMessages();    //Let the message queue handle setting up the window
     WindowDC = GetDC(WindowHandle);
@@ -403,7 +404,6 @@ int curses_getch(WINDOW* win)
     {
         CheckMessages();
     };
-    Sleep(25);
     return lastchar;
 }
 
