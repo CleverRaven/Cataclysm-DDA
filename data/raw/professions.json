@@ -108,7 +108,7 @@
   "items": ["pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "holster"],
    "skills" : [
     {
-      "name" : "guns",
+      "name" : "gun",
       "level" : 1
     }
 	]
