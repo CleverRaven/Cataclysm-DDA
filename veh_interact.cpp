@@ -946,36 +946,33 @@ void complete_vehicle (game *g)
         g->consume_tools(&g->u, tools, true);
 
         if ( part == vp_head_light ) {
-            int choice = menu(true, "Choose facing direction:", "N", "NW", "W", "SW", "S", "SE", "E", "NE", NULL);
-            int dir;
-            switch(choice) {
-                    case 1:
-                        dir = 0;
-                        break;
-                    case 2:
-                        dir = 45;
-                        break;
-                    case 3:
-                        dir = 90;
-                        break;
-                    case 4:
-                        dir = 135;
-                        break;
-                    case 5:
-                        dir = 180;
-                        break;
-                    case 6:
-                        dir = 225;
-                        break;
-                    case 7:
-                        dir = 270;
-                        break;
-                    case 8:
-                        dir = 315;
-                        break;
-                    default:
-                        dir = 0;
-                        break;
+            // Need map-relative coordinates to compare to output of look_around.
+            int gx, gy;
+            veh->coord_translate(dx, dy, gx, gy);
+            // Stash offset and set it to the location of the part so look_around will start there.
+            int px = g->u.view_offset_x;
+            int py = g->u.view_offset_y;
+            g->u.view_offset_x = gx;
+            g->u.view_offset_y = gy;
+            popup("Chose a facing direction for the new headlight.");
+            point headlight_target = g->look_around();
+            // Restore previous view offsets.
+            g->u.view_offset_x = px;
+            g->u.view_offset_y = py;
+            // TODO: set this in degrees instead of cardinals and sub-cardinals.
+            direction headlight_facing = direction_from( veh->global_x() + gx, veh->global_y() + gy,
+                                                         headlight_target.x, headlight_target.y );
+            int dir = 0;
+            switch( headlight_facing ) {
+            case NORTH:     dir = 0;   break;
+            case NORTHWEST: dir = 45;  break;
+            case WEST:      dir = 90;  break;
+            case SOUTHWEST: dir = 135; break;
+            case SOUTH:     dir = 180; break;
+            case SOUTHEAST: dir = 225; break;
+            case EAST:      dir = 270; break;
+            case NORTHEAST: dir = 315; break;
+            default:        dir = 0;   break;
             }
 
             veh->parts[partnum].direction = dir;
