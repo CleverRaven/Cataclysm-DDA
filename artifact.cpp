@@ -651,8 +651,8 @@ itype* game::new_natural_artifact(artifact_natural_property prop)
  art->m_to_hit = 0;
 
  char* buf = new char[2000];
- sprintf(buf, _("<artifact_name>%1$s %2$s."), property_data->name.c_str(), shape_data->name.c_str());
- art->name = std::string(buf).substr(10);
+ sprintf(buf, _("<artifact_name>%1$s %2$s"), property_data->name.c_str(), shape_data->name.c_str());
+ art->name = std::string(buf).substr(15);
  sprintf(buf, _("<artifact_desc>This %1$s %2$s."), shape_data->desc.c_str(), property_data->desc.c_str());
  art->description = std::string(buf).substr(15);
  delete buf; buf=NULL;
