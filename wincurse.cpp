@@ -367,6 +367,15 @@ fin.open("data\\FONTDATA");
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
+
+// A very accurate and responsive timer (NEVER use GetTickCount)
+uint64_t GetPerfCount(){
+    uint64_t Frequency, Count;
+    QueryPerformanceFrequency((PLARGE_INTEGER)&Frequency);
+    QueryPerformanceCounter((PLARGE_INTEGER)&Count);
+    return Frequency*Count;
+}
+
 //Not terribly sure how this function is suppose to work,
 //but jday helped to figure most of it out
 int curses_getch(WINDOW* win)
@@ -389,16 +398,12 @@ int curses_getch(WINDOW* win)
     }
     else if (inputdelay > 0)
     {
-        unsigned long starttime=GetTickCount();
-        unsigned long endtime;
-        do
+        for (uint64_t t0=GetPerfCount(), t1=0; t1 < (t0+inputdelay); t1=GetPerfCount())
         {
-            CheckMessages();        //MsgWaitForMultipleObjects won't work very good here
-            endtime=GetTickCount(); //it responds to mouse movement, and WM_PAINT, not good
+            CheckMessages();
             if (lastchar!=ERR) break;
-            Sleep(2);
+            Sleep(0);
         }
-        while (endtime<(starttime+inputdelay));
     }
     else
     {
@@ -406,6 +411,7 @@ int curses_getch(WINDOW* win)
     };
     return lastchar;
 }
+
 
 //Ends the terminal, destroy everything
 int curses_destroy(void)
