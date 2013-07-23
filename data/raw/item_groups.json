@@ -262,6 +262,7 @@
       ["novel_romance", 30],
       ["novel_drama", 40],
       ["novel_mystery", 25],
+      ["ZSG", 5],
       ["manual_mechanics", 35],
       ["manual_speech", 50],
       ["manual_business", 40],
@@ -1268,7 +1269,8 @@
       ["cookbook_human", 1],
       ["novel_mystery", 25],
       ["novel_fantasy", 20],
-      ["novel_horror", 18]
+      ["novel_horror", 18],
+      ["ZSG", 5]
     ]
   },
   { "id":"manuals",
@@ -1522,6 +1524,7 @@
       ["novel_mystery", 25],
       ["novel_fantasy", 20],
       ["novel_horror", 18],
+      ["ZSG", 2],
       ["chocolate", 50],
       ["candy", 80],
       ["backpack", 38],
