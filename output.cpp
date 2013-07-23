@@ -111,7 +111,115 @@ nc_color red_background(nc_color c)
  }
  return c_white_red;
 }
+/// colors need to be totally redone, really..
+nc_color white_background(nc_color c) {
+  switch(c) {
+     case c_black: return c_black_white;
+     case c_dkgray: return c_dkgray_white;
+     case c_ltgray: return c_ltgray_white;
+     case c_white: return c_white_white;
+     case c_red: return c_red_white;
+     case c_ltred: return c_ltred_white;
+     case c_green: return c_green_white;
+     case c_ltgreen: return c_ltgreen_white;
+     case c_brown: return c_brown_white;
+     case c_yellow: return c_yellow_white;
+     case c_blue: return c_blue_white;
+     case c_ltblue: return c_ltblue_white;
+     case c_magenta: return c_magenta_white;
+     case c_pink: return c_pink_white;
+     case c_cyan: return c_cyan_white;
+     case c_ltcyan: return c_ltcyan_white;
+     default: return c_black_white;
+   }
+}
+ nc_color green_background(nc_color c) {
+  switch(c) {
+     case c_black: return c_black_green;
+     case c_dkgray: return c_dkgray_green;
+     case c_ltgray: return c_ltgray_green;
+     case c_white: return c_white_green;
+     case c_red: return c_red_green;
+     case c_ltred: return c_ltred_green;
+     case c_green: return c_green_green;
+     case c_ltgreen: return c_ltgreen_green;
+     case c_brown: return c_brown_green;
+     case c_yellow: return c_yellow_green;
+     case c_blue: return c_blue_green;
+     case c_ltblue: return c_ltblue_green;
+     case c_magenta: return c_magenta_green;
+     case c_pink: return c_pink_green;
+     case c_cyan: return c_cyan_green;
+     case c_ltcyan: return c_ltcyan_green;
+     default: return c_black_green;
+   }
+}
+ nc_color yellow_background(nc_color c) {
+  switch(c) {
+     case c_black: return c_black_yellow;
+     case c_dkgray: return c_dkgray_yellow;
+     case c_ltgray: return c_ltgray_yellow;
+     case c_white: return c_white_yellow;
+     case c_red: return c_red_yellow;
+     case c_ltred: return c_ltred_yellow;
+     case c_green: return c_green_yellow;
+     case c_ltgreen: return c_ltgreen_yellow;
+     case c_brown: return c_brown_yellow;
+     case c_yellow: return c_yellow_yellow;
+     case c_blue: return c_blue_yellow;
+     case c_ltblue: return c_ltblue_yellow;
+     case c_magenta: return c_magenta_yellow;
+     case c_pink: return c_pink_yellow;
+     case c_cyan: return c_cyan_yellow;
+     case c_ltcyan: return c_ltcyan_yellow;
+     default: return c_black_yellow;
+   }
+}
+ nc_color magenta_background(nc_color c) {
+  switch(c) {
+     case c_black: return c_black_magenta;
+     case c_dkgray: return c_dkgray_magenta;
+     case c_ltgray: return c_ltgray_magenta;
+     case c_white: return c_white_magenta;
+     case c_red: return c_red_magenta;
+     case c_ltred: return c_ltred_magenta;
+     case c_green: return c_green_magenta;
+     case c_ltgreen: return c_ltgreen_magenta;
+     case c_brown: return c_brown_magenta;
+     case c_yellow: return c_yellow_magenta;
+     case c_blue: return c_blue_magenta;
+     case c_ltblue: return c_ltblue_magenta;
+     case c_magenta: return c_magenta_magenta;
+     case c_pink: return c_pink_magenta;
+     case c_cyan: return c_cyan_magenta;
+     case c_ltcyan: return c_ltcyan_magenta;
+     default: return c_black_magenta;
+   }
+}
+ nc_color cyan_background(nc_color c) {
+  switch(c) {
+     case c_black: return c_black_cyan;
+     case c_dkgray: return c_dkgray_cyan;
+     case c_ltgray: return c_ltgray_cyan;
+     case c_white: return c_white_cyan;
+     case c_red: return c_red_cyan;
+     case c_ltred: return c_ltred_cyan;
+     case c_green: return c_green_cyan;
+     case c_ltgreen: return c_ltgreen_cyan;
+     case c_brown: return c_brown_cyan;
+     case c_yellow: return c_yellow_cyan;
+     case c_blue: return c_blue_cyan;
+     case c_ltblue: return c_ltblue_cyan;
+     case c_magenta: return c_magenta_cyan;
+     case c_pink: return c_pink_cyan;
+     case c_cyan: return c_cyan_cyan;
+     case c_ltcyan: return c_ltcyan_cyan;
+     default: return c_black_cyan;
+   }
+}
 
+
+///
 nc_color rand_color()
 {
  switch (rng(0, 9)) {

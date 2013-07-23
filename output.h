@@ -86,6 +86,11 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
 nc_color hilite(nc_color c);
 nc_color invert_color(nc_color c);
 nc_color red_background(nc_color c);
+nc_color white_background(nc_color c);
+nc_color green_background(nc_color c);
+nc_color yellow_background(nc_color c);
+nc_color magenta_background(nc_color c);
+nc_color cyan_background(nc_color c);
 nc_color rand_color();
 char rand_char();
 long special_symbol (long sym);
