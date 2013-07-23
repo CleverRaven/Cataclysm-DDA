@@ -1573,9 +1573,10 @@ veh_collision vehicle::part_collision (int vx, int vy, int part, int x, int y)
 
         if (part_flag(part, vpf_sharp))
         {
-            if (g->m.field_at(x, y).findField(fd_blood) &&
-                g->m.field_at(x, y).findField(fd_blood)->getFieldDensity() < 2)
-                g->m.field_at(x, y).findField(fd_blood)->setFieldDensity(g->m.field_at(x,y).findField(fd_blood)->getFieldDensity() + 1);
+            field &local_field = g->m.field_at(x, y);
+            if (local_field.findField(fd_blood) &&
+                local_field.findField(fd_blood)->getFieldDensity() < 2)
+                local_field.findField(fd_blood)->setFieldDensity(local_field.findField(fd_blood)->getFieldDensity() + 1);
             else
                 g->m.add_field(g, x, y, fd_blood, 1);
         }
