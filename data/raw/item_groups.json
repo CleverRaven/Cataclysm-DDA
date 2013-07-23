@@ -100,7 +100,8 @@
       ["mp3", 18],
       ["usb_drive", 5],
       ["beer", 60],
-      ["cell_phone", 50]
+      ["cell_phone", 50],
+      ["wristwatch", 15]
     ]
   },
   { "id":"kitchen",
@@ -285,7 +286,8 @@
       ["blanket", 20],
       ["house_coat", 25],
       ["talking_doll", 65],
-      ["money_bundle", 30]
+      ["money_bundle", 30],
+      ["wristwatch", 15]
     ]
   },
   { "id":"homeguns",
@@ -392,7 +394,8 @@
       ["snuggie", 5],
       ["flyer", 10],
       ["socks", 70],
-      ["socks_wool", 30]
+      ["socks_wool", 30],
+      ["wristwatch", 15]
     ]
   },
   { "id":"dining",
@@ -516,7 +519,7 @@
       ["mag_throwing", 20],
       ["novel_firstaid", 10],
       ["mag_gaming", 20],
-      ["Mag_swimming", 10],
+      ["mag_swimming", 10],
       ["flyer", 10]
     ]
   },
@@ -716,7 +719,8 @@
       ["usb_drive", 5],
       ["manual_electronics", 20],
       ["cable", 60],
-      ["vac_sealer", 10]
+      ["vac_sealer", 10],
+      ["wristwatch", 15]
     ]
   },
   { "id":"sports",
@@ -798,7 +802,8 @@
       ["cloak", 5],
       ["sleeping_bag", 10],
       ["floatation_vest", 7],
-      ["gasoline_lantern", 5]
+      ["gasoline_lantern", 5],
+      ["folding_bicycle", 1]
     ]
   },
   { "id":"allsporting",
@@ -867,7 +872,8 @@
       ["mag_archery", 20],
       ["heatpack", 60],
       ["floatation_vest", 3],
-      ["glowstick", 60]
+      ["glowstick", 60],
+      ["folding_bicycle", 1]
     ]
   },
   { "id":"alcohol",
@@ -942,22 +948,20 @@
       ["45_acp", 7],
       ["45_jhp", 4],
       ["45_super", 5],
-      ["raging_bull", 1],
-      ["sw_500", 1],
+      ["454_Casull", 1],
+      ["500_Magnum", 1],
       ["57mm", 3],
       ["46mm", 2],
       ["762_m43", 6],
       ["762_m87", 7],
-      ["762_fmj", 3],
       ["223", 8],
       ["556", 6],
-      ["556fmj", 3],
       ["270", 8],
       ["3006", 4],
       ["3006fmj", 2],
       ["308", 7],
       ["762_51", 6],
-      ["762_51fmj", 3]
+      ["shot_beanbag", 10]
     ]
   },
   { "id":"pistols",
@@ -1334,7 +1338,8 @@
       ["usp_9mm", 6],
       ["remington_870", 9],
       ["UPS_off", 5],
-      ["tazer", 3]
+      ["tazer", 3],
+      ["shot_beanbag", 15]
     ]
   },
   { "id":"cop_evidence",
@@ -1682,7 +1687,8 @@
       ["floatation_vest", 1],
       ["huge_crossbow", 2],
       ["raging_bull", 1],
-      ["sw_500", 1]
+      ["sw_500", 1],
+      ["wristwatch", 15]
     ]
   },
   { "id":"mil_surplus",
@@ -2021,6 +2027,7 @@
       ["40mm_teargas", 5],
       ["40mm_smoke", 4],
       ["40mm_flashbang", 8],
+	  ["40mm_beanbag", 15],
       ["m79", 5],
       ["m320", 10],
       ["mgl", 6],
@@ -2495,13 +2502,10 @@
       ["bolt_steel", 7],
       ["shot_00", 8],
       ["762_m87", 7],
-      ["762_fmj", 3],
       ["556", 6],
-      ["556fmj", 3],
       ["556_incendiary", 2],
       ["3006_incendiary", 1],
       ["762_51", 6],
-      ["762_51fmj", 3],
       ["762_51_incendiary", 6],
       ["saiga_12", 3],
       ["hk_mp5", 12],
@@ -2726,10 +2730,8 @@
       ["45_acp", 7],
       ["45_jhp", 3],
       ["556", 6],
-      ["556fmj", 3],
       ["556_incendiary", 2],
       ["762_51", 6],
-      ["762_51fmj", 3],
       ["762_51_incendiary", 6],
       ["laser_pack", 2],
       ["40mm_concussive", 10],
@@ -2896,13 +2898,10 @@
       ["57mm", 3],
       ["46mm", 2],
       ["762_m87", 7],
-      ["762_fmj", 3],
       ["556", 6],
-      ["556fmj", 3],
       ["3006", 4],
       ["3006fmj", 3],
       ["762_51", 6],
-      ["762_51fmj", 3],
       ["arrow_cf", 5],
       ["press", 5],
       ["puller", 5]

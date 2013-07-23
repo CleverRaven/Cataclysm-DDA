@@ -75,6 +75,8 @@ public:
 
   void standardize(); // Ensure minutes <= 59, hour <= 23, etc.
 
+  int getHour(); // return hour
+
 // Sunlight and day/night calcuations
   int minutes_past_midnight() const; // Useful for sunrise/set calculations
   moon_phase moon() const;  // Find phase of moon

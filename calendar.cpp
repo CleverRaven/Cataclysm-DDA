@@ -198,6 +198,11 @@ void calendar::increment()
   standardize();
 }
 
+int calendar::getHour()
+{
+    return hour;
+}
+
 void calendar::standardize()
 {
  if (second >= 60) {

@@ -1,4 +1,3 @@
-#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <algorithm>    // std::min
@@ -7,9 +6,10 @@
 #include "skill.h"
 #include "rng.h"
 
-#include "picojson.h"
+#include "catajson.h"
 
 #include "options.h"
+#include "output.h"
 
 Skill::Skill() {
   _ident = std::string("null");
@@ -29,7 +29,7 @@ Skill::Skill(size_t id, std::string ident, std::string name, std::string descrip
 
 std::vector<Skill*> Skill::skills;
 
-std::vector<Skill*> Skill::loadSkills() {
+std::vector<Skill*> Skill::loadSkills() throw (std::string) {
   std::vector<Skill*> allSkills;
 
   picojson::value skillsRaw;
@@ -37,6 +37,12 @@ std::vector<Skill*> Skill::loadSkills() {
   std::ifstream skillsFile;
 
   skillsFile.open("data/raw/skills.json");
+
+  if(!skillsFile.good())
+  {
+	  throw "Unable to read data/raw/skills.json";
+	  return allSkills;
+  }
 
   skillsFile >> skillsRaw;
 
@@ -62,10 +68,9 @@ std::vector<Skill*> Skill::loadSkills() {
       allSkills.push_back(newSkill);
     }
   } else {
-    std::cout << skillsRaw << std::endl;
-    exit(1);
+	throw "data/raw/skills.json is not an array";
+    return allSkills;
   }
-
   return allSkills;
 }
 
@@ -150,35 +155,31 @@ void SkillLevel::train(int amount) {
 static int rustRate(int level)
 {
     int forgetCap = std::min(level, 7);
-    return 16384 / int(pow(2.0, double(forgetCap - 1)));
+    return 32768 / int(pow(2.0, double(forgetCap - 1)));
 }
 
 bool SkillLevel::isRusting(const calendar& turn) const
 {
-    return OPTIONS[OPT_SKILL_RUST] != 2 && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
+    return OPTIONS[OPT_SKILL_RUST] != 4 && (_level > 0) && (turn - _lastPracticed) > rustRate(_level);
 }
 
-bool SkillLevel::rust(const calendar& turn, bool forgetful, bool charged_bio_mem)
+bool SkillLevel::rust(const calendar& turn, bool charged_bio_mem)
 {
-    if (OPTIONS[OPT_SKILL_RUST] == 2) return false;
-
     if (_level > 0 && turn > _lastPracticed &&
-        (turn - _lastPracticed) % rustRate(_level) == 0)
+       (turn - _lastPracticed) % rustRate(_level) == 0)
     {
-        if (rng(1,12) % (forgetful ? 3 : 4))
-        {
-            if (charged_bio_mem) return one_in(5);
-            _exercise -= _level;
+        if (charged_bio_mem) return one_in(5);
+        _exercise -= _level;
 
-            if (_exercise < 0)
+        if (_exercise < 0)
+        {
+            if (OPTIONS[OPT_SKILL_RUST] == 0 ||
+                OPTIONS[OPT_SKILL_RUST] == 2)
             {
-                if (OPTIONS[OPT_SKILL_RUST] == 0)
-                {
-                    _exercise = (100 * _level) - 1;
-                    --_level;
-                } else {
-                    _exercise = 0;
-                }
+                _exercise = (100 * _level) - 1;
+                --_level;
+            } else {
+                _exercise = 0;
             }
         }
     }

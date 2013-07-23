@@ -6,7 +6,7 @@
 NameGenerator::NameGenerator() {
     catajson name_records("data/raw/names.json");
 
-    for (name_records.set_begin(); name_records.has_curr(); name_records.next())
+    for (name_records.set_begin(); name_records.has_curr() && json_good(); name_records.next())
     {
         catajson name_entry = name_records.curr();
         std::string name = name_entry.get("name").as_string();
@@ -41,9 +41,20 @@ NameGenerator::NameGenerator() {
 
         names.push_back(aName);
     }
+
+    if(names.empty())
+    {
+        Name aName;
+        names.push_back(aName);
+    }
+    if(!json_good())
+    {
+        picojson::set_last_error("");
+    }
 }
 
 std::vector<std::string> NameGenerator::filteredNames(uint32_t searchFlags) {
+
   std::vector<std::string> retval;
 
   for (std::vector<Name>::const_iterator aName = names.begin(); aName != names.end(); ++aName) {

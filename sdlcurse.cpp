@@ -357,11 +357,11 @@ void CheckMessages()
 					break;
 				}
 				else if(ev.key.keysym.sym==SDLK_RSHIFT || ev.key.keysym.sym==SDLK_LSHIFT ||
-					ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || ev.key.keysym.sym==SDLK_LALT )
+					ev.key.keysym.sym==SDLK_RCTRL || ev.key.keysym.sym==SDLK_LCTRL || ev.key.keysym.sym==SDLK_RALT )
 				{
 					break; // temporary fix for unwanted keys
 				}
-                else if(ev.key.keysym.sym==SDLK_RALT)
+                else if(ev.key.keysym.sym==SDLK_LALT)
                 {
                     begin_alt_code();
                     break;
@@ -406,7 +406,7 @@ void CheckMessages()
 			break;
             case SDL_KEYUP:
             {
-                if(ev.key.keysym.sym==SDLK_RALT) {
+                if(ev.key.keysym.sym==SDLK_LALT) {
                     int code = end_alt_code();
                     if(code) lastchar = code;
                 }
