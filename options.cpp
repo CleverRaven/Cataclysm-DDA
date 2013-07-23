@@ -523,8 +523,10 @@ char option_max_options(option_key id)
             break;
         case OPT_DELETE_WORLD:
         case OPT_DROP_EMPTY:
-        case OPT_SKILL_RUST:
             ret = 3;
+            break;
+        case OPT_SKILL_RUST:
+            ret = 5;
             break;
         case OPT_VIEWPORT_X:
         case OPT_VIEWPORT_Y:
@@ -624,7 +626,7 @@ drop_empty 0\n\
 # 0 - Cursor always shown, 1 - Cursor always hidden, 2 - Cursor shown on mouse input and hidden on keyboard input\n\
 # \n\
 # GAMEPLAY OPTIONS: CHANGING THESE OPTIONS WILL AFFECT GAMEPLAY DIFFICULTY! \n\
-# Level of skill rust: 0 - vanilla Cataclysm, 1 - capped at skill levels, 2 - none at all\n\
+# Level of skill rust: 0 - vanilla Cataclysm; 1 - vanilla, capped at skill levels; 2 - intelligence dependent; 3 - intelligence dependent, capped; 4 - none at all\n\
 skill_rust 0\n\
 # Delete world after player death: 0 - no, 1 - yes, 2 - query\n\
 delete_world 0\n\

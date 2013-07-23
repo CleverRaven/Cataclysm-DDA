@@ -13,6 +13,7 @@ version.h
 Cataclysm.exe
 CataclysmWin.depend
 CataclysmWin.layout
+*.dll
 
 # Visual Studio files
 *.suo
