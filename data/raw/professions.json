@@ -108,7 +108,7 @@
   "items": ["pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "holster"],
    "skills" : [
     {
-      "name" : "guns",
+      "name" : "gun",
       "level" : 1
     }
 	]
@@ -333,7 +333,7 @@
       "level" : 1
     },
     {
-      "name" : "tailoring",
+      "name" : "tailor",
       "level" : 1
     },
     {
@@ -341,7 +341,7 @@
       "level" : 1
     },
     {
-      "name" : "construction",
+      "name" : "carpentry",
       "level" : 1
     }
   ]
