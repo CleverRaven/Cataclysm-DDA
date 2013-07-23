@@ -1551,19 +1551,8 @@ void npc::alt_attack(game *g, int target)
    moves -= 125;
    if (g->u_see(posx, posy))
     g->add_msg("%s throws a %s.", name.c_str(), used->tname().c_str());
-
-   int stack_size = -1;
-   if( used->charges != -1 ) {
-       stack_size = used->charges;
-       used->charges = 1;
-   }
    g->throw_item(*this, tarx, tary, *used, trajectory);
-   // Throw a single charge of a stacking object.
-   if( stack_size == -1 || stack_size == 1 ) {
-       i_remn(invlet);
-   } else {
-       used->charges = stack_size - 1;
-   }
+   i_remn(invlet);
 
   } else if (!wont_hit_friend(g, tarx, tary, invlet)) {// Danger of friendly fire
 
@@ -1614,19 +1603,8 @@ void npc::alt_attack(game *g, int target)
     moves -= 125;
     if (g->u_see(posx, posy))
      g->add_msg("%s throws a %s.", name.c_str(), used->tname().c_str());
-
-    int stack_size = -1;
-    if( used->charges != -1 ) {
-        stack_size = used->charges;
-        used->charges = 1;
-    }
     g->throw_item(*this, tarx, tary, *used, trajectory);
-    // Throw a single charge of a stacking object.
-    if( stack_size == -1 || stack_size == 1 ) {
-        i_remn(invlet);
-    } else {
-        used->charges = stack_size - 1;
-    }
+    i_remn(invlet);
    }
 
   } else { // Within this block, our chosen target is outside of our range

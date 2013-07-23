@@ -942,7 +942,7 @@ bool map::trans(const int x, const int y)
   tertr = terlist[ter(x, y)].flags & mfb(transparent);
  if( tertr ){
   // Fields may obscure the view, too
-	 field curfield = field_at(x,y);
+	 field &curfield = field_at(x,y);
 	 if(curfield.fieldCount() > 0){
 	 field_entry *cur = NULL;
 	  for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart();
@@ -3188,7 +3188,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  const ter_id curr_ter = ter(x,y);
  const furn_id curr_furn = furn(x,y);
  const trap_id curr_trap = tr_at(x, y);
- field curr_field = field_at(x, y);
+ field &curr_field = field_at(x, y);
  const std::vector<item> curr_items = i_at(x, y);
  long sym;
  bool hi = false;
@@ -3995,7 +3995,7 @@ void map::build_transparency_cache()
    }
 
    //Quoted to see if this works!
-   field curfield = field_at(x,y);
+   field &curfield = field_at(x,y);
    if(curfield.fieldCount() > 0){
 	   field_entry *cur = NULL;
 	   for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){

@@ -461,8 +461,7 @@ void iuse::cig(game *g, player *p, item *it, bool t)
   g->add_msg_if_player(p,_("You take a few puffs from your cigar."));
  p->add_disease("cig", 200);
  for (int i = 0; i < p->illness.size(); i++) {
-  if (p->illness[i].type == "cig" && p->illness[i].duration > 600 &&
-      !p->is_npc())
+  if (p->illness[i].type == "cig" && p->illness[i].duration > 600)
    g->add_msg_if_player(p,_("Ugh, too much smoke... you feel gross."));
  }
 }
@@ -870,7 +869,8 @@ void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
     {
         if (g->m.add_field(g, posx, posy, fd_fire, 1))
         {
-            g->m.field_at(posx, posy).findField(fd_fire)->setFieldAge(g->m.field_at(posx, posy).findField(fd_fire)->getFieldAge() + 100);
+            field &current_field = g->m.field_at(posx, posy);
+            current_field.findField(fd_fire)->setFieldAge(current_field.findField(fd_fire)->getFieldAge() + 100);
             g->add_msg_if_player(p, _("You successfully light a fire."));
         }
     }
@@ -1229,9 +1229,10 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
 
  p->moves -= 140;
 
- if (g->m.field_at(x, y).findField(fd_fire)) {
-  g->m.field_at(x, y).findField(fd_fire)->setFieldDensity(g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() - rng(2, 3));
-  if (g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() <= 0) {
+ field &current_field = g->m.field_at(x, y);
+ if (current_field.findField(fd_fire)) {
+     current_field.findField(fd_fire)->setFieldDensity(current_field.findField(fd_fire)->getFieldDensity() - rng(2, 3));
+     if (current_field.findField(fd_fire)->getFieldDensity() <= 0) {
    //g->m.field_at(x, y).density = 1;
    g->m.remove_field(x, y, fd_fire);
   }
@@ -1253,9 +1254,10 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
  if (g->m.move_cost(x, y) != 0) {
   x += (x - p->posx);
   y += (y - p->posy);
-  if (g->m.field_at(x, y).findField(fd_fire)) {
-   g->m.field_at(x, y).findField(fd_fire)->setFieldDensity(g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() - rng(0, 1) + rng(0, 1));
-   if (g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() <= 0) {
+
+  if (current_field.findField(fd_fire)) {
+   current_field.findField(fd_fire)->setFieldDensity(current_field.findField(fd_fire)->getFieldDensity() - rng(0, 1) + rng(0, 1));
+   if (current_field.findField(fd_fire)->getFieldDensity() <= 0) {
     //g->m.field_at(x, y).density = 1;
     g->m.remove_field(x, y,fd_fire);
    }
@@ -1421,10 +1423,10 @@ void iuse::glowstick_active(game *g, player *p, item *it, bool t)
 void iuse::cauterize_elec(game *g, player *p, item *it, bool t)
 {
     if (it->charges == 0)
-    g->add_msg_if_player(p,_("You need batteries to cauterize wounds."));
+        g->add_msg_if_player(p,_("You need batteries to cauterize wounds."));
 
     else if (!p->has_disease("bite") && !p->has_disease("bleed"))
-    g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
+        g->add_msg_if_player(p,_("You are not bleeding or bitten, there is no need to cauterize yourself."));
 
     else if (p->is_npc() || query_yn(_("Cauterize any open wounds?")))
     {
@@ -3020,14 +3022,12 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
 {
  point pos(p->posx, p->posy);
 
- bool is_u = !p->is_npc(), can_see = (is_u || g->u_see(p->posx, p->posy));
  if (pos.x == -999 || pos.y == -999)
   return;
 
- if (is_u)
-  g->add_msg(_("You squeeze the pheromone ball..."));
- else if (can_see)
-  g->add_msg(_("%s squeezes a pheromone ball..."), p->name.c_str());
+ g->add_msg_player_or_npc( p, _("You squeeze the pheremone ball.."),
+                           _("<npcname> squeezes the pheremone ball...") );
+
  p->moves -= 15;
 
  int converts = 0;
@@ -3042,7 +3042,7 @@ void iuse::pheromone(game *g, player *p, item *it, bool t)
   }
  }
 
- if (can_see) {
+ if (g->u_see(p)) {
   if (converts == 0)
    g->add_msg(_("...but nothing happens."));
   else if (converts == 1)

@@ -2047,7 +2047,7 @@ void game::update_scent()
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    const int move_cost = m.move_cost_ter_furn(x, y);
-   field field_at = m.field_at(x, y);
+   field &field_at = m.field_at(x, y);
    const bool is_bashable = m.has_flag(bashable, x, y);
    newscent[x][y] = 0;
    scale[x][y] = 1;
@@ -2699,6 +2699,11 @@ void game::vadd_msg(const char* msg, va_list ap)
  char buff[1024];
  vsprintf(buff, msg, ap);
  std::string s(buff);
+ add_msg_string(s);
+}
+
+void game::add_msg_string(const std::string &s)
+{
  if (s.length() == 0)
   return;
  if (!messages.empty() && int(messages.back().turn) + 3 >= int(turn) &&
@@ -2730,6 +2735,31 @@ void game::add_msg_if_player(player *p, const char* msg, ...)
   vadd_msg(msg, ap);
   va_end(ap);
  }
+}
+
+void game::add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...)
+{
+    va_list ap;
+    if( !p ) {return; }
+
+    va_start( ap, npc_str );
+
+    if( !p->is_npc() ) {
+        vadd_msg( player_str, ap );
+    } else if( u_see( p ) ) {
+        char buff[1024];
+        vsprintf(buff, npc_str, ap);
+        std::string processed_npc_string(buff);
+        // These strings contain the substring <npcname>,
+        // if present replace it with the actual npc name.
+        int offset = processed_npc_string.find("<npcname>");
+        if( offset != std::string::npos ) {
+            processed_npc_string.replace(offset, sizeof("<npcname>"),  p->name);
+        }
+        add_msg_string( processed_npc_string );
+    }
+
+    va_end(ap);
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
@@ -3913,6 +3943,11 @@ bool game::u_see(int x, int y)
         return false;
 
  return can_see;
+}
+
+bool game::u_see(player *p)
+{
+ return u_see(p->posx, p->posy);
 }
 
 bool game::u_see(monster *mon)
@@ -7185,7 +7220,7 @@ point game::look_debug(point coords) {
     mvwprintw(w_look, off, 1, "%s %s", m.features(lx, ly).c_str(),extras.c_str());
     off++;
 
-    field curfield = m.field_at(lx, ly);
+    field &curfield = m.field_at(lx, ly);
     if (curfield.fieldCount() > 0) {
 		field_entry *cur = NULL;
 		for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
@@ -7526,7 +7561,7 @@ point game::look_around()
                                                     m.move_cost(lx, ly) * 50);
    mvwprintw(w_look, 2, 1, "%s", m.features(lx, ly).c_str());
 
-   field tmpfield = m.field_at(lx, ly);
+   field &tmpfield = m.field_at(lx, ly);
 
    if (tmpfield.fieldCount() > 0) {
 		field_entry *cur = NULL;
@@ -9095,14 +9130,7 @@ void game::plthrow(char chInput)
   return;
  if (passtarget != -1)
   last_target = targetindices[passtarget];
- // Throw a single charge of a stacking object.
- if( thrown.charges < 2 ) {
-     u.i_rem(ch);
- } else {
-     u.i_at(ch).charges--;
-     thrown.charges = 1;
- }
-
+ u.i_rem(ch);
  u.moves -= 125;
  u.practice(turn, "throw", 10);
 
@@ -10048,15 +10076,15 @@ void game::plmove(int x, int y)
 
   //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
   field_entry *cur = NULL;
-  field tmpfld = m.field_at(x, y);
-	for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it){
+  field &tmpfld = m.field_at(x, y);
+  for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart();
+      field_list_it != tmpfld.getFieldEnd(); ++field_list_it) {
 		cur = (*field_list_it);
 		if(cur == NULL) continue;
 		if (cur->is_dangerous() &&
 			!query_yn(_("Really step into that %s?"), cur->name().c_str()))
 			return;
 	}
-
 
 
 // no need to query if stepping into 'benign' traps

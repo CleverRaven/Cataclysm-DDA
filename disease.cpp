@@ -716,37 +716,32 @@ void dis_effect(game *g, player &p, disease &dis)
     p.pain++;
    }
    if (one_in(100 + bonus)) {
-    if (!p.is_npc())
-     g->add_msg(_("You feel nauseous."));
+    g->add_msg_if_player(&p,_("You feel nauseous."));
    }
    if (one_in(100 + bonus)) {
-    if (!p.is_npc())
-     g->add_msg(_("You smell and taste mushrooms."));
+     g->add_msg_if_player(&p,_("You smell and taste mushrooms."));
    }
   } else if (dis.duration > -3600) {	// One to six hours
    if (one_in(600 + bonus * 3)) {
-    if (!p.is_npc())
-     g->add_msg(_("You spasm suddenly!"));
+    g->add_msg_if_player(&p,_("You spasm suddenly!"));
     p.moves -= 100;
     p.hurt(g, bp_torso, 0, 5);
    }
    if ((p.has_trait(PF_WEAKSTOMACH) && one_in(1600 + bonus *  8)) ||
        (p.has_trait(PF_NAUSEA) && one_in(800 + bonus * 6)) ||
        one_in(2000 + bonus * 10)) {
-    if (!p.is_npc())
-     g->add_msg(_("You vomit a thick, gray goop."));
-    else if (g->u_see(p.posx, p.posy))
-     g->add_msg(_("%s vomits a thick, gray goop."), p.name.c_str());
-    p.moves = -200;
-    p.hunger += 50;
-    p.thirst += 68;
+       g->add_msg_player_or_npc( &p, _("You vomit a thick, gray goop."),
+                                 _("<npcname> vomits a thick, grey goop.") );
+
+       p.moves = -200;
+       p.hunger += 50;
+       p.thirst += 68;
    }
   } else {	// Full symptoms
    if (one_in(1000 + bonus * 8)) {
-    if (!p.is_npc())
-     g->add_msg(_("You double over, spewing live spores from your mouth!"));
-    else if (g->u_see(p.posx, p.posy))
-     g->add_msg(_("%s coughs up a stream of live spores!"), p.name.c_str());
+    g->add_msg_player_or_npc( &p, _("You vomit thousands of live spores!"),
+                              _("<npcname> vomits thousands of live spores!") );
+
     p.moves = -500;
     int sporex, sporey;
     monster spore(g->mtypes[mon_spore]);
@@ -769,12 +764,10 @@ void dis_effect(game *g, player &p, disease &dis)
      }
     }
    } else if (one_in(6000 + bonus * 20)) {
-    if (!p.is_npc())
-     g->add_msg(_("Fungus stalks burst through your hands!"));
-    else if (g->u_see(p.posx, p.posy))
-     g->add_msg(_("Fungus stalks burst through %s's hands!"), p.name.c_str());
-    p.hurt(g, bp_arms, 0, 60);
-    p.hurt(g, bp_arms, 1, 60);
+       g->add_msg_player_or_npc( &p, _("Your hands bulge. Fungus stalks burst through the bulge!"),
+                                 _("<npcname>'s hands bulge. Fungus stalks burst through the bulge!") );
+       p.hurt(g, bp_arms, 0, 60);
+       p.hurt(g, bp_arms, 1, 60);
    }
   }
   break;
@@ -787,13 +780,11 @@ void dis_effect(game *g, player &p, disease &dis)
   p.moves = 0;
   if (p.can_sleep(g)) {
    dis.duration = 1;
-   if (!p.is_npc())
-    g->add_msg(_("You fall asleep."));
+   g->add_msg_if_player(&p,_("You fall asleep."));
    p.add_disease("sleep", 6000);
   }
   if (dis.duration == 1 && !p.has_disease("sleep"))
-   if (!p.is_npc())
-    g->add_msg(_("You try to sleep, but can't..."));
+   g->add_msg_if_player(&p,_("You try to sleep, but can't..."));
   break;
 
   case DI_SLEEP:
@@ -925,8 +916,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.vomit(g);
   if (!p.has_disease("sleep") && dis.duration >= 4500 &&
       one_in(500 - int(dis.duration / 80))) {
-   if (!p.is_npc())
-    g->add_msg(_("You pass out."));
+   g->add_msg_if_player(&p,_("You pass out."));
    p.add_disease("sleep", dis.duration / 2);
   }
   break;
@@ -954,8 +944,7 @@ void dis_effect(game *g, player &p, disease &dis)
  case DI_POISON:
   if ((!p.has_trait(PF_POISRESIST) && one_in(150)) ||
       ( p.has_trait(PF_POISRESIST) && one_in(900))   ) {
-   if (!p.is_npc())
-    g->add_msg(_("You're suddenly wracked with pain!"));
+   g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
    p.pain++;
    p.hurt(g, bp_torso, 0, rng(0, 2) * rng(0, 1));
   }
@@ -966,21 +955,21 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_BLEED:
-  if (!p.is_npc() && one_in(6)) {
-   g->add_msg(_("You lose some blood."));
-   p.pain++;
-   p.hurt(g, bp_torso, 0, 1);
-   p.per_cur--;
-   p.str_cur --;
-   g->m.add_field(g, p.posx, p.posy, fd_blood, 1);
+  if (one_in(6)) {
+      g->add_msg_player_or_npc( &p, _("You lose some blood."), _("<npcname> loses some blood.") );
+
+      p.pain++;
+      p.hurt(g, bp_torso, 0, 1);
+      p.per_cur--;
+      p.str_cur --;
+      g->m.add_field(g, p.posx, p.posy, fd_blood, 1);
   }
   break;
 
  case DI_BADPOISON:
   if ((!p.has_trait(PF_POISRESIST) && one_in(100)) ||
       ( p.has_trait(PF_POISRESIST) && one_in(500))   ) {
-   if (!p.is_npc())
-    g->add_msg(_("You're suddenly wracked with pain!"));
+   g->add_msg_if_player(&p,_("You're suddenly wracked with pain!"));
    p.pain += 2;
    p.hurt(g, bp_torso, 0, rng(0, 2));
   }
@@ -997,8 +986,7 @@ void dis_effect(game *g, player &p, disease &dis)
   if (p.has_trait(PF_POISRESIST))
    bonus = 600;
   if (one_in(300 + bonus)) {
-   if (!p.is_npc())
-    g->add_msg(_("You're suddenly wracked with pain and nausea!"));
+   g->add_msg_if_player(&p,_("You're suddenly wracked with pain and nausea!"));
    p.hurt(g, bp_torso, 0, 1);
   }
   if ((p.has_trait(PF_WEAKSTOMACH) && one_in(300 + bonus)) ||
@@ -1042,10 +1030,10 @@ void dis_effect(game *g, player &p, disease &dis)
    }
    if (valid_spawns.size() >= 1) {
     p.rem_disease("dermatik"); // No more infection!  yay.
-    if (!p.is_npc())
-     g->add_msg(_("Insects erupt from your skin!"));
-    else if (g->u_see(p.posx, p.posy))
-     g->add_msg(_("Insects erupt from %s's skin!"), p.name.c_str());
+    g->add_msg_player_or_npc( &p,
+        _("Your flesh crawls; insects tear through the flesh and begin to emerge!"),
+        _("Insects begin to emerge from <npcname>'s skin!") );
+
     p.moves -= 600;
     monster grub(g->mtypes[mon_dermatik_larva]);
     while (valid_spawns.size() > 0 && num_insects > 0) {
@@ -1111,13 +1099,11 @@ void dis_effect(game *g, player &p, disease &dis)
 // This assumes that we were given DI_HALLU with a 3600 (6-hour) lifespan
   if (dis.duration > 3000) {	// First hour symptoms
    if (one_in(300)) {
-    if (!p.is_npc())
-     g->add_msg(_("You feel a little strange."));
+     g->add_msg_if_player(&p,_("You feel a little strange."));
    }
   } else if (dis.duration > 2400) {	// Coming up
    if (one_in(100) || (p.has_trait(PF_WEAKSTOMACH) && one_in(100))) {
-    if (!p.is_npc())
-     g->add_msg(_("You feel nauseous."));
+    g->add_msg_if_player(&p,_("You feel nauseous."));
     p.hunger -= 5;
    }
    if (!p.is_npc()) {
@@ -1150,8 +1136,7 @@ void dis_effect(game *g, player &p, disease &dis)
    p.int_cur -= 8;
    p.per_cur += 1;
   } else if (dis.duration == 150) {	// 15 minutes come-down
-   if (!p.is_npc())
-    g->add_msg(_("Your adrenaline rush wears off.  You feel AWFUL!"));
+   g->add_msg_if_player(&p,_("Your adrenaline rush wears off.  You feel AWFUL!"));
    p.moves -= 300;
   } else {
    p.str_cur -= 2;
@@ -1163,8 +1148,7 @@ void dis_effect(game *g, player &p, disease &dis)
 
  case DI_ASTHMA:
   if (dis.duration > 1200) {
-   if (!p.is_npc())
-    g->add_msg(_("Your asthma overcomes you.  You stop breathing and die..."));
+   g->add_msg_if_player(&p,_("Your asthma overcomes you.  You stop breathing and die..."));
    p.hurtall(500);
   }
   p.str_cur -= 2;
@@ -1204,6 +1188,7 @@ void dis_effect(game *g, player &p, disease &dis)
 // Default we get around 300 duration points per teleport (possibly more
 // depending on the source).
 // TODO: Include a chance to teleport to the nether realm.
+// TODO: This this with regards to NPCS
   if (dis.duration > 6000) {	// 20 teles (no decay; in practice at least 21)
    if (one_in(1000 - ((dis.duration - 6000) / 10))) {
     if (!p.is_npc())
@@ -1245,8 +1230,7 @@ void dis_effect(game *g, player &p, disease &dis)
     }
    }
    if (one_in(3500 - int(.25 * (dis.duration - 3600)))) {
-    if (!p.is_npc())
-     g->add_msg(_("You shudder suddenly."));
+    g->add_msg_if_player(&p,_("You shudder suddenly."));
     p.mutate(g);
     if (one_in(4))
      p.rem_disease("teleglow");
@@ -1256,8 +1240,7 @@ void dis_effect(game *g, player &p, disease &dis)
    if (one_in(10000 - dis.duration))
     p.add_disease("shakes", rng(40, 80));
    if (one_in(12000 - dis.duration)) {
-    if (!p.is_npc())
-     g->add_msg(_("Your vision is filled with bright lights..."));
+    g->add_msg_if_player(&p,_("Your vision is filled with bright lights..."));
     p.add_disease("blind", rng(10, 20));
     if (one_in(8))
      p.rem_disease("teleglow");
@@ -1269,8 +1252,7 @@ void dis_effect(game *g, player &p, disease &dis)
    }
   }
   if (one_in(4000)) {
-   if (!p.is_npc())
-    g->add_msg(_("You're suddenly covered in ectoplasm."));
+   g->add_msg_if_player(&p,_("You're suddenly covered in ectoplasm."));
    p.add_disease("boomered", 100);
    if (one_in(4))
     p.rem_disease("teleglow");
@@ -1350,17 +1332,15 @@ void dis_effect(game *g, player &p, disease &dis)
 //3600 (6-hour) lifespan
   if (dis.duration > 2400) {	// First symptoms for 2 hours
    if (one_in(300)) {
-    if (!p.is_npc())
-     g->add_msg(_("Your bite wound really hurts."));
+     g->add_msg_if_player(&p,_("Your bite wound really hurts."));
    }
   } else if (dis.duration > 1200) {	//Pain at 4 hours in
    if (one_in(100)) {
-    if (!p.is_npc())
      if (p.has_disease("sleep")) {
       p.rem_disease("sleep");
-      g->add_msg(_("You wake up."));
+      g->add_msg_if_player(&p,_("You wake up."));
      }
-     g->add_msg(_("Your bite wound feels swollen and painful."));
+     g->add_msg_if_player(&p,_("Your bite wound feels swollen and painful."));
     if(p.pain < 20)
 	    p.pain++;
    }
@@ -1390,13 +1370,11 @@ void dis_effect(game *g, player &p, disease &dis)
 	 p.dex_cur-= 1;
   if (dis.duration > 10800) {	// Infection Symptoms 6 hours into infection
    if (one_in(300)) {
-    if (!p.is_npc()) {
      if (p.has_disease("sleep")) {
       p.rem_disease("sleep");
-      g->add_msg(_("You wake up."));
+      g->add_msg_if_player(&p,_("You wake up."));
      }
-     g->add_msg(_("Your infected wound is incredibly painful."));
-    }
+     g->add_msg_if_player(&p,"Your infected wound is incredibly painful.");
 	   if(p.pain < 40)
 	    p.pain++;
    }
@@ -1405,13 +1383,11 @@ void dis_effect(game *g, player &p, disease &dis)
 
   } else if (dis.duration > 7200) {	//Infection Symptoms 12 hours into infection
    if (one_in(100)) {
-    if (!p.is_npc()) {
      if (p.has_disease("sleep")) {
       p.rem_disease("sleep");
-      g->add_msg(_("You wake up."));
+      g->add_msg_if_player(&p,_("You wake up."));
      }
-     g->add_msg(_("You feel feverish and nauseous, your wound has begun to turn green."));
-    }
+     g->add_msg_if_player(&p,_("You feel feverish and nauseous, your wound has begun to turn green."));
     p.vomit(g);
     if(p.pain < 60)
 	    p.pain++;
@@ -1421,14 +1397,12 @@ void dis_effect(game *g, player &p, disease &dis)
 
   } else if (dis.duration > 3600) {	//Infection Symptoms 18 hours into infection
    if (one_in(100)) {
-       if (!p.is_npc()) {
-           if (p.has_disease("sleep")) {
-               p.rem_disease("sleep");
-               g->add_msg(_("You wake up."));
-               g->add_msg(_("You feel terribly weak, standing up is nearly impossible."));
-           } else {
-               g->add_msg(_("You can barely remain standing."));
-           }
+       if (p.has_disease("sleep")) {
+           p.rem_disease("sleep");
+           g->add_msg_if_player(&p,_("You wake up."));
+           g->add_msg_if_player(&p,_("You feel terribly weak, standing up is nearly impossible."));
+       } else {
+           g->add_msg_if_player(&p,_("You can barely remain standing."));
        }
        p.vomit(g);
        if(p.pain < 100)
