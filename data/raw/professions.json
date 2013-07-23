@@ -294,7 +294,7 @@
   "name": "Biker",
   "description":"You spent most of your life on a Harley, and its only natural you spend the rest of it riding one, you start with some biker clothes.",
   "points": 2,
-  "items": ["jeans", "tanktop", "chaps_leather", "boots", "bandana", "jacket_leather"]
+  "items": ["jeans", "tank_top", "chaps_leather", "boots", "bandana", "jacket_leather"]
 },
 
 {
