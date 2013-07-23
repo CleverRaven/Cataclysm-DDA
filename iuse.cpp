@@ -863,7 +863,8 @@ void resolve_firestarter_use(game *g, player *p, item *it, int posx, int posy)
     {
         if (g->m.add_field(g, posx, posy, fd_fire, 1))
         {
-            g->m.field_at(posx, posy).findField(fd_fire)->setFieldAge(g->m.field_at(posx, posy).findField(fd_fire)->getFieldAge() + 100);
+            field &current_field = g->m.field_at(posx, posy);
+            current_field.findField(fd_fire)->setFieldAge(current_field.findField(fd_fire)->getFieldAge() + 100);
             g->add_msg_if_player(p, "You successfully light a fire.");
         }
     }
@@ -1224,9 +1225,10 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
 
  p->moves -= 140;
 
- if (g->m.field_at(x, y).findField(fd_fire)) {
-  g->m.field_at(x, y).findField(fd_fire)->setFieldDensity(g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() - rng(2, 3));
-  if (g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() <= 0) {
+ field &current_field = g->m.field_at(x, y);
+ if (current_field.findField(fd_fire)) {
+     current_field.findField(fd_fire)->setFieldDensity(current_field.findField(fd_fire)->getFieldDensity() - rng(2, 3));
+     if (current_field.findField(fd_fire)->getFieldDensity() <= 0) {
    //g->m.field_at(x, y).density = 1;
    g->m.remove_field(x, y, fd_fire);
   }
@@ -1248,9 +1250,10 @@ void iuse::extinguisher(game *g, player *p, item *it, bool t)
  if (g->m.move_cost(x, y) != 0) {
   x += (x - p->posx);
   y += (y - p->posy);
-  if (g->m.field_at(x, y).findField(fd_fire)) {
-   g->m.field_at(x, y).findField(fd_fire)->setFieldDensity(g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() - rng(0, 1) + rng(0, 1));
-   if (g->m.field_at(x, y).findField(fd_fire)->getFieldDensity() <= 0) {
+
+  if (current_field.findField(fd_fire)) {
+   current_field.findField(fd_fire)->setFieldDensity(current_field.findField(fd_fire)->getFieldDensity() - rng(0, 1) + rng(0, 1));
+   if (current_field.findField(fd_fire)->getFieldDensity() <= 0) {
     //g->m.field_at(x, y).density = 1;
     g->m.remove_field(x, y,fd_fire);
    }
