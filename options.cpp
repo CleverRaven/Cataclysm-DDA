@@ -425,7 +425,7 @@ std::string option_desc(option_key key)
     case OPT_STATIC_NPC:          return "If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false";
     case OPT_RANDOM_NPC:          return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false";
     case OPT_RAD_MUTATION:        return "If true, radiation causes the player\nto mutate.\nDefault is true";
-    case OPT_SAVESLEEP:           return "If true, game will ask to save the map\nbefore sleeping. Default is false";
+    case OPT_SAVESLEEP:           return "If true, the games save the map\nbefore sleeping. Default is false";
     case OPT_HIDE_CURSOR:         return "If 0, cursor is always shown. If 1,\ncursor is hidden. If 2, cursor is\nhidden on keyboard input and\nunhidden on mouse movement.\nDefault is 0.";
     case OPT_AUTO_PICKUP:         return "Enable item auto pickup. Change\npickup rules with the Auto Pickup\nManager in the Help Menu ?3";
     case OPT_AUTO_PICKUP_ZERO:    return "Auto pickup items with\n0 Volume or Weight";
@@ -471,7 +471,7 @@ std::string option_name(option_key key)
     case OPT_STATIC_NPC:          return "Static npcs";
     case OPT_RANDOM_NPC:          return "Random npcs";
     case OPT_RAD_MUTATION:        return "Mutations by radiation";
-    case OPT_SAVESLEEP:           return "Ask to save before sleeping";
+    case OPT_SAVESLEEP:           return "Save the game before sleeping";
     case OPT_HIDE_CURSOR:         return "Hide Mouse Cursor";
     case OPT_AUTO_PICKUP:         return "Enable item Auto Pickup";
     case OPT_AUTO_PICKUP_ZERO:    return "Auto Pickup 0 Vol/Weight";

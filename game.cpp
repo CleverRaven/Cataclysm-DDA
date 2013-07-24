@@ -1871,44 +1871,12 @@ bool game::handle_action()
    break;
 
   case ACTION_SLEEP:
-     if (veh_ctrl) {
-       add_msg(_("Vehicle control has moved, %s"),
-       press_x(ACTION_CONTROL_VEHICLE, _("new binding is "),
-               _("new default binding is '^'.")).c_str());
-     } else {
-       uimenu as_m;
-       as_m.text=_("Are you sure you want to sleep?");
-       as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS[OPT_FORCE_YN]?'Y':'y'),
-           _("Yes.") ));
+     if (query_yn(_("Are you sure you want to sleep?"))){
        if (OPTIONS[OPT_SAVESLEEP]) {
-         as_m.entries.push_back(uimenu_entry(1,
-             (moves_since_last_save || item_exchanges_since_save),
-             (OPTIONS[OPT_FORCE_YN]?'S':'s'),
-             _("Yes, and save game before sleeping.") ));
-       }
-       as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS[OPT_FORCE_YN]?'N':'n'),
-           _("No.") ));
-       as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
-       switch (as_m.ret) {
-       case 1:  // Yes, I do want to save game before sleeping.
-         {
            quicksave();
-         }
-       case 0:  // Yes, I do want to sleep.
-         {
-           u.try_to_sleep(this);
-           u.moves = 0;
-           break;
-         }
-       default:  // No, I do not want to sleep.
-         {  /*// Do we tell the player if they could anyways?
-           if (u.can_sleep(this)) {
-             //add_msg("You could sleep now.");
-           } else {
-             add_msg("You can't sleep now.");
-           }*/
-         }
        }
+       u.try_to_sleep(this);
+       u.moves = 0;
      }
      break;
 
