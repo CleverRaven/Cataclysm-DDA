@@ -228,25 +228,16 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
   else if( curammo->type == "40mm" ) casing_type = "40mm_casing";
 
   if (casing_type != "null") {
-   int x = p.posx - 1 + rng(0, 2);
-   int y = p.posy - 1 + rng(0, 2);
-   std::vector<item>& items = m.i_at(x, y);
-   int i;
-   for (i = 0; i < items.size(); i++)
-    if (items[i].typeId() == casing_type &&
-        items[i].charges < (dynamic_cast<it_ammo*>(items[i].type))->count) {
-     items[i].charges++;
-     break;
-    }
-   if (i == items.size()) {
-    item casing;
-    casing.make(itypes[casing_type]);
-    // Casing needs a charges of 1 to stack properly with other casings.
-    casing.charges = 1;
+   item casing;
+   casing.make(itypes[casing_type]);
+   // Casing needs a charges of 1 to stack properly with other casings.
+   casing.charges = 1;
     if( weapon->has_gunmod("brass_catcher") != -1 ) {
         p.i_add( casing );
     } else {
-        m.add_item(x, y, casing);
+       int x = p.posx - 1 + rng(0, 2);
+       int y = p.posy - 1 + rng(0, 2);
+       m.add_item_or_charges(x, y, casing);
     }
    }
   }
