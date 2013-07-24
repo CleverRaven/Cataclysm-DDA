@@ -2005,9 +2005,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  ter_id type = g->m.ter(dirx, diry);
  int npcdex = g->npc_at(dirx, diry);
  if (npcdex != -1) {
-  g->add_msg_if_player(p, "You can pick your friends, and you can");
-  g->add_msg_if_player(p, "pick your nose, but you can't pick");
-  g->add_msg_if_player(p, "your friend's nose");
+  g->add_msg_if_player(p, "You can pick your friends, and you can pick your nose, but you can't pick your friend's nose");
   return;
  }
 
