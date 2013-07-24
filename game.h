@@ -356,6 +356,7 @@ void load_artifacts(); // Load artifact data
 
 // Data Initialization
   void init_fields();
+  void init_artifacts();
   void init_traits();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);

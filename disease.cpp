@@ -1647,6 +1647,7 @@ std::string dis_description(disease dis)
 {
     int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
+    char buf[1000];
     
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
@@ -1655,7 +1656,7 @@ std::string dis_description(disease dis)
         return _("None");
 
     case DI_GLARE:
-        stream << _("Perception") << " - 1";
+        stream << _("Perception - 1");
         return stream.str();
 
     case DI_COLD_HEAD:
@@ -1801,219 +1802,218 @@ Your legs are blistering from the intense heat. It is extremely painful.");
 Your feet are blistering from the intense heat. It is extremely painful.");
 
     case DI_COMMON_COLD:
-        stream << _("Increased thirst") << ";   " << _("Frequent coughing")
-               << "\n" << _("Strength") << " - 3;   " << _("Dexterity")
-               << " - 1;   " << _("Intelligence") << " - 2;   "
-               << _("Perception") << " - 1" << "\n"
-               << _("Symptoms alleviated by medication (Dayquil or Nyquil).");
-        return stream.str();
+        return _(
+        "Increased thirst;   Frequent coughing\n"
+        "Strength - 3;   Dexterity - 1;   Intelligence - 2;   Perception - 1\n"
+        "Symptoms alleviated by medication (Dayquil or Nyquil).");
 
     case DI_FLU:
-        stream << _("Increased thirst") << ";   " << _("Frequent coughing")
-               << ";   " << _("Occasional vomiting") << "\n"
-               << _("Strength") << " - 4;   " << _("Dexterity") << " - 2;   "
-               << _("Intelligence") << " - 2;   " << _("Perception") << " - 1\n"
-               << _("Symptoms alleviated by medication (Dayquil or Nyquil).");
-        return stream.str();
+        return _(
+        "Increased thirst;   Frequent coughing;   Occasional vomiting\n"
+        "Strength - 4;   Dexterity - 2;   Intelligence - 2;   Perception - 1\n"
+        "Symptoms alleviated by medication (Dayquil or Nyquil).");
 
     case DI_SMOKE:
-        stream << _("Strength") << " - 1;   " << _("Dexterity") << " - 1;\n"
-               << _("Occasionally you will cough, costing movement and creating noise.")
-               << "\n" << _("Loss of health - Torso");
-        return stream.str();
+        return _(
+        "Strength - 1;   Dexterity - 1;\n"
+        "Occasionally you will cough, costing movement and creating noise.\n"
+        "Loss of health - Torso");
 
     case DI_TEARGAS:
-        stream << _("Strength") << " - 2;   " << _("Dexterity") << " - 2;   "
-               << _("Intelligence") << " - 1;   " << _("Perception")
-               << " - 4\n" << _("Occasionally you will cough, costing movement and creating noise.")
-               << "\n" << _("Loss of health - Torso");
-        return stream.str();
+        return _(
+        "Strength - 2;   Dexterity - 2;   Intelligence - 1;   Perception - 4\n"
+        "Occasionally you will cough, costing movement and creating noise.\n"
+        "Loss of health - Torso");
 
     case DI_ONFIRE:
-        stream << _("Loss of health - Entire Body") << "\n"
-               << _("Your clothing and other equipment may be consumed by the flames.");
+        return _(
+        "Loss of health - Entire Body\n"
+        "Your clothing and other equipment may be consumed by the flames.");
 
     case DI_CRUSHED: return "If you're seeing this, there is a bug in disease.cpp!";
 
     case DI_BOULDERING:
         switch (dis.intensity){
         case 1:
-            stream << _("Dexterity") << " - 1;   " << _("Speed") << " -10%\n"
-                   << _("You are being slowed by climbing over a pile of rubble.");
+            stream << _(
+            "Dexterity - 1;   Speed -10%\n"
+            "You are being slowed by climbing over a pile of rubble.");
         case 2:
-            stream << _("Dexterity") << " - 3;   " << _("Speed") << " -20%\n"
-                   << _("You are being slowed by climbing over a heap of rubble.");
+            stream << _(
+            "Dexterity - 3;   Speed -20%\n"
+            "You are being slowed by climbing over a heap of rubble.");
         case 3:
-            stream << _("Dexterity") << " - 5;   " << _("Speed") << " -30%\n"
-                   << _("You are being slowed by climbing over a mountain of rubble.");
+            stream << _(
+            "Dexterity - 5;   Speed -30%\n"
+            "You are being slowed by climbing over a mountain of rubble.");
         }
         return stream.str();
 
-    case DI_STEMCELL_TREATMENT: return _("\
-Your insides are shifting in strange ways as the treatment takes effect.");
+    case DI_STEMCELL_TREATMENT: return _("Your insides are shifting in strange ways as the treatment takes effect.");
 
     case DI_BOOMERED:
-        stream << _("Perception") << " - 5\n" << _("Range of Sight")
-               << ": 1;   " << _("All sight is tinted magenta.");
-        return stream.str();
+        return _(
+        "Perception - 5\n"
+        "Range of Sight: 1;   All sight is tinted magenta.");
 
     case DI_SAP:
-        stream << _("Dexterity") << " - 3;   " << _("Speed") << " - 25";
-        return stream.str();
+        return _("Dexterity - 3;   Speed - 25");
 
     case DI_SPORES:
-        stream << _("Speed") << " -40%\n"
-               << _("You can feel the tiny spores sinking directly into your flesh.");
-        return stream.str();
+        return _(
+        "Speed -40%\n"
+        "You can feel the tiny spores sinking directly into your flesh.");
 
     case DI_SLIMED:
-        stream << _("Speed") << " -40%;   " << _("Dexterity") << " - 2";
-        return stream.str();
+        return _("Speed -40%;   Dexterity - 2");
 
-    case DI_DEAF: return _("\
-Sounds will not be reported.  You cannot talk with NPCs.");
+    case DI_DEAF: return _("Sounds will not be reported.  You cannot talk with NPCs.");
 
     case DI_BLIND:
-        stream << _("Range of Sight") << ": 0";
-        return stream.str();
+        return _("Range of Sight: 0");
 
     case DI_STUNNED: return _("Your movement is randomized.");
 
-    case DI_DOWNED: return _("\
-You're knocked to the ground.  You have to get up before you can move.");
+    case DI_DOWNED: return _("You're knocked to the ground.  You have to get up before you can move.");
 
     case DI_POISON:
-        stream << _("Perception") << " - 1;   " << _("Dexterity") << " - 1;   "
-               << _("Strength") << " - 2 IF not resistant\n"
-               << _("Occasional pain and/or damage.");
-        return stream.str();
+        return _(
+        "Perception - 1;   Dexterity - 1;   Strength - 2 IF not resistant\n"
+        "Occasional pain and/or damage.");
 
     case DI_BLEED: return _("You are slowly losing blood.");
 
     case DI_BADPOISON:
-        stream << _("Perception") << " - 2;   " << _("Dexterity") << " - 2;\n"
-               << _("Strength") << _(" - 3 IF not resistant, -1 otherwise\n")
-               << _("Frequent pain and/or damage.");
-        return stream.str();
+        return _(
+        "Perception - 2;   Dexterity - 2;\n"
+        "Strength - 3 IF not resistant, -1 otherwise\n"
+        "Frequent pain and/or damage.");
 
     case DI_FOODPOISON:
-        stream << _("Speed") << " - 35%;   " << _("Strength") << " - 3;   "
-               << _("Dexterity") << " - 1;   " << _("Perception") << " - 1\n"
-               << _("Your stomach is extremely upset, and you keep having pangs of pain and nausea.");
-        return stream.str();
+        return _(
+        "Speed - 35%;   Strength - 3;   Dexterity - 1;   Perception - 1\n"
+        "Your stomach is extremely upset, and you keep having pangs of pain and nausea.");
 
     case DI_SHAKES:
-        stream << _("Strength") << " - 1;   " << _("Dexterity") << " - 4";
-        return stream.str();
+        return _("Strength - 1;   Dexterity - 4");
 
     case DI_FORMICATION:
-        stream << _("Strength") << " - 1;   " << _("Intelligence") << " - 2\n"
-               << _("\
-You stop to scratch yourself frequently; high intelligence helps you resist\n\
-this urge.");
-        return stream.str();
+        return _(
+        "Strength - 1;   Intelligence - 2\n"
+        "You stop to scratch yourself frequently; high intelligence helps you resist\n"
+        "this urge.");
 
     case DI_WEBBED:
-        stream << _("Strength") << " - 1;   " << _("Dexterity") << " - 4;   "
-               << _("Speed") << " - 25";
-        return stream.str();
+        return _(
+        "Strength - 1;   Dexterity - 4;   Speed - 25");
 
     case DI_RAT:
+        {
         intpen = int(dis.duration / 20);
         perpen = int(dis.duration / 25);
         strpen = int(dis.duration / 50);
         stream << _("You feal nauseated and rat-like.\n");
-        if (intpen > 0)
-            stream << _("Intelligence") << " - " << intpen << ";   ";
-        if (perpen > 0)
-            stream << _("Perception") << " - " << perpen << ";   ";
-        if (strpen > 0)
-            stream << _("Strength") << " - " << strpen;
+        if (intpen > 0) {
+            sprintf(buf, _("Intelligence - %d;   "), intpen);
+            stream << buf;
+        }
+        if (perpen > 0) {
+            sprintf(buf, _("Perception - %d;   "), perpen);
+            stream << buf;
+        }
+        if (strpen > 0) {
+            sprintf(buf, _("Strength - %d;   "), strpen);
+            stream << buf;
+        }
         return stream.str();
+        }
 
     case DI_DRUNK:
+        {
         perpen = int(dis.duration / 1000);
         dexpen = int(dis.duration / 1000);
         intpen = int(dis.duration /  700);
         strpen = int(dis.duration / 1500);
-        if (strpen > 0)
-            stream << _("Strength") << " - " << strpen << ";   ";
+        if (strpen > 0) {
+            sprintf(buf, _("Strength - %d;   "), strpen);
+            stream << buf;
+        }
         else if (dis.duration <= 600)
-            stream << _("Strength") << " + 1;    ";
-        if (dexpen > 0)
-            stream << _("Dexterity") << " - " << dexpen << ";   ";
-        if (intpen > 0)
-            stream << _("Intelligence") << " - " << intpen << ";   ";
-        if (perpen > 0)
-            stream << _("Perception") << " - " << perpen;
+            stream << _("Strength + 1;    ");
+        if (dexpen > 0) {
+            sprintf(buf, _("Dexterity - %d;   "), dexpen);
+            stream << buf;
+        }
+        if (intpen > 0) {
+            sprintf(buf, _("Intelligence - %d;   "), intpen);
+            stream << buf;
+        }
+        if (perpen > 0) {
+            sprintf(buf, _("Perception - %d;   "), perpen);
+            stream << buf;
+        }
         return stream.str();
+        }
 
     case DI_CIG:
         if (dis.duration >= 600)
-            stream << _("Strength") << " - 1;   " << _("Dexterity") << " - 1\n"
-                   << _("You smoked too much.");
+            return _(
+            "Strength - 1;   Dexterity - 1\n"
+            "You smoked too much.");
         else
-            stream << _("Dexterity") << " + 1;   " << _("Intelligence")
-                   << " + 1;   " << _("Perception") << " + 1";
-        return stream.str();
+            return _(
+            "Dexterity + 1;   Intelligence + 1;   Perception + 1");
 
     case DI_HIGH:
-        stream << _("Intelligence") << " - 1;   " << _("Perception") << " - 1";
-        return stream.str();
+        return _("Intelligence - 1;   Perception - 1");
 
     case DI_VISUALS: return _("You can't trust everything that you see.");
 
     case DI_ADRENALINE:
         if (dis.duration > 150)
-            stream << _("Speed") << " +80;   " << _("Strength") << " + 5;   "
-                   << _("Dexterity") << " + 3;\n" << _("Intelligence")
-                   << " - 8;   " << _("Perception") << " + 1";
+            return _(
+            "Speed +80;   Strength + 5;   Dexterity + 3;\n"
+            "Intelligence - 8;   Perception + 1");
         else
-            stream << _("Strength") << " - 2;   " << _("Dexterity")
-                   << " - 1;   " << _("Intelligence") << " - 1;   "
-                   << _("Perception") << " - 1";
-        return stream.str();
+            return _(
+            "Strength - 2;   Dexterity - 1;   Intelligence - 1;   Perception - 1");
 
     case DI_ASTHMA:
-        stream << _("Speed") << " - " << int(dis.duration / 5) << "%;   "
-               << _("Strength") << " - 2;   " << _("Dexterity") << " - 3";
-        return stream.str();
+        sprintf(buf, _("Speed - %d%%;   Strength - 2;   Dexterity - 3"), int(dis.duration / 5));
+        return buf;
 
     case DI_GRACK: return _("Unleashed the Gracken.");
 
     case DI_METH:
         if (dis.duration > 600)
-            stream << _("Speed") << " +50;   " << _("Strength") << " + 2;   "
-                   << _("Dexterity") << " + 2;\n" << _("Intelligence")
-                   << " + 3;   " << _("Perception") << " + 3";
+            return _(
+            "Speed +50;   Strength + 2;   Dexterity + 2;\n"
+            "Intelligence + 3;   Perception + 3");
         else
-            stream << _("Speed") << " -40;   " << _("Strength") << " - 3;   "
-                   << _("Dexterity") << " - 2;   " << _("Intelligence")
-                   << " - 2";
-        return stream.str();
+            return _(
+            "Speed -40;   Strength - 3;   Dexterity - 2;   Intelligence - 2");
 
-    case DI_IN_PIT: return _("\
-You're stuck in a pit.  Sight distance is limited and you have to climb out.");
+    case DI_IN_PIT: return _("You're stuck in a pit.  Sight distance is limited and you have to climb out.");
 
     case DI_ATTACK_BOOST:
-        stream << _("To-hit bonus") << " + " << dis.intensity;
-        return stream.str();
+        sprintf(buf, _("To-hit bonus + %d"), dis.intensity);
+        return buf;
 
     case DI_DAMAGE_BOOST:
-        stream << _("Damage bonus") << " + " << dis.intensity;
-        return stream.str();
+        sprintf(buf, _("Damage bonus + %d"), dis.intensity);
+        return buf;
 
     case DI_DODGE_BOOST:
-        stream << _("Dodge bonus") << " + " << dis.intensity;
-        return stream.str();
+        sprintf(buf, _("Dodge bonus + %d"), dis.intensity);
+        return buf;
 
     case DI_ARMOR_BOOST:
-        stream << _("Armor bonus") << " + " << dis.intensity;
-        return stream.str();
+        sprintf(buf, _("Armor bonus + %d"), dis.intensity);
+        return buf;
 
     case DI_SPEED_BOOST:
-        stream << _("Attack speed") << " + " << dis.intensity;
-        return stream.str();
+        sprintf(buf, _("Attack speed + %d"), dis.intensity);
+        return buf;
 
     case DI_VIPER_COMBO:
         switch (dis.intensity) {
