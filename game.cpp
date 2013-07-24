@@ -10282,6 +10282,8 @@ void game::plmove(int x, int y)
   }
   if(tunneldist) //you tunneled
   {
+    if (u.in_vehicle)
+        m.unboard_vehicle(this, u.posx, u.posy);
     u.power_level -= (tunneldist * 10); //tunneling costs 10 bionic power per impassable tile
     u.moves -= 100; //tunneling costs 100 moves
     u.posx += (tunneldist + 1) * (x - u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
