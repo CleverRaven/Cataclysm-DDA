@@ -471,7 +471,7 @@ std::string option_name(option_key key)
     case OPT_STATIC_NPC:          return "Static npcs";
     case OPT_RANDOM_NPC:          return "Random npcs";
     case OPT_RAD_MUTATION:        return "Mutations by radiation";
-    case OPT_SAVESLEEP:           return "Ask to save before sleeping";
+    case OPT_SAVESLEEP:           return "Save the game before sleeping";
     case OPT_HIDE_CURSOR:         return "Hide Mouse Cursor";
     case OPT_AUTO_PICKUP:         return "Enable item Auto Pickup";
     case OPT_AUTO_PICKUP_ZERO:    return "Auto Pickup 0 Vol/Weight";
