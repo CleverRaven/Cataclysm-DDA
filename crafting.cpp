@@ -960,14 +960,14 @@ void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, 
 {
     for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
     {
-        if (u.knows_recipe(*iter))
+        if (u.knows_recipe(*iter) && (*iter)->difficulty >= 0)
         {
-            if ((*iter)->difficulty >= 0 )
+            if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
             {
-                if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
-                {
+                if (can_make(*iter))
+                    current.insert(current.begin(),*iter);
+                else
                     current.push_back(*iter);
-                }
             }
         }
     }
