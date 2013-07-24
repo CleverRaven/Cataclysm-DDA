@@ -240,7 +240,6 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
        m.add_item_or_charges(x, y, casing);
     }
    }
-  }
 
   // Use up a round (or 100)
   if (weapon->has_flag("FIRE_100"))
