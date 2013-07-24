@@ -334,7 +334,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
         !(effects->count("EXPLOSIVE")) &&
         ((curammo->m1 == "wood" && !one_in(4)) ||
          (curammo->m1 != "wood" && !one_in(15))))
-     m.add_item(tx, ty, ammotmp);
+     m.add_item_or_charges(tx, ty, ammotmp);
     if (weapon->num_charges() == 0)
      weapon->curammo = NULL;
     return;
@@ -411,7 +411,7 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
       !(effects->count("EXPLOSIVE")) &&
       ((curammo->m1 == "wood" && !one_in(5)) ||
        (curammo->m1 != "wood" && !one_in(15))  ))
-    m.add_item(tx, ty, ammotmp);
+    m.add_item_or_charges(tx, ty, ammotmp);
  }
 
  if (weapon->num_charges() == 0)
@@ -520,14 +520,14 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
                 if (u_see(tx, ty))
                     add_msg(_("The %s shatters!"), thrown.tname().c_str());
                 for (int i = 0; i < thrown.contents.size(); i++)
-                    m.add_item(tx, ty, thrown.contents[i]);
+                    m.add_item_or_charges(tx, ty, thrown.contents[i]);
                     sound(tx, ty, 16, _("glass breaking!"));
                     int glassdam = rng(0, thrown.volume() * 2);
                     if (glassdam > z[mon_at(tx, ty)].armor_cut())
                         dam += (glassdam - z[mon_at(tx, ty)].armor_cut());
             }
             else
-                m.add_item(tx, ty, thrown);
+                m.add_item_or_charges(tx, ty, thrown);
             if (i < trajectory.size() - 1)
                 goodhit = double(double(rand() / RAND_MAX) / 2);
             if (goodhit < .1 && !z[mon_at(tx, ty)].has_flag(MF_NOHEAD))
@@ -600,13 +600,13 @@ void game::throw_item(player &p, int tarx, int tary, item &thrown,
         if (u_see(tx, ty))
             add_msg(_("The %s shatters!"), thrown.tname().c_str());
         for (int i = 0; i < thrown.contents.size(); i++)
-            m.add_item(tx, ty, thrown.contents[i]);
+            m.add_item_or_charges(tx, ty, thrown.contents[i]);
         sound(tx, ty, 16, _("glass breaking!"));
     }
     else
     {
         sound(tx, ty, 8, _("thud."));
-        m.add_item(tx, ty, thrown);
+        m.add_item_or_charges(tx, ty, thrown);
     }
 }
 
