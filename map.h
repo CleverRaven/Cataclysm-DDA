@@ -461,6 +461,7 @@ class map
    return abs_sub;
  };
  point getabs(const int x=0, const int y=0 );
+ bool inboundsabs(const int x, const int y);
 protected:
  void saven(overmap *om, unsigned const int turn, const int x, const int y, const int z,
             const int gridx, const int gridy);
@@ -480,7 +481,6 @@ protected:
  void generate_lightmap(game *g);
  void build_seen_cache(game *g);
 
- bool inboundsabs(const int x, const int y);
  bool inbounds(const int x, const int y);
  int my_MAPSIZE;
  virtual bool is_tiny() { return false; };

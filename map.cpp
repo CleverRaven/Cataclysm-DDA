@@ -4223,8 +4223,8 @@ void map::build_map_cache(game *g)
 
 void map::set_abs_sub( const int x, const int y ) {
   abs_sub=point(x, y);
-  abs_min=point(x, y);
-  abs_max=point(x + (SEEX * my_MAPSIZE), y + (SEEY * my_MAPSIZE) );
+  abs_min=point(x*SEEX, y*SEEY);
+  abs_max=point(x*SEEX + (SEEX * my_MAPSIZE), y*SEEY + (SEEY * my_MAPSIZE) );
 }
 
 point map::getabs(const int x, const int y ) {
