@@ -1314,8 +1314,8 @@ void game::handle_key_blocking_activity() {
         timeout(1);
         char ch = input();
         if(ch != ERR) {
-            action_id act = keymap[ch];
-            switch(act){  // should probably make the switch in handle_action() a function
+            timeout(-1);
+            switch(keymap[ch]){  // should probably make the switch in handle_action() a function
                 case ACTION_PAUSE:
                     cancel_activity_query(_("Confirm:"));
                     break;

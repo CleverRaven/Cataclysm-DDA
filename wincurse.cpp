@@ -370,35 +370,31 @@ fin.open("data\\FONTDATA");
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
 uint64_t GetPerfCount(){
-    uint64_t Frequency, Count;
-    QueryPerformanceFrequency((PLARGE_INTEGER)&Frequency);
+    uint64_t Count;
     QueryPerformanceCounter((PLARGE_INTEGER)&Count);
-    return Frequency*Count;
+    return Count;
 }
 
 //Not terribly sure how this function is suppose to work,
 //but jday helped to figure most of it out
 int curses_getch(WINDOW* win)
 {
- // standards note: getch is sometimes required to call refresh
- // see, e.g., http://linux.die.net/man/3/getch
- // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
- wrefresh(win);
- InvalidateRect(WindowHandle,NULL,true);
- lastchar=ERR;//ERR=-1
+    // standards note: getch is sometimes required to call refresh
+    // see, e.g., http://linux.die.net/man/3/getch
+    // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
+    uint64_t Frequency;
+    QueryPerformanceFrequency((PLARGE_INTEGER)&Frequency);
+    wrefresh(win);
+    InvalidateRect(WindowHandle,NULL,true);
+    lastchar = ERR;
     if (inputdelay < 0)
     {
-        do
-        {
+        for (; lastchar==ERR; Sleep(0))
             CheckMessages();
-            if (lastchar!=ERR) break;
-            MsgWaitForMultipleObjects(0, NULL, FALSE, 50, QS_ALLEVENTS);//low cpu wait!
-        }
-        while (lastchar==ERR);
     }
     else if (inputdelay > 0)
     {
-        for (uint64_t t0=GetPerfCount(), t1=0; t1 < (t0+inputdelay); t1=GetPerfCount())
+        for (uint64_t t0=GetPerfCount(), t1=0; t1 < (t0 + inputdelay*Frequency/1000); t1=GetPerfCount())
         {
             CheckMessages();
             if (lastchar!=ERR) break;
