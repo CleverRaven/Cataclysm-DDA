@@ -316,13 +316,13 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
 }
 
 //  NAME		RARE	COLOR		MAT1	MAT2
-GUN("bio_blaster_gun", ("fusion blaster"),	 0,0,c_magenta,	"steel",	"plastic",
+GUN("bio_blaster_gun", _("fusion blaster"),	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	"fusion", 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "");
 
 //  NAME		RARE	COLOR		MAT1	MAT2
-GUN("bio_lightning", ("Chain Lightning"),	 0,0,c_magenta,	"steel",	"plastic",
+GUN("bio_lightning", _("Chain Lightning"),	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	"fusion", 12,  0,  0,  0,  0,  0,  4,  0, 10,  1,  10, 500,
 "");

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:12+0800\n"
+"POT-Creation-Date: 2013-07-25 23:24+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6498,7 +6498,7 @@ msgstr ""
 msgid "The corpse is now thoroughly pulped."
 msgstr ""
 
-#: game.cpp:5570 melee.cpp:1227
+#: game.cpp:5570 melee.cpp:1250
 #, c-format
 msgid "Your %s shatters!"
 msgstr ""
@@ -9071,6 +9071,756 @@ msgstr ""
 msgid ""
 "There is only the space where an object should be, but isn't. No item "
 "template of this type exists."
+msgstr ""
+
+#: itypedef.cpp:66
+msgid "wheel"
+msgstr ""
+
+#: itypedef.cpp:68
+msgid "A car wheel"
+msgstr ""
+
+#: itypedef.cpp:71
+msgid "wide wheel"
+msgstr ""
+
+#: itypedef.cpp:73
+msgid "A wide wheel. \\o/ This wide."
+msgstr ""
+
+#: itypedef.cpp:76
+msgid "bicycle wheel"
+msgstr ""
+
+#: itypedef.cpp:78
+msgid "A bicycle wheel"
+msgstr ""
+
+#: itypedef.cpp:81
+msgid "motorbike wheel"
+msgstr ""
+
+#: itypedef.cpp:83
+msgid "A motorbike wheel"
+msgstr ""
+
+#: itypedef.cpp:86
+msgid "small wheel"
+msgstr ""
+
+#: itypedef.cpp:88
+msgid ""
+"A pretty small wheel. Probably from one of those segway things.It is not "
+"very menacing."
+msgstr ""
+
+#: itypedef.cpp:93
+msgid "1-cylinder engine"
+msgstr ""
+
+#: itypedef.cpp:95
+msgid "A single-cylinder 4-stroke combustion engine."
+msgstr ""
+
+#: itypedef.cpp:99
+msgid "V-twin engine"
+msgstr ""
+
+#: itypedef.cpp:101
+msgid "A 2-cylinder 4-stroke combustion engine."
+msgstr ""
+
+#: itypedef.cpp:105
+msgid "Inline-4 engine"
+msgstr ""
+
+#: itypedef.cpp:107
+msgid "A small, yet powerful 4-cylinder combustion engine."
+msgstr ""
+
+#: itypedef.cpp:111
+msgid "V6 engine"
+msgstr ""
+
+#: itypedef.cpp:113
+msgid "A powerful 6-cylinder combustion engine."
+msgstr ""
+
+#: itypedef.cpp:117
+msgid "V8 engine"
+msgstr ""
+
+#: itypedef.cpp:119
+msgid "A large and very powerful 8-cylinder combustion engine."
+msgstr ""
+
+#: itypedef.cpp:158
+msgid "jack"
+msgstr ""
+
+#: itypedef.cpp:160
+msgid "A common hydraulic jack, used when changing tires."
+msgstr ""
+
+#: itypedef.cpp:176
+msgid "CBM: Power Storage"
+msgstr ""
+
+#: itypedef.cpp:176
+msgid ""
+"Compact Bionics Module that upgrades your power capacity by 4 units. Having\n"
+"at least one of these is a prerequisite to using powered bionics. You will\n"
+"also need a power supply, found in another CBM."
+msgstr ""
+
+#: itypedef.cpp:181
+msgid "CBM: Power Storage Mk. II"
+msgstr ""
+
+#: itypedef.cpp:181
+msgid ""
+"Compact Bionics Module developed at DoubleTech Industries as a replacement\n"
+"for the highly sucessful CBM: Power Storage. Increases you power capacity\n"
+"by 10 units."
+msgstr ""
+
+#: itypedef.cpp:284
+msgid "A miscellaneous piece of hobby software. Probably useless."
+msgstr ""
+
+#: itypedef.cpp:284
+msgid "misc software"
+msgstr ""
+
+#: itypedef.cpp:287
+msgid "A piece of hacking software."
+msgstr ""
+
+#: itypedef.cpp:287
+msgid "hackPRO"
+msgstr ""
+
+#: itypedef.cpp:290
+msgid "A piece of medical software."
+msgstr ""
+
+#: itypedef.cpp:290
+msgid "MediSoft"
+msgstr ""
+
+#: itypedef.cpp:293
+msgid "A piece of mathematical software."
+msgstr ""
+
+#: itypedef.cpp:293
+msgid "MatheMAX"
+msgstr ""
+
+#: itypedef.cpp:296
+msgid "Medical data on zombie blood."
+msgstr ""
+
+#: itypedef.cpp:296
+msgid "infection data"
+msgstr ""
+
+#: itypedef.cpp:299
+msgid "note"
+msgstr ""
+
+#: itypedef.cpp:300
+msgid "A hand-written paper note."
+msgstr ""
+
+#: itypedef.cpp:307
+msgid "A scrap of paper."
+msgstr ""
+
+#: itypedef.cpp:307
+msgid "flyer"
+msgstr ""
+
+#: itypedef.cpp:340
+msgid ""
+"Karate is a popular martial art, originating from Japan. It focuses on\n"
+"rapid, precise attacks, blocks, and fluid movement. A successful hit allows\n"
+"you an extra dodge and two extra blocks on the following round."
+msgstr ""
+
+#: itypedef.cpp:340
+msgid "karate"
+msgstr ""
+
+#: itypedef.cpp:345 itypedef.cpp:397 itypedef.cpp:426
+msgid "%1$s quickly punch %4$s"
+msgstr ""
+
+#: itypedef.cpp:345 itypedef.cpp:397 itypedef.cpp:426
+msgid "%1$s quickly punches %4$s"
+msgstr ""
+
+#: itypedef.cpp:346 itypedef.cpp:376 itypedef.cpp:398 itypedef.cpp:402
+#: itypedef.cpp:415 itypedef.cpp:416 itypedef.cpp:428 itypedef.cpp:436
+#: itypedef.cpp:437 itypedef.cpp:457 itypedef.cpp:501 itypedef.cpp:519
+#: itypedef.cpp:528 itypedef.cpp:537
+msgid "%1$s block %4$s"
+msgstr ""
+
+#: itypedef.cpp:346 itypedef.cpp:376 itypedef.cpp:398 itypedef.cpp:402
+#: itypedef.cpp:415 itypedef.cpp:416 itypedef.cpp:428 itypedef.cpp:436
+#: itypedef.cpp:437 itypedef.cpp:457 itypedef.cpp:501 itypedef.cpp:519
+#: itypedef.cpp:528 itypedef.cpp:537
+msgid "%1$s blocks %4$s"
+msgstr ""
+
+#: itypedef.cpp:347
+msgid "%1$s karate chop %4$s"
+msgstr ""
+
+#: itypedef.cpp:347
+msgid "%1$s karate chops %4$s"
+msgstr ""
+
+#: itypedef.cpp:350
+msgid ""
+"Aikido is a Japanese martial art focused on self-defense, while minimizing\n"
+"injury to the attacker. It uses defense throws and disarms. Damage done\n"
+"while using this technique is halved, but pain inflicted is doubled."
+msgstr ""
+
+#: itypedef.cpp:350
+msgid "aikido"
+msgstr ""
+
+#: itypedef.cpp:355 itypedef.cpp:399 itypedef.cpp:456 itypedef.cpp:478
+#: itypedef.cpp:510
+msgid "%1$s feint at %4$s"
+msgstr ""
+
+#: itypedef.cpp:355 itypedef.cpp:399 itypedef.cpp:456 itypedef.cpp:478
+#: itypedef.cpp:510
+msgid "%1$s feints at %4$s"
+msgstr ""
+
+#: itypedef.cpp:356 itypedef.cpp:367 itypedef.cpp:368
+msgid "%1$s throw %4$s"
+msgstr ""
+
+#: itypedef.cpp:356 itypedef.cpp:367 itypedef.cpp:368
+msgid "%1$s throws %4$s"
+msgstr ""
+
+#: itypedef.cpp:357 itypedef.cpp:358 itypedef.cpp:377 itypedef.cpp:401
+#: itypedef.cpp:404
+msgid "%1$s disarm %4$s"
+msgstr ""
+
+#: itypedef.cpp:357 itypedef.cpp:358 itypedef.cpp:377 itypedef.cpp:401
+#: itypedef.cpp:404
+msgid "%1$s disarms %4$s"
+msgstr ""
+
+#: itypedef.cpp:361
+msgid ""
+"Judo is a martial art that focuses on grabs and throws, both defensive and\n"
+"offensive. It also focuses on recovering from throws; while using judo, you\n"
+"will not lose any turns to being thrown or knocked down."
+msgstr ""
+
+#: itypedef.cpp:361
+msgid "judo"
+msgstr ""
+
+#: itypedef.cpp:366 itypedef.cpp:406 itypedef.cpp:448 itypedef.cpp:489
+#: itypedef.cpp:538
+msgid "%1$s grab %4$s"
+msgstr ""
+
+#: itypedef.cpp:366 itypedef.cpp:406 itypedef.cpp:448 itypedef.cpp:489
+#: itypedef.cpp:538
+msgid "%1$s grabs %4$s"
+msgstr ""
+
+#: itypedef.cpp:371
+msgid ""
+"Though tai chi is often seen as a form of mental and physical exercise, it "
+"is\n"
+"a legitimate martial art, focused on self-defense. Its ability to absorb "
+"the\n"
+"force of an attack makes your Perception decrease damage further on a block."
+msgstr ""
+
+#: itypedef.cpp:371
+msgid "tai chi"
+msgstr ""
+
+#: itypedef.cpp:378
+msgid "%1$s strike %4$s"
+msgstr ""
+
+#: itypedef.cpp:378
+msgid "%1$s strikes %4$s"
+msgstr ""
+
+#: itypedef.cpp:381
+msgid ""
+"A dance-like style with its roots in Brazilian slavery, capoeira is focused\n"
+"on fluid movement and sweeping kicks. Moving a tile will boost attack and\n"
+"dodge; attacking boosts dodge, and dodging boosts attack."
+msgstr ""
+
+#: itypedef.cpp:381
+msgid "capoeira"
+msgstr ""
+
+#: itypedef.cpp:386
+msgid "%1$s bluff %4$s"
+msgstr ""
+
+#: itypedef.cpp:386
+msgid "%1$s bluffs %4$s"
+msgstr ""
+
+#: itypedef.cpp:387
+msgid "%1$s low kick %4$s"
+msgstr ""
+
+#: itypedef.cpp:387
+msgid "%1$s low kicks %4$s"
+msgstr ""
+
+#: itypedef.cpp:388
+msgid "%1$s spin and hit %4$s"
+msgstr ""
+
+#: itypedef.cpp:388
+msgid "%1$s spins and hits %4$s"
+msgstr ""
+
+#: itypedef.cpp:389 itypedef.cpp:440 itypedef.cpp:491
+msgid "%1$s spin-kick %4$s"
+msgstr ""
+
+#: itypedef.cpp:389 itypedef.cpp:440 itypedef.cpp:491
+msgid "%1$s spin-kicks %4$s"
+msgstr ""
+
+#: itypedef.cpp:392
+msgid ""
+"Originating in Israel, Krav Maga is based on taking down an enemy quickly "
+"and\n"
+"effectively. It focuses on applicable attacks rather than showy or complex\n"
+"moves. Popular among police and armed forces everywhere."
+msgstr ""
+
+#: itypedef.cpp:392
+msgid "krav maga"
+msgstr ""
+
+#: itypedef.cpp:400 itypedef.cpp:427 itypedef.cpp:438
+msgid "%1$s jab %4$s"
+msgstr ""
+
+#: itypedef.cpp:400 itypedef.cpp:427 itypedef.cpp:438
+msgid "%1$s jabs %4$s"
+msgstr ""
+
+#: itypedef.cpp:403 itypedef.cpp:418 itypedef.cpp:468 itypedef.cpp:490
+#: itypedef.cpp:529 itypedef.cpp:547
+msgid "%1$s counter-attack %4$s"
+msgstr ""
+
+#: itypedef.cpp:403 itypedef.cpp:418 itypedef.cpp:468 itypedef.cpp:490
+#: itypedef.cpp:529 itypedef.cpp:547
+msgid "%1$s counter-attacks %4$s"
+msgstr ""
+
+#: itypedef.cpp:409
+msgid ""
+"Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting\n"
+"technique from Thailand that uses powerful strikes. It does extra damage\n"
+"against large or strong opponents."
+msgstr ""
+
+#: itypedef.cpp:409
+msgid "muay thai"
+msgstr ""
+
+#: itypedef.cpp:414
+msgid "%1$s slap %4$s"
+msgstr ""
+
+#: itypedef.cpp:414
+msgid "%1$s slaps %4$s"
+msgstr ""
+
+#: itypedef.cpp:417
+msgid "%1$s power-kick %4$s"
+msgstr ""
+
+#: itypedef.cpp:417
+msgid "%1$s power-kicks %4$s"
+msgstr ""
+
+#: itypedef.cpp:421
+msgid ""
+"Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.\n"
+"It focuses on rapid, precise, silent strikes. Ninjutsu is entirely silent.\n"
+"It also provides small combat bonuses the turn after moving a tile."
+msgstr ""
+
+#: itypedef.cpp:421
+msgid "ninjutsu"
+msgstr ""
+
+#: itypedef.cpp:431
+msgid ""
+"Taekwondo is the national sport of Korea, and was used by the South Korean\n"
+"army in the 20th century. Focused on kicks and punches, it also includes\n"
+"strength training; your blocks absorb extra damage the stronger you are."
+msgstr ""
+
+#: itypedef.cpp:431
+msgid "taekwondo"
+msgstr ""
+
+#: itypedef.cpp:439
+msgid "%1$s brutally kick %4$s"
+msgstr ""
+
+#: itypedef.cpp:439
+msgid "%1$s brutally kicks %4$s"
+msgstr ""
+
+#: itypedef.cpp:443
+msgid ""
+"One of the five Shaolin animal styles. Tiger style focuses on relentless\n"
+"attacks above all else. Strength, not Dexterity, is used to determine hits;\n"
+"you also receive an accumulating bonus for several turns of sustained attack."
+msgstr ""
+
+#: itypedef.cpp:443
+msgid "tiger style"
+msgstr ""
+
+#: itypedef.cpp:451
+msgid ""
+"One of the five Shaolin animal styles. Crane style uses intricate hand\n"
+"techniques and jumping dodges. Dexterity, not Strength, is used to "
+"determine\n"
+"damage; you also receive a dodge bonus the turn after moving a tile."
+msgstr ""
+
+#: itypedef.cpp:451
+msgid "crane style"
+msgstr ""
+
+#: itypedef.cpp:459
+msgid "%1$s hand-peck %4$s"
+msgstr ""
+
+#: itypedef.cpp:459
+msgid "%1$s hand-pecks %4$s"
+msgstr ""
+
+#: itypedef.cpp:462
+msgid ""
+"One of the five Shaolin animal styles. Leopard style focuses on rapid,\n"
+"strategic strikes. Your Perception and Intelligence boost your accuracy, "
+"and\n"
+"moving a single tile provides an increased boost for one turn."
+msgstr ""
+
+#: itypedef.cpp:462
+msgid "leopard style"
+msgstr ""
+
+#: itypedef.cpp:467 itypedef.cpp:477
+msgid "%1$s swiftly jab %4$s"
+msgstr ""
+
+#: itypedef.cpp:467 itypedef.cpp:477
+msgid "%1$s swiftly jabs %4$s"
+msgstr ""
+
+#: itypedef.cpp:469
+msgid "%1$s strike %4$s with leopard fist"
+msgstr ""
+
+#: itypedef.cpp:469
+msgid "%1$s strikes %4$s with leopard fist"
+msgstr ""
+
+#: itypedef.cpp:472
+msgid ""
+"One of the five Shaolin animal styles. Snake style uses sinuous movement "
+"and\n"
+"precision strikes. Perception increases your chance to hit as well as the\n"
+"damage you deal."
+msgstr ""
+
+#: itypedef.cpp:472
+msgid "snake style"
+msgstr ""
+
+#: itypedef.cpp:479
+msgid "%1$s snakebite %4$s"
+msgstr ""
+
+#: itypedef.cpp:479
+msgid "%1$s snakebites %4$s"
+msgstr ""
+
+#: itypedef.cpp:480 itypedef.cpp:511
+msgid "%1$s writhe free from %4$s"
+msgstr ""
+
+#: itypedef.cpp:480 itypedef.cpp:511
+msgid "%1$s writhes free from %4$s"
+msgstr ""
+
+#: itypedef.cpp:483
+msgid ""
+"One of the five Shaolin animal styles. Dragon style uses fluid movements "
+"and\n"
+"hard strikes. Intelligence increases your chance to hit as well as the\n"
+"damage you deal. Moving a tile will boost damage further for one turn."
+msgstr ""
+
+#: itypedef.cpp:483
+msgid "dragon style"
+msgstr ""
+
+#: itypedef.cpp:492
+msgid "%1$s use dragon strike on %4$s"
+msgstr ""
+
+#: itypedef.cpp:492
+msgid "%1$s uses dragon strike on %4$s"
+msgstr ""
+
+#: itypedef.cpp:495
+msgid ""
+"One of the Five Deadly Venoms. Centipede style uses an onslaught of rapid\n"
+"strikes. Every strike you make reduces the movement cost of attacking by 4;\n"
+"this is cumulative, but is reset entirely if you are hit even once."
+msgstr ""
+
+#: itypedef.cpp:495
+msgid "centipede style"
+msgstr ""
+
+#: itypedef.cpp:500
+msgid "%1$s swiftly hit %4$s"
+msgstr ""
+
+#: itypedef.cpp:500
+msgid "%1$s swiftly hits %4$s"
+msgstr ""
+
+#: itypedef.cpp:504
+msgid ""
+"One of the Five Deadly Venoms. Viper Style has a unique three-hit combo; if\n"
+"you score a critical hit, it is initiated. The second hit uses a coned hand\n"
+"to deal piercing damage, and the 3rd uses both hands in a devastating strike."
+msgstr ""
+
+#: itypedef.cpp:504
+msgid "viper style"
+msgstr ""
+
+#: itypedef.cpp:514
+msgid ""
+"One of the Five Deadly Venoms. Scorpion Style is a mysterious art that "
+"focuses\n"
+"on utilizing pincer-like fists and a stinger-like kick. Critical hits will "
+"do\n"
+"massive damage, knocking your target far back."
+msgstr ""
+
+#: itypedef.cpp:514
+msgid "scorpion style"
+msgstr ""
+
+#: itypedef.cpp:520
+msgid "%1$s strike %4$s with spincer fist"
+msgstr ""
+
+#: itypedef.cpp:520
+msgid "%1$s strikes %4$s with spincer fist"
+msgstr ""
+
+#: itypedef.cpp:523
+msgid ""
+"One of the Five Deadly Venoms. Lizard Style focuses on using walls to one's\n"
+"advantage. Moving alongside a wall will make you run up along it, giving "
+"you\n"
+"a large to-hit bonus. Standing by a wall allows you to use it to boost dodge."
+msgstr ""
+
+#: itypedef.cpp:523
+msgid "lizard style"
+msgstr ""
+
+#: itypedef.cpp:532
+msgid ""
+"One of the Five Deadly Venoms. Immensely powerful, and immune to nearly any\n"
+"weapon. You may meditate by pausing for a turn; this will give you "
+"temporary\n"
+"armor, proportional to your Intelligence and Perception."
+msgstr ""
+
+#: itypedef.cpp:532
+msgid "toad style"
+msgstr ""
+
+#: itypedef.cpp:541
+msgid ""
+"Also known as \"drunken boxing,\" Zui Quan imitates the movement of a drunk\n"
+"to confuse the enemy. The turn after you attack, you may dodge any number "
+"of\n"
+"attacks with no penalty."
+msgstr ""
+
+#: itypedef.cpp:541
+msgid "zui quan"
+msgstr ""
+
+#: itypedef.cpp:546
+msgid "%1$s stumble and leer at %4$s"
+msgstr ""
+
+#: itypedef.cpp:546
+msgid "%1$s stumbles and leers at %4$s"
+msgstr ""
+
+#: itypedef.cpp:554 lang/json/json_items.py:15
+msgid "nails"
+msgstr ""
+
+#: itypedef.cpp:555
+msgid "BBs"
+msgstr ""
+
+#: itypedef.cpp:556
+msgid "bolts"
+msgstr ""
+
+#: itypedef.cpp:557
+msgid "arrows"
+msgstr ""
+
+#: itypedef.cpp:558 lang/json/json_items.py:17
+msgid "pebbles"
+msgstr ""
+
+#: itypedef.cpp:559
+msgid "shot"
+msgstr ""
+
+#: itypedef.cpp:560
+msgid ".22"
+msgstr ""
+
+#: itypedef.cpp:561 lang/json/json_items.py:41
+msgid "9mm"
+msgstr ""
+
+#: itypedef.cpp:562
+msgid "7.62x25mm"
+msgstr ""
+
+#: itypedef.cpp:563
+msgid ".38"
+msgstr ""
+
+#: itypedef.cpp:564
+msgid ".40"
+msgstr ""
+
+#: itypedef.cpp:565
+msgid ".44"
+msgstr ""
+
+#: itypedef.cpp:566
+msgid ".45"
+msgstr ""
+
+#: itypedef.cpp:567
+msgid ".454"
+msgstr ""
+
+#: itypedef.cpp:568
+msgid ".500"
+msgstr ""
+
+#: itypedef.cpp:569
+msgid "5.7mm"
+msgstr ""
+
+#: itypedef.cpp:570
+msgid "4.6mm"
+msgstr ""
+
+#: itypedef.cpp:571
+msgid "7.62x39mm"
+msgstr ""
+
+#: itypedef.cpp:572
+msgid ".223"
+msgstr ""
+
+#: itypedef.cpp:573
+msgid ".30-06"
+msgstr ""
+
+#: itypedef.cpp:574
+msgid ".308"
+msgstr ""
+
+#: itypedef.cpp:575
+msgid "40mm grenade"
+msgstr ""
+
+#: itypedef.cpp:576
+msgid "High Explosive Anti Tank Warhead"
+msgstr ""
+
+#: itypedef.cpp:577 lang/json/json_items.py:179
+msgid "gasoline"
+msgstr ""
+
+#: itypedef.cpp:578 lang/json/json_items.py:3
+msgid "thread"
+msgstr ""
+
+#: itypedef.cpp:579 lang/json/json_items.py:1
+msgid "batteries"
+msgstr ""
+
+#: itypedef.cpp:580
+msgid "plutonium"
+msgstr ""
+
+#: itypedef.cpp:581
+msgid "Muscle"
+msgstr ""
+
+#: itypedef.cpp:582
+msgid "fusion cell"
+msgstr ""
+
+#: itypedef.cpp:583
+msgid "12mm slugs"
+msgstr ""
+
+#: itypedef.cpp:584 lang/json/json_items.py:125
+msgid "hydrogen"
+msgstr ""
+
+#: itypedef.cpp:585 lang/json/json_items.py:669
+msgid "clean water"
 msgstr ""
 
 #: iuse.cpp:54 iuse.cpp:1326 iuse.cpp:2584 iuse.cpp:2804 iuse.cpp:2816
@@ -11732,17 +12482,9 @@ msgid ""
 "causing increased encumberance."
 msgstr ""
 
-#: lang/json/json_items.py:1
-msgid "batteries"
-msgstr ""
-
 #: lang/json/json_items.py:2
 msgid ""
 "A set of universal batteries. Used to charge almost any electronic device."
-msgstr ""
-
-#: lang/json/json_items.py:3
-msgid "thread"
 msgstr ""
 
 #: lang/json/json_items.py:4
@@ -11790,16 +12532,8 @@ msgid ""
 "A nuclear-powered battery. Used to charge advanced and rare electronics."
 msgstr ""
 
-#: lang/json/json_items.py:15
-msgid "nails"
-msgstr ""
-
 #: lang/json/json_items.py:16
 msgid "A box of nails, mainly useful with a hammer."
-msgstr ""
-
-#: lang/json/json_items.py:17
-msgid "pebbles"
 msgstr ""
 
 #: lang/json/json_items.py:18
@@ -11910,10 +12644,6 @@ msgid ""
 "Rat-shot is extremely weak ammunition, designed for killing rats, snakes, or "
 "other small vermin while being unable to damage walls. It has an extremely "
 "short range and is unable to injure all but the smallest creatures."
-msgstr ""
-
-#: lang/json/json_items.py:41
-msgid "9mm"
 msgstr ""
 
 #: lang/json/json_items.py:42
@@ -12351,10 +13081,6 @@ msgid ""
 "ferromagnetic metal, probably cobalt."
 msgstr ""
 
-#: lang/json/json_items.py:125
-msgid "hydrogen"
-msgstr ""
-
 #: lang/json/json_items.py:126
 msgid ""
 "A canister of hydrogen. With proper equipment, it could be heated to plasma."
@@ -12571,10 +13297,6 @@ msgstr ""
 msgid ""
 "Material from an incendiary round, useful in constructing incendiary "
 "ammunition."
-msgstr ""
-
-#: lang/json/json_items.py:179
-msgid "gasoline"
 msgstr ""
 
 #: lang/json/json_items.py:180
@@ -14729,10 +15451,6 @@ msgstr ""
 
 #: lang/json/json_items.py:668
 msgid "Water, the stuff of life, the best thirst-quencher available."
-msgstr ""
-
-#: lang/json/json_items.py:669
-msgid "clean water"
 msgstr ""
 
 #: lang/json/json_items.py:670
@@ -20641,89 +21359,1446 @@ msgstr ""
 msgid "No templates found!"
 msgstr ""
 
-#: melee.cpp:891 melee.cpp:903
+#: melee.cpp:129 melee.cpp:234 melee.cpp:824 melee.cpp:1010 melee.cpp:1148
+#: melee.cpp:1370
+#, c-format
+msgid "<You>%s"
+msgstr ""
+
+#: melee.cpp:129 melee.cpp:234 melee.cpp:824 melee.cpp:1010 melee.cpp:1148
+#: melee.cpp:1370
+msgid "<You>You"
+msgstr ""
+
+#: melee.cpp:131 melee.cpp:236
+#, c-format
+msgid "<Your>%s"
+msgstr ""
+
+#: melee.cpp:131 melee.cpp:236 melee.cpp:1150 melee.cpp:1372
+msgid "<Your>Your"
+msgstr ""
+
+#: melee.cpp:133 melee.cpp:238 melee.cpp:1012 melee.cpp:1152 melee.cpp:1374
+msgid "<your>her"
+msgstr ""
+
+#: melee.cpp:133 melee.cpp:238 melee.cpp:1012 melee.cpp:1152 melee.cpp:1374
+msgid "<your>his"
+msgstr ""
+
+#: melee.cpp:133 melee.cpp:238 melee.cpp:1012 melee.cpp:1152 melee.cpp:1374
+msgid "<your>your"
+msgstr ""
+
+#: melee.cpp:135 melee.cpp:240 melee.cpp:1555
+msgid "%1$s hit %4$s"
+msgstr ""
+
+#: melee.cpp:135 melee.cpp:240 melee.cpp:1555
+msgid "%1$s hits %4$s"
+msgstr ""
+
+#: melee.cpp:136 melee.cpp:899 melee.cpp:1014 melee.cpp:1099 melee.cpp:1154
+#: melee.cpp:1376
+#, c-format
+msgid "<target>the %s"
+msgstr ""
+
+#: melee.cpp:150 melee.cpp:253
+msgid "You feint."
+msgstr ""
+
+#: melee.cpp:152 melee.cpp:255
+msgid "You miss and stumble with the momentum."
+msgstr ""
+
+#: melee.cpp:154 melee.cpp:257
+msgid "You swing wildly and miss."
+msgstr ""
+
+#: melee.cpp:156 melee.cpp:259
+msgid "You miss."
+msgstr ""
+
+#: melee.cpp:287
+#, c-format
+msgid "<target>%s's %s"
+msgstr ""
+
+#: melee.cpp:287
+#, c-format
+msgid "<target>your %s"
+msgstr ""
+
+#: melee.cpp:347
+#, c-format
+msgid "%s break the grab!"
+msgstr ""
+
+#: melee.cpp:347
+#, c-format
+msgid "%s breaks the grab!"
+msgstr ""
+
+#: melee.cpp:356
+msgid "Counter-attack!"
+msgstr ""
+
+#: melee.cpp:827 melee.cpp:912 melee.cpp:1014 melee.cpp:1100 melee.cpp:1155
+#: melee.cpp:1376
+#, c-format
+msgid "<target>%s"
+msgstr ""
+
+#: melee.cpp:900 melee.cpp:913
 #, c-format
 msgid "<npcname> hits %s!"
 msgstr ""
 
-#: melee.cpp:891 melee.cpp:903
+#: melee.cpp:900 melee.cpp:913
 #, c-format
 msgid "You hit %s!"
 msgstr ""
 
-#: melee.cpp:915
+#: melee.cpp:920
+#, c-format
+msgid "%d enemy hit!"
+msgid_plural "%d enemies hit!"
+msgstr[0] ""
+msgstr[1] ""
+
+#: melee.cpp:925
 #, c-format
 msgid "<npcname> disarms %s!"
 msgstr ""
 
-#: melee.cpp:915
+#: melee.cpp:925
 #, c-format
 msgid "You disarm %s!"
 msgstr ""
 
-#: melee.cpp:1020 melee.cpp:1045
+#: melee.cpp:1033 melee.cpp:1058
 #, c-format
 msgid "<npcname> blocks with their %s!"
 msgstr ""
 
-#: melee.cpp:1020 melee.cpp:1045
+#: melee.cpp:1033 melee.cpp:1058
 #, c-format
 msgid "You block with your %s!"
 msgstr ""
 
-#: melee.cpp:1052
+#: melee.cpp:1065
 #, c-format
 msgid "<npcname> throws %s."
 msgstr ""
 
-#: melee.cpp:1052
+#: melee.cpp:1065
 #, c-format
 msgid "You throw %s."
 msgstr ""
 
-#: melee.cpp:1071
+#: melee.cpp:1084
 #, c-format
 msgid "<npcname> disarms %s."
 msgstr ""
 
-#: melee.cpp:1071
+#: melee.cpp:1084
 #, c-format
 msgid "You disarm %s."
 msgstr ""
 
-#: melee.cpp:1163
+#: melee.cpp:1131 melee.cpp:1135
 #, c-format
-msgid "You force the %s to the ground!"
+msgid "You poison %s!"
 msgstr ""
 
-#: melee.cpp:1164
+#: melee.cpp:1150
+#, c-format
+msgid "<Your>%s's"
+msgstr ""
+
+#: melee.cpp:1155
+msgid "<target>you"
+msgstr ""
+
+#: melee.cpp:1157
+#, c-format
+msgid "<target's>the %s's"
+msgstr ""
+
+#: melee.cpp:1158
+#, c-format
+msgid "<target's>%s's"
+msgstr ""
+
+#: melee.cpp:1186
+#, c-format
+msgid "You force %s to the ground!"
+msgstr ""
+
+#: melee.cpp:1187
 #, c-format
 msgid "<npcname> forces %s to the ground!"
 msgstr ""
 
-#: melee.cpp:1198
+#: melee.cpp:1221
 #, c-format
 msgid "<npcname> shocks %s."
 msgstr ""
 
-#: melee.cpp:1198
+#: melee.cpp:1221
 #, c-format
 msgid "You shock %s."
 msgstr ""
 
-#: melee.cpp:1207
+#: melee.cpp:1230
 #, c-format
 msgid "<npcname> drains %s body heat!"
 msgstr ""
 
-#: melee.cpp:1207
+#: melee.cpp:1230
 #, c-format
 msgid "You drain %s body heat!"
 msgstr ""
 
-#: melee.cpp:1227
+#: melee.cpp:1244
+#, c-format
+msgid "Contact with %s shocks you!"
+msgstr ""
+
+#: melee.cpp:1250
 #, c-format
 msgid "<npcname>'s %s shatters!"
+msgstr ""
+
+#: melee.cpp:1277
+#, c-format
+msgid "Your %s gets stuck in %s, pulling it out of your hands!"
+msgstr ""
+
+#: melee.cpp:1295
+#, c-format
+msgid "Your %s gets stuck in %s, but you yank it free."
+msgstr ""
+
+#: melee.cpp:1331
+msgid "Your injured arms prevent a viper strike!"
+msgstr ""
+
+#: melee.cpp:1335
+msgid "Tail whip!  Viper Combo Intiated!"
+msgstr ""
+
+#: melee.cpp:1341
+msgid "Stinger Strike!"
+msgstr ""
+
+#: melee.cpp:1384
+#, c-format
+msgid "%s sink %s fangs into %s!"
+msgstr ""
+
+#: melee.cpp:1384
+#, c-format
+msgid "%s sinks %s fangs into %s!"
+msgstr ""
+
+#: melee.cpp:1392
+#, c-format
+msgid "%s slice %s with %s mandibles!"
+msgstr ""
+
+#: melee.cpp:1392
+#, c-format
+msgid "%s slices %s with %s mandibles!"
+msgstr ""
+
+#: melee.cpp:1400
+#, c-format
+msgid "%s peck %s!"
+msgstr ""
+
+#: melee.cpp:1400
+#, c-format
+msgid "%s pecks %s!"
+msgstr ""
+
+#: melee.cpp:1408
+#, c-format
+msgid "%s kick %s with %s hooves!"
+msgstr ""
+
+#: melee.cpp:1408
+#, c-format
+msgid "%s kicks %s with %s hooves!"
+msgstr ""
+
+#: melee.cpp:1418
+#, c-format
+msgid "%s headbutt %s with %s horns!"
+msgstr ""
+
+#: melee.cpp:1418
+#, c-format
+msgid "%s headbutts %s with %s horns!"
+msgstr ""
+
+#: melee.cpp:1427
+#, c-format
+msgid "%s headbutt %s with %s curled horns!"
+msgstr ""
+
+#: melee.cpp:1427
+#, c-format
+msgid "%s headbutts %s with %s curled horns!"
+msgstr ""
+
+#: melee.cpp:1435
+#, c-format
+msgid "%s stab %s with %s pointed horns!"
+msgstr ""
+
+#: melee.cpp:1435
+#, c-format
+msgid "%s stabs %s with %s pointed horns!"
+msgstr ""
+
+#: melee.cpp:1443
+#, c-format
+msgid "%s butt %s with %s antlers!"
+msgstr ""
+
+#: melee.cpp:1443
+#, c-format
+msgid "%s butts %s with %s antlers!"
+msgstr ""
+
+#: melee.cpp:1451
+#, c-format
+msgid "%s sting %s with %s tail!"
+msgstr ""
+
+#: melee.cpp:1451
+#, c-format
+msgid "%s stings %s with %s tail!"
+msgstr ""
+
+#: melee.cpp:1459
+#, c-format
+msgid "%s hit %s with %s tail!"
+msgstr ""
+
+#: melee.cpp:1459
+#, c-format
+msgid "%s hits %s with %s tail!"
+msgstr ""
+
+#: melee.cpp:1479
+#, c-format
+msgid "%s slap %s with %s tentacle!"
+msgstr ""
+
+#: melee.cpp:1479
+#, c-format
+msgid "%s slaps %s with %s tentacle!"
+msgstr ""
+
+#: melee.cpp:1502
+#, c-format
+msgid "%1$s sweep %2$s %3$s at %4$s"
+msgstr ""
+
+#: melee.cpp:1502
+#, c-format
+msgid "%1$s sweeps %2$s %3$s at %4$s"
+msgstr ""
+
+#: melee.cpp:1506
+#, c-format
+msgid "%1$s jab %2$s %3$s at %4$s"
+msgstr ""
+
+#: melee.cpp:1506
+#, c-format
+msgid "%1$s jabs %2$s %3$s at %4$s"
+msgstr ""
+
+#: melee.cpp:1510
+#, c-format
+msgid "%1$s slam %2$s %3$s against %4$s"
+msgstr ""
+
+#: melee.cpp:1510
+#, c-format
+msgid "%1$s slams %2$s %3$s against %4$s"
+msgstr ""
+
+#: melee.cpp:1514
+#, c-format
+msgid "%1$s wrap %2$s %3$s around %4$s"
+msgstr ""
+
+#: melee.cpp:1514
+#, c-format
+msgid "%1$s wraps %2$s %3$s around %4$s"
+msgstr ""
+
+#: melee.cpp:1518
+#, c-format
+msgid "%1$s swing %2$s %3$s wide at %4$s"
+msgstr ""
+
+#: melee.cpp:1518
+#, c-format
+msgid "%1$s swings %2$s %3$s wide at %4$s"
+msgstr ""
+
+#: melee.cpp:1522
+#, c-format
+msgid "%1$s use %2$s %3$s to toss %4$s"
+msgstr ""
+
+#: melee.cpp:1522
+#, c-format
+msgid "%1$s uses %2$s %3$s to toss %4$s"
+msgstr ""
+
+#: melee.cpp:1532
+msgid "%1$s impale %4$s"
+msgstr ""
+
+#: melee.cpp:1532
+msgid "%1$s impales %4$s"
+msgstr ""
+
+#: melee.cpp:1534
+msgid "%1$s pierce %4$s"
+msgstr ""
+
+#: melee.cpp:1534
+msgid "%1$s pierces %4$s"
+msgstr ""
+
+#: melee.cpp:1536
+msgid "%1$s stab %4$s"
+msgstr ""
+
+#: melee.cpp:1536
+msgid "%1$s stabs %4$s"
+msgstr ""
+
+#: melee.cpp:1537
+msgid "%1$s poke %4$s"
+msgstr ""
+
+#: melee.cpp:1537
+msgid "%1$s pokes %4$s"
+msgstr ""
+
+#: melee.cpp:1541
+msgid "%1$s hack %4$s"
+msgstr ""
+
+#: melee.cpp:1541
+msgid "%1$s hacks %4$s"
+msgstr ""
+
+#: melee.cpp:1543
+msgid "%1$s slice %4$s"
+msgstr ""
+
+#: melee.cpp:1543
+msgid "%1$s slices %4$s"
+msgstr ""
+
+#: melee.cpp:1545
+msgid "%1$s cut %4$s"
+msgstr ""
+
+#: melee.cpp:1545
+msgid "%1$s cuts %4$s"
+msgstr ""
+
+#: melee.cpp:1546
+msgid "%1$s nick %4$s"
+msgstr ""
+
+#: melee.cpp:1546
+msgid "%1$s nicks %4$s"
+msgstr ""
+
+#: melee.cpp:1550
+msgid "%1$s clobber %4$s"
+msgstr ""
+
+#: melee.cpp:1550
+msgid "%1$s clobbers %4$s"
+msgstr ""
+
+#: melee.cpp:1552
+msgid "%1$s batter %4$s"
+msgstr ""
+
+#: melee.cpp:1552
+msgid "%1$s batters %4$s"
+msgstr ""
+
+#: melee.cpp:1554
+msgid "%1$s whack %4$s"
+msgstr ""
+
+#: melee.cpp:1554
+msgid "%1$s whacks %4$s"
+msgstr ""
+
+#: melee.cpp:1571
+msgid " but do no damage."
+msgstr ""
+
+#: melee.cpp:1571
+msgid " but does no damage."
+msgstr ""
+
+#: melee.cpp:1573
+#, c-format
+msgid " for %d damage."
+msgstr ""
+
+#: melee.cpp:1574
+msgid "Critical! "
+msgstr ""
+
+#: mission.cpp:77
+msgid "Hey <name_g>... I really need your help..."
+msgstr ""
+
+#: mission.cpp:78
+msgid "<swear!><punc> I'm hurting..."
+msgstr ""
+
+#: mission.cpp:79
+msgid "This infection is bad, <very> bad..."
+msgstr ""
+
+#: mission.cpp:80
+msgid "Oh god, it <swear> hurts..."
+msgstr ""
+
+#: mission.cpp:84
+msgid "I'm infected.  Badly.  I need you to get some antibiotics for me..."
+msgstr ""
+
+#: mission.cpp:87
+msgid ""
+"Oh, thank god, thank you so much!  I won't last more than a couple of days, "
+"so hurry..."
+msgstr ""
+
+#: mission.cpp:91
+msgid "What?!  Please, <ill_die> without your help!"
+msgstr ""
+
+#: mission.cpp:94
+msgid "There's a town nearby.  Check pharmacies; it'll be behind the counter."
+msgstr ""
+
+#: mission.cpp:97
+msgid "Find any antibiotics yet?"
+msgstr ""
+
+#: mission.cpp:99
+msgid "Oh thank god!  I'll be right as rain in no time."
+msgstr ""
+
+#: mission.cpp:101 mission.cpp:193 mission.cpp:220
+msgid "What?!  You're lying, I can tell!  Ugh, forget it!"
+msgstr ""
+
+#: mission.cpp:103
+msgid "How am I not dead already?!"
+msgstr ""
+
+#: mission.cpp:110
+msgid "Oh man, I can't believe I forgot to download it..."
+msgstr ""
+
+#: mission.cpp:112
+msgid "There's some important software on my computer that I need on USB."
+msgstr ""
+
+#: mission.cpp:114
+msgid "Thanks!  Just pull the data onto this USB drive and bring it to me."
+msgstr ""
+
+#: mission.cpp:117
+msgid "Seriously?  It's an easy job..."
+msgstr ""
+
+#: mission.cpp:119
+msgid "Take this USB drive.  Use the console, and download the software."
+msgstr ""
+
+#: mission.cpp:121
+msgid "So, do you have my software yet?"
+msgstr ""
+
+#: mission.cpp:123
+msgid "Excellent, thank you!"
+msgstr ""
+
+#: mission.cpp:125 mission.cpp:246
+msgid "What?!  You liar!"
+msgstr ""
+
+#: mission.cpp:127
+msgid "Wow, you failed?  All that work, down the drain..."
+msgstr ""
+
+#: mission.cpp:134
+msgid "It could be very informative to perform an analysis of zombie blood..."
+msgstr ""
+
+#: mission.cpp:137
+msgid ""
+"I need someone to get a sample of zombie blood, take it to a hospital, and "
+"perform a centrifuge analysis of it."
+msgstr ""
+
+#: mission.cpp:141
+msgid ""
+"Excellent.  Take this vacutainer; once you've produced a zombie corpse, use "
+"it to extrace blood from the body, then take it to a hospital for analysis."
+msgstr ""
+
+#: mission.cpp:145
+msgid ""
+"Are you sure?  The scientific value of that blood data could be priceless..."
+msgstr ""
+
+#: mission.cpp:148
+msgid ""
+"The centrifuge is a bit technical; you might want to study up on the usage "
+"of computers before completing that part."
+msgstr ""
+
+#: mission.cpp:152
+msgid "Well, do you have the data yet?"
+msgstr ""
+
+#: mission.cpp:154
+msgid "Excellent!  This may be the key to removing the infection."
+msgstr ""
+
+#: mission.cpp:156
+msgid "Wait, you couldn't possibly have the data!  Liar!"
+msgstr ""
+
+#: mission.cpp:158
+msgid "What a shame, that data could have proved invaluable..."
+msgstr ""
+
+#: mission.cpp:165
+msgid "Oh, my poor puppy..."
+msgstr ""
+
+#: mission.cpp:168
+msgid "I left my poor dog in a house, not far from here.  Can you retrieve it?"
+msgstr ""
+
+#: mission.cpp:172
+msgid "Thank you!  Please hurry back!"
+msgstr ""
+
+#: mission.cpp:176
+msgid "Please, think of my poor little puppy!"
+msgstr ""
+
+#: mission.cpp:180
+msgid ""
+"Take my dog whistle; if the dog starts running off, blow it and he'll return "
+"to your side."
+msgstr ""
+
+#: mission.cpp:185
+msgid "Have you found my dog yet?"
+msgstr ""
+
+#: mission.cpp:189
+msgid "Thank you so much for finding him!"
+msgstr ""
+
+#: mission.cpp:196
+msgid "Oh no!  My poor puppy..."
+msgstr ""
+
+#: mission.cpp:204
+msgid "Oh god, I can't believe it happened..."
+msgstr ""
+
+#: mission.cpp:206
+msgid ""
+"My mom... she's... she was killed, but then she just got back up... she's "
+"one of those things now.  Can you put her out of her misery for me?"
+msgstr ""
+
+#: mission.cpp:210
+msgid "Thank you... she would've wanted it this way."
+msgstr ""
+
+#: mission.cpp:212
+msgid "Please reconsider, I know she's suffering..."
+msgstr ""
+
+#: mission.cpp:214
+msgid "Find a gun if you can, make it quick..."
+msgstr ""
+
+#: mission.cpp:216
+msgid "Well...?  Did you... finish things for my mom?"
+msgstr ""
+
+#: mission.cpp:218
+msgid "Thank you.  I couldn't rest until I knew that was finished."
+msgstr ""
+
+#: mission.cpp:222
+msgid "Really... that's too bad."
+msgstr ""
+
+#: mission.cpp:230
+msgid "Does our flag still yet wave?"
+msgstr ""
+
+#: mission.cpp:232
+msgid ""
+"Does our flag still yet wave? We're battered but not yet out of the fight, "
+"we need the old colors!"
+msgstr ""
+
+#: mission.cpp:235
+msgid "Hell ya!  Find me one of those big ol' American flags."
+msgstr ""
+
+#: mission.cpp:238
+msgid "Seriously?  God damned commie..."
+msgstr ""
+
+#: mission.cpp:240
+msgid "Find a large federal building or school, they must have one."
+msgstr ""
+
+#: mission.cpp:242
+msgid "Rescued the standard yet?"
+msgstr ""
+
+#: mission.cpp:244 mission.cpp:276
+msgid "America, fuck ya!"
+msgstr ""
+
+#: mission.cpp:248
+msgid ""
+"You give up?  This country fell apart because no one could find agood man to "
+"rely on... might as well give up, I guess."
+msgstr ""
+
+#: mission.cpp:257
+msgid "We've got the flag, now we need to locate US forces."
+msgstr ""
+
+#: mission.cpp:259
+msgid ""
+"We have the flag but now we need to locate US troops to see what we can do "
+"to help.  I haven't seen any but I'm figure'n one of those choppers that "
+"were fly'n round during th outbreak would have a good idea.  If you can get "
+"me a black box from one of the wrecks I'll look into where we might open'er "
+"at."
+msgstr ""
+
+#: mission.cpp:265 mission.cpp:298 mission.cpp:330
+msgid "Fuck ya, America!"
+msgstr ""
+
+#: mission.cpp:268 mission.cpp:301
+msgid "Do you have any better ideas?"
+msgstr ""
+
+#: mission.cpp:270
+msgid ""
+"Survivors were talking about them crashing but I don't know where.  If I "
+"were a pilot I'd avoid crash landing in a city or forest though."
+msgstr ""
+
+#: mission.cpp:274 mission.cpp:306
+msgid "How 'bout that black box?"
+msgstr ""
+
+#: mission.cpp:278 mission.cpp:311
+msgid "What?!  I out'ta whip you're ass."
+msgstr ""
+
+#: mission.cpp:280
+msgid "Damn, I'll have to find'er myself."
+msgstr ""
+
+#: mission.cpp:288
+msgid "With the black box in hand, we need to find a lab."
+msgstr ""
+
+#: mission.cpp:290
+msgid ""
+"Thanks to your searching we've got the black box but now we need to have a "
+"look'n-side her.  Now, most buildings don't have power anymore but there are "
+"a few that might be of use.  Have you ever seen one of those science labs "
+"that have popped up in the middle of nowhere? Them suckers have a glowing "
+"terminal out front so I know they have power somewhere inside'em.  If you "
+"can get inside and find a computer lab that still works you ought to be able "
+"to find out what's in the black box."
+msgstr ""
+
+#: mission.cpp:303
+msgid ""
+"When I was play'n with the terminal for the one I ran into it kept asking "
+"for an ID card.  Finding one would be the first order of business."
+msgstr ""
+
+#: mission.cpp:308
+msgid ""
+"America, fuck ya!  I was in the guard a few years back so I'm confident I "
+"can make heads-or-tails of these transmissions."
+msgstr ""
+
+#: mission.cpp:313
+msgid "Damn, I maybe we can find an egg-head to crack the terminal."
+msgstr ""
+
+#: mission.cpp:321
+msgid "You wouldn't believe what I found..."
+msgstr ""
+
+#: mission.cpp:323
+msgid ""
+"Holy hell, the crash you recovered the black box from wasn't as old as I "
+"thought.  Check this out, it was on its approach to pick up a team sent to "
+"secure and destroy something called a 'Hazardous Waste Sarcophagus' in the "
+"middle of nowhere.  If the bird never picked up the team then we may still "
+"have a chance to meet up with them.  It includes an access code for the "
+"elevator and an encoded message for the team leader, I guess.  If we want to "
+"join up with what remains of the government then now may be our only chance."
+msgstr ""
+
+#: mission.cpp:333
+msgid "Are you going to forfeit your duty when the country needs you the most?"
+msgstr ""
+
+#: mission.cpp:335
+msgid ""
+"If there is a military team down there then we better go in prepared if we "
+"want to impress them.  Carry as much ammo as you can and prepare to ditch "
+"this place if they have a second bird coming to pick them up."
+msgstr ""
+
+#: mission.cpp:339
+msgid "Having any trouble following the map?"
+msgstr ""
+
+#: mission.cpp:341
+msgid "We got this shit!"
+msgstr ""
+
+#: mission.cpp:343
+msgid "What?!  I out'ta whip your ass."
+msgstr ""
+
+#: mission.cpp:345
+msgid "Damn, we were so close."
+msgstr ""
+
+#: mission.cpp:353 mission.cpp:381 mission.cpp:413 mission.cpp:450
+msgid "St. Michael the archangel defend me in battle..."
+msgstr ""
+
+#: mission.cpp:355
+msgid ""
+"As the world seems to abandon the reality that we once knew, it becomes "
+"plausible that the old superstitions that were cast aside may have had some "
+"truth to them.  Please go and find me a religious relic...I doubt it will be "
+"of much use but I've got to hope in something."
+msgstr ""
+
+#: mission.cpp:360 mission.cpp:391
+msgid ""
+"I wish you the best of luck, may whatever god you please guide your path."
+msgstr ""
+
+#: mission.cpp:363 mission.cpp:394 mission.cpp:428 mission.cpp:464
+msgid "Ya, I guess the stress may just be getting to me..."
+msgstr ""
+
+#: mission.cpp:365
+msgid "I suppose a large church or cathedral may have something."
+msgstr ""
+
+#: mission.cpp:367 mission.cpp:399 mission.cpp:470 mission.cpp:498
+#: mission.cpp:524 mission.cpp:610 mission.cpp:640 mission.cpp:667
+#: mission.cpp:695
+msgid "Any luck?"
+msgstr ""
+
+#: mission.cpp:369
+msgid "Thank you, I need some time alone now..."
+msgstr ""
+
+#: mission.cpp:371 mission.cpp:403 mission.cpp:440 mission.cpp:474
+msgid "What good does this do us?"
+msgstr ""
+
+#: mission.cpp:373 mission.cpp:405 mission.cpp:442 mission.cpp:476
+msgid "It was a lost cause anyways..."
+msgstr ""
+
+#: mission.cpp:383
+msgid ""
+"From what I understand, the creatures you encountered surrounding this relic "
+"were unlike anything I've heard of.  It is laughable that I now consider the "
+"living dead to be part of our ordinary reality.  Never-the-less, the church "
+"must have some explanation for these events.  I have located the residence "
+"of a local clergy man, could you go to this address and recover any items "
+"that may reveal what the church's stance is on these events?"
+msgstr ""
+
+#: mission.cpp:396
+msgid ""
+"If the information is confidential the priest must have it hidden within his "
+"own home."
+msgstr ""
+
+#: mission.cpp:401
+msgid "Thank you, a diary is exactly what I was looking for."
+msgstr ""
+
+#: mission.cpp:415
+msgid ""
+"You have no idea how interesting this diary is.  I have two very promising "
+"leads...  First things first, the Catholic Church has been performing its "
+"own investigations into global cult phenomenon and it appears to have become "
+"very interested in a local cult as of recently.  Could you investigate a "
+"location for me?  I'm not sure what was going on here but the priest seemed "
+"fairly worried about it."
+msgstr ""
+
+#: mission.cpp:422
+msgid ""
+"I wish you the best of luck, may whatever god you please guide your path...  "
+"You may need it this time more than the past excursions you have gone on.  "
+"There is a note about potential human sacrifice in the days immediately "
+"before and after the outbreak.  The name of the cult is believed to be the "
+"Church of Starry Wisdom but it is noted that accounts differ."
+msgstr ""
+
+#: mission.cpp:430
+msgid ""
+"I doubt the site is still occupied but I'd carry a firearm at least... I'm "
+"not sure what you might be looking for but I'm positive you'll find "
+"something out of the ordinary if you look long enough."
+msgstr ""
+
+#: mission.cpp:434
+msgid "I'm positive there is something there... there has to be, any luck?"
+msgstr ""
+
+#: mission.cpp:436
+msgid ""
+"Thank you, your account of these... demonic creations proves the fears the "
+"churches had were well founded.  Our priority should be routing out any "
+"survivors of this cult... I don't known if they are responsible for the "
+"outbreak but they certainly know more about it than I do."
+msgstr ""
+
+#: mission.cpp:452
+msgid ""
+"I have another task if you are feeling up to it.  There is a prisoner that "
+"the priest made special mention of.  I was wondering if you could see what "
+"may have happened to him or if he left anything in his cell.  The priest "
+"admits the individual is rather unstable, to put it lightly, but the priest "
+"personally believed the man was some kind of repentant visionary.  I'm not "
+"in a position to cast out the account just yet... it seems the man has "
+"prophesied  events accurately before concerning the Church of Starry Wisdom."
+msgstr ""
+
+#: mission.cpp:459
+msgid ""
+"I wish you the best of luck, may whatever god you please guide your path...  "
+"I can only imagine that the prison will be a little slice of hell.  I'm not "
+"sure what they would have decided to do with the inmates when they knew "
+"death was almost certain.  "
+msgstr ""
+
+#: mission.cpp:466
+msgid ""
+"The worst case scenario will probably be that the prisoners have escaped "
+"their cells and turned the building into their own little fortress.  Best "
+"case, the building went into lock-down and secured the prisoners in their "
+"cells.  Either way, navigating the building will pose its own difficulties."
+msgstr ""
+
+#: mission.cpp:472
+msgid ""
+"Thank you, I'm not sure what to make of this but I'll ponder your account."
+msgstr ""
+
+#: mission.cpp:483
+msgid "I wonder if a retreat might exist..."
+msgstr ""
+
+#: mission.cpp:485
+msgid ""
+"Everyone who dies gets back up, right?  Which means that whatever is causing "
+"this it must be airborne to have infected everyone.  I believe that if that "
+"is the case then there should be regions that were not downwind from where-"
+"ever the disease was released.  We need to find a record of all the weather "
+"patterns leading up to the outbreak."
+msgstr ""
+
+#: mission.cpp:491
+msgid "Thanks so much, you may save both of us yet."
+msgstr ""
+
+#: mission.cpp:494
+msgid "Ya, it was a long shot I admit."
+msgstr ""
+
+#: mission.cpp:496
+msgid "I'm not sure, maybe a news station would have what we are looking?"
+msgstr ""
+
+#: mission.cpp:500
+msgid "These look more complicated than I thought, just give me some time."
+msgstr ""
+
+#: mission.cpp:502
+msgid "This isn't what we need."
+msgstr ""
+
+#: mission.cpp:504
+msgid "If only we could find a great valley or something."
+msgstr ""
+
+#: mission.cpp:512
+msgid "I hope I don't see many names I know..."
+msgstr ""
+
+#: mission.cpp:514
+msgid ""
+"I've lost so many friends... please find me a patient list from the regional "
+"hospital or doctor's office.  I just want to know who might still be out "
+"there."
+msgstr ""
+
+#: mission.cpp:517
+msgid ""
+"Thank you, I suppose it wont change what has already happened but it will "
+"bring me closure."
+msgstr ""
+
+#: mission.cpp:520
+msgid "Please, I just want to know what happened to everyone."
+msgstr ""
+
+#: mission.cpp:522
+msgid ""
+"I bet you'll run into a lot of those things in the hospital, please be "
+"careful."
+msgstr ""
+
+#: mission.cpp:526
+msgid "Oh dear, I thought Timmy would have made it..."
+msgstr ""
+
+#: mission.cpp:528 mission.cpp:556 mission.cpp:586 mission.cpp:615
+#: mission.cpp:644 mission.cpp:671
+msgid "Thanks for trying... I guess."
+msgstr ""
+
+#: mission.cpp:530 mission.cpp:558
+msgid "I bet some of them are still out there..."
+msgstr ""
+
+#: mission.cpp:538
+msgid "Maybe they escaped to one of the camps..."
+msgstr ""
+
+#: mission.cpp:540
+msgid ""
+"I can't thank you enough for bringing me the patient records but I do have "
+"another request.  You seem to know your way around... could you take me to "
+"one of the FEMA camps?  I know some were overrun but I don't want to believe "
+"all of them could have fallen."
+msgstr ""
+
+#: mission.cpp:545
+msgid "Thank you, just bring me to the camp... I just want to see."
+msgstr ""
+
+#: mission.cpp:548
+msgid "Please, I don't know what else to do."
+msgstr ""
+
+#: mission.cpp:550
+msgid ""
+"We should go at night, if it is overrun then we can quickly make our escape."
+msgstr ""
+
+#: mission.cpp:552
+msgid "Any leads on where a camp might be?"
+msgstr ""
+
+#: mission.cpp:554
+msgid "I guess this wasn't as bright an idea as I thought."
+msgstr ""
+
+#: mission.cpp:566
+msgid "I just need a place to start over..."
+msgstr ""
+
+#: mission.cpp:568
+msgid ""
+"I've accepted that everyone I used to know is dead... one way or another.  I "
+"really wish I could have done something to save my brother but he was one of "
+"the first to go. I'd like to start over, just rebuild at one of the farms in "
+"the countryside.  Can you help me secure one?"
+msgstr ""
+
+#: mission.cpp:573
+msgid ""
+"Thank you, let's find a remote one so we don't have to worry about many "
+"zombies."
+msgstr ""
+
+#: mission.cpp:576
+msgid "Please, I just don't know what to do otherwise."
+msgstr ""
+
+#: mission.cpp:578
+msgid "Traveling the backroads would be a good way to search for one."
+msgstr ""
+
+#: mission.cpp:580
+msgid "Shall we keep looking for a farm house?"
+msgstr ""
+
+#: mission.cpp:582
+msgid ""
+"Well, my adventuring days are over.  I can't thank you enough.  Trying to "
+"make this place self sustaining will take some work but the future is "
+"looking brighter.  At least it ought to be safe for now.  You'll always be "
+"welcome here."
+msgstr ""
+
+#: mission.cpp:588
+msgid "I guess it was just a pipe dream."
+msgstr ""
+
+#: mission.cpp:596 mission.cpp:625 mission.cpp:654
+msgid "Those twisted snakes..."
+msgstr ""
+
+#: mission.cpp:598
+msgid ""
+"Our world fell apart because our leaders were as crooked as the con-men that "
+"paid for their elections.  Just find me one of those corporate accounting "
+"books and I'll show you and the rest of the world just who is at fault."
+msgstr ""
+
+#: mission.cpp:602
+msgid "You'll see, I know I'm right."
+msgstr ""
+
+#: mission.cpp:605
+msgid ""
+"I know it isn't pressing but the big corporations didn't get a chance to "
+"destroy the evidence yet."
+msgstr ""
+
+#: mission.cpp:608
+msgid ""
+"Try a big corporate building of some sort, they're bound to have an "
+"accounting department."
+msgstr ""
+
+#: mission.cpp:612
+msgid ""
+"Great, let's see... uh... hmmm...  Fine, I didn't even do my own taxes but "
+"I'm sure this will prove their guilt if we get an expert to examine it."
+msgstr ""
+
+#: mission.cpp:617 mission.cpp:646
+msgid ""
+"The day of reckoning will come for the corporations if it hasn't already."
+msgstr ""
+
+#: mission.cpp:627
+msgid ""
+"Now I don't mean to upset you but I'm not sure what I can do with the "
+"accounting ledger at the moment.  We do have a new lead though, the ledger "
+"has a safe deposit box under the regional manager's name.  Guess what, dumb "
+"sucker wrote down his combination.  Come with me to retrieve the box and you "
+"can keep any of the goodies in it that I can't use to press charges against "
+"these bastards."
+msgstr ""
+
+#: mission.cpp:632
+msgid "You may make a tidy profit from this."
+msgstr ""
+
+#: mission.cpp:635
+msgid ""
+"I know it isn't pressing but the world is going to be just as corrupt when "
+"we start rebuilding unless we take measure to stop those who seek to rule "
+"over us."
+msgstr ""
+
+#: mission.cpp:638
+msgid "This shouldn't be hard unless we run into a horde."
+msgstr ""
+
+#: mission.cpp:642
+msgid ""
+"Great, anything I can't use to prosecute the bastards is yours, as promised."
+msgstr ""
+
+#: mission.cpp:656
+msgid ""
+"I hope you will find use from what you got out of the deposit box but I also "
+"have another job for you that might lead you to an opportunity to deal out "
+"justice for those who cannot.  First things first, we can't just look like "
+"ruffians.  Find us a deputy badge, easy enough?"
+msgstr ""
+
+#: mission.cpp:660
+msgid "I'd check the police station."
+msgstr ""
+
+#: mission.cpp:663
+msgid ""
+"We're also official... just hang in there and I'll show you what we can "
+"really do."
+msgstr ""
+
+#: mission.cpp:665
+msgid "They shouldn't be that hard to find... should they?"
+msgstr ""
+
+#: mission.cpp:669
+msgid "Great work, Deputy.  We're in business."
+msgstr ""
+
+#: mission.cpp:673
+msgid "The day of reckoning will come for the criminals if it hasn't already."
+msgstr ""
+
+#: mission.cpp:681
+msgid ""
+"The eater of the dead... something was ripping zombies to shreds and only "
+"leaving a few scattered limbs..."
+msgstr ""
+
+#: mission.cpp:683
+msgid ""
+"A few days ago another survivor and I were trying to avoid the cities by "
+"staying in the woods during the day and foraging for gear at night. It "
+"worked well against the normal zed's but one night something caught onto our "
+"trail and chased us for ten minutes or so until we decided to split up and "
+"meet-up back here.  My buddy never showed up and I don't have the means to "
+"kill whatever it was.  Can you lend a hand?"
+msgstr ""
+
+#: mission.cpp:688
+msgid "Thanks, make sure you're ready for whatever the beast is."
+msgstr ""
+
+#: mission.cpp:691
+msgid "Hey, I know I wouldn't volunteer for it either."
+msgstr ""
+
+#: mission.cpp:693
+msgid "I'd carry a shotgun at least, it sounded pretty big."
+msgstr ""
+
+#: mission.cpp:697
+msgid ""
+"You look a little shaken up, I can't tell you how glad I am that you killed "
+"it though."
+msgstr ""
+
+#: mission.cpp:699
+msgid ""
+"Something in the shadows still seems to stare at me when I look at the woods."
+msgstr ""
+
+#: mission.cpp:701
+msgid ""
+"I'm glad you came back alive... I wasn't sure if I had sent you to your "
+"death."
+msgstr ""
+
+#: mission.cpp:709 mission.cpp:771
+msgid "You seem to know this new world better than most..."
+msgstr ""
+
+#: mission.cpp:711
+msgid ""
+"You're kitted out better than most... would you be interested in making this "
+"world a little better for the rest of us?  The towns have enough supplies "
+"for us survivors to start securing a foothold but we don't have anyone with "
+"the skills and equipment to thin the masses of undead.  I'll lend you a hand "
+"to the best of my ability but you really showed promise taking out that "
+"other beast.  You, I, and a 100 regular zombies laid to rest, what do you "
+"say?"
+msgstr ""
+
+#: mission.cpp:717
+msgid ""
+"Hell ya, we may get ourselves killed but we'll be among the first legends of "
+"the apocalypse."
+msgstr ""
+
+#: mission.cpp:720 mission.cpp:783
+msgid ""
+"Hey, I know I wouldn't volunteer for it either... but then I remember that "
+"most of us survivors won't make it unless someone decides to take the "
+"initiative."
+msgstr ""
+
+#: mission.cpp:723
+msgid "I'd secure an ammo cache and try to sweep a town in multiple passes."
+msgstr ""
+
+#: mission.cpp:725 mission.cpp:755
+msgid "Got this knocked out?"
+msgstr ""
+
+#: mission.cpp:727
+msgid ""
+"Man... you're a goddamn machine.  It was a pleasure working with you.  You "
+"know, you may just change our little neck of the world if you keep this up."
+msgstr ""
+
+#: mission.cpp:730
+msgid "I don't think that was quite a hundred dead zeds."
+msgstr ""
+
+#: mission.cpp:732 mission.cpp:761 mission.cpp:795 mission.cpp:822
+msgid "Quitting already?"
+msgstr ""
+
+#: mission.cpp:740
+msgid ""
+"I've heard some bad rumors so I hope you are up for another challenge..."
+msgstr ""
+
+#: mission.cpp:742
+msgid ""
+"Apparently one of the other survivors picked up on an unusually dense horde "
+"of undead moving into the area.  At the center of this throng there was a "
+"'leader' of some sort.  The short of it is, kill the son of a bitch.  We "
+"don't know what it is capable of or why it is surrounded by other zombies "
+"but this thing reeks of trouble.  Do whatever it takes but we can't risk it "
+"getting away."
+msgstr ""
+
+#: mission.cpp:747
+msgid ""
+"I'll lend you a hand but I'd try and recruit another gunslinger if you can."
+msgstr ""
+
+#: mission.cpp:750
+msgid "What's the use of walking away, they'll track you down eventually."
+msgstr ""
+
+#: mission.cpp:752
+msgid ""
+"Don't risk torching the building it may be hiding in if it has a basement.  "
+"The sucker may still be alive under the rubble and ash."
+msgstr ""
+
+#: mission.cpp:757
+msgid "May that bastard never get up again."
+msgstr ""
+
+#: mission.cpp:759
+msgid "I don't think we got it yet."
+msgstr ""
+
+#: mission.cpp:773
+msgid ""
+"We've got another problem to deal with but I don't think we can handle it on "
+"our own.  So, I sent word out and found us a volunteer... of sorts.  He's "
+"vain as hell but has a little skill with firearms.  He was supposed to "
+"collect whatever he had of value and is going to meet us at a cabin in the "
+"woods.  Wasn't sure how long we were going to be so I told him to just camp "
+"there until we picked him up."
+msgstr ""
+
+#: mission.cpp:779
+msgid ""
+"Rodger, if he's a no-show then any other gunslinger will do... but I doubt "
+"he'll quit before we even begin."
+msgstr ""
+
+#: mission.cpp:786
+msgid ""
+"I hope the bastard is packing heat... else we'll need to grab him a gun "
+"before we hit our next target."
+msgstr ""
+
+#: mission.cpp:789
+msgid "Found a gunslinger?"
+msgstr ""
+
+#: mission.cpp:791
+msgid ""
+"Great, just let me know when you are ready to wade knee-deep in an ocean of "
+"blood."
+msgstr ""
+
+#: mission.cpp:793 mission.cpp:820
+msgid "I don't think so..."
+msgstr ""
+
+#: mission.cpp:803
+msgid "Well damn, you must be the guys here to pick me up..."
+msgstr ""
+
+#: mission.cpp:805
+msgid ""
+"I got the brief so I know what I'm getting into.  Let me be upfront, treat "
+"me like shit and I'm going to cover my own hide.  Without a strong band a "
+"man doesn't stand a chance in this world.  You ready to take charge boss?"
+msgstr ""
+
+#: mission.cpp:809
+msgid ""
+"Before we get into a major fight just make sure we have the gear we need, "
+"boss."
+msgstr ""
+
+#: mission.cpp:812
+msgid ""
+"I don't think you're going to find many other survivors who haven't taken up "
+"a faction yet."
+msgstr ""
+
+#: mission.cpp:814
+msgid "I'm a pretty good shot with a rifle or pistol."
+msgstr ""
+
+#: mission.cpp:816
+msgid "Any problems boss?"
+msgstr ""
+
+#: mission.cpp:818
+msgid "Wait... are you really making me a deputy?"
 msgstr ""
 
 #: monattack.cpp:40
