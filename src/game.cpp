@@ -1615,6 +1615,17 @@ void game::activity_on_turn()
         u.moves = 0;
         on_turn_activity_burrow(&u);
         break;
+    case ACT_AIM:
+    {
+        // Unpack variables and call the appropriate fire action.
+        int attack_type = u.activity.index;
+        // The attack function might re-set the activity, so we need to clear it before calling.
+        u.activity.type = ACT_NULL;
+        if (attack_type == 0) {
+            plfire(false);
+        }
+        break;
+    }
     case ACT_GAME:
         // Takes care of u.activity.moves_left
         activity_on_turn_game();
@@ -1897,6 +1908,10 @@ void game::activity_on_finish()
         break;
     case ACT_START_FIRE:
         activity_on_finish_start_fire();
+        break;
+    case ACT_AIM:
+        // Aim bails itself by resetting itself every turn,
+        // you only re-enter if it gets set again.
         break;
     default:
         u.activity.type = ACT_NULL;
@@ -11106,9 +11121,6 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
                                             u.posx + range, u.posy + range,
                                             mon_targets, passtarget, relevant);
 
-    if (trajectory.empty()) {
-        return trajectory;
-    }
     if (passtarget != -1) { // We picked a real live target
         // Make it our default for next time
         int id = npc_at(x, y);
@@ -11132,6 +11144,11 @@ std::vector<point> game::pl_target_ui(int &x, int &y, int range, item *relevant,
                 last_target_was_npc = false;
                 zombie(last_target).add_effect("hit_by_player", 100);
             }
+        }
+        if( trajectory.empty() ) {
+            // If we cancelled out without firing, but a target is selected,
+            // we're aiming and ran out of moves.
+            u.assign_activity(ACT_AIM, 0, 0);
         }
     }
     return trajectory;
@@ -11348,7 +11365,6 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
     std::vector<point> trajectory = pl_target_ui(x, y, range, &u.weapon, default_target_x,
                                     default_target_y);
 
-    draw_ter(); // Recenter our view
     if (trajectory.empty()) {
         if (u.weapon.has_flag("RELOAD_AND_SHOOT")) {
             u.moves += u.weapon.reload_time(u);
@@ -11358,6 +11374,7 @@ void game::plfire(bool burst, int default_target_x, int default_target_y)
         reenter_fullscreen();
         return;
     }
+    draw_ter(); // Recenter our view
 
     if (u.weapon.mode == "MODE_BURST") {
         burst = true;

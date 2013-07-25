@@ -735,10 +735,6 @@
             },
             {
                 "input_method":"keyboard",
-                "key":"."
-            },
-            {
-                "input_method":"keyboard",
                 "key":"RETURN"
             },
             {
@@ -782,6 +778,17 @@
             {
                 "input_method":"keyboard",
                 "key":">"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"AIM",
+        "name":"Aim",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"."
             }
         ]
     },

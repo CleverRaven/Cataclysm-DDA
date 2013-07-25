@@ -547,6 +547,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int ranged_per_mod (bool real_life = true) const;
         /** Returns the throwing attack dexterity mod */
         int throw_dex_mod  (bool real_life = true) const;
+        int time_to_aim() const;
 
         // Mental skills and stats
         /** Returns the player's reading speed */

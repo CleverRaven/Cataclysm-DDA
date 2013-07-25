@@ -1055,6 +1055,25 @@ std::vector<point> game::target(int &x, int &y, int lowx, int lowy, int hix,
             }
             x = t[target]->xpos();
             y = t[target]->ypos();
+        } else if ((action == "AIM") && target != -1) {
+            // If we've changed targets, reset aim, unless it's above the minimum.
+            if( t[target]->xpos() != x || t[target]->ypos() != y ) {
+                for (int i = 0; i < t.size(); i++) {
+                    if (t[i]->xpos() == x && t[i]->ypos() == y) {
+                        target = i;
+                        u.recoil = std::min(MIN_RECOIL, u.recoil);
+                        break;
+                    }
+                }
+            }
+            // Increase aim at the cost of moves
+            u.moves -= u.time_to_aim();
+            if(u.recoil > 0) { u.recoil--; }
+            if(u.moves <= 0) {
+                // We've run out of moves, clear target vector, but leave target selected.
+                ret.clear();
+                return ret;
+            }
         } else if (action == "FIRE") {
             for (size_t i = 0; i < t.size(); i++) {
                 if (t[i]->xpos() == x && t[i]->ypos() == y) {

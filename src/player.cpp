@@ -4510,6 +4510,13 @@ int player::throw_dex_mod(bool return_stat_effect) const
  return (return_stat_effect ? rng(0, deviation) : deviation);
 }
 
+int player::time_to_aim() const
+{
+    // Account for Dexterity, weapon weight, weapon skill, weapon mods and flags,
+    // mutations, and conditions
+    return 10;
+}
+
 int player::read_speed(bool return_stat_effect)
 {
   // Stat window shows stat effects on based on current stat
@@ -8447,12 +8454,12 @@ bool player::wield(item* it, bool autodrop)
    inv.add_item_keep_invlet(remove_weapon());
    inv.unsort();
    moves -= 20;
-   recoil = 0;
+   recoil = MIN_RECOIL;
    return true;
   } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                       weapon.tname().c_str())) {
    g->m.add_item_or_charges(posx, posy, remove_weapon());
-   recoil = 0;
+   recoil = MIN_RECOIL;
    return true;
   } else
    return false;
