@@ -28,6 +28,7 @@ std::vector<std::string> pseudo_itype_ids;
 // GENERAL GUIDELINES
 // When adding a new item, you MUST REMEMBER to insert it in the itype_id enum
 //  at the top of itype.h!
+//  at the top of itype.h!
 //  Additionally, you should check mapitemsdef.cpp and insert the new item in
 //  any appropriate lists.
 void game::init_itypes ()
@@ -584,6 +585,7 @@ std::string ammo_name(ammotype t)
     if( t == "12mm" )  return "12mm slugs";
     if( t == "plasma" )return "hydrogen";
     if( t == "water"  )return "clean water";
+	if( t == "8x40mm"  )return "8x40mm caseless";
     return "XXX";
 }
 
