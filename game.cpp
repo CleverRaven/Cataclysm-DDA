@@ -10136,8 +10136,8 @@ void game::plmove(int x, int y)
    if (!u.has_trait(PF_PARKOUR) || one_in(4)) {
     body_part bp = random_body_part();
     int side = rng(0, 1);
-    add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
-    u.hit(this, bp, side, 0, rng(1, 4));
+    if(u.hit(this, bp, side, 0, rng(1, 4)) > 0)
+     add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
    }
   }
   if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait(PF_LEG_TENTACLES)) {
