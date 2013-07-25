@@ -75,7 +75,6 @@ game::game() :
  gamemode(NULL)
 {
  dout() << "Game initialized.";
-
  try {
  if(!json_good())
   throw (std::string)"Failed to initialize a static variable";
@@ -83,6 +82,7 @@ game::game() :
  init_fields();
  init_faction_data();
  init_traits();
+ init_lua();          // Set up lua                       (SEE catalua.cpp)
  init_skills();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)
  init_itypes();	              // Set up item types                (SEE itypedef.cpp)
@@ -437,6 +437,10 @@ void game::cleanup_at_end(){
     overmap_buffer.clear();
 }
 
+// Defined in catalua.cpp
+void lua_command();
+void lua_tick();
+
 // MAIN GAME LOOP
 // Returns true if game is over (death, saved, quit, etc)
 bool game::do_turn()
@@ -614,6 +618,7 @@ bool game::do_turn()
  rustCheck();
  if (turn % 10 == 0)
   u.update_morale();
+ lua_tick(); // Allow lua to process things, too.
  return false;
 }
 
@@ -2802,7 +2807,8 @@ void game::debug()
                    _("Spawn Artifact"),         // 14
                    _("Spawn Clarivoyance Artifact"), //15
                    _("Map editor"), // 16
-                   _("Cancel"),                 // 17
+                   _("Lua Command"), // 17
+                   _("Cancel"),                 // 18
                    NULL);
  int veh_num;
  std::vector<std::string> opts;
@@ -3012,6 +3018,10 @@ z.size(), active_npc.size(), events.size());
 
   case 16: {
       point coord = look_debug();
+  }
+
+  case 17: {
+      lua_command();
   }
   break;
  }

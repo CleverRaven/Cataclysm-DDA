@@ -61,6 +61,8 @@ W32TARGET = cataclysm.exe
 BINDIST_DIR = bindist
 BUILD_DIR = $(CURDIR)
 
+LDFLAGS += -llua5.1
+
 # tiles object directories are because gcc gets confused
 # when preprocessor defines change, but the source doesn't
 ODIR = obj
