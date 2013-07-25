@@ -29,6 +29,10 @@
 #include <list>
 #include <stdarg.h>
 
+extern "C" {
+    #include "lua5.1/lua.h"
+}
+
 // Fixed window sizes
 #define HP_HEIGHT 14
 #define HP_WIDTH 7
@@ -299,6 +303,8 @@ class game
   int weight_dragged; // Computed once, when you start dragging
   bool debugmon;
 
+  lua_State *lua_state;
+
   std::map<int, std::map<int, bool> > mapRain;
 
   int w_void_lines;
@@ -372,6 +378,7 @@ void load_artifacts(); // Load artifact data
   void init_vehicles();     // Initializes vehicle types
   void init_autosave();     // Initializes autosave parameters
   void init_diseases();     // Initializes disease lookup table.
+  void init_lua();          // Initializes lua interpreter.
 
   void load_keyboard_settings(); // Load keybindings from disk
 

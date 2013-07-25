@@ -15,7 +15,6 @@
 
 typedef std::string Item_tag;
 typedef std::vector<item> Item_list;
-typedef void (iuse::*Use_function)(game*,player*,item*,bool);
 
 //For the iuse arguments
 class game;
@@ -28,6 +27,7 @@ public:
     Item_factory();
     void init();
     void init(game* main_game) throw (std::string);
+    void register_iuse_lua(const char* name, int lua_function);
 
     //Intermediary Methods - Will probably be removed at final stage
     itype* find_template(Item_tag id);
