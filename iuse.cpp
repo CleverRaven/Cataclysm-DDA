@@ -2005,9 +2005,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  ter_id type = g->m.ter(dirx, diry);
  int npcdex = g->npc_at(dirx, diry);
  if (npcdex != -1) {
-  g->add_msg_if_player(p, "You can pick your friends, and you can");
-  g->add_msg_if_player(p, "pick your nose, but you can't pick");
-  g->add_msg_if_player(p, "your friend's nose");
+  g->add_msg_if_player(p, "You can pick your friends, and you can pick your nose, but you can't pick your friend's nose");
   return;
  }
 
@@ -2016,7 +2014,7 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
      pick_quality = 5;
  }
  else if( it->typeId() == "crude_picklock" ) {
-     pick_quality = 2;
+     pick_quality = 3;
  }
 
 
@@ -2039,14 +2037,13 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
 
  p->practice(g->turn, "mechanics", 1);
  p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel("mechanics")) * 5;
- if (dice(3, 25) / pick_quality < dice(2, p->skillLevel("mechanics")) +
-     dice(2, p->dex_cur) - it->damage / 2) {
+ int pick_roll = (dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur) - it->damage / 2) * pick_quality;
+ int door_roll = dice(4, 30);
+ if (pick_roll >= door_roll) {
   p->practice(g->turn, "mechanics", 1);
   g->add_msg_if_player(p,"With a satisfying click, the lock on the %s opens.", door_name);
   g->m.ter_set(dirx, diry, new_type);
- } else if (dice(6, 30) / pick_quality < dice(2, p->skillLevel("mechanics")) +
-            dice(2, p->dex_cur) - it->damage / 2 &&
-            it->damage < 100) {
+ } else if (door_roll > (1.5 * pick_roll) && it->damage < 100) {
   it->damage++;
 
   std::string sStatus = "damage";
@@ -2059,9 +2056,8 @@ void iuse::picklock(game *g, player *p, item *it, bool t)
  } else {
   g->add_msg_if_player(p,"The lock stumps your efforts to pick it.");
  }
- if ( type == t_door_locked_alarm &&
-      dice(5, 17) / pick_quality < dice(2, p->skillLevel("mechanics")) +
-      dice(2, p->dex_cur) - it->damage / 2 && it->damage < 100) {
+ if ( type == t_door_locked_alarm && (door_roll + dice(1, 30)) > pick_roll &&
+        it->damage < 100) {
   g->sound(p->posx, p->posy, 40, "An alarm sounds!");
   if (!g->event_queued(EVENT_WANTED)) {
    g->add_event(EVENT_WANTED, int(g->turn) + 300, 0, g->levx, g->levy);
