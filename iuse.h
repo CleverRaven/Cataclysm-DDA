@@ -154,6 +154,7 @@ class iuse
   void LAW              (game *g, player *p, item *it, bool t);
   void heatpack			(game *g, player *p, item *it, bool t);
   void dejar            (game *g, player *p, item *it, bool t);
+  void de3ljar          (game *g, player *p, item *it, bool t);
   void devac            (game *g, player *p, item *it, bool t);
   void rad_badge        (game *g, player *p, item *it, bool t);
   void boots            (game *g, player *p, item *it, bool t);

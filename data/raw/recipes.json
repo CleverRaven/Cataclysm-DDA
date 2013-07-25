@@ -9777,6 +9777,50 @@
                               ]
                           ]
         },
+        
+        {
+            "result": "jar_3l_kompot",
+            "category": "CC_DRINK",
+            "skill_pri": "cooking",
+            "skill_sec": "mechanics",
+            "difficulty": 3,
+            "time": 30100,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 2],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["vac_sealer", 10]
+                         ],
+                         [
+                             ["pot", -1],
+                             ["rock_pot", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["blueberries", 3],
+                                  ["apple", 1],
+                                  ["apple_canned", 1],
+                                  ["apple_vac", 1],
+                                  ["strawberries", 3],
+                                  ["orange", 1],
+                                  ["lemon", 1]
+                              ],
+                              [
+                                  ["sugar", 1]
+                              ],
+                              [
+                                  ["water", 5],
+                                  ["water_clean", 5]
+                              ]
+                          ]
+        },
+        
         {
             "result": "steel_chunk",
             "category": "CC_MISC",
