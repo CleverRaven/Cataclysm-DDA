@@ -1301,9 +1301,7 @@ void game::process_missions()
 }
 
 void game::handle_key_blocking_activity() {
-    if ( u.activity.type != ACT_NULL &&
-        u.activity.moves_left > 0 &&
-        u.activity.continuous == true &&
+    if (u.activity.moves_left > 0 && u.activity.continuous == true &&
         (  // bool activity_is_abortable() ?
             u.activity.type == ACT_READ ||
             u.activity.type == ACT_BUILD ||
@@ -1313,29 +1311,25 @@ void game::handle_key_blocking_activity() {
             u.activity.type == ACT_WAIT
         )
     ) {
-        char ch='.';
-        int ich=0;
         timeout(1);
-        if((ich = input()) != ERR) {
+        char ch = input();
+        if(ch != ERR) {
             timeout(-1);
-            ch = input(ich);
-            action_id act = keymap[ch];
-            switch(act) {  // should probably make the switch in handle_action() a function
+            switch(keymap[ch]){  // should probably make the switch in handle_action() a function
                 case ACTION_PAUSE:
                     cancel_activity_query(_("Confirm:"));
-                break;
+                    break;
                 case ACTION_PL_INFO:
                     u.disp_info(this);
                     refresh_all();
-                break;
+                    break;
                 case ACTION_MESSAGES:
                     msg_buffer();
-                break;
-
+                    break;
                 case ACTION_HELP:
                     help();
                     refresh_all();
-                break;
+                    break;
             }
         }
         timeout(-1);
@@ -11104,6 +11098,7 @@ void game::wait()
   default: return;
  }
  u.assign_activity(this, ACT_WAIT, time, 0);
+ u.activity.continuous = true;
  u.moves = 0;
 }
 
