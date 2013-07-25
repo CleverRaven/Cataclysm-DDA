@@ -77,7 +77,7 @@ public:
  bool has_base_trait(int flag) const;
  void toggle_trait(int flag);
  void toggle_mutation(int flag);
- 
+
  bool in_climate_control(game *g);
 
  bool has_bionic(bionic_id b) const;
@@ -296,6 +296,7 @@ public:
  bool has_watertight_container();
  bool has_matching_liquid(itype_id it);
  bool has_weapon_or_armor(char let) const;	// Has an item with invlet let
+ bool has_item_with_flag( std::string flag ) const; // Has a weapon, inventory item or worn item with flag
  bool has_item(char let);		// Has an item with invlet let
  bool has_item(item *it);		// Has a specific item
  bool has_mission_item(int mission_id);	// Has item with mission_id

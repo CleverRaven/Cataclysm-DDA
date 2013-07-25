@@ -3553,7 +3553,8 @@
         "encumberance" : 5,
         "bashing" : 1,
         "coverage" : 100,
-        "material_thickness" : 10
+        "material_thickness" : 10,
+        "flags" : ["WATCH"]
     },
     {
         "type" : "ARMOR",
@@ -3603,7 +3604,8 @@
         "encumberance" : 4,
         "bashing" : 1,
         "coverage" : 100,
-        "material_thickness" : 9
+        "material_thickness" : 9,
+        "flags" : ["WATCH"]
     },
     {
         "type" : "ARMOR",
@@ -3653,7 +3655,8 @@
         "encumberance" : 5,
         "bashing" : 1,
         "coverage" : 100,
-        "material_thickness" : 13
+        "material_thickness" : 13,
+        "flags" : ["WATCH"]
     },
     {
         "type" : "ARMOR",
@@ -3782,14 +3785,14 @@
         "volume" : 0,
         "material_thickness" : 0,
         "storage" : 0,
-        "description" : "A simple wristwatch.",
+        "description" : "A simple wristwatch. Tells the time and has a alarm-clock feature.",
         "weight" : 0,
         "to_hit" : -1,
         "color" : "white",
         "encumberance" : 0,
         "price" : 50,
         "material" : ["plastic", "steel"],
-        "flags" : ["WATCH", "ALARM"],
+        "flags" : ["WATCH", "ALARMCLOCK"],
         "coverage" : 1,
         "rarity" : 5,
         "symbol" : "[",

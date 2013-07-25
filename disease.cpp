@@ -33,7 +33,7 @@ enum dis_type_enum {
 // Monsters
  DI_BOOMERED, DI_SAP, DI_SPORES, DI_FUNGUS, DI_SLIMED,
  DI_DEAF, DI_BLIND,
- DI_LYING_DOWN, DI_SLEEP,
+ DI_LYING_DOWN, DI_SLEEP, DI_ALARM_CLOCK,
  DI_POISON, DI_BLEED, DI_BADPOISON, DI_FOODPOISON, DI_SHAKES,
  DI_DERMATIK, DI_FORMICATION,
  DI_WEBBED,
@@ -59,7 +59,7 @@ std::map<std::string, dis_type_enum> disease_type_lookup;
 
 void game::init_diseases() {
     // Initialize the disease lookup table.
-    
+
     disease_type_lookup["null"] = DI_NULL;
     disease_type_lookup["glare"] = DI_GLARE;
     disease_type_lookup["wet"] = DI_WET;
@@ -117,6 +117,7 @@ void game::init_diseases() {
     disease_type_lookup["blind"] = DI_BLIND;
     disease_type_lookup["lying_down"] = DI_LYING_DOWN;
     disease_type_lookup["sleep"] = DI_SLEEP;
+    disease_type_lookup["alarm_clock"] = DI_ALARM_CLOCK;
     disease_type_lookup["poison"] = DI_POISON;
     disease_type_lookup["bleed"] = DI_BLEED;
     disease_type_lookup["badpoison"] = DI_BADPOISON;
@@ -362,6 +363,8 @@ void dis_msg(game *g, dis_type type_string)
 
 void dis_effect(game *g, player &p, disease &dis)
 {
+ std::stringstream sTemp;
+
  int bonus;
  dis_type_enum type = disease_type_lookup[dis.type];
  switch (type) {
@@ -786,6 +789,30 @@ void dis_effect(game *g, player &p, disease &dis)
   if (dis.duration == 1 && !p.has_disease("sleep"))
    g->add_msg_if_player(&p,_("You try to sleep, but can't..."));
   break;
+
+  case DI_ALARM_CLOCK:
+    {
+        if (p.has_disease("sleep"))
+        {
+            if (dis.duration == 1)
+            {
+                if (!g->sound(p.posx, p.posy, 12, "alarm_clock")) {
+                    //You didn't hear the alarm
+                    dis.duration += 100; //10 minute alarm interval
+                    g->add_msg(_("An alarm rings but you don't hear it."));
+                }
+                else
+                {
+                    g->add_msg(_("You wake up to the ringing of your alarm-clock."));
+                }
+            }
+        }
+        else if (!p.has_disease("lying_down"))
+        {
+            //Turn the alarm-clock off if you woke up before the alarm
+            dis.duration = 1;
+        }
+    }
 
   case DI_SLEEP:
     p.moves = 0;
@@ -1647,7 +1674,7 @@ std::string dis_description(disease dis)
 {
     int strpen, dexpen, intpen, perpen;
     std::stringstream stream;
-    
+
     dis_type_enum type = disease_type_lookup[dis.type];
     switch (type) {
 
