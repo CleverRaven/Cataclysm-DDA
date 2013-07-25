@@ -260,6 +260,7 @@ BIO_SINGLE("bio_night", 1, 8500, c_magenta, 5);
 // defensive
 BIO_SINGLE("bio_ads", 1, 9500, c_ltblue, 7);
 BIO_SINGLE("bio_ods", 1, 9500, c_ltblue, 7);
+BIO_SINGLE("bio_uncanny_dodge", 1, 9500, c_ltblue, 11);
 // medical
 BIO_SINGLE("bio_nanobots", 3, 9500, c_ltred, 6);
 BIO_SINGLE("bio_blood_anal", 3, 3200, c_ltred, 2);
