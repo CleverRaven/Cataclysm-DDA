@@ -179,6 +179,8 @@
       ["tomato", 9],
       ["broccoli", 9],
       ["zucchini", 7],
+      ["onion", 3],
+      ["carrot", 3],
       ["frozen_dinner", 50],
       ["vodka", 20],
       ["apple_cider", 50],
@@ -593,7 +595,9 @@
       ["strawberries", 2],
       ["tomato", 9],
       ["broccoli", 9],
-      ["zucchini", 7]
+      ["zucchini", 7],
+      ["onion", 3],
+      ["carrot", 3]
     ]
   },
   { "id":"cleaning",
@@ -1891,6 +1895,8 @@
       ["zucchini", 7],
       ["potato_raw", 10],
       ["corn", 7],
+      ["onion", 3],
+      ["carrot", 3],
       ["withered", 70]
     ]
   },
@@ -2555,6 +2561,8 @@
       ["tomato", 9],
       ["broccoli", 9],
       ["zucchini", 7],
+      ["onion", 3],
+      ["carrot", 3],
       ["potato_raw", 10],
       ["honeycomb", 10],
       ["royal_jelly", 8],
