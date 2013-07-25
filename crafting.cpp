@@ -48,7 +48,7 @@ void game::init_recipes() throw (std::string)
         bool autolearn = curr.get("autolearn").as_bool();
         // optional fields
         bool reversible = curr.has("reversible") ? curr.get("reversible").as_bool() : false;
-        std::string trains_skill = curr.has("trains_skill") ? curr.get("trains_skill").as_string() : "";
+        std::string skill_trained = curr.has("skill_trained") ? curr.get("skill_trained").as_string() : "";
         std::map<std::string, int> requires_skills;
         //Find skill requirements, if any exist
         if(curr.has("requires_skills")){
@@ -88,7 +88,7 @@ void game::init_recipes() throw (std::string)
 
         std::string rec_name = result + id_suffix;
 
-        last_rec = new recipe(rec_name, id, result, category, trains_skill, requires_skills,
+        last_rec = new recipe(rec_name, id, result, category, skill_trained, requires_skills,
                               difficulty, time, reversible, autolearn,
                               learn_by_disassembly);
 

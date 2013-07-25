@@ -140,7 +140,7 @@
   "result": "tshirt",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 0, 
   "time": 500, 
   "reversible": true, 
@@ -156,7 +156,7 @@
   "result": "tank_top",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 0,
   "time": 500,
   "reversible": true,
@@ -172,7 +172,7 @@
   "result": "lightstrip_dead",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 0,
   "time": 1000,
   "reversible": true,
@@ -200,7 +200,7 @@
 {
   "result": "makeshift_machete",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
@@ -218,7 +218,7 @@
 {
   "result": "makeshift_halberd",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
@@ -241,7 +241,7 @@
 {
   "result": "pointy_stick",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 800,
   "reversible": false,
@@ -273,7 +273,7 @@
 {
   "result": "sling",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -304,7 +304,7 @@
 {
   "result": "slingshot",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 3000,
   "reversible": false,
@@ -335,7 +335,7 @@
 {
   "result": "spear_wood",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "required_skills": [ "survival", 1 ], 
   "difficulty": 2,
   "time": 2000,
@@ -383,7 +383,7 @@
 {
   "result": "javelin",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "required_skills": [ "survival", 1 ],
   "difficulty": 3,
   "time": 5000,
@@ -427,7 +427,7 @@
 {
   "result": "spear_knife",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "required_skills": [ "survival", 1 ],
   "difficulty": 0,
   "time": 600,
@@ -458,7 +458,7 @@
 {
   "result": "longbow",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [[ "survival", 1 ], [ "archery", 3 ]],
   "difficulty": 3,
   "time": 15000,
@@ -492,7 +492,7 @@
 {
   "result": "selfbow",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 0,
   "time": 12000,
@@ -526,7 +526,7 @@
 {
   "result": "shortbow",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [[ "survival", 1 ], [ "archery", 1 ]],
   "difficulty": 2,
   "time": 15000,
@@ -560,7 +560,7 @@
 {
   "result": "reflexrecurvebow",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [[ "archery", 7 ]],
   "difficulty": 5,
   "time": 25000,
@@ -677,7 +677,7 @@
 {
   "result": "pipebomb",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "difficulty": 1,
   "time": 750,
   "reversible": false,
@@ -708,7 +708,7 @@
 {
   "result": "shotgun_sawn",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
   "reversible": false,
@@ -731,7 +731,7 @@
 {
   "result": "revolver_shotgun",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics",
+  "skill_used": "mechanics",
   "requires_skills": [[ "gun", 3 ]],
   "difficulty": 3,
   "time": 6000,
@@ -760,7 +760,7 @@
 {
   "result": "saiga_sawn",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "difficulty": 0,
   "time": 2000,
   "reversible": false,
@@ -781,7 +781,7 @@
 {
   "result": "hand_crossbow",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "archery", 3 ],
   "difficulty": 3,
   "time": 30000,
@@ -834,7 +834,7 @@
 {
   "result": "crossbow",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "archery", 3 ],
   "difficulty": 3,
   "time": 15000,
@@ -864,7 +864,7 @@
 {
   "result": "huge_crossbow",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "archery", 3 ],
   "difficulty": 6,
   "time": 60000,
@@ -927,7 +927,7 @@
 {
   "result": "rep_crossbow",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "archery", 3 ],
   "difficulty": 3,
   "time": 45000,
@@ -977,7 +977,7 @@
 {
   "result": "rifle_22",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 12000,
@@ -1006,7 +1006,7 @@
 {
   "result": "pipe_shotgun",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "gun", 1 ],
   "difficulty": 2,
   "time": 12000,
@@ -1035,7 +1035,7 @@
 {
   "result": "pipe_shotgunsawn",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 0,
   "time": 12000,
   "reversible": false,
@@ -1056,7 +1056,7 @@
 {
   "result": "rifle_9mm",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 14000,
@@ -1085,7 +1085,7 @@
 {
   "result": "smg_9mm",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 18000,
@@ -1124,7 +1124,7 @@
 {
   "result": "smg_45",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 20000,
@@ -1163,7 +1163,7 @@
 {
   "result": "flamethrower_simple",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "gun", 3 ],
   "difficulty": 6,
   "time": 12000,
@@ -1199,7 +1199,7 @@
 {
   "result": "launcher_simple",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "launcher", 3 ],
   "difficulty": 6,
   "time": 6000,
@@ -1227,7 +1227,7 @@
 {
   "result": "shot_he",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 3 ],
   "difficulty": 4,
   "time": 2000,
@@ -1255,7 +1255,7 @@
 {
   "result": "acidbomb",
   "category": "CC_WEAPON",
-  "trains_skill": "cooking", 
+  "skill_used": "cooking", 
   "difficulty": 1,
   "time": 10000,
   "reversible": false,
@@ -1280,7 +1280,7 @@
 {
   "result": "40mm_acidbomb",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "difficulty": 3,
   "time": 100,
   "reversible": false,
@@ -1304,7 +1304,7 @@
 {
   "result": "grenade",
   "category": "CC_WEAPON",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 2,
   "time": 5000,
@@ -1346,7 +1346,7 @@
 {
   "result": "chainsaw_off",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "difficulty": 4,
   "time": 20000,
   "reversible": true,
@@ -1381,7 +1381,7 @@
 {
   "result": "smokebomb",
   "category": "CC_WEAPON",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 7500,
@@ -1422,7 +1422,7 @@
 {
   "result": "gasbomb",
   "category": "CC_WEAPON",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 4,
   "time": 8000,
@@ -1456,7 +1456,7 @@
 {
   "result": "nx17",
   "category": "CC_WEAPON",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "mechanics", 5 ],
   "difficulty": 8,
   "time": 40000,
@@ -1488,7 +1488,7 @@
 {
   "result": "mininuke",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "electronics", 5 ],
   "difficulty": 10,
   "time": 40000,
@@ -1554,7 +1554,7 @@
 {
   "result" : "shaft_wood",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "difficulty" : 0,
   "time" : 1000,
   "reversible" : false,
@@ -1586,7 +1586,7 @@
 {
   "result" : "shaft_wood_heavy",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
@@ -1619,7 +1619,7 @@
 {
   "result" : "shaft_metal",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [ "archery", 1 ],
   "difficulty" : 3,
   "time" : 5000,
@@ -1649,7 +1649,7 @@
 {
   "result" : "arrowhead",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 1 ], [ "survival", 1 ]],
   "difficulty" : 3,
   "time" : 5000,
@@ -1675,7 +1675,7 @@
 {
   "result" : "fletching",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 1 ], [ "survival", 1 ]],
   "difficulty" : 3,
   "time" : 5000,
@@ -1706,7 +1706,7 @@
 {
   "result" : "arrow_fire_hardened",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 1 ], [ "survival", 1 ]],
   "difficulty" : 0,
   "time" : 5000,
@@ -1738,7 +1738,7 @@
 {
   "result" : "arrow_field_point",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 1 ], [ "survival", 1 ]],
   "difficulty" : 1,
   "time" : 2000,
@@ -1780,7 +1780,7 @@
 {
   "result" : "arrow_small_game",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 1 ], [ "survival", 1 ]],
   "difficulty" : 2,
   "time" : 2000,
@@ -1815,7 +1815,7 @@
 {
   "result" : "arrow_fire_hardened_fletched",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 3 ], [ "survival", 1 ]],
   "difficulty" : 3,
   "time" : 3000,
@@ -1847,7 +1847,7 @@
 {
   "result" : "arrow_field_point_fletched",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 3 ], [ "survival", 1 ]],
   "difficulty" : 3,
   "time" : 3000,
@@ -1879,7 +1879,7 @@
 {
   "result" : "flamable_arrow",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 3 ], [ "survival", 3 ]],
   "difficulty" : 3,
   "time" : 5000,
@@ -1926,7 +1926,7 @@
 {
   "result" : "arrow_wood",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 3000,
@@ -1961,7 +1961,7 @@
 {
   "result" : "arrow_metal_sharpened",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [ "archery", 3 ],
   "difficulty" : 5,
   "time" : 5000,
@@ -1990,7 +1990,7 @@
 {
   "result" : "arrow_heavy_fire_hardened_fletched",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 3 ], [ "survival", 1 ]],
   "difficulty" : 5,
   "time" : 5000,
@@ -2024,7 +2024,7 @@
 {
   "result" : "arrow_heavy_field_point_fletched",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 3 ], [ "survival", 1 ]],
   "difficulty" : 5,
   "time" : 5000,
@@ -2062,7 +2062,7 @@
 {
   "result" : "arrow_wood_heavy",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [ "archery", 5 ],
   "difficulty" : 5,
   "time" : 3000,
@@ -2096,7 +2096,7 @@
 {
   "result" : "arrow_metal",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [ "archery", 5 ],
   "difficulty" : 5,
   "time" : 5000,
@@ -2142,7 +2142,7 @@
 {
   "result" : "arrow_exploding",
   "category" : "CC_AMMO",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 5 ], [ "mechanics", 3 ]],
   "difficulty" : 7,
   "time" : 7000,
@@ -2177,7 +2177,7 @@
 {
   "result" : "exploding_arrow_warhead",
   "category" : "CC_MISC",
-  "trains_skill" : "fabrication",
+  "skill_used" : "fabrication",
   "requires_skills": [[ "archery", 5 ], [ "mechanics", 3 ]],
   "difficulty" : 7,
   "time" : 5000,
@@ -2226,7 +2226,7 @@
 {
   "result": "bolt_wood",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "archery", 1 ],
   "difficulty": 1,
   "time": 5000,
@@ -2259,7 +2259,7 @@
 {
   "result": "9mm",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
@@ -2295,7 +2295,7 @@
 {
   "result": "9mmP",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 3 ],
   "difficulty": 4,
   "time": 12500,
@@ -2331,7 +2331,7 @@
 {
   "result": "9mmP2",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
@@ -2367,7 +2367,7 @@
 {
   "result": "38_special",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
@@ -2403,7 +2403,7 @@
 {
   "result": "38_super",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 3 ],
   "difficulty": 4,
   "time": 12500,
@@ -2439,7 +2439,7 @@
 {
   "result": "40sw",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 30000,
@@ -2475,7 +2475,7 @@
 {
   "result": "10mm",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 25000,
@@ -2511,7 +2511,7 @@
 {
   "result": "44magnum",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 3 ],
   "difficulty": 4,
   "time": 25000,
@@ -2547,7 +2547,7 @@
 {
   "result": "45_acp",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
@@ -2583,7 +2583,7 @@
 {
   "result": "45_super",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
@@ -2619,7 +2619,7 @@
 {
   "result": "45_jhp",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 25000,
@@ -2654,7 +2654,7 @@
 {
   "result": "454_Casull",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 7 ],
   "difficulty": 7,
   "time": 10000,
@@ -2689,7 +2689,7 @@
 {
   "result": "500_Magnum",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 7 ],
   "difficulty": 9,
   "time": 10000,
@@ -2724,7 +2724,7 @@
 {
   "result": "57mm",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 3 ],
   "difficulty": 4,
   "time": 50000,
@@ -2760,7 +2760,7 @@
 {
   "result": "46mm",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 3 ],
   "difficulty": 4,
   "time": 50000,
@@ -2796,7 +2796,7 @@
 {
   "result": "762_m43",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 40000,
@@ -2832,7 +2832,7 @@
 {
   "result": "762_m87",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 40000,
@@ -2868,7 +2868,7 @@
 {
   "result": "223",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 20000,
@@ -2904,7 +2904,7 @@
 {
   "result": "556",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 20000,
@@ -2940,7 +2940,7 @@
 {
   "result": "556_incendiary",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 6,
   "time": 15000,
@@ -2975,7 +2975,7 @@
 {
   "result": "270",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 10000,
@@ -3011,7 +3011,7 @@
 {
   "result": "3006",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 5000,
@@ -3047,7 +3047,7 @@
 {
   "result": "3006_incendiary",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 7 ],
   "difficulty": 7,
   "time": 2500,
@@ -3082,7 +3082,7 @@
 {
   "result": "308",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 10000,
@@ -3118,7 +3118,7 @@
 {
   "result": "762_51",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 5,
   "time": 10000,
@@ -3154,7 +3154,7 @@
 {
   "result": "762_51_incendiary",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 5 ],
   "difficulty": 6,
   "time": 5000,
@@ -3189,7 +3189,7 @@
 {
   "result": "shot_bird",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 2,
   "time": 12500,
@@ -3225,7 +3225,7 @@
 {
   "result": "shot_00",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 12500,
@@ -3261,7 +3261,7 @@
 {
   "result": "shot_slug",
   "category": "CC_AMMO",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 12500,
@@ -3297,7 +3297,7 @@
 {
   "result": "water_clean",
   "category": "CC_DRINK",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -3324,7 +3324,7 @@
 {
   "result": "acid",
   "category": "CC_DRINK",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 10000,
   "reversible": false,
@@ -3352,7 +3352,7 @@
   "result": "acid",
   "id_suffix": "from batteries",
   "category": "CC_DRINK",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 2,
   "time": 5000,
@@ -3375,7 +3375,7 @@
 {
   "result": "meat_cooked",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 5000,
   "reversible": false,
@@ -3406,7 +3406,7 @@
 {
   "result": "human_cooked",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 5000,
   "reversible": false,
@@ -3438,7 +3438,7 @@
 {
   "result": "dogfood",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 10000,
   "reversible": false,
@@ -3472,7 +3472,7 @@
 {
   "result": "veggy_cooked",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 4000,
   "reversible": false,
@@ -3503,7 +3503,7 @@
 {
   "result": "veggy_wild_cooked",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 4000,
   "reversible": false,
@@ -3530,7 +3530,7 @@
 {
   "result": "spaghetti_cooked",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 10000,
   "reversible": false,
@@ -3560,7 +3560,7 @@
 {
   "result": "cooked_dinner",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 5000,
   "reversible": false,
@@ -3582,7 +3582,7 @@
 {
   "result": "macaroni_cooked",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 10000,
   "reversible": false,
@@ -3612,7 +3612,7 @@
 {
   "result": "potato_baked",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 1,
   "time": 15000,
   "reversible": false,
@@ -3639,7 +3639,7 @@
 {
   "result": "tea",
   "category": "CC_DRINK",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 4000,
   "reversible": false,
@@ -3669,7 +3669,7 @@
 {
   "result": "kompot",
   "category": "CC_DRINK",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 3,
   "time": 30000,
   "reversible": false,
@@ -3708,7 +3708,7 @@
 {
   "result": "coffee",
   "category": "CC_DRINK",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 0,
   "time": 4000,
   "reversible": false,
@@ -3738,7 +3738,7 @@
 {
   "result": "oj",
   "category": "CC_DRINK",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 1,
   "time": 5000,
   "reversible": false,
@@ -3763,7 +3763,7 @@
 {
   "result": "apple_cider",
   "category": "CC_DRINK",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 7000,
   "reversible": false,
@@ -3784,7 +3784,7 @@
 {
   "result": "long_island",
   "category": "CC_DRINK",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 1,
   "time": 7000,
   "reversible": false,
@@ -3814,7 +3814,7 @@
 {
   "result": "drink_screwdriver",
   "category": "CC_DRINK",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 1,
   "time": 7000,
   "reversible": false,
@@ -3832,7 +3832,7 @@
 {
   "result": "drink_wild_apple",
   "category": "CC_DRINK",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 1,
   "time": 7000,
   "reversible": false,
@@ -3850,7 +3850,7 @@
 {
   "result": "jerky",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 3,
   "time": 30000,
   "reversible": false,
@@ -3876,7 +3876,7 @@
 {
   "result": "jerky_human",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 3,
   "time": 30000,
   "reversible": false,
@@ -3903,7 +3903,7 @@
 {
   "result": "V8",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -3924,7 +3924,7 @@
 {
   "result": "broth",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 10000,
   "reversible": false,
@@ -3958,7 +3958,7 @@
 {
   "result": "broth_bone",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 1,
   "time": 60000,
   "reversible": false,
@@ -3988,7 +3988,7 @@
 {
   "result": "soup_veggy",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 10000,
   "reversible": false,
@@ -4025,7 +4025,7 @@
 {
   "result": "soup_meat",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 10000,
   "reversible": false,
@@ -4058,7 +4058,7 @@
 {
   "result": "soup_woods",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 3,
   "time": 10000,
   "reversible": false,
@@ -4092,7 +4092,7 @@
 {
   "result": "soup_human",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 10000,
   "reversible": false,
@@ -4126,7 +4126,7 @@
 {
   "result": "bread",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 20000,
   "reversible": false,
@@ -4156,7 +4156,7 @@
 {
   "result": "pie",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 3,
   "time": 25000,
   "reversible": false,
@@ -4195,7 +4195,7 @@
 {
   "result": "pizza_veggy",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 3,
   "time": 20000,
   "reversible": false,
@@ -4237,7 +4237,7 @@
 {
   "result": "pizza_meat",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 3,
   "time": 20000,
   "reversible": false,
@@ -4276,7 +4276,7 @@
 {
   "result": "spaghetti_bolognese",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
   "reversible": false,
@@ -4327,7 +4327,7 @@
 {
   "result": "spaghetti_pesto",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
   "reversible": false,
@@ -4373,7 +4373,7 @@
 {
   "result": "meth",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 5,
   "time": 20000,
   "reversible": false,
@@ -4408,7 +4408,7 @@
 {
   "result": "crack",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
@@ -4441,7 +4441,7 @@
 {
   "result": "poppy_sleep",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
@@ -4471,7 +4471,7 @@
 {
   "result": "poppy_pain",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 5000,
@@ -4501,7 +4501,7 @@
 {
   "result": "royal_jelly",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 5,
   "time": 5000,
   "reversible": false,
@@ -4520,7 +4520,7 @@
 {
   "result": "heroin",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 6,
   "time": 2000,
   "reversible": false,
@@ -4551,7 +4551,7 @@
 {
   "result": "mutagen",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 8,
   "time": 10000,
@@ -4584,7 +4584,7 @@
 {
   "result": "mutagen_plant",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4613,7 +4613,7 @@
 {
   "result": "mutagen_insect",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4644,7 +4644,7 @@
 {
   "result": "mutagen_spider",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4673,7 +4673,7 @@
 {
   "result": "mutagen_slime",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4702,7 +4702,7 @@
 {
   "result": "mutagen_fish",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4732,7 +4732,7 @@
 {
   "result": "mutagen_rat",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4761,7 +4761,7 @@
 {
   "result": "mutagen_beast",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4790,7 +4790,7 @@
 {
   "result": "mutagen_cattle",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4819,7 +4819,7 @@
 {
   "result": "mutagen_cephalopod",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4848,7 +4848,7 @@
 {
   "result": "mutagen_bird",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4877,7 +4877,7 @@
 {
   "result": "mutagen_lizard",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4906,7 +4906,7 @@
 {
   "result": "mutagen_troglobite",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4935,7 +4935,7 @@
 {
   "result": "purifier",
   "category": "CC_CHEM",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "firstaid", 1 ],
   "difficulty": 9,
   "time": 10000,
@@ -4985,7 +4985,7 @@
 {
   "result": "directional_antenna",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 4,
   "time": 5000,
   "reversible": true,
@@ -5021,7 +5021,7 @@
 {
   "result": "amplifier",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 1,
   "time": 4000,
   "reversible": false,
@@ -5042,7 +5042,7 @@
 {
   "result": "power_supply",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 1,
   "time": 6500,
   "reversible": false,
@@ -5070,7 +5070,7 @@
 {
   "result": "receiver",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 2,
   "time": 12000,
   "reversible": true,
@@ -5098,7 +5098,7 @@
 {
   "result": "transponder",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 2,
   "time": 14000,
   "reversible": true,
@@ -5126,7 +5126,7 @@
 {
   "result": "lightstrip_inactive",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 0,
   "time": 10000,
   "reversible": false,
@@ -5147,7 +5147,7 @@
 {
   "result": "flashlight",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 1,
   "time": 10000,
   "reversible": true, 
@@ -5173,7 +5173,7 @@
 {
   "result": "soldering_iron",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 1,
   "time": 20000,
   "reversible": true, 
@@ -5201,7 +5201,7 @@
 {
   "result": "battery",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "electronics", 1 ],
   "difficulty": 2,
   "time": 5000,
@@ -5237,7 +5237,7 @@
 {
   "result": "battery_compartment",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "electronics", 3 ],
   "difficulty": 3,
   "time": 15000,
@@ -5268,7 +5268,7 @@
 {
   "result": "coilgun",
   "category": "CC_WEAPON",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 25000,
@@ -5307,7 +5307,7 @@
   "result": "noise_emitter",
   "id_suffix": "radio-mod",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 1,
   "time": 15000,
   "reversible": false,
@@ -5336,7 +5336,7 @@
   "result": "noise_emitter",
   "id_suffix": "from-scratch",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 2,
   "time": 30000,
   "reversible": true,
@@ -5370,7 +5370,7 @@
 {
   "result": "radio",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 2,
   "time": 25000,
   "reversible": true,
@@ -5404,7 +5404,7 @@
 {
   "result": "water_purifier",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "electronics", 1 ],
   "difficulty": 3,
   "time": 25000,
@@ -5439,7 +5439,7 @@
 {
   "result": "hotplate",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
@@ -5475,7 +5475,7 @@
 {
   "result": "tazer",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
@@ -5506,7 +5506,7 @@
 {
   "result": "two_way_radio",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 4,
   "time": 30000,
   "reversible": true,
@@ -5546,7 +5546,7 @@
 {
   "result": "electrohack",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "computer", 1 ],
   "difficulty": 4,
   "time": 35000,
@@ -5581,7 +5581,7 @@
 {
   "result": "EMPbomb",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 4,
   "time": 32000,
   "reversible": false,
@@ -5620,7 +5620,7 @@
 {
   "result": "mp3",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "computer", 1 ],
   "difficulty": 5,
   "time": 40000,
@@ -5655,7 +5655,7 @@
 {
   "result": "geiger_off",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 5,
   "time": 35000,
   "reversible": true,
@@ -5689,7 +5689,7 @@
 {
   "result": "UPS_off",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 5,
   "time": 45000,
   "reversible": true, 
@@ -5724,7 +5724,7 @@
 {
   "result" : "adv_UPS_off",
   "category" : "CC_ELECTRONIC",
-  "trains_skill" : "electronics",
+  "skill_used" : "electronics",
   "requires_skills": [ "mechanics", 1 ],
   "difficulty" : 9,
   "time" : 85000,
@@ -5763,7 +5763,7 @@
 {
   "result": "bio_power_storage",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
@@ -5800,7 +5800,7 @@
 {
   "result": "bio_power_storage_mkII",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 12,
   "time": 70000,
@@ -5838,7 +5838,7 @@
 {
   "result": "bio_solar",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
@@ -5874,7 +5874,7 @@
 {
   "result": "bio_batteries",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
@@ -5907,7 +5907,7 @@
 {
   "result": "bio_power_armor_interface",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
@@ -5940,7 +5940,7 @@
 {
   "result": "bio_power_armor_interface_mkII",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 9,
   "time": 50000,
@@ -5976,7 +5976,7 @@
 {
   "result": "bio_evap",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
@@ -6010,7 +6010,7 @@
 {
   "result": "bio_laser",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 9,
   "time": 50000,
@@ -6047,7 +6047,7 @@
 {
   "result": "bio_flashlight",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
@@ -6084,7 +6084,7 @@
 {
   "result": "bio_water_extractor",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
@@ -6121,7 +6121,7 @@
 {
   "result": "bio_armor_head",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
@@ -6161,7 +6161,7 @@
 {
   "result": "bio_armor_arms",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
@@ -6201,7 +6201,7 @@
 {
   "result": "bio_armor_torso",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
@@ -6241,7 +6241,7 @@
 {
   "result": "bio_armor_legs",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 6,
   "time": 50000,
@@ -6282,7 +6282,7 @@
   "result": "bio_recycler",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
@@ -6309,7 +6309,7 @@
   "result": "bio_digestion",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
@@ -6336,7 +6336,7 @@
   "result": "bio_face_mask",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
@@ -6363,7 +6363,7 @@
   "result": "bio_nanobots",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
@@ -6390,7 +6390,7 @@
   "result": "bio_ground_sonar",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
@@ -6417,7 +6417,7 @@
   "result": "bio_metabolics",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
@@ -6444,7 +6444,7 @@
   "result": "bio_blood_filter",
   "id_suffix": "uncraft",
   "category": "CC_NONCRAFT",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "firstaid", 5 ],
   "difficulty": 7,
   "time": 50000,
@@ -6470,7 +6470,7 @@
 {
   "result": "solar_panel",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 8,
   "time": 50000,
   "reversible": true,
@@ -6504,7 +6504,7 @@
 {
   "result": "teleporter",
   "category": "CC_ELECTRONIC",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "difficulty": 8,
   "time": 50000,
   "reversible": true,
@@ -6546,7 +6546,7 @@
 {
   "result": "socks",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 0,
   "time": 10000,
   "reversible": false,
@@ -6567,7 +6567,7 @@
 {
   "result": "mocassins",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 1,
   "time": 30000,
   "reversible": false,
@@ -6588,7 +6588,7 @@
 {
   "result": "boots",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 2,
   "time": 35000,
   "reversible": false,
@@ -6609,7 +6609,7 @@
 {
   "result": "boots_fur",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 40000,
@@ -6632,7 +6632,7 @@
 {
   "result": "boots_chitin",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 3,
   "time": 30000,
   "reversible": false,
@@ -6656,7 +6656,7 @@
 {
   "result": "shorts",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 1,
   "time": 25000,
   "reversible": false,
@@ -6677,7 +6677,7 @@
 {
   "result": "shorts_cargo",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
@@ -6698,7 +6698,7 @@
 {
   "result": "jeans",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 2,
   "time": 45000,
   "reversible": false,
@@ -6719,7 +6719,7 @@
 {
   "result": "long_underpants",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 2,
   "time": 35000,
   "reversible": false,
@@ -6740,7 +6740,7 @@
 {
   "result": "pants_cargo",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 3,
   "time": 48000,
   "reversible": false,
@@ -6761,7 +6761,7 @@
 {
   "result": "pants_leather",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 4,
   "time": 50000,
   "reversible": false,
@@ -6782,7 +6782,7 @@
 {
   "result": "pants_fur",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 4,
   "time": 40000,
@@ -6805,7 +6805,7 @@
 {
   "result": "tank_top",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
   "reversible": true,
@@ -6826,7 +6826,7 @@
 {
   "result": "tshirt",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 2,
   "time": 38000,
   "reversible": true,
@@ -6847,7 +6847,7 @@
 {
   "result": "hoodie",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 3,
   "time": 40000,
   "reversible": false,
@@ -6868,7 +6868,7 @@
 {
   "result": "trenchcoat",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 3,
   "time": 42000,
   "reversible": false,
@@ -6889,7 +6889,7 @@
 {
   "result": "coat_rain",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 1,
   "time": 30000,
   "reversible": false,
@@ -6911,7 +6911,7 @@
 {
   "result": "trenchcoat_fur",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 3,
   "time": 200000,
@@ -6933,7 +6933,7 @@
 {
   "result": "trenchcoat_leather",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 6,
   "time": 200000,
   "reversible": false,
@@ -6954,7 +6954,7 @@
 {
   "result": "coat_fur",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 4,
   "time": 100000,
@@ -6976,7 +6976,7 @@
 {
   "result": "jacket_leather",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 5,
   "time": 150000,
   "reversible": false,
@@ -6997,7 +6997,7 @@
 {
   "result": "vest_leather",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 0,
   "time": 20000,
   "reversible": false,
@@ -7025,7 +7025,7 @@
 {
   "result": "gloves_liner",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 1,
   "time": 10000,
   "reversible": false,
@@ -7046,7 +7046,7 @@
 {
   "result": "gloves_light",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 1,
   "time": 10000,
   "reversible": false,
@@ -7067,7 +7067,7 @@
 {
   "result": "gloves_fingerless",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 0,
   "time": 16000,
   "reversible": false,
@@ -7095,7 +7095,7 @@
 {
   "result": "gloves_leather",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 2,
   "time": 16000,
   "reversible": false,
@@ -7116,7 +7116,7 @@
 {
   "result": "gloves_fur",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 16000,
@@ -7138,7 +7138,7 @@
 {
   "result": "armguard_metal",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
@@ -7166,7 +7166,7 @@
 {
   "result": "legguard_metal",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 5,
   "time": 45000,
   "reversible": false,
@@ -7194,7 +7194,7 @@
 {
   "result": "gauntlets_chitin",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 3,
   "time": 30000,
   "reversible": false,
@@ -7213,7 +7213,7 @@
 {
   "result": "bandana",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
@@ -7234,7 +7234,7 @@
 {
   "result": "scarf_fur",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 1,
   "time": 5000,
@@ -7256,7 +7256,7 @@
 {
   "result": "mask_filter",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor", 
+  "skill_used": "tailor", 
   "difficulty": 1,
   "time": 5000,
   "reversible": true,
@@ -7278,7 +7278,7 @@
 {
   "result": "glasses_safety",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 1,
   "time": 8000,
   "reversible": false,
@@ -7312,7 +7312,7 @@
 {
   "result": "mask_gas",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 3,
   "time": 20000,
   "reversible": true,
@@ -7341,7 +7341,7 @@
 {
   "result": "goggles_nv",
   "category": "CC_ARMOR",
-  "trains_skill": "electronics",
+  "skill_used": "electronics",
   "requires_skills": [ "tailor", 1 ],
   "difficulty": 5,
   "time": 40000,
@@ -7374,7 +7374,7 @@
 {
   "result": "hat_fur",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 40000,
@@ -7396,7 +7396,7 @@
 {
   "result": "helmet_chitin",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 6,
   "time": 60000,
   "reversible": false,
@@ -7415,7 +7415,7 @@
 {
   "result": "armor_chitin",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 7,
   "time": 100000,
   "reversible": false,
@@ -7434,7 +7434,7 @@
 {
   "result": "backpack",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 3,
   "time": 50000,
   "reversible": false,
@@ -7458,7 +7458,7 @@
 {
   "result": "blanket",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 0,
   "time": 50000,
   "reversible": true,
@@ -7480,7 +7480,7 @@
 {
   "result": "fur_blanket",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 1,
   "time": 50000,
@@ -7506,7 +7506,7 @@
 {
   "result": "house_coat",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 1,
   "time": 20000,
   "reversible": true,
@@ -7528,7 +7528,7 @@
 {
   "result": "cloak",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 2,
   "time": 25000,
   "reversible": true,
@@ -7550,7 +7550,7 @@
 {
   "result": "cloak_fur",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 25000,
@@ -7573,7 +7573,7 @@
 {
   "result": "cloak_leather",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 3,
   "time": 25000,
   "reversible": true,
@@ -7594,7 +7594,7 @@
 {
   "result": "sleeping_bag_fur",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 5,
   "time": 75000,
@@ -7619,7 +7619,7 @@
 {
   "result": "primitive_hammer",
   "category": "CC_MISC",
-  "trains_skill": "survival", 
+  "skill_used": "survival", 
   "difficulty": 0,
   "time": 5000,
   "reversible": false,
@@ -7651,7 +7651,7 @@
 {
   "result": "needle_bone",
   "category": "CC_MISC",
-  "trains_skill": "survival", 
+  "skill_used": "survival", 
   "difficulty": 3,
   "time": 20000,
   "reversible": false,
@@ -7678,7 +7678,7 @@
 {
   "result": "digging_stick",
   "category": "CC_MISC",
-  "trains_skill": "survival", 
+  "skill_used": "survival", 
   "difficulty": 1,
   "time": 20000,
   "reversible": false,
@@ -7706,7 +7706,7 @@
 {
   "result": "ragpouch",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 0,
   "time": 10000,
   "reversible": false,
@@ -7733,7 +7733,7 @@
 {
   "result": "leather_pouch",
   "category": "CC_ARMOR",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 10000,
@@ -7761,7 +7761,7 @@
 {
   "result": "rock_pot",
   "category": "CC_MISC",
-  "trains_skill": "survival", 
+  "skill_used": "survival", 
   "requires_skills": [ "cooking", 1 ],
   "difficulty": 2,
   "time": 20000,
@@ -7791,7 +7791,7 @@
 {
   "result": "primitive_shovel",
   "category": "CC_MISC",
-  "trains_skill": "survival", 
+  "skill_used": "survival", 
   "requires_skills": [ "construction", 1 ],
   "difficulty": 2,
   "time": 60000,
@@ -7824,7 +7824,7 @@
 {
   "result": "primitive_axe",
   "category": "CC_MISC",
-  "trains_skill": "survival", 
+  "skill_used": "survival", 
   "requires_skills": [ "construction", 1 ],
   "difficulty": 3,
   "time": 60000,
@@ -7857,7 +7857,7 @@
 {
   "result": "fire_drill",
   "category": "CC_MISC",
-  "trains_skill": "survival", 
+  "skill_used": "survival", 
   "difficulty": 2,
   "time": 5000,
   "reversible": false,
@@ -7875,7 +7875,7 @@
 {
   "result": "waterskin",
   "category": "CC_MISC",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 30000,
@@ -7903,7 +7903,7 @@
 {
   "result": "shelter_kit",
   "category": "CC_MISC",
-  "trains_skill": "survival", 
+  "skill_used": "survival", 
   "requires_skills": [ "construction", 1 ],
   "difficulty": 2,
   "time": 50000,
@@ -7934,7 +7934,7 @@
   "result": "shelter_kit",
   "id_suffix": "repair",
   "category": "CC_MISC",
-  "trains_skill": "survival", 
+  "skill_used": "survival", 
   "requires_skills": [ "tailoring", 1 ],
   "difficulty": 0,
   "time": 20000,
@@ -7967,7 +7967,7 @@
 {
   "result": "snare_trigger",
   "category": "CC_MISC",
-  "trains_skill": "traps", 
+  "skill_used": "traps", 
   "requires_skills": [ "survival", 1 ],
   "difficulty": 0,
   "time": 2000,
@@ -7995,7 +7995,7 @@
 {
   "result": "light_snare_kit",
   "category": "CC_MISC",
-  "trains_skill": "traps", 
+  "skill_used": "traps", 
   "requires_skills": [ "survival", 1 ],
   "difficulty": 1,
   "time": 5000,
@@ -8014,7 +8014,7 @@
 {
   "result": "heavy_snare_kit",
   "category": "CC_MISC",
-  "trains_skill": "traps", 
+  "skill_used": "traps", 
   "requires_skills": [ "survival", 1 ],
   "difficulty": 3,
   "time": 8000,
@@ -8033,7 +8033,7 @@
 {
   "result": "kitchen_unit",
   "category": "CC_MISC",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "difficulty": 4,
   "time": 60000,
   "reversible": true,
@@ -8085,7 +8085,7 @@
 {
   "result": "foot_crank",
   "category": "CC_MISC",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "difficulty": 1,
   "time": 10000,
   "reversible": true,
@@ -8119,7 +8119,7 @@
 {
   "result": "muffler",
   "category": "CC_MISC",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "difficulty": 1,
   "time": 10000,
   "reversible": true,
@@ -8157,7 +8157,7 @@
 {
   "result": "seat",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 1,
   "time": 10000,
   "reversible": true,
@@ -8238,7 +8238,7 @@
 {
   "result": "vehicle_controls",
   "category": "CC_MISC",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
@@ -8283,7 +8283,7 @@
 {
   "result": "folding_bicycle",
   "category": "CC_MISC",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "difficulty": 5,
   "time": 120000,
   "reversible": true,
@@ -8353,7 +8353,7 @@
 {
   "result": "rope_6",
   "category": "CC_MISC",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
@@ -8368,7 +8368,7 @@
 {
   "result": "rope_30",
   "category": "CC_MISC",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
@@ -8383,7 +8383,7 @@
 {
   "result": "wire_barbed",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "requires_skills": [ "construction", 1 ],
   "difficulty": 2,
   "time": 8000,
@@ -8515,7 +8515,7 @@
 {
   "result": "screwdriver",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 0,
   "time": 2000,
   "reversible": false,
@@ -8540,7 +8540,7 @@
 {
   "result": "superglue",
   "category": "CC_MISC",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 2,
   "time": 12000,
   "reversible": false,
@@ -8567,7 +8567,7 @@
 {
   "result": "steel_lump",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
@@ -8610,7 +8610,7 @@
 {
   "result": "frame",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 1,
   "time": 8000,
   "reversible": true,
@@ -8634,7 +8634,7 @@
 {
   "result": "sheet_metal",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 2,
   "time": 4000,
   "reversible": true,
@@ -8658,7 +8658,7 @@
 {
   "result": "steel_plate",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 4,
   "time": 12000,
   "reversible": true,
@@ -8682,7 +8682,7 @@
 {
   "result": "spiked_plate",
   "category": "CC_MISC",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
    "difficulty": 4,
   "time": 12000,
   "reversible": true,
@@ -8712,7 +8712,7 @@
 {
   "result": "hard_plate",
   "category": "CC_MISC",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
    "difficulty": 4,
   "time": 12000,
   "reversible": true,
@@ -8736,7 +8736,7 @@
 {
   "result": "crowbar",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -8760,7 +8760,7 @@
 {
   "result": "crude_picklock",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 0,
   "time": 1000,
   "reversible": false,
@@ -8784,7 +8784,7 @@
 {
   "result": "bayonet",
   "category": "CC_MISC",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "difficulty": 1,
   "time": 500,
   "reversible": true,
@@ -8802,7 +8802,7 @@
 {
   "result": "tripwire",
   "category": "CC_MISC",
-  "trains_skill": "traps",
+  "skill_used": "traps",
   "difficulty": 1,
   "time": 500,
   "reversible": false,
@@ -8820,7 +8820,7 @@
 {
   "result": "board_trap",
   "category": "CC_MISC",
-  "trains_skill": "traps",
+  "skill_used": "traps",
   "difficulty": 0,
   "time": 2500,
   "reversible": true,
@@ -8847,7 +8847,7 @@
 {
   "result": "beartrap",
   "category": "CC_MISC",
-  "trains_skill": "traps", 
+  "skill_used": "traps", 
   "requires_skills": [ "mechanics", 3 ],
   "difficulty": 2,
   "time": 3000,
@@ -8872,7 +8872,7 @@
 {
   "result": "crossbow_trap",
   "category": "CC_MISC",
-  "trains_skill": "traps", 
+  "skill_used": "traps", 
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 4500,
@@ -8896,7 +8896,7 @@
 {
   "result": "shotgun_trap",
   "category": "CC_MISC",
-  "trains_skill": "traps", 
+  "skill_used": "traps", 
   "requires_skills": [ "mechanics", 1 ],
   "difficulty": 3,
   "time": 5000,
@@ -8919,7 +8919,7 @@
 {
   "result": "blade_trap",
   "category": "CC_MISC",
-  "trains_skill": "traps", 
+  "skill_used": "traps", 
   "requires_skills": [ "mechanics", 3 ],
   "difficulty": 4,
   "time": 8000,
@@ -8947,7 +8947,7 @@
 {
   "result": "boobytrap",
   "category": "CC_MISC",
-  "trains_skill": "traps", 
+  "skill_used": "traps", 
   "difficulty": 3,
   "time": 5000,
   "reversible": false,
@@ -8968,7 +8968,7 @@
 {
   "result": "landmine",
   "category": "CC_MISC",
-  "trains_skill": "traps",
+  "skill_used": "traps",
   "requires_skills": [ "mechanics", 3 ],
   "difficulty": 5,
   "time": 10000,
@@ -9008,7 +9008,7 @@
 {
   "result": "brazier",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 1,
   "time": 2000,
   "reversible": false,
@@ -9032,7 +9032,7 @@
 {
   "result": "metal_tank",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 1,
   "time": 2000,
   "reversible": false,
@@ -9063,7 +9063,7 @@
 {
   "result": "bandages",
   "category": "CC_MISC",
-  "trains_skill": "firstaid",
+  "skill_used": "firstaid",
    "difficulty": 1,
   "time": 500,
   "reversible": false,
@@ -9092,7 +9092,7 @@
 {
   "result": "arm_splint",
   "category": "CC_MISC",
-  "trains_skill": "firstaid", 
+  "skill_used": "firstaid", 
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 1000,
@@ -9122,7 +9122,7 @@
 {
   "result": "leg_splint",
   "category": "CC_MISC",
-  "trains_skill": "firstaid", 
+  "skill_used": "firstaid", 
   "requires_skills": [ "survival", 1 ],
   "difficulty": 2,
   "time": 1000,
@@ -9152,7 +9152,7 @@
 {
   "result": "suppressor",
   "category": "CC_MISC",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "gun", 1 ],
   "difficulty": 1,
   "time": 650,
@@ -9178,7 +9178,7 @@
 {
   "result": "brass_catcher",
   "category": "CC_MISC",
-  "trains_skill": "tailor",
+  "skill_used": "tailor",
   "requires_skills": [ "gun", 1 ],
   "difficulty": 3,
   "time": 65000,
@@ -9200,7 +9200,7 @@
 {
   "result": "pheromone",
   "category": "CC_MISC",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "requires_skills": [ "survival", 1 ],
   "difficulty": 3,
   "time": 1200,
@@ -9226,7 +9226,7 @@
 {
   "result": "laser_pack",
   "category": "CC_MISC",
-  "trains_skill": "fabrication",
+  "skill_used": "fabrication",
   "requires_skills": [ "electronics", 5 ],
   "difficulty": 3,
   "time": 10000,
@@ -9251,7 +9251,7 @@
 {
   "result": "bot_manhack",
   "category": "CC_MISC",
-  "trains_skill": "mechanics",
+  "skill_used": "mechanics",
   "requires_skills": [[ "electronics", 5 ], [ "computer", 5 ]],
   "difficulty": 6,
   "time": 8000,
@@ -9287,7 +9287,7 @@
 {
   "result": "bot_turret",
   "category": "CC_MISC",
-  "trains_skill": "mechanics",
+  "skill_used": "mechanics",
   "requires_skills": [[ "electronics", 5 ], [ "computer", 5 ], [ "gun", 3 ]],
   "difficulty": 7,
   "time": 9000,
@@ -9327,7 +9327,7 @@
 {
   "result": "jar_meat_canned",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
@@ -9371,7 +9371,7 @@
 {
   "result": "jar_human_canned",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
@@ -9416,7 +9416,7 @@
 {
   "result": "jar_veggy_canned",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
@@ -9461,7 +9461,7 @@
 {
   "result": "jar_apple_canned",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
   "reversible": false,
@@ -9505,7 +9505,7 @@
 {
   "result": "bag_meat_vac",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
   "reversible": false,
@@ -9551,7 +9551,7 @@
 {
   "result": "bag_veggy_vac",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
   "reversible": false,
@@ -9616,7 +9616,7 @@
 {
   "result": "bag_apple_vac",
   "category": "CC_FOOD",
-  "trains_skill": "cooking",
+  "skill_used": "cooking",
   "difficulty": 4,
   "time": 20000,
   "reversible": false,
@@ -9661,7 +9661,7 @@
 {
   "result": "steel_chunk",
   "category": "CC_MISC",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "difficulty": 0,
   "time": 5000,
   "reversible": true,
@@ -9685,7 +9685,7 @@
 {
   "result": "1st_aid",
   "category": "CC_MISC",
-  "trains_skill": "firstaid",
+  "skill_used": "firstaid",
    "difficulty": 3,
   "time": 20000,
   "reversible": true,
@@ -9711,7 +9711,7 @@
 {
   "result": "jerrycan",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 1,
   "time": 30000,
   "reversible": false,
@@ -9745,7 +9745,7 @@
 {
   "result": "jerrycan_big",
   "category": "CC_MISC",
-  "trains_skill": "fabrication", 
+  "skill_used": "fabrication", 
   "difficulty": 2,
   "time": 30000,
   "reversible": false,
@@ -9776,7 +9776,7 @@
 {
   "result": "nailrifle",
   "category": "CC_WEAPON",
-  "trains_skill": "mechanics", 
+  "skill_used": "mechanics", 
   "requires_skills": [ "gun", 1 ],
   "difficulty": 2,
   "time": 12000,
