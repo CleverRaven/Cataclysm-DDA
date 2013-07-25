@@ -542,11 +542,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the throw range of the item at the entered inventory position. -1 = ERR, 0 = Can't throw */
         int throw_range(int pos);
         /** Returns the ranged attack dexterity mod */
-        int ranged_dex_mod (bool real_life = true);
+        int ranged_dex_mod (bool real_life = true) const;
         /** Returns the ranged attack perception mod */
-        int ranged_per_mod (bool real_life = true);
+        int ranged_per_mod (bool real_life = true) const;
         /** Returns the throwing attack dexterity mod */
-        int throw_dex_mod  (bool real_life = true);
+        int throw_dex_mod  (bool real_life = true) const;
 
         // Mental skills and stats
         /** Returns the player's reading speed */
