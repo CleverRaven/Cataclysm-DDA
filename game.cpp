@@ -1877,46 +1877,68 @@ bool game::handle_action()
    break;
 
   case ACTION_SLEEP:
-     if (veh_ctrl) {
-       add_msg("Vehicle control has moved, %s",
-       press_x(ACTION_CONTROL_VEHICLE, "new binding is ",
-               "new default binding is '^'.").c_str());
-     } else {
-       uimenu as_m;
-       as_m.text="Are you sure you want to sleep?";
-       as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS[OPT_FORCE_YN]?'Y':'y'),
-           "Yes." ));
-       if (OPTIONS[OPT_SAVESLEEP]) {
-         as_m.entries.push_back(uimenu_entry(1,
-             (moves_since_last_save || item_exchanges_since_save),
-             (OPTIONS[OPT_FORCE_YN]?'S':'s'),
-             "Yes, and save game before sleeping." ));
-       }
-       as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS[OPT_FORCE_YN]?'N':'n'),
-           "No." ));
-       as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
-       switch (as_m.ret) {
-       case 1:  // Yes, I do want to save game before sleeping.
-         {
-           quicksave();
-         }
-       case 0:  // Yes, I do want to sleep.
-         {
-           u.try_to_sleep(this);
-           u.moves = 0;
-           break;
-         }
-       default:  // No, I do not want to sleep.
-         {  /*// Do we tell the player if they could anyways?
-           if (u.can_sleep(this)) {
-             //add_msg("You could sleep now.");
-           } else {
-             add_msg("You can't sleep now.");
-           }*/
-         }
-       }
-     }
-     break;
+    if (veh_ctrl) {
+        add_msg("Vehicle control has moved, %s",
+        press_x(ACTION_CONTROL_VEHICLE, "new binding is ", "new default binding is '^'.").c_str());
+
+    } else {
+        uimenu as_m;
+        as_m.text="Are you sure you want to sleep?";
+        as_m.entries.push_back(uimenu_entry(0, true, (OPTIONS[OPT_FORCE_YN]?'Y':'y'), "Yes." ));
+        if (OPTIONS[OPT_SAVESLEEP]) {
+            as_m.entries.push_back(uimenu_entry(1,
+            (moves_since_last_save || item_exchanges_since_save),
+            (OPTIONS[OPT_FORCE_YN]?'S':'s'),
+            "Yes, and save game before sleeping." ));
+        }
+
+        as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS[OPT_FORCE_YN]?'N':'n'), "No." ));
+
+        as_m.entries.push_back(uimenu_entry(3, true, '3', "Set alarm to wake up in 3 hours." ));
+        as_m.entries.push_back(uimenu_entry(4, true, '4', "Set alarm to wake up in 4 hours." ));
+        as_m.entries.push_back(uimenu_entry(5, true, '5', "Set alarm to wake up in 5 hours." ));
+        as_m.entries.push_back(uimenu_entry(6, true, '6', "Set alarm to wake up in 6 hours." ));
+        as_m.entries.push_back(uimenu_entry(7, true, '7', "Set alarm to wake up in 7 hours." ));
+        as_m.entries.push_back(uimenu_entry(8, true, '8', "Set alarm to wake up in 8 hours." ));
+        as_m.entries.push_back(uimenu_entry(9, true, '9', "Set alarm to wake up in 9 hours." ));
+
+        as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
+
+        switch (as_m.ret) {
+            case 1:  // Yes, I do want to save game before sleeping.
+            {
+                quicksave();
+            }
+            case 0:  // Yes, I do want to sleep.
+            {
+                u.moves = 0;
+                u.try_to_sleep(this);
+                break;
+            }
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            {
+                u.add_disease("alarm_clock", 300*2*as_m.ret);
+                u.moves = 0;
+                u.try_to_sleep(this);
+                break;
+            }
+            default:  // No, I do not want to sleep.
+            {  /*// Do we tell the player if they could anyways?
+                if (u.can_sleep(this)) {
+                //add_msg("You could sleep now.");
+                } else {
+                add_msg("You can't sleep now.");
+                }*/
+            }
+        }
+    }
+    break;
 
   case ACTION_CONTROL_VEHICLE:
    control_vehicle();
