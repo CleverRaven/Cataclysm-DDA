@@ -2003,15 +2003,10 @@ void game::activity_on_finish_reload()
                 add_msg(_("You insert a cartridge into your %s."),
                         reloadable->tname().c_str());
             }
-            if (u.recoil < 8) {
-                u.recoil = 8;
-            }
-            if (u.recoil > 8) {
-                u.recoil = (8 + u.recoil) / 2;
-            }
+            u.recoil = std::max(MIN_RECOIL, (MIN_RECOIL + u.recoil) / 2);
         } else {
             add_msg(_("You reload your %s."), reloadable->tname().c_str());
-            u.recoil = 6;
+            u.recoil = MIN_RECOIL;
         }
     } else {
         add_msg(m_info, _("Can't reload your %s."), reloadable->tname().c_str());
@@ -12282,7 +12277,7 @@ void game::wield(int pos)
     }
 
     if (success) {
-        u.recoil = 5;
+        u.recoil = MIN_RECOIL;
     }
 }
 
@@ -12964,14 +12959,9 @@ bool game::plmove(int dx, int dy)
                                                       movecost_modifier), diag) * drag_multiplier);
 
         // Adjust recoil down
-        if (u.recoil > 0) {
-            if (int(u.str_cur / 2) + u.skillLevel("gun") >= (int)u.recoil) {
-                u.recoil = 0;
-            } else {
-                u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
-                u.recoil = int(u.recoil / 2);
-            }
-        }
+        u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
+        u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
+        u.recoil = int(u.recoil / 2);
         if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 2) ||
             ( u.has_trait("PARKOUR") && m.move_cost(x, y) > 4    )) {
             if (veh1 && m.move_cost(x, y) != 2) {

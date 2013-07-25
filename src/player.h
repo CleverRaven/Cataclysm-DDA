@@ -41,6 +41,10 @@ struct special_attack {
     };
 };
 
+// The minimum level recoil will reach without aiming.
+// Sets the floor for accuracy of a "snap" or "hip" shot.
+#define MIN_RECOIL 10
+
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
 struct stats : public JsonSerializer, public JsonDeserializer {
@@ -1024,8 +1028,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int hunger, thirst, fatigue;
         int stomach_food, stomach_water;
         int oxygen;
-        unsigned int recoil;
-        unsigned int driving_recoil;
+        int recoil;
+        int driving_recoil;
         int scent;
         int dodges_left, blocks_left;
         int stim, pkill, radiation;

@@ -4362,14 +4362,9 @@ bool player::has_pda()
 void player::pause()
 {
     moves = 0;
-    if (recoil > 0) {
-        if (str_cur + 2 * skillLevel("gun") >= int(recoil)) {
-            recoil = 0;
-        } else {
-            recoil -= str_cur + 2 * skillLevel("gun");
-            recoil = int(recoil / 2);
-        }
-    }
+    recoil -= str_cur + 2 * skillLevel("gun");
+    recoil = std::max(MIN_RECOIL * 2, recoil);
+    recoil = int(recoil / 2);
 
     // Meditation boost for Toad Style, obsolete
     if (weapon.type->id == "style_toad" && activity.type == ACT_NULL) {
