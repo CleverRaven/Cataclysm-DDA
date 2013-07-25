@@ -3420,6 +3420,16 @@ void game::draw()
         }
         wrefresh(w_void);
     }
+    if (debugmon) {
+        real_coords abc;
+        abc.fromabs( g->m.getabs( g->u.posx, g->u.posy ) );
+        mvprintz(VIEW_OFFSET_Y+3,TERMX - MONINFO_WIDTH - VIEW_OFFSET_X,c_cyan,
+          "abs[%d,%d] sub[%d'%d,%d'%d] om[%d'%d,%d'%d]",
+          abc.abs_pos.x,abc.abs_pos.y,
+          abc.abs_sub.x, abc.abs_sub_pos.x, abc.abs_sub.y, abc.abs_sub_pos.y,
+          abc.abs_om.x, abc.abs_om_pos.x, abc.abs_om.y, abc.abs_om_pos.y
+        );
+    }
 }
 
 bool game::isBetween(int test, int down, int up)
