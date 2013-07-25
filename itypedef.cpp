@@ -37,7 +37,7 @@ void game::init_itypes ()
   new itype("null", 0, 0, "none", "", '#', c_white, "null", "null", PNULL, 0, 0, 0, 0, 0, 0);
 // Corpse - a special item
  itypes["corpse"]=
-  new itype("corpse", 0, 0, _("corpse"), "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
+  new itype("corpse", 0, 0, "corpse", "A dead body.", '%', c_white, "null", "null", PNULL, 0, 0,
             0, 0, 1, 0);
  itypes["corpse"]->item_tags.insert("NO_UNLOAD");
 // Fire - only appears in crafting recipes
@@ -316,13 +316,13 @@ for(std::map<std::string,itype*>::iterator iter = itypes.begin(); iter != itypes
 }
 
 //  NAME		RARE	COLOR		MAT1	MAT2
-GUN("bio_blaster_gun", "fusion blaster",	 0,0,c_magenta,	"steel",	"plastic",
+GUN("bio_blaster_gun", ("fusion blaster"),	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	"fusion", 12,  0,  0,  0,  0,  0,  4,  0, 10,  0,  1, 500,
 "");
 
 //  NAME		RARE	COLOR		MAT1	MAT2
-GUN("bio_lightning", "Chain Lightning",	 0,0,c_magenta,	"steel",	"plastic",
+GUN("bio_lightning", ("Chain Lightning"),	 0,0,c_magenta,	"steel",	"plastic",
 //	SKILL		AMMO	   VOL WGT MDG HIT DMG RNG ACC REC DUR BST CLIP REL
 	"rifle",	"fusion", 12,  0,  0,  0,  0,  0,  4,  0, 10,  1,  10, 500,
 "");
@@ -342,9 +342,9 @@ Karate is a popular martial art, originating from Japan. It focuses on\n\
 rapid, precise attacks, blocks, and fluid movement. A successful hit allows\n\
 you an extra dodge and two extra blocks on the following round."),
 
-_("quickly punch"), _("%1$s quickly punch %4$s"), _("%1$s quickly punches %4$s"), TEC_RAPID, 0,
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 2,
-_("karate chop"), _("%1$s karate chop %4$s"), _("%1$s karate chops %4$s"), TEC_PRECISE, 4
+"quickly punch", _("%1$s quickly punch %4$s"), _("%1$s quickly punches %4$s"), TEC_RAPID, 0,
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 2,
+"karate chop", _("%1$s karate chop %4$s"), _("%1$s karate chops %4$s"), TEC_PRECISE, 4
 );
 
 STYLE("style_aikido", _("aikido"), 0, _("\
@@ -352,10 +352,10 @@ Aikido is a Japanese martial art focused on self-defense, while minimizing\n\
 injury to the attacker. It uses defense throws and disarms. Damage done\n\
 while using this technique is halved, but pain inflicted is doubled."),
 
-_("feint at"), _("%1$s feint at %4$s"), _("%1$s feints at %4$s"), TEC_FEINT, 2,
-_("throw"), _("%1$s throw %4$s"), _("%1$s throws %4$s"), TEC_DEF_THROW, 2,
-_("disarm"), _("%1$s disarm %4$s"), _("%1$s disarms %4$s"), TEC_DISARM, 3,
-_("disarm"), _("%1$s disarm %4$s"), _("%1$s disarms %4$s"), TEC_DEF_DISARM, 4
+"feint at", _("%1$s feint at %4$s"), _("%1$s feints at %4$s"), TEC_FEINT, 2,
+"throw", _("%1$s throw %4$s"), _("%1$s throws %4$s"), TEC_DEF_THROW, 2,
+"disarm", _("%1$s disarm %4$s"), _("%1$s disarms %4$s"), TEC_DISARM, 3,
+"disarm", _("%1$s disarm %4$s"), _("%1$s disarms %4$s"), TEC_DEF_DISARM, 4
 );
 
 STYLE("style_judo", _("judo"), 0, _("\
@@ -363,9 +363,9 @@ Judo is a martial art that focuses on grabs and throws, both defensive and\n\
 offensive. It also focuses on recovering from throws; while using judo, you\n\
 will not lose any turns to being thrown or knocked down."),
 
-_("grab"), _("%1$s grab %4$s"), _("%1$s grabs %4$s"), TEC_GRAB, 2,
-_("throw"), _("%1$s throw %4$s"), _("%1$s throws %4$s"), TEC_THROW, 3,
-_("throw"), _("%1$s throw %4$s"), _("%1$s throws %4$s"), TEC_DEF_THROW, 4
+"grab", _("%1$s grab %4$s"), _("%1$s grabs %4$s"), TEC_GRAB, 2,
+"throw", _("%1$s throw %4$s"), _("%1$s throws %4$s"), TEC_THROW, 3,
+"throw", _("%1$s throw %4$s"), _("%1$s throws %4$s"), TEC_DEF_THROW, 4
 );
 
 STYLE("style_tai_chi", _("tai chi"), 0, _("\
@@ -373,9 +373,9 @@ Though tai chi is often seen as a form of mental and physical exercise, it is\n\
 a legitimate martial art, focused on self-defense. Its ability to absorb the\n\
 force of an attack makes your Perception decrease damage further on a block."),
 
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 1,
-_("disarm"), _("%1$s disarm %4$s"), _("%1$s disarms %4$s"), TEC_DEF_DISARM, 3,
-_("strike"), _("%1$s strike %4$s"), _("%1$s strikes %4$s"), TEC_PRECISE, 4
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 1,
+"disarm", _("%1$s disarm %4$s"), _("%1$s disarms %4$s"), TEC_DEF_DISARM, 3,
+"strike", _("%1$s strike %4$s"), _("%1$s strikes %4$s"), TEC_PRECISE, 4
 );
 
 STYLE("style_capoeira", _("capoeira"), 1, _("\
@@ -383,10 +383,10 @@ A dance-like style with its roots in Brazilian slavery, capoeira is focused\n\
 on fluid movement and sweeping kicks. Moving a tile will boost attack and\n\
 dodge; attacking boosts dodge, and dodging boosts attack."),
 
-_("bluff"), _("%1$s bluff %4$s"), _("%1$s bluffs %4$s"), TEC_FEINT, 1,
-_("low kick"), _("%1$s low kick %4$s"), _("%1$s low kicks %4$s"), TEC_SWEEP, 3,
-_("spin and hit"), _("%1$s spin and hit %4$s"), _("%1$s spins and hits %4$s"), TEC_COUNTER, 4,
-_("spin-kick"), _("%1$s spin-kick %4$s"), _("%1$s spin-kicks %4$s"), TEC_WIDE, 5
+"bluff", _("%1$s bluff %4$s"), _("%1$s bluffs %4$s"), TEC_FEINT, 1,
+"low kick", _("%1$s low kick %4$s"), _("%1$s low kicks %4$s"), TEC_SWEEP, 3,
+"spin and hit", _("%1$s spin and hit %4$s"), _("%1$s spins and hits %4$s"), TEC_COUNTER, 4,
+"spin-kick", _("%1$s spin-kick %4$s"), _("%1$s spin-kicks %4$s"), TEC_WIDE, 5
 );
 
 STYLE("style_krav_maga", _("krav maga"), 4, _("\
@@ -394,16 +394,16 @@ Originating in Israel, Krav Maga is based on taking down an enemy quickly and\n\
 effectively. It focuses on applicable attacks rather than showy or complex\n\
 moves. Popular among police and armed forces everywhere."),
 
-_("quickly punch"), _("%1$s quickly punch %4$s"), _("%1$s quickly punches %4$s"), TEC_RAPID, 2,
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 2,
-_("feint at"), _("%1$s feint at %4$s"), _("%1$s feints at %4$s"), TEC_FEINT, 3,
-_("jab"), _("%1$s jab %4$s"), _("%1$s jabs %4$s"), TEC_PRECISE, 3,
-_("disarm"), _("%1$s disarm %4$s"), _("%1$s disarms %4$s"), TEC_DISARM, 3,
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK_LEGS, 4,
-_("counter-attack"), _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 4,
-_("disarm"), _("%1$s disarm %4$s"), _("%1$s disarms %4$s"), TEC_DEF_DISARM, 4,
+"quickly punch", _("%1$s quickly punch %4$s"), _("%1$s quickly punches %4$s"), TEC_RAPID, 2,
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 2,
+"feint at", _("%1$s feint at %4$s"), _("%1$s feints at %4$s"), TEC_FEINT, 3,
+"jab", _("%1$s jab %4$s"), _("%1$s jabs %4$s"), TEC_PRECISE, 3,
+"disarm", _("%1$s disarm %4$s"), _("%1$s disarms %4$s"), TEC_DISARM, 3,
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK_LEGS, 4,
+"counter-attack", _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 4,
+"disarm", _("%1$s disarm %4$s"), _("%1$s disarms %4$s"), TEC_DEF_DISARM, 4,
 "", "", "", TEC_BREAK, 4,
-_("grab"), _("%1$s grab %4$s"), _("%1$s grabs %4$s"), TEC_GRAB, 5
+"grab", _("%1$s grab %4$s"), _("%1$s grabs %4$s"), TEC_GRAB, 5
 );
 
 STYLE("style_muay_thai", _("muay thai"), 4, _("\
@@ -411,11 +411,11 @@ Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting\n\
 technique from Thailand that uses powerful strikes. It does extra damage\n\
 against large or strong opponents."),
 
-_("slap"), _("%1$s slap %4$s"), _("%1$s slaps %4$s"), TEC_RAPID, 2,
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 3,
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK_LEGS, 4,
-_("power-kick"), _("%1$s power-kick %4$s"), _("%1$s power-kicks %4$s"), TEC_BRUTAL, 4,
-_("counter-attack"), _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 5
+"slap", _("%1$s slap %4$s"), _("%1$s slaps %4$s"), TEC_RAPID, 2,
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 3,
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK_LEGS, 4,
+"power-kick", _("%1$s power-kick %4$s"), _("%1$s power-kicks %4$s"), TEC_BRUTAL, 4,
+"counter-attack", _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 5
 );
 
 STYLE("style_ninjutsu", _("ninjutsu"), 1, _("\
@@ -423,9 +423,9 @@ Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.\n\
 It focuses on rapid, precise, silent strikes. Ninjutsu is entirely silent.\n\
 It also provides small combat bonuses the turn after moving a tile."),
 
-_("quickly punch"), _("%1$s quickly punch %4$s"), _("%1$s quickly punches %4$s"), TEC_RAPID, 3,
-_("jab"), _("%1$s jab %4$s"), _("%1$s jabs %4$s"), TEC_PRECISE, 4,
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 4
+"quickly punch", _("%1$s quickly punch %4$s"), _("%1$s quickly punches %4$s"), TEC_RAPID, 3,
+"jab", _("%1$s jab %4$s"), _("%1$s jabs %4$s"), TEC_PRECISE, 4,
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 4
 );
 
 STYLE("style_taekwondo", _("taekwondo"), 2, _("\
@@ -433,11 +433,11 @@ Taekwondo is the national sport of Korea, and was used by the South Korean\n\
 army in the 20th century. Focused on kicks and punches, it also includes\n\
 strength training; your blocks absorb extra damage the stronger you are."),
 
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 2,
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK_LEGS, 3,
-_("jab"), _("%1$s jab %4$s"), _("%1$s jabs %4$s"), TEC_PRECISE, 4,
-_("brutally kick"), _("%1$s brutally kick %4$s"), _("%1$s brutally kicks %4$s"), TEC_BRUTAL, 4,
-_("spin-kick"), _("%1$s spin-kick %4$s"), _("%1$s spin-kicks %4$s"), TEC_SWEEP, 5
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 2,
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK_LEGS, 3,
+"jab", _("%1$s jab %4$s"), _("%1$s jabs %4$s"), TEC_PRECISE, 4,
+"brutally kick", _("%1$s brutally kick %4$s"), _("%1$s brutally kicks %4$s"), TEC_BRUTAL, 4,
+"spin-kick", _("%1$s spin-kick %4$s"), _("%1$s spin-kicks %4$s"), TEC_SWEEP, 5
 );
 
 STYLE("style_tiger", _("tiger style"), 4, _("\
@@ -445,7 +445,7 @@ One of the five Shaolin animal styles. Tiger style focuses on relentless\n\
 attacks above all else. Strength, not Dexterity, is used to determine hits;\n\
 you also receive an accumulating bonus for several turns of sustained attack."),
 
-_("grab"), _("%1$s grab %4$s"), _("%1$s grabs %4$s"), TEC_GRAB, 4
+"grab", _("%1$s grab %4$s"), _("%1$s grabs %4$s"), TEC_GRAB, 4
 );
 
 STYLE("style_crane", _("crane style"), 0, _("\
@@ -453,10 +453,10 @@ One of the five Shaolin animal styles. Crane style uses intricate hand\n\
 techniques and jumping dodges. Dexterity, not Strength, is used to determine\n\
 damage; you also receive a dodge bonus the turn after moving a tile."),
 
-_("feint at"), _("%1$s feint at %4$s"), _("%1$s feints at %4$s"), TEC_FEINT, 2,
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 3,
+"feint at", _("%1$s feint at %4$s"), _("%1$s feints at %4$s"), TEC_FEINT, 2,
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 3,
 "", "", "", TEC_BREAK, 3,
-_("hand-peck"), _("%1$s hand-peck %4$s"), _("%1$s hand-pecks %4$s"), TEC_PRECISE, 4
+"hand-peck", _("%1$s hand-peck %4$s"), _("%1$s hand-pecks %4$s"), TEC_PRECISE, 4
 );
 
 STYLE("style_leopard", _("leopard style"), 3, _("\
@@ -464,9 +464,9 @@ One of the five Shaolin animal styles. Leopard style focuses on rapid,\n\
 strategic strikes. Your Perception and Intelligence boost your accuracy, and\n\
 moving a single tile provides an increased boost for one turn."),
 
-_("swiftly jab"), _("%1$s swiftly jab %4$s"), _("%1$s swiftly jabs %4$s"), TEC_RAPID, 2,
-_("counter-attack"), _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 4,
-_("leopard fist"), _("%1$s strike %4$s with leopard fist"), _("%1$s strikes %4$s with leopard fist"), TEC_PRECISE, 5
+"swiftly jab", _("%1$s swiftly jab %4$s"), _("%1$s swiftly jabs %4$s"), TEC_RAPID, 2,
+"counter-attack", _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 4,
+"leopard fist", _("%1$s strike %4$s with leopard fist"), _("%1$s strikes %4$s with leopard fist"), TEC_PRECISE, 5
 );
 
 STYLE("style_snake", _("snake style"), 1, _("\
@@ -474,10 +474,10 @@ One of the five Shaolin animal styles. Snake style uses sinuous movement and\n\
 precision strikes. Perception increases your chance to hit as well as the\n\
 damage you deal."),
 
-_("swiftly jab"), _("%1$s swiftly jab %4$s"), _("%1$s swiftly jabs %4$s"), TEC_RAPID, 2,
-_("feint at"), _("%1$s feint at %4$s"), _("%1$s feints at %4$s"), TEC_FEINT, 3,
-_("snakebite"), _("%1$s snakebite %4$s"), _("%1$s snakebites %4$s"), TEC_PRECISE, 4,
-_("writhe free from"), _("%1$s writhe free from %4$s"), _("%1$s writhes free from %4$s"), TEC_BREAK, 4
+"swiftly jab", _("%1$s swiftly jab %4$s"), _("%1$s swiftly jabs %4$s"), TEC_RAPID, 2,
+"feint at", _("%1$s feint at %4$s"), _("%1$s feints at %4$s"), TEC_FEINT, 3,
+"snakebite", _("%1$s snakebite %4$s"), _("%1$s snakebites %4$s"), TEC_PRECISE, 4,
+"writhe free from", _("%1$s writhe free from %4$s"), _("%1$s writhes free from %4$s"), TEC_BREAK, 4
 );
 
 STYLE("style_dragon", _("dragon style"), 2, _("\
@@ -486,10 +486,10 @@ hard strikes. Intelligence increases your chance to hit as well as the\n\
 damage you deal. Moving a tile will boost damage further for one turn."),
 
 "", "", "", TEC_BLOCK, 2,
-_("grab"), _("%1$s grab %4$s"), _("%1$s grabs %4$s"), TEC_GRAB, 4,
-_("counter-attack"), _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 4,
-_("spin-kick"), _("%1$s spin-kick %4$s"), _("%1$s spin-kicks %4$s"), TEC_SWEEP, 5,
-_("dragon strike"), _("%1$s use dragon strike on %4$s"), _("%1$s uses dragon strike on %4$s"), TEC_BRUTAL, 6
+"grab", _("%1$s grab %4$s"), _("%1$s grabs %4$s"), TEC_GRAB, 4,
+"counter-attack", _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 4,
+"spin-kick", _("%1$s spin-kick %4$s"), _("%1$s spin-kicks %4$s"), TEC_SWEEP, 5,
+"dragon strike", _("%1$s use dragon strike on %4$s"), _("%1$s uses dragon strike on %4$s"), TEC_BRUTAL, 6
 );
 
 STYLE("style_centipede", _("centipede style"), 0, _("\
@@ -497,8 +497,8 @@ One of the Five Deadly Venoms. Centipede style uses an onslaught of rapid\n\
 strikes. Every strike you make reduces the movement cost of attacking by 4;\n\
 this is cumulative, but is reset entirely if you are hit even once."),
 
-_("swiftly hit"), _("%1$s swiftly hit %4$s"), _("%1$s swiftly hits %4$s"), TEC_RAPID, 2,
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 3
+"swiftly hit", _("%1$s swiftly hit %4$s"), _("%1$s swiftly hits %4$s"), TEC_RAPID, 2,
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 3
 );
 
 STYLE("style_venom_snake", _("viper style"), 2, _("\
@@ -507,8 +507,8 @@ you score a critical hit, it is initiated. The second hit uses a coned hand\n\
 to deal piercing damage, and the 3rd uses both hands in a devastating strike."),
 
 "", "", "", TEC_RAPID, 3,
-_("feint at"), _("%1$s feint at %4$s"), _("%1$s feints at %4$s"), TEC_FEINT, 3,
-_("writhe free from"), _("%1$s writhe free from %4$s"), _("%1$s writhes free from %4$s"), TEC_BREAK, 4
+"feint at", _("%1$s feint at %4$s"), _("%1$s feints at %4$s"), TEC_FEINT, 3,
+"writhe free from", _("%1$s writhe free from %4$s"), _("%1$s writhes free from %4$s"), TEC_BREAK, 4
 );
 
 STYLE("style_scorpion", _("scorpion style"), 3, _("\
@@ -516,8 +516,8 @@ One of the Five Deadly Venoms. Scorpion Style is a mysterious art that focuses\n
 on utilizing pincer-like fists and a stinger-like kick. Critical hits will do\n\
 massive damage, knocking your target far back."),
 
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 3,
-_("pincer fist"), _("%1$s strike %4$s with spincer fist"), _("%1$s strikes %4$s with spincer fist"), TEC_PRECISE, 4
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 3,
+"pincer fist", _("%1$s strike %4$s with spincer fist"), _("%1$s strikes %4$s with spincer fist"), TEC_PRECISE, 4
 );
 
 STYLE("style_lizard", _("lizard style"), 1, _("\
@@ -525,8 +525,8 @@ One of the Five Deadly Venoms. Lizard Style focuses on using walls to one's\n\
 advantage. Moving alongside a wall will make you run up along it, giving you\n\
 a large to-hit bonus. Standing by a wall allows you to use it to boost dodge."),
 
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 2,
-_("counter-attack"), _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 4
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 2,
+"counter-attack", _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 4
 );
 
 STYLE("style_toad", _("toad style"), 0, _("\
@@ -534,8 +534,8 @@ One of the Five Deadly Venoms. Immensely powerful, and immune to nearly any\n\
 weapon. You may meditate by pausing for a turn; this will give you temporary\n\
 armor, proportional to your Intelligence and Perception."),
 
-_("block"), _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 3,
-_("grab"), _("%1$s grab %4$s"), _("%1$s grabs %4$s"), TEC_GRAB, 4
+"block", _("%1$s block %4$s"), _("%1$s blocks %4$s"), TEC_BLOCK, 3,
+"grab", _("%1$s grab %4$s"), _("%1$s grabs %4$s"), TEC_GRAB, 4
 );
 
 STYLE("style_zui_quan", _("zui quan"), 1, _("\
@@ -543,8 +543,8 @@ Also known as \"drunken boxing,\" Zui Quan imitates the movement of a drunk\n\
 to confuse the enemy. The turn after you attack, you may dodge any number of\n\
 attacks with no penalty."),
 
-_("stumble and leer at"), _("%1$s stumble and leer at %4$s"), _("%1$s stumbles and leers at %4$s"), TEC_FEINT, 3,
-_("counter-attack"), _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 4
+"stumble and leer at", _("%1$s stumble and leer at %4$s"), _("%1$s stumbles and leers at %4$s"), TEC_FEINT, 3,
+"counter-attack", _("%1$s counter-attack %4$s"), _("%1$s counter-attacks %4$s"), TEC_COUNTER, 4
 );
 
 }
