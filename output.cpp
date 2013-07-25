@@ -271,6 +271,15 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
  wattroff(w, FG);
 }
 
+const std::string stringfmt(const char *format, ...) {
+   char buf[4096];
+   va_list ap;
+   va_start(ap, format);
+   vsnprintf(buf, sizeof(buf), format, ap);
+   std::string ret = buf;
+   return ret;
+}
+
 void draw_tabs(WINDOW *w, int active_tab, ...)
 {
  int win_width;

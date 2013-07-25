@@ -61,6 +61,7 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
 std::string word_rewrap (const std::string &ins, int width);
+const std::string stringfmt(const char *format, ...);
 void draw_tabs(WINDOW *w, int active_tab, ...);
 
 #define STRING2(x) #x
