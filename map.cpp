@@ -102,7 +102,7 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
   part_num = it->second.second;
   return it->second.first;
  }
- debugmsg ("vehicle part cache cache indicated vehicle not found: %d %d, me= size %d abs %d %d",x,y,my_MAPSIZE,grid[0]->x,grid[0]->y);
+ debugmsg ("vehicle part cache cache indicated vehicle not found: %d %d",x,y);
  return NULL;
 }
 
