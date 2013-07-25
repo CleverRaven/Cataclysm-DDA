@@ -31,7 +31,7 @@
 /**
  * This version of picojson is modified and specialized for use with cataclysm.
  */
- 
+
 #ifndef picojson_h
 #define picojson_h
 
@@ -46,6 +46,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <exception>
 
 #ifdef _MSC_VER
     #define SNPRINTF _snprintf_s
@@ -70,6 +71,17 @@ namespace picojson {
   };
 
   struct null {};
+
+  class exception : public std::exception
+  {
+  public:
+    exception(std::string msg) : msg(msg) {};
+    ~exception() throw() {};
+    const char* what() const throw() { return msg.c_str(); }
+
+  private:
+    std::string msg;
+  };
 
   class value {
   public:
@@ -97,7 +109,7 @@ namespace picojson {
     explicit value(const char* s);
     value(const char* s, size_t len);
     ~value();
-    
+
     value(const value& x);
     value& operator=(const value& x);
     value& operator=(bool b);
@@ -110,7 +122,13 @@ namespace picojson {
     value& operator=(const char* s);
     value& operator[](int index); // Must be array_type
     value& operator[](std::string key); // Must be object_type
-    
+
+    char as_char() const;
+    std::string as_string() const;
+    int as_int() const;
+    bool as_bool() const;
+    double as_double() const;
+
     template <typename T> bool is() const;
     template <typename T> const T& get() const;
     template <typename T> T& get();
@@ -150,7 +168,7 @@ namespace picojson {
      * Assumes that T inherits from serializable.
      */
     template<class T> std::vector<T*> to_pointer_vector();
-    
+
   private:
     template <typename T> value(const T*); // intentionally defined to block implicit conversion of pointer to bool
   };
@@ -276,7 +294,7 @@ namespace picojson {
       new (this) value(v);
       return *this;
   }
-  
+
   inline value& value::operator=(unsigned int v) {
       new (this) value(v);
       return *this;
@@ -301,7 +319,7 @@ namespace picojson {
       new (this) value(v);
       return *this;
   }
-  
+
   inline value& value::operator[](std::string key) {
       return get(key);
   }
@@ -365,8 +383,7 @@ namespace picojson {
   inline value& value::get(const std::string& key) const {
     static value s_null;
     assert(is<object>());
-    object::iterator i = object_->find(key);
-    return i != object_->end() ? i->second : s_null;
+    return (*object_)[key];
   }
 
   inline bool value::contains(size_t idx) const {
@@ -888,6 +905,68 @@ namespace picojson {
   inline bool operator!=(const value& x, const value& y) {
     return ! (x == y);
   }
+
+
+  inline char value::as_char() const
+  {
+      std::string temp = as_string();
+      if (temp.size() != 1)
+      {
+          throw exception("JSON warning: value requested as char, string length is not 1");
+      }
+      return temp[0];
+  }
+
+  inline std::string value::as_string() const
+  {
+      if (is<std::string>())
+      {
+          return get<std::string>();
+      }
+      else
+      {
+          throw exception("JSON error: value is not a string");
+      }
+      return "";
+  }
+
+  inline int value::as_int() const
+  {
+      double temp = as_double();
+      int ret = static_cast<int>(temp);
+      if (ret != temp)
+      {
+          throw exception("JSON warning: value was requested as int, provided as double");
+      }
+      return ret;
+  }
+
+  inline bool value::as_bool() const
+  {
+      if (is<bool>())
+      {
+          return get<bool>();
+      }
+      else
+      {
+          throw exception("JSON error: value is not a boolean");
+      }
+      return evaluate_as_boolean();
+  }
+
+  inline double value::as_double() const
+  {
+      if (is<double>())
+      {
+          return get<double>();
+      }
+      else
+      {
+          throw exception("JSON error: value is not numeric");
+      }
+      return 0;
+  }
+
 }
 inline std::istream& operator>>(std::istream& is, picojson::value& x)
 {
