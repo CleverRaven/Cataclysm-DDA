@@ -27,6 +27,11 @@
  * policies, either expressed or implied, of Cybozu Labs, Inc.
  *
  */
+
+/**
+ * This version of picojson is modified and specialized for use with cataclysm.
+ */
+ 
 #ifndef picojson_h
 #define picojson_h
 
@@ -40,6 +45,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 #ifdef _MSC_VER
     #define SNPRINTF _snprintf_s
@@ -49,7 +55,10 @@
     #define SNPRINTF snprintf
 #endif
 
+
 namespace picojson {
+  // Forward declaration
+  class serializable;
 
   enum {
     null_type,
@@ -88,22 +97,84 @@ namespace picojson {
     explicit value(const char* s);
     value(const char* s, size_t len);
     ~value();
+    
     value(const value& x);
     value& operator=(const value& x);
+    value& operator=(bool b);
+    value& operator=(double n);
+    value& operator=(int n);
+    value& operator=(unsigned int n);
+    value& operator=(const std::string& s);
+    value& operator=(const array& s);
+    value& operator=(const object& s);
+    value& operator=(const char* s);
+    value& operator[](int index); // Must be array_type
+    value& operator[](std::string key); // Must be object_type
+    
     template <typename T> bool is() const;
     template <typename T> const T& get() const;
     template <typename T> T& get();
     bool evaluate_as_boolean() const;
-    const value& get(size_t idx) const;
-    const value& get(const std::string& key) const;
+    value& get(size_t idx) const;
+    value& get(const std::string& key) const;
     bool contains(size_t idx) const;
     bool contains(const std::string& key) const;
     std::string to_str() const;
     template <typename Iter> void serialize(Iter os) const;
     std::string serialize() const;
+
+    /**
+     * Create a JSON array from the given vector.
+     *
+     * Uses `serializable::write()` to convert the individual elements
+     * to JSON values.
+     */
+    value from_vector(std::vector<serializable> from);
+
+    /**
+     * Create a JSON array from the given vector. T must inherit from
+     * \ref serializable.
+     */
+    value from_vector(std::vector<serializable*> from);
+
+    /**
+     * Create a vector of objects from a JSON array.
+     *
+     * Assumes that T inherits from serializable.
+     */
+    template<class T> std::vector<T> to_vector();
+
+    /**
+     * Create a vector of objects from a JSON array.
+     *
+     * Assumes that T inherits from serializable.
+     */
+    template<class T> std::vector<T*> to_pointer_vector();
+    
   private:
     template <typename T> value(const T*); // intentionally defined to block implicit conversion of pointer to bool
   };
+
+  /**
+   * This is an interface that, if inherited, defines that the given class
+   * can be serialized to and deserialized from JSON.
+   */
+  class serializable {
+      /**
+       * Serialize this object.
+       *
+       * @return The JSON entity representing the object.
+       */
+      virtual picojson::value save() { return picojson::value("SERIALIZATION UNIMPLEMENTED"); };
+
+      /**
+       * Load the data from the given JSON node into this object.
+       *
+       * @param read_from The JSON entity to read from.
+       */
+      virtual void read(picojson::value& read_from) {};
+  };
+
 
   typedef value::array array;
   typedef value::object object;
@@ -191,6 +262,54 @@ namespace picojson {
     return *this;
   }
 
+  inline value& value::operator=(bool v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(double v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(int v) {
+      new (this) value(v);
+      return *this;
+  }
+  
+  inline value& value::operator=(unsigned int v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const std::string& v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const array& v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const object& v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const char* v) {
+      new (this) value(v);
+      return *this;
+  }
+  
+  inline value& value::operator[](std::string key) {
+      return get(key);
+  }
+
+  inline value& value::operator[](int index) {
+      return get(index);
+  }
+
 #define IS(ctype, jtype)			     \
   template <> inline bool value::is<ctype>() const { \
     return type_ == jtype##_type;		     \
@@ -237,16 +356,16 @@ namespace picojson {
     }
   }
 
-  inline const value& value::get(size_t idx) const {
+  inline value& value::get(size_t idx) const {
     static value s_null;
     assert(is<array>());
     return idx < array_->size() ? (*array_)[idx] : s_null;
   }
 
-  inline const value& value::get(const std::string& key) const {
+  inline value& value::get(const std::string& key) const {
     static value s_null;
     assert(is<object>());
-    object::const_iterator i = object_->find(key);
+    object::iterator i = object_->find(key);
     return i != object_->end() ? i->second : s_null;
   }
 
@@ -770,7 +889,6 @@ namespace picojson {
     return ! (x == y);
   }
 }
-
 inline std::istream& operator>>(std::istream& is, picojson::value& x)
 {
   picojson::set_last_error(std::string());
