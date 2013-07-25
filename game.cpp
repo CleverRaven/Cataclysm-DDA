@@ -619,13 +619,13 @@ bool game::do_turn()
 
 void game::rustCheck()
 {
-    bool forgetful = u.has_trait(PF_FORGETFUL);
     for (std::vector<Skill*>::iterator aSkill = ++Skill::skills.begin();
          aSkill != Skill::skills.end(); ++aSkill) {
+        if (u.rust_rate() <= rng(0, 1000)) continue;
         bool charged_bio_mem = u.has_bionic("bio_memory") && u.power_level > 0;
         int oldSkillLevel = u.skillLevel(*aSkill);
 
-        if (u.skillLevel(*aSkill).rust(turn, forgetful, charged_bio_mem))
+        if (u.skillLevel(*aSkill).rust(turn, charged_bio_mem))
         {
             u.power_level--;
         }
@@ -1342,40 +1342,45 @@ void game::handle_key_blocking_activity() {
     }
 }
 //// item submenu for 'i' and '/'
-int game::inventory_item_menu(char chItem, int startx, int width) {
+int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
     bool has = false;
     const std::string sSpaces = "                              ";
     int cMenu = (int)'+';
     has = u.has_item(chItem);
 
-    const int menustart=2;  // lightbar constraints
-    const int menuend=12;
-    int selected=1;         // default 'parked' hidden above 'activate'
-
     if (has) {
+        item oThisItem = u.i_at(chItem);
+        std::vector<iteminfo> vThisItem, vDummy, vMenu;
+
+        const int iOffsetX = 2;
+
+        vMenu.push_back(iteminfo("MENU", "", _("iOffsetX"), iOffsetX));
+        vMenu.push_back(iteminfo("MENU", "", _("iOffsetY"), 0));
+        vMenu.push_back(iteminfo("MENU", "a", _("ctivate"), u.rate_action_use(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "R", _("ead"), u.rate_action_read(&oThisItem, this)));
+        vMenu.push_back(iteminfo("MENU", "E", _("at  "), u.rate_action_eat(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "W", _("ear  "), u.rate_action_wear(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "w", _("ield")));
+        vMenu.push_back(iteminfo("MENU", "t", _("hrow")));
+        vMenu.push_back(iteminfo("MENU", "T", _("ake off"), u.rate_action_takeoff(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "d", _("rop")));
+        vMenu.push_back(iteminfo("MENU", "U", _("nload"), u.rate_action_unload(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "r", _("eload"), u.rate_action_reload(&oThisItem)));
+        vMenu.push_back(iteminfo("MENU", "D", _("isassemble"), u.rate_action_disassemble(&oThisItem, this)));
+        vMenu.push_back(iteminfo("MENU", "=", _(" reassign")));
+
+        oThisItem.info(true, &vThisItem, this);
+        compare_split_screen_popup(iStartX,iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
+
+        const int iMenuStart = iOffsetX;  // lightbar constraints
+        const int iMenuItems = vMenu.size() - 1;
+        int iSelected = 1;         // default 'parked' hidden above 'activate'
+
         do {
-            item oThisItem = u.i_at(chItem);
-            std::vector<iteminfo> vThisItem, vDummy, vMenu;
-            int iOffsetX = 2;
-            vMenu.push_back(iteminfo("MENU", "", _("iOffsetX"), iOffsetX));
-            vMenu.push_back(iteminfo("MENU", "", _("iOffsetY"), 0));
-            vMenu.push_back(iteminfo("MENU", "a", _("ctivate"), u.rate_action_use(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "R", _("ead"), u.rate_action_read(&oThisItem, this)));
-            vMenu.push_back(iteminfo("MENU", "E", _("at  "), u.rate_action_eat(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "W", _("ear  "), u.rate_action_wear(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "w", _("ield")));
-            vMenu.push_back(iteminfo("MENU", "t", _("hrow")));
-            vMenu.push_back(iteminfo("MENU", "T", _("ake off"), u.rate_action_takeoff(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "d", _("rop")));
-            vMenu.push_back(iteminfo("MENU", "U", _("nload"), u.rate_action_unload(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "r", _("eload"), u.rate_action_reload(&oThisItem)));
-            vMenu.push_back(iteminfo("MENU", "D", _("isassemble"), u.rate_action_disassemble(&oThisItem, this)));
-            vMenu.push_back(iteminfo("MENU", "=", _(" reassign")));
-            oThisItem.info(true, &vThisItem, this);
-            compare_split_screen_popup(startx, width, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
-            cMenu = compare_split_screen_popup(startx+width, 14, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
-                selected >= menustart && selected <= menuend ? selected : -1
+            cMenu = compare_split_screen_popup(iStartX + iWidth, iMenuItems + iOffsetX, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
+                iSelected >= iOffsetX && iSelected <= iMenuItems ? iSelected : -1
             );
+
             switch(cMenu) {
                 case 'a':
                  use_item(chItem);
@@ -1414,18 +1419,18 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
                  reassign_item(chItem);
                  break;
                 case KEY_UP:
-                 selected--;
+                 iSelected--;
                  break;
                 case KEY_DOWN:
-                 selected++;
+                 iSelected++;
                  break;
                 default:
                  break;
             }
-            if( selected < menustart-1 ) { // wraparound, but can be hidden
-                selected = menuend;
-            } else if ( selected > menuend + 1 ) {
-                selected = menustart;
+            if( iSelected < iMenuStart-1 ) { // wraparound, but can be hidden
+                iSelected = iMenuItems;
+            } else if ( iSelected > iMenuItems + 1 ) {
+                iSelected = iMenuStart;
             }
         } while (cMenu == KEY_DOWN || cMenu == KEY_UP );
     }
@@ -2064,7 +2069,7 @@ void game::update_scent()
  for (int x = u.posx - SCENT_RADIUS; x <= u.posx + SCENT_RADIUS; x++) {
   for (int y = u.posy - SCENT_RADIUS; y <= u.posy + SCENT_RADIUS; y++) {
    const int move_cost = m.move_cost_ter_furn(x, y);
-   field field_at = m.field_at(x, y);
+   field &field_at = m.field_at(x, y);
    const bool is_bashable = m.has_flag(bashable, x, y);
    newscent[x][y] = 0;
    scale[x][y] = 1;
@@ -2716,6 +2721,11 @@ void game::vadd_msg(const char* msg, va_list ap)
  char buff[1024];
  vsprintf(buff, msg, ap);
  std::string s(buff);
+ add_msg_string(s);
+}
+
+void game::add_msg_string(const std::string &s)
+{
  if (s.length() == 0)
   return;
  if (!messages.empty() && int(messages.back().turn) + 3 >= int(turn) &&
@@ -2747,6 +2757,31 @@ void game::add_msg_if_player(player *p, const char* msg, ...)
   vadd_msg(msg, ap);
   va_end(ap);
  }
+}
+
+void game::add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...)
+{
+    va_list ap;
+    if( !p ) {return; }
+
+    va_start( ap, npc_str );
+
+    if( !p->is_npc() ) {
+        vadd_msg( player_str, ap );
+    } else if( u_see( p ) ) {
+        char buff[1024];
+        vsprintf(buff, npc_str, ap);
+        std::string processed_npc_string(buff);
+        // These strings contain the substring <npcname>,
+        // if present replace it with the actual npc name.
+        int offset = processed_npc_string.find("<npcname>");
+        if( offset != std::string::npos ) {
+            processed_npc_string.replace(offset, sizeof("<npcname>"),  p->name);
+        }
+        add_msg_string( processed_npc_string );
+    }
+
+    va_end(ap);
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id, int x, int y)
@@ -3930,6 +3965,11 @@ bool game::u_see(int x, int y)
         return false;
 
  return can_see;
+}
+
+bool game::u_see(player *p)
+{
+ return u_see(p->posx, p->posy);
 }
 
 bool game::u_see(monster *mon)
@@ -7202,7 +7242,7 @@ point game::look_debug(point coords) {
     mvwprintw(w_look, off, 1, "%s %s", m.features(lx, ly).c_str(),extras.c_str());
     off++;
 
-    field curfield = m.field_at(lx, ly);
+    field &curfield = m.field_at(lx, ly);
     if (curfield.fieldCount() > 0) {
 		field_entry *cur = NULL;
 		for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
@@ -7543,7 +7583,7 @@ point game::look_around()
                                                     m.move_cost(lx, ly) * 50);
    mvwprintw(w_look, 2, 1, "%s", m.features(lx, ly).c_str());
 
-   field tmpfield = m.field_at(lx, ly);
+   field &tmpfield = m.field_at(lx, ly);
 
    if (tmpfield.fieldCount() > 0) {
 		field_entry *cur = NULL;
@@ -8168,7 +8208,8 @@ void game::pickup(int posx, int posy, int min)
  item_exchanges_since_save += 1; // Keeping this simple.
  write_msg();
  if (u.weapon.type->id == "bio_claws_weapon") {
-  add_msg(_("You cannot pick up items with your claws out!"));
+  if (min != -1)
+   add_msg(_("You cannot pick up items with your claws out!"));
   return;
  }
  bool weight_is_okay = (u.weight_carried() <= u.weight_capacity() * .25);
@@ -8321,45 +8362,39 @@ void game::pickup(int posx, int posy, int min)
  int last_selected=-1;
 
  if (min == -1) { //Auto Pickup, select matching items
-    if (OPTIONS[OPT_AUTO_PICKUP] && (!OPTIONS[OPT_AUTO_PICKUP_SAFEMODE] || mostseen == 0)) {
-        //Loop through Items lowest Volume first
-        bool bPickup = false;
+    bool bFoundSomething = false;
 
-        for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
-            for (int i = 0; i < here.size(); i++) {
-                bPickup = false;
-                if (here[i].volume() == iVol) {
-                    iNumChecked++;
+    //Loop through Items lowest Volume first
+    bool bPickup = false;
 
-                    //Auto Pickup all items with 0 Volume and Weight
-                    if (OPTIONS[OPT_AUTO_PICKUP_ZERO]) {
-                        if (here[i].volume() == 0 && here[i].weight() == 0) {
-                            bPickup = true;
-                        }
-                    }
+    for(int iVol=0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
+        for (int i = 0; i < here.size(); i++) {
+            bPickup = false;
+            if (here[i].volume() == iVol) {
+                iNumChecked++;
 
-                    //Check the Pickup Rules
-                    for (int j=0; j < vAutoPickupRules[0].size(); j++) {
-                        if (vAutoPickupRules[0][j].bActive && vAutoPickupRules[0][j].sRule != "") {
-                            if (auto_pickup_match(here[i].tname(this), vAutoPickupRules[0][j].sRule)) {
-                                if (vAutoPickupRules[0][j].bExclude) { //Maybe we find an exclusion rule
-                                    bPickup = false;
-                                    break;
-                                }
-
-                                bPickup = true;
-                            }
-                        }
+                //Auto Pickup all items with 0 Volume and Weight
+                if (OPTIONS[OPT_AUTO_PICKUP_ZERO]) {
+                    if (here[i].volume() == 0 && here[i].weight() == 0) {
+                        bPickup = true;
                     }
                 }
 
-
-                if (bPickup) {
-                    getitem[i] = bPickup;
-                    //mapPickup[here[i].tname(this)]++;
+                //Check the Pickup Rules
+                if ( mapAutoPickupItems[here[i].tname(this)] ) {
+                    bPickup = true;
                 }
             }
+
+            if (bPickup) {
+                getitem[i] = bPickup;
+                bFoundSomething = true;
+            }
         }
+    }
+
+    if (!bFoundSomething) {
+        return;
     }
  } else {
  // Now print the two lists; those on the ground and about to be added to inv
@@ -10063,15 +10098,15 @@ void game::plmove(int x, int y)
 
   //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
   field_entry *cur = NULL;
-  field tmpfld = m.field_at(x, y);
-	for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it){
+  field &tmpfld = m.field_at(x, y);
+  for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart();
+      field_list_it != tmpfld.getFieldEnd(); ++field_list_it) {
 		cur = (*field_list_it);
 		if(cur == NULL) continue;
 		if (cur->is_dangerous() &&
 			!query_yn(_("Really step into that %s?"), cur->name().c_str()))
 			return;
 	}
-
 
 
 // no need to query if stepping into 'benign' traps
@@ -10174,7 +10209,9 @@ void game::plmove(int x, int y)
   u.posy = y;
 
   //Autopickup
-  pickup(u.posx, u.posy, -1);
+  if (OPTIONS[OPT_AUTO_PICKUP] && (!OPTIONS[OPT_AUTO_PICKUP_SAFEMODE] || mostseen == 0) && (m.i_at(u.posx, u.posy)).size() > 0) {
+   pickup(u.posx, u.posy, -1);
+  }
 
 // If the new tile is a boardable part, board it
   if (veh1 && veh1->part_with_feature(vpart1, vpf_boardable) >= 0)

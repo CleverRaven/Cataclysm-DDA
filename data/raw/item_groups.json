@@ -960,7 +960,8 @@
       ["3006", 4],
       ["3006fmj", 2],
       ["308", 7],
-      ["762_51", 6]
+      ["762_51", 6],
+      ["shot_beanbag", 10]
     ]
   },
   { "id":"pistols",
@@ -1337,7 +1338,8 @@
       ["usp_9mm", 6],
       ["remington_870", 9],
       ["UPS_off", 5],
-      ["tazer", 3]
+      ["tazer", 3],
+      ["shot_beanbag", 15]
     ]
   },
   { "id":"cop_evidence",
@@ -2025,6 +2027,7 @@
       ["40mm_teargas", 5],
       ["40mm_smoke", 4],
       ["40mm_flashbang", 8],
+	  ["40mm_beanbag", 15],
       ["m79", 5],
       ["m320", 10],
       ["mgl", 6],
