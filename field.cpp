@@ -36,13 +36,13 @@ void game::init_fields()
             {c_brown, c_ltred, c_red},	{true, true, true}, {false, false, false},	   2500,
             {0,0,0}
         },
-         
+
         {
             {_("shredded leaves and twigs"),	_("shattered branches and leaves"),	_("broken vegetation tangle")},			'~',
             {c_ltgreen, c_ltgreen, c_green},	{true, true, true}, {false, false, false},	   2500,
             {0,0,0}
         },
-         
+
         {
             {_("cobwebs"),_("webs"), _("thick webs")},			'}',
             {c_white, c_white, c_white},	{true, true, false},{false, false, false},   0,
@@ -578,6 +578,10 @@ bool map::process_fields_in_submap(game *g, int gridn)
 									cur->setFieldDensity(cur->getFieldDensity() - 1);
 								} else if (move_cost(p.x, p.y) > 0 &&	add_field(g, p.x, p.y, fd_smoke, 1)) {
 										cur->setFieldDensity(cur->getFieldDensity() - 1);
+
+          // Note: We just potentially modified candidate_field itself, so update
+          //       our pointer.
+          candidate_field = field_at(p.x, p.y).findField(fd_smoke);
 										if(candidate_field) {
               candidate_field->setFieldAge(cur->getFieldAge());
           }
@@ -1320,7 +1324,7 @@ void map::mon_in_field(int x, int y, game *g, monster *z)
     }
    }
    break;
-   
+
 // MATERIALS-TODO: Use fire resistance
   case fd_flame_burst:
    if (z->made_of("flesh") || z->made_of("hflesh"))
@@ -1468,7 +1472,7 @@ void map::field_effect(int x, int y, game *g) //Applies effect of field immediat
     vehicle *veh = veh_at(x, y, veh_part);
     if (veh) {
      veh->damage(veh_part, ceil(veh->parts[veh_part].hp/3.0 * cur->getFieldDensity()), 1, false);
-    }	
+    }
  }
  }
 }
@@ -1505,7 +1509,7 @@ field_id field_entry::setFieldType(const field_id new_field_id){
 }
 
 signed char field_entry::setFieldDensity(const signed char new_density){
-	
+
 	if(new_density > 3)
 		density = 3;
 	else if (new_density < 1){
@@ -1520,7 +1524,7 @@ signed char field_entry::setFieldDensity(const signed char new_density){
 }
 
 int field_entry::setFieldAge(const int new_age){
-	
+
 	age = new_age;
 
 	return age;
@@ -1665,7 +1669,7 @@ int field::move_cost() const{
     }
     int current_cost = 0;
     for( std::vector<field_entry*>::const_iterator current_field = field_list.begin();
-         current_field != field_list.end(); 
+         current_field != field_list.end();
          ++current_field){
         current_cost += (*current_field)->move_cost();
     }
