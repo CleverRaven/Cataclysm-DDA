@@ -859,7 +859,6 @@ long special_symbol (long sym)
 }
 
 // utf-8 version
-// works differently, so keep the two versions in code for quick debug purpose
 std::string word_rewrap (const std::string &ins, int width){
     std::ostringstream o;
 	std::string in = ins;
@@ -966,3 +965,19 @@ std::string from_sentence_case (const std::string &kingston)
     }
     return "";
 }
+
+std::string string_format(std::string pattern, ...)
+{
+    va_list ap;
+    va_start(ap,pattern);
+    char buff[3000];    //TODO replace Magic Number
+    vsprintf(buff, pattern.c_str(), ap);
+    va_end(ap);
+    
+    //drop contents behind $, this trick is there to skip certain arguments
+    char* break_pos = strchr(buff, '$');
+    if(break_pos) break_pos[0] = '\0';
+
+    return buff;
+}
+
