@@ -1063,7 +1063,7 @@ int player::calc_focus_equilibrium()
         // only apply a penalty when we're actually learning something
         if (skillLevel(reading->type) < (int)reading->level)
         {
-            focus_gain_rate -= 100;
+            focus_gain_rate -= 50;
         }
     }
 
@@ -8304,4 +8304,59 @@ void player::setID (int i)
 int player::getID ()
 {
     return this->id;
+}
+
+bool player::uncanny_dodge(bool is_u)
+{
+    point adjacent = adjacent_tile();
+    power_level -= 3;
+    if (adjacent.x != posx || adjacent.y != posy)
+    {
+        posx = adjacent.x;
+        posy = adjacent.y;
+        if (is_u)
+            g->add_msg("Time seems to slow down and you instinctively dodge!");
+        else
+            g->add_msg("Your target dodges... so fast!");
+        return true;
+    }
+    if (is_u)
+        g->add_msg("You try to dodge but there's no room!");
+    return false;
+}
+// adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
+point player::adjacent_tile()
+{
+    std::vector<point> ret;
+    field_entry *cur = NULL;
+    field tmpfld;
+    trap_id curtrap;
+    int dangerous_fields;
+    for (int i=posx-1; i <= posx+1; i++)
+    {
+        for (int j=posy-1; j <= posy+1; j++)
+        {
+            if (i == posx && j == posy) continue;       // don't consider player position
+            curtrap=g->m.tr_at(i, j);
+            if (g->mon_at(i, j) == -1 && g->npc_at(i, j) == -1 && g->m.move_cost(i, j) > 0 && (curtrap == tr_null || g->traps[curtrap]->is_benign()))        // only consider tile if unoccupied, passable and has no traps
+            {
+                dangerous_fields = 0;
+                tmpfld = g->m.field_at(i, j);
+                for(std::vector<field_entry*>::iterator field_list_it = tmpfld.getFieldStart(); field_list_it != tmpfld.getFieldEnd(); ++field_list_it)
+                {
+                    cur = (*field_list_it);
+                    if (cur != NULL && cur->is_dangerous())
+                        dangerous_fields++;
+                }
+                if (dangerous_fields == 0)
+                {
+                    ret.push_back(point(i, j));
+                }
+            }
+        }
+    }
+    if (ret.size())
+        return ret[rng(0, ret.size()-1)];   // return a random valid adjacent tile
+    else
+        return point(posx, posy);           // or return player position if no valid adjacent tiles
 }
