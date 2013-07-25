@@ -112,6 +112,49 @@ std::string ammo_name(ammotype t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 itype_id default_ammo(ammotype guntype);
 
+// Use functions can be either C++ or lua.
+typedef void (iuse::*Use_function_CPP)(game*,player*,item*,bool);
+
+enum Use_function_type {
+    USE_FUNCTION_CPP,
+    USE_FUNCTION_LUA
+};
+
+struct Use_function {
+    Use_function_type function_type;
+
+    union {
+        int lua_function_index;
+        Use_function_CPP cpp_function;
+    };
+
+    Use_function() {};
+
+    Use_function(Use_function_CPP f)
+        : function_type(USE_FUNCTION_CPP), cpp_function(f)
+    { };
+
+    Use_function(int f)
+        : function_type(USE_FUNCTION_LUA), lua_function_index(f)
+    { };
+
+    void call(game*,player*,item*,bool);
+
+    void operator=(Use_function_CPP f) {
+        function_type = USE_FUNCTION_CPP;
+        cpp_function = f;
+    }
+
+    bool operator==(Use_function_CPP f) const {
+        return function_type == USE_FUNCTION_CPP && f == cpp_function;
+    }
+
+    bool operator!=(Use_function_CPP f) const {
+        return function_type != USE_FUNCTION_CPP || f != cpp_function;
+    }
+};
+
+
 struct itype
 {
  itype_id id;		// ID # that matches its place in master itype list
@@ -165,7 +208,7 @@ struct itype
 
  std::string dmg_adj(int dam) { return material_type::find_material(m1)->dmg_adj(dam); }
 
- void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
+ Use_function use;// Special effects of use
 
  itype() {
   id = "null";
