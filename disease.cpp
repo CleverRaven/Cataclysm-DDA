@@ -792,9 +792,25 @@ void dis_effect(game *g, player &p, disease &dis)
 
   case DI_ALARM_CLOCK:
     {
-        if (dis.duration <= 1 && p.has_disease("sleep")) {
-            p.rem_disease("sleep");
-            g->add_msg(_("Your alarmclock wakes you up."));
+        if (p.has_disease("sleep"))
+        {
+            if (dis.duration == 1)
+            {
+                if (!g->sound(p.posx, p.posy, 12, "alarm_clock")) {
+                    //You didn't hear the alarm
+                    dis.duration += 100; //10 minute alarm interval
+                    g->add_msg(_("An alarm rings but you don't hear it."));
+                }
+                else
+                {
+                    g->add_msg(_("You wake up to the ringing of your alarm-clock."));
+                }
+            }
+        }
+        else if (!p.has_disease("lying_down"))
+        {
+            //Turn the alarm-clock off if you woke up before the alarm
+            dis.duration = 1;
         }
     }
 

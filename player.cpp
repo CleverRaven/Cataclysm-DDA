@@ -5636,6 +5636,29 @@ bool player::has_weapon_or_armor(char let) const
  return false;
 }
 
+bool player::has_item_with_flag( std::string flag ) const
+{
+    //check worn items for flag
+    if (worn_with_flag( flag ))
+    {
+        return true;
+    }
+
+    //check weapon for flag
+    if (weapon.has_flag( flag ))
+    {
+        return true;
+    }
+
+    //check inventory items for flag
+    if (inv.has_flag( flag ))
+    {
+        return true;
+    }
+
+    return false;
+}
+
 bool player::has_item(char let)
 {
  return (has_weapon_or_armor(let) || !inv.item_by_letter(let).is_null());
