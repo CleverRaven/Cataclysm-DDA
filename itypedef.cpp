@@ -260,6 +260,7 @@ BIO_SINGLE("bio_night", 1, 8500, c_magenta, 5);
 // defensive
 BIO_SINGLE("bio_ads", 1, 9500, c_ltblue, 7);
 BIO_SINGLE("bio_ods", 1, 9500, c_ltblue, 7);
+BIO_SINGLE("bio_uncanny_dodge", 1, 9500, c_ltblue, 11);
 // medical
 BIO_SINGLE("bio_nanobots", 3, 9500, c_ltred, 6);
 BIO_SINGLE("bio_blood_anal", 3, 3200, c_ltred, 2);
@@ -564,6 +565,8 @@ std::string ammo_name(ammotype t)
     if( t == "40" )	   return ".40";
     if( t == "44" )	   return ".44";
     if( t == "45" )	   return ".45";
+    if( t == "454" )	  return ".454";
+    if( t == "500" )	  return ".500";
     if( t == "57" )	   return "5.7mm";
     if( t == "46" )	   return "4.6mm";
     if( t == "762" )	  return "7.62x39mm";
@@ -599,6 +602,8 @@ itype_id default_ammo(ammotype guntype)
     if( guntype == "40" )	   return "10mm";
     if( guntype == "44" )	   return "44magnum";
     if( guntype == "45" )	   return "45_acp";
+    if( guntype == "454" )   return "454_Casull";
+    if( guntype == "500" )   return "500_Magnum";
     if( guntype == "57" )	   return "57mm";
     if( guntype == "46" )	   return "46mm";
     if( guntype == "762" )	  return "762_m43";

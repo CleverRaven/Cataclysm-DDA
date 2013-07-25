@@ -48,10 +48,10 @@
 #define BULLET_SPEED 10000000
 #define EXPLOSION_SPEED 70000000
 
-#define MAX_ITEM_IN_SQUARE 1024 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
-#define MAX_VOLUME_IN_SQUARE 1000 // 6.25 dead bears is enough for everybody!
+#define MAX_ITEM_IN_SQUARE 4096 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
+#define MAX_VOLUME_IN_SQUARE 4000 // 6.25 dead bears is enough for everybody!
 #define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
-#define MAX_VOLUME_IN_VEHICLE_STORAGE 500 // todo: variation. semi trailer square could hold more. the real limit would be weight
+#define MAX_VOLUME_IN_VEHICLE_STORAGE 2000 // todo: variation. semi trailer square could hold more. the real limit would be weight
 
 // The reference to the one and only game instance.
 extern game *g;
@@ -122,8 +122,10 @@ class game
   void advance_nextinv();	// Increment the next inventory letter
   void decrease_nextinv();	// Decrement the next inventory letter
   void vadd_msg(const char* msg, va_list ap );
+  void add_msg_string(const std::string &s);
   void add_msg(const char* msg, ...);
   void add_msg_if_player(player *p, const char* msg, ...);
+  void add_msg_player_or_npc(player *p, const char* player_str, const char* npc_str, ...);
   std::string press_x(action_id act);	// (Press X (or Y)|Try) to Z
   std::string press_x(action_id act, std::string key_bound,
                                      std::string key_unbound);
@@ -216,6 +218,7 @@ class game
   bool sees_u(int x, int y, int &t);
   bool u_see (int x, int y);
   bool u_see (monster *mon);
+  bool u_see (player *p);
   bool pl_sees(player *p, monster *mon, int &t);
   void refresh_all();
   void update_map(int &x, int &y);  // Called by plmove when the map updates
