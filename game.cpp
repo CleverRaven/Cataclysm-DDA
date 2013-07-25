@@ -1301,9 +1301,7 @@ void game::process_missions()
 }
 
 void game::handle_key_blocking_activity() {
-    if ( u.activity.type != ACT_NULL &&
-        u.activity.moves_left > 0 &&
-        u.activity.continuous == true &&
+    if (u.activity.moves_left > 0 && u.activity.continuous == true &&
         (  // bool activity_is_abortable() ?
             u.activity.type == ACT_READ ||
             u.activity.type == ACT_BUILD ||
@@ -1313,29 +1311,25 @@ void game::handle_key_blocking_activity() {
             u.activity.type == ACT_WAIT
         )
     ) {
-        char ch='.';
-        int ich=0;
         timeout(1);
-        if((ich = input()) != ERR) {
+        char ch = input();
+        if(ch != ERR) {
             timeout(-1);
-            ch = input(ich);
-            action_id act = keymap[ch];
-            switch(act) {  // should probably make the switch in handle_action() a function
+            switch(keymap[ch]){  // should probably make the switch in handle_action() a function
                 case ACTION_PAUSE:
                     cancel_activity_query(_("Confirm:"));
-                break;
+                    break;
                 case ACTION_PL_INFO:
                     u.disp_info(this);
                     refresh_all();
-                break;
+                    break;
                 case ACTION_MESSAGES:
                     msg_buffer();
-                break;
-
+                    break;
                 case ACTION_HELP:
                     help();
                     refresh_all();
-                break;
+                    break;
             }
         }
         timeout(-1);
@@ -1343,16 +1337,14 @@ void game::handle_key_blocking_activity() {
 }
 //// item submenu for 'i' and '/'
 int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
-    bool has = false;
-    const std::string sSpaces = "                              ";
     int cMenu = (int)'+';
-    has = u.has_item(chItem);
 
-    if (has) {
+    if (u.has_item(chItem)) {
         item oThisItem = u.i_at(chItem);
         std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
         const int iOffsetX = 2;
+        const bool bHPR = hasPickupRule(oThisItem.tname(this));
 
         vMenu.push_back(iteminfo("MENU", "", _("iOffsetX"), iOffsetX));
         vMenu.push_back(iteminfo("MENU", "", _("iOffsetY"), 0));
@@ -1368,13 +1360,14 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
         vMenu.push_back(iteminfo("MENU", "r", _("eload"), u.rate_action_reload(&oThisItem)));
         vMenu.push_back(iteminfo("MENU", "D", _("isassemble"), u.rate_action_disassemble(&oThisItem, this)));
         vMenu.push_back(iteminfo("MENU", "=", _(" reassign")));
+        vMenu.push_back(iteminfo("MENU", (bHPR) ? "-" : "+" , _(" Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
         oThisItem.info(true, &vThisItem, this);
         compare_split_screen_popup(iStartX,iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
 
-        const int iMenuStart = iOffsetX;  // lightbar constraints
+        const int iMenuStart = iOffsetX;
         const int iMenuItems = vMenu.size() - 1;
-        int iSelected = 1;         // default 'parked' hidden above 'activate'
+        int iSelected = iOffsetX - 1;
 
         do {
             cMenu = compare_split_screen_popup(iStartX + iWidth, iMenuItems + iOffsetX, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
@@ -1423,6 +1416,18 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
                  break;
                 case KEY_DOWN:
                  iSelected++;
+                 break;
+                case '+':
+                 if (!bHPR) {
+                  addPickupRule(oThisItem.tname(this));
+                  add_msg(_("'%s' added to character pickup rules."), oThisItem.tname(this).c_str());
+                 }
+                 break;
+                case '-':
+                 if (bHPR) {
+                  removePickupRule(oThisItem.tname(this));
+                  add_msg(_("'%s' removed from character pickup rules."), oThisItem.tname(this).c_str());
+                 }
                  break;
                 default:
                  break;
@@ -10136,8 +10141,8 @@ void game::plmove(int x, int y)
    if (!u.has_trait(PF_PARKOUR) || one_in(4)) {
     body_part bp = random_body_part();
     int side = rng(0, 1);
-    add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
-    u.hit(this, bp, side, 0, rng(1, 4));
+    if(u.hit(this, bp, side, 0, rng(1, 4)) > 0)
+     add_msg(_("You cut your %s on the %s!"), body_part_name(bp, side).c_str(), m.tername(x, y).c_str());
    }
   }
   if (!u.has_artifact_with(AEP_STEALTH) && !u.has_trait(PF_LEG_TENTACLES)) {
@@ -10282,11 +10287,15 @@ void game::plmove(int x, int y)
   }
   if(tunneldist) //you tunneled
   {
+    if (u.in_vehicle)
+        m.unboard_vehicle(this, u.posx, u.posy);
     u.power_level -= (tunneldist * 10); //tunneling costs 10 bionic power per impassable tile
     u.moves -= 100; //tunneling costs 100 moves
     u.posx += (tunneldist + 1) * (x - u.posx); //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile
     u.posy += (tunneldist + 1) * (y - u.posy); //ditto for y
     add_msg(_("You quantum tunnel through the %d-tile wide barrier!"), tunneldist);
+    if (m.veh_at(u.posx, u.posy, vpart1) && m.veh_at(u.posx, u.posy, vpart1)->part_with_feature(vpart1, vpf_boardable) >= 0)
+        m.board_vehicle(this, u.posx, u.posy, &u);
   }
   else //or you couldn't tunnel due to lack of energy
   {
@@ -11100,6 +11109,7 @@ void game::wait()
   default: return;
  }
  u.assign_activity(this, ACT_WAIT, time, 0);
+ u.activity.continuous = true;
  u.moves = 0;
 }
 

@@ -262,6 +262,7 @@
       ["novel_romance", 30],
       ["novel_drama", 40],
       ["novel_mystery", 25],
+      ["ZSG", 5],
       ["manual_mechanics", 35],
       ["manual_speech", 50],
       ["manual_business", 40],
@@ -1284,7 +1285,8 @@
       ["cookbook_human", 1],
       ["novel_mystery", 25],
       ["novel_fantasy", 20],
-      ["novel_horror", 18]
+      ["novel_horror", 18],
+      ["ZSG", 5]
     ]
   },
   { "id":"manuals",
@@ -1539,6 +1541,7 @@
       ["novel_mystery", 25],
       ["novel_fantasy", 20],
       ["novel_horror", 18],
+      ["ZSG", 2],
       ["chocolate", 50],
       ["candy", 80],
       ["backpack", 38],
@@ -1999,6 +2002,7 @@
       ["bio_blood_anal", 10],
       ["bio_ads", 10],
       ["bio_ods", 10],
+      ["bio_uncanny_dodge", 10],
       ["bio_resonator", 10],
       ["bio_hydraulics", 10],
       ["bio_time_freeze", 10],
@@ -2211,6 +2215,7 @@
       ["bio_blood_anal", 10],
       ["bio_ads", 10],
       ["bio_ods", 10],
+      ["bio_uncanny_dodge", 10],
       ["bio_blaster", 10],
       ["bio_laser", 10],
       ["bio_emp", 10],
