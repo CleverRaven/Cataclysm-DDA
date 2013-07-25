@@ -535,6 +535,36 @@ void merge_vector()
     }
 }
 
+bool hasPickupRule(std::string sRule)
+{
+    for (int i = 0; i < vAutoPickupRules[2].size(); i++) {
+        if (sRule.length() == (vAutoPickupRules[2][i].sRule).length() && ci_find_substr(sRule, vAutoPickupRules[2][i].sRule) != -1) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void addPickupRule(std::string sRule)
+{
+    vAutoPickupRules[2].push_back(cPickupRules(sRule, true, false));
+    merge_vector();
+    createPickupRules();
+}
+
+void removePickupRule(std::string sRule)
+{
+    for (int i = 0; i < vAutoPickupRules[2].size(); i++) {
+        if (sRule.length() == (vAutoPickupRules[2][i].sRule).length() && ci_find_substr(sRule, vAutoPickupRules[2][i].sRule) != -1) {
+            vAutoPickupRules[2].erase(vAutoPickupRules[2].begin() + i);
+            merge_vector();
+            createPickupRules();
+            break;
+        }
+    }
+}
+
 void createPickupRules()
 {
     mapAutoPickupItems.clear();

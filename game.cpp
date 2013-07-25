@@ -1337,16 +1337,14 @@ void game::handle_key_blocking_activity() {
 }
 //// item submenu for 'i' and '/'
 int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
-    bool has = false;
-    const std::string sSpaces = "                              ";
     int cMenu = (int)'+';
-    has = u.has_item(chItem);
 
-    if (has) {
+    if (u.has_item(chItem)) {
         item oThisItem = u.i_at(chItem);
         std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
         const int iOffsetX = 2;
+        const bool bHPR = hasPickupRule(oThisItem.tname(this));
 
         vMenu.push_back(iteminfo("MENU", "", _("iOffsetX"), iOffsetX));
         vMenu.push_back(iteminfo("MENU", "", _("iOffsetY"), 0));
@@ -1362,13 +1360,14 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
         vMenu.push_back(iteminfo("MENU", "r", _("eload"), u.rate_action_reload(&oThisItem)));
         vMenu.push_back(iteminfo("MENU", "D", _("isassemble"), u.rate_action_disassemble(&oThisItem, this)));
         vMenu.push_back(iteminfo("MENU", "=", _(" reassign")));
+        vMenu.push_back(iteminfo("MENU", (bHPR) ? "-" : "+" , _(" Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
         oThisItem.info(true, &vThisItem, this);
         compare_split_screen_popup(iStartX,iWidth, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
 
-        const int iMenuStart = iOffsetX;  // lightbar constraints
+        const int iMenuStart = iOffsetX;
         const int iMenuItems = vMenu.size() - 1;
-        int iSelected = 1;         // default 'parked' hidden above 'activate'
+        int iSelected = iOffsetX - 1;
 
         do {
             cMenu = compare_split_screen_popup(iStartX + iWidth, iMenuItems + iOffsetX, vMenu.size()+iOffsetX*2, "", vMenu, vDummy,
@@ -1417,6 +1416,18 @@ int game::inventory_item_menu(char chItem, int iStartX, int iWidth) {
                  break;
                 case KEY_DOWN:
                  iSelected++;
+                 break;
+                case '+':
+                 if (!bHPR) {
+                  addPickupRule(oThisItem.tname(this));
+                  add_msg(_("'%s' added to character pickup rules."), oThisItem.tname(this).c_str());
+                 }
+                 break;
+                case '-':
+                 if (bHPR) {
+                  removePickupRule(oThisItem.tname(this));
+                  add_msg(_("'%s' removed from character pickup rules."), oThisItem.tname(this).c_str());
+                 }
                  break;
                 default:
                  break;
