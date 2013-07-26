@@ -394,11 +394,11 @@ std::string calendar::print_time(bool just_hour) const
     {
         if (hour < 12)
         {
-            time_string << " AM";
+            time_string << _(" AM");
         }
         else
         {
-            time_string << " PM";
+            time_string << _(" PM");
         }
     }
 
@@ -408,33 +408,35 @@ std::string calendar::print_time(bool just_hour) const
 std::string calendar::textify_period()
 {
  standardize();
- std::stringstream ret;
  int am;
- std::string tx;
+ char* tx;
 // Describe the biggest time period, as "<am> <tx>s", am = amount, tx = name
  if (year > 0) {
   am = year;
-  tx = "year";
+  tx = ngettext("%d year", "%d years", am);
  } else if (season > 0) {
   am = season;
-  tx = "season";
+  tx = ngettext("%d season", "%d seasons", am);
  } else if (day > 0) {
   am = day;
-  tx = "day";
+  tx = ngettext("%d day", "%d days", am);
  } else if (hour > 0) {
   am = hour;
-  tx = "hour";
+  tx = ngettext("%d hour", "%d hours", am);
  } else if (minute >= 5) {
   am = minute;
-  tx = "minute";
+  tx = ngettext("%d minute", "%d minutes", am);
  } else {
   am = second / 6 + minute * 10;
-  tx = "turn";
+  tx = ngettext("%d turn", "%d turns", am);
  }
 
- ret << am << " " << tx << (am > 1 ? "s" : "");
+ char* buf = new char[50];
+ sprintf(buf, tx, am);
+ std::string ret = buf;
+ delete buf; buf=NULL;
 
- return ret.str();
+ return ret;
 }
 
 std::string calendar::day_of_week() const
@@ -480,25 +482,25 @@ std::string calendar::day_of_week() const
     switch (current_day)
     {
     case SUNDAY:
-        day_string = "Sunday";
+        day_string = _("Sunday");
         break;
     case MONDAY:
-        day_string = "Monday";
+        day_string = _("Monday");
         break;
     case TUESDAY:
-        day_string = "Tuesday";
+        day_string = _("Tuesday");
         break;
     case WEDNESDAY:
-        day_string = "Wendsday";
+        day_string = _("Wendsday");
         break;
     case THURSDAY:
-        day_string = "Thursday";
+        day_string = _("Thursday");
         break;
     case FRIDAY:
-        day_string = "Friday";
+        day_string = _("Friday");
         break;
     case SATURDAY:
-        day_string = "Saturday";
+        day_string = _("Saturday");
         break;
     }
 

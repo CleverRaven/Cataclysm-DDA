@@ -24,6 +24,7 @@ std::vector <point> line_to(int x1, int y1, int x2, int y2, int t);
 // sqrt(dX^2 + dY^2)
 int trig_dist(int x1, int y1, int x2, int y2);
 // Roguelike distance; minimum of dX and dY
+int square_dist(int x1, int y1, int x2, int y2);
 int rl_dist(int x1, int y1, int x2, int y2);
 int rl_dist(point a, point b);
 double slope_of(std::vector<point> line);

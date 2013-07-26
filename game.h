@@ -48,10 +48,10 @@
 #define BULLET_SPEED 10000000
 #define EXPLOSION_SPEED 70000000
 
-#define MAX_ITEM_IN_SQUARE 1024 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
-#define MAX_VOLUME_IN_SQUARE 1000 // 6.25 dead bears is enough for everybody!
+#define MAX_ITEM_IN_SQUARE 4096 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
+#define MAX_VOLUME_IN_SQUARE 4000 // 6.25 dead bears is enough for everybody!
 #define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
-#define MAX_VOLUME_IN_VEHICLE_STORAGE 500 // todo: variation. semi trailer square could hold more. the real limit would be weight
+#define MAX_VOLUME_IN_VEHICLE_STORAGE 2000 // todo: variation. semi trailer square could hold more. the real limit would be weight
 
 // The reference to the one and only game instance.
 extern game *g;
@@ -136,7 +136,7 @@ class game
                  int x = -1, int y = -1);
   bool event_queued(event_type type);
 // Sound at (x, y) of intensity (vol), described to the player is (description)
-  void sound(int x, int y, int vol, std::string description);
+  bool sound(int x, int y, int vol, std::string description); //returns true if you heard the yound
 // creates a list of coordinates to draw footsteps
   void add_footstep(int x, int y, int volume, int distance, monster* source);
   std::vector<std::vector<point> > footsteps;
@@ -356,6 +356,7 @@ void load_artifacts(); // Load artifact data
 
 // Data Initialization
   void init_fields();
+  void init_artifacts();
   void init_traits();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);

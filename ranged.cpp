@@ -372,12 +372,15 @@ int trange = rl_dist(p.posx, p.posy, tarx, tary);
      h = &u;
     else
      h = active_npc[npc_at(tx, ty)];
-
-    std::vector<point> blood_traj = trajectory;
-    blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
-    splatter(this, blood_traj, dam);
-    shoot_player(this, p, h, dam, goodhit);
-
+    if (h->power_level >= 10 && h->has_active_bionic("bio_uncanny_dodge") && h->uncanny_dodge()) {
+     h->power_level -= 7; // dodging bullets costs extra
+    }
+    else {
+     std::vector<point> blood_traj = trajectory;
+     blood_traj.insert(blood_traj.begin(), point(p.posx, p.posy));
+     splatter(this, blood_traj, dam);
+     shoot_player(this, p, h, dam, goodhit);
+    }
    } else
     m.shoot(this, tx, ty, dam, i == trajectory.size() - 1, *effects);
   } // Done with the trajectory!
