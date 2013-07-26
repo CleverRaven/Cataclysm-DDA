@@ -367,6 +367,7 @@
       ["shorts_cargo", 50],
       ["skirt", 75],
       ["dress", 70],
+      ["dress_wedding", 1],
       ["tshirt", 80],
       ["polo_shirt", 65],
       ["dress_shirt", 60],
@@ -1165,7 +1166,8 @@
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["skirt", 75],
-      ["dress", 70]
+      ["dress", 70],
+      ["dress_wedding", 1]
     ]
   },
   { "id":"shirts",
