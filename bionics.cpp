@@ -362,7 +362,7 @@ void player::activate_bionic(int b, game *g)
   } else if(weapon.type->id != "null"){
    g->add_msg(_("Your claws extend, forcing you to drop your %s."),
               weapon.tname().c_str());
-   g->m.add_item(posx, posy, weapon);
+   g->m.add_item_or_charges(posx, posy, weapon);
    weapon = item(g->itypes["bio_claws_weapon"], 0);
    weapon.invlet = '#';
   } else {
@@ -438,19 +438,19 @@ void player::activate_bionic(int b, game *g)
        if (index != -1) {
         if (g->z[index].hurt(tmp_item.weight() * 2))
          g->kill_mon(index, true);
-        g->m.add_item(traj[l].x, traj[l].y, tmp_item);
+        g->m.add_item_or_charges(traj[l].x, traj[l].y, tmp_item);
         l = traj.size() + 1;
        } else if (l > 0 && g->m.move_cost(traj[l].x, traj[l].y) == 0) {
         g->m.bash(traj[l].x, traj[l].y, tmp_item.weight() * 2, junk);
         g->sound(traj[l].x, traj[l].y, 12, junk);
         if (g->m.move_cost(traj[l].x, traj[l].y) == 0) {
-         g->m.add_item(traj[l - 1].x, traj[l - 1].y, tmp_item);
+         g->m.add_item_or_charges(traj[l - 1].x, traj[l - 1].y, tmp_item);
          l = traj.size() + 1;
         }
        }
       }
       if (l == traj.size())
-       g->m.add_item(posx, posy, tmp_item);
+       g->m.add_item_or_charges(posx, posy, tmp_item);
      }
     }
    }

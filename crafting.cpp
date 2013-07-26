@@ -1131,11 +1131,11 @@ void game::complete_craft()
   if (iter == inv_chars.size() || u.volume_carried()+newit.volume() > u.volume_capacity()) {
    add_msg(_("There's no room in your inventory for the %s, so you drop it."),
              newit.tname().c_str());
-   m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
+   m.add_item_or_charges(u.posx, u.posy, newit);
   } else if (u.weight_carried() + newit.volume() > u.weight_capacity()) {
    add_msg(_("The %s is too heavy to carry, so you drop it."),
            newit.tname().c_str());
-   m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
+   m.add_item_or_charges(u.posx, u.posy, newit);
   } else {
    newit = u.i_add(newit);
    add_msg("%c - %s", newit.invlet, newit.tname().c_str());
@@ -1514,7 +1514,7 @@ void game::complete_disassemble()
       if (ammodrop.made_of(LIQUID))
         handle_liquid(ammodrop, false, false);
       else
-        m.add_item(u.posx, u.posy, ammodrop, MAX_ITEM_IN_SQUARE);
+        m.add_item_or_charges(u.posx, u.posy, ammodrop);
     }
     if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL")
     {
@@ -1527,7 +1527,7 @@ void game::complete_disassemble()
       if (ammodrop.made_of(LIQUID))
         handle_liquid(ammodrop, false, false);
       else
-        m.add_item(u.posx, u.posy, ammodrop, MAX_ITEM_IN_SQUARE);
+        m.add_item_or_charges(u.posx, u.posy, ammodrop);
     }
     u.i_rem(u.activity.values[0]);  // remove the item
 
@@ -1584,7 +1584,7 @@ void game::complete_disassemble()
           } else
           {
             if (dis->difficulty == 0 || comp_success)
-              m.add_item(u.posx, u.posy, newit, MAX_ITEM_IN_SQUARE);
+              m.add_item_or_charges(u.posx, u.posy, newit);
             else
               add_msg(_("You fail to recover a component."));
             compcount--;

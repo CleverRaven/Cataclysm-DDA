@@ -6006,7 +6006,7 @@ bool player::eat(game *g, signed char ch)
                         if (!(it.has_flag("WATERTIGHT") && it.has_flag("SEALS")))
                         {
                             g->add_msg("You drop the empty %s.", it.tname(g).c_str());
-                            g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
+                            g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                         }
                         else
                             g->add_msg("%c - an empty %s", it.invlet,
@@ -6015,12 +6015,12 @@ bool player::eat(game *g, signed char ch)
                     else if (it.type->id == "wrapper") // hack because wrappers aren't containers
                     {
                         g->add_msg("You drop the empty %s.", it.tname(g).c_str());
-                        g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
+                        g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                     }
                     break;
                 case 2:
                     g->add_msg("You drop the empty %s.", it.tname(g).c_str());
-                    g->m.add_item(posx, posy, inv.remove_item_by_letter(it.invlet));
+                    g->m.add_item_or_charges(posx, posy, inv.remove_item_by_letter(it.invlet));
                     break;
                 }
             }
@@ -6057,7 +6057,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
     return true;
   } else if (query_yn("No space in inventory for your %s.  Drop it?",
                       weapon.tname(g).c_str())) {
-   g->m.add_item(posx, posy, remove_weapon());
+   g->m.add_item_or_charges(posx, posy, remove_weapon());
    recoil = 0;
    if (!pickstyle)
     return true;
@@ -6107,7 +6107,7 @@ bool player::wield(game *g, signed char ch, bool autodrop)
   return true;
  } else if (query_yn("No space in inventory for your %s.  Drop it?",
                      weapon.tname(g).c_str())) {
-  g->m.add_item(posx, posy, remove_weapon());
+  g->m.add_item_or_charges(posx, posy, remove_weapon());
   weapon = it;
   inv.remove_item_by_letter(weapon.invlet);
   inv.unsort();
@@ -6543,7 +6543,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
          if ((dynamic_cast<it_armor*>(worn[j].type))->is_power_armor() &&
              (worn[j].invlet != let)) {
              if( autodrop ) {
-                 g->m.add_item(posx, posy, worn[j]);
+                 g->m.add_item_or_charges(posx, posy, worn[j]);
                  worn.erase(worn.begin() + j);
                  removed_armor = true;
              } else {
@@ -6566,7 +6566,7 @@ bool player::takeoff(game *g, char let, bool autodrop)
      return true;
     } else if (query_yn("No room in inventory for your %s.  Drop it?",
                         worn[i].tname(g).c_str())) {
-     g->m.add_item(posx, posy, worn[i]);
+     g->m.add_item_or_charges(posx, posy, worn[i]);
      worn.erase(worn.begin() + i);
      return true;
     } else

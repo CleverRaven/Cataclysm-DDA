@@ -925,7 +925,7 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
  } break;
 
  case TEC_DISARM:
-  g->m.add_item(p->posx, p->posy, p->remove_weapon());
+  g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
   g->add_msg_player_or_npc( this, _("You disarm %s!"), _("<npcname> disarms %s!"), target.c_str() );
   break;
 
@@ -1080,7 +1080,7 @@ void player::perform_defensive_technique(
    break;
 
   case TEC_DEF_DISARM:
-   g->m.add_item(p->posx, p->posy, p->remove_weapon());
+   g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
 // Re-roll damage, without our weapon
    bash_dam = p->roll_bash_damage(NULL, false);
    cut_dam  = p->roll_cut_damage(NULL, false);
@@ -1257,7 +1257,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   g->sound(posx, posy, 16, "");
 // Dump its contents on the ground
   for (int i = 0; i < weapon.contents.size(); i++)
-   g->m.add_item(posx, posy, weapon.contents[i]);
+   g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
   hit(g, bp_arms, 1, 0, rng(0, weapon.volume() * 2));// Take damage
   if (weapon.is_two_handed(this))// Hurt left arm too, if it was big
    hit(g, bp_arms, 0, 0, rng(0, weapon.volume()));
@@ -1287,7 +1287,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
     z->speed *= .85;
    z->add_item(remove_weapon());
   } else
-   g->m.add_item(posx, posy, remove_weapon());
+   g->m.add_item_or_charges(posx, posy, remove_weapon());
  } else {
   if (mon && (cut_dam >= z->hp || stab_dam >= z->hp)) {
    cutting_penalty /= 2;
