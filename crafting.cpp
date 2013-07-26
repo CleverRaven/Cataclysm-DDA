@@ -958,7 +958,7 @@ void game::pick_recipes(std::vector<recipe*> &current,
 
 void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, std::string filter)
 {
-    recipe_list::iterator insertion_point = current.begin();
+    std::vector<recipe*> can_craft;
     for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
     {
         if (u.knows_recipe(*iter) && (*iter)->difficulty >= 0)
@@ -966,12 +966,13 @@ void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, 
             if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
             {
                 if (OPTIONS[OPT_SORT_CRAFTING] && can_make(*iter))
-                    current.insert(insertion_point++,*iter);
+                    can_craft.push_back(*iter);
                 else
                     current.push_back(*iter);
             }
         }
     }
+    current.insert(current.begin(),can_craft.begin(),can_craft.end());
 }
 
 void game::make_craft(recipe *making)
