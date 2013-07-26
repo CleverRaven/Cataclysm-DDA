@@ -958,14 +958,15 @@ void game::pick_recipes(std::vector<recipe*> &current,
 
 void game::add_known_recipes(std::vector<recipe*> &current, recipe_list source, std::string filter)
 {
+    recipe_list::iterator insertion_point = current.begin();
     for (recipe_list::iterator iter = source.begin(); iter != source.end(); ++iter)
     {
         if (u.knows_recipe(*iter) && (*iter)->difficulty >= 0)
         {
             if (filter == "" || item_controller->find_template((*iter)->result)->name.find(filter) != std::string::npos)
             {
-                if (can_make(*iter))
-                    current.insert(current.begin(),*iter);
+                if (OPTIONS[OPT_SORT_CRAFTING] && can_make(*iter))
+                    current.insert(insertion_point++,*iter);
                 else
                     current.push_back(*iter);
             }
