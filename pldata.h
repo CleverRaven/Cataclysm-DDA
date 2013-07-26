@@ -143,6 +143,7 @@ enum pl_flag {
  PF_SELFAWARE, // Let's you see exact HP totals
  PF_INCONSPICUOUS,// Less spawns due to timeouts
  PF_MASOCHIST,	// Morale boost from pain
+ PF_CROSSDRESSER, // Morale bonus for covering body parts in clothing typical of the opposite gender.
  PF_LIGHTSTEP,	// Less noise from movement
  PF_ANDROID,	// Start with two bionics (occasionally one)
  PF_ROBUST,	// Mutations tend to be good (usually they tend to be bad)
@@ -175,7 +176,6 @@ enum pl_flag {
  PF_SCHIZOPHRENIC,// Random bad effects, variety
  PF_JITTERY,	// Get DI_SHAKES under some circumstances
  PF_HOARDER,	// Morale penalty when volume is less than max
- PF_CROSSDRESSER, // Morale penalty when not wearing something of the opposite gender.
  PF_SAVANT,	// All skills except our best are trained more slowly
  PF_MOODSWINGS,	// Big random shifts in morale
  PF_WEAKSTOMACH,// More likely to throw up in all circumstances

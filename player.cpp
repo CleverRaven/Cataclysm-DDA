@@ -98,6 +98,9 @@ close to you.")},
 {_("Masochist"), 2, 0, 0, _("\
 Although you still suffer the negative effects of pain, it also brings a \
 unique pleasure to you.")},
+{_("Cross-Dresser"), 2, 0, 0, _("\
+Covering your body in clothing typical for the opposite gender makes you feel better. \
+Negates any gender restrictions on professions.")},
 {_("Light Step"), 1, 0, 0, _("\
 You make less noise while walking.  You're also less likely to set off traps.")},
 {_("Android"), 4, 0, 0, _("\
@@ -189,9 +192,6 @@ find your hands shaking uncontrollably, severely reducing your dexterity.")},
 You don't feel right unless you're carrying as much as you can.  You suffer \
 morale penalties for carrying less than maximum volume (weight is ignored). \
 Xanax can help control this anxiety.")},
-{_("Cross-Dresser"), -2, 0, 0, _("\
-You don't feel right unless you're wearing something of the opposite gender. \
-Negates any gender restrictions on professions.")},
 {_("Savant"), -4, 0, 0, _("\
 You tend to specialize in one skill and be poor at all others.  You advance \
 at half speed in all skills except your best one. Note that combining this \
@@ -995,20 +995,38 @@ void player::apply_persistent_morale()
         add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
     }
 
-    // Cross-dressers get a morale penalty if they're not wearing anything typical
-    // of the opposite gender(MALE_TYPICAL/FEMALE_TYPICAL item flags).
+    // Cross-dressers get a morale bonus for each body part covered in an
+    // item of the opposite gender(MALE_TYPICAL/FEMALE_TYPICAL item flags).
     if (has_trait(PF_CROSSDRESSER))
     {
-        int pen = 20;
+        int bonus = 0;
         std::string required_flag = male ? "FEMALE_TYPICAL" : "MALE_TYPICAL";
+
+        unsigned char covered = 0; // body parts covered by stuff with opposite gender flags
         for(int i=0; i<worn.size(); i++) {
             if(worn[i].has_flag(required_flag)) {
-                pen = 0;
-                break;
+                it_armor* item_type = (it_armor*) worn[i].type;
+                covered |= item_type->covers;
             }
         }
-        if(pen) {
-            add_morale(MORALE_PERM_CROSSDRESSER, -pen, -pen, 5, 5, true);
+        if(covered & mfb(bp_torso)) {
+            bonus += 6;
+        }
+        if(covered & mfb(bp_legs)) {
+            bonus += 4;
+        }
+        if(covered & mfb(bp_feet)) {
+            bonus += 2;
+        }
+        if(covered & mfb(bp_hands)) {
+            bonus += 2;
+        }
+        if(covered & mfb(bp_head)) {
+            bonus += 3;
+        }
+        
+        if(bonus) {
+            add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
         }
     }
 
