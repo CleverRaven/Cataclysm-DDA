@@ -3,6 +3,7 @@
 
 #include "enums.h"
 #include "translations.h"
+#include "picojson.h"
 #include <sstream>
 #include <vector>
 
@@ -48,7 +49,7 @@ enum activity_type {
  NUM_ACTIVITIES
 };
 
-struct player_activity
+struct player_activity : public picojson::serializable
 {
  activity_type type;
  int moves_left;
@@ -88,6 +89,32 @@ struct player_activity
   values.clear();
   for (int i = 0; i < copy.values.size(); i++)
    values.push_back(copy.values[i]);
+ }
+
+ picojson::value save() {
+    picojson::value rval; rval = picojson::object();
+
+    rval["type"]        = type;
+    rval["moves_left"]  = moves_left;
+    rval["index"]       = index;
+    rval["invlet"]      = invlet;
+    rval["name"]        = name;
+    rval["x"]           = placement.x;
+    rval["y"]           = placement.y;
+    rval["values"].from_vector<int>(values);
+
+    return rval;
+ }
+
+ void load(picojson::value& val) {
+    type = activity_type(val["type"].as_int());
+    moves_left       = val["moves_left"].as_int();
+    index            = val["index"].as_int();
+    invlet           = val["invlet"].as_char();
+    name             = val["name"].as_string();
+    placement.x      = val["x"].as_int();
+    placement.y      = val["y"].as_int();
+    values           = val["values"].to_scalar_vector<int>();
  }
 
  std::string save_info()
