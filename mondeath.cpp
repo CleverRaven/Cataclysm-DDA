@@ -223,8 +223,9 @@ void mdeath::disintegrate(game *g, monster *z)
 void mdeath::worm(game *g, monster *z)
 {
  if (g->u_see(z))
-  g->add_msg(_("The %s splits in two!"), z->name().c_str());
-
+  g->add_msg(_("The %s squeaks 'Oh no!'!"), z->name().c_str());
+g->m.ter_set(z->posx,z->posy,t_tombstone);
+return;
  std::vector <point> wormspots;
  int wormx, wormy;
  for (int i = -1; i <= 1; i++) {
