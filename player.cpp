@@ -1776,6 +1776,8 @@ void player::load_info(game *g, std::string data)
  prof_ident = jsonized_data["profession"].as_string();
  health = jsonized_data["health"].as_int();
  styletmp = jsonized_data["style_selected"].as_string();
+ activity.load(jsonized_data["activity"]);
+ backlog.load(jsonized_data["backlog"]);
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1783,9 +1785,6 @@ void player::load_info(game *g, std::string data)
   prof = profession::generic();
   debugmsg("Tried to use non-existent profession '%s'", prof_ident.c_str());
  }
-
- activity.load_info(dump);
- backlog.load_info(dump);
 
  style_selected = styletmp;
 
@@ -1928,6 +1927,8 @@ std::string player::save_info()
  root["profession"] = prof->ident();
  root["health"] = health;
  root["style_selected"] = style_selected;
+ root["activity"] = activity.save();
+ root["backlog"] = backlog.save();
 
  std::stringstream dump;
 
@@ -1937,8 +1938,6 @@ std::string player::save_info()
  // jsonized data, so instead of a delimiter, just specify the length
  // at the start of the string.
  dump << jsonized_data.size() << " " << jsonized_data;
-
- dump << activity.save_info() << " " << backlog.save_info() << " ";
 
  for (int i = 0; i < PF_MAX2; i++)
   dump << my_traits[i] << " ";
