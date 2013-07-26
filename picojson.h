@@ -120,6 +120,7 @@ namespace picojson {
     value& operator=(const array& s);
     value& operator=(const object& s);
     value& operator=(const char* s);
+    value& operator=(const char s);
     value& operator[](int index); // Must be array_type
     value& operator[](std::string key); // Must be object_type
 
@@ -132,6 +133,10 @@ namespace picojson {
     template <typename T> bool is() const;
     template <typename T> const T& get() const;
     template <typename T> T& get();
+    /**
+     * Similar to `value::get()` but returns a copy instead of a reference.
+     */
+    template <typename T> T getval() const;
     bool evaluate_as_boolean() const;
     value& get(size_t idx) const;
     value& get(const std::string& key) const;
@@ -147,13 +152,21 @@ namespace picojson {
      * Uses `serializable::write()` to convert the individual elements
      * to JSON values.
      */
-    value from_vector(std::vector<serializable> from);
+    value& from_vector(std::vector<serializable> from);
 
     /**
      * Create a JSON array from the given vector. T must inherit from
      * \ref serializable.
      */
-    value from_vector(std::vector<serializable*> from);
+    value& from_vector(std::vector<serializable*> from);
+
+    /**
+     * Create a JSON array from the given vector.
+     *
+     * T must be one of the types for which a value constructor is defined.
+     */
+    template<typename T> value& from_vector(std::vector<T> from);
+
 
     /**
      * Create a vector of objects from a JSON array.
@@ -168,6 +181,13 @@ namespace picojson {
      * Assumes that T inherits from serializable.
      */
     template<class T> std::vector<T*> to_pointer_vector();
+    
+    /**
+     * Create a vector of objects from a JSON array.
+     *
+     * T must have a value constructor(int, string etc.)
+     */
+    template<class T> std::vector<T> to_scalar_vector();
 
   private:
     template <typename T> value(const T*); // intentionally defined to block implicit conversion of pointer to bool
@@ -190,7 +210,7 @@ namespace picojson {
        *
        * @param read_from The JSON entity to read from.
        */
-      virtual void read(picojson::value& read_from) {};
+      virtual void load(picojson::value& read_from) {};
   };
 
 
@@ -320,6 +340,11 @@ namespace picojson {
       return *this;
   }
 
+  inline value& value::operator=(const char s) {
+      new (this) value(std::string(&s, 1)); // Convert the char to a string.
+      return *this;
+  }
+
   inline value& value::operator[](std::string key) {
       return get(key);
   }
@@ -357,6 +382,20 @@ namespace picojson {
   GET(std::string, *string_)
   GET(array, *array_)
   GET(object, *object_)
+#undef GET
+
+#define GET(ctype, var)						\
+  template <> inline ctype value::getval<ctype>() const {	\
+    assert("type mismatch! call vis<type>() before get<type>()" \
+	   && is<ctype>());				        \
+    return var;							\
+  }
+  GET(bool, boolean_)
+  GET(double, number_)
+  GET(std::string, *string_)
+  GET(array, *array_)
+  GET(object, *object_)
+  GET(int, (int) number_)
 #undef GET
 
   inline bool value::evaluate_as_boolean() const {
@@ -965,6 +1004,27 @@ namespace picojson {
           throw exception("JSON error: value is not numeric");
       }
       return 0;
+  }
+
+  template<typename T> value& value::from_vector(std::vector<T> from) {
+    array rval;
+    for(int i=0; i<from.size(); i++) {
+      rval.push_back(value(from[i]));
+    }
+    *this = rval; // Convert this to the array we created.
+    return *this;
+  }
+
+  template<class T> std::vector<T> value::to_scalar_vector() {
+    if(is<array>()) {
+      std::vector<T> rval;
+      for(int i=0; i<array_->size(); i++) {
+        rval.push_back((*array_)[i].getval<T>());
+      }
+      return rval;
+    } else {
+      throw exception("JSON error: value is not an array");
+    }
   }
 
 }
