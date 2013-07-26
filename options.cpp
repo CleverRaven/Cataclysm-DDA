@@ -398,7 +398,7 @@ std::string option_desc(option_key key)
     case OPT_CIRCLEDIST:          return _("If true, the game will calculate\nrange in a realistic way:\nlight sources will be circles\ndiagonal movement will\ncover more ground and take\nlonger.\nIf disabled, everything is\nsquare: moving to the northwest\ncorner of a building\ntakes as long as moving\nto the north wall.");
     case OPT_QUERY_DISASSEMBLE:   return _("If true, will query before\ndisassembling items.\nDefault is true");
     case OPT_DROP_EMPTY:          return _("Set to drop empty containers after\nuse.\n0 - don't drop any (default)\n1 - all except watertight containers\n2 - all containers");
-    case OPT_SKILL_RUST:          return _("Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - none at all");
+    case OPT_SKILL_RUST:          return _("Set the level of skill rust.\n0 - vanilla Cataclysm (default)\n1 - capped at skill levels\n2 - intelligence dependent\n3 - intelligence dependent, capped\n4 - none at all");
     case OPT_DELETE_WORLD:        return _("Delete saves upon player death.\n0 - no (default)\n1 - yes\n2 - query");
     case OPT_INITIAL_POINTS:      return _("Initial points available on character\ngeneration.\nDefault is 6");
     case OPT_MAX_TRAIT_POINTS:    return _("Maximum trait points available for\ncharacter generation.\nDefault is 12");
