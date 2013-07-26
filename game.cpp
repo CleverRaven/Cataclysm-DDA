@@ -2141,7 +2141,7 @@ void game::place_corpse()
   your_body.make_corpse(itypes["corpse"], mtypes[mon_null], turn);
   your_body.name = u.name;
   for (int i = 0; i < tmp.size(); i++)
-    m.add_item(u.posx, u.posy, *(tmp[i]));
+    m.add_item_or_charges(u.posx, u.posy, *(tmp[i]));
   for (int i = 0; i < u.my_bionics.size(); i++) {
     if (itypes.find(u.my_bionics[i].id) != itypes.end()) {
       your_body.contents.push_back(item(itypes[u.my_bionics[i].id], turn));
@@ -2157,7 +2157,7 @@ void game::place_corpse()
       your_body.contents.push_back(item(itypes["bio_power_storage"], turn));
     }
   }
-  m.add_item(u.posx, u.posy, your_body);
+  m.add_item_or_charges(u.posx, u.posy, your_body);
 }
 
 void game::death_screen()
@@ -5259,7 +5259,7 @@ void game::kill_mon(int index, bool u_did_it)
     kills[z[index].type->id]++;	// Increment our kill counter
   }
   for (int i = 0; i < z[index].inv.size(); i++)
-   m.add_item(z[index].posx, z[index].posy, z[index].inv[i]);
+   m.add_item_or_charges(z[index].posx, z[index].posy, z[index].inv[i]);
   z[index].die(this);
  }
 }
@@ -5569,7 +5569,7 @@ void game::smash()
             add_msg(_("Your %s shatters!"), u.weapon.tname(this).c_str());
             for (int i = 0; i < u.weapon.contents.size(); i++)
             {
-                m.add_item(u.posx, u.posy, u.weapon.contents[i]);
+                m.add_item_or_charges(u.posx, u.posy, u.weapon.contents[i]);
             }
             sound(u.posx, u.posy, 24, "");
             u.hit(this, bp_hands, 1, 0, rng(0, u.weapon.volume()));
@@ -9432,7 +9432,7 @@ void game::complete_butcher(int index)
  for (int i = 0; i < contents.size(); i++) {
    if ((skill_shift + 10) * 5 > rng(0,100)) {
      add_msg(_("You discover a %s in the %s!"), contents[i].tname().c_str(), corpse->name.c_str());
-     m.add_item(u.posx, u.posy, contents[i]);
+     m.add_item_or_charges(u.posx, u.posy, contents[i]);
    } else if (contents[i].is_bionic()){
      m.spawn_item(u.posx, u.posy, "burnt_out_bionic", age);
    }
@@ -9460,7 +9460,7 @@ void game::complete_butcher(int index)
   tmpitem.corpse=dynamic_cast<mtype*>(corpse);
   while ( pieces > 0 ) {
     pieces--;
-    m.add_item(u.posx, u.posy, tmpitem);
+    m.add_item_or_charges(u.posx, u.posy, tmpitem);
   }
   add_msg(_("You butcher the corpse."));
  }
