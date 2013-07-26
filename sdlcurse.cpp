@@ -735,7 +735,7 @@ inline SDL_Color BGR(int b, int g, int r)
 
 int curses_start_color(void)
 {
-	colorpairs=new pairs[50];
+	colorpairs=new pairs[100];
 	windowsPalette[0]= BGR(0,0,0); // Black
 	windowsPalette[1]= BGR(0, 0, 255); // Red
 	windowsPalette[2]= BGR(0,110,0); // Green

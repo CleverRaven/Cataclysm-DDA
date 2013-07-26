@@ -82,6 +82,7 @@ game::game() :
  // Gee, it sure is init-y around here!
  init_npctalk();
  init_artifacts();
+ init_overmap();
  init_fields();
  init_faction_data();
  init_traits();
