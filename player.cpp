@@ -189,6 +189,9 @@ find your hands shaking uncontrollably, severely reducing your dexterity.")},
 You don't feel right unless you're carrying as much as you can.  You suffer \
 morale penalties for carrying less than maximum volume (weight is ignored). \
 Xanax can help control this anxiety.")},
+{_("Cross-Dresser"), -2, 0, 0, _("\
+You don't feel right unless you're wearing something of the opposite gender. \
+Negates any gender restrictions on professions.")},
 {_("Savant"), -4, 0, 0, _("\
 You tend to specialize in one skill and be poor at all others.  You advance \
 at half speed in all skills except your best one. Note that combining this \
@@ -990,6 +993,23 @@ void player::apply_persistent_morale()
             pen = int(pen / 2);
         }
         add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+    }
+
+    // Cross-dressers get a morale penalty if they're not wearing anything typical
+    // of the opposite gender(MALE_TYPICAL/FEMALE_TYPICAL item flags).
+    if (has_trait(PF_CROSSDRESSER))
+    {
+        int pen = 20;
+        std::string required_flag = male ? "FEMALE_TYPICAL" : "MALE_TYPICAL";
+        for(int i=0; i<worn.size(); i++) {
+            if(worn[i].has_flag(required_flag)) {
+                pen = 0;
+                break;
+            }
+        }
+        if(pen) {
+            add_morale(MORALE_PERM_CROSSDRESSER, -pen, -pen, 5, 5, true);
+        }
     }
 
     // Masochists get a morale bonus from pain.

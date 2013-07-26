@@ -741,11 +741,20 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
     if (u->has_trait(cur_trait)) {
      if (points + traits[cur_trait].points >= 0) {
       u->toggle_trait(cur_trait);
-      points += traits[cur_trait].points;
-      if (using_adv)
-       num_good -= traits[cur_trait].points;
-      else
-       num_bad += traits[cur_trait].points;
+
+      // If turning off the trait violates a profession condition,
+      // turn it back on.
+      if(u->prof->can_pick(u, 0) != "YES") {
+          u->toggle_trait(cur_trait);
+          popup(_("Your profession of %s prevents you from removing this trait."),
+               u->prof->name().c_str());
+      } else {
+          points += traits[cur_trait].points;
+          if (using_adv)
+           num_good -= traits[cur_trait].points;
+          else
+           num_bad += traits[cur_trait].points;
+      }
      } else
       mvwprintz(w,  3, 2, c_red, _("Points left:%3d"), points);
     } else if (using_adv && num_good + traits[cur_trait].points >
@@ -758,11 +767,20 @@ int set_traits(WINDOW* w, game* g, player *u, int &points, int max_trait_points)
            max_trait_points);
     else if (points >= traits[cur_trait].points) {
      u->toggle_trait(cur_trait);
-     points -= traits[cur_trait].points;
-     if (using_adv)
-      num_good += traits[cur_trait].points;
-     else
-      num_bad -= traits[cur_trait].points;
+
+     // If turning on the trait violates a profession condition,
+     // turn it back off.
+     if(u->prof->can_pick(u, 0) != "YES") {
+      u->toggle_trait(cur_trait);
+      popup(_("Your profession of %s prevents you from taking this trait."),
+           u->prof->name().c_str());
+     } else {
+      points -= traits[cur_trait].points;
+      if (using_adv)
+       num_good += traits[cur_trait].points;
+      else
+       num_bad -= traits[cur_trait].points;
+     }
     }
     break;
    case '<':

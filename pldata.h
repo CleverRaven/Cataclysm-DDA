@@ -175,6 +175,7 @@ enum pl_flag {
  PF_SCHIZOPHRENIC,// Random bad effects, variety
  PF_JITTERY,	// Get DI_SHAKES under some circumstances
  PF_HOARDER,	// Morale penalty when volume is less than max
+ PF_CROSSDRESSER, // Morale penalty when not wearing something of the opposite gender.
  PF_SAVANT,	// All skills except our best are trained more slowly
  PF_MOODSWINGS,	// Big random shifts in morale
  PF_WEAKSTOMACH,// More likely to throw up in all circumstances

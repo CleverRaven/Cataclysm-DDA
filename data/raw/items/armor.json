@@ -271,7 +271,7 @@
         "rarity" : 50,
         "encumberance" : 4,
         "bashing" : 6,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
         "coverage" : 30,
         "material_thickness" : 2
     },
@@ -595,7 +595,7 @@
         "rarity" : 75,
         "encumberance" : -1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
         "coverage" : 60,
         "material_thickness" : 1
     },
@@ -669,7 +669,7 @@
         "rarity" : 70,
         "encumberance" : 3,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
         "coverage" : 80,
         "material_thickness" : 2
     },
@@ -694,7 +694,7 @@
         "rarity" : 70,
         "encumberance" : 3,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
         "coverage" : 80,
         "material_thickness" : 2
     },
@@ -743,7 +743,7 @@
         "rarity" : 60,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "MALE_TYPICAL"],
         "coverage" : 95,
         "material_thickness" : 3
     },
@@ -768,7 +768,7 @@
         "rarity" : 60,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "MALE_TYPICAL"],
         "coverage" : 95,
         "material_thickness" : 3
     },
