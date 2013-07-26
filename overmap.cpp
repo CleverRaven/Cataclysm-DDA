@@ -269,22 +269,28 @@ bool& overmap::seen(int x, int y, int z)
  return layer[z + OVERMAP_DEPTH].visible[x][y];
 }
 
+// this uses om_sub (submap coordinates localized to overmap,
+// aka levxy or om_pos * 2)
 std::vector<mongroup*> overmap::monsters_at(int x, int y, int z)
 {
  std::vector<mongroup*> ret;
- if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT)
+ if (x < 0 || x >= OMAPX*2 || y < 0 || y >= OMAPY*2 || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT)
   return ret;
  for (int i = 0; i < zg.size(); i++) {
   if (zg[i].posz != z) { continue; }
-  if (trig_dist(x, y, zg[i].posx, zg[i].posy) <= zg[i].radius)
-   ret.push_back(&(zg[i]));
+  if ( 
+      ( zg[i].diffuse == true ? square_dist(x, y, zg[i].posx, zg[i].posy) : trig_dist(x, y, zg[i].posx, zg[i].posy) )
+    <= zg[i].radius) {
+      ret.push_back(&(zg[i]));
+  }
  }
  return ret;
 }
 
+// this uses om_pos (overmap tiles, aka levxy / 2)
 bool overmap::is_safe(int x, int y, int z)
 {
- std::vector<mongroup*> mons = monsters_at(x, y, z);
+ std::vector<mongroup*> mons = monsters_at(x*2, y*2, z);
  if (mons.empty())
   return true;
 

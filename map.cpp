@@ -102,7 +102,7 @@ vehicle* map::veh_at(const int x, const int y, int &part_num)
   part_num = it->second.second;
   return it->second.first;
  }
- debugmsg ("vehicle part cache cache indicated vehicle not found :/");
+ debugmsg ("vehicle part cache cache indicated vehicle not found: %d %d",x,y);
  return NULL;
 }
 
@@ -942,7 +942,7 @@ bool map::trans(const int x, const int y)
   tertr = terlist[ter(x, y)].flags & mfb(transparent);
  if( tertr ){
   // Fields may obscure the view, too
-	 field curfield = field_at(x,y);
+	 field &curfield = field_at(x,y);
 	 if(curfield.fieldCount() > 0){
 	 field_entry *cur = NULL;
 	  for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart();
@@ -3188,7 +3188,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  const ter_id curr_ter = ter(x,y);
  const furn_id curr_furn = furn(x,y);
  const trap_id curr_trap = tr_at(x, y);
- field curr_field = field_at(x, y);
+ field &curr_field = field_at(x, y);
  const std::vector<item> curr_items = i_at(x, y);
  long sym;
  bool hi = false;
@@ -3739,7 +3739,7 @@ bool map::loadn(game *g, const int worldx, const int worldy, const int worldz, c
 
  } else { // It doesn't exist; we must generate it!
   dbg(D_INFO|D_WARNING) << "map::loadn: Missing mapbuffer data. Regenerating.";
-  map tmp_map(traps);
+  tinymap tmp_map(traps);
 // overx, overy is where in the overmap we need to pull data from
 // Each overmap square is two nonants; to prevent overlap, generate only at
 //  squares divisible by 2.
@@ -3995,7 +3995,7 @@ void map::build_transparency_cache()
    }
 
    //Quoted to see if this works!
-   field curfield = field_at(x,y);
+   field &curfield = field_at(x,y);
    if(curfield.fieldCount() > 0){
 	   field_entry *cur = NULL;
 	   for(std::vector<field_entry*>::iterator field_list_it = curfield.getFieldStart(); field_list_it != curfield.getFieldEnd(); ++field_list_it){
@@ -4087,6 +4087,8 @@ tinymap::tinymap(std::vector<trap*> *trptr)
  my_MAPSIZE = 2;
  for (int n = 0; n < 4; n++)
   grid[n] = NULL;
+ veh_in_active_range = true;
+ memset(veh_exists_at, 0, sizeof(veh_exists_at));
 }
 
 tinymap::~tinymap()

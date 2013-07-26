@@ -142,15 +142,17 @@
 {
     "id"         :    "bio_shock",
     "name"       :    "Electroshock Unit",
-    "cost"       :    1,
-    "time"       :    0,
+    "cost"       :    0,
+    "time"       :    1,
+    "flags"      :    ["ACTIVE"],
     "description":    "While fighting unarmed, or with a weapon that conducts electricity, there is\na chance that a successful hit will shock your opponent, inflicting extra\ndamage and disabling them temporarily at the cost of some energy."
 },
 {
     "id"         :    "bio_heat_absorb",
     "name"       :    "Heat Drain",
-    "cost"       :    1,
-    "time"       :    0,
+    "cost"       :    0,
+    "time"       :    1,
+    "flags"      :    ["ACTIVE"],
     "description":    "While fighting unarmed against a warm-blooded opponent, there is a chance\nthat a successful hit will drain body heat, inflicting a small amount of\nextra damage, and increasing your power reserves slightly."
 },
 {
@@ -491,6 +493,14 @@
     "time"       :    2,
     "flags"      :    ["ACTIVE"],
     "description":    "Destructive interference eliminates all light within a 15 tile radius."
+},
+{
+    "id"         :    "bio_uncanny_dodge",
+    "name"       :    "Uncanny Dodge",
+    "cost"       :    1,
+    "time"       :    10,
+    "flags"      :    ["ACTIVE"],
+    "description":    "Your nervous system has been augmented with bionic processors, allowing you\nto dodge attacks beyond normal human capability, including bullets."
 },
 {
     "id"         :    "bio_dis_shock",

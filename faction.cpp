@@ -1,12 +1,12 @@
+#include <sstream>
+
 #include "faction.h"
-#include "facdata.h"
 #include "rng.h"
 #include "math.h"
 #include "output.h"
 #include "omdata.h"
 #include "game.h"
-
-#include <sstream>
+#include "catacharset.h"
 
 std::string invent_name();
 std::string invent_adj();
@@ -63,6 +63,135 @@ faction::faction(int uid)
 
 faction::~faction()
 {
+}
+
+std::string faction::faction_adj_pos[15];
+std::string faction::faction_adj_neu[15];
+std::string faction::faction_adj_bad[15];
+std::string faction::faction_noun_strong[15];
+std::string faction::faction_noun_sneak[15];
+std::string faction::faction_noun_crime[15];
+std::string faction::faction_noun_cult[15];
+std::string faction::faction_noun_none[15];
+faction_value_datum faction::facgoal_data[NUM_FACGOALS];
+faction_value_datum faction::facjob_data[NUM_FACJOBS];
+faction_value_datum faction::facval_data[NUM_FACVALS];
+
+//TODO move them to json
+void game::init_faction_data()
+{
+    std::string tmp_pos[] = {
+    _("Shining"), _("Sacred"), _("Golden"), _("Holy"), _("Righteous"), _("Devoted"), _("Virtuous"),
+    _("Splendid"), _("Divine"), _("Radiant"), _("Noble"), _("Venerable"), _("Immaculate"),
+    _("Heroic"), _("Bright")};
+    for(int i=0;i<15;i++) {faction::faction_adj_pos[i]=tmp_pos[i];}  
+
+    std::string tmp_neu[] = {
+    _("Original"), _("Crystal"), _("Metal"), _("Mighty"), _("Powerful"), _("Solid"), _("Stone"),
+    _("Firey"), _("Colossal"), _("Famous"), _("Supreme"), _("Invincible"), _("Unlimited"),
+    _("Great"), _("Electric")};
+    for(int i=0;i<15;i++) {faction::faction_adj_neu[i]=tmp_neu[i];} 
+
+    std::string tmp_bad[] = {
+    _("Poisonous"), _("Deadly"), _("Foul"), _("Nefarious"), _("Wicked"), _("Vile"), _("Ruinous"),
+    _("Horror"), _("Devastating"), _("Vicious"), _("Sinister"), _("Baleful"), _("Pestilent"),
+    _("Pernicious"), _("Dread")};
+    for(int i=0;i<15;i++) {faction::faction_adj_bad[i]=tmp_bad[i];} 
+
+    std::string tmp_strong[] = {
+    _("Fists"), _("Slayers"), _("Furies"), _("Dervishes"), _("Tigers"), _("Destroyers"),
+    _("Berserkers"), _("Samurai"), _("Valkyries"), _("Army"), _("Killers"), _("Paladins"),
+    _("Knights"), _("Warriors"), _("Huntsmen")};
+    for(int i=0;i<15;i++) {faction::faction_noun_strong[i]=tmp_strong[i];} 
+
+    std::string tmp_sneak[] = {
+    _("Snakes"), _("Rats"), _("Assassins"), _("Ninja"), _("Agents"), _("Shadows"), _("Guerillas"),
+    _("Eliminators"), _("Snipers"), _("Smoke"), _("Arachnids"), _("Creepers"), _("Shade"),
+    _("Stalkers"), _("Eels")};
+    for(int i=0;i<15;i++) {faction::faction_noun_sneak[i]=tmp_sneak[i];} 
+
+    std::string tmp_crime[] = {
+    _("Bandits"), _("Punks"), _("Family"), _("Mafia"), _("Mob"), _("Gang"), _("Vandals"), _("Sharks"),
+    _("Muggers"), _("Cutthroats"), _("Guild"), _("Faction"), _("Thugs"), _("Racket"), _("Crooks")};
+    for(int i=0;i<15;i++) {faction::faction_noun_crime[i]=tmp_crime[i];} 
+
+    std::string tmp_cult[] = {
+    _("Brotherhood"), _("Church"), _("Ones"), _("Crucible"), _("Sect"), _("Creed"), _("Doctrine"),
+    _("Priests"), _("Tenet"), _("Monks"), _("Clerics"), _("Pastors"), _("Gnostics"), _("Elders"),
+    _("Inquisitors")};
+    for(int i=0;i<15;i++) {faction::faction_noun_cult[i]=tmp_cult[i];} 
+
+    std::string tmp_none[] = {
+    _("Settlers"), _("People"), _("Men"), _("Faction"), _("Tribe"), _("Clan"), _("Society"), _("Folk"),
+    _("Nation"), _("Republic"), _("Colony"), _("State"), _("Kingdom"), _("Party"), _("Company")};
+    for(int i=0;i<15;i++) {faction::faction_noun_none[i]=tmp_none[i];} 
+
+
+    faction_value_datum tmp_goal[] = {
+    // "Their ultimate goal is <name>"
+    //Name				Good	Str	Sneak	Crime	Cult
+    {"Null",		 	 0,	 0,	 0,	 0,	 0},
+    {_("basic survival"),		 0,	 0,	 0,	 0,	 0},
+    {_("financial wealth"),		 0,	-1,	 0,	 2,	-1},
+    {_("dominance of the region"),	-1,	 1,	-1,	 1,	-1},
+    {_("the extermination of monsters"),1,	 3,	-1,	-1,	-1},
+    {_("contact with unseen powers"),	-1,	 0,	 1,	 0,	 4},
+    {_("bringing the apocalypse"),	-5,	 1,	 2,	 0,	 7},
+    {_("general chaos and anarchy"),	-3,	 2,	-3,	 2,	-1},
+    {_("the cultivation of knowledge"), 2,	-3,	 2,	-1,	 0},
+    {_("harmony with nature"),		 2,	-2,	 0,	-1,	 2},
+    {_("rebuilding civilization"),	 2,	 1,	-2,	-2,	-4},
+    {_("spreading the fungus"),	-2,	 1,	 1,	 0,	 4}
+    };
+    // TOTAL:			-5	 3	-2	 0	 7
+    for(int i=0;i<NUM_FACGOALS;i++) {faction::facgoal_data[i]=tmp_goal[i];} 
+
+    faction_value_datum tmp_job[] = {
+    // "They earn money via <name>"
+    //Name				Good	Str	Sneak	Crime	Cult
+    {"Null",		 	 0,	 0,	 0,	 0,	 0},
+    {_("protection rackets"),		-3,	 2,	-1,	 4,	 0},
+    {_("the sale of information"),	-1,	-1,	 4,	 1,	 0},
+    {_("their bustling trade centers"), 1,	-1,	-2,	-4,	-4},
+    {_("trade caravans"),		 2,	-1,	-1,	-3,	-2},
+    {_("scavenging supplies"),		 0,	-1,	 0,	-1,	-1},
+    {_("mercenary work"),		 0,	 3,	-1,	 1,	-1},
+    {_("assassinations"),		-1,	 2,	 2,	 1,	 1},
+    {_("raiding settlements"),		-4,	 4,	-3,	 3,	-2},
+    {_("the theft of property"),	-3,	-1,	 4,	 4,	 1},
+    {_("gambling parlors"),		-1,	-2,	-1,	 1,	-1},
+    {_("medical aid"),			 4,	-3,	-2,	-3,	 0},
+    {_("farming & selling food"),	 3,	-4,	-2,	-4,	 1},
+    {_("drug dealing"),		-2,	 0,	-1,	 2,	 0},
+    {_("selling manufactured goods"),	 1,	 0,	-1,	-2,	 0}
+    };
+    // TOTAL:			-5	-3	-5	 0	-6
+    for(int i=0;i<NUM_FACJOBS;i++) {faction::facjob_data[i]=tmp_job[i];} 
+
+    faction_value_datum tmp_val[] = {
+    // "They are known for <name>"
+    //Name				Good	Str	Sneak	Crime	Cult
+    {"Null",		 	 0,	 0,	 0,	 0,	 0},
+    {_("their charitable nature"),	 5,	-1,	-1,	-2,	-2},
+    {_("their isolationism"),		 0,	-2,	 1,	 0,	 2},
+    {_("exploring extensively"),	 1,	 0,	 0,	-1,	-1},
+    {_("collecting rare artifacts"),	 0,	 1,	 1,	 0,	 3},
+    {_("their knowledge of bionics"),	 1,	 2,	 0,	 0,	 0},
+    {_("their libraries"),		 1,	-3,	 0,	-2,	 1},
+    {_("their elite training"),	 0,	 4,	 2,	 0,	 2},
+    {_("their robotics factories"),	 0,	 3,	-1,	 0,	-2},
+    {_("treachery"),			-3,	 0,	 1,	 3,	 0},
+    {_("the avoidance of drugs"),	 1,	 0,	 0,	-1,	 1},
+    {_("their adherance to the law"),	 2,	-1,	-1,	-4,	-1},
+    {_("their cruelty"),		-3,	 1,	-1,	 4,	 1}
+    };
+    for(int i=0;i<NUM_FACVALS;i++) {faction::facval_data[i]=tmp_val[i];} 
+    // TOTALS:			 5	 4	 1	-3	 4
+    /* Note: It's nice to keep the totals around 0 for Good, and about even for the
+     * other four.  It's okay if Good is slightly negative (after all, in a post-
+     * apocalyptic world people might be a LITTLE less virtuous), and to keep
+     * strength valued a bit higher than the others.
+     */
 }
 
 std::string faction::save_info()
@@ -189,16 +318,21 @@ void faction::randomize()
   power = dice(6, 8);
   size  = dice(6, 6);
  }
-
+  
+ char buf[128], buf2[256];
  if (one_in(4)) {
-  do
-   name = "The " + noun + " of " + invent_name();
-  while (name.length() > MAX_FAC_NAME_SIZE);
+  do{
+   sprintf(buf, _("The %1$s of %2$s"), noun.c_str(), invent_name().c_str());
+   name = buf;
+  }
+  while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
  else if (one_in(2)) {
-  do
-   name = "The " + invent_adj() + " " + noun;
-  while (name.length() > MAX_FAC_NAME_SIZE);
+  do{
+   sprintf(buf, _("The %1$s %2$s"), invent_adj().c_str(), noun.c_str());
+   name = buf;
+  }
+  while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
  else {
   do {
@@ -209,16 +343,20 @@ void faction::randomize()
     adj = faction_adj_bad[rng(0, 14)];
    else
     adj = faction_adj_neu[rng(0, 14)];
-   name = "The " + adj + " " + noun;
-   if (one_in(4))
-    name += " of " + invent_name();
-  } while (name.length() > MAX_FAC_NAME_SIZE);
+   sprintf(buf, _("The %1$s %2$s"), adj.c_str(), noun.c_str());
+   if (one_in(4)){
+    sprintf(buf2, _("%1$s of %2$s"), buf, invent_name().c_str());
+    name=buf2;
+   }else{
+    name=buf;
+   }
+  } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
  }
 }
 
 void faction::make_army()
 {
- name = "The army";
+ name = _("The army");
  omx = 0;
  omy = 0;
  mapx = OMAPX / 2;
@@ -301,26 +439,26 @@ facval_data[v].name.c_str());
 
 std::string faction::describe()
 {
- std::string ret = name + " have the ultimate goal of " +
-                   facgoal_data[goal].name + ". Their primary concern is " +
+ std::string ret = name + _(" have the ultimate goal of ") +
+                   facgoal_data[goal].name + _(". Their primary concern is ") +
                    facjob_data[job1].name;
  if (job2 == FACJOB_NULL)
-  ret += ".";
+  ret += _(".");
  else
-  ret += ", but they are also involved in " + facjob_data[job2].name + ".";
+  ret += _(", but they are also involved in ") + facjob_data[job2].name + _(".");
  if (values != 0) {
-  ret += " They are known for ";
+  ret += _(" They are known for ");
   for (int i = 0; i < NUM_FACVALS; i++) {
    if (has_value(faction_value(i)))
-    ret += facval_data[i].name + ", ";
+    ret += facval_data[i].name + _(", ");
   }
  }
- size_t pos = ret.find_last_of(",");
+ size_t pos = ret.rfind(_(", "));
  if (pos != std::string::npos) {
-  ret.replace(pos, 2, ".");
-  pos = ret.find_last_of(",");
+  ret.replace(pos, std::string(_(", ")).length(), _("."));
+  pos = ret.rfind(_(", "));
   if (pos != std::string::npos)
-   ret.replace(pos, 2, ", and ");
+   ret.replace(pos, std::string(_(", ")).length(), _(", and "));
  }
  return ret;
 }
@@ -369,36 +507,37 @@ std::string invent_name()
  int syllables = rng(2, 3);
  for (int i = 0; i < syllables; i++) {
   switch (rng(0, 25)) {
-   case  0: tmp = "ab";  break;
-   case  1: tmp = "bon"; break;
-   case  2: tmp = "cor"; break;
-   case  3: tmp = "den"; break;
-   case  4: tmp = "el";  break;
-   case  5: tmp = "fes"; break;
-   case  6: tmp = "gun"; break;
-   case  7: tmp = "hit"; break;
-   case  8: tmp = "id";  break;
-   case  9: tmp = "jan"; break;
-   case 10: tmp = "kal"; break;
-   case 11: tmp = "ler"; break;
-   case 12: tmp = "mal"; break;
-   case 13: tmp = "nor"; break;
-   case 14: tmp = "or";  break;
-   case 15: tmp = "pan"; break;
-   case 16: tmp = "qua"; break;
-   case 17: tmp = "ros"; break;
-   case 18: tmp = "sin"; break;
-   case 19: tmp = "tor"; break;
-   case 20: tmp = "urr"; break;
-   case 21: tmp = "ven"; break;
-   case 22: tmp = "wel"; break;
-   case 23: tmp = "oxo";  break;
-   case 24: tmp = "yen"; break;
-   case 25: tmp = "zu";  break;
+   case  0: tmp = _("ab");  break;
+   case  1: tmp = _("bon"); break;
+   case  2: tmp = _("cor"); break;
+   case  3: tmp = _("den"); break;
+   case  4: tmp = _("el");  break;
+   case  5: tmp = _("fes"); break;
+   case  6: tmp = _("gun"); break;
+   case  7: tmp = _("hit"); break;
+   case  8: tmp = _("id");  break;
+   case  9: tmp = _("jan"); break;
+   case 10: tmp = _("kal"); break;
+   case 11: tmp = _("ler"); break;
+   case 12: tmp = _("mal"); break;
+   case 13: tmp = _("nor"); break;
+   case 14: tmp = _("or");  break;
+   case 15: tmp = _("pan"); break;
+   case 16: tmp = _("qua"); break;
+   case 17: tmp = _("ros"); break;
+   case 18: tmp = _("sin"); break;
+   case 19: tmp = _("tor"); break;
+   case 20: tmp = _("urr"); break;
+   case 21: tmp = _("ven"); break;
+   case 22: tmp = _("wel"); break;
+   case 23: tmp = _("oxo");  break;
+   case 24: tmp = _("yen"); break;
+   case 25: tmp = _("zu");  break;
   }
   ret += tmp;
  }
- ret[0] += 'A' - 'a';
+ if(std::string(_("lang.do.not.capitalize.first.letter"))!="true")
+   ret[0] += 'A' - 'a';
  return ret;
 }
 
@@ -407,82 +546,82 @@ std::string invent_adj()
  int syllables = dice(2, 2) - 1;
  std::string ret,  tmp;
  switch (rng(0, 25)) {
-  case  0: ret = "Ald";   break;
-  case  1: ret = "Brogg"; break;
-  case  2: ret = "Cald";  break;
-  case  3: ret = "Dredd"; break;
-  case  4: ret = "Eld";   break;
-  case  5: ret = "Forr";  break;
-  case  6: ret = "Gugg";  break;
-  case  7: ret = "Horr";  break;
-  case  8: ret = "Ill";   break;
-  case  9: ret = "Jov";   break;
-  case 10: ret = "Kok";   break;
-  case 11: ret = "Lill";  break;
-  case 12: ret = "Moom";  break;
-  case 13: ret = "Nov";   break;
-  case 14: ret = "Orb";   break;
-  case 15: ret = "Perv";  break;
-  case 16: ret = "Quot";  break;
-  case 17: ret = "Rar";   break;
-  case 18: ret = "Suss";  break;
-  case 19: ret = "Torr";  break;
-  case 20: ret = "Umbr";  break;
-  case 21: ret = "Viv";   break;
-  case 22: ret = "Warr";  break;
-  case 23: ret = "Xen";   break;
-  case 24: ret = "Yend";  break;
-  case 25: ret = "Zor";   break;
+  case  0: ret = _("Ald");   break;
+  case  1: ret = _("Brogg"); break;
+  case  2: ret = _("Cald");  break;
+  case  3: ret = _("Dredd"); break;
+  case  4: ret = _("Eld");   break;
+  case  5: ret = _("Forr");  break;
+  case  6: ret = _("Gugg");  break;
+  case  7: ret = _("Horr");  break;
+  case  8: ret = _("Ill");   break;
+  case  9: ret = _("Jov");   break;
+  case 10: ret = _("Kok");   break;
+  case 11: ret = _("Lill");  break;
+  case 12: ret = _("Moom");  break;
+  case 13: ret = _("Nov");   break;
+  case 14: ret = _("Orb");   break;
+  case 15: ret = _("Perv");  break;
+  case 16: ret = _("Quot");  break;
+  case 17: ret = _("Rar");   break;
+  case 18: ret = _("Suss");  break;
+  case 19: ret = _("Torr");  break;
+  case 20: ret = _("Umbr");  break;
+  case 21: ret = _("Viv");   break;
+  case 22: ret = _("Warr");  break;
+  case 23: ret = _("Xen");   break;
+  case 24: ret = _("Yend");  break;
+  case 25: ret = _("Zor");   break;
  }
  for (int i = 0; i < syllables - 2; i++) {
   switch (rng(0, 17)) {
-   case  0: tmp = "al";   break;
-   case  1: tmp = "arn";  break;
-   case  2: tmp = "astr"; break;
-   case  3: tmp = "antr"; break;
-   case  4: tmp = "ent";  break;
-   case  5: tmp = "ell";  break;
-   case  6: tmp = "ev";   break;
-   case  7: tmp = "emm";  break;
-   case  8: tmp = "empr"; break;
-   case  9: tmp = "ill";  break;
-   case 10: tmp = "ial";  break;
-   case 11: tmp = "ior";  break;
-   case 12: tmp = "ordr"; break;
-   case 13: tmp = "oth";  break;
-   case 14: tmp = "omn";  break;
-   case 15: tmp = "uv";   break;
-   case 16: tmp = "ulv";  break;
-   case 17: tmp = "urn";  break;
+   case  0: tmp = _("al");   break;
+   case  1: tmp = _("arn");  break;
+   case  2: tmp = _("astr"); break;
+   case  3: tmp = _("antr"); break;
+   case  4: tmp = _("ent");  break;
+   case  5: tmp = _("ell");  break;
+   case  6: tmp = _("ev");   break;
+   case  7: tmp = _("emm");  break;
+   case  8: tmp = _("empr"); break;
+   case  9: tmp = _("ill");  break;
+   case 10: tmp = _("ial");  break;
+   case 11: tmp = _("ior");  break;
+   case 12: tmp = _("ordr"); break;
+   case 13: tmp = _("oth");  break;
+   case 14: tmp = _("omn");  break;
+   case 15: tmp = _("uv");   break;
+   case 16: tmp = _("ulv");  break;
+   case 17: tmp = _("urn");  break;
   }
   ret += tmp;
  }
  switch (rng(0, 24)) {
   case  0: tmp = "";      break;
-  case  1: tmp = "al";    break;
-  case  2: tmp = "an";    break;
-  case  3: tmp = "ard";   break;
-  case  4: tmp = "ate";   break;
-  case  5: tmp = "e";     break;
-  case  6: tmp = "ed";    break;
-  case  7: tmp = "en";    break;
-  case  8: tmp = "er";    break;
-  case  9: tmp = "ial";   break;
-  case 10: tmp = "ian";   break;
-  case 11: tmp = "iated"; break;
-  case 12: tmp = "ier";   break;
-  case 13: tmp = "ious";  break;
-  case 14: tmp = "ish";   break;
-  case 15: tmp = "ive";   break;
-  case 16: tmp = "oo";    break;
-  case 17: tmp = "or";    break;
-  case 18: tmp = "oth";   break;
-  case 19: tmp = "old";   break;
-  case 20: tmp = "ous";   break;
-  case 21: tmp = "ul";    break;
-  case 22: tmp = "un";    break;
-  case 23: tmp = "ule";   break;
-  case 24: tmp = "y";     break;
+  case  1: tmp = _("al");    break;
+  case  2: tmp = _("an");    break;
+  case  3: tmp = _("ard");   break;
+  case  4: tmp = _("ate");   break;
+  case  5: tmp = _("e");     break;
+  case  6: tmp = _("ed");    break;
+  case  7: tmp = _("en");    break;
+  case  8: tmp = _("er");    break;
+  case  9: tmp = _("ial");   break;
+  case 10: tmp = _("ian");   break;
+  case 11: tmp = _("iated"); break;
+  case 12: tmp = _("ier");   break;
+  case 13: tmp = _("ious");  break;
+  case 14: tmp = _("ish");   break;
+  case 15: tmp = _("ive");   break;
+  case 16: tmp = _("oo");    break;
+  case 17: tmp = _("or");    break;
+  case 18: tmp = _("oth");   break;
+  case 19: tmp = _("old");   break;
+  case 20: tmp = _("ous");   break;
+  case 21: tmp = _("ul");    break;
+  case 22: tmp = _("un");    break;
+  case 23: tmp = _("ule");   break;
+  case 24: tmp = _("y");     break;
  }
  ret += tmp;
  return ret;
@@ -492,35 +631,35 @@ std::string invent_adj()
 std::string fac_ranking_text(int val)
 {
  if (val <= -100)
-  return "Archenemy";
+  return _("Archenemy");
  if (val <= -80)
-  return "Wanted Dead";
+  return _("Wanted Dead");
  if (val <= -60)
-  return "Enemy of the People";
+  return _("Enemy of the People");
  if (val <= -40)
-  return "Wanted Criminal";
+  return _("Wanted Criminal");
  if (val <= -20)
-  return "Not Welcome";
+  return _("Not Welcome");
  if (val <= -10)
-  return "Pariah";
+  return _("Pariah");
  if (val <=  -5)
-  return "Disliked";
+  return _("Disliked");
  if (val >= 100)
-  return "Hero";
+  return _("Hero");
  if (val >= 80)
-  return "Idol";
+  return _("Idol");
  if (val >= 60)
-  return "Beloved";
+  return _("Beloved");
  if (val >= 40)
-  return "Highly Valued";
+  return _("Highly Valued");
  if (val >= 20)
-  return "Valued";
+  return _("Valued");
  if (val >= 10)
-  return "Well-Liked";
+  return _("Well-Liked");
  if (val >= 5)
-  return "Liked";
+  return _("Liked");
 
- return "Neutral";
+ return _("Neutral");
 }
 
 // Used in game.cpp
@@ -528,31 +667,31 @@ std::string fac_respect_text(int val)
 {
 // Respected, feared, etc.
  if (val >= 100)
-  return "Legendary";
+  return _("Legendary");
  if (val >= 80)
-  return "Unchallenged";
+  return _("Unchallenged");
  if (val >= 60)
-  return "Mighty";
+  return _("Mighty");
  if (val >= 40)
-  return "Famous";
+  return _("Famous");
  if (val >= 20)
-  return "Well-Known";
+  return _("Well-Known");
  if (val >= 10)
-  return "Spoken Of";
+  return _("Spoken Of");
 
 // Disrepected, laughed at, etc.
  if (val <= -100)
-  return "Worthless Scum";
+  return _("Worthless Scum");
  if (val <= -80)
-  return "Vermin";
+  return _("Vermin");
  if (val <= -60)
-  return "Despicable";
+  return _("Despicable");
  if (val <= -40)
-  return "Parasite";
+  return _("Parasite");
  if (val <= -20)
-  return "Leech";
+  return _("Leech");
  if (val <= -10)
-  return "Laughingstock";
+  return _("Laughingstock");
 
- return "Neutral";
+ return _("Neutral");
 }
