@@ -98,6 +98,7 @@ long special_symbol (long sym);
 // string manipulations.
 std::string from_sentence_case (const std::string &kingston);
 std::string string_format(std::string pattern, ...);
+std::string& capitalize_first_letter(std::string &pattern);
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 void hit_animation(int iX, int iY, nc_color cColor, char cTile, int iTimeout = 70);

@@ -1089,3 +1089,15 @@ std::string string_format(std::string pattern, ...)
     return buff;
 }
 
+//wrap if for i18n 
+std::string& capitalize_first_letter(std::string &str)
+{
+    char c= str[0];
+    if(str.length()>0 && c>='a' && c<='z')
+    {
+       c += 'A'-'a';
+       str[0] = c;
+    }
+
+    return str;
+}

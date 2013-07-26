@@ -536,9 +536,8 @@ std::string invent_name()
   }
   ret += tmp;
  }
- if(std::string(_("lang.do.not.capitalize.first.letter"))!="true")
-   ret[0] += 'A' - 'a';
- return ret;
+
+ return capitalize_first_letter(ret);
 }
 
 std::string invent_adj()
