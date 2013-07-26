@@ -537,6 +537,8 @@ void Item_factory::load_item_templates_from(const std::string file_name) throw (
                     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
                     WATCH - Shows the current time, instead of sun/moon position
                     ALARMCLOCK - Has an alarmclock feature
+                    MALE_TYPICAL - Typically only worn by men.
+                    FEMALE_TYPICAL - Typically only worn by women.
 
                     Container-only flags:
                     SEALS

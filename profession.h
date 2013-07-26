@@ -25,6 +25,7 @@ private:
     signed int _point_cost;
     std::vector<std::string> _starting_items;
     std::vector<addiction> _starting_addictions;
+    std::set<std::string> flags;		// flags for some special properties of the profession
     StartingSkillList  _starting_skills;
 
     void add_item(std::string item);
@@ -58,6 +59,22 @@ public:
     std::vector<std::string> items() const;
     std::vector<addiction> addictions() const;
     const StartingSkillList skills() const;
+
+    /**
+     * Check if this type of profession has a certain flag set.
+     *
+     * Current flags: "female_only"
+     */
+    bool has_flag(std::string flag) const;
+
+    /**
+     * Check if the given player can pick this job with the given amount
+     * of points.
+     *
+     * @return "YES", or otherwise the reason for failure, e.g. "INSUFFICIENT_POINTS"
+     *                or "WRONG_GENDER"
+     */
+    std::string can_pick(player* u, int points) const;
 
 };
 

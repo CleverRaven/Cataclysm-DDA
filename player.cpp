@@ -98,6 +98,9 @@ close to you.")},
 {_("Masochist"), 2, 0, 0, _("\
 Although you still suffer the negative effects of pain, it also brings a \
 unique pleasure to you.")},
+{_("Cross-Dresser"), 2, 0, 0, _("\
+Covering your body in clothing typical for the opposite gender makes you feel better. \
+Negates any gender restrictions on professions.")},
 {_("Light Step"), 1, 0, 0, _("\
 You make less noise while walking.  You're also less likely to set off traps.")},
 {_("Android"), 4, 0, 0, _("\
@@ -990,6 +993,41 @@ void player::apply_persistent_morale()
             pen = int(pen / 2);
         }
         add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+    }
+
+    // Cross-dressers get a morale bonus for each body part covered in an
+    // item of the opposite gender(MALE_TYPICAL/FEMALE_TYPICAL item flags).
+    if (has_trait(PF_CROSSDRESSER))
+    {
+        int bonus = 0;
+        std::string required_flag = male ? "FEMALE_TYPICAL" : "MALE_TYPICAL";
+
+        unsigned char covered = 0; // body parts covered by stuff with opposite gender flags
+        for(int i=0; i<worn.size(); i++) {
+            if(worn[i].has_flag(required_flag)) {
+                it_armor* item_type = (it_armor*) worn[i].type;
+                covered |= item_type->covers;
+            }
+        }
+        if(covered & mfb(bp_torso)) {
+            bonus += 6;
+        }
+        if(covered & mfb(bp_legs)) {
+            bonus += 4;
+        }
+        if(covered & mfb(bp_feet)) {
+            bonus += 2;
+        }
+        if(covered & mfb(bp_hands)) {
+            bonus += 2;
+        }
+        if(covered & mfb(bp_head)) {
+            bonus += 3;
+        }
+        
+        if(bonus) {
+            add_morale(MORALE_PERM_CROSSDRESSER, bonus, bonus, 5, 5, true);
+        }
     }
 
     // Masochists get a morale bonus from pain.
