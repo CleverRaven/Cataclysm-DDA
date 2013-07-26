@@ -449,5 +449,16 @@
       ],
       "name":"Drug Dealer",
       "points":1
+   },
+   {
+      "description":"You chose a bad day for your wedding. You just barely escaped with your wedding dress intact.",
+      "ident":"bride",
+      "items":[
+         "dress_wedding",
+         "dress_shoes"
+      ],
+      "name":"Bride",
+      "points":0,
+      "flags": ["female_only"]
    }
 ]

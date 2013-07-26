@@ -289,8 +289,8 @@ bool player::create(game *g, character_type type, std::string tempname)
  }
  ret_null = item(g->itypes["null"], 0);
  weapon = get_combat_style();
- 
- 
+
+
  item tmp; //gets used several times
 
  std::vector<std::string> prof_items = g->u.prof->items();
@@ -308,7 +308,7 @@ bool player::create(game *g, character_type type, std::string tempname)
 
  // Grab the skills from the profession, if there are any
  profession::StartingSkillList prof_skills = g->u.prof->skills();
- for (profession::StartingSkillList::const_iterator iter = prof_skills.begin(); 
+ for (profession::StartingSkillList::const_iterator iter = prof_skills.begin();
       iter != prof_skills.end(); ++iter)
  {
      assert(Skill::skill(iter->first));
@@ -351,11 +351,11 @@ bool player::create(game *g, character_type type, std::string tempname)
  for (int i = 0; i < PF_MAX2; i++)
   if (!has_base_trait(i))
 	my_mutations[i] = false;
-	
+
 	// Equip any armor from our inventory. If we are unable to wear some of it due to encumberance, it will silently fail.
     std::vector<item*> tmp_inv;
     inv.dump(tmp_inv);
-    
+
     for(std::vector<item*>::iterator i = tmp_inv.begin(); i != tmp_inv.end(); ++i)
     {
         if( (*i)->is_armor())
@@ -793,19 +793,27 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
     do
     {
         int netPointCost = sorted_profs[cur_id]->point_cost() - u->prof->point_cost();
+        std::string can_pick = sorted_profs[cur_id]->can_pick(u, points);
+
         mvwprintz(w,  3, 2, c_ltgray, _("Points left:%3d"), points);
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w,  3, 40, c_ltgray, "                                      ");
-        if (points >= netPointCost)
+        if (can_pick == "YES")
         {
             mvwprintz(w,  3, 20, c_green, _("Profession %1$s costs %2$d points (net: %3$d)"),
                       _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
-        else
+        else if(can_pick == "INSUFFICIENT_POINTS")
         {
             mvwprintz(w,  3, 20, c_ltred, _("Profession %1$s costs %2$d points (net: %3$d)"),
+                      _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
+                      netPointCost);
+        }
+        else if(can_pick == "WRONG_GENDER")
+        {
+            mvwprintz(w,  3, 20, c_ltred, _("This profession is not available to your current gender."),
                       _(sorted_profs[cur_id]->name().c_str()), sorted_profs[cur_id]->point_cost(),
                       netPointCost);
         }
@@ -862,7 +870,7 @@ int set_profession(WINDOW* w, game* g, player *u, int &points)
             break;
 
             case '\n':
-                if (netPointCost <= points) {
+                if (can_pick == "YES") {
                     u->prof = profession::prof(sorted_profs[cur_id]->ident()); // we've got a const*
                     points -= netPointCost;
                 }
@@ -1089,6 +1097,12 @@ int set_description(WINDOW* w, game* g, player *u, int &points)
     case 2:
      if (ch == ' ')
       u->male = !u->male;
+
+      // If changing the gender broke our profession requirements, undo.
+      if(u->prof->can_pick(u, 0) == "WRONG_GENDER") {
+       u->male = !u->male;
+       popup(_("The profession %s is only available to your current gender."), u->prof->name().c_str());
+      }
      else if (ch == 'k' || ch == '\t') {
       line = 1;
      }
