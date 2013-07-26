@@ -1353,6 +1353,33 @@
   },
 
   {
+    "id": "m14a",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "M14",
+    "description": "The child of the M1 Garand World War 2 rifle, the M14 is a semi-automatic rifle favored for it's accuracy and modular use.",
+    "rarity": 10,
+    "price": 3000,
+    "material": ["iron", "wood"],
+    "skill": "rifle",
+    "ammo": "308",
+    "weight": 24,
+    "volume": 10,
+    "bashing": 13,
+    "cutting": 0,
+    "to_hit": 4,
+    "ranged_damage": 0,
+    "range": 0,
+    "dispersion": 0,
+    "recoil": -4,
+    "durability": 8,
+    "burst": 0,
+    "clip_size": 20,
+    "reload": 500
+  },
+
+  {
     "id": "ruger_mini",
     "type": "GUN",
     "symbol": "(",
