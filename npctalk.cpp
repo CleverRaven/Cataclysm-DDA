@@ -1722,7 +1722,7 @@ void talk_function::give_equipment(game *g, npc *p)
  if (chosen == -1)
   chosen = 0;
  item* it = giving[chosen];
- popup(string_format(_("%s gives you a %s"), p->name.c_str(), it->tname().c_str()));
+ popup(string_format(_("%s gives you a %s"), p->name.c_str(), it->tname().c_str()).c_str());
 
  g->u.i_add( p->i_remn(it->invlet) );
  p->op_of_u.owed -= prices[chosen];
@@ -1961,8 +1961,10 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  for (int i = 0; i < responses.size(); i++) {
   options.push_back(
       string_format(
-        _("<talk option>%c: [%s %d%%] %s"), 
-        char('a' + i), alk_trial_text[responses[i].trial], 
+        responses[i].trial>0?
+        _("<talk option>%1$c: [%2$s %3$d%%] %4$s"):
+        (std::string(_("<talk option>%1$c: %4$s"))+"$<%2$c%3$c>").c_str(), 
+        char('a' + i), talk_trial_text[responses[i].trial], 
         trial_chance(responses[i], alpha, beta), responses[i].text.c_str()
       ).substr(13)
   );
@@ -2032,7 +2034,7 @@ talk_topic dialogue::opt(talk_topic topic, game *g)
  if (special_talk(ch) != TALK_NONE)
   return special_talk(ch);
 
- std::string response_printed = string_format("<you say something>You: %s", responses[ch].text.c_str());
+ std::string response_printed = string_format("<you say something>You: %s", responses[ch].text.c_str()).substr(19);
  folded = foldstring(response_printed, 40);
  for(int i=0; i<folded.size(); i++){
    history.push_back(folded[i]);
