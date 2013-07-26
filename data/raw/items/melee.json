@@ -1994,5 +1994,22 @@
         "rarity" : 50,
         "price" : 100,
         "flags" : ["WATCH", "ALARMCLOCK"]
+    },
+    {
+	    "id" : "umbrella",
+        "symbol" : "/",
+        "color": "magenta",
+        "name": "umbrella",
+        "description": "An umbrella with a pointy end, useful for keeping dry when wielded.",
+        "material": ["plastic","wood"],
+        "rarity": 30,
+        "price": 24,
+        "volume": 8,
+        "weight": 8,
+        "bashing": 3,
+        "cutting": 8,
+        "to_hit": 1,
+        "flags": ["STAB","RAIN_PROTECT"],
+        "techniques": ["WBLOCK_1"]
     }
 ]

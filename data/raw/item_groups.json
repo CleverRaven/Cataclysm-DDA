@@ -7,6 +7,7 @@
       ["bat", 60],
       ["backpack", 38],
       ["pockknife", 14],
+      ["umbrella", 5],
       ["mag_comic", 20]
     ]
   },
@@ -101,7 +102,8 @@
       ["usb_drive", 5],
       ["beer", 60],
       ["cell_phone", 50],
-      ["wristwatch", 15]
+      ["wristwatch", 15],
+      ["umbrella", 50]
     ]
   },
   { "id":"kitchen",
@@ -808,7 +810,9 @@
       ["sleeping_bag", 10],
       ["floatation_vest", 7],
       ["gasoline_lantern", 5],
-      ["folding_bicycle", 1]
+      ["folding_bicycle", 1],
+      ["coat_rain",10],
+      ["umbrella",12]
     ]
   },
   { "id":"allsporting",
@@ -878,7 +882,8 @@
       ["heatpack", 60],
       ["floatation_vest", 3],
       ["glowstick", 60],
-      ["folding_bicycle", 1]
+      ["folding_bicycle", 1],
+      ["coat_rain", 5]
     ]
   },
   { "id":"alcohol",
@@ -1462,7 +1467,8 @@
       ["bubblewrap", 50],
       ["coffee_raw", 15],
       ["usb_drive", 5],
-      ["software_useless", 10]
+      ["software_useless", 10],
+      ["umbrella", 5]
     ]
   },
   { "id":"cubical_office",
@@ -1499,7 +1505,8 @@
       ["lighter", 60],
       ["matches", 60],
       ["extinguisher", 20],
-      ["mp3", 18]
+      ["mp3", 18],
+      ["umbrella", 5]
     ]
   },
   { "id":"school",
@@ -1534,7 +1541,8 @@
       ["candy", 80],
       ["backpack", 38],
       ["pockknife", 14],
-      ["mag_comic", 20]
+      ["mag_comic", 20],
+      ["umbrella", 5]
     ]
   },
   { "id":"church",
@@ -1547,10 +1555,8 @@
       ["matches", 60],
       ["coat_rain", 50],
       ["cane", 10],
-      ["candlestick", 20],
-      ["candlestick", 20],
-      ["candlestick", 20],
-      ["candlestick", 20]
+      ["candlestick", 80],
+      ["umbrella", 50]
     ]
   },
   { "id":"vault",
@@ -1696,7 +1702,8 @@
       ["huge_crossbow", 2],
       ["raging_bull", 1],
       ["sw_500", 1],
-      ["wristwatch", 15]
+      ["wristwatch", 15],
+      ["umbrella", 5]
     ]
   },
   { "id":"mil_surplus",
@@ -1785,7 +1792,9 @@
       ["flyer", 10],
       ["gasoline_lantern", 5],
       ["floatation_vest", 1],
-      ["vaccine_shot", 10]
+      ["vaccine_shot", 10],
+      ["coat_rain", 5],
+      ["umbrella", 7]
     ]
   },
   { "id":"mechanics",
@@ -2458,7 +2467,8 @@
       ["spray_can", 50],
       ["jar_glass", 10],
       ["flyer", 10],
-      ["gasoline_lanern", 10]
+      ["gasoline_lanern", 10],
+      ["umbrella",1]
     ]
   },
   { "id":"sewer",
