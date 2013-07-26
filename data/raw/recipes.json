@@ -9943,6 +9943,154 @@
                                   ["gold_small", 800]
                               ]
                           ]
+        },
+		  {
+            "result": "tihar",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 6,
+            "time": 16000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+						 [
+                             ["hacksaw", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1], ["toolset", -1]
+                         ],
+						 [
+                             ["wrench", -1], ["toolset", -1]
+                         ],
+						 [
+                             ["welder", 150], ["toolset", 6]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe", 4]
+                              ],
+                              [
+                                  ["2x4", 1]
+                              ],
+							  [
+                                  ["scrap", 6]
+                              ]
+                          ]
+        },
+		{
+            "result": "helsing",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 8,
+            "time": 18000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+						 [
+                             ["hacksaw", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1], ["toolset", -1]
+                         ],
+						 [
+                             ["wrench", -1], ["toolset", -1]
+                         ],
+						 [
+                             ["welder", 300], ["toolset", 12]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe", 8]
+                              ],
+                              [
+                                  ["2x4", 1]
+                              ],
+							  [
+                                  ["scrap", 4]
+                              ]
+                          ]
+        },
+		{
+            "result": "ashot",
+            "category": "CC_WEAPON",
+            "skill_pri": "mechanics",
+            "skill_sec": "gun",
+            "difficulty": 3,
+            "time": 18000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["goggles_welding", -1]
+                         ],
+						 [
+                             ["hacksaw", -1], ["toolset", -1]
+                         ],
+                         [
+                             ["screwdriver", -1], ["toolset", -1]
+                         ],
+						 [
+                             ["wrench", -1], ["toolset", -1]
+                         ],
+						 [
+                             ["welder", 100], ["toolset", 4]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["pipe", 1]
+                              ],
+                              [
+                                  ["2x4", 1]
+                              ],
+							  [
+                                  ["scrap", 2]
+                              ]
+                          ]
+        },
+		{
+            "result": "fried_spam",
+            "category": "CC_FOOD",
+            "skill_pri": "cooking",
+            "difficulty": 1,
+            "time": 3000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["hotplate", 5],
+                             ["toolset", 1],
+                             ["fire", -1]
+                         ],
+                         [
+                             ["pan", -1]
+                         ],
+						 [
+                             ["knife_steak", -1],
+                             ["knife_combat", -1],
+                             ["knife_butcher", -1],
+                             ["pockknife", -1],
+                             ["scalpel", -1],
+                             ["machete", -1],
+                             ["broadsword", -1],
+                             ["toolset", -1]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["can_spam", 1]
+                              ]                              
+                          ]
         }
     ]
 }
