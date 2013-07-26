@@ -1528,7 +1528,7 @@
         "spoils_in" : 180,
         "use_action" : "NONE",
         "stim" : 0,
-        "container" : "jar_glass",
+        "container" : "jar_3l_glass",
         "to_hit" : 0,
         "comestible_type" : "DRINK",
         "symbol" : "~",

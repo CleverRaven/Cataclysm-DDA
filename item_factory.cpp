@@ -171,6 +171,7 @@ void Item_factory::init(){
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["DEJAR"] = &iuse::dejar;
+    iuse_function_list["DE3LJAR"] = &iuse::de3ljar;
     iuse_function_list["RAD_BADGE"] = &iuse::rad_badge;
     iuse_function_list["BOOTS"] = &iuse::boots;
     iuse_function_list["ABSORBENT"] = &iuse::towel;

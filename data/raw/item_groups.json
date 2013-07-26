@@ -152,7 +152,9 @@
       ["bread", 14],
       ["mayonnaise", 35],
       ["ketchup", 35],
-      ["mustard", 35]
+      ["mustard", 35],
+      ["jar_glass", 50],
+      ["jar_3l_glass", 40]
     ]
   },
   { "id":"knifeblock",
@@ -228,6 +230,7 @@
       ["boltcutters", 5],
       ["spray_can", 50],
       ["jar_glass", 50],
+      ["jar_3l_glass", 40],
       ["floatation_vest", 1],
       ["bearing", 1]
     ]
@@ -926,6 +929,7 @@
       ["spray_can", 50],
       ["keg", 10],
       ["jar_glass", 10],
+      ["jar_3l_glass", 8],
       ["flyer", 10],
       ["talking_doll", 60]
     ]
@@ -1414,7 +1418,9 @@
       ["disinfectant", 35],
       ["gauze", 10],
       ["medical_tape", 45],
-      ["wrapped_rad_badge", 15]
+      ["wrapped_rad_badge", 15],
+      ["jar_glass", 20],
+      ["jar_3l_glass", 15]
     ]
   },
   { "id":"hospital_samples",
@@ -1436,7 +1442,9 @@
       ["rag_bloody", 1],
       ["disinfectant", 35],
       ["gauze", 10],
-      ["medical_tape", 45]
+      ["medical_tape", 45],
+      ["jar_glass", 20],
+      ["jar_3l_glass", 15]
     ]
   },
   { "id":"office",
@@ -1835,7 +1843,9 @@
       ["extinguisher", 20],
       ["hotplate", 10],
       ["software_medical", 10],
-      ["funnel", 50]
+      ["funnel", 50],
+      ["jar_glass", 20],
+      ["jar_3l_glass", 15]
     ]
   },
   { "id":"teleport",
@@ -2457,6 +2467,7 @@
       ["crowbar", 18],
       ["spray_can", 50],
       ["jar_glass", 10],
+      ["jar_3l_glass", 8],
       ["flyer", 10],
       ["gasoline_lanern", 10]
     ]
