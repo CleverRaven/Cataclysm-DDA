@@ -221,7 +221,7 @@
         "rarity" : 35,
         "encumberance" : 3,
         "bashing" : -4,
-        "flags" : ["VARSIZE", "FEMALE_TYPICAL"],
+        "flags" : ["VARSIZE"],
         "coverage" : 20,
         "material_thickness" : 2
     },
@@ -1068,7 +1068,7 @@
         "rarity" : 65,
         "encumberance" : 1,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "POCKETS", "MALE_TYPICAL"],
+        "flags" : ["VARSIZE", "POCKETS"],
         "coverage" : 95,
         "material_thickness" : 3
     },
