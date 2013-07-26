@@ -16,9 +16,14 @@ void weather_effect::glare(game *g)
 
 void weather_effect::wet(game *g)
 {
- if (!g->u.is_wearing("coat_rain") && !g->u.has_trait(PF_FEATHERS) &&
-     g->u.warmth(bp_torso) < 20 && PLAYER_OUTSIDE && one_in(2))
-  g->u.add_morale(MORALE_WET, -1, -30);
+ if ((!g->u.is_wearing("coat_rain") || one_in(50)) && 
+      (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(10)) &&
+      !g->u.has_trait(PF_FEATHERS) && g->u.warmth(bp_torso) < 20 &&
+      PLAYER_OUTSIDE && one_in(2)) 
+    {
+        g->u.add_morale(MORALE_WET, -1, -30);
+    }
+
 // Put out fires and reduce scent
  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
   for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
@@ -35,9 +40,13 @@ void weather_effect::wet(game *g)
 
 void weather_effect::very_wet(game *g)
 {
- if (!g->u.is_wearing("coat_rain") && !g->u.has_trait(PF_FEATHERS) &&
-     g->u.warmth(bp_torso) < 50 && PLAYER_OUTSIDE)
-  g->u.add_morale(MORALE_WET, -1, -60);
+ if ((!g->u.is_wearing("coat_rain") || one_in(25)) && 
+      (!g->u.weapon.has_flag("RAIN_PROTECT") || one_in(5)) &&
+      !g->u.has_trait(PF_FEATHERS) && g->u.warmth(bp_torso) < 50 && PLAYER_OUTSIDE)
+    {
+        g->u.add_morale(MORALE_WET, -1, -60);
+    }
+
 // Put out fires and reduce scent
  for (int x = g->u.posx - SEEX * 2; x <= g->u.posx + SEEX * 2; x++) {
   for (int y = g->u.posy - SEEY * 2; y <= g->u.posy + SEEY * 2; y++) {
@@ -73,30 +82,44 @@ void weather_effect::light_acid(game *g)
     wet(g);
     if (int(g->turn) % 10 == 0 && PLAYER_OUTSIDE)
     {
-        if (!g->u.is_wearing("coat_rain") || !one_in(3))
+        if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(2))
         {
-            g->add_msg("The acid rain stings, but is mostly harmless for now...");
-            if (one_in(20) && (g->u.pain < 10)) {g->u.pain++;}
+            g->add_msg(_("Your umbrella protects you from the acidic drizzle."));
         }
         else
         {
-            g->add_msg("Your raincoat protects you from the acidic drizzle.");
+            if (g->u.is_wearing("coat_rain") && !one_in(3))
+            {
+                g->add_msg(_("Your raincoat protects you from the acidic drizzle."));
+            }
+            else
+            {
+                g->add_msg(_("The acid rain stings, but is mostly harmless for now..."));
+                if (one_in(10) && (g->u.pain < 10)) {g->u.pain++;}
+            }
         }
     }
 }
 
 void weather_effect::acid(game *g)
 {
-    if (PLAYER_OUTSIDE)
+    if (int(g->turn) % 2 == 0 && PLAYER_OUTSIDE)
     {
-        if (!g->u.is_wearing("coat_rain") || !one_in(10))
+        if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4))
         {
-            g->add_msg("The acid rain burns!");
-            if (one_in(8)&&(g->u.pain < 100)) {g->u.pain += 3 * rng(1, 3);}
+            g->add_msg(_("Your umbrella protects you from the acid rain."));
         }
         else
         {
-            g->add_msg("Your raincoat protects you from the acid rain");
+            if (g->u.is_wearing("coat_rain") && one_in(2))
+            {
+                g->add_msg(_("Your raincoat protects you from the acid rain."));
+            }
+            else
+            {
+                g->add_msg(_("The acid rain burns!"));
+                if (one_in(2) && (g->u.pain < 100)) {g->u.pain += rng(1, 5);}
+            }
         }
     }
 
