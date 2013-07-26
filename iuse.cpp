@@ -41,7 +41,7 @@ static void add_or_drop_item(game *g, player *p, item *it)
   if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
     drop = true;
   if (drop)
-    g->m.add_item(p->posx, p->posy, replacement);
+    g->m.add_item_or_charges(p->posx, p->posy, replacement);
   else
     p->i_add(replacement, g);
 }
@@ -1206,7 +1206,7 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
         if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
             drop = true;
         if (drop)
-            g->m.add_item(p->posx, p->posy, result);
+            g->m.add_item_or_charges(p->posx, p->posy, result);
         else
             p->i_add(result, g);
     }
@@ -3429,7 +3429,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                     if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
                     drop = true;
                     if (drop)
-                    g->m.add_item(p->posx, p->posy, result);
+                    g->m.add_item_or_charges(p->posx, p->posy, result);
                     else
                     p->i_add(result);
                 }
@@ -3460,7 +3460,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                     if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
                     drop = true;
                     if (drop)
-                    g->m.add_item(p->posx, p->posy, result);
+                    g->m.add_item_or_charges(p->posx, p->posy, result);
                     else
                     p->i_add(result);
                 }
@@ -3499,7 +3499,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                     if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
                     drop = true;
                     if (drop)
-                    g->m.add_item(p->posx, p->posy, skewer);
+                    g->m.add_item_or_charges(p->posx, p->posy, skewer);
                     else
                     p->i_add(skewer);
                 }
@@ -3554,7 +3554,7 @@ void iuse::cut_log_into_planks(game *g, player *p, item *it)
             drop = true;
         }
         if (drop) {
-            g->m.add_item(p->posx, p->posy, plank);
+            g->m.add_item_or_charges(p->posx, p->posy, plank);
         } else {
             p->i_add(plank);
         }
@@ -3569,7 +3569,7 @@ void iuse::cut_log_into_planks(game *g, player *p, item *it)
         if (!drop && (iter == inv_chars.size() || p->volume_carried() >= p->volume_capacity()))
             drop = true;
         if (drop)
-            g->m.add_item(p->posx, p->posy, scrap);
+            g->m.add_item_or_charges(p->posx, p->posy, scrap);
         else
             p->i_add(scrap);
     }
@@ -3982,7 +3982,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
       p->volume_carried() + casing.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(casing);}
     else
-   g->m.add_item(p->posx, p->posy, casing);}
+   g->m.add_item_or_charges(p->posx, p->posy, casing);}
  if (primer.type->id != "null"){
  primer.charges = multiply;
  int iter = 0;
@@ -3994,7 +3994,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
       p->volume_carried() + primer.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(primer);}
     else
-   g->m.add_item(p->posx, p->posy, primer);}
+   g->m.add_item_or_charges(p->posx, p->posy, primer);}
  int iter = 0;
    while ((gunpowder.invlet == 0 || p->has_item(gunpowder.invlet)) && iter < inv_chars.size()) {
     gunpowder.invlet = g->nextinv;
@@ -4004,7 +4004,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
       p->volume_carried() + gunpowder.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(gunpowder);}
     else
-   g->m.add_item(p->posx, p->posy, gunpowder);
+   g->m.add_item_or_charges(p->posx, p->posy, gunpowder);
  iter = 0;
    while ((lead.invlet == 0 || p->has_item(lead.invlet)) && iter < inv_chars.size()) {
     lead.invlet = g->nextinv;
@@ -4014,7 +4014,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
       p->volume_carried() + lead.volume() < p->volume_capacity() && iter < inv_chars.size()) {
     p->i_add(lead);}
     else
-   g->m.add_item(p->posx, p->posy, lead);
+   g->m.add_item_or_charges(p->posx, p->posy, lead);
 
   p->practice(g->turn, "gun", rng(1, multiply / 5 + 1));
 }
