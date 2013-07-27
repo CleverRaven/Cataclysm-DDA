@@ -27,6 +27,11 @@
  * policies, either expressed or implied, of Cybozu Labs, Inc.
  *
  */
+
+/**
+ * This version of picojson is modified and specialized for use with cataclysm.
+ */
+
 #ifndef picojson_h
 #define picojson_h
 
@@ -40,6 +45,8 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <stdexcept>
+#include <exception>
 
 #ifdef _MSC_VER
     #define SNPRINTF _snprintf_s
@@ -49,7 +56,10 @@
     #define SNPRINTF snprintf
 #endif
 
+
 namespace picojson {
+  // Forward declaration
+  class serializable;
 
   enum {
     null_type,
@@ -61,6 +71,17 @@ namespace picojson {
   };
 
   struct null {};
+
+  class exception : public std::exception
+  {
+  public:
+    exception(std::string msg) : msg(msg) {};
+    ~exception() throw() {};
+    const char* what() const throw() { return msg.c_str(); }
+
+  private:
+    std::string msg;
+  };
 
   class value {
   public:
@@ -88,22 +109,110 @@ namespace picojson {
     explicit value(const char* s);
     value(const char* s, size_t len);
     ~value();
+
     value(const value& x);
     value& operator=(const value& x);
+    value& operator=(bool b);
+    value& operator=(double n);
+    value& operator=(int n);
+    value& operator=(unsigned int n);
+    value& operator=(const std::string& s);
+    value& operator=(const array& s);
+    value& operator=(const object& s);
+    value& operator=(const char* s);
+    value& operator=(const char s);
+    value& operator[](int index); // Must be array_type
+    value& operator[](std::string key); // Must be object_type
+
+    char as_char() const;
+    std::string as_string() const;
+    int as_int() const;
+    bool as_bool() const;
+    double as_double() const;
+
     template <typename T> bool is() const;
     template <typename T> const T& get() const;
     template <typename T> T& get();
+    /**
+     * Similar to `value::get()` but returns a copy instead of a reference.
+     */
+    template <typename T> T getval() const;
     bool evaluate_as_boolean() const;
-    const value& get(size_t idx) const;
-    const value& get(const std::string& key) const;
+    value& get(size_t idx) const;
+    value& get(const std::string& key) const;
     bool contains(size_t idx) const;
     bool contains(const std::string& key) const;
     std::string to_str() const;
     template <typename Iter> void serialize(Iter os) const;
     std::string serialize() const;
+
+    /**
+     * Create a JSON array from the given vector.
+     *
+     * Uses `serializable::write()` to convert the individual elements
+     * to JSON values.
+     */
+    value& from_vector(std::vector<serializable> from);
+
+    /**
+     * Create a JSON array from the given vector. T must inherit from
+     * \ref serializable.
+     */
+    value& from_vector(std::vector<serializable*> from);
+
+    /**
+     * Create a JSON array from the given vector.
+     *
+     * T must be one of the types for which a value constructor is defined.
+     */
+    template<typename T> value& from_vector(std::vector<T> from);
+
+
+    /**
+     * Create a vector of objects from a JSON array.
+     *
+     * Assumes that T inherits from serializable.
+     */
+    template<class T> std::vector<T> to_vector();
+
+    /**
+     * Create a vector of objects from a JSON array.
+     *
+     * Assumes that T inherits from serializable.
+     */
+    template<class T> std::vector<T*> to_pointer_vector();
+    
+    /**
+     * Create a vector of objects from a JSON array.
+     *
+     * T must have a value constructor(int, string etc.)
+     */
+    template<class T> std::vector<T> to_scalar_vector();
+
   private:
     template <typename T> value(const T*); // intentionally defined to block implicit conversion of pointer to bool
   };
+
+  /**
+   * This is an interface that, if inherited, defines that the given class
+   * can be serialized to and deserialized from JSON.
+   */
+  class serializable {
+      /**
+       * Serialize this object.
+       *
+       * @return The JSON entity representing the object.
+       */
+      virtual picojson::value save() { return picojson::value("SERIALIZATION UNIMPLEMENTED"); };
+
+      /**
+       * Load the data from the given JSON node into this object.
+       *
+       * @param read_from The JSON entity to read from.
+       */
+      virtual void load(picojson::value& read_from) {};
+  };
+
 
   typedef value::array array;
   typedef value::object object;
@@ -191,6 +300,59 @@ namespace picojson {
     return *this;
   }
 
+  inline value& value::operator=(bool v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(double v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(int v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(unsigned int v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const std::string& v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const array& v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const object& v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const char* v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const char s) {
+      new (this) value(std::string(&s, 1)); // Convert the char to a string.
+      return *this;
+  }
+
+  inline value& value::operator[](std::string key) {
+      return get(key);
+  }
+
+  inline value& value::operator[](int index) {
+      return get(index);
+  }
+
 #define IS(ctype, jtype)			     \
   template <> inline bool value::is<ctype>() const { \
     return type_ == jtype##_type;		     \
@@ -222,6 +384,20 @@ namespace picojson {
   GET(object, *object_)
 #undef GET
 
+#define GET(ctype, var)						\
+  template <> inline ctype value::getval<ctype>() const {	\
+    assert("type mismatch! call vis<type>() before get<type>()" \
+	   && is<ctype>());				        \
+    return var;							\
+  }
+  GET(bool, boolean_)
+  GET(double, number_)
+  GET(std::string, *string_)
+  GET(array, *array_)
+  GET(object, *object_)
+  GET(int, (int) number_)
+#undef GET
+
   inline bool value::evaluate_as_boolean() const {
     switch (type_) {
     case null_type:
@@ -237,17 +413,16 @@ namespace picojson {
     }
   }
 
-  inline const value& value::get(size_t idx) const {
+  inline value& value::get(size_t idx) const {
     static value s_null;
     assert(is<array>());
     return idx < array_->size() ? (*array_)[idx] : s_null;
   }
 
-  inline const value& value::get(const std::string& key) const {
+  inline value& value::get(const std::string& key) const {
     static value s_null;
     assert(is<object>());
-    object::const_iterator i = object_->find(key);
-    return i != object_->end() ? i->second : s_null;
+    return (*object_)[key];
   }
 
   inline bool value::contains(size_t idx) const {
@@ -769,8 +944,90 @@ namespace picojson {
   inline bool operator!=(const value& x, const value& y) {
     return ! (x == y);
   }
-}
 
+
+  inline char value::as_char() const
+  {
+      std::string temp = as_string();
+      if (temp.size() != 1)
+      {
+          throw exception("JSON warning: value requested as char, string length is not 1");
+      }
+      return temp[0];
+  }
+
+  inline std::string value::as_string() const
+  {
+      if (is<std::string>())
+      {
+          return get<std::string>();
+      }
+      else
+      {
+          throw exception("JSON error: value is not a string");
+      }
+      return "";
+  }
+
+  inline int value::as_int() const
+  {
+      double temp = as_double();
+      int ret = static_cast<int>(temp);
+      if (ret != temp)
+      {
+          throw exception("JSON warning: value was requested as int, provided as double");
+      }
+      return ret;
+  }
+
+  inline bool value::as_bool() const
+  {
+      if (is<bool>())
+      {
+          return get<bool>();
+      }
+      else
+      {
+          throw exception("JSON error: value is not a boolean");
+      }
+      return evaluate_as_boolean();
+  }
+
+  inline double value::as_double() const
+  {
+      if (is<double>())
+      {
+          return get<double>();
+      }
+      else
+      {
+          throw exception("JSON error: value is not numeric");
+      }
+      return 0;
+  }
+
+  template<typename T> value& value::from_vector(std::vector<T> from) {
+    array rval;
+    for(int i=0; i<from.size(); i++) {
+      rval.push_back(value(from[i]));
+    }
+    *this = rval; // Convert this to the array we created.
+    return *this;
+  }
+
+  template<class T> std::vector<T> value::to_scalar_vector() {
+    if(is<array>()) {
+      std::vector<T> rval;
+      for(int i=0; i<array_->size(); i++) {
+        rval.push_back((*array_)[i].getval<T>());
+      }
+      return rval;
+    } else {
+      throw exception("JSON error: value is not an array");
+    }
+  }
+
+}
 inline std::istream& operator>>(std::istream& is, picojson::value& x)
 {
   picojson::set_last_error(std::string());

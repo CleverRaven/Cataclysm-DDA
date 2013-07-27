@@ -5,6 +5,12 @@
 #include <fstream>
 #include <sstream>
 
+#ifdef SAVEFILE_COMPRESSION
+extern "C" {
+    #include <bzlib.h>
+}
+#endif
+
 catajson::catajson()
 {
     path_msg = "";
@@ -12,10 +18,75 @@ catajson::catajson()
 
 catajson::catajson(std::string path, bool is_static)
 {
+    load(path, false);
+}
+
+catajson::catajson(picojson::value val_in, std::string path_msg_in)
+{
+    val = val_in;
+    path_msg = path_msg_in;
+}
+
+
+int catajson::load(std::string path, bool compressed)
+{
+    #ifdef SAVEFILE_COMPRESSION
+        if(compressed) {
+            path = path + ".bz2";
+        }
+    #endif
+
+    // The stringstream we'll read the file into.
+    std::stringstream reader;
+
+    #ifdef SAVEFILE_COMPRESSION
+        if(compressed) {
+            // bzip2 is a C library, so load the file using the C API.
+            FILE* file = fopen(path.c_str() , "rb");
+                    
+            int bzError;
+            BZFILE *bzFile = BZ2_bzReadOpen(&bzError, file, 0, 0, NULL, 0);
+            if(bzError != BZ_OK) {
+                debugmsg("Unable to bzip2 uncompress file %s\n", path.c_str());
+                BZ2_bzReadClose(&bzError, bzFile);
+                fclose(file);
+                return 0;
+            }
+
+            // Slow and painful read of the file, that's the C API for you!
+            static const int READ_SIZE = 1024;
+            char readbuffer[READ_SIZE];
+            while(1) {
+                int number_bytes = BZ2_bzRead (&bzError, bzFile, readbuffer, READ_SIZE);
+                if(bzError != BZ_OK && bzError != BZ_STREAM_END) {
+                    debugmsg("Unable to bzip2 uncompress file %s\n", path.c_str());
+                    BZ2_bzReadClose(&bzError, bzFile);
+                    fclose(file);
+                    return 0;
+                }
+                reader.write(readbuffer, number_bytes);
+                if(number_bytes < READ_SIZE) {
+                    break;
+                }
+            }
+
+            BZ2_bzReadClose(&bzError, bzFile);
+            fclose(file);
+        } else {
+    #endif
+
+    // The stuff here only happens either if compressed == false, or SAVEFILE_COMPRESSION is off
     std::ifstream file;
     file.open(path.c_str());
-    file >> val;
+    reader << file.rdbuf();
     file.close();
+
+    #ifdef SAVEFILE_COMPRESSION
+        }
+    #endif
+
+    // We have our file data in reader, now parse JSON.
+    reader >> val;
 
     path_msg = path;
 
@@ -29,12 +100,74 @@ catajson::catajson(std::string path, bool is_static)
         else
             debugmsg("Parse error in %s.\n\nERROR: %s", path.c_str(), err.c_str());
     }
+
+    return 1;
 }
 
-catajson::catajson(picojson::value val_in, std::string path_msg_in)
+int catajson::save(std::string path, bool compress)
 {
-    val = val_in;
-    path_msg = path_msg_in;
+    #ifdef SAVEFILE_COMPRESSION
+        if(compress) {
+            path = path + ".bz2";
+        }
+    #endif
+
+    // First serialize the data into a string stream.
+    std::stringstream data; data << val;
+
+    // Prepare data for reading.
+    data.seekg(0);
+
+    // Now write to a file, possibly with compression.
+    #ifdef SAVEFILE_COMPRESSION
+        if(compress) {
+            // bzip2 is a C library, so open the file using the C API.
+            FILE* file = fopen(path.c_str() , "wb");
+                    
+            int bzError;
+            BZFILE *bzFile = BZ2_bzWriteOpen(&bzError, file, 7, 0, 30);
+            if(bzError != BZ_OK) {
+                debugmsg("Unable to bzip2 compress file %s\n", path.c_str());
+                BZ2_bzWriteClose(&bzError, bzFile, 0, NULL, NULL);
+                fclose(file);
+                return 0;
+            }
+
+            // Slow and painful read of the file, that's the C API for you!
+            static const int READ_SIZE = 1024;
+            char writebuffer[READ_SIZE];
+            while(1) {
+                data.read(writebuffer, READ_SIZE);
+                int number_bytes = data.gcount();
+                
+                BZ2_bzWrite(&bzError, bzFile, writebuffer, number_bytes);
+                if(bzError != BZ_OK) {
+                    debugmsg("Unable to bzip2 compress file %s\n", path.c_str());
+                    BZ2_bzWriteClose(&bzError, bzFile, 0, NULL, NULL);
+                    fclose(file);
+                    return 0;
+                }
+                if(number_bytes < READ_SIZE) {
+                    break;
+                }
+            }
+
+            BZ2_bzWriteClose(&bzError, bzFile, 0, NULL, NULL);
+            fclose(file);
+        } else {
+    #endif
+
+    // The stuff here only happens either if compressed == false, or SAVEFILE_COMPRESSION is off
+    std::ofstream file;
+    file.open(path.c_str());
+    file << data.str();
+    file.close();
+
+    #ifdef SAVEFILE_COMPRESSION
+        }
+    #endif
+
+    return 1;
 }
 
 char catajson::as_char() const

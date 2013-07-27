@@ -22,6 +22,9 @@
 #  make RELEASE=1
 # Tiles (uses SDL rather than ncurses)
 #  make TILES=1
+# Savefile Compression (uses bzip2 compression on savefiles), enabled by default
+#  make SAVEFILE_COMPRESSION=0
+SAVEFILE_COMPRESSION = 1
 
 
 # comment these to toggle them as one sees fit.
@@ -191,6 +194,11 @@ else
       LDFLAGS += -lintl -liconv
     endif
   endif
+endif
+
+ifdef SAVEFILE_COMPRESSION
+  CXXFLAGS += -DSAVEFILE_COMPRESSION
+  LDFLAGS += -lbz2
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
