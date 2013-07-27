@@ -303,7 +303,7 @@ void player::mutate_towards(game *g, pl_flag mut)
  // If this new mutation cancels a base trait, remove it and add the mutation at the same time
    if (canceltrait != PF_NULL)
     {
-        g->add_msg("Your innate %s trait turns into %s!", traits[canceltrait].name.c_str(),
+        g->add_msg(_("Your innate %s trait turns into %s!"), traits[canceltrait].name.c_str(),
                    traits[mut].name.c_str());
 		toggle_mutation(canceltrait);
 		mutation_loss_effect(g, *this, canceltrait);
@@ -311,7 +311,7 @@ void player::mutate_towards(game *g, pl_flag mut)
 	}
   else
     {
-        g->add_msg("You gain a mutation called %s!", traits[mut].name.c_str());
+        g->add_msg(_("You gain a mutation called %s!"), traits[mut].name.c_str());
         mutation_effect(g, *this, mut);
     }
 
@@ -389,13 +389,13 @@ void player::remove_mutation(game *g, pl_flag mut)
 // This should revert back to a removed base trait rather than simply removing the mutation
 	toggle_mutation(mut);
  if (replacing != PF_NULL) {
-  g->add_msg("Your %s mutation turns into %s.", traits[mut].name.c_str(),
+  g->add_msg(_("Your %s mutation turns into %s."), traits[mut].name.c_str(),
              traits[replacing].name.c_str());
   toggle_mutation(replacing);
   mutation_loss_effect(g, *this, mut);
   mutation_effect(g, *this, replacing);
  } else {
-  g->add_msg("You lose your %s mutation.", traits[mut].name.c_str());
+  g->add_msg(_("You lose your %s mutation."), traits[mut].name.c_str());
   mutation_loss_effect(g, *this, mut);
  }
 // Reduce the strength of the categories the removed mutation is a part of
@@ -553,11 +553,11 @@ void mutation_effect(game *g, player &p, pl_flag mut)
    if ((dynamic_cast<it_armor*>(p.worn[i].type))->covers & mfb(bps[j])) {
     if (destroy) {
      if (is_u)
-      g->add_msg("Your %s is destroyed!", p.worn[i].tname().c_str());
+      g->add_msg(_("Your %s is destroyed!"), p.worn[i].tname().c_str());
      p.worn.erase(p.worn.begin() + i);
     } else {
      if (is_u)
-      g->add_msg("Your %s is pushed off.", p.worn[i].tname().c_str());
+      g->add_msg(_("Your %s is pushed off."), p.worn[i].tname().c_str());
      char tmp_invlet = p.worn[i].invlet;
      g->m.add_item(p.posx, p.posy, p.worn[i]);
      p.takeoff( g, p.worn[i].invlet, true );

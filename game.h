@@ -355,7 +355,9 @@ void load_artifacts(); // Load artifact data
   std::string save_weather() const;
 
 // Data Initialization
+  void init_npctalk();
   void init_fields();
+  void init_overmap();
   void init_artifacts();
   void init_traits();
   void init_itypes();       // Initializes item types
