@@ -74,10 +74,10 @@ material_map material_type::load_materials()
 {
     material_map allMaterials;
 
-    catajson materialsRaw("data/raw/materials.json");
+    catajson materialsRaw("data/raw/materials.json", true);
 
     unsigned int id = 0;
-    for (materialsRaw.set_begin(); materialsRaw.has_curr(); materialsRaw.next())
+    for (materialsRaw.set_begin(); materialsRaw.has_curr() && json_good(); materialsRaw.next())
     {
         ++id;
         catajson currMaterial = materialsRaw.curr();
@@ -104,6 +104,10 @@ material_map material_type::load_materials()
 
         allMaterials[ident] = newMaterial;
     }
+
+    if(!json_good())
+        exit(1);
+
     return allMaterials;
 }
 

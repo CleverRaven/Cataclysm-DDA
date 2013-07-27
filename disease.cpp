@@ -604,6 +604,10 @@ void dis_effect(game *g, player &p, disease &dis)
   break;
 
  case DI_SMOKE:
+  // A hard limit on the duration of the smoke disease.
+  if(dis.duration >= 600) {
+    dis.duration = 600;
+  }
   p.str_cur--;
   p.dex_cur--;
   if (one_in(5)) {
@@ -614,6 +618,10 @@ void dis_effect(game *g, player &p, disease &dis)
     g->sound(p.posx, p.posy, 12, "a hacking cough.");
    p.moves -= 80;
    p.hurt(g, bp_torso, 0, 1 - (rng(0, 1) * rng(0, 1)));
+   if (p.has_disease("sleep")) {
+       p.rem_disease("sleep");
+       g->add_msg_if_player(&p,_("Your coughing wakes you up"));
+   }
   }
   break;
 

@@ -18,13 +18,16 @@ std::vector<craft_cat> craft_cat_list;
 void draw_recipe_tabs(WINDOW *w, craft_cat tab,bool filtered=false);
 
 // This function just defines the recipes used throughout the game.
-void game::init_recipes()
+void game::init_recipes() throw (std::string)
 {
     int id = -1;
     int tl, cl;
     recipe* last_rec = NULL;
 
     catajson recipeRaw("data/raw/recipes.json");
+
+    if(!json_good())
+    	throw (std::string)"data/raw/recipes.json could not be read";
 
     catajson craftCats = recipeRaw.get("categories");
     for (craftCats.set_begin(); craftCats.has_curr(); craftCats.next())
@@ -126,6 +129,8 @@ void game::init_recipes()
 
         recipes[category].push_back(last_rec);
     }
+    if(!json_good())
+        throw (std::string)"There was an error reading data/raw/recipes.json";
 }
 
 bool game::crafting_allowed()
@@ -1512,7 +1517,7 @@ void game::complete_disassemble()
 
   add_msg("You disassemble the item into its components.");
   // remove any batteries or ammo first
-    if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != AT_NULL)
+    if (dis_item->is_gun() && dis_item->curammo != NULL && dis_item->ammo_type() != "NULL")
     {
       item ammodrop;
       ammodrop = item(dis_item->curammo, turn);
@@ -1522,17 +1527,20 @@ void game::complete_disassemble()
       else
         m.add_item(u.posx, u.posy, ammodrop, MAX_ITEM_IN_SQUARE);
     }
-    if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != AT_NULL)
+    if (dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL")
     {
       item ammodrop;
       ammodrop = item(item_controller->find_template(default_ammo(dis_item->ammo_type())), turn);
       ammodrop.charges = dis_item->charges;
+      if (dis_item->typeId() == "adv_UPS_off" || dis_item->typeId() == "adv_UPS_on") {
+          ammodrop.charges /= 500;
+      }
       if (ammodrop.made_of(LIQUID))
         handle_liquid(ammodrop, false, false);
       else
         m.add_item(u.posx, u.posy, ammodrop, MAX_ITEM_IN_SQUARE);
     }
-    u.i_rem(this,u.activity.values[0]);  // remove the item
+    u.i_rem(u.activity.values[0]);  // remove the item
 
   // consume tool charges
   for (int j = 0; j < dis->tools.size(); j++)

@@ -2634,6 +2634,111 @@
 
 
         {
+            "result": "45_jhp",
+            "category": "CC_AMMO",
+            "skill_pri": "gun",
+            "skill_sec": "mechanics",
+            "difficulty": 6,
+            "time": 25000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["press", -1]
+                         ],
+                         [
+                             ["fire", -1],
+                             ["toolset", 1],
+                             ["press", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["45_casing", 25]
+                              ],
+                              [
+                                  ["lgpistol_primer", 25]
+                              ],
+                              [
+                                  ["gunpowder", 250]
+                              ],
+                              [
+                                  ["lead", 500]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "454_Casull",
+            "category": "CC_AMMO",
+            "skill_pri": "gun",
+            "skill_sec": "mechanics",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["press", -1]
+                         ],
+                         [
+                             ["fire", -1],
+                             ["toolset", 1],
+                             ["press", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["454_casing", 10]
+                              ],
+                              [
+                                  ["smrifle_primer", 10]
+                              ],
+                              [
+                                  ["gunpowder", 200]
+                              ],
+                              [
+                                  ["lead", 200]
+                              ]
+                          ]
+        },
+
+        {
+            "result": "500_Magnum",
+            "category": "CC_AMMO",
+            "skill_pri": "gun",
+            "skill_sec": "mechanics",
+            "difficulty": 9,
+            "time": 10000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                         [
+                             ["press", -1]
+                         ],
+                         [
+                             ["fire", -1],
+                             ["toolset", 1],
+                             ["press", 2]
+                         ]
+                     ],
+            "components": [
+                              [
+                                  ["500_casing", 10]
+                              ],
+                              [
+                                  ["lgrifle_primer", 10]
+                              ],
+                              [
+                                  ["gunpowder", 240]
+                              ],
+                              [
+                                  ["lead", 240]
+                              ]
+                          ]
+        },
+
+        {
             "result": "57mm",
             "category": "CC_AMMO",
             "skill_pri": "gun",
@@ -8320,6 +8425,27 @@
                           ]
         },
 
+        {
+            "result": "folding_bicycle",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 5,
+            "time": 120000,
+            "reversible": true,
+            "autolearn": true,
+            "tools": [
+                         [ ["wrench", -1], ["toolset", -1] ],
+                         [ ["goggles_welding", -1] ],
+                         [ ["welder", 300], ["toolset", 12] ]
+                     ],
+            "components": [
+                              [ ["frame", 2] ],
+                              [ ["saddle", 1] ],
+                              [ ["vehicle_controls", 1] ],
+                              [ ["foot_crank", 1] ],
+                              [ ["wheel_bicycle", 2] ]
+                          ]
+        },
 
         {
             "result": "string_6",
@@ -8383,7 +8509,21 @@
                               ]
                           ]
         },
-
+        {
+            "result": "wire_barbed",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "skill_sec": "construction",
+            "difficulty": 2,
+            "time": 8000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [
+                     [ ["boltcutters", -1], ["toolset", -1] ],
+                     [ ["hammer", -1], ["hatchet", -1] ]
+                 ],
+            "components": [ [ ["wire", 2] ] ]
+        },
 
         {
             "result": "torch",
@@ -8494,8 +8634,19 @@
                               ]
                           ]
         },
+        {
+            "result": "screwdriver",
+            "category": "CC_MISC",
+            "skill_pri": "mechanics",
+            "difficulty": 0,
+            "time": 2000,
+            "reversible": false,
+            "autolearn": true,
+            "tools": [ [ ["hammer", -1], ["toolset", -1], ["hatchet", -1] ] ],
+            "components": [ [ ["steel_chunk", 2] ],
+                            [ ["duct_tape", 30] ] ]
 
-
+        },
         {
             "result": "superglue",
             "category": "CC_MISC",

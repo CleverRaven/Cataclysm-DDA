@@ -7,6 +7,7 @@
 #include "line.h"
 #include "mutation.h"
 #include "player.h"
+#include "vehicle.h"
 #include <sstream>
 #include <algorithm>
 
@@ -374,52 +375,40 @@ void iuse::disinfectant(game *g, player *p, item *it, bool t)
     }
 }
 
-// Aspirin
-void iuse::pkill_1(game *g, player *p, item *it, bool t)
+void iuse::pkill(game *g, player *p, item *it, bool t)
 {
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+    // Aspirin
+    if (it->has_flag("PKILL_1")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        if (!p->has_disease("pkill1")) {
+            p->add_disease("pkill1", 120);
+        } else {
+            for (int i = 0; i < p->illness.size(); i++) {
+                if (p->illness[i].type == "pkill1") {
+                    p->illness[i].duration = 120;
+                    i = p->illness.size();
+                }
+            }
+        }
+    // Codeine
+    } else if (it->has_flag("PKILL_2")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        p->add_disease("pkill2", 180);
 
- if (!p->has_disease("pkill1"))
-  p->add_disease("pkill1", 120);
- else {
-  for (int i = 0; i < p->illness.size(); i++) {
-   if (p->illness[i].type == "pkill1") {
-    p->illness[i].duration = 120;
-    i = p->illness.size();
-   }
-  }
- }
-}
+    } else if (it->has_flag("PKILL_3")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        p->add_disease("pkill3", 20);
+        p->add_disease("pkill2", 200);
 
-// Codeine
-void iuse::pkill_2(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+    } else if (it->has_flag("PKILL_4")) {
+        g->add_msg_if_player(p,"You shoot up.");
+        p->add_disease("pkill3", 80);
+        p->add_disease("pkill2", 200);
 
- p->add_disease("pkill2", 180);
-}
-
-void iuse::pkill_3(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
-
- p->add_disease("pkill3", 20);
- p->add_disease("pkill2", 200);
-}
-
-void iuse::pkill_4(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You shoot up.");
-
- p->add_disease("pkill3", 80);
- p->add_disease("pkill2", 200);
-}
-
-void iuse::pkill_l(game *g, player *p, item *it, bool t)
-{
- g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
-
- p->add_disease("pkill_l", rng(12, 18) * 300);
+    } else if (it->has_flag("PKILL_L")) {
+        g->add_msg_if_player(p,"You take some %s.", it->tname().c_str());
+        p->add_disease("pkill_l", rng(12, 18) * 300);
+    }
 }
 
 void iuse::xanax(game *g, player *p, item *it, bool t)
@@ -1054,7 +1043,7 @@ void iuse::sew(game *g, player *p, item *it, bool t)
             if (fix->damage >= 5)
 		    {
                 g->add_msg_if_player(p,"You destroy it!");
-                p->i_rem(g,ch);
+                p->i_rem(ch);
             }
         }
 	    else if (rn <= 6)
@@ -1113,7 +1102,7 @@ void iuse::extra_battery(game *g, player *p, item *it, bool t)
     }
 
     it_tool *tool = dynamic_cast<it_tool*>(modded->type);
-    if (tool->ammo != AT_BATT)
+    if (tool->ammo != "battery")
     {
         g->add_msg_if_player(p,"That item does not use batteries!");
         return;
@@ -1197,13 +1186,13 @@ void iuse::scissors(game *g, player *p, item *it, bool t)
     {
         g->add_msg_if_player(p,"You clumsily cut the %s into useless %s.",
                              cut->tname().c_str(), scrap_text.c_str());
-        p->i_rem(g,ch);
+        p->i_rem(ch);
         return;
     }
     g->add_msg_if_player(p,"You slice the %s into %d %s%s%s.", cut->tname().c_str(), count, pre_text.c_str(),
                          (count == 1 ? "" : "s"), post_text.c_str());
     item result(g->itypes[type], int(g->turn), g->nextinv);
-    p->i_rem(g,ch);
+    p->i_rem(ch);
     bool drop = false;
     for (int i = 0; i < count; i++)
     {
@@ -1587,7 +1576,7 @@ void iuse::solder_weld(game *g, player *p, item *it, bool t)
                     if (fix->damage >= 5)
                     {
                         g->add_msg_if_player(p,"You destroy it!");
-                        p->i_rem(g,ch);
+                        p->i_rem(ch);
                     }
                 }
                 else if (rn <= 6)
@@ -2222,7 +2211,7 @@ void iuse::siphon(game *g, player *p, item *it, bool t)
         g->add_msg_if_player(p,"There's no vehicle there.");
         return;
     }
-    if (veh->fuel_left(AT_GAS) == 0)
+    if (veh->fuel_left("gasoline") == 0)
     {
         g->add_msg_if_player(p, "That vehicle has no fuel to siphon.");
         return;
@@ -2344,8 +2333,6 @@ void iuse::set_trap(game *g, player *p, item *it, bool t)
   return;
  }
 
-
-
  trap_id type = tr_null;
  ter_id ter;
  bool buried = false;
@@ -2415,8 +2402,8 @@ if(it->type->id == "cot"){
   type = tr_shotgun_2;
   practice = 5;
  } else if(it->type->id == "blade_trap"){
-  posx += dirx;
-  posy += diry;
+  posx = (dirx - p->posx)*2 + p->posx; //math correction for blade trap
+  posy = (diry - p->posy)*2 + p->posy;
   for (int i = -1; i <= 1; i++) {
    for (int j = -1; j <= 1; j++) {
     if (g->m.move_cost(posx + i, posy + j) != 2) {
@@ -3428,7 +3415,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You cut the %s into %i plastic chunks.", cut->tname().c_str(), amount);
                 int count = amount;
                 item result(g->itypes["plastic_chunk"], int(g->turn), g->nextinv);
-                p->i_rem(g,ch);
+                p->i_rem(ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3459,7 +3446,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You cut the %s into %i plastic chunks.", cut->tname().c_str(), amount);
                 int count = amount;
                 item result(g->itypes["kevlar_plate"], int(g->turn), g->nextinv);
-                p->i_rem(g,ch);
+                p->i_rem(ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3498,7 +3485,7 @@ void iuse::knife(game *g, player *p, item *it, bool t)
                 g->add_msg("You carve several skewers from the %s.", cut->tname().c_str());
                 int count = 12;
                 item skewer(g->itypes["skewer"], int(g->turn), g->nextinv);
-                p->i_rem(g,ch);
+                p->i_rem(ch);
                 bool drop = false;
                 for (int i = 0; i < count; i++)
                 {
@@ -3597,7 +3584,7 @@ void iuse::lumber(game *g, player *p, item *it, bool t)
   return;
  }
  if (cut->type->id == "log") {
-     p->i_rem(g,ch);
+     p->i_rem(ch);
      cut_log_into_planks(g, p, it);
      return;
  } else {
@@ -3876,26 +3863,34 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  gunpowder.charges = 10*multiply;
  lead.charges = 10*multiply;
  }
- else if (pull->type->id == "45_acp" || pull->type->id == "45_jhp") {
+ else if (pull->type->id == "45_acp" ||
+          pull->type->id == "45_jhp") {
  casing.make(g->itypes["45_casing"]);
  primer.make(g->itypes["lgpistol_primer"]);
  gunpowder.make(g->itypes["gunpowder"]);
  gunpowder.charges = 10*multiply;
  lead.charges = 8*multiply;
  }
-// else if (pull->type->id == "45_jhp") {
-// casing.make(g->itypes["45_casing"]);
-// primer.make(g->itypes["lgpistol_primer"]);
-// gunpowder.make(g->itypes["gunpowder"]);
-// gunpowder.charges = 10*multiply;
-// lead.charges = 8*multiply;
-// }
  else if (pull->type->id == "45_super") {
  casing.make(g->itypes["45_casing"]);
  primer.make(g->itypes["lgpistol_primer"]);
  gunpowder.make(g->itypes["gunpowder"]);
  gunpowder.charges = 12*multiply;
  lead.charges = 10*multiply;
+ }
+ else if (pull->type->id == "454_Casull") {
+ casing.make(g->itypes["454_casing"]);
+ primer.make(g->itypes["smrifle_primer"]);
+ gunpowder.make(g->itypes["gunpowder"]);
+ gunpowder.charges = 20*multiply;
+ lead.charges = 20*multiply;
+ }
+ else if (pull->type->id == "500_Magnum") {
+ casing.make(g->itypes["500_casing"]);
+ primer.make(g->itypes["lgpistol_primer"]);
+ gunpowder.make(g->itypes["gunpowder"]);
+ gunpowder.charges = 24*multiply;
+ lead.charges = 24*multiply;
  }
  else if (pull->type->id == "57mm") {
  casing.make(g->itypes["57mm_casing"]);
@@ -3973,7 +3968,7 @@ void iuse::bullet_puller(game *g, player *p, item *it, bool t)
  }
  pull->charges = pull->charges - multiply;
  if (pull->charges == 0)
- p->i_rem(g,ch);
+ p->i_rem(ch);
  g->add_msg("You take apart the ammunition.");
  p->moves -= 500;
  if (casing.type->id != "null"){
@@ -4632,24 +4627,43 @@ void iuse::boots(game *g, player *p, item *it, bool t)
   }
   p->moves -= 30;
   g->add_msg_if_player(p, "You put the %s in your boot.", put->tname().c_str());
-  it->put_in(p->i_rem(g, ch));
+  it->put_in(p->i_rem(ch));
  }
 }
 
 void iuse::towel(game *g, player *p, item *it, bool t)
 {
     // check if player is wet
-    if (p->has_disease("wet"))
+    if( abs(p->has_morale(MORALE_WET)) )
     {
-        // remove wetness
-        p->rem_disease("wet");
-        // add a morale bonus for being dry now, but do not remove the wet morale penalty because player was recently wet.
-        // pretty much the inverse of WET morale penalty. Can be tweaked later if the morale increase for becoming dry is too great.
-        p->add_morale(MORALE_DRIED_OFF, 1, 50, 60, 10, true);
+        p->rem_morale(MORALE_WET);
         g->add_msg_if_player(p,"You use the %s to dry off!", it->name.c_str());
     }
     else
     {
         g->add_msg_if_player(p,"You are already dry, %s has no effect", it->name.c_str());
+    }
+}
+
+void iuse::unfold_bicycle(game *g, player *p, item *it, bool t)
+{
+    vehicle *bicycle = g->m.add_vehicle( g, veh_bicycle, p->posx, p->posy, 0, 0, 0);
+    if( bicycle ) {
+        // Mark the vehicle as foldable.
+        bicycle->tags.insert("convertible");
+        // Restore HP of parts if we stashed them previously.
+        if( it->item_vars.count("folding_bicycle_parts") ) {
+            std::istringstream part_hps;
+            part_hps.str(it->item_vars["folding_bicycle_parts"]);
+            for (int p = 0; p < bicycle->parts.size(); p++)
+            {
+                part_hps >> bicycle->parts[p].hp;
+            }
+        }
+        g->add_msg_if_player(p, "You painstakingly unfold the bicycle and make it ready to ride.");
+        p->moves -= 500;
+        it->invlet = 0;
+    } else {
+        g->add_msg_if_player(p, "There's no room to unfold the bicycle.");
     }
 }

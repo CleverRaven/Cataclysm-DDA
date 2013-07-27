@@ -21,6 +21,53 @@ For example, from vi, set marks a and b around the block, then:
 
     :'a,'b ! astyle --style=allman --indent=spaces=4 --add-brackets --align-pointer=name
 
+## Doxygen Comments
+
+Extensive documentation of classes and class members will make the code more readable to new contributors. New doxygen comments for existing classes are a welcomed contribution.
+
+Use the following template for commenting classes:
+```c++
+/**
+ * Brief description
+ *
+ * Lengthy description with many words. (optional)
+ */
+class foo {
+```
+
+Use the following template for commenting functions:
+```c++
+/**
+ * Brief description
+ *
+ * Lengthy description with many words. (optional)
+ * @param param1 Description of param1 (optional)
+ * @return Description of return (optional)
+ */
+int foo(int param1);
+```
+
+Use the following template for commenting member variables:
+```c++
+/** Brief description **/
+int foo;
+```
+
+Helpful pages:
+http://www.stack.nl/~dimitri/doxygen/manual/commands.html
+http://www.stack.nl/~dimitri/doxygen/manual/markdown.html#markdown_std
+http://www.stack.nl/~dimitri/doxygen/manual/faq.html
+
+### Guidelines for adding documentation
+* Doxygen comments should describe behavior towards the outside, not implementation, but since many classes in Cataclysm are intertwined, it's often necessary to describe implementation.
+* Describe things that aren't obvious to newcomers just from the name.
+* Don't describe redundantly, `/** Map **/; map* map;` is not a helpful comment.
+* When documenting X, describe how X interacts with other components, not just what X itself does.
+
+### Building the documentation for viewing it locally
+* Install doxygen
+* `doxygen doxygen_doc/doxygen_conf.txt `
+* `firefox doxygen_doc/html/index.html` (replace firefox with your browser of choice)
 
 ## Example Workflow
 

@@ -12,7 +12,8 @@ enum vehicle_controls {
  toggle_lights,
  toggle_turrets,
  release_control,
- control_cancel
+ control_cancel,
+ convert_vehicle
 };
 
 vehicle::vehicle(game *ag, vhtype_id type_id, int init_veh_fuel, int init_veh_status): g(ag), type(type_id)
@@ -61,7 +62,8 @@ bool vehicle::player_in_control (player *p)
 void vehicle::load (std::ifstream &stin)
 {
     int t;
-    int fdir, mdir, skd, prts, cr_on, li_on;
+    int fdir, mdir, skd, prts, cr_on, li_on, tag_count;
+    std::string vehicle_tag;
     stin >>
         t >>
         posx >>
@@ -89,8 +91,8 @@ void vehicle::load (std::ifstream &stin)
     int itms = 0;
     for (int p = 0; p < prts; p++)
     {
-        int pid, pdx, pdy, php, pam, pbld, pbig, pnit;
-        stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pnit;
+        int pid, pdx, pdy, php, pam, pbld, pbig, pflag, pass, pnit;
+        stin >> pid >> pdx >> pdy >> php >> pam >> pbld >> pbig >> pflag >> pass >> pnit;
         getline(stin, databuff); // Clear EoL
         vehicle_part new_part;
         new_part.id = (vpart_id) pid;
@@ -99,6 +101,8 @@ void vehicle::load (std::ifstream &stin)
         new_part.hp = php;
         new_part.blood = pbld;
         new_part.bigness = pbig;
+        new_part.flags = pflag;
+        new_part.passenger_id = pass;
         new_part.amount = pam;
         for (int j = 0; j < pnit; j++)
         {
@@ -124,6 +128,14 @@ void vehicle::load (std::ifstream &stin)
     find_exhaust ();
     insides_dirty = true;
     precalc_mounts (0, face.dir());
+
+    stin >> tag_count;
+    for( int i = 0; i < tag_count; ++i )
+    {
+        stin >> vehicle_tag;
+        tags.insert( vehicle_tag );
+    }
+    getline(stin, databuff); // Clear EoL
 }
 
 void vehicle::save (std::ofstream &stout)
@@ -154,7 +166,9 @@ void vehicle::save (std::ofstream &stout)
             parts[p].hp << " " <<
             parts[p].amount << " " <<
             parts[p].blood << " " <<
-            parts[p].bigness<< " " <<
+            parts[p].bigness << " " <<
+            parts[p].flags << " " <<
+            parts[p].passenger_id << " " <<
             parts[p].items.size() << std::endl;
             for (int i = 0; i < parts[p].items.size(); i++)
             {
@@ -164,6 +178,13 @@ void vehicle::save (std::ofstream &stout)
                     stout << parts[p].items[i].contents[l].save_info() << std::endl; // contents info
             }
     }
+
+    stout << tags.size() << ' ';
+    for( std::set<std::string>::const_iterator it = tags.begin(); it != tags.end(); ++it )
+    {
+        stout << *it << " ";
+    }
+    stout << std::endl;
 }
 
 void vehicle::init_state(game* g, int init_veh_fuel, int init_veh_status)
@@ -280,6 +301,12 @@ std::string vehicle::use_controls()
   curent++;
  }
 
+ if( !g->u.controlling_vehicle && tags.count("convertible") ) {
+  options_choice.push_back(convert_vehicle);
+  options_message.push_back(uimenu_entry("Fold bicycle", 'f'));
+  curent++;
+ }
+
  // Exit vehicle, if we are in it.
  int vpart;
  if (g->u.controlling_vehicle &&
@@ -319,6 +346,35 @@ std::string vehicle::use_controls()
    g->u.controlling_vehicle = false;
    g->add_msg("You let go of the controls.");
    break;
+  case convert_vehicle:
+  {
+   g->add_msg("You painstakingly pack the bicycle into a portable configuration.");
+   // create a folding bicycle item
+   item bicycle;
+   bicycle.make(g->itypes["folding_bicycle"]);
+
+   std::ostringstream part_hps;
+   // Stash part HP in item
+   for (int p = 0; p < parts.size(); p++)
+   {
+       part_hps << parts[p].hp << " ";
+       if( part_flag( p, vpf_cargo ) ) {
+           for( std::vector<item>::iterator it = parts[p].items.begin();
+                it != parts[p].items.end(); ++it) {
+               g->m.add_item( g->u.posx, g->u.posy, *it );
+           }
+       }
+   }
+   bicycle.item_vars["folding_bicycle_parts"] = part_hps.str();
+
+   g->m.add_item(g->u.posx, g->u.posy, bicycle);
+   // Remove vehicle
+   unboard_all();
+   g->m.destroy_vehicle(this);
+
+   g->u.moves -= 500;
+   break;
+  }
   case control_cancel:
    break;
  }
@@ -382,6 +438,13 @@ bool vehicle::can_mount (int dx, int dy, vpart_id id)
     {
         int res = vpart_list[id].flags & mfb(vpf_external);
         return res; // can be mounted if first and external
+    }
+
+    // Override for replacing a tire.
+    if( vpart_list[id].flags & mfb(vpf_wheel) &&
+        -1 != part_with_feature(parts_here[0], vpf_wheel, false) )
+    {
+        return true;
     }
 
     int flags1 = part_info(parts_here[0]).flags;
@@ -537,6 +600,20 @@ void vehicle::remove_part (int p)
     insides_dirty = true;
 }
 
+item vehicle::item_from_part( int part )
+{
+    itype_id itm = part_info(part).item;
+    int bigness = parts[part].bigness;
+    itype* parttype = g->itypes[itm];
+    item tmp(parttype, g->turn);
+
+    //transfer damage, etc.
+    give_part_properties_to_item(g, part, tmp);
+    if( parttype->is_var_veh_part() ) {
+        tmp.bigness = bigness;
+    }
+    return tmp;
+}
 
 std::vector<int> vehicle::parts_at_relative (int dx, int dy)
 {
@@ -801,18 +878,18 @@ int vehicle::total_mass ()
     return m;
 }
 
-int vehicle::fuel_left (int ftype, bool for_engine)
+int vehicle::fuel_left (ammotype ftype, bool for_engine)
 {
     int fl = 0;
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_fuel_tank) &&
             (ftype == part_info(p).fuel_type ||
-            (for_engine && ftype == AT_BATT && part_info(p).fuel_type == AT_PLUT)))
+            (for_engine && ftype == "battery" && part_info(p).fuel_type == "plutonium")))
             fl += parts[p].amount;
     return fl;
 }
 
-int vehicle::fuel_capacity (int ftype)
+int vehicle::fuel_capacity (ammotype ftype)
 {
     int cap = 0;
     for (int p = 0; p < parts.size(); p++)
@@ -821,7 +898,7 @@ int vehicle::fuel_capacity (int ftype)
     return cap;
 }
 
-int vehicle::refill (int ftype, int amount)
+int vehicle::refill (ammotype ftype, int amount)
 {
     for (int p = 0; p < parts.size(); p++)
     {
@@ -845,7 +922,7 @@ int vehicle::refill (int ftype, int amount)
     return amount;
 }
 
-int vehicle::drain (int ftype, int amount) {
+int vehicle::drain (ammotype ftype, int amount) {
   int drained = 0;
 
   for (int p = 0; p < parts.size(); p++) {
@@ -864,29 +941,10 @@ int vehicle::drain (int ftype, int amount) {
   return drained;
 }
 
-std::string vehicle::fuel_name(int ftype)
+int vehicle::basic_consumption (ammotype ftype)
 {
-    switch (ftype)
-    {
-    case AT_GAS:
-        return std::string("gasoline");
-    case AT_BATT:
-        return std::string("batteries");
-    case AT_PLUT:
-        return std::string("plutonium cells");
-    case AT_PLASMA:
-        return std::string("hydrogen");
-    case AT_WATER:
-        return std::string("clean water");
-    default:
-        return std::string("INVALID FUEL (BUG in vehicle::fuel_name)");
-    }
-}
-
-int vehicle::basic_consumption (int ftype)
-{
-    if (ftype == AT_PLUT)
-      ftype = AT_BATT;
+    if (ftype == "plutonium")
+      ftype = "battery";
     int cnt = 0;
     int fcon = 0;
     for (int p = 0; p < parts.size(); p++)
@@ -909,7 +967,7 @@ int vehicle::total_power (bool fueled)
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_engine) &&
             (fuel_left (part_info(p).fuel_type, true) || !fueled ||
-             part_info(p).fuel_type == AT_MUSCLE) &&
+             part_info(p).fuel_type == "muscle") &&
             parts[p].hp > 0)
         {
             pwr += part_power(p);
@@ -953,17 +1011,16 @@ int vehicle::safe_velocity (bool fueled)
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_engine) &&
             (fuel_left (part_info(p).fuel_type, true) || !fueled ||
-             part_info(p).fuel_type == AT_MUSCLE) &&
+             part_info(p).fuel_type == "muscle") &&
             parts[p].hp > 0)
         {
             int m2c = 100;
-            switch (part_info(p).fuel_type)
-            {
-            case AT_GAS:    m2c = 60; break;
-            case AT_PLASMA: m2c = 75; break;
-            case AT_BATT:   m2c = 90; break;
-            case AT_MUSCLE: m2c = 45; break;
-            }
+
+            if( part_info(p).fuel_type == "gasoline" )    m2c = 60;
+            else if( part_info(p).fuel_type == "plasma" ) m2c = 75;
+            else if( part_info(p).fuel_type == "battery" )   m2c = 90;
+            else if( part_info(p).fuel_type == "muscle" ) m2c = 45;
+
             pwrs += part_power(p) * m2c / 100;
             cnt++;
         }
@@ -984,22 +1041,21 @@ int vehicle::noise (bool fueled, bool gas_only)
     for (int p = 0; p < parts.size(); p++)
         if (part_flag(p, vpf_engine) &&
             (fuel_left (part_info(p).fuel_type, true) || !fueled ||
-             part_info(p).fuel_type == AT_MUSCLE) &&
+             part_info(p).fuel_type == "muscle") &&
             parts[p].hp > 0)
         {
             int nc = 10;
-            switch (part_info(p).fuel_type)
-            {
-            case AT_GAS:    nc = 25; break;
-            case AT_PLASMA: nc = 10; break;
-            case AT_BATT:   nc = 3; break;
-            case AT_MUSCLE: nc = 5; break;
-            }
-            if (!gas_only || part_info(p).fuel_type == AT_GAS)
+
+            if( part_info(p).fuel_type == "gasoline" )    nc = 25;
+            else if( part_info(p).fuel_type == "plasma" ) nc = 10;
+            else if( part_info(p).fuel_type == "battery" )   nc = 3;
+            else if( part_info(p).fuel_type == "muscle" ) nc = 5;
+
+            if (!gas_only || part_info(p).fuel_type == "gasoline")
             {
                 int pwr = part_power(p) * nc / 100;
-                if (muffle < 100 && (part_info(p).fuel_type == AT_GAS ||
-                    part_info(p).fuel_type == AT_PLASMA))
+                if (muffle < 100 && (part_info(p).fuel_type == "gasoline" ||
+                    part_info(p).fuel_type == "plasma"))
                     pwr = pwr * muffle / 100;
                 pwrs += pwr;
                 cnt++;
@@ -1136,15 +1192,15 @@ bool vehicle::valid_wheel_config ()
 
 void vehicle::consume_fuel ()
 {
-    int ftypes[3] = { AT_GAS, AT_BATT, AT_PLASMA };
+    ammotype ftypes[3] = { "gasoline", "battery", "plasma" };
     for (int ft = 0; ft < 3; ft++)
     {
         float st = strain() * 10;
-        int amnt = (int) (basic_consumption (ftypes[ft]) * (1.0 + st * st) / (ftypes[ft] == AT_BATT?1:100));
+        int amnt = (int) (basic_consumption (ftypes[ft]) * (1.0 + st * st) /
+                          (ftypes[ft] == "battery" ? 1 : 100));
         if (!amnt)
             continue; // no engines of that type
-//         g->add_msg("consume: %d of fuel%d (st:%.2f)", amnt, ft, st);
-        bool elec = ftypes[ft] == AT_BATT;
+        bool elec = ftypes[ft] == "battery";
         bool found = false;
         for (int j = 0; j < (elec? 2 : 1); j++)
         {
@@ -1155,7 +1211,7 @@ void vehicle::consume_fuel ()
                 //  - if j is 0, then we're looking for plutonium (it's first)
                 //  - otherwise we're looking for batteries (second)
                 if (part_flag(p, vpf_fuel_tank) &&
-                    (part_info(p).fuel_type == (elec? (j? AT_BATT : AT_PLUT) : ftypes[ft])) && 
+                    (part_info(p).fuel_type == (elec? (j ? "battery" : "plutonium") : ftypes[ft])) &&
                     parts[p].amount > 0)
                 {
                     parts[p].amount -= amnt / ((elec && !j)?100:1);
@@ -1726,8 +1782,8 @@ bool vehicle::add_item (int part, item itm)
     it_ammo *ammo = dynamic_cast<it_ammo*> (itm.type);
     if (part_flag(part, vpf_turret))
         if (!ammo || (ammo->type != part_info(part).fuel_type ||
-                 ammo->type == AT_GAS ||
-                 ammo->type == AT_PLASMA))
+                 ammo->type == "gasoline" ||
+                 ammo->type == "plasma"))
             return false;
     int cur_volume = 0;
     int add_volume = itm.volume();
@@ -1777,7 +1833,7 @@ void vehicle::gain_moves (int mp)
             thrust (cruise_velocity > velocity? 1 : -1);
     }
 
-    refill (AT_BATT, solar_power());
+    refill ("battery", solar_power());
 
     // check for smoking parts
     for (int ep = 0; ep < external_parts.size(); ep++)
@@ -1824,7 +1880,7 @@ void vehicle::find_exhaust ()
 {
     int en = -1;
     for (int p = 0; p < parts.size(); p++)
-        if (part_flag(p, vpf_engine) && part_info(p).fuel_type == AT_GAS)
+        if (part_flag(p, vpf_engine) && part_info(p).fuel_type == "gasoline")
         {
             en = p;
             break;
@@ -1982,18 +2038,18 @@ int vehicle::damage_direct (int p, int dmg, int type)
             insides_dirty = true;
         if (part_flag(p, vpf_fuel_tank))
         {
-            int ft = part_info(p).fuel_type;
-            if (ft == AT_GAS || ft == AT_PLASMA)
+            ammotype ft = part_info(p).fuel_type;
+            if (ft == "gasoline" || ft == "plasma")
             {
                 int pow = parts[p].amount / 40;
     //            debugmsg ("damage check dmg=%d pow=%d", dmg, pow);
                 if (parts[p].hp <= 0)
                     leak_fuel (p);
                 if (type == 2 ||
-                    (one_in (ft == AT_GAS? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
+                    (one_in (ft == "gasoline" ? 2 : 4) && pow > 5 && rng (75, 150) < dmg))
                 {
                     g->explosion (global_x() + parts[p].precalc_dx[0], global_y() + parts[p].precalc_dy[0],
-                                pow, 0, ft == AT_GAS);
+                                pow, 0, ft == "gasoline");
                     parts[p].hp = 0;
                 }
             }
@@ -2016,8 +2072,8 @@ void vehicle::leak_fuel (int p)
 {
     if (!part_flag(p, vpf_fuel_tank))
         return;
-    int ft = part_info(p).fuel_type;
-    if (ft == AT_GAS)
+    ammotype ft = part_info(p).fuel_type;
+    if (ft == "gasoline")
     {
         int x = global_x();
         int y = global_y();
@@ -2048,20 +2104,20 @@ void vehicle::fire_turret (int p, bool burst)
     int charges = burst? gun->burst : 1;
     if (!charges)
         charges = 1;
-    int amt = part_info (p).fuel_type;
-    if (amt == AT_GAS || amt == AT_PLASMA)
+    ammotype amt = part_info (p).fuel_type;
+    if (amt == "gasoline" || amt == "plasma")
     {
-        if (amt == AT_GAS)
+        if (amt == "gasoline")
             charges = 20; // hacky
         int fleft = fuel_left (amt);
         if (fleft < 1)
             return;
-        it_ammo *ammo = dynamic_cast<it_ammo*>(g->itypes[amt == AT_GAS? "gasoline" : "plasma"]);
+        it_ammo *ammo = dynamic_cast<it_ammo*>(g->itypes[amt == "gasoline" ? "gasoline" : "plasma"]);
         if (!ammo)
             return;
         if (fire_turret_internal (p, *gun, *ammo, charges))
         { // consume fuel
-            if (amt == AT_PLASMA)
+            if (amt == "plasma")
                 charges *= 10; // hacky, too
             for (int p = 0; p < parts.size(); p++)
             {
@@ -2104,7 +2160,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     // code copied form mattack::smg, mattack::flamethrower
     int t, fire_t;
     monster *target = 0;
-    int range = ammo.type == AT_GAS? 5 : 12;
+    int range = ammo.type == "gasoline" ? 5 : 12;
     int closest = range + 1;
     for (int i = 0; i < g->z.size(); i++)
     {
@@ -2141,7 +2197,7 @@ bool vehicle::fire_turret_internal (int p, it_gun &gun, it_ammo &ammo, int charg
     tmp.weapon.curammo = &curam;
     tmp.weapon.charges = charges;
     g->fire(tmp, target->posx, target->posy, traj, true);
-    if (ammo.type == AT_GAS)
+    if (ammo.type == "gasoline")
     {
         for (int i = 0; i < traj.size(); i++)
             g->m.add_field(g, traj[i].x, traj[i].y, fd_fire, 1);

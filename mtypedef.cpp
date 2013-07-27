@@ -1267,7 +1267,7 @@ FLAGS(MF_SEES, MF_HEARS, MF_GOODHEARING, MF_NOHEAD, MF_BASHES, MF_DESTROYS,
 
 mon("turret",	species_robot, 't',	c_ltgray,	MS_SMALL,	"steel",
 //	dif agr mor spd msk mdi m## cut dge bsh cut itm  HP special freq
-	 14,100,100,100,  0,  0,  0,  0,  0, 14, 16, 88, 30, 1,
+	 14,100,100,100,  0,  0,  0,  0,  0, 14, 16, 80, 30, 1,
 	&mdeath::explode,	&mattack::smg, "\
 A small, round turret which extends from\n\
 the floor.  Two SMG barrels swivel 360\n\

@@ -257,6 +257,8 @@ std::string action_ident(action_id act)
             return "ignore_enemy";
         case ACTION_SAVE:
             return "save";
+        case ACTION_QUICKSAVE:
+            return "quicksave";
         case ACTION_QUIT:
             return "quit";
         case ACTION_PL_INFO:
@@ -431,6 +433,8 @@ std::string action_name(action_id act)
             return "Ignore Nearby Enemy";
         case ACTION_SAVE:
             return "Save and Quit";
+        case ACTION_QUICKSAVE:
+            return "Quicksave";
         case ACTION_QUIT:
             return "Commit Suicide";
         case ACTION_PL_INFO:

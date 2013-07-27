@@ -539,13 +539,17 @@ void mutation_effect(game *g, player &p, pl_flag mut)
     if (destroy) {
      if (is_u)
       g->add_msg("Your %s is destroyed!", p.worn[i].tname().c_str());
+     p.worn.erase(p.worn.begin() + i);
     } else {
      if (is_u)
       g->add_msg("Your %s is pushed off.", p.worn[i].tname().c_str());
+     char tmp_invlet = p.worn[i].invlet;
      g->m.add_item(p.posx, p.posy, p.worn[i]);
+     p.takeoff( g, p.worn[i].invlet, true );
+     p.i_rem( tmp_invlet );
     }
-    p.worn.erase(p.worn.begin() + i);
-    i--;
+    // Reset to the start of the vector
+    i = 0;
    }
   }
  }

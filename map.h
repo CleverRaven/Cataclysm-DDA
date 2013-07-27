@@ -98,7 +98,27 @@ struct real_coords {
   };
 };
 
-
+/**
+ * Manage and cache data about a part of the map.
+ *
+ * Despite the name, this class isn't actually responsible for managing the map as a whole. For that function,
+ * see \ref mapbuffer. Instead, this class loads a part of the mapbuffer into a cache, and adds certain temporary
+ * information such as lighting calculations to it.
+ *
+ * To understand the following descriptions better, you should also read \ref map_management
+ *
+ * The map coordinates always start at (0, 0) for the top-left and end at (map_width-1, map_height-1) for the bottom-right.
+ *
+ * The actual map data is stored in `submap` instances. These instances are managed by `mapbuffer`.
+ * References to the currently active submaps are stored in `map::grid`:
+ *     0 1 2
+ *     3 4 5
+ *     6 7 8
+ * In this example, the top-right submap would be at `grid[2]`.
+ *
+ * When the player moves between submaps, the whole map is shifted, so that if the player moves one submap to the right,
+ * (0, 0) now points to a tile one submap to the right from before
+ */
 class map
 {
  public:
@@ -109,8 +129,25 @@ class map
  ~map();
 
 // Visual Output
- void draw(game *g, WINDOW* w, const point center);
  void debug();
+
+ /** Draw a visible part of the map into `w`.
+  *
+  * This method uses `g->u.posx/posy` for visibility calculations, so it can
+  * not be used for anything but the player's viewport. Likewise, only
+  * `g->m` and maps with equivalent coordinates can be used, as other maps
+  * would have coordinate systems incompatible with `g->u.posx`
+  *
+  * @param center The coordinate of the center of the viewport, this can
+  *               be different from the player coordinate.
+  */
+ void draw(game *g, WINDOW* w, const point center);
+
+ /** Draw the map tile at the given coordinate. Called by `map::draw()`.
+  *
+  * @param x, y The tile on this map to draw.
+  * @param cx, cy The center of the viewport to be rendered, see `center` in `map::draw()`
+  */
  void drawsq(WINDOW* w, player &u, const int x, const int y, const bool invert, const bool show_items,
              const int view_center_x = -1, const int view_center_y = -1,
              const bool low_light = false, const bool bright_level = false);
@@ -124,23 +161,71 @@ class map
  void clear_traps();
 
 // Movement and LOS
- // Cost to move through; 0 = impassible, 1 = 50 moves, 2 = 100 etc
+
+ /**
+  * Calculate the cost to move past the tile at (x, y).
+  *
+  * The move cost is determined by various obstacles, such
+  * as terrain, vehicles and furniture.
+  *
+  * @note Movement costs for players and zombies both use this function.
+  *
+  * @return The return value is interpreted as follows:
+  * Move Cost | Meaning
+  * --------- | -------
+  * 0         | Impassable
+  * n > 0     | x*n turns to move past this
+  */
  int move_cost(const int x, const int y);
- // Same as above, but don't take vehicles into account
+
+
+ /**
+  * Similar behavior to `move_cost()`, but ignores vehicles.
+  */
  int move_cost_ter_furn(const int x, const int y);
- // Cost to move out of one tile and into the next,
- // returns player/monster moves (50, 75, 100, etc), unlike move_cost
+
+ /**
+  * Cost to move out of one tile and into the next.
+  *
+  * @return The cost in turns to move out of `(x1, y1)` and into `(x2, y2)`
+  */
  int combined_movecost(const int x1, const int y1, const int x2, const int y2);
+
+ /**
+  * Returns whether the tile at `(x, y)` is transparent(you can look past it).
+  */
  bool trans(const int x, const int y); // Transparent?
- // (Fx, Fy) sees (Tx, Ty), within a range of (range)?
- // tc indicates the Bresenham line used to connect the two points, and may
- //  subsequently be used to form a path between them
+
+ /**
+  * Returns whether `(Fx, Fy)` sees `(Tx, Ty)` with a view range of `range`.
+  *
+  * @param tc Indicates the Bresenham line used to connect the two points, and may
+  *           subsequently be used to form a path between them
+  */
  bool sees(const int Fx, const int Fy, const int Tx, const int Ty,
            const int range, int &tc);
-// clear_path is the same idea, but uses cost_min <= move_cost <= cost_max
+
+ /**
+  * Check whether there's a direct line of sight between `(Fx, Fy)` and
+  * `(Tx, Ty)` with the additional movecost restraints.
+  *
+  * Checks two things:
+  * 1. The `sees()` algorithm between `(Fx, Fy)` and `(Tx, Ty)`
+  * 2. That moving over the line of sight would have a move_cost between
+  *    `cost_min` and `cost_max`.
+  */
  bool clear_path(const int Fx, const int Fy, const int Tx, const int Ty,
                  const int range, const int cost_min, const int cost_max, int &tc);
-// route() generates an A* best path; if bash is true, we can bash through doors
+
+ /**
+  * Calculate a best path using A*
+  *
+  * @param Fx, Fy The source location from which to path.
+  * @param Tx, Ty The destination to which to path.
+  *
+  * @param bash Whether we should path through terrain that's impassable, but can
+  *             be destroyed(closed windows, doors, etc.)
+  */
  std::vector<point> route(const int Fx, const int Fy, const int Tx, const int Ty,
                           const bool bash = true);
 
@@ -148,9 +233,19 @@ class map
  VehicleList get_vehicles();
  VehicleList get_vehicles(const int sx, const int sy, const int ex, const int ey);
 
-// checks, if tile is occupied by vehicle and by which part
+ /**
+  * Checks if tile is occupied by vehicle and by which part.
+  *
+  * @param part_num The part number of the part at this tile will be returned in this parameter.
+  * @return A pointer to the vehicle in this tile.
+  */
  vehicle* veh_at(const int x, const int y, int &part_num);
+
+ /**
+  * Same as `veh_at(const int, const int, int)`, but doesn't return part number.
+  */
  vehicle* veh_at(const int x, const int y);// checks, if tile is occupied by vehicle
+
  // put player on vehicle at x,y
  void board_vehicle(game *g, int x, int y, player *p);
  void unboard_vehicle(game *g, const int x, const int y);//remove player from vehicle at x,y
@@ -285,7 +380,6 @@ class map
  lit_level light_at(int dx, int dy); // Assumes 0,0 is light map center
  float ambient_light_at(int dx, int dy); // Raw values for tilesets
  bool pl_sees(int fx, int fy, int tx, int ty, int max_range);
-
  std::set<vehicle*> vehicle_list;
  std::map< std::pair<int,int>, std::pair<vehicle*,int> > veh_cached_parts;
  bool veh_exists_at [SEEX * MAPSIZE][SEEY * MAPSIZE];

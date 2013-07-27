@@ -309,6 +309,9 @@ option_key lookup_option_key(std::string id)
     if(id == "classic_zombies") {
         return OPT_CLASSIC_ZOMBIES;
     }
+    if(id == "revive_zombies") {
+        return OPT_REVIVE_ZOMBIES;
+    }
     if(id == "season_length") {
         return OPT_SEASON_LENGTH;
     }
@@ -332,6 +335,9 @@ option_key lookup_option_key(std::string id)
     }
     if(id == "auto_pickup_zero") {
         return OPT_AUTO_PICKUP_ZERO;
+    }
+    if(id == "auto_pickup_safemode") {
+        return OPT_AUTO_PICKUP_SAFEMODE;
     }
 
     return OPT_NULL;
@@ -368,6 +374,7 @@ std::string option_string(option_key key)
     case OPT_MOVE_VIEW_OFFSET:    return "move_view_offset";
     case OPT_STATIC_SPAWN:        return "static_spawn";
     case OPT_CLASSIC_ZOMBIES:     return "classic_zombies";
+    case OPT_REVIVE_ZOMBIES:      return "revive_zombies";
     case OPT_SEASON_LENGTH:       return "season_length";
     case OPT_STATIC_NPC:          return "static_npc";
     case OPT_RANDOM_NPC:          return "random_npc";
@@ -376,6 +383,7 @@ std::string option_string(option_key key)
     case OPT_HIDE_CURSOR:         return "hide_cursor";
     case OPT_AUTO_PICKUP:         return "auto_pickup";
     case OPT_AUTO_PICKUP_ZERO:    return "auto_pickup_zero";
+    case OPT_AUTO_PICKUP_SAFEMODE:return "auto_pickup_safemode";
     default:                      return "unknown_option";
     }
     return "unknown_option";
@@ -413,13 +421,15 @@ std::string option_desc(option_key key)
     case OPT_SEASON_LENGTH:       return "Season length, in days.\nDefault is 14";
     case OPT_STATIC_SPAWN:        return "Spawn zombies at game start instead of\nduring game. Must reset world\ndirectory after changing for it to\ntake effect.\nDefault is true";
     case OPT_CLASSIC_ZOMBIES:     return "Only spawn classic zombies and natural\nwildlife. Requires a reset of\nsave folder to take effect.\nThis disables certain buildings.\nDefault is false";
+    case OPT_REVIVE_ZOMBIES:      return "Allow zombies to revive after\na certain amount of time.\nDefault is true";
     case OPT_STATIC_NPC:          return "If true, the game will spawn static\nNPC at the start of the game,\nrequires world reset.\nDefault is false";
     case OPT_RANDOM_NPC:          return "If true, the game will randomly spawn\nNPC during gameplay.\nDefault is false";
     case OPT_RAD_MUTATION:        return "If true, radiation causes the player\nto mutate.\nDefault is true";
     case OPT_SAVESLEEP:           return "If true, game will ask to save the map\nbefore sleeping. Default is false";
     case OPT_HIDE_CURSOR:         return "If 0, cursor is always shown. If 1,\ncursor is hidden. If 2, cursor is\nhidden on keyboard input and\nunhidden on mouse movement.\nDefault is 0.";
     case OPT_AUTO_PICKUP:         return "Enable item auto pickup. Change\npickup rules with the Auto Pickup\nManager in the Help Menu ?3";
-    case OPT_AUTO_PICKUP_ZERO:    return "Auto pickup items with\n0 Volume and Weight";
+    case OPT_AUTO_PICKUP_ZERO:    return "Auto pickup items with\n0 Volume or Weight";
+    case OPT_AUTO_PICKUP_SAFEMODE:return "Auto pickup is disabled\nas long as you can see\nmonsters nearby.\n\nThis is affected by\nSafemode proximity distance.";
     default:                      return " ";
     }
     return "Big ol Bug (options.cpp:option_desc)";
@@ -456,6 +466,7 @@ std::string option_name(option_key key)
     case OPT_MOVE_VIEW_OFFSET:    return "Move view offset";
     case OPT_STATIC_SPAWN:        return "Static spawn";
     case OPT_CLASSIC_ZOMBIES:     return "Classic zombies";
+    case OPT_REVIVE_ZOMBIES:      return "Revive zombies";
     case OPT_SEASON_LENGTH:       return "Season length";
     case OPT_STATIC_NPC:          return "Static npcs";
     case OPT_RANDOM_NPC:          return "Random npcs";
@@ -464,6 +475,7 @@ std::string option_name(option_key key)
     case OPT_HIDE_CURSOR:         return "Hide Mouse Cursor";
     case OPT_AUTO_PICKUP:         return "Enable item Auto Pickup";
     case OPT_AUTO_PICKUP_ZERO:    return "Auto Pickup 0 Vol/Weight";
+    case OPT_AUTO_PICKUP_SAFEMODE:return "Auto Pickup Safemode";
     default:                      return "Unknown Option (options.cpp:option_name)";
     }
     return "Big ol Bug (options.cpp:option_name)";
@@ -564,6 +576,9 @@ char option_min_options(option_key id)
         case OPT_VIEWPORT_Y:
             ret = 12; // TODO Set up min/max values so weird numbers don't have to be used.
             break;
+        case OPT_AUTOSAVE_TURNS:
+            ret = 1;
+            break;
         default:
             ret = 0;
             break;
@@ -641,6 +656,8 @@ move_view_offset 1\n\
 static_spawn T\n\
 # Only spawn classic zombies and natural wildlife.  You must create a new world after changing\n\
 classic_zombies F\n\
+# Allow zombies to revive after a certain amount of time.\n\
+revive_zombies T\n\
 # Season length in days\n\
 season_length 14\n\
 # Spawn static NPCs at start. Requires reset after changing.\n\
@@ -651,8 +668,12 @@ random_npc F\n\
 rad_mutation T\n\
 # Ask to save before sleeping.\n\
 save_sleep F\n\
-# Auto Pickup items with Volume and Weight 0\n\
+# Enable Auto Pickup. Manage pickup rules in the help menu. ?3\n\
 auto_pickup F\n\
+# Auto pickup items with 0 Volume or Weight\n\
+auto_pickup_zero F\n\
+# Auto pickup is disabled as long as you can see monsters nearby.\n\
+auto_pickup_safemode F\n\
 ";
     fout.close();
 }

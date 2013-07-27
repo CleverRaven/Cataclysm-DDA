@@ -15,7 +15,7 @@ class player;
 class game;
 
 const int num_fuel_types = 5;
-const int fuel_types[num_fuel_types] = { AT_GAS, AT_BATT, AT_PLUT, AT_PLASMA, AT_WATER };
+const ammotype fuel_types[num_fuel_types] = { "gasoline", "battery", "plutonium", "PLAS", "water" };
 const int k_mvel = 200;
 
 // 0 - nothing, 1 - monster/player/npc, 2 - vehicle,
@@ -45,7 +45,9 @@ struct veh_collision {
 };
 
 
-// Structure, describing vehicle part (ie, wheel, seat)
+/**
+ * Structure, describing vehicle part (ie, wheel, seat)
+ */
 struct vehicle_part
 {
     vehicle_part() : id(vp_null), mount_dx(0), mount_dy(0), hp(0),
@@ -75,75 +77,86 @@ struct vehicle_part
     {
         int amount;         // amount of fuel for tank
         int open;           // door is open
+        int direction;      // direction the part is facing
     };
     std::vector<item> items;// inventory
 
 };
 
-// Facts you need to know about implementation:
-// - Vehicles belong to map. There's std::vector<vehicle>
-//   for each submap in grid. When requesting a reference
-//   to vehicle, keep in mind it can be invalidated
-//   by functions such as map::displace_vehicle.
-// - To check if there's any vehicle at given map tile,
-//   call map::veh_at, and check vehicle type (veh_null
-//   means there's no vehicle there).
-// - Vehicle consists of parts (represented by vector). Parts
-//   have some constant info: see veh_type.h, vpart_info structure
-//   and vpart_list array -- that is accessible through part_info method.
-//   The second part is variable info, see vehicle_part structure
-//   just above.
-// - Parts are mounted at some point relative to vehicle position (or starting part)
-//   (0, 0 in mount coords). There can be more than one part at
-//   given mount coords. First one is considered external,
-//   others are internal (or, as special case, "over" -- like trunk)
-//   Check tileray.h file to see a picture of coordinate axes.
-// - Vehicle can be rotated to arbitrary degree. This means that
-//   mount coords are rotated to match vehicle's face direction before
-//   their actual positions are known. For optimization purposes
-//   mount coords are precalculated for current vehicle face direction
-//   and stored in precalc_*[0]. precalc_*[1] stores mount coords for
-//   next move (vehicle can move and turn). Method map::displace vehicle
-//   assigns precalc[1] to precalc[0]. At any time (except
-//   map::vehmove innermost cycle) you can get actual part coords
-//   relative to vehicle's position by reading precalc_*[0].
-// - Vehicle keeps track of 3 directions:
-//     face (where it's facing currently)
-//     move (where it's moving, it's different from face if it's skidding)
-//     turn_dir (where it will turn at next move, if it won't stop due to collision)
-// - Some methods take "part" or "p" parameter. Some of them
-//   assume that's external part number, and all internal parts
-//   at this mount point are affected. There is separate
-//   vector in which a list of external part is stored,
-//   it must correspond to actual list of external parts
-//   (assure this if you add/remove parts programmatically).
-// - Driver doesn't know what vehicle he drives.
-//   There's only player::in_vehicle flag which
-//   indicates that he is inside vehicle. To figure
-//   out what, you need to ask a map if there's a vehicle
-//   at driver/passenger position.
-// - To keep info consistent, always use
-//   map::board_vehicle and map::unboard_vehicle for
-//   boarding/unboarding player.
-// - To add new predesigned vehicle, assign new value for vhtype_id enum
-//   and declare vehicle and add parts in file veh_typedef.cpp, using macroes,
-//   similar to existant. Keep in mind, that positive x coordinate points
-//   forwards, negative x is back, positive y is to the right, and
-//   negative y to the left:
-//       orthogonal dir left (-Y)
-//        ^
-//  -X ------->  +X (forward)
-//        v
-//       orthogonal dir right (+Y)
-//   When adding parts, function checks possibility to install part at given
-//   coords. If it shows debug messages that it can't add parts, when you start
-//   the game, you did something wrong.
-//   There are a few rules: some parts are external, so one should be the first part
-//   at given mount point (tile). They require some part in neighbouring tile (with vpf_mount_point flag) to
-//   be mounted to. Other parts are internal or placed over. They can only be installed on top
-//   of external part. Some functional parts can be only in single instance per tile, i. e.,
-//   no two engines at one mount point.
-//   If you can't understand, why installation fails, try to assemble your vehicle in game first.
+/**
+ * A vehicle as a whole with all its components.
+ *
+ * This object can occupy multiple tiles, the objects actually visible
+ * on the map are of type `vehicle_part`.
+ *
+ * Facts you need to know about implementation:
+ * - Vehicles belong to map. There's `std::vector<vehicle>`
+ *   for each submap in grid. When requesting a reference
+ *   to vehicle, keep in mind it can be invalidated
+ *   by functions such as `map::displace_vehicle()`.
+ * - To check if there's any vehicle at given map tile,
+ *   call `map::veh_at()`, and check vehicle type (`veh_null`
+ *   means there's no vehicle there).
+ * - Vehicle consists of parts (represented by vector). Parts have some
+ *   constant info: see veh_type.h, `vpart_info` structure and
+ *   vpart_list array -- that is accessible through `part_info()` method.
+ *   The second part is variable info, see `vehicle_part` structure.
+ * - Parts are mounted at some point relative to vehicle position (or starting part)
+ *   (`0, 0` in mount coords). There can be more than one part at
+ *   given mount coords. First one is considered external,
+ *   others are internal (or, as special case, "over" -- like trunk)
+ *   Check tileray.h file to see a picture of coordinate axes.
+ * - Vehicle can be rotated to arbitrary degree. This means that
+ *   mount coords are rotated to match vehicle's face direction before
+ *   their actual positions are known. For optimization purposes
+ *   mount coords are precalculated for current vehicle face direction
+ *   and stored in `precalc_*[0]`. `precalc_*[1]` stores mount coords for
+ *   next move (vehicle can move and turn). Method `map::displace_vehicle()`
+ *   assigns `precalc[1]` to `precalc[0]`. At any time (except
+ *   `map::vehmove()` innermost cycle) you can get actual part coords
+ *   relative to vehicle's position by reading `precalc_*[0]`.
+ * - Vehicle keeps track of 3 directions:
+ *     Direction | Meaning
+ *     --------- | -------
+ *     face      | where it's facing currently
+ *     move      | where it's moving, it's different from face if it's skidding
+ *     turn_dir  | where it will turn at next move, if it won't stop due to collision
+ * - Some methods take `part` or `p` parameter. Some of them
+ *   assume that's external part number, and all internal parts
+ *   at this mount point are affected. There is separate
+ *   vector in which a list of external parts is stored,
+ *   it must correspond to actual list of external parts
+ *   (assure this if you add/remove parts programmatically).
+ * - Driver doesn't know what vehicle he drives.
+ *   There's only player::in_vehicle flag which
+ *   indicates that he is inside vehicle. To figure
+ *   out what, you need to ask a map if there's a vehicle
+ *   at driver/passenger position.
+ * - To keep info consistent, always use
+ *   `map::board_vehicle()` and `map::unboard_vehicle()` for
+ *   boarding/unboarding player.
+ * - To add new predesigned vehicle, assign new value for `vhtype_id` enum
+ *   and declare vehicle and add parts in file veh_typedef.cpp, using macros,
+ *   similar to the existing ones. Keep in mind, that positive x coordinate points
+ *   forwards, negative x is back, positive y is to the right, and
+ *   negative y to the left:
+ *
+ *       orthogonal dir left (-Y)
+ *            ^
+ *       -X ------->  +X (forward)
+ *            v
+ *       orthogonal dir right (+Y)
+ *
+ *   When adding parts, function checks possibility to install part at given
+ *   coords. If it shows debug messages that it can't add parts, when you start
+ *   the game, you did something wrong.
+ *   There are a few rules: some parts are external, so one should be the first part
+ *   at given mount point (tile). They require some part in neighbouring tile (with `vpf_mount_point` flag) to
+ *   be mounted to. Other parts are internal or placed over. They can only be installed on top
+ *   of external part. Some functional parts can be only in single instance per tile, i. e.,
+ *   no two engines at one mount point.
+ *   If you can't understand why installation fails, try to assemble your vehicle in game first.
+ */
 class vehicle
 {
 private:
@@ -184,6 +197,10 @@ public:
     int install_part (int dx, int dy, vpart_id id, int hp = -1, bool force = false);
 
     void remove_part (int p);
+
+// Generate the corresponding item from a vehicle part.
+// Still needs to be removed.
+    item item_from_part( int part );
 
 // translate item health to part health
     void get_part_properties_from_item (game* g, int partnum, item& i);
@@ -239,23 +256,20 @@ public:
     int global_y ();
 
 // Checks how much certain fuel left in tanks. If for_engine == true that means
-// ftype == AT_BATT is also takes in account AT_PLUT fuel (electric motors can use both)
-    int fuel_left (int ftype, bool for_engine = false);
-    int fuel_capacity (int ftype);
+// ftype == "battery" is also takes in account "plutonium" fuel (electric motors can use both)
+    int fuel_left (ammotype ftype, bool for_engine = false);
+    int fuel_capacity (ammotype ftype);
 
     // refill fuel tank(s) with given type of fuel
     // returns amount of leftover fuel
-    int refill (int ftype, int amount);
+    int refill (ammotype ftype, int amount);
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
-    int drain (int ftype, int amount);
-
-// vehicle's fuel type name
-    std::string fuel_name(int ftype);
+    int drain (ammotype ftype, int amount);
 
 // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
-    int basic_consumption (int ftype);
+    int basic_consumption (ammotype ftype);
 
     void consume_fuel ();
 
@@ -388,6 +402,7 @@ public:
     int type;           // vehicle type
     std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     std::vector<int> external_parts;   // List of external parts indeces
+    std::set<std::string> tags;        // Properties of the vehicle
     int exhaust_dx;
     int exhaust_dy;
 

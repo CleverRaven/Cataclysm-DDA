@@ -770,39 +770,29 @@ int npc::confident_range(char invlet)
 // We want at least 50% confidence that missed_by will be < .5.
 // missed_by = .00325 * deviation * range <= .5; deviation * range <= 156
 // (range <= 156 / deviation) is okay, so confident range is (156 / deviation)
-// Here we're using median values for deviation, for a around-50% estimate.
+// Here we're using max values for deviation followed by *.5, for around-50% estimate.
 // See game::fire (ranged.cpp) for where these computations come from
 
-  if (skillLevel(firing->skill_used) < 5)
-    deviation += 3.5 * (5 - skillLevel(firing->skill_used));
-  else
-    deviation -= 2.5 * (skillLevel(firing->skill_used) - 5);
-  if (skillLevel("gun") < 3)
-    deviation += 1.5 * (3 - skillLevel("gun"));
-  else
-    deviation -= .5 * (skillLevel("gun") - 3);
+  if (skillLevel(firing->skill_used) < 8) {
+    deviation += 3 * (8 - skillLevel(firing->skill_used));
+  }
+  if (skillLevel("gun") < 9) {
+    deviation += 9 - skillLevel("gun"); 
+  }
 
-  if (per_cur < 8)
-   deviation += 2 * (9 - per_cur);
-  else
-   deviation -= (per_cur > 16 ? 8 : per_cur - 8);
-  if (dex_cur < 6)
-   deviation += 4 * (6 - dex_cur);
-  else if (dex_cur < 8)
-   deviation += 8 - dex_cur;
-  else if (dex_cur > 8)
-   deviation -= .5 * (dex_cur - 8);
+  deviation += ranged_dex_mod();
+  deviation += ranged_per_mod();
 
-  deviation += .5 * encumb(bp_torso) + 2 * encumb(bp_eyes);
+  deviation += 2 * encumb(bp_arms) + 4 * encumb(bp_eyes);
 
   if (weapon.curammo == NULL)	// This shouldn't happen, but it does sometimes
    debugmsg("%s has NULL curammo!", name.c_str()); // TODO: investigate this bug
   else {
-   deviation += .5 * weapon.curammo->dispersion;
+   deviation += weapon.curammo->dispersion;
    max = weapon.range();
   }
-  deviation += .5 * firing->dispersion;
-  deviation += 3 * recoil;
+  deviation += firing->dispersion;
+  deviation += recoil;
 
  } else { // We aren't firing a gun, we're throwing something!
 
@@ -810,25 +800,27 @@ int npc::confident_range(char invlet)
   max = throw_range(invlet); // The max distance we can throw
   int deviation = 0;
   if (skillLevel("throw") < 8)
-   deviation += rng(0, 8 - skillLevel("throw"));
+   deviation += 8 - skillLevel("throw");
   else
    deviation -= skillLevel("throw") - 6;
 
   deviation += throw_dex_mod();
 
   if (per_cur < 6)
-   deviation += rng(0, 8 - per_cur);
+   deviation += 8 - per_cur;
   else if (per_cur > 8)
    deviation -= per_cur - 8;
 
-  deviation += rng(0, encumb(bp_hands) * 2 + encumb(bp_eyes) + 1);
+  deviation += encumb(bp_hands) * 2 + encumb(bp_eyes) + 1;
   if (thrown->volume() > 5)
-   deviation += rng(0, 1 + (thrown->volume() - 5) / 4);
+   deviation += 1 + (thrown->volume() - 5) / 4;
   if (thrown->volume() == 0)
-   deviation += rng(0, 3);
+   deviation += 3;
 
-  deviation += rng(0, 1 + abs(str_cur - thrown->weight()));
+  deviation += 1 + abs(str_cur - thrown->weight());
  }
+ //Account for rng's, *.5 for 50%
+ deviation /= 2;
 
 // Using 180 for now for extra-confident NPCs.
  int ret = (max > int(180 / deviation) ? max : int(180 / deviation));
@@ -944,10 +936,6 @@ bool npc::can_move_to(game *g, int x, int y)
 
 void npc::move_to(game *g, int x, int y)
 {
- if (in_vehicle) {
-  // TODO: handle this nicely - npcs should not jump from moving vehicles
-  g->m.unboard_vehicle(g, posx, posy);
- }
 
  if (has_disease("downed")) {
   moves -= 100;
@@ -983,19 +971,34 @@ void npc::move_to(game *g, int x, int y)
   x = newpath[0].x;
   y = newpath[0].y;
  }
- if (x == posx && y == posy)	// We're just pausing!
+ if (x == posx && y == posy)	{ // We're just pausing!
   moves -= 100;
- else if (g->mon_at(x, y) != -1) {	// Shouldn't happen, but it might.
+ } else if (g->mon_at(x, y) != -1) {	// Shouldn't happen, but it might.
   //monster *m = &(g->z[g->mon_at(x, y)]);
   //debugmsg("Bumped into a monster, %d, a %s",g->mon_at(x, y),m->name().c_str());
   melee_monster(g, g->mon_at(x, y));
  } else if (g->u.posx == x && g->u.posy == y) {
   say(g, "<let_me_pass>");
   moves -= 100;
- } else if (g->npc_at(x, y) != -1)
+ } else if (g->npc_at(x, y) != -1) {
 // TODO: Determine if it's an enemy NPC (hit them), or a friendly in the way
   moves -= 100;
- else if (g->m.move_cost(x, y) > 0) {
+ } else {
+  if (in_vehicle) {
+      // TODO: handle this nicely - npcs should not jump from moving vehicles
+      g->m.unboard_vehicle(g, posx, posy);
+  }
+  else
+  {
+     vehicle *tmp = g->m.veh_at(x, y);
+     if(tmp != NULL) {
+         if(tmp->velocity > 0) {
+             moves -= 100;
+             return;
+         }
+     }
+ }
+  if (g->m.move_cost(x, y) > 0) {
   posx = x;
   posy = y;
   bool diag = trigdist && posx != x && posy != y;
@@ -1014,6 +1017,7 @@ void npc::move_to(game *g, int x, int y)
  else
   g->u.rem_disease("bouldering");
   moves -= 100;
+ }
 }
 
 void npc::move_to_next(game *g)

@@ -27,7 +27,7 @@ public:
     //Setup
     Item_factory();
     void init();
-    void init(game* main_game);
+    void init(game* main_game) throw (std::string);
 
     //Intermediary Methods - Will probably be removed at final stage
     itype* find_template(Item_tag id);
@@ -51,9 +51,9 @@ private:
     std::map<Item_tag, Item_group*> m_template_groups;
 
     //json data handlers
-    void load_item_templates();
-    void load_item_templates_from(const std::string file_name);
-    void load_item_groups_from(const std::string file_name);
+    void load_item_templates() throw (std::string);
+    void load_item_templates_from(const std::string file_name) throw (std::string);
+    void load_item_groups_from(const std::string file_name) throw (std::string);
 
     nc_color color_from_string(std::string color);
     Use_function use_from_string(std::string name);
@@ -62,7 +62,6 @@ private:
     void set_material_from_json(Item_tag new_id, catajson mats);
     bool is_mod_target(catajson targets, std::string weapon);
     phase_id phase_from_tag(Item_tag name);
-    ammotype ammo_from_string(std::string ammo);
 
     //two convenience functions that just call into set_bitmask_by_string
     void set_flag_by_string(unsigned& cur_flags, std::string new_flag, std::string flag_type);
@@ -74,8 +73,6 @@ private:
     std::map<Item_tag, Use_function> iuse_function_list;
     //techniques stuff
     std::map<Item_tag, unsigned> techniques_list;
-    //ammo stuff
-    std::map<Item_tag, unsigned> ammo_flags_list;
     //bodyparts
     std::map<Item_tag, unsigned> bodyparts_list;
 };

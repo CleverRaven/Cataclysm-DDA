@@ -250,6 +250,7 @@ void map::unboard_vehicle(game *g, const int x, const int y)
  }
  psg->in_vehicle = false;
  psg->driving_recoil = 0;
+ psg->controlling_vehicle = false;
  veh->parts[seat_part].remove_flag(vehicle_part::passenger_flag);
  veh->skidding = true;
 }
@@ -1018,10 +1019,10 @@ bool map::flammable_items_at(const int x, const int y)
     return true;
   if (it->made_of("cotton") && (vol <= 5 || it->burnt < 1))
     return true;
-  if (it->is_ammo() && it->ammo_type() != AT_BATT &&
-      it->ammo_type() != AT_NAIL && it->ammo_type() != AT_BB &&
-      it->ammo_type() != AT_BOLT && it->ammo_type() != AT_ARROW &&
-      it->ammo_type() != AT_PEBBLE && it->ammo_type() != AT_NULL)
+  if (it->is_ammo() && it->ammo_type() != "battery" &&
+      it->ammo_type() != "nail" && it->ammo_type() != "BB" &&
+      it->ammo_type() != "bolt" && it->ammo_type() != "arrow" &&
+      it->ammo_type() != "pebble" && it->ammo_type() != "NULL")
     return true;
  }
  return false;
@@ -2791,12 +2792,12 @@ std::list<item> map::use_charges(const point origin, const int range, const ityp
         const int kpart = veh->part_with_feature(vpart, vpf_kitchen);
 
         if (kpart >= 0) { // we have a kitchen, now to see what to drain
-          int ftype = -1;
+          ammotype ftype = "NULL";
 
           if (type == "water_clean")
-            ftype = AT_WATER;
+            ftype = "water";
           else if (type == "hotplate")
-            ftype = AT_BATT;
+            ftype = "battery";
 
           item tmp = item_controller->create(type, 0); //TODO add a sane birthday arg
           tmp.charges = veh->drain(ftype, quantity);
@@ -3248,7 +3249,7 @@ void map::drawsq(WINDOW* w, player &u, const int x, const int y, const bool inve
  }
 // If there's items here, draw those instead
  if (show_items && !has_flag(container, x, y) && curr_items.size() > 0 && !drew_field) {
-  if (terlist[curr_ter].sym != '.')
+  if (sym != '.')
    hi = true;
   else {
    tercol = curr_items[curr_items.size() - 1].color();
@@ -3964,7 +3965,7 @@ void map::build_outside_cache(const game *g)
     {
         for(int y = 0; y < SEEY * my_MAPSIZE; y++)
         {
-            if( terlist[ter(x, y)].flags & mfb(indoors) || furnlist[furn(x, y)].flags & mfb(indoors))
+            if( has_flag_ter_or_furn(indoors, x, y))
             {
                 for( int dx = -1; dx <= 1; dx++ )
                 {

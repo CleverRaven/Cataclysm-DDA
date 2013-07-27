@@ -20,7 +20,7 @@ The latest instructions on how to compile can be found on [our wiki](http://www.
 
 ## Contribute
 
-Please see [CONTRIBUTING.md](https://github.com/TheDarklingWolf/Cataclysm-DDA/blob/master/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/CONTRIBUTING.md) for details.
 
 
 ## Frequently Asked Questions

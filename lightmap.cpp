@@ -170,23 +170,25 @@ void map::generate_lightmap(game* g)
            int dpart = vehs[v].v->part_with_feature(*part , vpf_light);
 
            if (dpart >= 0) {
-             apply_light_arc(px, py, dir, veh_luminance, 45);
+             apply_light_arc(px, py, dir - vehs[v].v->parts[dpart].direction, veh_luminance, 45);
            }
          }
        }
      }
    }
  }
- for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx)
- {
-    for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy)
-    {
-        if (g->u.has_active_bionic("bio_night") && rl_dist(sx, sy, g->u.posx, g->u.posy) < 15)
-        {
-            lm[sx][sy] = 0;
-        }
-    }
- }
+if (g->u.has_active_bionic("bio_night") ) {
+   for(int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx)
+   {
+      for(int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy)
+      {
+          if (rl_dist(sx, sy, g->u.posx, g->u.posy) < 15)
+          {
+              lm[sx][sy] = 0;
+          }
+      }
+   }
+  }
 }
 
 lit_level map::light_at(int dx, int dy)
