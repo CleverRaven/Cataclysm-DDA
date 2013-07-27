@@ -1104,3 +1104,9 @@ std::string& capitalize_first_letter(std::string &str)
 
     return str;
 }
+
+size_t menuitem_format(std::string &str)
+{
+    //This is a stub 
+    return 0;
+}
