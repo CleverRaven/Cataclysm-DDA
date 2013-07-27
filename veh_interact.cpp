@@ -952,9 +952,9 @@ void complete_vehicle (game *g)
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset_x;
             int py = g->u.view_offset_y;
-            g->u.view_offset_x = gx;
-            g->u.view_offset_y = gy;
-            popup("Chose a facing direction for the new headlight.");
+            g->u.view_offset_x = veh->global_x() + gx - g->u.posx;
+            g->u.view_offset_y = veh->global_y() + gy - g->u.posy;
+            popup("Choose a facing direction for the new headlight.");
             point headlight_target = g->look_around();
             // Restore previous view offsets.
             g->u.view_offset_x = px;
