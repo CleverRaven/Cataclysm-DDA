@@ -1017,7 +1017,7 @@ void complete_vehicle (game *g)
         broken = veh->parts[part].hp <= 0;
         if (!broken) {
             used_item = veh->item_from_part( part );
-            g->m.add_item(g->u.posx, g->u.posy, used_item);
+            g->m.add_item_or_charges(g->u.posx, g->u.posy, used_item);
             if(type!=SEL_JACK) // Changing tires won't make you a car mechanic
                 g->u.practice (g->turn, "mechanics", 2 * 5 + 20);
         }
@@ -1059,7 +1059,7 @@ void complete_vehicle (game *g)
             veh->get_part_properties_from_item( g, partnum, used_item ); //transfer damage, etc.
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {
-                g->m.add_item( g->u.posx, g->u.posy, removed_wheel );
+                g->m.add_item_or_charges( g->u.posx, g->u.posy, removed_wheel );
             }
         }
 

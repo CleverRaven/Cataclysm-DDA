@@ -73,6 +73,15 @@ profmap profession::load_professions()
                 newProfession.add_skill(skill_str, level);
             }
         }
+        // Optional flags
+        if (currProf.has("flags"))
+        {
+            catajson cflags = currProf.get("flags");
+            for (cflags.set_begin(); cflags.has_curr(); cflags.next())
+            {
+                newProfession.flags.insert(cflags.curr().as_string());
+            }
+        }
         allProfs[ident] = newProfession;
     }
 
@@ -177,5 +186,16 @@ std::vector<addiction> profession::addictions() const
 const profession::StartingSkillList profession::skills() const
 {
     return _starting_skills;
+}
+
+bool profession::has_flag(std::string flag) const {
+    return flags.count(flag) != 0;
+}
+
+std::string profession::can_pick(player* u, int points) const {
+    std::string rval = "YES";
+    if(point_cost() - u->prof->point_cost() > points) rval = "INSUFFICIENT_POINTS";
+    if(has_flag("female_only") && u->male && !u->has_trait(PF_CROSSDRESSER)) rval = "WRONG_GENDER";
+    return rval;
 }
 // vim:ts=4:sw=4:et:tw=0:fdm=marker:fdl=0:

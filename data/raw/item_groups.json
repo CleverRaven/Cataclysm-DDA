@@ -7,6 +7,7 @@
       ["bat", 60],
       ["backpack", 38],
       ["pockknife", 14],
+      ["umbrella", 5],
       ["mag_comic", 20]
     ]
   },
@@ -101,7 +102,8 @@
       ["usb_drive", 5],
       ["beer", 60],
       ["cell_phone", 50],
-      ["wristwatch", 15]
+      ["wristwatch", 15],
+      ["umbrella", 50]
     ]
   },
   { "id":"kitchen",
@@ -181,6 +183,8 @@
       ["tomato", 9],
       ["broccoli", 9],
       ["zucchini", 7],
+      ["onion", 3],
+      ["carrot", 3],
       ["frozen_dinner", 50],
       ["vodka", 20],
       ["apple_cider", 50],
@@ -368,6 +372,7 @@
       ["shorts_cargo", 50],
       ["skirt", 75],
       ["dress", 70],
+      ["dress_wedding", 1],
       ["tshirt", 80],
       ["polo_shirt", 65],
       ["dress_shirt", 60],
@@ -596,7 +601,9 @@
       ["strawberries", 2],
       ["tomato", 9],
       ["broccoli", 9],
-      ["zucchini", 7]
+      ["zucchini", 7],
+      ["onion", 3],
+      ["carrot", 3]
     ]
   },
   { "id":"cleaning",
@@ -807,7 +814,9 @@
       ["sleeping_bag", 10],
       ["floatation_vest", 7],
       ["gasoline_lantern", 5],
-      ["folding_bicycle", 1]
+      ["folding_bicycle", 1],
+      ["coat_rain",10],
+      ["umbrella",12]
     ]
   },
   { "id":"allsporting",
@@ -877,7 +886,8 @@
       ["heatpack", 60],
       ["floatation_vest", 3],
       ["glowstick", 60],
-      ["folding_bicycle", 1]
+      ["folding_bicycle", 1],
+      ["coat_rain", 5]
     ]
   },
   { "id":"alcohol",
@@ -1075,6 +1085,7 @@
       ["browning_blr", 8],
       ["remington_700", 14],
       ["sks", 12],
+      ["m14a", 10],
       ["ruger_mini", 12],
       ["savage_111f", 10],
       ["hk_g3", 15],
@@ -1164,7 +1175,8 @@
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["skirt", 75],
-      ["dress", 70]
+      ["dress", 70],
+      ["dress_wedding", 1]
     ]
   },
   { "id":"shirts",
@@ -1465,7 +1477,8 @@
       ["bubblewrap", 50],
       ["coffee_raw", 15],
       ["usb_drive", 5],
-      ["software_useless", 10]
+      ["software_useless", 10],
+      ["umbrella", 5]
     ]
   },
   { "id":"cubical_office",
@@ -1502,7 +1515,8 @@
       ["lighter", 60],
       ["matches", 60],
       ["extinguisher", 20],
-      ["mp3", 18]
+      ["mp3", 18],
+      ["umbrella", 5]
     ]
   },
   { "id":"school",
@@ -1537,7 +1551,8 @@
       ["candy", 80],
       ["backpack", 38],
       ["pockknife", 14],
-      ["mag_comic", 20]
+      ["mag_comic", 20],
+      ["umbrella", 5]
     ]
   },
   { "id":"church",
@@ -1550,10 +1565,8 @@
       ["matches", 60],
       ["coat_rain", 50],
       ["cane", 10],
-      ["candlestick", 20],
-      ["candlestick", 20],
-      ["candlestick", 20],
-      ["candlestick", 20]
+      ["candlestick", 80],
+      ["umbrella", 50]
     ]
   },
   { "id":"vault",
@@ -1699,7 +1712,8 @@
       ["huge_crossbow", 2],
       ["raging_bull", 1],
       ["sw_500", 1],
-      ["wristwatch", 15]
+      ["wristwatch", 15],
+      ["umbrella", 5]
     ]
   },
   { "id":"mil_surplus",
@@ -1788,7 +1802,9 @@
       ["flyer", 10],
       ["gasoline_lantern", 5],
       ["floatation_vest", 1],
-      ["vaccine_shot", 10]
+      ["vaccine_shot", 10],
+      ["coat_rain", 5],
+      ["umbrella", 7]
     ]
   },
   { "id":"mechanics",
@@ -1901,6 +1917,8 @@
       ["zucchini", 7],
       ["potato_raw", 10],
       ["corn", 7],
+      ["onion", 3],
+      ["carrot", 3],
       ["withered", 70]
     ]
   },
@@ -2462,7 +2480,8 @@
       ["jar_glass", 10],
       ["jar_3l_glass", 8],
       ["flyer", 10],
-      ["gasoline_lanern", 10]
+      ["gasoline_lanern", 10],
+      ["umbrella",1]
     ]
   },
   { "id":"sewer",
@@ -2566,6 +2585,8 @@
       ["tomato", 9],
       ["broccoli", 9],
       ["zucchini", 7],
+      ["onion", 3],
+      ["carrot", 3],
       ["potato_raw", 10],
       ["honeycomb", 10],
       ["royal_jelly", 8],
@@ -2687,6 +2708,7 @@
       ["chain", 20],
       ["power_supply", 16],
       ["antenna", 18],
+      ["m14a", 10],
       ["steel_chunk", 30],
       ["spring", 50],
       ["steel_lump", 30],

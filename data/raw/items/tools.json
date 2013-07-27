@@ -3736,7 +3736,7 @@
   },
   
   {
-    "id": "jar_3l_kompot",
+    "id": "jar_kompot",
     "type": "TOOL",
     "symbol": ")",
     "color": "red",
@@ -3756,7 +3756,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "DE3LJAR"
+    "use_action": "DEJAR"
   },
 
   {
@@ -3901,7 +3901,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "DEVAC"
+    "use_action": "DEJAR"
   },
 
   {
@@ -3925,7 +3925,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "DEVAC"
+    "use_action": "DEJAR"
   },
   
   {
@@ -3949,7 +3949,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "DEVAC"
+    "use_action": "DEJAR"
   },
   {
     "id": "medical_gauze",

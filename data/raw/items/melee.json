@@ -1980,9 +1980,9 @@
         "price" : 0
     },
 	{
-	        "id" : "cell_phone",
+	    "id" : "cell_phone",
         "name" : "cell phone",
-        "description" : "A broken cell phone only useful for parts now.",
+        "description" : "A simple cell phone. Nowadays only useful for telling the time or as a alarm-clock. Can also be disasembled into some useful parts.",
         "weight" : 0,
         "to_hit" : -3,
         "color" : "light_gray",
@@ -1992,6 +1992,24 @@
         "bashing" : -8,
         "cutting" : 0,
         "rarity" : 50,
-        "price" : 100
+        "price" : 100,
+        "flags" : ["WATCH", "ALARMCLOCK"]
+    },
+    {
+	    "id" : "umbrella",
+        "symbol" : "/",
+        "color": "magenta",
+        "name": "umbrella",
+        "description": "An umbrella with a pointy end, useful for keeping dry when wielded.",
+        "material": ["plastic","wood"],
+        "rarity": 30,
+        "price": 24,
+        "volume": 8,
+        "weight": 8,
+        "bashing": 3,
+        "cutting": 8,
+        "to_hit": 1,
+        "flags": ["STAB","RAIN_PROTECT"],
+        "techniques": ["WBLOCK_1"]
     }
 ]

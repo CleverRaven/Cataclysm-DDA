@@ -93,15 +93,17 @@ NUM_BIGNESS_ASPECTS,
 struct style_move
 {
  std::string name;
+ std::string verb_you;
+ std::string verb_npc;
  technique_id tech;
  int level;
 
- style_move(std::string N, technique_id T, int L) :
-  name (N), tech (T), level (L) { };
+ style_move(std::string N, std::string V1, std::string V2, technique_id T, int L) :
+  name (N),verb_you (V1),verb_npc (V2), tech (T), level (L) { };
 
  style_move()
  {
-  name = "";
+  name = verb_you = verb_npc = "";
   tech = TEC_NULL;
   level = 0;
  }

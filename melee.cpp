@@ -1,5 +1,6 @@
 #include "player.h"
 #include "bionics.h"
+#include "debug.h"
 #include "game.h"
 #include "keypress.h"
 #include <sstream>
@@ -7,14 +8,13 @@
 
 #include "cursesdef.h"
 
-void hit_message(game *g, std::string subject, std::string verb,
-                 std::string target, int dam, bool crit);
+void hit_message(game *g, bool is_u, std::string You, std::string your, std::string verb,
+                          std::string weapon, std::string target, int dam, bool crit);
 void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
                     bool bashing, bool cutting, bool stabbing);
 int  attack_speed(player &u, bool missed);
 int  stumble(player &u);
-std::string melee_verb(technique_id tech, std::string your, player &p,
-                       int bash_dam, int cut_dam, int stab_dam);
+std::string melee_verb(technique_id tech, player &p, int bash_dam, int cut_dam, int stab_dam);
 
 /* Melee Functions!
  * These all belong to class player.
@@ -126,11 +126,14 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  if (is_u)
   z->add_effect(ME_HIT_BY_PLAYER, 100); // Flag as attacked by us
 
- std::string You  = (is_u ? "You"  : name);
- std::string Your = (is_u ? "Your" : name + "'s");
- std::string your = (is_u ? "your" : (male ? "his" : "her"));
- std::string verb = "hit";
- std::string target = "the " + z->name();
+ std::string You  = (is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
+ You = You.substr(5);
+ std::string Your = (is_u ? _("<Your>Your") : string_format(_("<Your>%s"), name.c_str()));
+ Your = Your.substr(6);
+ std::string your = (is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
+ your = your.substr(6);
+ std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "$<%2$c%3$c>";
+ std::string target = string_format(_("<target>the %s"), z->name().c_str()).substr(8);
 
 // If !allow_grab, then we already grabbed them--meaning their dodge is hampered
  int mondodge = (allow_grab ? z->dodge_roll() : z->dodge_roll() / 3);
@@ -144,13 +147,13 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
   int stumble_pen = stumble(*this);
   if (is_u) {	// Only display messages if this is the player
    if (weapon.has_technique(TEC_FEINT, this))
-    g->add_msg("You feint.");
+    g->add_msg(_("You feint."));
    else if (stumble_pen >= 60)
-    g->add_msg("You miss and stumble with the momentum.");
+    g->add_msg(_("You miss and stumble with the momentum."));
    else if (stumble_pen >= 10)
-    g->add_msg("You swing wildly and miss.");
+    g->add_msg(_("You swing wildly and miss."));
    else
-    g->add_msg("You miss.");
+    g->add_msg(_("You miss."));
   }
   melee_practice(g->turn, *this, false, unarmed_attack(),
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
@@ -184,7 +187,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
 // Mutation-based attacks
  perform_special_attacks(g, z, NULL, bash_dam, cut_dam, stab_dam);
 
-    verb = melee_verb(technique, your, *this, bash_dam, cut_dam, stab_dam);
+    verb = melee_verb(technique, *this, bash_dam, cut_dam, stab_dam);
 
 // Handles speed penalties to monster & us, etc
  melee_special_effects(g, z, NULL, critical_hit, bash_dam, cut_dam, stab_dam);
@@ -196,7 +199,7 @@ int player::hit_mon(game *g, monster *z, bool allow_grab) // defaults to true
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
 
  if( g->u_see( z ) ) {
-     hit_message(g, You.c_str(), verb.c_str(), target.c_str(), dam, critical_hit);
+     hit_message(g, is_u, You, your, verb, weapon.tname(), target, dam, critical_hit);
  }
 
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
@@ -228,10 +231,13 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   npcPtr->make_angry();
  }
 
- std::string You  = (is_u ? "You"  : name);
- std::string Your = (is_u ? "Your" : name + "'s");
- std::string your = (is_u ? "your" : (male ? "his" : "her"));
- std::string verb = "hit";
+ std::string You  = (is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
+ You = You.substr(5);
+ std::string Your = (is_u ? _("<Your>Your") : string_format(_("<Your>%s"), name.c_str()));
+ Your = Your.substr(6);
+ std::string your = (is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
+ your = your.substr(6);
+ std::string verb = std::string(is_u ? _("%1$s hit %4$s"):_("%1$s hits %4$s")) + "$<%2$c%3$c>";
 
 // Divide their dodge roll by 2 if this is a grab
  int target_dodge = (allow_grab ? p.dodge_roll(g) : p.dodge_roll(g) / 2);
@@ -244,13 +250,13 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   int stumble_pen = stumble(*this);
   if (is_u) {	// Only display messages if this is the player
    if (weapon.has_technique(TEC_FEINT, this))
-    g->add_msg("You feint.");
+    g->add_msg(_("You feint."));
    else if (stumble_pen >= 60)
-    g->add_msg("You miss and stumble with the momentum.");
+    g->add_msg(_("You miss and stumble with the momentum."));
    else if (stumble_pen >= 10)
-    g->add_msg("You swing wildly and miss.");
+    g->add_msg(_("You swing wildly and miss."));
    else
-    g->add_msg("You miss.");
+    g->add_msg(_("You miss."));
   }
   melee_practice(g->turn, *this, false, unarmed_attack(),
                  weapon.is_bashing_weapon(), weapon.is_cutting_weapon(),
@@ -281,8 +287,9 @@ void player::hit_player(game *g, player &p, bool allow_grab)
  else
   bp_hit = bp_arms;
 
- std::string target = (p.is_npc() ? p.name + "'s " : "your ");
- target += body_part_name(bp_hit, side);
+ std::string bodypart = body_part_name(bp_hit, side);
+ std::string target = p.is_npc() ? string_format(_("<target>%s's %s"), p.name.c_str(), bodypart.c_str()) : string_format(_("<target>your %s"), bodypart.c_str()) ;
+ target = target.substr(8);
 
  bool critical_hit = scored_crit(target_dodge);
 
@@ -324,9 +331,9 @@ void player::hit_player(game *g, player &p, bool allow_grab)
 
  p.hit(g, bp_hit, side, bash_dam, (cut_dam > stab_dam ? cut_dam : stab_dam));
 
- verb = melee_verb(technique, your, *this, bash_dam, cut_dam, stab_dam);
+ verb = melee_verb(technique, *this, bash_dam, cut_dam, stab_dam);
  int dam = bash_dam + (cut_dam > stab_dam ? cut_dam : stab_dam);
- hit_message(g, You.c_str(), verb.c_str(), target.c_str(), dam, critical_hit);
+ hit_message(g, is_u, You, your, verb, weapon.tname(), target, dam, critical_hit);
 
  bool bashing = (bash_dam >= 10 && !unarmed_attack());
  bool cutting = (cut_dam >= 10 && cut_dam >= stab_dam);
@@ -341,7 +348,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
   if (p.weapon.has_technique(TEC_BREAK, &p) &&
       dice(p.dex_cur + p.skillLevel("melee"), 12) >
       dice(dex_cur + skillLevel("melee"), 10)) {
-   g->add_msg_if_player(&p,"%s break%s the grab!", target.c_str(), (p.is_npc() ? "s" : ""));
+   g->add_msg_player_or_npc(&p, _("%s break the grab!"), _("%s breaks the grab!"), target.c_str());
   } else if (!unarmed_attack()) {
    item tmpweap = remove_weapon();
    hit_player(g, p, false); // False means a second grab isn't allowed
@@ -350,7 +357,7 @@ void player::hit_player(game *g, player &p, bool allow_grab)
    hit_player(g, p, false); // False means a second grab isn't allowed
  }
  if (tech_def == TEC_COUNTER) {
-  g->add_msg_if_player(&p,"Counter-attack!");
+  g->add_msg_if_player(&p, _("Counter-attack!"));
   p.hit_player(g, *this);
  }
 }
@@ -818,10 +825,11 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
                                int &stab_dam, int &pain)
 {
  bool mon = (z != NULL);
- std::string You = (is_npc() ? name : "You");
- std::string target = (mon ? "the " + z->name() :
-                       (p->is_npc() ? p->name : "you"));
- std::string s = (is_npc() ? "s" : "");
+ std::string You = (is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
+ You = You.substr(5);
+ std::string target = (mon ? string_format("<target>the %s",z->name().c_str()) :
+                       (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : "<target>you"));
+ target = target.substr(8);
  int tarx = (mon ? z->posx : p->posx), tary = (mon ? z->posy : p->posy);
 
  if (technique == TEC_RAPID) {
@@ -892,7 +900,8 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
          if (weapon.has_technique(TEC_FLAMING, this))  { // Add to wide attacks
              g->z[mondex].add_effect(ME_ONFIRE, rng(3, 4));
          }
-         g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), target.c_str() );
+         std::string temp_target = string_format(_("<target>the %s"), g->z[mondex].name().c_str()).substr(8);
+         g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
      }
      int npcdex = g->npc_at(x, y);
      if (npcdex != -1 &&
@@ -904,18 +913,19 @@ void player::perform_technique(technique_id technique, game *g, monster *z,
          if (weapon.has_technique(TEC_FLAMING, this)) {// Add to wide attacks
              g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
          }
-         g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), target.c_str() );
+         std::string temp_target = string_format(_("<target>%s"), g->active_npc[npcdex]->name.c_str()).substr(8);
+         g->add_msg_player_or_npc( this, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
 
          g->active_npc[npcdex]->add_disease("onfire", rng(2, 3));
      }
     }
    }
   }
-   g->add_msg_if_player(p,"%d enemies hit!", count_hit);
+   g->add_msg_if_player(p, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
  } break;
 
  case TEC_DISARM:
-  g->m.add_item(p->posx, p->posy, p->remove_weapon());
+  g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
   g->add_msg_player_or_npc( this, _("You disarm %s!"), _("<npcname> disarms %s!"), target.c_str() );
   break;
 
@@ -1001,9 +1011,12 @@ void player::perform_defensive_technique(
 
 {
  bool mon = (z != NULL);
- std::string You = (is_npc() ? name : "You");
- std::string your = (is_npc() ? (male ? "his" : "her") : "your");
- std::string target = (mon ? "the " + z->name() : p->name);
+ std::string You = (is_npc() ? string_format(_("<You>%s"), name.c_str()) : _("<You>You"));
+ You = You.substr(5);
+ std::string your = (is_npc() ? (male ? _("<your>his") : _("<your>her")) : _("<your>your"));
+ your = your.substr(6);
+ std::string target = (mon ? string_format(_("<target>the %s"),z->name().c_str()) : string_format(_("<target>%s"),p->name.c_str()));
+ target = target.substr(8);
 
  switch (technique) {
   case TEC_BLOCK:
@@ -1067,7 +1080,7 @@ void player::perform_defensive_technique(
    break;
 
   case TEC_DEF_DISARM:
-   g->m.add_item(p->posx, p->posy, p->remove_weapon());
+   g->m.add_item_or_charges(p->posx, p->posy, p->remove_weapon());
 // Re-roll damage, without our weapon
    bash_dam = p->roll_bash_damage(NULL, false);
    cut_dam  = p->roll_cut_damage(NULL, false);
@@ -1086,6 +1099,11 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
  int bash_armor = (z == NULL ? 0 : z->armor_bash());
  int cut_armor  = (z == NULL ? 0 : z->armor_cut());
  std::vector<special_attack> special_attacks = mutation_attacks(z, p);
+ std::string target;
+ if(z!=NULL) target = string_format(_("<target>the %s"),z->name().c_str());
+ else if(p!=NULL) target = string_format(_("<target>%s"),p->name.c_str());
+ else target = "<target>";
+ target = target.substr(8);
 
  for (int i = 0; i < special_attacks.size(); i++) {
   bool did_damage = false;
@@ -1114,11 +1132,11 @@ void player::perform_special_attacks(game *g, monster *z, player *p,
  if (can_poison && has_trait(PF_POISONOUS)) {
   if (z != NULL) {
    if (!z->has_effect(ME_POISONED))
-    g->add_msg_if_player(p,"You poison the %s!", z->name().c_str());
+    g->add_msg_if_player(p,_("You poison %s!"), target.c_str());
    z->add_effect(ME_POISONED, 6);
   } else if (p != NULL) {
    if (!p->has_disease("poison"))
-    g->add_msg_if_player(p,"You poison %s!", p->name.c_str());
+    g->add_msg_if_player(p,_("You poison %s!"), target.c_str());
    p->add_disease("poison", 6);
   }
  }
@@ -1131,13 +1149,18 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   return;
  bool mon = (z != NULL);
  bool is_u = (!is_npc());
- std::string You = (is_u ? "You" : name);
- std::string Your = (is_u ? "Your" : name + "'s");
- std::string your = (is_u ? "your" : name + "'s");
- std::string target = (mon ? "the " + z->name() :
-                       (p->is_npc() ? p->name : "you"));
- std::string target_possessive = (mon ? "the " + z->name() + "'s" :
-                                  (p->is_npc() ? p->name + "'s" : your));
+ std::string You  = (is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
+ You = You.substr(5);
+ std::string Your = (is_u ? _("<Your>Your") : string_format(_("<Your>%s's"), name.c_str()));
+ Your = Your.substr(6);
+ std::string your = (is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
+ your = your.substr(6);
+ std::string target = (mon ? string_format(_("<target>the %s"),z->name().c_str()) :
+                       (p->is_npc() ? string_format(_("<target>%s"), p->name.c_str()) : _("<target>you")));
+ target = target.substr(8);
+ std::string target_possessive = (mon ? string_format(_("<target's>the %s's"), z->name().c_str()) :
+                                  (p->is_npc() ? string_format(_("<target's>%s's"), p->name.c_str()) : "<target's>your"));
+ target_possessive = target_possessive.substr(10);
  int tarposx = (mon ? z->posx : p->posx), tarposy = (mon ? z->posy : p->posy);
 
 // Bashing effecs
@@ -1164,7 +1187,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  if (crit)
   stab_moves *= 1.5;
  if (stab_moves >= 150) {
-     g->add_msg_player_or_npc( p, _("You force the %s to the ground!"),
+     g->add_msg_player_or_npc( p, _("You force %s to the ground!"),
                                _("<npcname> forces %s to the ground!"), target.c_str() );
 
      if (mon) {
@@ -1222,7 +1245,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
  if (mon && z->has_flag(MF_ELECTRIC) && conductive) {
   hurtall(rng(0, 1));
   moves -= rng(0, 50);
-  g->add_msg_if_player(p,"Contact with the %s shocks you!", z->name().c_str());
+  g->add_msg_if_player(p, _("Contact with %s shocks you!"), target.c_str());
  }
 
 // Glass weapons shatter sometimes
@@ -1234,7 +1257,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   g->sound(posx, posy, 16, "");
 // Dump its contents on the ground
   for (int i = 0; i < weapon.contents.size(); i++)
-   g->m.add_item(posx, posy, weapon.contents[i]);
+   g->m.add_item_or_charges(posx, posy, weapon.contents[i]);
   hit(g, bp_arms, 1, 0, rng(0, weapon.volume() * 2));// Take damage
   if (weapon.is_two_handed(this))// Hurt left arm too, if it was big
    hit(g, bp_arms, 0, 0, rng(0, weapon.volume()));
@@ -1255,7 +1278,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   }
  }
  if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20)) {
-   g->add_msg_if_player(p,"Your %s gets stuck in %s, pulling it out of your hands!",
+   g->add_msg_if_player(p,_("Your %s gets stuck in %s, pulling it out of your hands!"),
               weapon.tname().c_str(), target.c_str());
   if (mon) {
    if (weapon.has_flag("SPEAR") || weapon.has_flag("STAB"))
@@ -1264,7 +1287,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
     z->speed *= .85;
    z->add_item(remove_weapon());
   } else
-   g->m.add_item(posx, posy, remove_weapon());
+   g->m.add_item_or_charges(posx, posy, remove_weapon());
  } else {
   if (mon && (cut_dam >= z->hp || stab_dam >= z->hp)) {
    cutting_penalty /= 2;
@@ -1273,7 +1296,7 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
   if (cutting_penalty > 0)
    moves -= cutting_penalty;
   if (cutting_penalty >= 50)
-   g->add_msg_if_player(p,"Your %s gets stuck in %s, but you yank it free.",
+   g->add_msg_if_player(p,_("Your %s gets stuck in %s, but you yank it free."),
               weapon.tname().c_str(), target.c_str());
   if (mon && (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")))
    z->speed *= .9;
@@ -1309,17 +1332,17 @@ void player::melee_special_effects(game *g, monster *z, player *p, bool crit,
       g->add_msg_if_player(p,"Viper STRIKE!");
       bash_dam *= 3;
      } else
-      g->add_msg_if_player(p,"Your injured arms prevent a viper strike!");
+      g->add_msg_if_player(p,_("Your injured arms prevent a viper strike!"));
      rem_disease("viper_combo");
     }
    } else if (crit) {
-    g->add_msg_if_player(p,"Tail whip!  Viper Combo Intiated!");
+    g->add_msg_if_player(p,_("Tail whip!  Viper Combo Intiated!"));
     bash_dam += 5;
     add_disease("viper_combo", 2, 1, 2);
    }
  } else if(weapon.typeId() == "style_scorpion"){
    if (crit) {
-    g->add_msg_if_player(p,"Stinger Strike!");
+    g->add_msg_if_player(p,_("Stinger Strike!"));
     if (mon) {
      z->add_effect(ME_STUNNED, 3);
      int zposx = z->posx, zposy = z->posy;
@@ -1348,18 +1371,21 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  bool mon = (z != NULL);
  bool is_u = (!is_npc());// Affects how we'll display messages
- std::string You  = (is_u ? "You"  : name);
- std::string Your = (is_u ? "Your" : name + "'s");
- std::string your = (is_u ? "your" : (male ? "his" : "her"));
- std::string target = (mon ? "the " + z->name() : p->name);
+ std::string You  = (is_u ? _("<You>You")  : string_format(_("<You>%s"), name.c_str()));
+ You = You.substr(5);
+ std::string Your = (is_u ? _("<Your>Your") : string_format("<Your>%s's", name.c_str()));
+ Your = Your.substr(6);
+ std::string your = (is_u ? _("<your>your") : (male ? _("<your>his") : _("<your>her")));
+ your = your.substr(6);
+ std::string target = (mon ? string_format(_("<target>the %s"), z->name().c_str()) : string_format(_("<target>%s"), p->name.c_str()));
+ target = target.substr(8);
 
  std::stringstream text;
 
  if (has_trait(PF_FANGS) && !wearing_something_on(bp_mouth) &&
      one_in(20 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
-  text << You << " sink" << (is_u ? " " : "s ") << your << " fangs into " <<
-          target << "!";
+  text << string_format((is_u ? _("%s sink %s fangs into %s!") : _("%s sinks %s fangs into %s!")), You.c_str(), your.c_str(), target.c_str());
   tmp.text = text.str();
   tmp.stab = 20;
   ret.push_back(tmp);
@@ -1367,8 +1393,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  if (has_trait(PF_MANDIBLES) && one_in(22 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
-  text << You << " slice" << (is_u ? " " : "s ") << target << " with " <<
-          your << " mandibles!";
+  text << string_format((is_u ? _("%s slice %s with %s mandibles!") : _("%s slices %s with %s mandibles!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
   tmp.cut = 12;
   ret.push_back(tmp);
@@ -1376,7 +1401,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  if (has_trait(PF_BEAK) && one_in(15 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
-  text << You << " peck" << (is_u ? " " : "s ") << target << "!";
+  text << string_format((is_u ? _("%s peck %s!") : _("%s pecks %s!")), You.c_str(), target.c_str());
   tmp.text = text.str();
   tmp.stab = 15;
   ret.push_back(tmp);
@@ -1384,8 +1409,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  if (has_trait(PF_HOOVES) && one_in(25 - dex_cur - 2 * skillLevel("unarmed"))) {
   special_attack tmp;
-  text << You << " kick" << (is_u ? " " : "s ") << target << " with " <<
-          your << " hooves!";
+  text << string_format((is_u ? _("%s kick %s with %s hooves!") : _("%s kicks %s with %s hooves!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
   tmp.bash = str_cur * 3;
   if (tmp.bash > 40)
@@ -1395,8 +1419,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  if (has_trait(PF_HORNS) && one_in(20 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
-  text << You << " headbutt" << (is_u ? " " : "s ") << target << " with " <<
-          your << " horns!";
+  text << string_format((is_u ? _("%s headbutt %s with %s horns!") : _("%s headbutts %s with %s horns!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
   tmp.bash = 3;
   tmp.stab = 3;
@@ -1405,8 +1428,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  if (has_trait(PF_HORNS_CURLED) && one_in(20 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
-  text << You << " headbutt" << (is_u ? " " : "s ") << target << " with " <<
-          your << " curled horns!";
+  text << string_format((is_u ? _("%s headbutt %s with %s curled horns!") : _("%s headbutts %s with %s curled horns!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
   tmp.bash = 14;
   ret.push_back(tmp);
@@ -1414,8 +1436,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  if (has_trait(PF_HORNS_POINTED) && one_in(22 - dex_cur - skillLevel("unarmed"))){
   special_attack tmp;
-  text << You << " stab" << (is_u ? " " : "s ") << target << " with " <<
-          your << " pointed horns!";
+  text << string_format((is_u ? _("%s stab %s with %s pointed horns!") : _("%s stabs %s with %s pointed horns!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
   tmp.stab = 24;
   ret.push_back(tmp);
@@ -1423,8 +1444,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  if (has_trait(PF_ANTLERS) && one_in(20 - dex_cur - skillLevel("unarmed"))) {
   special_attack tmp;
-  text << You << " butt" << (is_u ? " " : "s ") << target << " with " <<
-          your << " antlers!";
+  text << string_format((is_u ? _("%s butt %s with %s antlers!") : _("%s butts %s with %s antlers!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
   tmp.bash = 4;
   ret.push_back(tmp);
@@ -1432,8 +1452,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  if (has_trait(PF_TAIL_STING) && one_in(3) && one_in(10 - dex_cur)) {
   special_attack tmp;
-  text << You << " sting" << (is_u ? " " : "s ") << target << " with " <<
-          your << " tail!";
+  text << string_format((is_u ? _("%s sting %s with %s tail!") : _("%s stings %s with %s tail!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
   tmp.stab = 20;
   ret.push_back(tmp);
@@ -1441,8 +1460,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
 
  if (has_trait(PF_TAIL_CLUB) && one_in(3) && one_in(10 - dex_cur)) {
   special_attack tmp;
-  text << You << " hit" << (is_u ? " " : "s ") << target << " with " <<
-          your << " tail!";
+  text << string_format((is_u ? _("%s hit %s with %s tail!") : _("%s hits %s with %s tail!")), You.c_str(), target.c_str(), your.c_str());
   tmp.text = text.str();
   tmp.bash = 18;
   ret.push_back(tmp);
@@ -1462,8 +1480,7 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
    if (one_in(18 - dex_cur - skillLevel("unarmed"))) {
     special_attack tmp;
     text.str("");
-    text << You << " slap" << (is_u ? " " : "s ") << target << " with " <<
-            your << " tentacle!";
+    text << string_format((is_u ? _("%s slap %s with %s tentacle!") : _("%s slaps %s with %s tentacle!")), You.c_str(), target.c_str(), your.c_str());
     tmp.text = text.str();
     tmp.bash = str_cur / 2;
     ret.push_back(tmp);
@@ -1474,42 +1491,39 @@ std::vector<special_attack> player::mutation_attacks(monster *z, player *p)
  return ret;
 }
 
-std::string melee_verb(technique_id tech, std::string your, player &p,
-                       int bash_dam, int cut_dam, int stab_dam)
+std::string melee_verb(technique_id tech, player &p, int bash_dam, int cut_dam, int stab_dam)
 {
- std::string s = (p.is_npc() ? "s" : "");
-
  if (tech != TEC_NULL && p.weapon.is_style() &&
      p.weapon.style_data(tech).name != "")
-  return p.weapon.style_data(tech).name + s;
+  return (p.is_npc()?p.weapon.style_data(tech).verb_npc:p.weapon.style_data(tech).verb_you) + "$<%2$c%3$c>";
 
  std::stringstream ret;
 
+ //1$ You 2$ your 3$ weapon 4$ target
  switch (tech) {
 
   case TEC_SWEEP:
-   ret << "sweep" << s << "" << s << " " << your << " " << p.weapon.tname() <<
-          " at";
+   return p.is_npc()? _("%1$s sweeps %2$s %3$s at %4$s") : _("%1$s sweep %2$s %3$s at %4$s");
    break;
 
   case TEC_PRECISE:
-   ret << "jab" << s << " " << your << " " << p.weapon.tname() << " at";
+   return p.is_npc()? _("%1$s jabs %2$s %3$s at %4$s") : _("%1$s jab %2$s %3$s at %4$s");
    break;
 
   case TEC_BRUTAL:
-   ret << "slam" << s << " " << your << " " << p.weapon.tname() << " against";
+   return p.is_npc()? _("%1$s slams %2$s %3$s against %4$s") : _("%1$s slam %2$s %3$s against %4$s");
    break;
 
   case TEC_GRAB:
-   ret << "wrap" << s << " " << your << " " << p.weapon.tname() << " around";
+   return p.is_npc()? _("%1$s wraps %2$s %3$s around %4$s") : _("%1$s wrap %2$s %3$s around %4$s");
    break;
 
   case TEC_WIDE:
-   ret << "swing" << s << " " << your << " " << p.weapon.tname() << " wide at";
+   return p.is_npc()? _("%1$s swings %2$s %3$s wide at %4$s") : _("%1$s swing %2$s %3$s wide at %4$s");
    break;
 
   case TEC_THROW:
-   ret << "use" << s << " " << your << " " << p.weapon.tname() << " to toss";
+   return p.is_npc()? _("%1$s uses %2$s %3$s to toss %4$s") : _("%1$s use %2$s %3$s to toss %4$s");
    break;
 
     default: // No tech, so check our damage levels
@@ -1519,45 +1533,51 @@ std::string melee_verb(technique_id tech, std::string your, player &p,
         if (p.weapon.has_flag("SPEAR") || (p.weapon.has_flag("STAB") && stab_dam > cut_dam))
         {
             if (bash_dam + stab_dam + cut_dam >= 30)
-                return "impale" + s;
-            if (bash_dam + stab_dam + cut_dam >= 20)
-                return "pierce" + s;
-            if (bash_dam + stab_dam + cut_dam >= 10)
-                return "stab" + s;
-            return "poke" + s;
+                ret << (p.is_npc()?_("%1$s impales %4$s"):_("%1$s impale %4$s"));
+            else if (bash_dam + stab_dam + cut_dam >= 20)
+                ret << (p.is_npc()?_("%1$s pierces %4$s"):_("%1$s pierce %4$s"));
+            else if (bash_dam + stab_dam + cut_dam >= 10)
+                ret << (p.is_npc()?_("%1$s stabs %4$s"):_("%1$s stab %4$s"));
+            else ret << (p.is_npc()?_("%1$s pokes %4$s"):_("%1$s poke %4$s"));
         } else if (p.weapon.is_cutting_weapon())    // if it's a cutting weapon
         {
             if (bash_dam + stab_dam + cut_dam >= 30)
-                return "hack" + s;
-            if (bash_dam + stab_dam + cut_dam >= 20)
-                return "slice" + s;
-            if (bash_dam + stab_dam + cut_dam >= 10)
-                return "cut" + s;
-            return "nick" + s;
+                ret << (p.is_npc()?_("%1$s hacks %4$s"):_("%1$s hack %4$s"));
+            else if (bash_dam + stab_dam + cut_dam >= 20)
+                ret << (p.is_npc()?_("%1$s slices %4$s"):_("%1$s slice %4$s"));
+            else if (bash_dam + stab_dam + cut_dam >= 10)
+                ret << (p.is_npc()?_("%1$s cuts %4$s"):_("%1$s cut %4$s"));
+            else ret << (p.is_npc()?_("%1$s nicks %4$s"):_("%1$s nick %4$s"));
         } else                                      // it must be a bashing weapon
         {
             if (bash_dam + stab_dam + cut_dam >= 30)
-                return "clobber" + s;
-            if (bash_dam + stab_dam + cut_dam >= 20)
-                return "batter" + s;
-            if (bash_dam + stab_dam + cut_dam >= 10)
-                return "whack" + s;
-            return "hit" + s;
+                ret << (p.is_npc()?_("%1$s clobbers %4$s"):_("%1$s clobber %4$s"));
+            else if (bash_dam + stab_dam + cut_dam >= 20)
+                ret << (p.is_npc()?_("%1$s batters %4$s"):_("%1$s batter %4$s"));
+            else if (bash_dam + stab_dam + cut_dam >= 10)
+                ret << (p.is_npc()?_("%1$s whacks %4$s"):_("%1$s whack %4$s"));
+            else ret << (p.is_npc()?_("%1$s hits %4$s"):_("%1$s hit %4$s"));
         }
+        ret << "$<%2$c%3$c>";
+        return ret.str();
  } // switch (tech)
 
  return ret.str();
 }
 
-void hit_message(game *g, std::string subject, std::string verb,
-                          std::string target, int dam, bool crit)
+void hit_message(game *g, bool is_u, std::string You, std::string your, std::string verb,
+                          std::string weapon, std::string target, int dam, bool crit)
 {
- if (dam <= 0)
-  g->add_msg("%s %s %s but do%s no damage.", subject.c_str(), verb.c_str(),
-             target.c_str(), (subject == "You" ? "" : "es"));
- else
-  g->add_msg("%s%s %s %s for %d damage.", (crit ? "Critical! " : ""),
-             subject.c_str(), verb.c_str(), target.c_str(), dam);
+    //1$ You 2$ your 3$ weapon 4$ target
+    std::string part1 = string_format(verb.c_str(), You.c_str(), your.c_str(), weapon.c_str(), target.c_str());
+    std::string part2;
+    if (dam <= 0) {
+        part2 = is_u? _(" but do no damage."): _(" but does no damage.");
+    } else {
+        part2 = string_format(_(" for %d damage."), dam);
+        if(crit) part1 = _("Critical! ") + part1;
+    }
+    g->add_msg((part1+part2).c_str());
 }
 
 void melee_practice(const calendar& turn, player &u, bool hit, bool unarmed,
