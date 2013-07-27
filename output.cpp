@@ -809,7 +809,7 @@ void full_screen_popup(const char* mes, ...)
 }
 
 //note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things
-//if sType == "MENU", sPre == "iOffsetY" or "iOffsetX" also do special things
+//if sType == "MENU", sFmt == "iOffsetY" or "iOffsetX" also do special things
 //otherwise if sType == "MENU", iValue can be used to control color
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
@@ -820,15 +820,14 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
  mvwprintz(w, 1, 2, c_white, sItemName.c_str());
  int line_num = 3;
  int iStartX = 0;
- std::string sPlus;
  bool bStartNewLine = true;
  int selected_ret='\n';
  std::string spaces(iWidth-2, ' ');
  for (int i = 0; i < vItemDisplay.size(); i++) {
   if (vItemDisplay[i].sType == "MENU") {
-   if (vItemDisplay[i].sPre == "iOffsetY") {
+   if (vItemDisplay[i].sFmt == "iOffsetY") {
     line_num += vItemDisplay[i].iValue;
-   } else if (vItemDisplay[i].sPre == "iOffsetX") {
+   } else if (vItemDisplay[i].sFmt == "iOffsetX") {
     iStartX = vItemDisplay[i].iValue;
    } else {
     nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
@@ -843,7 +842,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
     }
     mvwprintz(w, line_num, 1, bgColor, "%s", spaces.c_str() );
     mvwprintz(w, line_num, iStartX, nameColor, "%s", (vItemDisplay[i].sName).c_str());
-    wprintz(w, bgColor, "%s", (vItemDisplay[i].sPre).c_str());
+    wprintz(w, bgColor, "%s", (vItemDisplay[i].sFmt).c_str());
     line_num++;
    }
   } else if (vItemDisplay[i].sType == "DESCRIPTION") {
@@ -862,15 +861,22 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
     wprintz(w, c_white, "%s", (vItemDisplay[i].sName).c_str());
    }
 
-   sPlus = "";
-   std::string sPre = vItemDisplay[i].sPre;
-   if (sPre.size() > 1 && sPre.substr(sPre.size()-1, 1) == "+") {
-     wprintz(w, c_white, "%s", (sPre.substr(0, sPre.size()-1)).c_str());
-     sPlus = "+";
-   } else if (sPre != "+")
-     wprintz(w, c_white, "%s", sPre.c_str());
-   else if (sPre == "+")
-    sPlus = "+";
+   std::string sPlus = vItemDisplay[i].sPlus;
+   std::string sFmt = vItemDisplay[i].sFmt;
+   std::string sNum = " ";
+   std::string sPost = "";
+
+    //A bit tricky, find %d and split the string
+   size_t pos = sFmt.find("<num>");
+   if(pos != std::string::npos)
+   {
+        wprintz(w, c_white, sFmt.substr(0, pos).c_str());
+        sPost = sFmt.substr(pos+5);
+   }
+   else
+   {
+        wprintz(w, c_white, sFmt.c_str());
+   }
 
    if (vItemDisplay[i].iValue != -999) {
     nc_color thisColor = c_white;
@@ -896,12 +902,9 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
       }
      }
     }
-
-    if (sPlus == "+" )
-     wprintz(w, thisColor, "%s", (sPlus).c_str());
-    wprintz(w, thisColor, "%d", vItemDisplay[i].iValue);
+    wprintz(w, thisColor, "%s%d", sPlus.c_str(), vItemDisplay[i].iValue);
    }
-   wprintz(w, c_white, (vItemDisplay[i].sPost).c_str());
+    wprintz(w, c_white, sPost.c_str());
 
    if (vItemDisplay[i].bNewLine) {
     line_num++;

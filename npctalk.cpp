@@ -1924,7 +1924,7 @@ void parse_tags(std::string &phrase, player *u, npc *me)
 
 talk_topic dialogue::opt(talk_topic topic, game *g)
 {
- char* talk_trial_text[NUM_TALK_TRIALS] = {
+ const char* talk_trial_text[NUM_TALK_TRIALS] = {
   "", _("LIE"), _("PERSUADE"), _("INTIMIDATE")
  };
  std::string challenge = dynamic_line(topic, g, beta);
