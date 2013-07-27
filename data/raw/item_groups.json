@@ -1370,8 +1370,7 @@
       ["crowbar", 18],
       ["tazer", 3],
       ["software_hacking", 10],
-      ["spray_can", 50],
-	  ["proton_pack", 1]
+      ["spray_can", 50]
     ]
   },
   { "id":"lab_shoes",
@@ -2856,8 +2855,7 @@
       ["bio_heatsink", 10],
       ["bio_blood_filter", 10],
       ["software_useless", 10],
-      ["canteen", 10],
-	  ["proton_pack", 1]
+      ["canteen", 10]
     ]
   },
   { "id":"rare",
@@ -2894,7 +2892,6 @@
       ["power_armor_helmet_heavy", 3],
       ["plasma", 8],
       ["plasma_rifle", 1],
-	  ["proton_pack", 1],
 	  ["laser_rifle", 1]
     ]
   },
