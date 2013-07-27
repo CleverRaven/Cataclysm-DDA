@@ -618,7 +618,7 @@
         "dispersion_modifier" : -4,
         "damage_modifier" : 0,
         "ammo_modifier" : "NULL",
-        "description" : "A small visible-light laser that mounts on a firearm to enhance ease of target acquisition. Aside from increased weight, there are no drawbacks.",
+        "description" : "A small visible-light laser that mounts on a firearm to enhance ease and speed of target acquisition. Aside from increased weight, there are no drawbacks.",
         "weight" : 1,
         "to_hit" : -1,
         "color" : "dark_gray",

@@ -10063,7 +10063,7 @@
             "category": "CC_FOOD",
             "skill_pri": "cooking",
             "difficulty": 1,
-            "time": 3000,
+            "time": 2750,
             "reversible": false,
             "autolearn": true,
             "tools": [
