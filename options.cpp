@@ -422,7 +422,7 @@ std::string option_desc(option_key key)
     case OPT_AUTO_PICKUP:         return _("Enable item auto pickup. Change\npickup rules with the Auto Pickup\nManager in the Help Menu ?3");
     case OPT_AUTO_PICKUP_ZERO:    return _("Auto pickup items with\n0 Volume or Weight");
     case OPT_AUTO_PICKUP_SAFEMODE:return _("Auto pickup is disabled\nas long as you can see\nmonsters nearby.\n\nThis is affected by\nSafemode proximity distance.");
-    case OPT_SORT_CRAFTING:       return _("Will sort the crafting menus\n so things that you are\n able to craft come up first");
+    case OPT_SORT_CRAFTING:       return _("If ture, the crafting menus\nwill display recipes that you can\ncraft before other recipes");
     default:                      return " ";
     }
     return "Big ol Bug (options.cpp:option_desc)";
