@@ -110,6 +110,8 @@ namespace picojson {
     value(const char* s, size_t len);
     ~value();
 
+    size_t size();
+
     value(const value& x);
     value& operator=(const value& x);
     value& operator=(bool b);
@@ -167,6 +169,23 @@ namespace picojson {
      */
     template<typename T> value& from_vector(std::vector<T> from);
 
+    /**
+     * Create a JSON array from the given vector.
+     *
+     * T must be one of the types for which a value constructor is defined.
+     */
+    template<typename T> value& from_pointer_vector(std::vector<T*> from);
+
+
+
+    /**
+     * Create a JSON array from the given array.
+     *
+     * T must be one of the types for which a value constructor is defined.
+     * @param size The size of the array.
+     */
+    template<typename T> value& from_scalar_array(T* from, int size);
+
 
     /**
      * Create a vector of objects from a JSON array.
@@ -188,6 +207,15 @@ namespace picojson {
      * T must have a value constructor(int, string etc.)
      */
     template<class T> std::vector<T> to_scalar_vector();
+    
+    /**
+     * Create an array of objects from a JSON array.
+     *
+     * T must have a value constructor(int, string etc.)
+     * @param arr The array to load the data into.
+     * @param size The size of the array.
+     */
+    template<class T> void to_scalar_array(T* arr, int size);
 
   private:
     template <typename T> value(const T*); // intentionally defined to block implicit conversion of pointer to bool
@@ -411,6 +439,14 @@ namespace picojson {
     default:
       return true;
     }
+  }
+
+  inline size_t value::size() {
+    if(!is<array>()) {
+        throw exception("JSON error: Trying to get the size of a non-array JSON entity.");
+    }
+
+    return array_->size();
   }
 
   inline value& value::get(size_t idx) const {
@@ -1015,6 +1051,15 @@ namespace picojson {
     return *this;
   }
 
+  template<typename T> value& value::from_scalar_array(T* from, int size) {
+    array rval;
+    for(int i=0; i<size; i++) {
+      rval.push_back(value(from[i]));
+    }
+    *this = rval; // Convert this to the array we created.
+    return *this;
+  }
+
   template<class T> std::vector<T> value::to_scalar_vector() {
     if(is<array>()) {
       std::vector<T> rval;
@@ -1022,6 +1067,20 @@ namespace picojson {
         rval.push_back((*array_)[i].getval<T>());
       }
       return rval;
+    } else {
+      throw exception("JSON error: value is not an array");
+    }
+  }
+  
+  template<class T> void value::to_scalar_array(T* arr, int size) {
+    if(is<array>()) {
+      if(array_->size() < size) {
+        throw exception("JSON error: array does not have enough elements");
+      }
+      for(int i=0; i<array_->size(); i++) {
+        arr[i] = (*array_)[i].getval<T>();
+      }
+      return;
     } else {
       throw exception("JSON error: value is not an array");
     }
