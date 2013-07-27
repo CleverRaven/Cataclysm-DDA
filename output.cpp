@@ -841,8 +841,7 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
       selected_ret=(int)vItemDisplay[i].sName.c_str()[0]; // fixme: sanity check(?)
     }
     mvwprintz(w, line_num, 1, bgColor, "%s", spaces.c_str() );
-    mvwprintz(w, line_num, iStartX, nameColor, "%s", (vItemDisplay[i].sName).c_str());
-    wprintz(w, bgColor, "%s", (vItemDisplay[i].sFmt).c_str());
+    shortcut_print(w, line_num, iStartX, bgColor, nameColor, vItemDisplay[i].sFmt.c_str());
     line_num++;
    }
   } else if (vItemDisplay[i].sType == "DESCRIPTION") {
@@ -926,10 +925,10 @@ int compare_split_screen_popup(int iLeft, int iWidth, int iHeight, std::string s
   } else if ( selected == KEY_LEFT ) {
     ch=(int)' ';
   }
-  werase(w);
-  wrefresh(w);
+  //werase(w);
+  //wrefresh(w);
   delwin(w);
-  refresh();
+  //refresh();
  }
 
  return ch;
@@ -1105,8 +1104,34 @@ std::string& capitalize_first_letter(std::string &str)
     return str;
 }
 
-size_t menuitem_format(std::string &str)
+// draw a menu item like strign with highlighted shortcut character
+// Example: <w>ield, m<o>ve
+// returns: output length (in console cells)
+size_t shortcut_print(WINDOW* w, int y, int x, nc_color color, nc_color colork, const char* fmt, ...)
 {
-    //This is a stub 
-    return 0;
+    va_list ap;
+    va_start(ap,fmt);
+    char buff[3000];    //TODO replace Magic Number
+    vsprintf(buff, fmt, ap);
+    va_end(ap);
+    
+    std::string tmp = buff;
+    size_t pos = tmp.find_first_of('<');
+    size_t pos2 = tmp.find_first_of('>');
+    size_t len = 0;
+    if(pos2!=std::string::npos && pos<pos2)
+    {
+        tmp.erase(pos,1);
+        tmp.erase(pos2-1,1);
+        mvwprintz(w, y, x, color, tmp.c_str());
+        mvwprintz(w, y, x+pos, colork, "%s", tmp.substr(pos, pos2-pos-1).c_str());
+        len = utf8_width(tmp.c_str());
+    }
+    else
+    {
+        // no shutcut? 
+        mvwprintz(w, y, x, color, buff);
+        len = utf8_width(buff);
+    }
+    return len;
 }

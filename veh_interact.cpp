@@ -4,6 +4,7 @@
 #include "keypress.h"
 #include "game.h"
 #include "output.h"
+#include "catacharset.h"
 #include "crafting.h"
 #include "options.h"
 #include "debug.h"
@@ -773,6 +774,7 @@ void veh_interact::display_stats ()
 void veh_interact::display_mode (char mode)
 {
     werase (w_mode);
+    int x = 1;
     if (mode == ' ')
     {
         bool mi = !cant_do('i');
@@ -781,23 +783,18 @@ void veh_interact::display_mode (char mode)
         bool mo = !cant_do('o');
         bool ms = !cant_do('s');
         bool mc = !cant_do('c');
-        mvwprintz(w_mode, 0, 1, mi? c_ltgray : c_dkgray, "install");
-        mvwputch (w_mode, 0, 1, mi? c_ltgreen : c_green, 'i');
-        mvwprintz(w_mode, 0, 9, mr? c_ltgray : c_dkgray, "repair");
-        mvwputch (w_mode, 0, 9, mr? c_ltgreen : c_green, 'r');
-        mvwprintz(w_mode, 0, 16, mf? c_ltgray : c_dkgray, "refill");
-        mvwputch (w_mode, 0, 18, mf? c_ltgreen : c_green, 'f');
-        mvwprintz(w_mode, 0, 23, mo? c_ltgray : c_dkgray, "remove");
-        mvwputch (w_mode, 0, 26, mo? c_ltgreen : c_green, 'o');
-        mvwprintz(w_mode, 0, 30, ms? c_ltgray : c_dkgray, "siphon");
-        mvwputch (w_mode, 0, 30, ms? c_ltgreen : c_green, 's');
-        mvwprintz(w_mode, 0, 37, mc? c_ltgray : c_dkgray, "change tire");
-        mvwputch (w_mode, 0, 37, mc? c_ltgreen : c_green, 'c');
+        x += shortcut_print(w_mode, 0, x, mi? c_ltgray : c_dkgray, mi? c_ltgreen : c_green, _("<i>nstall"))+1;
+        x += shortcut_print(w_mode, 0, x, mr? c_ltgray : c_dkgray, mr? c_ltgreen : c_green, _("<r>epair"))+1;
+        x += shortcut_print(w_mode, 0, x, mf? c_ltgray : c_dkgray, mf? c_ltgreen : c_green, _("<r>efill"))+1;
+        x += shortcut_print(w_mode, 0, x, mo? c_ltgray : c_dkgray, mo? c_ltgreen : c_green, _("rem<o>ve"))+1;
+        x += shortcut_print(w_mode, 0, x, ms? c_ltgray : c_dkgray, ms? c_ltgreen : c_green, _("<s>iphon"))+1;
+        x += shortcut_print(w_mode, 0, x, mc? c_ltgray : c_dkgray, mc? c_ltgreen : c_green, _("<c>hange tire"))+1;
     }
-    mvwprintz(w_mode, 0, 49, c_ltgray, "rename");
-    mvwputch (w_mode, 0, 50, c_ltgreen, 'e');
-    mvwprintz(w_mode, 0, 70, c_ltgreen, "ESC");
-    mvwprintz(w_mode, 0, 73, c_ltgray, "-back");
+    x += shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, _("r<e>name"))+1;
+    std::string backstr = _("<ESC>-back");
+    int w = utf8_width(backstr.c_str())-2;
+    x = 78-w; // right text align
+    shortcut_print(w_mode, 0, x, c_ltgray, c_ltgreen, _("<ESC>-back"));
     wrefresh (w_mode);
 }
 
@@ -877,15 +874,15 @@ item consume_vpart_item (game *g, vpart_id vpid){
         for(int i=0;i<candidates.size(); i++){
             if(candidates[i].in_inventory){
                 if (candidates[i].invlet == -1)
-                    options.push_back(candidates[i].vpart_item.tname() + " (wielded)");
+                    options.push_back(candidates[i].vpart_item.tname() + _(" (wielded)"));
                 else
                     options.push_back(candidates[i].vpart_item.tname());
             }
             else { //nearby.
-                options.push_back(candidates[i].vpart_item.tname() + " (nearby)");
+                options.push_back(candidates[i].vpart_item.tname() + _(" (nearby)"));
             }
         }
-        selection = menu_vec(false, "Use which gizmo?", options);
+        selection = menu_vec(false, _("Use which gizmo?"), options);
         selection -= 1;
     }
     //remove item from inventory. or map.
@@ -945,9 +942,10 @@ void complete_vehicle (game *g)
         g->consume_tools(&g->u, tools, true);
 
         if ( part == vp_head_light ) {
-            int choice = menu(true, "Choose facing direction:", "N", "NW", "W", "SW", "S", "SE", "E", "NE", NULL);
+            int choice = menu(true, _("Choose facing direction:"), 
+                _("<dir>N")+5, _("<dir>NW")+5, _("<dir>W")+5, _("<dir>SW")+5, _("<dir>S")+5, _("<dir>SE")+5, _("<dir>E")+5, _("<dir>NE")+5, NULL);
             int dir;
-            switch(choice) {
+            switch(choice) { 
                     case 1:
                         dir = 0;
                         break;
@@ -980,7 +978,7 @@ void complete_vehicle (game *g)
             veh->parts[partnum].direction = dir;
         }
 
-        g->add_msg ("You install a %s into the %s.",
+        g->add_msg (_("You install a %s into the %s."),
                     vpart_list[part].name, veh->name.c_str());
         g->u.practice (g->turn, "mechanics", vpart_list[part].difficulty * 5 + 20);
         break;
@@ -998,7 +996,7 @@ void complete_vehicle (game *g)
         tools.push_back(component("toolset", welder_charges/20));
         g->consume_tools(&g->u, tools, true);
         veh->parts[part].hp = veh->part_info(part).durability;
-        g->add_msg ("You repair the %s's %s.",
+        g->add_msg (_("You repair the %s's %s."),
                     veh->name.c_str(), veh->part_info(part).name);
         g->u.practice (g->turn, "mechanics", (vpart_list[part].difficulty + dd) * 5 + 20);
         break;
@@ -1022,13 +1020,13 @@ void complete_vehicle (game *g)
         }
         if (veh->parts.size() < 2)
         {
-            g->add_msg ("You completely dismantle %s.", veh->name.c_str());
+            g->add_msg (_("You completely dismantle %s."), veh->name.c_str());
             g->u.activity.type = ACT_NULL;
             g->m.destroy_vehicle (veh);
         }
         else
         {
-            g->add_msg ("You remove %s%s from %s.", broken? "broken " : "",
+            g->add_msg (_("You remove %s%s from %s."), broken? (_("<veh>broken ")+5) : "",
                         veh->part_info(part).name, veh->name.c_str());
             veh->remove_part (part);
         }
@@ -1045,7 +1043,7 @@ void complete_vehicle (game *g)
             if( replaced_wheel != -1 ) {
                 removed_wheel = veh->item_from_part( replaced_wheel );
                 veh->remove_part( replaced_wheel );
-                g->add_msg( "You replace one of the %s's tires with %s.",
+                g->add_msg( _("You replace one of the %s's tires with %s."),
                             veh->name.c_str(), vpart_list[part].name );
             } else {
                 debugmsg( "no wheel to remove when changing wheels." );
