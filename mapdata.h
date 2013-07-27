@@ -173,7 +173,7 @@ t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
 // Temple tiles
 t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
  t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even,
-
+t_tombstone,
 num_terrain_types
 };
 
@@ -552,7 +552,9 @@ const ter_t terlist[num_terrain_types] = {  // MUST match enum ter_id above!
 {"purple switch",       '6', c_magenta, 0, tr_null,
 	   mfb(transparent), &iexamine::fswitch},
 {"checkered switch",    '6', c_white,   0, tr_null,
-	   mfb(transparent), &iexamine::fswitch}
+	   mfb(transparent), &iexamine::fswitch},
+{"tombstone",           'T', c_white,    2, tr_null,
+    mfb(transparent)|mfb(thin_obstacle), &iexamine::none},
 };
 
 struct furn_t {
