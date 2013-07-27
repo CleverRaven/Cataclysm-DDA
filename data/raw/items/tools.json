@@ -17,7 +17,7 @@
     "initial_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "LIGHTER"
   },
@@ -41,7 +41,7 @@
     "initial_charges": 20,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "LIGHTER"
   },
@@ -65,7 +65,7 @@
     "initial_charges": 20,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "PRIMITIVE_FIRE"
   },
@@ -89,7 +89,7 @@
     "initial_charges": 50,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "THREAD",
+    "ammo": "thread",
     "revert_to": "null",
     "use_action": "SEW"
   },
@@ -114,7 +114,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SCISSORS"
   },
@@ -138,7 +138,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "HAMMER"
   },
@@ -162,7 +162,7 @@
     "initial_charges": 80,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "EXTINGUISHER"
   },
@@ -186,7 +186,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "EXTRA_BATTERY"
   },
@@ -308,7 +308,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -332,7 +332,7 @@
     "initial_charges": 12000,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "LIGHTSTRIP"
   },
@@ -357,7 +357,7 @@
     "initial_charges": 12000,
     "charges_per_use": 0,
     "turns_per_charge": 150,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "lightstrip_dead",
     "use_action": "LIGHTSTRIP_ACTIVE"
   },
@@ -381,7 +381,7 @@
     "initial_charges": 1200,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "GLOWSTICK"
   },
@@ -406,7 +406,7 @@
     "initial_charges": 1200,
     "charges_per_use": 0,
     "turns_per_charge": 2,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "glowstick_dead",
     "use_action": "GLOWSTICK_ACTIVE"
   },
@@ -430,7 +430,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },  
@@ -599,7 +599,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DIRECTIONAL_ANTENNA"
   },
@@ -623,7 +623,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -637,7 +637,7 @@
     "description": "A string of numbers to access the elevator in the hazardous waste sarcophagus.",
     "rarity": 0,
     "price": 800,
-    "material": "paper",
+    "material": "PAPER",
     "weight": 0,
     "volume": 0,
     "bashing": 1,
@@ -647,7 +647,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -719,7 +719,7 @@
     "initial_charges": 1,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "ROADMAP"
   },
@@ -743,7 +743,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "CROWBAR"
   },
@@ -767,7 +767,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "MAKEMOUND"
   },
@@ -791,7 +791,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DIG"
   },
@@ -817,7 +817,7 @@
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "NULL",
+        "ammo": "none",
         "revert_to": "null",
         "use_action": "SIPHON"
     },
@@ -942,7 +942,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -966,7 +966,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -990,7 +990,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -1014,7 +1014,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -1038,7 +1038,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -1062,7 +1062,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -1086,7 +1086,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -1110,7 +1110,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -1134,7 +1134,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -1158,7 +1158,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -1254,7 +1254,7 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "CAN_GOO"
   },
@@ -1278,7 +1278,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "PIPEBOMB"
   },
@@ -1302,7 +1302,7 @@
     "initial_charges": 3,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "PIPEBOMB_ACT"
   },
@@ -1326,7 +1326,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "GRENADE"
   },
@@ -1350,7 +1350,7 @@
     "initial_charges": 5,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "GRENADE_ACT"
   },
@@ -1374,7 +1374,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "FLASHBANG"
   },
@@ -1398,7 +1398,7 @@
     "initial_charges": 5,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "FLASHBANG_ACT"
   },
@@ -1422,7 +1422,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "EMPBOMB"
   },
@@ -1446,7 +1446,7 @@
     "initial_charges": 3,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "EMPBOMB_ACT"
   },
@@ -1470,7 +1470,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SCRAMBLER"
   },
@@ -1494,7 +1494,7 @@
     "initial_charges": 3,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SCRAMBLER_ACT"
   },
@@ -1518,7 +1518,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "GASBOMB"
   },
@@ -1542,7 +1542,7 @@
     "initial_charges": 5,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "GASBOMB_ACT"
   },
@@ -1566,7 +1566,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SMOKEBOMB"
   },
@@ -1590,7 +1590,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SMOKEBOMB_ACT"
   },
@@ -1613,7 +1613,7 @@
       "initial_charges": 5,
       "charges_per_use": 0,
       "turns_per_charge": 0,
-      "ammo": "NULL",
+      "ammo": "none",
       "revert_to": "null",
       "use_action": "ARROW_FLAMABLE"
    },
@@ -1637,7 +1637,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "MOLOTOV"
   },
@@ -1661,7 +1661,7 @@
     "initial_charges": 1,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "molotov",
     "use_action": "MOLOTOV_LIT"
   },
@@ -1685,7 +1685,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "ACIDBOMB"
   },
@@ -1709,7 +1709,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "ACIDBOMB_ACT"
   },
@@ -1733,7 +1733,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DYNAMITE"
   },
@@ -1757,7 +1757,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DYNAMITE_ACT"
   },
@@ -1781,7 +1781,7 @@
     "initial_charges": 25,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "FIRECRACKER_PACK"
   },
@@ -1805,7 +1805,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "FIRECRACKER_PACK_ACT"
   },
@@ -1829,7 +1829,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "FIRECRACKER"
   },
@@ -1853,7 +1853,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "FIRECRACKER_ACT"
   },
@@ -1877,7 +1877,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "MININUKE"
   },
@@ -1901,7 +1901,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "MININUKE_ACT"
   },
@@ -1925,7 +1925,7 @@
     "initial_charges": 3,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "PHEROMONE"
   },
@@ -1949,7 +1949,7 @@
     "initial_charges": 10,
     "charges_per_use": 5,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "PORTAL"
   },
@@ -1973,7 +1973,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "MANHACK"
   },
@@ -1997,7 +1997,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "TURRET"
   },
@@ -2188,7 +2188,7 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "VORTEX"
   },
@@ -2202,7 +2202,7 @@
     "description": "A human skull with strange etchings covering it.",
     "rarity": 0,
     "price": 3000,
-    "material": "flesh",
+    "material": "FLESH",
     "weight": 2,
     "volume": 2,
     "bashing": 6,
@@ -2212,7 +2212,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -2236,7 +2236,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DOGFOOD"
   },
@@ -2260,7 +2260,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2284,7 +2284,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "C4"
   },
@@ -2308,7 +2308,7 @@
     "initial_charges": 9,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "C4ARMED"
   },
@@ -2332,7 +2332,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DOG_WHISTLE"
   },
@@ -2357,7 +2357,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "VACUTAINER"
   },
@@ -2405,7 +2405,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2423,13 +2423,12 @@
     "weight": 3,
     "volume": 4,
     "bashing": 0,
-    "cutting": 0,
-    "to_hit": -1,
+    "cutting": 0,  "to_hit": -1,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2455,7 +2454,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2481,7 +2480,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2507,7 +2506,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2533,7 +2532,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2559,7 +2558,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2585,7 +2584,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2610,7 +2609,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2636,7 +2635,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2661,7 +2660,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2687,7 +2686,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2712,7 +2711,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2732,12 +2731,12 @@
     "bashing": 4,
     "cutting": 18,
     "flags" : ["CHOP"],
-    "to_hit": -3,
+    "to_hit": 0,
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2762,7 +2761,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -2786,7 +2785,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "LUMBER"
   },
@@ -2811,7 +2810,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "LUMBER"
   },
@@ -2835,7 +2834,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "HACKSAW"
   },
@@ -2859,7 +2858,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "TENT"
   },
@@ -2883,7 +2882,7 @@
     "initial_charges": 25,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "TORCH"
   },
@@ -2909,7 +2908,7 @@
     "initial_charges": 75,
     "charges_per_use": 1,
     "turns_per_charge": 20,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "torch_done",
     "use_action": "TORCH_LIT"
   },
@@ -2933,7 +2932,7 @@
     "initial_charges": 100,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "can_food",
     "use_action": "CANDLE"
   },
@@ -2958,7 +2957,7 @@
     "initial_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 50,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "CANDLE_LIT"
   },
@@ -2982,7 +2981,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -3006,7 +3005,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -3030,7 +3029,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "BULLET_PULLER"
   },
@@ -3079,7 +3078,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -3103,7 +3102,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -3127,7 +3126,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -3151,7 +3150,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "BOLTCUTTERS"
   },
@@ -3176,7 +3175,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "MOP"
   },
@@ -3200,7 +3199,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "PICKLOCK"
   },
@@ -3224,7 +3223,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "PICKLOCK"
   },
@@ -3238,7 +3237,7 @@
     "description": "A combination lock box, breaking inside would destroy anything of value.",
     "rarity": 0,
     "price": 800,
-    "material": "steel",
+    "material": "STEEL",
     "weight": 20,
     "volume": 15,
     "bashing": 10,
@@ -3248,7 +3247,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -3272,7 +3271,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "PICKAXE"
   },
@@ -3296,7 +3295,7 @@
     "initial_charges": 10,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SPRAY_CAN"
   },
@@ -3320,7 +3319,7 @@
     "initial_charges": 500,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SPRAY_CAN"
   },
@@ -3344,7 +3343,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "RAG"
   },
@@ -3367,7 +3366,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -3391,7 +3390,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -3415,7 +3414,7 @@
     "initial_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "PDA"
   },
@@ -3439,7 +3438,7 @@
     "initial_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "PDA_FLASHLIGHT"
   },
@@ -3464,7 +3463,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "KNIFE"
   },
@@ -3489,7 +3488,7 @@
     "initial_charges": 0,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "THREAD",
+    "ammo": "thread",
     "revert_to": "null",
     "use_action": "SEW"
   },
@@ -3513,7 +3512,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "HAMMER"
   },
@@ -3538,7 +3537,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "LUMBER"
   },
@@ -3562,7 +3561,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DIG"
   },
@@ -3586,7 +3585,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DIG"
   },
@@ -3610,7 +3609,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "SHELTER"
   },
@@ -3634,7 +3633,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -3658,7 +3657,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "HEATPACK"
   },
@@ -3682,7 +3681,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "NONE"
   },
@@ -3706,7 +3705,7 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "LAW"
   },
@@ -3730,7 +3729,7 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DEJAR"
   },
@@ -3754,7 +3753,7 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DEJAR"
   },
@@ -3778,7 +3777,7 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DEJAR"
   },
@@ -3802,7 +3801,7 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DEJAR"
   },
@@ -3875,7 +3874,7 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DEVAC"
   },
@@ -3899,7 +3898,7 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DEVAC"
   },
@@ -3923,10 +3922,11 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "DEVAC"
   },
+  
   {
     "id": "medical_gauze",
     "type": "TOOL",
@@ -3946,7 +3946,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
+    "ammo": "none",
     "revert_to": "null",
     "use_action": "RAG"
   },
@@ -3973,50 +3973,50 @@
     "revert_to": "null",
     "use_action": "NONE"
   },
+  
   {
-    "id": "towel",
+    "id": "welder_crude",
     "type": "TOOL",
-    "symbol": ",",
-    "color": "cyan",
-    "name": "towel",
-    "description": "A fluffy towel, can be used to dry yourself.",
-    "rarity": 50,
-    "price": 45,
-    "material": "cotton",
-    "weight": 1,
-    "volume": 2,
-    "bashing": 0,
-    "cutting": 8,
-    "to_hit": -1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "none",
-    "revert_to": "null",
-    "use_action": "ABSORBENT"
-  },
-  {
-    "id": "folding_bicycle",
-    "type": "TOOL",
-    "symbol": "0",
-    "color": "white",
-    "name": "folding bicycle",
-    "description": "A bicycle folded into a relatively portable package.",
-    "rarity": 2,
-    "price": 3500,
-    "material": "steel",
-    "weight": 88,
-    "volume": 86,
-    "bashing": 10,
+    "symbol": ";",
+    "color": "light_red",
+    "name": "makeshift welder",
+    "description": "This crude welder has been fashioned from a bundle of copper wire, scrap metal, and complete disregard for personal safety. Not as efficient as a factory welder, but it will serve in a pinch.",
+    "rarity": 25,
+    "price": 500,
+    "material": "iron",
+    "weight": 18,
+    "volume": 6,
+    "bashing": 7,
     "cutting": 0,
-    "to_hit": -5,
-    "max_charges": 0,
+    "to_hit": -2,
+    "max_charges": 450,
+    "initial_charges": 0,
+    "charges_per_use": 75,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": "SOLDER_WELD"
+  },
+{
+	"id": "still",
+	"type": "TOOL",
+	"symbol": "L",
+	"color": "white",
+	"name": "still",
+	"description": "A still, useful for the distillation of alcohol and other, more curious substances.",
+	"rarity": 50,
+	"price": 3000,
+	"material": "iron",
+	"weight": 10,
+	"volume": 40,
+	"bashing": 20,
+	"cutting": 0,
+	"to_hit": -6,
+	"max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "none",
-    "revert_to": "null",
-    "use_action": "UNFOLD_BICYCLE"
-  }
-]
+    "revert_to": "null"
+}
+ ]

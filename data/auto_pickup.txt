@@ -11,3 +11,5 @@
 # If you want to restore the default auto pickup rules file, simply delete this file.
 # A new auto_pickup.txt will be created next time you play.
 
+
+*rrow;T;F

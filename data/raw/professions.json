@@ -185,7 +185,7 @@
  },
 
  {
-  "ident": "hunter",
+  "ident": "bowhunter",
   "name": "Bow Hunter",
   "description":
 "Ever since you were a boy you loved hunting,and you loved the challenge of hunting with a bow even more. You start with a level in archery, and survival.",
@@ -202,6 +202,21 @@
      }  
 	 ]
   },
+  
+   {
+  "ident": "riflehunter",
+  "name": "Rifle Hunter",
+  "description":
+"You try not to reflect that with every shot you expend you are one step closer to being the hunted; it's an easier thought to keep at bay with the beer you managed to salvage from the campsite on the frantic run out.",
+  "points": 4,
+  "items": ["savage_111f", "boots", "sweatshirt", "762_51", "pants_cargo", "hat_hunting", "beer"],
+  "skills" : [
+	{
+      "name" : "rifle",
+      "level" : 3
+	}
+	  ]
+},
 
   {
   "ident": "cworker",
@@ -378,5 +393,42 @@
   "description":"You worked the streets since you were a kid, now you used your street skills to survive.",
   "points": 1,
   "items": ["jeans", "tshirt", "hoodie", "sneakers", "glock_19", "coke"]
-}
+},
+
+{
+"ident": "antking",
+"name": "Ant King",
+"description":
+"The good news is that after countless days lost in study, the radioactive ants outside of town have made you their king. The bad news is the transformation is so unsettling survivors generally assume you are a monster and attack on sight.",
+"points": 5,
+"items": ["pointy_stick"],
+"mutations": ["PF_COLDBLOOD", "PF_DEFORMED3", "PF_MOUTHFLAPS", "PF_RADIOGENIC", "PF_PHEROMONE_INSECT", "PF_CHITIN2"]
+},
+
+ {
+"ident": "chef",
+"name": "Chef",
+"description":
+"Bork bork! Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
+"points": 2,
+"items": ["knife_butcher", "hat_chef", "jacket_chef", "pants_checkered", "dress_shoes"],
+"mutations": ["PF_PONDEROUS1"],
+"skills" : [
+     {
+      "name" : "cooking",
+      "level" : 3
+     }
+	 ]
+},
+
+{
+  "ident": "furry",
+  "name": "Furry",
+  "description":
+"Reviled in the few circles aware of your existence, everything about you leaves much to be desired, but at least your fur suit provides a modicum of protection against the slavering jaws of the undead.",
+  "points": 2,
+  "items": ["wolfsuit", "fur_blanket", "mutagen_beast", "mutagen_beast", "mutagen_beast"],
+  "mutations": ["PF_ALBINO", "PF_SMELLY2", "PF_SKIN_ROUGH"] 
+ }
+
 ]
