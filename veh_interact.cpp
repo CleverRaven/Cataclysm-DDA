@@ -946,37 +946,29 @@ void complete_vehicle (game *g)
         g->consume_tools(&g->u, tools, true);
 
         if ( part == vp_head_light ) {
-            int choice = menu(true, "Choose facing direction:", "N", "NW", "W", "SW", "S", "SE", "E", "NE", NULL);
-            int dir;
-            switch(choice) {
-                    case 1:
-                        dir = 0;
-                        break;
-                    case 2:
-                        dir = 45;
-                        break;
-                    case 3:
-                        dir = 90;
-                        break;
-                    case 4:
-                        dir = 135;
-                        break;
-                    case 5:
-                        dir = 180;
-                        break;
-                    case 6:
-                        dir = 225;
-                        break;
-                    case 7:
-                        dir = 270;
-                        break;
-                    case 8:
-                        dir = 315;
-                        break;
-                    default:
-                        dir = 0;
-                        break;
-            }
+            // Need map-relative coordinates to compare to output of look_around.
+            int gx, gy;
+            // Need to call coord_translate() directly since it's a new part.
+            veh->coord_translate(dx, dy, gx, gy);
+            // Stash offset and set it to the location of the part so look_around will start there.
+            int px = g->u.view_offset_x;
+            int py = g->u.view_offset_y;
+            g->u.view_offset_x = veh->global_x() + gx - g->u.posx;
+            g->u.view_offset_y = veh->global_y() + gy - g->u.posy;
+            popup("Choose a facing direction for the new headlight.");
+            point headlight_target = g->look_around();
+            // Restore previous view offsets.
+            g->u.view_offset_x = px;
+            g->u.view_offset_y = py;
+
+            int delta_x = headlight_target.x - (veh->global_x() + gx);
+            int delta_y = headlight_target.y - (veh->global_y() + gy);
+
+            const double PI = 3.14159265358979f;
+            int dir = (atan2(delta_y, delta_x) * 180.0 / PI);
+            dir -= veh->face.dir();
+            while(dir < 0) dir += 360;
+            while(dir > 360) dir -= 360;
 
             veh->parts[partnum].direction = dir;
         }
