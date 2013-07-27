@@ -19,6 +19,7 @@
 #include "translations.h"
 #include "name.h"
 #include "cursesdef.h"
+#include "picojson.h"
 
 nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
@@ -1738,17 +1739,48 @@ void player::load_info(game *g, std::string data)
 {
  std::stringstream dump;
  dump << data;
- int inveh, vctrl;
- itype_id styletmp;
  std::string prof_ident;
 
- dump >> posx >> posy >> str_cur >> str_max >> dex_cur >> dex_max >>
-         int_cur >> int_max >> per_cur >> per_max >> power_level >>
-         max_power_level >> hunger >> thirst >> fatigue >> stim >>
-         pain >> pkill >> radiation >> cash >> recoil >> driving_recoil >>
-         inveh >> vctrl >> scent >> moves >> underwater >> dodges_left >>
-         blocks_left >> oxygen >> active_mission >> focus_pool >> male >>
-         prof_ident >> health >> styletmp;
+ int jsonized_size; dump >> jsonized_size;
+ char* jsonized_string = (char*) malloc(jsonized_size+1); dump.read(jsonized_string, jsonized_size+1);
+ picojson::value jsonized_data; std::stringstream jsonized_stringstream(std::string(jsonized_string, jsonized_size+1)); jsonized_stringstream >> jsonized_data; free(jsonized_string);
+ 
+ posx = jsonized_data["posx"].as_int();
+ posy = jsonized_data["posy"].as_int();
+ 
+ str_cur = jsonized_data["str_cur"].as_int(); str_max = jsonized_data["str_max"].as_int();
+ dex_cur = jsonized_data["dex_cur"].as_int(); dex_max = jsonized_data["dex_max"].as_int();
+ int_cur = jsonized_data["int_cur"].as_int(); int_max = jsonized_data["int_max"].as_int();
+ per_cur = jsonized_data["per_cur"].as_int(); per_max = jsonized_data["per_max"].as_int();
+
+ power_level = jsonized_data["power_level"].as_int(); max_power_level = jsonized_data["max_power_level"].as_int();
+ hunger = jsonized_data["hunger"].as_int();
+ thirst = jsonized_data["thirst"].as_int();
+ fatigue = jsonized_data["fatigue"].as_int();
+ stim = jsonized_data["stim"].as_int();
+ pain = jsonized_data["pain"].as_int();
+ radiation = jsonized_data["radiation"].as_int();
+ cash = jsonized_data["cash"].as_int();
+ recoil = jsonized_data["recoil"].as_int();
+ driving_recoil = jsonized_data["driving_recoil"].as_int();
+ in_vehicle = jsonized_data["in_vehicle"].as_bool();
+ controlling_vehicle = jsonized_data["controlling_vehicle"].as_bool();
+ scent = jsonized_data["scent"].as_int();
+ underwater = jsonized_data["underwater"].as_bool();
+ dodges_left = jsonized_data["dodges_left"].as_int();
+ blocks_left = jsonized_data["blocks_left"].as_int();
+ oxygen = jsonized_data["oxygen"].as_int();
+ active_mission = jsonized_data["active_mission"].as_int();
+ focus_pool = jsonized_data["focus_pool"].as_int();
+ prof_ident = jsonized_data["profession"].as_string();
+ health = jsonized_data["health"].as_int();
+ style_selected = jsonized_data["style_selected"].as_string();
+ activity.load(jsonized_data["activity"]);
+ backlog.load(jsonized_data["backlog"]);
+ jsonized_data["traits"].to_scalar_array(my_traits, PF_MAX2);
+ jsonized_data["mutations"].to_scalar_array(my_mutations, PF_MAX2);
+ jsonized_data["mutation_categories"].to_scalar_array(mutation_category_level, NUM_MUTATION_CATEGORIES);
+ styles = jsonized_data["styles"].to_scalar_vector<itype_id>();
 
  if (profession::exists(prof_ident)) {
   prof = profession::prof(prof_ident);
@@ -1757,48 +1789,30 @@ void player::load_info(game *g, std::string data)
   debugmsg("Tried to use non-existent profession '%s'", prof_ident.c_str());
  }
 
- activity.load_info(dump);
- backlog.load_info(dump);
+ // Load body part HP
+ for(int i = 0; i < num_hp_parts; i++) {
+  hp_cur[i] = jsonized_data["hp_parts"][i]["cur"].as_int();
+  hp_max[i] = jsonized_data["hp_parts"][i]["max"].as_int();
+ }
 
- in_vehicle = inveh != 0;
- controlling_vehicle = vctrl != 0;
- style_selected = styletmp;
+ // Load body part temperature
+ for(int i = 0; i < num_bp; i++) {
+  temp_cur[i] = jsonized_data["temperatures"][i]["cur"].as_int();
+  temp_conv[i] = jsonized_data["temperatures"][i]["conv"].as_int();
+  frostbite_timer[i] = jsonized_data["temperatures"][i]["frostbite_timer"].as_int();
+ }
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump >> my_traits[i];
-
- for (int i = 0; i < PF_MAX2; i++)
-  dump >> my_mutations[i];
-
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  dump >> mutation_category_level[i];
-
- for (int i = 0; i < num_hp_parts; i++)
-  dump >> hp_cur[i] >> hp_max[i];
- for (int i = 0; i < num_bp; i++)
-  dump >> temp_cur[i] >> temp_conv[i] >> frostbite_timer[i];
+ // Load known recipes.
+ for (int i = 0; i < jsonized_data["recipes"].size(); ++i)
+ {
+  std::string rec_name = jsonized_data["recipes"][i].as_string();
+  learned_recipes[rec_name] = g->recipe_by_name(rec_name);
+ }
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    dump >> skillLevel(*aSkill);
  }
-
- int num_recipes;
- std::string rec_name;
- dump >> num_recipes;
- for (int i = 0; i < num_recipes; ++i)
- {
-  dump >> rec_name;
-  learned_recipes[rec_name] = g->recipe_by_name(rec_name);
- }
-
- int numstyles;
- itype_id styletype;
- dump >> numstyles;
- for (int i = 0; i < numstyles; i++) {
-  dump >> styletype;
-  styles.push_back( styletype );
- }
-
+ 
  int numill;
  disease illtmp;
  dump >> numill;
@@ -1867,47 +1881,86 @@ void player::load_info(game *g, std::string data)
 
 std::string player::save_info()
 {
- std::stringstream dump;
- dump << posx    << " " << posy    << " " << str_cur << " " << str_max << " " <<
-         dex_cur << " " << dex_max << " " << int_cur << " " << int_max << " " <<
-         per_cur << " " << per_max << " " << power_level << " " <<
-         max_power_level << " " << hunger << " " << thirst << " " << fatigue <<
-         " " << stim << " " << pain << " " << pkill << " " << radiation <<
-         " " << cash << " " << recoil << " " << driving_recoil << " " <<
-         (in_vehicle? 1 : 0) << " " << (controlling_vehicle? 1 : 0) << " " <<
-         scent << " " << moves << " " << underwater << " " << dodges_left <<
-         " " << blocks_left << " " << oxygen << " " << active_mission << " " <<
-         focus_pool << " " << male << " " << prof->ident() << " " << health <<
-         " " << style_selected << " " << activity.save_info() << " " <<
-         backlog.save_info() << " ";
+ // We'll be saving some of the player info to a JSON object.
+ picojson::value root; root = picojson::object();
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump << my_traits[i] << " ";
- for (int i = 0; i < PF_MAX2; i++)
-  dump << my_mutations[i] << " ";
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  dump << mutation_category_level[i] << " ";
- for (int i = 0; i < num_hp_parts; i++)
-  dump << hp_cur[i] << " " << hp_max[i] << " ";
- for (int i = 0; i < num_bp; i++)
-  dump << temp_cur[i] << " " << temp_conv[i] << " " << frostbite_timer[i] << " ";
+ // Save position.
+ root["posx"] = posx; root["posy"] = posy;
+
+ // Save stats.
+ root["str_cur"] = str_cur; root["str_max"] = str_max;
+ root["dex_cur"] = dex_cur; root["dex_max"] = dex_max;
+ root["int_cur"] = int_cur; root["int_max"] = int_max;
+ root["per_cur"] = per_cur; root["per_max"] = per_max;
+ 
+ root["power_level"] = power_level; root["max_power_level"] = max_power_level;
+ root["hunger"] = hunger;
+ root["thirst"] = thirst;
+ root["fatigue"] = fatigue;
+ root["stim"] = stim;
+ root["pain"] = pain;
+ root["radiation"] = radiation;
+ root["cash"] = cash;
+ root["recoil"] = recoil;
+ root["driving_recoil"] = driving_recoil;
+ root["in_vehicle"] = in_vehicle;
+ root["controlling_vehicle"] = controlling_vehicle;
+ root["moves"] = moves;
+ root["underwater"] = underwater;
+ root["dodges_left"] = dodges_left;
+ root["blocks_left"] = blocks_left;
+ root["oxygen"] = oxygen;
+ root["scent"] = scent;
+ root["active_mission"] = active_mission;
+ root["focus_pool"] = focus_pool;
+ root["male"] = male;
+ root["profession"] = prof->ident();
+ root["health"] = health;
+ root["style_selected"] = style_selected;
+ root["activity"] = activity.save();
+ root["backlog"] = backlog.save();
+ root["traits"].from_scalar_array(my_traits, PF_MAX2);
+ root["mutations"].from_scalar_array(my_mutations, PF_MAX2);
+ root["mutation_categories"].from_scalar_array(mutation_category_level, NUM_MUTATION_CATEGORIES);
+ root["styles"].from_vector<itype_id>(styles);
+
+ // Store body part health.
+ picojson::array parts; parts = picojson::array();
+ for(int i=0; i<num_hp_parts; i++) {
+  picojson::object o; o["cur"] = hp_cur[i]; o["max"] = hp_max[i];
+  parts.push_back(picojson::value(o));
+ }
+ root["hp_parts"] = parts; parts = picojson::array();
+
+ // Store body part temperature.
+ for(int i=0; i<num_bp; i++) {
+  picojson::object o; o["cur"] = temp_cur[i]; o["conv"] = temp_conv[i]; o["frostbite_timer"] = frostbite_timer[i];
+  parts.push_back(picojson::value(o));
+ }
+ root["temperatures"] = parts; parts = picojson::array();
+
+ // Store known recipes.
+ for (std::map<std::string, recipe*>::iterator iter = learned_recipes.begin();
+      iter != learned_recipes.end();
+      ++iter)
+ {
+  parts.push_back(picojson::value(iter->first));
+ }
+ root["recipes"] = parts; parts = picojson::array();
+
+ std::stringstream dump;
+
+ std::string jsonized_data = root.serialize();
+ 
+ // It's hard to make sure a certain character is not used in the
+ // jsonized data, so instead of a delimiter, just specify the length
+ // at the start of the string.
+ dump << jsonized_data.size() << " " << jsonized_data;
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    SkillLevel level = skillLevel(*aSkill);
    dump << level;
  }
-
- dump << learned_recipes.size() << " ";
- for (std::map<std::string, recipe*>::iterator iter = learned_recipes.begin();
-      iter != learned_recipes.end();
-      ++iter)
- {
-  dump << iter->first << " ";
- }
-
- dump << styles.size() << " ";
- for (int i = 0; i < styles.size(); i++)
-  dump << styles[i] << " ";
 
  dump << illness.size() << " ";
  for (int i = 0; i < illness.size();  i++)
