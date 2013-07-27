@@ -85,6 +85,7 @@ game::game() :
  init_overmap();
  init_fields();
  init_faction_data();
+ init_morale();
  init_traits();
  init_skills();
  init_bionics();              // Set up bionics                   (SEE bionics.cpp)

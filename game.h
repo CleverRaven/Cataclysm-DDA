@@ -360,6 +360,7 @@ void load_artifacts(); // Load artifact data
   void init_overmap();
   void init_artifacts();
   void init_traits();
+  void init_morale();
   void init_itypes();       // Initializes item types
   void init_skills() throw (std::string);
   void init_faction_data();

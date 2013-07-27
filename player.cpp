@@ -24,6 +24,49 @@ nc_color encumb_color(int level);
 bool activity_is_suspendable(activity_type type);
 trait traits[PF_MAX2];
 
+std::string morale_data[NUM_MORALE_TYPES];
+
+void game::init_morale()
+{
+    std::string tmp_morale_data[NUM_MORALE_TYPES] = {
+    "This is a bug (moraledata.h:moraledata)",
+    _("Enjoyed %i"),
+    _("Enjoyed a hot meal"),
+    _("Music"),
+    _("Marloss Bliss"),
+    _("Good Feeling"),
+
+    _("Nicotine Craving"),
+    _("Caffeine Craving"),
+    _("Alcohol Craving"),
+    _("Opiate Craving"),
+    _("Speed Craving"),
+    _("Cocaine Craving"),
+    _("Crack Cocaine Craving"),
+
+    _("Disliked %i"),
+    _("Ate Human Flesh"),
+    _("Ate Meat"),
+    _("Wet"),
+    _("Dried Off"),
+    _("Cold"),
+    _("Hot"),
+    _("Bad Feeling"),
+    _("Killed Innocent"),
+    _("Killed Friend"),
+    _("Guilty about Killing"),
+
+    _("Moodswing"),
+    _("Read %i"),
+    _("Heard Disturbing Scream"),
+
+    _("Masochism"),
+    _("Hoarder"),
+    _("Optimist")
+    };
+    for(int i=0; i<NUM_MORALE_TYPES; i++){morale_data[i]=tmp_morale_data[i];}
+}
+
 //TODO: json it, maybe. Hope this huge array doesn't cause stack issue
 void game::init_traits()
 {
