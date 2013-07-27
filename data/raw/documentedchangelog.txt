@@ -1,0 +1,59 @@
+///-Added weapons:\\\
+
+Wooden sword: a more bashy alternative to the pointy stick. A starting point for many later crafts, survival and cutting are what will allow you to craft the ULTIMAT SWURDSMAN. Several teirs currently in game, planned future addition to implement all metal edged swords fully into crafting.
+
+"Flamethrower": Favored by countless hooligans in years past, this lighter duct taped to a spray can is probably as dangerous to the user as anyone else. Watch out, though - the can must be repressurized after every shot, and this takes a few minutes you might not have with a horde on your tail!
+
+UC: Simple anti personnel grenade: a gallon jug filled with gasoline and scrap metal or `BBs, guaranteed to ruin any zombies day.
+
+More ambitious projects coming down the road:
+
+UC: Tripmine: A piece of string tied at one end to a stationary object, and the pin of a grenade at the other. Simple and effective, great for clearing the horde currently on your tail. Once I get it to stop blowing the character up as well. Digging has revealed evidence of a tripwire craftable, stay tuned!
+
+UC: Tesla rod: A bunch of copper wire twisted into a bundle with a rubber grip, hooked directly to a car battery carried on the belt. This short range electric weapon has been known to start fires in rare instances.The more I do the more I find I have to do on this one.
+
+UC: Gravity Gun: Finally, physics are useful for more than pick up lines! This one is probably going to be a son of a bitch to get working, from what I have played with so far.
+
+///- Added armors:\\\
+
+UC: -"Michelin Man" suit: strips of tires cut into the crude semblance of armor, this suit (helm, chestplate, arm & leg pieces) offers a decent amount of protection, but is heavy and stifling.
+
+-"Bookplate": a breastplate fashioned from several books torn and bound together in crude layers with duct tape, this makeshift suit offers little in the way of protection.
+
+-"Scrap Suit": A suit of armor forged from scraps of metal; provides decent protection, but the loose collection of plates jangles and clangs as you walk, attracting the attention of all nearby. Suit in-game, next step will be implementing noise calculation for movement in armor as well as firing weapons.
+
+- Wooden Shield: Three 2x4s crudely held together with twine, this shield offers a decent mix of protection and portability. 
+
+///-Added combestibles-\\\
+
+Boozberry: A very filling and easy to make drink, try not to let this replace food for you entirely!
+
+Strawberry Surprise: You throw some strawberries and a few miscellaneous ingredients in a dark spot and surprise! A few days later it's almost drinkable after significant filtering and a few prayers.
+
+The Taint Tornado: This slushy mixture of tainted zombie flesh smells almost as bad as it looks. Supposadly, the alcohol sterilizes the mixture, though you aren't so eager to put it to the test.
+
+Methcola: Quicker and more frantic than 89% of soft drinks, it's Methacola! Just what you need for a refreshing drink when outrunning a cavalcade of cannibalistic corpses. Methacola - sprint away today!
+
+///-Added professions-\\\
+
+Chef: Bork bork! Years in the kitchen have left you carrying a prodigious bulk, but you start with a butcher knife, Chef's uniform and the ability to whip up some mean grub.Just make sure you don't wind up on the menu!
+
+UC: LARPer: Garbed in your finest reproduction chainmail and weilding a nerf sword +1, you stand ready to do battle with the undead hordes.
+
+Hunter: You try not to reflect that every shot you expend brings you one step closer to being the hunted; it's a good thing you managed to grab a beer on the way out of the campsite.
+
+Furry: Reviled in the few circles aware of your existence, your hygiene leaves much to be desired. Actually, everything about you leaves much to be desired, but at least your fur suit provides a modicum of protection against the slavering jaws of the undead.
+
+Ant King: The good news is that the radioactive ants outside of town have accepted you as their king. The bad news is the transformation is so shocking that most survivors assume you are a monster.
+
+Bird Watcher: Caught in the middle of the cataclysm while on a jaunt for cardinals and hawks, you thankfully were far enough away from town to make a run to the local shelter. 
+
+Security Guard: It was easy enough to abandon Nordstrom to the undead, but now you wish you had thought to carry more ammunition. A lot more. 
+
+UC: Migrant Worker: You have learned a variety of skills over the years, none of which is English. You start the game with a bonus to your core skills, but are unable to read or use computers.
+
+/// Added Tools \\\
+
+Makeshift Welder - not as effecient as a factory welder, this crude amaglmation of safety violations and heating elements will still get the job done.
+
+Still - useful for the distillation of alcohol and other, more curious substances. The basis for many crafts at the moment, possible expansion into alchemic voodoo a possibility down the road. Crafts autolearn now, plan to move them all to learned crafts with KoL (King of Likkers) book in next update. 
