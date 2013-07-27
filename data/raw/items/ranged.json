@@ -2018,5 +2018,31 @@
     "burst": 0,
     "clip_size": 6,
     "reload": 100
+  },
+  {
+    "id": "v29_cheap",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "magenta",
+    "name": "LACP laser pistol",
+    "description": "The LACP laser pistol was based on the v29 laser pistol designed in the mid-21st century, while little more then duct tape and electonics it uses the powerful fusion pack.",
+    "rarity": 5,
+    "price": 5000,
+    "material": ["steel", "plastic"],
+    "skill": "pistol",
+    "ammo": "fusion",
+    "weight": 4,
+    "volume": 8,
+    "bashing": 5,
+    "cutting": 0,
+    "to_hit": 1,
+    "ranged_damage": -5,
+    "range": 0,
+    "dispersion": 12,
+    "recoil": 0,
+    "durability": 4,
+    "burst": 0,
+    "clip_size": 15,
+    "reload": 300
   }
 ]

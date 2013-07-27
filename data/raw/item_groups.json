@@ -917,7 +917,8 @@
       ["270", 8],
       ["3006", 4],
       ["308", 7],
-      ["762_51", 6]
+      ["762_51", 6],
+	  ["laser_pack", 5]
     ]
   },
   { "id":"pistols",
@@ -935,7 +936,8 @@
       ["usp_45", 6],
       ["m1911", 5],
       ["fn57", 2],
-      ["hk_ucp", 2]
+      ["hk_ucp", 2],
+	  ["v29_cheap" 3]
     ]
   },
   { "id":"shotguns",
@@ -1033,7 +1035,8 @@
       ["scar_l", 6],
       ["scar_h", 5],
       ["steyr_aug", 6],
-      ["m249", 1]
+      ["m249", 1],
+	  ["v29_cheap" 8]
     ]
   },
   { "id":"gunxtras",
@@ -2671,7 +2674,7 @@
       ["556_incendiary", 2],
       ["762_51", 6],
       ["762_51_incendiary", 6],
-      ["laser_pack", 2],
+      ["laser_pack", 10],
       ["40mm_concussive", 10],
       ["40mm_frag", 8],
       ["40mm_incendiary", 6],
@@ -2781,7 +2784,7 @@
       ["processor", 15],
       ["armor_chitin", 1],
       ["plut_cell", 10],
-      ["laser_pack", 2],
+      ["laser_pack", 10],
       ["m249", 1],
       ["v29", 1],
       ["ftk93", 1],
