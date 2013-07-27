@@ -948,6 +948,7 @@ void complete_vehicle (game *g)
         if ( part == vp_head_light ) {
             // Need map-relative coordinates to compare to output of look_around.
             int gx, gy;
+            // Need to call coord_translate() directly since it's a new part.
             veh->coord_translate(dx, dy, gx, gy);
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset_x;
@@ -959,21 +960,15 @@ void complete_vehicle (game *g)
             // Restore previous view offsets.
             g->u.view_offset_x = px;
             g->u.view_offset_y = py;
-            // TODO: set this in degrees instead of cardinals and sub-cardinals.
-            direction headlight_facing = direction_from( veh->global_x() + gx, veh->global_y() + gy,
-                                                         headlight_target.x, headlight_target.y );
-            int dir = 0;
-            switch( headlight_facing ) {
-            case NORTH:     dir = 0;   break;
-            case NORTHWEST: dir = 45;  break;
-            case WEST:      dir = 90;  break;
-            case SOUTHWEST: dir = 135; break;
-            case SOUTH:     dir = 180; break;
-            case SOUTHEAST: dir = 225; break;
-            case EAST:      dir = 270; break;
-            case NORTHEAST: dir = 315; break;
-            default:        dir = 0;   break;
-            }
+
+            int delta_x = headlight_target.x - (veh->global_x() + gx);
+            int delta_y = headlight_target.y - (veh->global_y() + gy);
+
+            const double PI = 3.14159265358979f;
+            int dir = (atan2(delta_y, delta_x) * 180.0 / PI);
+            dir -= veh->face.dir();
+            while(dir < 0) dir += 360;
+            while(dir > 360) dir -= 360;
 
             veh->parts[partnum].direction = dir;
         }
